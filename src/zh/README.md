@@ -21,7 +21,5 @@ home: true
     under the License.
 
 -->
-<client-only>
 <IoTDBZH/>
-</client-only>
 

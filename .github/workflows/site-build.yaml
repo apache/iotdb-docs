@@ -1,0 +1,34 @@
+name: Site Build
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+  pull_request:
+    branches:
+      - main
+  # allow manually run the action:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.x
+      - name: Check Apache Header
+        run: mvn apache-rat:check
+      - name: Install dependencies
+        run: npm ci
+      - name: Test compile website
+        run: npm run build

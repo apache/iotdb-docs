@@ -31,7 +31,7 @@ Go语言的代码库：https://github.com/apache/iotdb-client-go
 
 资源库（包含项目文件等）：https://github.com/apache/iotdb-bin-resources
 
-快速上手：http://iotdb.apache.org/UserGuide/master/Get%20Started/QuickStart.html
+快速上手：https://iotdb.apache.org/zh/UserGuide/V1.1.x/QuickStart/QuickStart.html
 
 Jira 任务管理：https://issues.apache.org/jira/projects/IOTDB/issues
 
