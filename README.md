@@ -19,7 +19,6 @@
 
 -->
 
-[TOC]
 
 # Website description
 
