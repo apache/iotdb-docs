@@ -46,110 +46,113 @@
     <p class="home-title" style="font-size: 50px;">Scenarios</p>
 
     <div class="block">
-      <el-carousel trigger="click" height="100vh" indicator-position="none">
-        <el-carousel-item v-for="(item, index) in imgBlock" :key="index" style="text-align:center;height: auto;">
-          <img :src="item.src" alt="" style="width: 80%; height: auto;">
-          <h3 style="font-size: 30px;color: #fcac45;text-align: center;line-height: normal;">{{item.des}}</h3>
-          <p style="font-size: 18px;line-height: 22px;padding:15px;text-align:justify!important;font-weight:bold;">{{item.detail}}</p>
-        </el-carousel-item>
-      </el-carousel>
+      <client-only>
+        <el-carousel trigger="click" height="100vh" indicator-position="none">
+          <el-carousel-item v-for="(item, index) in imgBlock" :key="index" style="text-align:center;height: auto;">
+            <img :src="item.src" alt="" style="width: 80%; height: auto;">
+            <h3 style="font-size: 30px;color: #fcac45;text-align: center;line-height: normal;">{{item.des}}</h3>
+            <p style="font-size: 18px;line-height: 22px;padding:15px;text-align:justify!important;font-weight:bold;">{{item.detail}}</p>
+          </el-carousel-item>
+        </el-carousel>
+      </client-only>
     </div>
 
     <p class="home-title" style="font-size: 50px;">Main Features</p>
-
-    <el-row style="margin-top:50px;" :gutter="20">
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
-        <el-popover
-          placement="top-start"
-          title="High-throughput read and write"
-          width="325"
-          trigger="hover"
-          content="Apache IoTDB can support high-speed write access for millions of low-power and intelligently networked devices. It also provides lightning read access for retrieving data."
-        >
-          <template #reference>
-            <div class="feature-item">
-              <img src="/img/home-icon1.png" alt="" style="width:40px;height:40px;">
-              <p>High-throughput read and write</p>
-            </div>
-          </template>
-        </el-popover>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
-        <el-popover
-          placement="top-start"
-          title="Efficient directory structure"
-          width="325"
-          trigger="hover"
-          content="Apache IoTDB can efficiently organize complex data structure from IoT devices and large size of timeseries data with fuzzy searching strategy for complex directory of timeseries data."
-        >
-          <template #reference>
-            <div class="feature-item">
-              <img src="/img/home-icon2.png" alt="" style="width:40px;height:40px;">
-              <p> Efficient directory structure</p></div>
-          </template>
-        </el-popover>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
-        <el-popover
-          placement="top-start"
-          title="Rich query semantics"
-          width="325"
-          trigger="hover"
-          content="Apache IoTDB can support time alignment for timeseries data across devices and sensors, computation in timeseries field and abundant aggregation functions in time dimension."
-        >
-          <template #reference>
-            <div class="feature-item">
-              <img src="/img/home-icon3.png" alt="" style="width:40px;height:40px;">
-              <p>Rich query semantics</p></div>
-          </template>
-        </el-popover>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
-        <el-popover
-          placement="top-start"
-          title="Low cost on hardware"
-          width="325"
-          trigger="hover"
-          content="Apache IoTDB can reach a high compression ratio of disk storage (it costs less than $0.23 to store 1GB of data on hard disk)."
-        >
-          <template #reference>
-            <div class="feature-item">
-              <img src="/img/home-icon4.png" alt="" style="width:40px;height:40px;">
-              <p>Low cost on hardware</p></div>
-          </template>
-        </el-popover>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
-        <el-popover
-          placement="top-start"
-          title="Flexible deployment"
-          width="325"
-          trigger="hover"
-          content="Apache IoTDB can provide users one-click installation on the cloud, terminal tool on desktop and the bridge tool between cloud platform and on premise machine (Data Synchronization Tool)."
-        >
-          <template #reference>
-            <div class="feature-item">
-              <img src="/img/home-icon5.png" alt="" style="width:40px;height:40px;">
-              <p>Flexible deployment</p></div>
-          </template>
-        </el-popover>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:50px;">
-        <el-popover
-          placement="top-start"
-          title="Intense integration with Open Source Ecosystem"
-          width="325"
-          trigger="hover"
-          content="Apache IoTDB can support analysis ecosystems, for example, Hadoop, Spark, Flink and Grafana （visualization tool）."
-        >
-          <template #reference>
-            <div class="feature-item">
-              <img src="/img/home-icon6.png" alt="" style="width:40px;height:40px;">
-              <p>Intense integration with Open Source Ecosystem</p></div>
-          </template>
-        </el-popover>
-      </el-col>
-    </el-row>
+    <client-only>
+      <el-row style="margin-top:50px;" :gutter="20">
+        <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
+          <el-popover
+            placement="top-start"
+            title="High-throughput read and write"
+            width="325"
+            trigger="hover"
+            content="Apache IoTDB can support high-speed write access for millions of low-power and intelligently networked devices. It also provides lightning read access for retrieving data."
+          >
+            <template #reference>
+              <div class="feature-item">
+                <img src="/img/home-icon1.png" alt="" style="width:40px;height:40px;">
+                <p>High-throughput read and write</p>
+              </div>
+            </template>
+          </el-popover>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
+          <el-popover
+            placement="top-start"
+            title="Efficient directory structure"
+            width="325"
+            trigger="hover"
+            content="Apache IoTDB can efficiently organize complex data structure from IoT devices and large size of timeseries data with fuzzy searching strategy for complex directory of timeseries data."
+          >
+            <template #reference>
+              <div class="feature-item">
+                <img src="/img/home-icon2.png" alt="" style="width:40px;height:40px;">
+                <p> Efficient directory structure</p></div>
+            </template>
+          </el-popover>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
+          <el-popover
+            placement="top-start"
+            title="Rich query semantics"
+            width="325"
+            trigger="hover"
+            content="Apache IoTDB can support time alignment for timeseries data across devices and sensors, computation in timeseries field and abundant aggregation functions in time dimension."
+          >
+            <template #reference>
+              <div class="feature-item">
+                <img src="/img/home-icon3.png" alt="" style="width:40px;height:40px;">
+                <p>Rich query semantics</p></div>
+            </template>
+          </el-popover>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
+          <el-popover
+            placement="top-start"
+            title="Low cost on hardware"
+            width="325"
+            trigger="hover"
+            content="Apache IoTDB can reach a high compression ratio of disk storage (it costs less than $0.23 to store 1GB of data on hard disk)."
+          >
+            <template #reference>
+              <div class="feature-item">
+                <img src="/img/home-icon4.png" alt="" style="width:40px;height:40px;">
+                <p>Low cost on hardware</p></div>
+            </template>
+          </el-popover>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
+          <el-popover
+            placement="top-start"
+            title="Flexible deployment"
+            width="325"
+            trigger="hover"
+            content="Apache IoTDB can provide users one-click installation on the cloud, terminal tool on desktop and the bridge tool between cloud platform and on premise machine (Data Synchronization Tool)."
+          >
+            <template #reference>
+              <div class="feature-item">
+                <img src="/img/home-icon5.png" alt="" style="width:40px;height:40px;">
+                <p>Flexible deployment</p></div>
+            </template>
+          </el-popover>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:50px;">
+          <el-popover
+            placement="top-start"
+            title="Intense integration with Open Source Ecosystem"
+            width="325"
+            trigger="hover"
+            content="Apache IoTDB can support analysis ecosystems, for example, Hadoop, Spark, Flink and Grafana （visualization tool）."
+          >
+            <template #reference>
+              <div class="feature-item">
+                <img src="/img/home-icon6.png" alt="" style="width:40px;height:40px;">
+                <p>Intense integration with Open Source Ecosystem</p></div>
+            </template>
+          </el-popover>
+        </el-col>
+      </el-row>
+    </client-only>
     <span style="margin: 10px"></span>
   </div>
 </template>

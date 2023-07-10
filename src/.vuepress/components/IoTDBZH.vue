@@ -42,112 +42,116 @@
     <p class="home-title" style="font-size: 50px;">应用场景</p>
 
     <div class="block">
-      <el-carousel trigger="click" height="100vh" indicator-position="none">
-        <el-carousel-item v-for="(item, index) in imgBlock" :key="index" style="text-align:center;height: auto;">
-          <img :src="item.src" alt="" style="width: 80%; height: auto;">
-          <h3 style="font-size: 30px;color: #fcac45;text-align: center;line-height: normal;">{{item.des}}</h3>
-          <p style="font-size: 18px;padding:15px;line-height: 22px;text-align:justify!important;font-weight:bold;">{{item.detail}}</p>
-        </el-carousel-item>
-      </el-carousel>
+      <client-only>
+        <el-carousel trigger="click" height="100vh" indicator-position="none">
+          <el-carousel-item v-for="(item, index) in imgBlock" :key="index" style="text-align:center;height: auto;">
+            <img :src="item.src" alt="" style="width: 80%; height: auto;">
+            <h3 style="font-size: 30px;color: #fcac45;text-align: center;line-height: normal;">{{item.des}}</h3>
+            <p style="font-size: 18px;padding:15px;line-height: 22px;text-align:justify!important;font-weight:bold;">{{item.detail}}</p>
+          </el-carousel-item>
+        </el-carousel>
+      </client-only>
     </div>
 
     <p class="home-title" style="font-size: 50px;">主要特点</p>
 
-    <el-row style="margin-top:50px;" :gutter="20">
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
-        <el-popover
-          placement="top-start"
-          title="高吞吐量读写"
-          width="325"
-          trigger="hover"
-          content="Apache IoTDB中可以支持数百万个低功耗和智能联网设备的高速写访问。 它还提供数据快速读取访问以查询。"
-        >
-          <template #reference>
-            <div class="feature-item">
-              <img src="/img/home-icon1.png" alt="" style="width:40px;height:40px;">
-              <p>高吞吐量读写</p>
-            </div>
-          </template>
-        </el-popover>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
-        <el-popover
-          placement="top-start"
-          title="高效的目录结构"
-          width="325"
-          trigger="hover"
-          content="Apache IoTDB可以对拥有复杂组织关系的物联网设备进行树形结构管理，并使用通配符对这些元数据进行模糊匹配。"
-        >
-          <template #reference>
-            <div class="feature-item">
-              <img src="/img/home-icon2.png" alt="" style="width:40px;height:40px;">
-              <p> 高效的树形元数据结构</p></div>
-          </template>
+    <client-only>
+      <el-row style="margin-top:50px;" :gutter="20">
+        <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
+          <el-popover
+            placement="top-start"
+            title="高吞吐量读写"
+            width="325"
+            trigger="hover"
+            content="Apache IoTDB中可以支持数百万个低功耗和智能联网设备的高速写访问。 它还提供数据快速读取访问以查询。"
+          >
+            <template #reference>
+              <div class="feature-item">
+                <img src="/img/home-icon1.png" alt="" style="width:40px;height:40px;">
+                <p>高吞吐量读写</p>
+              </div>
+            </template>
+          </el-popover>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
+          <el-popover
+            placement="top-start"
+            title="高效的目录结构"
+            width="325"
+            trigger="hover"
+            content="Apache IoTDB可以对拥有复杂组织关系的物联网设备进行树形结构管理，并使用通配符对这些元数据进行模糊匹配。"
+          >
+            <template #reference>
+              <div class="feature-item">
+                <img src="/img/home-icon2.png" alt="" style="width:40px;height:40px;">
+                <p> 高效的树形元数据结构</p></div>
+            </template>
 
-        </el-popover>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
-        <el-popover
-          placement="top-start"
-          title="丰富的查询语义"
-          width="325"
-          trigger="hover"
-          content="Apache IoTDB可以支持跨设备和传感器的时间对齐查询，在时间维度上的聚合（降采样）等。"
-        >
-          <template #reference>
-            <div class="feature-item">
-              <img src="/img/home-icon3.png" alt="" style="width:40px;height:40px;">
-              <p>丰富的查询语义</p></div>
-          </template>
-        </el-popover>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
-        <el-popover
-          placement="top-start"
-          title="硬件成本低"
-          width="325"
-          trigger="hover"
-          content="Apache IoTDB可以实现磁盘存储的高压缩率。"
-        >
-          <template #reference>
-            <div class="feature-item">
-              <img src="/img/home-icon4.png" alt="" style="width:40px;height:40px;">
-              <p>硬件成本低</p></div>
-          </template>
-        </el-popover>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
-        <el-popover
-          placement="top-start"
-          title="灵活的部署"
-          width="325"
-          trigger="hover"
-          content="Apache IoTDB可以为用户提供云上的一键式安装、终端访问工具以及边-云之间的协同（数据同步工具）。"
-        >
-          <template #reference>
-            <div class="feature-item">
-              <img src="/img/home-icon5.png" alt="" style="width:40px;height:40px;">
-              <p>灵活的部署</p></div>
-          </template>
-        </el-popover>
-      </el-col>
-      <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
-        <el-popover
-          placement="top-start"
-          title="与开源生态系统的紧密集成"
-          width="325"
-          trigger="hover"
-          content="Apache IoTDB支持许多大数据软件生态系统，例如Hadoop、Spark、Flink和Grafana（可视化工具）。"
-        >
-          <template #reference>
-            <div class="feature-item">
-              <img src="/img/home-icon6.png" alt="" style="width:40px;height:40px;">
-              <p>与开源生态系统的紧密集成</p>
-            </div>
-          </template>
-        </el-popover>
-      </el-col>
-    </el-row>
+          </el-popover>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
+          <el-popover
+            placement="top-start"
+            title="丰富的查询语义"
+            width="325"
+            trigger="hover"
+            content="Apache IoTDB可以支持跨设备和传感器的时间对齐查询，在时间维度上的聚合（降采样）等。"
+          >
+            <template #reference>
+              <div class="feature-item">
+                <img src="/img/home-icon3.png" alt="" style="width:40px;height:40px;">
+                <p>丰富的查询语义</p></div>
+            </template>
+          </el-popover>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
+          <el-popover
+            placement="top-start"
+            title="硬件成本低"
+            width="325"
+            trigger="hover"
+            content="Apache IoTDB可以实现磁盘存储的高压缩率。"
+          >
+            <template #reference>
+              <div class="feature-item">
+                <img src="/img/home-icon4.png" alt="" style="width:40px;height:40px;">
+                <p>硬件成本低</p></div>
+            </template>
+          </el-popover>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
+          <el-popover
+            placement="top-start"
+            title="灵活的部署"
+            width="325"
+            trigger="hover"
+            content="Apache IoTDB可以为用户提供云上的一键式安装、终端访问工具以及边-云之间的协同（数据同步工具）。"
+          >
+            <template #reference>
+              <div class="feature-item">
+                <img src="/img/home-icon5.png" alt="" style="width:40px;height:40px;">
+                <p>灵活的部署</p></div>
+            </template>
+          </el-popover>
+        </el-col>
+        <el-col :xs="24" :sm="24" :md="12" :lg="8" style="text-align:center;margin-bottom:10px;">
+          <el-popover
+            placement="top-start"
+            title="与开源生态系统的紧密集成"
+            width="325"
+            trigger="hover"
+            content="Apache IoTDB支持许多大数据软件生态系统，例如Hadoop、Spark、Flink和Grafana（可视化工具）。"
+          >
+            <template #reference>
+              <div class="feature-item">
+                <img src="/img/home-icon6.png" alt="" style="width:40px;height:40px;">
+                <p>与开源生态系统的紧密集成</p>
+              </div>
+            </template>
+          </el-popover>
+        </el-col>
+      </el-row>
+    </client-only>
     <span style="margin: 10px"></span>
   </div>
 </template>
