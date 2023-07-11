@@ -53,4 +53,4 @@ jobs:
           git config --global url."https://asf-ci-deploy:$IOTDB_WEBSITE_BUILD@github.com/apache/".insteadOf "https://github.com/apache/"
           git config --global user.name github-actions
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
-          NODE_DEBUG=gh-pages npm run deploy:staging
+          npm run deploy:staging

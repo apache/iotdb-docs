@@ -23,4 +23,9 @@ ghpages.publish('src/.vuepress/dist', {
   branch: 'asf-staging',
   repo: 'https://github.com/apache/iotdb-website.git',
   dotfiles: true,
+}, (err) => {
+  if (err instanceof Error) {
+    console.error(err);
+    throw err;
+  }
 });
