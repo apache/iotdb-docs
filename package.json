@@ -9,7 +9,8 @@
     "docs:clean-dev": "vuepress dev src --clean-cache",
     "dev": "vuepress dev src",
     "docs:update-package": "npx vp-update",
-    "deploy": "node --max_old_space_size=6000 deploy.js",
+    "deploy": "node --max_old_space_size=6000 deploy.cjs",
+    "deploy:staging": "node --max_old_space_size=6000 deploy_staging.cjs",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix"
   },
   "devDependencies": {

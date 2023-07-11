@@ -30,3 +30,5 @@ jobs:
         run: npm ci
       - name: Test compile website
         run: npm run build
+      - name: Deploy staging
+        run: npm run deploy:staging
