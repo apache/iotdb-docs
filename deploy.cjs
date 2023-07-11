@@ -26,6 +26,6 @@ ghpages.publish('src/.vuepress/dist', {
 }, (err) => {
   if (err instanceof Error) {
     console.error(err);
-    process.exit(1)
+    process.exit(1);
   }
 });
