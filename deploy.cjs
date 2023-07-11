@@ -22,4 +22,5 @@ const ghpages = require('gh-pages');
 ghpages.publish('src/.vuepress/dist', {
   branch: 'asf-site',
   repo: 'https://github.com/apache/iotdb-website.git',
+  dotfiles: true,
 });
