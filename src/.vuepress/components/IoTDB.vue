@@ -69,7 +69,7 @@
             content="Apache IoTDB can support high-speed write access for millions of low-power and intelligently networked devices. It also provides lightning read access for retrieving data."
           >
             <template #reference>
-              <div class="feature-item">
+              <div class="vp-feature-item feature-item">
                 <img src="/img/home-icon1.png" alt="" style="width:40px;height:40px;">
                 <p>High-throughput read and write</p>
               </div>
@@ -85,7 +85,7 @@
             content="Apache IoTDB can efficiently organize complex data structure from IoT devices and large size of timeseries data with fuzzy searching strategy for complex directory of timeseries data."
           >
             <template #reference>
-              <div class="feature-item">
+              <div class="vp-feature-item feature-item">
                 <img src="/img/home-icon2.png" alt="" style="width:40px;height:40px;">
                 <p> Efficient directory structure</p></div>
             </template>
@@ -100,7 +100,7 @@
             content="Apache IoTDB can support time alignment for timeseries data across devices and sensors, computation in timeseries field and abundant aggregation functions in time dimension."
           >
             <template #reference>
-              <div class="feature-item">
+              <div class="vp-feature-item feature-item">
                 <img src="/img/home-icon3.png" alt="" style="width:40px;height:40px;">
                 <p>Rich query semantics</p></div>
             </template>
@@ -115,7 +115,7 @@
             content="Apache IoTDB can reach a high compression ratio of disk storage (it costs less than $0.23 to store 1GB of data on hard disk)."
           >
             <template #reference>
-              <div class="feature-item">
+              <div class="vp-feature-item feature-item">
                 <img src="/img/home-icon4.png" alt="" style="width:40px;height:40px;">
                 <p>Low cost on hardware</p></div>
             </template>
@@ -130,7 +130,7 @@
             content="Apache IoTDB can provide users one-click installation on the cloud, terminal tool on desktop and the bridge tool between cloud platform and on premise machine (Data Synchronization Tool)."
           >
             <template #reference>
-              <div class="feature-item">
+              <div class="vp-feature-item feature-item">
                 <img src="/img/home-icon5.png" alt="" style="width:40px;height:40px;">
                 <p>Flexible deployment</p></div>
             </template>
@@ -145,7 +145,7 @@
             content="Apache IoTDB can support analysis ecosystems, for example, Hadoop, Spark, Flink and Grafana （visualization tool）."
           >
             <template #reference>
-              <div class="feature-item">
+              <div class="vp-feature-item feature-item">
                 <img src="/img/home-icon6.png" alt="" style="width:40px;height:40px;">
                 <p>Intense integration with Open Source Ecosystem</p></div>
             </template>

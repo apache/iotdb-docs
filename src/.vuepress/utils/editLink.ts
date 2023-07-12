@@ -40,29 +40,6 @@ interface EditLinkOptions {
   editLinkPattern?: string;
 }
 
-const getBranch = (branch = 'master', path = '') => {
-  if (path.indexOf('UserGuide/Master') > -1 || path.indexOf('UserGuide') === -1) {
-    return branch;
-  }
-  const branchRex = /UserGuide\/V(\d+\.\d+\.x)/;
-  if (branchRex.test(path)) {
-    const tag = branchRex.exec(path)![1];
-    return `rel/${tag.replace('.x', '')}`;
-  }
-  return branch;
-};
-const getPath = (path: string) => {
-  if (path.indexOf('UserGuide/Master') > -1 || path.indexOf('UserGuide') === -1) {
-    return path.replace('UserGuide/Master', 'UserGuide');
-  }
-  const branchRex = /UserGuide\/V(\d+\.\d+\.x)/;
-  if (branchRex.test(path)) {
-    const tag = branchRex.exec(path)![1];
-    return path.replace(`UserGuide/V${tag}`, 'UserGuide');
-  }
-  return path;
-};
-
 export const resolveEditLink = ({
   docsRepo,
   docsBranch,
@@ -86,9 +63,9 @@ export const resolveEditLink = ({
       /:repo/,
       isLinkHttp(docsRepo) ? docsRepo : `https://github.com/${docsRepo}`,
     )
-    .replace(/:branch/, getBranch(docsBranch, filePathRelative))
+    .replace(/:branch/, docsBranch)
     .replace(
       /:path/,
-      removeLeadingSlash(`${removeEndingSlash(docsDir)}/${getPath(filePathRelative)}`),
+      removeLeadingSlash(`${removeEndingSlash(docsDir)}/${filePathRelative}`),
     );
 };
