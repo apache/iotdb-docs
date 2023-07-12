@@ -34,9 +34,11 @@ export default hopeTheme({
 
   repoDisplay: true,
 
-  docsDir: 'docs',
+  docsRepo: 'https://github.com/apache/iotdb-docs',
 
-  docsBranch: 'master',
+  docsDir: 'src',
+
+  docsBranch: 'main',
 
   pure: true,
 
@@ -151,4 +153,4 @@ export default hopeTheme({
       vuePlayground: true,
     },
   },
-});
+}, { custom: true });

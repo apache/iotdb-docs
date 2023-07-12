@@ -57,10 +57,10 @@ export default defineUserConfig({
       dirname,
       './components/PageFooter.vue',
     ),
-    '@theme-hope/modules/info/utils/index': path.resolve(
-      dirname,
-      './utils/index',
-    ),
+    // '@theme-hope/modules/info/utils/index': path.resolve(
+    //   dirname,
+    //   './utils/index',
+    // ),
   },
   plugins: [
     docsearchPlugin({

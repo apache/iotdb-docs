@@ -18,11 +18,14 @@
  */
 
 // place your custom styles here
-.hero-info-wrapper, .site-name{
+.hero-info-wrapper, .site-name, .vp-hero-info-wrapper, .vp-site-name{
   display: none;
-}
+} 
 .home.project 
 .theme-hope-content {
+  max-width: unset;
+}
+.vp-project-home .theme-hope-content {
   max-width: unset;
 }
 .el-popover.el-popper {
