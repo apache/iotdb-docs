@@ -17,9 +17,13 @@
   under the License.
  */
 
-export * from './define.js';
-export * from './editLink.js';
-export * from './typings.js';
+import { sidebar } from 'vuepress-theme-hope';
+import { zhSidebar as V101xSidebar } from './V1.1.x/zh.js';
+import { zhSidebar as V100xSidebar } from './V1.0.x/zh.js';
+import { zhSidebar as V013xSidebar } from './V0.13.x/zh.js';
 
-export const defaultVersion = 'V1.2.x';
-export const defaultBranch = 'rel/1.2';
+export const zhSidebar = sidebar({
+  ...V101xSidebar,
+  ...V100xSidebar,
+  ...V013xSidebar,
+});
