@@ -24,6 +24,10 @@ import { enSidebar as V100xSidebar } from './V1.0.x/en.js';
 import { enSidebar as V013xSidebar } from './V0.13.x/en.js';
 
 export const enSidebar = sidebar({
+  ...V102xSidebar,
+  ...V101xSidebar,
+  ...V100xSidebar,
+  ...V013xSidebar,
   // '/UserGuide/Master/': [
   //   {
   //     text: 'IoTDB User Guide (latest)',
@@ -300,8 +304,4 @@ export const enSidebar = sidebar({
   //     ],
   //   },
   // ],
-  // ...V102xSidebar,
-  ...V101xSidebar,
-  ...V100xSidebar,
-  ...V013xSidebar,
 });
