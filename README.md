@@ -23,7 +23,7 @@
 
 ## IoTDB website
 
-[![Build Status](https://builds.apache.org/view/I/view/IoTDB/job/IoTDB%20Website/badge/icon)](https://builds.apache.org/view/I/view/IoTDB/job/IoTDB%20Website/)
+[![Site Build](https://github.com/apache/iotdb-docs/actions/workflows/site-build.yaml/badge.svg)](https://github.com/apache/iotdb-docs/actions/workflows/site-build.yaml)
 
 See https://iotdb.apache.org/
 
