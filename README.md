@@ -19,8 +19,6 @@
 
 -->
 
-[TOC]
-
 # Website description
 
 ## IoTDB website
