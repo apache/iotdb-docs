@@ -111,6 +111,14 @@ wait_timeout_in_ms = 3000
 # 通过配置参数创建连接池
 session_pool = SessionPool(pool_config, max_pool_size, wait_timeout_in_ms)
 ```
+##### 通过分布式节点创建SessionPool
+```python
+pool_config = PoolConfig(node_urls=node_urls=["127.0.0.1:6667", "127.0.0.1:6668", "127.0.0.1:6669"], user_name=username,
+                         password=password, fetch_size=1024,
+                         time_zone="UTC+8", max_retry=3)
+max_pool_size = 5
+wait_timeout_in_ms = 3000
+```
 
 ##### 通过SessionPool获取session，使用完手动调用PutBack
 

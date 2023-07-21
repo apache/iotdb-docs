@@ -110,7 +110,14 @@ wait_timeout_in_ms = 3000
 # # Create the connection pool
 session_pool = SessionPool(pool_config, max_pool_size, wait_timeout_in_ms)
 ```
-
+##### Create a SessionPool using distributed nodes.
+```python
+pool_config = PoolConfig(node_urls=node_urls=["127.0.0.1:6667", "127.0.0.1:6668", "127.0.0.1:6669"], user_name=username,
+                         password=password, fetch_size=1024,
+                         time_zone="UTC+8", max_retry=3)
+max_pool_size = 5
+wait_timeout_in_ms = 3000
+```
 ##### Acquiring a session through SessionPool and manually calling PutBack after use
 
 ```python
