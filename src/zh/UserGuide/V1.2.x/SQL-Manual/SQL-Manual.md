@@ -1,3 +1,23 @@
+<!--
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+    
+        http://www.apache.org/licenses/LICENSE-2.0
+    
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
 # 一、元数据操作
 
 ## 1、数据库管理
@@ -244,7 +264,7 @@ IoTDB> count devices root.ln.**
 
 ## 4、设备模板管理
 
-![img](https://timechor.feishu.cn/space/api/box/stream/download/asynccode/?code=NzhkYzkzZDM0MjQxNDJlNmU5YWVhNWJkM2E3NzZmYWZfcllzQUZWYVpQMk1FRWVhSTlpQmRtblhYZmtQbnZqUGxfVG9rZW46VEJXbGJOWWJub0V5OWV4Sk1wZ2N6YmVXbkRlXzE2ODU0MzI4MDM6MTY4NTQzNjQwM19WNA)
+![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
 
 
 
@@ -254,7 +274,7 @@ Create device root.sg.d1
 
 
 
-![img](https://timechor.feishu.cn/space/api/box/stream/download/asynccode/?code=Y2ZkMzUyMTAwMTJkZmZjOTdiODZmZmM4YjE1NzUzYWFfTGZ0T3lkOG1BSTJTY3ZMRWtsMElQcWdNYk01MVpBTDJfVG9rZW46Rllua2JBZDlDb3Y0RTJ4Nk14d2NITE9jbkNoXzE2ODU0MzI4MDM6MTY4NTQzNjQwM19WNA)
+![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF%E6%B5%81%E7%A8%8B.png)
 
 ### 创建元数据模板
 
