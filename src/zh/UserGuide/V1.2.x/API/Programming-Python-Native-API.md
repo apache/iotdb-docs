@@ -96,6 +96,45 @@ session.open(enable_rpc_compression=False)
 session.close()
 ```
 
+#### 通过SessionPool管理session连接
+
+利用SessionPool管理session，不需要再考虑如何重用session。当session连接到达pool的最大值时，获取session的请求会被阻塞，可以通过参数设置阻塞等待时间。每次session使用完需要使用putBack方法将session归还到SessionPool中管理。
+
+##### 创建SessionPool
+
+```python
+pool_config = PoolConfig(host=ip,port=port, user_name=username,
+                         password=password, fetch_size=1024,
+                         time_zone="UTC+8", max_retry=3)
+max_pool_size = 5
+wait_timeout_in_ms = 3000
+
+# 通过配置参数创建连接池
+session_pool = SessionPool(pool_config, max_pool_size, wait_timeout_in_ms)
+```
+##### 通过分布式节点创建SessionPool
+```python
+pool_config = PoolConfig(node_urls=node_urls=["127.0.0.1:6667", "127.0.0.1:6668", "127.0.0.1:6669"], user_name=username,
+                         password=password, fetch_size=1024,
+                         time_zone="UTC+8", max_retry=3)
+max_pool_size = 5
+wait_timeout_in_ms = 3000
+```
+
+##### 通过SessionPool获取session，使用完手动调用PutBack
+
+```python
+session = session_pool.get_session()
+session.set_storage_group(STORAGE_GROUP_NAME)
+session.create_time_series(
+  TIMESERIES_PATH, TSDataType.BOOLEAN, TSEncoding.PLAIN, Compressor.SNAPPY
+)
+# 使用完调用putBack归还
+session_pool.put_back(session)
+# 关闭sessionPool时同时关闭管理的session
+session_pool.close()
+```
+
 #### 数据定义接口 DDL
 
 ##### Database 管理
