@@ -95,6 +95,45 @@ Notice: this RPC compression status of client must comply with that of IoTDB ser
 session.close()
 ```
 
+### Managing Session through SessionPool
+
+Utilizing SessionPool to manage sessions eliminates the need to worry about session reuse. When the number of session connections reaches the maximum capacity of the pool, requests for acquiring a session will be blocked, and you can set the blocking wait time through parameters. After using a session, it should be returned to the SessionPool using the `putBack` method for proper management.
+
+##### Create SessionPool
+
+```python
+pool_config = PoolConfig(host=ip,port=port, user_name=username,
+                         password=password, fetch_size=1024,
+                         time_zone="UTC+8", max_retry=3)
+max_pool_size = 5
+wait_timeout_in_ms = 3000
+
+# # Create the connection pool
+session_pool = SessionPool(pool_config, max_pool_size, wait_timeout_in_ms)
+```
+##### Create a SessionPool using distributed nodes.
+```python
+pool_config = PoolConfig(node_urls=node_urls=["127.0.0.1:6667", "127.0.0.1:6668", "127.0.0.1:6669"], user_name=username,
+                         password=password, fetch_size=1024,
+                         time_zone="UTC+8", max_retry=3)
+max_pool_size = 5
+wait_timeout_in_ms = 3000
+```
+
+##### Acquiring a session through SessionPool and manually calling PutBack after use
+
+```python
+session = session_pool.get_session()
+session.set_storage_group(STORAGE_GROUP_NAME)
+session.create_time_series(
+  TIMESERIES_PATH, TSDataType.BOOLEAN, TSEncoding.PLAIN, Compressor.SNAPPY
+)
+# After usage, return the session using putBack
+session_pool.put_back(session)
+# When closing the sessionPool, all managed sessions will be closed as well
+session_pool.close()
+```
+
 ### Data Definition Interface (DDL Interface)
 
 #### Database Management
