@@ -19,182 +19,51 @@
 
 -->
 
-## 白名单
+# Security Management
 
-**功能描述**
+## Administration Management
 
-允许哪些客户端地址能连接 IoTDB
+IoTDB provides users with account privilege management operations, so as to ensure data security.
 
-**配置文件**
+We will show you basic user privilege management operations through the following specific examples. Detailed SQL syntax and usage details can be found in [SQL Documentation](../Reference/SQL-Reference.md).
+At the same time, in the JAVA programming environment, you can use the [Java JDBC](../API/Programming-JDBC.md) to execute privilege management statements in a single or batch mode.
 
-conf/iotdb-common.properties
+### Basic Concepts
 
-conf/white.list
+#### User
 
-**配置项**
+The user is the legal user of the database. A user corresponds to a unique username and has a password as a means of authentication. Before using a database, a person must first provide a legitimate username and password to make himself/herself a user.
 
-iotdb-common.properties:
+#### Privilege
 
-决定是否开启白名单功能
+The database provides a variety of operations, and not all users can perform all operations. If a user can perform an operation, the user is said to have the privilege to perform the operation. privileges are divided into data management privilege (such as adding, deleting and modifying data) and authority management privilege (such as creation and deletion of users and roles, granting and revoking of privileges, etc.). Data management privilege often needs a path to limit its effective range. It is flexible that using [path pattern](../Basic-Concept/Data-Model-and-Terminology.md) to manage privileges.
 
-```YAML
-# 是否开启白名单功能
-enable_white_list=true
-```
+#### Role
 
-white.list:
+A role is a set of privileges and has a unique role name as an identifier. A user usually corresponds to a real identity (such as a traffic dispatcher), while a real identity may correspond to multiple users. These users with the same real identity tend to have the same privileges. Roles are abstractions that can unify the management of such privileges.
 
-决定哪些IP地址能够连接IoTDB
+#### Default User
 
-```YAML
-# 支持注释
-# 支持精确匹配，每行一个ip
-10.2.3.4
+There is a default user in IoTDB after the initial installation: root, and the default password is root. This user is an administrator user, who cannot be deleted and has all the privileges. Neither can new privileges be granted to the root user nor can privileges owned by the root user be deleted.
 
-# 支持*通配符，每行一个ip
-10.*.1.3
-10.100.0.*
-```
+### Privilege Management Operation Examples
 
-**注意事项**
+According to the [sample data](https://github.com/thulab/iotdb/files/4438687/OtherMaterial-Sample.Data.txt), the sample data of IoTDB might belong to different power generation groups such as ln, sgcc, etc. Different power generation groups do not want others to obtain their own database data, so we need to have data privilege isolated at the group layer.
 
-1. 如果通过session客户端取消本身的白名单，当前连接并不会立即断开。在下次创建连接的时候拒绝。
-2. 如果直接修改white.list，一分钟内生效。如果通过session客户端修改，立即生效，更新内存中的值和white.list磁盘文件
-3. 开启白名单功能，没有white.list 文件，启动DB服务成功，但是，拒绝所有连接。
-4. DB服务运行中，删除 white.list 文件，至多一分钟后，拒绝所有连接。
-5. 是否开启白名单功能的配置，可以热加载。
-6. 使用Java 原生接口修改白名单，必须是root用户才能修改，拒绝非root用户修改；修改内容必须合法，否则会抛出StatementExecutionException异常。
+#### Create User
 
-![白名单](https://alioss.timecho.com/docs/img/%E7%99%BD%E5%90%8D%E5%8D%95.PNG)
-
-## 审计日志
-### 功能背景
-
-   审计日志是数据库的记录凭证，通过审计日志功能可以查询到用户在数据库中增删改查等各项操作，以保证信息安全。关于IoTDB的审计日志功能可以实现以下场景的需求：
-
-- 可以按链接来源（是否人为操作）决定是否记录审计日志，如：非人为操作如硬件采集器写入的数据不需要记录审计日志，人为操作如普通用户通过cli、workbench等工具操作的数据需要记录审计日志。
-- 过滤掉系统级别的写入操作，如IoTDB监控体系本身记录的写入操作等。
-
-
-
-#### 场景说明
-
-
-
-##### 对所有用户的所有操作（增、删、改、查）进行记录
-
-通过审计日志功能追踪到所有用户在数据中的各项操作。其中所记录的信息要包含数据操作（新增、删除、查询）及元数据操作（新增、修改、删除、查询）、客户端登录信息（用户名、ip地址）。
-
-
-
-客户端的来源
-
-- Cli、workbench、Zeppelin、Grafana、通过 Session/JDBC/MQTT 等协议传入的请求
-
-![审计日志](https://alioss.timecho.com/docs/img/%E5%AE%A1%E8%AE%A1%E6%97%A5%E5%BF%97.PNG)
-
-
-
-##### 可关闭部分用户连接的审计日志
-
-
-
-如非人为操作，硬件采集器通过 Session/JDBC/MQTT 写入的数据不需要记录审计日志
-
-
-
-### 功能定义
-
-
-
-通过配置可以实现：
-
-- 决定是否开启审计功能
-- 决定审计日志的输出位置，支持输出至一项或多项
-     1. 日志文件
-     2. IoTDB存储
-- 决定是否屏蔽原生接口的写入，防止记录审计日志过多影响性能
-- 决定审计日志内容类别，支持记录一项或多项
-     1. 数据的新增、删除操作
-     2. 数据和元数据的查询操作
-     3. 元数据类的新增、修改、删除操作
-
-#### 配置项
-
- 在iotdb-engine.properties 或 iotdb-common.properties中修改以下几项配置
-
-```YAML
-####################
-### Audit log Configuration
-####################
-
-# whether to enable the audit log.
-# Datatype: Boolean
-# enable_audit_log=false
-
-# Output location of audit logs
-# Datatype: String
-# IOTDB: the stored time series is: root.__system.audit._{user}
-# LOGGER: log_audit.log in the log directory
-# audit_log_storage=IOTDB,LOGGER
-
-# whether enable audit log for DML operation of data
-# whether enable audit log for DDL operation of schema
-# whether enable audit log for QUERY operation of data and schema
-# Datatype: String
-# audit_log_operation=DML,DDL,QUERY
-
-# whether the local write api records audit logs
-# Datatype: Boolean
-# This contains Session insert api: insertRecord(s), insertTablet(s),insertRecordsOfOneDevice
-# MQTT insert api
-# RestAPI insert api
-# This parameter will cover the DML in audit_log_operation
-# enable_audit_log_for_native_insert_api=true
-```
-
-## 权限管理
-
-IoTDB 为用户提供了权限管理操作，从而为用户提供对于数据的权限管理功能，保障数据的安全。
-
-我们将通过以下几个具体的例子为您示范基本的用户权限操作，详细的 SQL 语句及使用方式详情请参见本文 [数据模式与概念章节](../Data-Concept/Data-Model-and-Terminology.md)。同时，在 JAVA 编程环境中，您可以使用 [JDBC API](../API/Programming-JDBC.md) 单条或批量执行权限管理类语句。
-
-### 基本概念
-
-#### 用户
-
-用户即数据库的合法使用者。一个用户与一个唯一的用户名相对应，并且拥有密码作为身份验证的手段。一个人在使用数据库之前，必须先提供合法的（即存于数据库中的）用户名与密码，使得自己成为用户。
-
-#### 权限
-
-数据库提供多种操作，并不是所有的用户都能执行所有操作。如果一个用户可以执行某项操作，则称该用户有执行该操作的权限。权限可分为数据管理权限（如对数据进行增删改查）以及权限管理权限（用户、角色的创建与删除，权限的赋予与撤销等）。数据管理权限往往需要一个路径来限定其生效范围，可使用[路径模式](../Data-Concept/Data-Model-and-Terminology.md)灵活管理权限。
-
-#### 角色
-
-角色是若干权限的集合，并且有一个唯一的角色名作为标识符。用户通常和一个现实身份相对应（例如交通调度员），而一个现实身份可能对应着多个用户。这些具有相同现实身份的用户往往具有相同的一些权限。角色就是为了能对这样的权限进行统一的管理的抽象。
-
-#### 默认用户及其具有的角色
-
-初始安装后的 IoTDB 中有一个默认用户：root，默认密码为 root。该用户为管理员用户，固定拥有所有权限，无法被赋予、撤销权限，也无法被删除。
-
-### 权限操作示例 
-
-根据本文中描述的 [样例数据](https://github.com/thulab/iotdb/files/4438687/OtherMaterial-Sample.Data.txt) 内容，IoTDB 的样例数据可能同时属于 ln, sgcc 等不同发电集团，不同的发电集团不希望其他发电集团获取自己的数据库数据，因此我们需要将不同的数据在集团层进行权限隔离。
-
-#### 创建用户
-
-使用 `CREATE USER <userName> <password>` 创建用户。例如，我们可以使用具有所有权限的root用户为 ln 和 sgcc 集团创建两个用户角色，名为 ln_write_user, sgcc_write_user，密码均为 write_pwd。建议使用反引号(`)包裹用户名。SQL 语句为：
+We use `CREATE USER <userName> <password>` to create users. For example, we can use root user who has all privileges to create two users for ln and sgcc groups, named ln\_write\_user and sgcc\_write\_user, with both passwords being write\_pwd. It is recommended to wrap the username in backtick(`). The SQL statement is:
 
 ```
 CREATE USER `ln_write_user` 'write_pwd'
 CREATE USER `sgcc_write_user` 'write_pwd'
 ```
-此时使用展示用户的 SQL 语句：
+Then use the following SQL statement to show the user:
 
 ```
 LIST USER
 ```
-我们可以看到这两个已经被创建的用户，结果如下：
+As can be seen from the result shown below, the two users have been created:
 
 ```
 IoTDB> CREATE USER `ln_write_user` 'write_pwd'
@@ -213,30 +82,30 @@ Total line number = 3
 It costs 0.157s
 ```
 
-#### 赋予用户权限
+#### Grant User Privilege
 
-此时，虽然两个用户已经创建，但是他们不具有任何权限，因此他们并不能对数据库进行操作，例如我们使用 ln_write_user 用户对数据库中的数据进行写入，SQL 语句为：
+At this point, although two users have been created, they do not have any privileges, so they can not operate on the database. For example, we use ln_write_user to write data in the database, the SQL statement is:
 
 ```
 INSERT INTO root.ln.wf01.wt01(timestamp,status) values(1509465600000,true)
 ```
-此时，系统不允许用户进行此操作，会提示错误：
+The SQL statement will not be executed and the corresponding error prompt is given as follows:
 
 ```
 IoTDB> INSERT INTO root.ln.wf01.wt01(timestamp,status) values(1509465600000,true)
 Msg: 602: No permissions for this operation, please add privilege INSERT_TIMESERIES.
 ```
 
-现在，我们用root用户分别赋予他们向对应 database 数据的写入权限.
+Now, we use root user to grant the two users write privileges to the corresponding databases.
 
-我们使用 `GRANT USER <userName> PRIVILEGES <privileges> ON <nodeName>` 语句赋予用户权限(注：其中，创建用户权限无需指定路径)，例如：
+We use `GRANT USER <userName> PRIVILEGES <privileges> ON <nodeName>` to grant user privileges(ps: grant create user does not need path). For example:
 
 ```
 GRANT USER `ln_write_user` PRIVILEGES INSERT_TIMESERIES on root.ln.**
 GRANT USER `sgcc_write_user` PRIVILEGES INSERT_TIMESERIES on root.sgcc1.**, root.sgcc2.**
 GRANT USER `ln_write_user` PRIVILEGES CREATE_USER
 ```
-执行状态如下所示：
+The execution result is as follows:
 
 ```
 IoTDB> GRANT USER `ln_write_user` PRIVILEGES INSERT_TIMESERIES on root.ln.**
@@ -247,15 +116,15 @@ IoTDB> GRANT USER `ln_write_user` PRIVILEGES CREATE_USER
 Msg: The statement is executed successfully.
 ```
 
-接着使用ln_write_user再尝试写入数据
+Next, use ln_write_user to try to write data again.
 ```
 IoTDB> INSERT INTO root.ln.wf01.wt01(timestamp, status) values(1509465600000, true)
 Msg: The statement is executed successfully.
 ```
 
-#### 撤销用户权限
+#### Revoker User Privilege
 
-授予用户权限后，我们可以使用 `REVOKE USER <userName> PRIVILEGES <privileges> ON <nodeName>` 来撤销已授予的用户权限(注：其中，撤销创建用户权限无需指定路径)。例如，用root用户撤销ln_write_user和sgcc_write_user的权限：
+After granting user privileges, we could use `REVOKE USER <userName> PRIVILEGES <privileges> ON <nodeName>` to revoke the granted user privileges(ps: revoke create user does not need path). For example, use root user to revoke the privilege of ln_write_user and sgcc_write_user:
 
 ```
 REVOKE USER `ln_write_user` PRIVILEGES INSERT_TIMESERIES on root.ln.**
@@ -263,7 +132,7 @@ REVOKE USER `sgcc_write_user` PRIVILEGES INSERT_TIMESERIES on root.sgcc1.**, roo
 REVOKE USER `ln_write_user` PRIVILEGES CREATE_USER
 ```
 
-执行状态如下所示：
+The execution result is as follows:
 
 ```
 REVOKE USER `ln_write_user` PRIVILEGES INSERT_TIMESERIES on root.ln.**
@@ -274,45 +143,45 @@ REVOKE USER `ln_write_user` PRIVILEGES CREATE_USER
 Msg: The statement is executed successfully.
 ```
 
-撤销权限后，ln_write_user就没有向root.ln.**写入数据的权限了。
+After revoking, ln_write_user has no permission to writing data to root.ln.**
 ```
 INSERT INTO root.ln.wf01.wt01(timestamp, status) values(1509465600000, true)
 Msg: 602: No permissions for this operation, please add privilege INSERT_TIMESERIES.
 ```
 
-#### SQL 语句
+#### SQL Statements
 
-与权限相关的语句包括：
+Here are all related SQL statements:
 
-* 创建用户
+* Create User
 
 ```
 CREATE USER <userName> <password>;  
-Eg: IoTDB > CREATE USER `thulab` 'passwd';
+Eg: IoTDB > CREATE USER `thulab` 'pwd';
 ```
 
-* 删除用户
+* Delete User
 
 ```
 DROP USER <userName>;  
 Eg: IoTDB > DROP USER `xiaoming`;
 ```
 
-* 创建角色
+* Create Role
 
 ```
 CREATE ROLE <roleName>;  
 Eg: IoTDB > CREATE ROLE `admin`;
 ```
 
-* 删除角色
+* Delete Role
 
 ```
 DROP ROLE <roleName>;  
 Eg: IoTDB > DROP ROLE `admin`;
 ```
 
-* 赋予用户权限
+* Grant User Privileges
 
 ```
 GRANT USER <userName> PRIVILEGES <privileges> ON <nodeNames>;  
@@ -320,14 +189,14 @@ Eg: IoTDB > GRANT USER `tempuser` PRIVILEGES INSERT_TIMESERIES, DELETE_TIMESERIE
 Eg: IoTDB > GRANT USER `tempuser` PRIVILEGES CREATE_ROLE;
 ```
 
-- 赋予用户全部的权限
+- Grant User All Privileges
 
 ```
 GRANT USER <userName> PRIVILEGES ALL; 
 Eg: IoTDB > GRANT USER `tempuser` PRIVILEGES ALL;
 ```
 
-* 赋予角色权限
+* Grant Role Privileges
 
 ```
 GRANT ROLE <roleName> PRIVILEGES <privileges> ON <nodeNames>;  
@@ -335,21 +204,21 @@ Eg: IoTDB > GRANT ROLE `temprole` PRIVILEGES INSERT_TIMESERIES, DELETE_TIMESERIE
 Eg: IoTDB > GRANT ROLE `temprole` PRIVILEGES CREATE_ROLE;
 ```
 
-- 赋予角色全部的权限
+- Grant Role All Privileges
 
 ```
-GRANT ROLE <roleName> PRIVILEGES ALL;  
+GRANT ROLE <roleName> PRIVILEGES ALL ON <nodeNames>;  
 Eg: IoTDB > GRANT ROLE `temprole` PRIVILEGES ALL;
 ```
 
-* 赋予用户角色
+* Grant User Role
 
 ```
 GRANT <roleName> TO <userName>;  
 Eg: IoTDB > GRANT `temprole` TO tempuser;
 ```
 
-* 撤销用户权限
+* Revoke User Privileges
 
 ```
 REVOKE USER <userName> PRIVILEGES <privileges> ON <nodeNames>;   
@@ -357,14 +226,14 @@ Eg: IoTDB > REVOKE USER `tempuser` PRIVILEGES DELETE_TIMESERIES on root.ln.**;
 Eg: IoTDB > REVOKE USER `tempuser` PRIVILEGES CREATE_ROLE;
 ```
 
-- 移除用户所有权限
+* Revoke User All Privileges
 
 ```
 REVOKE USER <userName> PRIVILEGES ALL; 
 Eg: IoTDB > REVOKE USER `tempuser` PRIVILEGES ALL;
 ```
 
-* 撤销角色权限
+* Revoke Role Privileges
 
 ```
 REVOKE ROLE <roleName> PRIVILEGES <privileges> ON <nodeNames>;  
@@ -372,58 +241,58 @@ Eg: IoTDB > REVOKE ROLE `temprole` PRIVILEGES DELETE_TIMESERIES ON root.ln.**;
 Eg: IoTDB > REVOKE ROLE `temprole` PRIVILEGES CREATE_ROLE;
 ```
 
-- 撤销角色全部的权限
+* Revoke All Role Privileges
 
 ```
 REVOKE ROLE <roleName> PRIVILEGES ALL;  
 Eg: IoTDB > REVOKE ROLE `temprole` PRIVILEGES ALL;
 ```
 
-* 撤销用户角色
+* Revoke Role From User
 
 ```
 REVOKE <roleName> FROM <userName>;
 Eg: IoTDB > REVOKE `temprole` FROM tempuser;
 ```
 
-* 列出所有用户
+* List Users
 
 ```
 LIST USER
 Eg: IoTDB > LIST USER
 ```
 
-* 列出指定角色下所有用户
+* List User of Specific Role
 
 ```
 LIST USER OF ROLE <roleName>;
 Eg: IoTDB > LIST USER OF ROLE `roleuser`;
 ```
 
-* 列出所有角色
+* List Roles
 
 ```
 LIST ROLE
 Eg: IoTDB > LIST ROLE
 ```
 
-* 列出指定用户下所有角色
+* List Roles of Specific User
 
 ```
 LIST ROLE OF USER <username> ;  
 Eg: IoTDB > LIST ROLE OF USER `tempuser`;
 ```
 
-* 列出用户所有权限
+* List All Privileges of Users
 
 ```
-LIST PRIVILEGES USER <username>;   
+LIST PRIVILEGES USER <username> ;   
 Eg: IoTDB > LIST PRIVILEGES USER `tempuser`;
 ```
 
-* 列出用户在具体路径上相关联的权限
+* List Related Privileges of Users(On Specific Paths)
 
-```    
+```
 LIST PRIVILEGES USER <username> ON <paths>;
 Eg: IoTDB> LIST PRIVILEGES USER `tempuser` ON root.ln.**, root.ln.wf01.**;
 +--------+-----------------------------------+
@@ -445,14 +314,14 @@ Total line number = 2
 It costs 0.005s
 ```
 
-* 列出角色所有权限
+* List All Privileges of Roles
 
 ```
-LIST PRIVILEGES ROLE <roleName>;
+LIST PRIVILEGES ROLE <roleName>
 Eg: IoTDB > LIST PRIVILEGES ROLE `actor`;
 ```
 
-* 列出角色在具体路径上相关联的权限
+* List Related Privileges of Roles(On Specific Paths)
 
 ```
 LIST PRIVILEGES ROLE <roleName> ON <paths>;    
@@ -474,7 +343,7 @@ Total line number = 1
 It costs 0.005s
 ```
 
-* 更新密码
+* Alter Password
 
 ```
 ALTER USER <username> SET PASSWORD <password>;
@@ -482,135 +351,132 @@ Eg: IoTDB > ALTER USER `tempuser` SET PASSWORD 'newpwd';
 ```
 
 
-### 其他说明
+### Other Instructions
 
-#### 用户、权限与角色的关系
+#### The Relationship among Users, Privileges and Roles
 
-角色是权限的集合，而权限和角色都是用户的一种属性。即一个角色可以拥有若干权限。一个用户可以拥有若干角色与权限（称为用户自身权限）。
+A Role is a set of privileges, and privileges and roles are both attributes of users. That is, a role can have several privileges and a user can have several roles and privileges (called the user's own privileges).
 
-目前在 IoTDB 中并不存在相互冲突的权限，因此一个用户真正具有的权限是用户自身权限与其所有的角色的权限的并集。即要判定用户是否能执行某一项操作，就要看用户自身权限或用户的角色的所有权限中是否有一条允许了该操作。用户自身权限与其角色权限，他的多个角色的权限之间可能存在相同的权限，但这并不会产生影响。
+At present, there is no conflicting privilege in IoTDB, so the real privileges of a user is the union of the user's own privileges and the privileges of the user's roles. That is to say, to determine whether a user can perform an operation, it depends on whether one of the user's own privileges or the privileges of the user's roles permits the operation. The user's own privileges and privileges of the user's roles may overlap, but it does not matter.
 
-需要注意的是：如果一个用户自身有某种权限（对应操作 A），而他的某个角色有相同的权限。那么如果仅从该用户撤销该权限无法达到禁止该用户执行操作 A 的目的，还需要从这个角色中也撤销对应的权限，或者从这个用户将该角色撤销。同样，如果仅从上述角色将权限撤销，也不能禁止该用户执行操作 A。  
+It should be noted that if users have a privilege (corresponding to operation A) themselves and their roles contain the same privilege, then revoking the privilege from the users themselves alone can not prohibit the users from performing operation A, since it is necessary to revoke the privilege from the role, or revoke the role from the user. Similarly, revoking the privilege from the users's roles alone can not prohibit the users from performing operation A.
 
-同时，对角色的修改会立即反映到所有拥有该角色的用户上，例如对角色增加某种权限将立即使所有拥有该角色的用户都拥有对应权限，删除某种权限也将使对应用户失去该权限（除非用户本身有该权限）。 
+At the same time, changes to roles are immediately reflected on all users who own the roles. For example, adding certain privileges to roles will immediately give all users who own the roles corresponding privileges, and deleting certain privileges will also deprive the corresponding users of the privileges (unless the users themselves have the privileges).
 
-#### 系统所含权限列表
+#### List of Privileges Included in the System
 
-**系统所含权限列表**
+| privilege Name            | Interpretation                                                                                                                 | Example                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+|:--------------------------|:-------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| CREATE\_DATABASE          | create database; set/unset database ttl; path dependent                                                                        | Eg1: `CREATE DATABASE root.ln;`<br />Eg2:`set ttl to root.ln 3600000;`<br />Eg3:`unset ttl to root.ln;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| DELETE\_DATABASE          | delete databases; path dependent                                                                                               | Eg: `delete database root.ln;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| CREATE\_TIMESERIES        | create timeseries; path dependent                                                                                              | Eg1: create timeseries<br />`create timeseries root.ln.wf02.status with datatype=BOOLEAN,encoding=PLAIN;`<br />Eg2: create aligned timeseries<br />`create aligned timeseries root.ln.device1(latitude FLOAT encoding=PLAIN compressor=SNAPPY, longitude FLOAT encoding=PLAIN compressor=SNAPPY);`                                                                                                                                                                                                                                                                                                                                                                               |
+| INSERT\_TIMESERIES        | insert data; path dependent                                                                                                    | Eg1: `insert into root.ln.wf02(timestamp,status) values(1,true);`<br />Eg2: `insert into root.sg1.d1(time, s1, s2) aligned values(1, 1, 1)`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| ALTER\_TIMESERIES         | alter timeseries; path dependent                                                                                               | Eg1: `alter timeseries root.turbine.d1.s1 ADD TAGS tag3=v3, tag4=v4;`<br />Eg2: `ALTER timeseries root.turbine.d1.s1 UPSERT ALIAS=newAlias TAGS(tag2=newV2, tag3=v3) ATTRIBUTES(attr3=v3, attr4=v4);`                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| READ\_TIMESERIES          | query data; path dependent                                                                                                     | Eg1: `SHOW DATABASES;` <br />Eg2: `show child paths root.ln, show child nodes root.ln;`<br />Eg3: `show devices;`<br />Eg4: `show timeseries root.**;`<br />Eg5: `show schema templates;`<br />Eg6: `show all ttl`<br />Eg7: [Query-Data](../Query-Data/Overview.md)（The query statements under this section all use this permission）<br />Eg8: CVS format data export<br />`./export-csv.bat -h 127.0.0.1 -p 6667 -u tempuser -pw root -td ./`<br />Eg9: Performance Tracing Tool<br />`tracing select * from root.**`<br />Eg10: UDF-Query<br />`select example(*) from root.sg.d1`<br />Eg11: Triggers-Query<br />`show triggers`<br />Eg12: Count-Query<br />`count devices` |
+| DELETE\_TIMESERIES        | delete data or timeseries; path dependent                                                                                      | Eg1: delete timeseries<br />`delete timeseries root.ln.wf01.wt01.status`<br />Eg2: delete data<br />`delete from root.ln.wf02.wt02.status where time < 10`<br />Eg3: use drop semantic<br />`drop timeseries root.ln.wf01.wt01.status                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| CREATE\_USER              | create users; path independent                                                                                                 | Eg: `create user thulab 'passwd';`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| DELETE\_USER              | delete users; path independent                                                                                                 | Eg: `drop user xiaoming;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| MODIFY\_PASSWORD          | modify passwords for all users; path independent; (Those who do not have this privilege can still change their own asswords. ) | Eg: `alter user tempuser SET PASSWORD 'newpwd';`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| LIST\_USER                | list all users; list all user of specific role; list a user's related privileges on speciific paths; path independent          | Eg1: `list user;`<br />Eg2: `list user of role 'wirte_role';`<br />Eg3: `list privileges user admin;`<br />Eg4: `list privileges user 'admin' on root.sgcc.**;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| GRANT\_USER\_PRIVILEGE    | grant user privileges; path independent                                                                                        | Eg:  `grant user tempuser privileges DELETE_TIMESERIES on root.ln.**;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| REVOKE\_USER\_PRIVILEGE   | revoke user privileges; path independent                                                                                       | Eg:  `revoke user tempuser privileges DELETE_TIMESERIES on root.ln.**;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| GRANT\_USER\_ROLE         | grant user roles; path independent                                                                                             | Eg:  `grant temprole to tempuser;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| REVOKE\_USER\_ROLE        | revoke user roles; path independent                                                                                            | Eg:  `revoke temprole from tempuser;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| CREATE\_ROLE              | create roles; path independent                                                                                                 | Eg:  `create role admin;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| DELETE\_ROLE              | delete roles; path independent                                                                                                 | Eg: `drop role admin;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| LIST\_ROLE                | list all roles; list all roles of specific user; list a role's related privileges on speciific paths; path independent         | Eg1: `list role`<br />Eg2: `list role of user 'actor';`<br />Eg3: `list privileges role wirte_role;`<br />Eg4: `list privileges role wirte_role ON root.sgcc;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| GRANT\_ROLE\_PRIVILEGE    | grant role privileges; path independent                                                                                        | Eg: `grant role temprole privileges DELETE_TIMESERIES ON root.ln.**;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| REVOKE\_ROLE\_PRIVILEGE   | revoke role privileges; path independent                                                                                       | Eg: `revoke role temprole privileges DELETE_TIMESERIES ON root.ln.**;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| CREATE_FUNCTION           | register UDFs; path independent                                                                                                | Eg: `create function example AS 'org.apache.iotdb.udf.UDTFExample';`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| DROP_FUNCTION             | deregister UDFs; path independent                                                                                              | Eg: `drop function example`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| CREATE_TRIGGER            | create triggers; path dependent                                                                                                | Eg1: `CREATE TRIGGER <TRIGGER-NAME> BEFORE INSERT ON <FULL-PATH> AS <CLASSNAME>`<br />Eg2: `CREATE TRIGGER <TRIGGER-NAME> AFTER INSERT ON <FULL-PATH> AS <CLASSNAME>`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| DROP_TRIGGER              | drop triggers; path dependent                                                                                                  | Eg: `drop trigger 'alert-listener-sg1d1s1'`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| CREATE_CONTINUOUS_QUERY   | create continuous queries; path independent                                                                                    | Eg: `CREATE CONTINUOUS QUERY cq1 RESAMPLE RANGE 40s BEGIN <QUERY-BODY> END`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| DROP_CONTINUOUS_QUERY     | drop continuous queries; path independent                                                                                      | Eg1: `DROP CONTINUOUS QUERY cq3`<br />Eg2: `DROP CQ cq3`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| SHOW_CONTINUOUS_QUERIES   | show continuous queries; path independent                                                                                      | Eg1: `SHOW CONTINUOUS QUERIES`<br />Eg2: `SHOW cqs`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| UPDATE_TEMPLATE           | create and drop schema template; path independent                                                                              | Eg1: `create schema template t1(s1 int32)`<br />Eg2: `drop schema template t1`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| READ_TEMPLATE             | show schema templates and show nodes in schema template; path independent                                                      | Eg1: `show schema templates`<br/>Eg2: `show nodes in template t1`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | 
+| APPLY_TEMPLATE            | set, unset and activate schema template; path dependent                                                                        | Eg1: `set schema template t1 to root.sg.d`<br/>Eg2: `unset schema template t1 from root.sg.d`<br/>Eg3: `create timeseries of schema template on root.sg.d`<br/>Eg4: `delete timeseries of schema template on root.sg.d`                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| READ_TEMPLATE_APPLICATION | show paths set and using schema template; path independent                                                                     | Eg1: `show paths set schema template t1`<br/>Eg2: `show paths using schema template t1`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 
-| 权限名称                      | 说明                                      | 示例                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-|:--------------------------|:----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| CREATE\_DATABASE          | 创建 database。包含设置 database 的权限和TTL。路径相关  | Eg1: `CREATE DATABASE root.ln;`<br />Eg2:`set ttl to root.ln 3600000;`<br />Eg3:`unset ttl to root.ln;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| DELETE\_DATABASE          | 删除 database。路径相关                        | Eg: `delete database root.ln;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| CREATE\_TIMESERIES        | 创建时间序列。路径相关                             | Eg1: 创建时间序列<br />`create timeseries root.ln.wf02.status with datatype=BOOLEAN,encoding=PLAIN;`<br />Eg2: 创建对齐时间序列<br />`create aligned timeseries root.ln.device1(latitude FLOAT encoding=PLAIN compressor=SNAPPY, longitude FLOAT encoding=PLAIN compressor=SNAPPY);`                                                                                                                                                                                                                                                                                                   |
-| INSERT\_TIMESERIES        | 插入数据。路径相关                               | Eg1: `insert into root.ln.wf02(timestamp,status) values(1,true);`<br />Eg2: `insert into root.sg1.d1(time, s1, s2) aligned values(1, 1, 1)`                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| ALTER\_TIMESERIES         | 修改时间序列标签。路径相关                           | Eg1: `alter timeseries root.turbine.d1.s1 ADD TAGS tag3=v3, tag4=v4;`<br />Eg2: `ALTER timeseries root.turbine.d1.s1 UPSERT ALIAS=newAlias TAGS(tag2=newV2, tag3=v3) ATTRIBUTES(attr3=v3, attr4=v4);`                                                                                                                                                                                                                                                                                                                                                                    |
-| READ\_TIMESERIES          | 查询数据。路径相关                               | Eg1: `SHOW DATABASES;` <br />Eg2: `show child paths root.ln, show child nodes root.ln;`<br />Eg3: `show devices;`<br />Eg4: `show timeseries root.**;`<br />Eg5: `show schema templates;`<br />Eg6: `show all ttl`<br />Eg7: [数据查询](../Query-Data/Overview.md)（这一节之下的查询语句均使用该权限）<br />Eg8: CVS格式数据导出<br />`./export-csv.bat -h 127.0.0.1 -p 6667 -u tempuser -pw root -td ./`<br />Eg9: 查询性能追踪<br />`tracing select * from root.**`<br />Eg10: UDF查询<br />`select example(*) from root.sg.d1`<br />Eg11: 查询触发器<br />`show triggers`<br />Eg12: 统计查询<br />`count devices` |
-| DELETE\_TIMESERIES        | 删除数据或时间序列。路径相关                          | Eg1: 删除时间序列<br />`delete timeseries root.ln.wf01.wt01.status`<br />Eg2: 删除数据<br />`delete from root.ln.wf02.wt02.status where time < 10`<br />Eg3: 使用DROP关键字<br />`drop timeseries root.ln.wf01.wt01.status`                                                                                                                                                                                                                                                                                                                                                             |
-| CREATE\_USER              | 创建用户。路径无关                               | Eg: `create user thulab 'passwd';`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| DELETE\_USER              | 删除用户。路径无关                               | Eg: `drop user xiaoming;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| MODIFY\_PASSWORD          | 修改所有用户的密码。路径无关。（没有该权限者仍然能够修改自己的密码。)     | Eg: `alter user tempuser SET PASSWORD 'newpwd';`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
-| LIST\_USER                | 列出所有用户，列出具有某角色的所有用户，列出用户在指定路径下相关权限。路径无关 | Eg1: `list user;`<br />Eg2: `list user of role 'wirte_role';`<br />Eg3: `list privileges user admin;`<br />Eg4: `list privileges user 'admin' on root.sgcc.**;`                                                                                                                                                                                                                                                                                                                                                                                                          |
-| GRANT\_USER\_PRIVILEGE    | 赋予用户权限。路径无关                             | Eg:  `grant user tempuser privileges DELETE_TIMESERIES on root.ln.**;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| REVOKE\_USER\_PRIVILEGE   | 撤销用户权限。路径无关                             | Eg:  `revoke user tempuser privileges DELETE_TIMESERIES on root.ln.**;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| GRANT\_USER\_ROLE         | 赋予用户角色。路径无关                             | Eg:  `grant temprole to tempuser;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
-| REVOKE\_USER\_ROLE        | 撤销用户角色。路径无关                             | Eg:  `revoke temprole from tempuser;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| CREATE\_ROLE              | 创建角色。路径无关                               | Eg:  `create role admin;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
-| DELETE\_ROLE              | 删除角色。路径无关                               | Eg: `drop role admin;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| LIST\_ROLE                | 列出所有角色，列出某用户下所有角色，列出角色在指定路径下相关权限。路径无关   | Eg1: `list role`<br />Eg2: `list role of user 'actor';`<br />Eg3: `list privileges role wirte_role;`<br />Eg4: `list privileges role wirte_role ON root.sgcc;`                                                                                                                                                                                                                                                                                                                                                                                                           |
-| GRANT\_ROLE\_PRIVILEGE    | 赋予角色权限。路径无关                             | Eg: `grant role temprole privileges DELETE_TIMESERIES ON root.ln.**;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| REVOKE\_ROLE\_PRIVILEGE   | 撤销角色权限。路径无关                             | Eg: `revoke role temprole privileges DELETE_TIMESERIES ON root.ln.**;`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
-| CREATE_FUNCTION           | 注册 UDF。路径无关                             | Eg: `create function example AS 'org.apache.iotdb.udf.UDTFExample';`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| DROP_FUNCTION             | 卸载 UDF。路径无关                             | Eg: `drop function example`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| CREATE_TRIGGER            | 创建触发器。路径相关                              | Eg1: `CREATE TRIGGER <TRIGGER-NAME> BEFORE INSERT ON <FULL-PATH> AS <CLASSNAME>`<br />Eg2: `CREATE TRIGGER <TRIGGER-NAME> AFTER INSERT ON <FULL-PATH> AS <CLASSNAME>`                                                                                                                                                                                                                                                                                                                                                                                                    |
-| DROP_TRIGGER              | 卸载触发器。路径相关                              | Eg: `drop trigger 'alert-listener-sg1d1s1'`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| CREATE_CONTINUOUS_QUERY   | 创建连续查询。路径无关                             | Eg: `select s1, s1 into t1, t2 from root.sg.d1`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| DROP_CONTINUOUS_QUERY     | 卸载连续查询。路径无关                             | Eg1: `DROP CONTINUOUS QUERY cq3`<br />Eg2: `DROP CQ cq3`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| SHOW_CONTINUOUS_QUERIES   | 展示所有连续查询。路径无关                           | Eg1: `SHOW CONTINUOUS QUERIES`<br />Eg2: `SHOW cqs`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
-| UPDATE_TEMPLATE           | 创建、删除模板。路径无关。                           | Eg1: `create schema template t1(s1 int32)`<br />Eg2: `drop schema template t1`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| READ_TEMPLATE             | 查看所有模板、模板内容。 路径无关                       | Eg1: `show schema templates`<br/>Eg2: `show nodes in template t1`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-| APPLY_TEMPLATE            | 挂载、卸载、激活、解除模板。路径有关。                     | Eg1: `set schema template t1 to root.sg.d`<br/>Eg2: `unset schema template t1 from root.sg.d`<br/>Eg3: `create timeseries of schema template on root.sg.d`<br/>Eg4: `delete timeseries of schema template on root.sg.d`                                                                                                                                                                                                                                                                                                                                                  |
-| READ_TEMPLATE_APPLICATION | 查看模板的挂载路径和激活路径。路径无关                     | Eg1: `show paths set schema template t1`<br/>Eg2: `show paths using schema template t1`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+Note that path dependent privileges can only be granted or revoked on root.**;
 
-注意： 路径无关的权限只能在路径root.**下赋予或撤销；
+Note that the following SQL statements need to be granted multiple permissions before they can be used：
 
-注意: 下述sql语句需要赋予多个权限才可以使用：
-
-- 导入数据，需要赋予`READ_TIMESERIES`，`INSERT_TIMESERIES`两种权限。
+- Import data: Need to assign `READ_TIMESERIES`，`INSERT_TIMESERIES` two permissions.。
 
 ```
 Eg: IoTDB > ./import-csv.bat -h 127.0.0.1 -p 6667 -u renyuhua -pw root -f dump0.csv
 ```
 
-- 查询写回(SELECT_INTO)
-  - 需要所有 `select` 子句中源序列的 `READ_TIMESERIES` 权限
-  - 需要所有 `into` 子句中目标序列 `INSERT_TIMESERIES` 权限
+-  Query Write-back (SELECT INTO)
+- - `READ_TIMESERIES` permission of source sequence in all `select` clauses is required
+- `INSERT_TIMESERIES` permission of target sequence in all `into` clauses is required
 
 ```
 Eg: IoTDB > select s1, s1 into t1, t2 from root.sg.d1 limit 5 offset 1000
 ```
 
-#### 用户名限制
+#### Username Restrictions
 
-IoTDB 规定用户名的字符长度不小于 4，其中用户名不能包含空格。
+IoTDB specifies that the character length of a username should not be less than 4, and the username cannot contain spaces.
 
-#### 密码限制
+#### Password Restrictions
 
-IoTDB 规定密码的字符长度不小于 4，其中密码不能包含空格，密码默认采用 MD5 进行加密。
+IoTDB specifies that the character length of a password should have no less than 4 character length, and no spaces. The password is encrypted with MD5.
 
-#### 角色名限制
+#### Role Name Restrictions
 
-IoTDB 规定角色名的字符长度不小于 4，其中角色名不能包含空格。
+IoTDB specifies that the character length of a role name should have no less than 4 character length, and no spaces.
 
-#### 权限管理中的路径模式
+#### Path pattern in Administration Management
 
-一个路径模式的结果集包含了它的子模式的结果集的所有元素。例如，`root.sg.d.*`是`root.sg.*.*`的子模式，而`root.sg.**`不是`root.sg.*.*`的子模式。当用户被授予对某个路径模式的权限时，在他的DDL或DML中使用的模式必须是该路径模式的子模式，这保证了用户访问时间序列时不会超出他的权限范围。
+A path pattern's result set contains all the elements of its sub pattern's
+result set. For example, `root.sg.d.*` is a sub pattern of
+`root.sg.*.*`, while `root.sg.**` is not a sub pattern of
+`root.sg.*.*`. When a user is granted privilege on a pattern, the pattern used in his DDL or DML must be a sub pattern of the privilege pattern, which guarantees that the user won't access the timeseries exceed his privilege scope.
 
-#### 权限缓存
+#### Permission cache
 
-在分布式相关的权限操作中，在进行除了创建用户和角色之外的其他权限更改操作时，都会先清除与该用户（角色）相关的所有的`dataNode`的缓存信息，如果任何一台`dataNode`缓存信息清楚失败，这个权限更改的任务就会失败。
+In distributed related permission operations, when changing permissions other than creating users and roles, all the cache information of `dataNode` related to the user (role) will be cleared first. If any `dataNode` cache information is clear and fails, the permission change task will fail.
 
-#### 非root用户限制进行的操作
+#### Operations restricted by non root users
 
-目前以下IoTDB支持的sql语句只有`root`用户可以进行操作，且没有对应的权限可以赋予新用户。
+At present, the following SQL statements supported by iotdb can only be operated by the `root` user, and no corresponding permission can be given to the new user.
 
-###### TsFile管理
+##### TsFile Management
 
-- 加载TsFile
+- Load TsFiles
 
 ```
 Eg: IoTDB > load '/Users/Desktop/data/1575028885956-101-0.tsfile'
 ```
 
-- 删除TsFile文件
+- remove a tsfile
 
 ```
 Eg: IoTDB > remove '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-0.tsfile'
 ```
 
-- 卸载TsFile文件到指定目录
+- unload a tsfile and move it to a target directory
 
 ```
 Eg: IoTDB > unload '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-0.tsfile' '/data/data/tmp'
 ```
 
-###### 删除时间分区（实验性功能）
-
-- 删除时间分区（实验性功能）
+##### Delete Time Partition (experimental)
 
 ```
 Eg: IoTDB > DELETE PARTITION root.ln 0,1,2
 ```
 
-###### 连续查询
-
-- 连续查询(CQ)
+##### Continuous Query,CQ
 
 ```
 Eg: IoTDB > CREATE CONTINUOUS QUERY cq1 BEGIN SELECT max_value(temperature) INTO temperature_max FROM root.ln.*.* GROUP BY time(10s) END
 ```
 
-###### 运维命令
+##### Maintenance Command
 
 - FLUSH
 
@@ -643,21 +509,21 @@ Eg: IoTDB > SET STSTEM TO READONLY / WRITABLE
 Eg: IoTDB > CREATE SNAPSHOT FOR SCHEMA
 ```
 
-- 查询终止
+- Query abort
 
 ```
 Eg: IoTDB > KILL QUERY 1
 ```
 
-###### 水印工具
+##### Watermark Tool
 
-- 为新用户施加水印
+- Watermark new users
 
 ```
 Eg: IoTDB > grant watermark_embedding to Alice
 ```
 
-- 撤销水印
+- Watermark Detection
 
 ```
 Eg: IoTDB > revoke watermark_embedding from Alice

@@ -469,15 +469,11 @@ Eg: IoTDB > unload '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-
 
 ##### 删除时间分区（实验性功能）
 
-- 删除时间分区（实验性功能）
-
 ```
 Eg: IoTDB > DELETE PARTITION root.ln 0,1,2
 ```
 
 ##### 连续查询
-
-- 连续查询(CQ)
 
 ```
 Eg: IoTDB > CREATE CONTINUOUS QUERY cq1 BEGIN SELECT max_value(temperature) INTO temperature_max FROM root.ln.*.* GROUP BY time(10s) END
