@@ -19,17 +19,14 @@
 
 -->
 
-## 环境要求
+# Environmental Requirement
 
-要使用IoTDB，你需要具备以下条件：
+To use IoTDB, you need to have:
 
-* Java >= 1.8
-> 1.8, 11到17都是经过验证的。请确保环境路径已被相应设置。
-
-* Maven >= 3.6
-> 如果你想从源代码编译和安装IoTDB）。
-* 设置最大打开文件数为65535，以避免出现 "太多的打开文件 "的错误。
-* (可选)将somaxconn设置为65535，以避免系统在高负载时出现 "连接重置 "错误。
+* Java >= 1.8 (1.8, 11 to 17 have been verified. Please make sure the environment path has been set.)
+* Maven >= 3.6 (if you want to install IoTDB by compiling the source code)
+* Set the max open files num as 65535 to avoid "too many open files" problem.
+* (Optional) Set the somaxconn as 65535 to avoid "connection reset" error when the system is under high load.
 
 
 > **# Linux** <br>`sudo sysctl -w net.core.somaxconn=65535` <br>**# FreeBSD 或 Darwin** <br>`sudo sysctl -w kern.ipc.somaxconn=65535`
