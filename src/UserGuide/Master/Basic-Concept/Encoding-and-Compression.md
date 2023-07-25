@@ -95,3 +95,33 @@ As shown below, the second-order difference encoding does not support the Boolea
 IoTDB> create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODING=TS_2DIFF
 Msg: 507: encoding TS_2DIFF does not support BOOLEAN
 ```
+# Compression
+
+When the time series is written and encoded as binary data according to the specified type, IoTDB compresses the data using compression technology to further improve space storage efficiency. Although both encoding and compression are designed to improve storage efficiency, encoding techniques are usually available only for specific data types (e.g., second-order differential encoding is only suitable for INT32 or INT64 data type, and storing floating-point numbers requires multiplying them by 10m to convert to integers), after which the data is converted to a binary stream. The compression method (SNAPPY) compresses the binary stream, so the use of the compression method is no longer limited by the data type.
+
+## Basic Compression Methods
+
+IoTDB allows you to specify the compression method of the column when creating a time series, and supports the following compression methods:
+
+* UNCOMPRESSED
+
+* SNAPPY
+
+* LZ4
+
+* GZIP
+
+* ZSTD
+
+* LZMA2
+
+The specified syntax for compression is detailed in [Create Timeseries Statement](../Reference/SQL-Reference.md).
+
+## Compression Ratio Statistics
+
+Compression ratio statistics file: data/system/compression_ratio/Ratio-{ratio_sum}-{memtable_flush_time}
+
+* ratio_sum: sum of memtable compression ratios
+* memtable_flush_time: memtable flush times
+
+The average compression ratio can be calculated by `ratio_sum / memtable_flush_time`
