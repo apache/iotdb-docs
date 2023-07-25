@@ -45,7 +45,7 @@ mvn clean install -pl iotdb-client/session -am -Dmaven.test.skip=true
     <dependency>
       <groupId>org.apache.iotdb</groupId>
       <artifactId>iotdb-session</artifactId>
-      <version>1.0.0</version>
+      <version>${project.version}</version>
     </dependency>
 </dependencies>
 ```
@@ -512,7 +512,7 @@ void testInsertTablets(Map<String, Tablet> tablets)
     <dependency>
       <groupId>org.apache.iotdb</groupId>
       <artifactId>iotdb-thrift-cluster</artifactId>
-      <version>1.0.0</version>
+      <version>${project.version}</version>
     </dependency>
 </dependencies>
 ```
