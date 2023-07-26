@@ -248,8 +248,8 @@ They return BOOLEANs.
 
 Currently, IoTDB supports the following condition functions:
 
-| Function Name | Allowed Input Series Data Types | Required Attributes                           | Output Series Data Type | Series Data Type  Description                 |
-|---------------|---------------------------------|-----------------------------------------------|-------------------------|-----------------------------------------------|
+| Function Name | Allowed Input Series Data Types | Required Attributes                           | Output Series Data Type | Description                                   |
+| ------------- | ------------------------------- | --------------------------------------------- | ----------------------- | --------------------------------------------- |
 | ON_OFF        | INT32 / INT64 / FLOAT / DOUBLE  | `threshold`: a double type variate            | BOOLEAN                 | Return `ts_value >= threshold`.               |
 | IN_RANGR      | INT32 / INT64 / FLOAT / DOUBLE  | `lower`: DOUBLE type<br/>`upper`: DOUBLE type | BOOLEAN                 | Return `ts_value >= lower && value <= upper`. |
 

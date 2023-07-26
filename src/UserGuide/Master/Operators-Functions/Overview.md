@@ -95,195 +95,159 @@ OR, |, ||
 
 ## Built-in Functions
 
-The built-in functions can be used in IoTDB without registration, and the functions in the data quality library need to be registered by referring to the registration steps in the next chapter before they can be used.
+The built-in functions can be used in IoTDB without registration, and the functions in the data quality function library need to be registered by referring to the registration steps in the next chapter before they can be used.
 
 ### Aggregate Functions
 
-| Function    | Meaning                                                      | Allowed input data types | Output data type                    |
-| ----------- | ------------------------------------------------------------ | ------------------------ | ----------------------------------- |
-| SUM         | Calculate the summation.                                     | INT32 INT64 FLOAT DOUBLE | DOUBLE                              |
-| COUNT       | Calculate the number of data points.                         | All data types           | INT                                 |
-| AVG         | Calculate the average.                                       | INT32 INT64 FLOAT DOUBLE | DOUBLE                              |
-| EXTREME     | Finds the value with the largest absolute value. Returns a positive value if the maximum absolute values of the positive and negative values are equal. | INT32 INT64 FLOAT DOUBLE | Consistent with the input data type |
-| MAX_VALUE   | Find the maximum value.                                      | INT32 INT64 FLOAT DOUBLE | Consistent with the input data type |
-| MIN_VALUE   | Find the minimum value.                                      | INT32 INT64 FLOAT DOUBLE | Consistent with the input data type |
-| FIRST_VALUE | Find the value with the smallest timestamp.                  | All data types           | Consistent with the input data type |
-| LAST_VALUE  | Find the value with the biggest timestamp.                   | All data types           | Consistent with the input data type |
-| MAX_TIME    | Find the maximum timestamp.                                  | All data types           | Timestamp                           |
-| MIN_TIME    | Find the minimum timestamp.                                  | All data types           | Timestamp                           |
+| Function Name | Description                                                  | Allowed Input Series Data Types | Required Attributes                                          | Output Series Data Type             |
+| ------------- | ------------------------------------------------------------ | ------------------------------- | ------------------------------------------------------------ | ----------------------------------- |
+| SUM           | Summation.                                                   | INT32 INT64 FLOAT DOUBLE        | /                                                            | DOUBLE                              |
+| COUNT         | Counts the number of data points.                            | All types                       | /                                                            | INT                                 |
+| AVG           | Average.                                                     | INT32 INT64 FLOAT DOUBLE        | /                                                            | DOUBLE                              |
+| EXTREME       | Finds the value with the largest absolute value. Returns a positive value if the maximum absolute value of positive and negative values is equal. | INT32 INT64 FLOAT DOUBLE        | /                                                            | Consistent with the input data type |
+| MAX_VALUE     | Find the maximum value.                                      | INT32 INT64 FLOAT DOUBLE        | /                                                            | Consistent with the input data type |
+| MIN_VALUE     | Find the minimum value.                                      | INT32 INT64 FLOAT DOUBLE        | /                                                            | Consistent with the input data type |
+| FIRST_VALUE   | Find the value with the smallest timestamp.                  | All data types                  | /                                                            | Consistent with input data type     |
+| LAST_VALUE    | Find the value with the largest timestamp.                   | All data types                  | /                                                            | Consistent with input data type     |
+| MAX_TIME      | Find the maximum timestamp.                                  | All data Types                  | /                                                            | Timestamp                           |
+| MIN_TIME      | Find the minimum timestamp.                                  | All data Types                  | /                                                            | Timestamp                           |
+| COUNT_IF      | Find the number of data points that continuously meet a given condition and the number of data points that meet the condition (represented by keep) meet the specified threshold. | BOOLEAN                         | `[keep >=/>/=/!=/</<=]threshold`：The specified threshold or threshold condition, it is equivalent to `keep >= threshold` if `threshold` is used alone, type of `threshold` is `INT64` `ignoreNull`：Optional, default value is `true`；If the value is `true`, null values are ignored, it means that if there is a null value in the middle, the value is ignored without interrupting the continuity. If the value is `true`, null values are not ignored, it means that if there are null values in the middle, continuity will be broken | INT64                               |
+| TIME_DURATION | Find the difference between the timestamp of the largest non-null value and the timestamp of the smallest non-null value in a column | All data Types                  | /                                                            | INT64                               |
+| MODE          | Find the mode. Note:  1.Having too many different values in the input series risks a memory exception;  2.If all the elements have the same number of occurrences, that is no Mode, return the value with earliest time;  3.If there are many Modes, return the Mode with earliest time. | All data Types                  | /                                                            | Consistent with the input data type |
 
 For details and examples, see the document [Aggregate Functions](./Aggregation.md).
 
 ### Arithmetic Functions
 
-| Function | Allowed input data types       | Output data type                    | The corresponding implementation in the Java standard library |
-| -------- | ------------------------------ | ----------------------------------- | ------------------------------------------------------------ |
-| SIN      | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#sin(double)                                             |
-| COS      | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#cos(double)                                             |
-| TAN      | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#tan(double)                                             |
-| ASIN     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#asin(double)                                            |
-| ACOS     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#acos(double)                                            |
-| ATAN     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#atan(double)                                            |
-| SINH     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#sinh(double)                                            |
-| COSH     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#cosh(double)                                            |
-| TANH     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#tanh(double)                                            |
-| DEGREES  | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#toDegrees(double)                                       |
-| RADIANS  | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#toRadians(double)                                       |
-| ABS      | INT32 / INT64 / FLOAT / DOUBLE | Consistent with the input data type | Math#abs(int) / Math#abs(long) /Math#abs(float) /Math#abs(double) |
-| SIGN     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#signum(double)                                          |
-| CEIL     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#ceil(double)                                            |
-| FLOOR    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#floor(double)                                           |
-| ROUND    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#rint(double)                                            |
-| EXP      | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#exp(double)                                             |
-| LN       | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#log(double)                                             |
-| LOG10    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#log10(double)                                           |
-| SQRT     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                              | Math#sqrt(double)                                            |
-
+| Function Name | Allowed Input Series Data Types | Output Series Data Type       | Required Attributes                                          | Corresponding Implementation in the Java Standard Library    |
+| ------------- | ------------------------------- | ----------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| SIN           | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#sin(double)                                             |
+| COS           | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#cos(double)                                             |
+| TAN           | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#tan(double)                                             |
+| ASIN          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#asin(double)                                            |
+| ACOS          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#acos(double)                                            |
+| ATAN          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#atan(double)                                            |
+| SINH          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#sinh(double)                                            |
+| COSH          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#cosh(double)                                            |
+| TANH          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#tanh(double)                                            |
+| DEGREES       | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#toDegrees(double)                                       |
+| RADIANS       | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#toRadians(double)                                       |
+| ABS           | INT32 / INT64 / FLOAT / DOUBLE  | Same type as the input series | /                                                            | Math#abs(int) / Math#abs(long) /Math#abs(float) /Math#abs(double) |
+| SIGN          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#signum(double)                                          |
+| CEIL          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#ceil(double)                                            |
+| FLOOR         | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#floor(double)                                           |
+| ROUND         | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | 'places' : Round the significant number, positive number is the significant number after the decimal point, negative number is the significant number of whole number | Math#rint(Math#pow(10,places))/Math#pow(10,places)           |
+| EXP           | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#exp(double)                                             |
+| LN            | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#log(double)                                             |
+| LOG10         | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#log10(double)                                           |
+| SQRT          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#sqrt(double)                                            |
 
 For details and examples, see the document [Arithmetic Operators and Functions](./Mathematical.md).
 
 ### Comparison Functions
 
-| Function | Allowed input data types       | Required attribute parameters     | Output data type | Meaning                                                      |
-| -------- | ------------------------------ | --------------------------------- | ---------------- | ------------------------------------------------------------ |
-| ON_OFF   | INT32 / INT64 / FLOAT / DOUBLE | `threshold`:DOUBLE                | BOOLEAN          | Return the boolean result of `ts_value >= threshold`.        |
-| IN_RANGE | INT32 / INT64 / FLOAT / DOUBLE | `lower`:DOUBLE<br/>`upper`:DOUBLE | BOOLEAN          | Return the boolean result of `ts_value >= lower && ts_value <= upper`. |
+| Function Name | Allowed Input Series Data Types | Required Attributes                       | Output Series Data Type | Description                                   |
+| ------------- | ------------------------------- | ----------------------------------------- | ----------------------- | --------------------------------------------- |
+| ON_OFF        | INT32 / INT64 / FLOAT / DOUBLE  | `threshold`: a double type variate        | BOOLEAN                 | Return `ts_value >= threshold`.               |
+| IN_RANGR      | INT32 / INT64 / FLOAT / DOUBLE  | `lower`: DOUBLE type `upper`: DOUBLE type | BOOLEAN                 | Return `ts_value >= lower && value <= upper`. |
 
 For details and examples, see the document [Comparison Operators and Functions](./Comparison.md).
 
-### 字符串处理函数
+### String Processing Functions
 
-| Function        | Allowed input data types | Required attribute parameters                                | Output data type | Meaning                                                      |
-| --------------- | ------------------------ | ------------------------------------------------------------ | ---------------- | ------------------------------------------------------------ |
-| STRING_CONTAINS | TEXT                     | `s`: string to search for                                    | BOOLEAN          | Check if `s` exists in a string.                             |
-| STRING_MATCHES  | TEXT                     | `regex`: a regular expression conforming to the style of the Java standard library | BOOLEAN          | Determine whether a string can be matched by the regular expression `regex`. |
-| LENGTH          | TEXT                     | /                                                            | INT32            | Returns the length of the string.                            |
-| LOCATE          | TEXT                     | `target`: the substring to be located<br/> `reverse`: specifies whether reverse positioning is required, the default value is `false`, that is, positioning from left to right | INT32            | Get the first occurrence position of the `target` substring in the input sequence, and return -1 if the input sequence does not contain `target`. |
-| STARTSWITH      | TEXT                     | `target`: prefix to match                                    | BOOLEAN          | Determine whether a string has the specified prefix `target`. |
-| ENDSWITH        | TEXT                     | `target`: suffix to match                                    | BOOLEAN          | Determine whether a string has the specified suffix `target`. |
-| CONCAT          | TEXT                     | `targets`: 一系列 K-V, key需要以`target`为前缀且不重复, value是待拼接的字符串。<br/>`series_behind`: 指定拼接时时间序列是否在后面，默认为`false`。 | TEXT             | 拼接字符串和`target`字串                                     |
-| SUBSTR          | TEXT                     | `start`: 指定子串开始下标 <br/>`end`: 指定子串结束下标       | TEXT             | 获取下标从`start`到`end - 1`的子串                           |
-| UPPER           | TEXT                     | 无                                                           | TEXT             | 将字符串转化为大写                                           |
-| LOWER           | TEXT                     | 无                                                           | TEXT             | 将字符串转化为小写                                           |
-| TRIM            | TEXT                     | 无                                                           | TEXT             | 移除字符串前后的空格                                         |
-| STRCMP          | TEXT                     | 无                                                           | TEXT             | 用于比较两个输入序列，如果值相同返回 `0` , 序列1的值小于序列2的值返回一个`负数`，序列1的值大于序列2的值返回一个`正数` |
+| Function Name   | Allowed Input Series Data Types | Required Attributes                                          | Output Series Data Type | Description                                                  |
+| --------------- | ------------------------------- | ------------------------------------------------------------ | ----------------------- | ------------------------------------------------------------ |
+| STRING_CONTAINS | TEXT                            | `s`: string to search for                                    | BOOLEAN                 | Checks whether the substring `s` exists in the string.       |
+| STRING_MATCHES  | TEXT                            | `regex`: Java standard library-style regular expressions.    | BOOLEAN                 | Judges whether a string can be matched by the regular expression `regex`. |
+| LENGTH          | TEXT                            | /                                                            | INT32                   | Get the length of input series.                              |
+| LOCATE          | TEXT                            | `target`: The substring to be located.<br/> `reverse`: Indicates whether reverse locate is required. The default value is `false`, means left-to-right locate. | INT32                   | Get the position of the first occurrence of substring `target` in input series. Returns -1 if there are no `target` in input. |
+| STARTSWITH      | TEXT                            | `target`: The prefix to be checked.                          | BOOLEAN                 | Check whether input series starts with the specified prefix `target`. |
+| ENDSWITH        | TEXT                            | `target`: The suffix to be checked.                          | BOOLEAN                 | Check whether input series ends with the specified suffix `target`. |
+| CONCAT          | TEXT                            | `targets`: a series of K-V, key needs to start with `target` and be not duplicated, value is the string you want to concat.<br/>`series_behind`: Indicates whether series behind targets. The default value is `false`. | TEXT                    | Concatenate input string and `target` string.                |
+| SUBSTRING       | TEXT                            | `from`: Indicates the start position of substring.<br/>`for`: Indicates how many characters to stop after of substring. | TEXT                    | Extracts a substring of a string, starting with the first specified character and stopping after the specified number of characters.The index start at 1. |
+| REPLACE         | TEXT                            | first parameter: The target substring to be replaced.<br />second parameter: The substring to replace with. | TEXT                    | Replace a substring in the input sequence with the target substring. |
+| UPPER           | TEXT                            | /                                                            | TEXT                    | Get the string of input series with all characters changed to uppercase. |
+| LOWER           | TEXT                            | /                                                            | TEXT                    | Get the string of input series with all characters changed to lowercase. |
+| TRIM            | TEXT                            | /                                                            | TEXT                    | Get the string whose value is same to input series, with all leading and trailing space removed. |
+| STRCMP          | TEXT                            | /                                                            | TEXT                    | Get the compare result of two input series. Returns `0` if series value are the same, a `negative integer` if value of series1 is smaller than series2, <br/>a `positive integer` if value of series1  is more than series2. |
 
-For details and examples, see the document [字符串处理函数](./String.md).
+For details and examples, see the document [String Processing](./String.md).
 
-### 数据类型转换函数
+### Data Type Conversion Function
 
-| Function | Required attribute parameters                                | Output data type         | Meaning                            |
-| -------- | ------------------------------------------------------------ | ------------------------ | ---------------------------------- |
-| CAST     | `type`:输出的数据点的类型，只能是 INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | 由输入属性参数`type`决定 | 将数据转换为`type`参数指定的类型。 |
+| Function Name | Required Attributes                                          | Output Series Data Type | Description                                                  |
+| ------------- | ------------------------------------------------------------ | ----------------------- | ------------------------------------------------------------ |
+| CAST          | `type`: Output data type, INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | determined by `type`    | Convert the data to the type specified by the `type` parameter. |
 
-For details and examples, see the document [数据类型转换](./Conversion.md).
+For details and examples, see the document [Data Type Conversion Function](./Conversion.md).
 
-### 常序列生成函数
+### Constant Timeseries Generating Functions
 
-| Function | Required attribute parameters                                | Output data type           | Meaning                                                      |
-| -------- | ------------------------------------------------------------ | -------------------------- | ------------------------------------------------------------ |
-| CONST    | `value`: 输出的数据点的值 <br />`type`: 输出的数据点的类型，只能是 INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | 由输入属性参数 `type` 决定 | 根据输入属性 `value` 和 `type` 输出用户指定的常序列。        |
-| PI       | 无                                                           | DOUBLE                     | 常序列的值：`π` 的 `double` 值，圆的周长与其直径的比值，即圆周率，等于 *Java标准库* 中的`Math.PI`。 |
-| E        | 无                                                           | DOUBLE                     | 常序列的值：`e` 的 `double` 值，自然对数的底，它等于 *Java 标准库*  中的 `Math.E`。 |
+| Function Name | Required Attributes                                          | Output Series Data Type                      | Description                                                  |
+| ------------- | ------------------------------------------------------------ | -------------------------------------------- | ------------------------------------------------------------ |
+| CONST         | `value`: the value of the output data point  `type`: the type of the output data point, it can only be INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | Determined by the required attribute  `type` | Output the user-specified constant timeseries according to the  attributes `value` and `type`. |
+| PI            | None                                                         | DOUBLE                                       | Data point value: a `double` value of  `π`, the ratio of the circumference of a circle to its diameter, which is equals to `Math.PI` in the *Java Standard Library*. |
+| E             | None                                                         | DOUBLE                                       | Data point value: a `double` value of  `e`, the base of the natural logarithms, which is equals to `Math.E` in the *Java Standard Library*. |
 
-For details and examples, see the document [常序列生成函数](./Constant.md).
+For details and examples, see the document [Constant Timeseries Generating Functions](./Constant.md).
 
-### 选择函数
+### Selector Functions
 
-| Function | Allowed input data types              | Required attribute parameters                     | Output data type         | Meaning                                                      |
-| -------- | ------------------------------------- | ------------------------------------------------- | ------------------------ | ------------------------------------------------------------ |
-| TOP_K    | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: 最多选择的数据点数，必须大于 0 小于等于 1000 | 与输入序列的实际类型一致 | 返回某时间序列中值最大的`k`个数据点。若多于`k`个数据点的值并列最大，则返回时间戳最小的数据点。 |
-| BOTTOM_K | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: 最多选择的数据点数，必须大于 0 小于等于 1000 | 与输入序列的实际类型一致 | 返回某时间序列中值最小的`k`个数据点。若多于`k`个数据点的值并列最小，则返回时间戳最小的数据点。 |
+| Function Name | Allowed Input Series Data Types       | Required Attributes                                          | Output Series Data Type       | Description                                                  |
+| ------------- | ------------------------------------- | ------------------------------------------------------------ | ----------------------------- | ------------------------------------------------------------ |
+| TOP_K         | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: the maximum number of selected data points, must be greater than 0 and less than or equal to 1000 | Same type as the input series | Returns `k` data points with the largest values in a time series. |
+| BOTTOM_K      | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: the maximum number of selected data points, must be greater than 0 and less than or equal to 1000 | Same type as the input series | Returns `k` data points with the smallest values in a time series. |
 
-For details and examples, see the document [选择函数](./Selection.md).
+For details and examples, see the document [Selector Functions](./Selection.md).
 
-### 区间查询函数
+### Continuous Interval Functions
 
-| Function          | Allowed input data types             | Required attribute parameters                             | Output data type | Meaning                                                      |
-| ----------------- | ------------------------------------ | --------------------------------------------------------- | ---------------- | ------------------------------------------------------------ |
-| ZERO_DURATION     | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值0<br>`max`:可选，默认值`Long.MAX_VALUE` | Long             | 返回时间序列连续为0(false)的开始时间与持续时间，持续时间t(单位ms)满足`t >= min && t <= max` |
-| NON_ZERO_DURATION | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值0<br>`max`:可选，默认值`Long.MAX_VALUE` | Long             | 返回时间序列连续不为0(false)的开始时间与持续时间，持续时间t(单位ms)满足`t >= min && t <= max` |
-| ZERO_COUNT        | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值1<br>`max`:可选，默认值`Long.MAX_VALUE` | Long             | 返回时间序列连续为0(false)的开始时间与其后数据点的个数，数据点个数n满足`n >= min && n <= max` |
-| NON_ZERO_COUNT    | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值1<br>`max`:可选，默认值`Long.MAX_VALUE` | Long             | 返回时间序列连续不为0(false)的开始时间与其后数据点的个数，数据点个数n满足`n >= min && n <= max` |
+| Function Name     | Allowed Input Series Data Types      | Required Attributes                                          | Output Series Data Type | Description                                                  |
+| ----------------- | ------------------------------------ | ------------------------------------------------------------ | ----------------------- | ------------------------------------------------------------ |
+| ZERO_DURATION     | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:Optional with default value `0L` `max`:Optional with default value `Long.MAX_VALUE` | Long                    | Return intervals' start times and duration times in which the value is always 0(false), and the duration time `t` satisfy `t >= min && t <= max`. The unit of `t` is ms |
+| NON_ZERO_DURATION | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:Optional with default value `0L` `max`:Optional with default value `Long.MAX_VALUE` | Long                    | Return intervals' start times and duration times in which the value is always not 0, and the duration time `t` satisfy `t >= min && t <= max`. The unit of `t` is ms |
+| ZERO_COUNT        | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:Optional with default value `1L` `max`:Optional with default value `Long.MAX_VALUE` | Long                    | Return intervals' start times and the number of data points in the interval in which the value is always 0(false). Data points number `n` satisfy `n >= min && n <= max` |
+| NON_ZERO_COUNT    | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:Optional with default value `1L` `max`:Optional with default value `Long.MAX_VALUE` | Long                    | Return intervals' start times and the number of data points in the interval in which the value is always not 0(false). Data points number `n` satisfy `n >= min && n <= max` |
 
-For details and examples, see the document [区间查询函数](./Continuous-Interval.md).
+For details and examples, see the document [Continuous Interval Functions](./Continuous-Interval.md).
 
-### 趋势计算函数
+### Variation Trend Calculation Functions
 
-| Function                | Allowed input data types                        | Output data type         | Meaning                                                      |
-| ----------------------- | ----------------------------------------------- | ------------------------ | ------------------------------------------------------------ |
-| TIME_DIFFERENCE         | INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | INT64                    | 统计序列中某数据点的时间戳与前一数据点时间戳的差。范围内第一个数据点没有对应的结果输出。 |
-| DIFFERENCE              | INT32 / INT64 / FLOAT / DOUBLE                  | 与输入序列的实际类型一致 | 统计序列中某数据点的值与前一数据点的值的差。范围内第一个数据点没有对应的结果输出。 |
-| NON_NEGATIVE_DIFFERENCE | INT32 / INT64 / FLOAT / DOUBLE                  | 与输入序列的实际类型一致 | 统计序列中某数据点的值与前一数据点的值的差的绝对值。范围内第一个数据点没有对应的结果输出。 |
-| DERIVATIVE              | INT32 / INT64 / FLOAT / DOUBLE                  | DOUBLE                   | 统计序列中某数据点相对于前一数据点的变化率，数量上等同于 DIFFERENCE /  TIME_DIFFERENCE。范围内第一个数据点没有对应的结果输出。 |
-| NON_NEGATIVE_DERIVATIVE | INT32 / INT64 / FLOAT / DOUBLE                  | DOUBLE                   | 统计序列中某数据点相对于前一数据点的变化率的绝对值，数量上等同于 NON_NEGATIVE_DIFFERENCE /  TIME_DIFFERENCE。范围内第一个数据点没有对应的结果输出。 |
+| Function Name           | Allowed Input Series Data Types                 | Required Attributes                                          | Output Series Data Type       | Description                                                  |
+| ----------------------- | ----------------------------------------------- | ------------------------------------------------------------ | ----------------------------- | ------------------------------------------------------------ |
+| TIME_DIFFERENCE         | INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | /                                                            | INT64                         | Calculates the difference between the time stamp of a data point and the time stamp of the previous data point. There is no corresponding output for the first data point. |
+| DIFFERENCE              | INT32 / INT64 / FLOAT / DOUBLE                  | /                                                            | Same type as the input series | Calculates the difference between the value of a data point and the value of the previous data point. There is no corresponding output for the first data point. |
+| NON_NEGATIVE_DIFFERENCE | INT32 / INT64 / FLOAT / DOUBLE                  | /                                                            | Same type as the input series | Calculates the absolute value of the difference between the value of a data point and the value of the previous data point. There is no corresponding output for the first data point. |
+| DERIVATIVE              | INT32 / INT64 / FLOAT / DOUBLE                  | /                                                            | DOUBLE                        | Calculates the rate of change of a data point compared to the previous data point, the result is equals to DIFFERENCE / TIME_DIFFERENCE. There is no corresponding output for the first data point. |
+| NON_NEGATIVE_DERIVATIVE | INT32 / INT64 / FLOAT / DOUBLE                  | /                                                            | DOUBLE                        | Calculates the absolute value of the rate of change of a data point compared to the previous data point, the result is equals to NON_NEGATIVE_DIFFERENCE / TIME_DIFFERENCE. There is no corresponding output for the first data point. |
+| DIFF                    | INT32 / INT64 / FLOAT / DOUBLE                  | `ignoreNull`：optional，default is true. If is true, the previous data point is ignored when it is null and continues to find the first non-null value forwardly. If the value is false, previous data point is not ignored when it is null, the result is also null because null is used for subtraction | DOUBLE                        | Calculates the difference between the value of a data point and the value of the previous data point. There is no corresponding output for the first data point, so output is null |
 
+For details and examples, see the document [Variation Trend Calculation Functions](./Variation-Trend.md).
 
-| Function | Allowed input data types       | Required attribute parameters                                | Output data type | Meaning                                                      |
-| -------- | ------------------------------ | ------------------------------------------------------------ | ---------------- | ------------------------------------------------------------ |
-| DIFF     | INT32 / INT64 / FLOAT / DOUBLE | `ignoreNull`：可选，默认为true；为true时，前一个数据点值为null时，忽略该数据点继续向前找到第一个出现的不为null的值；为false时，如果前一个数据点为null，则不忽略，使用null进行相减，结果也为null | DOUBLE           | 统计序列中某数据点的值与前一数据点的值的差。第一个数据点没有对应的结果输出，输出值为null |
+### Sample Functions
 
-For details and examples, see the document [趋势计算函数](./Variation-Trend.md).
+| Function Name                    | Allowed Input Series Data Types | Required Attributes                                          | Output Series Data Type        | Description                                                  |
+| -------------------------------- | ------------------------------- | ------------------------------------------------------------ | ------------------------------ | ------------------------------------------------------------ |
+| EQUAL_SIZE_BUCKET_RANDOM_SAMPLE  | INT32 / INT64 / FLOAT / DOUBLE  | `proportion` The value range is `(0, 1]`, the default is `0.1` | INT32 / INT64 / FLOAT / DOUBLE | Returns a random sample of equal buckets that matches the sampling ratio |
+| EQUAL_SIZE_BUCKET_AGG_SAMPLE     | INT32 / INT64 / FLOAT / DOUBLE  | `proportion` The value range is `(0, 1]`, the default is `0.1`<br>`type`: The value types are `avg`, `max`, `min`, `sum`, `extreme`, `variance`, the default is `avg` | INT32 / INT64 / FLOAT / DOUBLE | Returns equal bucket aggregation samples that match the sampling ratio |
+| EQUAL_SIZE_BUCKET_M4_SAMPLE      | INT32 / INT64 / FLOAT / DOUBLE  | `proportion` The value range is `(0, 1]`, the default is `0.1` | INT32 / INT64 / FLOAT / DOUBLE | Returns equal bucket M4 samples that match the sampling ratio |
+| EQUAL_SIZE_BUCKET_OUTLIER_SAMPLE | INT32 / INT64 / FLOAT / DOUBLE  | The value range of `proportion` is `(0, 1]`, the default is `0.1`<br> The value of `type` is `avg` or `stendis` or `cos` or `prenextdis`, the default is `avg` <br>The value of `number` should be greater than 0, the default is `3` | INT32 / INT64 / FLOAT / DOUBLE | Returns outlier samples in equal buckets that match the sampling ratio and the number of samples in the bucket |
+| M4                               | INT32 / INT64 / FLOAT / DOUBLE  | Different attributes used by the size window and the time window. The size window uses attributes `windowSize` and `slidingStep`. The time window uses attributes `timeInterval`, `slidingStep`, `displayWindowBegin`, and `displayWindowEnd`. More details see below. | INT32 / INT64 / FLOAT / DOUBLE | Returns the `first, last, bottom, top` points in each sliding window. M4 sorts and deduplicates the aggregated points within the window before outputting them. |
 
-### 采样函数
+For details and examples, see the document [Sample Functions](./Sample.md).
 
-| Function                         | Allowed input data types       | Required attribute parameters                                | Output data type               | Meaning                                                      |
-| -------------------------------- | ------------------------------ | ------------------------------------------------------------ | ------------------------------ | ------------------------------------------------------------ |
-| EQUAL_SIZE_BUCKET_RANDOM_SAMPLE  | INT32 / INT64 / FLOAT / DOUBLE | 降采样比例 `proportion`，取值范围为`(0, 1]`，默认为`0.1`     | INT32 / INT64 / FLOAT / DOUBLE | 返回符合采样比例的等分桶随机采样                             |
-| EQUAL_SIZE_BUCKET_AGG_SAMPLE     | INT32 / INT64 / FLOAT / DOUBLE | `proportion`取值范围为`(0, 1]`，默认为`0.1`<br>`type`:取值类型有`avg`, `max`, `min`, `sum`, `extreme`, `variance`, 默认为`avg` | INT32 / INT64 / FLOAT / DOUBLE | 返回符合采样比例的等分桶聚合采样                             |
-| EQUAL_SIZE_BUCKET_M4_SAMPLE      | INT32 / INT64 / FLOAT / DOUBLE | `proportion`取值范围为`(0, 1]`，默认为`0.1`                  | INT32 / INT64 / FLOAT / DOUBLE | 返回符合采样比例的等分桶M4采样                               |
-| EQUAL_SIZE_BUCKET_OUTLIER_SAMPLE | INT32 / INT64 / FLOAT / DOUBLE | `proportion`取值范围为`(0, 1]`，默认为`0.1`<br>`type`取值为`avg`或`stendis`或`cos`或`prenextdis`，默认为`avg`<br>`number`取值应大于0，默认`3` | INT32 / INT64 / FLOAT / DOUBLE | 返回符合采样比例和桶内采样个数的等分桶离群值采样             |
-| M4                               | INT32 / INT64 / FLOAT / DOUBLE | 包含固定点数的窗口和滑动时间窗口使用不同的属性参数。包含固定点数的窗口使用属性`windowSize`和`slidingStep`。滑动时间窗口使用属性`timeInterval`、`slidingStep`、`displayWindowBegin`和`displayWindowEnd`。更多细节见下文。 | INT32 / INT64 / FLOAT / DOUBLE | 返回每个窗口内的第一个点（`first`）、最后一个点（`last`）、最小值点（`bottom`）、最大值点（`top`）。在一个窗口内的聚合点输出之前，M4会将它们按照时间戳递增排序并且去重。 |
+## Data Quality Function Library
 
-## 数据质量函数库
+### About
 
-对基于时序数据的应用而言，数据质量至关重要。基于用户自定义函数能力，IoTDB 提供了一系列关于数据质量的函数，包括数据画像、数据质量评估与修复等，能够满足工业领域对数据质量的需求。
+For applications based on time series data, data quality is vital. **UDF Library** is IoTDB User Defined Functions (UDF) about data quality, including data profiling, data quality evalution and data repairing. It effectively meets the demand for data quality in the industrial field.
 
-**该函数库中的函数不是内置函数，使用前要先加载到系统中。** 操作流程如下：
+### Quick Start
 
-1. 下载包含全部依赖的 jar 包和注册脚本 [【点击下载】](https://archive.apache.org/dist/iotdb/1.0.1/apache-iotdb-1.0.1-library-udf-bin.zip) ；
-2. 将 jar 包复制到 IoTDB 程序目录的 `ext\udf` 目录下 (若您使用的是集群，请将jar包复制到所有DataNode的该目录下)；
-3. 启动 IoTDB；
-4. 将注册脚本复制到 IoTDB 的程序目录下（与`sbin`目录同级的根目录下），修改脚本中的参数（如果需要）并运行注册脚本以注册 UDF。
+The functions in this function library are not built-in functions, and must be loaded into the system before use.
 
-## Priority of Operators
-
-|priority|operator  |meaning            |
-|:---:|:------------|:------------------|
-|1    |`-`          |Unary operator negative  |
-|1    |`+`          |Unary operator positive  |
-|1    |`!`          |Unary operator negation  |
-|2    |`*`          |Binary operator multiply |
-|2    |`/`          |Binary operator division |
-|2    |`%`          |Binary operator remainder|
-|3    |`+`          |Binary operator add      |
-|3    |`-`          |Binary operator minus    |
-|4    |`>`          |Binary compare operator greater than|
-|4    |`>=`         |Binary compare operator greater or equal to|
-|4    |`<`          |Binary compare operator less than|
-|4    |`<=`         |Binary compare operator less or equal to|
-|4    |`==`         |Binary compare operator equal to|
-|4    |`!=`/`<>`    |Binary compare operator non-equal to|
-|5      |`REGEXP`   |`REGEXP` operator|
-|5      |`LIKE`    |`LIKE` operator|
-|6      |`IN`    |`IN` operator|
-|7    |`and`/`&`/`&&`               |Binary logic operator and|
-|8    |`or`/ &#124; / &#124;&#124;  |Binary logic operator or|
-
-## About
-For applications based on time series data, data quality is vital.
-**UDF Library** is IoTDB User Defined Functions (UDF) about data quality, including data profiling, data quality evalution and data repairing.
-It effectively meets the demand for data quality in the industrial field.
-
-## Quick Start
-
-1. Download the JAR with all dependencies and the script of registering UDF.
+1. [Download](https://archive.apache.org/dist/iotdb/1.0.1/apache-iotdb-1.0.1-library-udf-bin.zip) the JAR with all dependencies and the script of registering UDF.
 2. Copy the JAR package to `ext\udf` under the directory of IoTDB system (Please put JAR to this directory of all DataNodes if you use Cluster).
 3. Run `sbin\start-server.bat` (for Windows) or `sbin\start-server.sh` (for Linux or MacOS) to start IoTDB server.
 4. Copy the script to the directory of IoTDB system (under the root directory, at the same level as `sbin`), modify the parameters in the script if needed and run it to register UDF.
-
-
-## Download
-
-Since our codes are still under review, there are no codes in Apache repository. Before finishing the review, the above files can be downloaded in our [old website](https://thulab.github.io/iotdb-quality/en/Download.html). 
 
