@@ -31,18 +31,21 @@ CREATE DATABASE root.ln
 ```
 * 查看数据库
   
+
 查看所有数据库：
 ```
 SHOW DATABASES
 ```
 * 删除数据库
   
+
 删除名为 root.ln 的数据库：
 ```
 DELETE DATABASE root.ln
 ```
 * 统计数据库数量
   
+
 统计数据库的总数
 ```
 COUNT DATABASES
@@ -59,6 +62,7 @@ CREATE TIMESERIES root.ln.wf01.wt01.temperature WITH datatype=FLOAT,ENCODING=RLE
 ```
 * 查看时间序列
   
+
 查看所有时间序列：
 ```
 SHOW TIMESERIES
@@ -71,12 +75,14 @@ SHOW TIMESERIES root.ln.**
 ```
 * 删除时间序列
   
-创建名为 root.ln.wf01.wt01.temperature 的时间序列
+
+删除名为 root.ln.wf01.wt01.temperature 的时间序列
 ```
 DELETE TIMESERIES root.ln.wf01.wt01.temperature
 ```
 * 统计时间序列
   
+
 统计时间序列的总数
 ```
 COUNT TIMESERIES root.**
@@ -100,24 +106,28 @@ SHOW DEVICES
 
 * 查看子路径
   
+
 查看 root.ln 的下一层：
 ```
 SHOW CHILD PATHS root.ln
 ```
 * 查看子节点
   
+
 查看 root.ln 的下一层：
 ```
 SHOW CHILD NODES root.ln
 ```
 * 统计设备数量
   
+
 统计所有设备
 ```
 COUNT DEVICES
 ```
 * 统计节点数
   
+
 统计路径中指定层级的节点个数
 ```
 COUNT NODES root.ln.** LEVEL=2

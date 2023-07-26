@@ -71,8 +71,8 @@ SHOW TIMESERIES
 SHOW TIMESERIES root.ln.**
 ```
 * 删除时间序列
-  
-创建名为 root.ln.wf01.wt01.temperature 的时间序列
+
+删除名为 root.ln.wf01.wt01.temperature 的时间序列
 ```
 DELETE TIMESERIES root.ln.wf01.wt01.temperature
 ```
