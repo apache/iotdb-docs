@@ -27,7 +27,7 @@ jobs:
           node-version: 18.x
       - name: Install dependencies
         run: npm ci
-      - name: Test compile website
+      - name: Test build website
         run: npm run build
 
   deploy:
@@ -42,13 +42,13 @@ jobs:
           node-version: 18.x
       - name: Install dependencies
         run: npm ci
-      - name: Test compile website
+      - name: Build website
         run: npm run build
-      - name: Deploy staging
+      - name: Deploy website
         env:
           IOTDB_WEBSITE_BUILD: ${{ secrets.IOTDB_WEBSITE_BUILD }}
         run: |
           git config --global url."https://asf-ci-deploy:$IOTDB_WEBSITE_BUILD@github.com/apache/".insteadOf "https://github.com/apache/"
           git config --global user.name github-actions
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
-          npm run deploy:staging
+          npm run deploy

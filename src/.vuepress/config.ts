@@ -114,8 +114,8 @@ export default defineUserConfig({
     redirectPlugin({
       // hostname: 'https://iotdb.apache.org/',
       config: {
-        '/UserGuide/Master/QuickStart/QuickStart.html': '/UserGuide/V1.2.x/QuickStart/QuickStart.html',
-        '/zh/UserGuide/Master/QuickStart/QuickStart.html': '/zh/UserGuide/V1.2.x/QuickStart/QuickStart.html',
+        '/UserGuide/Master/QuickStart/QuickStart.html': '/UserGuide/V1.1.x/QuickStart/QuickStart.html',
+        '/zh/UserGuide/Master/QuickStart/QuickStart.html': '/zh/UserGuide/V1.1.x/QuickStart/QuickStart.html',
       },
     }),
     googleAnalyticsPlugin({
