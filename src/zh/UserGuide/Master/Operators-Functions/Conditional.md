@@ -19,11 +19,9 @@
 
 -->
 
-## 条件表达式
+# 条件表达式
 
-### CASE
-
-#### 介绍
+## CASE
 
 CASE表达式是一种条件表达式，可用于根据特定条件返回不同的值，功能类似于其它语言中的if-else。
 CASE表达式由以下部分组成：
@@ -33,10 +31,10 @@ CASE表达式由以下部分组成：
 - END关键字：表示结束CASE表达式。
 
 CASE表达式是一种标量运算，可以配合任何其它的标量运算或聚合函数使用。
-  
+
 下文把所有THEN部分和ELSE子句并称为结果子句。
 
-#### 语法示例
+### 语法示例
 
 CASE表达式支持两种格式。
 
@@ -76,7 +74,7 @@ CASE表达式支持两种格式。
 
 如果格式1中的condition均不为真，或格式2中均不满足caseVaule=whenValue，则返回ELSE子句中的expression_end；不存在ELSE子句则返回null。
 
-#### 注意事项
+### 注意事项
 
 - 格式1中，所有WHEN子句必须返回BOOLEAN类型。
 - 格式2中，所有WHEN子句必须能够与CASE子句进行判等。
@@ -89,9 +87,9 @@ CASE表达式支持两种格式。
 - CASE表达式内部不能存在聚合函数，但CASE表达式的结果可以提供给聚合函数。
 - 使用CLI时，由于CASE表达式字符串较长，推荐用as为表达式提供别名。
 
-#### 使用示例
+### 使用示例
 
-##### 示例1
+#### 示例1
 
 CASE表达式可对数据进行直观地分析，例如：
 
@@ -99,7 +97,7 @@ CASE表达式可对数据进行直观地分析，例如：
 - 在制备过程中传感器会侦测温度和压力，在iotdb中形成T(temperature)和P(pressure)两个时间序列
 
 这种应用场景下，CASE表达式可以指出哪些时间的参数是合适的，哪些时间的参数不合适，以及为什么不合适。
-  
+
 数据：
 ```sql
 IoTDB> select * from root.test1
@@ -139,7 +137,7 @@ from root.test1
 ```
 
 
-##### 示例2
+#### 示例2
 
 CASE表达式可实现结果的自由转换，例如将具有某种模式的字符串转换成另一种字符串。
 
@@ -175,9 +173,9 @@ from root.test2
 +-----------------------------+--------------+------------+
 ```
 
-##### 示例3：搭配聚合函数
+#### 示例3：搭配聚合函数
 
-###### 合法：聚合函数←CASE表达式
+##### 合法：聚合函数←CASE表达式
 
 CASE表达式可作为聚合函数的参数。例如，与聚合函数COUNT搭配，可实现同时按多个条件进行数据统计。
 
@@ -220,7 +218,7 @@ from root.test3
 +------+-----+-----+------+
 ```
 
-###### 非法：CASE表达式←聚合函数
+##### 非法：CASE表达式←聚合函数
 
 不支持在CASE表达式内部使用聚合函数。
 
@@ -234,7 +232,7 @@ select case when x<=1 then avg(x) else sum(x) end from root.test3
 Msg: 701: Raw data and aggregation result hybrid calculation is not supported.
 ```
 
-##### 示例4：格式2
+#### 示例4：格式2
 
 一个使用格式2的简单例子。如果所有条件都为判等，则推荐使用格式2，以简化SQL语句。
 
@@ -268,13 +266,13 @@ select x, case x when 1 then "one" when 2 then "two" else "other" end from root.
 +-----------------------------+------------+-----------------------------------------------------------------------------------+
 ```
 
-##### 示例5：结果子句类型
+#### 示例5：结果子句类型
 
 CASE表达式的结果子句的返回值需要满足一定的类型限制。
 
 此示例中，继续使用示例4中的数据。
 
-###### 非法：BOOLEAN与其它类型共存
+##### 非法：BOOLEAN与其它类型共存
 
 SQL语句：
 ```sql
@@ -286,7 +284,7 @@ select x, case x when 1 then true when 2 then 2 end from root.test4
 Msg: 701: CASE expression: BOOLEAN and other types cannot exist at same time
 ```
 
-###### 合法：只存在BOOLEAN类型
+##### 合法：只存在BOOLEAN类型
 
 SQL语句：
 ```sql
@@ -305,7 +303,7 @@ select x, case x when 1 then true when 2 then false end as `result` from root.te
 +-----------------------------+------------+------+
 ```
 
-###### 非法：TEXT与其它类型共存
+##### 非法：TEXT与其它类型共存
 
 SQL语句：
 ```sql
@@ -317,11 +315,11 @@ select x, case x when 1 then 1 when 2 then "str" end from root.test4
 Msg: 701: CASE expression: TEXT and other types cannot exist at same time
 ```
 
-###### 合法：只存在TEXT类型
+##### 合法：只存在TEXT类型
 
 见示例1。
 
-###### 合法：数值类型共存
+##### 合法：数值类型共存
 
 SQL语句：
 ```sql

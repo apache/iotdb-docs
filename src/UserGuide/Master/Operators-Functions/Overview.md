@@ -236,6 +236,14 @@ For details and examples, see the document [Variation Trend Calculation Function
 
 For details and examples, see the document [Sample Functions](./Sample.md).
 
+## Conditional Expressions
+
+| Expression Name | Description          |
+| --------------- | -------------------- |
+| `CASE`          | similar to "if else" |
+
+For details and examples, see the document [Conditional Expressions](./Conditional.md).
+
 ## Data Quality Function Library
 
 ### About
