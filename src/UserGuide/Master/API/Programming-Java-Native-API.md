@@ -397,7 +397,7 @@ SessionDataSet executeRawDataQuery(List<String> paths, long startTime, long endT
     ``` java
     SessionDataSet executeLastDataQuery(List<String> paths, long LastTime);
     ```
-  - Query the latest point of the specified sequence under a single device quickly, and support redirection;
+  - Query the latest point of the specified series of single device quickly, and support redirection;
     If you are sure that the query path is valid, set 'isLegalPathNodes' to true to avoid performance penalties from path verification.
     ``` java
     SessionDataSet executeLastDataQueryForOneDevice(
