@@ -18,32 +18,30 @@
     under the License.
 
 -->
+# Maintenance Tool
+## IoTDB Data Directory Overview Tool
 
-# 运维工具
+IoTDB data directory overview tool is used to print an overview of the IoTDB data directory structure. The location is tools/tsfile/print-iotdb-data-dir.
 
-## 数据文件夹概览工具
+### Usage
 
-IoTDB数据文件夹概览工具用于打印出数据文件夹的结构概览信息，工具位置为 tools/tsfile/print-iotdb-data-dir。
-
-### 用法
-
--   Windows:
+-   For Windows:
 
 ```bash
-.\print-iotdb-data-dir.bat <IoTDB数据文件夹路径，如果是多个文件夹用逗号分隔> (<输出结果的存储路径>) 
+.\print-iotdb-data-dir.bat <IoTDB data folder path, separated by commas if there are multiple folders> (<storage path of the output overview file>) 
 ```
 
--   Linux or MacOs:
+-   For Linux or MacOs:
 
 ```shell
-./print-iotdb-data-dir.sh <IoTDB数据文件夹路径，如果是多个文件夹用逗号分隔> (<输出结果的存储路径>)
+./print-iotdb-data-dir.sh <IoTDB data folder path, separated by commas if there are multiple folders> (<storage path of the output overview file>) 
 ```
 
-注意：如果没有设置输出结果的存储路径, 将使用相对路径"IoTDB_data_dir_overview.txt"作为默认值。
+Note: if the storage path of the output overview file is not set, the default relative path "IoTDB_data_dir_overview.txt" will be used.
 
-### 示例
+### Example
 
-以Windows系统为例：
+Use Windows in this example:
 
 `````````````````````````bash
 .\print-iotdb-data-dir.bat D:\github\master\iotdb\data\datanode\data
@@ -82,29 +80,29 @@ data dir num:1
 |==============================================================
 `````````````````````````
 
-## TsFile概览工具
+## TsFile Sketch Tool
 
-TsFile概览工具用于以概要模式打印出一个TsFile的内容，工具位置为 tools/tsfile/print-tsfile。
+TsFile sketch tool is used to print the content of a TsFile in sketch mode. The location is tools/tsfile/print-tsfile.
 
-### 用法
+### Usage
 
--   Windows:
+-   For Windows:
 
-```bash
-.\print-tsfile-sketch.bat <TsFile文件路径> (<输出结果的存储路径>) 
+```
+.\print-tsfile-sketch.bat <TsFile path> (<storage path of the output sketch file>) 
 ```
 
--   Linux or MacOs:
+-   For Linux or MacOs:
 
-```shell
-./print-tsfile-sketch.sh <TsFile文件路径> (<输出结果的存储路径>) 
+```
+./print-tsfile-sketch.sh <TsFile path> (<storage path of the output sketch file>) 
 ```
 
-注意：如果没有设置输出结果的存储路径, 将使用相对路径"TsFile_sketch_view.txt"作为默认值。
+Note: if the storage path of the output sketch file is not set, the default relative path "TsFile_sketch_view.txt" will be used.
 
-### 示例
+### Example
 
-以Windows系统为例：
+Use Windows in this example:
 
 `````````````````````````bash
 .\print-tsfile.bat D:\github\master\1669359533965-1-0-0.tsfile D:\github\master\sketch.txt
@@ -164,33 +162,33 @@ file length: 2974
 ---------------------------------- TsFile Sketch End ----------------------------------
 `````````````````````````
 
-解释：
+Explanations:
 
--   以"|"为分隔，左边是在TsFile文件中的实际位置，右边是梗概内容。
--   "|||||||||||||||||||||"是为增强可读性而添加的导引信息，不是TsFile中实际存储的数据。
--   最后打印的"IndexOfTimerseriesIndex Tree"是对TsFile文件末尾的元数据索引树的重新整理打印，便于直观理解，不是TsFile中存储的实际数据。
+-   Separated by "|", the left is the actual position in the TsFile, and the right is the summary content.
+-   "||||||||||||||||||||" is the guide information added to enhance readability, not the actual data stored in TsFile.
+-   The last printed "IndexOfTimerseriesIndex Tree" is a reorganization of the metadata index tree at the end of the TsFile, which is convenient for intuitive understanding, and again not the actual data stored in TsFile.
 
-## TsFile Resource概览工具
+## TsFile Resource Sketch Tool
 
-TsFile resource概览工具用于打印出TsFile resource文件的内容，工具位置为 tools/tsfile/print-tsfile-resource-files。
+TsFile resource sketch tool is used to print the content of a TsFile resource file. The location is tools/tsfile/print-tsfile-resource-files.
 
-### 用法
+### Usage
 
--   Windows:
+-   For Windows:
 
 ```bash
-.\print-tsfile-resource-files.bat <TsFile resource文件所在的文件夹路径，或者单个TsFile resource文件路径>
+.\print-tsfile-resource-files.bat <path of the parent directory of the TsFile resource files, or path of a TsFile resource file>
 ```
 
--   Linux or MacOs:
+-   For Linux or MacOs:
 
 ```
-./print-tsfile-resource-files.sh <TsFile resource文件所在的文件夹路径，或者单个TsFile resource文件路径> 
+./print-tsfile-resource-files.sh <path of the parent directory of the TsFile resource files, or path of a TsFile resource file> 
 ```
 
-### 示例
+### Example
 
-以Windows系统为例：
+Use Windows in this example:
 
 `````````````````````````bash
 .\print-tsfile-resource-files.bat D:\github\master\iotdb\data\datanode\data\sequence\root.sg1\0\0
@@ -227,3 +225,4 @@ device root.sg1.d1, start time 0 (1970-01-01T08:00+08:00[GMT+08:00]), end time 9
 
 Analyzing the resource file D:\github\master\iotdb\data\datanode\data\sequence\root.sg1\0\0\1669359533489-1-0-0.tsfile.resource finished.
 `````````````````````````
+
