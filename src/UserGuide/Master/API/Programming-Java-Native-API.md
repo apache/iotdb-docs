@@ -394,10 +394,15 @@ SessionDataSet executeRawDataQuery(List<String> paths, long startTime, long endT
 
 * Last query: 
   - Query the last data, whose timestamp is greater than or equal LastTime.
-
-``` java
-SessionDataSet executeLastDataQuery(List<String> paths, long LastTime);
-```
+    ``` java
+    SessionDataSet executeLastDataQuery(List<String> paths, long LastTime);
+    ```
+  - Query the latest point of the specified series of single device quickly, and support redirection;
+    If you are sure that the query path is valid, set 'isLegalPathNodes' to true to avoid performance penalties from path verification.
+    ``` java
+    SessionDataSet executeLastDataQueryForOneDevice(
+        String db, String device, List<String> sensors, boolean isLegalPathNodes);
+    ```
 
 * Aggregation query:
   - Support specified query time range: The specified query time range is a left-closed right-open interval, including the start time but not the end time.
