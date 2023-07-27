@@ -29,6 +29,8 @@ IoTDB 官网：https://iotdb.apache.org/
 
 Go语言的代码库：https://github.com/apache/iotdb-client-go
 
+文档库：https://github.com/apache/iotdb-docs
+
 资源库（包含项目文件等）：https://github.com/apache/iotdb-bin-resources
 
 快速上手：https://iotdb.apache.org/zh/UserGuide/V1.1.x/QuickStart/QuickStart.html
@@ -71,25 +73,23 @@ Slack: https://apacheiotdb.slack.com/join/shared_invite/zt-qvso1nj8-7715TpySZtZq
 
 ## 贡献文档
 
-IoTDB 所有官网上的内容都在项目根目录的 docs 中：
+IoTDB 所有官网上的内容都在 https://github.com/apache/iotdb-docs 的 src 中：
 
-* docs/SystemDesign: 系统设计文档-英文版
-* docs/zh/SystemDesign: 系统设计文档-中文版
-* docs/UserGuide: 用户手册-英文版
-* docs/zh/UserGuide: 用户手册-中文版
-* docs/Community: 社区-英文版
-* docs/zh/Community: 社区-中文版
-* docs/Development: 开发指南-英文版
-* docs/zh/Development: 开发指南-中文版
+* src/UserGuide: 用户手册-英文版
+* src/zh/UserGuide: 用户手册-中文版
+* src/Community: 社区-英文版
+* src/zh/Community: 社区-中文版
+* src/Development: 开发指南-英文版
+* src/zh/Development: 开发指南-中文版
 
-官网上的版本和分支的对应关系：
+文档版本和文件夹的对应关系：
 
-* In progress -> master
-* major_version.x -> rel/major_version （如 0.9.x -> rel/0.9）
+* In progress -> src/UserGuide/Master, src/zh/UserGuide/Master
+* major_version.x -> src/UserGuide/major_version, src/zh/UserGuide/major_version （如 1.1.x -> V1.1.x）
 
 注意事项：
 
-* Markdown 中的图片可上传至 https://github.com/apache/iotdb-bin-resources 获得 url
+* Markdown 中的图片可上传至 .vuepress/public/img 文件夹下，引用时使用相对路径即可。
 
 ## 代码格式化
 
