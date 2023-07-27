@@ -29,6 +29,8 @@ Code library：https://github.com/apache/iotdb
 
 Code library for go language: https://github.com/apache/iotdb-client-go
 
+Docs library：https://github.com/apache/iotdb-docs
+
 Library for resources (project's documents, compiler, etc): https://github.com/apache/iotdb-bin-resources
 
 Get started quickly：http://iotdb.apache.org/UserGuide/Master/QuickStart/QuickStart.html
@@ -74,25 +76,23 @@ You can choose issue types: bug, improvement, new feature, etc.  New issues will
 
 ## Contributing documents
 
-The content of all IoTDB official websites is in the docs of the project root directory:
+The content of all IoTDB official websites is in the src directory of the https://github.com/apache/iotdb-docs:
 
-* docs/SystemDesign: System Design Document-English Version
-* docs/zh/SystemDesign: System Design Document-Chinese Version
-* docs/UserGuide: User Guide English Version
-* docs/zh/UserGuide: User Guide Chinese Version
-* docs/Community: community English Version
-* docs/zh/Community: community Chinese Version
-* docs/Development: Development Guide English Version
-* docs/zh/Development: Development Guide Chinese Version
+* src/UserGuide: User Guide English Version
+* src/zh/UserGuide: User Guide Chinese Version
+* src/Community: community English Version
+* src/zh/Community: community Chinese Version
+* src/Development: Development Guide English Version
+* src/zh/Development: Development Guide Chinese Version
 
-Correspondence between versions and branches on the official website:
+Correspondence between versions and directory:
 
-* In progress -> master
-* major_version.x -> rel/major_version （eg 0.9.x -> rel/0.9）
+* In progress -> src/UserGuide/Master, src/zh/UserGuide/Master
+* major_version.x -> rel/major_version （eg 1.1.x -> V1.1.x）
 
 Precautions:
 
-* Images in Markdown can be uploaded to https://github.com/apache/iotdb-bin-resources for url
+* Images in Markdown can be uploaded to .vuepress/public/img and referenced directly in Markdown
 * Do not use special Unicode chars, e.g., U+FF1A 
 * Do not use the character of dollar (as we will use Latex to generate pdf files)
 

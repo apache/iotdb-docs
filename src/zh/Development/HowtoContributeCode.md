@@ -42,8 +42,8 @@ Issue 类型：New Feature
 
 1.提交中英文版本的用户手册和代码修改的 pr。
 
-用户手册主要描述功能定义和使用方式，以便用户使用。用户手册建议包括：场景描述，配置方法，接口功能描述，使用示例。官网的用户手册内容放置在 apache/iotdb 仓库根目录下，英文版放在 docs/UserGuide ，中文版放在 docs/zh/UserGuide 。
-如果需要更新用户手册，包括新增或删除文档和修改文档名，需要在 master 分支的site/src/main/.vuepress/config.js 中做相应修改。
+用户手册主要描述功能定义和使用方式，以便用户使用。用户手册建议包括：场景描述，配置方法，接口功能描述，使用示例。官网的用户手册内容放置在 apache/iotdb-docs 仓库 src 目录下，英文版放在 src/UserGuide ，中文版放在 src/zh/UserGuide 。
+如果需要更新用户手册，包括新增或删除文档和修改文档名，需要在 main 分支的 src/.vuepress/sidebar 中做相应修改。
 
 2.提交单元测试UT或集成测试IT
 
@@ -77,7 +77,7 @@ iotdb-datanode.properties 和 IoTDBConfig 默认值需要保持一致。
 如果需要对配置参数进行改动。以下文件需要同时修改：
   1. 配置文件：iotdb-core/datanode/src/assembly/resources/conf/iotdb-datanode.properties
   2. 代码：IoTDBDescriptor、IoTDBConfig
-  3. 文档：docs/UserGuide/Reference/DataNode-Config-Manual.md、docs/zh/UserGuide/Reference/DataNode-Config-Manual.md
+  3. 文档：apache/iotdb-docs/src/UserGuide/{version}/Reference/DataNode-Config-Manual.md、apache/iotdb-docs/src/zh/UserGuide/{version}/Reference/DataNode-Config-Manual.md
 
 如果你想要在 IT 和 UT 文件中对配置参数进行修改，你需要在 @Before 修饰的方法里修改，并且在 @After 修饰的方法里重置，来避免对其他测试的影响。合并模块的参数统一放在CompactionConfigRestorer 文件里。
 
@@ -130,9 +130,9 @@ Jira 标签
 到 JIRA 上关闭对应的 issue，标记修复或完成的版本【注意，解决或关闭 issue 都需要对 issue 添加 pr 或描述，通过 issue 要能够追踪这个任务的变动】。
 
 ## 如何写用户手册和设计文档
-官网的用户手册和其他文档都在 apache/iotdb 仓库中进行维护。
+官网的用户手册和其他文档都在 apache/iotdb-docs 仓库中进行维护。
 
-官网各个页面的索引项是在 master 分支的 site/src/main/.vuepress/config.js 文件维护的，用户手册的具体内容是在各个版本的分支维护的，如 0.12 版本的用户手册文档在 rel/0.12 中。
+官网各个页面的索引项是在 main 分支的 src/.vuepress/sidebar 文件夹维护的，用户手册的具体内容是在各个版本文件夹维护的，如 1.1 版本的用户手册文档在 src/UserGuide/V1.1.x 中。
 
 用户手册
 
@@ -146,9 +146,9 @@ Jira 标签
 
 ### 如何修改用户手册
 贡献用户手册和贡献代码的流程是一样的，只是修改的文件不同。
-用户手册的英文版放在 docs/UserGuide ,  中文版放在 docs/zh/UserGuide 下。
-如果需要更新 {master} 或 {rel/*} 分支的用户手册目录，包括新增或删除md文档、修改md文档名，需要在 master 分支的site/src/main/.vuepress/config.js 中做相应修改。
+用户手册的英文版放在 src/UserGuide ,  中文版放在 src/zh/UserGuide 下。
+如果需要更新用户手册目录，包括新增或删除md文档、修改md文档名，需要在 main 分支的 src/.vuepress/sidebar 中做相应修改。
 
 ### 如何修改官网顶部导航栏
 
-在 site/src/main/.vuepress/config.js 中搜索 nav （应有中英文两个地方），仿照现有的代码做相应修改。之后提交PR等待合并。需要新增的文档可以放进 docs 和 docs/zh 文件夹下。
+在 src/.vuepress/navbar/en.ts,src/.vuepress/navbar/zh.ts 中（应有中英文两个地方），仿照现有的代码做相应修改。之后提交PR等待合并。需要新增的文档可以放进 src 和 src/zh 文件夹下。
