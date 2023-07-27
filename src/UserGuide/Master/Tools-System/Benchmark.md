@@ -25,13 +25,13 @@ IoT-benchmark is a time-series database benchmarking tool based on Java and big 
 
 Figure 1-1 below includes the test benchmark process and other extended functions. These processes can be unified by IoT-benchmark. IoT Benchmark supports a variety of workloads, including **pure write, pure query, write query mixed**, etc., supports **software and hardware system monitoring, test metric measurement** and other monitoring functions, and also realizes **initializing the database automatically, test data analysis and system parameter optimization** functions.
 
-![img](https://apache-iotdb.feishu.cn/space/api/box/stream/download/asynccode/?code=ODBlZTU1ZDZhNjNlYTQ4ZjA4NGQ3NTA0MDRhNjAyODlfdFluUXA4NTQ3Zk5UMVF1MzhaUG1wenVRUFBiQWlOUzRfVG9rZW46Ym94Y252TXZBdlpoT0VRSEVXdkxJZDZtSzNmXzE2ODU1MTQ5MTM6MTY4NTUxODUxM19WNA)
+![img](https://alioss.timecho.com/docs/img/1.PNG)
 
 Figure 1-1
 
 Referring to the YCSB test tool's design idea of separating the three components of workload generation, performance metric measurement and database interface, the modular design of IoT-benchmark is shown in Figure 1-2. Different from the YCSB-based test tool system, IoT-benchmark adds a system monitoring module to support the persistence of test data and system monitoring data. In addition, some special load testing functions especially designed for time series data scenarios have been added, such as supporting batch writing and multiple out-of-sequence data writing modes for IoT scenarios.
 
-![img](https://apache-iotdb.feishu.cn/space/api/box/stream/download/asynccode/?code=MjU1ZjAzNjg0OWVhMzYxZjY5OWNhMTkyMjgxNzFmNzFfc2I0UUJpcTVteHN3eWV5N0p3VWFvNEdqTGJhUG1TQTZfVG9rZW46Ym94Y251Z3NvT29HSWNDVVh6OWJOWnRNY2ljXzE2ODU1MTQ5MTM6MTY4NTUxODUxM19WNA)
+![img](https://alioss.timecho.com/docs/img/2.PNG)
 
 Figure 1-2
 
@@ -71,7 +71,7 @@ Table 1-1 Comparison of big data test benchmarks
 
 The directory structure of the test package is shown in Figure 1-3 below. The test configuration file is conf/config.properties, and the test startup scripts are benchmark.sh (Linux & MacOS) and benchmark.bat (Windows). The detailed usage of the files is shown in Table 1-2.
 
-![img](https://apache-iotdb.feishu.cn/space/api/box/stream/download/asynccode/?code=ZWVjNTA3M2JjYTc5MTljMjUyMTgxNTE4YzZkN2Q4ZGZfb0EydkFBWk92ZklRV3J3WUYxNXRYRTFPa1lnTDd4MXlfVG9rZW46Ym94Y25zejVyT2RHWEhTVnY5emM5QUQ1VXNmXzE2ODU1MTQ5MTM6MTY4NTUxODUxM19WNA)
+![img](https://alioss.timecho.com/docs/img/3.png)
 
 Figure 1-3 List of files and folders
 
@@ -99,7 +99,7 @@ Table 1-2 Usage list of files and folders
 
 All the log files of the test are stored in the logs folder, and the test results are stored in the data/csvOutput folder after the test is completed. For example, after the test, we get the following result matrix:
 
-![img](https://apache-iotdb.feishu.cn/space/api/box/stream/download/asynccode/?code=MzI4OTkxNjVjNmY4ZDg5YzRkMzYwYzI4NWIxYWVmNjJfeEk0Y1VGOE9OR0xqUE1jZjhKRERDdlVZSjdsRm4waXNfVG9rZW46Ym94Y25pcWI3VDltV1BMUHJLSGxKQ0VacGxnXzE2ODU1MTQ5MTM6MTY4NTUxODUxM19WNA)
+![img](https://alioss.timecho.com/docs/img/4.png)
 
 - Result Matrix
   - OkOperation: successful operations
@@ -253,27 +253,24 @@ Table 2-3 Configuration parameter information
 
 First, start the tested time series databases Apache-IoTDB and KairosDB on 172.21.4.3 and 172.21.4.4 respectively, and then start server resource monitoring through the ser-benchamrk.sh script on 172.21.4.2, 172.21.4.3 and 172.21.4.4 (Figure 2-1). Then modify the conf/config.properties files in the iotdb-0.13-0.0.1 and kairosdb-0.0.1 folders in 172.21.4.2 according to Table 2-3 to meet the test requirements. Use benchmark.sh to start the writing test of Apache-IoTDB and KairosDB successively.
 
-![img](https://apache-iotdb.feishu.cn/space/api/box/stream/download/asynccode/?code=YmRjNjEwMzdjOGIwODczNGZjNzQ3MzA0ZGJlMzUwODFfbWNyY014WERmOFNUSVZtSmZVQ0tiTU9qVUI4aWpCQ3dfVG9rZW46Ym94Y256QkhCdDhBYUdjR1lyWkx4VXA4VDNiXzE2ODU1MTQ5MTM6MTY4NTUxODUxM19WNA)
+![img](https://alioss.timecho.com/docs/img/5.png)
 
 Figure 2-1 Server monitoring tasks
 
 For example, if we first start the test on KairosDB, IoT-benchmark will create a CONFIG data table in the MySQL database to store the configuration information of this test (Figure 2-2), and there will be a log output of the current test progress during the test execution (Figure 2-3) . When the test is completed, the test result will be output (Figure 2-3), and the result will be written into the FINAL_RESULT data table (Figure 2-4).
 
-![img](https://apache-iotdb.feishu.cn/space/api/box/stream/download/asynccode/?code=MDc4MTIxZjMwZGM4OWQxNzZhMTZjNTg4NGVlZGViM2Nfd2dYRzZJM3U5dm9lQmxrUEtBcG15QWQxa1ZxMkc0c0VfVG9rZW46Ym94Y240azkwb0FOMGx0VVFKYzFZV2s4Q2ZnXzE2ODU1MTQ5MTM6MTY4NTUxODUxM19WNA)
+![img](https://alioss.timecho.com/docs/img/6.png)
 
 Figure 2-2 Test configuration information table
 
-![img](https://apache-iotdb.feishu.cn/space/api/box/stream/download/asynccode/?code=NjY5NGExMmVjYmRkNTNiZTk5YjQ3NzJhZjBkM2I0ODRfTEY5TXZKampNa3FOQ0Y2UzVNT0ZiWmFRNkxNTEdZQ0pfVG9rZW46Ym94Y25laEJielRheFpBdGxpdWtWOEFhQ25mXzE2ODU1MTQ5MTM6MTY4NTUxODUxM19WNA)
-
-![img](https://apache-iotdb.feishu.cn/space/api/box/stream/download/asynccode/?code=OTExMWRiNGExYmE5NGU4NzBlMzFiMDBhYzM2ZGJhZTdfU2lsTlU3elVGb3RlUmZvWDlETmVnb3FYeE1VQzJQZEZfVG9rZW46Ym94Y24zdjJ0U2NVNjU1M2pxNkpCSU15VHNoXzE2ODU1MTQ5MTM6MTY4NTUxODUxM19WNA)
-
-![img](https://apache-iotdb.feishu.cn/space/api/box/stream/download/asynccode/?code=ODY5Mzk3ZmMxMzliNWU4YjNhYTk4MjcyMmUyYjRhY2RfWjVZb0tZZDVJcllJVkF1UU9mZXk1VlUyV2tWcmZGM2tfVG9rZW46Ym94Y25lYXY2OWVqRVRJdHp0V2NsUHNaR1hiXzE2ODU1MTQ5MTM6MTY4NTUxODUxM19WNA)
-
-![img](https://apache-iotdb.feishu.cn/space/api/box/stream/download/asynccode/?code=MmIzNjc5ZjE2NmEzNDFkZjVmODFmM2IyMThjZTYwNmVfaURYZmpHdnlqTjFtbkk5aEk5alVieEhQcmNEYzBzR3lfVG9rZW46Ym94Y245OEZEY0ozS1RHV2djdmFTTjJMcVBlXzE2ODU1MTQ5MTM6MTY4NTUxODUxM19WNA)
+![img](https://alioss.timecho.com/docs/img/7.png)
+![img](https://alioss.timecho.com/docs/img/8.png)
+![img](https://alioss.timecho.com/docs/img/9.png)
+![img](https://alioss.timecho.com/docs/img/10.png)
 
 Figure 2-3 Test progress and results
 
-![img](https://apache-iotdb.feishu.cn/space/api/box/stream/download/asynccode/?code=MGZkNmEzMWU5ZmVhMTg0MzQ1NzlmM2IyZDY3OWUzY2RfdWUySUF5UmI3SFMwOGNuWk5aSzMxRktJdkJxNnY1VDVfVG9rZW46Ym94Y24yaVRVQVZ1dDROeGUwQlVwMkRoNjJiXzE2ODU1MTQ5MTM6MTY4NTUxODUxM19WNA)
+![img](https://alioss.timecho.com/docs/img/11.png)
 
 Figure 2-4 Test result table
 
@@ -281,15 +278,14 @@ Afterwards, we will start the test on Apache-IoTDB. The same IoT-benchmark will 
 
 依照测试结果信息我们知道同样的配置写入Apache-IoTDB和KairosDB写入延时时间分别为：55.98ms和1324.45ms；写入吞吐分别为：5,125,600.86点/秒和224,819.01点/秒；测试分别执行了585.30秒和11777.99秒。并且KairosDB有写入失败出现，排查后发现是数据磁盘使用率已达到100%，无磁盘空间继续接收数据。而Apache-IoTDB无写入失败现象，全部数据写入完毕后占用磁盘空间仅为4.7G（如图2-5所示）；从写入吞吐和磁盘占用情况上看Apache-IoTDB均优于KairosDB。当然后续还有其他测试来从多方面观察和对比，比如查询性能、文件压缩比、数据安全性等。According to the test result information, we know that under the same configuration the write delay times of Apache-IoTDB and KairosDB are 55.98ms and 1324.45ms respectively; the write throughputs are 5,125,600.86 points/second and 224,819.01 points/second respectively; the tests were executed respectively 585.30 seconds and 11777.99 seconds. And KairosDB has a write failure. After investigation, it is found that the data disk usage has reached 100%, and there is no disk space to continue receiving data. However, Apache-IoTDB has no write failure, and the disk space occupied after all data is written is only 4.7G (as shown in Figure 2-5); Apache-IoTDB is better than KairosDB in terms of write throughput and disk occupation. Of course, there will be other tests in the follow-up to observe and compare from various aspects, such as query performance, file compression ratio, data security, etc.
 
-![img](https://apache-iotdb.feishu.cn/space/api/box/stream/download/asynccode/?code=ODMxYWFkNGQ5OTIzYjQyODY5NjkzMjAwYWIyZTc1Y2FfeFJPU01rTzI3bXJtNFNWalBOYmlCS2h2SWNpdzd0c2NfVG9rZW46Ym94Y25JdU5xbmlFZGF3MzljbzZXMDRpYVc5XzE2ODU1MTQ5MTM6MTY4NTUxODUxM19WNA)
+![img](https://alioss.timecho.com/docs/img/12.png)
 
 Figure 2-5 Disk usage
 
 So what is the resource usage of each server during the test? What is the specific performance of each write operation? At this time, we can visualize the data in the server monitoring table and test process recording table by installing and using Tableau. The use of Tableau will not be introduced in this article. After connecting to the data table for test data persistence, the specific results are as follows (taking Apache-IoTDB as an example):
 
-![img](https://apache-iotdb.feishu.cn/space/api/box/stream/download/asynccode/?code=ODlhZmVjMzEyYmM2ODYwNzExMGU4Yzc3ZGMwZmFiMWVfTGJhWHczMU5qaks0MzBwSWpha1JRZ3QxZFhtdzBNRVFfVG9rZW46Ym94Y25NNGN0dVVGaFV6SHA2YmppWGlkYjlkXzE2ODU1MTQ5MTM6MTY4NTUxODUxM19WNA)
-
-![img](https://apache-iotdb.feishu.cn/space/api/box/stream/download/asynccode/?code=NGFjOTAzMjdjMTg3NDg2ZGNjOWRiNzNmNWVlMDAxZjBfRUVBeko2NWhudjUxSnZoWlV0ZURPNEJwd2E5aDM3VnFfVG9rZW46Ym94Y25DTWVLMFpnUXdUVFRXSTZZSVp6M1FjXzE2ODU1MTQ5MTM6MTY4NTUxODUxM19WNA)
+![img](https://alioss.timecho.com/docs/img/13.png)
+![img](https://alioss.timecho.com/docs/img/14.png)
 
 Figure 2-6 Visualization of testing process in Tableau
 
@@ -314,7 +310,7 @@ Table 2-4 Configuration parameter information
 
 Results:
 
-![img](https://apache-iotdb.feishu.cn/space/api/box/stream/download/asynccode/?code=MzJjYTA1OGVjMDdjZDA3YTc0OTNkZTFiNTI5ODNlOGJfRllWNFhrMUhPVjRHV1ZudTR0T1NVSmNWUlQ2bE54UnZfVG9rZW46Ym94Y25TTVVDMjFVc3FDdERXVnZmRkdacTJkXzE2ODU1MTQ5MTM6MTY4NTUxODUxM19WNA)
+![img](https://alioss.timecho.com/docs/img/15.png)
 
 Figure 2-7 Query test results
 
