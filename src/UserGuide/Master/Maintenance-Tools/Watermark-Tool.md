@@ -17,13 +17,13 @@ specific language governing permissions and limitations
 under the License.
 -->
 
-## Watermark Tool
+# Watermark Tool
 
 This tool has two functions: 1) watermark embedding of the IoTDB query result and 2) watermark detection of the suspected data.
 
-### Watermark Embedding
+## Watermark Embedding
 
-#### Configuration
+### Configuration
 
 Watermark is disabled by default in IoTDB. To enable watermark embedding, the first thing is to modify the following fields in the configuration file `iotdb-datanode.properties`:
 
@@ -45,7 +45,7 @@ Notes:
   - GroupBasedLSBMethod uses LSB embedding. `embed_lsb_num` controls the number of least significant bits available for watermark embedding. The biggger the `embed_lsb_num`, the larger the varying range of a data point.
 - `watermark_secret_key`, `watermark_bit_string`  and `watermark_method` should be kept secret from possible attackers. That is, it is your responsiblity to take care of `iotdb-datanode.properties`.
 
-#### Usage Example 
+### Usage Example 
 
 * step 1. Create a new user Alice, grant read privilege and query
 
@@ -160,7 +160,7 @@ Note that you can use `revoke watermark_embedding from user1,user2,...` to revok
 
 Only root can run this command. After root revokes watermark_embedding from Alice, all query results of Alice are original again.
 
-### Watermark Detection
+## Watermark Detection
 
 `detect-watermark.sh` and `detect-watermark.bat` are provided for different platforms.
 

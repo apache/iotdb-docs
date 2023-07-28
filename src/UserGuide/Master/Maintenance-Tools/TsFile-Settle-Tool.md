@@ -19,9 +19,10 @@
 
 -->
 
-## TsFile Settle tool
+# TsFile Settle tool
+
 The TsFile Settle tool is used to rewrite one or more TsFiles that have modified record files, and submit the TsFile compaction task by sending an RPC to the DataNode to rewrite the TsFile.
-### Usage：
+## Usage
 ```shell
 #MacOs or Linux
 ./settle-tsfile.sh -h [host] -p [port] -f [filePaths]
@@ -29,11 +30,11 @@ The TsFile Settle tool is used to rewrite one or more TsFiles that have modified
 .\settle-tsfile.bat -h [host] -p [port] -f [filePaths]
 ```
 The host and port parameters are the host and port of the DataNodeInternalRPCService. If not specified, the default values are 127.0.0.1 and 10730 respectively. The filePaths parameter specifies the absolute paths of all TsFiles to be submitted as a compaction task on this DataNode, separated by spaces. Pass in at least one path.
-### Example：
+## Example
 ```shell
 ./settle-tsfile.sh -h 127.0.0.1 -p 10730 -f /data/sequence/root.sg/0/0/1672133354759-2-0-0.tsfile /data/sequence/root.sg/0/0/1672306417865-3-0-0.tsfile /data/sequence/root.sg/0/0/1672306417865-3-0-0.tsfile
 ```
-### Requirement：
+## Requirement
 * Specify at least one TsFile
 * All specified TsFiles are in the same space and are continuous, and cross-space compaction is not supported
 * The specified file path is the absolute path of the TsFile of the node where the specified DataNode is located

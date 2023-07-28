@@ -19,18 +19,18 @@
 
 -->
 
-## Cluster Quick Start
+# Cluster Quick Start
 
 This article uses a local environment as an example to
 illustrate how to start, expand, and shrink an IoTDB Cluster.
 
 **Notice: This document is a tutorial for deploying in a pseudo-cluster environment using different local ports, and is for exercise only. In real deployment scenarios, you only need to configure the IPV4 address or domain name of the server, and do not need to change the Node ports.**
 
-### 1. Prepare the Start Environment
+## 1. Prepare the Start Environment
 
 Unzip the apache-iotdb-1.0.0-all-bin.zip file to cluster0 folder.
 
-### 2. Start a Minimum Cluster
+## 2. Start a Minimum Cluster
 
 Start the Cluster version with one ConfigNode and one DataNode(1C1D), and
 the default number of replicas is one.
@@ -39,7 +39,7 @@ the default number of replicas is one.
 ./cluster0/sbin/start-datanode.sh
 ```
 
-### 3. Verify the Minimum Cluster
+## 3. Verify the Minimum Cluster
 
 + If everything goes well, the minimum cluster will start successfully. Then, we can start the Cli for verification.
 ```
@@ -60,11 +60,11 @@ Total line number = 2
 It costs 0.242s
 ```
 
-### 4. Prepare the Expanding Environment
+## 4. Prepare the Expanding Environment
 
 Unzip the apache-iotdb-1.0.0-all-bin.zip file to cluster1 and cluster2 folder.
 
-### 5. Modify the Node Configuration file
+## 5. Modify the Node Configuration file
 
 For folder cluster1:
 
@@ -114,7 +114,7 @@ For folder cluster2:
 | dn\_data\_region\_consensus\_port      | 10762           |
 | dn\_target\_config\_node\_list         | 127.0.0.1:10710 |
 
-### 6. Expanding the Cluster
+## 6. Expanding the Cluster
 
 Expanding the Cluster to three ConfigNode and three DataNode(3C3D).
 The following commands can be executed in arbitrary order.
@@ -126,7 +126,7 @@ The following commands can be executed in arbitrary order.
 ./cluster2/sbin/start-datanode.sh
 ```
 
-### 7. Verify Cluster expansion
+## 7. Verify Cluster expansion
 
 Execute the `show cluster details` command, then the result is shown below:
 ```
@@ -145,7 +145,7 @@ Total line number = 6
 It costs 0.012s
 ```
 
-### 8. Shrinking the Cluster
+## 8. Shrinking the Cluster
 
 + Remove a ConfigNode:
 ```
@@ -165,7 +165,7 @@ It costs 0.012s
 ./cluster0/sbin/remove-confignode.sh 4
 ```
 
-### 9. Verify Cluster shrinkage
+## 9. Verify Cluster shrinkage
 
 Execute the `show cluster details` command, then the result is shown below:
 ```
