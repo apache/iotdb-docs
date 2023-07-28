@@ -19,99 +19,106 @@
 
 -->
 
-## 字面值常量
+# Syntax Rule
 
-该部分对 IoTDB 中支持的字面值常量进行说明，包括字符串常量、数值型常量、时间戳常量、布尔型常量和空值。
+## Literal Values
 
-### 字符串常量
+This section describes how to write literal values in IoTDB. These include strings, numbers, timestamp values, boolean values, and NULL.
 
-在 IoTDB 中，字符串是由**单引号（`'`）或双引号（`"`）字符括起来的字符序列**。示例如下：
+### String Literals
 
-```Plain%20Text
+in IoTDB, **A string is a sequence of bytes or characters, enclosed within either single quote (`'`) or double quote (`"`) characters.** Examples：
+
+```js
 'a string'
 "another string"
 ```
 
-#### 使用场景
+#### Usage Scenarios
 
-- `INSERT` 或者 `SELECT` 中用于表达 `TEXT` 类型数据的场景。
+Usages of string literals:
 
-  ```SQL
-  # insert 示例
-  insert into root.ln.wf02.wt02(timestamp,hardware) values(1, 'v1')
-  insert into root.ln.wf02.wt02(timestamp,hardware) values(2, '\\')
-  
-  +-----------------------------+--------------------------+
-  |                         Time|root.ln.wf02.wt02.hardware|
-  +-----------------------------+--------------------------+
-  |1970-01-01T08:00:00.001+08:00|                        v1|
-  +-----------------------------+--------------------------+
-  |1970-01-01T08:00:00.002+08:00|                        \\|
-  +-----------------------------+--------------------------+
-  
-  # select 示例
-  select code from root.sg1.d1 where code in ('string1', 'string2');
-  ```
+- Values of  `TEXT` type data in `INSERT` or `SELECT` statements 
 
-- `LOAD` / `REMOVE` / `SETTLE` 指令中的文件路径。
+    ```sql
+    # insert
+    insert into root.ln.wf02.wt02(timestamp,hardware) values(1, 'v1')
+    insert into root.ln.wf02.wt02(timestamp,hardware) values(2, '\\')
+    
+    +-----------------------------+--------------------------+
+    |                         Time|root.ln.wf02.wt02.hardware|
+    +-----------------------------+--------------------------+
+    |1970-01-01T08:00:00.001+08:00|                        v1|
+    +-----------------------------+--------------------------+
+    |1970-01-01T08:00:00.002+08:00|                        \\|
+    +-----------------------------+--------------------------+
+    
+    # select
+    select code from root.sg1.d1 where code in ('string1', 'string2');
+    ```
 
-  ```SQL
-  # load 示例
-  LOAD 'examplePath'
-  
-  # remove 示例
-  REMOVE 'examplePath'
-  
-  # SETTLE 示例
-  SETTLE 'examplePath'
-  ```
+- Used in`LOAD` / `REMOVE` / `SETTLE` instructions to represent file path.
 
-- 用户密码。
+    ```sql
+    # load
+    LOAD 'examplePath'
+    
+    # remove
+    REMOVE 'examplePath'
+    
+    # SETTLE
+    SETTLE 'examplePath'
+    ```
 
-  ```SQL
-  # 示例，write_pwd 即为用户密码
-  CREATE USER ln_write_user 'write_pwd'
-  ```
+- Password fields in user management statements
 
-- 触发器和 UDF 中的类全类名，示例如下：
+    ```sql
+    # write_pwd is the password
+    CREATE USER ln_write_user 'write_pwd'
+    ```
 
-  ```SQL
-  # 触发器示例，AS 后使用字符串表示类全类名
-  CREATE TRIGGER `alert-listener-sg1d1s1`
-  AFTER INSERT
-  ON root.sg1.d1.s1
-  AS 'org.apache.iotdb.db.engine.trigger.example.AlertListener'
-  WITH (
-    'lo' = '0', 
-    'hi' = '100.0'
-  )
-  
-  # UDF 示例，AS 后使用字符串表示类全类名
-  CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample'
-  ```
+- Full Java class names in UDF and trigger management statements 
 
-- Select 子句中可以为结果集中的值指定别名，别名可以被定义为字符串或者标识符，示例如下：
+    ```sql
+    # Trigger example. Full java class names after 'AS' should be string literals.
+    CREATE TRIGGER `alert-listener-sg1d1s1`
+    AFTER INSERT
+    ON root.sg1.d1.s1
+    AS 'org.apache.iotdb.db.engine.trigger.example.AlertListener'
+    WITH (
+      'lo' = '0', 
+      'hi' = '100.0'
+    )
+    
+    # UDF example. Full java class names after 'AS' should be string literals.
+    CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample'
+    ```
 
-  ```SQL
-  select s1 as 'temperature', s2 as 'speed' from root.ln.wf01.wt01;
-  
-  # 表头如下所示
-  +-----------------------------+-----------|-----+
-  |                         Time|temperature|speed|
-  +-----------------------------+-----------|-----+
-  ```
+- `AS` function provided by IoTDB can assign an alias to time series selected in query. Alias can be constant(including string) or identifier.
 
-- 用于表示键值对，键值对的键和值可以被定义成常量（包括字符串）或者标识符，具体请参考键值对章节。
+    ```sql
+    select s1 as 'temperature', s2 as 'speed' from root.ln.wf01.wt01;
+    
+    # Header of dataset
+    +-----------------------------+-----------|-----+
+    |                         Time|temperature|speed|
+    +-----------------------------+-----------|-----+
+    ```
 
-#### 如何在字符串内使用引号
+- The key/value of an attribute can be String Literal and identifier, more details can be found at **key-value pair** part. 
 
-- 在单引号引起的字符串内，双引号无需特殊处理。同理，在双引号引起的字符串内，单引号无需特殊处理。
-- 在单引号引起的字符串里，可以通过双写单引号来表示一个单引号，即单引号 ' 可以表示为 ''。
-- 在双引号引起的字符串里，可以通过双写双引号来表示一个双引号，即双引号 " 可以表示为 ""。
 
-字符串内使用引号的示例如下：
+#### How to use quotation marks in String Literals
 
-```Plain%20Text
+There are several ways to include quote characters within a string:
+
+ - `'` inside a string quoted with `"` needs no special treatment and need not be doubled or escaped. In the same way, `"` inside a string quoted with `'` needs no special treatment.
+ - A `'` inside a string quoted with `'` may be written as `''`.
+- A `"` inside a string quoted with `"` may be written as `""`.
+
+The following examples demonstrate how quoting and escaping work:
+
+```js
 'string'  // string
 '"string"'  // "string"
 '""string""'  // ""string""
@@ -123,164 +130,162 @@
 """string"  // "string
 ```
 
-### 数值型常量
+### Numeric Literals
 
-数值型常量包括整型和浮点型。
+Number literals include integer (exact-value) literals and floating-point (approximate-value) literals.
 
-整型常量是一个数字序列。可以以 `+` 或 `-` 开头表示正负。例如：`1`, `-1`。
+Integers are represented as a sequence of digits. Numbers may be preceded by `-` or `+` to indicate a negative or positive value, respectively. Examples: `1`, `-1`.
 
-带有小数部分或由科学计数法表示的为浮点型常量，例如：`.1`, `3.14`, `-2.23`, `+1.70`, `1.2E3`, `1.2E-3`, `-1.2E3`, `-1.2E-3`。
+Numbers with fractional part or represented in scientific notation with a mantissa and exponent are approximate-value numbers. Examples: `.1`, `3.14`, `-2.23`, `+1.70`, `1.2E3`, `1.2E-3`, `-1.2E3`, `-1.2E-3`.
 
-在 IoTDB 中，`INT32` 和 `INT64` 表示整数类型（计算是准确的），`FLOAT` 和 `DOUBLE` 表示浮点数类型（计算是近似的）。
+The `INT32` and `INT64` data types are integer types and calculations are exact.
 
-在浮点上下文中可以使用整数，它会被解释为等效的浮点数。
+The `FLOAT` and `DOUBLE` data types are floating-point types and calculations are approximate.
 
-### 时间戳常量
+An integer may be used in floating-point context; it is interpreted as the equivalent floating-point number.
 
-时间戳是一个数据到来的时间点，在 IoTDB 中分为绝对时间戳和相对时间戳。详细信息可参考 [数据类型文档](https://iotdb.apache.org/zh/UserGuide/Master/Data-Concept/Data-Type.html)。
+### Timestamp Literals
 
-特别地，`NOW()`表示语句开始执行时的服务端系统时间戳。
+The timestamp is the time point at which data is produced. It includes absolute timestamps and relative timestamps in IoTDB. For information about timestamp support in IoTDB, see [Data Type Doc](../Basic-Concept/Data-Type.md).
 
-### 布尔型常量
+Specially, `NOW()` represents a constant timestamp that indicates the system time at which the statement began to execute.
 
-布尔值常量 `TRUE` 和 `FALSE` 分别等价于 `1` 和 `0`，它们对大小写不敏感。
+### Boolean Literals
 
-### 空值
+The constants `TRUE` and `FALSE` evaluate to 1 and 0, respectively. The constant names can be written in any lettercase.
 
-`NULL`值表示没有数据。`NULL`对大小写不敏感。
+### NULL Values
 
-## 标识符
+The `NULL` value means “no data.” `NULL` can be written in any lettercase.
 
-### 使用场景
+## Identifier
 
-在 IoTDB 中，触发器名称、UDF函数名、元数据模板名称、用户与角色名、连续查询标识、Pipe、PipeSink、键值对中的键和值、别名等可以作为标识符。
+### Usage scenarios
 
-### 约束
+Certain objects within IoTDB, including `TRIGGER`, `FUNCTION`(UDF), `CONTINUOUS QUERY`, `SCHEMA TEMPLATE`, `USER`, `ROLE`,`Pipe`,`PipeSink`,`alias` and other object names are known as identifiers.
 
-请注意，此处约束是标识符的通用约束，具体标识符可能还附带其它约束条件，如用户名限制字符数大于等于4，更严格的约束请参考具体标识符相关的说明文档。
+### Constraints
 
-**标识符命名有以下约束：**
+Below are basic constraints of identifiers, specific identifiers may have other constraints, for example, `user` should consists of more than 4 characters. 
 
-- 不使用反引号括起的标识符中，允许出现以下字符：
-  - [ 0-9 a-z A-Z _ ] （字母，数字，下划线）
-  - ['\u2E80'..'\u9FFF'] （UNICODE 中文字符）
+- Permitted characters in unquoted identifiers:
+    - [0-9 a-z A-Z _ ] (letters, digits and underscore)
+    - ['\u2E80'..'\u9FFF'] (UNICODE Chinese characters)
+- Identifiers may begin with a digit, unquoted identifiers can not be a real number.
+- Identifiers are case sensitive.
+- Key words can be used as an identifier.
 
-- 标识符允许使用数字开头、不使用反引号括起的标识符不能全部为数字。
+**You need to quote the identifier with back quote(`) in the following cases:**
 
-- 标识符是大小写敏感的。
+- Identifier contains special characters.
+- Identifier that is a real number.
 
-- 标识符允许为关键字。
+### How to use quotations marks in quoted identifiers
 
-**如果出现如下情况，标识符需要使用反引号进行引用：**
+`'` and `"` can be used directly in quoted identifiers.
 
-- 标识符包含不允许的特殊字符。
-- 标识符为实数。
+` may be written as `` in quoted  identifiers. See the example below:
 
-### 如何在反引号引起的标识符中使用引号
-
-**在反引号引起的标识符中可以直接使用单引号和双引号。**
-
-**在用反引号引用的标识符中，可以通过双写反引号的方式使用反引号，即 ` 可以表示为 ``**，示例如下：
-
-```SQL
-# 创建模板 t1`t
-create schema template `t1``t` 
+```sql
+# create template t1't"t
+create schema template `t1't"t` 
 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 
-# 创建模板 t1't"t
-create schema template `t1't"t` 
+# create template t1`t
+create schema template `t1``t` 
 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 ```
 
-### 特殊情况示例
+### Examples
 
-需要使用反引号进行引用的部分情况示例：
+Examples of case in which quoted identifier is used ：
 
-- 触发器名称出现上述特殊情况时需使用反引号引用：
+- Trigger name should be quoted in cases described above ：
 
-  ```sql
-  # 创建触发器 alert.`listener-sg1d1s1
-  CREATE TRIGGER `alert.``listener-sg1d1s1`
-  AFTER INSERT
-  ON root.sg1.d1.s1
-  AS 'org.apache.iotdb.db.engine.trigger.example.AlertListener'
-  WITH (
-    'lo' = '0', 
-    'hi' = '100.0'
-  )
-  ```
+    ```sql
+    # create trigger named alert.`listener-sg1d1s1
+    CREATE TRIGGER `alert.``listener-sg1d1s1`
+    AFTER INSERT
+    ON root.sg1.d1.s1
+    AS 'org.apache.iotdb.db.storageengine.trigger.example.AlertListener'
+    WITH (
+      'lo' = '0', 
+      'hi' = '100.0'
+    )
+    ```
 
-- UDF 名称出现上述特殊情况时需使用反引号引用：
+- UDF name should be quoted in cases described above ：
 
-  ```sql
-  # 创建名为 111 的 UDF，111 为实数，所以需要用反引号引用。
-  CREATE FUNCTION `111` AS 'org.apache.iotdb.udf.UDTFExample'
-  ```
+    ```sql
+    # create a funciton named 111, 111 is a real number.
+    CREATE FUNCTION `111` AS 'org.apache.iotdb.udf.UDTFExample'
+    ```
 
-- 元数据模板名称出现上述特殊情况时需使用反引号引用：
+- Template name should be quoted in cases described above ：
 
-  ```sql
-  # 创建名为 111 的元数据模板，111 为实数，需要用反引号引用。
-  create schema template `111` 
-  (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
-  ```
+    ```sql
+    # create a template named 111, 111 is a real number.
+    create schema template `111` 
+    (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
+    ```
 
-- 用户名、角色名出现上述特殊情况时需使用反引号引用，同时无论是否使用反引号引用，用户名、角色名中均不允许出现空格，具体请参考权限管理章节中的说明。
+- User and Role name should be quoted in cases described above, blank space is not allow in User and Role name whether quoted or not ：
 
-  ```sql
-  # 创建用户 special`user.
-  CREATE USER `special``user.` 'write_pwd'
-  
-  # 创建角色 111
-  CREATE ROLE `111`
-  ```
+    ```sql
+    # create user special`user.
+    CREATE USER `special``user.` 'write_pwd'
+    
+    # create role 111
+    CREATE ROLE `111`
+    ```
 
-- 连续查询标识出现上述特殊情况时需使用反引号引用：
+- Continuous query name should be quoted in cases described above ：
 
-  ```sql
-  # 创建连续查询 test.cq
-  CREATE CONTINUOUS QUERY `test.cq` 
-  BEGIN 
-    SELECT max_value(temperature) 
-    INTO temperature_max 
-    FROM root.ln.*.* 
-    GROUP BY time(10s) 
-  END
-  ```
+    ```sql
+    # create continuous query test.cq
+    CREATE CONTINUOUS QUERY `test.cq` 
+    BEGIN 
+      SELECT max_value(temperature) 
+      INTO temperature_max 
+      FROM root.ln.*.* 
+      GROUP BY time(10s) 
+    END
+    ```
 
-- Pipe、PipeSink 名称出现上述特殊情况时需使用反引号引用：
+- Pipe、PipeSink should be quoted in cases described above ：
 
-  ```sql
-  # 创建 PipeSink test.*1
-  CREATE PIPESINK `test.*1` AS IoTDB ('ip' = '输入你的IP')
-  
-  # 创建 Pipe test.*2
-  CREATE PIPE `test.*2` TO `test.*1` FROM 
-  (select ** from root WHERE time>=yyyy-mm-dd HH:MM:SS) WITH 'SyncDelOp' = 'true'
-  ```
+    ```sql
+    # create PipeSink test.*1
+    CREATE PIPESINK `test.*1` AS IoTDB ('ip' = '输入你的IP')
+    
+    # create Pipe test.*2
+    CREATE PIPE `test.*2` TO `test.*1` FROM 
+    (select ** from root WHERE time>=yyyy-mm-dd HH:MM:SS) WITH 'SyncDelOp' = 'true'
+    ```
 
-- Select 子句中可以结果集中的值指定别名，别名可以被定义为字符串或者标识符，示例如下：
+- `AS` function provided by IoTDB can assign an alias to time series selected in query. Alias can be constant(including string) or identifier.
 
-  ```sql
-  select s1 as temperature, s2 as speed from root.ln.wf01.wt01;
-  # 表头如下所示
-  +-----------------------------+-----------+-----+
-  |                         Time|temperature|speed|
-  +-----------------------------+-----------+-----+
-  ```
+    ```sql
+    select s1 as temperature, s2 as speed from root.ln.wf01.wt01;
+    
+    # Header of result dataset
+    +-----------------------------+-----------|-----+
+    |                         Time|temperature|speed|
+    +-----------------------------+-----------|-----+
+    ```
 
-- 用于表示键值对，键值对的键和值可以被定义成常量（包括字符串）或者标识符，具体请参考键值对章节。
+- The key/value of an attribute can be String Literal and identifier, more details can be found at **key-value pair** part. 
 
-## 关键字
+## KeyWords Words
 
-关键字是在 SQL 具有特定含义的词，可以作为标识符。保留字是关键字的一个子集，保留字不能用于标识符。
+Keywords are words that have significance in SQL. Keywords can be used as an identifier. Certain keywords, such as TIME/TIMESTAMP and ROOT, are reserved and cannot use as identifiers.
 
-关于 IoTDB 的关键字列表，可以查看 [关键字](https://iotdb.apache.org/zh/UserGuide/Master/Reference/Keywords.html) 。
+[Keywords](../Reference/Keywords.md) shows the keywords in IoTDB.
 
-## 词法与文法详细定义
+## Detailed Definitions of Lexical and Grammar
 
-请阅读代码仓库中的词法和语法描述文件：
+Please read the lexical and grammar description files in our code repository:
 
-词法文件：`antlr/src/main/antlr4/org/apache/iotdb/db/qp/sql/IoTDBSqlLexer.g4`
+Lexical file: `antlr/src/main/antlr4/org/apache/iotdb/db/qp/sql/IoTDBSqlLexer.g4`
 
-语法文件：`antlr/src/main/antlr4/org/apache/iotdb/db/qp/sql/IoTDBSqlParser.g4`
+Grammer file: `antlr/src/main/antlr4/org/apache/iotdb/db/qp/sql/IoTDBSqlParser.g4`
