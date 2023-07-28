@@ -42,7 +42,7 @@ Issue type : New Feature
 
 1.Submit the user manual and the pr for code changes. 
 
-A user manual is mainly for helping users understand how the functions work and how to use them. It is recommended to contain scenario and background, configuration, interface description and examples. The user manual of the official website is placed in the docs/UserGuide folder of apache/iotdb repository. To update the user manual directory, including adding, deleting documents and renaming documents, you need to make corresponding changes in the file(path:site/src/main/.vuepress/config.js) in the master branch.
+A user manual is mainly for helping users understand how the functions work and how to use them. It is recommended to contain scenario and background, configuration, interface description and examples. The user manual of the official website is placed in the src/UserGuide folder of apache/iotdb-docs repository. To update the user manual directory, including adding, deleting documents and renaming documents, you need to make corresponding changes in the file(path:src/.vuepress/sidebar) in the main branch.
 
 2.Submit UT (unit test) or IT (integration test). 
 
@@ -80,7 +80,7 @@ a.Configuration file: iodtb-core/datanode/src/assembly/resources/conf/iotdb-data
 
 b. Codes: IoTDBDescriptor, IoTDBConfig
 
-c. Documentation: docs/UserGuide/Reference/DataNode-Config-Manual.md
+c. Documentation: apache/iotdb-docs/src/UserGuide/{version}/Reference/DataNode-Config-Manual.md
 
 3.To modify configuration parameters in IT and UT, you need to modify them in the method annotated by @before and reset them in the method annotated by @after. In this way, you can avoid impact on other tests. The parameters of the compaction module are placed in the CompactionConfigRestorer file.
 
@@ -134,9 +134,9 @@ Choose squash merge. You can choose rebase only when the author has only one com
 Close the corresponding issue in JIRA, and mark the repaired or completed version. Note that solving or closing an issue requires adding a pr or description to the issue, so that changes can be tracked via the issue.
 
 ## How to Prepare User Manual and Design Document
-User manual and other documentation on the official website are maintained in the apache/iotdb repository. 
+User manual and other documentation on the official website are maintained in the apache/iotdb-docs repository. 
 
-The index items of each page of the official website are maintained in the file "site/src/main/.vuepress/config.js" of the master branch, while the specific content of the user manual is maintained in the branch of the corresponding version (for example, user manual for 0.12 is in rel/0.12).  
+The index items of each page of the official website are maintained in the file "src/.vuepress/sidebar" of the main branch, while the specific content of the user manual is maintained in the directory of the corresponding version (for example, user manual for 1.1 is in src/UserGuide/V1.1.x).  
 
 User manual
 
@@ -151,10 +151,10 @@ It is recommended that the design document contains background, design goals, id
 ### Modifying User Manual
 Other than modifying different files, the process is the same as contributing codes.
 
-The English user manual is placed in the docs/UserGuide folder.
+The English user manual is placed in the src/UserGuide folder.
 
-To update the user manual directory, including adding, deleting documents and renaming documents, you need to make corresponding changes in the file(path:site/src/main/.vuepress/config.js) in the master branch.
+To update the user manual directory, including adding, deleting documents and renaming documents, you need to make corresponding changes in the file(path:src/.vuepress/sidebar) in the main branch.
 
 ### Modifying the Top Navigation Bar of the Official Website
 
-Search for nav in the file(path:site/src/main/.vuepress/config.js), and make corresponding modifications by referencing the existing code, then submit a PR and wait for merging. Documents to be added can be placed in the docs folder.
+Search for nav in the file(path:src/.vuepress/navbar/en.ts), and make corresponding modifications by referencing the existing code, then submit a PR and wait for merging. Documents to be added can be placed in the src folder.

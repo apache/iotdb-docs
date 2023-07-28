@@ -393,10 +393,14 @@ SessionDataSet executeRawDataQuery(List<String> paths, long startTime, long endT
 
 * 最新点查询：
   - 查询最后一条时间戳大于等于某个时间点的数据。
-
-``` java
-SessionDataSet executeLastDataQuery(List<String> paths, long lastTime);
-```
+    ``` java
+    SessionDataSet executeLastDataQuery(List<String> paths, long lastTime);
+    ```
+  - 快速查询单设备下指定序列最新点，支持重定向；如果您确认使用的查询路径是合法的，可将`isLegalPathNodes`置为true以避免路径校验带来的性能损失。
+    ``` java
+    SessionDataSet executeLastDataQueryForOneDevice(
+        String db, String device, List<String> sensors, boolean isLegalPathNodes);
+    ```
 
 * 聚合查询：
   - 支持指定查询时间范围。指定的查询时间范围为左闭右开区间，包含开始时间但不包含结束时间。
