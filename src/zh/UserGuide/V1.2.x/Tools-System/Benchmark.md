@@ -274,16 +274,29 @@ IoT-benchmark目前支持通过配置参数“TEST_DATA_PERSISTENCE”将测试�
 
 图2-1服务器监控任务
 
-​    例如我们首先启动对KairosDB的测试，IoT-benchmark会在MySQL数据库中创建CONFIG数据表存放本次测试配置信息（图2-2），测试执行中会有日志输出当前测试进度（图2-3）。测试完成时会输出本次测试结果（图2-3），同时将结果写入FINAL_RESULT数据表中（图2-4）。
+    例如我们首先启动对KairosDB的测试，IoT-benchmark会在MySQL数据库中创建CONFIG数据表存放本次测试配置信息（图2-2），测试执行中会有日志输出当前测试进度（图2-3）。测试完成时会输出本次测试结果（图2-3），同时将结果写入FINAL_RESULT数据表中（图2-4）。
 
 ![img](https://alioss.timecho.com/docs/img/6.png)
 
 图2-2测试配置信息表
 
 ![img](https://alioss.timecho.com/docs/img/7.png)
+
+ 
+
+
+
 ![img](https://alioss.timecho.com/docs/img/8.png)
+
+
+
 ![img](https://alioss.timecho.com/docs/img/9.png)
+
+ 
+
 ![img](https://alioss.timecho.com/docs/img/10.png)
+
+
 
 图2-3测试进度和结果
 
@@ -302,6 +315,7 @@ IoT-benchmark目前支持通过配置参数“TEST_DATA_PERSISTENCE”将测试�
 那么测试过程中各个服务器资源使用情况如何呢？每个写操作具体的表现如何呢？这个时候我们就可以通过安装和使用Tableau来可视化服务器监控表和测试过程记录表内的数据了。Tableau的使用本文不展开介绍，通过它连接测试数据持久化的数据表后具体结果下如图（以Apache-IoTDB为例）：
 
 ![img](https://alioss.timecho.com/docs/img/13.png)
+
 ![img](https://alioss.timecho.com/docs/img/14.png)
 
 图2-6Tableau可视化测试过程
