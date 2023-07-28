@@ -34,7 +34,7 @@ public void createTimeseries(
     throws IoTDBConnectionException, StatementExecutionException;
 ```
 
-如果您希望创建时间序列 root.sg.a，root.sg.\`a.\`\`"b\`，root.sg.\`111\`，您使用的 SQL 语句应该如下所示：
+如果您希望创建时间序列 ``` root.sg.a，root.sg.`a.``"b`，root.sg.`111` ```，您使用的 SQL 语句应该如下所示：
 
 ```SQL
 create timeseries root.sg.a with datatype=FLOAT,encoding=PLAIN,compressor=SNAPPY;
@@ -71,7 +71,7 @@ public void insertRecord(
     throws IoTDBConnectionException, StatementExecutionException;
 ```
 
-如果您希望向时间序列 root.sg.a，root.sg.\`a.\`\`"b\`，root.sg.\`111\`中插入数据，您使用的 SQL 语句应该如下所示：
+如果您希望向时间序列 ``` root.sg.a，root.sg.`a.``"b`，root.sg.`111` ``` 中插入数据，您使用的 SQL 语句应该如下所示：
 
 ```SQL
 insert into root.sg(timestamp, a, `a.``"b`, `111`) values (1, 2, 2, 2);
@@ -98,7 +98,7 @@ public SessionDataSet executeRawDataQuery(
     throws StatementExecutionException, IoTDBConnectionException;
 ```
 
-如果您希望查询时间序列 root.sg.a，root.sg.\`a.\`\`"b\`，root.sg.\`111\`的数据，您使用的 SQL 语句应该如下所示：
+如果您希望查询时间序列``` root.sg.a，root.sg.`a.``"b`，root.sg.`111` ```的数据，您使用的 SQL 语句应该如下所示：
 
 ```SQL
 select a from root.sg
