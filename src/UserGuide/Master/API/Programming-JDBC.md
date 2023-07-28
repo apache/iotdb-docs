@@ -30,8 +30,6 @@ PLEASE USE [JAVA NATIVE API](https://iotdb.apache.org/UserGuide/Master/API/Progr
 * JDK >= 1.8
 * Maven >= 3.6
 
-
-
 ### Installation
 
 In root directory:
@@ -39,8 +37,6 @@ In root directory:
 ```shell
 mvn clean install -pl iotdb-client/jdbc -am -Dmaven.test.skip=true
 ```
-
-
 
 ### Use IoTDB JDBC with Maven
 
@@ -53,8 +49,6 @@ mvn clean install -pl iotdb-client/jdbc -am -Dmaven.test.skip=true
     </dependency>
 </dependencies>
 ```
-
-
 
 ### Coding Examples
 

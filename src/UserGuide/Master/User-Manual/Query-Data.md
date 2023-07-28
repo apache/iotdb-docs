@@ -18,12 +18,12 @@
     under the License.
 
 -->
-# 数据查询
-## 概述
+# Query Data
+## OVERVIEW
 
-在 IoTDB 中，使用 `SELECT` 语句从一条或多条时间序列中查询数据。
+### Syntax Definition
 
-### 语法定义
+In IoTDB, `SELECT` statement is used to retrieve data from one or more selected time series. Here is the syntax definition of `SELECT` statement:
 
 ```sql
 SELECT [LAST] selectExpr [, selectExpr] ...
@@ -33,10 +33,11 @@ SELECT [LAST] selectExpr [, selectExpr] ...
     [GROUP BY {
         ([startTime, endTime), interval [, slidingStep]) |
         LEVEL = levelNum [, levelNum] ... |
-        TAGS(tagKey [, tagKey] ... |
-        VARIATION(expression[,delta][,ignoreNull=true/false])|
-        CONDITION(expression,[keep>/>=/=/</<=]threshold[,ignoreNull=true/false])|
-        SESSION(timeInterval)
+        TAGS(tagKey [, tagKey] ... ) |
+        VARIATION(expression[,delta][,ignoreNull=true/false]) |
+        CONDITION(expression,[keep>/>=/=/</<=]threshold[,ignoreNull=true/false]) |
+        SESSION(timeInterval) |
+        COUNT(expression, size[,ignoreNull=true/false])
     }]
     [HAVING havingCondition]
     [ORDER BY sortKey {ASC | DESC}]
@@ -46,112 +47,898 @@ SELECT [LAST] selectExpr [, selectExpr] ...
     [ALIGN BY {TIME | DEVICE}]
 ```
 
-## SELECT FROM 子句
-- `SELECT` 子句指定查询的输出，由若干个 `selectExpr` 组成。
-- 每个 `selectExpr` 定义查询结果中的一列或多列，它是一个由时间序列路径后缀、常量、函数和运算符组成的表达式。
-- 支持使用`AS`为查询结果集中的列指定别名。
-- 在 `SELECT` 子句中使用 `LAST` 关键词可以指定查询为最新点查询。
+### Syntax Description
 
-- **示例 1：** 
+#### `SELECT` clause
+
+- The `SELECT` clause specifies the output of the query, consisting of several `selectExpr`.
+- Each `selectExpr` defines one or more columns in the query result, which is an expression consisting of time series path suffixes, constants, functions, and operators.
+- Supports using `AS` to specify aliases for columns in the query result set.
+- Use the `LAST` keyword in the `SELECT` clause to specify that the query is the last query.
+
+#### `INTO` clause
+
+- `SELECT INTO` is used to write query results into a series of specified time series. The `INTO` clause specifies the target time series to which query results are written.
+
+#### `FROM` clause
+
+- The `FROM` clause contains the path prefix of one or more time series to be queried, and wildcards are supported.
+- When executing a query, the path prefix in the `FROM` clause and the suffix in the `SELECT` clause will be concatenated to obtain a complete query target time series.
+
+#### `WHERE` clause
+
+- The `WHERE` clause specifies the filtering conditions for data rows, consisting of a `whereCondition`.
+- `whereCondition` is a logical expression that evaluates to true for each row to be selected. If there is no `WHERE` clause, all rows will be selected.
+- In `whereCondition`, any IOTDB-supported functions and operators can be used except aggregate functions.
+
+#### `GROUP BY` clause
+
+- The `GROUP BY` clause specifies how the time series are aggregated by segment or group.
+- Segmented aggregation refers to segmenting data in the row direction according to the time dimension, aiming at the time relationship between different data points in the same time series, and obtaining an aggregated value for each segment. Currently only **group by time**、**group by variation**、**group by condition**、**group by session** and **group by count** is supported, and more segmentation methods will be supported in the future.
+- Group aggregation refers to grouping the potential business attributes of time series for different time series. Each group contains several time series, and each group gets an aggregated value. Support **group by path level** and **group by tag** two grouping methods.
+- Segment aggregation and group aggregation can be mixed.
+
+#### `HAVING` clause
+
+- The `HAVING` clause specifies the filter conditions for the aggregation results, consisting of a `havingCondition`.
+- `havingCondition` is a logical expression that evaluates to true for the aggregation results to be selected. If there is no `HAVING` clause, all aggregated results will be selected.
+- `HAVING` is to be used with aggregate functions and the `GROUP BY` clause.
+
+#### `ORDER BY` clause
+
+- The `ORDER BY` clause is used to specify how the result set is sorted.
+- In ALIGN BY TIME mode: By default, they are sorted in ascending order of timestamp size, and `ORDER BY TIME DESC` can be used to specify that the result set is sorted in descending order of timestamp.
+- In ALIGN BY DEVICE mode: arrange according to the device first, and sort each device in ascending order according to the timestamp. The ordering and priority can be adjusted by `ORDER BY` clause.
+
+#### `FILL` clause
+
+- The `FILL` clause is used to specify the filling mode in the case of missing data, allowing users to fill in empty values ​​for the result set of any query according to a specific method.
+
+#### `SLIMIT` and `SOFFSET` clauses
+
+- `SLIMIT` specifies the number of columns of the query result, and `SOFFSET` specifies the starting column position of the query result display. `SLIMIT` and `SOFFSET` are only used to control value columns and have no effect on time and device columns.
+
+#### `LIMIT` and `OFFSET` clauses
+
+- `LIMIT` specifies the number of rows of the query result, and `OFFSET` specifies the starting row position of the query result display.
+
+#### `ALIGN BY` clause
+
+- The query result set is **ALIGN BY TIME** by default, including a time column and several value columns, and the timestamps of each column of data in each row are the same.
+- It also supports  **ALIGN BY DEVICE**. The query result set contains a time column, a device column, and several value columns.
+
+### Basic Examples
+
+#### Select a Column of Data Based on a Time Interval
+
+The SQL statement is:
+
+```sql
+select temperature from root.ln.wf01.wt01 where time < 2017-11-01T00:08:00.000
+```
+
+which means:
+
+The selected device is ln group wf01 plant wt01 device; the selected timeseries is the temperature sensor (temperature). The SQL statement requires that all temperature sensor values before the time point of "2017-11-01T00:08:00.000" be selected.
+
+The execution result of this SQL statement is as follows:
 
 ```
-select temperature from root.ln.wf01.wt01 
++-----------------------------+-----------------------------+
+|                         Time|root.ln.wf01.wt01.temperature|
++-----------------------------+-----------------------------+
+|2017-11-01T00:00:00.000+08:00|                        25.96|
+|2017-11-01T00:01:00.000+08:00|                        24.36|
+|2017-11-01T00:02:00.000+08:00|                        20.09|
+|2017-11-01T00:03:00.000+08:00|                        20.18|
+|2017-11-01T00:04:00.000+08:00|                        21.13|
+|2017-11-01T00:05:00.000+08:00|                        22.72|
+|2017-11-01T00:06:00.000+08:00|                        20.71|
+|2017-11-01T00:07:00.000+08:00|                        21.45|
++-----------------------------+-----------------------------+
+Total line number = 8
+It costs 0.026s
 ```
 
-- **示例 2：** 
+#### Select Multiple Columns of Data Based on a Time Interval
 
-```
-select status, temperature from root.ln.wf01.wt01
-```
+The SQL statement is:
 
-- **示例 3：** 
-
-```
-select last status from root.ln.wf01.wt01
+```sql
+select status, temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000;
 ```
 
-## WHERE 子句
+which means:
 
-- `WHERE` 子句指定了对数据行的筛选条件，由一个 `whereCondition` 组成。
-- `whereCondition` 是一个逻辑表达式，对于要选择的每一行，其计算结果为真。如果没有 `WHERE` 子句，将选择所有行。
-- 在 `whereCondition` 中，可以使用除聚合函数之外的任何 IOTDB 支持的函数和运算符。
+The selected device is ln group wf01 plant wt01 device; the selected timeseries is "status" and "temperature". The SQL statement requires that the status and temperature sensor values between the time point of "2017-11-01T00:05:00.000" and "2017-11-01T00:12:00.000" be selected.
 
-### 值过滤条件
+The execution result of this SQL statement is as follows:
 
-使用值过滤条件可以筛选数据值满足特定条件的数据。
-**允许**使用 select 子句中未选择的时间序列作为值过滤条件。
+```
++-----------------------------+------------------------+-----------------------------+
+|                         Time|root.ln.wf01.wt01.status|root.ln.wf01.wt01.temperature|
++-----------------------------+------------------------+-----------------------------+
+|2017-11-01T00:06:00.000+08:00|                   false|                        20.71|
+|2017-11-01T00:07:00.000+08:00|                   false|                        21.45|
+|2017-11-01T00:08:00.000+08:00|                   false|                        22.58|
+|2017-11-01T00:09:00.000+08:00|                   false|                        20.98|
+|2017-11-01T00:10:00.000+08:00|                    true|                        25.52|
+|2017-11-01T00:11:00.000+08:00|                   false|                        22.91|
++-----------------------------+------------------------+-----------------------------+
+Total line number = 6
+It costs 0.018s
+```
 
-示例如下：
+#### Select Multiple Columns of Data for the Same Device According to Multiple Time Intervals
 
-1. 选择值大于 36.5 的数据：
+IoTDB supports specifying multiple time interval conditions in a query. Users can combine time interval conditions at will according to their needs. For example, the SQL statement is:
 
-   ```sql
-   select temperature from root.sg1.d1 where temperature > 36.5;
-   ```
+```sql
+select status,temperature from root.ln.wf01.wt01 where (time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000) or (time >= 2017-11-01T16:35:00.000 and time <= 2017-11-01T16:37:00.000);
+```
 
-2. 选择值等于 true 的数据：
+which means:
 
-   ```sql
-   select status from root.sg1.d1 where status = true;
+The selected device is ln group wf01 plant wt01 device; the selected timeseries is "status" and "temperature"; the statement specifies two different time intervals, namely "2017-11-01T00:05:00.000 to 2017-11-01T00:12:00.000" and "2017-11-01T16:35:00.000 to 2017-11-01T16:37:00.000". The SQL statement requires that the values of selected timeseries satisfying any time interval be selected.
 
-3. 选择区间 [36.5,40] 内或之外的数据：
+The execution result of this SQL statement is as follows:
+
+```
++-----------------------------+------------------------+-----------------------------+
+|                         Time|root.ln.wf01.wt01.status|root.ln.wf01.wt01.temperature|
++-----------------------------+------------------------+-----------------------------+
+|2017-11-01T00:06:00.000+08:00|                   false|                        20.71|
+|2017-11-01T00:07:00.000+08:00|                   false|                        21.45|
+|2017-11-01T00:08:00.000+08:00|                   false|                        22.58|
+|2017-11-01T00:09:00.000+08:00|                   false|                        20.98|
+|2017-11-01T00:10:00.000+08:00|                    true|                        25.52|
+|2017-11-01T00:11:00.000+08:00|                   false|                        22.91|
+|2017-11-01T16:35:00.000+08:00|                    true|                        23.44|
+|2017-11-01T16:36:00.000+08:00|                   false|                        21.98|
+|2017-11-01T16:37:00.000+08:00|                   false|                        21.93|
++-----------------------------+------------------------+-----------------------------+
+Total line number = 9
+It costs 0.018s
+```
+
+
+#### Choose Multiple Columns of Data for Different Devices According to Multiple Time Intervals
+
+The system supports the selection of data in any column in a query, i.e., the selected columns can come from different devices. For example, the SQL statement is:
+
+```sql
+select wf01.wt01.status,wf02.wt02.hardware from root.ln where (time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000) or (time >= 2017-11-01T16:35:00.000 and time <= 2017-11-01T16:37:00.000);
+```
+
+which means:
+
+The selected timeseries are "the power supply status of ln group wf01 plant wt01 device" and "the hardware version of ln group wf02 plant wt02 device"; the statement specifies two different time intervals, namely "2017-11-01T00:05:00.000 to 2017-11-01T00:12:00.000" and "2017-11-01T16:35:00.000 to 2017-11-01T16:37:00.000". The SQL statement requires that the values of selected timeseries satisfying any time interval be selected.
+
+The execution result of this SQL statement is as follows:
+
+```
++-----------------------------+------------------------+--------------------------+
+|                         Time|root.ln.wf01.wt01.status|root.ln.wf02.wt02.hardware|
++-----------------------------+------------------------+--------------------------+
+|2017-11-01T00:06:00.000+08:00|                   false|                        v1|
+|2017-11-01T00:07:00.000+08:00|                   false|                        v1|
+|2017-11-01T00:08:00.000+08:00|                   false|                        v1|
+|2017-11-01T00:09:00.000+08:00|                   false|                        v1|
+|2017-11-01T00:10:00.000+08:00|                    true|                        v2|
+|2017-11-01T00:11:00.000+08:00|                   false|                        v1|
+|2017-11-01T16:35:00.000+08:00|                    true|                        v2|
+|2017-11-01T16:36:00.000+08:00|                   false|                        v1|
+|2017-11-01T16:37:00.000+08:00|                   false|                        v1|
++-----------------------------+------------------------+--------------------------+
+Total line number = 9
+It costs 0.014s
+```
+
+#### Order By Time Query
+
+IoTDB supports the 'order by time' statement since 0.11, it's used to display results in descending order by time.
+For example, the SQL statement is:
+
+```sql
+select * from root.ln.** where time > 1 order by time desc limit 10;
+```
+
+The execution result of this SQL statement is as follows:
+
+```
++-----------------------------+--------------------------+------------------------+-----------------------------+------------------------+
+|                         Time|root.ln.wf02.wt02.hardware|root.ln.wf02.wt02.status|root.ln.wf01.wt01.temperature|root.ln.wf01.wt01.status|
++-----------------------------+--------------------------+------------------------+-----------------------------+------------------------+
+|2017-11-07T23:59:00.000+08:00|                        v1|                   false|                        21.07|                   false|
+|2017-11-07T23:58:00.000+08:00|                        v1|                   false|                        22.93|                   false|
+|2017-11-07T23:57:00.000+08:00|                        v2|                    true|                        24.39|                    true|
+|2017-11-07T23:56:00.000+08:00|                        v2|                    true|                        24.44|                    true|
+|2017-11-07T23:55:00.000+08:00|                        v2|                    true|                         25.9|                    true|
+|2017-11-07T23:54:00.000+08:00|                        v1|                   false|                        22.52|                   false|
+|2017-11-07T23:53:00.000+08:00|                        v2|                    true|                        24.58|                    true|
+|2017-11-07T23:52:00.000+08:00|                        v1|                   false|                        20.18|                   false|
+|2017-11-07T23:51:00.000+08:00|                        v1|                   false|                        22.24|                   false|
+|2017-11-07T23:50:00.000+08:00|                        v2|                    true|                         23.7|                    true|
++-----------------------------+--------------------------+------------------------+-----------------------------+------------------------+
+Total line number = 10
+It costs 0.016s
+```
+
+### Execution Interface
+
+In IoTDB, there are two ways to execute data query:
+
+- Execute queries using IoTDB-SQL.
+- Efficient execution interfaces for common queries, including time-series raw data query, last query, and aggregation query.
+
+#### Execute queries using IoTDB-SQL
+
+Data query statements can be used in SQL command-line terminals, JDBC, JAVA / C++ / Python / Go and other native APIs, and RESTful APIs.
+
+- Execute the query statement in the SQL command line terminal: start the SQL command line terminal, and directly enter the query statement to execute, see [SQL command line terminal](../QuickStart/Command-Line-Interface.md).
+
+- Execute query statements in JDBC, see [JDBC](../API/Programming-JDBC.md) for details.
+
+- Execute query statements in native APIs such as JAVA / C++ / Python / Go. For details, please refer to the relevant documentation in the Application Programming Interface chapter. The interface prototype is as follows:
+
+    ````java
+    SessionDataSet executeQueryStatement(String sql)
+    ````
+
+- Used in RESTful API, see [HTTP API V1](../API/RestServiceV1.md) or [HTTP API V2](../API/RestServiceV2.md) for details.
+
+#### Efficient execution interfaces
+
+The native APIs provide efficient execution interfaces for commonly used queries, which can save time-consuming operations such as SQL parsing. include:
+
+* Time-series raw data query with time range:
+    - The specified query time range is a left-closed right-open interval, including the start time but excluding the end time.
+
+```java
+SessionDataSet executeRawDataQuery(List<String> paths, long startTime, long endTime);
+```
+
+* Last query:
+    - Query the last data, whose timestamp is greater than or equal LastTime.
+
+```java
+SessionDataSet executeLastDataQuery(List<String> paths, long LastTime);
+```
+
+* Aggregation query:
+    - Support specified query time range: The specified query time range is a left-closed right-open interval, including the start time but not the end time.
+    - Support GROUP BY TIME.
+
+```java
+SessionDataSet executeAggregationQuery(List<String> paths, List<Aggregation> aggregations);
+
+SessionDataSet executeAggregationQuery(
+    List<String> paths, List<Aggregation> aggregations, long startTime, long endTime);
+
+SessionDataSet executeAggregationQuery(
+    List<String> paths,
+    List<Aggregation> aggregations,
+    long startTime,
+    long endTime,
+    long interval);
+
+SessionDataSet executeAggregationQuery(
+    List<String> paths,
+    List<Aggregation> aggregations,
+    long startTime,
+    long endTime,
+    long interval,
+    long slidingStep);
+```
+
+## `SELECT` CLAUSE
+The `SELECT` clause specifies the output of the query, consisting of several `selectExpr`. Each `selectExpr` defines one or more columns in the query result.
+
+**`selectExpr` is an expression consisting of time series path suffixes, constants, functions, and operators. That is, `selectExpr` can contain: **
+
+- Time series path suffix (wildcards are supported)
+- operator
+    - Arithmetic operators
+    - comparison operators
+    - Logical Operators
+- function
+    - aggregate functions
+    - Time series generation functions (including built-in functions and user-defined functions)
+- constant
+
+### Use Alias
+
+Since the unique data model of IoTDB, lots of additional information like device will be carried before each sensor. Sometimes, we want to query just one specific device, then these prefix information show frequently will be redundant in this situation, influencing the analysis of result set. At this time, we can use `AS` function provided by IoTDB, assign an alias to time series selected in query.  
+
+For example：
+
+```sql
+select s1 as temperature, s2 as speed from root.ln.wf01.wt01;
+```
+
+The result set is：
+
+| Time | temperature | speed |
+| ---- | ----------- | ----- |
+| ...  | ...         | ...   |
+
+
+### Operator
+
+See the documentation [Operators and Functions](../Operators-Functions/Overview.md) for a list of operators supported in IoTDB.
+
+### Function
+
+#### aggregate functions
+
+Aggregate functions are many-to-one functions. They perform aggregate calculations on a set of values, resulting in a single aggregated result.
+
+**A query that contains an aggregate function is called an aggregate query**, otherwise, it is called a time series query.
+
+> Please note that mixed use of `Aggregate Query` and `Timeseries Query` is not allowed. Below are examples for queries that are not allowed.
+>
+> ```
+> select a, count(a) from root.sg 
+> select sin(a), count(a) from root.sg
+> select a, count(a) from root.sg group by ([10,100),10ms)
+> ```
+
+For the aggregation functions supported by IoTDB, see the document [Aggregation Functions](../Operators-Functions/Aggregation.md).
+
+#### Time series generation function
+
+A time series generation function takes several raw time series as input and produces a list of time series as output. Unlike aggregate functions, time series generators have a timestamp column in their result sets.
+
+All time series generation functions accept * as input, and all can be mixed with raw time series queries.
+
+##### Built-in time series generation functions
+
+See the documentation [Operators and Functions](../Operators-Functions/Overview.md) for a list of built-in functions supported in IoTDB.
+
+##### User-Defined time series generation function
+
+IoTDB supports function extension through User Defined Function (click for [User-Defined Function](../Operators-Functions/User-Defined-Function.md)) capability.
+
+### Nested Expressions
+
+IoTDB supports the calculation of arbitrary nested expressions. Since time series query and aggregation query can not be used in a query statement at the same time, we divide nested expressions into two types, which are nested expressions with time series query and nested expressions with aggregation query. 
+
+The following is the syntax definition of the `select` clause:
+
+```sql
+selectClause
+    : SELECT resultColumn (',' resultColumn)*
+    ;
+
+resultColumn
+    : expression (AS ID)?
+    ;
+
+expression
+    : '(' expression ')'
+    | '-' expression
+    | expression ('*' | '/' | '%') expression
+    | expression ('+' | '-') expression
+    | functionName '(' expression (',' expression)* functionAttribute* ')'
+    | timeSeriesSuffixPath
+    | number
+    ;
+```
+
+#### Nested Expressions with Time Series Query
+
+IoTDB supports the calculation of arbitrary nested expressions consisting of **numbers, time series, time series generating functions (including user-defined functions) and arithmetic expressions** in the `select` clause.
+
+##### Example
+
+Input1：
+
+```sql
+select a,
+       b,
+       ((a + 1) * 2 - 1) % 2 + 1.5,
+       sin(a + sin(a + sin(b))),
+       -(a + b) * (sin(a + b) * sin(a + b) + cos(a + b) * cos(a + b)) + 1
+from root.sg1;
+```
+
+Result1：
+
+```
++-----------------------------+----------+----------+----------------------------------------+---------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                         Time|root.sg1.a|root.sg1.b|((((root.sg1.a + 1) * 2) - 1) % 2) + 1.5|sin(root.sg1.a + sin(root.sg1.a + sin(root.sg1.b)))|(-root.sg1.a + root.sg1.b * ((sin(root.sg1.a + root.sg1.b) * sin(root.sg1.a + root.sg1.b)) + (cos(root.sg1.a + root.sg1.b) * cos(root.sg1.a + root.sg1.b)))) + 1|
++-----------------------------+----------+----------+----------------------------------------+---------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|1970-01-01T08:00:00.010+08:00|         1|         1|                                     2.5|                                 0.9238430524420609|                                                                                                                      -1.0|
+|1970-01-01T08:00:00.020+08:00|         2|         2|                                     2.5|                                 0.7903505371876317|                                                                                                                      -3.0|
+|1970-01-01T08:00:00.030+08:00|         3|         3|                                     2.5|                                0.14065207680386618|                                                                                                                      -5.0|
+|1970-01-01T08:00:00.040+08:00|         4|      null|                                     2.5|                                               null|                                                                                                                      null|
+|1970-01-01T08:00:00.050+08:00|      null|         5|                                    null|                                               null|                                                                                                                      null|
+|1970-01-01T08:00:00.060+08:00|         6|         6|                                     2.5|                                -0.7288037411970916|                                                                                                                     -11.0|
++-----------------------------+----------+----------+----------------------------------------+---------------------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------------+
+Total line number = 6
+It costs 0.048s
+```
+
+Input2：
+
+```sql
+select (a + b) * 2 + sin(a) from root.sg
+```
+
+Result2：
+
+```
++-----------------------------+----------------------------------------------+
+|                         Time|((root.sg.a + root.sg.b) * 2) + sin(root.sg.a)|
++-----------------------------+----------------------------------------------+
+|1970-01-01T08:00:00.010+08:00|                             59.45597888911063|
+|1970-01-01T08:00:00.020+08:00|                            100.91294525072763|
+|1970-01-01T08:00:00.030+08:00|                            139.01196837590714|
+|1970-01-01T08:00:00.040+08:00|                            180.74511316047935|
+|1970-01-01T08:00:00.050+08:00|                            219.73762514629607|
+|1970-01-01T08:00:00.060+08:00|                             259.6951893788978|
+|1970-01-01T08:00:00.070+08:00|                             300.7738906815579|
+|1970-01-01T08:00:00.090+08:00|                             39.45597888911063|
+|1970-01-01T08:00:00.100+08:00|                             39.45597888911063|
++-----------------------------+----------------------------------------------+
+Total line number = 9
+It costs 0.011s
+```
+
+Input3：
+
+```sql
+select (a + *) / 2  from root.sg1
+```
+
+Result3：
+
+```
++-----------------------------+-----------------------------+-----------------------------+
+|                         Time|(root.sg1.a + root.sg1.a) / 2|(root.sg1.a + root.sg1.b) / 2|
++-----------------------------+-----------------------------+-----------------------------+
+|1970-01-01T08:00:00.010+08:00|                          1.0|                          1.0|
+|1970-01-01T08:00:00.020+08:00|                          2.0|                          2.0|
+|1970-01-01T08:00:00.030+08:00|                          3.0|                          3.0|
+|1970-01-01T08:00:00.040+08:00|                          4.0|                         null|
+|1970-01-01T08:00:00.060+08:00|                          6.0|                          6.0|
++-----------------------------+-----------------------------+-----------------------------+
+Total line number = 5
+It costs 0.011s
+```
+
+Input4：
+
+```sql
+select (a + b) * 3 from root.sg, root.ln
+```
+
+Result4：
+
+```
++-----------------------------+---------------------------+---------------------------+---------------------------+---------------------------+
+|                         Time|(root.sg.a + root.sg.b) * 3|(root.sg.a + root.ln.b) * 3|(root.ln.a + root.sg.b) * 3|(root.ln.a + root.ln.b) * 3|
++-----------------------------+---------------------------+---------------------------+---------------------------+---------------------------+
+|1970-01-01T08:00:00.010+08:00|                       90.0|                      270.0|                      360.0|                      540.0|
+|1970-01-01T08:00:00.020+08:00|                      150.0|                      330.0|                      690.0|                      870.0|
+|1970-01-01T08:00:00.030+08:00|                      210.0|                      450.0|                      570.0|                      810.0|
+|1970-01-01T08:00:00.040+08:00|                      270.0|                      240.0|                      690.0|                      660.0|
+|1970-01-01T08:00:00.050+08:00|                      330.0|                       null|                       null|                       null|
+|1970-01-01T08:00:00.060+08:00|                      390.0|                       null|                       null|                       null|
+|1970-01-01T08:00:00.070+08:00|                      450.0|                       null|                       null|                       null|
+|1970-01-01T08:00:00.090+08:00|                       60.0|                       null|                       null|                       null|
+|1970-01-01T08:00:00.100+08:00|                       60.0|                       null|                       null|                       null|
++-----------------------------+---------------------------+---------------------------+---------------------------+---------------------------+
+Total line number = 9
+It costs 0.014s
+```
+
+##### Explanation
+
+- Only when the left operand and the right operand under a certain timestamp are not `null`, the nested expressions will have an output value. Otherwise this row will not be included in the result. 
+    - In Result1 of the Example part, the value of time series `root.sg.a` at time 40 is 4, while the value of time series `root.sg.b` is `null`. So at time 40, the value of nested expressions `(a + b) * 2 + sin(a)` is `null`. So in Result2, this row is not included in the result.
+- If one operand in the nested expressions can be translated into multiple time series (For example, `*`), the result of each time series will be included in the result (Cartesian product). Please refer to Input3, Input4 and corresponding Result3 and Result4 in Example.
+
+##### Note
+
+> Please note that Aligned Time Series has not been supported in Nested Expressions with Time Series Query yet. An error message is expected if you use it with Aligned Time Series selected in a query statement.
+
+#### Nested Expressions query with aggregations
+
+IoTDB supports the calculation of arbitrary nested expressions consisting of **numbers, aggregations and arithmetic expressions** in the `select` clause.
+
+##### Example
+
+Aggregation query without `GROUP BY`.
+
+Input1:
+
+```sql
+select avg(temperature),
+       sin(avg(temperature)),
+       avg(temperature) + 1,
+       -sum(hardware),
+       avg(temperature) + sum(hardware)
+from root.ln.wf01.wt01;
+```
+
+Result1:
+
+```
++----------------------------------+---------------------------------------+--------------------------------------+--------------------------------+--------------------------------------------------------------------+
+|avg(root.ln.wf01.wt01.temperature)|sin(avg(root.ln.wf01.wt01.temperature))|avg(root.ln.wf01.wt01.temperature) + 1|-sum(root.ln.wf01.wt01.hardware)|avg(root.ln.wf01.wt01.temperature) + sum(root.ln.wf01.wt01.hardware)|
++----------------------------------+---------------------------------------+--------------------------------------+--------------------------------+--------------------------------------------------------------------+
+|                15.927999999999999|                   -0.21826546964855045|                    16.927999999999997|                         -7426.0|                                                            7441.928|
++----------------------------------+---------------------------------------+--------------------------------------+--------------------------------+--------------------------------------------------------------------+
+Total line number = 1
+It costs 0.009s
+```
+
+Input2:
+
+```sql
+select avg(*), 
+	   (avg(*) + 1) * 3 / 2 -1 
+from root.sg1
+```
+
+Result2:
+
+```
++---------------+---------------+-------------------------------------+-------------------------------------+
+|avg(root.sg1.a)|avg(root.sg1.b)|(avg(root.sg1.a) + 1) * 3 / 2 - 1    |(avg(root.sg1.b) + 1) * 3 / 2 - 1    |
++---------------+---------------+-------------------------------------+-------------------------------------+
+|            3.2|            3.4|                    5.300000000000001|                   5.6000000000000005|
++---------------+---------------+-------------------------------------+-------------------------------------+
+Total line number = 1
+It costs 0.007s
+```
+
+Aggregation with `GROUP BY`.
+
+Input3:
+
+```sql
+select avg(temperature),
+       sin(avg(temperature)),
+       avg(temperature) + 1,
+       -sum(hardware),
+       avg(temperature) + sum(hardware) as custom_sum
+from root.ln.wf01.wt01
+GROUP BY([10, 90), 10ms);
+```
+
+Result3:
+
+```
++-----------------------------+----------------------------------+---------------------------------------+--------------------------------------+--------------------------------+----------+
+|                         Time|avg(root.ln.wf01.wt01.temperature)|sin(avg(root.ln.wf01.wt01.temperature))|avg(root.ln.wf01.wt01.temperature) + 1|-sum(root.ln.wf01.wt01.hardware)|custom_sum|
++-----------------------------+----------------------------------+---------------------------------------+--------------------------------------+--------------------------------+----------+
+|1970-01-01T08:00:00.010+08:00|                13.987499999999999|                     0.9888207947857667|                    14.987499999999999|                         -3211.0| 3224.9875|
+|1970-01-01T08:00:00.020+08:00|                              29.6|                    -0.9701057337071853|                                  30.6|                         -3720.0|    3749.6|
+|1970-01-01T08:00:00.030+08:00|                              null|                                   null|                                  null|                            null|      null|
+|1970-01-01T08:00:00.040+08:00|                              null|                                   null|                                  null|                            null|      null|
+|1970-01-01T08:00:00.050+08:00|                              null|                                   null|                                  null|                            null|      null|
+|1970-01-01T08:00:00.060+08:00|                              null|                                   null|                                  null|                            null|      null|
+|1970-01-01T08:00:00.070+08:00|                              null|                                   null|                                  null|                            null|      null|
+|1970-01-01T08:00:00.080+08:00|                              null|                                   null|                                  null|                            null|      null|
++-----------------------------+----------------------------------+---------------------------------------+--------------------------------------+--------------------------------+----------+
+Total line number = 8
+It costs 0.012s
+```
+
+##### Explanation
+
+- Only when the left operand and the right operand under a certain timestamp are not `null`, the nested expressions will have an output value. Otherwise this row will not be included in the result. But for nested expressions with `GROUP BY` clause, it is better to show the result of all time intervals. Please refer to Input3 and corresponding Result3 in Example.
+- If one operand in the nested expressions can be translated into multiple time series (For example, `*`), the result of each time series will be included in the result (Cartesian product). Please refer to Input2 and corresponding Result2 in Example.
+
+### Last Query
+
+The last query is a special type of query in Apache IoTDB. It returns the data point with the largest timestamp of the specified time series. In other word, it returns the latest state of a time series. This feature is especially important in IoT data analysis scenarios. To meet the performance requirement of real-time device monitoring systems, Apache IoTDB caches the latest values of all time series to achieve microsecond read latency.
+
+The last query is to return the most recent data point of the given timeseries in a three column format.
+
+The SQL syntax is defined as:
+
+```sql
+select last <Path> [COMMA <Path>]* from < PrefixPath > [COMMA < PrefixPath >]* <WhereClause> [ORDER BY TIMESERIES (DESC | ASC)?]
+```
+
+which means: Query and return the last data points of timeseries prefixPath.path.
+
+- Only time filter is supported in \<WhereClause\>. Any other filters given in the \<WhereClause\> will give an exception. When the cached most recent data point does not satisfy the criterion specified by the filter, IoTDB will have to get the result from the external storage, which may cause a decrease in performance.
+
+- The result will be returned in a four column table format.
+
+    ```
+    | Time | timeseries | value | dataType |
+    ```
+
+    **Note:** The `value` colum will always return the value as `string` and thus also has `TSDataType.TEXT`. Therefore, the column `dataType` is returned also which contains the _real_ type how the value should be interpreted.
+
+- We can use `TIME/TIMESERIES/VALUE/DATATYPE (DESC | ASC)` to specify that the result set is sorted in descending/ascending order based on a particular column. When the value column contains multiple types of data, the sorting is based on the string representation of the values.
+
+**Example 1:** get the last point of root.ln.wf01.wt01.status:
+
+```
+IoTDB> select last status from root.ln.wf01.wt01
++-----------------------------+------------------------+-----+--------+
+|                         Time|              timeseries|value|dataType|
++-----------------------------+------------------------+-----+--------+
+|2017-11-07T23:59:00.000+08:00|root.ln.wf01.wt01.status|false| BOOLEAN|
++-----------------------------+------------------------+-----+--------+
+Total line number = 1
+It costs 0.000s
+```
+
+**Example 2:** get the last status and temperature points of root.ln.wf01.wt01, whose timestamp larger or equal to 2017-11-07T23:50:00。
+
+```
+IoTDB> select last status, temperature from root.ln.wf01.wt01 where time >= 2017-11-07T23:50:00
++-----------------------------+-----------------------------+---------+--------+
+|                         Time|                   timeseries|    value|dataType|
++-----------------------------+-----------------------------+---------+--------+
+|2017-11-07T23:59:00.000+08:00|     root.ln.wf01.wt01.status|    false| BOOLEAN|
+|2017-11-07T23:59:00.000+08:00|root.ln.wf01.wt01.temperature|21.067368|  DOUBLE|
++-----------------------------+-----------------------------+---------+--------+
+Total line number = 2
+It costs 0.002s
+```
+
+**Example 3:** get the last points of all sensor in root.ln.wf01.wt01, and order the result by the timeseries column in descending order
+
+```
+IoTDB> select last * from root.ln.wf01.wt01 order by timeseries desc;
++-----------------------------+-----------------------------+---------+--------+
+|                         Time|                   timeseries|    value|dataType|
++-----------------------------+-----------------------------+---------+--------+
+|2017-11-07T23:59:00.000+08:00|root.ln.wf01.wt01.temperature|21.067368|  DOUBLE|
+|2017-11-07T23:59:00.000+08:00|     root.ln.wf01.wt01.status|    false| BOOLEAN|
++-----------------------------+-----------------------------+---------+--------+
+Total line number = 2
+It costs 0.002s
+```
+
+**Example 4：** get the last points of all sensor in root.ln.wf01.wt01, and order the result by the dataType column in descending order
+
+```
+IoTDB> select last * from root.ln.wf01.wt01 order by dataType desc;
++-----------------------------+-----------------------------+---------+--------+
+|                         Time|                   timeseries|    value|dataType|
++-----------------------------+-----------------------------+---------+--------+
+|2017-11-07T23:59:00.000+08:00|root.ln.wf01.wt01.temperature|21.067368|  DOUBLE|
+|2017-11-07T23:59:00.000+08:00|     root.ln.wf01.wt01.status|    false| BOOLEAN|
++-----------------------------+-----------------------------+---------+--------+
+Total line number = 2
+It costs 0.002s
+```
+
+
+
+## `WHERE` CLAUSE
+
+In IoTDB query statements, two filter conditions, **time filter** and **value filter**, are supported.
+
+The supported operators are as follows:
+
+- Comparison operators: greater than (`>`), greater than or equal ( `>=`), equal ( `=` or `==`), not equal ( `!=` or `<>`), less than or equal ( `<=`), less than ( `<`).
+- Logical operators: and ( `AND` or `&` or `&&`), or ( `OR` or `|` or `||`), not ( `NOT` or `!`).
+- Range contains operator: contains ( `IN` ).
+- String matches operator: `LIKE`, `REGEXP`.
+
+### Time Filter
+
+Use time filters to filter data for a specific time range. For supported formats of timestamps, please refer to [Timestamp](../Basic-Concept/Data-Type.md) .
+
+An example is as follows:
+
+1. Select data with timestamp greater than 2022-01-01T00:05:00.000:
+
+    ```sql
+    select s1 from root.sg1.d1 where time > 2022-01-01T00:05:00.000;
+    ````
+
+2. Select data with timestamp equal to 2022-01-01T00:05:00.000:
+
+    ```sql
+    select s1 from root.sg1.d1 where time = 2022-01-01T00:05:00.000;
+    ````
+
+3. Select the data in the time interval [2017-11-01T00:05:00.000, 2017-11-01T00:12:00.000):
+
+    ```sql
+    select s1 from root.sg1.d1 where time >= 2022-01-01T00:05:00.000 and time < 2017-11-01T00:12:00.000;
+    ````
+
+Note: In the above example, `time` can also be written as `timestamp`.
+
+### Value Filter
+
+Use value filters to filter data whose data values meet certain criteria. **Allow** to use a time series not selected in the select clause as a value filter.
+
+An example is as follows:
+
+1. Select data with a value greater than 36.5:
+
+    ```sql
+    select temperature from root.sg1.d1 where temperature > 36.5;
+    ````
+
+2. Select data with value equal to true:
+
+    ```sql
+    select status from root.sg1.d1 where status = true;
+    ````
+
+3. Select data for the interval [36.5,40] or not:
 
     ```sql
     select temperature from root.sg1.d1 where temperature between 36.5 and 40;
     ````
+
     ```sql
     select temperature from root.sg1.d1 where temperature not between 36.5 and 40;
     ````
-   
-4. 选择值在特定范围内的数据：
 
-   ```sql
-   select code from root.sg1.d1 where code in ('200', '300', '400', '500');
-   ```
+4. Select data with values within a specific range:
 
-5. 选择值在特定范围外的数据：
+    ```sql
+    select code from root.sg1.d1 where code in ('200', '300', '400', '500');
+    ````
 
-   ```sql
-   select code from root.sg1.d1 where code not in ('200', '300', '400', '500');
-   ```
+5. Select data with values outside a certain range:
 
-6. 选择值为空的数据:
+    ```sql
+    select code from root.sg1.d1 where code not in ('200', '300', '400', '500');
+    ````
+
+6. Select data with values is null:
 
     ```sql
     select code from root.sg1.d1 where temperature is null;
     ````
 
-7. 选择值为非空的数据:
+7. Select data with values is not null:
 
     ```sql
     select code from root.sg1.d1 where temperature is not null;
     ````
 
-## GROUP BY 子句
+### Fuzzy Query
 
-- `GROUP BY` 子句指定对序列进行分段或分组聚合的方式。
-- 分段聚合是指按照时间维度，针对同时间序列中不同数据点之间的时间关系，对数据在行的方向进行分段，每个段得到一个聚合值。目前支持**时间区间分段**、**差值分段**、**条件分段**和**会话分段**，未来将支持更多分段方式。
-- 分组聚合是指针对不同时间序列，在时间序列的潜在业务属性上分组，每个组包含若干条时间序列，每个组得到一个聚合值。支持**按路径层级分组**和**按序列标签分组**两种分组方式。
-- 分段聚合和分组聚合可以混合使用。
+Fuzzy query is divided into Like statement and Regexp statement, both of which can support fuzzy matching of TEXT type data.
 
-#### 未指定滑动步长的时间区间分组聚合查询
+Like statement:
 
-对应的 SQL 语句是：
+#### Fuzzy matching using `Like`
+
+In the value filter condition, for TEXT type data, use `Like` and `Regexp` operators to perform fuzzy matching on data.
+
+**Matching rules:**
+
+- The percentage (`%`) wildcard matches any string of zero or more characters.
+- The underscore (`_`) wildcard matches any single character.
+
+**Example 1:** Query data containing `'cc'` in `value` under `root.sg.d1`. 
+
+```
+IoTDB> select * from root.sg.d1 where value like '%cc%'
++-----------------------------+----------------+
+|                         Time|root.sg.d1.value|
++-----------------------------+----------------+
+|2017-11-01T00:00:00.000+08:00|        aabbccdd| 
+|2017-11-01T00:00:01.000+08:00|              cc|
++-----------------------------+----------------+
+Total line number = 2
+It costs 0.002s
+```
+
+**Example 2:** Query data that consists of 3 characters and the second character is `'b'` in `value` under `root.sg.d1`.
+
+```
+IoTDB> select * from root.sg.device where value like '_b_'
++-----------------------------+----------------+
+|                         Time|root.sg.d1.value|
++-----------------------------+----------------+
+|2017-11-01T00:00:02.000+08:00|             abc| 
++-----------------------------+----------------+
+Total line number = 1
+It costs 0.002s
+```
+
+#### Fuzzy matching using `Regexp`
+
+The filter conditions that need to be passed in are regular expressions in the Java standard library style.
+
+**Examples of common regular matching:**
+
+```
+All characters with a length of 3-20: ^.{3,20}$
+Uppercase english characters: ^[A-Z]+$
+Numbers and English characters: ^[A-Za-z0-9]+$
+Beginning with a: ^a.*
+```
+
+**Example 1:** Query a string composed of 26 English characters for the value under root.sg.d1
+
+```
+IoTDB> select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
++-----------------------------+----------------+
+|                         Time|root.sg.d1.value|
++-----------------------------+----------------+
+|2017-11-01T00:00:00.000+08:00|        aabbccdd| 
+|2017-11-01T00:00:01.000+08:00|              cc|
++-----------------------------+----------------+
+Total line number = 2
+It costs 0.002s
+```
+
+**Example 2:** Query root.sg.d1 where the value value is a string composed of 26 lowercase English characters and the time is greater than 100
+
+```
+IoTDB> select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
++-----------------------------+----------------+
+|                         Time|root.sg.d1.value|
++-----------------------------+----------------+
+|2017-11-01T00:00:00.000+08:00|        aabbccdd| 
+|2017-11-01T00:00:01.000+08:00|              cc|
++-----------------------------+----------------+
+Total line number = 2
+It costs 0.002s
+```
+
+## `GROUP BY` CLAUSE
+
+IoTDB supports using `GROUP BY` clause to aggregate the time series by segment and group.
+
+Segmented aggregation refers to segmenting data in the row direction according to the time dimension, aiming at the time relationship between different data points in the same time series, and obtaining an aggregated value for each segment. Currently only **group by time**、**group by variation**、**group by condition**、**group by session** and **group by count** is supported, and more segmentation methods will be supported in the future.
+
+Group aggregation refers to grouping the potential business attributes of time series for different time series. Each group contains several time series, and each group gets an aggregated value. Support **group by path level** and **group by tag** two grouping methods.
+
+### Aggregate By Segment
+
+#### Aggregate By Time
+
+Aggregate by time is a typical query method for time series data. Data is collected at high frequency and needs to be aggregated and calculated at certain time intervals. For example, to calculate the daily average temperature, the sequence of temperature needs to be segmented by day, and then calculated. average value.
+
+Aggregate by time refers to a query method that uses a lower frequency than the time frequency of data collection, and is a special case of segmented aggregation. For example, the frequency of data collection is one second. If you want to display the data in one minute, you need to use time aggregagtion.
+
+This section mainly introduces the related examples of time aggregation,  using the `GROUP BY` clause.  IoTDB supports partitioning result sets according to time interval and customized sliding step. And by default results are sorted by time in ascending order. 
+
+The GROUP BY statement provides users with three types of specified parameters:
+
+* Parameter 1: The display window on the time axis
+* Parameter 2: Time interval for dividing the time axis(should be positive)
+* Parameter 3: Time sliding step (optional and defaults to equal the time interval if not set)
+
+The actual meanings of the three types of parameters are shown in Figure below. 
+Among them, the parameter 3 is optional. 
+
+<center><img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/69109512-f808bc80-0ab2-11ea-9e4d-b2b2f58fb474.png">
+    </center>
+
+
+There are three typical examples of frequency reduction aggregation: 
+
+##### Aggregate By Time without Specifying the Sliding Step Length
+
+The SQL statement is:
 
 ```sql
 select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d);
 ```
-这条查询的含义是：
 
-由于用户没有指定滑动步长，滑动步长将会被默认设置为跟时间间隔参数相同，也就是`1d`。
+which means:
 
-上面这个例子的第一个参数是显示窗口参数，决定了最终的显示范围是 [2017-11-01T00:00:00, 2017-11-07T23:00:00)。
+Since the sliding step length is not specified, the `GROUP BY` statement by default set the sliding step the same as the time interval which is `1d`.
 
-上面这个例子的第二个参数是划分时间轴的时间间隔参数，将`1d`当作划分间隔，显示窗口参数的起始时间当作分割原点，时间轴即被划分为连续的时间间隔：[0,1d), [1d, 2d), [2d, 3d) 等等。
+The fist parameter of the `GROUP BY` statement above is the display window parameter, which determines the final display range is [2017-11-01T00:00:00, 2017-11-07T23:00:00).
 
-然后系统将会用 WHERE 子句中的时间和值过滤条件以及 GROUP BY 语句中的第一个参数作为数据的联合过滤条件，获得满足所有过滤条件的数据（在这个例子里是在 [2017-11-01T00:00:00, 2017-11-07 T23:00:00) 这个时间范围的数据），并把这些数据映射到之前分割好的时间轴中（这个例子里是从 2017-11-01T00:00:00 到 2017-11-07T23:00:00:00 的每一天）
+The second parameter of the `GROUP BY` statement above is the time interval for dividing the time axis. Taking this parameter (1d) as time interval and startTime of the display window as the dividing origin, the time axis is divided into several continuous intervals, which are [0,1d), [1d, 2d), [2d, 3d), etc.
 
-每个时间间隔窗口内都有数据，SQL 执行后的结果集如下所示：
+Then the system will use the time and value filtering condition in the `WHERE` clause and the first parameter of the `GROUP BY` statement as the data filtering condition to obtain the data satisfying the filtering condition (which in this case is the data in the range of [2017-11-01T00:00:00, 2017-11-07 T23:00:00]), and map these data to the previously segmented time axis (in this case there are mapped data in every 1-day period from 2017-11-01T00:00:00 to 2017-11-07T23:00:00:00).
+
+Since there is data for each time period in the result range to be displayed, the execution result of the SQL statement is shown below:
 
 ```
 +-----------------------------+-------------------------------+----------------------------------------+
@@ -169,29 +956,29 @@ Total line number = 7
 It costs 0.024s
 ```
 
-#### 指定滑动步长的时间区间分组聚合查询
+##### Aggregate By Time Specifying the Sliding Step Length
 
-对应的 SQL 语句是：
+The SQL statement is:
 
 ```sql
 select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01 00:00:00, 2017-11-07 23:00:00), 3h, 1d);
 ```
 
-这条查询的含义是：
+which means:
 
-由于用户指定了滑动步长为`1d`，GROUP BY 语句执行时将会每次把时间间隔往后移动一天的步长，而不是默认的 3 小时。
+Since the user specifies the sliding step parameter as 1d, the `GROUP BY` statement will move the time interval `1 day` long instead of `3 hours` as default.
 
-也就意味着，我们想要取从 2017-11-01 到 2017-11-07 每一天的凌晨 0 点到凌晨 3 点的数据。
+That means we want to fetch all the data of 00:00:00 to 02:59:59 every day from 2017-11-01 to 2017-11-07.
 
-上面这个例子的第一个参数是显示窗口参数，决定了最终的显示范围是 [2017-11-01T00:00:00, 2017-11-07T23:00:00)。
+The first parameter of the `GROUP BY` statement above is the display window parameter, which determines the final display range is [2017-11-01T00:00:00, 2017-11-07T23:00:00).
 
-上面这个例子的第二个参数是划分时间轴的时间间隔参数，将`3h`当作划分间隔，显示窗口参数的起始时间当作分割原点，时间轴即被划分为连续的时间间隔：[2017-11-01T00:00:00, 2017-11-01T03:00:00), [2017-11-02T00:00:00, 2017-11-02T03:00:00), [2017-11-03T00:00:00, 2017-11-03T03:00:00) 等等。
+The second parameter of the `GROUP BY` statement above is the time interval for dividing the time axis. Taking this parameter (3h) as time interval and the startTime of the display window as the dividing origin, the time axis is divided into several continuous intervals, which are [2017-11-01T00:00:00, 2017-11-01T03:00:00), [2017-11-02T00:00:00, 2017-11-02T03:00:00), [2017-11-03T00:00:00, 2017-11-03T03:00:00), etc.
 
-上面这个例子的第三个参数是每次时间间隔的滑动步长。
+The third parameter of the `GROUP BY` statement above is the sliding step for each time interval moving.
 
-然后系统将会用 WHERE 子句中的时间和值过滤条件以及 GROUP BY 语句中的第一个参数作为数据的联合过滤条件，获得满足所有过滤条件的数据（在这个例子里是在 [2017-11-01T00:00:00, 2017-11-07 T23:00:00) 这个时间范围的数据），并把这些数据映射到之前分割好的时间轴中（这个例子里是从 2017-11-01T00:00:00 到 2017-11-07T23:00:00:00 的每一天的凌晨 0 点到凌晨 3 点）
+Then the system will use the time and value filtering condition in the `WHERE` clause and the first parameter of the `GROUP BY` statement as the data filtering condition to obtain the data satisfying the filtering condition (which in this case is the data in the range of [2017-11-01T00:00:00, 2017-11-07T23:00:00]), and map these data to the previously segmented time axis (in this case there are mapped data in every 3-hour period for each day from 2017-11-01T00:00:00 to 2017-11-07T23:00:00:00).
 
-每个时间间隔窗口内都有数据，SQL 执行后的结果集如下所示：
+Since there is data for each time period in the result range to be displayed, the execution result of the SQL statement is shown below:
 
 ```
 +-----------------------------+-------------------------------+----------------------------------------+
@@ -209,14 +996,15 @@ Total line number = 7
 It costs 0.006s
 ```
 
-滑动步长可以小于聚合窗口，此时聚合窗口之间有重叠时间（类似于一个滑动窗口）。
+The sliding step can be smaller than the interval, in which case there is overlapping time between the aggregation windows (similar to a sliding window).
 
-例如 SQL：
+The SQL statement is:
+
 ```sql
 select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01 00:00:00, 2017-11-01 10:00:00), 4h, 2h);
 ```
 
-SQL 执行后的结果集如下所示：
+The execution result of the SQL statement is shown below:
 
 ```
 +-----------------------------+-------------------------------+----------------------------------------+
@@ -232,31 +1020,29 @@ Total line number = 5
 It costs 0.006s
 ```
 
-#### 按照自然月份的时间区间分组聚合查询
+##### Aggregate by Natural Month
 
-对应的 SQL 语句是：
+The SQL statement is:
 
 ```sql
-select count(status) from root.ln.wf01.wt01 where time > 2017-11-01T01:00:00 group by([2017-11-01T00:00:00, 2019-11-07T23:00:00), 1mo, 2mo);
+select count(status) from root.ln.wf01.wt01 group by([2017-11-01T00:00:00, 2019-11-07T23:00:00), 1mo, 2mo);
 ```
 
-这条查询的含义是：
+which means:
 
-由于用户指定了滑动步长为`2mo`，GROUP BY 语句执行时将会每次把时间间隔往后移动 2 个自然月的步长，而不是默认的 1 个自然月。
+Since the user specifies the sliding step parameter as `2mo`, the `GROUP BY` statement will move the time interval `2 months` long instead of `1 month` as default.
 
-也就意味着，我们想要取从 2017-11-01 到 2019-11-07 每 2 个自然月的第一个月的数据。
+The first parameter of the `GROUP BY` statement above is the display window parameter, which determines the final display range is [2017-11-01T00:00:00, 2019-11-07T23:00:00).
 
-上面这个例子的第一个参数是显示窗口参数，决定了最终的显示范围是 [2017-11-01T00:00:00, 2019-11-07T23:00:00)。
+The start time is 2017-11-01T00:00:00. The sliding step will increment monthly based on the start date, and the 1st day of the month will be used as the time interval's start time.
 
-起始时间为 2017-11-01T00:00:00，滑动步长将会以起始时间作为标准按月递增，取当月的 1 号作为时间间隔的起始时间。
+The second parameter of the `GROUP BY` statement above is the time interval for dividing the time axis. Taking this parameter (1mo) as time interval and the startTime of the display window as the dividing origin, the time axis is divided into several continuous intervals, which are [2017-11-01T00:00:00, 2017-12-01T00:00:00), [2018-02-01T00:00:00, 2018-03-01T00:00:00), [2018-05-03T00:00:00, 2018-06-01T00:00:00)), etc.
 
-上面这个例子的第二个参数是划分时间轴的时间间隔参数，将`1mo`当作划分间隔，显示窗口参数的起始时间当作分割原点，时间轴即被划分为连续的时间间隔：[2017-11-01T00:00:00, 2017-12-01T00:00:00), [2018-02-01T00:00:00, 2018-03-01T00:00:00), [2018-05-03T00:00:00, 2018-06-01T00:00:00) 等等。
+The third parameter of the `GROUP BY` statement above is the sliding step for each time interval moving.
 
-上面这个例子的第三个参数是每次时间间隔的滑动步长。
+Then the system will use the time and value filtering condition in the `WHERE` clause and the first parameter of the `GROUP BY` statement as the data filtering condition to obtain the data satisfying the filtering condition (which in this case is the data in the range of (2017-11-01T00:00:00, 2019-11-07T23:00:00], and map these data to the previously segmented time axis (in this case there are mapped data of the first month in every two month period from 2017-11-01T00:00:00 to 2019-11-07T23:00:00).
 
-然后系统将会用 WHERE 子句中的时间和值过滤条件以及 GROUP BY 语句中的第一个参数作为数据的联合过滤条件，获得满足所有过滤条件的数据（在这个例子里是在 [2017-11-01T00:00:00, 2019-11-07T23:00:00) 这个时间范围的数据），并把这些数据映射到之前分割好的时间轴中（这个例子里是从 2017-11-01T00:00:00 到 2019-11-07T23:00:00:00 的每两个自然月的第一个月）
-
-每个时间间隔窗口内都有数据，SQL 执行后的结果集如下所示：
+The SQL execution result is:
 
 ```
 +-----------------------------+-------------------------------+
@@ -278,29 +1064,29 @@ select count(status) from root.ln.wf01.wt01 where time > 2017-11-01T01:00:00 gro
 +-----------------------------+-------------------------------+
 ```
 
-对应的 SQL 语句是：
+The SQL statement is:
 
 ```sql
 select count(status) from root.ln.wf01.wt01 group by([2017-10-31T00:00:00, 2019-11-07T23:00:00), 1mo, 2mo);
 ```
 
-这条查询的含义是：
+which means:
 
-由于用户指定了滑动步长为`2mo`，GROUP BY 语句执行时将会每次把时间间隔往后移动 2 个自然月的步长，而不是默认的 1 个自然月。
+Since the user specifies the sliding step parameter as `2mo`, the `GROUP BY` statement will move the time interval `2 months` long instead of `1 month` as default.
 
-也就意味着，我们想要取从 2017-10-31 到 2019-11-07 每 2 个自然月的第一个月的数据。
+The first parameter of the `GROUP BY` statement above is the display window parameter, which determines the final display range is [2017-10-31T00:00:00, 2019-11-07T23:00:00).
 
-与上述示例不同的是起始时间为 2017-10-31T00:00:00，滑动步长将会以起始时间作为标准按月递增，取当月的 31 号（即最后一天）作为时间间隔的起始时间。若起始时间设置为 30 号，滑动步长会将时间间隔的起始时间设置为当月 30 号，若不存在则为最后一天。
+Different from the previous example, the start time is set to 2017-10-31T00:00:00.  The sliding step will increment monthly based on the start date, and the 31st day of the month meaning the last day of the month will be used as the time interval's start time. If the start time is set to the 30th date, the sliding step will use the 30th or the last day of the month.
 
-上面这个例子的第一个参数是显示窗口参数，决定了最终的显示范围是 [2017-10-31T00:00:00, 2019-11-07T23:00:00)。
+The start time is 2017-10-31T00:00:00. The sliding step will increment monthly based on the start time, and the 1st day of the month will be used as the time interval's start time.
 
-上面这个例子的第二个参数是划分时间轴的时间间隔参数，将`1mo`当作划分间隔，显示窗口参数的起始时间当作分割原点，时间轴即被划分为连续的时间间隔：[2017-10-31T00:00:00, 2017-11-31T00:00:00), [2018-02-31T00:00:00, 2018-03-31T00:00:00), [2018-05-31T00:00:00, 2018-06-31T00:00:00) 等等。
+The second parameter of the `GROUP BY` statement above is the time interval for dividing the time axis. Taking this parameter (1mo) as time interval and the startTime of the display window as the dividing origin, the time axis is divided into several continuous intervals, which are [2017-10-31T00:00:00, 2017-11-31T00:00:00), [2018-02-31T00:00:00, 2018-03-31T00:00:00), [2018-05-31T00:00:00, 2018-06-31T00:00:00), etc.
 
-上面这个例子的第三个参数是每次时间间隔的滑动步长。
+The third parameter of the `GROUP BY` statement above is the sliding step for each time interval moving.
 
-然后系统将会用 WHERE 子句中的时间和值过滤条件以及 GROUP BY 语句中的第一个参数作为数据的联合过滤条件，获得满足所有过滤条件的数据（在这个例子里是在 [2017-10-31T00:00:00, 2019-11-07T23:00:00) 这个时间范围的数据），并把这些数据映射到之前分割好的时间轴中（这个例子里是从 2017-10-31T00:00:00 到 2019-11-07T23:00:00:00 的每两个自然月的第一个月）
+Then the system will use the time and value filtering condition in the `WHERE` clause and the first parameter of the `GROUP BY` statement as the data filtering condition to obtain the data satisfying the filtering condition (which in this case is the data in the range of [2017-10-31T00:00:00, 2019-11-07T23:00:00) and map these data to the previously segmented time axis (in this case there are mapped data of the first month in every two month period from 2017-10-31T00:00:00 to 2019-11-07T23:00:00).
 
-每个时间间隔窗口内都有数据，SQL 执行后的结果集如下所示：
+The SQL execution result is:
 
 ```
 +-----------------------------+-------------------------------+
@@ -322,17 +1108,17 @@ select count(status) from root.ln.wf01.wt01 group by([2017-10-31T00:00:00, 2019-
 +-----------------------------+-------------------------------+
 ```
 
-#### 左开右闭区间
+##### Left Open And Right Close Range
 
-每个区间的结果时间戳为区间右端点，对应的 SQL 语句是：
+The SQL statement is:
 
 ```sql
 select count(status) from root.ln.wf01.wt01 group by ((2017-11-01T00:00:00, 2017-11-07T23:00:00],1d);
 ```
 
-这条查询语句的时间区间是左开右闭的，结果中不会包含时间点 2017-11-01 的数据，但是会包含时间点 2017-11-07 的数据。
+In this sql, the time interval is left open and right close, so we won't include the value of timestamp 2017-11-01T00:00:00 and instead we will include the value of timestamp 2017-11-07T23:00:00.
 
-SQL 执行后的结果集如下所示：
+We will get the result like following:
 
 ```
 +-----------------------------+-------------------------------+
@@ -350,19 +1136,524 @@ Total line number = 7
 It costs 0.004s
 ```
 
-#### 与分组聚合混合使用
+#### Aggregation By Variation
 
-通过定义 LEVEL 来统计指定层级下的数据点个数。
+IoTDB supports grouping by continuous stable values through the `GROUP BY VARIATION` statement.
 
-例如：
+Group-By-Variation wil set the first point in group as the base point,  
+then if the difference between the new data and base point is small than or equal to delta, 
+the data point will be grouped together and execute aggregation query (The calculation of difference and the meaning of delte are introduced below). The groups won't overlap and there is no fixed start time and end time.
+The syntax of clause is as follows:
 
-统计降采样后的数据点个数
+```sql
+group by variation(controlExpression[,delta][,ignoreNull=true/false])
+```
+
+The different parameters mean:
+
+* controlExpression
+
+The value that is used to calculate difference. It can be any columns or the expression of them.
+
+* delta
+
+The threshold that is used when grouping. The difference of controlExpression between the first data point and new data point should less than or equal to delta. 
+When delta is zero, all the continuous data with equal expression value will be grouped into the same group.
+
+* ignoreNull
+
+Used to specify how to deal with the data when the value of controlExpression is null. When ignoreNull is false, null will be treated as a new value and when ignoreNull is true, the data point will be directly skipped.
+
+The supported return types of controlExpression and how to deal with null value when ignoreNull is false are shown in the following table:
+
+| delta    | Return Type Supported By controlExpression | The Handling of null when ignoreNull is False                |
+| -------- | ------------------------------------------ | ------------------------------------------------------------ |
+| delta!=0 | INT32、INT64、FLOAT、DOUBLE                | If the processing group doesn't contains null, null value should be treated as infinity/infinitesimal and will end current group.<br/>Continuous null values are treated as stable values and assigned to the same group. |
+| delta=0  | TEXT、BINARY、INT32、INT64、FLOAT、DOUBLE  | Null is treated as a new value in a new group and continuous nulls belong to the same group. |
+
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/GroupBy/groupByVariation.jpeg" alt="groupByVariation">
+
+##### Precautions for Use
+
+1. The result of controlExpression should be a unique value. If multiple columns appear after using wildcard stitching, an error will be reported.
+2. For a group in resultSet, the time column output the start time of the group by default. __endTime can be used in select clause to output the endTime of groups in resultSet.
+3. Each device is grouped separately when used with `ALIGN BY DEVICE`.
+4. Delta is zero and ignoreNull is true by default.
+5. Currently `GROUP BY VARIATION` is not supported with `GROUP BY LEVEL`.
+
+Using the raw data below, several examples of `GROUP BY VARIAITON` queries will be given.
+
+```
++-----------------------------+-------+-------+-------+--------+-------+-------+
+|                         Time|     s1|     s2|     s3|      s4|     s5|     s6|
++-----------------------------+-------+-------+-------+--------+-------+-------+
+|1970-01-01T08:00:00.000+08:00|    4.5|    9.0|    0.0|    45.0|    9.0|   8.25|
+|1970-01-01T08:00:00.010+08:00|   null|   19.0|   10.0|   145.0|   19.0|   8.25|
+|1970-01-01T08:00:00.020+08:00|   24.5|   29.0|   null|   245.0|   29.0|   null|
+|1970-01-01T08:00:00.030+08:00|   34.5|   null|   30.0|   345.0|   null|   null|
+|1970-01-01T08:00:00.040+08:00|   44.5|   49.0|   40.0|   445.0|   49.0|   8.25|
+|1970-01-01T08:00:00.050+08:00|   null|   59.0|   50.0|   545.0|   59.0|   6.25|
+|1970-01-01T08:00:00.060+08:00|   64.5|   69.0|   60.0|   645.0|   69.0|   null|
+|1970-01-01T08:00:00.070+08:00|   74.5|   79.0|   null|    null|   79.0|   3.25|
+|1970-01-01T08:00:00.080+08:00|   84.5|   89.0|   80.0|   845.0|   89.0|   3.25|
+|1970-01-01T08:00:00.090+08:00|   94.5|   99.0|   90.0|   945.0|   99.0|   3.25|
+|1970-01-01T08:00:00.150+08:00|   66.5|   77.0|   90.0|   945.0|   99.0|   9.25|
++-----------------------------+-------+-------+-------+--------+-------+-------+
+```
+
+##### delta = 0
+
+The sql is shown below:
+
+```sql
+select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6)
+```
+
+Get the result below which ignores the row with null value in `s6`.
+
+```
++-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
+|                         Time|                    __endTime|avg(root.sg.d.s1)|count(root.sg.d.s2)|sum(root.sg.d.s3)|
++-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
+|1970-01-01T08:00:00.000+08:00|1970-01-01T08:00:00.040+08:00|             24.5|                  3|             50.0|
+|1970-01-01T08:00:00.050+08:00|1970-01-01T08:00:00.050+08:00|             null|                  1|             50.0|
+|1970-01-01T08:00:00.070+08:00|1970-01-01T08:00:00.090+08:00|             84.5|                  3|            170.0|
+|1970-01-01T08:00:00.150+08:00|1970-01-01T08:00:00.150+08:00|             66.5|                  1|             90.0|
++-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
+```
+
+when ignoreNull is false, the row with null value in `s6` will be considered.
+
+```sql
+select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6, ignoreNull=false)
+```
+
+Get the following result.
+
+```
++-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
+|                         Time|                    __endTime|avg(root.sg.d.s1)|count(root.sg.d.s2)|sum(root.sg.d.s3)|
++-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
+|1970-01-01T08:00:00.000+08:00|1970-01-01T08:00:00.010+08:00|              4.5|                  2|             10.0|
+|1970-01-01T08:00:00.020+08:00|1970-01-01T08:00:00.030+08:00|             29.5|                  1|             30.0|
+|1970-01-01T08:00:00.040+08:00|1970-01-01T08:00:00.040+08:00|             44.5|                  1|             40.0|
+|1970-01-01T08:00:00.050+08:00|1970-01-01T08:00:00.050+08:00|             null|                  1|             50.0|
+|1970-01-01T08:00:00.060+08:00|1970-01-01T08:00:00.060+08:00|             64.5|                  1|             60.0|
+|1970-01-01T08:00:00.070+08:00|1970-01-01T08:00:00.090+08:00|             84.5|                  3|            170.0|
+|1970-01-01T08:00:00.150+08:00|1970-01-01T08:00:00.150+08:00|             66.5|                  1|             90.0|
++-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
+```
+
+##### delta !=0
+
+The sql is shown below:
+
+```sql
+select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6, 4)
+```
+
+Get the result below:
+
+```
++-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
+|                         Time|                    __endTime|avg(root.sg.d.s1)|count(root.sg.d.s2)|sum(root.sg.d.s3)|
++-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
+|1970-01-01T08:00:00.000+08:00|1970-01-01T08:00:00.050+08:00|             24.5|                  4|            100.0|
+|1970-01-01T08:00:00.070+08:00|1970-01-01T08:00:00.090+08:00|             84.5|                  3|            170.0|
+|1970-01-01T08:00:00.150+08:00|1970-01-01T08:00:00.150+08:00|             66.5|                  1|             90.0|
++-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
+```
+
+The sql is shown below:
+
+```sql
+select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6+s5, 10)
+```
+
+Get the result below:
+
+```
++-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
+|                         Time|                    __endTime|avg(root.sg.d.s1)|count(root.sg.d.s2)|sum(root.sg.d.s3)|
++-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
+|1970-01-01T08:00:00.000+08:00|1970-01-01T08:00:00.010+08:00|              4.5|                  2|             10.0|
+|1970-01-01T08:00:00.040+08:00|1970-01-01T08:00:00.050+08:00|             44.5|                  2|             90.0|
+|1970-01-01T08:00:00.070+08:00|1970-01-01T08:00:00.080+08:00|             79.5|                  2|             80.0|
+|1970-01-01T08:00:00.090+08:00|1970-01-01T08:00:00.150+08:00|             80.5|                  2|            180.0|
++-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
+```
+
+#### Aggregation By Condition
+
+When you need to filter the data according to a specific condition and group the continuous ones for an aggregation query.
+`GROUP BY CONDITION` is suitable for you.The rows which don't meet the given condition will be simply ignored because they don't belong to any group.
+Its syntax is defined below:
+
+```sql
+group by condition(predict,[keep>/>=/=/<=/<]threshold,[,ignoreNull=true/false])
+```
+
+* predict
+
+Any legal expression return the type of boolean for filtering in grouping.
+
+* [keep>/>=/=/<=/<]threshold
+
+Keep expression is used to specify the number of continuous rows that meet the `predict` condition to form a group. Only the number of rows in group satisfy the keep condition, the result of group will be output.
+Keep expression consists of a 'keep' string and a threshold of type `long` or a single 'long' type data.
+
+* ignoreNull=true/false
+
+Used to specify how to handle data rows that encounter null predict, skip the row when it's true and end current group when it's false.
+
+##### Precautions for Use
+
+1. keep condition is required in the query, but you can omit the 'keep' string and given a `long` number which defaults to 'keep=long number' condition.
+2. IgnoreNull defaults to true.
+3. For a group in resultSet, the time column output the start time of the group by default. __endTime can be used in select clause to output the endTime of groups in resultSet.
+4. Each device is grouped separately when used with `ALIGN BY DEVICE`.
+5. Currently `GROUP BY CONDITION` is not supported with `GROUP BY LEVEL`.
+
+For the following raw data, several query examples are given below:
+
+```
++-----------------------------+-------------------------+-------------------------------------+------------------------------------+
+|                         Time|root.sg.beijing.car01.soc|root.sg.beijing.car01.charging_status|root.sg.beijing.car01.vehicle_status|
++-----------------------------+-------------------------+-------------------------------------+------------------------------------+
+|1970-01-01T08:00:00.001+08:00|                     14.0|                                    1|                                   1|
+|1970-01-01T08:00:00.002+08:00|                     16.0|                                    1|                                   1|
+|1970-01-01T08:00:00.003+08:00|                     16.0|                                    0|                                   1|
+|1970-01-01T08:00:00.004+08:00|                     16.0|                                    0|                                   1|
+|1970-01-01T08:00:00.005+08:00|                     18.0|                                    1|                                   1|
+|1970-01-01T08:00:00.006+08:00|                     24.0|                                    1|                                   1|
+|1970-01-01T08:00:00.007+08:00|                     36.0|                                    1|                                   1|
+|1970-01-01T08:00:00.008+08:00|                     36.0|                                 null|                                   1|
+|1970-01-01T08:00:00.009+08:00|                     45.0|                                    1|                                   1|
+|1970-01-01T08:00:00.010+08:00|                     60.0|                                    1|                                   1|
++-----------------------------+-------------------------+-------------------------------------+------------------------------------+
+```
+
+The sql statement to query data with at least two continuous row shown below: 
+
+```sql
+select max_time(charging_status),count(vehicle_status),last_value(soc) from root.** group by condition(charging_status=1,KEEP>=2,ignoringNull=true)
+```
+
+Get the result below:
+
+```
++-----------------------------+-----------------------------------------------+-------------------------------------------+-------------------------------------+
+|                         Time|max_time(root.sg.beijing.car01.charging_status)|count(root.sg.beijing.car01.vehicle_status)|last_value(root.sg.beijing.car01.soc)|
++-----------------------------+-----------------------------------------------+-------------------------------------------+-------------------------------------+
+|1970-01-01T08:00:00.001+08:00|                                              2|                                          2|                                 16.0|
+|1970-01-01T08:00:00.005+08:00|                                             10|                                          5|                                 60.0|
++-----------------------------+-----------------------------------------------+-------------------------------------------+-------------------------------------+
+```
+
+When ignoreNull is false, the null value will be treated as a row that doesn't meet the condition.
+
+```sql
+select max_time(charging_status),count(vehicle_status),last_value(soc) from root.** group by condition(charging_status=1,KEEP>=2,ignoringNull=false)
+```
+
+Get the result below, the original group is split.
+
+```
++-----------------------------+-----------------------------------------------+-------------------------------------------+-------------------------------------+
+|                         Time|max_time(root.sg.beijing.car01.charging_status)|count(root.sg.beijing.car01.vehicle_status)|last_value(root.sg.beijing.car01.soc)|
++-----------------------------+-----------------------------------------------+-------------------------------------------+-------------------------------------+
+|1970-01-01T08:00:00.001+08:00|                                              2|                                          2|                                 16.0|
+|1970-01-01T08:00:00.005+08:00|                                              7|                                          3|                                 36.0|
+|1970-01-01T08:00:00.009+08:00|                                             10|                                          2|                                 60.0|
++-----------------------------+-----------------------------------------------+-------------------------------------------+-------------------------------------+
+```
+
+#### Aggregation By Session
+
+`GROUP BY SESSION` can be used to group data according to the interval of the time. Data with a time interval less than or equal to the given threshold will be assigned to the same group.
+For example, in industrial scenarios, devices don't always run continuously, `GROUP BY SESSION` will group the data generated by each access session of the device. 
+Its syntax is defined as follows:
+
+```sql
+group by session(timeInterval)
+```
+
+* timeInterval
+
+A given interval threshold to create a new group of data when the difference between the time of data is greater than the threshold.
+
+The figure below is a grouping diagram under `GROUP BY SESSION`.
+
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/GroupBy/groupBySession.jpeg" alt="groupBySession">
+
+##### Precautions for Use
+
+1. For a group in resultSet, the time column output the start time of the group by default. __endTime can be used in select clause to output the endTime of groups in resultSet.
+2. Each device is grouped separately when used with `ALIGN BY DEVICE`.
+3. Currently `GROUP BY SESSION` is not supported with `GROUP BY LEVEL`.
+
+For the raw data below, a few query examples are given:
+
+```
++-----------------------------+-----------------+-----------+--------+------+
+|                         Time|           Device|temperature|hardware|status|
++-----------------------------+-----------------+-----------+--------+------+
+|1970-01-01T08:00:01.000+08:00|root.ln.wf02.wt01|       35.7|      11| false|
+|1970-01-01T08:00:02.000+08:00|root.ln.wf02.wt01|       35.8|      22|  true|
+|1970-01-01T08:00:03.000+08:00|root.ln.wf02.wt01|       35.4|      33| false|
+|1970-01-01T08:00:04.000+08:00|root.ln.wf02.wt01|       36.4|      44| false|
+|1970-01-01T08:00:05.000+08:00|root.ln.wf02.wt01|       36.8|      55| false|
+|1970-01-01T08:00:10.000+08:00|root.ln.wf02.wt01|       36.8|     110| false|
+|1970-01-01T08:00:20.000+08:00|root.ln.wf02.wt01|       37.8|     220|  true|
+|1970-01-01T08:00:30.000+08:00|root.ln.wf02.wt01|       37.5|     330| false|
+|1970-01-01T08:00:40.000+08:00|root.ln.wf02.wt01|       37.4|     440| false|
+|1970-01-01T08:00:50.000+08:00|root.ln.wf02.wt01|       37.9|     550| false|
+|1970-01-01T08:01:40.000+08:00|root.ln.wf02.wt01|       38.0|     110| false|
+|1970-01-01T08:02:30.000+08:00|root.ln.wf02.wt01|       38.8|     220|  true|
+|1970-01-01T08:03:20.000+08:00|root.ln.wf02.wt01|       38.6|     330| false|
+|1970-01-01T08:04:20.000+08:00|root.ln.wf02.wt01|       38.4|     440| false|
+|1970-01-01T08:05:20.000+08:00|root.ln.wf02.wt01|       38.3|     550| false|
+|1970-01-01T08:06:40.000+08:00|root.ln.wf02.wt01|       null|       0|  null|
+|1970-01-01T08:07:50.000+08:00|root.ln.wf02.wt01|       null|       0|  null|
+|1970-01-01T08:08:00.000+08:00|root.ln.wf02.wt01|       null|       0|  null|
+|1970-01-02T08:08:01.000+08:00|root.ln.wf02.wt01|       38.2|     110| false|
+|1970-01-02T08:08:02.000+08:00|root.ln.wf02.wt01|       37.5|     220|  true|
+|1970-01-02T08:08:03.000+08:00|root.ln.wf02.wt01|       37.4|     330| false|
+|1970-01-02T08:08:04.000+08:00|root.ln.wf02.wt01|       36.8|     440| false|
+|1970-01-02T08:08:05.000+08:00|root.ln.wf02.wt01|       37.4|     550| false|
++-----------------------------+-----------------+-----------+--------+------+
+```
+
+TimeInterval can be set by different time units, the sql is shown below:
+
+```sql
+select __endTime,count(*) from root.** group by session(1d)
+```
+
+Get the result：
+
+```
++-----------------------------+-----------------------------+------------------------------------+---------------------------------+-------------------------------+
+|                         Time|                    __endTime|count(root.ln.wf02.wt01.temperature)|count(root.ln.wf02.wt01.hardware)|count(root.ln.wf02.wt01.status)|
++-----------------------------+-----------------------------+------------------------------------+---------------------------------+-------------------------------+
+|1970-01-01T08:00:01.000+08:00|1970-01-01T08:08:00.000+08:00|                                  15|                               18|                             15|
+|1970-01-02T08:08:01.000+08:00|1970-01-02T08:08:05.000+08:00|                                   5|                                5|                              5|
++-----------------------------+-----------------------------+------------------------------------+---------------------------------+-------------------------------+
+```
+
+It can be also used with `HAVING` and `ALIGN BY DEVICE` clauses.
+
+```sql
+select __endTime,sum(hardware) from root.ln.wf02.wt01 group by session(50s) having sum(hardware)>0 align by device
+```
+
+Get the result below:
+
+```
++-----------------------------+-----------------+-----------------------------+-------------+
+|                         Time|           Device|                    __endTime|sum(hardware)|
++-----------------------------+-----------------+-----------------------------+-------------+
+|1970-01-01T08:00:01.000+08:00|root.ln.wf02.wt01|1970-01-01T08:03:20.000+08:00|       2475.0|
+|1970-01-01T08:04:20.000+08:00|root.ln.wf02.wt01|1970-01-01T08:04:20.000+08:00|        440.0|
+|1970-01-01T08:05:20.000+08:00|root.ln.wf02.wt01|1970-01-01T08:05:20.000+08:00|        550.0|
+|1970-01-02T08:08:01.000+08:00|root.ln.wf02.wt01|1970-01-02T08:08:05.000+08:00|       1650.0|
++-----------------------------+-----------------+-----------------------------+-------------+
+```
+
+#### Aggregation By Count
+
+`GROUP BY COUNT`can aggregate the data points according to the number of points. It can group fixed number of continuous data points together for aggregation query.
+Its syntax is defined as follows:
+
+```sql
+group by count(controlExpression, size[,ignoreNull=true/false])
+```
+
+* controlExpression
+
+The object to count during processing, it can be any column or an expression of columns.
+
+* size
+
+The number of data points in a group, a number of `size` continuous points will be divided to the same group. 
+
+* ignoreNull=true/false
+
+Whether to ignore the data points with null in `controlExpression`, when ignoreNull is true, data points with the `controlExpression` of null will be skipped during counting.
+
+##### Precautions for Use
+
+1. For a group in resultSet, the time column output the start time of the group by default. __endTime can be used in select clause to output the endTime of groups in resultSet.
+2. Each device is grouped separately when used with `ALIGN BY DEVICE`.
+3. Currently `GROUP BY SESSION` is not supported with `GROUP BY LEVEL`.
+4. When the final number of data points in a group is less than `size`, the result of the group will not be output.
+
+For the data below, some examples will be given.
+
+```
++-----------------------------+-----------+-----------------------+
+|                         Time|root.sg.soc|root.sg.charging_status|
++-----------------------------+-----------+-----------------------+
+|1970-01-01T08:00:00.001+08:00|       14.0|                      1|                                   
+|1970-01-01T08:00:00.002+08:00|       16.0|                      1|                                 
+|1970-01-01T08:00:00.003+08:00|       16.0|                      0|                                   
+|1970-01-01T08:00:00.004+08:00|       16.0|                      0|                                   
+|1970-01-01T08:00:00.005+08:00|       18.0|                      1|                                   
+|1970-01-01T08:00:00.006+08:00|       24.0|                      1|                                   
+|1970-01-01T08:00:00.007+08:00|       36.0|                      1|                                   
+|1970-01-01T08:00:00.008+08:00|       36.0|                   null|                                   
+|1970-01-01T08:00:00.009+08:00|       45.0|                      1|                                   
+|1970-01-01T08:00:00.010+08:00|       60.0|                      1|
++-----------------------------+-----------+-----------------------+
+```
+
+The sql is shown below
+
+```sql
+select count(charging_stauts), first_value(soc) from root.sg group by count(charging_status,5) 
+```
+
+Get the result below, in the second group from 1970-01-01T08:00:00.006+08:00 to 1970-01-01T08:00:00.010+08:00. There are only four points included which is less than `size`. So it won't be output.
+
+```
++-----------------------------+-----------------------------+--------------------------------------+
+|                         Time|                    __endTime|first_value(root.sg.beijing.car01.soc)|
++-----------------------------+-----------------------------+--------------------------------------+
+|1970-01-01T08:00:00.001+08:00|1970-01-01T08:00:00.005+08:00|                                  14.0|
++-----------------------------+-----------------------------+--------------------------------------+
+```
+
+When `ignoreNull=false` is used to take null value into account. There will be two groups with 5 points in the resultSet, which is shown as follows:
+
+```sql
+select count(charging_stauts), first_value(soc) from root.sg group by count(charging_status,5,ignoreNull=false) 
+```
+
+Get the results:
+
+```
++-----------------------------+-----------------------------+--------------------------------------+
+|                         Time|                    __endTime|first_value(root.sg.beijing.car01.soc)|
++-----------------------------+-----------------------------+--------------------------------------+
+|1970-01-01T08:00:00.001+08:00|1970-01-01T08:00:00.005+08:00|                                  14.0|
+|1970-01-01T08:00:00.006+08:00|1970-01-01T08:00:00.010+08:00|                                  24.0|
++-----------------------------+-----------------------------+--------------------------------------+
+```
+
+### Aggregate By Group
+
+#### Aggregation By Level
+
+Aggregation by level statement is used to group the query result whose name is the same at the given level. 
+
+- Keyword `LEVEL` is used to specify the level that need to be grouped.  By convention, `level=0` represents *root* level. 
+- All aggregation functions are supported. When using five aggregations: sum, avg, min_value, max_value and extreme, please make sure all the aggregated series have exactly the same data type. Otherwise, it will generate a syntax error.
+
+**Example 1:** there are multiple series named `status` under different databases， like "root.ln.wf01.wt01.status", "root.ln.wf02.wt02.status", and "root.sgcc.wf03.wt01.status". If you need to count the number of data points of the `status` sequence under different databases, use the following query:
+
+```sql
+select count(status) from root.** group by level = 1
+```
+
+Result：
+
+```
++-------------------------+---------------------------+
+|count(root.ln.*.*.status)|count(root.sgcc.*.*.status)|
++-------------------------+---------------------------+
+|                    20160|                      10080|
++-------------------------+---------------------------+
+Total line number = 1
+It costs 0.003s
+```
+
+**Example 2:** If you need to count the number of data points under different devices, you can specify level = 3,
+
+```sql
+select count(status) from root.** group by level = 3
+```
+
+Result：
+
+```
++---------------------------+---------------------------+
+|count(root.*.*.wt01.status)|count(root.*.*.wt02.status)|
++---------------------------+---------------------------+
+|                      20160|                      10080|
++---------------------------+---------------------------+
+Total line number = 1
+It costs 0.003s
+```
+
+**Example 3:** Attention，the devices named `wt01` under databases `ln` and `sgcc` are grouped together, since they are regarded as devices with the same name. If you need to further count the number of data points in different devices under different databases, you can use the following query:
+
+```sql
+select count(status) from root.** group by level = 1, 3
+```
+
+Result：
+
+```
++----------------------------+----------------------------+------------------------------+
+|count(root.ln.*.wt01.status)|count(root.ln.*.wt02.status)|count(root.sgcc.*.wt01.status)|
++----------------------------+----------------------------+------------------------------+
+|                       10080|                       10080|                         10080|
++----------------------------+----------------------------+------------------------------+
+Total line number = 1
+It costs 0.003s
+```
+
+**Example 4:** Assuming that you want to query the maximum value of temperature sensor under all time series, you can use the following query statement:
+
+```sql
+select max_value(temperature) from root.** group by level = 0
+```
+
+Result：
+
+```
++---------------------------------+
+|max_value(root.*.*.*.temperature)|
++---------------------------------+
+|                             26.0|
++---------------------------------+
+Total line number = 1
+It costs 0.013s
+```
+
+**Example 5:** The above queries are for a certain sensor. In particular, **if you want to query the total data points owned by all sensors at a certain level**, you need to explicitly specify `*` is selected.
+
+```sql
+select count(*) from root.ln.** group by level = 2
+```
+
+Result：
+
+```
++----------------------+----------------------+
+|count(root.*.wf01.*.*)|count(root.*.wf02.*.*)|
++----------------------+----------------------+
+|                 20160|                 20160|
++----------------------+----------------------+
+Total line number = 1
+It costs 0.013s
+```
+
+##### Aggregate By Time with Level Clause
+
+Level could be defined to show count the number of points of each node at the given level in current Metadata Tree.
+
+This could be used to query the number of points under each device.
+
+The SQL statement is:
+
+Get time aggregation by level.
 
 ```sql
 select count(status) from root.ln.wf01.wt01 group by ((2017-11-01T00:00:00, 2017-11-07T23:00:00],1d), level=1;
 ```
 
-结果：
+Result:
 
 ```
 +-----------------------------+-------------------------+
@@ -380,11 +1671,13 @@ Total line number = 7
 It costs 0.006s
 ```
 
-加上滑动 Step 的降采样后的结果也可以汇总
+Time aggregation with sliding step and by level.
 
 ```sql
 select count(status) from root.ln.wf01.wt01 group by ([2017-11-01 00:00:00, 2017-11-07 23:00:00), 3h, 1d), level=1;
 ```
+
+Result:
 
 ```
 +-----------------------------+-------------------------+
@@ -402,119 +1695,24 @@ Total line number = 7
 It costs 0.004s
 ```
 
-### 路径层级分组聚合
+#### Aggregation By Tags
 
-在时间序列层级结构中，分层聚合查询用于**对某一层级下同名的序列进行聚合查询**。 
+IotDB allows you to do aggregation query with the tags defined in timeseries through `GROUP BY TAGS` clause as well.
 
-- 使用 `GROUP BY LEVEL = INT` 来指定需要聚合的层级，并约定 `ROOT` 为第 0 层。若统计 "root.ln" 下所有序列则需指定 level 为 1。
-- 分层聚合查询支持使用所有内置聚合函数。对于 `sum`，`avg`，`min_value`， `max_value`， `extreme` 五种聚合函数，需保证所有聚合的时间序列数据类型相同。其他聚合函数没有此限制。
+Firstly, we can put these example data into IoTDB, which will be used in the following feature introduction.
 
-**示例1：** 不同 database 下均存在名为 status 的序列， 如 "root.ln.wf01.wt01.status", "root.ln.wf02.wt02.status", 以及 "root.sgcc.wf03.wt01.status", 如果需要统计不同 database 下 status 序列的数据点个数，使用以下查询：
+These are the temperature data of the workshops, which belongs to the factory `factory1` and locates in different cities. The time range is `[1000, 10000)`.
 
-```sql
-select count(status) from root.** group by level = 1
-```
+The device node of the timeseries path is the ID of the device. The information of city and workshop are modelled in the tags `city` and `workshop`.
+The devices `d1` and `d2` belong to the workshop `d1` in `Beijing`.
+`d3` and `d4` belong to the workshop `w2` in `Beijing`.
+`d5` and `d6` belong to the workshop `w1` in `Shanghai`.
+`d7` belongs to the workshop `w2` in `Shanghai`.
+`d8` and `d9` are under maintenance, and don't belong to any workshops, so they have no tags.
 
-运行结果为：
-
-```
-+-------------------------+---------------------------+
-|count(root.ln.*.*.status)|count(root.sgcc.*.*.status)|
-+-------------------------+---------------------------+
-|                    20160|                      10080|
-+-------------------------+---------------------------+
-Total line number = 1
-It costs 0.003s
-```
-
-**示例2：** 统计不同设备下 status 序列的数据点个数，可以规定 level = 3，
-
-```sql
-select count(status) from root.** group by level = 3
-```
-
-运行结果为：
-
-```
-+---------------------------+---------------------------+
-|count(root.*.*.wt01.status)|count(root.*.*.wt02.status)|
-+---------------------------+---------------------------+
-|                      20160|                      10080|
-+---------------------------+---------------------------+
-Total line number = 1
-It costs 0.003s
-```
-
-注意，这时会将 database `ln` 和 `sgcc` 下名为 `wt01` 的设备视为同名设备聚合在一起。
-
-**示例3：** 统计不同 database 下的不同设备中 status 序列的数据点个数，可以使用以下查询：
-
-```sql
-select count(status) from root.** group by level = 1, 3
-```
-
-运行结果为：
-
-```
-+----------------------------+----------------------------+------------------------------+
-|count(root.ln.*.wt01.status)|count(root.ln.*.wt02.status)|count(root.sgcc.*.wt01.status)|
-+----------------------------+----------------------------+------------------------------+
-|                       10080|                       10080|                         10080|
-+----------------------------+----------------------------+------------------------------+
-Total line number = 1
-It costs 0.003s
-```
-
-**示例4：** 查询所有序列下温度传感器 temperature 的最大值，可以使用下列查询语句：
-
-```sql
-select max_value(temperature) from root.** group by level = 0
-```
-
-运行结果：
-
-```
-+---------------------------------+
-|max_value(root.*.*.*.temperature)|
-+---------------------------------+
-|                             26.0|
-+---------------------------------+
-Total line number = 1
-It costs 0.013s
-```
-
-**示例5：** 上面的查询都是针对某一个传感器，特别地，**如果想要查询某一层级下所有传感器拥有的总数据点数，则需要显式规定测点为 `*`**
-
-```sql
-select count(*) from root.ln.** group by level = 2
-```
-
-运行结果：
-
-```
-+----------------------+----------------------+
-|count(root.*.wf01.*.*)|count(root.*.wf02.*.*)|
-+----------------------+----------------------+
-|                 20160|                 20160|
-+----------------------+----------------------+
-Total line number = 1
-It costs 0.013s
-```
-
-### 标签分组聚合
-
-IoTDB 支持通过 `GROUP BY TAGS` 语句根据时间序列中定义的标签的键值做聚合查询。
-
-我们先在 IoTDB 中写入如下示例数据，稍后会以这些数据为例介绍标签聚合查询。
-
-这些是某工厂 `factory1` 在多个城市的多个车间的设备温度数据， 时间范围为 [1000, 10000)。
-
-时间序列路径中的设备一级是设备唯一标识。城市信息 `city` 和车间信息 `workshop` 则被建模在该设备时间序列的标签中。
-其中，设备 `d1`、`d2` 在 `Beijing` 的 `w1` 车间， `d3`、`d4` 在 `Beijing` 的 `w2` 车间，`d5`、`d6` 在 `Shanghai` 的 `w1` 车间，`d7` 在 `Shanghai` 的 `w2` 车间。
-`d8` 和 `d9` 设备目前处于调试阶段，还未被分配到具体的城市和车间，所以其相应的标签值为空值。
 
 ```SQL
-create database root.factory1;
+CREATE DATABASE root.factory1;
 create timeseries root.factory1.d1.temperature with datatype=FLOAT tags(city=Beijing, workshop=w1);
 create timeseries root.factory1.d2.temperature with datatype=FLOAT tags(city=Beijing, workshop=w1);
 create timeseries root.factory1.d3.temperature with datatype=FLOAT tags(city=Beijing, workshop=w2);
@@ -566,15 +1764,16 @@ insert into root.factory1.d9(time, temperature) values(1000, 50.3);
 insert into root.factory1.d9(time, temperature) values(3000, 52.1);
 ```
 
-#### 单标签聚合查询
+##### Aggregation query by one single tag
 
-用户想统计该工厂每个地区的设备的温度的平均值，可以使用如下查询语句
+If the user wants to know the average temperature of each workshop, he can query like this
 
 ```SQL
 SELECT AVG(temperature) FROM root.factory1.** GROUP BY TAGS(city);
 ```
 
-该查询会将具有同一个 `city` 标签值的时间序列的所有满足查询条件的点做平均值计算，计算结果如下
+The query will calculate the average of the temperatures of those timeseries which have the same tag value of the key `city`.
+The results are
 
 ```
 +--------+------------------+
@@ -588,24 +1787,27 @@ Total line number = 3
 It costs 0.231s
 ```
 
-从结果集中可以看到，和时间区间聚合、按层次聚合相比，标签聚合的查询结果的不同点是：
-1. 标签聚合查询的聚合结果不会再做去星号展开，而是将多个时间序列的数据作为一个整体进行聚合计算。
-2. 标签聚合查询除了输出聚合结果列，还会输出聚合标签的键值列。该列的列名为聚合指定的标签键，列的值则为所有查询的时间序列中出现的该标签的值。
-如果某些时间序列未设置该标签，则在键值列中有一行单独的 `NULL` ，代表未设置标签的所有时间序列数据的聚合结果。
+From the results we can see that the differences between aggregation by tags query and aggregation by time or level query are:
 
-#### 多标签聚合查询
+1. Aggregation query by tags will no longer remove wildcard to raw timeseries, but do the aggregation through the data of multiple timeseries, which have the same tag value.
+2. Except for the aggregate result column, the result set contains the key-value column of the grouped tag. The column name is the tag key, and the values in the column are tag values which present in the searched timeseries.
+    If some searched timeseries doesn't have the grouped tag, a `NULL` value in the key-value column of the grouped tag will be presented, which means the aggregation of all the timeseries lacking the tagged key.
 
-除了基本的单标签聚合查询外，还可以按顺序指定多个标签进行聚合计算。
+##### Aggregation query by multiple tags
 
-例如，用户想统计每个城市的每个车间内设备的平均温度。但因为各个城市的车间名称有可能相同，所以不能直接按照 `workshop` 做标签聚合。必须要先按照城市，再按照车间处理。
+Except for the aggregation query by one single tag, aggregation query by multiple tags in a particular order is allowed as well.
 
-SQL 语句如下
+For example, a user wants to know the average temperature of the devices in each workshop. 
+As the workshop names may be same in different city, it's not correct to aggregated by the tag `workshop` directly.
+So the aggregation by the tag `city` should be done first, and then by the tag `workshop`.
+
+SQL
 
 ```SQL
 SELECT avg(temperature) FROM root.factory1.** GROUP BY TAGS(city, workshop);
 ```
 
-查询结果如下
+The results
 
 ```
 +--------+--------+------------------+
@@ -621,21 +1823,21 @@ Total line number = 5
 It costs 0.027s
 ```
 
-从结果集中可以看到，和单标签聚合相比，多标签聚合的查询结果会根据指定的标签顺序，输出相应标签的键值列。
+We can see that in a multiple tags aggregation query, the result set will output the key-value columns of all the grouped tag keys, which have the same order with the one in `GROUP BY TAGS`.
 
-#### 基于时间区间的标签聚合查询
+##### Downsampling Aggregation by tags based on Time Window
 
-按照时间区间聚合是时序数据库中最常用的查询需求之一。IoTDB 在基于时间区间的聚合基础上，支持进一步按照标签进行聚合查询。
+Downsampling aggregation by time window is one of the most popular features in a time series database. IoTDB supports to do aggregation query by tags based on time window.
 
-例如，用户想统计时间 `[1000, 10000)` 范围内，每个城市每个车间中的设备每 5 秒内的平均温度。
+For example, a user wants to know the average temperature of the devices in each workshop, in every 5 seconds, in the range of time `[1000, 10000)`.
 
-SQL 语句如下
+SQL
 
 ```SQL
-SELECT AVG(temperature) FROM root.factory1.** GROUP BY ([1000, 10000), 5s), TAGS(city, workshop);
+SELECT avg(temperature) FROM root.factory1.** GROUP BY ([1000, 10000), 5s), TAGS(city, workshop);
 ```
 
-查询结果如下
+The results
 
 ```
 +-----------------------------+--------+--------+------------------+
@@ -654,437 +1856,168 @@ SELECT AVG(temperature) FROM root.factory1.** GROUP BY ([1000, 10000), 5s), TAGS
 +-----------------------------+--------+--------+------------------+
 ```
 
-和标签聚合相比，基于时间区间的标签聚合的查询会首先按照时间区间划定聚合范围，在时间区间内部再根据指定的标签顺序，进行相应数据的聚合计算。在输出的结果集中，会包含一列时间列，该时间列值的含义和时间区间聚合查询的相同。
+Comparing to the pure tag aggregations, this kind of aggregation will divide the data according to the time window specification firstly, and do the aggregation query by the multiple tags in each time window secondly.
+The result set will also contain a time column, which have the same meaning with the time column of the result in downsampling aggregation query by time window.
 
-#### 标签聚合查询的限制
+##### Limitation of Aggregation by Tags
 
-由于标签聚合功能仍然处于开发阶段，目前有如下未实现功能。
+As this feature is still under development, some queries have not been completed yet and will be supported in the future.
 
-> 1. 暂不支持 `HAVING` 子句过滤查询结果。
-> 2. 暂不支持结果按照标签值排序。
-> 3. 暂不支持 `LIMIT`，`OFFSET`，`SLIMIT`，`SOFFSET`。
-> 4. 暂不支持 `ALIGN BY DEVICE`。
-> 5. 暂不支持聚合函数内部包含表达式，例如 `count(s+1)`。
-> 6. 不支持值过滤条件聚合，和分层聚合查询行为保持一致。
+> 1. Temporarily not support `HAVING` clause to filter the results.
+> 2. Temporarily not support ordering by tag values.
+> 3. Temporarily not support `LIMIT`，`OFFSET`，`SLIMIT`，`SOFFSET`.
+> 4. Temporarily not support `ALIGN BY DEVICE`.
+> 5. Temporarily not support expressions as aggregation function parameter，e.g. `count(s+1)`.
+> 6. Not support the value filter, which stands the same with the `GROUP BY LEVEL` query.
 
-### 差值分段聚合
-IoTDB支持通过`GROUP BY VARIATION`语句来根据差值进行分组。`GROUP BY VARIATION`会将第一个点作为一个组的**基准点**，每个新的数据在按照给定规则与基准点进行差值运算后，
-如果差值小于给定的阈值则将该新点归于同一组，否则结束当前分组，以这个新的数据为新的基准点开启新的分组。
-该分组方式不会重叠，且没有固定的开始结束时间。其子句语法如下：
-```sql
-group by variation(controlExpression[,delta][,ignoreNull=true/false])
+## `HAVING` CLAUSE
+
+If you want to filter the results of aggregate queries, 
+you can use the `HAVING` clause after the `GROUP BY` clause.
+
+> NOTE：
+>
+> 1.The expression in HAVING clause must consist of aggregate values; the original sequence cannot appear alone.
+> The following usages are incorrect：
+>
+> ```sql
+> select count(s1) from root.** group by ([1,3),1ms) having sum(s1) > s1
+> select count(s1) from root.** group by ([1,3),1ms) having s1 > 1
+> ```
+>
+> 2.When filtering the `GROUP BY LEVEL` result, the PATH in `SELECT` and `HAVING` can only have one node.
+> The following usages are incorrect：
+>
+> ```sql
+> select count(s1) from root.** group by ([1,3),1ms), level=1 having sum(d1.s1) > 1
+> select count(d1.s1) from root.** group by ([1,3),1ms), level=1 having sum(s1) > 1
+> ```
+
+Here are a few examples of using the 'HAVING' clause to filter aggregate results.
+
+Aggregation result 1：
+
 ```
-不同的参数含义如下 
-* controlExpression
++-----------------------------+---------------------+---------------------+
+|                         Time|count(root.test.*.s1)|count(root.test.*.s2)|
++-----------------------------+---------------------+---------------------+
+|1970-01-01T08:00:00.001+08:00|                    4|                    4|
+|1970-01-01T08:00:00.003+08:00|                    1|                    0|
+|1970-01-01T08:00:00.005+08:00|                    2|                    4|
+|1970-01-01T08:00:00.007+08:00|                    3|                    2|
+|1970-01-01T08:00:00.009+08:00|                    4|                    4|
++-----------------------------+---------------------+---------------------+
+```
 
-分组所参照的值，**可以是查询数据中的某一列或是多列的表达式
-（多列表达式计算后仍为一个值，使用多列表达式时指定的列必须都为数值列）**， 差值便是根据数据的controlExpression的差值运算。
-* delta
-
-分组所使用的阈值，同一分组中**每个点的controlExpression对应的值与该组中基准点对应值的差值都小于`delta`**。当`delta=0`时，相当于一个等值分组，所有连续且expression值相同的数据将被分到一组。
-
-* ignoreNull
-
-用于指定`controlExpression`的值为null时对数据的处理方式，当`ignoreNull`为false时，该null值会被视为新的值，`ignoreNull`为true时，则直接跳过对应的点。
-
-在`delta`取不同值时，`controlExpression`支持的返回数据类型以及当`ignoreNull`为false时对于null值的处理方式可以见下表：
-
-| delta    | controlExpression支持的返回类型             | ignoreNull=false时对于Null值的处理                                     |
-|----------|--------------------------------------|-----------------------------------------------------------------|
-| delta!=0 | INT32、INT64、FLOAT、DOUBLE             | 若正在维护分组的值不为null,null视为无穷大/无穷小，结束当前分组。连续的null视为差值相等的值，会被分配在同一个分组 |
-| delta=0  | TEXT、BINARY、INT32、INT64、FLOAT、DOUBLE | null被视为新分组中的新值，连续的null属于相同的分组                                   |
-
-下图为差值分段的一个分段方式示意图，与组中第一个数据的控制列值的差值在delta内的控制列对应的点属于相同的分组。
-
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/GroupBy/groupByVariation.jpeg" alt="groupByVariation">
-
-#### 使用注意事项
-1. `controlExpression`的结果应该为唯一值，如果使用通配符拼接后出现多列，则报错。
-2. 对于一个分组，默认Time列输出分组的开始时间，查询时可以使用select `__endTime`的方式来使得结果输出分组的结束时间。
-3. 与`ALIGN BY DEVICE`搭配使用时会对每个device进行单独的分组操作。
-4. 当没有指定`delta`和`ignoreNull`时，`delta`默认为0，`ignoreNull`默认为true。
-5. 当前暂不支持与`GROUP BY LEVEL`搭配使用。
-
-使用如下的原始数据，接下来会给出几个事件分段查询的使用样例
-```
-+-----------------------------+-------+-------+-------+--------+-------+-------+
-|                         Time|     s1|     s2|     s3|      s4|     s5|     s6|
-+-----------------------------+-------+-------+-------+--------+-------+-------+
-|1970-01-01T08:00:00.000+08:00|    4.5|    9.0|    0.0|    45.0|    9.0|   8.25|
-|1970-01-01T08:00:00.010+08:00|   null|   19.0|   10.0|   145.0|   19.0|   8.25|
-|1970-01-01T08:00:00.020+08:00|   24.5|   29.0|   null|   245.0|   29.0|   null|
-|1970-01-01T08:00:00.030+08:00|   34.5|   null|   30.0|   345.0|   null|   null|
-|1970-01-01T08:00:00.040+08:00|   44.5|   49.0|   40.0|   445.0|   49.0|   8.25|
-|1970-01-01T08:00:00.050+08:00|   null|   59.0|   50.0|   545.0|   59.0|   6.25|
-|1970-01-01T08:00:00.060+08:00|   64.5|   69.0|   60.0|   645.0|   69.0|   null|
-|1970-01-01T08:00:00.070+08:00|   74.5|   79.0|   null|    null|   79.0|   3.25|
-|1970-01-01T08:00:00.080+08:00|   84.5|   89.0|   80.0|   845.0|   89.0|   3.25|
-|1970-01-01T08:00:00.090+08:00|   94.5|   99.0|   90.0|   945.0|   99.0|   3.25|
-|1970-01-01T08:00:00.150+08:00|   66.5|   77.0|   90.0|   945.0|   99.0|   9.25|
-+-----------------------------+-------+-------+-------+--------+-------+-------+
-```
-#### delta=0时的等值事件分段
-使用如下sql语句
-```sql
-select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6)
-```
-得到如下的查询结果，这里忽略了s6为null的行
-```
-+-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
-|                         Time|                    __endTime|avg(root.sg.d.s1)|count(root.sg.d.s2)|sum(root.sg.d.s3)|
-+-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
-|1970-01-01T08:00:00.000+08:00|1970-01-01T08:00:00.040+08:00|             24.5|                  3|             50.0|
-|1970-01-01T08:00:00.050+08:00|1970-01-01T08:00:00.050+08:00|             null|                  1|             50.0|
-|1970-01-01T08:00:00.070+08:00|1970-01-01T08:00:00.090+08:00|             84.5|                  3|            170.0|
-|1970-01-01T08:00:00.150+08:00|1970-01-01T08:00:00.150+08:00|             66.5|                  1|             90.0|
-+-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
-```
-当指定ignoreNull为false时，会将s6为null的数据也考虑进来
-```sql
-select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6, ignoreNull=false)
-```
-得到如下的结果
-```
-+-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
-|                         Time|                    __endTime|avg(root.sg.d.s1)|count(root.sg.d.s2)|sum(root.sg.d.s3)|
-+-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
-|1970-01-01T08:00:00.000+08:00|1970-01-01T08:00:00.010+08:00|              4.5|                  2|             10.0|
-|1970-01-01T08:00:00.020+08:00|1970-01-01T08:00:00.030+08:00|             29.5|                  1|             30.0|
-|1970-01-01T08:00:00.040+08:00|1970-01-01T08:00:00.040+08:00|             44.5|                  1|             40.0|
-|1970-01-01T08:00:00.050+08:00|1970-01-01T08:00:00.050+08:00|             null|                  1|             50.0|
-|1970-01-01T08:00:00.060+08:00|1970-01-01T08:00:00.060+08:00|             64.5|                  1|             60.0|
-|1970-01-01T08:00:00.070+08:00|1970-01-01T08:00:00.090+08:00|             84.5|                  3|            170.0|
-|1970-01-01T08:00:00.150+08:00|1970-01-01T08:00:00.150+08:00|             66.5|                  1|             90.0|
-+-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
-```
-#### delta!=0时的差值事件分段
-使用如下sql语句
-```sql
-select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6, 4)
-```
-得到如下的查询结果
-```
-+-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
-|                         Time|                    __endTime|avg(root.sg.d.s1)|count(root.sg.d.s2)|sum(root.sg.d.s3)|
-+-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
-|1970-01-01T08:00:00.000+08:00|1970-01-01T08:00:00.050+08:00|             24.5|                  4|            100.0|
-|1970-01-01T08:00:00.070+08:00|1970-01-01T08:00:00.090+08:00|             84.5|                  3|            170.0|
-|1970-01-01T08:00:00.150+08:00|1970-01-01T08:00:00.150+08:00|             66.5|                  1|             90.0|
-+-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
-```
-group by子句中的controlExpression同样支持列的表达式
+Aggregation result filtering query 1：
 
 ```sql
-select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6+s5, 10)
+ select count(s1) from root.** group by ([1,11),2ms), level=1 having count(s2) > 1
 ```
-得到如下的查询结果
+
+Filtering result 1：
+
 ```
-+-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
-|                         Time|                    __endTime|avg(root.sg.d.s1)|count(root.sg.d.s2)|sum(root.sg.d.s3)|
-+-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
-|1970-01-01T08:00:00.000+08:00|1970-01-01T08:00:00.010+08:00|              4.5|                  2|             10.0|
-|1970-01-01T08:00:00.040+08:00|1970-01-01T08:00:00.050+08:00|             44.5|                  2|             90.0|
-|1970-01-01T08:00:00.070+08:00|1970-01-01T08:00:00.080+08:00|             79.5|                  2|             80.0|
-|1970-01-01T08:00:00.090+08:00|1970-01-01T08:00:00.150+08:00|             80.5|                  2|            180.0|
-+-----------------------------+-----------------------------+-----------------+-------------------+-----------------+
++-----------------------------+---------------------+
+|                         Time|count(root.test.*.s1)|
++-----------------------------+---------------------+
+|1970-01-01T08:00:00.001+08:00|                    4|
+|1970-01-01T08:00:00.005+08:00|                    2|
+|1970-01-01T08:00:00.009+08:00|                    4|
++-----------------------------+---------------------+
 ```
-### 条件分段聚合
-当需要根据指定条件对数据进行筛选，并将连续的符合条件的行分为一组进行聚合运算时，可以使用`GROUP BY CONDITION`的分段方式；不满足给定条件的行因为不属于任何分组会被直接简单忽略。
-其语法定义如下：
+
+Aggregation result 2：
+
+```
++-----------------------------+-------------+---------+---------+
+|                         Time|       Device|count(s1)|count(s2)|
++-----------------------------+-------------+---------+---------+
+|1970-01-01T08:00:00.001+08:00|root.test.sg1|        1|        2|
+|1970-01-01T08:00:00.003+08:00|root.test.sg1|        1|        0|
+|1970-01-01T08:00:00.005+08:00|root.test.sg1|        1|        2|
+|1970-01-01T08:00:00.007+08:00|root.test.sg1|        2|        1|
+|1970-01-01T08:00:00.009+08:00|root.test.sg1|        2|        2|
+|1970-01-01T08:00:00.001+08:00|root.test.sg2|        2|        2|
+|1970-01-01T08:00:00.003+08:00|root.test.sg2|        0|        0|
+|1970-01-01T08:00:00.005+08:00|root.test.sg2|        1|        2|
+|1970-01-01T08:00:00.007+08:00|root.test.sg2|        1|        1|
+|1970-01-01T08:00:00.009+08:00|root.test.sg2|        2|        2|
++-----------------------------+-------------+---------+---------+
+```
+
+Aggregation result filtering query 2：
+
 ```sql
-group by condition(predict,[keep>/>=/=/<=/<]threshold,[,ignoreNull=true/false])
-```
-* predict
-
-返回boolean数据类型的合法表达式，用于分组的筛选。
-* keep[>/>=/=/<=/<]threshold
-
-keep表达式用来指定形成分组所需要连续满足`predict`条件的数据行数，只有行数满足keep表达式的分组才会被输出。keep表达式由一个'keep'字符串和`long`类型的threshold组合或者是单独的`long`类型数据构成。
-
-* ignoreNull=true/false
-
-用于指定遇到predict为null的数据行时的处理方式，为true则跳过该行，为false则结束当前分组。
-
-#### 使用注意事项
-1. keep条件在查询中是必需的，但可以省略掉keep字符串给出一个`long`类型常数，默认为`keep=该long型常数`的等于条件。
-2. `ignoreNull`默认为true。
-3. 对于一个分组，默认Time列输出分组的开始时间，查询时可以使用select `__endTime`的方式来使得结果输出分组的结束时间。
-4. 与`ALIGN BY DEVICE`搭配使用时会对每个device进行单独的分组操作。
-5. 当前暂不支持与`GROUP BY LEVEL`搭配使用。
-
-
-对于如下原始数据,下面会给出几个查询样例:
-```
-+-----------------------------+-------------------------+-------------------------------------+------------------------------------+
-|                         Time|root.sg.beijing.car01.soc|root.sg.beijing.car01.charging_status|root.sg.beijing.car01.vehicle_status|
-+-----------------------------+-------------------------+-------------------------------------+------------------------------------+
-|1970-01-01T08:00:00.001+08:00|                     14.0|                                    1|                                   1|
-|1970-01-01T08:00:00.002+08:00|                     16.0|                                    1|                                   1|
-|1970-01-01T08:00:00.003+08:00|                     16.0|                                    0|                                   1|
-|1970-01-01T08:00:00.004+08:00|                     16.0|                                    0|                                   1|
-|1970-01-01T08:00:00.005+08:00|                     18.0|                                    1|                                   1|
-|1970-01-01T08:00:00.006+08:00|                     24.0|                                    1|                                   1|
-|1970-01-01T08:00:00.007+08:00|                     36.0|                                    1|                                   1|
-|1970-01-01T08:00:00.008+08:00|                     36.0|                                 null|                                   1|
-|1970-01-01T08:00:00.009+08:00|                     45.0|                                    1|                                   1|
-|1970-01-01T08:00:00.010+08:00|                     60.0|                                    1|                                   1|
-+-----------------------------+-------------------------+-------------------------------------+------------------------------------+
-```
-查询至少连续两行以上的charging_status=1的数据，sql语句如下:
-```sql
-select max_time(charging_status),count(vehicle_status),last_value(soc) from root.** group by condition(charging_status=1,KEEP>=2,ignoreNull=true)
-```
-得到结果如下：
-```
-+-----------------------------+-----------------------------------------------+-------------------------------------------+-------------------------------------+
-|                         Time|max_time(root.sg.beijing.car01.charging_status)|count(root.sg.beijing.car01.vehicle_status)|last_value(root.sg.beijing.car01.soc)|
-+-----------------------------+-----------------------------------------------+-------------------------------------------+-------------------------------------+
-|1970-01-01T08:00:00.001+08:00|                                              2|                                          2|                                 16.0|
-|1970-01-01T08:00:00.005+08:00|                                             10|                                          5|                                 60.0|
-+-----------------------------+-----------------------------------------------+-------------------------------------------+-------------------------------------+
-```
-当设置`ignoreNull`为false时，遇到null值为将其视为一个不满足条件的行，会结束正在计算的分组。
-```sql
-select max_time(charging_status),count(vehicle_status),last_value(soc) from root.** group by condition(charging_status=1,KEEP>=2,ignoreNull=false)
-```
-得到如下结果，原先的分组被含null的行拆分:
-```
-+-----------------------------+-----------------------------------------------+-------------------------------------------+-------------------------------------+
-|                         Time|max_time(root.sg.beijing.car01.charging_status)|count(root.sg.beijing.car01.vehicle_status)|last_value(root.sg.beijing.car01.soc)|
-+-----------------------------+-----------------------------------------------+-------------------------------------------+-------------------------------------+
-|1970-01-01T08:00:00.001+08:00|                                              2|                                          2|                                 16.0|
-|1970-01-01T08:00:00.005+08:00|                                              7|                                          3|                                 36.0|
-|1970-01-01T08:00:00.009+08:00|                                             10|                                          2|                                 60.0|
-+-----------------------------+-----------------------------------------------+-------------------------------------------+-------------------------------------+
-```
-### 会话分段聚合
-`GROUP BY SESSION`可以根据时间列的间隔进行分组，在结果集的时间列中，时间间隔小于等于设定阈值的数据会被分为一组。例如在工业场景中，设备并不总是连续运行，`GROUP BY SESSION`会将设备每次接入会话所产生的数据分为一组。
-其语法定义如下：
-```sql
-group by session(timeInterval)
-```
-* timeInterval
-
-设定的时间差阈值，当两条数据时间列的差值大于该阈值，则会给数据创建一个新的分组。
-
-下图为`group by session`下的一个分组示意图
-
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/GroupBy/groupBySession.jpeg">
-
-#### 使用注意事项
-1. 对于一个分组，默认Time列输出分组的开始时间，查询时可以使用select `__endTime`的方式来使得结果输出分组的结束时间。
-2. 与`ALIGN BY DEVICE`搭配使用时会对每个device进行单独的分组操作。
-3. 当前暂不支持与`GROUP BY LEVEL`搭配使用。
-
-对于下面的原始数据，给出几个查询样例。
-```
-+-----------------------------+-----------------+-----------+--------+------+
-|                         Time|           Device|temperature|hardware|status|
-+-----------------------------+-----------------+-----------+--------+------+
-|1970-01-01T08:00:01.000+08:00|root.ln.wf02.wt01|       35.7|      11| false|
-|1970-01-01T08:00:02.000+08:00|root.ln.wf02.wt01|       35.8|      22|  true|
-|1970-01-01T08:00:03.000+08:00|root.ln.wf02.wt01|       35.4|      33| false|
-|1970-01-01T08:00:04.000+08:00|root.ln.wf02.wt01|       36.4|      44| false|
-|1970-01-01T08:00:05.000+08:00|root.ln.wf02.wt01|       36.8|      55| false|
-|1970-01-01T08:00:10.000+08:00|root.ln.wf02.wt01|       36.8|     110| false|
-|1970-01-01T08:00:20.000+08:00|root.ln.wf02.wt01|       37.8|     220|  true|
-|1970-01-01T08:00:30.000+08:00|root.ln.wf02.wt01|       37.5|     330| false|
-|1970-01-01T08:00:40.000+08:00|root.ln.wf02.wt01|       37.4|     440| false|
-|1970-01-01T08:00:50.000+08:00|root.ln.wf02.wt01|       37.9|     550| false|
-|1970-01-01T08:01:40.000+08:00|root.ln.wf02.wt01|       38.0|     110| false|
-|1970-01-01T08:02:30.000+08:00|root.ln.wf02.wt01|       38.8|     220|  true|
-|1970-01-01T08:03:20.000+08:00|root.ln.wf02.wt01|       38.6|     330| false|
-|1970-01-01T08:04:20.000+08:00|root.ln.wf02.wt01|       38.4|     440| false|
-|1970-01-01T08:05:20.000+08:00|root.ln.wf02.wt01|       38.3|     550| false|
-|1970-01-01T08:06:40.000+08:00|root.ln.wf02.wt01|       null|       0|  null|
-|1970-01-01T08:07:50.000+08:00|root.ln.wf02.wt01|       null|       0|  null|
-|1970-01-01T08:08:00.000+08:00|root.ln.wf02.wt01|       null|       0|  null|
-|1970-01-02T08:08:01.000+08:00|root.ln.wf02.wt01|       38.2|     110| false|
-|1970-01-02T08:08:02.000+08:00|root.ln.wf02.wt01|       37.5|     220|  true|
-|1970-01-02T08:08:03.000+08:00|root.ln.wf02.wt01|       37.4|     330| false|
-|1970-01-02T08:08:04.000+08:00|root.ln.wf02.wt01|       36.8|     440| false|
-|1970-01-02T08:08:05.000+08:00|root.ln.wf02.wt01|       37.4|     550| false|
-+-----------------------------+-----------------+-----------+--------+------+
-```
-可以按照不同的时间单位设定时间间隔，sql语句如下：
-```sql
-select __endTime,count(*) from root.** group by session(1d)
-```
-得到如下结果：
-```
-+-----------------------------+-----------------------------+------------------------------------+---------------------------------+-------------------------------+
-|                         Time|                    __endTime|count(root.ln.wf02.wt01.temperature)|count(root.ln.wf02.wt01.hardware)|count(root.ln.wf02.wt01.status)|
-+-----------------------------+-----------------------------+------------------------------------+---------------------------------+-------------------------------+
-|1970-01-01T08:00:01.000+08:00|1970-01-01T08:08:00.000+08:00|                                  15|                               18|                             15|
-|1970-01-02T08:08:01.000+08:00|1970-01-02T08:08:05.000+08:00|                                   5|                                5|                              5|
-+-----------------------------+-----------------------------+------------------------------------+---------------------------------+-------------------------------+
-```
-也可以和`HAVING`、`ALIGN BY DEVICE`共同使用
-```sql
-select __endTime,sum(hardware) from root.ln.wf02.wt01 group by session(50s) having sum(hardware)>0 align by device
-```
-得到如下结果，其中排除了`sum(hardware)`为0的部分
-```
-+-----------------------------+-----------------+-----------------------------+-------------+
-|                         Time|           Device|                    __endTime|sum(hardware)|
-+-----------------------------+-----------------+-----------------------------+-------------+
-|1970-01-01T08:00:01.000+08:00|root.ln.wf02.wt01|1970-01-01T08:03:20.000+08:00|       2475.0|
-|1970-01-01T08:04:20.000+08:00|root.ln.wf02.wt01|1970-01-01T08:04:20.000+08:00|        440.0|
-|1970-01-01T08:05:20.000+08:00|root.ln.wf02.wt01|1970-01-01T08:05:20.000+08:00|        550.0|
-|1970-01-02T08:08:01.000+08:00|root.ln.wf02.wt01|1970-01-02T08:08:05.000+08:00|       1650.0|
-+-----------------------------+-----------------+-----------------------------+-------------+
+ select count(s1), count(s2) from root.** group by ([1,11),2ms) having count(s2) > 1 align by device
 ```
 
-## HAVING 子句
+Filtering result 2：
 
-- `ORDER BY` 子句用于指定结果集的排序方式。
-- 按时间对齐模式下：默认按照时间戳大小升序排列，可以通过 `ORDER BY TIME DESC` 指定结果集按照时间戳大小降序排列。
-- 按设备对齐模式下：默认按照设备名的字典序升序排列，每个设备内部按照时间戳大小升序排列，可以通过 `ORDER BY` 子句调整设备列和时间列的排序优先级。
+```
++-----------------------------+-------------+---------+---------+
+|                         Time|       Device|count(s1)|count(s2)|
++-----------------------------+-------------+---------+---------+
+|1970-01-01T08:00:00.001+08:00|root.test.sg1|        1|        2|
+|1970-01-01T08:00:00.005+08:00|root.test.sg1|        1|        2|
+|1970-01-01T08:00:00.009+08:00|root.test.sg1|        2|        2|
+|1970-01-01T08:00:00.001+08:00|root.test.sg2|        2|        2|
+|1970-01-01T08:00:00.005+08:00|root.test.sg2|        1|        2|
+|1970-01-01T08:00:00.009+08:00|root.test.sg2|        2|        2|
++-----------------------------+-------------+---------+---------+
+```
 
-如果想对聚合查询的结果进行过滤，可以在 `GROUP BY` 子句之后使用 `HAVING` 子句。
+## `FILL` CLAUSE
 
-**注意：** 
+### Introduction
 
-1. `HAVING`子句中的过滤条件必须由聚合值构成，原始序列不能单独出现。
+When executing some queries, there may be no data for some columns in some rows, and data in these locations will be null, but this kind of null value is not conducive to data visualization and analysis, and the null value needs to be filled.
 
-    下列使用方式是不正确的：
-    ```sql
-    select count(s1) from root.** group by ([1,3),1ms) having sum(s1) > s1
-    select count(s1) from root.** group by ([1,3),1ms) having s1 > 1
-    ```
-   
-2. 对`GROUP BY LEVEL`结果进行过滤时，`SELECT`和`HAVING`中出现的PATH只能有一级。 
+In IoTDB, users can use the FILL clause to specify the fill mode when data is missing. Fill null value allows the user to fill any query result with null values according to a specific method, such as taking the previous value that is not null, or linear interpolation. The query result after filling the null value can better reflect the data distribution, which is beneficial for users to perform data analysis.
 
-   下列使用方式是不正确的：
-    ```sql
-    select count(s1) from root.** group by ([1,3),1ms), level=1 having sum(d1.s1) > 1
-    select count(d1.s1) from root.** group by ([1,3),1ms), level=1 having sum(s1) > 1
-    ```
+### Syntax Definition
 
-**SQL 示例：**
-
-- **示例 1：**
-
-    对于以下聚合结果进行过滤：
-
-    ```
-    +-----------------------------+---------------------+---------------------+
-    |                         Time|count(root.test.*.s1)|count(root.test.*.s2)|
-    +-----------------------------+---------------------+---------------------+
-    |1970-01-01T08:00:00.001+08:00|                    4|                    4|
-    |1970-01-01T08:00:00.003+08:00|                    1|                    0|
-    |1970-01-01T08:00:00.005+08:00|                    2|                    4|
-    |1970-01-01T08:00:00.007+08:00|                    3|                    2|
-    |1970-01-01T08:00:00.009+08:00|                    4|                    4|
-    +-----------------------------+---------------------+---------------------+
-    ```
-
-    ```sql
-     select count(s1) from root.** group by ([1,11),2ms), level=1 having count(s2) > 2;
-    ```
-
-    执行结果如下：
-
-    ```
-    +-----------------------------+---------------------+
-    |                         Time|count(root.test.*.s1)|
-    +-----------------------------+---------------------+
-    |1970-01-01T08:00:00.001+08:00|                    4|
-    |1970-01-01T08:00:00.005+08:00|                    2|
-    |1970-01-01T08:00:00.009+08:00|                    4|
-    +-----------------------------+---------------------+
-    ```
-
-- **示例 2：**
-
-  对于以下聚合结果进行过滤：
-    ```
-    +-----------------------------+-------------+---------+---------+
-    |                         Time|       Device|count(s1)|count(s2)|
-    +-----------------------------+-------------+---------+---------+
-    |1970-01-01T08:00:00.001+08:00|root.test.sg1|        1|        2|
-    |1970-01-01T08:00:00.003+08:00|root.test.sg1|        1|        0|
-    |1970-01-01T08:00:00.005+08:00|root.test.sg1|        1|        2|
-    |1970-01-01T08:00:00.007+08:00|root.test.sg1|        2|        1|
-    |1970-01-01T08:00:00.009+08:00|root.test.sg1|        2|        2|
-    |1970-01-01T08:00:00.001+08:00|root.test.sg2|        2|        2|
-    |1970-01-01T08:00:00.003+08:00|root.test.sg2|        0|        0|
-    |1970-01-01T08:00:00.005+08:00|root.test.sg2|        1|        2|
-    |1970-01-01T08:00:00.007+08:00|root.test.sg2|        1|        1|
-    |1970-01-01T08:00:00.009+08:00|root.test.sg2|        2|        2|
-    +-----------------------------+-------------+---------+---------+
-    ```
-
-    ```sql
-     select count(s1), count(s2) from root.** group by ([1,11),2ms) having count(s2) > 1 align by device;
-    ```
-
-    执行结果如下：
-
-    ```
-    +-----------------------------+-------------+---------+---------+
-    |                         Time|       Device|count(s1)|count(s2)|
-    +-----------------------------+-------------+---------+---------+
-    |1970-01-01T08:00:00.001+08:00|root.test.sg1|        1|        2|
-    |1970-01-01T08:00:00.005+08:00|root.test.sg1|        1|        2|
-    |1970-01-01T08:00:00.009+08:00|root.test.sg1|        2|        2|
-    |1970-01-01T08:00:00.001+08:00|root.test.sg2|        2|        2|
-    |1970-01-01T08:00:00.005+08:00|root.test.sg2|        1|        2|
-    |1970-01-01T08:00:00.009+08:00|root.test.sg2|        2|        2|
-    +-----------------------------+-------------+---------+---------+
-    ```
-
-## FILL 子句
-- `FILL` 子句用于指定数据缺失情况下的填充模式，允许用户按照特定的方法对任何查询的结果集填充空值。
-
-### 功能介绍
-
-当执行一些数据查询时，结果集的某行某列可能没有数据，则此位置结果为空，但这种空值不利于进行数据可视化展示和分析，需要对空值进行填充。
-
-在 IoTDB 中，用户可以使用 `FILL` 子句指定数据缺失情况下的填充模式，允许用户按照特定的方法对任何查询的结果集填充空值，如取前一个不为空的值、线性插值等。
-
-### 语法定义
-
-**`FILL` 子句的语法定义如下：**
+**The following is the syntax definition of the `FILL` clause:**
 
 ```sql
 FILL '(' PREVIOUS | LINEAR | constant ')'
 ```
 
-**注意：** 
-- 在 `Fill` 语句中只能指定一种填充方法，该方法作用于结果集的全部列。
-- 空值填充不兼容 0.13 版本及以前的语法（即不支持 `FILL((<data_type>[<fill_method>(, <before_range>, <after_range>)?])+)`）
+**Note:** 
 
-### 填充方式
+- We can specify only one fill method in the `FILL` clause, and this method applies to all columns of the result set.
+- Null value fill is not compatible with version 0.13 and previous syntax (`FILL((<data_type>[<fill_method>(, <before_range>, <after_range>)?])+)`) is not supported anymore.
 
-**IoTDB 目前支持以下三种空值填充方式：**
+### Fill Methods
 
-- `PREVIOUS` 填充：使用该列前一个非空值进行填充。
-- `LINEAR` 填充：使用该列前一个非空值和下一个非空值的线性插值进行填充。
-- 常量填充：使用指定常量填充。
+**IoTDB supports the following three fill methods:**
 
-**各数据类型支持的填充方法如下表所示：**
+- `PREVIOUS`: Fill with the previous non-null value of the column.
+- `LINEAR`: Fill the column with a linear interpolation of the previous non-null value and the next non-null value of the column.
+- Constant: Fill with the specified constant.
 
-| 数据类型 | 支持的填充方法              |
-| :------- |:------------------------|
-| BOOLEAN  | `PREVIOUS`、常量       |
-| INT32    | `PREVIOUS`、`LINEAR`、常量 |
-| INT64    | `PREVIOUS`、`LINEAR`、常量 |
-| FLOAT    | `PREVIOUS`、`LINEAR`、常量 |
-| DOUBLE   | `PREVIOUS`、`LINEAR`、常量 |
-| TEXT     | `PREVIOUS`、常量         |
+**Following table lists the data types and supported fill methods.**
 
-**注意：** 对于数据类型不支持指定填充方法的列，既不会填充它，也不会报错，只是让那一列保持原样。
+| Data Type | Supported Fill Methods  |
+| :-------- | :---------------------- |
+| boolean   | previous, value         |
+| int32     | previous, linear, value |
+| int64     | previous, linear, value |
+| float     | previous, linear, value |
+| double    | previous, linear, value |
+| text      | previous, value         |
 
-**下面通过举例进一步说明。**
+**Note:**  For columns whose data type does not support specifying the fill method, we neither fill it nor throw exception, just keep it as it is.
 
-如果我们不使用任何填充方式：
+**For examples:**
+
+If we don't use any fill methods:
 
 ```sql
 select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000;
 ```
 
-查询结果如下：
+the original result will be like:
 
 ```
 +-----------------------------+-------------------------------+--------------------------+
@@ -1101,19 +2034,19 @@ select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:
 Total line number = 4
 ```
 
-#### `PREVIOUS` 填充
+#### `PREVIOUS` Fill
 
-**对于查询结果集中的空值，使用该列前一个非空值进行填充。**
+**For null values in the query result set, fill with the previous non-null value of the column.**
 
-**注意：** 如果结果集的某一列第一个值就为空，则不会填充该值，直到遇到该列第一个非空值为止。
+**Note:** If the first value of this column is null, we will keep first value as null and won't fill it until we meet first non-null value
 
-例如，使用 `PREVIOUS` 填充，SQL 语句如下：
+For example, with `PREVIOUS` fill, the SQL is as follows:
 
 ```sql
 select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(previous);
 ```
 
-`PREVIOUS` 填充后的结果如下：
+result will be like:
 
 ```
 +-----------------------------+-------------------------------+--------------------------+
@@ -1130,21 +2063,24 @@ select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:
 Total line number = 4
 ```
 
-#### `LINEAR` 填充
+#### `LINEAR` Fill
 
-**对于查询结果集中的空值，使用该列前一个非空值和下一个非空值的线性插值进行填充。** 
+**For null values in the query result set, fill the column with a linear interpolation of the previous non-null value and the next non-null value of the column.**
 
-**注意：** 
-- 如果某个值之前的所有值都为空，或者某个值之后的所有值都为空，则不会填充该值。
-- 如果某列的数据类型为boolean/text，我们既不会填充它，也不会报错，只是让那一列保持原样。
+**Note:**
 
-例如，使用 `LINEAR` 填充，SQL 语句如下：
+- If all the values before current value are null or all the values after current value are null, we will keep current value as null and won't fill it.
+- If the column's data type is boolean/text, we neither fill it nor throw exception, just keep it as it is.
+
+Here we give an example of filling null values using the linear method. The SQL statement is as follows:
+
+For example, with `LINEAR` fill, the SQL is as follows:
 
 ```sql
 select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(linear);
 ```
- 
-`LINEAR` 填充后的结果如下：
+
+result will be like:
 
 ```
 +-----------------------------+-------------------------------+--------------------------+
@@ -1161,28 +2097,30 @@ select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:
 Total line number = 4
 ```
 
-#### 常量填充
+#### Constant Fill
 
-**对于查询结果集中的空值，使用指定常量填充。**
+**For null values in the query result set, fill with the specified constant.**
 
-**注意：**
-- 如果某列数据类型与常量类型不兼容，既不填充该列，也不报错，将该列保持原样。对于常量兼容的数据类型，如下表所示：
+**Note:** 
 
-   | 常量类型 | 能够填充的序列数据类型 |
-   |:------ |:------------------ |
-   | `BOOLEAN` | `BOOLEAN` `TEXT` |
-   | `INT64` | `INT32` `INT64` `FLOAT` `DOUBLE` `TEXT` |
-   | `DOUBLE` | `FLOAT` `DOUBLE` `TEXT` |
-   | `TEXT` | `TEXT` |
-- 当常量值大于 `INT32` 所能表示的最大值时，对于 `INT32` 类型的列，既不填充该列，也不报错，将该列保持原样。
+- When using the ValueFill, IoTDB neither fill the query result if the data type is different from the input constant nor throw exception, just keep it as it is.
 
-例如，使用 `FLOAT` 类型的常量填充，SQL 语句如下：
+    | Constant Value Data Type | Support Data Type                       |
+    | :----------------------- | :-------------------------------------- |
+    | `BOOLEAN`                | `BOOLEAN` `TEXT`                        |
+    | `INT64`                  | `INT32` `INT64` `FLOAT` `DOUBLE` `TEXT` |
+    | `DOUBLE`                 | `FLOAT` `DOUBLE` `TEXT`                 |
+    | `TEXT`                   | `TEXT`                                  |
+
+- If constant value is larger than Integer.MAX_VALUE, IoTDB neither fill the query result if the data type is int32 nor throw exception, just keep it as it is.
+
+For example, with `FLOAT` constant fill, the SQL is as follows:
 
 ```sql
 select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(2.0);
 ```
 
-`FLOAT` 类型的常量填充后的结果如下：
+result will be like:
 
 ```
 +-----------------------------+-------------------------------+--------------------------+
@@ -1199,13 +2137,13 @@ select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:
 Total line number = 4
 ```
 
-再比如，使用 `BOOLEAN` 类型的常量填充，SQL 语句如下：
+For example, with `BOOLEAN` constant fill, the SQL is as follows:
 
 ```sql
 select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(true);
 ```
 
-`BOOLEAN` 类型的常量填充后的结果如下：
+result will be like:
 
 ```
 +-----------------------------+-------------------------------+--------------------------+
@@ -1222,39 +2160,30 @@ select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:
 Total line number = 4
 ```
 
-## LIMIT/SLIMIT 子句
+## `LIMIT` and `SLIMIT` CLAUSES (PAGINATION)
 
-- `LIMIT` 指定查询结果的行数，`SLIMIT` 指定查询结果的列数。
+When the query result set has a large amount of data, it is not conducive to display on one page. You can use the `LIMIT/SLIMIT` clause and the `OFFSET/SOFFSET` clause to control paging.
 
-当查询结果集数据量很大，放在一个页面不利于显示，可以使用  `LIMIT/SLIMIT` 子句和 `OFFSET/SOFFSET `子句进行分页控制。
+- The `LIMIT` and `SLIMIT` clauses are used to control the number of rows and columns of query results.
+- The `OFFSET` and `SOFFSET` clauses are used to control the starting position of the result display.
 
-- `LIMIT` 和 `SLIMIT` 子句用于控制查询结果的行数和列数。
-- `OFFSET` 和 `SOFFSET` 子句用于控制结果显示的起始位置。
+### Row Control over Query Results
 
-### 按行分页
+By using LIMIT and OFFSET clauses, users control the query results in a row-related manner. We demonstrate how to use LIMIT and OFFSET clauses through the following examples.
 
-用户可以通过 `LIMIT` 和 `OFFSET` 子句控制查询结果的行数，`LIMIT rowLimit` 指定查询结果的行数，`OFFSET rowOffset` 指定查询结果显示的起始行位置。
+* Example 1: basic LIMIT clause
 
-注意：
-- 当 `rowOffset` 超过结果集的大小时，返回空结果集。
-- 当 `rowLimit` 超过结果集的大小时，返回所有查询结果。
-- 当 `rowLimit` 和 `rowOffset` 不是正整数，或超过 `INT64` 允许的最大值时，系统将提示错误。
-
-我们将通过以下示例演示如何使用 `LIMIT` 和 `OFFSET` 子句。
-
-- **示例 1：** 基本的 `LIMIT` 子句
-
-SQL 语句：
+The SQL statement is:
 
 ```sql
 select status, temperature from root.ln.wf01.wt01 limit 10
 ```
 
-含义：
+which means:
 
-所选设备为 ln 组 wf01 工厂 wt01 设备； 选择的时间序列是“状态”和“温度”。 SQL 语句要求返回查询结果的前 10 行。
+The selected device is ln group wf01 plant wt01 device; the selected timeseries is "status" and "temperature". The SQL statement requires the first 10 rows of the query result.
 
-结果如下所示：
+The result is shown below:
 
 ```
 +-----------------------------+------------------------+-----------------------------+
@@ -1275,19 +2204,19 @@ Total line number = 10
 It costs 0.000s
 ```
 
-- **示例 2：** 带 `OFFSET` 的 `LIMIT` 子句
+* Example 2: LIMIT clause with OFFSET
 
-SQL 语句：
+The SQL statement is:
 
 ```sql
 select status, temperature from root.ln.wf01.wt01 limit 5 offset 3
 ```
 
-含义：
+which means:
 
-所选设备为 ln 组 wf01 工厂 wt01 设备； 选择的时间序列是“状态”和“温度”。 SQL 语句要求返回查询结果的第 3 至 7 行（第一行编号为 0 行）。
+The selected device is ln group wf01 plant wt01 device; the selected timeseries is "status" and "temperature". The SQL statement requires rows 3 to 7 of the query result be returned (with the first row numbered as row 0).
 
-结果如下所示：
+The result is shown below:
 
 ```
 +-----------------------------+------------------------+-----------------------------+
@@ -1303,19 +2232,19 @@ Total line number = 5
 It costs 0.342s
 ```
 
-- **示例 3：** `LIMIT` 子句与 `WHERE` 子句结合
+* Example 3: LIMIT clause combined with WHERE clause
 
-SQL 语句：
+The SQL statement is:
 
 ```sql
-select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time< 2017-11-01T00:12:00.000 limit 5 offset 3
+select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time< 2017-11-01T00:12:00.000 limit 2 offset 3
 ```
 
-含义：
+which means:
 
-所选设备为 ln 组 wf01 工厂 wt01 设备； 选择的时间序列是“状态”和“温度”。 SQL 语句要求返回时间“ 2017-11-01T00：05：00.000”和“ 2017-11-01T00：12：00.000”之间的状态和温度传感器值的第 3 至 4 行（第一行） 编号为第 0 行）。
+The selected device is ln group wf01 plant wt01 device; the selected timeseries is "status" and "temperature". The SQL statement requires rows 3 to 4 of  the status and temperature sensor values between the time point of "2017-11-01T00:05:00.000" and "2017-11-01T00:12:00.000" (with the first row numbered as row 0).
 
-结果如下所示：
+The result is shown below:
 
 ```
 +-----------------------------+------------------------+-----------------------------+
@@ -1331,19 +2260,19 @@ Total line number = 5
 It costs 0.000s
 ```
 
-- **示例 4：** `LIMIT` 子句与 `GROUP BY` 子句组合
+* Example 4: LIMIT clause combined with GROUP BY clause
 
-SQL 语句：
+The SQL statement is:
 
 ```sql
-select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d) limit 4 offset 3
+select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d) limit 5 offset 3
 ```
 
-含义：
+which means:
 
-SQL 语句子句要求返回查询结果的第 3 至 6 行（第一行编号为 0 行）。
+The SQL statement clause requires rows 3 to 7 of the query result be returned (with the first row numbered as row 0).
 
-结果如下所示：
+The result is shown below:
 
 ```
 +-----------------------------+-------------------------------+----------------------------------------+
@@ -1358,31 +2287,23 @@ Total line number = 4
 It costs 0.016s
 ```
 
-### 按列分页
+### Column Control over Query Results
 
-用户可以通过 `SLIMIT` 和 `SOFFSET` 子句控制查询结果的列数，`SLIMIT seriesLimit` 指定查询结果的列数，`SOFFSET seriesOffset` 指定查询结果显示的起始列位置。
+By using SLIMIT and SOFFSET clauses, users can control the query results in a column-related manner. We will demonstrate how to use SLIMIT and SOFFSET clauses through the following examples.
 
-注意：
-- 仅用于控制值列，对时间列和设备列无效。
-- 当 `seriesOffset` 超过结果集的大小时，返回空结果集。
-- 当 `seriesLimit` 超过结果集的大小时，返回所有查询结果。
-- 当 `seriesLimit` 和 `seriesOffset` 不是正整数，或超过 `INT64` 允许的最大值时，系统将提示错误。
+* Example 1: basic SLIMIT clause
 
-我们将通过以下示例演示如何使用 `SLIMIT` 和 `SOFFSET` 子句。
-
-- **示例 1：** 基本的 `SLIMIT` 子句
-
-SQL 语句：
+The SQL statement is:
 
 ```sql
 select * from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 slimit 1
 ```
 
-含义：
+which means:
 
-所选设备为 ln 组 wf01 工厂 wt01 设备； 所选时间序列是该设备下的第二列，即温度。 SQL 语句要求在"2017-11-01T00:05:00.000"和"2017-11-01T00:12:00.000"的时间点之间选择温度传感器值。
+The selected device is ln group wf01 plant wt01 device; the selected timeseries is the first column under this device, i.e., the power supply status. The SQL statement requires the status sensor values between the time point of "2017-11-01T00:05:00.000" and "2017-11-01T00:12:00.000" be selected.
 
-结果如下所示：
+The result is shown below:
 
 ```
 +-----------------------------+-----------------------------+
@@ -1399,19 +2320,19 @@ Total line number = 6
 It costs 0.000s
 ```
 
-- **示例 2：** 带 `SOFFSET` 的 `SLIMIT` 子句
+* Example 2: SLIMIT clause with SOFFSET
 
-SQL 语句：
+The SQL statement is:
 
 ```sql
 select * from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 slimit 1 soffset 1
 ```
 
-含义：
+which means:
 
-所选设备为 ln 组 wf01 工厂 wt01 设备； 所选时间序列是该设备下的第一列，即电源状态。 SQL 语句要求在" 2017-11-01T00:05:00.000"和"2017-11-01T00:12:00.000"的时间点之间选择状态传感器值。
+The selected device is ln group wf01 plant wt01 device; the selected timeseries is the second column under this device, i.e., the temperature. The SQL statement requires the temperature sensor values between the time point of "2017-11-01T00:05:00.000" and "2017-11-01T00:12:00.000" be selected.
 
-结果如下所示：
+The result is shown below:
 
 ```
 +-----------------------------+------------------------+
@@ -1428,15 +2349,15 @@ Total line number = 6
 It costs 0.003s
 ```
 
-- **示例 3：** `SLIMIT` 子句与 `GROUP BY` 子句结合
+* Example 3: SLIMIT clause combined with GROUP BY clause
 
-SQL 语句：
+The SQL statement is:
 
 ```sql
 select max_value(*) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d) slimit 1 soffset 1
 ```
 
-含义：
+The result is shown below:
 
 ```
 +-----------------------------+-----------------------------------+
@@ -1454,19 +2375,21 @@ Total line number = 7
 It costs 0.000s
 ```
 
-- **示例 4：** `SLIMIT` 子句与 `LIMIT` 子句结合
+### Row and Column Control over Query Results
 
-SQL 语句：
+In addition to row or column control over query results, IoTDB allows users to control both rows and columns of query results. Here is a complete example with both LIMIT clauses and SLIMIT clauses.
+
+The SQL statement is:
 
 ```sql
 select * from root.ln.wf01.wt01 limit 10 offset 100 slimit 2 soffset 0
 ```
 
-含义：
+which means:
 
-所选设备为 ln 组 wf01 工厂 wt01 设备； 所选时间序列是此设备下的第 0 列至第 1 列（第一列编号为第 0 列）。 SQL 语句子句要求返回查询结果的第 100 至 109 行（第一行编号为 0 行）。
+The selected device is ln group wf01 plant wt01 device; the selected timeseries is columns 0 to 1 under this device (with the first column numbered as column 0). The SQL statement clause requires rows 100 to 109 of the query result be returned (with the first row numbered as row 0).
 
-结果如下所示：
+The result is shown below:
 
 ```
 +-----------------------------+-----------------------------+------------------------+
@@ -1487,38 +2410,403 @@ Total line number = 10
 It costs 0.009s
 ```
 
-## ORDER BY 子句
-- `ORDER BY` 子句用于指定结果集的排序方式。
-- 按时间对齐模式下：默认按照时间戳大小升序排列，可以通过 `ORDER BY TIME DESC` 指定结果集按照时间戳大小降序排列。
-- 按设备对齐模式下：默认按照设备名的字典序升序排列，每个设备内部按照时间戳大小升序排列，可以通过 `ORDER BY` 子句调整设备列和时间列的排序优先级。
+### Error Handling
 
-## ALIGN BY DEVICE 子句
-- 查询结果集默认**按时间对齐**，包含一列时间列和若干个值列，每一行数据各列的时间戳相同。
-- 除按时间对齐之外，还支持**按设备对齐**，查询结果集包含一列时间列、一列设备列和若干个值列。
+If the parameter N/SN of LIMIT/SLIMIT exceeds the size of the result set, IoTDB returns all the results as expected. For example, the query result of the original SQL statement consists of six rows, and we select the first 100 rows through the LIMIT clause:
 
-在 IoTDB 中，查询结果集**默认按照时间对齐**，包含一列时间列和若干个值列，每一行数据各列的时间戳相同。
+```sql
+select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 limit 100
+```
 
-除按照时间对齐外，还支持以下对齐模式：
+The result is shown below:
 
-- 按设备对齐 `ALIGN BY DEVICE`
+```
++-----------------------------+------------------------+-----------------------------+
+|                         Time|root.ln.wf01.wt01.status|root.ln.wf01.wt01.temperature|
++-----------------------------+------------------------+-----------------------------+
+|2017-11-01T00:06:00.000+08:00|                   false|                        20.71|
+|2017-11-01T00:07:00.000+08:00|                   false|                        21.45|
+|2017-11-01T00:08:00.000+08:00|                   false|                        22.58|
+|2017-11-01T00:09:00.000+08:00|                   false|                        20.98|
+|2017-11-01T00:10:00.000+08:00|                    true|                        25.52|
+|2017-11-01T00:11:00.000+08:00|                   false|                        22.91|
++-----------------------------+------------------------+-----------------------------+
+Total line number = 6
+It costs 0.005s
+```
 
-### 按设备对齐
+If the parameter N/SN of LIMIT/SLIMIT clause exceeds the allowable maximum value (N/SN is of type int64), the system prompts errors. For example, executing the following SQL statement:
 
-在按设备对齐模式下，设备名会单独作为一列出现，查询结果集包含一列时间列、一列设备列和若干个值列。如果 `SELECT` 子句中选择了 `N` 列，则结果集包含 `N + 2` 列（时间列和设备名字列）。
+```sql
+select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 limit 9223372036854775808
+```
 
-在默认情况下，结果集按照 `Device` 进行排列，在每个 `Device` 内按照 `Time` 列升序排序。
+The SQL statement will not be executed and the corresponding error prompt is given as follows:
 
-当查询多个设备时，要求设备之间同名的列数据类型相同。
+```
+Msg: 416: Out of range. LIMIT <N>: N should be Int64.
+```
 
-为便于理解，可以按照关系模型进行对应。设备可以视为关系模型中的表，选择的列可以视为表中的列，`Time + Device` 看做其主键。
+If the parameter N/SN of LIMIT/SLIMIT clause is not a positive intege, the system prompts errors. For example, executing the following SQL statement:
 
-**示例：**
+```sql
+select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 limit 13.1
+```
+
+The SQL statement will not be executed and the corresponding error prompt is given as follows:
+
+```
+Msg: 401: line 1:129 mismatched input '.' expecting {<EOF>, ';'}
+```
+
+If the parameter OFFSET of LIMIT clause exceeds the size of the result set, IoTDB will return an empty result set. For example, executing the following SQL statement:
+
+```sql
+select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 limit 2 offset 6
+```
+
+The result is shown below:
+
+```
++----+------------------------+-----------------------------+
+|Time|root.ln.wf01.wt01.status|root.ln.wf01.wt01.temperature|
++----+------------------------+-----------------------------+
++----+------------------------+-----------------------------+
+Empty set.
+It costs 0.005s
+```
+
+If the parameter SOFFSET of SLIMIT clause is not smaller than the number of available timeseries, the system prompts errors. For example, executing the following SQL statement:
+
+```sql
+select * from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 slimit 1 soffset 2
+```
+
+The SQL statement will not be executed and the corresponding error prompt is given as follows:
+
+```
+Msg: 411: Meet error in query process: The value of SOFFSET (2) is equal to or exceeds the number of sequences (2) that can actually be returned.
+```
+
+## `ORDER BY` CLAUSE
+
+### Order by in ALIGN BY TIME mode
+
+The result set of IoTDB is in ALIGN BY TIME mode by default and `ORDER BY TIME` clause can also be used to specify the ordering of timestamp. The SQL statement is:
+
+```sql
+select * from root.ln.** where time <= 2017-11-01T00:01:00 order by time desc;
+```
+
+Results：
+
+```
++-----------------------------+--------------------------+------------------------+-----------------------------+------------------------+
+|                         Time|root.ln.wf02.wt02.hardware|root.ln.wf02.wt02.status|root.ln.wf01.wt01.temperature|root.ln.wf01.wt01.status|
++-----------------------------+--------------------------+------------------------+-----------------------------+------------------------+
+|2017-11-01T00:01:00.000+08:00|                        v2|                    true|                        24.36|                    true|
+|2017-11-01T00:00:00.000+08:00|                        v2|                    true|                        25.96|                    true|
+|1970-01-01T08:00:00.002+08:00|                        v2|                   false|                         null|                    null|
+|1970-01-01T08:00:00.001+08:00|                        v1|                    true|                         null|                    null|
++-----------------------------+--------------------------+------------------------+-----------------------------+------------------------+
+```
+
+### Order by in ALIGN BY DEVICE mode
+
+When querying in ALIGN BY DEVICE mode, `ORDER BY` clause can be used to specify the ordering of result set.
+
+ALIGN BY DEVICE mode supports four kinds of clauses with two sort keys which are `Device` and `Time`.
+
+1. ``ORDER BY DEVICE``: sort by the alphabetical order of the device name. The devices with the same column names will be clustered in a group view.
+
+2. ``ORDER BY TIME``: sort by the timestamp, the data points from different devices will be shuffled according to the timestamp.
+
+3. ``ORDER BY DEVICE,TIME``: sort by the alphabetical order of the device name. The data points with the same device name will be sorted by timestamp.
+
+4. ``ORDER BY TIME,DEVICE``: sort by timestamp. The data points with the same time will be sorted by the alphabetical order of the device name.
+
+> To make the result set more legible, when `ORDER BY` clause is not used, default settings will be provided.
+> The default ordering clause is `ORDER BY DEVICE,TIME` and the default ordering is `ASC`.
+
+When `Device` is the main sort key, the result set is sorted by device name first, then by timestamp in the group with the same device name, the SQL statement is:
+
+```sql
+select * from root.ln.** where time <= 2017-11-01T00:01:00 order by device desc,time asc align by device;
+```
+
+The result shows below:
+
+```
++-----------------------------+-----------------+--------+------+-----------+
+|                         Time|           Device|hardware|status|temperature|
++-----------------------------+-----------------+--------+------+-----------+
+|1970-01-01T08:00:00.001+08:00|root.ln.wf02.wt02|      v1|  true|       null|
+|1970-01-01T08:00:00.002+08:00|root.ln.wf02.wt02|      v2| false|       null|
+|2017-11-01T00:00:00.000+08:00|root.ln.wf02.wt02|      v2|  true|       null|
+|2017-11-01T00:01:00.000+08:00|root.ln.wf02.wt02|      v2|  true|       null|
+|2017-11-01T00:00:00.000+08:00|root.ln.wf01.wt01|    null|  true|      25.96|
+|2017-11-01T00:01:00.000+08:00|root.ln.wf01.wt01|    null|  true|      24.36|
++-----------------------------+-----------------+--------+------+-----------+
+```
+
+When `Time` is the main sort key, the result set is sorted by timestamp first, then by device name in data points with the same timestamp. The SQL statement is:
+
+```sql
+select * from root.ln.** where time <= 2017-11-01T00:01:00 order by time asc,device desc align by device;
+```
+
+The result shows below:
+
+```
++-----------------------------+-----------------+--------+------+-----------+
+|                         Time|           Device|hardware|status|temperature|
++-----------------------------+-----------------+--------+------+-----------+
+|1970-01-01T08:00:00.001+08:00|root.ln.wf02.wt02|      v1|  true|       null|
+|1970-01-01T08:00:00.002+08:00|root.ln.wf02.wt02|      v2| false|       null|
+|2017-11-01T00:00:00.000+08:00|root.ln.wf02.wt02|      v2|  true|       null|
+|2017-11-01T00:00:00.000+08:00|root.ln.wf01.wt01|    null|  true|      25.96|
+|2017-11-01T00:01:00.000+08:00|root.ln.wf02.wt02|      v2|  true|       null|
+|2017-11-01T00:01:00.000+08:00|root.ln.wf01.wt01|    null|  true|      24.36|
++-----------------------------+-----------------+--------+------+-----------+
+```
+
+When `ORDER BY` clause is not used, sort in default way, the SQL statement is：
 
 ```sql
 select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
 ```
 
-执行如下：
+The result below indicates `ORDER BY DEVICE ASC,TIME ASC` is the clause in default situation.
+`ASC` can be omitted because it's the default ordering.
+
+```
++-----------------------------+-----------------+--------+------+-----------+
+|                         Time|           Device|hardware|status|temperature|
++-----------------------------+-----------------+--------+------+-----------+
+|2017-11-01T00:00:00.000+08:00|root.ln.wf01.wt01|    null|  true|      25.96|
+|2017-11-01T00:01:00.000+08:00|root.ln.wf01.wt01|    null|  true|      24.36|
+|1970-01-01T08:00:00.001+08:00|root.ln.wf02.wt02|      v1|  true|       null|
+|1970-01-01T08:00:00.002+08:00|root.ln.wf02.wt02|      v2| false|       null|
+|2017-11-01T00:00:00.000+08:00|root.ln.wf02.wt02|      v2|  true|       null|
+|2017-11-01T00:01:00.000+08:00|root.ln.wf02.wt02|      v2|  true|       null|
++-----------------------------+-----------------+--------+------+-----------+
+```
+
+Besides，`ALIGN BY DEVICE` and `ORDER BY` clauses can be used with aggregate query，the SQL statement is：
+
+```sql
+select count(*) from root.ln.** group by ((2017-11-01T00:00:00.000+08:00,2017-11-01T00:03:00.000+08:00],1m) order by device asc,time asc align by device
+```
+
+The result shows below:
+
+```
++-----------------------------+-----------------+---------------+-------------+------------------+
+|                         Time|           Device|count(hardware)|count(status)|count(temperature)|
++-----------------------------+-----------------+---------------+-------------+------------------+
+|2017-11-01T00:01:00.000+08:00|root.ln.wf01.wt01|           null|            1|                 1|
+|2017-11-01T00:02:00.000+08:00|root.ln.wf01.wt01|           null|            0|                 0|
+|2017-11-01T00:03:00.000+08:00|root.ln.wf01.wt01|           null|            0|                 0|
+|2017-11-01T00:01:00.000+08:00|root.ln.wf02.wt02|              1|            1|              null|
+|2017-11-01T00:02:00.000+08:00|root.ln.wf02.wt02|              0|            0|              null|
+|2017-11-01T00:03:00.000+08:00|root.ln.wf02.wt02|              0|            0|              null|
++-----------------------------+-----------------+---------------+-------------+------------------+
+```
+
+### Order by arbitrary expressions
+
+In addition to the predefined keywords "Time" and "Device" in IoTDB, `ORDER BY` can also be used to sort by any expressions.
+
+When sorting, `ASC` or `DESC` can be used to specify the sorting order, and `NULLS` syntax is supported to specify the priority of NULL values in the sorting. By default, `NULLS FIRST` places NULL values at the top of the result, and `NULLS LAST` ensures that NULL values appear at the end of the result. If not specified in the clause, the default order is ASC with NULLS LAST.
+
+Here are several examples of queries for sorting arbitrary expressions using the following data:
+
+```
++-----------------------------+-------------+-------+-------+--------+-------+
+|                         Time|       Device|   base|  score|   bonus|  total|    
++-----------------------------+-------------+-------+-------+--------+-------+
+|1970-01-01T08:00:00.000+08:00|     root.one|     12|   50.0|    45.0|  107.0|  
+|1970-01-02T08:00:00.000+08:00|     root.one|     10|   50.0|    45.0|  105.0|
+|1970-01-03T08:00:00.000+08:00|     root.one|      8|   50.0|    45.0|  103.0|       
+|1970-01-01T08:00:00.010+08:00|     root.two|      9|   50.0|    15.0|   74.0|   
+|1970-01-01T08:00:00.020+08:00|     root.two|      8|   10.0|    15.0|   33.0|  
+|1970-01-01T08:00:00.010+08:00|   root.three|      9|   null|    24.0|   33.0|    
+|1970-01-01T08:00:00.020+08:00|   root.three|      8|   null|    22.5|   30.5|   
+|1970-01-01T08:00:00.030+08:00|   root.three|      7|   null|    23.5|   30.5|   
+|1970-01-01T08:00:00.010+08:00|    root.four|      9|   32.0|    45.0|   86.0|  
+|1970-01-01T08:00:00.020+08:00|    root.four|      8|   32.0|    45.0|   85.0|   
+|1970-01-01T08:00:00.030+08:00|    root.five|      7|   53.0|    44.0|  104.0|
+|1970-01-01T08:00:00.040+08:00|    root.five|      6|   54.0|    42.0|  102.0|     
++-----------------------------+-------------+-------+-------+--------+-------+
+```
+
+When you need to sort the results based on the base score score, you can use the following SQL:
+
+```Sql
+select score from root.** order by score desc align by device
+```
+
+This will give you the following results:
+
+```
++-----------------------------+---------+-----+
+|                         Time|   Device|score|
++-----------------------------+---------+-----+
+|1970-01-01T08:00:00.040+08:00|root.five| 54.0|
+|1970-01-01T08:00:00.030+08:00|root.five| 53.0|
+|1970-01-01T08:00:00.000+08:00| root.one| 50.0|
+|1970-01-02T08:00:00.000+08:00| root.one| 50.0|
+|1970-01-03T08:00:00.000+08:00| root.one| 50.0|
+|1970-01-01T08:00:00.000+08:00| root.two| 50.0|
+|1970-01-01T08:00:00.010+08:00| root.two| 50.0|
+|1970-01-01T08:00:00.010+08:00|root.four| 32.0|
+|1970-01-01T08:00:00.020+08:00|root.four| 32.0|
+|1970-01-01T08:00:00.020+08:00| root.two| 10.0|
++-----------------------------+---------+-----+
+```
+
+If you want to sort the results based on the total score, you can use an expression in the `ORDER BY` clause to perform the calculation:
+
+```Sql
+select score,total from root.one order by base+score+bonus desc
+```
+
+This SQL is equivalent to:
+
+```Sql
+select score,total from root.one order by total desc
+```
+
+Here are the results:
+
+```
++-----------------------------+--------------+--------------+
+|                         Time|root.one.score|root.one.total|
++-----------------------------+--------------+--------------+
+|1970-01-01T08:00:00.000+08:00|          50.0|         107.0|
+|1970-01-02T08:00:00.000+08:00|          50.0|         105.0|
+|1970-01-03T08:00:00.000+08:00|          50.0|         103.0|
++-----------------------------+--------------+--------------+
+```
+
+If you want to sort the results based on the total score and, in case of tied scores, sort by score, base, bonus, and submission time in descending order, you can specify multiple layers of sorting using multiple expressions:
+
+```Sql
+select base, score, bonus, total from root.** order by total desc NULLS Last,
+                                  score desc NULLS Last,
+                                  bonus desc NULLS Last,
+                                  time desc align by device
+```
+
+Here are the results:
+
+```
++-----------------------------+----------+----+-----+-----+-----+
+|                         Time|    Device|base|score|bonus|total|
++-----------------------------+----------+----+-----+-----+-----+
+|1970-01-01T08:00:00.000+08:00|  root.one|  12| 50.0| 45.0|107.0|
+|1970-01-02T08:00:00.000+08:00|  root.one|  10| 50.0| 45.0|105.0|
+|1970-01-01T08:00:00.030+08:00| root.five|   7| 53.0| 44.0|104.0|
+|1970-01-03T08:00:00.000+08:00|  root.one|   8| 50.0| 45.0|103.0|
+|1970-01-01T08:00:00.040+08:00| root.five|   6| 54.0| 42.0|102.0|
+|1970-01-01T08:00:00.010+08:00| root.four|   9| 32.0| 45.0| 86.0|
+|1970-01-01T08:00:00.020+08:00| root.four|   8| 32.0| 45.0| 85.0|
+|1970-01-01T08:00:00.010+08:00|  root.two|   9| 50.0| 15.0| 74.0|
+|1970-01-01T08:00:00.000+08:00|  root.two|   9| 50.0| 15.0| 74.0|
+|1970-01-01T08:00:00.020+08:00|  root.two|   8| 10.0| 15.0| 33.0|
+|1970-01-01T08:00:00.010+08:00|root.three|   9| null| 24.0| 33.0|
+|1970-01-01T08:00:00.030+08:00|root.three|   7| null| 23.5| 30.5|
+|1970-01-01T08:00:00.020+08:00|root.three|   8| null| 22.5| 30.5|
++-----------------------------+----------+----+-----+-----+-----+
+```
+
+In the `ORDER BY` clause, you can also use aggregate query expressions. For example:
+
+```Sql
+select min_value(total) from root.** order by min_value(total) asc align by device
+```
+
+This will give you the following results:
+
+```
++----------+----------------+
+|    Device|min_value(total)|
++----------+----------------+
+|root.three|            30.5|
+|  root.two|            33.0|
+| root.four|            85.0|
+| root.five|           102.0|
+|  root.one|           103.0|
++----------+----------------+
+```
+
+When specifying multiple columns in the query, the unsorted columns will change order along with the rows and sorted columns. The order of rows when the sorting columns are the same may vary depending on the specific implementation (no fixed order). For example:
+
+```Sql
+select min_value(total),max_value(base) from root.** order by max_value(total) desc align by device
+```
+
+This will give you the following results:
+·
+
+```
++----------+----------------+---------------+
+|    Device|min_value(total)|max_value(base)|
++----------+----------------+---------------+
+|  root.one|           103.0|             12|
+| root.five|           102.0|              7|
+| root.four|            85.0|              9|
+|  root.two|            33.0|              9|
+|root.three|            30.5|              9|
++----------+----------------+---------------+
+```
+
+You can use both `ORDER BY DEVICE,TIME` and `ORDER BY EXPRESSION` together. For example:
+
+```Sql
+select score from root.** order by device asc, score desc, time asc align by device
+```
+
+This will give you the following results:
+
+```
++-----------------------------+---------+-----+
+|                         Time|   Device|score|
++-----------------------------+---------+-----+
+|1970-01-01T08:00:00.040+08:00|root.five| 54.0|
+|1970-01-01T08:00:00.030+08:00|root.five| 53.0|
+|1970-01-01T08:00:00.010+08:00|root.four| 32.0|
+|1970-01-01T08:00:00.020+08:00|root.four| 32.0|
+|1970-01-01T08:00:00.000+08:00| root.one| 50.0|
+|1970-01-02T08:00:00.000+08:00| root.one| 50.0|
+|1970-01-03T08:00:00.000+08:00| root.one| 50.0|
+|1970-01-01T08:00:00.000+08:00| root.two| 50.0|
+|1970-01-01T08:00:00.010+08:00| root.two| 50.0|
+|1970-01-01T08:00:00.020+08:00| root.two| 10.0|
++-----------------------------+---------+-----+
+```
+
+## `ALIGN BY` CLAUSE
+
+In addition, IoTDB supports another result set format: `ALIGN BY DEVICE`.
+
+### align by device
+
+The `ALIGN BY DEVICE` indicates that the deviceId is considered as a column. Therefore, there are totally limited columns in the dataset. 
+
+> NOTE：
+>
+> 1.You can see the result of 'align by device' as one relational table, `Time + Device` is the primary key of this Table. 
+>
+> 2.The result is order by `Device` firstly, and then by `Time` order.
+
+The SQL statement is:
+
+```sql
+select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
+```
+
+The result shows below:
 
 ```
 +-----------------------------+-----------------+-----------+------+--------+
@@ -1535,56 +2823,62 @@ Total line number = 6
 It costs 0.012s
 ```
 
-## INTO 子句
+### Ordering in ALIGN BY DEVICE
 
-- `SELECT INTO` 用于将查询结果写入一系列指定的时间序列中。`INTO` 子句指定了查询结果写入的目标时间序列。
+ALIGN BY DEVICE mode arranges according to the device first, and sort each device in ascending order according to the timestamp. The ordering and priority can be adjusted through `ORDER BY` clause.
 
-`SELECT INTO` 语句用于将查询结果写入一系列指定的时间序列中。
+## `INTO` CLAUSE (QUERY WRITE-BACK)
 
-应用场景如下：
-- **实现 IoTDB 内部 ETL**：对原始数据进行 ETL 处理后写入新序列。
-- **查询结果存储**：将查询结果进行持久化存储，起到类似物化视图的作用。
-- **非对齐序列转对齐序列**：对齐序列从0.13版本开始支持，可以通过该功能将非对齐序列的数据写入新的对齐序列中。
+The `SELECT INTO` statement copies data from query result set into target time series.
 
-### 语法定义
+The application scenarios are as follows:
 
-#### 整体描述
+- **Implement IoTDB internal ETL**: ETL the original data and write a new time series.
+- **Query result storage**: Persistently store the query results, which acts like a materialized view.
+- **Non-aligned time series to aligned time series**:  Rewrite non-aligned time series into another aligned time series.
+
+### SQL Syntax
+
+#### Syntax Definition
+
+**The following is the syntax definition of the `select` statement:**
 
 ```sql
 selectIntoStatement
-    : SELECT
-        resultColumn [, resultColumn] ...
+: SELECT
+      resultColumn [, resultColumn] ...
         INTO intoItem [, intoItem] ...
         FROM prefixPath [, prefixPath] ...
         [WHERE whereCondition]
-        [GROUP BY groupByTimeClause, groupByLevelClause]
-        [FILL {PREVIOUS | LINEAR | constant}]
-        [LIMIT rowLimit OFFSET rowOffset]
-        [ALIGN BY DEVICE]
-    ;
+      [GROUP BY groupByTimeClause, groupByLevelClause]
+      [FILL {PREVIOUS | LINEAR | constant}]
+      [LIMIT rowLimit OFFSET rowOffset]
+      [ALIGN BY DEVICE]
+;
 
 intoItem
-    : [ALIGNED] intoDevicePath '(' intoMeasurementName [',' intoMeasurementName]* ')'
+: [ALIGNED] intoDevicePath '(' intoMeasurementName [',' intoMeasurementName]* ')'
     ;
 ```
 
-#### `INTO` 子句
+#### `INTO` Clause
 
-`INTO` 子句由若干个 `intoItem` 构成。
+The `INTO` clause consists of several `intoItem`.
 
-每个 `intoItem` 由一个目标设备路径和一个包含若干目标物理量名的列表组成（与 `INSERT` 语句中的 `INTO` 子句写法类似）。
+Each `intoItem` consists of a target device and a list of target measurements (similar to the `INTO` clause in an `INSERT` statement).
 
-其中每个目标物理量名与目标设备路径组成一个目标序列，一个 `intoItem` 包含若干目标序列。例如：`root.sg_copy.d1(s1, s2)` 指定了两条目标序列 `root.sg_copy.d1.s1` 和 `root.sg_copy.d1.s2`。
+Each target measurement and device form a target time series, and an `intoItem` contains a series of time series. For example: `root.sg_copy.d1(s1, s2)` specifies two target time series `root.sg_copy.d1.s1` and `root.sg_copy.d1.s2`.
 
-`INTO` 子句指定的目标序列要能够与查询结果集的列一一对应。具体规则如下：
+The target time series specified by the `INTO` clause must correspond one-to-one with the columns of the query result set. The specific rules are as follows:
 
-- **按时间对齐**（默认）：全部 `intoItem` 包含的目标序列数量要与查询结果集的列数（除时间列外）一致，且按照表头从左到右的顺序一一对应。
-- **按设备对齐**（使用 `ALIGN BY DEVICE`）：全部 `intoItem` 中指定的目标设备数和查询的设备数（即 `FROM` 子句中路径模式匹配的设备数）一致，且按照结果集设备的输出顺序一一对应。
-  为每个目标设备指定的目标物理量数量要与查询结果集的列数（除时间和设备列外）一致，且按照表头从左到右的顺序一一对应。
+- **Align by time** (default): The number of target time series contained in all `intoItem` must be consistent with the number of columns in the query result set (except the time column) and correspond one-to-one in the order from left to right in the header.
+- **Align by device** (using `ALIGN BY DEVICE`): the number of target devices specified in all `intoItem` is the same as the number of devices queried (i.e., the number of devices matched by the path pattern in the `FROM` clause), and One-to-one correspondence according to the output order of the result set device.
+    <br>The number of measurements specified for each target device should be consistent with the number of columns in the query result set (except for the time and device columns). It should be in one-to-one correspondence from left to right in the header.
 
-下面通过示例进一步说明：
+For examples:
 
-- **示例 1**（按时间对齐）
+- **Example 1** (aligned by time)
+
 ```shell
 IoTDB> select s1, s2 into root.sg_copy.d1(t1), root.sg_copy.d2(t1, t2), root.sg_copy.d1(t2) from root.sg.d1, root.sg.d2;
 +--------------+-------------------+--------+
@@ -1602,16 +2896,19 @@ Total line number = 4
 It costs 0.725s
 ```
 
-该语句将 `root.sg` database 下四条序列的查询结果写入到 `root.sg_copy` database 下指定的四条序列中。注意，`root.sg_copy.d2(t1, t2)` 也可以写做 `root.sg_copy.d2(t1), root.sg_copy.d2(t2)`。
+This statement writes the query results of the four time series under the `root.sg` database to the four specified time series under the `root.sg_copy` database. Note that `root.sg_copy.d2(t1, t2)` can also be written as `root.sg_copy.d2(t1), root.sg_copy.d2(t2)`.
 
-可以看到，`INTO` 子句的写法非常灵活，只要满足组合出的目标序列没有重复，且与查询结果列一一对应即可。
+We can see that the writing of the `INTO` clause is very flexible as long as the combined target time series is not repeated and corresponds to the query result column one-to-one.
 
-> `CLI` 展示的结果集中，各列的含义如下：
-> - `source column` 列表示查询结果的列名。
-> - `target timeseries` 表示对应列写入的目标序列。
-> - `written` 表示预期写入的数据量。
+> In the result set displayed by `CLI`, the meaning of each column is as follows:
+>
+> - The `source column` column represents the column name of the query result.
+> - `target timeseries` represents the target time series for the corresponding column to write.
+> - `written` indicates the amount of data expected to be written.
 
-- **示例 2**（按时间对齐）
+
+- **Example 2** (aligned by time)
+
 ```shell
 IoTDB> select count(s1 + s2), last_value(s2) into root.agg.count(s1_add_s2), root.agg.last_value(s2) from root.sg.d1 group by ([0, 100), 10ms);
 +--------------------------------------+-------------------------+--------+
@@ -1625,9 +2922,10 @@ Total line number = 2
 It costs 0.375s
 ```
 
-该语句将聚合查询的结果存储到指定序列中。
+This statement stores the results of an aggregated query into the specified time series.
 
-- **示例 3**（按设备对齐）
+- **Example 3** (aligned by device)
+
 ```shell
 IoTDB> select s1, s2 into root.sg_copy.d1(t1, t2), root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
 +--------------+--------------+-------------------+--------+
@@ -1645,11 +2943,12 @@ Total line number = 4
 It costs 0.625s
 ```
 
-该语句同样是将 `root.sg` database 下四条序列的查询结果写入到 `root.sg_copy` database 下指定的四条序列中。但在按设备对齐中，`intoItem` 的数量必须和查询的设备数量一致，每个查询设备对应一个 `intoItem`。
+This statement also writes the query results of the four time series under the `root.sg` database to the four specified time series under the `root.sg_copy` database. However, in ALIGN BY DEVICE, the number of `intoItem` must be the same as the number of queried devices, and each queried device corresponds to one `intoItem`.
 
-> 按设备对齐查询时，`CLI` 展示的结果集多出一列 `source device` 列表示查询的设备。
+> When aligning the query by device, the result set displayed by `CLI` has one more column, the `source device` column indicating the queried device.
 
-- **示例 4**（按设备对齐）
+- **Example 4** (aligned by device)
+
 ```shell
 IoTDB> select s1 + s2 into root.expr.add(d1s1_d1s2), root.expr.add(d2s1_d2s2) from root.sg.d1, root.sg.d2 align by device;
 +--------------+--------------+------------------------+--------+
@@ -1663,139 +2962,154 @@ Total line number = 2
 It costs 0.532s
 ```
 
-该语句将表达式计算的结果存储到指定序列中。
+This statement stores the result of evaluating an expression into the specified time series.
 
-#### 使用变量占位符
+#### Using variable placeholders
 
-特别地，可以使用变量占位符描述目标序列与查询序列之间的对应规律，简化语句书写。目前支持以下两种变量占位符：
- 
-- 后缀复制符 `::`：复制查询设备后缀（或物理量），表示从该层开始一直到设备的最后一层（或物理量），目标设备的节点名（或物理量名）与查询的设备对应的节点名（或物理量名）相同。
-- 单层节点匹配符 `${i}`：表示目标序列当前层节点名与查询序列的第`i`层节点名相同。比如，对于路径`root.sg1.d1.s1`而言，`${1}`表示`sg1`，`${2}`表示`d1`，`${3}`表示`s1`。
+In particular, We can use variable placeholders to describe the correspondence between the target and query time series, simplifying the statement. The following two variable placeholders are currently supported:
 
-在使用变量占位符时，`intoItem`与查询结果集列的对应关系不能存在歧义，具体情况分类讨论如下：
+- Suffix duplication character `::`: Copy the suffix (or measurement) of the query device, indicating that from this layer to the last layer (or measurement) of the device, the node name (or measurement) of the target device corresponds to the queried device The node name (or measurement) is the same.
+- Single-level node matcher `${i}`: Indicates that the current level node name of the target sequence is the same as the i-th level node name of the query sequence. For example, for the path `root.sg1.d1.s1`, `${1}` means `sg1`, `${2}` means `d1`, and `${3}` means `s1`.
 
-##### 按时间对齐（默认）
+When using variable placeholders, there must be no ambiguity in the correspondence between `intoItem` and the columns of the query result set. The specific cases are classified as follows:
 
-> 注：变量占位符**只能描述序列与序列之间的对应关系**，如果查询中包含聚合、表达式计算，此时查询结果中的列无法与某个序列对应，因此目标设备和目标物理量都不能使用变量占位符。 
+##### ALIGN BY TIME (default)
 
-###### （1）目标设备不使用变量占位符 & 目标物理量列表使用变量占位符
-  
-**限制：**
-   1. 每个 `intoItem` 中，物理量列表的长度必须为 1。<br>（如果长度可以大于1，例如 `root.sg1.d1(::, s1)`，无法确定具体哪些列与`::`匹配）
-   2. `intoItem` 数量为 1，或与查询结果集列数一致。<br>（在每个目标物理量列表长度均为 1 的情况下，若 `intoItem` 只有 1 个，此时表示全部查询序列写入相同设备；若 `intoItem` 数量与查询序列一致，则表示为每个查询序列指定一个目标设备；若 `intoItem` 大于 1 小于查询序列数，此时无法与查询序列一一对应）
+> Note: The variable placeholder **can only describe the correspondence between time series**. If the query includes aggregation and expression calculation, the columns in the query result cannot correspond to a time series, so neither the target device nor the measurement can use variable placeholders.
 
-**匹配方法：** 每个查询序列指定目标设备，而目标物理量根据变量占位符生成。
+###### (1) The target device does not use variable placeholders & the target measurement list uses variable placeholders
 
-**示例：**
+**Limitations:**
+
+1. In each `intoItem`, the length of the list of physical quantities must be 1. <br> (If the length can be greater than 1, e.g. `root.sg1.d1(::, s1)`, it is not possible to determine which columns match `::`)
+2. The number of `intoItem` is 1, or the same as the number of columns in the query result set. <br>(When the length of each target measurement list is 1, if there is only one `intoItem`, it means that all the query sequences are written to the same device; if the number of `intoItem` is consistent with the query sequence, it is expressed as each query time series specifies a target device; if `intoItem` is greater than one and less than the number of query sequences, it cannot be a one-to-one correspondence with the query sequence)
+
+**Matching method:** Each query time series specifies the target device, and the target measurement is generated from the variable placeholder.
+
+**Example:**
 
 ```sql
 select s1, s2
 into root.sg_copy.d1(::), root.sg_copy.d2(s1), root.sg_copy.d1(${3}), root.sg_copy.d2(::)
 from root.sg.d1, root.sg.d2;
-```
-该语句等价于：
+````
+
+This statement is equivalent to:
+
 ```sql
 select s1, s2
 into root.sg_copy.d1(s1), root.sg_copy.d2(s1), root.sg_copy.d1(s2), root.sg_copy.d2(s2)
 from root.sg.d1, root.sg.d2;
-```
-可以看到，在这种情况下，语句并不能得到很好地简化。
+````
 
-###### （2）目标设备使用变量占位符 & 目标物理量列表不使用变量占位符
+As you can see, the statement is not very simplified in this case.
 
-**限制：** 全部 `intoItem` 中目标物理量的数量与查询结果集列数一致。
+###### (2) The target device uses variable placeholders & the target measurement list does not use variable placeholders
 
-**匹配方式：** 为每个查询序列指定了目标物理量，目标设备根据对应目标物理量所在 `intoItem` 的目标设备占位符生成。
+**Limitations:** The number of target measurements in all `intoItem` is the same as the number of columns in the query result set.
 
-**示例：**
+**Matching method:** The target measurement is specified for each query time series, and the target device is generated according to the target device placeholder of the `intoItem` where the corresponding target measurement is located.
+
+**Example:**
+
 ```sql
-select d1.s1, d1.s2, d2.s3, d3.s4 
+select d1.s1, d1.s2, d2.s3, d3.s4
 into ::(s1_1, s2_2), root.sg.d2_2(s3_3), root.${2}_copy.::(s4)
 from root.sg;
-```
+````
 
-###### （3）目标设备使用变量占位符 & 目标物理量列表使用变量占位符
+###### (3) The target device uses variable placeholders & the target measurement list uses variable placeholders
 
-**限制：** `intoItem` 只有一个且物理量列表的长度为 1。
+**Limitations:** There is only one `intoItem`, and the length of the list of measurement list is 1.
 
-**匹配方式：** 每个查询序列根据变量占位符可以得到一个目标序列。
+**Matching method:** Each query time series can get a target time series according to the variable placeholder.
 
-**示例：**
+**Example:**
+
 ```sql
 select * into root.sg_bk.::(::) from root.sg.**;
-```
-将 `root.sg` 下全部序列的查询结果写到 `root.sg_bk`，设备名后缀和物理量名保持不变。
+````
 
-##### 按设备对齐（使用 `ALIGN BY DEVICE`）
+Write the query results of all time series under `root.sg` to `root.sg_bk`, the device name suffix and measurement remain unchanged.
 
-> 注：变量占位符**只能描述序列与序列之间的对应关系**，如果查询中包含聚合、表达式计算，此时查询结果中的列无法与某个物理量对应，因此目标物理量不能使用变量占位符。
+##### ALIGN BY DEVICE
 
-###### （1）目标设备不使用变量占位符 & 目标物理量列表使用变量占位符
+> Note: The variable placeholder **can only describe the correspondence between time series**. If the query includes aggregation and expression calculation, the columns in the query result cannot correspond to a specific physical quantity, so the target measurement cannot use variable placeholders.
 
-**限制：** 每个 `intoItem` 中，如果物理量列表使用了变量占位符，则列表的长度必须为 1。
+###### (1) The target device does not use variable placeholders & the target measurement list uses variable placeholders
 
-**匹配方法：** 每个查询序列指定目标设备，而目标物理量根据变量占位符生成。
+**Limitations:** In each `intoItem`, if the list of measurement uses variable placeholders, the length of the list must be 1.
 
-**示例：**
+**Matching method:** Each query time series specifies the target device, and the target measurement is generated from the variable placeholder.
+
+**Example:**
+
 ```sql
 select s1, s2, s3, s4
 into root.backup_sg.d1(s1, s2, s3, s4), root.backup_sg.d2(::), root.sg.d3(backup_${4})
 from root.sg.d1, root.sg.d2, root.sg.d3
 align by device;
-```
+````
 
-###### （2）目标设备使用变量占位符 & 目标物理量列表不使用变量占位符
+###### (2) The target device uses variable placeholders & the target measurement list does not use variable placeholders
 
-**限制：** `intoItem` 只有一个。（如果出现多个带占位符的 `intoItem`，我们将无法得知每个 `intoItem` 需要匹配哪几个源设备）
+**Limitations:** There is only one `intoItem`. (If there are multiple `intoItem` with placeholders, we will not know which source devices each `intoItem` needs to match)
 
-**匹配方式：** 每个查询设备根据变量占位符得到一个目标设备，每个设备下结果集各列写入的目标物理量由目标物理量列表指定。
+**Matching method:** Each query device obtains a target device according to the variable placeholder, and the target measurement written in each column of the result set under each device is specified by the target measurement list.
 
-**示例：**
+**Example:**
+
 ```sql
 select avg(s1), sum(s2) + sum(s3), count(s4)
 into root.agg_${2}.::(avg_s1, sum_s2_add_s3, count_s4)
 from root.**
 align by device;
-```
+````
 
-###### （3）目标设备使用变量占位符 & 目标物理量列表使用变量占位符
+###### (3) The target device uses variable placeholders & the target measurement list uses variable placeholders
 
-**限制：** `intoItem` 只有一个且物理量列表的长度为 1。
+**Limitations:** There is only one `intoItem` and the length of the target measurement list is 1.
 
-**匹配方式：** 每个查询序列根据变量占位符可以得到一个目标序列。
+**Matching method:** Each query time series can get a target time series according to the variable placeholder.
 
-**示例：**
+**Example:**
+
 ```sql
 select * into ::(backup_${4}) from root.sg.** align by device;
-```
-将 `root.sg` 下每条序列的查询结果写到相同设备下，物理量名前加`backup_`。
+````
 
-#### 指定目标序列为对齐序列
+Write the query result of each time series in `root.sg` to the same device, and add `backup_` before the measurement.
 
-通过 `ALIGNED` 关键词可以指定写入的目标设备为对齐写入，每个 `intoItem` 可以独立设置。
+#### Specify the target time series as the aligned time series
 
-**示例：**
+We can use the `ALIGNED` keyword to specify the target device for writing to be aligned, and each `intoItem` can be set independently.
+
+**Example:**
+
 ```sql
 select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
 ```
-该语句指定了 `root.sg_copy.d1` 是非对齐设备，`root.sg_copy.d2`是对齐设备。
 
-#### 不支持使用的查询子句
+This statement specifies that `root.sg_copy.d1` is an unaligned device and `root.sg_copy.d2` is an aligned device.
 
-- `SLIMIT`、`SOFFSET`：查询出来的列不确定，功能不清晰，因此不支持。
-- `LAST`查询、`GROUP BY TAGS`、`DISABLE ALIGN`：表结构和写入结构不一致，因此不支持。
+#### Unsupported query clauses
 
-#### 其他要注意的点
+- `SLIMIT`, `SOFFSET`: The query columns are uncertain, so they are not supported.
+- `LAST`, `GROUP BY TAGS`, `DISABLE ALIGN`: The table structure is inconsistent with the writing structure, so it is not supported.
 
-- 对于一般的聚合查询，时间戳是无意义的，约定使用 0 来存储。
-- 当目标序列存在时，需要保证源序列和目标时间序列的数据类型兼容。关于数据类型的兼容性，查看文档 [数据类型](../Data-Concept/Data-Type.md#数据类型兼容性)。
-- 当目标序列不存在时，系统将自动创建目标序列（包括 database）。
-- 当查询的序列不存在或查询的序列不存在数据，则不会自动创建目标序列。
+#### Other points to note
 
-### 应用举例
-  
-#### 实现 IoTDB 内部 ETL
-对原始数据进行 ETL 处理后写入新序列。
+- For general aggregation queries, the timestamp is meaningless, and the convention is to use 0 to store.
+- When the target time-series exists, the data type of the source column and the target time-series must be compatible. About data type compatibility, see the document [Data Type](../Basic-Concept/Data-Type.md#Data Type Compatibility).
+- When the target time series does not exist, the system automatically creates it (including the database).
+- When the queried time series does not exist, or the queried sequence does not have data, the target time series will not be created automatically.
+
+### Application examples
+
+#### Implement IoTDB internal ETL
+
+ETL the original data and write a new time series.
+
 ```shell
 IOTDB > SELECT preprocess_udf(s1, s2) INTO ::(preprocessed_s1, preprocessed_s2) FROM root.sg.* ALIGN BY DEIVCE;
 +--------------+-------------------+---------------------------+--------+
@@ -1810,10 +3124,11 @@ IOTDB > SELECT preprocess_udf(s1, s2) INTO ::(preprocessed_s1, preprocessed_s2) 
 |    root.sg.d2| preprocess_udf(s2)| root.sg.d2.preprocessed_s2|    9000|
 +--------------+-------------------+---------------------------+--------+
 ```
-以上语句使用自定义函数对数据进行预处理，将预处理后的结果持久化存储到新序列中。
 
-#### 查询结果存储
-将查询结果进行持久化存储，起到类似物化视图的作用。
+#### Query result storage
+
+Persistently store the query results, which acts like a materialized view.
+
 ```shell
 IOTDB > SELECT count(s1), last_value(s1) INTO root.sg.agg_${2}(count_s1, last_value_s1) FROM root.sg1.d1 GROUP BY ([0, 10000), 10ms);
 +--------------------------+-----------------------------+--------+
@@ -1826,12 +3141,12 @@ IOTDB > SELECT count(s1), last_value(s1) INTO root.sg.agg_${2}(count_s1, last_va
 Total line number = 2
 It costs 0.115s
 ```
-以上语句将降采样查询的结果持久化存储到新序列中。
 
-#### 非对齐序列转对齐序列
-对齐序列从 0.13 版本开始支持，可以通过该功能将非对齐序列的数据写入新的对齐序列中。
+#### Non-aligned time series to aligned time series
 
-**注意：** 建议配合使用 `LIMIT & OFFSET` 子句或 `WHERE` 子句（时间过滤条件）对数据进行分批，防止单次操作的数据量过大。
+Rewrite non-aligned time series into another aligned time series.
+
+**Note:** It is recommended to use the `LIMIT & OFFSET` clause or the `WHERE` clause (time filter) to batch data to prevent excessive data volume in a single operation.
 
 ```shell
 IOTDB > SELECT s1, s2 INTO ALIGNED root.sg1.aligned_d(s1, s2) FROM root.sg1.non_aligned_d WHERE time >= 0 and time < 10000;
@@ -1845,24 +3160,16 @@ IOTDB > SELECT s1, s2 INTO ALIGNED root.sg1.aligned_d(s1, s2) FROM root.sg1.non_
 Total line number = 2
 It costs 0.375s
 ```
-以上语句将一组非对齐的序列的数据迁移到一组对齐序列。
 
-### 相关用户权限
+### User Permission Management
 
-用户必须有下列权限才能正常执行查询写回语句：
+The user must have the following permissions to execute a query write-back statement:
 
-* 所有 `SELECT` 子句中源序列的 `READ_TIMESERIES` 权限。
-* 所有 `INTO` 子句中目标序列 `INSERT_TIMESERIES` 权限。
+* All `READ_TIMESERIES` permissions for the source series in the `select` clause.
+* All `INSERT_TIMESERIES` permissions for the target series in the `into` clause.
 
-更多用户权限相关的内容，请参考[权限管理语句](../Administration-Management/Administration.md)。
+For more user permissions related content, please refer to [Account Management Statements](../Administration-Management/Administration.md).
 
-### 相关配置参数
+### Configurable Properties
 
-* `select_into_insert_tablet_plan_row_limit`
-
-  | 参数名 | select_into_insert_tablet_plan_row_limit |
-  | ---- | ---- | 
-  | 描述 | 写入过程中每一批 `Tablet` 的最大行数 | 
-  | 类型 | int32 | 
-  | 默认值 | 10000 | 
-  | 改后生效方式 | 重启后生效 | 
+* `select_into_insert_tablet_plan_row_limit`: The maximum number of rows can be processed in one insert-tablet-plan when executing select-into statements. 10000 by default.
