@@ -706,7 +706,8 @@ It costs 0.012s
 | LAST_VALUE  | 求时间戳最大的值。                                           | 所有类型                 | 与输入类型一致 |
 | MAX_TIME    | 求最大时间戳。                                               | 所有类型                 | Timestamp      |
 | MIN_TIME    | 求最小时间戳。                                               | 所有类型                 | Timestamp      |
-详细说明及示例见文档 [聚合函数](./Aggregation.md)。
+
+详细说明及示例见文档 [聚合函数](../Operators-Functions/Aggregation.md)。
 
 ### 数学函数 
 
@@ -734,7 +735,7 @@ It costs 0.012s
 | SQRT    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#sqrt(double)                                                 |
 
 
-详细说明及示例见文档 [算数运算符和函数](./Mathematical.md)。
+详细说明及示例见文档 [算数运算符和函数](../Operators-Functions/Mathematical.md)。
 
 ### 比较函数
 
@@ -763,7 +764,7 @@ It costs 0.012s
 | TRIM            | TEXT | 无                                                                                                         | TEXT | 移除字符串前后的空格                                                              |
 | STRCMP          | TEXT | 无                                                                                                         | TEXT | 用于比较两个输入序列，如果值相同返回 `0` , 序列1的值小于序列2的值返回一个`负数`，序列1的值大于序列2的值返回一个`正数`      |
 
-详细说明及示例见文档 [字符串处理函数](./String.md)。
+详细说明及示例见文档 [字符串处理函数](../Operators-Functions/String.md)。
 
 ### 数据类型转换函数
 
@@ -771,7 +772,7 @@ It costs 0.012s
 | ------ | ------------------------------------------------------------ | ------------------------ | ---------------------------------- |
 | CAST   | `type`:输出的数据点的类型，只能是 INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | 由输入属性参数`type`决定 | 将数据转换为`type`参数指定的类型。 |
 
-详细说明及示例见文档 [数据类型转换](./Conversion.md)。
+详细说明及示例见文档 [数据类型转换](../Operators-Functions/Conversion.md)。
 
 ### 常序列生成函数
 
@@ -781,7 +782,7 @@ It costs 0.012s
 | PI     | 无                                                           | DOUBLE                     | 常序列的值：`π` 的 `double` 值，圆的周长与其直径的比值，即圆周率，等于 *Java标准库* 中的`Math.PI`。 |
 | E      | 无                                                           | DOUBLE                     | 常序列的值：`e` 的 `double` 值，自然对数的底，它等于 *Java 标准库*  中的 `Math.E`。 |
 
-详细说明及示例见文档 [常序列生成函数](./Constant.md)。
+详细说明及示例见文档 [常序列生成函数](../Operators-Functions/Constant.md)。
 
 ### 选择函数
 
@@ -790,7 +791,7 @@ It costs 0.012s
 | TOP_K    | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: 最多选择的数据点数，必须大于 0 小于等于 1000 | 与输入序列的实际类型一致 | 返回某时间序列中值最大的`k`个数据点。若多于`k`个数据点的值并列最大，则返回时间戳最小的数据点。 |
 | BOTTOM_K | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: 最多选择的数据点数，必须大于 0 小于等于 1000 | 与输入序列的实际类型一致 | 返回某时间序列中值最小的`k`个数据点。若多于`k`个数据点的值并列最小，则返回时间戳最小的数据点。 |
 
-详细说明及示例见文档 [选择函数](./Selection.md)。
+详细说明及示例见文档 [选择函数](../Operators-Functions/Selection.md)。
 
 ### 区间查询函数
 
@@ -801,7 +802,7 @@ It costs 0.012s
 | ZERO_COUNT        | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值1<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续为0(false)的开始时间与其后数据点的个数，数据点个数n满足`n >= min && n <= max`   |               |
 | NON_ZERO_COUNT    | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值1<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续不为0(false)的开始时间与其后数据点的个数，数据点个数n满足`n >= min && n <= max`  |               |
 
-详细说明及示例见文档 [区间查询函数](./Continuous-Interval.md)。
+详细说明及示例见文档 [区间查询函数](../Operators-Functions/Continuous-Interval.md)。
 
 ### 趋势计算函数
 
@@ -818,7 +819,7 @@ It costs 0.012s
 |------|--------------------------------|------------------------------------------------------------------------------------------------------------------------|--------|------------------------------------------------|
 | DIFF | INT32 / INT64 / FLOAT / DOUBLE | `ignoreNull`：可选，默认为true；为true时，前一个数据点值为null时，忽略该数据点继续向前找到第一个出现的不为null的值；为false时，如果前一个数据点为null，则不忽略，使用null进行相减，结果也为null | DOUBLE | 统计序列中某数据点的值与前一数据点的值的差。第一个数据点没有对应的结果输出，输出值为null |
 
-详细说明及示例见文档 [趋势计算函数](./Variation-Trend.md)。
+详细说明及示例见文档 [趋势计算函数](../Operators-Functions/Variation-Trend.md)。
 
 ### 采样函数
 
@@ -830,13 +831,29 @@ It costs 0.012s
 | EQUAL_SIZE_BUCKET_OUTLIER_SAMPLE   | INT32 / INT64 / FLOAT / DOUBLE | `proportion`取值范围为`(0, 1]`，默认为`0.1`<br>`type`取值为`avg`或`stendis`或`cos`或`prenextdis`，默认为`avg`<br>`number`取值应大于0，默认`3`| INT32 / INT64 / FLOAT / DOUBLE | 返回符合采样比例和桶内采样个数的等分桶离群值采样                |
 | M4     | INT32 / INT64 / FLOAT / DOUBLE | 包含固定点数的窗口和滑动时间窗口使用不同的属性参数。包含固定点数的窗口使用属性`windowSize`和`slidingStep`。滑动时间窗口使用属性`timeInterval`、`slidingStep`、`displayWindowBegin`和`displayWindowEnd`。更多细节见下文。 | INT32 / INT64 / FLOAT / DOUBLE | 返回每个窗口内的第一个点（`first`）、最后一个点（`last`）、最小值点（`bottom`）、最大值点（`top`）。在一个窗口内的聚合点输出之前，M4会将它们按照时间戳递增排序并且去重。 |
 
+### 时间序列处理函数
+
+| 函数名        | 输入序列类型                   | 参数 | 输出序列类型             | 功能描述                   |
+| ------------- | ------------------------------ | ---- | ------------------------ | -------------------------- |
+| CHANGE_POINTS | INT32 / INT64 / FLOAT / DOUBLE | /    | 与输入序列的实际类型一致 | 去除输入序列中的连续相同值 |
+
+详细说明及示例见文档 [时间序列处理](../Operators-Functions/Time-Series.md)
+
+## Lambda 表达式
+
+| 函数名 | 可接收的输入序列类型                            | 必要的属性参数                                               | 输出序列类型                                    | 功能类型                                       |
+| ------ | ----------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------- | ---------------------------------------------- |
+| JEXL   | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | `expr`是一个支持标准的一元或多元参数的lambda表达式，符合`x -> {...}`或`(x, y, z) -> {...}`的格式，例如`x -> {x * 2}`, `(x, y, z) -> {x + y * z}` | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | 返回将输入的时间序列通过lambda表达式变换的序列 |
+
+详细说明及示例见文档 [Lambda 表达式](../Operators-Functions/Lambda.md)
+
 ## 条件表达式
 
 | 表达式名称                     | 含义        |
 |---------------------------|-----------|
 | `CASE` | 类似if else |
 
-详细说明及示例见文档 [条件表达式](./Conditional.md)
+详细说明及示例见文档 [条件表达式](../Operators-Functions/Conditional.md)
 
 ## 数据质量函数库
 

@@ -1,8 +1,10 @@
-# 一、元数据操作
+# SQL手册
 
-## 1、数据库管理
+## 元数据操作
 
-### 创建数据库
+### 1、数据库管理
+
+#### 创建数据库
 
 ```sql
 CREATE DATABASE root.ln
@@ -11,7 +13,7 @@ CREATE DATABASE root.ln.wf01
 > Msg: 300: root.ln has already been created as database.
 ```
 
-### 查看数据库
+#### 查看数据库
 
 ```sql
 show databases
@@ -19,7 +21,7 @@ show databases root.*
 show databases root.**
 ```
 
-### 删除数据库
+#### 删除数据库
 
 ```sql
 DELETE DATABASE root.ln
@@ -27,7 +29,7 @@ DELETE DATABASE root.sgcc
 DELETE DATABASE root.**
 ```
 
-### 统计数据库数量
+#### 统计数据库数量
 
 ```sql
 count databases
@@ -36,9 +38,9 @@ count databases root.sgcc.*
 count databases root.sgcc
 ```
 
-## 2、时间序列管理
+### 2、时间序列管理
 
-### 创建时间序列
+#### 创建时间序列
 
 ```sql
 create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN,encoding=PLAIN
@@ -67,13 +69,13 @@ create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODING=TS_2D
 > error: encoding TS_2DIFF does not support BOOLEAN
 ```
 
-### 创建对齐时间序列
+#### 创建对齐时间序列
 
 ```sql
 CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT encoding=PLAIN compressor=SNAPPY, longitude FLOAT encoding=PLAIN compressor=SNAPPY) 
 ```
 
-### 删除时间序列
+#### 删除时间序列
 
 ```sql
 delete timeseries root.ln.wf01.wt01.status
@@ -82,7 +84,7 @@ delete timeseries root.ln.wf02.*
 drop timeseries root.ln.wf02.*
 ```
 
-### 查看时间序列
+#### 查看时间序列
 
 ```sql
 SHOW TIMESERIES
@@ -95,7 +97,7 @@ show timeseries root.ln.** where dataType=FLOAT
 SHOW LATEST TIMESERIES
 ```
 
-### 统计时间序列数量
+#### 统计时间序列数量
 
 ```sql
 COUNT TIMESERIES root.**
@@ -112,7 +114,7 @@ COUNT TIMESERIES root.ln.** GROUP BY LEVEL=2
 COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2
 ```
 
-### 标签点管理
+#### 标签点管理
 
 ```sql
 create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT, encoding=RLE, compression=SNAPPY tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2)
@@ -196,35 +198,35 @@ create aligned timeseries root.sg1.d1(s1 INT32 tags(tag1=v1, tag2=v2) attributes
 show timeseries where TAGS(tag1)='v1'
 ```
 
-## 3、时间序列路径管理
+### 3、时间序列路径管理
 
-### 查看路径的所有子路径
+#### 查看路径的所有子路径
 
 SHOW CHILD PATHS pathPattern
 
 - 查询 root.ln 的下一层：show child paths root.ln
 - 查询形如 root.xx.xx.xx 的路径：show child paths root.*.*
 
-### 查看路径的所有子节点
+#### 查看路径的所有子节点
 
 SHOW CHILD NODES pathPattern
 
 - 查询 root 的下一层：show child nodes root
 - 查询 root.ln 的下一层 ：show child nodes root.ln
 
-### 查看设备
+#### 查看设备
 
 IoTDB> show devices
 
 IoTDB> show devices root.ln.**
 
-#### 查看设备及其 database 信息
+##### 查看设备及其 database 信息
 
 IoTDB> show devices with database
 
 IoTDB> show devices root.ln.** with database
 
-### 统计节点数
+#### 统计节点数
 
 IoTDB > COUNT NODES root.** LEVEL=2
 
@@ -234,7 +236,7 @@ IoTDB > COUNT NODES root.ln.wf01.* LEVEL=3
 
 IoTDB > COUNT NODES root.**.temperature LEVEL=3
 
-### 统计设备数量
+#### 统计设备数量
 
 IoTDB> show devices
 
@@ -242,9 +244,9 @@ IoTDB> count devices
 
 IoTDB> count devices root.ln.**
 
-## 4、设备模板管理
+### 4、设备模板管理
 
-![img](https://timechor.feishu.cn/space/api/box/stream/download/asynccode/?code=NzhkYzkzZDM0MjQxNDJlNmU5YWVhNWJkM2E3NzZmYWZfcllzQUZWYVpQMk1FRWVhSTlpQmRtblhYZmtQbnZqUGxfVG9rZW46VEJXbGJOWWJub0V5OWV4Sk1wZ2N6YmVXbkRlXzE2ODU0MzI4MDM6MTY4NTQzNjQwM19WNA)
+![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
 
 
 
@@ -254,9 +256,9 @@ Create device root.sg.d1
 
 
 
-![img](https://timechor.feishu.cn/space/api/box/stream/download/asynccode/?code=Y2ZkMzUyMTAwMTJkZmZjOTdiODZmZmM4YjE1NzUzYWFfTGZ0T3lkOG1BSTJTY3ZMRWtsMElQcWdNYk01MVpBTDJfVG9rZW46Rllua2JBZDlDb3Y0RTJ4Nk14d2NITE9jbkNoXzE2ODU0MzI4MDM6MTY4NTQzNjQwM19WNA)
+![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF%E6%B5%81%E7%A8%8B.png)
 
-### 创建元数据模板
+#### 创建元数据模板
 
 ```Go
 CREATE SCHEMA TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
@@ -270,11 +272,11 @@ IoTDB> create schema template t1 (temperature FLOAT encoding=RLE, status BOOLEAN
 
 IoTDB> create schema template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)
 
-### 挂载元数据模板
+#### 挂载元数据模板
 
 IoTDB> set SCHEMA TEMPLATE t1 to root.sg1
 
-### 激活元数据模板
+#### 激活元数据模板
 
 IoTDB> create timeseries using SCHEMA TEMPLATE on root.sg1.d1
 
@@ -286,7 +288,7 @@ IoTDB> create timeseries using schema template on root.sg1.d1
 
 IoTDB> create timeseries using schema template on root.sg1.d2
 
-### 查看元数据模板
+#### 查看元数据模板
 
 IoTDB> show schema templates
 
@@ -304,7 +306,7 @@ IoTDB> show paths using schema template t1
 
 IoTDB> show devices using schema template t1
 
-### 解除元数据模板
+#### 解除元数据模板
 
 IoTDB> delete timeseries of schema template t1 from root.sg1.d1
 
@@ -316,17 +318,17 @@ IoTDB> delete timeseries of schema template t1 from root.sg1.*, root.sg2.*
 
 IoTDB> deactivate schema template t1 from root.sg1.*, root.sg2.*
 
-### 卸载元数据模板
+#### 卸载元数据模板
 
 IoTDB> unset schema template t1 from root.sg1.d1
 
-### 删除元数据模板
+#### 删除元数据模板
 
 IoTDB> drop schema template t1
 
-## 5、数据存活时间管理
+### 5、数据存活时间管理
 
-### 设置 TTL
+#### 设置 TTL
 
 IoTDB> set ttl to root.ln 3600000
 
@@ -334,7 +336,7 @@ IoTDB> set ttl to root.sgcc.** 3600000
 
 IoTDB> set ttl to root.** 3600000
 
-### 取消 TTL
+#### 取消 TTL
 
 IoTDB> unset ttl to root.ln
 
@@ -342,31 +344,31 @@ IoTDB> unset ttl to root.sgcc.**
 
 IoTDB> unset ttl to root.**
 
-### 显示 TTL
+#### 显示 TTL
 
 IoTDB> SHOW ALL TTL
 
 IoTDB> SHOW TTL ON StorageGroupNames
 
-# 写入数据
+## 写入数据
 
-## 1、写入单列数据
+### 1、写入单列数据
 
 IoTDB > insert into root.ln.wf02.wt02(timestamp,status) values(1,true)
 
 IoTDB > insert into root.ln.wf02.wt02(timestamp,hardware) values(1, 'v1'),(2, 'v1')
 
-## 2、写入多列数据
+### 2、写入多列数据
 
 IoTDB > insert into root.ln.wf02.wt02(timestamp, status, hardware) values (2, false, 'v2')
 
 IoTDB > insert into root.ln.wf02.wt02(timestamp, status, hardware) VALUES (3, false, 'v3'),(4, true, 'v4')
 
-## 3、使用服务器时间戳
+### 3、使用服务器时间戳
 
 IoTDB > insert into root.ln.wf02.wt02(status, hardware) values (false, 'v2')
 
-## 4、写入对齐时间序列数据
+### 4、写入对齐时间序列数据
 
 IoTDB > create aligned timeseries root.sg1.d1(s1 INT32, s2 DOUBLE)
 
@@ -376,11 +378,11 @@ IoTDB > insert into root.sg1.d1(timestamp, s1, s2) aligned values(2, 2, 2), (3, 
 
 IoTDB > select * from root.sg1.d1
 
-## 5、加载 TsFile 文件数据
+### 5、加载 TsFile 文件数据
 
 load '<path/dir>' [sglevel=int][verify=true/false][onSuccess=delete/none]
 
-### 通过指定文件路径(绝对路径)加载单 tsfile 文件
+#### 通过指定文件路径(绝对路径)加载单 tsfile 文件
 
 - `load '/Users/Desktop/data/1575028885956-101-0.tsfile'`
 - `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=true`
@@ -392,7 +394,7 @@ load '<path/dir>' [sglevel=int][verify=true/false][onSuccess=delete/none]
 - `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=true onSuccess=none`
 - `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=false sglevel=1 onSuccess=delete`
 
-### 通过指定文件夹路径(绝对路径)批量加载文件
+#### 通过指定文件夹路径(绝对路径)批量加载文件
 
 - `load '/Users/Desktop/data'`
 - `load '/Users/Desktop/data' verify=false`
@@ -400,9 +402,9 @@ load '<path/dir>' [sglevel=int][verify=true/false][onSuccess=delete/none]
 - `load '/Users/Desktop/data' verify=true sglevel=1`
 - `load '/Users/Desktop/data' verify=false sglevel=1 onSuccess=delete`
 
-# 删除数据
+## 删除数据
 
-## 1、删除单列数据
+### 1、删除单列数据
 
 delete from root.ln.wf02.wt02.status where time<=2017-11-01T16:26:00;
 
@@ -434,7 +436,7 @@ expressions like : time > XXX, time <= XXX, or two atomic expressions connected 
 
 delete from root.ln.wf02.wt02.status
 
-## 2、删除多列数据
+### 2、删除多列数据
 
 delete from root.ln.wf02.wt02.* where time <= 2017-11-01T16:26:00;
 
@@ -444,39 +446,39 @@ IoTDB> delete from root.ln.wf03.wt02.status where time < now()
 
 Msg: The statement is executed successfully.
 
-# 数据查询
+## 数据查询
 
-## 1、基础查询
+### 1、基础查询
 
-### 时间过滤查询
+#### 时间过滤查询
 
 select temperature from root.ln.wf01.wt01 where time < 2017-11-01T00:08:00.000
 
-### 根据一个时间区间选择多列数据
+#### 根据一个时间区间选择多列数据
 
 select status, temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000;
 
-### 按照多个时间区间选择同一设备的多列数据
+#### 按照多个时间区间选择同一设备的多列数据
 
 select status, temperature from root.ln.wf01.wt01 where (time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000) or (time >= 2017-11-01T16:35:00.000 and time <= 2017-11-01T16:37:00.000);
 
-### 按照多个时间区间选择不同设备的多列数据
+#### 按照多个时间区间选择不同设备的多列数据
 
 select wf01.wt01.status, wf02.wt02.hardware from root.ln where (time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000) or (time >= 2017-11-01T16:35:00.000 and time <= 2017-11-01T16:37:00.000);
 
-### 根据时间降序返回结果集
+#### 根据时间降序返回结果集
 
 select * from root.ln.** where time > 1 order by time desc limit 10;
 
-## 2、选择表达式
+### 2、选择表达式
 
-### 使用别名
+#### 使用别名
 
 select s1 as temperature, s2 as speed from root.ln.wf01.wt01;
 
-### 运算符
+#### 运算符
 
-### 函数
+#### 函数
 
 不支持：
 
@@ -486,7 +488,7 @@ select sin(s1), count(s1) from root.sg.d1;
 
 select s1, count(s1) from root.sg.d1 group by ([10,100),10ms);
 
-#### 时间序列查询嵌套表达式
+##### 时间序列查询嵌套表达式
 
 示例 1：
 
@@ -514,7 +516,7 @@ select (a + *) / 2  from root.sg1
 
 select (a + b) * 3 from root.sg, root.ln
 
-#### 聚合查询嵌套表达式
+##### 聚合查询嵌套表达式
 
 示例 1：
 
@@ -554,7 +556,7 @@ from root.ln.wf01.wt01
 
 GROUP BY([10, 90), 10ms);
 
-## 3、最新点查询
+#### 最新点查询
 
 SQL 语法：
 
@@ -574,35 +576,9 @@ IoTDB> select last status, temperature from root.ln.wf01.wt01 where time >= 2017
 
 IoTDB> select last * from root.ln.wf01.wt01 order by timeseries desc;
 
-## 4、查询对齐模式
+### 3、查询过滤条件
 
-### 按设备对齐
-
-select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
-
-### 设备对齐模式下的排序
-
-#### 时间对齐模式下的排序
-
-select * from root.ln.** where time <= 2017-11-01T00:01:00 order by time desc;
-
-#### 设备对齐模式下的排序
-
-select * from root.ln.** where time <= 2017-11-01T00:01:00 order by device desc,time asc align by device;
-
-在时间戳相等时按照设备名排序
-
-select * from root.ln.** where time <= 2017-11-01T00:01:00 order by time asc,device desc align by device;
-
-没有显式指定时
-
-select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
-
-对聚合后的结果进行排序
-
-select count(*) from root.ln.** group by ((2017-11-01T00:00:00.000+08:00,2017-11-01T00:03:00.000+08:00],1m) order by device asc,time asc align by device
-
-## 5、查询过滤条件
+#### 时间过滤条件
 
 选择时间戳大于 2022-01-01T00:05:00.000 的数据：
 
@@ -616,7 +592,7 @@ select s1 from root.sg1.d1 where time = 2022-01-01T00:05:00.000;
 
 select s1 from root.sg1.d1 where time >= 2022-01-01T00:05:00.000 and time < 2017-11-01T00:12:00.000;
 
-### 值过滤条件
+#### 值过滤条件
 
 选择值大于 36.5 的数据：
 
@@ -648,7 +624,7 @@ select code from root.sg1.d1 where temperature is null;
 
 select code from root.sg1.d1 where temperature is not null;
 
-### 模糊查询
+#### 模糊查询
 
 查询 `root.sg.d1` 下 `value` 含有`'cc'`的数据
 
@@ -666,7 +642,7 @@ IoTDB> select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
 
 IoTDB> select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
 
-## 6、分段分组聚合
+### 4、分段分组聚合
 
 #### 未指定滑动步长的时间区间分组聚合查询
 
@@ -702,7 +678,7 @@ select count(status) from root.ln.wf01.wt01 group by ((2017-11-01T00:00:00, 2017
 
 select count(status) from root.ln.wf01.wt01 group by ([2017-11-01 00:00:00, 2017-11-07 23:00:00), 3h, 1d), level=1;
 
-### 路径层级分组聚合
+#### 路径层级分组聚合
 
 统计不同 database 下 status 序列的数据点个数
 
@@ -724,25 +700,25 @@ select max_value(temperature) from root.** group by level = 0
 
 select count(*) from root.ln.** group by level = 2
 
-### 标签分组聚合
+#### 标签分组聚合
 
-#### 单标签聚合查询
+##### 单标签聚合查询
 
 SELECT AVG(temperature) FROM root.factory1.** GROUP BY TAGS(city);
 
-#### 多标签聚合查询
+##### 多标签聚合查询
 
 SELECT avg(temperature) FROM root.factory1.** GROUP BY TAGS(city, workshop);
 
-#### 基于时间区间的标签聚合查询
+##### 基于时间区间的标签聚合查询
 
 SELECT AVG(temperature) FROM root.factory1.** GROUP BY ([1000, 10000), 5s), TAGS(city, workshop);
 
-### 差值分段聚合
+#### 差值分段聚合
 
 group by variation(controlExpression[,delta][,ignoreNull=true/false])
 
-#### delta=0时的等值事件分段
+##### delta=0时的等值事件分段
 
 select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6)
 
@@ -750,11 +726,11 @@ select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(
 
 select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6, ignoreNull=false)
 
-#### delta!=0时的差值事件分段
+##### delta!=0时的差值事件分段
 
 select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6, 4)
 
-### 条件分段聚合
+#### 条件分段聚合
 
 group by condition(predict,[keep>/>=/=/<=/<]threshold,[,ignoreNull=true/false])
 
@@ -766,7 +742,7 @@ select max_time(charging_status),count(vehicle_status),last_value(soc) from root
 
 select max_time(charging_status),count(vehicle_status),last_value(soc) from root.** group by condition(charging_status=1,KEEP>=2,ignoreNull=false)
 
-### 会话分段聚合
+#### 会话分段聚合
 
 group by session(timeInterval)
 
@@ -778,7 +754,7 @@ select __endTime,count(*) from root.** group by session(1d)
 
 select __endTime,sum(hardware) from root.ln.wf02.wt01 group by session(50s) having sum(hardware)>0 align by device
 
-## 点数分段聚合
+#### 点数分段聚合
 
 group by count(controlExpression, size[,ignoreNull=true/false])
 
@@ -788,7 +764,7 @@ select count(charging_stauts), first_value(soc) from root.sg group by count(char
 
 select count(charging_stauts), first_value(soc) from root.sg group by count(charging_status,5,ignoreNull=false) 
 
-## 7、聚合结果过滤
+### 5、聚合结果过滤
 
 不正确的：
 
@@ -806,7 +782,7 @@ SQL 示例：
 
  select count(s1), count(s2) from root.** group by ([1,11),2ms) having count(s2) > 1 align by device;
 
-## 8、结果集补空值
+### 6、结果集补空值
 
 FILL '(' PREVIOUS | LINEAR | constant ')'
 
@@ -826,9 +802,9 @@ select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:
 
 select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(true);
 
-## 9、查询结果分页
+### 7、查询结果分页
 
-### 按行分页
+#### 按行分页
 
  基本的 `LIMIT` 子句
 
@@ -846,7 +822,7 @@ select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:0
 
 select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d) limit 4 offset 3
 
-### 按列分页
+#### 按列分页
 
  基本的 `SLIMIT` 子句
 
@@ -864,7 +840,35 @@ select max_value(*) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-
 
 select * from root.ln.wf01.wt01 limit 10 offset 100 slimit 2 soffset 0
 
-## 10、查询写回（SELECT INTO）
+### 8、排序
+
+时间对齐模式下的排序
+
+select * from root.ln.** where time <= 2017-11-01T00:01:00 order by time desc;
+
+设备对齐模式下的排序
+
+select * from root.ln.** where time <= 2017-11-01T00:01:00 order by device desc,time asc align by device;
+
+在时间戳相等时按照设备名排序
+
+select * from root.ln.** where time <= 2017-11-01T00:01:00 order by time asc,device desc align by device;
+
+没有显式指定时
+
+select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
+
+对聚合后的结果进行排序
+
+select count(*) from root.ln.** group by ((2017-11-01T00:00:00.000+08:00,2017-11-01T00:03:00.000+08:00],1m) order by device asc,time asc align by device
+
+### 9、查询对齐模式
+
+#### 按设备对齐
+
+select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
+
+### 10、查询写回（SELECT INTO）
 
 #### 整体描述
 
@@ -976,7 +980,579 @@ select * into ::(backup_${4}) from root.sg.** align by device;
 
 select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
 
-## 11、连续查询（Continuous Query, CQ）
+## 运算符
+
+更多见文档[Operator-and-Expression](../User-Manual/Operator-and-Expression.md)
+
+### 算数运算符
+
+更多见文档 [Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md)
+
+```sql
+select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root.sg.d1
+```
+
+### 比较运算符
+
+更多见文档[Comparison Operators and Functions](../Operators-Functions/Comparison.md)
+
+```sql
+# Basic comparison operators
+select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
+
+# `BETWEEN ... AND ...` operator
+select temperature from root.sg1.d1 where temperature between 36.5 and 40;
+select temperature from root.sg1.d1 where temperature not between 36.5 and 40;
+
+# Fuzzy matching operator: Use `Like` for fuzzy matching
+select * from root.sg.d1 where value like '%cc%'
+select * from root.sg.device where value like '_b_'
+
+# Fuzzy matching operator: Use `Regexp` for fuzzy matching
+select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
+select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
+select b, b like '1%', b regexp '[0-2]' from root.test;
+
+# `IS NULL` operator
+select code from root.sg1.d1 where temperature is null;
+select code from root.sg1.d1 where temperature is not null;
+
+# `IN` operator
+select code from root.sg1.d1 where code in ('200', '300', '400', '500');
+select code from root.sg1.d1 where code not in ('200', '300', '400', '500');
+select a, a in (1, 2) from root.test;
+```
+
+### 逻辑运算符
+
+更多见文档[Logical Operators](../Operators-Functions/Logical.md)
+
+```sql
+select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
+```
+
+## 内置函数
+
+更多见文档[Operator-and-Expression](../User-Manual/Operator-and-Expression.md)
+
+### Aggregate Functions
+
+更多见文档[Aggregate Functions](../Operators-Functions/Aggregation.md)
+
+```sql
+select count(status) from root.ln.wf01.wt01;
+
+select count_if(s1=0 & s2=0, 3), count_if(s1=1 & s2=0, 3) from root.db.d1;
+select count_if(s1=0 & s2=0, 3, 'ignoreNull'='false'), count_if(s1=1 & s2=0, 3, 'ignoreNull'='false') from root.db.d1;
+
+select time_duration(s1) from root.db.d1;
+```
+
+### 算数函数
+
+更多见文档[Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md)
+
+```sql
+select s1, sin(s1), cos(s1), tan(s1) from root.sg1.d1 limit 5 offset 1000;
+select s4,round(s4),round(s4,2),round(s4,-1) from root.sg1.d1;
+```
+
+### 比较函数
+
+更多见文档[Comparison Operators and Functions](../Operators-Functions/Comparison.md)
+
+```sql
+select ts, on_off(ts, 'threshold'='2') from root.test;
+select ts, in_range(ts, 'lower'='2', 'upper'='3.1') from root.test;
+```
+
+### 字符串处理函数
+
+更多见文档[String Processing](../Operators-Functions/String.md)
+
+```sql
+select s1, string_contains(s1, 's'='warn') from root.sg1.d4;
+select s1, string_matches(s1, 'regex'='[^\\s]+37229') from root.sg1.d4;
+select s1, length(s1) from root.sg1.d1
+select s1, locate(s1, "target"="1") from root.sg1.d1
+select s1, locate(s1, "target"="1", "reverse"="true") from root.sg1.d1
+select s1, startswith(s1, "target"="1") from root.sg1.d1
+select s1, endswith(s1, "target"="1") from root.sg1.d1
+select s1, s2, concat(s1, s2, "target1"="IoT", "target2"="DB") from root.sg1.d1
+select s1, s2, concat(s1, s2, "target1"="IoT", "target2"="DB", "series_behind"="true") from root.sg1.d1
+select s1, substring(s1 from 1 for 2) from root.sg1.d1
+select s1, replace(s1, 'es', 'tt') from root.sg1.d1
+select s1, upper(s1) from root.sg1.d1
+select s1, lower(s1) from root.sg1.d1
+select s3, trim(s3) from root.sg1.d1
+select s1, s2, strcmp(s1, s2) from root.sg1.d1
+select strreplace(s1, "target"=",", "replace"="/", "limit"="2") from root.test.d1
+select strreplace(s1, "target"=",", "replace"="/", "limit"="1", "offset"="1", "reverse"="true") from root.test.d1
+select regexmatch(s1, "regex"="\d+\.\d+\.\d+\.\d+", "group"="0") from root.test.d1
+select regexreplace(s1, "regex"="192\.168\.0\.(\d+)", "replace"="cluster-$1", "limit"="1") from root.test.d1
+select regexsplit(s1, "regex"=",", "index"="-1") from root.test.d1
+select regexsplit(s1, "regex"=",", "index"="3") from root.test.d1
+```
+
+### 数据类型转换函数
+
+更多见文档[Data Type Conversion Function](../Operators-Functions/Conversion.md)
+
+```sql
+SELECT cast(s1 as INT32) from root.sg
+```
+
+### 常序列生成函数
+
+更多见文档[Constant Timeseries Generating Functions](../Operators-Functions/Constant.md)
+
+```sql
+select s1, s2, const(s1, 'value'='1024', 'type'='INT64'), pi(s2), e(s1, s2) from root.sg1.d1; 
+```
+
+### 选择函数
+
+更多见文档[Selector Functions](../Operators-Functions/Selection.md)
+
+```sql
+select s1, top_k(s1, 'k'='2'), bottom_k(s1, 'k'='2') from root.sg1.d2 where time > 2020-12-10T20:36:15.530+08:00;
+```
+
+### 区间查询函数
+
+更多见文档[Continuous Interval Functions](../Operators-Functions/Continuous-Interval.md)
+
+```sql
+select s1, zero_count(s1), non_zero_count(s2), zero_duration(s3), non_zero_duration(s4) from root.sg.d2;
+```
+
+### 趋势计算函数
+
+更多见文档[Variation Trend Calculation Functions](../Operators-Functions/Variation-Trend.md)
+
+```sql
+select s1, time_difference(s1), difference(s1), non_negative_difference(s1), derivative(s1), non_negative_derivative(s1) from root.sg1.d1 limit 5 offset 1000; 
+
+SELECT DIFF(s1), DIFF(s2) from root.test;
+SELECT DIFF(s1, 'ignoreNull'='false'), DIFF(s2, 'ignoreNull'='false') from root.test;
+```
+
+### 采样函数
+
+更多见文档[Sample Functions](../Operators-Functions/Sample.md)
+
+```sql
+select equal_size_bucket_random_sample(temperature,'proportion'='0.1') as random_sample from root.ln.wf01.wt01;
+select equal_size_bucket_agg_sample(temperature, 'type'='avg','proportion'='0.1') as agg_avg, equal_size_bucket_agg_sample(temperature, 'type'='max','proportion'='0.1') as agg_max, equal_size_bucket_agg_sample(temperature,'type'='min','proportion'='0.1') as agg_min, equal_size_bucket_agg_sample(temperature, 'type'='sum','proportion'='0.1') as agg_sum, equal_size_bucket_agg_sample(temperature, 'type'='extreme','proportion'='0.1') as agg_extreme, equal_size_bucket_agg_sample(temperature, 'type'='variance','proportion'='0.1') as agg_variance from root.ln.wf01.wt01;
+select equal_size_bucket_m4_sample(temperature, 'proportion'='0.1') as M4_sample from root.ln.wf01.wt01;
+select equal_size_bucket_outlier_sample(temperature, 'proportion'='0.1', 'type'='avg', 'number'='2') as outlier_avg_sample, equal_size_bucket_outlier_sample(temperature, 'proportion'='0.1', 'type'='stendis', 'number'='2') as outlier_stendis_sample, equal_size_bucket_outlier_sample(temperature, 'proportion'='0.1', 'type'='cos', 'number'='2') as outlier_cos_sample, equal_size_bucket_outlier_sample(temperature, 'proportion'='0.1', 'type'='prenextdis', 'number'='2') as outlier_prenextdis_sample from root.ln.wf01.wt01;
+
+select M4(s1,'timeInterval'='25','displayWindowBegin'='0','displayWindowEnd'='100') from root.vehicle.d1
+select M4(s1,'windowSize'='10') from root.vehicle.d1
+```
+
+### 时间序列处理函数
+
+更多见文档[Time-Series](../Operators-Functions/Time-Series.md)
+
+```sql
+select change_points(s1), change_points(s2), change_points(s3), change_points(s4), change_points(s5), change_points(s6) from root.testChangePoints.d1
+```
+
+## 数据质量函数库
+
+更多见文档[Operator-and-Expression](../User-Manual/Operator-and-Expression.md)
+
+### 数据质量
+
+更多见文档[Data-Quality](../Operators-Functions/Data-Quality.md)
+
+```sql
+# Completeness
+select completeness(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
+select completeness(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00
+
+# Consistency
+select consistency(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
+select consistency(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00
+
+# Timeliness
+select timeliness(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
+select timeliness(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00
+
+# Validity
+select Validity(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
+select Validity(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00
+
+# Accuracy
+select Accuracy(t1,t2,t3,m1,m2,m3) from root.test
+```
+
+### 数据画像
+
+更多见文档[Data-Profiling](../Operators-Functions/Data-Profiling.md)
+
+```sql
+# ACF
+select acf(s1) from root.test.d1 where time <= 2020-01-01 00:00:05
+
+# Distinct
+select distinct(s2) from root.test.d2
+
+# Histogram
+select histogram(s1,"min"="1","max"="20","count"="10") from root.test.d1
+
+# Integral
+select integral(s1) from root.test.d1 where time <= 2020-01-01 00:00:10
+select integral(s1, "unit"="1m") from root.test.d1 where time <= 2020-01-01 00:00:10
+
+# IntegralAvg
+select integralavg(s1) from root.test.d1 where time <= 2020-01-01 00:00:10
+
+# Mad
+select mad(s0) from root.test
+select mad(s0, "error"="0.01") from root.test
+
+# Median
+select median(s0, "error"="0.01") from root.test
+
+# MinMax
+select minmax(s1) from root.test
+
+# Mode
+select mode(s2) from root.test.d2
+
+# MvAvg
+select mvavg(s1, "window"="3") from root.test
+
+# PACF
+select pacf(s1, "lag"="5") from root.test
+
+# Percentile
+select percentile(s0, "rank"="0.2", "error"="0.01") from root.test
+
+# Quantile
+select quantile(s0, "rank"="0.2", "K"="800") from root.test
+
+# Period
+select period(s1) from root.test.d3
+
+# QLB
+select QLB(s1) from root.test.d1
+
+# Resample
+select resample(s1,'every'='5m','interp'='linear') from root.test.d1
+select resample(s1,'every'='30m','aggr'='first') from root.test.d1
+select resample(s1,'every'='30m','start'='2021-03-06 15:00:00') from root.test.d1
+
+# Sample
+select sample(s1,'method'='reservoir','k'='5') from root.test.d1
+select sample(s1,'method'='isometric','k'='5') from root.test.d1
+
+# Segment
+select segment(s1, "error"="0.1") from root.test
+
+# Skew
+select skew(s1) from root.test.d1
+
+# Spline
+select spline(s1, "points"="151") from root.test
+
+# Spread
+select spread(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
+
+# Stddev
+select stddev(s1) from root.test.d1
+
+# ZScore
+select zscore(s1) from root.test
+```
+
+### 异常检测
+
+更多见文档[Anomaly-Detection](../Operators-Functions/Anomaly-Detection.md)
+
+```sql
+# IQR
+select iqr(s1) from root.test
+
+# KSigma
+select ksigma(s1,"k"="1.0") from root.test.d1 where time <= 2020-01-01 00:00:30
+
+# LOF
+select lof(s1,s2) from root.test.d1 where time<1000
+select lof(s1, "method"="series") from root.test.d1 where time<1000
+
+# MissDetect
+select missdetect(s2,'minlen'='10') from root.test.d2
+
+# Range
+select range(s1,"lower_bound"="101.0","upper_bound"="125.0") from root.test.d1 where time <= 2020-01-01 00:00:30
+
+# TwoSidedFilter
+select TwoSidedFilter(s0, 'len'='5', 'threshold'='0.3') from root.test
+
+# Outlier
+select outlier(s1,"r"="5.0","k"="4","w"="10","s"="5") from root.test
+
+# MasterTrain
+select MasterTrain(lo,la,m_lo,m_la,'p'='3','eta'='1.0') from root.test
+
+# MasterDetect
+select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='repair','p'='3','k'='3','eta'='1.0') from root.test
+select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='anomaly','p'='3','k'='3','eta'='1.0') from root.test
+```
+
+### 频域分析
+
+更多见文档[Frequency-Domain](../Operators-Functions/Frequency-Domain.md)
+
+```sql
+# Conv
+select conv(s1,s2) from root.test.d2
+
+# Deconv
+select deconv(s3,s2) from root.test.d2
+select deconv(s3,s2,'result'='remainder') from root.test.d2
+
+# DWT
+select dwt(s1,"method"="haar") from root.test.d1
+
+# FFT
+select fft(s1) from root.test.d1
+select fft(s1, 'result'='real', 'compress'='0.99'), fft(s1, 'result'='imag','compress'='0.99') from root.test.d1
+
+# HighPass
+select highpass(s1,'wpass'='0.45') from root.test.d1
+
+# IFFT
+select ifft(re, im, 'interval'='1m', 'start'='2021-01-01 00:00:00') from root.test.d1
+
+# LowPass
+select lowpass(s1,'wpass'='0.45') from root.test.d1
+```
+
+### 数据匹配
+
+更多见文档[Data-Matching](../Operators-Functions/Data-Matching.md)
+
+```sql
+# Cov
+select cov(s1,s2) from root.test.d2
+
+# DTW
+select dtw(s1,s2) from root.test.d2
+
+# Pearson
+select pearson(s1,s2) from root.test.d2
+
+# PtnSym
+select ptnsym(s4, 'window'='5', 'threshold'='0') from root.test.d1
+
+# XCorr
+select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
+```
+
+### 数据修复
+
+更多见文档[Data-Repairing](../Operators-Functions/Data-Repairing.md)
+
+```sql
+# TimestampRepair
+select timestamprepair(s1,'interval'='10000') from root.test.d2
+select timestamprepair(s1) from root.test.d2
+
+# ValueFill
+select valuefill(s1) from root.test.d2
+select valuefill(s1,"method"="previous") from root.test.d2
+
+# ValueRepair
+select valuerepair(s1) from root.test.d2
+select valuerepair(s1,'method'='LsGreedy') from root.test.d2
+
+# MasterRepair
+select MasterRepair(t1,t2,t3,m1,m2,m3) from root.test
+
+# SeasonalRepair
+select seasonalrepair(s1,'period'=3,'k'=2) from root.test.d2
+select seasonalrepair(s1,'method'='improved','period'=3) from root.test.d2
+```
+
+### 序列发现
+
+更多见文档[Series-Discovery](../Operators-Functions/Series-Discovery.md)
+
+```sql
+# ConsecutiveSequences
+select consecutivesequences(s1,s2,'gap'='5m') from root.test.d1
+select consecutivesequences(s1,s2) from root.test.d1
+
+# ConsecutiveWindows
+select consecutivewindows(s1,s2,'length'='10m') from root.test.d1
+```
+
+### 机器学习
+
+更多见文档[Machine-Learning](../Operators-Functions/Machine-Learning.md)
+
+```sql
+# AR
+select ar(s0,"p"="2") from root.test.d0
+
+# Representation
+select representation(s0,"tb"="3","vb"="2") from root.test.d0
+
+# RM
+select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0
+```
+
+## Lambda 表达式
+
+更多见文档[Lambda](../Operators-Functions/Lambda.md)
+
+```sql
+select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'expr'='x -> {x * 3}') as jexl2, jexl(temperature, 'expr'='x -> {x * x}') as jexl3, jexl(temperature, 'expr'='x -> {multiply(x, 100)}') as jexl4, jexl(temperature, st, 'expr'='(x, y) -> {x + y}') as jexl5, jexl(temperature, st, str, 'expr'='(x, y, z) -> {x + y + z}') as jexl6 from root.ln.wf01.wt01;```
+```
+
+## 条件表达式
+
+更多见文档[Conditional Expressions](../Operators-Functions/Conditional.md)
+
+```sql
+select T, P, case
+when 1000<T and T<1050 and 1000000<P and P<1100000 then "good!"
+when T<=1000 or T>=1050 then "bad temperature"
+when P<=1000000 or P>=1100000 then "bad pressure"
+end as `result`
+from root.test1
+
+select str, case
+when str like "%cc%" then "has cc"
+when str like "%dd%" then "has dd"
+else "no cc and dd" end as `result`
+from root.test2
+
+select
+count(case when x<=1 then 1 end) as `(-∞,1]`,
+count(case when 1<x and x<=3 then 1 end) as `(1,3]`,
+count(case when 3<x and x<=7 then 1 end) as `(3,7]`,
+count(case when 7<x then 1 end) as `(7,+∞)`
+from root.test3
+
+select x, case x when 1 then "one" when 2 then "two" else "other" end from root.test4
+
+select x, case x when 1 then true when 2 then false end as `result` from root.test4
+
+select x, case x
+when 1 then 1
+when 2 then 222222222222222
+when 3 then 3.3
+when 4 then 4.4444444444444
+end as `result`
+from root.test4
+```
+
+## 触发器
+
+### 使用 SQL 语句注册该触发器
+
+// Create Trigger
+
+createTrigger
+
+​    : CREATE triggerType TRIGGER triggerName=identifier triggerEventClause ON pathPattern AS className=STRING_LITERAL uriClause? triggerAttributeClause?
+
+​    ;
+
+
+
+triggerType
+
+​    : STATELESS | STATEFUL
+
+​    ;
+
+
+
+triggerEventClause
+
+​    : (BEFORE | AFTER) INSERT
+
+​    ;
+
+
+
+uriClause
+
+​    : USING URI uri
+
+​    ;
+
+
+
+uri
+
+​    : STRING_LITERAL
+
+​    ;
+
+
+
+triggerAttributeClause
+
+​    : WITH LR_BRACKET triggerAttribute (COMMA triggerAttribute)* RR_BRACKET
+
+​    ;
+
+
+
+triggerAttribute
+
+​    : key=attributeKey operator_eq value=attributeValue
+
+​    ;
+
+#### SQL 语句示例
+
+CREATE STATELESS TRIGGER triggerTest
+
+BEFORE INSERT
+
+ON root.sg.**
+
+AS 'org.apache.iotdb.trigger.ClusterAlertingExample'
+
+USING URI 'http://jar/ClusterAlertingExample.jar'
+
+WITH (
+
+​    "name" = "trigger",
+
+​    "limit" = "100"
+
+)
+
+### 卸载触发器
+
+#### 卸载触发器的 SQL 语法如下：
+
+// Drop Trigger
+
+dropTrigger
+
+  : DROP TRIGGER triggerName=identifier
+
+;
+
+#### 示例语句
+
+DROP TRIGGER triggerTest1
+
+### 查询触发器
+
+SHOW TRIGGERS
+
+## 连续查询（Continuous Query, CQ）
 
 ### 语法
 
@@ -1157,11 +1733,9 @@ END
 
 SELECT avg(count_s1) from root.sg_count.d;
 
-# 运算符和函数
+## 用户自定义函数
 
-## 1、用户自定义函数
-
-##### UDFParameters
+### UDFParameters
 
 SELECT UDF(s1, s2, 'key1'='iotdb', 'key2'='123.45') FROM root.sg.d;
 
@@ -1171,11 +1745,11 @@ SELECT UDF(s1, s2, 'key1'='iotdb', 'key2'='123.45') FROM root.sg.d;
 CREATE FUNCTION <UDF-NAME> AS <UDF-CLASS-FULL-PATHNAME> (USING URI URI-STRING)?
 ```
 
-##### 不指定URI
+#### 不指定URI
 
 CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample'
 
-##### 指定URI
+#### 指定URI
 
 CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample' USING URI 'http://jar/example.jar'
 
@@ -1209,841 +1783,19 @@ SELECT s1, s2, s1 + example(s1, s2), s1 - example(s1 + example(s1, s2) / s2) FRO
 
 SHOW FUNCTIONS
 
-## 2、聚合函数
+## 权限管理
 
-### COUNT_IF
-
-语法
-
-count_if(predicate, [keep >=/>/=/!=/</<=]threshold[, 'ignoreNull'='true/false'])
-
-##### 不使用ignoreNull参数(忽略null)
-
-select count_if(s1=0 & s2=0, 3), count_if(s1=1 & s2=0, 3) from root.db.d1
-
-##### 使用ignoreNull参数
-
-select count_if(s1=0 & s2=0, 3, 'ignoreNull'='false'), count_if(s1=1 & s2=0, 3, 'ignoreNull'='false') from root.db.d1
-
-## TIME_DURATION
-
-语法
-
-​    time_duration(Path)
-
-示例
-
-select time_duration(s1) from root.db.d1
-
-## 3、算数运算符和函数
-
-### 算数运算符
-
-select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root.sg.d1
-
-### 数学函数
-
-select s1, sin(s1), cos(s1), tan(s1) from root.sg1.d1 limit 5 offset 1000;
-
-#### ROUND
-
-select s4,round(s4),round(s4,2),round(s4,-1) from root.sg1.d1 
-
-## 4、比较运算符和函数
-
-### 基本比较运算符
-
-select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
-
-### `BETWEEN ... AND ...` 运算符
-
-select temperature from root.sg1.d1 where temperature between 36.5 and 40;
-
-select temperature from root.sg1.d1 where temperature not between 36.5 and 40;
-
-### 模糊匹配运算符
-
- 查询 `root.sg.d1` 下 `value` 含有`'cc'`的数据
-
-select * from root.sg.d1 where value like '%cc%'
-
-查询 `root.sg.d1` 下 `value` 中间为 `'b'`、前后为任意单个字符的数据
-
-select * from root.sg.device where value like '_b_'
-
-#### 使用 `Regexp` 进行模糊匹配
-
- 查询 root.sg.d1 下 value 值为26个英文字符组成的字符串
-
-select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
-
-查询 root.sg.d1 下 value 值为26个小写英文字符组成的字符串且时间大于100的
-
-select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
-
-
-
-select b, b like '1%', b regexp '[0-2]' from root.test
-
-`IS NULL` 运算符
-
-选择值为空的数据:
-
-select code from root.sg1.d1 where temperature is null;
-
-选择值为非空的数据:
-
-select code from root.sg1.d1 where temperature is not null;
-
-`IN` 运算符
-
-选择值在特定范围内的数据：
-
-select code from root.sg1.d1 where code in ('200', '300', '400', '500');
-
-选择值在特定范围外的数据：
-
-select code from root.sg1.d1 where code not in ('200', '300', '400', '500');
-
-
-
-select a, a in (1, 2) from root.test;
-
-### 条件函数
-
-select ts, on_off(ts, 'threshold'='2') from root.test;
-
-select ts, in_range(ts, 'lower'='2', 'upper'='3.1') from root.test;
-
-## 5、逻辑运算符
-
-select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
-
-## 6、字符串处理
-
-### STRING_CONTAINS
-
-select s1, string_contains(s1, 's'='warn') from root.sg1.d4;
-
-### STRING_MATCHES
-
-select s1, string_matches(s1, 'regex'='[^\\s]+37229') from root.sg1.d4;
-
-### Length
-
-select s1, length(s1) from root.sg1.d1
-
-### Locate
-
-select s1, locate(s1, "target"="1") from root.sg1.d1
-
-select s1, locate(s1, "target"="1", "reverse"="true") from root.sg1.d1
-
-### StartsWith
-
-select s1, startswith(s1, "target"="1") from root.sg1.d1
-
-### EndsWith
-
-select s1, endswith(s1, "target"="1") from root.sg1.d1
-
-### Concat
-
-select s1, s2, concat(s1, s2, "target1"="IoT", "target2"="DB") from root.sg1.d1
-
-select s1, s2, concat(s1, s2, "target1"="IoT", "target2"="DB", "series_behind"="true") from root.sg1.d1
-
-### Substring
-
-select s1, substring(s1 from 1 for 2) from root.sg1.d1
-
-### Replace
-
-select s1, replace(s1, 'es', 'tt') from root.sg1.d1
-
-### Upper
-
-select s1, upper(s1) from root.sg1.d1
-
-### Lower
-
-select s1, lower(s1) from root.sg1.d1
-
-### Trim
-
-select s3, trim(s3) from root.sg1.d1
-
-### StrCmp
-
-select s1, s2, strcmp(s1, s2) from root.sg1.d1
-
-### StrReplace
-
-select strreplace(s1, "target"=",", "replace"="/", "limit"="2") from root.test.d1
-
-select strreplace(s1, "target"=",", "replace"="/", "limit"="1", "offset"="1", "reverse"="true") from root.test.d1
-
-### RegexMatch
-
-select regexmatch(s1, "regex"="\d+\.\d+\.\d+\.\d+", "group"="0") from root.test.d1
-
-### RegexReplace
-
-select regexreplace(s1, "regex"="192\.168\.0\.(\d+)", "replace"="cluster-$1", "limit"="1") from root.test.d1
-
-### RegexSplit
-
-select regexsplit(s1, "regex"=",", "index"="-1") from root.test.d1
-
-select regexsplit(s1, "regex"=",", "index"="3") from root.test.d1
-
-## 7、数据类型转换
-
-### CAST
-
-SELECT cast(s1 as INT32) from root.sg
-
-#### 使用示例
-
-cast BOOLEAN to other types
-
-select cast(s5 as INT32), cast(s5 as INT64),cast(s5 as FLOAT),cast(s5 as DOUBLE), cast(s5 as TEXT) from root.sg.d1
-
-cast TEXT to numeric types
-
-select cast(s6 as INT32), cast(s6 as INT64), cast(s6 as FLOAT), cast(s6 as DOUBLE) from root.sg.d1 where time < 2
-
-cast TEXT to BOOLEAN
-
-select cast(s6 as BOOLEAN) from root.sg.d1 where time >= 2
-
-## 8、常序列生成函数
-
-select s1, s2, const(s1, 'value'='1024', 'type'='INT64'), pi(s2), e(s1, s2) from root.sg1.d1; 
-
-## 9、选择函数
-
-select s1, top_k(s1, 'k'='2'), bottom_k(s1, 'k'='2') from root.sg1.d2 where time > 2020-12-10T20:36:15.530+08:00;
-
-## 10、区间查询函数
-
-select s1, zero_count(s1), non_zero_count(s2), zero_duration(s3), non_zero_duration(s4) from root.sg.d2;
-
-## 11、趋势计算函数
-
-select s1, time_difference(s1), difference(s1), non_negative_difference(s1), derivative(s1), non_negative_derivative(s1) from root.sg1.d1 limit 5 offset 1000; 
-
-##### 不使用ignoreNull参数(忽略null)
-
-SELECT DIFF(s1), DIFF(s2) from root.test;
-
-##### 使用ignoreNull参数
-
-SELECT DIFF(s1, 'ignoreNull'='false'), DIFF(s2, 'ignoreNull'='false') from root.test;
-
-## 12、采样函数
-
-### 等数量分桶随机采样
-
-select equal_size_bucket_random_sample(temperature,'proportion'='0.1') as random_sample from root.ln.wf01.wt01;
-
-### 等数量分桶聚合采样
-
-select equal_size_bucket_agg_sample(temperature, 'type'='avg','proportion'='0.1') as agg_avg, equal_size_bucket_agg_sample(temperature, 'type'='max','proportion'='0.1') as agg_max, equal_size_bucket_agg_sample(temperature,'type'='min','proportion'='0.1') as agg_min, equal_size_bucket_agg_sample(temperature, 'type'='sum','proportion'='0.1') as agg_sum, equal_size_bucket_agg_sample(temperature, 'type'='extreme','proportion'='0.1') as agg_extreme, equal_size_bucket_agg_sample(temperature, 'type'='variance','proportion'='0.1') as agg_variance from root.ln.wf01.wt01;
-
-### 等数量分桶 M4 采样
-
-select equal_size_bucket_m4_sample(temperature, 'proportion'='0.1') as M4_sample from root.ln.wf01.wt01;
-
-### 等数量分桶离群值采样
-
-select equal_size_bucket_outlier_sample(temperature, 'proportion'='0.1', 'type'='avg', 'number'='2') as outlier_avg_sample, equal_size_bucket_outlier_sample(temperature, 'proportion'='0.1', 'type'='stendis', 'number'='2') as outlier_stendis_sample, equal_size_bucket_outlier_sample(temperature, 'proportion'='0.1', 'type'='cos', 'number'='2') as outlier_cos_sample, equal_size_bucket_outlier_sample(temperature, 'proportion'='0.1', 'type'='prenextdis', 'number'='2') as outlier_prenextdis_sample from root.ln.wf01.wt01;
-
-## M4函数
-
-查询语句1：
-
-select M4(s1,'timeInterval'='25','displayWindowBegin'='0','displayWindowEnd'='100') from root.vehicle.d1
-
-查询语句2：
-
-select M4(s1,'windowSize'='10') from root.vehicle.d1
-
-使用Grafana的[模板变量](https://grafana.com/docs/grafana/latest/dashboards/variables/add-template-variables/#global-variables)
-
-select M4(s1,'timeInterval'='$__interval_ms') from root.sg1.d1
-
-## 13、时间序列处理
-
-### CHANGE_POINTS
-
-select change_points(s1), change_points(s2), change_points(s3), change_points(s4), change_points(s5), change_points(s6) from root.testChangePoints.d1
-
-## 14、Lambda 表达式
-
-### JEXL 自定义函数
-
-select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'expr'='x -> {x * 3}') as jexl2, jexl(temperature, 'expr'='x -> {x * x}') as jexl3, jexl(temperature, 'expr'='x -> {multiply(x, 100)}') as jexl4, jexl(temperature, st, 'expr'='(x, y) -> {x + y}') as jexl5, jexl(temperature, st, str, 'expr'='(x, y, z) -> {x + y + z}') as jexl6 from root.ln.wf01.wt01;
-
-## 15、条件表达式
-
-### CASE
-
-#### 语法示例
-
-- 格式1：
-
-  CASE
-
-​    WHEN condition1 THEN expression1
-
-​    [WHEN condition2 THEN expression2] ...
-
-​    [ELSE expression_end]
-
-  END
-
-- 格式2：
-
-  CASE caseValue
-
-​    WHEN whenValue1 THEN expression1
-
-​    [WHEN whenValue2 THEN expression2] ...
-
-​    [ELSE expression_end]
-
-  END
-
-##### 示例1
-
-select T, P, case
-
-when 1000<T and T<1050 and 1000000<P and P<1100000 then "good!"
-
-when T<=1000 or T>=1050 then "bad temperature"
-
-when P<=1000000 or P>=1100000 then "bad pressure"
-
-end as `result`
-
-from root.test1
-
-##### 示例2
-
-select str, case
-
-when str like "%cc%" then "has cc"
-
-when str like "%dd%" then "has dd"
-
-else "no cc and dd" end as `result`
-
-from root.test2
-
-##### 示例3：搭配聚合函数
-
-select
-
-count(case when x<=1 then 1 end) as `(-∞,1]`,
-
-count(case when 1<x and x<=3 then 1 end) as `(1,3]`,
-
-count(case when 3<x and x<=7 then 1 end) as `(3,7]`,
-
-count(case when 7<x then 1 end) as `(7,+∞)`
-
-from root.test3
-
-###### 非法：CASE表达式←聚合函数
-
-select case when x<=1 then avg(x) else sum(x) end from root.test3
-
-##### 示例4：格式2
-
-select x, case x when 1 then "one" when 2 then "two" else "other" end from root.test4
-
-##### 示例5：结果子句类型
-
-###### 非法：BOOLEAN与其它类型共存
-
-select x, case x when 1 then true when 2 then 2 end from root.test4
-
-###### 合法：只存在BOOLEAN类型
-
-select x, case x when 1 then true when 2 then false end as `result` from root.test4
-
-###### 非法：TEXT与其它类型共存
-
-select x, case x when 1 then 1 when 2 then "str" end from root.test4
-
-###### 合法：数值类型共存
-
-select x, case x
-
-when 1 then 1
-
-when 2 then 222222222222222
-
-when 3 then 3.3
-
-when 4 then 4.4444444444444
-
-end as `result`
-
-from root.test4
-
-## 16、数据画像
-
-### ACF
-
-select acf(s1) from root.test.d1 where time <= 2020-01-01 00:00:05
-
-### Distinct
-
-select distinct(s2) from root.test.d2
-
-### Histogram
-
-select histogram(s1,"min"="1","max"="20","count"="10") from root.test.d1
-
-### Integral
-
-select integral(s1) from root.test.d1 where time <= 2020-01-01 00:00:10
-
-#### 指定时间单位
-
-select integral(s1, "unit"="1m") from root.test.d1 where time <= 2020-01-01 00:00:10
-
-### IntegralAvg
-
-select integralavg(s1) from root.test.d1 where time <= 2020-01-01 00:00:10
-
-### Mad
-
-select mad(s0) from root.test
-
-##### 近似查询
-
-select mad(s0, "error"="0.01") from root.test
-
-### Median
-
-select median(s0, "error"="0.01") from root.test
-
-### MinMax
-
-select minmax(s1) from root.test
-
-### Mode
-
-select mode(s2) from root.test.d2
-
-### MvAvg
-
-select mvavg(s1, "window"="3") from root.test
-
-### PACF
-
-select pacf(s1, "lag"="5") from root.test
-
-### Percentile
-
-select percentile(s0, "rank"="0.2", "error"="0.01") from root.test
-
-### Quantile
-
-select quantile(s0, "rank"="0.2", "K"="800") from root.test
-
-### Period
-
-select period(s1) from root.test.d3
-
-### QLB
-
-select QLB(s1) from root.test.d1
-
-### Resample
-
-##### 上采样
-
-select resample(s1,'every'='5m','interp'='linear') from root.test.d1
-
-##### 下采样
-
-select resample(s1,'every'='30m','aggr'='first') from root.test.d1
-
-##### 指定重采样时间段
-
-select resample(s1,'every'='30m','start'='2021-03-06 15:00:00') from root.test.d1
-
-### Sample
-
-##### 蓄水池采样
-
-select sample(s1,'method'='reservoir','k'='5') from root.test.d1
-
-##### 等距采样
-
-select sample(s1,'method'='isometric','k'='5') from root.test.d1
-
-### Segment
-
-select segment(s1,"error"="0.1") from root.test
-
-### Skew
-
-select skew(s1) from root.test.d1
-
-### Spline
-
-select spline(s1, "points"="151") from root.test
-
-### Spread
-
-select spread(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
-
-### Stddev
-
-select stddev(s1) from root.test.d1
-
-### ZScore
-
-select zscore(s1) from root.test
-
-## 17、异常检测
-
-### IQR
-
-select iqr(s1) from root.test
-
-### KSigma
-
-select ksigma(s1,"k"="1.0") from root.test.d1 where time <= 2020-01-01 00:00:30
-
-### LOF
-
-select lof(s1,s2) from root.test.d1 where time<1000
-
-##### 诊断一维时间序列
-
-select lof(s1, "method"="series") from root.test.d1 where time<1000
-
-### MissDetect
-
-select missdetect(s2,'minlen'='10') from root.test.d2
-
-### Range
-
-select range(s1,"lower_bound"="101.0","upper_bound"="125.0") from root.test.d1 where time <= 2020-01-01 00:00:30
-
-### TwoSidedFilter
-
-select TwoSidedFilter(s0, 'len'='5', 'threshold'='0.3') from root.test
-
-### Outlier
-
-select outlier(s1,"r"="5.0","k"="4","w"="10","s"="5") from root.test
-
-## 18、数据匹配
-
-### Cov
-
-select cov(s1,s2) from root.test.d2
-
-### Dtw
-
-select dtw(s1,s2) from root.test.d2
-
-### Pearson
-
-select pearson(s1,s2) from root.test.d2
-
-### PtnSym
-
-select ptnsym(s4, 'window'='5', 'threshold'='0') from root.test.d1
-
-### XCorr
-
-select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
-
-## 19、频域分析
-
-### Conv
-
-select conv(s1,s2) from root.test.d2
-
-### Deconv
-
-##### 计算去卷积的商
-
-select deconv(s3,s2) from root.test.d2
-
-##### 计算去卷积的余数
-
-select deconv(s3,s2,'result'='remainder') from root.test.d2
-
-### DWT
-
-select dwt(s1,"method"="haar") from root.test.d1
-
-### FFT
-
-##### 等距傅里叶变换
-
-select fft(s1) from root.test.d1
-
-##### 等距傅里叶变换并压缩
-
-select fft(s1, 'result'='real', 'compress'='0.99'), fft(s1, 'result'='imag','compress'='0.99') from root.test.d1
-
-### HighPass
-
-select highpass(s1,'wpass'='0.45') from root.test.d1
-
-### IFFT
-
-select ifft(re, im, 'interval'='1m', 'start'='2021-01-01 00:00:00') from root.test.d1
-
-### LowPass
-
-select lowpass(s1,'wpass'='0.45') from root.test.d1
-
-## 20、数据质量
-
-### Completeness
-
-###### 参数缺省
-
-select completeness(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
-
-###### 指定窗口大小
-
-select completeness(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00
-
-### Consistency
-
-###### 参数缺省
-
-select consistency(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
-
-###### 指定窗口大小
-
-select consistency(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00
-
-### Timeliness
-
-###### 参数缺省
-
-select timeliness(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
-
-###### 指定窗口大小
-
-select timeliness(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00
-
-### Validity
-
-###### 参数缺省
-
-select validity(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
-
-###### 指定窗口大小
-
-select validity(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00
-
-### Accuracy
-
-select Accuracy(t1,t2,t3,m1,m2,m3) from root.test
-
-## 21、数据修复
-
-### TimestampRepair
-
-##### 指定标准时间间隔
-
-select timestamprepair(s1,'interval'='10000') from root.test.d2
-
-##### 自动推算标准时间间隔
-
-select timestamprepair(s1) from root.test.d2
-
-### ValueFill
-
-##### 使用 linear 方法进行填补
-
-select valuefill(s1) from root.test.d2
-
-##### 使用 previous 方法进行填补
-
-select valuefill(s1,"method"="previous") from root.test.d2
-
-### ValueRepair
-
-##### 使用 Screen 方法进行修复
-
-select valuerepair(s1) from root.test.d2
-
-##### 使用 LsGreedy 方法进行修复
-
-select valuerepair(s1,'method'='LsGreedy') from root.test.d2
-
-### MasterRepair
-
-select MasterRepair(t1,t2,t3,m1,m2,m3) from root.test
-
-### SeasonalRepair
-
-##### 使用经典分解方法进行修复
-
-select seasonalrepair(s1,'period'=3,'k'=2) from root.test.d2
-
-##### 使用改进的分解方法进行修复
-
-select seasonalrepair(s1,'method'='improved','period'=3) from root.test.d2
-
-## 22、序列发现
-
-### ConsecutiveSequences
-
-##### 手动指定标准时间间隔
-
-select consecutivesequences(s1,s2,'gap'='5m') from root.test.d1
-
-##### 自动估计标准时间间隔
-
-select consecutivesequences(s1,s2) from root.test.d1
-
-### ConsecutiveWindows
-
-select consecutivewindows(s1,s2,'length'='10m') from root.test.d1
-
-## 23、机器学习
-
-### AR
-
-select ar(s0,"p"="2") from root.test.d0
-
-### Representation
-
-select representation(s0,"tb"="3","vb"="2") from root.test.d0
-
-### RM
-
-select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0
-
-# 管理触发器
-
-## 1、使用 SQL 语句注册该触发器
-
-// Create Trigger
-
-createTrigger
-
-​    : CREATE triggerType TRIGGER triggerName=identifier triggerEventClause ON pathPattern AS className=STRING_LITERAL uriClause? triggerAttributeClause?
-
-​    ;
-
-
-
-triggerType
-
-​    : STATELESS | STATEFUL
-
-​    ;
-
-
-
-triggerEventClause
-
-​    : (BEFORE | AFTER) INSERT
-
-​    ;
-
-
-
-uriClause
-
-​    : USING URI uri
-
-​    ;
-
-
-
-uri
-
-​    : STRING_LITERAL
-
-​    ;
-
-
-
-triggerAttributeClause
-
-​    : WITH LR_BRACKET triggerAttribute (COMMA triggerAttribute)* RR_BRACKET
-
-​    ;
-
-
-
-triggerAttribute
-
-​    : key=attributeKey operator_eq value=attributeValue
-
-​    ;
-
-### SQL 语句示例：
-
-CREATE STATELESS TRIGGER triggerTest
-
-BEFORE INSERT
-
-ON root.sg.**
-
-AS 'org.apache.iotdb.trigger.ClusterAlertingExample'
-
-USING URI 'http://jar/ClusterAlertingExample.jar'
-
-WITH (
-
-​    "name" = "trigger",
-
-​    "limit" = "100"
-
-)
-
-## 2、卸载触发器
-
-### 卸载触发器的 SQL 语法如下：
-
-// Drop Trigger
-
-dropTrigger
-
-  : DROP TRIGGER triggerName=identifier
-
-;
-
-### 示例语句：
-
-DROP TRIGGER triggerTest1
-
-## 查询触发器
-
-SHOW TRIGGERS
-
-# 权限管理
-
-## 1、创建用户
+### 1、创建用户
 
 CREATE USER `ln_write_user` 'write_pwd'
 
 CREATE USER `sgcc_write_user` 'write_pwd'
 
-## 2、展示用户
+### 2、展示用户
 
 LIST USER
 
-## 3、赋予用户权限
+### 3、赋予用户权限
 
 INSERT INTO root.ln.wf01.wt01(timestamp,status) values(1509465600000,true)
 
@@ -2067,7 +1819,7 @@ IoTDB> INSERT INTO root.ln.wf01.wt01(timestamp, status) values(1509465600000, tr
 
 Msg: The statement is executed successfully.
 
-## 4、撤销用户权限
+### 4、撤销用户权限
 
 用root用户撤销ln_write_user和sgcc_write_user的权限：
 
@@ -2281,7 +2033,7 @@ Eg: IoTDB > ALTER USER `tempuser` SET PASSWORD 'newpwd';
 
 ### 6、非root用户限制进行的操作
 
-###### TsFile管理
+#### TsFile管理
 
 - 加载TsFile
 
@@ -2295,19 +2047,19 @@ Eg: IoTDB > remove '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-
 
 Eg: IoTDB > unload '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-0.tsfile' '/data/data/tmp'
 
-###### 删除时间分区（实验性功能）
+#### 删除时间分区（实验性功能）
 
 - 删除时间分区（实验性功能）
 
 Eg: IoTDB > DELETE PARTITION root.ln 0,1,2
 
-###### 连续查询
+#### 连续查询
 
 - 连续查询(CQ)
 
 Eg: IoTDB > CREATE CONTINUOUS QUERY cq1 BEGIN SELECT max_value(temperature) INTO temperature_max FROM root.ln.*.* GROUP BY time(10s) END
 
-###### 运维命令
+#### 运维命令
 
 - FLUSH
 
@@ -2335,7 +2087,7 @@ Eg: IoTDB > CREATE SNAPSHOT FOR SCHEMA
 
 Eg: IoTDB > KILL QUERY 1
 
-###### 水印工具
+#### 水印工具
 
 - 为新用户施加水印
 
@@ -2344,168 +2096,4 @@ Eg: IoTDB > grant watermark_embedding to Alice
 - 撤销水印
 
 Eg: IoTDB > revoke watermark_embedding from Alice
-
-# 运维命令
-
-## 1、FLUSH
-
-IoTDB> FLUSH 
-
-IoTDB> FLUSH ON LOCAL
-
-IoTDB> FLUSH ON CLUSTER
-
-IoTDB> FLUSH root.ln
-
-IoTDB> FLUSH root.sg1,root.sg2 ON LOCAL
-
-IoTDB> FLUSH root.sg1,root.sg2 ON CLUSTER
-
-## 2、CLEAR CACHE
-
-IoTDB> CLEAR CACHE
-
-IoTDB> CLEAR CACHE ON LOCAL
-
-IoTDB> CLEAR CACHE ON CLUSTER
-
-## 3、SET SYSTEM TO READONLY / RUNNING
-
-IoTDB> SET SYSTEM TO RUNNING
-
-IoTDB> SET SYSTEM TO READONLY ON LOCAL
-
-IoTDB> SET SYSTEM TO READONLY ON CLUSTER
-
-## 4、终止查询
-
-### 查询超时
-
-IoTDB> select * from root.**;
-
-Msg: 701 Current query is time out, please check your statement or modify timeout parameter.
-
-### 查询终止
-
-#### 终止指定查询
-
-```Go
-KILL QUERY <queryId>
-```
-
-##### 示例
-
-kill query '20221205_114444_00003_5'
-
-#### 终止所有查询
-
-KILL ALL QUERIES
-
-## 5、SHOW QUERIES
-
-### 语法
-
-SHOW QUERIES | (QUERY PROCESSLIST)
-
-[WHERE whereCondition]
-
-[ORDER BY sortKey {ASC | DESC}]
-
-[LIMIT rowLimit] [OFFSET rowOffset]
-
-### SQL示例
-
-#### 示例1：获取当前所有执行时间大于30s的查询
-
-SHOW QUERIES WHERE ElapsedTime > 30
-
-#### 示例2：获取当前执行耗时Top5的查询
-
-SHOW QUERIES limit 5
-
-SHOW QUERIES ORDER BY ElapsedTime DESC limit 5
-
-
-
-# TsFile 同步
-
-## 快速上手
-
-- 创建接收端为 IoTDB 类型的 Pipe Sink
-
-IoTDB> CREATE PIPESINK my_iotdb AS IoTDB (ip='接收端IP', port='接收端端口')
-
-- 创建同步任务Pipe（请确保接收端 IoTDB 已经启动）
-
-IoTDB> CREATE PIPE my_pipe TO my_iotdb
-
-- 开始同步任务
-
-IoTDB> START PIPE my_pipe
-
-- 显示所有同步任务状态
-
-IoTDB> SHOW PIPES
-
-- 暂停任务
-
-IoTDB> STOP PIPE my_pipe
-
-- 继续被暂停的任务
-
-IoTDB> START PIPE my_pipe
-
-- 关闭任务（状态信息将被删除）
-
-IoTDB> DROP PIPE my_pipe
-
-## SQL
-
-### SHOW PIPESINKTYPE
-
-IoTDB> SHOW PIPESINKTYPE
-
-### CREATE PIPESINK
-
-```Go
-IoTDB> CREATE PIPESINK <PipeSinkName> AS IoTDB [(ip='127.0.0.1',port=6667);]
-```
-
-### DROP PIPESINK
-
-```Go
-IoTDB> DROP PIPESINK <PipeSinkName>
-```
-
-### SHOW PIPESINK
-
-IoTDB> SHOW PIPESINKS IoTDB> SHOW PIPESINK [PipeSinkName]
-
-### CREATE PIPE
-
-IoTDB> CREATE PIPE my_pipe TO my_iotdb [FROM (select ** from root WHERE time>=yyyy-mm-dd HH:MM:SS)]
-
-### STOP PIPE
-
-```Go
-IoTDB> STOP PIPE <PipeName>
-```
-
-### START PIPE
-
-```Go
-IoTDB> START PIPE <PipeName>
-```
-
-### DROP PIPE
-
-```Go
-IoTDB> DROP PIPE <PipeName>
-```
-
-### SHOW PIPE
-
-IoTDB> SHOW PIPES
-
-IoTDB> SHOW PIPE [PipeName]
 

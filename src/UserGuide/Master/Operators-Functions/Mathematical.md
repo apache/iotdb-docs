@@ -19,7 +19,7 @@
 
 -->
 
-## Arithmetic Operators and Functions
+# Arithmetic Operators and Functions
 
 ## Arithmetic Operators
 

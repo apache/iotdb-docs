@@ -236,6 +236,22 @@ For details and examples, see the document [Variation Trend Calculation Function
 
 For details and examples, see the document [Sample Functions](./Sample.md).
 
+### Change Points Function
+
+| Function Name | Allowed Input Series Data Types | Required Attributes | Output Series Data Type       | Description                                                 |
+| ------------- | ------------------------------- | ------------------- | ----------------------------- | ----------------------------------------------------------- |
+| CHANGE_POINTS | INT32 / INT64 / FLOAT / DOUBLE  | /                   | Same type as the input series | Remove consecutive identical values from an input sequence. |
+
+For details and examples, see the document [Time-Series](./Time-Series.md).
+
+## Lambda Expression
+
+| Function Name | Allowed Input Series Data Types                 | Required Attributes                                          | Output Series Data Type                         | Series Data Type  Description                                |
+| ------------- | ----------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------- | ------------------------------------------------------------ |
+| JEXL          | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | `expr` is a lambda expression that supports standard one or multi arguments in the form `x -> {...}` or `(x, y, z) -> {...}`, e.g. `x -> {x * 2}`, `(x, y, z) -> {x + y * z}` | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | Returns the input time series transformed by a lambda expression |
+
+For details and examples, see the document [Lambda](./Lambda.md).
+
 ## Conditional Expressions
 
 | Expression Name | Description          |
@@ -259,3 +275,13 @@ The functions in this function library are not built-in functions, and must be l
 3. Run `sbin\start-server.bat` (for Windows) or `sbin\start-server.sh` (for Linux or MacOS) to start IoTDB server.
 4. Copy the script to the directory of IoTDB system (under the root directory, at the same level as `sbin`), modify the parameters in the script if needed and run it to register UDF.
 
+### Implemented Functions
+
+1.   Data Quality related functions, such as `Completeness`
+2.   Data Profiling related functions, such as `ACF`
+3.   Anomaly Detection related functions, such as `IQR`
+4.   Frequency Domain Analysis related functions, such as `Conv`
+5.   Data Matching related functions, such as `DTW`
+6.   Data Repairing related functions, such as `TimestampRepair`
+7.   Series Discovery related functions, such as `ConsecutiveSequences`
+8.   Machine Learning related functions, such as `AR`

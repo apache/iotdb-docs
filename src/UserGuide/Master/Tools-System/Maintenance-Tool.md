@@ -225,4 +225,3 @@ device root.sg1.d1, start time 0 (1970-01-01T08:00+08:00[GMT+08:00]), end time 9
 
 Analyzing the resource file D:\github\master\iotdb\data\datanode\data\sequence\root.sg1\0\0\1669359533489-1-0-0.tsfile.resource finished.
 `````````````````````````
-

@@ -19,7 +19,7 @@
 
 -->
 
-# Edge-Cloud Collaboration
+# Sync Tool (Edge-Cloud Collaboration)
 
 ## 1.Introduction
 
