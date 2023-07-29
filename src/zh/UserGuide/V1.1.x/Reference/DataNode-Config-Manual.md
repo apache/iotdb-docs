@@ -19,7 +19,7 @@
 
 -->
 
-# DataNode 配置参数
+## DataNode 配置参数
 
 IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB 安装目录：`conf`文件夹下。
 
@@ -27,14 +27,14 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 
 * `iotdb-datanode.properties`：IoTDB DataNode 和单机版的配置文件。
 
-## 热修改配置项
+### 热修改配置项
 
 为方便用户使用，IoTDB 为用户提供了热修改功能，即在系统运行过程中修改 `iotdb-datanode.properties` 和 `iotdb-common.properties` 中部分配置参数并即时应用到系统中。下面介绍的参数中，改后 生效方式为`热加载`
 的均为支持热修改的配置参数。
 
 通过 Session 或 Cli 发送 ```load configuration``` 命令（SQL）至 IoTDB 可触发配置热加载。
 
-## 环境配置项（datanode-env.sh/bat）
+### 环境配置项（datanode-env.sh/bat）
 
 环境配置项主要用于对 DataNode 运行的 Java 环境相关参数进行配置，如 JVM 相关配置。DataNode/Standalone 启动时，此部分配置会被传给 JVM，详细配置项说明如下：
 
@@ -83,11 +83,11 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |默认值|31999|
 |改后生效方式|重启服务生效|
 
-## 系统配置项（iotdb-datanode.properties）
+### 系统配置项（iotdb-datanode.properties）
 
 系统配置项是 IoTDB DataNode/Standalone 运行的核心配置，它主要用于设置 DataNode/Standalone 数据库引擎的参数。
 
-### Data Node RPC 服务配置
+#### Data Node RPC 服务配置
 
 * dn\_rpc\_address
 
@@ -95,7 +95,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |:---:|:-----------------|
 |描述| 客户端 RPC 服务监听地址   |
 |类型| String           |
-|默认值| 0.0.0.0          |
+|默认值| 127.0.0.1        |
 |改后生效方式| 重启服务生效           |
 
 * dn\_rpc\_port
@@ -114,7 +114,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |描述| DataNode 内网通信地址 |
 |类型| string |
 |默认值| 127.0.0.1 |
-|改后生效方式|仅允许在第一次启动服务前修改|
+|改后生效方式|重启服务生效|
 
 * dn\_internal\_port
 
@@ -123,7 +123,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |描述| DataNode 内网通信端口    |
 |类型| int                |
 |默认值| 10730               |
-|改后生效方式| 仅允许在第一次启动服务前修改             |
+|改后生效方式| 重启服务生效             |
 
 * dn\_mpp\_data\_exchange\_port
 
@@ -132,7 +132,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |描述| MPP 数据交换端口 |
 |类型| int |
 |默认值| 10740 |
-|改后生效方式|仅允许在第一次启动服务前修改|
+|改后生效方式|重启服务生效|
 
 * dn\_schema\_region\_consensus\_port
 
@@ -141,7 +141,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |描述| DataNode 元数据副本的共识协议通信端口 |
 |类型| int |
 |默认值| 10750 |
-|改后生效方式|仅允许在第一次启动服务前修改|
+|改后生效方式|重启服务生效|
 
 * dn\_data\_region\_consensus\_port
 
@@ -150,7 +150,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |描述| DataNode 数据副本的共识协议通信端口 |
 |类型| int |
 |默认值| 10760 |
-|改后生效方式|仅允许在第一次启动服务前修改|
+|改后生效方式|重启服务生效|
 
 * dn\_join\_cluster\_retry\_interval\_ms
 
@@ -161,7 +161,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |默认值| 5000                                   |
 |改后生效方式| 重启服务生效                                 |
 
-### 目标 Config Nodes 配置
+#### 目标 Config Nodes 配置
 
 * dn\_target\_config\_node\_list
 
@@ -170,9 +170,9 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |描述| ConfigNode 地址，DataNode 启动时通过此地址加入集群 |
 |类型| String                              |
 |默认值| 127.0.0.1:10710                     |
-|改后生效方式| 仅允许在第一次启动服务前修改                              |
+|改后生效方式| 重启服务生效                              |
 
-### 连接配置
+#### 连接配置
 
 * dn\_session\_timeout\_threshold
 
@@ -265,7 +265,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |  默认值   | 300                                                          |
 | 改后生效方式 | 重启服务生效                                                       |
 
-### 目录配置
+#### 目录配置
 
 * dn\_system\_dir
 
@@ -274,7 +274,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |   描述   | IoTDB 元数据存储路径，默认存放在和 sbin 目录同级的 data 目录下。相对路径的起始目录与操作系统相关，建议使用绝对路径。 |
 |   类型   | String                                                              |
 |  默认值   | data/datanode/system（Windows：data\\datanode\\system）                |
-| 改后生效方式 | 重启服务生效                                                                    |
+| 改后生效方式 | 热加载                                                                |
 
 * dn\_data\_dirs
 
@@ -283,25 +283,16 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |   描述   | IoTDB 数据存储路径，默认存放在和 sbin 目录同级的 data 目录下。相对路径的起始目录与操作系统相关，建议使用绝对路径。 |
 |   类型   | String                                                             |
 |  默认值   | data/datanode/data（Windows：data\\datanode\\data）                   |
-| 改后生效方式 | 重启服务生效                                                                   |
+| 改后生效方式 | 热加载                                                               |
 
 * dn\_multi\_dir\_strategy
 
-|   名字   | dn\_multi\_dir\_strategy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-|:------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|   描述   | IoTDB 在 data\_dirs 中为 TsFile 选择目录时采用的策略。可使用简单类名或类名全称。系统提供以下三种策略：<br>1. SequenceStrategy：IoTDB 按顺序选择目录，依次遍历 data\_dirs 中的所有目录，并不断轮循；<br>2. MaxDiskUsableSpaceFirstStrategy：IoTDB 优先选择 data\_dirs 中对应磁盘空余空间最大的目录；<br>您可以通过以下方法完成用户自定义策略：<br>1. 继承 org.apache.iotdb.db.storageengine.rescon.disk.strategy.DirectoryStrategy 类并实现自身的 Strategy 方法；<br>2. 将实现的类的完整类名（包名加类名，UserDefineStrategyPackage）填写到该配置项；<br>3. 将该类 jar 包添加到工程中。                                                                                                                  |
-|   类型   | String                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
-|  默认值   | SequenceStrategy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| 改后生效方式 | 热加载                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-
-* dn\_consensus\_dir
-
-|   名字   | dn\_consensus\_dir                                                       |
-|:------:|:-------------------------------------------------------------------------|
-|   描述   | IoTDB 共识层日志存储路径，默认存放在和 sbin 目录同级的 data 目录下。相对路径的起始目录与操作系统相关，建议使用绝对路径。    |
-|   类型   | String                                                                   |
-|  默认值   | data/datanode/consensus（Windows：data\\datanode\\consensus）               |
-| 改后生效方式 | 重启服务生效                                                                         |
+|   名字   | dn\_multi\_dir\_strategy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+|:------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|   描述   | IoTDB 在 data\_dirs 中为 TsFile 选择目录时采用的策略。可使用简单类名或类名全称。系统提供以下三种策略：<br>1. SequenceStrategy：IoTDB 按顺序选择目录，依次遍历 data\_dirs 中的所有目录，并不断轮循；<br>2. MaxDiskUsableSpaceFirstStrategy：IoTDB 优先选择 data\_dirs 中对应磁盘空余空间最大的目录；<br>3. MinFolderOccupiedSpaceFirstStrategy：IoTDB 优先选择 data\_dirs 中已使用空间最小的目录；<br>4. UserDefineStrategyPackage（用户自定义策略）<br>您可以通过以下方法完成用户自定义策略：<br>1. 继承 org.apache.iotdb.db.conf.directories.strategy 类并实现自身的 Strategy 方法；<br>2. 将实现的类的完整类名（包名加类名，UserDefineStrategyPackage）填写到该配置项；<br>3. 将该类 jar 包添加到工程中。 |
+|   类型   | String                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+|  默认值   | SequenceStrategy                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| 改后生效方式 | 热加载                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 
 * dn\_wal\_dirs
 
@@ -310,7 +301,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |   描述   | IoTDB 写前日志存储路径，默认存放在和 sbin 目录同级的 data 目录下。相对路径的起始目录与操作系统相关，建议使用绝对路径。 |
 |   类型   | String                                                               |
 |  默认值   | data/datanode/wal（Windows：data\\datanode\\wal）                       |
-| 改后生效方式 | 重启服务生效                                                                     |
+| 改后生效方式 | 热加载                                                                  |
 
 * dn\_tracing\_dir
 
@@ -319,7 +310,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |   描述   | IoTDB 追踪根目录路径，默认存放在和 sbin 目录同级的 data 目录下。相对路径的起始目录与操作系统相关，建议使用绝对路径。 |
 |   类型   | String                                                              |
 |  默认值   | datanode/tracing                                                    |
-| 改后生效方式 | 重启服务生效                                                                    |
+| 改后生效方式 | 热加载                                                                |
 
 * dn\_sync\_dir
 
@@ -327,12 +318,12 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |:------:|:----------------------------------------------------------------------|
 |   描述   | IoTDB sync 存储路径，默认存放在和 sbin 目录同级的 data 目录下。相对路径的起始目录与操作系统相关，建议使用绝对路径。 |
 |   类型   | String                                                                |
-|  默认值   | data/datanode/sync                                                    |
-| 改后生效方式 | 重启服务生效                                                                      |
+|  默认值   | data/datanode/sync                        |
+| 改后生效方式 | 热加载                                                                  |
 
-### Metric 配置
+#### Metric 配置
 
-## 开启 GC 日志
+### 开启 GC 日志
 
 GC 日志默认是关闭的。为了性能调优，用户可能会需要收集 GC 信息。
 若要打开 GC 日志，则需要在启动 IoTDB Server 的时候加上"printgc"参数：

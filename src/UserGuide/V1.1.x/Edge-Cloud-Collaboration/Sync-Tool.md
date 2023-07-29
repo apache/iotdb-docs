@@ -19,7 +19,7 @@
 
 -->
 
-# Sync Tool (Edge-Cloud Collaboration)
+# Edge-Cloud Collaboration
 
 ## 1.Introduction
 
@@ -123,7 +123,7 @@ All parameters are in `$IOTDB_ HOME$/conf/iotdb-common.properties`, after all mo
 | ------------------ | ------------------------------------------------------------ |
 | Description        | Set the white list of IP addresses of the sender of the synchronization, which is expressed in the form of network segments, and multiple network segments are separated by commas. When the sender synchronizes data to the receiver, the receiver allows synchronization only when the IP address of the sender is within the network segment set in the white list. If the whitelist is empty, the receiver does not allow any sender to synchronize data. By default, the receiver rejects the synchronization request of all IP addresses except 127.0.0.1. When configuring this parameter, please ensure that all DataNode addresses on the sender are set. |
 | Data type          | String                                                       |
-| Default value      | 127.0.0.1/32                                                 |
+| Default value      | 127.0.0.1/32                                                    |
 
 ## 6.SQL
 
@@ -177,6 +177,7 @@ IoTDB>
 - Create a pipe.
 
   - At present, the SELECT statement only supports `**` (i.e. data in all timeseries), the FROM statement only supports `root`, and the WHERE statement only supports the start time of the specified time. The start time can be specified in the form of yyyy-mm-dd HH:MM:SS or a timestamp.
+  
 
 ```
 IoTDB> CREATE PIPE my_pipe TO my_iotdb [FROM (select ** from root WHERE time>='yyyy-mm-dd HH:MM:SS' )]
@@ -225,15 +226,15 @@ IoTDB> DROP PIPE <PipeName>
     - When role is receiver, the value of this field is the sender's IP.
 
 
-- `status`: the Pipe's status.
-- `attributes`: the attributes of Pipe
-  - When role is sender, the value of this field is the synchronization start time of the Pipe and whether to synchronize the delete operation.
-  - When role is receiver, the value of this field is the name of the database corresponding to the synchronization connection created on this DataNode.
+  - `status`: the Pipe's status.
+  - `attributes`: the attributes of Pipe
+    - When role is sender, the value of this field is the synchronization start time of the Pipe and whether to synchronize the delete operation.
+    - When role is receiver, the value of this field is the name of the database corresponding to the synchronization connection created on this DataNode.
 
-- `message`: the status message of this pipe. When pipe runs normally, this column is NORMAL. When an exception occurs, messages may appear in  following two states.
-  - WARN, this indicates that a data loss or other error has occurred, but the pipe will remain running.
-  - ERROR, This indicates a problem where the network connection works but the data cannot be transferred, for example, the IP of the sender is not in the whitelist of the receiver or the version of the sender is not compatible with that of the receiver.
-  - When the ERROR status appears, it is recommended to check the DataNode logs after STOP PIPE, check the receiver configuration or network conditions, and then START PIPE again.
+  - `message`: the status message of this pipe. When pipe runs normally, this column is NORMAL. When an exception occurs, messages may appear in  following two states.
+    - WARN, this indicates that a data loss or other error has occurred, but the pipe will remain running.
+    - ERROR, This indicates a problem where the network connection works but the data cannot be transferred, for example, the IP of the sender is not in the whitelist of the receiver or the version of the sender is not compatible with that of the receiver.
+    - When the ERROR status appears, it is recommended to check the DataNode logs after STOP PIPE, check the receiver configuration or network conditions, and then START PIPE again.
 
 
 ```

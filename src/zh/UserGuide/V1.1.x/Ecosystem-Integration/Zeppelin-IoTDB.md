@@ -19,17 +19,17 @@
 
 -->
 
-# Zeppelin-IoTDB
+## Zeppelin-IoTDB
 
-## Zeppelin 简介
+### Zeppelin 简介
 
 Apache Zeppelin 是一个基于网页的交互式数据分析系统。用户可以通过 Zeppelin 连接数据源并使用 SQL、Scala 等进行交互式操作。操作可以保存为文档（类似于 Jupyter）。Zeppelin 支持多种数据源，包括 Spark、ElasticSearch、Cassandra 和 InfluxDB 等等。现在，IoTDB 已经支持使用 Zeppelin 进行操作。样例如下：
 
 ![iotdb-note-snapshot](https://alioss.timecho.com/docs/img/github/102752947-520a3e80-43a5-11eb-8fb1-8fac471c8c7e.png)
 
-## Zeppelin-IoTDB 解释器
+### Zeppelin-IoTDB 解释器
 
-### 系统环境需求
+#### 系统环境需求
 
 | IoTDB 版本 |   Java 版本   | Zeppelin 版本 |
 | :--------: | :-----------: | :-----------: |
@@ -44,13 +44,13 @@ Apache Zeppelin 是一个基于网页的交互式数据分析系统。用户可�
 
 假设 Zeppelin 安装在 `$Zeppelin_HOME`.
 
-### 编译解释器
+#### 编译解释器
 
 运行如下命令编译 IoTDB Zeppelin 解释器。
 
 ```shell
 cd $IoTDB_HOME
- mvn clean package -pl iotdb-connector/zeppelin-interpreter -am -DskipTests -P get-jar-with-dependencies
+mvn clean package -pl zeppelin-interpreter -am -DskipTests -P get-jar-with-dependencies
 ```
 
 编译后的解释器位于如下目录：
@@ -59,7 +59,7 @@ cd $IoTDB_HOME
 $IoTDB_HOME/zeppelin-interpreter/target/zeppelin-{version}-SNAPSHOT-jar-with-dependencies.jar
 ```
 
-### 安装解释器
+#### 安装解释器
 
 当你编译好了解释器，在 Zeppelin 的解释器目录下创建一个新的文件夹`iotdb`，并将 IoTDB 解释器放入其中。
 
@@ -69,7 +69,7 @@ mkdir -p $Zeppelin_HOME/interpreter/iotdb
 cp $IoTDB_HOME/zeppelin-interpreter/target/zeppelin-{version}-SNAPSHOT-jar-with-dependencies.jar $Zeppelin_HOME/interpreter/iotdb
 ```
 
-### 启动 Zeppelin 和 IoTDB
+#### 启动 Zeppelin 和 IoTDB
 
 进入 `$Zeppelin_HOME` 并运行 Zeppelin：
 
@@ -93,7 +93,7 @@ or
 > sbin\start-server.bat -c <conf_path> -rpc_port <rpc_port>
 ```
 
-## 使用 Zeppelin-IoTDB 解释器
+### 使用 Zeppelin-IoTDB 解释器
 
 当 Zeppelin 启动后，访问 [http://127.0.0.1:8080/](http://127.0.0.1:8080/)
 
@@ -144,7 +144,7 @@ WHERE time >= 1
 
 以上样例放置于 `$IoTDB_HOME/zeppelin-interpreter/Zeppelin-IoTDB-Demo.zpln`
 
-## 解释器配置项
+### 解释器配置项
 
 进入页面 [http://127.0.0.1:8080/#/interpreter](http://127.0.0.1:8080/#/interpreter) 并配置 IoTDB 的连接参数：
 

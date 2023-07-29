@@ -19,7 +19,7 @@
 
 -->
 
-# Selector Functions
+## Selector Functions
 
 Currently, IoTDB supports the following selector functions:
 

@@ -19,15 +19,15 @@
 
 -->
 
-# Way to get IoTDB binary files
+## Way to get IoTDB binary files
 
 IoTDB provides you three installation methods, you can refer to the following suggestions, choose one of them:
 
 * Installation from source code. If you need to modify the code yourself, you can use this method.
 * Installation from binary files. Download the binary files from the official website. This is the recommended method, in which you will get a binary released package which is out-of-the-box.
-* Using Docker：The path to the dockerfile is https://github.com/apache/iotdb/blob/master/docker
+* Using Docker：The path to the dockerfile is https://github.com/apache/iotdb/blob/master/docker/Dockerfile
 
-## Prerequisites
+### Prerequisites
 
 To use IoTDB, you need to have:
 
@@ -42,7 +42,7 @@ To use IoTDB, you need to have:
 You can download the binary file from:
 [Download page](https://iotdb.apache.org/Download/)
 
-## Installation from source code
+### Installation from source code
 
 You can get the released source code from https://iotdb.apache.org/Download/, or from the git repository https://github.com/apache/iotdb/tree/master
 You can download the source code from:
@@ -70,7 +70,7 @@ Then the binary version (including both server and client) can be found at **dis
 If you would like to build the IoTDB server, you can run the following command under the root path of iotdb:
 
 ```
-> mvn clean package -pl iotdb-core/datanode -am -DskipTests
+> mvn clean package -pl server -am -DskipTests
 ```
 
 After build, the IoTDB server will be at the folder "server/target/iotdb-server-{project.version}". 
@@ -79,15 +79,15 @@ If you would like to build a module, you can execute command `mvn clean package 
 If you need the jar with dependencies, you can add parameter `-P get-jar-with-dependencies` after the command. E.g., If you need the jar of jdbc with dependencies, you can execute this command:
 
 ```shell
-> mvn clean package -pl iotdb-client/jdbc -am -DskipTests -P get-jar-with-dependencies
+> mvn clean package -pl jdbc -am -DskipTests -P get-jar-with-dependencies
 ```
 
 Then you can find it under the path `{module.name}/target`.
 
-## Installation by Docker 
+### Installation by Docker 
 Apache IoTDB' Docker image is released on [https://hub.docker.com/r/apache/iotdb](https://hub.docker.com/r/apache/iotdb)
 Add environments of docker to update the configurations of Apache IoTDB.
-### Have a try
+#### Have a try
 ```shell
 # get IoTDB official image
 docker pull apache/iotdb:1.1.0-standalone
@@ -153,7 +153,7 @@ networks:
   iotdb:
     external: true
 ```
-### deploy cluster
+#### deploy cluster
 Until now, we support host and overlay networks but haven't supported bridge networks on multiple computers.
 Overlay networks see [1C2D](https://github.com/apache/iotdb/tree/master/docker/src/main/DockerCompose/docker-compose-cluster-1c2d.yml) and here are the configurations and operation steps to start an IoTDB cluster with docker using host networks。
 

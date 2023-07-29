@@ -34,7 +34,7 @@ public void createTimeseries(
     throws IoTDBConnectionException, StatementExecutionException;
 ```
 
-If you wish to create the time series root.sg.a, root.sg.\`a.\`\`"b\`, root.sg.\`111\`, the SQL statement you use should look like this:
+If you wish to create the time series``` root.sg.a, root.sg.`a.``"b`, root.sg.`111` ```, the SQL statement you use should look like this:
 
 ```sql
 create timeseries root.sg.a with datatype=FLOAT,encoding=PLAIN,compressor=SNAPPY;
@@ -52,8 +52,8 @@ When you call the createTimeseries method, you should assign the path string as 
 // timeseries root.sg.a
 String path = "root.sg.a";
 
-// timeseries root.sg.`a.``"b`
-String path = "root.sg.`a.``\"b`";
+// timeseries root.sg.`a``"b`
+String path = "root.sg.`a``\"b`";
 
 // timeseries root.sg.`111`
 String path = "root.sg.`111`";
@@ -71,7 +71,7 @@ public void insertRecord(
     throws IoTDBConnectionException, StatementExecutionException;
 ```
 
-If you want to insert data into the time series root.sg.a, root.sg.\`a.\`\`"b\`, root.sg.\`111\`, the SQL statement you use should be as follows:
+If you want to insert data into the time series ``` root.sg.a, root.sg.`a.``"b` , root.sg.`111` ```, the SQL statement you use should be as follows:
 
 ```sql
 insert into root.sg(timestamp, a, `a.``"b`, `111`) values (1, 2, 2, 2);
@@ -98,7 +98,7 @@ public SessionDataSet executeRawDataQuery(
     throws StatementExecutionException, IoTDBConnectionException;
 ```
 
-If you wish to query the data of the time series root.sg.a, root.sg.\`a.\`\`"b\`, root.sg.\`111\`, the SQL statement you use should be as follows :
+If you wish to query the data of the time series ``` root.sg.a, root.sg.`a.``"b`, root.sg.`111` ```, the SQL statement you use should be as follows :
 
 ```sql
 select a from root.sg

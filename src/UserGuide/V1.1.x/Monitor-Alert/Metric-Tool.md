@@ -19,8 +19,6 @@
 
 -->
 
-# Metric Tool
-
 Along with IoTDB running, we hope to observe the status of IoTDB, so as to troubleshoot system problems or discover
 potential system risks in time. A series of metrics that can **reflect the operating status of the system** are system
 monitoring metrics.
@@ -313,17 +311,16 @@ carefully evaluated. The current Core-level metrics are as follows:
 | Metric    | Tags                               | Type      | Description                                                              |
 | --------- |------------------------------------| --------- |--------------------------------------------------------------------------|
 | cache_hit | name="chunk"                       | AutoGauge | The cache hit ratio of ChunkCache, Unit: %                               |
-| cache_hit | name="schema"                      | AutoGauge | The cache hit ratio of SchemaCache, Unit: %                              |
 | cache_hit | name="timeSeriesMeta"              | AutoGauge | The cache hit ratio of TimeseriesMetadataCache, Unit: %                  |
 | cache_hit | name="bloomFilter"                 | AutoGauge | The interception rate of bloomFilter in TimeseriesMetadataCache, Unit: % |
 | cache     | name="Database", type="hit"        | Counter   | The hit number of Database Cache                                         |
 | cache     | name="Database", type="all"        | Counter   | The access number of Database Cache                                      |
 | cache     | name="SchemaPartition", type="hit" | Counter   | The hit number of SchemaPartition Cache                                  |
-| cache     | name="SchemaPartition", type="all" | Counter   | The access number of SchemaPartition Cache                               |
+| cache     | name="SchemaPartition", type="all" | Counter   | The access number of SSchemaPartition Cache                              |
 | cache     | name="DataPartition", type="hit"   | Counter   | The hit number of DataPartition Cache                                    |
-| cache     | name="DataPartition", type="all"   | Counter   | The access number of DataPartition Cache                                 |
-| cache     | name="SchemaCache", type="hit"     | Counter   | The hit number of Schema Cache                                           |
-| cache     | name="SchemaCache", type="all"     | Counter   | The access number of Schema Cache                                        |
+| cache     | name="DataPartition", type="all"   | Counter   | The access number of SDataPartition Cache                                |
+| cache     | name="schemaCache", type="hit"     | Counter   | The hit number of Schema Cache                                           |
+| cache     | name="schemaCache", type="all"     | Counter   | The access number of Schema Cache                                        |
 
 #### 4.2.5. Memory
 
@@ -397,7 +394,7 @@ carefully evaluated. The current Core-level metrics are as follows:
 #### 4.2.13. Data Exchange
 
 | Metric              | Tags                                                                   | Type      | Description                                                     |
-|---------------------|------------------------------------------------------------------------|-----------|-----------------------------------------------------------------|
+| ------------------- | ---------------------------------------------------------------------- | --------- | --------------------------------------------------------------- |
 | data_exchange_cost  | operation="source_handle_get_tsblock", type="local/remote"             | Timer     | The time-consuming that source handles receive TsBlock          |
 | data_exchange_cost  | operation="source_handle_deserialize_tsblock", type="local/remote"     | Timer     | The time-consuming that source handles deserialize TsBlock      |
 | data_exchange_cost  | operation="sink_handle_send_tsblock", type="local/remote"              | Timer     | The time-consuming that sink handles send TsBlock               |
@@ -407,18 +404,15 @@ carefully evaluated. The current Core-level metrics are as follows:
 | data_exchange_count | name="send_new_data_block_num", type="server/caller"                   | Histogram | The number of sent TsBlocks by sink handles                     |
 | data_exchange_count | name="get_data_block_num", type="server/caller"                        | Histogram | The number of received TsBlocks by source handles               |
 | data_exchange_count | name="on_acknowledge_data_block_num", type="server/caller"             | Histogram | The number of acknowledged TsBlocks by source handles           |
-| data_exchange_count | name="shuffle_sink_handle_size"                                        | AutoGauge | The number of shuffle sink handle                               |
-| data_exchange_count | name="source_handle_size"                                              | AutoGauge | The number of source handle                                     |
+
 #### 4.2.14. Query Task Schedule
 
-| Metric           | Tags                             | Type      | Description                                       |
-|------------------|----------------------------------|-----------|---------------------------------------------------|
-| driver_scheduler | name="ready_queued_time"         | Timer     | The queuing time of ready queue                   |
-| driver_scheduler | name="block_queued_time"         | Timer     | The queuing time of blocking queue                |
-| driver_scheduler | name="ready_queue_task_count"    | AutoGauge | The number of tasks queued in the ready queue     |
-| driver_scheduler | name="block_queued_task_count"   | AutoGauge | The number of tasks queued in the blocking queue  |
-| driver_scheduler | name="timeout_queued_task_count" | AutoGauge | The number of tasks queued in the timeout queue   |
-| driver_scheduler | name="query_map_size"            | AutoGauge | The number of queries recorded in DriverScheduler |
+| Metric           | Tags                           | Type      | Description                                      |
+| ---------------- | ------------------------------ | --------- | ------------------------------------------------ |
+| driver_scheduler | name="ready_queued_time"       | Timer     | The queuing time of ready queue                  |
+| driver_scheduler | name="block_queued_time"       | Timer     | The queuing time of blocking queue               |
+| driver_scheduler | name="ready_queue_task_count"  | AutoGauge | The number of tasks queued in the ready queue    |
+| driver_scheduler | name="block_queued_task_count" | AutoGauge | The number of tasks queued in the blocking queue |
 
 #### 4.2.15. Query Execution
 
@@ -445,35 +439,7 @@ carefully evaluated. The current Core-level metrics are as follows:
 | series_scan_cost         | stage="build_tsblock_from_page_reader", type="aligned/non_aligned", from="mem/disk" | Timer   | The time-consuming of constructing Tsblock from PageReader                              |
 | series_scan_cost         | stage="build_tsblock_from_merge_reader", type="aligned/non_aligned", from="null"    | Timer   | The time-consuming of constructing Tsblock from MergeReader (handling overlapping data) |
 
-#### 4.2.16. Coordinator
-
-| Metric      | Tags                            | Type      | Description                                        |
-|-------------|---------------------------------|-----------|----------------------------------------------------|
-| coordinator | name="query_execution_map_size" | AutoGauge | The number of queries recorded on current DataNode |
-
-#### 4.2.17. FragmentInstanceManager
-
-| Metric                    | Tags                           | Type      | Description                                              |
-|---------------------------|--------------------------------|-----------|----------------------------------------------------------|
-| fragment_instance_manager | name="instance_context_size"   | AutoGauge | The number of query fragment context on current DataNode |
-| fragment_instance_manager | name="instance_execution_size" | AutoGauge | The number of query fragment on current DataNode         |
-
-#### 4.2.18. MemoryPool
-
-| Metric      | Tags                                 | Type      | Description                                                    |
-|-------------|--------------------------------------|-----------|----------------------------------------------------------------|
-| memory_pool | name="max_bytes"                     | Gauge     | Maximum memory for data exchange                               |
-| memory_pool | name="remaining_bytes"               | AutoGauge | Remaining memory for data exchange                             |
-| memory_pool | name="query_memory_reservation_size" | AutoGauge | Size of query reserved memory                                  |
-| memory_pool | name="memory_reservation_size"       | AutoGauge | Size of sink handle and source handle trying to reserve memory |
-
-#### 4.2.19. LocalExecutionPlanner
-
-| Metric                  | Tags                             | Type      | Description                                                               |
-|-------------------------|----------------------------------|-----------|---------------------------------------------------------------------------|
-| local_execution_planner | name="free_memory_for_operators" | AutoGauge | The remaining memory can allocate for query fragments on current DataNode |
-
-#### 4.2.20. Schema Engine
+#### 4.2.16 Schema Engine
 
 | Metric        | Tags                                                         | Type      | Description                                        |
 | ------------- | ------------------------------------------------------------ | --------- | -------------------------------------------------- |
@@ -488,7 +454,7 @@ carefully evaluated. The current Core-level metrics are as follows:
 | schema_region | name="activated_template_cnt", region="SchemaRegion[{regionId}]" | AutoGauge | Number of Activated template for each SchemaRegion |
 | schema_region | name="template_series_cnt", region="SchemaRegion[{regionId}]" | AutoGauge | Number of template series for each SchemaRegion    |
 
-#### 4.2.21. Write Performance
+#### 4.2.17 Write Performance
 
 | Metric                    | Tags                                                                  | Type      | Description                                            |
 | ------------------------- | :-------------------------------------------------------------------- | --------- | ------------------------------------------------------ |
@@ -497,7 +463,6 @@ carefully evaluated. The current Core-level metrics are as follows:
 | wal_cost                  | type="serialize_one_wal_info_entry"                                   | Timer     | Time cost of serialize one WALInfoEntry                |
 | wal_cost                  | stage="sync_wal_buffer" type="<force_flag>"                           | Timer     | Time cost of sync WALBuffer                            |
 | wal_buffer                | name="used_ratio"                                                     | Histogram | Used ratio of WALBuffer                                |
-| wal_buffer                | name="entries_count"                                                  | Histogram | Entries Count of WALBuffer                             |
 | wal_cost                  | stage="serialize_wal_entry" type="serialize_wal_entry_total"          | Timer     | Time cost of WALBuffer serialize task                  |
 | wal_node_info             | name="effective_info_ratio" type="<wal_node_id>"                      | Histogram | Effective info ratio of WALNode                        |
 | wal_node_info             | name="oldest_mem_table_ram_when_cause_snapshot" type="<wal_node_id>"  | Histogram | Ram of oldest memTable when cause snapshot             |
@@ -517,7 +482,6 @@ carefully evaluated. The current Core-level metrics are as follows:
 | flushing_mem_table_status | name="avg_series_points_num" region="DataRegion[<data_region_id>]"    | Histogram | Point num of flushing memChunk                         |
 | flushing_mem_table_status | name="tsfile_compression_ratio" region="DataRegion[<data_region_id>]" | Histogram | TsFile Compression ratio of flushing memTable          |
 | flushing_mem_table_status | name="flush_tsfile_size" region="DataRegion[<data_region_id>]"        | Histogram | TsFile size of flushing memTable                       |
-| data_region_mem_cost      | name="data_region_mem_cost"                                           | AutoGauge | Mem cost of data regions                               |
 
 ### 4.3. Normal level Metrics
 

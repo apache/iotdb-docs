@@ -19,18 +19,11 @@
 
 -->
 
-# 分段分组聚合
-IoTDB支持通过`GROUP BY`子句对序列进行分段或者分组聚合。 
-
-分段聚合是指按照时间维度，针对同时间序列中不同数据点之间的时间关系，对数据在行的方向进行分段，每个段得到一个聚合值。目前支持**时间区间分段**、**差值分段**、**条件分段**、**会话分段**和**点数分段**，未来将支持更多分段方式。
-
-分组聚合是指针对不同时间序列，在时间序列的潜在业务属性上分组，每个组包含若干条时间序列，每个组得到一个聚合值。支持**按路径层级分组**和**按序列标签分组**两种分组方式。
-
-## 分段聚合
+## 分段分组聚合
 
 ### 时间区间分段聚合
 
-时间区间分段聚合是一种时序数据典型的查询方式，数据以高频进行采集，需要按照一定的时间间隔进行聚合计算，如计算每天的平均气温，需要将气温的序列按天进行分段，然后计算平均值。
+分段聚合是一种时序数据典型的查询方式，数据以高频进行采集，需要按照一定的时间间隔进行聚合计算，如计算每天的平均气温，需要将气温的序列按天进行分段，然后计算平均值。
 
 在 IoTDB 中，聚合查询可以通过 `GROUP BY` 子句指定按照时间区间分段聚合。用户可以指定聚合的时间间隔和滑动步长，相关参数如下：
 
@@ -44,7 +37,7 @@ IoTDB支持通过`GROUP BY`子句对序列进行分段或者分组聚合。
 
 接下来，我们给出几个典型例子：
 
-#### 未指定滑动步长的时间区间分段聚合查询
+#### 未指定滑动步长的时间区间分组聚合查询
 
 对应的 SQL 语句是：
 
@@ -79,7 +72,7 @@ Total line number = 7
 It costs 0.024s
 ```
 
-#### 指定滑动步长的时间区间分段聚合查询
+#### 指定滑动步长的时间区间分组聚合查询
 
 对应的 SQL 语句是：
 
@@ -142,7 +135,7 @@ Total line number = 5
 It costs 0.006s
 ```
 
-#### 按照自然月份的时间区间分段聚合查询
+#### 按照自然月份的时间区间分组聚合查询
 
 对应的 SQL 语句是：
 
@@ -260,6 +253,323 @@ Total line number = 7
 It costs 0.004s
 ```
 
+#### 与分组聚合混合使用
+
+通过定义 LEVEL 来统计指定层级下的数据点个数。
+
+例如：
+
+统计降采样后的数据点个数
+
+```sql
+select count(status) from root.ln.wf01.wt01 group by ((2017-11-01T00:00:00, 2017-11-07T23:00:00],1d), level=1;
+```
+
+结果：
+
+```
++-----------------------------+-------------------------+
+|                         Time|COUNT(root.ln.*.*.status)|
++-----------------------------+-------------------------+
+|2017-11-02T00:00:00.000+08:00|                     1440|
+|2017-11-03T00:00:00.000+08:00|                     1440|
+|2017-11-04T00:00:00.000+08:00|                     1440|
+|2017-11-05T00:00:00.000+08:00|                     1440|
+|2017-11-06T00:00:00.000+08:00|                     1440|
+|2017-11-07T00:00:00.000+08:00|                     1440|
+|2017-11-07T23:00:00.000+08:00|                     1380|
++-----------------------------+-------------------------+
+Total line number = 7
+It costs 0.006s
+```
+
+加上滑动 Step 的降采样后的结果也可以汇总
+
+```sql
+select count(status) from root.ln.wf01.wt01 group by ([2017-11-01 00:00:00, 2017-11-07 23:00:00), 3h, 1d), level=1;
+```
+
+```
++-----------------------------+-------------------------+
+|                         Time|COUNT(root.ln.*.*.status)|
++-----------------------------+-------------------------+
+|2017-11-01T00:00:00.000+08:00|                      180|
+|2017-11-02T00:00:00.000+08:00|                      180|
+|2017-11-03T00:00:00.000+08:00|                      180|
+|2017-11-04T00:00:00.000+08:00|                      180|
+|2017-11-05T00:00:00.000+08:00|                      180|
+|2017-11-06T00:00:00.000+08:00|                      180|
+|2017-11-07T00:00:00.000+08:00|                      180|
++-----------------------------+-------------------------+
+Total line number = 7
+It costs 0.004s
+```
+
+### 路径层级分组聚合
+
+在时间序列层级结构中，分层聚合查询用于**对某一层级下同名的序列进行聚合查询**。 
+
+- 使用 `GROUP BY LEVEL = INT` 来指定需要聚合的层级，并约定 `ROOT` 为第 0 层。若统计 "root.ln" 下所有序列则需指定 level 为 1。
+- 分层聚合查询支持使用所有内置聚合函数。对于 `sum`，`avg`，`min_value`， `max_value`， `extreme` 五种聚合函数，需保证所有聚合的时间序列数据类型相同。其他聚合函数没有此限制。
+
+**示例1：** 不同 database 下均存在名为 status 的序列， 如 "root.ln.wf01.wt01.status", "root.ln.wf02.wt02.status", 以及 "root.sgcc.wf03.wt01.status", 如果需要统计不同 database 下 status 序列的数据点个数，使用以下查询：
+
+```sql
+select count(status) from root.** group by level = 1
+```
+
+运行结果为：
+
+```
++-------------------------+---------------------------+
+|count(root.ln.*.*.status)|count(root.sgcc.*.*.status)|
++-------------------------+---------------------------+
+|                    20160|                      10080|
++-------------------------+---------------------------+
+Total line number = 1
+It costs 0.003s
+```
+
+**示例2：** 统计不同设备下 status 序列的数据点个数，可以规定 level = 3，
+
+```sql
+select count(status) from root.** group by level = 3
+```
+
+运行结果为：
+
+```
++---------------------------+---------------------------+
+|count(root.*.*.wt01.status)|count(root.*.*.wt02.status)|
++---------------------------+---------------------------+
+|                      20160|                      10080|
++---------------------------+---------------------------+
+Total line number = 1
+It costs 0.003s
+```
+
+注意，这时会将 database `ln` 和 `sgcc` 下名为 `wt01` 的设备视为同名设备聚合在一起。
+
+**示例3：** 统计不同 database 下的不同设备中 status 序列的数据点个数，可以使用以下查询：
+
+```sql
+select count(status) from root.** group by level = 1, 3
+```
+
+运行结果为：
+
+```
++----------------------------+----------------------------+------------------------------+
+|count(root.ln.*.wt01.status)|count(root.ln.*.wt02.status)|count(root.sgcc.*.wt01.status)|
++----------------------------+----------------------------+------------------------------+
+|                       10080|                       10080|                         10080|
++----------------------------+----------------------------+------------------------------+
+Total line number = 1
+It costs 0.003s
+```
+
+**示例4：** 查询所有序列下温度传感器 temperature 的最大值，可以使用下列查询语句：
+
+```sql
+select max_value(temperature) from root.** group by level = 0
+```
+
+运行结果：
+
+```
++---------------------------------+
+|max_value(root.*.*.*.temperature)|
++---------------------------------+
+|                             26.0|
++---------------------------------+
+Total line number = 1
+It costs 0.013s
+```
+
+**示例5：** 上面的查询都是针对某一个传感器，特别地，**如果想要查询某一层级下所有传感器拥有的总数据点数，则需要显式规定测点为 `*`**
+
+```sql
+select count(*) from root.ln.** group by level = 2
+```
+
+运行结果：
+
+```
++----------------------+----------------------+
+|count(root.*.wf01.*.*)|count(root.*.wf02.*.*)|
++----------------------+----------------------+
+|                 20160|                 20160|
++----------------------+----------------------+
+Total line number = 1
+It costs 0.013s
+```
+
+### 标签分组聚合
+
+IoTDB 支持通过 `GROUP BY TAGS` 语句根据时间序列中定义的标签的键值做聚合查询。
+
+我们先在 IoTDB 中写入如下示例数据，稍后会以这些数据为例介绍标签聚合查询。
+
+这些是某工厂 `factory1` 在多个城市的多个车间的设备温度数据， 时间范围为 [1000, 10000)。
+
+时间序列路径中的设备一级是设备唯一标识。城市信息 `city` 和车间信息 `workshop` 则被建模在该设备时间序列的标签中。
+其中，设备 `d1`、`d2` 在 `Beijing` 的 `w1` 车间， `d3`、`d4` 在 `Beijing` 的 `w2` 车间，`d5`、`d6` 在 `Shanghai` 的 `w1` 车间，`d7` 在 `Shanghai` 的 `w2` 车间。
+`d8` 和 `d9` 设备目前处于调试阶段，还未被分配到具体的城市和车间，所以其相应的标签值为空值。
+
+```SQL
+create database root.factory1;
+create timeseries root.factory1.d1.temperature with datatype=FLOAT tags(city=Beijing, workshop=w1);
+create timeseries root.factory1.d2.temperature with datatype=FLOAT tags(city=Beijing, workshop=w1);
+create timeseries root.factory1.d3.temperature with datatype=FLOAT tags(city=Beijing, workshop=w2);
+create timeseries root.factory1.d4.temperature with datatype=FLOAT tags(city=Beijing, workshop=w2);
+create timeseries root.factory1.d5.temperature with datatype=FLOAT tags(city=Shanghai, workshop=w1);
+create timeseries root.factory1.d6.temperature with datatype=FLOAT tags(city=Shanghai, workshop=w1);
+create timeseries root.factory1.d7.temperature with datatype=FLOAT tags(city=Shanghai, workshop=w2);
+create timeseries root.factory1.d8.temperature with datatype=FLOAT;
+create timeseries root.factory1.d9.temperature with datatype=FLOAT;
+
+insert into root.factory1.d1(time, temperature) values(1000, 104.0);
+insert into root.factory1.d1(time, temperature) values(3000, 104.2);
+insert into root.factory1.d1(time, temperature) values(5000, 103.3);
+insert into root.factory1.d1(time, temperature) values(7000, 104.1);
+
+insert into root.factory1.d2(time, temperature) values(1000, 104.4);
+insert into root.factory1.d2(time, temperature) values(3000, 103.7);
+insert into root.factory1.d2(time, temperature) values(5000, 103.3);
+insert into root.factory1.d2(time, temperature) values(7000, 102.9);
+
+insert into root.factory1.d3(time, temperature) values(1000, 103.9);
+insert into root.factory1.d3(time, temperature) values(3000, 103.8);
+insert into root.factory1.d3(time, temperature) values(5000, 102.7);
+insert into root.factory1.d3(time, temperature) values(7000, 106.9);
+
+insert into root.factory1.d4(time, temperature) values(1000, 103.9);
+insert into root.factory1.d4(time, temperature) values(5000, 102.7);
+insert into root.factory1.d4(time, temperature) values(7000, 106.9);
+
+insert into root.factory1.d5(time, temperature) values(1000, 112.9);
+insert into root.factory1.d5(time, temperature) values(7000, 113.0);
+
+insert into root.factory1.d6(time, temperature) values(1000, 113.9);
+insert into root.factory1.d6(time, temperature) values(3000, 113.3);
+insert into root.factory1.d6(time, temperature) values(5000, 112.7);
+insert into root.factory1.d6(time, temperature) values(7000, 112.3);
+
+insert into root.factory1.d7(time, temperature) values(1000, 101.2);
+insert into root.factory1.d7(time, temperature) values(3000, 99.3);
+insert into root.factory1.d7(time, temperature) values(5000, 100.1);
+insert into root.factory1.d7(time, temperature) values(7000, 99.8);
+
+insert into root.factory1.d8(time, temperature) values(1000, 50.0);
+insert into root.factory1.d8(time, temperature) values(3000, 52.1);
+insert into root.factory1.d8(time, temperature) values(5000, 50.1);
+insert into root.factory1.d8(time, temperature) values(7000, 50.5);
+
+insert into root.factory1.d9(time, temperature) values(1000, 50.3);
+insert into root.factory1.d9(time, temperature) values(3000, 52.1);
+```
+
+#### 单标签聚合查询
+
+用户想统计该工厂每个地区的设备的温度的平均值，可以使用如下查询语句
+
+```SQL
+SELECT AVG(temperature) FROM root.factory1.** GROUP BY TAGS(city);
+```
+
+该查询会将具有同一个 `city` 标签值的时间序列的所有满足查询条件的点做平均值计算，计算结果如下
+
+```
++--------+------------------+
+|    city|  avg(temperature)|
++--------+------------------+
+| Beijing|104.04666697184244|
+|Shanghai|107.85000076293946|
+|    NULL| 50.84999910990397|
++--------+------------------+
+Total line number = 3
+It costs 0.231s
+```
+
+从结果集中可以看到，和时间区间聚合、按层次聚合相比，标签聚合的查询结果的不同点是：
+1. 标签聚合查询的聚合结果不会再做去星号展开，而是将多个时间序列的数据作为一个整体进行聚合计算。
+2. 标签聚合查询除了输出聚合结果列，还会输出聚合标签的键值列。该列的列名为聚合指定的标签键，列的值则为所有查询的时间序列中出现的该标签的值。
+如果某些时间序列未设置该标签，则在键值列中有一行单独的 `NULL` ，代表未设置标签的所有时间序列数据的聚合结果。
+
+#### 多标签聚合查询
+
+除了基本的单标签聚合查询外，还可以按顺序指定多个标签进行聚合计算。
+
+例如，用户想统计每个城市的每个车间内设备的平均温度。但因为各个城市的车间名称有可能相同，所以不能直接按照 `workshop` 做标签聚合。必须要先按照城市，再按照车间处理。
+
+SQL 语句如下
+
+```SQL
+SELECT avg(temperature) FROM root.factory1.** GROUP BY TAGS(city, workshop);
+```
+
+查询结果如下
+
+```
++--------+--------+------------------+
+|    city|workshop|  avg(temperature)|
++--------+--------+------------------+
+|    NULL|    NULL| 50.84999910990397|
+|Shanghai|      w1|113.01666768391927|
+| Beijing|      w2| 104.4000004359654|
+|Shanghai|      w2|100.10000038146973|
+| Beijing|      w1|103.73750019073486|
++--------+--------+------------------+
+Total line number = 5
+It costs 0.027s
+```
+
+从结果集中可以看到，和单标签聚合相比，多标签聚合的查询结果会根据指定的标签顺序，输出相应标签的键值列。
+
+#### 基于时间区间的标签聚合查询
+
+按照时间区间聚合是时序数据库中最常用的查询需求之一。IoTDB 在基于时间区间的聚合基础上，支持进一步按照标签进行聚合查询。
+
+例如，用户想统计时间 `[1000, 10000)` 范围内，每个城市每个车间中的设备每 5 秒内的平均温度。
+
+SQL 语句如下
+
+```SQL
+SELECT AVG(temperature) FROM root.factory1.** GROUP BY ([1000, 10000), 5s), TAGS(city, workshop);
+```
+
+查询结果如下
+
+```
++-----------------------------+--------+--------+------------------+
+|                         Time|    city|workshop|  avg(temperature)|
++-----------------------------+--------+--------+------------------+
+|1970-01-01T08:00:01.000+08:00|    NULL|    NULL| 50.91999893188476|
+|1970-01-01T08:00:01.000+08:00|Shanghai|      w1|113.20000076293945|
+|1970-01-01T08:00:01.000+08:00| Beijing|      w2|             103.4|
+|1970-01-01T08:00:01.000+08:00|Shanghai|      w2| 100.1999994913737|
+|1970-01-01T08:00:01.000+08:00| Beijing|      w1|103.81666692097981|
+|1970-01-01T08:00:06.000+08:00|    NULL|    NULL|              50.5|
+|1970-01-01T08:00:06.000+08:00|Shanghai|      w1| 112.6500015258789|
+|1970-01-01T08:00:06.000+08:00| Beijing|      w2| 106.9000015258789|
+|1970-01-01T08:00:06.000+08:00|Shanghai|      w2| 99.80000305175781|
+|1970-01-01T08:00:06.000+08:00| Beijing|      w1|             103.5|
++-----------------------------+--------+--------+------------------+
+```
+
+和标签聚合相比，基于时间区间的标签聚合的查询会首先按照时间区间划定聚合范围，在时间区间内部再根据指定的标签顺序，进行相应数据的聚合计算。在输出的结果集中，会包含一列时间列，该时间列值的含义和时间区间聚合查询的相同。
+
+#### 标签聚合查询的限制
+
+由于标签聚合功能仍然处于开发阶段，目前有如下未实现功能。
+
+> 1. 暂不支持 `HAVING` 子句过滤查询结果。
+> 2. 暂不支持结果按照标签值排序。
+> 3. 暂不支持 `LIMIT`，`OFFSET`，`SLIMIT`，`SOFFSET`。
+> 4. 暂不支持 `ALIGN BY DEVICE`。
+> 5. 暂不支持聚合函数内部包含表达式，例如 `count(s+1)`。
+> 6. 不支持值过滤条件聚合，和分层聚合查询行为保持一致。
+
 ### 差值分段聚合
 IoTDB支持通过`GROUP BY VARIATION`语句来根据差值进行分组。`GROUP BY VARIATION`会将第一个点作为一个组的**基准点**，每个新的数据在按照给定规则与基准点进行差值运算后，
 如果差值小于给定的阈值则将该新点归于同一组，否则结束当前分组，以这个新的数据为新的基准点开启新的分组。
@@ -267,7 +577,7 @@ IoTDB支持通过`GROUP BY VARIATION`语句来根据差值进行分组。`GROUP 
 ```sql
 group by variation(controlExpression[,delta][,ignoreNull=true/false])
 ```
-不同的参数含义如下
+不同的参数含义如下 
 * controlExpression
 
 分组所参照的值，**可以是查询数据中的某一列或是多列的表达式
@@ -527,387 +837,3 @@ select __endTime,sum(hardware) from root.ln.wf02.wt01 group by session(50s) havi
 |1970-01-02T08:08:01.000+08:00|root.ln.wf02.wt01|1970-01-02T08:08:05.000+08:00|       1650.0|
 +-----------------------------+-----------------+-----------------------------+-------------+
 ```
-### 点数分段聚合
-`GROUP BY COUNT`可以根据点数分组进行聚合运算，将连续的指定数量数据点分为一组，即按照固定的点数进行分组。
-其语法定义如下：
-```sql
-group by count(controlExpression, size[,ignoreNull=true/false])
-```
-* controlExpression
-
-计数参照的对象，可以是结果集的任意列或是列的表达式
-
-* size
-
-一个组中数据点的数量，每`size`个数据点会被分到同一个组
-
-* ignoreNull=true/false
-
-是否忽略`controlExpression`为null的数据点，当ignoreNull为true时，在计数时会跳过`controlExpression`结果为null的数据点
-
-#### 使用注意事项
-1. 对于一个分组，默认Time列输出分组的开始时间，查询时可以使用select `__endTime`的方式来使得结果输出分组的结束时间。
-2. 与`ALIGN BY DEVICE`搭配使用时会对每个device进行单独的分组操作。
-3. 当前暂不支持与`GROUP BY LEVEL`搭配使用。
-4. 当一个分组内最终的点数不满足`size`的数量时，不会输出该分组的结果
-
-对于下面的原始数据，给出几个查询样例。
-```
-+-----------------------------+-----------+-----------------------+
-|                         Time|root.sg.soc|root.sg.charging_status|
-+-----------------------------+-----------+-----------------------+
-|1970-01-01T08:00:00.001+08:00|       14.0|                      1|                                   
-|1970-01-01T08:00:00.002+08:00|       16.0|                      1|                                 
-|1970-01-01T08:00:00.003+08:00|       16.0|                      0|                                   
-|1970-01-01T08:00:00.004+08:00|       16.0|                      0|                                   
-|1970-01-01T08:00:00.005+08:00|       18.0|                      1|                                   
-|1970-01-01T08:00:00.006+08:00|       24.0|                      1|                                   
-|1970-01-01T08:00:00.007+08:00|       36.0|                      1|                                   
-|1970-01-01T08:00:00.008+08:00|       36.0|                   null|                                   
-|1970-01-01T08:00:00.009+08:00|       45.0|                      1|                                   
-|1970-01-01T08:00:00.010+08:00|       60.0|                      1|
-+-----------------------------+-----------+-----------------------+
-```
-sql语句如下
-```sql
-select count(charging_stauts), first_value(soc) from root.sg group by count(charging_status,5) 
-```
-得到如下结果，其中由于第二个1970-01-01T08:00:00.006+08:00到1970-01-01T08:00:00.010+08:00的窗口中包含四个点，不符合`size = 5`的条件，因此不被输出
-```
-+-----------------------------+-----------------------------+--------------------------------------+
-|                         Time|                    __endTime|first_value(root.sg.beijing.car01.soc)|
-+-----------------------------+-----------------------------+--------------------------------------+
-|1970-01-01T08:00:00.001+08:00|1970-01-01T08:00:00.005+08:00|                                  14.0|
-+-----------------------------+-----------------------------+--------------------------------------+
-```
-而当使用ignoreNull将null值也考虑进来时，可以得到两个点计数为5的窗口，sql如下
-```sql
-select count(charging_stauts), first_value(soc) from root.sg group by count(charging_status,5,ignoreNull=false) 
-```
-得到如下结果
-```
-+-----------------------------+-----------------------------+--------------------------------------+
-|                         Time|                    __endTime|first_value(root.sg.beijing.car01.soc)|
-+-----------------------------+-----------------------------+--------------------------------------+
-|1970-01-01T08:00:00.001+08:00|1970-01-01T08:00:00.005+08:00|                                  14.0|
-|1970-01-01T08:00:00.006+08:00|1970-01-01T08:00:00.010+08:00|                                  24.0|
-+-----------------------------+-----------------------------+--------------------------------------+
-```
-## 分组聚合
-
-### 路径层级分组聚合
-
-在时间序列层级结构中，路径层级分组聚合查询用于**对某一层级下同名的序列进行聚合查询**。
-
-- 使用 `GROUP BY LEVEL = INT` 来指定需要聚合的层级，并约定 `ROOT` 为第 0 层。若统计 "root.ln" 下所有序列则需指定 level 为 1。
-- 路径层次分组聚合查询支持使用所有内置聚合函数。对于 `sum`，`avg`，`min_value`， `max_value`， `extreme` 五种聚合函数，需保证所有聚合的时间序列数据类型相同。其他聚合函数没有此限制。
-
-**示例1：** 不同 database 下均存在名为 status 的序列， 如 "root.ln.wf01.wt01.status", "root.ln.wf02.wt02.status", 以及 "root.sgcc.wf03.wt01.status", 如果需要统计不同 database 下 status 序列的数据点个数，使用以下查询：
-
-```sql
-select count(status) from root.** group by level = 1
-```
-
-运行结果为：
-
-```
-+-------------------------+---------------------------+
-|count(root.ln.*.*.status)|count(root.sgcc.*.*.status)|
-+-------------------------+---------------------------+
-|                    20160|                      10080|
-+-------------------------+---------------------------+
-Total line number = 1
-It costs 0.003s
-```
-
-**示例2：** 统计不同设备下 status 序列的数据点个数，可以规定 level = 3，
-
-```sql
-select count(status) from root.** group by level = 3
-```
-
-运行结果为：
-
-```
-+---------------------------+---------------------------+
-|count(root.*.*.wt01.status)|count(root.*.*.wt02.status)|
-+---------------------------+---------------------------+
-|                      20160|                      10080|
-+---------------------------+---------------------------+
-Total line number = 1
-It costs 0.003s
-```
-
-注意，这时会将 database `ln` 和 `sgcc` 下名为 `wt01` 的设备视为同名设备聚合在一起。
-
-**示例3：** 统计不同 database 下的不同设备中 status 序列的数据点个数，可以使用以下查询：
-
-```sql
-select count(status) from root.** group by level = 1, 3
-```
-
-运行结果为：
-
-```
-+----------------------------+----------------------------+------------------------------+
-|count(root.ln.*.wt01.status)|count(root.ln.*.wt02.status)|count(root.sgcc.*.wt01.status)|
-+----------------------------+----------------------------+------------------------------+
-|                       10080|                       10080|                         10080|
-+----------------------------+----------------------------+------------------------------+
-Total line number = 1
-It costs 0.003s
-```
-
-**示例4：** 查询所有序列下温度传感器 temperature 的最大值，可以使用下列查询语句：
-
-```sql
-select max_value(temperature) from root.** group by level = 0
-```
-
-运行结果：
-
-```
-+---------------------------------+
-|max_value(root.*.*.*.temperature)|
-+---------------------------------+
-|                             26.0|
-+---------------------------------+
-Total line number = 1
-It costs 0.013s
-```
-
-**示例5：** 上面的查询都是针对某一个传感器，特别地，**如果想要查询某一层级下所有传感器拥有的总数据点数，则需要显式规定测点为 `*`**
-
-```sql
-select count(*) from root.ln.** group by level = 2
-```
-
-运行结果：
-
-```
-+----------------------+----------------------+
-|count(root.*.wf01.*.*)|count(root.*.wf02.*.*)|
-+----------------------+----------------------+
-|                 20160|                 20160|
-+----------------------+----------------------+
-Total line number = 1
-It costs 0.013s
-```
-
-#### 与时间区间分段聚合混合使用
-
-通过定义 LEVEL 来统计指定层级下的数据点个数。
-
-例如：
-
-统计降采样后的数据点个数
-
-```sql
-select count(status) from root.ln.wf01.wt01 group by ((2017-11-01T00:00:00, 2017-11-07T23:00:00],1d), level=1;
-```
-
-结果：
-
-```
-+-----------------------------+-------------------------+
-|                         Time|COUNT(root.ln.*.*.status)|
-+-----------------------------+-------------------------+
-|2017-11-02T00:00:00.000+08:00|                     1440|
-|2017-11-03T00:00:00.000+08:00|                     1440|
-|2017-11-04T00:00:00.000+08:00|                     1440|
-|2017-11-05T00:00:00.000+08:00|                     1440|
-|2017-11-06T00:00:00.000+08:00|                     1440|
-|2017-11-07T00:00:00.000+08:00|                     1440|
-|2017-11-07T23:00:00.000+08:00|                     1380|
-+-----------------------------+-------------------------+
-Total line number = 7
-It costs 0.006s
-```
-
-加上滑动 Step 的降采样后的结果也可以汇总
-
-```sql
-select count(status) from root.ln.wf01.wt01 group by ([2017-11-01 00:00:00, 2017-11-07 23:00:00), 3h, 1d), level=1;
-```
-
-```
-+-----------------------------+-------------------------+
-|                         Time|COUNT(root.ln.*.*.status)|
-+-----------------------------+-------------------------+
-|2017-11-01T00:00:00.000+08:00|                      180|
-|2017-11-02T00:00:00.000+08:00|                      180|
-|2017-11-03T00:00:00.000+08:00|                      180|
-|2017-11-04T00:00:00.000+08:00|                      180|
-|2017-11-05T00:00:00.000+08:00|                      180|
-|2017-11-06T00:00:00.000+08:00|                      180|
-|2017-11-07T00:00:00.000+08:00|                      180|
-+-----------------------------+-------------------------+
-Total line number = 7
-It costs 0.004s
-```
-
-### 标签分组聚合
-
-IoTDB 支持通过 `GROUP BY TAGS` 语句根据时间序列中定义的标签的键值做分组聚合查询。
-
-我们先在 IoTDB 中写入如下示例数据，稍后会以这些数据为例介绍标签聚合查询。
-
-这些是某工厂 `factory1` 在多个城市的多个车间的设备温度数据， 时间范围为 [1000, 10000)。
-
-时间序列路径中的设备一级是设备唯一标识。城市信息 `city` 和车间信息 `workshop` 则被建模在该设备时间序列的标签中。
-其中，设备 `d1`、`d2` 在 `Beijing` 的 `w1` 车间， `d3`、`d4` 在 `Beijing` 的 `w2` 车间，`d5`、`d6` 在 `Shanghai` 的 `w1` 车间，`d7` 在 `Shanghai` 的 `w2` 车间。
-`d8` 和 `d9` 设备目前处于调试阶段，还未被分配到具体的城市和车间，所以其相应的标签值为空值。
-
-```SQL
-create database root.factory1;
-create timeseries root.factory1.d1.temperature with datatype=FLOAT tags(city=Beijing, workshop=w1);
-create timeseries root.factory1.d2.temperature with datatype=FLOAT tags(city=Beijing, workshop=w1);
-create timeseries root.factory1.d3.temperature with datatype=FLOAT tags(city=Beijing, workshop=w2);
-create timeseries root.factory1.d4.temperature with datatype=FLOAT tags(city=Beijing, workshop=w2);
-create timeseries root.factory1.d5.temperature with datatype=FLOAT tags(city=Shanghai, workshop=w1);
-create timeseries root.factory1.d6.temperature with datatype=FLOAT tags(city=Shanghai, workshop=w1);
-create timeseries root.factory1.d7.temperature with datatype=FLOAT tags(city=Shanghai, workshop=w2);
-create timeseries root.factory1.d8.temperature with datatype=FLOAT;
-create timeseries root.factory1.d9.temperature with datatype=FLOAT;
-
-insert into root.factory1.d1(time, temperature) values(1000, 104.0);
-insert into root.factory1.d1(time, temperature) values(3000, 104.2);
-insert into root.factory1.d1(time, temperature) values(5000, 103.3);
-insert into root.factory1.d1(time, temperature) values(7000, 104.1);
-
-insert into root.factory1.d2(time, temperature) values(1000, 104.4);
-insert into root.factory1.d2(time, temperature) values(3000, 103.7);
-insert into root.factory1.d2(time, temperature) values(5000, 103.3);
-insert into root.factory1.d2(time, temperature) values(7000, 102.9);
-
-insert into root.factory1.d3(time, temperature) values(1000, 103.9);
-insert into root.factory1.d3(time, temperature) values(3000, 103.8);
-insert into root.factory1.d3(time, temperature) values(5000, 102.7);
-insert into root.factory1.d3(time, temperature) values(7000, 106.9);
-
-insert into root.factory1.d4(time, temperature) values(1000, 103.9);
-insert into root.factory1.d4(time, temperature) values(5000, 102.7);
-insert into root.factory1.d4(time, temperature) values(7000, 106.9);
-
-insert into root.factory1.d5(time, temperature) values(1000, 112.9);
-insert into root.factory1.d5(time, temperature) values(7000, 113.0);
-
-insert into root.factory1.d6(time, temperature) values(1000, 113.9);
-insert into root.factory1.d6(time, temperature) values(3000, 113.3);
-insert into root.factory1.d6(time, temperature) values(5000, 112.7);
-insert into root.factory1.d6(time, temperature) values(7000, 112.3);
-
-insert into root.factory1.d7(time, temperature) values(1000, 101.2);
-insert into root.factory1.d7(time, temperature) values(3000, 99.3);
-insert into root.factory1.d7(time, temperature) values(5000, 100.1);
-insert into root.factory1.d7(time, temperature) values(7000, 99.8);
-
-insert into root.factory1.d8(time, temperature) values(1000, 50.0);
-insert into root.factory1.d8(time, temperature) values(3000, 52.1);
-insert into root.factory1.d8(time, temperature) values(5000, 50.1);
-insert into root.factory1.d8(time, temperature) values(7000, 50.5);
-
-insert into root.factory1.d9(time, temperature) values(1000, 50.3);
-insert into root.factory1.d9(time, temperature) values(3000, 52.1);
-```
-
-#### 单标签聚合查询
-
-用户想统计该工厂每个地区的设备的温度的平均值，可以使用如下查询语句
-
-```SQL
-SELECT AVG(temperature) FROM root.factory1.** GROUP BY TAGS(city);
-```
-
-该查询会将具有同一个 `city` 标签值的时间序列的所有满足查询条件的点做平均值计算，计算结果如下
-
-```
-+--------+------------------+
-|    city|  avg(temperature)|
-+--------+------------------+
-| Beijing|104.04666697184244|
-|Shanghai|107.85000076293946|
-|    NULL| 50.84999910990397|
-+--------+------------------+
-Total line number = 3
-It costs 0.231s
-```
-
-从结果集中可以看到，和分段聚合、按层次分组聚合相比，标签聚合的查询结果的不同点是：
-1. 标签聚合查询的聚合结果不会再做去星号展开，而是将多个时间序列的数据作为一个整体进行聚合计算。
-2. 标签聚合查询除了输出聚合结果列，还会输出聚合标签的键值列。该列的列名为聚合指定的标签键，列的值则为所有查询的时间序列中出现的该标签的值。
-如果某些时间序列未设置该标签，则在键值列中有一行单独的 `NULL` ，代表未设置标签的所有时间序列数据的聚合结果。
-
-#### 多标签分组聚合查询
-
-除了基本的单标签聚合查询外，还可以按顺序指定多个标签进行聚合计算。
-
-例如，用户想统计每个城市的每个车间内设备的平均温度。但因为各个城市的车间名称有可能相同，所以不能直接按照 `workshop` 做标签聚合。必须要先按照城市，再按照车间处理。
-
-SQL 语句如下
-
-```SQL
-SELECT avg(temperature) FROM root.factory1.** GROUP BY TAGS(city, workshop);
-```
-
-查询结果如下
-
-```
-+--------+--------+------------------+
-|    city|workshop|  avg(temperature)|
-+--------+--------+------------------+
-|    NULL|    NULL| 50.84999910990397|
-|Shanghai|      w1|113.01666768391927|
-| Beijing|      w2| 104.4000004359654|
-|Shanghai|      w2|100.10000038146973|
-| Beijing|      w1|103.73750019073486|
-+--------+--------+------------------+
-Total line number = 5
-It costs 0.027s
-```
-
-从结果集中可以看到，和单标签聚合相比，多标签聚合的查询结果会根据指定的标签顺序，输出相应标签的键值列。
-
-#### 基于时间区间的标签聚合查询
-
-按照时间区间聚合是时序数据库中最常用的查询需求之一。IoTDB 在基于时间区间的聚合基础上，支持进一步按照标签进行聚合查询。
-
-例如，用户想统计时间 `[1000, 10000)` 范围内，每个城市每个车间中的设备每 5 秒内的平均温度。
-
-SQL 语句如下
-
-```SQL
-SELECT AVG(temperature) FROM root.factory1.** GROUP BY ([1000, 10000), 5s), TAGS(city, workshop);
-```
-
-查询结果如下
-
-```
-+-----------------------------+--------+--------+------------------+
-|                         Time|    city|workshop|  avg(temperature)|
-+-----------------------------+--------+--------+------------------+
-|1970-01-01T08:00:01.000+08:00|    NULL|    NULL| 50.91999893188476|
-|1970-01-01T08:00:01.000+08:00|Shanghai|      w1|113.20000076293945|
-|1970-01-01T08:00:01.000+08:00| Beijing|      w2|             103.4|
-|1970-01-01T08:00:01.000+08:00|Shanghai|      w2| 100.1999994913737|
-|1970-01-01T08:00:01.000+08:00| Beijing|      w1|103.81666692097981|
-|1970-01-01T08:00:06.000+08:00|    NULL|    NULL|              50.5|
-|1970-01-01T08:00:06.000+08:00|Shanghai|      w1| 112.6500015258789|
-|1970-01-01T08:00:06.000+08:00| Beijing|      w2| 106.9000015258789|
-|1970-01-01T08:00:06.000+08:00|Shanghai|      w2| 99.80000305175781|
-|1970-01-01T08:00:06.000+08:00| Beijing|      w1|             103.5|
-+-----------------------------+--------+--------+------------------+
-```
-
-和标签聚合相比，基于时间区间的标签聚合的查询会首先按照时间区间划定聚合范围，在时间区间内部再根据指定的标签顺序，进行相应数据的聚合计算。在输出的结果集中，会包含一列时间列，该时间列值的含义和时间区间聚合查询的相同。
-
-#### 标签分组聚合的限制
-
-由于标签聚合功能仍然处于开发阶段，目前有如下未实现功能。
-
-> 1. 暂不支持 `HAVING` 子句过滤查询结果。
-> 2. 暂不支持结果按照标签值排序。
-> 3. 暂不支持 `LIMIT`，`OFFSET`，`SLIMIT`，`SOFFSET`。
-> 4. 暂不支持 `ALIGN BY DEVICE`。
-> 5. 暂不支持聚合函数内部包含表达式，例如 `count(s+1)`。
-> 6. 不支持值过滤条件聚合，和分层聚合查询行为保持一致。

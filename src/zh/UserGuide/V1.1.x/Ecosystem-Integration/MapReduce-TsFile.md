@@ -19,7 +19,7 @@
 
 -->
 
-# Hadoop-TsFile
+## Hadoop-TsFile
 
 TsFile 的 Hadoop 连接器实现了对 Hadoop 读取外部 Tsfile 类型的文件格式的支持。让用户可以使用 Hadoop 的 map、reduce 等操作对 Tsfile 文件进行读取、写入和查询。
 
@@ -28,7 +28,7 @@ TsFile 的 Hadoop 连接器实现了对 Hadoop 读取外部 Tsfile 类型的文�
 * 将某个特定目录下的所有文件加载进 Hadoop，不论文件是存储在本地文件系统或者是 HDFS 中
 * 将 Hadoop 处理完后的结果以 Tsfile 的格式保存
 
-## 系统环境要求
+### 系统环境要求
 
 |Hadoop 版本     | Java 版本     | TsFile 版本 |
 |-------------  | ------------ |------------ |
@@ -36,7 +36,7 @@ TsFile 的 Hadoop 连接器实现了对 Hadoop 读取外部 Tsfile 类型的文�
 
 >注意：关于如何下载和使用 Tsfile, 请参考以下链接：https://github.com/apache/iotdb/tree/master/tsfile.
 
-## 数据类型对应关系
+### 数据类型对应关系
 
 | TsFile 数据类型    | Hadoop writable |
 | ---------------- | --------------- |
@@ -47,7 +47,7 @@ TsFile 的 Hadoop 连接器实现了对 Hadoop 读取外部 Tsfile 类型的文�
 | DOUBLE           | DoubleWritable  |
 | TEXT             | Text            |
 
-## 关于 TSFInputFormat 的说明
+### 关于 TSFInputFormat 的说明
 
 TSFInputFormat 继承了 Hadoop 中 FileInputFormat 类，重写了其中切片的方法。
 
@@ -75,9 +75,9 @@ TSFInputFormat 将 tsfile 中的数据以多个`MapWritable`记录的形式返�
 `mapwritable.get(new Text("s1"))`
 > 注意：`MapWritable`中所有的键值类型都是`Text`。
 
-## 使用示例
+### 使用示例
 
-### 读示例：求和
+#### 读示例：求和
 
 首先，我们需要在 TSFInputFormat 中配置我们需要哪些数据
 
@@ -139,7 +139,7 @@ public static class TSReducer extends Reducer<Text, DoubleWritable, Text, Double
 
 > 注意：完整的代码示例可以在如下链接中找到：https://github.com/apache/iotdb/blob/master/example/hadoop/src/main/java/org/apache/iotdb/hadoop/tsfile/TSFMRReadExample.java
 
-## 写示例：计算平均数并写入 Tsfile 中
+### 写示例：计算平均数并写入 Tsfile 中
 
 除了`OutputFormatClass`，剩下的配置代码跟上面的读示例是一样的
 

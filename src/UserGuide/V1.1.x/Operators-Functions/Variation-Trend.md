@@ -23,14 +23,13 @@
 
 Currently, IoTDB supports the following variation trend calculation functions:
 
-| Function Name           | Allowed Input Series Data Types                 | Required Attributes                                          | Output Series Data Type       | Description                                                  |
-| ----------------------- | ----------------------------------------------- | ------------------------------------------------------------ | ----------------------------- | ------------------------------------------------------------ |
-| TIME_DIFFERENCE         | INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | /                                                            | INT64                         | Calculates the difference between the time stamp of a data point and the time stamp of the previous data point. There is no corresponding output for the first data point. |
-| DIFFERENCE              | INT32 / INT64 / FLOAT / DOUBLE                  | /                                                            | Same type as the input series | Calculates the difference between the value of a data point and the value of the previous data point. There is no corresponding output for the first data point. |
-| NON_NEGATIVE_DIFFERENCE | INT32 / INT64 / FLOAT / DOUBLE                  | /                                                            | Same type as the input series | Calculates the absolute value of the difference between the value of a data point and the value of the previous data point. There is no corresponding output for the first data point. |
-| DERIVATIVE              | INT32 / INT64 / FLOAT / DOUBLE                  | /                                                            | DOUBLE                        | Calculates the rate of change of a data point compared to the previous data point, the result is equals to DIFFERENCE / TIME_DIFFERENCE. There is no corresponding output for the first data point. |
-| NON_NEGATIVE_DERIVATIVE | INT32 / INT64 / FLOAT / DOUBLE                  | /                                                            | DOUBLE                        | Calculates the absolute value of the rate of change of a data point compared to the previous data point, the result is equals to NON_NEGATIVE_DIFFERENCE / TIME_DIFFERENCE. There is no corresponding output for the first data point. |
-| DIFF                    | INT32 / INT64 / FLOAT / DOUBLE                  | `ignoreNull`：optional，default is true. If is true, the previous data point is ignored when it is null and continues to find the first non-null value forwardly. If the value is false, previous data point is not ignored when it is null, the result is also null because null is used for subtraction | DOUBLE                        | Calculates the difference between the value of a data point and the value of the previous data point. There is no corresponding output for the first data point, so output is null |
+| Function Name           | Allowed Input Series Data Types                 | Output Series Data Type       | Description                                                  |
+| ----------------------- | ----------------------------------------------- | ----------------------------- | ------------------------------------------------------------ |
+| TIME_DIFFERENCE         | INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | INT64                         | Calculates the difference between the time stamp of a data point and the time stamp of the previous data point. There is no corresponding output for the first data point. |
+| DIFFERENCE              | INT32 / INT64 / FLOAT / DOUBLE                  | Same type as the input series | Calculates the difference between the value of a data point and the value of the previous data point. There is no corresponding output for the first data point. |
+| NON_NEGATIVE_DIFFERENCE | INT32 / INT64 / FLOAT / DOUBLE                  | Same type as the input series | Calculates the absolute value of the difference between the value of a data point and the value of the previous data point. There is no corresponding output for the first data point. |
+| DERIVATIVE              | INT32 / INT64 / FLOAT / DOUBLE                  | DOUBLE                        | Calculates the rate of change of a data point compared to the previous data point, the result is equals to DIFFERENCE / TIME_DIFFERENCE. There is no corresponding output for the first data point. |
+| NON_NEGATIVE_DERIVATIVE | INT32 / INT64 / FLOAT / DOUBLE                  | DOUBLE                        | Calculates the absolute value of the rate of change of a data point compared to the previous data point, the result is equals to NON_NEGATIVE_DIFFERENCE / TIME_DIFFERENCE. There is no corresponding output for the first data point. |
 
 Example:
 
@@ -54,9 +53,13 @@ Total line number = 5
 It costs 0.014s
 ```
 
-## Example
+| Function Name | Allowed Input Series Data Types | Attributes                                                                                                                                                                                                                                                                                              | Output Series Data Type | Description                                                                                                                                                                        |
+|---------------|---------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| DIFF          | INT32 / INT64 / FLOAT / DOUBLE  | `ignoreNull`：optional，default is true. If is true, the previous data point is ignored when it is null and continues to find the first non-null value forwardly. If the value is false, previous data point is not ignored when it is null, the result is also null because null is used for subtraction | DOUBLE                  | Calculates the difference between the value of a data point and the value of the previous data point. There is no corresponding output for the first data point, so output is null |
 
-### RawData
+### Example
+
+#### RawData
 
 ``` 
 +-----------------------------+------------+------------+
@@ -71,7 +74,7 @@ It costs 0.014s
 +-----------------------------+------------+------------+
 ```
 
-### Not use `ignoreNull` attribute (Ignore Null)
+#### Not use `ignoreNull` attribute (Ignore Null)
 
 SQL:
 ```sql
@@ -92,7 +95,7 @@ Result:
 +-----------------------------+------------------+------------------+
 ```
 
-### Use `ignoreNull` attribute
+#### Use `ignoreNull` attribute
 
 SQL:
 ```sql

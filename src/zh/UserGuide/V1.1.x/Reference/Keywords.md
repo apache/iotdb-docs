@@ -19,7 +19,7 @@
 
 -->
 
-# 关键字
+## 关键字
 
 保留字（不能用于作为标识符）：
 
@@ -217,7 +217,6 @@
 - VALUES
 - VERIFY
 - VERSION
-- VIEW
 - WATERMARK_EMBEDDING
 - WHERE
 - WITH

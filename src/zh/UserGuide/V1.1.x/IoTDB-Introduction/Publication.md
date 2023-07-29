@@ -1,3 +1,7 @@
+---
+title: 研究论文
+order: 50
+---
 <!--
 
     Licensed to the Apache Software Foundation (ASF) under one
@@ -18,8 +22,6 @@
     under the License.
 
 -->
-
-# 公开发表
 
 ## 研究论文
 

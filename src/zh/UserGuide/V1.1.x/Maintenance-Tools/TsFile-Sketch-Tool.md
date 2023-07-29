@@ -7,9 +7,9 @@
     to you under the Apache License, Version 2.0 (the
     "License"); you may not use this file except in compliance
     with the License.  You may obtain a copy of the License at
-    
+
         http://www.apache.org/licenses/LICENSE-2.0
-    
+
     Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -19,11 +19,11 @@
 
 -->
 
-# TsFile概览工具
+## TsFile概览工具
 
 TsFile概览工具用于以概要模式打印出一个TsFile的内容，工具位置为 tools/tsfile/print-tsfile。
 
-## 用法
+### 用法
 
 -   Windows:
 
@@ -39,7 +39,7 @@ TsFile概览工具用于以概要模式打印出一个TsFile的内容，工具�
 
 注意：如果没有设置输出结果的存储路径, 将使用相对路径"TsFile_sketch_view.txt"作为默认值。
 
-## 示例
+### 示例
 
 以Windows系统为例：
 

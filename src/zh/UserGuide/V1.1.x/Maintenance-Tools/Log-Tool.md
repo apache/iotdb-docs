@@ -19,7 +19,7 @@
 
 -->
 
-# 系统日志
+## 系统日志
 
 IoTDB 支持用户通过修改日志配置文件的方式对 IoTDB 系统日志（如日志输出级别等）进行配置，系统日志配置文件默认位置在$IOTDB_HOME/conf 文件夹下。
 
@@ -27,9 +27,9 @@ IoTDB 支持用户通过修改日志配置文件的方式对 IoTDB 系统日志�
 
 同时，为了方便在系统运行过程中运维人员对系统的调试，我们为系统运维人员提供了动态修改日志配置的 JMX 接口，能够在系统不重启的前提下实时对系统的 Log 模块进行配置。详细使用方法参看动态系统日志配置说明）。
 
-## 动态系统日志配置说明
+### 动态系统日志配置说明
 
-### 连接 JMX
+#### 连接 JMX
 
 本节以 Jconsole 为例介绍连接 JMX 并进入动态系统日志配置模块的方法。启动 Jconsole 控制页面，在新建连接处建立与 IoTDB Server 的 JMX 连接（可以选择本地进程或给定 IoTDB 的 IP 及 PORT 进行远程连接，IoTDB 的 JMX 服务默认运行端口为 31999），如下图使用远程进程连接 Localhost 下运行在 31999 端口的 IoTDB JMX 服务。
 
@@ -43,7 +43,7 @@ IoTDB 支持用户通过修改日志配置文件的方式对 IoTDB 系统日志�
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/51577216-09fdeb00-1ef4-11e9-9005-542ad7d9e9e0.png">
 
-### 动态系统日志接口说明
+#### 动态系统日志接口说明
 
 * reloadDefaultConfiguration 接口
 

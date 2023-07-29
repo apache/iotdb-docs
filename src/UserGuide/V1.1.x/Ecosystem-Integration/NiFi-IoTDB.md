@@ -59,7 +59,6 @@ This is a processor that reads the content of the incoming FlowFile as individua
 | Username      | Username to access the IoTDB.                                                                                                                                                                                                                                                                                 | null          | true      |
 | Password      | Password to access the IoTDB.                                                                                                                                                                                                                                                                                 | null          | true      |
 | Prefix        | The Prefix begin with root. that will be add to the tsName in data.  <br /> It can be updated by expression language.                                                                                                                                                                                                | null          | true      |
-| Time          | The name of time field                                                                                          | null          | true      |
 | Record Reader | Specifies the type of Record Reader controller service to use <br />for parsing the incoming data and determining the schema.                                                                                                                                                                                 | null          | true      |
 | Schema        | The schema that IoTDB needs doesn't support good by NiFi.<br/>Therefore, you can define the schema here. <br />Besides, you can set encoding type and compression type by this method.<br />If you don't set this property, the inferred schema will be used.<br /> It can be updated by expression language. | null          | false     |
 | Aligned       | Whether using aligned interface?  It can be updated by expression language.                                                                                                                                                                                                                                   | false         | false     |
@@ -70,7 +69,7 @@ This is a processor that reads the content of the incoming FlowFile as individua
 There are a couple of rules about flowfile:
 
 1. The flowfile can be read by `Record Reader`.
-2. The schema of flowfile must contain a time field with name set in Time property.
+2. The schema of flowfile must contain a field `Time`, and it must be the first.
 3. The data type of time must be `STRING` or `LONG`.
 4. Fields excepted time must start with `root.`.
 5. The supported data types are `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BOOLEAN`, `TEXT`.
@@ -83,6 +82,7 @@ The structure of property `Schema`:
 
 ```json
 {
+	"timeType": "LONG",
 	"fields": [{
 		"tsName": "s1",
 		"dataType": "INT32",
@@ -105,8 +105,8 @@ The structure of property `Schema`:
 3. The columns `tsName` and `dataType` must be set.
 4. The property `Prefix` will be added to tsName as the field name when add data to IoTDB.
 5. The supported `dataTypes` are `INT32`, `INT64`, `FLOAT`, `DOUBLE`, `BOOLEAN`, `TEXT`.
-6. The supported `encoding` are `PLAIN`, `DICTIONARY`, `RLE`, `DIFF`, `TS_2DIFF`, `BITMAP`, `GORILLA_V1`, `REGULAR`, `GORILLA`, `CHIMP`, `SPRINTZ`, `RLBE`.
-7. The supported `compressionType` are `UNCOMPRESSED`, `SNAPPY`, `GZIP`, `LZO`, `SDT`, `PAA`, `PLA`, `LZ4`, `ZSTD`, `LZMA2`.
+6. The supported `encoding` are `PLAIN`, `DICTIONARY`, `RLE`, `DIFF`, `TS_2DIFF`, `BITMAP`, `GORILLA_V1`, `REGULAR`, `GORILLA`.
+7. The supported `compressionType` are `UNCOMPRESSED`, `SNAPPY`, `GZIP`, `LZO`, `SDT`, `PAA`, `PLA`, `LZ4`, `ZSTD`.
 
 ## Relationships
 

@@ -19,7 +19,7 @@
 
 -->
 
-# Session And TsFile API
+## Session And TsFile API
 
 在使用Session、TsFIle API时，如果您调用的方法需要以字符串形式传入物理量（measurement）、设备（device）、数据库（database）、路径（path）等参数，**请保证所传入字符串与使用 SQL 语句时的写法一致**，下面是一些帮助您理解的例子。具体代码示例可以参考：`example/session/src/main/java/org/apache/iotdb/SyntaxConventionRelatedExample.java`
 
@@ -34,7 +34,7 @@ public void createTimeseries(
     throws IoTDBConnectionException, StatementExecutionException;
 ```
 
-如果您希望创建时间序列 root.sg.a，root.sg.\`a.\`\`"b\`，root.sg.\`111\`，您使用的 SQL 语句应该如下所示：
+如果您希望创建时间序列 ``` root.sg.a，root.sg.`a.``"b`，root.sg.`111` ```，您使用的 SQL 语句应该如下所示：
 
 ```SQL
 create timeseries root.sg.a with datatype=FLOAT,encoding=PLAIN,compressor=SNAPPY;
@@ -52,8 +52,8 @@ create timeseries root.sg.`111` with datatype=FLOAT,encoding=PLAIN,compressor=SN
 // 时间序列 root.sg.a
 String path = "root.sg.a";
 
-// 时间序列 root.sg.`a.``"b`
-String path = "root.sg.`a.``\"b`";
+// 时间序列 root.sg.`a``"b`
+String path = "root.sg.`a``\"b`";
 
 // 时间序列 root.sg.`111`
 String path = "root.sg.`111`";
@@ -71,7 +71,7 @@ public void insertRecord(
     throws IoTDBConnectionException, StatementExecutionException;
 ```
 
-如果您希望向时间序列 root.sg.a，root.sg.\`a.\`\`"b\`，root.sg.\`111\`中插入数据，您使用的 SQL 语句应该如下所示：
+如果您希望向时间序列 ``` root.sg.a，root.sg.`a.``"b`，root.sg.`111` ``` 中插入数据，您使用的 SQL 语句应该如下所示：
 
 ```SQL
 insert into root.sg(timestamp, a, `a.``"b`, `111`) values (1, 2, 2, 2);
@@ -98,7 +98,7 @@ public SessionDataSet executeRawDataQuery(
     throws StatementExecutionException, IoTDBConnectionException;
 ```
 
-如果您希望查询时间序列 root.sg.a，root.sg.\`a.\`\`"b\`，root.sg.\`111\`的数据，您使用的 SQL 语句应该如下所示：
+如果您希望查询时间序列``` root.sg.a，root.sg.`a.``"b`，root.sg.`111` ```的数据，您使用的 SQL 语句应该如下所示：
 
 ```SQL
 select a from root.sg

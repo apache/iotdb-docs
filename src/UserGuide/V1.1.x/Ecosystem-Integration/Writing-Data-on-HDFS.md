@@ -19,25 +19,25 @@
 
 -->
 
-# Integration with HDFS
+## Integration with HDFS
 
-## Shared Storage Architecture
+### Shared Storage Architecture
 
 Currently, TsFiles(including both TsFile and related data files) are supported to be stored in local file system and hadoop distributed file system(HDFS). It is very easy to config the storage file system of TSFile.
 
-## System architecture
+#### System architecture
 
 When you config to store TSFile on HDFS, your data files will be in distributed storage. The system architecture is as below:
 
 <img style="width:100%; max-width:700px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/66922722-35180400-f05a-11e9-8ff0-7dd51716e4a8.png">
 
-## Config and usage
+#### Config and usage
 
 To store TSFile and related data files in HDFS, here are the steps:
 
 First, download the source release from website or git clone the repository
 
-Build server and Hadoop module by: `mvn clean package -pl iotdb-core/datanode,iotdb-connector/hadoop -am -Dmaven.test.skip=true -P get-jar-with-dependencies`
+Build server and Hadoop module by: `mvn clean package -pl server,hadoop -am -Dmaven.test.skip=true -P get-jar-with-dependencies`
 
 Then, copy the target jar of Hadoop module `hadoop-tsfile-X.X.X-jar-with-dependencies.jar` into server target lib folder `.../server/target/iotdb-server-X.X.X/lib`.
 
@@ -155,7 +155,7 @@ Start server, and Tsfile will be stored on HDFS.
 
 To reset storage file system to local, just edit configuration `tsfile_storage_fs` to `LOCAL`. In this situation, if data files are already on HDFS, you should either download them to local and move them to your config data file folder (`../server/target/iotdb-server-X.X.X/data/data` by default), or restart your process and import data to IoTDB.
 
-## Frequent questions
+#### Frequent questions
 
 1. What Hadoop version does it support?
 
@@ -167,5 +167,5 @@ ERROR org.apache.iotdb.tsfile.fileSystem.fsFactory.HDFSFactory:62 - Failed to ge
 ```
 
 A: It indicates that you forget to put Hadoop module dependency in IoTDB server. You can solve it by:
-* Build Hadoop module: `mvn clean package -pl iotdb-connector/hadoop -am -Dmaven.test.skip=true -P get-jar-with-dependencies`
+* Build Hadoop module: `mvn clean package -pl hadoop -am -Dmaven.test.skip=true -P get-jar-with-dependencies`
 * Copy the target jar of Hadoop module `hadoop-tsfile-X.X.X-jar-with-dependencies.jar` into server target lib folder `.../server/target/iotdb-server-X.X.X/lib`.

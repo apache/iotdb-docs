@@ -67,7 +67,7 @@ delete from root.ln.wf02.wt02.status
 
 
 ## Delete Multiple Timeseries
-If both the power supply status and hardware version of the ln group wf02 plant wt02 device before 2017-11-01 16:26:00 need to be deleted, [the prefix path with broader meaning or the path with star](../Basic-Concept/Data-Model-and-Terminology.md) can be used to delete the data. The SQL statement for this operation is:
+If both the power supply status and hardware version of the ln group wf02 plant wt02 device before 2017-11-01 16:26:00 need to be deleted, [the prefix path with broader meaning or the path with star](../Data-Concept/Data-Model-and-Terminology.md) can be used to delete the data. The SQL statement for this operation is:
 
 ```sql
 delete from root.ln.wf02.wt02 where time <= 2017-11-01T16:26:00;

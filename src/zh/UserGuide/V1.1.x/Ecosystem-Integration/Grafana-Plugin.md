@@ -19,26 +19,32 @@
 
 -->
 
-# Grafana 插件
+## 系统集成
+
+
+
+### Grafana 插件
 
 Grafana 是开源的指标量监测和可视化工具，可用于展示时序数据和应用程序运行分析。
 
 在 IoTDB 项目中，我们开发了 Grafana 插件，该插件通过调用 IoTDB REST 服务来展现 IoTDB 中时序数据 ，提供了众多时序数据的可视化方法。Grafana 插件相较于 IoTDB-Grafana-Connector 连接器执行效率更高、支持的查询种类更多。只要在您部署环境允许的情况下，*我们都推荐直接使用 Grafana 插件而不使用 IoTDB-Grafana-Connector 连接器*。
 
-## 部署 Grafana 插件
 
-### 安装 Grafana 
+
+#### 部署 Grafana 插件
+
+##### 安装 Grafana
 
 * Grafana 组件下载地址：https://grafana.com/grafana/download
 * 版本 >= 9.3.0
 
-### grafana-plugin 获取
+##### grafana-plugin 获取
 
-#### 方案一 grafana-plugin 下载
+###### 方案一 grafana-plugin 下载
 
 二进制文件下载地址：https://iotdb.apache.org/zh/Download/
 
-#### 方案二 grafana-plugin 单独编译
+###### 方案二 grafana-plugin 单独编译
 
 我们需要编译 IoTDB 仓库 `grafana-plugin` 目录下的前端工程并生成 `dist` 目标目录，具体执行流程如下。
 
@@ -79,7 +85,7 @@ go get: module github.com/grafana/grafana-plugin-sdk-go: Get "https://proxy.gola
 
 <img style="width:100%; max-width:333px; max-height:545px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/Grafana-plugin/grafana-plugin-build.png?raw=true">
 
-#### 方案三 IoTDB 的分发包完整编译
+###### 方案三 IoTDB 的分发包完整编译
 
 我们也可以通过执行 IoTDB 项目的**打包指令**获取 `grafana-plugin ` 的前端工程和其他配套的 IoTDB 可执行文件。
 
@@ -106,7 +112,7 @@ git clone https://github.com/apache/iotdb.git
 
 
 
-### grafana-plugin 插件安装
+##### grafana-plugin 插件安装
 
 * 拷贝上述生成的前端工程目标文件夹到 Grafana 的插件目录中 `${Grafana文件目录}\data\plugins\`。如果没有此目录可以手动建或者启动grafana会自动建立，当然也可以修改plugins的位置,具体请查看下面的修改Grafana 的插件目录位置说明。
 
@@ -125,7 +131,7 @@ git clone https://github.com/apache/iotdb.git
 更多详情，请点 [这里](https://grafana.com/docs/grafana/latest/plugins/installation/)
 
 
-### 启动 Grafana
+##### 启动 Grafana
 
 进入 Grafana 的安装目录，使用以下命令启动 Grafana：
 * Windows 系统：
@@ -147,7 +153,7 @@ brew services start grafana
 
 
 
-### 配置 IoTDB REST 服务
+##### 配置 IoTDB REST 服务
 
 进入 `{iotdb 目录}/conf`，打开 `iotdb-common.properties` 文件，并作如下修改：
 
@@ -163,9 +169,9 @@ rest_service_port=18080
 
 
 
-## 使用 Grafana 插件
+#### 使用 Grafana 插件
 
-### 访问 Grafana dashboard
+##### 访问 Grafana dashboard
 
 Grafana 以网页的 dashboard 形式为您展示数据，在使用时请您打开浏览器，访问 `http://<ip>:<port>`。
 
@@ -177,7 +183,7 @@ Grafana 以网页的 dashboard 形式为您展示数据，在使用时请您打�
 
 
 
-### 添加 IoTDB 数据源
+##### 添加 IoTDB 数据源
 
 点击左侧的 `设置` 图标，选择 `Data Source` 选项，然后再点击 `Add data source`。
 
@@ -195,7 +201,7 @@ Ip 为您的 IoTDB 服务器所在的宿主机 IP，port 为 REST 服务的运�
 
 
 
-### 创建一个新的 Panel
+##### 创建一个新的 Panel
 
 点击左侧的 `Dashboards` 图标，选择 `Manage`，如下图所示：
 
@@ -209,7 +215,7 @@ Grafana Plugin 支持SQL: Full Customized和SQL: Drop-down List 两种方式，�
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/Grafana-plugin/grafana_input_style.png?raw=true">
 
-#### SQL: Full Customized 输入方式
+###### SQL: Full Customized 输入方式
 
 在 SELECT 输入框、FROM 输入框、WHERE输入框、CONTROL输入框中输入内容，其中 WHERE 和 CONTROL 输入框为非必填。
 
@@ -223,21 +229,21 @@ SELECT 输入框中的内容可以是时间序列的后缀，可以是函数或�
 
 *  `s1`
 *  `top_k(s1, 'k'='1') as top`
-*  `sin(s1) + cos(s1 + s2)` 
+*  `sin(s1) + cos(s1 + s2)`
 *  `udf(s1) as "中文别名"`
 
 FROM 输入框中的内容必须是时间序列的前缀路径，比如 `root.sg.d`。
 
 WHERE 输入框为非必须填写项目，填写内容应当是查询的过滤条件，比如 `time > 0`  或者 `s1 < 1024 and s2 > 1024`。
 
-CONTROL 输入框为非必须填写项目，填写内容应当是控制查询类型、输出格式的特殊子句。其中GROUP BY 输入框支持使用grafana的全局变量来获取当前时间区间变化`$__from`(起始时间)、`$__to`(结束时间)，下面是 CONTROL 输入框中一些合法的输入举例：
+CONTROL 输入框为非必须填写项目，填写内容应当是控制查询类型、输出格式的特殊子句。其中GROUP BY 输入框支持使用grafana的全局变量来获取当前时间区间变化$__from(起始时间)、$__to(结束时间)，下面是 CONTROL 输入框中一些合法的输入举例：
 
 *  `GROUP BY ([$__from, $__to), 1d)`
 *  `GROUP BY ([$__from, $__to),3h,1d)`
 *  `GROUP BY ([2017-11-01T00:00:00, 2017-11-07T23:00:00), 1d)`
 *  `GROUP BY ([2017-11-01 00:00:00, 2017-11-07 23:00:00), 3h, 1d)`
 *  `GROUP BY ([$__from, $__to), 1m) FILL (PREVIOUSUNTILLAST)`
-*  `GROUP BY ([2017-11-07T23:50:00, 2017-11-07T23:59:00), 1m) FILL (PREVIOUSUNTILLAST)` 
+*  `GROUP BY ([2017-11-07T23:50:00, 2017-11-07T23:59:00), 1m) FILL (PREVIOUSUNTILLAST)`
 *  `GROUP BY ([2017-11-07T23:50:00, 2017-11-07T23:59:00), 1m) FILL (PREVIOUS, 1m)`
 *  `GROUP BY ([2017-11-07T23:50:00, 2017-11-07T23:59:00), 1m) FILL (LINEAR, 5m, 5m)`
 *  `GROUP BY ((2017-11-01T00:00:00, 2017-11-07T23:00:00], 1d), LEVEL=1`
@@ -245,12 +251,12 @@ CONTROL 输入框为非必须填写项目，填写内容应当是控制查询类
 
 提示：为了避免OOM问题，不推荐使用select * from root.xx.** 这种语句在Grafana plugin中使用。
 
-#### SQL: Drop-down List 输入方式
+###### SQL: Drop-down List 输入方式
 在 TIME-SERIES 选择框中选择一条时间序列、FUNCTION 选择一个函数、SAMPLING INTERVAL、SLIDING STEP、LEVEL、FILL 输入框中输入内容，其中 TIME-SERIESL 为必填项其余为非必填项。
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/Grafana-plugin/grafana_input2.png?raw=true">
 
-### 变量与模板功能的支持
+##### 变量与模板功能的支持
 
 SQL: Full Customized和SQL: Drop-down List两种输入方式都支持 Grafana 的变量与模板功能，下面示例中使用SQL: Full Customized输入方式，SQL: Drop-down List与之类似。
 
@@ -298,7 +304,7 @@ Type下拉中有Query、Custom、Text box、Constant、DataSource、Interval、A
 
 * 提示：如果查询的字段中有布尔类型的数据，会将true转化成1，false转化成0结果值进行显示。
 
-### 告警功能
+##### 告警功能
 本插件支持 Grafana alert功能。在Grafana 9告警界面一共有6个Tab，分别是Alert rules、Contact points、Notification policies、Silences、Alert groups、Admin
 
 * `Alert rules` 告警规则列表，用于展示和配置告警规则
@@ -326,14 +332,14 @@ Type下拉中有Query、Custom、Text box、Constant、DataSource、Interval、A
 例如，我们按以下顺序有 3 个条件： 条件：B（计算为：TRUE）或条件：C（计算为：FALSE）和条件：D（计算为：TRUE） 所以结果将计算为（（对或错）和对）=对。
 
 4. 选择完指标及告警规则后点击`Preview`按钮，进行数据预览如下图所示：
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert4.png?raw=true">
+   <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert4.png?raw=true">
 
-5. 在第 2 步中，指定警报评估间隔，对于`Evaluate every`，指定评估频率。必须是 10 秒的倍数。例如，1m，30s。 
-对于`Evaluate for`，指定在警报触发之前的持续时间。如下图所示：
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert5.png?raw=true">
+5. 在第 2 步中，指定警报评估间隔，对于`Evaluate every`，指定评估频率。必须是 10 秒的倍数。例如，1m，30s。
+   对于`Evaluate for`，指定在警报触发之前的持续时间。如下图所示：
+   <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert5.png?raw=true">
 
 6. 在第 3 步中，添加存储位置、规则组以及与规则关联的其他元数据。 其中`Rule name`指定规则的名称。规则名称必须是唯一的。
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert6.png?raw=true">
+   <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert6.png?raw=true">
 
 7. 在第 4 步中，添加自定义标签。 从下拉列表中选择现有键值对添加自定义标签，或通过输入新键或值来添加新标签。如下图所示：
 
@@ -341,14 +347,13 @@ Type下拉中有Query、Custom、Text box、Constant、DataSource、Interval、A
 
 8. 单击保存以保存规则或单击保存并退出以保存规则并返回到警报页面。
 9. 告警状态常用的有`Normal`、`Pending`、`Firing`等状态，如下图所示：
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert8.png?raw=true">
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert9.png?raw=true">
+   <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert8.png?raw=true">
+   <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert9.png?raw=true">
 
 10. 我们也可以为告警配置`Contact points`用来接收告警通知，更加详细操作可以参考官方文档(https://grafana.com/docs/grafana/latest/alerting/manage-notifications/create-contact-point/)。
 
 想了解alert更多详细的操作可以查看官方文档https://grafana.com/docs/grafana/latest/alerting/
 
-## 更多
+#### 更多
 
 更多关于 Grafana 操作详情可参看 Grafana 官方文档：http://docs.grafana.org/guides/getting_started/。
-

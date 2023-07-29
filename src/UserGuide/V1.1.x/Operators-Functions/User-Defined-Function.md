@@ -573,8 +573,8 @@ This part mainly introduces how external users can contribute their own UDFs to 
 
 #### UDF Source Code
 
-1. Create the UDF main class and related classes in `iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/udf/builtin` or in its subfolders.
-2. Register your UDF in `iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/udf/builtin/BuiltinTimeSeriesGeneratingFunction.java`.
+1. Create the UDF main class and related classes in `node-commons/src/main/java/org/apache/iotdb/commons/udf/builtin` or in its subfolders.
+2. Register your UDF in `node-commons/src/main/java/org/apache/iotdb/commons/udf/builtin/BuiltinTimeSeriesGeneratingFunction.java`.
 
 
 
@@ -599,50 +599,9 @@ The instructions should be added in `docs/UserGuide/Operation Manual/DML Data Ma
 When you have prepared the UDF source code, test cases, and instructions, you are ready to submit a Pull Request (PR) on [Github](https://github.com/apache/iotdb). You can refer to our code contribution guide to submit a PR: [Pull Request Guide](https://iotdb.apache.org/Development/HowToCommit.html).
 
 
+## Known Implementation UDF Libraries
 
-## Known Implementations
-
-### Built-in UDF
-
-1.   Aggregate Functions, such as `SUM`. For details and examples, see the document [Aggregate Functions](../Operators-Functions/Aggregation.md).
-2.   Arithmetic Functions, such as `SIN`. For details and examples, see the document [Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md).
-3.   Comparison Functions, such as `ON_OFF`. For details and examples, see the document [Comparison Operators and Functions](../Operators-Functions/Comparison.md).
-4.   String Processing Functions, such as `STRING_CONTAINS`. For details and examples, see the document [String Processing](../Operators-Functions/String.md).
-5.   Data Type Conversion Function, such as `CAST`. For details and examples, see the document [Data Type Conversion Function](../Operators-Functions/Conversion.md).
-6.   Constant Timeseries Generating Functions, such as `CONST`. For details and examples, see the document [Constant Timeseries Generating Functions](../Operators-Functions/Constant.md).
-7.   Selector Functions, such as `TOP_K`. For details and examples, see the document [Selector Functions](../Operators-Functions/Selection.md).
-8.   Continuous Interval Functions, such as `ZERO_DURATION`. For details and examples, see the document [Continuous Interval Functions](../Operators-Functions/Continuous-Interval.md).
-9.   Variation Trend Calculation Functions, such as `TIME_DIFFERENCE`. For details and examples, see the document [Variation Trend Calculation Functions](../Operators-Functions/Variation-Trend.md).
-10.   Sample Functions, such as `M4`. For details and examples, see the document [Sample Functions](../Operators-Functions/Sample.md).
-11.   Change Points Function, such as `CHANGE_POINTS`. For details and examples, see the document [Time-Series](../Operators-Functions/Time-Series.md).
-
-### Data Quality Function Library
-
-#### About
-
-For applications based on time series data, data quality is vital. **UDF Library** is IoTDB User Defined Functions (UDF) about data quality, including data profiling, data quality evalution and data repairing. It effectively meets the demand for data quality in the industrial field.
-
-#### Quick Start
-
-The functions in this function library are not built-in functions, and must be loaded into the system before use.
-
-1. [Download](https://archive.apache.org/dist/iotdb/1.0.1/apache-iotdb-1.0.1-library-udf-bin.zip) the JAR with all dependencies and the script of registering UDF.
-2. Copy the JAR package to `ext\udf` under the directory of IoTDB system (Please put JAR to this directory of all DataNodes if you use Cluster).
-3. Run `sbin\start-server.bat` (for Windows) or `sbin\start-server.sh` (for Linux or MacOS) to start IoTDB server.
-4. Copy the script to the directory of IoTDB system (under the root directory, at the same level as `sbin`), modify the parameters in the script if needed and run it to register UDF.
-
-#### Functions
-
-1.   Data Quality related functions, such as `Completeness`. For details and examples, see the document [Data-Quality](../Operators-Functions/Data-Quality.md).
-2.   Data Profiling related functions, such as `ACF`. For details and examples, see the document [Data-Profiling](../Operators-Functions/Data-Profiling.md).
-3.   Anomaly Detection related functions, such as `IQR`. For details and examples, see the document [Anomaly-Detection](../Operators-Functions/Anomaly-Detection.md).
-4.   Frequency Domain Analysis related functions, such as `Conv`. For details and examples, see the document [Frequency-Domain](../Operators-Functions/Frequency-Domain.md).
-5.   Data Matching related functions, such as `DTW`. For details and examples, see the document [Data-Matching](../Operators-Functions/Data-Matching.md).
-6.   Data Repairing related functions, such as `TimestampRepair`. For details and examples, see the document [Data-Repairing](../Operators-Functions/Data-Repairing.md).
-7.   Series Discovery related functions, such as `ConsecutiveSequences`. For details and examples, see the document [Series-Discovery](../Operators-Functions/Series-Discovery.md).
-8.   Machine Learning related functions, such as `AR`. For details and examples, see the document [Machine-Learning](../Operators-Functions/Machine-Learning.md).
-
-
++ [IoTDB-Quality](./Data-Profiling.md), a UDF library about data quality, including data profiling, data quality evalution and data repairing, etc.
 
 
 ## Q&A

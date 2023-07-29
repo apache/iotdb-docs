@@ -19,15 +19,15 @@
 
 -->
 
-# DBeaver-IoTDB
+## DBeaver-IoTDB
 
 DBeaver 是一个 SQL 客户端和数据库管理工具。DBeaver 可以使用 IoTDB 的 JDBC 驱动与 IoTDB 进行交互。
 
-## DBeaver 安装
+### DBeaver 安装
 
 * DBeaver 下载地址：https://dbeaver.io/download/
 
-## IoTDB 安装
+### IoTDB 安装
 
 * 下载 IoTDB 二进制版本
   * IoTDB 下载地址：https://iotdb.apache.org/Download/
@@ -35,13 +35,13 @@ DBeaver 是一个 SQL 客户端和数据库管理工具。DBeaver 可以使用 I
 * 或者从源代码中编译
   * 参考 https://github.com/apache/iotdb
 
-## 连接 IoTDB 与 DBeaver
+### 连接 IoTDB 与 DBeaver
 
 1. 启动 IoTDB 服务
 
    ```shell
    ./sbin/start-server.sh
-   ```
+   ``` 
 2. 启动 DBeaver
 
 3. 打开 Driver Manager
@@ -54,7 +54,7 @@ DBeaver 是一个 SQL 客户端和数据库管理工具。DBeaver 可以使用 I
 5. 下载[源代码](https://iotdb.apache.org/zh/Download/)，解压并运行下面的命令编译 jdbc 驱动
 
    ```shell
-   mvn clean package -pl iotdb-client/jdbc -am -DskipTests -P get-jar-with-dependencies
+   mvn clean package -pl jdbc -am -DskipTests -P get-jar-with-dependencies
    ```
 7. 在`jdbc/target/`下找到并添加名为`apache-iotdb-jdbc-{version}-jar-with-dependencies.jar`的库，点击 `Find Class`。
 
