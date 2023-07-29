@@ -71,7 +71,7 @@ Prometheus 和 Druid 也因为时间序列数据管理而闻名，但是 Prometh
 -   `-`：不支持
 -   `?`：未知
 
-#### 2.1.1 基础功能
+### 2.1.1 基础功能
 
 | TSDB                          |          IoTDB          |  InfluxDB  |  OpenTSDB  |  KairosDB  | TimescaleDB |
 | ----------------------------- | :---------------------: | :--------: | :--------: | :--------: | :---------: |
@@ -183,7 +183,7 @@ Prometheus 和 Druid 也因为时间序列数据管理而闻名，但是 Prometh
 -   TimescaleDB 不能被企业免费使用。
 -   IoTDB 和 InfluxDB 可以满足时间序列数据管理的大部分需求，同时它俩之间有一些不同之处。
 
-#### 2.1.2 高级功能
+### 2.1.2 高级功能
 
 | TSDB                         | IoTDB  | InfluxDB | OpenTSDB | KairosDB | TimescaleDB |
 | ---------------------------- | :----: | :------: | :------: | :------: |:-----------:|
@@ -254,13 +254,13 @@ Prometheus 和 Druid 也因为时间序列数据管理而闻名，但是 Prometh
 
 IoTDB 拥有许多其它时间序列数据库不支持的强大功能。
 
-### 2.2 性能比较
+## 2.2 性能比较
 
 如果你觉得：”如果我只需要基础功能的话，IoTDB 好像和其它的时间序列数据库没有什么不同。“
 
 这好像是有道理的。但是如果考虑性能的话，你也许会改变你的想法。
 
-#### 2.2.1 快速浏览
+### 2.2.1 快速浏览
 
 | TSDB                 | IoTDB | InfluxDB | KairosDB | TimescaleDB |
 | -------------------- | :---: | :------: | :------: | :---------: |
@@ -270,7 +270,7 @@ IoTDB 拥有许多其它时间序列数据库不支持的强大功能。
 | *Downsampling Query* |  ++   |    +     |    +-    |     +-      |
 | *Latest Query*       |  ++   |    +     |    +-    |      +      |
 
-##### 写入性能
+#### 写入性能
 
 我们从两个方面来测试写性能：batch size 和 client num。存储组的数量是 10。有 1000 个设备，每个设备有 100 个传感器，也就是说一共有 100K 条时间序列。
 
@@ -296,7 +296,7 @@ client num 从 1 到 50 变化。IoTDB 使用 batch insertion API，batch size �
 
 <center>Figure 3. Client Num with Write Throughput (points/second) IoTDB v0.11.1</center>
 
-##### 查询性能
+#### 查询性能
 
 10 个客户端并发地读数据。存储组的数量是 10。有 10 个设备，每个设备有 10 个传感器，也就是说一共有 100 条时间序列。
 
@@ -324,7 +324,7 @@ client num 从 1 到 50 变化。IoTDB 使用 batch insertion API，batch size �
 
 可以看到，IoTDB 的 raw data query、aggregation query、downsampling query、latest query 查询性能表现都超越了其它数据库。
 
-#### 2.2.2 更多细节
+### 2.2.2 更多细节
 
 我们提供了一个 benchmark 工具，叫做 [IoTDB-benchamrk](https://github.com/thulab/iotdb-benchmark)（你可以用 dev branch 来编译它）。它支持 IoTDB, InfluxDB, KairosDB, TimescaleDB, OpenTSDB。
 
