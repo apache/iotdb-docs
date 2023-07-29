@@ -440,7 +440,7 @@ IoTDB 规定角色名的字符长度不小于 4，其中角色名不能包含空
 
 目前以下IoTDB支持的sql语句只有`root`用户可以进行操作，且没有对应的权限可以赋予新用户。
 
-###### TsFile管理
+#### TsFile管理
 
 - 加载TsFile
 
@@ -460,7 +460,7 @@ Eg: IoTDB > remove '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-
 Eg: IoTDB > unload '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-0.tsfile' '/data/data/tmp'
 ```
 
-###### 删除时间分区（实验性功能）
+#### 删除时间分区（实验性功能）
 
 - 删除时间分区（实验性功能）
 
@@ -468,7 +468,7 @@ Eg: IoTDB > unload '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-
 Eg: IoTDB > DELETE PARTITION root.ln 0,1,2
 ```
 
-###### 连续查询
+#### 连续查询
 
 - 连续查询(CQ)
 
@@ -476,7 +476,7 @@ Eg: IoTDB > DELETE PARTITION root.ln 0,1,2
 Eg: IoTDB > CREATE CONTINUOUS QUERY cq1 BEGIN SELECT max_value(temperature) INTO temperature_max FROM root.ln.*.* GROUP BY time(10s) END
 ```
 
-###### 运维命令
+#### 运维命令
 
 - FLUSH
 
@@ -515,7 +515,7 @@ Eg: IoTDB > CREATE SNAPSHOT FOR SCHEMA
 Eg: IoTDB > KILL QUERY 1
 ```
 
-###### 水印工具
+#### 水印工具
 
 - 为新用户施加水印
 

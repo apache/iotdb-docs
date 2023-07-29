@@ -233,6 +233,22 @@ OR, |, ||
 
 详细说明及示例见文档 [采样函数](./Sample.md)。
 
+### 时间序列处理函数
+
+| 函数名        | 输入序列类型                   | 参数 | 输出序列类型             | 功能描述                   |
+| ------------- | ------------------------------ | ---- | ------------------------ | -------------------------- |
+| CHANGE_POINTS | INT32 / INT64 / FLOAT / DOUBLE | /    | 与输入序列的实际类型一致 | 去除输入序列中的连续相同值 |
+
+详细说明及示例见文档 [时间序列处理](./Time-Series.md)
+
+## Lambda 表达式
+
+| 函数名 | 可接收的输入序列类型                            | 必要的属性参数                                               | 输出序列类型                                    | 功能类型                                       |
+| ------ | ----------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------- | ---------------------------------------------- |
+| JEXL   | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | `expr`是一个支持标准的一元或多元参数的lambda表达式，符合`x -> {...}`或`(x, y, z) -> {...}`的格式，例如`x -> {x * 2}`, `(x, y, z) -> {x + y * z}` | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | 返回将输入的时间序列通过lambda表达式变换的序列 |
+
+详细说明及示例见文档 [Lambda 表达式](./Lambda.md)
+
 ## 条件表达式
 
 | 表达式名称                     | 含义        |
@@ -243,10 +259,26 @@ OR, |, ||
 
 ## 数据质量函数库
 
+### 关于
+
 对基于时序数据的应用而言，数据质量至关重要。基于用户自定义函数能力，IoTDB 提供了一系列关于数据质量的函数，包括数据画像、数据质量评估与修复等，能够满足工业领域对数据质量的需求。
 
+### 快速上手
+
 **该函数库中的函数不是内置函数，使用前要先加载到系统中。** 操作流程如下：
+
 1. 下载包含全部依赖的 jar 包和注册脚本 [【点击下载】](https://archive.apache.org/dist/iotdb/1.0.1/apache-iotdb-1.0.1-library-udf-bin.zip) ；
 2. 将 jar 包复制到 IoTDB 程序目录的 `ext\udf` 目录下 (若您使用的是集群，请将jar包复制到所有DataNode的该目录下)；
 3. 启动 IoTDB；
 4. 将注册脚本复制到 IoTDB 的程序目录下（与`sbin`目录同级的根目录下），修改脚本中的参数（如果需要）并运行注册脚本以注册 UDF。
+
+### 已经实现的函数
+
+1.   [Data-Quality](../Operators-Functions/Data-Quality.md) 数据质量
+2.   [Data-Profiling](../Operators-Functions/Data-Profiling.md) 数据画像
+3.   [Anomaly-Detection](../Operators-Functions/Anomaly-Detection.md) 异常检测
+4.   [Frequency-Domain](../Operators-Functions/Frequency-Domain.md) 频域分析
+5.   [Data-Matching](../Operators-Functions/Data-Matching.md) 数据匹配
+6.   [Data-Repairing](../Operators-Functions/Data-Repairing.md) 数据修复
+7.   [Series-Discovery](../Operators-Functions/Series-Discovery.md) 序列发现
+8.   [Machine-Learning](../Operators-Functions/Machine-Learning.md) 机器学习

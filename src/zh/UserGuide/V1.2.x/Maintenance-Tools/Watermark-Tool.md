@@ -17,13 +17,13 @@ specific language governing permissions and limitations
 under the License.
 
 -->
-## 水印工具
+# 水印工具
 
 这个工具提供了 1）IoTDB 查询结果水印嵌入功能，2）可疑数据的水印检测功能。
 
-### 水印嵌入
+## 水印嵌入
 
-#### 配置
+### 配置
 
 IoTDB 默认关闭水印嵌入功能。为了使用这个功能，第一步要做的事情是修改配置文件`iotdb-datanode.properties`中的以下各项：
 
@@ -45,7 +45,7 @@ IoTDB 默认关闭水印嵌入功能。为了使用这个功能，第一步要�
   - GroupBasedLSBMethod 使用 LSB 嵌入。`embed_lsb_num`控制了允许嵌入水印的最低有效位的数量。`embed_lsb_num`越大，数值的可变化范围就越大。
 - `watermark_secret_key`, `watermark_bit_string`和`watermark_method`都不应该被攻击者获得。您需要自己负责配置文件`iotdb-datanode.properties`的安全管理。
 
-#### 使用示例
+### 使用示例
 
  * 第一步：创建一个新用户 Alice，授予读权限，然后查询
 
@@ -161,7 +161,7 @@ sql 用法：`revoke watermark_embedding from Alice`
 
 只有 root 用户有权限运行该指令。在 root 撤销 Alice 的水印嵌入之后，Alice 的所有查询结果就又是数据库中的原始数据了。
 
-### 水印检测
+## 水印检测
 
 `detect-watermark.sh` 和 `detect-watermark.bat` 是给不同平台提供的功能相同的工具脚本。
 

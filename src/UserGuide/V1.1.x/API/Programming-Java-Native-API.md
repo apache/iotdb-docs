@@ -31,7 +31,7 @@
 ### How to install
 
 In root directory:
-> mvn clean install -pl session -am -DskipTests
+> mvn clean install -pl iotdb-client/session -am -DskipTests
 
 ### Using IoTDB Java Native API with Maven
 
@@ -221,6 +221,25 @@ template.addToTemplate(nodeSpeed);
 createSchemaTemplate(flatTemplate);
 ```
 
+You can query measurement inside templates with these APIS:
+
+```java
+// Return the amount of measurements inside a template
+public int countMeasurementsInTemplate(String templateName);
+
+// Return true if path points to a measurement, otherwise returne false
+public boolean isMeasurementInTemplate(String templateName, String path);
+
+// Return true if path exists in template, otherwise return false
+public boolean isPathExistInTemplate(String templateName, String path);
+
+// Return all measurements paths inside template
+public List<String> showMeasurementsInTemplate(String templateName);
+
+// Return all measurements paths under the designated patter inside template
+public List<String> showMeasurementsInTemplate(String templateName, String pattern);
+```
+
 To implement schema template, you can set the measurement template named 'templateName' at path 'prefixPath'.
 
 **Please notice that, we strongly recommend not setting templates on the nodes above the database to accommodate future updates and collaboration between modules.**
@@ -394,10 +413,15 @@ SessionDataSet executeRawDataQuery(List<String> paths, long startTime, long endT
 
 * Last query: 
   - Query the last data, whose timestamp is greater than or equal LastTime.
-
-``` java
-SessionDataSet executeLastDataQuery(List<String> paths, long LastTime);
-```
+    ``` java
+    SessionDataSet executeLastDataQuery(List<String> paths, long LastTime);
+    ```
+  - Query the latest point of the specified series of single device quickly, and support redirection;
+    If you are sure that the query path is valid, set 'isLegalPathNodes' to true to avoid performance penalties from path verification.
+    ``` java
+    SessionDataSet executeLastDataQueryForOneDevice(
+        String db, String device, List<String> sensors, boolean isLegalPathNodes);
+    ```
 
 * Aggregation query:
   - Support specified query time range: The specified query time range is a left-closed right-open interval, including the start time but not the end time.
@@ -509,7 +533,6 @@ Examples: ```session/src/test/java/org/apache/iotdb/session/pool/SessionPoolTest
 
 Or `example/session/src/main/java/org/apache/iotdb/SessionPoolExample.java`
 
-
 ## Cluster information related APIs (only works in the cluster mode)
 
 Cluster information related APIs allow users get the cluster info like where a database will be 
@@ -566,7 +589,7 @@ APIs in `ClusterInfoService.Client`:
 
 * Get the physical hash ring of the cluster:
 
-``` java
+```java
 list<Node> getRing();
 ```
 
@@ -591,7 +614,7 @@ list<Node> getMetaPartition(1:string path);
 ```
 
 * Get the status (alive or not) of all nodes:
-``` java
+```java
 /**
  * @return key: node, value: live or not
  */

@@ -19,423 +19,280 @@
 
 -->
 
-# 运算符和表达式
+# 运算符、函数和表达式
+
 ## 运算符
 ### 算数运算符
 
-#### 一元算数运算符
+| Operator | Meaning                   |
+| -------- | ------------------------- |
+| `+`      | positive (unary operator) |
+| `-`      | negative (unary operator) |
+| `*`      | multiplication            |
+| `/`      | division                  |
+| `%`      | modulo                    |
+| `+`      | addition                  |
+| `-`      | subtraction               |
 
-支持的运算符：`+`, `-`
-
-输入数据类型要求：`INT32`, `INT64`, `FLOAT`, `DOUBLE`
-
-输出数据类型：与输入数据类型一致
-
-#### 二元算数运算符
-
-支持的运算符：`+`, `-`, `*`, `/`,  `%`
-
-输入数据类型要求：`INT32`, `INT64`, `FLOAT`和`DOUBLE`
-
-输出数据类型：`DOUBLE`
-
-注意：当某个时间戳下左操作数和右操作数都不为空（`null`）时，二元运算操作才会有输出结果
-
-#### 使用示例
-
-例如：
-
-```sql
-select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root.sg.d1
-```
-
-结果：
-
-``` 
-+-----------------------------+-------------+--------------+-------------+-------------+-----------------------------+-----------------------------+-----------------------------+-----------------------------+-----------------------------+
-|                         Time|root.sg.d1.s1|-root.sg.d1.s1|root.sg.d1.s2|root.sg.d1.s2|root.sg.d1.s1 + root.sg.d1.s2|root.sg.d1.s1 - root.sg.d1.s2|root.sg.d1.s1 * root.sg.d1.s2|root.sg.d1.s1 / root.sg.d1.s2|root.sg.d1.s1 % root.sg.d1.s2|
-+-----------------------------+-------------+--------------+-------------+-------------+-----------------------------+-----------------------------+-----------------------------+-----------------------------+-----------------------------+
-|1970-01-01T08:00:00.001+08:00|          1.0|          -1.0|          1.0|          1.0|                          2.0|                          0.0|                          1.0|                          1.0|                          0.0|
-|1970-01-01T08:00:00.002+08:00|          2.0|          -2.0|          2.0|          2.0|                          4.0|                          0.0|                          4.0|                          1.0|                          0.0|
-|1970-01-01T08:00:00.003+08:00|          3.0|          -3.0|          3.0|          3.0|                          6.0|                          0.0|                          9.0|                          1.0|                          0.0|
-|1970-01-01T08:00:00.004+08:00|          4.0|          -4.0|          4.0|          4.0|                          8.0|                          0.0|                         16.0|                          1.0|                          0.0|
-|1970-01-01T08:00:00.005+08:00|          5.0|          -5.0|          5.0|          5.0|                         10.0|                          0.0|                         25.0|                          1.0|                          0.0|
-+-----------------------------+-------------+--------------+-------------+-------------+-----------------------------+-----------------------------+-----------------------------+-----------------------------+-----------------------------+
-Total line number = 5
-It costs 0.014s
-```
-
-### 数学函数
-
-目前 IoTDB 支持下列数学函数，这些数学函数的行为与这些函数在 Java Math 标准库中对应实现的行为一致。
-
-| 函数名  | 输入序列类型                   | 输出序列类型             | 必要属性参数    | Java 标准库中的对应实现                                      |
-| ------- | ------------------------------ | ------------------------ |-----------| ------------------------------------------------------------ |
-| SIN     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#sin(double)                                             |
-| COS     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#cos(double)                                             |
-| TAN     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#tan(double)                                             |
-| ASIN    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#asin(double)                                            |
-| ACOS    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#acos(double)                                            |
-| ATAN    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#atan(double)                                            |
-| SINH    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#sinh(double)                                            |
-| COSH    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#cosh(double)                                            |
-| TANH    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#tanh(double)                                            |
-| DEGREES | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#toDegrees(double)                                       |
-| RADIANS | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#toRadians(double)                                       |
-| ABS     | INT32 / INT64 / FLOAT / DOUBLE | 与输入序列的实际类型一致 |           | Math#abs(int) / Math#abs(long) /Math#abs(float) /Math#abs(double) |
-| SIGN    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#signum(double)                                          |
-| CEIL    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#ceil(double)                                            |
-| FLOOR   | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#floor(double)                                           |
-| ROUND   | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |`places`:四舍五入有效位数，正数为小数点后面的有效位数，负数为整数位的有效位数 | Math#rint(Math#pow(10,places))/Math#pow(10,places)|
-| EXP     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#exp(double)                                             |
-| LN      | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#log(double)                                             |
-| LOG10   | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#log10(double)                                           |
-| SQRT    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |           | Math#sqrt(double)                                            |
-
-例如：
-
-```   sql
-select s1, sin(s1), cos(s1), tan(s1) from root.sg1.d1 limit 5 offset 1000;
-```
-
-结果：
-
-```
-+-----------------------------+-------------------+-------------------+--------------------+-------------------+
-|                         Time|     root.sg1.d1.s1|sin(root.sg1.d1.s1)| cos(root.sg1.d1.s1)|tan(root.sg1.d1.s1)|
-+-----------------------------+-------------------+-------------------+--------------------+-------------------+
-|2020-12-10T17:11:49.037+08:00|7360723084922759782| 0.8133527237573284|  0.5817708713544664| 1.3980636773094157|
-|2020-12-10T17:11:49.038+08:00|4377791063319964531|-0.8938962705202537|  0.4482738644511651| -1.994085181866842|
-|2020-12-10T17:11:49.039+08:00|7972485567734642915| 0.9627757585308978|-0.27030138509681073|-3.5618602479083545|
-|2020-12-10T17:11:49.040+08:00|2508858212791964081|-0.6073417341629443| -0.7944406950452296| 0.7644897069734913|
-|2020-12-10T17:11:49.041+08:00|2817297431185141819|-0.8419358900502509| -0.5395775727782725| 1.5603611649667768|
-+-----------------------------+-------------------+-------------------+--------------------+-------------------+
-Total line number = 5
-It costs 0.008s
-```
-#### ROUND
-例如：
-```sql
-select s4,round(s4),round(s4,2),round(s4,-1) from root.sg1.d1 
-```
-
-```sql
-+-----------------------------+-------------+--------------------+----------------------+-----------------------+
-|                         Time|root.db.d1.s4|ROUND(root.db.d1.s4)|ROUND(root.db.d1.s4,2)|ROUND(root.db.d1.s4,-1)|
-+-----------------------------+-------------+--------------------+----------------------+-----------------------+
-|1970-01-01T08:00:00.001+08:00|    101.14345|               101.0|                101.14|                  100.0|
-|1970-01-01T08:00:00.002+08:00|    20.144346|                20.0|                 20.14|                   20.0|
-|1970-01-01T08:00:00.003+08:00|    20.614372|                21.0|                 20.61|                   20.0|
-|1970-01-01T08:00:00.005+08:00|    20.814346|                21.0|                 20.81|                   20.0|
-|1970-01-01T08:00:00.006+08:00|     60.71443|                61.0|                 60.71|                   60.0|
-|2023-03-13T16:16:19.764+08:00|    10.143425|                10.0|                 10.14|                   10.0|
-+-----------------------------+-------------+--------------------+----------------------+-----------------------+
-Total line number = 6
-It costs 0.059s
-```
+更多见文档[Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md)。
 
 ### 比较运算符
 
-#### 基本比较运算符
+| Operator                  | Meaning                              |
+| ------------------------- | ------------------------------------ |
+| `>`                       | greater than                         |
+| `>=`                      | greater than or equal to             |
+| `<`                       | less than                            |
+| `<=`                      | less than or equal to                |
+| `==`                      | equal to                             |
+| `!=` / `<>`               | not equal to                         |
+| `BETWEEN ... AND ...`     | within the specified range           |
+| `NOT BETWEEN ... AND ...` | not within the specified range       |
+| `LIKE`                    | match simple pattern                 |
+| `NOT LIKE`                | cannot match simple pattern          |
+| `REGEXP`                  | match regular expression             |
+| `NOT REGEXP`              | cannot match regular expression      |
+| `IS NULL`                 | is null                              |
+| `IS NOT NULL`             | is not null                          |
+| `IN` / `CONTAINS`         | is a value in the specified list     |
+| `NOT IN` / `NOT CONTAINS` | is not a value in the specified list |
 
-- 输入数据类型： `INT32`, `INT64`, `FLOAT`, `DOUBLE`。
-- 注意：会将所有数据转换为`DOUBLE`类型后进行比较。`==`和`!=`可以直接比较两个`BOOLEAN`。
-- 返回类型：`BOOLEAN`。
+更多见文档[Comparison Operators and Functions](../Operators-Functions/Comparison.md)。
 
-|运算符                       |含义|
-|----------------------------|-----------|
-|`>`                         |大于|
-|`>=`                        |大于等于|
-|`<`                         |小于|
-|`<=`                        |小于等于|
-|`==`                        |等于|
-|`!=` / `<>`                 |不等于|
+### 逻辑运算符
 
-**示例：**
+| Operator           | Meaning                           |
+| ------------------ | --------------------------------- |
+| `NOT` / `!`        | logical negation (unary operator) |
+| `AND` / `&` / `&&` | logical AND                       |
+| `OR`/ \| / \|\|    | logical OR                        |
 
-```sql
-select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
-```
+更多见文档[Logical Operators](../Operators-Functions/Logical.md)。
 
-运行结果
-```
-IoTDB> select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
-+-----------------------------+-----------+-----------+----------------+--------------------------+---------------------------+------------------------------------------------+
-|                         Time|root.test.a|root.test.b|root.test.a > 10|root.test.a <= root.test.b|!root.test.a <= root.test.b|(root.test.a > 10) & (root.test.a > root.test.b)|
-+-----------------------------+-----------+-----------+----------------+--------------------------+---------------------------+------------------------------------------------+
-|1970-01-01T08:00:00.001+08:00|         23|       10.0|            true|                     false|                       true|                                            true|
-|1970-01-01T08:00:00.002+08:00|         33|       21.0|            true|                     false|                       true|                                            true|
-|1970-01-01T08:00:00.004+08:00|         13|       15.0|            true|                      true|                      false|                                           false|
-|1970-01-01T08:00:00.005+08:00|         26|        0.0|            true|                     false|                       true|                                            true|
-|1970-01-01T08:00:00.008+08:00|          1|       22.0|           false|                      true|                      false|                                           false|
-|1970-01-01T08:00:00.010+08:00|         23|       12.0|            true|                     false|                       true|                                            true|
-+-----------------------------+-----------+-----------+----------------+--------------------------+---------------------------+------------------------------------------------+
-```
+### 运算符优先级
 
-#### `BETWEEN ... AND ...` 运算符
-
-|运算符                       |含义|
-|----------------------------|-----------|
-|`BETWEEN ... AND ...`       |在指定范围内|
-|`NOT BETWEEN ... AND ...`   |不在指定范围内|
-
-**示例：** 选择区间 [36.5,40] 内或之外的数据：
+运算符的优先级从高到低排列如下，同一行的运算符优先级相同。
 
 ```sql
-select temperature from root.sg1.d1 where temperature between 36.5 and 40;
+!, - (unary operator), + (unary operator)
+*, /, DIV, %, MOD
+-, +
+=, ==, <=>, >=, >, <=, <, <>, !=
+LIKE, REGEXP, NOT LIKE, NOT REGEXP
+BETWEEN ... AND ..., NOT BETWEEN ... AND ...
+IS NULL, IS NOT NULL
+IN, CONTAINS, NOT IN, NOT CONTAINS
+AND, &, &&
+OR, |, ||
 ```
 
-```sql
-select temperature from root.sg1.d1 where temperature not between 36.5 and 40;
-```
+## 内置函数
 
-#### 模糊匹配运算符
+列表中的函数无须注册即可在 IoTDB 中使用，数据函数质量库中的函数需要参考注册步骤进行注册后才能使用。
 
-对于 TEXT 类型的数据，支持使用 `Like` 和 `Regexp` 运算符对数据进行模糊匹配
+### 聚合函数
 
-|运算符                       |含义|
-|----------------------------|-----------|
-|`LIKE`                      |匹配简单模式|
-|`NOT LIKE`                  |无法匹配简单模式|
-|`REGEXP`                    |匹配正则表达式|
-|`NOT REGEXP`                |无法匹配正则表达式|
+| 函数名      | 功能描述                                                     | 允许的输入类型           | 输出类型       |
+| ----------- | ------------------------------------------------------------ | ------------------------ | -------------- |
+| SUM         | 求和。                                                       | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
+| COUNT       | 计算数据点数。                                               | 所有类型                 | INT            |
+| AVG         | 求平均值。                                                   | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
+| EXTREME     | 求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。 | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
+| MAX_VALUE   | 求最大值。                                                   | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
+| MIN_VALUE   | 求最小值。                                                   | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
+| FIRST_VALUE | 求时间戳最小的值。                                           | 所有类型                 | 与输入类型一致 |
+| LAST_VALUE  | 求时间戳最大的值。                                           | 所有类型                 | 与输入类型一致 |
+| MAX_TIME    | 求最大时间戳。                                               | 所有类型                 | Timestamp      |
+| MIN_TIME    | 求最小时间戳。                                               | 所有类型                 | Timestamp      |
 
-输入数据类型：`TEXT`
+详细说明及示例见文档 [聚合函数](../Operators-Functions/Aggregation.md)。
 
-返回类型：`BOOLEAN`
+### 数学函数 
 
-##### 使用 `Like` 进行模糊匹配
+| 函数名  | 输入序列类型                   | 输出序列类型             | 必要属性参数                                       | Java 标准库中的对应实现                                                    |
+| ------- | ------------------------------ | ------------------------ |----------------------------------------------|-------------------------------------------------------------------|
+| SIN     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#sin(double)                                                  |
+| COS     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#cos(double)                                                  |
+| TAN     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#tan(double)                                                  |
+| ASIN    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#asin(double)                                                 |
+| ACOS    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#acos(double)                                                 |
+| ATAN    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#atan(double)                                                 |
+| SINH    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#sinh(double)                                                 |
+| COSH    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#cosh(double)                                                 |
+| TANH    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#tanh(double)                                                 |
+| DEGREES | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#toDegrees(double)                                            |
+| RADIANS | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#toRadians(double)                                            |
+| ABS     | INT32 / INT64 / FLOAT / DOUBLE | 与输入序列的实际类型一致 |                                              | Math#abs(int) / Math#abs(long) /Math#abs(float) /Math#abs(double) |
+| SIGN    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#signum(double)                                               |
+| CEIL    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#ceil(double)                                                 |
+| FLOOR   | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#floor(double)                                                |
+| ROUND   | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | `places`:四舍五入有效位数，正数为小数点后面的有效位数，负数为整数位的有效位数 | Math#rint(Math#pow(10,places))/Math#pow(10,places)                         |
+| EXP     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#exp(double)                                                  |
+| LN      | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#log(double)                                                  |
+| LOG10   | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#log10(double)                                                |
+| SQRT    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#sqrt(double)                                                 |
 
-**匹配规则：**
 
-- `%` 表示任意0个或多个字符。
-- `_` 表示任意单个字符。
+详细说明及示例见文档 [算数运算符和函数](../Operators-Functions/Mathematical.md)。
 
-**示例 1：** 查询 `root.sg.d1` 下 `value` 含有`'cc'`的数据。
+### 比较函数
 
-```shell
-IoTDB> select * from root.sg.d1 where value like '%cc%'
-+-----------------------------+----------------+
-|                         Time|root.sg.d1.value|
-+-----------------------------+----------------+
-|2017-11-01T00:00:00.000+08:00|        aabbccdd| 
-|2017-11-01T00:00:01.000+08:00|              cc|
-+-----------------------------+----------------+
-Total line number = 2
-It costs 0.002s
-```
+| 函数名    | 可接收的输入序列类型                | 必要的属性参数                               | 输出序列类型     | 功能类型                                             |
+|----------|--------------------------------|---------------------------------------|------------|--------------------------------------------------|
+| ON_OFF   | INT32 / INT64 / FLOAT / DOUBLE | `threshold`:DOUBLE                  | BOOLEAN | 返回`ts_value >= threshold`的bool值                  |
+| IN_RANGE | INT32 / INT64 / FLOAT / DOUBLE | `lower`:DOUBLE<br/>`upper`:DOUBLE | BOOLEAN | 返回`ts_value >= lower && ts_value <= upper`的bool值 |                                                    |
 
-**示例 2：** 查询 `root.sg.d1` 下 `value` 中间为 `'b'`、前后为任意单个字符的数据。
+详细说明及示例见文档 [比较运算符和函数](./Comparison.md)。
 
-```shell
-IoTDB> select * from root.sg.device where value like '_b_'
-+-----------------------------+----------------+
-|                         Time|root.sg.d1.value|
-+-----------------------------+----------------+
-|2017-11-01T00:00:02.000+08:00|             abc| 
-+-----------------------------+----------------+
-Total line number = 1
-It costs 0.002s
-```
+### 字符串函数
 
-##### 使用 `Regexp` 进行模糊匹配
+| 函数名             | 输入序列类型 | 必要的属性参数                                                                                                   | 输出序列类型 | 功能描述                                                                    |
+|-----------------| ------------ |-----------------------------------------------------------------------------------------------------------| ------------ |-------------------------------------------------------------------------|
+| STRING_CONTAINS | TEXT         | `s`: 待搜寻的字符串                                                                                              | BOOLEAN      | 判断字符串中是否存在`s`                                                           |
+| STRING_MATCHES  | TEXT         | `regex`: Java 标准库风格的正则表达式                                                                                 | BOOLEAN      | 判断字符串是否能够被正则表达式`regex`匹配                                                |
+| LENGTH          | TEXT | 无                                                                                                         | INT32 | 返回字符串的长度                                                                |
+| LOCATE          | TEXT | `target`: 需要被定位的子串 <br/> `reverse`: 指定是否需要倒序定位，默认值为`false`, 即从左至右定位                                       | INT32 | 获取`target`子串第一次出现在输入序列的位置，如果输入序列中不包含`target`则返回 -1                      |
+| STARTSWITH      | TEXT | `target`: 需要匹配的前缀                                                                                         | BOOLEAN | 判断字符串是否有指定前缀                                                            |
+| ENDSWITH        | TEXT | `target`: 需要匹配的后缀                                                                                         | BOOLEAN | 判断字符串是否有指定后缀                                                            |
+| CONCAT          | TEXT | `targets`: 一系列 K-V, key需要以`target`为前缀且不重复, value是待拼接的字符串。<br/>`series_behind`: 指定拼接时时间序列是否在后面，默认为`false`。 | TEXT | 拼接字符串和`target`字串                                                        |
+| SUBSTRING       | TEXT | `from`: 指定子串开始下标 <br/>`for`: 指定的字符个数之后停止                                                                  | TEXT | 提取字符串的子字符串，从指定的第一个字符开始，并在指定的字符数之后停止。下标从1开始。from 和 for的范围是 INT32 类型取值范围。 |
+| REPLACE | TEXT | 第一个参数： 需要替换的目标子串<br />第二个参数：要替换成的子串 | TEXT | 将输入序列中的子串替换成目标子串 |
+| UPPER           | TEXT | 无                                                                                                         | TEXT | 将字符串转化为大写                                                               |
+| LOWER           | TEXT | 无                                                                                                         | TEXT | 将字符串转化为小写                                                               |
+| TRIM            | TEXT | 无                                                                                                         | TEXT | 移除字符串前后的空格                                                              |
+| STRCMP          | TEXT | 无                                                                                                         | TEXT | 用于比较两个输入序列，如果值相同返回 `0` , 序列1的值小于序列2的值返回一个`负数`，序列1的值大于序列2的值返回一个`正数`      |
 
-需要传入的过滤条件为 **Java 标准库风格的正则表达式**。
+详细说明及示例见文档 [字符串处理函数](../Operators-Functions/String.md)。
 
-**常见的正则匹配举例：**
+### 数据类型转换函数
 
-```
-长度为3-20的所有字符：^.{3,20}$
-大写英文字符：^[A-Z]+$
-数字和英文字符：^[A-Za-z0-9]+$
-以a开头的：^a.*
-```
+| 函数名 | 必要的属性参数                                               | 输出序列类型             | 功能类型                           |
+| ------ | ------------------------------------------------------------ | ------------------------ | ---------------------------------- |
+| CAST   | `type`:输出的数据点的类型，只能是 INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | 由输入属性参数`type`决定 | 将数据转换为`type`参数指定的类型。 |
 
-**示例 1：** 查询 root.sg.d1 下 value 值为26个英文字符组成的字符串。
+详细说明及示例见文档 [数据类型转换](../Operators-Functions/Conversion.md)。
 
-```shell
-IoTDB> select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
-+-----------------------------+----------------+
-|                         Time|root.sg.d1.value|
-+-----------------------------+----------------+
-|2017-11-01T00:00:00.000+08:00|        aabbccdd| 
-|2017-11-01T00:00:01.000+08:00|              cc|
-+-----------------------------+----------------+
-Total line number = 2
-It costs 0.002s
-```
+### 常序列生成函数
 
-**示例 2：** 查询 root.sg.d1 下 value 值为26个小写英文字符组成的字符串且时间大于100的。
+| 函数名 | 必要的属性参数                                               | 输出序列类型               | 功能描述                                                     |
+| ------ | ------------------------------------------------------------ | -------------------------- | ------------------------------------------------------------ |
+| CONST  | `value`: 输出的数据点的值 <br />`type`: 输出的数据点的类型，只能是 INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | 由输入属性参数 `type` 决定 | 根据输入属性 `value` 和 `type` 输出用户指定的常序列。        |
+| PI     | 无                                                           | DOUBLE                     | 常序列的值：`π` 的 `double` 值，圆的周长与其直径的比值，即圆周率，等于 *Java标准库* 中的`Math.PI`。 |
+| E      | 无                                                           | DOUBLE                     | 常序列的值：`e` 的 `double` 值，自然对数的底，它等于 *Java 标准库*  中的 `Math.E`。 |
 
-```shell
-IoTDB> select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
-+-----------------------------+----------------+
-|                         Time|root.sg.d1.value|
-+-----------------------------+----------------+
-|2017-11-01T00:00:00.000+08:00|        aabbccdd| 
-|2017-11-01T00:00:01.000+08:00|              cc|
-+-----------------------------+----------------+
-Total line number = 2
-It costs 0.002s
-```
+详细说明及示例见文档 [常序列生成函数](../Operators-Functions/Constant.md)。
 
-**示例 3：**
+### 选择函数
 
-```sql
-select b, b like '1%', b regexp '[0-2]' from root.test;
-```
+| 函数名   | 输入序列类型                          | 必要的属性参数                                    | 输出序列类型             | 功能描述                                                     |
+| -------- | ------------------------------------- | ------------------------------------------------- | ------------------------ | ------------------------------------------------------------ |
+| TOP_K    | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: 最多选择的数据点数，必须大于 0 小于等于 1000 | 与输入序列的实际类型一致 | 返回某时间序列中值最大的`k`个数据点。若多于`k`个数据点的值并列最大，则返回时间戳最小的数据点。 |
+| BOTTOM_K | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: 最多选择的数据点数，必须大于 0 小于等于 1000 | 与输入序列的实际类型一致 | 返回某时间序列中值最小的`k`个数据点。若多于`k`个数据点的值并列最小，则返回时间戳最小的数据点。 |
 
-运行结果
-```
-+-----------------------------+-----------+-------------------------+--------------------------+
-|                         Time|root.test.b|root.test.b LIKE '^1.*?$'|root.test.b REGEXP '[0-2]'|
-+-----------------------------+-----------+-------------------------+--------------------------+
-|1970-01-01T08:00:00.001+08:00| 111test111|                     true|                      true|
-|1970-01-01T08:00:00.003+08:00| 333test333|                    false|                     false|
-+-----------------------------+-----------+-------------------------+--------------------------+
-```
+详细说明及示例见文档 [选择函数](../Operators-Functions/Selection.md)。
 
-#### `IS NULL` 运算符
+### 区间查询函数
 
-|运算符                       |含义|
-|----------------------------|-----------|
-|`IS NULL`                   |是空值|
-|`IS NOT NULL`               |不是空值|
+| 函数名               | 输入序列类型                               | 属性参数                                           | 输出序列类型 | 功能描述                                                             |
+|-------------------|--------------------------------------|------------------------------------------------|-------|------------------------------------------------------------------|
+| ZERO_DURATION     | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值0<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续为0(false)的开始时间与持续时间，持续时间t(单位ms)满足`t >= min && t <= max`  |
+| NON_ZERO_DURATION | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值0<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续不为0(false)的开始时间与持续时间，持续时间t(单位ms)满足`t >= min && t <= max` |               |
+| ZERO_COUNT        | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值1<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续为0(false)的开始时间与其后数据点的个数，数据点个数n满足`n >= min && n <= max`   |               |
+| NON_ZERO_COUNT    | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值1<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续不为0(false)的开始时间与其后数据点的个数，数据点个数n满足`n >= min && n <= max`  |               |
 
-**示例 1：** 选择值为空的数据:
+详细说明及示例见文档 [区间查询函数](../Operators-Functions/Continuous-Interval.md)。
 
-```sql
-select code from root.sg1.d1 where temperature is null;
-```
+### 趋势计算函数
 
-**示例 2：** 选择值为非空的数据:
+| 函数名                  | 输入序列类型                                    | 输出序列类型             | 功能描述                                                     |
+| ----------------------- | ----------------------------------------------- | ------------------------ | ------------------------------------------------------------ |
+| TIME_DIFFERENCE         | INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | INT64                    | 统计序列中某数据点的时间戳与前一数据点时间戳的差。范围内第一个数据点没有对应的结果输出。 |
+| DIFFERENCE              | INT32 / INT64 / FLOAT / DOUBLE                  | 与输入序列的实际类型一致 | 统计序列中某数据点的值与前一数据点的值的差。范围内第一个数据点没有对应的结果输出。 |
+| NON_NEGATIVE_DIFFERENCE | INT32 / INT64 / FLOAT / DOUBLE                  | 与输入序列的实际类型一致 | 统计序列中某数据点的值与前一数据点的值的差的绝对值。范围内第一个数据点没有对应的结果输出。 |
+| DERIVATIVE              | INT32 / INT64 / FLOAT / DOUBLE                  | DOUBLE                   | 统计序列中某数据点相对于前一数据点的变化率，数量上等同于 DIFFERENCE /  TIME_DIFFERENCE。范围内第一个数据点没有对应的结果输出。 |
+| NON_NEGATIVE_DERIVATIVE | INT32 / INT64 / FLOAT / DOUBLE                  | DOUBLE                   | 统计序列中某数据点相对于前一数据点的变化率的绝对值，数量上等同于 NON_NEGATIVE_DIFFERENCE /  TIME_DIFFERENCE。范围内第一个数据点没有对应的结果输出。 |
 
-```sql
-select code from root.sg1.d1 where temperature is not null;
-```
 
-#### `IN` 运算符
+| 函数名  | 输入序列类型                         | 参数                                                                                                                     | 输出序列类型 | 功能描述                                           |
+|------|--------------------------------|------------------------------------------------------------------------------------------------------------------------|--------|------------------------------------------------|
+| DIFF | INT32 / INT64 / FLOAT / DOUBLE | `ignoreNull`：可选，默认为true；为true时，前一个数据点值为null时，忽略该数据点继续向前找到第一个出现的不为null的值；为false时，如果前一个数据点为null，则不忽略，使用null进行相减，结果也为null | DOUBLE | 统计序列中某数据点的值与前一数据点的值的差。第一个数据点没有对应的结果输出，输出值为null |
 
-|运算符                       |含义|
-|----------------------------|-----------|
-|`IN` / `CONTAINS`           |是指定列表中的值|
-|`NOT IN` / `NOT CONTAINS`   |不是指定列表中的值|
+详细说明及示例见文档 [趋势计算函数](../Operators-Functions/Variation-Trend.md)。
 
-输入数据类型：`All Types`
-
-返回类型 `BOOLEAN`
-
-**注意：请确保集合中的值可以被转为输入数据的类型。**
-> 例如：
->
->`s1 in (1, 2, 3, 'test')`，`s1`的数据类型是`INT32`
->
-> 我们将会抛出异常，因为`'test'`不能被转为`INT32`类型
-
-**示例 1：** 选择值在特定范围内的数据：
-
-```sql
-select code from root.sg1.d1 where code in ('200', '300', '400', '500');
-```
-
-**示例 2：** 选择值在特定范围外的数据：
-
-```sql
-select code from root.sg1.d1 where code not in ('200', '300', '400', '500');
-```
-
-**示例 3：**
-
-```sql
-select a, a in (1, 2) from root.test;
-```
-
-输出2:
-```
-+-----------------------------+-----------+--------------------+
-|                         Time|root.test.a|root.test.a IN (1,2)|
-+-----------------------------+-----------+--------------------+
-|1970-01-01T08:00:00.001+08:00|          1|                true|
-|1970-01-01T08:00:00.003+08:00|          3|               false|
-+-----------------------------+-----------+--------------------+
-```
-
-### 条件函数 
-
-条件函数针对每个数据点进行条件判断，返回布尔值。
+### 采样函数
 
 | 函数名      | 可接收的输入序列类型                     | 必要的属性参数                               | 输出序列类型     | 功能类型                                             |
 |----------|--------------------------------|---------------------------------------|------------|--------------------------------------------------|
-| ON_OFF   | INT32 / INT64 / FLOAT / DOUBLE | `threshold`:DOUBLE类型                  | BOOLEAN 类型 | 返回`ts_value >= threshold`的bool值                  |
-| IN_RANGE | INT32 / INT64 / FLOAT / DOUBLE | `lower`:DOUBLE类型<br/>`upper`:DOUBLE类型 | BOOLEAN类型  | 返回`ts_value >= lower && ts_value <= upper`的bool值 |                                                    |
+| EQUAL_SIZE_BUCKET_RANDOM_SAMPLE   | INT32 / INT64 / FLOAT / DOUBLE | 降采样比例 `proportion`，取值范围为`(0, 1]`，默认为`0.1`  | INT32 / INT64 / FLOAT / DOUBLE | 返回符合采样比例的等分桶随机采样                |
+| EQUAL_SIZE_BUCKET_AGG_SAMPLE   | INT32 / INT64 / FLOAT / DOUBLE | `proportion`取值范围为`(0, 1]`，默认为`0.1`<br>`type`:取值类型有`avg`, `max`, `min`, `sum`, `extreme`, `variance`, 默认为`avg`  | INT32 / INT64 / FLOAT / DOUBLE | 返回符合采样比例的等分桶聚合采样                |
+| EQUAL_SIZE_BUCKET_M4_SAMPLE   | INT32 / INT64 / FLOAT / DOUBLE | `proportion`取值范围为`(0, 1]`，默认为`0.1`| INT32 / INT64 / FLOAT / DOUBLE | 返回符合采样比例的等分桶M4采样                |
+| EQUAL_SIZE_BUCKET_OUTLIER_SAMPLE   | INT32 / INT64 / FLOAT / DOUBLE | `proportion`取值范围为`(0, 1]`，默认为`0.1`<br>`type`取值为`avg`或`stendis`或`cos`或`prenextdis`，默认为`avg`<br>`number`取值应大于0，默认`3`| INT32 / INT64 / FLOAT / DOUBLE | 返回符合采样比例和桶内采样个数的等分桶离群值采样                |
+| M4     | INT32 / INT64 / FLOAT / DOUBLE | 包含固定点数的窗口和滑动时间窗口使用不同的属性参数。包含固定点数的窗口使用属性`windowSize`和`slidingStep`。滑动时间窗口使用属性`timeInterval`、`slidingStep`、`displayWindowBegin`和`displayWindowEnd`。更多细节见下文。 | INT32 / INT64 / FLOAT / DOUBLE | 返回每个窗口内的第一个点（`first`）、最后一个点（`last`）、最小值点（`bottom`）、最大值点（`top`）。在一个窗口内的聚合点输出之前，M4会将它们按照时间戳递增排序并且去重。 |
 
-测试数据：
+### 时间序列处理函数
 
-```
-IoTDB> select ts from root.test;
-+-----------------------------+------------+
-|                         Time|root.test.ts|
-+-----------------------------+------------+
-|1970-01-01T08:00:00.001+08:00|           1|
-|1970-01-01T08:00:00.002+08:00|           2|
-|1970-01-01T08:00:00.003+08:00|           3|
-|1970-01-01T08:00:00.004+08:00|           4|
-+-----------------------------+------------+
-```
+| 函数名        | 输入序列类型                   | 参数 | 输出序列类型             | 功能描述                   |
+| ------------- | ------------------------------ | ---- | ------------------------ | -------------------------- |
+| CHANGE_POINTS | INT32 / INT64 / FLOAT / DOUBLE | /    | 与输入序列的实际类型一致 | 去除输入序列中的连续相同值 |
 
-**示例 1：**
+详细说明及示例见文档 [时间序列处理](../Operators-Functions/Time-Series.md)
 
-SQL语句：
-```sql
-select ts, on_off(ts, 'threshold'='2') from root.test;
-```
+## 数据质量函数库
 
-输出：
-```
-IoTDB> select ts, on_off(ts, 'threshold'='2') from root.test;
-+-----------------------------+------------+-------------------------------------+
-|                         Time|root.test.ts|on_off(root.test.ts, "threshold"="2")|
-+-----------------------------+------------+-------------------------------------+
-|1970-01-01T08:00:00.001+08:00|           1|                                false|
-|1970-01-01T08:00:00.002+08:00|           2|                                 true|
-|1970-01-01T08:00:00.003+08:00|           3|                                 true|
-|1970-01-01T08:00:00.004+08:00|           4|                                 true|
-+-----------------------------+------------+-------------------------------------+
-```
+### 关于
 
-**示例 2：**
+对基于时序数据的应用而言，数据质量至关重要。基于用户自定义函数能力，IoTDB 提供了一系列关于数据质量的函数，包括数据画像、数据质量评估与修复等，能够满足工业领域对数据质量的需求。
 
-Sql语句：
-```sql
-select ts, in_range(ts, 'lower'='2', 'upper'='3.1') from root.test;
-```
+### 快速上手
 
-输出：
-```
-IoTDB> select ts, in_range(ts, 'lower'='2', 'upper'='3.1') from root.test;
-+-----------------------------+------------+--------------------------------------------------+
-|                         Time|root.test.ts|in_range(root.test.ts, "lower"="2", "upper"="3.1")|
-+-----------------------------+------------+--------------------------------------------------+
-|1970-01-01T08:00:00.001+08:00|           1|                                             false|
-|1970-01-01T08:00:00.002+08:00|           2|                                              true|
-|1970-01-01T08:00:00.003+08:00|           3|                                              true|
-|1970-01-01T08:00:00.004+08:00|           4|                                             false|
-+-----------------------------+------------+--------------------------------------------------+
-```
+**该函数库中的函数不是内置函数，使用前要先加载到系统中。** 操作流程如下：
 
-## 表达式
+1. 下载包含全部依赖的 jar 包和注册脚本 [【点击下载】](https://archive.apache.org/dist/iotdb/1.0.1/apache-iotdb-1.0.1-library-udf-bin.zip) ；
+2. 将 jar 包复制到 IoTDB 程序目录的 `ext\udf` 目录下 (若您使用的是集群，请将jar包复制到所有DataNode的该目录下)；
+3. 启动 IoTDB；
+4. 将注册脚本复制到 IoTDB 的程序目录下（与`sbin`目录同级的根目录下），修改脚本中的参数（如果需要）并运行注册脚本以注册 UDF。
+
+### 已经实现的函数
+
+1.   [Data-Quality](../Operators-Functions/Data-Quality.md) 数据质量
+2.   [Data-Profiling](../Operators-Functions/Data-Profiling.md) 数据画像
+3.   [Anomaly-Detection](../Operators-Functions/Anomaly-Detection.md) 异常检测
+4.   [Frequency-Domain](../Operators-Functions/Frequency-Domain.md) 频域分析
+5.   [Data-Matching](../Operators-Functions/Data-Matching.md) 数据匹配
+6.   [Data-Repairing](../Operators-Functions/Data-Repairing.md) 数据修复
+7.   [Series-Discovery](../Operators-Functions/Series-Discovery.md) 序列发现
+8.   [Machine-Learning](../Operators-Functions/Machine-Learning.md) 机器学习
+
+## Lambda 表达式
+
+| 函数名 | 可接收的输入序列类型                            | 必要的属性参数                                               | 输出序列类型                                    | 功能类型                                       |
+| ------ | ----------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------- | ---------------------------------------------- |
+| JEXL   | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | `expr`是一个支持标准的一元或多元参数的lambda表达式，符合`x -> {...}`或`(x, y, z) -> {...}`的格式，例如`x -> {x * 2}`, `(x, y, z) -> {x + y * z}` | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | 返回将输入的时间序列通过lambda表达式变换的序列 |
+
+详细说明及示例见文档 [Lambda 表达式](../Operators-Functions/Lambda.md)
+
+## 条件表达式
+
+| 表达式名称                     | 含义        |
+|---------------------------|-----------|
+| `CASE` | 类似if else |
+
+详细说明及示例见文档 [条件表达式](../Operators-Functions/Conditional.md)
+
+## SELECT 表达式
 
 `SELECT` 子句指定查询的输出，由若干个 `selectExpr` 组成。 每个 `selectExpr` 定义了查询结果中的一列或多列。
 
 **`selectExpr` 是一个由时间序列路径后缀、常量、函数和运算符组成的表达式。即 `selectExpr` 中可以包含：**
+
 - 时间序列路径后缀（支持使用通配符）
 - 运算符
-  - 算数运算符
-  - 比较运算符
-  - 逻辑运算符
+    - 算数运算符
+    - 比较运算符
+    - 逻辑运算符
 - 函数
-  - 聚合函数
-  - 时间序列生成函数（包括内置函数和用户自定义函数）
+    - 聚合函数
+    - 时间序列生成函数（包括内置函数和用户自定义函数）
 - 常量
 
 #### 使用别名
@@ -612,6 +469,7 @@ It costs 0.014s
 IoTDB 支持在 `SELECT` 子句中计算由**聚合函数、常量、时间序列生成函数和表达式**组成的任意嵌套表达式。
 
 **说明：**
+
 - 当某个时间戳下左操作数和右操作数都不为空（`null`）时，表达式才会有结果，否则表达式值为`null`，且默认不出现在结果集中。但在使用`GROUP BY`子句的聚合查询嵌套表达式中，我们希望保留每个时间窗口的值，所以表达式值为`null`的窗口也包含在结果集中。
 - 如果表达式中某个操作数对应多条时间序列（如通配符`*`），那么每条时间序列对应的结果都会出现在结果集中（按照笛卡尔积形式）。
 
@@ -688,163 +546,3 @@ GROUP BY([10, 90), 10ms);
 Total line number = 8
 It costs 0.012s
 ```
-
-## 内置函数
-
-列表中的函数无须注册即可在 IoTDB 中使用，数据函数质量库中的函数需要参考注册步骤进行注册后才能使用。
-
-### 聚合函数
-
-| 函数名      | 功能描述                                                     | 允许的输入类型           | 输出类型       |
-| ----------- | ------------------------------------------------------------ | ------------------------ | -------------- |
-| SUM         | 求和。                                                       | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
-| COUNT       | 计算数据点数。                                               | 所有类型                 | INT            |
-| AVG         | 求平均值。                                                   | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
-| EXTREME     | 求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。 | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
-| MAX_VALUE   | 求最大值。                                                   | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
-| MIN_VALUE   | 求最小值。                                                   | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
-| FIRST_VALUE | 求时间戳最小的值。                                           | 所有类型                 | 与输入类型一致 |
-| LAST_VALUE  | 求时间戳最大的值。                                           | 所有类型                 | 与输入类型一致 |
-| MAX_TIME    | 求最大时间戳。                                               | 所有类型                 | Timestamp      |
-| MIN_TIME    | 求最小时间戳。                                               | 所有类型                 | Timestamp      |
-详细说明及示例见文档 [聚合函数](./Aggregation.md)。
-
-### 数学函数 
-
-| 函数名  | 输入序列类型                   | 输出序列类型             | 必要属性参数                                       | Java 标准库中的对应实现                                                    |
-| ------- | ------------------------------ | ------------------------ |----------------------------------------------|-------------------------------------------------------------------|
-| SIN     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#sin(double)                                                  |
-| COS     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#cos(double)                                                  |
-| TAN     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#tan(double)                                                  |
-| ASIN    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#asin(double)                                                 |
-| ACOS    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#acos(double)                                                 |
-| ATAN    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#atan(double)                                                 |
-| SINH    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#sinh(double)                                                 |
-| COSH    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#cosh(double)                                                 |
-| TANH    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#tanh(double)                                                 |
-| DEGREES | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#toDegrees(double)                                            |
-| RADIANS | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#toRadians(double)                                            |
-| ABS     | INT32 / INT64 / FLOAT / DOUBLE | 与输入序列的实际类型一致 |                                              | Math#abs(int) / Math#abs(long) /Math#abs(float) /Math#abs(double) |
-| SIGN    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#signum(double)                                               |
-| CEIL    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#ceil(double)                                                 |
-| FLOOR   | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#floor(double)                                                |
-| ROUND   | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | `places`:四舍五入有效位数，正数为小数点后面的有效位数，负数为整数位的有效位数 | Math#rint(Math#pow(10,places))/Math#pow(10,places)                         |
-| EXP     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#exp(double)                                                  |
-| LN      | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#log(double)                                                  |
-| LOG10   | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#log10(double)                                                |
-| SQRT    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#sqrt(double)                                                 |
-
-
-详细说明及示例见文档 [算数运算符和函数](./Mathematical.md)。
-
-### 比较函数
-
-| 函数名    | 可接收的输入序列类型                | 必要的属性参数                               | 输出序列类型     | 功能类型                                             |
-|----------|--------------------------------|---------------------------------------|------------|--------------------------------------------------|
-| ON_OFF   | INT32 / INT64 / FLOAT / DOUBLE | `threshold`:DOUBLE                  | BOOLEAN | 返回`ts_value >= threshold`的bool值                  |
-| IN_RANGE | INT32 / INT64 / FLOAT / DOUBLE | `lower`:DOUBLE<br/>`upper`:DOUBLE | BOOLEAN | 返回`ts_value >= lower && ts_value <= upper`的bool值 |                                                    |
-
-详细说明及示例见文档 [比较运算符和函数](./Comparison.md)。
-
-### 字符串函数
-
-| 函数名             | 输入序列类型 | 必要的属性参数                                                                                                   | 输出序列类型 | 功能描述                                                                    |
-|-----------------| ------------ |-----------------------------------------------------------------------------------------------------------| ------------ |-------------------------------------------------------------------------|
-| STRING_CONTAINS | TEXT         | `s`: 待搜寻的字符串                                                                                              | BOOLEAN      | 判断字符串中是否存在`s`                                                           |
-| STRING_MATCHES  | TEXT         | `regex`: Java 标准库风格的正则表达式                                                                                 | BOOLEAN      | 判断字符串是否能够被正则表达式`regex`匹配                                                |
-| LENGTH          | TEXT | 无                                                                                                         | INT32 | 返回字符串的长度                                                                |
-| LOCATE          | TEXT | `target`: 需要被定位的子串 <br/> `reverse`: 指定是否需要倒序定位，默认值为`false`, 即从左至右定位                                       | INT32 | 获取`target`子串第一次出现在输入序列的位置，如果输入序列中不包含`target`则返回 -1                      |
-| STARTSWITH      | TEXT | `target`: 需要匹配的前缀                                                                                         | BOOLEAN | 判断字符串是否有指定前缀                                                            |
-| ENDSWITH        | TEXT | `target`: 需要匹配的后缀                                                                                         | BOOLEAN | 判断字符串是否有指定后缀                                                            |
-| CONCAT          | TEXT | `targets`: 一系列 K-V, key需要以`target`为前缀且不重复, value是待拼接的字符串。<br/>`series_behind`: 指定拼接时时间序列是否在后面，默认为`false`。 | TEXT | 拼接字符串和`target`字串                                                        |
-| SUBSTRING       | TEXT | `from`: 指定子串开始下标 <br/>`for`: 指定的字符个数之后停止                                                                  | TEXT | 提取字符串的子字符串，从指定的第一个字符开始，并在指定的字符数之后停止。下标从1开始。from 和 for的范围是 INT32 类型取值范围。 |
-| REPLACE | TEXT | 第一个参数： 需要替换的目标子串<br />第二个参数：要替换成的子串 | TEXT | 将输入序列中的子串替换成目标子串 |
-| UPPER           | TEXT | 无                                                                                                         | TEXT | 将字符串转化为大写                                                               |
-| LOWER           | TEXT | 无                                                                                                         | TEXT | 将字符串转化为小写                                                               |
-| TRIM            | TEXT | 无                                                                                                         | TEXT | 移除字符串前后的空格                                                              |
-| STRCMP          | TEXT | 无                                                                                                         | TEXT | 用于比较两个输入序列，如果值相同返回 `0` , 序列1的值小于序列2的值返回一个`负数`，序列1的值大于序列2的值返回一个`正数`      |
-
-详细说明及示例见文档 [字符串处理函数](./String.md)。
-
-### 数据类型转换函数
-
-| 函数名 | 必要的属性参数                                               | 输出序列类型             | 功能类型                           |
-| ------ | ------------------------------------------------------------ | ------------------------ | ---------------------------------- |
-| CAST   | `type`:输出的数据点的类型，只能是 INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | 由输入属性参数`type`决定 | 将数据转换为`type`参数指定的类型。 |
-
-详细说明及示例见文档 [数据类型转换](./Conversion.md)。
-
-### 常序列生成函数
-
-| 函数名 | 必要的属性参数                                               | 输出序列类型               | 功能描述                                                     |
-| ------ | ------------------------------------------------------------ | -------------------------- | ------------------------------------------------------------ |
-| CONST  | `value`: 输出的数据点的值 <br />`type`: 输出的数据点的类型，只能是 INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | 由输入属性参数 `type` 决定 | 根据输入属性 `value` 和 `type` 输出用户指定的常序列。        |
-| PI     | 无                                                           | DOUBLE                     | 常序列的值：`π` 的 `double` 值，圆的周长与其直径的比值，即圆周率，等于 *Java标准库* 中的`Math.PI`。 |
-| E      | 无                                                           | DOUBLE                     | 常序列的值：`e` 的 `double` 值，自然对数的底，它等于 *Java 标准库*  中的 `Math.E`。 |
-
-详细说明及示例见文档 [常序列生成函数](./Constant.md)。
-
-### 选择函数
-
-| 函数名   | 输入序列类型                          | 必要的属性参数                                    | 输出序列类型             | 功能描述                                                     |
-| -------- | ------------------------------------- | ------------------------------------------------- | ------------------------ | ------------------------------------------------------------ |
-| TOP_K    | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: 最多选择的数据点数，必须大于 0 小于等于 1000 | 与输入序列的实际类型一致 | 返回某时间序列中值最大的`k`个数据点。若多于`k`个数据点的值并列最大，则返回时间戳最小的数据点。 |
-| BOTTOM_K | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: 最多选择的数据点数，必须大于 0 小于等于 1000 | 与输入序列的实际类型一致 | 返回某时间序列中值最小的`k`个数据点。若多于`k`个数据点的值并列最小，则返回时间戳最小的数据点。 |
-
-详细说明及示例见文档 [选择函数](./Selection.md)。
-
-### 区间查询函数
-
-| 函数名               | 输入序列类型                               | 属性参数                                           | 输出序列类型 | 功能描述                                                             |
-|-------------------|--------------------------------------|------------------------------------------------|-------|------------------------------------------------------------------|
-| ZERO_DURATION     | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值0<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续为0(false)的开始时间与持续时间，持续时间t(单位ms)满足`t >= min && t <= max`  |
-| NON_ZERO_DURATION | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值0<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续不为0(false)的开始时间与持续时间，持续时间t(单位ms)满足`t >= min && t <= max` |               |
-| ZERO_COUNT        | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值1<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续为0(false)的开始时间与其后数据点的个数，数据点个数n满足`n >= min && n <= max`   |               |
-| NON_ZERO_COUNT    | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值1<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续不为0(false)的开始时间与其后数据点的个数，数据点个数n满足`n >= min && n <= max`  |               |
-
-详细说明及示例见文档 [区间查询函数](./Continuous-Interval.md)。
-
-### 趋势计算函数
-
-| 函数名                  | 输入序列类型                                    | 输出序列类型             | 功能描述                                                     |
-| ----------------------- | ----------------------------------------------- | ------------------------ | ------------------------------------------------------------ |
-| TIME_DIFFERENCE         | INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | INT64                    | 统计序列中某数据点的时间戳与前一数据点时间戳的差。范围内第一个数据点没有对应的结果输出。 |
-| DIFFERENCE              | INT32 / INT64 / FLOAT / DOUBLE                  | 与输入序列的实际类型一致 | 统计序列中某数据点的值与前一数据点的值的差。范围内第一个数据点没有对应的结果输出。 |
-| NON_NEGATIVE_DIFFERENCE | INT32 / INT64 / FLOAT / DOUBLE                  | 与输入序列的实际类型一致 | 统计序列中某数据点的值与前一数据点的值的差的绝对值。范围内第一个数据点没有对应的结果输出。 |
-| DERIVATIVE              | INT32 / INT64 / FLOAT / DOUBLE                  | DOUBLE                   | 统计序列中某数据点相对于前一数据点的变化率，数量上等同于 DIFFERENCE /  TIME_DIFFERENCE。范围内第一个数据点没有对应的结果输出。 |
-| NON_NEGATIVE_DERIVATIVE | INT32 / INT64 / FLOAT / DOUBLE                  | DOUBLE                   | 统计序列中某数据点相对于前一数据点的变化率的绝对值，数量上等同于 NON_NEGATIVE_DIFFERENCE /  TIME_DIFFERENCE。范围内第一个数据点没有对应的结果输出。 |
-
-
-| 函数名  | 输入序列类型                         | 参数                                                                                                                     | 输出序列类型 | 功能描述                                           |
-|------|--------------------------------|------------------------------------------------------------------------------------------------------------------------|--------|------------------------------------------------|
-| DIFF | INT32 / INT64 / FLOAT / DOUBLE | `ignoreNull`：可选，默认为true；为true时，前一个数据点值为null时，忽略该数据点继续向前找到第一个出现的不为null的值；为false时，如果前一个数据点为null，则不忽略，使用null进行相减，结果也为null | DOUBLE | 统计序列中某数据点的值与前一数据点的值的差。第一个数据点没有对应的结果输出，输出值为null |
-
-详细说明及示例见文档 [趋势计算函数](./Variation-Trend.md)。
-
-### 采样函数
-
-| 函数名      | 可接收的输入序列类型                     | 必要的属性参数                               | 输出序列类型     | 功能类型                                             |
-|----------|--------------------------------|---------------------------------------|------------|--------------------------------------------------|
-| EQUAL_SIZE_BUCKET_RANDOM_SAMPLE   | INT32 / INT64 / FLOAT / DOUBLE | 降采样比例 `proportion`，取值范围为`(0, 1]`，默认为`0.1`  | INT32 / INT64 / FLOAT / DOUBLE | 返回符合采样比例的等分桶随机采样                |
-| EQUAL_SIZE_BUCKET_AGG_SAMPLE   | INT32 / INT64 / FLOAT / DOUBLE | `proportion`取值范围为`(0, 1]`，默认为`0.1`<br>`type`:取值类型有`avg`, `max`, `min`, `sum`, `extreme`, `variance`, 默认为`avg`  | INT32 / INT64 / FLOAT / DOUBLE | 返回符合采样比例的等分桶聚合采样                |
-| EQUAL_SIZE_BUCKET_M4_SAMPLE   | INT32 / INT64 / FLOAT / DOUBLE | `proportion`取值范围为`(0, 1]`，默认为`0.1`| INT32 / INT64 / FLOAT / DOUBLE | 返回符合采样比例的等分桶M4采样                |
-| EQUAL_SIZE_BUCKET_OUTLIER_SAMPLE   | INT32 / INT64 / FLOAT / DOUBLE | `proportion`取值范围为`(0, 1]`，默认为`0.1`<br>`type`取值为`avg`或`stendis`或`cos`或`prenextdis`，默认为`avg`<br>`number`取值应大于0，默认`3`| INT32 / INT64 / FLOAT / DOUBLE | 返回符合采样比例和桶内采样个数的等分桶离群值采样                |
-| M4     | INT32 / INT64 / FLOAT / DOUBLE | 包含固定点数的窗口和滑动时间窗口使用不同的属性参数。包含固定点数的窗口使用属性`windowSize`和`slidingStep`。滑动时间窗口使用属性`timeInterval`、`slidingStep`、`displayWindowBegin`和`displayWindowEnd`。更多细节见下文。 | INT32 / INT64 / FLOAT / DOUBLE | 返回每个窗口内的第一个点（`first`）、最后一个点（`last`）、最小值点（`bottom`）、最大值点（`top`）。在一个窗口内的聚合点输出之前，M4会将它们按照时间戳递增排序并且去重。 |
-
-## 条件表达式
-
-| 表达式名称                     | 含义        |
-|---------------------------|-----------|
-| `CASE` | 类似if else |
-
-详细说明及示例见文档 [条件表达式](./Conditional.md)
-
-## 数据质量函数库
-
-对基于时序数据的应用而言，数据质量至关重要。基于用户自定义函数能力，IoTDB 提供了一系列关于数据质量的函数，包括数据画像、数据质量评估与修复等，能够满足工业领域对数据质量的需求。
-
-**该函数库中的函数不是内置函数，使用前要先加载到系统中。** 操作流程如下：
-1. 下载包含全部依赖的 jar 包和注册脚本 [【点击下载】](https://archive.apache.org/dist/iotdb/1.0.1/apache-iotdb-1.0.1-library-udf-bin.zip) ；
-2. 将 jar 包复制到 IoTDB 程序目录的 `ext\udf` 目录下 (若您使用的是集群，请将jar包复制到所有DataNode的该目录下)；
-3. 启动 IoTDB；
-4. 将注册脚本复制到 IoTDB 的程序目录下（与`sbin`目录同级的根目录下），修改脚本中的参数（如果需要）并运行注册脚本以注册 UDF。

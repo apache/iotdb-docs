@@ -33,7 +33,7 @@ Grafana 是开源的指标量监测和可视化工具，可用于展示时序数
 
 #### 部署 Grafana 插件
 
-##### 安装 Grafana
+##### 安装 Grafana 
 
 * Grafana 组件下载地址：https://grafana.com/grafana/download
 * 版本 >= 9.3.0
@@ -229,21 +229,21 @@ SELECT 输入框中的内容可以是时间序列的后缀，可以是函数或�
 
 *  `s1`
 *  `top_k(s1, 'k'='1') as top`
-*  `sin(s1) + cos(s1 + s2)`
+*  `sin(s1) + cos(s1 + s2)` 
 *  `udf(s1) as "中文别名"`
 
 FROM 输入框中的内容必须是时间序列的前缀路径，比如 `root.sg.d`。
 
 WHERE 输入框为非必须填写项目，填写内容应当是查询的过滤条件，比如 `time > 0`  或者 `s1 < 1024 and s2 > 1024`。
 
-CONTROL 输入框为非必须填写项目，填写内容应当是控制查询类型、输出格式的特殊子句。其中GROUP BY 输入框支持使用grafana的全局变量来获取当前时间区间变化$__from(起始时间)、$__to(结束时间)，下面是 CONTROL 输入框中一些合法的输入举例：
+CONTROL 输入框为非必须填写项目，填写内容应当是控制查询类型、输出格式的特殊子句。其中GROUP BY 输入框支持使用grafana的全局变量来获取当前时间区间变化`$__from`(起始时间)、`$__to`(结束时间)，下面是 CONTROL 输入框中一些合法的输入举例：
 
 *  `GROUP BY ([$__from, $__to), 1d)`
 *  `GROUP BY ([$__from, $__to),3h,1d)`
 *  `GROUP BY ([2017-11-01T00:00:00, 2017-11-07T23:00:00), 1d)`
 *  `GROUP BY ([2017-11-01 00:00:00, 2017-11-07 23:00:00), 3h, 1d)`
 *  `GROUP BY ([$__from, $__to), 1m) FILL (PREVIOUSUNTILLAST)`
-*  `GROUP BY ([2017-11-07T23:50:00, 2017-11-07T23:59:00), 1m) FILL (PREVIOUSUNTILLAST)`
+*  `GROUP BY ([2017-11-07T23:50:00, 2017-11-07T23:59:00), 1m) FILL (PREVIOUSUNTILLAST)` 
 *  `GROUP BY ([2017-11-07T23:50:00, 2017-11-07T23:59:00), 1m) FILL (PREVIOUS, 1m)`
 *  `GROUP BY ([2017-11-07T23:50:00, 2017-11-07T23:59:00), 1m) FILL (LINEAR, 5m, 5m)`
 *  `GROUP BY ((2017-11-01T00:00:00, 2017-11-07T23:00:00], 1d), LEVEL=1`
@@ -332,14 +332,14 @@ Type下拉中有Query、Custom、Text box、Constant、DataSource、Interval、A
 例如，我们按以下顺序有 3 个条件： 条件：B（计算为：TRUE）或条件：C（计算为：FALSE）和条件：D（计算为：TRUE） 所以结果将计算为（（对或错）和对）=对。
 
 4. 选择完指标及告警规则后点击`Preview`按钮，进行数据预览如下图所示：
-   <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert4.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert4.png?raw=true">
 
-5. 在第 2 步中，指定警报评估间隔，对于`Evaluate every`，指定评估频率。必须是 10 秒的倍数。例如，1m，30s。
-   对于`Evaluate for`，指定在警报触发之前的持续时间。如下图所示：
-   <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert5.png?raw=true">
+5. 在第 2 步中，指定警报评估间隔，对于`Evaluate every`，指定评估频率。必须是 10 秒的倍数。例如，1m，30s。 
+对于`Evaluate for`，指定在警报触发之前的持续时间。如下图所示：
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert5.png?raw=true">
 
 6. 在第 3 步中，添加存储位置、规则组以及与规则关联的其他元数据。 其中`Rule name`指定规则的名称。规则名称必须是唯一的。
-   <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert6.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert6.png?raw=true">
 
 7. 在第 4 步中，添加自定义标签。 从下拉列表中选择现有键值对添加自定义标签，或通过输入新键或值来添加新标签。如下图所示：
 
@@ -347,8 +347,8 @@ Type下拉中有Query、Custom、Text box、Constant、DataSource、Interval、A
 
 8. 单击保存以保存规则或单击保存并退出以保存规则并返回到警报页面。
 9. 告警状态常用的有`Normal`、`Pending`、`Firing`等状态，如下图所示：
-   <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert8.png?raw=true">
-   <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert9.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert8.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert9.png?raw=true">
 
 10. 我们也可以为告警配置`Contact points`用来接收告警通知，更加详细操作可以参考官方文档(https://grafana.com/docs/grafana/latest/alerting/manage-notifications/create-contact-point/)。
 
@@ -357,3 +357,4 @@ Type下拉中有Query、Custom、Text box、Constant、DataSource、Interval、A
 #### 更多
 
 更多关于 Grafana 操作详情可参看 Grafana 官方文档：http://docs.grafana.org/guides/getting_started/。
+

@@ -20,7 +20,7 @@
 -->
 
 
-# 写入数据
+# 写入和删除数据
 ## CLI写入数据
 
 IoTDB 为用户提供多种插入实时数据的方式，例如在 [Cli/Shell 工具](../QuickStart/Command-Line-Interface.md) 中直接输入插入数据的 INSERT 语句，或使用 Java API（标准 [Java JDBC](../API/Programming-JDBC.md) 接口）单条或批量执行插入数据的 INSERT 语句。
@@ -176,19 +176,19 @@ It costs 0.004s
 
 ### TsFile批量导入
 
-TsFile 是在 IoTDB 中使用的时间序列的文件格式，您可以通过CLI等工具直接将存有时间序列的一个或多个 TsFile 文件导入到另外一个正在运行的IoTDB实例中。具体操作方式请参考[TsFile 导入工具](../Maintenance-Tools/Load-Tsfile.md)，[TsFile 导出工具](../Maintenance-Tools/TsFile-Load-Export-Tool.md)。
+TsFile 是在 IoTDB 中使用的时间序列的文件格式，您可以通过CLI等工具直接将存有时间序列的一个或多个 TsFile 文件导入到另外一个正在运行的IoTDB实例中。具体操作方式请参考[导入导出工具](../Tools-System/Import-Export-Tool.md)。
 
 ### CSV批量导入
 
-CSV 是以纯文本形式存储表格数据，您可以在CSV文件中写入多条格式化的数据，并批量的将这些数据导入到 IoTDB 中，在导入数据之前，建议在IoTDB中创建好对应的元数据信息。如果忘记创建元数据也不要担心，IoTDB 可以自动将CSV中数据推断为其对应的数据类型，前提是你每一列的数据类型必须唯一。除单个文件外，此工具还支持以文件夹的形式导入多个 CSV 文件，并且支持设置如时间精度等优化参数。具体操作方式请参考 [CSV 导入导出工具](../Maintenance-Tools/CSV-Tool.md)。
+CSV 是以纯文本形式存储表格数据，您可以在CSV文件中写入多条格式化的数据，并批量的将这些数据导入到 IoTDB 中，在导入数据之前，建议在IoTDB中创建好对应的元数据信息。如果忘记创建元数据也不要担心，IoTDB 可以自动将CSV中数据推断为其对应的数据类型，前提是你每一列的数据类型必须唯一。除单个文件外，此工具还支持以文件夹的形式导入多个 CSV 文件，并且支持设置如时间精度等优化参数。具体操作方式请参考[导入导出工具](../Tools-System/Import-Export-Tool.md)。
 
-# 删除数据
+## 删除数据
 
 用户使用 [DELETE 语句](../Reference/SQL-Reference.md) 可以删除指定的时间序列中符合时间删除条件的数据。在删除数据时，用户可以选择需要删除的一个或多个时间序列、时间序列的前缀、时间序列带、*路径对某一个时间区间内的数据进行删除。
 
 在 JAVA 编程环境中，您可以使用 JDBC API 单条或批量执行 DELETE 语句。
 
-## 单传感器时间序列值删除
+### 单传感器时间序列值删除
 
 以测控 ln 集团为例，存在这样的使用场景：
 
@@ -226,7 +226,7 @@ expressions like : time > XXX, time <= XXX, or two atomic expressions connected 
 delete from root.ln.wf02.wt02.status
 ```
 
-## 多传感器时间序列值删除    
+### 多传感器时间序列值删除    
 
 当 ln 集团 wf02 子站的 wt02 设备在 2017-11-01 16:26:00 之前的供电状态和设备硬件版本都需要删除，此时可以使用含义更广的 [路径模式（Path Pattern）](../Basic-Concept/Data-Model-and-Terminology.md) 进行删除操作，进行此操作的 SQL 语句为：
 
@@ -242,7 +242,7 @@ IoTDB> delete from root.ln.wf03.wt02.status where time < now()
 Msg: The statement is executed successfully.
 ```
 
-## 删除时间分区 （实验性功能）
+### 删除时间分区 （实验性功能）
 您可以通过如下语句来删除某一个 database 下的指定时间分区：
 
 ```sql

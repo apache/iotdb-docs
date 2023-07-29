@@ -19,7 +19,7 @@
 
 -->
 
-# Hadoop-TsFile
+## Hadoop-TsFile
 
 TsFile 的 Hadoop 连接器实现了对 Hadoop 读取外部 Tsfile 类型的文件格式的支持。让用户可以使用 Hadoop 的 map、reduce 等操作对 Tsfile 文件进行读取、写入和查询。
 

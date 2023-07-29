@@ -19,9 +19,9 @@
 
 -->
 
-## 集群运维命令
+# 集群运维命令
 
-### 展示集群配置
+## 展示集群配置
 
 当前 IoTDB 支持使用如下 SQL 展示集群的关键参数：
 ```
@@ -56,7 +56,7 @@ It costs 0.225s
 
 **注意：** 必须保证该 SQL 展示的所有配置参数在同一集群各个节点完全一致
 
-### 展示 ConfigNode 信息
+## 展示 ConfigNode 信息
 
 当前 IoTDB 支持使用如下 SQL 展示 ConfigNode 的信息：
 ```
@@ -77,7 +77,7 @@ Total line number = 3
 It costs 0.030s
 ```
 
-#### ConfigNode 状态定义
+### ConfigNode 状态定义
 对 ConfigNode 各状态定义如下：
 
 - **Running**: ConfigNode 正常运行
@@ -85,7 +85,7 @@ It costs 0.030s
   - 无法接收其它 ConfigNode 同步来的数据
   - 不会被选为集群的 ConfigNode-leader
 
-### 展示 DataNode 信息
+## 展示 DataNode 信息
 
 当前 IoTDB 支持使用如下 SQL 展示 DataNode 的信息：
 ```
@@ -124,7 +124,7 @@ Total line number = 2
 It costs 0.006s
 ```
 
-#### DataNode 状态定义
+### DataNode 状态定义
 DataNode 的状态机如下图所示：
 <img style="width:100%; max-width:500px; max-height:500px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Cluster/DataNode-StateMachine-ZH.jpg">
 
@@ -160,7 +160,7 @@ DataNode 的状态机如下图所示：
 | Removing    | 否   | 否   | 否   |
 | ReadOnly    | 是   | 否   | 是   |
 
-### 展示全部节点信息
+## 展示全部节点信息
 
 当前 IoTDB 支持使用如下 SQL 展示全部节点的信息：
 ```
@@ -223,7 +223,7 @@ Total line number = 6
 It costs 0.340s
 ```
 
-### 展示 Region 信息
+## 展示 Region 信息
 
 集群中以 SchemaRegion/DataRegion 作为元数据/数据的复制和管理单元，Region 的状态和分布对于系统运维和测试有很大帮助，如以下场景：
 
@@ -416,7 +416,7 @@ Total line number = 4
 It costs 0.165s
 ```
 
-#### Region 状态定义
+### Region 状态定义
 Region 继承所在 DataNode 的状态，对 Region 各状态定义如下：
 
 - **Running**: Region 所在 DataNode 正常运行，Region 可读可写
@@ -432,7 +432,7 @@ Region 继承所在 DataNode 的状态，对 Region 各状态定义如下：
 - 当且仅当严格多于一半的 Region 处于 Running 状态时， 该 RegionGroup 可进行数据的查询、写入和删除操作
 - 如果处于 Running 状态的 Region 少于一半，该 RegionGroup 不可进行数据的数据的查询、写入和删除操作
 
-### 展示集群槽信息
+## 展示集群槽信息
 
 集群使用分区来管理元数据和数据，分区定义如下：
 
@@ -443,11 +443,12 @@ Region 继承所在 DataNode 的状态，对 Region 各状态定义如下：
 
 可以使用以下 SQL 来查询分区对应信息：
 
-#### 展示数据分区所在的 DataRegion
+### 展示数据分区所在的 DataRegion
 
 展示某数据库或某设备的数据分区所在的 DataRegion:
 - `- SHOW DATA REGIONID WHERE (DATABASE=root.xxx |DEVICE=root.xxx.xxx) (AND TIME=xxxxx)?`
   
+
 有如下几点说明：
 
 1. DEVICE 为设备名对应唯一的 SeriesSlot，TIME 为时间戳或者通用时间对应唯一的 SeriesTimeSlot。
@@ -518,7 +519,7 @@ Total line number = 1
 It costs 0.006s
 ```
 
-#### 展示元数据分区所在的 SchemaRegion
+### 展示元数据分区所在的 SchemaRegion
 
 展示某数据库或某设备的元数据分区所在的 SchemaRegion：
 - `SHOW SCHEMA REGIONID WHERE (DATABASE=root.xxx | DEVICE=root.xxx.xxx)`
@@ -544,7 +545,7 @@ IoTDB> show schema regionid where database=root.sg
 Total line number = 1
 It costs 0.007s
 ```
-#### 展示数据库的序列槽
+### 展示数据库的序列槽
 展示某数据库内数据或元数据的序列槽（SeriesSlot）：
 - `SHOW (DATA|SCHEMA) SERIESSLOTID WHERE DATABASE=root.xxx`
 
@@ -569,7 +570,7 @@ Total line number = 1
 It costs 0.006s
 ```
 
-#### 展示过滤条件下的时间分区
+### 展示过滤条件下的时间分区
 展示某设备或某数据库或某dataRegion的时间分区（TimePartition）：
 - `SHOW TIMEPARTITION WHERE (DEVICE=root.a.b |REGIONID = r0 | DATABASE=root.xxx) (AND STARTTIME=t1)?(AND ENDTIME=t2)?`
 
@@ -616,7 +617,7 @@ Total line number = 2
 It costs 0.007s
 ```
 
-#### 统计过滤条件下的时间分区个数
+### 统计过滤条件下的时间分区个数
 
 统计某设备或某数据库或某dataRegion的时间分区（TimePartition）：
 
@@ -652,7 +653,7 @@ It costs 0.007s
 ```
 
 
-### 迁移 Region
+## 迁移 Region
 以下 SQL 语句可以被用于手动迁移一个 region， 可用于负载均衡或其他目的。
 ```
 MIGRATE REGION <Region-id> FROM <original-DataNodeId> TO <dest-DataNodeId>

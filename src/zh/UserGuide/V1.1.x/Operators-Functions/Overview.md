@@ -70,7 +70,6 @@
 |`NOT` / `!`                 |取非（单目）|
 |`AND` / `&` / `&&`          |逻辑与|
 |`OR`/ &#124; / &#124;&#124; |逻辑或|
-<!--- &#124;即管道符 转义不能用在``里, 表格内不允许使用管道符 -->
 
 详细说明及示例见文档 [逻辑运算符](./Logical.md)。
 
@@ -96,73 +95,78 @@ OR, |, ||
 
 ### 聚合函数
 
-| 函数名      | 功能描述                                                     | 允许的输入类型           | 输出类型       |
-| ----------- | ------------------------------------------------------------ | ------------------------ | -------------- |
-| SUM         | 求和。                                                       | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
-| COUNT       | 计算数据点数。                                               | 所有类型                 | INT            |
-| AVG         | 求平均值。                                                   | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
-| EXTREME     | 求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。 | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
-| MAX_VALUE   | 求最大值。                                                   | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
-| MIN_VALUE   | 求最小值。                                                   | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
-| FIRST_VALUE | 求时间戳最小的值。                                           | 所有类型                 | 与输入类型一致 |
-| LAST_VALUE  | 求时间戳最大的值。                                           | 所有类型                 | 与输入类型一致 |
-| MAX_TIME    | 求最大时间戳。                                               | 所有类型                 | Timestamp      |
-| MIN_TIME    | 求最小时间戳。                                               | 所有类型                 | Timestamp      |
+| 函数名        | 功能描述                                                     | 允许的输入类型           | 必要的属性参数                                               | 输出类型       |
+| ------------- | ------------------------------------------------------------ | ------------------------ | ------------------------------------------------------------ | -------------- |
+| SUM           | 求和。                                                       | INT32 INT64 FLOAT DOUBLE | 无                                                           | DOUBLE         |
+| COUNT         | 计算数据点数。                                               | 所有类型                 | 无                                                           | INT64          |
+| AVG           | 求平均值。                                                   | INT32 INT64 FLOAT DOUBLE | 无                                                           | DOUBLE         |
+| EXTREME       | 求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。 | INT32 INT64 FLOAT DOUBLE | 无                                                           | 与输入类型一致 |
+| MAX_VALUE     | 求最大值。                                                   | INT32 INT64 FLOAT DOUBLE | 无                                                           | 与输入类型一致 |
+| MIN_VALUE     | 求最小值。                                                   | INT32 INT64 FLOAT DOUBLE | 无                                                           | 与输入类型一致 |
+| FIRST_VALUE   | 求时间戳最小的值。                                           | 所有类型                 | 无                                                           | 与输入类型一致 |
+| LAST_VALUE    | 求时间戳最大的值。                                           | 所有类型                 | 无                                                           | 与输入类型一致 |
+| MAX_TIME      | 求最大时间戳。                                               | 所有类型                 | 无                                                           | Timestamp      |
+| MIN_TIME      | 求最小时间戳。                                               | 所有类型                 | 无                                                           | Timestamp      |
+| COUNT_IF      | 求数据点连续满足某一给定条件，且满足条件的数据点个数（用keep表示）满足指定阈值的次数。 | BOOLEAN                  | `[keep >=/>/=/!=/</<=]threshold`：被指定的阈值或阈值条件，若只使用`threshold`则等价于`keep >= threshold`,`threshold`类型为`INT64`  `ignoreNull`：可选，默认为`true`；为`true`表示忽略null值，即如果中间出现null值，直接忽略，不会打断连续性；为`false`表示不忽略null值，即如果中间出现null值，会打断连续性 | INT64          |
+| TIME_DURATION | 求某一列最大一个不为NULL的值所在时间戳与最小一个不为NULL的值所在时间戳的时间戳差 | 所有类型                 | 无                                                           | INT64          |
+| MODE          | 求众数。注意： 1.输入序列的不同值个数过多时会有内存异常风险;  2.如果所有元素出现的频次相同，即没有众数，则返回对应时间戳最小的值;  3.如果有多个众数，则返回对应时间戳最小的众数。 | 所有类型                 | 无                                                           | 与输入类型一致 |
+
 详细说明及示例见文档 [聚合函数](./Aggregation.md)。
 
 ### 数学函数 
 
-| 函数名  | 输入序列类型                   | 输出序列类型             | Java 标准库中的对应实现                                      |
-| ------- | ------------------------------ | ------------------------ | ------------------------------------------------------------ |
-| SIN     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#sin(double)                                             |
-| COS     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#cos(double)                                             |
-| TAN     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#tan(double)                                             |
-| ASIN    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#asin(double)                                            |
-| ACOS    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#acos(double)                                            |
-| ATAN    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#atan(double)                                            |
-| SINH    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#sinh(double)                                            |
-| COSH    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#cosh(double)                                            |
-| TANH    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#tanh(double)                                            |
-| DEGREES | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#toDegrees(double)                                       |
-| RADIANS | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#toRadians(double)                                       |
-| ABS     | INT32 / INT64 / FLOAT / DOUBLE | 与输入序列的实际类型一致 | Math#abs(int) / Math#abs(long) /Math#abs(float) /Math#abs(double) |
-| SIGN    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#signum(double)                                          |
-| CEIL    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#ceil(double)                                            |
-| FLOOR   | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#floor(double)                                           |
-| ROUND   | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#rint(double)                                            |
-| EXP     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#exp(double)                                             |
-| LN      | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#log(double)                                             |
-| LOG10   | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#log10(double)                                           |
-| SQRT    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | Math#sqrt(double)                                            |
+| 函数名  | 输入序列类型                   | 输出序列类型             | 必要属性参数                                                 | Java 标准库中的对应实现                                      |
+| ------- | ------------------------------ | ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| SIN     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#sin(double)                                             |
+| COS     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#cos(double)                                             |
+| TAN     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#tan(double)                                             |
+| ASIN    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#asin(double)                                            |
+| ACOS    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#acos(double)                                            |
+| ATAN    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#atan(double)                                            |
+| SINH    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#sinh(double)                                            |
+| COSH    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#cosh(double)                                            |
+| TANH    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#tanh(double)                                            |
+| DEGREES | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#toDegrees(double)                                       |
+| RADIANS | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#toRadians(double)                                       |
+| ABS     | INT32 / INT64 / FLOAT / DOUBLE | 与输入序列的实际类型一致 |                                                              | Math#abs(int) / Math#abs(long) /Math#abs(float) /Math#abs(double) |
+| SIGN    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#signum(double)                                          |
+| CEIL    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#ceil(double)                                            |
+| FLOOR   | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#floor(double)                                           |
+| ROUND   | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   | `places`:四舍五入有效位数，正数为小数点后面的有效位数，负数为整数位的有效位数 | Math#rint(Math#pow(10,places))/Math#pow(10,places)           |
+| EXP     | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#exp(double)                                             |
+| LN      | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#log(double)                                             |
+| LOG10   | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#log10(double)                                           |
+| SQRT    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                                              | Math#sqrt(double)                                            |
 
 
 详细说明及示例见文档 [算数运算符和函数](./Mathematical.md)。
 
 ### 比较函数
 
-| 函数名    | 可接收的输入序列类型                | 必要的属性参数                               | 输出序列类型     | 功能类型                                             |
-|----------|--------------------------------|---------------------------------------|------------|--------------------------------------------------|
-| ON_OFF   | INT32 / INT64 / FLOAT / DOUBLE | `threshold`:DOUBLE                  | BOOLEAN | 返回`ts_value >= threshold`的bool值                  |
-| IN_RANGE | INT32 / INT64 / FLOAT / DOUBLE | `lower`:DOUBLE<br/>`upper`:DOUBLE | BOOLEAN | 返回`ts_value >= lower && ts_value <= upper`的bool值 |                                                    |
+| 函数名   | 可接收的输入序列类型           | 必要的属性参数                        | 输出序列类型 | 功能类型                                             |
+| -------- | ------------------------------ | ------------------------------------- | ------------ | ---------------------------------------------------- |
+| ON_OFF   | INT32 / INT64 / FLOAT / DOUBLE | `threshold`:DOUBLE类型                | BOOLEAN 类型 | 返回`ts_value >= threshold`的bool值                  |
+| IN_RANGE | INT32 / INT64 / FLOAT / DOUBLE | `lower`:DOUBLE类型 `upper`:DOUBLE类型 | BOOLEAN类型  | 返回`ts_value >= lower && ts_value <= upper`的bool值 |
 
 详细说明及示例见文档 [比较运算符和函数](./Comparison.md)。
 
 ### 字符串处理函数
 
-| 函数名          | 输入序列类型 | 必要的属性参数                       | 输出序列类型 | 功能描述                                  |
-| --------------- | ------------ | ------------------------------------ | ------------ | ----------------------------------------- |
-| STRING_CONTAINS | TEXT         | `s`: 待搜寻的字符串                  | BOOLEAN      | 判断字符串中是否存在`s`                   |
-| STRING_MATCHES  | TEXT         | `regex`: Java 标准库风格的正则表达式 | BOOLEAN      | 判断字符串是否能够被正则表达式`regex`匹配 |
-| LENGTH | TEXT | 无 | INT32 | 返回字符串的长度 |
-| LOCATE | TEXT | `target`: 需要被定位的子串 <br/> `reverse`: 指定是否需要倒序定位，默认值为`false`, 即从左至右定位 | INT32 | 获取`target`子串第一次出现在输入序列的位置，如果输入序列中不包含`target`则返回 -1 |
-| STARTSWITH | TEXT | `target`: 需要匹配的前缀 | BOOLEAN | 判断字符串是否有指定前缀 |
-| ENDSWITH | TEXT | `target`: 需要匹配的后缀 | BOOLEAN | 判断字符串是否有指定后缀 |
-| CONCAT | TEXT | `targets`: 一系列 K-V, key需要以`target`为前缀且不重复, value是待拼接的字符串。<br/>`series_behind`: 指定拼接时时间序列是否在后面，默认为`false`。 | TEXT | 拼接字符串和`target`字串 |
-| SUBSTR | TEXT | `start`: 指定子串开始下标 <br/>`end`: 指定子串结束下标  | TEXT | 获取下标从`start`到`end - 1`的子串 |
-| UPPER | TEXT | 无 | TEXT | 将字符串转化为大写 |
-| LOWER | TEXT | 无 | TEXT | 将字符串转化为小写 |
-| TRIM | TEXT | 无 | TEXT | 移除字符串前后的空格 |
-| STRCMP | TEXT | 无 | TEXT | 用于比较两个输入序列，如果值相同返回 `0` , 序列1的值小于序列2的值返回一个`负数`，序列1的值大于序列2的值返回一个`正数` |
+| 函数名             | 输入序列类型 | 必要的属性参数                                                                                                   | 输出序列类型 | 功能描述                                                                    |
+|-----------------| ------------ |-----------------------------------------------------------------------------------------------------------| ------------ |-------------------------------------------------------------------------|
+| STRING_CONTAINS | TEXT         | `s`: 待搜寻的字符串                                                                                              | BOOLEAN      | 判断字符串中是否存在`s`                                                           |
+| STRING_MATCHES  | TEXT         | `regex`: Java 标准库风格的正则表达式                                                                                 | BOOLEAN      | 判断字符串是否能够被正则表达式`regex`匹配                                                |
+| LENGTH          | TEXT | 无                                                                                                         | INT32 | 返回字符串的长度                                                                |
+| LOCATE          | TEXT | `target`: 需要被定位的子串 <br/> `reverse`: 指定是否需要倒序定位，默认值为`false`, 即从左至右定位                                       | INT32 | 获取`target`子串第一次出现在输入序列的位置，如果输入序列中不包含`target`则返回 -1                      |
+| STARTSWITH      | TEXT | `target`: 需要匹配的前缀                                                                                         | BOOLEAN | 判断字符串是否有指定前缀                                                            |
+| ENDSWITH        | TEXT | `target`: 需要匹配的后缀                                                                                         | BOOLEAN | 判断字符串是否有指定后缀                                                            |
+| CONCAT          | TEXT | `targets`: 一系列 K-V, key需要以`target`为前缀且不重复, value是待拼接的字符串。<br/>`series_behind`: 指定拼接时时间序列是否在后面，默认为`false`。 | TEXT | 拼接字符串和`target`字串                                                        |
+| SUBSTRING       | TEXT | `from`: 指定子串开始下标 <br/>`for`: 指定的字符个数之后停止                                                                  | TEXT | 提取字符串的子字符串，从指定的第一个字符开始，并在指定的字符数之后停止。下标从1开始。from 和 for的范围是 INT32 类型取值范围。 |
+| REPLACE | TEXT | 第一个参数： 需要替换的目标子串<br />第二个参数：要替换成的子串 | TEXT | 将输入序列中的子串替换成目标子串 |
+| UPPER           | TEXT | 无                                                                                                         | TEXT | 将字符串转化为大写                                                               |
+| LOWER           | TEXT | 无                                                                                                         | TEXT | 将字符串转化为小写                                                               |
+| TRIM            | TEXT | 无                                                                                                         | TEXT | 移除字符串前后的空格                                                              |
+| STRCMP          | TEXT | 无                                                                                                         | TEXT | 用于比较两个输入序列，如果值相同返回 `0` , 序列1的值小于序列2的值返回一个`负数`，序列1的值大于序列2的值返回一个`正数`      |
 
 详细说明及示例见文档 [字符串处理函数](./String.md)。
 
@@ -178,7 +182,7 @@ OR, |, ||
 
 | 函数名 | 必要的属性参数                                               | 输出序列类型               | 功能描述                                                     |
 | ------ | ------------------------------------------------------------ | -------------------------- | ------------------------------------------------------------ |
-| CONST  | `value`: 输出的数据点的值 <br />`type`: 输出的数据点的类型，只能是 INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | 由输入属性参数 `type` 决定 | 根据输入属性 `value` 和 `type` 输出用户指定的常序列。        |
+| CONST  | `value`: 输出的数据点的值  `type`: 输出的数据点的类型，只能是 INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | 由输入属性参数 `type` 决定 | 根据输入属性 `value` 和 `type` 输出用户指定的常序列。        |
 | PI     | 无                                                           | DOUBLE                     | 常序列的值：`π` 的 `double` 值，圆的周长与其直径的比值，即圆周率，等于 *Java标准库* 中的`Math.PI`。 |
 | E      | 无                                                           | DOUBLE                     | 常序列的值：`e` 的 `double` 值，自然对数的底，它等于 *Java 标准库*  中的 `Math.E`。 |
 
@@ -195,29 +199,25 @@ OR, |, ||
 
 ### 区间查询函数
 
-| 函数名               | 输入序列类型                               | 属性参数                                           | 输出序列类型 | 功能描述                                                             |
-|-------------------|--------------------------------------|------------------------------------------------|-------|------------------------------------------------------------------|
-| ZERO_DURATION     | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值0<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续为0(false)的开始时间与持续时间，持续时间t(单位ms)满足`t >= min && t <= max`  |
-| NON_ZERO_DURATION | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值0<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续不为0(false)的开始时间与持续时间，持续时间t(单位ms)满足`t >= min && t <= max` |               |
-| ZERO_COUNT        | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值1<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续为0(false)的开始时间与其后数据点的个数，数据点个数n满足`n >= min && n <= max`   |               |
-| NON_ZERO_COUNT    | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值1<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续不为0(false)的开始时间与其后数据点的个数，数据点个数n满足`n >= min && n <= max`  |               |
+| 函数名            | 输入序列类型                         | 属性参数                                               | 输出序列类型 | 功能描述                                                     |
+| ----------------- | ------------------------------------ | ------------------------------------------------------ | ------------ | ------------------------------------------------------------ |
+| ZERO_DURATION     | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值0 `max`:可选，默认值`Long.MAX_VALUE` | Long         | 返回时间序列连续为0(false)的开始时间与持续时间，持续时间t(单位ms)满足`t >= min && t <= max` |
+| NON_ZERO_DURATION | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值0 `max`:可选，默认值`Long.MAX_VALUE` | Long         | 返回时间序列连续不为0(false)的开始时间与持续时间，持续时间t(单位ms)满足`t >= min && t <= max` |
+| ZERO_COUNT        | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值1 `max`:可选，默认值`Long.MAX_VALUE` | Long         | 返回时间序列连续为0(false)的开始时间与其后数据点的个数，数据点个数n满足`n >= min && n <= max` |
+| NON_ZERO_COUNT    | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值1 `max`:可选，默认值`Long.MAX_VALUE` | Long         | 返回时间序列连续不为0(false)的开始时间与其后数据点的个数，数据点个数n满足`n >= min && n <= max` |
 
 详细说明及示例见文档 [区间查询函数](./Continuous-Interval.md)。
 
 ### 趋势计算函数
 
-| 函数名                  | 输入序列类型                                    | 输出序列类型             | 功能描述                                                     |
-| ----------------------- | ----------------------------------------------- | ------------------------ | ------------------------------------------------------------ |
-| TIME_DIFFERENCE         | INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | INT64                    | 统计序列中某数据点的时间戳与前一数据点时间戳的差。范围内第一个数据点没有对应的结果输出。 |
-| DIFFERENCE              | INT32 / INT64 / FLOAT / DOUBLE                  | 与输入序列的实际类型一致 | 统计序列中某数据点的值与前一数据点的值的差。范围内第一个数据点没有对应的结果输出。 |
-| NON_NEGATIVE_DIFFERENCE | INT32 / INT64 / FLOAT / DOUBLE                  | 与输入序列的实际类型一致 | 统计序列中某数据点的值与前一数据点的值的差的绝对值。范围内第一个数据点没有对应的结果输出。 |
-| DERIVATIVE              | INT32 / INT64 / FLOAT / DOUBLE                  | DOUBLE                   | 统计序列中某数据点相对于前一数据点的变化率，数量上等同于 DIFFERENCE /  TIME_DIFFERENCE。范围内第一个数据点没有对应的结果输出。 |
-| NON_NEGATIVE_DERIVATIVE | INT32 / INT64 / FLOAT / DOUBLE                  | DOUBLE                   | 统计序列中某数据点相对于前一数据点的变化率的绝对值，数量上等同于 NON_NEGATIVE_DIFFERENCE /  TIME_DIFFERENCE。范围内第一个数据点没有对应的结果输出。 |
-
-
-| 函数名  | 输入序列类型                         | 参数                                                                                                                     | 输出序列类型 | 功能描述                                           |
-|------|--------------------------------|------------------------------------------------------------------------------------------------------------------------|--------|------------------------------------------------|
-| DIFF | INT32 / INT64 / FLOAT / DOUBLE | `ignoreNull`：可选，默认为true；为true时，前一个数据点值为null时，忽略该数据点继续向前找到第一个出现的不为null的值；为false时，如果前一个数据点为null，则不忽略，使用null进行相减，结果也为null | DOUBLE | 统计序列中某数据点的值与前一数据点的值的差。第一个数据点没有对应的结果输出，输出值为null |
+| 函数名                  | 输入序列类型                                    | 属性参数                                                     | 输出序列类型             | 功能描述                                                     |
+| ----------------------- | ----------------------------------------------- | ------------------------------------------------------------ | ------------------------ | ------------------------------------------------------------ |
+| TIME_DIFFERENCE         | INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | 无                                                           | INT64                    | 统计序列中某数据点的时间戳与前一数据点时间戳的差。范围内第一个数据点没有对应的结果输出。 |
+| DIFFERENCE              | INT32 / INT64 / FLOAT / DOUBLE                  | 无                                                           | 与输入序列的实际类型一致 | 统计序列中某数据点的值与前一数据点的值的差。范围内第一个数据点没有对应的结果输出。 |
+| NON_NEGATIVE_DIFFERENCE | INT32 / INT64 / FLOAT / DOUBLE                  | 无                                                           | 与输入序列的实际类型一致 | 统计序列中某数据点的值与前一数据点的值的差的绝对值。范围内第一个数据点没有对应的结果输出。 |
+| DERIVATIVE              | INT32 / INT64 / FLOAT / DOUBLE                  | 无                                                           | DOUBLE                   | 统计序列中某数据点相对于前一数据点的变化率，数量上等同于 DIFFERENCE /  TIME_DIFFERENCE。范围内第一个数据点没有对应的结果输出。 |
+| NON_NEGATIVE_DERIVATIVE | INT32 / INT64 / FLOAT / DOUBLE                  | 无                                                           | DOUBLE                   | 统计序列中某数据点相对于前一数据点的变化率的绝对值，数量上等同于 NON_NEGATIVE_DIFFERENCE /  TIME_DIFFERENCE。范围内第一个数据点没有对应的结果输出。 |
+| DIFF                    | INT32 / INT64 / FLOAT / DOUBLE                  | `ignoreNull`：可选，默认为true；为true时，前一个数据点值为null时，忽略该数据点继续向前找到第一个出现的不为null的值；为false时，如果前一个数据点为null，则不忽略，使用null进行相减，结果也为null | DOUBLE                   | 统计序列中某数据点的值与前一数据点的值的差。第一个数据点没有对应的结果输出，输出值为null |
 
 详细说明及示例见文档 [趋势计算函数](./Variation-Trend.md)。
 
@@ -231,12 +231,54 @@ OR, |, ||
 | EQUAL_SIZE_BUCKET_OUTLIER_SAMPLE   | INT32 / INT64 / FLOAT / DOUBLE | `proportion`取值范围为`(0, 1]`，默认为`0.1`<br>`type`取值为`avg`或`stendis`或`cos`或`prenextdis`，默认为`avg`<br>`number`取值应大于0，默认`3`| INT32 / INT64 / FLOAT / DOUBLE | 返回符合采样比例和桶内采样个数的等分桶离群值采样                |
 | M4     | INT32 / INT64 / FLOAT / DOUBLE | 包含固定点数的窗口和滑动时间窗口使用不同的属性参数。包含固定点数的窗口使用属性`windowSize`和`slidingStep`。滑动时间窗口使用属性`timeInterval`、`slidingStep`、`displayWindowBegin`和`displayWindowEnd`。更多细节见下文。 | INT32 / INT64 / FLOAT / DOUBLE | 返回每个窗口内的第一个点（`first`）、最后一个点（`last`）、最小值点（`bottom`）、最大值点（`top`）。在一个窗口内的聚合点输出之前，M4会将它们按照时间戳递增排序并且去重。 |
 
+详细说明及示例见文档 [采样函数](./Sample.md)。
+
+### 时间序列处理函数
+
+| 函数名        | 输入序列类型                   | 参数 | 输出序列类型             | 功能描述                   |
+| ------------- | ------------------------------ | ---- | ------------------------ | -------------------------- |
+| CHANGE_POINTS | INT32 / INT64 / FLOAT / DOUBLE | /    | 与输入序列的实际类型一致 | 去除输入序列中的连续相同值 |
+
+详细说明及示例见文档 [时间序列处理](./Time-Series.md)
+
+## Lambda 表达式
+
+| 函数名 | 可接收的输入序列类型                            | 必要的属性参数                                               | 输出序列类型                                    | 功能类型                                       |
+| ------ | ----------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------- | ---------------------------------------------- |
+| JEXL   | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | `expr`是一个支持标准的一元或多元参数的lambda表达式，符合`x -> {...}`或`(x, y, z) -> {...}`的格式，例如`x -> {x * 2}`, `(x, y, z) -> {x + y * z}` | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | 返回将输入的时间序列通过lambda表达式变换的序列 |
+
+详细说明及示例见文档 [Lambda 表达式](./Lambda.md)
+
+## 条件表达式
+
+| 表达式名称                     | 含义        |
+|---------------------------|-----------|
+| `CASE` | 类似if else |
+
+详细说明及示例见文档 [条件表达式](./Conditional.md)。
+
 ## 数据质量函数库
+
+### 关于
 
 对基于时序数据的应用而言，数据质量至关重要。基于用户自定义函数能力，IoTDB 提供了一系列关于数据质量的函数，包括数据画像、数据质量评估与修复等，能够满足工业领域对数据质量的需求。
 
+### 快速上手
+
 **该函数库中的函数不是内置函数，使用前要先加载到系统中。** 操作流程如下：
+
 1. 下载包含全部依赖的 jar 包和注册脚本 [【点击下载】](https://archive.apache.org/dist/iotdb/1.0.1/apache-iotdb-1.0.1-library-udf-bin.zip) ；
 2. 将 jar 包复制到 IoTDB 程序目录的 `ext\udf` 目录下 (若您使用的是集群，请将jar包复制到所有DataNode的该目录下)；
 3. 启动 IoTDB；
 4. 将注册脚本复制到 IoTDB 的程序目录下（与`sbin`目录同级的根目录下），修改脚本中的参数（如果需要）并运行注册脚本以注册 UDF。
+
+### 已经实现的函数
+
+1.   [Data-Quality](../Operators-Functions/Data-Quality.md) 数据质量
+2.   [Data-Profiling](../Operators-Functions/Data-Profiling.md) 数据画像
+3.   [Anomaly-Detection](../Operators-Functions/Anomaly-Detection.md) 异常检测
+4.   [Frequency-Domain](../Operators-Functions/Frequency-Domain.md) 频域分析
+5.   [Data-Matching](../Operators-Functions/Data-Matching.md) 数据匹配
+6.   [Data-Repairing](../Operators-Functions/Data-Repairing.md) 数据修复
+7.   [Series-Discovery](../Operators-Functions/Series-Discovery.md) 序列发现
+8.   [Machine-Learning](../Operators-Functions/Machine-Learning.md) 机器学习

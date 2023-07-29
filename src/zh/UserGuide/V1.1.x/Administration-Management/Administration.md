@@ -23,7 +23,7 @@
 
 IoTDB 为用户提供了权限管理操作，从而为用户提供对于数据的权限管理功能，保障数据的安全。
 
-我们将通过以下几个具体的例子为您示范基本的用户权限操作，详细的 SQL 语句及使用方式详情请参见本文 [数据模式与概念章节](../Data-Concept/Data-Model-and-Terminology.md)。同时，在 JAVA 编程环境中，您可以使用 [JDBC API](../API/Programming-JDBC.md) 单条或批量执行权限管理类语句。
+我们将通过以下几个具体的例子为您示范基本的用户权限操作，详细的 SQL 语句及使用方式详情请参见本文 [数据模式与概念章节](../Basic-Concept/Data-Model-and-Terminology.md)。同时，在 JAVA 编程环境中，您可以使用 [JDBC API](../API/Programming-JDBC.md) 单条或批量执行权限管理类语句。
 
 ## 基本概念
 
@@ -33,7 +33,7 @@ IoTDB 为用户提供了权限管理操作，从而为用户提供对于数据�
 
 ### 权限
 
-数据库提供多种操作，并不是所有的用户都能执行所有操作。如果一个用户可以执行某项操作，则称该用户有执行该操作的权限。权限可分为数据管理权限（如对数据进行增删改查）以及权限管理权限（用户、角色的创建与删除，权限的赋予与撤销等）。数据管理权限往往需要一个路径来限定其生效范围，可使用[路径模式](../Data-Concept/Data-Model-and-Terminology.md)灵活管理权限。
+数据库提供多种操作，并不是所有的用户都能执行所有操作。如果一个用户可以执行某项操作，则称该用户有执行该操作的权限。权限可分为数据管理权限（如对数据进行增删改查）以及权限管理权限（用户、角色的创建与删除，权限的赋予与撤销等）。数据管理权限往往需要一个路径来限定其生效范围，可使用[路径模式](../Basic-Concept/Data-Model-and-Terminology.md)灵活管理权限。
 
 ### 角色
 
@@ -440,7 +440,7 @@ IoTDB 规定角色名的字符长度不小于 4，其中角色名不能包含空
 
 目前以下IoTDB支持的sql语句只有`root`用户可以进行操作，且没有对应的权限可以赋予新用户。
 
-###### TsFile管理
+#### TsFile管理
 
 - 加载TsFile
 
@@ -460,7 +460,7 @@ Eg: IoTDB > remove '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-
 Eg: IoTDB > unload '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-0.tsfile' '/data/data/tmp'
 ```
 
-###### 删除时间分区（实验性功能）
+#### 删除时间分区（实验性功能）
 
 - 删除时间分区（实验性功能）
 
@@ -468,7 +468,7 @@ Eg: IoTDB > unload '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-
 Eg: IoTDB > DELETE PARTITION root.ln 0,1,2
 ```
 
-###### 连续查询
+#### 连续查询
 
 - 连续查询(CQ)
 
@@ -476,7 +476,7 @@ Eg: IoTDB > DELETE PARTITION root.ln 0,1,2
 Eg: IoTDB > CREATE CONTINUOUS QUERY cq1 BEGIN SELECT max_value(temperature) INTO temperature_max FROM root.ln.*.* GROUP BY time(10s) END
 ```
 
-###### 运维命令
+#### 运维命令
 
 - FLUSH
 
@@ -515,7 +515,7 @@ Eg: IoTDB > CREATE SNAPSHOT FOR SCHEMA
 Eg: IoTDB > KILL QUERY 1
 ```
 
-###### 水印工具
+#### 水印工具
 
 - 为新用户施加水印
 

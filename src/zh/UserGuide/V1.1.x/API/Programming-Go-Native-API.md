@@ -19,9 +19,9 @@
 
 -->
 
-## Go 原生接口
+# Go 原生接口
 
-### 依赖
+## 依赖
 
  * golang >= 1.13
  * make   >= 3.0
@@ -30,7 +30,7 @@
  * Linux、Macos 或其他类 unix 系统
  * Windows+bash (下载 IoTDB Go client 需要 git ，通过 WSL、cygwin、Git Bash 任意一种方式均可)
 
-### 安装方法
+## 安装方法
 
  * 通过 go mod
 
@@ -81,3 +81,4 @@ go mod tidy
 # 编译并运行程序
 go run session_example.go
 ```
+**注意：GO原生客户端Session不是线程安全的，强烈不建议在多线程场景下应用。如有多线程应用场景，请使用Session Pool.**

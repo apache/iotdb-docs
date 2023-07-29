@@ -19,11 +19,11 @@
 
 -->
 
-## TsFile API 
+# TsFile API 
 
 TsFile 是在 IoTDB 中使用的时间序列的文件格式。在这个章节中，我们将介绍这种文件格式的用法。 
 
-### 安装 TsFile library
+## 安装 TsFile library
 
 在您自己的项目中有两种方法使用 TsFile .
 
@@ -31,7 +31,7 @@ TsFile 是在 IoTDB 中使用的时间序列的文件格式。在这个章节中
 	
 ```shell
 git clone https://github.com/apache/iotdb.git
-cd tsfile/
+cd iotdb-core/tsfile/
 mvn clean package -Dmaven.test.skip=true
 ```
 
@@ -49,7 +49,7 @@ git clone https://github.com/apache/iotdb.git
  2. 编译源码和部署到本地仓库
 
  ```shell
-cd tsfile/
+cd iotdb-core/tsfile/
 mvn clean install -Dmaven.test.skip=true
  ```
  3. 在您自己的工程中增加依赖：
@@ -96,7 +96,7 @@ mvn clean install -Dmaven.test.skip=true
  </dependency>
  ```
 
-### TsFile 的使用
+## TsFile 的使用
 
 本章节演示 TsFile 的详细用法。
 
@@ -126,7 +126,7 @@ device_id, timestamp, <measurement_id, value>...
 device_1, 1490860659000, m1, 10, m2, 12.12
 ```
 
-#### 写入 TsFile
+### 写入 TsFile
 
 TsFile 可以通过以下三个步骤生成，完整的代码参见"写入 TsFile 示例"章节。
 
@@ -266,12 +266,12 @@ TsFile 可以通过以下三个步骤生成，完整的代码参见"写入 TsFil
 	```
 请注意 此时需要重新添加测量值 (measurement) 再进行上述写入操作。
 
-#### 写入 TsFile 示例
+### 写入 TsFile 示例
 
 您需要安装 TsFile 到本地的 Maven 仓库中。
 
 ```shell
-mvn clean install -pl tsfile -am -DskipTests
+mvn clean install -pl iotdb-core/tsfile -am -DskipTests
 ```
 
 如果存在**非对齐**的时序数据（比如：不是所有的传感器都有值），您可以通过构造** TSRecord **来写入。
@@ -300,7 +300,7 @@ mvn clean install -pl tsfile -am -DskipTests
 ```
 中查看
 
-#### 读取 TsFile 接口
+### 读取 TsFile 接口
 
  * 路径的定义
 
@@ -468,7 +468,7 @@ public QueryDataSet query(QueryExpression queryExpression, long partitionStartOf
      Object getObjectValue();
      ```
 
-#### 读取现有 TsFile 示例
+### 读取现有 TsFile 示例
 
 您需要安装 TsFile 到本地的 Maven 仓库中。
 
@@ -553,7 +553,7 @@ public class TsFileRead {
 }
 ```
 
-### 修改 TsFile 配置项
+## 修改 TsFile 配置项
 
 ```java
 TSFileConfig config = TSFileDescriptor.getInstance().getConfig();

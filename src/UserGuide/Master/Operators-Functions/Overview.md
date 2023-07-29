@@ -277,11 +277,11 @@ The functions in this function library are not built-in functions, and must be l
 
 ### Implemented Functions
 
-1.   Data Quality related functions, such as `Completeness`
-2.   Data Profiling related functions, such as `ACF`
-3.   Anomaly Detection related functions, such as `IQR`
-4.   Frequency Domain Analysis related functions, such as `Conv`
-5.   Data Matching related functions, such as `DTW`
-6.   Data Repairing related functions, such as `TimestampRepair`
-7.   Series Discovery related functions, such as `ConsecutiveSequences`
-8.   Machine Learning related functions, such as `AR`
+1.   Data Quality related functions, such as `Completeness`. For details and examples, see the document [Data-Quality](../Operators-Functions/Data-Quality.md).
+2.   Data Profiling related functions, such as `ACF`. For details and examples, see the document [Data-Profiling](../Operators-Functions/Data-Profiling.md).
+3.   Anomaly Detection related functions, such as `IQR`. For details and examples, see the document [Anomaly-Detection](../Operators-Functions/Anomaly-Detection.md).
+4.   Frequency Domain Analysis related functions, such as `Conv`. For details and examples, see the document [Frequency-Domain](../Operators-Functions/Frequency-Domain.md).
+5.   Data Matching related functions, such as `DTW`. For details and examples, see the document [Data-Matching](../Operators-Functions/Data-Matching.md).
+6.   Data Repairing related functions, such as `TimestampRepair`. For details and examples, see the document [Data-Repairing](../Operators-Functions/Data-Repairing.md).
+7.   Series Discovery related functions, such as `ConsecutiveSequences`. For details and examples, see the document [Series-Discovery](../Operators-Functions/Series-Discovery.md).
+8.   Machine Learning related functions, such as `AR`. For details and examples, see the document [Machine-Learning](../Operators-Functions/Machine-Learning.md).

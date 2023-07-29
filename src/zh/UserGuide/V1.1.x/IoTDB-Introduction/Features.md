@@ -1,7 +1,3 @@
----
-title: 主要功能特点
-order: 20
----
 <!--
 
     Licensed to the Apache Software Foundation (ASF) under one
@@ -23,7 +19,7 @@ order: 20
 
 -->
 
-## 主要功能特点
+# 主要功能特点
 
 IoTDB 具有以下特点：
 

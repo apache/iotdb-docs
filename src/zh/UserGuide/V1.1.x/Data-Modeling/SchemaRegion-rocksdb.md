@@ -19,6 +19,8 @@
 
 -->
 
+# SchemaRegion RocksDB (基于rocksDB的元数据存储方式)
+
 ## 背景
 
 在IoTDB服务启动时，通过加载日志文件`mlog.bin`组织元数据信息，并将结果长期持有在内存中；随着元数据的不断增长，内存会持续上涨；为支持海量元数据场景下，内存在可控范围内波动，我们提供了基于rocksDB的元数据存储方式。
@@ -40,7 +42,7 @@ server 的 lib 的文件夹中。
 ####################
 ### Schema Engine Configuration
 ####################
-# Choose the mode of schema engine. The value could be Memory,Schema_File and Rocksdb_based. If the provided value doesn't match any pre-defined value, Memory mode will be used as default.
+# Choose the mode of schema engine. The value could be Memory,PBTree and Rocksdb_based. If the provided value doesn't match any pre-defined value, Memory mode will be used as default.
 # Datatype: string
 schema_engine_mode=Rocksdb_based
 ```

@@ -19,13 +19,15 @@
 
 -->
 
-# Background
+# Schema Region
+
+## Background
 
 When IoTDB service is started, metadata information is organized by loading log file `mlog.bin` and the results are held
 in memory for a long time. As metadata continues to grow, memory continues to grow. In order to support the controllable
 fluctuation in the massive metadata scenario, we provide a metadata storage type based on rocksDB.
 
-# Usage
+## Usage
 
 Firstly, you should package **schema-engine-rocksdb** by the following command:
 
@@ -44,7 +46,7 @@ Rocksdb_based. Restart the IoTDB, the system will use `RSchemaRegion` to manage 
 ####################
 ### Schema Engine Configuration
 ####################
-# Choose the mode of schema engine. The value could be Memory,Schema_File and Rocksdb_based. If the provided value doesn't match any pre-defined value, Memory mode will be used as default.
+# Choose the mode of schema engine. The value could be Memory,PBTree and Rocksdb_based. If the provided value doesn't match any pre-defined value, Memory mode will be used as default.
 # Datatype: string
 schema_engine_mode=Rocksdb_based
 
@@ -52,7 +54,7 @@ schema_engine_mode=Rocksdb_based
 
 When rocksdb is specified as the metadata storage type, configuration parameters of rocksDB are open to the public as file. You can modify the configuration file `schema-rocksdb.properties` to adjust parameters according to your own requirements, such as block cache.  If there is no special requirement, use the default value.
 
-# Function Support
+## Function Support
 
 The module is still being improved, and some functions are not supported at the moment. The function modules are supported as follows:
 
@@ -68,7 +70,7 @@ The module is still being improved, and some functions are not supported at the 
 | continuous query | no |
 
 
-# Appendix: Interface support
+## Appendix: Interface support
 
 The external interface, that is, the client can sense, related SQL is not supported;
 

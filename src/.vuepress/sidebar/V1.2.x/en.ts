@@ -150,7 +150,7 @@ export const enSidebar = {
       prefix: 'FAQ/',
       // children: 'structure',
       children: [
-        { text: 'Frequently asked questions', link: 'Frequently-asked-questions' },      ],
+        { text: 'Frequently Asked Questions', link: 'Frequently-asked-questions' },      ],
     },
     {
       text: 'Reference',

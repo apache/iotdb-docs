@@ -19,13 +19,13 @@
 
 -->
 
-## 元数据模板
+# 元数据模板
 
 IoTDB 支持元数据模板功能，实现同类型不同实体的物理量元数据共享，减少元数据内存占用，同时简化同类型实体的管理。
 
 注：以下语句中的 `schema` 关键字可以省略。
 
-### 创建元数据模板
+## 创建元数据模板
 
 创建元数据模板的 SQL 语法如下：
 
@@ -47,7 +47,7 @@ IoTDB> create schema template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT 
 
 其中，物理量 `lat` 和 `lon` 是对齐的。
 
-### 挂载元数据模板
+## 挂载元数据模板
 
 元数据模板在创建后，需执行挂载操作，方可用于相应路径下的序列创建与数据写入。
 
@@ -63,7 +63,7 @@ IoTDB> create schema template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT 
 IoTDB> set schema template t1 to root.sg1.d1
 ```
 
-### 激活元数据模板
+## 激活元数据模板
 
 挂载好元数据模板后，且系统开启自动注册序列功能的情况下，即可直接进行数据的写入。例如 database 为 root.sg1，模板 t1 被挂载到了节点 root.sg1.d1，那么可直接向时间序列（如 root.sg1.d1.temperature 和 root.sg1.d1.status）写入时间序列数据，该时间序列已可被当作正常创建的序列使用。
 
@@ -111,7 +111,7 @@ show devices root.sg1.**
 +---------------+---------+
 ```
 
-### 查看元数据模板
+## 查看元数据模板
 
 - 查看所有元数据模板
 
@@ -179,7 +179,7 @@ IoTDB> show paths using schema template t1
 +-----------+
 ```
 
-### 解除元数据模板
+## 解除元数据模板
 
 若需删除模板表示的某一组时间序列，可采用解除模板操作，SQL语句如下所示：
 
@@ -207,7 +207,7 @@ IoTDB> deactivate schema template t1 from root.sg1.*, root.sg2.*
 
 若解除命令不指定模板名称，则会将给定路径涉及的所有模板使用情况均解除。
 
-### 卸载元数据模板
+## 卸载元数据模板
 
 卸载元数据模板的 SQL 语句如下所示：
 
@@ -217,7 +217,7 @@ IoTDB> unset schema template t1 from root.sg1.d1
 
 **注意**：不支持卸载仍处于激活状态的模板，需保证执行卸载操作前解除对该模板的所有使用，即删除所有该模板表示的序列。
 
-### 删除元数据模板
+## 删除元数据模板
 
 删除元数据模板的 SQL 语句如下所示：
 
@@ -227,7 +227,7 @@ IoTDB> drop schema template t1
 
 **注意**：不支持删除已经挂载的模板，需在删除操作前保证该模板卸载成功。
 
-### 修改元数据模板
+## 修改元数据模板
 
 在需要新增物理量的场景中，可以通过修改元数据模板来给所有已激活该模板的设备新增物理量。
 
