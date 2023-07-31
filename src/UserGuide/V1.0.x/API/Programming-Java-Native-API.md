@@ -331,6 +331,7 @@ It is recommended to use insertTablet to help improve write efficiency.
 
 * Insert a Tablet，which is multiple rows of a device, each row has the same measurements
   * **Better Write Performance**
+  * **Support batch write**
   * **Support null values**: fill the null value with any value, and then mark the null value via BitMap
 
 ```java
