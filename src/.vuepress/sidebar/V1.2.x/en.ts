@@ -92,6 +92,7 @@ export const enSidebar = {
         { text: 'Go Native API', link: 'Programming-Go-Native-API' },
         { text: 'JDBC (Not Recommend)', link: 'Programming-JDBC' },
         { text: 'MQTT', link: 'Programming-MQTT' },
+        { text: 'Kafka', link: 'Programming-Kafka' },
         { text: 'REST API V1 (Not Recommend)', link: 'RestServiceV1' },
         { text: 'REST API V2', link: 'RestServiceV2' },
         { text: 'TsFile API', link: 'Programming-TsFile-API' },
