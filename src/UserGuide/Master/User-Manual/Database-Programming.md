@@ -473,6 +473,8 @@ During the process of creating and dropping triggers in the cluster, we maintain
 
 Continuous queries(CQ) are queries that run automatically and periodically on realtime data and store query results in other specified time series.
 
+Users can implement sliding window streaming computing through continuous query, such as calculating the hourly average temperature of a sequence and writing it into a new sequence. Users can customize the `RESAMPLE` clause to create different sliding windows, which can achieve a certain degree of tolerance for out-of-order data.
+
 ### 2. Syntax
 
 ```sql

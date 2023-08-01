@@ -69,6 +69,7 @@ export const zhSidebar = {
         { text: '部署指导', link: 'Deployment-Guide_timecho' },
         { text: 'docker部署', link: 'Docker-Install' },
         { text: '安全控制', link: 'Security-Management_timecho' },
+        { text: '慢查询管理', link: 'Slow-Query-Management' },
       ],
     },
 
