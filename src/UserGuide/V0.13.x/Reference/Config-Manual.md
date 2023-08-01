@@ -408,6 +408,15 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |Default| false |
 |Effective|Only allowed to be modified in first start up|
 
+* timestamp\_precision
+
+|     Name     | timestamp\_precision        |
+| :----------: | :-------------------------- |
+|     Description     | timestamp precision，support ms、us、ns |
+|     Type     | String                      |
+|    Default    | ms                          |
+| Effective | Only allowed to be modified in first start up                   |
+
 * partition\_interval
 
 |Name| partition\_interval |
