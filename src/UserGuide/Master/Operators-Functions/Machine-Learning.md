@@ -82,9 +82,9 @@ Output Series:
 +-----------------------------+---------------------------+
 ```
 
-### Representation
+## Representation
 
-#### Usage
+### Usage
 
 This function is used to represent a time series.
 
@@ -103,9 +103,9 @@ This function is used to represent a time series.
 
 - Parameters `tb` and `vb` should be positive integers.
 
-#### Examples
+### Examples
 
-##### Assigning Window Size and Dimension
+#### Assigning Window Size and Dimension
 
 Input Series: 
 
@@ -146,9 +146,9 @@ Output Series:
 +-----------------------------+-------------------------------------------------+
 ```
 
-### RM
+## RM
 
-#### Usage
+### Usage
 
 This function is used to calculate the matching score of two time series according to the representation.
 
@@ -167,9 +167,9 @@ This function is used to calculate the matching score of two time series accordi
 
 - Parameters `tb` and `vb` should be positive integers.
 
-#### Examples
+### Examples
 
-##### Assigning Window Size and Dimension
+#### Assigning Window Size and Dimension
 
 Input Series: 
 

@@ -19,7 +19,9 @@
 
 -->
 
-# Background
+# Data Region
+
+## Background
 
 The database is specified by the user display.
 Use the statement "CREATE DATABASE" to create the database.
@@ -28,21 +30,21 @@ Each database has a corresponding StorageGroupProcessor.
 To ensure eventually consistency, a insert lock (exclusive lock) is used to synchronize each insert request in each database.
 So the server side parallelism of data ingestion is equal to the number of database.
 
-# Problem
+## Problem
 
 From background, we can infer that the parallelism of data ingestion of IoTDB is max(num of client, server side parallelism), which equals to max(num of client, num of database)
 
 The concept of database usually is related to real world entity such as factory, location, country and so on.
 The number of databases may be small which makes the parallelism of data ingestion of IoTDB insufficient. We can't jump out of this dilemma even we start hundreds of client for ingestion.
 
-# Solution
+## Solution
 
 Our idea is to group devices into buckets and change the granularity of synchronization from database level to device buckets level.
 
 In detail, we use hash to group different devices into buckets called data region. 
 For example, one device called "root.sg.d"(assume it's database is "root.sg") is belonged to data region "root.sg.[hash("root.sg.d") mod num_of_data_region]"
 
-# Usage
+## Usage
 
 To use data region, you can set this config below:
 

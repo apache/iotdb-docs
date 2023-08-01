@@ -69,13 +69,14 @@ export const zhSidebar = {
         { text: '部署指导', link: 'Deployment-Guide' },
         { text: 'docker部署', link: 'Docker-Install' },
         { text: '安全控制', link: 'Security-Management' },
+        { text: '慢查询管理', link: 'Slow-Query-Management' },
       ],
     },
 
     {
       text: '使用手册',
       collapsible: true,
-      prefix: 'User-Manuel/',
+      prefix: 'User-Manual/',
       // children: 'structure',
       children: [
         { text: '语法约定', link: 'Syntax-Rule' },

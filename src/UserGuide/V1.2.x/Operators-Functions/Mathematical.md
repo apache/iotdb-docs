@@ -19,7 +19,7 @@
 
 -->
 
-## Arithmetic Operators and Functions
+# Arithmetic Operators and Functions
 
 ## Arithmetic Operators
 
@@ -67,28 +67,28 @@ It costs 0.014s
 
 Currently, IoTDB supports the following mathematical functions. The behavior of these mathematical functions is consistent with the behavior of these functions in the Java Math standard library.
 
-| Function Name | Allowed Input Series Data Types | Output Series Data Type       |Necessary attribute parameter     | Corresponding Implementation in the Java Standard Library    |
-| ------------- | ------------------------------- | ----------------------------- |-----| ------------------------------------------------------------ |
-| SIN           | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#sin(double)                                             |
-| COS           | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#cos(double)                                             |
-| TAN           | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#tan(double)                                             |
-| ASIN          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#asin(double)                                            |
-| ACOS          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#acos(double)                                            |
-| ATAN          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#atan(double)                                            |
-| SINH          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#sinh(double)                                            |
-| COSH          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#cosh(double)                                            |
-| TANH          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#tanh(double)                                            |
-| DEGREES       | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#toDegrees(double)                                       |
-| RADIANS       | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#toRadians(double)                                       |
-| ABS           | INT32 / INT64 / FLOAT / DOUBLE  | Same type as the input series |     | Math#abs(int) / Math#abs(long) /Math#abs(float) /Math#abs(double) |
-| SIGN          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#signum(double)                                          |
-| CEIL          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#ceil(double)                                            |
-| FLOOR         | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#floor(double)                                           |
-| ROUND         | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |'places' : Round the significant number, positive number is the significant number after the decimal point, negative number is the significant number of whole number     | Math#rint(Math#pow(10,places))/Math#pow(10,places)                                            |
-| EXP           | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#exp(double)                                             |
-| LN            | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#log(double)                                             |
-| LOG10         | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#log10(double)                                           |
-| SQRT          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        |     | Math#sqrt(double)                                            |
+| Function Name | Allowed Input Series Data Types | Output Series Data Type       | Required Attributes                                          | Corresponding Implementation in the Java Standard Library    |
+| ------------- | ------------------------------- | ----------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| SIN           | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#sin(double)                                             |
+| COS           | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#cos(double)                                             |
+| TAN           | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#tan(double)                                             |
+| ASIN          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#asin(double)                                            |
+| ACOS          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#acos(double)                                            |
+| ATAN          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#atan(double)                                            |
+| SINH          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#sinh(double)                                            |
+| COSH          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#cosh(double)                                            |
+| TANH          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#tanh(double)                                            |
+| DEGREES       | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#toDegrees(double)                                       |
+| RADIANS       | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#toRadians(double)                                       |
+| ABS           | INT32 / INT64 / FLOAT / DOUBLE  | Same type as the input series | /                                                            | Math#abs(int) / Math#abs(long) /Math#abs(float) /Math#abs(double) |
+| SIGN          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#signum(double)                                          |
+| CEIL          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#ceil(double)                                            |
+| FLOOR         | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#floor(double)                                           |
+| ROUND         | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | 'places' : Round the significant number, positive number is the significant number after the decimal point, negative number is the significant number of whole number | Math#rint(Math#pow(10,places))/Math#pow(10,places)           |
+| EXP           | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#exp(double)                                             |
+| LN            | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#log(double)                                             |
+| LOG10         | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#log10(double)                                           |
+| SQRT          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#sqrt(double)                                            |
 
 Example:
 

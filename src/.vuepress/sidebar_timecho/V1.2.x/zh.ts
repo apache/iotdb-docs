@@ -66,16 +66,17 @@ export const zhSidebar = {
       children: [
         { text: '环境要求', link: 'Environmental-Requirement' },
         { text: '安装包获取', link: 'Get-Installation-Package' },
-        { text: '部署指导', link: 'Deployment-Guide' },
+        { text: '部署指导', link: 'Deployment-Guide_timecho' },
         { text: 'docker部署', link: 'Docker-Install' },
-        { text: '安全控制', link: 'Security-Management' },
+        { text: '安全控制', link: 'Security-Management_timecho' },
+        { text: '慢查询管理', link: 'Slow-Query-Management' },
       ],
     },
 
     {
       text: '使用手册',
       collapsible: true,
-      prefix: 'User-Manuel/',
+      prefix: 'User-Manual/',
       // children: 'structure',
       children: [
         { text: '语法约定', link: 'Syntax-Rule' },
@@ -100,7 +101,7 @@ export const zhSidebar = {
         { text: '控制台工具', link: 'Workbench' },
         { text: '监控工具', link: 'Monitor-Tool' },
         { text: '测试工具', link: 'Benchmark' },
-        { text: '运维工具', link: 'Maintenance-Tool' },
+        { text: '运维工具', link: 'Maintenance-Tool_timecho' },
         { text: '导入导出工具', link: 'Import-Export-Tool' },
       ],
     },

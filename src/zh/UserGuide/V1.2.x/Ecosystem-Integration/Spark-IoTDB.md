@@ -46,7 +46,7 @@
     <dependency>
       <groupId>org.apache.iotdb</groupId>
       <!-- spark-iotdb-connector_2.11 or spark-iotdb-connector_2.13 -->
-      <artifactId>spark-iotdb-connector_${scala.version}</artifactId>
+      <artifactId>spark-iotdb-connector_2.12.10</artifactId>
       <version>${iotdb.version}</version>
     </dependency>
 ```
@@ -57,7 +57,7 @@
 执行以下命令即可：
 
 ```shell
-cp spark-iotdb-connector_${scala.version}-${iotdb.version}.jar $SPARK_HOME/jars/
+cp spark-iotdb-connector_2.12.10-${iotdb.version}.jar $SPARK_HOME/jars/
 ```
 
 ## 使用

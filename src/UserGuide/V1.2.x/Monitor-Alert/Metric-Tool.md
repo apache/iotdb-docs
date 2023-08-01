@@ -19,6 +19,8 @@
 
 -->
 
+# Metric Tool
+
 Along with IoTDB running, we hope to observe the status of IoTDB, so as to troubleshoot system problems or discover
 potential system risks in time. A series of metrics that can **reflect the operating status of the system** are system
 monitoring metrics.

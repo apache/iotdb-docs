@@ -7,9 +7,9 @@
     to you under the Apache License, Version 2.0 (the
     "License"); you may not use this file except in compliance
     with the License.  You may obtain a copy of the License at
-
+    
         http://www.apache.org/licenses/LICENSE-2.0
-
+    
     Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -18,7 +18,7 @@
     under the License.
 
 -->
-## MQTT Protocol
+# MQTT Protocol
 
 [MQTT](http://mqtt.org/) is a machine-to-machine (M2M)/"Internet of Things" connectivity protocol.
 It was designed as an extremely lightweight publish/subscribe messaging transport.
@@ -30,7 +30,7 @@ IoTDB server includes a built-in MQTT service that allows remote devices send me
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/78357432-0c71cf80-75e4-11ea-98aa-c43a54d469ce.png">
 
 
-### Built-in MQTT Service
+## Built-in MQTT Service
 The Built-in MQTT Service provide the ability of direct connection to IoTDB through MQTT. It listen the publish messages from MQTT clients
  and then write the data into storage immediately. 
 The MQTT topic corresponds to IoTDB timeseries. 
@@ -58,7 +58,7 @@ or json array of the above two.
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/78357469-1bf11880-75e4-11ea-978f-a53996667a0d.png">
 
-### MQTT Configurations
+## MQTT Configurations
 The IoTDB MQTT service load configurations from `${IOTDB_HOME}/${IOTDB_CONF}/iotdb-datanode.properties` by default.
 
 Configurations are as follows:
@@ -73,7 +73,7 @@ Configurations are as follows:
 | mqtt_max_message_size | the max mqtt message size in byte|   1048576 |
 
 
-### Coding Examples
+## Coding Examples
 The following is an example which a mqtt client send messages to IoTDB server.
 
 ```java
@@ -101,7 +101,7 @@ connection.disconnect();
 
 ```
 
-### Customize your MQTT Message Format
+## Customize your MQTT Message Format
 
 If you do not like the above Json format, you can customize your MQTT Message format by just writing several lines 
 of codes. An example can be found in `example/mqtt-customize` project.

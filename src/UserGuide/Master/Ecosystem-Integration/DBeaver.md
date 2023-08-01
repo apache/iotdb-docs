@@ -19,15 +19,15 @@
 
 -->
 
-## DBeaver-IoTDB
+# DBeaver-IoTDB
 
 DBeaver is a SQL client software application and a database administration tool. It can use the JDBC application programming interface (API) to interact with IoTDB via the JDBC driver. 
 
-### DBeaver Installation
+## DBeaver Installation
 
 * From DBeaver site: https://dbeaver.io/download/
 
-### IoTDB Installation
+## IoTDB Installation
 
 * Download binary version
   * From IoTDB site: https://iotdb.apache.org/Download/
@@ -35,13 +35,13 @@ DBeaver is a SQL client software application and a database administration tool.
 * Or compile from source code
   * See https://github.com/apache/iotdb
 
-### Connect IoTDB and DBeaver
+## Connect IoTDB and DBeaver
 
 1. Start IoTDB server
 
    ```shell
    ./sbin/start-server.sh
-   ``` 
+   ```
 2. Start DBeaver
 3. Open Driver Manager
 

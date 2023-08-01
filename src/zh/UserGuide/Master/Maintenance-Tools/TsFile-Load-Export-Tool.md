@@ -19,7 +19,9 @@
 
 -->
 
-## 导入 TsFile
+# TsFile导入导出工具
+
+## TsFile导入工具
 
 ### 介绍
 加载外部 tsfile 文件工具允许用户向正在运行中的 Apache IoTDB 中加载 tsfile 文件。或者您也可以使用脚本的方式将tsfile加载进IoTDB。
@@ -109,13 +111,11 @@ ONSUCCESS选项表示对于成功载入的tsfile的处置方式，默认为delet
 - 执行到中途崩溃了想重新加载怎么办
   - 重新执行刚才的命令，重新加载数据不会影响加载之后的正确性
 
-## 导出 TsFile
+## TsFile导出工具
 
 TsFile 工具可帮您 通过执行指定sql、命令行sql、sql文件的方式将结果集以TsFile文件的格式导出至指定路径.
 
-### 使用 export-tsfile.sh
-
-#### 运行方法
+### 运行方法
 
 ```shell
 # Unix/OS X
@@ -150,7 +150,7 @@ TsFile 工具可帮您 通过执行指定sql、命令行sql、sql文件的方式
 
 除此之外，如果你没有使用`-s`和`-q`参数，在导出脚本被启动之后你需要按照程序提示输入查询语句，不同的查询结果会被保存到不同的TsFile文件中。
 
-#### 运行示例
+### 运行示例
 
 ```shell
 # Unix/OS X
@@ -176,6 +176,6 @@ TsFile 工具可帮您 通过执行指定sql、命令行sql、sql文件的方式
 > tools/export-tsfile.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s ./sql.txt -f myTsFile -t 10000
 ```
 
-#### Q&A
+### Q&A
 
 - 建议在导入数据时不要同时执行写入数据命令，这将有可能导致JVM内存不足的情况。

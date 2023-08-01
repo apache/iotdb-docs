@@ -19,9 +19,9 @@
 
 -->
 
-## Zeppelin-IoTDB
+# Zeppelin-IoTDB
 
-### About Zeppelin
+## About Zeppelin
 
 Zeppelin is a web-based notebook that enables interactive data analytics. You can connect to data sources and perform interactive operations with SQL, Scala, etc. The operations can be saved as documents, just like Jupyter. Zeppelin has already supported many data sources, including Spark, ElasticSearch, Cassandra, and InfluxDB. Now, we have enabled Zeppelin to operate IoTDB via SQL. 
 
@@ -29,9 +29,9 @@ Zeppelin is a web-based notebook that enables interactive data analytics. You ca
 
 
 
-### Zeppelin-IoTDB Interpreter
+## Zeppelin-IoTDB Interpreter
 
-#### System Requirements
+### System Requirements
 
 | IoTDB Version | Java Version  | Zeppelin Version |
 | :-----------: | :-----------: | :--------------: |
@@ -46,11 +46,11 @@ Install Zeppelin:
 
 Suppose Zeppelin is placed at `$Zeppelin_HOME`.
 
-#### Build Interpreter
+### Build Interpreter
 
 ```
  cd $IoTDB_HOME
- mvn clean package -pl zeppelin-interpreter -am -DskipTests -P get-jar-with-dependencies
+ mvn clean package -pl iotdb-connector/zeppelin-interpreter -am -DskipTests -P get-jar-with-dependencies
 ```
 
 The interpreter will be in the folder:
@@ -61,7 +61,7 @@ The interpreter will be in the folder:
 
 
 
-#### Install Interpreter
+### Install Interpreter
 
 Once you have built your interpreter, create a new folder under the Zeppelin interpreter directory and put the built interpreter into it. 
 
@@ -73,7 +73,7 @@ Once you have built your interpreter, create a new folder under the Zeppelin int
 
 
 
-#### Running Zeppelin and IoTDB
+### Running Zeppelin and IoTDB
 
 Go to `$Zeppelin_HOME` and start Zeppelin by running: 
 
@@ -101,7 +101,7 @@ Go to `$IoTDB_HOME` and start IoTDB server:
 
 
 
-### Use Zeppelin-IoTDB
+## Use Zeppelin-IoTDB
 
 Wait for Zeppelin server to start, then visit http://127.0.0.1:8080/
 
@@ -155,7 +155,7 @@ The above demo notebook can be found at  `$IoTDB_HOME/zeppelin-interpreter/Zeppe
 
 
 
-### Configuration
+## Configuration
 
 You can configure the connection parameters in http://127.0.0.1:8080/#/interpreter :
 
