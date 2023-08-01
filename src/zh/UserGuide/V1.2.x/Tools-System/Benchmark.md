@@ -41,18 +41,16 @@ IoT-benchmark 是基于 Java 和大数据环境开发的时序数据库基准测
 
 目前 IoT-benchmark 支持如下时间序列数据库、版本和连接方式：
 
-| 数据库          | DB-Engines排名 | 版本    | 连接方式                                                 |
-| --------------- | -------------- | ------- | -------------------------------------------------------- |
-| InfluxDB        | 1              | v1.x    | SDK                                                      |
-| v2.0            |                |         |                                                          |
-| TimescaleDB     | 5              | --      | jdbc                                                     |
-| OpenTSDB        | 8              | --      | Http Request                                             |
-| QuestDB         | 10             | v6.0.7  | jdbc                                                     |
-| TDengine        | 13             | 2.2.0.2 | jdbc                                                     |
-| VictoriaMetrics | 16             | v1.64.0 | Http Request                                             |
-| KairosDB        | 17             | --      | Http Request                                             |
-| IoTDB           | 19             | v1.0    | jdbc、sessionByTablet、sessionByRecord、sessionByRecords |
-| v0.13           |                |         |                                                          |
+| 数据库          | 版本    | 连接方式                                                 |
+| --------------- | ------- | -------------------------------------------------------- |
+| InfluxDB        | v1.x <br> v2.0     | SDK                                                      |                                               |
+| TimescaleDB     |  --      | jdbc                                                     |
+| OpenTSDB        | --      | Http Request                                             |
+| QuestDB         |  v6.0.7  | jdbc                                                     |
+| TDengine        |  v2.2.0.2 | jdbc                                                     |
+| VictoriaMetrics | v1.64.0 | Http Request                                             |
+| KairosDB        |  --      | Http Request                                             |
+| IoTDB           |  v1.x <br> v0.13   | jdbc、sessionByTablet、sessionByRecord、sessionByRecords |
 
 表1-1大数据测试基准对比
 
