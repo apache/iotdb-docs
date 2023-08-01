@@ -115,6 +115,7 @@ export const zhSidebar = {
         { text: 'Python', link: 'Programming-Python-Native-API' },
         { text: 'C++', link: 'Programming-Cpp-Native-API' },
         { text: 'Go', link: 'Programming-Go-Native-API' },
+        { text: 'JDBC (不推荐)', link: 'Programming-JDBC' },
         { text: 'MQTT', link: 'Programming-MQTT' },
         { text: 'REST API V1', link: 'RestServiceV1' },
         { text: 'REST API V2', link: 'RestServiceV2' },

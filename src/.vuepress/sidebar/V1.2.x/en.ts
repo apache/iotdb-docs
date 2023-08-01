@@ -111,6 +111,7 @@ export const enSidebar = {
         { text: 'Python Native API', link: 'Programming-Python-Native-API' },
         { text: 'C++ Native API', link: 'Programming-Cpp-Native-API' },
         { text: 'Go Native API', link: 'Programming-Go-Native-API' },
+        { text: 'JDBC (Not Recommend)', link: 'Programming-JDBC' },
         { text: 'MQTT', link: 'Programming-MQTT' },
         { text: 'REST API V1 (Not Recommend)', link: 'RestServiceV1' },
         { text: 'REST API V2', link: 'RestServiceV2' },
