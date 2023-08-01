@@ -23,7 +23,7 @@
 
 ## Syntax Definition
 
-In IoTDB, `SELECT` statement is used to retrieve data from one or more selected time series. Here is the syntax definition of `SELECT` statement:
+In IoTDB, `SELECT` statement is used to retrieve data from one or more selected time series. IoTDB does not distinguish between historical data and real-time data. Users can use unified sql syntax to query, and determine the time range of the query through the time filter predicate in the `WHERE` clause. Here is the syntax definition of `SELECT` statement:
 
 ```sql
 SELECT [LAST] selectExpr [, selectExpr] ...
@@ -118,6 +118,8 @@ SELECT [LAST] selectExpr [, selectExpr] ...
 - For details and examples, see the document [Query Alignment Mode](./Align-By.md).
 
 ## Basic Examples
+
+IoTDB supports ad-hoc queries, that is, users can customize query conditions while using the system, and write and execute query sql according to their needs at that time. Users can combine the clauses introduced above to specify any legal filter conditions to meet the query requirements at that time. Some query examples are introduced below:
 
 ### Select a Column of Data Based on a Time Interval
 

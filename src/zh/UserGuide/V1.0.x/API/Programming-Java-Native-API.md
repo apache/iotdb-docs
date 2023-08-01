@@ -318,6 +318,7 @@ public void dropSchemaTemplate(String templateName);
 
 * 插入一个 Tablet，Tablet 是一个设备若干行数据块，每一行的列都相同
   * **写入效率高**
+  * **支持批量写入**
   * **支持写入空值**：空值处可以填入任意值，然后通过 BitMap 标记空值
 
 ```java

@@ -112,7 +112,7 @@ connection.disconnect();
         <dependency>
             <groupId>org.apache.iotdb</groupId>
             <artifactId>iotdb-server</artifactId>
-            <version>${project.version}</version>
+            <version>1.3.0-SNAPSHOT</version>
         </dependency>
 ```
 * 创建一个实现类，实现接口 `org.apache.iotdb.db.mqtt.protocol.PayloadFormatter`

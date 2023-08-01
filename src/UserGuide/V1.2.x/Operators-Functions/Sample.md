@@ -28,7 +28,7 @@ This function samples the input sequence in equal size buckets, that is, accordi
 ### Equal Size Bucket Random Sample
 Random sampling is performed on the equally divided buckets.
 
-| Function Name | Allowed Input Series Data Types | Required Attributes                           | Output Series Data Type | Series Data Type  Description                 |
+| Function Name                   | Allowed Input Series Data Types | Required Attributes                                          | Output Series Data Type        | Description                                                  |
 |----------|--------------------------------|---------------------------------------|------------|--------------------------------------------------|
 | EQUAL_SIZE_BUCKET_RANDOM_SAMPLE   | INT32 / INT64 / FLOAT / DOUBLE | `proportion` The value range is `(0, 1]`, the default is `0.1` | INT32 / INT64 / FLOAT / DOUBLE | Returns a random sample of equal buckets that matches the sampling ratio |
 
@@ -99,7 +99,7 @@ The input sequence is sampled by the aggregation sampling method, and the user n
 
 The timestamp of the sampling output of each bucket is the timestamp of the first point of the bucket.
 
-| Function Name | Allowed Input Series Data Types | Required Attributes                           | Output Series Data Type | Series Data Type  Description                 |
+| Function Name                | Allowed Input Series Data Types | Required Attributes                                          | Output Series Data Type        | Description                                                  |
 |----------|--------------------------------|---------------------------------------|------------|--------------------------------------------------|
 | EQUAL_SIZE_BUCKET_AGG_SAMPLE | INT32 / INT64 / FLOAT / DOUBLE | `proportion` The value range is `(0, 1]`, the default is `0.1`<br>`type`: The value types are `avg`, `max`, `min`, `sum`, `extreme`, `variance`, the default is `avg` | INT32 / INT64 / FLOAT / DOUBLE | Returns equal bucket aggregation samples that match the sampling ratio |
 
@@ -135,7 +135,7 @@ It costs 0.044s
 
 The input sequence is sampled using the M4 sampling method. That is to sample the head, tail, min and max values for each bucket.
 
-| Function Name | Allowed Input Series Data Types | Required Attributes                           | Output Series Data Type | Series Data Type  Description                 |
+| Function Name               | Allowed Input Series Data Types | Required Attributes                                          | Output Series Data Type        | Description                                                  |
 |----------|--------------------------------|---------------------------------------|------------|--------------------------------------------------|
 | EQUAL_SIZE_BUCKET_M4_SAMPLE | INT32 / INT64 / FLOAT / DOUBLE | `proportion` The value range is `(0, 1]`, the default is `0.1` | INT32 / INT64 / FLOAT / DOUBLE | Returns equal bucket M4 samples that match the sampling ratio |
 
@@ -173,7 +173,7 @@ It costs 0.065s
 
 This function samples the input sequence with equal number of bucket outliers, that is, according to the downsampling ratio given by the user and the number of samples in the bucket, the input sequence is divided into several buckets according to a fixed number of points. Sampling by the given outlier sampling method within each bucket.
 
-| Function Name | Allowed Input Series Data Types | Required Attributes                           | Output Series Data Type | Series Data Type  Description                 |
+| Function Name                    | Allowed Input Series Data Types | Required Attributes                                          | Output Series Data Type        | Description                                                  |
 |----------|--------------------------------|---------------------------------------|------------|--------------------------------------------------|
 | EQUAL_SIZE_BUCKET_OUTLIER_SAMPLE | INT32 / INT64 / FLOAT / DOUBLE | The value range of `proportion` is `(0, 1]`, the default is `0.1`<br> The value of `type` is `avg` or `stendis` or `cos` or `prenextdis`, the default is `avg` <br>The value of `number` should be greater than 0, the default is `3`| INT32 / INT64 / FLOAT / DOUBLE | Returns outlier samples in equal buckets that match the sampling ratio and the number of samples in the bucket |
 
@@ -258,7 +258,7 @@ M4 is used to sample the `first, last, bottom, top` points for each sliding wind
 
 <img src="https://alioss.timecho.com/docs/img/github/198178733-a0919d17-0663-4672-9c4f-1efad6f463c2.png" alt="image" style="zoom:50%;" />
 
-| Function Name | Allowed Input Series Data Types | Attributes                                                   | Output Series Data Type        | Series Data Type  Description                                |
+| Function Name | Allowed Input Series Data Types | Required Attributes                                          | Output Series Data Type        | Description                                                  |
 | ------------- | ------------------------------- | ------------------------------------------------------------ | ------------------------------ | ------------------------------------------------------------ |
 | M4            | INT32 / INT64 / FLOAT / DOUBLE  | Different attributes used by the size window and the time window. The size window uses attributes `windowSize` and `slidingStep`. The time window uses attributes `timeInterval`, `slidingStep`, `displayWindowBegin`, and `displayWindowEnd`. More details see below. | INT32 / INT64 / FLOAT / DOUBLE | Returns the `first, last, bottom, top` points in each sliding window. M4 sorts and deduplicates the aggregated points within the window before outputting them. |
 

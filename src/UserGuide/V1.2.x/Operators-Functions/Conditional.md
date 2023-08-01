@@ -19,11 +19,9 @@
 
 -->
 
-## Conditional Expressions
+# Conditional Expressions
 
-### CASE
-
-#### Introduction
+## CASE
 
 The CASE expression is a kind of conditional expression that can be used to return different values based on specific conditions, similar to the if-else statements in other languages.
 
@@ -38,7 +36,7 @@ The CASE expression is a scalar operation that can be used in combination with a
 
 In the following text, all THEN parts and ELSE clauses will be collectively referred to as result clauses.
 
-#### Syntax
+### Syntax
 
 The CASE expression supports two formats.
 
@@ -80,7 +78,7 @@ If none of the conditions are true, or if none of the `whenValue`s match the `ca
 
 If there is no ELSE clause, `null` will be returned.
 
-#### Notes
+### Notes
 
 - In format 1, all WHEN clauses must return a BOOLEAN type.
 - In format 2, all WHEN clauses must be able to be compared to the CASE clause.
@@ -94,9 +92,9 @@ If there is no ELSE clause, `null` will be returned.
 - Aggregate functions cannot be used within a CASE expression, but the result of a CASE expression can be used as input for an aggregate function.
 - When using the CLI, because the CASE expression string can be lengthy, it is recommended to provide an alias for the expression using AS.
 
-#### Using Examples
+### Using Examples
 
-##### Example 1
+#### Example 1
 
 The CASE expression can be used to analyze data in a visual way. For example:
 - The preparation of a certain chemical product requires that the temperature and pressure be within specific ranges.
@@ -142,7 +140,7 @@ output:
 ```
 
 
-##### Example 2
+#### Example 2
 
 The CASE expression can achieve flexible result transformation, such as converting strings with a certain pattern to other strings.
 
@@ -178,9 +176,9 @@ output:
 +-----------------------------+--------------+------------+
 ```
 
-##### Example 3: work with aggregation functions
+#### Example 3: work with aggregation functions
 
-###### valid: aggregation function ← CASE expression
+##### Valid: aggregation function ← CASE expression
 
 The CASE expression can be used as a parameter for aggregate functions. For example, used in conjunction with the COUNT function, it can implement statistics based on multiple conditions simultaneously.
 
@@ -223,7 +221,7 @@ output:
 +------+-----+-----+------+
 ```
 
-###### invalid: CASE expression ← aggregation function 
+##### Invalid: CASE expression ← aggregation function 
 
 Using aggregation function in CASE expression is not supported
 
@@ -237,7 +235,7 @@ output:
 Msg: 701: Raw data and aggregation result hybrid calculation is not supported.
 ```
 
-##### Example 4: kind 2
+#### Example 4: kind 2
 
 Here is a simple example that uses the format 2 syntax. 
 If all conditions are equality tests, it is recommended to use format 2 to simplify SQL statements.
@@ -272,13 +270,13 @@ output:
 +-----------------------------+------------+-----------------------------------------------------------------------------------+
 ```
 
-##### Example 5: type of return clauses
+#### Example 5: type of return clauses
 
 The result clause of a CASE expression needs to satisfy certain type restrictions.
 
 In this example, we continue to use the data from Example 4.
 
-###### Invalid: BOOLEAN cannot coexist with other types
+##### Invalid: BOOLEAN cannot coexist with other types
 
 SQL statements:
 ```sql
@@ -290,7 +288,7 @@ output:
 Msg: 701: CASE expression: BOOLEAN and other types cannot exist at same time
 ```
 
-###### Valid: Only BOOLEAN type exists
+##### Valid: Only BOOLEAN type exists
 
 SQL statements:
 ```sql
@@ -309,7 +307,7 @@ output:
 +-----------------------------+------------+------+
 ```
 
-###### Invalid:TEXT cannot coexist with other types
+##### Invalid:TEXT cannot coexist with other types
 
 SQL statements:
 ```sql
@@ -321,11 +319,11 @@ output:
 Msg: 701: CASE expression: TEXT and other types cannot exist at same time
 ```
 
-###### Valid: Only TEXT type exists
+##### Valid: Only TEXT type exists
 
 See in Example 1.
 
-###### Valid: Numerical types coexist
+##### Valid: Numerical types coexist
 
 SQL statements:
 ```sql

@@ -147,7 +147,7 @@ IoTDB 在显示时间戳时可以支持 LONG 类型以及 DATETIME-DISPLAY 类�
   ```
 
   <div style="text-align: center;">
-  
+
   **The syntax of the duration unit**
 
 

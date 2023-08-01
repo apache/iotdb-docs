@@ -236,6 +236,7 @@ export const zhSidebar = {
         { text: 'TsFile 拆分工具', link: 'TsFile-Split-Tool' },
         { text: 'TsFile 导入导出工具', link: 'TsFile-Load-Export-Tool' },
         { text: 'CSV 导入导出工具', link: 'CSV-Tool' },
+        { text: '慢查询管理', link: 'Slow-Query-Management' },
       ],
     },
     {

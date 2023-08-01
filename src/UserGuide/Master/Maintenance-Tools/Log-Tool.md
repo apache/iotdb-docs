@@ -19,7 +19,7 @@
 
 -->
 
-## System log
+# System log
 
 IoTDB allows users to configure IoTDB system logs (such as log output level) by modifying the log configuration file. The default location of the system log configuration file is in \$IOTDB_HOME/conf folder. 
 
@@ -27,9 +27,9 @@ The default log configuration file is named logback.xml. The user can modify the
 
 At the same time, in order to facilitate the debugging of the system by the developers and DBAs, we provide several JMX interfaces to dynamically modify the log configuration, and configure the Log module of the system in real time without restarting the system.
 
-### Dynamic System Log Configuration
+## Dynamic System Log Configuration
 
-#### Connect JMX
+### Connect JMX
 
 Here we use JConsole to connect with JMX. 
 
@@ -44,7 +44,7 @@ In the JMXConfigurator Window, there are 6 operations provided, as shown in fig 
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/51577216-09fdeb00-1ef4-11e9-9005-542ad7d9e9e0.png">
 
-#### Interface Instruction
+### Interface Instruction
 
 * reloadDefaultConfiguration
 

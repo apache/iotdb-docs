@@ -40,7 +40,7 @@ The syntax of the cast function is consistent with that of PostgreSQL. The data 
 | **BOOLEAN** | true: 1<br />false: 0                                        | true: 1L<br />false: 0                                       | true: 1.0f<br />false: 0                                     | true: 1.0<br />false: 0 | No need to cast                                              | true: "true"<br />false: "false" |
 | **TEXT**    | Integer.parseInt()                                           | Long.parseLong()                                             | Float.parseFloat()                                           | Double.parseDouble()    | text.toLowerCase =="true" : true<br />text.toLowerCase =="false" : false<br />Otherwise: throw Exception | No need to cast                  |
 
-#### Examples
+## Examples
 
 ```
 // timeseries
@@ -96,7 +96,6 @@ IoTDB> select cast(s6 as BOOLEAN) from root.sg.d1 where time >= 2
 |1970-01-01T08:00:00.003+08:00|                         false|
 +-----------------------------+------------------------------+
 ```
-
 
 
 

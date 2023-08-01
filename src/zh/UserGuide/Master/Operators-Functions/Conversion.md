@@ -19,11 +19,11 @@
 
 -->
 
-## 数据类型转换
+# 数据类型转换
 
-### CAST
+## CAST
 
-#### 函数简介
+### 函数简介
 
 当前 IoTDB 支持6种数据类型，其中包括 INT32、INT64、FLOAT、DOUBLE、BOOLEAN 以及 TEXT。当我们对数据进行查询或者计算时可能需要进行数据类型的转换， 比如说将 TEXT 转换为 INT32，或者提高数据精度，比如说将 FLOAT 转换为 DOUBLE。IoTDB 支持使用cast 函数对数据类型进行转换。
 
@@ -44,7 +44,7 @@ cast 函数语法形式上与 PostgreSQL 一致，AS 后指定的数据类型表
 | **BOOLEAN** | true: 1<br />false: 0                                        | true: 1L<br />false: 0                                       | true: 1.0f<br />false: 0                        | true: 1.0<br />false: 0 | 不转化                                                       | true: "true"<br />false: "false" |
 | **TEXT**    | Integer.parseInt()                                           | Long.parseLong()                                             | Float.parseFloat()                              | Double.parseDouble()    | text.toLowerCase =="true" : true<br />text.toLowerCase =="false" : false<br />其它情况：执行抛异常 | 不转化                           |
 
-#### 使用示例
+### 使用示例
 
 ```
 // timeseries

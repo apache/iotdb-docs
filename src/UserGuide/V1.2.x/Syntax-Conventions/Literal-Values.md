@@ -144,7 +144,7 @@ An integer may be used in floating-point context; it is interpreted as the equiv
 
 ## Timestamp Literals
 
-The timestamp is the time point at which data is produced. It includes absolute timestamps and relative timestamps in IoTDB. For information about timestamp support in IoTDB, see [Data Type Doc](../Data-Concept/Data-Type.md).
+The timestamp is the time point at which data is produced. It includes absolute timestamps and relative timestamps in IoTDB. For information about timestamp support in IoTDB, see [Data Type Doc](../Basic-Concept/Data-Type.md).
 
 Specially, `NOW()` represents a constant timestamp that indicates the system time at which the statement began to execute.
 

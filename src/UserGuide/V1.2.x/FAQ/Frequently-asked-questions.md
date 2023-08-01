@@ -21,7 +21,9 @@
 
 # Frequently Asked Questions
 
-**How can I identify my version of IoTDB?**
+## General FAQ
+
+### 1. How can I identify my version of IoTDB?
 
 There are several ways to identify the version of IoTDB that you are using:
 
@@ -63,7 +65,7 @@ Total line number = 1
 It costs 0.241s
 ```
 
-**Where can I find IoTDB logs?**
+### 2. Where can I find IoTDB logs?
 
 Suppose your root directory is:
 
@@ -85,11 +87,11 @@ Let `$IOTDB_CLI_HOME = /workspace/iotdb/cli/target/iotdb-cli-{project.version}`
 
 By default settings, the logs are stored under ```IOTDB_HOME/logs```. You can change log level and storage path by configuring ```logback.xml``` under ```IOTDB_HOME/conf```.
 
-**Where can I find IoTDB data files?**
+### 3. Where can I find IoTDB data files?
 
 By default settings, the data files (including tsfile, metadata, and WAL files) are stored under ```IOTDB_HOME/data/datanode```.
 
-**How do I know how many time series are stored in IoTDB?**
+### 4. How do I know how many time series are stored in IoTDB?
 
 Use IoTDB's Command Line Interface:
 
@@ -112,15 +114,15 @@ If you are using Linux, you can use the following shell command:
 >   6
 ```
 
-**Can I use Hadoop and Spark to read TsFile in IoTDB?**
+### 5. Can I use Hadoop and Spark to read TsFile in IoTDB?
 
 Yes. IoTDB has intense integration with Open Source Ecosystem. IoTDB supports [Hadoop](https://github.com/apache/iotdb/tree/master/hadoop), [Spark](https://github.com/apache/iotdb/tree/master/spark-tsfile) and [Grafana](https://github.com/apache/iotdb/tree/master/grafana-plugin) visualization tool.
 
-**How does IoTDB handle duplicate points?**
+### 6. How does IoTDB handle duplicate points?
 
-A data point is uniquely identified by a full time series path (e.g. ```root.vehicle.d0.s0```) and timestamp. If you submit a new point with the same path and timestamp as an existing point, IoTDB updates the value of this point instead of inserting a new point. 
+A data point is uniquely identified by a full time series path (e.g. ```root.vehicle.d0.s0```) and timestamp. If you submit a new point with the same path and timestamp as an existing point, IoTDB updates the value of this point instead of inserting a new point.
 
-**How can I tell what type of the specific timeseries?**
+### 7. How can I tell what type of the specific timeseries?
 
 Use ```SHOW TIMESERIES <timeseries path>``` SQL in IoTDB's Command Line Interface:
 
@@ -142,7 +144,7 @@ Otherwise, you can also use wildcard in timeseries path:
 IoTDB> show timeseries root.fit.d1.*
 ```
 
-**How can I change IoTDB's Cli time display format?**
+### 8. How can I change IoTDB's Cli time display format?
 
 The default IoTDB's Cli time display format is readable (e.g. ```1970-01-01T08:00:00.001```), if you want to display time in timestamp type or other readable format, add parameter ```-disableISO8601``` in start command:
 
@@ -150,7 +152,90 @@ The default IoTDB's Cli time display format is readable (e.g. ```1970-01-01T08:0
 > $IOTDB_CLI_HOME/sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root -disableISO8601
 ```
 
-**How to handle error `IndexOutOfBoundsException` from `org.apache.ratis.grpc.server.GrpcLogAppender`?**
+### 9. How to handle error `IndexOutOfBoundsException` from `org.apache.ratis.grpc.server.GrpcLogAppender`?
 
 It is an internal error introduced by Ratis 2.4.1 dependency, and we can safely ignore this exception as it will
 not affect normal operations. We will fix this message in the incoming releases.
+
+## FAQ for Cluster Setup
+
+### Cluster StartUp and Stop
+
+#### 1. Failed to start ConfigNode for the first time, how to find the reason?
+
+- Make sure that the data/confignode directory is cleared when start ConfigNode for the first time.
+- Make sure that the <IP+Port> used by ConfigNode is not occupied, and the <IP+Port> is also not conflicted with other ConfigNodes.
+- Make sure that the `cn_target_confignode_list` is configured correctly, which points to the alive ConfigNode. And if the ConfigNode is started for the first time, make sure that `cn_target_confignode_list` points to itself.
+- Make sure that the configuration(consensus protocol and replica number) of the started ConfigNode is accord with the `cn_target_confignode_list` ConfigNode.
+
+#### 2. ConfigNode is started successfully, but why the node doesn't appear in the results of `show cluster`?
+
+- Examine whether the `cn_target_confignode_list` points to the correct address. If `cn_target_confignode_list` points to itself, a new ConfigNode cluster is started.
+
+#### 3. Failed to start DataNode for the first time, how to find the reason?
+
+- Make sure that the data/datanode directory is cleared when start DataNode for the first time. If the start result is “Reject DataNode restart.”, maybe the data/datanode directory is not cleared.
+- Make sure that the <IP+Port> used by DataNode is not occupied, and the <IP+Port> is also not conflicted with other DataNodes.
+- Make sure that the `dn_target_confignode_list` points to the alive ConfigNode.
+
+#### 4. Failed to remove DataNode, how to find the reason?
+
+- Examine whether the parameter of remove-datanode.sh is correct, only rpcIp:rpcPort and dataNodeId are correct parameter.
+- Only when the number of available DataNodes in the cluster is greater than max(schema_replication_factor, data_replication_factor), removing operation can be executed.
+- Removing DataNode will migrate the data from the removing DataNode to other alive DataNodes. Data migration is based on Region, if some regions are migrated failed, the removing DataNode will always in the status of `Removing`.
+- If the DataNode is in the status of `Removing`, the regions in the removing DataNode will also in the status of `Removing` or `Unknown`, which are unavailable status. Besides, the removing DataNode will not receive new write requests from client.
+  And users can use the command `set system status to running` to make the status of DataNode from Removing to Running;
+  If users want to make the Regions from Removing to available status, command `migrate region from datanodeId1 to datanodeId2` can take effect, this command can migrate the regions to other alive DataNodes.
+  Besides, IoTDB will publish `remove-datanode.sh -f` command in the next version, which can remove DataNodes forced (The failed migrated regions will be discarded).
+
+#### 5. Whether the down DataNode can be removed?
+
+- The down DataNode can be removed only when the replica factor of schema and data is greater than 1.  
+  Besides, IoTDB will publish `remove-datanode.sh -f` function in the next version.
+
+#### 6. What should be paid attention to when upgrading from 0.13 to 1.0?
+
+- The file structure between 0.13 and 1.0 is different, we can't copy the data directory from 0.13 to 1.0 to use directly.
+  If you want to load the data from 0.13 to 1.0, you can use the LOAD function.
+- The default RPC address of 0.13 is `0.0.0.0`, but the default RPC address of 1.0 is `127.0.0.1`.
+
+
+### Cluster Restart
+
+#### 1. How to restart any ConfigNode in the cluster?
+
+- First step: stop the process by stop-confignode.sh or kill PID of ConfigNode.
+- Second step: execute start-confignode.sh to restart ConfigNode.
+
+#### 2. How to restart any DataNode in the cluster?
+
+- First step: stop the process by stop-datanode.sh or kill PID of DataNode.
+- Second step: execute start-datanode.sh to restart DataNode.
+
+#### 3. If it's possible to restart ConfigNode using the old data directory when it's removed?
+
+- Can't. The running result will be "Reject ConfigNode restart. Because there are no corresponding ConfigNode(whose nodeId=xx) in the cluster".
+
+#### 4. If it's possible to restart DataNode using the old data directory when it's removed?
+
+- Can't. The running result will be "Reject DataNode restart. Because there are no corresponding DataNode(whose nodeId=xx) in the cluster. Possible solutions are as follows:...".
+
+#### 5. Can we execute start-confignode.sh/start-datanode.sh successfully when delete the data directory of given ConfigNode/DataNode without killing the PID?
+
+- Can't. The running result will be "The port is already occupied".
+
+### Cluster Maintenance
+
+#### 1. How to find the reason when Show cluster failed, and error logs like "please check server status" are shown?
+
+- Make sure that more than one half ConfigNodes are alive.
+- Make sure that the DataNode connected by the client is alive.
+
+#### 2. How to fix one DataNode when the disk file is broken?
+
+- We can use remove-datanode.sh to fix it. Remove-datanode will migrate the data in the removing DataNode to other alive DataNodes.
+- IoTDB will publish Node-Fix tools in the next version.
+
+#### 3. How to decrease the memory usage of ConfigNode/DataNode?
+
+- Adjust the MAX_HEAP_SIZE、MAX_DIRECT_MEMORY_SIZE options in conf/confignode-env.sh and conf/datanode-env.sh.

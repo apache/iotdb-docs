@@ -34,7 +34,7 @@ The user is the legal user of the database. A user corresponds to a unique usern
 
 ### Privilege
 
-The database provides a variety of operations, and not all users can perform all operations. If a user can perform an operation, the user is said to have the privilege to perform the operation. privileges are divided into data management privilege (such as adding, deleting and modifying data) and authority management privilege (such as creation and deletion of users and roles, granting and revoking of privileges, etc.). Data management privilege often needs a path to limit its effective range. It is flexible that using [path pattern](../Data-Concept/Data-Model-and-Terminology.md) to manage privileges.
+The database provides a variety of operations, and not all users can perform all operations. If a user can perform an operation, the user is said to have the privilege to perform the operation. privileges are divided into data management privilege (such as adding, deleting and modifying data) and authority management privilege (such as creation and deletion of users and roles, granting and revoking of privileges, etc.). Data management privilege often needs a path to limit its effective range. It is flexible that using [path pattern](../Basic-Concept/Data-Model-and-Terminology.md) to manage privileges.
 
 ### Role
 
@@ -444,7 +444,7 @@ In distributed related permission operations, when changing permissions other th
 
 At present, the following SQL statements supported by iotdb can only be operated by the `root` user, and no corresponding permission can be given to the new user.
 
-###### TsFile Management
+#### TsFile Management
 
 - Load TsFiles
 
@@ -464,7 +464,7 @@ Eg: IoTDB > remove '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-
 Eg: IoTDB > unload '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-0.tsfile' '/data/data/tmp'
 ```
 
-###### Delete Time Partition (experimental)
+#### Delete Time Partition (experimental)
 
 - Delete Time Partition (experimental)
 
@@ -472,7 +472,7 @@ Eg: IoTDB > unload '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-
 Eg: IoTDB > DELETE PARTITION root.ln 0,1,2
 ```
 
-###### Continuous Query,CQ
+#### Continuous Query,CQ
 
 - Continuous Query,CQ
 
@@ -480,7 +480,7 @@ Eg: IoTDB > DELETE PARTITION root.ln 0,1,2
 Eg: IoTDB > CREATE CONTINUOUS QUERY cq1 BEGIN SELECT max_value(temperature) INTO temperature_max FROM root.ln.*.* GROUP BY time(10s) END
 ```
 
-###### Maintenance Command
+#### Maintenance Command
 
 - FLUSH
 
@@ -519,7 +519,7 @@ Eg: IoTDB > CREATE SNAPSHOT FOR SCHEMA
 Eg: IoTDB > KILL QUERY 1
 ```
 
-###### Watermark Tool
+#### Watermark Tool
 
 - Watermark new users 
 
