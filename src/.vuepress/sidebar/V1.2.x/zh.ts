@@ -32,6 +32,7 @@ export const zhSidebar = {
         { text: 'IoTDB简介', link: 'What-is-IoTDB' },
         { text: '主要功能特点', link: 'Features' },
         { text: '系统架构', link: 'Architecture' },
+        { text: '性能特点', link: 'Performance' },
         { text: '应用场景', link: 'Scenario' },
         { text: '研究论文', link: 'Publication' },
       ],
