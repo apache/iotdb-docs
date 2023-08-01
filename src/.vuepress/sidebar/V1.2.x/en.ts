@@ -32,6 +32,7 @@ export const enSidebar = {
         { text: 'What is IoTDB', link: 'What-is-IoTDB' },
         { text: 'Features', link: 'Features' },
         { text: 'Architecture', link: 'Architecture' },
+        { text: 'Performance', link: 'Performance' },
         { text: 'Scenario', link: 'Scenario' },
         { text: 'Publication', link: 'Publication' },
       ],
