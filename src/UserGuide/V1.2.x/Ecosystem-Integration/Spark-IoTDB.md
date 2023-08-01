@@ -46,7 +46,7 @@ For IDE development, simply add the following dependency to the `pom.xml` file:
     <dependency>
       <groupId>org.apache.iotdb</groupId>
       <!-- spark-iotdb-connector_2.11 or spark-iotdb-connector_2.13 -->
-      <artifactId>spark-iotdb-connector_${scala.version}</artifactId>
+      <artifactId>spark-iotdb-connector_2.12.10</artifactId>
       <version>${iotdb.version}</version>
     </dependency>
 ```
@@ -58,7 +58,7 @@ from the official website. After that, copy the jar package to the `${SPARK_HOME
 Simply execute the following command:
 
 ```shell
-cp spark-iotdb-connector_${scala.version}-${iotdb.version}.jar $SPARK_HOME/jars/
+cp spark-iotdb-connector_2.12.10-${iotdb.version}.jar $SPARK_HOME/jars/
 ```
 
 ## Usage

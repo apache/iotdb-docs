@@ -20,6 +20,7 @@
 -->
 
 # Native API Write
+
 The Native API ( Session ) is the most widely used series of APIs of IoTDB, including multiple APIs, adapted to different data collection scenarios, with high performance and multi-language support.
 
 ## Multi-language API write

@@ -76,7 +76,7 @@ export const zhSidebar = {
     {
       text: '使用手册',
       collapsible: true,
-      prefix: 'User-Manuel/',
+      prefix: 'User-Manual/',
       // children: 'structure',
       children: [
         { text: '语法约定', link: 'Syntax-Rule' },

@@ -7,9 +7,9 @@
     to you under the Apache License, Version 2.0 (the
     "License"); you may not use this file except in compliance
     with the License.  You may obtain a copy of the License at
-
+    
         http://www.apache.org/licenses/LICENSE-2.0
-
+    
     Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -19,10 +19,10 @@
 
 -->
 
-## TsFile 自检工具
+# TsFile 自检工具
 IoTDB Server 提供了 TsFile 自检工具，目前该工具可以检查 TsFile 文件中的基本格式、TimeseriesMetadata 的正确性以及 TsFile 中各部分存储的 Statistics 的正确性和一致性。
 
-### 使用
+## 使用
 第一步：创建一个 TsFileSelfCheckTool 类的对象。
 
 ``` java

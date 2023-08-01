@@ -21,6 +21,8 @@ under the License.
 
 -->
 
+# Cluster Concept
+
 ## Basic Concepts of IoTDB Cluster
 
 Apache IoTDB Cluster contains two types of nodes: ConfigNode and DataNode, each is a process that could be deployed independently.
@@ -80,7 +82,7 @@ The database contains multiple SchemaRegions and DataRegions, which are managed 
     * For a time series schema, the ConfigNode maps the device ID (full path from root to the penultimate tier node) into a SeriesSlot and allocate this SeriesSlot to a SchemaRegionGroup.
 * Data partition strategy
     * For a time series data point, the ConfigNode will map to a SeriesSlot according to the DeviceId, and then map it to a SeriesTimeSlot according to the timestamp, and allocate this SeriesTimeSlot to a DataRegionGroup.
-  
+
 IoTDB uses a slot-based partitioning strategy, so the size of the partition information is controllable and does not grow infinitely with the number of time series or devices.
 
 Regions will be allocated to different DataNodes to avoid single point of failure, and the load balance of different DataNodes will be ensured when Regions are allocated.

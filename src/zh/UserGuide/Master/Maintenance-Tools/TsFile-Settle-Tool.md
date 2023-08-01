@@ -19,9 +19,9 @@
 
 -->
 
-## TsFile Settle工具
+# TsFile Settle工具
 TsFile Settle工具用于将一个或多个存在修改记录文件的TsFile重写，通过向DataNode发送RPC的方式提交TsFile合并任务来重写TsFile。
-### 使用方式：
+## 使用方式
 ```shell
 #MacOs or Linux
 ./settle-tsfile.sh -h [host] -p [port] -f [filePaths]
@@ -30,11 +30,11 @@ TsFile Settle工具用于将一个或多个存在修改记录文件的TsFile重�
 ```
 其中host和port参数为DataNodeInternalRPCService的host和port，如果不指定默认值分别为127.0.0.1和10730, filePaths参数指定要作为一个compaction任务提交的所有TsFile在此DataNode上的绝对路径，以空格分隔，需要传入至少一个路径。
 
-### 使用示例：
+## 使用示例
 ```shell
 ./settle-tsfile.sh -h 127.0.0.1 -p 10730 -f /data/sequence/root.sg/0/0/1672133354759-2-0-0.tsfile /data/sequence/root.sg/0/0/1672306417865-3-0-0.tsfile /data/sequence/root.sg/0/0/1672306417865-3-0-0.tsfile
 ```
-### 使用要求：
+## 使用要求
 * 最少指定一个TsFile
 * 所有指定的TsFile都在同一个空间内且连续，不支持跨空间合并
 * 指定的文件路径为指定DataNode所在节点的该TsFile的绝对路径

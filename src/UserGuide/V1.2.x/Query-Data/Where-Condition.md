@@ -32,7 +32,7 @@ The supported operators are as follows:
 
 ## Time Filter
 
-Use time filters to filter data for a specific time range. For supported formats of timestamps, please refer to [Timestamp](../Data-Concept/Data-Type.md) .
+Use time filters to filter data for a specific time range. For supported formats of timestamps, please refer to [Timestamp](../Basic-Concept/Data-Type.md) .
 
 An example is as follows:
 

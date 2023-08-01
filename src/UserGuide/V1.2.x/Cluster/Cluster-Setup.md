@@ -19,11 +19,13 @@
 
 -->
 
-# 1. Purpose
+# Cluster Setup
+
+## 1. Purpose
 
 This document describes how to install and start IoTDB Cluster (1.0.0).
 
-# 2. Prerequisites
+## 2. Prerequisites
 
 1. JDK>=1.8.
 2. Max open file 65535.
@@ -35,19 +37,19 @@ and data/datanode directory has been cleared when starting DataNode for the firs
 6667, 10730, 10740, 10750 and 10760 for the DataNode. 
 Please make sure those ports are not occupied, or you will modify the ports in configuration files. 
 
-# 3. Get the Installation Package
+## 3. Get the Installation Package
 
 You can either download the binary release files (see Chap 3.1) or compile with source code (see Chap 3.2).
 
-## 3.1 Download the binary distribution
+### 3.1 Download the binary distribution
 
 1. Open our website [Download Page](https://iotdb.apache.org/Download/).
 2. Download the binary distribution.
 3. Decompress to get the apache-iotdb-1.0.0-all-bin directory.
 
-## 3.2 Compile with source code
+### 3.2 Compile with source code
 
-### 3.2.1 Download the source code
+#### 3.2.1 Download the source code
 
 **Git**
 ```
@@ -60,7 +62,7 @@ git checkout v1.0.0
 2. Download the source code.
 3. Decompress to get the apache-iotdb-1.0.0 directory.
 
-### 3.2.2 Compile source code
+#### 3.2.2 Compile source code
 
 Under the source root folder:
 ```
@@ -70,7 +72,7 @@ mvn clean package -pl distribution -am -DskipTests
 Then you will get the binary distribution under 
 **distribution/target/apache-iotdb-1.0.0-SNAPSHOT-all-bin/apache-iotdb-1.0.0-SNAPSHOT-all-bin**.
 
-# 4. Binary Distribution Content
+## 4. Binary Distribution Content
 
 | **Folder**              | **Description**                                                                                   |
 |-------------------------|---------------------------------------------------------------------------------------------------|
@@ -82,9 +84,9 @@ Then you will get the binary distribution under
 | sbin                    | Shell files folder, contains start/stop/remove shell of ConfigNode and DataNode, cli shell        |
 | tools                   | System tools                                                                                      |
 
-# 5. Cluster Installation and Configuration
+## 5. Cluster Installation and Configuration
 
-## 5.1 Cluster Installation
+### 5.1 Cluster Installation
 
 `apache-iotdb-1.0.0-SNAPSHOT-all-bin` contains both the ConfigNode and the DataNode. 
 Please deploy the files to all servers of your target cluster. 
@@ -93,7 +95,7 @@ A best practice is deploying the files into the same directory in all servers.
 If you want to try the cluster mode on one server, please read 
 [Cluster Quick Start](https://iotdb.apache.org/UserGuide/Master/QuickStart/ClusterQuickStart.html).
 
-## 5.2 Cluster Configuration
+### 5.2 Cluster Configuration
 
 We need to modify the configurations on each server.
 Therefore, login each server and switch the working directory to `apache-iotdb-1.0.0-SNAPSHOT-all-bin`.
@@ -105,7 +107,7 @@ and ConfigNode configuration (see Chap 5.2.2).
 For all DataNode servers, we need to modify the common configuration (see Chap 5.2.1) 
 and DataNode configuration (see Chap 5.2.3).
 
-### 5.2.1 Common configuration
+#### 5.2.1 Common configuration
 
 Open the common configuration file ./conf/iotdb-common.properties,
 and set the following parameters base on the 
@@ -122,7 +124,7 @@ and set the following parameters base on the
 
 **Notice: The preceding configuration parameters cannot be changed after the cluster is started. Ensure that the common configurations of all Nodes are the same. Otherwise, the Nodes cannot be started.**
 
-### 5.2.2 ConfigNode configuration
+#### 5.2.2 ConfigNode configuration
 
 Open the ConfigNode configuration file ./conf/iotdb-confignode.properties,
 and set the following parameters based on the IP address and available port of the server or VM:
@@ -136,7 +138,7 @@ and set the following parameters based on the IP address and available port of t
 
 **Notice: The preceding configuration parameters cannot be changed after the node is started. Ensure that all ports are not occupied. Otherwise, the Node cannot be started.**
 
-### 5.2.3 DataNode configuration
+#### 5.2.3 DataNode configuration
 
 Open the DataNode configuration file ./conf/iotdb-datanode.properties,
 and set the following parameters based on the IP address and available port of the server or VM:
@@ -154,9 +156,9 @@ and set the following parameters based on the IP address and available port of t
 
 **Notice: The preceding configuration parameters cannot be changed after the node is started. Ensure that all ports are not occupied. Otherwise, the Node cannot be started.**
 
-# 6. Cluster Operation
+## 6. Cluster Operation
 
-## 6.1 Starting the cluster
+### 6.1 Starting the cluster
 
 This section describes how to start a cluster that includes several ConfigNodes and DataNodes.
 The cluster can provide services only by starting at least one ConfigNode
@@ -168,7 +170,7 @@ The total process are three steps:
 * Add ConfigNode (Optional)
 * Add DataNode
 
-### 6.1.1 Start the Seed-ConfigNode
+#### 6.1.1 Start the Seed-ConfigNode
 
 **The first Node started in the cluster must be ConfigNode. The first started ConfigNode must follow the tutorial in this section.**
 
@@ -212,7 +214,7 @@ nohup bash ./sbin/start-confignode.sh >/dev/null 2>&1 &
 For more details about other configuration parameters of ConfigNode, see the
 [ConfigNode Configurations](https://iotdb.apache.org/UserGuide/Master/Reference/ConfigNode-Config-Manual.html).
 
-### 6.1.2 Add more ConfigNodes (Optional)
+#### 6.1.2 Add more ConfigNodes (Optional)
 
 **The ConfigNode who isn't the first one started must follow the tutorial in this section.**
 
@@ -257,7 +259,7 @@ nohup bash ./sbin/start-confignode.sh >/dev/null 2>&1 &
 For more details about other configuration parameters of ConfigNode, see the
 [ConfigNode Configurations](https://iotdb.apache.org/UserGuide/Master/Reference/ConfigNode-Config-Manual.html).
 
-### 6.1.3 Start DataNode
+#### 6.1.3 Start DataNode
 
 **Before adding DataNodes, ensure that there exists at least one ConfigNode is running in the cluster.**
 
@@ -301,7 +303,7 @@ For more details about other configuration parameters of DataNode, see the
 
 **Notice: The cluster can provide services only if the number of its DataNodes is no less than the number of replicas(max{schema\_replication\_factor, data\_replication\_factor}).**
 
-## 6.2 Start Cli
+### 6.2 Start Cli
 
 If the cluster is in local environment, you can directly run the Cli startup script in the ./sbin directory:
 
@@ -316,7 +318,7 @@ If the cluster is in local environment, you can directly run the Cli startup scr
 If you want to use the Cli to connect to a cluster in the production environment,
 Please read the [Cli manual](https://iotdb.apache.org/UserGuide/Master/QuickStart/Command-Line-Interface.html).
 
-## 6.3 Verify Cluster
+### 6.3 Verify Cluster
 
 Use a 3C3D(3 ConfigNodes and 3 DataNodes) as an example.
 Assumed that the IP addresses of the 3 ConfigNodes are 192.168.1.10, 192.168.1.11 and 192.168.1.12, and the default ports 10710 and 10720 are used.
@@ -344,11 +346,11 @@ If the status of all Nodes is **Running**, the cluster deployment is successful.
 Otherwise, read the run logs of the Node that fails to start and 
 check the corresponding configuration parameters.
 
-## 6.4 Stop IoTDB
+### 6.4 Stop IoTDB
 
 This section describes how to manually shut down the ConfigNode or DataNode process of the IoTDB.
 
-### 6.4.1 Stop ConfigNode by script
+#### 6.4.1 Stop ConfigNode by script
 
 Run the stop ConfigNode script:
 
@@ -360,7 +362,7 @@ Run the stop ConfigNode script:
 .\sbin\stop-confignode.bat
 ```
 
-### 6.4.2 Stop DataNode by script
+#### 6.4.2 Stop DataNode by script
 
 Run the stop DataNode script:
 
@@ -372,7 +374,7 @@ Run the stop DataNode script:
 .\sbin\stop-datanode.bat
 ```
 
-### 6.4.3 Kill Node process
+#### 6.4.3 Kill Node process
 
 Get the process number of the Node:
 
@@ -392,11 +394,11 @@ kill -9 <pid>
 
 **Notice Some ports require root access, in which case use sudo**
 
-## 6.5 Shrink the Cluster
+### 6.5 Shrink the Cluster
 
 This section describes how to remove ConfigNode or DataNode from the cluster.
 
-### 6.5.1 Remove ConfigNode
+#### 6.5.1 Remove ConfigNode
 
 Before removing a ConfigNode, ensure that there is at least one active ConfigNode in the cluster after the removal.
 Run the remove-confignode script on an active ConfigNode:
@@ -418,7 +420,7 @@ Run the remove-confignode script on an active ConfigNode:
 .\sbin\remove-confignode.bat <cn_internal_address>:<cn_internal_portcn_internal_port>
 ```
 
-### 6.5.2 Remove DataNode
+#### 6.5.2 Remove DataNode
 
 Before removing a DataNode, ensure that the cluster has at least the number of data/schema replicas DataNodes.
 Run the remove-datanode script on an active DataNode:
@@ -440,6 +442,6 @@ Run the remove-datanode script on an active DataNode:
 .\sbin\remove-datanode.bat <dn_rpc_address>:<dn_rpc_port>
 ```
 
-# 7. FAQ
+## 7. FAQ
 
 See [FAQ](https://iotdb.apache.org/UserGuide/Master/FAQ/FAQ-for-cluster-setup.html)

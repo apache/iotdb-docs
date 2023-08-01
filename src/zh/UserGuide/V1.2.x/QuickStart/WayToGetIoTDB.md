@@ -19,7 +19,7 @@
 
 -->
 
-## 下载与安装
+# 下载与安装
 
 IoTDB 为您提供了两种安装方式，您可以参考下面的建议，任选其中一种：
 
@@ -27,7 +27,7 @@ IoTDB 为您提供了两种安装方式，您可以参考下面的建议，任�
 
 第二种，使用源码编译。若您需要自行修改代码，可以使用该安装方式。
 
-### 安装环境要求
+## 安装环境要求
 
 安装前请保证您的电脑上配有 JDK>=1.8 的运行环境，并配置好 JAVA_HOME 环境变量。
 
@@ -37,7 +37,7 @@ IoTDB 为您提供了两种安装方式，您可以参考下面的建议，任�
 
 > 注： 也可以选择不安装，使用我们提供的'mvnw' 或 'mvnw.cmd' 工具。使用时请用'mvnw' 或 'mvnw.cmd'命令代替下文的'mvn'命令。
 
-### 从官网下载二进制可执行文件
+## 从官网下载二进制可执行文件
 
 您可以从 [http://iotdb.apache.org/Download/](http://iotdb.apache.org/Download/) 上下载已经编译好的可执行程序 iotdb-xxx.zip，该压缩包包含了 IoTDB 系统运行所需的所有必要组件。
 
@@ -47,7 +47,7 @@ IoTDB 为您提供了两种安装方式，您可以参考下面的建议，任�
 Shell > unzip iotdb-<version>.zip
 ```
 
-### 使用源码编译
+## 使用源码编译
 
 您可以获取已发布的源码 [https://iotdb.apache.org/Download/](https://iotdb.apache.org/Download/) ，或者从 [https://github.com/apache/iotdb/tree/master](https://github.com/apache/iotdb/tree/master) git 仓库获取
 
@@ -60,7 +60,7 @@ Shell > unzip iotdb-<version>.zip
 切换分支之后就可以使用以下命令进行编译：
 
 ```
-> mvn clean package -pl server -am -Dmaven.test.skip=true
+> mvn clean package -pl iotdb-core/datanode -am -Dmaven.test.skip=true
 ```
 
 编译后，IoTDB 服务器会在 "server/target/iotdb-server-{project.version}" 文件夹下，包含以下内容：
@@ -78,18 +78,18 @@ Shell > unzip iotdb-<version>.zip
 如果您想要编译项目中的某个模块，您可以在源码文件夹中使用`mvn clean package -pl {module.name} -am -DskipTests`命令进行编译。如果您需要的是带依赖的 jar 包，您可以在编译命令后面加上`-P get-jar-with-dependencies`参数。比如您想编译带依赖的 jdbc jar 包，您就可以使用以下命令进行编译：  
 
 ```shell
-> mvn clean package -pl jdbc -am -DskipTests -P get-jar-with-dependencies
+> mvn clean package -pl iotdb-client/jdbc -am -DskipTests -P get-jar-with-dependencies
 ```
 
 编译完成后就可以在`{module.name}/target`目录中找到需要的包了。
 
 
-### 通过 Docker 安装
+## 通过 Docker 安装
 
 Apache IoTDB 的 Docker 镜像已经上传至 [https://hub.docker.com/r/apache/iotdb](https://hub.docker.com/r/apache/iotdb)。
 Apache IoTDB 的配置项以环境变量形式添加到容器内。
 
-#### 简单尝试
+### 简单尝试
 ```shell
 # 获取镜像
 docker pull apache/iotdb:1.1.0-standalone
@@ -155,7 +155,7 @@ networks:
   iotdb:
     external: true
 ```
-#### 集群部署
+### 集群部署
 目前只支持 host 网络和 overlay 网络，不支持 bridge 网络。overlay 网络参照[1C2D](https://github.com/apache/iotdb/tree/master/docker/src/main/DockerCompose/docker-compose-cluster-1c2d.yml)的写法，host 网络如下。
 
 假如有三台物理机，它们的hostname分别是iotdb-1、iotdb-2、iotdb-3。依次启动。
