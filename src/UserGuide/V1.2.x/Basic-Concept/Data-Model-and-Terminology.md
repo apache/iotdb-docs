@@ -116,6 +116,8 @@ A measurement of an entity corresponds to a timeseries.
 
 Also called meter, timeline, and tag, parameter in real time database.
 
+The number of measurements managed by IoTDB can reach more than billions.
+
 For example, if entity wt01 in power plant wf01 of power group ln has a measurement named status, its timeseries  can be expressed as: `root.ln.wf01.wt01.status`.
 
 ### Aligned timeseries
