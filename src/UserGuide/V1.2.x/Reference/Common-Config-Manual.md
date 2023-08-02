@@ -832,29 +832,29 @@ Different configuration parameters take effect in the following three ways:
 * enable\_seq\_space\_compaction
 
 |    Name     | enable\_seq\_space\_compaction               |
-| :---------: | :------------------------------------------- |
+| :---------: |:---------------------------------------------|
 | Description | enable the compaction between sequence files |
 |    Type     | Boolean                                      |
 |   Default   | true                                         |
-|  Effective  | After restart system                         |
+|  Effective  | hot-load                                        |
 
 * enable\_unseq\_space\_compaction
 
 |    Name     | enable\_unseq\_space\_compaction               |
-| :---------: | :--------------------------------------------- |
+| :---------: |:-----------------------------------------------|
 | Description | enable the compaction between unsequence files |
 |    Type     | Boolean                                        |
 |   Default   | false                                          |
-|  Effective  | After restart system                           |
+|  Effective  | hot-load                                          |
 
 * enable\_cross\_space\_compaction
 
 |    Name     | enable\_cross\_space\_compaction                                  |
-| :---------: | :---------------------------------------------------------------- |
+| :---------: |:------------------------------------------------------------------|
 | Description | enable the compaction between sequence files and unsequence files |
 |    Type     | Boolean                                                           |
 |   Default   | true                                                              |
-|  Effective  | After restart system                                              |
+|  Effective  | hot-load                                                          |
 
 * cross\_selector
 
@@ -1045,14 +1045,14 @@ Different configuration parameters take effect in the following three ways:
 |Default| 4                                                                         |
 |Effective| After restart system                                                      |
 
-* enable\_compaction\_validation
+* compaction\_validation\_level
 
-|Name| enable\_compaction\_validation                                  |
-|:---:|:----------------------------------------------------------------|
-|Description| Enable the check of sequence tsfile time range after compaction |
-|Type| Boolean                                                         |
-|Default| true                                                            |
-|Effective| After restart system                                            |
+|     名字      | compaction\_validation\_level                                                                                                                                                                                                                         |
+|:-----------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description | The level of validation after compaction. NONE: the validation after compaction is disabled. RESOURCE_ONLY: the validation after compaction check tsfile resource only. RESOURCE_AND_TSFILE: the validation after compaction check resource and file. |
+|    Type     | String                                                                                                                                                                                                                                                |
+|   Default   | NONE                                                                                                                                                                                                                                                  |
+|  Effective  | hot-load                                                                                                                                                                                                                                              |
 
 * candidate\_compaction\_task\_queue\_size
 
