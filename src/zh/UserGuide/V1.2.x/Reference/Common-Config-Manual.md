@@ -1041,11 +1041,11 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 * compaction\_thread\_count
 
 |名字| compaction\_thread\_count |
-|:---:|:---|
-|描述| 执行合并任务的线程数目 |
-|类型| int32 |
-|默认值| 10 |
-|改后生效方式|重启服务生效|
+|:---:|:--------------------------|
+|描述| 执行合并任务的线程数目               |
+|类型| int32                     |
+|默认值| 10                        |
+|改后生效方式| 热加载                       |
 
 * compaction\_schedule\_interval\_in\_ms
 
@@ -1081,7 +1081,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |描述| 每个合并任务的子任务线程数，只对跨空间合并和乱序空间内合并生效 |
 |类型| int32                           |
 |默认值| 4                               |
-|改后生效方式| 重启服务生效                          |
+|改后生效方式|热加载                       |
 
 * compaction\_validation\_level
 

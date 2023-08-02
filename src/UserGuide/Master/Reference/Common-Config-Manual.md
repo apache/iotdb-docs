@@ -1002,12 +1002,12 @@ Different configuration parameters take effect in the following three ways:
 
 * compaction\_thread\_count
 
-|Name| compaction\_thread\_count |
-|:---:|:---|
+|Name| compaction\_thread\_count        |
+|:---:|:---------------------------------|
 |Description| thread num to execute compaction |
-|Type| int32 |
-|Default| 10 |
-|Effective|After restart system|
+|Type| int32                            |
+|Default| 10                               |
+|Effective| hot-load     |
 
 * compaction\_schedule\_interval\_in\_ms
 
@@ -1043,7 +1043,7 @@ Different configuration parameters take effect in the following three ways:
 |Description| the number of sub-compaction threads to accelerate cross space compaction |
 |Type| Int32                                                                     |
 |Default| 4                                                                         |
-|Effective| After restart system                                                      |
+|Effective| hot-load                                                            |
 
 * compaction\_validation\_level
 
