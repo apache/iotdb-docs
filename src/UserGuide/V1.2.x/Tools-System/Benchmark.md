@@ -37,18 +37,16 @@ Figure 1-2
 
 Currently IoT-benchmark supports the following time series databases, versions and connection methods:
 
-| Database        | DB-Engines Rank | Version | Connection Methods                                       |
-| --------------- | --------------- | ------- | -------------------------------------------------------- |
-| InfluxDB        | 1               | v1.x    | SDK                                                      |
-| v2.0            |                 |         |                                                          |
-| TimescaleDB     | 5               | --      | jdbc                                                     |
-| OpenTSDB        | 8               | --      | Http Request                                             |
-| QuestDB         | 10              | v6.0.7  | jdbc                                                     |
-| TDengine        | 13              | 2.2.0.2 | jdbc                                                     |
-| VictoriaMetrics | 16              | v1.64.0 | Http Request                                             |
-| KairosDB        | 17              | --      | Http Request                                             |
-| IoTDB           | 19              | v1.0    | jdbc、sessionByTablet、sessionByRecord、sessionByRecords |
-| v0.13           |                 |         |                                                          |
+| Database          | Version    | Connection mmethod                                                 |
+| --------------- | ------- | -------------------------------------------------------- |
+| InfluxDB        | v1.x <br> v2.0     | SDK                                                      |                                               |
+| TimescaleDB     |  --      | jdbc                                                     |
+| OpenTSDB        | --      | Http Request                                             |
+| QuestDB         |  v6.0.7  | jdbc                                                     |
+| TDengine        |  v2.2.0.2 | jdbc                                                     |
+| VictoriaMetrics | v1.64.0 | Http Request                                             |
+| KairosDB        |  --      | Http Request                                             |
+| IoTDB           |  v1.x <br> v0.13   | jdbc、sessionByTablet、sessionByRecord、sessionByRecords |
 
 Table 1-1 Comparison of big data test benchmarks
 
