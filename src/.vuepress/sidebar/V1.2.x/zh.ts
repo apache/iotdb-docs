@@ -101,6 +101,7 @@ export const zhSidebar = {
         { text: '测试工具', link: 'Benchmark' },
         { text: '运维工具', link: 'Maintenance-Tool' },
         { text: '导入导出工具', link: 'Import-Export-Tool' },
+        { text: '数据同步软件' },
       ],
     },
     {
