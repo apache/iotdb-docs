@@ -162,11 +162,9 @@ ALTER timeseries root.turbine.d1.s1 UPSERT ALIAS=newAlias TAGS(tag2=newV2, tag3=
 SHOW TIMESERIES (<`PathPattern`>)? timeseriesWhereClause
 ```
 
-返回给定路径的下的所有满足条件的时间序列信息：
+返回给定路径下的所有满足条件的时间序列信息：
 
 ```sql
-ALTER timeseries root.ln.wf02.wt02.hardware ADD TAGS unit=c
-ALTER timeseries root.ln.wf02.wt02.status ADD TAGS description=test1
 show timeseries root.ln.** where TAGS(unit)='c'
 show timeseries root.ln.** where TAGS(description) contains 'test1'
 ```
@@ -178,7 +176,7 @@ COUNT TIMESERIES (<`PathPattern`>)? timeseriesWhereClause
 COUNT TIMESERIES (<`PathPattern`>)? timeseriesWhereClause GROUP BY LEVEL=<INTEGER>
 ```
 
-返回给定路径的下的所有满足条件的时间序列的数量：
+返回给定路径下的所有满足条件的时间序列的数量：
 
 ```sql
 count timeseries
