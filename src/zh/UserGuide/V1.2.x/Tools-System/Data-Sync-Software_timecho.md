@@ -44,7 +44,7 @@ create pipe p1
     ....
   )
 ```
-其中 extractor，processor，connector 均为可自定义的插件。extractor 为数据的收集器，负责收集 IoTDB 内的特定数据；processor 为处理器，负责对收集到的数据进行过滤等处理；connector 为连接器，负责对数据进行最后的发送。上述命令中（....）部分为可配置的参数，容忍无效参数，具体有效参数取决于插件实现本身。
+其中 extractor，processor，connector 均为可自定义的插件。extractor 为数据的收集器，负责收集 IoTDB 内的特定数据；processor 为处理器，负责对收集到的数据进行过滤等处理；connector 为连接器，负责对数据进行发送。此外，with extractor， with processor 两段均可不填，不填时，extractor 与 processor 均为默认值。上述命令中（....）部分为可配置的参数，容忍无效参数，具体有效参数取决于插件实现本身。
 
 下面将列出该软件的所有特性及其 SQL 用法。
 
@@ -96,7 +96,7 @@ create pipe p1
     ....
   )
 ```
-与上述相似，此处的 processor 为通用配置，表示选用的 processor 类型。
+与上述相似，此处的 processor 为通用配置，表示选用的 processor 类型。该配置非必选项，不填时即默认为 do-nothing-processor。
 
 #### 取值过滤及选择
 使用自带的取值过滤 processor 可以根据 IoTDB 点的取值进行过滤。示例的 processor 参数如下：
