@@ -56,6 +56,8 @@ public class PullConsumer implements Consumer {
     // 获取队列顶部消息，客户端自己循环调用。比如：consumer.poll(Duration.ofMillis(100))
     List<ConsumerDataSet> poll(Duration timeout) throws SubscriptionException;
     
+    void openSubscription();
+
     void close();
 }
 ````
@@ -73,6 +75,7 @@ int push_consumer_register_error_listener(push_consumer *pc, SERROR_LISTENER lis
 int push_consumer_close(push_consumer *pc);
 
 consumer_dataset * pull_consumer_poll(pull_consumer *pc, int64_t timeout);
+int pull_consumer_open(pull_consumer *pc);
 int pull_consumer_close(pull_consumer *pc);
 ````
 
@@ -117,6 +120,9 @@ class PullConsumer:
     def poll(self, timeout: timedelta) -> List:
         pass
 
+    def openSubscription(self):
+        pass
+    
     def close(self):
         pass
 ```
@@ -146,6 +152,7 @@ type PushConsumer interface {
 
 type PullConsumer interface {
 \tPoll(timeout time.Duration) ([]ConsumerDataSet, error)
+\tOpenSubscription()
 \tClose()
 }
 
@@ -203,6 +210,8 @@ pub struct PullConsumer {
     // 获取队列顶部消息，客户端自己循环调用。比如：consumer.poll(Duration::from_millis(100))
     fn poll(&self, timeout: Duration) -> Result<Vec<ConsumerDataSet>, SubscriptionException>;
 
+    fn openSubscription(&self);
+
     fn close(&self);
 }
 ```
@@ -246,6 +255,10 @@ class PullConsumer {
   poll(timeout) {
     // 获取队列顶部消息的操作
     return [];
+  }
+
+  openSubscription() {
+    // 打开连接
   }
 
   close() {
@@ -345,6 +358,11 @@ public class PullConsumer : Consumer
         throw new SubscriptionException();
     }
 
+    public void OpenSubscription()
+    {
+        // 开始逻辑
+    }
+
     public void Close()
     {
         // 关闭逻辑
@@ -399,7 +417,6 @@ public class PushConsumerExample {
                  new SingleTopicStrategy("root.sg.d1.n1"), 100d));
              
        SubscriptionFactory factory = new SubscriptionFactory(config);
-       SubscriptionFactory.createPushConsumer(config)
        final PullConsumer pullConsumer = factory.createPullConsumer(consumerConfig);
        pullConsumer.openSubscription();
        while (true) {
