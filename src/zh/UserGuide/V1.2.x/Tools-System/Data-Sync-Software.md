@@ -91,7 +91,7 @@ create pipe p1 with extractor (....) processor (....) connector (....)
 iotdb-thrift-connector 会选择当前版本默认的 connector 进行发送，目前为 iotdb-thrift-connector-v1。以上 connector 公用相关参数，其取值示例如下：
 
 ```shell
-('connector' = 'iotdb-thrift-connector', 'connector.ip' = 'xxx.xxx.xxx.xxx', 'connector.port' = 'xxxx', 'connector.node-urls' = 'xxx.xxx.xxx.xxx:xxxx,yyy.yyy.yyy.yyy:yyyy')
+('connector' = 'iotdb-thrift-connector', 'connector.ip' = 'xxx.xxx.xxx.xxx', 'connector.port' = 'xxxx', 'connector.node-urls' = 'xxx.xxx.xxx.xxx:xxxx,yyy.yyy.yyy.yyy:yyyy', 'connector.compression' = 'zstd')
 ```
 | 参数名          | 参数说明    | 是否必需                                                  |
 | ---------------------- | ------------------------------------------------------- | -------- |
@@ -99,6 +99,7 @@ iotdb-thrift-connector 会选择当前版本默认的 connector 进行发送，�
 |connector.ip| 表示接收端选定 IoTDB 的 IP 地址 | 与 node-urls 必选其一 |
 |connector.port| 表示接收端选定 IoTDB 的端口 | 与 node-urls 必选其一 |
 |connector.node-urls | 表示接收端集群的地址列表，与上面的 ip/port 可以共存 |与 ip/port 必选其一|
+|connector.compression | 表示发送时 tsFile 使用的二次压缩算法 | 否，默认为不压缩 |
 
 #### InfluxDB connector
 此外，使用 InfluxDB connector，还可以将上述经过筛选、处理的数据同步到 InfluxDB。该 Connector 的名称为 influxdb-connector。目前仅支持单点传输。参数取值示例如下：
