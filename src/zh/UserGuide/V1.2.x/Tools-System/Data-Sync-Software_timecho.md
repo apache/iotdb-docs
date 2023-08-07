@@ -107,9 +107,9 @@ create pipe p1
   )
   with processor (
     'processor'='filter-processor',
-    'processor.include.condition.type'='double' 
+    'processor.include.condition.type'='double',
     'processor.include.condition'='>1',
-    'processor.exclude.condition.type'='double'
+    'processor.exclude.condition.type'='double',
     'processor.exclude.condition'='>=2'
   )
   with connector (
@@ -119,7 +119,7 @@ create pipe p1
 此处的 processor.include.condition 为选择某个取值的条件，processor.exclude.condition 为过滤某个取值的条件，二者必填其一。此处的参数表示选取收集的数据中，类型为 double 且大于 1 小于 2 的数据。
 
 #### 取值重写
-使用取值重命名 processor 可以根据 IoTDB 点的取值进行改写。processor 参数如下：
+使用取值重写 processor 可以根据 IoTDB 点的取值进行改写。processor 参数如下：
 ```shell
 create pipe p1 
   with extractor (
@@ -127,7 +127,7 @@ create pipe p1
   ) 
   with processor (
     'processor'='rewrite-processor',
-    'processor.rewrite.condition.type'='is double',
+    'processor.rewrite.condition.type'='double',
     'processor.rewrite.condition'='>1',
     'processor.rewrite.newValue'='1'
   )
@@ -136,6 +136,24 @@ create pipe p1
   )
 ```
 此处的 processor.rewrite.condition 表示进行重写的判断条件，必填；processor.rewrite.newValue 表示进行重写的新值，同样必填。此处的参数表示将收集的数据中，类型为 double 且值大于 1 的数据改为 1，其他数据不变。
+
+#### 字段重命名
+除了取值重写的功能之外，软件还支持对字段的重命名功能。该功能的参数如下：
+```shell
+create pipe p1 
+  with extractor (
+    ....
+  ) 
+  with processor (
+    'processor'='rename-processor',
+    'processor.rename.oldPattern'='root.testpipe.d0',
+    'processor.rename.newPattern'='root.receive.d1'
+  )
+  with connector (
+    ....
+  )
+```
+此处的 processor.rename.oldPattern 表示被重命名的序列，processor.rename.newPattern 表示序列的新名称。两者均为必填。
 
 ### 数据发送
 数据同步软件提供了内置的多种 connector，这些 connector 的类型如下：
