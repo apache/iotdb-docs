@@ -30,7 +30,8 @@
 - user, password, dn_rpc_address, dn_rpc_port：用于定位运行中的 IoTDB 位置，user 和 password 可不填写，默认为 root。
 
 ## 软件特性及用法
-数据同步软件支持 SQL 及图形化界面的交互。其中，SQL 语句的用法与 IoTDB Pipe 的命令行用法相同，如下：
+数据同步软件支持 SQL 及图形化界面的交互。其中，SQL 语句的用法与 IoTDB Pipe 的命令行用法相同。下面先介绍创建同步任务的 SQL 语句：
+### 创建同步任务
 ```shell
 create pipe p1 
   with extractor (
@@ -43,7 +44,7 @@ create pipe p1
     ....
   )
 ```
-其中 extractor，processor，connector 均为可自定义的插件。extractor 为数据的收集器，负责收集 IoTDB 内的特定数据；processor 为处理器，负责对收集到的数据进行过滤等处理；connector 为连接器，负责对数据进行最后的发送。上述命令中（....）部分为可配置的参数，容忍无效参数，具体有效参数取决于插件实现本身。
+其中 extractor，processor，connector 均为可自定义的插件。extractor 为数据的收集器，负责收集 IoTDB 内的特定数据；processor 为处理器，负责对收集到的数据进行过滤等处理；connector 为连接器，负责对数据进行发送。此外，with extractor， with processor 两段均可不填，不填时，extractor 与 processor 均为默认值。上述命令中（....）部分为可配置的参数，容忍无效参数，具体有效参数取决于插件实现本身。
 
 下面将列出该软件的所有特性及其 SQL 用法。
 
@@ -95,7 +96,7 @@ create pipe p1
     ....
   )
 ```
-与上述相似，此处的 processor 为通用配置，表示选用的 processor 类型。
+与上述相似，此处的 processor 为通用配置，表示选用的 processor 类型。该配置非必选项，不填时即默认为 do-nothing-processor。
 
 #### 取值过滤及选择
 使用自带的取值过滤 processor 可以根据 IoTDB 点的取值进行过滤。示例的 processor 参数如下：
@@ -220,3 +221,17 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 SQL 中的 show pipes 与 IoTDB 中的对应格式相同，18080 则为配置的 REST 端口。
 
 此处的 REST api 也提供了配置文件，在项目根目录下的 data-sync.properties 中。其中能够对 REST 服务是否启用，用户名，密码及 REST 对外的端口进行配置。
+
+### 开启同步任务
+开启同步任务的 SQL 同样与 IoTDB 内置 Pipe 的定义方式相同，如下：
+```shell
+start pipe p1
+```
+### 停止同步任务
+```shell
+stop pipe p1
+```
+### 删除同步任务
+```shell
+drop pipe p1
+```
