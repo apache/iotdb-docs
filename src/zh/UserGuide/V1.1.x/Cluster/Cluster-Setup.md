@@ -19,6 +19,8 @@
 
 -->
 
+# 集群安装和启动
+
 ## 1. 目标
 
 本文档为 IoTDB 集群版（1.0.0）的安装及启动教程。
@@ -431,4 +433,4 @@ kill -9 <pid>
 
 ## 7. 常见问题
 
-请参考 [分布式部署FAQ](https://iotdb.apache.org/zh/UserGuide/Master/FAQ/FAQ-for-cluster-setup.html)
+请参考 [分布式部署FAQ](../FAQ/Frequently-asked-questions.md)
