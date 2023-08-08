@@ -76,7 +76,7 @@ Windows 系统启动命令如下：
 
 ### 集群管理工具部署
 
-IoTDB集群管理工具是一款超级易用的 Apache IoTDB 集群部署工具。本文档将说明如何用集群管理工具如何远程部署、配置、启动和停止 Apache IoTDB 集群实例。关于集群管理工具的更多信息请点击： [集群管理工具](../Tools-System/Maintenance-Tool.md##集群管理工具)
+IoTDB 集群管理工具是一款易用的运维工具（企业版工具）。旨在解决 IoTDB 分布式系统多节点的运维难题，主要包括集群部署、集群启停、弹性扩容、配置更新、数据导出等功能，从而实现对复杂数据库集群的一键式指令下发，极大降低管理难度。本文档将说明如何用集群管理工具远程部署、配置、启动和停止 IoTDB 集群实例。
 
 #### 部署集群管理工具
 
@@ -88,9 +88,9 @@ IoTDB 要部署的机器需要依赖jdk 8及以上版本、lsof 或者 netstat�
 
 ##### 部署方法
 
-###### 方案一 二进制包下载安装
+###### 下载安装
 
-目前二进制文件仅支持linux 和mac 操作系统，二进制文件下载地址：https://github.com/TimechoLab/iotdb-deploy/releases
+本工具为IoTDB企业版配套工具，您可以联系您的销售获取工具下载方式。
 
 注意：由于二进制包仅支持GLIBC2.17 及以上版本，因此最低适配Centos7版本
 
@@ -110,30 +110,6 @@ iotd cluster check example
 
 ```bash
 <iotd absolute path>/sbin/iotd cluster check example
-```
-
-###### 方案二 源码包下载安装
-
-源码包执行需要依赖python3.8及以上版本
-
-* 执行如下命令下载源码包
-
-```bash
-git clone https://github.com/TimechoLab/iotdb-deploy.git
-```
-
-* 在iotd-deploy目录内输入以下指令后：
-
-```bash
-bash install.sh
-```
-
-即可在之后的 shell 内激活 iotd 关键词，并安装所需的 whl 包。注意下载的iotd-deploy不要放在包含空格的目录下面，防止无法使用。
-
-* 如果要在该 shell 内立刻激活该关键词，需要执行：
-
-```bash
-alias "iotd=python3 <main.py's absolute path>"
 ```
 
 #### 集群配置文件介绍
