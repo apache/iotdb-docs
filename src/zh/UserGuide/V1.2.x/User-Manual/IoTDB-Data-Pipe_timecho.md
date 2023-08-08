@@ -41,7 +41,7 @@
 
 利用数据订阅功能，可以搭建完整的数据链路来满足端*边云同步、异地灾备、读写负载分库*等需求。
 
-# 快速开始
+## 快速开始
 
 **🎯 目标：实现 IoTDB A -> IoTDB B 的全量数据订阅**
 
@@ -83,9 +83,9 @@
 > * 开启自动创建元数据：需要人工配置数据类型的编码和压缩与发送端保持一致
 > * 不开启自动创建元数据：手工创建与源端一致的元数据
 
-# Pipe 同步任务管理
+## Pipe 同步任务管理
 
-## 创建流水线
+### 创建流水线
 
 可以使用 `CREATE PIPE` 语句来创建一条数据订阅任务，SQL 语句如下所示：
 
@@ -182,7 +182,7 @@ WITH CONNECTOR (
   - IoTDB A -> IoTDB B -> IoTDB A
   - IoTDB A -> IoTDB A
 
-## 启动流水线
+### 启动流水线
 
 CREATE PIPE 语句成功执行后，流水线相关实例会被创建，但整个流水线的运行状态会被置为 STOPPED，即流水线不会立刻处理数据。
 
@@ -192,7 +192,7 @@ CREATE PIPE 语句成功执行后，流水线相关实例会被创建，但整�
 START PIPE <PipeId>
 ```
 
-## 停止流水线
+### 停止流水线
 
 使用 STOP PIPE 语句使流水线停止处理数据：
 
@@ -200,7 +200,7 @@ START PIPE <PipeId>
 STOP PIPE <PipeId>
 ```
 
-## 删除流水线
+### 删除流水线
 
 使用 DROP PIPE 语句使流水线停止处理数据（当流水线状态为 RUNNING 时），然后删除整个流水线同步任务：
 
@@ -210,7 +210,7 @@ DROP PIPE <PipeId>
 
 用户在删除流水线前，不需要执行 STOP 操作。
 
-## 展示流水线
+### 展示流水线
 
 使用 SHOW PIPES 语句查看所有流水线：
 
@@ -243,7 +243,7 @@ SHOW PIPES
 WHERE CONNECTOR USED BY <PipeId>
 ```
 
-## 流水线运行状态迁移
+### 流水线运行状态迁移
 
 一个数据订阅 pipe 在其被管理的生命周期中会经过多种状态：
 
@@ -258,11 +258,11 @@ WHERE CONNECTOR USED BY <PipeId>
 
 ![状态迁移图](https://alioss.timecho.com/docs/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
 
-# **系统预置数据订阅插件**
+## **系统预置数据订阅插件**
 
-## 预置 extractor
+### 预置 extractor
 
-### iotdb-extractor
+#### iotdb-extractor
 
 作用：抽取 IoTDB 内部的历史或实时数据进入流水线。
 
@@ -336,9 +336,9 @@ WHERE CONNECTOR USED BY <PipeId>
 > * file：该模式下，流水线仅使用数据文件进行数据处理、发送
 > * hybrid：该模式，考虑了按操作日志逐条目发送数据时延迟低但吞吐低的特点，以及按数据文件批量发送时发送吞吐高但延迟高的特点，能够在不同的写入负载下自动切换适合的数据抽取方式，首先采取基于操作日志的数据抽取方式以保证低发送延迟，当产生数据积压时自动切换成基于数据文件的数据抽取方式以保证高发送吞吐，积压消除时自动切换回基于操作日志的数据抽取方式，避免了采用单一数据抽取算法难以平衡数据发送延迟或吞吐的问题。
 
-## 预置 processor
+### 预置 processor
 
-### do-nothing-processor
+#### do-nothing-processor
 
 作用：不对 extractor 传入的事件做任何的处理。
 
@@ -346,9 +346,9 @@ WHERE CONNECTOR USED BY <PipeId>
 | --------- | -------------------- | ---------------------------- | --------------------------------- |
 | processor | do-nothing-processor | String: do-nothing-processor | required                          |
 
-## 预置 connector
+### 预置 connector
 
-### iotdb-thrift-connector-v1（别名：iotdb-thrift-connector）
+#### iotdb-thrift-connector-v1（别名：iotdb-thrift-connector）
 
 作用：主要用于 IoTDB（v1.2.0+）与 IoTDB（v1.2.0+）之间的数据传输。使用 Thrift RPC 框架传输数据，单线程 blocking IO 模型。保证接收端 apply 数据的顺序与发送端接受写入请求的顺序一致。
 
@@ -362,7 +362,7 @@ WHERE CONNECTOR USED BY <PipeId>
 
 >  📌 请确保接收端已经创建了发送端的所有时间序列，或是开启了自动创建元数据，否则将会导致 pipe 运行失败。
 
-### iotdb-thrift-connector-v2
+#### iotdb-thrift-connector-v2
 
 作用：主要用于 IoTDB（v1.2.0+）与 IoTDB（v1.2.0+）之间的数据传输。使用 Thrift RPC 框架传输数据，多线程 async non-blocking IO 模型，传输性能高，尤其适用于目标端为分布式时的场景。不保证接收端 apply 数据的顺序与发送端接受写入请求的顺序一致，但是保证数据发送的完整性（at-least-once）。
 
@@ -375,7 +375,7 @@ WHERE CONNECTOR USED BY <PipeId>
 
 > 📌 请确保接收端已经创建了发送端的所有时间序列，或是开启了自动创建元数据，否则将会导致 pipe 运行失败。
 
-### iotdb-sync-connector
+#### iotdb-sync-connector
 
 作用：主要用于 IoTDB（v1.2.0+）向更低版本的 IoTDB 传输数据，使用 v1.2.0 版本前的数据同步（Sync）协议。使用 Thrift RPC 框架传输数据。单线程 sync blocking IO 模型，传输性能较弱。
 
@@ -394,7 +394,7 @@ WHERE CONNECTOR USED BY <PipeId>
 
 >  📌 请确保接收端已经创建了发送端的所有时间序列，或是开启了自动创建元数据，否则将会导致 pipe 运行失败。
 
-### do-nothing-connector
+#### do-nothing-connector
 
 作用：不对 processor 传入的事件做任何的处理。
 
@@ -402,9 +402,9 @@ WHERE CONNECTOR USED BY <PipeId>
 | --------- | -------------------- | ---------------------------- | --------------------------------- |
 | connector | do-nothing-connector | String: do-nothing-connector | required                          |
 
-# 自定义数据订阅插件开发
+## 自定义数据订阅插件开发
 
-## 编程开发依赖
+### 编程开发依赖
 
 推荐采用 maven 构建项目，在`pom.xml`中添加以下依赖。请注意选择和 IoTDB 服务器版本相同的依赖版本。
 
@@ -417,7 +417,7 @@ WHERE CONNECTOR USED BY <PipeId>
 </dependency>
 ```
 
-## 事件驱动编程模型
+### 事件驱动编程模型
 
 数据订阅插件的用户编程接口设计，参考了事件驱动编程模型的通用设计理念。事件（Event）是用户编程接口中的数据抽象，而编程接口与具体的执行方式解耦，只需要专注于描述事件（数据）到达系统后，系统期望的处理方式即可。
 
@@ -425,7 +425,7 @@ WHERE CONNECTOR USED BY <PipeId>
 
 为了兼顾端侧低负载场景下的同步低延迟和端侧高负载场景下的同步高吞吐，同步引擎会动态地在操作日志和数据文件中选择处理对象，因此，同步的用户编程接口要求用户提供下列两类事件的处理逻辑：操作日志写入事件 TabletInsertionEvent 和数据文件写入事件 TsFileInsertionEvent。
 
-### **操作日志写入事件（TabletInsertionEvent）**
+#### **操作日志写入事件（TabletInsertionEvent）**
 
 操作日志写入事件（TabletInsertionEvent）是对用户写入请求的高层数据抽象，它通过提供统一的操作接口，为用户提供了操纵写入请求底层数据的能力。
 
@@ -457,7 +457,7 @@ public interface TabletInsertionEvent extends Event {
 }
 ```
 
-### **数据文件写入事件（TsFileInsertionEvent）**
+#### **数据文件写入事件（TsFileInsertionEvent）**
 
 数据文件写入事件（TsFileInsertionEvent） 是对数据库文件落盘操作的高层抽象，它是若干操作日志写入事件（TabletInsertionEvent）的数据集合。
 
@@ -487,11 +487,11 @@ public interface TsFileInsertionEvent extends Event {
 }
 ```
 
-## 自定义数据订阅插件编程接口定义
+### 自定义数据订阅插件编程接口定义
 
 基于自定义数据订阅插件编程接口，用户可以轻松编写数据抽取插件、 数据处理插件和数据发送插件，从而使得同步功能灵活适配各种工业场景。
 
-### 数据抽取插件接口
+#### 数据抽取插件接口
 
 数据抽取是同步数据从数据抽取到数据发送三阶段的第一阶段。数据抽取插件（PipeExtractor）是同步引擎和存储引擎的桥梁，它通过监听存储引擎的行为，捕获各种数据写入事件。
 
@@ -571,7 +571,7 @@ public interface PipeExtractor extends PipePlugin {
 }
 ```
 
-### 数据处理插件接口
+#### 数据处理插件接口
 
 数据处理是同步数据从数据抽取到数据发送三阶段的第二阶段。数据处理插件（PipeProcessor）主要用于过滤和转换由数据抽取插件（PipeExtractor）捕获的各种事件。
 
@@ -666,7 +666,7 @@ public interface PipeProcessor extends PipePlugin {
 }
 ```
 
-### 数据发送插件接口
+#### 数据发送插件接口
 
 数据发送是同步数据从数据抽取到数据发送三阶段的第三阶段。数据发送插件（PipeConnector）主要用于发送经由数据处理插件（PipeProcessor）处理过后的各种事件，它作为数据订阅框架的网络实现层，接口上应允许接入多种实时通信协议和多种连接器。
 
@@ -784,11 +784,11 @@ public interface PipeConnector extends PipePlugin {
 }
 ```
 
-# 自定义数据订阅插件管理
+## 自定义数据订阅插件管理
 
 为了保证用户自定义插件在实际生产中的灵活性和易用性，系统还需要提供对插件进行动态统一管理的能力。本章节介绍的数据订阅插件管理语句提供了对插件进行动态统一管理的入口。
 
-## 加载插件语句
+### 加载插件语句
 
 在 IoTDB 中，若要在系统中动态载入一个用户自定义插件，则首先需要基于 PipeExtractor、 PipeProcessor 或者 PipeConnector 实现一个具体的插件类，然后需要将插件类编译打包成 jar 可执行文件，最后使用加载插件的管理语句将插件载入 IoTDB。
 
@@ -808,7 +808,7 @@ AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor'
 USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
 ```
 
-## 删除插件语句
+### 删除插件语句
 
 当用户不再想使用一个插件，需要将插件从系统中卸载时，可以使用如图所示的删除插件语句。
 
@@ -816,7 +816,7 @@ USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
 DROP PIPEPLUGIN <别名>
 ```
 
-## 查看插件语句
+### 查看插件语句
 
 用户也可以按需查看系统中的插件。查看插件的语句如图所示。
 
@@ -824,9 +824,9 @@ DROP PIPEPLUGIN <别名>
 SHOW PIPEPLUGINS
 ```
 
-# 权限管理
+## 权限管理
 
-## Pipe 任务
+### Pipe 任务
 
 | 权限名称    | 描述                   |
 | ----------- | ---------------------- |
@@ -836,7 +836,7 @@ SHOW PIPEPLUGINS
 | DROP_PIPE   | 卸载流水线。路径无关。 |
 | SHOW_PIPES  | 查询流水线。路径无关。 |
 
-## Pipe 插件
+### Pipe 插件
 
 | 权限名称          | 描述                       |
 | ----------------- | -------------------------- |
@@ -844,9 +844,9 @@ SHOW PIPEPLUGINS
 | DROP_PIPEPLUGIN   | 开启流水线插件。路径无关。 |
 | SHOW_PIPEPLUGINS  | 查询流水线插件。路径无关。 |
 
-# 功能特性
+## 功能特性
 
-## 最少一次语义保证 **at-least-once**
+### 最少一次语义保证 **at-least-once**
 
 数据订阅功能向外部系统传输数据时，提供 at-least-once 的传输语义。在大部分场景下，同步功能可提供 exactly-once 保证，即所有数据被恰好同步一次。
 
@@ -857,13 +857,13 @@ SHOW PIPEPLUGINS
 - 数据节点宕机、重启等导致的数据分区切主：分区变更完成后，受影响的数据会被重新传输
 - 集群不可用：集群可用后，受影响的数据会重新传输
 
-## 源端：数据写入与 Pipe 处理、发送数据异步解耦
+### 源端：数据写入与 Pipe 处理、发送数据异步解耦
 
 数据订阅功能中，数据传输采用的是异步复制模式。
 
 数据订阅与写入操作完全脱钩，不存在对写入关键路径的影响。该机制允许框架在保证持续数据订阅的前提下，保持时序数据库的写入速度。
 
-## 源端：可自适应数据写入负载的数据传输策略
+### 源端：可自适应数据写入负载的数据传输策略
 
 支持根据写入负载，动态调整数据传输方式，同步默认使用 TsFile 文件与操作流动态混合传输（`'extractor.realtime.mode'='hybrid'`）。
 
@@ -871,14 +871,14 @@ SHOW PIPEPLUGINS
 
 在数据写入负载低时，优先选择操作流同步传输的方式。操作流传输实时性高。
 
-## 源端：高可用集群部署时，Pipe 服务高可用
+### 源端：高可用集群部署时，Pipe 服务高可用
 
 当发送端 IoTDB 为高可用集群部署模式时，数据订阅服务也将是高可用的。 数据订阅框架将监控每个数据节点的数据订阅进度，并定期做轻量级的分布式一致性快照以保存同步状态。
 
 - 当发送端集群某数据节点宕机时，数据订阅框架可以利用一致性快照以及保存在副本上的数据快速恢复同步，以此实现数据订阅服务的高可用。
 - 当发送端集群整体宕机并重启时，数据订阅框架也能使用快照恢复同步服务。
 
-# 配置参数
+## 配置参数
 
 在 iotdb-common.properties 中：
 
