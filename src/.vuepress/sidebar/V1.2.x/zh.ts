@@ -113,6 +113,9 @@ export const zhSidebar = {
         { text: 'Python', link: 'Programming-Python-Native-API' },
         { text: 'C++', link: 'Programming-Cpp-Native-API' },
         { text: 'Go', link: 'Programming-Go-Native-API' },
+        { text: 'C#', link: 'Programming-CSharp-Native-API' },
+        { text: 'Node.js', link: 'Programming-NodeJS-Native-API' },
+        { text: 'Rust', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC (不推荐)', link: 'Programming-JDBC' },
         { text: 'MQTT', link: 'Programming-MQTT' },
         { text: 'Kafka', link: 'Programming-Kafka' },
@@ -154,7 +157,7 @@ export const zhSidebar = {
       prefix: 'FAQ/',
       // children: 'structure',
       children: [
-        { text: '常见问题', link: 'Frequently-asked-questions' },      ],
+        { text: '常见问题', link: 'Frequently-asked-questions' }],
     },
     {
       text: '参考',
