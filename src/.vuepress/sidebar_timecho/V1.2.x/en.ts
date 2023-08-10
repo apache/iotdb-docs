@@ -115,6 +115,9 @@ export const enSidebar = {
         { text: 'Python Native API', link: 'Programming-Python-Native-API' },
         { text: 'C++ Native API', link: 'Programming-Cpp-Native-API' },
         { text: 'Go Native API', link: 'Programming-Go-Native-API' },
+        { text: 'C# Native API', link: 'Programming-CSharp-Native-API' },
+        { text: 'Node.js Native API', link: 'Programming-NodeJS-Native-API' },
+        { text: 'Rust Native API', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC (Not Recommend)', link: 'Programming-JDBC' },
         { text: 'MQTT', link: 'Programming-MQTT' },
         { text: 'Kafka', link: 'Programming-Kafka' },
@@ -156,7 +159,7 @@ export const enSidebar = {
       prefix: 'FAQ/',
       // children: 'structure',
       children: [
-        { text: 'Frequently Asked Questions', link: 'Frequently-asked-questions' },      ],
+        { text: 'Frequently Asked Questions', link: 'Frequently-asked-questions' }],
     },
     {
       text: 'Reference',
