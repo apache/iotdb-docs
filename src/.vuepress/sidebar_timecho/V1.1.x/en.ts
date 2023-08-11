@@ -77,7 +77,7 @@ export const enSidebar = {
         { text: 'Key-Value Pair', link: 'KeyValue-Pair' },
         { text: 'Keywords', link: 'Keywords-And-Reserved-Words' },
         { text: 'Session And TsFile API', link: 'Session-And-TsFile-API' },
-        { text: 'Detailed Definitions of Lexical and Grammar', link: 'Detailed-Grammar' },
+        { text: 'Lexical and Grammar', link: 'Detailed-Grammar' },
       ],
     },
     {
