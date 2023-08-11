@@ -104,15 +104,15 @@ static_configs:
 
 我们提供了Apache IoTDB Dashboard，支持统一集中式运维管理，可通过一个监控面板监控多个集群。
 
-效果图如下所示：
+![Apache IoTDB Dashboard](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20default%20cluster.png)
 
-![Apache IoTDB Dashboard](https://alioss.timecho.com/docs/img/UserGuide/System-Tools/Metrics/dashboard.png)
+![Apache IoTDB Dashboard](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20cluster2.png)
 
 你可以在企业版中获取到 Dashboard 的 Json文件。
 
 ### 集群概览
 
-可以监控多个集群的状态，包括但不限于：
+可以监控包括但不限于：
 - 集群总CPU核数、总内存空间、总硬盘空间
 - 集群包含多少个ConfigNode与DataNode
 - 集群启动时长
