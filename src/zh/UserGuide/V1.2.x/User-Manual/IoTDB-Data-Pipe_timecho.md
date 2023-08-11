@@ -943,3 +943,21 @@ pipe_meta_syncer_initial_sync_delay_minutes=3
 # The sync regular interval (in minutes) for the PipeMetaSyncer service.
 pipe_meta_syncer_sync_interval_minutes=3
 ```
+
+# 备份场景
+IoTDB 的数据订阅工具可以处理 IoTDB 的自动实时备份需求。在经典的主从场景中，副本可以作为订阅的接收端而存在，可实时从发送端异步备份数据，不阻塞发送端的写入。在接收端和发送端均正常的情况下，就可进行数据的传输，保证接收端和发送端的数据最终一致。
+
+## 备份示例
+使用 tsFile 的自动实时备份方式如下：
+```bash
+create pipe p1 
+    with extractor (
+      'extractor.realtime.mode'='file'
+    )
+    with connector (
+      'connector'= 'iotdb-thrift-connector',
+      'connector.ip' = '127.0.0.1',
+      'connector.port' = '12345'
+    )
+```
+该语句将会启动向 127.0.0.1:12345 端口的全量同步，将以 tsfile 的方式备份，有着极高的备份传输性能。
