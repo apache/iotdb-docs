@@ -51,8 +51,6 @@ IoTDB 以数据分区（DataRegion）为单位对元数据和数据进行管理�
 
 会按照一定的负载均衡策略，进行时间分区槽和序列分区槽的划分，并分配到相应的 DataRegionGroup 中，进而在集群中横向扩展。
 
-单个数据库的数据分区管理，在10000个分区槽、连续运行十年的情况下，预计需要0.68GB。
-
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/DataRegion.png?raw=true">
 
 ## 负载均衡
