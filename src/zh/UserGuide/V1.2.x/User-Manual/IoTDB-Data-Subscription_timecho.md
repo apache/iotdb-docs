@@ -397,7 +397,7 @@ Api 方式下，以 Java 订阅接口为例子，用户可在 SubscriptionConfig
 - 指定序列的时间范围（timeStrategy）
 - 指定序列的值范围（valueStrategy）
 
-```aidl
+```java
 public class PushConsumerExample {
   
    public static void test(String[] args) throws Throwable {
