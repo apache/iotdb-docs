@@ -71,6 +71,8 @@ export const zhSidebar = {
         { text: 'docker部署', link: 'Docker-Install' },
         { text: '安全控制', link: 'Security-Management' },
         { text: '慢查询管理', link: 'Slow-Query-Management' },
+        { text: '数据分区', link: 'Cluster-data-partitioning' },
+        { text: '负载均衡', link: 'Load-Balancing'},
       ],
     },
 
