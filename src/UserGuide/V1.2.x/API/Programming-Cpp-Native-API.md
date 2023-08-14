@@ -30,7 +30,6 @@
 - OpenSSL 1.0+
 - GCC 5.5.0+
 
-
 ## Installation From Source Code
 
 ### Install CPP Dependencies
@@ -412,7 +411,7 @@ void deleteData(const std::vector<std::string> &deviceId, int64_t time);
 Query statements return data.
 
 ```cpp
-void executeQueryStatement(const std::string &sql);
+unique_ptr<SessionDataSet> executeQueryStatement(const std::string &sql);
 ```
 
 Non-Query statements don't return data (Delete, Create, ... statements)
@@ -443,9 +442,11 @@ see https://stackoverflow.com/questions/63592445/ld-unsupported-tapi-file-type-t
 
 When Building Thrift and downloading packages via "wget", a possible annoying issue may occur with
 error message looks like:
+
 ```shell
 Failed to delete cached file C:\Users\Administrator\.m2\repository\.cache\download-maven-plugin\index.ser
 ```
+
 Possible fixes:
 - Try to delete the ".m2\repository\.cache\" directory and try again.
 - Add "\<skipCache>true\</skipCache>" configuration to the download-maven-plugin maven phase that complains this error.
