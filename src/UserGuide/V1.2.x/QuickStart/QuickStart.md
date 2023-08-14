@@ -32,7 +32,7 @@ To use IoTDB, you need to have:
 
 ## Installation
 
-IoTDB can be installev using one of the following three installation methods:
+IoTDB can be installed using one of the following three installation methods:
 
 * Installation from source code. If you need to modify the code yourself, you can use this method.
 * Installation from binary files. Download the binary distribution from the official website. This is the recommended method, in which you will get a binary released package which you can use out-of-the-box. <!-- TODO: From the Apache point of view the binary distributions are "convenience" ... actually the reccommended way would be to compile, as the ASF only formally distributes sources -->
@@ -101,7 +101,7 @@ Here are the commands for starting the CLI:
 ```
 
 The command line interface is interactive. 
-If everything setup correctly, you should see the IoTDB logo and welcome statement:
+If everything is set up correctly, you should see the IoTDB logo and welcome statement:
 
 ```
  _____       _________  ______   ______
@@ -121,7 +121,7 @@ IoTDB>
 Next, let us go a bit more into detail to how to create a timeseries, insert data into it and how to query data from it. 
 
 Data in IoTDB is organized as a set of timeseries, in each timeseries there are some timestamp-data pairs.
-Every timeseries is belongs to a database. 
+Every timeseries belongs to a database. 
 
 All commands are executed in an SQL-like syntax we call `IoTDB SQL`.
 
@@ -145,7 +145,7 @@ Database number = 1
 ```
 
 After the database is created, we can use `CREATE TIMESERIES` to create new timeseries. 
-When we create a timeseries, we should define its structure as well as the data types used for each field as well as their encoding scheme. 
+When we create a timeseries, we should define its structure as well as the data types used for each field along with their encoding scheme. 
 
 We can create two timeseries the following way:
 
@@ -188,8 +188,8 @@ Insertion of timeseries data is the probably most basic operation of IoTDB.
 You can use the `INSERT` command to do this. 
 
 Here come some examples on how to do that. 
-Please note that in the `INTO` part we tell IoTDB which timeseries to store the data in as well as which fields we'll be storing.
-Also note that a timestamp field is mandatory for this step:
+In the `INTO` part we tell IoTDB which timeseries we want to store the data in as well as which fields we'll be filling.
+Please note, that the timestamp field is mandatory for this step and that we don't necessarily have to fill all fields defined of the timeseries we're inserting into:
 
 ```
 IoTDB> INSERT INTO root.ln.wf01.wt01(timestamp,status) values(100,true);
@@ -254,7 +254,7 @@ Its username is `root`, and the default password for it is also `root`.
 This user is a user with administrative privileges, who cannot be deleted and has all privileges assigned to it. 
 Neither can new privileges be granted to the root user nor can privileges owned by it be revoked.
 
-We strongly reccomend you change the default password.
+We strongly recommend you change the default password.
 You do this using the following command：
 ```
 ALTER USER <username> SET PASSWORD <password>;
