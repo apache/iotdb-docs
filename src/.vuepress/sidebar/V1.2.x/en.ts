@@ -57,6 +57,7 @@ export const enSidebar = {
         { text: 'Data Model and Terminology', link: 'Data-Model-and-Terminology' },
         { text: 'Data Type', link: 'Data-Type' },
         { text: 'Encoding and Compression', link: 'Encoding-and-Compression' },
+        { text: 'Data Partitioning & Load Balancing', link: 'Cluster-data-partitioning' },
       ],
     },
     {
@@ -70,7 +71,6 @@ export const enSidebar = {
         { text: 'Deployment Guide', link: 'Deployment-Guide' },
         { text: 'Docker Install', link: 'Docker-Install' },
         { text: 'Security Management', link: 'Security-Management' },
-        { text: 'Data Partitioning & Load Balancing', link: 'Cluster-data-partitioning' },
       ],
     },
 
