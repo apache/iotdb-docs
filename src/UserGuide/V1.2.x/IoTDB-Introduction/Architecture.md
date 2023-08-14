@@ -36,3 +36,9 @@ For the data written to HDFS or local TsFile, users can use TsFile-Hadoop-Connec
 The results of the analysis can be write back to TsFile in the same way.
 
 Also, IoTDB and TsFile provide client tools to meet the various needs of users in writing and viewing data in SQL form, script form and graphical form.
+
+IoTDB offers two deployment modes: standalone and cluster. In cluster deployment mode, IoTDB supports automatic failover, ensuring that the system can quickly switch to standby nodes in the event of a node failure. The switch time can be achieved in seconds, thereby minimizing system downtime and ensuring no data loss after the switch. When the faulty node returns to normal, the system will automatically reintegrate it into the cluster, ensuring the cluster's high availability and scalability.
+
+IoTDB also supports a read-write separation deployment mode, which can allocate read and write operations to different nodes, achieving load balancing and enhancing the system's concurrent processing capability.
+
+Through these features, IoTDB can avoid single-point performance bottlenecks and single-point failures (SPOF), offering a high-availability and reliable data storage and management solution.
