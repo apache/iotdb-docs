@@ -22,14 +22,16 @@
 # C++ Native API
 
 ## Dependencies
+
 - Java 8+
-- Maven 3.5+
+- Maven 3.9+ (optional when using `mvnw` command)
 - Flex
 - Bison 2.7+
 - Boost 1.56+
 - OpenSSL 1.0+
 - GCC 5.5.0+
 
+> Even if we'll be building a C++ application, we still need `Maven` for the build and that requires `Java`
 
 ## Installation From Source Code
 
@@ -37,49 +39,45 @@
 
 - **MAC**
 
-    1. Install Bison ：Bison 2.3 is preinstalled on OSX, but this version is outdated, and we need a newer version.
-
-       When building Thrift with Bison 2.3, the following error would be shown in the build output:
-       ```invalid directive: '%code'```
-
-       In such a case, please update `Bison`:
+    1. Install Homebrew, as we'll be installing all dependencies via that.
+        ```shell
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        ``` 
+    2. Make sure java ist installed, if not:
+        ```shell
+        brew install java
+        ``` 
+       Please pay attention to the output of the installation process. 
+       It will probably note that you need to create a symlink:
+        1. On Intel-based models:
+           ```shell
+           sudo ln -sfn /usr/local/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+           ``` 
+        2. On Arm-based models 
+           ```shell
+           sudo ln -sfn /opt/homebrew/opt/openjdk/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk.jdk
+           ``` 
+    3. Install Bison：Bison 2.3 is preinstalled on OSX, but this version is outdated, and we need a newer version.
        ```shell
        brew install bison
-       brew link bison --force
        ```
-       
-       Then, you need to tell the OS where the new bison is.
-    
-          For Bash users:
-          ```shell
-          echo 'export PATH="/usr/local/opt/bison/bin:$PATH"' >> ~/.bash_profile
-          ```
-
-          For zsh users:
-          ```shell
-          echo 'export PATH="/usr/local/opt/bison/bin:$PATH"' >> ~/.zshrc
-          ```
-
-    2. Install Boost ：Please make sure a relative new version of Boost is ready on your machine.
-       If no Boost available, install the latest version of Boost:
-          ```shell
-          brew install boost
-          brew link boost
-          ```
-
-    3. OpenSSL ：Make sure the Openssl libraries has been installed on your Mac. The default Openssl include file search path is "/usr/local/opt/openssl/include".
-
-       If Openssl header files can not be found when building Thrift, please add option`-Dopenssl.include.dir=""`.
-
+    4. Install Boost：Please make sure a relative new version of Boost is ready on your machine.
+         If no Boost available, install the latest version of Boost:
+       ```shell
+       brew install boost
+       ```
+    5. OpenSSL ：Make sure the Openssl header files and libraries have been installed on your Mac. The default Openssl include file search path is "/usr/local/opt/openssl/include".
+       ```shell
+       brew install openssl
+       ```
 
 - **Ubuntu 20**
 
   To install all dependencies, run:
 
     ```shell
-    sudo apt-get install gcc-9 g++-9 libstdc++-9-dev bison flex libboost-all-dev libssl-dev zlib1g-dev
+    sudo apt install default-jdk bison flex libboost-all-dev libssl-dev
     ```
-
 
 - **CentOS 7.x**
 
@@ -91,24 +89,37 @@
 
   The version of gcc and boost installed by yum is too low, therefore you should compile or download these binary packages by yourself.
 
-
 - **Windows**
 
-    1. Building environment
-        * Install `MS Visual Studio`(recommend 2019 version): remember to install Visual Studio C/C++ IDE and compiler(supporting CMake, Clang, MinGW).
-        * Download and install [CMake](https://cmake.org/download/) .
+    1. Install Chocolatey, as we'll be installing all dependencies via that: [Installation Instructions](https://chocolatey.org/install) 
 
-    2. Download and install `Flex` & `Bison`
-        * Download [Win_Flex_Bison](https://sourceforge.net/projects/winflexbison/) .
-        * After downloading, please rename the executables to `flex.exe` and `bison.exe` and add the directory containing them to the `PATH` environment variable.
+    2. Make sure Java is installed, if not:
+       ```shell
+       choco install openjdk
+       ```
+       > Note on Windows running on aarch64 machines, the chocolatey script has been seen to install an x86_64 version of the JDK instead, which will still work, but at a low-performance, as it'll be running in emulation-mode. Currently, however aarch64 is a bit of a problem and will hopefully be fully supported in future versions of the cmake-maven-plugin.
 
-    3. Install `Boost`
-        * Download [Boost](https://www.boost.org/users/download/) .
-        * Then build `Boost` by executing `bootstrap.bat` and `b2.exe`.
+    3. Install Visual Studio 19 2022:
+       ```shell
+       choco install visualstudio2022community
+       choco install visualstudio2022buildtools
+       choco install visualstudio2022-workload-nativedesktop
+       ```
+       
+    4. Install Flex and Bison:
+       ```shell
+       choco install winflexbison
+       ```
 
-    4. Install `OpenSSL`
-        * Download and install [OpenSSL](http://slproweb.com/products/Win32OpenSSL.html) .
+     5. Install `Boost`:
+        ```shell
+        choco install boost-msvc-14.2
+        ```
 
+     6. Install `OpenSSL`:
+        ```shell
+        choco install openssl
+        ```
 
 ### Compile
 
@@ -123,22 +134,21 @@ git checkout v0.13.3
 ```
 (Please note that we are using a `Go` compatible naming schema for our release tags, which prefixes the version by a `v`)
 
-Under the root path of iotdb:
+> If you want to use the `maven-wrapper` which will automatically fetch the right version of `Maven`, replace `mvn` with `./mvnw` on Mac and Linux and `mvnw.cmd` on Windows systems.
 
-- Mac & Linux:
-    ```shell
-    mvn package -P compile-cpp -pl example/client-cpp-example -am -DskipTest
-    ```
+In order to compile the project, execute the following command in the root path of the project:
 
-- Windows:
-    ```shell
-    mvn package -P compile-cpp -pl iotdb-client/client-cpp,iotdb-core/datanode,example/client-cpp-example -am -Dcmake.generator="your cmake generator" -Dboost.include.dir=${your boost header folder} -Dboost.library.dir=${your boost lib (stage) folder} -DskipTests
-    ```
-    - When building the client-cpp project, use the `-Dcmake.generator=""` option to specify a Cmake generator. E.g. `-Dcmake.generator="Visual Studio 16 2019"` (`cmake --help` shows a long list of supported Cmake generators.)
-    - To help CMake find your Boost libraries on windows, you should also append `-DboostIncludeDir="C:\Program Files (x86)\boost_1_78_0" -DboostLibraryDir="C:\Program Files (x86)\boost_1_78_0\stage\lib"` to your mvn build command.
-    ``
+```shell
+mvn package -P with-cpp -pl example/client-cpp-example, -am -DskipTest
+```
 
-As soon as the compilation finishes successfully, the packaged zip file will be placed under `client-cpp/target/client-cpp-1.3.0-SNAPSHOT-cpp-${os}.zip`
+The default build will expect a version of the `Thrift Compiler` to be available for your system. If this is not the case, please add `,with-tools` to the command (using `install` will make the `Thift Compiler` available for future executions):
+
+```shell
+mvn install -P with-cpp,with-tools -pl example/client-cpp-example,tools/thrift -am -DskipTest
+```
+
+As soon as the compilation finishes successfully, the packaged zip file containing the library will be placed under `iotdb-client/client-cpp/target/client-cpp-{iotdb-version}-cpp-${os}-${aarch}.zip` and the example demonstrating the use of the library will be located at: `example/client-cpp-example/target/SessionExample` and `example/client-cpp-example/target/AllignedTimeseriesSessionExample`. 
 
 ## Native APIs
 

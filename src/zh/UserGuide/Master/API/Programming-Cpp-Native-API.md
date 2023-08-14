@@ -24,7 +24,7 @@
 ## 依赖
 
 - Java 8+
-- Maven 3.5+
+- Maven 3.9+
 - Flex
 - Bison 2.7+
 - Boost 1.56+
