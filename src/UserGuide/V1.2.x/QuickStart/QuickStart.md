@@ -51,7 +51,7 @@ Configuration files are located in the `conf` folder
   * system config module (`iotdb-datanode.properties`)
   * log config module (`logback.xml`). 
 
-For more information, please go to [Config](../Reference/DataNode-Config-Manual.md).
+For more information, please go to [Config](../stage/DataNode-Config-Manual.md).
 
 ## Start
 
@@ -230,7 +230,7 @@ or
 IoTDB> exit
 ```
 
-For more information on which commands are supported by `IoTDB SQL`, please see [SQL Reference](../Reference/SQL-Reference.md).
+For more information on which commands are supported by `IoTDB SQL`, please see [SQL Reference](../stage/SQL-Reference.md).
 
 ### Stopping IoTDB
 
@@ -245,7 +245,7 @@ The server can be stopped using `ctrl-C` or by running the following script:
 ```
 Note: In Linux, please add the `sudo` as far as possible, or else the stopping process may fail. <!-- TODO: Actually running things as `root` is considered a bad practice from security perspective. Is there a reson for requiring root? I don't think we're using any privileged ports or resources. -->
 
-More explanations on running IoTDB in a clustered environment are available at [Cluster-Setup](Cluster/Cluster-setup.md).
+More explanations on running IoTDB in a clustered environment are available at [Cluster-Setup](../stage/Cluster/Cluster-Setup.md).
 
 ### Administration
 
