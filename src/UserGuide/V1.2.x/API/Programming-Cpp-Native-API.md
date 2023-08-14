@@ -37,12 +37,12 @@
 
 - **MAC**
 
-    1. Install Bison ：Bison 2.3 is preinstalled on OSX, but this version is too low.
+    1. Install Bison ：Bison 2.3 is preinstalled on OSX, but this version is outdated, and we need a newer version.
 
-       When building Thrift with Bison 2.3, the following error would pop out:
+       When building Thrift with Bison 2.3, the following error would be shown in the build output:
        ```invalid directive: '%code'```
 
-       For such case, please update `Bison`:
+       In such a case, please update `Bison`:
        ```shell
        brew install bison
        brew link bison --force
@@ -67,7 +67,7 @@
           brew link boost
           ```
 
-    3. OpenSSL ：Make sure the Openssl libraries has been install on your Mac. The default Openssl include file search path is "/usr/local/opt/openssl/include".
+    3. OpenSSL ：Make sure the Openssl libraries has been installed on your Mac. The default Openssl include file search path is "/usr/local/opt/openssl/include".
 
        If Openssl header files can not be found when building Thrift, please add option`-Dopenssl.include.dir=""`.
 
@@ -100,11 +100,11 @@
 
     2. Download and install `Flex` & `Bison`
         * Download [Win_Flex_Bison](https://sourceforge.net/projects/winflexbison/) .
-        * After downloaded, please rename the executables to `flex.exe` and `bison.exe` and add them to "PATH" environment variables.
+        * After downloading, please rename the executables to `flex.exe` and `bison.exe` and add the directory containing them to the `PATH` environment variable.
 
     3. Install `Boost`
         * Download [Boost](https://www.boost.org/users/download/) .
-        * Then build `Boost` by executing bootstrap.bat and b2.exe.
+        * Then build `Boost` by executing `bootstrap.bat` and `b2.exe`.
 
     4. Install `OpenSSL`
         * Download and install [OpenSSL](http://slproweb.com/products/Win32OpenSSL.html) .
@@ -112,66 +112,66 @@
 
 ### Compile
 
-You can download the source code from:
+You can download the source code from the [IoTDB Website](https://iotdb.apache.org/Download/) or clone the GIT repository:
 ```shell
 git clone https://github.com/apache/iotdb.git
 ```
 
-The default dev branch is the master branch, If you want to use a released version (eg. `rel/0.13`):
+The default dev branch is the master branch, If you want to use a released version (e.g. `0.13.3` or `1.2.0`), be sure to check out the corresponding tag:
 ```shell
-git checkout rel/0.13
+git checkout v0.13.3
 ```
+(Please note that we are using a `Go` compatible naming schema for our release tags, which prefixes the version by a `v`)
 
 Under the root path of iotdb:
 
-- Mac & Linux
+- Mac & Linux:
     ```shell
     mvn package -P compile-cpp -pl example/client-cpp-example -am -DskipTest
     ```
 
-- Windows
+- Windows:
     ```shell
     mvn package -P compile-cpp -pl iotdb-client/client-cpp,iotdb-core/datanode,example/client-cpp-example -am -Dcmake.generator="your cmake generator" -Dboost.include.dir=${your boost header folder} -Dboost.library.dir=${your boost lib (stage) folder} -DskipTests
     ```
-    - When building client-cpp project, use `-Dcmake.generator=""` option to specify a Cmake generator. E.g. `-Dcmake.generator="Visual Studio 16 2019"` (`cmake --help` shows a long list of supported Cmake generators.)
-    - To help CMake find your Boost libraries on windows, you should set `-DboostIncludeDir="C:\Program Files (x86)\boost_1_78_0" -DboostLibraryDir="C:\Program Files (x86)\boost_1_78_0\stage\lib"` to your mvn build command.
+    - When building the client-cpp project, use the `-Dcmake.generator=""` option to specify a Cmake generator. E.g. `-Dcmake.generator="Visual Studio 16 2019"` (`cmake --help` shows a long list of supported Cmake generators.)
+    - To help CMake find your Boost libraries on windows, you should also append `-DboostIncludeDir="C:\Program Files (x86)\boost_1_78_0" -DboostLibraryDir="C:\Program Files (x86)\boost_1_78_0\stage\lib"` to your mvn build command.
     ``
 
-If the compilation finishes successfully, the packaged zip file will be placed under `client-cpp/target/client-cpp-1.3.0-SNAPSHOT-cpp-${os}.zip`
-
+As soon as the compilation finishes successfully, the packaged zip file will be placed under `client-cpp/target/client-cpp-1.3.0-SNAPSHOT-cpp-${os}.zip`
 
 ## Native APIs
 
-Here we show the commonly used interfaces and their parameters in the Native API:
+Here we demonstrate the most commonly used interfaces and their parameters in the Native API:
 
 ### Initialization
 
-- Open a Session
-```cpp
-void open(); 
-```
+- Open a Session:
+    ```cpp
+    void open(); 
+    ```
 
-- Open a session, with a parameter to specify whether to enable RPC compression
-```cpp
-void open(bool enableRPCCompression); 
-```
-Notice: this RPC compression status of client must comply with that of IoTDB server
+- Open a session, with a parameter controlling if RPC compression should be used:
+    ```cpp
+    void open(bool enableRPCCompression); 
+    ```
+    Notice: The RPC compression setting of the client is required to match that of the IoTDB server
 
-- Close a Session
-```cpp
-void close(); 
-```
+- Close a session:
+    ```cpp
+    void close(); 
+    ```
 
 ### Data Definition Interface (DDL)
 
 #### Database Management
 
-- CREATE DATABASE
+- Create database:
 ```cpp
 void setStorageGroup(const std::string &storageGroupId);
 ```
 
-- Delete one or several databases
+- Delete one or several databases:
 ```cpp
 void deleteStorageGroup(const std::string &storageGroup);
 void deleteStorageGroups(const std::vector<std::string> &storageGroups);
@@ -179,7 +179,7 @@ void deleteStorageGroups(const std::vector<std::string> &storageGroups);
 
 #### Timeseries Management
 
-- Create one or multiple timeseries
+- Create one or multiple timeseries:
 ```cpp
 void createTimeseries(const std::string &path, TSDataType::TSDataType dataType, TSEncoding::TSEncoding encoding,
                           CompressionType::CompressionType compressor);
@@ -194,7 +194,7 @@ void createMultiTimeseries(const std::vector<std::string> &paths,
                            std::vector<std::string> *measurementAliasList);
 ```
 
-- Create aligned timeseries
+- Create aligned timeseries:
 ```cpp
 void createAlignedTimeseries(const std::string &deviceId,
                              const std::vector<std::string> &measurements,
@@ -203,35 +203,35 @@ void createAlignedTimeseries(const std::string &deviceId,
                              const std::vector<CompressionType::CompressionType> &compressors);
 ```
 
-- Delete one or several timeseries
+- Delete one or several timeseries:
 ```cpp
 void deleteTimeseries(const std::string &path);
 void deleteTimeseries(const std::vector<std::string> &paths);
 ```
 
-- Check whether the specific timeseries exists.
+- Check whether a specific timeseries exists:
 ```cpp
 bool checkTimeseriesExists(const std::string &path);
 ```
 
 #### Schema Template
 
-- Create a schema template
+- Create a schema template:
 ```cpp
 void createSchemaTemplate(const Template &templ);
 ```
 
-- Set the schema template named `templateName` at path `prefixPath`.
+- Set the schema template named `templateName` at path `prefixPath`:
 ```cpp
 void setSchemaTemplate(const std::string &template_name, const std::string &prefix_path);
 ```
 
-- Unset the schema template
+- Unset the schema template:
 ```cpp
 void unsetSchemaTemplate(const std::string &prefix_path, const std::string &template_name);
 ```
 
-- After measurement template created, you can edit the template with belowed APIs.
+- After a schema template was created, you can edit the template with following functions:
 ```cpp
 // Add aligned measurements to a template
 void addAlignedMeasurementsInTemplate(const std::string &template_name,
@@ -265,7 +265,7 @@ void addUnalignedMeasurementsInTemplate(const std::string &template_name,
 void deleteNodeInTemplate(const std::string &template_name, const std::string &path);
 ```
 
-- You can query measurement templates with these APIS:
+- You can query schema templates with these APIs:
 ```cpp
 // Return the amount of measurements inside a template
 int countMeasurementsInTemplate(const std::string &template_name);
@@ -282,17 +282,63 @@ std::vector<std::string> showMeasurementsInTemplate(const std::string &template_
 // Return all measurements paths under the designated patter inside template
 std::vector<std::string> showMeasurementsInTemplate(const std::string &template_name, const std::string &pattern);
 ```
-
-
-### Data Manipulation Interface (DML)
+### Data Manipulation Interface (DMI)
 
 #### Insert
 
-> It is recommended to use insertTablet to help improve write efficiency.
+- Insert one record, which contains multiple measurement value of a given device and timestamp:
+```cpp
+void insertRecord(const std::string &deviceId, 
+                  int64_t time, 
+                  const std::vector<std::string> &measurements,
+                  const std::vector<char *> &values);
+```
 
-- Insert a Tablet，which is multiple rows of a device, each row has the same measurements
-    - Better Write Performance
-    - Support null values: fill the null value with any value, and then mark the null value via BitMap
+- Insert multiple Records for multiple devices (With type info in the `typesList` parameter the server doesn't need to do type inference, which results in better performance):
+```cpp
+void insertRecords(const std::vector<std::string> &deviceIds,
+                   const std::vector<int64_t> &times,
+                   const std::vector<std::vector<std::string>> &measurementsList,
+                   const std::vector<std::vector<char *>> &valuesList);
+```
+
+- Insert multiple Records for the same device:
+```cpp
+void insertRecordsOfOneDevice(const std::string &deviceId,
+                              std::vector<int64_t> &times,
+                              std::vector<std::vector<std::string>> &measurementsList,
+                              std::vector<std::vector<char *>> &valuesList);
+```
+
+All of the above versions require the server to figure out the data-types of each value, which comes with quite a performance-cost, therefore all of the above are also available in a version without type-inference:
+
+```cpp
+void insertRecord(const std::string &deviceId, 
+                  int64_t time, 
+                  const std::vector<std::string> &measurements,
+                  const std::vector<TSDataType::TSDataType> &types,
+                  const std::vector<std::string> &values);
+
+
+void insertRecords(const std::vector<std::string> &deviceIds,
+                   const std::vector<int64_t> &times,
+                   const std::vector<std::vector<std::string>> &measurementsList,
+                   const std::vector<std::vector<TSDataType::TSDataType>> &typesList,
+                   const std::vector<std::vector<std::string>> &valuesList);
+
+
+void insertRecordsOfOneDevice(const std::string &deviceId,
+                              std::vector<int64_t> &times,
+                              std::vector<std::vector<std::string>> &measurementsList,
+                              std::vector<std::vector<TSDataType::TSDataType>> &typesList,
+                              const std::vector<std::vector<std::string>> &valuesList);
+```
+
+For even better performance, it is recommended to use Tablets to help improve write efficiency.
+
+- Insert a Tablet，which inserts multiple rows of data for a given device. Each row has the same structure:
+    - Better write performance
+    - Support null values: Fill the null value with any value, and then mark the null value via BitMap
 ```cpp
 void insertTablet(Tablet &tablet);
 ```
@@ -302,64 +348,58 @@ void insertTablet(Tablet &tablet);
 void insertTablets(std::unordered_map<std::string, Tablet *> &tablets);
 ```
 
-- Insert a Record, which contains multiple measurement value of a device at a timestamp
-```cpp
-void insertRecord(const std::string &deviceId, int64_t time, const std::vector<std::string> &measurements,
-                  const std::vector<TSDataType::TSDataType> &types, const std::vector<char *> &values);
-```
-
-- Insert multiple Records
-```cpp
-void insertRecords(const std::vector<std::string> &deviceIds,
-                   const std::vector<int64_t> &times,
-                   const std::vector<std::vector<std::string>> &measurementsList,
-                   const std::vector<std::vector<TSDataType::TSDataType>> &typesList,
-                   const std::vector<std::vector<char *>> &valuesList);
-```
-
-- Insert multiple Records that belong to the same device. With type info the server has no need to do type inference, which leads a better performance
-```cpp
-void insertRecordsOfOneDevice(const std::string &deviceId,
-                              std::vector<int64_t> &times,
-                              std::vector<std::vector<std::string>> &measurementsList,
-                              std::vector<std::vector<TSDataType::TSDataType>> &typesList,
-                              std::vector<std::vector<char *>> &valuesList);
-```
-
-#### Insert with type inference
-
-Without type information, server has to do type inference, which may cost some time.
-
-```cpp
-void insertRecord(const std::string &deviceId, int64_t time, const std::vector<std::string> &measurements,
-                  const std::vector<std::string> &values);
-
-
-void insertRecords(const std::vector<std::string> &deviceIds,
-                   const std::vector<int64_t> &times,
-                   const std::vector<std::vector<std::string>> &measurementsList,
-                   const std::vector<std::vector<std::string>> &valuesList);
-
-
-void insertRecordsOfOneDevice(const std::string &deviceId,
-                              std::vector<int64_t> &times,
-                              std::vector<std::vector<std::string>> &measurementsList,
-                              const std::vector<std::vector<std::string>> &valuesList);
-```
-
 #### Insert data into Aligned Timeseries
 
-The Insert of aligned timeseries uses interfaces like `insertAlignedXXX`, and others are similar to the above interfaces:
+The insertion of aligned timeseries is performed by functions such as `insertAlignedXXX` however semantically they align to the non-aligned versions of the previous chapter:
 
-- insertAlignedRecord
-- insertAlignedRecords
-- insertAlignedRecordsOfOneDevice
-- insertAlignedTablet
-- insertAlignedTablets
+```cpp
+    void insertAlignedRecord(const std::string &deviceId,
+                             int64_t time, 
+                             const std::vector<std::string> &measurements,
+                             const std::vector<std::string> &values);
+
+    void insertAlignedRecord(const std::string &deviceId, 
+                             int64_t time, 
+                             const std::vector<std::string> &measurements,
+                             const std::vector<TSDataType::TSDataType> &types,
+                             const std::vector<char *> &values);
+
+    void insertAlignedRecords(const std::vector<std::string> &deviceIds,
+                              const std::vector<int64_t> &times,
+                              const std::vector<std::vector<std::string>> &measurementsList,
+                              const std::vector<std::vector<std::string>> &valuesList);
+
+    void insertAlignedRecords(const std::vector<std::string> &deviceIds,
+                              const std::vector<int64_t> &times,
+                              const std::vector<std::vector<std::string>> &measurementsList,
+                              const std::vector<std::vector<TSDataType::TSDataType>> &typesList,
+                              const std::vector<std::vector<char *>> &valuesList);
+
+    void insertAlignedRecordsOfOneDevice(const std::string &deviceId,
+                                         std::vector<int64_t> &times,
+                                         std::vector<std::vector<std::string>> &measurementsList,
+                                         std::vector<std::vector<TSDataType::TSDataType>> &typesList,
+                                         std::vector<std::vector<char *>> &valuesList);
+
+    void insertAlignedRecordsOfOneDevice(const std::string &deviceId,
+                                         std::vector<int64_t> &times,
+                                         std::vector<std::vector<std::string>> &measurementsList,
+                                         std::vector<std::vector<TSDataType::TSDataType>> &typesList,
+                                         std::vector<std::vector<char *>> &valuesList,
+                                         bool sorted);
+
+    void insertAlignedTablet(Tablet &tablet);
+
+    void insertAlignedTablet(Tablet &tablet, 
+                             bool sorted);
+
+    void insertAlignedTablets(std::unordered_map<std::string, Tablet *> &tablets, 
+                              bool sorted = false);
+```
 
 #### Delete
 
-- Delete data before or equal to a timestamp of one or several timeseries
+- Delete data with timestamps before or equal to a given timestamp of one or several timeseries:
 ```cpp
 void deleteData(const std::string &path, int64_t time);
 void deleteData(const std::vector<std::string> &deviceId, int64_t time);
@@ -368,24 +408,28 @@ void deleteData(const std::vector<std::string> &deviceId, int64_t time);
 ### IoTDB-SQL Interface
 
 - Execute query statement
+
+Query statements return data.
+
 ```cpp
-void executeNonQueryStatement(const std::string &sql);
+void executeQueryStatement(const std::string &sql);
 ```
+
+Non-Query statements don't return data (Delete, Create, ... statements)
 
 - Execute non query statement
 ```cpp
 void executeNonQueryStatement(const std::string &sql);
 ```
 
-
 ## Examples
 
-The sample code of using these interfaces is in:
+The sample code for using these interfaces is located in:
 
 - `example/client-cpp-example/src/SessionExample.cpp`
-- `example/client-cpp-example/src/AlignedTimeseriesSessionExample.cpp` （使用对齐时间序列）
+- `example/client-cpp-example/src/AlignedTimeseriesSessionExample.cpp`
 
-If the compilation finishes successfully, the example project will be placed under `example/client-cpp-example/target`
+As soon as the compilation finishes, the example project will be located at `example/client-cpp-example/target`
 
 ## FAQ
 
@@ -395,7 +439,6 @@ If errors occur when compiling thrift source code, try to downgrade your xcode-c
 
 see https://stackoverflow.com/questions/63592445/ld-unsupported-tapi-file-type-tapi-tbd-in-yaml-file/65518087#65518087
 
-
 ### on Windows
 
 When Building Thrift and downloading packages via "wget", a possible annoying issue may occur with
@@ -404,6 +447,6 @@ error message looks like:
 Failed to delete cached file C:\Users\Administrator\.m2\repository\.cache\download-maven-plugin\index.ser
 ```
 Possible fixes:
-- Try to delete the ".m2\repository\\.cache\" directory and try again.
+- Try to delete the ".m2\repository\.cache\" directory and try again.
 - Add "\<skipCache>true\</skipCache>" configuration to the download-maven-plugin maven phase that complains this error.
 
