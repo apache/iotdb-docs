@@ -57,6 +57,7 @@ export const zhSidebar = {
         { text: '数据模型', link: 'Data-Model-and-Terminology' },
         { text: '数据类型', link: 'Data-Type' },
         { text: '编码和压缩', link: 'Encoding-and-Compression' },
+        { text: '数据分区与负载均衡', link: 'Cluster-data-partitioning' },
       ],
     },
     {
@@ -71,7 +72,6 @@ export const zhSidebar = {
         { text: 'docker部署', link: 'Docker-Install' },
         { text: '安全控制', link: 'Security-Management' },
         { text: '慢查询管理', link: 'Slow-Query-Management' },
-        { text: '数据分区与负载均衡', link: 'Cluster-data-partitioning' },
       ],
     },
 
