@@ -70,6 +70,7 @@ export const enSidebar = {
         { text: 'Deployment Guide', link: 'Deployment-Guide' },
         { text: 'Docker Install', link: 'Docker-Install' },
         { text: 'Security Management', link: 'Security-Management' },
+        { text: 'Data Partitioning & Load Balancing', link: 'Cluster-data-partitioning' },
       ],
     },
 

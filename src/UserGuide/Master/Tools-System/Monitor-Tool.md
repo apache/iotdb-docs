@@ -105,12 +105,76 @@ The following documents may help you have a good journey with Prometheus and Gra
 
 [Grafana query metrics from Prometheus](https://prometheus.io/docs/visualization/grafana/#grafana-support-for-prometheus)
 
-### Apache IoTDB Dashboard
+## Apache IoTDB Dashboard
 
-We provide the Apache IoTDB Dashboard, and the rendering shown in Grafana is as follows:
+We introduce the Apache IoTDB Dashboard, designed for unified centralized operations and management. With it, multiple clusters can be monitored through a single panel.
 
-![Apache IoTDB Dashboard](https://alioss.timecho.com/docs/img/UserGuide/System-Tools/Metrics/dashboard.png)
+![Apache IoTDB Dashboard](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20default%20cluster.png)
 
-You can obtain the json files of Dashboards in enterprise version.
+![Apache IoTDB Dashboard](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20cluster2.png)
 
-### 
+
+You can access the Dashboard's Json file in the enterprise edition.
+
+### Cluster Overview
+
+Including but not limited to:
+
+- Total cluster CPU cores, memory space, and hard disk space.
+- Number of ConfigNodes and DataNodes in the cluster.
+- Cluster uptime duration.
+- Cluster write speed.
+- Current CPU, memory, and disk usage across all nodes in the cluster.
+- Information on individual nodes.
+
+![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E6%A6%82%E8%A7%88.png)
+
+
+### Data Writing
+
+Including but not limited to:
+
+- Average write latency, median latency, and the 99% percentile latency.
+- Number and size of WAL files.
+- Node WAL flush SyncBuffer latency.
+
+![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E5%86%99%E5%85%A5.png)
+
+### Data Querying
+
+Including but not limited to:
+
+- Node query load times for time series metadata.
+- Node read duration for time series.
+- Node edit duration for time series metadata.
+- Node query load time for Chunk metadata list.
+- Node edit duration for Chunk metadata.
+- Node filtering duration based on Chunk metadata.
+- Average time to construct a Chunk Reader.
+
+![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E6%9F%A5%E8%AF%A2.png)
+
+### Storage Engine
+
+Including but not limited to:
+
+- File count and sizes by type.
+- The count and size of TsFiles at various stages.
+- Number and duration of various tasks.
+
+![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E.png)
+
+### System Monitoring
+
+Including but not limited to:
+
+- System memory, swap memory, and process memory.
+- Disk space, file count, and file sizes.
+- JVM GC time percentage, GC occurrences by type, GC volume, and heap memory usage across generations.
+- Network transmission rate, packet sending rate
+
+![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9F%20%E5%86%85%E5%AD%98%E4%B8%8E%E7%A1%AC%E7%9B%98.png)
+
+![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9Fjvm.png)
+
+![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9F%20%E7%BD%91%E7%BB%9C.png)
