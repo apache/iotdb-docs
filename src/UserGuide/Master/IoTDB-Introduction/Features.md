@@ -48,3 +48,11 @@ IoTDB supports SQL-Like language, JDBC standard API and import/export tools whic
 * Intense integration with Open Source Ecosystem. 
 
 IoTDB supports Hadoop, Spark, etc. analysis ecosystems and Grafana visualization tool.
+
+* Unified data access mode
+
+IoTDB eliminates the need for database partitioning or sharding and makes no distinction between historical and real-time databases.
+
+* High availability support
+
+IoTDB supports a HA distributed architecture, ensuring 7x24 uninterrupted real-time database services. Users can connect to any node within the cluster for system access. The system remains operational and unaffected even during physical node outages or network failures. As physical nodes are added, removed, or face performance issues, IoTDB automatically manages load balancing for both computational and storage resources. Furthermore, it's compatible with heterogeneous environments, allowing servers of varying types and capabilities to form a cluster, with load balancing optimized based on the specific configurations of each server.
