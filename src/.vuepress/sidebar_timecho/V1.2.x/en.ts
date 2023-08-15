@@ -61,7 +61,7 @@ export const enSidebar = {
       ],
     },
     {
-      text: 'Deployment and Maintenance',
+      text: 'Deployment & Maintenance',
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
       // children: 'structure',
@@ -70,6 +70,7 @@ export const enSidebar = {
         { text: 'Get Installation Package', link: 'Get-Installation-Package' },
         { text: 'Deployment Guide', link: 'Deployment-Guide_timecho' },
         { text: 'Docker Install', link: 'Docker-Install' },
+        { text: 'Monitoring-Board-Install-and-Deploy', link: 'Monitoring-Board-Install-and-Deploy' },
         { text: 'Security Management', link: 'Security-Management_timecho' },
       ],
     },
@@ -169,6 +170,8 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'Common Config Manual', link: 'Common-Config-Manual' },
+        { text: 'ConfigNode Config Manual', link: 'ConfigNode-Config-Manual' },
+        { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual' },
         { text: 'Status Codes', link: 'Status-Codes' },
         { text: 'Keywords', link: 'Keywords' },
       ],

@@ -61,7 +61,7 @@ export const enSidebar = {
       ],
     },
     {
-      text: 'Deployment and Maintenance',
+      text: 'Deployment & Maintenance',
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
       // children: 'structure',
