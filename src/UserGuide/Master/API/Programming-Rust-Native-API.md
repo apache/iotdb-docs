@@ -21,7 +21,8 @@
 
 # Rust Native API Native API
 
-IoTDB uses Thrift as a cross language RPC framework, so access to IoTDB can be achieved through the interface provided by Thrift. This document will introduce how to generate a native Rust interface that can access IoTDB.
+IoTDB uses Thrift as a cross language RPC framework, so access to IoTDB can be achieved through the interface provided by Thrift. 
+This document will introduce how to generate a native Rust interface that can access IoTDB.
 
 ## Dependents
 
@@ -37,56 +38,47 @@ Thrift (0.14.1 or higher) must be installed to compile Thrift files into Rust co
 http://thrift.apache.org/docs/install/
 ```
 
-
 ## Compile the Thrift library and generate the Rust native interface
 
-1. Find the pom.xml file in the root directory of the IoTDB source code folder.
-2. Open the pom.xml file and find the following content:
+1. Find the `pom.xml` file in the root directory of the IoTDB source code folder.
+2. Open the `pom.xml` file and find the following content:
+   ```xml
+                            <execution>
+                                <id>generate-thrift-sources-python</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>compile</goal>
+                                </goals>
+                                <configuration>
+                                    <generator>py</generator>
+                                    <outputDirectory>${project.build.directory}/generated-sources-python/</outputDirectory>
+                                </configuration>
+                            </execution>
+   ```
+3. Duplicate this block and change the `id`, `generator` and `outputDirectory` to this:
+   ```xml
+                            <execution>
+                                <id>generate-thrift-sources-rust</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>compile</goal>
+                                </goals>
+                                <configuration>
+                                    <generator>rs</generator>
+                                    <outputDirectory>${project.build.directory}/generated-sources-rust/</outputDirectory>
+                                </configuration>
+                            </execution>
+   ```
+4. In the root directory of the IoTDB source code folder，run `mvn clean generate-sources`.
 
-```xml
-<execution>
-  <id>generate-thrift-sources-java</id>
-  <phase>generate-sources</phase>
-  <goals>
-      <goal>compile</goal>
-  </goals>
-  <configuration>
-      <generator>java</generator>
-      <thriftExecutable>${thrift.exec.absolute.path}</thriftExecutable>
-      <thriftSourceRoot>${basedir}/src/main/thrift</thriftSourceRoot>
-  </configuration>
-</execution>
-```
-3. Referring to this setting, add the following content to the pom.xml file to generate the native interface for Rust:
-
-```xml
-<execution>
-    <id>generate-thrift-sources-rust</id>
-    <phase>generate-sources</phase>
-    <goals>
-        <goal>compile</goal>
-    </goals>
-    <configuration>
-        <generator>rs</generator>
-        <thriftExecutable>${thrift.exec.absolute.path}</thriftExecutable>
-        <thriftSourceRoot>${basedir}/src/main/thrift</thriftSourceRoot>
-        <includes>**/common.thrift,**/client.thrift</includes>
-        <outputDirectory>${project.build.directory}/generated-sources-rust</outputDirectory>
-    </configuration>
-</execution>
-```
-
-
-4. In the root directory of the IoTDB source code folder，run `mvn clean generate-sources`，
-
-This command will automatically delete the files in `iotdb/iotdb-protocol/thrift/target` and `iotdb/iotdb-protocol/thrift-commons/target`, and repopulate the folder with the newly generated throttle file.
+This command will automatically delete the files in `iotdb/iotdb-protocol/thrift/target` and `iotdb/iotdb-protocol/thrift-commons/target`, and repopulate the folder with the newly generated files.
+The newly generated Rust sources will be located in `iotdb/iotdb-protocol/thrift/target/generated-sources-rust` in the various modules of the `iotdb-protocol` module.
 
 ## Using the Rust native interface
 
-copy `iotdb/iotdb-protocol/thrift/target/generated-sources-rust/` and `iotdb/iotdb-protocol/thrift-commons/target/generated-sources-rust/` in your project。
+Copy `iotdb/iotdb-protocol/thrift/target/generated-sources-rust/` and `iotdb/iotdb-protocol/thrift-commons/target/generated-sources-rust/` into your project。
 
-
-## rpc interface
+## RPC interface
 
 ```
 // open a session

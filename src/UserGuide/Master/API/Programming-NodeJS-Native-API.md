@@ -44,7 +44,6 @@ This document will introduce how to generate a native Node.js interface that can
                                 </goals>
                                 <configuration>
                                     <generator>py</generator>
-                                    <includes>**/common.thrift,**/client.thrift,**/datanode.thrift,**/confignode.thrift,**/mlnode.thrift</includes>
                                     <outputDirectory>${project.build.directory}/generated-sources-python/</outputDirectory>
                                 </configuration>
                             </execution>
@@ -59,7 +58,6 @@ This document will introduce how to generate a native Node.js interface that can
                                 </goals>
                                 <configuration>
                                     <generator>js:node</generator>
-                                    <includes>**/common.thrift,**/client.thrift,**/datanode.thrift,**/confignode.thrift,**/mlnode.thrift</includes>
                                     <outputDirectory>${project.build.directory}/generated-sources-nodejs/</outputDirectory>
                                 </configuration>
                             </execution>
