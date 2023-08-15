@@ -35,7 +35,7 @@ As an example, we'd like to start an IoTDB cluster with 3 ConfigNodes and 3 Data
 - the max heap size of ConfigNode take the 1/4 of the computer
 - the max heap size of DataNode take the 1/4 of the computer
 
-Suppose there are 3 computers(3 nodes we called here) with Linux OS and JDK installed(detail see [Prerequisites](./QuickStart.md)) and IoTDB working directory is `/data/iotdb`.
+Suppose there are 3 computers(3 nodes we called here) with Linux OS and JDK installed(detail see [Prerequisites](../QuickStart/QuickStart.md)) and IoTDB working directory is `/data/iotdb`.
 IP address and configurations is like below:
 
 | Node IP | 192.168.132.10 | 192.168.132.11 | 192.168.132.12 |
@@ -100,7 +100,7 @@ If there is no such logs mentioned abolve or there are some `Exception`s in log 
 
 **Notice**：
 - Make sure the first node, especially the first ConfigNode that `cn_target_config_node_list` specified, starting successfully, and then start the other services.
-- If starting failed，it's necessary to do [cleanup](#cleanup) before starting again.
+- If starting failed，it's necessary to do [cleanup](#【reference】cleanup) before starting again.
 - How to start service ConfigNode or DataNode alone: 
 ```shell
 # start ConfigNode alone in daemon
@@ -116,7 +116,7 @@ cd /data/iotdb
 # start service ConfigNode and DataNode
 sbin/start-standalone.sh
 ```
-If starting failed, it's necessary to do [cleanup](#cleanup) in all nodes, and then doging all again from starting the first node.
+If starting failed, it's necessary to do [cleanup](#【reference】cleanup) in all nodes, and then doging all again from starting the first node.
 
 #### 1.3.3. check the cluster status
 If everything goes well, the cluster will start successfully. Then, we can start the Cli for verification.
@@ -139,7 +139,7 @@ IoTDB>show cluster;
 The IP address of `start-cli.sh -h` could be any IP address of DataNode service.
 
 
-### Cleanup
+### 【reference】Cleanup
 Execute commands in every node:
 1. End processes of ConfigNode and DataNode
 ```shell
@@ -223,7 +223,7 @@ IoTDB>show cluster;
 - Any service could be shrinked within cluster. But the DataNode service of the cluster must greater than the data replica of iotdb-common.properties.
 - Be patient to wait for the end of shrinking, and then read the guide in logs carefully.
 
-### shrink service ConfigNode
+### 3.1 shrink service ConfigNode
 ```shell
 cd /data/iotdb
 # way 1: shrink with ip:port
@@ -233,7 +233,7 @@ sbin/remove-confignode.sh 192.168.132.13:10710
 sbin/remove-confignode.sh 6
 ```
 
-### shrink service DataNode
+### 3.2 shrink service DataNode
 ```shell
 cd /data/iotdb
 # way 1: shrink with ip:port
@@ -243,7 +243,7 @@ sbin/remove-datanode.sh 192.168.132.13:6667
 sbin/remove-confignode.sh 7
 ```
 
-### check the result
+### 3.3 check the result
 
 Execute `show cluster` through Cli, the result is like below:
 ```shell

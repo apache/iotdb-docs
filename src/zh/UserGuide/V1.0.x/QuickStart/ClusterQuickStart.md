@@ -31,7 +31,7 @@
 - Confignode JVM 的最大堆内存配置为机器内存的 1/4
 - Datanode JVM 的最大堆内存配置为机器内存的 1/4
 
-假设有3台物理机(下面称节点)，操作系统为Linux，并且已经安装配置好了JAVA环境(具体见[单机版对安装环境说明](./QuickStart.md))，安装目录均为`/data/iotdb`。
+假设有3台物理机(下面称节点)，操作系统为Linux，并且已经安装配置好了JAVA环境(具体见[单机版对安装环境说明](../QuickStart/QuickStart.md))，安装目录均为`/data/iotdb`。
 IP地址和服务角色分配如下：
 
 | 节点IP | 192.168.132.10 | 192.168.132.11 | 192.168.132.12 |
@@ -96,7 +96,7 @@ tail -f logs/log_datanode_all.log
 
 **注意**：
 - 要保证第一个节点启动成功后，再启动其他节点。确切的说，要先保证第一个 ConfigNode 服务启动成功，即`cn_target_config_node_list`配置的节点。
-- 如果启动失败，需要[清理环境](#清理环境)后，再次启动。
+- 如果启动失败，需要[清理环境](#【附录】清理环境)后，再次启动。
 - ConfigNode 和 DataNode 服务都可以单独启动: 
 ```shell
 # 单独启动 ConfigNode， 后台启动
@@ -112,7 +112,7 @@ cd /data/iotdb
 # 启动 ConfigNode 和 DataNode 服务
 sbin/start-standalone.sh
 ```
-如果启动失败，需要在所有节点执行[清理环境](#清理环境)后，然后从启动第一个节点开始，再重新执行一次。
+如果启动失败，需要在所有节点执行[清理环境](#【附录】清理环境)后，然后从启动第一个节点开始，再重新执行一次。
 
 #### 1.3.3. 检验集群状态
 在任意节点上，在 Cli 执行 `show cluster`:
@@ -135,7 +135,7 @@ IoTDB>show cluster;
 `start-cli.sh -h` 后指定的IP地址，可以是任意一个 DataNode 的IP地址。
 
 
-### 清理环境
+### 【附录】清理环境
 在所有节点执行：
 1. 结束 ConfigNode 和 DataNode 进程。
 ```shell
@@ -215,7 +215,7 @@ IoTDB>show cluster;
 - 集群内的任意节点都可以被缩容。但是存留的 DataNode 服务不能小于副本数设置。
 - 请耐心等待缩容脚本执行结束，并仔细阅读日志说明，尤其是结束前的指南说明。
 
-### 缩容一个 ConfigNode
+### 3.1 缩容一个 ConfigNode
 ```shell
 cd /data/iotdb
 # 方式一：使用 ip:port 移除
@@ -225,7 +225,7 @@ sbin/remove-confignode.sh 192.168.132.13:10710
 sbin/remove-confignode.sh 6
 ```
 
-### 缩容一个 DataNode
+### 3.2 缩容一个 DataNode
 ```shell
 cd /data/iotdb
 # 方式一：使用 ip:port 移除
@@ -235,7 +235,7 @@ sbin/remove-datanode.sh 192.168.132.13:6667
 sbin/remove-confignode.sh 7
 ```
 
-### 验证缩容结果
+### 3.3 验证缩容结果
 
 在 Cli 执行 `show cluster`，结果如下：
 ```shell
