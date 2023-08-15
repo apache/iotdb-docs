@@ -317,7 +317,7 @@ Note: The `schema` keyword in the following statements can be omitted.
 
 ### Create Schema Template
 
-The SQL syntax for creating a metadata template is as follows:
+The SQL syntax for creating a schema template is as follows:
 
 ```sql
 CREATE SCHEMA TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
