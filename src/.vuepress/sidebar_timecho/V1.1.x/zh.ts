@@ -169,6 +169,8 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '配置参数', link: 'Common-Config-Manual' },
+        { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
+        { text: 'DataNode配置参数', link: 'DataNode-Config-Manual' },
         { text: '状态码', link: 'Status-Codes' },
         { text: '关键字', link: 'Keywords' },
       ],
