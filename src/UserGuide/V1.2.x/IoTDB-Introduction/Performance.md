@@ -18,21 +18,19 @@
 -->
 
 This chapter introduces the performance characteristics of IoTDB from the perspectives of database connection, database read and write performance, and storage performance.
+The test tool uses IoTDBBenchmark, an open source time series database benchmark tool.
 
 ## Database connection
 
-- In the 16C32GB machine, the number of concurrent connections of the IoTDB server can exceed 20,000 times per second.
+- Support high concurrent connections, a single server can support tens of thousands of concurrent connections per second.
 
 
 ## Read and write performance
 
-- When the client uses an 8C machine and sets concurrency to 8, the maximum writing throughput of IoTDB on a single-core server can exceed 49,000 times per second.
-- When the client uses a 16C32GB machine and sets concurrency to 10, the writing throughput of IoTDB deployed on 16C32GB server can reach 33.22 million points/second.
-- When the client uses a 16C32GB machine and sets concurrency to 10, the reading throughput of IoTDB deployed on 16C32GB server can reach 67.91 million points/second.
-- When the client uses three 64C256GB machines and sets concurrency to 192, the writing throughput of IoTDB deployed on three 64C256GB servers(1ConfigNode + 3DataNode) can reach 523 million points/second.
-- IoTDB can support aggregation queries of tens of billions of data, and when deployed on a single 16C32GB server, IoTDB can return the calculation results of tens of billions of data in milliseconds.
-
+- It has the characteristics of high write throughput, a single core can handle more than tens of thousands of write requests per second, and the write performance of a single server can reach tens of millions of points per second; the cluster can be linearly scaled, and the write performance of the cluster can reach hundreds of millions points/second.
+- It has the characteristics of high query throughput and low query latency, a single server supports tens of millions of points/second query throughput, and can aggregate tens of billions of data points in milliseconds.
+-
 ## Storage performance
 
-- IoTDB supports the storage and processing of PB-level data.
-- Using the ZSTD compression method, IoTDB can achieve a compression rate of 10% for the raw data of the numerical type.
+- Supports the storage of massive data, with the storage and processing capabilities of PB-level data.
+- Support high compression ratio, lossless compression can reach 20 times compression ratio, lossy compression can reach 100 times compression ratio.
