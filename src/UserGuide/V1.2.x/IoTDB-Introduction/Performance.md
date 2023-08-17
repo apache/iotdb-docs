@@ -17,6 +17,8 @@
     under the License.
 -->
 
+# Performance
+
 This chapter introduces the performance characteristics of IoTDB from the perspectives of database connection, database read and write performance, and storage performance.
 The test tool uses IoTDBBenchmark, an open source time series database benchmark tool.
 
