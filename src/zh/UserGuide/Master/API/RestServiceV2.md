@@ -857,6 +857,43 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
+### insertRecords
+
+请求方式：`POST`
+
+请求头：`application/json`
+
+请求路径：http://ip:port/rest/v2/insertRecords
+
+参数说明:
+
+| 参数名称           |参数类型  |是否必填|参数描述|
+|----------------| ------------ | ------------ |------------ |
+| timestamps     | array | 是 |  时间列  |
+| measurements   | array | 是  | 测点名称 |
+| data_types_list | array | 是  | 数据类型  |
+| values_list    | array | 是  | 值列，每一列中的值可以为 `null` |
+| devices        | string | 是  | 设备名称 |
+
+请求示例：
+```shell
+curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"timestamps":[1635232113960,1635232151960,1635232143960,1635232143960],"measurements_list":[["s33","s44"],["s55","s66"],["s77","s88"],["s771","s881"]],"data_types_list":[["INT32","INT64"],["FLOAT","DOUBLE"],["FLOAT","DOUBLE"],["BOOLEAN","TEXT"]],"values_list":[[1,11],[2.1,2],[4,6],[false,"cccccc"]],"devices":["root.s1","root.s1","root.s1","root.s3"]}' http://127.0.0.1:18080/rest/v2/insertRecords
+```
+
+响应参数：
+
+|参数名称  |参数类型  |参数描述|
+| ------------ | ------------ | ------------|
+| code | integer |  状态码 |
+| message  |  string | 信息提示 |
+
+响应示例：
+```json
+{
+  "code": 200,
+  "message": "SUCCESS_STATUS"
+}
+```
 
 
 ## 配置
