@@ -71,7 +71,6 @@ export const enSidebar = {
         { text: 'Deployment Guide', link: 'Deployment-Guide_timecho' },
         { text: 'Docker Install', link: 'Docker-Install' },
         { text: 'Monitoring-Board-Install-and-Deploy', link: 'Monitoring-Board-Install-and-Deploy' },
-        { text: 'Security Management', link: 'Security-Management_timecho' },
       ],
     },
 
@@ -90,6 +89,7 @@ export const enSidebar = {
         { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
         { text: 'View', link: 'IoTDB-View_timecho' },
         { text: 'Database Programming', link: 'Database-Programming' },
+        { text: 'Security Management', link: 'Security-Management_timecho' },
         { text: 'Authority Management', link: 'Authority-Management' },
       ],
     },

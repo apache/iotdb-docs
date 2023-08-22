@@ -70,9 +70,7 @@ export const zhSidebar = {
         { text: '安装包获取', link: 'Get-Installation-Package' },
         { text: '部署指导', link: 'Deployment-Guide_timecho' },
         { text: 'docker部署', link: 'Docker-Install' },
-        { text: '安全控制', link: 'Security-Management_timecho' },
         { text: '监控面板安装部署', link: 'Monitoring-Board-Install-and-Deploy' },   
-        { text: '慢查询管理', link: 'Slow-Query-Management' },
       ],
     },
 
@@ -91,6 +89,7 @@ export const zhSidebar = {
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
         { text: '视图', link: 'IoTDB-View_timecho' },
         { text: '数据库编程', link: 'Database-Programming' },
+        { text: '安全控制', link: 'Security-Management_timecho' },
         { text: '权限管理', link: 'Authority-Management' },
       ],
     },
