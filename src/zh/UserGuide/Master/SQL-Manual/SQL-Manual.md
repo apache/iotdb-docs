@@ -635,12 +635,14 @@ IoTDB> select * from root.sg.d1 where value like '%cc%'
 IoTDB> select * from root.sg.device where value like '_b_'
 
 查询 root.sg.d1 下 value 值为26个英文字符组成的字符串
-
+```
 IoTDB> select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
+```
 
 查询 root.sg.d1 下 value 值为26个小写英文字符组成的字符串且时间大于100的
-
+```
 IoTDB> select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
+```
 
 ### 4、分段分组聚合
 
