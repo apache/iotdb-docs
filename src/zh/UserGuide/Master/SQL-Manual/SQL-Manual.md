@@ -923,36 +923,45 @@ IoTDB> select s1 + s2 into root.expr.add(d1s1_d1s2), root.expr.add(d2s1_d2s2) fr
 ##### 按时间对齐（默认）
 
 ###### （1）目标设备不使用变量占位符 & 目标物理量列表使用变量占位符
+```
 
 select s1, s2
 
 into root.sg_copy.d1(::), root.sg_copy.d2(s1), root.sg_copy.d1(${3}), root.sg_copy.d2(::)
 
 from root.sg.d1, root.sg.d2;
+```
 
 该语句等价于：
+```
 
 select s1, s2
 
 into root.sg_copy.d1(s1), root.sg_copy.d2(s1), root.sg_copy.d1(s2), root.sg_copy.d2(s2)
 
 from root.sg.d1, root.sg.d2;
+```
 
 ###### （2）目标设备使用变量占位符 & 目标物理量列表不使用变量占位符
 
+```
 select d1.s1, d1.s2, d2.s3, d3.s4 
 
 into ::(s1_1, s2_2), root.sg.d2_2(s3_3), root.${2}_copy.::(s4)
 
 from root.sg;
+```
 
 ###### （3）目标设备使用变量占位符 & 目标物理量列表使用变量占位符
 
+```
 select * into root.sg_bk.::(::) from root.sg.**;
+```
 
 ##### 按设备对齐（使用 `ALIGN BY DEVICE`）
 
 ###### （1）目标设备不使用变量占位符 & 目标物理量列表使用变量占位符
+```
 
 select s1, s2, s3, s4
 
@@ -961,8 +970,10 @@ into root.backup_sg.d1(s1, s2, s3, s4), root.backup_sg.d2(::), root.sg.d3(backup
 from root.sg.d1, root.sg.d2, root.sg.d3
 
 align by device;
+```
 
 ###### （2）目标设备使用变量占位符 & 目标物理量列表不使用变量占位符
+```
 
 select avg(s1), sum(s2) + sum(s3), count(s4)
 
@@ -971,14 +982,20 @@ into root.agg_${2}.::(avg_s1, sum_s2_add_s3, count_s4)
 from root.**
 
 align by device;
+```
 
 ###### （3）目标设备使用变量占位符 & 目标物理量列表使用变量占位符
+```
 
 select * into ::(backup_${4}) from root.sg.** align by device;
+```
 
 #### 指定目标序列为对齐序列
+```
 
 select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
+```
+
 
 ## 运算符
 
