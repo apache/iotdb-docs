@@ -504,7 +504,7 @@ END
 #### 连续查询语法中参数含义的描述
 
 - `<cq_id>` 为连续查询指定一个全局唯一的标识。
-- `<every_interval>` 指定了连续查询周期性执行的间隔。现在支持的时间单位有：ns, us, ms, s, m, h, d, w, 并且它的值不能小于用户在`iotdb-confignode.properties`配置文件中指定的`continuous_query_min_every_interval`。这是一个可选参数，默认等于group by子句中的`group_by_interval`。
+- `<every_interval>` 指定了连续查询周期性执行的间隔。现在支持的时间单位有：ns, us, ms, s, m, h, d, w, 并且它的值不能小于用户在`iotdb-common.properties`配置文件中指定的`continuous_query_min_every_interval`。这是一个可选参数，默认等于group by子句中的`group_by_interval`。
 - `<start_time_offset>` 指定了每次查询执行窗口的开始时间，即`now()-<start_time_offset>`。现在支持的时间单位有：ns, us, ms, s, m, h, d, w。这是一个可选参数，默认等于`EVERY`子句中的`every_interval`。
 - `<end_time_offset>` 指定了每次查询执行窗口的结束时间，即`now()-<end_time_offset>`。现在支持的时间单位有：ns, us, ms, s, m, h, d, w。这是一个可选参数，默认等于`0`.
 - `<execution_boundary_time>` 表示用户期待的连续查询的首个周期任务的执行时间。（因为连续查询只会对当前实时的数据流做计算，所以该连续查询实际首个周期任务的执行时间并不一定等于用户指定的时间，具体计算逻辑如下所示）
@@ -1398,7 +1398,7 @@ CREATE FUNCTION <UDF-NAME> AS <UDF-CLASS-FULL-PATHNAME> (USING URI URI-STRING)?
 #####  不指定URI
 
 准备工作：  
-使用该种方式注册时，您需要提前将 JAR 包放置到目录 `iotdb-server-1.0.0-all-bin/ext/udf`（该目录可配置） 下。  
+使用该种方式注册时，您需要提前将 JAR 包放置到目录 `iotdb-server-1.X.X-all-bin/ext/udf`（该目录可配置） 下。  
 **注意，如果您使用的是集群，那么需要将 JAR 包放置到所有 DataNode 的该目录下**  
 
 注册语句：
@@ -1503,7 +1503,7 @@ SHOW FUNCTIONS
 * `DROP_FUNCTION`：具备该权限的用户才被允许执行 UDF 卸载操作
 * `READ_TIMESERIES`：具备该权限的用户才被允许使用 UDF 进行查询
 
-更多用户权限相关的内容，请参考 [权限管理语句](../Administration-Management/Administration.md)。
+更多用户权限相关的内容，请参考 [权限管理语句](./Security-Management_timecho.md##权限管理)。
 
 ###  配置项
 
