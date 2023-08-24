@@ -42,6 +42,8 @@ The aggregate functions supported by IoTDB are as follows:
 | COUNT_IF      | Find the number of data points that continuously meet a given condition and the number of data points that meet the condition (represented by keep) meet the specified threshold. | BOOLEAN                         | `[keep >=/>/=/!=/</<=]threshold`：The specified threshold or threshold condition, it is equivalent to `keep >= threshold` if `threshold` is used alone, type of `threshold` is `INT64` `ignoreNull`：Optional, default value is `true`；If the value is `true`, null values are ignored, it means that if there is a null value in the middle, the value is ignored without interrupting the continuity. If the value is `true`, null values are not ignored, it means that if there are null values in the middle, continuity will be broken | INT64                               |
 | TIME_DURATION | Find the difference between the timestamp of the largest non-null value and the timestamp of the smallest non-null value in a column | All data Types                  | /                                                            | INT64                               |
 | MODE          | Find the mode. Note:  1.Having too many different values in the input series risks a memory exception;  2.If all the elements have the same number of occurrences, that is no Mode, return the value with earliest time;  3.If there are many Modes, return the Mode with earliest time. | All data Types                  | /                                                            | Consistent with the input data type |
+| COUNT_TIME    | The number of timestamps in the query data set. When used with align by device, the result is the number of timestamps in the data set per device.                                                                                                                                       | All data Types, the input parameter can only by `*` | /                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | INT64                                                                                                                                                                                                                             INT64    |
+
 
 ## COUNT
 
@@ -180,3 +182,112 @@ Result:
 +----------------------------+
 ```
 > Note: Returns 0 if there is only one data point, or null if the data point is null.
+
+## COUNT_TIME
+### Grammar
+```sql
+    count_time(*)
+```
+### Example
+#### raw data
+```
++----------+-------------+-------------+-------------+-------------+
+|      Time|root.db.d1.s1|root.db.d1.s2|root.db.d2.s1|root.db.d2.s2|
++----------+-------------+-------------+-------------+-------------+
+|         0|            0|         null|         null|            0|
+|         1|         null|            1|            1|         null|
+|         2|         null|            2|            2|         null|
+|         4|            4|         null|         null|            4|
+|         5|            5|            5|            5|            5|
+|         7|         null|            7|            7|         null|
+|         8|            8|            8|            8|            8|
+|         9|         null|            9|         null|         null|
++----------+-------------+-------------+-------------+-------------+
+```
+#### Insert sql
+```sql
+CREATE DATABASE root.db;
+CREATE TIMESERIES root.db.d1.s1 WITH DATATYPE=INT32, ENCODING=PLAIN;
+CREATE TIMESERIES root.db.d1.s2 WITH DATATYPE=INT32, ENCODING=PLAIN;
+CREATE TIMESERIES root.db.d2.s1 WITH DATATYPE=INT32, ENCODING=PLAIN;
+CREATE TIMESERIES root.db.d2.s2 WITH DATATYPE=INT32, ENCODING=PLAIN;
+INSERT INTO root.db.d1(time, s1) VALUES(0, 0), (4,4), (5,5), (8,8);
+INSERT INTO root.db.d1(time, s2) VALUES(1, 1), (2,2), (5,5), (7,7), (8,8), (9,9);
+INSERT INTO root.db.d2(time, s1) VALUES(1, 1), (2,2), (5,5), (7,7), (8,8);
+INSERT INTO root.db.d2(time, s2) VALUES(0, 0), (4,4), (5,5), (8,8);
+```
+
+Query-Example - 1:
+```sql
+select count_time(*) from root.db.**
+```
+
+Result
+```
++-------------+
+|count_time(*)|
++-------------+
+|            8|
++-------------+
+```
+
+Query-Example - 2:
+```sql
+select count_time(*) from root.db.d1, root.db.d2
+```
+
+Result
+```
++-------------+
+|count_time(*)|
++-------------+
+|            8|
++-------------+
+```
+
+Query-Example - 3:
+```sql
+select count_time(*) from root.db.** group by([0, 10), 2ms)
+```
+
+Result
+``` 
++-----------------------------+-------------+
+|                         Time|count_time(*)|
++-----------------------------+-------------+
+|1970-01-01T08:00:00.000+08:00|            2|            
+|1970-01-01T08:00:00.002+08:00|            1|            
+|1970-01-01T08:00:00.004+08:00|            2|            
+|1970-01-01T08:00:00.006+08:00|            1|            
+|1970-01-01T08:00:00.008+08:00|            2|            
++-----------------------------+-------------+
+```
+
+Query-Example - 4:
+```sql
+select count_time(*) from root.db.** group by([0, 10), 2ms) align by device
+```
+
+Result
+```
++-----------------------------+----------+-------------+
+|                         Time|    Device|count_time(*)|
++-----------------------------+----------+-------------+
+|1970-01-01T08:00:00.000+08:00|root.db.d1|            2|
+|1970-01-01T08:00:00.002+08:00|root.db.d1|            1|
+|1970-01-01T08:00:00.004+08:00|root.db.d1|            2|
+|1970-01-01T08:00:00.006+08:00|root.db.d1|            1|
+|1970-01-01T08:00:00.008+08:00|root.db.d1|            2|
+|1970-01-01T08:00:00.000+08:00|root.db.d2|            2|
+|1970-01-01T08:00:00.002+08:00|root.db.d2|            1|
+|1970-01-01T08:00:00.004+08:00|root.db.d2|            2|
+|1970-01-01T08:00:00.006+08:00|root.db.d2|            1|
+|1970-01-01T08:00:00.008+08:00|root.db.d2|            1|
++-----------------------------+----------+-------------+
+```
+
+> Note:
+> 1. The parameter in count_time can only be *.
+> 2. Count_time aggregation cannot be used with other aggregation functions.
+> 3. Count_time aggregation used with having statement is not supported, and count_time aggregation can not appear in the having statement.
+> 4. Count_time does not support use with group by level, group by tag.
