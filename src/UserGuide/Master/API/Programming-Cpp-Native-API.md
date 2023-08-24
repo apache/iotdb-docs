@@ -142,12 +142,6 @@ In order to compile the project, execute the following command in the root path 
 mvn package -P with-cpp -pl example/client-cpp-example, -am -DskipTest
 ```
 
-The default build will expect a version of the `Thrift Compiler` to be available for your system. If this is not the case, please add `,with-tools` to the command (using `install` will make the `Thift Compiler` available for future executions):
-
-```shell
-mvn install -P with-cpp,with-tools -pl example/client-cpp-example,tools/thrift -am -DskipTest
-```
-
 As soon as the compilation finishes successfully, the packaged zip file containing the library will be placed under `iotdb-client/client-cpp/target/client-cpp-{iotdb-version}-cpp-${os}-${aarch}.zip` and the example demonstrating the use of the library will be located at: `example/client-cpp-example/target/SessionExample` and `example/client-cpp-example/target/AllignedTimeseriesSessionExample`. 
 
 ## Native APIs
