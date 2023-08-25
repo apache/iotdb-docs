@@ -1285,15 +1285,6 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |默认值| 256 |
 |改后生效方式|仅允许在第一次启动服务前修改|
 
-* frequency\_interval\_in\_minute
-
-|名字| frequency\_interval\_in\_minute |
-|:---:|:---|
-|描述| 计算查询频率的时间间隔（以分钟为单位）。 |
-|类型| int32 |
-|默认值| 1 |
-|改后生效方式|热加载|
-
 
 #### 授权配置
 
