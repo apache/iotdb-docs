@@ -42,6 +42,9 @@ IoTDB 支持的聚合函数如下：
 | COUNT_IF      | 求数据点连续满足某一给定条件，且满足条件的数据点个数（用keep表示）满足指定阈值的次数。                                                            | BOOLEAN                  | `[keep >=/>/=/!=/</<=]threshold`：被指定的阈值或阈值条件，若只使用`threshold`则等价于`keep >= threshold`,`threshold`类型为`INT64` <br> `ignoreNull`：可选，默认为`true`；为`true`表示忽略null值，即如果中间出现null值，直接忽略，不会打断连续性；为`false`表示不忽略null值，即如果中间出现null值，会打断连续性 | INT64     |
 | TIME_DURATION | 求某一列最大一个不为NULL的值所在时间戳与最小一个不为NULL的值所在时间戳的时间戳差                                                             | 所有类型                     | 无                                                                                                                                                                                                                          |   INT64        |
 | MODE          | 求众数。注意：<br>1.输入序列的不同值个数过多时会有内存异常风险; <br>2.如果所有元素出现的频次相同，即没有众数，则返回对应时间戳最小的值; <br>3.如果有多个众数，则返回对应时间戳最小的众数。 | 所有类型                     | 无                                                                                                                                                                                                                          | 与输入类型一致     |
+| COUNT_TIME    | 查询结果集的时间戳的数量。与 align by device 搭配使用时，得到的结果是每个设备的结果集的时间戳的数量。                         | 所有类型，输入参数只能为*            |  无        |                                                                                                                                                                                                                               INT64    |
+
+
 ## COUNT_IF
 
 ### 语法
@@ -160,3 +163,113 @@ select time_duration(s1) from root.db.d1
 +----------------------------+
 ```
 > 注：若数据点只有一个，则返回0，若数据点为null，则返回null。
+
+## COUNT_TIME
+### 语法
+```sql
+    count_time(*)
+```
+### 使用示例
+#### 准备数据
+```
++----------+-------------+-------------+-------------+-------------+
+|      Time|root.db.d1.s1|root.db.d1.s2|root.db.d2.s1|root.db.d2.s2|
++----------+-------------+-------------+-------------+-------------+
+|         0|            0|         null|         null|            0|
+|         1|         null|            1|            1|         null|
+|         2|         null|            2|            2|         null|
+|         4|            4|         null|         null|            4|
+|         5|            5|            5|            5|            5|
+|         7|         null|            7|            7|         null|
+|         8|            8|            8|            8|            8|
+|         9|         null|            9|         null|         null|
++----------+-------------+-------------+-------------+-------------+
+```
+#### 写入语句
+```sql
+CREATE DATABASE root.db;
+CREATE TIMESERIES root.db.d1.s1 WITH DATATYPE=INT32, ENCODING=PLAIN;
+CREATE TIMESERIES root.db.d1.s2 WITH DATATYPE=INT32, ENCODING=PLAIN;
+CREATE TIMESERIES root.db.d2.s1 WITH DATATYPE=INT32, ENCODING=PLAIN;
+CREATE TIMESERIES root.db.d2.s2 WITH DATATYPE=INT32, ENCODING=PLAIN;
+INSERT INTO root.db.d1(time, s1) VALUES(0, 0), (4,4), (5,5), (8,8);
+INSERT INTO root.db.d1(time, s2) VALUES(1, 1), (2,2), (5,5), (7,7), (8,8), (9,9);
+INSERT INTO root.db.d2(time, s1) VALUES(1, 1), (2,2), (5,5), (7,7), (8,8);
+INSERT INTO root.db.d2(time, s2) VALUES(0, 0), (4,4), (5,5), (8,8);
+```
+
+查询示例1：
+```sql
+select count_time(*) from root.db.**
+```
+
+输出
+```
++-------------+
+|count_time(*)|
++-------------+
+|            8|
++-------------+
+```
+
+查询示例2：
+```sql
+select count_time(*) from root.db.d1, root.db.d2
+```
+
+输出
+```
++-------------+
+|count_time(*)|
++-------------+
+|            8|
++-------------+
+```
+
+查询示例3：
+```sql
+select count_time(*) from root.db.** group by([0, 10), 2ms)
+```
+
+输出
+``` 
++-----------------------------+-------------+
+|                         Time|count_time(*)|
++-----------------------------+-------------+
+|1970-01-01T08:00:00.000+08:00|            2|            
+|1970-01-01T08:00:00.002+08:00|            1|            
+|1970-01-01T08:00:00.004+08:00|            2|            
+|1970-01-01T08:00:00.006+08:00|            1|            
+|1970-01-01T08:00:00.008+08:00|            2|            
++-----------------------------+-------------+
+```
+
+查询示例4：
+```sql
+select count_time(*) from root.db.** group by([0, 10), 2ms) align by device
+```
+
+输出
+```
++-----------------------------+----------+-------------+
+|                         Time|    Device|count_time(*)|
++-----------------------------+----------+-------------+
+|1970-01-01T08:00:00.000+08:00|root.db.d1|            2|
+|1970-01-01T08:00:00.002+08:00|root.db.d1|            1|
+|1970-01-01T08:00:00.004+08:00|root.db.d1|            2|
+|1970-01-01T08:00:00.006+08:00|root.db.d1|            1|
+|1970-01-01T08:00:00.008+08:00|root.db.d1|            2|
+|1970-01-01T08:00:00.000+08:00|root.db.d2|            2|
+|1970-01-01T08:00:00.002+08:00|root.db.d2|            1|
+|1970-01-01T08:00:00.004+08:00|root.db.d2|            2|
+|1970-01-01T08:00:00.006+08:00|root.db.d2|            1|
+|1970-01-01T08:00:00.008+08:00|root.db.d2|            1|
++-----------------------------+----------+-------------+
+
+```
+
+> 注：
+> 1. count_time里的表达式只能为*。
+> 2. count_time不能和其他的聚合函数一起使用。
+> 3. having语句里不支持使用count_time, 使用count_time聚合函数时不支持使用having语句。
+> 4. count_time不支持与group by level, group by tag一起使用。
