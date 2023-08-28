@@ -1581,21 +1581,27 @@ SHOW FUNCTIONS
 
 **该函数库中的函数不是内置函数，使用前要先加载到系统中。** 操作流程如下：
 
-1. 下载包含全部依赖的 jar 包和注册脚本 [【点击下载】](https://archive.apache.org/dist/iotdb/1.0.1/apache-iotdb-1.0.1-library-udf-bin.zip) ；
-2. 将 jar 包复制到 IoTDB 程序目录的 `ext\udf` 目录下 (若您使用的是集群，请将jar包复制到所有DataNode的该目录下)；
-3. 启动 IoTDB；
-4. 将注册脚本复制到 IoTDB 的程序目录下（与`sbin`目录同级的根目录下），修改脚本中的参数（如果需要）并运行注册脚本以注册 UDF。
+1. 在 iotdb 根目录下执行编译指令;
+   ```
+      mvn clean package -pl library-udf -am -DskipTests -Pget-jar-with-dependencies
+   ```
+2. 将在 target 下生成的带依赖的 jar 包复制到 IoTDB 程序目录的 `ext\udf` 目录下(若您使用的是集群，请将jar包复制到所有DataNode的该目录下),如下图所示；
+![](https://alioss.timecho.com/docs/img/20230814-191908.jpg)
+3. 下载注册脚本:[linux](https://alioss.timecho.com/docs/img/register-UDF.sh), [windows](https://alioss.timecho.com/docs/img/register-UDF.bat);
+4. 将注册脚本复制到 IoTDB 的`sbin`目录下，修改脚本中的参数（默认为host=127.0.0.1，rpcPort=6667，user=root，pass=root）；
+5. 启动 IoTDB 服务；
+6. 运行注册脚本`register-UDF.sh`以注册 UDF。
 
 ##### 已经实现的函数
 
-1.   [Data-Quality](../Operators-Functions/Data-Quality.md) 数据质量
-2.   [Data-Profiling](../Operators-Functions/Data-Profiling.md) 数据画像
-3.   [Anomaly-Detection](../Operators-Functions/Anomaly-Detection.md) 异常检测
-4.   [Frequency-Domain](../Operators-Functions/Frequency-Domain.md) 频域分析
-5.   [Data-Matching](../Operators-Functions/Data-Matching.md) 数据匹配
-6.   [Data-Repairing](../Operators-Functions/Data-Repairing.md) 数据修复
-7.   [Series-Discovery](../Operators-Functions/Series-Discovery.md) 序列发现
-8.   [Machine-Learning](../Operators-Functions/Machine-Learning.md) 机器学习
+1.   [Data-Quality](../Reference/UDF-Libraries.md#数据质量) 数据质量
+2.   [Data-Profiling](../Reference/UDF-Libraries.md#数据画像) 数据画像
+3.   [Anomaly-Detection](../Reference/UDF-Libraries.md#异常检测) 异常检测
+4.   [Frequency-Domain](../Reference/UDF-Libraries.md#频域分析) 频域分析
+5.   [Data-Matching](../Reference/UDF-Libraries.md#数据匹配) 数据匹配
+6.   [Data-Repairing](../Reference/UDF-Libraries.md#数据修复) 数据修复
+7.   [Series-Discovery](../Reference/UDF-Libraries.md#序列发现) 序列发现
+8.   [Machine-Learning](../Reference/UDF-Libraries.md#机器学习) 机器学习
 
 ###  Q&A
 
