@@ -335,7 +335,7 @@ iotd cluster deploy default_cluster
 | dumpdata   | 备份指定集群数据                   | 集群名称, -h 备份至目标机器ip -pw 备份至目标机器密码 -p 备份至目标机器端口 -path 备份的目录 -startdate 起始时间 -enddate 结束时间  -l 传输速度                        |
 | upgrade    | lib 包升级                    | 集群名字(升级完后请重启)                                                                                                           |
 | init       | 已有集群使用集群部署工具时，初始化集群配置      | 集群名字，初始化集群配置                                                                                                            |
-
+| status     | 查看进程状态                     | 集群名字                                                                                                                    |
 #### 详细命令执行过程
 
 下面的命令都是以default_cluster.yaml 为示例执行的，用户可以修改成自己的集群文件来执行
@@ -376,6 +376,16 @@ iotd cluster deploy default_cluster -op force
 ```
 注意：该命令会强制执行部署，具体过程会删除已存在的部署目录重新部署
 
+*部署单个模块*
+```bash
+# 部署grafana模块
+iotd cluster deploy default_cluster -N grafana
+# 部署prometheus模块
+iotd cluster deploy default_cluster -N prometheus
+# 部署iotdb模块
+iotd cluster deploy default_cluster -N iotdb
+```
+
 ##### 启动集群命令
 
 ```bash
@@ -411,7 +421,10 @@ iotd cluster start default_cluster -N prometheus
 
 * 启动该节点
 
-##### 查看集群状态命令
+说明：由于集群部署工具仅是调用了IoTDB集群中的start-confignode.sh和start-datanode.sh 脚本，
+在实际输出结果失败时有可能是集群还未正常启动，建议使用status命令进行查看当前集群状态(iotd cluster status xxx)
+
+##### 查看IoTDB集群状态命令
 
 ```bash
 iotd cluster show default_cluster
@@ -490,7 +503,20 @@ iotd cluster restart default_cluster -op force
 ```
 会直接执行kill -9 pid 命令强制停止集群，然后启动集群
 
-*停止单个节点命令*
+*重启单个节点命令*
+
+```bash
+#按照IoTDB 节点名称重启datanode_1
+iotd cluster restart default_cluster -N datanode_1
+#按照IoTDB 节点名称重启confignode_1
+iotd cluster restart default_cluster -N confignode_1
+#重启grafana
+iotd cluster restart default_cluster -N grafana
+#重启prometheus
+iotd cluster restart default_cluster -N prometheus
+```
+
+
 
 ##### 集群缩容命令
 
@@ -539,6 +565,16 @@ iotd cluster destroy default_cluster
 * 删除IoTDB集群中的`data`以及yaml文件配置的`cn_system_dir`、`cn_consensus_dir`、
   `dn_data_dirs`、`dn_consensus_dir`、`dn_system_dir`、`logs`、`ext`、`IoTDB`部署目录、
   Grafana部署目录和Prometheus部署目录
+
+*销毁单个模块*
+```bash
+# 销毁grafana模块
+iotd cluster destroy default_cluster -N grafana
+# 销毁prometheus模块
+iotd cluster destroy default_cluster -N prometheus
+# 销毁iotdb模块
+iotd cluster destroy default_cluster -N iotdb
+```
 
 ##### 分发集群配置命令
 ```bash
@@ -606,6 +642,21 @@ iotd cluster upgrade default_cluster
 * 上传lib包
 
 注意执行完升级后请重启IoTDB 才能生效
+
+##### 集群初始化
+```bash
+iotd cluster init default_cluster
+```
+* 根据 cluster-name 找到默认位置的 yaml 文件，获取`confignode_servers`、`datanode_servers`、`grafana`、`prometheus`配置信息
+* 初始化集群配置
+
+##### 查看集群进程状态
+```bash
+iotd cluster status default_cluster
+```
+* 根据 cluster-name 找到默认位置的 yaml 文件，获取`confignode_servers`、`datanode_servers`、`grafana`、`prometheus`配置信息
+* 展示集群的存活状态
+
 
 #### 集群部署工具样例介绍
 在集群部署工具安装目录中config/example 下面有3个yaml样例，如果需要可以复制到config 中进行修改即可
