@@ -21,20 +21,20 @@
 
 # Overlap validation and repair 工具
 
-Overlap Validation And Repair 工具用于验证顺序空间内 tsfile 的 resource 文件的重叠情况并进行修复。.
+Overlap Validation And Repair 工具用于验证顺序空间内 tsfile 的 resource 文件的重叠情况并进行修复。
 
 验证功能可以在任意场景下运行，在找出所有存在重叠的文件后，需要输入 'y' 以确认是否进行修复。
 
 **修复功能必须在相关的 DataNode 停止之后执行，且对应的数据目录中不存在未完成的合并任务。**
 为了确保没有尚未完成的合并任务，你可以修改配置文件中开启合并相关的配置项为 false，然后重启 DataNode 并等待合并恢复任务的完成，停止 DataNode，再运行这个工具。
-## Usage
+## 使用方法
 ```shell
 #MacOs or Linux
 ./check-overlap-sequence-files-and-repair.sh [sequence_data_dir1] [sequence_data_dir2]...
 # Windows
 .\check-overlap-sequence-files-and-repair.bat [sequence_data_dir1] [sequence_data_dir2]...
 ```
-## Example
+## 示例
 ```shell
 ./check-overlap-sequence-files-and-repair.sh  /data1/sequence/ /data2/sequence
 ```
