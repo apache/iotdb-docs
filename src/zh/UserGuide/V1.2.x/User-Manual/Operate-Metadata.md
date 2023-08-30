@@ -550,7 +550,7 @@ IoTDB> create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODIN
 error: encoding TS_2DIFF does not support BOOLEAN
 ```
 
-详细的数据类型与编码方式的对应列表请参见 [编码方式](../Basic-Concept/Encoding-and-Compression.md#编码方式)。
+详细的数据类型与编码方式的对应列表请参见 [编码方式](../Basic-Concept/Encoding-and-Compression.md#编码方式)。 
 
 ### 创建对齐时间序列
 
