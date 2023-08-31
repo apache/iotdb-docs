@@ -748,3 +748,47 @@ kill -9 <pid>
 ### 常见问题
 
 请参考 [分布式部署FAQ](https://iotdb.apache.org/zh/UserGuide/Master/FAQ/FAQ-for-cluster-setup.html)
+
+## 双活版部署
+IoTDB 的双活集群指的是两个独立的集群，它们的配置完全独立，且都可以同时接收外界的写入，同时将自己的写入同步到另一个集群，最终保证两个集群的数据完全相同。当一个集群停止服务时，另一个集群不会受到影响。
+
+### 配置步骤
+IoTDB 双活集群的配置步骤如下：
+1. 启动集群 A 和集群 B。
+2. 为两个集群创建并启动 Pipe， SQL 如下：
+
+    a.集群A:
+    ```SQL
+    create pipe atob 
+    with extractor (
+        'extractor'='iotdb-extractor', 
+        'extractor.realtime.mode'='hybrid', 
+        'extractor.forwarding-pipe-requests'='false'
+    ) 
+    with connector (
+        'connector'='iotdb-thrift-connector',
+        'connector.node-urls'='<B集群地址>'
+    )
+ 
+    start pipe atob
+ 
+    show pipes
+    ```
+    b.集群B:
+    ```SQL
+    create pipe btoa 
+    with extractor (
+        'extractor'='iotdb-extractor', 
+        'extractor.realtime.mode'='hybrid', 
+        'extractor.forwarding-pipe-requests'='false'
+    ) 
+    with connector (
+        'connector'='iotdb-thrift-connector',
+        'connector.node-urls'='<A集群地址>'
+    )
+ 
+    start pipe btoa
+ 
+    show pipes
+    ```
+即可成功启动双活集群。
