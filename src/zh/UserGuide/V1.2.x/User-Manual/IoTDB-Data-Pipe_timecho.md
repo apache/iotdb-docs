@@ -89,7 +89,7 @@
 
 ### 创建流水线
 
-可以使用 `CREATE PIPE` 语句来创建一条数据订阅任务，SQL 语句如下所示：
+可以使用 `CREATE PIPE` 语句来创建一条数据订阅任务，示例 SQL 语句如下所示：
 
 ```sql
 CREATE PIPE <PipeId> -- PipeId 是能够唯一标定流水线任务的名字
@@ -120,7 +120,6 @@ WITH CONNECTOR (
   'connector.ip'                 = '127.0.0.1',
   -- 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port
   'connector.port'               = '6667',
-  -- 
 )
 ```
 
