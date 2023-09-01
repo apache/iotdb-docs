@@ -213,18 +213,23 @@ SHOW CHILD NODES pathPattern
 - 查询 root.ln 的下一层 ：show child nodes root.ln
 
 #### 查看设备
+```sql
 
 IoTDB> show devices
 
 IoTDB> show devices root.ln.**
+```
 
 ##### 查看设备及其 database 信息
+```sql
 
 IoTDB> show devices with database
 
 IoTDB> show devices root.ln.** with database
+```
 
 #### 统计节点数
+```sql
 
 IoTDB > COUNT NODES root.** LEVEL=2
 
@@ -233,14 +238,15 @@ IoTDB > COUNT NODES root.ln.** LEVEL=2
 IoTDB > COUNT NODES root.ln.wf01.* LEVEL=3
 
 IoTDB > COUNT NODES root.**.temperature LEVEL=3
-
+```
 #### 统计设备数量
-
+```sql
 IoTDB> show devices
 
 IoTDB> count devices
 
 IoTDB> count devices root.ln.**
+```
 
 ### 4、设备模板管理
 
@@ -263,19 +269,20 @@ CREATE SCHEMA TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeCla
 ```
 
 创建包含两个非对齐序列的元数据模板
+```
 
 IoTDB> create schema template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
-
+```
 创建包含一组对齐序列的元数据模板
-
+```
 IoTDB> create schema template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)
-
+```
 #### 挂载元数据模板
-
+```
 IoTDB> set SCHEMA TEMPLATE t1 to root.sg1
-
+```
 #### 激活元数据模板
-
+```
 IoTDB> create timeseries using SCHEMA TEMPLATE on root.sg1.d1
 
 IoTDB> set SCHEMA TEMPLATE t1 to root.sg1.d1
@@ -285,7 +292,7 @@ IoTDB> set SCHEMA TEMPLATE t2 to root.sg1.d2
 IoTDB> create timeseries using schema template on root.sg1.d1
 
 IoTDB> create timeseries using schema template on root.sg1.d2
-
+```
 #### 查看元数据模板
 
 IoTDB> show schema templates
@@ -305,69 +312,69 @@ IoTDB> show paths using schema template t1
 IoTDB> show devices using schema template t1
 
 #### 解除元数据模板
-
+```
 IoTDB> delete timeseries of schema template t1 from root.sg1.d1
 
 IoTDB> deactivate schema template t1 from root.sg1.d1
-
+```
 批量处理
-
+```
 IoTDB> delete timeseries of schema template t1 from root.sg1.*, root.sg2.*
 
 IoTDB> deactivate schema template t1 from root.sg1.*, root.sg2.*
-
+```
 #### 卸载元数据模板
-
+```
 IoTDB> unset schema template t1 from root.sg1.d1
-
+```
 #### 删除元数据模板
-
+```
 IoTDB> drop schema template t1
-
+```
 ### 5、数据存活时间管理
 
 #### 设置 TTL
-
+```
 IoTDB> set ttl to root.ln 3600000
 
 IoTDB> set ttl to root.sgcc.** 3600000
 
 IoTDB> set ttl to root.** 3600000
-
+```
 #### 取消 TTL
-
+```
 IoTDB> unset ttl to root.ln
 
 IoTDB> unset ttl to root.sgcc.**
 
 IoTDB> unset ttl to root.**
-
+```
 #### 显示 TTL
-
+```
 IoTDB> SHOW ALL TTL
 
 IoTDB> SHOW TTL ON StorageGroupNames
-
+```
 ## 写入数据
 
 ### 1、写入单列数据
-
+```
 IoTDB > insert into root.ln.wf02.wt02(timestamp,status) values(1,true)
 
 IoTDB > insert into root.ln.wf02.wt02(timestamp,hardware) values(1, 'v1'),(2, 'v1')
-
+```
 ### 2、写入多列数据
-
+```
 IoTDB > insert into root.ln.wf02.wt02(timestamp, status, hardware) values (2, false, 'v2')
 
 IoTDB > insert into root.ln.wf02.wt02(timestamp, status, hardware) VALUES (3, false, 'v3'),(4, true, 'v4')
-
+```
 ### 3、使用服务器时间戳
-
+```
 IoTDB > insert into root.ln.wf02.wt02(status, hardware) values (false, 'v2')
-
+```
 ### 4、写入对齐时间序列数据
-
+```
 IoTDB > create aligned timeseries root.sg1.d1(s1 INT32, s2 DOUBLE)
 
 IoTDB > insert into root.sg1.d1(timestamp, s1, s2) aligned values(1, 1, 1)
@@ -375,11 +382,11 @@ IoTDB > insert into root.sg1.d1(timestamp, s1, s2) aligned values(1, 1, 1)
 IoTDB > insert into root.sg1.d1(timestamp, s1, s2) aligned values(2, 2, 2), (3, 3, 3)
 
 IoTDB > select * from root.sg1.d1
-
+```
 ### 5、加载 TsFile 文件数据
-
+```
 load '<path/dir>' [sglevel=int][verify=true/false][onSuccess=delete/none]
-
+```
 #### 通过指定文件路径(绝对路径)加载单 tsfile 文件
 
 - `load '/Users/Desktop/data/1575028885956-101-0.tsfile'`
@@ -403,7 +410,7 @@ load '<path/dir>' [sglevel=int][verify=true/false][onSuccess=delete/none]
 ## 删除数据
 
 ### 1、删除单列数据
-
+```
 delete from root.ln.wf02.wt02.status where time<=2017-11-01T16:26:00;
 
 delete from root.ln.wf02.wt02.status where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
@@ -421,75 +428,75 @@ delete from root.ln.wf02.wt02.status where time > 20
 delete from root.ln.wf02.wt02.status where time >= 20
 
 delete from root.ln.wf02.wt02.status where time = 20
-
+```
 出错：
-
+```
 delete from root.ln.wf02.wt02.status where time > 4 or time < 0
 
 Msg: 303: Check metadata error: For delete statement, where clause can only contain atomic
 
 expressions like : time > XXX, time <= XXX, or two atomic expressions connected by 'AND'
-
+```
 删除时间序列中的所有数据：
-
+```
 delete from root.ln.wf02.wt02.status
-
+```
 ### 2、删除多列数据
-
+```
 delete from root.ln.wf02.wt02.* where time <= 2017-11-01T16:26:00;
-
+```
 声明式的编程方式：
-
+```
 IoTDB> delete from root.ln.wf03.wt02.status where time < now()
 
 Msg: The statement is executed successfully.
-
+```
 ## 数据查询
 
 ### 1、基础查询
 
 #### 时间过滤查询
-
+```
 select temperature from root.ln.wf01.wt01 where time < 2017-11-01T00:08:00.000
-
+```
 #### 根据一个时间区间选择多列数据
-
+```
 select status, temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000;
-
+```
 #### 按照多个时间区间选择同一设备的多列数据
-
+```
 select status, temperature from root.ln.wf01.wt01 where (time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000) or (time >= 2017-11-01T16:35:00.000 and time <= 2017-11-01T16:37:00.000);
-
+```
 #### 按照多个时间区间选择不同设备的多列数据
-
+```
 select wf01.wt01.status, wf02.wt02.hardware from root.ln where (time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000) or (time >= 2017-11-01T16:35:00.000 and time <= 2017-11-01T16:37:00.000);
-
+```
 #### 根据时间降序返回结果集
-
+```
 select * from root.ln.** where time > 1 order by time desc limit 10;
-
+```
 ### 2、选择表达式
 
 #### 使用别名
-
+```
 select s1 as temperature, s2 as speed from root.ln.wf01.wt01;
-
+```
 #### 运算符
 
 #### 函数
 
 不支持：
-
+```
 select s1, count(s1) from root.sg.d1;
 
 select sin(s1), count(s1) from root.sg.d1;
 
 select s1, count(s1) from root.sg.d1 group by ([10,100),10ms);
-
+```
 ##### 时间序列查询嵌套表达式
 
 示例 1：
-
+```
 select a,
 
 ​       b,
@@ -501,23 +508,23 @@ select a,
 ​       -(a + b) * (sin(a + b) * sin(a + b) + cos(a + b) * cos(a + b)) + 1
 
 from root.sg1;
-
+```
 示例 2：
-
+```
 select (a + b) * 2 + sin(a) from root.sg
-
+```
 示例 3：
-
+```
 select (a + *) / 2  from root.sg1
-
+```
 示例 4：
-
+```
 select (a + b) * 3 from root.sg, root.ln
-
+```
 ##### 聚合查询嵌套表达式
 
 示例 1：
-
+```
 select avg(temperature),
 
 ​       sin(avg(temperature)),
@@ -529,17 +536,17 @@ select avg(temperature),
 ​       avg(temperature) + sum(hardware)
 
 from root.ln.wf01.wt01;
-
+```
 示例 2：
-
+```
 select avg(*), 
 
 ​           (avg(*) + 1) * 3 / 2 -1 
 
 from root.sg1
-
+```
 示例 3：
-
+```
 select avg(temperature),
 
 ​       sin(avg(temperature)),
@@ -553,7 +560,7 @@ select avg(temperature),
 from root.ln.wf01.wt01
 
 GROUP BY([10, 90), 10ms);
-
+```
 #### 最新点查询
 
 SQL 语法：
@@ -563,209 +570,211 @@ select last <Path> [COMMA <Path>]* from < PrefixPath > [COMMA < PrefixPath >]* <
 ```
 
 查询 root.ln.wf01.wt01.status 的最新数据点
-
+```
 IoTDB> select last status from root.ln.wf01.wt01
-
+```
 查询 root.ln.wf01.wt01 下 status，temperature 时间戳大于等于 2017-11-07T23:50:00 的最新数据点
-
+```
 IoTDB> select last status, temperature from root.ln.wf01.wt01 where time >= 2017-11-07T23:50:00
-
+```
  查询 root.ln.wf01.wt01 下所有序列的最新数据点，并按照序列名降序排列
-
+```
 IoTDB> select last * from root.ln.wf01.wt01 order by timeseries desc;
-
+```
 ### 3、查询过滤条件
 
 #### 时间过滤条件
 
 选择时间戳大于 2022-01-01T00:05:00.000 的数据：
-
+```
 select s1 from root.sg1.d1 where time > 2022-01-01T00:05:00.000;
-
+```
 选择时间戳等于 2022-01-01T00:05:00.000 的数据：
-
+```
 select s1 from root.sg1.d1 where time = 2022-01-01T00:05:00.000;
-
+```
 选择时间区间 [2017-11-01T00:05:00.000, 2017-11-01T00:12:00.000) 内的数据：
-
+```
 select s1 from root.sg1.d1 where time >= 2022-01-01T00:05:00.000 and time < 2017-11-01T00:12:00.000;
-
+```
 #### 值过滤条件
 
 选择值大于 36.5 的数据：
-
+```
 select temperature from root.sg1.d1 where temperature > 36.5;
-
+```
 选择值等于 true 的数据：
-
+```
 select status from root.sg1.d1 where status = true;
-
+```
 选择区间 [36.5,40] 内或之外的数据：
-
+```
 select temperature from root.sg1.d1 where temperature between 36.5 and 40;
 
 select temperature from root.sg1.d1 where temperature not between 36.5 and 40;
-
+```
 选择值在特定范围内的数据：
-
+```
 select code from root.sg1.d1 where code in ('200', '300', '400', '500');
-
+```
 选择值在特定范围外的数据：
-
+```
 select code from root.sg1.d1 where code not in ('200', '300', '400', '500');
-
+```
 选择值为空的数据:
-
+```
 select code from root.sg1.d1 where temperature is null;
-
+```
 选择值为非空的数据:
-
+```
 select code from root.sg1.d1 where temperature is not null;
-
+```
 #### 模糊查询
 
 查询 `root.sg.d1` 下 `value` 含有`'cc'`的数据
-
+```
 IoTDB> select * from root.sg.d1 where value like '%cc%'
-
+```
 查询 `root.sg.d1` 下 `value` 中间为 `'b'`、前后为任意单个字符的数据
-
+```
 IoTDB> select * from root.sg.device where value like '_b_'
-
+```
 查询 root.sg.d1 下 value 值为26个英文字符组成的字符串
-
+```
 IoTDB> select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
+```
 
 查询 root.sg.d1 下 value 值为26个小写英文字符组成的字符串且时间大于100的
-
+```
 IoTDB> select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
+```
 
 ### 4、分段分组聚合
 
 #### 未指定滑动步长的时间区间分组聚合查询
-
+```
 select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d);
-
+```
 #### 指定滑动步长的时间区间分组聚合查询
-
+```
 select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01 00:00:00, 2017-11-07 23:00:00), 3h, 1d);
-
+```
 滑动步长可以小于聚合窗口
-
+```
 select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01 00:00:00, 2017-11-01 10:00:00), 4h, 2h);
-
+```
 #### 按照自然月份的时间区间分组聚合查询
-
+```
 select count(status) from root.ln.wf01.wt01 where time > 2017-11-01T01:00:00 group by([2017-11-01T00:00:00, 2019-11-07T23:00:00), 1mo, 2mo);
-
+```
 每个时间间隔窗口内都有数据
-
+```
 select count(status) from root.ln.wf01.wt01 group by([2017-10-31T00:00:00, 2019-11-07T23:00:00), 1mo, 2mo);
-
+```
 #### 左开右闭区间
-
+```
 select count(status) from root.ln.wf01.wt01 group by ((2017-11-01T00:00:00, 2017-11-07T23:00:00],1d);
-
+```
 #### 与分组聚合混合使用
 
 统计降采样后的数据点个数
-
+```
 select count(status) from root.ln.wf01.wt01 group by ((2017-11-01T00:00:00, 2017-11-07T23:00:00],1d), level=1;
-
+```
 加上滑动 Step 的降采样后的结果也可以汇总
-
+```
 select count(status) from root.ln.wf01.wt01 group by ([2017-11-01 00:00:00, 2017-11-07 23:00:00), 3h, 1d), level=1;
-
+```
 #### 路径层级分组聚合
 
 统计不同 database 下 status 序列的数据点个数
-
+```
 select count(status) from root.** group by level = 1
-
+```
  统计不同设备下 status 序列的数据点个数
-
+```
 select count(status) from root.** group by level = 3
-
+```
 统计不同 database 下的不同设备中 status 序列的数据点个数
-
+```
 select count(status) from root.** group by level = 1, 3
-
+```
 查询所有序列下温度传感器 temperature 的最大值
-
+```
 select max_value(temperature) from root.** group by level = 0
-
+```
 查询某一层级下所有传感器拥有的总数据点数
-
+```
 select count(*) from root.ln.** group by level = 2
-
+```
 #### 标签分组聚合
 
 ##### 单标签聚合查询
-
+```
 SELECT AVG(temperature) FROM root.factory1.** GROUP BY TAGS(city);
-
+```
 ##### 多标签聚合查询
-
+```
 SELECT avg(temperature) FROM root.factory1.** GROUP BY TAGS(city, workshop);
-
+```
 ##### 基于时间区间的标签聚合查询
-
+```
 SELECT AVG(temperature) FROM root.factory1.** GROUP BY ([1000, 10000), 5s), TAGS(city, workshop);
-
+```
 #### 差值分段聚合
-
+```
 group by variation(controlExpression[,delta][,ignoreNull=true/false])
-
+```
 ##### delta=0时的等值事件分段
-
+```
 select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6)
-
+```
 指定ignoreNull为false
-
+```
 select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6, ignoreNull=false)
-
+```
 ##### delta!=0时的差值事件分段
-
+```
 select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6, 4)
-
+```
 #### 条件分段聚合
-
+```
 group by condition(predict,[keep>/>=/=/<=/<]threshold,[,ignoreNull=true/false])
-
+```
 查询至少连续两行以上的charging_status=1的数据
-
+```
 select max_time(charging_status),count(vehicle_status),last_value(soc) from root.** group by condition(charging_status=1,KEEP>=2,ignoreNull=true)
-
+```
 当设置`ignoreNull`为false时，遇到null值为将其视为一个不满足条件的行，得到结果原先的分组被含null的行拆分
-
+```
 select max_time(charging_status),count(vehicle_status),last_value(soc) from root.** group by condition(charging_status=1,KEEP>=2,ignoreNull=false)
-
+```
 #### 会话分段聚合
-
+```
 group by session(timeInterval)
-
+```
 按照不同的时间单位设定时间间隔
-
+```
 select __endTime,count(*) from root.** group by session(1d)
-
+```
 和`HAVING`、`ALIGN BY DEVICE`共同使用
-
+```
 select __endTime,sum(hardware) from root.ln.wf02.wt01 group by session(50s) having sum(hardware)>0 align by device
-
+```
 #### 点数分段聚合
-
+```
 group by count(controlExpression, size[,ignoreNull=true/false])
 
 select count(charging_stauts), first_value(soc) from root.sg group by count(charging_status,5) 
-
+```
 当使用ignoreNull将null值也考虑进来
-
+```
 select count(charging_stauts), first_value(soc) from root.sg group by count(charging_status,5,ignoreNull=false) 
-
+```
 ### 5、聚合结果过滤
 
 不正确的：
-
+```
 select count(s1) from root.** group by ([1,3),1ms) having sum(s1) > s1
 
 select count(s1) from root.** group by ([1,3),1ms) having s1 > 1
@@ -773,103 +782,103 @@ select count(s1) from root.** group by ([1,3),1ms) having s1 > 1
 select count(s1) from root.** group by ([1,3),1ms), level=1 having sum(d1.s1) > 1
 
 select count(d1.s1) from root.** group by ([1,3),1ms), level=1 having sum(s1) > 1
-
+```
 SQL 示例：
-
+```
  select count(s1) from root.** group by ([1,11),2ms), level=1 having count(s2) > 2;
 
  select count(s1), count(s2) from root.** group by ([1,11),2ms) having count(s2) > 1 align by device;
-
+```
 ### 6、结果集补空值
-
+```
 FILL '(' PREVIOUS | LINEAR | constant ')'
-
+```
 #### `PREVIOUS` 填充
-
+```
 select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(previous);
-
+```
 #### `LINEAR` 填充
-
+```
 select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(linear);
-
+```
 #### 常量填充
-
+```
 select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(2.0);
-
+```
 使用 `BOOLEAN` 类型的常量填充
-
+```
 select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(true);
-
+```
 ### 7、查询结果分页
 
 #### 按行分页
 
  基本的 `LIMIT` 子句
-
+```
 select status, temperature from root.ln.wf01.wt01 limit 10
-
+```
 带 `OFFSET` 的 `LIMIT` 子句
-
+```
 select status, temperature from root.ln.wf01.wt01 limit 5 offset 3
-
+```
 `LIMIT` 子句与 `WHERE` 子句结合
-
+```
 select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time< 2017-11-01T00:12:00.000 limit 5 offset 3
-
+```
  `LIMIT` 子句与 `GROUP BY` 子句组合
-
+```
 select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d) limit 4 offset 3
-
+```
 #### 按列分页
 
  基本的 `SLIMIT` 子句
-
+```
 select * from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 slimit 1
-
+```
 带 `SOFFSET` 的 `SLIMIT` 子句
-
+```
 select * from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 slimit 1 soffset 1
-
+```
 `SLIMIT` 子句与 `GROUP BY` 子句结合
-
+```
 select max_value(*) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d) slimit 1 soffset 1
-
+```
 `SLIMIT` 子句与 `LIMIT` 子句结合
-
+```
 select * from root.ln.wf01.wt01 limit 10 offset 100 slimit 2 soffset 0
-
+```
 ### 8、排序
 
 时间对齐模式下的排序
-
+```
 select * from root.ln.** where time <= 2017-11-01T00:01:00 order by time desc;
-
+```
 设备对齐模式下的排序
-
+```
 select * from root.ln.** where time <= 2017-11-01T00:01:00 order by device desc,time asc align by device;
-
+```
 在时间戳相等时按照设备名排序
-
+```
 select * from root.ln.** where time <= 2017-11-01T00:01:00 order by time asc,device desc align by device;
-
+```
 没有显式指定时
-
+```
 select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
-
+```
 对聚合后的结果进行排序
-
+```
 select count(*) from root.ln.** group by ((2017-11-01T00:00:00.000+08:00,2017-11-01T00:03:00.000+08:00],1m) order by device asc,time asc align by device
-
+```
 ### 9、查询对齐模式
 
 #### 按设备对齐
-
+```
 select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
-
+```
 ### 10、查询写回（SELECT INTO）
 
 #### 整体描述
-
+```
 selectIntoStatement
 
 ​    : SELECT
@@ -899,58 +908,67 @@ intoItem
 ​    : [ALIGNED] intoDevicePath '(' intoMeasurementName [',' intoMeasurementName]* ')'
 
 ​    ;
-
+```
 按时间对齐，将 `root.sg` database 下四条序列的查询结果写入到 `root.sg_copy` database 下指定的四条序列中
-
+```
 IoTDB> select s1, s2 into root.sg_copy.d1(t1), root.sg_copy.d2(t1, t2), root.sg_copy.d1(t2) from root.sg.d1, root.sg.d2;
-
+```
 按时间对齐，将聚合查询的结果存储到指定序列中
-
+```
 IoTDB> select count(s1 + s2), last_value(s2) into root.agg.count(s1_add_s2), root.agg.last_value(s2) from root.sg.d1 group by ([0, 100), 10ms);
-
+```
 按设备对齐
-
+```
 IoTDB> select s1, s2 into root.sg_copy.d1(t1, t2), root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
-
+```
 按设备对齐，将表达式计算的结果存储到指定序列中
-
+```
 IoTDB> select s1 + s2 into root.expr.add(d1s1_d1s2), root.expr.add(d2s1_d2s2) from root.sg.d1, root.sg.d2 align by device;
-
+```
 #### 使用变量占位符
 
 ##### 按时间对齐（默认）
 
 ###### （1）目标设备不使用变量占位符 & 目标物理量列表使用变量占位符
+```
 
 select s1, s2
 
 into root.sg_copy.d1(::), root.sg_copy.d2(s1), root.sg_copy.d1(${3}), root.sg_copy.d2(::)
 
 from root.sg.d1, root.sg.d2;
+```
 
 该语句等价于：
+```
 
 select s1, s2
 
 into root.sg_copy.d1(s1), root.sg_copy.d2(s1), root.sg_copy.d1(s2), root.sg_copy.d2(s2)
 
 from root.sg.d1, root.sg.d2;
+```
 
 ###### （2）目标设备使用变量占位符 & 目标物理量列表不使用变量占位符
 
+```
 select d1.s1, d1.s2, d2.s3, d3.s4 
 
 into ::(s1_1, s2_2), root.sg.d2_2(s3_3), root.${2}_copy.::(s4)
 
 from root.sg;
+```
 
 ###### （3）目标设备使用变量占位符 & 目标物理量列表使用变量占位符
 
+```
 select * into root.sg_bk.::(::) from root.sg.**;
+```
 
 ##### 按设备对齐（使用 `ALIGN BY DEVICE`）
 
 ###### （1）目标设备不使用变量占位符 & 目标物理量列表使用变量占位符
+```
 
 select s1, s2, s3, s4
 
@@ -959,8 +977,10 @@ into root.backup_sg.d1(s1, s2, s3, s4), root.backup_sg.d2(::), root.sg.d3(backup
 from root.sg.d1, root.sg.d2, root.sg.d3
 
 align by device;
+```
 
 ###### （2）目标设备使用变量占位符 & 目标物理量列表不使用变量占位符
+```
 
 select avg(s1), sum(s2) + sum(s3), count(s4)
 
@@ -969,14 +989,19 @@ into root.agg_${2}.::(avg_s1, sum_s2_add_s3, count_s4)
 from root.**
 
 align by device;
+```
 
 ###### （3）目标设备使用变量占位符 & 目标物理量列表使用变量占位符
+```
 
 select * into ::(backup_${4}) from root.sg.** align by device;
+```
 
 #### 指定目标序列为对齐序列
+```
 
 select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
+```
 
 ## 运算符
 
@@ -1453,7 +1478,7 @@ from root.test4
 ## 触发器
 
 ### 使用 SQL 语句注册该触发器
-
+```
 // Create Trigger
 
 createTrigger
@@ -1509,9 +1534,9 @@ triggerAttribute
 ​    : key=attributeKey operator_eq value=attributeValue
 
 ​    ;
-
+```
 #### SQL 语句示例
-
+```
 CREATE STATELESS TRIGGER triggerTest
 
 BEFORE INSERT
@@ -1529,11 +1554,11 @@ WITH (
 ​    "limit" = "100"
 
 )
-
+```
 ### 卸载触发器
 
 #### 卸载触发器的 SQL 语法如下：
-
+```
 // Drop Trigger
 
 dropTrigger
@@ -1541,15 +1566,15 @@ dropTrigger
   : DROP TRIGGER triggerName=identifier
 
 ;
-
+```
 #### 示例语句
-
+```
 DROP TRIGGER triggerTest1
-
+```
 ### 查询触发器
-
+```
 SHOW TRIGGERS
-
+```
 ## 连续查询（Continuous Query, CQ）
 
 ### 语法
@@ -1576,7 +1601,7 @@ END
 ```
 
 #### 配置连续查询执行的周期性间隔
-
+```
 CREATE CONTINUOUS QUERY cq1
 
 RESAMPLE EVERY 20s
@@ -1596,9 +1621,9 @@ END
 
 
 \> SELECT temperature_max from root.ln.*.*;
-
+```
 #### 配置连续查询的时间窗口大小
-
+```
 CREATE CONTINUOUS QUERY cq2
 
 RESAMPLE RANGE 40s
@@ -1618,9 +1643,9 @@ END
 
 
 \> SELECT temperature_max from root.ln.*.*;
-
+```
 #### 同时配置连续查询执行的周期性间隔和时间窗口大小
-
+```
 CREATE CONTINUOUS QUERY cq3
 
 RESAMPLE EVERY 20s RANGE 40s
@@ -1642,9 +1667,9 @@ END
 
 
 \> SELECT temperature_max from root.ln.*.*;
-
+```
 #### 配置连续查询每次查询执行时间窗口的结束时间
-
+```
 CREATE CONTINUOUS QUERY cq4
 
 RESAMPLE EVERY 20s RANGE 40s, 20s
@@ -1666,9 +1691,9 @@ END
 
 
 \> SELECT temperature_max from root.ln.*.*;
-
+```
 #### 没有GROUP BY TIME子句的连续查询
-
+```
 CREATE CONTINUOUS QUERY cq5
 
 RESAMPLE EVERY 20s
@@ -1688,31 +1713,31 @@ END
 
 
 \> SELECT temperature from root.precalculated_sg.*.* align by device;
-
+```
 ### 连续查询的管理
 
 #### 查询系统已有的连续查询
 
 展示集群中所有的已注册的连续查询
-
+```
 SHOW (CONTINUOUS QUERIES | CQS) 
 
 SHOW CONTINUOUS QUERIES;
-
+```
 #### 删除已有的连续查询
 
 删除指定的名为cq_id的连续查询：
 
-```Go
+```
 DROP (CONTINUOUS QUERY | CQ) <cq_id>
 ```
-
+```
 DROP CONTINUOUS QUERY s1_count_cq;
-
+```
 #### 作为子查询的替代品
 
 \1. 创建一个连续查询
-
+```
 CREATE CQ s1_count_cq 
 
 BEGIN 
@@ -1726,49 +1751,49 @@ BEGIN
 ​        GROUP BY(30m)
 
 END
-
+```
 1. 查询连续查询的结果
-
+```
 SELECT avg(count_s1) from root.sg_count.d;
-
+```
 ## 用户自定义函数
 
 ### UDFParameters
-
+```
 SELECT UDF(s1, s2, 'key1'='iotdb', 'key2'='123.45') FROM root.sg.d;
-
+```
 ### UDF 注册
 
-```Go
+```
 CREATE FUNCTION <UDF-NAME> AS <UDF-CLASS-FULL-PATHNAME> (USING URI URI-STRING)?
 ```
 
 #### 不指定URI
-
+```
 CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample'
-
+```
 #### 指定URI
-
+```
 CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample' USING URI 'http://jar/example.jar'
-
+```
 ### UDF 卸载
 
-```Go
+```
 DROP FUNCTION <UDF-NAME>
 ```
-
+```
 DROP FUNCTION example
-
+```
 ### UDF 查询
 
 #### 带自定义输入参数的查询
-
+```
 SELECT example(s1, 'key1'='value1', 'key2'='value2'), example(*, 'key3'='value3') FROM root.sg.d1;
 
 SELECT example(s1, s2, 'key1'='value1', 'key2'='value2') FROM root.sg.d1;
-
+```
 #### 与其他查询的嵌套查询
-
+```
 SELECT s1, s2, example(s1, s2) FROM root.sg.d1;
 
 SELECT *, example(*) FROM root.sg.d1 DISABLE ALIGN;
@@ -1776,25 +1801,25 @@ SELECT *, example(*) FROM root.sg.d1 DISABLE ALIGN;
 SELECT s1 * example(* / s1 + s2) FROM root.sg.d1;
 
 SELECT s1, s2, s1 + example(s1, s2), s1 - example(s1 + example(s1, s2) / s2) FROM root.sg.d1;
-
+```
 ### 查看所有注册的 UDF
-
+```
 SHOW FUNCTIONS
-
+```
 ## 权限管理
 
 ### 1、创建用户
-
+```
 CREATE USER `ln_write_user` 'write_pwd'
 
 CREATE USER `sgcc_write_user` 'write_pwd'
-
+```
 ### 2、展示用户
-
+```
 LIST USER
-
+```
 ### 3、赋予用户权限
-
+```
 INSERT INTO root.ln.wf01.wt01(timestamp,status) values(1509465600000,true)
 
 系统不允许用户进行此操作，会提示错误：
@@ -1816,23 +1841,23 @@ GRANT USER `ln_write_user` PRIVILEGES CREATE_USER
 IoTDB> INSERT INTO root.ln.wf01.wt01(timestamp, status) values(1509465600000, true)
 
 Msg: The statement is executed successfully.
-
+```
 ### 4、撤销用户权限
 
 用root用户撤销ln_write_user和sgcc_write_user的权限：
-
+```
 REVOKE USER `ln_write_user` PRIVILEGES INSERT_TIMESERIES on root.ln.**
 
 REVOKE USER `sgcc_write_user` PRIVILEGES INSERT_TIMESERIES on root.sgcc1.**, root.sgcc2.**
 
 REVOKE USER `ln_write_user` PRIVILEGES CREATE_USER
-
+```
 撤销权限后，ln_write_user就没有向root.ln.**写入数据的权限了
-
+```
 INSERT INTO root.ln.wf01.wt01(timestamp, status) values(1509465600000, true)
 
 Msg: 602: No permissions for this operation, please add privilege INSERT_TIMESERIES.
-
+```
 ### 5、SQL 语句
 
 - 创建用户
