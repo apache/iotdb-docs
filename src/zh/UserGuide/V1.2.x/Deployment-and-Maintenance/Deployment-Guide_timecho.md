@@ -21,25 +21,22 @@
 
 # 部署指导
 
-## 单机版部署
+## 部署准备
 
-本文将介绍关于 IoTDB 使用的基本流程，如果需要更多信息，请浏览我们官网的 [指引](../IoTDB-Introduction/What-is-IoTDB.md).
+### 安装包获取
+
+您可以联系商务获取最新安装包。
 
 ### 安装环境
 
 安装前需要保证设备上配有 JDK>=1.8 的运行环境，并配置好 JAVA_HOME 环境变量。
 
 设置最大文件打开数为 65535。
+## 单机版部署
 
-### 安装步骤
+本文将介绍关于 IoTDB 使用的基本流程，如果需要更多信息，请浏览我们官网的 [指引](../IoTDB-Introduction/What-is-IoTDB.md).
 
-IoTDB 支持多种安装途径。用户可以使用三种方式对 IoTDB 进行安装——下载二进制可运行程序、使用源码、使用 docker 镜像。
 
-* 使用源码：您可以从代码仓库下载源码并编译，具体编译方法见下方。
-
-* 二进制可运行程序：请从 [下载](https://iotdb.apache.org/Download/) 页面下载最新的安装包，解压后即完成安装。
-
-* 使用 Docker 镜像：dockerfile 文件位于[github](https://github.com/apache/iotdb/blob/master/docker/src/main)
 
 ### 软件目录结构
 
@@ -48,7 +45,7 @@ IoTDB 支持多种安装途径。用户可以使用三种方式对 IoTDB 进行�
 * tools 系统工具目录
 * lib 依赖包目录
 
-### IoTDB 试用
+### IoTDB 单机版试用
 
 用户可以根据以下操作对 IoTDB 进行简单的试用，若以下操作均无误，则说明 IoTDB 安装成功。
 
