@@ -70,8 +70,6 @@ export const zhSidebar = {
         { text: '安装包获取', link: 'Get-Installation-Package' },
         { text: '部署指导', link: 'Deployment-Guide' },
         { text: 'docker部署', link: 'Docker-Install' },
-        { text: '安全控制', link: 'Security-Management' },
-        { text: '慢查询管理', link: 'Slow-Query-Management' },
       ],
     },
 
@@ -87,6 +85,7 @@ export const zhSidebar = {
         { text: '数据查询', link: 'Query-Data' },
         { text: '运算符和表达式', link: 'Operator-and-Expression' },
         { text: '数据库编程', link: 'Database-Programming' },
+        { text: '安全控制', link: 'Security-Management' },
         { text: '权限管理', link: 'Authority-Management' },
       ],
     },
@@ -166,7 +165,10 @@ export const zhSidebar = {
       prefix: 'Reference/',
       // children: 'structure',
       children: [
+        { text: 'UDF 函数库', link: 'UDF-Libraries' },
         { text: '配置参数', link: 'Common-Config-Manual' },
+        { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
+        { text: 'DataNode配置参数', link: 'DataNode-Config-Manual' },
         { text: '状态码', link: 'Status-Codes' },
         { text: '关键字', link: 'Keywords' },
       ],
