@@ -490,31 +490,31 @@ SHOW PIPEPLUGINS
 作用：抽取 IoTDB 内部的历史或实时数据进入 pipe。
 
 
-| key                                | value                                            | value 取值范围                         | required or optional with default |
-| ---------------------------------- | ------------------------------------------------ | -------------------------------------- | --------------------------------- |
-| extractor                          | iotdb-extractor                                  | String: iotdb-extractor                | required                          |
-| extractor.pattern                  | 用于筛选时间序列的路径前缀                       | String: 任意的时间序列前缀             | optional: root                    |
-| extractor.history.enable           | 是否抽取历史数据                                 | Boolean: true, false                   | optional: true                    |
-| extractor.history.start-time       | 抽取的历史数据的开始 event time，包含 start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
-| extractor.history.end-time         | 抽取的历史数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
-| extractor.realtime.enable          | 是否抽取实时数据                                 | Boolean: true, false                   | optional: true                    |
+| key                          | value                                            | value 取值范围                         | required or optional with default |
+| ---------------------------- | ------------------------------------------------ | -------------------------------------- | --------------------------------- |
+| extractor                    | iotdb-extractor                                  | String: iotdb-extractor                | required                          |
+| extractor.pattern            | 用于筛选时间序列的路径前缀                       | String: 任意的时间序列前缀             | optional: root                    |
+| extractor.history.enable     | 是否抽取历史数据                                 | Boolean: true, false                   | optional: true                    |
+| extractor.history.start-time | 抽取的历史数据的开始 event time，包含 start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
+| extractor.history.end-time   | 抽取的历史数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
+| extractor.realtime.enable    | 是否抽取实时数据                                 | Boolean: true, false                   | optional: true                    |
 
 > 🚫 **extractor.pattern 参数说明**
 >
 > * Pattern 需用反引号修饰不合法字符或者是不合法路径节点，例如如果希望筛选 root.\`a@b\` 或者 root.\`123\`，应设置 pattern 为 root.\`a@b\` 或者 root.\`123\`（具体参考 [单双引号和反引号的使用时机](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
 > * 在底层实现中，当检测到 pattern 为 root（默认值）时，抽取效率较高，其他任意格式都将降低性能
 > * 路径前缀不需要能够构成完整的路径。例如，当创建一个包含参数为 'extractor.pattern'='root.aligned.1' 的 pipe 时：
->   > * root.aligned.1TS
->   >
 >
+>   * root.aligned.1TS
 >   * root.aligned.1TS.\`1\`
->   * root.aligned.100TS
->     > 的数据会被抽取；
->     >
->     > * root.aligned.\`1\`
->     >
+>   * root.aligned.100T
+>   
+>   的数据会被抽取；
+>   
+>   * root.aligned.\`1\`
 >   * root.aligned.\`123\`
->     > 的数据不会被抽取。
+>
+>   的数据不会被抽取。
 
 > ❗️**extractor.history 的 start-time，end-time 参数说明**
 >

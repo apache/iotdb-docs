@@ -506,18 +506,17 @@ SHOW PIPEPLUGINS
 > * Pattern 需用反引号修饰不合法字符或者是不合法路径节点，例如如果希望筛选 root.\`a@b\` 或者 root.\`123\`，应设置 pattern 为 root.\`a@b\` 或者 root.\`123\`（具体参考 [单双引号和反引号的使用时机](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
 > * 在底层实现中，当检测到 pattern 为 root（默认值）时，抽取效率较高，其他任意格式都将降低性能
 > * 路径前缀不需要能够构成完整的路径。例如，当创建一个包含参数为 'extractor.pattern'='root.aligned.1' 的 pipe 时：
->   > * root.aligned.1TS
->   >
->
+    >
+    >   * root.aligned.1TS
 >   * root.aligned.1TS.\`1\`
->   * root.aligned.100TS
->     > 的数据会被抽取；
->     >
->     > * root.aligned.\`1\`
->     >
+>   * root.aligned.100T
+    >
+    >   的数据会被抽取；
+    >
+    >   * root.aligned.\`1\`
 >   * root.aligned.\`123\`
->     > 的数据不会被抽取。
->     >
+    >
+    >   的数据不会被抽取。
 > * root.\_\_system 的数据不会被 pipe 抽取。用户虽然可以在 extractor.pattern 中包含任意前缀，包括带有（或覆盖） root.\__system 的前缀，但是 root.__system 下的数据总是会被 pipe 忽略的
 
 > ❗️**extractor.history 的 start-time，end-time 参数说明**
