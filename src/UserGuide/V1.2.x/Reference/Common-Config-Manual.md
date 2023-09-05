@@ -1629,6 +1629,24 @@ Different configuration parameters take effect in the following three ways:
 |  Default   | 4MB                                        |
 | Effective | After restarting system                                       |
 
+* config\_node_ratis_grpc_leader_outstanding_appends_max
+
+|    Name     | config\_node_ratis_grpc_leader_outstanding_appends_max |
+| :---------: | :----------------------------------------------------- |
+| Description | config node grpc pipeline concurrency threshold        |
+|    Type     | int32                                                  |
+|   Default   | 128                                                    |
+|  Effective  | After restarting system                                |
+
+* schema_region_ratis_grpc_leader_outstanding_appends_max
+
+|    Name     | schema_region_ratis_grpc_leader_outstanding_appends_max |
+| :---------: | :------------------------------------------------------ |
+| Description | schema region grpc pipeline concurrency threshold       |
+|    Type     | int32                                                   |
+|   Default   | 128                                                     |
+|  Effective  | After restarting system                                 |
+
 * data_region_ratis_grpc_leader_outstanding_appends_max
 
 |    Name     | data_region_ratis_grpc_leader_outstanding_appends_max |
@@ -1637,6 +1655,24 @@ Different configuration parameters take effect in the following three ways:
 |    Type     | int32                                                 |
 |   Default   | 128                                                   |
 |  Effective  | After restarting system                               |
+
+* config\_node_ratis_log_force_sync_num
+
+|    Name     | config\_node_ratis_log_force_sync_num |
+| :---------: | :------------------------------------ |
+| Description | config node fsync threshold           |
+|    Type     | int32                                 |
+|   Default   | 128                                   |
+|  Effective  | After restarting system               |
+
+* schema\_region_ratis_log_force_sync_num
+
+|    Name     | schema\_region_ratis_log_force_sync_num |
+| :---------: | :-------------------------------------- |
+| Description | schema region fsync threshold           |
+|    Type     | int32                                   |
+|   Default   | 128                                     |
+|  Effective  | After restarting system                 |
 
 * data_region_ratis_log_force_sync_num
 
