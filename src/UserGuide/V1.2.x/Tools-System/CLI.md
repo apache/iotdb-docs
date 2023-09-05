@@ -90,7 +90,6 @@ Enter ```quit``` or `exit` can exit Cli.
 | -p <`rpcPort`>               | int                        | Yes      | The rpc port number of the IoTDB server. IoTDB runs on rpc port 6667 by default | -p 6667             |
 | -pw <`password`>             | string, no quotation marks | No       | The password used for IoTDB to connect to the server. If no password is entered, IoTDB will ask for password in Cli command | -pw root            |
 | -u <`username`>              | string, no quotation marks | Yes      | User name used for IoTDB to connect the server               | -u root             |
-| -maxPRC <`maxPrintRowCount`> | int                        | No       | Set the maximum number of rows that IoTDB returns            | -maxPRC 10          |
 | -e <`execute`>               | string                     | No       | manipulate IoTDB in batches without entering cli input mode  | -e "show databases" |
 | -c                           | empty                      | No       | If the server enables `rpc_thrift_compression_enable=true`, then cli must use `-c` | -c                  |
 
@@ -100,13 +99,13 @@ Following is a cli command which connects the host with IP
 The Linux and MacOS system startup commands are as follows:
 
 ```shell
-Shell > bash sbin/start-cli.sh -h 10.129.187.21 -p 6667 -u root -pw root -disableISO8601 -maxPRC 10
+Shell > bash sbin/start-cli.sh -h 10.129.187.21 -p 6667 -u root -pw root -disableISO8601
 ```
 
 The Windows system startup commands are as follows:
 
 ```shell
-Shell > sbin\start-cli.bat -h 10.129.187.21 -p 6667 -u root -pw root -disableISO8601 -maxPRC 10
+Shell > sbin\start-cli.bat -h 10.129.187.21 -p 6667 -u root -pw root -disableISO8601
 ```
 
 ### CLI Special Command
@@ -121,7 +120,6 @@ Special commands of Cli are below.
 | `show time_zone`            | show cli time zone                                      |
 | `set fetch_size=xxx`        | set fetch size when querying data from server           |
 | `show fetch_size`           | show fetch size                                         |
-| `set max_display_num=xxx`   | set max lines for cli to output, -1 equals to unlimited |
 | `help`                      | Get hints for CLI special commands                      |
 | `exit/quit`                 | Exit CLI                                                |
 

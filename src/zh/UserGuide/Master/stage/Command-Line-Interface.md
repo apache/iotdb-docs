@@ -75,7 +75,6 @@ Successfully login at 127.0.0.1:6667
 |-p <`rpcPort`>|int 类型|是|IoTDB 连接服务器的端口号，IoTDB 默认运行在 6667 端口。|-p 6667|
 |-pw <`password`>|string 类型，不需要引号|否|IoTDB 连接服务器所使用的密码。如果没有输入密码 IoTDB 会在 Cli 端提示输入密码。|-pw root|
 |-u <`username`>|string 类型，不需要引号|是|IoTDB 连接服务器锁使用的用户名。|-u root|
-|-maxPRC <`maxPrintRowCount`>|int 类型|否|设置 IoTDB 返回客户端命令行中所显示的最大行数。|-maxPRC 10|
 |-e <`execute`> |string 类型|否|在不进入客户端输入模式的情况下，批量操作 IoTDB|-e "show databases"|
 |-c | 空 | 否 | 如果服务器设置了 `rpc_thrift_compression_enable=true`, 则 CLI 必须使用 `-c` | -c |
 
@@ -84,12 +83,12 @@ Successfully login at 127.0.0.1:6667
 Linux 系统与 MacOS 系统启动命令如下：
 
 ```shell
-Shell > bash sbin/start-cli.sh -h 10.129.187.21 -p 6667 -u root -pw root -disableISO8601 -maxPRC 10
+Shell > bash sbin/start-cli.sh -h 10.129.187.21 -p 6667 -u root -pw root -disableISO8601
 ```
 Windows 系统启动命令如下：
 
 ```shell
-Shell > sbin\start-cli.bat -h 10.129.187.21 -p 6667 -u root -pw root -disableISO8601 -maxPRC 10
+Shell > sbin\start-cli.bat -h 10.129.187.21 -p 6667 -u root -pw root -disableISO8601
 ```
 
 ### CLI 特殊命令
@@ -103,7 +102,6 @@ Shell > sbin\start-cli.bat -h 10.129.187.21 -p 6667 -u root -pw root -disableISO
 | `show time_zone` | 显示CLI的时区 |
 | `set fetch_size=xxx` | 设置从服务器查询数据时的读取条数 |
 | `show fetch_size` |  显示读取条数的大小 |
-| `set max_display_num=xxx` | 设置 CLI 一次展示的最大数据条数， 设置为-1表示无限制 |
 | `help` | 获取CLI特殊命令的提示 |
 | `exit/quit` | 退出CLI |
 
