@@ -85,6 +85,8 @@ export const enSidebar = {
         { text: 'Write Delete Data', link: 'Write-Delete-Data' },
         { text: 'Query Data', link: 'Query-Data' },
         { text: 'Operator and Expression', link: 'Operator-and-Expression' },
+        { text: 'Streaming', link: 'Streaming' },
+        { text: 'Data Sync', link: 'Data-Sync' },
         { text: 'Database Programming', link: 'Database-Programming' },
         { text: 'Authority Management', link: 'Authority-Management' },
       ],
