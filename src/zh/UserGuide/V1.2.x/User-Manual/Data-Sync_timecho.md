@@ -438,6 +438,8 @@ SHOW PIPEPLUGINS
 | connector.node-urls                    | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url          | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: 与 connector.ip:connector.port 任选其一填写 |
 | connector.air-gap.handshake-timeout-ms | 发送端与接收端在首次尝试建立连接时握手请求的超时时长，单位：毫秒 | Integer                                                                      | optional: 5000                                        |
 
+> 📌 请确保接收端已经创建了发送端的所有时间序列，或是开启了自动创建元数据，否则将会导致 pipe 运行失败。
+
 #### do-nothing-connector
 
 作用：不对 processor 传入的事件做任何的处理。

@@ -100,8 +100,6 @@ WITH EXTRACTOR (
   'extractor.history.end-time'   = '2022.12.03T10:15:30+01:00',
   -- 是否抽取实时数据
   'extractor.realtime.enable'    = 'true',
-  -- 描述实时数据的抽取方式
-  'extractor.realtime.mode'      = 'hybrid',
 )
 WITH PROCESSOR (
   -- 默认的数据处理插件，即不做任何处理
@@ -170,7 +168,7 @@ WITH CONNECTOR (
   ```
 
   - 因为它们对 CONNECTOR 的声明完全相同（**即使某些属性声明时的顺序不同**），所以框架会自动对它们声明的 CONNECTOR 进行复用，最终 pipe1, pipe2 的CONNECTOR 将会是同一个实例。
-- 在 extractor 为默认的 iotdb-extractor，且 extractor.forwarding-pipe-requests 为默认值 true 时，请不要构建出包含数据循环同步的应用场景（会导致无限循环）：
+- 请不要构建出包含数据循环同步的应用场景（会导致无限循环）：
 
   - IoTDB A -> IoTDB B -> IoTDB A
   - IoTDB A -> IoTDB A
@@ -276,8 +274,6 @@ SHOW PIPEPLUGINS
 | extractor.history.start-time       | 同步历史数据的开始 event time，包含 start-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
 | extractor.history.end-time         | 同步历史数据的结束 event time，包含 end-time     | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
 | extractor.realtime.enable          | 是否同步实时数据                                 | Boolean: true, false                   | optional: true                    |
-| extractor.realtime.mode            | 实时数据的抽取模式                               | String: hybrid, log, file              | optional: hybrid                  |
-| extractor.forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据 | Boolean: true, false                   | optional: true                    |
 
 > 🚫 **extractor.pattern 参数说明**
 >
@@ -295,7 +291,6 @@ SHOW PIPEPLUGINS
 >   * root.aligned.\`123\`
 >
 >   的数据不会被同步。
-> * root.\_\_system 的数据不会被 pipe 抽取，即不会被同步到目标端。用户虽然可以在 extractor.pattern 中包含任意前缀，包括带有（或覆盖） root.\__system 的前缀，但是 root.__system 下的数据总是会被 pipe 忽略的
 
 > ❗️**extractor.history 的 start-time，end-time 参数说明**
 >
@@ -321,17 +316,6 @@ SHOW PIPEPLUGINS
 > * 实时数据抽取（`'extractor.history.enable' = 'false'`, `'extractor.realtime.enable' = 'true'` ）
 > * 全量数据抽取（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'true'` ）
 > * 禁止同时设置 `extractor.history.enable` 和 `extractor.realtime.enable` 为 `false`
-
-> 📌 **extractor.realtime.mode：数据抽取的模式**
->
-> * log：该模式下，任务仅使用操作日志进行数据处理、发送
-> * file：该模式下，任务仅使用数据文件进行数据处理、发送
-> * hybrid：该模式，考虑了按操作日志逐条目发送数据时延迟低但吞吐低的特点，以及按数据文件批量发送时发送吞吐高但延迟高的特点，能够在不同的写入负载下自动切换适合的数据抽取方式，首先采取基于操作日志的数据抽取方式以保证低发送延迟，当产生数据积压时自动切换成基于数据文件的数据抽取方式以保证高发送吞吐，积压消除时自动切换回基于操作日志的数据抽取方式，避免了采用单一数据抽取算法难以平衡数据发送延迟或吞吐的问题。
-
-> 🍕 **extractor.forwarding-pipe-requests：是否允许转发从另一 pipe 传输而来的数据**
->
-> * 如果要使用 pipe 构建 A -> B -> C 的数据同步，那么 B -> C 的 pipe 需要将该参数为 true 后，A -> B 中 A 通过 pipe 写入 B 的数据才能被正确转发到 C
-> * 如果要使用 pipe 构建 A \<-> B 的双向数据同步（双活），那么 A -> B 和 B -> A 的 pipe 都需要将该参数设置为 false，否则将会造成数据无休止的集群间循环转发
 
 ### 预置 processor 插件
 
@@ -409,35 +393,6 @@ SHOW PIPEPLUGINS
 
 > 📌 请确保接收端已经创建了发送端的所有时间序列，或是开启了自动创建元数据，否则将会导致 pipe 运行失败。
 
-#### iotdb-air-gap-connector
-
-作用：用于 IoTDB（v1.2.2+）向 IoTDB（v1.2.2+）跨单向数据网闸的数据同步。支持的网闸型号包括南瑞 Syskeeper 2000 等。
-该 Connector 使用 Java 自带的 Socket 实现数据传输，单线程 blocking IO 模型，其性能与 iotdb-thrift-sync-connector 相当。
-保证接收端 apply 数据的顺序与发送端接受写入请求的顺序一致。
-
-场景：例如，在电力系统的规范中
-
-> 1．I/II 区与 III 区之间的应用程序禁止采用 SQL 命令访问数据库和基于 B/S 方式的双向数据传输
->
-> 2．I/II 区与 III 区之间的数据通信，传输的启动端由内网发起，反向的应答报文不容许携带数据，应用层的应答报文最多为 1 个字节，并且 1 个字节为全 0 或者全 1 两种状态
-
-限制：
-
-1. 源端 IoTDB 与 目标端 IoTDB 版本都需要在 v1.2.2+。
-2. 单向数据网闸需要允许 TCP 请求跨越，且每一个请求可返回一个全 1 或全 0 的 byte。
-3. 目标端 IoTDB 需要在 iotdb-common.properties 内，配置
-   a. pipe_air_gap_receiver_enabled=true
-   b. pipe_air_gap_receiver_port 配置 receiver 的接收端口
-
-
-| key                                    | value                                                            | value 取值范围                                                               | required or optional with default                     |
-| -------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------- |
-| connector                              | iotdb-air-gap-connector                                          | String: iotdb-air-gap-connector                                              | required                                              |
-| connector.ip                           | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip                 | String                                                                       | optional: 与 connector.node-urls 任选其一填写         |
-| connector.port                         | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port               | Integer                                                                      | optional: 与 connector.node-urls 任选其一填写         |
-| connector.node-urls                    | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url          | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: 与 connector.ip:connector.port 任选其一填写 |
-| connector.air-gap.handshake-timeout-ms | 发送端与接收端在首次尝试建立连接时握手请求的超时时长，单位：毫秒 | Integer                                                                      | optional: 5000                                        |
-
 #### do-nothing-connector
 
 作用：不对 processor 传入的事件做任何的处理。
@@ -502,13 +457,6 @@ SHOW PIPEPLUGINS
 
 # The maximum number of clients that can be used in the async connector.
 # pipe_async_connector_max_client_number=16
-
-# Whether to enable receiving pipe data through air gap.
-# The receiver can only return 0 or 1 in tcp mode to indicate whether the data is received successfully.
-# pipe_air_gap_receiver_enabled=false
-
-# The port for the server to receive pipe data through air gap.
-# pipe_air_gap_receiver_port=9780
 ```
 
 ## 功能特性
@@ -529,14 +477,6 @@ SHOW PIPEPLUGINS
 数据同步功能中，数据传输采用的是异步复制模式。
 
 数据同步与写入操作完全脱钩，不存在对写入关键路径的影响。该机制允许框架在保证持续数据同步的前提下，保持时序数据库的写入速度。
-
-### 源端：可自适应数据写入负载的数据传输策略
-
-支持根据写入负载，动态调整数据传输方式，同步默认使用 TsFile 文件与操作流动态混合传输（`'extractor.realtime.mode'='hybrid'`）。
-
-在数据写入负载高时，优先选择 TsFile 传输的方式。TsFile 压缩比高，节省网络带宽。
-
-在数据写入负载低时，优先选择操作流同步传输的方式。操作流传输实时性高。
 
 ### 源端：高可用集群部署时，Pipe 服务高可用
 

@@ -498,8 +498,6 @@ SHOW PIPEPLUGINS
 | extractor.history.start-time       | 抽取的历史数据的开始 event time，包含 start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
 | extractor.history.end-time         | 抽取的历史数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
 | extractor.realtime.enable          | 是否抽取实时数据                                 | Boolean: true, false                   | optional: true                    |
-| extractor.realtime.mode            | 实时数据的抽取模式                               | String: hybrid, log, file              | optional: hybrid                  |
-| extractor.forwarding-pipe-requests | 是否抽取由其他 Pipe （通常是数据同步）写入的数据 | Boolean: true, false                   | optional: true                    |
 
 > 🚫 **extractor.pattern 参数说明**
 >
@@ -517,8 +515,6 @@ SHOW PIPEPLUGINS
 >     >
 >   * root.aligned.\`123\`
 >     > 的数据不会被抽取。
->     >
-> * root.\_\_system 的数据不会被 pipe 抽取。用户虽然可以在 extractor.pattern 中包含任意前缀，包括带有（或覆盖） root.\__system 的前缀，但是 root.__system 下的数据总是会被 pipe 忽略的
 
 > ❗️**extractor.history 的 start-time，end-time 参数说明**
 >
@@ -544,17 +540,6 @@ SHOW PIPEPLUGINS
 > * 实时数据抽取（`'extractor.history.enable' = 'false'`, `'extractor.realtime.enable' = 'true'` ）
 > * 全量数据抽取（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'true'` ）
 > * 禁止同时设置 `extractor.history.enable` 和 `extractor.realtime.enable` 为 `false`
-
-> 📌 **extractor.realtime.mode：数据抽取的模式**
->
-> * log：该模式下，任务仅使用操作日志进行数据处理、发送
-> * file：该模式下，任务仅使用数据文件进行数据处理、发送
-> * hybrid：该模式，考虑了按操作日志逐条目发送数据时延迟低但吞吐低的特点，以及按数据文件批量发送时发送吞吐高但延迟高的特点，能够在不同的写入负载下自动切换适合的数据抽取方式，首先采取基于操作日志的数据抽取方式以保证低发送延迟，当产生数据积压时自动切换成基于数据文件的数据抽取方式以保证高发送吞吐，积压消除时自动切换回基于操作日志的数据抽取方式，避免了采用单一数据抽取算法难以平衡数据发送延迟或吞吐的问题。
-
-> 🍕 **extractor.forwarding-pipe-requests：是否允许转发从另一 pipe 传输而来的数据**
->
-> * 如果要使用 pipe 构建 A -> B -> C 的数据同步，那么 B -> C 的 pipe 需要将该参数为 true 后，A -> B 中 A 通过 pipe 写入 B 的数据才能被正确转发到 C
-> * 如果要使用 pipe 构建 A \<-> B 的双向数据同步（双活），那么 A -> B 和 B -> A 的 pipe 都需要将该参数设置为 false，否则将会造成数据无休止的集群间循环转发
 
 ### 预置 processor 插件
 
@@ -599,8 +584,6 @@ WITH EXTRACTOR (
   'extractor.history.end-time'   = '2022.12.03T10:15:30+01:00',
   -- 是否抽取实时数据
   'extractor.realtime.enable'    = 'true',
-  -- 描述实时数据的抽取方式
-  'extractor.realtime.mode'      = 'hybrid',
 )
 WITH PROCESSOR (
   -- 默认的数据处理插件，即不做任何处理
@@ -669,7 +652,7 @@ WITH CONNECTOR (
   ```
 
   - 因为它们对 CONNECTOR 的声明完全相同（**即使某些属性声明时的顺序不同**），所以框架会自动对它们声明的 CONNECTOR 进行复用，最终 pipe1, pipe2 的CONNECTOR 将会是同一个实例。
-- 在 extractor 为默认的 iotdb-extractor，且 extractor.forwarding-pipe-requests 为默认值 true 时，请不要构建出包含数据循环同步的应用场景（会导致无限循环）：
+- 请不要构建出包含数据循环同步的应用场景（会导致无限循环）：
 
   - IoTDB A -> IoTDB B -> IoTDB A
   - IoTDB A -> IoTDB A
