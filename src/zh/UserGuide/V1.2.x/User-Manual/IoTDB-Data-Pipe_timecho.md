@@ -7,9 +7,9 @@
     to you under the Apache License, Version 2.0 (the
     "License"); you may not use this file except in compliance
     with the License.  You may obtain a copy of the License at
-    
+  
         http://www.apache.org/licenses/LICENSE-2.0
-    
+  
     Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -35,8 +35,6 @@
 
 ![任务模型图](https://alioss.timecho.com/docs/img/%E4%BB%BB%E5%8A%A1%E6%A8%A1%E5%9E%8B%E5%9B%BE.png)
 
-
-
 描述一个数据订阅任务，本质就是描述 Pipe Extractor、Pipe Processor 和 Pipe Connector 插件的属性。用户可以通过 SQL 语句声明式地配置三个子任务的具体属性，通过组合不同的属性，实现灵活的数据 ETL 能力。
 
 利用数据订阅功能，可以搭建完整的数据链路来满足端*边云同步、异地灾备、读写负载分库*等需求。
@@ -46,7 +44,6 @@
 **🎯 目标：实现 IoTDB A -> IoTDB B 的全量数据订阅**
 
 - 启动两个 IoTDB，A（datanode -> 127.0.0.1:6667） B（datanode -> 127.0.0.1:6668）
-
 - 创建 A -> B 的 Pipe，在 A 上执行
 
   ```sql
@@ -57,19 +54,16 @@
     'connector.port'='6668'
   )
   ```
-
 - 启动 A -> B 的 Pipe，在 A 上执行
 
   ```sql
   start pipe a2b
   ```
-
 - 向 A 写入数据
 
   ```sql
   INSERT INTO root.db.d(time, m) values (1, 1)
   ```
-
 - 在 B 检查由 A 同步过来的数据
 
   ```sql
@@ -79,7 +73,7 @@
 > ❗️**注：目前的 IoTDB -> IoTDB 的数据订阅实现并不支持 DDL 同步**
 >
 > 即：不支持 ttl，trigger，别名，模板，视图，创建/删除序列，创建/删除存储组等操作
-> 
+>
 > **IoTDB -> IoTDB 的数据订阅要求目标端 IoTDB：**
 >
 > * 开启自动创建元数据：需要人工配置数据类型的编码和压缩与发送端保持一致
@@ -125,6 +119,7 @@ WITH CONNECTOR (
 
 **创建流水线时需要配置 PipeId 以及三个插件部分的参数：**
 
+
 | 配置项    | 说明                                              | 是否必填                    | 默认实现             | 默认实现说明                                             | 是否允许自定义实现        |
 | --------- | ------------------------------------------------- | --------------------------- | -------------------- | -------------------------------------------------------- | ------------------------- |
 | PipeId    | 全局唯一标定一个同步流水线的名称                  | <font color=red>必填</font> | -                    | -                                                        | -                         |
@@ -153,9 +148,7 @@ WITH CONNECTOR (
 **注意：**
 
 - EXTRACTOR 和 PROCESSOR 为选填配置，若不填写配置参数，系统则会采用相应的默认实现
-
 - CONNECTOR 为必填配置，需要在 CREATE PIPE 语句中声明式配置
-
 - CONNECTOR 具备自复用能力。对于不同的流水线，如果他们的 CONNECTOR 具备完全相同 KV 属性的（所有属性的 key 对应的 value 都相同），**那么系统最终只会创建一个 CONNECTOR 实例**，以实现对连接资源的复用。
 
   - 例如，有下面 pipe1, pipe2 两个流水线的声明：
@@ -167,7 +160,7 @@ WITH CONNECTOR (
     'connector.thrift.host' = 'localhost',
     'connector.thrift.port' = '9999',
   )
-  
+
   CREATE PIPE pipe2
   WITH CONNECTOR (
     'connector' = 'iotdb-thrift-connector',
@@ -177,7 +170,6 @@ WITH CONNECTOR (
   ```
 
   - 因为它们对 CONNECTOR 的声明完全相同（**即使某些属性声明时的顺序不同**），所以框架会自动对它们声明的 CONNECTOR 进行复用，最终 pipe1, pipe2 的CONNECTOR 将会是同一个实例。
-
 - 在 extractor 为默认的 iotdb-extractor，且 extractor.forwarding-pipe-requests 为默认值 true 时，请不要构建出包含数据循环同步的应用场景（会导致无限循环）：
 
   - IoTDB A -> IoTDB B -> IoTDB A
@@ -267,23 +259,22 @@ WHERE CONNECTOR USED BY <PipeId>
 
 作用：抽取 IoTDB 内部的历史或实时数据进入流水线。
 
-| key                          | value                                          | value 取值范围                         | required or optional with default |
-| ---------------------------- | ---------------------------------------------- | -------------------------------------- | --------------------------------- |
-| extractor                    | iotdb-extractor                                | String: iotdb-extractor                | required                          |
-| extractor.pattern            | 用于筛选时间序列的路径前缀                     | String: 任意的时间序列前缀             | optional: root                    |
-| extractor.history.enable     | 是否同步历史数据                               | Boolean: true, false                   | optional: true                    |
-| extractor.history.start-time | 同步历史数据的开始 event time，包含 start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
-| extractor.history.end-time   | 同步历史数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
-| extractor.realtime.enable    | 是否同步实时数据                               | Boolean: true, false                   | optional: true                    |
-| extractor.realtime.mode      | 实时数据的抽取模式                             | String: hybrid, log, file              | optional: hybrid                  |
-| extractor.forwarding-pipe-requests | 是否转发由其他 Pipe 写入的数据 | Boolean: true, false | optional: true |
+
+| key                                | value                                            | value 取值范围                         | required or optional with default |
+| ---------------------------------- | ------------------------------------------------ | -------------------------------------- | --------------------------------- |
+| extractor                          | iotdb-extractor                                  | String: iotdb-extractor                | required                          |
+| extractor.pattern                  | 用于筛选时间序列的路径前缀                       | String: 任意的时间序列前缀             | optional: root                    |
+| extractor.history.enable           | 是否同步历史数据                                 | Boolean: true, false                   | optional: true                    |
+| extractor.history.start-time       | 同步历史数据的开始 event time，包含 start-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
+| extractor.history.end-time         | 同步历史数据的结束 event time，包含 end-time     | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
+| extractor.realtime.enable          | 是否同步实时数据                                 | Boolean: true, false                   | optional: true                    |
+| extractor.realtime.mode            | 实时数据的抽取模式                               | String: hybrid, log, file              | optional: hybrid                  |
+| extractor.forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据 | Boolean: true, false                   | optional: true                    |
 
 > 🚫 **extractor.pattern 参数说明**
 >
 > * Pattern 需用反引号修饰不合法字符或者是不合法路径节点，例如如果希望筛选 root.\`a@b\` 或者 root.\`123\`，应设置 pattern 为 root.\`a@b\` 或者 root.\`123\`（具体参考 [单双引号和反引号的使用时机](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
->
 > * 在底层实现中，当检测到 pattern 为 root（默认值）时，同步效率较高，其他任意格式都将降低性能
->
 > * 路径前缀不需要能够构成完整的路径。例如，当创建一个包含参数为 'extractor.pattern'='root.aligned.1' 的 pipe 时：
 >
 >   * root.aligned.1TS
@@ -296,16 +287,11 @@ WHERE CONNECTOR USED BY <PipeId>
 >   * root.aligned.\`123\`
 >
 >   的数据不会被同步。
->
 > * root.\_\_system 的数据不会被 pipe 抽取，即不会被同步到目标端。用户虽然可以在 extractor.pattern 中包含任意前缀，包括带有（或覆盖） root.\__system 的前缀，但是 root.__system 下的数据总是会被 pipe 忽略的
 
-
-
->  ❗️**extractor.history 的 start-time，end-time 参数说明**
+> ❗️**extractor.history 的 start-time，end-time 参数说明**
 >
 > * start-time，end-time 应为 ISO 格式，例如 2011-12-03T10:15:30 或 2011-12-03T10:15:30+01:00
-
-
 
 > ✅ **一条数据从生产到落库 IoTDB，包含两个关键的时间概念**
 >
@@ -313,8 +299,6 @@ WHERE CONNECTOR USED BY <PipeId>
 > * **arrival time：** 数据到达 IoTDB 系统内的时间。
 >
 > 我们常说的乱序数据，指的是数据到达时，其 **event time** 远落后于当前系统时间（或者已经落库的最大 **event time**）的数据。另一方面，不论是乱序数据还是顺序数据，只要它们是新到达系统的，那它们的 **arrival time** 都是会随着数据到达 IoTDB 的顺序递增的。
-
-
 
 > 💎 **iotdb-extractor 的工作可以拆分成两个阶段**
 >
@@ -328,9 +312,7 @@ WHERE CONNECTOR USED BY <PipeId>
 > * 历史数据抽取（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'false'` ）
 > * 实时数据抽取（`'extractor.history.enable' = 'false'`, `'extractor.realtime.enable' = 'true'` ）
 > * 全量数据抽取（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'true'` ）
-> * 禁止同时设置 extractor.history.enable 和 extractor.retime.enable 为 false
-
-
+> * 禁止同时设置 `extractor.history.enable` 和 `extractor.realtime.enable` 为 `false`
 
 > 📌 **extractor.realtime.mode：数据抽取的模式**
 >
@@ -338,14 +320,17 @@ WHERE CONNECTOR USED BY <PipeId>
 > * file：该模式下，流水线仅使用数据文件进行数据处理、发送
 > * hybrid：该模式，考虑了按操作日志逐条目发送数据时延迟低但吞吐低的特点，以及按数据文件批量发送时发送吞吐高但延迟高的特点，能够在不同的写入负载下自动切换适合的数据抽取方式，首先采取基于操作日志的数据抽取方式以保证低发送延迟，当产生数据积压时自动切换成基于数据文件的数据抽取方式以保证高发送吞吐，积压消除时自动切换回基于操作日志的数据抽取方式，避免了采用单一数据抽取算法难以平衡数据发送延迟或吞吐的问题。
 
-> 🍕 **extractor.forwarding-pipe-requests：是否允许从另一 Pipe 传输而来的数据转发**
-> * Pipe 支持从另一个 Pipe 传输过来的数据的级联同步，且对于 log 模式和 file 模式均支持。此外，Pipe 也可以关闭这种级联同步。
-> * 关闭级联同步一个重要的应用就是双活场景。在双活场景中，两个集群的写入都会由自身的 Pipe 同步至另一个集群。此时关闭级联同步，就能避免无休止的循环转发。
+> 🍕 **extractor.forwarding-pipe-requests：是否允许转发从另一 pipe 传输而来的数据**
+>
+> * 如果要使用 pipe 构建 A -> B -> C 的数据同步，那么 B -> C 的 pipe 需要将该参数为 true 后，A -> B 中 A 通过 pipe 写入 B 的数据才能被正确转发到 C
+> * 如果要使用 pipe 构建 A \<-> B 的双向数据同步（双活），那么 A -> B 和 B -> A 的 pipe 都需要将该参数设置为 false，否则将会造成数据无休止的集群间循环转发
+
 ### 预置 processor
 
 #### do-nothing-processor
 
 作用：不对 extractor 传入的事件做任何的处理。
+
 
 | key       | value                | value 取值范围               | required or optional with default |
 | --------- | -------------------- | ---------------------------- | --------------------------------- |
@@ -361,17 +346,18 @@ WHERE CONNECTOR USED BY <PipeId>
 
 限制：源端 IoTDB 与 目标端 IoTDB 版本都需要在 v1.2.0+。
 
-| key            | value                                               | value 取值范围                                                                | required or optional with default        |
-| -------------- | --------------------------------------------------- |---------------------------------------------------------------------------|------------------------------------------|
-| connector      | iotdb-thrift-connector 或 iotdb-thrift-sync-connector | String: iotdb-thrift-connector 或 iotdb-thrift-sync-connector              | required                                 |
-| connector.ip   | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip    | String                                                                    | optional: 与 connector.node-urls 任选其一填写   |
-| connector.port | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port  | Integer                                                                   | optional: 与 connector.node-urls 任选其一填写   |
-| connector.node-urls | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: 与 connector.ip:connector.port 任选其一填写 |
-| connector.batch.enable | 是否开启攒批发送模式，用于提高性能 | Boolean: true, false | optional: true |
-| connector.batch.max-delay-seconds | 在开启攒批发送模式时，表示一批数据最晚被发送的延迟时间 | Integer | optional: 1 |
-| connector.batch.size-bytes | 在开启攒批发送模式时，表示一批发送数据最大的 byte 数 | Long | optional: 16 * 1024 * 1024 (16MiB) |
 
->  📌 请确保接收端已经创建了发送端的所有时间序列，或是开启了自动创建元数据，否则将会导致 pipe 运行失败。
+| key                               | value                                                                       | value 取值范围                                                               | required or optional with default                     |
+| --------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------- |
+| connector                         | iotdb-thrift-connector 或 iotdb-thrift-sync-connector                       | String: iotdb-thrift-connector 或 iotdb-thrift-sync-connector                | required                                              |
+| connector.ip                      | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip                            | String                                                                       | optional: 与 connector.node-urls 任选其一填写         |
+| connector.port                    | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port                          | Integer                                                                      | optional: 与 connector.node-urls 任选其一填写         |
+| connector.node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url                     | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: 与 connector.ip:connector.port 任选其一填写 |
+| connector.batch.enable            | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS                       | Boolean: true, false                                                         | optional: true                                        |
+| connector.batch.max-delay-seconds | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                                      | optional: 1                                           |
+| connector.batch.size-bytes        | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte）      | Long                                                                         | optional: 16 * 1024 * 1024 (16MiB)                    |
+
+> 📌 请确保接收端已经创建了发送端的所有时间序列，或是开启了自动创建元数据，否则将会导致 pipe 运行失败。
 
 #### iotdb-thrift-async-connector
 
@@ -381,15 +367,16 @@ WHERE CONNECTOR USED BY <PipeId>
 
 限制：源端 IoTDB 与 目标端 IoTDB 版本都需要在 v1.2.0+。
 
-| key            | value                                                 | value 取值范围                                                                | required or optional with default        |
-| -------------- |-------------------------------------------------------|---------------------------------------------------------------------------|------------------------------------------|
-| connector      | iotdb-thrift-async-connector | String: iotdb-thrift-async-connector             | required                                 |
-| connector.ip   | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip                    | String                                                                    | optional: 与 connector.node-urls 任选其一填写   |
-| connector.port | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port                  | Integer                                                                   | optional: 与 connector.node-urls 任选其一填写   |
-| connector.node-urls | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url                | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: 与 connector.ip:connector.port 任选其一填写 |
-| connector.batch.enable | 是否开启攒批发送模式，用于提高性能 | Boolean: true, false | optional: true |
-| connector.batch.max-delay-seconds | 在开启攒批发送模式时，表示一批数据最晚被发送的延迟时间 | Integer | optional: 1 |
-| connector.batch.size-bytes | 在开启攒批发送模式时，表示一批发送数据最大的 byte 数 | Long | optional: 16 * 1024 * 1024 (16MiB) |
+
+| key                               | value                                                                       | value 取值范围                                                               | required or optional with default                     |
+| --------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------- |
+| connector                         | iotdb-thrift-async-connector                                                | String: iotdb-thrift-async-connector                                         | required                                              |
+| connector.ip                      | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip                            | String                                                                       | optional: 与 connector.node-urls 任选其一填写         |
+| connector.port                    | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port                          | Integer                                                                      | optional: 与 connector.node-urls 任选其一填写         |
+| connector.node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url                     | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: 与 connector.ip:connector.port 任选其一填写 |
+| connector.batch.enable            | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS                       | Boolean: true, false                                                         | optional: true                                        |
+| connector.batch.max-delay-seconds | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                                      | optional: 1                                           |
+| connector.batch.size-bytes        | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte）      | Long                                                                         | optional: 16 * 1024 * 1024 (16MiB)                    |
 
 > 📌 请确保接收端已经创建了发送端的所有时间序列，或是开启了自动创建元数据，否则将会导致 pipe 运行失败。
 
@@ -402,47 +389,51 @@ WHERE CONNECTOR USED BY <PipeId>
 
 注意：理论上 v1.2.0+ IoTDB 可作为 v1.2.0 版本前的任意版本的数据同步（Sync）接收端。
 
-| key                | value                                                        | value 取值范围               | required or optional with default |
-| ------------------ | ------------------------------------------------------------ | ---------------------------- | --------------------------------- |
-| connector          | iotdb-legacy-pipe-connector                                        | String: iotdb-legacy-pipe-connector | required                          |
-| connector.ip       | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip             | String                       | required                          |
-| connector.port     | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port           | Integer                      | required                          |
-| connector.user     | 目标端 IoTDB 的用户名，注意该用户需要支持数据写入、TsFile Load 的权限 | String                       | optional: root                    |
-| connector.password | 目标端 IoTDB 的密码，注意该用户需要支持数据写入、TsFile Load 的权限 | String                       | optional: root                    |
-| connector.version  | 目标端 IoTDB 的版本，用于伪装自身实际版本，绕过目标端的版本一致性检查 | String                       | optional: 1.1                     |
 
->  📌 请确保接收端已经创建了发送端的所有时间序列，或是开启了自动创建元数据，否则将会导致 pipe 运行失败。
+| key                | value                                                                 | value 取值范围                      | required or optional with default |
+| ------------------ | --------------------------------------------------------------------- | ----------------------------------- | --------------------------------- |
+| connector          | iotdb-legacy-pipe-connector                                           | String: iotdb-legacy-pipe-connector | required                          |
+| connector.ip       | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip                      | String                              | required                          |
+| connector.port     | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port                    | Integer                             | required                          |
+| connector.user     | 目标端 IoTDB 的用户名，注意该用户需要支持数据写入、TsFile Load 的权限 | String                              | optional: root                    |
+| connector.password | 目标端 IoTDB 的密码，注意该用户需要支持数据写入、TsFile Load 的权限   | String                              | optional: root                    |
+| connector.version  | 目标端 IoTDB 的版本，用于伪装自身实际版本，绕过目标端的版本一致性检查 | String                              | optional: 1.1                     |
 
-#### iotdb-air-gap-pipe-connector
-作用：主要用于 IoTDB（v1.2.2+）向 IoTDB（v1.2.2+）之间跨正向网闸的数据传输，能够跨越仅允许接收端返回一个全 1 或全 0 的 byte 的正向网闸，如
-     南瑞 Syskeeper 2000。其性能与 iotdb-thrift-sync-connector 相当，使用方式也接近。
-     该 Connector 使用 Java 自带的 Socket 功能传输数据，单线程 blocking IO 模型，
-     保证接收端 apply 数据的顺序与发送端接受写入请求的顺序一致。
+> 📌 请确保接收端已经创建了发送端的所有时间序列，或是开启了自动创建元数据，否则将会导致 pipe 运行失败。
+
+#### iotdb-air-gap-connector
+
+作用：用于 IoTDB（v1.2.2+）向 IoTDB（v1.2.2+）跨单向数据网闸的数据同步。支持的网闸型号包括南瑞 Syskeeper 2000 等。
+该 Connector 使用 Java 自带的 Socket 实现数据传输，单线程 blocking IO 模型，其性能与 iotdb-thrift-sync-connector 相当。
+保证接收端 apply 数据的顺序与发送端接受写入请求的顺序一致。
+
+场景：例如，在电力系统的规范中
+
+> 1．I/II 区与 III 区之间的应用程序禁止采用 SQL 命令访问数据库和基于 B/S 方式的双向数据传输
+>
+> 2．I/II 区与 III 区之间的数据通信，传输的启动端由内网发起，反向的应答报文不容许携带数据，应用层的应答报文最多为 1 个字节，并且 1 个字节为全 0 或者全 1 两种状态
 
 限制：
+
 1. 源端 IoTDB 与 目标端 IoTDB 版本都需要在 v1.2.2+。
-2. 目标端 IoTDB 需要在 iotdb-common.properties 内，配置 pipe_air_gap_receiver_enabled=true，且在 pipe_air_gap_receiver_port 内配置 receiver 的接收端口。
+2. 单向数据网闸需要允许 TCP 请求跨越，且每一个请求可返回一个全 1 或全 0 的 byte。
+3. 目标端 IoTDB 需要在 iotdb-common.properties 内，配置
+   a. pipe_air_gap_receiver_enabled=true
+   b. pipe_air_gap_receiver_port 配置 receiver 的接收端口
 
-附：SysKeeper-2000网络安全隔离装置(正向型)V4.0-使用手册节选：
 
-> **2. 应用软件跨网络安全隔离装置的设计建议**
-> 
-> 1．I/II 区与 III 区之间的应用程序禁止采用 SQL 命令访问数据库和基于
-B/S 方式的双向数据传输。
-> 
-> 2．I/II 区与 III 区之间的数据通信，传输的启动端由内网发起，反向的应答报文不容许携带数据，应用层的应答报文最多为 1 个字节，并且 1 个字节为全 0 或者全 1 两种状态
-> 
-| key            | value                                                 | value 取值范围                                                                | required or optional with default        |
-| -------------- |-------------------------------------------------------|---------------------------------------------------------------------------|------------------------------------------|
-| connector      | iotdb-thrift-async-connector | String: iotdb-thrift-async-connector             | required                                 |
-| connector.ip   | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip                    | String                                                                    | optional: 与 connector.node-urls 任选其一填写   |
-| connector.port | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port                  | Integer                                                                   | optional: 与 connector.node-urls 任选其一填写   |
-| connector.node-urls | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url                | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: 与 connector.ip:connector.port 任选其一填写 |
-| connector.air-gap.handshake-timeout-ms | 发送端与接收端的握手超时毫秒数 | Integer | optional: 5000 |
+| key                                    | value                                                            | value 取值范围                                                               | required or optional with default                     |
+| -------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------- |
+| connector                              | iotdb-air-gap-connector                                          | String: iotdb-air-gap-connector                                              | required                                              |
+| connector.ip                           | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip                 | String                                                                       | optional: 与 connector.node-urls 任选其一填写         |
+| connector.port                         | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port               | Integer                                                                      | optional: 与 connector.node-urls 任选其一填写         |
+| connector.node-urls                    | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url          | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: 与 connector.ip:connector.port 任选其一填写 |
+| connector.air-gap.handshake-timeout-ms | 发送端与接收端在首次尝试建立连接时握手请求的超时时长，单位：毫秒 | Integer                                                                      | optional: 5000                                        |
 
 #### do-nothing-connector
 
 作用：不对 processor 传入的事件做任何的处理。
+
 
 | key       | value                | value 取值范围               | required or optional with default |
 | --------- | -------------------- | ---------------------------- | --------------------------------- |
@@ -884,6 +875,7 @@ SHOW PIPEPLUGINS
 
 ### Pipe 任务
 
+
 | 权限名称    | 描述                   |
 | ----------- | ---------------------- |
 | CREATE_PIPE | 注册流水线。路径无关。 |
@@ -893,6 +885,7 @@ SHOW PIPEPLUGINS
 | SHOW_PIPES  | 查询流水线。路径无关。 |
 
 ### Pipe 插件
+
 
 | 权限名称          | 描述                       |
 | ----------------- | -------------------------- |
