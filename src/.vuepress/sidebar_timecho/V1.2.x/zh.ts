@@ -67,6 +67,7 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '环境要求', link: 'Environmental-Requirement' },
+        { text: '资源推荐', link: 'Deployment-Recommendation' },
         { text: '部署指导', link: 'Deployment-Guide_timecho' },
         { text: 'docker部署', link: 'Docker-Install' },
         { text: '监控面板安装部署', link: 'Monitoring-Board-Install-and-Deploy' },   

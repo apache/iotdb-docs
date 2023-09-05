@@ -67,7 +67,7 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'Environmental Requirement', link: 'Environmental-Requirement' },
-        { text: 'Get Installation Package', link: 'Get-Installation-Package' },
+        { text: 'Resource Recommendation', link: 'Deployment-Recommendation' },
         { text: 'Deployment Guide', link: 'Deployment-Guide_timecho' },
         { text: 'Docker Install', link: 'Docker-Install' },
         { text: 'Monitoring-Board-Install-and-Deploy', link: 'Monitoring-Board-Install-and-Deploy' },
