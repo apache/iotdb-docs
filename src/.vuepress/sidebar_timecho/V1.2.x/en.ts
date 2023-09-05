@@ -86,6 +86,7 @@ export const enSidebar = {
         { text: 'Write Delete Data', link: 'Write-Delete-Data' },
         { text: 'Query Data', link: 'Query-Data' },
         { text: 'Operator and Expression', link: 'Operator-and-Expression' },
+        { text: 'Streaming', link: 'Streaming_timecho' },
         { text: 'Data Sync', link: 'Data-Sync_timecho' },
         { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
         { text: 'View', link: 'IoTDB-View_timecho' },
