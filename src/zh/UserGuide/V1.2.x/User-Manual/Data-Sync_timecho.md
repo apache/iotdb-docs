@@ -33,7 +33,7 @@
 
 **Pipe 任务的模型如下：**
 
-![任务模型图](https://alioss.timecho.com/docs/img/%E4%BB%BB%E5%8A%A1%E6%A8%A1%E5%9E%8B%E5%9B%BE.png)
+![任务模型图](https://alioss.timecho.com/docs/img/%E6%B5%81%E5%A4%84%E7%90%86%E5%BC%95%E6%93%8E.jpeg)
 
 描述一个数据同步任务，本质就是描述 Pipe Extractor、Pipe Processor 和 Pipe Connector 插件的属性。用户可以通过 SQL 语句声明式地配置三个子任务的具体属性，通过组合不同的属性，实现灵活的数据 ETL 能力。
 
@@ -451,9 +451,6 @@ SHOW PIPEPLUGINS
 
 ## 权限管理
 
-### Pipe 任务
-
-
 | 权限名称    | 描述                 |
 | ----------- | -------------------- |
 | CREATE_PIPE | 注册任务。路径无关。 |
@@ -461,15 +458,6 @@ SHOW PIPEPLUGINS
 | STOP_PIPE   | 停止任务。路径无关。 |
 | DROP_PIPE   | 卸载任务。路径无关。 |
 | SHOW_PIPES  | 查询任务。路径无关。 |
-
-### Pipe 插件
-
-
-| 权限名称          | 描述                     |
-| ----------------- | ------------------------ |
-| CREATE_PIPEPLUGIN | 注册任务插件。路径无关。 |
-| DROP_PIPEPLUGIN   | 开启任务插件。路径无关。 |
-| SHOW_PIPEPLUGINS  | 查询任务插件。路径无关。 |
 
 ## 配置参数
 
