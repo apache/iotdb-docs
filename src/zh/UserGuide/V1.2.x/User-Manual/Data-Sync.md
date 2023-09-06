@@ -33,7 +33,7 @@
 
 **Pipe 任务的模型如下：**
 
-![任务模型图](https://alioss.timecho.com/docs/img/%E4%BB%BB%E5%8A%A1%E6%A8%A1%E5%9E%8B%E5%9B%BE.png)
+![任务模型图](https://alioss.timecho.com/docs/img/%E6%B5%81%E5%A4%84%E7%90%86%E5%BC%95%E6%93%8E.jpeg)
 
 描述一个数据同步任务，本质就是描述 Pipe Extractor、Pipe Processor 和 Pipe Connector 插件的属性。用户可以通过 SQL 语句声明式地配置三个子任务的具体属性，通过组合不同的属性，实现灵活的数据 ETL 能力。
 
@@ -345,9 +345,6 @@ SHOW PIPEPLUGINS
 | connector.ip                      | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip                            | String                                                                       | optional: 与 connector.node-urls 任选其一填写         |
 | connector.port                    | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port                          | Integer                                                                      | optional: 与 connector.node-urls 任选其一填写         |
 | connector.node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url                     | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: 与 connector.ip:connector.port 任选其一填写 |
-| connector.batch.enable            | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS                       | Boolean: true, false                                                         | optional: true                                        |
-| connector.batch.max-delay-seconds | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                                      | optional: 1                                           |
-| connector.batch.size-bytes        | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte）      | Long                                                                         | optional: 16 * 1024 * 1024 (16MiB)                    |
 
 > 📌 请确保接收端已经创建了发送端的所有时间序列，或是开启了自动创建元数据，否则将会导致 pipe 运行失败。
 
@@ -366,9 +363,6 @@ SHOW PIPEPLUGINS
 | connector.ip                      | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip                            | String                                                                       | optional: 与 connector.node-urls 任选其一填写         |
 | connector.port                    | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port                          | Integer                                                                      | optional: 与 connector.node-urls 任选其一填写         |
 | connector.node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url                     | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: 与 connector.ip:connector.port 任选其一填写 |
-| connector.batch.enable            | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS                       | Boolean: true, false                                                         | optional: true                                        |
-| connector.batch.max-delay-seconds | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                                      | optional: 1                                           |
-| connector.batch.size-bytes        | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte）      | Long                                                                         | optional: 16 * 1024 * 1024 (16MiB)                    |
 
 > 📌 请确保接收端已经创建了发送端的所有时间序列，或是开启了自动创建元数据，否则将会导致 pipe 运行失败。
 
@@ -404,9 +398,6 @@ SHOW PIPEPLUGINS
 
 ## 权限管理
 
-### Pipe 任务
-
-
 | 权限名称    | 描述                 |
 | ----------- | -------------------- |
 | CREATE_PIPE | 注册任务。路径无关。 |
@@ -414,15 +405,6 @@ SHOW PIPEPLUGINS
 | STOP_PIPE   | 停止任务。路径无关。 |
 | DROP_PIPE   | 卸载任务。路径无关。 |
 | SHOW_PIPES  | 查询任务。路径无关。 |
-
-### Pipe 插件
-
-
-| 权限名称          | 描述                     |
-| ----------------- | ------------------------ |
-| CREATE_PIPEPLUGIN | 注册任务插件。路径无关。 |
-| DROP_PIPEPLUGIN   | 开启任务插件。路径无关。 |
-| SHOW_PIPEPLUGINS  | 查询任务插件。路径无关。 |
 
 ## 配置参数
 
