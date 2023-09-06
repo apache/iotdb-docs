@@ -70,7 +70,6 @@ export const enSidebar = {
         { text: 'Get Installation Package', link: 'Get-Installation-Package' },
         { text: 'Deployment Guide', link: 'Deployment-Guide' },
         { text: 'Docker Install', link: 'Docker-Install' },
-        { text: 'Security Management', link: 'Security-Management' },
       ],
     },
 
@@ -85,7 +84,10 @@ export const enSidebar = {
         { text: 'Write Delete Data', link: 'Write-Delete-Data' },
         { text: 'Query Data', link: 'Query-Data' },
         { text: 'Operator and Expression', link: 'Operator-and-Expression' },
+        { text: 'Streaming', link: 'Streaming' },
+        { text: 'Data Sync', link: 'Data-Sync' },
         { text: 'Database Programming', link: 'Database-Programming' },
+        { text: 'Security Management', link: 'Security-Management' },
         { text: 'Authority Management', link: 'Authority-Management' },
       ],
     },
