@@ -1629,54 +1629,54 @@ Different configuration parameters take effect in the following three ways:
 |  Default   | 4MB                                        |
 | Effective | After restarting system                                       |
 
-* config\_node_ratis_grpc_leader_outstanding_appends_max
+* config\_node\_ratis\_grpc\_leader\_outstanding\_appends\_max
 
-|    Name     | config\_node_ratis_grpc_leader_outstanding_appends_max |
+|    Name     | config\_node\_ratis\_grpc\_leader\_outstanding\_appends\_max |
 | :---------: | :----------------------------------------------------- |
 | Description | config node grpc pipeline concurrency threshold        |
 |    Type     | int32                                                  |
 |   Default   | 128                                                    |
 |  Effective  | After restarting system                                |
 
-* schema_region_ratis_grpc_leader_outstanding_appends_max
+* schema\_region\_ratis\_grpc\_leader\_outstanding\_appends\_max
 
-|    Name     | schema_region_ratis_grpc_leader_outstanding_appends_max |
+|    Name     | schema\_region\_ratis\_grpc\_leader\_outstanding\_appends\_max |
 | :---------: | :------------------------------------------------------ |
 | Description | schema region grpc pipeline concurrency threshold       |
 |    Type     | int32                                                   |
 |   Default   | 128                                                     |
 |  Effective  | After restarting system                                 |
 
-* data_region_ratis_grpc_leader_outstanding_appends_max
+* data\_region\_ratis\_grpc\_leader\_outstanding\_appends\_max
 
-|    Name     | data_region_ratis_grpc_leader_outstanding_appends_max |
+|    Name     | data\_region\_ratis\_grpc\_leader\_outstanding\_appends\_max |
 | :---------: | :---------------------------------------------------- |
 | Description | data region grpc pipeline concurrency threshold       |
 |    Type     | int32                                                 |
 |   Default   | 128                                                   |
 |  Effective  | After restarting system                               |
 
-* config\_node_ratis_log_force_sync_num
+* config\_node\_ratis\_log\_force\_sync\_num
 
-|    Name     | config\_node_ratis_log_force_sync_num |
+|    Name     | config\_node\_ratis\_log\_force\_sync\_num |
 | :---------: | :------------------------------------ |
 | Description | config node fsync threshold           |
 |    Type     | int32                                 |
 |   Default   | 128                                   |
 |  Effective  | After restarting system               |
 
-* schema\_region_ratis_log_force_sync_num
+* schema\_region\_ratis\_log\_force\_sync\_num
 
-|    Name     | schema\_region_ratis_log_force_sync_num |
+|    Name     | schema\_region\_ratis\_log\_force\_sync\_num |
 | :---------: | :-------------------------------------- |
 | Description | schema region fsync threshold           |
 |    Type     | int32                                   |
 |   Default   | 128                                     |
 |  Effective  | After restarting system                 |
 
-* data_region_ratis_log_force_sync_num
+* data\_region\_ratis\_log\_force\_sync\_num
 
-|    Name     | data_region_ratis_log_force_sync_num |
+|    Name     | data\_region\_ratis\_log\_force\_sync\_num |
 | :---------: | :----------------------------------- |
 | Description | data region fsync threshold          |
 |    Type     | int32                                |
