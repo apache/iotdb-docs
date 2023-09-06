@@ -394,7 +394,7 @@ iotd cluster stop default_cluster -N datanode_1
 or
 
 ```bash
-span
+iotd cluster stop default_cluster -N 192.168.1.5:6667
 ```
 
 * 根据 cluster-name 找到默认位置的 yaml 文件
