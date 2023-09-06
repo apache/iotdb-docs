@@ -50,7 +50,7 @@ IoTDB 提供单机版、集群版和双活版共 3 种部署形态。本章节�
 * 对于所有部署 ConfigNode 的服务器，需要修改 **通用配置** 和 **ConfigNode 配置** 。
 * 对于所有部署 DataNode 的服务器，需要修改 **通用配置** 和 **DataNode 配置** 。
 
-**通用配置**
+#### 通用配置
 
 打开通用配置文件 ./conf/iotdb-common.properties，可根据 [部署推荐](https://iotdb.apache.org/zh/UserGuide/Master/Cluster/Deployment-Recommendation.html)设置以下参数：
 
@@ -65,7 +65,7 @@ IoTDB 提供单机版、集群版和双活版共 3 种部署形态。本章节�
 
 **注意：上述配置项在集群启动后即不可更改，且务必保证所有节点的通用配置完全一致，否则节点无法启动。**
 
-**ConfigNode 配置**
+#### ConfigNode 配置
 
 打开 ConfigNode 配置文件 ./conf/iotdb-confignode.properties，根据服务器/虚拟机的 IP 地址和可用端口，设置以下参数：
 
@@ -78,7 +78,7 @@ IoTDB 提供单机版、集群版和双活版共 3 种部署形态。本章节�
 
 **注意：上述配置项在节点启动后即不可更改，且务必保证所有端口均未被占用，否则节点无法启动。**
 
-**DataNode 配置**
+#### DataNode 配置
 
 打开 DataNode 配置文件 ./conf/iotdb-datanode.properties，根据服务器/虚拟机的 IP 地址和可用端口，设置以下参数：
 
