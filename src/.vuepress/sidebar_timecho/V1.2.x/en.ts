@@ -67,7 +67,7 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'Environmental Requirement', link: 'Environmental-Requirement' },
-        { text: 'Get Installation Package', link: 'Get-Installation-Package' },
+        { text: 'Resource Recommendation', link: 'Deployment-Recommendation' },
         { text: 'Deployment Guide', link: 'Deployment-Guide_timecho' },
         { text: 'Docker Install', link: 'Docker-Install' },
         { text: 'Monitoring-Board-Install-and-Deploy', link: 'Monitoring-Board-Install-and-Deploy' },
@@ -85,7 +85,8 @@ export const enSidebar = {
         { text: 'Write Delete Data', link: 'Write-Delete-Data' },
         { text: 'Query Data', link: 'Query-Data' },
         { text: 'Operator and Expression', link: 'Operator-and-Expression' },
-        { text: 'Data Pipe', link: 'IoTDB-Data-Pipe_timecho' },
+        { text: 'Streaming', link: 'Streaming_timecho' },
+        { text: 'Data Sync', link: 'Data-Sync_timecho' },
         { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
         { text: 'View', link: 'IoTDB-View_timecho' },
         { text: 'Database Programming', link: 'Database-Programming' },

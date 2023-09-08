@@ -67,6 +67,7 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '环境要求', link: 'Environmental-Requirement' },
+        { text: '资源推荐', link: 'Deployment-Recommendation' },
         { text: '部署指导', link: 'Deployment-Guide_timecho' },
         { text: 'docker部署', link: 'Docker-Install' },
         { text: '监控面板安装部署', link: 'Monitoring-Board-Install-and-Deploy' },   
@@ -84,7 +85,8 @@ export const zhSidebar = {
         { text: '数据增删', link: 'Write-Delete-Data' },
         { text: '数据查询', link: 'Query-Data' },
         { text: '运算符和表达式', link: 'Operator-and-Expression' },
-        { text: '数据订阅', link: 'IoTDB-Data-Pipe_timecho' },
+        { text: '流处理', link: 'Streaming_timecho' },
+        { text: '数据同步', link: 'Data-Sync_timecho' },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
         { text: '视图', link: 'IoTDB-View_timecho' },
         { text: '数据库编程', link: 'Database-Programming' },
