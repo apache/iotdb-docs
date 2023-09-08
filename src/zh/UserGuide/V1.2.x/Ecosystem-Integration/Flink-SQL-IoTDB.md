@@ -1,16 +1,32 @@
 # flink-sql-iotdb-connector
 
-## flink 介绍
+flink-sql-iotdb-connector 将 Flink SQL 或者 Flink Table 与 IoTDB 无缝衔接了起来，使得在 Flink 的任务中可以对 IoTDB 进行实时读写，具体可以应用到如下场景中：
 
-Apache Flink 功能强大，支持开发和运行多种不同种类的应用程序。它的主要特性包括：批流一体化、精密的状态管理、事件时间支持以及精确一次的状态一致性保障等。Flink 不仅可以运行在包括 YARN、 Mesos、Kubernetes 在内的多种资源管理框架上，还支持在裸机集群上独立部署。在启用高可用选项的情况下，它不存在单点失效问题。事实证明，Flink 已经可以扩展到数千核心，其状态可以达到 TB 级别，且仍能保持高吞吐、低延迟的特性。世界各地有很多要求严苛的流处理应用都运行在 Flink 之上。
+1. 实时数据同步：将数据从一个数据库实时同步到另一个数据库。
+2. 实时数据管道：构建实时数据处理管道，处理和分析数据库中的数据。
+3. 实时数据分析：实时分析数据库中的数据，提供实时的业务洞察。
+4. 实时应用：将数据库中的数据实时应用于实时应用程序，如实时报表、实时推荐等。
+5. 实时监控：实时监控数据库中的数据，检测异常和错误。
 
-### source 的区别
+## 读写模式
 
-bounded scan：bounded scan 的主要实现方式是通过指定  `时间序列` 以及 `查询条件的上下界（可选）`来进行查询，并且查询结果通常为多行数据。这种查询无法获取到查询之后更新的数据。
+| 读模式（Source）          | 写模式（Sink）             |
+| ------------------------- | -------------------------- |
+| Bounded Scan, Lookup, CDC | Streaming Sink, Batch Sink |
 
-lookup：lookup 查询模式与 scan 查询模式不同，bounded scan 是对一个时间范围内的数据进行查询，而 `lookup` 查询只会对一个精确的时间点进行查询，所以查询结果只有一行数据。另外只有 `lookup join` 的右表才能使用 lookup 查询模式。
+### 读模式（Source）
 
-CDC: 主要用于 Flink 的 `ETL` 任务当中。当 IoTDB 中的数据发生变化时，flink 会通过我们提供的 `CDC connector` 感知到，我们可以将感知到的变化数据转发给其他的外部数据源，以此达到 ETL 的目的。
+* **Bounded Scan：**bounded scan 的主要实现方式是通过指定  `时间序列` 以及 `查询条件的上下界（可选）`来进行查询，并且查询结果通常为多行数据。这种查询无法获取到查询之后更新的数据。
+
+* **Lookup：**lookup 查询模式与 scan 查询模式不同，bounded scan 是对一个时间范围内的数据进行查询，而 `lookup` 查询只会对一个精确的时间点进行查询，所以查询结果只有一行数据。另外只有 `lookup join` 的右表才能使用 lookup 查询模式。
+
+* **CDC:** 主要用于 Flink 的 `ETL` 任务当中。当 IoTDB 中的数据发生变化时，flink 会通过我们提供的 `CDC connector` 感知到，我们可以将感知到的变化数据转发给其他的外部数据源，以此达到 ETL 的目的。
+
+### 写模式（Sink）
+
+* **Streaming sink：**用于 Flink 的 streaming mode 中，会将 Flink 中 Dynamic Table 的增删改记录实时的同步到 IoTDB 中。
+
+* **Batch sink：**用于 Flink 的 batch mode 中，用于将 Flink 的批量计算结果一次性写入 IoTDB 中。
 
 ## 使用方式
 
@@ -42,33 +58,33 @@ CDC: 主要用于 Flink 的 `ETL` 任务当中。当 IoTDB 中的数据发生变
 
 此时就可以在 sql-client 中使用 flink-sql-iotdb-connector 了。
 
-## 支持的模式
+## 表结构规范
 
-| Source                    | Sink                       |
-| ------------------------- | -------------------------- |
-| Bounded Scan, Lookup, CDC | Streaming Sink, Batch Sink |
+无论使用哪种类型的连接器，都需要满足以下的表结构规范：
 
-## 参数
+- 所有使用 `IoTDB connector` 的表，第一列的列名必须是 `Time_`，而且数据类型必须是 `BIGINT` 类型。
+- 除了 `Time_` 列以外的列名必须以 `root.` 开头。另外列名中的任意节点不能是纯数字，如果有纯数字，或者其他非法字符，必须使用反引号扩起来。比如：路径 root.sg.d0.123 是一个非法路径，但是 root.sg.d0.\`123\` 就是一个合法路径。
+- 无论使用 `pattern` 或者 `sql` 从 IoTDB 中查询数据，查询结果的时间序列名需要包含 Flink 中除了 `Time_` 以外的所有列名。如果没有查询结果中没有相应的列名，则该列将用 null 去填充。
+- flink-sql-iotdb-connector 中支持的数据类型有：`INT`, `BIGINT`, `FLOAT`, `DOUBLE`, `BOOLEAN`, `STRING`。Flink Table 中每一列的数据类型与其 IoTDB 中对应的时间序列类型都要匹配上，否则将会报错，并退出 Flink 任务。
 
-| 参数                       | 必填  | 默认             | 类型      | 描述                                                                 |
-| ------------------------ | --- | -------------- | ------- | ------------------------------------------------------------------ |
-| nodeUrls                 | 否   | 127.0.0.1:6667 | String  | 用来指定 IoTDB 的 datanode 地址，如果 IoTDB 是用集群模式搭建的话，可以指定多个地址，每个节点用逗号隔开。   |
-| user                     | 否   | root           | String  | IoTDB 用户名                                                          |
-| password                 | 否   | root           | String  | IoTDB 密码                                                           |
-| aligned                  | 否   | false          | Boolean | 向 IoTDB 写入数据时是否调用`aligned`接口。                                      |
-| lookup.cache.max-rows    | 否   | -1             | Integer | lookup 查询时，缓存表的最大行数，参数大于`0`时生效。                                    |
-| lookup.cache.ttl-sec     | 否   | -1             | Integer | lookup 查询时，单点数据的丢弃时间，单位为`秒`。                                       |
-| scan.bounded.lower-bound | 否   | -1L            | Long    | bounded 的 scan 查询时的时间戳下界（包括），参数大于`0`时有效。                           |
-| scan.bounded.upper-bound | 否   | -1L            | Long    | bounded 的 scan 查询时的时间戳下界（包括），参数大于`0`时有效。                           |
-| mode                     | 否   | BOUNDED        | ENUM    | 当前有 BOUNDED 与 CDC 两个选项。如果需要使用 CDC connector，将参数设置为 CDC 即可。         |
-| cdc.port                 | 否   | 8080           | Integer | 在 IoTDB 端提供 CDC 服务的端口号。                                            |
-| cdc.task.name            | 否   | 无              | String  | 当 mode 参数设置为 CDC 时是必填项。用于在 IoTDB 端创建 Pipe 任务。                      |
-| cdc.pattern              | 否   | 无              | String  | 当 mode 参数设置为 CDC 时是必填项。用于在 IoTDB 端作为发送数据的过滤条件。                     |
-| sql                      | 否   | 无              | String  | 当 connector 工作在 `bounded scan` 或者 `lookup` 模式下为必填项。用于在 IoTDB 端做查询。 |
+以下用几个例子来说明 IoTDB 中的时间序列与 Flink Table 中列的对应关系。
 
-## 示例代码
+## 读模式（Source）
 
-### Scan Table(Bounded)
+### Scan Table (Bounded)
+
+#### 参数
+
+| 参数                     | 必填 | 默认           | 类型   | 描述                                                         |
+| ------------------------ | ---- | -------------- | ------ | ------------------------------------------------------------ |
+| nodeUrls                 | 否   | 127.0.0.1:6667 | String | 用来指定 IoTDB 的 datanode 地址，如果 IoTDB 是用集群模式搭建的话，可以指定多个地址，每个节点用逗号隔开。 |
+| user                     | 否   | root           | String | IoTDB 用户名                                                 |
+| password                 | 否   | root           | String | IoTDB 密码                                                   |
+| scan.bounded.lower-bound | 否   | -1L            | Long   | bounded 的 scan 查询时的时间戳下界（包括），参数大于`0`时有效。 |
+| scan.bounded.upper-bound | 否   | -1L            | Long   | bounded 的 scan 查询时的时间戳下界（包括），参数大于`0`时有效。 |
+| sql                      | 是   | 无             | String | 用于在 IoTDB 端做查询。                                      |
+
+#### 示例
 
 该示例演示了如何在一个 Flink Table Job 中从 IoTDB 中通过`scan table`的方式读取数据：
 
@@ -105,6 +121,19 @@ public class ScanTest {
 ```
 
 ### Lookup Point
+
+#### 参数
+
+| 参数                  | 必填 | 默认           | 类型    | 描述                                                         |
+| --------------------- | ---- | -------------- | ------- | ------------------------------------------------------------ |
+| nodeUrls              | 否   | 127.0.0.1:6667 | String  | 用来指定 IoTDB 的 datanode 地址，如果 IoTDB 是用集群模式搭建的话，可以指定多个地址，每个节点用逗号隔开。 |
+| user                  | 否   | root           | String  | IoTDB 用户名                                                 |
+| password              | 否   | root           | String  | IoTDB 密码                                                   |
+| lookup.cache.max-rows | 否   | -1             | Integer | lookup 查询时，缓存表的最大行数，参数大于`0`时生效。         |
+| lookup.cache.ttl-sec  | 否   | -1             | Integer | lookup 查询时，单点数据的丢弃时间，单位为`秒`。              |
+| sql                   | 是   | 无             | String  | 用于在 IoTDB 端做查询。                                      |
+
+#### 示例
 
 该示例演示了如何将 IoTDB 中的`device`作为维度表进行`lookup`查询：
 
@@ -177,6 +206,21 @@ public class LookupTest {
 
 ### CDC
 
+#### 参数
+
+| 参数          | 必填 | 默认           | 类型    | 描述                                                         |
+| ------------- | ---- | -------------- | ------- | ------------------------------------------------------------ |
+| nodeUrls      | 否   | 127.0.0.1:6667 | String  | 用来指定 IoTDB 的 datanode 地址，如果 IoTDB 是用集群模式搭建的话，可以指定多个地址，每个节点用逗号隔开。 |
+| user          | 否   | root           | String  | IoTDB 用户名                                                 |
+| password      | 否   | root           | String  | IoTDB 密码                                                   |
+| mode          | 是   | BOUNDED        | ENUM    | **必须将此参数设置为 `CDC` 才能启动**                        |
+| sql           | 是   | 无             | String  | 用于在 IoTDB 端做查询。                                      |
+| cdc.port      | 否   | 8080           | Integer | 在 IoTDB 端提供 CDC 服务的端口号。                           |
+| cdc.task.name | 是   | 无             | String  | 当 mode 参数设置为 CDC 时是必填项。用于在 IoTDB 端创建 Pipe 任务。 |
+| cdc.pattern   | 是   | 无             | String  | 当 mode 参数设置为 CDC 时是必填项。用于在 IoTDB 端作为发送数据的过滤条件。 |
+
+#### 示例
+
 该示例演示了如何通过 `CDC Connector` 去获取 IoTDB 中指定路径下的变化数据：
 
 * 通过 `CDC Connector` 创建一张 `CDC` 表。
@@ -188,7 +232,7 @@ import org.apache.flink.table.api.*;
 public class CDCTest {
     public static void main(String[] args) {
         // setup environment
-        
+
         // setup schema
         Schema iotdbTableSchema = Schema
                 .newBuilder()
@@ -217,31 +261,51 @@ public class CDCTest {
 }
 ```
 
-### Sink
+## 写模式（Sink）
 
-该示例演示了如何在一个 Flink Table Job 中如何将数据写入到 IoTDB 中：
+### Streaming Sink
 
-* 通过 `datagen` connector 生成一张源数据表。
-* 通过 `IoTDB` connector 注册一个输出表。
+#### 参数
+
+| 参数     | 必填 | 默认           | 类型    | 描述                                                         |
+| -------- | ---- | -------------- | ------- | ------------------------------------------------------------ |
+| nodeUrls | 否   | 127.0.0.1:6667 | String  | 用来指定 IoTDB 的 datanode 地址，如果 IoTDB 是用集群模式搭建的话，可以指定多个地址，每个节点用逗号隔开。 |
+| user     | 否   | root           | String  | IoTDB 用户名                                                 |
+| password | 否   | root           | String  | IoTDB 密码                                                   |
+| aligned  | 否   | false          | Boolean | 向 IoTDB 写入数据时是否调用`aligned`接口。                   |
+
+#### 示例
+
+该示例演示了如何在一个 Flink Table 的 Streaming Job 中如何将数据写入到 IoTDB 中：
+
+* 通过 `datagen connector` 生成一张源数据表。
+* 通过 `IoTDB connector` 注册一个输出表。
 * 将数据源表的数据插入到输出表中。
 
 ```java
-import org.apache.flink.table.api.*;
+import org.apache.flink.table.api.DataTypes;
+import org.apache.flink.table.api.EnvironmentSettings;
+import org.apache.flink.table.api.Schema;
+import org.apache.flink.table.api.Table;
+import org.apache.flink.table.api.TableDescriptor;
+import org.apache.flink.table.api.TableEnvironment;
 
-public class SinkTest {
+public class StreamingSinkTest {
     public static void main(String[] args) {
         // setup environment
+        EnvironmentSettings settings = EnvironmentSettings
+                .newInstance()
+                .inStreamingMode()
+                .build();
+        TableEnvironment tableEnv = TableEnvironment.create(settings);
 
         // create data source table
         Schema dataGenTableSchema = Schema
                 .newBuilder()
                 .column("Time_", DataTypes.BIGINT())
                 .column("root.sg.d0.s0", DataTypes.FLOAT())
-                .column("root.sg.d0.s1", DataTypes.FLOAT())
-                .column("root.sg.d0.s2", DataTypes.FLOAT())
-                .column("root.sg.d0.s3", DataTypes.FLOAT())
-                .column("root.sg.d0.s4", DataTypes.FLOAT())
-                .column("root.sg.d0.s5", DataTypes.FLOAT())
+                .column("root.sg.d1.s0", DataTypes.FLOAT())
+                .column("root.sg.d1.s1", DataTypes.FLOAT())
                 .build();
         TableDescriptor descriptor = TableDescriptor
                 .forConnector("datagen")
@@ -252,16 +316,10 @@ public class SinkTest {
                 .option("fields.Time_.end", "5")
                 .option("fields.root.sg.d0.s0.min", "1")
                 .option("fields.root.sg.d0.s0.max", "5")
-                .option("fields.root.sg.d0.s1.min", "1")
-                .option("fields.root.sg.d0.s1.max", "5")
-                .option("fields.root.sg.d0.s2.min", "1")
-                .option("fields.root.sg.d0.s2.max", "5")
-                .option("fields.root.sg.d0.s3.min", "1")
-                .option("fields.root.sg.d0.s3.max", "5")
-                .option("fields.root.sg.d0.s4.min", "1")
-                .option("fields.root.sg.d0.s4.max", "5")
-                .option("fields.root.sg.d0.s5.min", "1")
-                .option("fields.root.sg.d0.s5.max", "5")
+                .option("fields.root.sg.d1.s0.min", "1")
+                .option("fields.root.sg.d1.s0.max", "5")
+                .option("fields.root.sg.d1.s1.min", "1")
+                .option("fields.root.sg.d1.s1.max", "5")
                 .build();
         // register source table
         tableEnv.createTemporaryTable("dataGenTable", descriptor);
@@ -280,9 +338,33 @@ public class SinkTest {
 }
 ```
 
-## 注意
+上述示例除了 `Time_` 字段以外还有 3 列，分别是 root.sg.d0.s0、root.sg.d1.s0，root.sg.d1.s1，最终输出的 IoTDB 数据如下：
 
-1. 所有使用 `IoTDB connector` 的表，第一列的列名必须是 `Time_`，而且数据类型必须是 `BIGINT` 类型。
-2. 除了 `Time_` 列以外的列名必须以 `root.` 开头。另外列名中的任意节点不能是纯数字，如果有纯数字，或者其他非法字符，必须使用反引号扩起来。比如：路径  root.sg.d0.123 是一个非法路径，但是 root.sg.d0.\`123\` 就是一个合法路径。 
-3. 无论使用 `pattern` 或者 `sql` 从 IoTDB 中查询数据，查询结果的时间序列名需要包含 Flink 中除了 `Time_` 以外的所有列名。如果没有查询结果中没有相应的列名，则该列将用 null 去填充。
-4. `IoTDB` connector 支持的数据类型有：`INT`, `BIGINT`, `FLOAT`, `DOUBLE`, `BOOLEAN`, `STRING`。
+```shell
+IoTDB> select ** from root;
++-----------------------------+-------------+-------------+-------------+
+|                         Time|root.sg.d0.s0|root.sg.d1.s0|root.sg.d1.s1|
++-----------------------------+-------------+-------------+-------------+
+|1970-01-01T08:00:00.001+08:00|    1.4503074|    2.8822832|     2.805986|
+|1970-01-01T08:00:00.002+08:00|    1.0951743|    3.9209788|     4.550157|
+|1970-01-01T08:00:00.003+08:00|    1.7357042|    2.5404859|    3.0812879|
+|1970-01-01T08:00:00.004+08:00|    4.8508162|     3.198319|     4.550282|
+|1970-01-01T08:00:00.005+08:00|    4.0345316|    4.2415667|    4.3058634|
++-----------------------------+-------------+-------------+-------------+
+Total line number = 5
+It costs 0.067s
+```
+
+### Batch Sink
+
+#### 参数
+
+| 参数     | 必填 | 默认           | 类型    | 描述                                                         |
+| -------- | ---- | -------------- | ------- | ------------------------------------------------------------ |
+| nodeUrls | 否   | 127.0.0.1:6667 | String  | 用来指定 IoTDB 的 datanode 地址，如果 IoTDB 是用集群模式搭建的话，可以指定多个地址，每个节点用逗号隔开。 |
+| user     | 否   | root           | String  | IoTDB 用户名                                                 |
+| password | 否   | root           | String  | IoTDB 密码                                                   |
+| aligned  | 否   | false          | Boolean | 向 IoTDB 写入数据时是否调用`aligned`接口。                   |
+
+#### 示例
+
