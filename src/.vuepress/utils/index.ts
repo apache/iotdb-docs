@@ -21,5 +21,5 @@ export * from './define.js';
 export * from './editLink.js';
 export * from './typings.js';
 
-export const defaultVersion = 'V1.1.x';
-export const defaultBranch = 'rel/1.1';
+export const defaultVersion = 'V1.2.x';
+export const defaultBranch = 'rel/1.2';
