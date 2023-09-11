@@ -247,6 +247,15 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |默认值| 1024 |
 |改后生效方式|重启服务生效|
 
+* dn\_connection\_timeout\_ms
+
+|   名字   | dn\_connection\_timeout\_ms |
+|:------:|:----------------------------|
+|   描述   | 节点连接超时时间                    |
+|   类型   | int                         |
+|  默认值   | 60000                       |
+| 改后生效方式 | 重启服务生效                      |
+
 * dn\_core\_client\_count\_for\_each\_node\_in\_client\_manager
 
 |   名字   | dn\_core\_client\_count\_for\_each\_node\_in\_client\_manager |
