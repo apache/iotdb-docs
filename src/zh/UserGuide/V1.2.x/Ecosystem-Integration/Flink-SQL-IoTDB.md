@@ -86,38 +86,70 @@ flink-sql-iotdb-connector 将 Flink SQL 或者 Flink Table 与 IoTDB 无缝衔�
 
 #### 示例
 
-该示例演示了如何在一个 Flink Table Job 中从 IoTDB 中通过`scan table`的方式读取数据：
+该示例演示了如何在一个 Flink Table Job 中从 IoTDB 中通过`scan table`的方式读取数据：  
+当前 IoTDB 中的数据如下：
+```text
+IoTDB> select ** from root;
++-----------------------------+-------------+-------------+-------------+
+|                         Time|root.sg.d0.s0|root.sg.d1.s0|root.sg.d1.s1|
++-----------------------------+-------------+-------------+-------------+
+|1970-01-01T08:00:00.001+08:00|    1.0833644|      2.34874|    1.2414109|
+|1970-01-01T08:00:00.002+08:00|     4.929185|    3.1885583|    4.6980085|
+|1970-01-01T08:00:00.003+08:00|    3.5206156|    3.5600138|    4.8080945|
+|1970-01-01T08:00:00.004+08:00|    1.3449302|    2.8781595|    3.3195343|
+|1970-01-01T08:00:00.005+08:00|    3.3079383|    3.3840187|    3.7278645|
++-----------------------------+-------------+-------------+-------------+
+Total line number = 5
+It costs 0.028s
+```
 
 ```java
 import org.apache.flink.table.api.*;
 
-public class ScanTest {
-    public static void main(String[] args) throws Exception {
-        // setup table environment
+public class BoundedScanTest {
+  public static void main(String[] args) throws Exception {
+    // setup table environment
+    EnvironmentSettings settings = EnvironmentSettings
+            .newInstance()
+            .inStreamingMode()
+            .build();
+    TableEnvironment tableEnv = TableEnvironment.create(settings);
+    // setup schema
+    Schema iotdbTableSchema =
+            Schema.newBuilder()
+                    .column("Time_", DataTypes.BIGINT())
+                    .column("root.sg.d0.s0", DataTypes.FLOAT())
+                    .column("root.sg.d1.s0", DataTypes.FLOAT())
+                    .column("root.sg.d1.s1", DataTypes.FLOAT())
+                    .build();
+    // register table
+    TableDescriptor iotdbDescriptor =
+            TableDescriptor.forConnector("IoTDB")
+                    .schema(iotdbTableSchema)
+                    .option("nodeUrls", "127.0.0.1:6667")
+                    .option("sql", "select ** from root")
+                    .build();
+    tableEnv.createTemporaryTable("iotdbTable", iotdbDescriptor);
 
-        // setup schema
-        Schema iotdbTableSchema =
-                Schema.newBuilder()
-                        .column("Time_", DataTypes.BIGINT())
-                        .column("root.sg.d0.s0", DataTypes.INT())
-                        .column("root.sg.d0.s1", DataTypes.BIGINT())
-                        .column("root.sg.d0.s2", DataTypes.FLOAT())
-                        .column("root.sg.d0.s3", DataTypes.DOUBLE())
-                        .column("root.sg.d0.s4", DataTypes.BOOLEAN())
-                        .column("root.sg.d0.s5", DataTypes.STRING())
-                        .build();
-        // register table
-        TableDescriptor iotdbDescriptor =
-                TableDescriptor.forConnector("IoTDB")
-                        .schema(iotdbTableSchema)
-                        .option("sql", "select * from root.sg.d0")
-                        .build();
-        tableEnv.createTemporaryTable("iotdbTable", iotdbDescriptor);
-
-        // output table
-        tableEnv.from("iotdbTable").execute().print();
-    }
+    // output table
+    tableEnv.from("iotdbTable").execute().print();
+  }
 }
+```
+执行完以上任务后，Flink 的控制台中输出的表如下：
+```text
+IoTDB> select ** from root;
++-----------------------------+-------------+-------------+-------------+
+|                         Time|root.sg.d0.s0|root.sg.d1.s0|root.sg.d1.s1|
++-----------------------------+-------------+-------------+-------------+
+|1970-01-01T08:00:00.001+08:00|    1.0833644|      2.34874|    1.2414109|
+|1970-01-01T08:00:00.002+08:00|     4.929185|    3.1885583|    4.6980085|
+|1970-01-01T08:00:00.003+08:00|    3.5206156|    3.5600138|    4.8080945|
+|1970-01-01T08:00:00.004+08:00|    1.3449302|    2.8781595|    3.3195343|
+|1970-01-01T08:00:00.005+08:00|    3.3079383|    3.3840187|    3.7278645|
++-----------------------------+-------------+-------------+-------------+
+Total line number = 5
+It costs 0.028s
 ```
 
 ### Lookup Point
@@ -142,66 +174,96 @@ public class ScanTest {
 * 通过 `IoTDB connector` 注册一个表作为 `Lookup Join` 的右表。
 * 将两个表 join 起来。
 
-```java
-import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
-import org.apache.flink.table.api.*;
-import org.apache.flink.table.api.bridge.java.StreamTableEnvironment;
-import org.apache.flink.table.functions.TemporalTableFunction;
+当前 IoTDB 中的数据如下：
 
-import static org.apache.flink.table.api.Expressions.$;
+```text
+IoTDB> select ** from root;
++-----------------------------+-------------+-------------+-------------+
+|                         Time|root.sg.d0.s0|root.sg.d1.s0|root.sg.d1.s1|
++-----------------------------+-------------+-------------+-------------+
+|1970-01-01T08:00:00.001+08:00|    1.0833644|      2.34874|    1.2414109|
+|1970-01-01T08:00:00.002+08:00|     4.929185|    3.1885583|    4.6980085|
+|1970-01-01T08:00:00.003+08:00|    3.5206156|    3.5600138|    4.8080945|
+|1970-01-01T08:00:00.004+08:00|    1.3449302|    2.8781595|    3.3195343|
+|1970-01-01T08:00:00.005+08:00|    3.3079383|    3.3840187|    3.7278645|
++-----------------------------+-------------+-------------+-------------+
+Total line number = 5
+It costs 0.028s
+```
+
+```java
+import org.apache.flink.table.api.DataTypes;
+import org.apache.flink.table.api.EnvironmentSettings;
+import org.apache.flink.table.api.Schema;
+import org.apache.flink.table.api.TableDescriptor;
+import org.apache.flink.table.api.TableEnvironment;
 
 public class LookupTest {
-    public static void main(String[] args) {
-        // setup environment
+  public static void main(String[] args) {
+    // setup environment
+    EnvironmentSettings settings = EnvironmentSettings
+            .newInstance()
+            .inStreamingMode()
+            .build();
+    TableEnvironment tableEnv = TableEnvironment.create(settings);
 
-        // register left table
-        Schema dataGenTableSchema =
-                Schema.newBuilder()
-                        .column("Time_", DataTypes.BIGINT())
-                        .column("s6", DataTypes.INT())
-                        .build();
+    // register left table
+    Schema dataGenTableSchema =
+            Schema.newBuilder()
+                    .column("Time_", DataTypes.BIGINT())
+                    .column("s0", DataTypes.INT())
+                    .build();
 
-        TableDescriptor datagenDescriptor =
-                TableDescriptor.forConnector("datagen")
-                        .schema(dataGenTableSchema)
-                        .option("fields.Time_.kind", "sequence")
-                        .option("fields.Time_.start", "1")
-                        .option("fields.Time_.end", "100")
-                        .option("fields.s6.min", "1")
-                        .option("fields.s6.max", "1")
-                        .build();
-        tableEnv.createTemporaryTable("leftTable", datagenDescriptor);
+    TableDescriptor datagenDescriptor =
+            TableDescriptor.forConnector("datagen")
+                    .schema(dataGenTableSchema)
+                    .option("fields.Time_.kind", "sequence")
+                    .option("fields.Time_.start", "1")
+                    .option("fields.Time_.end", "5")
+                    .option("fields.s0.min", "1")
+                    .option("fields.s0.max", "1")
+                    .build();
+    tableEnv.createTemporaryTable("leftTable", datagenDescriptor);
 
-        // register right table
-        Schema iotdbTableSchema =
-                Schema.newBuilder()
-                        .column("Time_", DataTypes.BIGINT())
-                        .column("root.test.flink.lookup.s0", DataTypes.INT())
-                        .column("root.test.flink.lookup.s1", DataTypes.BIGINT())
-                        .column("root.test.flink.lookup.s2", DataTypes.FLOAT())
-                        .column("root.test.flink.lookup.s3", DataTypes.DOUBLE())
-                        .column("root.test.flink.lookup.s4", DataTypes.BOOLEAN())
-                        .column("root.test.flink.lookup.s5", DataTypes.STRING())
-                        .build();
+    // register right table
+    Schema iotdbTableSchema =
+            Schema.newBuilder()
+                    .column("Time_", DataTypes.BIGINT())
+                    .column("root.sg.d0.s0", DataTypes.INT())
+                    .column("root.sg.d1.s0", DataTypes.BIGINT())
+                    .column("root.sg.d1.s1", DataTypes.FLOAT())
+                    .build();
 
-        TableDescriptor iotdbDescriptor =
-                TableDescriptor.forConnector("IoTDB")
-                        .schema(iotdbTableSchema)
-                        .option("sql", "select * from root.test.flink.lookup")
-                        .build();
-        tableEnv.createTemporaryTable("rightTable", iotdbDescriptor);
+    TableDescriptor iotdbDescriptor =
+            TableDescriptor.forConnector("IoTDB")
+                    .schema(iotdbTableSchema)
+                    .option("sql", "select ** from root")
+                    .build();
+    tableEnv.createTemporaryTable("rightTable", iotdbDescriptor);
 
-        // join
-        String sql =
-                "SELECT l.Time_, r.`root.test.flink.lookup.s0`, r.`root.test.flink.lookup.s1`, r.`root.test.flink.lookup.s2`, r.`root.test.flink.lookup.s3`, r.`root.test.flink.lookup.s4`, r.`root.test.flink.lookup.s5`, l.s6 "
-                        + "FROM (select *,PROCTIME() as proc_time from leftTable) AS l "
-                        + "JOIN rightTable FOR SYSTEM_TIME AS OF l.proc_time AS r "
-                        + "ON l.Time_ = r.Time_";
+    // join
+    String sql =
+            "SELECT l.Time_, l.s0,r.`root.sg.d0.s0`, r.`root.sg.d1.s0`, r.`root.sg.d1.s1`"
+                    + "FROM (select *,PROCTIME() as proc_time from leftTable) AS l "
+                    + "JOIN rightTable FOR SYSTEM_TIME AS OF l.proc_time AS r "
+                    + "ON l.Time_ = r.Time_";
 
-        // output table
-        tableEnv.sqlQuery(sql).execute();
-    }
+    // output table
+    tableEnv.sqlQuery(sql).execute().print();
+  }
 }
+```
+执行完以上任务后，Flink 的控制台中输出的表如下：
+```text
++----+----------------------+-------------+---------------+----------------------+--------------------------------+
+| op |                Time_ |          s0 | root.sg.d0.s0 |        root.sg.d1.s0 |                  root.sg.d1.s1 |
++----+----------------------+-------------+---------------+----------------------+--------------------------------+
+| +I |                    5 |           1 |     3.3079383 |            3.3840187 |                      3.7278645 |
+| +I |                    2 |           1 |      4.929185 |            3.1885583 |                      4.6980085 |
+| +I |                    1 |           1 |     1.0833644 |              2.34874 |                      1.2414109 |
+| +I |                    4 |           1 |     1.3449302 |            2.8781595 |                      3.3195343 |
+| +I |                    3 |           1 |     3.5206156 |            3.5600138 |                      4.8080945 |
++----+----------------------+-------------+---------------+----------------------+--------------------------------+
 ```
 
 ### CDC
@@ -230,35 +292,47 @@ public class LookupTest {
 import org.apache.flink.table.api.*;
 
 public class CDCTest {
-    public static void main(String[] args) {
-        // setup environment
+  public static void main(String[] args) {
+    // setup environment
+    EnvironmentSettings settings = EnvironmentSettings
+            .newInstance()
+            .inStreamingMode()
+            .build();
+    TableEnvironment tableEnv = TableEnvironment.create(settings);
+    // setup schema
+    Schema iotdbTableSchema = Schema
+            .newBuilder()
+            .column("Time_", DataTypes.BIGINT())
+            .column("root.sg.d0.s0", DataTypes.FLOAT())
+            .column("root.sg.d1.s0", DataTypes.FLOAT())
+            .column("root.sg.d1.s1", DataTypes.FLOAT())
+            .build();
 
-        // setup schema
-        Schema iotdbTableSchema = Schema
-                .newBuilder()
-                .column("Time_", DataTypes.BIGINT())
-                .column("root.sg.d0.s0", DataTypes.FLOAT())
-                .column("root.sg.d0.s1", DataTypes.FLOAT())
-                .column("root.sg.d0.s2", DataTypes.FLOAT())
-                .column("root.sg.d0.s3", DataTypes.FLOAT())
-                .column("root.sg.d0.s4", DataTypes.STRING())
-                .column("root.sg.d0.s5", DataTypes.BOOLEAN())
-                .build();
+    // register table
+    TableDescriptor iotdbDescriptor = TableDescriptor
+            .forConnector("IoTDB")
+            .schema(iotdbTableSchema)
+            .option("mode", "CDC")
+            .option("cdc.task.name", "test")
+            .option("cdc.pattern", "root.sg")
+            .build();
+    tableEnv.createTemporaryTable("iotdbTable", iotdbDescriptor);
 
-        // register table
-        TableDescriptor iotdbDescriptor = TableDescriptor
-                .forConnector("IoTDB")
-                .schema(iotdbTableSchema)
-                .option("mode", "CDC")
-                .option("cdc.task.name", "test")
-                .option("cdc.pattern", "root.sg.d0")
-                .build();
-        tableEnv.createTemporaryTable("iotdbTable", iotdbDescriptor);
-
-        // output table
-        tableEnv.from("iotdbTable").execute().print();
-    }
+    // output table
+    tableEnv.from("iotdbTable").execute().print();
+  }
 }
+```
+运行以上的 Flink CDC 任务，然后在 IoTDB-cli 中执行以下 SQL：
+```sql
+insert into root.sg.d1(timestamp,s0,s1) values(6,1.0,1.0);
+```
+然后，Flink 的控制台中将打印该条数据：
+```text
++----+----------------------+--------------------------------+--------------------------------+--------------------------------+
+| op |                Time_ |                  root.sg.d0.s0 |                  root.sg.d1.s0 |                  root.sg.d1.s1 |
++----+----------------------+--------------------------------+--------------------------------+--------------------------------+
+| +I |                    6 |                         <NULL> |                            1.0 |                            1.0 |
 ```
 
 ## 写模式（Sink）
@@ -338,21 +412,21 @@ public class StreamingSinkTest {
 }
 ```
 
-上述示例除了 `Time_` 字段以外还有 3 列，分别是 root.sg.d0.s0、root.sg.d1.s0，root.sg.d1.s1，最终输出的 IoTDB 数据如下：
+上述任务执行完成后，在 IoTDB 的 cli 中查询结果如下：
 
-```shell
+```text
 IoTDB> select ** from root;
 +-----------------------------+-------------+-------------+-------------+
 |                         Time|root.sg.d0.s0|root.sg.d1.s0|root.sg.d1.s1|
 +-----------------------------+-------------+-------------+-------------+
-|1970-01-01T08:00:00.001+08:00|    1.4503074|    2.8822832|     2.805986|
-|1970-01-01T08:00:00.002+08:00|    1.0951743|    3.9209788|     4.550157|
-|1970-01-01T08:00:00.003+08:00|    1.7357042|    2.5404859|    3.0812879|
-|1970-01-01T08:00:00.004+08:00|    4.8508162|     3.198319|     4.550282|
-|1970-01-01T08:00:00.005+08:00|    4.0345316|    4.2415667|    4.3058634|
+|1970-01-01T08:00:00.001+08:00|    1.0833644|      2.34874|    1.2414109|
+|1970-01-01T08:00:00.002+08:00|     4.929185|    3.1885583|    4.6980085|
+|1970-01-01T08:00:00.003+08:00|    3.5206156|    3.5600138|    4.8080945|
+|1970-01-01T08:00:00.004+08:00|    1.3449302|    2.8781595|    3.3195343|
+|1970-01-01T08:00:00.005+08:00|    3.3079383|    3.3840187|    3.7278645|
 +-----------------------------+-------------+-------------+-------------+
 Total line number = 5
-It costs 0.067s
+It costs 0.054s
 ```
 
 ### Batch Sink
@@ -368,3 +442,84 @@ It costs 0.067s
 
 #### 示例
 
+该示例演示了如何在一个 Flink Table 的 Batch Job 中如何将数据写入到 IoTDB 中：
+
+* 通过 `IoTDB connector` 生成一张源数据表。
+* 通过 `IoTDB connector` 注册一个输出表。
+* 将原数据表中的列重命名后写入写回 IoTDB。
+
+```java
+import org.apache.flink.table.api.DataTypes;
+import org.apache.flink.table.api.EnvironmentSettings;
+import org.apache.flink.table.api.Schema;
+import org.apache.flink.table.api.Table;
+import org.apache.flink.table.api.TableDescriptor;
+import org.apache.flink.table.api.TableEnvironment;
+
+import static org.apache.flink.table.api.Expressions.$;
+
+public class BatchSinkTest {
+  public static void main(String[] args) {
+    // setup environment
+    EnvironmentSettings settings = EnvironmentSettings
+            .newInstance()
+            .inBatchMode()
+            .build();
+    TableEnvironment tableEnv = TableEnvironment.create(settings);
+
+    // create source table
+    Schema sourceTableSchema = Schema
+            .newBuilder()
+            .column("Time_", DataTypes.BIGINT())
+            .column("root.sg.d0.s0", DataTypes.FLOAT())
+            .column("root.sg.d1.s0", DataTypes.FLOAT())
+            .column("root.sg.d1.s1", DataTypes.FLOAT())
+            .build();
+    TableDescriptor sourceTableDescriptor = TableDescriptor
+            .forConnector("IoTDB")
+            .schema(sourceTableSchema)
+            .option("sql", "select ** from root.sg.d0,root.sg.d1")
+            .build();
+
+    tableEnv.createTemporaryTable("sourceTable", sourceTableDescriptor);
+    Table sourceTable = tableEnv.from("sourceTable");
+    // register sink table
+    Schema sinkTableSchema = Schema
+            .newBuilder()
+            .column("Time_", DataTypes.BIGINT())
+            .column("root.sg.d2.s0", DataTypes.FLOAT())
+            .column("root.sg.d3.s0", DataTypes.FLOAT())
+            .column("root.sg.d3.s1", DataTypes.FLOAT())
+            .build();
+    TableDescriptor sinkTableDescriptor = TableDescriptor
+            .forConnector("IoTDB")
+            .schema(sinkTableSchema)
+            .build();
+    tableEnv.createTemporaryTable("sinkTable", sinkTableDescriptor);
+
+    // insert data
+    sourceTable.renameColumns(
+            $("root.sg.d0.s0").as("root.sg.d2.s0"),
+            $("root.sg.d1.s0").as("root.sg.d3.s0"),
+            $("root.sg.d1.s1").as("root.sg.d3.s1")
+    ).insertInto("sinkTable").execute().print();
+  }
+}
+```
+
+上述任务执行完成后，在 IoTDB 的 cli 中查询结果如下：
+
+```text
+IoTDB> select ** from root;
++-----------------------------+-------------+-------------+-------------+-------------+-------------+-------------+
+|                         Time|root.sg.d0.s0|root.sg.d1.s0|root.sg.d1.s1|root.sg.d2.s0|root.sg.d3.s0|root.sg.d3.s1|
++-----------------------------+-------------+-------------+-------------+-------------+-------------+-------------+
+|1970-01-01T08:00:00.001+08:00|    1.0833644|      2.34874|    1.2414109|    1.0833644|      2.34874|    1.2414109|
+|1970-01-01T08:00:00.002+08:00|     4.929185|    3.1885583|    4.6980085|     4.929185|    3.1885583|    4.6980085|
+|1970-01-01T08:00:00.003+08:00|    3.5206156|    3.5600138|    4.8080945|    3.5206156|    3.5600138|    4.8080945|
+|1970-01-01T08:00:00.004+08:00|    1.3449302|    2.8781595|    3.3195343|    1.3449302|    2.8781595|    3.3195343|
+|1970-01-01T08:00:00.005+08:00|    3.3079383|    3.3840187|    3.7278645|    3.3079383|    3.3840187|    3.7278645|
++-----------------------------+-------------+-------------+-------------+-------------+-------------+-------------+
+Total line number = 5
+It costs 0.015s
+```
