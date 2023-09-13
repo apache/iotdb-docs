@@ -79,26 +79,24 @@ Users can start IoTDB standalone mode by the start-standalone script under the s
 Note: Currently, To run standalone mode, you need to ensure that all addresses are set to 127.0.0.1, If you need to access the IoTDB from a machine different from the one where the IoTDB is located, please change the configuration item `dn_rpc_address` to the IP of the machine where the IoTDB lives. And replication factors set to 1, which is by now the default setting.
 Besides, it's recommended to use SimpleConsensus in this mode, since it brings additional efficiency.
 
-### Cluster deployment
-
-#### Cluster management tool
+## Cluster deployment(Cluster management tool)
 
 The IoTDB cluster management tool is an easy-to-use operation and maintenance tool (enterprise version tool). 
 It is designed to solve the operation and maintenance problems of multiple nodes in the IoTDB distributed system. 
 It mainly includes cluster deployment, cluster start and stop, elastic expansion, configuration update, data export and other functions, thereby realizing one-click command issuance for complex database clusters, which greatly Reduce management difficulty. 
 This document will explain how to remotely deploy, configure, start and stop IoTDB cluster instances with cluster management tools.
 
-#### Deploy cluster management tools
+### Environment dependence
 
-##### Environment dependence
+This tool is a supporting tool for IoTDB Enterprise Edition. You can contact your sales representative to obtain the tool download method.
 
 The machine where IoTDB is to be deployed needs to rely on jdk 8 and above, lsof, netstat, and unzip functions. If not, please install them yourself. You can refer to the installation commands required for the environment in the last section of the document.
 
 Tip: The IoTDB cluster management tool requires an account with root privileges
 
-##### Deployment method
+### Deployment method
 
-###### Download and install
+#### Download and install
 
 This tool is a supporting tool for IoTDB Enterprise Edition. You can contact your salesperson to obtain the tool download method.
 
@@ -116,13 +114,13 @@ The iotd keyword can be activated in the subsequent shell, such as checking the 
 iotd cluster check example
 ```
 
-* You can also directly use <iotd absolute path>/sbin/iotd without activating iotd to execute commands, such as checking the environment required before deployment:
+* You can also directly use &lt;iotd absolute path&gt;/sbin/iotd without activating iotd to execute commands, such as checking the environment required before deployment:
 
 ```bash
 <iotd absolute path>/sbin/iotd cluster check example
 ```
 
-#### Introduction to cluster configuration files
+### Introduction to cluster configuration files
 
 * There is a cluster configuration yaml file in the `iotd/config` directory. The yaml file name is the cluster name. There can be multiple yaml files. In order to facilitate users to configure yaml files, a `default_cluster.yaml` example is provided under the iotd/config directory.
 * The yaml file configuration consists of five major parts: `global`, `confignode_servers`, `datanode_servers`, `grafana_server`, and `prometheus_server`
@@ -215,9 +213,9 @@ If metrics are configured in `iotdb-datanode.properties` and `iotdb-confignode.p
 
 Note: How to configure the value corresponding to the yaml key to contain special characters such as: etc. It is recommended to use double quotes for the entire value, and do not use paths containing spaces in the corresponding file paths to prevent abnormal recognition problems.
 
-#### scenes to be used
+### scenes to be used
 
-##### Clean data
+#### Clean data
 
 * Cleaning up the cluster data scenario will delete the data directory in the IoTDB cluster and `cn_system_dir`, `cn_consensus_dir`, `cn_consensus_dir` configured in the yaml file
   `dn_data_dirs`, `dn_consensus_dir`, `dn_system_dir`, `logs` and `ext` directories.
@@ -228,7 +226,7 @@ iotd cluster stop default_cluster
 iotd cluster clean default_cluster
 ```
 
-##### Cluster destruction
+#### Cluster destruction
 
 * The cluster destruction scenario will delete `data`, `cn_system_dir`, `cn_consensus_dir`, in the IoTDB cluster
   `dn_data_dirs`, `dn_consensus_dir`, `dn_system_dir`, `logs`, `ext`, `IoTDB` deployment directory,
@@ -241,7 +239,7 @@ iotd cluster stop default_cluster
 iotd cluster destroy default_cluster
 ```
 
-##### Cluster upgrade
+#### Cluster upgrade
 
 * To upgrade the cluster, you first need to configure `iotdb_lib_dir` in config/xxx.yaml as the directory path where the jar to be uploaded to the server is located (for example, iotdb/lib).
 * If you use zip files to upload, please use the zip command to compress the iotdb/lib directory, such as zip -r lib.zip apache-iotdb-1.2.0/lib/*
@@ -252,7 +250,7 @@ iotd cluster upgrade default_cluster
 iotd cluster restart default_cluster
 ```
 
-##### hot deployment
+#### hot deployment
 
 * First modify the configuration in config/xxx.yaml.
 * Execute the distribution command, and then execute the hot deployment command to complete the hot deployment of the cluster configuration
@@ -262,7 +260,7 @@ iotd cluster distribute default_cluster
 iotd cluster reload default_cluster
 ```
 
-##### Cluster expansion
+#### Cluster expansion
 
 * First modify and add a datanode or confignode node in config/xxx.yaml.
 * Execute the cluster expansion command
@@ -271,7 +269,7 @@ iotd cluster reload default_cluster
 iotd cluster scaleout default_cluster
 ```
 
-##### Cluster scaling
+#### Cluster scaling
 
 * First find the node name or ip+port to shrink in config/xxx.yaml (where confignode port is cn_internal_port, datanode port is rpc_port)
 * Execute cluster shrink command
@@ -280,7 +278,7 @@ iotd cluster scaleout default_cluster
 iotd cluster scalein default_cluster
 ```
 
-##### Using cluster management tools to manipulate existing IoTDB clusters
+#### Using cluster management tools to manipulate existing IoTDB clusters
 
 * Configure the server's `user`, `passwod` or `pkey`, `ssh_port`
 * Modify the IoTDB deployment path in config/xxx.yaml, `deploy_dir` (IoTDB deployment directory), `iotdb_dir_name` (IoTDB decompression directory name, the default is iotdb)
@@ -297,7 +295,7 @@ iotd cluster scalein default_cluster
 iotd cluster init default_cluster
 ```
 
-##### Deploy IoTDB, Grafana and Prometheus
+#### Deploy IoTDB, Grafana and Prometheus
 
 * Configure `iotdb-datanode.properties`, `iotdb-confignode.properties` to open the metrics interface
 * Configure the Grafana configuration. If there are multiple `dashboards`, separate them with commas. The names cannot be repeated or they will be overwritten.
@@ -310,7 +308,7 @@ iotd cluster start default_cluster
 
 For more detailed parameters, please refer to the cluster configuration file introduction above
 
-#### Command
+### Command
 
 The basic usage of this tool is:
 ```bash
@@ -351,11 +349,11 @@ iotd cluster deploy default_cluster
 | init       | When an existing cluster uses the cluster deployment tool, initialize the cluster configuration             | Cluster name                                                                                                                                                                                                                                     |
 | status     | View process status                                                                                        | Cluster name                                                                                                                                                                                                                                     |
 
-#### Detailed command execution process
+### Detailed command execution process
 
 The following commands are executed using default_cluster.yaml as an example, and users can modify them to their own cluster files to execute
 
-##### Check cluster deployment environment commands
+#### Check cluster deployment environment commands
 
 ```bash
 iotd cluster check default_cluster
@@ -372,7 +370,7 @@ iotd cluster check default_cluster
   If the jdk check does not meet the requirements, we can configure a jdk1.8 or above version in the yaml file ourselves for deployment without affecting subsequent use.
   If checking lsof, netstat or unzip does not meet the requirements, you need to install it on the server yourself.
 
-##### Deploy cluster command
+#### Deploy cluster command
 
 ```bash
 iotd cluster deploy default_cluster
@@ -400,7 +398,7 @@ iotd cluster deploy default_cluster -N prometheus
 iotd cluster deploy default_cluster -N iotdb
 ```
 
-##### Start cluster command
+#### Start cluster command
 
 ```bash
 iotd cluster start default_cluster
@@ -439,7 +437,7 @@ Note: Since the cluster deployment tool only calls the start-confignode.sh and s
 When the actual output result fails, it may be that the cluster has not started normally. It is recommended to use the status command to check the current cluster status (iotd cluster status xxx)
 
 
-##### View IoTDB cluster status command
+#### View IoTDB cluster status command
 
 ```bash
 iotd cluster show default_cluster
@@ -450,7 +448,7 @@ iotd cluster show default_cluster details
 
 * Execute `show cluster details` through cli on datanode in turn. If one node is executed successfully, it will not continue to execute cli on subsequent nodes and return the result directly.
 
-##### Stop cluster command
+#### Stop cluster command
 
 
 ```bash
@@ -492,7 +490,7 @@ iotd cluster stop default_cluster -N prometheus
 Note: Since the cluster deployment tool only calls the stop-confignode.sh and stop-datanode.sh scripts in the IoTDB cluster, in some cases the iotdb cluster may not be stopped.
 
 
-##### Clean cluster data command
+#### Clean cluster data command
 
 ```bash
 iotd cluster clean default_cluster
@@ -508,7 +506,7 @@ iotd cluster clean default_cluster
 
 
 
-##### Restart cluster command
+#### Restart cluster command
 
 ```bash
 iotd cluster restart default_cluster
@@ -538,7 +536,7 @@ iotd cluster restart default_cluster -N grafana
 iotd cluster restart default_cluster -N prometheus
 ```
 
-##### Cluster shrink command
+#### Cluster shrink command
 
 ```bash
 #Scale down by node name
@@ -556,7 +554,7 @@ iotd cluster scalein default_cluster -N ip:port
 
 Tip: Currently, only one node scaling is supported at a time
 
-##### Cluster expansion command
+#### Cluster expansion command
 
 ```bash
 iotd cluster scaleout default_cluster
@@ -573,7 +571,7 @@ iotd cluster scaleout default_cluster
 
 Tip: Currently, only one node expansion is supported at a time
 
-##### destroy cluster command
+#### destroy cluster command
 ```bash
 iotd cluster destroy default_cluster
 ```
@@ -598,7 +596,7 @@ iotd cluster destroy default_cluster -N prometheus
 iotd cluster destroy default_cluster -N iotdb
 ```
 
-##### Distribute cluster configuration commands
+#### Distribute cluster configuration commands
 
 ```bash
 iotd cluster distribute default_cluster
@@ -608,7 +606,7 @@ iotd cluster distribute default_cluster
 
 * Generate and upload `iotdb-common.properties`, `iotdb-confignode.properties`, `iotdb-datanode.properties` to the specified node according to the node configuration information of the yaml file
 
-##### Hot load cluster configuration command
+#### Hot load cluster configuration command
 
 ```bash
 iotd cluster reload default_cluster
@@ -617,7 +615,7 @@ iotd cluster reload default_cluster
 
 * Execute `load configuration` in the cli according to the node configuration information of the yaml file.
 
-##### Cluster node log backup
+#### Cluster node log backup
 ```bash
 iotd cluster dumplog default_cluster -N datanode_1,confignode_1  -startdate '2023-04-11' -enddate '2023-04-26' -h 192.168.9.48 -p 36000 -u root -pw root -path '/iotdb/logs' -logs '/root/data/db/iotdb/logs'
 ```
@@ -640,7 +638,7 @@ iotd cluster dumplog default_cluster -N datanode_1,confignode_1  -startdate '202
 | -enddate   | end time (included)                                                     | NO        |
 | -logs      | IoTDB log storage path, the default is ({iotdb}/logs)）                  | NO        |
 
-##### Cluster data backup
+#### Cluster data backup
 ```bash
 iotd cluster dumpdata default_cluster -granularity partition  -startdate '2023-04-11' -enddate '2023-04-26' -h 192.168.9.48 -p 36000 -u root -pw root -path '/iotdb/datas'
 ```
@@ -658,7 +656,7 @@ iotd cluster dumpdata default_cluster -granularity partition  -startdate '2023-0
 | -startdate   | start time (including default 1970-01-01)                               | YES      |
 | -enddate     | end time (included)                                                     | YES      |
 
-##### Cluster upgrade
+#### Cluster upgrade
 ```bash
 iotd cluster upgrade default_cluster
 ```
@@ -668,14 +666,14 @@ iotd cluster upgrade default_cluster
 
 Note that after performing the upgrade, please restart IoTDB for it to take effect.
 
-##### Cluster initialization
+#### Cluster initialization
 ```bash
 iotd cluster init default_cluster
 ```
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers`, `datanode_servers`, `grafana` and `prometheus`
 * Initialize cluster configuration
 
-##### View cluster process status
+#### View cluster process status
 ```bash
 iotd cluster status default_cluster
 ```
@@ -683,7 +681,7 @@ iotd cluster status default_cluster
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers`, `datanode_servers`, `grafana` and `prometheus`
 * Display the survival status of each node in the cluster
 
-#### Introduction to Cluster Deployment Tool Samples
+### Introduction to Cluster Deployment Tool Samples
 
 In the cluster deployment tool installation directory config/example, there are three yaml examples. If necessary, you can copy them to config and modify them.
 

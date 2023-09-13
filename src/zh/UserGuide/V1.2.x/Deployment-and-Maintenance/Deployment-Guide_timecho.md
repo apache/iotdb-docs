@@ -198,7 +198,7 @@ bash install-iotd.sh
 iotd cluster check example
 ```
 
-* 也可以不激活iotd直接使用  <iotd absolute path>/sbin/iotd 来执行命令，如检查部署前所需的环境：
+* 也可以不激活iotd直接使用  &lt;iotd absolute path&gt;/sbin/iotd 来执行命令，如检查部署前所需的环境：
 
 ```bash
 <iotd absolute path>/sbin/iotd cluster check example
