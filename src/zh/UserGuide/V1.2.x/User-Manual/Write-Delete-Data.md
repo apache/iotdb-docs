@@ -23,9 +23,9 @@
 # 写入和删除数据
 ## CLI写入数据
 
-IoTDB 为用户提供多种插入实时数据的方式，例如在 [Cli/Shell 工具](../QuickStart/Command-Line-Interface.md) 中直接输入插入数据的 INSERT 语句，或使用 Java API（标准 [Java JDBC](../API/Programming-JDBC.md) 接口）单条或批量执行插入数据的 INSERT 语句。
+IoTDB 为用户提供多种插入实时数据的方式，例如在 [Cli/Shell 工具](../Tools-System/CLI.md) 中直接输入插入数据的 INSERT 语句，或使用 Java API（标准 [Java JDBC](../API/Programming-JDBC.md) 接口）单条或批量执行插入数据的 INSERT 语句。
 
-本节主要为您介绍实时数据接入的 INSERT 语句在场景中的实际使用示例，有关 INSERT SQL 语句的详细语法请参见本文 [INSERT 语句](../Reference/SQL-Reference.md) 节。
+本节主要为您介绍实时数据接入的 INSERT 语句在场景中的实际使用示例，有关 INSERT SQL 语句的详细语法请参见本文 [INSERT 语句](../SQL-Manual/SQL-Manual.md#写入数据) 节。
 
 注：写入重复时间戳的数据则原时间戳数据被覆盖，可视为更新数据。
 
@@ -118,13 +118,13 @@ It costs 0.004s
 ### 多语言接口写入
 * ### Java
     使用Java接口写入之前，你需要先建立连接，参考 [Java原生接口](../API/Programming-Java-Native-API.md)。
-    之后通过 [ JAVA 数据操作接口（DML）](../API/Programming-Java-Native-API.md#数据写入)写入。
+    之后通过 [ JAVA 数据操作接口（DML）](../API/Programming-Java-Native-API.md#数据操作接口-DML)写入。
 
 * ### Python
-    参考 [ Python 数据操作接口（DML）](../API/Programming-Python-Native-API.md#数据写入)
+    参考 [ Python 数据操作接口（DML）](../API/Programming-Python-Native-API.md#数据操作接口-DML)
 
 * ### C++ 
-    参考 [ C++ 数据操作接口（DML）](../API/Programming-Cpp-Native-API.md)
+    参考 [ C++ 数据操作接口（DML）](../API/Programming-Cpp-Native-API.md#数据操作接口-DML）)
 
 * ### Go
     参考 [Go 原生接口](../API/Programming-Go-Native-API.md)
@@ -184,7 +184,7 @@ CSV 是以纯文本形式存储表格数据，您可以在CSV文件中写入多�
 
 ## 删除数据
 
-用户使用 [DELETE 语句](../Reference/SQL-Reference.md) 可以删除指定的时间序列中符合时间删除条件的数据。在删除数据时，用户可以选择需要删除的一个或多个时间序列、时间序列的前缀、时间序列带、*路径对某一个时间区间内的数据进行删除。
+用户使用 [DELETE 语句](../SQL-Manual/SQL-Manual.md#删除数据) 可以删除指定的时间序列中符合时间删除条件的数据。在删除数据时，用户可以选择需要删除的一个或多个时间序列、时间序列的前缀、时间序列带、*路径对某一个时间区间内的数据进行删除。
 
 在 JAVA 编程环境中，您可以使用 JDBC API 单条或批量执行 DELETE 语句。
 

@@ -465,7 +465,7 @@ DELETE VIEW root.view.device.avg_temperatue
 用户有两种查询方式：
 
 1. 使用`SHOW TIMESERIES`进行查询，该查询既包含时间序列，也包含序列视图。但是只能显示视图的部分属性
-2. 使用`SHOW ``VIEW`进行查询，该查询只包含序列视图。能完整显示序列视图的属性。
+2. 使用`SHOW VIEW`进行查询，该查询只包含序列视图。能完整显示序列视图的属性。
 
 举例：
 
