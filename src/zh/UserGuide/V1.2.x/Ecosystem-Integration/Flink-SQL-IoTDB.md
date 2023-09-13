@@ -16,17 +16,17 @@ flink-sql-iotdb-connector 将 Flink SQL 或者 Flink Table 与 IoTDB 无缝衔�
 
 ### 读模式（Source）
 
-* **Bounded Scan：**bounded scan 的主要实现方式是通过指定  `时间序列` 以及 `查询条件的上下界（可选）`来进行查询，并且查询结果通常为多行数据。这种查询无法获取到查询之后更新的数据。
+* **Bounded Scan：** bounded scan 的主要实现方式是通过指定  `时间序列` 以及 `查询条件的上下界（可选）`来进行查询，并且查询结果通常为多行数据。这种查询无法获取到查询之后更新的数据。
 
-* **Lookup：**lookup 查询模式与 scan 查询模式不同，bounded scan 是对一个时间范围内的数据进行查询，而 `lookup` 查询只会对一个精确的时间点进行查询，所以查询结果只有一行数据。另外只有 `lookup join` 的右表才能使用 lookup 查询模式。
+* **Lookup：** lookup 查询模式与 scan 查询模式不同，bounded scan 是对一个时间范围内的数据进行查询，而 `lookup` 查询只会对一个精确的时间点进行查询，所以查询结果只有一行数据。另外只有 `lookup join` 的右表才能使用 lookup 查询模式。
 
 * **CDC:** 主要用于 Flink 的 `ETL` 任务当中。当 IoTDB 中的数据发生变化时，flink 会通过我们提供的 `CDC connector` 感知到，我们可以将感知到的变化数据转发给其他的外部数据源，以此达到 ETL 的目的。
 
 ### 写模式（Sink）
 
-* **Streaming sink：**用于 Flink 的 streaming mode 中，会将 Flink 中 Dynamic Table 的增删改记录实时的同步到 IoTDB 中。
+* **Streaming sink：** 用于 Flink 的 streaming mode 中，会将 Flink 中 Dynamic Table 的增删改记录实时的同步到 IoTDB 中。
 
-* **Batch sink：**用于 Flink 的 batch mode 中，用于将 Flink 的批量计算结果一次性写入 IoTDB 中。
+* **Batch sink：** 用于 Flink 的 batch mode 中，用于将 Flink 的批量计算结果一次性写入 IoTDB 中。
 
 ## 使用方式
 
