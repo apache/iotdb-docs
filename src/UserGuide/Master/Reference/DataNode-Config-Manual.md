@@ -255,6 +255,15 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |Default| 1024 |
 |Effective|After restarting system|
 
+* dn\_connection\_timeout\_ms
+
+|    Name     | dn\_connection\_timeout\_ms                        |
+|:-----------:|:---------------------------------------------------|
+| Description | Thrift socket and connection timeout between nodes |
+|    Type     | int                                                |
+|   Default   | 60000                                              |
+|  Effective  | After restarting system                            |
+
 * dn\_core\_client\_count\_for\_each\_node\_in\_client\_manager
 
 |     Name     | dn\_core\_client\_count\_for\_each\_node\_in\_client\_manager |

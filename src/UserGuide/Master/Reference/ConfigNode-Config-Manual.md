@@ -186,12 +186,12 @@ The global configuration of cluster is in ConfigNode.
 
 * cn\_connection\_timeout\_ms
 
-|    Name     | cn\_connection\_timeout\_ms                             |
-|:-----------:|:--------------------------------------------------------|
-| Description | Thrift socket and connection timeout between raft nodes |
-|    Type     | int                                                     |
-|   Default   | 20000                                                   |
-|  Effective  | After restarting system                                 |
+|    Name     | cn\_connection\_timeout\_ms                            |
+|:-----------:|:-------------------------------------------------------|
+| Description | Thrift socket and connection timeout between nodes     |
+|    Type     | int                                                    |
+|   Default   | 60000                                                  |
+|  Effective  | After restarting system                                |
 
 * cn\_selector\_thread\_nums\_of\_client\_manager
 
