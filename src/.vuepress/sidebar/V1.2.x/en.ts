@@ -67,9 +67,10 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'Environmental Requirement', link: 'Environmental-Requirement' },
-        { text: 'Get Installation Package', link: 'Get-Installation-Package' },
+        { text: 'Resource Recommendation', link: 'Deployment-Recommendation' },
         { text: 'Deployment Guide', link: 'Deployment-Guide' },
         { text: 'Docker Install', link: 'Docker-Install' },
+        { text: 'Monitoring-Board-Install-and-Deploy', link: 'Monitoring-Board-Install-and-Deploy' },
       ],
     },
 
@@ -139,6 +140,7 @@ export const enSidebar = {
         { text: 'Spark IoTDB Connector', link: 'Spark-IoTDB' },
         { text: 'Hive TsFile Connector', link: 'Hive-TsFile' },
         { text: 'Flink IoTDB Connector', link: 'Flink-IoTDB' },
+        { text: 'Flink SQL IoTDB Connector', link: 'Flink-SQL-IoTDB' },
         { text: 'Flink TsFile Connector', link: 'Flink-TsFile' },
         { text: 'NiFi IoTDB Connector', link: 'NiFi-IoTDB' },
         { text: 'DBeaver-IoTDB', link: 'DBeaver' },

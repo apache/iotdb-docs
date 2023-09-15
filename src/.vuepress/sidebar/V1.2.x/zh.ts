@@ -67,6 +67,7 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '环境要求', link: 'Environmental-Requirement' },
+        { text: '资源推荐', link: 'Deployment-Recommendation' },
         { text: '安装包获取', link: 'Get-Installation-Package' },
         { text: '部署指导', link: 'Deployment-Guide' },
         { text: 'docker部署', link: 'Docker-Install' },
@@ -139,6 +140,7 @@ export const zhSidebar = {
         { text: 'Spark-IoTDB-Connector', link: 'Spark-IoTDB' },
         { text: 'Hive-TsFile-Connector', link: 'Hive-TsFile' },
         { text: 'Flink-IoTDB-Connector', link: 'Flink-IoTDB' },
+        { text: 'Flink-SQL-IoTDB-Connector', link: 'Flink-SQL-IoTDB' },
         { text: 'Flink-TsFile-Connector', link: 'Flink-TsFile' },
         { text: 'NiFi-IoTDB-Connector', link: 'NiFi-IoTDB' },
         { text: 'DBeaver-IoTDB 集成方案', link: 'DBeaver' },
