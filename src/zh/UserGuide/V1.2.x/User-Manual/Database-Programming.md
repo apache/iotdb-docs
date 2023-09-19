@@ -1558,7 +1558,19 @@ SHOW FUNCTIONS
 ###  已知实现的UDF
 
 #### 内置UDF
-
+请参考[内置函数](../User-Manual/Operator-and-Expression.md#内置函数)，包含以下函数类型：
+聚合函数
+算数函数
+比较函数
+字符串处理函数
+数据类型转换函数
+常序列生成函数
+选择函数
+区间查询函数
+趋势计算函数
+采样函数
+时间序列处理函数
+<!--
 1.   [Aggregate Functions](../Operators-Functions/Aggregation.md) 聚合函数
 2.   [Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md) 算数函数
 3.   [Comparison Operators and Functions](../Operators-Functions/Comparison.md) 比较函数
@@ -1570,7 +1582,7 @@ SHOW FUNCTIONS
 9.   [Variation Trend Calculation Functions](../Operators-Functions/Variation-Trend.md) 趋势计算函数
 10.   [Sample Functions](../Operators-Functions/Sample.md) 采样函数
 11.   [Time-Series](../Operators-Functions/Time-Series.md) 时间序列处理函数
-
+-->
 #### 数据质量函数库
 
 ##### 关于

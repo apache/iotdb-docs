@@ -226,8 +226,8 @@ public class LookupTest {
     Schema iotdbTableSchema =
             Schema.newBuilder()
                     .column("Time_", DataTypes.BIGINT())
-                    .column("root.sg.d0.s0", DataTypes.INT())
-                    .column("root.sg.d1.s0", DataTypes.BIGINT())
+                    .column("root.sg.d0.s0", DataTypes.FLOAT())
+                    .column("root.sg.d1.s0", DataTypes.FLOAT())
                     .column("root.sg.d1.s1", DataTypes.FLOAT())
                     .build();
 
