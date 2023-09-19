@@ -1620,7 +1620,19 @@ When you have prepared the UDF source code, test cases, and instructions, you ar
 ### Known Implementations
 
 #### Built-in UDF
-
+See [Built-in Functions](../User-Manual/Operator-and-Expression.md#OPERATORS)，containing the following function types:
+Aggregate Functions
+Mathematical
+Comparison
+String
+Conversion
+Constant
+Selection
+Continuous-Interval
+Variation-Trend
+Sample
+Time-Series
+<!--
 1.   Aggregate Functions, such as `SUM`. For details and examples, see the document [Aggregate Functions](../Operators-Functions/Aggregation.md).
 2.   Arithmetic Functions, such as `SIN`. For details and examples, see the document [Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md).
 3.   Comparison Functions, such as `ON_OFF`. For details and examples, see the document [Comparison Operators and Functions](../Operators-Functions/Comparison.md).
@@ -1632,7 +1644,7 @@ When you have prepared the UDF source code, test cases, and instructions, you ar
 9.   Variation Trend Calculation Functions, such as `TIME_DIFFERENCE`. For details and examples, see the document [Variation Trend Calculation Functions](../Operators-Functions/Variation-Trend.md).
 10.   Sample Functions, such as `M4`. For details and examples, see the document [Sample Functions](../Operators-Functions/Sample.md).
 11.   Change Points Function, such as `CHANGE_POINTS`. For details and examples, see the document [Time-Series](../Operators-Functions/Time-Series.md).
-
+-->
 #### Data Quality Function Library
 
 ##### About
@@ -1649,7 +1661,7 @@ The functions in this function library are not built-in functions, and must be l
 4. Copy the script to the directory of IoTDB system (under the root directory, at the same level as `sbin`), modify the parameters in the script if needed and run it to register UDF.
 
 ##### Implemented Functions
-
+<!--
 1.   Data Quality related functions, such as `Completeness`. For details and examples, see the document [Data-Quality](../Operators-Functions/Data-Quality.md).
 2.   Data Profiling related functions, such as `ACF`. For details and examples, see the document [Data-Profiling](../Operators-Functions/Data-Profiling.md).
 3.   Anomaly Detection related functions, such as `IQR`. For details and examples, see the document [Anomaly-Detection](../Operators-Functions/Anomaly-Detection.md).
@@ -1658,7 +1670,7 @@ The functions in this function library are not built-in functions, and must be l
 6.   Data Repairing related functions, such as `TimestampRepair`. For details and examples, see the document [Data-Repairing](../Operators-Functions/Data-Repairing.md).
 7.   Series Discovery related functions, such as `ConsecutiveSequences`. For details and examples, see the document [Series-Discovery](../Operators-Functions/Series-Discovery.md).
 8.   Machine Learning related functions, such as `AR`. For details and examples, see the document [Machine-Learning](../Operators-Functions/Machine-Learning.md).
-
+-->
 
 ### Q&A
 

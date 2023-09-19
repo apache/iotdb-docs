@@ -27,102 +27,38 @@ Grafana 是开源的指标量监测和可视化工具，可用于展示时序数
 
 ## 部署 Grafana 插件
 
-### 安装 Grafana 
+### 安装 Grafana
 
 * Grafana 组件下载地址：https://grafana.com/grafana/download
 * 版本 >= 9.3.0
 
 ### grafana-plugin 获取
 
-#### 方案一 grafana-plugin 下载
+####  Grafana官方下载 apache-iotdb-datasource
 
-二进制文件下载地址：https://iotdb.apache.org/zh/Download/
-
-#### 方案二 grafana-plugin 单独编译
-
-我们需要编译 IoTDB 仓库 `grafana-plugin` 目录下的前端工程并生成 `dist` 目标目录，具体执行流程如下。
-
-源码下载
-
-* 插件名称: grafana-plugin
-* 下载地址: https://github.com/apache/iotdb.git
-
-执行下面的命令：
-
-```shell
-git clone https://github.com/apache/iotdb.git
-```
-
-您可以采取下面任意一种编译方式：
-
-* 使用 maven 编译，在 `grafana-plugin` 目录下执行：
-
-```shell
-mvn install package -P compile-grafana-plugin
-```
-
-* 或使用命令编译，在 `grafana-plugin` 目录下执行：
-
-```shell
-yarn install
-yarn build
-go get -u github.com/grafana/grafana-plugin-sdk-go
-go mod tidy
-mage -v
-```
-在使用go get -u 命令时有可能会报如下错误，这时我们需要执行`go env -w GOPROXY=https://goproxy.cn`，再执行`go get -u github.com/grafana/grafana-plugin-sdk-go`
-```
-go get: module github.com/grafana/grafana-plugin-sdk-go: Get "https://proxy.golang.org/github.com/grafana/grafana-plugin-sdk-go/@v/list": dial tcp 142.251.42.241:443: i/o timeout
-```
-
-如果编译成功，我们将看到生成的目标文件夹 `dist`，它包含了编译好的 Grafana 前端插件：
-
-<img style="width:100%; max-width:333px; max-height:545px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/Grafana-plugin/grafana-plugin-build.png?raw=true">
-
-#### 方案三 IoTDB 的分发包完整编译
-
-我们也可以通过执行 IoTDB 项目的**打包指令**获取 `grafana-plugin ` 的前端工程和其他配套的 IoTDB 可执行文件。
-
-源码下载
-
-* 插件名称: grafana-plugin
-* 下载地址: https://github.com/apache/iotdb.git
-
-执行下面的命令：
-
-```shell
-git clone https://github.com/apache/iotdb.git
-```
-
-在 IoTDB 仓库的根目录下执行：
-
-```shell
- mvn clean package -pl distribution -am -DskipTests -P compile-grafana-plugin
-```
-
-如果编译成功，我们将看到 `distribution/target` 路径下包含了编译好的 Grafana 前端插件：
-
-<img style="width:100%; max-width:333px; max-height:545px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/Grafana-plugin/distribution.png?raw=true">
-
-
+二进制文件下载地址：https://grafana.com/api/plugins/apache-iotdb-datasource/versions/1.0.0/download
 
 ### grafana-plugin 插件安装
 
+### 方式一 使用 grafana-cli 工具安装(推荐)
+
+* 使用 grafana-cli 工具从命令行安装 apache-iotdb-datasource，命令内容如下：
+
+```shell
+grafana-cli plugins install apache-iotdb-datasource
+```
+
+### 方式二 使用Grafana 界面安装(推荐)
+
+从本地 Grafana 点击 Configuration -> Plugins -> 搜索 IoTDB 进行插件安装
+
+### 方式三 手动安装grafana-plugin 插件(不推荐)
+
 * 拷贝上述生成的前端工程目标文件夹到 Grafana 的插件目录中 `${Grafana文件目录}\data\plugins\`。如果没有此目录可以手动建或者启动grafana会自动建立，当然也可以修改plugins的位置,具体请查看下面的修改Grafana 的插件目录位置说明。
 
-* 修改Grafana的配置文件：找到配置文件（`${Grafana文件目录}\conf\defaults.ini`），并进行如下的修改：
+* 启动Grafana服务，如果 Grafana 服务已启动，则需要停止Grafana服务,然后再启动Grafana。
 
-  ```ini
-  allow_loading_unsigned_plugins = apache-iotdb-datasource
-  ```
-* 修改Grafana 的插件目录位置:找到配置文件（`${Grafana文件目录}\conf\defaults.ini`），并进行如下的修改：
-
-  ```ini
-  plugins = data/plugins
-  ```
-* 如果 Grafana 服务已启动，则需要重启服务。
-
-更多详情，请点 [这里](https://grafana.com/docs/grafana/latest/plugins/installation/)
+更多有关Grafana详情，请点 [这里](https://grafana.com/docs/grafana/latest/plugins/installation/)
 
 
 ### 启动 Grafana

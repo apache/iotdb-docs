@@ -27,7 +27,27 @@
 	    <th colspan="3">IoTDB 源代码</th>
 	    <th>发布说明</th>  
 	  </tr>
-      	<tr>
+      <tr>
+            <td rowspan="3">1.2.1</td>
+            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.2.1/apache-iotdb-1.2.1-all-bin.zip">All-in-one</a></td>
+            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.2.1/apache-iotdb-1.2.1-all-bin.zip.sha512">SHA512</a></td>
+            <td><a href="https://www.apache.org/dyn/closer.cgi/1.2.1/apache-iotdb-1.2.1-all-bin.zip.asc">ASC</a></td>
+            <td rowspan="3"><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.2.1/apache-iotdb-1.2.1-source-release.zip">源代码</a></td>
+            <td rowspan="3"><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.2.1/apache-iotdb-1.2.1-source-release.zip.sha512">SHA512</a></td>
+            <td rowspan="3"><a href="https://www.apache.org/dyn/closer.cgi/1.2.1/apache-iotdb-1.2.1-source-release.zip.asc">ASC</a></td>
+            <td rowspan="3"><a href="https://dlcdn.apache.org/iotdb/1.2.1/RELEASE_NOTES.md">release notes</a></td>
+      </tr>
+      <tr>
+            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.2.1/apache-iotdb-1.2.1-library-udf-bin.zip">UDF 库</a></td>
+            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.2.1/apache-iotdb-1.2.1-library-udf-bin.zip.sha512">SHA512</a></td>
+            <td><a href="https://www.apache.org/dyn/closer.cgi/1.2.1/apache-iotdb-1.2.1-library-udf-bin.zip.asc">ASC</a></td>
+      </tr>
+      <tr>
+            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.2.1/apache-iotdb-1.2.1-grafana-plugin-bin.zip">Grafana 插件</a></td>
+            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.2.1/apache-iotdb-1.2.1-grafana-plugin-bin.zip.sha512">SHA512</a></td>
+            <td><a href="https://www.apache.org/dyn/closer.cgi/1.2.1/apache-iotdb-1.2.1-grafana-plugin-bin.zip.asc">ASC</a></td>
+      </tr>
+      <tr>
             <td rowspan="2">1.1.2</td>
             <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.1.2/apache-iotdb-1.1.2-all-bin.zip">All-in-one</a></td>
             <td><a href="https://downloads.apache.org/iotdb/1.1.2/apache-iotdb-1.1.2-all-bin.zip.sha512">SHA512</a></td>
