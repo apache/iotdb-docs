@@ -51,7 +51,7 @@ DBeaver is a SQL client software application and a database administration tool.
 
    ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/02.png)
 
-5. Download `iotdb-jdbc` ， from [source1](https://maven.proxy.ustclug.org/maven2/org/apache/iotdb/iotdb-jdbc/1.2.1/iotdb-jdbc-1.2.1-jar-with-dependencies.jar) or [source2](https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/1.2.1/iotdb-jdbc-1.2.1-jar-with-dependencies.jar).
+5. Download `iotdb-jdbc` , from [source1](https://maven.proxy.ustclug.org/maven2/org/apache/iotdb/iotdb-jdbc/1.2.1/iotdb-jdbc-1.2.1-jar-with-dependencies.jar) or [source2](https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/1.2.1/iotdb-jdbc-1.2.1-jar-with-dependencies.jar).
    
 6. Find and add a lib named `apache-iotdb-jdbc-{version}-jar-with-dependencies.jar`, which should be under `jdbc/target/`, then select `Find Class`.
 
