@@ -53,7 +53,7 @@ DBeaver 是一个 SQL 客户端和数据库管理工具。DBeaver 可以使用 I
 
 5. 下载 jdbc 驱动， 可点击下载 [地址1](https://maven.proxy.ustclug.org/maven2/org/apache/iotdb/iotdb-jdbc/1.2.1/iotdb-jdbc-1.2.1-jar-with-dependencies.jar) 或 [地址2](https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/1.2.1/iotdb-jdbc-1.2.1-jar-with-dependencies.jar)。
    
-6. 在`jdbc/target/`下找到并添加名为`apache-iotdb-jdbc-{version}-jar-with-dependencies.jar`的库，点击 `Find Class`。
+6. 添加刚刚下载的驱动包，点击 Find Class。
 
    ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/03.png)
 
