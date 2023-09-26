@@ -379,7 +379,7 @@ If the cluster is in local environment, you can directly run the Cli startup scr
 ```
 
 If you want to use the Cli to connect to a cluster in the production environment,
-Please read the [Cli manual](https://iotdb.apache.org/UserGuide/Master/QuickStart/Command-Line-Interface.html).
+Please read the [Cli manual](../Tools-System/CLI.md).
 
 #### Verify Cluster
 
@@ -507,4 +507,4 @@ Run the remove-datanode script on an active DataNode:
 
 ### FAQ
 
-See [FAQ](https://iotdb.apache.org/UserGuide/Master/FAQ/FAQ-for-cluster-setup.html).
+See [FAQ](../FAQ/Frequently-asked-questions.md).

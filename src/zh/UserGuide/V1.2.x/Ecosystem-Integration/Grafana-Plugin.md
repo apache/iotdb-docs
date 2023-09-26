@@ -280,11 +280,11 @@ Type下拉中有Query、Custom、Text box、Constant、DataSource、Interval、A
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert8.png?raw=true">
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert9.png?raw=true">
 
-10. 我们也可以为告警配置`Contact points`用来接收告警通知，更加详细操作可以参考官方文档(https://grafana.com/docs/grafana/latest/alerting/manage-notifications/create-contact-point/)。
+10. 我们也可以为告警配置`Contact points`用来接收告警通知，更加详细操作可以参考官方文档(https://grafana.com/docs/grafana/latest/alerting/alerting-rules/manage-contact-points/)
 
 想了解alert更多详细的操作可以查看官方文档https://grafana.com/docs/grafana/latest/alerting/
 
 ## 更多
 
-更多关于 Grafana 操作详情可参看 Grafana 官方文档：http://docs.grafana.org/guides/getting_started/。
+更多关于 Grafana 操作详情可参看 Grafana 官方文档：http://docs.grafana.org/guides/getting_started/
 
