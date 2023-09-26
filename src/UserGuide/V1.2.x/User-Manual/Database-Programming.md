@@ -1551,7 +1551,7 @@ There are 3 types of user permissions related to UDF:
 * `DROP_FUNCTION`: Only users with this permission are allowed to deregister UDFs
 * `READ_TIMESERIES`: Only users with this permission are allowed to use UDFs for queries
 
-For more user permissions related content, please refer to [Account Management Statements](../Administration-Management/Administration.md).
+For more user permissions related content, please refer to [Account Management Statements](../User-Manual/Authority-Management.md).
 
 
 
