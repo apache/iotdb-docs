@@ -156,7 +156,7 @@ Please deploy the files to all servers of your target cluster.
 A best practice is deploying the files into the same directory in all servers.
 
 If you want to try the cluster mode on one server, please read 
-[Cluster Quick Start](https://iotdb.apache.org/UserGuide/Master/QuickStart/ClusterQuickStart.html).
+[Cluster Quick Start](../QuickStart/ClusterQuickStart.md).
 
 #### Cluster Configuration
 
@@ -174,7 +174,7 @@ and DataNode configuration (see Chap 5.2.3).
 
 Open the common configuration file ./conf/iotdb-common.properties,
 and set the following parameters base on the 
-[Deployment Recommendation](https://iotdb.apache.org/UserGuide/Master/Cluster/Deployment-Recommendation.html):
+[Deployment Recommendation](./Deployment-Recommendation.md):
 
 | **Configuration**                          | **Description**                                              | **Default**                                     |
 | ------------------------------------------ | ------------------------------------------------------------ | ----------------------------------------------- |
@@ -249,7 +249,7 @@ Before start the Seed-ConfigNode, please open the common configuration file ./co
 | data\_replication\_factor                  | Is set to the expected data replication count   |
 | data\_region\_consensus\_protocol\_class   | Is set to the expected consensus protocol       |
 
-**Notice:** Please set these parameters carefully based on the [Deployment Recommendation](https://iotdb.apache.org/UserGuide/Master/Cluster/Deployment-Recommendation.html).
+**Notice:** Please set these parameters carefully based on the [Deployment Recommendation](./Deployment-Recommendation.md).
 These parameters are not modifiable after the Node first startup.
 
 Then open its configuration file ./conf/iotdb-confignode.properties and check the following parameters:
@@ -275,7 +275,7 @@ nohup bash ./sbin/start-confignode.sh >/dev/null 2>&1 &
 ```
 
 For more details about other configuration parameters of ConfigNode, see the
-[ConfigNode Configurations](https://iotdb.apache.org/UserGuide/Master/Reference/ConfigNode-Config-Manual.html).
+[ConfigNode Configurations](../Reference/ConfigNode-Config-Manual.md).
 
 ##### Add more ConfigNodes (Optional)
 
@@ -320,7 +320,7 @@ nohup bash ./sbin/start-confignode.sh >/dev/null 2>&1 &
 ```
 
 For more details about other configuration parameters of ConfigNode, see the
-[ConfigNode Configurations](https://iotdb.apache.org/UserGuide/Master/Reference/ConfigNode-Config-Manual.html).
+[ConfigNode Configurations](../Reference/ConfigNode-Config-Manual.md).
 
 ##### Start DataNode
 
@@ -362,7 +362,7 @@ nohup bash ./sbin/start-datanode.sh >/dev/null 2>&1 &
 ```
 
 For more details about other configuration parameters of DataNode, see the
-[DataNode Configurations](https://iotdb.apache.org/UserGuide/Master/Reference/DataNode-Config-Manual.html).
+[DataNode Configurations](../Reference/DataNode-Config-Manual.md).
 
 **Notice: The cluster can provide services only if the number of its DataNodes is no less than the number of replicas(max{schema\_replication\_factor, data\_replication\_factor}).**
 
