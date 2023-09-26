@@ -291,8 +291,8 @@ For example, we have 3 conditions in the following order: Condition: B (Evaluate
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert8.png?raw=true">
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/grafana9_alert9.png?raw=true">
 
-10. We can also configure `Contact points` for alarms to receive alarm notifications. For more detailed operations, please refer to the official document (https://grafana.com/docs/grafana/latest/alerting/manage-notifications/create-contact-point/).
+10. We can also configure `Contact points` for alarms to receive alarm notifications. For more detailed operations, please refer to the official document (https://grafana.com/docs/grafana/latest/alerting/alerting-rules/manage-contact-points/)
 
 ## More Details about Grafana
 
-For more details about Grafana operation, please refer to the official Grafana documentation: http://docs.grafana.org/guides/getting_started/.
+For more details about Grafana operation, please refer to the official Grafana documentation: http://docs.grafana.org/guides/getting_started/
