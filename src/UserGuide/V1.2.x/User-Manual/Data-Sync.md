@@ -22,7 +22,7 @@
 # IoTDB Data Sync
 **The IoTDB data sync transfers data from IoTDB to another data platform, and <font color=RED>a data sync task is called a Pipe</font>.**
 
-**A Pipe consists of three subtasks (plugins): **
+**A Pipe consists of three subtasks (plugins):**
 
 - Extract
 - Process
@@ -30,7 +30,7 @@
 
 **Pipe allows users to customize the processing logic of these three subtasks, just like handling data using UDF (User-Defined Functions)**. Within a Pipe, the aforementioned subtasks are executed and implemented by three types of plugins. Data flows through these three plugins sequentially: Pipe Extractor is used to extract data, Pipe Processor is used to process data, and Pipe Connector is used to send data to an external system.
 
-**The model of a Pipe task is as follows: **
+**The model of a Pipe task is as follows:**
 
 ![Task model diagram](https://alioss.timecho.com/docs/img/%E6%B5%81%E5%A4%84%E7%90%86%E5%BC%95%E6%93%8E.jpeg)
 
@@ -141,13 +141,13 @@ WITH CONNECTOR (
 
 The expressed semantics are: synchronise the full amount of historical data and subsequent arrivals of real-time data from this database instance to the IoTDB instance with target 127.0.0.1:6667.
 
-**注意：**
+**Note:**
 
-- EXTRACTOR 和 PROCESSOR 为选填配置，若不填写配置参数，系统则会采用相应的默认实现
-- CONNECTOR 为必填配置，需要在 CREATE PIPE 语句中声明式配置
-- CONNECTOR 具备自复用能力。对于不同的任务，如果他们的 CONNECTOR 具备完全相同 KV 属性的（所有属性的 key 对应的 value 都相同），**那么系统最终只会创建一个 CONNECTOR 实例**，以实现对连接资源的复用。
+- EXTRACTOR and PROCESSOR are optional, if no configuration parameters are filled in, the system will use the corresponding default implementation.
+- The CONNECTOR is a mandatory configuration that needs to be declared in the CREATE PIPE statement for configuring purposes.
+- The CONNECTOR exhibits self-reusability. For different tasks, if their CONNECTOR possesses identical KV properties (where the value corresponds to every key), **the system will ultimately create only one instance of the CONNECTOR** to achieve resource reuse for connections.
 
-  - 例如，有下面 pipe1, pipe2 两个任务的声明：
+  - For example, there are the following pipe1, pipe2 task declarations:
 
   ```sql
   CREATE PIPE pipe1
@@ -165,49 +165,49 @@ The expressed semantics are: synchronise the full amount of historical data and 
   )
   ```
 
-  - 因为它们对 CONNECTOR 的声明完全相同（**即使某些属性声明时的顺序不同**），所以框架会自动对它们声明的 CONNECTOR 进行复用，最终 pipe1, pipe2 的CONNECTOR 将会是同一个实例。
-- 请不要构建出包含数据循环同步的应用场景（会导致无限循环）：
+  - Since they have identical CONNECTOR declarations (**even if the order of some properties is different**), the framework will automatically reuse the CONNECTOR declared by them. Hence, the CONNECTOR instances for pipe1 and pipe2 will be the same.
+- Please note that we should avoid constructing application scenarios that involve data cycle synchronization (as it can result in an infinite loop):
 
   - IoTDB A -> IoTDB B -> IoTDB A
   - IoTDB A -> IoTDB A
 
-### 启动任务
+### STARE TASK
 
-CREATE PIPE 语句成功执行后，任务相关实例会被创建，但整个任务的运行状态会被置为 STOPPED，即任务不会立刻处理数据。
+After the successful execution of the CREATE PIPE statement, task-related instances will be created. However, the overall task's running status will be set to STOPPED, meaning the task will not immediately process data.
 
-可以使用 START PIPE 语句使任务开始处理数据：
+You can use the START PIPE statement to begin processing data for a task:
 
 ```sql
 START PIPE <PipeId>
 ```
 
-### 停止任务
+### STOP TASK
 
-使用 STOP PIPE 语句使任务停止处理数据：
+the STOP PIPE statement can be used to halt the data processing:
 
 ```sql
 STOP PIPE <PipeId>
 ```
 
-### 删除任务
+### DELETE TASK
 
-使用 DROP PIPE 语句使任务停止处理数据（当任务状态为 RUNNING 时），然后删除整个任务同步任务：
+If a task is in the RUNNING state, you can use the DROP PIPE statement to stop the data processing and delete the entire task:
 
 ```sql
 DROP PIPE <PipeId>
 ```
 
-用户在删除任务前，不需要执行 STOP 操作。
+Before deleting a task, there is no need to execute the STOP operation.
 
-### 展示任务
+### SHOw TASK
 
-使用 SHOW PIPES 语句查看所有任务：
+ou can use the SHOW PIPES statement to view all tasks:
 
 ```sql
 SHOW PIPES
 ```
 
-查询结果如下：
+The query results are as follows:
 
 ```sql
 +-----------+-----------------------+-------+-------------+-------------+-------------+----------------+
@@ -219,33 +219,33 @@ SHOW PIPES
 +-----------+-----------------------+-------+-------------+-------------+-------------+----------------+
 ```
 
-可以使用 `<PipeId>` 指定想看的某个同步任务状态：
+You can use <PipeId> to specify the status of a particular synchronization task:
 
 ```sql
 SHOW PIPE <PipeId>
 ```
 
-您也可以通过 where 子句，判断某个 \<PipeId\> 使用的 Pipe Connector 被复用的情况。
+Additionally, the WHERE clause can be used to determine if the Pipe Connector used by a specific \<PipeId\> is being reused.
 
 ```sql
 SHOW PIPES
 WHERE CONNECTOR USED BY <PipeId>
 ```
 
-### 任务运行状态迁移
+### Task Running Status Migration
 
-一个数据同步 pipe 在其被管理的生命周期中会经过多种状态：
+The task running status can transition through several states during the lifecycle of a data synchronization pipe:
 
-- **STOPPED：** pipe 处于停止运行状态。当管道处于该状态时，有如下几种可能：
-  - 当一个 pipe 被成功创建之后，其初始状态为暂停状态
-  - 用户手动将一个处于正常运行状态的 pipe 暂停，其状态会被动从 RUNNING 变为 STOPPED
-  - 当一个 pipe 运行过程中出现无法恢复的错误时，其状态会自动从 RUNNING 变为 STOPPED
-- **RUNNING：** pipe 正在正常工作
-- **DROPPED：** pipe 任务被永久删除
+- **STOPPED：** The pipe is in a stopped state. It can have the following possibilities:
+  - After the successful creation of a pipe, its initial state is set to stopped
+  - The user manually pauses a pipe that is in normal running state, transitioning its status from RUNNING to STOPPED
+  - If a pipe encounters an unrecoverable error during execution, its status automatically changes from RUNNING to STOPPED.
+- **RUNNING：** The pipe is actively processing data
+- **DROPPED：** The pipe is permanently deleted
 
-下图表明了所有状态以及状态的迁移：
+The following diagram illustrates the different states and their transitions:
 
-![状态迁移图](https://alioss.timecho.com/docs/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
+![state migration diagram](https://alioss.timecho.com/docs/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
 
 ## 系统预置数据同步插件
 
@@ -337,7 +337,7 @@ Limitation: Both the source and target IoTDB versions need to be v1.2.0+.
 
 | key                               | value                                                                       | value range                                                               | required or optional with default                     |
 | --------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------- |
-| connector                         | iotdb-thrift-connector 或 iotdb-thrift-sync-connector                       | String: iotdb-thrift-connector 或 iotdb-thrift-sync-connector                | required                                              |
+| connector                         | iotdb-thrift-connector or iotdb-thrift-sync-connector                       | String: iotdb-thrift-connector 或 iotdb-thrift-sync-connector                | required                                              |
 | connector.ip                      | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip                            | String                                                                       | optional: 与 connector.node-urls 任选其一填写         |
 | connector.port                    | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port                          | Integer                                                                      | optional: 与 connector.node-urls 任选其一填写         |
 | connector.node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url                     | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: 与 connector.ip:connector.port 任选其一填写 |
@@ -375,7 +375,7 @@ Note: In theory, any version prior to v1.2.0 of IoTDB can serve as the data sync
 | key                | value                                                                 | value range                      | required or optional with default |
 | ------------------ | --------------------------------------------------------------------- | ----------------------------------- | --------------------------------- |
 | connector          | iotdb-legacy-pipe-connector                                           | String: iotdb-legacy-pipe-connector | required                          |
-| connector.ip       | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip                      | String                              | required                          |
+| connector.ip       | Data service of one DataNode node of the target IoTDB ip                      | String                              | required                          |
 | connector.port     | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port                    | Integer                             | required                          |
 | connector.user     | 目标端 IoTDB 的用户名，注意该用户需要支持数据写入、TsFile Load 的权限 | String                              | optional: root                    |
 | connector.password | 目标端 IoTDB 的密码，注意该用户需要支持数据写入、TsFile Load 的权限   | String                              | optional: root                    |
