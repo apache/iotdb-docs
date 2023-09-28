@@ -96,7 +96,7 @@ WITH EXTRACTOR (
   'extractor.history.start-time' = '2011.12.03T10:15:30+01:00',
   -- Describes the time range of the extracted historical data, indicating the latest time
   'extractor.history.end-time'   = '2022.12.03T10:15:30+01:00',
-  -- Whether to extract real-time data
+  -- Whether to extract realtime data
   'extractor.realtime.enable'    = 'true',
 )
 WITH PROCESSOR (
@@ -116,30 +116,30 @@ WITH CONNECTOR (
 **To create a synchronisation task it is necessary to configure the PipeId and the parameters of the three plugin sections:**
 
 
-| 配置项    | 说明                                              | 是否必填                    | 默认实现             | 默认实现说明                                           | 是否允许自定义实现        |
+| configuration item    | description                                              | Required or not                    | default implementation             | Default implementation description                                           | Whether to allow custom implementations        |
 | --------- | ------------------------------------------------- | --------------------------- | -------------------- | ------------------------------------------------------ | ------------------------- |
-| PipeId    | 全局唯一标定一个同步任务的名称                    | <font color=red>必填</font> | -                    | -                                                      | -                         |
-| extractor | Pipe Extractor 插件，负责在数据库底层抽取同步数据 | 选填                        | iotdb-extractor      | 将数据库的全量历史数据和后续到达的实时数据接入同步任务 | 否                        |
-| processor | Pipe Processor 插件，负责处理数据                 | 选填                        | do-nothing-processor | 对传入的数据不做任何处理                               | <font color=red>是</font> |
-| connector | Pipe Connector 插件，负责发送数据                 | <font color=red>必填</font> | -                    | -                                                      | <font color=red>是</font> |
+| pipeId    | Globally uniquely identifies the name of a sync task                    | <font color=red>必填</font> | -                    | -                                                      | -                         |
+| extractor | pipe Extractor plug-in, for extracting synchronized data at the bottom of the database | 选填                        | iotdb-extractor      | Integrate all historical data of the database and subsequent realtime data into the sync task | 否                        |
+| processor | Pipe Processor plug-in, for processing data                 | 选填                        | do-nothing-processor | no processing of incoming data                               | <font color=red>是</font> |
+| connector | Pipe Connector plug-in，for sending data                 | <font color=red>必填</font> | -                    | -                                                      | <font color=red>是</font> |
 
 In the example, the iotdb-extractor, do-nothing-processor, and iotdb-thrift-connector plug-ins are used to build the data synchronisation task. iotdb has other built-in data synchronisation plug-ins, **see the section "System pre-built data synchronisation plug-ins" **. See the "System Preconfigured Data Synchronisation Plugins" section**.
 
 **An example of a minimalist CREATE PIPE statement is as follows:**
 
 ```sql
-CREATE PIPE <PipeId> -- PipeId 是能够唯一标定任务任务的名字
+CREATE PIPE <PipeId> -- PipeId is a name that uniquely identifies the task.
 WITH CONNECTOR (
-  -- IoTDB 数据发送插件，目标端为 IoTDB
+  -- IoTDB data sending plugin with target IoTDB
   'connector'      = 'iotdb-thrift-connector',
-  -- 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip
+  -- Data service for one of the DataNode nodes on the target IoTDB ip
   'connector.ip'   = '127.0.0.1',
-  -- 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port
+  -- Data service port of one of the DataNode nodes of the target IoTDB
   'connector.port' = '6667',
 )
 ```
 
-The expressed semantics are: synchronise the full amount of historical data and subsequent arrivals of real-time data from this database instance to the IoTDB instance with target 127.0.0.1:6667.
+The expressed semantics are: synchronise the full amount of historical data and subsequent arrivals of realtime data from this database instance to the IoTDB instance with target 127.0.0.1:6667.
 
 **Note:**
 
@@ -247,73 +247,72 @@ The following diagram illustrates the different states and their transitions:
 
 ![state migration diagram](https://alioss.timecho.com/docs/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
 
-## 系统预置数据同步插件
+## System Pre-installed Data Sync Plug-in
 
-### 查看预置插件
+### View pre-built plug-in
 
-用户可以按需查看系统中的插件。查看插件的语句如图所示。
-
+User can view the plug-ins in the system on demand. The statement for viewing plug-ins is shown below.
 ```sql
 SHOW PIPEPLUGINS
 ```
 
-### 预置 extractor 插件
+### Pre-built extractor plugin
 
 #### iotdb-extractor
 
-作用：抽取 IoTDB 内部的历史或实时数据进入 pipe。
+Function: Extract historical or realtime data inside IoTDB into pipe.
 
 
 | key                                | value                                            | value range                         | required or optional with default |
 | ---------------------------------- | ------------------------------------------------ | -------------------------------------- | --------------------------------- |
 | extractor                          | iotdb-extractor                                  | String: iotdb-extractor                | required                          |
-| extractor.pattern                  | 用于筛选时间序列的路径前缀                       | String: 任意的时间序列前缀             | optional: root                    |
-| extractor.history.enable           | 是否同步历史数据                                 | Boolean: true, false                   | optional: true                    |
-| extractor.history.start-time       | 同步历史数据的开始 event time，包含 start-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
-| extractor.history.end-time         | 同步历史数据的结束 event time，包含 end-time     | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
-| extractor.realtime.enable          | 是否同步实时数据                                 | Boolean: true, false                   | optional: true                    |
+| extractor.pattern                  | path prefix for filtering time series                       | String: any time series prefix             | optional: root                    |
+| extractor.history.enable           | whether to synchronize historical data                                 | Boolean: true, false                   | optional: true                    |
+| extractor.history.start-time       | start of synchronizing historical data event time，Include start-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
+| extractor.history.end-time         | end of synchronizing historical data event time，Include end-time     | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
+| extractor.realtime.enable          | Whether to synchronize realtime data                                 | Boolean: true, false                   | optional: true                    |
 
-> 🚫 **extractor.pattern 参数说明**
+> 🚫 **extractor.pattern Parameter Description**
 >
-> * Pattern 需用反引号修饰不合法字符或者是不合法路径节点，例如如果希望筛选 root.\`a@b\` 或者 root.\`123\`，应设置 pattern 为 root.\`a@b\` 或者 root.\`123\`（具体参考 [单双引号和反引号的使用时机](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
-> * 在底层实现中，当检测到 pattern 为 root（默认值）时，同步效率较高，其他任意格式都将降低性能
-> * 路径前缀不需要能够构成完整的路径。例如，当创建一个包含参数为 'extractor.pattern'='root.aligned.1' 的 pipe 时：
+> * Pattern should use backquotes to modify illegal characters or illegal path nodes, for example, if you want to filter root.\`a@b\` or root.\`123\`, you should set the pattern to root.\`a@b\` or root.\`123\`（Refer specifically to [Timing of single and double quotes and backquotes](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
+> * In the underlying implementation, when pattern is detected as root (default value), synchronization efficiency is higher, and any other format will reduce performance.
+> * The path prefix does not need to form a complete path. For example, when creating a pipe with the parameter 'extractor.pattern'='root.aligned.1':
 >
 >   * root.aligned.1TS
 >   * root.aligned.1TS.\`1\`
 >   * root.aligned.100TS
 >
->   的数据会被同步；
+>   the data will be synchronized;
 >
 >   * root.aligned.\`1\`
 >   * root.aligned.\`123\`
 >
->   的数据不会被同步。
+>   the data will not be synchronized.
 
-> ❗️**extractor.history 的 start-time，end-time 参数说明**
+> ❗️**start-time, end-time parameter description of extractor.history**
 >
-> * start-time，end-time 应为 ISO 格式，例如 2011-12-03T10:15:30 或 2011-12-03T10:15:30+01:00
+> * start-time, end-time should be in ISO format, such as 2011-12-03T10:15:30 or 2011-12-03T10:15:30+01:00
 
-> ✅ **一条数据从生产到落库 IoTDB，包含两个关键的时间概念**
+> ✅ **a piece of data from production to IoTDB contains two key concepts of time**
 >
-> * **event time：** 数据实际生产时的时间（或者数据生产系统给数据赋予的生成时间，是数据点中的时间项），也称为事件时间。
-> * **arrival time：** 数据到达 IoTDB 系统内的时间。
+> * **event time：** the time when the data is actually produced (or the generation time assigned to the data by the data production system, which is a time item in the data point), also called the event time.
+> * **arrival time：** the time the data arrived in the IoTDB system.
 >
-> 我们常说的乱序数据，指的是数据到达时，其 **event time** 远落后于当前系统时间（或者已经落库的最大 **event time**）的数据。另一方面，不论是乱序数据还是顺序数据，只要它们是新到达系统的，那它们的 **arrival time** 都是会随着数据到达 IoTDB 的顺序递增的。
+> The out-of-order data we often refer to refers to data whose **event time** is far behind the current system time (or the maximum **event time** that has been dropped) when the data arrives. On the other hand, whether it is out-of-order data or sequential data, as long as they arrive newly in the system, their **arrival time** will increase with the order in which the data arrives at IoTDB.
 
-> 💎 **iotdb-extractor 的工作可以拆分成两个阶段**
+> 💎 **the work of iotdb-extractor can be split into two stages**
 >
-> 1. 历史数据抽取：所有 **arrival time** < 创建 pipe 时**当前系统时间**的数据称为历史数据
-> 2. 实时数据抽取：所有 **arrival time** >= 创建 pipe 时**当前系统时间**的数据称为实时数据
+> 1. Historical data extraction: All data with **arrival time** < **current system time** when creating the pipe is called historical data
+> 2. Realtime data extraction: All data with **arrival time** >= **current system time** when the pipe is created is called realtime data
 >
-> 历史数据传输阶段和实时数据传输阶段，**两阶段串行执行，只有当历史数据传输阶段完成后，才执行实时数据传输阶段。**
+> The historical data transmission phase and the realtime data transmission phase are executed serially. Only when the historical data transmission phase is completed, the realtime data transmission phase is executed.**
 >
-> 用户可以指定 iotdb-extractor 进行：
+> Users can specify iotdb-extractor to:
 >
-> * 历史数据抽取（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'false'` ）
-> * 实时数据抽取（`'extractor.history.enable' = 'false'`, `'extractor.realtime.enable' = 'true'` ）
-> * 全量数据抽取（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'true'` ）
-> * 禁止同时设置 `extractor.history.enable` 和 `extractor.realtime.enable` 为 `false`
+> * Historical data extraction（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'false'` ）
+> * Realtime data extraction（`'extractor.history.enable' = 'false'`, `'extractor.realtime.enable' = 'true'` ）
+> * Full data extraction（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'true'` ）
+> * Disable simultaneous sets `extractor.history.enable` and `extractor.realtime.enable` to `false`
 
 ### pre-processor plugin
 
@@ -337,10 +336,10 @@ Limitation: Both the source and target IoTDB versions need to be v1.2.0+.
 
 | key                               | value                                                                       | value range                                                               | required or optional with default                     |
 | --------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------- |
-| connector                         | iotdb-thrift-connector or iotdb-thrift-sync-connector                       | String: iotdb-thrift-connector 或 iotdb-thrift-sync-connector                | required                                              |
-| connector.ip                      | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip                            | String                                                                       | optional: 与 connector.node-urls 任选其一填写         |
-| connector.port                    | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port                          | Integer                                                                      | optional: 与 connector.node-urls 任选其一填写         |
-| connector.node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url                     | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: 与 connector.ip:connector.port 任选其一填写 |
+| connector                         | iotdb-thrift-connector or iotdb-thrift-sync-connector                       | String: iotdb-thrift-connector or iotdb-thrift-sync-connector                | required                                              |
+| connector.ip                      | the data service IP of one of the DataNode nodes in the target IoTDB                            | String                                                                       | optional: and connector.node-urls fill in either one         |
+| connector.port                    | the data service port of one of the DataNode nodes in the target IoTDB                          | Integer                                                                      | optional: and connector.node-urls fill in either one         |
+| connector.node-urls               | the URL of the data service port of any multiple DataNode nodes in the target IoTDB                     | String。eg：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: and connector.ip:connector.port fill in either one |
 
 > 📌 Please ensure that the receiving end has already created all the time series present in the sending end or has enabled automatic metadata creation. Otherwise, it may result in the failure of the pipe operation.
 
@@ -356,9 +355,9 @@ Limitation: Both the source and target IoTDB versions need to be v1.2.0+.
 | key                               | value                                                                       | value range                                                               | required or optional with default                     |
 | --------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------- |
 | connector                         | iotdb-thrift-async-connector                                                | String: iotdb-thrift-async-connector                                         | required                                              |
-| connector.ip                      | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip                            | String                                                                       | optional: 与 connector.node-urls 任选其一填写         |
-| connector.port                    | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port                          | Integer                                                                      | optional: 与 connector.node-urls 任选其一填写         |
-| connector.node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url                     | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: 与 connector.ip:connector.port 任选其一填写 |
+| connector.ip                      | the data service IP of one of the DataNode nodes in the target IoTDB                            | String                                                                       | optional: and connector.node-urls fill in either one         |
+| connector.port                    | the data service port of one of the DataNode nodes in the target IoTDB                          | Integer                                                                      | optional: and connector.node-urls fill in either one         |
+| connector.node-urls               | the URL of the data service port of any multiple DataNode nodes in the target IoTDB                     | String。eg：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: and connector.ip:connector.port fill in either one |
 
 > 📌 Please ensure that the receiving end has already created all the time series present in the sending end or has enabled automatic metadata creation. Otherwise, it may result in the failure of the pipe operation.
 
@@ -374,12 +373,12 @@ Note: In theory, any version prior to v1.2.0 of IoTDB can serve as the data sync
 
 | key                | value                                                                 | value range                      | required or optional with default |
 | ------------------ | --------------------------------------------------------------------- | ----------------------------------- | --------------------------------- |
-| connector          | iotdb-legacy-pipe-connector                                           | String: iotdb-legacy-pipe-connector | required                          |
-| connector.ip       | Data service of one DataNode node of the target IoTDB ip                      | String                              | required                          |
-| connector.port     | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port                    | Integer                             | required                          |
-| connector.user     | 目标端 IoTDB 的用户名，注意该用户需要支持数据写入、TsFile Load 的权限 | String                              | optional: root                    |
-| connector.password | 目标端 IoTDB 的密码，注意该用户需要支持数据写入、TsFile Load 的权限   | String                              | optional: root                    |
-| connector.version  | 目标端 IoTDB 的版本，用于伪装自身实际版本，绕过目标端的版本一致性检查 | String                              | optional: 1.1                     |
+| connector          | iotdb-legacy-pipe-connector                                           | string: iotdb-legacy-pipe-connector | required                          |
+| connector.ip       | data service of one DataNode node of the target IoTDB ip                      | string                              | required                          |
+| connector.port     | the data service port of one of the DataNode nodes in the target IoTDB                    | integer                             | required                          |
+| connector.user     | the user name of the target IoTDB. Note that the user needs to support data writing and TsFile Load permissions. | string                              | optional: root                    |
+| connector.password | the password of the target IoTDB. Note that the user needs to support data writing and TsFile Load permissions.   | string                              | optional: root                    |
+| connector.version  | the version of the target IoTDB, used to disguise its actual version and bypass the version consistency check of the target. | string                              | optional: 1.1                     |
 
 > 📌 Make sure that the receiver has created all the time series on the sender side, or that automatic metadata creation is turned on, otherwise the pipe run will fail.
 
@@ -450,13 +449,13 @@ However, in the following scenarios, it is possible for some data to be synchron
 - Data partition switching due to node failures or restarts: After the partition change is completed, the affected data will be retransmitted.
 - Cluster unavailability: Once the cluster becomes available again, the affected data will be retransmitted.
 
-### Source End: Data Writing with Pipe Processing and Asynchronous Decoupling of Data Transmission
+### Source: Data Writing with Pipe Processing and Asynchronous Decoupling of Data Transmission
 
 In the data synchronization feature, data transfer adopts an asynchronous replication mode.
 
 Data synchronization is completely decoupled from the writing operation, eliminating any impact on the critical path of writing. This mechanism allows the framework to maintain the writing speed of a time-series database while ensuring continuous data synchronization.
 
-### Source End: High Availability of Pipe Service in a Highly Available Cluster Deployment
+### Source: High Availability of Pipe Service in a Highly Available Cluster Deployment
 
 When the sender end IoTDB is deployed in a high availability cluster mode, the data synchronization service will also be highly available. The data synchronization framework monitors the data synchronization progress of each data node and periodically takes lightweight distributed consistent snapshots to preserve the synchronization state.
 
