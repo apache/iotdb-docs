@@ -118,10 +118,10 @@ WITH CONNECTOR (
 
 | configuration item    | description                                              | Required or not                    | default implementation             | Default implementation description                                           | Whether to allow custom implementations        |
 | --------- | ------------------------------------------------- | --------------------------- | -------------------- | ------------------------------------------------------ | ------------------------- |
-| pipeId    | Globally uniquely identifies the name of a sync task                    | <font color=red>必填</font> | -                    | -                                                      | -                         |
-| extractor | pipe Extractor plug-in, for extracting synchronized data at the bottom of the database | 选填                        | iotdb-extractor      | Integrate all historical data of the database and subsequent realtime data into the sync task | 否                        |
-| processor | Pipe Processor plug-in, for processing data                 | 选填                        | do-nothing-processor | no processing of incoming data                               | <font color=red>是</font> |
-| connector | Pipe Connector plug-in，for sending data                 | <font color=red>必填</font> | -                    | -                                                      | <font color=red>是</font> |
+| pipeId    | Globally uniquely identifies the name of a sync task                    | <font color=red>required</font> | -                    | -                                                      | -                         |
+| extractor | pipe Extractor plug-in, for extracting synchronized data at the bottom of the database | Optional                        | iotdb-extractor      | Integrate all historical data of the database and subsequent realtime data into the sync task |        no                |
+| processor | Pipe Processor plug-in, for processing data                 | Optional                        | do-nothing-processor | no processing of incoming data                               | <font color=red>yes</font> |
+| connector | Pipe Connector plug-in，for sending data                 | <font color=red>required</font> | -                    | -                                                      | <font color=red>yes</font> |
 
 In the example, the iotdb-extractor, do-nothing-processor, and iotdb-thrift-connector plug-ins are used to build the data synchronisation task. iotdb has other built-in data synchronisation plug-ins, **see the section "System pre-built data synchronisation plug-ins" **. See the "System Preconfigured Data Synchronisation Plugins" section**.
 
@@ -171,7 +171,7 @@ The expressed semantics are: synchronise the full amount of historical data and 
   - IoTDB A -> IoTDB B -> IoTDB A
   - IoTDB A -> IoTDB A
 
-### STARE TASK
+### START TASK
 
 After the successful execution of the CREATE PIPE statement, task-related instances will be created. However, the overall task's running status will be set to STOPPED, meaning the task will not immediately process data.
 
@@ -199,9 +199,9 @@ DROP PIPE <PipeId>
 
 Before deleting a task, there is no need to execute the STOP operation.
 
-### SHOw TASK
+### SHOW TASK
 
-ou can use the SHOW PIPES statement to view all tasks:
+You can use the SHOW PIPES statement to view all tasks:
 
 ```sql
 SHOW PIPES
