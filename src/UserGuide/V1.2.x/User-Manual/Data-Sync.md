@@ -84,7 +84,7 @@ By utilizing the data synchronization functionality, a complete data pipeline ca
 A data synchronisation task can be created using the `CREATE PIPE` statement, a sample SQL statement is shown below:
 
 ```sql
-CREATE PIPE <PipeId> -- PipeId is the name that uniquely identifies the synchronisation task
+CREATE PIPE <PipeId> -- PipeId is the name that uniquely identifies the sync task
 WITH EXTRACTOR (
   -- Default IoTDB Data Extraction Plugin
   'extractor'                    = 'iotdb-extractor',
@@ -123,8 +123,7 @@ WITH CONNECTOR (
 | processor | Pipe Processor plug-in, for processing data                 | Optional                        | do-nothing-processor | no processing of incoming data                               | <font color=red>yes</font> |
 | connector | Pipe Connector plug-in，for sending data                 | <font color=red>required</font> | -                    | -                                                      | <font color=red>yes</font> |
 
-In the example, the iotdb-extractor, do-nothing-processor, and iotdb-thrift-connector plug-ins are used to build the data synchronisation task. iotdb has other built-in data synchronisation plug-ins, **see the section "System pre-built data synchronisation plug-ins" **. See the "System Preconfigured Data Synchronisation Plugins" section**.
-
+In the example, the iotdb-extractor, do-nothing-processor, and iotdb-thrift-connector plug-ins are used to build the data synchronisation task. iotdb has other built-in data synchronisation plug-ins, **see the section "System Pre-built Data Sync Plugin"**.
 **An example of a minimalist CREATE PIPE statement is as follows:**
 
 ```sql
@@ -166,7 +165,7 @@ The expressed semantics are: synchronise the full amount of historical data and 
   ```
 
   - Since they have identical CONNECTOR declarations (**even if the order of some properties is different**), the framework will automatically reuse the CONNECTOR declared by them. Hence, the CONNECTOR instances for pipe1 and pipe2 will be the same.
-- Please note that we should avoid constructing application scenarios that involve data cycle synchronization (as it can result in an infinite loop):
+- Please note that we should avoid constructing application scenarios that involve data cycle sync (as it can result in an infinite loop):
 
   - IoTDB A -> IoTDB B -> IoTDB A
   - IoTDB A -> IoTDB A
@@ -247,16 +246,16 @@ The following diagram illustrates the different states and their transitions:
 
 ![state migration diagram](https://alioss.timecho.com/docs/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
 
-## System Pre-installed Data Sync Plug-in
+## System Pre-built Data Sync Plugin
 
-### View pre-built plug-in
+### View pre-built plugin
 
 User can view the plug-ins in the system on demand. The statement for viewing plug-ins is shown below.
 ```sql
 SHOW PIPEPLUGINS
 ```
 
-### Pre-built extractor plugin
+### Pre-built Extractor Plugin
 
 #### iotdb-extractor
 
@@ -314,7 +313,7 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 > * Full data extraction（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'true'` ）
 > * Disable simultaneous sets `extractor.history.enable` and `extractor.realtime.enable` to `false`
 
-### pre-processor plugin
+### Pre-built Processor Plugin
 
 #### do-nothing-processor
 
