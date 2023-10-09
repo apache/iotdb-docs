@@ -34,13 +34,13 @@
 
 ![Task model diagram](https://alioss.timecho.com/docs/img/%E6%B5%81%E5%A4%84%E7%90%86%E5%BC%95%E6%93%8E.jpeg)
 
-It describes a data synchronization task, which essentially describes the attributes of the Pipe Extractor, Pipe Processor, and Pipe Connector plugins. Users can declaratively configure the specific attributes of the three subtasks through SQL statements. By combining different attributes, flexible data ETL (Extract, Transform, Load) capabilities can be achieved.
+It describes a data sync task, which essentially describes the attributes of the Pipe Extractor, Pipe Processor, and Pipe Connector plugins. Users can declaratively configure the specific attributes of the three subtasks through SQL statements. By combining different attributes, flexible data ETL (Extract, Transform, Load) capabilities can be achieved.
 
-By utilizing the data synchronization functionality, a complete data pipeline can be built to fulfill various requirements such as edge-to-cloud synchronization, remote disaster recovery, and read-write workload distribution across multiple databases.
+By utilizing the data sync functionality, a complete data pipeline can be built to fulfill various requirements such as edge-to-cloud sync, remote disaster recovery, and read-write workload distribution across multiple databases.
 
 ## Quick Start
 
-**🎯 Goal: Achieve full data synchronisation of IoTDB A -> IoTDB B**
+**🎯 Goal: Achieve full data sync of IoTDB A -> IoTDB B**
 
 - Start two IoTDBs,A（datanode -> 127.0.0.1:6667） B（datanode -> 127.0.0.1:6668）
 - create a Pipe from A -> B, and execute on A
@@ -68,20 +68,20 @@ By utilizing the data synchronization functionality, a complete data pipeline ca
   SELECT ** FROM root
   ```
 
-> ❗️**Note: The current IoTDB -> IoTDB implementation of data synchronisation does not support DDL synchronisation**
+> ❗️**Note: The current IoTDB -> IoTDB implementation of data sync does not support DDL sync**
 >
 > That is: ttl, trigger, alias, template, view, create/delete sequence, create/delete storage group, etc. are not supported.
 >
-> **IoTDB -> IoTDB data synchronisation requires the target IoTDB:**
+> **IoTDB -> IoTDB data sync requires the target IoTDB:**
 >
 > * Enable automatic metadata creation: manual configuration of encoding and compression of data types to be consistent with the sender is required
 > * Do not enable automatic metadata creation: manually create metadata that is consistent with the source
 
-## Synchronization task management
+## Sync Task Management
 
-### Create a synchronization task
+### Create a sync task
 
-A data synchronisation task can be created using the `CREATE PIPE` statement, a sample SQL statement is shown below:
+A data sync task can be created using the `CREATE PIPE` statement, a sample SQL statement is shown below:
 
 ```sql
 CREATE PIPE <PipeId> -- PipeId is the name that uniquely identifies the sync task
@@ -113,7 +113,7 @@ WITH CONNECTOR (
 )
 ```
 
-**To create a synchronisation task it is necessary to configure the PipeId and the parameters of the three plugin sections:**
+**To create a sync task it is necessary to configure the PipeId and the parameters of the three plugin sections:**
 
 
 | configuration item    | description                                              | Required or not                    | default implementation             | Default implementation description                                           | Whether to allow custom implementations        |
@@ -123,7 +123,7 @@ WITH CONNECTOR (
 | processor | Pipe Processor plug-in, for processing data                 | Optional                        | do-nothing-processor | no processing of incoming data                               | <font color=red>yes</font> |
 | connector | Pipe Connector plug-in，for sending data                 | <font color=red>required</font> | -                    | -                                                      | <font color=red>yes</font> |
 
-In the example, the iotdb-extractor, do-nothing-processor, and iotdb-thrift-connector plug-ins are used to build the data synchronisation task. iotdb has other built-in data synchronisation plug-ins, **see the section "System Pre-built Data Sync Plugin"**.
+In the example, the iotdb-extractor, do-nothing-processor, and iotdb-thrift-connector plug-ins are used to build the data sync task. iotdb has other built-in data sync plug-ins, **see the section "System Pre-built Data Sync Plugin"**.
 **An example of a minimalist CREATE PIPE statement is as follows:**
 
 ```sql
