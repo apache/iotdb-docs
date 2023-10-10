@@ -479,166 +479,165 @@ SHOW PIPEPLUGINS
 Function: Extract historical or realtime data inside IoTDB into pipe.
 
 
-| key                                | value                                            | value 取值范围                         | required or optional with default |
+| key                                | value                                            | value range                         | required or optional with default |
 | ---------------------------------- | ------------------------------------------------ | -------------------------------------- | --------------------------------- |
 | extractor                          | iotdb-extractor                                  | String: iotdb-extractor                | required                          |
-| extractor.pattern                  | 用于筛选时间序列的路径前缀                       | String: 任意的时间序列前缀             | optional: root                    |
-| extractor.history.enable           | 是否抽取历史数据                                 | Boolean: true, false                   | optional: true                    |
-| extractor.history.start-time       | 抽取的历史数据的开始 event time，包含 start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
-| extractor.history.end-time         | 抽取的历史数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
-| extractor.realtime.enable          | 是否抽取实时数据                                 | Boolean: true, false                   | optional: true                    |
-| extractor.realtime.mode            | 实时数据的抽取模式                               | String: hybrid, log, file              | optional: hybrid                  |
-| extractor.forwarding-pipe-requests | 是否抽取由其他 Pipe （通常是数据同步）写入的数据 | Boolean: true, false                   | optional: true                    |
+| extractor.pattern                  | path prefix for filtering time series                       | String: any time series prefix             | optional: root                    |
+| extractor.history.enable           | whether to sync historical data                                 | Boolean: true, false                   | optional: true                    |
+| extractor.history.start-time       | start of synchronizing historical data event time，Include start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
+| extractor.history.end-time         | end of synchronizing historical data event time，Include end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
+| extractor.realtime.enable          | Whether to sync realtime data                                 | Boolean: true, false                   | optional: true                    |
+| extractor.realtime.mode            | Extraction pattern for realtime data                               | String: hybrid, log, file              | optional: hybrid                  |
+| extractor.forwarding-pipe-requests | Whether to extract data written by other pipes (usually Data sync) | Boolean: true, false                   | optional: true                    |
 
-> 🚫 **extractor.pattern 参数说明**
+> 🚫 **extractor.pattern Parameter Description**
 >
-> * Pattern 需用反引号修饰不合法字符或者是不合法路径节点，例如如果希望筛选 root.\`a@b\` 或者 root.\`123\`，应设置 pattern 为 root.\`a@b\` 或者 root.\`123\`（具体参考 [单双引号和反引号的使用时机](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
-> * 在底层实现中，当检测到 pattern 为 root（默认值）时，抽取效率较高，其他任意格式都将降低性能
-> * 路径前缀不需要能够构成完整的路径。例如，当创建一个包含参数为 'extractor.pattern'='root.aligned.1' 的 pipe 时：
-    >
-    >   * root.aligned.1TS
+> * Pattern should use backquotes to modify illegal characters or illegal path nodes, for example, if you want to filter root.\`a@b\` or root.\`123\`, you should set the pattern to root.\`a@b\` or root.\`123\`（Refer specifically to [Timing of single and double quotes and backquotes](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
+> * In the underlying implementation, when pattern is detected as root (default value), synchronization efficiency is higher, and any other format will reduce performance.
+> * The path prefix does not need to form a complete path. For example, when creating a pipe with the parameter 'extractor.pattern'='root.aligned.1':
+>
+>   * root.aligned.1TS
 >   * root.aligned.1TS.\`1\`
->   * root.aligned.100T
-    >
-    >   的数据会被抽取；
-    >
-    >   * root.aligned.\`1\`
+>   * root.aligned.100TS
+>
+>   the data will be synchronized;
+>
+>   * root.aligned.\`1\`
 >   * root.aligned.\`123\`
-    >
-    >   的数据不会被抽取。
-> * root.\_\_system 的数据不会被 pipe 抽取。用户虽然可以在 extractor.pattern 中包含任意前缀，包括带有（或覆盖） root.\__system 的前缀，但是 root.__system 下的数据总是会被 pipe 忽略的
+>
+>   the data will not be synchronized.
+> * Data under root.\_\_system will not be extracted by the pipe. Although the user can include any prefix in extractor.pattern, including prefixes with (or overriding) root.\__system, data under root.\__system will always be ignored by pipe
 
-> ❗️**extractor.history 的 start-time，end-time 参数说明**
+> ❗️**start-time, end-time parameter description of extractor.history**
 >
-> * start-time，end-time 应为 ISO 格式，例如 2011-12-03T10:15:30 或 2011-12-03T10:15:30+01:00
+> * start-time, end-time should be in ISO format, such as 2011-12-03T10:15:30 or 2011-12-03T10:15:30+01:00
 
-> ✅ **一条数据从生产到落库 IoTDB，包含两个关键的时间概念**
+> ✅ **a piece of data from production to IoTDB contains two key concepts of time**
 >
-> * **event time：** 数据实际生产时的时间（或者数据生产系统给数据赋予的生成时间，是数据点中的时间项），也称为事件时间。
-> * **arrival time：** 数据到达 IoTDB 系统内的时间。
+> * **event time：** the time when the data is actually produced (or the generation time assigned to the data by the data production system, which is a time item in the data point), also called the event time.
+> * **arrival time：** the time the data arrived in the IoTDB system.
 >
-> 我们常说的乱序数据，指的是数据到达时，其 **event time** 远落后于当前系统时间（或者已经落库的最大 **event time**）的数据。另一方面，不论是乱序数据还是顺序数据，只要它们是新到达系统的，那它们的 **arrival time** 都是会随着数据到达 IoTDB 的顺序递增的。
+> The out-of-order data we often refer to refers to data whose **event time** is far behind the current system time (or the maximum **event time** that has been dropped) when the data arrives. On the other hand, whether it is out-of-order data or sequential data, as long as they arrive newly in the system, their **arrival time** will increase with the order in which the data arrives at IoTDB.
 
-> 💎 **iotdb-extractor 的工作可以拆分成两个阶段**
+> 💎 **the work of iotdb-extractor can be split into two stages**
 >
-> 1. 历史数据抽取：所有 **arrival time** < 创建 pipe 时**当前系统时间**的数据称为历史数据
-> 2. 实时数据抽取：所有 **arrival time** >= 创建 pipe 时**当前系统时间**的数据称为实时数据
+> 1. Historical data extraction: All data with **arrival time** < **current system time** when creating the pipe is called historical data
+> 2. Realtime data extraction: All data with **arrival time** >= **current system time** when the pipe is created is called realtime data
 >
-> 历史数据传输阶段和实时数据传输阶段，**两阶段串行执行，只有当历史数据传输阶段完成后，才执行实时数据传输阶段。**
+> The historical data transmission phase and the realtime data transmission phase are executed serially. Only when the historical data transmission phase is completed, the realtime data transmission phase is executed.**
 >
-> 用户可以指定 iotdb-extractor 进行：
+> Users can specify iotdb-extractor to:
 >
-> * 历史数据抽取（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'false'` ）
-> * 实时数据抽取（`'extractor.history.enable' = 'false'`, `'extractor.realtime.enable' = 'true'` ）
-> * 全量数据抽取（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'true'` ）
-> * 禁止同时设置 `extractor.history.enable` 和 `extractor.realtime.enable` 为 `false`
+> * Historical data extraction（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'false'` ）
+> * Realtime data extraction（`'extractor.history.enable' = 'false'`, `'extractor.realtime.enable' = 'true'` ）
+> * Full data extraction（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'true'` ）
+> * Disable simultaneous sets `extractor.history.enable` and `extractor.realtime.enable` to `false`
 
-> 📌 **extractor.realtime.mode：数据抽取的模式**
+> 📌 **extractor.realtime.mode: mode in which data is extracted**
 >
-> * log：该模式下，任务仅使用操作日志进行数据处理、发送
-> * file：该模式下，任务仅使用数据文件进行数据处理、发送
-> * hybrid：该模式，考虑了按操作日志逐条目发送数据时延迟低但吞吐低的特点，以及按数据文件批量发送时发送吞吐高但延迟高的特点，能够在不同的写入负载下自动切换适合的数据抽取方式，首先采取基于操作日志的数据抽取方式以保证低发送延迟，当产生数据积压时自动切换成基于数据文件的数据抽取方式以保证高发送吞吐，积压消除时自动切换回基于操作日志的数据抽取方式，避免了采用单一数据抽取算法难以平衡数据发送延迟或吞吐的问题。
+> * log: in this mode, the task uses only operation logs for data processing and sending.
+> * file: in this mode, the task uses only data files for data processing and sending.
+> * hybrid: This mode takes into account the characteristics of low latency but low throughput when sending data item by item according to the operation log and high throughput but high latency when sending data in batches according to the data file, and is able to automatically switch to a suitable data extraction method under different write loads. When data backlog is generated, it automatically switches to data file-based data extraction to ensure high sending throughput, and when the backlog is eliminated, it automatically switches back to operation log-based data extraction, which avoids the problem that it is difficult to balance the data sending latency or throughput by using a single data extraction algorithm.
 
-> 🍕 **extractor.forwarding-pipe-requests：是否允许转发从另一 pipe 传输而来的数据**
+> 🍕 **extractor.forwarding-pipe-requests: whether to allow forwarding of data transferred from another pipe**.
 >
-> * 如果要使用 pipe 构建 A -> B -> C 的数据同步，那么 B -> C 的 pipe 需要将该参数为 true 后，A -> B 中 A 通过 pipe 写入 B 的数据才能被正确转发到 C
-> * 如果要使用 pipe 构建 A \<-> B 的双向数据同步（双活），那么 A -> B 和 B -> A 的 pipe 都需要将该参数设置为 false，否则将会造成数据无休止的集群间循环转发
+> * If pipe is to be used to build A -> B -> C data sync, then the pipe of B -> C needs to have this parameter set to true for the data written from A -> B to B via the pipe to be forwarded to C correctly.
+> * If using pipe to build bi-directional data syncn for A \<-> B (dual-living), then the pipe for A -> B and B -> A need to be set to false, otherwise it will result in an endless loop of data being forwarded between clusters.
 
-### 预置 processor 插件
+### Pre-built Processor Plugin
 
 #### do-nothing-processor
 
-作用：不对 extractor 传入的事件做任何的处理。
+Function: Do not do anything with the events passed in by the extractor.
 
 
-| key       | value                | value 取值范围               | required or optional with default |
+| key       | value                | value range               | required or optional with default |
 | --------- | -------------------- | ---------------------------- | --------------------------------- |
 | processor | do-nothing-processor | String: do-nothing-processor | required                          |
-
-### 预置 connector 插件
+### Pre-built Connector Plugin
 
 #### do-nothing-connector
 
-作用：不对 processor 传入的事件做任何的处理。
+Function: Does not do anything with the events passed in by the processor.
 
 
-| key       | value                | value 取值范围               | required or optional with default |
+| key       | value                | value range               | required or optional with default |
 | --------- | -------------------- | ---------------------------- | --------------------------------- |
 | connector | do-nothing-connector | String: do-nothing-connector | required                          |
 
-## 流处理任务管理
+## Stream Processing Task Management
 
-### 创建流处理任务
+### Create Stream Processing Task
 
-使用 `CREATE PIPE` 语句来创建流处理任务。以数据同步流处理任务的创建为例，示例 SQL 语句如下：
+A stream processing task can be created using the `CREATE PIPE` statement, a sample SQL statement is shown below:
 
 ```sql
-CREATE PIPE <PipeId> -- PipeId 是能够唯一标定流处理任务的名字
+CREATE PIPE <PipeId> -- PipeId is the name that uniquely identifies the sync task
 WITH EXTRACTOR (
-  -- 默认的 IoTDB 数据抽取插件
+  -- Default IoTDB Data Extraction Plugin
   'extractor'                    = 'iotdb-extractor',
-  -- 路径前缀，只有能够匹配该路径前缀的数据才会被抽取，用作后续的处理和发送
+  -- Path prefix, only data that can match the path prefix will be extracted for subsequent processing and delivery
   'extractor.pattern'            = 'root.timecho',
-  -- 是否抽取历史数据
+  -- Whether to extract historical data
   'extractor.history.enable'     = 'true',
-  -- 描述被抽取的历史数据的时间范围，表示最早时间
+  -- Describes the time range of the historical data being extracted, indicating the earliest possible time
   'extractor.history.start-time' = '2011.12.03T10:15:30+01:00',
-  -- 描述被抽取的历史数据的时间范围，表示最晚时间
+  -- Describes the time range of the extracted historical data, indicating the latest time
   'extractor.history.end-time'   = '2022.12.03T10:15:30+01:00',
-  -- 是否抽取实时数据
+  -- Whether to extract realtime data
   'extractor.realtime.enable'    = 'true',
   -- 描述实时数据的抽取方式
   'extractor.realtime.mode'      = 'hybrid',
 )
 WITH PROCESSOR (
-  -- 默认的数据处理插件，即不做任何处理
+  -- Default data processing plugin, means no processing
   'processor'                    = 'do-nothing-processor',
 )
 WITH CONNECTOR (
-  -- IoTDB 数据发送插件，目标端为 IoTDB
+  -- IoTDB data sending plugin with target IoTDB
   'connector'                    = 'iotdb-thrift-connector',
-  -- 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip
+  -- Data service for one of the DataNode nodes on the target IoTDB ip
   'connector.ip'                 = '127.0.0.1',
-  -- 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port
+  -- Data service port of one of the DataNode nodes of the target IoTDB
   'connector.port'               = '6667',
 )
 ```
 
-**创建流处理任务时需要配置 PipeId 以及三个插件部分的参数：**
+**To create a stream processing task it is necessary to configure the PipeId and the parameters of the three plugin sections:**
 
 
-| 配置项    | 说明                                                | 是否必填                    | 默认实现             | 默认实现说明                                             | 是否允许自定义实现        |
-| --------- | --------------------------------------------------- | --------------------------- | -------------------- | -------------------------------------------------------- | ------------------------- |
-| PipeId    | 全局唯一标定一个流处理任务的名称                    | <font color=red>必填</font> | -                    | -                                                        | -                         |
-| extractor | Pipe Extractor 插件，负责在数据库底层抽取流处理数据 | 选填                        | iotdb-extractor      | 将数据库的全量历史数据和后续到达的实时数据接入流处理任务 | 否                        |
-| processor | Pipe Processor 插件，负责处理数据                   | 选填                        | do-nothing-processor | 对传入的数据不做任何处理                                 | <font color=red>是</font> |
-| connector | Pipe Connector 插件，负责发送数据                   | <font color=red>必填</font> | -                    | -                                                        | <font color=red>是</font> |
+| configuration item    | description                                              | Required or not                    | default implementation             | Default implementation description                                           | Whether to allow custom implementations        |
+| --------- | ------------------------------------------------- | --------------------------- | -------------------- | ------------------------------------------------------ | ------------------------- |
+| pipeId    | Globally uniquely identifies the name of a sync task                    | <font color=red>required</font> | -                    | -                                                      | -                         |
+| extractor | pipe Extractor plug-in, for extracting synchronized data at the bottom of the database | Optional                        | iotdb-extractor      | Integrate all historical data of the database and subsequent realtime data into the sync task |        no                |
+| processor | Pipe Processor plug-in, for processing data                 | Optional                        | do-nothing-processor | no processing of incoming data                               | <font color=red>yes</font> |
+| connector | Pipe Connector plug-in，for sending data                 | <font color=red>required</font> | -                    | -                                                      | <font color=red>yes</font> |
 
-示例中，使用了 iotdb-extractor、do-nothing-processor 和 iotdb-thrift-connector 插件构建数据流处理任务。IoTDB 还内置了其他的流处理插件，**请查看“系统预置流处理插件”一节**。
+In the example, the iotdb-extractor, do-nothing-processor, and iotdb-thrift-connector plug-ins are used to build the data synchronisation task. iotdb has other built-in data synchronisation plug-ins, **see the section "System pre-built data synchronisation plug-ins" **. See the "System Pre-installed Stream Processing Plugin" section**.
 
-**一个最简的 CREATE PIPE 语句示例如下：**
+**An example of a minimalist CREATE PIPE statement is as follows:**
 
 ```sql
-CREATE PIPE <PipeId> -- PipeId 是能够唯一标定流处理任务的名字
+CREATE PIPE <PipeId> -- PipeId is a name that uniquely identifies the task.
 WITH CONNECTOR (
-  -- IoTDB 数据发送插件，目标端为 IoTDB
+  -- IoTDB data sending plugin with target IoTDB
   'connector'      = 'iotdb-thrift-connector',
-  -- 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip
+  -- Data service for one of the DataNode nodes on the target IoTDB ip
   'connector.ip'   = '127.0.0.1',
-  -- 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port
+  -- Data service port of one of the DataNode nodes of the target IoTDB
   'connector.port' = '6667',
 )
 ```
 
-其表达的语义是：将本数据库实例中的全量历史数据和后续到达的实时数据，同步到目标为 127.0.0.1:6667 的 IoTDB 实例上。
+The expressed semantics are: synchronise the full amount of historical data and subsequent arrivals of realtime data from this database instance to the IoTDB instance with target 127.0.0.1:6667.
 
-**注意：**
+**Note:**
 
-- EXTRACTOR 和 PROCESSOR 为选填配置，若不填写配置参数，系统则会采用相应的默认实现
-- CONNECTOR 为必填配置，需要在 CREATE PIPE 语句中声明式配置
-- CONNECTOR 具备自复用能力。对于不同的流处理任务，如果他们的 CONNECTOR 具备完全相同 KV 属性的（所有属性的 key 对应的 value 都相同），**那么系统最终只会创建一个 CONNECTOR 实例**，以实现对连接资源的复用。
+- EXTRACTOR and PROCESSOR are optional, if no configuration parameters are filled in, the system will use the corresponding default implementation.
+- The CONNECTOR is a mandatory configuration that needs to be declared in the CREATE PIPE statement for configuring purposes.
+- The CONNECTOR exhibits self-reusability. For different tasks, if their CONNECTOR possesses identical KV properties (where the value corresponds to every key), **the system will ultimately create only one instance of the CONNECTOR** to achieve resource reuse for connections.
 
-  - 例如，有下面 pipe1, pipe2 两个流处理任务的声明：
+  - For example, there are the following pipe1, pipe2 task declarations:
 
   ```sql
   CREATE PIPE pipe1
@@ -656,49 +655,48 @@ WITH CONNECTOR (
   )
   ```
 
-  - 因为它们对 CONNECTOR 的声明完全相同（**即使某些属性声明时的顺序不同**），所以框架会自动对它们声明的 CONNECTOR 进行复用，最终 pipe1, pipe2 的CONNECTOR 将会是同一个实例。
-- 在 extractor 为默认的 iotdb-extractor，且 extractor.forwarding-pipe-requests 为默认值 true 时，请不要构建出包含数据循环同步的应用场景（会导致无限循环）：
+  - Since they have identical CONNECTOR declarations (**even if the order of some properties is different**), the framework will automatically reuse the CONNECTOR declared by them. Hence, the CONNECTOR instances for pipe1 and pipe2 will be the same.
+- Please note that we should avoid constructing application scenarios that involve data cycle sync (as it can result in an infinite loop):
 
   - IoTDB A -> IoTDB B -> IoTDB A
   - IoTDB A -> IoTDB A
 
-### 启动流处理任务
 
-CREATE PIPE 语句成功执行后，流处理任务相关实例会被创建，但整个流处理任务的运行状态会被置为 STOPPED，即流处理任务不会立刻处理数据。
+### Start Stream Processing Task
 
-可以使用 START PIPE 语句使流处理任务开始处理数据：
+After the successful execution of the CREATE PIPE statement, an instance of the stream processing task is created, but the overall task's running status will be set to STOPPED, meaning the task will not immediately process data.
 
+You can use the START PIPE statement to make the stream processing task start processing data:
 ```sql
 START PIPE <PipeId>
 ```
 
-### 停止流处理任务
+### Stop Stream Processing Task
 
-使用 STOP PIPE 语句使流处理任务停止处理数据：
+Use the STOP PIPE statement to stop the stream processing task from processing data:
 
 ```sql
 STOP PIPE <PipeId>
 ```
 
-### 删除流处理任务
+### Delete Stream Processing Task
 
-使用 DROP PIPE 语句使流处理任务停止处理数据（当流处理任务状态为 RUNNING 时），然后删除整个流处理任务流处理任务：
+If a stream processing task is in the RUNNING state, you can use the DROP PIPE statement to stop it and delete the entire task:
 
 ```sql
 DROP PIPE <PipeId>
 ```
 
-用户在删除流处理任务前，不需要执行 STOP 操作。
+Before deleting a stream processing task, there is no need to execute the STOP operation.
 
-### 展示流处理任务
+### Show Stream Processing Task
 
-使用 SHOW PIPES 语句查看所有流处理任务：
-
+Use the SHOW PIPES statement to view all stream processing tasks:
 ```sql
 SHOW PIPES
 ```
 
-查询结果如下：
+The query results are as follows:
 
 ```sql
 +-----------+-----------------------+-------+-------------+-------------+-------------+----------------+
@@ -710,59 +708,55 @@ SHOW PIPES
 +-----------+-----------------------+-------+-------------+-------------+-------------+----------------+
 ```
 
-可以使用 `<PipeId>` 指定想看的某个流处理任务状态：
-
+You can use `<PipeId>` to specify the status of a stream processing task you want to see:
 ```sql
 SHOW PIPE <PipeId>
 ```
 
-您也可以通过 where 子句，判断某个 \<PipeId\> 使用的 Pipe Connector 被复用的情况。
+Additionally, the WHERE clause can be used to determine if the Pipe Connector used by a specific \<PipeId\> is being reused.
 
 ```sql
 SHOW PIPES
 WHERE CONNECTOR USED BY <PipeId>
 ```
+### Stream Processing Task Running Status Migration
 
-### 流处理任务运行状态迁移
+A stream processing task status can transition through several states during the lifecycle of a data synchronization pipe:
 
-一个流处理 pipe 在其被管理的生命周期中会经过多种状态：
+- **STOPPED：** The pipe is in a stopped state. It can have the following possibilities:
+  - After the successful creation of a pipe, its initial state is set to stopped
+  - The user manually pauses a pipe that is in normal running state, transitioning its status from RUNNING to STOPPED
+  - If a pipe encounters an unrecoverable error during execution, its status automatically changes from RUNNING to STOPPED.
+- **RUNNING：** The pipe is actively processing data
+- **DROPPED：** The pipe is permanently deleted
 
-- **STOPPED：** pipe 处于停止运行状态。当管道处于该状态时，有如下几种可能：
-  - 当一个 pipe 被成功创建之后，其初始状态为暂停状态
-  - 用户手动将一个处于正常运行状态的 pipe 暂停，其状态会被动从 RUNNING 变为 STOPPED
-  - 当一个 pipe 运行过程中出现无法恢复的错误时，其状态会自动从 RUNNING 变为 STOPPED
-- **RUNNING：** pipe 正在正常工作
-- **DROPPED：** pipe 任务被永久删除
+The following diagram illustrates the different states and their transitions:
 
-下图表明了所有状态以及状态的迁移：
+![state migration diagram](https://alioss.timecho.com/docs/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
 
-![状态迁移图](https://alioss.timecho.com/docs/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
+## Authority Management
 
-## 权限管理
+### Stream Processing Task
 
-### 流处理任务
-
-
-| 权限名称    | 描述                       |
-| ----------- | -------------------------- |
-| CREATE_PIPE | 注册流处理任务。路径无关。 |
-| START_PIPE  | 开启流处理任务。路径无关。 |
-| STOP_PIPE   | 停止流处理任务。路径无关。 |
-| DROP_PIPE   | 卸载流处理任务。路径无关。 |
-| SHOW_PIPES  | 查询流处理任务。路径无关。 |
-
-### 流处理任务插件
+| Authority Name    | Description                 |
+| ----------- | -------------------- |
+| CREATE_PIPE | Register task,path-independent |
+| START_PIPE  | Start task,path-independent |
+| STOP_PIPE   | Stop task,path-independent |
+| DROP_PIPE   | Uninstall task,path-independent |
+| SHOW_PIPES  | Query task,path-independent |
+### Stream Processing Task Plugin
 
 
-| 权限名称          | 描述                           |
+| Authority Name          | Description                           |
 | ----------------- | ------------------------------ |
-| CREATE_PIPEPLUGIN | 注册流处理任务插件。路径无关。 |
-| DROP_PIPEPLUGIN   | 开启流处理任务插件。路径无关。 |
-| SHOW_PIPEPLUGINS  | 查询流处理任务插件。路径无关。 |
+| CREATE_PIPEPLUGIN | Register stream processing task plugin,path-independent |
+| DROP_PIPEPLUGIN   | Delete stream processing task plugin,path-independent |
+| SHOW_PIPEPLUGINS  | Query stream processing task plugin,path-independent |
 
-## 配置参数
+## Configure Parameters
 
-在 iotdb-common.properties 中：
+In iotdb-common.properties ：
 
 ```Properties
 ####################

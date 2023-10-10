@@ -483,10 +483,10 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 | ---------------------------------- | ------------------------------------------------ | -------------------------------------- | --------------------------------- |
 | extractor                          | iotdb-extractor                                  | String: iotdb-extractor                | required                          |
 | extractor.pattern                  | path prefix for filtering time series                       | String: any time series prefix             | optional: root                    |
-| extractor.history.enable           | whether to synchronize historical data                                 | Boolean: true, false                   | optional: true                    |
+| extractor.history.enable           | whether to sync historical data                                 | Boolean: true, false                   | optional: true                    |
 | extractor.history.start-time       | start of synchronizing historical data event time，Include start-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
 | extractor.history.end-time         | end of synchronizing historical data event time，Include end-time     | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
-| extractor.realtime.enable          | Whether to synchronize realtime data                                 | Boolean: true, false                   | optional: true                    |
+| extractor.realtime.enable          | Whether to sync realtime data                                 | Boolean: true, false                   | optional: true                    |
 
 > 🚫 **extractor.pattern Parameter Description**
 >
@@ -735,7 +735,7 @@ The following diagram illustrates the different states and their transitions:
 | Authority Name          | Description                           |
 | ----------------- | ------------------------------ |
 | CREATE_PIPEPLUGIN | Register stream processing task plugin,path-independent |
-| DROP_PIPEPLUGIN   | Start stream processing task plugin,path-independent |
+| DROP_PIPEPLUGIN   | Delete stream processing task plugin,path-independent |
 | SHOW_PIPEPLUGINS  | Query stream processing task plugin,path-independent |
 
 ## Configure Parameters
