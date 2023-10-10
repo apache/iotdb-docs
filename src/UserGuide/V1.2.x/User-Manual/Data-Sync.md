@@ -218,7 +218,7 @@ The query results are as follows:
 +-----------+-----------------------+-------+-------------+-------------+-------------+----------------+
 ```
 
-You can use <PipeId> to specify the status of a particular synchronization task:
+You can use \<PipeId\> to specify the status of a particular synchronization task:
 
 ```sql
 SHOW PIPE <PipeId>
