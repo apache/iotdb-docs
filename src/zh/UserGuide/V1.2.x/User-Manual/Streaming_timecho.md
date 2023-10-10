@@ -768,7 +768,7 @@ WHERE CONNECTOR USED BY <PipeId>
 | 权限名称          | 描述                           |
 | ----------------- | ------------------------------ |
 | CREATE_PIPEPLUGIN | 注册流处理任务插件。路径无关。 |
-| DROP_PIPEPLUGIN   | 开启流处理任务插件。路径无关。 |
+| DROP_PIPEPLUGIN   | 卸载流处理任务插件。路径无关。 |
 | SHOW_PIPEPLUGINS  | 查询流处理任务插件。路径无关。 |
 
 ## 配置参数
