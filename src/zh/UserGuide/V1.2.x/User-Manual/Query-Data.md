@@ -2587,7 +2587,7 @@ It costs 0.012s
 
 详细说明及示例见文档 [结果集排序](../User-Manual/Operator-and-Expression.md)。 
 
-## 查询写回（INTO 子句）
+## 查询写回（SELECT INTO 子句）
 
 `SELECT INTO` 语句用于将查询结果写入一系列指定的时间序列中。
 
