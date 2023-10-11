@@ -23,11 +23,11 @@
 
 ## White List
 
-TODO
+coming soon
 
 ## Audit Log
 
-TODO
+coming soon
 
 ## Administration Management
 
