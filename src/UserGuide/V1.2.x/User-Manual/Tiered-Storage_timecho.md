@@ -61,10 +61,10 @@ dn_default_space_move_thresholds=0.2;0.1
 
 In this example, two levels of storage are configured, specifically:
 
-| **层级** | **数据目录**                           | **数据范围**    | **磁盘最小剩余空间阈值** |
+| **tier** | **data path**                           | **data range**    | **threshold for minimum remaining disk space** |
 | -------- | -------------------------------------- | --------------- | ------------------------ |
-| 层级一   | 目录一：/data1/data                    | 最近 1 天的数据 | 20%                      |
-| 层级二   | 目录一：/data2/data目录二：/data3/data | 1 天以前的数据  | 10%                      |
+| tier 1   | path 1：/data1/data                    | data for last 1 day | 20%                      |
+| tier 2   | path 2：/data2/data path 2：/data3/data | data from 1 day ago  | 10%                      |
 
 ## remote tiered storag configuration example
 
@@ -89,8 +89,8 @@ remote_tsfile_cache_max_disk_usage_in_mb=53687091200
 
 In this example, a total of three levels of storage are configured, specifically:
 
-| **层级** | **数据目录**                           | **数据范围**                 | **磁盘最小剩余空间阈值** |
+| **tier** | **data path**                           | **data range**                 | **threshold for minimum remaining disk space** |
 | -------- | -------------------------------------- | ---------------------------- | ------------------------ |
-| 层级一   | 目录一：/data1/data                    | 最近 1 天的数据              | 20%                      |
-| 层级二   | 目录一：/data2/data目录二：/data3/data | 过去1 天至过去 10 天内的数据 | 15%                      |
-| 层级三   | 远端 AWS S3 存储                       | 过去 10 天以前的数据         | 10%                      |
+| tier一   | path 1：/data1/data                    | data for last 1 day              | 20%                      |
+| tier二   | path 1：/data2/data path 2：/data3/data | data from past 1 day to past 10 days | 15%                      |
+| tier三   | Remote AWS S3 Storage                       | data from 1 day ago         | 10%                      |
