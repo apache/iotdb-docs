@@ -100,12 +100,12 @@ docker run -d --name iotdb-service \
               --ip 172.18.0.6 \
               -p 6667:6667 \
               -e cn_internal_address=iotdb-service \
-              -e cn_target_config_node_list=iotdb-service:10710 \
+              -e cn_target_config_node=iotdb-service:10710 \
               -e cn_internal_port=10710 \
               -e cn_consensus_port=10720 \
               -e dn_rpc_address=iotdb-service \
               -e dn_internal_address=iotdb-service \
-              -e dn_target_config_node_list=iotdb-service:10710 \
+              -e dn_target_config_node=iotdb-service:10710 \
               -e dn_mpp_data_exchange_port=10740 \
               -e dn_schema_region_consensus_port=10750 \
               -e dn_data_region_consensus_port=10760 \
@@ -134,14 +134,14 @@ services:
       - cn_internal_address=iotdb-service
       - cn_internal_port=10710
       - cn_consensus_port=10720
-      - cn_target_config_node_list=iotdb-service:10710
+      - cn_target_config_node=iotdb-service:10710
       - dn_rpc_address=iotdb-service
       - dn_internal_address=iotdb-service
       - dn_rpc_port=6667
       - dn_mpp_data_exchange_port=10740
       - dn_schema_region_consensus_port=10750
       - dn_data_region_consensus_port=10760
-      - dn_target_config_node_list=iotdb-service:10710
+      - dn_target_config_node=iotdb-service:10710
     volumes:
         - ./data:/iotdb/data
         - ./logs:/iotdb/logs
@@ -167,7 +167,7 @@ services:
     container_name: iotdb-confignode
     environment:
       - cn_internal_address=iotdb-2
-      - cn_target_config_node_list=iotdb-1:10710
+      - cn_target_config_node=iotdb-1:10710
       - cn_internal_port=10710
       - cn_consensus_port=10720
       - schema_replication_factor=3
@@ -187,7 +187,7 @@ services:
     environment:
       - dn_rpc_address=iotdb-2
       - dn_internal_address=iotdb-2
-      - dn_target_config_node_list=iotdb-1:10710
+      - dn_target_config_node=iotdb-1:10710
       - data_replication_factor=3
       - dn_rpc_port=6667
       - dn_mpp_data_exchange_port=10740
@@ -204,7 +204,7 @@ services:
     network_mode: "host"
 ```
 Notice：
-1. The `dn_target_config_node_list` of three nodes must the same and it is the first starting node of `iotdb-1` with the cn_internal_port of 10710。
+1. The `dn_target_config_node` of three nodes must the same and it is the first starting node of `iotdb-1` with the cn_internal_port of 10710。
 2. In this docker-compose file，`iotdb-2` should be replace with the real IP or hostname of each node to generate docker compose files in the other nodes.
 3. The services would talk with each other, so they need map the /etc/hosts file or add the `extra_hosts` to the docker compose file.
 4. We must start the IoTDB services of `iotdb-1` first at the first time of starting.

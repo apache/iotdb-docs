@@ -79,7 +79,7 @@ IP地址和服务角色分配如下：
 ### 1.3. 启动集群
 启动集群前，需保证配置正确，保证 IoTDB 安装目录下没有数据(`data`目录)。
 #### 1.3.1. 启动第一个节点
-即上面表格中`cn_target_config_node_list`配置的节点。
+即上面表格中`cn_target_config_node`配置的节点。
 登录该节点 192.168.132.10，执行下面命令：
 ```shell
 cd /data/iotdb
@@ -95,7 +95,7 @@ tail -f logs/log_datanode_all.log
 如果没有看到上面所说的日志或者看到了 Exception，那么代表启动失败了。请查看 `/data/iotdb/logs` 目录内的`log_confignode_all.log` 和 `log_datanode_all.log` 日志文件。
 
 **注意**：
-- 要保证第一个节点启动成功后，再启动其他节点。确切的说，要先保证第一个 ConfigNode 服务启动成功，即`cn_target_config_node_list`配置的节点。
+- 要保证第一个节点启动成功后，再启动其他节点。确切的说，要先保证第一个 ConfigNode 服务启动成功，即`cn_target_config_node`配置的节点。
 - 如果启动失败，需要[清理环境](#【附录】清理环境)后，再次启动。
 - ConfigNode 和 DataNode 服务都可以单独启动: 
 ```shell
@@ -167,7 +167,7 @@ rm -rf data logs
 **注意：**
 - 扩容的节点必须是干净的节点，不能有数据(也就是`data`目录)
 - iotdb-common.properties中的`cluster_name`的配置必须和已有集群一致。
-- `cn_target_config_node_list` 和 `dn_target_config_node_list`的配置必须和已有集群一致。
+- `cn_target_config_node` 和 `dn_target_config_node`的配置必须和已有集群一致。
 - 原有数据不会移动到新节点，新创建的元数据分区和数据分区很可能在新的节点。
 
 ### 2.1. 修改配置
