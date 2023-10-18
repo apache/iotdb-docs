@@ -98,9 +98,9 @@ The global configuration of cluster is in ConfigNode.
 
 ### Target Config Nodes
 
-* cn\_target\_config\_node\_list
+* cn\_seed\_config\_node
 
-|Name| cn\_target\_config\_node\_list                                        |
+|Name| cn\_seed\_config\_node                                        |
 |:---:|:----------------------------------------------------------------------|
 |Description| Target ConfigNode address, for current ConfigNode to join the cluster |
 |Type| String                                                                |

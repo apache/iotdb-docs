@@ -137,7 +137,7 @@ For folder cluster1:
 | cn\_internal\_address          | 127.0.0.1       |
 | cn\_internal\_port             | 10711           |
 | cn\_consensus\_port            | 10721           |
-| cn\_target\_config\_node\_list | 127.0.0.1:10710 |
+| cn\_seed\_config\_node | 127.0.0.1:10710 |
 
 + Modify DataNode configurations:
 
@@ -150,7 +150,7 @@ For folder cluster1:
 | dn\_mpp\_data\_exchange\_port       | 10741           |
 | dn\_schema\_region\_consensus\_port | 10751           |
 | dn\_data\_region\_consensus\_port   | 10761           |
-| dn\_target\_config\_node\_list      | 127.0.0.1:10710 |
+| dn\_seed\_config\_node      | 127.0.0.1:10710 |
 
 For folder cluster2:
 
@@ -161,7 +161,7 @@ For folder cluster2:
 | cn\_internal\_address          | 127.0.0.1       |
 | cn\_internal\_port             | 10712           |
 | cn\_consensus\_port            | 10722           |
-| cn\_target\_config\_node\_list | 127.0.0.1:10710 |
+| cn\_seed\_config\_node | 127.0.0.1:10710 |
 
 + Modify DataNode configurations:
 
@@ -174,7 +174,7 @@ For folder cluster2:
 | dn\_mpp\_data\_exchange\_port       | 10742           |
 | dn\_schema\_region\_consensus\_port | 10752           |
 | dn\_data\_region\_consensus\_port   | 10762           |
-| dn\_target\_config\_node\_list      | 127.0.0.1:10710 |
+| dn\_seed\_config\_node      | 127.0.0.1:10710 |
 
 ### 6. Expanding the Cluster
 
@@ -361,7 +361,7 @@ and set the following parameters based on the IP address and available port of t
 | cn\_internal\_address          | Internal rpc service address of ConfigNode                   | 127.0.0.1       | Set to the IPV4 address or domain name of the server         |
 | cn\_internal\_port             | Internal rpc service port of ConfigNode                      | 10710           | Set to any unoccupied port                                   |
 | cn\_consensus\_port            | ConfigNode replication consensus protocol communication port | 10720           | Set to any unoccupied port                                   |
-| cn\_target\_config\_node\_list | ConfigNode address to which the node is connected when it is registered to the cluster. Note that Only one ConfigNode can be configured. | 127.0.0.1:10710 | For Seed-ConfigNode, set to its own cn\_internal\_address:cn\_internal\_port; For other ConfigNodes, set to other one running ConfigNode's cn\_internal\_address:cn\_internal\_port |
+| cn\_seed\_config\_node | ConfigNode address to which the node is connected when it is registered to the cluster. Note that Only one ConfigNode can be configured. | 127.0.0.1:10710 | For Seed-ConfigNode, set to its own cn\_internal\_address:cn\_internal\_port; For other ConfigNodes, set to other one running ConfigNode's cn\_internal\_address:cn\_internal\_port |
 
 **Notice: The preceding configuration parameters cannot be changed after the node is started. Ensure that all ports are not occupied. Otherwise, the Node cannot be started.**
 
@@ -379,7 +379,7 @@ and set the following parameters based on the IP address and available port of t
 | dn\_mpp\_data\_exchange\_port       | Data flow port of DataNode inside cluster        | 10740           | Set to any unoccupied port                                   |
 | dn\_data\_region\_consensus\_port   | Data replicas communication port for consensus   | 10750           | Set to any unoccupied port                                   |
 | dn\_schema\_region\_consensus\_port | Schema replicas communication port for consensus | 10760           | Set to any unoccupied port                                   |
-| dn\_target\_config\_node\_list      | Running ConfigNode of the Cluster                | 127.0.0.1:10710 | Set to any running ConfigNode's cn\_internal\_address:cn\_internal\_port. You can set multiple values, separate them with commas(",") |
+| dn\_seed\_config\_node      | Running ConfigNode of the Cluster                | 127.0.0.1:10710 | Set to any running ConfigNode's cn\_internal\_address:cn\_internal\_port. You can set multiple values, separate them with commas(",") |
 
 **Notice: The preceding configuration parameters cannot be changed after the node is started. Ensure that all ports are not occupied. Otherwise, the Node cannot be started.**
 
@@ -423,7 +423,7 @@ Then open its configuration file ./conf/iotdb-confignode.properties and check th
 | cn\_internal\_address          | Is set to the IPV4 address or domain name of the server      |
 | cn\_internal\_port             | The port isn't occupied                                      |
 | cn\_consensus\_port            | The port isn't occupied                                      |
-| cn\_target\_config\_node\_list | Is set to its own internal communication address, which is cn\_internal\_address:cn\_internal\_port |
+| cn\_seed\_config\_node | Is set to its own internal communication address, which is cn\_internal\_address:cn\_internal\_port |
 
 After checking, you can run the startup script on the server:
 
@@ -468,7 +468,7 @@ Then, please open its configuration file ./conf/iotdb-confignode.properties and 
 | cn\_internal\_address          | Is set to the IPV4 address or domain name of the server      |
 | cn\_internal\_port             | The port isn't occupied                                      |
 | cn\_consensus\_port            | The port isn't occupied                                      |
-| cn\_target\_config\_node\_list | Is set to the internal communication address of an other running ConfigNode. The internal communication address of the seed ConfigNode is recommended. |
+| cn\_seed\_config\_node | Is set to the internal communication address of an other running ConfigNode. The internal communication address of the seed ConfigNode is recommended. |
 
 After checking, you can run the startup script on the server:
 
@@ -510,7 +510,7 @@ Then open its configuration file ./conf/iotdb-datanode.properties and check the 
 | dn\_mpp\_data\_exchange\_port       | The port isn't occupied                                      |
 | dn\_data\_region\_consensus\_port   | The port isn't occupied                                      |
 | dn\_schema\_region\_consensus\_port | The port isn't occupied                                      |
-| dn\_target\_config\_node\_list      | Is set to the internal communication address of other running ConfigNodes. The internal communication address of the seed ConfigNode is recommended. |
+| dn\_seed\_config\_node      | Is set to the internal communication address of other running ConfigNodes. The internal communication address of the seed ConfigNode is recommended. |
 
 After checking, you can run the startup script on the server:
 

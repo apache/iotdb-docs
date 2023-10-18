@@ -95,9 +95,9 @@ IoTDB 集群的全局配置通过 ConfigNode 配置。
 
 ### 目标 Config Node 配置
 
-* cn\_target\_config\_node\_list
+* cn\_seed\_config\_node
 
-|   名字   | cn\_target\_config\_node\_list        |
+|   名字   | cn\_seed\_config\_node        |
 |:------:|:--------------------------------------|
 |   描述   | 目标 ConfigNode 地址，ConfigNode 通过此地址加入集群 |
 |   类型   | String                                |

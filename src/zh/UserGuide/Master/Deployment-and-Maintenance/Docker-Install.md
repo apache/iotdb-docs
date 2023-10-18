@@ -39,12 +39,12 @@ docker run -d --name iotdb-service \
               --ip 172.18.0.6 \
               -p 6667:6667 \
               -e cn_internal_address=iotdb-service \
-              -e cn_target_config_node_list=iotdb-service:10710 \
+              -e cn_seed_config_node=iotdb-service:10710 \
               -e cn_internal_port=10710 \
               -e cn_consensus_port=10720 \
               -e dn_rpc_address=iotdb-service \
               -e dn_internal_address=iotdb-service \
-              -e dn_target_config_node_list=iotdb-service:10710 \
+              -e dn_seed_config_node=iotdb-service:10710 \
               -e dn_mpp_data_exchange_port=10740 \
               -e dn_schema_region_consensus_port=10750 \
               -e dn_data_region_consensus_port=10760 \
@@ -75,14 +75,14 @@ services:
       - cn_internal_address=iotdb-service
       - cn_internal_port=10710
       - cn_consensus_port=10720
-      - cn_target_config_node_list=iotdb-service:10710
+      - cn_seed_config_node=iotdb-service:10710
       - dn_rpc_address=iotdb-service
       - dn_internal_address=iotdb-service
       - dn_rpc_port=6667
       - dn_mpp_data_exchange_port=10740
       - dn_schema_region_consensus_port=10750
       - dn_data_region_consensus_port=10760
-      - dn_target_config_node_list=iotdb-service:10710
+      - dn_seed_config_node=iotdb-service:10710
     volumes:
         - ./data:/iotdb/data
         - ./logs:/iotdb/logs
@@ -110,7 +110,7 @@ services:
     container_name: iotdb-confignode
     environment:
       - cn_internal_address=iotdb-2
-      - cn_target_config_node_list=iotdb-1:10710
+      - cn_seed_config_node=iotdb-1:10710
       - schema_replication_factor=3
       - cn_internal_port=10710
       - cn_consensus_port=10720
@@ -130,7 +130,7 @@ services:
     environment:
       - dn_rpc_address=iotdb-2
       - dn_internal_address=iotdb-2
-      - dn_target_config_node_list=iotdb-1:10710
+      - dn_seed_config_node=iotdb-1:10710
       - data_replication_factor=3
       - dn_rpc_port=6667
       - dn_mpp_data_exchange_port=10740
@@ -149,7 +149,7 @@ services:
 
 注意：
 
-1. `dn_target_config_node_list`所有节点配置一样，需要配置第一个启动的节点，这里为`iotdb-1`。
+1. `dn_seed_config_node`所有节点配置一样，需要配置第一个启动的节点，这里为`iotdb-1`。
 2. 上面docker-compose文件中，`iotdb-2`需要替换为每个节点的 hostname、域名或者IP地址。
 3. 需要映射`/etc/hosts`，文件内配置了 iotdb-1、iotdb-2、iotdb-3 与IP的映射。或者可以在 docker-compose 文件中增加 `extra_hosts` 配置。
 4. 首次启动时，必须首先启动 `iotdb-1`。
