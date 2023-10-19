@@ -184,7 +184,7 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 
 |Name| dn\_seed\_config\_node                  |
 |:---:|:------------------------------------------------|
-|Description| ConfigNode Address for DataNode to join cluster |
+|Description| ConfigNode Address for DataNode to join cluster, corresponding to dn\_target\_config\_node\_list parameter before V1.2.2 |
 |Type| String                                          |
 |Default| 127.0.0.1:10710                                 |
 |Effective| Only allowed to be modified in first start up                         |

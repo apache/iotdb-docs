@@ -167,7 +167,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 
 |名字| dn\_seed\_config\_node      |
 |:---:|:------------------------------------|
-|描述| ConfigNode 地址，DataNode 启动时通过此地址加入集群 |
+|描述| ConfigNode 地址，DataNode 启动时通过此地址加入集群，V1.2.2 及以前曾用名是 dn\_target\_config\_node\_list |
 |类型| String                              |
 |默认值| 127.0.0.1:10710                     |
 |改后生效方式| 仅允许在第一次启动服务前修改                              |

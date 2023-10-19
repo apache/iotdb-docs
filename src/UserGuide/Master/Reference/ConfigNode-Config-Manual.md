@@ -102,7 +102,7 @@ The global configuration of cluster is in ConfigNode.
 
 |Name| cn\_seed\_config\_node                                        |
 |:---:|:----------------------------------------------------------------------|
-|Description| Target ConfigNode address, for current ConfigNode to join the cluster |
+|Description| Target ConfigNode address, for current ConfigNode to join the cluster, corresponding to cn\_target\_config\_node\_list parameter before V1.2.2 |
 |Type| String                                                                |
 |Default| 127.0.0.1:10710                                                       |
 |Effective| Only allowed to be modified in first start up                                               |

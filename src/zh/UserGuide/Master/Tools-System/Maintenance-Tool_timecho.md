@@ -86,8 +86,8 @@ iotd cluster check example
 | datanode-env.sh            | 对应`iotdb/config/datanode-env.sh`                           | 非必填   |
 | confignode-env.sh          | 对应`iotdb/config/confignode-env.sh`                         | 非必填   |
 | iotdb-common.properties    | 对应`iotdb/config/iotdb-common.properties`                   | 非必填   |
-| cn_seed_config_node | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值，对应`iotdb/config/iotdb-confignode.properties`中的`cn_seed_config_node` | 必填     |
-| dn_seed_config_node | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-datanode.properties`中的`dn_seed_config_node` | 必填     |
+| cn_seed_config_node | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值，对应`iotdb/config/iotdb-confignode.properties`中的`cn_seed_config_node`，对应 V1.2.2 版本之前的 `cn_target_config_node_list` | 必填     |
+| dn_seed_config_node | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-datanode.properties`中的`dn_seed_config_node`，对应 V1.2.2 版本之前的 `dn_target_config_node_list` | 必填     |
 
 * confignode_servers 是部署IoTDB Confignodes配置，里面可以配置多个Confignode
     默认将第一个启动的ConfigNode节点node1当作Seed-ConfigNode

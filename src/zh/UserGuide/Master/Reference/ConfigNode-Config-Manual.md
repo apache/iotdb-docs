@@ -99,7 +99,7 @@ IoTDB 集群的全局配置通过 ConfigNode 配置。
 
 |   名字   | cn\_seed\_config\_node        |
 |:------:|:--------------------------------------|
-|   描述   | 目标 ConfigNode 地址，ConfigNode 通过此地址加入集群 |
+|   描述   | 目标 ConfigNode 地址，ConfigNode 通过此地址加入集群，V1.2.2 及以前曾用名是 cn\_target\_config\_node\_list |
 |   类型   | String                                |
 |  默认值   | 127.0.0.1:10710                       |
 | 改后生效方式 | 仅允许在第一次启动服务前修改                                |
