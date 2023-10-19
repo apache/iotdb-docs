@@ -131,7 +131,7 @@ mvn clean package -pl distribution -am -DskipTests
 | cn\_internal\_address          | ConfigNode 在集群内部通讯使用的地址              | 127.0.0.1       | 设置为服务器的 IPV4 地址或域名                                                                                                                                   |
 | cn\_internal\_port             | ConfigNode 在集群内部通讯使用的端口              | 10710           | 设置为任意未占用端口                                                                                                                                           |
 | cn\_consensus\_port            | ConfigNode 副本组共识协议通信使用的端口            | 10720           | 设置为任意未占用端口                                                                                                                                           |
-| cn\_seed\_config\_node | 节点注册加入集群时连接的 ConfigNode 的地址。注：只能配置一个 | 127.0.0.1:10710 | 对于 Seed-ConfigNode，设置为自己的 cn\_internal\_address:cn\_internal\_port；对于其它 ConfigNode，设置为另一个正在运行的 ConfigNode 的 cn\_internal\_address:cn\_internal\_port |
+| cn\_seed\_config\_node | 节点注册加入集群时连接的 ConfigNode 的地址。注：只能配置一个 | 127.0.0.1:10710 | 对于 Seed-ConfigNode，设置为自己的 cn\_internal\_address:cn\_internal\_port；对于其它 ConfigNode，设置为另一个正在运行的 ConfigNode 的 cn\_internal\_address:cn\_internal\_port，推荐使用 SeedConfigNode |
 
 **注意：上述配置项在节点启动后即不可更改，且务必保证所有端口均未被占用，否则节点无法启动。**
 
@@ -148,7 +148,7 @@ mvn clean package -pl distribution -am -DskipTests
 | dn\_mpp\_data\_exchange\_port       | DataNode 在集群内部接收数据流使用的端口  | 10740           | 设置为任意未占用端口                                                                        |
 | dn\_data\_region\_consensus\_port   | DataNode 的数据副本间共识协议通信的端口  | 10750           | 设置为任意未占用端口                                                                        |
 | dn\_schema\_region\_consensus\_port | DataNode 的元数据副本间共识协议通信的端口 | 10760           | 设置为任意未占用端口                                                                        |
-| dn\_seed\_config\_node      | 集群中正在运行的 ConfigNode 地址    | 127.0.0.1:10710 | 设置为任意正在运行的 ConfigNode 的 cn\_internal\_address:cn\_internal\_port，可设置多个，用逗号（","）隔开 |
+| dn\_seed\_config\_node      | 集群中正在运行的 ConfigNode 地址    | 127.0.0.1:10710 | 设置为任意一个正在运行的 ConfigNode 的 cn\_internal\_address:cn\_internal\_port，推荐使用 SeedConfigNode |
 
 **注意：上述配置项在节点启动后即不可更改，且务必保证所有端口均未被占用，否则节点无法启动。**
 

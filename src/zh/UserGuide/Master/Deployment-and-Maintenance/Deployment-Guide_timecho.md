@@ -137,8 +137,8 @@ iotd cluster check example
 | datanode-env.sh            | 对应`iotdb/config/datanode-env.sh`                           | 非必填   |
 | confignode-env.sh          | 对应`iotdb/config/confignode-env.sh`                         | 非必填   |
 | iotdb-common.properties    | 对应`iotdb/config/iotdb-common.properties`                   | 非必填   |
-| cn_seed_config_node | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值，对应`iotdb/config/iotdb-confignode.properties`中的`cn_seed_config_node` | 必填     |
-| dn_seed_config_node | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-datanode.properties`中的`dn_seed_config_node` | 必填     |
+| cn_seed_config_node | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值，对应`iotdb/config/iotdb-confignode.properties`中的`cn_seed_config_node`，推荐使用 SeedConfigNode | 必填     |
+| dn_seed_config_node | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-datanode.properties`中的`dn_seed_config_node`，推荐使用 SeedConfigNode | 必填     |
 
 * confignode_servers 是部署IoTDB Confignodes配置，里面可以配置多个Confignode
     默认将第一个启动的ConfigNode节点node1当作Seed-ConfigNode
@@ -149,7 +149,7 @@ iotd cluster check example
 | deploy_dir                  | IoTDB config node 部署目录，注:该目录不能与下面的IoTDB data node部署目录相同 | 必填｜   |
 | iotdb-confignode.properties | 对应`iotdb/config/iotdb-confignode.properties`更加详细请参看`iotdb-confignode.properties`文件说明 | 非必填   |
 | cn_internal_address         | 对应iotdb/内部通信地址，对应`iotdb/config/iotdb-confignode.properties`中的`cn_internal_address` | 必填     |
-| cn_seed_config_node  | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值，对应`iotdb/config/iotdb-confignode.properties`中的`cn_seed_config_node` | 必填     |
+| cn_seed_config_node  | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值，对应`iotdb/config/iotdb-confignode.properties`中的`cn_seed_config_node`，推荐使用 SeedConfigNode | 必填     |
 | cn_internal_port            | 内部通信端口，对应`iotdb/config/iotdb-confignode.properties`中的`cn_internal_port` | 必填     |
 | cn_consensus_port           | 对应`iotdb/config/iotdb-confignode.properties`中的`cn_consensus_port` | 非必填   |
 | cn_data_dir                 | 对应`iotdb/config/iotdb-confignode.properties`中的`cn_data_dir` | 必填     |
@@ -165,7 +165,7 @@ iotd cluster check example
 | iotdb-datanode.properties  | 对应`iotdb/config/iotdb-datanode.properties`更加详细请参看`iotdb-datanode.properties`文件说明 | 非必填   |
 | dn_rpc_address             | datanode rpc 地址对应`iotdb/config/iotdb-datanode.properties`中的`dn_rpc_address` | 必填     |
 | dn_internal_address        | 内部通信地址，对应`iotdb/config/iotdb-datanode.properties`中的`dn_internal_address` | 必填     |
-| dn_seed_config_node | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-datanode.properties`中的`dn_seed_config_node` | 必填     |
+| dn_seed_config_node | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-datanode.properties`中的`dn_seed_config_node`，推荐使用 SeedConfigNode | 必填     |
 | dn_rpc_port                | datanode rpc端口地址，对应`iotdb/config/iotdb-datanode.properties`中的`dn_rpc_port` | 必填     |
 | dn_internal_port           | 内部通信端口，对应`iotdb/config/iotdb-datanode.properties`中的`dn_internal_port` | 必填     |
 | iotdb-common.properties    | 对应`iotdb/config/iotdb-common.properties`在`global`与`datanode_servers`同时配置值优先使用`datanode_servers`中的值 | 非必填   |
@@ -445,7 +445,7 @@ mvn clean package -pl distribution -am -DskipTests
 | cn\_internal\_address          | ConfigNode 在集群内部通讯使用的地址                          | 127.0.0.1       | 设置为服务器的 IPV4 地址或域名                               |
 | cn\_internal\_port             | ConfigNode 在集群内部通讯使用的端口                          | 10710           | 设置为任意未占用端口                                         |
 | cn\_consensus\_port            | ConfigNode 副本组共识协议通信使用的端口                      | 10720           | 设置为任意未占用端口                                         |
-| cn\_seed\_config\_node | 节点注册加入集群时连接的 ConfigNode 的地址。注：只能配置一个 | 127.0.0.1:10710 | 对于 Seed-ConfigNode，设置为自己的 cn\_internal\_address:cn\_internal\_port；对于其它 ConfigNode，设置为另一个正在运行的 ConfigNode 的 cn\_internal\_address:cn\_internal\_port |
+| cn\_seed\_config\_node | 节点注册加入集群时连接的 ConfigNode 的地址。注：只能配置一个 | 127.0.0.1:10710 | 对于 Seed-ConfigNode，设置为自己的 cn\_internal\_address:cn\_internal\_port；对于其它 ConfigNode，设置为另一个正在运行的 ConfigNode 的 cn\_internal\_address:cn\_internal\_port，推荐使用 SeedConfigNode |
 
 **注意：上述配置项在节点启动后即不可更改，且务必保证所有端口均未被占用，否则节点无法启动。**
 
@@ -462,7 +462,7 @@ mvn clean package -pl distribution -am -DskipTests
 | dn\_mpp\_data\_exchange\_port       | DataNode 在集群内部接收数据流使用的端口   | 10740           | 设置为任意未占用端口                                         |
 | dn\_data\_region\_consensus\_port   | DataNode 的数据副本间共识协议通信的端口   | 10750           | 设置为任意未占用端口                                         |
 | dn\_schema\_region\_consensus\_port | DataNode 的元数据副本间共识协议通信的端口 | 10760           | 设置为任意未占用端口                                         |
-| dn\_seed\_config\_node      | 集群中正在运行的 ConfigNode 地址          | 127.0.0.1:10710 | 设置为任意正在运行的 ConfigNode 的 cn\_internal\_address:cn\_internal\_port，可设置多个，用逗号（","）隔开 |
+| dn\_seed\_config\_node      | 集群中正在运行的 ConfigNode 地址          | 127.0.0.1:10710 | 设置为任意一个正在运行的 ConfigNode 的 cn\_internal\_address:cn\_internal\_port，推荐使用 SeedConfigNode |
 
 **注意：上述配置项在节点启动后即不可更改，且务必保证所有端口均未被占用，否则节点无法启动。**
 
