@@ -270,13 +270,6 @@ The functions in this function library are not built-in functions, and must be l
 7.   Series Discovery related functions, such as `ConsecutiveSequences`. For details and examples, see the document [Series-Discovery](../Operators-Functions/Series-Discovery.md).
 8.   Machine Learning related functions, such as `AR`. For details and examples, see the document [Machine-Learning](../Operators-Functions/Machine-Learning.md).
 
-## LAMBDA EXPRESSION
-
-| Function Name | Allowed Input Series Data Types                 | Required Attributes                                          | Output Series Data Type                         | Series Data Type  Description                                |
-| ------------- | ----------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------- | ------------------------------------------------------------ |
-| JEXL          | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | `expr` is a lambda expression that supports standard one or multi arguments in the form `x -> {...}` or `(x, y, z) -> {...}`, e.g. `x -> {x * 2}`, `(x, y, z) -> {x + y * z}` | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | Returns the input time series transformed by a lambda expression |
-
-For details and examples, see the document [Lambda](../Operators-Functions/Lambda.md).
 
 ## CONDITIONAL EXPRESSION
 
