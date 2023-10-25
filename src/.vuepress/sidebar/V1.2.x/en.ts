@@ -88,7 +88,6 @@ export const enSidebar = {
         { text: 'Streaming', link: 'Streaming' },
         { text: 'Data Sync', link: 'Data-Sync' },
         { text: 'Database Programming', link: 'Database-Programming' },
-        { text: 'Security Management', link: 'Security-Management' },
         { text: 'Authority Management', link: 'Authority-Management' },
       ],
     },
