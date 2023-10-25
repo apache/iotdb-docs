@@ -7,9 +7,9 @@
     to you under the Apache License, Version 2.0 (the
     "License"); you may not use this file except in compliance
     with the License.  You may obtain a copy of the License at
-
+    
         http://www.apache.org/licenses/LICENSE-2.0
-
+    
     Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -22,7 +22,7 @@
 # 权限管理
 
 IoTDB 为用户提供了权限管理操作，为用户提供对数据与集群系统的权限管理功能，保障数据与系统安全。
-本篇介绍IoTDB 中权限模块的基本概念、用户定义、权限管理、鉴权逻辑与功能用例，详细的 SQL 语句及使用方式详情请参见本文 [数据模式与概念章节](../Basic-Concept/Data-Model-and-Terminology.md)。同时，在 JAVA 编程环境中，您可以使用 [JDBC API](../API/Programming-JDBC.md) 单条或批量执行权限管理类语句。
+本篇介绍IoTDB 中权限模块的基本概念、用户定义、权限管理、鉴权逻辑与功能用例。在 JAVA 编程环境中，您可以使用 [JDBC API](../API/Programming-JDBC.md) 单条或批量执行权限管理类语句。
 
 ## 基本概念
 
@@ -32,7 +32,7 @@ IoTDB 为用户提供了权限管理操作，为用户提供对数据与集群�
 
 ### 权限
 
-数据库提供多种操作，但并非所有的用户都能执行所有操作。如果一个用户可以执行某项操作，则称该用户有执行该操作的权限。权限通常需要一个路径来西安限定其生效范围，可以使用[路径模式](../Basic-Concept/Data-Model-and-Terminology.md)灵活管理权限。
+数据库提供多种操作，但并非所有的用户都能执行所有操作。如果一个用户可以执行某项操作，则称该用户有执行该操作的权限。权限通常需要一个路径来限定其生效范围，可以使用[路径模式](../Basic-Concept/Data-Model-and-Terminology.md)灵活管理权限。
 
 ### 角色
 
@@ -46,7 +46,7 @@ IoTDB 为用户提供了权限管理操作，为用户提供对数据与集群�
 
 ## 用户定义
 
-拥有 MANAGE_USER、MANAGE_ROLE 的用户或者管理员可以创建用户或者角色，创建用户需要满足以下约束。
+拥有 MANAGE_USER、MANAGE_ROLE 的用户或者管理员可以创建用户或者角色，需要满足以下约束：
 
 ### 用户名限制
 
@@ -74,12 +74,12 @@ IoTDB 主要有两类权限：序列权限、全局权限。
 
 下表描述了这类权限的种类与范围：
 
-| 权限名称     | 权限范围                                                                                                                                                                                 | 描述                                                                                                                                                                                                                                            |
-| ------------ |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| READ_DATA    | - select data                                                                                                                                                                        | 允许读取授权路径下的序列数据。                                                                                                                                                                                                                               |
-| WRITE_DATA   | - READ_DATA 包含的所有权限<br>- insert/delete data<br/>- Load tsfile/import csv <br/>                                                                                                       | 允许读取授权路径下的序列数据。<br/>允许插入、删除授权路径下的的序列数据。<br/>允许在授权路径下导入、加载数据，在导入数据时，需要拥有对应路径的 WRITE_DATA 权限，在自动创建序列或数据库时，需要有 MANAGE_DATABASE 与 WRITE_SCHEMA 权限。                                                                                                |
-| READ_SCHEMA  | - show/count database<br/>- show/count child path<br/>- show/count child node<br/>- show/count device<br/>- show/count timeseries<br/>- show template<br/>- show view<br/>- show ttl | 允许获取授权路径下元数据树的详细信息：<br/>包括：路径下的数据库、子路径、子节点、设备、序列、模版、视图等。                                                                                                                                                                                      |
-| WRITE_SCHEMA | - READ_SCHEMA 包含的权限<br/>- create/delete/alter timeseries<br/>- create/set/unset/drop template<br/>- create/alter/delete view<br/>- set ttl、unset ttl                                 | 允许获取授权路径下元数据树的详细信息。<br/>允许在授权路径下对序列、模版、视图等进行创建、删除、修改操作。<br/>在创建或修改 view 的时候，会检查 view 路径的 WRITE_SCHEMA 权限、数据源的 READ_SCHEMA 权限。<br/>在对 view 进行查询、插入时，会检查 view 路径的 READ_DATA 权限、WRITE_DATA 权限。<br/>允许在授权路径下设置、取消、查看TTL。<br/> 允许在授权路径下挂载或者接触挂载模板。 |
+| 权限名称         | 描述                                                                                                                                                                                                                                            |
+|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| READ_DATA    | 允许读取授权路径下的序列数据。                                                                                                                                                                                                                               |
+| WRITE_DATA   | 允许读取授权路径下的序列数据。<br/>允许插入、删除授权路径下的的序列数据。<br/>允许在授权路径下导入、加载数据，在导入数据时，需要拥有对应路径的 WRITE_DATA 权限，在自动创建数据库与序列时，需要有 MANAGE_DATABASE 与 WRITE_SCHEMA 权限。                                                                                                |
+| READ_SCHEMA  | 允许获取授权路径下元数据树的详细信息：<br/>包括：路径下的数据库、子路径、子节点、设备、序列、模版、视图等。                                                                                                                                                                                      |
+| WRITE_SCHEMA | 允许获取授权路径下元数据树的详细信息。<br/>允许在授权路径下对序列、模版、视图等进行创建、删除、修改操作。<br/>在创建或修改 view 的时候，会检查 view 路径的 WRITE_SCHEMA 权限、数据源的 READ_SCHEMA 权限。<br/>在对 view 进行查询、插入时，会检查 view 路径的 READ_DATA 权限、WRITE_DATA 权限。<br/>允许在授权路径下设置、取消、查看TTL。<br/> 允许在授权路径下挂载或者接触挂载模板。 |
 
 ### 全局权限
 
@@ -87,24 +87,23 @@ IoTDB 主要有两类权限：序列权限、全局权限。
 
 下表描述了系统权限的种类：
 
-|    权限名称     | 权限范围                                                                                                               | 描述                                                                                   |
-| :-------------: |:-------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------|
-| MANAGE_DATABASE | - create/delete database                                                                                           | 允许用户创建、删除数据库。                                                                        |
-|   MANAGE_USER   | - create/delete/alter/list user                                                                                    | 允许用户创建、删除、修改、查看用户。                                                                   |
-|   MANAGE_ROLE   | - create/delete/list role<br/>- grant/revoke role to/from user                                                     | 允许用户创建、删除、修改、查看角色。 <br/> 允许用户将角色授予给其他用户                                              |
-|   USE_TRIGGER   | - create/drop/show trigger                                                                                         | 允许用户创建、删除、查看触发器。<br/>与触发器的数据源权限检查相独立。                                                |
-|     USE_UDF     | - create/drop/show function                                                                                        | 允许用户创建、删除、查看用户自定义函数。<br/>与自定义函数的数据源权限检查相独立。                                          |
-|     USE_CQ      | - create/drop/show continuous queries                                                                              | 允许用户创建、删除、查看连续查询。<br/>与连续查询的数据源权限检查相独立。                                              |
-|    USE_PIPE     | - create/start/stop/drop/show pipe<br/>- create/drop/show pipeplugin                                               | 允许用户创建、开始、停止、删除、查看管道。<br/>允许用户创建、删除、查看管道插件。<br/>与管道的数据源权限检查相独立。                      |
-| EXTEND_TEMPLATE | - extend schema template                                                                                           | 自动创建模板权限。                                                                            |
-|    MAINTAIN     | -  kill query <br/>- show queries<br/>- show variables<br/>- show cluster (details)                                | 允许用户查询、取消查询。 <br/> 允许用户查看变量。 <br/> 允许用户查看集群状态。                                       |
-|   -（仅root）   | - flush<br/>- merge<br/>- clear cache<br/>- set system to readonly/running<br/>- create/drop/alter schema template | 管理员权限独占。<br/>集群的运维管理权限。<br/> 创建、删除、修改、挂载、卸载元数据模板。<br/> 这类操作只有管理员可以执行，并无对应的权限课授予其他用户。 |
+|      权限名称       | 描述                                                                |
+|:---------------:|:------------------------------------------------------------------|
+| MANAGE_DATABASE | - 允许用户创建、删除数据库.                                                   |
+|   MANAGE_USER   | - 允许用户创建、删除、修改、查看用户。                                              |
+|   MANAGE_ROLE   | - 允许用户创建、删除、修改、查看角色。 <br/> 允许用户将角色授予给其他用户,或取消其他用户的角色。             |
+|   USE_TRIGGER   | - 允许用户创建、删除、查看触发器。<br/>与触发器的数据源权限检查相独立。                           |
+|     USE_UDF     | -  允许用户创建、删除、查看用户自定义函数。<br/>与自定义函数的数据源权限检查相独立。                    |
+|     USE_CQ      | - 允许用户创建、开始、停止、删除、查看管道。<br/>允许用户创建、删除、查看管道插件。<br/>与管道的数据源权限检查相独立。 |
+| EXTEND_TEMPLATE | -  自动创建模板权限。                                                      |
+|    MAINTAIN     | -  允许用户查询、取消查询。 <br/> 允许用户查看变量。 <br/> 允许用户查看集群状态。                 |
+|    USE_MODEL    | -  允许用户创建、删除、查询深度学习模型                                             |
 
 关于模板权限：
 
 1. 模板的创建、删除、修改、查询、挂载、卸载仅允许管理员操作。
 2. 激活模板需要拥有激活路径的 WRITE_SCHEMA 权限
-3. 若开启了自动创建，在向挂载了模板的不存在路径写入时，数据库会自动创建该路径与模板，因此需要有 EXTEND_TEMPLATE 权限与写入序列的 WRITE_DATA 权限。
+3. 若开启了自动创建，在向挂载了模板的不存在路径写入时，数据库会自动扩展模板并写入数据，因此需要有 EXTEND_TEMPLATE 权限与写入序列的 WRITE_DATA 权限。
 4. 解除模板，需要拥有挂载模板路径的 WRITE_SCHEMA 权限。
 5. 查询使用了某个元数据模板的路径，需要有路径的 READ_SCHEMA 权限，否则将返回为空。
 
@@ -149,11 +148,11 @@ userTest1 :
 
 IoTDB 提供了组合权限，方便用户授权：
 
-| 权限名称 | 权限范围                           |
-| -------- | ---------------------------------- |
-| ALL      | 所有权限（除管理员用户独占的权限） |
-| READ     | READ_SCHEMA、READ_DATA             |
-| WRITE    | WRITE_SCHEMA、WRITE_DATA           |
+| 权限名称  | 权限范围                    |
+|-------|-------------------------|
+| ALL   | 所有权限                    |
+| READ  | READ_SCHEMA、READ_DATA   |
+| WRITE | WRITE_SCHEMA、WRITE_DATA |
 
 组合权限并不是一种具体的权限，而是一种简写方式，与直接书写对应的权限名称没有差异。
 
@@ -293,8 +292,8 @@ eg: REVOKE ALL ON ROOT.** FROM USER user1;
 - 在授予取消全局权限时，或者语句中包含全局权限时(ALL 展开会包含全局权限），须指定 path 为 root.**。 例如，以下授权/取消授权语句是合法的：
 
     ```SQL
-    GRANT MANAGE_USER ON root.** FROM USER user1;
-    GRANT MANAGE_ROLE ON root.** to ROLE role1  WITH GRANT OPTION;
+    GRANT MANAGE_USER ON root.** TO USER user1;
+    GRANT MANAGE_ROLE ON root.** TO ROLE role1  WITH GRANT OPTION;
     GRANT ALL ON  root.** TO role role1  WITH GRANT OPTION;
     REVOKE MANAGE_USER ON root.** FROM USER user1;
     REVOKE MANAGE_ROLE ON root.** FROM ROLE role1;
@@ -310,7 +309,7 @@ eg: REVOKE ALL ON ROOT.** FROM USER user1;
     ```
 
 - \<PATH\> 必须为全路径或者以双通配符结尾的匹配路径，以下路径是合法的:
-    
+  
     ```SQL
     root.**
     root.t1.t2.**
@@ -325,11 +324,11 @@ eg: REVOKE ALL ON ROOT.** FROM USER user1;
     root.t1*.t2.t3
     ```
 
-### 示例
+## 示例
 
 根据本文中描述的 [样例数据](https://github.com/thulab/iotdb/files/4438687/OtherMaterial-Sample.Data.txt) 内容，IoTDB 的样例数据可能同时属于 ln, sgcc 等不同发电集团，不同的发电集团不希望其他发电集团获取自己的数据库数据，因此我们需要将不同的数据在集团层进行权限隔离。
 
-#### 创建用户
+### 创建用户
 
 使用 `CREATE USER <userName> <password>` 创建用户。例如，我们可以使用具有所有权限的root用户为 ln 和 sgcc 集团创建两个用户角色，名为 ln_write_user, sgcc_write_user，密码均为 write_pwd。建议使用反引号(`)包裹用户名。SQL 语句为：
 
@@ -362,7 +361,7 @@ Total line number = 3
 It costs 0.012s
 ```
 
-#### 赋予用户权限
+### 赋予用户权限
 
 此时，虽然两个用户已经创建，但是他们不具有任何权限，因此他们并不能对数据库进行操作，例如我们使用 ln_write_user 用户对数据库中的数据进行写入，SQL 语句为：
 
@@ -401,7 +400,7 @@ IoTDB> INSERT INTO root.ln.wf01.wt01(timestamp, status) values(1509465600000, tr
 Msg: The statement is executed successfully.
 ```
 
-#### 撤销用户权限
+### 撤销用户权限
 授予用户权限后，我们可以使用 `REVOKE <PRIVILEGES> ON <PATHS> FROM USER <USERNAME>`来撤销已经授予用户的权限。例如，用root用户撤销ln_write_user和sgcc_write_user的权限：
 
 ``` SQL
@@ -433,3 +432,59 @@ Msg: 803: No permissions for this operation, please add privilege WRITE_DATA on 
 需要注意的是：如果一个用户自身有某种权限（对应操作 A），而他的某个角色有相同的权限。那么如果仅从该用户撤销该权限无法达到禁止该用户执行操作 A 的目的，还需要从这个角色中也撤销对应的权限，或者从这个用户将该角色撤销。同样，如果仅从上述角色将权限撤销，也不能禁止该用户执行操作 A。
 
 同时，对角色的修改会立即反映到所有拥有该角色的用户上，例如对角色增加某种权限将立即使所有拥有该角色的用户都拥有对应权限，删除某种权限也将使对应用户失去该权限（除非用户本身有该权限）。
+
+## 升级说明
+
+在 1.3 版本前，权限类型较多，在这一版实现中，权限类型做了一定的精简。
+
+新旧版本的权限类型对照可以参照下面的表格（--IGNORE 表示新版本忽略该权限）：
+
+| 权限名称                      | 是否路径相关 | 新权限名称           | 是否路径相关 |
+|---------------------------|--------|-----------------|--------|
+| CREATE_DATABASE           | 是      | MANAGE_DATABASE | 否      |
+| INSERT_TIMESERIES         | 是      | WRITE_DATA      | 是      |
+| UPDATE_TIMESERIES         | 是      | WRITE_DATA      | 是      |
+| READ_TIMESERIES           | 是      | READ_DATA       | 是      |
+| CREATE_TIMESERIES         | 是      | WRITE_SCHEMA    | 是      |
+| DELETE_TIMESERIES         | 是      | WRITE_SCHEMA    | 是      |
+| CREATE_USER               | 否      | MANAGE_USER     | 否      |
+| DELETE_USER               | 否      | MANAGE_USER     | 否      |
+| MODIFY_PASSWORD           | 否      | -- IGNORE       |        |
+| LIST_USER                 | 否      | -- IGNORE       |        |
+| GRANT_USER_PRIVILEGE      | 否      | -- IGNORE       |        |
+| REVOKE_USER_PRIVILEGE     | 否      | -- IGNORE       |        |
+| GRANT_USER_ROLE           | 否      | MANAGE_ROLE     | 否      |
+| REVOKE_USER_ROLE          | 否      | MANAGE_ROLE     | 否      |
+| CREATE_ROLE               | 否      | MANAGE_ROLE     | 否      |
+| DELETE_ROLE               | 否      | MANAGE_ROLE     | 否      |
+| LIST_ROLE                 | 否      | -- IGNORE       |        |
+| GRANT_ROLE_PRIVILEGE      | 否      | -- IGNORE       |        |
+| REVOKE_ROLE_PRIVILEGE     | 否      | -- IGNORE       |        |
+| CREATE_FUNCTION           | 否      | USE_UDF         | 否      |
+| DROP_FUNCTION             | 否      | USE_UDF         | 否      |
+| CREATE_TRIGGER            | 是      | USE_TRIGGER     | 否      |
+| DROP_TRIGGER              | 是      | USE_TRIGGER     | 否      |
+| START_TRIGGER             | 是      | USE_TRIGGER     | 否      |
+| STOP_TRIGGER              | 是      | USE_TRIGGER     | 否      |
+| CREATE_CONTINUOUS_QUERY   | 否      | USE_CQ          | 否      |
+| DROP_CONTINUOUS_QUERY     | 否      | USE_CQ          | 否      |
+| ALL                       | 否      | All privilegs   |        |
+| DELETE_DATABASE           | 是      | MANAGE_DATABASE | 否      |
+| ALTER_TIMESERIES          | 是      | WRITE_SCHEMA    | 是      |
+| UPDATE_TEMPLATE           | 否      | -- IGNORE       |        |
+| READ_TEMPLATE             | 否      | -- IGNORE       |        |
+| APPLY_TEMPLATE            | 是      | WRITE_SCHEMA    | 是      |
+| READ_TEMPLATE_APPLICATION | 否      | -- IGNORE       |        |
+| SHOW_CONTINUOUS_QUERIES   | 否      | -- IGNORE       |        |
+| CREATE_PIPEPLUGIN         | 否      | USE_PIPE        | 否      |
+| DROP_PIPEPLUGINS          | 否      | USE_PIPE        | 否      |
+| SHOW_PIPEPLUGINS          | 否      | -- IGNORE       |        |
+| CREATE_PIPE               | 否      | USE_PIPE        | 否      |
+| START_PIPE                | 否      | USE_PIPE        | 否      |
+| STOP_PIPE                 | 否      | USE_PIPE        | 否      |
+| DROP_PIPE                 | 否      | USE_PIPE        | 否      |
+| SHOW_PIPES                | 否      | -- IGNORE       |        |
+| CREATE_VIEW               | 是      | WRITE_SCHEMA    | 是      |
+| ALTER_VIEW                | 是      | WRITE_SCHEMA    | 是      |
+| RENAME_VIEW               | 是      | WRITE_SCHEMA    | 是      |
+| DELETE_VIEW               | 是      | WRITE_SCHEMA    | 是      |
