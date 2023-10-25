@@ -21,56 +21,339 @@
 
 # Administration Management
 
-IoTDB provides users with account privilege management operations, so as to ensure data security.
+IoTDB provides permission management operations, offering users the ability to manage permissions for data and cluster systems, ensuring data and system security. 
 
-We will show you basic user privilege management operations through the following specific examples. Detailed SQL syntax and usage details can be found in [SQL Documentation](../Reference/SQL-Reference.md).
-At the same time, in the JAVA programming environment, you can use the [Java JDBC](../API/Programming-JDBC.md) to execute privilege management statements in a single or batch mode.
+This article introduces the basic concepts of the permission module in IoTDB, including user definition, permission management, authentication logic, and use cases. For detailed SQL statements and usage, please refer to the [Data Model and Concepts section](https://chat.openai.com/Basic-Concept/Data-Model-and-Terminology.md). In the JAVA programming environment, you can use the [JDBC API](https://chat.openai.com/API/Programming-JDBC.md) to execute permission management statements individually or in batches. 
 
 ## Basic Concepts
 
 ### User
 
-The user is the legal user of the database. A user corresponds to a unique username and has a password as a means of authentication. Before using a database, a person must first provide a legitimate username and password to make himself/herself a user.
+A user is a legitimate user of the database. Each user corresponds to a unique username and has a password as a means of authentication. Before using the database, a person must provide a valid (i.e., stored in the database) username and password for a successful login.
 
-### Privilege
+### Permission
 
-The database provides a variety of operations, and not all users can perform all operations. If a user can perform an operation, the user is said to have the privilege to perform the operation. privileges are divided into data management privilege (such as adding, deleting and modifying data) and authority management privilege (such as creation and deletion of users and roles, granting and revoking of privileges, etc.). Data management privilege often needs a path to limit its effective range. It is flexible that using [path pattern](../Basic-Concept/Data-Model-and-Terminology.md) to manage privileges.
+The database provides various operations, but not all users can perform all operations. If a user can perform a certain operation, they are said to have permission to execute that operation. Permissions are typically limited in scope by a path, and [path patterns](https://chat.openai.com/Basic-Concept/Data-Model-and-Terminology.md) can be used to manage permissions flexibly.
 
 ### Role
 
-A role is a set of privileges and has a unique role name as an identifier. A user usually corresponds to a real identity (such as a traffic dispatcher), while a real identity may correspond to multiple users. These users with the same real identity tend to have the same privileges. Roles are abstractions that can unify the management of such privileges.
+A role is a collection of multiple permissions and has a unique role name as an identifier. Roles often correspond to real-world identities (e.g., a traffic dispatcher), and a real-world identity may correspond to multiple users. Users with the same real-world identity often have the same permissions, and roles are abstractions for unified management of such permissions.
 
-### Default User
+### Default Users and Roles
 
-There is a default user in IoTDB after the initial installation: root, and the default password is root. This user is an administrator user, who cannot be deleted and has all the privileges. Neither can new privileges be granted to the root user nor can privileges owned by the root user be deleted.
+After installation and initialization, IoTDB includes a default user: root, with the default password root. This user is an administrator with fixed permissions, which cannot be granted or revoked and cannot be deleted. There is only one administrator user in the database.
 
-## Privilege Management Operation Examples
+A newly created user or role does not have any permissions initially.
 
-According to the [sample data](https://github.com/thulab/iotdb/files/4438687/OtherMaterial-Sample.Data.txt), the sample data of IoTDB might belong to different power generation groups such as ln, sgcc, etc. Different power generation groups do not want others to obtain their own database data, so we need to have data privilege isolated at the group layer.
+##  User Definition
 
-### Create User
+Users with MANAGE_USER and MANAGE_ROLE permissions or administrators can create users or roles. Creating a user must meet the following constraints.
 
-We use `CREATE USER <userName> <password>` to create users. For example, we can use root user who has all privileges to create two users for ln and sgcc groups, named ln\_write\_user and sgcc\_write\_user, with both passwords being write\_pwd. It is recommended to wrap the username in backtick(`). The SQL statement is:
+### Username Constraints
+
+4 to 32 characters, supports the use of uppercase and lowercase English letters, numbers, and special characters (`!@#$%^&*()_+-=`).
+
+Users cannot create users with the same name as the administrator.
+
+### Password Constraints
+
+4 to 32 characters, can use uppercase and lowercase letters, numbers, and special characters (`!@#$%^&*()_+-=`). Passwords are encrypted by default using MD5.
+
+### Role Name Constraints
+
+4 to 32 characters, supports the use of uppercase and lowercase English letters, numbers, and special characters (`!@#$%^&*()_+-=`).
+
+Users cannot create roles with the same name as the administrator.
+
+
+
+##  Permission Management
+
+IoTDB primarily has two types of permissions: series permissions and global permissions.
+
+### Series Permissions
+
+Series permissions constrain the scope and manner in which users access data. IOTDB support authorization for both absolute paths and prefix-matching paths, and can be effective at the timeseries granularity.
+
+The table below describes the types and scope of these permissions:
+
+
+
+| Permission Name | Permission Scope                                             | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| --------------- | ------------------------------------------------------------ |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| READ_DATA       | - select data                                                | Allows reading time series data under the authorized path.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| WRITE_DATA      | - All permissions included in READ_DATA<br>- insert/delete data<br/>- Load tsfile/import csv<br/> | Allows reading time series data under the authorized path.<br/>Allows inserting and deleting time series data under the authorized path.<br/>Allows importing and loading data under the authorized path. When importing data, you need the WRITE_DATA permission for the corresponding path. When automatically creating  databases or time series, you need MANAGE_DATABASE and WRITE_SCHEMA permissions.                                                                                                                                                                                                           |
+| READ_SCHEMA     | - show/count database<br/>- show/count child path<br/>- show/count child node<br/>- show/count device<br/>- show/count timeseries<br/>- show template<br/>- show view<br/>- show ttl | Allows obtaining detailed information about the metadata tree under the authorized path, <br/>including databases, child paths, child nodes, devices, time series, templates, views, etc.                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| WRITE_SCHEMA    | - All permissions included in READ_SCHEMA<br/>- create/delete/alter timeseries<br/>- create/set/unset/drop template<br/>- create/alter/delete view<br/>- set ttl, unset ttl | Allows obtaining detailed information about the metadata tree under the authorized path.<br/>Allows creating, deleting, and modifying time series, templates, views, etc. under the authorized path. When creating or modifying views, it checks the WRITE_SCHEMA permission for the view path and READ_SCHEMA permission for the data source. When querying and inserting data into views, it checks the READ_DATA and WRITE_DATA permissions for the view path.</br> Allows setting, unsetting, and viewing TTL under the authorized path. <br/> Allows attaching or detaching templates under the authorized path. |
+
+
+### Global Permissions
+
+Global permissions constrain the database functions that users can use and restrict commands that change the system and task state. Once a user obtains global authorization, they can manage the database. 
+The table below describes the types of system permissions: 
+
+
+| Permission Name | Permission Scope                                             | Description                                                                                                                                                                                                                                                        |
+|:---------------:| :----------------------------------------------------------- |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| MANAGE_DATABASE | - create/delete database                                     | Allow users to create and delete databases.                                                                                                                                                                                                                        |
+|   MANAGE_USER   | - create/delete/alter/list user                              | Allow users to create, delete, modify, and view users.                                                                                                                                                                                                             |
+|   MANAGE_ROLE   | - create/delete/list role<br/>- grant/revoke role to/from user | Allow users to create, delete, modify, and view roles. <br/>Allow users to grant/revoke roles to/from other users.                                                                                                                                                 |
+|   USE_TRIGGER   | - create/drop/show trigger                                   | Allow users to create, delete, and view triggers.<br/>Independent of data source permission checks for triggers.                                                                                                                                                   |
+|     USE_UDF     | - create/drop/show function                                  | Allow users to create, delete, and view user-defined functions. <br/> Independent of data source permission checks for user-defined functions.                                                                                                                     |
+|     USE_CQ      | - create/drop/show continuous queries                        | Allow users to create, delete, and view continuous queries. <br/> Independent of data source permission checks for continuous queries.                                                                                                                             |
+|    USE_PIPE     | - create/start/stop/drop/show pipe<br/>- create/drop/show pipeplugin | Allow users to create, start, stop, delete, and view pipelines. <br/>Allow users to create, delete, and view pipeline plugins. <br/>Independent of data source permission checks for pipelines.                                                                    |
+| EXTEND_TEMPLATE | - extend schema template                                     | Permission to automatically create templates.                                                                                                                                                                                                                      |
+|    MAINTAIN     | -  kill query <br/>- show queries<br/>- show variables<br/>- show cluster (details) | Allow users to query and cancel queries. <br/>Allow users to view variables. <br/>Allow users to view cluster status.                                                                                                                                              |
+|  -（ROOT ONLY）   | - flush<br/>- merge<br/>- clear cache<br/>- set system to readonly/running<br/>- create/drop/alter schema template | Only for admin.<br/>Operational management permissions for the cluster. <br/>Creation, deletion, modification, mounting, and unmounting of metadata templates. <br/>These operations can only be performed by administrators and cannot be granted to other users. |
+
+Regarding template permissions:
+
+1. Only administrators are allowed to create, delete, modify, query, mount, and unmount templates.
+2. To activate a template, you need to have WRITE_SCHEMA permission for the activation path.
+3. If automatic creation is enabled, writing to a non-existent path that has a template mounted will automatically extend the template and insert data. Therefore, one needs EXTEND_TEMPLATE permission and WRITE_DATA permission for writing to the sequence.
+4. To unmount a template, WRITE_SCHEMA permission for the mounted template path is required.
+5. To query paths that use a specific metadata template, you needs READ_SCHEMA permission for the paths; otherwise, it will return empty results.
+
+
+
+###  Granting and Revoking Permissions
+
+In IoTDB, users can obtain permissions through three methods:
+
+1. Granted by administrator, who has control over the permissions of other users.
+2. Granted by a user allowed to authorize permissions, and this user was assigned the grant option keyword when obtaining the permission.
+3. Granted a certain role by administrator or a user with MANAGE_ROLE, thereby obtaining permissions.
+
+Revoking a user's permissions can be done through the following methods:
+
+1. Revoked by administrator.
+2. Revoked by a user allowed to authorize permissions, and this user was assigned the grant option keyword when obtaining the permission.
+3. Revoked from a user's role by administrator or a user with MANAGE_ROLE, thereby revoking the permissions.
+
+- When granting permissions, a path must be specified. Global permissions need to be specified as root.**, while series-specific permissions must be absolute paths or prefix paths ending with a double wildcard.
+- When granting user/role permissions, you can specify the "with grant option" keyword for that permission, which means that the user can grant permissions on their authorized paths and can also revoke permissions on other users' authorized paths. For example, if User A is granted read permission for `group1.company1.**` with the grant option keyword, then A can grant read permissions to others on any node or series below `group1.company1`, and can also revoke read permissions on any node below `group1.company1` for other users.
+- When revoking permissions, the revocation statement will match against all of the user's permission paths and clear the matched permission paths. For example, if User A has read permission for `group1.company1.factory1`, when revoking read permission for `group1.company1.**`, it will remove A's read permission for `group1.company1.factory1`.
+
+
+
+##  Authentication
+
+User permissions mainly consist of three parts: permission scope (path), permission type, and the "with grant option" flag:
 
 ```
-CREATE USER `ln_write_user` 'write_pwd'
-CREATE USER `sgcc_write_user` 'write_pwd'
+userTest1:
+    root.t1.** - read_schema, read_data 	- with grant option
+    root.** 	 - write_schema, write_data - with grant option
 ```
 
-Then use the following SQL statement to show the user:
+Each user has such a permission access list, identifying all the permissions they have acquired. You can view their permissions by using the command `LIST PRIVILEGES OF USER <username>`.
 
+When authorizing a path, the database will match the path with the permissions. For example, when checking the read_schema permission for `root.t1.t2`, it will first match with the permission access list `root.t1.**`. If it matches successfully, it will then check if that path contains the permission to be authorized. If not, it continues to the next path-permission match until a match is found or all matches are exhausted.
+
+When performing authorization for multiple paths, such as executing a multi-path query task, the database will only present data for which the user has permissions. Data for which the user does not have permissions will not be included in the results, and information about these paths without permissions will be output to the alert messages.
+
+## Function Syntax and Examples
+
+IoTDB provides composite permissions for user authorization:
+
+| Permission Name | Permission Scope                                             |
+| --------------- | ------------------------------------------------------------ |
+| ALL             | All permissions (except for permissions exclusive to the administrator user) |
+| READ            | READ_SCHEMA, READ_DATA                                       |
+| WRITE           | WRITE_SCHEMA, WRITE_DATA                                     |
+
+Composite permissions are not specific permissions themselves but a shorthand way to denote a combination of permissions, with no difference from directly specifying the corresponding permission names.
+
+The following series of specific use cases will demonstrate the usage of permission statements. Non-administrator users executing the following statements require obtaining the necessary permissions, which are indicated after the operation description.
+
+### User and Role Related
+
+- Create user (Requires MANAGE_USER permission)
+
+```SQL
+CREATE USER <userName> <password>
+eg: CREATE USER user1 'passwd'
 ```
+
+- Delete user (Requires MANAGE_USER permission)
+
+```sql
+DROP USER <userName>
+eg: DROP USER user1
+```
+
+- Create role (Requires MANAGE_ROLE permission)
+
+```sql
+CREATE ROLE <roleName>
+eg: CREATE ROLE role1
+```
+
+- Delete role (Requires MANAGE_ROLE permission)
+
+```sql
+DROP ROLE <roleName>
+eg: DROP ROLE role1  
+```
+
+- Grant role to user (Requires MANAGE_ROLE permission)
+
+```sql
+GRANT ROLE <ROLENAME> TO <USERNAME>
+eg: GRANT ROLE admin TO user1
+```
+
+- Revoke role from user(Requires MANAGE_ROLE permission)
+
+```sql
+REVOKE ROLE <ROLENAME> FROM <USER>
+eg: REVOKE ROLE admin FROM user1
+```
+
+- List all user (Requires MANAGE_USER permission)
+
+```sql
 LIST USER
 ```
 
-As can be seen from the result shown below, the two users have been created:
+- List all role (Requires MANAGE_ROLE permission)
 
+```sql
+LIST ROLE
 ```
+
+- List all users granted specific role.（Requires MANAGE_USER permission)
+
+```sql
+LIST USER OF ROLE <roleName>
+eg: LIST USER OF ROLE roleuser
+```
+
+- List all role granted to specific user.
+
+  Users can list their own roles, but listing roles of other users requires the MANAGE_ROLE permission.
+
+```sql
+LIST ROLE OF USER <username> 
+eg: LIST ROLE OF USER tempuser
+```
+
+- List all privileges of user
+
+Users can list their own privileges, but listing privileges of other users requires the MANAGE_USER permission.
+
+```sql
+LIST PRIVILEGES OF USER <username>;
+eg: LIST PRIVILEGES OF USER tempuser;
+```
+
+- List all privileges of role
+
+Users can list the permission information of roles they have, but listing permissions of other roles requires the MANAGE_ROLE permission.
+
+```sql
+LIST PRIVILEGES OF ROLE <roleName>;
+eg: LIST PRIVILEGES OF ROLE actor;
+```
+
+- Update password
+
+Users can update their own password, but updating passwords of other users requires the MANAGE_USER permission.
+
+```sql
+ALTER USER <username> SET PASSWORD <password>;
+eg: ALTER USER tempuser SET PASSWORD 'newpwd';
+```
+
+### Authorization and Deauthorization
+
+Users can use authorization statements to grant permissions to other users. The syntax is as follows:
+
+```sql
+GRANT <PRIVILEGES> ON <PATHS> TO ROLE/USER <NAME> [WITH GRANT OPTION]；
+eg: GRANT READ ON root.** TO ROLE role1;
+eg: GRANT READ_DATA, WRITE_DATA ON root.t1.** TO USER user1;
+eg: GRANT READ_DATA, WRITE_DATA ON root.t1.**,root.t2.** TO USER user1;
+eg: GRANT MANAGE_ROLE ON root.** TO USER user1 WITH GRANT OPTION;
+eg: GRANT ALL ON root.** TO USER user1 WITH GRANT OPTION;
+```
+
+Users can use deauthorization statements to revoke permissions from others. The syntax is as follows:
+
+```sql
+REVOKE <PRIVILEGES> ON <PATHS> FROM ROLE/USER <NAME>;
+eg: REVOKE READ ON root.** FROM ROLE role1;
+eg: REVOKE READ_DATA, WRITE_DATA ON root.t1.** FROM USER user1;
+eg: REVOKE READ_DATA, WRITE_DATA ON root.t1.**, root.t2.** FROM USER user1;
+eg: REVOKE MANAGE_ROLE ON root.** FROM USER user1;
+eg: REVOKE ALL ON ROOT.** FROM USER user1;
+```
+
+- **When non-administrator users execute authorization/deauthorization statements, they need to have \<PRIVILEGES\> permissions on \<PATHS\>, and these permissions must be marked with WITH GRANT OPTION.**
+
+- When granting or revoking global permissions or when the statement contains global permissions (expanding ALL includes global permissions), you must specify the path as root**. For example, the following authorization/deauthorization statements are valid:
+
+  ```sql
+  GRANT MANAGE_USER ON root.** TO USER user1;
+  GRANT MANAGE_ROLE ON root.** TO ROLE role1  WITH GRANT OPTION;
+  GRANT ALL ON  root.** TO role role1  WITH GRANT OPTION;
+  REVOKE MANAGE_USER ON root.** FROM USER user1;
+  REVOKE MANAGE_ROLE ON root.** FROM ROLE role1;
+  REVOKE ALL ON root.** FROM ROLE role1;
+  ```
+
+  The following statements are invalid:
+
+  ```sql
+  GRANT READ, MANAGE_ROLE ON root.t1.** TO USER user1;
+  GRANT ALL ON root.t1.t2 TO USER user1 WITH GRANT OPTION;
+  REVOKE ALL ON root.t1.t2 FROM USER user1;
+  REVOKE READ, MANAGE_ROLE ON root.t1.t2 FROM ROLE ROLE1;
+  ```
+
+- \<PATH\> must be a full path or a matching path ending with a double wildcard. The following paths are valid:
+
+  ```sql
+  root.**
+  root.t1.t2.**
+  root.t1.t2.t3
+  ```
+  
+  The following paths are invalid:
+  
+  ```sql
+  root.t1.*
+  root.t1.**.t2
+  root.t1*.t2.t3
+  ```
+  
+  
+  
+### Examples
+
+   Based on the described [sample data](https://github.com/thulab/iotdb/files/4438687/OtherMaterial-Sample.Data.txt), IoTDB's sample data may belong to different power generation groups such as ln, sgcc, and so on. Different power generation groups do not want other groups to access their database data, so we need to implement data isolation at the group level. 
+
+#### Create Users 
+Use `CREATE USER <userName> <password>` to create users. For example, we can create two users for the ln and sgcc groups with the root user, who has all permissions, and name them ln_write_user and sgcc_write_user. It is recommended to enclose the username in backticks. The SQL statements are as follows: 
+```SQL 
+CREATE USER `ln_write_user` 'write_pwd' 
+CREATE USER `sgcc_write_user` 'write_pwd'
+```
+
+Now, using the SQL statement to display users:
+
+```sql
+LIST USER
+```
+
+We can see that these two users have been created, and the result is as follows:
+
+```sql
 IoTDB> CREATE USER `ln_write_user` 'write_pwd'
 Msg: The statement is executed successfully.
 IoTDB> CREATE USER `sgcc_write_user` 'write_pwd'
 Msg: The statement is executed successfully.
-IoTDB> LIST USER
+IoTDB> LIST USER;
 +---------------+
 |           user|
 +---------------+
@@ -79,451 +362,137 @@ IoTDB> LIST USER
 |sgcc_write_user|
 +---------------+
 Total line number = 3
-It costs 0.157s
+It costs 0.012s
 ```
 
-### Grant User Privilege
+#### Granting Permissions to Users
 
-At this point, although two users have been created, they do not have any privileges, so they can not operate on the database. For example, we use ln_write_user to write data in the database, the SQL statement is:
+At this point, although two users have been created, they do not have any permissions, so they cannot operate on the database. For example, if we use the ln_write_user to write data to the database, the SQL statement is as follows:
 
-```
+```sql
 INSERT INTO root.ln.wf01.wt01(timestamp,status) values(1509465600000,true)
 ```
 
-The SQL statement will not be executed and the corresponding error prompt is given as follows:
+At this point, the system does not allow this operation, and an error is displayed:
 
-```
+```sql
 IoTDB> INSERT INTO root.ln.wf01.wt01(timestamp,status) values(1509465600000,true)
-Msg: 602: No permissions for this operation, please add privilege INSERT_TIMESERIES.
+Msg: 803: No permissions for this operation, please add privilege WRITE_DATA on [root.ln.wf01.wt01.status]
 ```
 
-Now, we use root user to grant the two users write privileges to the corresponding databases.
+Now, we will grant each user write permissions to the corresponding paths using the root user.
 
-We use `GRANT USER <userName> PRIVILEGES <privileges> ON <nodeName>` to grant user privileges(ps: grant create user does not need path). For example:
+We use the `GRANT <PRIVILEGES> ON <PATHS> TO USER <username>` statement to grant permissions to users, for example:
 
+```sql
+GRANT WRITE_DATA ON root.ln.** TO USER `ln_write_user`
+GRANT WRITE_DATA ON root.sgcc1.**, root.sgcc2.** TO USER `sgcc_write_user`
 ```
-GRANT USER `ln_write_user` PRIVILEGES INSERT_TIMESERIES on root.ln.**
-GRANT USER `sgcc_write_user` PRIVILEGES INSERT_TIMESERIES on root.sgcc1.**, root.sgcc2.**
-GRANT USER `ln_write_user` PRIVILEGES CREATE_USER
-```
 
-The execution result is as follows:
+The execution status is as follows:
 
-```
-IoTDB> GRANT USER `ln_write_user` PRIVILEGES INSERT_TIMESERIES on root.ln.**
+```sql
+IoTDB> GRANT WRITE_DATA ON root.ln.** TO USER `ln_write_user`
 Msg: The statement is executed successfully.
-IoTDB> GRANT USER `sgcc_write_user` PRIVILEGES INSERT_TIMESERIES on root.sgcc1.**, root.sgcc2.**
-Msg: The statement is executed successfully.
-IoTDB> GRANT USER `ln_write_user` PRIVILEGES CREATE_USER
+IoTDB> GRANT WRITE_DATA ON root.sgcc1.**, root.sgcc2.** TO USER `sgcc_write_user`
 Msg: The statement is executed successfully.
 ```
 
-Next, use ln_write_user to try to write data again.
+Then, using ln_write_user, try to write data again:
 
-```
+```sql
 IoTDB> INSERT INTO root.ln.wf01.wt01(timestamp, status) values(1509465600000, true)
 Msg: The statement is executed successfully.
 ```
 
-### Revoker User Privilege
+#### Revoking User Permissions
 
-After granting user privileges, we could use `REVOKE USER <userName> PRIVILEGES <privileges> ON <nodeName>` to revoke the granted user privileges(ps: revoke create user does not need path). For example, use root user to revoke the privilege of ln_write_user and sgcc_write_user:
-
-```
-REVOKE USER `ln_write_user` PRIVILEGES INSERT_TIMESERIES on root.ln.**
-REVOKE USER `sgcc_write_user` PRIVILEGES INSERT_TIMESERIES on root.sgcc1.**, root.sgcc2.**
-REVOKE USER `ln_write_user` PRIVILEGES CREATE_USER
-```
-
-The execution result is as follows:
-
-```
-REVOKE USER `ln_write_user` PRIVILEGES INSERT_TIMESERIES on root.ln.**
-Msg: The statement is executed successfully.
-REVOKE USER `sgcc_write_user` PRIVILEGES INSERT_TIMESERIES on root.sgcc1.**, root.sgcc2.**
-Msg: The statement is executed successfully.
-REVOKE USER `ln_write_user` PRIVILEGES CREATE_USER
-Msg: The statement is executed successfully.
-```
-
-After revoking, ln_write_user has no permission to writing data to root.ln.**
-
-```
-INSERT INTO root.ln.wf01.wt01(timestamp, status) values(1509465600000, true)
-Msg: 602: No permissions for this operation, please add privilege INSERT_TIMESERIES.
-```
-
-### SQL Statements
-
-Here are all related SQL statements:
-
-* Create User
-
-```
-CREATE USER <userName> <password>;  
-Eg: IoTDB > CREATE USER `thulab` 'pwd';
-```
-
-* Delete User
-
-```
-DROP USER <userName>;  
-Eg: IoTDB > DROP USER `xiaoming`;
-```
-
-* Create Role
-
-```
-CREATE ROLE <roleName>;  
-Eg: IoTDB > CREATE ROLE `admin`;
-```
-
-* Delete Role
-
-```
-DROP ROLE <roleName>;  
-Eg: IoTDB > DROP ROLE `admin`;
-```
-
-* Grant User Privileges
-
-```
-GRANT USER <userName> PRIVILEGES <privileges> ON <nodeNames>;  
-Eg: IoTDB > GRANT USER `tempuser` PRIVILEGES INSERT_TIMESERIES, DELETE_TIMESERIES on root.ln.**, root.sgcc.**;
-Eg: IoTDB > GRANT USER `tempuser` PRIVILEGES CREATE_ROLE;
-```
-
-- Grant User All Privileges
-
-```
-GRANT USER <userName> PRIVILEGES ALL; 
-Eg: IoTDB > GRANT USER `tempuser` PRIVILEGES ALL;
-```
-
-* Grant Role Privileges
-
-```
-GRANT ROLE <roleName> PRIVILEGES <privileges> ON <nodeNames>;  
-Eg: IoTDB > GRANT ROLE `temprole` PRIVILEGES INSERT_TIMESERIES, DELETE_TIMESERIES ON root.sgcc.**, root.ln.**;
-Eg: IoTDB > GRANT ROLE `temprole` PRIVILEGES CREATE_ROLE;
-```
-
-- Grant Role All Privileges
-
-```
-GRANT ROLE <roleName> PRIVILEGES ALL ON <nodeNames>;  
-Eg: IoTDB > GRANT ROLE `temprole` PRIVILEGES ALL;
-```
-
-* Grant User Role
-
-```
-GRANT <roleName> TO <userName>;  
-Eg: IoTDB > GRANT `temprole` TO tempuser;
-```
-
-* Revoke User Privileges
-
-```
-REVOKE USER <userName> PRIVILEGES <privileges> ON <nodeNames>;   
-Eg: IoTDB > REVOKE USER `tempuser` PRIVILEGES DELETE_TIMESERIES on root.ln.**;
-Eg: IoTDB > REVOKE USER `tempuser` PRIVILEGES CREATE_ROLE;
-```
-
-* Revoke User All Privileges
-
-```
-REVOKE USER <userName> PRIVILEGES ALL; 
-Eg: IoTDB > REVOKE USER `tempuser` PRIVILEGES ALL;
-```
-
-* Revoke Role Privileges
-
-```
-REVOKE ROLE <roleName> PRIVILEGES <privileges> ON <nodeNames>;  
-Eg: IoTDB > REVOKE ROLE `temprole` PRIVILEGES DELETE_TIMESERIES ON root.ln.**;
-Eg: IoTDB > REVOKE ROLE `temprole` PRIVILEGES CREATE_ROLE;
-```
-
-* Revoke All Role Privileges
-
-```
-REVOKE ROLE <roleName> PRIVILEGES ALL;  
-Eg: IoTDB > REVOKE ROLE `temprole` PRIVILEGES ALL;
-```
-
-* Revoke Role From User
-
-```
-REVOKE <roleName> FROM <userName>;
-Eg: IoTDB > REVOKE `temprole` FROM tempuser;
-```
-
-* List Users
-
-```
-LIST USER
-Eg: IoTDB > LIST USER
-```
-
-* List User of Specific Role
-
-```
-LIST USER OF ROLE <roleName>;
-Eg: IoTDB > LIST USER OF ROLE `roleuser`;
-```
-
-* List Roles
-
-```
-LIST ROLE
-Eg: IoTDB > LIST ROLE
-```
-
-* List Roles of Specific User
-
-```
-LIST ROLE OF USER <username> ;  
-Eg: IoTDB > LIST ROLE OF USER `tempuser`;
-```
-
-* List All Privileges of Users
-
-```
-LIST PRIVILEGES USER <username> ;   
-Eg: IoTDB > LIST PRIVILEGES USER `tempuser`;
-```
-
-* List Related Privileges of Users(On Specific Paths)
-
-```
-LIST PRIVILEGES USER <username> ON <paths>;
-Eg: IoTDB> LIST PRIVILEGES USER `tempuser` ON root.ln.**, root.ln.wf01.**;
-+--------+-----------------------------------+
-|    role|                          privilege|
-+--------+-----------------------------------+
-|        |      root.ln.** : ALTER_TIMESERIES|
-|temprole|root.ln.wf01.** : CREATE_TIMESERIES|
-+--------+-----------------------------------+
-Total line number = 2
-It costs 0.005s
-IoTDB> LIST PRIVILEGES USER `tempuser` ON root.ln.wf01.wt01.**;
-+--------+-----------------------------------+
-|    role|                          privilege|
-+--------+-----------------------------------+
-|        |      root.ln.** : ALTER_TIMESERIES|
-|temprole|root.ln.wf01.** : CREATE_TIMESERIES|
-+--------+-----------------------------------+
-Total line number = 2
-It costs 0.005s
-```
-
-* List All Privileges of Roles
-
-```
-LIST PRIVILEGES ROLE <roleName>
-Eg: IoTDB > LIST PRIVILEGES ROLE `actor`;
-```
-
-* List Related Privileges of Roles(On Specific Paths)
-
-```
-LIST PRIVILEGES ROLE <roleName> ON <paths>;    
-Eg: IoTDB> LIST PRIVILEGES ROLE `temprole` ON root.ln.**, root.ln.wf01.wt01.**;
-+-----------------------------------+
-|                          privilege|
-+-----------------------------------+
-|root.ln.wf01.** : CREATE_TIMESERIES|
-+-----------------------------------+
-Total line number = 1
-It costs 0.005s
-IoTDB> LIST PRIVILEGES ROLE `temprole` ON root.ln.wf01.wt01.**;
-+-----------------------------------+
-|                          privilege|
-+-----------------------------------+
-|root.ln.wf01.** : CREATE_TIMESERIES|
-+-----------------------------------+
-Total line number = 1
-It costs 0.005s
-```
-
-* Alter Password
-
-```
-ALTER USER <username> SET PASSWORD <password>;
-Eg: IoTDB > ALTER USER `tempuser` SET PASSWORD 'newpwd';
-```
-
-
-## Other Instructions
-
-### The Relationship among Users, Privileges and Roles
-
-A Role is a set of privileges, and privileges and roles are both attributes of users. That is, a role can have several privileges and a user can have several roles and privileges (called the user's own privileges).
-
-At present, there is no conflicting privilege in IoTDB, so the real privileges of a user is the union of the user's own privileges and the privileges of the user's roles. That is to say, to determine whether a user can perform an operation, it depends on whether one of the user's own privileges or the privileges of the user's roles permits the operation. The user's own privileges and privileges of the user's roles may overlap, but it does not matter.
-
-It should be noted that if users have a privilege (corresponding to operation A) themselves and their roles contain the same privilege, then revoking the privilege from the users themselves alone can not prohibit the users from performing operation A, since it is necessary to revoke the privilege from the role, or revoke the role from the user. Similarly, revoking the privilege from the users's roles alone can not prohibit the users from performing operation A.
-
-At the same time, changes to roles are immediately reflected on all users who own the roles. For example, adding certain privileges to roles will immediately give all users who own the roles corresponding privileges, and deleting certain privileges will also deprive the corresponding users of the privileges (unless the users themselves have the privileges).
-
-### List of Privileges Included in the System
-
-| privilege Name            | Interpretation                                               | Example                                                      |
-| :------------------------ | :----------------------------------------------------------- | ------------------------------------------------------------ |
-| CREATE\_DATABASE          | create database; set/unset database ttl; path dependent      | Eg1: `CREATE DATABASE root.ln;`<br />Eg2:`set ttl to root.ln 3600000;`<br />Eg3:`unset ttl to root.ln;` |
-| DELETE\_DATABASE          | delete databases; path dependent                             | Eg: `delete database root.ln;`                               |
-| CREATE\_TIMESERIES        | create timeseries; path dependent                            | Eg1: create timeseries<br />`create timeseries root.ln.wf02.status with datatype=BOOLEAN,encoding=PLAIN;`<br />Eg2: create aligned timeseries<br />`create aligned timeseries root.ln.device1(latitude FLOAT encoding=PLAIN compressor=SNAPPY, longitude FLOAT encoding=PLAIN compressor=SNAPPY);` |
-| INSERT\_TIMESERIES        | insert data; path dependent                                  | Eg1: `insert into root.ln.wf02(timestamp,status) values(1,true);`<br />Eg2: `insert into root.sg1.d1(time, s1, s2) aligned values(1, 1, 1)` |
-| ALTER\_TIMESERIES         | alter timeseries; path dependent                             | Eg1: `alter timeseries root.turbine.d1.s1 ADD TAGS tag3=v3, tag4=v4;`<br />Eg2: `ALTER timeseries root.turbine.d1.s1 UPSERT ALIAS=newAlias TAGS(tag2=newV2, tag3=v3) ATTRIBUTES(attr3=v3, attr4=v4);` |
-| READ\_TIMESERIES          | query data; path dependent                                   | Eg1: `SHOW DATABASES;` <br />Eg2: `show child paths root.ln, show child nodes root.ln;`<br />Eg3: `show devices;`<br />Eg4: `show timeseries root.**;`<br />Eg5: `show schema templates;`<br />Eg6: `show all ttl`<br />Eg7: [Query-Data](../Query-Data/Overview.md)（The query statements under this section all use this permission）<br />Eg8: CVS format data export<br />`./export-csv.bat -h 127.0.0.1 -p 6667 -u tempuser -pw root -td ./`<br />Eg9: Performance Tracing Tool<br />`tracing select * from root.**`<br />Eg10: UDF-Query<br />`select example(*) from root.sg.d1`<br />Eg11: Triggers-Query<br />`show triggers`<br />Eg12: Count-Query<br />`count devices` |
-| DELETE\_TIMESERIES        | delete data or timeseries; path dependent                    | Eg1: delete timeseries<br />`delete timeseries root.ln.wf01.wt01.status`<br />Eg2: delete data<br />`delete from root.ln.wf02.wt02.status where time < 10`<br />Eg3: use drop semantic<br />`drop timeseries root.ln.wf01.wt01.status |
-| CREATE\_USER              | create users; path independent                               | Eg: `create user thulab 'passwd';`                           |
-| DELETE\_USER              | delete users; path independent                               | Eg: `drop user xiaoming;`                                    |
-| MODIFY\_PASSWORD          | modify passwords for all users; path independent; (Those who do not have this privilege can still change their own asswords. ) | Eg: `alter user tempuser SET PASSWORD 'newpwd';`             |
-| LIST\_USER                | list all users; list all user of specific role; list a user's related privileges on speciific paths; path independent | Eg1: `list user;`<br />Eg2: `list user of role 'wirte_role';`<br />Eg3: `list privileges user admin;`<br />Eg4: `list privileges user 'admin' on root.sgcc.**;` |
-| GRANT\_USER\_PRIVILEGE    | grant user privileges; path independent                      | Eg:  `grant user tempuser privileges DELETE_TIMESERIES on root.ln.**;` |
-| REVOKE\_USER\_PRIVILEGE   | revoke user privileges; path independent                     | Eg:  `revoke user tempuser privileges DELETE_TIMESERIES on root.ln.**;` |
-| GRANT\_USER\_ROLE         | grant user roles; path independent                           | Eg:  `grant temprole to tempuser;`                           |
-| REVOKE\_USER\_ROLE        | revoke user roles; path independent                          | Eg:  `revoke temprole from tempuser;`                        |
-| CREATE\_ROLE              | create roles; path independent                               | Eg:  `create role admin;`                                    |
-| DELETE\_ROLE              | delete roles; path independent                               | Eg: `drop role admin;`                                       |
-| LIST\_ROLE                | list all roles; list all roles of specific user; list a role's related privileges on speciific paths; path independent | Eg1: `list role`<br />Eg2: `list role of user 'actor';`<br />Eg3: `list privileges role wirte_role;`<br />Eg4: `list privileges role wirte_role ON root.sgcc;` |
-| GRANT\_ROLE\_PRIVILEGE    | grant role privileges; path independent                      | Eg: `grant role temprole privileges DELETE_TIMESERIES ON root.ln.**;` |
-| REVOKE\_ROLE\_PRIVILEGE   | revoke role privileges; path independent                     | Eg: `revoke role temprole privileges DELETE_TIMESERIES ON root.ln.**;` |
-| CREATE_FUNCTION           | register UDFs; path independent                              | Eg: `create function example AS 'org.apache.iotdb.udf.UDTFExample';` |
-| DROP_FUNCTION             | deregister UDFs; path independent                            | Eg: `drop function example`                                  |
-| CREATE_TRIGGER            | create triggers; path dependent                              | Eg1: `CREATE TRIGGER <TRIGGER-NAME> BEFORE INSERT ON <FULL-PATH> AS <CLASSNAME>`<br />Eg2: `CREATE TRIGGER <TRIGGER-NAME> AFTER INSERT ON <FULL-PATH> AS <CLASSNAME>` |
-| DROP_TRIGGER              | drop triggers; path dependent                                | Eg: `drop trigger 'alert-listener-sg1d1s1'`                  |
-| CREATE_CONTINUOUS_QUERY   | create continuous queries; path independent                  | Eg: `CREATE CONTINUOUS QUERY cq1 RESAMPLE RANGE 40s BEGIN <QUERY-BODY> END` |
-| DROP_CONTINUOUS_QUERY     | drop continuous queries; path independent                    | Eg1: `DROP CONTINUOUS QUERY cq3`<br />Eg2: `DROP CQ cq3`     |
-| SHOW_CONTINUOUS_QUERIES   | show continuous queries; path independent                    | Eg1: `SHOW CONTINUOUS QUERIES`<br />Eg2: `SHOW cqs`          |
-| UPDATE_TEMPLATE           | create and drop schema template; path independent            | Eg1: `create schema template t1(s1 int32)`<br />Eg2: `drop schema template t1` |
-| READ_TEMPLATE             | show schema templates and show nodes in schema template; path independent | Eg1: `show schema templates`<br/>Eg2: `show nodes in template t1` |
-| APPLY_TEMPLATE            | set, unset and activate schema template; path dependent      | Eg1: `set schema template t1 to root.sg.d`<br/>Eg2: `unset schema template t1 from root.sg.d`<br/>Eg3: `create timeseries of schema template on root.sg.d`<br/>Eg4: `delete timeseries of schema template on root.sg.d` |
-| READ_TEMPLATE_APPLICATION | show paths set and using schema template; path independent   | Eg1: `show paths set schema template t1`<br/>Eg2: `show paths using schema template t1` |
-
-Note that path dependent privileges can only be granted or revoked on root.**;
-
-Note that the following SQL statements need to be granted multiple permissions before they can be used：
-
-- Import data: Need to assign `READ_TIMESERIES`，`INSERT_TIMESERIES` two permissions.。
-
-```
-Eg: IoTDB > ./import-csv.bat -h 127.0.0.1 -p 6667 -u renyuhua -pw root -f dump0.csv
-```
-
--  Query Write-back (SELECT INTO)
--  - `READ_TIMESERIES` permission of source sequence in all `select` clauses is required
--  `INSERT_TIMESERIES` permission of target sequence in all `into` clauses is required
-
-```
-Eg: IoTDB > select s1, s1 into t1, t2 from root.sg.d1 limit 5 offset 1000
-```
-
-### Username Restrictions
-
-IoTDB specifies that the character length of a username should not be less than 4, and the username cannot contain spaces.
-
-### Password Restrictions
-
-IoTDB specifies that the character length of a password should have no less than 4 character length, and no spaces. The password is encrypted with MD5.
-
-### Role Name Restrictions
-
-IoTDB specifies that the character length of a role name should have no less than 4 character length, and no spaces.
-
-### Path pattern in Administration Management
-
-A path pattern's result set contains all the elements of its sub pattern's
-result set. For example, `root.sg.d.*` is a sub pattern of
-`root.sg.*.*`, while `root.sg.**` is not a sub pattern of
-`root.sg.*.*`. When a user is granted privilege on a pattern, the pattern used in his DDL or DML must be a sub pattern of the privilege pattern, which guarantees that the user won't access the timeseries exceed his privilege scope.
-
-### Permission cache
-
-In distributed related permission operations, when changing permissions other than creating users and roles, all the cache information of `dataNode` related to the user (role) will be cleared first. If any `dataNode` cache information is clear and fails, the permission change task will fail.
-
-### Operations restricted by non root users
-
-At present, the following SQL statements supported by iotdb can only be operated by the `root` user, and no corresponding permission can be given to the new user.
-
-#### TsFile Management
-
-- Load TsFiles
-
-```
-Eg: IoTDB > load '/Users/Desktop/data/1575028885956-101-0.tsfile'
-```
-
-- remove a tsfile
-
-```
-Eg: IoTDB > remove '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-0.tsfile'
-```
-
-- unload a tsfile and move it to a target directory
-
-```
-Eg: IoTDB > unload '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-0.tsfile' '/data/data/tmp'
-```
-
-#### Delete Time Partition (experimental)
-
-```
-Eg: IoTDB > DELETE PARTITION root.ln 0,1,2
-```
-
-#### Continuous Query,CQ
-
-```
-Eg: IoTDB > CREATE CONTINUOUS QUERY cq1 BEGIN SELECT max_value(temperature) INTO temperature_max FROM root.ln.*.* GROUP BY time(10s) END
-```
-
-#### Maintenance Command
-
-- FLUSH
-
-```
-Eg: IoTDB > flush
-```
-
-- MERGE
-
-```
-Eg: IoTDB > MERGE
-Eg: IoTDB > FULL MERGE
-```
-
-- CLEAR CACHE
+After granting user permissions, we can use the `REVOKE <PRIVILEGES> ON <PATHS> FROM USER <USERNAME>` to revoke the permissions granted to users. For example, using the root user to revoke the permissions of ln_write_user and sgcc_write_user:
 
 ```sql
-Eg: IoTDB > CLEAR CACHE
+REVOKE WRITE_DATA ON root.ln.** FROM USER `ln_write_user`
+REVOKE WRITE_DATA ON root.sgcc1.**, root.sgcc2.** FROM USER `sgcc_write_user`
 ```
 
-- SET STSTEM TO READONLY / WRITABLE
+The execution status is as follows:
 
-```
-Eg: IoTDB > SET STSTEM TO READONLY / WRITABLE
-```
-
-- Query abort
-
-```
-Eg: IoTDB > KILL QUERY 1
+```sql
+IoTDB> REVOKE WRITE_DATA ON root.ln.** FROM USER `ln_write_user`
+Msg: The statement is executed successfully.
+IoTDB> REVOKE WRITE_DATA ON root.sgcc1.**, root.sgcc2.** FROM USER `sgcc_write_user`
+Msg: The statement is executed successfully.
 ```
 
-#### Watermark Tool
+After revoking the permissions, ln_write_user no longer has the permission to write data to root.ln.**:
 
-- Watermark new users
-
-```
-Eg: IoTDB > grant watermark_embedding to Alice
-```
-
-- Watermark Detection
-
-```
-Eg: IoTDB > revoke watermark_embedding from Alice
+```sql
+IoTDB> INSERT INTO root.ln.wf01.wt01(timestamp, status) values(1509465600000, true)
+Msg: 803: No permissions for this operation, please add privilege WRITE_DATA on [root.ln.wf01.wt01.status]
 ```
 
+## Other Explanations
+
+Roles are collections of permissions, and both permissions and roles are attributes of users. In other words, a role can have multiple permissions, and a user can have multiple roles and permissions (referred to as the user's self-permissions).
+
+Currently, in IoTDB, there are no conflicting permissions. Therefore, the actual permissions a user has are the union of their self-permissions and the permissions of all their roles. In other words, to determine if a user can perform a certain operation, it's necessary to check whether their self-permissions or the permissions of all their roles allow that operation. Self-permissions, role permissions, and the permissions of multiple roles a user has may contain the same permission, but this does not have any impact.
+
+It's important to note that if a user has a certain permission (corresponding to operation A) on their own, and one of their roles has the same permission, revoking the permission from the user alone will not prevent the user from performing operation A. To prevent the user from performing operation A, you need to revoke the permission from both the user and the role, or remove the user from the role that has the permission. Similarly, if you only revoke the permission from the role, it won't prevent the user from performing operation A if they have the same permission on their own.
+
+At the same time, changes to roles will be immediately reflected in all users who have that role. For example, adding a certain permission to a role will immediately grant that permission to all users who have that role, and removing a certain permission will cause those users to lose that permission (unless the user has it on their own).
+
+
+
+## Upgrading from a previous version
+
+Before version 1.3, there were many different permission types. In 1.3 version's implementation, we have streamlined the permission types to some extent.
+
+You can refer to the table below for a comparison of permission types between the old and new versions (where "--IGNORE" indicates that the new version ignores that permission):
+
+| Permission Name           | Path-Related | New Permission Name | Path-Related |
+| ------------------------- | ------------ | ------------------- | ------------ |
+| CREATE_DATABASE           | YES          | MANAGE_DATABASE     | NO           |
+| INSERT_TIMESERIES         | YES          | WRITE_DATA          | YES          |
+| UPDATE_TIMESERIES         | YES          | WRITE_DATA          | YES          |
+| READ_TIMESERIES           | YES          | READ_DATA           | YES          |
+| CREATE_TIMESERIES         | YES          | WRITE_SCHEMA        | YES          |
+| DELETE_TIMESERIES         | YES          | WRITE_SCHEMA        | YES          |
+| CREATE_USER               | NO           | MANAGE_USER         | NO           |
+| DELETE_USER               | NO           | MANAGE_USER         | NO           |
+| MODIFY_PASSWORD           | NO           | -- IGNORE           |              |
+| LIST_USER                 | NO           | -- IGNORE           |              |
+| GRANT_USER_PRIVILEGE      | NO           | -- IGNORE           |              |
+| REVOKE_USER_PRIVILEGE     | NO           | -- IGNORE           |              |
+| GRANT_USER_ROLE           | NO           | MANAGE_ROLE         | NO           |
+| REVOKE_USER_ROLE          | NO           | MANAGE_ROLE         | NO           |
+| CREATE_ROLE               | NO           | MANAGE_ROLE         | NO           |
+| DELETE_ROLE               | NO           | MANAGE_ROLE         | NO           |
+| LIST_ROLE                 | NO           | -- IGNORE           |              |
+| GRANT_ROLE_PRIVILEGE      | NO           | -- IGNORE           |              |
+| REVOKE_ROLE_PRIVILEGE     | NO           | -- IGNORE           |              |
+| CREATE_FUNCTION           | NO           | USE_UDF             | NO           |
+| DROP_FUNCTION             | NO           | USE_UDF             | NO           |
+| CREATE_TRIGGER            | YES          | USE_TRIGGER         | NO           |
+| DROP_TRIGGER              | YES          | USE_TRIGGER         | NO           |
+| START_TRIGGER             | YES          | USE_TRIGGER         | NO           |
+| STOP_TRIGGER              | YES          | USE_TRIGGER         | NO           |
+| CREATE_CONTINUOUS_QUERY   | NO           | USE_CQ              | NO           |
+| DROP_CONTINUOUS_QUERY     | NO           | USE_CQ              | NO           |
+| ALL                       | NO           | -- IGNORE           |              |
+| DELETE_DATABASE           | YES          | MANAGE_DATABASE     | NO           |
+| ALTER_TIMESERIES          | YES          | WRITE_SCHEMA        | YES          |
+| UPDATE_TEMPLATE           | NO           | -- IGNORE           |              |
+| READ_TEMPLATE             | NO           | -- IGNORE           |              |
+| APPLY_TEMPLATE            | YES          | -- IGNORE           |              |
+| READ_TEMPLATE_APPLICATION | NO           | -- IGNORE           |              |
+| SHOW_CONTINUOUS_QUERIES   | NO           | -- IGNORE           |              |
+| CREATE_PIPEPLUGIN         | NO           | USE_PIPE            | NO           |
+| DROP_PIPEPLUGINS          | NO           | USE_PIPE            | NO           |
+| SHOW_PIPEPLUGINS          | NO           | -- IGNORE           |              |
+| CREATE_PIPE               | NO           | USE_PIPE            | NO           |
+| START_PIPE                | NO           | USE_PIPE            | NO           |
+| DROP_PIPE                 | NO           | USE_PIPE            | NO           |
+| SHOW_PIPES                | NO           | -- IGNORE           |              |
+| CREATE_VIEW               | YES          | WRITE_SCHEMA        | YES          |
+| ALTER_VIEW                | YES          | WRITE_SCHEMA        | YES          |
+| RENAME_VIEW               | YES          | WRITE_SCHEMA        | YES          |
+| DELETE_VIEW               | YES          | WRITE_SCHEMA        | YES          |
