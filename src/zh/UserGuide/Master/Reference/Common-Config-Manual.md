@@ -1894,6 +1894,34 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |  默认值   | 1000                                           |
 | 改后生效方式 | 重启生效                                           |
 
+* config\_node\_ratis\periodic\_snapshot\_interval
+
+|   名字   | config\_node\_ratis\_periodic\_snapshot\_interval           |
+|:------:|:----------------------------------------------------------------|
+|   描述   | config node定期snapshot的间隔时间 |
+|   类型   | int64                                                           |
+|  默认值   | 86400 (秒)                                                           |
+| 改后生效方式 | 重启生效                                         |
+
+* schema\_region\_ratis\_periodic\_snapshot\_interval  
+
+|   名字   | schema\_region\_ratis\_preserve\_logs\_num\_when\_purge           |
+|:------:|:----------------------------------------------------------------|
+|   描述   | schema region定期snapshot的间隔时间 |
+|   类型   | int64                                                          |
+|  默认值   | 86400 (秒)                                                             |
+| 改后生效方式 | 重启生效                                         |
+
+* data\_region\_ratis\_periodic\_snapshot\_interval  
+
+|   名字   | data\_region\_ratis\_preserve\_logs\_num\_when\_purge           |
+|:------:|:----------------------------------------------------------------|
+|   描述   | data region定期snapshot的间隔时间 |
+|   类型   | int64                                                          |
+|  默认值   | 86400 (秒)                                                             |
+| 改后生效方式 | 重启生效                                     |
+
+
 #### Procedure 配置
 
 * procedure\_core\_worker\_thread\_count
