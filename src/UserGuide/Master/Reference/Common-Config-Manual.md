@@ -1872,6 +1872,33 @@ Different configuration parameters take effect in the following three ways:
 |  Default   | 1000                                                            |
 | Effective | After restarting system                                         |
 
+* config\_node\_ratis\periodic\_snapshot\_interval
+
+|   Name   | config\_node\_ratis\_periodic\_snapshot\_interval           |
+|:------:|:----------------------------------------------------------------|
+|   Description   | duration interval of config-node periodic snapshot |
+|   Type   | int64                                                           |
+|  Default   | 86400 (seconds)                                                           |
+| Effective | After restarting system                                         |
+
+* schema\_region\_ratis\_periodic\_snapshot\_interval  
+
+|   Name   | schema\_region\_ratis\_preserve\_logs\_num\_when\_purge           |
+|:------:|:----------------------------------------------------------------|
+|   Description   | duration interval of schema-region periodic snapshot |
+|   Type   | int64                                                          |
+|  Default   | 86400 (seconds)                                                             |
+| Effective | After restarting system                                         |
+
+* data\_region\_ratis\_periodic\_snapshot\_interval  
+
+|   Name   | data\_region\_ratis\_preserve\_logs\_num\_when\_purge           |
+|:------:|:----------------------------------------------------------------|
+|   Description   | duration interval of data-region periodic snapshot |
+|   Type   | int64                                                          |
+|  Default   | 86400 (seconds)                                                             |
+| Effective | After restarting system                                         |
+
 ### Procedure Configuration
 
 * procedure\_core\_worker\_thread\_count
