@@ -1894,7 +1894,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |  默认值   | 1000                                           |
 | 改后生效方式 | 重启生效                                           |
 
-* config\_node\_ratis\periodic\_snapshot\_interval
+* config\_node\_ratis\_periodic\_snapshot\_interval
 
 |   名字   | config\_node\_ratis\_periodic\_snapshot\_interval           |
 |:------:|:----------------------------------------------------------------|

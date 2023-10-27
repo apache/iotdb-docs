@@ -1872,7 +1872,7 @@ Different configuration parameters take effect in the following three ways:
 |  Default   | 1000                                                            |
 | Effective | After restarting system                                         |
 
-* config\_node\_ratis\periodic\_snapshot\_interval
+* config\_node\_ratis\_periodic\_snapshot\_interval
 
 |   Name   | config\_node\_ratis\_periodic\_snapshot\_interval           |
 |:------:|:----------------------------------------------------------------|
