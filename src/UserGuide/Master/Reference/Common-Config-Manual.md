@@ -236,9 +236,9 @@ Different configuration parameters take effect in the following three ways:
 
 * storage\_query_schema_consensus_free_memory_proportion
 
-|Name| storage\_query\_schema\_consensus\_free\_memory\_proportion                                                  |
+|Name| data\_node\_memory\_proportion                                                  |
 |:---:|:-------------------------------------------------------------------------------------------------------------|
-|Description| Memory Allocation Ratio: StorageEngine, QueryEngine, SchemaEngine, Consensus and Free Memory                 |
+|Description| Memory Allocation Ratio: StorageEngine, QueryEngine, SchemaEngine, StreamingEngine, Consensus and Free Memory                 |
 |Type| Ratio                                                                                                        |
 |Default| 3:3:1:1:2                                                                                                    |
 |Effective| After restarting system                                                                                      |
