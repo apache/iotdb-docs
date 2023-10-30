@@ -1869,7 +1869,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * ratis\_first\_election\_timeout\_min\_ms
 
-|   Name   | ratis\_first\_election\_timeout\_min\_ms           |
+|   名字   | ratis\_first\_election\_timeout\_min\_ms           |
 |:------:|:----------------------------------------------------------------|
 |   描述   | Ratis协议首次选举最小超时时间 |
 |   类型   | int64                                                          |
@@ -1878,7 +1878,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * ratis\_first\_election\_timeout\_max\_ms
 
-|   Name   | ratis\_first\_election\_timeout\_max\_ms           |
+|   名字   | ratis\_first\_election\_timeout\_max\_ms           |
 |:------:|:----------------------------------------------------------------|
 |   描述   | Ratis协议首次选举最大超时时间 |
 |   类型   | int64                                                          |
@@ -1915,7 +1915,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * config\_node\_ratis\_log\_max\_size 
 
-|   Name   | config\_node\_ratis\_log\_max\_size            |
+|   名字   | config\_node\_ratis\_log\_max\_size            |
 |:------:|:----------------------------------------------------------------|
 |   描述   | config node磁盘Raft Log最大占用空间 |
 |   类型   | int64                                                          |
@@ -1924,7 +1924,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * schema\_region\_ratis\_log\_max\_size 
 
-|   Name   | schema\_region\_ratis\_log\_max\_size            |
+|   名字   | schema\_region\_ratis\_log\_max\_size            |
 |:------:|:----------------------------------------------------------------|
 |   描述   | schema region 磁盘Raft Log最大占用空间 |
 |   类型   | int64                                                          |
@@ -1933,7 +1933,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * data\_region\_ratis\_log\_max\_size 
 
-|   Name   | data\_region\_ratis\_log\_max\_size            |
+|   名字   | data\_region\_ratis\_log\_max\_size            |
 |:------:|:----------------------------------------------------------------|
 |   描述   | data region 磁盘Raft Log最大占用空间|
 |   类型   | int64                                                          |
