@@ -1867,6 +1867,25 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |  默认值   | 10s                                 |
 | 改后生效方式 | 重启生效                                |
 
+* ratis\_first\_election\_timeout\_min\_ms
+
+|   Name   | ratis\_first\_election\_timeout\_min\_ms           |
+|:------:|:----------------------------------------------------------------|
+|   描述   | Ratis协议首次选举最小超时时间 |
+|   类型   | int64                                                          |
+|  默认值   | 50 (ms)                                                             |
+| 改后生效方式 | 重启生效                                         |
+
+* ratis\_first\_election\_timeout\_max\_ms
+
+|   Name   | ratis\_first\_election\_timeout\_max\_ms           |
+|:------:|:----------------------------------------------------------------|
+|   描述   | Ratis协议首次选举最大超时时间 |
+|   类型   | int64                                                          |
+|  默认值   | 150 (ms)                                                             |
+| 改后生效方式 | 重启生效      |
+
+
 * config\_node\_ratis\_preserve\_logs\_num\_when\_purge
 
 |   名字   | config\_node\_ratis\_preserve\_logs\_num\_when\_purge |
@@ -1893,6 +1912,34 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |   类型   | int32                                          |
 |  默认值   | 1000                                           |
 | 改后生效方式 | 重启生效                                           |
+
+* config\_node\_ratis\_log\_max\_size 
+
+|   Name   | config\_node\_ratis\_log\_max\_size            |
+|:------:|:----------------------------------------------------------------|
+|   描述   | config node磁盘Raft Log最大占用空间 |
+|   类型   | int64                                                          |
+|  默认值   | 2147483648 (2GB)                                             |
+| 改后生效方式 | 重启生效                                         |
+
+* schema\_region\_ratis\_log\_max\_size 
+
+|   Name   | schema\_region\_ratis\_log\_max\_size            |
+|:------:|:----------------------------------------------------------------|
+|   描述   | schema region 磁盘Raft Log最大占用空间 |
+|   类型   | int64                                                          |
+|  默认值   | 2147483648 (2GB)                                             |
+| 改后生效方式 | 重启生效                                         |
+
+* data\_region\_ratis\_log\_max\_size 
+
+|   Name   | data\_region\_ratis\_log\_max\_size            |
+|:------:|:----------------------------------------------------------------|
+|   描述   | data region 磁盘Raft Log最大占用空间|
+|   类型   | int64                                                          |
+|  默认值   | 21474836480 (20GB)                                             |
+| 改后生效方式 | 重启生效                                         |
+
 
 * config\_node\_ratis\_periodic\_snapshot\_interval
 
