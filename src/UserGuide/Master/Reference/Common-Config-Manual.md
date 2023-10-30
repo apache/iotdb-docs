@@ -240,7 +240,7 @@ Different configuration parameters take effect in the following three ways:
 |:---:|:-------------------------------------------------------------------------------------------------------------|
 |Description| Memory Allocation Ratio: StorageEngine, QueryEngine, SchemaEngine, StreamingEngine, Consensus and Free Memory                 |
 |Type| Ratio                                                                                                        |
-|Default| 3:3:1:1:2                                                                                                    |
+|Default| 3:3:1:1:1:1                                                                                                    |
 |Effective| After restarting system                                                                                      |
 
 * schema\_memory\_allocate\_proportion
