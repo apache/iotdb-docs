@@ -238,4 +238,4 @@ not affect normal operations. We will fix this message in the incoming releases.
 
 #### 3. How to decrease the memory usage of ConfigNode/DataNode?
 
-- Adjust the MAX_HEAP_SIZE、MAX_DIRECT_MEMORY_SIZE options in conf/confignode-env.sh and conf/datanode-env.sh.
+- Adjust the ON_HEAP_MEMORY、OFF_HEAP_MEMORY options in conf/confignode-env.sh and conf/datanode-env.sh.
