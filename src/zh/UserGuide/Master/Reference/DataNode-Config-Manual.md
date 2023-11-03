@@ -38,31 +38,31 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 
 环境配置项主要用于对 DataNode 运行的 Java 环境相关参数进行配置，如 JVM 相关配置。DataNode/Standalone 启动时，此部分配置会被传给 JVM，详细配置项说明如下：
 
-* MAX\_HEAP\_SIZE
+* MEMORY\_SIZE
 
-|名字|MAX\_HEAP\_SIZE|
+|名字|MEMORY\_SIZE|
 |:---:|:---|
-|描述|IoTDB 能使用的最大堆内存大小 |
+|描述|IoTDB DataNode 启动时分配的内存大小 |
 |类型|String|
-|默认值|取决于操作系统和机器配置。在 Linux 或 MacOS 系统下默认为机器内存的四分之一。在 Windows 系统下，32 位系统的默认值是 512M，64 位系统默认值是 2G。|
+|默认值|取决于操作系统和机器配置。默认为机器内存的二分之一。|
 |改后生效方式|重启服务生效|
 
-* HEAP\_NEWSIZE
+* ON\_HEAP\_MEMORY
 
-|名字|HEAP\_NEWSIZE|
+|名字|ON\_HEAP\_MEMORY|
 |:---:|:---|
-|描述|IoTDB 启动时分配的最小堆内存大小 |
+|描述|IoTDB DataNode 能使用的堆内内存大小 |
 |类型|String|
-|默认值|取决于操作系统和机器配置。在 Linux 或 MacOS 系统下默认值为机器 CPU 核数乘以 100M 的值与 MAX\_HEAP\_SIZE 四分之一这二者的最小值。在 Windows 系统下，32 位系统的默认值是 512M，64 位系统默认值是 2G。|
+|默认值|取决于MEMORY\_SIZE的配置。|
 |改后生效方式|重启服务生效|
 
-* MAX\_DIRECT\_MEMORY\_SIZE
+* OFF\_HEAP\_MEMORY
 
-|名字|MAX\_DIRECT\_MEMORY\_SIZE|
+|名字|OFF\_HEAP\_MEMORY|
 |:---:|:---|
-|描述|IoTDB 能使用的最大堆外内存大小 |
+|描述|IoTDB DataNode 能使用的堆外内存大小 |
 |类型|String|
-|默认值|默认与最大堆内存相等|
+|默认值|取决于MEMORY\_SIZE的配置|
 |改后生效方式|重启服务生效|
 
 * JMX\_LOCAL
