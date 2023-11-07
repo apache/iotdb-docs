@@ -178,6 +178,8 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |Default| 5000                                                                      |
 |Effective| After restarting system                                                   |
 
+### SSL Configuration
+
 * enable\_thrift\_ssl
 
 |Name| enable\_thrift\_ssl        |
@@ -186,8 +188,6 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |Type| Boolean                    |
 |Default| false                      |
 |Effective| After restarting system    |
-
-### SSL Configuration
 
 * key\_store\_path
 

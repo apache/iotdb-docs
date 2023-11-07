@@ -161,6 +161,9 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |默认值| 5000                                   |
 |改后生效方式| 重启服务生效                                 |
 
+
+### SSL 配置
+
 * enable\_thrift\_ssl
 
 |名字|                                               |
@@ -169,8 +172,6 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |类型| Boolean                                       |
 |默认值| false                                         |
 |改后生效方式| 重启服务生效                                        |
-
-### SSL 配置
 
 * key\_store\_path
 
