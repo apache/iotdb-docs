@@ -40,31 +40,31 @@ The environment configuration file is mainly used to configure the Java environm
 
 The details of each parameter are as follows:
 
-* MAX\_HEAP\_SIZE
+* MEMORY\_SIZE
 
-|Name|MAX\_HEAP\_SIZE|
+|Name|MEMORY\_SIZE|
 |:---:|:---|
-|Description|The maximum heap memory size that IoTDB can use |
+|Description|The minimum heap memory size that IoTDB DataNode will use when startup |
 |Type|String|
-|Default| On Linux or MacOS, the default is one quarter of the memory. On Windows, the default value for 32-bit systems is 512M, and the default for 64-bit systems is 2G.|
+|Default| The default is a half of the memory.|
 |Effective|After restarting system|
 
-* HEAP\_NEWSIZE
+* ON\_HEAP\_MEMORY
 
-|Name|HEAP\_NEWSIZE|
+|Name|ON\_HEAP\_MEMORY|
 |:---:|:---|
-|Description|The minimum heap memory size that IoTDB will use when startup |
+|Description|The heap memory size that IoTDB DataNode can use, Former Name: MAX\_HEAP\_SIZE |
 |Type|String|
-|Default| On Linux or MacOS, the default is min{cores * 100M, one quarter of MAX\_HEAP\_SIZE}. On Windows, the default value for 32-bit systems is 512M, and the default for 64-bit systems is 2G.|
+|Default|  Calculate based on MEMORY\_SIZE.|
 |Effective|After restarting system|
 
-* MAX\_DIRECT\_MEMORY\_SIZE
+* OFF\_HEAP\_MEMORY
 
-|Name|MAX\_DIRECT\_MEMORY\_SIZE|
+|Name|OFF\_HEAP\_MEMORY|
 |:---:|:---|
-|Description|The max direct memory that IoTDB could use|
+|Description|The direct memory that IoTDB DataNode can use, Former Name: MAX\_DIRECT\_MEMORY\_SIZE|
 |Type|String|
-|Default| Equal to the MAX\_HEAP\_SIZE|
+|Default|  Calculate based on MEMORY\_SIZE.|
 |Effective|After restarting system|
 
 * JMX\_LOCAL

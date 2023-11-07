@@ -47,7 +47,7 @@ IP地址和服务角色分配如下：
 
 **说明：**
 - 可以使用`IP地址`或者`机器名/域名`来安装配置 IoTDB 集群，本文以IP地址为例。如果使用`机器名/域名`，则需要配置`/etc/hosts`。
-- JVM堆内存配置: `confignode-env.sh` 和 `datanode-env.sh` 内配置`MAX_HEAP_SIZE`, 建议设置值大于等于1G。ConfigNode 1~2G就足够了，DataNode的内存配置则要取决于数据接入的数据量和查询数据量。
+- JVM堆内存配置: `confignode-env.sh` 和 `datanode-env.sh` 内配置`ON_HEAP_MEMORY`, 建议设置值大于等于1G。ConfigNode 1~2G就足够了，DataNode的内存配置则要取决于数据接入的数据量和查询数据量。
 
 ### 1.1 下载安装包
 在每个节点，将安装包[下载](https://iotdb.apache.org/Download/)后，解压到安装目录，这里为`/data/iotdb`。
