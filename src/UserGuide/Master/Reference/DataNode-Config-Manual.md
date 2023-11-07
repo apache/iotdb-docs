@@ -180,12 +180,12 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 
 * enable\_thrift\_ssl
 
-|Name| enable\_thrift\_ssl      |
-|:---:|:-------------------------|
-|Description| dn\_rpc\_port enable SSL |
-|Type| Boolean                  |
-|Default| false                    |
-|Effective| After restarting system  |
+|Name| enable\_thrift\_ssl        |
+|:---:|:---------------------------|
+|Description|When enable\_thrift\_ssl is configured as true, SSL encryption will be used for communication through dn\_rpc\_port |
+|Type| Boolean                    |
+|Default| false                      |
+|Effective| After restarting system    |
 
 ### SSL Configuration
 
