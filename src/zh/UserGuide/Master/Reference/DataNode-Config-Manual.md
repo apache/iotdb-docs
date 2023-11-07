@@ -51,7 +51,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 
 |名字|ON\_HEAP\_MEMORY|
 |:---:|:---|
-|描述|IoTDB DataNode 能使用的堆内内存大小 |
+|描述|IoTDB DataNode 能使用的堆内内存大小, 曾用名: MAX\_HEAP\_SIZE |
 |类型|String|
 |默认值|取决于MEMORY\_SIZE的配置。|
 |改后生效方式|重启服务生效|
@@ -60,7 +60,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 
 |名字|OFF\_HEAP\_MEMORY|
 |:---:|:---|
-|描述|IoTDB DataNode 能使用的堆外内存大小 |
+|描述|IoTDB DataNode 能使用的堆外内存大小, 曾用名: MAX\_DIRECT\_MEMORY\_SIZE |
 |类型|String|
 |默认值|取决于MEMORY\_SIZE的配置|
 |改后生效方式|重启服务生效|

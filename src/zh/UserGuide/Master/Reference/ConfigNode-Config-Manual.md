@@ -44,7 +44,7 @@ IoTDB ConfigNode 配置文件均位于 IoTDB 安装目录：`conf`文件夹下�
 
 |名字|ON\_HEAP\_MEMORY|
 |:---:|:---|
-|描述|IoTDB ConfigNode 能使用的堆内内存大小 |
+|描述|IoTDB ConfigNode 能使用的堆内内存大小, 曾用名: MAX\_HEAP\_SIZE |
 |类型|String|
 |默认值|取决于MEMORY\_SIZE的配置。|
 |改后生效方式|重启服务生效|
@@ -53,7 +53,7 @@ IoTDB ConfigNode 配置文件均位于 IoTDB 安装目录：`conf`文件夹下�
 
 |名字|OFF\_HEAP\_MEMORY|
 |:---:|:---|
-|描述|IoTDB ConfigNode 能使用的堆外内存大小 |
+|描述|IoTDB ConfigNode 能使用的堆外内存大小, 曾用名: MAX\_DIRECT\_MEMORY\_SIZE |
 |类型|String|
 |默认值|取决于MEMORY\_SIZE的配置。|
 |改后生效方式|重启服务生效|

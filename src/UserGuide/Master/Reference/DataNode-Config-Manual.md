@@ -53,7 +53,7 @@ The details of each parameter are as follows:
 
 |Name|ON\_HEAP\_MEMORY|
 |:---:|:---|
-|Description|The heap memory size that IoTDB DataNode can use |
+|Description|The heap memory size that IoTDB DataNode can use, Former Name: MAX\_HEAP\_SIZE |
 |Type|String|
 |Default|  Calculate based on MEMORY\_SIZE.|
 |Effective|After restarting system|
@@ -62,7 +62,7 @@ The details of each parameter are as follows:
 
 |Name|OFF\_HEAP\_MEMORY|
 |:---:|:---|
-|Description|The direct memory that IoTDB DataNode can use|
+|Description|The direct memory that IoTDB DataNode can use, Former Name: MAX\_DIRECT\_MEMORY\_SIZE|
 |Type|String|
 |Default|  Calculate based on MEMORY\_SIZE.|
 |Effective|After restarting system|
