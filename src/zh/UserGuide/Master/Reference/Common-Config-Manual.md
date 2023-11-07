@@ -149,11 +149,11 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |  默认值   | 2                                                                                                                                               |
 | 改后生效方式 | 重启服务生效                                                                                                                                          |
 
-* data\_region\_per\_processor
+* data\_region\_per\_data\_node
 
-|   名字   | data\_region\_per\_processor |
+|   名字   | data\_region\_per\_data\_node |
 |:------:|:-----------------------------|
-|   描述   | 期望每个处理器可管理的 DataRegion 的最大数量 |
+|   描述   | 期望每个 DataNode 可管理的 DataRegion 的最大数量 |
 |   类型   | double                       |
 |  默认值   | 1.0                          |
 | 改后生效方式 | 重启服务生效                       |

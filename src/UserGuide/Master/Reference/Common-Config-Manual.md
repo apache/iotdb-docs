@@ -147,11 +147,11 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | 1                                                                                                                                                                                                                               |
 |  Effective  | After restarting system                                                                                                                                                                                                         |
 
-* data\_region\_per\_processor
+* data\_region\_per\_data\_node
 
-|    Name     | data\_region\_per\_processor                                              |
+|    Name     | data\_region\_per\_data\_node                                             |
 |:-----------:|:--------------------------------------------------------------------------|
-| Description | The maximum number of DataRegion expected to be managed by each processor |
+| Description | The maximum number of DataRegion expected to be managed by each DataNode  |
 |    Type     | double                                                                    |
 |   Default   | 1.0                                                                       |
 |  Effective  | After restarting system                                                   |
