@@ -51,24 +51,21 @@ DBeaver is a SQL client software application and a database administration tool.
 
    ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/02.png)
 
-5. Download [Sources](https://iotdb.apache.org/Download/)，unzip it and compile jdbc driver by the following command
-
-   ```shell
-   mvn clean package -pl iotdb-client/jdbc -am -DskipTests -P get-jar-with-dependencies
-   ```
-6. Find and add a lib named `apache-iotdb-jdbc-{version}-jar-with-dependencies.jar`, which should be under `jdbc/target/`, then select `Find Class`.
+5. Download `iotdb-jdbc` ， from [source1](https://maven.proxy.ustclug.org/maven2/org/apache/iotdb/iotdb-jdbc/1.2.1/iotdb-jdbc-1.2.1-jar-with-dependencies.jar) or [source2](https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/1.2.1/iotdb-jdbc-1.2.1-jar-with-dependencies.jar).
+  
+6. Add the downloaded jar file， then select `Find Class`.
 
    ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/03.png)
 
-8. Edit the driver Settings
+7. Edit the driver Settings
 
    ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/05.png)
 
-9. Open New DataBase Connection and select iotdb
+8. Open New DataBase Connection and select iotdb
 
    ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/06.png) 
 
-10. Edit JDBC Connection Settings
+9.  Edit JDBC Connection Settings
 
    ```
    JDBC URL: jdbc:iotdb://127.0.0.1:6667/
@@ -77,10 +74,10 @@ DBeaver is a SQL client software application and a database administration tool.
    ```
    ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/07.png)
 
-11. Test Connection
+10. Test Connection
 
    ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/08.png)
 
-12. Enjoy IoTDB with DBeaver
+11. Enjoy IoTDB with DBeaver
 
    ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/09.png)

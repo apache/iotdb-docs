@@ -85,7 +85,7 @@ The following are the constraints on the `nodeName`:
   * [ 0-9 a-z A-Z _ ] （letters, numbers, underscore)
   * ['\u2E80'..'\u9FFF'] （Chinese characters）
 * In particular, if the system is deployed on a Windows machine, the database layer name will be case-insensitive. For example, creating both `root.ln` and `root.LN` at the same time is not allowed.
-* If you want to use special characters in `nodeName`, you can quote it with back quote, detailed information can be found from charpter Syntax-Conventions,click here: [Syntax-Conventions](https://iotdb.apache.org/UserGuide/Master/Syntax-Conventions/Literal-Values.html).
+* If you want to use special characters in `nodeName`, you can quote it with back quote, detailed information can be found from charpter Syntax-Conventions,click here: [Syntax-Conventions](../User-Manual/Syntax-Rule.md).
 
 ### Path Pattern
 
@@ -140,6 +140,6 @@ In the following chapters of data definition language, data operation language a
 
 ## Schema Template
 
-In the actual scenario, many entities collect the same measurements, that is, they have the same measurements name and type. A **schema template** can be declared to define the collectable measurements set. Schema template helps save memory by implementing schema sharing. For detailed description, please refer to [Schema Template doc](./Schema-Template.md).
+In the actual scenario, many entities collect the same measurements, that is, they have the same measurements name and type. A **schema template** can be declared to define the collectable measurements set. Schema template helps save memory by implementing schema sharing. For detailed description, please refer to [Schema Template doc](../User-Manual/Operate-Metadata.md#OperateMetadata).
 
 In the following chapters of, data definition language, data operation language and Java Native Interface, various operations related to schema template will be introduced one by one.
