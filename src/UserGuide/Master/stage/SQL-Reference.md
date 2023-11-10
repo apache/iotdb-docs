@@ -1152,7 +1152,7 @@ E.g. KILL QUERY
 E.g. KILL QUERY 2
 ```
 
-## SET STSTEM TO READONLY / WRITABLE
+## SET SYSTEM TO READONLY / WRITABLE
 
 Set IoTDB system to read-only or writable mode.
 

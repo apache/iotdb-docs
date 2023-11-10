@@ -1651,18 +1651,54 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |  默认值   | 4MB                                        |
 | 改后生效方式 | 重启生效                                       |
 
-* data_region_ratis_grpc_leader_outstanding_appends_max
+* config\_node\_ratis\_grpc\_leader\_outstanding\_appends\_max
 
-|     名字     | data_region_ratis_grpc_leader_outstanding_appends_max |
+|     名字     | config\_node\_ratis\_grpc\_leader\_outstanding\_appends\_max |
+| :----------: | :----------------------------------------------------- |
+|     描述     | config node grpc 流水线并发阈值                        |
+|     类型     | int32                                                  |
+|    默认值    | 128                                                    |
+| 改后生效方式 | 重启生效                                               |
+
+* schema\_region\_ratis\_grpc\_leader\_outstanding\_appends\_max
+
+|     名字     | schema\_region\_ratis\_grpc\_leader\_outstanding\_appends\_max |
+| :----------: | :------------------------------------------------------ |
+|     描述     | schema region grpc 流水线并发阈值                       |
+|     类型     | int32                                                   |
+|    默认值    | 128                                                     |
+| 改后生效方式 | 重启生效                                                |
+
+* data\_region\_ratis\_grpc\_leader\_outstanding\_appends\_max
+
+|     名字     | data\_region\_ratis\_grpc\_leader\_outstanding\_appends\_max |
 | :----------: | :---------------------------------------------------- |
 |     描述     | data region grpc 流水线并发阈值                       |
 |     类型     | int32                                                 |
 |    默认值    | 128                                                   |
 | 改后生效方式 | 重启生效                                              |
 
-* data_region_ratis_log_force_sync_num
+* config\_node\_ratis\_log\_force\_sync\_num
 
-|     名字     | data_region_ratis_log_force_sync_num |
+|     名字     | config\_node\_ratis\_log\_force\_sync\_num |
+| :----------: | :------------------------------------ |
+|     描述     | config node fsync 阈值                |
+|     类型     | int32                                 |
+|    默认值    | 128                                   |
+| 改后生效方式 | 重启生效                              |
+
+* schema\_region\_ratis\_log\_force\_sync\_num
+
+|     名字     | schema\_region\_ratis\_log\_force\_sync\_num |
+| :----------: | :------------------------------------- |
+|     描述     | schema region fsync 阈值               |
+|     类型     | int32                                  |
+|    默认值    | 128                                    |
+| 改后生效方式 | 重启生效                               |
+
+* data\_region\_ratis\_log\_force\_sync\_num
+
+|     名字     | data\_region\_ratis\_log\_force\_sync\_num |
 | :----------: | :----------------------------------- |
 |     描述     | data region fsync 阈值               |
 |     类型     | int32                                |

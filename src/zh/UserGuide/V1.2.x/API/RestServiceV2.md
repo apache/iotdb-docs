@@ -867,13 +867,13 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 
 参数说明:
 
-| 参数名称           |参数类型  |是否必填|参数描述|
-|----------------| ------------ | ------------ |------------ |
-| timestamps     | array | 是 |  时间列  |
-| measurements   | array | 是  | 测点名称 |
-| data_types_list | array | 是  | 数据类型  |
-| values_list    | array | 是  | 值列，每一列中的值可以为 `null` |
-| devices        | string | 是  | 设备名称 |
+| 参数名称              |参数类型  |是否必填|参数描述|
+|-------------------| ------------ | ------------ |------------ |
+| timestamps        | array | 是 |  时间列  |
+| measurements_list | array | 是  | 测点名称 |
+| data_types_list   | array | 是  | 数据类型  |
+| values_list       | array | 是  | 值列，每一列中的值可以为 `null` |
+| devices           | string | 是  | 设备名称 |
 
 请求示例：
 ```shell
