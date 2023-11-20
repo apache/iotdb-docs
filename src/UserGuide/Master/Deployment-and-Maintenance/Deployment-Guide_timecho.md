@@ -102,54 +102,54 @@ This tool is a supporting tool for IoTDB Enterprise Edition. You can contact you
 
 Note: Since the binary package only supports GLIBC2.17 and above, the minimum version is Centos7.
 
-* After entering the following commands in the iotd directory:
+* After entering the following commands in the iotdb-opskit directory:
 
 ```bash
-bash install-iotd.sh
+bash install-iotdbctl.sh
 ```
 
-The iotd keyword can be activated in the subsequent shell, such as checking the environment instructions required before deployment as follows:
+The iotdbctl keyword can be activated in the subsequent shell, such as checking the environment instructions required before deployment as follows:
 
 ```bash
-iotd cluster check example
+iotdbctl cluster check example
 ```
 
-* You can also directly use &lt;iotd absolute path&gt;/sbin/iotd without activating iotd to execute commands, such as checking the environment required before deployment:
+* You can also directly use &lt;iotdbctl absolute path&gt;/sbin/iotdbctl without activating iotdbctl to execute commands, such as checking the environment required before deployment:
 
 ```bash
-<iotd absolute path>/sbin/iotd cluster check example
+<iotdbctl absolute path>/sbin/iotdbctl cluster check example
 ```
 
 ### Introduction to cluster configuration files
 
-* There is a cluster configuration yaml file in the `iotd/config` directory. The yaml file name is the cluster name. There can be multiple yaml files. In order to facilitate users to configure yaml files, a `default_cluster.yaml` example is provided under the iotd/config directory.
+* There is a cluster configuration yaml file in the `iotdbctl/config` directory. The yaml file name is the cluster name. There can be multiple yaml files. In order to facilitate users to configure yaml files, a `default_cluster.yaml` example is provided under the iotdbctl/config directory.
 * The yaml file configuration consists of five major parts: `global`, `confignode_servers`, `datanode_servers`, `grafana_server`, and `prometheus_server`
-* `global` is a general configuration that mainly configures machine username and password, IoTDB local installation files, Jdk configuration, etc. A `default_cluster.yaml` sample data is provided in the `iotd/config` directory,
+* `global` is a general configuration that mainly configures machine username and password, IoTDB local installation files, Jdk configuration, etc. A `default_cluster.yaml` sample data is provided in the `iotdbctl/config` directory,
   Users can copy and modify it to their own cluster name and refer to the instructions inside to configure the IoTDB cluster. In the `default_cluster.yaml` sample, all uncommented items are required, and those that have been commented are non-required.
 
-例如要执行`default_cluster.yaml`检查命令则需要执行命令`iotd cluster check default_cluster`即可，
+例如要执行`default_cluster.yaml`检查命令则需要执行命令`iotdbctl cluster check default_cluster`即可，
 更多详细命令请参考下面命令列表。
 
 
-| parameter name                           | parameter describe                                                                                                                                                                                                                                                                                                                                                          | required |
-|----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| iotdb_zip_dir              | IoTDB deployment distribution directory, if the value is empty, it will be downloaded from the address specified by `iotdb_download_url`                                                                                                                                                                                                                                    | NO       |
-| iotdb_download_url         | IoTDB download address, if `iotdb_zip_dir` has no value, download from the specified address                                                                                                                                                                                                                                                                                | NO       |
-| jdk_tar_dir                | jdk local directory, you can use this jdk path to upload and deploy to the target node.                                                                                                                                                                                                                                                                                     | NO       |
-| jdk_deploy_dir             | jdk remote machine deployment directory, jdk will be deployed to this directory, and the following `jdk_dir_name` parameter forms a complete jdk deployment directory, that is, `<jdk_deploy_dir>/<jdk_dir_name>`                                                                                                                                                           | NO       |
-| jdk_dir_name               | The directory name after jdk decompression defaults to jdk_iotdb                                                                                                                                                                                                                                                                                                            | NO       |
-| iotdb_lib_dir              | The IoTDB lib directory or the IoTDB lib compressed package only supports .zip format and is only used for IoTDB upgrade. It is in the comment state by default. If you need to upgrade, please open the comment and modify the path. If you use a zip file, please use the zip command to compress the iotdb/lib directory, such as zip -r lib.zip apache-iotdb-1.2.0/lib/* d | NO       |
-| user                       | User name for ssh login deployment machine                                                                                                                                                                                                                                                                                                                                  | YES      |
-| password                   | The password for ssh login. If the password does not specify the use of pkey to log in, please ensure that the ssh login between nodes has been configured without a key.                                                                                                                                                                                                   | NO      |
-| pkey                       | Key login: If password has a value, password is used first, otherwise pkey is used to log in.                                                                                                                                                                                                                                                                               | NO      |
-| ssh_port                   | ssh port                                                                                                                                                                                                                                                                                                                                                                    | YES       |
-| deploy_dir                 | IoTDB deployment directory, IoTDB will be deployed to this directory and the following `iotdb_dir_name` parameter will form a complete IoTDB deployment directory, that is, `<deploy_dir>/<iotdb_dir_name>`                                                                                                                                                                 | YES       |
-| iotdb_dir_name             | The directory name after decompression of IoTDB is iotdb by default.                                                                                                                                                                                                                                                                                                        | NO      |
-| datanode-env.sh            | Corresponding to `iotdb/config/datanode-env.sh`, when `global` and `confignode_servers` are configured at the same time, the value in `confignode_servers` is used first                                                                                                                                                                                                    | NO      |
-| confignode-env.sh          | Corresponding to `iotdb/config/confignode-env.sh`, the value in `datanode_servers` is used first when `global` and `datanode_servers` are configured at the same time                                                                                                                                                                                                       | NO      |
-| iotdb-common.properties    | Corresponds to `<iotdb path>/config/iotdb-common.properties`                                                                                                                                                                                                                                                                                                                | NO      |
-| cn_target_config_node_list | The cluster configuration address points to the surviving ConfigNode, and it points to confignode_x by default. When `global` and `confignode_servers` are configured at the same time, the value in `confignode_servers` is used first, corresponding to `cn_target_config_node_list` in `iotdb/config/iotdb-confignode.properties`                                        | YES       |
-| dn_target_config_node_list | The cluster configuration address points to the surviving ConfigNode, and points to confignode_x by default. When configuring values for `global` and `datanode_servers` at the same time, the value in `datanode_servers` is used first, corresponding to `dn_target_config_node_list` in `iotdb/config/iotdb-datanode.properties`                                         | YES       |
+| parameter name          | parameter describe                                                                                                                                                                                                                                                                                                                                                             | required |
+|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| iotdb\_zip\_dir         | IoTDB deployment distribution directory, if the value is empty, it will be downloaded from the address specified by `iotdb_download_url`                                                                                                                                                                                                                                       | NO       |
+| iotdb\_download\_url    | IoTDB download address, if `iotdb_zip_dir` has no value, download from the specified address                                                                                                                                                                                                                                                                                   | NO       |
+| jdk\_tar\_dir           | jdk local directory, you can use this jdk path to upload and deploy to the target node.                                                                                                                                                                                                                                                                                        | NO       |
+| jdk\_deploy\_dir        | jdk remote machine deployment directory, jdk will be deployed to this directory, and the following `jdk_dir_name` parameter forms a complete jdk deployment directory, that is, `<jdk_deploy_dir>/<jdk_dir_name>`                                                                                                                                                              | NO       |
+| jdk\_dir\_name          | The directory name after jdk decompression defaults to jdk_iotdb                                                                                                                                                                                                                                                                                                               | NO       |
+| iotdb\_lib\_dir         | The IoTDB lib directory or the IoTDB lib compressed package only supports .zip format and is only used for IoTDB upgrade. It is in the comment state by default. If you need to upgrade, please open the comment and modify the path. If you use a zip file, please use the zip command to compress the iotdb/lib directory, such as zip -r lib.zip apache-iotdb-1.2.0/lib/* d | NO       |
+| user                    | User name for ssh login deployment machine                                                                                                                                                                                                                                                                                                                                     | YES      |
+| password                | The password for ssh login. If the password does not specify the use of pkey to log in, please ensure that the ssh login between nodes has been configured without a key.                                                                                                                                                                                                      | NO      |
+| pkey                    | Key login: If password has a value, password is used first, otherwise pkey is used to log in.                                                                                                                                                                                                                                                                                  | NO      |
+| ssh\_port               | ssh port                                                                                                                                                                                                                                                                                                                                                                       | YES       |
+| deploy\_dir             | IoTDB deployment directory, IoTDB will be deployed to this directory and the following `iotdb_dir_name` parameter will form a complete IoTDB deployment directory, that is, `<deploy_dir>/<iotdb_dir_name>`                                                                                                                                                                    | YES       |
+| iotdb\_dir\_name        | The directory name after decompression of IoTDB is iotdb by default.                                                                                                                                                                                                                                                                                                           | NO      |
+| datanode-env.sh         | Corresponding to `iotdb/config/datanode-env.sh`, when `global` and `confignode_servers` are configured at the same time, the value in `confignode_servers` is used first                                                                                                                                                                                                       | NO      |
+| confignode-env.sh       | Corresponding to `iotdb/config/confignode-env.sh`, the value in `datanode_servers` is used first when `global` and `datanode_servers` are configured at the same time                                                                                                                                                                                                          | NO      |
+| iotdb-common.properties | Corresponds to `<iotdb path>/config/iotdb-common.properties`                                                                                                                                                                                                                                                                                                                   | NO      |
+| cn\_internal\_address   | The cluster configuration address points to the surviving ConfigNode, and it points to confignode_x by default. When `global` and `confignode_servers` are configured at the same time, the value in `confignode_servers` is used first, corresponding to `cn_internal_address` in `iotdb/config/iotdb-confignode.properties`                                                  | YES       |
+| dn\_internal\_address   | The cluster configuration address points to the surviving ConfigNode, and points to confignode_x by default. When configuring values for `global` and `datanode_servers` at the same time, the value in `datanode_servers` is used first, corresponding to `dn_internal_address` in `iotdb/config/iotdb-datanode.properties`                                                   | YES       |
 
 Among them, datanode-env.sh and confignode-env.sh can be configured with extra parameters extra_opts. When this parameter is configured, corresponding values will be appended after datanode-env.sh and confignode-env.sh. Refer to default_cluster.yaml for configuration examples as follows:
 datanode-env.sh:   
@@ -160,54 +160,54 @@ IOTDB_JMX_OPTS="$IOTDB_JMX_OPTS -XX:MaxGCPauseMillis=200"
 * `confignode_servers` is the configuration for deploying IoTDB Confignodes, in which multiple Confignodes can be configured
   By default, the first started ConfigNode node node1 is regarded as the Seed-ConfigNode
 
-|parameter name                           | parameter describe                                                                                                                                                                | required |
-|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| name                      | Confignode name                                                                                                                                                                   | YES      |
-| deploy_dir                | IoTDB config node deployment directory                                                                                                                                                            | YES｜     |
+| parameter name              | parameter describe                                                                                                                                                                | required |
+|-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| name                        | Confignode name                                                                                                                                                                   | YES      |
+| deploy\_dir                 | IoTDB config node deployment directory                                                                                                                                                            | YES｜     |
 | iotdb-confignode.properties | Corresponding to `iotdb/config/iotdb-confignode.properties`, please refer to the `iotdb-confignode.properties` file description for more details.                                                                                             | NO       |
-| cn_internal_address       | Corresponds to iotdb/internal communication address, corresponding to `cn_internal_address` in `iotdb/config/iotdb-confignode.properties`                                                                                              | YES      |
-| cn_target_config_node_list | The cluster configuration address points to the surviving ConfigNode, and it points to confignode_x by default. When `global` and `confignode_servers` are configured at the same time, the value in `confignode_servers` is used first, corresponding to `cn_target_config_node_list` in `iotdb/config/iotdb-confignode.properties` | YES      |
-| cn_internal_port          | Internal communication port, corresponding to `cn_internal_port` in `iotdb/config/iotdb-confignode.properties`                                                                                                          | YES      |
-| cn_consensus_port         | Corresponds to `cn_consensus_port` in `iotdb/config/iotdb-confignode.properties`                                                                                                               | NO      |
-| cn_data_dir               | Corresponds to `cn_consensus_port` in `iotdb/config/iotdb-confignode.properties` Corresponds to `cn_data_dir` in `iotdb/config/iotdb-confignode.properties`                                                                                                                       | YES      |
-| iotdb-common.properties   | Corresponding to `iotdb/config/iotdb-common.properties`, when configuring values in `global` and `confignode_servers` at the same time, the value in confignode_servers will be used first.                                                                              | NO      |
+| cn\_internal\_address       | Corresponds to iotdb/internal communication address, corresponding to `cn_internal_address` in `iotdb/config/iotdb-confignode.properties`                                                                                              | YES      |
+| cn_\internal\_address       | The cluster configuration address points to the surviving ConfigNode, and it points to confignode_x by default. When `global` and `confignode_servers` are configured at the same time, the value in `confignode_servers` is used first, corresponding to `cn_internal_address` in `iotdb/config/iotdb-confignode.properties` | YES      |
+| cn\_internal\_port          | Internal communication port, corresponding to `cn_internal_port` in `iotdb/config/iotdb-confignode.properties`                                                                                                          | YES      |
+| cn\_consensus\_port         | Corresponds to `cn_consensus_port` in `iotdb/config/iotdb-confignode.properties`                                                                                                               | NO      |
+| cn\_data\_dir               | Corresponds to `cn_consensus_port` in `iotdb/config/iotdb-confignode.properties` Corresponds to `cn_data_dir` in `iotdb/config/iotdb-confignode.properties`                                                                                                                       | YES      |
+| iotdb-common.properties     | Corresponding to `iotdb/config/iotdb-common.properties`, when configuring values in `global` and `confignode_servers` at the same time, the value in confignode_servers will be used first.                                                                              | NO      |
 
 * datanode_servers 是部署IoTDB Datanodes配置，里面可以配置多个Datanode
 
-|parameter name                           | parameter describe                                                                                                                                                                                                                                                                                                                   | required |
-| ---|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-|name| Datanode name                                                                                                                                                                                                                                                                                                                        | YES      |
-|deploy_dir| IoTDB data node deployment directory                                                                                                                                                                                                                                                                                                 | YES      |
-|iotdb-datanode.properties| Corresponding to `iotdb/config/iotdb-datanode.properties`, please refer to the `iotdb-datanode.properties` file description for more details.                                                                                                                                                                                        | NO       |
-|dn_rpc_address| The datanode rpc address corresponds to `dn_rpc_address` in `iotdb/config/iotdb-datanode.properties`                                                                                                                                                                                                                                 | YES      |
-|dn_internal_address| Internal communication address, corresponding to `dn_internal_address` in `iotdb/config/iotdb-datanode.properties`                                                                                                                                                                                                                   | YES      |
-|dn_target_config_node_list| The cluster configuration address points to the surviving ConfigNode, and points to confignode_x by default. When configuring values for `global` and `datanode_servers` at the same time, the value in `datanode_servers` is used first, corresponding to `dn_target_config_node_list` in `iotdb/config/iotdb-datanode.properties`. | YES      |
-|dn_rpc_port| Datanode rpc port address, corresponding to `dn_rpc_port` in `iotdb/config/iotdb-datanode.properties`                                                                                                                                                                                                                                | YES      |
-|dn_internal_port| Internal communication port, corresponding to `dn_internal_port` in `iotdb/config/iotdb-datanode.properties`                                                                                                                                                                                                                         | YES      |
-|iotdb-common.properties| Corresponding to `iotdb/config/iotdb-common.properties`, when configuring values in `global` and `datanode_servers` at the same time, the value in `datanode_servers` will be used first.                                                                                                                                                                                                                                   | NO      |
+| parameter name            | parameter describe                                                                                                                                                                                                                                                                                                            | required |
+|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
+| name                      | Datanode name                                                                                                                                                                                                                                                                                                                 | YES      |
+| deploy\_dir               | IoTDB data node deployment directory                                                                                                                                                                                                                                                                                          | YES      |
+| iotdb-datanode.properties | Corresponding to `iotdb/config/iotdb-datanode.properties`, please refer to the `iotdb-datanode.properties` file description for more details.                                                                                                                                                                                 | NO       |
+| dn\_rpc\_address          | The datanode rpc address corresponds to `dn_rpc_address` in `iotdb/config/iotdb-datanode.properties`                                                                                                                                                                                                                          | YES      |
+| dn\_internal\_address     | Internal communication address, corresponding to `dn_internal_address` in `iotdb/config/iotdb-datanode.properties`                                                                                                                                                                                                            | YES      |
+| dn\_seed\_config\_node    | The cluster configuration address points to the surviving ConfigNode, and points to confignode_x by default. When configuring values for `global` and `datanode_servers` at the same time, the value in `datanode_servers` is used first, corresponding to `dn_seed_config_node` in `iotdb/config/iotdb-datanode.properties`. | YES      |
+| dn\_rpc\_port             | Datanode rpc port address, corresponding to `dn_rpc_port` in `iotdb/config/iotdb-datanode.properties`                                                                                                                                                                                                                         | YES      |
+| dn\_internal\_port        | Internal communication port, corresponding to `dn_internal_port` in `iotdb/config/iotdb-datanode.properties`                                                                                                                                                                                                                  | YES      |
+| iotdb-common.properties   | Corresponding to `iotdb/config/iotdb-common.properties`, when configuring values in `global` and `datanode_servers` at the same time, the value in `datanode_servers` will be used first.                                                                                                                                     | NO      |
 
 * grafana_server is the configuration related to deploying Grafana
 
-|parameter name                           | parameter describe                                          | required  |
-|------------------|-------------------------------------------------------------|-----------|
-| grafana_dir_name | Grafana decompression directory name(default grafana_iotdb) | NO        |
-| host             | Server ip deployed by grafana                               | YES       |
-| grafana_port     | The port of grafana deployment machine, default 3000                                      | NO        |
-| deploy_dir       | grafana deployment server directory                                            | YES       |
-| grafana_tar_dir  | Grafana compressed package location                                               | YES       |
-| dashboards       | dashboards directory                                            | NO |
+| parameter name     | parameter describe                                          | required  |
+|--------------------|-------------------------------------------------------------|-----------|
+| grafana\_dir\_name | Grafana decompression directory name(default grafana_iotdb) | NO        |
+| host               | Server ip deployed by grafana                               | YES       |
+| grafana\_port      | The port of grafana deployment machine, default 3000                                      | NO        |
+| deploy\_dir        | grafana deployment server directory                                            | YES       |
+| grafana\_tar\_dir  | Grafana compressed package location                                               | YES       |
+| dashboards         | dashboards directory                                            | NO |
 
 * prometheus_server 是部署Prometheus 相关配置
 
-|parameter name                           | parameter describe                                 | required |
-|---------------------|----------------------------------------------------|----------|
-| prometheus_dir_name | prometheus decompression directory name, default prometheus_iotdb               | NO       |
-| host                | Server IP deployed by prometheus                                | YES      |
-| prometheus_port     | The port of prometheus deployment machine, default 9090                          | NO       |
-| deploy_dir          | prometheus deployment server directory                                 | YES      |
-| prometheus_tar_dir  | prometheus compressed package path                                   | YES      |
-| storage_tsdb_retention_time  | The number of days to save data is 15 days by default                                     | NO       |
-| storage_tsdb_retention_size  | The data size that can be saved by the specified block defaults to 512M. Please note the units are KB, MB, GB, TB, PB, and EB. | NO       |
+| parameter name                 | parameter describe                                 | required |
+|--------------------------------|----------------------------------------------------|----------|
+| prometheus\_dir\_name          | prometheus decompression directory name, default prometheus_iotdb               | NO       |
+| host                           | Server IP deployed by prometheus                                | YES      |
+| prometheus\_port               | The port of prometheus deployment machine, default 9090                          | NO       |
+| deploy\_dir                    | prometheus deployment server directory                                 | YES      |
+| prometheus\_tar\_dir           | prometheus compressed package path                                   | YES      |
+| storage\_tsdb\_retention\_time | The number of days to save data is 15 days by default                                     | NO       |
+| storage\_tsdb\_retention\_size | The data size that can be saved by the specified block defaults to 512M. Please note the units are KB, MB, GB, TB, PB, and EB. | NO       |
 
 If metrics are configured in `iotdb-datanode.properties` and `iotdb-confignode.properties` of config/xxx.yaml, the configuration will be automatically put into promethues without manual modification.
 
@@ -222,8 +222,8 @@ Note: How to configure the value corresponding to the yaml key to contain specia
 * First execute the stop cluster command, and then execute the cluster cleanup command.
 
 ```bash
-iotd cluster stop default_cluster
-iotd cluster clean default_cluster
+iotdbctl cluster stop default_cluster
+iotdbctl cluster clean default_cluster
 ```
 
 #### Cluster destruction
@@ -235,8 +235,8 @@ iotd cluster clean default_cluster
 
 
 ```bash
-iotd cluster stop default_cluster
-iotd cluster destroy default_cluster
+iotdbctl cluster stop default_cluster
+iotdbctl cluster destroy default_cluster
 ```
 
 #### Cluster upgrade
@@ -246,8 +246,8 @@ iotd cluster destroy default_cluster
 * Execute the upload command and then execute the restart IoTDB cluster command to complete the cluster upgrade.
 
 ```bash
-iotd cluster upgrade default_cluster
-iotd cluster restart default_cluster
+iotdbctl cluster upgrade default_cluster
+iotdbctl cluster restart default_cluster
 ```
 
 #### hot deployment
@@ -256,8 +256,8 @@ iotd cluster restart default_cluster
 * Execute the distribution command, and then execute the hot deployment command to complete the hot deployment of the cluster configuration
 
 ```bash
-iotd cluster distribute default_cluster
-iotd cluster reload default_cluster
+iotdbctl cluster distribute default_cluster
+iotdbctl cluster reload default_cluster
 ```
 
 #### Cluster expansion
@@ -266,7 +266,7 @@ iotd cluster reload default_cluster
 * Execute the cluster expansion command
 
 ```bash
-iotd cluster scaleout default_cluster
+iotdbctl cluster scaleout default_cluster
 ```
 
 #### Cluster scaling
@@ -275,7 +275,7 @@ iotd cluster scaleout default_cluster
 * Execute cluster shrink command
 
 ```bash
-iotd cluster scalein default_cluster
+iotdbctl cluster scalein default_cluster
 ```
 
 #### Using cluster management tools to manipulate existing IoTDB clusters
@@ -285,14 +285,14 @@ iotd cluster scalein default_cluster
   For example, if the full path of IoTDB deployment is `/home/data/apache-iotdb-1.1.1`, you need to modify the yaml files `deploy_dir:/home/data/` and `iotdb_dir_name:apache-iotdb-1.1.1`
 * If the server is not using java_home, modify `jdk_deploy_dir` (jdk deployment directory) and `jdk_dir_name` (the directory name after jdk decompression, the default is jdk_iotdb). If java_home is used, there is no need to modify the configuration.
   For example, the full path of jdk deployment is `/home/data/jdk_1.8.2`, you need to modify the yaml files `jdk_deploy_dir:/home/data/`, `jdk_dir_name:jdk_1.8.2`
-* Configure `cn_target_config_node_list`, `dn_target_config_node_list`
+* Configure `cn_internal_address`, `dn_internal_address`
 * Configure `cn_internal_address`, `cn_internal_port`, `cn_consensus_port`, `cn_system_dir`, in `iotdb-confignode.properties` in `confignode_servers`
   If the values in `cn_consensus_dir` and `iotdb-common.properties` are not the default for IoTDB, they need to be configured, otherwise there is no need to configure them.
 * Configure `dn_rpc_address`, `dn_internal_address`, `dn_data_dirs`, `dn_consensus_dir`, `dn_system_dir` and `iotdb-common.properties` in `iotdb-datanode.properties` in `datanode_servers`
 * Execute initialization command
 
 ```bash
-iotd cluster init default_cluster
+iotdbctl cluster init default_cluster
 ```
 
 #### Deploy IoTDB, Grafana and Prometheus
@@ -303,7 +303,7 @@ iotd cluster init default_cluster
 * Start the cluster
 
 ```bash
-iotd cluster start default_cluster
+iotdbctl cluster start default_cluster
 ```
 
 For more detailed parameters, please refer to the cluster configuration file introduction above
@@ -312,18 +312,18 @@ For more detailed parameters, please refer to the cluster configuration file int
 
 The basic usage of this tool is:
 ```bash
-iotd cluster <key> <cluster name> [params (Optional)]
+iotdbctl cluster <key> <cluster name> [params (Optional)]
 ```
 * key indicates a specific command.
 
-* cluster name indicates the cluster name (that is, the name of the yaml file in the `iotd/config` file).
+* cluster name indicates the cluster name (that is, the name of the yaml file in the `iotdbctl/config` file).
 
 * params indicates the required parameters of the command (optional).
 
 * For example, the command format to deploy the default_cluster cluster is:
 
 ```bash
-iotd cluster deploy default_cluster
+iotdbctl cluster deploy default_cluster
 ```
 
 * The functions and parameters of the cluster are listed as follows:
@@ -348,7 +348,7 @@ iotd cluster deploy default_cluster
 | upgrade    | lib package upgrade                                                                                       | Cluster name                                                                                                                                                                                                                                     |
 | init       | When an existing cluster uses the cluster deployment tool, initialize the cluster configuration             | Cluster name                                                                                                                                                                                                                                     |
 | status     | View process status                                                                                        | Cluster name                                                                                                                                                                                                                                     |
-
+| activate     | Activate cluster                                                                                        | Cluster name                                                                                                                                                                                                                                     |
 ### Detailed command execution process
 
 The following commands are executed using default_cluster.yaml as an example, and users can modify them to their own cluster files to execute
@@ -356,7 +356,7 @@ The following commands are executed using default_cluster.yaml as an example, an
 #### Check cluster deployment environment commands
 
 ```bash
-iotd cluster check default_cluster
+iotdbctl cluster check default_cluster
 ```
 
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers` and `datanode_servers`
@@ -373,7 +373,7 @@ iotd cluster check default_cluster
 #### Deploy cluster command
 
 ```bash
-iotd cluster deploy default_cluster
+iotdbctl cluster deploy default_cluster
 ```
 
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers` and `datanode_servers`
@@ -383,7 +383,7 @@ iotd cluster deploy default_cluster
 * Generate and upload `iotdb-common.properties`, `iotdb-confignode.properties`, `iotdb-datanode.properties` according to the yaml file node configuration information
 
 ```bash
-iotd cluster deploy default_cluster -op force
+iotdbctl cluster deploy default_cluster -op force
 ```
 
 Note: This command will force the deployment, and the specific process will delete the existing deployment directory and redeploy
@@ -391,17 +391,17 @@ Note: This command will force the deployment, and the specific process will dele
 *deploy a single module*
 ```bash
 # Deploy grafana module
-iotd cluster deploy default_cluster -N grafana
+iotdbctl cluster deploy default_cluster -N grafana
 # Deploy the prometheus module
-iotd cluster deploy default_cluster -N prometheus
+iotdbctl cluster deploy default_cluster -N prometheus
 # Deploy the iotdb module
-iotd cluster deploy default_cluster -N iotdb
+iotdbctl cluster deploy default_cluster -N iotdb
 ```
 
 #### Start cluster command
 
 ```bash
-iotd cluster start default_cluster
+iotdbctl cluster start default_cluster
 ```
 
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers` and `datanode_servers`
@@ -417,13 +417,13 @@ iotd cluster start default_cluster
 Start a single node command*
 ```bash
 #Start according to the IoTDB node name
-iotd cluster start default_cluster -N datanode_1
+iotdbctl cluster start default_cluster -N datanode_1
 #Start according to IoTDB cluster ip+port, where port corresponds to cn_internal_port of confignode and rpc_port of datanode.
-iotd cluster start default_cluster -N 192.168.1.5:6667
+iotdbctl cluster start default_cluster -N 192.168.1.5:6667
 #Start grafana
-iotd cluster start default_cluster -N grafana
+iotdbctl cluster start default_cluster -N grafana
 #Start prometheus
-iotd cluster start default_cluster -N prometheus
+iotdbctl cluster start default_cluster -N prometheus
 ```
 
 * Find the yaml file in the default location based on cluster-name
@@ -434,15 +434,15 @@ iotd cluster start default_cluster -N prometheus
 * start the node
 
 Note: Since the cluster deployment tool only calls the start-confignode.sh and start-datanode.sh scripts in the IoTDB cluster,
-When the actual output result fails, it may be that the cluster has not started normally. It is recommended to use the status command to check the current cluster status (iotd cluster status xxx)
+When the actual output result fails, it may be that the cluster has not started normally. It is recommended to use the status command to check the current cluster status (iotdbctl cluster status xxx)
 
 
 #### View IoTDB cluster status command
 
 ```bash
-iotd cluster show default_cluster
+iotdbctl cluster show default_cluster
 #View IoTDB cluster details
-iotd cluster show default_cluster details
+iotdbctl cluster show default_cluster details
 ```
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers` and `datanode_servers`
 
@@ -452,7 +452,7 @@ iotd cluster show default_cluster details
 
 
 ```bash
-iotd cluster stop default_cluster
+iotdbctl cluster stop default_cluster
 ```
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers` and `datanode_servers`
 
@@ -463,7 +463,7 @@ iotd cluster stop default_cluster
 *force stop cluster command*
 
 ```bash
-iotd cluster stop default_cluster -op force
+iotdbctl cluster stop default_cluster -op force
 ```
 Will directly execute the kill -9 pid command to forcibly stop the cluster
 
@@ -471,13 +471,13 @@ Will directly execute the kill -9 pid command to forcibly stop the cluster
 
 ```bash
 #Stop by IoTDB node name
-iotd cluster stop default_cluster -N datanode_1
+iotdbctl cluster stop default_cluster -N datanode_1
 #Stop according to IoTDB cluster ip+port (ip+port is to get the only node according to ip+dn_rpc_port in datanode or ip+cn_internal_port in confignode to get the only node)
-iotd cluster stop default_cluster -N 192.168.1.5:6667
+iotdbctl cluster stop default_cluster -N 192.168.1.5:6667
 #Stop grafana
-iotd cluster stop default_cluster -N grafana
+iotdbctl cluster stop default_cluster -N grafana
 #Stop prometheus
-iotd cluster stop default_cluster -N prometheus
+iotdbctl cluster stop default_cluster -N prometheus
 ```
 
 * Find the yaml file in the default location based on cluster-name
@@ -493,7 +493,7 @@ Note: Since the cluster deployment tool only calls the stop-confignode.sh and st
 #### Clean cluster data command
 
 ```bash
-iotd cluster clean default_cluster
+iotdbctl cluster clean default_cluster
 ```
 
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers` and `datanode_servers`
@@ -509,7 +509,7 @@ iotd cluster clean default_cluster
 #### Restart cluster command
 
 ```bash
-iotd cluster restart default_cluster
+iotdbctl cluster restart default_cluster
 ```
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers`, `datanode_servers`, `grafana` and `prometheus`
 
@@ -518,7 +518,7 @@ iotd cluster restart default_cluster
 *Force restart cluster command*
 
 ```bash
-iotd cluster restart default_cluster -op force
+iotdbctl cluster restart default_cluster -op force
 ```
 Will directly execute the kill -9 pid command to force stop the cluster, and then start the cluster
 
@@ -527,22 +527,22 @@ Will directly execute the kill -9 pid command to force stop the cluster, and the
 
 ```bash
 #Restart datanode_1 according to the IoTDB node name
-iotd cluster restart default_cluster -N datanode_1
+iotdbctl cluster restart default_cluster -N datanode_1
 #Restart confignode_1 according to the IoTDB node name
-iotd cluster restart default_cluster -N confignode_1
+iotdbctl cluster restart default_cluster -N confignode_1
 #Restart grafana
-iotd cluster restart default_cluster -N grafana
+iotdbctl cluster restart default_cluster -N grafana
 #Restart prometheus
-iotd cluster restart default_cluster -N prometheus
+iotdbctl cluster restart default_cluster -N prometheus
 ```
 
 #### Cluster shrink command
 
 ```bash
 #Scale down by node name
-iotd cluster scalein default_cluster -N nodename
+iotdbctl cluster scalein default_cluster -N nodename
 #Scale down according to ip+port (ip+port obtains the only node according to ip+dn_rpc_port in datanode, and obtains the only node according to ip+cn_internal_port in confignode)
-iotd cluster scalein default_cluster -N ip:port
+iotdbctl cluster scalein default_cluster -N ip:port
 ```
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers` and `datanode_servers`
 
@@ -557,7 +557,7 @@ Tip: Currently, only one node scaling is supported at a time
 #### Cluster expansion command
 
 ```bash
-iotd cluster scaleout default_cluster
+iotdbctl cluster scaleout default_cluster
 ```
 * Modify the config/xxx.yaml file to add a datanode node or confignode node
 
@@ -573,7 +573,7 @@ Tip: Currently, only one node expansion is supported at a time
 
 #### destroy cluster command
 ```bash
-iotd cluster destroy default_cluster
+iotdbctl cluster destroy default_cluster
 ```
 
 * cluster-name finds the yaml file in the default location
@@ -589,17 +589,17 @@ iotd cluster destroy default_cluster
 
 ```bash
 # Destroy grafana module
-iotd cluster destroy default_cluster -N grafana
+iotdbctl cluster destroy default_cluster -N grafana
 # Destroy prometheus module
-iotd cluster destroy default_cluster -N prometheus
+iotdbctl cluster destroy default_cluster -N prometheus
 # Destroy iotdb module
-iotd cluster destroy default_cluster -N iotdb
+iotdbctl cluster destroy default_cluster -N iotdb
 ```
 
 #### Distribute cluster configuration commands
 
 ```bash
-iotd cluster distribute default_cluster
+iotdbctl cluster distribute default_cluster
 ```
 
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers`, `datanode_servers`, `grafana` and `prometheus`
@@ -609,7 +609,7 @@ iotd cluster distribute default_cluster
 #### Hot load cluster configuration command
 
 ```bash
-iotd cluster reload default_cluster
+iotdbctl cluster reload default_cluster
 ```
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers` and `datanode_servers`
 
@@ -617,12 +617,12 @@ iotd cluster reload default_cluster
 
 #### Cluster node log backup
 ```bash
-iotd cluster dumplog default_cluster -N datanode_1,confignode_1  -startdate '2023-04-11' -enddate '2023-04-26' -h 192.168.9.48 -p 36000 -u root -pw root -path '/iotdb/logs' -logs '/root/data/db/iotdb/logs'
+iotdbctl cluster dumplog default_cluster -N datanode_1,confignode_1  -startdate '2023-04-11' -enddate '2023-04-26' -h 192.168.9.48 -p 36000 -u root -pw root -path '/iotdb/logs' -logs '/root/data/db/iotdb/logs'
 ```
 
 * Find the yaml file in the default location based on cluster-name
 
-* This command will verify the existence of datanode_1 and confignode_1 according to the yaml file, and then back up the log data of the specified node datanode_1 and confignode_1 to the specified service `192.168.9.48` port `36000 according to the configured start and end dates (startdate<=logtime<=enddate) ` The data backup path is `/iotdb/logs`, and the IoTDB log storage path is `/root/data/db/iotdb/logs` (not required, if you do not fill in -logs xxx, the default is to backup logs from the IoTDB installation path /logs )
+* This command will verify the existence of datanode_1 and confignode_1 according to the yaml file, and then back up the log data of the specified node datanode_1 and confignode_1 to the specified service `192.168.9.48` port 36000 according to the configured start and end dates (startdate&lt;=logtime&lt;=enddate)  The data backup path is `/iotdb/logs`, and the IoTDB log storage path is `/root/data/db/iotdb/logs` (not required, if you do not fill in -logs xxx, the default is to backup logs from the IoTDB installation path /logs )
 
 | command    | description                                                             | required |
 |------------|-------------------------------------------------------------------------|----------|
@@ -640,9 +640,9 @@ iotd cluster dumplog default_cluster -N datanode_1,confignode_1  -startdate '202
 
 #### Cluster data backup
 ```bash
-iotd cluster dumpdata default_cluster -granularity partition  -startdate '2023-04-11' -enddate '2023-04-26' -h 192.168.9.48 -p 36000 -u root -pw root -path '/iotdb/datas'
+iotdbctl cluster dumpdata default_cluster -granularity partition  -startdate '2023-04-11' -enddate '2023-04-26' -h 192.168.9.48 -p 36000 -u root -pw root -path '/iotdb/datas'
 ```
-* This command will obtain the leader node based on the yaml file, and then back up the data to the /iotdb/datas directory on the 192.168.9.48 service based on the start and end dates (startdate<=logtime<=enddate)
+* This command will obtain the leader node based on the yaml file, and then back up the data to the /iotdb/datas directory on the 192.168.9.48 service based on the start and end dates (startdate&lt;=logtime&lt;=enddate)
 
 | command      | description                                                             | required |
 |--------------|-------------------------------------------------------------------------|----------|
@@ -658,7 +658,7 @@ iotd cluster dumpdata default_cluster -granularity partition  -startdate '2023-0
 
 #### Cluster upgrade
 ```bash
-iotd cluster upgrade default_cluster
+iotdbctl cluster upgrade default_cluster
 ```
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers` and `datanode_servers`
 
@@ -668,28 +668,78 @@ Note that after performing the upgrade, please restart IoTDB for it to take effe
 
 #### Cluster initialization
 ```bash
-iotd cluster init default_cluster
+iotdbctl cluster init default_cluster
 ```
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers`, `datanode_servers`, `grafana` and `prometheus`
 * Initialize cluster configuration
 
 #### View cluster process status
 ```bash
-iotd cluster status default_cluster
+iotdbctl cluster status default_cluster
 ```
 
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers`, `datanode_servers`, `grafana` and `prometheus`
 * Display the survival status of each node in the cluster
 
+#### Cluster authorization activation
+
+Cluster activation is activated by entering the activation code by default, or by using the - op license_path activated through license path
+
+* Default activation method
+```bash
+iotdbctl cluster activate default_cluster
+```
+* Find the yaml file in the default location based on `cluster-name` and obtain the `confignode_servers` configuration information
+* Obtain the machine code inside
+* Waiting for activation code input
+
+```bash
+Machine code:
+Kt8NfGP73FbM8g4Vty+V9qU5lgLvwqHEF3KbLN/SGWYCJ61eFRKtqy7RS/jw03lHXt4MwdidrZJ==
+JHQpXu97IKwv3rzbaDwoPLUuzNCm5aEeC9ZEBW8ndKgGXEGzMms25+u==
+Please enter the activation code: 
+JHQpXu97IKwv3rzbaDwoPLUuzNCm5aEeC9ZEBW8ndKg=，lTF1Dur1AElXIi/5jPV9h0XCm8ziPd9/R+tMYLsze1oAPxE87+Nwws=
+Activation successful
+```
+* Activate a node
+
+```bash
+iotdbctl cluster activate default_cluster -N confignode1
+```
+
+* Activate through license path
+
+```bash
+iotdbctl cluster activate default_cluster -op license_path 
+```
+* Find the yaml file in the default location based on `cluster-name` and obtain the `confignode_servers` configuration information
+* Obtain the machine code inside
+* Waiting for activation code input
+
+```bash
+Machine code:
+Kt8NfGP73FbM8g4Vty+V9qU5lgLvwqHEF3KbLN/SGWYCJ61eFRKtqy7RS/jw03lHXt4MwdidrZJ==
+JHQpXu97IKwv3rzbaDwoPLUuzNCm5aEeC9ZEBW8ndKgGXEGzMms25+u==
+Please enter the activation code: 
+JHQpXu97IKwv3rzbaDwoPLUuzNCm5aEeC9ZEBW8ndKg=，lTF1Dur1AElXIi/5jPV9h0XCm8ziPd9/R+tMYLsze1oAPxE87+Nwws=
+Activation successful
+```
+* Activate a node
+
+```bash
+iotdbctl cluster activate default_cluster -N confignode1 -op license_path
+```
+
+
 ### Introduction to Cluster Deployment Tool Samples
 
 In the cluster deployment tool installation directory config/example, there are three yaml examples. If necessary, you can copy them to config and modify them.
 
-| name                     | description                                             |
-|--------------------------|------------------------------------------------|
-| default_1c1d.yaml        | 1 confignode and 1 datanode configuration example                   |
-| default_3c3d.yaml        | 3 confignode and 3 datanode configuration samples                  |
-| default_3c3d_grafa_prome | 3 confignode and 3 datanode, Grafana, Prometheus configuration examples |
+| name                        | description                                             |
+|-----------------------------|------------------------------------------------|
+| default\_1c1d.yaml          | 1 confignode and 1 datanode configuration example                   |
+| default\_3c3d.yaml          | 3 confignode and 3 datanode configuration samples                  |
+| default\_3c3d\_grafa\_prome | 3 confignode and 3 datanode, Grafana, Prometheus configuration examples |
 
 
 ## Manual Deployment
@@ -801,12 +851,12 @@ and set the following parameters base on the
 Open the ConfigNode configuration file ./conf/iotdb-confignode.properties,
 and set the following parameters based on the IP address and available port of the server or VM:
 
-| **Configuration**              | **Description**                                              | **Default**     | **Usage**                                                    |
-| ------------------------------ | ------------------------------------------------------------ | --------------- | ------------------------------------------------------------ |
-| cn\_internal\_address          | Internal rpc service address of ConfigNode                   | 127.0.0.1       | Set to the IPV4 address or domain name of the server         |
-| cn\_internal\_port             | Internal rpc service port of ConfigNode                      | 10710           | Set to any unoccupied port                                   |
-| cn\_consensus\_port            | ConfigNode replication consensus protocol communication port | 10720           | Set to any unoccupied port                                   |
-| cn\_target\_config\_node\_list | ConfigNode address to which the node is connected when it is registered to the cluster. Note that Only one ConfigNode can be configured. | 127.0.0.1:10710 | For Seed-ConfigNode, set to its own cn\_internal\_address:cn\_internal\_port; For other ConfigNodes, set to other one running ConfigNode's cn\_internal\_address:cn\_internal\_port |
+| **Configuration**      | **Description**                                              | **Default**     | **Usage**                                                    |
+|------------------------| ------------------------------------------------------------ | --------------- | ------------------------------------------------------------ |
+| cn\_internal\_address  | Internal rpc service address of ConfigNode                   | 127.0.0.1       | Set to the IPV4 address or domain name of the server         |
+| cn\_internal\_port     | Internal rpc service port of ConfigNode                      | 10710           | Set to any unoccupied port                                   |
+| cn\_consensus\_port    | ConfigNode replication consensus protocol communication port | 10720           | Set to any unoccupied port                                   |
+| cn\_seed\_config\_node | ConfigNode address to which the node is connected when it is registered to the cluster. Note that Only one ConfigNode can be configured. | 127.0.0.1:10710 | For Seed-ConfigNode, set to its own cn\_internal\_address:cn\_internal\_port; For other ConfigNodes, set to other one running ConfigNode's cn\_internal\_address:cn\_internal\_port |
 
 **Notice: The preceding configuration parameters cannot be changed after the node is started. Ensure that all ports are not occupied. Otherwise, the Node cannot be started.**
 
@@ -816,7 +866,7 @@ Open the DataNode configuration file ./conf/iotdb-datanode.properties,
 and set the following parameters based on the IP address and available port of the server or VM:
 
 | **Configuration**                   | **Description**                                  | **Default**     | **Usage**                                                    |
-| ----------------------------------- | ------------------------------------------------ | --------------- | ------------------------------------------------------------ |
+|-------------------------------------| ------------------------------------------------ | --------------- | ------------------------------------------------------------ |
 | dn\_rpc\_address                    | Client RPC Service address                       | 127.0.0.1       | Set to the IPV4 address or domain name of the server         |
 | dn\_rpc\_port                       | Client RPC Service port                          | 6667            | Set to any unoccupied port                                   |
 | dn\_internal\_address               | Control flow address of DataNode inside cluster  | 127.0.0.1       | Set to the IPV4 address or domain name of the server         |
@@ -824,7 +874,7 @@ and set the following parameters based on the IP address and available port of t
 | dn\_mpp\_data\_exchange\_port       | Data flow port of DataNode inside cluster        | 10740           | Set to any unoccupied port                                   |
 | dn\_data\_region\_consensus\_port   | Data replicas communication port for consensus   | 10750           | Set to any unoccupied port                                   |
 | dn\_schema\_region\_consensus\_port | Schema replicas communication port for consensus | 10760           | Set to any unoccupied port                                   |
-| dn\_target\_config\_node\_list      | Running ConfigNode of the Cluster                | 127.0.0.1:10710 | Set to any running ConfigNode's cn\_internal\_address:cn\_internal\_port. You can set multiple values, separate them with commas(",") |
+| dn\_seed\_config\_node              | Running ConfigNode of the Cluster                | 127.0.0.1:10710 | Set to any running ConfigNode's cn\_internal\_address:cn\_internal\_port. You can set multiple values, separate them with commas(",") |
 
 **Notice: The preceding configuration parameters cannot be changed after the node is started. Ensure that all ports are not occupied. Otherwise, the Node cannot be started.**
 
@@ -863,12 +913,12 @@ These parameters are not modifiable after the Node first startup.
 
 Then open its configuration file ./conf/iotdb-confignode.properties and check the following parameters:
 
-| **Configuration**              | **Check**                                                    |
-| ------------------------------ | ------------------------------------------------------------ |
-| cn\_internal\_address          | Is set to the IPV4 address or domain name of the server      |
-| cn\_internal\_port             | The port isn't occupied                                      |
-| cn\_consensus\_port            | The port isn't occupied                                      |
-| cn\_target\_config\_node\_list | Is set to its own internal communication address, which is cn\_internal\_address:cn\_internal\_port |
+| **Configuration**      | **Check**                                                    |
+|------------------------| ------------------------------------------------------------ |
+| cn\_internal\_address  | Is set to the IPV4 address or domain name of the server      |
+| cn\_internal\_port     | The port isn't occupied                                      |
+| cn\_consensus\_port    | The port isn't occupied                                      |
+| cn\_seed\_config\_node | Is set to its own internal communication address, which is cn\_internal\_address:cn\_internal\_port |
 
 After checking, you can run the startup script on the server:
 
@@ -908,12 +958,12 @@ Therefore, please check the following parameters in common configuration file:
 
 Then, please open its configuration file ./conf/iotdb-confignode.properties and check the following parameters:
 
-| **Configuration**              | **Check**                                                    |
-| ------------------------------ | ------------------------------------------------------------ |
-| cn\_internal\_address          | Is set to the IPV4 address or domain name of the server      |
-| cn\_internal\_port             | The port isn't occupied                                      |
-| cn\_consensus\_port            | The port isn't occupied                                      |
-| cn\_target\_config\_node\_list | Is set to the internal communication address of an other running ConfigNode. The internal communication address of the seed ConfigNode is recommended. |
+| **Configuration**      | **Check**                                                    |
+|------------------------| ------------------------------------------------------------ |
+| cn\_internal\_address  | Is set to the IPV4 address or domain name of the server      |
+| cn\_internal\_port     | The port isn't occupied                                      |
+| cn\_consensus\_port    | The port isn't occupied                                      |
+| cn\_seed\_config\_node | Is set to the internal communication address of an other running ConfigNode. The internal communication address of the seed ConfigNode is recommended. |
 
 After checking, you can run the startup script on the server:
 
@@ -947,7 +997,7 @@ please open its common configuration file ./conf/iotdb-common.properties and che
 Then open its configuration file ./conf/iotdb-datanode.properties and check the following parameters:
 
 | **Configuration**                   | **Check**                                                    |
-| ----------------------------------- | ------------------------------------------------------------ |
+|-------------------------------------| ------------------------------------------------------------ |
 | dn\_rpc\_address                    | Is set to the IPV4 address or domain name of the server      |
 | dn\_rpc\_port                       | The port isn't occupied                                      |
 | dn\_internal\_address               | Is set to the IPV4 address or domain name of the server      |
@@ -955,7 +1005,7 @@ Then open its configuration file ./conf/iotdb-datanode.properties and check the 
 | dn\_mpp\_data\_exchange\_port       | The port isn't occupied                                      |
 | dn\_data\_region\_consensus\_port   | The port isn't occupied                                      |
 | dn\_schema\_region\_consensus\_port | The port isn't occupied                                      |
-| dn\_target\_config\_node\_list      | Is set to the internal communication address of other running ConfigNodes. The internal communication address of the seed ConfigNode is recommended. |
+| dn\_seed\_config\_node              | Is set to the internal communication address of other running ConfigNodes. The internal communication address of the seed ConfigNode is recommended. |
 
 After checking, you can run the startup script on the server:
 
