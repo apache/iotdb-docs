@@ -237,5 +237,5 @@ IoTDB 客户端默认显示的时间是人类可读的（比如：```1970-01-01T
 
 #### 3. 如何降低ConfigNode、DataNode使用的内存？
 
-- 在conf/confignode-env.sh、conf/datanode-env.sh文件可通过调整MAX_HEAP_SIZE、MAX_DIRECT_MEMORY_SIZE等选项可以调整ConfigNode、DataNode使用的最大堆内、堆外内存
+- 在conf/confignode-env.sh、conf/datanode-env.sh文件可通过调整ON_HEAP_MEMORY、OFF_HEAP_MEMORY等选项可以调整ConfigNode、DataNode使用的最大堆内、堆外内存
 

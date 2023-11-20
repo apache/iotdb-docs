@@ -51,7 +51,7 @@ Port:
 
 **illustration：**
 - We could use IP address or hostname/domain to set up an IoTDB cluster, then we would take IP address. If using hostname/domain, `/etc/hosts` must be set well.
-- JVM memory configuration: `MAX_HEAP_SIZE` in `confignode-env.sh` and `datanode-env.sh`, equal to or greater than 1G is recommended. It's enough for ConfigNode taking 1~2G. The memory taking of DataNode is decided by the inputing and querying data. 
+- JVM memory configuration: `ON_HEAP_MEMORY` in `confignode-env.sh` and `datanode-env.sh`, equal to or greater than 1G is recommended. It's enough for ConfigNode taking 1~2G. The memory taking of DataNode is decided by the inputing and querying data. 
 
 ### 1.1 download
 In every computer, [Download](https://iotdb.apache.org/Download/) the IoTDB install package and extract it to working directory of `/data/iotdb`.

@@ -234,7 +234,7 @@ Query the data of root.sg.a, you can see that the string is unescaped:
 
   * The data format (i.e., TsFile data) of v0.12.x and v0.13.x are compatible, but the WAL file is
     incompatible. So, you can follow the steps:
-  * **<font color=red> Execute `SET STSTEM TO READONLY` command in CLI. </font>**
+  * **<font color=red> Execute `SET SYSTEM TO READONLY` command in CLI. </font>**
   * **<font color=red> Stop writing new data.</font>**
   * Execute `flush` command to close all TsFiles.
   * We recommend to back up all data files before upgrading for rolling back.

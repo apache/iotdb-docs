@@ -55,6 +55,8 @@ After a database is set, the ancestral layers, children and descendant layers of
 
 The Layer Name of database can only consist of characters, numbers, and underscores, like `root.storagegroup_1`.
 
+> Note ：Database name do not support enclosing * in back quotes, e.g., root.\ ` * \ `, but the rest of the level is free of this restriction.
+
 ### Path
 
 A `path` is an expression that conforms to the following constraints:
