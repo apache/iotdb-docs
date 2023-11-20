@@ -178,6 +178,35 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |Default| 5000                                                                      |
 |Effective| After restarting system                                                   |
 
+### SSL Configuration
+
+* enable\_thrift\_ssl
+
+|Name| enable\_thrift\_ssl        |
+|:---:|:---------------------------|
+|Description|When enable\_thrift\_ssl is configured as true, SSL encryption will be used for communication through dn\_rpc\_port |
+|Type| Boolean                    |
+|Default| false                      |
+|Effective| After restarting system    |
+
+* key\_store\_path
+
+|Name| key\_store\_path |
+|:---:|:-----------------|
+|Description| SSL certificate path          |
+|Type| String           |
+|Default| ""            |
+|Effective| After restarting system           |
+
+* key\_store\_pwd
+
+|Name| key\_store\_pwd |
+|:---:|:----------------|
+|Description| SSL certificate password         |
+|Type| String          |
+|Default| ""              |
+|Effective| After restarting system        |
+
 ### Target Config Nodes
 
 * dn\_target\_config\_node\_list
