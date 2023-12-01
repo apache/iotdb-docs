@@ -151,6 +151,15 @@ When authorizing a path, the database will match the path with the permissions. 
 
 When performing authorization for multiple paths, such as executing a multi-path query task, the database will only present data for which the user has permissions. Data for which the user does not have permissions will not be included in the results, and information about these paths without permissions will be output to the alert messages.
 
+Please note that the following operations require checking multiple permissions:
+
+1. Enabling the automatic sequence creation feature requires not only write permission for the corresponding sequence when a user inserts data into a non-existent sequence but also metadata modification permission for the sequence.
+
+2. When executing the "select into" statement, it is necessary to check the read permission for the source sequence and the write permission for the target sequence. It should be noted that the source sequence data may only be partially accessible due to insufficient permissions, and if the target sequence has insufficient write permissions, an error will occur, terminating the task.
+
+3. View permissions and data source permissions are independent. Performing read and write operations on a view will only check the permissions of the view itself and will not perform permission validation on the source path.
+
+
 ## Function Syntax and Examples
 
 IoTDB provides composite permissions for user authorization:
@@ -444,7 +453,18 @@ At the same time, changes to roles will be immediately reflected in all users wh
 
 ## Upgrading from a previous version
 
-Before version 1.3, there were many different permission types. In 1.3 version's implementation, we have streamlined the permission types to some extent.
+Before version 1.3, there were many different permission types. In 1.3 version's implementation, we have streamlined the permission types.
+
+The permission paths in version 1.3 of the database must be either full paths or matching paths ending with a double wildcard. During system upgrades, any invalid permission paths and permission types will be automatically converted. The first invalid node on the path will be replaced with "**", and any unsupported permission types will be mapped to the permissions supported by the current system.
+
+| Permission        | Path            | Mapped-Permission | Mapped-path   |
+|-------------------|-----------------|-------------------|---------------|
+| CREATE_DATBASE    | root.db.t1.*    | MANAGE_DATABASE   | root.**       |
+| INSERT_TIMESERIES | root.db.t2.*.t3 | WRITE_DATA        | root.db.t2.** |
+| CREATE_TIMESERIES | root.db.t2*c.t3 | WRITE_SCHEMA      | root.db.**    |
+| LIST_ROLE         | root.**         | (ignore)          |               |
+
+
 
 You can refer to the table below for a comparison of permission types between the old and new versions (where "--IGNORE" indicates that the new version ignores that permission):
 
