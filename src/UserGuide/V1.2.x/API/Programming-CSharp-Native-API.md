@@ -93,7 +93,7 @@ await session_pool.InsertRecordAsync("root.test_group.test_device", rowRecord);
 
 // Insert Tablet
 var timestamp_lst = new List<long>{ timestamp + 1 };
-var value_lst = new List<object> {new() {"iotdb", true, (int) 12}};
+var value_lst = new List<object> {"iotdb", true, (int) 12};
 var tablet = new Tablet("root.test_group.test_device", measures, value_lst, timestamp_ls);
 await session_pool.InsertTabletAsync(tablet);
 
