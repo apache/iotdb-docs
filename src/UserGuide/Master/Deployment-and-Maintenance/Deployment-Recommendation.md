@@ -133,11 +133,11 @@ Temp storage size = WAL storage size  + Consensus storage size + Compaction temp
 1. WAL
 
 max wal storage size = memtable memory size ÷ wal_min_effective_info_ratio
-- memtable memory size is decided by storage_query_schema_consensus_free_memory_proportion, storage_engine_memory_proportion and write_memory_proportion
+- memtable memory size is decided by datanode_memory_proportion, storage_engine_memory_proportion and write_memory_proportion
 - wal_min_effective_info_ratio is decided by wal_min_effective_info_ratio configuration
 
 > Example: allocate 16G memory for DataNode, config is as below:
->  storage_query_schema_consensus_free_memory_proportion=3:3:1:1:2
+>  datanode_memory_proportion=3:3:1:1:1:1
 >  storage_engine_memory_proportion=8:2
 >  write_memory_proportion=19:1
 >  wal_min_effective_info_ratio=0.1
