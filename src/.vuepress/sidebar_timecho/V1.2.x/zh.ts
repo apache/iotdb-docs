@@ -146,6 +146,7 @@ export const zhSidebar = {
         { text: 'Flink-TsFile-Connector', link: 'Flink-TsFile' },
         { text: 'NiFi-IoTDB-Connector', link: 'NiFi-IoTDB' },
         { text: 'DBeaver-IoTDB 集成方案', link: 'DBeaver' },
+        { text: 'Telegraf-IoTDB Output 插件', link: 'Telegraf-IoTDB'},
       ],
     },
     {

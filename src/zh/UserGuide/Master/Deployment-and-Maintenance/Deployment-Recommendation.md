@@ -133,11 +133,11 @@ IoTDB 存储空间=数据存储空间 + 元数据存储空间 + 临时存储空�
 1. 写前日志
 
 最大写前日志空间占用 = memtable 总内存占用 ÷ 最小有效信息占比
-- memtable 总内存占用和 storage_query_schema_consensus_free_memory_proportion、storage_engine_memory_proportion、write_memory_proportion 三个参数有关
+- memtable 总内存占用和 datanode_memory_proportion、storage_engine_memory_proportion、write_memory_proportion 三个参数有关
 - 最小有效信息占比由 wal_min_effective_info_ratio 决定
   
 > 示例：为 IoTDB 分配 16G 内存，配置文件如下
->  storage_query_schema_consensus_free_memory_proportion=3:3:1:1:2
+>  datanode_memory_proportion=3:3:1:1:1:1
 >  storage_engine_memory_proportion=8:2
 >  write_memory_proportion=19:1
 >  wal_min_effective_info_ratio=0.1

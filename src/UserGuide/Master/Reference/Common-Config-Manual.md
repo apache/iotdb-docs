@@ -236,11 +236,11 @@ Different configuration parameters take effect in the following three ways:
 
 * storage\_query_schema_consensus_free_memory_proportion
 
-|Name| storage\_query\_schema\_consensus\_free\_memory\_proportion                                                  |
+|Name| data\_node\_memory\_proportion                                                  |
 |:---:|:-------------------------------------------------------------------------------------------------------------|
-|Description| Memory Allocation Ratio: StorageEngine, QueryEngine, SchemaEngine, Consensus and Free Memory                 |
+|Description| Memory Allocation Ratio: StorageEngine, QueryEngine, SchemaEngine, StreamingEngine, Consensus and Free Memory                 |
 |Type| Ratio                                                                                                        |
-|Default| 3:3:1:1:2                                                                                                    |
+|Default| 3:3:1:1:1:1                                                                                                    |
 |Effective| After restarting system                                                                                      |
 
 * schema\_memory\_allocate\_proportion
@@ -1958,124 +1958,5 @@ Different configuration parameters take effect in the following three ways:
 |   Type   | int32                                    |
 |  Default   | 1048576                                  |
 | Effective | hot-load                                  |
-
-### REST Service Configuration
-
-* enable\_rest\_service
-
-|Name| enable\_rest\_service                   |
-|:---:|:--------------------------------------|
-|Description| Whether to enable the Rest service    |
-|Type| Boolean                               |
-|Default| false                                 |
-|Effective| After restarting system               |
-
-* rest\_service\_port
-
-|Name| rest\_service\_port |
-|:---:|:------------------|
-|Description| The Rest service listens to the port number      |
-|Type| int32             |
-|Default| 18080             |
-|Effective| After restarting system              |
-
-* enable\_swagger
-
-|Name| enable\_swagger         |
-|:---:|:-----------------------|
-|Description| Whether to enable swagger to display rest interface information |
-|Type| Boolean                |
-|Default| false                  |
-|Effective| After restarting system                   |
-
-* rest\_query\_default\_row\_size\_limit
-
-|Name| rest\_query\_default\_row\_size\_limit                                                         |
-|:---:|:------------------------------------------------------------------------------------------|
-|Description| The maximum number of rows in a result set that can be returned by a query                |
-|Type| int32                                                                                     |
-|Default| 10000                                                                                     |
-|Effective| After restarting system                                                                   |
-
-* cache\_expire
-
-|Name| cache\_expire                                            |
-|:---:|:--------------------------------------------------------|
-|Description| Expiration time for caching customer login information  |
-|Type| int32                                                   |
-|Default| 28800                                                   |
-|Effective| After restarting system                                 |
-
-* cache\_max\_num
-
-|Name| cache\_max\_num |
-|:---:|:--------------|
-|Description| The maximum number of users stored in the cache  |
-|Type| int32         |
-|Default| 100           |
-|Effective| After restarting system          |
-
-* cache\_init\_num
-
-|Name| cache\_init\_num |
-|:---:|:---------------|
-|Description| Initial cache capacity        |
-|Type| int32          |
-|Default| 10             |
-|Effective| After restarting system           |
-
-* enable\_https
-
-|Name| cache\_init\_num           |
-|:---:|:-------------------------|
-|Description| REST Service Specifies whether to enable SSL configuration |
-|Type| Boolean                  |
-|Default| false                    |
-|Effective| After restarting system                     |
-
-* key\_store\_path
-
-|Name| key\_store\_path |
-|:---:|:---------------|
-|Description| keyStore path (optional)  |
-|Type| String         |
-|Default| ""          |
-|Effective| After restarting system           |
-
-* key\_store\_pwd
-
-|Name| key\_store\_pwd |
-|:---:|:---------------|
-|Description| keyStore Password (optional) |
-|Type| String         |
-|Default| ""          |
-|Effective| After restarting system           |
-
-* trust\_store\_path
-
-|Name| trust\_store\_path |
-|:---:|:---------------|
-|Description| keyStore Password (optional) |
-|Type| String         |
-|Default| ""          |
-|Effective| After restarting system           |
-
-* trust\_store\_pwd
-
-|Name| trust\_store\_pwd                  |
-|:---:|:---------------------------------|
-|Description| trustStore Password (Optional)   |
-|Type| String                           |
-|Default| ""                               |
-|Effective| After restarting system          |
-
-* idle\_timeout
-
-|Name| idle\_timeout  |
-|:---:|:--------------|
-|Description| SSL timeout duration, expressed in seconds |
-|Type| int32         |
-|Default| 5000          |
-|Effective| After restarting system          |
 
 
