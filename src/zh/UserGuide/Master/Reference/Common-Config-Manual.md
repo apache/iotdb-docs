@@ -236,9 +236,9 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |    默认值    | true                     |
 | 改后生效方式 | 重启服务生效             |
 
-* storage\_query_schema_consensus_free_memory_proportion
+* datanode\_memory\_proportion
 
-|名字| data\_node\_memory\_proportion           |
+|名字| datanode\_memory\_proportion           |
 |:---:|:----------------------------------------------------------------------|
 |描述| 存储，查询，元数据，流处理引擎，共识层，空闲内存比例                                                  |
 |类型| Ratio                                                                 |

@@ -203,9 +203,9 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 
 ### 目标 Config Nodes 配置
 
-* dn\_target\_config\_node\_list
+* dn\_seed\_config\_node
 
-|名字| dn\_target\_config\_node\_list      |
+|名字| dn\_seed\_config\_node      |
 |:---:|:------------------------------------|
 |描述| ConfigNode 地址，DataNode 启动时通过此地址加入集群 |
 |类型| String                              |
