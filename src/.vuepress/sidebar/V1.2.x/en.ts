@@ -143,6 +143,7 @@ export const enSidebar = {
         { text: 'Flink TsFile Connector', link: 'Flink-TsFile' },
         { text: 'NiFi IoTDB Connector', link: 'NiFi-IoTDB' },
         { text: 'DBeaver-IoTDB', link: 'DBeaver' },
+        { text: 'Telegraf-IoTDB Output Plugin', link: 'Telegraf-IoTDB'},
       ],
     },
     {
