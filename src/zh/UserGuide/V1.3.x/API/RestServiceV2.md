@@ -874,10 +874,11 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 | data_types_list   | array | 是  | 数据类型  |
 | values_list       | array | 是  | 值列，每一列中的值可以为 `null` |
 | devices           | string | 是  | 设备名称 |
+| is_aligned           | string | 是  | 是否是对齐时间序列 |
 
 请求示例：
 ```shell
-curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"timestamps":[1635232113960,1635232151960,1635232143960,1635232143960],"measurements_list":[["s33","s44"],["s55","s66"],["s77","s88"],["s771","s881"]],"data_types_list":[["INT32","INT64"],["FLOAT","DOUBLE"],["FLOAT","DOUBLE"],["BOOLEAN","TEXT"]],"values_list":[[1,11],[2.1,2],[4,6],[false,"cccccc"]],"devices":["root.s1","root.s1","root.s1","root.s3"]}' http://127.0.0.1:18080/rest/v2/insertRecords
+curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"timestamps":[1635232113960,1635232151960,1635232143960,1635232143960],"measurements_list":[["s33","s44"],["s55","s66"],["s77","s88"],["s771","s881"]],"data_types_list":[["INT32","INT64"],["FLOAT","DOUBLE"],["FLOAT","DOUBLE"],["BOOLEAN","TEXT"]],"values_list":[[1,11],[2.1,2],[4,6],[false,"cccccc"]],"is_aligned":false,"devices":["root.s1","root.s1","root.s1","root.s3"]}' http://127.0.0.1:18080/rest/v2/insertRecords
 ```
 
 响应参数：
@@ -898,7 +899,7 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 
 ## 配置
 
-配置位于 `iotdb-common.properties` 中。
+配置位于 `iotdb-datanode.properties` 中。
 
 
 

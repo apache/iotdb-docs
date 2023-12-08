@@ -857,9 +857,10 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
+
 ## 配置
 
-配置位于 `iotdb-common.properties` 中。
+配置位于 `iotdb-datanode.properties` 中。
 
 
 

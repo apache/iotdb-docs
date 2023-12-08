@@ -238,11 +238,11 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * storage\_query_schema_consensus_free_memory_proportion
 
-|名字| storage\_query\_schema\_consensus\_free\_memory\_proportion           |
+|名字| data\_node\_memory\_proportion           |
 |:---:|:----------------------------------------------------------------------|
-|描述| 存储，查询，元数据，共识层，空闲内存比例                                                  |
+|描述| 存储，查询，元数据，流处理引擎，共识层，空闲内存比例                                                  |
 |类型| Ratio                                                                 |
-|默认值| 3:3:1:1:2                                                             |
+|默认值| 3:3:1:1:1:1                                                             |
 |改后生效方式| 重启服务生效                                                                |
 
 * schema\_memory\_allocate\_proportion
@@ -1978,122 +1978,3 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |类型| int32 |
 |默认值| 1048576 |
 |改后生效方式|热加载|
-
-#### REST 服务配置
-
-* enable\_rest\_service
-
-|名字| enable\_rest\_service |
-|:---:|:--------------------|
-|描述| 是否开启Rest服务。         |
-|类型| Boolean             |
-|默认值| false               |
-|改后生效方式| 重启生效                |
-
-* rest\_service\_port
-
-|名字| rest\_service\_port |
-|:---:|:------------------|
-|描述| Rest服务监听端口号       |
-|类型| int32             |
-|默认值| 18080             |
-|改后生效方式| 重启生效              |
-
-* enable\_swagger
-
-|名字| enable\_swagger         |
-|:---:|:-----------------------|
-|描述| 是否启用swagger来展示rest接口信息 |
-|类型| Boolean                |
-|默认值| false                  |
-|改后生效方式| 重启生效                   |
-
-* rest\_query\_default\_row\_size\_limit
-
-|名字| rest\_query\_default\_row\_size\_limit |
-|:---:|:----------------------------------|
-|描述| 一次查询能返回的结果集最大行数                   |
-|类型| int32                             |
-|默认值| 10000                             |
-|改后生效方式| 重启生效                              |
-
-* cache\_expire
-
-|名字| cache\_expire  |
-|:---:|:--------------|
-|描述| 缓存客户登录信息的过期时间 |
-|类型| int32         |
-|默认值| 28800         |
-|改后生效方式| 重启生效          |
-
-* cache\_max\_num
-
-|名字| cache\_max\_num |
-|:---:|:--------------|
-|描述| 缓存中存储的最大用户数量  |
-|类型| int32         |
-|默认值| 100           |
-|改后生效方式| 重启生效          |
-
-* cache\_init\_num
-
-|名字| cache\_init\_num |
-|:---:|:---------------|
-|描述| 缓存初始容量         |
-|类型| int32          |
-|默认值| 10             |
-|改后生效方式| 重启生效           |
-
-* enable\_https
-
-|名字| cache\_init\_num           |
-|:---:|:-------------------------|
-|描述| REST Service 是否开启 SSL 配置 |
-|类型| Boolean                  |
-|默认值| false                    |
-|改后生效方式| 重启生效                     |
-
-* key\_store\_path
-
-|名字| key\_store\_path |
-|:---:|:---------------|
-|描述| keyStore 所在路径（非必填）  |
-|类型| String         |
-|默认值| ""          |
-|改后生效方式| 重启生效           |
-
-* key\_store\_pwd
-
-|名字| key\_store\_pwd |
-|:---:|:---------------|
-|描述| keyStore 密码（非必填） |
-|类型| String         |
-|默认值| ""          |
-|改后生效方式| 重启生效           |
-
-* trust\_store\_path
-
-|名字| trust\_store\_path |
-|:---:|:---------------|
-|描述| keyStore 密码（非必填） |
-|类型| String         |
-|默认值| ""          |
-|改后生效方式| 重启生效           |
-
-* trust\_store\_pwd
-
-|名字| trust\_store\_pwd |
-|:---:|:---------------|
-|描述| trustStore 密码（非必填） |
-|类型| String         |
-|默认值| ""          |
-|改后生效方式| 重启生效           |
-
-* idle\_timeout
-
-|名字| idle\_timeout  |
-|:---:|:--------------|
-|描述| SSL 超时时间，单位为秒 |
-|类型| int32         |
-|默认值| 5000          |
-|改后生效方式| 重启生效          |
