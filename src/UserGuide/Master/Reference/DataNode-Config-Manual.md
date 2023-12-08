@@ -189,6 +189,15 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |Default| false                      |
 |Effective| After restarting system    |
 
+* enable\_https
+
+|Name| cache\_init\_num           |
+|:---:|:-------------------------|
+|Description| REST Service Specifies whether to enable SSL configuration |
+|Type| Boolean                  |
+|Default| false                    |
+|Effective| After restarting system                     |
+
 * key\_store\_path
 
 |Name| key\_store\_path |
@@ -395,3 +404,96 @@ sbin\start-datanode.bat printgc
 
 GC log is stored at `IOTDB_HOME/logs/gc.log`.
 There will be at most 10 gc.log.* files and each one can reach to 10MB.
+
+### REST Service Configuration
+
+* enable\_rest\_service
+
+|Name| enable\_rest\_service                   |
+|:---:|:--------------------------------------|
+|Description| Whether to enable the Rest service    |
+|Type| Boolean                               |
+|Default| false                                 |
+|Effective| After restarting system               |
+
+* rest\_service\_port
+
+|Name| rest\_service\_port |
+|:---:|:------------------|
+|Description| The Rest service listens to the port number      |
+|Type| int32             |
+|Default| 18080             |
+|Effective| After restarting system              |
+
+* enable\_swagger
+
+|Name| enable\_swagger         |
+|:---:|:-----------------------|
+|Description| Whether to enable swagger to display rest interface information |
+|Type| Boolean                |
+|Default| false                  |
+|Effective| After restarting system                   |
+
+* rest\_query\_default\_row\_size\_limit
+
+|Name| rest\_query\_default\_row\_size\_limit                                                         |
+|:---:|:------------------------------------------------------------------------------------------|
+|Description| The maximum number of rows in a result set that can be returned by a query                |
+|Type| int32                                                                                     |
+|Default| 10000                                                                                     |
+|Effective| After restarting system                                                                   |
+
+* cache\_expire
+
+|Name| cache\_expire                                            |
+|:---:|:--------------------------------------------------------|
+|Description| Expiration time for caching customer login information  |
+|Type| int32                                                   |
+|Default| 28800                                                   |
+|Effective| After restarting system                                 |
+
+* cache\_max\_num
+
+|Name| cache\_max\_num |
+|:---:|:--------------|
+|Description| The maximum number of users stored in the cache  |
+|Type| int32         |
+|Default| 100           |
+|Effective| After restarting system          |
+
+* cache\_init\_num
+
+|Name| cache\_init\_num |
+|:---:|:---------------|
+|Description| Initial cache capacity        |
+|Type| int32          |
+|Default| 10             |
+|Effective| After restarting system           |
+
+
+* trust\_store\_path
+
+|Name| trust\_store\_path |
+|:---:|:---------------|
+|Description| keyStore Password (optional) |
+|Type| String         |
+|Default| ""          |
+|Effective| After restarting system           |
+
+* trust\_store\_pwd
+
+|Name| trust\_store\_pwd                  |
+|:---:|:---------------------------------|
+|Description| trustStore Password (Optional)   |
+|Type| String                           |
+|Default| ""                               |
+|Effective| After restarting system          |
+
+* idle\_timeout
+
+|Name| idle\_timeout  |
+|:---:|:--------------|
+|Description| SSL timeout duration, expressed in seconds |
+|Type| int32         |
+|Default| 5000          |
+|Effective| After restarting system          |
