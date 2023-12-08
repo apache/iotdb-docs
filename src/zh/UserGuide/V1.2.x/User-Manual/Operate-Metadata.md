@@ -44,7 +44,7 @@ Database 节点名只支持中英文字符、数字、下划线的组合，如�
 
 ### 查看数据库
 
-在 database 创建后，我们可以使用 [SHOW DATABASES](../Reference/SQL-Reference.md) 语句和 [SHOW DATABASES \<PathPattern>](../Reference/SQL-Reference.md) 来查看 database，SQL 语句如下所示：
+在 database 创建后，我们可以使用 [SHOW DATABASES](../SQL-Manual/SQL-Manual.md) 语句和 [SHOW DATABASES \<PathPattern>](../SQL-Manual/SQL-Manual.md) 来查看 database，SQL 语句如下所示：
 
 ```
 IoTDB> show databases
@@ -550,7 +550,7 @@ IoTDB> create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODIN
 error: encoding TS_2DIFF does not support BOOLEAN
 ```
 
-详细的数据类型与编码方式的对应列表请参见 [编码方式](../Basic-Concept/Encoding.md)。
+详细的数据类型与编码方式的对应列表请参见 [编码方式](../Basic-Concept/Encoding-and-Compression.md#编码方式)。 
 
 ### 创建对齐时间序列
 
@@ -791,7 +791,7 @@ create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT, encoding=R
 括号里的`temprature`是`s1`这个传感器的别名。
 我们可以在任何用到`s1`的地方，将其用`temprature`代替，这两者是等价的。
 
-> IoTDB 同时支持在查询语句中 [使用 AS 函数](../Reference/SQL-Reference.md#数据管理语句) 设置别名。二者的区别在于：AS 函数设置的别名用于替代整条时间序列名，且是临时的，不与时间序列绑定；而上文中的别名只作为传感器的别名，与其绑定且可与原传感器名等价使用。
+> IoTDB 同时支持在查询语句中 [使用 AS 函数](../SQL-Manual/SQL-Manual.md) 设置别名。二者的区别在于：AS 函数设置的别名用于替代整条时间序列名，且是临时的，不与时间序列绑定；而上文中的别名只作为传感器的别名，与其绑定且可与原传感器名等价使用。
 
 > 注意：额外的标签和属性信息总的大小不能超过`tag_attribute_total_size`.
 

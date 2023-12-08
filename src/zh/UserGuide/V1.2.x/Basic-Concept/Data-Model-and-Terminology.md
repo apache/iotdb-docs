@@ -27,7 +27,7 @@
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/123542457-5f511d00-d77c-11eb-8006-562d83069baa.png">
 
-在上图所描述的实际场景中，有许多实体所采集的物理量相同，即具有相同的工况名称和类型，因此，可以声明一个**元数据模板**来定义可采集的物理量集合。在实践中，元数据模板的使用可帮助减少元数据的资源占用，详细内容参见 [元数据模板文档](./Schema-Template.md)。
+在上图所描述的实际场景中，有许多实体所采集的物理量相同，即具有相同的工况名称和类型，因此，可以声明一个**元数据模板**来定义可采集的物理量集合。在实践中，元数据模板的使用可帮助减少元数据的资源占用，详细内容参见 [元数据模板](../User-Manual/Operate-Metadata.md#元数据模板管理)。
 
 IoTDB 模型结构涉及的基本概念在下文将做详细叙述。
 
@@ -48,6 +48,8 @@ IoTDB 模型结构涉及的基本概念在下文将做详细叙述。
 一个 database 设定后，其对应的前缀路径的祖先层级与孩子及后裔层级也不允许再设置 database（如，`root.ln`设置 database 后，root 层级与`root.ln.wf01`不允许被设置为 database）。
 
 Database 节点名只支持中英文字符、数字和下划线的组合。例如`root.数据库_1` 。
+
+> 注意 ：Database 节点名不支持将*用反引号括起来，如root.\` * \`,其余层级则无此限制。
 
 ## 设备（Device）
 
@@ -74,7 +76,7 @@ Database 节点名只支持中英文字符、数字和下划线的组合。例�
 
 一个实体的一个物理量对应一个时间序列，即实体+物理量=时间序列。
 
-时间序列也被称测点（meter）、时间线（timeline）。实时数据库中常被称作标签（tag）、参数（parameter）。
+时间序列也被称测点（meter）、时间线（timeline）。实时数据库中常被称作标签（tag）、参数（parameter）。IoTDB管理的测点数量可达数十亿以上。
 
 例如，ln 电力集团、wf01 风电场的实体 wt01 有名为 status 的物理量，则它的时间序列可以表示为：`root.ln.wf01.wt01.status`。 
 
@@ -125,7 +127,7 @@ wildcard
     * [ 0-9 a-z A-Z _ ] （字母，数字，下划线）
     * ['\u2E80'..'\u9FFF'] （UNICODE 中文字符）
 * 特别地，如果系统在 Windows 系统上部署，那么 database 路径结点名是大小写不敏感的。例如，同时创建`root.ln` 和 `root.LN` 是不被允许的。
-* 如果需要在路径结点名中用特殊字符，可以用反引号引用路径结点名，具体使用方法可以参考[语法约定](../Syntax-Conventions/Literal-Values.md)。
+* 如果需要在路径结点名中用特殊字符，可以用反引号引用路径结点名，具体使用方法可以参考[语法约定](../User-Manual/Syntax-Rule.md)。
 
 ## 路径模式（Path Pattern）
 

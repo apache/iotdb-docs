@@ -38,31 +38,31 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 
 环境配置项主要用于对 DataNode 运行的 Java 环境相关参数进行配置，如 JVM 相关配置。DataNode/Standalone 启动时，此部分配置会被传给 JVM，详细配置项说明如下：
 
-* MAX\_HEAP\_SIZE
+* MEMORY\_SIZE
 
-|名字|MAX\_HEAP\_SIZE|
+|名字|MEMORY\_SIZE|
 |:---:|:---|
-|描述|IoTDB 能使用的最大堆内存大小 |
+|描述|IoTDB DataNode 启动时分配的内存大小 |
 |类型|String|
-|默认值|取决于操作系统和机器配置。在 Linux 或 MacOS 系统下默认为机器内存的四分之一。在 Windows 系统下，32 位系统的默认值是 512M，64 位系统默认值是 2G。|
+|默认值|取决于操作系统和机器配置。默认为机器内存的二分之一。|
 |改后生效方式|重启服务生效|
 
-* HEAP\_NEWSIZE
+* ON\_HEAP\_MEMORY
 
-|名字|HEAP\_NEWSIZE|
+|名字|ON\_HEAP\_MEMORY|
 |:---:|:---|
-|描述|IoTDB 启动时分配的最小堆内存大小 |
+|描述|IoTDB DataNode 能使用的堆内内存大小, 曾用名: MAX\_HEAP\_SIZE |
 |类型|String|
-|默认值|取决于操作系统和机器配置。在 Linux 或 MacOS 系统下默认值为机器 CPU 核数乘以 100M 的值与 MAX\_HEAP\_SIZE 四分之一这二者的最小值。在 Windows 系统下，32 位系统的默认值是 512M，64 位系统默认值是 2G。|
+|默认值|取决于MEMORY\_SIZE的配置。|
 |改后生效方式|重启服务生效|
 
-* MAX\_DIRECT\_MEMORY\_SIZE
+* OFF\_HEAP\_MEMORY
 
-|名字|MAX\_DIRECT\_MEMORY\_SIZE|
+|名字|OFF\_HEAP\_MEMORY|
 |:---:|:---|
-|描述|IoTDB 能使用的最大堆外内存大小 |
+|描述|IoTDB DataNode 能使用的堆外内存大小, 曾用名: MAX\_DIRECT\_MEMORY\_SIZE |
 |类型|String|
-|默认值|默认与最大堆内存相等|
+|默认值|取决于MEMORY\_SIZE的配置|
 |改后生效方式|重启服务生效|
 
 * JMX\_LOCAL
@@ -161,6 +161,37 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |默认值| 5000                                   |
 |改后生效方式| 重启服务生效                                 |
 
+
+### SSL 配置
+
+* enable\_thrift\_ssl
+
+|名字|                                               |
+|:---:|:----------------------------------------------|
+|描述| 当enable\_thrift\_ssl配置为true时，将通过dn\_rpc\_port使用 SSL 加密进行通信 |
+|类型| Boolean                                       |
+|默认值| false                                         |
+|改后生效方式| 重启服务生效                                        |
+
+* key\_store\_path
+
+|名字| key\_store\_path |
+|:---:|:-----------------|
+|描述| ssl证书路径          |
+|类型| String           |
+|默认值| ""            |
+|改后生效方式| 重启服务生效           |
+
+* key\_store\_pwd
+
+|名字| key\_store\_pwd |
+|:---:|:----------------|
+|描述| ssl证书密码         |
+|类型| String          |
+|默认值| ""              |
+|改后生效方式| 重启服务生效          |
+
+
 ### 目标 Config Nodes 配置
 
 * dn\_target\_config\_node\_list
@@ -246,6 +277,15 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |类型| long |
 |默认值| 1024 |
 |改后生效方式|重启服务生效|
+
+* dn\_connection\_timeout\_ms
+
+|   名字   | dn\_connection\_timeout\_ms |
+|:------:|:----------------------------|
+|   描述   | 节点连接超时时间                    |
+|   类型   | int                         |
+|  默认值   | 60000                       |
+| 改后生效方式 | 重启服务生效                      |
 
 * dn\_core\_client\_count\_for\_each\_node\_in\_client\_manager
 

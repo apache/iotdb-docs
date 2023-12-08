@@ -843,8 +843,6 @@ Sample response:
 }
 ```
 
-
-
 ## Configuration
 
 The configuration is located in 'iotdb-rest.properties'.

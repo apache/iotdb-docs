@@ -19,7 +19,7 @@
 
 -->
 
-## Grafana-Plugin
+# Grafana-Plugin
 
 
 Grafana is an open source volume metrics monitoring and visualization tool, which can be used to present time series data and analyze application runtime status.
@@ -27,118 +27,42 @@ Grafana is an open source volume metrics monitoring and visualization tool, whic
 We developed the Grafana-Plugin for IoTDB, using the IoTDB REST service to present time series data and providing many visualization methods for time series data.
 Compared with previous IoTDB-Grafana-Connector, current Grafana-Plugin performs more efficiently and supports more query types. So, **we recommend using Grafana-Plugin instead of IoTDB-Grafana-Connector**.
 
-### Installation and deployment
+## Installation and deployment
 
-#### Install Grafana
+### Install Grafana
 
 * Download url: https://grafana.com/grafana/download
 * Version >= 9.3.0
 
 
-#### Acquisition method of grafana plugin
+### Acquisition method of grafana plugin
 
-##### Method 1: grafana plugin binary Download
+#### Download apache-iotdb-datasource from Grafana's official website
 
-Download url：https://iotdb.apache.org/zh/Download/
+Download url：https://grafana.com/api/plugins/apache-iotdb-datasource/versions/1.0.0/download
 
-##### Method 2: separate compilation of grafana plugin
+### Install Grafana-Plugin
 
-We need to compile the front-end project in the IoTDB `grafana-plugin` directory and then generate the `dist` directory. The specific execution process is as follows.
+### Method 1: Install using the grafana cli tool (recommended)
 
-Source download
-
-* Plugin name: grafana-plugin
-* Download url: https://github.com/apache/iotdb.git
-
-Execute the following command:
+* Use the grafana cli tool to install apache-iotdb-datasource from the command line. The command content is as follows:
 
 ```shell
-git clone https://github.com/apache/iotdb.git
+grafana-cli plugins install apache-iotdb-datasource
 ```
 
-* Option 1 (compile with maven): execute following command in the `grafana-plugin` directory:
+### Method 2: Install using the Grafana interface (recommended)
 
-```shell
-mvn install package -P compile-grafana-plugin
-```
+* Click on Configuration ->Plugins ->Search IoTDB from local Grafana to install the plugin
 
-* Option 2 (compile with yarn): execute following command in the `grafana-plugin` directory:
+### Method 3: Manually install the grafana-plugin plug-in (not recommended)
 
-```shell
-yarn install
-yarn build
-go get -u github.com/grafana/grafana-plugin-sdk-go
-go mod tidy
-mage -v
-```
-
-When using the go get -u command, the following error may be reported. In this case, we need to execute `go env -w GOPROXY=https://goproxy.cn`, and then execute `go get -u github.com/grafana/grafana -plugin-sdk-go`
-
-```
-go get: module github.com/grafana/grafana-plugin-sdk-go: Get "https://proxy.golang.org/github.com/grafana/grafana-plugin-sdk-go/@v/list": dial tcp 142.251.42.241:443: i/o timeout
-```
-
-If compiling successful, you can see the `dist` directory , which contains the compiled Grafana-Plugin:
-
-<img style="width:100%; max-width:333px; max-height:545px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/Grafana-plugin/grafana-plugin-build.png?raw=true">
-
-##### Method 3: The distribution package of IoTDB is fully compiled
-
-We can also obtain the front-end project of `grafana-plugin` and other IoTDB executable files by executing the **package instruction** of the IoTDB project.
-
-Execute following command in the IoTDB root directory:
-
-```shell
- mvn clean package -pl distribution -am -DskipTests -P compile-grafana-plugin
-```
-
-If compiling successful, you can see that the `distribution/target` directory contains the compiled Grafana-Plugin:
-
-<img style="width:100%; max-width:333px; max-height:545px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/Grafana-plugin/distribution.png?raw=true">
-
-
-#### Install Grafana-Plugin
 
 * Copy the front-end project target folder generated above to Grafana's plugin directory `${Grafana directory}\data\plugins\`。If there is no such directory, you can manually create it or start grafana and it will be created automatically. Of course, you can also modify the location of plugins. For details, please refer to the following instructions for modifying the location of Grafana's plugin directory.
 
-
-* Modify Grafana configuration file: the file is in（`${Grafana directory}\conf\defaults.ini`）, and do the following modifications:
-
-  ```ini
-  allow_loading_unsigned_plugins = apache-iotdb-datasource
-  ```
-* Modify the location of Grafana's plugin directory: the file is in（`${Grafana directory}\conf\defaults.ini`）, and do the following modifications:
-
-  ```ini
-  plugins = data/plugins
-  ```
 * Start Grafana (restart if the Grafana service is already started)
 
 For more details，please click [here](https://grafana.com/docs/grafana/latest/plugins/installation/)
-
-#### Start Grafana
-
-Start Grafana with the following command in the Grafana directory:
-
-* Windows:
-
-```shell
-bin\grafana-server.exe
-```
-* Linux:
-
-```shell
-sudo service grafana-server start
-```
-
-* MacOS:
-
-```shell
-brew services start grafana
-```
-
-For more details，please click [here](https://grafana.com/docs/grafana/latest/installation/)
-
 
 
 #### Configure IoTDB REST Service

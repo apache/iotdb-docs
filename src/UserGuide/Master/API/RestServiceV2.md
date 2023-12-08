@@ -843,6 +843,43 @@ Sample response:
 }
 ```
 
+### insertRecords
+
+Request method: `POST`
+
+Request header: `application/json`
+
+Request path: http://ip:port/rest/v2/insertRecords
+
+Parameter Description:
+
+| parameter name    |parameter type |is required|parameter describe|
+|:------------------| :--- | :---| :---|
+| timestamps        | array | yes |  Time column  |
+| measurements_list | array | yes  | The name of the measuring point |
+| data_types_list   | array | yes  | The data type |
+| values_list       | array | yes  | Value columns, the values in each column can be `null` |
+| devices           | string | yes  | Device name |
+
+Example request:
+```shell
+curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"timestamps":[1635232113960,1635232151960,1635232143960,1635232143960],"measurements_list":[["s33","s44"],["s55","s66"],["s77","s88"],["s771","s881"]],"data_types_list":[["INT32","INT64"],["FLOAT","DOUBLE"],["FLOAT","DOUBLE"],["BOOLEAN","TEXT"]],"values_list":[[1,11],[2.1,2],[4,6],[false,"cccccc"]],"devices":["root.s1","root.s1","root.s1","root.s3"]}' http://127.0.0.1:18080/rest/v2/insertRecords
+```
+
+Sample response:
+
+|parameter name  |parameter type |parameter describe|
+|:--- | :--- | :---|
+| code | integer |  status code |
+| message  |  string | message |
+
+Sample response:
+```json
+{
+  "code": 200,
+  "message": "SUCCESS_STATUS"
+}
+```
 
 
 ## Configuration

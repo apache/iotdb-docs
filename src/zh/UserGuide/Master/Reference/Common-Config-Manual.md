@@ -142,7 +142,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * default\_data\_region\_group\_num\_per\_database
 
-|   名字   | data\_region\_group\_per\_database                                                                                                              |
+|   名字   | default\_data\_region\_group\_per\_database                                                                                                     |
 |:------:|:------------------------------------------------------------------------------------------------------------------------------------------------|
 |   描述   | 当选用 CUSTOM-DataRegionGroup 扩容策略时，此参数为每个 Database 拥有的 DataRegionGroup 数量；当选用 AUTO-DataRegionGroup 扩容策略时，此参数为每个 Database 最少拥有的 DataRegionGroup 数量 |
 |   类型   | int                                                                                                                                             |
@@ -874,7 +874,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     描述     | 顺序空间内合并，开启顺序文件之间的合并 |
 |     类型     | Boolean                                |
 |    默认值    | true                                   |
-| 改后生效方式 | 重启服务生效                           |
+| 改后生效方式 | 热加载                           |
 
 * enable\_unseq\_space\_compaction
 
@@ -883,7 +883,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     描述     | 乱序空间内合并，开启乱序文件之间的合并 |
 |     类型     | Boolean                                |
 |    默认值    | false                                  |
-| 改后生效方式 | 重启服务生效                           |
+| 改后生效方式 | 热加载                           |
 
 * enable\_cross\_space\_compaction
 
@@ -892,7 +892,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     描述     | 跨空间合并，开启将乱序文件合并到顺序文件中 |
 |     类型     | Boolean                                    |
 |    默认值    | true                                       |
-| 改后生效方式 | 重启服务生效                               |
+| 改后生效方式 | 热加载                               |
 
 * cross\_selector
 
@@ -1041,11 +1041,11 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 * compaction\_thread\_count
 
 |名字| compaction\_thread\_count |
-|:---:|:---|
-|描述| 执行合并任务的线程数目 |
-|类型| int32 |
-|默认值| 10 |
-|改后生效方式|重启服务生效|
+|:---:|:--------------------------|
+|描述| 执行合并任务的线程数目               |
+|类型| int32                     |
+|默认值| 10                        |
+|改后生效方式| 热加载                 |
 
 * compaction\_schedule\_interval\_in\_ms
 
@@ -1081,16 +1081,17 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |描述| 每个合并任务的子任务线程数，只对跨空间合并和乱序空间内合并生效 |
 |类型| int32                           |
 |默认值| 4                               |
-|改后生效方式| 重启服务生效                          |
+|改后生效方式| 热加载                             |
 
-* enable\_compaction\_validation
+* compaction\_validation\_level
 
-|名字| enable\_compaction\_validation |
-|:---:|:-------------------------------|
-|描述| 开启合并结束后对顺序文件时间范围的检查            |
-|类型| Boolean                        |
-|默认值| true                           |
-|改后生效方式| 重启服务生效                         |
+|名字| compaction\_validation\_level                                                                 |
+|:---:|:----------------------------------------------------------------------------------------------|
+|描述| 合并结束后对顺序文件时间范围的检查,NONE关闭检查，RESOURCE_ONLY检查resource文件，RESOURCE_AND_TSFILE检查resource文件和tsfile文件 |
+|类型| String                                                                                        |
+|默认值| NONE                                                                                          |
+|改后生效方式| 热加载                                                                                           |
+
 
 * candidate\_compaction\_task\_queue\_size
 
@@ -1284,15 +1285,6 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |类型| int32 |
 |默认值| 256 |
 |改后生效方式|仅允许在第一次启动服务前修改|
-
-* frequency\_interval\_in\_minute
-
-|名字| frequency\_interval\_in\_minute |
-|:---:|:---|
-|描述| 计算查询频率的时间间隔（以分钟为单位）。 |
-|类型| int32 |
-|默认值| 1 |
-|改后生效方式|热加载|
 
 
 #### 授权配置
@@ -1659,18 +1651,54 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |  默认值   | 4MB                                        |
 | 改后生效方式 | 重启生效                                       |
 
-* data_region_ratis_grpc_leader_outstanding_appends_max
+* config\_node\_ratis\_grpc\_leader\_outstanding\_appends\_max
 
-|     名字     | data_region_ratis_grpc_leader_outstanding_appends_max |
+|     名字     | config\_node\_ratis\_grpc\_leader\_outstanding\_appends\_max |
+| :----------: | :----------------------------------------------------- |
+|     描述     | config node grpc 流水线并发阈值                        |
+|     类型     | int32                                                  |
+|    默认值    | 128                                                    |
+| 改后生效方式 | 重启生效                                               |
+
+* schema\_region\_ratis\_grpc\_leader\_outstanding\_appends\_max
+
+|     名字     | schema\_region\_ratis\_grpc\_leader\_outstanding\_appends\_max |
+| :----------: | :------------------------------------------------------ |
+|     描述     | schema region grpc 流水线并发阈值                       |
+|     类型     | int32                                                   |
+|    默认值    | 128                                                     |
+| 改后生效方式 | 重启生效                                                |
+
+* data\_region\_ratis\_grpc\_leader\_outstanding\_appends\_max
+
+|     名字     | data\_region\_ratis\_grpc\_leader\_outstanding\_appends\_max |
 | :----------: | :---------------------------------------------------- |
 |     描述     | data region grpc 流水线并发阈值                       |
 |     类型     | int32                                                 |
 |    默认值    | 128                                                   |
 | 改后生效方式 | 重启生效                                              |
 
-* data_region_ratis_log_force_sync_num
+* config\_node\_ratis\_log\_force\_sync\_num
 
-|     名字     | data_region_ratis_log_force_sync_num |
+|     名字     | config\_node\_ratis\_log\_force\_sync\_num |
+| :----------: | :------------------------------------ |
+|     描述     | config node fsync 阈值                |
+|     类型     | int32                                 |
+|    默认值    | 128                                   |
+| 改后生效方式 | 重启生效                              |
+
+* schema\_region\_ratis\_log\_force\_sync\_num
+
+|     名字     | schema\_region\_ratis\_log\_force\_sync\_num |
+| :----------: | :------------------------------------- |
+|     描述     | schema region fsync 阈值               |
+|     类型     | int32                                  |
+|    默认值    | 128                                    |
+| 改后生效方式 | 重启生效                               |
+
+* data\_region\_ratis\_log\_force\_sync\_num
+
+|     名字     | data\_region\_ratis\_log\_force\_sync\_num |
 | :----------: | :----------------------------------- |
 |     描述     | data region fsync 阈值               |
 |     类型     | int32                                |

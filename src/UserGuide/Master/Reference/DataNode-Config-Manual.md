@@ -40,31 +40,31 @@ The environment configuration file is mainly used to configure the Java environm
 
 The details of each parameter are as follows:
 
-* MAX\_HEAP\_SIZE
+* MEMORY\_SIZE
 
-|Name|MAX\_HEAP\_SIZE|
+|Name|MEMORY\_SIZE|
 |:---:|:---|
-|Description|The maximum heap memory size that IoTDB can use |
+|Description|The minimum heap memory size that IoTDB DataNode will use when startup |
 |Type|String|
-|Default| On Linux or MacOS, the default is one quarter of the memory. On Windows, the default value for 32-bit systems is 512M, and the default for 64-bit systems is 2G.|
+|Default| The default is a half of the memory.|
 |Effective|After restarting system|
 
-* HEAP\_NEWSIZE
+* ON\_HEAP\_MEMORY
 
-|Name|HEAP\_NEWSIZE|
+|Name|ON\_HEAP\_MEMORY|
 |:---:|:---|
-|Description|The minimum heap memory size that IoTDB will use when startup |
+|Description|The heap memory size that IoTDB DataNode can use, Former Name: MAX\_HEAP\_SIZE |
 |Type|String|
-|Default| On Linux or MacOS, the default is min{cores * 100M, one quarter of MAX\_HEAP\_SIZE}. On Windows, the default value for 32-bit systems is 512M, and the default for 64-bit systems is 2G.|
+|Default|  Calculate based on MEMORY\_SIZE.|
 |Effective|After restarting system|
 
-* MAX\_DIRECT\_MEMORY\_SIZE
+* OFF\_HEAP\_MEMORY
 
-|Name|MAX\_DIRECT\_MEMORY\_SIZE|
+|Name|OFF\_HEAP\_MEMORY|
 |:---:|:---|
-|Description|The max direct memory that IoTDB could use|
+|Description|The direct memory that IoTDB DataNode can use, Former Name: MAX\_DIRECT\_MEMORY\_SIZE|
 |Type|String|
-|Default| Equal to the MAX\_HEAP\_SIZE|
+|Default|  Calculate based on MEMORY\_SIZE.|
 |Effective|After restarting system|
 
 * JMX\_LOCAL
@@ -178,6 +178,35 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |Default| 5000                                                                      |
 |Effective| After restarting system                                                   |
 
+### SSL Configuration
+
+* enable\_thrift\_ssl
+
+|Name| enable\_thrift\_ssl        |
+|:---:|:---------------------------|
+|Description|When enable\_thrift\_ssl is configured as true, SSL encryption will be used for communication through dn\_rpc\_port |
+|Type| Boolean                    |
+|Default| false                      |
+|Effective| After restarting system    |
+
+* key\_store\_path
+
+|Name| key\_store\_path |
+|:---:|:-----------------|
+|Description| SSL certificate path          |
+|Type| String           |
+|Default| ""            |
+|Effective| After restarting system           |
+
+* key\_store\_pwd
+
+|Name| key\_store\_pwd |
+|:---:|:----------------|
+|Description| SSL certificate password         |
+|Type| String          |
+|Default| ""              |
+|Effective| After restarting system        |
+
 ### Target Config Nodes
 
 * dn\_target\_config\_node\_list
@@ -254,6 +283,15 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |Type| long |
 |Default| 1024 |
 |Effective|After restarting system|
+
+* dn\_connection\_timeout\_ms
+
+|    Name     | dn\_connection\_timeout\_ms                        |
+|:-----------:|:---------------------------------------------------|
+| Description | Thrift socket and connection timeout between nodes |
+|    Type     | int                                                |
+|   Default   | 60000                                              |
+|  Effective  | After restarting system                            |
 
 * dn\_core\_client\_count\_for\_each\_node\_in\_client\_manager
 

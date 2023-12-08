@@ -211,7 +211,7 @@ export const enSidebar = {
       ],
     },
     {
-      text: 'Administration Management',
+      text: 'Administration',
       collapsible: true,
       prefix: 'Administration-Management/',
       // children: 'structure',
@@ -229,7 +229,7 @@ export const enSidebar = {
         { text: 'Log Tool', link: 'Log-Tool' },
         { text: 'JMX Tool', link: 'JMX-Tool' },
         { text: 'MLogParser Tool', link: 'MLogParser-Tool' },
-        { text: 'IoTDB Data Directory Overview Tool', link: 'IoTDB-Data-Dir-Overview-Tool' },
+        { text: 'Data Directory Overview Tool', link: 'IoTDB-Data-Dir-Overview-Tool' },
         { text: 'TsFile Sketch Tool', link: 'TsFile-Sketch-Tool' },
         { text: 'TsFile Resource Sketch Tool', link: 'TsFile-Resource-Sketch-Tool' },
         { text: 'TsFile Split Tool', link: 'TsFile-Split-Tool' },
@@ -238,7 +238,7 @@ export const enSidebar = {
       ],
     },
     {
-      text: 'Collaboration of Edge and Cloud',
+      text: ' Edge - Cloud Collaboration',
       collapsible: true,
       prefix: 'Edge-Cloud-Collaboration/',
       // children: 'structure',

@@ -21,29 +21,316 @@
 
 # 权限管理
 
-IoTDB 为用户提供了权限管理操作，从而为用户提供对于数据的权限管理功能，保障数据的安全。
-
-我们将通过以下几个具体的例子为您示范基本的用户权限操作，详细的 SQL 语句及使用方式详情请参见本文 [数据模式与概念章节](../Basic-Concept/Data-Model-and-Terminology.md)。同时，在 JAVA 编程环境中，您可以使用 [JDBC API](../API/Programming-JDBC.md) 单条或批量执行权限管理类语句。
+IoTDB 为用户提供了权限管理操作，为用户提供对数据与集群系统的权限管理功能，保障数据与系统安全。
+本篇介绍IoTDB 中权限模块的基本概念、用户定义、权限管理、鉴权逻辑与功能用例。在 JAVA 编程环境中，您可以使用 [JDBC API](../API/Programming-JDBC.md) 单条或批量执行权限管理类语句。
 
 ## 基本概念
 
 ### 用户
 
-用户即数据库的合法使用者。一个用户与一个唯一的用户名相对应，并且拥有密码作为身份验证的手段。一个人在使用数据库之前，必须先提供合法的（即存于数据库中的）用户名与密码，使得自己成为用户。
+用户即数据库的合法使用者。一个用户与一个唯一的用户名相对应，并且拥有密码作为身份验证的手段。一个人在使用数据库之前，必须先提供合法的（即存于数据库中的）用户名与密码，作为用户成功登录。
 
 ### 权限
 
-数据库提供多种操作，并不是所有的用户都能执行所有操作。如果一个用户可以执行某项操作，则称该用户有执行该操作的权限。权限可分为数据管理权限（如对数据进行增删改查）以及权限管理权限（用户、角色的创建与删除，权限的赋予与撤销等）。数据管理权限往往需要一个路径来限定其生效范围，可使用[路径模式](../Basic-Concept/Data-Model-and-Terminology.md)灵活管理权限。
+数据库提供多种操作，但并非所有的用户都能执行所有操作。如果一个用户可以执行某项操作，则称该用户有执行该操作的权限。权限通常需要一个路径来限定其生效范围，可以使用[路径模式](../Basic-Concept/Data-Model-and-Terminology.md)灵活管理权限。
 
 ### 角色
 
-角色是若干权限的集合，并且有一个唯一的角色名作为标识符。用户通常和一个现实身份相对应（例如交通调度员），而一个现实身份可能对应着多个用户。这些具有相同现实身份的用户往往具有相同的一些权限。角色就是为了能对这样的权限进行统一的管理的抽象。
+角色是若干权限的集合，并且有一个唯一的角色名作为标识符。角色通常和一个现实身份相对应（例如交通调度员），而一个现实身份可能对应着多个用户。这些具有相同现实身份的用户往往具有相同的一些权限，角色就是为了能对这样的权限进行统一的管理的抽象。
 
-### 默认用户及其具有的角色
+### 默认用户与角色
 
-初始安装后的 IoTDB 中有一个默认用户：root，默认密码为 root。该用户为管理员用户，固定拥有所有权限，无法被赋予、撤销权限，也无法被删除。
+安装初始化后的 IoTDB 中有一个默认用户：root，默认密码为 root。该用户为管理员用户，固定拥有所有权限，无法被赋予、撤销权限，也无法被删除，数据库内仅有一个管理员用户。
 
-## 权限操作示例 
+一个新创建的用户或角色不具备任何权限。
+
+## 用户定义
+
+拥有 MANAGE_USER、MANAGE_ROLE 的用户或者管理员可以创建用户或者角色，需要满足以下约束：
+
+### 用户名限制
+
+4~32个字符，支持使用英文大小写字母、数字、特殊字符（`!@#$%^&*()_+-=`）
+
+用户无法创建和管理员用户同名的用户。
+
+### 密码限制
+
+4~32个字符，可使用大写小写字母、数字、特殊字符（`!@#$%^&*()_+-=`），密码默认采用 MD5 进行加密。
+
+### 角色名限制
+
+4~32个字符，支持使用英文大小写字母、数字、特殊字符（`!@#$%^&*()_+-=`）
+
+用户无法创建和管理员用户同名的角色。
+
+## 权限管理
+
+IoTDB 主要有两类权限：序列权限、全局权限。
+
+### 序列权限
+
+序列权限约束了用户访问数据的范围与方式，支持对绝对路径与前缀匹配路径授权，可对timeseries 粒度生效。
+
+下表描述了这类权限的种类与范围：
+
+| 权限名称         | 描述                                                                                                                                                                                                                                            |
+|--------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| READ_DATA    | 允许读取授权路径下的序列数据。                                                                                                                                                                                                                               |
+| WRITE_DATA   | 允许读取授权路径下的序列数据。<br/>允许插入、删除授权路径下的的序列数据。<br/>允许在授权路径下导入、加载数据，在导入数据时，需要拥有对应路径的 WRITE_DATA 权限，在自动创建数据库与序列时，需要有 MANAGE_DATABASE 与 WRITE_SCHEMA 权限。                                                                                                |
+| READ_SCHEMA  | 允许获取授权路径下元数据树的详细信息：<br/>包括：路径下的数据库、子路径、子节点、设备、序列、模版、视图等。                                                                                                                                                                                      |
+| WRITE_SCHEMA | 允许获取授权路径下元数据树的详细信息。<br/>允许在授权路径下对序列、模版、视图等进行创建、删除、修改操作。<br/>在创建或修改 view 的时候，会检查 view 路径的 WRITE_SCHEMA 权限、数据源的 READ_SCHEMA 权限。<br/>在对 view 进行查询、插入时，会检查 view 路径的 READ_DATA 权限、WRITE_DATA 权限。<br/>允许在授权路径下设置、取消、查看TTL。<br/> 允许在授权路径下挂载或者接触挂载模板。 |
+
+### 全局权限
+
+全局权限约束了用户使用的数据库功能、限制了用户执行改变系统状态与任务状态的命令，用户获得全局授权后，可对数据库进行管理。
+
+下表描述了系统权限的种类：
+
+|      权限名称       | 描述                                                                |
+|:---------------:|:------------------------------------------------------------------|
+| MANAGE_DATABASE | - 允许用户创建、删除数据库.                                                   |
+|   MANAGE_USER   | - 允许用户创建、删除、修改、查看用户。                                              |
+|   MANAGE_ROLE   | - 允许用户创建、删除、查看角色。 <br/> 允许用户将角色授予给其他用户,或取消其他用户的角色。                |
+|   USE_TRIGGER   | - 允许用户创建、删除、查看触发器。<br/>与触发器的数据源权限检查相独立。                           |
+|     USE_UDF     | - 允许用户创建、删除、查看用户自定义函数。<br/>与自定义函数的数据源权限检查相独立。                     |
+|     USE_CQ      | - 允许用户创建、开始、停止、删除、查看管道。<br/>允许用户创建、删除、查看管道插件。<br/>与管道的数据源权限检查相独立。 |
+| EXTEND_TEMPLATE | - 允许自动扩展模板。                                                       |
+|    MAINTAIN     | - 允许用户查询、取消查询。 <br/> 允许用户查看变量。 <br/> 允许用户查看集群状态。                  |
+|    USE_MODEL    | - 允许用户创建、删除、查询深度学习模型                                              |
+
+关于模板权限：
+
+1. 模板的创建、删除、修改、查询、挂载、卸载仅允许管理员操作。
+2. 激活模板需要拥有激活路径的 WRITE_SCHEMA 权限
+3. 若开启了自动创建，在向挂载了模板的不存在路径写入时，数据库会自动扩展模板并写入数据，因此需要有 EXTEND_TEMPLATE 权限与写入序列的 WRITE_DATA 权限。
+4. 解除模板，需要拥有挂载模板路径的 WRITE_SCHEMA 权限。
+5. 查询使用了某个元数据模板的路径，需要有路径的 READ_SCHEMA 权限，否则将返回为空。
+
+### 权限授予与取消
+
+在 IoTDB 中，用户可以由三种途径获得权限：
+
+1. 由超级管理员授予，超级管理员可以控制其他用户的权限。
+2. 由允许权限授权的用户授予，该用户获得权限时被指定了 grant option 关键字。
+3. 由超级管理员或者有 MANAGE_ROLE 的用户授予某个角色进而获取权限。
+
+取消用户的权限，可以由以下几种途径：
+
+1. 由超级管理员取消用户的权限。
+2. 由允许权限授权的用户取消权限，该用户获得权限时被指定了 grant option 关键字。
+3. 由超级管理员或者MANAGE_ROLE 的用户取消用户的某个角色进而取消权限。
+
+- 在授权时，必须指定路径。全局权限需要指定为 root.**, 而序列相关权限必须为绝对路径或者以双通配符结尾的前缀路径。
+- 当授予角色权限时，可以为该权限指定 with grant option 关键字，意味着用户可以转授其授权路径上的权限，也可以取消其他用户的授权路径上的权限。例如用户 A 在被授予`集团1.公司1.**`的读权限时制定了 grant option 关键字，那么 A 可以将`集团1.公司1`以下的任意节点、序列的读权限转授给他人， 同样也可以取消其他用户 `集团1.公司1` 下任意节点的读权限。
+- 在取消授权时，取消授权语句会与用户所有的权限路径进行匹配，将匹配到的权限路径进行清理，例如用户A 具有 `集团1.公司1.工厂1 `的读权限， 在取消 `集团1.公司1.** `的读权限时，会清除用户A 的 `集团1.公司1.工厂1` 的读权限。
+
+
+
+## 鉴权
+
+用户权限主要由三部分组成：权限生效范围（路径）， 权限类型， with grant option 标记：
+
+```
+userTest1 : 
+    root.t1.**  -  read_schema, read_data     -    with grant option
+    root.**     -  write_schema, write_data   -    with grant option 
+```
+
+每个用户都有一个这样的权限访问列表，标识他们获得的所有权限，可以通过 `LIST PRIVILEGES OF USER <username>` 查看他们的权限。
+
+在对一个路径进行鉴权时，数据库会进行路径与权限的匹配。例如检查 `root.t1.t2` 的 read_schema 权限时，首先会与权限访问列表的 `root.t1.**`进行匹配，匹配成功，则检查该路径是否包含待鉴权的权限，否则继续下一条路径-权限的匹配，直到匹配成功或者匹配结束。
+
+在进行多路径鉴权时，对于多路径查询任务，数据库只会将有权限的数据呈现出来，无权限的数据不会包含在结果中；对于多路径写入任务，数据库要求必须所有的目标序列都获得了对应的权限，才能进行写入。
+
+请注意，下面的操作需要检查多重权限
+1. 开启了自动创建序列功能，在用户将数据插入到不存在的序列中时，不仅需要对应序列的写入权限，还需要序列的元数据修改权限。
+2. 执行 select into 语句时，需要检查源序列的读权限与目标序列的写权限。需要注意的是源序列数据可能因为权限不足而仅能获取部分数据，目标序列写入权限不足时会报错终止任务。
+3. View 权限与数据源的权限是独立的，向 view 执行读写操作仅会检查 view 的权限，而不再对源路径进行权限校验。
+
+
+
+## 功能语法与示例
+
+IoTDB 提供了组合权限，方便用户授权：
+
+| 权限名称  | 权限范围                    |
+|-------|-------------------------|
+| ALL   | 所有权限                    |
+| READ  | READ_SCHEMA、READ_DATA   |
+| WRITE | WRITE_SCHEMA、WRITE_DATA |
+
+组合权限并不是一种具体的权限，而是一种简写方式，与直接书写对应的权限名称没有差异。
+
+下面将通过一系列具体的用例展示权限语句的用法，非管理员执行下列语句需要提前获取权限，所需的权限标记在操作描述后。
+
+### 用户与角色相关
+
+- 创建用户（需 MANAGE_USER 权限)
+
+
+```SQL
+CREATE USER <userName> <password>
+eg: CREATE USER user1 'passwd'
+```
+
+- 删除用户 (需 MANEGE_USER 权限)
+
+
+```SQL
+DROP USER <userName>
+eg: DROP USER user1
+```
+
+- 创建角色 (需 MANAGE_ROLE 权限)
+
+```SQL
+CREATE ROLE <roleName>
+eg: CREATE ROLE role1
+```
+
+- 删除角色 (需 MANAGE_ROLE 权限)
+
+
+```SQL
+DROP ROLE <roleName>
+eg: DROP ROLE role1   
+```
+
+- 赋予用户角色 (需 MANAGE_ROLE 权限)
+
+
+```SQL
+GRANT ROLE <ROLENAME> TO <USERNAME>
+eg: GRANT ROLE admin TO user1
+```
+
+- 移除用户角色 (需 MANAGE_ROLE 权限)
+
+
+```SQL
+REVOKE ROLE <ROLENAME> FROM <USER>
+eg: REVOKE ROLE admin FROM user1
+```
+
+- 列出所有用户  (需 MANEGE_USER 权限)
+
+```SQL
+LIST USER
+```
+
+- 列出所有角色 (需 MANAGE_ROLE 权限)
+
+```SQL
+LIST ROLE
+```
+
+- 列出指定角色下所有用户 (需 MANEGE_USER 权限)
+
+```SQL
+LIST USER OF ROLE <roleName>
+eg: LIST USER OF ROLE roleuser
+```
+
+- 列出指定用户下所有角色
+
+用户可以列出自己的角色，但列出其他用户的角色需要拥有 MANAGE_ROLE 权限。
+
+```SQL
+LIST ROLE OF USER <username> 
+eg: LIST ROLE OF USER tempuser
+```
+
+- 列出用户所有权限
+
+用户可以列出自己的权限信息，但列出其他用户的权限需要拥有 MANAGE_USER 权限。
+
+```SQL
+LIST PRIVILEGES OF USER <username>;
+eg: LIST PRIVILEGES OF USER tempuser;
+    
+```
+
+- 列出角色所有权限
+
+用户可以列出自己具有的角色的权限信息，列出其他角色的权限需要有 MANAGE_ROLE 权限。
+
+```SQL
+LIST PRIVILEGES OF ROLE <roleName>;
+eg: LIST PRIVILEGES OF ROLE actor;
+```
+
+- 更新密码
+
+用户可以更新自己的密码，但更新其他用户密码需要具备MANAGE_USER  权限。
+
+```SQL
+ALTER USER <username> SET PASSWORD <password>;
+eg: ALTER USER tempuser SET PASSWORD 'newpwd';
+```
+
+### 授权与取消授权
+
+用户使用授权语句对赋予其他用户权限，语法如下：
+
+```SQL
+GRANT <PRIVILEGES> ON <PATHS> TO ROLE/USER <NAME> [WITH GRANT OPTION]；
+eg: GRANT READ ON root.** TO ROLE role1;
+eg: GRANT READ_DATA, WRITE_DATA ON root.t1.** TO USER user1;
+eg: GRANT READ_DATA, WRITE_DATA ON root.t1.**,root.t2.** TO USER user1;
+eg: GRANT MANAGE_ROLE ON root.** TO USER user1 WITH GRANT OPTION;
+eg: GRANT ALL ON root.** TO USER user1 WITH GRANT OPTION;
+```
+
+用户使用取消授权语句可以将其他的权限取消，语法如下：
+
+```SQL
+REVOKE <PRIVILEGES> ON <PATHS> FROM ROLE/USER <NAME>;
+eg: REVOKE READ ON root.** FROM ROLE role1;
+eg: REVOKE READ_DATA, WRITE_DATA ON root.t1.** FROM USER user1;
+eg: REVOKE READ_DATA, WRITE_DATA ON root.t1.**, root.t2.** FROM USER user1;
+eg: REVOKE MANAGE_ROLE ON root.** FROM USER user1;
+eg: REVOKE ALL ON ROOT.** FROM USER user1;
+```
+
+- **非管理员用户执行授权/取消授权语句时，需要对\<PATHS\> 有\<PRIVILEGES\> 权限，并且该权限是被标记带有 WITH GRANT OPTION 的。**
+
+- 在授予取消全局权限时，或者语句中包含全局权限时(ALL 展开会包含全局权限），须指定 path 为 root.**。 例如，以下授权/取消授权语句是合法的：
+
+    ```SQL
+    GRANT MANAGE_USER ON root.** TO USER user1;
+    GRANT MANAGE_ROLE ON root.** TO ROLE role1  WITH GRANT OPTION;
+    GRANT ALL ON  root.** TO role role1  WITH GRANT OPTION;
+    REVOKE MANAGE_USER ON root.** FROM USER user1;
+    REVOKE MANAGE_ROLE ON root.** FROM ROLE role1;
+    REVOKE ALL ON root.** FROM ROLE role1;
+    ```
+    下面的语句是非法的：
+    
+    ```SQL
+    GRANT READ, MANAGE_ROLE ON root.t1.** TO USER user1;
+    GRANT ALL ON root.t1.t2 TO USER user1 WITH GRANT OPTION;
+    REVOKE ALL ON root.t1.t2 FROM USER user1;
+    REVOKE READ, MANAGE_ROLE ON root.t1.t2 FROM ROLE ROLE1;
+    ```
+
+- \<PATH\> 必须为全路径或者以双通配符结尾的匹配路径，以下路径是合法的:
+  
+    ```SQL
+    root.**
+    root.t1.t2.**
+    root.t1.t2.t3 
+    ```
+    
+    以下的路径是非法的：
+    
+    ```SQL
+    root.t1.*
+    root.t1.**.t2
+    root.t1*.t2.t3
+    ```
+
+## 示例
 
 根据本文中描述的 [样例数据](https://github.com/thulab/iotdb/files/4438687/OtherMaterial-Sample.Data.txt) 内容，IoTDB 的样例数据可能同时属于 ln, sgcc 等不同发电集团，不同的发电集团不希望其他发电集团获取自己的数据库数据，因此我们需要将不同的数据在集团层进行权限隔离。
 
@@ -51,25 +338,24 @@ IoTDB 为用户提供了权限管理操作，从而为用户提供对于数据�
 
 使用 `CREATE USER <userName> <password>` 创建用户。例如，我们可以使用具有所有权限的root用户为 ln 和 sgcc 集团创建两个用户角色，名为 ln_write_user, sgcc_write_user，密码均为 write_pwd。建议使用反引号(`)包裹用户名。SQL 语句为：
 
-```
+```SQL
 CREATE USER `ln_write_user` 'write_pwd'
 CREATE USER `sgcc_write_user` 'write_pwd'
 ```
-
 此时使用展示用户的 SQL 语句：
 
-```
+```SQL
 LIST USER
 ```
 
 我们可以看到这两个已经被创建的用户，结果如下：
 
-```
+```SQL
 IoTDB> CREATE USER `ln_write_user` 'write_pwd'
 Msg: The statement is executed successfully.
 IoTDB> CREATE USER `sgcc_write_user` 'write_pwd'
 Msg: The statement is executed successfully.
-IoTDB> LIST USER
+IoTDB> LIST USER;
 +---------------+
 |           user|
 +---------------+
@@ -78,458 +364,146 @@ IoTDB> LIST USER
 |sgcc_write_user|
 +---------------+
 Total line number = 3
-It costs 0.157s
+It costs 0.012s
 ```
 
 ### 赋予用户权限
 
 此时，虽然两个用户已经创建，但是他们不具有任何权限，因此他们并不能对数据库进行操作，例如我们使用 ln_write_user 用户对数据库中的数据进行写入，SQL 语句为：
 
-```
+```SQL
 INSERT INTO root.ln.wf01.wt01(timestamp,status) values(1509465600000,true)
 ```
 
 此时，系统不允许用户进行此操作，会提示错误：
 
-```
+```SQL
 IoTDB> INSERT INTO root.ln.wf01.wt01(timestamp,status) values(1509465600000,true)
-Msg: 602: No permissions for this operation, please add privilege INSERT_TIMESERIES.
+Msg: 803: No permissions for this operation, please add privilege WRITE_DATA on [root.ln.wf01.wt01.status]
 ```
 
-现在，我们用root用户分别赋予他们向对应 database 数据的写入权限.
+现在，我们用 root 用户分别赋予他们向对应路径的写入权限.
 
-我们使用 `GRANT USER <userName> PRIVILEGES <privileges> ON <nodeName>` 语句赋予用户权限(注：其中，创建用户权限无需指定路径)，例如：
-
-```
-GRANT USER `ln_write_user` PRIVILEGES INSERT_TIMESERIES on root.ln.**
-GRANT USER `sgcc_write_user` PRIVILEGES INSERT_TIMESERIES on root.sgcc1.**, root.sgcc2.**
-GRANT USER `ln_write_user` PRIVILEGES CREATE_USER
+我们使用 `GRANT <PRIVILEGES> ON <PATHS> TO USER <username>` 语句赋予用户权限,例如：
+```SQL
+GRANT WRITE_DATA ON root.ln.** TO USER `ln_write_user`
+GRANT WRITE_DATA ON root.sgcc1.**, root.sgcc2.** TO USER `sgcc_write_user`
 ```
 
 执行状态如下所示：
 
-```
-IoTDB> GRANT USER `ln_write_user` PRIVILEGES INSERT_TIMESERIES on root.ln.**
+```SQL
+IoTDB> GRANT WRITE_DATA ON root.ln.** TO USER `ln_write_user`
 Msg: The statement is executed successfully.
-IoTDB> GRANT USER `sgcc_write_user` PRIVILEGES INSERT_TIMESERIES on root.sgcc1.**, root.sgcc2.**
-Msg: The statement is executed successfully.
-IoTDB> GRANT USER `ln_write_user` PRIVILEGES CREATE_USER
+IoTDB> GRANT WRITE_DATA ON root.sgcc1.**, root.sgcc2.** TO USER `sgcc_write_user`
 Msg: The statement is executed successfully.
 ```
 
 接着使用ln_write_user再尝试写入数据
 
-```
+```SQL
 IoTDB> INSERT INTO root.ln.wf01.wt01(timestamp, status) values(1509465600000, true)
 Msg: The statement is executed successfully.
 ```
 
 ### 撤销用户权限
+授予用户权限后，我们可以使用 `REVOKE <PRIVILEGES> ON <PATHS> FROM USER <USERNAME>`来撤销已经授予用户的权限。例如，用root用户撤销ln_write_user和sgcc_write_user的权限：
 
-授予用户权限后，我们可以使用 `REVOKE USER <userName> PRIVILEGES <privileges> ON <nodeName>` 来撤销已授予的用户权限(注：其中，撤销创建用户权限无需指定路径)。例如，用root用户撤销ln_write_user和sgcc_write_user的权限：
-
-```
-REVOKE USER `ln_write_user` PRIVILEGES INSERT_TIMESERIES on root.ln.**
-REVOKE USER `sgcc_write_user` PRIVILEGES INSERT_TIMESERIES on root.sgcc1.**, root.sgcc2.**
-REVOKE USER `ln_write_user` PRIVILEGES CREATE_USER
+``` SQL
+REVOKE WRITE_DATA ON root.ln.** FROM USER `ln_write_user`
+REVOKE WRITE_DATA ON root.sgcc1.**, root.sgcc2.** FROM USER `sgcc_write_user`
 ```
 
 执行状态如下所示：
-
-```
-REVOKE USER `ln_write_user` PRIVILEGES INSERT_TIMESERIES on root.ln.**
+``` SQL
+IoTDB> REVOKE WRITE_DATA ON root.ln.** FROM USER `ln_write_user`
 Msg: The statement is executed successfully.
-REVOKE USER `sgcc_write_user` PRIVILEGES INSERT_TIMESERIES on root.sgcc1.**, root.sgcc2.**
-Msg: The statement is executed successfully.
-REVOKE USER `ln_write_user` PRIVILEGES CREATE_USER
+IoTDB> REVOKE WRITE_DATA ON root.sgcc1.**, root.sgcc2.** FROM USER `sgcc_write_user`
 Msg: The statement is executed successfully.
 ```
 
 撤销权限后，ln_write_user就没有向root.ln.**写入数据的权限了。
 
+``` SQL
+IoTDB> INSERT INTO root.ln.wf01.wt01(timestamp, status) values(1509465600000, true)
+Msg: 803: No permissions for this operation, please add privilege WRITE_DATA on [root.ln.wf01.wt01.status]
 ```
-INSERT INTO root.ln.wf01.wt01(timestamp, status) values(1509465600000, true)
-Msg: 602: No permissions for this operation, please add privilege INSERT_TIMESERIES.
-```
-
-### SQL 语句
-
-与权限相关的语句包括：
-
-* 创建用户
-
-```
-CREATE USER <userName> <password>;  
-Eg: IoTDB > CREATE USER `thulab` 'passwd';
-```
-
-* 删除用户
-
-```
-DROP USER <userName>;  
-Eg: IoTDB > DROP USER `xiaoming`;
-```
-
-* 创建角色
-
-```
-CREATE ROLE <roleName>;  
-Eg: IoTDB > CREATE ROLE `admin`;
-```
-
-* 删除角色
-
-```
-DROP ROLE <roleName>;  
-Eg: IoTDB > DROP ROLE `admin`;
-```
-
-* 赋予用户权限
-
-```
-GRANT USER <userName> PRIVILEGES <privileges> ON <nodeNames>;  
-Eg: IoTDB > GRANT USER `tempuser` PRIVILEGES INSERT_TIMESERIES, DELETE_TIMESERIES on root.ln.**, root.sgcc.**;
-Eg: IoTDB > GRANT USER `tempuser` PRIVILEGES CREATE_ROLE;
-```
-
-- 赋予用户全部的权限
-
-```
-GRANT USER <userName> PRIVILEGES ALL; 
-Eg: IoTDB > GRANT USER `tempuser` PRIVILEGES ALL;
-```
-
-* 赋予角色权限
-
-```
-GRANT ROLE <roleName> PRIVILEGES <privileges> ON <nodeNames>;  
-Eg: IoTDB > GRANT ROLE `temprole` PRIVILEGES INSERT_TIMESERIES, DELETE_TIMESERIES ON root.sgcc.**, root.ln.**;
-Eg: IoTDB > GRANT ROLE `temprole` PRIVILEGES CREATE_ROLE;
-```
-
-- 赋予角色全部的权限
-
-```
-GRANT ROLE <roleName> PRIVILEGES ALL;  
-Eg: IoTDB > GRANT ROLE `temprole` PRIVILEGES ALL;
-```
-
-* 赋予用户角色
-
-```
-GRANT <roleName> TO <userName>;  
-Eg: IoTDB > GRANT `temprole` TO tempuser;
-```
-
-* 撤销用户权限
-
-```
-REVOKE USER <userName> PRIVILEGES <privileges> ON <nodeNames>;   
-Eg: IoTDB > REVOKE USER `tempuser` PRIVILEGES DELETE_TIMESERIES on root.ln.**;
-Eg: IoTDB > REVOKE USER `tempuser` PRIVILEGES CREATE_ROLE;
-```
-
-- 移除用户所有权限
-
-```
-REVOKE USER <userName> PRIVILEGES ALL; 
-Eg: IoTDB > REVOKE USER `tempuser` PRIVILEGES ALL;
-```
-
-* 撤销角色权限
-
-```
-REVOKE ROLE <roleName> PRIVILEGES <privileges> ON <nodeNames>;  
-Eg: IoTDB > REVOKE ROLE `temprole` PRIVILEGES DELETE_TIMESERIES ON root.ln.**;
-Eg: IoTDB > REVOKE ROLE `temprole` PRIVILEGES CREATE_ROLE;
-```
-
-- 撤销角色全部的权限
-
-```
-REVOKE ROLE <roleName> PRIVILEGES ALL;  
-Eg: IoTDB > REVOKE ROLE `temprole` PRIVILEGES ALL;
-```
-
-* 撤销用户角色
-
-```
-REVOKE <roleName> FROM <userName>;
-Eg: IoTDB > REVOKE `temprole` FROM tempuser;
-```
-
-* 列出所有用户
-
-```
-LIST USER
-Eg: IoTDB > LIST USER
-```
-
-* 列出指定角色下所有用户
-
-```
-LIST USER OF ROLE <roleName>;
-Eg: IoTDB > LIST USER OF ROLE `roleuser`;
-```
-
-* 列出所有角色
-
-```
-LIST ROLE
-Eg: IoTDB > LIST ROLE
-```
-
-* 列出指定用户下所有角色
-
-```
-LIST ROLE OF USER <username> ;  
-Eg: IoTDB > LIST ROLE OF USER `tempuser`;
-```
-
-* 列出用户所有权限
-
-```
-LIST PRIVILEGES USER <username>;   
-Eg: IoTDB > LIST PRIVILEGES USER `tempuser`;
-```
-
-* 列出用户在具体路径上相关联的权限
-
-```    
-LIST PRIVILEGES USER <username> ON <paths>;
-Eg: IoTDB> LIST PRIVILEGES USER `tempuser` ON root.ln.**, root.ln.wf01.**;
-+--------+-----------------------------------+
-|    role|                          privilege|
-+--------+-----------------------------------+
-|        |      root.ln.** : ALTER_TIMESERIES|
-|temprole|root.ln.wf01.** : CREATE_TIMESERIES|
-+--------+-----------------------------------+
-Total line number = 2
-It costs 0.005s
-IoTDB> LIST PRIVILEGES USER `tempuser` ON root.ln.wf01.wt01.**;
-+--------+-----------------------------------+
-|    role|                          privilege|
-+--------+-----------------------------------+
-|        |      root.ln.** : ALTER_TIMESERIES|
-|temprole|root.ln.wf01.** : CREATE_TIMESERIES|
-+--------+-----------------------------------+
-Total line number = 2
-It costs 0.005s
-```
-
-* 列出角色所有权限
-
-```
-LIST PRIVILEGES ROLE <roleName>;
-Eg: IoTDB > LIST PRIVILEGES ROLE `actor`;
-```
-
-* 列出角色在具体路径上相关联的权限
-
-```
-LIST PRIVILEGES ROLE <roleName> ON <paths>;    
-Eg: IoTDB> LIST PRIVILEGES ROLE `temprole` ON root.ln.**, root.ln.wf01.wt01.**;
-+-----------------------------------+
-|                          privilege|
-+-----------------------------------+
-|root.ln.wf01.** : CREATE_TIMESERIES|
-+-----------------------------------+
-Total line number = 1
-It costs 0.005s
-IoTDB> LIST PRIVILEGES ROLE `temprole` ON root.ln.wf01.wt01.**;
-+-----------------------------------+
-|                          privilege|
-+-----------------------------------+
-|root.ln.wf01.** : CREATE_TIMESERIES|
-+-----------------------------------+
-Total line number = 1
-It costs 0.005s
-```
-
-* 更新密码
-
-```
-ALTER USER <username> SET PASSWORD <password>;
-Eg: IoTDB > ALTER USER `tempuser` SET PASSWORD 'newpwd';
-```
-
 
 ## 其他说明
-
-### 用户、权限与角色的关系
 
 角色是权限的集合，而权限和角色都是用户的一种属性。即一个角色可以拥有若干权限。一个用户可以拥有若干角色与权限（称为用户自身权限）。
 
 目前在 IoTDB 中并不存在相互冲突的权限，因此一个用户真正具有的权限是用户自身权限与其所有的角色的权限的并集。即要判定用户是否能执行某一项操作，就要看用户自身权限或用户的角色的所有权限中是否有一条允许了该操作。用户自身权限与其角色权限，他的多个角色的权限之间可能存在相同的权限，但这并不会产生影响。
 
-需要注意的是：如果一个用户自身有某种权限（对应操作 A），而他的某个角色有相同的权限。那么如果仅从该用户撤销该权限无法达到禁止该用户执行操作 A 的目的，还需要从这个角色中也撤销对应的权限，或者从这个用户将该角色撤销。同样，如果仅从上述角色将权限撤销，也不能禁止该用户执行操作 A。  
+需要注意的是：如果一个用户自身有某种权限（对应操作 A），而他的某个角色有相同的权限。那么如果仅从该用户撤销该权限无法达到禁止该用户执行操作 A 的目的，还需要从这个角色中也撤销对应的权限，或者从这个用户将该角色撤销。同样，如果仅从上述角色将权限撤销，也不能禁止该用户执行操作 A。
 
-同时，对角色的修改会立即反映到所有拥有该角色的用户上，例如对角色增加某种权限将立即使所有拥有该角色的用户都拥有对应权限，删除某种权限也将使对应用户失去该权限（除非用户本身有该权限）。 
+同时，对角色的修改会立即反映到所有拥有该角色的用户上，例如对角色增加某种权限将立即使所有拥有该角色的用户都拥有对应权限，删除某种权限也将使对应用户失去该权限（除非用户本身有该权限）。
 
-### 系统所含权限列表
+## 升级说明
 
-| 权限名称                  | 说明                                                         | 示例                                                         |
-| :------------------------ | :----------------------------------------------------------- | ------------------------------------------------------------ |
-| CREATE\_DATABASE          | 创建 database。包含设置 database 的权限和TTL。路径相关       | Eg1: `CREATE DATABASE root.ln;`<br />Eg2:`set ttl to root.ln 3600000;`<br />Eg3:`unset ttl to root.ln;` |
-| DELETE\_DATABASE          | 删除 database。路径相关                                      | Eg: `delete database root.ln;`                               |
-| CREATE\_TIMESERIES        | 创建时间序列。路径相关                                       | Eg1: 创建时间序列<br />`create timeseries root.ln.wf02.status with datatype=BOOLEAN,encoding=PLAIN;`<br />Eg2: 创建对齐时间序列<br />`create aligned timeseries root.ln.device1(latitude FLOAT encoding=PLAIN compressor=SNAPPY, longitude FLOAT encoding=PLAIN compressor=SNAPPY);` |
-| INSERT\_TIMESERIES        | 插入数据。路径相关                                           | Eg1: `insert into root.ln.wf02(timestamp,status) values(1,true);`<br />Eg2: `insert into root.sg1.d1(time, s1, s2) aligned values(1, 1, 1)` |
-| ALTER\_TIMESERIES         | 修改时间序列标签。路径相关                                   | Eg1: `alter timeseries root.turbine.d1.s1 ADD TAGS tag3=v3, tag4=v4;`<br />Eg2: `ALTER timeseries root.turbine.d1.s1 UPSERT ALIAS=newAlias TAGS(tag2=newV2, tag3=v3) ATTRIBUTES(attr3=v3, attr4=v4);` |
-| READ\_TIMESERIES          | 查询数据。路径相关                                           | Eg1: `SHOW DATABASES;` <br />Eg2: `show child paths root.ln, show child nodes root.ln;`<br />Eg3: `show devices;`<br />Eg4: `show timeseries root.**;`<br />Eg5: `show schema templates;`<br />Eg6: `show all ttl`<br />Eg7: [数据查询](../Query-Data/Overview.md)（这一节之下的查询语句均使用该权限）<br />Eg8: CVS格式数据导出<br />`./export-csv.bat -h 127.0.0.1 -p 6667 -u tempuser -pw root -td ./`<br />Eg9: 查询性能追踪<br />`tracing select * from root.**`<br />Eg10: UDF查询<br />`select example(*) from root.sg.d1`<br />Eg11: 查询触发器<br />`show triggers`<br />Eg12: 统计查询<br />`count devices` |
-| DELETE\_TIMESERIES        | 删除数据或时间序列。路径相关                                 | Eg1: 删除时间序列<br />`delete timeseries root.ln.wf01.wt01.status`<br />Eg2: 删除数据<br />`delete from root.ln.wf02.wt02.status where time < 10`<br />Eg3: 使用DROP关键字<br />`drop timeseries root.ln.wf01.wt01.status` |
-| CREATE\_USER              | 创建用户。路径无关                                           | Eg: `create user thulab 'passwd';`                           |
-| DELETE\_USER              | 删除用户。路径无关                                           | Eg: `drop user xiaoming;`                                    |
-| MODIFY\_PASSWORD          | 修改所有用户的密码。路径无关。（没有该权限者仍然能够修改自己的密码。) | Eg: `alter user tempuser SET PASSWORD 'newpwd';`             |
-| LIST\_USER                | 列出所有用户，列出具有某角色的所有用户，列出用户在指定路径下相关权限。路径无关 | Eg1: `list user;`<br />Eg2: `list user of role 'wirte_role';`<br />Eg3: `list privileges user admin;`<br />Eg4: `list privileges user 'admin' on root.sgcc.**;` |
-| GRANT\_USER\_PRIVILEGE    | 赋予用户权限。路径无关                                       | Eg:  `grant user tempuser privileges DELETE_TIMESERIES on root.ln.**;` |
-| REVOKE\_USER\_PRIVILEGE   | 撤销用户权限。路径无关                                       | Eg:  `revoke user tempuser privileges DELETE_TIMESERIES on root.ln.**;` |
-| GRANT\_USER\_ROLE         | 赋予用户角色。路径无关                                       | Eg:  `grant temprole to tempuser;`                           |
-| REVOKE\_USER\_ROLE        | 撤销用户角色。路径无关                                       | Eg:  `revoke temprole from tempuser;`                        |
-| CREATE\_ROLE              | 创建角色。路径无关                                           | Eg:  `create role admin;`                                    |
-| DELETE\_ROLE              | 删除角色。路径无关                                           | Eg: `drop role admin;`                                       |
-| LIST\_ROLE                | 列出所有角色，列出某用户下所有角色，列出角色在指定路径下相关权限。路径无关 | Eg1: `list role`<br />Eg2: `list role of user 'actor';`<br />Eg3: `list privileges role wirte_role;`<br />Eg4: `list privileges role wirte_role ON root.sgcc;` |
-| GRANT\_ROLE\_PRIVILEGE    | 赋予角色权限。路径无关                                       | Eg: `grant role temprole privileges DELETE_TIMESERIES ON root.ln.**;` |
-| REVOKE\_ROLE\_PRIVILEGE   | 撤销角色权限。路径无关                                       | Eg: `revoke role temprole privileges DELETE_TIMESERIES ON root.ln.**;` |
-| CREATE_FUNCTION           | 注册 UDF。路径无关                                           | Eg: `create function example AS 'org.apache.iotdb.udf.UDTFExample';` |
-| DROP_FUNCTION             | 卸载 UDF。路径无关                                           | Eg: `drop function example`                                  |
-| CREATE_TRIGGER            | 创建触发器。路径相关                                         | Eg1: `CREATE TRIGGER <TRIGGER-NAME> BEFORE INSERT ON <FULL-PATH> AS <CLASSNAME>`<br />Eg2: `CREATE TRIGGER <TRIGGER-NAME> AFTER INSERT ON <FULL-PATH> AS <CLASSNAME>` |
-| DROP_TRIGGER              | 卸载触发器。路径相关                                         | Eg: `drop trigger 'alert-listener-sg1d1s1'`                  |
-| CREATE_CONTINUOUS_QUERY   | 创建连续查询。路径无关                                       | Eg: `CREATE CONTINUOUS QUERY cq1 RESAMPLE RANGE 40s BEGIN <QUERY-BODY> END` |
-| DROP_CONTINUOUS_QUERY     | 卸载连续查询。路径无关                                       | Eg1: `DROP CONTINUOUS QUERY cq3`<br />Eg2: `DROP CQ cq3`     |
-| SHOW_CONTINUOUS_QUERIES   | 展示所有连续查询。路径无关                                   | Eg1: `SHOW CONTINUOUS QUERIES`<br />Eg2: `SHOW cqs`          |
-| UPDATE_TEMPLATE           | 创建、删除模板。路径无关。                                   | Eg1: `create schema template t1(s1 int32)`<br />Eg2: `drop schema template t1` |
-| READ_TEMPLATE             | 查看所有模板、模板内容。 路径无关                            | Eg1: `show schema templates`<br/>Eg2: `show nodes in template t1` |
-| APPLY_TEMPLATE            | 挂载、卸载、激活、解除模板。路径有关。                       | Eg1: `set schema template t1 to root.sg.d`<br/>Eg2: `unset schema template t1 from root.sg.d`<br/>Eg3: `create timeseries of schema template on root.sg.d`<br/>Eg4: `delete timeseries of schema template on root.sg.d` |
-| READ_TEMPLATE_APPLICATION | 查看模板的挂载路径和激活路径。路径无关                       | Eg1: `show paths set schema template t1`<br/>Eg2: `show paths using schema template t1` |
+在 1.3 版本前，权限类型较多，在这一版实现中，权限类型做了精简，并且添加了对权限路径的约束。
 
-注意： 路径无关的权限只能在路径root.**下赋予或撤销；
+数据库 1.3 版本的权限路径必须为全路径或者以双通配符结尾的匹配路径，在系统升级时，会自动转换不合法的权限路径和权限类型。
+路径上首个非法节点会被替换为`**`, 不在支持的权限类型也会映射到当前系统支持的权限上。
 
-注意: 下述sql语句需要赋予多个权限才可以使用：
+例如：
 
-- 导入数据，需要赋予`READ_TIMESERIES`，`INSERT_TIMESERIES`两种权限。
-
-```
-Eg: IoTDB > ./import-csv.bat -h 127.0.0.1 -p 6667 -u renyuhua -pw root -f dump0.csv
-```
-
-- 查询写回(SELECT_INTO)
-    - 需要所有 `select` 子句中源序列的 `READ_TIMESERIES` 权限
-    - 需要所有 `into` 子句中目标序列 `INSERT_TIMESERIES` 权限
+| 权限类型          | 权限路径        | 映射之后的权限类型       | 权限路径      |
+| ----------------- | --------------- |-----------------| ------------- |
+| CREATE_DATBASE    | root.db.t1.*    | MANAGE_DATABASE | root.**       |
+| INSERT_TIMESERIES | root.db.t2.*.t3 | WRITE_DATA      | root.db.t2.** |
+| CREATE_TIMESERIES | root.db.t2*c.t3 | WRITE_SCHEMA    | root.db.**    |
+| LIST_ROLE         | root.**         | (忽略)            |               |
 
 
-```
-Eg: IoTDB > select s1, s1 into t1, t2 from root.sg.d1 limit 5 offset 1000
-```
+新旧版本的权限类型对照可以参照下面的表格（--IGNORE 表示新版本忽略该权限）：
 
-### 用户名限制
-
-IoTDB 规定用户名的字符长度不小于 4，其中用户名不能包含空格。
-
-### 密码限制
-
-IoTDB 规定密码的字符长度不小于 4，其中密码不能包含空格，密码默认采用 MD5 进行加密。
-
-### 角色名限制
-
-IoTDB 规定角色名的字符长度不小于 4，其中角色名不能包含空格。
-
-### 权限管理中的路径模式
-
-一个路径模式的结果集包含了它的子模式的结果集的所有元素。例如，`root.sg.d.*`是`root.sg.*.*`的子模式，而`root.sg.**`不是`root.sg.*.*`的子模式。当用户被授予对某个路径模式的权限时，在他的DDL或DML中使用的模式必须是该路径模式的子模式，这保证了用户访问时间序列时不会超出他的权限范围。
-
-### 权限缓存
-
-在分布式相关的权限操作中，在进行除了创建用户和角色之外的其他权限更改操作时，都会先清除与该用户（角色）相关的所有的`dataNode`的缓存信息，如果任何一台`dataNode`缓存信息清楚失败，这个权限更改的任务就会失败。
-
-### 非root用户限制进行的操作
-
-目前以下IoTDB支持的sql语句只有`root`用户可以进行操作，且没有对应的权限可以赋予新用户。
-
-###### TsFile管理
-
-- 加载TsFile
-
-```
-Eg: IoTDB > load '/Users/Desktop/data/1575028885956-101-0.tsfile'
-```
-
-- 删除TsFile文件
-
-```
-Eg: IoTDB > remove '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-0.tsfile'
-```
-
-- 卸载TsFile文件到指定目录
-
-```
-Eg: IoTDB > unload '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-0.tsfile' '/data/data/tmp'
-```
-
-###### 删除时间分区（实验性功能）
-
-- 删除时间分区（实验性功能）
-
-```
-Eg: IoTDB > DELETE PARTITION root.ln 0,1,2
-```
-
-###### 连续查询
-
-- 连续查询(CQ)
-
-```
-Eg: IoTDB > CREATE CONTINUOUS QUERY cq1 BEGIN SELECT max_value(temperature) INTO temperature_max FROM root.ln.*.* GROUP BY time(10s) END
-```
-
-###### 运维命令
-
-- FLUSH
-
-```
-Eg: IoTDB > flush
-```
-
-- MERGE
-
-```
-Eg: IoTDB > MERGE
-Eg: IoTDB > FULL MERGE
-```
-
-- CLEAR CACHE
-
-```sql
-Eg: IoTDB > CLEAR CACHE
-```
-
-- SET STSTEM TO READONLY / WRITABLE
-
-```
-Eg: IoTDB > SET STSTEM TO READONLY / WRITABLE
-```
-
-- SCHEMA SNAPSHOT
-
-```sql
-Eg: IoTDB > CREATE SNAPSHOT FOR SCHEMA
-```
-
-- 查询终止
-
-```
-Eg: IoTDB > KILL QUERY 1
-```
-
-###### 水印工具
-
-- 为新用户施加水印
-
-```
-Eg: IoTDB > grant watermark_embedding to Alice
-```
-
-- 撤销水印
-
-```
-Eg: IoTDB > revoke watermark_embedding from Alice
-```
+| 权限名称                      | 是否路径相关 | 新权限名称           | 是否路径相关 |
+|---------------------------|--------|-----------------|--------|
+| CREATE_DATABASE           | 是      | MANAGE_DATABASE | 否      |
+| INSERT_TIMESERIES         | 是      | WRITE_DATA      | 是      |
+| UPDATE_TIMESERIES         | 是      | WRITE_DATA      | 是      |
+| READ_TIMESERIES           | 是      | READ_DATA       | 是      |
+| CREATE_TIMESERIES         | 是      | WRITE_SCHEMA    | 是      |
+| DELETE_TIMESERIES         | 是      | WRITE_SCHEMA    | 是      |
+| CREATE_USER               | 否      | MANAGE_USER     | 否      |
+| DELETE_USER               | 否      | MANAGE_USER     | 否      |
+| MODIFY_PASSWORD           | 否      | -- IGNORE       |        |
+| LIST_USER                 | 否      | -- IGNORE       |        |
+| GRANT_USER_PRIVILEGE      | 否      | -- IGNORE       |        |
+| REVOKE_USER_PRIVILEGE     | 否      | -- IGNORE       |        |
+| GRANT_USER_ROLE           | 否      | MANAGE_ROLE     | 否      |
+| REVOKE_USER_ROLE          | 否      | MANAGE_ROLE     | 否      |
+| CREATE_ROLE               | 否      | MANAGE_ROLE     | 否      |
+| DELETE_ROLE               | 否      | MANAGE_ROLE     | 否      |
+| LIST_ROLE                 | 否      | -- IGNORE       |        |
+| GRANT_ROLE_PRIVILEGE      | 否      | -- IGNORE       |        |
+| REVOKE_ROLE_PRIVILEGE     | 否      | -- IGNORE       |        |
+| CREATE_FUNCTION           | 否      | USE_UDF         | 否      |
+| DROP_FUNCTION             | 否      | USE_UDF         | 否      |
+| CREATE_TRIGGER            | 是      | USE_TRIGGER     | 否      |
+| DROP_TRIGGER              | 是      | USE_TRIGGER     | 否      |
+| START_TRIGGER             | 是      | USE_TRIGGER     | 否      |
+| STOP_TRIGGER              | 是      | USE_TRIGGER     | 否      |
+| CREATE_CONTINUOUS_QUERY   | 否      | USE_CQ          | 否      |
+| DROP_CONTINUOUS_QUERY     | 否      | USE_CQ          | 否      |
+| ALL                       | 否      | All privilegs   |        |
+| DELETE_DATABASE           | 是      | MANAGE_DATABASE | 否      |
+| ALTER_TIMESERIES          | 是      | WRITE_SCHEMA    | 是      |
+| UPDATE_TEMPLATE           | 否      | -- IGNORE       |        |
+| READ_TEMPLATE             | 否      | -- IGNORE       |        |
+| APPLY_TEMPLATE            | 是      | WRITE_SCHEMA    | 是      |
+| READ_TEMPLATE_APPLICATION | 否      | -- IGNORE       |        |
+| SHOW_CONTINUOUS_QUERIES   | 否      | -- IGNORE       |        |
+| CREATE_PIPEPLUGIN         | 否      | USE_PIPE        | 否      |
+| DROP_PIPEPLUGINS          | 否      | USE_PIPE        | 否      |
+| SHOW_PIPEPLUGINS          | 否      | -- IGNORE       |        |
+| CREATE_PIPE               | 否      | USE_PIPE        | 否      |
+| START_PIPE                | 否      | USE_PIPE        | 否      |
+| STOP_PIPE                 | 否      | USE_PIPE        | 否      |
+| DROP_PIPE                 | 否      | USE_PIPE        | 否      |
+| SHOW_PIPES                | 否      | -- IGNORE       |        |
+| CREATE_VIEW               | 是      | WRITE_SCHEMA    | 是      |
+| ALTER_VIEW                | 是      | WRITE_SCHEMA    | 是      |
+| RENAME_VIEW               | 是      | WRITE_SCHEMA    | 是      |
+| DELETE_VIEW               | 是      | WRITE_SCHEMA    | 是      |
