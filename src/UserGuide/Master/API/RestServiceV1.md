@@ -845,7 +845,7 @@ Sample response:
 
 ## Configuration
 
-The configuration is located in 'iotdb-rest.properties'.
+The configuration is located in 'iotdb-datanode.properties'.
 
 * Set 'enable_rest_service' to 'true' to enable the module, and 'false' to disable the module. By default, this value is' false '.
 
