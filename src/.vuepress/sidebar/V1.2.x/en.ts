@@ -88,7 +88,6 @@ export const enSidebar = {
         { text: 'Streaming', link: 'Streaming' },
         { text: 'Data Sync', link: 'Data-Sync' },
         { text: 'Database Programming', link: 'Database-Programming' },
-        { text: 'Security Management', link: 'Security-Management' },
         { text: 'Authority Management', link: 'Authority-Management' },
       ],
     },
@@ -144,6 +143,7 @@ export const enSidebar = {
         { text: 'Flink TsFile Connector', link: 'Flink-TsFile' },
         { text: 'NiFi IoTDB Connector', link: 'NiFi-IoTDB' },
         { text: 'DBeaver-IoTDB', link: 'DBeaver' },
+        { text: 'Telegraf-IoTDB Output Plugin', link: 'Telegraf-IoTDB'},
       ],
     },
     {

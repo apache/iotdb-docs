@@ -860,10 +860,11 @@ Parameter Description:
 | data_types_list   | array | yes  | The data type |
 | values_list       | array | yes  | Value columns, the values in each column can be `null` |
 | devices           | string | yes  | Device name |
+| is_aligned     | boolean | yes  | Whether to align the timeseries |
 
 Example request:
 ```shell
-curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"timestamps":[1635232113960,1635232151960,1635232143960,1635232143960],"measurements_list":[["s33","s44"],["s55","s66"],["s77","s88"],["s771","s881"]],"data_types_list":[["INT32","INT64"],["FLOAT","DOUBLE"],["FLOAT","DOUBLE"],["BOOLEAN","TEXT"]],"values_list":[[1,11],[2.1,2],[4,6],[false,"cccccc"]],"devices":["root.s1","root.s1","root.s1","root.s3"]}' http://127.0.0.1:18080/rest/v2/insertRecords
+curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"timestamps":[1635232113960,1635232151960,1635232143960,1635232143960],"measurements_list":[["s33","s44"],["s55","s66"],["s77","s88"],["s771","s881"]],"data_types_list":[["INT32","INT64"],["FLOAT","DOUBLE"],["FLOAT","DOUBLE"],["BOOLEAN","TEXT"]],"values_list":[[1,11],[2.1,2],[4,6],[false,"cccccc"]],"is_aligned":false,"devices":["root.s1","root.s1","root.s1","root.s3"]}' http://127.0.0.1:18080/rest/v2/insertRecords
 ```
 
 Sample response:
