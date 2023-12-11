@@ -95,7 +95,7 @@ ONSUCCESS选项表示对于成功载入的tsfile的处置方式，默认为delet
 
 #### 使用范例
 
-假定服务器192.168.0.101:6667上运行一个IoTDB实例，想从将本地保存的TsFile备份文件夹D:\IoTDB\data中的所有的TsFile文件都加载进此IoTDB实例。
+假定服务器192.168.0.101:6667上运行一个IoTDB实例，想从Iotdb进程所在服务器的路径将所有TsFile文件都加载进此IoTDB实例。
 
 首先移动至`$IOTDB_HOME/tools/`，打开命令行，然后执行
 

@@ -97,7 +97,7 @@ Run rewrite-tsfile.bat if you are in a Windows environment, or rewrite-tsfile.sh
 
 ##### Example
 
-Assuming that an IoTDB instance is running on server 192.168.0.101:6667, you want to load all TsFile files from the locally saved TsFile backup folder D:\IoTDB\data into this IoTDB instance.
+Assuming that an IoTDB instance is running on server 192.168.0.101:6667, You want to load all TsFile files into this IoTDB instance from the path of the server where the Iotdb process is located.
 
 First move to the folder `$IOTDB_HOME/tools/`, open the command line, and execute
 
