@@ -218,9 +218,9 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 
 ### Target Config Nodes
 
-* dn\_target\_config\_node\_list
+* dn\_seed\_config\_node
 
-|Name| dn\_target\_config\_node\_list                  |
+|Name| dn\_seed\_config\_node                  |
 |:---:|:------------------------------------------------|
 |Description| ConfigNode Address for DataNode to join cluster |
 |Type| String                                          |
