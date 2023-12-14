@@ -89,7 +89,7 @@ export const zhSidebar = {
         { text: '数据同步', link: 'Data-Sync_timecho' },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
         { text: '视图', link: 'IoTDB-View_timecho' },
-        { text: 'IoTDB原生机器学习', link: 'IoTDB-AINode_timecho' },
+        { text: 'AINode机器学习框架', link: 'IoTDB-AINode_timecho' },
         { text: '数据库编程', link: 'Database-Programming' },
         { text: '安全控制', link: 'Security-Management_timecho' },
         { text: '权限管理', link: 'Authority-Management' },
