@@ -160,6 +160,8 @@ IoTDB> show schema templates
 IoTDB> show nodes in schema template t1
 IoTDB> show paths set schema template t1
 IoTDB> show paths using schema template t1
+IoTDB> show devices where template = t1
+IoTDB> show devices where template != t1
 ```
 
 ### Deactivate Schema Template
