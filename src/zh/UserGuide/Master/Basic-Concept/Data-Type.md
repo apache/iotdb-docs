@@ -34,7 +34,7 @@ IoTDB 支持以下六种数据类型：
 
 ### 浮点数精度配置
 
-对于 **FLOAT** 与 **DOUBLE** 类型的序列，如果编码方式采用 [RLE](Encoding.md) 或 [TS_2DIFF](Encoding.md) ，可以在创建序列时通过 `MAX_POINT_NUMBER` 属性指定浮点数的小数点后位数。
+对于 **FLOAT** 与 **DOUBLE** 类型的序列，如果编码方式采用 `RLE`或 `TS_2DIFF`，可以在创建序列时通过 `MAX_POINT_NUMBER` 属性指定浮点数的小数点后位数。
 
 例如，
 ```sql

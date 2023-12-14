@@ -89,6 +89,7 @@ export const zhSidebar = {
         { text: '数据同步', link: 'Data-Sync_timecho' },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
         { text: '视图', link: 'IoTDB-View_timecho' },
+        { text: 'AINode机器学习框架', link: 'IoTDB-AINode_timecho' },
         { text: '数据库编程', link: 'Database-Programming' },
         { text: '安全控制', link: 'Security-Management_timecho' },
         { text: '权限管理', link: 'Authority-Management' },
@@ -101,7 +102,7 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '命令行工具', link: 'CLI' },
-        { text: '控制台工具', link: 'Workbench' },
+//        { text: '控制台工具', link: 'Workbench' },
         { text: '监控工具', link: 'Monitor-Tool' },
         { text: '测试工具', link: 'Benchmark' },
         { text: '运维工具', link: 'Maintenance-Tool_timecho' },
