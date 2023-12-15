@@ -19,72 +19,57 @@
 
 -->
 
-
 # Node.js Native API
 
-IoTDB uses Thrift as a cross language RPC framework, so access to IoTDB can be achieved through the interface provided by Thrift. This document will introduce how to generate a native Node.js interface that can access IoTDB.
+Apache IoTDB uses Thrift as a cross-language RPC-framework so access to IoTDB can be achieved through the interfaces provided by Thrift. 
+This document will introduce how to generate a native Node.js interface that can be used to access IoTDB.
 
 ## Dependents
 
  * JDK >= 1.8
  * Node.js >= 16.0.0
- * thrift 0.14.1
  * Linux、Macos or like unix
  * Windows+bash
 
-Thrift (0.14.1 or higher) must be installed to compile Thrift files into Node.js code. The following is the official installation tutorial, and in the end, you should receive a Thrift executable file.
-```
-http://thrift.apache.org/docs/install/
-```
+## Generate the Node.js native interface
 
+1. Find the `pom.xml` file in the root directory of the IoTDB source code folder.
+2. Open the `pom.xml` file and find the following content:
+   ```xml
+                            <execution>
+                                <id>generate-thrift-sources-python</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>compile</goal>
+                                </goals>
+                                <configuration>
+                                    <generator>py</generator>
+                                    <outputDirectory>${project.build.directory}/generated-sources-python/</outputDirectory>
+                                </configuration>
+                            </execution>
+   ```
+3. Duplicate this block and change the `id`, `generator` and `outputDirectory` to this:
+   ```xml
+                            <execution>
+                                <id>generate-thrift-sources-nodejs</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>compile</goal>
+                                </goals>
+                                <configuration>
+                                    <generator>js:node</generator>
+                                    <outputDirectory>${project.build.directory}/generated-sources-nodejs/</outputDirectory>
+                                </configuration>
+                            </execution>
+   ```
+4. In the root directory of the IoTDB source code folder，run `mvn clean generate-sources`.
 
-## Compile the Thrift library and generate the Node.js native interface
-
-1. Find the pom.xml file in the root directory of the IoTDB source code folder.
-2. Open the pom.xml file and find the following content:
-
-```xml
-<execution>
-  <id>generate-thrift-sources-java</id>
-  <phase>generate-sources</phase>
-  <goals>
-      <goal>compile</goal>
-  </goals>
-  <configuration>
-      <generator>java</generator>
-      <thriftExecutable>${thrift.exec.absolute.path}</thriftExecutable>
-      <thriftSourceRoot>${basedir}/src/main/thrift</thriftSourceRoot>
-  </configuration>
-</execution>
-```
-3. Referring to this setting, add the following content to the pom.xml file to generate the native interface for Node.js:
-
-```xml
-<execution>
-    <id>generate-thrift-sources-nodejs</id>
-    <phase>generate-sources</phase>
-    <goals>
-        <goal>compile</goal>
-    </goals>
-    <configuration>
-        <generator>js:node</generator>
-        <thriftExecutable>${thrift.exec.absolute.path}</thriftExecutable>
-        <thriftSourceRoot>${basedir}/src/main/thrift</thriftSourceRoot>
-        <includes>**/common.thrift,**/client.thrift</includes>
-        <outputDirectory>${project.build.directory}/generated-sources-nodejs</outputDirectory>
-    </configuration>
-</execution>
-```
-
-4. In the root directory of the IoTDB source code folder，run `mvn clean generate-sources`，
-
-This command will automatically delete the files in `iotdb/iotdb-protocol/thrift/target` and `iotdb/iotdb-protocol/thrift-commons/target`, and repopulate the folder with the newly generated throttle file.
-
+This command will automatically delete the files in `iotdb/iotdb-protocol/thrift/target` and `iotdb/iotdb-protocol/thrift-commons/target`, and repopulate the folder with the newly generated files.
+The newly generated JavaScript sources will be located in `iotdb/iotdb-protocol/thrift/target/generated-sources-nodejs` in the various modules of the `iotdb-protocol` module.
 
 ## Using the Node.js native interface
 
-copy `iotdb/iotdb-protocol/thrift/target/generated-sources-nodejs/` and `iotdb/iotdb-protocol/thrift-commons/target/generated-sources-nodejs/` in your project。
-
+Simply copy the files in `iotdb/iotdb-protocol/thrift/target/generated-sources-nodejs/` and `iotdb/iotdb-protocol/thrift-commons/target/generated-sources-nodejs/` into your project.
 
 ## rpc interface
 

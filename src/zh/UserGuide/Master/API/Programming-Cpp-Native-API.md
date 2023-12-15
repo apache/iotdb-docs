@@ -24,7 +24,7 @@
 ## 依赖
 
 - Java 8+
-- Maven 3.5+
+- Maven 3.9+
 - Flex
 - Bison 2.7+
 - Boost 1.56+
@@ -364,7 +364,7 @@ void deleteData(const std::vector<std::string> &deviceId, int64_t time);
 
 - 执行查询语句
 ```cpp
-void executeNonQueryStatement(const std::string &sql);
+unique_ptr<SessionDataSet> executeQueryStatement(const std::string &sql);
 ```
 
 - 执行非查询语句
