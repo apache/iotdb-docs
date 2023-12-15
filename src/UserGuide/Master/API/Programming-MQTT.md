@@ -63,6 +63,8 @@ or json array of the above two.
 
 ## MQTT Configurations
 
+The IoTDB MQTT service load configurations from `${IOTDB_HOME}/${IOTDB_CONF}/iotdb-common.properties` by default.
+
 The `IoTDB MQTT service` loads it's configuration from `${IOTDB_HOME}/${IOTDB_CONF}/iotdb-datanode.properties` per default.
 
 The configuration options of this file are as follows:

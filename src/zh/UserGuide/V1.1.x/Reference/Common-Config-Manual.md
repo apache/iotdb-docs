@@ -142,7 +142,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * default\_data\_region\_group\_num\_per\_database
 
-|   名字   | data\_region\_group\_per\_database                                                                                                              |
+|   名字   | default\_data\_region\_group\_per\_database                                                                                                     |
 |:------:|:------------------------------------------------------------------------------------------------------------------------------------------------|
 |   描述   | 当选用 CUSTOM-DataRegionGroup 扩容策略时，此参数为每个 Database 拥有的 DataRegionGroup 数量；当选用 AUTO-DataRegionGroup 扩容策略时，此参数为每个 Database 最少拥有的 DataRegionGroup 数量 |
 |   类型   | int                                                                                                                                             |

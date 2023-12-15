@@ -19,7 +19,7 @@
 
 -->
 
-
+# 数据库编程
 ## 触发器
 ### 使用说明
 
@@ -170,9 +170,9 @@ Map<PartialPath, List<Trigger>> pathToTriggerListMap => Map<Trigger, Tablet>
 
 假设有三个触发器，触发器的触发时机均为 BEFORE INSERT
 
-- 触发器 Trigger1 侦听路径模式：root.sg.*
-- 触发器 Trigger2 侦听路径模式：root.sg.a
-- 触发器 Trigger3 侦听路径模式：root.sg.b
+- 触发器 Trigger1 侦听路径模式：`root.sg.*`
+- 触发器 Trigger2 侦听路径模式：`root.sg.a`
+- 触发器 Trigger3 侦听路径模式：`root.sg.b`
 
 写入语句：
 
@@ -396,9 +396,9 @@ WITH (
 
 - 该触发器是无状态的（STATELESS）
 - 在写入前触发（BEFORE INSERT）
-- 该触发器侦听路径模式为 root.sg.**
+- 该触发器侦听路径模式为 `root.sg.**`
 - 所编写的触发器类名为 org.apache.iotdb.trigger.ClusterAlertingExample
-- JAR 包的 URI 为 http://jar/ClusterAlertingExample.jar
+- JAR 包的 URI 为 `http://jar/ClusterAlertingExample.jar`
 - 创建该触发器实例时会传入 name 和 limit 两个参数。
 
 #### 卸载触发器
@@ -504,7 +504,7 @@ END
 #### 连续查询语法中参数含义的描述
 
 - `<cq_id>` 为连续查询指定一个全局唯一的标识。
-- `<every_interval>` 指定了连续查询周期性执行的间隔。现在支持的时间单位有：ns, us, ms, s, m, h, d, w, 并且它的值不能小于用户在`iotdb-confignode.properties`配置文件中指定的`continuous_query_min_every_interval`。这是一个可选参数，默认等于group by子句中的`group_by_interval`。
+- `<every_interval>` 指定了连续查询周期性执行的间隔。现在支持的时间单位有：ns, us, ms, s, m, h, d, w, 并且它的值不能小于用户在`iotdb-common.properties`配置文件中指定的`continuous_query_min_every_interval`。这是一个可选参数，默认等于group by子句中的`group_by_interval`。
 - `<start_time_offset>` 指定了每次查询执行窗口的开始时间，即`now()-<start_time_offset>`。现在支持的时间单位有：ns, us, ms, s, m, h, d, w。这是一个可选参数，默认等于`EVERY`子句中的`every_interval`。
 - `<end_time_offset>` 指定了每次查询执行窗口的结束时间，即`now()-<end_time_offset>`。现在支持的时间单位有：ns, us, ms, s, m, h, d, w。这是一个可选参数，默认等于`0`.
 - `<execution_boundary_time>` 表示用户期待的连续查询的首个周期任务的执行时间。（因为连续查询只会对当前实时的数据流做计算，所以该连续查询实际首个周期任务的执行时间并不一定等于用户指定的时间，具体计算逻辑如下所示）
@@ -1398,7 +1398,7 @@ CREATE FUNCTION <UDF-NAME> AS <UDF-CLASS-FULL-PATHNAME> (USING URI URI-STRING)?
 #####  不指定URI
 
 准备工作：  
-使用该种方式注册时，您需要提前将 JAR 包放置到目录 `iotdb-server-1.0.0-all-bin/ext/udf`（该目录可配置） 下。  
+使用该种方式注册时，您需要提前将 JAR 包放置到目录 `iotdb-server-1.X.X-all-bin/ext/udf`（该目录可配置） 下。  
 **注意，如果您使用的是集群，那么需要将 JAR 包放置到所有 DataNode 的该目录下**  
 
 注册语句：
@@ -1503,7 +1503,7 @@ SHOW FUNCTIONS
 * `DROP_FUNCTION`：具备该权限的用户才被允许执行 UDF 卸载操作
 * `READ_TIMESERIES`：具备该权限的用户才被允许使用 UDF 进行查询
 
-更多用户权限相关的内容，请参考 [权限管理语句](../Administration-Management/Administration.md)。
+更多用户权限相关的内容，请参考 [权限管理语句](./Security-Management_timecho.md##权限管理)。
 
 ###  配置项
 
@@ -1558,7 +1558,19 @@ SHOW FUNCTIONS
 ###  已知实现的UDF
 
 #### 内置UDF
-
+请参考[内置函数](../User-Manual/Operator-and-Expression.md#内置函数)，包含以下函数类型：
+聚合函数
+算数函数
+比较函数
+字符串处理函数
+数据类型转换函数
+常序列生成函数
+选择函数
+区间查询函数
+趋势计算函数
+采样函数
+时间序列处理函数
+<!--
 1.   [Aggregate Functions](../Operators-Functions/Aggregation.md) 聚合函数
 2.   [Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md) 算数函数
 3.   [Comparison Operators and Functions](../Operators-Functions/Comparison.md) 比较函数
@@ -1570,7 +1582,7 @@ SHOW FUNCTIONS
 9.   [Variation Trend Calculation Functions](../Operators-Functions/Variation-Trend.md) 趋势计算函数
 10.   [Sample Functions](../Operators-Functions/Sample.md) 采样函数
 11.   [Time-Series](../Operators-Functions/Time-Series.md) 时间序列处理函数
-
+-->
 #### 数据质量函数库
 
 ##### 关于
@@ -1581,21 +1593,27 @@ SHOW FUNCTIONS
 
 **该函数库中的函数不是内置函数，使用前要先加载到系统中。** 操作流程如下：
 
-1. 下载包含全部依赖的 jar 包和注册脚本 [【点击下载】](https://archive.apache.org/dist/iotdb/1.0.1/apache-iotdb-1.0.1-library-udf-bin.zip) ；
-2. 将 jar 包复制到 IoTDB 程序目录的 `ext\udf` 目录下 (若您使用的是集群，请将jar包复制到所有DataNode的该目录下)；
-3. 启动 IoTDB；
-4. 将注册脚本复制到 IoTDB 的程序目录下（与`sbin`目录同级的根目录下），修改脚本中的参数（如果需要）并运行注册脚本以注册 UDF。
+1. 在 iotdb 根目录下执行编译指令;
+   ```
+      mvn clean package -pl library-udf -am -DskipTests -Pget-jar-with-dependencies
+   ```
+2. 将在 target 下生成的带依赖的 jar 包复制到 IoTDB 程序目录的 `ext\udf` 目录下(若您使用的是集群，请将jar包复制到所有DataNode的该目录下),如下图所示；
+![](https://alioss.timecho.com/docs/img/20230814-191908.jpg)
+3. 下载注册脚本:[linux](https://alioss.timecho.com/docs/img/register-UDF.sh), [windows](https://alioss.timecho.com/docs/img/register-UDF.bat);
+4. 将注册脚本复制到 IoTDB 的`sbin`目录下，修改脚本中的参数（默认为host=127.0.0.1，rpcPort=6667，user=root，pass=root）；
+5. 启动 IoTDB 服务；
+6. 运行注册脚本`register-UDF.sh`以注册 UDF。
 
 ##### 已经实现的函数
 
-1.   [Data-Quality](../Operators-Functions/Data-Quality.md) 数据质量
-2.   [Data-Profiling](../Operators-Functions/Data-Profiling.md) 数据画像
-3.   [Anomaly-Detection](../Operators-Functions/Anomaly-Detection.md) 异常检测
-4.   [Frequency-Domain](../Operators-Functions/Frequency-Domain.md) 频域分析
-5.   [Data-Matching](../Operators-Functions/Data-Matching.md) 数据匹配
-6.   [Data-Repairing](../Operators-Functions/Data-Repairing.md) 数据修复
-7.   [Series-Discovery](../Operators-Functions/Series-Discovery.md) 序列发现
-8.   [Machine-Learning](../Operators-Functions/Machine-Learning.md) 机器学习
+1.   [Data-Quality](../Reference/UDF-Libraries.md#数据质量) 数据质量
+2.   [Data-Profiling](../Reference/UDF-Libraries.md#数据画像) 数据画像
+3.   [Anomaly-Detection](../Reference/UDF-Libraries.md#异常检测) 异常检测
+4.   [Frequency-Domain](../Reference/UDF-Libraries.md#频域分析) 频域分析
+5.   [Data-Matching](../Reference/UDF-Libraries.md#数据匹配) 数据匹配
+6.   [Data-Repairing](../Reference/UDF-Libraries.md#数据修复) 数据修复
+7.   [Series-Discovery](../Reference/UDF-Libraries.md#序列发现) 序列发现
+8.   [Machine-Learning](../Reference/UDF-Libraries.md#机器学习) 机器学习
 
 ###  Q&A
 

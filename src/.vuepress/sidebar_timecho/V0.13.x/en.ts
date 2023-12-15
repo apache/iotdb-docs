@@ -133,14 +133,14 @@ export const enSidebar = {
       prefix: 'Process-Data/',
       children: [
         { text: 'UDF (User Defined Function)', link: 'UDF-User-Defined-Function' },
-        { text: 'Query Write-back (SELECT INTO)', link: 'Select-Into' },
-        { text: 'CQ (Continuous Query)', link: 'Continuous-Query' },
+        { text: 'Seletct Into', link: 'Select-Into' },
+        { text: 'Continuous Query', link: 'Continuous-Query' },
         { text: 'Triggers', link: 'Triggers' },
         { text: 'Alerting', link: 'Alerting' },
       ],
     },
     {
-      text: 'Administration Management',
+      text: 'Administration',
       collapsible: true,
       prefix: 'Administration-Management/',
       children: [

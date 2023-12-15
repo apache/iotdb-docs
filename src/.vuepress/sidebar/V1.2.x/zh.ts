@@ -57,6 +57,7 @@ export const zhSidebar = {
         { text: '数据模型', link: 'Data-Model-and-Terminology' },
         { text: '数据类型', link: 'Data-Type' },
         { text: '编码和压缩', link: 'Encoding-and-Compression' },
+        { text: '数据分区与负载均衡', link: 'Cluster-data-partitioning' },
       ],
     },
     {
@@ -66,12 +67,10 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '环境要求', link: 'Environmental-Requirement' },
+        { text: '资源推荐', link: 'Deployment-Recommendation' },
         { text: '安装包获取', link: 'Get-Installation-Package' },
         { text: '部署指导', link: 'Deployment-Guide' },
         { text: 'docker部署', link: 'Docker-Install' },
-        { text: '安全控制', link: 'Security-Management' },
-        { text: '慢查询管理', link: 'Slow-Query-Management' },
-        { text: '数据分区与负载均衡', link: 'Cluster-data-partitioning' },
       ],
     },
 
@@ -86,6 +85,8 @@ export const zhSidebar = {
         { text: '数据增删', link: 'Write-Delete-Data' },
         { text: '数据查询', link: 'Query-Data' },
         { text: '运算符和表达式', link: 'Operator-and-Expression' },
+        { text: '流处理', link: 'Streaming' },
+        { text: '数据同步', link: 'Data-Sync' },
         { text: '数据库编程', link: 'Database-Programming' },
         { text: '权限管理', link: 'Authority-Management' },
       ],
@@ -138,9 +139,11 @@ export const zhSidebar = {
         { text: 'Spark-IoTDB-Connector', link: 'Spark-IoTDB' },
         { text: 'Hive-TsFile-Connector', link: 'Hive-TsFile' },
         { text: 'Flink-IoTDB-Connector', link: 'Flink-IoTDB' },
+        { text: 'Flink-SQL-IoTDB-Connector', link: 'Flink-SQL-IoTDB' },
         { text: 'Flink-TsFile-Connector', link: 'Flink-TsFile' },
         { text: 'NiFi-IoTDB-Connector', link: 'NiFi-IoTDB' },
         { text: 'DBeaver-IoTDB 集成方案', link: 'DBeaver' },
+        { text: 'Telegraf-IoTDB Output 插件', link: 'Telegraf-IoTDB'},
       ],
     },
     {
@@ -166,7 +169,10 @@ export const zhSidebar = {
       prefix: 'Reference/',
       // children: 'structure',
       children: [
+        { text: 'UDF 函数库', link: 'UDF-Libraries' },
         { text: '配置参数', link: 'Common-Config-Manual' },
+        { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
+        { text: 'DataNode配置参数', link: 'DataNode-Config-Manual' },
         { text: '状态码', link: 'Status-Codes' },
         { text: '关键字', link: 'Keywords' },
       ],

@@ -832,29 +832,29 @@ Different configuration parameters take effect in the following three ways:
 * enable\_seq\_space\_compaction
 
 |    Name     | enable\_seq\_space\_compaction               |
-| :---------: | :------------------------------------------- |
+| :---------: |:---------------------------------------------|
 | Description | enable the compaction between sequence files |
 |    Type     | Boolean                                      |
 |   Default   | true                                         |
-|  Effective  | After restart system                         |
+|  Effective  | hot-load                                        |
 
 * enable\_unseq\_space\_compaction
 
 |    Name     | enable\_unseq\_space\_compaction               |
-| :---------: | :--------------------------------------------- |
+| :---------: |:-----------------------------------------------|
 | Description | enable the compaction between unsequence files |
 |    Type     | Boolean                                        |
 |   Default   | false                                          |
-|  Effective  | After restart system                           |
+|  Effective  | hot-load                                          |
 
 * enable\_cross\_space\_compaction
 
 |    Name     | enable\_cross\_space\_compaction                                  |
-| :---------: | :---------------------------------------------------------------- |
+| :---------: |:------------------------------------------------------------------|
 | Description | enable the compaction between sequence files and unsequence files |
 |    Type     | Boolean                                                           |
 |   Default   | true                                                              |
-|  Effective  | After restart system                                              |
+|  Effective  | hot-load                                                          |
 
 * cross\_selector
 
@@ -1002,12 +1002,12 @@ Different configuration parameters take effect in the following three ways:
 
 * compaction\_thread\_count
 
-|Name| compaction\_thread\_count |
-|:---:|:---|
+|Name| compaction\_thread\_count        |
+|:---:|:---------------------------------|
 |Description| thread num to execute compaction |
-|Type| int32 |
-|Default| 10 |
-|Effective|After restart system|
+|Type| int32                            |
+|Default| 10                               |
+|Effective| hot-load     |
 
 * compaction\_schedule\_interval\_in\_ms
 
@@ -1043,16 +1043,16 @@ Different configuration parameters take effect in the following three ways:
 |Description| the number of sub-compaction threads to accelerate cross space compaction |
 |Type| Int32                                                                     |
 |Default| 4                                                                         |
-|Effective| After restart system                                                      |
+|Effective| hot-load                                              |
 
-* enable\_compaction\_validation
+* compaction\_validation\_level
 
-|Name| enable\_compaction\_validation                                  |
-|:---:|:----------------------------------------------------------------|
-|Description| Enable the check of sequence tsfile time range after compaction |
-|Type| Boolean                                                         |
-|Default| true                                                            |
-|Effective| After restart system                                            |
+|     名字      | compaction\_validation\_level                                                                                                                                                                                                                         |
+|:-----------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description | The level of validation after compaction. NONE: the validation after compaction is disabled. RESOURCE_ONLY: the validation after compaction check tsfile resource only. RESOURCE_AND_TSFILE: the validation after compaction check resource and file. |
+|    Type     | String                                                                                                                                                                                                                                                |
+|   Default   | NONE                                                                                                                                                                                                                                                  |
+|  Effective  | hot-load                                                                                                                                                                                                                                              |
 
 * candidate\_compaction\_task\_queue\_size
 
@@ -1629,18 +1629,54 @@ Different configuration parameters take effect in the following three ways:
 |  Default   | 4MB                                        |
 | Effective | After restarting system                                       |
 
-* data_region_ratis_grpc_leader_outstanding_appends_max
+* config\_node\_ratis\_grpc\_leader\_outstanding\_appends\_max
 
-|    Name     | data_region_ratis_grpc_leader_outstanding_appends_max |
+|    Name     | config\_node\_ratis\_grpc\_leader\_outstanding\_appends\_max |
+| :---------: | :----------------------------------------------------- |
+| Description | config node grpc pipeline concurrency threshold        |
+|    Type     | int32                                                  |
+|   Default   | 128                                                    |
+|  Effective  | After restarting system                                |
+
+* schema\_region\_ratis\_grpc\_leader\_outstanding\_appends\_max
+
+|    Name     | schema\_region\_ratis\_grpc\_leader\_outstanding\_appends\_max |
+| :---------: | :------------------------------------------------------ |
+| Description | schema region grpc pipeline concurrency threshold       |
+|    Type     | int32                                                   |
+|   Default   | 128                                                     |
+|  Effective  | After restarting system                                 |
+
+* data\_region\_ratis\_grpc\_leader\_outstanding\_appends\_max
+
+|    Name     | data\_region\_ratis\_grpc\_leader\_outstanding\_appends\_max |
 | :---------: | :---------------------------------------------------- |
 | Description | data region grpc pipeline concurrency threshold       |
 |    Type     | int32                                                 |
 |   Default   | 128                                                   |
 |  Effective  | After restarting system                               |
 
-* data_region_ratis_log_force_sync_num
+* config\_node\_ratis\_log\_force\_sync\_num
 
-|    Name     | data_region_ratis_log_force_sync_num |
+|    Name     | config\_node\_ratis\_log\_force\_sync\_num |
+| :---------: | :------------------------------------ |
+| Description | config node fsync threshold           |
+|    Type     | int32                                 |
+|   Default   | 128                                   |
+|  Effective  | After restarting system               |
+
+* schema\_region\_ratis\_log\_force\_sync\_num
+
+|    Name     | schema\_region\_ratis\_log\_force\_sync\_num |
+| :---------: | :-------------------------------------- |
+| Description | schema region fsync threshold           |
+|    Type     | int32                                   |
+|   Default   | 128                                     |
+|  Effective  | After restarting system                 |
+
+* data\_region\_ratis\_log\_force\_sync\_num
+
+|    Name     | data\_region\_ratis\_log\_force\_sync\_num |
 | :---------: | :----------------------------------- |
 | Description | data region fsync threshold          |
 |    Type     | int32                                |

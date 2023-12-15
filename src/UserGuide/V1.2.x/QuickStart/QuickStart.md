@@ -230,7 +230,7 @@ or
 IoTDB> exit
 ```
 
-For more information on which commands are supported by `IoTDB SQL`, please see [SQL Reference](../stage/SQL-Reference.md).
+For more information on which commands are supported by `IoTDB SQL`, please see [SQL Reference](../SQL-Manual/SQL-Manual.md).
 
 ### Stopping IoTDB
 
@@ -261,7 +261,7 @@ ALTER USER <username> SET PASSWORD <password>;
 Example: IoTDB > ALTER USER root SET PASSWORD 'newpwd';
 ```
 
-More about administration options：[Administration Management](https://iotdb.apache.org/UserGuide/V1.0.x/Administration-Management/Administration.html)
+More about administration options：[Administration Management](../User-Manual/Security-Management.md)
 
 ## Basic configuration
 
