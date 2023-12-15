@@ -1380,7 +1380,7 @@ AINode启动过程中支持两种参数，其具体的作用如下图所示：
 | **名称**            | **作用脚本**     | 标签 | **描述**                                                     | **类型** | **默认值**       | 输入方式              |
 | ------------------- | ---------------- | ---- | ------------------------------------------------------------ | -------- | ---------------- | --------------------- |
 | ain_interpreter_dir | start remove env | -i   | AINode所安装在的虚拟环境的解释器路径，需要使用绝对路径       | String   | 默认读取环境变量 | 调用时输入+持久化修改 |
-| ain_remove_target   | remove stop      | -t   | AINode关闭时可以指定待移除的目标AINode的Node ID、地址和端口号，格式为<AINode-id>/<ip>:<rpc-port> | String   | 无               | 调用时输入            |
+| ain_remove_target   | remove stop      | -t   | AINode关闭时可以指定待移除的目标AINode的Node ID、地址和端口号，格式为`<AINode-id>/<ip>:<rpc-port>` | String   | 无               | 调用时输入            |
 | ain_force_reinstall | start remove env | -r   | 该脚本在检查AINode安装情况的时候是否检查版本，如果检查则在版本不对的情况下会强制安装lib里的whl安装包 | Bool     | false            | 调用时输入            |
 | ain_no_dependencies | start remove env | -n   | 指定在安装AINode的时候是否安装依赖，如果指定则仅安装AINode主程序而不安装依赖。 | Bool     | false            | 调用时输入            |
 
