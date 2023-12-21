@@ -296,6 +296,13 @@ export default {
           date: '2018/11/18',
         },
         {
+          avatar: '/img/contributor-avatar/user.svg',
+          name: 'Wei Zhi',
+          role: 'Committer',
+          id: 'WeiZhi',
+          date: '2020/06/18',
+        },
+        {
           avatar: '/img/contributor-avatar/cw.jpg',
           name: 'Chao Wang',
           role: 'PMC, Committer',
