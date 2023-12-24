@@ -306,11 +306,21 @@ IoTDB> show paths using schema template t1
 
 IoTDB> show devices using schema template t1
 
-IoTDB> show devices where template = t1
+- 查看使用了某个元数据模板的设备信息
 
-- 查看没有使用指定元数据模板的路径
+IoTDB> show devices where template = 't1'
 
-IoTDB> show devices where template != t1
+- 查看没有使用某个元数据模板的设备信息
+
+IoTDB> show devices where template != 't1'
+
+- 查看没有使用元数据模板的设备信息
+
+IoTDB> show devices where template is null
+
+- 查看使用元数据模板的设备信息
+
+IoTDB> show devices where template is not null
 
 #### 解除元数据模板
 
