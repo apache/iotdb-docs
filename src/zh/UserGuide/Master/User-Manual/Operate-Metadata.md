@@ -381,12 +381,12 @@ show devices root.sg1.**
 ```
 
 ```shell
-+---------------+---------+
-|        devices|isAligned|
-+---------------+---------+
-|    root.sg1.d1|    false|
-|    root.sg1.d2|     true|
-+---------------+---------+
++---------------+---------+---------+
+|        devices|isAligned| Template|
++---------------+---------+---------+
+|    root.sg1.d1|    false|     null|
+|    root.sg1.d2|     true|     null|
++---------------+---------+---------+
 ```
 
 ### 查看设备模板
@@ -1065,6 +1065,8 @@ It costs 0.002s
 * `SHOW DEVICES` 语句显示当前所有的设备信息，等价于 `SHOW DEVICES root.**`。
 * `SHOW DEVICES <PathPattern>` 语句规定了 `PathPattern`，返回给定的路径模式所匹配的设备信息。
 * `WHERE` 条件中可以使用 `DEVICE contains 'xxx'`，根据 device 名称进行模糊查询。
+* `WHERE` 条件中可以使用 `TEMPLATE = 'xxx'`,`TEMPLATE != 'xxx'`，根据 template 名称进行过滤查询。
+* `WHERE` 条件中可以使用 `TEMPLATE is null`,`TEMPLATE is not null`，根据 template 是否为null(null 表示没激活)进行过滤查询。
 
 SQL 语句如下所示：
 
@@ -1072,33 +1074,61 @@ SQL 语句如下所示：
 IoTDB> show devices
 IoTDB> show devices root.ln.**
 IoTDB> show devices root.ln.** where device contains 't'
+IoTDB> show devices root.ln.** where template = 't1'
+IoTDB> show devices root.ln.** where template is null
 ```
 
 你可以获得如下数据：
 
 ```
-+-------------------+---------+
-|            devices|isAligned|
-+-------------------+---------+
-|  root.ln.wf01.wt01|    false|
-|  root.ln.wf02.wt02|    false|
-|root.sgcc.wf03.wt01|    false|
-|    root.turbine.d1|    false|
-+-------------------+---------+
++-------------------+---------+---------+
+|            devices|isAligned| Template|
++-------------------+---------+---------+
+|  root.ln.wf01.wt01|    false|       t1|
+|  root.ln.wf02.wt02|    false|     null|
+|root.sgcc.wf03.wt01|    false|     null|
+|    root.turbine.d1|    false|     null|
++-------------------+---------+---------+
 Total line number = 4
 It costs 0.002s
 
-+-----------------+---------+
-|          devices|isAligned|
-+-----------------+---------+
-|root.ln.wf01.wt01|    false|
-|root.ln.wf02.wt02|    false|
-+-----------------+---------+
++-----------------+---------+---------+
+|          devices|isAligned| Template|
++-----------------+---------+---------+
+|root.ln.wf01.wt01|    false|       t1|
+|root.ln.wf02.wt02|    false|     null|
++-----------------+---------+---------+
 Total line number = 2
+It costs 0.001s
+
++-----------------+---------+---------+
+|          devices|isAligned| Template|
++-----------------+---------+---------+
+|root.ln.wf01.wt01|    false|       t1|
+|root.ln.wf02.wt02|    false|     null|
++-----------------+---------+---------+
+Total line number = 2
+It costs 0.001s
+
++-----------------+---------+---------+
+|          devices|isAligned| Template|
++-----------------+---------+---------+
+|root.ln.wf01.wt01|    false|       t1|
++-----------------+---------+---------+
+Total line number = 1
+It costs 0.001s
+
++-----------------+---------+---------+
+|          devices|isAligned| Template|
++-----------------+---------+---------+
+|root.ln.wf02.wt02|    false|     null|
++-----------------+---------+---------+
+Total line number = 1
 It costs 0.001s
 ```
 
-其中，`isAligned`表示该设备下的时间序列是否对齐。
+其中，`isAligned`表示该设备下的时间序列是否对齐,
+`Template`显示着该设备所激活的模板名，null 表示没有激活模板。
 
 查看设备及其 database 信息，可以使用 `SHOW DEVICES WITH DATABASE` 语句。
 
@@ -1115,23 +1145,23 @@ IoTDB> show devices root.ln.** with database
 你可以获得如下数据：
 
 ```
-+-------------------+-------------+---------+
-|            devices|     database|isAligned|
-+-------------------+-------------+---------+
-|  root.ln.wf01.wt01|      root.ln|    false|
-|  root.ln.wf02.wt02|      root.ln|    false|
-|root.sgcc.wf03.wt01|    root.sgcc|    false|
-|    root.turbine.d1| root.turbine|    false|
-+-------------------+-------------+---------+
++-------------------+-------------+---------+---------+
+|            devices|     database|isAligned| Template|
++-------------------+-------------+---------+---------+
+|  root.ln.wf01.wt01|      root.ln|    false|       t1|
+|  root.ln.wf02.wt02|      root.ln|    false|     null|
+|root.sgcc.wf03.wt01|    root.sgcc|    false|     null|
+|    root.turbine.d1| root.turbine|    false|     null|
++-------------------+-------------+---------+---------+
 Total line number = 4
 It costs 0.003s
 
-+-----------------+-------------+---------+
-|          devices|     database|isAligned|
-+-----------------+-------------+---------+
-|root.ln.wf01.wt01|      root.ln|    false|
-|root.ln.wf02.wt02|      root.ln|    false|
-+-----------------+-------------+---------+
++-----------------+-------------+---------+---------+
+|          devices|     database|isAligned| Template|
++-----------------+-------------+---------+---------+
+|root.ln.wf01.wt01|      root.ln|    false|       t1|
+|root.ln.wf02.wt02|      root.ln|    false|     null|
++-----------------+-------------+---------+---------+
 Total line number = 2
 It costs 0.001s
 ```
@@ -1153,14 +1183,14 @@ IoTDB> count devices root.ln.**
 你可以获得如下数据：
 
 ```
-+-------------------+---------+
-|            devices|isAligned|
-+-------------------+---------+
-|root.sgcc.wf03.wt03|    false|
-|    root.turbine.d1|    false|
-|  root.ln.wf02.wt02|    false|
-|  root.ln.wf01.wt01|    false|
-+-------------------+---------+
++-------------------+---------+---------+
+|            devices|isAligned| Template|
++-------------------+---------+---------+
+|root.sgcc.wf03.wt03|    false|     null|
+|    root.turbine.d1|    false|     null|
+|  root.ln.wf02.wt02|    false|     null|
+|  root.ln.wf01.wt01|    false|       t1|
++-------------------+---------+---------+
 Total line number = 4
 It costs 0.024s
 

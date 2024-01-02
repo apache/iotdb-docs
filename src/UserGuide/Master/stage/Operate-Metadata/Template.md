@@ -104,12 +104,12 @@ show devices root.sg1.**
 ````
 
 ```shell
-+---------------+---------+
-|        devices|isAligned|
-+---------------+---------+
-|    root.sg1.d1|    false|
-|    root.sg1.d2|     true|
-+---------------+---------+
++---------------+---------+---------+
+|        devices|isAligned| Template|
++---------------+---------+---------+
+|    root.sg1.d1|    false|     null|
+|    root.sg1.d2|     true|     null|
++---------------+---------+---------+
 ````
 
 ## Show Schema Template
