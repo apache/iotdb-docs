@@ -77,7 +77,7 @@ Windows 系统启动命令如下：
 IoTDB 集群管理工具是一款易用的运维工具（企业版工具）。旨在解决 IoTDB 分布式系统多节点的运维难题，主要包括集群部署、集群启停、弹性扩容、配置更新、数据导出等功能，从而实现对复杂数据库集群的一键式指令下发，
 极大降低管理难度。本文档将说明如何用集群管理工具远程部署、配置、启动和停止 IoTDB 集群实例。
 
-### Environmental preparation
+### 环境准备
 
 本工具为 IoTDB 企业版配套工具，您可以联系您的销售获取工具下载方式。
 
@@ -753,8 +753,8 @@ iotdbctl cluster activate default_cluster -N confignode1 -op license_path
 #### 下载二进制文件
 
 1. 打开官网[Download Page](https://iotdb.apache.org/Download/)。
-2. 下载 IoTDB 1.0.0 版本的二进制文件。
-3. 解压得到 apache-iotdb-1.0.0-all-bin 目录。
+2. 下载 IoTDB 1.3.0 版本的二进制文件。
+3. 解压得到 apache-iotdb-1.3.0-all-bin 目录。
 
 #### 使用源码编译
 
@@ -764,14 +764,14 @@ iotdbctl cluster activate default_cluster -N confignode1 -op license_path
 
 ```
 git clone https://github.com/apache/iotdb.git
-git checkout v1.0.0
+git checkout v1.3.0
 ```
 
 **官网下载**
 
 1. 打开官网[Download Page](https://iotdb.apache.org/Download/)。
 2. 下载 IoTDB 1.0.0 版本的源码。
-3. 解压得到 apache-iotdb-1.0.0 目录。
+3. 解压得到 apache-iotdb-1.3.0 目录。
 
 ##### 编译源码
 
@@ -782,12 +782,12 @@ mvn clean package -pl distribution -am -DskipTests
 ```
 
 编译成功后，可在目录 
-**distribution/target/apache-iotdb-1.0.0-SNAPSHOT-all-bin/apache-iotdb-1.0.0-SNAPSHOT-all-bin** 
+**distribution/target/apache-iotdb-1.3.0-SNAPSHOT-all-bin/apache-iotdb-1.3.0-SNAPSHOT-all-bin** 
 找到集群版本的二进制文件。
 
 ### 安装包说明
 
-打开 apache-iotdb-1.0.0-SNAPSHOT-all-bin，可见以下目录：
+打开 apache-iotdb-1.3.0-SNAPSHOT-all-bin，可见以下目录：
 
 | **目录** | **说明**                                                     |
 | -------- | ------------------------------------------------------------ |
@@ -803,7 +803,7 @@ mvn clean package -pl distribution -am -DskipTests
 
 #### 集群安装
 
-`apache-iotdb-1.0.0-SNAPSHOT-all-bin` 包含 ConfigNode 和 DataNode，
+`apache-iotdb-1.3.0-SNAPSHOT-all-bin` 包含 ConfigNode 和 DataNode，
 请将安装包部署于你目标集群的所有机器上，推荐将安装包部署于所有服务器的相同目录下。
 
 如果你希望先在一台服务器上尝试部署 IoTDB 集群，请参考
@@ -812,7 +812,7 @@ mvn clean package -pl distribution -am -DskipTests
 #### 集群配置
 
 接下来需要修改每个服务器上的配置文件，登录服务器，
-并将工作路径切换至 `apache-iotdb-1.0.0-SNAPSHOT-all-bin`，
+并将工作路径切换至 `apache-iotdb-1.3.0-SNAPSHOT-all-bin`，
 配置文件在 `./conf` 目录内。
 
 对于所有部署 ConfigNode 的服务器，需要修改通用配置（见 5.2.1）和 ConfigNode 配置（见 5.2.2）。
