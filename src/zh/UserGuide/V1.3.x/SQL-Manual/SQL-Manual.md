@@ -304,8 +304,6 @@ IoTDB> show paths set schema template t1
 
 IoTDB> show paths using schema template t1
 
-IoTDB> show devices using schema template t1
-
 #### 解除元数据模板
 
 IoTDB> delete timeseries of schema template t1 from root.sg1.d1

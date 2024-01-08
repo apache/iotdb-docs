@@ -277,10 +277,10 @@ It costs 0.016s
 
 数据查询语句支持在 SQL 命令行终端、JDBC、JAVA / C++ / Python / Go 等编程语言 API、RESTful API 中使用。
 
-- 在 SQL 命令行终端中执行查询语句：启动 SQL 命令行终端，直接输入查询语句执行即可，详见 [SQL 命令行终端](../QuickStart/Command-Line-Interface.md)。
+- 在 SQL 命令行终端中执行查询语句：启动 SQL 命令行终端，直接输入查询语句执行即可，详见 [SQL 命令行终端](../Tools-System/CLI.md)。
 
 - 在 JDBC 中执行查询语句，详见 [JDBC](../API/Programming-JDBC.md) 。
-
+- 
 - 在 JAVA / C++ / Python / Go 等编程语言 API 中执行查询语句，详见应用编程接口一章相应文档。接口原型如下：
 
   ```java
@@ -368,7 +368,7 @@ select s1 as temperature, s2 as speed from root.ln.wf01.wt01;
 
 ### 运算符
 
-IoTDB 中支持的运算符列表见文档 [运算符和函数](../Operators-Functions/Overview.md)。
+IoTDB 中支持的运算符列表见文档 [运算符和函数](../User-Manual/Operator-and-Expression.md)。
 
 ### 函数
 
@@ -386,7 +386,7 @@ select sin(s1), count(s1) from root.sg.d1;
 select s1, count(s1) from root.sg.d1 group by ([10,100),10ms);
 ```
 
-IoTDB 支持的聚合函数见文档 [聚合函数](../Operators-Functions/Aggregation.md)。
+IoTDB 支持的聚合函数见文档 [聚合函数](../User-Manual/Operator-and-Expression.md#内置函数)。
 
 #### 时间序列生成函数
 
@@ -396,11 +396,11 @@ IoTDB 支持的聚合函数见文档 [聚合函数](../Operators-Functions/Aggre
 
 ##### 内置时间序列生成函数
 
-IoTDB 中支持的内置函数列表见文档 [运算符和函数](../Operators-Functions/Overview.md)。
+IoTDB 中支持的内置函数列表见文档 [运算符和函数](../User-Manual/Operator-and-Expression.md)。
 
 ##### 自定义时间序列生成函数
 
-IoTDB 支持通过用户自定义函数（点击查看： [用户自定义函数](../Operators-Functions/User-Defined-Function.md) ）能力进行函数功能扩展。
+IoTDB 支持通过用户自定义函数（点击查看： [用户自定义函数](../User-Manual/Database-Programming.md#用户自定义函数) ）能力进行函数功能扩展。
 
 ### 嵌套表达式举例
 
