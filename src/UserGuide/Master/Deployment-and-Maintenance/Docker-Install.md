@@ -28,7 +28,7 @@ Add environments of docker to update the configurations of Apache IoTDB.
 
 ```shell
 # get IoTDB official image
-docker pull apache/iotdb:1.1.0-standalone
+docker pull apache/iotdb:1.3.0-standalone
 # create docker bridge network
 docker network create --driver=bridge --subnet=172.18.0.0/16 --gateway=172.18.0.1 iotdb
 # create docker container
@@ -38,17 +38,17 @@ docker run -d --name iotdb-service \
               --ip 172.18.0.6 \
               -p 6667:6667 \
               -e cn_internal_address=iotdb-service \
-              -e cn_target_config_node_list=iotdb-service:10710 \
+              -e cn_seed_config_node=iotdb-service:10710 \
               -e cn_internal_port=10710 \
               -e cn_consensus_port=10720 \
               -e dn_rpc_address=iotdb-service \
               -e dn_internal_address=iotdb-service \
-              -e dn_target_config_node_list=iotdb-service:10710 \
+              -e dn_seed_config_node=iotdb-service:10710 \
               -e dn_mpp_data_exchange_port=10740 \
               -e dn_schema_region_consensus_port=10750 \
               -e dn_data_region_consensus_port=10760 \
               -e dn_rpc_port=6667 \
-              apache/iotdb:1.1.0-standalone              
+              apache/iotdb:1.3.0-standalone              
 # execute SQL
 docker exec -ti iotdb-service /iotdb/sbin/start-cli.sh -h iotdb-service
 ```
@@ -67,7 +67,7 @@ Notice：The confignode service would fail when restarting this container if the
 version: "3"
 services:
   iotdb-service:
-    image: apache/iotdb:1.1.0-standalone
+    image: apache/iotdb:1.3.0-standalone
     hostname: iotdb-service
     container_name: iotdb-service
     ports:
@@ -76,14 +76,14 @@ services:
       - cn_internal_address=iotdb-service
       - cn_internal_port=10710
       - cn_consensus_port=10720
-      - cn_target_config_node_list=iotdb-service:10710
+      - cn_seed_config_node=iotdb-service:10710
       - dn_rpc_address=iotdb-service
       - dn_internal_address=iotdb-service
       - dn_rpc_port=6667
       - dn_mpp_data_exchange_port=10740
       - dn_schema_region_consensus_port=10750
       - dn_data_region_consensus_port=10760
-      - dn_target_config_node_list=iotdb-service:10710
+      - dn_seed_config_node=iotdb-service:10710
     volumes:
         - ./data:/iotdb/data
         - ./logs:/iotdb/logs
@@ -95,6 +95,10 @@ networks:
   iotdb:
     external: true
 ```
+
+If you'd like to limit the memory of IoTDB, follow these steps:
+1. Add another configuration of volumes: `./iotdb-conf:/iotdb/conf` and then start the IoTDB docker container. Thus, there are some configuration files in directory of iotdb-conf.
+2. Change the memory configurations in confignode-env.sh and datanode-env.sh of iotdb-conf, and then restart the IoTDB docker container again.
 
 ## deploy cluster
 
@@ -108,11 +112,11 @@ Here is the docker-compose file of iotdb-2, as the sample:
 version: "3"
 services:
   iotdb-confignode:
-    image: apache/iotdb:1.1.0-confignode
+    image: apache/iotdb:1.3.0-confignode
     container_name: iotdb-confignode
     environment:
       - cn_internal_address=iotdb-2
-      - cn_target_config_node_list=iotdb-1:10710
+      - cn_seed_config_node=iotdb-1:10710
       - cn_internal_port=10710
       - cn_consensus_port=10720
       - schema_replication_factor=3
@@ -127,12 +131,12 @@ services:
     network_mode: "host"
 
   iotdb-datanode:
-    image: apache/iotdb:1.1.0-datanode
+    image: apache/iotdb:1.3.0-datanode
     container_name: iotdb-datanode
     environment:
       - dn_rpc_address=iotdb-2
       - dn_internal_address=iotdb-2
-      - dn_target_config_node_list=iotdb-1:10710
+      - dn_seed_config_node=iotdb-1:10710
       - data_replication_factor=3
       - dn_rpc_port=6667
       - dn_mpp_data_exchange_port=10740
@@ -151,7 +155,7 @@ services:
 
 Notice：
 
-1. The `dn_target_config_node_list` of three nodes must the same and it is the first starting node of `iotdb-1` with the cn_internal_port of 10710。
+1. The `cn_seed_config_node` and `dn_seed_config_node` of three nodes must the same and they are the first starting node of `iotdb-1` with the `cn_internal_port` of 10710。
 2. In this docker-compose file，`iotdb-2` should be replace with the real IP or hostname of each node to generate docker compose files in the other nodes.
 3. The services would talk with each other, so they need map the /etc/hosts file or add the `extra_hosts` to the docker compose file.
 4. We must start the IoTDB services of `iotdb-1` first at the first time of starting.

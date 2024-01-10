@@ -21,6 +21,8 @@ import ElementPlus from 'element-plus';
 import IoTDB from './components/IoTDB.vue';
 import IoTDBZH from './components/IoTDBZH.vue';
 import Contributor from './components/Contributor.vue';
+import Contributors from './components/Contributors.vue';
+
 import 'element-plus/dist/index.css';
 
 export default defineClientConfig({
@@ -29,6 +31,7 @@ export default defineClientConfig({
     app.use(ElementPlus);
     app.component('IoTDB', IoTDB);
     app.component('Contributor', Contributor);
+    app.component('Contributors', Contributors);
     app.component('IoTDBZH', IoTDBZH);
   },
 });
