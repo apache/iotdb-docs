@@ -24,9 +24,9 @@
 AINode 是 IoTDB 在ConfigNode、DataNode后提供的第三种内生节点，该节点通过与 IoTDB 集群的 DataNode、ConfigNode 的交互，扩展了对时间序列进行机器学习分析的能力，支持从外部引入已有机器学习模型进行注册，并使用注册的模型在指定时序数据上通过简单 SQL 语句完成时序分析任务的过程，将模型的创建、管理及推理融合在数据库引擎中。目前已提供常见时序分析场景（例如预测与异常检测）的机器学习算法或自研模型。
 
 系统架构如下图所示：
-
+::: center
 <img src="https://alioss.timecho.com/docs/img/h4.PNG" style="zoom:50%" />
-
+::: 
 三种节点的职责如下：
 
 - **ConfigNode**：负责保存和管理模型的元信息；负责分布式节点管理。
