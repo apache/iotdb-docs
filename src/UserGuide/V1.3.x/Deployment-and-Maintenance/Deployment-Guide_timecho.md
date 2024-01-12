@@ -88,7 +88,7 @@ This document will explain how to remotely deploy, configure, start and stop IoT
 
 ### Environment dependence
 
-This tool is a supporting tool for IoTDB Enterprise Edition. You can contact your sales representative to obtain the tool download method.
+This tool is a supporting tool for TimechoDB(Enterprise Edition built from IoTDB). You can contact your sales representative to obtain the tool download method.
 
 The machine where IoTDB is to be deployed needs to rely on jdk 8 and above, lsof, netstat, and unzip functions. If not, please install them yourself. You can refer to the installation commands required for the environment in the last section of the document.
 
@@ -98,7 +98,7 @@ Tip: The IoTDB cluster management tool requires an account with root privileges
 
 #### Download and install
 
-This tool is a supporting tool for IoTDB Enterprise Edition. You can contact your salesperson to obtain the tool download method.
+This tool is a supporting tool for TimechoDB(Enterprise Edition built from IoTDB). You can contact your salesperson to obtain the tool download method.
 
 Note: Since the binary package only supports GLIBC2.17 and above, the minimum version is Centos7.
 
