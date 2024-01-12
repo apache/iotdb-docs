@@ -29,7 +29,7 @@
 1. Apache IoTDB：1.0 版本及以上，可以前往官网下载：https://iotdb.apache.org/Download/
 2. Prometheus：2.30.3 版本及以上，可以前往官网下载：https://prometheus.io/download/
 3. Grafana：8.4.2 版本及以上，可以前往官网下载：https://grafana.com/grafana/download
-4. IoTDB-Grafana安装包：Grafana看板为IoTDB企业版工具，您可联系您的销售获取相关安装包
+4. IoTDB-Grafana安装包：Grafana看板为TimechoDB（基于IoTDB的企业版数据库）工具，您可联系您的销售获取相关安装包
 
 ### 集群要求
 
