@@ -29,7 +29,7 @@ From the Apache IoTDB 1.0 version, we introduced the system monitoring module, y
 1. Apache IoTDB: version 1.0 and above, download from the official website: https://iotdb.apache.org/Download/
 2. Prometheus: version 2.30.3 and above, download from the official website: https://prometheus.io/download/
 3. Grafana: version 8.4.2 and above, download from the official website: https://grafana.com/grafana/download
-4. IoTDB-Grafana installer: Grafana Kanban is an TimechoDB(Enterprise Edition built from IoTDB) tool, and you may contact your sales for the relevant installer.
+4. IoTDB-Grafana installer: Grafana Dashboards is an TimechoDB(Enterprise Edition built from IoTDB) tool, and you may contact your sales for the relevant installer.
 
 ### cluster requirement
 
