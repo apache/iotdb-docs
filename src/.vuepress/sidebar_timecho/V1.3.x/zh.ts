@@ -102,7 +102,7 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '命令行工具', link: 'CLI' },
-//        { text: '控制台工具', link: 'Workbench' },
+        { text: '可视化控制台', link: 'Workbench_timecho' },
         { text: '监控工具', link: 'Monitor-Tool' },
         { text: '测试工具', link: 'Benchmark' },
         { text: '运维工具', link: 'Maintenance-Tool_timecho' },
@@ -143,7 +143,7 @@ export const zhSidebar = {
         { text: 'Spark-IoTDB-Connector', link: 'Spark-IoTDB' },
         { text: 'Hive-TsFile-Connector', link: 'Hive-TsFile' },
         { text: 'Flink-IoTDB-Connector', link: 'Flink-IoTDB' },
-        { text: 'Flink-SQL-IoTDB-Connector', link: 'Flink-SQL-IoTDB' },
+//        { text: 'Flink-SQL-IoTDB-Connector', link: 'Flink-SQL-IoTDB' },
         { text: 'Flink-TsFile-Connector', link: 'Flink-TsFile' },
         { text: 'NiFi-IoTDB-Connector', link: 'NiFi-IoTDB' },
         { text: 'DBeaver-IoTDB 集成方案', link: 'DBeaver' },
