@@ -35,7 +35,7 @@ Pipe Extractor is used to extract data, Pipe Processor is used to process data, 
 
 **The model of the Pipe task is as follows:**
 
-![Task model diagram](https://alioss.timecho.com/docs/img/%E5%90%8C%E6%AD%A5%E5%BC%95%E6%93%8E.jpeg)
+![pipe.png](https://alioss.timecho.com/docs/img/pipe.png)
 
 Describing a data flow processing task essentially describes the properties of Pipe Extractor, Pipe Processor and Pipe Connector plugins.
 Users can declaratively configure the specific attributes of the three subtasks through SQL statements, and achieve flexible data ETL capabilities by combining different attributes.
@@ -614,14 +614,12 @@ WITH CONNECTOR (
 
 **When creating a stream processing task, you need to configure the PipeId and the parameters of the three plugin parts:**
 
-
-| Configuration item    | Description                                                | Required or not                    | Default implementation             | Default implementation description                                             | Whether custom implementation is allowed        |
-| --------- | --------------------------------------------------- | --------------------------- | -------------------- | -------------------------------------------------------- | ------------------------- |
-| PipeId    | A globally unique name that identifies a stream processing task                    | <font color=red>Required</font> | -                    | -                                                        | -                         |
-| extractor | Pipe Extractor plugin, responsible for extracting stream processing data at the bottom of the database | Optional                        | iotdb-extractor      | Integrate the full historical data of the database and subsequent real-time data arriving into the stream processing task | No                        |
-| processor | Pipe Processor plugin, responsible for processing data | Optional | do-nothing-processor                   | Optional                        | do-nothing-processor | | processor | Pipe Processor plugin, responsible for processing data | Optional | do-nothing-processor | Does not do any processing on the incoming data | <font color=red>Yes</font> |
-                                 | <font color=red>是</font> |
-| connector | Pipe Connector plugin, responsible for sending data                   | <font color=red>Required</font> | -                    | -                                                        | <font color=red>是</font> |
+| Configuration | Description                                                  | Required or not                 | Default implementation | Default implementation description                           | Default implementation description |
+| ------------- | ------------------------------------------------------------ | ------------------------------- | ---------------------- | ------------------------------------------------------------ | ---------------------------------- |
+| PipeId        | A globally unique name that identifies a stream processing   | <font color=red>Required</font> | -                      | -                                                            | -                                  |
+| extractor     | Pipe Extractor plugin, responsible for extracting stream processing data at the bottom of the database | Optional                        | iotdb-extractor        | Integrate the full historical data of the database and subsequent real-time data arriving into the stream processing task | No                                 |
+| processor     | Pipe Processor plugin, responsible for processing data       | Optional                        | do-nothing-processor   | Does not do any processing on the incoming data              | <font color=red>Yes</font>         |
+| connector     | Pipe Connector plugin, responsible for sending data          | <font color=red>Required</font> | -                      | -                                                            | <font color=red>Yes</font>         |
 
 In the example, the iotdb-extractor, do-nothing-processor and iotdb-thrift-connector plugins are used to build the data flow processing task. IoTDB also has other built-in stream processing plugins, **please check the "System Preset Stream Processing plugin" section**.
 
