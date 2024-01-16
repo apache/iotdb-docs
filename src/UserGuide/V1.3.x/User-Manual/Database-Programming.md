@@ -1547,7 +1547,7 @@ SHOW FUNCTIONS
 
 There are 3 types of user permissions related to UDF:
 
-* `CREATE_FUNCTION`: Only users with this permission are allowed to register UDFs
+* `USE_UDF`: Only users with this permission are allowed to register UDFs
 * `DROP_FUNCTION`: Only users with this permission are allowed to deregister UDFs
 * `READ_TIMESERIES`: Only users with this permission are allowed to use UDFs for queries
 
