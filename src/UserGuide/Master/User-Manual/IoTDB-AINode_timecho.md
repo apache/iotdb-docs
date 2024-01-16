@@ -25,7 +25,7 @@ AINode is the third type of endogenous node provided by IoTDB after ConfigNode a
 
 The system architecture is shown below:
 ::: center
-<img src="https://alioss.timecho.com/docs/img/h4.PNG" style="zoom:50 percent" />
+<img src="https://alioss.timecho.com/upload/AInode.png" style="zoom:50 percent" />
 ::: 
 The responsibilities of the three nodes are as follows:
 

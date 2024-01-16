@@ -1499,7 +1499,7 @@ SHOW FUNCTIONS
 
 用户在使用 UDF 时会涉及到 3 种权限：
 
-* `CREATE_FUNCTION`：具备该权限的用户才被允许执行 UDF 注册操作
+* `USE_UDF	`：具备该权限的用户才被允许执行 UDF 注册操作
 * `DROP_FUNCTION`：具备该权限的用户才被允许执行 UDF 卸载操作
 * `READ_TIMESERIES`：具备该权限的用户才被允许使用 UDF 进行查询
 
