@@ -262,7 +262,7 @@ ALTER USER <username> SET PASSWORD <password>;
 Example: IoTDB > ALTER USER root SET PASSWORD 'newpwd';
 ```
 
-权限管理的具体内容可以参考：[权限管理](https://iotdb.apache.org/zh/UserGuide/V1.0.x/Administration-Management/Administration.html)
+权限管理的具体内容可以参考：[权限管理](../User-Manual/Authority-Management.md)
 
 ## 基础配置
 

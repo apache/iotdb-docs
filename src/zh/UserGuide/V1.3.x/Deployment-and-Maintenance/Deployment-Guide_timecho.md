@@ -77,9 +77,9 @@ Windows 系统启动命令如下：
 IoTDB 集群管理工具是一款易用的运维工具（企业版工具）。旨在解决 IoTDB 分布式系统多节点的运维难题，主要包括集群部署、集群启停、弹性扩容、配置更新、数据导出等功能，从而实现对复杂数据库集群的一键式指令下发，
 极大降低管理难度。本文档将说明如何用集群管理工具远程部署、配置、启动和停止 IoTDB 集群实例。
 
-### Environmental preparation
+### 环境准备
 
-本工具为 IoTDB 企业版配套工具，您可以联系您的销售获取工具下载方式。
+本工具为 TimechoDB（基于IoTDB的企业版数据库）配套工具，您可以联系您的销售获取工具下载方式。
 
 IoTDB 要部署的机器需要依赖jdk 8及以上版本、lsof、netstat、unzip功能如果没有请自行安装，可以参考文档最后的一节环境所需安装命令。
 
@@ -89,7 +89,7 @@ IoTDB 要部署的机器需要依赖jdk 8及以上版本、lsof、netstat、unzi
 
 #### 下载安装
 
-本工具为IoTDB企业版配套工具，您可以联系您的销售获取工具下载方式。
+本工具为TimechoDB（基于IoTDB的企业版数据库）配套工具，您可以联系您的销售获取工具下载方式。
 
 注意：由于二进制包仅支持GLIBC2.17 及以上版本，因此最低适配Centos7版本
 
@@ -753,8 +753,8 @@ iotdbctl cluster activate default_cluster -N confignode1 -op license_path
 #### 下载二进制文件
 
 1. 打开官网[Download Page](https://iotdb.apache.org/Download/)。
-2. 下载 IoTDB 1.0.0 版本的二进制文件。
-3. 解压得到 apache-iotdb-1.0.0-all-bin 目录。
+2. 下载 IoTDB 1.3.0 版本的二进制文件。
+3. 解压得到 apache-iotdb-1.3.0-all-bin 目录。
 
 #### 使用源码编译
 
@@ -764,14 +764,14 @@ iotdbctl cluster activate default_cluster -N confignode1 -op license_path
 
 ```
 git clone https://github.com/apache/iotdb.git
-git checkout v1.0.0
+git checkout v1.3.0
 ```
 
 **官网下载**
 
 1. 打开官网[Download Page](https://iotdb.apache.org/Download/)。
 2. 下载 IoTDB 1.0.0 版本的源码。
-3. 解压得到 apache-iotdb-1.0.0 目录。
+3. 解压得到 apache-iotdb-1.3.0 目录。
 
 ##### 编译源码
 
@@ -782,12 +782,12 @@ mvn clean package -pl distribution -am -DskipTests
 ```
 
 编译成功后，可在目录 
-**distribution/target/apache-iotdb-1.0.0-SNAPSHOT-all-bin/apache-iotdb-1.0.0-SNAPSHOT-all-bin** 
+**distribution/target/apache-iotdb-1.3.0-SNAPSHOT-all-bin/apache-iotdb-1.3.0-SNAPSHOT-all-bin** 
 找到集群版本的二进制文件。
 
 ### 安装包说明
 
-打开 apache-iotdb-1.0.0-SNAPSHOT-all-bin，可见以下目录：
+打开 apache-iotdb-1.3.0-SNAPSHOT-all-bin，可见以下目录：
 
 | **目录** | **说明**                                                     |
 | -------- | ------------------------------------------------------------ |
@@ -803,7 +803,7 @@ mvn clean package -pl distribution -am -DskipTests
 
 #### 集群安装
 
-`apache-iotdb-1.0.0-SNAPSHOT-all-bin` 包含 ConfigNode 和 DataNode，
+`apache-iotdb-1.3.0-SNAPSHOT-all-bin` 包含 ConfigNode 和 DataNode，
 请将安装包部署于你目标集群的所有机器上，推荐将安装包部署于所有服务器的相同目录下。
 
 如果你希望先在一台服务器上尝试部署 IoTDB 集群，请参考
@@ -812,7 +812,7 @@ mvn clean package -pl distribution -am -DskipTests
 #### 集群配置
 
 接下来需要修改每个服务器上的配置文件，登录服务器，
-并将工作路径切换至 `apache-iotdb-1.0.0-SNAPSHOT-all-bin`，
+并将工作路径切换至 `apache-iotdb-1.3.0-SNAPSHOT-all-bin`，
 配置文件在 `./conf` 目录内。
 
 对于所有部署 ConfigNode 的服务器，需要修改通用配置（见 5.2.1）和 ConfigNode 配置（见 5.2.2）。
@@ -920,7 +920,7 @@ nohup bash ./sbin/start-confignode.sh >/dev/null 2>&1 &
 ```
 
 ConfigNode 的其它配置参数可参考
-[ConfigNode 配置参数](https://iotdb.apache.org/zh/UserGuide/Master/Reference/ConfigNode-Config-Manual.html)。
+[ConfigNode 配置参数](../Reference/ConfigNode-Config-Manual.md)。
 
 ##### 增加更多 ConfigNode（可选）
 
@@ -963,7 +963,7 @@ nohup bash ./sbin/start-confignode.sh >/dev/null 2>&1 &
 ```
 
 ConfigNode 的其它配置参数可参考
-[ConfigNode配置参数](https://iotdb.apache.org/zh/UserGuide/Master/Reference/ConfigNode-Config-Manual.html)。
+[ConfigNode 配置参数](../Reference/ConfigNode-Config-Manual.md)。
 
 ##### 增加 DataNode
 
@@ -1003,7 +1003,7 @@ nohup bash ./sbin/start-datanode.sh >/dev/null 2>&1 &
 ```
 
 DataNode 的其它配置参数可参考
-[DataNode配置参数](https://iotdb.apache.org/zh/UserGuide/Master/Reference/DataNode-Config-Manual.html)。
+[DataNode配置参数](../Reference/DataNode-Config-Manual.md) 。
 
 **注意：当且仅当集群拥有不少于副本个数（max{schema\_replication\_factor, data\_replication\_factor}）的 DataNode 后，集群才可以提供服务**
 
@@ -1020,7 +1020,7 @@ DataNode 的其它配置参数可参考
 ```
 
 若希望通过 Cli 连接生产环境的集群，
-请阅读 [Cli 使用手册](https://iotdb.apache.org/zh/UserGuide/Master/QuickStart/Command-Line-Interface.html)。
+请阅读 [Cli 使用手册](../Tools-System/CLI.md) 。
 
 #### 验证集群
 
@@ -1147,4 +1147,314 @@ kill -9 <pid>
 
 ### 常见问题
 
-请参考 [分布式部署FAQ](https://iotdb.apache.org/zh/UserGuide/Master/FAQ/FAQ-for-cluster-setup.html)
+请参考 [分布式部署FAQ](../FAQ/Frequently-asked-questions.md#分布式部署-faq)
+
+## AINode 部署
+
+###  安装环境
+
+#### 建议操作系统
+
+Ubuntu, CentOS, MacOS
+
+#### 运行环境
+
+AINode目前要求系统3.8以上的Python，且带有pip和venv工具
+
+如果是联网的情况，AINode会创建虚拟环境并自动下载运行时的依赖包，不需要额外配置。
+
+如果是非联网的环境，可以从https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/中获取安装所需要的依赖包并离线安装。
+
+### 安装步骤
+
+用户可以下载AINode的软件安装包，下载并解压后即完成AINode的安装。也可以从代码仓库中下载源码并编译来获取安装包。
+
+### 软件目录结构
+
+下载软件安装包并解压后，可以得到如下的目录结构
+
+```Shell
+|-- apache-iotdb-AINode-bin
+    |-- lib # 打包的二进制可执行文件，包含环境依赖
+    |-- conf # 存放配置文件
+        - iotdb-AINode.properties
+    |-- sbin # AINode相关启动脚本
+        - start-AINode.sh
+        - start-AINode.bat
+        - stop-AINode.sh
+        - stop-AINode.bat
+        - remove-AINode.sh
+        - remove-AINode.bat
+    |-- licenses
+    - LICENSE
+    - NOTICE
+    - README.md
+    - README_ZH.md
+    - RELEASE_NOTES.md
+```
+
+- **lib：**AINode编译后的二进制可执行文件以及相关的代码依赖
+- **conf：**包含AINode的配置项，具体包含以下配置项
+- **sbin：**AINode的运行脚本，可以启动，移除和停止AINode
+
+### 启动AINode
+
+在完成Seed-ConfigNode的部署后，可以通过添加AINode节点来支持模型的注册和推理功能。在配置项中指定IoTDB集群的信息后，可以执行相应的指令来启动AINode，加入IoTDB集群。
+
+注意：启动AINode需要系统环境中含有3.8及以上的Python解释器作为默认解释器，用户在使用前请检查环境变量中是否存在Python解释器且可以通过`python`指令直接调用。
+
+#### 直接启动
+
+在获得安装包的文件后，用户可以直接进行AINode的初次启动。
+
+在Linux和MacOS上的启动指令如下：
+
+```Shell
+> bash sbin/start-AINode.sh
+```
+
+在windows上的启动指令如下：
+
+```Shell
+> sbin\start-AINode.bat
+```
+
+如果首次启动AINode且没有指定解释器路径，那么脚本将在程序根目录使用系统Python解释器新建venv虚拟环境，并在这个环境中自动先后安装AINode的第三方依赖和AINode主程序。**这个过程将产生大小约为1GB的虚拟环境，请预留好安装的空间**。在后续启动时，如果未指定解释器路径，脚本将自动寻找上面新建的venv环境并启动AINode，无需重复安装程序和依赖。
+
+注意，如果希望在某次启动时强制重新安装AINode本体，可以通过-r激活reinstall，该参数会根据lib下的文件重新安装AINode。
+
+Linux和MacOS：
+
+```Shell
+> bash sbin/start-AINode.sh -r
+```
+
+Windows：
+
+```Shell
+> sbin\start-AINode.bat -r
+```
+
+例如，用户在lib中更换了更新版本的AINode安装包，但该安装包并不会安装到用户的常用环境中。此时用户即需要在启动时添加-r选项来指示脚本强制重新安装虚拟环境中的AINode主程序，实现版本的更新
+
+#### 指定自定义虚拟环境
+
+在启动AINode时，可以通过指定一个虚拟环境解释器路径来将AINode主程序及其依赖安装到特定的位置。具体需要指定参数ain_interpreter_dir的值。
+
+Linux和MacOS：
+
+```Shell
+> bash sbin/start-AINode.sh -i xxx/bin/python
+```
+
+Windows：
+
+```Shell
+> sbin\start-AINode.bat -i xxx\Scripts\python.exe
+```
+
+在指定Python解释器的时候请输入虚拟环境中Python解释器的**可执行文件**的地址。目前AINode**支持venv、****conda****等虚拟环境**，**不支持输入系统Python解释器作为安装位置**。为了保证脚本能够正常识别，请**尽可能使用绝对路径**
+
+#### 加入集群
+
+AINode启动过程中会自动将新的AINode加入IoTDB集群。启动AINode后可以通过在IoTDB的cli命令行中输入集群查询的SQL来验证节点是否加入成功。
+
+```Shell
+IoTDB> show cluster
++------+----------+-------+---------------+------------+-------+-----------+
+|NodeID|  NodeType| Status|InternalAddress|InternalPort|Version|  BuildInfo|
++------+----------+-------+---------------+------------+-------+-----------+
+|     0|ConfigNode|Running|      127.0.0.1|       10710|UNKNOWN|190e303-dev|
+|     1|  DataNode|Running|      127.0.0.1|       10730|UNKNOWN|190e303-dev|
+|     2|    AINode|Running|      127.0.0.1|       10810|UNKNOWN|190e303-dev|
++------+----------+-------+---------------+------------+-------+-----------+
+
+IoTDB> show cluster details
++------+----------+-------+---------------+------------+-------------------+----------+-------+-------+-------------------+-----------------+-------+-----------+
+|NodeID|  NodeType| Status|InternalAddress|InternalPort|ConfigConsensusPort|RpcAddress|RpcPort|MppPort|SchemaConsensusPort|DataConsensusPort|Version|  BuildInfo|
++------+----------+-------+---------------+------------+-------------------+----------+-------+-------+-------------------+-----------------+-------+-----------+
+|     0|ConfigNode|Running|      127.0.0.1|       10710|              10720|          |       |       |                   |                 |UNKNOWN|190e303-dev|
+|     1|  DataNode|Running|      127.0.0.1|       10730|                   |   0.0.0.0|   6667|  10740|              10750|            10760|UNKNOWN|190e303-dev|
+|     2|    AINode|Running|      127.0.0.1|       10810|                   |   0.0.0.0|  10810|       |                   |                 |UNKNOWN|190e303-dev|
++------+----------+-------+---------------+------------+-------------------+----------+-------+-------+-------------------+-----------------+-------+-----------+
+
+IoTDB> show AINodes
++------+-------+----------+-------+
+|NodeID| Status|RpcAddress|RpcPort|
++------+-------+----------+-------+
+|     2|Running| 127.0.0.1|  10810|
++------+-------+----------+-------+
+```
+
+### 移除AINode
+
+当需要把一个已经连接的AINode移出集群时，可以执行对应的移除脚本。
+
+在Linux和MacOS上的指令如下：
+
+```Shell
+> bash sbin/remove-AINode.sh
+```
+
+在windows上的启动指令如下：
+
+```Shell
+> sbin\remove-AINode.bat
+```
+
+移除节点后，将无法查询到节点的相关信息。
+
+```Shell
+IoTDB> show cluster
++------+----------+-------+---------------+------------+-------+-----------+
+|NodeID|  NodeType| Status|InternalAddress|InternalPort|Version|  BuildInfo|
++------+----------+-------+---------------+------------+-------+-----------+
+|     0|ConfigNode|Running|      127.0.0.1|       10710|UNKNOWN|190e303-dev|
+|     1|  DataNode|Running|      127.0.0.1|       10730|UNKNOWN|190e303-dev|
++------+----------+-------+---------------+------------+-------+-----------+
+```
+
+另外，如果之前自定义了AINode安装的位置，那么在调用remove脚本的时候也需要附带相应的路径作为参数：
+
+Linux和MacOS：
+
+```Shell
+> bash sbin/remove-AINode.sh -i xxx/bin/python
+```
+
+Windows：
+
+```Shell
+> sbin\remove-AINode.bat -i 1 xxx\Scripts\python.exe
+```
+
+类似地，在env脚本中持久化修改的脚本参数同样会在执行移除的时候生效。
+
+如果用户丢失了data文件夹下的文件，可能AINode本地无法主动移除自己，需要用户指定节点号、地址和端口号进行移除，此时我们支持用户按照以下方法输入参数进行删除
+
+Linux和MacOS：
+
+```Shell
+> bash sbin/remove-AINode.sh -t <AINode-id>/<ip>:<rpc-port>
+```
+
+Windows：
+
+```Shell
+> sbin\remove-AINode.bat -t <AINode-id>/<ip>:<rpc-port>
+```
+
+### 停止AINode
+
+如果需要停止正在运行的AINode节点，则执行相应的关闭脚本。
+
+在Linux和MacOS上的指令如下：
+
+```Shell
+> bash sbin/stop-AINode.sh
+```
+
+在windows上的启动指令如下：
+
+```Shell
+> sbin\stop-AINode.bat
+```
+
+此时无法获取节点的具体状态，也就无法使用对应的管理和推理功能。如果需要重新启动该节点，再次执行启动脚本即可。
+
+```Shell
+IoTDB> show cluster
++------+----------+-------+---------------+------------+-------+-----------+
+|NodeID|  NodeType| Status|InternalAddress|InternalPort|Version|  BuildInfo|
++------+----------+-------+---------------+------------+-------+-----------+
+|     0|ConfigNode|Running|      127.0.0.1|       10710|UNKNOWN|190e303-dev|
+|     1|  DataNode|Running|      127.0.0.1|       10730|UNKNOWN|190e303-dev|
+|     2|    AINode|UNKNOWN|      127.0.0.1|       10790|UNKNOWN|190e303-dev|
++------+----------+-------+---------------+------------+-------+-----------+
+```
+
+### 脚本参数详情
+
+AINode启动过程中支持两种参数，其具体的作用如下图所示：
+
+| **名称**            | **作用脚本**     | 标签 | **描述**                                                     | **类型** | **默认值**       | 输入方式              |
+| ------------------- | ---------------- | ---- | ------------------------------------------------------------ | -------- | ---------------- | --------------------- |
+| ain_interpreter_dir | start remove env | -i   | AINode所安装在的虚拟环境的解释器路径，需要使用绝对路径       | String   | 默认读取环境变量 | 调用时输入+持久化修改 |
+| ain_remove_target   | remove stop      | -t   | AINode关闭时可以指定待移除的目标AINode的Node ID、地址和端口号，格式为`<AINode-id>/<ip>:<rpc-port>` | String   | 无               | 调用时输入            |
+| ain_force_reinstall | start remove env | -r   | 该脚本在检查AINode安装情况的时候是否检查版本，如果检查则在版本不对的情况下会强制安装lib里的whl安装包 | Bool     | false            | 调用时输入            |
+| ain_no_dependencies | start remove env | -n   | 指定在安装AINode的时候是否安装依赖，如果指定则仅安装AINode主程序而不安装依赖。 | Bool     | false            | 调用时输入            |
+
+除了按照上文所述的方法在执行脚本时传入上述参数外，也可以在`conf`文件夹下的`AINode-env.sh`和`AINode-env.bat`脚本中持久化地修改部分参数。
+
+`AINode-env.sh`：
+
+```Bash
+# The defaulte venv environment is used if ain_interpreter_dir is not set. Please use absolute path without quotation mark
+# ain_interpreter_dir=
+```
+
+`AINode-env.bat`：
+
+```Plain
+@REM The defaulte venv environment is used if ain_interpreter_dir is not set. Please use absolute path without quotation mark
+@REM set ain_interpreter_dir=
+```
+
+在写入参数值的后解除对应行的注释并保存即可在下一次执行脚本时生效。
+
+### AINode配置项
+
+AINode支持修改一些必要的参数。可以在`conf/iotdb-AINode.properties`文件中找到下列参数并进行持久化的修改：
+
+| **名称**                    | **描述**                                                     | **类型** | **默认值**         | **改后生效方式**             |
+| --------------------------- | ------------------------------------------------------------ | -------- | ------------------ | ---------------------------- |
+| ain_target_config_node_list | AINode启动时注册的ConfigNode地址                             | String   | 10710              | 仅允许在第一次启动服务前修改 |
+| ain_inference_rpc_address   | AINode提供服务与通信的地址                                   | String   | 127.0.0.1          | 重启后生效                   |
+| ain_inference_rpc_port      | AINode提供服务与通信的端口                                   | String   | 10810              | 重启后生效                   |
+| ain_system_dir              | AINode元数据存储路径，相对路径的起始目录与操作系统相关，建议使用绝对路径。 | String   | data/AINode/system | 重启后生效                   |
+| ain_models_dir              | AINode存储模型文件的路径，相对路径的起始目录与操作系统相关，建议使用绝对路径。 | String   | data/AINode/models | 重启后生效                   |
+| ain_logs_dir                | AINode存储日志的路径，相对路径的起始目录与操作系统相关，建议使用绝对路径。 | String   | logs/AINode        | 重启后生效                   |
+
+### 常见问题解答
+
+1. **启动AINode时出现找不到venv模块的报错**
+
+当使用默认方式启动AINode时，会在安装包目录下创建一个python虚拟环境并安装依赖，因此要求安装venv模块。通常来说python3.8及以上的版本会自带venv，但对于一些系统自带的python环境可能并不满足这一要求。出现该报错时有两种解决方案（二选一）：
+
+- 在本地安装venv模块，以ubuntu为例，可以通过运行以下命令来安装python自带的venv模块。或者从python官网安装一个自带venv的python版本
+
+```SQL
+apt-get install python3.8-venv 
+```
+
+- 在运行启动脚本时通过-i指定已有的python解释器路径作为AINode的运行环境，这样就不再需要创建一个新的虚拟环境。
+
+2. **在CentOS7中编译python环境**
+
+在centos7的新环境中（自带python3.6）不满足启动mlnode的要求，需要自行编译python3.8+(python在centos7中未提供二进制包）
+
+- 安装OpenSSL 
+
+> Currently Python versions 3.6 to 3.9 are compatible with OpenSSL 1.0.2, 1.1.0, and 1.1.1.
+
+Python要求我们的系统上安装有OpenSSL，具体安装方法可见https://stackoverflow.com/questions/56552390/how-to-fix-ssl-module-in-python-is-not-available-in-centos
+
+- 安装编译python
+
+使用以下指定从官网下载安装包并解压
+
+```SQL
+wget https://www.python.org/ftp/python/3.8.1/Python-3.8.1.tgz
+tar -zxvf Python-3.8.1.tgz
+```
+
+编译安装对应的python包
+
+```SQL
+./configure prefix=/usr/local/python3 -with-openssl=/usr/local/openssl 
+make && make install
+```
+
+3. **windows下出现类似“error：Microsoft Visual** **C++** **14.0 or greater is required...”的编译问题**
+
+出现对应的报错，通常是c++版本或是setuptools版本不足，可以在https://stackoverflow.com/questions/44951456/pip-error-microsoft-visual-c-14-0-is-required中查找适合的解决方案。

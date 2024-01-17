@@ -20,8 +20,8 @@
   <div>
 
     <h1 style="text-align: center;">Project Mentors</h1>
-    <div v-for="(item, i) in mentors" class="box">
-      <img :src="item.avatar">
+    <div v-for="item in mentors" :key="item.id" class="box">
+      <img :src="item.avatar" alt="">
       <div class="right">
         <p class="con-name">{{item.name}}</p>
         <div class="con-detailed-info">
@@ -35,8 +35,8 @@
     </div>
 
     <h1 style="text-align: center;">Project Committers</h1>
-    <div v-for="(item, i) in conList" class="box">
-      <img :src="item.avatar">
+    <div v-for="item in conList" :key="item.id" class="box">
+      <img :src="item.avatar" alt="">
       <div class="right">
         <p class="con-name">{{item.name}}</p>
         <div class="con-detailed-info">
@@ -144,7 +144,7 @@ export default {
         {
           avatar: '/img/contributor-avatar/yt.jpg',
           name: 'Yuan Tian',
-          role: 'Committer',
+          role: 'PMC, Committer',
           id: 'jackietien',
           date: '2019/12/18',
         },
@@ -312,8 +312,8 @@ export default {
         {
           avatar: '/img/contributor-avatar/user.svg',
           name: 'Xinyu Tan',
-          role: 'Committer',
-          id: 'LebronAl',
+          role: 'PMC, Committer',
+          id: 'tanxinyu',
           date: '2020/12/21',
         },
         {
@@ -340,7 +340,7 @@ export default {
         {
           avatar: '/img/contributor-avatar/user.svg',
           name: 'Chao Wang',
-          role: 'Committer',
+          role: 'PMC, Committer',
           id: 'wangchao316',
           date: '2021/06/30',
         },
