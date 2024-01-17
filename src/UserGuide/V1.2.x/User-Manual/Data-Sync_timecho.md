@@ -32,7 +32,7 @@
 
 **The model of a Pipe task is as follows:**
 
-![pipe.png](https://alioss.timecho.com/docs/img/pipe.png)
+![pipe.png](https://alioss.timecho.com/upload/pipe.png)
 
 It describes a data sync task, which essentially describes the attributes of the Pipe Extractor, Pipe Processor, and Pipe Connector plugins. Users can declaratively configure the specific attributes of the three subtasks through SQL statements. By combining different attributes, flexible data ETL (Extract, Transform, Load) capabilities can be achieved.
 

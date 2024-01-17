@@ -162,7 +162,7 @@ IoTDB> show pipeplugins
 
 This example is used to demonstrate the synchronisation of all data from one IoTDB to another IoTDB with the data link as shown below:
 
-![](https://alioss.timecho.com/docs/img/e1.png)
+![](https://alioss.timecho.com/upload/pipe1.jpg)
 
 In this example, we can create a synchronisation task named A2B to synchronise the full amount of data from IoTDB A to IoTDB B. Here we need to use the iotdb-thrift-sink plugin (built-in plugin) which uses sink, and we need to specify the address of the receiving end, in this example, we have specified 'sink.ip' and 'sink.port', and we can also specify 'sink.port'. This example specifies 'sink.ip' and 'sink.port', and also 'sink.node-urls', as in the following example statement:
 
@@ -180,7 +180,7 @@ with sink (
 
 This example is used to demonstrate the synchronisation of data from a certain historical time range (8:00pm 23 August 2023 to 8:00pm 23 October 2023) to another IoTDB, the data link is shown below:
 
-![](https://alioss.timecho.com/docs/img/e2.png)
+![](https://alioss.timecho.com/upload/pipe2.jpg)
 
 In this example we can create a synchronisation task called A2B. First of all, we need to define the range of data to be transferred in source, since the data to be transferred is historical data (historical data refers to the data that existed before the creation of the synchronisation task), we need to configure the source.realtime.enable parameter to false; at the same time, we need to configure the start-time and end-time of the data and the mode mode of the transfer. At the same time, you need to configure the start-time and end-time of the data and the mode mode of transmission, and it is recommended that the mode be set to hybrid mode (hybrid mode is a mixed transmission mode, which adopts the real-time transmission mode when there is no backlog of data, and adopts the batch transmission mode when there is a backlog of data, and automatically switches according to the internal situation of the system).
 
@@ -205,7 +205,7 @@ with SINK (
 
 This example is used to demonstrate a scenario where two IoTDBs are dual-active with each other, with the data link shown below:
 
-![](https://alioss.timecho.com/docs/img/e3.png)
+![](https://alioss.timecho.com/upload/pipe3.jpg)
 
 In this example, in order to avoid an infinite loop of data, the parameter `'source.forwarding-pipe-requests` needs to be set to ``false`` on both A and B to indicate that the data transferred from the other pipe will not be forwarded. Also set `'source.history.enable'` to `false` to indicate that historical data is not transferred, i.e., data prior to the creation of the task is not synchronised.
  
@@ -245,7 +245,7 @@ with sink (
 
 This example is used to demonstrate a cascading data transfer scenario between multiple IoTDBs, where data is synchronised from cluster A to cluster B and then to cluster C. The data link is shown in the figure below:
 
-![](https://alioss.timecho.com/docs/img/e4.png)
+![](https://alioss.timecho.com/upload/pipe4.jpg)
 
 In this example, in order to synchronise the data from cluster A to C, the pipe between BC needs to be configured with `source.forwarding-pipe-requests` to `true`, the detailed statement is as follows:
 
@@ -277,7 +277,7 @@ with sink (
 
 This example is used to demonstrate a scenario where data from one IoTDB is synchronised to another IoTDB via a unidirectional gate, with the data link shown below:
 
-![](https://alioss.timecho.com/docs/img/e5.png)
+![](https://alioss.timecho.com/upload/pipe5.jpg)
 
 In this example, you need to use the iotdb-air-gap-sink plug-in in the sink task (currently supports some models of network gates, please contact the staff of Tianmou Technology to confirm the specific model), and after configuring the network gate, execute the following statements on IoTDB A, where ip and port fill in the information of the network gate, and the detailed statements are as follows:
 
