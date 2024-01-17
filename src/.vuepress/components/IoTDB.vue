@@ -158,7 +158,6 @@
 </template>
 
 <script lang="ts">
-import { defaultVersion } from '../utils';
 
 export default {
   name: 'IoTDB',
@@ -190,7 +189,7 @@ export default {
       window.location.href = '/Download/';
     },
     addRoutes2() {
-      window.location.href = `/UserGuide/${defaultVersion}/QuickStart/QuickStart.html`;
+      window.location.href = '/UserGuide/latest/QuickStart/QuickStart.html';
     },
   },
 };
