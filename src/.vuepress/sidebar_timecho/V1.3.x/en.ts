@@ -102,7 +102,7 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'CLI', link: 'CLI' },
-        { text: 'Workbench', link: 'Workbench' },
+        // { text: 'Workbench', link: 'Workbench' },
         { text: 'Monitor Tool', link: 'Monitor-Tool' },
         { text: 'Benchmark', link: 'Benchmark' },
         { text: 'Maintenance Tool', link: 'Maintenance-Tool_timecho' },
@@ -143,7 +143,7 @@ export const enSidebar = {
         { text: 'Spark IoTDB Connector', link: 'Spark-IoTDB' },
         { text: 'Hive TsFile Connector', link: 'Hive-TsFile' },
         { text: 'Flink IoTDB Connector', link: 'Flink-IoTDB' },
-//        { text: 'Flink SQL IoTDB Connector', link: 'Flink-SQL-IoTDB' },
+        //        { text: 'Flink SQL IoTDB Connector', link: 'Flink-SQL-IoTDB' },
         { text: 'Flink TsFile Connector', link: 'Flink-TsFile' },
         { text: 'NiFi IoTDB Connector', link: 'NiFi-IoTDB' },
         { text: 'DBeaver-IoTDB', link: 'DBeaver' },

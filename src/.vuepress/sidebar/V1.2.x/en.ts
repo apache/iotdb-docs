@@ -98,7 +98,6 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'CLI', link: 'CLI' },
-        { text: 'Workbench', link: 'Workbench' },
         { text: 'Monitor Tool', link: 'Monitor-Tool' },
         { text: 'Benchmark', link: 'Benchmark' },
         { text: 'Maintenance Tool', link: 'Maintenance-Tool' },
@@ -143,7 +142,7 @@ export const enSidebar = {
         { text: 'Flink TsFile Connector', link: 'Flink-TsFile' },
         { text: 'NiFi IoTDB Connector', link: 'NiFi-IoTDB' },
         { text: 'DBeaver-IoTDB', link: 'DBeaver' },
-        { text: 'Telegraf-IoTDB Output Plugin', link: 'Telegraf-IoTDB'},
+        { text: 'Telegraf-IoTDB Output Plugin', link: 'Telegraf-IoTDB' },
       ],
     },
     {
