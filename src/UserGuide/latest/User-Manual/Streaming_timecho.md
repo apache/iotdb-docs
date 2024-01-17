@@ -35,7 +35,7 @@ Pipe Extractor is used to extract data, Pipe Processor is used to process data, 
 
 **The model of the Pipe task is as follows:**
 
-![pipe.png](https://alioss.timecho.com/docs/img/pipe.png)
+![pipe.png](https://alioss.timecho.com/upload/pipe.png)
 
 Describing a data flow processing task essentially describes the properties of Pipe Extractor, Pipe Processor and Pipe Connector plugins.
 Users can declaratively configure the specific attributes of the three subtasks through SQL statements, and achieve flexible data ETL capabilities by combining different attributes.

@@ -528,7 +528,8 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
   "expressions": null,
   "column_names": [
     "devices",
-    "isAligned"
+    "isAligned",
+    "Template"
   ],
   "timestamps": null,
   "values": [
@@ -539,6 +540,10 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
     [
       "false",
       "false"
+    ],
+    [
+      "t1",
+      null
     ]
   ]
 }
@@ -557,7 +562,8 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
   "column_names": [
     "devices",
     "database",
-    "isAligned"
+    "isAligned",
+    "Template"
   ],
   "timestamps": null,
   "values": [
@@ -572,6 +578,10 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
     [
       "false",
       "false"
+    ],
+    [
+      "t1",
+      null
     ]
   ]
 }
