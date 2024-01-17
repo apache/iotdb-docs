@@ -29,11 +29,11 @@ import {
 import type { PropType } from 'vue';
 import type { DocsearchOptions } from '../../shared/index.js';
 import { useDocsearchShim } from '../composables/index.js';
-import { defaultBranch } from '../../../../utils';
 
 declare const __DOCSEARCH_INJECT_STYLES__: boolean;
 declare const __DOCSEARCH_OPTIONS__: DocsearchOptions;
 const options = __DOCSEARCH_OPTIONS__;
+const defaultBranch = 'latest';
 
 if (__DOCSEARCH_INJECT_STYLES__) {
   import('@docsearch/css');
@@ -68,7 +68,7 @@ export const Docsearch = defineComponent({
       ...props.options.locales?.[routeLocale.value],
     }));
 
-    const getDocVersion = (branch = 'master', path = '') => {
+    const getDocVersion = (branch = 'latest', path = '') => {
       if (path.indexOf('UserGuide/Master') > -1 || path.indexOf('UserGuide') === -1) {
         return branch;
       }
