@@ -22,7 +22,7 @@
 # 元数据操作
 ## 数据库管理
 
-数据库（Database）可以被视为关系数据库中的Database。
+数据库（Database）可以被视为关系数据库中的Database，推荐设置 1 个 database。
 
 ### 创建数据库
 
@@ -39,6 +39,8 @@ IoTDB> CREATE DATABASE root.ln.wf01
 Msg: 300: root.ln has already been created as database.
 ```
 Database 节点名只支持中英文字符、数字、下划线的组合，如果想设置为纯数字或者包含其他字符，需要用反引号(``)把 database 名称引起来。
+
+时间序列路径中对于 database 级别以外的层级路径支持含有"*"创建，如 root.db.`*`。
 
 还需注意，如果在 Windows 系统上部署，database 名是大小写不敏感的。例如同时创建`root.ln` 和 `root.LN` 是不被允许的。
 

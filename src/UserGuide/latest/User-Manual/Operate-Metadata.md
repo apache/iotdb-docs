@@ -45,6 +45,8 @@ Msg: 300: root.ln has already been created as database.
 
 The LayerName of database can only be characters, numbers, underscores. If you want to set it to pure numbers or contain other characters, you need to enclose the database name with backticks (``). 
 
+Time series path supports the creation of hierarchical paths containing "*" for paths other than the database level, e.g. root.db.`*`.
+
 Besides, if deploy on Windows system, the LayerName is case-insensitive, which means it's not allowed to create databases `root.ln` and `root.LN` at the same time.
 
 ### Show Databases

@@ -45,6 +45,8 @@ Msg: 300: root.ln has already been created as database.
 
 The LayerName of database can only be characters, numbers, underscores. If you want to set it to pure numbers or contain other characters, you need to enclose the database name with backticks (``). 
 
+Time series path supports the creation of hierarchical paths containing "*" for paths other than the database level, e.g. root.db.`*`.
+
 Besides, if deploy on Windows system, the LayerName is case-insensitive, which means it's not allowed to create databases `root.ln` and `root.LN` at the same time.
 
 ### Show Databases
@@ -317,7 +319,7 @@ Note: The `schema` keyword in the following statements can be omitted.
 
 ### Create Schema Template
 
-The SQL syntax for creating a schema template is as follows:
+The SQL syntax for creating a metadata template is as follows:
 
 ```sql
 CREATE SCHEMA TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
@@ -397,12 +399,12 @@ show devices root.sg1.**
 ````
 
 ```shell
-+---------------+---------+---------+
-|        devices|isAligned| Template|
-+---------------+---------+---------+
-|    root.sg1.d1|    false|     null|
-|    root.sg1.d2|     true|     null|
-+---------------+---------+---------+
++---------------+---------+
+|        devices|isAligned|
++---------------+---------+
+|    root.sg1.d1|    false|
+|    root.sg1.d2|     true|
++---------------+---------+
 ````
 
 ### Show Schema Template
@@ -1092,8 +1094,6 @@ Similar to `Show Timeseries`, IoTDB also supports two ways of viewing devices:
 * `SHOW DEVICES` statement presents all devices' information, which is equal to `SHOW DEVICES root.**`.
 * `SHOW DEVICES <PathPattern>` statement specifies the `PathPattern` and returns the devices information matching the pathPattern and under the given level.
 * `WHERE` condition supports `DEVICE contains 'xxx'`  to do a fuzzy query based on the device name.
-* `WHERE` condition supports `TEMPLATE = 'xxx'`,`TEMPLATE != 'xxx'` to do a filter query based on the template name.
-* `WHERE` condition supports `TEMPLATE is null`,`TEMPLATE is not null` to do a filter query based on whether the template is null (null indicating it's inactive)
 
 SQL statement is as follows:
 
@@ -1101,60 +1101,33 @@ SQL statement is as follows:
 IoTDB> show devices
 IoTDB> show devices root.ln.**
 IoTDB> show devices root.ln.** where device contains 't'
-IoTDB> show devices root.ln.** where template = 't1'
-IoTDB> show devices root.ln.** where template is null
 ```
 
 You can get results below:
 
 ```
-+-------------------+---------+---------+
-|            devices|isAligned| Template|
-+-------------------+---------+---------+
-|  root.ln.wf01.wt01|    false|       t1|
-|  root.ln.wf02.wt02|    false|     null|
-|root.sgcc.wf03.wt01|    false|     null|
-|    root.turbine.d1|    false|     null|
-+-------------------+---------+---------+
++-------------------+---------+
+|            devices|isAligned|
++-------------------+---------+
+|  root.ln.wf01.wt01|    false|
+|  root.ln.wf02.wt02|    false|
+|root.sgcc.wf03.wt01|    false|
+|    root.turbine.d1|    false|
++-------------------+---------+
 Total line number = 4
 It costs 0.002s
 
-+-----------------+---------+---------+
-|          devices|isAligned| Template|
-+-----------------+---------+---------+
-|root.ln.wf01.wt01|    false|       t1|
-|root.ln.wf02.wt02|    false|     null|
-+-----------------+---------+---------+
++-----------------+---------+
+|          devices|isAligned|
++-----------------+---------+
+|root.ln.wf01.wt01|    false|
+|root.ln.wf02.wt02|    false|
++-----------------+---------+
 Total line number = 2
-It costs 0.001s
-
-+-----------------+---------+---------+
-|          devices|isAligned| Template|
-+-----------------+---------+---------+
-|root.ln.wf01.wt01|    false|       t1|
-|root.ln.wf02.wt02|    false|     null|
-+-----------------+---------+---------+
-Total line number = 2
-It costs 0.001s
-
-+-----------------+---------+---------+
-|          devices|isAligned| Template|
-+-----------------+---------+---------+
-|root.ln.wf01.wt01|    false|       t1|
-+-----------------+---------+---------+
-Total line number = 1
-It costs 0.001s
-
-+-----------------+---------+---------+
-|          devices|isAligned| Template|
-+-----------------+---------+---------+
-|root.ln.wf02.wt02|    false|     null|
-+-----------------+---------+---------+
-Total line number = 1
 It costs 0.001s
 ```
 
-`isAligned` indicates whether the timeseries under the device are aligned, `Template` displays the name of the template activated on the device, with `null` indicating that no template has been activated.
+`isAligned` indicates whether the timeseries under the device are aligned.
 
 To view devices' information with database, we can use `SHOW DEVICES WITH DATABASE` statement.
 
@@ -1172,23 +1145,23 @@ IoTDB> show devices root.ln.** with database
 You can get results below:
 
 ```
-+-------------------+-------------+---------+---------+
-|            devices|     database|isAligned| Template|
-+-------------------+-------------+---------+---------+
-|  root.ln.wf01.wt01|      root.ln|    false|       t1|
-|  root.ln.wf02.wt02|      root.ln|    false|     null|
-|root.sgcc.wf03.wt01|    root.sgcc|    false|     null|
-|    root.turbine.d1| root.turbine|    false|     null|
-+-------------------+-------------+---------+---------+
++-------------------+-------------+---------+
+|            devices|     database|isAligned|
++-------------------+-------------+---------+
+|  root.ln.wf01.wt01|      root.ln|    false|
+|  root.ln.wf02.wt02|      root.ln|    false|
+|root.sgcc.wf03.wt01|    root.sgcc|    false|
+|    root.turbine.d1| root.turbine|    false|
++-------------------+-------------+---------+
 Total line number = 4
 It costs 0.003s
 
-+-----------------+-------------+---------+---------+
-|          devices|     database|isAligned| Template|
-+-----------------+-------------+---------+---------+
-|root.ln.wf01.wt01|      root.ln|    false|       t1|
-|root.ln.wf02.wt02|      root.ln|    false|     null|
-+-----------------+-------------+---------+---------+
++-----------------+-------------+---------+
+|          devices|     database|isAligned|
++-----------------+-------------+---------+
+|root.ln.wf01.wt01|      root.ln|    false|
+|root.ln.wf02.wt02|      root.ln|    false|
++-----------------+-------------+---------+
 Total line number = 2
 It costs 0.001s
 ```
@@ -1210,14 +1183,14 @@ IoTDB> count devices root.ln.**
 You can get results below:
 
 ```
-+-------------------+---------+---------+
-|            devices|isAligned| Template|
-+-------------------+---------+---------+
-|root.sgcc.wf03.wt03|    false|     null|
-|    root.turbine.d1|    false|     null|
-|  root.ln.wf02.wt02|    false|     null|
-|  root.ln.wf01.wt01|    false|       t1|
-+-------------------+---------+---------+
++-------------------+---------+
+|            devices|isAligned|
++-------------------+---------+
+|root.sgcc.wf03.wt03|    false|
+|    root.turbine.d1|    false|
+|  root.ln.wf02.wt02|    false|
+|  root.ln.wf01.wt01|    false|
++-------------------+---------+
 Total line number = 4
 It costs 0.024s
 
