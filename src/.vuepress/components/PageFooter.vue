@@ -36,7 +36,7 @@ const pageData = usePageData();
 
 const year = computed(() => new Date().getFullYear());
 
-const getDocVersion = (branch = 'master', path = '') => {
+const getDocVersion = (branch = 'latest', path = '') => {
   if (path.indexOf('UserGuide/Master') > -1 || path.indexOf('UserGuide') === -1) {
     return branch;
   }
@@ -48,5 +48,5 @@ const getDocVersion = (branch = 'master', path = '') => {
   return branch;
 };
 
-const docVersion = computed(() => getDocVersion('master', pageData.value.path));
+const docVersion = computed(() => getDocVersion('latest', pageData.value.path));
 </script>

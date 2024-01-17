@@ -304,7 +304,7 @@ nohup bash ./sbin/start-datanode.sh >/dev/null 2>&1 &
 ```
 
 DataNode 的其它配置参数可参考
-[DataNode配置参数](h../Reference/DataNode-Config-Manual.md) 。
+[DataNode配置参数](../Reference/DataNode-Config-Manual.md) 。
 
 **注意：当且仅当集群拥有不少于副本个数（max{schema\_replication\_factor, data\_replication\_factor}）的 DataNode 后，集群才可以提供服务**
 

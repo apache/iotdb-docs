@@ -27,15 +27,15 @@ PLEASE USE [JAVA NATIVE API](https://iotdb.apache.org/UserGuide/Master/API/Progr
 
 ## Dependencies
 
-* JDK >= 1.8
-* Maven >= 3.6
+* JDK >= 1.8+
+* Maven >= 3.9+
 
 ## Installation
 
 In root directory:
 
 ```shell
-mvn clean install -pl iotdb-client/jdbc -am -Dmaven.test.skip=true
+mvn clean install -pl iotdb-client/jdbc -am -DskipTests
 ```
 
 ## Use IoTDB JDBC with Maven
@@ -52,7 +52,7 @@ mvn clean install -pl iotdb-client/jdbc -am -Dmaven.test.skip=true
 
 ## Coding Examples
 
-This chapter provides an example of how to open a database connection, execute a SQL query, and display the results.
+This chapter provides an example of how to open a database connection, execute an SQL query, and display the results.
 
 It requires including the packages containing the JDBC classes needed for database programming.
 
@@ -113,40 +113,40 @@ public class JDBCExample {
     
 
     //Execute insert statements in batch
-    statement.addBatch("insert into root.demo(timestamp,s0) values(1,1);");
-    statement.addBatch("insert into root.demo(timestamp,s0) values(1,1);");
-    statement.addBatch("insert into root.demo(timestamp,s0) values(2,15);");
-    statement.addBatch("insert into root.demo(timestamp,s0) values(2,17);");
-    statement.addBatch("insert into root.demo(timestamp,s0) values(4,12);");
+    statement.addBatch("INSERT INTO root.demo(timestamp,s0) VALUES(1,1);");
+    statement.addBatch("INSERT INTO root.demo(timestamp,s0) VALUES(1,1);");
+    statement.addBatch("INSERT INTO root.demo(timestamp,s0) VALUES(2,15);");
+    statement.addBatch("INSERT INTO root.demo(timestamp,s0) VALUES(2,17);");
+    statement.addBatch("INSERT INTO root.demo(timestamp,s0) values(4,12);");
     statement.executeBatch();
     statement.clearBatch();
 
     //Full query statement
-    String sql = "select * from root.demo";
+    String sql = "SELECT * FROM root.demo";
     ResultSet resultSet = statement.executeQuery(sql);
     System.out.println("sql: " + sql);
     outputResult(resultSet);
 
     //Exact query statement
-    sql = "select s0 from root.demo where time = 4;";
+    sql = "SELECT s0 FROM root.demo WHERE time = 4;";
     resultSet= statement.executeQuery(sql);
     System.out.println("sql: " + sql);
     outputResult(resultSet);
 
     //Time range query
-    sql = "select s0 from root.demo where time >= 2 and time < 5;";
+    sql = "SELECT s0 FROM root.demo WHERE time >= 2 AND time < 5;";
     resultSet = statement.executeQuery(sql);
     System.out.println("sql: " + sql);
     outputResult(resultSet);
 
     //Aggregate query
-    sql = "select count(s0) from root.demo;";
+    sql = "SELECT COUNT(s0) FROM root.demo;";
     resultSet = statement.executeQuery(sql);
     System.out.println("sql: " + sql);
     outputResult(resultSet);
 
     //Delete time series
-    statement.execute("delete timeseries root.demo.s0");
+    statement.execute("DELETE timeseries root.demo.s0");
 
     //close connection
     statement.close();
@@ -209,4 +209,5 @@ The parameter `version` can be used in the url:
 ````java
 String url = "jdbc:iotdb://127.0.0.1:6667?version=V_1_0";
 ````
-The parameter `version` represents the SQL semantic version used by the client, which is used to be compatible with the SQL semantics of 0.12 when upgrading 0.13. The possible values are: `V_0_12`, `V_0_13`, `V_1_0`.
+The parameter `version` represents the SQL semantic version used by the client, which is used in order to be compatible with the SQL semantics of `0.12` when upgrading to `0.13`. 
+The possible values are: `V_0_12`, `V_0_13`, `V_1_0`.

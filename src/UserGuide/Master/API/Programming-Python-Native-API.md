@@ -21,17 +21,11 @@
 
 # Python Native API
 
-## Requirements
-
-You have to install thrift (>=0.13) before using the package.
-
-
-
 ## How to use (Example)
 
 First, download the package: `pip3 install apache-iotdb`
 
-You can get an example of using the package to read and write data at here: [Example](https://github.com/apache/iotdb/blob/master/client-py/SessionExample.py)
+You can see an example of how to use the package to read and write data here: [Example](https://github.com/apache/iotdb/blob/master/client-py/SessionExample.py)
 
 An example of aligned timeseries: [Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/master/client-py/SessionAlignedTimeseriesExample.py)
 
@@ -87,7 +81,7 @@ session = Session.init_from_node_urls(
 session.open(enable_rpc_compression=False)
 ```
 
-Notice: this RPC compression status of client must comply with that of IoTDB server
+Notice: The RPC compression setting of the client is required to match that of the IoTDB server
 
 * Close a Session
 
@@ -96,7 +90,11 @@ session.close()
 ```
 ## Managing Session through SessionPool
 
-Utilizing SessionPool to manage sessions eliminates the need to worry about session reuse. When the number of session connections reaches the maximum capacity of the pool, requests for acquiring a session will be blocked, and you can set the blocking wait time through parameters. After using a session, it should be returned to the SessionPool using the `putBack` method for proper management.
+Utilizing `SessionPool` to manage sessions eliminates the need to worry about session reuse. 
+When the number of session connections reaches the maximum capacity of the pool, requests for acquiring a session will block. 
+You can set a timeout after which new requests are considered unsuccessful. 
+
+After using a session, it should always be returned to the SessionPool using the `putBack` method for proper management.
 
 ### Create SessionPool
 
@@ -110,7 +108,9 @@ wait_timeout_in_ms = 3000
 # # Create the connection pool
 session_pool = SessionPool(pool_config, max_pool_size, wait_timeout_in_ms)
 ```
-### Create a SessionPool using distributed nodes.
+
+### Create a SessionPool using distributed nodes
+
 ```python
 pool_config = PoolConfig(node_urls=node_urls=["127.0.0.1:6667", "127.0.0.1:6668", "127.0.0.1:6669"], user_name=username,
                          password=password, fetch_size=1024,
@@ -118,6 +118,7 @@ pool_config = PoolConfig(node_urls=node_urls=["127.0.0.1:6667", "127.0.0.1:6668"
 max_pool_size = 5
 wait_timeout_in_ms = 3000
 ```
+
 ### Acquiring a session through SessionPool and manually calling PutBack after use
 
 ```python
@@ -132,7 +133,7 @@ session_pool.put_back(session)
 session_pool.close()
 ```
 
-## Data Definition Interface (DDL Interface)
+## Data Definition Interface (DDI)
 
 ### Database Management
 
@@ -188,12 +189,11 @@ session.check_time_series_exists(path)
 
 ### Insert
 
-It is recommended to use insertTablet to help improve write efficiency.
+It is recommended to use `insertTablet` to help improve write efficiency.
 
-* Insert a Tablet，which is multiple rows of a device, each row has the same measurements
+* Insert a Tablet，which is multiple rows of data for one device, each row has the same measurements
     * **Better Write Performance**
     * **Support null values**: fill the null value with any value, and then mark the null value via BitMap (from v0.13)
-
 
 We have two implementations of Tablet in Python API.
 
@@ -227,12 +227,12 @@ session.insert_tablet(tablet_)
 * Numpy Tablet
 
 Comparing with Tablet, Numpy Tablet is using [numpy.ndarray](https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html) to record data.
-With less memory footprint and time cost of serialization, the insert performance will be better.
+With less memory footprint and time cost of serialization, therefore the insert performance will be better.
 
 **Notice**
-1. time and numerical value columns in Tablet is ndarray
-2. recommended to use the specific dtypes to each ndarray, see the example below
-   (if not, the default dtypes are also ok).
+1. time and numerical value columns in Tablet is `ndarray`
+2. recommended to use the specific `dtypes` to each `ndarray`, see the example below
+   (if not, the default `dtypes` are also ok).
 
 ```python
 import numpy as np
@@ -303,7 +303,7 @@ session.insert_records(
 ```
 
 * Insert multiple Records that belong to the same device.
-  With type info the server has no need to do type inference, which leads a better performance
+  With type info the server has no need to do type inference, which results in a better performance.
 
 
 ```python
@@ -312,7 +312,10 @@ session.insert_records_of_one_device(device_id, time_list, measurements_list, da
 
 ### Insert with type inference
 
-When the data is of String type, we can use the following interface to perform type inference based on the value of the value itself. For example, if value is "true" , it can be automatically inferred to be a boolean type. If value is "3.2" , it can be automatically inferred as a flout type. Without type information, server has to do type inference, which may cost some time.
+If type-information is not present, all values will be converted to their `String` representation.
+The server then performs type inference to guess the datatype, based on this string-representation.
+For example, if value string equals "true", it can be automatically inferred to be a `Boolean` type. If string value is "3.2", it can be automatically inferred as a `Float` type.
+However, please keep in mind, that this process of guessing the type for a given value comes at a performance cost.
 
 * Insert a Record, which contains multiple measurement value of a device at a timestamp
 
@@ -322,7 +325,7 @@ session.insert_str_record(device_id, timestamp, measurements, string_values)
 
 ### Insert of Aligned Timeseries
 
-The Insert of aligned timeseries uses interfaces like insert_aligned_XXX, and others are similar to the above interfaces:
+The insertion of aligned timeseries uses interfaces such as `insert_aligned_XXX`, and others are similar to the above interfaces:
 
 * insert_aligned_record
 * insert_aligned_records
@@ -339,7 +342,7 @@ The Insert of aligned timeseries uses interfaces like insert_aligned_XXX, and ot
 session.execute_query_statement(sql)
 ```
 
-* Execute non query statement
+* Execute non-query statement
 
 ```python
 session.execute_non_query_statement(sql)
@@ -352,8 +355,11 @@ session.execute_statement(sql)
 ```
 
 ## Schema Template
+
 ### Create Schema Template
-The step for creating a metadata template is as follows
+
+The process of creating a schema template is as follows
+
 1. Create the template class
 2. Adding MeasurementNode
 3. Execute create schema template function
@@ -429,16 +435,15 @@ session.show_paths_template_using_on(template_name)
 ```
 
 ### Drop Schema Template
-Delete an existing metadata template，dropping an already set template is not supported
+
+Delete an existing schema template，dropping an already set template is not supported
 ```python
 session.drop_schema_template("template_python")
 ```
 
-
 ## Pandas Support
 
-To easily transform a query result to a [Pandas Dataframe](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html)
-the SessionDataSet has a method `.todf()` which consumes the dataset and transforms it to a pandas dataframe.
+To easily transform a query result to a [Pandas Dataframe](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html) the `SessionDataSet` has a method `.todf()` which consumes the dataset and transforms it to a pandas dataframe.
 
 Example:
 
@@ -462,10 +467,9 @@ session.close()
 df = ...
 ```
 
-
 ## IoTDB Testcontainer
 
-The Test Support is based on the lib `testcontainers` (https://testcontainers-python.readthedocs.io/en/latest/index.html) which you need to install in your project if you want to use the feature.
+The Test Support is based on the lib `testcontainers` (https://testcontainers-python.readthedocs.io/en/latest/index.html) which you need to install in your project if you want to use this feature.
 
 To start (and stop) an IoTDB Database in a Docker container simply do:
 ```python
@@ -480,17 +484,16 @@ class MyTestCase(unittest.TestCase):
             session.close()
 ```
 
-by default it will load the image `apache/iotdb:latest`, if you want a specific version just pass it like e.g. `IoTDBContainer("apache/iotdb:0.12.0")` to get version `0.12.0` running.
+Per default, it will load the image `apache/iotdb:latest`, if you want a specific version just pass it like e.g. `IoTDBContainer("apache/iotdb:0.12.0")` to get version `0.12.0`.
 
 ## IoTDB DBAPI
 
-IoTDB DBAPI implements the Python DB API 2.0 specification (https://peps.python.org/pep-0249/), which defines a common
-interface for accessing databases in Python.
+IoTDB DBAPI implements the `Python DB API 2.0` specification (https://peps.python.org/pep-0249/), which defines a common interface for accessing databases in Python.
 
 ### Examples
 + Initialization
 
-The initialized parameters are consistent with the session part (except for the sqlalchemy_mode).
+The initialization parameters are consistent with the session part (except for the sqlalchemy_mode).
 ```python
 from iotdb.dbapi import connect
 
@@ -510,7 +513,7 @@ for row in cursor.fetchall():
 
 + execute SQL with parameter
 
-IoTDB DBAPI supports pyformat style parameters
+IoTDB DBAPI supports `pyformat` style parameters
 ```python
 cursor.execute("SELECT ** FROM root WHERE time < %(time)s",{"time":"2017-11-01T00:08:00.000"})
 for row in cursor.fetchall():
@@ -537,13 +540,20 @@ conn.close()
 ```
 
 ## IoTDB SQLAlchemy Dialect (Experimental)
-The SQLAlchemy dialect of IoTDB is written to adapt to Apache Superset.
+
+The `SQLAlchemy` dialect of IoTDB is written to adapt to `Apache Superset`.
+
 This part is still being improved.
-Please do not use it in the production environment!
+
+Please do not use it in production environments!
+
 ### Mapping of the metadata
-The data model used by SQLAlchemy is a relational data model, which describes the relationships between different entities through tables.
-While the data model of IoTDB is a hierarchical data model, which organizes the data through a tree structure.
+
+The data model used by `SQLAlchemy` is a relational data model, which describes the relationships between different entities through tables.
+In contrast to that the data model of IoTDB is a hierarchical data model, which organizes the data through a tree structure.
+
 In order to adapt IoTDB to the dialect of SQLAlchemy, the original data model in IoTDB needs to be reorganized.
+
 Converting the data model of IoTDB into the data model of SQLAlchemy.
 
 The metadata in the IoTDB are：
@@ -560,11 +570,11 @@ The metadata in the SQLAlchemy are：
 
 The mapping relationship between them is：
 
-| The metadata in the SQLAlchemy | The metadata in the IoTDB                            |
-| -------------------- | -------------------------------------------- |
-| Schema               | Database                                     |
-| Table                | Path ( from database to entity ) + Entity    |
-| Column               | Measurement                                  |
+| The metadata in the SQLAlchemy | The metadata in the IoTDB                 |
+|--------------------------------|-------------------------------------------|
+| Schema                         | Database                                  |
+| Table                          | Path ( from database to entity ) + Entity |
+| Column                         | Measurement                               |
 
 The following figure shows the relationship between the two more intuitively:
 
@@ -626,48 +636,33 @@ for row in res:
     print(row)
 ```
 
-
 ## Developers
 
 ### Introduction
 
-This is an example of how to connect to IoTDB with python, using the thrift rpc interfaces. Things are almost the same on Windows or Linux, but pay attention to the difference like path separator.
-
-
+This is an example of how to connect to IoTDB with python, using the thrift rpc interfaces. 
+Things are almost the same on Windows or Linux, but pay attention to the difference like path separator.
 
 ### Prerequisites
 
 Python3.7 or later is preferred.
-
-You have to install Thrift (0.11.0 or later) to compile our thrift file into python code. Below is the official tutorial of installation, eventually, you should have a thrift executable.
-
-```
-http://thrift.apache.org/docs/install/
-```
 
 Before starting you need to install `requirements_dev.txt` in your python environment, e.g. by calling
 ```shell
 pip install -r requirements_dev.txt
 ```
 
-
-
 ### Compile the thrift library and Debug
 
-In the root of IoTDB's source code folder,  run `mvn clean generate-sources -pl iotdb-client/client-py -am`.
+In the root of IoTDB´s source code folder,  run `mvn clean generate-sources -pl iotdb-client/client-py -am`.
 
 This will automatically delete and repopulate the folder `iotdb/thrift` with the generated thrift files.
 This folder is ignored from git and should **never be pushed to git!**
 
-**Notice** Do not upload `iotdb/thrift` to the git repo.
-
-
-
-
 ### Session Client & Example
 
-We packed up the Thrift interface in `client-py/src/iotdb/Session.py` (similar with its Java counterpart), also provided an example file `client-py/src/SessionExample.py` of how to use the session module. please read it carefully.
-
+The IoTDB session-interface is available in `client-py/src/iotdb/Session.py` (similar to its Java counterpart). 
+We also provide an example in `client-py/src/SessionExample.py` which demonstrates how to use the session module.
 
 Or, another simple example:
 
@@ -684,8 +679,6 @@ zone = session.get_time_zone()
 session.close()
 ```
 
-
-
 ### Tests
 
 Please add your custom tests in `tests` folder.
@@ -694,29 +687,21 @@ To run all defined tests just type `pytest .` in the root folder.
 
 **Notice** Some tests need docker to be started on your system as a test instance is started in a docker container using [testcontainers](https://testcontainers-python.readthedocs.io/en/latest/index.html).
 
-
-
 ### Futher Tools
 
 [black](https://pypi.org/project/black/) and [flake8](https://pypi.org/project/flake8/) are installed for autoformatting and linting.
 Both can be run by `black .` or `flake8 .` respectively.
 
-
-
 ## Releasing
 
 To do a release just ensure that you have the right set of generated thrift files.
-Then run linting and auto-formatting.
+Then run `linting` and `auto-formatting`.
 Then, ensure that all tests work (via `pytest .`).
 Then you are good to go to do a release!
-
-
 
 ### Preparing your environment
 
 First, install all necessary dev dependencies via `pip install -r requirements_dev.txt`.
-
-
 
 ### Doing the Release
 
@@ -729,4 +714,3 @@ Namely, these are
 * Run Tests via pytest
 * Build
 * Release to pypi
-

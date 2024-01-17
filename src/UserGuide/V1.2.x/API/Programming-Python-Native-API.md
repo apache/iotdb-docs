@@ -353,7 +353,7 @@ session.execute_statement(sql)
 
 ## Schema Template
 ### Create Schema Template
-The step for creating a metadata template is as follows
+The step for creating a schema template is as follows
 1. Create the template class
 2. Adding MeasurementNode
 3. Execute create schema template function
@@ -429,7 +429,7 @@ session.show_paths_template_using_on(template_name)
 ```
 
 ### Drop Schema Template
-Delete an existing metadata template，dropping an already set template is not supported
+Delete an existing schema template，dropping an already set template is not supported
 ```python
 session.drop_schema_template("template_python")
 ```

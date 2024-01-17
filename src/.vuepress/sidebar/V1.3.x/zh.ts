@@ -18,7 +18,7 @@
  */
 
 export const zhSidebar = {
-  '/zh/UserGuide/V1.3.x/': [
+  '/zh/UserGuide/latest/': [
     {
       text: 'IoTDB用户手册 (V1.3.x)',
       children: [],
@@ -98,7 +98,6 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '命令行工具', link: 'CLI' },
-        { text: '控制台工具', link: 'Workbench' },
         { text: '监控工具', link: 'Monitor-Tool' },
         { text: '测试工具', link: 'Benchmark' },
         { text: '运维工具', link: 'Maintenance-Tool' },

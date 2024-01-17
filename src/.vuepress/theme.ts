@@ -108,7 +108,6 @@ export default hopeTheme({
       light: 'one-dark',
     },
     mdEnhance: {
-      linkCheck: 'always',
       align: true,
       attrs: true,
       chart: false,
@@ -125,10 +124,6 @@ export default hopeTheme({
       katex: false,
       mark: true,
       mermaid: false,
-      playground: false,
-      presentation: {
-        plugins: ['highlight', 'math', 'search', 'notes', 'zoom'],
-      },
       stylize: [
         {
           matcher: 'Recommended',

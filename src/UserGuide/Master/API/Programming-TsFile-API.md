@@ -21,43 +21,29 @@
 
 # TsFile API
 
-TsFile is a file format of Time Series used in IoTDB. This session introduces the usage of this file format. 
-
-
+`TsFile` is a file format of time series used in IoTDB. 
+This document introduces the usage of this file format.
 
 ## TsFile library Installation
 
-There are two ways to use TsFile in your own project.
+There are several ways to use TsFile in your own project.
 
-* Use as jars: Compile the source codes and build to jars
-
-```shell
-git clone https://github.com/apache/iotdb.git
-cd iotdb-core/tsfile
-mvn clean package -Dmaven.test.skip=true
-```
-
-Then, all the jars are in folder named `target/`. Import `target/tsfile-0.12.0-jar-with-dependencies.jar` to your project.
-	
-* Use as a maven dependency: 
-
+* Build from source and use the jars:
+   ```shell
+   git clone https://github.com/apache/iotdb.git
+   cd iotdb-core/tsfile
+   mvn clean package -DskipTests
+   ```
+   Then, all the jars are located in the folder named `target/`. Import `target/tsfile-0.12.0-jar-with-dependencies.jar` into your project.
+* Build from source and use as maven dependency:
   Compile source codes and deploy to your local repository in three steps:
-
   * Get the source codes
-
   	```shell
   	git clone https://github.com/apache/iotdb.git
-  	```
-  	
-  * Compile the source codes and deploy 
-  	
-  	```shell
   	cd iotdb-core/tsfile
-  	mvn clean install -Dmaven.test.skip=true
+  	mvn clean install -DskipTests
   	```
-  	
-  * add dependencies into your project:
-
+  * Add the following dependency into your project:
     ```xml
   	 <dependency>
   	   <groupId>org.apache.iotdb</groupId>
@@ -65,18 +51,33 @@ Then, all the jars are in folder named `target/`. Import `target/tsfile-0.12.0-j
   	   <version>1.0.0</version>
   	 </dependency>
     ```
-    
-
-  Or, you can download the dependencies from official Maven repository:
-
-  * First, find your maven `settings.xml` on path: `${username}\.m2\settings.xml`
-    , add this `<profile>` to `<profiles>`:
+* Download the convenience binaries available from Maven-Central:
+  * (If you want to reference the latest SNAPSHOT versions, you need to execute this step)
+    Add the `Apache Snapshot Repository` to your projects main `pom.xml`:
     ```xml
-      <profile>
-           <id>allow-snapshots</id>
-              <activation><activeByDefault>true</activeByDefault></activation>
-           <repositories>
-             <repository>  
+    <repositories>
+        <repository>  
+            <id>apache.snapshots</id>
+            <name>Apache Development Snapshot Repository</name>
+            <url>https://repository.apache.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+    ```
+    Alternately, find or create your maven `settings.xml` located at: `${username}\.m2\settings.xml`, add this `<profile>` to `<profiles>`:
+    ```xml
+    <profile>
+        <id>allow-snapshots</id>
+        <activation>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <repositories>
+            <repository>  
                 <id>apache.snapshots</id>
                 <name>Apache Development Snapshot Repository</name>
                 <url>https://repository.apache.org/content/repositories/snapshots/</url>
@@ -86,187 +87,150 @@ Then, all the jars are in folder named `target/`. Import `target/tsfile-0.12.0-j
                 <snapshots>
                     <enabled>true</enabled>
                 </snapshots>
-              </repository>
-           </repositories>
-         </profile>
+            </repository>
+        </repositories>
+    </profile>
     ```
-  * Then add dependencies into your project:
-
+  * Then add dependency into your project:
     ```xml
-  	 <dependency>
-  	   <groupId>org.apache.iotdb</groupId>
-  	   <artifactId>tsfile</artifactId>
-  	   <version>1.0.0</version>
-  	 </dependency>
+    <dependency>
+  	    <groupId>org.apache.iotdb</groupId>
+  	    <artifactId>tsfile</artifactId>
+  	    <version>1.0.0</version>
+    </dependency>
     ```
-
-
 
 ## TsFile Usage
 
 This section demonstrates the detailed usages of TsFile.
 
-Time-series Data
 Time-series data is considered as a sequence of quadruples. A quadruple is defined as (device, measurement, time, value).
 
-* **measurement**: A physical or formal measurement that a time-series data takes, e.g., the temperature of a city, the 
-sales number of some goods or the speed of a train at different times. As a traditional sensor (like a thermometer) also
- takes a single measurement and produce a time-series, we will use measurement and sensor interchangeably below.
+* **measurement**: A physical or formal measurement that a time-series data takes, e.g. the temperature of a city, the sales number of some goods or the speed of a train at different times.
+  As a traditional sensor (like a thermometer) also produces a single measurement which we can use to create a time-series, we will use measurement and sensor interchangeably below.
 
-* **device**: A device refers to an entity that takes several measurements (producing multiple time-series), e.g., 
-a running train monitors its speed, oil meter, miles it has run, current passengers each is conveyed to a time-series dataset.
+* **device**: A device refers to an entity that produces one or multiple measurements (producing multiple time-series), e.g., 
+  a running train monitors its speed, oil meter, miles it has run, current passengers. 
+  Each is persisted to a time-series dataset.
 
-
-**One Line of Data**: In many industrial applications, a device normally contains more than one sensor and these sensors
- may have values at the same timestamp, which is called one line of data. 
-
-Formally, one line of data consists of a `device_id`, a timestamp which indicates the milliseconds since January 1,
- 1970, 00:00:00, and several data pairs composed of `measurement_id` and corresponding `value`. All data pairs in one 
- line belong to this `device_id` and have the same timestamp. If one of the `measurements` does not have a `value` 
- in the `timestamp`, use a space instead(Actually, TsFile does not store null values). Its format is shown as follow:
-
-```
-device_id, timestamp, <measurement_id, value>...
-```
-
-An example is illustrated as follow. In this example, the data type of two measurements are  `INT32`, `FLOAT` respectively.
-
-```
-device_1, 1490860659000, m1, 10, m2, 12.12
-```
-
-
+* **Row of Data**: In many industrial applications, a device normally contains more than one sensor and these sensors may have values at the same timestamp, which is called `row of data`. 
+  Formally, a `row of data` consists of a `device_id`, a `timestamp` which indicates the milliseconds since `January 1, 1970, 00:00:00`, and several data pairs composed of `measurement_id` and corresponding `value`. 
+  All data pairs in a line of data belong to the same `device_id` and have the same timestamp. 
+  If one of the `measurements` does not have a `value` in the `timestamp`, a space is used instead (Actually, TsFile does not actually store `null` values). 
+  Its format is shown as follows:
+  ```
+  device_id, timestamp, <measurement_id, value>...
+  ```
+  An example is illustrated as follows. 
+  In this example, the data type of two measurements are  `INT32`, `FLOAT` respectively.
+  ```
+  device_1, 1490860659000, m1, 10, m2, 12.12
+  ```
 
 ### Write TsFile
 
-A TsFile is generated by the following three steps and the complete code is given in the section "Example for writing TsFile".
+A `TsFile` is generated by the following steps (The complete code is given in [TsFile examples module](https://github.com/apache/iotdb/tree/master/example/tsfile)):
 
-1. construct a `TsFileWriter` instance.
+1. Construct a `TsFileWriter` instance.
+2. Define the `Schema` for the `TSFile` (However a pre-defined Schema can also be passed directly to the constructor in step 1).
+3. Write data to the `TsFileWriter`.
+4. Close the `TsFileWriter` (When using a Java try-with-resources block, Java will take care of closing the TsFileWriter).
+
+#### Construct an `TsFileWriter` instance.
+
+Here are the available constructors: 
+* Without pre-defined schema: 
+  ```java
+  TsFileWriter(File file) throws IOException
+  ```
+* With pre-defined schema:    
+  ```java
+  TsFileWriter(File file, Schema schema) throws IOException
+  ```
+* Providing a `TsFileOutput` instead of a File with a schema (useful when using the HDFS file system as `TsFileOutput` can be an instance of class `HDFSOutput`):    
+  ```java
+  TsFileWriter(TsFileOutput output, Schema schema) throws IOException 
+  ```
+* If you want to set some TSFile configuration on your own, you could use param `config`. For example:
+  ```java
+  TSFileConfig conf = new TSFileConfig();
+  conf.setTSFileStorageFs("HDFS");
+  TsFileWriter tsFileWriter = new TsFileWriter(file, schema, conf);
+  ```
+  In this example, data files will be stored in HDFS, instead of local file system. 
+  If you'd like to store data files in local file system, you can use `conf.setTSFileStorageFs("LOCAL")`, which is also the default config.
+  You can configure the `ip` and `rpc port` of your HDFS by setting `config.setHdfsIp(...)` and `config.setHdfsPort(...)`. The default ip is `localhost` and default rpc port is `9000`.
+
+**Parameters:**
+    
+* file : The TsFile to write
+* schema : The file schemas, will be introduced in next part.
+* config : The config of TsFile.
+
+#### Construct a `Schema` instance.
+
+The class `Schema` contains a map whose key is the name of one measurement schema, and the value is the schema itself.
+Here are the most important methods:
+```java
+// Create an empty Schema or from an existing map
+public Schema()
+public Schema(Map<String, MeasurementSchema> measurements)
+// Use this two interfaces to add measurements
+public void registerMeasurement(MeasurementSchema descriptor)
+public void registerMeasurements(Map<String, MeasurementSchema> measurements)
+// Some useful getter and checker
+public TSDataType getMeasurementDataType(String measurementId)
+public MeasurementSchema getMeasurementSchema(String measurementId)
+public Map<String, MeasurementSchema> getAllMeasurementSchema()
+public boolean hasMeasurement(String measurementId)
+```
+The class `MeasurementSchema` contains the information of one measurement, there are several constructors:
+
+```java
+public MeasurementSchema(String measurementId, TSDataType type, TSEncoding encoding)
+public MeasurementSchema(String measurementId, TSDataType type, TSEncoding encoding, CompressionType compressionType)
+public MeasurementSchema(String measurementId, TSDataType type, TSEncoding encoding, CompressionType compressionType, Map<String, String> props)
+``` 
+**Parameters:**
+        
+* measurementID: The name of this measurement, typically the name of the sensor.
+* type: The data type, now support six types: `BOOLEAN`, `INT32`, `INT64`, `FLOAT`, `DOUBLE`, `TEXT`;
+* encoding: The data encoding. 
+* compressionType: The data compression type. 
+* props: A map of properties for special data types, such as `max_point_number` for `FLOAT` and `DOUBLE`, `max_string_length` for `TEXT`. Use as string pairs into a map such as ("max_point_number", "3").
+    
+> **Notice:** Although one measurement name can be used in multiple deltaObjects, the properties cannot be changed. I.e. it is not allowed to add one measurement name for multiple times with different type or encoding. Here is a bad example:
+
+```java
+List<MeasurementSchema> measurementSchemas = new ArrayList<>();
+// The measurement "sensor_1" is float type
+measurementSchemas.add(new MeasurementSchema("sensor_1", TSDataType.FLOAT, TSEncoding.RLE));
+measurementSchemas.add(new MeasurementSchema("sensor_1", TSDataType.INT32, TSEncoding.RLE));
+```
+#### Insert and write data
   
-    Here are the available constructors:
+Use this interface to create a new `TSRecord`(a timestamp and device pair).
     
-    * Without pre-defined schema
+```java
+      TSRecord tsRecord = new TSRecord(time, deviceId);
+```
+Then create a `DataPoint`(a measurement and value pair), and use the `addTuple` method to add the `DataPoint` to the current `TsRecord`.
+```java
+        DataPoint dPoint = new LongDataPoint("sensor_1", 42);
+        tsRecord.addTuple(dPoint);
+```
+> Notice: there are implementations of `DataPoint` for each of IoTDBs supported data types: `BooleanDataPoint`, `DoubleDataPoint`, `FloatDataPoint`,  `IntDataPoint`, `LongDataPoint` and `StringDataPoint`.
     
-    ```java
-    public TsFileWriter(File file) throws IOException
-    ```
-    * With pre-defined schema
-    
-    ```java
-    public TsFileWriter(File file, Schema schema) throws IOException
-    ```
-    This one is for using the HDFS file system. `TsFileOutput` can be an instance of class `HDFSOutput`.
-    
-    ```java
-    public TsFileWriter(TsFileOutput output, Schema schema) throws IOException 
-    ```
+As soon as the TSRecord is finished, write it to file with the following command:
+```java
+      tsFileWriter.write(tsRecord);
+```
 
-    If you want to set some TSFile configuration on your own, you could use param `config`. For example:
-
-    ```java
-    TSFileConfig conf = new TSFileConfig();
-    conf.setTSFileStorageFs("HDFS");
-    TsFileWriter tsFileWriter = new TsFileWriter(file, schema, conf);
-    ```
-
-    In this example, data files will be stored in HDFS, instead of local file system. If you'd like to store data files in local file system, you can use `conf.setTSFileStorageFs("LOCAL")`, which is also the default config.
-    
-    You can also config the ip and rpc port of your HDFS by `config.setHdfsIp(...)` and `config.setHdfsPort(...)`. The default ip is `localhost` and default rpc port is `9000`.
-
-    **Parameters:**
-    
-    * file : The TsFile to write
-
-    * schema : The file schemas, will be introduced in next part.
-
-    * config : The config of TsFile.
-
-2. add measurements
+#### Call `close` to finish this writing process 
   
-    Or you can make an instance of class `Schema` first and pass this to the constructor of class `TsFileWriter`
-    
-    The class `Schema` contains a map whose key is the name of one measurement schema, and the value is the schema itself.
-    
-    Here are the interfaces:
-
-    ```java
-    // Create an empty Schema or from an existing map
-    public Schema()
-    public Schema(Map<String, MeasurementSchema> measurements)
-    // Use this two interfaces to add measurements
-    public void registerMeasurement(MeasurementSchema descriptor)
-    public void registerMeasurements(Map<String, MeasurementSchema> measurements)
-    // Some useful getter and checker
-    public TSDataType getMeasurementDataType(String measurementId)
-    public MeasurementSchema getMeasurementSchema(String measurementId)
-    public Map<String, MeasurementSchema> getAllMeasurementSchema()
-    public boolean hasMeasurement(String measurementId)
-    ```
-
-    You can always use the following interface in `TsFileWriter` class to add additional measurements: 
-
-    ```java
-    public void addMeasurement(MeasurementSchema measurementSchema) throws WriteProcessException
-    ```
-
-    The class `MeasurementSchema` contains the information of one measurement, there are several constructors:
-    ```java
-    public MeasurementSchema(String measurementId, TSDataType type, TSEncoding encoding)
-    public MeasurementSchema(String measurementId, TSDataType type, TSEncoding encoding, CompressionType compressionType)
-    public MeasurementSchema(String measurementId, TSDataType type, TSEncoding encoding, CompressionType compressionType, 
-    Map<String, String> props)
-    ```
-    
-    **Parameters:**
-    ​    
-    * measurementID: The name of this measurement, typically the name of the sensor.
-      
-    * type: The data type, now support six types: `BOOLEAN`, `INT32`, `INT64`, `FLOAT`, `DOUBLE`, `TEXT`;
-    
-    * encoding: The data encoding. 
-    
-    * compression: The data compression. 
-
-    * props: Properties for special data types.Such as `max_point_number` for `FLOAT` and `DOUBLE`, `max_string_length` for
-    `TEXT`. Use as string pairs into a map such as ("max_point_number", "3").
-    
-    > **Notice:** Although one measurement name can be used in multiple deltaObjects, the properties cannot be changed. I.e. 
-        it's not allowed to add one measurement name for multiple times with different type or encoding.
-        Here is a bad example:
-
-    ```java
-    // The measurement "sensor_1" is float type
-    addMeasurement(new MeasurementSchema("sensor_1", TSDataType.FLOAT, TSEncoding.RLE));
-    
-    // This call will throw a WriteProcessException exception
-  addMeasurement(new MeasurementSchema("sensor_1", TSDataType.INT32, TSEncoding.RLE));
-  ```
-  ```
-
-  ```
-
-3. insert and write data continually.
-  
-    Use this interface to create a new `TSRecord`(a timestamp and device pair).
-    
-    ```java
-    public TSRecord(long timestamp, String deviceId)
-  ```
-  ```
-    Then create a `DataPoint`(a measurement and value pair), and use the addTuple method to add the DataPoint to the correct
-    TsRecord.
-    
-    Use this method to write
-    
-    ```java
-    public void write(TSRecord record) throws IOException, WriteProcessException
-  ```
-
-4. call `close` to finish this writing process. 
-  
-    ```java
-    public void close() throws IOException
-    ```
+```java
+      tsFileWriter.close();
+```
 
 We are also able to write data into a closed TsFile.
 
@@ -276,7 +240,7 @@ We are also able to write data into a closed TsFile.
 	public ForceAppendTsFileWriter(File file) throws IOException
 	```
 
-2. call `doTruncate` truncate the part of Metadata
+2. Call `doTruncate()` to truncate the part of Metadata
 
 3. Then use `ForceAppendTsFileWriter` to construct a new `TsFileWriter`
 
@@ -284,8 +248,6 @@ We are also able to write data into a closed TsFile.
 public TsFileWriter(TsFileIOWriter fileWriter) throws IOException
 ```
 Please note, we should redo the step of adding measurements before writing new data to the TsFile.
-
-
 
 ### Example for writing a TsFile
 
@@ -306,8 +268,6 @@ A more thorough example can be found at `/example/tsfile/src/main/java/org/apach
 You could write data into a closed TsFile by using **ForceAppendTsFileWriter**.
 
 A more thorough example can be found at `/example/tsfile/src/main/java/org/apache/iotdb/tsfile/TsFileForceAppendWrite.java`
-
-
 
 ### Interface for Reading TsFile
 
@@ -380,7 +340,6 @@ We create one or more filter expressions and may use binary filter operators to 
 
      * BinaryExpression.and(Expression, Expression): Choose the value satisfy for both expressions.
      * BinaryExpression.or(Expression, Expression): Choose the value satisfy for at least one expression.
-    
 
 Filter Expression Examples
 

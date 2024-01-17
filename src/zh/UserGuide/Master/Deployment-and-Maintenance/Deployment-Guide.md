@@ -327,8 +327,7 @@ mvn clean package -pl distribution -am -DskipTests
 ##### 通用配置
 
 打开通用配置文件 ./conf/iotdb-common.properties，
-可根据 [部署推荐](https://iotdb.apache.org/zh/UserGuide/Master/Cluster/Deployment-Recommendation.html)
-设置以下参数：
+可根据 [部署推荐](./Deployment-Recommendation.md)设置以下参数：
 
 | **配置项**                                 | **说明**                                                     | **默认**                                        |
 | ------------------------------------------ | ------------------------------------------------------------ | ----------------------------------------------- |
@@ -400,7 +399,7 @@ mvn clean package -pl distribution -am -DskipTests
 | data\_replication\_factor                  | 已设置为期望的数据副本数   |
 | data\_region\_consensus\_protocol\_class   | 已设置为期望的共识协议     |
 
-**注意：** 请根据[部署推荐](https://iotdb.apache.org/zh/UserGuide/Master/Cluster/Deployment-Recommendation.html)配置合适的通用参数，这些参数在首次配置后即不可修改。
+**注意：** 请根据[部署推荐](./Deployment-Recommendation.md)配置合适的通用参数，这些参数在首次配置后即不可修改。
 
 接着请打开它的配置文件 ./conf/iotdb-confignode.properties，并检查如下参数：
 
@@ -425,7 +424,7 @@ nohup bash ./sbin/start-confignode.sh >/dev/null 2>&1 &
 ```
 
 ConfigNode 的其它配置参数可参考
-[ConfigNode 配置参数](https://iotdb.apache.org/zh/UserGuide/Master/Reference/ConfigNode-Config-Manual.html)。
+[ConfigNode 配置参数](../Reference/ConfigNode-Config-Manual.md)。
 
 ##### 增加更多 ConfigNode（可选）
 
@@ -468,7 +467,7 @@ nohup bash ./sbin/start-confignode.sh >/dev/null 2>&1 &
 ```
 
 ConfigNode 的其它配置参数可参考
-[ConfigNode配置参数](https://iotdb.apache.org/zh/UserGuide/Master/Reference/ConfigNode-Config-Manual.html)。
+[ConfigNode 配置参数](../Reference/ConfigNode-Config-Manual.md)。
 
 ##### 增加 DataNode
 
@@ -508,7 +507,7 @@ nohup bash ./sbin/start-datanode.sh >/dev/null 2>&1 &
 ```
 
 DataNode 的其它配置参数可参考
-[DataNode配置参数](https://iotdb.apache.org/zh/UserGuide/Master/Reference/DataNode-Config-Manual.html)。
+[DataNode配置参数](../Reference/DataNode-Config-Manual.md) 。
 
 **注意：当且仅当集群拥有不少于副本个数（max{schema\_replication\_factor, data\_replication\_factor}）的 DataNode 后，集群才可以提供服务**
 
@@ -525,7 +524,8 @@ DataNode 的其它配置参数可参考
 ```
 
 若希望通过 Cli 连接生产环境的集群，
-请阅读 [Cli 使用手册](https://iotdb.apache.org/zh/UserGuide/Master/QuickStart/Command-Line-Interface.html)。
+请阅读 [Cli 使用手册](../Tools-System/CLI.md) 。
+
 
 #### 验证集群
 
@@ -652,4 +652,4 @@ kill -9 <pid>
 
 ### 常见问题
 
-请参考 [分布式部署FAQ](https://iotdb.apache.org/zh/UserGuide/Master/FAQ/FAQ-for-cluster-setup.html)
+请参考 [分布式部署FAQ](../FAQ/Frequently-asked-questions.md#分布式部署-faq)

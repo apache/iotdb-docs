@@ -369,7 +369,7 @@ void deleteData(const std::vector<std::string> &deviceId, int64_t time);
 
 - Execute query statement
 ```cpp
-void executeNonQueryStatement(const std::string &sql);
+unique_ptr<SessionDataSet> executeQueryStatement(const std::string &sql);
 ```
 
 - Execute non query statement

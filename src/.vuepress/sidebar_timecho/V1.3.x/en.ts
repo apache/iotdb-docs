@@ -18,7 +18,7 @@
  */
 
 export const enSidebar = {
-  '/UserGuide/V1.3.x/': [
+  '/UserGuide/latest/': [
     {
       text: 'IoTDB User Guide (V1.3.x)',
       children: [],
@@ -89,6 +89,7 @@ export const enSidebar = {
         { text: 'Data Sync', link: 'Data-Sync_timecho' },
         { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
         { text: 'View', link: 'IoTDB-View_timecho' },
+        { text: 'IoTDB AINode', link: 'IoTDB-AINode_timecho' },
         { text: 'Database Programming', link: 'Database-Programming' },
         { text: 'Security Management', link: 'Security-Management_timecho' },
         { text: 'Authority Management', link: 'Authority-Management' },
@@ -101,7 +102,7 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'CLI', link: 'CLI' },
-        { text: 'Workbench', link: 'Workbench' },
+        // { text: 'Workbench', link: 'Workbench' },
         { text: 'Monitor Tool', link: 'Monitor-Tool' },
         { text: 'Benchmark', link: 'Benchmark' },
         { text: 'Maintenance Tool', link: 'Maintenance-Tool_timecho' },
@@ -142,7 +143,7 @@ export const enSidebar = {
         { text: 'Spark IoTDB Connector', link: 'Spark-IoTDB' },
         { text: 'Hive TsFile Connector', link: 'Hive-TsFile' },
         { text: 'Flink IoTDB Connector', link: 'Flink-IoTDB' },
-        { text: 'Flink SQL IoTDB Connector', link: 'Flink-SQL-IoTDB' },
+        //        { text: 'Flink SQL IoTDB Connector', link: 'Flink-SQL-IoTDB' },
         { text: 'Flink TsFile Connector', link: 'Flink-TsFile' },
         { text: 'NiFi IoTDB Connector', link: 'NiFi-IoTDB' },
         { text: 'DBeaver-IoTDB', link: 'DBeaver' },
