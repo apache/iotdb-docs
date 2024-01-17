@@ -157,8 +157,6 @@
 </template>
 
 <script lang="ts">
-import { defaultVersion } from '../utils';
-
 export default {
   name: 'IoTDBZH',
   data() {
@@ -189,7 +187,7 @@ export default {
       window.location.href = '/zh/Download/';
     },
     addRoutes2() {
-      window.location.href = `/zh/UserGuide/${defaultVersion}/QuickStart/QuickStart.html`;
+      window.location.href = '/zh/UserGuide/latest/QuickStart/QuickStart.html';
     },
   },
 };
