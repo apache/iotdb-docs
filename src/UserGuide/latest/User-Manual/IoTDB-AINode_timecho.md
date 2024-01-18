@@ -41,7 +41,7 @@ Compared with building a machine learning service alone, it has the following ad
 
 - **Avoid Data Migration**: With IoTDB native machine learning, data stored in IoTDB can be directly applied to the inference of machine learning models without having to move the data to a separate machine learning service platform, which accelerates data processing, improves security, and reduces costs.
 
-![](https://alioss.timecho.com/docs/img/h1.PNG)
+![](https://alioss.timecho.com/upload/AInode1.png)
 
 - **Built-in Advanced Algorithms**: supports industry-leading machine learning analytics algorithms covering typical timing analysis tasks, empowering the timing database with native data analysis capabilities. Such as:
   - **Time Series Forecasting**: learns patterns of change from past time series; thus outputs the most likely prediction of future series based on observations at a given past time.
@@ -58,7 +58,7 @@ Compared with building a machine learning service alone, it has the following ad
 - **Built-in capabilities**: AINode comes with machine learning algorithms or home-grown models for common timing analysis scenarios (e.g., prediction and anomaly detection).
 
 ::: center
-<img src="https://alioss.timecho.com/docs/img/h3.PNG" style="zoom:50%" />
+<img src="https://alioss.timecho.com/upload/AInode2.png" style="zoom:50%" />
 ::::
 
 ## 3. Installation and Deployment

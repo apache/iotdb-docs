@@ -98,7 +98,6 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '命令行工具', link: 'CLI' },
-//         { text: '控制台工具', link: 'Workbench' },
         { text: '监控工具', link: 'Monitor-Tool' },
         { text: '测试工具', link: 'Benchmark' },
         { text: '运维工具', link: 'Maintenance-Tool' },
@@ -143,7 +142,7 @@ export const zhSidebar = {
         { text: 'Flink-TsFile-Connector', link: 'Flink-TsFile' },
         { text: 'NiFi-IoTDB-Connector', link: 'NiFi-IoTDB' },
         { text: 'DBeaver-IoTDB 集成方案', link: 'DBeaver' },
-        { text: 'Telegraf-IoTDB Output 插件', link: 'Telegraf-IoTDB'},
+        { text: 'Telegraf-IoTDB Output 插件', link: 'Telegraf-IoTDB' },
       ],
     },
     {
