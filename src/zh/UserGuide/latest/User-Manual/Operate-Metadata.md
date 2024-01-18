@@ -32,7 +32,9 @@
 IoTDB > CREATE DATABASE root.ln
 ```
 
-需要注意的是，database 的父子节点都不能再设置 database。例如在已经有`root.ln`和`root.sgcc`这两个 database 的情况下，创建`root.ln.wf01` database 是不可行的。系统将给出相应的错误提示，如下所示：
+需要注意的是，推荐创建一个 database. 
+
+Database 的父子节点都不能再设置 database。例如在已经有`root.ln`和`root.sgcc`这两个 database 的情况下，创建`root.ln.wf01` database 是不可行的。系统将给出相应的错误提示，如下所示：
 
 ```
 IoTDB> CREATE DATABASE root.ln.wf01
@@ -1072,6 +1074,8 @@ SQL 语句如下所示：
 IoTDB> show devices
 IoTDB> show devices root.ln.**
 IoTDB> show devices root.ln.** where device contains 't'
+IoTDB> show devices root.ln.** where template = 't1'
+IoTDB> show devices root.ln.** where template is null
 ```
 
 你可以获得如下数据：
@@ -1096,9 +1100,34 @@ It costs 0.002s
 +-----------------+---------+
 Total line number = 2
 It costs 0.001s
+
++-----------------+---------+---------+
+|          devices|isAligned| Template|
++-----------------+---------+---------+
+|root.ln.wf01.wt01|    false|       t1|
+|root.ln.wf02.wt02|    false|     null|
++-----------------+---------+---------+
+Total line number = 2
+It costs 0.001s
+
++-----------------+---------+---------+
+|          devices|isAligned| Template|
++-----------------+---------+---------+
+|root.ln.wf01.wt01|    false|       t1|
++-----------------+---------+---------+
+Total line number = 1
+It costs 0.001s
+
++-----------------+---------+---------+
+|          devices|isAligned| Template|
++-----------------+---------+---------+
+|root.ln.wf02.wt02|    false|     null|
++-----------------+---------+---------+
+Total line number = 1
+It costs 0.001s
 ```
 
-其中，`isAligned`表示该设备下的时间序列是否对齐。
+其中，`isAligned`表示该设备下的时间序列是否对齐,
 
 查看设备及其 database 信息，可以使用 `SHOW DEVICES WITH DATABASE` 语句。
 

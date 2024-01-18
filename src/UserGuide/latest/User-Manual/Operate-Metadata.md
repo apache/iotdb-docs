@@ -34,7 +34,9 @@ IoTDB > create database root.sgcc
 
 We can thus create two databases using the above two SQL statements.
 
-It is worth noting that when the path itself or the parent/child layer of the path is already created as database, the path is then not allowed to be created as database. For example, it is not feasible to create `root.ln.wf01` as database when two databases `root.ln` and `root.sgcc` exist. The system gives the corresponding error prompt as shown below:
+It is worth noting that 1 database is recommended.
+
+When the path itself or the parent/child layer of the path is already created as database, the path is then not allowed to be created as database. For example, it is not feasible to create `root.ln.wf01` as database when two databases `root.ln` and `root.sgcc` exist. The system gives the corresponding error prompt as shown below:
 
 ```
 IoTDB> CREATE DATABASE root.ln.wf01
