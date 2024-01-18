@@ -32,7 +32,9 @@
 IoTDB > CREATE DATABASE root.ln
 ```
 
-需要注意的是，database 的父子节点都不能再设置 database。例如在已经有`root.ln`和`root.sgcc`这两个 database 的情况下，创建`root.ln.wf01` database 是不可行的。系统将给出相应的错误提示，如下所示：
+需要注意的是，推荐创建一个 database. 
+
+Database 的父子节点都不能再设置 database。例如在已经有`root.ln`和`root.sgcc`这两个 database 的情况下，创建`root.ln.wf01` database 是不可行的。系统将给出相应的错误提示，如下所示：
 
 ```
 IoTDB> CREATE DATABASE root.ln.wf01
