@@ -275,6 +275,9 @@ Examples of case in which quoted identifier is used ：
     ```
 
 - The key/value of an attribute can be String Literal and identifier, more details can be found at **key-value pair** part. 
+  
+- Time series path supports the creation of hierarchical paths containing "*" for paths other than the database level, e.g. root.db.`*`.
+
 
 ## KeyWords Words
 

@@ -34,7 +34,9 @@ IoTDB > create database root.sgcc
 
 We can thus create two databases using the above two SQL statements.
 
-It is worth noting that when the path itself or the parent/child layer of the path is already created as database, the path is then not allowed to be created as database. For example, it is not feasible to create `root.ln.wf01` as database when two databases `root.ln` and `root.sgcc` exist. The system gives the corresponding error prompt as shown below:
+It is worth noting that 1 database is recommended.
+
+When the path itself or the parent/child layer of the path is already created as database, the path is then not allowed to be created as database. For example, it is not feasible to create `root.ln.wf01` as database when two databases `root.ln` and `root.sgcc` exist. The system gives the corresponding error prompt as shown below:
 
 ```
 IoTDB> CREATE DATABASE root.ln.wf01
@@ -44,8 +46,6 @@ Msg: 300: root.ln has already been created as database.
 ```
 
 The LayerName of database can only be characters, numbers, underscores. If you want to set it to pure numbers or contain other characters, you need to enclose the database name with backticks (``). 
-
-Time series path supports the creation of hierarchical paths containing "*" for paths other than the database level, e.g. root.db.`*`.
 
 Besides, if deploy on Windows system, the LayerName is case-insensitive, which means it's not allowed to create databases `root.ln` and `root.LN` at the same time.
 
