@@ -89,7 +89,7 @@ export const enSidebar = {
         { text: 'Data Sync', link: 'Data-Sync_timecho' },
         { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
         { text: 'View', link: 'IoTDB-View_timecho' },
-        { text: 'IoTDB AINode', link: 'IoTDB-AINode_timecho' },
+        { text: 'AINode', link: 'IoTDB-AINode_timecho' },
         { text: 'Database Programming', link: 'Database-Programming' },
         { text: 'Security Management', link: 'Security-Management_timecho' },
         { text: 'Authority Management', link: 'Authority-Management' },
