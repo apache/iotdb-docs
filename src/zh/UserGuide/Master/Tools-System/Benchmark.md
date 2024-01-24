@@ -149,7 +149,7 @@ IoT-benchmark 是基于 Java 和大数据环境开发的时序数据库基准测
 | 参数名称                   | 类型   | 示例                      | 系统描述                                                     |
 | -------------------------- | ------ | ------------------------- | ------------------------------------------------------------ |
 | CLIENT_NUMBER              | 整数   | 100                       | 客户端总数                                                   |
-| GROUP_NUMBER               | 整数   | 20                        | 存储组的数量；仅针对IoTDB。                                  |
+| GROUP_NUMBER               | 整数   | 20                        | 数据库的数量；仅针对IoTDB。                                  |
 | DEVICE_NUMBER              | 整数   | 100                       | 设备总数                                                     |
 | SENSOR_NUMBER              | 整数   | 300                       | 每个设备的传感器总数                                         |
 | INSERT_DATATYPE_PROPORTION | 字符串 | 1:1:1:1:1:1               | 设备的数据类型比例，BOOLEAN:INT32:INT64:FLOAT:DOUBLE:TEXT    |
