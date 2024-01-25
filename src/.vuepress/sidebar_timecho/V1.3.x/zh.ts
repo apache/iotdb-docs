@@ -89,7 +89,7 @@ export const zhSidebar = {
         { text: '数据同步', link: 'Data-Sync_timecho' },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
         { text: '视图', link: 'IoTDB-View_timecho' },
-        { text: 'AINode机器学习框架', link: 'IoTDB-AINode_timecho' },
+        { text: 'AINode', link: 'AINode_timecho' },
         { text: '数据库编程', link: 'Database-Programming' },
         { text: '安全控制', link: 'Security-Management_timecho' },
         { text: '权限管理', link: 'Authority-Management' },
@@ -173,6 +173,7 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: 'UDF 函数库', link: 'UDF-Libraries' },
+        { text: '内置函数与表达式', link: 'Function-and-Expression' },
         { text: '配置参数', link: 'Common-Config-Manual' },
         { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
         { text: 'DataNode配置参数', link: 'DataNode-Config-Manual' },
