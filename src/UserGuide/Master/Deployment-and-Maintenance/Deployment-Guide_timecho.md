@@ -1194,7 +1194,7 @@ After downloading and extracting the software package, you can get the following
     |-- lib # package binary executable with environment dependencies
     |-- conf # store configuration files
         - iotdb-AINode.properties
-    |-- sbin # AINode相关启动脚本
+    |-- sbin # AINode related startup scripts
         - start-AINode.sh
         - start-AINode.bat
         - stop-AINode.sh
