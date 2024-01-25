@@ -59,7 +59,7 @@ Different configuration parameters take effect in the following three ways:
 
 |    Name     |                                                  schema\_region\_consensus\_protocol\_class                                                  |
 |:-----------:|:--------------------------------------------------------------------------------------------------------------------------------------------:|
-| Description | Consensus protocol of schema replicas, SimpleConsensus could only be used in 1 replica，larger than 1 replicas could only use RatisConsensus  |
+| Description | Consensus protocol of schema replicas，larger than 1 replicas could only use RatisConsensus  |
 |    Type     |                                                                    String                                                                    |
 |   Default   |                                               org.apache.iotdb.consensus.ratis.RatisConsensus                                                |
 |  Effective  |                                                Only allowed to be modified in first start up                                                 |
@@ -77,7 +77,7 @@ Different configuration parameters take effect in the following three ways:
 
 |    Name     | data\_region\_consensus\_protocol\_class                                                                                                             |
 |:-----------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Description | Consensus protocol of data replicas, SimpleConsensus could only be used in 1 replica，larger than 1 replicas could use IoTConsensus or RatisConsensus |
+| Description | Consensus protocol of data replicas，larger than 1 replicas could use IoTConsensus or RatisConsensus |
 |    Type     | String                                                                                                                                               |
 |   Default   | org.apache.iotdb.consensus.simple.SimpleConsensus                                                                                                    |
 |  Effective  | Only allowed to be modified in first start up                                                                                                        |
