@@ -220,7 +220,7 @@ IoTDB> DROP PIPE <PipeName>
 
   - `attributes`：Pipe属性
     - 当 role 为 sender 时，这一字段值为 Pipe 的同步起始时间和是否同步删除操作
-    - 当 role 为 receiver 时，这一字段值为当前 DataNode 上创建的同步连接对应的存储组名称
+    - 当 role 为 receiver 时，这一字段值为当前 DataNode 上创建的同步连接对应的数据库名称
 
   - `message`：Pipe运行信息，当 Pipe 正常运行时，这一字段通常为NORMAL，当出现异常时，可能出现两种状态：
     - WARN 状态，这表明发生了数据丢失或者其他错误，但是 Pipe 会保持运行

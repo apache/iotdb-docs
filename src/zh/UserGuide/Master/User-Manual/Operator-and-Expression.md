@@ -23,51 +23,48 @@
 
 ## 运算符
 ### 算数运算符
+|运算符                       |含义|
+|----------------------------|-----------|
+|`+`                         |取正（单目）|
+|`-`                         |取负（单目）|
+|`*`                         |乘|
+|`/`                         |除|
+|`%`                         |取余|
+|`+`                         |加|
+|`-`                         |减|
 
-| Operator | Meaning                   |
-| -------- | ------------------------- |
-| `+`      | positive (unary operator) |
-| `-`      | negative (unary operator) |
-| `*`      | multiplication            |
-| `/`      | division                  |
-| `%`      | modulo                    |
-| `+`      | addition                  |
-| `-`      | subtraction               |
-
-更多见文档[Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md)。
+详细说明及示例见文档 [算数运算符和函数](../Reference/Function-and-Expression.md#算数运算符)。
 
 ### 比较运算符
+|运算符                       |含义|
+|----------------------------|-----------|
+|`>`                         |大于|
+|`>=`                        |大于等于|
+|`<`                         |小于|
+|`<=`                        |小于等于|
+|`==`                        |等于|
+|`!=` / `<>`                 |不等于|
+|`BETWEEN ... AND ...`       |在指定范围内|
+|`NOT BETWEEN ... AND ...`   |不在指定范围内|
+|`LIKE`                      |匹配简单模式|
+|`NOT LIKE`                  |无法匹配简单模式|
+|`REGEXP`                    |匹配正则表达式|
+|`NOT REGEXP`                |无法匹配正则表达式|
+|`IS NULL`                   |是空值|
+|`IS NOT NULL`               |不是空值|
+|`IN` / `CONTAINS`           |是指定列表中的值|
+|`NOT IN` / `NOT CONTAINS`   |不是指定列表中的值|
 
-| Operator                  | Meaning                              |
-| ------------------------- | ------------------------------------ |
-| `>`                       | greater than                         |
-| `>=`                      | greater than or equal to             |
-| `<`                       | less than                            |
-| `<=`                      | less than or equal to                |
-| `==`                      | equal to                             |
-| `!=` / `<>`               | not equal to                         |
-| `BETWEEN ... AND ...`     | within the specified range           |
-| `NOT BETWEEN ... AND ...` | not within the specified range       |
-| `LIKE`                    | match simple pattern                 |
-| `NOT LIKE`                | cannot match simple pattern          |
-| `REGEXP`                  | match regular expression             |
-| `NOT REGEXP`              | cannot match regular expression      |
-| `IS NULL`                 | is null                              |
-| `IS NOT NULL`             | is not null                          |
-| `IN` / `CONTAINS`         | is a value in the specified list     |
-| `NOT IN` / `NOT CONTAINS` | is not a value in the specified list |
-
-更多见文档[Comparison Operators and Functions](../Operators-Functions/Comparison.md)。
+详细说明及示例见文档 [比较运算符和函数](../Reference/Function-and-Expression.md#比较运算符和函数)。
 
 ### 逻辑运算符
+|运算符                       |含义|
+|----------------------------|-----------|
+|`NOT` / `!`                 |取非（单目）|
+|`AND` / `&` / `&&`          |逻辑与|
+|`OR`/ &#124; / &#124;&#124; |逻辑或|
 
-| Operator           | Meaning                           |
-| ------------------ | --------------------------------- |
-| `NOT` / `!`        | logical negation (unary operator) |
-| `AND` / `&` / `&&` | logical AND                       |
-| `OR`/ \| / \|\|    | logical OR                        |
-
-更多见文档[Logical Operators](../Operators-Functions/Logical.md)。
+详细说明及示例见文档 [逻辑运算符](../Reference/Function-and-Expression.md#逻辑运算符)。
 
 ### 运算符优先级
 
@@ -105,7 +102,7 @@ OR, |, ||
 | MAX_TIME    | 求最大时间戳。                                               | 所有类型                 | Timestamp      |
 | MIN_TIME    | 求最小时间戳。                                               | 所有类型                 | Timestamp      |
 
-详细说明及示例见文档 [聚合函数](../Operators-Functions/Aggregation.md)。
+详细说明及示例见文档 [聚合函数](../Reference/Function-and-Expression.md#聚合函数)。
 
 ### 数学函数 
 
@@ -133,7 +130,7 @@ OR, |, ||
 | SQRT    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#sqrt(double)                                                 |
 
 
-详细说明及示例见文档 [算数运算符和函数](../Operators-Functions/Mathematical.md)。
+详细说明及示例见文档 [数学函数](../Reference/Function-and-Expression.md#数学函数)。
 
 ### 比较函数
 
@@ -142,7 +139,7 @@ OR, |, ||
 | ON_OFF   | INT32 / INT64 / FLOAT / DOUBLE | `threshold`:DOUBLE                  | BOOLEAN | 返回`ts_value >= threshold`的bool值                  |
 | IN_RANGE | INT32 / INT64 / FLOAT / DOUBLE | `lower`:DOUBLE<br/>`upper`:DOUBLE | BOOLEAN | 返回`ts_value >= lower && ts_value <= upper`的bool值 |                                                    |
 
-详细说明及示例见文档 [比较运算符和函数](./Comparison.md)。
+详细说明及示例见文档 [比较运算符和函数](../Reference/Function-and-Expression.md#比较运算符和函数)。
 
 ### 字符串函数
 
@@ -162,7 +159,7 @@ OR, |, ||
 | TRIM            | TEXT | 无                                                                                                         | TEXT | 移除字符串前后的空格                                                              |
 | STRCMP          | TEXT | 无                                                                                                         | TEXT | 用于比较两个输入序列，如果值相同返回 `0` , 序列1的值小于序列2的值返回一个`负数`，序列1的值大于序列2的值返回一个`正数`      |
 
-详细说明及示例见文档 [字符串处理函数](../Operators-Functions/String.md)。
+详细说明及示例见文档 [字符串处理函数](../Reference/Function-and-Expression.md#字符串处理)。
 
 ### 数据类型转换函数
 
@@ -170,7 +167,7 @@ OR, |, ||
 | ------ | ------------------------------------------------------------ | ------------------------ | ---------------------------------- |
 | CAST   | `type`:输出的数据点的类型，只能是 INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | 由输入属性参数`type`决定 | 将数据转换为`type`参数指定的类型。 |
 
-详细说明及示例见文档 [数据类型转换](../Operators-Functions/Conversion.md)。
+详细说明及示例见文档 [数据类型转换](../Reference/Function-and-Expression.md#数据类型转换)。
 
 ### 常序列生成函数
 
@@ -180,7 +177,7 @@ OR, |, ||
 | PI     | 无                                                           | DOUBLE                     | 常序列的值：`π` 的 `double` 值，圆的周长与其直径的比值，即圆周率，等于 *Java标准库* 中的`Math.PI`。 |
 | E      | 无                                                           | DOUBLE                     | 常序列的值：`e` 的 `double` 值，自然对数的底，它等于 *Java 标准库*  中的 `Math.E`。 |
 
-详细说明及示例见文档 [常序列生成函数](../Operators-Functions/Constant.md)。
+详细说明及示例见文档 [常序列生成函数](../Reference/Function-and-Expression.md#常序列生成函数)。
 
 ### 选择函数
 
@@ -189,7 +186,7 @@ OR, |, ||
 | TOP_K    | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: 最多选择的数据点数，必须大于 0 小于等于 1000 | 与输入序列的实际类型一致 | 返回某时间序列中值最大的`k`个数据点。若多于`k`个数据点的值并列最大，则返回时间戳最小的数据点。 |
 | BOTTOM_K | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: 最多选择的数据点数，必须大于 0 小于等于 1000 | 与输入序列的实际类型一致 | 返回某时间序列中值最小的`k`个数据点。若多于`k`个数据点的值并列最小，则返回时间戳最小的数据点。 |
 
-详细说明及示例见文档 [选择函数](../Operators-Functions/Selection.md)。
+详细说明及示例见文档 [选择函数](../Reference/Function-and-Expression.md#选择函数)。
 
 ### 区间查询函数
 
@@ -200,7 +197,7 @@ OR, |, ||
 | ZERO_COUNT        | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值1<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续为0(false)的开始时间与其后数据点的个数，数据点个数n满足`n >= min && n <= max`   |               |
 | NON_ZERO_COUNT    | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值1<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续不为0(false)的开始时间与其后数据点的个数，数据点个数n满足`n >= min && n <= max`  |               |
 
-详细说明及示例见文档 [区间查询函数](../Operators-Functions/Continuous-Interval.md)。
+详细说明及示例见文档 [区间查询函数](../Reference/Function-and-Expression.md#区间查询函数)。
 
 ### 趋势计算函数
 
@@ -217,7 +214,7 @@ OR, |, ||
 |------|--------------------------------|------------------------------------------------------------------------------------------------------------------------|--------|------------------------------------------------|
 | DIFF | INT32 / INT64 / FLOAT / DOUBLE | `ignoreNull`：可选，默认为true；为true时，前一个数据点值为null时，忽略该数据点继续向前找到第一个出现的不为null的值；为false时，如果前一个数据点为null，则不忽略，使用null进行相减，结果也为null | DOUBLE | 统计序列中某数据点的值与前一数据点的值的差。第一个数据点没有对应的结果输出，输出值为null |
 
-详细说明及示例见文档 [趋势计算函数](../Operators-Functions/Variation-Trend.md)。
+详细说明及示例见文档 [趋势计算函数](../Reference/Function-and-Expression.md#趋势计算函数)。
 
 ### 采样函数
 
@@ -235,7 +232,7 @@ OR, |, ||
 | ------------- | ------------------------------ | ---- | ------------------------ | -------------------------- |
 | CHANGE_POINTS | INT32 / INT64 / FLOAT / DOUBLE | /    | 与输入序列的实际类型一致 | 去除输入序列中的连续相同值 |
 
-详细说明及示例见文档 [时间序列处理](../Operators-Functions/Time-Series.md)
+详细说明及示例见文档 [时间序列处理](../Reference/Function-and-Expression.md#时间序列处理)。
 
 ## 数据质量函数库
 
@@ -254,14 +251,14 @@ OR, |, ||
 
 ### 已经实现的函数
 
-1.   [Data-Quality](../Operators-Functions/Data-Quality.md) 数据质量
-2.   [Data-Profiling](../Operators-Functions/Data-Profiling.md) 数据画像
-3.   [Anomaly-Detection](../Operators-Functions/Anomaly-Detection.md) 异常检测
-4.   [Frequency-Domain](../Operators-Functions/Frequency-Domain.md) 频域分析
-5.   [Data-Matching](../Operators-Functions/Data-Matching.md) 数据匹配
-6.   [Data-Repairing](../Operators-Functions/Data-Repairing.md) 数据修复
-7.   [Series-Discovery](../Operators-Functions/Series-Discovery.md) 序列发现
-8.   [Machine-Learning](../Operators-Functions/Machine-Learning.md) 机器学习
+1.   [Data-Quality](../Reference/UDF-Libraries.md#数据质量) 数据质量
+2.   [Data-Profiling](../Reference/UDF-Libraries.md#数据画像) 数据画像
+3.   [Anomaly-Detection](../Reference/UDF-Libraries.md#异常检测) 异常检测
+4.   [Frequency-Domain](../Reference/UDF-Libraries.md#频域分析) 频域分析
+5.   [Data-Matching](../Reference/UDF-Libraries.md#数据匹配) 数据匹配
+6.   [Data-Repairing](../Reference/UDF-Libraries.md#数据修复) 数据修复
+7.   [Series-Discovery](../Reference/UDF-Libraries.md#序列发现) 序列发现
+8.   [Machine-Learning](../Reference/UDF-Libraries.md#机器学习) 机器学习
 
 ## Lambda 表达式
 
