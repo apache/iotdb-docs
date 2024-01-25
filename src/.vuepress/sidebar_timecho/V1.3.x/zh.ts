@@ -173,6 +173,7 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: 'UDF 函数库', link: 'UDF-Libraries' },
+        { text: '内置函数与表达式', link: 'Function-and-Expression' },
         { text: '配置参数', link: 'Common-Config-Manual' },
         { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
         { text: 'DataNode配置参数', link: 'DataNode-Config-Manual' },

@@ -7,9 +7,9 @@
     to you under the Apache License, Version 2.0 (the
     "License"); you may not use this file except in compliance
     with the License.  You may obtain a copy of the License at
-  
+      
         http://www.apache.org/licenses/LICENSE-2.0
-  
+      
     Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -455,13 +455,30 @@ AS <full class name>
 USING <URI of JAR package>
 ```
 
-For example, the user has implemented a data processing plugin with the full class name edu.tsinghua.iotdb.pipe.ExampleProcessor.
-The packaged jar resource package is stored at https://example.com:8080/iotdb/pipe-plugin.jar. The user wants to use this plugin in the stream processing engine.
-Mark the plugin as example. Then, the creation statement of this data processing plugin is as shown in the figure.
+Example: If you implement a data processing plugin named edu.tsinghua.iotdb.pipe.ExampleProcessor, and the packaged jar package is pipe-plugin.jar, you want to use this plugin in the stream processing engine, and mark the plugin as example. There are two ways to use the plug-in package, one is to upload to the URI server, and the other is to upload to the local directory of the cluster.
+
+Method 1: Upload to the URI server
+
+Preparation: To register in this way, you need to upload the JAR package to the URI server in advance and ensure that the IoTDB instance that executes the registration statement can access the URI server. For example https://example.com:8080/iotdb/pipe-plugin.jar .
+
+SQL：
+
 ```sql
-CREATE PIPEPLUGIN example
-AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor'
+SQL CREATE PIPEPLUGIN example 
+AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
 USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
+```
+
+Method 2: Upload the data to the local directory of the cluster
+
+Preparation: To register in this way, you need to place the JAR package in any path on the machine where the DataNode node is located, and we recommend that you place the JAR package in the /ext/pipe directory of the IoTDB installation path (the installation package is already in the installation package, so you do not need to create a new one). For example: iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar. **(Note: If you are using a cluster, you will need to place the JAR package under the same path as the machine where each DataNode node is located)**
+
+SQL：
+
+```sql
+SQL CREATE PIPEPLUGIN example 
+AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
+USING URI '<file:/IoTDB installation path/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar>'
 ```
 
 ### Delete plugin statement

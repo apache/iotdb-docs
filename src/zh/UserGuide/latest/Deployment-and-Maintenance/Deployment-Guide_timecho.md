@@ -70,8 +70,6 @@ Windows 系统启动命令如下：
 > sbin\start-standalone.bat
 ```
 
-注意：目前，要使用单机模式，你需要保证所有的地址设置为 127.0.0.1，如果需要从非 IoTDB 所在的机器访问此IoTDB，请将配置项 `dn_rpc_address` 修改为 IoTDB 所在的机器 IP。副本数设置为1。并且，推荐使用 SimpleConsensus，因为这会带来额外的效率。这些现在都是默认配置。
-
 ## 集群版部署（使用集群管理工具）
 
 IoTDB 集群管理工具是一款易用的运维工具（企业版工具）。旨在解决 IoTDB 分布式系统多节点的运维难题，主要包括集群部署、集群启停、弹性扩容、配置更新、数据导出等功能，从而实现对复杂数据库集群的一键式指令下发，
@@ -822,7 +820,7 @@ mvn clean package -pl distribution -am -DskipTests
 ##### 通用配置
 
 打开通用配置文件 ./conf/iotdb-common.properties，
-可根据 [部署推荐](https://iotdb.apache.org/zh/UserGuide/Master/Cluster/Deployment-Recommendation.html)
+可根据 [部署推荐](./Deployment-Recommendation.md)
 设置以下参数：
 
 | **配置项**                                 | **说明**                                                     | **默认**                                        |
@@ -895,7 +893,7 @@ mvn clean package -pl distribution -am -DskipTests
 | data\_replication\_factor                  | 已设置为期望的数据副本数   |
 | data\_region\_consensus\_protocol\_class   | 已设置为期望的共识协议     |
 
-**注意：** 请根据[部署推荐](https://iotdb.apache.org/zh/UserGuide/Master/Cluster/Deployment-Recommendation.html)配置合适的通用参数，这些参数在首次配置后即不可修改。
+**注意：** 请根据[部署推荐](./Deployment-Recommendation.md)配置合适的通用参数，这些参数在首次配置后即不可修改。
 
 接着请打开它的配置文件 ./conf/iotdb-confignode.properties，并检查如下参数：
 

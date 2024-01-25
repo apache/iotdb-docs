@@ -1559,17 +1559,17 @@ SHOW FUNCTIONS
 
 #### 内置UDF
 
-1.   [Aggregate Functions](../Operators-Functions/Aggregation.md) 聚合函数
-2.   [Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md) 算数函数
-3.   [Comparison Operators and Functions](../Operators-Functions/Comparison.md) 比较函数
-4.   [String Processing](../Operators-Functions/String.md) 字符串处理函数
-5.   [Data Type Conversion Function](../Operators-Functions/Conversion.md) 数据类型转换函数
-6.   [Constant Timeseries Generating Functions](../Operators-Functions/Constant.md) 常序列生成函数
-7.   [Selector Functions](../Operators-Functions/Selection.md) 选择函数
-8.   [Continuous Interval Functions](../Operators-Functions/Continuous-Interval.md) 区间查询函数
-9.   [Variation Trend Calculation Functions](../Operators-Functions/Variation-Trend.md) 趋势计算函数
-10.   [Sample Functions](../Operators-Functions/Sample.md) 采样函数
-11.   [Time-Series](../Operators-Functions/Time-Series.md) 时间序列处理函数
+1.   [Aggregate Functions](../Reference/Function-and-Expression.md#聚合函数) 聚合函数
+2.   [Arithmetic Operators and Functions](../Reference/Function-and-Expression.md#算数运算符) 算数函数
+3.   [Comparison Operators and Functions](../Reference/Function-and-Expression.md#比较运算符和函数) 比较函数
+4.   [String Processing](../Reference/Function-and-Expression.md#字符串处理) 字符串处理函数
+5.   [Data Type Conversion Function](../Reference/Function-and-Expression.md#数据类型转换) 数据类型转换函数
+6.   [Constant Timeseries Generating Functions](../Reference/Function-and-Expression.md#常序列生成函数) 常序列生成函数
+7.   [Selector Functions](../Reference/Function-and-Expression.md#选择函数) 选择函数
+8.   [Continuous Interval Functions](../Reference/Function-and-Expression.md#区间查询函数) 区间查询函数
+9.   [Variation Trend Calculation Functions](../Reference/Function-and-Expression.md#趋势计算函数) 趋势计算函数
+10.   [Sample Functions](../Reference/Function-and-Expression.md#采样函数) 采样函数
+11.   [Time-Series](../Reference/Function-and-Expression.md#时间序列处理) 时间序列处理函数
 
 #### 数据质量函数库
 
