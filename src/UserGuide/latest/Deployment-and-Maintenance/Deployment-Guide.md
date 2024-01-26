@@ -107,7 +107,7 @@ the default number of replicas is one.
 ./cluster0/sbin/start-cli.sh
 ```
 
-+ Execute the [show cluster details](https://iotdb.apache.org/UserGuide/Master/Maintenance-Tools/Maintenance-Command.html#show-all-node-information)
++ Execute the `show cluster details`
   command on the Cli. The result is shown below:
 
 ```
@@ -413,7 +413,7 @@ Before start the Seed-ConfigNode, please open the common configuration file ./co
 | data\_replication\_factor                  | Is set to the expected data replication count   |
 | data\_region\_consensus\_protocol\_class   | Is set to the expected consensus protocol       |
 
-**Notice:** Please set these parameters carefully based on the [Deployment Recommendation](https://iotdb.apache.org/UserGuide/Master/Cluster/Deployment-Recommendation.html).
+**Notice:** Please set these parameters carefully based on the [Deployment Recommendation](https://iotdb.apache.org/UserGuide/latest/Deployment-and-Maintenance/Deployment-Recommendation.html).
 These parameters are not modifiable after the Node first startup.
 
 Then open its configuration file ./conf/iotdb-confignode.properties and check the following parameters:
@@ -543,7 +543,7 @@ If the cluster is in local environment, you can directly run the Cli startup scr
 ```
 
 If you want to use the Cli to connect to a cluster in the production environment,
-Please read the [Cli manual](https://iotdb.apache.org/UserGuide/Master/QuickStart/Command-Line-Interface.html).
+Please read the [Cli manual](https://iotdb.apache.org/UserGuide/latest/Tools-System/CLI.html).
 
 #### Verify Cluster
 
