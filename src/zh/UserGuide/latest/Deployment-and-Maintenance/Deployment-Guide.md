@@ -525,7 +525,7 @@ DataNode 的其它配置参数可参考
 ```
 
 若希望通过 Cli 连接生产环境的集群，
-请阅读 [Cli 使用手册](../Tools-System/CLI.html)。
+请阅读 [Cli 使用手册](../Tools-System/CLI.md)。
 
 #### 验证集群
 

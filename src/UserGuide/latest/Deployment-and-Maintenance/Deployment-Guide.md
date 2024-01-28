@@ -543,7 +543,7 @@ If the cluster is in local environment, you can directly run the Cli startup scr
 ```
 
 If you want to use the Cli to connect to a cluster in the production environment,
-Please read the [Cli manual](../Tools-System/CLI.html).
+Please read the [Cli manual](../Tools-System/CLI.md).
 
 #### Verify Cluster
 
