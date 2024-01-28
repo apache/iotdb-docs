@@ -7,9 +7,9 @@
     to you under the Apache License, Version 2.0 (the
     "License"); you may not use this file except in compliance
     with the License.  You may obtain a copy of the License at
-  
+      
         http://www.apache.org/licenses/LICENSE-2.0
-  
+      
     Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -455,14 +455,30 @@ AS <全类名>
 USING <JAR 包的 URI>
 ```
 
-例如，用户实现了一个全类名为 edu.tsinghua.iotdb.pipe.ExampleProcessor 的数据处理插件，
-打包后的 jar 资源包存放到了 https://example.com:8080/iotdb/pipe-plugin.jar 上，用户希望在流处理引擎中使用这个插件，
-将插件标记为 example。那么，这个数据处理插件的创建语句如图所示。
+示例：假如用户实现了一个全类名为edu.tsinghua.iotdb.pipe.ExampleProcessor 的数据处理插件，打包后的jar包为 pipe-plugin.jar ，用户希望在流处理引擎中使用这个插件，将插件标记为 example。插件包有两种使用方式，一种为上传到URI服务器，一种为上传到集群本地目录，两种方法任选一种即可。
+
+【方式一】上传到URI服务器
+
+准备工作：使用该种方式注册，您需要提前将 JAR 包上传到 URI 服务器上并确保执行注册语句的IoTDB实例能够访问该 URI 服务器。例如 https://example.com:8080/iotdb/pipe-plugin.jar 。
+
+创建语句：
 
 ```sql
-CREATE PIPEPLUGIN example
-AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor'
+SQL CREATE PIPEPLUGIN example 
+AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
 USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
+```
+
+【方式二】上传到集群本地目录
+
+准备工作：使用该种方式注册，您需要提前将 JAR 包放置到DataNode节点所在机器的任意路径下，推荐您将JAR包放在IoTDB安装路径的/ext/pipe目录下（安装包中已有，无需新建）。例如：iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar。（**注意：如果您使用的是集群，那么需要将 JAR 包放置到每个 DataNode 节点所在机器的该路径下）**
+
+创建语句：
+
+```sql
+SQL CREATE PIPEPLUGIN example 
+AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
+USING URI '<file:/iotdb安装路径/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar>'
 ```
 
 ### 删除插件语句
@@ -658,7 +674,7 @@ WITH CONNECTOR (
     'connector.thrift.host' = 'localhost',
     'connector.thrift.port' = '9999',
   )
-
+  
   CREATE PIPE pipe2
   WITH CONNECTOR (
     'connector' = 'iotdb-thrift-connector',
