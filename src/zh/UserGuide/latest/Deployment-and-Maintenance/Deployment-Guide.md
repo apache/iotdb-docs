@@ -327,7 +327,7 @@ mvn clean package -pl distribution -am -DskipTests
 ##### 通用配置
 
 打开通用配置文件 ./conf/iotdb-common.properties，
-可根据 [部署推荐]((https://iotdb.apache.org/zh/UserGuide/latest/Deployment-and-Maintenance/Deployment-Recommendation.html))
+可根据 [部署推荐](./Deployment-Recommendation.md)
 设置以下参数：
 
 | **配置项**                                 | **说明**                                                     | **默认**                                        |
@@ -400,7 +400,7 @@ mvn clean package -pl distribution -am -DskipTests
 | data\_replication\_factor                  | 已设置为期望的数据副本数   |
 | data\_region\_consensus\_protocol\_class   | 已设置为期望的共识协议     |
 
-**注意：** 请根据[部署推荐](https://iotdb.apache.org/zh/UserGuide/latest/Deployment-and-Maintenance/Deployment-Recommendation.html))配置合适的通用参数，这些参数在首次配置后即不可修改。
+**注意：** 请根据[部署推荐](./Deployment-Recommendation.md)配置合适的通用参数，这些参数在首次配置后即不可修改。
 
 接着请打开它的配置文件 ./conf/iotdb-confignode.properties，并检查如下参数：
 
@@ -525,7 +525,7 @@ DataNode 的其它配置参数可参考
 ```
 
 若希望通过 Cli 连接生产环境的集群，
-请阅读 [Cli 使用手册]((https://iotdb.apache.org/zh/UserGuide/latest/Tools-System/CLI.html))。
+请阅读 [Cli 使用手册](../Tools-System/CLI.html)。
 
 #### 验证集群
 

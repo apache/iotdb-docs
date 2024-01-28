@@ -2585,7 +2585,7 @@ It costs 0.012s
 ### 设备对齐模式下的排序
 在设备对齐模式下，默认按照设备名的字典序升序排列，每个设备内部按照时间戳大小升序排列，可以通过 `ORDER BY` 子句调整设备列和时间列的排序优先级。
 
-详细说明及示例见文档 [结果集排序](https://iotdb.apache.org/zh/UserGuide/latest/User-Manual/Operator-and-Expression.html))。 
+详细说明及示例见文档 [结果集排序](./Operator-and-Expression.html)。 
 
 ## 查询写回（INTO 子句）
 
@@ -2904,7 +2904,7 @@ It costs 0.375s
 * 所有 `SELECT` 子句中源序列的 `READ_TIMESERIES` 权限。
 * 所有 `INTO` 子句中目标序列 `INSERT_TIMESERIES` 权限。
 
-更多用户权限相关的内容，请参考[权限管理语句](https://iotdb.apache.org/zh/UserGuide/latest/User-Manual/Authority-Management.html)。
+更多用户权限相关的内容，请参考[权限管理语句](./Authority-Management.html)。
 
 ### 相关配置参数
 

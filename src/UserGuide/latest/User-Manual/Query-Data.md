@@ -2880,7 +2880,7 @@ The user must have the following permissions to execute a query write-back state
 * All `READ_TIMESERIES` permissions for the source series in the `select` clause.
 * All `INSERT_TIMESERIES` permissions for the target series in the `into` clause.
 
-For more user permissions related content, please refer to [Account Management Statements](https://iotdb.apache.org/UserGuide/latest/User-Manual/Authority-Management.html).
+For more user permissions related content, please refer to [Account Management Statements](./Authority-Management.html).
 
 ### Configurable Properties
 
