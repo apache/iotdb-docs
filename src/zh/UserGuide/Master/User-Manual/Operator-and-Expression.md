@@ -226,6 +226,7 @@ OR, |, ||
 | EQUAL_SIZE_BUCKET_OUTLIER_SAMPLE   | INT32 / INT64 / FLOAT / DOUBLE | `proportion`取值范围为`(0, 1]`，默认为`0.1`<br>`type`取值为`avg`或`stendis`或`cos`或`prenextdis`，默认为`avg`<br>`number`取值应大于0，默认`3`| INT32 / INT64 / FLOAT / DOUBLE | 返回符合采样比例和桶内采样个数的等分桶离群值采样                |
 | M4     | INT32 / INT64 / FLOAT / DOUBLE | 包含固定点数的窗口和滑动时间窗口使用不同的属性参数。包含固定点数的窗口使用属性`windowSize`和`slidingStep`。滑动时间窗口使用属性`timeInterval`、`slidingStep`、`displayWindowBegin`和`displayWindowEnd`。更多细节见下文。 | INT32 / INT64 / FLOAT / DOUBLE | 返回每个窗口内的第一个点（`first`）、最后一个点（`last`）、最小值点（`bottom`）、最大值点（`top`）。在一个窗口内的聚合点输出之前，M4会将它们按照时间戳递增排序并且去重。 |
 
+详细说明及示例见文档 [采样函数](../Reference/Function-and-Expression.md#采样函数)。
 ### 时间序列处理函数
 
 | 函数名        | 输入序列类型                   | 参数 | 输出序列类型             | 功能描述                   |
@@ -340,7 +341,7 @@ IoTDB 支持的聚合函数见文档 [聚合函数](../Reference/Function-and-Ex
 
 ###### 内置时间序列生成函数
 
-IoTDB 中支持的内置函数列表见文档 [运算符和函数](../Reference/Function-and-Expression.md#算数运算符和函数)。
+IoTDB 中支持的内置函数列表见文档 [运算符和函数](../Reference/Function-and-Expression.md#算数运算符)。
 
 ###### 自定义时间序列生成函数
 

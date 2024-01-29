@@ -1027,11 +1027,11 @@ select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from
 
 ## 运算符
 
-更多见文档[Operator-and-Expression](../User-Manual/Operator-and-Expression.md)
+更多见文档[Operator-and-Expression](../Reference/Function-and-Expression.md#算数运算符和函数)
 
 ### 算数运算符
 
-更多见文档 [Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md)
+更多见文档 [Arithmetic Operators and Functions](../Reference/Function-and-Expression.md#算数运算符和函数)
 
 ```sql
 select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root.sg.d1
@@ -1039,7 +1039,7 @@ select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root
 
 ### 比较运算符
 
-更多见文档[Comparison Operators and Functions](../Operators-Functions/Comparison.md)
+更多见文档[Comparison Operators and Functions](../Reference/Function-and-Expression.md#比较运算符和函数)
 
 ```sql
 # Basic comparison operators
@@ -1070,7 +1070,7 @@ select a, a in (1, 2) from root.test;
 
 ### 逻辑运算符
 
-更多见文档[Logical Operators](../Operators-Functions/Logical.md)
+更多见文档[Logical Operators](../Reference/Function-and-Expression.md#逻辑运算符)
 
 ```sql
 select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
@@ -1078,11 +1078,11 @@ select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
 
 ## 内置函数
 
-更多见文档[Operator-and-Expression](../User-Manual/Operator-and-Expression.md)
+更多见文档[Operator-and-Expression](../Reference/Function-and-Expression.md#聚合函数)
 
 ### Aggregate Functions
 
-更多见文档[Aggregate Functions](../Operators-Functions/Aggregation.md)
+更多见文档[Aggregate Functions](../Reference/Function-and-Expression.md#聚合函数)
 
 ```sql
 select count(status) from root.ln.wf01.wt01;
@@ -1095,7 +1095,7 @@ select time_duration(s1) from root.db.d1;
 
 ### 算数函数
 
-更多见文档[Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md)
+更多见文档[Arithmetic Operators and Functions](../Reference/Function-and-Expression.md#数学函数)
 
 ```sql
 select s1, sin(s1), cos(s1), tan(s1) from root.sg1.d1 limit 5 offset 1000;
@@ -1104,7 +1104,7 @@ select s4,round(s4),round(s4,2),round(s4,-1) from root.sg1.d1;
 
 ### 比较函数
 
-更多见文档[Comparison Operators and Functions](../Operators-Functions/Comparison.md)
+更多见文档[Comparison Operators and Functions](../Reference/Function-and-Expression.md#比较运算符和函数)
 
 ```sql
 select ts, on_off(ts, 'threshold'='2') from root.test;
@@ -1113,7 +1113,7 @@ select ts, in_range(ts, 'lower'='2', 'upper'='3.1') from root.test;
 
 ### 字符串处理函数
 
-更多见文档[String Processing](../Operators-Functions/String.md)
+更多见文档[String Processing](../Reference/Function-and-Expression.md#字符串处理)
 
 ```sql
 select s1, string_contains(s1, 's'='warn') from root.sg1.d4;
@@ -1141,7 +1141,7 @@ select regexsplit(s1, "regex"=",", "index"="3") from root.test.d1
 
 ### 数据类型转换函数
 
-更多见文档[Data Type Conversion Function](../Operators-Functions/Conversion.md)
+更多见文档[Data Type Conversion Function](../Reference/Function-and-Expression.md#数据类型转换)
 
 ```sql
 SELECT cast(s1 as INT32) from root.sg
@@ -1149,7 +1149,7 @@ SELECT cast(s1 as INT32) from root.sg
 
 ### 常序列生成函数
 
-更多见文档[Constant Timeseries Generating Functions](../Operators-Functions/Constant.md)
+更多见文档[Constant Timeseries Generating Functions](../Reference/Function-and-Expression.md#常序列生成函数)
 
 ```sql
 select s1, s2, const(s1, 'value'='1024', 'type'='INT64'), pi(s2), e(s1, s2) from root.sg1.d1; 
@@ -1157,7 +1157,7 @@ select s1, s2, const(s1, 'value'='1024', 'type'='INT64'), pi(s2), e(s1, s2) from
 
 ### 选择函数
 
-更多见文档[Selector Functions](../Operators-Functions/Selection.md)
+更多见文档[Selector Functions](../Reference/Function-and-Expression.md#选择函数)
 
 ```sql
 select s1, top_k(s1, 'k'='2'), bottom_k(s1, 'k'='2') from root.sg1.d2 where time > 2020-12-10T20:36:15.530+08:00;
@@ -1165,7 +1165,7 @@ select s1, top_k(s1, 'k'='2'), bottom_k(s1, 'k'='2') from root.sg1.d2 where time
 
 ### 区间查询函数
 
-更多见文档[Continuous Interval Functions](../Operators-Functions/Continuous-Interval.md)
+更多见文档[Continuous Interval Functions](../Reference/Function-and-Expression.md#区间查询函数)
 
 ```sql
 select s1, zero_count(s1), non_zero_count(s2), zero_duration(s3), non_zero_duration(s4) from root.sg.d2;
@@ -1173,7 +1173,7 @@ select s1, zero_count(s1), non_zero_count(s2), zero_duration(s3), non_zero_durat
 
 ### 趋势计算函数
 
-更多见文档[Variation Trend Calculation Functions](../Operators-Functions/Variation-Trend.md)
+更多见文档[Variation Trend Calculation Functions](../Reference/Function-and-Expression.md#趋势计算函数)
 
 ```sql
 select s1, time_difference(s1), difference(s1), non_negative_difference(s1), derivative(s1), non_negative_derivative(s1) from root.sg1.d1 limit 5 offset 1000; 
@@ -1184,7 +1184,11 @@ SELECT DIFF(s1, 'ignoreNull'='false'), DIFF(s2, 'ignoreNull'='false') from root.
 
 ### 采样函数
 
-更多见文档[Sample Functions](../Operators-Functions/Sample.md)
+更多见文档[Sample Functions](../Reference/Function-and-Expression.md#采样函数)。
+### 时间序列处理函数
+
+| 函数名        | 输入序列类型                   | 参数 | 输出序列类型             | 功能描述                   |
+| ---)
 
 ```sql
 select equal_size_bucket_random_sample(temperature,'proportion'='0.1') as random_sample from root.ln.wf01.wt01;
@@ -1198,7 +1202,7 @@ select M4(s1,'windowSize'='10') from root.vehicle.d1
 
 ### 时间序列处理函数
 
-更多见文档[Time-Series](../Operators-Functions/Time-Series.md)
+更多见文档[Time-Series](../Reference/Function-and-Expression.md#时间序列处理)
 
 ```sql
 select change_points(s1), change_points(s2), change_points(s3), change_points(s4), change_points(s5), change_points(s6) from root.testChangePoints.d1
@@ -1206,11 +1210,11 @@ select change_points(s1), change_points(s2), change_points(s3), change_points(s4
 
 ## 数据质量函数库
 
-更多见文档[Operator-and-Expression](../User-Manual/Operator-and-Expression.md)
+更多见文档[Operator-and-Expression](../Reference/UDF-Libraries.md)
 
 ### 数据质量
 
-更多见文档[Data-Quality](../Operators-Functions/Data-Quality.md)
+更多见文档[Data-Quality](../Reference/UDF-Libraries.md#数据质量)
 
 ```sql
 # Completeness
@@ -1235,7 +1239,7 @@ select Accuracy(t1,t2,t3,m1,m2,m3) from root.test
 
 ### 数据画像
 
-更多见文档[Data-Profiling](../Operators-Functions/Data-Profiling.md)
+更多见文档[Data-Profiling](../Reference/UDF-Libraries.md#数据画像)
 
 ```sql
 # ACF
@@ -1315,7 +1319,7 @@ select zscore(s1) from root.test
 
 ### 异常检测
 
-更多见文档[Anomaly-Detection](../Operators-Functions/Anomaly-Detection.md)
+更多见文档[Anomaly-Detection](../Reference/UDF-Libraries.md#异常检测)
 
 ```sql
 # IQR
@@ -1350,7 +1354,7 @@ select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='anomaly','p'='3','k'='3
 
 ### 频域分析
 
-更多见文档[Frequency-Domain](../Operators-Functions/Frequency-Domain.md)
+更多见文档[Frequency-Domain](../Reference/UDF-Libraries.md#频域分析)
 
 ```sql
 # Conv
@@ -1379,7 +1383,7 @@ select lowpass(s1,'wpass'='0.45') from root.test.d1
 
 ### 数据匹配
 
-更多见文档[Data-Matching](../Operators-Functions/Data-Matching.md)
+更多见文档[Data-Matching](../Reference/UDF-Libraries.md#数据匹配)
 
 ```sql
 # Cov
@@ -1400,7 +1404,7 @@ select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
 
 ### 数据修复
 
-更多见文档[Data-Repairing](../Operators-Functions/Data-Repairing.md)
+更多见文档[Data-Repairing](../Reference/UDF-Libraries.md#数据修复)
 
 ```sql
 # TimestampRepair
@@ -1425,7 +1429,7 @@ select seasonalrepair(s1,'method'='improved','period'=3) from root.test.d2
 
 ### 序列发现
 
-更多见文档[Series-Discovery](../Operators-Functions/Series-Discovery.md)
+更多见文档[Series-Discovery](../Reference/UDF-Libraries.md#序列发现)
 
 ```sql
 # ConsecutiveSequences
@@ -1438,7 +1442,7 @@ select consecutivewindows(s1,s2,'length'='10m') from root.test.d1
 
 ### 机器学习
 
-更多见文档[Machine-Learning](../Operators-Functions/Machine-Learning.md)
+更多见文档[Machine-Learning](../Reference/UDF-Libraries.md#机器学习)
 
 ```sql
 # AR
@@ -1453,7 +1457,7 @@ select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0
 
 ## Lambda 表达式
 
-更多见文档[Lambda](../Operators-Functions/Lambda.md)
+更多见文档[Lambda](../Reference/Function-and-Expression.md#Lambda表达式)
 
 ```sql
 select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'expr'='x -> {x * 3}') as jexl2, jexl(temperature, 'expr'='x -> {x * x}') as jexl3, jexl(temperature, 'expr'='x -> {multiply(x, 100)}') as jexl4, jexl(temperature, st, 'expr'='(x, y) -> {x + y}') as jexl5, jexl(temperature, st, str, 'expr'='(x, y, z) -> {x + y + z}') as jexl6 from root.ln.wf01.wt01;```
@@ -1461,7 +1465,7 @@ select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'exp
 
 ## 条件表达式
 
-更多见文档[Conditional Expressions](../Operators-Functions/Conditional.md)
+更多见文档[Conditional Expressions](../Reference/Function-and-Expression.md#条件表达式)
 
 ```sql
 select T, P, case
