@@ -34,3 +34,6 @@
 
 > **# Linux** <br>`sudo sysctl -w net.core.somaxconn=65535` <br>**# FreeBSD 或 Darwin** <br>`sudo sysctl -w kern.ipc.somaxconn=65535`
 
+## 安装包获取
+
+企业版安装包可经由商务获取。
