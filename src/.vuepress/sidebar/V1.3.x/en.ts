@@ -122,7 +122,6 @@ export const enSidebar = {
         { text: 'Kafka', link: 'Programming-Kafka' },
         { text: 'REST API V1 (Not Recommend)', link: 'RestServiceV1' },
         { text: 'REST API V2', link: 'RestServiceV2' },
-        { text: 'TsFile API', link: 'Programming-TsFile-API' },
       ],
     },
     {
