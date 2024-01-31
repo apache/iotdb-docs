@@ -118,7 +118,6 @@ In order to make the overall architecture more flexible to match different synch
 | Modules             | Plug-ins         | Pre-configured Plug-ins               | Customised Plug-ins |
 |---------------------|------------------|---------------------------------------|---------------------| 
 | Extract (Source)    | Source Plugin    | iotdb-source                          | Not Supported       |
-| Process (Processor) | Processor plugin | do-nothing-processor                  | Support             |
 | Send (Sink)         | Sink plugin      | iotdb-thrift-sink, iotdb-air-gap-sink | Support             |
 
 #### Preconfigured Plugins

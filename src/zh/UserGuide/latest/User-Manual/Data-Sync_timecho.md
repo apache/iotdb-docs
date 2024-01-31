@@ -118,7 +118,6 @@ SHOW PIPE <PipeId>
 | 模块             | 插件           | 预置插件                                 | 自定义插件 |
 |----------------|--------------|--------------------------------------|-------|
 | 抽取（Source）     | Source 插件    | iotdb-source                         | 不支持   |
-| 处理 (Processor) | Processor 插件 | do-nothing-processor                 | 支持    |
 | 发送（Sink）       | Sink 插件      | iotdb-thrift-sink、iotdb-air-gap-sink | 支持    |
 
 #### 预置插件
