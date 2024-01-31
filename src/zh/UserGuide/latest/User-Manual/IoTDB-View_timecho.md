@@ -308,7 +308,7 @@ AS
     SELECT temperature FROM root.db.*
 ```
 
-这里仿照了查询写回（`SELECT INTO`）对命名规则的约定，使用变量占位符来指定命名规则。可以参考：[查询写回（SELECT INTO）](https://iotdb.apache.org/zh/UserGuide/Master/Query-Data/Select-Into.html)
+这里仿照了查询写回（`SELECT INTO`）对命名规则的约定，使用变量占位符来指定命名规则。可以参考：[查询写回（SELECT INTO）](../User-Manual/Query-Data.md#查询写回（INTO-子句）)
 
 这里`root.db.*.temperature`指定了有哪些时间序列会被包含在视图中；`${2}`则指定了从时间序列中的哪个节点提取出名字来命名序列视图。
 

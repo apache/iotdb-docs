@@ -226,6 +226,7 @@ OR, |, ||
 | EQUAL_SIZE_BUCKET_OUTLIER_SAMPLE   | INT32 / INT64 / FLOAT / DOUBLE | `proportion`取值范围为`(0, 1]`，默认为`0.1`<br>`type`取值为`avg`或`stendis`或`cos`或`prenextdis`，默认为`avg`<br>`number`取值应大于0，默认`3`| INT32 / INT64 / FLOAT / DOUBLE | 返回符合采样比例和桶内采样个数的等分桶离群值采样                |
 | M4     | INT32 / INT64 / FLOAT / DOUBLE | 包含固定点数的窗口和滑动时间窗口使用不同的属性参数。包含固定点数的窗口使用属性`windowSize`和`slidingStep`。滑动时间窗口使用属性`timeInterval`、`slidingStep`、`displayWindowBegin`和`displayWindowEnd`。更多细节见下文。 | INT32 / INT64 / FLOAT / DOUBLE | 返回每个窗口内的第一个点（`first`）、最后一个点（`last`）、最小值点（`bottom`）、最大值点（`top`）。在一个窗口内的聚合点输出之前，M4会将它们按照时间戳递增排序并且去重。 |
 
+详细说明及示例见文档 [采样函数](../Reference/Function-and-Expression.md#采样函数)。
 ### 时间序列处理函数
 
 | 函数名        | 输入序列类型                   | 参数 | 输出序列类型             | 功能描述                   |
@@ -266,7 +267,7 @@ OR, |, ||
 | ------ | ----------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------- | ---------------------------------------------- |
 | JEXL   | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | `expr`是一个支持标准的一元或多元参数的lambda表达式，符合`x -> {...}`或`(x, y, z) -> {...}`的格式，例如`x -> {x * 2}`, `(x, y, z) -> {x + y * z}` | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | 返回将输入的时间序列通过lambda表达式变换的序列 |
 
-详细说明及示例见文档 [Lambda 表达式](../Operators-Functions/Lambda.md)
+详细说明及示例见文档 [Lambda 表达式](../Reference/Function-and-Expression.md#Lambda表达式)
 
 ## 条件表达式
 
@@ -274,7 +275,7 @@ OR, |, ||
 |---------------------------|-----------|
 | `CASE` | 类似if else |
 
-详细说明及示例见文档 [条件表达式](../Operators-Functions/Conditional.md)
+详细说明及示例见文档 [条件表达式](../Reference/Function-and-Expression.md#条件表达式)
 
 ## SELECT 表达式
 
@@ -312,7 +313,7 @@ select s1 as temperature, s2 as speed from root.ln.wf01.wt01;
 
 #### 运算符
 
-IoTDB 中支持的运算符列表见文档 [运算符和函数](../Operators-Functions/Overview.md)。
+IoTDB 中支持的运算符列表见文档 [运算符和函数](../Reference/Function-and-Expression.md#算数运算符和函数)。
 
 #### 函数
 
@@ -330,7 +331,7 @@ select sin(s1), count(s1) from root.sg.d1;
 select s1, count(s1) from root.sg.d1 group by ([10,100),10ms);
 ```
 
-IoTDB 支持的聚合函数见文档 [聚合函数](../Operators-Functions/Aggregation.md)。
+IoTDB 支持的聚合函数见文档 [聚合函数](../Reference/Function-and-Expression.md#聚合函数)。
 
 ##### 时间序列生成函数
 
@@ -340,11 +341,11 @@ IoTDB 支持的聚合函数见文档 [聚合函数](../Operators-Functions/Aggre
 
 ###### 内置时间序列生成函数
 
-IoTDB 中支持的内置函数列表见文档 [运算符和函数](../Operators-Functions/Overview.md)。
+IoTDB 中支持的内置函数列表见文档 [运算符和函数](../Reference/Function-and-Expression.md#算数运算符)。
 
 ###### 自定义时间序列生成函数
 
-IoTDB 支持通过用户自定义函数（点击查看： [用户自定义函数](../Operators-Functions/User-Defined-Function.md) ）能力进行函数功能扩展。
+IoTDB 支持通过用户自定义函数（点击查看： [用户自定义函数](../Reference/UDF-Libraries.md) ）能力进行函数功能扩展。
 
 #### 嵌套表达式举例
 
