@@ -131,9 +131,9 @@ WITH SINK (
   -- IoTDB 数据发送插件，目标端为 IoTDB
   'sink'      = 'iotdb-thrift-connector',
   -- 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip
-  'ip'   = '127.0.0.1',
+  'sink.ip'   = '127.0.0.1',
   -- 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port
-  'port' = '6667',
+  'sink.port' = '6667',
 )
 ```
 
@@ -143,7 +143,7 @@ WITH SINK (
 
 - SOURCE 和 PROCESSOR 为选填配置，若不填写配置参数，系统则会采用相应的默认实现
 - SINK 为必填配置，需要在 CREATE PIPE 语句中声明式配置
-- SINK 具备自复用能力。对于不同的任务，如果他们的 SINK 具备完全相同的 KV 属性（所有属性的 key 对应的 value 都相同），**那么系统最终只会创建一个 CONNECTOR 实例**，以实现对连接资源的复用。
+- SINK 具备自复用能力。对于不同的任务，如果他们的 SINK 具备完全相同的 KV 属性（所有属性的 key 对应的 value 都相同），**那么系统最终只会创建一个 SINK 实例**，以实现对连接资源的复用。
 
   - 例如，有下面 pipe1, pipe2 两个任务的声明：
 
@@ -171,9 +171,9 @@ WITH SINK (
 
 ### 启动任务
 
-CREATE PIPE 语句成功执行后，任务相关实例会被创建，但整个任务的运行状态会被置为 STOPPED，即任务不会立刻处理数据。
+CREATE PIPE 语句成功执行后，任务相关实例会被创建，但整个任务的运行状态会被置为 STOPPED（V1.3.0），即任务不会立刻处理数据。在 V1.3.1 及以后的版本，任务的状态在 CREATE 后将会被置为 RUNNING。
 
-可以使用 START PIPE 语句使任务开始处理数据：
+当任务状态为 STOPPED 时，可以使用 START PIPE 语句使任务开始处理数据：
 
 ```sql
 START PIPE <PipeId>
@@ -232,13 +232,14 @@ WHERE SINK USED BY <PipeId>
 
 ### 任务运行状态迁移
 
-一个数据同步 pipe 在其被管理的生命周期中会经过多种状态：
+一个数据同步 pipe 在其生命周期中会经过多种状态：
 
 - **STOPPED：** pipe 处于停止运行状态。当管道处于该状态时，有如下几种可能：
-  - 当一个 pipe 被成功创建之后，其初始状态为暂停状态
+  - 当一个 pipe 被成功创建之后，其初始状态为暂停状态（V1.3.0）
   - 用户手动将一个处于正常运行状态的 pipe 暂停，其状态会被动从 RUNNING 变为 STOPPED
   - 当一个 pipe 运行过程中出现无法恢复的错误时，其状态会自动从 RUNNING 变为 STOPPED
 - **RUNNING：** pipe 正在正常工作
+  - 当一个 pipe 被成功创建之后，其初始状态为工作状态（V1.3.1）
 - **DROPPED：** pipe 任务被永久删除
 
 下图表明了所有状态以及状态的迁移：
@@ -279,14 +280,14 @@ SHOW PIPEPLUGINS
 作用：抽取 IoTDB 内部的历史或实时数据进入 pipe。
 
 
-| key                          | value                              | value 取值范围                             | required or optional with default |
-|------------------------------|------------------------------------|----------------------------------------|-----------------------------------|
-| source                       | iotdb-extractor                    | String: iotdb-extractor                | required                          |
-| source.pattern               | 用于筛选时间序列的路径前缀                      | String: 任意的时间序列前缀                      | optional: root                    |
-| source.historical.start-time | 同步历史数据的开始 event time，包含 start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
-| source.historical.end-time   | 同步历史数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
-| start-time(V1.3.1+)          | 同步所有数据的开始 event time，包含 start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
-| end-time(V1.3.1+)            | 同步所有数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
+| key                       | value                                                                                                  | value 取值范围                             | required or optional with default |
+|---------------------------|--------------------------------------------------------------------------------------------------------|----------------------------------------|-----------------------------------|
+| source                    | iotdb-extractor                                                                                        | String: iotdb-extractor                | required                          |
+| source.pattern            | 用于筛选时间序列的路径前缀                                                                                          | String: 任意的时间序列前缀                      | optional: root                    |
+| source.history.start-time | 同步历史数据的开始 event time，包含 start-time                                                                     | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
+| source.history.end-time   | 同步历史数据的结束 event time，包含 end-time                                                                       | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
+| start-time(V1.3.1+)       | 同步所有数据的开始 event time，包含 start-time, 配置时 source.historical.start-time 及 source.historical.end-time 将被忽略 | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
+| end-time(V1.3.1+)         | 同步所有数据的结束 event time，包含 end-time, 配置时 source.historical.start-time 及 source.historical.end-time 将被忽略   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
 
 > 🚫 **source.pattern 参数说明**
 >
@@ -307,7 +308,7 @@ SHOW PIPEPLUGINS
 
 > ❗️** start-time，end-time 参数说明**
 >
-> * start-time，end-time 应为 ISO 格式，例如 2011-12-03T10:15:30 或 2011-12-03T10:15:30+01:00
+> * start-time，end-time 应为 ISO 格式，例如 2011-12-03T10:15:30 或 2011-12-03T10:15:30+01:00。V1.3.1 及以后的版本能够支持纯时间戳格式，如 1706704494000。
 
 > ✅ **一条数据从生产到落库 IoTDB，包含两个关键的时间概念**
 >
@@ -381,7 +382,7 @@ SHOW PIPEPLUGINS
 
 #### iotdb-legacy-pipe-sink
 
-作用：主要用于 IoTDB（v1.2.0+）向更低版本的 IoTDB 传输数据，使用 v1.2.0 版本前的数据同步（Sync）协议。
+作用：主要用于 IoTDB（v1.2.0+）向 v1.2.0 前的 IoTDB 传输数据，使用 v1.2.0 版本前的数据同步（Sync）协议。
 使用 Thrift RPC 框架传输数据。单线程 sync blocking IO 模型，传输性能较弱。
 
 限制：源端 IoTDB 版本需要在 v1.2.0+，目标端 IoTDB 版本可以是 v1.2.0+、v1.1.x（更低版本的 IoTDB 理论上也支持，但是未经测试）。

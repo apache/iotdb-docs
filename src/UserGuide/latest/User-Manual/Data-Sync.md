@@ -168,7 +168,7 @@ The expressed semantics are: synchronize the full amount of historical data and 
 
 ### START TASK
 
-After the successful execution of the CREATE PIPE statement, task-related instances will be created. However, the overall task's running status will be set to STOPPED, meaning the task will not immediately process data.
+After the successful execution of the CREATE PIPE statement, task-related instances will be created. However, the overall task's running status will be set to STOPPED(V1.3.0), meaning the task will not immediately process data. In version 1.3.1 and later, the status of the task will be set to RUNNING after CREATE.
 
 You can use the START PIPE statement to begin processing data for a task:
 
@@ -231,11 +231,12 @@ WHERE SINK USED BY <PipeId>
 
 The task running status can transition through several states during the lifecycle of a data synchronization pipe:
 
-- **STOPPED：** The pipe is in a stopped state. It has the following possibilities:
+- **STOPPED：** The pipe is in a stopped state. It has the following causes:
+  - After the successful creation of a pipe, its initial state is set to STOPPED (V1.3.0)
   - The user manually pauses a pipe that is in normal running state, transitioning its status from RUNNING to STOPPED
   - If a pipe encounters an unrecoverable error during execution, its status automatically changes from RUNNING to STOPPED.
-- **RUNNING：** The pipe is actively processing data. It has the following possibility:
-  - After the successful creation of a pipe, its initial state is set to RUNNING
+- **RUNNING：** The pipe is actively processing data. It has the following cause:
+  - After the successful creation of a pipe, its initial state is set to RUNNING (V1.3.1+)
 - **DROPPED：** The pipe is permanently deleted
 
 The following diagram illustrates the different states and their transitions:
@@ -275,19 +276,19 @@ SHOW PIPEPLUGINS
 Function: Extract historical or realtime data inside IoTDB into pipe.
 
 
-| key                       | value                                                                  | value range                            | required or optional with default |
-|---------------------------|------------------------------------------------------------------------|----------------------------------------|-----------------------------------|
-| source                    | iotdb-source                                                           | String: iotdb-source                   | required                          |
-| source.pattern            | path prefix for filtering time series                                  | String: any time series prefix         | optional: root                    |
-| source.history.start-time | start of synchronizing historical data event time，including start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
-| source.history.end-time   | end of synchronizing historical data event time，including end-time     | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
-| start-time(V1.3.1+)       | start of synchronizing historical data event time，including start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
-| end-time(V1.3.1+)         | end of synchronizing historical data event time，including end-time     | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
+| key                       | value                                                                                                                               | value range                            | required or optional with default |
+|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|-----------------------------------|
+| source                    | iotdb-source                                                                                                                        | String: iotdb-source                   | required                          |
+| source.pattern            | path prefix for filtering time series                                                                                               | String: any time series prefix         | optional: root                    |
+| source.history.start-time | start of synchronizing historical data event time，including start-time                                                              | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
+| source.history.end-time   | end of synchronizing historical data event time，including end-time                                                                  | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
+| start-time(V1.3.1+)       | start of synchronizing all data event time，including start-time. Will disable "history.start-time" "history.end-time" if configured | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
+| end-time(V1.3.1+)         | end of synchronizing all data event time，including end-time. Will disable "history.start-time" "history.end-time" if configured     | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
 
 > 🚫 **source.pattern Parameter Description**
 >
 > * Pattern should use backquotes to modify illegal characters or illegal path nodes, for example, if you want to filter root.\`a@b\` or root.\`123\`, you should set the pattern to root.\`a@b\` or root.\`123\`（Refer specifically to [Timing of single and double quotes and backquotes](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
-> * In the underlying implementation, when pattern is detected as root (default value), synchronization efficiency is higher, and any other format will reduce performance.
+> * In the underlying implementation, when pattern is detected as root (default value) or a database name, synchronization efficiency is higher, and any other format will reduce performance.
 > * The path prefix does not need to form a complete path. For example, when creating a pipe with the parameter 'extractor.pattern'='root.aligned.1':
 >
 >   * root.aligned.1TS
@@ -303,7 +304,7 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 
 > ❗️**start-time, end-time parameter description of source**
 >
-> * start-time, end-time should be in ISO format, such as 2011-12-03T10:15:30 or 2011-12-03T10:15:30+01:00
+> * start-time, end-time should be in ISO format, such as 2011-12-03T10:15:30 or 2011-12-03T10:15:30+01:00. Version 1.3.1+ supports timeStamp format like 1706704494000.
 
 > ✅ **a piece of data from production to IoTDB contains two key concepts of time**
 >
@@ -330,7 +331,7 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 
 #### do-nothing-processor
 
-Function: Do not do anything with the events passed in by the source.
+Function: Do nothing with the events passed in by the source.
 
 
 | key       | value                | value range                  | required or optional with default |
@@ -346,12 +347,12 @@ Function: Primarily used for data transfer between IoTDB instances (v1.2.0+). Da
 Limitation: Both the source and target IoTDB versions need to be v1.2.0+.
 
 
-| key            | value                                                                               | value range                                                                | required or optional with default          |
-|----------------|-------------------------------------------------------------------------------------|----------------------------------------------------------------------------|--------------------------------------------|
-| sink           | iotdb-thrift-sink or iotdb-thrift-sync-sink                                         | String: iotdb-thrift-sync-sink                                             | required                                   |
-| sink.ip        | the data service IP of one of the DataNode nodes in the target IoTDB                | String                                                                     | optional: and node-urls fill in either one |
-| sink.port      | the data service port of one of the DataNode nodes in the target IoTDB              | Integer                                                                    | optional: and node-urls fill in either one |
-| sink.node-urls | the URL of the data service port of any multiple DataNode nodes in the target IoTDB | String。eg：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: and ip:port fill in either one   |
+| key            | value                                                                               | value range                                                                | required or optional with default                  |
+|----------------|-------------------------------------------------------------------------------------|----------------------------------------------------------------------------|----------------------------------------------------|
+| sink           | iotdb-thrift-sink or iotdb-thrift-sync-sink                                         | String: iotdb-thrift-sync-sink                                             | required                                           |
+| sink.ip        | the data service IP of one of the DataNode nodes in the target IoTDB                | String                                                                     | optional: and sink.node-urls fill in either one    |
+| sink.port      | the data service port of one of the DataNode nodes in the target IoTDB              | Integer                                                                    | optional: and sink.node-urls fill in either one    |
+| sink.node-urls | the URL of the data service port of any multiple DataNode nodes in the target IoTDB | String。eg：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: and sink.ip:sink.port fill in either one |
 
 > 📌 Please ensure that the receiving end has already created all the time series present in the sending end or has enabled automatic metadata creation. Otherwise, it may result in the failure of the pipe operation.
 
@@ -364,18 +365,18 @@ It does not guarantee that the receiving end applies the data in the same order 
 Limitation: Both the source and target IoTDB versions need to be v1.2.0+.
 
 
-| key            | value                                                                               | value range                                                                | required or optional with default          |
-|----------------|-------------------------------------------------------------------------------------|----------------------------------------------------------------------------|--------------------------------------------|
-| sink           | iotdb-thrift-async-sink                                                             | String: iotdb-thrift-async-sink                                            | required                                   |
-| sink.ip        | the data service IP of one of the DataNode nodes in the target IoTDB                | String                                                                     | optional: and node-urls fill in either one |
-| sink.port      | the data service port of one of the DataNode nodes in the target IoTDB              | Integer                                                                    | optional: and node-urls fill in either one |
-| sink.node-urls | the URL of the data service port of any multiple DataNode nodes in the target IoTDB | String。eg：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: and ip:port fill in either one   |
+| key            | value                                                                               | value range                                                                | required or optional with default                  |
+|----------------|-------------------------------------------------------------------------------------|----------------------------------------------------------------------------|----------------------------------------------------|
+| sink           | iotdb-thrift-async-sink                                                             | String: iotdb-thrift-async-sink                                            | required                                           |
+| sink.ip        | the data service IP of one of the DataNode nodes in the target IoTDB                | String                                                                     | optional: and sink.node-urls fill in either one    |
+| sink.port      | the data service port of one of the DataNode nodes in the target IoTDB              | Integer                                                                    | optional: and sink.node-urls fill in either one    |
+| sink.node-urls | the URL of the data service port of any multiple DataNode nodes in the target IoTDB | String。eg：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: and sink.ip:sink.port fill in either one |
 
 > 📌 Please ensure that the receiving end has already created all the time series present in the sending end or has enabled automatic metadata creation. Otherwise, it may result in the failure of the pipe operation.
 
 #### iotdb-legacy-pipe-connector
 
-Function: Mainly used to transfer data from IoTDB (v1.2.0+) to lower versions of IoTDB, using the data synchronization (Sync) protocol before version v1.2.0.
+Function: Mainly used to transfer data from IoTDB (v1.2.0+) to versions lower than v1.2.0 of IoTDB, using the data synchronization (Sync) protocol before version v1.2.0.
 Data is transmitted using the Thrift RPC framework. It employs a single-threaded sync blocking IO model, resulting in weak transfer performance.
 
 Limitation: The source IoTDB version needs to be v1.2.0+. The target IoTDB version can be either v1.2.0+, v1.1.x (lower versions of IoTDB are theoretically supported but untested).
@@ -396,7 +397,7 @@ Note: In theory, any version prior to v1.2.0 of IoTDB can serve as the data sync
 
 #### do-nothing-sink
 
-Function: Does not do anything with the events passed in by the processor.
+Function: Does nothing with the events passed in by the processor.
 
 | key  | value           | value 取值范围              | required or optional with default |
 |------|-----------------|-------------------------|-----------------------------------|

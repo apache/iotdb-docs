@@ -64,8 +64,9 @@ WITH SINK (
 一个数据同步任务在生命周期中会经过多种状态：
 
 - RUNNING： 运行状态。
+  - 说明1：任务的初始状态为运行状态(V1.3.1 及以上)
 - STOPPED： 停止状态。
-  - 说明1：任务的初始状态为停止状态，需要使用SQL语句启动任务
+  - 说明1：任务的初始状态为停止状态(V1.3.0)，需要使用SQL语句启动任务
   - 说明2：用户也可以使用SQL语句手动将一个处于运行状态的任务停止，此时状态会从 RUNNING 变为 STOPPED
   - 说明3：当一个任务出现无法恢复的错误时，其状态会自动从 RUNNING 变为 STOPPED
 - DROPPED：删除状态。
@@ -114,10 +115,11 @@ SHOW PIPE <PipeId>
 
 为了使得整体架构更加灵活以匹配不同的同步场景需求，在上述同步任务框架中 IoTDB 支持进行插件组装。系统为您预置了一些常用插件可直接使用，同时您也可以自定义 Sink 插件，并加载至 IoTDB 系统进行使用。
 
-| 模块 | 插件 | 预置插件 | 自定义插件 |
-| --- | --- | --- | --- |
-| 抽取（Source） | Source 插件 | iotdb-source | 不支持 |
-| 发送（Sink） | Sink 插件 | iotdb-thrift-sink、iotdb-air-gap-sink| 支持 |
+| 模块             | 插件           | 预置插件                                 | 自定义插件 |
+|----------------|--------------|--------------------------------------|-------|
+| 抽取（Source）     | Source 插件    | iotdb-source                         | 不支持   |
+| 处理 (Processor) | Processor 插件 | do-nothing-processor                 | 支持    |
+| 发送（Sink）       | Sink 插件      | iotdb-thrift-sink、iotdb-air-gap-sink | 支持    |
 
 #### 预置插件
 
@@ -412,8 +414,8 @@ with sink (
 |---------------------------------|------------------------------------|----------------------------------------|------|----------------|
 | source                          | iotdb-source                       | String: iotdb-source                   | 必填   | -              |
 | source.pattern                  | 用于筛选时间序列的路径前缀                      | String: 任意的时间序列前缀                      | 选填   | root           |
-| source.start-time               | 同步历史数据的开始 event time，包含 start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MIN_VALUE |
-| source.end-time                 | 同步历史数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MAX_VALUE |
+| source.history.start-time       | 同步历史数据的开始 event time，包含 start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MIN_VALUE |
+| source.history.end-time         | 同步历史数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MAX_VALUE |
 | start-time(V1.3.1+)             | 同步所有数据的开始 event time，包含 start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MIN_VALUE |
 | end-time(V1.3.1+)               | 同步所有数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MAX_VALUE |
 | source.realtime.mode            | 实时数据的抽取模式                          | String: hybrid, stream, batch          | 选填   | hybrid         |
@@ -457,7 +459,7 @@ with sink (
 | sink.node-urls                    | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | 选填   | 与 sink.ip:sink.port 任选其一填写 |
 | sink.air-gap.handshake-timeout-ms | 发送端与接收端在首次尝试建立连接时握手请求的超时时长，单位：毫秒       | Integer                                                                   | 选填   | 5000                       |
 
-#### iotdb-thrift-ssl-sink
+#### iotdb-thrift-ssl-sink(V1.3.1+)
 
 | key                          | value                                                       | value range                                                                      | required or not | default value                    |
 |------------------------------|-------------------------------------------------------------|----------------------------------------------------------------------------------|-----------------|----------------------------------|

@@ -64,10 +64,11 @@ The Data Synchronisation task has three states; RUNNING, STOPPED and DROPPED.The
 A data synchronisation task passes through multiple states during its lifecycle:
 
 - RUNNING: Running state.
-  - Explanation 1: The initial state of the task is the running state.
+  - Explanation 1: The initial state of the task is the running state(V1.3.1+).
 - STOPPED: Stopped state.
-  - Description 1: You can manually stop a running task with a SQL statement, and the state will change from RUNNING to STOPPED.
-  - Description 2: When a task has an unrecoverable error, its status will automatically change from RUNNING to STOPPED.
+  - Description 1: The initial state of the task is the stopped state(V1.3.0). A SQL statement is required to start the task.
+  - Description 2: You can manually stop a running task with a SQL statement, and the state will change from RUNNING to STOPPED.
+  - Description 3: When a task has an unrecoverable error, its status will automatically change from RUNNING to STOPPED.
 - DROPPED: deleted state.
 
 We provide the following SQL statements to manage the status of synchronisation tasks.
@@ -451,7 +452,7 @@ with sink (
 | sink.node-urls                    | URL of the data service port of any multiple DATANODE nodes on the target                                                                         | String.Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | Optional        | Fill in either sink.ip:sink.port |
 | sink.air-gap.handshake-timeout-ms | The timeout length of the handshake request when the sender and the receiver try to establish a connection for the first time, unit: milliseconds | Integer                                                                          | Optional        | 5000                             |
 
-#### iotdb-thrift-ssl-sink
+#### iotdb-thrift-ssl-sink(V1.3.1+)
 
 | key                          | value                                                                                                                                                                    | value range                                                                       | required or not | default value                    |
 |------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|-----------------|----------------------------------|
