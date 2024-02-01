@@ -35,7 +35,7 @@ Pipe Source is used to extract data, Pipe Processor is used to process data, Pip
 
 **The model of the Pipe task is as follows:**
 
-![pipe.png](https://alioss.timecho.com/upload/pipe.png)
+![pipe.png](https://alioss.timecho.com/docs/img/1706778988482.jpg)
 
 Describing a data flow processing task essentially describes the properties of Pipe Source, Pipe Processor and Pipe Sink plugins.
 Users can declaratively configure the specific attributes of the three subtasks through SQL statements, and achieve flexible data ETL capabilities by combining different attributes.

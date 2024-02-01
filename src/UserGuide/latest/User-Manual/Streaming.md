@@ -35,7 +35,7 @@ Pipe Source is used to extract data, Pipe Processor is used to process data, Pip
 
 **The model for a Pipe task is as follows:**
 
-![pipe.png](https://alioss.timecho.com/upload/pipe.png)
+![pipe.png](https://alioss.timecho.com/docs/img/1706778988482.jpg)
 
 A data stream processing task essentially describes the attributes of the Pipe Source, Pipe Processor, and Pipe Sink plugins.
 
@@ -53,7 +53,7 @@ It is recommended to use Maven to build the project. Add the following dependenc
 <dependency>
     <groupId>org.apache.iotdb</groupId>
     <artifactId>pipe-api</artifactId>
-    <version>1.2.1</version>
+    <version>1.3.1</version>
     <scope>provided</scope>
 </dependency>
 ```

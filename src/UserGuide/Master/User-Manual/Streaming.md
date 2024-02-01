@@ -25,19 +25,19 @@ The IoTDB stream processing framework allows users to implement customized strea
 
 We call <font color=RED>a data flow processing task a Pipe</font>. A stream processing task (Pipe) contains three subtasks:
 
-- Extract
+- Source
 - Process
-- Send (Connect)
+- Send (Sink)
 
 The stream processing framework allows users to customize the processing logic of three subtasks using Java language and process data in a UDF-like manner.
 In a Pipe, the three subtasks mentioned above are executed and implemented by three types of plugins. Data flows through these three plugins sequentially for processing:
-Pipe Extractor is used to extract data, Pipe Processor is used to process data, Pipe Connector is used to send data, and the final data will be sent to an external system.
+Pipe Source is used to extract data, Pipe Processor is used to process data, Pipe Sink is used to send data, and the final data will be sent to an external system.
 
 **The model for a Pipe task is as follows:**
 
-![pipe.png](https://alioss.timecho.com/upload/pipe.png)
+![pipe.png](https://alioss.timecho.com/docs/img/1706778988482.jpg)
 
-A data stream processing task essentially describes the attributes of the Pipe Extractor, Pipe Processor, and Pipe Connector plugins.
+A data stream processing task essentially describes the attributes of the Pipe Source, Pipe Processor, and Pipe Sink plugins.
 
 Users can configure the specific attributes of these three subtasks declaratively using SQL statements. By combining different attributes, flexible data ETL (Extract, Transform, Load) capabilities can be achieved.
 
@@ -53,7 +53,7 @@ It is recommended to use Maven to build the project. Add the following dependenc
 <dependency>
     <groupId>org.apache.iotdb</groupId>
     <artifactId>pipe-api</artifactId>
-    <version>1.2.1</version>
+    <version>1.3.1</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -62,7 +62,7 @@ It is recommended to use Maven to build the project. Add the following dependenc
 
 The design of user programming interfaces for stream processing plugins follows the principles of the event-driven programming model. In this model, events serve as the abstraction of data in the user programming interface. The programming interface is decoupled from the specific execution method, allowing the focus to be on describing how the system expects events (data) to be processed upon arrival.
 
-In the user programming interface of stream processing plugins, events abstract the write operations of database data. Events are captured by the local stream processing engine and passed sequentially through the three stages of stream processing, namely Pipe Extractor, Pipe Processor, and Pipe Connector plugins. User logic is triggered and executed within these three plugins.
+In the user programming interface of stream processing plugins, events abstract the write operations of database data. Events are captured by the local stream processing engine and passed sequentially through the three stages of stream processing, namely Pipe Source, Pipe Processor, and Pipe Sink plugins. User logic is triggered and executed within these three plugins.
 
 To accommodate both low-latency stream processing in low-load scenarios and high-throughput stream processing in high-load scenarios at the edge, the stream processing engine dynamically chooses the processing objects from operation logs and data files. Therefore, the user programming interface for stream processing requires the user to provide the handling logic for two types of events: TabletInsertionEvent for operation log write events and TsFileInsertionEvent for data file write events.
 
@@ -133,7 +133,7 @@ public interface TsFileInsertionEvent extends Event {
 Based on the custom stream processing plugin programming interface, users can easily write data extraction plugins, data processing plugins, and data sending plugins, allowing the stream processing functionality to adapt flexibly to various industrial scenarios.
 #### Data Extraction Plugin Interface
 
-Data extraction is the first stage of the three-stage process of stream processing, which includes data extraction, data processing, and data sending. The data extraction plugin (PipeExtractor) serves as a bridge between the stream processing engine and the storage engine. It captures various data write events by listening to the behavior of the storage engine.
+Data extraction is the first stage of the three-stage process of stream processing, which includes data extraction, data processing, and data sending. The data extraction plugin (PipeSource) serves as a bridge between the stream processing engine and the storage engine. It captures various data write events by listening to the behavior of the storage engine.
 ```java
 /**
  * PipeSource
@@ -212,13 +212,13 @@ public interface PipeSource {
 
 #### Data Processing Plugin Interface
 
-Data processing is the second stage of the three-stage process of stream processing, which includes data extraction, data processing, and data sending. The data processing plugin (PipeProcessor) is primarily used for filtering and transforming the various events captured by the data extraction plugin (PipeExtractor).
+Data processing is the second stage of the three-stage process of stream processing, which includes data extraction, data processing, and data sending. The data processing plugin (PipeProcessor) is primarily used for filtering and transforming the various events captured by the data extraction plugin (PipeSource).
 
 ```java
 /**
  * PipeProcessor
  *
- * <p>PipeProcessor is used to filter and transform the Event formed by the PipeExtractor.
+ * <p>PipeProcessor is used to filter and transform the Event formed by the PipeSource.
  *
  * <p>The lifecycle of a PipeProcessor is as follows:
  *
@@ -231,13 +231,13 @@ Data processing is the second stage of the three-stage process of stream process
  *       to config the runtime behavior of the PipeProcessor.
  *   <li>While the collaboration task is in progress:
  *       <ul>
- *         <li>PipeExtractor captures the events and wraps them into three types of Event instances.
- *         <li>PipeProcessor processes the event and then passes them to the PipeConnector. The
+ *         <li>PipeSource captures the events and wraps them into three types of Event instances.
+ *         <li>PipeProcessor processes the event and then passes them to the PipeSink. The
  *             following 3 methods will be called: {@link
  *             PipeProcessor#process(TabletInsertionEvent, EventCollector)}, {@link
  *             PipeProcessor#process(TsFileInsertionEvent, EventCollector)} and {@link
  *             PipeProcessor#process(Event, EventCollector)}.
- *         <li>PipeConnector serializes the events into binaries and send them to sinks.
+ *         <li>PipeSink serializes the events into binaries and send them to sinks.
  *       </ul>
  *   <li>When the collaboration task is cancelled (the `DROP PIPE` command is executed), the {@link
  *       PipeProcessor#close() } method will be called.
@@ -312,7 +312,7 @@ public interface PipeProcessor extends PipePlugin {
 
 #### Data Sending Plugin Interface
 
-Data sending is the third stage of the three-stage process of stream processing, which includes data extraction, data processing, and data sending. The data sending plugin (PipeConnector) is responsible for sending the various events processed by the data processing plugin (PipeProcessor). It serves as the network implementation layer of the stream processing framework and should support multiple real-time communication protocols and connectors in its interface.
+Data sending is the third stage of the three-stage process of stream processing, which includes data extraction, data processing, and data sending. The data sending plugin (PipeSink) is responsible for sending the various events processed by the data processing plugin (PipeProcessor). It serves as the network implementation layer of the stream processing framework and should support multiple real-time communication protocols and connectors in its interface.
 
 ```java
 /**
@@ -509,7 +509,7 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 
 > ❗️**start-time, end-time parameter description of source**
 >
-> * start-time, end-time should be in ISO format, such as 2011-12-03T10:15:30 or 2011-12-03T10:15:30+01:00. Version 1.3.1+ supports timeStamp format like 1706704494000.
+> * start-time, end-time should be in ISO format, such as 2011-12-03T10:15:30 or 2011-12-03T10:15:30+01:00. However, version 1.3.1+ supports timeStamp format like 1706704494000.
 
 > ✅ **a piece of data from production to IoTDB contains two key concepts of time**
 >
@@ -529,22 +529,22 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 
 #### do-nothing-processor
 
-Function: Do not do anything with the events passed in by the extractor.
+Function: Do not do anything with the events passed in by the source.
 
 
-| key       | value                | value range               | required or optional with default |
-| --------- | -------------------- | ---------------------------- | --------------------------------- |
+| key       | value                | value range                  | required or optional with default |
+|-----------|----------------------|------------------------------|-----------------------------------|
 | processor | do-nothing-processor | String: do-nothing-processor | required                          |
-### Pre-built Connector Plugin
+### Pre-built Sink Plugin
 
-#### do-nothing-connector
+#### do-nothing-sink
 
 Function: Does not do anything with the events passed in by the processor.
 
 
-| key       | value                | value range               | required or optional with default |
-| --------- | -------------------- | ---------------------------- | --------------------------------- |
-| connector | do-nothing-connector | String: do-nothing-connector | required                          |
+| key  | value           | value range             | required or optional with default |
+|------|-----------------|-------------------------|-----------------------------------|
+| sink | do-nothing-sink | String: do-nothing-sink | required                          |
 
 ## Stream Processing Task Management
 
@@ -554,57 +554,57 @@ A stream processing task can be created using the `CREATE PIPE` statement, a sam
 
 ```sql
 CREATE PIPE <PipeId> -- PipeId is the name that uniquely identifies the sync task
-WITH EXTRACTOR (
+WITH SOURCE (
   -- Default IoTDB Data Extraction Plugin
-  'extractor'                    = 'iotdb-extractor',
+  'source'                    = 'iotdb-source',
   -- Path prefix, only data that can match the path prefix will be extracted for subsequent processing and delivery
-  'extractor.pattern'            = 'root.timecho',
+  'source.pattern'            = 'root.timecho',
   -- Whether to extract historical data
-  'extractor.history.enable'     = 'true',
+  'source.history.enable'     = 'true',
   -- Describes the time range of the historical data being extracted, indicating the earliest possible time
-  'extractor.history.start-time' = '2011.12.03T10:15:30+01:00',
+  'source.history.start-time' = '2011.12.03T10:15:30+01:00',
   -- Describes the time range of the extracted historical data, indicating the latest time
-  'extractor.history.end-time'   = '2022.12.03T10:15:30+01:00',
+  'source.history.end-time'   = '2022.12.03T10:15:30+01:00',
   -- Whether to extract realtime data
-  'extractor.realtime.enable'    = 'true',
+  'source.realtime.enable'    = 'true',
 )
 WITH PROCESSOR (
   -- Default data processing plugin, means no processing
   'processor'                    = 'do-nothing-processor',
 )
-WITH CONNECTOR (
+WITH SINK (
   -- IoTDB data sending plugin with target IoTDB
-  'connector'                    = 'iotdb-thrift-connector',
+  'sink'                    = 'iotdb-thrift-sink',
   -- Data service for one of the DataNode nodes on the target IoTDB ip
-  'connector.ip'                 = '127.0.0.1',
+  'sink.ip'                 = '127.0.0.1',
   -- Data service port of one of the DataNode nodes of the target IoTDB
-  'connector.port'               = '6667',
+  'sink.port'               = '6667',
 )
 ```
 
 **To create a stream processing task it is necessary to configure the PipeId and the parameters of the three plugin sections:**
 
 
-| configuration item    | description                                              | Required or not                    | default implementation             | Default implementation description                                           | Whether to allow custom implementations        |
-| --------- | ------------------------------------------------- | --------------------------- | -------------------- | ------------------------------------------------------ | ------------------------- |
-| pipeId    | Globally uniquely identifies the name of a sync task                    | <font color=red>required</font> | -                    | -                                                      | -                         |
-| extractor | pipe Extractor plug-in, for extracting synchronized data at the bottom of the database | Optional                        | iotdb-extractor      | Integrate all historical data of the database and subsequent realtime data into the sync task |        no                |
-| processor | Pipe Processor plug-in, for processing data                 | Optional                        | do-nothing-processor | no processing of incoming data                               | <font color=red>yes</font> |
-| connector | Pipe Connector plug-in，for sending data                 | <font color=red>required</font> | -                    | -                                                      | <font color=red>yes</font> |
+| configuration item | description                                                                         | Required or not                 | default implementation | Default implementation description                                                            | Whether to allow custom implementations |
+|--------------------|-------------------------------------------------------------------------------------|---------------------------------|------------------------|-----------------------------------------------------------------------------------------------|-----------------------------------------|
+| pipeId             | Globally uniquely identifies the name of a sync task                                | <font color=red>required</font> | -                      | -                                                                                             | -                                       |
+| source             | pipe Source plug-in, for extracting synchronized data at the bottom of the database | Optional                        | iotdb-source           | Integrate all historical data of the database and subsequent realtime data into the sync task | no                                      |
+| processor          | Pipe Processor plug-in, for processing data                                         | Optional                        | do-nothing-processor   | no processing of incoming data                                                                | <font color=red>yes</font>              |
+| sink               | Pipe Sink plug-in，for sending data                                                  | <font color=red>required</font> | -                      | -                                                                                             | <font color=red>yes</font>              |
 
-In the example, the iotdb-extractor, do-nothing-processor, and iotdb-thrift-connector plug-ins are used to build the data synchronisation task. iotdb has other built-in data synchronisation plug-ins, **see the section "System pre-built data synchronisation plug-ins" **. See the "System Pre-installed Stream Processing Plugin" section**.
+In the example, the iotdb-source, do-nothing-processor, and iotdb-thrift-sink plug-ins are used to build the data synchronisation task. iotdb has other built-in data synchronisation plug-ins, **see the section "System pre-built data synchronisation plug-ins" **. See the "System Pre-installed Stream Processing Plugin" section**.
 
 **An example of a minimalist CREATE PIPE statement is as follows:**
 
 ```sql
 CREATE PIPE <PipeId> -- PipeId is a name that uniquely identifies the task.
-WITH CONNECTOR (
+WITH SINK (
   -- IoTDB data sending plugin with target IoTDB
-  'connector'      = 'iotdb-thrift-connector',
+  'sink'      = 'iotdb-thrift-sink',
   -- Data service for one of the DataNode nodes on the target IoTDB ip
-  'connector.ip'   = '127.0.0.1',
+  'sink.ip'   = '127.0.0.1',
   -- Data service port of one of the DataNode nodes of the target IoTDB
-  'connector.port' = '6667',
+  'sink.port' = '6667',
 )
 ```
 
@@ -612,33 +612,33 @@ The expressed semantics are: synchronise the full amount of historical data and 
 
 **Note:**
 
-- EXTRACTOR and PROCESSOR are optional, if no configuration parameters are filled in, the system will use the corresponding default implementation.
-- The CONNECTOR is a mandatory configuration that needs to be declared in the CREATE PIPE statement for configuring purposes.
-- The CONNECTOR exhibits self-reusability. For different tasks, if their CONNECTOR possesses identical KV properties (where the value corresponds to every key), **the system will ultimately create only one instance of the CONNECTOR** to achieve resource reuse for connections.
+- SOURCE and PROCESSOR are optional, if no configuration parameters are filled in, the system will use the corresponding default implementation.
+- The SINK is a mandatory configuration that needs to be declared in the CREATE PIPE statement for configuring purposes.
+- The SINK exhibits self-reusability. For different tasks, if their SINK possesses identical KV properties (where the value corresponds to every key), **the system will ultimately create only one instance of the SINK** to achieve resource reuse for connections.
 
-  - For example, there are the following pipe1, pipe2 task declarations:
+    - For example, there are the following pipe1, pipe2 task declarations:
 
   ```sql
   CREATE PIPE pipe1
-  WITH CONNECTOR (
-    'connector' = 'iotdb-thrift-connector',
-    'connector.thrift.host' = 'localhost',
-    'connector.thrift.port' = '9999',
+  WITH SINK (
+    'sink' = 'iotdb-thrift-sink',
+    'sink.thrift.host' = 'localhost',
+    'sink.thrift.port' = '9999',
   )
 
   CREATE PIPE pipe2
-  WITH CONNECTOR (
-    'connector' = 'iotdb-thrift-connector',
-    'connector.thrift.port' = '9999',
-    'connector.thrift.host' = 'localhost',
+  WITH SINK (
+    'sink' = 'iotdb-thrift-sink',
+    'sink.thrift.port' = '9999',
+    'sink.thrift.host' = 'localhost',
   )
   ```
 
-  - Since they have identical CONNECTOR declarations (**even if the order of some properties is different**), the framework will automatically reuse the CONNECTOR declared by them. Hence, the CONNECTOR instances for pipe1 and pipe2 will be the same.
+    - Since they have identical SINK declarations (**even if the order of some properties is different**), the framework will automatically reuse the SINK declared by them. Hence, the SINK instances for pipe1 and pipe2 will be the same.
 - Please note that we should avoid constructing application scenarios that involve data cycle sync (as it can result in an infinite loop):
 
-  - IoTDB A -> IoTDB B -> IoTDB A
-  - IoTDB A -> IoTDB A
+    - IoTDB A -> IoTDB B -> IoTDB A
+    - IoTDB A -> IoTDB A
 
 ### Start Stream Processing Task
 
@@ -677,13 +677,13 @@ SHOW PIPES
 The query results are as follows:
 
 ```sql
-+-----------+-----------------------+-------+-------------+-------------+-------------+----------------+
-|         ID|          CreationTime |  State|PipeExtractor|PipeProcessor|PipeConnector|ExceptionMessage|
-+-----------+-----------------------+-------+-------------+-------------+-------------+----------------+
-|iotdb-kafka|2022-03-30T20:58:30.689|RUNNING|          ...|          ...|          ...|            None|
-+-----------+-----------------------+-------+-------------+-------------+-------------+----------------+
-|iotdb-iotdb|2022-03-31T12:55:28.129|STOPPED|          ...|          ...|          ...| TException: ...|
-+-----------+-----------------------+-------+-------------+-------------+-------------+----------------+
++-----------+-----------------------+-------+----------+-------------+--------+----------------+
+|         ID|          CreationTime |  State|PipeSource|PipeProcessor|PipeSink|ExceptionMessage|
++-----------+-----------------------+-------+----------+-------------+--------+----------------+
+|iotdb-kafka|2022-03-30T20:58:30.689|RUNNING|       ...|          ...|     ...|              {}|
++-----------+-----------------------+-------+----------+-------------+--------+----------------+
+|iotdb-iotdb|2022-03-31T12:55:28.129|STOPPED|       ...|          ...|     ...| TException: ...|
++-----------+-----------------------+-------+----------+-------------+--------+----------------+
 ```
 
 You can use `<PipeId>` to specify the status of a stream processing task you want to see:
@@ -691,11 +691,11 @@ You can use `<PipeId>` to specify the status of a stream processing task you wan
 SHOW PIPE <PipeId>
 ```
 
-Additionally, the WHERE clause can be used to determine if the Pipe Connector used by a specific \<PipeId\> is being reused.
+Additionally, the WHERE clause can be used to determine if the Pipe Sink used by a specific \<PipeId\> is being reused.
 
 ```sql
 SHOW PIPES
-WHERE CONNECTOR USED BY <PipeId>
+WHERE SINK USED BY <PipeId>
 ```
 
 ### Stream Processing Task Running Status Migration
@@ -703,10 +703,11 @@ WHERE CONNECTOR USED BY <PipeId>
 A stream processing task status can transition through several states during the lifecycle of a data synchronization pipe:
 
 - **STOPPED：** The pipe is in a stopped state. It can have the following possibilities:
-  - After the successful creation of a pipe, its initial state is set to stopped
-  - The user manually pauses a pipe that is in normal running state, transitioning its status from RUNNING to STOPPED
-  - If a pipe encounters an unrecoverable error during execution, its status automatically changes from RUNNING to STOPPED.
+    - After the successful creation of a pipe, its initial state is set to stopped(V1.3.0)
+    - The user manually pauses a pipe that is in normal running state, transitioning its status from RUNNING to STOPPED
+    - If a pipe encounters an unrecoverable error during execution, its status automatically changes from RUNNING to STOPPED.
 - **RUNNING：** The pipe is actively processing data
+- After the successful creation of a pipe, its initial state is set to RUNNING (V1.3.1+)
 - **DROPPED：** The pipe is permanently deleted
 
 The following diagram illustrates the different states and their transitions:
@@ -737,6 +738,7 @@ The following diagram illustrates the different states and their transitions:
 
 In iotdb-common.properties ：
 
+V1.3.0:
 ```Properties
 ####################
 ### Pipe Configuration
@@ -757,4 +759,43 @@ In iotdb-common.properties ：
 
 # The connection timeout (in milliseconds) for the thrift client.
 # pipe_connector_timeout_ms=900000
+
+# The maximum number of selectors that can be used in the async connector.
+# pipe_async_connector_selector_number=1
+
+# The core number of clients that can be used in the async connector.
+# pipe_async_connector_core_client_number=8
+
+# The maximum number of clients that can be used in the async connector.
+# pipe_async_connector_max_client_number=16
+```
+
+V1.3.1+:
+```Properties
+####################
+### Pipe Configuration
+####################
+
+# Uncomment the following field to configure the pipe lib directory.
+# For Windows platform
+# If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is
+# absolute. Otherwise, it is relative.
+# pipe_lib_dir=ext\\pipe
+# For Linux platform
+# If its prefix is "/", then the path is absolute. Otherwise, it is relative.
+# pipe_lib_dir=ext/pipe
+
+# The maximum number of threads that can be used to execute the pipe subtasks in PipeSubtaskExecutor.
+# The actual value will be min(pipe_subtask_executor_max_thread_num, max(1, CPU core number / 2)).
+# pipe_subtask_executor_max_thread_num=5
+
+# The connection timeout (in milliseconds) for the thrift client.
+# pipe_sink_timeout_ms=900000
+
+# The maximum number of selectors that can be used in the sink.
+# Recommend to set this value to less than or equal to pipe_sink_max_client_number.
+# pipe_sink_selector_number=4
+
+# The maximum number of clients that can be used in the sink.
+# pipe_sink_max_client_number=16
 ```

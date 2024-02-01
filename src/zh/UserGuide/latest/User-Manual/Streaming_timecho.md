@@ -35,7 +35,7 @@ Pipe Source 用于抽取数据，Pipe Processor 用于处理数据，Pipe Sink �
 
 **Pipe 任务的模型如下：**
 
-![任务模型图](https://alioss.timecho.com/docs/img/%E5%90%8C%E6%AD%A5%E5%BC%95%E6%93%8E.jpeg)
+![任务模型图](https://alioss.timecho.com/docs/img/1706697228308.jpg)
 
 描述一个数据流处理任务，本质就是描述 Pipe Source、Pipe Processor 和 Pipe Sink 插件的属性。
 用户可以通过 SQL 语句声明式地配置三个子任务的具体属性，通过组合不同的属性，实现灵活的数据 ETL 能力。
