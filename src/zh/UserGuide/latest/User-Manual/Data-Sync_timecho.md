@@ -145,16 +145,16 @@ SHOW PIPEPLUGINS
 
 ```Go
 IoTDB> show pipeplugins
-+------------------------------+----------+-------------------------------------------------------------------------------------------+---------+
-|                    PluginName|PluginType|                                                                                  ClassName|PluginJar|
-+------------------------------+------------------------------------------------------------------------------------------------------+---------+
-|          DO-NOTHING-PROCESSOR|   Builtin|                  org.apache.iotdb.commons.pipe.plugin.builtin.processor.DoNothingProcessor|         |
-|               DO-NOTHING-SINK|   Builtin|                            org.apache.iotdb.commons.pipe.plugin.builtin.sink.DoNothingSink|         |
-|            IOTDB-AIR-GAP-SINK|   Builtin|                          org.apache.iotdb.commons.pipe.plugin.builtin.sink.IoTDBAirGapSink|         |
-|                  IOTDB-SOURCE|   Builtin|                            org.apache.iotdb.commons.pipe.plugin.builtin.source.IoTDBSOURCE|         |
-|             IOTDB-THRIFT-SINK|   Builtin|                          org.apache.iotdb.commons.pipe.plugin.builtin.sink.IoTDBThriftSink|         |
-|IOTDB-THRIFT-SSL-SINK(V1.3.1+)|   Builtin|org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftSslConnector|         |
-+------------------------------+----------+-------------------------------------------------------------------------------------------+---------+
++------------------------------+----------+---------------------------------------------------------------------------------+---------+
+|                    PluginName|PluginType|                                                                        ClassName|PluginJar|
++------------------------------+--------------------------------------------------------------------------------------------+---------+
+|          DO-NOTHING-PROCESSOR|   Builtin|        org.apache.iotdb.commons.pipe.plugin.builtin.processor.DoNothingProcessor|         |
+|               DO-NOTHING-SINK|   Builtin|                  org.apache.iotdb.commons.pipe.plugin.builtin.sink.DoNothingSink|         |
+|            IOTDB-AIR-GAP-SINK|   Builtin|                org.apache.iotdb.commons.pipe.plugin.builtin.sink.IoTDBAirGapSink|         |
+|                  IOTDB-SOURCE|   Builtin|                  org.apache.iotdb.commons.pipe.plugin.builtin.source.IoTDBSOURCE|         |
+|             IOTDB-THRIFT-SINK|   Builtin|                org.apache.iotdb.commons.pipe.plugin.builtin.sink.IoTDBThriftSink|         |
+|IOTDB-THRIFT-SSL-SINK(V1.3.1+)|   Builtin|org.apache.iotdb.commons.pipe.plugin.builtin.sink.iotdb.thrift.IoTDBThriftSslSink|         |
++------------------------------+----------+---------------------------------------------------------------------------------+---------+
 
 ```
 
@@ -388,7 +388,7 @@ V1.3.1+:
 ```
 
 ## 参考：参数说明
-📌 说明：在 1.3.1 及以上的版本中，除 sink、source、connector 本身外，各项参数不再需要额外增加 sink、source、connector 前缀。例如：
+📌 说明：在 1.3.1 及以上的版本中，除 source、processor、sink 本身外，各项参数不再需要额外增加 source、processor、sink 前缀。例如：
 ```Sql
 create pipe A2B
 with sink (

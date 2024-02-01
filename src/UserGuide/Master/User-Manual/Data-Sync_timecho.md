@@ -145,16 +145,16 @@ The following results are returned:
 
 ```Go
 IoTDB> show pipeplugins
-+------------------------------+----------+-------------------------------------------------------------------------------------------+---------+
-|                    PluginName|PluginType|                                                                                  ClassName|PluginJar|
-+------------------------------+------------------------------------------------------------------------------------------------------+---------+
-|          DO-NOTHING-PROCESSOR|   Builtin|                  org.apache.iotdb.commons.pipe.plugin.builtin.processor.DoNothingProcessor|         |
-|               DO-NOTHING-SINK|   Builtin|                            org.apache.iotdb.commons.pipe.plugin.builtin.sink.DoNothingSink|         |
-|            IOTDB-AIR-GAP-SINK|   Builtin|                          org.apache.iotdb.commons.pipe.plugin.builtin.sink.IoTDBAirGapSink|         |
-|                  IOTDB-SOURCE|   Builtin|                            org.apache.iotdb.commons.pipe.plugin.builtin.source.IoTDBSOURCE|         |
-|             IOTDB-THRIFT-SINK|   Builtin|                          org.apache.iotdb.commons.pipe.plugin.builtin.sink.IoTDBThriftSink|         |
-|IOTDB-THRIFT-SSL-SINK(V1.3.1+)|   Builtin|org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftSslConnector|         |
-+------------------------------+----------+-------------------------------------------------------------------------------------------+---------+
++------------------------------+----------+---------------------------------------------------------------------------------+---------+
+|                    PluginName|PluginType|                                                                        ClassName|PluginJar|
++------------------------------+--------------------------------------------------------------------------------------------+---------+
+|          DO-NOTHING-PROCESSOR|   Builtin|        org.apache.iotdb.commons.pipe.plugin.builtin.processor.DoNothingProcessor|         |
+|               DO-NOTHING-SINK|   Builtin|                  org.apache.iotdb.commons.pipe.plugin.builtin.sink.DoNothingSink|         |
+|            IOTDB-AIR-GAP-SINK|   Builtin|                org.apache.iotdb.commons.pipe.plugin.builtin.sink.IoTDBAirGapSink|         |
+|                  IOTDB-SOURCE|   Builtin|                  org.apache.iotdb.commons.pipe.plugin.builtin.source.IoTDBSOURCE|         |
+|             IOTDB-THRIFT-SINK|   Builtin|                org.apache.iotdb.commons.pipe.plugin.builtin.sink.IoTDBThriftSink|         |
+|IOTDB-THRIFT-SSL-SINK(V1.3.1+)|   Builtin|org.apache.iotdb.commons.pipe.plugin.builtin.sink.iotdb.thrift.IoTDBThriftSslSink|         |
++------------------------------+----------+---------------------------------------------------------------------------------+---------+
 
 ```
 

@@ -85,9 +85,9 @@ A data sync task can be created using the `CREATE PIPE` statement, a sample SQL 
 
 ```sql
 CREATE PIPE <PipeId> -- PipeId is the name that uniquely identifies the sync task
-WITH EXTRACTOR (
+WITH SOURCE (
   -- Default IoTDB Data Extraction Plugin
-  'source'                    = 'iotdb-extractor',
+  'source'                    = 'iotdb-source',
   -- Path prefix, only data that can match the path prefix will be extracted for subsequent processing and delivery
   'source.pattern'            = 'root.timecho',
   -- Describes the time range of the data being extracted, indicating the earliest possible time
@@ -140,7 +140,7 @@ The expressed semantics are: synchronize the full amount of historical data and 
 
 - SOURCE and PROCESSOR are optional, if no configuration parameters are filled in, the system will use the corresponding default implementation.
 - The SINK is a mandatory configuration that needs to be declared in the CREATE PIPE statement for configuring purposes.
-- The SINK exhibits self-reusability. For different tasks, if their CONNECTOR possesses identical KV properties (where the value corresponds to every key), **the system will ultimately create only one instance of the SINK** to achieve resource reuse for connections.
+- The SINK exhibits self-reusability. For different tasks, if their SINK possesses identical KV properties (where the value corresponds to every key), **the system will ultimately create only one instance of the SINK** to achieve resource reuse for connections.
 
   - For example, there are the following pipe1, pipe2 task declarations:
 
@@ -153,7 +153,7 @@ The expressed semantics are: synchronize the full amount of historical data and 
   )
 
   CREATE PIPE pipe2
-  WITH CONNECTOR (
+  WITH SINK (
     'sink' = 'iotdb-thrift-sink',
     'sink.port' = '9999',
     'sink.ip' = 'localhost',
@@ -289,7 +289,7 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 >
 > * Pattern should use backquotes to modify illegal characters or illegal path nodes, for example, if you want to filter root.\`a@b\` or root.\`123\`, you should set the pattern to root.\`a@b\` or root.\`123\`（Refer specifically to [Timing of single and double quotes and backquotes](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
 > * In the underlying implementation, when pattern is detected as root (default value) or a database name, synchronization efficiency is higher, and any other format will reduce performance.
-> * The path prefix does not need to form a complete path. For example, when creating a pipe with the parameter 'extractor.pattern'='root.aligned.1':
+> * The path prefix does not need to form a complete path. For example, when creating a pipe with the parameter 'source.pattern'='root.aligned.1':
 >
 >   * root.aligned.1TS
 >   * root.aligned.1TS.\`1\`
@@ -313,19 +313,12 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 >
 > The out-of-order data we often refer to refers to data whose **event time** is far behind the current system time (or the maximum **event time** that has been dropped) when the data arrives. On the other hand, whether it is out-of-order data or sequential data, as long as they arrive newly in the system, their **arrival time** will increase with the order in which the data arrives at IoTDB.
 
-> 💎 **the work of iotdb-extractor can be split into two stages**
+> 💎 **the work of iotdb-source can be split into two stages**
 >
 > 1. Historical data extraction: All data with **arrival time** < **current system time** when creating the pipe is called historical data
 > 2. Realtime data extraction: All data with **arrival time** >= **current system time** when the pipe is created is called realtime data
 >
 > The historical data transmission phase and the realtime data transmission phase are executed serially. Only when the historical data transmission phase is completed, the realtime data transmission phase is executed.**
->
-> Users can specify iotdb-extractor to:
->
-> * Historical data extraction（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'false'` ）
-> * Realtime data extraction（`'extractor.history.enable' = 'false'`, `'extractor.realtime.enable' = 'true'` ）
-> * Full data extraction（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'true'` ）
-> * Disable simultaneous sets `extractor.history.enable` and `extractor.realtime.enable` to `false`
 
 ### Pre-built Processor Plugin
 
@@ -338,7 +331,7 @@ Function: Do nothing with the events passed in by the source.
 |-----------|----------------------|------------------------------|-----------------------------------|
 | processor | do-nothing-processor | String: do-nothing-processor | required                          |
 
-### Pre-built sink plugin
+### Pre-built Sink plugin
 
 #### iotdb-thrift-sync-sink
 
@@ -374,7 +367,7 @@ Limitation: Both the source and target IoTDB versions need to be v1.2.0+.
 
 > 📌 Please ensure that the receiving end has already created all the time series present in the sending end or has enabled automatic metadata creation. Otherwise, it may result in the failure of the pipe operation.
 
-#### iotdb-legacy-pipe-connector
+#### iotdb-legacy-pipe-sink
 
 Function: Mainly used to transfer data from IoTDB (v1.2.0+) to versions lower than v1.2.0 of IoTDB, using the data synchronization (Sync) protocol before version v1.2.0.
 Data is transmitted using the Thrift RPC framework. It employs a single-threaded sync blocking IO model, resulting in weak transfer performance.

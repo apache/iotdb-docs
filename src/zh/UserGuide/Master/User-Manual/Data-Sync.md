@@ -49,7 +49,7 @@
   ```sql
   create pipe a2b
   with sink (
-    'sink'='iotdb-thrift-connector',
+    'sink'='iotdb-thrift-sink',
     'sink.ip'='127.0.0.1',
     'sink.port'='6668'
   )
@@ -103,7 +103,7 @@ WITH PROCESSOR (
 )
 WITH SINK (
   -- IoTDB 数据发送插件，目标端为 IoTDB
-  'sink'                    = 'iotdb-thrift-connector',
+  'sink'                    = 'iotdb-thrift-sink',
   -- 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip
   'sink.ip'                 = '127.0.0.1',
   -- 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port
@@ -129,7 +129,7 @@ WITH SINK (
 CREATE PIPE <PipeId> -- PipeId 是能够唯一标定任务任务的名字
 WITH SINK (
   -- IoTDB 数据发送插件，目标端为 IoTDB
-  'sink'      = 'iotdb-thrift-connector',
+  'sink'      = 'iotdb-thrift-sink',
   -- 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip
   'sink.ip'   = '127.0.0.1',
   -- 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port
@@ -247,7 +247,7 @@ WHERE SINK USED BY <PipeId>
 ![状态迁移图](https://alioss.timecho.com/docs/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
 
 ## 系统预置数据同步插件
-📌 说明：在 1.3.1 及以上的版本中，除 sink、source、connector 本身外，各项参数不再需要额外增加 sink、source、connector 前缀。例如：
+📌 说明：在 1.3.1 及以上的版本中，除 source、processor、sink 本身外，各项参数不再需要额外增加 source、processor、sink 前缀。例如：
 ```Sql
 create pipe A2B
 with sink (
@@ -282,7 +282,7 @@ SHOW PIPEPLUGINS
 
 | key                       | value                                                                                                  | value 取值范围                             | required or optional with default |
 |---------------------------|--------------------------------------------------------------------------------------------------------|----------------------------------------|-----------------------------------|
-| source                    | iotdb-extractor                                                                                        | String: iotdb-extractor                | required                          |
+| source                    | iotdb-source                                                                                           | String: iotdb-source                   | required                          |
 | source.pattern            | 用于筛选时间序列的路径前缀                                                                                          | String: 任意的时间序列前缀                      | optional: root                    |
 | source.history.start-time | 同步历史数据的开始 event time，包含 start-time                                                                     | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
 | source.history.end-time   | 同步历史数据的结束 event time，包含 end-time                                                                       | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
@@ -294,17 +294,17 @@ SHOW PIPEPLUGINS
 > * Pattern 需用反引号修饰不合法字符或者是不合法路径节点，例如如果希望筛选 root.\`a@b\` 或者 root.\`123\`，应设置 pattern 为 root.\`a@b\` 或者 root.\`123\`（具体参考 [单双引号和反引号的使用时机](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
 > * 在底层实现中，当检测到 pattern 为 root（默认值）或某个 Database 时，同步效率较高，其他任意格式都将降低性能
 > * 路径前缀不需要能够构成完整的路径。例如，当创建一个包含参数为 'source.pattern'='root.aligned.1' 的 pipe 时：
->
->   * root.aligned.1TS
+    >
+    >   * root.aligned.1TS
 >   * root.aligned.1TS.\`1\`
 >   * root.aligned.100TS
->
->   的数据会被同步；
->
->   * root.aligned.\`1\`
+    >
+    >   的数据会被同步；
+    >
+    >   * root.aligned.\`1\`
 >   * root.aligned.\`123\`
->
->   的数据不会被同步。
+    >
+    >   的数据不会被同步。
 
 > ❗️** start-time，end-time 参数说明**
 >
@@ -317,25 +317,18 @@ SHOW PIPEPLUGINS
 >
 > 我们常说的乱序数据，指的是数据到达时，其 **event time** 远落后于当前系统时间（或者已经落库的最大 **event time**）的数据。另一方面，不论是乱序数据还是顺序数据，只要它们是新到达系统的，那它们的 **arrival time** 都是会随着数据到达 IoTDB 的顺序递增的。
 
-> 💎 **iotdb-extractor 的工作可以拆分成两个阶段**
+> 💎 **iotdb-source 的工作可以拆分成两个阶段**
 >
 > 1. 历史数据抽取：所有 **arrival time** < 创建 pipe 时**当前系统时间**的数据称为历史数据
 > 2. 实时数据抽取：所有 **arrival time** >= 创建 pipe 时**当前系统时间**的数据称为实时数据
 >
 > 历史数据传输阶段和实时数据传输阶段，**两阶段串行执行，只有当历史数据传输阶段完成后，才执行实时数据传输阶段。**
->
-> 用户可以指定 iotdb-extractor 进行：
->
-> * 历史数据抽取（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'false'` ）
-> * 实时数据抽取（`'extractor.history.enable' = 'false'`, `'extractor.realtime.enable' = 'true'` ）
-> * 全量数据抽取（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'true'` ）
-> * 禁止同时设置 `extractor.history.enable` 和 `extractor.realtime.enable` 为 `false`
 
 ### 预置 processor 插件
 
 #### do-nothing-processor
 
-作用：不对 extractor 传入的事件做任何的处理。
+作用：不对 source 传入的事件做任何的处理。
 
 
 | key       | value                | value 取值范围                   | required or optional with default |
