@@ -1161,7 +1161,7 @@ AINode目前要求系统3.8以上的Python，且带有pip和venv工具
 
 如果是联网的情况，AINode会创建虚拟环境并自动下载运行时的依赖包，不需要额外配置。
 
-如果是非联网的环境，可以从https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/中获取安装所需要的依赖包并离线安装。
+如果是非联网的环境，可以从 https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/ 中获取安装所需要的依赖包并离线安装。
 
 ### 安装步骤
 

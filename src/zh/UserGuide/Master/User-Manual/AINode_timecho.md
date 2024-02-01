@@ -440,7 +440,7 @@ Total line number = 4
 
 | 权限名称  | 权限范围                          | 管理员用户（默认ROOT） | 普通用户 | 路径相关 |
 | --------- | --------------------------------- | ---------------------- | -------- | -------- |
-| USE_MODEL | create modelshow modelsdrop model | √                      | √        | x        |
+| USE_MODEL | create model / show models / drop model | √                      | √        | x        |
 |           | call inference                    |                        |          |          |
 
 ## 6. 实际案例
