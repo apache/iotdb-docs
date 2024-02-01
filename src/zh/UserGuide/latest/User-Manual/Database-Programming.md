@@ -1497,13 +1497,13 @@ SHOW FUNCTIONS
 
 ###  用户权限管理
 
-用户在使用 UDF 时会涉及到 3 种权限：
+用户在使用 UDF 时会涉及到 1 种权限：`USE_UDF`
 
-* `USE_UDF`：具备该权限的用户才被允许执行 UDF 注册操作
-* `DROP_FUNCTION`：具备该权限的用户才被允许执行 UDF 卸载操作
-* `READ_TIMESERIES`：具备该权限的用户才被允许使用 UDF 进行查询
+* 具备该权限的用户才被允许执行 UDF 注册操作
+* 具备该权限的用户才被允许执行 UDF 卸载操作
+* 具备该权限的用户才被允许使用 UDF 进行查询
 
-更多用户权限相关的内容，请参考 [权限管理语句](./Security-Management_timecho.md##权限管理)。
+更多用户权限相关的内容，请参考 [权限管理语句](./Authority-Management.html##权限管理)。
 
 ###  配置项
 
