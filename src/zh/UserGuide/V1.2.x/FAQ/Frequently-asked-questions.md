@@ -159,6 +159,26 @@ IoTDB 客户端默认显示的时间是人类可读的（比如：```1970-01-01T
 这是我们的依赖Ratis 2.4.1的一个内部错误日志，不会对数据写入和读取造成任何影响。
 已经报告给Ratis社区，并会在未来的版本中修复。
 
+### 10. 内存不足报错如何处理？
+
+报错信息：
+```
+301: There is not enough memory to execute current fragment instance, current remaining free memory is 86762854, estimated memory usage for current fragment instance is 270139392
+```
+处理方式：
+datanode_memory_proportion参数控制分给查询的内存，chunk_timeseriesmeta_free_memory_proportion参数控制查询执行可用的内存。
+默认情况下分给查询的内存为堆内存*30%，查询执行可用的内存为查询内存的20%。
+报错显示当前剩余查询执行可用内存为86762854B=82.74MB，该查询预估使用执行内存270139392B=257.6MB。
+
+一些可能的改进项：
+
+在不改变默认参数的前提下，调大IoTDB的堆内存大于 4.2G（4.2G * 1024MB=4300MB），4300M*30%*20%=258M>257.6M，可以满足要求。
+或者更改 datanode_memory_proportion 等参数，使查询执行可用内存>257.6MB。
+或者减少导出的时间序列数量。
+或者给查询语句添加 slimit 限制，也是减少查询时间序列的一种方案。
+或者添加 align by device，会按照device顺序进行输出，内存占用会降低至单device级别。
+
+
 ## 分布式部署 FAQ
 
 ### 集群启停
@@ -237,5 +257,5 @@ IoTDB 客户端默认显示的时间是人类可读的（比如：```1970-01-01T
 
 #### 3. 如何降低ConfigNode、DataNode使用的内存？
 
-- 在conf/confignode-env.sh、conf/datanode-env.sh文件可通过调整MAX_HEAP_SIZE、MAX_DIRECT_MEMORY_SIZE等选项可以调整ConfigNode、DataNode使用的最大堆内、堆外内存
+- 在conf/confignode-env.sh、conf/datanode-env.sh文件可通过调整ON_HEAP_MEMORY、OFF_HEAP_MEMORY等选项可以调整ConfigNode、DataNode使用的最大堆内、堆外内存
 
