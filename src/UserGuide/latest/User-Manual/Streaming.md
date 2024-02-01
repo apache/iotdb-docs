@@ -145,7 +145,7 @@ Data extraction is the first stage of the three-stage process of stream processi
  * <p>The lifecycle of a PipeSource is as follows:
  *
  * <ul>
- *   <li>When a collaboration task is created, the KV pairs of `WITH Source` clause in SQL are
+ *   <li>When a collaboration task is created, the KV pairs of `WITH SOURCE` clause in SQL are
  *       parsed and the validation method {@link PipeSource#validate(PipeParameterValidator)} will
  *       be called to validate the parameters.
  *   <li>Before the collaboration task starts, the method {@link
@@ -159,7 +159,7 @@ Data extraction is the first stage of the three-stage process of stream processi
  *       cancelled (the `DROP PIPE` command is executed).
  * </ul>
  */
-public interface PipeSource {
+public interface PipeSource extends PipePlugin {
 
   /**
    * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
@@ -190,7 +190,7 @@ public interface PipeSource {
           throws Exception;
 
   /**
-   * Start the Source. After this method is called, events should be ready to be supplied by
+   * Start the source. After this method is called, events should be ready to be supplied by
    * {@link PipeSource#supply()}. This method is called after {@link
    * PipeSource#customize(PipeParameters, PipeSourceRuntimeConfiguration)} is called.
    *
@@ -199,11 +199,11 @@ public interface PipeSource {
   void start() throws Exception;
 
   /**
-   * Supply single event from the Source and the caller will send the event to the processor.
+   * Supply single event from the source and the caller will send the event to the processor.
    * This method is called after {@link PipeSource#start()} is called.
    *
-   * @return the event to be supplied. the event may be null if the Source has no more events at
-   *     the moment, but the Source is still running for more events.
+   * @return the event to be supplied. the event may be null if the source has no more events at
+   *     the moment, but the source is still running for more events.
    * @throws Exception the user can throw errors if necessary
    */
   Event supply() throws Exception;
@@ -329,7 +329,7 @@ Data sending is the third stage of the three-stage process of stream processing,
  *       parsed and the validation method {@link PipeSink#validate(PipeParameterValidator)} will be
  *       called to validate the parameters.
  *   <li>Before the collaboration task starts, the method {@link PipeSink#customize(PipeParameters,
- *       PipeSinkRuntimeConfiguration)} will be called to config the runtime behavior of the
+ *       PipeSinkRuntimeConfiguration)} will be called to configure the runtime behavior of the
  *       PipeSink and the method {@link PipeSink#handshake()} will be called to create a connection
  *       with sink.
  *   <li>While the collaboration task is in progress:
@@ -349,7 +349,7 @@ Data sending is the third stage of the three-stage process of stream processing,
  * called to create a new connection with the sink when the method {@link PipeSink#heartbeat()}
  * throws exceptions.
  */
-public interface PipeSink {
+public interface PipeSink extends PipePlugin {
 
   /**
    * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
@@ -495,23 +495,22 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 > * Pattern should use backquotes to modify illegal characters or illegal path nodes, for example, if you want to filter root.\`a@b\` or root.\`123\`, you should set the pattern to root.\`a@b\` or root.\`123\`（Refer specifically to [Timing of single and double quotes and backquotes](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
 > * In the underlying implementation, when pattern is detected as root (default value) or a database name, synchronization efficiency is higher, and any other format will reduce performance.
 > * The path prefix does not need to form a complete path. For example, when creating a pipe with the parameter 'source.pattern'='root.aligned.1':
-    >
-    >   * root.aligned.1TS
+>
+>   * root.aligned.1TS
 >   * root.aligned.1TS.\`1\`
 >   * root.aligned.100TS
-    >
-    >   the data will be synchronized;
-    >
-    >   * root.aligned.\`1\`
+>
+>   the data will be synchronized;
+>
 >   * root.aligned.\`123\`
-    >
-    >   the data will not be synchronized.
+>
+>   the data will not be synchronized.
 
 > ❗️**start-time, end-time parameter description of source**
 >
 > * start-time, end-time should be in ISO format, such as 2011-12-03T10:15:30 or 2011-12-03T10:15:30+01:00. However, version 1.3.1+ supports timeStamp format like 1706704494000.
 
-> ✅ **a piece of data from production to IoTDB contains two key concepts of time**
+> ✅ **A piece of data from production to IoTDB contains two key concepts of time**
 >
 > * **event time：** the time when the data is actually produced (or the generation time assigned to the data by the data production system, which is a time item in the data point), also called the event time.
 > * **arrival time：** the time the data arrived in the IoTDB system.
@@ -634,15 +633,15 @@ The expressed semantics are: synchronise the full amount of historical data and 
   )
   ```
 
-  - Since they have identical SINK declarations (**even if the order of some properties is different**), the framework will automatically reuse the SINK declared by them. Hence, the SINK instances for pipe1 and pipe2 will be the same.
+- Since they have identical SINK declarations (**even if the order of some properties is different**), the framework will automatically reuse the SINK declared by them. Hence, the SINK instances for pipe1 and pipe2 will be the same.
 - Please note that we should avoid constructing application scenarios that involve data cycle sync (as it can result in an infinite loop):
 
-  - IoTDB A -> IoTDB B -> IoTDB A
-  - IoTDB A -> IoTDB A
+- IoTDB A -> IoTDB B -> IoTDB A
+- IoTDB A -> IoTDB A
 
 ### Start Stream Processing Task
 
-After the successful execution of the CREATE PIPE statement, an instance of the stream processing task is created, but the overall task's running status will be set to STOPPED, meaning the task will not immediately process data.
+After the successful execution of the CREATE PIPE statement, task-related instances will be created. However, the overall task's running status will be set to STOPPED(V1.3.0), meaning the task will not immediately process data. In version 1.3.1 and later, the status of the task will be set to RUNNING after CREATE.
 
 You can use the START PIPE statement to make the stream processing task start processing data:
 ```sql
@@ -703,9 +702,9 @@ WHERE SINK USED BY <PipeId>
 A stream processing task status can transition through several states during the lifecycle of a data synchronization pipe:
 
 - **STOPPED：** The pipe is in a stopped state. It can have the following possibilities:
-  - After the successful creation of a pipe, its initial state is set to stopped(V1.3.0)
-  - The user manually pauses a pipe that is in normal running state, transitioning its status from RUNNING to STOPPED
-  - If a pipe encounters an unrecoverable error during execution, its status automatically changes from RUNNING to STOPPED.
+- After the successful creation of a pipe, its initial state is set to stopped(V1.3.0)
+- The user manually pauses a pipe that is in normal running state, transitioning its status from RUNNING to STOPPED
+- If a pipe encounters an unrecoverable error during execution, its status automatically changes from RUNNING to STOPPED.
 - **RUNNING：** The pipe is actively processing data
 - After the successful creation of a pipe, its initial state is set to RUNNING (V1.3.1+)
 - **DROPPED：** The pipe is permanently deleted

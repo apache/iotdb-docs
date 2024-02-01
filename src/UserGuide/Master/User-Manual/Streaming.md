@@ -80,21 +80,21 @@ The existence of operation log write events provides users with a unified view o
 /** TabletInsertionEvent is used to define the event of data insertion. */
 public interface TabletInsertionEvent extends Event {
 
-  /**
-   * The consumer processes the data row by row and collects the results by RowCollector.
-   *
-   * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
-   *     results collected by the RowCollector
-   */
-  Iterable<TabletInsertionEvent> processRowByRow(BiConsumer<Row, RowCollector> consumer);
+    /**
+     * The consumer processes the data row by row and collects the results by RowCollector.
+     *
+     * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
+     *     results collected by the RowCollector
+     */
+    Iterable<TabletInsertionEvent> processRowByRow(BiConsumer<Row, RowCollector> consumer);
 
-  /**
-   * The consumer processes the Tablet directly and collects the results by RowCollector.
-   *
-   * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
-   *     results collected by the RowCollector
-   */
-  Iterable<TabletInsertionEvent> processTablet(BiConsumer<Tablet, RowCollector> consumer);
+    /**
+     * The consumer processes the Tablet directly and collects the results by RowCollector.
+     *
+     * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
+     *     results collected by the RowCollector
+     */
+    Iterable<TabletInsertionEvent> processTablet(BiConsumer<Tablet, RowCollector> consumer);
 }
 ```
 
@@ -119,12 +119,12 @@ In summary, the data file write event appears in the event stream of stream proc
  */
 public interface TsFileInsertionEvent extends Event {
 
-  /**
-   * The method is used to convert the TsFileInsertionEvent into several TabletInsertionEvents.
-   *
-   * @return {@code Iterable<TabletInsertionEvent>} the list of TabletInsertionEvent
-   */
-  Iterable<TabletInsertionEvent> toTabletInsertionEvents();
+    /**
+     * The method is used to convert the TsFileInsertionEvent into several TabletInsertionEvents.
+     *
+     * @return {@code Iterable<TabletInsertionEvent>} the list of TabletInsertionEvent
+     */
+    Iterable<TabletInsertionEvent> toTabletInsertionEvents();
 }
 ```
 
@@ -145,7 +145,7 @@ Data extraction is the first stage of the three-stage process of stream processi
  * <p>The lifecycle of a PipeSource is as follows:
  *
  * <ul>
- *   <li>When a collaboration task is created, the KV pairs of `WITH Source` clause in SQL are
+ *   <li>When a collaboration task is created, the KV pairs of `WITH SOURCE` clause in SQL are
  *       parsed and the validation method {@link PipeSource#validate(PipeParameterValidator)} will
  *       be called to validate the parameters.
  *   <li>Before the collaboration task starts, the method {@link
@@ -159,54 +159,54 @@ Data extraction is the first stage of the three-stage process of stream processi
  *       cancelled (the `DROP PIPE` command is executed).
  * </ul>
  */
-public interface PipeSource {
+public interface PipeSource extends PipePlugin {
 
-  /**
-   * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
-   * PipeSource#customize(PipeParameters, PipeSourceRuntimeConfiguration)} is called.
-   *
-   * @param validator the validator used to validate {@link PipeParameters}
-   * @throws Exception if any parameter is not valid
-   */
-  void validate(PipeParameterValidator validator) throws Exception;
+    /**
+     * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
+     * PipeSource#customize(PipeParameters, PipeSourceRuntimeConfiguration)} is called.
+     *
+     * @param validator the validator used to validate {@link PipeParameters}
+     * @throws Exception if any parameter is not valid
+     */
+    void validate(PipeParameterValidator validator) throws Exception;
 
-  /**
-   * This method is mainly used to customize PipeSource. In this method, the user can do the
-   * following things:
-   *
-   * <ul>
-   *   <li>Use PipeParameters to parse key-value pair attributes entered by the user.
-   *   <li>Set the running configurations in PipeSourceRuntimeConfiguration.
-   * </ul>
-   *
-   * <p>This method is called after the method {@link PipeSource#validate(PipeParameterValidator)}
-   * is called.
-   *
-   * @param parameters used to parse the input parameters entered by the user
-   * @param configuration used to set the required properties of the running PipeSource
-   * @throws Exception the user can throw errors if necessary
-   */
-  void customize(PipeParameters parameters, PipeSourceRuntimeConfiguration configuration)
-          throws Exception;
+    /**
+     * This method is mainly used to customize PipeSource. In this method, the user can do the
+     * following things:
+     *
+     * <ul>
+     *   <li>Use PipeParameters to parse key-value pair attributes entered by the user.
+     *   <li>Set the running configurations in PipeSourceRuntimeConfiguration.
+     * </ul>
+     *
+     * <p>This method is called after the method {@link PipeSource#validate(PipeParameterValidator)}
+     * is called.
+     *
+     * @param parameters used to parse the input parameters entered by the user
+     * @param configuration used to set the required properties of the running PipeSource
+     * @throws Exception the user can throw errors if necessary
+     */
+    void customize(PipeParameters parameters, PipeSourceRuntimeConfiguration configuration)
+            throws Exception;
 
-  /**
-   * Start the Source. After this method is called, events should be ready to be supplied by
-   * {@link PipeSource#supply()}. This method is called after {@link
-   * PipeSource#customize(PipeParameters, PipeSourceRuntimeConfiguration)} is called.
-   *
-   * @throws Exception the user can throw errors if necessary
-   */
-  void start() throws Exception;
+    /**
+     * Start the source. After this method is called, events should be ready to be supplied by
+     * {@link PipeSource#supply()}. This method is called after {@link
+     * PipeSource#customize(PipeParameters, PipeSourceRuntimeConfiguration)} is called.
+     *
+     * @throws Exception the user can throw errors if necessary
+     */
+    void start() throws Exception;
 
-  /**
-   * Supply single event from the Source and the caller will send the event to the processor.
-   * This method is called after {@link PipeSource#start()} is called.
-   *
-   * @return the event to be supplied. the event may be null if the Source has no more events at
-   *     the moment, but the Source is still running for more events.
-   * @throws Exception the user can throw errors if necessary
-   */
-  Event supply() throws Exception;
+    /**
+     * Supply single event from the source and the caller will send the event to the processor.
+     * This method is called after {@link PipeSource#start()} is called.
+     *
+     * @return the event to be supplied. the event may be null if the source has no more events at
+     *     the moment, but the source is still running for more events.
+     * @throws Exception the user can throw errors if necessary
+     */
+    Event supply() throws Exception;
 }
 ```
 
@@ -329,7 +329,7 @@ Data sending is the third stage of the three-stage process of stream processing,
  *       parsed and the validation method {@link PipeSink#validate(PipeParameterValidator)} will be
  *       called to validate the parameters.
  *   <li>Before the collaboration task starts, the method {@link PipeSink#customize(PipeParameters,
- *       PipeSinkRuntimeConfiguration)} will be called to config the runtime behavior of the
+ *       PipeSinkRuntimeConfiguration)} will be called to configure the runtime behavior of the
  *       PipeSink and the method {@link PipeSink#handshake()} will be called to create a connection
  *       with sink.
  *   <li>While the collaboration task is in progress:
@@ -349,7 +349,7 @@ Data sending is the third stage of the three-stage process of stream processing,
  * called to create a new connection with the sink when the method {@link PipeSink#heartbeat()}
  * throws exceptions.
  */
-public interface PipeSink {
+public interface PipeSink extends PipePlugin {
 
   /**
    * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
@@ -497,21 +497,20 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 > * The path prefix does not need to form a complete path. For example, when creating a pipe with the parameter 'source.pattern'='root.aligned.1':
     >
     >   * root.aligned.1TS
-    >   * root.aligned.1TS.\`1\`
+>   * root.aligned.1TS.\`1\`
 >   * root.aligned.100TS
-      >
-      >   the data will be synchronized;
-      >
-      >   * root.aligned.\`1\`
->   * root.aligned.\`123\`
-      >
-      >   the data will not be synchronized.
+    >
+    >   the data will be synchronized;
+    >
+    >   * root.aligned.\`123\`
+    >
+    >   the data will not be synchronized.
 
 > ❗️**start-time, end-time parameter description of source**
 >
 > * start-time, end-time should be in ISO format, such as 2011-12-03T10:15:30 or 2011-12-03T10:15:30+01:00. However, version 1.3.1+ supports timeStamp format like 1706704494000.
 
-> ✅ **a piece of data from production to IoTDB contains two key concepts of time**
+> ✅ **A piece of data from production to IoTDB contains two key concepts of time**
 >
 > * **event time：** the time when the data is actually produced (or the generation time assigned to the data by the data production system, which is a time item in the data point), also called the event time.
 > * **arrival time：** the time the data arrived in the IoTDB system.
@@ -634,15 +633,15 @@ The expressed semantics are: synchronise the full amount of historical data and 
   )
   ```
 
-    - Since they have identical SINK declarations (**even if the order of some properties is different**), the framework will automatically reuse the SINK declared by them. Hence, the SINK instances for pipe1 and pipe2 will be the same.
+- Since they have identical SINK declarations (**even if the order of some properties is different**), the framework will automatically reuse the SINK declared by them. Hence, the SINK instances for pipe1 and pipe2 will be the same.
 - Please note that we should avoid constructing application scenarios that involve data cycle sync (as it can result in an infinite loop):
 
-    - IoTDB A -> IoTDB B -> IoTDB A
-    - IoTDB A -> IoTDB A
+- IoTDB A -> IoTDB B -> IoTDB A
+- IoTDB A -> IoTDB A
 
 ### Start Stream Processing Task
 
-After the successful execution of the CREATE PIPE statement, an instance of the stream processing task is created, but the overall task's running status will be set to STOPPED, meaning the task will not immediately process data.
+After the successful execution of the CREATE PIPE statement, task-related instances will be created. However, the overall task's running status will be set to STOPPED(V1.3.0), meaning the task will not immediately process data. In version 1.3.1 and later, the status of the task will be set to RUNNING after CREATE.
 
 You can use the START PIPE statement to make the stream processing task start processing data:
 ```sql
@@ -703,9 +702,9 @@ WHERE SINK USED BY <PipeId>
 A stream processing task status can transition through several states during the lifecycle of a data synchronization pipe:
 
 - **STOPPED：** The pipe is in a stopped state. It can have the following possibilities:
-    - After the successful creation of a pipe, its initial state is set to stopped(V1.3.0)
-    - The user manually pauses a pipe that is in normal running state, transitioning its status from RUNNING to STOPPED
-    - If a pipe encounters an unrecoverable error during execution, its status automatically changes from RUNNING to STOPPED.
+- After the successful creation of a pipe, its initial state is set to stopped(V1.3.0)
+- The user manually pauses a pipe that is in normal running state, transitioning its status from RUNNING to STOPPED
+- If a pipe encounters an unrecoverable error during execution, its status automatically changes from RUNNING to STOPPED.
 - **RUNNING：** The pipe is actively processing data
 - After the successful creation of a pipe, its initial state is set to RUNNING (V1.3.1+)
 - **DROPPED：** The pipe is permanently deleted

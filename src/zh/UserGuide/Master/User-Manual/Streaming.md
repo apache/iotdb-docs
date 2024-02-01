@@ -50,10 +50,10 @@ Pipe Source 用于抽取数据，Pipe Processor 用于处理数据，Pipe Sink �
 
 ```xml
 <dependency>
-    <groupId>org.apache.iotdb</groupId>
-    <artifactId>pipe-api</artifactId>
-    <version>1.3.1</version>
-    <scope>provided</scope>
+  <groupId>org.apache.iotdb</groupId>
+  <artifactId>pipe-api</artifactId>
+  <version>1.3.1</version>
+  <scope>provided</scope>
 </dependency>
 ```
 
@@ -147,7 +147,7 @@ public interface TsFileInsertionEvent extends Event {
  * <p>The lifecycle of a PipeSource is as follows:
  *
  * <ul>
- *   <li>When a collaboration task is created, the KV pairs of `WITH Source` clause in SQL are
+ *   <li>When a collaboration task is created, the KV pairs of `WITH SOURCE` clause in SQL are
  *       parsed and the validation method {@link PipeSource#validate(PipeParameterValidator)} will
  *       be called to validate the parameters.
  *   <li>Before the collaboration task starts, the method {@link
@@ -161,7 +161,7 @@ public interface TsFileInsertionEvent extends Event {
  *       cancelled (the `DROP PIPE` command is executed).
  * </ul>
  */
-public interface PipeSource {
+public interface PipeSource extends PipePlugin {
 
   /**
    * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
@@ -353,7 +353,7 @@ public interface PipeProcessor extends PipePlugin {
  * called to create a new connection with the sink when the method {@link PipeSink#heartbeat()}
  * throws exceptions.
  */
-public interface PipeSink {
+public interface PipeSink extends PipePlugin {
 
   /**
    * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
@@ -505,17 +505,17 @@ SHOW PIPEPLUGINS
 > * Pattern 需用反引号修饰不合法字符或者是不合法路径节点，例如如果希望筛选 root.\`a@b\` 或者 root.\`123\`，应设置 pattern 为 root.\`a@b\` 或者 root.\`123\`（具体参考 [单双引号和反引号的使用时机](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
 > * 在底层实现中，当检测到 pattern 为 root（默认值）时，抽取效率较高，其他任意格式都将降低性能
 > * 路径前缀不需要能够构成完整的路径。例如，当创建一个包含参数为 'source.pattern'='root.aligned.1' 的 pipe 时：
->
->   * root.aligned.1TS
+    >
+    >   * root.aligned.1TS
 >   * root.aligned.1TS.\`1\`
 >   * root.aligned.100T
->   
->   的数据会被抽取；
->   
->   * root.aligned.\`1\`
+    >
+    >   的数据会被抽取；
+    >
+    >   * root.aligned.\`1\`
 >   * root.aligned.\`123\`
->
->   的数据不会被抽取。
+    >
+    >   的数据不会被抽取。
 
 > ❗️**source.history 的 start-time，end-time 参数说明**
 >
@@ -649,7 +649,7 @@ WITH SINK (
 
 ### 启动流处理任务
 
-CREATE PIPE 语句成功执行后，流处理任务相关实例会被创建，但整个流处理任务的运行状态会被置为 STOPPED，即流处理任务不会立刻处理数据。
+CREATE PIPE 语句成功执行后，流处理任务相关实例会被创建，但整个流处理任务的运行状态会被置为 STOPPED（V1.3.0），即流处理任务不会立刻处理数据。在 1.3.1 及以上的版本，流处理任务的运行状态在创建后将被立即置为 RUNNING。
 
 可以使用 START PIPE 语句使流处理任务开始处理数据：
 

@@ -147,7 +147,7 @@ public interface TsFileInsertionEvent extends Event {
  * <p>The lifecycle of a PipeSource is as follows:
  *
  * <ul>
- *   <li>When a collaboration task is created, the KV pairs of `WITH Source` clause in SQL are
+ *   <li>When a collaboration task is created, the KV pairs of `WITH SOURCE` clause in SQL are
  *       parsed and the validation method {@link PipeSource#validate(PipeParameterValidator)} will
  *       be called to validate the parameters.
  *   <li>Before the collaboration task starts, the method {@link
@@ -161,7 +161,7 @@ public interface TsFileInsertionEvent extends Event {
  *       cancelled (the `DROP PIPE` command is executed).
  * </ul>
  */
-public interface PipeSource {
+public interface PipeSource extends PipePlugin {
 
   /**
    * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
@@ -353,7 +353,7 @@ public interface PipeProcessor extends PipePlugin {
  * called to create a new connection with the sink when the method {@link PipeSink#heartbeat()}
  * throws exceptions.
  */
-public interface PipeSink {
+public interface PipeSink extends PipePlugin {
 
   /**
    * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
@@ -649,7 +649,7 @@ WITH SINK (
 
 ### 启动流处理任务
 
-CREATE PIPE 语句成功执行后，流处理任务相关实例会被创建，但整个流处理任务的运行状态会被置为 STOPPED，即流处理任务不会立刻处理数据。
+CREATE PIPE 语句成功执行后，流处理任务相关实例会被创建，但整个流处理任务的运行状态会被置为 STOPPED（V1.3.0），即流处理任务不会立刻处理数据。在 1.3.1 及以上的版本，流处理任务的运行状态在创建后将被立即置为 RUNNING。
 
 可以使用 START PIPE 语句使流处理任务开始处理数据：
 

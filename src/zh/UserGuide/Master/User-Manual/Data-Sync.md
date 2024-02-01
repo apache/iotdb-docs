@@ -72,7 +72,7 @@
 
 > ❗️**注：目前的 IoTDB -> IoTDB 的数据同步实现并不支持 DDL 同步**
 >
-> 即：不支持 ttl，trigger，别名，模板，视图，创建/删除序列，创建/删除存储组等操作
+> 即：不支持 ttl，trigger，别名，模板，视图，创建/删除序列，创建/删除数据库等操作
 >
 > **IoTDB -> IoTDB 的数据同步要求目标端 IoTDB：**
 >
@@ -93,9 +93,9 @@ WITH SOURCE (
   -- 路径前缀，只有能够匹配该路径前缀的数据才会被抽取，用作后续的处理和发送
   'source.pattern'            = 'root.timecho',
   -- 描述被抽取的历史数据的时间范围，表示最早时间
-  'source.historical.start-time' = '2011.12.03T10:15:30+01:00',
+  'source.history.start-time' = '2011.12.03T10:15:30+01:00',
   -- 描述被抽取的历史数据的时间范围，表示最晚时间
-  'source.historical.end-time'   = '2022.12.03T10:15:30+01:00',
+  'source.history.end-time'   = '2022.12.03T10:15:30+01:00',
 )
 WITH PROCESSOR (
   -- 默认的数据处理插件，即不做任何处理
@@ -145,7 +145,7 @@ WITH SINK (
 - SINK 为必填配置，需要在 CREATE PIPE 语句中声明式配置
 - SINK 具备自复用能力。对于不同的任务，如果他们的 SINK 具备完全相同的 KV 属性（所有属性的 key 对应的 value 都相同），**那么系统最终只会创建一个 SINK 实例**，以实现对连接资源的复用。
 
-  - 例如，有下面 pipe1, pipe2 两个任务的声明：
+    - 例如，有下面 pipe1, pipe2 两个任务的声明：
 
   ```sql
   CREATE PIPE pipe1
@@ -163,11 +163,11 @@ WITH SINK (
   )
   ```
 
-  - 因为它们对 SINK 的声明完全相同（**即使某些属性声明时的顺序不同**），所以框架会自动对它们声明的 SINK 进行复用，最终 pipe1, pipe2 的 SINK 将会是同一个实例。
+    - 因为它们对 SINK 的声明完全相同（**即使某些属性声明时的顺序不同**），所以框架会自动对它们声明的 SINK 进行复用，最终 pipe1, pipe2 的 SINK 将会是同一个实例。
 - 请不要构建出包含数据循环同步的应用场景（会导致无限循环）：
 
-  - IoTDB A -> IoTDB B -> IoTDB A
-  - IoTDB A -> IoTDB A
+    - IoTDB A -> IoTDB B -> IoTDB A
+    - IoTDB A -> IoTDB A
 
 ### 启动任务
 
@@ -235,11 +235,11 @@ WHERE SINK USED BY <PipeId>
 一个数据同步 pipe 在其生命周期中会经过多种状态：
 
 - **STOPPED：** pipe 处于停止运行状态。当管道处于该状态时，有如下几种可能：
-  - 当一个 pipe 被成功创建之后，其初始状态为暂停状态（V1.3.0）
-  - 用户手动将一个处于正常运行状态的 pipe 暂停，其状态会被动从 RUNNING 变为 STOPPED
-  - 当一个 pipe 运行过程中出现无法恢复的错误时，其状态会自动从 RUNNING 变为 STOPPED
+    - 当一个 pipe 被成功创建之后，其初始状态为暂停状态（V1.3.0）
+    - 用户手动将一个处于正常运行状态的 pipe 暂停，其状态会被动从 RUNNING 变为 STOPPED
+    - 当一个 pipe 运行过程中出现无法恢复的错误时，其状态会自动从 RUNNING 变为 STOPPED
 - **RUNNING：** pipe 正在正常工作
-  - 当一个 pipe 被成功创建之后，其初始状态为工作状态（V1.3.1）
+    - 当一个 pipe 被成功创建之后，其初始状态为工作状态（V1.3.1）
 - **DROPPED：** pipe 任务被永久删除
 
 下图表明了所有状态以及状态的迁移：
@@ -260,7 +260,7 @@ with sink (
 ```Sql
 create pipe A2B
 with sink (
-  'sink'='iotdb-air-gap-sink',
+  'sink'='iotdb-thrift-sink',
   'ip'='127.0.0.1',
   'port'='6668'
 )
@@ -273,7 +273,7 @@ with sink (
 SHOW PIPEPLUGINS
 ```
 
-### 预置 source 插件
+### 预置 Source 插件
 
 #### iotdb-source
 
@@ -346,12 +346,12 @@ SHOW PIPEPLUGINS
 限制：源端 IoTDB 与 目标端 IoTDB 版本都需要在 v1.2.0+。
 
 
-| key            | value                                  | value 取值范围                                                                | required or optional with default |
-|----------------|----------------------------------------|---------------------------------------------------------------------------|-----------------------------------|
-| sink           | iotdb-thrift-sync-sink                 | String: iotdb-thrift-sync-sink                                            | required                          |
-| sink.ip        | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip     | String                                                                    | optional: 与 node-urls 任选其一填写      |
-| sink.port      | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port   | Integer                                                                   | optional: 与 node-urls 任选其一填写      |
-| sink.node-urls | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: 与 ip:port 任选其一填写        |
+| key            | value                                  | value 取值范围                                                                | required or optional with default    |
+|----------------|----------------------------------------|---------------------------------------------------------------------------|--------------------------------------|
+| sink           | iotdb-thrift-sync-sink                 | String: iotdb-thrift-sync-sink                                            | required                             |
+| sink.ip        | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip     | String                                                                    | optional: 与 sink.node-urls 任选其一填写    |
+| sink.port      | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port   | Integer                                                                   | optional: 与 sink.node-urls 任选其一填写    |
+| sink.node-urls | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: 与 sink.ip:sink.port 任选其一填写 |
 
 > 📌 请确保接收端已经创建了发送端的所有时间序列，或是开启了自动创建元数据，否则将会导致 pipe 运行失败。
 

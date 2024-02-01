@@ -79,21 +79,21 @@ The existence of operation log writing events provides users with a unified view
 /** TabletInsertionEvent is used to define the event of data insertion. */
 public interface TabletInsertionEvent extends Event {
 
-  /**
-   * The consumer processes the data row by row and collects the results by RowCollector.
-   *
-   * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
-   *     results collected by the RowCollector
-   */
-  Iterable<TabletInsertionEvent> processRowByRow(BiConsumer<Row, RowCollector> consumer);
+    /**
+     * The consumer processes the data row by row and collects the results by RowCollector.
+     *
+     * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
+     *     results collected by the RowCollector
+     */
+    Iterable<TabletInsertionEvent> processRowByRow(BiConsumer<Row, RowCollector> consumer);
 
-  /**
-   * The consumer processes the Tablet directly and collects the results by RowCollector.
-   *
-   * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
-   *     results collected by the RowCollector
-   */
-  Iterable<TabletInsertionEvent> processTablet(BiConsumer<Tablet, RowCollector> consumer);
+    /**
+     * The consumer processes the Tablet directly and collects the results by RowCollector.
+     *
+     * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
+     *     results collected by the RowCollector
+     */
+    Iterable<TabletInsertionEvent> processTablet(BiConsumer<Tablet, RowCollector> consumer);
 }
 ```
 
@@ -118,12 +118,12 @@ To sum up, the data file writing event appears in the event stream of the stream
  */
 public interface TsFileInsertionEvent extends Event {
 
-  /**
-   * The method is used to convert the TsFileInsertionEvent into several TabletInsertionEvents.
-   *
-   * @return {@code Iterable<TabletInsertionEvent>} the list of TabletInsertionEvent
-   */
-  Iterable<TabletInsertionEvent> toTabletInsertionEvents();
+    /**
+     * The method is used to convert the TsFileInsertionEvent into several TabletInsertionEvents.
+     *
+     * @return {@code Iterable<TabletInsertionEvent>} the list of TabletInsertionEvent
+     */
+    Iterable<TabletInsertionEvent> toTabletInsertionEvents();
 }
 ```
 
@@ -152,7 +152,7 @@ Capture various data write events.
  *       be called to validate the parameters.
  *   <li>Before the collaboration task starts, the method {@link
  *       PipeSource#customize(PipeParameters, PipeSourceRuntimeConfiguration)} will be called to
- *       config the runtime behavior of the PipeSource.
+ *       configure the runtime behavior of the PipeSource.
  *   <li>Then the method {@link PipeSource#start()} will be called to start the PipeSource.
  *   <li>While the collaboration task is in progress, the method {@link PipeSource#supply()} will be
  *       called to capture events from sources and then the events will be passed to the
@@ -161,7 +161,7 @@ Capture various data write events.
  *       cancelled (the `DROP PIPE` command is executed).
  * </ul>
  */
-public interface PipeSource {
+public interface PipeSource extends PipePlugin {
 
     /**
      * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
@@ -231,7 +231,7 @@ various events.
  *       will be called to validate the parameters.
  *   <li>Before the collaboration task starts, the method {@link
  *       PipeProcessor#customize(PipeParameters, PipeProcessorRuntimeConfiguration)} will be called
- *       to config the runtime behavior of the PipeProcessor.
+ *       to configure the runtime behavior of the PipeProcessor.
  *   <li>While the collaboration task is in progress:
  *       <ul>
  *         <li>PipeSource captures the events and wraps them into three types of Event instances.
@@ -248,68 +248,68 @@ various events.
  */
 public interface PipeProcessor extends PipePlugin {
 
-  /**
-   * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
-   * PipeProcessor#customize(PipeParameters, PipeProcessorRuntimeConfiguration)} is called.
-   *
-   * @param validator the validator used to validate {@link PipeParameters}
-   * @throws Exception if any parameter is not valid
-   */
-  void validate(PipeParameterValidator validator) throws Exception;
+    /**
+     * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
+     * PipeProcessor#customize(PipeParameters, PipeProcessorRuntimeConfiguration)} is called.
+     *
+     * @param validator the validator used to validate {@link PipeParameters}
+     * @throws Exception if any parameter is not valid
+     */
+    void validate(PipeParameterValidator validator) throws Exception;
 
-  /**
-   * This method is mainly used to customize PipeProcessor. In this method, the user can do the
-   * following things:
-   *
-   * <ul>
-   *   <li>Use PipeParameters to parse key-value pair attributes entered by the user.
-   *   <li>Set the running configurations in PipeProcessorRuntimeConfiguration.
-   * </ul>
-   *
-   * <p>This method is called after the method {@link
-   * PipeProcessor#validate(PipeParameterValidator)} is called and before the beginning of the
-   * events processing.
-   *
-   * @param parameters used to parse the input parameters entered by the user
-   * @param configuration used to set the required properties of the running PipeProcessor
-   * @throws Exception the user can throw errors if necessary
-   */
-  void customize(PipeParameters parameters, PipeProcessorRuntimeConfiguration configuration)
-          throws Exception;
+    /**
+     * This method is mainly used to customize PipeProcessor. In this method, the user can do the
+     * following things:
+     *
+     * <ul>
+     *   <li>Use PipeParameters to parse key-value pair attributes entered by the user.
+     *   <li>Set the running configurations in PipeProcessorRuntimeConfiguration.
+     * </ul>
+     *
+     * <p>This method is called after the method {@link
+     * PipeProcessor#validate(PipeParameterValidator)} is called and before the beginning of the
+     * events processing.
+     *
+     * @param parameters used to parse the input parameters entered by the user
+     * @param configuration used to set the required properties of the running PipeProcessor
+     * @throws Exception the user can throw errors if necessary
+     */
+    void customize(PipeParameters parameters, PipeProcessorRuntimeConfiguration configuration)
+            throws Exception;
 
-  /**
-   * This method is called to process the TabletInsertionEvent.
-   *
-   * @param tabletInsertionEvent TabletInsertionEvent to be processed
-   * @param eventCollector used to collect result events after processing
-   * @throws Exception the user can throw errors if necessary
-   */
-  void process(TabletInsertionEvent tabletInsertionEvent, EventCollector eventCollector)
-          throws Exception;
+    /**
+     * This method is called to process the TabletInsertionEvent.
+     *
+     * @param tabletInsertionEvent TabletInsertionEvent to be processed
+     * @param eventCollector used to collect result events after processing
+     * @throws Exception the user can throw errors if necessary
+     */
+    void process(TabletInsertionEvent tabletInsertionEvent, EventCollector eventCollector)
+            throws Exception;
 
-  /**
-   * This method is called to process the TsFileInsertionEvent.
-   *
-   * @param tsFileInsertionEvent TsFileInsertionEvent to be processed
-   * @param eventCollector used to collect result events after processing
-   * @throws Exception the user can throw errors if necessary
-   */
-  default void process(TsFileInsertionEvent tsFileInsertionEvent, EventCollector eventCollector)
-          throws Exception {
-    for (final TabletInsertionEvent tabletInsertionEvent :
-            tsFileInsertionEvent.toTabletInsertionEvents()) {
-      process(tabletInsertionEvent, eventCollector);
+    /**
+     * This method is called to process the TsFileInsertionEvent.
+     *
+     * @param tsFileInsertionEvent TsFileInsertionEvent to be processed
+     * @param eventCollector used to collect result events after processing
+     * @throws Exception the user can throw errors if necessary
+     */
+    default void process(TsFileInsertionEvent tsFileInsertionEvent, EventCollector eventCollector)
+            throws Exception {
+        for (final TabletInsertionEvent tabletInsertionEvent :
+                tsFileInsertionEvent.toTabletInsertionEvents()) {
+            process(tabletInsertionEvent, eventCollector);
+        }
     }
-  }
 
-  /**
-   * This method is called to process the Event.
-   *
-   * @param event Event to be processed
-   * @param eventCollector used to collect result events after processing
-   * @throws Exception the user can throw errors if necessary
-   */
-  void process(Event event, EventCollector eventCollector) throws Exception;
+    /**
+     * This method is called to process the Event.
+     *
+     * @param event Event to be processed
+     * @param eventCollector used to collect result events after processing
+     * @throws Exception the user can throw errors if necessary
+     */
+    void process(Event event, EventCollector eventCollector) throws Exception;
 }
 ```
 
@@ -333,7 +333,7 @@ Various events, it serves as the network implementation layer of the stream proc
  *       parsed and the validation method {@link PipeSink#validate(PipeParameterValidator)} will be
  *       called to validate the parameters.
  *   <li>Before the collaboration task starts, the method {@link PipeSink#customize(PipeParameters,
- *       PipeSinkRuntimeConfiguration)} will be called to config the runtime behavior of the
+ *       PipeSinkRuntimeConfiguration)} will be called to configure the runtime behavior of the
  *       PipeSink and the method {@link PipeSink#handshake()} will be called to create a connection
  *       with sink.
  *   <li>While the collaboration task is in progress:
@@ -353,7 +353,7 @@ Various events, it serves as the network implementation layer of the stream proc
  * called to create a new connection with the sink when the method {@link PipeSink#heartbeat()}
  * throws exceptions.
  */
-public interface PipeSink {
+public interface PipeSink extends PipePlugin {
 
     /**
      * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
@@ -512,13 +512,15 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 | source.pattern                  | path prefix for filtering time series                                                                                               | String: any time series prefix         | optional: root                    |
 | source.history.start-time       | start of synchronizing historical data event time，including start-time                                                              | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
 | source.history.end-time         | end of synchronizing historical data event time，including end-time                                                                  | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
-| source.forwarding-pipe-requests | Whether to forward data written by another Pipe (usually Data Sync)                                                                 | Boolean: true, false                   | optional                          | true |
+| source.forwarding-pipe-requests | Whether to forward data written by another Pipe (usually Data Sync)                                                                 | Boolean: true, false                   | optional:true                     |
 | start-time(V1.3.1+)             | start of synchronizing all data event time，including start-time. Will disable "history.start-time" "history.end-time" if configured | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
 | end-time(V1.3.1+)               | end of synchronizing all data event time，including end-time. Will disable "history.start-time" "history.end-time" if configured     | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
+| source.realtime.mode            | Extraction mode for real-time data                                                                                                  | String: hybrid, stream, batch          | optional:hybrid                   |
+| source.forwarding-pipe-requests | Whether to forward data written by another Pipe (usually Data Sync)                                                                 | Boolean: true, false                   | optional:true                     |
 
 > 🚫 **source.pattern Parameter Description**
 >
-> * Pattern should use backquotes to modify illegal characters or illegal path nodes, for example, if you want to filter root.\`a@b\` or root.\`123\`, you should set the pattern to root.\`a@b\` or root.\`123\`（Refer specifically to [Timing of single and double quotes and backquotes](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
+> * Pattern should use backquotes to modify illegal characters or illegal path nodes, for example, if you want to filter root.\`a@b\` or root.\`123\`, you should set the pattern to root.\`a@b\` or root.\`123\`（Refer specifically to [Timing of single and double quotes and backquotes](https://iotdb.apache.org/Download/)）
 > * In the underlying implementation, when pattern is detected as root (default value) or a database name, synchronization efficiency is higher, and any other format will reduce performance.
 > * The path prefix does not need to form a complete path. For example, when creating a pipe with the parameter 'source.pattern'='root.aligned.1':
     >
@@ -539,7 +541,7 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 
 > ✅ **A piece of data from production to IoTDB contains two key concepts of time**
 >
-> * **event time：** The time when the data is actually produced (or the generation time assigned to the data by the data production system, which is a time item in the data point), also called the event time.
+> * **event time:** The time when the data is actually produced (or the generation time assigned to the data by the data production system, which is the time item in the data point), also called event time.
 > * **arrival time:** The time when data arrives in the IoTDB system.
 >
 > The out-of-order data we often refer to refers to data whose **event time** is far behind the current system time (or the maximum **event time** that has been dropped) when the data arrives. On the other hand, whether it is out-of-order data or sequential data, as long as they arrive newly in the system, their **arrival time** will increase with the order in which the data arrives at IoTDB.
@@ -678,7 +680,7 @@ The semantics expressed are: synchronize all historical data in this database in
 
 ### Start the stream processing task
 
-After the CREATE PIPE statement is successfully executed, the stream processing task-related instance will be created, but the running status of the entire stream processing task will be set to STOPPED, that is, the stream processing task will not process data immediately.
+After the CREATE PIPE statement is successfully executed, the stream processing task-related instance will be created, but the running status of the entire stream processing task will be set to STOPPED(V1.3.0), that is, the stream processing task will not process data immediately. In version 1.3.1 and later, the status of the task will be set to RUNNING after CREATE.
 
 You can use the START PIPE statement to cause a stream processing task to start processing data:
 

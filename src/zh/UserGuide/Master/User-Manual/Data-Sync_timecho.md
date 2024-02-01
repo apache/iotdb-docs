@@ -440,7 +440,7 @@ with sink (
 
 | key                          | value                                                       | value 取值范围                                                                | 是否必填 | 默认取值                       |
 |------------------------------|-------------------------------------------------------------|---------------------------------------------------------------------------|------|----------------------------|
-| sink                         | iotdb-thrift-sink 或 iotdb-thrift-sync-sink                  | String: iotdb-thrift-sink 或 iotdb-thrift-sync-sink                        | 必填   |                            |
+| sink                         | iotdb-thrift-sink 或 iotdb-thrift-async-sink                 | String: iotdb-thrift-sink 或 iotdb-thrift-async-sink                       | 必填   |                            |
 | sink.ip                      | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip（请注意同步任务不支持向自身服务进行转发）     | String                                                                    | 选填   | 与 sink.node-urls 任选其一填写    |
 | sink.port                    | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port（请注意同步任务不支持向自身服务进行转发）   | Integer                                                                   | 选填   | 与 sink.node-urls 任选其一填写    |
 | sink.node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发） | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | 选填   | 与 sink.ip:sink.port 任选其一填写 |
@@ -462,7 +462,7 @@ with sink (
 
 | key                          | value                                                       | value range                                                                      | required or not | default value                    |
 |------------------------------|-------------------------------------------------------------|----------------------------------------------------------------------------------|-----------------|----------------------------------|
-| sink                         | iotdb-thrift-sink 或 iotdb-thrift-sync-sink                  | String: iotdb-thrift-sink 或 iotdb-thrift-sync-sink                               | 必填              |                                  |
+| sink                         | iotdb-thrift-ssl-sink                                       | String: iotdb-thrift-ssl-sink                                                    | 必填              |                                  |
 | sink.ip                      | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip（请注意同步任务不支持向自身服务进行转发）     | String                                                                           | 选填              | 与 sink.node-urls 任选其一填写          |
 | sink.port                    | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port（请注意同步任务不支持向自身服务进行转发）   | Integer                                                                          | 选填              | 与 sink.node-urls 任选其一填写          |
 | sink.node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发） | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667'        | 选填              | 与 sink.ip:sink.port 任选其一填写       |

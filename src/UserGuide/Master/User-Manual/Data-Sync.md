@@ -289,18 +289,18 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 >
 > * Pattern should use backquotes to modify illegal characters or illegal path nodes, for example, if you want to filter root.\`a@b\` or root.\`123\`, you should set the pattern to root.\`a@b\` or root.\`123\`（Refer specifically to [Timing of single and double quotes and backquotes](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
 > * In the underlying implementation, when pattern is detected as root (default value) or a database name, synchronization efficiency is higher, and any other format will reduce performance.
-> * The path prefix does not need to form a complete path. For example, when creating a pipe with the parameter 'extractor.pattern'='root.aligned.1':
->
->   * root.aligned.1TS
+> * The path prefix does not need to form a complete path. For example, when creating a pipe with the parameter 'source.pattern'='root.aligned.1':
+    >
+    >   * root.aligned.1TS
 >   * root.aligned.1TS.\`1\`
 >   * root.aligned.100TS
->
->   the data will be synchronized;
->
->   * root.aligned.\`1\`
+    >
+    >   the data will be synchronized;
+    >
+    >   * root.aligned.\`1\`
 >   * root.aligned.\`123\`
->
->   the data will not be synchronized.
+    >
+    >   the data will not be synchronized.
 
 > ❗️**start-time, end-time parameter description of source**
 >
@@ -342,7 +342,7 @@ Limitation: Both the source and target IoTDB versions need to be v1.2.0+.
 
 | key            | value                                                                               | value range                                                                | required or optional with default                  |
 |----------------|-------------------------------------------------------------------------------------|----------------------------------------------------------------------------|----------------------------------------------------|
-| sink           | iotdb-thrift-sink or iotdb-thrift-sync-sink                                         | String: iotdb-thrift-sync-sink                                             | required                                           |
+| sink           | iotdb-thrift-sync-sink                                         | String: iotdb-thrift-sync-sink                                             | required                                           |
 | sink.ip        | the data service IP of one of the DataNode nodes in the target IoTDB                | String                                                                     | optional: and sink.node-urls fill in either one    |
 | sink.port      | the data service port of one of the DataNode nodes in the target IoTDB              | Integer                                                                    | optional: and sink.node-urls fill in either one    |
 | sink.node-urls | the URL of the data service port of any multiple DataNode nodes in the target IoTDB | String。eg：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: and sink.ip:sink.port fill in either one |
@@ -358,12 +358,12 @@ It does not guarantee that the receiving end applies the data in the same order 
 Limitation: Both the source and target IoTDB versions need to be v1.2.0+.
 
 
-| key            | value                                                                               | value range                                                                | required or optional with default                  |
-|----------------|-------------------------------------------------------------------------------------|----------------------------------------------------------------------------|----------------------------------------------------|
-| sink           | iotdb-thrift-async-sink                                                             | String: iotdb-thrift-async-sink                                            | required                                           |
-| sink.ip        | the data service IP of one of the DataNode nodes in the target IoTDB                | String                                                                     | optional: and sink.node-urls fill in either one    |
-| sink.port      | the data service port of one of the DataNode nodes in the target IoTDB              | Integer                                                                    | optional: and sink.node-urls fill in either one    |
-| sink.node-urls | the URL of the data service port of any multiple DataNode nodes in the target IoTDB | String。eg：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: and sink.ip:sink.port fill in either one |
+| key            | value                                                                               | value range                                                                 | required or optional with default                  |
+|----------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|----------------------------------------------------|
+| sink           | iotdb-thrift-sink or iotdb-thrift-async-sink                                        | String: iotdb-thrift-sink or iotdb-thrift-async-sink                        | required                                           |
+| sink.ip        | the data service IP of one of the DataNode nodes in the target IoTDB                | String                                                                      | optional: and sink.node-urls fill in either one    |
+| sink.port      | the data service port of one of the DataNode nodes in the target IoTDB              | Integer                                                                     | optional: and sink.node-urls fill in either one    |
+| sink.node-urls | the URL of the data service port of any multiple DataNode nodes in the target IoTDB | String. eg：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: and sink.ip:sink.port fill in either one |
 
 > 📌 Please ensure that the receiving end has already created all the time series present in the sending end or has enabled automatic metadata creation. Otherwise, it may result in the failure of the pipe operation.
 
@@ -410,6 +410,7 @@ Function: Does nothing with the events passed in by the processor.
 
 In iotdb-common.properties ：
 
+V1.3.0:
 ```Properties
 ####################
 ### Pipe Configuration
