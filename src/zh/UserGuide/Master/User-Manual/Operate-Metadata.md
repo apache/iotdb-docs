@@ -46,7 +46,7 @@ Database 节点名只支持中英文字符、数字、下划线的组合，如�
 
 ### 查看数据库
 
-在 database 创建后，我们可以使用 [SHOW DATABASES](../Reference/SQL-Reference.md) 语句和 [SHOW DATABASES \<PathPattern>](../Reference/SQL-Reference.md) 来查看 database，SQL 语句如下所示：
+在 database 创建后，我们可以使用 [SHOW DATABASES](./SQL-Manual/SQL-Manual.md#查看数据库) 语句和 [SHOW DATABASES \<PathPattern>](./SQL-Manual/SQL-Manual.md#查看数据库) 来查看 database，SQL 语句如下所示：
 
 ```
 IoTDB> show databases
