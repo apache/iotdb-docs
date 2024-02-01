@@ -1503,7 +1503,7 @@ SHOW FUNCTIONS
 * 具备该权限的用户才被允许执行 UDF 卸载操作
 * 具备该权限的用户才被允许使用 UDF 进行查询
 
-更多用户权限相关的内容，请参考 [权限管理语句](./Authority-Management.html##权限管理)。
+更多用户权限相关的内容，请参考 [权限管理语句](./Authority-Management.md##权限管理)。
 
 ###  配置项
 
