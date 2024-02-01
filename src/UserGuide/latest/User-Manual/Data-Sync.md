@@ -410,6 +410,7 @@ Function: Does nothing with the events passed in by the processor.
 
 In iotdb-common.properties ：
 
+V1.3.0:
 ```Properties
 ####################
 ### Pipe Configuration

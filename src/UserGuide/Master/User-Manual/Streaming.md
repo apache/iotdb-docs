@@ -136,34 +136,34 @@ Based on the custom stream processing plugin programming interface, users can ea
 Data extraction is the first stage of the three-stage process of stream processing, which includes data extraction, data processing, and data sending. The data extraction plugin (PipeExtractor) serves as a bridge between the stream processing engine and the storage engine. It captures various data write events by listening to the behavior of the storage engine.
 ```java
 /**
- * PipeExtractor
+ * PipeSource
  *
- * <p>PipeExtractor is responsible for capturing events from sources.
+ * <p>PipeSource is responsible for capturing events from sources.
  *
- * <p>Various data sources can be supported by implementing different PipeExtractor classes.
+ * <p>Various data sources can be supported by implementing different PipeSource classes.
  *
- * <p>The lifecycle of a PipeExtractor is as follows:
+ * <p>The lifecycle of a PipeSource is as follows:
  *
  * <ul>
- *   <li>When a collaboration task is created, the KV pairs of `WITH EXTRACTOR` clause in SQL are
- *       parsed and the validation method {@link PipeExtractor#validate(PipeParameterValidator)}
- *       will be called to validate the parameters.
+ *   <li>When a collaboration task is created, the KV pairs of `WITH Source` clause in SQL are
+ *       parsed and the validation method {@link PipeSource#validate(PipeParameterValidator)} will
+ *       be called to validate the parameters.
  *   <li>Before the collaboration task starts, the method {@link
- *       PipeExtractor#customize(PipeParameters, PipeExtractorRuntimeConfiguration)} will be called
- *       to config the runtime behavior of the PipeExtractor.
- *   <li>Then the method {@link PipeExtractor#start()} will be called to start the PipeExtractor.
- *   <li>While the collaboration task is in progress, the method {@link PipeExtractor#supply()} will
- *       be called to capture events from sources and then the events will be passed to the
+ *       PipeSource#customize(PipeParameters, PipeSourceRuntimeConfiguration)} will be called to
+ *       config the runtime behavior of the PipeSource.
+ *   <li>Then the method {@link PipeSource#start()} will be called to start the PipeSource.
+ *   <li>While the collaboration task is in progress, the method {@link PipeSource#supply()} will be
+ *       called to capture events from sources and then the events will be passed to the
  *       PipeProcessor.
- *   <li>The method {@link PipeExtractor#close()} will be called when the collaboration task is
+ *   <li>The method {@link PipeSource#close()} will be called when the collaboration task is
  *       cancelled (the `DROP PIPE` command is executed).
  * </ul>
  */
-public interface PipeExtractor extends PipePlugin {
+public interface PipeSource {
 
   /**
    * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
-   * PipeExtractor#customize(PipeParameters, PipeExtractorRuntimeConfiguration)} is called.
+   * PipeSource#customize(PipeParameters, PipeSourceRuntimeConfiguration)} is called.
    *
    * @param validator the validator used to validate {@link PipeParameters}
    * @throws Exception if any parameter is not valid
@@ -171,39 +171,39 @@ public interface PipeExtractor extends PipePlugin {
   void validate(PipeParameterValidator validator) throws Exception;
 
   /**
-   * This method is mainly used to customize PipeExtractor. In this method, the user can do the
+   * This method is mainly used to customize PipeSource. In this method, the user can do the
    * following things:
    *
    * <ul>
    *   <li>Use PipeParameters to parse key-value pair attributes entered by the user.
-   *   <li>Set the running configurations in PipeExtractorRuntimeConfiguration.
+   *   <li>Set the running configurations in PipeSourceRuntimeConfiguration.
    * </ul>
    *
-   * <p>This method is called after the method {@link
-   * PipeExtractor#validate(PipeParameterValidator)} is called.
+   * <p>This method is called after the method {@link PipeSource#validate(PipeParameterValidator)}
+   * is called.
    *
    * @param parameters used to parse the input parameters entered by the user
-   * @param configuration used to set the required properties of the running PipeExtractor
+   * @param configuration used to set the required properties of the running PipeSource
    * @throws Exception the user can throw errors if necessary
    */
-  void customize(PipeParameters parameters, PipeExtractorRuntimeConfiguration configuration)
+  void customize(PipeParameters parameters, PipeSourceRuntimeConfiguration configuration)
           throws Exception;
 
   /**
-   * Start the extractor. After this method is called, events should be ready to be supplied by
-   * {@link PipeExtractor#supply()}. This method is called after {@link
-   * PipeExtractor#customize(PipeParameters, PipeExtractorRuntimeConfiguration)} is called.
+   * Start the Source. After this method is called, events should be ready to be supplied by
+   * {@link PipeSource#supply()}. This method is called after {@link
+   * PipeSource#customize(PipeParameters, PipeSourceRuntimeConfiguration)} is called.
    *
    * @throws Exception the user can throw errors if necessary
    */
   void start() throws Exception;
 
   /**
-   * Supply single event from the extractor and the caller will send the event to the processor.
-   * This method is called after {@link PipeExtractor#start()} is called.
+   * Supply single event from the Source and the caller will send the event to the processor.
+   * This method is called after {@link PipeSource#start()} is called.
    *
-   * @return the event to be supplied. the event may be null if the extractor has no more events at
-   *     the moment, but the extractor is still running for more events.
+   * @return the event to be supplied. the event may be null if the Source has no more events at
+   *     the moment, but the Source is still running for more events.
    * @throws Exception the user can throw errors if necessary
    */
   Event supply() throws Exception;
@@ -316,46 +316,44 @@ Data sending is the third stage of the three-stage process of stream processing,
 
 ```java
 /**
- * PipeConnector
+ * PipeSink
  *
- * <p>PipeConnector is responsible for sending events to sinks.
+ * <p>PipeSink is responsible for sending events to sinks.
  *
- * <p>Various network protocols can be supported by implementing different PipeConnector classes.
+ * <p>Various network protocols can be supported by implementing different PipeSink classes.
  *
- * <p>The lifecycle of a PipeConnector is as follows:
+ * <p>The lifecycle of a PipeSink is as follows:
  *
  * <ul>
- *   <li>When a collaboration task is created, the KV pairs of `WITH CONNECTOR` clause in SQL are
- *       parsed and the validation method {@link PipeConnector#validate(PipeParameterValidator)}
- *       will be called to validate the parameters.
- *   <li>Before the collaboration task starts, the method {@link
- *       PipeConnector#customize(PipeParameters, PipeConnectorRuntimeConfiguration)} will be called
- *       to config the runtime behavior of the PipeConnector and the method {@link
- *       PipeConnector#handshake()} will be called to create a connection with sink.
+ *   <li>When a collaboration task is created, the KV pairs of `WITH SINK` clause in SQL are
+ *       parsed and the validation method {@link PipeSink#validate(PipeParameterValidator)} will be
+ *       called to validate the parameters.
+ *   <li>Before the collaboration task starts, the method {@link PipeSink#customize(PipeParameters,
+ *       PipeSinkRuntimeConfiguration)} will be called to config the runtime behavior of the
+ *       PipeSink and the method {@link PipeSink#handshake()} will be called to create a connection
+ *       with sink.
  *   <li>While the collaboration task is in progress:
  *       <ul>
- *         <li>PipeExtractor captures the events and wraps them into three types of Event instances.
- *         <li>PipeProcessor processes the event and then passes them to the PipeConnector.
- *         <li>PipeConnector serializes the events into binaries and send them to sinks. The
- *             following 3 methods will be called: {@link
- *             PipeConnector#transfer(TabletInsertionEvent)}, {@link
- *             PipeConnector#transfer(TsFileInsertionEvent)} and {@link
- *             PipeConnector#transfer(Event)}.
+ *         <li>PipeSource captures the events and wraps them into three types of Event instances.
+ *         <li>PipeProcessor processes the event and then passes them to the PipeSink.
+ *         <li>PipeSink serializes the events into binaries and send them to sinks. The following 3
+ *             methods will be called: {@link PipeSink#transfer(TabletInsertionEvent)}, {@link
+ *             PipeSink#transfer(TsFileInsertionEvent)} and {@link PipeSink#transfer(Event)}.
  *       </ul>
  *   <li>When the collaboration task is cancelled (the `DROP PIPE` command is executed), the {@link
- *       PipeConnector#close() } method will be called.
+ *       PipeSink#close() } method will be called.
  * </ul>
  *
- * <p>In addition, the method {@link PipeConnector#heartbeat()} will be called periodically to check
- * whether the connection with sink is still alive. The method {@link PipeConnector#handshake()}
- * will be called to create a new connection with the sink when the method {@link
- * PipeConnector#heartbeat()} throws exceptions.
+ * <p>In addition, the method {@link PipeSink#heartbeat()} will be called periodically to check
+ * whether the connection with sink is still alive. The method {@link PipeSink#handshake()} will be
+ * called to create a new connection with the sink when the method {@link PipeSink#heartbeat()}
+ * throws exceptions.
  */
-public interface PipeConnector extends PipePlugin {
+public interface PipeSink {
 
   /**
    * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
-   * PipeConnector#customize(PipeParameters, PipeConnectorRuntimeConfiguration)} is called.
+   * PipeSink#customize(PipeParameters, PipeSinkRuntimeConfiguration)} is called.
    *
    * @param validator the validator used to validate {@link PipeParameters}
    * @throws Exception if any parameter is not valid
@@ -363,29 +361,28 @@ public interface PipeConnector extends PipePlugin {
   void validate(PipeParameterValidator validator) throws Exception;
 
   /**
-   * This method is mainly used to customize PipeConnector. In this method, the user can do the
-   * following things:
+   * This method is mainly used to customize PipeSink. In this method, the user can do the following
+   * things:
    *
    * <ul>
    *   <li>Use PipeParameters to parse key-value pair attributes entered by the user.
-   *   <li>Set the running configurations in PipeConnectorRuntimeConfiguration.
+   *   <li>Set the running configurations in PipeSinkRuntimeConfiguration.
    * </ul>
    *
-   * <p>This method is called after the method {@link
-   * PipeConnector#validate(PipeParameterValidator)} is called and before the method {@link
-   * PipeConnector#handshake()} is called.
+   * <p>This method is called after the method {@link PipeSink#validate(PipeParameterValidator)} is
+   * called and before the method {@link PipeSink#handshake()} is called.
    *
    * @param parameters used to parse the input parameters entered by the user
-   * @param configuration used to set the required properties of the running PipeConnector
+   * @param configuration used to set the required properties of the running PipeSink
    * @throws Exception the user can throw errors if necessary
    */
-  void customize(PipeParameters parameters, PipeConnectorRuntimeConfiguration configuration)
+  void customize(PipeParameters parameters, PipeSinkRuntimeConfiguration configuration)
           throws Exception;
 
   /**
    * This method is used to create a connection with sink. This method will be called after the
-   * method {@link PipeConnector#customize(PipeParameters, PipeConnectorRuntimeConfiguration)} is
-   * called or will be called when the method {@link PipeConnector#heartbeat()} throws exceptions.
+   * method {@link PipeSink#customize(PipeParameters, PipeSinkRuntimeConfiguration)} is called or
+   * will be called when the method {@link PipeSink#heartbeat()} throws exceptions.
    *
    * @throws Exception if the connection is failed to be created
    */
@@ -416,14 +413,18 @@ public interface PipeConnector extends PipePlugin {
    * @throws Exception the user can throw errors if necessary
    */
   default void transfer(TsFileInsertionEvent tsFileInsertionEvent) throws Exception {
-    for (final TabletInsertionEvent tabletInsertionEvent :
-            tsFileInsertionEvent.toTabletInsertionEvents()) {
-      transfer(tabletInsertionEvent);
+    try {
+      for (final TabletInsertionEvent tabletInsertionEvent :
+              tsFileInsertionEvent.toTabletInsertionEvents()) {
+        transfer(tabletInsertionEvent);
+      }
+    } finally {
+      tsFileInsertionEvent.close();
     }
   }
 
   /**
-   * This method is used to transfer the Event.
+   * This method is used to transfer the generic events, including HeartbeatEvent.
    *
    * @param event Event to be transferred
    * @throws PipeConnectionException if the connection is broken
@@ -439,7 +440,7 @@ To ensure the flexibility and usability of user-defined plugins in production en
 
 ### Load Plugin Statement
 
-In IoTDB, to dynamically load a user-defined plugin into the system, you first need to implement a specific plugin class based on PipeExtractor, PipeProcessor, or PipeConnector. Then, you need to compile and package the plugin class into an executable jar file. Finally, you can use the loading plugin management statement to load the plugin into IoTDB.
+In IoTDB, to dynamically load a user-defined plugin into the system, you first need to implement a specific plugin class based on PipeSource, PipeProcessor, or PipeSink. Then, you need to compile and package the plugin class into an executable jar file. Finally, you can use the loading plugin management statement to load the plugin into IoTDB.
 
 The syntax of the loading plugin management statement is as follows:
 
@@ -473,42 +474,42 @@ SHOW PIPEPLUGINS
 
 ## System Pre-installed Stream Processing Plugin
 
-### Pre-built extractor Plugin
+### Pre-built Source Plugin
 
-#### iotdb-extractor
+#### iotdb-source
 
 Function: Extract historical or realtime data inside IoTDB into pipe.
 
 
-| key                                | value                                            | value range                         | required or optional with default |
-| ---------------------------------- | ------------------------------------------------ | -------------------------------------- | --------------------------------- |
-| extractor                          | iotdb-extractor                                  | String: iotdb-extractor                | required                          |
-| extractor.pattern                  | path prefix for filtering time series                       | String: any time series prefix             | optional: root                    |
-| extractor.history.enable           | whether to sync historical data                                 | Boolean: true, false                   | optional: true                    |
-| extractor.history.start-time       | start of synchronizing historical data event time，Include start-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
-| extractor.history.end-time         | end of synchronizing historical data event time，Include end-time     | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
-| extractor.realtime.enable          | Whether to sync realtime data                                 | Boolean: true, false                   | optional: true                    |
+| key                             | value                                                                                                                               | value range                            | required or optional with default |
+|---------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|-----------------------------------|
+| source                          | iotdb-source                                                                                                                        | String: iotdb-source                   | required                          |
+| source.pattern                  | path prefix for filtering time series                                                                                               | String: any time series prefix         | optional: root                    |
+| source.history.start-time       | start of synchronizing historical data event time，including start-time                                                              | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
+| source.history.end-time         | end of synchronizing historical data event time，including end-time                                                                  | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
+| start-time(V1.3.1+)             | start of synchronizing all data event time，including start-time. Will disable "history.start-time" "history.end-time" if configured | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
+| end-time(V1.3.1+)               | end of synchronizing all data event time，including end-time. Will disable "history.start-time" "history.end-time" if configured     | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
 
-> 🚫 **extractor.pattern Parameter Description**
+> 🚫 **source.pattern Parameter Description**
 >
 > * Pattern should use backquotes to modify illegal characters or illegal path nodes, for example, if you want to filter root.\`a@b\` or root.\`123\`, you should set the pattern to root.\`a@b\` or root.\`123\`（Refer specifically to [Timing of single and double quotes and backquotes](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
-> * In the underlying implementation, when pattern is detected as root (default value), synchronization efficiency is higher, and any other format will reduce performance.
-> * The path prefix does not need to form a complete path. For example, when creating a pipe with the parameter 'extractor.pattern'='root.aligned.1':
->
->   * root.aligned.1TS
->   * root.aligned.1TS.\`1\`
+> * In the underlying implementation, when pattern is detected as root (default value) or a database name, synchronization efficiency is higher, and any other format will reduce performance.
+> * The path prefix does not need to form a complete path. For example, when creating a pipe with the parameter 'source.pattern'='root.aligned.1':
+    >
+    >   * root.aligned.1TS
+    >   * root.aligned.1TS.\`1\`
 >   * root.aligned.100TS
->
->   the data will be synchronized;
->
->   * root.aligned.\`1\`
+      >
+      >   the data will be synchronized;
+      >
+      >   * root.aligned.\`1\`
 >   * root.aligned.\`123\`
->
->   the data will not be synchronized.
+      >
+      >   the data will not be synchronized.
 
-> ❗️**start-time, end-time parameter description of extractor.history**
+> ❗️**start-time, end-time parameter description of source**
 >
-> * start-time, end-time should be in ISO format, such as 2011-12-03T10:15:30 or 2011-12-03T10:15:30+01:00
+> * start-time, end-time should be in ISO format, such as 2011-12-03T10:15:30 or 2011-12-03T10:15:30+01:00. Version 1.3.1+ supports timeStamp format like 1706704494000.
 
 > ✅ **a piece of data from production to IoTDB contains two key concepts of time**
 >
@@ -517,19 +518,12 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 >
 > The out-of-order data we often refer to refers to data whose **event time** is far behind the current system time (or the maximum **event time** that has been dropped) when the data arrives. On the other hand, whether it is out-of-order data or sequential data, as long as they arrive newly in the system, their **arrival time** will increase with the order in which the data arrives at IoTDB.
 
-> 💎 **the work of iotdb-extractor can be split into two stages**
+> 💎 **the work of iotdb-source can be split into two stages**
 >
 > 1. Historical data extraction: All data with **arrival time** < **current system time** when creating the pipe is called historical data
 > 2. Realtime data extraction: All data with **arrival time** >= **current system time** when the pipe is created is called realtime data
 >
 > The historical data transmission phase and the realtime data transmission phase are executed serially. Only when the historical data transmission phase is completed, the realtime data transmission phase is executed.**
->
-> Users can specify iotdb-extractor to:
->
-> * Historical data extraction（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'false'` ）
-> * Realtime data extraction（`'extractor.history.enable' = 'false'`, `'extractor.realtime.enable' = 'true'` ）
-> * Full data extraction（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'true'` ）
-> * Disable simultaneous sets `extractor.history.enable` and `extractor.realtime.enable` to `false`
 
 ### Pre-built Processor Plugin
 
@@ -723,21 +717,21 @@ The following diagram illustrates the different states and their transitions:
 
 ### Stream Processing Task
 
-| Authority Name    | Description                 |
-| ----------- | -------------------- |
-| CREATE_PIPE | Register task,path-independent |
-| START_PIPE  | Start task,path-independent |
-| STOP_PIPE   | Stop task,path-independent |
-| DROP_PIPE   | Uninstall task,path-independent |
-| SHOW_PIPES  | Query task,path-independent |
+| Authority Name | Description                     |
+|----------------|---------------------------------|
+| CREATE_PIPE    | Register task,path-independent  |
+| START_PIPE     | Start task,path-independent     |
+| STOP_PIPE      | Stop task,path-independent      |
+| DROP_PIPE      | Uninstall task,path-independent |
+| SHOW_PIPES     | Query task,path-independent     |
 ### Stream Processing Task Plugin
 
 
-| Authority Name          | Description                           |
-| ----------------- | ------------------------------ |
+| Authority Name    | Description                                             |
+|-------------------|---------------------------------------------------------|
 | CREATE_PIPEPLUGIN | Register stream processing task plugin,path-independent |
-| DROP_PIPEPLUGIN   | Delete stream processing task plugin,path-independent |
-| SHOW_PIPEPLUGINS  | Query stream processing task plugin,path-independent |
+| DROP_PIPEPLUGIN   | Delete stream processing task plugin,path-independent   |
+| SHOW_PIPEPLUGINS  | Query stream processing task plugin,path-independent    |
 
 ## Configure Parameters
 
