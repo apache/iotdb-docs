@@ -340,7 +340,7 @@ IoTDB> create device template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT 
 挂载元数据模板的 SQL 语句如下所示：
 
 ```shell
-IoTDB> set schema template t1 to root.sg1.d1
+IoTDB> set device template t1 to root.sg1.d1
 ```
 
 ### 激活设备模板
@@ -1078,6 +1078,8 @@ IoTDB> show devices root.ln.**
 IoTDB> show devices root.ln.** where device contains 't'
 IoTDB> show devices root.ln.** where template = 't1'
 IoTDB> show devices root.ln.** where template is null
+IoTDB> show devices root.ln.** where template != 't1'
+IoTDB> show devices root.ln.** where template is not null
 ```
 
 你可以获得如下数据：
