@@ -631,7 +631,7 @@ The expressed semantics are: synchronise the full amount of historical data and 
     'connector.thrift.host' = 'localhost',
     'connector.thrift.port' = '9999',
   )
-
+  
   CREATE PIPE pipe2
   WITH CONNECTOR (
     'connector' = 'iotdb-thrift-connector',
@@ -725,19 +725,19 @@ The following diagram illustrates the different states and their transitions:
 
 | Authority Name    | Description                 |
 | ----------- | -------------------- |
-| CREATE_PIPE | Register task,path-independent |
-| START_PIPE  | Start task,path-independent |
-| STOP_PIPE   | Stop task,path-independent |
-| DROP_PIPE   | Uninstall task,path-independent |
-| SHOW_PIPES  | Query task,path-independent |
+| USE_PIPE | Register task,path-independent |
+| USE_PIPE | Start task,path-independent |
+| USE_PIPE | Stop task,path-independent |
+| USE_PIPE | Uninstall task,path-independent |
+| USE_PIPE | Query task,path-independent |
 ### Stream Processing Task Plugin
 
 
 | Authority Name          | Description                           |
 | ----------------- | ------------------------------ |
-| CREATE_PIPEPLUGIN | Register stream processing task plugin,path-independent |
-| DROP_PIPEPLUGIN   | Delete stream processing task plugin,path-independent |
-| SHOW_PIPEPLUGINS  | Query stream processing task plugin,path-independent |
+| USE_PIPE | Register stream processing task plugin,path-independent |
+| USE_PIPE | Delete stream processing task plugin,path-independent |
+| USE_PIPE | Query stream processing task plugin,path-independent |
 
 ## Configure Parameters
 

@@ -47,8 +47,6 @@ Msg: 300: root.ln has already been created as database.
 
 The LayerName of database can only be characters, numbers, underscores. If you want to set it to pure numbers or contain other characters, you need to enclose the database name with backticks (``). 
 
-Time series path supports the creation of hierarchical paths containing "*" for paths other than the database level, e.g. root.db.`*`.
-
 Besides, if deploy on Windows system, the LayerName is case-insensitive, which means it's not allowed to create databases `root.ln` and `root.LN` at the same time.
 
 ### Show Databases
@@ -324,19 +322,19 @@ Note: The `schema` keyword in the following statements can be omitted.
 The SQL syntax for creating a metadata template is as follows:
 
 ```sql
-CREATE SCHEMA TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
+CREATE DEVICE TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
 ```
 
 **Example 1:** Create a template containing two non-aligned timeseires
 
 ```shell
-IoTDB> create schema template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
+IoTDB> create device template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 ```
 
 **Example 2:** Create a template containing a group of aligned timeseires
 
 ```shell
-IoTDB> create schema template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)
+IoTDB> create device template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)
 ```
 
 The` lat` and `lon` measurements are aligned.
@@ -354,7 +352,7 @@ After a schema template is created, it should be set to specific path before cre
 The SQL Statement for setting schema template is as follow:
 
 ```shell
-IoTDB> set schema template t1 to root.sg1.d1
+IoTDB> set device template t1 to root.sg1.d1
 ```
 
 ### Activate Schema Template
@@ -365,16 +363,16 @@ After setting the schema template, with the system enabled to auto create schema
 **Attention**: Before inserting data or the system not enabled to auto create schema, timeseries defined by the schema template will not be created. You can use the following SQL statement to create the timeseries or activate the schema template, act before inserting data:
 
 ```shell
-IoTDB> create timeseries using schema template on root.sg1.d1
+IoTDB> create timeseries using device template on root.sg1.d1
 ```
 
 **Example:** Execute the following statement
 
 ```shell
-IoTDB> set schema template t1 to root.sg1.d1
-IoTDB> set schema template t2 to root.sg1.d2
-IoTDB> create timeseries using schema template on root.sg1.d1
-IoTDB> create timeseries using schema template on root.sg1.d2
+IoTDB> set device template t1 to root.sg1.d1
+IoTDB> set device template t2 to root.sg1.d2
+IoTDB> create timeseries using device template on root.sg1.d1
+IoTDB> create timeseries using device template on root.sg1.d2
 ```
 
 Show the time series:
@@ -416,7 +414,7 @@ show devices root.sg1.**
 The SQL statement looks like this:
 
 ```shell
-IoTDB> show schema templates
+IoTDB> show device templates
 ```
 
 The execution result is as follows:
@@ -435,7 +433,7 @@ The execution result is as follows:
 The SQL statement looks like this:
 
 ```shell
-IoTDB> show nodes in schema template t1
+IoTDB> show nodes in device template t1
 ```
 
 The execution result is as follows:
@@ -452,7 +450,7 @@ The execution result is as follows:
 - Show the path prefix where a schema template is set
 
 ```shell
-IoTDB> show paths set schema template t1
+IoTDB> show paths set device template t1
 ```
 
 The execution result is as follows:
@@ -468,7 +466,7 @@ The execution result is as follows:
 - Show the path prefix where a schema template is used (i.e. the time series has been created)
 
 ```shell
-IoTDB> show paths using schema template t1
+IoTDB> show paths using device template t1
 ```
 
 The execution result is as follows:
@@ -486,25 +484,25 @@ The execution result is as follows:
 To delete a group of timeseries represented by schema template, namely deactivate the schema template, use the following SQL statement:
 
 ```shell
-IoTDB> delete timeseries of schema template t1 from root.sg1.d1
+IoTDB> delete timeseries of device template t1 from root.sg1.d1
 ```
 
 or
 
 ```shell
-IoTDB> deactivate schema template t1 from root.sg1.d1
+IoTDB> deactivate device template t1 from root.sg1.d1
 ```
 
 The deactivation supports batch process. 
 
 ```shell
-IoTDB> delete timeseries of schema template t1 from root.sg1.*, root.sg2.*
+IoTDB> delete timeseries of device template t1 from root.sg1.*, root.sg2.*
 ```
 
 or
 
 ```shell
-IoTDB> deactivate schema template t1 from root.sg1.*, root.sg2.*
+IoTDB> deactivate device template t1 from root.sg1.*, root.sg2.*
 ```
 
 If the template name is not provided in sql, all template activation on paths matched by given path pattern will be removed.
@@ -514,7 +512,7 @@ If the template name is not provided in sql, all template activation on paths ma
 The SQL Statement for unsetting schema template is as follow:
 
 ```shell
-IoTDB> unset schema template t1 from root.sg1.d1
+IoTDB> unset device template t1 from root.sg1.d1
 ```
 
 **Attention**: It should be guaranteed that none of the timeseries represented by the target schema template exists, before unset it. It can be achieved by deactivation operation.
@@ -524,7 +522,7 @@ IoTDB> unset schema template t1 from root.sg1.d1
 The SQL Statement for dropping schema template is as follow:
 
 ```shell
-IoTDB> drop schema template t1
+IoTDB> drop device template t1
 ```
 
 **Attention**: Dropping an already set template is not supported.
@@ -536,7 +534,7 @@ In a scenario where measurements need to be added, you can modify the schema tem
 The SQL Statement for altering schema template is as follow:
 
 ```shell
-IoTDB> alter schema template t1 add (speed FLOAT encoding=RLE, FLOAT TEXT encoding=PLAIN compression=SNAPPY)
+IoTDB> alter device template t1 add (speed FLOAT encoding=RLE, FLOAT TEXT encoding=PLAIN compression=SNAPPY)
 ```
 
 **When executing data insertion to devices with schema template set on related prefix path and there are measurements not present in this schema template, the measurements will be auto added to this schema template.**
