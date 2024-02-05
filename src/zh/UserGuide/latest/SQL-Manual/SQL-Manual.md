@@ -263,73 +263,73 @@ Create device root.sg.d1
 
 ![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF%E6%B5%81%E7%A8%8B.png)
 
-#### 创建元数据模板
+#### 创建设备模板
 
 ```Go
-CREATE SCHEMA TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
+CREATE DEVICE TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
 ```
 
-创建包含两个非对齐序列的元数据模板
+创建包含两个非对齐序列的设备模板
 ```sql
-IoTDB> create schema template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
+IoTDB> create device template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 ```
-创建包含一组对齐序列的元数据模板
+创建包含一组对齐序列的设备模板
 ```sql
-IoTDB> create schema template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)
+IoTDB> create device template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)
 ```
-#### 挂载元数据模板
+#### 挂载设备模板
 ```sql
-IoTDB> set SCHEMA TEMPLATE t1 to root.sg1
+IoTDB> set DEVICE TEMPLATE t1 to root.sg1
 ```
-#### 激活元数据模板
+#### 激活设备模板
 ```sql
-IoTDB> create timeseries using SCHEMA TEMPLATE on root.sg1.d1
+IoTDB> create timeseries using DEVICE TEMPLATE on root.sg1.d1
 
-IoTDB> set SCHEMA TEMPLATE t1 to root.sg1.d1
+IoTDB> set DEVICE TEMPLATE t1 to root.sg1.d1
 
-IoTDB> set SCHEMA TEMPLATE t2 to root.sg1.d2
+IoTDB> set DEVICE TEMPLATE t2 to root.sg1.d2
 
-IoTDB> create timeseries using schema template on root.sg1.d1
+IoTDB> create timeseries using device template on root.sg1.d1
 
-IoTDB> create timeseries using schema template on root.sg1.d2
+IoTDB> create timeseries using device template on root.sg1.d2
 ```
-#### 查看元数据模板
+#### 查看设备模板
 ```sql
-IoTDB> show schema templates
+IoTDB> show device templates
 ```
-- 查看某个元数据模板下的物理量
+- 查看某个设备模板下的物理量
 ```sql
-IoTDB> show nodes in schema template t1
+IoTDB> show nodes in device template t1
 ```
-- 查看挂载了某个元数据模板的路径
+- 查看挂载了某个设备模板的路径
 ```sql
-IoTDB> show paths set schema template t1
+IoTDB> show paths set device template t1
 ```
-- 查看使用了某个元数据模板的路径（即模板在该路径上已激活，序列已创建）
+- 查看使用了某个设备模板的路径（即模板在该路径上已激活，序列已创建）
 ```sql
-IoTDB> show paths using schema template t1
+IoTDB> show paths using device template t1
 ```
-#### 解除元数据模板
+#### 解除设备模板
 ```sql
-IoTDB> delete timeseries of schema template t1 from root.sg1.d1
+IoTDB> delete timeseries of device template t1 from root.sg1.d1
 ```
 ```sql
-IoTDB> deactivate schema template t1 from root.sg1.d1
+IoTDB> deactivate device template t1 from root.sg1.d1
 ```
 批量处理
 ```sql
-IoTDB> delete timeseries of schema template t1 from root.sg1.*, root.sg2.*
+IoTDB> delete timeseries of device template t1 from root.sg1.*, root.sg2.*
 ```
 ```sql
-IoTDB> deactivate schema template t1 from root.sg1.*, root.sg2.*
+IoTDB> deactivate device template t1 from root.sg1.*, root.sg2.*
 ```
-#### 卸载元数据模板
+#### 卸载设备模板
 ```sql
-IoTDB> unset schema template t1 from root.sg1.d1
+IoTDB> unset device template t1 from root.sg1.d1
 ```
-#### 删除元数据模板
+#### 删除设备模板
 ```sql
-IoTDB> drop schema template t1
+IoTDB> drop device template t1
 ```
 ### 5、数据存活时间管理
 

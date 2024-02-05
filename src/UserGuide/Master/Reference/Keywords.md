@@ -107,6 +107,7 @@ Common Keywords:
 - GRANT_USER_PRIVILEGE
 - GRANT_USER_ROLE
 - GROUP
+- HEAD
 - HAVING
 - INDEX
 - INFO
@@ -192,6 +193,7 @@ Common Keywords:
 - STATEFUL
 - STOP
 - SYSTEM
+- TAIL
 - TAGS
 - TASK
 - TEMPLATE
