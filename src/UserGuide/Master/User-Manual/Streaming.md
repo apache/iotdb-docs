@@ -7,9 +7,9 @@
     to you under the Apache License, Version 2.0 (the
     "License"); you may not use this file except in compliance
     with the License.  You may obtain a copy of the License at
-    
+
         http://www.apache.org/licenses/LICENSE-2.0
-    
+
     Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -80,21 +80,21 @@ The existence of operation log write events provides users with a unified view o
 /** TabletInsertionEvent is used to define the event of data insertion. */
 public interface TabletInsertionEvent extends Event {
 
-    /**
-     * The consumer processes the data row by row and collects the results by RowCollector.
-     *
-     * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
-     *     results collected by the RowCollector
-     */
-    Iterable<TabletInsertionEvent> processRowByRow(BiConsumer<Row, RowCollector> consumer);
+  /**
+   * The consumer processes the data row by row and collects the results by RowCollector.
+   *
+   * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
+   *     results collected by the RowCollector
+   */
+  Iterable<TabletInsertionEvent> processRowByRow(BiConsumer<Row, RowCollector> consumer);
 
-    /**
-     * The consumer processes the Tablet directly and collects the results by RowCollector.
-     *
-     * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
-     *     results collected by the RowCollector
-     */
-    Iterable<TabletInsertionEvent> processTablet(BiConsumer<Tablet, RowCollector> consumer);
+  /**
+   * The consumer processes the Tablet directly and collects the results by RowCollector.
+   *
+   * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
+   *     results collected by the RowCollector
+   */
+  Iterable<TabletInsertionEvent> processTablet(BiConsumer<Tablet, RowCollector> consumer);
 }
 ```
 
@@ -119,12 +119,12 @@ In summary, the data file write event appears in the event stream of stream proc
  */
 public interface TsFileInsertionEvent extends Event {
 
-    /**
-     * The method is used to convert the TsFileInsertionEvent into several TabletInsertionEvents.
-     *
-     * @return {@code Iterable<TabletInsertionEvent>} the list of TabletInsertionEvent
-     */
-    Iterable<TabletInsertionEvent> toTabletInsertionEvents();
+  /**
+   * The method is used to convert the TsFileInsertionEvent into several TabletInsertionEvents.
+   *
+   * @return {@code Iterable<TabletInsertionEvent>} the list of TabletInsertionEvent
+   */
+  Iterable<TabletInsertionEvent> toTabletInsertionEvents();
 }
 ```
 
@@ -161,52 +161,52 @@ Data extraction is the first stage of the three-stage process of stream processi
  */
 public interface PipeSource extends PipePlugin {
 
-    /**
-     * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
-     * PipeSource#customize(PipeParameters, PipeSourceRuntimeConfiguration)} is called.
-     *
-     * @param validator the validator used to validate {@link PipeParameters}
-     * @throws Exception if any parameter is not valid
-     */
-    void validate(PipeParameterValidator validator) throws Exception;
+  /**
+   * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
+   * PipeSource#customize(PipeParameters, PipeSourceRuntimeConfiguration)} is called.
+   *
+   * @param validator the validator used to validate {@link PipeParameters}
+   * @throws Exception if any parameter is not valid
+   */
+  void validate(PipeParameterValidator validator) throws Exception;
 
-    /**
-     * This method is mainly used to customize PipeSource. In this method, the user can do the
-     * following things:
-     *
-     * <ul>
-     *   <li>Use PipeParameters to parse key-value pair attributes entered by the user.
-     *   <li>Set the running configurations in PipeSourceRuntimeConfiguration.
-     * </ul>
-     *
-     * <p>This method is called after the method {@link PipeSource#validate(PipeParameterValidator)}
-     * is called.
-     *
-     * @param parameters used to parse the input parameters entered by the user
-     * @param configuration used to set the required properties of the running PipeSource
-     * @throws Exception the user can throw errors if necessary
-     */
-    void customize(PipeParameters parameters, PipeSourceRuntimeConfiguration configuration)
-            throws Exception;
+  /**
+   * This method is mainly used to customize PipeSource. In this method, the user can do the
+   * following things:
+   *
+   * <ul>
+   *   <li>Use PipeParameters to parse key-value pair attributes entered by the user.
+   *   <li>Set the running configurations in PipeSourceRuntimeConfiguration.
+   * </ul>
+   *
+   * <p>This method is called after the method {@link PipeSource#validate(PipeParameterValidator)}
+   * is called.
+   *
+   * @param parameters used to parse the input parameters entered by the user
+   * @param configuration used to set the required properties of the running PipeSource
+   * @throws Exception the user can throw errors if necessary
+   */
+  void customize(PipeParameters parameters, PipeSourceRuntimeConfiguration configuration)
+          throws Exception;
 
-    /**
-     * Start the source. After this method is called, events should be ready to be supplied by
-     * {@link PipeSource#supply()}. This method is called after {@link
-     * PipeSource#customize(PipeParameters, PipeSourceRuntimeConfiguration)} is called.
-     *
-     * @throws Exception the user can throw errors if necessary
-     */
-    void start() throws Exception;
+  /**
+   * Start the source. After this method is called, events should be ready to be supplied by
+   * {@link PipeSource#supply()}. This method is called after {@link
+   * PipeSource#customize(PipeParameters, PipeSourceRuntimeConfiguration)} is called.
+   *
+   * @throws Exception the user can throw errors if necessary
+   */
+  void start() throws Exception;
 
-    /**
-     * Supply single event from the source and the caller will send the event to the processor.
-     * This method is called after {@link PipeSource#start()} is called.
-     *
-     * @return the event to be supplied. the event may be null if the source has no more events at
-     *     the moment, but the source is still running for more events.
-     * @throws Exception the user can throw errors if necessary
-     */
-    Event supply() throws Exception;
+  /**
+   * Supply single event from the source and the caller will send the event to the processor.
+   * This method is called after {@link PipeSource#start()} is called.
+   *
+   * @return the event to be supplied. the event may be null if the source has no more events at
+   *     the moment, but the source is still running for more events.
+   * @throws Exception the user can throw errors if necessary
+   */
+  Event supply() throws Exception;
 }
 ```
 
@@ -719,19 +719,19 @@ The following diagram illustrates the different states and their transitions:
 
 | Authority Name | Description                     |
 |----------------|---------------------------------|
-| CREATE_PIPE    | Register task,path-independent  |
-| START_PIPE     | Start task,path-independent     |
-| STOP_PIPE      | Stop task,path-independent      |
-| DROP_PIPE      | Uninstall task,path-independent |
-| SHOW_PIPES     | Query task,path-independent     |
+| USE_PIPE       | Register task,path-independent  |
+| USE_PIPE       | Start task,path-independent     |
+| USE_PIPE       | Stop task,path-independent      |
+| USE_PIPE       | Uninstall task,path-independent |
+| USE_PIPE       | Query task,path-independent     |
 ### Stream Processing Task Plugin
 
 
-| Authority Name    | Description                                             |
-|-------------------|---------------------------------------------------------|
-| CREATE_PIPEPLUGIN | Register stream processing task plugin,path-independent |
-| DROP_PIPEPLUGIN   | Delete stream processing task plugin,path-independent   |
-| SHOW_PIPEPLUGINS  | Query stream processing task plugin,path-independent    |
+| Authority Name | Description                                             |
+|----------------|---------------------------------------------------------|
+| USE_PIPE       | Register stream processing task plugin,path-independent |
+| USE_PIPE       | Delete stream processing task plugin,path-independent   |
+| USE_PIPE       | Query stream processing task plugin,path-independent    |
 
 ## Configure Parameters
 

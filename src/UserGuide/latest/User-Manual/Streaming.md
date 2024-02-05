@@ -7,9 +7,9 @@
     to you under the Apache License, Version 2.0 (the
     "License"); you may not use this file except in compliance
     with the License.  You may obtain a copy of the License at
-    
+
         http://www.apache.org/licenses/LICENSE-2.0
-    
+
     Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -719,19 +719,19 @@ The following diagram illustrates the different states and their transitions:
 
 | Authority Name | Description                     |
 |----------------|---------------------------------|
-| CREATE_PIPE    | Register task,path-independent  |
-| START_PIPE     | Start task,path-independent     |
-| STOP_PIPE      | Stop task,path-independent      |
-| DROP_PIPE      | Uninstall task,path-independent |
-| SHOW_PIPES     | Query task,path-independent     |
+| USE_PIPE       | Register task,path-independent  |
+| USE_PIPE       | Start task,path-independent     |
+| USE_PIPE       | Stop task,path-independent      |
+| USE_PIPE       | Uninstall task,path-independent |
+| USE_PIPE       | Query task,path-independent     |
 ### Stream Processing Task Plugin
 
 
-| Authority Name    | Description                                             |
-|-------------------|---------------------------------------------------------|
-| CREATE_PIPEPLUGIN | Register stream processing task plugin,path-independent |
-| DROP_PIPEPLUGIN   | Delete stream processing task plugin,path-independent   |
-| SHOW_PIPEPLUGINS  | Query stream processing task plugin,path-independent    |
+| Authority Name | Description                                             |
+|----------------|---------------------------------------------------------|
+| USE_PIPE       | Register stream processing task plugin,path-independent |
+| USE_PIPE       | Delete stream processing task plugin,path-independent   |
+| USE_PIPE       | Query stream processing task plugin,path-independent    |
 
 ## Configure Parameters
 
