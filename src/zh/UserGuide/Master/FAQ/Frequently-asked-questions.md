@@ -159,13 +159,13 @@ IoTDB 客户端默认显示的时间是人类可读的（比如：```1970-01-01T
 这是我们的依赖Ratis 2.4.1的一个内部错误日志，不会对数据写入和读取造成任何影响。
 已经报告给Ratis社区，并会在未来的版本中修复。
 
-### 10. 内存不足报错如何处理？
+### 10. 预估内存不足报错如何处理？
 
 报错信息：
 ```
 301: There is not enough memory to execute current fragment instance, current remaining free memory is 86762854, estimated memory usage for current fragment instance is 270139392
 ```
-处理方式：
+报错分析：
 datanode_memory_proportion参数控制分给查询的内存，chunk_timeseriesmeta_free_memory_proportion参数控制查询执行可用的内存。
 默认情况下分给查询的内存为堆内存*30%，查询执行可用的内存为查询内存的20%。
 报错显示当前剩余查询执行可用内存为86762854B=82.74MB，该查询预估使用执行内存270139392B=257.6MB。

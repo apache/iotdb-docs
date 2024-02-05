@@ -159,24 +159,25 @@ IoTDB 客户端默认显示的时间是人类可读的（比如：```1970-01-01T
 这是我们的依赖Ratis 2.4.1的一个内部错误日志，不会对数据写入和读取造成任何影响。
 已经报告给Ratis社区，并会在未来的版本中修复。
 
-### 10. How do I handle an out of memory error?
+### 10. 预估内存不足报错如何处理？
 
-Report an error message:
+报错信息：
 ```
 301: There is not enough memory to execute current fragment instance, current remaining free memory is 86762854, estimated memory usage for current fragment instance is 270139392
 ```
-Handling:
-The datanode_memory_proportion parameter controls the memory divided to the query, and the chunk_timeseriesmeta_free_memory_proportion parameter controls the memory available for query execution.
-By default the memory allocated to the query is 30% of the heap memory* and the memory available for query execution is 20% of the query memory.
-The error report shows that the current remaining memory available for query execution is 86762854B = 82.74MB, and the query is estimated to use 270139392B = 257.6MB of execution memory.
+报错分析：
+datanode_memory_proportion参数控制分给查询的内存，chunk_timeseriesmeta_free_memory_proportion参数控制查询执行可用的内存。
+默认情况下分给查询的内存为堆内存*30%，查询执行可用的内存为查询内存的20%。
+报错显示当前剩余查询执行可用内存为86762854B=82.74MB，该查询预估使用执行内存270139392B=257.6MB。
 
-Some possible improvement items:
+一些可能的改进项：
 
-Without changing the default parameters, crank up the heap memory of IoTDB greater than 4.2G (4.2G * 1024MB = 4300MB), 4300M * 30% * 20% = 258M > 257.6M, which can fulfill the requirement.
-Or change parameters such as datanode_memory_proportion so that the available memory for query execution is >257.6MB.
-Or reduce the number of exported time series.
-Or add slimit limit to the query statement, which is also an option to reduce the query time series.
-Or add align by device, which will export in device order, and the memory usage will be reduced to single-device level.
+在不改变默认参数的前提下，调大IoTDB的堆内存大于 4.2G（4.2G * 1024MB=4300MB），4300M*30%*20%=258M>257.6M，可以满足要求。
+或者更改 datanode_memory_proportion 等参数，使查询执行可用内存>257.6MB。
+或者减少导出的时间序列数量。
+或者给查询语句添加 slimit 限制，也是减少查询时间序列的一种方案。
+或者添加 align by device，会按照device顺序进行输出，内存占用会降低至单device级别。
+
 
 ## 分布式部署 FAQ
 
