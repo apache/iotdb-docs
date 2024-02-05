@@ -311,68 +311,68 @@ IoTDB> show all ttl
 +----------+-------+
 ```
 
-## Schema Template
+## Device Template
 
-IoTDB supports the schema template function, enabling different entities of the same type to share metadata, reduce the memory usage of metadata, and simplify the management of numerous entities and measurements.
+IoTDB supports the device template function, enabling different entities of the same type to share metadata, reduce the memory usage of metadata, and simplify the management of numerous entities and measurements.
 
-Note: The `schema` keyword in the following statements can be omitted.
+Note: The `device` keyword in the following statements can be omitted.
 
-### Create Schema Template
+### Create Device Template
 
 The SQL syntax for creating a metadata template is as follows:
 
 ```sql
-CREATE SCHEMA TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
+CREATE DEVICE TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
 ```
 
 **Example 1:** Create a template containing two non-aligned timeseires
 
 ```shell
-IoTDB> create schema template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
+IoTDB> create device template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 ```
 
 **Example 2:** Create a template containing a group of aligned timeseires
 
 ```shell
-IoTDB> create schema template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)
+IoTDB> create device template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)
 ```
 
 The` lat` and `lon` measurements are aligned.
 
-### Set Schema Template
+### Set Device Template
 
-After a schema template is created, it should be set to specific path before creating related timeseries or insert data.
+After a device template is created, it should be set to specific path before creating related timeseries or insert data.
 
 **It should be ensured that the related database has been set before setting template.**
 
-**It is recommended to set schema template to database path. It is not suggested to set schema template to some path above database**
+**It is recommended to set device template to database path. It is not suggested to set device template to some path above database**
 
-**It is forbidden to create timeseries under a path setting schema template. Schema template shall not be set on a prefix path of an existing timeseries.**
+**It is forbidden to create timeseries under a path setting s tedeviceplate. Device template shall not be set on a prefix path of an existing timeseries.**
 
-The SQL Statement for setting schema template is as follow:
+The SQL Statement for setting device template is as follow:
 
 ```shell
-IoTDB> set schema template t1 to root.sg1.d1
+IoTDB> set device template t1 to root.sg1.d1
 ```
 
-### Activate Schema Template
+### Activate Device Template
 
-After setting the schema template, with the system enabled to auto create schema, you can insert data into the timeseries. For example, suppose there's a database root.sg1 and t1 has been set to root.sg1.d1, then timeseries like root.sg1.d1.temperature and root.sg1.d1.status are available and data points can be inserted.
+After setting the device template, with the system enabled to auto create schema, you can insert data into the timeseries. For example, suppose there's a database root.sg1 and t1 has been set to root.sg1.d1, then timeseries like root.sg1.d1.temperature and root.sg1.d1.status are available and data points can be inserted.
 
 
-**Attention**: Before inserting data or the system not enabled to auto create schema, timeseries defined by the schema template will not be created. You can use the following SQL statement to create the timeseries or activate the schema template, act before inserting data:
+**Attention**: Before inserting data or the system not enabled to auto create schema, timeseries defined by the device template will not be created. You can use the following SQL statement to create the timeseries or activate the  templdeviceate, act before inserting data:
 
 ```shell
-IoTDB> create timeseries using schema template on root.sg1.d1
+IoTDB> create timeseries using device template on root.sg1.d1
 ```
 
 **Example:** Execute the following statement
 
 ```shell
-IoTDB> set schema template t1 to root.sg1.d1
-IoTDB> set schema template t2 to root.sg1.d2
-IoTDB> create timeseries using schema template on root.sg1.d1
-IoTDB> create timeseries using schema template on root.sg1.d2
+IoTDB> set device template t1 to root.sg1.d1
+IoTDB> set device template t2 to root.sg1.d2
+IoTDB> create timeseries using device template on root.sg1.d1
+IoTDB> create timeseries using device template on root.sg1.d2
 ```
 
 Show the time series:
@@ -407,14 +407,14 @@ show devices root.sg1.**
 +---------------+---------+
 ````
 
-### Show Schema Template
+### Show Device Template
 
-- Show all schema templates
+- Show all device templates
 
 The SQL statement looks like this:
 
 ```shell
-IoTDB> show schema templates
+IoTDB> show device templates
 ```
 
 The execution result is as follows:
@@ -428,12 +428,12 @@ The execution result is as follows:
 +-------------+
 ```
 
-- Show nodes under in schema template
+- Show nodes under in device template
 
 The SQL statement looks like this:
 
 ```shell
-IoTDB> show nodes in schema template t1
+IoTDB> show nodes in device template t1
 ```
 
 The execution result is as follows:
@@ -447,10 +447,10 @@ The execution result is as follows:
 +-----------+--------+--------+-----------+
 ```
 
-- Show the path prefix where a schema template is set
+- Show the path prefix where a device template is set
 
 ```shell
-IoTDB> show paths set schema template t1
+IoTDB> show paths set device template t1
 ```
 
 The execution result is as follows:
@@ -463,10 +463,10 @@ The execution result is as follows:
 +-----------+
 ```
 
-- Show the path prefix where a schema template is used (i.e. the time series has been created)
+- Show the path prefix where a device template is used (i.e. the time series has been created)
 
 ```shell
-IoTDB> show paths using schema template t1
+IoTDB> show paths using device template t1
 ```
 
 The execution result is as follows:
@@ -479,65 +479,65 @@ The execution result is as follows:
 +-----------+
 ```
 
-### Deactivate Schema Template
+### Deactivate device Template
 
-To delete a group of timeseries represented by schema template, namely deactivate the schema template, use the following SQL statement:
+To delete a group of timeseries represented by device template, namely deactivate the device template, use the following SQL statement:
 
 ```shell
-IoTDB> delete timeseries of schema template t1 from root.sg1.d1
+IoTDB> delete timeseries of device template t1 from root.sg1.d1
 ```
 
 or
 
 ```shell
-IoTDB> deactivate schema template t1 from root.sg1.d1
+IoTDB> deactivate device template t1 from root.sg1.d1
 ```
 
 The deactivation supports batch process. 
 
 ```shell
-IoTDB> delete timeseries of schema template t1 from root.sg1.*, root.sg2.*
+IoTDB> delete timeseries of device template t1 from root.sg1.*, root.sg2.*
 ```
 
 or
 
 ```shell
-IoTDB> deactivate schema template t1 from root.sg1.*, root.sg2.*
+IoTDB> deactivate device template t1 from root.sg1.*, root.sg2.*
 ```
 
 If the template name is not provided in sql, all template activation on paths matched by given path pattern will be removed.
 
-### Unset Schema Template
+### Unset Device Template
 
-The SQL Statement for unsetting schema template is as follow:
+The SQL Statement for unsetting device template is as follow:
 
 ```shell
-IoTDB> unset schema template t1 from root.sg1.d1
+IoTDB> unset device template t1 from root.sg1.d1
 ```
 
-**Attention**: It should be guaranteed that none of the timeseries represented by the target schema template exists, before unset it. It can be achieved by deactivation operation.
+**Attention**: It should be guaranteed that none of the timeseries represented by the target device template exists, before unset it. It can be achieved by deactivation operation.
 
-### Drop Schema Template
+### Drop Device Template
 
-The SQL Statement for dropping schema template is as follow:
+The SQL Statement for dropping device template is as follow:
 
 ```shell
-IoTDB> drop schema template t1
+IoTDB> drop device template t1
 ```
 
 **Attention**: Dropping an already set template is not supported.
 
-### Alter Schema Template
+### Alter Device Template
 
-In a scenario where measurements need to be added, you can modify the schema template to add measurements to all devices using the schema template.
+In a scenario where measurements need to be added, you can modify the  template to add measurements to all devicesdevice using the device template.
 
-The SQL Statement for altering schema template is as follow:
+The SQL Statement for altering device template is as follow:
 
 ```shell
-IoTDB> alter schema template t1 add (speed FLOAT encoding=RLE, FLOAT TEXT encoding=PLAIN compression=SNAPPY)
+IoTDB> alter device template t1 add (speed FLOAT encoding=RLE, FLOAT TEXT encoding=PLAIN compression=SNAPPY)
 ```
 
-**When executing data insertion to devices with schema template set on related prefix path and there are measurements not present in this schema template, the measurements will be auto added to this schema template.**
+**When executing data insertion to devices with device template set on related prefix path and there are measurements not present in this device template, the measurements will be auto added to this device template.**
 
 ## Timeseries Management
 

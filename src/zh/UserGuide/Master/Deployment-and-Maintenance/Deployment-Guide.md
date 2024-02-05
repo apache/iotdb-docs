@@ -98,7 +98,7 @@ Windows 系统启动命令如下：
 ./cluster0/sbin/start-cli.sh
 ```
 
-+ 在 Cli 执行 [show cluster details](https://iotdb.apache.org/zh/UserGuide/Master/Maintenance-Tools/Maintenance-Command.html#%E6%9F%A5%E7%9C%8B%E5%85%A8%E9%83%A8%E8%8A%82%E7%82%B9%E4%BF%A1%E6%81%AF)
++ 在 Cli 执行 `show cluster details`
     指令，结果如下所示：
 
 ```
@@ -327,7 +327,8 @@ mvn clean package -pl distribution -am -DskipTests
 ##### 通用配置
 
 打开通用配置文件 ./conf/iotdb-common.properties，
-可根据 [部署推荐](./Deployment-Recommendation.md)设置以下参数：
+可根据 [部署推荐](./Deployment-Recommendation.md)
+设置以下参数：
 
 | **配置项**                                 | **说明**                                                     | **默认**                                        |
 | ------------------------------------------ | ------------------------------------------------------------ | ----------------------------------------------- |
@@ -524,8 +525,7 @@ DataNode 的其它配置参数可参考
 ```
 
 若希望通过 Cli 连接生产环境的集群，
-请阅读 [Cli 使用手册](../Tools-System/CLI.md) 。
-
+请阅读 [Cli 使用手册](../Tools-System/CLI.md)。
 
 #### 验证集群
 

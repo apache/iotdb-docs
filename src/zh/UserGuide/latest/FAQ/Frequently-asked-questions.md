@@ -159,6 +159,25 @@ IoTDB 客户端默认显示的时间是人类可读的（比如：```1970-01-01T
 这是我们的依赖Ratis 2.4.1的一个内部错误日志，不会对数据写入和读取造成任何影响。
 已经报告给Ratis社区，并会在未来的版本中修复。
 
+### 10. How do I handle an out of memory error?
+
+Report an error message:
+```
+301: There is not enough memory to execute current fragment instance, current remaining free memory is 86762854, estimated memory usage for current fragment instance is 270139392
+```
+Handling:
+The datanode_memory_proportion parameter controls the memory divided to the query, and the chunk_timeseriesmeta_free_memory_proportion parameter controls the memory available for query execution.
+By default the memory allocated to the query is 30% of the heap memory* and the memory available for query execution is 20% of the query memory.
+The error report shows that the current remaining memory available for query execution is 86762854B = 82.74MB, and the query is estimated to use 270139392B = 257.6MB of execution memory.
+
+Some possible improvement items:
+
+Without changing the default parameters, crank up the heap memory of IoTDB greater than 4.2G (4.2G * 1024MB = 4300MB), 4300M * 30% * 20% = 258M > 257.6M, which can fulfill the requirement.
+Or change parameters such as datanode_memory_proportion so that the available memory for query execution is >257.6MB.
+Or reduce the number of exported time series.
+Or add slimit limit to the query statement, which is also an option to reduce the query time series.
+Or add align by device, which will export in device order, and the memory usage will be reduced to single-device level.
+
 ## 分布式部署 FAQ
 
 ### 集群启停

@@ -161,7 +161,7 @@ TsFile 工具可帮您 通过执行指定sql、命令行sql、sql文件的方式
 # Unix/OS X
 > tools/export-tsfile.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./
 # or
-> tools/export-tsfile.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -q "select * from root.**"
+> tools/export-tsfile.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -q "select * from root.** align by device"
 # Or
 > tools/export-tsfile.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s ./sql.txt
 # Or
@@ -172,7 +172,7 @@ TsFile 工具可帮您 通过执行指定sql、命令行sql、sql文件的方式
 # Windows
 > tools/export-tsfile.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./
 # Or
-> tools/export-tsfile.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -q "select * from root.**"
+> tools/export-tsfile.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -q "select * from root.** align by device"
 # Or
 > tools/export-tsfile.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s ./sql.txt
 # Or

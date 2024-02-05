@@ -66,9 +66,8 @@ export const zhSidebar = {
       prefix: 'Deployment-and-Maintenance/',
       // children: 'structure',
       children: [
-        { text: '环境要求', link: 'Environmental-Requirement' },
+        { text: '部署准备', link: 'Deployment-Preparation' },
         { text: '资源推荐', link: 'Deployment-Recommendation' },
-        { text: '安装包获取', link: 'Get-Installation-Package' },
         { text: '部署指导', link: 'Deployment-Guide' },
         { text: 'docker部署', link: 'Docker-Install' },
       ],
@@ -122,7 +121,6 @@ export const zhSidebar = {
         { text: 'Kafka', link: 'Programming-Kafka' },
         { text: 'REST API V1', link: 'RestServiceV1' },
         { text: 'REST API V2', link: 'RestServiceV2' },
-        { text: 'TsFile API', link: 'Programming-TsFile-API' },
       ],
     },
     {

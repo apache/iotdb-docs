@@ -46,7 +46,7 @@ Database 节点名只支持中英文字符、数字、下划线的组合，如�
 
 ### 查看数据库
 
-在 database 创建后，我们可以使用 [SHOW DATABASES](../Reference/SQL-Reference.md) 语句和 [SHOW DATABASES \<PathPattern>](../Reference/SQL-Reference.md) 来查看 database，SQL 语句如下所示：
+在 database 创建后，我们可以使用 [SHOW DATABASES](../SQL-Manual/SQL-Manual.md#查看数据库) 语句和 [SHOW DATABASES \<PathPattern>](../SQL-Manual/SQL-Manual.md#查看数据库) 来查看 database，SQL 语句如下所示：
 
 ```
 IoTDB> show databases
@@ -340,7 +340,7 @@ IoTDB> create device template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT 
 挂载元数据模板的 SQL 语句如下所示：
 
 ```shell
-IoTDB> set schema template t1 to root.sg1.d1
+IoTDB> set device template t1 to root.sg1.d1
 ```
 
 ### 激活设备模板
@@ -552,7 +552,7 @@ IoTDB> create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODIN
 error: encoding TS_2DIFF does not support BOOLEAN
 ```
 
-详细的数据类型与编码方式的对应列表请参见 [编码方式](../Basic-Concept/Encoding.md)。
+详细的数据类型与编码方式的对应列表请参见 [编码方式](../Basic-Concept/Encoding-and-Compression.md)。
 
 ### 创建对齐时间序列
 
@@ -1078,6 +1078,8 @@ IoTDB> show devices root.ln.**
 IoTDB> show devices root.ln.** where device contains 't'
 IoTDB> show devices root.ln.** where template = 't1'
 IoTDB> show devices root.ln.** where template is null
+IoTDB> show devices root.ln.** where template != 't1'
+IoTDB> show devices root.ln.** where template is not null
 ```
 
 你可以获得如下数据：

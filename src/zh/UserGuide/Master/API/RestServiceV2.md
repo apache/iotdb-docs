@@ -30,7 +30,7 @@ RESTful 服务默认情况是关闭的
 
  * 使用者  
    
-   找到IoTDB安装目录下面的`conf/iotdb-common.properties`文件，将 `enable_rest_service` 设置为 `true` 以启用该模块。
+   找到IoTDB安装目录下面的`conf/iotdb-datanode.properties`文件，将 `enable_rest_service` 设置为 `true` 以启用该模块。
    
    ```properties
     enable_rest_service=true
@@ -528,8 +528,7 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
   "expressions": null,
   "column_names": [
     "devices",
-    "isAligned",
-    "Template"
+    "isAligned"
   ],
   "timestamps": null,
   "values": [
@@ -540,10 +539,6 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
     [
       "false",
       "false"
-    ],
-    [
-      "t1",
-      null
     ]
   ]
 }
@@ -562,8 +557,7 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
   "column_names": [
     "devices",
     "database",
-    "isAligned",
-    "Template"
+    "isAligned"
   ],
   "timestamps": null,
   "values": [
@@ -578,10 +572,6 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
     [
       "false",
       "false"
-    ],
-    [
-      "t1",
-      null
     ]
   ]
 }

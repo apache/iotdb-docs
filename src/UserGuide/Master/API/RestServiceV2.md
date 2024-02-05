@@ -32,7 +32,7 @@ RESTful services are disabled by default.
 
 * User
 
-  Find the `conf/iotdb.rest.properties` file under the IoTDB installation directory and set `enable_rest_service` to `true` to enable the module.
+  Find the `conf/iotdb-datanode.properties` file under the IoTDB installation directory and set `enable_rest_service` to `true` to enable the module.
 
   ```properties
   enable_rest_service=true
@@ -523,8 +523,7 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
   "expressions": null,
   "column_names": [
     "devices",
-    "isAligned",
-    "Template"
+    "isAligned"
   ],
   "timestamps": null,
   "values": [
@@ -535,10 +534,6 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
     [
       "false",
       "false"
-    ],
-    [
-      "t1",
-      null
     ]
   ]
 }
@@ -556,8 +551,7 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
   "column_names": [
     "devices",
     "database",
-    "isAligned",
-    "Template"
+    "isAligned"
   ],
   "timestamps": null,
   "values": [
@@ -572,10 +566,6 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
     [
       "false",
       "false"
-    ],
-    [
-      "t1",
-      null
     ]
   ]
 }
