@@ -106,7 +106,7 @@ IoTDB> SHOW ALL TTL
 IoTDB> SHOW TTL ON StorageGroupNames
 ```
 
-## SCHEMA TEMPLATE
+## DEVICE TEMPLATE
 
 For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadata.md).
 
@@ -122,75 +122,71 @@ Create device root.sg.d1
 
 ![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF%E6%B5%81%E7%A8%8B.png)
 
-### Create Schema Template
+### Create Device Template
 
 **Example 1:** Create a template containing two non-aligned timeseires
 
 ```shell
-IoTDB> create schema template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
+IoTDB> create device template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 ```
 
 **Example 2:** Create a template containing a group of aligned timeseires
 
 ```shell
-IoTDB> create schema template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)
+IoTDB> create device template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)
 ```
 
 The` lat` and `lon` measurements are aligned.
 
-### Set Schema Template
+### Set Device Template
 
 ```sql
-IoTDB> set schema template t1 to root.sg1.d1
+IoTDB> set device template t1 to root.sg1.d1
 ```
 
-### Activate Schema Template
+### Activate Device Template
 
 ```sql
-IoTDB> set schema template t1 to root.sg1.d1
-IoTDB> set schema template t2 to root.sg1.d2
-IoTDB> create timeseries using schema template on root.sg1.d1
-IoTDB> create timeseries using schema template on root.sg1.d2
+IoTDB> set device template t1 to root.sg1.d1
+IoTDB> set device template t2 to root.sg1.d2
+IoTDB> create timeseries using device template on root.sg1.d1
+IoTDB> create timeseries using device template on root.sg1.d2
 ```
 
-### Show Schema Template
+### Show Device Template
 
 ```sql
-IoTDB> show schema templates
-IoTDB> show nodes in schema template t1
-IoTDB> show paths set schema template t1
-IoTDB> show paths using schema template t1
-IoTDB> show devices where template = 't1'
-IoTDB> show devices where template != 't1'
-IoTDB> show devices where template is null
-IoTDB> show devices where template is not null
+IoTDB> show device templates
+IoTDB> show nodes in device template t1
+IoTDB> show paths set device template t1
+IoTDB> show paths using device template t1
 ```
 
-### Deactivate Schema Template
+### Deactivate Device Template
 
 ```sql
-IoTDB> delete timeseries of schema template t1 from root.sg1.d1
-IoTDB> deactivate schema template t1 from root.sg1.d1
-IoTDB> delete timeseries of schema template t1 from root.sg1.*, root.sg2.*
-IoTDB> deactivate schema template t1 from root.sg1.*, root.sg2.*
+IoTDB> delete timeseries of device template t1 from root.sg1.d1
+IoTDB> deactivate device template t1 from root.sg1.d1
+IoTDB> delete timeseries of device template t1 from root.sg1.*, root.sg2.*
+IoTDB> deactivate device template t1 from root.sg1.*, root.sg2.*
 ```
 
-### Unset Schema Template
+### Unset Device Template
 
 ```sql
-IoTDB> unset schema template t1 from root.sg1.d1
+IoTDB> unset device template t1 from root.sg1.d1
 ```
 
-### Drop Schema Template
+### Drop Device Template
 
 ```sql
-IoTDB> drop schema template t1
+IoTDB> drop device template t1
 ```
 
-### Alter Schema Template
+### Alter Device Template
 
 ```sql
-IoTDB> alter schema template t1 add (speed FLOAT encoding=RLE, FLOAT TEXT encoding=PLAIN compression=SNAPPY)
+IoTDB> alter device template t1 add (speed FLOAT encoding=RLE, FLOAT TEXT encoding=PLAIN compression=SNAPPY)
 ```
 
 ## TIMESERIES MANAGEMENT

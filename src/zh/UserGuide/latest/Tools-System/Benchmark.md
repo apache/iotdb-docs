@@ -349,4 +349,4 @@ IoT-benchmark目前支持通过配置参数“TEST_DATA_PERSISTENCE”将测试�
 | STRING_LENGTH                                                | 10                         | 字符串长度                                                   |                                   |
 | DOUBLE_LENGTH                                                | 2                          | 小数位数                                                     |                                   |
 | 三台机器模拟300台设备数据写入                                | BENCHMARK_CLUSTER          | true                                                         | 开启多benchmark模式               |
-| BENCHMARK_INDEX                                              | 0、1、3                    | 以2.3章节写入参数为例：0号负责设备编号0~99数据写入；1号负责设备编号100~199数据写入；2号负责设备点好200~299数据写入； |                                   |
+| BENCHMARK_INDEX                                              | 0、1、3                    | 以2.3章节写入参数为例：0号负责设备编号0-99数据写入；1号负责设备编号100-199数据写入；2号负责设备编号200-299数据写入； |                                   |

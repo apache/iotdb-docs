@@ -172,11 +172,11 @@ datanode_memory_proportion参数控制分给查询的内存，chunk_timeseriesme
 
 一些可能的改进项：
 
-在不改变默认参数的前提下，调大IoTDB的堆内存大于 4.2G（4.2G * 1024MB=4300MB），4300M*30%*20%=258M>257.6M，可以满足要求。
-或者更改 datanode_memory_proportion 等参数，使查询执行可用内存>257.6MB。
-或者减少导出的时间序列数量。
-或者给查询语句添加 slimit 限制，也是减少查询时间序列的一种方案。
-或者添加 align by device，会按照device顺序进行输出，内存占用会降低至单device级别。
+- 在不改变默认参数的前提下，调大IoTDB的堆内存大于 4.2G（4.2G * 1024MB=4300MB），4300M*30%*20%=258M>257.6M，可以满足要求。
+- 更改 datanode_memory_proportion 等参数，使查询执行可用内存>257.6MB。
+- 减少导出的时间序列数量。
+- 给查询语句添加 slimit 限制，也是减少查询时间序列的一种方案。
+- 添加 align by device，会按照device顺序进行输出，内存占用会降低至单device级别。
 
 
 ## 分布式部署 FAQ

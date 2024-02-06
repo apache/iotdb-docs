@@ -162,16 +162,16 @@ Report an error message:
 ```
 Error analysis:
 The datanode_memory_proportion parameter controls the memory divided to the query, and the chunk_timeseriesmeta_free_memory_proportion parameter controls the memory available for query execution.
-By default the memory allocated to the query is 30% of the heap memory* and the memory available for query execution is 20% of the query memory.
+By default the memory allocated to the query is 30% of the heap memory and the memory available for query execution is 20% of the query memory.
 The error report shows that the current remaining memory available for query execution is 86762854B = 82.74MB, and the query is estimated to use 270139392B = 257.6MB of execution memory.
 
 Some possible improvement items:
 
-Without changing the default parameters, crank up the heap memory of IoTDB greater than 4.2G (4.2G * 1024MB = 4300MB), 4300M * 30% * 20% = 258M > 257.6M, which can fulfill the requirement.
-Or change parameters such as datanode_memory_proportion so that the available memory for query execution is >257.6MB.
-Or reduce the number of exported time series.
-Or add slimit limit to the query statement, which is also an option to reduce the query time series.
-Or add align by device, which will export in device order, and the memory usage will be reduced to single-device level.
+- Without changing the default parameters, crank up the heap memory of IoTDB greater than 4.2G (4.2G * 1024MB = 4300MB), 4300M * 30% * 20% = 258M > 257.6M, which can fulfill the requirement.
+- Change parameters such as datanode_memory_proportion so that the available memory for query execution is >257.6MB.
+- Reduce the number of exported time series.
+- Add slimit limit to the query statement, which is also an option to reduce the query time series.
+- Add align by device, which will export in device order, and the memory usage will be reduced to single-device level.
 
 It is an internal error introduced by Ratis 2.4.1 dependency, and we can safely ignore this exception as it will
 not affect normal operations. We will fix this message in the incoming releases.
