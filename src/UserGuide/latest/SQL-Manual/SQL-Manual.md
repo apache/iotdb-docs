@@ -1585,226 +1585,116 @@ For more details, see document [Operator-and-Expression](../User-Manual/Operator
 
 ### SQL Statements
 
-* Create User
+- Create user (Requires MANAGE_USER permission)
 
-```
-CREATE USER <userName> <password>;  
-Eg: IoTDB > CREATE USER `thulab` 'pwd';
-```
-
-* Delete User
-
-```
-DROP USER <userName>;  
-Eg: IoTDB > DROP USER `xiaoming`;
+```SQL
+CREATE USER <userName> <password>
+eg: CREATE USER user1 'passwd'
 ```
 
-* Create Role
+- Delete user (Requires MANAGE_USER permission)
 
-```
-CREATE ROLE <roleName>;  
-Eg: IoTDB > CREATE ROLE `admin`;
-```
-
-* Delete Role
-
-```
-DROP ROLE <roleName>;  
-Eg: IoTDB > DROP ROLE `admin`;
+```sql
+DROP USER <userName>
+eg: DROP USER user1
 ```
 
-* Grant User Privileges
+- Create role (Requires MANAGE_ROLE permission)
 
-```
-GRANT USER <userName> PRIVILEGES <privileges> ON <nodeNames>;  
-Eg: IoTDB > GRANT USER `tempuser` PRIVILEGES INSERT_TIMESERIES, DELETE_TIMESERIES on root.ln.**, root.sgcc.**;
-Eg: IoTDB > GRANT USER `tempuser` PRIVILEGES CREATE_ROLE;
-```
-
-- Grant User All Privileges
-
-```
-GRANT USER <userName> PRIVILEGES ALL; 
-Eg: IoTDB > GRANT USER `tempuser` PRIVILEGES ALL;
+```sql
+CREATE ROLE <roleName>
+eg: CREATE ROLE role1
 ```
 
-* Grant Role Privileges
+- Delete role (Requires MANAGE_ROLE permission)
 
-```
-GRANT ROLE <roleName> PRIVILEGES <privileges> ON <nodeNames>;  
-Eg: IoTDB > GRANT ROLE `temprole` PRIVILEGES INSERT_TIMESERIES, DELETE_TIMESERIES ON root.sgcc.**, root.ln.**;
-Eg: IoTDB > GRANT ROLE `temprole` PRIVILEGES CREATE_ROLE;
-```
-
-- Grant Role All Privileges
-
-```
-GRANT ROLE <roleName> PRIVILEGES ALL ON <nodeNames>;  
-Eg: IoTDB > GRANT ROLE `temprole` PRIVILEGES ALL;
+```sql
+DROP ROLE <roleName>
+eg: DROP ROLE role1  
 ```
 
-* Grant User Role
+- Grant role to user (Requires MANAGE_ROLE permission)
 
-```
-GRANT <roleName> TO <userName>;  
-Eg: IoTDB > GRANT `temprole` TO tempuser;
-```
-
-* Revoke User Privileges
-
-```
-REVOKE USER <userName> PRIVILEGES <privileges> ON <nodeNames>;   
-Eg: IoTDB > REVOKE USER `tempuser` PRIVILEGES DELETE_TIMESERIES on root.ln.**;
-Eg: IoTDB > REVOKE USER `tempuser` PRIVILEGES CREATE_ROLE;
+```sql
+GRANT ROLE <ROLENAME> TO <USERNAME>
+eg: GRANT ROLE admin TO user1
 ```
 
-* Revoke User All Privileges
+- Revoke role from user(Requires MANAGE_ROLE permission)
 
-```
-REVOKE USER <userName> PRIVILEGES ALL; 
-Eg: IoTDB > REVOKE USER `tempuser` PRIVILEGES ALL;
-```
-
-* Revoke Role Privileges
-
-```
-REVOKE ROLE <roleName> PRIVILEGES <privileges> ON <nodeNames>;  
-Eg: IoTDB > REVOKE ROLE `temprole` PRIVILEGES DELETE_TIMESERIES ON root.ln.**;
-Eg: IoTDB > REVOKE ROLE `temprole` PRIVILEGES CREATE_ROLE;
+```sql
+REVOKE ROLE <ROLENAME> FROM <USER>
+eg: REVOKE ROLE admin FROM user1
 ```
 
-* Revoke All Role Privileges
+- List all user (Requires MANAGE_USER permission)
 
-```
-REVOKE ROLE <roleName> PRIVILEGES ALL;  
-Eg: IoTDB > REVOKE ROLE `temprole` PRIVILEGES ALL;
-```
-
-* Revoke Role From User
-
-```
-REVOKE <roleName> FROM <userName>;
-Eg: IoTDB > REVOKE `temprole` FROM tempuser;
-```
-
-* List Users
-
-```
+```sql
 LIST USER
-Eg: IoTDB > LIST USER
 ```
 
-* List User of Specific Role
+- List all role (Requires MANAGE_ROLE permission)
 
-```
-LIST USER OF ROLE <roleName>;
-Eg: IoTDB > LIST USER OF ROLE `roleuser`;
-```
-
-* List Roles
-
-```
+```sql
 LIST ROLE
-Eg: IoTDB > LIST ROLE
 ```
 
-* List Roles of Specific User
+- List all users granted specific role.（Requires MANAGE_USER permission)
 
-```
-LIST ROLE OF USER <username> ;  
-Eg: IoTDB > LIST ROLE OF USER `tempuser`;
-```
-
-* List All Privileges of Users
-
-```
-LIST PRIVILEGES USER <username> ;   
-Eg: IoTDB > LIST PRIVILEGES USER `tempuser`;
+```sql
+LIST USER OF ROLE <roleName>
+eg: LIST USER OF ROLE roleuser
 ```
 
-* List Related Privileges of Users(On Specific Paths)
+- List all role granted to specific user.
 
-```
-LIST PRIVILEGES USER <username> ON <paths>;
-Eg: IoTDB> LIST PRIVILEGES USER `tempuser` ON root.ln.**, root.ln.wf01.**;
-+--------+-----------------------------------+
-|    role|                          privilege|
-+--------+-----------------------------------+
-|        |      root.ln.** : ALTER_TIMESERIES|
-|temprole|root.ln.wf01.** : CREATE_TIMESERIES|
-+--------+-----------------------------------+
-Total line number = 2
-It costs 0.005s
-IoTDB> LIST PRIVILEGES USER `tempuser` ON root.ln.wf01.wt01.**;
-+--------+-----------------------------------+
-|    role|                          privilege|
-+--------+-----------------------------------+
-|        |      root.ln.** : ALTER_TIMESERIES|
-|temprole|root.ln.wf01.** : CREATE_TIMESERIES|
-+--------+-----------------------------------+
-Total line number = 2
-It costs 0.005s
+```sql
+LIST ROLE OF USER <username> 
+eg: LIST ROLE OF USER tempuser
 ```
 
-* List All Privileges of Roles
+- List all privileges of user
 
-```
-LIST PRIVILEGES ROLE <roleName>
-Eg: IoTDB > LIST PRIVILEGES ROLE `actor`;
-```
-
-* List Related Privileges of Roles(On Specific Paths)
-
-```
-LIST PRIVILEGES ROLE <roleName> ON <paths>;    
-Eg: IoTDB> LIST PRIVILEGES ROLE `temprole` ON root.ln.**, root.ln.wf01.wt01.**;
-+-----------------------------------+
-|                          privilege|
-+-----------------------------------+
-|root.ln.wf01.** : CREATE_TIMESERIES|
-+-----------------------------------+
-Total line number = 1
-It costs 0.005s
-IoTDB> LIST PRIVILEGES ROLE `temprole` ON root.ln.wf01.wt01.**;
-+-----------------------------------+
-|                          privilege|
-+-----------------------------------+
-|root.ln.wf01.** : CREATE_TIMESERIES|
-+-----------------------------------+
-Total line number = 1
-It costs 0.005s
+```sql
+LIST PRIVILEGES OF USER <username>;
+eg: LIST PRIVILEGES OF USER tempuser;
 ```
 
-* Alter Password
+- List all privileges of role
 
+```sql
+LIST PRIVILEGES OF ROLE <roleName>;
+eg: LIST PRIVILEGES OF ROLE actor;
 ```
+
+- Update password
+
+```sql
 ALTER USER <username> SET PASSWORD <password>;
-Eg: IoTDB > ALTER USER `tempuser` SET PASSWORD 'newpwd';
+eg: ALTER USER tempuser SET PASSWORD 'newpwd';
 ```
 
-### Operations restricted by non root users
+### Authorization and Deauthorization
 
-At present, the following SQL statements supported by iotdb can only be operated by the `root` user, and no corresponding permission can be given to the new user.
 
-#### TsFile Management
-
-- Load TsFiles
-
-```
-Eg: IoTDB > load '/Users/Desktop/data/1575028885956-101-0.tsfile'
-```
-
-- remove a tsfile
-
-```
-Eg: IoTDB > remove '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-0.tsfile'
+```sql
+GRANT <PRIVILEGES> ON <PATHS> TO ROLE/USER <NAME> [WITH GRANT OPTION]；
+eg: GRANT READ ON root.** TO ROLE role1;
+eg: GRANT READ_DATA, WRITE_DATA ON root.t1.** TO USER user1;
+eg: GRANT READ_DATA, WRITE_DATA ON root.t1.**,root.t2.** TO USER user1;
+eg: GRANT MANAGE_ROLE ON root.** TO USER user1 WITH GRANT OPTION;
+eg: GRANT ALL ON root.** TO USER user1 WITH GRANT OPTION;
 ```
 
-- unload a tsfile and move it to a target directory
+```sql
+REVOKE <PRIVILEGES> ON <PATHS> FROM ROLE/USER <NAME>;
+eg: REVOKE READ ON root.** FROM ROLE role1;
+eg: REVOKE READ_DATA, WRITE_DATA ON root.t1.** FROM USER user1;
+eg: REVOKE READ_DATA, WRITE_DATA ON root.t1.**, root.t2.** FROM USER user1;
+eg: REVOKE MANAGE_ROLE ON root.** FROM USER user1;
+eg: REVOKE ALL ON ROOT.** FROM USER user1;
+```
 
-```
-Eg: IoTDB > unload '/Users/Desktop/data/data/root.vehicle/0/0/1575028885956-101-0.tsfile' '/data/data/tmp'
-```
 
 #### Delete Time Partition (experimental)
 
@@ -1850,18 +1740,3 @@ Eg: IoTDB > SET SYSTEM TO READONLY / WRITABLE
 ```
 Eg: IoTDB > KILL QUERY 1
 ```
-
-#### Watermark Tool
-
-- Watermark new users
-
-```
-Eg: IoTDB > grant watermark_embedding to Alice
-```
-
-- Watermark Detection
-
-```
-Eg: IoTDB > revoke watermark_embedding from Alice
-```
-

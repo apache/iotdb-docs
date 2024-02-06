@@ -32,7 +32,7 @@ RESTful services are disabled by default.
 
 * User
 
-  Find the `conf/iotdb.rest.properties` file under the IoTDB installation directory and set `enable_rest_service` to `true` to enable the module.
+  Find the `conf/conf/iotdb-datanode.properties` file under the IoTDB installation directory and set `enable_rest_service` to `true` to enable the module.
 
   ```properties
   enable_rest_service=true

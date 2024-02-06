@@ -1187,8 +1187,7 @@ SELECT DIFF(s1, 'ignoreNull'='false'), DIFF(s2, 'ignoreNull'='false') from root.
 更多见文档[Sample Functions](../Reference/Function-and-Expression.md#采样函数)。
 ### 时间序列处理函数
 
-| 函数名        | 输入序列类型                   | 参数 | 输出序列类型             | 功能描述                   |
-| ---)
+更多见文档[Sample Functions](../Reference/Function-and-Expression.md#时间序列处理函数)。
 
 ```sql
 select equal_size_bucket_random_sample(temperature,'proportion'='0.1') as random_sample from root.ln.wf01.wt01;
