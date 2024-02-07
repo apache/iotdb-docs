@@ -830,7 +830,7 @@ and DataNode configuration (see Chap 5.2.3).
 
 Open the common configuration file ./conf/iotdb-common.properties,
 and set the following parameters base on the 
-[Deployment Recommendation](https://iotdb.apache.org/UserGuide/Master/Cluster/Deployment-Recommendation.html):
+[Deployment Recommendation](./Deployment-Recommendation.md):
 
 | **Configuration**                          | **Description**                                              | **Default**                                     |
 | ------------------------------------------ | ------------------------------------------------------------ | ----------------------------------------------- |
@@ -905,7 +905,7 @@ Before start the Seed-ConfigNode, please open the common configuration file ./co
 | data\_replication\_factor                  | Is set to the expected data replication count   |
 | data\_region\_consensus\_protocol\_class   | Is set to the expected consensus protocol       |
 
-**Notice:** Please set these parameters carefully based on the [Deployment Recommendation](https://iotdb.apache.org/UserGuide/Master/Cluster/Deployment-Recommendation.html).
+**Notice:** Please set these parameters carefully based on the [Deployment Recommendation](./Deployment-Recommendation.md).
 These parameters are not modifiable after the Node first startup.
 
 Then open its configuration file ./conf/iotdb-confignode.properties and check the following parameters:
