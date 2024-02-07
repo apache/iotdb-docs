@@ -292,7 +292,7 @@ To Show TTL, we can use following SQL statement:
 
 ```
 IoTDB> SHOW ALL TTL
-IoTDB> SHOW TTL ON StorageGroupNames
+IoTDB> SHOW TTL ON DataBaseNames
 ```
 
 The SHOW ALL TTL example gives the TTL for all databases.
