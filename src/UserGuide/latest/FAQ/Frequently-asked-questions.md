@@ -154,6 +154,25 @@ The default IoTDB's Cli time display format is readable (e.g. ```1970-01-01T08:0
 
 ### 9. How to handle error `IndexOutOfBoundsException` from `org.apache.ratis.grpc.server.GrpcLogAppender`?
 
+### 10. How to deal with estimated out of memory errors?
+
+Report an error message:
+```
+301: There is not enough memory to execute current fragment instance, current remaining free memory is 86762854, estimated memory usage for current fragment instance is 270139392
+```
+Error analysis:
+The datanode_memory_proportion parameter controls the memory divided to the query, and the chunk_timeseriesmeta_free_memory_proportion parameter controls the memory available for query execution.
+By default the memory allocated to the query is 30% of the heap memory and the memory available for query execution is 20% of the query memory.
+The error report shows that the current remaining memory available for query execution is 86762854B = 82.74MB, and the query is estimated to use 270139392B = 257.6MB of execution memory.
+
+Some possible improvement items:
+
+- Without changing the default parameters, crank up the heap memory of IoTDB greater than 4.2G (4.2G * 1024MB = 4300MB), 4300M * 30% * 20% = 258M > 257.6M, which can fulfill the requirement.
+- Change parameters such as datanode_memory_proportion so that the available memory for query execution is >257.6MB.
+- Reduce the number of exported time series.
+- Add slimit limit to the query statement, which is also an option to reduce the query time series.
+- Add align by device, which will export in device order, and the memory usage will be reduced to single-device level.
+
 It is an internal error introduced by Ratis 2.4.1 dependency, and we can safely ignore this exception as it will
 not affect normal operations. We will fix this message in the incoming releases.
 

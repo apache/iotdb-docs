@@ -2877,8 +2877,8 @@ It costs 0.375s
 
 The user must have the following permissions to execute a query write-back statement:
 
-* All `READ_TIMESERIES` permissions for the source series in the `select` clause.
-* All `INSERT_TIMESERIES` permissions for the target series in the `into` clause.
+* All `WRITE_SCHEMA` permissions for the source series in the `select` clause.
+* All `WRITE_DATA` permissions for the target series in the `into` clause.
 
 For more user permissions related content, please refer to [Account Management Statements](./Authority-Management.md).
 
