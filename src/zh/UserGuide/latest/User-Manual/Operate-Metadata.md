@@ -188,7 +188,7 @@ IoTDB> unset ttl to root.**
 
 ```
 IoTDB> SHOW ALL TTL
-IoTDB> SHOW TTL ON StorageGroupNames
+IoTDB> SHOW TTL ON DataBaseNames
 ```
 
 SHOW ALL TTL 这个例子会给出所有 database 的 TTL。
