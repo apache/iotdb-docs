@@ -43,24 +43,16 @@ export const zhNavbar = navbar([
     text: '社区',
     children: [
       { text: '关于社区', link: '/zh/Community/About' },
-      { text: 'Wiki', link: 'https://cwiki.apache.org/confluence/display/iotdb' },
-      { text: '开发人员', link: '/zh/Community/Community-Project-Committers' },
-      { text: '技术支持', link: '/zh/Community/Community-Powered-By' },
-      { text: '活动与报告', link: '/Community/Materials' },
       { text: '交流与反馈', link: '/zh/Community/Feedback' },
+      { text: '活动与报告', link: 'zh/Community/Materials' },
     ],
   },
   {
     text: '开发',
     children: [
-      { text: '如何投票', link: '/zh/Development/VoteRelease' },
-      { text: '如何提交代码', link: '/zh/Development/HowToCommit' },
-      { text: '成为Contributor', link: '/zh/Development/HowToJoin' },
-      { text: '成为Committer', link: '/zh/Development/Committer' },
-      { text: '项目开发指南', link: '/zh/Development/ContributeGuide' },
-      { text: '技术贡献指南', link: '/zh/Development/HowtoContributeCode' },
-      { text: 'TsFile的更改列表', link: '/zh/Development/format-changelist' },
-      { text: 'RPC变更清单', link: '/zh/Development/rpc-changelist' },
+      { text: '成为开发者', link: '/zh/Development/Community-Project-Committers' },
+      { text: '开发指南', link: '/zh/Development/Development-Guide' },
+      { text: 'Power by', link: '/zh/Development/Powered-By' },
     ],
   },
   {
