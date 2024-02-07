@@ -1545,13 +1545,13 @@ SHOW FUNCTIONS
 
 ### User Permission Management
 
-There are 3 types of user permissions related to UDF:
+There are 1 types of user permissions related to UDF: `USE_UDF`
 
-* `USE_UDF`: Only users with this permission are allowed to register UDFs
-* `DROP_FUNCTION`: Only users with this permission are allowed to deregister UDFs
-* `READ_TIMESERIES`: Only users with this permission are allowed to use UDFs for queries
+* Only users with this permission are allowed to register UDFs
+* Only users with this permission are allowed to deregister UDFs
+* Only users with this permission are allowed to use UDFs for queries
 
-For more user permissions related content, please refer to [Account Management Statements](../Administration-Management/Administration.md).
+For more user permissions related content, please refer to [Account Management Statements](./Authority-Management.md).
 
 
 
