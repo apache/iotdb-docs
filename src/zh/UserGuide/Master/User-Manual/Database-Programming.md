@@ -1045,7 +1045,7 @@ IoTDB 支持两种类型的 UDF 函数，如下表所示。
 | UDF 分类                                            | 描述                                                         |
 | --------------------------------------------------- | ------------------------------------------------------------ |
 | UDTF（User Defined Timeseries Generating Function） | 自定义时间序列生成函数。该类函数允许接收多条时间序列，最终会输出一条时间序列，生成的时间序列可以有任意多数量的数据点。 |
-| UDAF（User Defined Aggregation Function）           | 正在开发，敬请期待。                                         |
+| UDAF（User Defined Aggregation Function）           | 自定义聚合函数。该类函数接受一条时间序列数据，最终会根据用户指定的 GROUP BY 类型，为每个组生成一个聚合后的数据点。 |
 
 ###  UDF 依赖
 
@@ -1373,6 +1373,232 @@ public class Max implements UDTF {
  * void beforeDestroy()
 
 UDTF 的结束方法，您可以在此方法中进行一些资源释放等的操作。
+
+此方法由框架调用。对于一个 UDF 类实例而言，生命周期中会且只会被调用一次，即在处理完最后一条记录之后被调用。
+
+### UDAF（User Defined Aggregation Function）
+
+一个完整的 UDAF 定义涉及到 State 和 UDAF 两个类。
+
+#### State 类
+
+编写一个 State 类需要实现`org.apache.iotdb.udf.api.State`接口，下表是需要实现的方法说明。
+
+| 接口定义                         | 描述                                                         | 是否必须 |
+| -------------------------------- | ------------------------------------------------------------ | -------- |
+| `void reset()`                   | 将 `State` 对象重置为初始的状态，您需要像编写构造函数一样，在该方法内填入 `State` 类中各个字段的初始值。 | 是       |
+| `byte[] serialize()`             | 将 `State` 序列化为二进制数据。该方法用于 IoTDB 内部的 `State` 对象传递，注意序列化的顺序必须和下面的反序列化方法一致。 | 是       |
+| `void deserialize(byte[] bytes)` | 将二进制数据反序列化为 `State`。该方法用于 IoTDB 内部的 `State` 对象传递，注意反序列化的顺序必须和上面的序列化方法一致。 | 是       |
+
+下面将详细介绍各个接口的使用方法。
+
+- void reset()
+
+该方法的作用是将 `State` 重置为初始的状态，您需要在该方法内填写 `State` 对象中各个字段的初始值。出于优化上的考量，IoTDB 在内部会尽可能地复用 `State`，而不是为每一个组创建一个新的 `State`，这样会引入不必要的开销。当 `State` 更新完一个组中的数据之后，就会调用这个方法重置为初始状态，以此来处理下一个组。
+
+以求平均数（也就是 `avg`）的 `State` 为例，您需要数据的总和 `sum` 与数据的条数 `count`，并在 `reset()` 方法中将二者初始化为 0。
+
+```java
+class AvgState implements State {
+  double sum;
+
+  long count;
+
+  @Override
+  public void reset() {
+    sum = 0;
+    count = 0;
+  }
+  
+  // other methods
+}
+```
+
+- byte[] serialize()/void deserialize(byte[] bytes)
+
+该方法的作用是将 State 序列化为二进制数据，和从二进制数据中反序列化出 State。IoTDB 作为分布式数据库，涉及到在不同节点中传递数据，因此您需要编写这两个方法，来实现 State 在不同节点中的传递。注意序列化和反序列的顺序必须一致。
+
+还是以求平均数（也就是求 avg）的 State 为例，您可以通过任意途径将 State 的内容转化为 `byte[]` 数组，以及从 `byte[]` 数组中读取出 State 的内容，下面展示的是用 Java8 引入的 `ByteBuffer` 进行序列化/反序列的代码：
+
+```java
+@Override
+public byte[] serialize() {
+  ByteBuffer buffer = ByteBuffer.allocate(Double.BYTES + Long.BYTES);
+  buffer.putDouble(sum);
+  buffer.putLong(count);
+
+  return buffer.array();
+}
+
+@Override
+public void deserialize(byte[] bytes) {
+  ByteBuffer buffer = ByteBuffer.wrap(bytes);
+  sum = buffer.getDouble();
+  count = buffer.getLong();
+}
+```
+
+#### UDAF 类
+
+编写一个 UDAF 类需要实现`org.apache.iotdb.udf.api.UDAF`接口，下表是需要实现的方法说明。
+
+| 接口定义                                                     | 描述                                                         | 是否必须 |
+| ------------------------------------------------------------ | ------------------------------------------------------------ | -------- |
+| `void validate(UDFParameterValidator validator) throws Exception` | 在初始化方法`beforeStart`调用前执行，用于检测`UDFParameters`中用户输入的参数是否合法。该方法与 UDTF 的`validate`相同。 | 否       |
+| `void beforeStart(UDFParameters parameters, UDAFConfigurations configurations) throws Exception` | 初始化方法，在 UDAF 处理输入数据前，调用用户自定义的初始化行为。与 UDTF 不同的是，这里的 configuration 是 `UDAFConfiguration` 类型。 | 是       |
+| `State createState()`                                        | 创建`State`对象，一般只需要调用默认构造函数，然后按需修改默认的初始值即可。 | 是       |
+| `void addInput(State state, Column[] columns, BitMap bitMap)` | 根据传入的数据`Column[]`批量地更新`State`对象，注意 `column[0]` 总是代表时间列。另外`BitMap`表示之前已经被过滤掉的数据，您在编写该方法时需要手动判断对应的数据是否被过滤掉。 | 是       |
+| `void combineState(State state, State rhs)`                  | 将`rhs`状态合并至`state`状态中。在分布式场景下，同一组的数据可能分布在不同节点上，IoTDB 会为每个节点上的部分数据生成一个`State`对象，然后调用该方法合并成完整的`State`。 | 是       |
+| `void outputFinal(State state, ResultValue resultValue)`     | 根据`State`中的数据，计算出最终的聚合结果。注意根据聚合的语义，每一组只能输出一个值。 | 是       |
+| `void beforeDestroy() `                                      | UDAF 的结束方法。此方法由框架调用，并且只会被调用一次，即在处理完最后一条记录之后被调用。 | 否       |
+
+在一个完整的 UDAF 实例生命周期中，各个方法的调用顺序如下：
+
+1. `State createState()`
+2. `void validate(UDFParameterValidator validator) throws Exception`
+3. `void beforeStart(UDFParameters parameters, UDAFConfigurations configurations) throws Exception`
+4. `void addInput(State state, Column[] columns, BitMap bitMap)`
+5. `void combineState(State state, State rhs)`
+6. `void outputFinal(State state, ResultValue resultValue)`
+7. `void beforeDestroy()`
+
+和 UDTF 类似，框架每执行一次 UDAF 查询，都会构造一个全新的 UDF 类实例，查询结束时，对应的 UDF 类实例即被销毁，因此不同 UDAF 查询（即使是在同一个 SQL 语句中）UDF 类实例内部的数据都是隔离的。您可以放心地在 UDAF 中维护一些状态数据，无需考虑并发对 UDF 类实例内部状态数据的影响。
+
+下面将详细介绍各个接口的使用方法。
+
+ * void validate(UDFParameterValidator validator) throws Exception
+
+同 UDTF， `validate`方法能够对用户输入的参数进行验证。 
+
+您可以在该方法中限制输入序列的数量和类型，检查用户输入的属性或者进行自定义逻辑的验证。
+
+ *  void beforeStart(UDFParameters parameters, UDAFConfigurations configurations) throws Exception
+
+ `beforeStart`方法的作用 UDAF 相同：
+
+    1. 帮助用户解析 SQL 语句中的 UDF 参数
+    2. 配置 UDF 运行时必要的信息，即指定 UDF 访问原始数据时采取的策略和输出结果序列的类型
+    3. 创建资源，比如建立外部链接，打开文件等。
+
+其中，`UDFParameters` 类型的作用可以参照上文。
+
+##### UDAFConfigurations
+
+和 UDTF 的区别在于，UDAF 使用了 `UDAFConfigurations` 作为 `configuration` 对象的类型。
+
+目前，该类仅支持设置输出数据的类型。
+
+```java
+void beforeStart(UDFParameters parameters, UDAFConfigurations configurations) throws Exception {
+  // parameters
+  // ...
+
+  // configurations
+  configurations
+    .setOutputDataType(Type.INT32);
+}
+```
+
+`setOutputDataType` 中设定的输出类型和 `ResultValue` 实际能够接收的数据输出类型关系如下：
+
+| `setOutputDataType`中设定的输出类型 | `ResultValue`实际能够接收的输出类型    |
+| :---------------------------------- | :------------------------------------- |
+| `INT32`                             | `int`                                  |
+| `INT64`                             | `long`                                 |
+| `FLOAT`                             | `float`                                |
+| `DOUBLE`                            | `double`                               |
+| `BOOLEAN`                           | `boolean`                              |
+| `TEXT`                              | `org.apache.iotdb.udf.api.type.Binary` |
+
+UDAF 输出序列的类型也是运行时决定的。您可以根据输入序列类型动态决定输出序列类型。
+
+下面是一个简单的例子：
+
+```java
+void beforeStart(UDFParameters parameters, UDAFConfigurations configurations) throws Exception {
+  // do something
+  // ...
+  
+  configurations
+    .setOutputDataType(parameters.getDataType(0));
+}
+```
+
+- State createState()
+
+为 UDAF 创建并初始化 `State`。由于 Java 语言本身的限制，您只能调用 `State` 类的默认构造函数。默认构造函数会为类中所有的字段赋一个默认的初始值，如果该初始值并不符合您的要求，您需要在这个方法内进行手动的初始化。
+
+下面是一个包含手动初始化的例子。假设您要实现一个累乘的聚合函数，`State` 的初始值应该设置为 1，但是默认构造函数会初始化为 0，因此您需要在调用默认构造函数之后，手动对 `State` 进行初始化：
+
+```java
+public State createState() {
+  MultiplyState state = new MultiplyState();
+  state.result = 1;
+  return state;
+}
+```
+
+- void addInput(State state, Column[] columns, BitMap bitMap)
+
+该方法的作用是，通过原始的输入数据来更新 `State` 对象。出于性能上的考量，也是为了和 IoTDB 向量化的查询引擎相对齐，原始的输入数据不再是一个数据点，而是列的数组 `Column[]`。注意第一列（也就是 `column[0]` ）总是时间列，因此您也可以在 UDAF 中根据时间进行不同的操作。
+
+由于输入参数的类型不是一个数据点，而是多个列，您需要手动对列中的部分数据进行过滤处理，这就是第三个参数 `BitMap` 存在的意义。它用来标识这些列中哪些数据被过滤掉了，您在任何情况下都无需考虑被过滤掉的数据。
+
+下面是一个用于统计数据条数（也就是 count）的 `addInput()` 示例。它展示了您应该如何使用 `BitMap` 来忽视那些已经被过滤掉的数据。注意还是由于 Java 语言本身的限制，您需要在方法的开头将接口中定义的 `State` 类型强制转化为自定义的 `State` 类型，不然后续无法正常使用该 `State` 对象。
+
+```java
+public void addInput(State state, Column[] column, BitMap bitMap) {
+  CountState countState = (CountState) state;
+
+  int count = column[0].getPositionCount();
+  for (int i = 0; i < count; i++) {
+    if (bitMap != null && !bitMap.isMarked(i)) {
+      continue;
+    }
+    if (!column[1].isNull(i)) {
+      countState.count++;
+    }
+  }
+}
+```
+
+- void combineState(State state, State rhs)
+
+该方法的作用是合并两个 `State`，更加准确的说，是用第二个 `State` 对象来更新第一个 `State` 对象。IoTDB 是分布式数据库，同一组的数据可能分布在多个不同的节点上。出于性能考虑，IoTDB 会为每个节点上的部分数据先进行聚合成 `State`，然后再将不同节点上的、属于同一个组的 `State` 进行合并，这就是 `combineState` 的作用。
+
+下面是一个用于求平均数（也就是 avg）的 `combineState()` 示例。和 `addInput` 类似，您都需要在开头对两个 `State` 进行强制类型转换。另外需要注意是用第二个 `State` 的内容来更新第一个 `State` 的值。
+
+```java
+public void combineState(State state, State rhs) {
+  AvgState avgState = (AvgState) state;
+  AvgState avgRhs = (AvgState) rhs;
+
+  avgState.count += avgRhs.count;
+  avgState.sum += avgRhs.sum;
+}
+```
+
+- void outputFinal(State state, ResultValue resultValue)
+
+该方法的作用是从 `State` 中计算出最终的结果。您需要访问 `State` 中的各个字段，求出最终的结果，并将最终的结果设置到 `ResultValue` 对象中。IoTDB 内部会为每个组在最后调用一次这个方法。注意根据聚合的语义，最终的结果只能是一个值。
+
+下面还是一个用于求平均数（也就是 avg）的 `outputFinal` 示例。除了开头的强制类型转换之外，您还将看到 `ResultValue` 对象的具体用法，即通过 `setXXX`（其中 `XXX` 是类型名）来设置最后的结果。
+
+```java
+public void outputFinal(State state, ResultValue resultValue) {
+  AvgState avgState = (AvgState) state;
+
+  if (avgState.count != 0) {
+    resultValue.setDouble(avgState.sum / avgState.count);
+  } else {
+    resultValue.setNull();
+  }
+}
+```
+
+ * void beforeDestroy()
+
+UDAF 的结束方法，您可以在此方法中进行一些资源释放等的操作。
 
 此方法由框架调用。对于一个 UDF 类实例而言，生命周期中会且只会被调用一次，即在处理完最后一条记录之后被调用。
 
