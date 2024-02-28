@@ -400,11 +400,11 @@ Function: Does nothing with the events passed in by the processor.
 
 | Authority Name | Description                     |
 |----------------|---------------------------------|
-| CREATE_PIPE    | Register task,path-independent  |
-| START_PIPE     | Start task,path-independent     |
-| STOP_PIPE      | Stop task,path-independent      |
-| DROP_PIPE      | Uninstall task,path-independent |
-| SHOW_PIPES     | Query task,path-independent     |
+| USE_PIPE       | Register task,path-independent  |
+| USE_PIPE       | Start task,path-independent     |
+| USE_PIPE       | Stop task,path-independent      |
+| USE_PIPE       | Uninstall task,path-independent |
+| USE_PIPE       | Query task,path-independent     |
 
 ## Configure Parameters
 

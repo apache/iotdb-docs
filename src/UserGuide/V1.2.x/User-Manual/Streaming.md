@@ -722,21 +722,21 @@ The following diagram illustrates the different states and their transitions:
 
 ### Stream Processing Task
 
-| Authority Name    | Description                 |
-| ----------- | -------------------- |
-| CREATE_PIPE | Register task,path-independent |
-| START_PIPE  | Start task,path-independent |
-| STOP_PIPE   | Stop task,path-independent |
-| DROP_PIPE   | Uninstall task,path-independent |
-| SHOW_PIPES  | Query task,path-independent |
+| Authority Name | Description                     |
+|----------------|---------------------------------|
+| CREATE_PIPE    | Register task,path-independent  |
+| START_PIPE     | Start task,path-independent     |
+| STOP_PIPE      | Stop task,path-independent      |
+| DROP_PIPE      | Uninstall task,path-independent |
+| SHOW_PIPES     | Query task,path-independent     |
 ### Stream Processing Task Plugin
 
 
-| Authority Name          | Description                           |
-| ----------------- | ------------------------------ |
+| Authority Name    | Description                                             |
+|-------------------|---------------------------------------------------------|
 | CREATE_PIPEPLUGIN | Register stream processing task plugin,path-independent |
-| DROP_PIPEPLUGIN   | Delete stream processing task plugin,path-independent |
-| SHOW_PIPEPLUGINS  | Query stream processing task plugin,path-independent |
+| DROP_PIPEPLUGIN   | Delete stream processing task plugin,path-independent   |
+| SHOW_PIPEPLUGINS  | Query stream processing task plugin,path-independent    |
 
 ## Configure Parameters
 

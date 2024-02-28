@@ -342,7 +342,7 @@ Limitation: Both the source and target IoTDB versions need to be v1.2.0+.
 
 | key            | value                                                                               | value range                                                                | required or optional with default                  |
 |----------------|-------------------------------------------------------------------------------------|----------------------------------------------------------------------------|----------------------------------------------------|
-| sink           | iotdb-thrift-sync-sink                                         | String: iotdb-thrift-sync-sink                                             | required                                           |
+| sink           | iotdb-thrift-sync-sink                                                              | String: iotdb-thrift-sync-sink                                             | required                                           |
 | sink.ip        | the data service IP of one of the DataNode nodes in the target IoTDB                | String                                                                     | optional: and sink.node-urls fill in either one    |
 | sink.port      | the data service port of one of the DataNode nodes in the target IoTDB              | Integer                                                                    | optional: and sink.node-urls fill in either one    |
 | sink.node-urls | the URL of the data service port of any multiple DataNode nodes in the target IoTDB | String。eg：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: and sink.ip:sink.port fill in either one |
@@ -400,11 +400,11 @@ Function: Does nothing with the events passed in by the processor.
 
 | Authority Name | Description                     |
 |----------------|---------------------------------|
-| CREATE_PIPE    | Register task,path-independent  |
-| START_PIPE     | Start task,path-independent     |
-| STOP_PIPE      | Stop task,path-independent      |
-| DROP_PIPE      | Uninstall task,path-independent |
-| SHOW_PIPES     | Query task,path-independent     |
+| USE_PIPE       | Register task,path-independent  |
+| USE_PIPE       | Start task,path-independent     |
+| USE_PIPE       | Stop task,path-independent      |
+| USE_PIPE       | Uninstall task,path-independent |
+| USE_PIPE       | Query task,path-independent     |
 
 ## Configure Parameters
 
