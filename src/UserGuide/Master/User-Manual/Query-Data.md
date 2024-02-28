@@ -275,7 +275,7 @@ In IoTDB, there are two ways to execute data query:
 
 Data query statements can be used in SQL command-line terminals, JDBC, JAVA / C++ / Python / Go and other native APIs, and RESTful APIs.
 
-- Execute the query statement in the SQL command line terminal: start the SQL command line terminal, and directly enter the query statement to execute, see [SQL command line terminal](../QuickStart/Command-Line-Interface.md).
+- Execute the query statement in the SQL command line terminal: start the SQL command line terminal, and directly enter the query statement to execute, see [SQL command line terminal](../Tools-System/CLI.md).
 
 - Execute query statements in JDBC, see [JDBC](../API/Programming-JDBC.md) for details.
 
@@ -2877,8 +2877,8 @@ It costs 0.375s
 
 The user must have the following permissions to execute a query write-back statement:
 
-* All `READ_TIMESERIES` permissions for the source series in the `select` clause.
-* All `INSERT_TIMESERIES` permissions for the target series in the `into` clause.
+* All `WRITE_SCHEMA` permissions for the source series in the `select` clause.
+* All `WRITE_DATA` permissions for the target series in the `into` clause.
 
 For more user permissions related content, please refer to [Account Management Statements](./Authority-Management.md).
 

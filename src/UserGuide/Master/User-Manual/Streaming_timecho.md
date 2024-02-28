@@ -761,20 +761,20 @@ The following diagram shows all states and state transitions:
 
 | Permission name | Description                                                |
 |-----------------|------------------------------------------------------------|
-| CREATE_PIPE     | Register a stream processing task. The path is irrelevant. |
-| START_PIPE      | Start the stream processing task. The path is irrelevant.  |
-| STOP_PIPE       | Stop the stream processing task. The path is irrelevant.   |
-| DROP_PIPE       | Offload stream processing tasks. The path is irrelevant.   |
-| SHOW_PIPES      | Query stream processing tasks. The path is irrelevant.     |
+| USE_PIPE        | Register a stream processing task. The path is irrelevant. |
+| USE_PIPE        | Start the stream processing task. The path is irrelevant.  |
+| USE_PIPE        | Stop the stream processing task. The path is irrelevant.   |
+| USE_PIPE        | Offload stream processing tasks. The path is irrelevant.   |
+| USE_PIPE        | Query stream processing tasks. The path is irrelevant.     |
 
 ### Stream processing task plugin
 
 
-| Permission name   | Description                                                          |
-|-------------------|----------------------------------------------------------------------|
-| CREATE_PIPEPLUGIN | Register stream processing task plugin. The path is irrelevant.      |
-| DROP_PIPEPLUGIN   | Uninstall the stream processing task plugin. The path is irrelevant. |
-| SHOW_PIPEPLUGINS  | Query stream processing task plugin. The path is irrelevant.         |
+| Permission name | Description                                                          |
+|-----------------|----------------------------------------------------------------------|
+| USE_PIPE        | Register stream processing task plugin. The path is irrelevant.      |
+| USE_PIPE        | Uninstall the stream processing task plugin. The path is irrelevant. |
+| USE_PIPE        | Query stream processing task plugin. The path is irrelevant.         |
 
 ## Configuration parameters
 

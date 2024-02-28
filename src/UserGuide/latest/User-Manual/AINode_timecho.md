@@ -441,7 +441,7 @@ When using AINode related functions, the authentication of IoTDB itself can be u
 
 | Privilege Name | Privilege Scope | Administrator User (default ROOT) | Normal User | Path Related |
 | --------- | --------------------------------- | ---------------------- | -------- | -------- |
-| USE_MODEL | create modelshow modelsdrop model | √ | √ √ | x |
+| USE_MODEL | create model/show model/sdrop model | √ | √ √ | x |
 | | | call inference | | | | |
 
 ## 6. Practical Examples

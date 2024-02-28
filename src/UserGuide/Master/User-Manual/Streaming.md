@@ -624,7 +624,7 @@ The expressed semantics are: synchronise the full amount of historical data and 
     'sink.thrift.host' = 'localhost',
     'sink.thrift.port' = '9999',
   )
-
+  
   CREATE PIPE pipe2
   WITH SINK (
     'sink' = 'iotdb-thrift-sink',

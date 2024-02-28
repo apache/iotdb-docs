@@ -160,10 +160,10 @@ IOTDB_JMX_OPTS="$IOTDB_JMX_OPTS -XX:MaxGCPauseMillis=200"
 | parameter name              | parameter describe                                                                                                                                                                | required |
 |-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
 | name                        | Confignode name                                                                                                                                                                   | YES      |
-| deploy\_dir                 | IoTDB config node deployment directory                                                                                                                                                            | YES｜     |
+| deploy\_dir                 | IoTDB config node deployment directory                                                                                                                                                            | YES     |
 | iotdb-confignode.properties | Corresponding to `iotdb/config/iotdb-confignode.properties`, please refer to the `iotdb-confignode.properties` file description for more details.                                                                                             | NO       |
 | cn\_internal\_address       | Corresponds to iotdb/internal communication address, corresponding to `cn_internal_address` in `iotdb/config/iotdb-confignode.properties`                                                                                              | YES      |
-| cn_\internal\_address       | The cluster configuration address points to the surviving ConfigNode, and it points to confignode_x by default. When `global` and `confignode_servers` are configured at the same time, the value in `confignode_servers` is used first, corresponding to `cn_internal_address` in `iotdb/config/iotdb-confignode.properties` | YES      |
+| cn_internal_address       | The cluster configuration address points to the surviving ConfigNode, and it points to confignode_x by default. When `global` and `confignode_servers` are configured at the same time, the value in `confignode_servers` is used first, corresponding to `cn_internal_address` in `iotdb/config/iotdb-confignode.properties` | YES      |
 | cn\_internal\_port          | Internal communication port, corresponding to `cn_internal_port` in `iotdb/config/iotdb-confignode.properties`                                                                                                          | YES      |
 | cn\_consensus\_port         | Corresponds to `cn_consensus_port` in `iotdb/config/iotdb-confignode.properties`                                                                                                               | NO      |
 | cn\_data\_dir               | Corresponds to `cn_consensus_port` in `iotdb/config/iotdb-confignode.properties` Corresponds to `cn_data_dir` in `iotdb/config/iotdb-confignode.properties`                                                                                                                       | YES      |
@@ -830,7 +830,7 @@ and DataNode configuration (see Chap 5.2.3).
 
 Open the common configuration file ./conf/iotdb-common.properties,
 and set the following parameters base on the 
-[Deployment Recommendation](https://iotdb.apache.org/UserGuide/Master/Cluster/Deployment-Recommendation.html):
+[Deployment Recommendation](./Deployment-Recommendation.md):
 
 | **Configuration**                          | **Description**                                              | **Default**                                     |
 | ------------------------------------------ | ------------------------------------------------------------ | ----------------------------------------------- |
@@ -905,7 +905,7 @@ Before start the Seed-ConfigNode, please open the common configuration file ./co
 | data\_replication\_factor                  | Is set to the expected data replication count   |
 | data\_region\_consensus\_protocol\_class   | Is set to the expected consensus protocol       |
 
-**Notice:** Please set these parameters carefully based on the [Deployment Recommendation](https://iotdb.apache.org/UserGuide/Master/Cluster/Deployment-Recommendation.html).
+**Notice:** Please set these parameters carefully based on the [Deployment Recommendation](./Deployment-Recommendation.md).
 These parameters are not modifiable after the Node first startup.
 
 Then open its configuration file ./conf/iotdb-confignode.properties and check the following parameters:

@@ -321,7 +321,7 @@ The result set is：
 
 ### Operator
 
-See chapter 1 of this documentation for a list of operators supported in IoTDB.
+See this documentation for a list of operators supported in IoTDB.
 
 ### Function
 
@@ -349,7 +349,7 @@ All time series generation functions accept * as input, and all can be mixed wit
 
 ##### Built-in Time Series Generation Functions
 
-See chapter 2 of this documentation for a list of built-in functions supported in IoTDB.
+See this documentation for a list of built-in functions supported in IoTDB.
 
 ##### User-Defined Time Series Generation Functions
 

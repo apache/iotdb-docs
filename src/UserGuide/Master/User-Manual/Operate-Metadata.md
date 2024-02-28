@@ -292,7 +292,7 @@ To Show TTL, we can use following SQL statement:
 
 ```
 IoTDB> SHOW ALL TTL
-IoTDB> SHOW TTL ON StorageGroupNames
+IoTDB> SHOW TTL ON DataBaseNames
 ```
 
 The SHOW ALL TTL example gives the TTL for all databases.
@@ -813,7 +813,7 @@ create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT, encoding=R
 
 The `temprature` in the brackets is an alias for the sensor `s1`. So we can use `temprature` to replace `s1` anywhere.
 
-> IoTDB also supports [using AS function](../Reference/SQL-Reference.md#data-management-statement) to set alias. The difference between the two is: the alias set by the AS function is used to replace the whole time series name, temporary and not bound with the time series; while the alias mentioned above is only used as the alias of the sensor, which is bound with it and can be used equivalent to the original sensor name.
+> IoTDB also supports using AS function to set alias. The difference between the two is: the alias set by the AS function is used to replace the whole time series name, temporary and not bound with the time series; while the alias mentioned above is only used as the alias of the sensor, which is bound with it and can be used equivalent to the original sensor name.
 
 > Notice that the size of the extra tag and attribute information shouldn't exceed the `tag_attribute_total_size`.
 
