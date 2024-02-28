@@ -55,3 +55,11 @@ td a span{
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-family)
 }
+
+.fade-slide-y-enter-active {
+  transition: none !important;
+}
+
+.fade-slide-y-leave-active {
+  transition: none !important;
+}
