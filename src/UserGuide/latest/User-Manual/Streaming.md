@@ -25,9 +25,9 @@ The IoTDB stream processing framework allows users to implement customized strea
 
 We call <font color=RED>a data flow processing task a Pipe</font>. A stream processing task (Pipe) contains three subtasks:
 
-- Source
-- Process
-- Send (Sink)
+- Source task
+- Processor task
+- Sink task
 
 The stream processing framework allows users to customize the processing logic of three subtasks using Java language and process data in a UDF-like manner.
 In a Pipe, the three subtasks mentioned above are executed and implemented by three types of plugins. Data flows through these three plugins sequentially for processing:
