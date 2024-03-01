@@ -460,7 +460,7 @@ USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
 
 ### Delete Plugin Statement
 
-When user no longer wants to use a plugin and needs to uninstall the plug-in from the system, you can use the Remove plugin statement as shown below.
+When user no longer wants to use a plugin and needs to uninstall the plugin from the system, you can use the Remove plugin statement as shown below.
 ```sql
 DROP PIPEPLUGIN <alias>
 ```
@@ -587,11 +587,11 @@ WITH SINK (
 | configuration item | description                                                                         | Required or not                 | default implementation | Default implementation description                                                            | Whether to allow custom implementations |
 |--------------------|-------------------------------------------------------------------------------------|---------------------------------|------------------------|-----------------------------------------------------------------------------------------------|-----------------------------------------|
 | pipeId             | Globally uniquely identifies the name of a sync task                                | <font color=red>required</font> | -                      | -                                                                                             | -                                       |
-| source             | pipe Source plug-in, for extracting synchronized data at the bottom of the database | Optional                        | iotdb-source           | Integrate all historical data of the database and subsequent realtime data into the sync task | no                                      |
-| processor          | Pipe Processor plug-in, for processing data                                         | Optional                        | do-nothing-processor   | no processing of incoming data                                                                | <font color=red>yes</font>              |
-| sink               | Pipe Sink plug-in，for sending data                                                  | <font color=red>required</font> | -                      | -                                                                                             | <font color=red>yes</font>              |
+| source             | pipe Source plugin, for extracting synchronized data at the bottom of the database | Optional                        | iotdb-source           | Integrate all historical data of the database and subsequent realtime data into the sync task | no                                      |
+| processor          | Pipe Processor plugin, for processing data                                         | Optional                        | do-nothing-processor   | no processing of incoming data                                                                | <font color=red>yes</font>              |
+| sink               | Pipe Sink plugin，for sending data                                                  | <font color=red>required</font> | -                      | -                                                                                             | <font color=red>yes</font>              |
 
-In the example, the iotdb-source, do-nothing-processor, and iotdb-thrift-sink plug-ins are used to build the data synchronisation task. iotdb has other built-in data synchronisation plug-ins, **see the section "System pre-built data synchronisation plug-ins" **. See the "System Pre-installed Stream Processing Plugin" section**.
+In the example, the iotdb-source, do-nothing-processor, and iotdb-thrift-sink plugins are used to build the data synchronisation task. iotdb has other built-in data synchronisation plugins, **see the section "System pre-built data synchronisation plugins" **. See the "System Pre-installed Stream Processing Plugin" section**.
 
 **An example of a minimalist CREATE PIPE statement is as follows:**
 

@@ -113,7 +113,7 @@ SHOW PIPE <PipeId>.
 
 ### Plugin
 
-In order to make the overall architecture more flexible to match different synchronisation scenarios, IoTDB supports plug-in assembly in the above synchronisation task framework. Some common plug-ins are pre-built for you to use directly, and you can also customise sink plug-ins and load them into the IoTDB system for use.
+In order to make the overall architecture more flexible to match different synchronisation scenarios, IoTDB supports plugin assembly in the above synchronisation task framework. Some common plugins are pre-built for you to use directly, and you can also customise sink plugins and load them into the IoTDB system for use.
 
 | Modules             | Plug-ins         | Pre-configured Plug-ins               | Customised Plug-ins |
 |---------------------|------------------|---------------------------------------|---------------------| 
@@ -122,20 +122,20 @@ In order to make the overall architecture more flexible to match different synch
 
 #### Preconfigured Plugins
 
-The preset plug-ins are listed below:
+The preset plugins are listed below:
 
 | Plugin Name           | Type          | Introduction                                                                                                                                                                                                                                                          | Available Versions |
 |-----------------------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|
 | iotdb-source          | source plugin | Default source plugin for extracting IoTDB historical or real-time data                                                                                                                                                                                               | 1.2.x              |
-| iotdb-thrift-sink     | sink plug-in  | Used for data transfer between IoTDB (v1.2.0 and above) and IoTDB (v1.2.0 and above). Uses the Thrift RPC framework to transfer data, multi-threaded async non-blocking IO model, high transfer performance, especially for scenarios where the target is distributed | 1.2.x              |
-| iotdb-air-gap-sink    | sink plug-in  | Used for data synchronization from IoTDB (v1.2.2+) to IoTDB (v1.2.2+) across unidirectional data gates. Supported gate models include Nanrui Syskeeper 2000, etc.                                                                                                     | 1.2.2+             |
-| iotdb-thrift-ssl-sink | sink plug-in  | Used for data synchronization from IoTDB (v1.3.1+) to IoTDB (v1.2.0+). Uses the Thrift RPC framework to transfer data, single-thread blocking IO model.                                                                                                               | 1.3.1+             |
+| iotdb-thrift-sink     | sink plugin  | Used for data transfer between IoTDB (v1.2.0 and above) and IoTDB (v1.2.0 and above). Uses the Thrift RPC framework to transfer data, multi-threaded async non-blocking IO model, high transfer performance, especially for scenarios where the target is distributed | 1.2.x              |
+| iotdb-air-gap-sink    | sink plugin  | Used for data synchronization from IoTDB (v1.2.2+) to IoTDB (v1.2.2+) across unidirectional data gates. Supported gate models include Nanrui Syskeeper 2000, etc.                                                                                                     | 1.2.2+             |
+| iotdb-thrift-ssl-sink | sink plugin  | Used for data synchronization from IoTDB (v1.3.1+) to IoTDB (v1.2.0+). Uses the Thrift RPC framework to transfer data, single-thread blocking IO model.                                                                                                               | 1.3.1+             |
 
-Detailed parameters for each plug-in can be found in the [Parameter Description](#sink-parameters) section of this document.
+Detailed parameters for each plugin can be found in the [Parameter Description](#sink-parameters) section of this document.
 
 #### View Plug-ins
 
-To view the plug-ins in the system (including custom and built-in plug-ins) you can use the following statement:
+To view the plugins in the system (including custom and built-in plugins) you can use the following statement:
 
 ```Go
 SHOW PIPEPLUGINS
@@ -278,7 +278,7 @@ This example is used to demonstrate a scenario where data from one IoTDB is sync
 
 ![](https://alioss.timecho.com/docs/img/1706698659207.jpg)
 
-In this example, you need to use the iotdb-air-gap-sink plug-in in the sink task (currently supports some models of network gates, please contact the staff of Timecho Technology to confirm the specific model), and after configuring the network gate, execute the following statements on IoTDB A, where ip and port fill in the information of the network gate, and the detailed statements are as follows:
+In this example, you need to use the iotdb-air-gap-sink plugin in the sink task (currently supports some models of network gates, please contact the staff of Timecho Technology to confirm the specific model), and after configuring the network gate, execute the following statements on IoTDB A, where ip and port fill in the information of the network gate, and the detailed statements are as follows:
 
 ```Go
 create pipe A2B

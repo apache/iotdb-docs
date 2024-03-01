@@ -129,7 +129,7 @@ SHOW PIPE <PipeId>
 | iotdb-source          | source 插件    | 默认的 source 插件，用于抽取 IoTDB 历史或实时数据                                                                                      | 1.2.x     |
 | iotdb-thrift-sink     | sink 插件      | 用于 IoTDB（v1.2.0及以上）与 IoTDB（v1.2.0及以上）之间的数据传输。使用 Thrift RPC 框架传输数据，多线程 async non-blocking IO 模型，传输性能高，尤其适用于目标端为分布式时的场景 | 1.2.x     |
 | iotdb-air-gap-sink    | sink 插件      | 用于 IoTDB（v1.2.2+）向 IoTDB（v1.2.2+）跨单向数据网闸的数据同步。支持的网闸型号包括南瑞 Syskeeper 2000 等                                            | 1.2.2 及以上 |
-| iotdb-thrift-ssl-sink | sink plug-in | 用于 IoTDB（v1.3.1及以上）与 IoTDB（v1.2.0及以上）之间的数据传输。使用 Thrift RPC 框架传输数据，单线程 sync blocking IO 模型，适用于安全需求较高的场景                | 1.3.1 及以上 |
+| iotdb-thrift-ssl-sink | sink plugin | 用于 IoTDB（v1.3.1及以上）与 IoTDB（v1.2.0及以上）之间的数据传输。使用 Thrift RPC 框架传输数据，单线程 sync blocking IO 模型，适用于安全需求较高的场景                | 1.3.1 及以上 |
 
 每个插件的详细参数可参考本文[参数说明](#sink-参数)章节。
 

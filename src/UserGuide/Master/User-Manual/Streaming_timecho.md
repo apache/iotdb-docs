@@ -456,7 +456,7 @@ AS <full class name>
 USING <URI of JAR package>
 ```
 
-Example: If you implement a data processing plugin named edu.tsinghua.iotdb.pipe.ExampleProcessor, and the packaged jar package is pipe-plugin.jar, you want to use this plugin in the stream processing engine, and mark the plugin as example. There are two ways to use the plug-in package, one is to upload to the URI server, and the other is to upload to the local directory of the cluster.
+Example: If you implement a data processing plugin named edu.tsinghua.iotdb.pipe.ExampleProcessor, and the packaged jar package is pipe-plugin.jar, you want to use this plugin in the stream processing engine, and mark the plugin as example. There are two ways to use the plugin package, one is to upload to the URI server, and the other is to upload to the local directory of the cluster.
 
 Method 1: Upload to the URI server
 
