@@ -812,11 +812,15 @@ SQL 示例：
 ```
 ### 6、结果集补空值
 ```sql
-FILL '(' PREVIOUS | LINEAR | constant ')'
+FILL '(' PREVIOUS | LINEAR | constant (, interval=DURATION_LITERAL)? ')'
 ```
 #### `PREVIOUS` 填充
 ```sql
 select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(previous);
+```
+#### `PREVIOUS` 填充并指定填充超时阈值
+```sql
+select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(previous, 2m);
 ```
 #### `LINEAR` 填充
 ```sql
@@ -914,7 +918,7 @@ selectIntoStatement
 
 ​        [GROUP BY groupByTimeClause, groupByLevelClause]
 
-​        [FILL {PREVIOUS | LINEAR | constant}]
+​        [FILL ({PREVIOUS | LINEAR | constant} (, interval=DURATION_LITERAL)?)]
 
 ​        [LIMIT rowLimit OFFSET rowOffset]
 
@@ -1620,7 +1624,7 @@ BEGIN
         [WHERE CLAUSE]
         [GROUP BY(<group_by_interval>[, <sliding_step>]) [, level = <level>]]
         [HAVING CLAUSE]
-        [FILL {PREVIOUS | LINEAR | constant}]
+        [FILL ({PREVIOUS | LINEAR | constant} (, interval=DURATION_LITERAL)?)]
         [LIMIT rowLimit OFFSET rowOffset]
         [ALIGN BY DEVICE]
 END
