@@ -299,7 +299,7 @@ Result
 #### Function Definition
 max_by(x, y): Returns the value of x at the timestamp when y is at its maximum.
 - max_by must have two input parameters x and y.
-- Both x and y can use the keyword time, with max_by(time, x) returning the timestamp when x is at its maximum value.
+- The first input x can be the keyword time, with max_by(time, x) returning the timestamp when x is at its maximum value.
 - If x is null at the timestamp corresponding to the maximum value of y, null is returned.
 - If y reaches its maximum value at multiple timestamps, the x value corresponding to the smallest timestamp among those maximum values is returned.
 - Consistent with IoTDB max_value, only INT32, INT64, FLOAT, DOUBLE are supported as inputs for y, while all six types are supported as inputs for x.
@@ -321,7 +321,7 @@ IoTDB> select * from root.test
 +-----------------------------+-----------+-----------+
 |1970-01-01T08:00:00.001+08:00|        1.0|       10.0|
 |1970-01-01T08:00:00.002+08:00|        2.0|       10.0|
-|1970-01-01T08:00:00.003+08:00|        3.0|       10.0|
+|1970-01-01T08:00:00.003+08:00|        3.0|        3.0|
 |1970-01-01T08:00:00.004+08:00|       10.0|       10.0|
 |1970-01-01T08:00:00.005+08:00|       10.0|       12.0|
 |1970-01-01T08:00:00.006+08:00|        6.0|        6.0|
@@ -384,6 +384,102 @@ Using with order by clause：
 IoTDB> select max_by(b, a) from root.test group by ([0,7),4ms) order by time desc
 +-----------------------------+--------------------------------+
 |                         Time|max_by(root.test.b, root.test.a)|
++-----------------------------+--------------------------------+
+|1970-01-01T08:00:00.004+08:00|                            10.0|
++-----------------------------+--------------------------------+
+|1970-01-01T08:00:00.000+08:00|                             3.0|
++-----------------------------+--------------------------------+
+```
+
+### MIN_BY
+#### Function Definition
+min_by(x, y): Returns the value of x at the timestamp when y is at its minimum.
+- min_by must have two input parameters x and y.
+- The first input x can be the keyword time, with min_by(time, x) returning the timestamp when x is at its minimum value.
+- If x is null at the timestamp corresponding to the minimum value of y, null is returned.
+- If y reaches its minimum value at multiple timestamps, the x value corresponding to the smallest timestamp among those minimum values is returned.
+- Consistent with IoTDB min_value, only INT32, INT64, FLOAT, DOUBLE are supported as inputs for y, while all six types are supported as inputs for x.
+- Direct numerical values are not allowed as inputs for either x or y.
+
+#### Grammar
+```sql
+select min_by(x, y) from root.sg
+select min_by(time, x) from root.sg
+```
+
+#### Examples
+
+##### Input Data
+```sql
+IoTDB> select * from root.test
++-----------------------------+-----------+-----------+
+|                         Time|root.test.a|root.test.b|
++-----------------------------+-----------+-----------+
+|1970-01-01T08:00:00.001+08:00|        4.0|       10.0|
+|1970-01-01T08:00:00.002+08:00|        3.0|       10.0|
+|1970-01-01T08:00:00.003+08:00|        2.0|        3.0|
+|1970-01-01T08:00:00.004+08:00|        1.0|       10.0|
+|1970-01-01T08:00:00.005+08:00|        1.0|       12.0|
+|1970-01-01T08:00:00.006+08:00|        6.0|        6.0|
++-----------------------------+-----------+-----------+
+```
+##### Query Example
+Querying the timestamp corresponding to the minimum value:
+```sql
+IoTDB> select min_by(time, a), min_value(a) from root.test
++-------------------------+------------------------+
+|min_by(Time, root.test.a)|  min_value(root.test.a)|
++-------------------------+------------------------+
+|                        4|                     1.0|
++-------------------------+------------------------+
+```
+
+Finding the value of b when a is at its minimum:
+```sql
+IoTDB> select min_by(b, a) from root.test
++--------------------------------+
+|min_by(root.test.b, root.test.a)|
++--------------------------------+
+|                            10.0|
++--------------------------------+
+```
+
+Using with expressions:
+```sql
+IoTDB> select min_by(b + 1, a * 2) from root.test
++----------------------------------------+
+|min_by(root.test.b + 1, root.test.a * 2)|
++----------------------------------------+
+|                                    11.0|
++----------------------------------------+
+```
+
+Using with group by clause：
+```sql
+IoTDB> select min_by(b, a) from root.test group by ([0,7),4ms)
++-----------------------------+--------------------------------+
+|                         Time|min_by(root.test.b, root.test.a)|
++-----------------------------+--------------------------------+
+|1970-01-01T08:00:00.000+08:00|                             3.0|
++-----------------------------+--------------------------------+
+|1970-01-01T08:00:00.004+08:00|                            10.0|
++-----------------------------+--------------------------------+
+```
+
+Using with having clause：
+```sql
+IoTDB> select min_by(b, a) from root.test group by ([0,7),4ms) having max_by(b, a) > 4.0
++-----------------------------+--------------------------------+
+|                         Time|min_by(root.test.b, root.test.a)|
++-----------------------------+--------------------------------+
+|1970-01-01T08:00:00.004+08:00|                            10.0|
++-----------------------------+--------------------------------+
+```
+Using with order by clause：
+```sql
+IoTDB> select min_by(b, a) from root.test group by ([0,7),4ms) order by time desc
++-----------------------------+--------------------------------+
+|                         Time|min_by(root.test.b, root.test.a)|
 +-----------------------------+--------------------------------+
 |1970-01-01T08:00:00.004+08:00|                            10.0|
 +-----------------------------+--------------------------------+
