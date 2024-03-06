@@ -147,7 +147,7 @@ sbin/stop-standalone.sh
 # 2. 检查是否还有进程残留
 jps
 # 或者
-ps -ef|gerp iotdb
+ps -ef|grep iotdb
 
 # 3. 如果有进程残留，则手动kill
 kill -9 <pid>
@@ -234,7 +234,7 @@ cd /data/iotdb
 sbin/remove-datanode.sh 192.168.132.13:6667
 
 # 方式二：使用节点编号移除, `show cluster`中的 NodeID
-sbin/remove-confignode.sh 7
+sbin/remove-datanode.sh 7
 ```
 
 ### 3.3 验证缩容结果

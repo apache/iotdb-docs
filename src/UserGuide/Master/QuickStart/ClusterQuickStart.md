@@ -240,7 +240,7 @@ cd /data/iotdb
 sbin/remove-datanode.sh 192.168.132.13:6667
 
 # way 2: shrink with NodeID of `show cluster`
-sbin/remove-confignode.sh 7
+sbin/remove-datanode.sh 7
 ```
 
 ### 3.3 check the result
