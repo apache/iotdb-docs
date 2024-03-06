@@ -268,6 +268,6 @@ Example: IoTDB > ALTER USER root SET PASSWORD 'newpwd';
 
 配置文件在"conf"文件夹下，包括：
 
-  * 环境配置模块 (`datanode-env.bat`, `datanode-env.sh`), 
-  * 系统配置模块 (`iotdb-datanode.properties`)
+  * 环境配置模块 (`datanode-env.bat`, `datanode-env.sh`,`confignode-env.bat`,`confignode-env.sh`), 
+  * 系统配置模块 (`iotdb-datanode.properties`,`iotdb-common.properties`,`iotdb-confingnode.properties`,`iotdb-datanode.properties`,`iotdb-cluster.properties`)
   * 日志配置模块 (`logback.xml`). 
