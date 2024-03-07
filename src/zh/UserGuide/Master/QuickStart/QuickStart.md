@@ -67,7 +67,7 @@ Windows 系统启动命令如下：
 > sbin\start-standalone.bat
 ```
 
-注意：目前，要使用单机模式，你需要保证所有的地址设置为 127.0.0.1，如果需要从非 IoTDB 所在的机器访问此IoTDB，请将配置项 `dn_rpc_address` 修改为 IoTDB 所在的机器 IP。副本数设置为1。并且，推荐使用 SimpleConsensus，因为这会带来额外的效率。这些现在都是默认配置。
+注意：目前，要使用单机模式，你需要保证所有的地址设置为 127.0.0.1，如果需要从非 IoTDB 所在的机器访问此IoTDB，请将配置项 `dn_rpc_address` 修改为 IoTDB 所在的机器 IP。副本数设置为1。并且，推荐使用 IoTConsensus，因为这会带来额外的效率。这些现在都是默认配置。
 
 ### 使用 Cli 工具
 
@@ -268,6 +268,6 @@ Example: IoTDB > ALTER USER root SET PASSWORD 'newpwd';
 
 配置文件在"conf"文件夹下，包括：
 
-  * 环境配置模块 (`datanode-env.bat`, `datanode-env.sh`), 
-  * 系统配置模块 (`iotdb-datanode.properties`)
+  * 环境配置模块 (`datanode-env.bat`, `datanode-env.sh`,`confignode-env.bat`,`confignode-env.sh`), 
+  * 系统配置模块 (`iotdb-datanode.properties`,`iotdb-common.properties`,`iotdb-confingnode.properties`,`iotdb-datanode.properties`,`iotdb-cluster.properties`)
   * 日志配置模块 (`logback.xml`). 
