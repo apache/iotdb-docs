@@ -1246,7 +1246,7 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 
 * Object transform(Row row) throws Exception
 
-当您在`beforeStart`方法中指定 UDF 读取原始数据的策略为 `MappableRowByRowAccessStrategy`，您就需要该方法和下面的`void transform(Column[] columns, ColumnBuilder builder) throws Exceptionn` 二选一来实现，在该方法中增加对原始数据处理的逻辑。
+当您在`beforeStart`方法中指定 UDF 读取原始数据的策略为 `MappableRowByRowAccessStrategy`，您就需要该方法和下面的`void transform(Column[] columns, ColumnBuilder builder) throws Exception` 二选一来实现，在该方法中增加对原始数据处理的逻辑。
 
 该方法每次处理原始数据的一行。原始数据由`Row`读入，由返回值输出。您必须在一次`transform`方法调用中，根据每个输入的数据点输出一个对应的数据点，即输入和输出依然是一对一的。需要注意的是，输出数据点的类型必须与您在`beforeStart`方法中设置的一致，而输出数据点的时间戳必须是严格单调递增的。
 
