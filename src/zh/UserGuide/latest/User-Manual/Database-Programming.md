@@ -1165,7 +1165,7 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 | `SessionTimeWindowAccessStrategy` | 以会话窗口的方式处理原始数据，框架会为每一个原始数据输入窗口调用一次`transform`方法。一个窗口可能存在多行数据，每一行数据对应的是输入序列按时间对齐后的结果（一行数据中，可能存在某一列为`null`值，但不会全部都是`null`）。 | `void transform(RowWindow rowWindow, PointCollector collector) throws Exception` |
 | `StateWindowAccessStrategy`       | 以状态窗口的方式处理原始数据，框架会为每一个原始数据输入窗口调用一次`transform`方法。一个窗口可能存在多行数据。目前仅支持对一个物理量也就是一列数据进行开窗。 | `void transform(RowWindow rowWindow, PointCollector collector) throws Exception` |
 
-`RowByRowAccessStrategy`的构造不需要任何参数。
+`RowByRowAccessStrategy` 和 `MappableRowByRowAccessStrategy` 的构造不需要任何参数。
 
 如图是`SlidingTimeWindowAccessStrategy`的开窗示意图。
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/UDF-User-Defined-Function/timeWindow.png">
