@@ -913,7 +913,7 @@ For more details, see document [Operator-and-Expression](../User-Manual/Operator
 
 ### Arithmetic Operators
 
-For details and examples, see the document [Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md).
+For details and examples, see the document [Arithmetic Operators and Functions](../User-Manual/Function-and-Expression.md#Arithmetic-Functions).
 
 ```sql
 select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root.sg.d1
@@ -921,7 +921,7 @@ select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root
 
 ### Comparison Operators
 
-For details and examples, see the document [Comparison Operators and Functions](../Operators-Functions/Comparison.md).
+For details and examples, see the document [Comparison Operators and Functions](../Reference/Function-and-Expression.md#).
 
 ```sql
 # Basic comparison operators
