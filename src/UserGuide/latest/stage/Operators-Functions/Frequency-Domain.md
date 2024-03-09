@@ -603,3 +603,64 @@ Output series:
 ```
 
 Note: The input is $y=sin(2\pi t/4)+2sin(2\pi t/5)$ with a length of 20. Thus, the output is $y=2sin(2\pi t/5)$ after low-pass filtering.
+
+## Envelope
+
+### Usage
+
+This function can demodulate the signal and extract the envelope by inputting the one-dimensional floating-point number set and the modulation frequency specified by the user. The goal of demodulation is to extract parts of interest from complex signals and make them easier to understand. For example, demodulation can find the envelope of the signal, that is, the trend of amplitude change.
+
+**Name:** Envelope
+
+**Input:** Only a single input sequence is supported. The type is INT32 / INT64 / FLOAT / DOUBLE
+
+**Parameters:**
+
++ `frequency`：Modulation frequency (non-default, positive integer).
+
+**Output:**
++ `Time`： The value returned in this column means frequency, not time. If the output format is time (for example, 1970-01-01T08:00:19.000+08:00), convert it to a timestamp value.
+
++ `Envelope(Path, 'frequency'='{frequency}')`：Output a single sequence of type DOUBLE, which is the result of envelope analysis.
+
+**Note:** It is highly recommended that you specify a start time and an end time when using this function.
+
+### Examples
+
+Input series:
+
+```
++-----------------------------+---------------+
+|                         Time|root.test.d1.s1|
++-----------------------------+---------------+
+|1970-01-01T08:00:01.000+08:00|       1.0     |
+|1970-01-01T08:00:02.000+08:00|       2.0     |
+|1970-01-01T08:00:03.000+08:00|       3.0     |
+|1970-01-01T08:00:04.000+08:00|       4.0     |
+|1970-01-01T08:00:05.000+08:00|       5.0     |
+|1970-01-01T08:00:06.000+08:00|       6.0     |
+|1970-01-01T08:00:07.000+08:00|       7.0     |
+|1970-01-01T08:00:08.000+08:00|       8.0     |
+|1970-01-01T08:00:09.000+08:00|       9.0     |
+|1970-01-01T08:00:10.000+08:00|       10.0    |
++-----------------------------+---------------+
+```
+
+SQL for query:
+```sql
+set time_display_type=long;
+select envelope(s1,'frequency'='10') from root.test.d1;
+```
+Output series:
+
+```
++----+-------------------------------------------+
+|Time|envelope(root.test.d1.s1, "frequency"="10")|
++----+-------------------------------------------+
+|   0|                          6.284350808484123|
+|   1|                         1.5581923657404393|
+|   2|                          0.850321103834073|
+|   3|                         0.5128087859455509|
+|   4|                        0.26361156774506705|
++----+-------------------------------------------+
+```
