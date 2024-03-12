@@ -20,39 +20,39 @@
 -->
 # 成为开发者
 ## 开发人员
-### Project PMC
-|       id       |    githubUsername     |    public name    | starting date |
-| :------------: | :-------------------: | :---------------: | :-----------: | :-----------------------------: |
-|    wangchen    |                       |     Chen Wang     |   2020/9/16   |                                 |
-|     cdutz      |       chrisdutz       |  Christofer Dutz  |   2020/9/16   |                                 |
-|     liudw      |       liutaohua       |     Dawei Liu     |   2020/9/16   |                                 |
-|   caogaofei    |        Beyyes         |    Gaofei Cao     |   2020/9/16   |                                 |
-|     haonan     |         HTHou         |    Haonan Hou     |   2020/9/16   |                                 |
-|   qiaojialin   |      qiaojialin       |    Jialin Qiao    |   2020/9/16   |                                 |
-|  jimwang (*)   |                       |   Jianmin Wang    |   2020/9/16   |                                 |
-|    jincheng    |    sunjincheng121     |   Jincheng Sun    |   2020/9/16   |                                 |
-| xingtanzjr (*) |      xingtanzjr       |   Jinrui Zhang    |   2020/9/16   |                                 |
-|   jfeinauer    |    JulianFeinauer     |  Julian Feinauer  |   2020/9/16   |                                 |
-|    yuanjun     |                       |     Jun Yuan      |   2020/9/16   |                                 |
-|    jmclean     | justinmclean, jmclean |   Justin Mclean   |   2020/9/16   |                                 |
-|    kmcgrail    |                       | Kevin A. McGrail  |   2020/9/16   |                                 |
-|     liukun     |      liukun4515       |      Kun Liu      |   2020/9/16   |                                 |
-|     leirui     |        LeiRui         |      Lei Rui      |   2020/9/16   |                                 |
-|    kangrong    |         kr11          |     Rong Kang     |   2020/9/16   |                                 |
-|     liurui     |     liuruiyiyang      |      Rui Liu      |   2020/9/16   |                                 |
-|   shuozhang    |                       |    Shuo Zhang     |   2020/9/16   |                                 |
-| zhaoxinyi (*)  |     StefanieZhao7     |   Stefanie Zhao   |   2020/9/16   |                                 |
-|   jiangtian    |       jt2594838       |    Tian Jiang     |   2020/9/16   |                                 |
-|      lta       |       fanhualta       |     Tianan Li     |   2020/9/16   |                                 |
-|   ningjiang    |      WillemJiang      | Willem Ning Jiang |   2020/9/16   |                                 |
-|      hxd       |      jixuan1989       |  Xiangdong Huang  |   2020/9/16   |             <=chair             |
-|     chaow      |        mychaow        |     Chao Wang     |   2021/6/2    |                                 |
-|    neuyilan    |       neuyilan        |    Houliang Qi    |  2021/12/24   |                                 |
-|   jackietien   |     JackieTien97      |     Yuan Tian     |   2022/4/21   |                                 |
-|  wangchao316   |      wangchao316      |     Chao Wang     |  2022/12/12   |                                 |
-|      rong      |     SteveYurongSu     |  Steve Yurong Su  |   2023/9/28   |                                 |
-|    tanxinyu    |   OneSizeFitsQuorum   |     Xinyu Tan     |   2023/9/28   |                                 |
+### Project PMC                               |
 
+|   id         |   githubUsername      |   public name         |   starting date |
+| ------------: | :-------------------: | :-------------------: | :-------------: |
+|     wangchen |                       |   Chen Wang           |     2020/9/16   |
+|        cdutz  |    chrisdutz           |   Christofer Dutz     |     2020/9/16   |
+|         liudw |    liutaohua           |   Dawei Liu           |     2020/9/16   |
+|    caogaofei  |    Beyyes              |   Gaofei Cao          |     2020/9/16   |
+|       haonan  |    HTHou               |   Haonan Hou          |     2020/9/16   |
+|    qiaojialin |    qiaojialin          |   Jialin Qiao         |     2020/9/16   |
+|   jimwang (*) |                       |   Jianmin Wang        |     2020/9/16   |
+|      jincheng |    sunjincheng121      |   Jincheng Sun        |     2020/9/16   |
+| xingtanzjr (*) |    xingtanzjr         |   Jinrui Zhang        |     2020/9/16   |
+|    jfeinauer  |    JulianFeinauer      |   Julian Feinauer     |     2020/9/16   |
+|      yuanjun  |                       |   Jun Yuan            |     2020/9/16   |
+|      jmclean  |    justinmclean, jmclean| Justin Mclean      |    2020/9/16   |
+|     kmcgrail  |                       |   Kevin A. McGrail    |     2020/9/16   |
+|        liukun |    liukun4515          |   Kun Liu             |     2020/9/16   |
+|         leirui |   LeiRui              |   Lei Rui             |     2020/9/16   |
+|    kangrong   |    kr11                |   Rong Kang           |     2020/9/16   |
+|        liurui |    liuruiyiyang        |   Rui Liu             |     2020/9/16   |
+|      shuozhang|                       |   Shuo Zhang          |     2020/9/16   |
+| zhaoxinyi (*) |    StefanieZhao7      |   Stefanie Zhao       |     2020/9/16   |
+|    jiangtian  |    jt2594838           |   Tian Jiang          |     2020/9/16   |
+|         lta    |    fanhualta           |   Tianan Li           |     2020/9/16   |
+|    ningjiang  |    WillemJiang         |   Willem Ning Jiang   |     2020/9/16   |
+|       hxd     |    jixuan1989          |   Xiangdong Huang     |     2020/9/16   | <=chair |
+|       chaow   |    mychaow             |   Chao Wang           |     2021/6/2    |
+|     neuyilan  |    neuyilan            |   Houliang Qi         |     2021/12/24 |
+|    jackietien |    JackieTien97        |   Yuan Tian           |     2022/4/21   |
+|   wangchao316 |    wangchao316         |   Chao Wang           |     2022/12/12 |
+|         rong   |    SteveYurongSu       |   Steve Yurong Su     |     2023/9/28   |
+|     tanxinyu  |    OneSizeFitsQuorum   |   Xinyu Tan           |     2023/9/28   |
 ### Project Committers   
 |    **id**    | **githubUsername** | **public name** |
 | :----------: | :----------------: | :-------------: |
