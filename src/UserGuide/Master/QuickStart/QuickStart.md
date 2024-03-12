@@ -204,7 +204,7 @@ or
 IoTDB> exit
 ```
 
-For more on what commands are supported by IoTDB SQL, see [SQL Reference](../Reference/SQL-Reference.md).
+For more on what commands are supported by IoTDB SQL, see [SQL Manuel](../SQL-Manual/SQL-Manual.md).
 
 ### Stop IoTDB
 
