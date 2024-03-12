@@ -28,7 +28,7 @@ Apache IoTDB 的配置项以环境变量形式添加到容器内。
 
 ```shell
 # 获取镜像
-docker pull apache/iotdb:1.1.0-standalone
+docker pull apache/iotdb:1.2.0-standalone
 # 创建 docker bridge 网络
 docker network create --driver=bridge --subnet=172.18.0.0/16 --gateway=172.18.0.1 iotdb
 # 创建 docker 容器
@@ -49,7 +49,7 @@ docker run -d --name iotdb-service \
               -e dn_schema_region_consensus_port=10750 \
               -e dn_data_region_consensus_port=10760 \
               -e dn_rpc_port=6667 \
-              apache/iotdb:1.1.0-standalone              
+              apache/iotdb:1.2.0-standalone              
 # 尝试使用命令行执行SQL
 docker exec -ti iotdb-service /iotdb/sbin/start-cli.sh -h iotdb-service
 ```
@@ -66,7 +66,7 @@ $IOTDB_HOME/sbin/start-cli.sh -h <主机IP/hostname> -p 6667
 version: "3"
 services:
   iotdb-service:
-    image: apache/iotdb:1.1.0-standalone
+    image: apache/iotdb:1.2.0-standalone
     hostname: iotdb-service
     container_name: iotdb-service
     ports:
@@ -106,7 +106,7 @@ networks:
 version: "3"
 services:
   iotdb-confignode:
-    image: apache/iotdb:1.1.0-confignode
+    image: apache/iotdb:1.2.0-confignode
     container_name: iotdb-confignode
     environment:
       - cn_internal_address=iotdb-2
@@ -125,7 +125,7 @@ services:
     network_mode: "host"
 
   iotdb-datanode:
-    image: apache/iotdb:1.1.0-datanode
+    image: apache/iotdb:1.2.0-datanode
     container_name: iotdb-datanode
     environment:
       - dn_rpc_address=iotdb-2
@@ -154,3 +154,26 @@ services:
 3. 需要映射`/etc/hosts`，文件内配置了 iotdb-1、iotdb-2、iotdb-3 与IP的映射。或者可以在 docker-compose 文件中增加 `extra_hosts` 配置。
 4. 首次启动时，必须首先启动 `iotdb-1`。
 5. 如果部署失败要重新部署集群，必须将所有节点上的IoTDB服务停止并删除，然后清除`data`和`logs`文件夹后，再启动。
+
+
+## 配置
+IoTDB 的配置文件，都在安装目录的conf目录下。
+IoTDB 本身配置都可以在 docker-compose 文件的 environment 中进行配置。 
+如果对日志和内存进行了自定义配置，那么需要将`conf`目录映射出来。
+
+### 修改日志级别
+日志配置文件为 logback-confignode.xml 和 logback-datanode.xml，可以根据需要进行精细配置。
+
+### 修改内存配置
+内存配置文件为 confignode-env.sh 和 datanode-env.sh。堆内存 ON_HEAP_MEMORY， 堆外内存 OFF_HEAP_MEMORY。例如：`ON_HEAP_MEMORY=8G, OFF_HEAP_MEMORY=2G`
+
+## 升级
+1. 获取新的镜像
+2. 修改 docker-compose 文件的 image
+3. 使用 docker stop 和 docker rm 命令，停止运行的 docker 容器
+4. 启动 IoTDB
+
+## 设置开机自启动
+1. 修改 docker-compose 文件，每个docker 容器配置：`restart: always`
+2. 将 docker 服务设置为开机自启动
+以 CentOS 操作系统为例： `systemctl enable docker`
