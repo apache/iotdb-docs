@@ -743,11 +743,12 @@ WHERE SINK USED BY <PipeId>
 
 A stream processing pipe will pass through various states during its managed life cycle:
 
+- **RUNNING:** pipe is working properly
+   - When a pipe is successfully created, its initial state is RUNNING.(V1.3.1+)
 - **STOPPED:** The pipe is stopped. When the pipeline is in this state, there are several possibilities:
-   - When a pipe is successfully created, its initial state is paused.
+   - When a pipe is successfully created, its initial state is STOPPED.(V1.3.0)
    - The user manually pauses a pipe that is in normal running status, and its status will passively change from RUNNING to STOPPED.
    - When an unrecoverable error occurs during the running of a pipe, its status will automatically change from RUNNING to STOPPED
-- **RUNNING:** pipe is working properly
 - **DROPPED:** The pipe task was permanently deleted
 
 The following diagram shows all states and state transitions:

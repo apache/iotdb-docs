@@ -701,12 +701,12 @@ WHERE SINK USED BY <PipeId>
 
 A stream processing task status can transition through several states during the lifecycle of a data synchronization pipe:
 
-- **STOPPED：** The pipe is in a stopped state. It can have the following possibilities:
-- After the successful creation of a pipe, its initial state is set to stopped(V1.3.0)
-- The user manually pauses a pipe that is in normal running state, transitioning its status from RUNNING to STOPPED
-- If a pipe encounters an unrecoverable error during execution, its status automatically changes from RUNNING to STOPPED.
 - **RUNNING：** The pipe is actively processing data
-- After the successful creation of a pipe, its initial state is set to RUNNING (V1.3.1+)
+  - After the successful creation of a pipe, its initial state is set to RUNNING (V1.3.1+)
+- **STOPPED：** The pipe is in a stopped state. It can have the following possibilities:
+  - After the successful creation of a pipe, its initial state is set to STOPPED (V1.3.0)
+  - The user manually pauses a pipe that is in normal running state, transitioning its status from RUNNING to STOPPED
+  - If a pipe encounters an unrecoverable error during execution, its status automatically changes from RUNNING to STOPPED.
 - **DROPPED：** The pipe is permanently deleted
 
 The following diagram illustrates the different states and their transitions:
