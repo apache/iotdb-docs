@@ -165,7 +165,7 @@ IoTDB 本身配置都可以在 docker-compose 文件的 environment 中进行配
 日志配置文件为 logback-confignode.xml 和 logback-datanode.xml，可以根据需要进行精细配置。
 
 ### 修改内存配置
-内存配置文件为 confignode-env.sh 和 datanode-env.sh。堆内存 ON_HEAP_MEMORY， 堆外内存 OFF_HEAP_MEMORY。例如：`ON_HEAP_MEMORY=8G, OFF_HEAP_MEMORY=2G`
+内存配置文件为 confignode-env.sh 和 datanode-env.sh。堆内存 MAX_HEAP_SIZE 和 HEAP_NEWSIZE， 堆外内存 MAX_DIRECT_MEMORY_SIZE。例如：`MAX_HEAP_SIZE=8G, HEAP_NEWSIZE=8G, MAX_DIRECT_MEMORY_SIZE=2G`
 
 ## 升级
 1. 获取新的镜像

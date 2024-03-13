@@ -222,7 +222,7 @@ The conf directory contains log configuration files, namely logback-confignode.x
 
 
 ### memory set
-The conf directory contains memory configuration files, namely confignode-env.sh and datanode-env.sh. JVM heap size uses ON_HEAP_MEMORY and JVM direct memroy uses OFF_HEAP_MEMORY. e.g. `MAX_HEAP_SIZE=8G, HEAP_NEWSIZE=8G, MAX_DIRECT_MEMORY_SIZE=2G`
+The conf directory contains memory configuration files, namely confignode-env.sh and datanode-env.sh. JVM heap size uses MAX_HEAP_SIZE and HEAP_NEWSIZE, and JVM direct memroy uses MAX_DIRECT_MEMORY_SIZE. e.g. `MAX_HEAP_SIZE=8G, HEAP_NEWSIZE=8G, MAX_DIRECT_MEMORY_SIZE=2G`
 
 ## upgrade IoTDB
 1. Downloads the newer IoTDB docker image from docker hub
