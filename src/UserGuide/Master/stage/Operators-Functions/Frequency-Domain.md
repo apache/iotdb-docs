@@ -617,14 +617,15 @@ This function can demodulate the signal and extract the envelope by inputting th
 
 **Parameters:**
 
-+ `frequency`：Modulation frequency (non-default, positive integer).
++ `frequency`：Modulation frequency (optional, positive).
++ `amplification`: Amplification multiple (optional, a positive integer. The result of the output Time column is a collection of positive integers, with no decimals. When the frequency is less than 1, the frequency can be amplified by this parameter to show normal results).
 
 **Output:**
 + `Time`： The value returned in this column means frequency, not time. If the output format is time (for example, 1970-01-01T08:00:19.000+08:00), convert it to a timestamp value.
 
 + `Envelope(Path, 'frequency'='{frequency}')`：Output a single sequence of type DOUBLE, which is the result of envelope analysis.
 
-**Note:** It is highly recommended that you specify a start time and an end time when using this function.
+**Note:** When the values of the demodulated original sequence are not continuous, this function is treated as continuous, and it is recommended that the analyzed time series be a complete time series. Specify the start time and end time.
 
 ### Examples
 
