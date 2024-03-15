@@ -94,6 +94,12 @@ OR, |, ||
 | SUM         | 求和。                                                       | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
 | COUNT       | 计算数据点数。                                               | 所有类型                 | INT            |
 | AVG         | 求平均值。                                                   | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
+| STDDEV      | STDDEV_SAMP 的别名，求样本标准差。                           | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
+| STDDEV_POP  | 求总体标准差。                                               | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
+| STDDEV_SAMP | 求样本标准差。                                               | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
+| VARIANCE    | VAR_SAMP 的别名，求样本方差。                                | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
+| VAR_POP     | 求总体方差。                                                 | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
+| VAR_SAMP    | 求样本方差。                                                 | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
 | EXTREME     | 求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。 | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
 | MAX_VALUE   | 求最大值。                                                   | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
 | MIN_VALUE   | 求最小值。                                                   | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
