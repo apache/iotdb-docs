@@ -243,7 +243,7 @@ iotdbctl cluster destroy default_cluster
 * Execute the upload command and then execute the restart IoTDB cluster command to complete the cluster upgrade.
 
 ```bash
-iotdbctl cluster upgrade default_cluster
+iotdbctl cluster dist-lib default_cluster
 iotdbctl cluster restart default_cluster
 ```
 
@@ -253,7 +253,7 @@ iotdbctl cluster restart default_cluster
 * Execute the distribution command, and then execute the hot deployment command to complete the hot deployment of the cluster configuration
 
 ```bash
-iotdbctl cluster distribute default_cluster
+iotdbctl cluster dist-conf default_cluster
 iotdbctl cluster reload default_cluster
 ```
 
@@ -325,27 +325,27 @@ iotdbctl cluster deploy default_cluster
 
 * The functions and parameters of the cluster are listed as follows:
 
-| command    | description                                                                                      | parameter                                                                                                                                                                                                                                        |
-|------------|-----------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| check      | check whether the cluster can be deployed                                                     | Cluster name list                                                                                                                                                                                                                                |
-| clean      | cleanup-cluster                                                                               | cluster-name                                                                                                                                                                                                                                     |
-| deploy     | deploy cluster                                                                                | Cluster name, -N, module name (optional for iotdb, grafana, prometheus), -op force (optional)                                                                                                                                                    |
-| list       | cluster status list                                                                           | None                                                                                                                                                                                                                                             |
-| start      | start cluster                                                                                 | Cluster name, -N, node name (nodename, grafana, prometheus optional)                                                                                                                                                                             |
-| stop       | stop cluster                                                                                  | Cluster name, -N, node name (nodename, grafana, prometheus optional), -op force (nodename, grafana, prometheus optional)                                                                                                                         |
-| restart    | restart cluster                                                                               | Cluster name, -N, node name (nodename, grafana, prometheus optional), -op force (nodename, grafana, prometheus optional)                                                                                                                         |
-| show       | view cluster information. The details field indicates the details of the cluster information. | Cluster name, details (optional)                                                                                                                                                                                                                 |
-| destroy    | destroy cluster                                                                               | Cluster name, -N, module name (iotdb, grafana, prometheus optional)                                                                                                                                                                              |
-| scaleout   | cluster expansion                                                                             | Cluster name                                                                                                                                                                                                                                     |
-| scalein    | cluster shrink                                                                                | Cluster name, -N, cluster node name or cluster node ip+port                                                                                                                                                                                      |
-| reload     | hot loading of cluster configuration files                                                    | Cluster name                                                                                                                                                                                                                                     |
-| distribute | cluster configuration file distribution                                                       | Cluster name                                                                                                                                                                                                                                     |
-| dumplog    | Back up specified cluster logs                                                                                      | Cluster name, -N, cluster node name -h Back up to target machine ip -pw Back up to target machine password -p Back up to target machine port -path Backup directory -startdate Start time -enddate End time -loglevel Log type -l transfer speed |
-| dumpdata   | Backup cluster data                                                                                      | Cluster name, -h backup to target machine ip -pw backup to target machine password -p backup to target machine port -path backup directory -startdate start time -enddate end time -l transmission speed                                         |
-| upgrade    | lib package upgrade                                                                                       | Cluster name                                                                                                                                                                                                                                     |
-| init       | When an existing cluster uses the cluster deployment tool, initialize the cluster configuration             | Cluster name                                                                                                                                                                                                                                     |
-| status     | View process status                                                                                        | Cluster name                                                                                                                                                                                                                                     |
-| activate     | Activate cluster                                                                                        | Cluster name                                                                                                                                                                                                                                     |
+| command         | description                                                                                      | parameter                                                                                                                                                                                                                                        |
+|-----------------|-----------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| check           | check whether the cluster can be deployed                                                     | Cluster name list                                                                                                                                                                                                                                |
+| clean           | cleanup-cluster                                                                               | cluster-name                                                                                                                                                                                                                                     |
+| deploy/dist-all | deploy cluster                                                                                | Cluster name, -N, module name (optional for iotdb, grafana, prometheus), -op force (optional)                                                                                                                                                    |
+| list            | cluster status list                                                                           | None                                                                                                                                                                                                                                             |
+| start           | start cluster                                                                                 | Cluster name, -N, node name (nodename, grafana, prometheus optional)                                                                                                                                                                             |
+| stop            | stop cluster                                                                                  | Cluster name, -N, node name (nodename, grafana, prometheus optional), -op force (nodename, grafana, prometheus optional)                                                                                                                         |
+| restart         | restart cluster                                                                               | Cluster name, -N, node name (nodename, grafana, prometheus optional), -op force (nodename, grafana, prometheus optional)                                                                                                                         |
+| show            | view cluster information. The details field indicates the details of the cluster information. | Cluster name, details (optional)                                                                                                                                                                                                                 |
+| destroy         | destroy cluster                                                                               | Cluster name, -N, module name (iotdb, grafana, prometheus optional)                                                                                                                                                                              |
+| scaleout        | cluster expansion                                                                             | Cluster name                                                                                                                                                                                                                                     |
+| scalein         | cluster shrink                                                                                | Cluster name, -N, cluster node name or cluster node ip+port                                                                                                                                                                                      |
+| reload          | hot loading of cluster configuration files                                                    | Cluster name                                                                                                                                                                                                                                     |
+| dist-conf       | cluster configuration file distribution                                                       | Cluster name                                                                                                                                                                                                                                     |
+| dumplog         | Back up specified cluster logs                                                                                      | Cluster name, -N, cluster node name -h Back up to target machine ip -pw Back up to target machine password -p Back up to target machine port -path Backup directory -startdate Start time -enddate End time -loglevel Log type -l transfer speed |
+| dumpdata        | Backup cluster data                                                                                      | Cluster name, -h backup to target machine ip -pw backup to target machine password -p backup to target machine port -path backup directory -startdate start time -enddate end time -l transmission speed                                         |
+| dist-lib        | lib package upgrade                                                                                       | Cluster name                                                                                                                                                                                                                                     |
+| init            | When an existing cluster uses the cluster deployment tool, initialize the cluster configuration             | Cluster name                                                                                                                                                                                                                                     |
+| status          | View process status                                                                                        | Cluster name                                                                                                                                                                                                                                     |
+| activate        | Activate cluster                                                                                        | Cluster name                                                                                                                                                                                                                                     |
 ### Detailed command execution process
 
 The following commands are executed using default_cluster.yaml as an example, and users can modify them to their own cluster files to execute
@@ -596,7 +596,7 @@ iotdbctl cluster destroy default_cluster -N iotdb
 #### Distribute cluster configuration commands
 
 ```bash
-iotdbctl cluster distribute default_cluster
+iotdbctl cluster dist-conf default_cluster
 ```
 
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers`, `datanode_servers`, `grafana` and `prometheus`
@@ -655,7 +655,7 @@ iotdbctl cluster dumpdata default_cluster -granularity partition  -startdate '20
 
 #### Cluster upgrade
 ```bash
-iotdbctl cluster upgrade default_cluster
+iotdbctl cluster dist-lib default_cluster
 ```
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers` and `datanode_servers`
 
