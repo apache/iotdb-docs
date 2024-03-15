@@ -1063,6 +1063,15 @@ Different configuration parameters take effect in the following three ways:
 |Default| 50                                          |
 |Effective| After restart system                        |
 
+* compaction\_schedule\_thread\_num
+
+|Name| compaction\_schedule\_thread\_num                                         |
+|:---:|:--------------------------------------------------------------------------|
+|Description| The number of threads to be set up to select compaction task. |
+|Type| Int32                                                                     |
+|Default| 4                                                                         |
+|Effective| hot-load                                                                  |
+
 ### Write Ahead Log Configuration
 
 * wal\_mode
