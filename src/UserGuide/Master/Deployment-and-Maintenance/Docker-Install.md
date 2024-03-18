@@ -160,3 +160,28 @@ Notice：
 3. The services would talk with each other, so they need map the /etc/hosts file or add the `extra_hosts` to the docker compose file.
 4. We must start the IoTDB services of `iotdb-1` first at the first time of starting.
 5. Stop and remove all the IoTDB services and clean up the `data` and `logs` directories of the 3 nodes，then start the cluster again.
+
+
+## Configuration
+All configuration files are in the directory of `conf`. 
+The elements of environment in docker-compose file is the configurations of IoTDB.
+If you'd changed the configurations files in conf, please map the directory of `conf` in docker-compose file.
+
+
+### log level
+The conf directory contains log configuration files, namely logback-confignode.xml and logback-datanode.xml.
+
+
+### memory set
+The conf directory contains memory configuration files, namely confignode-env.sh and datanode-env.sh. JVM heap size uses ON_HEAP_MEMORY and JVM direct memroy uses OFF_HEAP_MEMORY. e.g. `ON_HEAP_MEMORY=8G, OFF_HEAP_MEMORY=2G`
+
+## upgrade IoTDB
+1. Downloads the newer IoTDB docker image from docker hub
+2. Update the image of docker-compose file
+3. Stop the IoTDB docker containers with the commands of docker stop and docker rm.
+4. Start IoTDB with `docker-compose -f docker-compose-standalone.yml up -d`
+
+## boot automatically
+1. Add `restart: always` to every service of IoTDB in docker-compose file
+2. Set docker service to boot automatically
+e.g. in CentOS: `systemctl enable docker`

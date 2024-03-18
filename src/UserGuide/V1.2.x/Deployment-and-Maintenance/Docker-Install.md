@@ -28,7 +28,7 @@ Add environments of docker to update the configurations of Apache IoTDB.
 
 ```shell
 # get IoTDB official image
-docker pull apache/iotdb:1.1.0-standalone
+docker pull apache/iotdb:1.2.0-standalone
 # create docker bridge network
 docker network create --driver=bridge --subnet=172.18.0.0/16 --gateway=172.18.0.1 iotdb
 # create docker container
@@ -48,7 +48,7 @@ docker run -d --name iotdb-service \
               -e dn_schema_region_consensus_port=10750 \
               -e dn_data_region_consensus_port=10760 \
               -e dn_rpc_port=6667 \
-              apache/iotdb:1.1.0-standalone              
+              apache/iotdb:1.2.0-standalone              
 # execute SQL
 docker exec -ti iotdb-service /iotdb/sbin/start-cli.sh -h iotdb-service
 ```
@@ -67,7 +67,7 @@ Notice：The confignode service would fail when restarting this container if the
 version: "3"
 services:
   iotdb-service:
-    image: apache/iotdb:1.1.0-standalone
+    image: apache/iotdb:1.2.0-standalone
     hostname: iotdb-service
     container_name: iotdb-service
     ports:
@@ -108,7 +108,7 @@ Here is the docker-compose file of iotdb-2, as the sample:
 version: "3"
 services:
   iotdb-confignode:
-    image: apache/iotdb:1.1.0-confignode
+    image: apache/iotdb:1.2.0-confignode
     container_name: iotdb-confignode
     environment:
       - cn_internal_address=iotdb-2
@@ -127,7 +127,7 @@ services:
     network_mode: "host"
 
   iotdb-datanode:
-    image: apache/iotdb:1.1.0-datanode
+    image: apache/iotdb:1.2.0-datanode
     container_name: iotdb-datanode
     environment:
       - dn_rpc_address=iotdb-2
@@ -156,3 +156,27 @@ Notice：
 3. The services would talk with each other, so they need map the /etc/hosts file or add the `extra_hosts` to the docker compose file.
 4. We must start the IoTDB services of `iotdb-1` first at the first time of starting.
 5. Stop and remove all the IoTDB services and clean up the `data` and `logs` directories of the 3 nodes，then start the cluster again.
+
+
+## Configuration
+All configuration files are in the directory of `conf`. 
+The elements of environment in docker-compose file is the configurations of IoTDB.
+If you'd changed the configurations files in conf, please map the directory of `conf` in docker-compose file.
+
+
+### log level
+The conf directory contains log configuration files, namely logback-confignode.xml and logback-datanode.xml.
+
+### memory set
+The conf directory contains memory configuration files, namely confignode-env.sh and datanode-env.sh. JVM heap size uses MAX_HEAP_SIZE and HEAP_NEWSIZE, and JVM direct memroy uses MAX_DIRECT_MEMORY_SIZE. e.g. `MAX_HEAP_SIZE=8G, HEAP_NEWSIZE=8G, MAX_DIRECT_MEMORY_SIZE=2G`
+
+## upgrade IoTDB
+1. Downloads the newer IoTDB docker image from docker hub
+2. Update the image of docker-compose file
+3. Stop the IoTDB docker containers with the commands of docker stop and docker rm.
+4. Start IoTDB with `docker-compose -f docker-compose-standalone.yml up -d`
+
+## boot automatically
+1. Add `restart: always` to every service of IoTDB in docker-compose file
+2. Set docker service to boot automatically
+e.g. in CentOS: `systemctl enable docker`
