@@ -32,7 +32,7 @@
 4. IoTDB-Grafana安装包：Grafana看板为TimechoDB（基于IoTDB的企业版数据库）工具，您可联系您的销售获取相关安装包
 
 ### 1.1.2. 启动 ConfigNode
-1. 进入`apache-iotdb-1.0.0-all-bin`包
+1. 进入`apache-iotdb-1.3.0-all-bin`包
 2. 修改配置文件`conf/iotdb-confignode.properties`，修改如下配置，其他配置保持不变：
 
 ```properties
@@ -50,7 +50,7 @@ cn_metric_prometheus_reporter_port=9091
 ![](https://spricoder.oss-cn-shanghai.aliyuncs.com/Apache%20IoTDB/metric/cluster-introduce/2.png)
 
 ### 1.1.3. 启动 DataNode
-1. 进入`apache-iotdb-1.0.0-all-bin`包
+1. 进入`apache-iotdb-1.3.0-all-bin`包
 2. 修改配置文件`conf/iotdb-datanode.properties`，修改如下配置，其他配置保持不变：
 
 ```properties

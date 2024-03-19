@@ -32,7 +32,7 @@ From the Apache IoTDB 1.0 version, we introduced the system monitoring module, y
 4. IoTDB-Grafana installer: Grafana Dashboards is an TimechoDB(Enterprise Edition based on IoTDB) tool, and you may contact your sales for the relevant installer.
 
 ### 1.1.2. Start ConfigNode
-1. Enter the `apache-iotdb-1.0.0-all-bin` package
+1. Enter the `apache-iotdb-1.3.0-all-bin` package
 2. Modify the configuration file `conf/iotdb-confignode.properties` and modify the following configuration. Other configurations remain unchanged:
 
 ```properties
@@ -50,7 +50,7 @@ cn_metric_prometheus_reporter_port=9091
 ![](https://spricoder.oss-cn-shanghai.aliyuncs.com/Apache%20IoTDB/metric/cluster-introduce/2.png)
 
 ### 1.1.3. Start DataNode
-1. Enter the `apache-iotdb-1.0.0-all-bin` package
+1. Enter the `apache-iotdb-1.3.0-all-bin` package
 2. Modify the configuration file `conf/iotdb-datanode.properties` and modify the following configuration. Other configurations remain unchanged:
 
 ```properties
