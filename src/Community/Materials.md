@@ -131,7 +131,7 @@ All Chinese Slides and videos are on slidestalk.com and bilibili.
 * 2019.02.21, Industrial Internet Summit 2019. Beijing, China.
   * (Chinese) Apache IoTDB (incubating): Time Series Database for IIoT. IoTDB：工业互联网时序数据库. Reporter: Jianmin Wang.
 * 2018.12.09, Tsinghua Open Source Software Summit 2018. Beijing, China.
-  * (Chinese) IoTDB: from Tsinghua IoTDB to Apache IoTDB (incubating). IoTDB:从清华IoTDB到Apache孵化器项目. Reporter: Xiangdong Huang.
+  * (Chinese) IoTDB: from Tsinghua IoTDB to Apache IoTDB (incubating). IoTDB: 从清华 IoTDB 到 Apache 孵化器项目. Reporter: Xiangdong Huang.
 
 
 ## Slides, Audios and Videos
