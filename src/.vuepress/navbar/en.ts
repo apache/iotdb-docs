@@ -72,6 +72,7 @@ export const enNavbar = navbar([
       { text: 'Sponsorship', link: 'https://www.apache.org/foundation/sponsorship.html' },
       { text: 'Thanks', link: 'https://www.apache.org/foundation/thanks.html' },
       { text: 'Current  Events', link: 'https://www.apache.org/events/current-event' },
+      { text: 'Privacy', link: 'https://privacy.apache.org/policies/privacy-policy-public.html' },
     ],
   },
 ]);
