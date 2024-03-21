@@ -538,7 +538,7 @@ SELECT [LAST] selectExpr [, selectExpr] ...
     }]
     [HAVING havingCondition]
     [ORDER BY sortKey {ASC | DESC}]
-    [FILL ({PREVIOUS | LINEAR | constant})]
+    [FILL ({PREVIOUS | LINEAR | constant} (, interval=DURATION_LITERAL)?)]
     [SLIMIT seriesLimit] [SOFFSET seriesOffset]
     [LIMIT rowLimit] [OFFSET rowOffset]
     [ALIGN BY {TIME | DEVICE}]
@@ -790,6 +790,11 @@ IoTDB > select count(d1.s1) from root.** group by ([1,3),1ms), level=1 having su
 
 ```sql
 IoTDB > select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(previous);
+```
+
+#### `PREVIOUS` FILL and specify the fill timeout threshold
+```sql
+select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(previous, 2m);
 ```
 
 #### `LINEAR` Fill
@@ -1450,7 +1455,7 @@ BEGIN
     [WHERE CLAUSE]
     [GROUP BY(<group_by_interval>[, <sliding_step>]) [, level = <level>]]
     [HAVING CLAUSE]
-    [FILL {PREVIOUS | LINEAR | constant}]
+    [FILL ({PREVIOUS | LINEAR | constant} (, interval=DURATION_LITERAL)?)]
     [LIMIT rowLimit OFFSET rowOffset]
     [ALIGN BY DEVICE]
 END
