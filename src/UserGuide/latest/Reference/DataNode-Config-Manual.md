@@ -191,7 +191,7 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 
 * enable\_https
 
-|Name| cache\_init\_num           |
+|Name| enable\_https           |
 |:---:|:-------------------------|
 |Description| REST Service Specifies whether to enable SSL configuration |
 |Type| Boolean                  |
