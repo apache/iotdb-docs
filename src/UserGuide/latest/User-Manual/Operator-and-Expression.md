@@ -21,11 +21,11 @@
 
 # Overview
 
-This chapter describes the operators and functions supported by IoTDB. IoTDB provides a wealth of built-in operators and functions to meet your computing needs, and supports extensions through the [User-Defined Function](./User-Defined-Function.md).
+This chapter describes the operators and functions supported by IoTDB. IoTDB provides a wealth of built-in operators and functions to meet your computing needs, and supports extensions through the [User-Defined Function](../Reference/UDF-Libraries.md).
 
 A list of all available functions, both built-in and custom, can be displayed with `SHOW FUNCTIONS` command.
 
-See the documentation [Select-Expression](../Query-Data/Select-Expression.md) for the behavior of operators and functions in SQL.
+See the documentation [Select-Expression](../Reference/Function-and-Expression.md#selector-functions) for the behavior of operators and functions in SQL.
 
 ## OPERATORS
 
@@ -41,7 +41,7 @@ See the documentation [Select-Expression](../Query-Data/Select-Expression.md) fo
 | `+`      | addition                  |
 | `-`      | subtraction               |
 
-For details and examples, see the document [Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md).
+For details and examples, see the document [Arithmetic Operators and Functions](../Reference/Function-and-Expression.md#arithmetic-functions).
 
 ### Comparison Operators
 
@@ -64,7 +64,7 @@ For details and examples, see the document [Arithmetic Operators and Functions](
 | `IN` / `CONTAINS`         | is a value in the specified list     |
 | `NOT IN` / `NOT CONTAINS` | is not a value in the specified list |
 
-For details and examples, see the document [Comparison Operators and Functions](../Operators-Functions/Comparison.md).
+For details and examples, see the document [Comparison Operators and Functions](../Reference/Function-and-Expression.md#comparison-operators-and-functions).
 
 ### Logical Operators
 
@@ -74,7 +74,7 @@ For details and examples, see the document [Comparison Operators and Functions](
 | `AND` / `&` / `&&`          | logical AND                       |
 | `OR`/ &#124; / &#124;&#124; | logical OR                        |
 
-For details and examples, see the document [Logical Operators](../Operators-Functions/Logical.md).
+For details and examples, see the document [Logical Operators](../Reference/Function-and-Expression.md#logical-operators).
 
 ### Operator Precedence
 
@@ -115,7 +115,7 @@ The built-in functions can be used in IoTDB without registration, and the functi
 | TIME_DURATION | Find the difference between the timestamp of the largest non-null value and the timestamp of the smallest non-null value in a column | All data Types                  | /                                                            | INT64                               |
 | MODE          | Find the mode. Note:  1.Having too many different values in the input series risks a memory exception;  2.If all the elements have the same number of occurrences, that is no Mode, return the value with earliest time;  3.If there are many Modes, return the Mode with earliest time. | All data Types                  | /                                                            | Consistent with the input data type |
 
-For details and examples, see the document [Aggregate Functions](../Operators-Functions/Aggregation.md).
+For details and examples, see the document [Aggregate Functions](../Reference/Function-and-Expression.md#aggregate-functions).
 
 ### Arithmetic Functions
 
@@ -142,7 +142,7 @@ For details and examples, see the document [Aggregate Functions](../Operators-Fu
 | LOG10         | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#log10(double)                                           |
 | SQRT          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#sqrt(double)                                            |
 
-For details and examples, see the document [Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md).
+For details and examples, see the document [Arithmetic Operators and Functions](../Reference/Function-and-Expression.md#arithmetic-operators-and-functions).
 
 ### Comparison Functions
 
@@ -151,7 +151,7 @@ For details and examples, see the document [Arithmetic Operators and Functions](
 | ON_OFF        | INT32 / INT64 / FLOAT / DOUBLE  | `threshold`: a double type variate        | BOOLEAN                 | Return `ts_value >= threshold`.               |
 | IN_RANGR      | INT32 / INT64 / FLOAT / DOUBLE  | `lower`: DOUBLE type `upper`: DOUBLE type | BOOLEAN                 | Return `ts_value >= lower && value <= upper`. |
 
-For details and examples, see the document [Comparison Operators and Functions](../Operators-Functions/Comparison.md).
+For details and examples, see the document [Comparison Operators and Functions](../Reference/Function-and-Expression.md#comparison-operators-and-functions).
 
 ### String Processing Functions
 
@@ -171,7 +171,7 @@ For details and examples, see the document [Comparison Operators and Functions](
 | TRIM            | TEXT                            | /                                                            | TEXT                    | Get the string whose value is same to input series, with all leading and trailing space removed. |
 | STRCMP          | TEXT                            | /                                                            | TEXT                    | Get the compare result of two input series. Returns `0` if series value are the same, a `negative integer` if value of series1 is smaller than series2, <br/>a `positive integer` if value of series1  is more than series2. |
 
-For details and examples, see the document [String Processing](../Operators-Functions/String.md).
+For details and examples, see the document [String Processing](../Reference/Function-and-Expression.md#string-processing).
 
 ### Data Type Conversion Function
 
@@ -179,7 +179,7 @@ For details and examples, see the document [String Processing](../Operators-Func
 | ------------- | ------------------------------------------------------------ | ----------------------- | ------------------------------------------------------------ |
 | CAST          | `type`: Output data type, INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | determined by `type`    | Convert the data to the type specified by the `type` parameter. |
 
-For details and examples, see the document [Data Type Conversion Function](../Operators-Functions/Conversion.md).
+For details and examples, see the document [Data Type Conversion Function](../Reference/Function-and-Expression.md#data-type-conversion-function).
 
 ### Constant Timeseries Generating Functions
 
@@ -189,7 +189,7 @@ For details and examples, see the document [Data Type Conversion Function](../Op
 | PI            | None                                                         | DOUBLE                                       | Data point value: a `double` value of  `π`, the ratio of the circumference of a circle to its diameter, which is equals to `Math.PI` in the *Java Standard Library*. |
 | E             | None                                                         | DOUBLE                                       | Data point value: a `double` value of  `e`, the base of the natural logarithms, which is equals to `Math.E` in the *Java Standard Library*. |
 
-For details and examples, see the document [Constant Timeseries Generating Functions](../Operators-Functions/Constant.md).
+For details and examples, see the document [Constant Timeseries Generating Functions](../Reference/Function-and-Expression.md#constant-timeseries-generating-functions).
 
 ### Selector Functions
 
@@ -198,7 +198,7 @@ For details and examples, see the document [Constant Timeseries Generating Funct
 | TOP_K         | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: the maximum number of selected data points, must be greater than 0 and less than or equal to 1000 | Same type as the input series | Returns `k` data points with the largest values in a time series. |
 | BOTTOM_K      | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: the maximum number of selected data points, must be greater than 0 and less than or equal to 1000 | Same type as the input series | Returns `k` data points with the smallest values in a time series. |
 
-For details and examples, see the document [Selector Functions](../Operators-Functions/Selection.md).
+For details and examples, see the document [Selector Functions](../Reference/Function-and-Expression.md#selector-functions).
 
 ### Continuous Interval Functions
 
