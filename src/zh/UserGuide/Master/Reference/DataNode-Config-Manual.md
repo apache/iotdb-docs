@@ -166,7 +166,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 
 * enable\_thrift\_ssl
 
-|名字|                                               |
+|名字|   enable\_thrift\_ssl                                         |
 |:---:|:----------------------------------------------|
 |描述| 当enable\_thrift\_ssl配置为true时，将通过dn\_rpc\_port使用 SSL 加密进行通信 |
 |类型| Boolean                                       |
@@ -175,7 +175,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 
 * enable\_https
 
-|名字| cache\_init\_num           |
+|名字| enable\_https           |
 |:---:|:-------------------------|
 |描述| REST Service 是否开启 SSL 配置 |
 |类型| Boolean                  |
