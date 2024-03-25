@@ -19,7 +19,6 @@
 
 import { getDirname, path } from '@vuepress/utils';
 import { defineUserConfig, viteBundler } from 'vuepress';
-import { googleAnalyticsPlugin } from '@vuepress/plugin-google-analytics';
 import { redirectPlugin } from 'vuepress-plugin-redirect';
 import { docsearchPlugin } from './components/docsearch/node/index.js';
 import theme from './theme.js';
@@ -49,6 +48,21 @@ export default defineUserConfig({
     ['meta', { name: 'Keywords', content: 'TSDB, time series, time series database, IoTDB, IoT database, IoT data management,时序数据库, 时间序列管理, IoTDB, 物联网数据库, 实时数据库, 物联网数据管理, 物联网数据' }],
     ['meta', { name: 'baidu-site-verification', content: 'wfKETzB3OT' }],
     ['meta', { name: 'google-site-verification', content: 'mZWAoRY0yj_HAr-s47zHCGHzx5Ju-RVm5wDbPnwQYFo' }],
+    ['script', { type: 'text/javascript' }, `
+var _paq = window._paq = window._paq || [];
+/* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+_paq.push(["setDoNotTrack", true]);
+_paq.push(["disableCookies"]);
+_paq.push(['trackPageView']);
+_paq.push(['enableLinkTracking']);
+(function() {
+  var u="https://analytics.apache.org/";
+  _paq.push(['setTrackerUrl', u+'matomo.php']);
+  _paq.push(['setSiteId', '56']);
+  var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+  g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+})();
+       `],
   ],
 
   shouldPrefetch: false,
@@ -117,9 +131,6 @@ export default defineUserConfig({
         '/UserGuide/Master/QuickStart/QuickStart.html': '/UserGuide/V1.1.x/QuickStart/QuickStart.html',
         '/zh/UserGuide/Master/QuickStart/QuickStart.html': '/zh/UserGuide/V1.1.x/QuickStart/QuickStart.html',
       },
-    }),
-    googleAnalyticsPlugin({
-      id: 'G-5MM3J6X84E',
     }),
   ],
   bundler: viteBundler({
