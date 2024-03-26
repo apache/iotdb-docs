@@ -616,7 +616,7 @@ This function can demodulate the signal and extract the envelope by inputting th
 
 **Parameters:**
 
-+ `frequency`：Modulation frequency (optional, positive).
++ `frequency`：Modulation frequency (optional, positive). Without this parameter, the system will infer the frequency based on the time interval of the corresponding time of the sequence.
 + `amplification`: Amplification multiple (optional, a positive integer. The result of the output Time column is a collection of positive integers, with no decimals. When the frequency is less than 1, the frequency can be amplified by this parameter to show normal results).
 
 
