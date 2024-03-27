@@ -50,7 +50,7 @@ All Chinese Slides and videos are on slidestalk.com and bilibili.
   * (Chinese) [Application of IoTDB in the Data Resource Management and Operation in Advanced Manufacturing](https://www.bilibili.com/video/BV1994y1A7q7/?spm_id_from=333.788&vd_source=0b26be0f8d72b3273fcd8e98ca277199). Reporter: Wei Lu. 
   * (English) [Use Cases of Apache IoTDB in the German Industry and Critical Infrastructure](https://www.bilibili.com/video/BV1294y1A7uG/?spm_id_from=333.788&vd_source=0b26be0f8d72b3273fcd8e98ca277199). Reporter: Dr. Julian Feinauer. 
   * (Chinese) [IoTDB-Based Solution for Energy Data Integration at Qing'an Cloud](https://www.bilibili.com/video/BV1dQ4y1g79k/?spm_id_from=333.788&vd_source=0b26be0f8d72b3273fcd8e98ca277199). Reporter: Taixian Yang. 
-* 2023.11.18, Data & AI Con 2023. Shanghai, Beijing.
+* 2023.11.18, Data & AI Con 2023. Shanghai, China.
 * 2023.11.15-18, China High-Quality Nuclear Energy Development Conference and Shenzhen International Nuclear Energy Industry Innovation Expo. Shenzhen, China.
 * 2023.10.21, Doris Summit Asia 2023. Beijing, China.
 * 2023.09.21, 2023 Open Source Industry Conference (OSCAR). Beijing, China.
@@ -70,7 +70,7 @@ All Chinese Slides and videos are on slidestalk.com and bilibili.
   * (Chinese) [How IoTDB empowers industrial IoT data management](https://www.bilibili.com/video/BV1vu411p7Qx/?spm_id_from=333.999.0.0&vd_source=0b26be0f8d72b3273fcd8e98ca277199). Reporter: Xinyi Zhao.
   * (Chinese) [Application of IoTDB in AVICAS Generic Intelligent Cloud Manufacturing System](https://www.bilibili.com/video/BV1Fh411F7EP/?spm_id_from=333.999.0.0&vd_source=0b26be0f8d72b3273fcd8e98ca277199). Reporter: Shenglai Wan.
 * 2023.05.27-28, The Global Opensource Technology Conference 2023. Shanghai, China. 
-* 2023.04.26, Building IoT 2023. Germany. 
+* 2023.04.26, building IoT 2023. Germany. 
 * 2023.04.15, 2023 IoTDB Core Technology Meetup 3: IoTDB X EMQ: The Data Foundation Of Intelligent Vehicles. Shanghai, China.
   * (Chinese) [Best Application Practices of IoTDB in the Scenarios of IoV and Intelligent Car Factories](https://www.bilibili.com/video/BV1r24y1c7SY/?spm_id_from=333.999.0.0&vd_source=0b26be0f8d72b3273fcd8e98ca277199). Reporter: Yuan Tian.
 * 2023.03.02, 2023 IoTDB Core Technology Meetup 2: Joint Meetup of IoTDB and SeaTunnel. Online. 
@@ -125,7 +125,7 @@ All Chinese Slides and videos are on slidestalk.com and bilibili.
   * (Chinese) [Project 2：Metadata Tag Model Management](https://www.bilibili.com/video/BV1TY411F7Fi/?spm_id_from=333.999.0.0&vd_source=0b26be0f8d72b3273fcd8e98ca277199). Reporter: Yukun Zhou.
   * (Chinese) [Project 3：Aggregation Query Window Segmentation Framework](https://www.bilibili.com/video/BV1Jv4y1A7R5/?spm_id_from=333.999.0.0&vd_source=0b26be0f8d72b3273fcd8e98ca277199). Reporter: Minghui Liu.
   * (Chinese) [Project 4：Efficient Expression Calculation Method Based on Code Generation Technology](https://www.bilibili.com/video/BV13v4y1A78P/?spm_id_from=333.999.0.0&vd_source=0b26be0f8d72b3273fcd8e98ca277199). Reporter: Jinrui Zhang.
-* 2022.05.11, Building IoT 2022. Germany. 
+* 2022.05.11, building IoT 2022. Germany. 
 * 2022.04.14, 2022 Open Source Technology Lecture Series 2: Tsinghua Open Source Lecture. Beijing, China.
 * 2022.02.19, 2022 Open Source Technology Lecture Series 1: Core Technologies and Applications of Time Series Database, Apache IoTDB. Online. 
   * (Chinese) [Apache IoTDB: Time Series Database Based on Open Data File Format](https://www.bilibili.com/video/BV1yi4y127js/?spm_id_from=333.999.0.0&vd_source=0b26be0f8d72b3273fcd8e98ca277199). Reporter: Jialin Qiao.  
@@ -154,7 +154,7 @@ All Chinese Slides and videos are on slidestalk.com and bilibili.
   * (English) [Use Cases and Optimizations of IoTDB](https://www.slideshare.net/slideshow/embed_code/key/zwzJmZsMZrnT26). Reporter: Jialin Qiao.
 * 2020.09.26, Apache Hadoop Meetup. Shanghai, China. 
   * (Chinese) From IoTDB to Hadoop: IIoT Edge-cloud Collaborative Open Source Ecosystem. Reporter: Xiangdong Huang.
-* 2020.03.02, Building IoT 2020. Essen, Germany.
+* 2020.03.02, building IoT 2020. Essen, Germany.
   * (German) [Industrial IoT mit Open Source](https://www.buildingiot.de/lecture.php?id=10856&source=). Reporter: Julian Feinauer, Chirstofer Dutz.
 * 2020.01.12, Apache IoTDB x Apache ShardingSphere Meetup. Beijing, China. 
 * 2020.01.04, Apache IoTDB x Apache Pulsar Meetup. Beijing, China. 
