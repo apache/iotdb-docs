@@ -1406,7 +1406,7 @@ AINode支持修改一些必要的参数。可以在`conf/iotdb-AINode.properties
 
 | **名称**                    | **描述**                                                     | **类型** | **默认值**         | **改后生效方式**             |
 | --------------------------- | ------------------------------------------------------------ | -------- | ------------------ | ---------------------------- |
-| ain_target_config_node_list | AINode启动时注册的ConfigNode地址                             | String   | 10710              | 仅允许在第一次启动服务前修改 |
+| ain_seed_config_node | AINode启动时注册的ConfigNode地址                             | String   | 10710              | 仅允许在第一次启动服务前修改 |
 | ain_inference_rpc_address   | AINode提供服务与通信的地址                                   | String   | 127.0.0.1          | 重启后生效                   |
 | ain_inference_rpc_port      | AINode提供服务与通信的端口                                   | String   | 10810              | 重启后生效                   |
 | ain_system_dir              | AINode元数据存储路径，相对路径的起始目录与操作系统相关，建议使用绝对路径。 | String   | data/AINode/system | 重启后生效                   |
