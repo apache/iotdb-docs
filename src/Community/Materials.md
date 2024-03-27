@@ -148,8 +148,8 @@ All Chinese Slides and videos are on slidestalk.com and bilibili.
 * 2020.11.14, Open Source Software Supply Chain Summit 2020. Nanjing, China.
   * (Chinese) [Apache IoTDB Core Technology](https://www.slidestalk.com/IoTDB/202011ApacheIoTDBReporter82991). Reporter: Jincheng Sun.
 * 2020.10.25, COSCon’20 & Apache Roadshow, Beijing, China.
-  * (Chinese) [Apache IoTDB: From Chinese University to the World](https://www.slidestalk.com/IoTDB/202010ApacheIoTDBReporterJialinQiao42231) Reporter: Jialin Qiao.
-  * (Chinese) [Apache IoTDB: Managing Industrial IoT Data](https://www.slidestalk.com/IoTDB/202010ApacheIoTDBReporterXiangdongHuang11117) Reporter: Xiangdong Huang.
+  * (Chinese) [Apache IoTDB: From Chinese University to the World](https://www.slidestalk.com/IoTDB/202010ApacheIoTDBReporterJialinQiao42231). Reporter: Jialin Qiao.
+  * (Chinese) [Apache IoTDB: Managing Industrial IoT Data](https://www.slidestalk.com/IoTDB/202010ApacheIoTDBReporterXiangdongHuang11117). Reporter: Xiangdong Huang.
 * 2020.09.30, ApacheCon 2020, online.
   * (English) [Use Cases and Optimizations of IoTDB](https://www.slideshare.net/slideshow/embed_code/key/zwzJmZsMZrnT26). Reporter: Jialin Qiao.
 * 2020.09.26, Apache Hadoop Meetup. Shanghai, China. 
@@ -161,7 +161,7 @@ All Chinese Slides and videos are on slidestalk.com and bilibili.
   * (Chinese) [Managing Time Series Data with IoTDB](https://www.bilibili.com/video/BV1sJ411J783?p=5&vd_source=0b26be0f8d72b3273fcd8e98ca277199). Reporter: Jialin Qiao.
   * (Chinese) [Apache IoTDB: History and Technical Details](https://www.bilibili.com/video/BV1sJ411J783?p=3&vd_source=0b26be0f8d72b3273fcd8e98ca277199). Reporter: Xiangdong Huang.
 
-## 2019 Meetups and Conferences
+## 2018-2019 Meetups and Conferences
 * 2019.12.28, Apache RocketMQ x Apache IoTDB Meetup. Dalian, China. 
   * (Chinese) [Apache IoTDB: Why We Need a Time Series Database](https://www.slidestalk.com/IoTDB/201912Meetup2019ApacheIoTDBReporterXiangdongHuang71222). Reporter: Xiangdong Huang.
 * 2019.11.09, Apache Event: Embrace Apache Software Foundation. Beijing, China.
@@ -170,7 +170,7 @@ All Chinese Slides and videos are on slidestalk.com and bilibili.
   * (English) [Apache IoTDB: a Time Series Database for Industrial IoT](https://www.slideshare.net/slideshow/embed_code/key/lms4cEH1eqnRZC). Reporter: Xiangdong Huang, Dr. Julian Feinauer.
 * 2019.09.10, ApacheCon North America 2019. Las Vegas, USA.
   * (English) [Hello World! Introducing Apache IoTDB - a Database for the Internet of Things](https://feathercast.apache.org/wp-content/uploads/2019/09/2019-09-10-hello-world-introducing-apache-iotdb-xiangdong-huang-julian-feinauer.mp3). Reporter: Xiangdong Huang, Dr. Julian Feinauer.
-* 2019.07.13, Beijing Hackatthon 2019. Beijing, China.
+* 2019.07.13, Beijing Hackathon 2019. Beijing, China.
   * (Chinese) Apache IoTDB (incubating): Time Series Database for IIoT. Reporter: Xiangdong Huang.
 * 2019.05.07, The 2nd Digital China Summit. Fuzhou, China.
   * (Chinese) Apache IoTDB (incubating): Time Series Database for IIoT. Reporter: Xiangdong Huang.
