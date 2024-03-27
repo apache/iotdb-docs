@@ -26,6 +26,7 @@
 
 ## 1. 安装部署
 
+部署集群时我们推荐优先使用`hostname`来配置集群，这样可以避免一些网络问题。需要在每个节点上分别配置`/etc/hosts` ，windows 上为`C:\Windows\System32\drivers\etc\hosts`。
 
 我们将以最小的改动，启动一个含有3个 ConfigNode 和3个DataNode(3C3D)集群：
 - 数据/元数据副本数为1
@@ -38,6 +39,7 @@ IP地址和服务角色分配如下：
 
 | 节点IP | 192.168.132.10 | 192.168.132.11 | 192.168.132.12 |
 |--------|:---------------|:---------------|:---------------|
+| `hostname`   | iotdb-1     | iotdb-2     | iotdb-3     |
 | 服务   | ConfigNode     | ConfigNode     | ConfigNode     |
 | 服务   | DataNode       | DataNode       | DataNode       |
 
@@ -48,7 +50,8 @@ IP地址和服务角色分配如下：
 | 端口 | 10710, 10720 | 6667, 10730, 10740, 10750, 10760 |
 
 **说明：**
-- 可以使用`IP地址`或者`机器名/域名`来安装配置 IoTDB 集群，本文以IP地址为例。如果使用`机器名/域名`，则需要配置`/etc/hosts`。
+- 可以使用`IP地址`或者`hostname(机器名/域名)`来安装配置 IoTDB 集群，本文以IP地址为例。如果使用`hostname(机器名/域名)`，则需要配置`/etc/hosts`。
+- 优先推荐使用 `hostname(机器名/域名)` 进行配置，这样可以避免一些网络问题，也更方便迁移集群。
 - JVM堆内存配置: `confignode-env.sh` 和 `datanode-env.sh` 内配置`ON_HEAP_MEMORY`, 建议设置值大于等于1G。ConfigNode 1~2G就足够了，DataNode的内存配置则要取决于数据接入的数据量和查询数据量。
 
 ### 1.1 下载安装包
@@ -64,16 +67,23 @@ IP地址和服务角色分配如下：
 
 ### 1.2. 修改节点配置文件
 
+在每个节点均配置 hosts
+```shell
+echo "iotdb-1 192.168.132.10" >> /etc/hosts 
+echo "iotdb-2 192.168.132.11" >> /etc/hosts 
+echo "iotdb-3 192.168.132.12" >> /etc/hosts 
+```
+
 配置文件在 `/data/iotdb/conf`目录下。
 按照下表修改相应的配置文件：
 
-|  配置|      配置项      | IP:192.168.132.10       | IP:192.168.132.11       | IP:192.168.132.12       |
+|  配置|      配置项      |IP:192.168.132.10       | IP:192.168.132.11       | IP:192.168.132.12       |
 |------------|:-------------------------------|----------------------|----------------------|:---------------------|
-| iotdb-confignode.properties | cn\_internal\_address          | 192.168.132.10       | 192.168.132.11       | 192.168.132.12       |
-|            | cn_seed_config_node | 192.168.132.10:10710 | 192.168.132.10:10710 | 192.168.132.10:10710 |
-| iotdb-datanode.properties   | dn\_rpc\_address               | 192.168.132.10       | 192.168.132.11       | 192.168.132.12       |
-|            | dn\_internal\_address          | 192.168.132.10       | 192.168.132.11       | 192.168.132.12       |
-|            | dn_seed_config_node | 192.168.132.10:10710 | 192.168.132.10:10710 | 192.168.132.10:10710 |       
+| iotdb-confignode.properties | cn_internal_address          | iotdb-1       | iotdb-2       | iotdb-3       |
+|            | cn_seed_config_node | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 |
+| iotdb-datanode.properties   | dn_rpc_address               | iotdb-1       | iotdb-2       | iotdb-3       |
+|            | dn_internal_address          | iotdb-1       | iotdb-2       | iotdb-3       |
+|            | dn_seed_config_node | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 |       
 
 **注意：**
 我们推荐所有节点的 iotdb-common.properties 和 JVM 的内存配置是一致的。
@@ -82,7 +92,7 @@ IP地址和服务角色分配如下：
 启动集群前，需保证配置正确，保证 IoTDB 安装目录下没有数据(`data`目录)。
 #### 1.3.1. 启动第一个节点
 即上面表格中`cn_seed_config_node`配置的节点。
-登录该节点 192.168.132.10，执行下面命令：
+登录该节点 `iotdb-1(192.168.132.10)`，执行下面命令：
 ```shell
 cd /data/iotdb
 # 启动 ConfigNode 和 DataNode 服务
@@ -108,7 +118,7 @@ sbin/start-datanode.sh -d
 ```
 
 #### 1.3.2. 启动其他两个节点的 ConfigNode 和 DataNode
-在节点 192.168.132.11 和 192.168.132.12 两个节点上分别执行：
+在节点 `iotdb-2(192.168.132.11)` 和 `iotdb-3(192.168.132.12)` 两个节点上分别执行：
 ```shell
 cd /data/iotdb
 # 启动 ConfigNode 和 DataNode 服务
@@ -119,19 +129,19 @@ sbin/start-standalone.sh
 #### 1.3.3. 检验集群状态
 在任意节点上，在 Cli 执行 `show cluster`:
 ```shell
-/data/iotdb/sbin/start-cli.sh -h 192.168.132.10
+/data/iotdb/sbin/start-cli.sh -h iotdb-1
 IoTDB>show cluster;
 # 示例结果如下：
 +------+----------+-------+---------------+------------+-------+---------+
 |NodeID|  NodeType| Status|InternalAddress|InternalPort|Version|BuildInfo|
 +------+----------+-------+---------------+------------+-------+---------+
-|     0|ConfigNode|Running| 192.168.132.10|       10710|1.x.x  |  xxxxxxx|
-|     1|  DataNode|Running| 192.168.132.10|       10730|1.x.x  |  xxxxxxx|
-|     2|ConfigNode|Running| 192.168.132.11|       10710|1.x.x  |  xxxxxxx|
-|     3|  DataNode|Running| 192.168.132.11|       10730|1.x.x  |  xxxxxxx|
-|     4|ConfigNode|Running| 192.168.132.12|       10710|1.x.x  |  xxxxxxx|
-|     5|  DataNode|Running| 192.168.132.12|       10730|1.x.x  |  xxxxxxx|
-+------+----------+-------+---------------+------------+--------------+---------+
+|     0|ConfigNode|Running|    iotdb-1    |       10710|1.x.x  |  xxxxxxx|
+|     1|  DataNode|Running|    iotdb-1    |       10730|1.x.x  |  xxxxxxx|
+|     2|ConfigNode|Running|    iotdb-2    |       10710|1.x.x  |  xxxxxxx|
+|     3|  DataNode|Running|    iotdb-2    |       10730|1.x.x  |  xxxxxxx|
+|     4|ConfigNode|Running|    iotdb-3    |       10710|1.x.x  |  xxxxxxx|
+|     5|  DataNode|Running|    iotdb-3    |       10730|1.x.x  |  xxxxxxx|
++------+----------+-------+---------------+------------+-------+---------+
 ``` 
 **说明：**
 `start-cli.sh -h` 后指定的IP地址，可以是任意一个 DataNode 的IP地址。
@@ -173,18 +183,30 @@ rm -rf data logs
 - 原有数据不会移动到新节点，新创建的元数据分区和数据分区很可能在新的节点。
 
 ### 2.1. 修改配置
+在原节点上新增一行 hosts
+```shell
+echo "iotdb-4 192.168.132.13" >> /etc/hosts 
+```
+
+在节点设置 hosts
+```shell
+echo "iotdb-1 192.168.132.10" >> /etc/hosts 
+echo "iotdb-2 192.168.132.11" >> /etc/hosts 
+echo "iotdb-3 192.168.132.12" >> /etc/hosts 
+echo "iotdb-4 192.168.132.13" >> /etc/hosts 
+```
 按照下表修改相应的配置文件：
 
 |  配置 |      配置项      | IP:192.168.132.13  | 
 |------------|:-------------------------------|:---------------------|
-| iotdb-confignode.properties | cn\_internal\_address          | 192.168.132.13       | 
-|            | cn_seed_config_node | 192.168.132.10:10710 | 
-| iotdb-datanode.properties   | dn\_rpc\_address               | 192.168.132.13       | 
-|            | dn\_internal\_address          | 192.168.132.13       | 
-|            | dn_seed_config_node | 192.168.132.10:10710 | 
+| iotdb-confignode.properties | cn_internal_address          | iotdb-4       | 
+|            | cn_seed_config_node |  iotdb-1:10710 | 
+| iotdb-datanode.properties   | dn_rpc_address               | iotdb-4       | 
+|            | dn_internal_address          | iotdb-4       | 
+|            | dn_seed_config_node | iotdb-1:10710 | 
 
 ### 2.2. 扩容
-在新增节点`192.168.132.13`上，执行：
+在新增节点`iotdb-4(192.168.132.13)`上，执行：
 ```shell
 cd /data/iotdb
 # 启动 ConfigNode 和 DataNode 服务
@@ -194,20 +216,20 @@ sbin/start-standalone.sh
 ### 2.3. 验证扩容结果
 在 Cli 执行 `show cluster`，结果如下：
 ```shell
-/data/iotdb/sbin/start-cli.sh -h 192.168.132.10
+/data/iotdb/sbin/start-cli.sh -h iotdb-1
 IoTDB>show cluster;
 # 示例结果如下：
 +------+----------+-------+---------------+------------+-------+---------+
 |NodeID|  NodeType| Status|InternalAddress|InternalPort|Version|BuildInfo|
 +------+----------+-------+---------------+------------+-------+---------+
-|     0|ConfigNode|Running| 192.168.132.10|       10710|1.x.x  |  xxxxxxx|
-|     1|  DataNode|Running| 192.168.132.10|       10730|1.x.x  |  xxxxxxx|
-|     2|ConfigNode|Running| 192.168.132.11|       10710|1.x.x  |  xxxxxxx|
-|     3|  DataNode|Running| 192.168.132.11|       10730|1.x.x  |  xxxxxxx|
-|     4|ConfigNode|Running| 192.168.132.12|       10710|1.x.x  |  xxxxxxx|
-|     5|  DataNode|Running| 192.168.132.12|       10730|1.x.x  |  xxxxxxx|
-|     6|ConfigNode|Running| 192.168.132.13|       10710|1.x.x  |  xxxxxxx|
-|     7|  DataNode|Running| 192.168.132.13|       10730|1.x.x  |  xxxxxxx|
+|     0|ConfigNode|Running|    iotdb-1    |       10710|1.x.x  |  xxxxxxx|
+|     1|  DataNode|Running|    iotdb-1    |       10730|1.x.x  |  xxxxxxx|
+|     2|ConfigNode|Running|    iotdb-2    |       10710|1.x.x  |  xxxxxxx|
+|     3|  DataNode|Running|    iotdb-2    |       10730|1.x.x  |  xxxxxxx|
+|     4|ConfigNode|Running|    iotdb-3    |       10710|1.x.x  |  xxxxxxx|
+|     5|  DataNode|Running|    iotdb-3    |       10730|1.x.x  |  xxxxxxx|
+|     6|ConfigNode|Running|    iotdb-4    |       10710|1.x.x  |  xxxxxxx|
+|     7|  DataNode|Running|    iotdb-4    |       10730|1.x.x  |  xxxxxxx|
 +------+----------+-------+---------------+------------+-------+---------+
 ``` 
 
@@ -221,7 +243,7 @@ IoTDB>show cluster;
 ```shell
 cd /data/iotdb
 # 方式一：使用 ip:port 移除
-sbin/remove-confignode.sh 192.168.132.13:10710
+sbin/remove-confignode.sh iotdb-4:10710
 
 # 方式二：使用节点编号移除, `show cluster`中的 NodeID 
 sbin/remove-confignode.sh 6
@@ -231,7 +253,7 @@ sbin/remove-confignode.sh 6
 ```shell
 cd /data/iotdb
 # 方式一：使用 ip:port 移除
-sbin/remove-datanode.sh 192.168.132.13:6667
+sbin/remove-datanode.sh iotdb-4:6667
 
 # 方式二：使用节点编号移除, `show cluster`中的 NodeID
 sbin/remove-datanode.sh 7
@@ -244,11 +266,11 @@ sbin/remove-datanode.sh 7
 +------+----------+-------+---------------+------------+-------+---------+
 |NodeID|  NodeType| Status|InternalAddress|InternalPort|Version|BuildInfo|
 +------+----------+-------+---------------+------------+-------+---------+
-|     0|ConfigNode|Running| 192.168.132.10|       10710|1.x.x  |  xxxxxxx|
-|     1|  DataNode|Running| 192.168.132.10|       10730|1.x.x  |  xxxxxxx|
-|     2|ConfigNode|Running| 192.168.132.11|       10710|1.x.x  |  xxxxxxx|
-|     3|  DataNode|Running| 192.168.132.11|       10730|1.x.x  |  xxxxxxx|
-|     4|ConfigNode|Running| 192.168.132.12|       10710|1.x.x  |  xxxxxxx|
-|     5|  DataNode|Running| 192.168.132.12|       10730|1.x.x  |  xxxxxxx|
+|     0|ConfigNode|Running|    iotdb-1    |       10710|1.x.x  |  xxxxxxx|
+|     1|  DataNode|Running|    iotdb-1    |       10730|1.x.x  |  xxxxxxx|
+|     2|ConfigNode|Running|    iotdb-2    |       10710|1.x.x  |  xxxxxxx|
+|     3|  DataNode|Running|    iotdb-2    |       10730|1.x.x  |  xxxxxxx|
+|     4|ConfigNode|Running|    iotdb-3    |       10710|1.x.x  |  xxxxxxx|
+|     5|  DataNode|Running|    iotdb-3    |       10730|1.x.x  |  xxxxxxx|
 +------+----------+-------+---------------+------------+-------+---------+
 ```
