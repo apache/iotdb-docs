@@ -533,12 +533,12 @@ DataNode 的其它配置参数可参考
 
 我们为这六台地址全部设置 hostname
 ```shell
-echo "iotdb-1 192.168.132.10" >> /etc/hosts 
-echo "iotdb-2 192.168.132.11" >> /etc/hosts 
-echo "iotdb-3 192.168.132.12" >> /etc/hosts 
-echo "iotdb-4 192.168.132.20" >> /etc/hosts 
-echo "iotdb-5 192.168.132.21" >> /etc/hosts 
-echo "iotdb-6 192.168.132.22" >> /etc/hosts 
+echo "192.168.132.10 iotdb-1" >> /etc/hosts 
+echo "192.168.132.11 iotdb-2" >> /etc/hosts 
+echo "192.168.132.12 iotdb-3" >> /etc/hosts 
+echo "192.168.132.20 iotdb-4" >> /etc/hosts 
+echo "192.168.132.21 iotdb-5" >> /etc/hosts 
+echo "192.168.132.22 iotdb-6" >> /etc/hosts 
 ```
 
 当按照6.1步骤成功启动集群后，在 Cli 执行 `show cluster details`，看到的结果应当如下：

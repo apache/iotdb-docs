@@ -69,9 +69,9 @@ IP地址和服务角色分配如下：
 
 在每个节点均配置 hosts
 ```shell
-echo "iotdb-1 192.168.132.10" >> /etc/hosts 
-echo "iotdb-2 192.168.132.11" >> /etc/hosts 
-echo "iotdb-3 192.168.132.12" >> /etc/hosts 
+echo "192.168.132.10 iotdb-1" >> /etc/hosts 
+echo "192.168.132.11 iotdb-2" >> /etc/hosts 
+echo "192.168.132.12 iotdb-3" >> /etc/hosts 
 ```
 
 配置文件在 `/data/iotdb/conf`目录下。
@@ -185,15 +185,15 @@ rm -rf data logs
 ### 2.1. 修改配置
 在原节点上新增一行 hosts
 ```shell
-echo "iotdb-4 192.168.132.13" >> /etc/hosts 
+echo "192.168.132.13 iotdb-4" >> /etc/hosts 
 ```
 
 在节点设置 hosts
 ```shell
-echo "iotdb-1 192.168.132.10" >> /etc/hosts 
-echo "iotdb-2 192.168.132.11" >> /etc/hosts 
-echo "iotdb-3 192.168.132.12" >> /etc/hosts 
-echo "iotdb-4 192.168.132.13" >> /etc/hosts 
+echo "192.168.132.10 iotdb-1" >> /etc/hosts 
+echo "192.168.132.11 iotdb-2" >> /etc/hosts 
+echo "192.168.132.12 iotdb-3" >> /etc/hosts 
+echo "192.168.132.13 iotdb-4" >> /etc/hosts 
 ```
 按照下表修改相应的配置文件：
 
