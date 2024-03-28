@@ -91,7 +91,7 @@ IoTDB 要部署的机器需要依赖jdk 8及以上版本、lsof、netstat、unzi
 
 注意：由于二进制包仅支持GLIBC2.17 及以上版本，因此最低适配Centos7版本
 
-* 在iotd目录内输入以下指令后：
+* 在iotdbctl目录内输入以下指令后：
 
 ```bash
 bash install-iotdbctl.sh
@@ -134,81 +134,83 @@ IoTDB集群管理工具主要由config、logs、doc、sbin目录组成。
 
 | 参数                      | 说明                                                                                                                                                                          | 是否必填 |
 |-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------|
-| iotdb\_zip\_dir         | IoTDB 部署分发目录，如果值为空则从`iotdb_download_url`指定地址下载                                                                                                                              | 非必填  |
-| iotdb\_download\_url    | IoTDB 下载地址，如果`iotdb_zip_dir` 没有值则从指定地址下载                                                                                                                                    | 非必填  |
-| jdk\_tar\_dir           | jdk 本地目录，可使用该 jdk 路径进行上传部署至目标节点。                                                                                                                                            | 非必填  |
-| jdk\_deploy\_dir        | jdk 远程机器部署目录，会将 jdk 部署到该目录下面，与下面的`jdk_dir_name`参数构成完整的jdk部署目录即 `<jdk_deploy_dir>/<jdk_dir_name>`                                                                            | 非必填  |
-| jdk\_dir\_name          | jdk 解压后的目录名称默认是jdk_iotdb                                                                                                                                                    | 非必填  |
-| iotdb\_lib\_dir         | IoTDB lib 目录或者IoTDB 的lib 压缩包仅支持.zip格式 ，仅用于IoTDB升级，默认处于注释状态，如需升级请打开注释修改路径即可。如果使用zip文件请使用zip 命令压缩iotdb/lib目录例如 zip -r lib.zip apache\-iotdb\-1.2.0/lib/*                      | 非必填  |
-| user                    | ssh登陆部署机器的用户名                                                                                                                                                               | 必填   |
-| password                | ssh登录的密码, 如果password未指定使用pkey登陆, 请确保已配置节点之间ssh登录免密钥                                                                                                                         | 非必填  |
-| pkey                    | 密钥登陆如果password有值优先使用password否则使用pkey登陆                                                                                                                                      | 非必填  |
-| ssh\_port               | ssh登录端口                                                                                                                                                                     | 必填   |
-| deploy\_dir             | IoTDB 部署目录，会把 IoTDB 部署到该目录下面与下面的`iotdb_dir_name`参数构成完整的IoTDB 部署目录即 `<deploy_dir>/<iotdb_dir_name>`                                                                          | 必填   |
-| iotdb\_dir\_name        | IoTDB 解压后的目录名称默认是iotdb                                                                                                                                                      | 非必填  |
-| datanode-env.sh         | 对应`iotdb/config/datanode-env.sh`   ,在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值                                                                         | 非必填  |
-| confignode-env.sh       | 对应`iotdb/config/confignode-env.sh`,在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值                                                                              | 非必填  |
-| iotdb-common.properties | 对应`iotdb/config/iotdb-common.properties`                                                                                                                                    | 非必填  |
-| cn\_seed\_config\_node  | 集群配置地址指向存活的ConfigNode,默认指向confignode\_x，在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值，对应`iotdb/config/iotdb-confignode.properties`中的`cn_seed_config_node` | 必填   |
-| dn\_seed\_config\_node  | 集群配置地址指向存活的ConfigNode,默认指向confignode\_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-datanode.properties`中的`dn_seed_config_node`       | 必填   |
+| `iotdb_zip_dir`         | IoTDB 部署分发目录，如果值为空则从`iotdb_download_url`指定地址下载                                                                                                                              | 非必填  |
+| `iotdb_download_url`    | IoTDB 下载地址，如果`iotdb_zip_dir` 没有值则从指定地址下载                                                                                                                                    | 非必填  |
+| `jdk_tar_dir`           | jdk 本地目录，可使用该 jdk 路径进行上传部署至目标节点。                                                                                                                                            | 非必填  |
+| `jdk_deploy_dir`        | jdk 远程机器部署目录，会将 jdk 部署到该目录下面，与下面的`jdk_dir_name`参数构成完整的jdk部署目录即 `<jdk_deploy_dir>/<jdk_dir_name>`                                                                            | 非必填  |
+| `jdk_dir_name`          | jdk 解压后的目录名称默认是jdk_iotdb                                                                                                                                                    | 非必填  |
+| `iotdb_lib_dir`         | IoTDB lib 目录或者IoTDB 的lib 压缩包仅支持.zip格式 ，仅用于IoTDB升级，默认处于注释状态，如需升级请打开注释修改路径即可。如果使用zip文件请使用zip 命令压缩iotdb/lib目录例如 zip -r lib.zip apache\-iotdb\-1.2.0/lib/*                      | 非必填  |
+| `user`                    | ssh登陆部署机器的用户名                                                                                                                                                               | 必填   |
+| `password`                | ssh登录的密码, 如果password未指定使用pkey登陆, 请确保已配置节点之间ssh登录免密钥                                                                                                                         | 非必填  |
+| `pkey`                    | 密钥登陆如果password有值优先使用password否则使用pkey登陆                                                                                                                                      | 非必填  |
+| `ssh_port`               | ssh登录端口                                                                                                                                                                     | 必填   |
+| `deploy_dir`             | IoTDB 部署目录，会把 IoTDB 部署到该目录下面与下面的`iotdb_dir_name`参数构成完整的IoTDB 部署目录即 `<deploy_dir>/<iotdb_dir_name>`                                                                          | 必填   |
+| `iotdb_dir_name`        | IoTDB 解压后的目录名称默认是iotdb                                                                                                                                                      | 非必填  |
+| `datanode-env.sh`         | 对应`iotdb/config/datanode-env.sh`   ,在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值                                                                         | 非必填  |
+| `confignode-env.sh`       | 对应`iotdb/config/confignode-env.sh`,在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值                                                                              | 非必填  |
+| `iotdb-common.properties` | 对应`iotdb/config/iotdb-common.properties`                                                                                                                                    | 非必填  |
+| `cn_seed_config_node`  | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值，对应`iotdb/config/iotdb-confignode.properties`中的`cn_seed_config_node` | 必填   |
+| `dn_seed_config_node`  | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-datanode.properties`中的`dn_seed_config_node`       | 必填   |
 
-其中datanode-env.sh 和confignode-env.sh 可以配置额外参数extra_opts，当该参数配置后会在datanode-env.sh 和confignode-env.sh 后面追加对应的值，可参考default\_cluster.yaml，配置示例如下:
-datanode-env.sh:   
-extra_opts: |
-IOTDB_JMX_OPTS="$IOTDB_JMX_OPTS -XX:+UseG1GC"
-IOTDB_JMX_OPTS="$IOTDB_JMX_OPTS -XX:MaxGCPauseMillis=200"
+其中 `datanode-env.sh` 和 `confignode-env.sh` 可以配置额外参数`extra_opts`，当该参数配置后会在`datanode-env.sh` 和`confignode-env.sh` 后面追加对应的值，可参考`default_cluster.yaml`，配置示例如下:
+``` yaml
+datanode-env.sh: 
+  extra_opts: |
+  IOTDB_JMX_OPTS="$IOTDB_JMX_OPTS -XX:+UseG1GC"
+  IOTDB_JMX_OPTS="$IOTDB_JMX_OPTS -XX:MaxGCPauseMillis=200"
+```
 
 * confignode_servers 是部署IoTDB Confignodes配置，里面可以配置多个Confignode
   默认将第一个启动的ConfigNode节点node1当作Seed-ConfigNode
 
 | 参数                          | 说明                                                                                                                                                                         | 是否必填 |
 |-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------|
-| name                        | Confignode 名称                                                                                                                                                              | 必填   |
-| deploy\_dir                 | IoTDB config node 部署目录                                                                                                                                                     | 必填｜  |
-| iotdb-confignode.properties | 对应`iotdb/config/iotdb-confignode.properties`更加详细请参看`iotdb-confignode.properties`文件说明                                                                                       | 非必填  |
-| cn\_internal\_address       | 对应iotdb/内部通信地址，对应`iotdb/config/iotdb-confignode.properties`中的`cn_internal_address`                                                                                         | 必填   |
-| cn\_seed\_config\_node      | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值，对应`iotdb/config/iotdb-confignode.properties`中的`cn_seed_config_node` | 必填   |
-| cn\_internal\_port          | 内部通信端口，对应`iotdb/config/iotdb-confignode.properties`中的`cn_internal_port`                                                                                                    | 必填   |
-| cn\_consensus\_port         | 对应`iotdb/config/iotdb-confignode.properties`中的`cn_consensus_port`                                                                                                          | 非必填  |
-| cn\_data\_dir               | 对应`iotdb/config/iotdb-confignode.properties`中的`cn_data_dir`                                                                                                                | 必填   |
-| iotdb-common.properties     | 对应`iotdb/config/iotdb-common.properties`在`global`与`confignode_servers`同时配置值优先使用confignode\_servers中的值                                                                      | 非必填  |
+| `name`                        | Confignode 名称                                                                                                                                                              | 必填   |
+| `deploy_dir`                 | IoTDB config node 部署目录                                                                                                                                                     | 必填｜  |
+| `iotdb-confignode.properties` | 对应`iotdb/config/iotdb-confignode.properties`更加详细请参看`iotdb-confignode.properties`文件说明                                                                                       | 非必填  |
+| `cn_internal_address`       | 对应iotdb/内部通信地址，对应`iotdb/config/iotdb-confignode.properties`中的`cn_internal_address`                                                                                         | 必填   |
+| `cn_seed_config_node`      | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值，对应`iotdb/config/iotdb-confignode.properties`中的`cn_seed_config_node` | 必填   |
+| `cn_internal_port`          | 内部通信端口，对应`iotdb/config/iotdb-confignode.properties`中的`cn_internal_port`                                                                                                    | 必填   |
+| `cn_consensus_port`         | 对应`iotdb/config/iotdb-confignode.properties`中的`cn_consensus_port`                                                                                                          | 非必填  |
+| `cn_data_dir`               | 对应`iotdb/config/iotdb-confignode.properties`中的`cn_data_dir`                                                                                                                | 必填   |
+| `iotdb-common.properties`     | 对应`iotdb/config/iotdb-common.properties`在`global`与`confignode_servers`同时配置值优先使用confignode_servers中的值                                                                      | 非必填  |
 
 * datanode_servers 是部署IoTDB Datanodes配置，里面可以配置多个Datanode
 
 | 参数                        | 说明                                                                                                                                                                   |是否必填|
 |---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|--- |
 | name                      | Datanode 名称                                                                                                                                                          |必填|
-| deploy\_dir               | IoTDB data node 部署目录                                                                                                                                                 |必填|
-| iotdb-datanode.properties | 对应`iotdb/config/iotdb-datanode.properties`更加详细请参看`iotdb-datanode.properties`文件说明                                                                                     |非必填|
-| dn\_rpc\_address          | datanode rpc 地址对应`iotdb/config/iotdb-datanode.properties`中的`dn_rpc_address`                                                                                          |必填|
-| dn\_internal\_address     | 内部通信地址，对应`iotdb/config/iotdb-datanode.properties`中的`dn_internal_address`                                                                                             |必填|
-| dn\_seed\_config\_node    | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-datanode.properties`中的`dn_seed_config_node` |必填|
-| dn\_rpc\_port             | datanode rpc端口地址，对应`iotdb/config/iotdb-datanode.properties`中的`dn_rpc_port`                                                                                           |必填|
-| dn\_internal\_port        | 内部通信端口，对应`iotdb/config/iotdb-datanode.properties`中的`dn_internal_port`                                                                                                |必填|
-| iotdb-common.properties   | 对应`iotdb/config/iotdb-common.properties`在`global`与`datanode_servers`同时配置值优先使用`datanode_servers`中的值                                                                   |非必填|
+| `deploy_dir`               | IoTDB data node 部署目录                                                                                                                                                 |必填|
+| `iotdb-datanode.properties` | 对应`iotdb/config/iotdb-datanode.properties`更加详细请参看`iotdb-datanode.properties`文件说明                                                                                     |非必填|
+| `dn_rpc_address`          | datanode rpc 地址对应`iotdb/config/iotdb-datanode.properties`中的`dn_rpc_address`                                                                                          |必填|
+| `dn_internal_address`     | 内部通信地址，对应`iotdb/config/iotdb-datanode.properties`中的`dn_internal_address`                                                                                             |必填|
+| `dn_seed_config_node`    | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-datanode.properties`中的`dn_seed_config_node` |必填|
+| `dn_rpc_port`             | datanode rpc端口地址，对应`iotdb/config/iotdb-datanode.properties`中的`dn_rpc_port`                                                                                           |必填|
+| `dn_internal_port`        | 内部通信端口，对应`iotdb/config/iotdb-datanode.properties`中的`dn_internal_port`                                                                                                |必填|
+| `iotdb-common.properties`   | 对应`iotdb/config/iotdb-common.properties`在`global`与`datanode_servers`同时配置值优先使用`datanode_servers`中的值                                                                   |非必填|
 
 * grafana_server 是部署Grafana 相关配置
 
 | 参数                 | 说明               | 是否必填              |
 |--------------------|------------------|-------------------|
-| grafana\_dir\_name | grafana 解压目录名称   | 非必填默认grafana_iotdb |
-| host               | grafana 部署的服务器ip | 必填                |
-| grafana\_port      | grafana 部署机器的端口  | 非必填，默认3000        |
-| deploy\_dir        | grafana 部署服务器目录  | 必填                |
-| grafana\_tar\_dir  | grafana 压缩包位置    | 必填                |
-| dashboards         | dashboards 所在的位置 | 非必填,多个用逗号隔开       |
+| `grafana_dir_name` | grafana 解压目录名称   | 非必填默认grafana_iotdb |
+| `host`               | grafana 部署的服务器ip | 必填                |
+| `grafana_port`      | grafana 部署机器的端口  | 非必填，默认3000        |
+| `deploy_dir`        | grafana 部署服务器目录  | 必填                |
+| `grafana_tar_dir`  | grafana 压缩包位置    | 必填                |
+| `dashboards`         | dashboards 所在的位置 | 非必填,多个用逗号隔开       |
 
 * prometheus_server 是部署Prometheus 相关配置
 
 | 参数                             | 说明               | 是否必填                  |
 |--------------------------------|------------------|-----------------------|
-| prometheus_dir\_name           | prometheus 解压目录名称   | 非必填默认prometheus_iotdb |
-| host                           | prometheus 部署的服务器ip | 必填                    |
-| prometheus\_port               | prometheus 部署机器的端口  | 非必填，默认9090            |
-| deploy\_dir                    | prometheus 部署服务器目录  | 必填                    |
-| prometheus\_tar\_dir           | prometheus 压缩包位置    | 必填                    |
-| storage\_tsdb\_retention\_time | 默认保存数据天数 默认15天    | 非必填                   |
-| storage\_tsdb\_retention\_size | 指定block可以保存的数据大小默认512M ，注意单位KB, MB, GB, TB, PB, EB    | 非必填                   |
+| `prometheus_dir_name`           | prometheus 解压目录名称   | 非必填默认prometheus_iotdb |
+| `host`                           | prometheus 部署的服务器ip | 必填                    |
+| `prometheus_port`               | prometheus 部署机器的端口  | 非必填，默认9090            |
+| `deploy_dir`                    | prometheus 部署服务器目录  | 必填                    |
+| `prometheus_tar_dir`           | prometheus 压缩包位置    | 必填                    |
+| `storage_tsdb_retention_time` | 默认保存数据天数 默认15天    | 非必填                   |
+| `storage_tsdb_retention_size` | 指定block可以保存的数据大小 ，注意单位KB, MB, GB, TB, PB, EB    | 非必填                   |
 
 如果在config/xxx.yaml的`iotdb-datanode.properties`和`iotdb-confignode.properties`中配置了metrics,则会自动把配置放入到promethues无需手动修改
 
@@ -728,9 +730,9 @@ iotdbctl cluster activate default_cluster -N confignode1 -op license_path
 
 | 名称                          | 说明                                             |
 |-----------------------------|------------------------------------------------|
-| default\_1c1d.yaml          | 1个confignode和1个datanode 配置样例                   |
-| default\_3c3d.yaml          | 3个confignode和3个datanode 配置样例                   |
-| default\_3c3d\_grafa\_prome | 3个confignode和3个datanode、Grafana、Prometheus配置样例 |
+| default_1c1d.yaml          | 1个confignode和1个datanode 配置样例                   |
+| default_3c3d.yaml          | 3个confignode和3个datanode 配置样例                   |
+| default_3c3d_grafa_prome | 3个confignode和3个datanode、Grafana、Prometheus配置样例 |
 
 ## 手动部署
 
@@ -768,7 +770,7 @@ git checkout v1.3.0
 **官网下载**
 
 1. 打开官网[Download Page](https://iotdb.apache.org/Download/)。
-2. 下载 IoTDB 1.0.0 版本的源码。
+2. 下载 IoTDB 1.3.0 版本的源码。
 3. 解压得到 apache-iotdb-1.3.0 目录。
 
 ##### 编译源码
@@ -780,12 +782,12 @@ mvn clean package -pl distribution -am -DskipTests
 ```
 
 编译成功后，可在目录 
-**distribution/target/apache-iotdb-1.3.0-SNAPSHOT-all-bin/apache-iotdb-1.3.0-SNAPSHOT-all-bin** 
+**distribution/target/apache-iotdb-1.3.0-all-bin/apache-iotdb-1.3.0-all-bin** 
 找到集群版本的二进制文件。
 
 ### 安装包说明
 
-打开 apache-iotdb-1.3.0-SNAPSHOT-all-bin，可见以下目录：
+打开 apache-iotdb-1.3.0-all-bin，可见以下目录：
 
 | **目录** | **说明**                                                     |
 | -------- | ------------------------------------------------------------ |
@@ -801,16 +803,16 @@ mvn clean package -pl distribution -am -DskipTests
 
 #### 集群安装
 
-`apache-iotdb-1.3.0-SNAPSHOT-all-bin` 包含 ConfigNode 和 DataNode，
+`apache-iotdb-1.3.0-all-bin` 包含 ConfigNode 和 DataNode，
 请将安装包部署于你目标集群的所有机器上，推荐将安装包部署于所有服务器的相同目录下。
 
 如果你希望先在一台服务器上尝试部署 IoTDB 集群，请参考
-[Cluster Quick Start](https://iotdb.apache.org/zh/UserGuide/Master/QuickStart/ClusterQuickStart.html)。
+[Cluster Quick Start](../QuickStart/ClusterQuickStart.md)。
 
 #### 集群配置
 
 接下来需要修改每个服务器上的配置文件，登录服务器，
-并将工作路径切换至 `apache-iotdb-1.3.0-SNAPSHOT-all-bin`，
+并将工作路径切换至 `apache-iotdb-1.3.0-all-bin`，
 配置文件在 `./conf` 目录内。
 
 对于所有部署 ConfigNode 的服务器，需要修改通用配置（见 5.2.1）和 ConfigNode 配置（见 5.2.2）。
@@ -825,12 +827,12 @@ mvn clean package -pl distribution -am -DskipTests
 
 | **配置项**                                 | **说明**                                                     | **默认**                                        |
 | ------------------------------------------ | ------------------------------------------------------------ | ----------------------------------------------- |
-| cluster\_name                              | 节点希望加入的集群的名称                                     | defaultCluster                                  |
-| config\_node\_consensus\_protocol\_class   | ConfigNode 使用的共识协议                                    | org.apache.iotdb.consensus.ratis.RatisConsensus |
-| schema\_replication\_factor                | 元数据副本数，DataNode 数量不应少于此数目                    | 1                                               |
-| schema\_region\_consensus\_protocol\_class | 元数据副本组的共识协议                                       | org.apache.iotdb.consensus.ratis.RatisConsensus |
-| data\_replication\_factor                  | 数据副本数，DataNode 数量不应少于此数目                      | 1                                               |
-| data\_region\_consensus\_protocol\_class   | 数据副本组的共识协议。注：RatisConsensus 目前不支持多数据目录 | org.apache.iotdb.consensus.iot.IoTConsensus     |
+| cluster_name                              | 节点希望加入的集群的名称                                     | defaultCluster                                  |
+| config_node_consensus_protocol_class   | ConfigNode 使用的共识协议                                    | org.apache.iotdb.consensus.ratis.RatisConsensus |
+| schema_replication_factor                | 元数据副本数，DataNode 数量不应少于此数目                    | 1                                               |
+| schema_region_consensus_protocol_class | 元数据副本组的共识协议                                       | org.apache.iotdb.consensus.ratis.RatisConsensus |
+| data_replication_factor                  | 数据副本数，DataNode 数量不应少于此数目                      | 1                                               |
+| data_region_consensus_protocol_class   | 数据副本组的共识协议。注：RatisConsensus 目前不支持多数据目录 | org.apache.iotdb.consensus.iot.IoTConsensus     |
 
 **注意：上述配置项在集群启动后即不可更改，且务必保证所有节点的通用配置完全一致，否则节点无法启动。**
 
@@ -840,10 +842,10 @@ mvn clean package -pl distribution -am -DskipTests
 
 | **配置项**                     | **说明**                                                     | **默认**        | **用法**                                                     |
 | ------------------------------ | ------------------------------------------------------------ | --------------- | ------------------------------------------------------------ |
-| cn\_internal\_address          | ConfigNode 在集群内部通讯使用的地址                          | 127.0.0.1       | 设置为服务器的 IPV4 地址或域名                               |
-| cn\_internal\_port             | ConfigNode 在集群内部通讯使用的端口                          | 10710           | 设置为任意未占用端口                                         |
-| cn\_consensus\_port            | ConfigNode 副本组共识协议通信使用的端口                      | 10720           | 设置为任意未占用端口                                         |
-| cn\_seed\_config\_node | 节点注册加入集群时连接的 ConfigNode 的地址。注：只能配置一个 | 127.0.0.1:10710 | 对于 Seed-ConfigNode，设置为自己的 cn\_internal\_address:cn\_internal\_port；对于其它 ConfigNode，设置为另一个正在运行的 ConfigNode 的 cn\_internal\_address:cn\_internal\_port |
+| cn_internal_address          | ConfigNode 在集群内部通讯使用的地址                          | 127.0.0.1       | 设置为服务器的 `IP地址`或`hostname(机器名/域名)`                              |
+| cn_internal_port             | ConfigNode 在集群内部通讯使用的端口                          | 10710           | 设置为任意未占用端口                                         |
+| cn_consensus_port            | ConfigNode 副本组共识协议通信使用的端口                      | 10720           | 设置为任意未占用端口                                         |
+| cn_seed_config_node | 节点注册加入集群时连接的 ConfigNode 的地址。注：只能配置一个 | 127.0.0.1:10710 | 对于 Seed-ConfigNode，设置为自己的 cn_internal_address:cn_internal_port；对于其它 ConfigNode，设置为另一个正在运行的 ConfigNode 的 cn_internal_address:cn_internal_port |
 
 **注意：上述配置项在节点启动后即不可更改，且务必保证所有端口均未被占用，否则节点无法启动。**
 
@@ -851,16 +853,16 @@ mvn clean package -pl distribution -am -DskipTests
 
 打开 DataNode 配置文件 ./conf/iotdb-datanode.properties，根据服务器/虚拟机的 IP 地址和可用端口，设置以下参数：
 
-| **配置项**                             | **说明**                                  | **默认**        | **用法**                                                     |
-|-------------------------------------| ----------------------------------------- | --------------- | ------------------------------------------------------------ |
-| dn\_rpc\_address                    | 客户端 RPC 服务的地址                     | 127.0.0.1       | 设置为服务器的 IPV4 地址或域名                               |
-| dn\_rpc\_port                       | 客户端 RPC 服务的端口                     | 6667            | 设置为任意未占用端口                                         |
-| dn\_internal\_address               | DataNode 在集群内部接收控制流使用的地址   | 127.0.0.1       | 设置为服务器的 IPV4 地址或域名                               |
-| dn\_internal\_port                  | DataNode 在集群内部接收控制流使用的端口   | 10730           | 设置为任意未占用端口                                         |
-| dn\_mpp\_data\_exchange\_port       | DataNode 在集群内部接收数据流使用的端口   | 10740           | 设置为任意未占用端口                                         |
-| dn\_data\_region\_consensus\_port   | DataNode 的数据副本间共识协议通信的端口   | 10750           | 设置为任意未占用端口                                         |
-| dn\_schema\_region\_consensus\_port | DataNode 的元数据副本间共识协议通信的端口 | 10760           | 设置为任意未占用端口                                         |
-| dn\_seed\_config\_node              | 集群中正在运行的 ConfigNode 地址          | 127.0.0.1:10710 | 设置为任意正在运行的 ConfigNode 的 cn\_internal\_address:cn\_internal\_port，可设置多个，用逗号（","）隔开 |
+| **配置项**                          | **说明**                                  | **默认**        | **用法**                                                     |
+| ----------------------------------- | ----------------------------------------- | --------------- | ------------------------------------------------------------ |
+| dn_rpc_address                    | 客户端 RPC 服务的地址                     | 127.0.0.1       | 设置为服务器的 `IP地址`或`hostname(机器名/域名)`                              |
+| dn_rpc_port                       | 客户端 RPC 服务的端口                     | 6667            | 设置为任意未占用端口                                         |
+| dn_internal_address               | DataNode 在集群内部接收控制流使用的地址   | 127.0.0.1       | 设置为服务器的 `IP地址`或`hostname(机器名/域名)`                              |
+| dn_internal_port                  | DataNode 在集群内部接收控制流使用的端口   | 10730           | 设置为任意未占用端口                                         |
+| dn_mpp_data_exchange_port       | DataNode 在集群内部接收数据流使用的端口   | 10740           | 设置为任意未占用端口                                         |
+| dn_data_region_consensus_port   | DataNode 的数据副本间共识协议通信的端口   | 10750           | 设置为任意未占用端口                                         |
+| dn_schema_region_consensus_port | DataNode 的元数据副本间共识协议通信的端口 | 10760           | 设置为任意未占用端口                                         |
+| dn_seed_config_node      | 集群中正在运行的 ConfigNode 地址          | 127.0.0.1:10710 | 设置为任意正在运行的 ConfigNode 的 cn_internal_address:cn_internal_port，可设置多个，用逗号（","）隔开 |
 
 **注意：上述配置项在节点启动后即不可更改，且务必保证所有端口均未被占用，否则节点无法启动。**
 
@@ -886,12 +888,12 @@ mvn clean package -pl distribution -am -DskipTests
 
 | **配置项**                                 | **检查**                   |
 | ------------------------------------------ | -------------------------- |
-| cluster\_name                              | 已设置为期望的集群名称     |
-| config\_node\_consensus\_protocol\_class   | 已设置为期望的共识协议     |
-| schema\_replication\_factor                | 已设置为期望的元数据副本数 |
-| schema\_region\_consensus\_protocol\_class | 已设置为期望的共识协议     |
-| data\_replication\_factor                  | 已设置为期望的数据副本数   |
-| data\_region\_consensus\_protocol\_class   | 已设置为期望的共识协议     |
+| cluster_name                              | 已设置为期望的集群名称     |
+| config_node_consensus_protocol_class   | 已设置为期望的共识协议     |
+| schema_replication_factor                | 已设置为期望的元数据副本数 |
+| schema_region_consensus_protocol_class | 已设置为期望的共识协议     |
+| data_replication_factor                  | 已设置为期望的数据副本数   |
+| data_region_consensus_protocol_class   | 已设置为期望的共识协议     |
 
 **注意：** 请根据[部署推荐](./Deployment-Recommendation.md)配置合适的通用参数，这些参数在首次配置后即不可修改。
 
@@ -899,10 +901,10 @@ mvn clean package -pl distribution -am -DskipTests
 
 | **配置项**                     | **检查**                                                     |
 | ------------------------------ | ------------------------------------------------------------ |
-| cn\_internal\_address          | 已设置为服务器的 IPV4 地址或域名                             |
-| cn\_internal\_port             | 该端口未被占用                                               |
-| cn\_consensus\_port            | 该端口未被占用                                               |
-| cn\_seed\_config\_node | 已设置为自己的内部通讯地址，即 cn\_internal\_address:cn\_internal\_port |
+| cn_internal_address          | 已设置为服务器的 `IP地址`或`hostname(机器名/域名)`                            |
+| cn_internal_port             | 该端口未被占用                                               |
+| cn_consensus_port            | 该端口未被占用                                               |
+| cn_seed_config_node | 已设置为自己的内部通讯地址，即 cn_internal_address:cn_internal_port |
 
 检查完毕后，即可在服务器上运行启动脚本：
 
@@ -931,21 +933,21 @@ ConfigNode 的其它配置参数可参考
 
 | **配置项**                                 | **检查**                    |
 | ------------------------------------------ | --------------------------- |
-| cluster\_name                              | 与 Seed-ConfigNode 保持一致 |
-| config\_node\_consensus\_protocol\_class   | 与 Seed-ConfigNode 保持一致 |
-| schema\_replication\_factor                | 与 Seed-ConfigNode 保持一致 |
-| schema\_region\_consensus\_protocol\_class | 与 Seed-ConfigNode 保持一致 |
-| data\_replication\_factor                  | 与 Seed-ConfigNode 保持一致 |
-| data\_region\_consensus\_protocol\_class   | 与 Seed-ConfigNode 保持一致 |
+| cluster_name                              | 与 Seed-ConfigNode 保持一致 |
+| config_node_consensus_protocol_class   | 与 Seed-ConfigNode 保持一致 |
+| schema_replication_factor                | 与 Seed-ConfigNode 保持一致 |
+| schema_region_consensus_protocol_class | 与 Seed-ConfigNode 保持一致 |
+| data_replication_factor                  | 与 Seed-ConfigNode 保持一致 |
+| data_region_consensus_protocol_class   | 与 Seed-ConfigNode 保持一致 |
 
 接着请打开它的配置文件 ./conf/iotdb-confignode.properties，并检查以下参数：
 
 | **配置项**                     | **检查**                                                     |
 | ------------------------------ | ------------------------------------------------------------ |
-| cn\_internal\_address          | 已设置为服务器的 IPV4 地址或域名                             |
-| cn\_internal\_port             | 该端口未被占用                                               |
-| cn\_consensus\_port            | 该端口未被占用                                               |
-| cn\_seed\_config\_node | 已设置为另一个正在运行的 ConfigNode 的内部通讯地址，推荐使用 Seed-ConfigNode 的内部通讯地址 |
+| cn_internal_address          | 已设置为服务器的 `IP地址`或`hostname(机器名/域名)`                            |
+| cn_internal_port             | 该端口未被占用                                               |
+| cn_consensus_port            | 该端口未被占用                                               |
+| cn_seed_config_node | 已设置为另一个正在运行的 ConfigNode 的内部通讯地址，推荐使用 Seed-ConfigNode 的内部通讯地址 |
 
 检查完毕后，即可在服务器上运行启动脚本：
 
@@ -972,20 +974,20 @@ ConfigNode 的其它配置参数可参考
 
 | **配置项**    | **检查**                    |
 | ------------- | --------------------------- |
-| cluster\_name | 与 Seed-ConfigNode 保持一致 |
+| cluster_name | 与 Seed-ConfigNode 保持一致 |
 
 接着打开它的配置文件 ./conf/iotdb-datanode.properties 并检查以下参数：
 
-| **配置项**                             | **检查**                                                     |
-|-------------------------------------| ------------------------------------------------------------ |
-| dn\_rpc\_address                    | 已设置为服务器的 IPV4 地址或域名                             |
-| dn\_rpc\_port                       | 该端口未被占用                                               |
-| dn\_internal\_address               | 已设置为服务器的 IPV4 地址或域名                             |
-| dn\_internal\_port                  | 该端口未被占用                                               |
-| dn\_mpp\_data\_exchange\_port       | 该端口未被占用                                               |
-| dn\_data\_region\_consensus\_port   | 该端口未被占用                                               |
-| dn\_schema\_region\_consensus\_port | 该端口未被占用                                               |
-| dn\_seed\_config\_node              | 已设置为正在运行的 ConfigNode 的内部通讯地址，推荐使用 Seed-ConfigNode 的内部通讯地址 |
+| **配置项**                          | **检查**                                                     |
+| ----------------------------------- | ------------------------------------------------------------ |
+| dn_rpc_address                    | 已设置为服务器的 `IP地址`或`hostname(机器名/域名)`                            |
+| dn_rpc_port                       | 该端口未被占用                                               |
+| dn_internal_address               | 已设置为服务器的 `IP地址`或`hostname(机器名/域名)`                            |
+| dn_internal_port                  | 该端口未被占用                                               |
+| dn_mpp_data_exchange_port       | 该端口未被占用                                               |
+| dn_data_region_consensus_port   | 该端口未被占用                                               |
+| dn_schema_region_consensus_port | 该端口未被占用                                               |
+| dn_seed_config_node      | 已设置为正在运行的 ConfigNode 的内部通讯地址，推荐使用 Seed-ConfigNode 的内部通讯地址 |
 
 检查完毕后，即可在服务器上运行启动脚本：
 
@@ -1003,7 +1005,7 @@ nohup bash ./sbin/start-datanode.sh >/dev/null 2>&1 &
 DataNode 的其它配置参数可参考
 [DataNode配置参数](../Reference/DataNode-Config-Manual.md) 。
 
-**注意：当且仅当集群拥有不少于副本个数（max{schema\_replication\_factor, data\_replication\_factor}）的 DataNode 后，集群才可以提供服务**
+**注意：当且仅当集群拥有不少于副本个数（max{schema_replication_factor, data_replication_factor}）的 DataNode 后，集群才可以提供服务**
 
 #### 启动 Cli
 
@@ -1018,28 +1020,38 @@ DataNode 的其它配置参数可参考
 ```
 
 若希望通过 Cli 连接生产环境的集群，
-请阅读 [Cli 使用手册](../Tools-System/CLI.md) 。
+请阅读 [Cli 使用手册](../Tools-System/CLI.md)。
 
 #### 验证集群
 
 以在6台服务器上启动的3C3D（3个ConfigNode 和 3个DataNode）集群为例，
-这里假设3个ConfigNode的IP地址依次为192.168.1.10、192.168.1.11、192.168.1.12，且3个ConfigNode启动时均使用了默认的端口10710与10720；
-3个DataNode的IP地址依次为192.168.1.20、192.168.1.21、192.168.1.22，且3个DataNode启动时均使用了默认的端口6667、10730、10740、10750与10760。
+这里假设3个ConfigNode依次为iotdb-1(192.168.1.10)、iotdb-2(192.168.1.11)、iotdb-3(192.168.1.12)，且3个ConfigNode启动时均使用了默认的端口10710与10720；
+3个DataNode依次为iotdb-4(192.168.1.20)、iotdb-5(192.168.1.21)、iotdb-6(192.168.1.22)，且3个DataNode启动时均使用了默认的端口6667、10730、10740、10750与10760。
+
+我们为这六台地址全部设置 hostname
+```shell
+echo "iotdb-1 192.168.132.10" >> /etc/hosts 
+echo "iotdb-2 192.168.132.11" >> /etc/hosts 
+echo "iotdb-3 192.168.132.12" >> /etc/hosts 
+echo "iotdb-4 192.168.132.20" >> /etc/hosts 
+echo "iotdb-5 192.168.132.21" >> /etc/hosts 
+echo "iotdb-6 192.168.132.22" >> /etc/hosts 
+```
 
 当按照6.1步骤成功启动集群后，在 Cli 执行 `show cluster details`，看到的结果应当如下：
 
 ```
 IoTDB> show cluster details
-+------+----------+-------+---------------+------------+-------------------+------------+-------+-------+-------------------+-----------------+
-|NodeID|  NodeType| Status|InternalAddress|InternalPort|ConfigConsensusPort|  RpcAddress|RpcPort|MppPort|SchemaConsensusPort|DataConsensusPort|
-+------+----------+-------+---------------+------------+-------------------+------------+-------+-------+-------------------+-----------------+
-|     0|ConfigNode|Running|   192.168.1.10|       10710|              10720|            |       |       |                   |                 |
-|     2|ConfigNode|Running|   192.168.1.11|       10710|              10720|            |       |       |                   |                 |
-|     3|ConfigNode|Running|   192.168.1.12|       10710|              10720|            |       |       |                   |                 |
-|     1|  DataNode|Running|   192.168.1.20|       10730|                   |192.168.1.20|   6667|  10740|              10750|            10760|
-|     4|  DataNode|Running|   192.168.1.21|       10730|                   |192.168.1.21|   6667|  10740|              10750|            10760|
-|     5|  DataNode|Running|   192.168.1.22|       10730|                   |192.168.1.22|   6667|  10740|              10750|            10760|
-+------+----------+-------+---------------+------------+-------------------+------------+-------+-------+-------------------+-----------------+
++------+----------+-------+---------------+------------+-------------------+----------+-------+-------+-------------------+-----------------+
+|NodeID|  NodeType| Status|InternalAddress|InternalPort|ConfigConsensusPort|RpcAddress|RpcPort|MppPort|SchemaConsensusPort|DataConsensusPort|
++------+----------+-------+---------------+------------+-------------------+----------+-------+-------+-------------------+-----------------+
+|     0|ConfigNode|Running|    iotdb-1    |       10710|              10720|          |       |       |                   |                 |
+|     2|ConfigNode|Running|    iotdb-2    |       10710|              10720|          |       |       |                   |                 |
+|     3|ConfigNode|Running|    iotdb-3    |       10710|              10720|          |       |       |                   |                 |
+|     1|  DataNode|Running|    iotdb-4    |       10730|                   |   iotdb-4|   6667|  10740|              10750|            10760|
+|     4|  DataNode|Running|    iotdb-5    |       10730|                   |   iotdb-5|   6667|  10740|              10750|            10760|
+|     5|  DataNode|Running|    iotdb-6    |       10730|                   |   iotdb-6|   6667|  10740|              10750|            10760|
++------+----------+-------+---------------+------------+-------------------+----------+-------+-------+-------------------+-----------------+
 Total line number = 6
 It costs 0.012s
 ```
