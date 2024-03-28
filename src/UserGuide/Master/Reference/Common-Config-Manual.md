@@ -655,15 +655,6 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | 10000                                                                         |
 |  Effective  | After restarting system                                                       |
 
-* enable\_discard\_out\_of\_order\_data
-
-|    Name     | enable\_discard\_out\_of\_order\_data |
-| :---------: |:--------------------------------------|
-| Description | whether to discard out of order data  |
-|    Type     | Boolean                               |
-|   Default   | false                                 |
-|  Effective  | After restarting system               |
-
 * handle\_system\_error
 
 |    Name     | handle\_system\_error                                  |

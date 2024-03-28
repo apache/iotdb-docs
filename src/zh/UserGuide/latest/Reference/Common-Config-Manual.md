@@ -684,16 +684,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     描述     | 当插入请求等待超过这个时间，则抛出异常，单位 ms                 |
 |     类型     | Int32                                     |
 |    默认值    | 10000                                     |
-| 改后生效方式 | 重启服务生效                                 |   
-
-* enable\_discard\_out\_of\_order\_data
-
-|     名字     | enable\_discard\_out\_of\_order\_data |
-| :----------: |:--------------------------------------|
-|     描述     | 是否支持写入乱序数据                            |
-|     类型     | Boolean                               |
-|    默认值    | false                                 |
-| 改后生效方式 | 重启服务生效                                |
+| 改后生效方式 | 重启服务生效                                 |
 
 * handle\_system\_error
 
