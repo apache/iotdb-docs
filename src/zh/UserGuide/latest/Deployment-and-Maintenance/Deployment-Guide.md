@@ -251,7 +251,7 @@ It costs 0.005s
 
 ### 安装包获取
 
-你可以选择下载二进制文件（见 3.1）或从源代码编译（见 3.2）。
+你可以选择下载二进制文件或从源代码编译。
 
 #### 下载二进制文件
 
@@ -318,9 +318,9 @@ mvn clean package -pl distribution -am -DskipTests
 并将工作路径切换至 `apache-iotdb-1.3.0-all-bin`，
 配置文件在 `./conf` 目录内。
 
-对于所有部署 ConfigNode 的服务器，需要修改通用配置（见 5.2.1）和 ConfigNode 配置（见 5.2.2）。
+对于所有部署 ConfigNode 的服务器，需要修改[通用配置](../Reference/Common-Config-Manual.md)和 [ConfigNode 配置](../Reference/ConfigNode-Config-Manual.md)。
 
-对于所有部署 DataNode 的服务器，需要修改通用配置（见 5.2.1）和 DataNode 配置（见 5.2.3）。
+对于所有部署 DataNode 的服务器，需要修改[通用配置](../Reference/Common-Config-Manual.md)和 [DataNode 配置](../Reference/DataNode-Config-Manual.md)。
 
 ##### 通用配置
 
