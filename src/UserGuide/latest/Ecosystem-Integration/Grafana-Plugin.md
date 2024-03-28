@@ -55,7 +55,7 @@ grafana-cli plugins install apache-iotdb-datasource
 
 * Click on Configuration ->Plugins ->Search IoTDB from local Grafana to install the plugin
 
-### Method 3: Manually install the grafana-plugin plug-in (not recommended)
+### Method 3: Manually install the grafana-plugin plugin (not recommended)
 
 
 * Copy the front-end project target folder generated above to Grafana's plugin directory `${Grafana directory}\data\plugins\`。If there is no such directory, you can manually create it or start grafana and it will be created automatically. Of course, you can also modify the location of plugins. For details, please refer to the following instructions for modifying the location of Grafana's plugin directory.

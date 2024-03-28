@@ -72,7 +72,7 @@
 
 > ❗️**注：目前的 IoTDB -> IoTDB 的数据同步实现并不支持 DDL 同步**
 >
-> 即：不支持 ttl，trigger，别名，模板，视图，创建/删除序列，创建/删除存储组等操作
+> 即：不支持 ttl，trigger，别名，模板，视图，创建/删除序列，创建/删除数据库等操作
 >
 > **IoTDB -> IoTDB 的数据同步要求目标端 IoTDB：**
 >
@@ -376,14 +376,14 @@ SHOW PIPEPLUGINS
 注意：理论上 v1.2.0+ IoTDB 可作为 v1.2.0 版本前的任意版本的数据同步（Sync）接收端。
 
 
-| key                | value                                                                 | value 取值范围                      | required or optional with default |
-| ------------------ | --------------------------------------------------------------------- | ----------------------------------- | --------------------------------- |
-| connector          | iotdb-legacy-pipe-connector                                           | String: iotdb-legacy-pipe-connector | required                          |
-| connector.ip       | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip                      | String                              | required                          |
-| connector.port     | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port                    | Integer                             | required                          |
+| key                | value                                        | value 取值范围                          | required or optional with default |
+|--------------------|----------------------------------------------|-------------------------------------|-----------------------------------|
+| connector          | iotdb-legacy-pipe-connector                  | String: iotdb-legacy-pipe-connector | required                          |
+| connector.ip       | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip           | String                              | required                          |
+| connector.port     | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port         | Integer                             | required                          |
 | connector.user     | 目标端 IoTDB 的用户名，注意该用户需要支持数据写入、TsFile Load 的权限 | String                              | optional: root                    |
-| connector.password | 目标端 IoTDB 的密码，注意该用户需要支持数据写入、TsFile Load 的权限   | String                              | optional: root                    |
-| connector.version  | 目标端 IoTDB 的版本，用于伪装自身实际版本，绕过目标端的版本一致性检查 | String                              | optional: 1.1                     |
+| connector.password | 目标端 IoTDB 的密码，注意该用户需要支持数据写入、TsFile Load 的权限  | String                              | optional: root                    |
+| connector.version  | 目标端 IoTDB 的版本，用于伪装自身实际版本，绕过目标端的版本一致性检查       | String                              | optional: 1.1                     |
 
 > 📌 请确保接收端已经创建了发送端的所有时间序列，或是开启了自动创建元数据，否则将会导致 pipe 运行失败。
 
@@ -392,14 +392,14 @@ SHOW PIPEPLUGINS
 作用：不对 processor 传入的事件做任何的处理。
 
 
-| key       | value                | value 取值范围               | required or optional with default |
-| --------- | -------------------- | ---------------------------- | --------------------------------- |
+| key       | value                | value 取值范围                   | required or optional with default |
+|-----------|----------------------|------------------------------|-----------------------------------|
 | connector | do-nothing-connector | String: do-nothing-connector | required                          |
 
 ## 权限管理
 
-| 权限名称    | 描述                 |
-| ----------- | -------------------- |
+| 权限名称        | 描述         |
+|-------------|------------|
 | CREATE_PIPE | 注册任务。路径无关。 |
 | START_PIPE  | 开启任务。路径无关。 |
 | STOP_PIPE   | 停止任务。路径无关。 |
