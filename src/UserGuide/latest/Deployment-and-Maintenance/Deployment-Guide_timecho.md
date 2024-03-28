@@ -1423,7 +1423,7 @@ AINode supports modifying some necessary parameters. The following parameters ca
 
 | **Name**                    | **Description**                                                     | **Type** | **Default Value**         | **Modified Mode of Effect**             |
 | --------------------------- | ------------------------------------------------------------ | -------- | ------------------ | ---------------------------- |
-| ain_target_config_node_list | ConfigNode address registered at AINode startup                             | String   | 10710              | Only allow to modify before the first startup |
+| ain_seed_config_node | ConfigNode address registered at AINode startup                             | String   | 10710              | Only allow to modify before the first startup |
 | ain_inference_rpc_address   | Addresses where AINode provides services and communications                                   | String   | 127.0.0.1          | Effective after reboot                   |
 | ain_inference_rpc_port      | AINode provides services and communication ports                                   | String   | 10810              | Effective after reboot                   |
 | ain_system_dir              | AINode metadata storage path, the starting directory of the relative path is related to the operating system, it is recommended to use the absolute path. | String   | data/AINode/system | Effective after reboot                   |

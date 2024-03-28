@@ -142,4 +142,5 @@ _paq.push(['enableLinkTracking']);
       },
     },
   }),
+  pagePatterns: ['**/*.md', '!**/stage/**/*.md', '!.vuepress', '!node_modules'],
 });

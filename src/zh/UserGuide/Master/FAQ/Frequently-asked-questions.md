@@ -187,18 +187,18 @@ datanode_memory_proportion参数控制分给查询的内存，chunk_timeseriesme
 
 - ConfigNode初次启动时确保已清空data/confignode目录
 - 确保该ConfigNode使用到的<IP+端口>没有被占用，没有与已启动的ConfigNode使用到的<IP+端口>冲突
-- 确保该ConfigNode的cn_target_confignode_list（指向存活的ConfigNode；如果该ConfigNode是启动的第一个ConfigNode，该值指向自身）配置正确
-- 确保该ConfigNode的配置项（共识协议、副本数等）等与cn_target_confignode_list对应的ConfigNode集群一致
+- 确保该ConfigNode的cn_seed_config_node（指向存活的ConfigNode；如果该ConfigNode是启动的第一个ConfigNode，该值指向自身）配置正确
+- 确保该ConfigNode的配置项（共识协议、副本数等）等与cn_seed_config_node对应的ConfigNode集群一致
 
 #### 2. ConfigNode初次启动成功，show cluster的结果里为何没有该节点？
 
-- 检查cn_target_confignode_list是否正确指向了正确的地址； 如果cn_target_confignode_list指向了自身，则会启动一个新的ConfigNode集群
+- 检查cn_seed_config_node是否正确指向了正确的地址； 如果cn_seed_config_node指向了自身，则会启动一个新的ConfigNode集群
 
 #### 3. DataNode初次启动失败，如何排查原因？
 
 - DataNode初次启动时确保已清空data/datanode目录。 如果启动结果为“Reject DataNode restart.”则表示启动时可能没有清空data/datanode目录
 - 确保该DataNode使用到的<IP+端口>没有被占用，没有与已启动的DataNode使用到的<IP+端口>冲突
-- 确保该DataNode的dn_target_confignode_list指向存活的ConfigNode
+- 确保该DataNode的dn_seed_config_node指向存活的ConfigNode
 
 #### 4. 移除DataNode执行失败，如何排查？
 

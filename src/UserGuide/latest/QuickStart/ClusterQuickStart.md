@@ -84,7 +84,7 @@ It's recommended that the configurations of iotdb-common.properties and the heap
 Before starting the IoTDB cluster, make sure the configurations are correct and there is no any data in the working directory. 
 
 #### 1.3.1. start the first node
-That is `cn_target_config_node_list` in above configuration table.
+That is `cn_seed_config_node` in above configuration table.
 Execute these commands below in node of `192.168.132.10`.
 ```shell
 cd /data/iotdb
@@ -99,7 +99,7 @@ tail -f logs/log_datanode_all.log
 If there is no such logs mentioned abolve or there are some `Exception`s in log files, it's failed. Then please check `log_confignode_all.log` and `log_datanode_all.log` in directory of `/data/iotdb/logs`.
 
 **Notice**：
-- Make sure the first node, especially the first ConfigNode that `cn_target_config_node_list` specified, starting successfully, and then start the other services.
+- Make sure the first node, especially the first ConfigNode that `cn_seed_config_node` specified, starting successfully, and then start the other services.
 - If starting failed，it's necessary to do [cleanup](#【reference】cleanup) before starting again.
 - How to start service ConfigNode or DataNode alone: 
 ```shell
@@ -173,7 +173,7 @@ It's the same as starting the other nodes mentioned above. That is downloading I
 **Notice**
 - It's must be cleaned up, in other words doing [cleanup](#cleanup) in it.
 - `cluster_name` of `iotdb-common.properties` must be the same to the cluster.
-- `cn_target_config_node_list` and `dn_target_config_node_list` must be the same to the cluster.
+- `cn_seed_config_node` and `dn_seed_config_node` must be the same to the cluster.
 - The old data wouldn't be moved to the new node but the new data would be.
 
 ### 2.1. configuration

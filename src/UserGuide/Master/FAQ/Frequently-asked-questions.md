@@ -184,18 +184,18 @@ not affect normal operations. We will fix this message in the incoming releases.
 
 - Make sure that the data/confignode directory is cleared when start ConfigNode for the first time.
 - Make sure that the <IP+Port> used by ConfigNode is not occupied, and the <IP+Port> is also not conflicted with other ConfigNodes.
-- Make sure that the `cn_target_confignode_list` is configured correctly, which points to the alive ConfigNode. And if the ConfigNode is started for the first time, make sure that `cn_target_confignode_list` points to itself.
-- Make sure that the configuration(consensus protocol and replica number) of the started ConfigNode is accord with the `cn_target_confignode_list` ConfigNode.
+- Make sure that the `cn_seed_config_node` is configured correctly, which points to the alive ConfigNode. And if the ConfigNode is started for the first time, make sure that `cn_seed_config_node` points to itself.
+- Make sure that the configuration(consensus protocol and replica number) of the started ConfigNode is accord with the `cn_seed_config_node` ConfigNode.
 
 #### 2. ConfigNode is started successfully, but why the node doesn't appear in the results of `show cluster`?
 
-- Examine whether the `cn_target_confignode_list` points to the correct address. If `cn_target_confignode_list` points to itself, a new ConfigNode cluster is started.
+- Examine whether the `cn_seed_config_node` points to the correct address. If `cn_seed_config_node` points to itself, a new ConfigNode cluster is started.
 
 #### 3. Failed to start DataNode for the first time, how to find the reason?
 
 - Make sure that the data/datanode directory is cleared when start DataNode for the first time. If the start result is “Reject DataNode restart.”, maybe the data/datanode directory is not cleared.
 - Make sure that the <IP+Port> used by DataNode is not occupied, and the <IP+Port> is also not conflicted with other DataNodes.
-- Make sure that the `dn_target_confignode_list` points to the alive ConfigNode.
+- Make sure that the `dn_seed_config_node` points to the alive ConfigNode.
 
 #### 4. Failed to remove DataNode, how to find the reason?
 
