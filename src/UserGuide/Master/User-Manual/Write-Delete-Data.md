@@ -23,15 +23,15 @@
 # Write & Delete Data
 ## CLI INSERT
 
-IoTDB provides users with a variety of ways to insert real-time data, such as directly inputting [INSERT SQL statement](../Reference/SQL-Reference.md) in [Client/Shell tools](../QuickStart/Command-Line-Interface.md), or using [Java JDBC](../API/Programming-JDBC.md) to perform single or batch execution of [INSERT SQL statement](../Reference/SQL-Reference.md).
+IoTDB provides users with a variety of ways to insert real-time data, such as directly inputting [INSERT SQL statement](../SQL-Manual/SQL-Manual.md#insert-data) in [Client/Shell tools](../Tools-System/CLI.md), or using [Java JDBC](../API/Programming-JDBC.md) to perform single or batch execution of [INSERT SQL statement](../SQL-Manual/SQL-Manual.md).
 
-NOTE： This section mainly introduces the use of [INSERT SQL statement](../Reference/SQL-Reference.md) for real-time data import in the scenario.
+NOTE： This section mainly introduces the use of [INSERT SQL statement](../SQL-Manual/SQL-Manual.md#insert-data) for real-time data import in the scenario.
 
 Writing a repeat timestamp covers the original timestamp data, which can be regarded as updated data.
 
 ### Use of INSERT Statements
 
-The [INSERT SQL statement](../Reference/SQL-Reference.md) statement is used to insert data into one or more specified timeseries created. For each point of data inserted, it consists of a [timestamp](../Basic-Concept/Data-Model-and-Terminology.md) and a sensor acquisition value (see [Data Type](../Basic-Concept/Data-Type.md)).
+The [INSERT SQL statement](../SQL-Manual/SQL-Manual.md#insert-data) statement is used to insert data into one or more specified timeseries created. For each point of data inserted, it consists of a [timestamp](../Basic-Concept/Data-Model-and-Terminology.md) and a sensor acquisition value (see [Data Type](../Basic-Concept/Data-Type.md)).
 
 In the scenario of this section, take two timeseries `root.ln.wf02.wt02.status` and `root.ln.wf02.wt02.hardware` as an example, and their data types are BOOLEAN and TEXT, respectively.
 
@@ -193,7 +193,7 @@ CSV stores table data in plain text. You can write multiple formatted data into 
 
 ## DELETE
 
-Users can delete data that meet the deletion condition in the specified timeseries by using the [DELETE statement](../Reference/SQL-Reference.md). When deleting data, users can select one or more timeseries paths, prefix paths, or paths with star  to delete data within a certain time interval.
+Users can delete data that meet the deletion condition in the specified timeseries by using the [DELETE statement](../SQL-Manual/SQL-Manual.md#delete-data). When deleting data, users can select one or more timeseries paths, prefix paths, or paths with star  to delete data within a certain time interval.
 
 In a JAVA programming environment, you can use the [Java JDBC](../API/Programming-JDBC.md) to execute single or batch UPDATE statements.
 
