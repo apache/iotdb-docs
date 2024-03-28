@@ -50,7 +50,7 @@ IP地址和服务角色分配如下：
 | 端口 | 10710, 10720 | 6667, 10730, 10740, 10750, 10760 |
 
 **说明：**
-- 可以使用`IP地址`或者`hostname(机器名/域名)`来安装配置 IoTDB 集群，本文以IP地址为例。如果使用`hostname(机器名/域名)`，则需要配置`/etc/hosts`。
+- 可以使用`IP地址`或者`hostname(机器名/域名)`来安装配置 IoTDB 集群，本文以`hostname(机器名/域名)`为例。使用`hostname(机器名/域名)`，需要配置`/etc/hosts`。
 - 优先推荐使用 `hostname(机器名/域名)` 进行配置，这样可以避免一些网络问题，也更方便迁移集群。
 - JVM堆内存配置: `confignode-env.sh` 和 `datanode-env.sh` 内配置`ON_HEAP_MEMORY`, 建议设置值大于等于1G。ConfigNode 1~2G就足够了，DataNode的内存配置则要取决于数据接入的数据量和查询数据量。
 
