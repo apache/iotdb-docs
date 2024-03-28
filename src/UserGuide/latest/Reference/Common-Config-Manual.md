@@ -225,15 +225,6 @@ Different configuration parameters take effect in the following three ways:
 
 ### Memory Control Configuration
 
-* enable\_mem\_control
-
-|Name| enable\_mem\_control |
-|:---:|:---|
-|Description| enable memory control to avoid OOM|
-|Type|Boolean|
-|Default| true |
-|Effective|After restarting system|
-
 * datanode\_memory\_proportion
 
 |Name| datanode\_memory\_proportion                                                  |
@@ -478,16 +469,16 @@ Different configuration parameters take effect in the following three ways:
 | :---------: | :------------------------------------------------------------------------------ |
 | Description | To which type a floating number string like "6.7" in a query should be resolved |
 |    Type     | DOUBLE, FLOAT or TEXT                                                           |
-|   Default   | FLOAT                                                                           |
+|   Default   | DOUBLE                                                                           |
 |  Effective  | After restarting system                                                         |
 
 * nan\_string\_infer\_type
 
 |    Name     | nan\_string\_infer\_type                                  |
-| :---------: | :-------------------------------------------------------- |
+| :---------: |:----------------------------------------------------------|
 | Description | To which type the value NaN in a query should be resolved |
 |    Type     | DOUBLE, FLOAT or TEXT                                     |
-|   Default   | FLOAT                                                     |
+|   Default   | DOUBLE                                                    |
 |  Effective  | After restarting system                                   |
 
 ### Query Configurations
@@ -681,15 +672,6 @@ Different configuration parameters take effect in the following three ways:
 |    Type     | String                                                 |
 |   Default   | CHANGE\_TO\_READ\_ONLY                                 |
 |  Effective  | After restarting system                                |
-
-* memtable\_size\_threshold
-
-|    Name     | memtable\_size\_threshold                                    |
-| :---------: | :----------------------------------------------------------- |
-| Description | max memtable size                                            |
-|    Type     | Long                                                         |
-|   Default   | 1073741824                                                   |
-|  Effective  | when enable\_mem\_control is false & After restarting system |
 
 * write\_memory\_variation\_report\_proportion
 
