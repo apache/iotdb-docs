@@ -1875,17 +1875,17 @@ When you have prepared the UDF source code, test cases, and instructions, you ar
 
 #### Built-in UDF
 
-1.   Aggregate Functions, such as `SUM`. For details and examples, see the document [Aggregate Functions](../Operators-Functions/Aggregation.md).
-2.   Arithmetic Functions, such as `SIN`. For details and examples, see the document [Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md).
-3.   Comparison Functions, such as `ON_OFF`. For details and examples, see the document [Comparison Operators and Functions](../Operators-Functions/Comparison.md).
-4.   String Processing Functions, such as `STRING_CONTAINS`. For details and examples, see the document [String Processing](../Operators-Functions/String.md).
-5.   Data Type Conversion Function, such as `CAST`. For details and examples, see the document [Data Type Conversion Function](../Operators-Functions/Conversion.md).
-6.   Constant Timeseries Generating Functions, such as `CONST`. For details and examples, see the document [Constant Timeseries Generating Functions](../Operators-Functions/Constant.md).
-7.   Selector Functions, such as `TOP_K`. For details and examples, see the document [Selector Functions](../Operators-Functions/Selection.md).
-8.   Continuous Interval Functions, such as `ZERO_DURATION`. For details and examples, see the document [Continuous Interval Functions](../Operators-Functions/Continuous-Interval.md).
-9.   Variation Trend Calculation Functions, such as `TIME_DIFFERENCE`. For details and examples, see the document [Variation Trend Calculation Functions](../Operators-Functions/Variation-Trend.md).
-10.   Sample Functions, such as `M4`. For details and examples, see the document [Sample Functions](../Operators-Functions/Sample.md).
-11.   Change Points Function, such as `CHANGE_POINTS`. For details and examples, see the document [Time-Series](../Operators-Functions/Time-Series.md).
+1.   Aggregate Functions, such as `SUM`. For details and examples, see the document [Aggregate Functions](../Reference/Function-and-Expression.md#aggregate-functions).
+2.   Arithmetic Functions, such as `SIN`. For details and examples, see the document [Arithmetic Operators and Functions](../Reference/Function-and-Expression.md#arithmetic-operators-and-functions).
+3.   Comparison Functions, such as `ON_OFF`. For details and examples, see the document [Comparison Operators and Functions](../Reference/Function-and-Expression.md#comparison-operators-and-functions).
+4.   String Processing Functions, such as `STRING_CONTAINS`. For details and examples, see the document [String Processing](../Reference/Function-and-Expression.md#string-processing).
+5.   Data Type Conversion Function, such as `CAST`. For details and examples, see the document [Data Type Conversion Function](../Reference/Function-and-Expression.md#data-type-conversion-function).
+6.   Constant Timeseries Generating Functions, such as `CONST`. For details and examples, see the document [Constant Timeseries Generating Functions](../Reference/Function-and-Expression.md#constant-timeseries-generating-functions).
+7.   Selector Functions, such as `TOP_K`. For details and examples, see the document [Selector Functions](../Reference/Function-and-Expression.md#selector-functions).
+8.   Continuous Interval Functions, such as `ZERO_DURATION`. For details and examples, see the document [Continuous Interval Functions](../Reference/Function-and-Expression.md#continuous-interval-functions).
+9.   Variation Trend Calculation Functions, such as `TIME_DIFFERENCE`. For details and examples, see the document [Variation Trend Calculation Functions](../Reference/Function-and-Expression.md#variation-trend-calculation-functions).
+10.   Sample Functions, such as `M4`. For details and examples, see the document [Sample Functions](../Reference/Function-and-Expression.md#sample-functions).
+11.   Change Points Function, such as `CHANGE_POINTS`. For details and examples, see the document [Time-Series](../Reference/Function-and-Expression.md#time-series-processing).
 
 #### Data Quality Function Library
 
@@ -1904,14 +1904,14 @@ The functions in this function library are not built-in functions, and must be l
 
 ##### Implemented Functions
 
-1.   Data Quality related functions, such as `Completeness`. For details and examples, see the document [Data-Quality](../Operators-Functions/Data-Quality.md).
-2.   Data Profiling related functions, such as `ACF`. For details and examples, see the document [Data-Profiling](../Operators-Functions/Data-Profiling.md).
-3.   Anomaly Detection related functions, such as `IQR`. For details and examples, see the document [Anomaly-Detection](../Operators-Functions/Anomaly-Detection.md).
-4.   Frequency Domain Analysis related functions, such as `Conv`. For details and examples, see the document [Frequency-Domain](../Operators-Functions/Frequency-Domain.md).
-5.   Data Matching related functions, such as `DTW`. For details and examples, see the document [Data-Matching](../Operators-Functions/Data-Matching.md).
-6.   Data Repairing related functions, such as `TimestampRepair`. For details and examples, see the document [Data-Repairing](../Operators-Functions/Data-Repairing.md).
-7.   Series Discovery related functions, such as `ConsecutiveSequences`. For details and examples, see the document [Series-Discovery](../Operators-Functions/Series-Discovery.md).
-8.   Machine Learning related functions, such as `AR`. For details and examples, see the document [Machine-Learning](../Operators-Functions/Machine-Learning.md).
+1.   Data Quality related functions, such as `Completeness`. For details and examples, see the document [Data-Quality](../Reference/UDF-Libraries.md#data-quality).
+2.   Data Profiling related functions, such as `ACF`. For details and examples, see the document [Data-Profiling](../Reference/UDF-Libraries.md#data-profiling).
+3.   Anomaly Detection related functions, such as `IQR`. For details and examples, see the document [Anomaly-Detection](../Reference/UDF-Libraries.md#anomaly-detection).
+4.   Frequency Domain Analysis related functions, such as `Conv`. For details and examples, see the document [Frequency-Domain](../Reference/UDF-Libraries.md#frequency-domain-analysis).
+5.   Data Matching related functions, such as `DTW`. For details and examples, see the document [Data-Matching](../Reference/UDF-Libraries.md#data-matching).
+6.   Data Repairing related functions, such as `TimestampRepair`. For details and examples, see the document [Data-Repairing](../Reference/UDF-Libraries.md#data-repairing).
+7.   Series Discovery related functions, such as `ConsecutiveSequences`. For details and examples, see the document [Series-Discovery](../Reference/UDF-Libraries.md#series-discovery).
+8.   Machine Learning related functions, such as `AR`. For details and examples, see the document [Machine-Learning](../Reference/UDF-Libraries.md#machine-learning).
 
 
 ### Q&A

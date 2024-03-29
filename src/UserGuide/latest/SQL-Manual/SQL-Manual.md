@@ -1088,11 +1088,11 @@ select change_points(s1), change_points(s2), change_points(s3), change_points(s4
 
 ## DATA QUALITY FUNCTION LIBRARY
 
-For more details, see document [Operator-and-Expression](../Reference/Function-and-Expression.md).
+For more details, see document [Operator-and-Expression](../Reference/UDF-Libraries.md#).
 
 ### Data Quality
 
-For details and examples, see the document [Data-Quality](../Operators-Functions/Data-Quality.md).
+For details and examples, see the document [Data-Quality](../Reference/UDF-Libraries.md#data-quality).
 
 ```sql
 # Completeness
@@ -1117,7 +1117,7 @@ select Accuracy(t1,t2,t3,m1,m2,m3) from root.test
 
 ### Data Profiling
 
-For details and examples, see the document [Data-Profiling](../Operators-Functions/Data-Profiling.md).
+For details and examples, see the document [Data-Profiling](../Reference/UDF-Libraries.md#data-profiling).
 
 ```sql
 # ACF
@@ -1197,7 +1197,7 @@ select zscore(s1) from root.test
 
 ### Anomaly Detection
 
-For details and examples, see the document [Anomaly-Detection](../Operators-Functions/Anomaly-Detection.md).
+For details and examples, see the document [Anomaly-Detection](../Reference/UDF-Libraries.md#anomaly-detection).
 
 ```sql
 # IQR
@@ -1232,7 +1232,7 @@ select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='anomaly','p'='3','k'='3
 
 ### Frequency Domain
 
-For details and examples, see the document [Frequency-Domain](../Operators-Functions/Frequency-Domain.md).
+For details and examples, see the document [Frequency-Domain](../Reference/UDF-Libraries.md#frequency-domain-analysis).
 
 ```sql
 # Conv
@@ -1261,7 +1261,7 @@ select lowpass(s1,'wpass'='0.45') from root.test.d1
 
 ### Data Matching
 
-For details and examples, see the document [Data-Matching](../Operators-Functions/Data-Matching.md).
+For details and examples, see the document [Data-Matching](../Reference/UDF-Libraries.md#data-matching).
 
 ```sql
 # Cov
@@ -1282,7 +1282,7 @@ select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
 
 ### Data Repairing
 
-For details and examples, see the document [Data-Repairing](../Operators-Functions/Data-Repairing.md).
+For details and examples, see the document [Data-Repairing](../Reference/UDF-Libraries.md#data-repairing).
 
 ```sql
 # TimestampRepair
@@ -1307,7 +1307,7 @@ select seasonalrepair(s1,'method'='improved','period'=3) from root.test.d2
 
 ### Series Discovery
 
-For details and examples, see the document [Series-Discovery](../Operators-Functions/Series-Discovery.md).
+For details and examples, see the document [Series-Discovery](../Reference/UDF-Libraries.md#series-discovery).
 
 ```sql
 # ConsecutiveSequences
@@ -1320,7 +1320,7 @@ select consecutivewindows(s1,s2,'length'='10m') from root.test.d1
 
 ### Machine Learning
 
-For details and examples, see the document [Machine-Learning](../Operators-Functions/Machine-Learning.md).
+For details and examples, see the document [Machine-Learning](../Reference/UDF-Libraries.md#machine-learning).
 
 ```sql
 # AR
@@ -1335,7 +1335,7 @@ select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0
 
 ## LAMBDA EXPRESSION
 
-For details and examples, see the document [Lambda](../Operators-Functions/Lambda.md).
+For details and examples, see the document [Lambda](../Reference/Function-and-Expression#lambda-expression).
 
 ```sql
 select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'expr'='x -> {x * 3}') as jexl2, jexl(temperature, 'expr'='x -> {x * x}') as jexl3, jexl(temperature, 'expr'='x -> {multiply(x, 100)}') as jexl4, jexl(temperature, st, 'expr'='(x, y) -> {x + y}') as jexl5, jexl(temperature, st, str, 'expr'='(x, y, z) -> {x + y + z}') as jexl6 from root.ln.wf01.wt01;```
@@ -1343,7 +1343,7 @@ select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'exp
 
 ## CONDITIONAL EXPRESSION
 
-For details and examples, see the document [Conditional Expressions](../Operators-Functions/Conditional.md).
+For details and examples, see the document [Conditional Expressions](../Reference/Function-and-Expression#conditional-expressions).
 
 ```sql
 select T, P, case
@@ -1543,7 +1543,7 @@ CQs can't be altered once they're created. To change a CQ, you must `DROP` and r
 
 ## USER-DEFINED FUNCTION (UDF)
 
-For more details, see document [Operator-and-Expression](../User-Manual/Operator-and-Expression.md).
+For more details, see document [Operator-and-Expression](../Reference/UDF-Libraries.md).
 
 ### UDF Registration
 
