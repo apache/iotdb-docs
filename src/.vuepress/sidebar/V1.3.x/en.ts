@@ -89,7 +89,7 @@ export const enSidebar = {
         { text: 'Data Sync', link: 'Data-Sync' },
         { text: 'Database Programming', link: 'Database-Programming' },
         { text: 'Authority Management', link: 'Authority-Management' },
-        { text: 'Query Analysis', link: 'Query-Analysis' },
+        { text: 'Maintennance', link: 'Maintennance' },
       ],
     },
     {

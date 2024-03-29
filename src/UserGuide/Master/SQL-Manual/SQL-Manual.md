@@ -907,8 +907,7 @@ IoTDB > select * into ::(backup_${4}) from root.sg.** align by device;
 IoTDB > select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
 ```
 
-## QUERY HANDLING
-### Query Analysis
+## Maintennance
 Generate the corresponding query plan:
 ```
 explain select s1,s2 from root.sg.d1

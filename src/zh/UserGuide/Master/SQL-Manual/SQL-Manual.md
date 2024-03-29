@@ -1023,8 +1023,7 @@ select * into ::(backup_${4}) from root.sg.** align by device;
 
 select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
 ```
-## 查询处理
-### 查询分析
+## 运维语句
 生成对应的查询计划
 ```
 explain select s1,s2 from root.sg.d1

@@ -93,7 +93,7 @@ export const zhSidebar = {
         { text: '数据库编程', link: 'Database-Programming' },
         { text: '安全控制', link: 'Security-Management_timecho' },
         { text: '权限管理', link: 'Authority-Management' },
-        { text: '查询分析', link: 'Query-Analysis' },
+        { text: '运维语句', link: 'Maintennance' },
       ],
     },
     {

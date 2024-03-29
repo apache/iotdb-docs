@@ -93,7 +93,7 @@ export const enSidebar = {
         { text: 'Database Programming', link: 'Database-Programming' },
         { text: 'Security Management', link: 'Security-Management_timecho' },
         { text: 'Authority Management', link: 'Authority-Management' },
-        { text: 'Query Analysis', link: 'Query-Analysis' },
+        { text: 'Maintennance', link: 'Maintennance' },
       ],
     },
     {

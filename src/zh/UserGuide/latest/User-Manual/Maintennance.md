@@ -19,27 +19,26 @@
 
 -->
 
-# Query Analysis
-## Overview
+# 运维语句
+## 概述
 
-The significance of query analysis lies in assisting users to understand the execution mechanism and performance bottlenecks of queries, thereby achieving query optimization and performance improvement. This concerns not only the efficiency of query execution but also directly affects the user experience of applications and the effective use of resources. To conduct effective query analysis, IoTDB provides query analysis tools: Explain and Explain Analyze.
+查询分析的意义在于帮助用户理解查询的执行机制和性能瓶颈，从而实现查询优化和性能提升。这不仅关乎到查询的执行效率，也直接影响到应用的用户体验和资源的有效利用。为了进行有效的查询分析，IoTDB提供了查询分析工具：Explain和Explain Analyze。
 
-The Explain tool allows users to preview the execution plan of a query SQL, including how IoTDB organizes data retrieval and processing.
+Explain工具允许用户预览查询SQL的执行计划，包括IoTDB如何组织数据检索和处理。
 
-Explain Analyze goes further by adding performance analysis, fully executing the SQL and displaying the time and resources consumed during the execution of the query. It provides detailed information for IoTDB users to deeply understand query details and perform query optimization.
+Explain Analyze则在此基础上增加了性能分析，完整执行SQL并展示查询执行过程中的时间和资源消耗。为IoTDB用户深入理解查询详情以及进行查询优化提供了详细的相关信息。
 ### Explain
-The Explain command allows users to view the execution plan of an SQL query. The execution plan is presented in the form of operators, describing how IoTDB will execute the query. The output of Explain includes information such as data access strategies, whether filter conditions are pushed down, and the distribution of the query plan across different nodes, providing users with a means to visualize the internal logic of the query execution. Its syntax is as follows:
-
+Explain命令允许用户查看SQL查询的执行计划。执行计划以算子的形式展示，描述了IoTDB会如何执行查询。Explain的输出包括了数据访问策略、过滤条件是否下推以及查询计划在不同节点的分配等信息，为用户提供了一种手段，以可视化查询的内部执行逻辑。其语法如下：
 ```sql
 EXPLAIN <SELECT_STATEMENT>
 ```
-Where SELECT_STATEMENT is the SQL statement related to the query. An example of usage is as follows:
+其中SELECT_STATEMENT是查询相关的SQL语句。一个使用案例如下：
 ```sql
 insert into root.explain.data(timestamp, column1, column2) values(1710494762, "hello", "explain")
 
 explain select * from root.explain.data
 ```
-Execute the SQL and get the following result：
+执行上方SQL，会得到如下结果：
 ```
 +-----------------------------------------------------------------------+
 |                                                      distribution plan|
@@ -57,48 +56,47 @@ Execute the SQL and get the following result：
 |└─────────────────────────────────┘ └─────────────────────────────────┘|
 +-----------------------------------------------------------------------+
 ```
-It can be seen that IoTDB retrieves the data for column1 and column2 through two separate SeriesScan nodes, and finally connects them using fullOuterTimeJoin.
+不难看出，IoTDB分别通过两个SeriesScan节点去获取column1和column2的数据，最后通过fullOuterTimeJoin将其连接。
 ### Explain Analyze
-Explain Analyze is a performance analysis SQL built into the IoTDB query engine. Unlike Explain, it executes the corresponding query plan and collects execution information. It can be used to track the specific performance distribution of a query, observe resources, and conduct performance tuning and anomaly analysis.
+Explain Analyze是IOTDB查询引擎自带的性能分析SQL，与Explain不同，它会执行对应的查询计划并统计执行信息，可以用于追踪一条查询的具体性能分布，用于对资源进行观察，进行性能调优与异常分析。
 
-Compared to other analysis methods where can be attached in IoTDB, Explain Analyze does not require deployment effort and can analyze individual SQL statements, allowing for more precise problem identification:
+与IoTDB常用的排查手段相比，Explain Analyze没有部署负担，同时能够针对单条sql进行分析，能够更好定位问题：
 
-|Method|Installation Difficulty|Impact on Business|Supports Distributed System|Analysis of Individual SQL|
+|方法|安装难度|对业务的影响|支持分布式|单条sql分析|
 |:----|:----|:----|:----|:----|
-|Arthas Sampling|Requires downloading and running files on the machine: some internal networks cannot directly install Arthas; and sometimes, it requires restarting the application after installation|CPU sampling may affect the response speed of online business|No|Online businesses usually have various query loads, and the overall monitoring metrics and sampling results can only reflect the overall load and response times of all queries, unable to analyze the response time of individual slow SQL|
-|Monitor Tool|Requires enabling monitoring services or deploying Grafana, and open-source users do not have a monitoring dashboard|Recording metrics will bring additional response time|Yes| Same as Arthas|
-|Explain Analyze|No installation required, available upon starting IoTDB|Only affects the single query being analyzed, with no impact on other online loads|Yes|Allows for tracking and analysis of individual SQL statements|
+|Arthas抽样|需要在机器上下载并运行文件：部分内网无法直接安装Arthas ；且安装后，有时需要重启应用|CPU 抽样可能会影响线上业务的响应速度|否|线上业务通常都有多种查询负载，整体的监控指标以及抽样结果，只能反映所有查询的整体负载和耗时情况，无法对单条慢sql做耗时分析|
+|监控面板|需要开启监控服务并部署grafana，且开源用户没有监控面板|记录指标会带来额外耗时|是| 与Arthas相同|
+|Explain Analyze|无需安装，启动IoTDB即可|只会影响当前分析的单条查询，对线上其他负载无影响|是|可以对单条sql进行追踪分析|
 
-Its syntax is as following：
+其语法如下：
 ```sql
 EXPLAIN ANALYZE [VERBOSE] <SELECT_STATEMENT>
 ```
-In it, SELECT_STATEMENT corresponds to the query statement to be analyzed. By default, in order to simplify the results as much as possible, EXPLAIN ANALYZE will omit some information. Specifying VERBOSE can be used to output this information.
+其中SELECT_STATEMENT对应需要分析的查询语句；默认情况下，为了尽可能简化结果，EXPLAIN ANALYZE会省略部分信息，指定VERBOSE可以用来输出这些信息。
 
-The result set of EXPLAIN ANALYZE will include the following information:
+在EXPLAIN ANALYZE的结果集中，会包含如下信息
 
 ![image.png](https://alioss.timecho.com/docs/img/image.png) 
 
-QueryStatistics contains the statistical information at the query level, primarily including the time consumed during the plan parsing phase, Fragment metadata, and other information.
+其中，QueryStatistics包含查询层面进的统计信息，主要包含规划解析阶段耗时，Fragment元数据等信息。
 
-FragmentInstance is IoTDB's encapsulation of a query plan on a node. Each node will output a Fragment information in the result set, mainly including FragmentStatistics and operator information.
+FragmentInstance是IoTDB在一个节点上查询计划的封装，每一个节点都会在结果集中输出一份Fragment信息，主要包含FragmentStatistics和算子信息。
 
-FragmentStatistics includes the statistical information of a Fragment, such as the total actual duration (wall-clock time), the TsFiles involved, scheduling information, etc. The information of a Fragment is also displayed in a tree hierarchy of plan nodes within that Fragment, including:
-* CPU runtime
-* Number of output rows
-* Number of times a specific interface is called
-* Memory usage
-* Node-specific custom information
+其中，FragmentStastistics包含Fragment的统计信息，包括总实际耗时（墙上时间），所涉及到的TsFile，调度信息等情况。在一个Fragment的信息输出同时会以节点树层级的方式展示该Fragment下计划节点的统计信息，主要包括：
+* CPU运行时间
+* 输出的数据行数
+* 指定接口被调用的次数
+* 所占用的内存
+* 节点专属的定制信息
 
-Below is an example of Explain Analyze:
-
+下面是Explain Analyze的一个样例:
 ```sql
 insert into root.explain.analyze.data(timestamp, column1, column2, column3) values(1710494762, "hello", "explain", "analyze")
 insert into root.explain.analyze.data(timestamp, column1, column2, column3) values(1710494862, "hello2", "explain2", "analyze2")
 insert into root.explain.analyze.data(timestamp, column1, column2, column3) values(1710494962, "hello3", "explain3", "analyze3")
 explain analyze select column2 from root.explain.analyze.data order by column1
 ```
-Get result following:
+得到输出如下：
 ```
 +-------------------------------------------------------------------------------------------------+
 |                                                                                  Explain Analyze|
@@ -156,14 +154,13 @@ Get result following:
 |                SeriesPath: root.explain.analyze.data.column1                                    |
 +-------------------------------------------------------------------------------------------------+
 ```
-#### PlanNode Compaction in the Result Of EXPLAIN ANALYZE    
+#### EXPLAIN ANALYZE分析结果中的算子压缩
 
 ![image-cyxm.png](https://alioss.timecho.com/docs/img/image-cyxm.png)
 
+在Fragment中会输出当前节点中执行的所有节点信息，然而当一次查询涉及的序列过多时，每个节点都被输出会导致Explain Analyze返回的结果集过大，因此当相同类型的节点超过10个时，会合并当前Fragment下所有相同类型的节点。合并后统计信息也被累积，对于一些无法合并的定制信息会直接丢弃。
 
-In a Fragment, the information of all nodes executed in the current node will be output. However, when a query involves too many series, outputting each seriesScanNode can lead to an excessively large result set from Explain Analyze. Therefore, when the same type of nodes exceeds 10, all nodes of the same type under the current Fragment will be merged. The statistical information is also accumulated after the merge, and some customized information that cannot be merged will be directly discarded.
-
-The threshold for triggering the merge of nodes can be set by modifying the configuration item `merge_threshold_of_explain_analyze` in iotdb-common.properties, and this parameter supports hot loading. Below is a part of the result example after triggering a merge:
+可以通过修改iotdb-common.properties中的配置项`merge_threshold_of_explain_analyze`来设置触发合并的节点阈值，该参数支持热加载。下面是一个触发合并后的部分结果示例：
 
 ```
 Analyze Cost: 143.679 ms                                                              
@@ -232,8 +229,8 @@ FRAGMENT-INSTANCE[Id: 20240311_041502_00001_1.3.0][IP: 192.168.130.9][DataRegion
 ......
 ```
 
+#### 查询超时处理
 
-#### Query Timeout Handling
-Explain Analyze is a unique type of query. When it times out, we are unable to obtain the analysis results from the return. To address this, allowing for the investigation of timeout reasons through analysis results even in cases of timeout, Explain Analyze offers a timed logging mechanism. After certain intervals, the current results of Explain Analyze are output in text form to a dedicated log file. This way, when a query times out, one can go to the logs to investigate the corresponding log for troubleshooting.
+Explain Analyze本身是一种特殊的查询，当执行超时的时候，我们是无法从返回结果中获得分析结果的。为了处理该情况，使得在超时的情况下也可以通过分析结果排查超时原因，Explain Analyze提供了**定时日志**机制，每经过一定的时间间隔会将Explain Analyze的当前结果以文本的形式输出到专门的日志中。这样当查询超时时，就可以前往logs中查看对应的日志进行排查。
 
-The logging interval is calculated based on the query's timeout setting, ensuring that there are at least two records of results in case of a timeout.
+日志的时间间隔基于查询的超时时间进行计算，可以保证在超时的情况下至少会有两次的结果记录。
