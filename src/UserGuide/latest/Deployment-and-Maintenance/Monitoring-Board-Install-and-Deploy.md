@@ -49,6 +49,8 @@ cn_metric_prometheus_reporter_port=9091
 
 ![](https://spricoder.oss-cn-shanghai.aliyuncs.com/Apache%20IoTDB/metric/cluster-introduce/2.png)
 
+5. Similarly, the other two ConfigNode nodes can be configured to ports 9092 and 9093 respectively.
+
 ### 1.1.3. Start DataNode
 1. Enter the `apache-iotdb-1.3.0-all-bin` package
 2. Modify the configuration file `conf/iotdb-datanode.properties` and modify the following configuration. Other configurations remain unchanged:
@@ -56,16 +58,18 @@ cn_metric_prometheus_reporter_port=9091
 ```properties
 dn_metric_reporter_list=PROMETHEUS
 dn_metric_level=IMPORTANT
-dn_metric_prometheus_reporter_port=9093
+dn_metric_prometheus_reporter_port=9094
 ```
 
 3. Run the script to start DataNode: `./sbin/start-datanode.sh`. If the following prompt appears, the startup is successful:
 
 ![](https://spricoder.oss-cn-shanghai.aliyuncs.com/Apache%20IoTDB/metric/cluster-introduce/3.png)
 
-4. Enter the `http://localhost:9093/metrics` URL in the browser, and you can view the following monitoring item information:
+4. Enter the `http://localhost:9094/metrics` URL in the browser, and you can view the following monitoring item information:
 
 ![](https://spricoder.oss-cn-shanghai.aliyuncs.com/Apache%20IoTDB/metric/cluster-introduce/4.png)
+
+5. Similarly, the other two DataNodes can be configured to ports 9095 and 9096.
 
 ### 1.1.4. clarification
 
@@ -76,7 +80,11 @@ This doc will build the monitoring dashboard on one machine (1 ConfigNode and 1 
 | NODETYPE   | NODEIP    | Monitor Pusher | Monitor Level | Monitor Port |
 | ---------- | --------- | -------------- | ------------ | --------- |
 | ConfigNode | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9091      |
-| DataNode   | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9093      |
+| ConfigNode | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9092      |
+| ConfigNode | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9093      |
+| DataNode   | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9094      |
+| DataNode   | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9095      |
+| DataNode   | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9096      |
 
 ## 1.2. configure Prometheus capture monitoring metrics
 
@@ -101,11 +109,11 @@ scrape_configs:
     - targets: ["localhost:9090"]
   - job_name: "confignode"
     static_configs:
-    - targets: ["localhost:9091"]
+    - targets: ["localhost:9091", "localhost:9092", "localhost:9093"]
     honor_labels: true
   - job_name: "datanode"
     static_configs:
-    - targets: ["localhost:9093"]
+    - targets: ["localhost:9094", "localhost:9095", "localhost:9096"]
     honor_labels: true
 ```
 

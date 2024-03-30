@@ -32,6 +32,8 @@
 4. IoTDB-Grafana安装包：Grafana看板为TimechoDB（基于IoTDB的企业版数据库）工具，您可联系您的销售获取相关安装包
 
 ### 1.1.2. 启动 ConfigNode
+> 本文以 3C3D 为例
+
 1. 进入`apache-iotdb-1.3.0-all-bin`包
 2. 修改配置文件`conf/iotdb-confignode.properties`，修改如下配置，其他配置保持不变：
 
@@ -49,6 +51,8 @@ cn_metric_prometheus_reporter_port=9091
 
 ![](https://spricoder.oss-cn-shanghai.aliyuncs.com/Apache%20IoTDB/metric/cluster-introduce/2.png)
 
+5. 同样地，另外两个 ConfigNode 节点可以分别配置到 9092 和 9093 端口。
+
 ### 1.1.3. 启动 DataNode
 1. 进入`apache-iotdb-1.3.0-all-bin`包
 2. 修改配置文件`conf/iotdb-datanode.properties`，修改如下配置，其他配置保持不变：
@@ -56,27 +60,33 @@ cn_metric_prometheus_reporter_port=9091
 ```properties
 dn_metric_reporter_list=PROMETHEUS
 dn_metric_level=IMPORTANT
-dn_metric_prometheus_reporter_port=9093
+dn_metric_prometheus_reporter_port=9094
 ```
 
 3. 运行脚本启动 DataNode：`./sbin/start-datanode.sh`，出现如下提示则为启动成功：
 
 ![](https://spricoder.oss-cn-shanghai.aliyuncs.com/Apache%20IoTDB/metric/cluster-introduce/3.png)
 
-4. 在浏览器进入`http://localhost:9093/metrics`网址，可以查看到如下的监控项信息：
+4. 在浏览器进入`http://localhost:9094/metrics`网址，可以查看到如下的监控项信息：
 
 ![](https://spricoder.oss-cn-shanghai.aliyuncs.com/Apache%20IoTDB/metric/cluster-introduce/4.png)
+
+5. 同样地，另外两个 DataNode 可以配置到 9095 和 9096 端口。
 
 ### 1.1.4. 说明
 
 进行以下操作前请确认IoTDB集群已启动。
 
-本文将在一台机器（1 个 ConfigNode 和 1 个 DataNode）环境上进行监控面板搭建，其他集群配置是类似的，用户可以根据自己的集群情况（ConfigNode 和 DataNode 的数量）进行配置调整。本文搭建的集群的基本配置信息如下表所示。
+本文将在一台机器（3 个 ConfigNode 和 3 个 DataNode）环境上进行监控面板搭建，其他集群配置是类似的，用户可以根据自己的集群情况（ConfigNode 和 DataNode 的数量）进行配置调整。本文搭建的集群的基本配置信息如下表所示。
 
 | 集群角色   | 节点IP    | 监控模块推送器 | 监控模块级别 | 监控 Port |
 | ---------- | --------- | -------------- | ------------ | --------- |
 | ConfigNode | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9091      |
-| DataNode   | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9093      |
+| ConfigNode | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9092      |
+| ConfigNode | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9093      |
+| DataNode   | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9094      |
+| DataNode   | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9095      |
+| DataNode   | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9096      |
 
 ## 1.2. 配置 Prometheus 采集监控指标
 
@@ -101,11 +111,11 @@ scrape_configs:
     - targets: ["localhost:9090"]
   - job_name: "confignode"
     static_configs:
-    - targets: ["localhost:9091"]
+    - targets: ["localhost:9091", "localhost:9092", "localhost:9093"]
     honor_labels: true
   - job_name: "datanode"
     static_configs:
-    - targets: ["localhost:9093"]
+    - targets: ["localhost:9094", "localhost:9095", "localhost:9096"]
     honor_labels: true
 ```
 
@@ -119,8 +129,6 @@ scrape_configs:
 
 ![](https://alioss.timecho.com/docs/img/1a.PNG)
 ![](https://alioss.timecho.com/docs/img/2a.PNG)
-
-
 
 ## 1.3. 使用 Grafana 查看监控数据
 
