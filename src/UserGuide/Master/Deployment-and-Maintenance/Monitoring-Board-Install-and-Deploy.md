@@ -19,20 +19,20 @@
 
 -->
 
-# 1. Monitoring Board Install and Deploy
-From the Apache IoTDB 1.0 version, we introduced the system monitoring module, you can complete the Apache IoTDB important operational indicators for monitoring, this article describes how to open the system monitoring module in the Apache IoTDB distribution, and the use of Prometheus + Grafana way to complete the visualisation of the system monitoring indicators.
+# 1 Monitoring Board Install and Deploy
+From the IoTDB 1.0 version, we introduced the system monitoring module, you can complete the IoTDB important operational indicators for monitoring, this article describes how to open the system monitoring module in the IoTDB distribution, and the use of Prometheus + Grafana way to complete the visualisation of the system monitoring indicators.
 
-## 1.1. pre-preparation
+## 1.1 pre-preparation
 
-### 1.1.1. software requirement
+### 1.1.1 software requirement
 
-1. Apache IoTDB: version 1.0 and above, download from the official website: https://iotdb.apache.org/Download/
+1. IoTDB: version 1.0 and above, you may contact your sales for the relevant installer
 2. Prometheus: version 2.30.3 and above, download from the official website: https://prometheus.io/download/
 3. Grafana: version 8.4.2 and above, download from the official website: https://grafana.com/grafana/download
-4. IoTDB-Grafana installer: Grafana Dashboards is an TimechoDB(Enterprise Edition based on IoTDB) tool, and you may contact your sales for the relevant installer.
+4. Grafana Dashboards: Grafana Dashboard is a tool for Enterprise IoTDB, and you may contact your sales for the relevant installer.
 
-### 1.1.2. Start ConfigNode
-1. Enter the `apache-iotdb-1.3.0-all-bin` package
+### 1.1.2 Start ConfigNode
+1. Enter the `iotdb-enterprise-1.x.x.x-bin` package
 2. Modify the configuration file `conf/iotdb-confignode.properties` and modify the following configuration. Other configurations remain unchanged:
 
 ```properties
@@ -51,8 +51,8 @@ cn_metric_prometheus_reporter_port=9091
 
 5. Similarly, the other two ConfigNode nodes can be configured to ports 9092 and 9093 respectively.
 
-### 1.1.3. Start DataNode
-1. Enter the `apache-iotdb-1.3.0-all-bin` package
+### 1.1.3 Start DataNode
+1. Enter the `iotdb-enterprise-1.x.x.x-bin` package
 2. Modify the configuration file `conf/iotdb-datanode.properties` and modify the following configuration. Other configurations remain unchanged:
 
 ```properties
@@ -71,7 +71,7 @@ dn_metric_prometheus_reporter_port=9094
 
 5. Similarly, the other two DataNodes can be configured to ports 9095 and 9096.
 
-### 1.1.4. clarification
+### 1.1.4 clarification
 
 Please confirm that the IoTDB cluster has been started before performing the following operations.
 
@@ -86,7 +86,7 @@ This doc will build the monitoring dashboard on one machine (1 ConfigNode and 1 
 | DataNode   | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9095      |
 | DataNode   | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9096      |
 
-## 1.2. configure Prometheus capture monitoring metrics
+## 1.2 configure Prometheus capture monitoring metrics
 
 1. Download the installation package. Download the Prometheus binary package locally, unzip it and go to the corresponding folder:
 
@@ -130,9 +130,9 @@ scrape_configs:
 
 
 
-## 1.3. Using Grafana to View Monitoring Data
+## 1.3 Using Grafana to View Monitoring Data
 
-### 1.3.1. Step1：Grafana Installation, Configuration and Startup
+### 1.3.1 Step1：Grafana Installation, Configuration and Startup
 
 1. Download the binary package of Grafana locally, unzip it and go to the corresponding folder:
 
@@ -156,7 +156,7 @@ cd grafana-*
 
 ![](https://alioss.timecho.com/docs/img/4a.png)
 
-### 1.3.2. Step2：Use the official Grafana dashboard provided by IoTDB
+### 1.3.2 Step2：Import the Grafana Dashboards
 
 1. Enter Grafana，click Browse of Dashboards
 
@@ -168,12 +168,11 @@ cd grafana-*
 
 3. Select a way to import Dashboard
    a. Upload the Json file of the downloaded Dashboard locally
-   b. Enter the URL or ID of the Dashboard obtained from the Grafana website
-   c. Paste the contents of the Dashboard's Json file
+   b. Paste the contents of the Dashboard's Json file
 
 ![](https://alioss.timecho.com/docs/img/7a.png)
 
-4. Select Prometheus in the Dashboard as the Data Source you just configured and click Import
+1. Select Prometheus in the Dashboard as the Data Source you just configured and click Import
 
 ![](https://alioss.timecho.com/docs/img/8a.png)
 
@@ -193,7 +192,7 @@ cd grafana-*
 
 ![](https://alioss.timecho.com/docs/img/system.png)
 
-### 1.3.3. Step3：Creating a new Dashboard for data visualisation
+### 1.3.3 Step3：Creating a new Dashboard for data visualisation
 
 1. First create the Dashboard, then create the Panel.
 
