@@ -88,6 +88,7 @@ export const zhSidebar = {
         { text: '数据同步', link: 'Data-Sync' },
         { text: '数据库编程', link: 'Database-Programming' },
         { text: '权限管理', link: 'Authority-Management' },
+        { text: '运维语句', link: 'Maintennance' },
       ],
     },
     {
