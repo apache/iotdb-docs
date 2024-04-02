@@ -20,14 +20,15 @@
 -->
 
 # Maintennance
-## Overview
+## Explain tool
+### Overview
 
 The significance of query analysis lies in assisting users to understand the execution mechanism and performance bottlenecks of queries, thereby achieving query optimization and performance improvement. This concerns not only the efficiency of query execution but also directly affects the user experience of applications and the effective use of resources. To conduct effective query analysis, IoTDB provides query analysis tools: Explain and Explain Analyze.
 
 The Explain tool allows users to preview the execution plan of a query SQL, including how IoTDB organizes data retrieval and processing.
 
 Explain Analyze goes further by adding performance analysis, fully executing the SQL and displaying the time and resources consumed during the execution of the query. It provides detailed information for IoTDB users to deeply understand query details and perform query optimization.
-### Explain
+#### Explain
 The Explain command allows users to view the execution plan of an SQL query. The execution plan is presented in the form of operators, describing how IoTDB will execute the query. The output of Explain includes information such as data access strategies, whether filter conditions are pushed down, and the distribution of the query plan across different nodes, providing users with a means to visualize the internal logic of the query execution. Its syntax is as follows:
 
 ```sql
@@ -58,7 +59,7 @@ Execute the SQL and get the following result：
 +-----------------------------------------------------------------------+
 ```
 It can be seen that IoTDB retrieves the data for column1 and column2 through two separate SeriesScan nodes, and finally connects them using fullOuterTimeJoin.
-### Explain Analyze
+#### Explain Analyze
 Explain Analyze is a performance analysis SQL built into the IoTDB query engine. Unlike Explain, it executes the corresponding query plan and collects execution information. It can be used to track the specific performance distribution of a query, observe resources, and conduct performance tuning and anomaly analysis.
 
 Compared to other analysis methods where can be attached in IoTDB, Explain Analyze does not require deployment effort and can analyze individual SQL statements, allowing for more precise problem identification:
@@ -156,7 +157,7 @@ Get result following:
 |                SeriesPath: root.explain.analyze.data.column1                                    |
 +-------------------------------------------------------------------------------------------------+
 ```
-#### PlanNode Compaction in the Result Of EXPLAIN ANALYZE    
+##### PlanNode Compaction in the Result Of EXPLAIN ANALYZE    
 
 ![image-cyxm.png](https://alioss.timecho.com/docs/img/image-cyxm.png)
 
@@ -233,7 +234,7 @@ FRAGMENT-INSTANCE[Id: 20240311_041502_00001_1.3.0][IP: 192.168.130.9][DataRegion
 ```
 
 
-#### Query Timeout Handling
+##### Query Timeout Handling
 Explain Analyze is a unique type of query. When it times out, we are unable to obtain the analysis results from the return. To address this, allowing for the investigation of timeout reasons through analysis results even in cases of timeout, Explain Analyze offers a timed logging mechanism. After certain intervals, the current results of Explain Analyze are output in text form to a dedicated log file. This way, when a query times out, one can go to the logs to investigate the corresponding log for troubleshooting.
 
 The logging interval is calculated based on the query's timeout setting, ensuring that there are at least two records of results in case of a timeout.

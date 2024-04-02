@@ -29,7 +29,7 @@ From the IoTDB 1.0 version, we introduced the system monitoring module, you can 
 1. IoTDB: version 1.0 and above, you may contact your sales for the relevant installer
 2. Prometheus: version 2.30.3 and above, download from the official website: https://prometheus.io/download/
 3. Grafana: version 8.4.2 and above, download from the official website: https://grafana.com/grafana/download
-4. Grafana Dashboards: Grafana Dashboard is a tool for Enterprise IoTDB, and you may contact your sales for the relevant installer.
+4. IoTDB Dashboards: IoTDB Dashboard is a tool for Enterprise IoTDB, and you may contact your sales for the relevant installer.
 
 ### 1.1.2 Start ConfigNode
 1. Enter the `iotdb-enterprise-1.x.x.x-bin` package
@@ -156,7 +156,7 @@ cd grafana-*
 
 ![](https://alioss.timecho.com/docs/img/4a.png)
 
-### 1.3.2 Step2：Import the Grafana Dashboards
+### 1.3.2 Step2：Import the IoTDB Dashboards
 
 1. Enter Grafana，click Browse of Dashboards
 

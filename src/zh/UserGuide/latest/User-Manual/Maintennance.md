@@ -20,14 +20,15 @@
 -->
 
 # 运维语句
-## 概述
+## 查询分析
+### 概述
 
 查询分析的意义在于帮助用户理解查询的执行机制和性能瓶颈，从而实现查询优化和性能提升。这不仅关乎到查询的执行效率，也直接影响到应用的用户体验和资源的有效利用。为了进行有效的查询分析，IoTDB提供了查询分析工具：Explain和Explain Analyze。
 
 Explain工具允许用户预览查询SQL的执行计划，包括IoTDB如何组织数据检索和处理。
 
 Explain Analyze则在此基础上增加了性能分析，完整执行SQL并展示查询执行过程中的时间和资源消耗。为IoTDB用户深入理解查询详情以及进行查询优化提供了详细的相关信息。
-### Explain
+#### Explain
 Explain命令允许用户查看SQL查询的执行计划。执行计划以算子的形式展示，描述了IoTDB会如何执行查询。Explain的输出包括了数据访问策略、过滤条件是否下推以及查询计划在不同节点的分配等信息，为用户提供了一种手段，以可视化查询的内部执行逻辑。其语法如下：
 ```sql
 EXPLAIN <SELECT_STATEMENT>
@@ -57,7 +58,7 @@ explain select * from root.explain.data
 +-----------------------------------------------------------------------+
 ```
 不难看出，IoTDB分别通过两个SeriesScan节点去获取column1和column2的数据，最后通过fullOuterTimeJoin将其连接。
-### Explain Analyze
+#### Explain Analyze
 Explain Analyze是IOTDB查询引擎自带的性能分析SQL，与Explain不同，它会执行对应的查询计划并统计执行信息，可以用于追踪一条查询的具体性能分布，用于对资源进行观察，进行性能调优与异常分析。
 
 与IoTDB常用的排查手段相比，Explain Analyze没有部署负担，同时能够针对单条sql进行分析，能够更好定位问题：
@@ -154,7 +155,7 @@ explain analyze select column2 from root.explain.analyze.data order by column1
 |                SeriesPath: root.explain.analyze.data.column1                                    |
 +-------------------------------------------------------------------------------------------------+
 ```
-#### EXPLAIN ANALYZE分析结果中的算子压缩
+##### EXPLAIN ANALYZE分析结果中的算子压缩
 
 ![image-cyxm.png](https://alioss.timecho.com/docs/img/image-cyxm.png)
 
@@ -229,7 +230,7 @@ FRAGMENT-INSTANCE[Id: 20240311_041502_00001_1.3.0][IP: 192.168.130.9][DataRegion
 ......
 ```
 
-#### 查询超时处理
+##### 查询超时处理
 
 Explain Analyze本身是一种特殊的查询，当执行超时的时候，我们是无法从返回结果中获得分析结果的。为了处理该情况，使得在超时的情况下也可以通过分析结果排查超时原因，Explain Analyze提供了**定时日志**机制，每经过一定的时间间隔会将Explain Analyze的当前结果以文本的形式输出到专门的日志中。这样当查询超时时，就可以前往logs中查看对应的日志进行排查。
 
