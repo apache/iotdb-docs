@@ -29,7 +29,8 @@
 1. IoTDB：1.0 版本及以上，可以前往官网下载：https://iotdb.apache.org/Download/
 2. Prometheus：2.30.3 版本及以上，可以前往官网下载：https://prometheus.io/download/
 3. Grafana：8.4.2 版本及以上，可以前往官网下载：https://grafana.com/grafana/download
-4. Grafana监控面板：基于企业版IoTDB的数据库工具，您可联系商务获取
+4. IoTDB 监控面板：基于企业版IoTDB的数据库监控面板，您可联系商务获取
+
 
 ### 1.1.2 启动 ConfigNode
 > 本文以 3C3D 为例
@@ -156,7 +157,7 @@ cd grafana-*
 
 ![](https://alioss.timecho.com/docs/img/4a.png)
 
-### 1.3.2 Step2：导入IoTDB官方提供的Grafana看板
+### 1.3.2 Step2：导入 IoTDB 监控看板
 
 1. 进入 Grafana，选择 Dashboards 的 Browse
 
