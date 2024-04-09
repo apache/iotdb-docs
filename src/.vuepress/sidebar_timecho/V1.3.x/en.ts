@@ -34,7 +34,7 @@ export const enSidebar = {
         { text: 'Architecture', link: 'Architecture' },
         { text: 'Performance', link: 'Performance' },
         { text: 'Scenario', link: 'Scenario' },
-        { text: 'Publication', link: 'Publication' },
+        { text: 'Academic Achievement', link: 'Publication' },
       ],
     },
     {
@@ -104,7 +104,7 @@ export const enSidebar = {
       children: [
         { text: 'CLI', link: 'CLI' },
         // { text: 'Workbench', link: 'Workbench' },
-        { text: 'Monitor Tool', link: 'Monitor-Tool' },
+        { text: 'Monitor Tool', link: 'Monitor-Tool_timecho' },
         { text: 'Benchmark', link: 'Benchmark' },
         { text: 'Maintenance Tool', link: 'Maintenance-Tool_timecho' },
         { text: 'Import Export Tool', link: 'Import-Export-Tool' },

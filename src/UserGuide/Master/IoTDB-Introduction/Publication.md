@@ -19,13 +19,12 @@
 
 -->
 
-# Publication
-
-## Research Papers
+# Academic Achievement
 
 Apache IoTDB starts at Tsinghua University, School of Software. IoTDB is a database for managing large amount of time series data with columnar storage, data encoding, pre-computation, and index techniques. It has SQL-like interface to write millions of data points per second per node and is optimized to get query results in few seconds over trillions of data points. It can also be easily integrated with Apache Hadoop MapReduce and Apache Spark for analytics.
 
 The research papers related are as follows:
+* [Apache IoTDB: A Time Series Database for IoT Applications](https://sxsong.github.io/doc/23sigmod-iotdb.pdf), Chen Wang, Jialin Qiao, Xiangdong Huang, Shaoxu Song, Haonan Hou, Tian Jiang, Lei Rui, Jianmin Wang, Jiaguang Sun. SIGMOD 2023.
 * [Grouping Time Series for Efficient Columnar Storage](https://sxsong.github.io/doc/23sigmod-group.pdf), Chenguang Fang, Shaoxu Song, Haoquan Guan, Xiangdong Huang, Chen Wang, Jianmin Wang. SIGMOD 2023.
 * [Learning Autoregressive Model in LSM-Tree based Store](https://sxsong.github.io/doc/23kdd.pdf), Yunxiang Su, Wenxuan Ma, Shaoxu Song. SIGMOD 2023.
 * [TsQuality: Measuring Time Series Data Quality in Apache IoTDB](https://sxsong.github.io/doc/23vldb-qaulity.pdf), Yuanhui Qiu, Chenguang Fang, Shaoxu Song, Xiangdong Huang, Chen Wang, Jianmin Wang. VLDB 2023.
@@ -41,8 +40,3 @@ The research papers related are as follows:
 * [Matching Consecutive Subpatterns over Streaming Time Series](https://link.springer.com/chapter/10.1007/978-3-319-96893-3_8), Rong Kang and Chen Wang and Peng Wang and Yuting Ding and Jianmin Wang. APWeb/WAIM 2018.
 * [PISA: An Index for Aggregating Big Time Series Data](https://dl.acm.org/citation.cfm?id=2983775&dl=ACM&coll=DL), Xiangdong Huang and Jianmin Wang and Raymond K. Wong and Jinrui Zhang and Chen Wang. CIKM 2016.
 
-## Benchmark tools
-
-We also developed Benchmark tools for time series databases 
-
-[https://github.com/thulab/iot-benchmark](https://github.com/thulab/iot-benchmark)
