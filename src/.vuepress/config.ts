@@ -17,9 +17,10 @@
   under the License.
  */
 
-import { getDirname, path } from '@vuepress/utils';
-import { defineUserConfig, viteBundler } from 'vuepress';
-import { redirectPlugin } from 'vuepress-plugin-redirect';
+import { getDirname, path } from 'vuepress/utils';
+import { viteBundler } from '@vuepress/bundler-vite';
+import { defineUserConfig } from 'vuepress';
+import { redirectPlugin } from '@vuepress/plugin-redirect';
 import { docsearchPlugin } from './components/docsearch/node/index.js';
 import theme from './theme.js';
 
@@ -128,8 +129,8 @@ _paq.push(['enableLinkTracking']);
     redirectPlugin({
       // hostname: 'https://iotdb.apache.org/',
       config: {
-        '/UserGuide/Master/QuickStart/QuickStart.html': '/UserGuide/V1.1.x/QuickStart/QuickStart.html',
-        '/zh/UserGuide/Master/QuickStart/QuickStart.html': '/zh/UserGuide/V1.1.x/QuickStart/QuickStart.html',
+        '/UserGuide/Master/QuickStart/QuickStart.html': '/UserGuide/latest/QuickStart/QuickStart.html',
+        '/zh/UserGuide/Master/QuickStart/QuickStart.html': '/zh/UserGuide/latest/QuickStart/QuickStart.html',
       },
     }),
   ],
@@ -142,5 +143,5 @@ _paq.push(['enableLinkTracking']);
       },
     },
   }),
-  pagePatterns: ['**/*.md', '!**/stage/**/*.md', '!.vuepress', '!node_modules'],
+  pagePatterns: ['**/*.md', '!**/stage/**/*.md', '!**/Master/**/*.md', '!.vuepress', '!node_modules'],
 });

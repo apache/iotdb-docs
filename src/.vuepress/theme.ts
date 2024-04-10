@@ -24,7 +24,7 @@ export default hopeTheme({
 
   darkmode: 'toggle',
 
-  iconAssets: 'iconfont',
+  iconAssets: 'iconify',
 
   logo: '/logo.png',
 
@@ -45,6 +45,10 @@ export default hopeTheme({
   breadcrumb: false,
 
   navbarIcon: false,
+
+  lastUpdated: true,
+
+  contributors: false,
 
   navbarLayout: {
     start: ['Brand'],
@@ -106,6 +110,11 @@ export default hopeTheme({
     // all features are enabled for demo, only preserve features you need here
     prismjs: {
       light: 'one-dark',
+    },
+    catalog: true,
+    git: true,
+    comment: {
+      provider: 'None',
     },
     mdEnhance: {
       align: true,
