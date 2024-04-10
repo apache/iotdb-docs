@@ -255,9 +255,6 @@ IoTDB> count devices root.ln.**
 
 
 
-Create template(s1 int, s2 float) on root.sg
-
-Create device root.sg.d1
 
 
 
