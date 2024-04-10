@@ -80,7 +80,6 @@ export const Docsearch = defineComponent({
      */
     const initialize = async (): Promise<void> => {
       const { default: docsearch } = await import('@docsearch/js');
-      debugger;
       docsearch({
         ...docsearchShim,
         ...docsearchOptions.value,
