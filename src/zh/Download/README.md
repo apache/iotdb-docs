@@ -38,11 +38,6 @@
             <td rowspan="2"><a href="https://dlcdn.apache.org/iotdb/1.3.0/RELEASE_NOTES.md">release notes</a></td>
       </tr>
       <tr>
-            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.0/apache-iotdb-1.3.0-library-udf-bin.zip">UDF 库</a></td>
-            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.0/apache-iotdb-1.3.0-library-udf-bin.zip.sha512">SHA512</a></td>
-            <td><a href="https://www.apache.org/dyn/closer.cgi/1.3.0/apache-iotdb-1.3.0-library-udf-bin.zip.asc">ASC</a></td>
-      </tr>
-      <tr>
             <td rowspan="3">0.13.4</td>
             <td><a href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-all-bin.zip">All-in-one</a></td>
             <td><a href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-all-bin.zip.sha512">SHA512</a></td>
