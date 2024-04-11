@@ -188,16 +188,16 @@ In addition, if you do not use the `-s` and `-q` parameters, after the export sc
 
 The CSV tool can help you import data in CSV format to IoTDB or export data from IoTDB to a CSV file.
 
-### Usage of export-csv.sh
+### Usage of export-data.sh
 
 #### Syntax
 
 ```shell
 # Unix/OS X
-> tools/export-csv.sh  -h <ip> -p <port> -u <username> -pw <password> -td <directory> [-tf <time-format> -datatype <true/false> -q <query command> -s <sql file> -linesPerFile <int>]
+> tools/export-data.sh  -h <ip> -p <port> -u <username> -pw <password> -td <directory> [-tf <time-format> -datatype <true/false> -q <query command> -s <sql file> -linesPerFile <int>]
 
 # Windows
-> tools\export-csv.bat -h <ip> -p <port> -u <username> -pw <password> -td <directory> [-tf <time-format> -datatype <true/false> -q <query command> -s <sql file> -linesPerFile <int>]
+> tools\export-data.bat -h <ip> -p <port> -u <username> -pw <password> -td <directory> [-tf <time-format> -datatype <true/false> -q <query command> -s <sql file> -linesPerFile <int>]
 ```
 
 Description:
@@ -228,34 +228,34 @@ More, if you don't use one of `-s` and `-q`, you need to enter some queries afte
 
 ```shell
 # Unix/OS X
-> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./
+> tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./
 # Or
-> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss
+> tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss
 # or
-> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -q "select * from root.** align by device"
+> tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -q "select * from root.** align by device"
 # Or
-> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s sql.txt
+> tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s sql.txt
 # Or
-> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt
+> tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt
 # Or
-> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt -linesPerFile 10
+> tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt -linesPerFile 10
 # Or
-> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt -linesPerFile 10 -t 10000
+> tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt -linesPerFile 10 -t 10000
 
 # Windows
-> tools/export-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./
+> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./
 # Or
-> tools/export-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss
+> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss
 # or
-> tools/export-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -q "select * from root.** align by device"
+> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -q "select * from root.** align by device"
 # Or
-> tools/export-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s sql.txt
+> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s sql.txt
 # Or
-> tools/export-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt
+> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt
 # Or
-> tools/export-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt -linesPerFile 10
+> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt -linesPerFile 10
 # Or
-> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt -linesPerFile 10 -t 10000
+> tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt -linesPerFile 10 -t 10000
 ```
 
 #### Sample SQL file
@@ -294,7 +294,7 @@ Note that if fields exported by the export tool have the following special chara
 
 1. `,`: the field will be escaped by `\`.
 
-### Usage of import-csv.sh
+### Usage of import-data.sh
 
 #### Create Metadata (optional)
 
@@ -353,9 +353,9 @@ Time,Device,str(TEXT),int(INT32)
 
 ```shell
 # Unix/OS X
-> tools/import-csv.sh -h <ip> -p <port> -u <username> -pw <password> -f <xxx.csv> [-fd <./failedDirectory>] [-aligned <true>] [-tp <ms/ns/us>] [-typeInfer <boolean=text,float=double...>]
+> tools/import-data.sh -h <ip> -p <port> -u <username> -pw <password> -f <xxx.csv> [-fd <./failedDirectory>] [-aligned <true>] [-tp <ms/ns/us>] [-typeInfer <boolean=text,float=double...>]
 # Windows
-> tools\import-csv.bat -h <ip> -p <port> -u <username> -pw <password> -f <xxx.csv> [-fd <./failedDirectory>] [-aligned <true>] [-tp <ms/ns/us>] [-typeInfer <boolean=text,float=double...>]
+> tools\import-data.bat -h <ip> -p <port> -u <username> -pw <password> -f <xxx.csv> [-fd <./failedDirectory>] [-aligned <true>] [-tp <ms/ns/us>] [-typeInfer <boolean=text,float=double...>]
 ```
 
 Description:
@@ -396,28 +396,219 @@ Description:
 
 ```sh
 # Unix/OS X
-> tools/import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed
+> tools/import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed
 # or
-> tools/import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed
+> tools/import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed
 # or
-> tools\import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed -tp ns
+> tools\import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed -tp ns
 # or
-> tools\import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed -tp ns -typeInfer boolean=text,float=double
+> tools\import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed -tp ns -typeInfer boolean=text,float=double
 # or
-> tools\import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed -tp ns -typeInfer boolean=text,float=double -linesPerFailedFile 10
+> tools\import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed -tp ns -typeInfer boolean=text,float=double -linesPerFailedFile 10
 
 # Windows
-> tools\import-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv
+> tools\import-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv
 # or
-> tools\import-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd .\failed
+> tools\import-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd .\failed
 # or
-> tools\import-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd .\failed -tp ns
+> tools\import-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd .\failed -tp ns
 # or
-> tools\import-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd .\failed -tp ns -typeInfer boolean=text,float=double
+> tools\import-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd .\failed -tp ns -typeInfer boolean=text,float=double
 # or
-> tools\import-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd .\failed -tp ns -typeInfer boolean=text,float=double -linesPerFailedFile 10
+> tools\import-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd .\failed -tp ns -typeInfer boolean=text,float=double -linesPerFailedFile 10
 
 ```
+
+#### Note
+
+Note that the following special characters in fields need to be checked before importing:
+
+1. `,` : fields containing `,` should be escaped by `\`.
+2. you can input time format like `yyyy-MM-dd'T'HH:mm:ss`, `yyy-MM-dd HH:mm:ss`, or `yyyy-MM-dd'T'HH:mm:ss.SSSZ`.
+3. the `Time` column must be the first one.
+
+
+## SQL Tool
+
+The SQL tool can help you import data in SQL format to IoTDB or export data from IoTDB to a SQL file.
+
+### Usage of export-data.sh
+
+#### Syntax
+
+```shell
+# Unix/OS X
+> tools/export-data.sh  -h <ip> -p <port> -u <username> -pw <password> -td <directory> [-tf <time-format> -datatype <true/false> -q <query command> -s <sql file> -linesPerFile <int>]
+
+# Windows
+> tools\export-data.bat -h <ip> -p <port> -u <username> -pw <password> -td <directory> [-tf <time-format> -datatype <true/false> -q <query command> -s <sql file> -linesPerFile <int>]
+```
+
+Description:
+
+* `-q <query command>`:
+  - specifying a query command that you want to execute
+  - example: `select * from root.** limit 100`, or `select * from root.** limit 100 align by device`
+* `-s <sql file>`:
+  - specifying a SQL file which can consist of more than one sql. If there are multiple SQLs in one SQL file, the SQLs should be separated by line breaks. And, for each SQL, a output CSV file will be generated.
+* `-td <directory>`:
+  - specifying  the directory that the data will be exported
+* `-tf <time-format>`:
+  - specifying a time format that you want. The time format have to obey [ISO 8601](https://calendars.wikia.org/wiki/ISO_8601) standard. If you want to save the time as the timestamp, then setting `-tf timestamp`
+  - example: `-tf yyyy-MM-dd\ HH:mm:ss` or `-tf timestamp`
+* `-linesPerFile <int>`:
+  - Specifying lines of each dump file, `10000` is default.
+  - example: `-linesPerFile 1`
+* `-t <timeout>`:
+  - Specifies the timeout period for session queries, in milliseconds
+* `-type`:
+  - csv:whether to export as an CSV file? The option `csv` is default.
+  - sql:whether to export as an SQL file? 
+* `-aligned`:
+  - whether to use the aligned interface? The option `false` is default.
+  - example: `-aligned true`
+
+More, if you don't use one of `-s` and `-q`, you need to enter some queries after running the export script. The results of the different query will be saved to different SQL files.
+
+#### Example
+
+```shell
+# Unix/OS X
+> tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql
+# Or
+> tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -tf yyyy-MM-dd\ HH:mm:ss
+# or
+> tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -q "select * from root.sg_0.d_0.*"
+# Or
+> tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -s iotdb.sql -type sql
+# Or
+> tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -tf yyyy-MM-dd\ HH:mm:ss -s iotdb.sql
+# Or
+> tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -tf yyyy-MM-dd\ HH:mm:ss -s iotdb.sql -linesPerFile 10
+# Or
+> tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -tf yyyy-MM-dd\ HH:mm:ss -s iotdb.sql -linesPerFile 10 -t 10000
+
+# Windows
+> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql
+# Or
+> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql  -tf yyyy-MM-dd\ HH:mm:ss
+# or
+> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql  -q "select * from root.sg_0.d_0.*"
+# Or
+> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -s iotdb.sql -type sql
+# Or
+> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -tf yyyy-MM-dd\ HH:mm:ss -s iotdb.sql
+# Or
+> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -tf yyyy-MM-dd\ HH:mm:ss -s iotdb.sql -linesPerFile 10
+# Or
+> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -tf yyyy-MM-dd\ HH:mm:ss -s iotdb.sql -linesPerFile 10 -t 10000
+```
+
+#### Sample SQL file
+
+-SQL export restrictions
+  -Only export of raw data (select xxx from xxx) is supported. If group by, aggregate function, udf, operator, etc. are used, exporting to SQL is not supported
+  -If aligning by device is required across multiple devices, exporting SQL is not supported (insert statement cannot cross devices)
+  -If the sequence does not match the source database data type and the target database sequence type, there is no guarantee that it can be imported
+
+```sql
+select * from root.**;
+select * from root.** align by device;
+```
+
+The result of `select * from root.s_0.d_0`
+
+```sql
+INSERT INTO root.s_0.d_0(timestamp,s_0,s_1) VALUES (2023-10-25T16:44:00.081083545,false,23.123);
+INSERT INTO root.s_0.d_0(timestamp,s_0,s_1) VALUES (2023-10-25T15:44:10.081083545,true,24.124);
+```
+
+The result of `select * from root.** align by device`
+
+```sql
+INSERT INTO root.s_0.d_1(timestamp,s_0,s_1) VALUES (2023-06-19T01:05:00.081083545,true,25.125);
+INSERT INTO root.s_0.d_1(timestamp,s_0,s_1) VALUES (2023-06-19T02:05:00.081083545,true,25.125);
+```
+
+The data of boolean type signed by `true` and `false` without double quotes. And the text data will be enclosed in double quotes.
+
+#### Note
+
+Note that if fields exported by the export tool have the following special characters:
+
+1. `,`: the field will be escaped by `\`.
+
+### Usage of import-data.sh
+
+#### Create Metadata (optional)
+
+```sql
+CREATE DATABASE root.fit.d1;
+CREATE DATABASE root.fit.d2;
+CREATE DATABASE root.fit.p;
+CREATE TIMESERIES root.fit.d1.s1 WITH DATATYPE=INT32,ENCODING=RLE;
+CREATE TIMESERIES root.fit.d1.s2 WITH DATATYPE=TEXT,ENCODING=PLAIN;
+CREATE TIMESERIES root.fit.d2.s1 WITH DATATYPE=INT32,ENCODING=RLE;
+CREATE TIMESERIES root.fit.d2.s3 WITH DATATYPE=INT32,ENCODING=RLE;
+CREATE TIMESERIES root.fit.p.s1 WITH DATATYPE=INT32,ENCODING=RLE;
+```
+
+IoTDB has the ability of type inference, so it is not necessary to create metadata before data import. However, we still recommend creating metadata before importing data using the SQL import tool, as this can avoid unnecessary type conversion errors.
+
+#### Sample SQL File to Be Imported
+
+The data aligned by time.
+
+```sql
+INSERT INTO root.s_0.d_0(timestamp,s_0,s_1) VALUES (2023-10-25T16:44:00.081083545,false,23.123);
+INSERT INTO root.s_0.d_0(timestamp,s_0,s_1) VALUES (2023-10-25T15:44:10.081083545,true,24.124);
+```
+
+The data not aligned by time.（Text type data supports double quotation marks and no double quotation marks）
+
+```sql
+INSERT INTO root.s_0.d_1(timestamp,s_0,s_1) ALIGNED VALUES (2023-06-19T01:05:00.081083545,true,25.125);
+INSERT INTO root.s_0.d_1(timestamp,s_0,s_1) ALIGNED VALUES (2023-06-19T02:05:00.081083545,true,25.125);
+```
+
+#### Syntax
+
+```shell
+# Unix/OS X
+> tools/import-data.sh -h <ip> -p <port> -u <username> -pw <password> -f <xxx.sql> [-fd <./failedDirectory>] [-aligned <true>] [-tp <ms/ns/us>]
+# Windows
+> tools\import-data.bat -h <ip> -p <port> -u <username> -pw <password> -f <xxx.sql> [-fd <./failedDirectory>] [-aligned <true>] [-tp <ms/ns/us>]
+```
+
+Description:
+
+* `-f`:
+  - the CSV file that you want to import, and it could be a file or a folder. If a folder is specified, all TXT and CSV files in the folder will be imported in batches.
+  - example: `-f filename.csv`
+
+* `-fd`:
+  - specifying a directory to save files which save failed lines. If you don't use this parameter, the failed file will be saved at original directory, and the filename will be the source filename with suffix `.failed`.
+  - example: `-fd ./failed/`
+
+* `-batch`:
+  - specifying the point's number of a batch. If the program throw the exception `org.apache.thrift.transport.TTransportException: Frame size larger than protect max size`, you can lower this parameter as appropriate.
+  - example: `-batch 100000`, `100000` is the default value.
+
+* `-linesPerFailedFile <int>`:
+  - Specifying lines of each failed file, `10000` is default.
+  - example: `-linesPerFailedFile 1`
+
+#### Example
+
+```sh
+# Unix/OS X
+> tools/import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.sql -fd ./failed
+> tools/import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ./devices -fd ./failed
+# or
+> tools/import-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.sql -fd ./failed
+> tools/import-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -f ./devices -fd ./failed
+```
+
 
 #### Note
 
