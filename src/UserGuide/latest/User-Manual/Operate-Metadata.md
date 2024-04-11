@@ -339,6 +339,10 @@ IoTDB> create device template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT 
 
 The` lat` and `lon` measurements are aligned.
 
+![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
+
+![img](https://alioss.timecho.com/docs/img/templateEN.jpg)
+
 ### Set Device Template
 
 After a device template is created, it should be set to specific path before creating related timeseries or insert data.

@@ -251,14 +251,11 @@ IoTDB> count devices root.ln.**
 ```
 ### 4、设备模板管理
 
+
 ![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
+![img](https://alioss.timecho.com/docs/img/template.jpg)
 
 
-
-
-
-
-![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF%E6%B5%81%E7%A8%8B.png)
 
 #### 创建设备模板
 

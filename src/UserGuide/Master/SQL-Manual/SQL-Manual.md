@@ -116,7 +116,7 @@ For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadat
 
 
 
-![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF%E6%B5%81%E7%A8%8B.png)
+![img](https://alioss.timecho.com/docs/img/templateEN.jpg)
 
 ### Create Device Template
 

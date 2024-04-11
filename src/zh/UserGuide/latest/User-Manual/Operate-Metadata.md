@@ -305,6 +305,10 @@ IoTDB 支持设备模板功能，实现同类型不同实体的物理量元数�
 
 注：以下语句中的 `device` 关键字可以省略。
 
+![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
+
+![img](https://alioss.timecho.com/docs/img/template.jpg)
+
 ### 创建设备模板
 
 创建设备模板的 SQL 语法如下：
