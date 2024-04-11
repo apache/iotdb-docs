@@ -98,7 +98,7 @@ Readme.md
 使用 IoTDB 的命令行接口：
 
 ```
-IoTDB> show timeseries root
+IoTDB> show timeseries
 ```
 
 在返回的结果里，会展示`Total timeseries number`，这个数据就是 IoTDB 中 timeseries 的数量。
@@ -106,7 +106,7 @@ IoTDB> show timeseries root
 在当前版本中，IoTDB 支持直接使用命令行接口查询时间序列的数量：
 
 ```
-IoTDB> count timeseries root
+IoTDB> count timeseries
 ```
 
 如果您使用的是 Linux 操作系统，您可以使用以下的 Shell 命令：
@@ -118,7 +118,7 @@ IoTDB> count timeseries root
 
 ### 5. 可以使用Hadoop和Spark读取IoTDB中的TsFile吗？
 
-是的。IoTDB 与开源生态紧密结合。IoTDB 支持 [Hadoop](https://github.com/apache/iotdb/tree/master/hadoop), [Spark](https://github.com/apache/iotdb/tree/master/spark-tsfile) 和 [Grafana](https://github.com/apache/iotdb/tree/master/grafana) 可视化工具。
+是的。IoTDB 与开源生态紧密结合。IoTDB 支持 [Hadoop](https://github.com/apache/iotdb/tree/master/iotdb-connector/hadoop), [Spark](https://github.com/apache/iotdb/tree/master/iotdb-connector/spark-iotdb-connector) 和 [Grafana](https://github.com/apache/iotdb/tree/master/iotdb-connector/grafana-connector) 可视化工具。
 
 ### 6. IoTDB如何处理重复的数据点？
 
@@ -128,10 +128,10 @@ IoTDB> count timeseries root
 
 在 IoTDB 的命令行接口中使用 SQL ```SHOW TIMESERIES <timeseries path>```:
 
-例如：如果您想知道所有 timeseries 的类型 \<timeseries path> 应该为 `root`。上面的 SQL 应该修改为：
+例如：如果您想知道所有 timeseries 的类型 \<timeseries path> 应该为 `root.**`。上面的 SQL 应该修改为：
 
 ```
-IoTDB> show timeseries root
+IoTDB> show timeseries root.**
 ```
 
 如果您想查询一个指定的时间序列，您可以修改 \<timeseries path> 为时间序列的完整路径。比如：
