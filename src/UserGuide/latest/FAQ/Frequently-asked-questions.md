@@ -154,6 +154,9 @@ The default IoTDB's Cli time display format is readable (e.g. ```1970-01-01T08:0
 
 ### 9. How to handle error `IndexOutOfBoundsException` from `org.apache.ratis.grpc.server.GrpcLogAppender`?
 
+This is an internal error log from Ratis 2.4.1, our dependency, and no impact on data writes or reads is expected.
+It has been reported to the Ratis community and will be fixed in the future releases.
+
 ### 10. How to deal with estimated out of memory errors?
 
 Report an error message:
