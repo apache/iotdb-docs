@@ -315,7 +315,6 @@ IoTDB> show all ttl
 
 IoTDB supports the device template function, enabling different entities of the same type to share metadata, reduce the memory usage of metadata, and simplify the management of numerous entities and measurements.
 
-Note: The `device` keyword in the following statements can be omitted.
 
 ### Create Device Template
 

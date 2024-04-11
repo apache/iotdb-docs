@@ -303,7 +303,6 @@ It costs 0.058s
 
 IoTDB 支持设备模板功能，实现同类型不同实体的物理量元数据共享，减少元数据内存占用，同时简化同类型实体的管理。
 
-注：以下语句中的 `device` 关键字可以省略。
 
 ![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
 
