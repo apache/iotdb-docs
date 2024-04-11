@@ -170,15 +170,15 @@ TsFile 工具可帮您 通过执行指定sql、命令行sql、sql文件的方式
 > tools/export-tsfile.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s ./sql.txt -f myTsFile -t 10000
 
 # Windows
-> tools/export-tsfile.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./
+> tools\export-tsfile.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./
 # Or
-> tools/export-tsfile.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -q "select * from root.**"
+> tools\export-tsfile.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -q "select * from root.**"
 # Or
-> tools/export-tsfile.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s ./sql.txt
+> tools\export-tsfile.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s ./sql.txt
 # Or
-> tools/export-tsfile.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s ./sql.txt -f myTsFile
+> tools\export-tsfile.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s ./sql.txt -f myTsFile
 # Or
-> tools/export-tsfile.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s ./sql.txt -f myTsFile -t 10000
+> tools\export-tsfile.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s ./sql.txt -f myTsFile -t 10000
 ```
 
 #### Q&A
@@ -243,19 +243,19 @@ CSV 是以纯文本形式存储表格数据，您可以在CSV文件中写入多�
 > tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt -linesPerFile 10 -t 10000
 
 # Windows
-> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./
+> tools\export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./
 # Or
-> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss
+> tools\export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss
 # or
-> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -q "select * from root.** align by device"
+> tools\export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -q "select * from root.** align by device"
 # Or
-> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s sql.txt
+> tools\export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s sql.txt
 # Or
-> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt
+> tools\export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt
 # Or
-> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt -linesPerFile 10
+> tools\export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt -linesPerFile 10
 # Or
-> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt -linesPerFile 10 -t 10000
+> tools\export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt -linesPerFile 10 -t 10000
 ```
 
 #### SQL 文件示例
@@ -355,6 +355,7 @@ Time,Device,str(TEXT),int(INT32)
 ```shell
 # Unix/OS X
 >tools/import-data.sh -h <ip> -p <port> -u <username> -pw <password> -f <xxx.csv> [-fd <./failedDirectory>] [-aligned <true>] [-tp <ms/ns/us>] [-typeInfer <boolean=text,float=double...>] [-linesPerFailedFile <int_value>]
+
 # Windows
 >tools\import-data.bat -h <ip> -p <port> -u <username> -pw <password> -f <xxx.csv> [-fd <./failedDirectory>] [-aligned <true>] [-tp <ms/ns/us>] [-typeInfer <boolean=text,float=double...>] [-linesPerFailedFile <int_value>]
 ```
@@ -397,19 +398,20 @@ Time,Device,str(TEXT),int(INT32)
 
 ```sh
 # Unix/OS X
->tools/import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed
+> tools/import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv
 # or
->tools/import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed
+> tools/import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed
 # or
-> tools\import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed -tp ns
+> tools/import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed -tp ns
 # or
-> tools\import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed -tp ns -typeInfer boolean=text,float=double
+> tools/import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed -tp ns -typeInfer boolean=text,float=double
 # or
-> tools\import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed -tp ns -typeInfer boolean=text,float=double -linesPerFailedFile 10
+> tools/import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd ./failed -tp ns -typeInfer boolean=text,float=double -linesPerFailedFile 10
+
 # Windows
->tools\import-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv
+> tools\import-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv
 # or
->tools\import-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd .\failed
+> tools\import-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd .\failed
 # or
 > tools\import-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.csv -fd .\failed -tp ns
 # or
@@ -428,7 +430,7 @@ Time,Device,str(TEXT),int(INT32)
 
 ## SQL导入导出工具
 
-SQL 是以纯文本形式存储表格数据，您可以在SQL文件中写入多条格式化的数据，并批量的将这些数据导入到 IoTDB 中，在导入数据之前，建议在IoTDB中创建好对应的元数据信息。如果忘记创建元数据也不要担心，IoTDB 可以自动将SQL中数据推断为其对应的数据类型，前提是你每一列的数据类型必须唯一。除单个文件外，此工具还支持以文件夹的形式导入多个 SQL 文件，并且支持设置如时间精度等优化参数。
+SQL 是数据库结构化查询语言，SQL 文件是数据库脚本文件，您可以在SQL文件中写入多条SQL数据，并批量的将这些数据导入到 IoTDB 中，在导入数据之前，建议在IoTDB中创建好对应的元数据信息。如果忘记创建元数据也不要担心，IoTDB 可以自动将SQL中数据推断为其对应的数据类型，前提是你每一列的数据类型必须唯一。除单个文件外，此工具还支持以文件夹的形式导入多个 SQL 文件，并且支持设置如时间精度等优化参数。
 
 ### 使用 export-data.sh
 
@@ -436,34 +438,34 @@ SQL 是以纯文本形式存储表格数据，您可以在SQL文件中写入多�
 
 ```shell
 # Unix/OS X
-> tools/export-csv.sh  -h <ip> -p <port> -u <username> -pw <password> -td <directory> -type <sql/csv [-tf <time-format> -q <query command> -s <sql file> -aligned <true/false>]
+> tools/export-data.sh  -h <ip> -p <port> -u <username> -pw <password> -td <directory> -type <sql/csv> [-tf <time-format> -q <query command> -s <sql file> -linesPerFile <int> -aligned <true/false>]
 
 # Windows
-> tools\export-csv.bat -h <ip> -p <port> -u <username> -pw <password> -td <directory> -type <sql/csv> [-tf <time-format> -q <query command> -s <sql file> -aligned <true/false>]
+> tools\export-data.bat -h <ip> -p <port> -u <username> -pw <password> -td <directory> -type <sql/csv> [-tf <time-format> -q <query command> -s <sql file> -linesPerFile <int> -aligned <true/false>]
 ```
 
 参数:
 
 * `-q <query command>`:
   - 在命令中直接指定想要执行的查询语句。
-  - 例如: `select * from root.** limit 100`, or `select * from root.** limit 100 align by device`
+  - 例如: `select * from root.** limit 100 align by device`
 * `-s <sql file>`:
-  - 指定一个SQL文件，里面包含一条或多条SQL语句。如果一个SQL文件中包含多条SQL语句，SQL语句之间应该用换行符进行分割。每一条SQL语句对应一个输出的CSV文件。
+  - 指定一个 SQL 文件，里面包含一条或多条SQL语句。如果一个SQL文件中包含多条SQL语句，SQL语句之间应该用换行符进行分割。每一条SQL语句对应一个输出的SQL文件。
 * `-td <directory>`:
-  - 为导出的CSV文件指定输出路径。
+  - 为导出的 SQL 文件指定输出路径。
 * `-tf <time-format>`:
   - 指定一个你想要得到的时间格式。时间格式必须遵守[ISO 8601](https://calendars.wikia.org/wiki/ISO_8601)标准。如果说你想要以时间戳来保存时间，那就设置为`-tf timestamp`。
   - 例如: `-tf yyyy-MM-dd\ HH:mm:ss` or `-tf timestamp`
 * `-linesPerFile <int>`:
   - 指定导出的dump文件最大行数，默认值为`10000`。
-  - 例如： `-linesPerFile 1`
+  - 例如: `-linesPerFile 1`
 * `-t <timeout>`:
   - 指定session查询时的超时时间，单位为ms
 * `-type`:
   - csv (默认) : 导出为 CSV 文件
-  - sql : 导出为 SQL 文件
-* `-aligned`:
-  - insert sql 是否导出为`aligned`？ 默认参数为`false`。
+  - sql : 导出为 SQL 文件（如果选择此类型指定的文件必须为 SQL 文件）。
+* `-aligned`：
+  - SQL 语句是否导出为`aligned`？ 默认参数为`false`。
   - 例如: `-aligned true`
 
 除此之外，如果你没有使用`-s`和`-q`参数，在导出脚本被启动之后你需要按照程序提示输入查询语句，不同的查询结果会被保存到不同的 SQL 文件中。
@@ -476,7 +478,7 @@ SQL 是以纯文本形式存储表格数据，您可以在SQL文件中写入多�
 # Or
 > tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -tf yyyy-MM-dd\ HH:mm:ss
 # or
-> tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -q "select * from root.sg_0.d_0.*"
+> tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -q "select * from root.sg_0.d_0"
 # Or
 > tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -s iotdb.sql -type sql
 # Or
@@ -487,41 +489,41 @@ SQL 是以纯文本形式存储表格数据，您可以在SQL文件中写入多�
 > tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -tf yyyy-MM-dd\ HH:mm:ss -s iotdb.sql -linesPerFile 10 -t 10000
 
 # Windows
-> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql
+> tools\export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql
 # Or
-> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql  -tf yyyy-MM-dd\ HH:mm:ss
+> tools\export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -tf yyyy-MM-dd\ HH:mm:ss
 # or
-> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql  -q "select * from root.sg_0.d_0.*"
+> tools\export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -q "select * from root.sg_0.d_0"
 # Or
-> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -s iotdb.sql -type sql
+> tools\export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -s iotdb.sql -type sql
 # Or
-> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -tf yyyy-MM-dd\ HH:mm:ss -s iotdb.sql
+> tools\export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -tf yyyy-MM-dd\ HH:mm:ss -s iotdb.sql
 # Or
-> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -tf yyyy-MM-dd\ HH:mm:ss -s iotdb.sql -linesPerFile 10
+> tools\export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -tf yyyy-MM-dd\ HH:mm:ss -s iotdb.sql -linesPerFile 10
 # Or
-> tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -tf yyyy-MM-dd\ HH:mm:ss -s iotdb.sql -linesPerFile 10 -t 10000
+> tools\export-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -type sql -tf yyyy-MM-dd\ HH:mm:ss -s iotdb.sql -linesPerFile 10 -t 10000
 ```
 
 #### SQL 文件示例
 
 - SQL导出限制
-  - 只支持原始数据(select xxx from xxx)的导出，如果有使用 group by、聚合函数、udf、操作运算符等则不支持导出为 sql
-  - 如果跨多个设备需要使用 align by device，否则不支持导出 sql（insert 语句不能跨设备）
-  - 如果序列在源库数据类型和目标数据库序列类型不一致，不保证可以导入
+  - 只支持原始数据(SELECT xxx FROM xxx)的导出，如果有使用 GROUP BY、聚合函数、UDF、操作运算符等则不支持导出为 SQL。
+  - 如果跨多个设备需要使用 ALIGN BY DEVICE，否则不支持导出 SQL（INSERT 语句不能跨设备）。
+  - 如果序列在源库数据类型和目标数据库序列类型不一致，不保证可以导入。
 
 ```sql
-select * from root.s_0.d_0;
-select * from root.** align by device;
+select * from root.**;
+select * from root.s_0.d_1;
 ```
 
-`select * from root.s_0.d_0`的执行结果：
+`select * from root.**` 对齐的执行结果：
 
 ```sql
-INSERT INTO root.s_0.d_0(timestamp,s_0,s_1) VALUES (2023-10-25T16:44:00.081083545,false,23.123);
-INSERT INTO root.s_0.d_0(timestamp,s_0,s_1) VALUES (2023-10-25T15:44:10.081083545,true,24.124);
+INSERT INTO root.s_0.d_0(timestamp,s_0,s_1) ALIGNED VALUES (2023-10-25T16:44:00.081083545,false,23.123);
+INSERT INTO root.s_0.d_0(timestamp,s_0,s_1) ALIGNED VALUES (2023-10-25T15:44:10.081083545,true,24.124);
 ```
 
-`select * from root.** align by device`的执行结果：
+`select * from root.s_0.d_1`非对齐的执行结果：
 
 ```sql
 INSERT INTO root.s_0.d_1(timestamp,s_0,s_1) VALUES (2023-06-19T01:05:00.081083545,true,25.125);
@@ -558,53 +560,43 @@ IoTDB 具有类型推断的能力，因此在数据导入前创建元数据不�
 通过时间对齐
 
 ```sql
-INSERT INTO root.s_0.d_0(timestamp,s_0,s_1) VALUES (2023-10-25T16:44:00.081083545,false,23.123);
-INSERT INTO root.s_0.d_0(timestamp,s_0,s_1) VALUES (2023-10-25T15:44:10.081083545,true,24.124);
+INSERT INTO root.s_0.d_0(timestamp,s_0,s_1) ALIGNED VALUES (2023-10-25T16:44:00.081083545,false,23.123);
+INSERT INTO root.s_0.d_0(timestamp,s_0,s_1) ALIGNED VALUES (2023-10-25T15:44:10.081083545,true,24.124);
 ```
 
 非时间对齐。（Text类型数据支持加双引号和不加双引号）
 
 ```sql
-INSERT INTO root.s_0.d_1(timestamp,s_0,s_1) ALIGNED VALUES (2023-06-19T01:05:00.081083545,true,25.125);
-INSERT INTO root.s_0.d_1(timestamp,s_0,s_1) ALIGNED VALUES (2023-06-19T02:05:00.081083545,true,25.125);
+INSERT INTO root.s_0.d_1(timestamp,s_0,s_1) VALUES (2023-06-19T01:05:00.081083545,true,25.125);
+INSERT INTO root.s_0.d_1(timestamp,s_0,s_1) VALUES (2023-06-19T02:05:00.081083545,true,25.125);
 ```
 
 #### 运行方法
 
 ```shell
 # Unix/OS X
->tools/import-csv.sh -h <ip> -p <port> -u <username> -pw <password> -f <xxx.csv> [-fd <./failedDirectory>] [-aligned <true>] [-tp <ms/ns/us>] [-typeInfer <boolean=text,float=double...>] [-linesPerFailedFile <int_value>]
+>tools/import-data.sh -h <ip> -p <port> -u <username> -pw <password> -f <xxx.sql>
+
 # Windows
->tools\import-csv.bat -h <ip> -p <port> -u <username> -pw <password> -f <xxx.csv> [-fd <./failedDirectory>] [-aligned <true>] [-tp <ms/ns/us>] [-typeInfer <boolean=text,float=double...>] [-linesPerFailedFile <int_value>]
+>tools\import-data.bat -h <ip> -p <port> -u <username> -pw <password> -f <xxx.sql>
 ```
 
 参数:
 
 * `-f`:
-  - 指定你想要导入的数据，这里可以指定文件或者文件夹。如果指定的是文件夹，将会把文件夹中所有的后缀为txt与csv的文件进行批量导入。
-  - 例如: `-f filename.csv`
-
-* `-fd`:
-  - 指定一个目录来存放保存失败的行的文件，如果你没有指定这个参数，失败的文件将会被保存到源数据的目录中，然后文件名是源文件名加上`.failed`的后缀。
-  - 例如: `-fd ./failed/`
-
-* `-batch`:
-  - 用于指定每一批插入的数据的点数。如果程序报了`org.apache.thrift.transport.TTransportException: Frame size larger than protect max size`这个错的话，就可以适当的调低这个参数。
-  - 例如: `-batch 100000`，`100000`是默认值。
-
-* `-linesPerFailedFile <int>`:
-  - 用于指定每个导入失败文件写入数据的行数，默认值为10000。
-  - 例如：`-linesPerFailedFile 1`
+  - 指定你想要导入的数据，这里可以指定文件或者文件夹。如果指定的是文件夹，将会把文件夹中所有的后缀为sql的文件进行批量导入。
+  - 例如: `-f filename.sql`
 
 #### 运行示例
 
 ```sh
 # Unix/OS X
-> tools/import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.sql -fd ./failed
-> tools/import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ./devices -fd ./failed
-# or
-> tools/import-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.sql -fd ./failed
-> tools/import-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -f ./devices -fd ./failed
+> tools/import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.sql
+> tools/import-data.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ./devices
+
+# Windows
+> tools\import-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -f example-filename.sql
+> tools\import-data.bat -h 127.0.0.1 -p 6667 -u root -pw root -f .\devices
 ```
 
 #### 注意
