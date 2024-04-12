@@ -30,10 +30,6 @@ For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadat
 ```sql
 IoTDB > create database root.ln
 IoTDB > create database root.sgcc
-IoTDB> CREATE DATABASE root.ln.wf01
-Msg: 300: root.ln has already been created as database.
-IoTDB> create database root.ln.wf01
-Msg: 300: root.ln has already been created as database.
 ```
 
 ### Show Databases

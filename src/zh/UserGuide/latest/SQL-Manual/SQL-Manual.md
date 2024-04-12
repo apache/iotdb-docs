@@ -8,9 +8,6 @@
 
 ```sql
 CREATE DATABASE root.ln
-
-CREATE DATABASE root.ln.wf01
-> Msg: 300: root.ln has already been created as database.
 ```
 
 #### 查看数据库
