@@ -31,9 +31,171 @@ SUM(expr)
 求和
 #### 输入类型
 INT32、 INT64、 FLOAT、 DOUBLE
+#### 输出类型
+DOUBLE
+#### 示例
+```
+select sum(s1) from root.db
+```
 
+### COUNT
+```
+COUNT(expr)
+```
+#### 功能描述
+计算数据点数
+#### 输入类型
+所有类型
+#### 示例
+```
+select count(s1) from root.db
+```
 
+### AVG
+```
+AVG(expr)
+```
+#### 功能描述
+求平均值
+#### 输入类型
+所有类型
+#### 示例
+```
+select avg(s1) from root.db
+```
 
+### EXTREME
+```
+EXTREME(expr)
+```
+#### 功能描述
+求具有最大绝对值的值
+
+> 如果正值和负值的最大绝对值相等，则返回正值。
+
+#### 输入类型
+INT32 INT64 FLOAT DOUBLE
+#### 示例
+```
+select extreme(s1) from root.db
+```
+
+### MAX_VALUE
+```
+MAX_VALUE(expr)
+```
+#### 功能描述
+求最大值
+#### 输入类型
+INT32 INT64 FLOAT DOUBLE
+#### 示例
+```
+select max_value(s1) from root.db
+```
+
+### MIN_VALUE
+```
+MIN_VALUE(expr)
+```
+#### 功能描述
+求最小值
+#### 输入类型
+INT32 INT64 FLOAT DOUBLE
+#### 示例
+```
+select min_value(s1) from root.db
+```
+
+### FIRST_VALUE
+```
+FIRST_VALUE(expr)
+```
+#### 功能描述
+求时间戳最小的值
+#### 输入类型
+所有类型
+#### 示例
+```
+select first_value(s1) from root.db
+```
+
+### LAST_VALUE
+```
+LAST_VALUE(expr)
+```
+#### 功能描述
+求时间戳最大的值
+#### 输入类型
+所有类型
+#### 示例
+```
+select last_value(s1) from root.db
+```
+
+### MAX_TIME
+```
+MAX_TIME(expr)
+```
+#### 功能描述
+求最大时间戳
+#### 输入类型
+所有类型
+#### 示例
+```
+select max_time(s1) from root.db
+```
+
+### MIN_TIME
+```
+MIN_TIME(expr)
+```
+#### 功能描述
+求最小时间戳
+#### 输入类型
+所有类型
+#### 示例
+```
+select min_value(s1) from root.db
+```
+
+### COUNT_IF
+```
+count_if(predicate, [keep >=/>/=/!=/</<=]threshold[, 'ignoreNull'='true/false'])
+```
+#### 功能描述
+求数据点连续满足某一给定条件，且满足条件的数据点个数（用keep表示）满足指定阈值的次数
+#### 输入类型
+BOOLEAN
+#### 示例
+```
+select avg(s1) from root.db
+```
+
+### MAX_TIME
+```
+MAX_TIME(expr)
+```
+#### 功能描述
+求最大时间戳
+#### 输入类型
+所有类型
+#### 示例
+```
+select avg(s1) from root.db
+```
+
+### MAX_TIME
+```
+MAX_TIME(expr)
+```
+#### 功能描述
+求最大时间戳
+#### 输入类型
+所有类型
+#### 示例
+```
+select avg(s1) from root.db
+```
 IoTDB 支持的聚合函数如下：
 
 | 函数名           | 功能描述                                                                                                     | 允许的输入类型                  | 必要的属性参数                                                                                                                                                                                                                    | 输出类型      |
