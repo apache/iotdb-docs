@@ -20,7 +20,7 @@
 -->
 # 成为开发者
 ## 开发人员
-### Project PMC                               |
+### Project PMC                            
 
 |   id         |   githubUsername      |   public name         |   starting date |
 | ------------: | :-------------------: | :-------------------: | :-------------: |
