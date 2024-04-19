@@ -18,11 +18,11 @@
     under the License.
 
 -->
-# 成为开发者
+# Commiters
 ## 开发人员
-### Project PMC                               |
+### Project PMC                      
 
-|   id         |   githubUsername      |   public name         |   starting date |
+|     id     |   githubUsername      |   public name         |   starting date |
 | ------------: | :-------------------: | :-------------------: | :-------------: |
 |     wangchen |                       |   Chen Wang           |     2020/9/16   |
 |        cdutz  |    chrisdutz           |   Christofer Dutz     |     2020/9/16   |
@@ -88,20 +88,3 @@
 |  yschengzi   |                    |   Sicheng Yu    |
 |  yuyuankang  |     yuyuankang     |   Yuyuan Kang   |
 |     zyk      |     MarcosZyk      |   Yukun Zhou    |
-
-
-## 如何成为项目成员
-
-我们的社区存在以下四种身份
-
-- PMC
-- Committe
-- Contributor
-- User
-
-详细说明：
-
-- 若想了解四种身份的详细内容，请查看[社区组织架构](../Community/About.md)
-- 若想成为 PMC ，请查看：[社区评选规章](../Community/About.md#pmc)
-- 若想成为 Committe ，请查看：[社区评选规章](../Community/About.md#committe)
-- 若想成为 Contributor ，请查看：[社区评选规章](../Community/About.md#contributor)

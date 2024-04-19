@@ -19,7 +19,7 @@
 
 -->
 
-## Powered-By
+## 社区伙伴
 
 ### 使用“IoTDB”的项目和产品名称
 
@@ -50,3 +50,18 @@
 - 北京清智物联使用 IoTDB 收集调相机（发电机）的监控数据。
 
 - 建龙钢铁在测试 IoTDB。
+
+### 商业支持
+- 与Apache项目相同，Apache IoTDB任何人都可以免费使用。Apache IoTDB也可以在社区中获得免费支持，但可能会因为时差等原因无法保证能够随时得到及时回复。
+
+- 如果您或您的企业对可用性和技术支持有更高的要求，以下个人和公司可以为您提供商业化支持产品
+#### 合作伙伴
+| 合作伙伴               | 链接                      | 描述                                                         |
+| :--------------------- | :------------------------ | :----------------------------------------------------------- |
+| 清华大学软件学院       | https://github.com/thulab | 清华大学软件学院是IoTDB的初始开发团队，并于将贡献给Apache，目前仍有很多研究生和软件工程师在IoTDB社区进行开发和贡献 |
+| 天谋科技               | https://www.timecho.com/  | 天谋科技是 Apache IoTDB 的主要贡献者之一，是世界领先的企业时序数据解决方案供应商，提供基于 Apache IoTDB 的企业版产品 TimechoDB，同时提供技术支持、部署实施、培训、采集对接、服务定制等商业服务 |
+| Global: Timecho Europe |                           | A professional company located in Germany,  provides IoTDB enterprise version and technology services. The team has many IoTDB PMC members and Apache Board member. |
+| Global: IGS （香港的） |                           | A professional agency located in HongKong for selling IoTDB enterprise software |
+
+#### 如何获取
+如有需要，可以点击 [链接](https://www.timecho.com/product)进行申请
