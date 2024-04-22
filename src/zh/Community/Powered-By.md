@@ -56,12 +56,11 @@
 
 - 如果您或您的企业对可用性和技术支持有更高的要求，以下个人和公司可以为您提供商业化支持产品
 #### 合作伙伴
-| 合作伙伴               | 链接                      | 描述                                                         |
-| :--------------------- | :------------------------ | :----------------------------------------------------------- |
-| 清华大学软件学院       | https://github.com/thulab | 清华大学软件学院是IoTDB的初始开发团队，并于将贡献给Apache，目前仍有很多研究生和软件工程师在IoTDB社区进行开发和贡献 |
-| 天谋科技               | https://www.timecho.com/  | 天谋科技是 Apache IoTDB 的主要贡献者之一，是世界领先的企业时序数据解决方案供应商，提供基于 Apache IoTDB 的企业版产品 TimechoDB，同时提供技术支持、部署实施、培训、采集对接、服务定制等商业服务 |
-| Global: Timecho Europe |                           | A professional company located in Germany,  provides IoTDB enterprise version and technology services. The team has many IoTDB PMC members and Apache Board member. |
-| Global: IGS （香港的） |                           | A professional agency located in HongKong for selling IoTDB enterprise software |
+| <div style="width:100px;">合作伙伴      </div>   | 链接                        | 描述                                                         |
+| :---------------: | :--------------------------: | :----------------------------------------------------------- |
+| 清华大学软件学院 | https://github.com/thulab   | 清华大学软件学院是IoTDB的初始开发团队，并于将IoTDB贡献给Apache，目前仍有很多研究生和软件工程师在IoTDB社区进行开发和贡献。 |
+| 天谋科技         | https://www.timecho.com/    | 天谋科技是 Apache IoTDB 的主要贡献者之一，团队中有多名 IoTDB PMC 成员和 Apache 董事成员。公司致力于为用户提供时序数据解决方案，在可控管理成本下最大程度发挥时序数据价值。天谋科技提供基于 Apache IoTDB 的企业版产品 TimechoDB，同时提供企业级产品工具、技术支持、部署实施、培训、采集对接、服务定制等商业服务。 |
+| IGS （香港）     | https://www.igsl-group.com/ | 基于Apache IoTDB的企业版产品TimechoDB在香港的专业代理商      |
 
 #### 如何获取
 如有需要，可以点击 [链接](https://www.timecho.com/product)进行申请
