@@ -18,7 +18,7 @@
     under the License.
 
 -->
-
+# Resources
 Tips: All English Slides and videos are on slideshare.net and Youtube; 
 All Chinese Slides and videos are on slidestalk.com and bilibili.
 

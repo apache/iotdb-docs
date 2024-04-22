@@ -49,4 +49,18 @@ You can also leave the info on [Github](https://github.com/apache/iotdb/discussi
 - Beijing QingZhiWuLian uses IoTDB for electric generator's monitoring. Currently they look forward to the cluster mode of IoTDB.
 
 - JianLongGangTie is testing IoTDB for using it in their applications.
+
+### Commercial support
+
+- Like the Apache project, Apache IoTDB is free for anyone to use. Apache IoTDB is also available for free in the community, but may not be able to guarantee a response due to time differences and other reasons.
+- If you or your business have higher requirements for availability and technical support, the following individuals and companies can provide you with commercial support products
  
+ | **Partner**                             | **Link**                    | **Description**                                              |
+| :-------------------------------------- | :-------------------------- | :----------------------------------------------------------- |
+| School of Software, Tsinghua University | https://github.com/thulab   | School of Software in Tsinghua University was the initial development team of IoTDB. It contributes IoTDB to Apache in 2018. Now there are still many graduate students and software engineers developing and contributing to the IoTDB community. |
+| Global: Timecho Europe                  | https://www.timecho.com/    | A professional company located in Germany,  provides IoTDB enterprise version and technology services. The team has many IoTDB PMC members and Apache Board members. |
+| Global: IGS(Hong Kong)                  | https://www.igsl-group.com/ | A professional agency located in Hong Kong for selling IoTDB enterprise software |
+| Timecho                                 | https://www.timecho.com/    | As one of the major contributors to Apache IoTDB, Timecho Technology is the leading provider of time series data solutions. It provides enterprise version of TimechoDB based on Apache IoTDB, as well as commercial services such as technical support, deployment support, customization solutions. |
+
+### How to get
+If necessary, you can click on the [link](https://www.timecho-global.com/product)to apply
