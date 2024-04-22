@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# 开发指南
+# 贡献指南
 ## 开发约定
 ### 代码格式化
 我们使用 [Spotless plugin](https://github.com/diffplug/spotless/tree/main/plugin-maven) 和 [google-java-format](https://github.com/google/google-java-format) 格式化 Java 代码。你可以通过以下步骤将 IDE 配置为在保存时自动应用格式以 IDEA 为例）：
