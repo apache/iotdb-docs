@@ -19,9 +19,9 @@
 
 -->
 
-## 社区伙伴
+# 社区伙伴
 
-### 使用“IoTDB”的项目和产品名称
+## 使用“IoTDB”的项目和产品名称
 
 - 其他组织或企业在使用 Apache IoTDB 建立项目或者产品时，应该应该注意尊重“Apache IoTDB”的商标。
 - 具体事项请参阅 [ASF Trademarks Guidance](https://www.apache.org/foundation/marks/)和 [FAQ](https://www.apache.org/foundation/marks/faq/)。
@@ -30,7 +30,7 @@
   - 例如，不应该给自己的产品命名为"IoTDB 大数据产品"，因为这个名字中包含 IoTDB。然而，如果说是命名为"Apache IoTDB 赋能的大数据产品"，或者"基于 Apache IoTDB 的大数据产品"，这种名字就是被允许的。简单来说，当你想在名字中出现 IoTDB 时，应为"Apache IoTDB"，而不是仅"IoTDB"。
   - 在你（Maven 或者其他模块名中）创建软件标识时，可以命名为例如"iotdb-tool"。在产品描述中明确指出 Apache IoTDB 也是可以的，例如"该大数据产品是 Apache IoTDB 的一个子产品"。
 
-### 相关贡献或应用的公司和组织
+## 相关贡献或应用的公司和组织
 - 要将自己添加到列表中，请给 dev@iotdb.apache.org 发送电子邮件，其中包含您的组织名称，URL，正在使用的 IoTDB 组件列表以及用例的简短描述。
   - 你也可以在 [Github](https://github.com/apache/iotdb/issues/748) 留言。
 
@@ -51,16 +51,16 @@
 
 - 建龙钢铁在测试 IoTDB。
 
-### 商业支持
+## 商业支持
 - 与Apache项目相同，Apache IoTDB任何人都可以免费使用。Apache IoTDB也可以在社区中获得免费支持，但可能会因为时差等原因无法保证能够随时得到及时回复。
 
 - 如果您或您的企业对可用性和技术支持有更高的要求，以下个人和公司可以为您提供商业化支持产品
-#### 合作伙伴
+### 合作伙伴
 | <div style="width:100px;">合作伙伴      </div>   | 链接                        | 描述                                                         |
 | :---------------: | :--------------------------: | :----------------------------------------------------------- |
 | 清华大学软件学院 | https://github.com/thulab   | 清华大学软件学院是IoTDB的初始开发团队，并于将IoTDB贡献给Apache，目前仍有很多研究生和软件工程师在IoTDB社区进行开发和贡献。 |
 | 天谋科技         | https://www.timecho.com/    | 天谋科技是 Apache IoTDB 的主要贡献者之一，团队中有多名 IoTDB PMC 成员和 Apache 董事成员。公司致力于为用户提供时序数据解决方案，在可控管理成本下最大程度发挥时序数据价值。天谋科技提供基于 Apache IoTDB 的企业版产品 TimechoDB，同时提供企业级产品工具、技术支持、部署实施、培训、采集对接、服务定制等商业服务。 |
 | IGS （香港）     | https://www.igsl-group.com/ | 基于Apache IoTDB的企业版产品TimechoDB在香港的专业代理商      |
 
-#### 如何获取
+### 如何获取
 如有需要，可以点击 [链接](https://www.timecho.com/product)进行申请
