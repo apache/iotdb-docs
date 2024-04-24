@@ -31,7 +31,7 @@ Workbench程序启动后，您可以通过输入部署服务器的 IP 和工作�
 3.4 测点列表
 您可以通过界面直观查看、管理测点信息，支持直接查看实例中的所有测点，并查看测点的重要信息
  
-![](https://alioss.timecho.com/docs/img/c6.png)
+![](https://alioss.timecho.com/upload/workbench%E2%80%94%E6%B5%8B%E7%82%B9%E7%AE%A1%E7%90%86.jpeg)
 3.5 查询
 3.5.1 数据查询
 将对常用数据查询场景提供界面式查询，支持进行时间过滤、测点过滤的查询，支持进行降采样查询，支持对查询数据进行批量导出。
@@ -56,4 +56,4 @@ Workbench程序启动后，您可以通过输入部署服务器的 IP 和工作�
 3.8 权限管理
 您可在此模块中配置可以访问数据库的用户，以及该用户可以访问的数据范围，方便对数据库系统的访问进行范围划分。
  
-![](https://alioss.timecho.com/docs/img/c12.png)
+![](https://alioss.timecho.com/upload/workbench%E2%80%94%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86.jpeg)

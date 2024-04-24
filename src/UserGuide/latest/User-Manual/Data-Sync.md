@@ -24,17 +24,17 @@
 
 **A Pipe consists of three subtasks (plugins):**
 
-- Extract
+- Source
 - Process
-- Connect
+- Sink
 
-**Pipe allows users to customize the processing logic of these three subtasks, just like handling data using UDF (User-Defined Functions)**. Within a Pipe, the aforementioned subtasks are executed and implemented by three types of plugins. Data flows through these three plugins sequentially: Pipe Extractor is used to extract data, Pipe Processor is used to process data, and Pipe Connector is used to send data to an external system.
+**Pipe allows users to customize the processing logic of these three subtasks, just like handling data using UDF (User-Defined Functions)**. Within a Pipe, the aforementioned subtasks are executed and implemented by three types of plugins. Data flows through these three plugins sequentially: Pipe Source is used to extract data, Pipe Processor is used to process data, and Pipe Sink is used to send data to an external system.
 
 **The model of a Pipe task is as follows:**
 
-![Task model diagram](https://alioss.timecho.com/docs/img/%E6%B5%81%E5%A4%84%E7%90%86%E5%BC%95%E6%93%8E.jpeg)
+![Task model diagram](https://alioss.timecho.com/docs/img/1706698537700.jpg)
 
-It describes a data sync task, which essentially describes the attributes of the Pipe Extractor, Pipe Processor, and Pipe Connector plugins. Users can declaratively configure the specific attributes of the three subtasks through SQL statements. By combining different attributes, flexible data ETL (Extract, Transform, Load) capabilities can be achieved.
+It describes a data sync task, which essentially describes the attributes of the Pipe Source, Pipe Processor, and Pipe Sink plugins. Users can declaratively configure the specific attributes of the three subtasks through SQL statements. By combining different attributes, flexible data ETL (Extract, Transform, Load) capabilities can be achieved.
 
 By utilizing the data sync functionality, a complete data pipeline can be built to fulfill various requirements such as edge-to-cloud sync, remote disaster recovery, and read-write workload distribution across multiple databases.
 
@@ -47,10 +47,10 @@ By utilizing the data sync functionality, a complete data pipeline can be built 
 
   ```sql
   create pipe a2b
-  with connector (
-    'connector'='iotdb-thrift-connector',
-    'connector.ip'='127.0.0.1',
-    'connector.port'='6668'
+  with sink (
+    'sink'='iotdb-thrift-sink',
+    'sink.ip'='127.0.0.1',
+    'sink.port'='6668'
   )
   ```
 - start a Pipe from A -> B, and execute on A
@@ -70,7 +70,7 @@ By utilizing the data sync functionality, a complete data pipeline can be built 
 
 > ❗️**Note: The current IoTDB -> IoTDB implementation of data sync does not support DDL sync**
 >
-> That is: ttl, trigger, alias, template, view, create/delete sequence, create/delete storage group, etc. are not supported.
+> That is: ttl, trigger, alias, template, view, create/delete sequence, create/delete database, etc. are not supported.
 >
 > **IoTDB -> IoTDB data sync requires the target IoTDB:**
 >
@@ -85,86 +85,82 @@ A data sync task can be created using the `CREATE PIPE` statement, a sample SQL 
 
 ```sql
 CREATE PIPE <PipeId> -- PipeId is the name that uniquely identifies the sync task
-WITH EXTRACTOR (
+WITH SOURCE (
   -- Default IoTDB Data Extraction Plugin
-  'extractor'                    = 'iotdb-extractor',
+  'source'                    = 'iotdb-source',
   -- Path prefix, only data that can match the path prefix will be extracted for subsequent processing and delivery
-  'extractor.pattern'            = 'root.timecho',
-  -- Whether to extract historical data
-  'extractor.history.enable'     = 'true',
-  -- Describes the time range of the historical data being extracted, indicating the earliest possible time
-  'extractor.history.start-time' = '2011.12.03T10:15:30+01:00',
-  -- Describes the time range of the extracted historical data, indicating the latest time
-  'extractor.history.end-time'   = '2022.12.03T10:15:30+01:00',
-  -- Whether to extract realtime data
-  'extractor.realtime.enable'    = 'true',
+  'source.pattern'            = 'root.timecho',
+  -- Describes the time range of the data being extracted, indicating the earliest possible time
+  'source.historical.start-time' = '2011.12.03T10:15:30+01:00',
+  -- Describes the time range of the extracted data, indicating the latest time
+  'source.historical.end-time'   = '2022.12.03T10:15:30+01:00',
 )
 WITH PROCESSOR (
   -- Default data processing plugin, means no processing
   'processor'                    = 'do-nothing-processor',
 )
-WITH CONNECTOR (
+WITH SINK (
   -- IoTDB data sending plugin with target IoTDB
-  'connector'                    = 'iotdb-thrift-connector',
+  'sink'                    = 'iotdb-thrift-sink',
   -- Data service for one of the DataNode nodes on the target IoTDB ip
-  'connector.ip'                 = '127.0.0.1',
+  'sink.ip'                 = '127.0.0.1',
   -- Data service port of one of the DataNode nodes of the target IoTDB
-  'connector.port'               = '6667',
+  'sink.port'               = '6667',
 )
 ```
 
 **To create a sync task it is necessary to configure the PipeId and the parameters of the three plugin sections:**
 
 
-| configuration item    | description                                              | Required or not                    | default implementation             | Default implementation description                                           | Whether to allow custom implementations        |
-| --------- | ------------------------------------------------- | --------------------------- | -------------------- | ------------------------------------------------------ | ------------------------- |
-| pipeId    | Globally uniquely identifies the name of a sync task                    | <font color=red>required</font> | -                    | -                                                      | -                         |
-| extractor | pipe Extractor plug-in, for extracting synchronized data at the bottom of the database | Optional                        | iotdb-extractor      | Integrate all historical data of the database and subsequent realtime data into the sync task |        no                |
-| processor | Pipe Processor plug-in, for processing data                 | Optional                        | do-nothing-processor | no processing of incoming data                               | <font color=red>yes</font> |
-| connector | Pipe Connector plug-in，for sending data                 | <font color=red>required</font> | -                    | -                                                      | <font color=red>yes</font> |
+| configuration item | description                                                                         | Required or not                 | default implementation | Default implementation description                                                            | Whether to allow custom implementations |
+|--------------------|-------------------------------------------------------------------------------------|---------------------------------|------------------------|-----------------------------------------------------------------------------------------------|-----------------------------------------|
+| pipeId             | Globally uniquely identifies the name of a sync task                                | <font color=red>required</font> | -                      | -                                                                                             | -                                       |
+| source             | pipe Source plugin, for extracting synchronized data at the bottom of the database | Optional                        | iotdb-source           | Integrate all historical data of the database and subsequent realtime data into the sync task | no                                      |
+| processor          | Pipe Processor plugin, for processing data                                         | Optional                        | do-nothing-processor   | no processing of incoming data                                                                | <font color=red>yes</font>              |
+| sink               | Pipe Sink plugin，for sending data                                                  | <font color=red>required</font> | -                      | -                                                                                             | <font color=red>yes</font>              |
 
-In the example, the iotdb-extractor, do-nothing-processor, and iotdb-thrift-connector plug-ins are used to build the data sync task. iotdb has other built-in data sync plug-ins, **see the section "System Pre-built Data Sync Plugin"**.
+In the example, the iotdb-source, do-nothing-processor, and iotdb-thrift-sink plugins are used to build the data sync task. IoTDB has other built-in data sync plugins, **see the section "System Pre-built Data Sync Plugin"**.
 **An example of a minimalist CREATE PIPE statement is as follows:**
 
 ```sql
 CREATE PIPE <PipeId> -- PipeId is a name that uniquely identifies the task.
-WITH CONNECTOR (
+WITH SINK (
   -- IoTDB data sending plugin with target IoTDB
-  'connector'      = 'iotdb-thrift-connector',
+  'sink'      = 'iotdb-thrift-sink',
   -- Data service for one of the DataNode nodes on the target IoTDB ip
-  'connector.ip'   = '127.0.0.1',
+  'sink.ip'   = '127.0.0.1',
   -- Data service port of one of the DataNode nodes of the target IoTDB
-  'connector.port' = '6667',
+  'sink.port' = '6667',
 )
 ```
 
-The expressed semantics are: synchronise the full amount of historical data and subsequent arrivals of realtime data from this database instance to the IoTDB instance with target 127.0.0.1:6667.
+The expressed semantics are: synchronize the full amount of historical data and subsequent arrivals of realtime data from this database instance to the IoTDB instance with target 127.0.0.1:6667.
 
 **Note:**
 
-- EXTRACTOR and PROCESSOR are optional, if no configuration parameters are filled in, the system will use the corresponding default implementation.
-- The CONNECTOR is a mandatory configuration that needs to be declared in the CREATE PIPE statement for configuring purposes.
-- The CONNECTOR exhibits self-reusability. For different tasks, if their CONNECTOR possesses identical KV properties (where the value corresponds to every key), **the system will ultimately create only one instance of the CONNECTOR** to achieve resource reuse for connections.
+- SOURCE and PROCESSOR are optional, if no configuration parameters are filled in, the system will use the corresponding default implementation.
+- The SINK is a mandatory configuration that needs to be declared in the CREATE PIPE statement for configuring purposes.
+- The SINK exhibits self-reusability. For different tasks, if their SINK possesses identical KV properties (where the value corresponds to every key), **the system will ultimately create only one instance of the SINK** to achieve resource reuse for connections.
 
   - For example, there are the following pipe1, pipe2 task declarations:
 
   ```sql
   CREATE PIPE pipe1
-  WITH CONNECTOR (
-    'connector' = 'iotdb-thrift-connector',
-    'connector.thrift.host' = 'localhost',
-    'connector.thrift.port' = '9999',
+  WITH SINK (
+    'sink' = 'iotdb-thrift-sink',
+    'sink.ip' = 'localhost',
+    'sink.port' = '9999',
   )
 
   CREATE PIPE pipe2
-  WITH CONNECTOR (
-    'connector' = 'iotdb-thrift-connector',
-    'connector.thrift.port' = '9999',
-    'connector.thrift.host' = 'localhost',
+  WITH SINK (
+    'sink' = 'iotdb-thrift-sink',
+    'sink.port' = '9999',
+    'sink.ip' = 'localhost',
   )
   ```
 
-  - Since they have identical CONNECTOR declarations (**even if the order of some properties is different**), the framework will automatically reuse the CONNECTOR declared by them. Hence, the CONNECTOR instances for pipe1 and pipe2 will be the same.
+  - Since they have identical SINK declarations (**even if the order of some properties is different**), the framework will automatically reuse the SINK declared by them. Hence, the SINK instances for pipe1 and pipe2 will be the same.
 - Please note that we should avoid constructing application scenarios that involve data cycle sync (as it can result in an infinite loop):
 
   - IoTDB A -> IoTDB B -> IoTDB A
@@ -172,7 +168,7 @@ The expressed semantics are: synchronise the full amount of historical data and 
 
 ### START TASK
 
-After the successful execution of the CREATE PIPE statement, task-related instances will be created. However, the overall task's running status will be set to STOPPED, meaning the task will not immediately process data.
+After the successful execution of the CREATE PIPE statement, task-related instances will be created. However, the overall task's running status will be set to STOPPED(V1.3.0), meaning the task will not immediately process data. In version 1.3.1 and later, the status of the task will be set to RUNNING after CREATE.
 
 You can use the START PIPE statement to begin processing data for a task:
 
@@ -209,13 +205,13 @@ SHOW PIPES
 The query results are as follows:
 
 ```sql
-+-----------+-----------------------+-------+-------------+-------------+-------------+----------------+
-|         ID|          CreationTime |  State|PipeExtractor|PipeProcessor|PipeConnector|ExceptionMessage|
-+-----------+-----------------------+-------+-------------+-------------+-------------+----------------+
-|iotdb-kafka|2022-03-30T20:58:30.689|RUNNING|          ...|          ...|          ...|            None|
-+-----------+-----------------------+-------+-------------+-------------+-------------+----------------+
-|iotdb-iotdb|2022-03-31T12:55:28.129|STOPPED|          ...|          ...|          ...| TException: ...|
-+-----------+-----------------------+-------+-------------+-------------+-------------+----------------+
++-----------+-----------------------+-------+----------+-------------+--------+----------------+
+|         ID|          CreationTime |  State|PipeSource|PipeProcessor|PipeSink|ExceptionMessage|
++-----------+-----------------------+-------+----------+-------------+--------+----------------+
+|iotdb-kafka|2022-03-30T20:58:30.689|RUNNING|       ...|          ...|     ...|              {}|
++-----------+-----------------------+-------+----------+-------------+--------+----------------+
+|iotdb-iotdb|2022-03-31T12:55:28.129|STOPPED|       ...|          ...|     ...| TException: ...|
++-----------+-----------------------+-------+----------+-------------+--------+----------------+
 ```
 
 You can use \<PipeId\> to specify the status of a particular synchronization task:
@@ -224,22 +220,23 @@ You can use \<PipeId\> to specify the status of a particular synchronization tas
 SHOW PIPE <PipeId>
 ```
 
-Additionally, the WHERE clause can be used to determine if the Pipe Connector used by a specific \<PipeId\> is being reused.
+Additionally, the WHERE clause can be used to determine if the Pipe Sink used by a specific \<PipeId\> is being reused.
 
 ```sql
 SHOW PIPES
-WHERE CONNECTOR USED BY <PipeId>
+WHERE SINK USED BY <PipeId>
 ```
 
 ### Task Running Status Migration
 
 The task running status can transition through several states during the lifecycle of a data synchronization pipe:
 
-- **STOPPED：** The pipe is in a stopped state. It can have the following possibilities:
-  - After the successful creation of a pipe, its initial state is set to stopped
+- **STOPPED：** The pipe is in a stopped state. It has the following causes:
+  - After the successful creation of a pipe, its initial state is set to STOPPED (V1.3.0)
   - The user manually pauses a pipe that is in normal running state, transitioning its status from RUNNING to STOPPED
   - If a pipe encounters an unrecoverable error during execution, its status automatically changes from RUNNING to STOPPED.
-- **RUNNING：** The pipe is actively processing data
+- **RUNNING：** The pipe is actively processing data. It has the following cause:
+  - After the successful creation of a pipe, its initial state is set to RUNNING (V1.3.1+)
 - **DROPPED：** The pipe is permanently deleted
 
 The following diagram illustrates the different states and their transitions:
@@ -247,35 +244,52 @@ The following diagram illustrates the different states and their transitions:
 ![state migration diagram](https://alioss.timecho.com/docs/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
 
 ## System Pre-built Data Sync Plugin
-
+📌 Notes: for version 1.3.1 or later, any parameters other than "source", "processor", "sink" themselves need not be with the prefixes. For instance:
+```Sql
+create pipe A2B
+with sink (
+  'sink'='iotdb-thrift-sink',
+  'sink.ip'='127.0.0.1',
+  'sink.port'='6668'
+)
+```
+can be written as
+```Sql
+create pipe A2B
+with sink (
+  'sink'='iotdb-air-gap-sink',
+  'ip'='127.0.0.1',
+  'port'='6668'
+)
+```
 ### View pre-built plugin
 
-User can view the plug-ins in the system on demand. The statement for viewing plug-ins is shown below.
+User can view the plugins in the system on demand. The statement for viewing plugins is shown below.
 ```sql
 SHOW PIPEPLUGINS
 ```
 
-### Pre-built Extractor Plugin
+### Pre-built Source Plugin
 
-#### iotdb-extractor
+#### iotdb-source
 
 Function: Extract historical or realtime data inside IoTDB into pipe.
 
 
-| key                                | value                                            | value range                         | required or optional with default |
-| ---------------------------------- | ------------------------------------------------ | -------------------------------------- | --------------------------------- |
-| extractor                          | iotdb-extractor                                  | String: iotdb-extractor                | required                          |
-| extractor.pattern                  | path prefix for filtering time series                       | String: any time series prefix             | optional: root                    |
-| extractor.history.enable           | whether to synchronize historical data                                 | Boolean: true, false                   | optional: true                    |
-| extractor.history.start-time       | start of synchronizing historical data event time，Include start-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
-| extractor.history.end-time         | end of synchronizing historical data event time，Include end-time     | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
-| extractor.realtime.enable          | Whether to synchronize realtime data                                 | Boolean: true, false                   | optional: true                    |
+| key                       | value                                                                                                                               | value range                            | required or optional with default |
+|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|-----------------------------------|
+| source                    | iotdb-source                                                                                                                        | String: iotdb-source                   | required                          |
+| source.pattern            | path prefix for filtering time series                                                                                               | String: any time series prefix         | optional: root                    |
+| source.history.start-time | start of synchronizing historical data event time，including start-time                                                              | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
+| source.history.end-time   | end of synchronizing historical data event time，including end-time                                                                  | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
+| start-time(V1.3.1+)       | start of synchronizing all data event time，including start-time. Will disable "history.start-time" "history.end-time" if configured | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
+| end-time(V1.3.1+)         | end of synchronizing all data event time，including end-time. Will disable "history.start-time" "history.end-time" if configured     | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
 
-> 🚫 **extractor.pattern Parameter Description**
+> 🚫 **source.pattern Parameter Description**
 >
 > * Pattern should use backquotes to modify illegal characters or illegal path nodes, for example, if you want to filter root.\`a@b\` or root.\`123\`, you should set the pattern to root.\`a@b\` or root.\`123\`（Refer specifically to [Timing of single and double quotes and backquotes](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
-> * In the underlying implementation, when pattern is detected as root (default value), synchronization efficiency is higher, and any other format will reduce performance.
-> * The path prefix does not need to form a complete path. For example, when creating a pipe with the parameter 'extractor.pattern'='root.aligned.1':
+> * In the underlying implementation, when pattern is detected as root (default value) or a database name, synchronization efficiency is higher, and any other format will reduce performance.
+> * The path prefix does not need to form a complete path. For example, when creating a pipe with the parameter 'source.pattern'='root.aligned.1':
 >
 >   * root.aligned.1TS
 >   * root.aligned.1TS.\`1\`
@@ -288,9 +302,9 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 >
 >   the data will not be synchronized.
 
-> ❗️**start-time, end-time parameter description of extractor.history**
+> ❗️**start-time, end-time parameter description of source**
 >
-> * start-time, end-time should be in ISO format, such as 2011-12-03T10:15:30 or 2011-12-03T10:15:30+01:00
+> * start-time, end-time should be in ISO format, such as 2011-12-03T10:15:30 or 2011-12-03T10:15:30+01:00. Version 1.3.1+ supports timeStamp format like 1706704494000.
 
 > ✅ **a piece of data from production to IoTDB contains two key concepts of time**
 >
@@ -299,50 +313,43 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 >
 > The out-of-order data we often refer to refers to data whose **event time** is far behind the current system time (or the maximum **event time** that has been dropped) when the data arrives. On the other hand, whether it is out-of-order data or sequential data, as long as they arrive newly in the system, their **arrival time** will increase with the order in which the data arrives at IoTDB.
 
-> 💎 **the work of iotdb-extractor can be split into two stages**
+> 💎 **the work of iotdb-source can be split into two stages**
 >
 > 1. Historical data extraction: All data with **arrival time** < **current system time** when creating the pipe is called historical data
 > 2. Realtime data extraction: All data with **arrival time** >= **current system time** when the pipe is created is called realtime data
 >
 > The historical data transmission phase and the realtime data transmission phase are executed serially. Only when the historical data transmission phase is completed, the realtime data transmission phase is executed.**
->
-> Users can specify iotdb-extractor to:
->
-> * Historical data extraction（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'false'` ）
-> * Realtime data extraction（`'extractor.history.enable' = 'false'`, `'extractor.realtime.enable' = 'true'` ）
-> * Full data extraction（`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'true'` ）
-> * Disable simultaneous sets `extractor.history.enable` and `extractor.realtime.enable` to `false`
 
 ### Pre-built Processor Plugin
 
 #### do-nothing-processor
 
-Function: Do not do anything with the events passed in by the extractor.
+Function: Do nothing with the events passed in by the source.
 
 
-| key       | value                | value range               | required or optional with default |
-| --------- | -------------------- | ---------------------------- | --------------------------------- |
+| key       | value                | value range                  | required or optional with default |
+|-----------|----------------------|------------------------------|-----------------------------------|
 | processor | do-nothing-processor | String: do-nothing-processor | required                          |
 
-### pre-connector plugin
+### Pre-built Sink plugin
 
-#### iotdb-thrift-sync-connector(alias:iotdb-thrift-connector)
+#### iotdb-thrift-sync-sink
 
 Function: Primarily used for data transfer between IoTDB instances (v1.2.0+). Data is transmitted using the Thrift RPC framework and a single-threaded blocking IO model. It guarantees that the receiving end applies the data in the same order as the sending end receives the write requests.
 
 Limitation: Both the source and target IoTDB versions need to be v1.2.0+.
 
 
-| key                               | value                                                                       | value range                                                               | required or optional with default                     |
-| --------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------- |
-| connector                         | iotdb-thrift-connector or iotdb-thrift-sync-connector                       | String: iotdb-thrift-connector or iotdb-thrift-sync-connector                | required                                              |
-| connector.ip                      | the data service IP of one of the DataNode nodes in the target IoTDB                            | String                                                                       | optional: and connector.node-urls fill in either one         |
-| connector.port                    | the data service port of one of the DataNode nodes in the target IoTDB                          | Integer                                                                      | optional: and connector.node-urls fill in either one         |
-| connector.node-urls               | the URL of the data service port of any multiple DataNode nodes in the target IoTDB                     | String。eg：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: and connector.ip:connector.port fill in either one |
+| key            | value                                                                               | value range                                                                | required or optional with default                  |
+|----------------|-------------------------------------------------------------------------------------|----------------------------------------------------------------------------|----------------------------------------------------|
+| sink           | iotdb-thrift-sync-sink                                                              | String: iotdb-thrift-sync-sink                                             | required                                           |
+| sink.ip        | the data service IP of one of the DataNode nodes in the target IoTDB                | String                                                                     | optional: and sink.node-urls fill in either one    |
+| sink.port      | the data service port of one of the DataNode nodes in the target IoTDB              | Integer                                                                    | optional: and sink.node-urls fill in either one    |
+| sink.node-urls | the URL of the data service port of any multiple DataNode nodes in the target IoTDB | String。eg：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: and sink.ip:sink.port fill in either one |
 
 > 📌 Please ensure that the receiving end has already created all the time series present in the sending end or has enabled automatic metadata creation. Otherwise, it may result in the failure of the pipe operation.
 
-#### iotdb-thrift-async-connector
+#### iotdb-thrift-async-sink(alias:iotdb-thrift-sink)
 
 Function: Primarily used for data transfer between IoTDB instances (v1.2.0+).
 Data is transmitted using the Thrift RPC framework, employing a multi-threaded async non-blocking IO model, resulting in high transfer performance. It is particularly suitable for distributed scenarios on the target end.
@@ -351,18 +358,18 @@ It does not guarantee that the receiving end applies the data in the same order 
 Limitation: Both the source and target IoTDB versions need to be v1.2.0+.
 
 
-| key                               | value                                                                       | value range                                                               | required or optional with default                     |
-| --------------------------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ----------------------------------------------------- |
-| connector                         | iotdb-thrift-async-connector                                                | String: iotdb-thrift-async-connector                                         | required                                              |
-| connector.ip                      | the data service IP of one of the DataNode nodes in the target IoTDB                            | String                                                                       | optional: and connector.node-urls fill in either one         |
-| connector.port                    | the data service port of one of the DataNode nodes in the target IoTDB                          | Integer                                                                      | optional: and connector.node-urls fill in either one         |
-| connector.node-urls               | the URL of the data service port of any multiple DataNode nodes in the target IoTDB                     | String。eg：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: and connector.ip:connector.port fill in either one |
+| key            | value                                                                               | value range                                                                 | required or optional with default                  |
+|----------------|-------------------------------------------------------------------------------------|-----------------------------------------------------------------------------|----------------------------------------------------|
+| sink           | iotdb-thrift-sink or iotdb-thrift-async-sink                                        | String: iotdb-thrift-sink or iotdb-thrift-async-sink                        | required                                           |
+| sink.ip        | the data service IP of one of the DataNode nodes in the target IoTDB                | String                                                                      | optional: and sink.node-urls fill in either one    |
+| sink.port      | the data service port of one of the DataNode nodes in the target IoTDB              | Integer                                                                     | optional: and sink.node-urls fill in either one    |
+| sink.node-urls | the URL of the data service port of any multiple DataNode nodes in the target IoTDB | String. eg：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | optional: and sink.ip:sink.port fill in either one |
 
 > 📌 Please ensure that the receiving end has already created all the time series present in the sending end or has enabled automatic metadata creation. Otherwise, it may result in the failure of the pipe operation.
 
-#### iotdb-legacy-pipe-connector
+#### iotdb-legacy-pipe-sink
 
-Function: Mainly used to transfer data from IoTDB (v1.2.0+) to lower versions of IoTDB, using the data synchronization (Sync) protocol before version v1.2.0.
+Function: Mainly used to transfer data from IoTDB (v1.2.0+) to versions lower than v1.2.0 of IoTDB, using the data synchronization (Sync) protocol before version v1.2.0.
 Data is transmitted using the Thrift RPC framework. It employs a single-threaded sync blocking IO model, resulting in weak transfer performance.
 
 Limitation: The source IoTDB version needs to be v1.2.0+. The target IoTDB version can be either v1.2.0+, v1.1.x (lower versions of IoTDB are theoretically supported but untested).
@@ -370,40 +377,40 @@ Limitation: The source IoTDB version needs to be v1.2.0+. The target IoTDB versi
 Note: In theory, any version prior to v1.2.0 of IoTDB can serve as the data synchronization (Sync) receiver for v1.2.0+.
 
 
-| key                | value                                                                 | value range                      | required or optional with default |
-| ------------------ | --------------------------------------------------------------------- | ----------------------------------- | --------------------------------- |
-| connector          | iotdb-legacy-pipe-connector                                           | string: iotdb-legacy-pipe-connector | required                          |
-| connector.ip       | data service of one DataNode node of the target IoTDB ip                      | string                              | required                          |
-| connector.port     | the data service port of one of the DataNode nodes in the target IoTDB                    | integer                             | required                          |
-| connector.user     | the user name of the target IoTDB. Note that the user needs to support data writing and TsFile Load permissions. | string                              | optional: root                    |
-| connector.password | the password of the target IoTDB. Note that the user needs to support data writing and TsFile Load permissions.   | string                              | optional: root                    |
-| connector.version  | the version of the target IoTDB, used to disguise its actual version and bypass the version consistency check of the target. | string                              | optional: 1.1                     |
+| key           | value                                                                                                                        | value range                    | required or optional with default |
+|---------------|------------------------------------------------------------------------------------------------------------------------------|--------------------------------|-----------------------------------|
+| sink          | iotdb-legacy-pipe-sink                                                                                                       | string: iotdb-legacy-pipe-sink | required                          |
+| sink.ip       | data service of one DataNode node of the target IoTDB ip                                                                     | string                         | required                          |
+| sink.port     | the data service port of one of the DataNode nodes in the target IoTDB                                                       | integer                        | required                          |
+| sink.user     | the user name of the target IoTDB. Note that the user needs to support data writing and TsFile Load permissions.             | string                         | optional: root                    |
+| sink.password | the password of the target IoTDB. Note that the user needs to support data writing and TsFile Load permissions.              | string                         | optional: root                    |
+| sink.version  | the version of the target IoTDB, used to disguise its actual version and bypass the version consistency check of the target. | string                         | optional: 1.1                     |
 
 > 📌 Make sure that the receiver has created all the time series on the sender side, or that automatic metadata creation is turned on, otherwise the pipe run will fail.
 
-#### do-nothing-connector
+#### do-nothing-sink
 
-Function: Does not do anything with the events passed in by the processor.
+Function: Does nothing with the events passed in by the processor.
 
-
-| key       | value                | value range               | required or optional with default |
-| --------- | -------------------- | ---------------------------- | --------------------------------- |
-| connector | do-nothing-connector | String: do-nothing-connector | required                          |
+| key  | value           | value 取值范围              | required or optional with default |
+|------|-----------------|-------------------------|-----------------------------------|
+| sink | do-nothing-sink | String: do-nothing-sink | required                          |
 
 ## Authority Management
 
-| Authority Name    | Description                 |
-| ----------- | -------------------- |
-| CREATE_PIPE | Register task,path-independent |
-| START_PIPE  | Start task,path-independent |
-| STOP_PIPE   | Stop task,path-independent |
-| DROP_PIPE   | Uninstall task,path-independent |
-| SHOW_PIPES  | Query task,path-independent |
+| Authority Name | Description                     |
+|----------------|---------------------------------|
+| USE_PIPE       | Register task,path-independent  |
+| USE_PIPE       | Start task,path-independent     |
+| USE_PIPE       | Stop task,path-independent      |
+| USE_PIPE       | Uninstall task,path-independent |
+| USE_PIPE       | Query task,path-independent     |
 
 ## Configure Parameters
 
 In iotdb-common.properties ：
 
+V1.3.0:
 ```Properties
 ####################
 ### Pipe Configuration
@@ -433,6 +440,36 @@ In iotdb-common.properties ：
 
 # The maximum number of clients that can be used in the async connector.
 # pipe_async_connector_max_client_number=16
+```
+
+V1.3.1+:
+```Properties
+####################
+### Pipe Configuration
+####################
+
+# Uncomment the following field to configure the pipe lib directory.
+# For Windows platform
+# If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is
+# absolute. Otherwise, it is relative.
+# pipe_lib_dir=ext\\pipe
+# For Linux platform
+# If its prefix is "/", then the path is absolute. Otherwise, it is relative.
+# pipe_lib_dir=ext/pipe
+
+# The maximum number of threads that can be used to execute the pipe subtasks in PipeSubtaskExecutor.
+# The actual value will be min(pipe_subtask_executor_max_thread_num, max(1, CPU core number / 2)).
+# pipe_subtask_executor_max_thread_num=5
+
+# The connection timeout (in milliseconds) for the thrift client.
+# pipe_sink_timeout_ms=900000
+
+# The maximum number of selectors that can be used in the sink.
+# Recommend to set this value to less than or equal to pipe_sink_max_client_number.
+# pipe_sink_selector_number=4
+
+# The maximum number of clients that can be used in the sink.
+# pipe_sink_max_client_number=16
 ```
 
 ## Functionality Features

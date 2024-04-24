@@ -89,18 +89,20 @@ OR, |, ||
 
 ### 聚合函数
 
-| 函数名      | 功能描述                                                     | 允许的输入类型           | 输出类型       |
-| ----------- | ------------------------------------------------------------ | ------------------------ | -------------- |
-| SUM         | 求和。                                                       | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
-| COUNT       | 计算数据点数。                                               | 所有类型                 | INT            |
-| AVG         | 求平均值。                                                   | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
-| EXTREME     | 求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。 | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
-| MAX_VALUE   | 求最大值。                                                   | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
-| MIN_VALUE   | 求最小值。                                                   | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
-| FIRST_VALUE | 求时间戳最小的值。                                           | 所有类型                 | 与输入类型一致 |
-| LAST_VALUE  | 求时间戳最大的值。                                           | 所有类型                 | 与输入类型一致 |
-| MAX_TIME    | 求最大时间戳。                                               | 所有类型                 | Timestamp      |
-| MIN_TIME    | 求最小时间戳。                                               | 所有类型                 | Timestamp      |
+| 函数名         | 功能描述                                                                       | 允许的输入类型           | 输出类型       |
+|-------------|----------------------------------------------------------------------------| ------------------------ | -------------- |
+| SUM         | 求和。                                                                        | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
+| COUNT       | 计算数据点数。                                                                    | 所有类型                 | INT            |
+| AVG         | 求平均值。                                                                      | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
+| EXTREME     | 求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。                                          | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
+| MAX_VALUE   | 求最大值。                                                                      | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
+| MIN_VALUE   | 求最小值。                                                                      | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
+| FIRST_VALUE | 求时间戳最小的值。                                                                  | 所有类型                 | 与输入类型一致 |
+| LAST_VALUE  | 求时间戳最大的值。                                                                  | 所有类型                 | 与输入类型一致 |
+| MAX_TIME    | 求最大时间戳。                                                                    | 所有类型                 | Timestamp      |
+| MIN_TIME    | 求最小时间戳。                                                                    | 所有类型                 | Timestamp      |
+| MAX_BY      | MAX_BY(x, y) 求二元输入 x 和 y 在 y 最大时对应的 x 的值。MAX_BY(time, x) 返回 x 取最大值时对应的时间戳。 | 第一个输入 x 可以是任意类型，第二个输入 y 只能是 INT32 INT64 FLOAT DOUBLE  |  与第一个输入 x 的数据类型一致 |
+| MIN_BY      | MIN_BY(x, y) 求二元输入 x 和 y 在 y 最小时对应的 x 的值。MIN_BY(time, x) 返回 x 取最小值时对应的时间戳。 | 第一个输入 x 可以是任意类型，第二个输入 y 只能是 INT32 INT64 FLOAT DOUBLE  |  与第一个输入 x 的数据类型一致 |
 
 详细说明及示例见文档 [聚合函数](../Reference/Function-and-Expression.md#聚合函数)。
 

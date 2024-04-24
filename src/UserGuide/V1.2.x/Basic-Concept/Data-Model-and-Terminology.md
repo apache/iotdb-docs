@@ -37,7 +37,7 @@ It is information measured by detection equipment in an actual scene and can tra
 
 ### Entity (Also called device)
 
-**An entity** is an equipped with measurements in real scenarios. In IoTDB, all measurements should have their corresponding entities.
+**An entity** is an equipped with measurements in real scenarios. In IoTDB, all measurements should have their corresponding entities. Entities do not need to be created manually, the default is the second last layer.
 
 ### Database
 

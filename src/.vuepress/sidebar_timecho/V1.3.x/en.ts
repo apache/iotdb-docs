@@ -93,6 +93,7 @@ export const enSidebar = {
         { text: 'Database Programming', link: 'Database-Programming' },
         { text: 'Security Management', link: 'Security-Management_timecho' },
         { text: 'Authority Management', link: 'Authority-Management' },
+        { text: 'Maintennance', link: 'Maintennance' },
       ],
     },
     {
@@ -172,6 +173,7 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'UDF Libraries', link: 'UDF-Libraries' },
+        { text: 'Function and Expression', link: 'Function-and-Expression' },
         { text: 'Common Config Manual', link: 'Common-Config-Manual' },
         { text: 'ConfigNode Config Manual', link: 'ConfigNode-Config-Manual' },
         { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual' },

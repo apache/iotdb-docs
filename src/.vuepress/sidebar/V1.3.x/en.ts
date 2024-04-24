@@ -89,6 +89,7 @@ export const enSidebar = {
         { text: 'Data Sync', link: 'Data-Sync' },
         { text: 'Database Programming', link: 'Database-Programming' },
         { text: 'Authority Management', link: 'Authority-Management' },
+        { text: 'Maintennance', link: 'Maintennance' },
       ],
     },
     {
@@ -167,6 +168,7 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'UDF Libraries', link: 'UDF-Libraries' },
+        { text: 'Function and Expression', link: 'Function-and-Expression' },
         { text: 'Common Config Manual', link: 'Common-Config-Manual' },
         { text: 'Status Codes', link: 'Status-Codes' },
         { text: 'Keywords', link: 'Keywords' },

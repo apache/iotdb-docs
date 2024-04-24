@@ -1,38 +1,24 @@
-/*
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
- */
-
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
-// eslint-disable-next-line import/no-named-default
-import { default as docsearch } from '@docsearch/js';
-import { usePageLang, useRouteLocale, usePageData } from '@vuepress/client';
-import { isArray } from '@vuepress/shared';
-import {
-  computed, defineComponent, h, onMounted, watch,
-} from 'vue';
 import type { PropType } from 'vue';
+import {
+  computed, defineComponent, h, onMounted, ref, watch,
+} from 'vue';
+import { usePageLang, useRouteLocale, usePageData } from 'vuepress/client';
 import type { DocsearchOptions } from '../../shared/index.js';
-import { useDocsearchShim } from '../composables/index.js';
+import {
+  useDocsearchHotkeyListener,
+  useDocsearchShim,
+} from '../composables/index.js';
+import { useDocSearchOptions } from '../helpers/index.js';
+import {
+  getFacetFilters,
+  getSearchButtonTemplate,
+  pollToOpenDocsearch,
+  preconnectToAlgolia,
+} from '../utils/index.js';
 
 declare const __DOCSEARCH_INJECT_STYLES__: boolean;
-declare const __DOCSEARCH_OPTIONS__: DocsearchOptions;
-const options = __DOCSEARCH_OPTIONS__;
 const defaultBranch = 'latest';
 
 if (__DOCSEARCH_INJECT_STYLES__) {
@@ -46,27 +32,23 @@ export const Docsearch = defineComponent({
   props: {
     containerId: {
       type: String,
-      required: false,
       default: 'docsearch-container',
     },
     options: {
       type: Object as PropType<DocsearchOptions>,
-      required: false,
-      default: () => options,
+      default: () => ({}),
     },
   },
 
   setup(props) {
-    const routeLocale = useRouteLocale();
-    const lang = usePageLang();
+    const docSearchOptions = useDocSearchOptions();
     const docsearchShim = useDocsearchShim();
+    const lang = usePageLang();
+    const routeLocale = useRouteLocale();
     const pageData = usePageData();
 
-    // resolve docsearch options for current locale
-    const optionsLocale = computed(() => ({
-      ...props.options,
-      ...props.options.locales?.[routeLocale.value],
-    }));
+    const hasInitialized = ref(false);
+    const hasTriggered = ref(false);
 
     const getDocVersion = (branch = 'latest', path = '') => {
       if (path.indexOf('UserGuide/Master') > -1 || path.indexOf('UserGuide') === -1) {
@@ -80,77 +62,75 @@ export const Docsearch = defineComponent({
       return branch;
     };
 
-    const facetFilters: string[] = [];
+    const version = computed(() => getDocVersion(defaultBranch, pageData.value.path));
 
-    const initialize = (): void => {
-      const rawFacetFilters = optionsLocale.value.searchParameters?.facetFilters ?? [];
-      facetFilters.splice(
-        0,
-        facetFilters.length,
-        `lang:${lang.value}`,
-        `version:${getDocVersion(defaultBranch, pageData.value.path)}`,
-        ...(isArray(rawFacetFilters) ? rawFacetFilters : [rawFacetFilters]),
-      );
-      // @ts-expect-error: https://github.com/microsoft/TypeScript/issues/50690
-      docsearch({
-        ...docsearchShim,
-        ...optionsLocale.value,
-        container: `#${props.containerId}`,
-        searchParameters: {
-          ...optionsLocale.value.searchParameters,
-          facetFilters,
-        },
-      });
-    };
+    // resolve docsearch options for current locale
+    const docsearchOptions = computed(() => {
+      const { locales = {}, ...options } = props.options;
 
-    onMounted(() => {
-      initialize();
-
-      // re-initialize if the options is changed
-      watch(
-        [routeLocale, optionsLocale],
-        (
-          [curRouteLocale, curPropsLocale],
-          [prevRouteLocale, prevPropsLocale],
-        ) => {
-          if (curRouteLocale === prevRouteLocale) return;
-          if (
-            JSON.stringify(curPropsLocale) !== JSON.stringify(prevPropsLocale)
-          ) {
-            initialize();
-          }
-        },
-      );
-
-      // modify the facetFilters in place to avoid re-initializing docsearch
-      // when page lang is changed
-      watch(lang, (curLang, prevLang) => {
-        if (curLang !== prevLang) {
-          const prevIndex = facetFilters.findIndex(
-            (item) => item === `lang:${prevLang}`,
-          );
-          if (prevIndex > -1) {
-            facetFilters.splice(prevIndex, 1, `lang:${curLang}`);
-          }
-        }
-      });
-
-      watch(pageData, (cur, prev) => {
-        const newVersion = getDocVersion(defaultBranch, cur.path);
-        const oldVersion = getDocVersion(defaultBranch, prev.path);
-        if (newVersion !== oldVersion) {
-          const prevIndex = facetFilters.findIndex(
-            (item) => item === `version:${oldVersion}`,
-          );
-          if (prevIndex > -1) {
-            facetFilters.splice(prevIndex, 1, `version:${newVersion}`);
-          } else {
-            facetFilters.push(`version:${newVersion}`);
-          }
-        }
-      });
+      return {
+        ...docSearchOptions.value,
+        ...options,
+        ...locales[routeLocale.value],
+      };
     });
 
-    return () => h('div', { id: props.containerId });
+    /**
+     * Import docsearch js and initialize
+     */
+    const initialize = async (): Promise<void> => {
+      const { default: docsearch } = await import('@docsearch/js');
+      docsearch({
+        ...docsearchShim,
+        ...docsearchOptions.value,
+        container: `#${props.containerId}`,
+        searchParameters: {
+          ...docsearchOptions.value.searchParameters,
+          facetFilters: getFacetFilters(
+            docsearchOptions.value.searchParameters?.facetFilters,
+            lang.value,
+            version.value,
+          ),
+        },
+      });
+      // mark as initialized
+      hasInitialized.value = true;
+    };
+
+    /**
+     * Trigger docsearch initialization and open it
+     */
+    const trigger = (): void => {
+      if (hasTriggered.value || hasInitialized.value) return;
+      // mark as triggered
+      hasTriggered.value = true;
+      // initialize and open
+      initialize();
+      pollToOpenDocsearch();
+      // re-initialize when route locale changes
+      watch(routeLocale, initialize);
+      watch(() => version.value, initialize);
+    };
+
+    // trigger when hotkey is pressed
+    useDocsearchHotkeyListener(trigger);
+
+    // preconnect to algolia
+    onMounted(() => preconnectToAlgolia(docsearchOptions.value.appId));
+
+    return () => [
+      h('div', {
+        id: props.containerId,
+        style: { display: hasInitialized.value ? 'block' : 'none' },
+      }),
+      hasInitialized.value
+        ? null
+        : h('div', {
+          onClick: trigger,
+          innerHTML: getSearchButtonTemplate(
+            docsearchOptions.value.translations?.button,
+          ),
+        }),
+    ];
   },
 });

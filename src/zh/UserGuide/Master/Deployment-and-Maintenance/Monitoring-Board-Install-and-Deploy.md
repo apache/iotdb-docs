@@ -19,32 +19,77 @@
 
 -->
 
-# 监控面板安装部署
-从 Apache IoTDB 1.0 版本开始，我们引入了系统监控模块，可以完成对 Apache IoTDB 的重要运行指标进行监控，本文介绍了如何在 Apache IoTDB 分布式开启系统监控模块，并且使用 Prometheus  + Grafana 的方式完成对系统监控指标的可视化。
+# 1. 监控面板安装部署
+从 IoTDB 1.0 版本开始，我们引入了系统监控模块，可以完成对 IoTDB 的重要运行指标进行监控，本文介绍了如何在 IoTDB 分布式开启系统监控模块，并且使用 Prometheus  + Grafana 的方式完成对系统监控指标的可视化。
 
-## 前期准备
+## 1.1 前期准备
 
-### 软件要求
+### 1.1.1 软件要求
 
-1. Apache IoTDB：1.0 版本及以上，可以前往官网下载：https://iotdb.apache.org/Download/
+1. IoTDB：1.0 版本及以上，可以前往官网下载：https://iotdb.apache.org/Download/
 2. Prometheus：2.30.3 版本及以上，可以前往官网下载：https://prometheus.io/download/
 3. Grafana：8.4.2 版本及以上，可以前往官网下载：https://grafana.com/grafana/download
-4. IoTDB-Grafana安装包：Grafana看板为TimechoDB（基于IoTDB的企业版数据库）工具，您可联系您的销售获取相关安装包
+4. IoTDB 监控面板：基于企业版IoTDB的数据库监控面板，您可联系商务获取
 
-### 集群要求
+
+### 1.1.2 启动 ConfigNode
+> 本文以 3C3D 为例
+
+1. 进入`iotdb-enterprise-1.3.x.x-bin`包
+2. 修改配置文件`conf/iotdb-confignode.properties`，修改如下配置，其他配置保持不变：
+
+```properties
+cn_metric_reporter_list=PROMETHEUS
+cn_metric_level=IMPORTANT
+cn_metric_prometheus_reporter_port=9091
+```
+
+3. 运行脚本启动 ConfigNode：`./sbin/start-confignode.sh`，出现如下提示则为启动成功：
+
+![](https://spricoder.oss-cn-shanghai.aliyuncs.com/Apache%20IoTDB/metric/cluster-introduce/1.png)
+
+4. 在浏览器进入http://localhost:9091/metrics网址，可以查看到如下的监控项信息：
+
+![](https://spricoder.oss-cn-shanghai.aliyuncs.com/Apache%20IoTDB/metric/cluster-introduce/2.png)
+
+5. 同样地，另外两个 ConfigNode 节点可以分别配置到 9092 和 9093 端口。
+
+### 1.1.3 启动 DataNode
+1. 进入`iotdb-enterprise-1.3.x.x-bin`包
+2. 修改配置文件`conf/iotdb-datanode.properties`，修改如下配置，其他配置保持不变：
+
+```properties
+dn_metric_reporter_list=PROMETHEUS
+dn_metric_level=IMPORTANT
+dn_metric_prometheus_reporter_port=9094
+```
+
+3. 运行脚本启动 DataNode：`./sbin/start-datanode.sh`，出现如下提示则为启动成功：
+
+![](https://spricoder.oss-cn-shanghai.aliyuncs.com/Apache%20IoTDB/metric/cluster-introduce/3.png)
+
+4. 在浏览器进入`http://localhost:9094/metrics`网址，可以查看到如下的监控项信息：
+
+![](https://spricoder.oss-cn-shanghai.aliyuncs.com/Apache%20IoTDB/metric/cluster-introduce/4.png)
+
+5. 同样地，另外两个 DataNode 可以配置到 9095 和 9096 端口。
+
+### 1.1.4 说明
 
 进行以下操作前请确认IoTDB集群已启动。
 
-### 说明
-
-本文将在一台机器（1 个 ConfigNode 和 1 个 DataNode）环境上进行监控面板搭建，其他集群配置是类似的，用户可以根据自己的集群情况（ConfigNode 和 DataNode 的数量）进行配置调整。本文搭建的集群的基本配置信息如下表所示。
+本文将在一台机器（3 个 ConfigNode 和 3 个 DataNode）环境上进行监控面板搭建，其他集群配置是类似的，用户可以根据自己的集群情况（ConfigNode 和 DataNode 的数量）进行配置调整。本文搭建的集群的基本配置信息如下表所示。
 
 | 集群角色   | 节点IP    | 监控模块推送器 | 监控模块级别 | 监控 Port |
 | ---------- | --------- | -------------- | ------------ | --------- |
 | ConfigNode | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9091      |
-| DataNode   | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9093      |
+| ConfigNode | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9092      |
+| ConfigNode | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9093      |
+| DataNode   | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9094      |
+| DataNode   | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9095      |
+| DataNode   | 127.0.0.1 | PROMETHEUS     | IMPORTANT    | 9096      |
 
-## 配置 Prometheus 采集监控指标
+## 1.2 配置 Prometheus 采集监控指标
 
 1. 下载安装包。下载Prometheus的二进制包到本地，解压后进入对应文件夹：
 
@@ -67,11 +112,11 @@ scrape_configs:
     - targets: ["localhost:9090"]
   - job_name: "confignode"
     static_configs:
-    - targets: ["localhost:9091"]
+    - targets: ["localhost:9091", "localhost:9092", "localhost:9093"]
     honor_labels: true
   - job_name: "datanode"
     static_configs:
-    - targets: ["localhost:9093"]
+    - targets: ["localhost:9094", "localhost:9095", "localhost:9096"]
     honor_labels: true
 ```
 
@@ -86,11 +131,9 @@ scrape_configs:
 ![](https://alioss.timecho.com/docs/img/1a.PNG)
 ![](https://alioss.timecho.com/docs/img/2a.PNG)
 
+## 1.3 使用 Grafana 查看监控数据
 
-
-## 使用 Grafana 查看监控数据
-
-### Step1：Grafana 安装、配置与启动
+### 1.3.1 Step1：Grafana 安装、配置与启动
 
 1. 下载Grafana的二进制包到本地，解压后进入对应文件夹：
 
@@ -114,7 +157,7 @@ cd grafana-*
 
 ![](https://alioss.timecho.com/docs/img/4a.png)
 
-### Step2：使用IoTDB官方提供的Grafana看板
+### 1.3.2 Step2：导入 IoTDB 监控看板
 
 1. 进入 Grafana，选择 Dashboards 的 Browse
 
@@ -126,24 +169,31 @@ cd grafana-*
 
 3. 选择一种方式导入 Dashboard
    a. 上传本地已下载的 Dashboard 的 Json 文件
-   b. 输入 Grafana 官网获取到的 Dashboard 的 URL 或者 ID
-   c. 将 Dashboard 的 Json 文件内容直接粘贴进入
+   b. 将 Dashboard 的 Json 文件内容直接粘贴进入
 
 ![](https://alioss.timecho.com/docs/img/7a.png)
 
-4. 选择 Dashboard 的 Prometheus 为刚刚配置好的 Data Source，然后点击 Import
+1. 选择 Dashboard 的 Prometheus 为刚刚配置好的 Data Source，然后点击 Import
 
 ![](https://alioss.timecho.com/docs/img/8a.png)
 
-5. 之后进入 Dashboard，选择 job 为 ConfigNode，就看到如下的监控面板
+5. 之后进入 Apache ConfigNode Dashboard，就看到如下的监控面板
 
-![](https://alioss.timecho.com/docs/img/9a.png)
+![](https://alioss.timecho.com/docs/img/confignode.png)
 
-6. 同样地，我们可以导入 Apache DataNode Dashboard，选择 job 为 DataNode，就看到如下的监控面板：
+6. 同样，我们可以导入 Apache DataNode Dashboard，看到如下的监控面板：
 
-![](https://alioss.timecho.com/docs/img/10a.pngA)
+![](https://alioss.timecho.com/docs/img/datanode.png)
 
-### Step3：创建新的 Dashboard 进行数据可视化
+7. 同样，我们可以导入 Apache Performance Overview Dashboard，看到如下的监控面板：
+
+![](https://alioss.timecho.com/docs/img/performance.png)
+
+8. 同样，我们可以导入 Apache System Overview Dashboard，看到如下的监控面板：
+
+![](https://alioss.timecho.com/docs/img/system.png)
+
+### 1.3.3 Step3：创建新的 Dashboard 进行数据可视化
 
 1. 首先创建Dashboard，然后创建Panel
 

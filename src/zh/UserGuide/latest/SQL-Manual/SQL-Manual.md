@@ -1023,8 +1023,15 @@ select * into ::(backup_${4}) from root.sg.** align by device;
 
 select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
 ```
-
-
+## 运维语句
+生成对应的查询计划
+```
+explain select s1,s2 from root.sg.d1
+```
+执行对应的查询语句，并获取分析结果
+```
+explain analyze select s1,s2 from root.sg.d1 order by s1
+```
 ## 运算符
 
 更多见文档[Operator-and-Expression](../Reference/Function-and-Expression.md#算数运算符和函数)

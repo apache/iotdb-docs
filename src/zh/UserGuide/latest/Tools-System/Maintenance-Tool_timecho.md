@@ -65,12 +65,10 @@ iotdbctl cluster check example
 IoTDB集群管理工具主要由config、logs、doc、sbin目录组成。
 
 * `config`存放要部署的集群配置文件如果要使用集群部署工具需要修改里面的yaml文件。
-
 * `logs` 存放部署工具日志，如果想要查看部署工具执行日志请查看`logs/iotd_yyyy_mm_dd.log`。
-
 * `sbin` 存放集群部署工具所需的二进制包。
-
 * `doc` 存放用户手册、开发手册和推荐部署手册。
+
 
 ### 集群配置文件介绍
 
@@ -125,6 +123,7 @@ IOTDB_JMX_OPTS="$IOTDB_JMX_OPTS -XX:MaxGCPauseMillis=200"
 | iotdb-common.properties     | 对应`iotdb/config/iotdb-common.properties`在`global`与`confignode_servers`同时配置值优先使用confignode\_servers中的值                                                                      | 非必填  |
 
 * datanode_servers 是部署IoTDB Datanodes配置，里面可以配置多个Datanode
+
 
 | 参数                        | 说明                                                                                                                                                                   |是否必填|
 |---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|--- |

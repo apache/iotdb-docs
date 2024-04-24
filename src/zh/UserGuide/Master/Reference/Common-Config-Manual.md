@@ -227,15 +227,6 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 #### 内存控制配置
 
-* enable\_mem\_control
-
-|     名字     | enable\_mem\_control     |
-| :----------: | :----------------------- |
-|     描述     | 开启内存控制，避免爆内存 |
-|     类型     | Boolean                  |
-|    默认值    | true                     |
-| 改后生效方式 | 重启服务生效             |
-
 * datanode\_memory\_proportion
 
 |名字| datanode\_memory\_proportion           |
@@ -271,15 +262,6 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |类型| Ratio                                |
 |默认值| 19:1                                 |
 |改后生效方式| 重启服务生效                               |
-
-* concurrent\_writing\_time\_partition
-
-|名字| concurrent\_writing\_time\_partition                  |
-|:---:|:------------------------------------------------------|
-|描述| 最大可同时写入的时间分区个数，默认1个分区, enable\_mem\_control=false 时有效 |
-|类型| Int64                                                 |
-|默认值| 1                                                     |
-|改后生效方式| 重启服务生效                                                |
 
 * primitive\_array\_size
 
@@ -459,29 +441,20 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 * integer\_string\_infer\_type
 
 |     名字     | integer\_string\_infer\_type      |
-| :----------: | :-------------------------------- |
-|     描述     | 整型字符串推断的数据类型          |
+| :----------: |:----------------------------------|
+|     描述     | 整型字符串推断的数据类型                      |
 |     取值     | INT32, INT64, FLOAT, DOUBLE, TEXT |
-|    默认值    | FLOAT                             |
-| 改后生效方式 | 重启服务生效                      |
-
-* long\_string\_infer\_type
-
-|     名字     | long\_string\_infer\_type                |
-| :----------: | :--------------------------------------- |
-|     描述     | 大于 2 ^ 24 的整形字符串被推断的数据类型 |
-|     取值     | DOUBLE, FLOAT or TEXT                    |
-|    默认值    | DOUBLE                                   |
-| 改后生效方式 | 重启服务生效                             |
+|    默认值    | DOUBLE                            |
+| 改后生效方式 | 重启服务生效                            |
 
 * floating\_string\_infer\_type
 
 |     名字     | floating\_string\_infer\_type |
-| :----------: | :---------------------------- |
-|     描述     | "6.7"等字符串被推断的数据类型 |
+| :----------: |:------------------------------|
+|     描述     | "6.7"等字符串被推断的数据类型             |
 |     取值     | DOUBLE, FLOAT or TEXT         |
-|    默认值    | FLOAT                         |
-| 改后生效方式 | 重启服务生效                  |
+|    默认值    | DOUBLE                        |
+| 改后生效方式 | 重启服务生效                        |
 
 * nan\_string\_infer\_type
 
@@ -710,16 +683,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     描述     | 当插入请求等待超过这个时间，则抛出异常，单位 ms                 |
 |     类型     | Int32                                     |
 |    默认值    | 10000                                     |
-| 改后生效方式 | 重启服务生效                                 |   
-
-* enable\_discard\_out\_of\_order\_data
-
-|     名字     | enable\_discard\_out\_of\_order\_data |
-| :----------: |:--------------------------------------|
-|     描述     | 是否支持写入乱序数据                            |
-|     类型     | Boolean                               |
-|    默认值    | false                                 |
-| 改后生效方式 | 重启服务生效                                |
+| 改后生效方式 | 重启服务生效                                 |
 
 * handle\_system\_error
 
@@ -729,15 +693,6 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     类型     | String                 |
 |    默认值    | CHANGE\_TO\_READ\_ONLY |
 | 改后生效方式 | 重启服务生效                 |
-
-* memtable\_size\_threshold
-
-|     名字     | memtable\_size\_threshold                          |
-| :----------: | :------------------------------------------------- |
-|     描述     | 内存缓冲区 memtable 阈值                           |
-|     类型     | Long                                               |
-|    默认值    | 1073741824                                         |
-| 改后生效方式 | enable\_mem\_control 为 false 时生效、重启服务生效 |
 
 * enable\_timed\_flush\_seq\_memtable
 

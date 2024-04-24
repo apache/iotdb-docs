@@ -37,7 +37,7 @@ It is information measured by detection equipment in an actual scene and can tra
 
 ### Entity (Also called device)
 
-**An entity** is an equipped with measurements in real scenarios. In IoTDB, all measurements should have their corresponding entities.
+**An entity** is an equipped with measurements in real scenarios. In IoTDB, all measurements should have their corresponding entities. Entities do not need to be created manually, the default is the second last layer.
 
 ### Database
 
@@ -142,6 +142,6 @@ In the following chapters of data definition language, data operation language a
 
 ## Schema Template
 
-In the actual scenario, many entities collect the same measurements, that is, they have the same measurements name and type. A **schema template** can be declared to define the collectable measurements set. Schema template helps save memory by implementing schema sharing. For detailed description, please refer to [Schema Template doc](./Schema-Template.md).
+In the actual scenario, many entities collect the same measurements, that is, they have the same measurements name and type. A **schema template** can be declared to define the collectable measurements set. Schema template helps save memory by implementing schema sharing. For detailed description, please refer to [Schema Template doc](../User-Manual/Operate-Metadata.md#Device-Template).
 
 In the following chapters of, data definition language, data operation language and Java Native Interface, various operations related to schema template will be introduced one by one.
