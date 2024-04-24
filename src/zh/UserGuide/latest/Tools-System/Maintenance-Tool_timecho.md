@@ -93,6 +93,8 @@ IoTDB集群管理工具主要由config、logs、doc、sbin目录组成。
 | password                | ssh登录的密码, 如果password未指定使用pkey登陆, 请确保已配置节点之间ssh登录免密钥                                                                                                                         | 非必填  |
 | pkey                    | 密钥登陆如果password有值优先使用password否则使用pkey登陆                                                                                                                                      | 非必填  |
 | ssh\_port               | ssh登录端口                                                                                                                                                                     | 必填   |
+| iotdb\_admin_user       | iotdb服务用户名默认root                                                                                                                                                           | 非必填  |
+| iotdb\_admin_password   | iotdb服务密码默认root                                                                                                                                                                 | 非必填  |
 | deploy\_dir             | IoTDB 部署目录，会把 IoTDB 部署到该目录下面与下面的`iotdb_dir_name`参数构成完整的IoTDB 部署目录即 `<deploy_dir>/<iotdb_dir_name>`                                                                          | 必填   |
 | iotdb\_dir\_name        | IoTDB 解压后的目录名称默认是iotdb                                                                                                                                                      | 非必填  |
 | datanode-env.sh         | 对应`iotdb/config/datanode-env.sh`   ,在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值                                                                         | 非必填  |
@@ -277,27 +279,30 @@ iotdbctl cluster deploy default_cluster
 
 * 集群的功能及参数列表如下：
 
-| 命令              | 功能                         | 参数                                                                                                                      |
-|-----------------|----------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| check           | 检测集群是否可以部署                 | 集群名称列表                                                                                                                  |
-| clean           | 清理集群                       | 集群名称                                                                                                                    |
-| deploy/dist-all | 部署集群                       | 集群名称 ,-N,模块名称(iotdb、grafana、prometheus可选),-op force(可选)                                                                 |
-| list            | 打印集群及状态列表                  | 无                                                                                                                       |
-| start           | 启动集群                       | 集群名称,-N,节点名称(nodename、grafana、prometheus可选)                                                                                               |
-| stop            | 关闭集群                       | 集群名称,-N,节点名称(nodename、grafana、prometheus可选) ,-op force(nodename、grafana、prometheus可选)                                                                                         |
-| restart         | 重启集群                       | 集群名称,-N,节点名称(nodename、grafana、prometheus可选),-op force(nodename、grafana、prometheus可选)                                                                                          |
-| show            | 查看集群信息，details字段表示展示集群信息细节 | 集群名称, details(可选)                                                                                                       |
-| destroy         | 销毁集群                       | 集群名称,-N,模块名称(iotdb、grafana、prometheus可选)                                                                                |
-| scaleout        | 集群扩容                       | 集群名称                                                                                                                    |
-| scalein         | 集群缩容                       | 集群名称，-N，集群节点名字或集群节点ip+port                                                                                              |
-| reload          | 集群热加载                      | 集群名称                                                                                                                    |
-| dist-conf       | 集群配置文件分发                   | 集群名称                                                                                                                    |
+| 命令              | 功能                         | 参数                                                                                                                  |
+|-----------------|----------------------------|---------------------------------------------------------------------------------------------------------------------|
+| check           | 检测集群是否可以部署                 | 集群名称列表                                                                                                              |
+| clean           | 清理集群                       | 集群名称                                                                                                                |
+| deploy/dist-all | 部署集群                       | 集群名称 ,-N,模块名称(iotdb、grafana、prometheus可选),-op force(可选)                                                             |
+| list            | 打印集群及状态列表                  | 无                                                                                                                   |
+| start           | 启动集群                       | 集群名称,-N,节点名称(nodename、grafana、prometheus可选)                                                                         |
+| stop            | 关闭集群                       | 集群名称,-N,节点名称(nodename、grafana、prometheus可选) ,-op force(nodename、grafana、prometheus可选)                               |
+| restart         | 重启集群                       | 集群名称,-N,节点名称(nodename、grafana、prometheus可选),-op force(强制停止)/rolling(滚动重启)                                           |
+| show            | 查看集群信息，details字段表示展示集群信息细节 | 集群名称, details(可选)                                                                                                   |
+| destroy         | 销毁集群                       | 集群名称,-N,模块名称(iotdb、grafana、prometheus可选)                                                                            |
+| scaleout        | 集群扩容                       | 集群名称                                                                                                                |
+| scalein         | 集群缩容                       | 集群名称，-N，集群节点名字或集群节点ip+port                                                                                          |
+| reload          | 集群热加载                      | 集群名称                                                                                                                |
+| dist-conf       | 集群配置文件分发                   | 集群名称                                                                                                                |
 | dumplog         | 备份指定集群日志                   | 集群名称,-N,集群节点名字 -h 备份至目标机器ip -pw 备份至目标机器密码 -p 备份至目标机器端口 -path 备份的目录 -startdate 起始时间 -enddate 结束时间 -loglevel 日志类型 -l 传输速度 |
-| dumpdata        | 备份指定集群数据                   | 集群名称, -h 备份至目标机器ip -pw 备份至目标机器密码 -p 备份至目标机器端口 -path 备份的目录 -startdate 起始时间 -enddate 结束时间  -l 传输速度                        |
-| dist-lib        | lib 包升级                    | 集群名字(升级完后请重启)                                                                                                           |
-| init            | 已有集群使用集群部署工具时，初始化集群配置      | 集群名字，初始化集群配置                                                                                                            |
-| status          | 查看进程状态                     | 集群名字                                                                                                                    |
-| acitvate        | 激活集群                       | 集群名字                                                                                                                    |
+| dumpdata        | 备份指定集群数据                   | 集群名称, -h 备份至目标机器ip -pw 备份至目标机器密码 -p 备份至目标机器端口 -path 备份的目录 -startdate 起始时间 -enddate 结束时间  -l 传输速度                    |
+| dist-lib        | lib 包升级                    | 集群名字(升级完后请重启)                                                                                                       |
+| init            | 已有集群使用集群部署工具时，初始化集群配置      | 集群名字，初始化集群配置                                                                                                        |
+| status          | 查看进程状态                     | 集群名字                                                                                                                |
+| acitvate        | 激活集群                       | 集群名字                                                                                                                |
+| dist-plugin     | 上传plugin(udf,trigger,pipe)到集群 | 集群名字,-type 类型 U(udf)/T(trigger)/P(pipe) -file /xxxx/trigger.jar,上传完成后需手动执行创建udf、pipe、trigger命令                      |
+| upgrade         | 滚动升级                          | 集群名字                                                                                                                |
+
 ### 详细命令执行过程
 
 下面的命令都是以default_cluster.yaml 为示例执行的，用户可以修改成自己的集群文件来执行
@@ -599,7 +604,7 @@ iotdbctl cluster dumpdata default_cluster -granularity partition  -startdate '20
 |-startdate| 起始时间(包含)                        |是|
 |-enddate| 截止时间(包含)                        |是|
 
-#### 集群升级
+#### 集群lib包上传(升级)
 ```bash
 iotdbctl cluster dist-lib default_cluster
 ```
@@ -671,6 +676,39 @@ Activation successful
 ```bash
 iotdbctl cluster activate default_cluster -N confignode1 -op license_path
 ```
+
+* 通过license路径方式激活
+
+```bash
+iotdbctl cluster activate default_cluster -op license_path 
+```
+* 根据 cluster-name 找到默认位置的 yaml 文件，获取`confignode_servers`配置信息
+* 读取里面的机器码
+* 等待输入激活码
+
+### 集群plugin分发
+```bash
+#分发udf
+iotdbctl cluster dist-plugin default_cluster -type U -file /xxxx/udf.jar
+#分发trigger
+iotdbctl cluster dist-plugin default_cluster -type T -file /xxxx/trigger.jar
+#分发pipe
+iotdbctl cluster dist-plugin default_cluster -type P -file /xxxx/pipe.jar
+```
+* 根据 cluster-name 找到默认位置的 yaml 文件，获取 `datanode_servers`配置信息
+
+* 上传udf/trigger/pipe jar包
+
+上传完成后需要手动执行创建udf/trigger/pipe命令
+
+### 集群滚动升级
+```bash
+iotdbctl cluster upgrade default_cluster
+```
+* 根据 cluster-name 找到默认位置的 yaml 文件，获取`confignode_servers`和`datanode_servers`配置信息
+
+* 上传lib包
+* confignode 执行停止、替换lib包、启动，然后datanode执行停止、替换lib包、启动
 
 
 ### 集群部署工具样例介绍

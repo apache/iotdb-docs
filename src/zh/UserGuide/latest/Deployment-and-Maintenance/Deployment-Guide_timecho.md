@@ -70,7 +70,7 @@ Windows 系统启动命令如下：
 > sbin\start-standalone.bat
 ```
 
-## 集群版部署（使用集群管理工具）
+## 集群管理工具部署
 
 IoTDB 集群管理工具是一款易用的运维工具（企业版工具）。旨在解决 IoTDB 分布式系统多节点的运维难题，主要包括集群部署、集群启停、弹性扩容、配置更新、数据导出等功能，从而实现对复杂数据库集群的一键式指令下发，
 极大降低管理难度。本文档将说明如何用集群管理工具远程部署、配置、启动和停止 IoTDB 集群实例。
@@ -91,7 +91,7 @@ IoTDB 要部署的机器需要依赖jdk 8及以上版本、lsof、netstat、unzi
 
 注意：由于二进制包仅支持GLIBC2.17 及以上版本，因此最低适配Centos7版本
 
-* 在iotdbctl目录内输入以下指令后：
+* 在iotd目录内输入以下指令后：
 
 ```bash
 bash install-iotdbctl.sh
@@ -114,12 +114,10 @@ iotdbctl cluster check example
 IoTDB集群管理工具主要由config、logs、doc、sbin目录组成。
 
 * `config`存放要部署的集群配置文件如果要使用集群部署工具需要修改里面的yaml文件。
-
 * `logs` 存放部署工具日志，如果想要查看部署工具执行日志请查看`logs/iotd_yyyy_mm_dd.log`。
-
 * `sbin` 存放集群部署工具所需的二进制包。
-
 * `doc` 存放用户手册、开发手册和推荐部署手册。
+
 
 ### 集群配置文件介绍
 
@@ -134,83 +132,84 @@ IoTDB集群管理工具主要由config、logs、doc、sbin目录组成。
 
 | 参数                      | 说明                                                                                                                                                                          | 是否必填 |
 |-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------|
-| `iotdb_zip_dir`         | IoTDB 部署分发目录，如果值为空则从`iotdb_download_url`指定地址下载                                                                                                                              | 非必填  |
-| `iotdb_download_url`    | IoTDB 下载地址，如果`iotdb_zip_dir` 没有值则从指定地址下载                                                                                                                                    | 非必填  |
-| `jdk_tar_dir`           | jdk 本地目录，可使用该 jdk 路径进行上传部署至目标节点。                                                                                                                                            | 非必填  |
-| `jdk_deploy_dir`        | jdk 远程机器部署目录，会将 jdk 部署到该目录下面，与下面的`jdk_dir_name`参数构成完整的jdk部署目录即 `<jdk_deploy_dir>/<jdk_dir_name>`                                                                            | 非必填  |
-| `jdk_dir_name`          | jdk 解压后的目录名称默认是jdk_iotdb                                                                                                                                                    | 非必填  |
-| `iotdb_lib_dir`         | IoTDB lib 目录或者IoTDB 的lib 压缩包仅支持.zip格式 ，仅用于IoTDB升级，默认处于注释状态，如需升级请打开注释修改路径即可。如果使用zip文件请使用zip 命令压缩iotdb/lib目录例如 zip -r lib.zip apache\-iotdb\-1.2.0/lib/*                      | 非必填  |
-| `user`                    | ssh登陆部署机器的用户名                                                                                                                                                               | 必填   |
-| `password`                | ssh登录的密码, 如果password未指定使用pkey登陆, 请确保已配置节点之间ssh登录免密钥                                                                                                                         | 非必填  |
-| `pkey`                    | 密钥登陆如果password有值优先使用password否则使用pkey登陆                                                                                                                                      | 非必填  |
-| `ssh_port`               | ssh登录端口                                                                                                                                                                     | 必填   |
-| `deploy_dir`             | IoTDB 部署目录，会把 IoTDB 部署到该目录下面与下面的`iotdb_dir_name`参数构成完整的IoTDB 部署目录即 `<deploy_dir>/<iotdb_dir_name>`                                                                          | 必填   |
-| `iotdb_dir_name`        | IoTDB 解压后的目录名称默认是iotdb                                                                                                                                                      | 非必填  |
-| `datanode-env.sh`         | 对应`iotdb/config/datanode-env.sh`   ,在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值                                                                         | 非必填  |
-| `confignode-env.sh`       | 对应`iotdb/config/confignode-env.sh`,在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值                                                                              | 非必填  |
-| `iotdb-common.properties` | 对应`iotdb/config/iotdb-common.properties`                                                                                                                                    | 非必填  |
-| `cn_seed_config_node`  | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值，对应`iotdb/config/iotdb-confignode.properties`中的`cn_seed_config_node` | 必填   |
-| `dn_seed_config_node`  | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-datanode.properties`中的`dn_seed_config_node`       | 必填   |
+| iotdb\_zip\_dir         | IoTDB 部署分发目录，如果值为空则从`iotdb_download_url`指定地址下载                                                                                                                              | 非必填  |
+| iotdb\_download\_url    | IoTDB 下载地址，如果`iotdb_zip_dir` 没有值则从指定地址下载                                                                                                                                    | 非必填  |
+| jdk\_tar\_dir           | jdk 本地目录，可使用该 jdk 路径进行上传部署至目标节点。                                                                                                                                            | 非必填  |
+| jdk\_deploy\_dir        | jdk 远程机器部署目录，会将 jdk 部署到该目录下面，与下面的`jdk_dir_name`参数构成完整的jdk部署目录即 `<jdk_deploy_dir>/<jdk_dir_name>`                                                                            | 非必填  |
+| jdk\_dir\_name          | jdk 解压后的目录名称默认是jdk_iotdb                                                                                                                                                    | 非必填  |
+| iotdb\_lib\_dir         | IoTDB lib 目录或者IoTDB 的lib 压缩包仅支持.zip格式 ，仅用于IoTDB升级，默认处于注释状态，如需升级请打开注释修改路径即可。如果使用zip文件请使用zip 命令压缩iotdb/lib目录例如 zip -r lib.zip apache\-iotdb\-1.2.0/lib/*                      | 非必填  |
+| user                    | ssh登陆部署机器的用户名                                                                                                                                                               | 必填   |
+| password                | ssh登录的密码, 如果password未指定使用pkey登陆, 请确保已配置节点之间ssh登录免密钥                                                                                                                         | 非必填  |
+| pkey                    | 密钥登陆如果password有值优先使用password否则使用pkey登陆                                                                                                                                      | 非必填  |
+| ssh\_port               | ssh登录端口                                                                                                                                                                     | 必填   |
+| iotdb\_admin_user       | iotdb服务用户名默认root                                                                                                                                                           | 非必填  |
+| iotdb\_admin_password   | iotdb服务密码默认root                                                                                                                                                                 | 非必填  |
+| deploy\_dir             | IoTDB 部署目录，会把 IoTDB 部署到该目录下面与下面的`iotdb_dir_name`参数构成完整的IoTDB 部署目录即 `<deploy_dir>/<iotdb_dir_name>`                                                                          | 必填   |
+| iotdb\_dir\_name        | IoTDB 解压后的目录名称默认是iotdb                                                                                                                                                      | 非必填  |
+| datanode-env.sh         | 对应`iotdb/config/datanode-env.sh`   ,在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值                                                                         | 非必填  |
+| confignode-env.sh       | 对应`iotdb/config/confignode-env.sh`,在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值                                                                              | 非必填  |
+| iotdb-common.properties | 对应`iotdb/config/iotdb-common.properties`                                                                                                                                    | 非必填  |
+| cn\_seed\_config\_node  | 集群配置地址指向存活的ConfigNode,默认指向confignode\_x，在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值，对应`iotdb/config/iotdb-confignode.properties`中的`cn_seed_config_node` | 必填   |
+| dn\_seed\_config\_node  | 集群配置地址指向存活的ConfigNode,默认指向confignode\_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-datanode.properties`中的`dn_seed_config_node`       | 必填   |
 
-其中 `datanode-env.sh` 和 `confignode-env.sh` 可以配置额外参数`extra_opts`，当该参数配置后会在`datanode-env.sh` 和`confignode-env.sh` 后面追加对应的值，可参考`default_cluster.yaml`，配置示例如下:
-``` yaml
-datanode-env.sh: 
-  extra_opts: |
-  IOTDB_JMX_OPTS="$IOTDB_JMX_OPTS -XX:+UseG1GC"
-  IOTDB_JMX_OPTS="$IOTDB_JMX_OPTS -XX:MaxGCPauseMillis=200"
-```
+其中datanode-env.sh 和confignode-env.sh 可以配置额外参数extra_opts，当该参数配置后会在datanode-env.sh 和confignode-env.sh 后面追加对应的值，可参考default\_cluster.yaml，配置示例如下:
+datanode-env.sh:   
+extra_opts: |
+IOTDB_JMX_OPTS="$IOTDB_JMX_OPTS -XX:+UseG1GC"
+IOTDB_JMX_OPTS="$IOTDB_JMX_OPTS -XX:MaxGCPauseMillis=200"
 
 * confignode_servers 是部署IoTDB Confignodes配置，里面可以配置多个Confignode
   默认将第一个启动的ConfigNode节点node1当作Seed-ConfigNode
 
 | 参数                          | 说明                                                                                                                                                                         | 是否必填 |
 |-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------|
-| `name`                        | Confignode 名称                                                                                                                                                              | 必填   |
-| `deploy_dir`                 | IoTDB config node 部署目录                                                                                                                                                     | 必填｜  |
-| `iotdb-confignode.properties` | 对应`iotdb/config/iotdb-confignode.properties`更加详细请参看`iotdb-confignode.properties`文件说明                                                                                       | 非必填  |
-| `cn_internal_address`       | 对应iotdb/内部通信地址，对应`iotdb/config/iotdb-confignode.properties`中的`cn_internal_address`                                                                                         | 必填   |
-| `cn_seed_config_node`      | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值，对应`iotdb/config/iotdb-confignode.properties`中的`cn_seed_config_node` | 必填   |
-| `cn_internal_port`          | 内部通信端口，对应`iotdb/config/iotdb-confignode.properties`中的`cn_internal_port`                                                                                                    | 必填   |
-| `cn_consensus_port`         | 对应`iotdb/config/iotdb-confignode.properties`中的`cn_consensus_port`                                                                                                          | 非必填  |
-| `cn_data_dir`               | 对应`iotdb/config/iotdb-confignode.properties`中的`cn_data_dir`                                                                                                                | 必填   |
-| `iotdb-common.properties`     | 对应`iotdb/config/iotdb-common.properties`在`global`与`confignode_servers`同时配置值优先使用confignode_servers中的值                                                                      | 非必填  |
+| name                        | Confignode 名称                                                                                                                                                              | 必填   |
+| deploy\_dir                 | IoTDB config node 部署目录                                                                                                                                                     | 必填｜  |
+| iotdb-confignode.properties | 对应`iotdb/config/iotdb-confignode.properties`更加详细请参看`iotdb-confignode.properties`文件说明                                                                                       | 非必填  |
+| cn\_internal\_address       | 对应iotdb/内部通信地址，对应`iotdb/config/iotdb-confignode.properties`中的`cn_internal_address`                                                                                         | 必填   |
+| cn\_seed\_config\_node      | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值，对应`iotdb/config/iotdb-confignode.properties`中的`cn_seed_config_node` | 必填   |
+| cn\_internal\_port          | 内部通信端口，对应`iotdb/config/iotdb-confignode.properties`中的`cn_internal_port`                                                                                                    | 必填   |
+| cn\_consensus\_port         | 对应`iotdb/config/iotdb-confignode.properties`中的`cn_consensus_port`                                                                                                          | 非必填  |
+| cn\_data\_dir               | 对应`iotdb/config/iotdb-confignode.properties`中的`cn_data_dir`                                                                                                                | 必填   |
+| iotdb-common.properties     | 对应`iotdb/config/iotdb-common.properties`在`global`与`confignode_servers`同时配置值优先使用confignode\_servers中的值                                                                      | 非必填  |
 
 * datanode_servers 是部署IoTDB Datanodes配置，里面可以配置多个Datanode
+
 
 | 参数                        | 说明                                                                                                                                                                   |是否必填|
 |---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|--- |
 | name                      | Datanode 名称                                                                                                                                                          |必填|
-| `deploy_dir`               | IoTDB data node 部署目录                                                                                                                                                 |必填|
-| `iotdb-datanode.properties` | 对应`iotdb/config/iotdb-datanode.properties`更加详细请参看`iotdb-datanode.properties`文件说明                                                                                     |非必填|
-| `dn_rpc_address`          | datanode rpc 地址对应`iotdb/config/iotdb-datanode.properties`中的`dn_rpc_address`                                                                                          |必填|
-| `dn_internal_address`     | 内部通信地址，对应`iotdb/config/iotdb-datanode.properties`中的`dn_internal_address`                                                                                             |必填|
-| `dn_seed_config_node`    | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-datanode.properties`中的`dn_seed_config_node` |必填|
-| `dn_rpc_port`             | datanode rpc端口地址，对应`iotdb/config/iotdb-datanode.properties`中的`dn_rpc_port`                                                                                           |必填|
-| `dn_internal_port`        | 内部通信端口，对应`iotdb/config/iotdb-datanode.properties`中的`dn_internal_port`                                                                                                |必填|
-| `iotdb-common.properties`   | 对应`iotdb/config/iotdb-common.properties`在`global`与`datanode_servers`同时配置值优先使用`datanode_servers`中的值                                                                   |非必填|
+| deploy\_dir               | IoTDB data node 部署目录                                                                                                                                                 |必填|
+| iotdb-datanode.properties | 对应`iotdb/config/iotdb-datanode.properties`更加详细请参看`iotdb-datanode.properties`文件说明                                                                                     |非必填|
+| dn\_rpc\_address          | datanode rpc 地址对应`iotdb/config/iotdb-datanode.properties`中的`dn_rpc_address`                                                                                          |必填|
+| dn\_internal\_address     | 内部通信地址，对应`iotdb/config/iotdb-datanode.properties`中的`dn_internal_address`                                                                                             |必填|
+| dn\_seed\_config\_node    | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-datanode.properties`中的`dn_seed_config_node` |必填|
+| dn\_rpc\_port             | datanode rpc端口地址，对应`iotdb/config/iotdb-datanode.properties`中的`dn_rpc_port`                                                                                           |必填|
+| dn\_internal\_port        | 内部通信端口，对应`iotdb/config/iotdb-datanode.properties`中的`dn_internal_port`                                                                                                |必填|
+| iotdb-common.properties   | 对应`iotdb/config/iotdb-common.properties`在`global`与`datanode_servers`同时配置值优先使用`datanode_servers`中的值                                                                   |非必填|
 
 * grafana_server 是部署Grafana 相关配置
 
 | 参数                 | 说明               | 是否必填              |
 |--------------------|------------------|-------------------|
-| `grafana_dir_name` | grafana 解压目录名称   | 非必填默认grafana_iotdb |
-| `host`               | grafana 部署的服务器ip | 必填                |
-| `grafana_port`      | grafana 部署机器的端口  | 非必填，默认3000        |
-| `deploy_dir`        | grafana 部署服务器目录  | 必填                |
-| `grafana_tar_dir`  | grafana 压缩包位置    | 必填                |
-| `dashboards`         | dashboards 所在的位置 | 非必填,多个用逗号隔开       |
+| grafana\_dir\_name | grafana 解压目录名称   | 非必填默认grafana_iotdb |
+| host               | grafana 部署的服务器ip | 必填                |
+| grafana\_port      | grafana 部署机器的端口  | 非必填，默认3000        |
+| deploy\_dir        | grafana 部署服务器目录  | 必填                |
+| grafana\_tar\_dir  | grafana 压缩包位置    | 必填                |
+| dashboards         | dashboards 所在的位置 | 非必填,多个用逗号隔开       |
 
 * prometheus_server 是部署Prometheus 相关配置
 
 | 参数                             | 说明               | 是否必填                  |
 |--------------------------------|------------------|-----------------------|
-| `prometheus_dir_name`           | prometheus 解压目录名称   | 非必填默认prometheus_iotdb |
-| `host`                           | prometheus 部署的服务器ip | 必填                    |
-| `prometheus_port`               | prometheus 部署机器的端口  | 非必填，默认9090            |
-| `deploy_dir`                    | prometheus 部署服务器目录  | 必填                    |
-| `prometheus_tar_dir`           | prometheus 压缩包位置    | 必填                    |
-| `storage_tsdb_retention_time` | 默认保存数据天数 默认15天    | 非必填                   |
-| `storage_tsdb_retention_size` | 指定block可以保存的数据大小 ，注意单位KB, MB, GB, TB, PB, EB    | 非必填                   |
+| prometheus_dir\_name           | prometheus 解压目录名称   | 非必填默认prometheus_iotdb |
+| host                           | prometheus 部署的服务器ip | 必填                    |
+| prometheus\_port               | prometheus 部署机器的端口  | 非必填，默认9090            |
+| deploy\_dir                    | prometheus 部署服务器目录  | 必填                    |
+| prometheus\_tar\_dir           | prometheus 压缩包位置    | 必填                    |
+| storage\_tsdb\_retention\_time | 默认保存数据天数 默认15天    | 非必填                   |
+| storage\_tsdb\_retention\_size | 指定block可以保存的数据大小默认512M ，注意单位KB, MB, GB, TB, PB, EB    | 非必填                   |
 
 如果在config/xxx.yaml的`iotdb-datanode.properties`和`iotdb-confignode.properties`中配置了metrics,则会自动把配置放入到promethues无需手动修改
 
@@ -329,27 +328,30 @@ iotdbctl cluster deploy default_cluster
 
 * 集群的功能及参数列表如下：
 
-| 命令              | 功能                         | 参数                                                                                                                      |
-|-----------------|----------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| check           | 检测集群是否可以部署                 | 集群名称列表                                                                                                                  |
-| clean           | 清理集群                       | 集群名称                                                                                                                    |
-| deploy/dist-all | 部署集群                       | 集群名称 ,-N,模块名称(iotdb、grafana、prometheus可选),-op force(可选)                                                                 |
-| list            | 打印集群及状态列表                  | 无                                                                                                                       |
-| start           | 启动集群                       | 集群名称,-N,节点名称(nodename、grafana、prometheus可选)                                                                                               |
-| stop            | 关闭集群                       | 集群名称,-N,节点名称(nodename、grafana、prometheus可选) ,-op force(nodename、grafana、prometheus可选)                                                                                         |
-| restart         | 重启集群                       | 集群名称,-N,节点名称(nodename、grafana、prometheus可选),-op force(nodename、grafana、prometheus可选)                                                                                          |
-| show            | 查看集群信息，details字段表示展示集群信息细节 | 集群名称, details(可选)                                                                                                       |
-| destroy         | 销毁集群                       | 集群名称,-N,模块名称(iotdb、grafana、prometheus可选)                                                                                |
-| scaleout        | 集群扩容                       | 集群名称                                                                                                                    |
-| scalein         | 集群缩容                       | 集群名称，-N，集群节点名字或集群节点ip+port                                                                                              |
-| reload          | 集群热加载                      | 集群名称                                                                                                                    |
-| dist-conf       | 集群配置文件分发                   | 集群名称                                                                                                                    |
+| 命令              | 功能                         | 参数                                                                                                                  |
+|-----------------|----------------------------|---------------------------------------------------------------------------------------------------------------------|
+| check           | 检测集群是否可以部署                 | 集群名称列表                                                                                                              |
+| clean           | 清理集群                       | 集群名称                                                                                                                |
+| deploy/dist-all | 部署集群                       | 集群名称 ,-N,模块名称(iotdb、grafana、prometheus可选),-op force(可选)                                                             |
+| list            | 打印集群及状态列表                  | 无                                                                                                                   |
+| start           | 启动集群                       | 集群名称,-N,节点名称(nodename、grafana、prometheus可选)                                                                         |
+| stop            | 关闭集群                       | 集群名称,-N,节点名称(nodename、grafana、prometheus可选) ,-op force(nodename、grafana、prometheus可选)                               |
+| restart         | 重启集群                       | 集群名称,-N,节点名称(nodename、grafana、prometheus可选),-op force(强制停止)/rolling(滚动重启)                                           |
+| show            | 查看集群信息，details字段表示展示集群信息细节 | 集群名称, details(可选)                                                                                                   |
+| destroy         | 销毁集群                       | 集群名称,-N,模块名称(iotdb、grafana、prometheus可选)                                                                            |
+| scaleout        | 集群扩容                       | 集群名称                                                                                                                |
+| scalein         | 集群缩容                       | 集群名称，-N，集群节点名字或集群节点ip+port                                                                                          |
+| reload          | 集群热加载                      | 集群名称                                                                                                                |
+| dist-conf       | 集群配置文件分发                   | 集群名称                                                                                                                |
 | dumplog         | 备份指定集群日志                   | 集群名称,-N,集群节点名字 -h 备份至目标机器ip -pw 备份至目标机器密码 -p 备份至目标机器端口 -path 备份的目录 -startdate 起始时间 -enddate 结束时间 -loglevel 日志类型 -l 传输速度 |
-| dumpdata        | 备份指定集群数据                   | 集群名称, -h 备份至目标机器ip -pw 备份至目标机器密码 -p 备份至目标机器端口 -path 备份的目录 -startdate 起始时间 -enddate 结束时间  -l 传输速度                        |
-| dist-lib        | lib 包升级                    | 集群名字(升级完后请重启)                                                                                                           |
-| init            | 已有集群使用集群部署工具时，初始化集群配置      | 集群名字，初始化集群配置                                                                                                            |
-| status          | 查看进程状态                     | 集群名字                                                                                                                    |
-| acitvate        | 激活集群                       | 集群名字                                                                                                                    |
+| dumpdata        | 备份指定集群数据                   | 集群名称, -h 备份至目标机器ip -pw 备份至目标机器密码 -p 备份至目标机器端口 -path 备份的目录 -startdate 起始时间 -enddate 结束时间  -l 传输速度                    |
+| dist-lib        | lib 包升级                    | 集群名字(升级完后请重启)                                                                                                       |
+| init            | 已有集群使用集群部署工具时，初始化集群配置      | 集群名字，初始化集群配置                                                                                                        |
+| status          | 查看进程状态                     | 集群名字                                                                                                                |
+| acitvate        | 激活集群                       | 集群名字                                                                                                                |
+| dist-plugin     | 上传plugin(udf,trigger,pipe)到集群 | 集群名字,-type 类型 U(udf)/T(trigger)/P(pipe) -file /xxxx/trigger.jar,上传完成后需手动执行创建udf、pipe、trigger命令                      |
+| upgrade         | 滚动升级                          | 集群名字                                                                                                                |
+
 ### 详细命令执行过程
 
 下面的命令都是以default_cluster.yaml 为示例执行的，用户可以修改成自己的集群文件来执行
@@ -651,7 +653,7 @@ iotdbctl cluster dumpdata default_cluster -granularity partition  -startdate '20
 |-startdate| 起始时间(包含)                        |是|
 |-enddate| 截止时间(包含)                        |是|
 
-#### 集群升级
+#### 集群lib包上传(升级)
 ```bash
 iotdbctl cluster dist-lib default_cluster
 ```
@@ -724,15 +726,48 @@ Activation successful
 iotdbctl cluster activate default_cluster -N confignode1 -op license_path
 ```
 
+* 通过license路径方式激活
+
+```bash
+iotdbctl cluster activate default_cluster -op license_path 
+```
+* 根据 cluster-name 找到默认位置的 yaml 文件，获取`confignode_servers`配置信息
+* 读取里面的机器码
+* 等待输入激活码
+
+### 集群plugin分发
+```bash
+#分发udf
+iotdbctl cluster dist-plugin default_cluster -type U -file /xxxx/udf.jar
+#分发trigger
+iotdbctl cluster dist-plugin default_cluster -type T -file /xxxx/trigger.jar
+#分发pipe
+iotdbctl cluster dist-plugin default_cluster -type P -file /xxxx/pipe.jar
+```
+* 根据 cluster-name 找到默认位置的 yaml 文件，获取 `datanode_servers`配置信息
+
+* 上传udf/trigger/pipe jar包
+
+上传完成后需要手动执行创建udf/trigger/pipe命令
+
+### 集群滚动升级
+```bash
+iotdbctl cluster upgrade default_cluster
+```
+* 根据 cluster-name 找到默认位置的 yaml 文件，获取`confignode_servers`和`datanode_servers`配置信息
+
+* 上传lib包
+* confignode 执行停止、替换lib包、启动，然后datanode执行停止、替换lib包、启动
+
 
 ### 集群部署工具样例介绍
 在集群部署工具安装目录中config/example 下面有3个yaml样例，如果需要可以复制到config 中进行修改即可
 
 | 名称                          | 说明                                             |
 |-----------------------------|------------------------------------------------|
-| default_1c1d.yaml          | 1个confignode和1个datanode 配置样例                   |
-| default_3c3d.yaml          | 3个confignode和3个datanode 配置样例                   |
-| default_3c3d_grafa_prome | 3个confignode和3个datanode、Grafana、Prometheus配置样例 |
+| default\_1c1d.yaml          | 1个confignode和1个datanode 配置样例                   |
+| default\_3c3d.yaml          | 3个confignode和3个datanode 配置样例                   |
+| default\_3c3d\_grafa\_prome | 3个confignode和3个datanode、Grafana、Prometheus配置样例 |
 
 ## 手动部署
 
