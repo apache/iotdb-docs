@@ -24,8 +24,6 @@ export default hopeTheme({
 
   darkmode: 'toggle',
 
-  iconAssets: 'iconify',
-
   logo: '/logo.png',
 
   repo: 'https://github.com/apache/iotdb',
