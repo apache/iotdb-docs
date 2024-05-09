@@ -555,11 +555,10 @@ static_configs:
 
 #### 5.2.4. Apache IoTDB Dashboard
 
-我们提供了Apache IoTDB Dashboard，在Grafana中显示的效果图如下所示：
+`Apache IoTDB Dashboard`是 IoTDB 企业版的配套产品，支持统一集中式运维管理，可通过一个监控面板监控多个集群。你可以联系商务获取到 Dashboard 的 Json文件。
 
 ![Apache IoTDB Dashboard](https://alioss.timecho.com/docs/img/UserGuide/System-Tools/Metrics/dashboard.png)
 
-你可以在企业版中获取到 Dashboard 的 Json文件。
 
 ### 5.3. 使用 IoTDB 方式
 

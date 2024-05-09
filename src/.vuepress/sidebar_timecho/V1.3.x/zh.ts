@@ -34,7 +34,7 @@ export const zhSidebar = {
         { text: '系统架构', link: 'Architecture' },
         { text: '性能特点', link: 'Performance' },
         { text: '应用场景', link: 'Scenario' },
-        { text: '研究论文', link: 'Publication' },
+        { text: '学术成果', link: 'Publication' },
       ],
     },
     {
@@ -104,7 +104,7 @@ export const zhSidebar = {
       children: [
         { text: '命令行工具', link: 'CLI' },
         { text: '可视化控制台', link: 'Workbench_timecho' },
-        { text: '监控工具', link: 'Monitor-Tool' },
+        { text: '监控工具', link: 'Monitor-Tool_timecho' },
         { text: '测试工具', link: 'Benchmark' },
         { text: '运维工具', link: 'Maintenance-Tool_timecho' },
         { text: '导入导出工具', link: 'Import-Export-Tool' },

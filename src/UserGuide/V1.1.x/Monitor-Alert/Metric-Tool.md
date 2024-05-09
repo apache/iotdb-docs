@@ -612,11 +612,9 @@ The following documents may help you have a good journey with Prometheus and Gra
 
 #### 5.2.4. Apache IoTDB Dashboard
 
-We provide the Apache IoTDB Dashboard, and the rendering shown in Grafana is as follows:
+`Apache IoTDB Dashboard` is available as a supplement to IoTDB Enterprise Edition, designed for unified centralized operations and management. With it, multiple clusters can be monitored through a single panel. You can access the Dashboard's Json file by contacting Commerce.
 
 ![Apache IoTDB Dashboard](https://alioss.timecho.com/docs/img/UserGuide/System-Tools/Metrics/dashboard.png)
-
-You can obtain the json files of Dashboards in enterprise version.
 
 ### 5.3. IoTDB
 

@@ -19,9 +19,7 @@
 
 -->
 
-# 公开发表
-
-## 研究论文
+# 学术成果
 
 Apache IoTDB 始于清华大学软件学院。IoTDB 是一个用于管理大量时间序列数据的数据库，它采用了列式存储、数据编码、预计算和索引技术，具有类 SQL 的接口，可支持每秒每节点写入数百万数据点，可以秒级获得超过数万亿个数据点的查询结果。它还可以很容易地与 Apache Hadoop、MapReduce 和 Apache Spark 集成以进行分析。
 
@@ -40,8 +38,4 @@ Apache IoTDB 始于清华大学软件学院。IoTDB 是一个用于管理大量�
 * [The Design of Apache IoTDB distributed framework](http://ndbc2019.sdu.edu.cn/info/1002/1044.htm), Tianan Li, Jianmin Wang, Xiangdong Huang, Yi Xu, Dongfang Mao, Jun Yuan. NDBC 2019.
 * [Matching Consecutive Subpatterns over Streaming Time Series](https://link.springer.com/chapter/10.1007/978-3-319-96893-3_8), Rong Kang and Chen Wang and Peng Wang and Yuting Ding and Jianmin Wang. APWeb/WAIM 2018.
 * [PISA: An Index for Aggregating Big Time Series Data](https://dl.acm.org/citation.cfm?id=2983775&dl=ACM&coll=DL), Xiangdong Huang and Jianmin Wang and Raymond K. Wong and Jinrui Zhang and Chen Wang. CIKM 2016.
-## Benchmark 工具
 
-我们还研发了面向时间序列数据库的 Benchmark 工具： 
-
-[https://github.com/thulab/iot-benchmark](https://github.com/thulab/iot-benchmark)

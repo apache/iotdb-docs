@@ -34,7 +34,7 @@ export const zhSidebar = {
         { text: '系统架构', link: 'Architecture' },
         { text: '性能特点', link: 'Performance' },
         { text: '应用场景', link: 'Scenario' },
-        { text: '研究论文', link: 'Publication' },
+        { text: '学术成果', link: 'Publication' },
       ],
     },
     {
