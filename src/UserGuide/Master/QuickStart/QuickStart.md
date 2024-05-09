@@ -44,16 +44,6 @@ IoTDB provides you three installation methods, you can refer to the following su
 You can download the binary file from:
 [Download Page](https://iotdb.apache.org/Download/)
 
-## Configurations
-
-Configuration files are under "conf" folder
-
-  * environment config module (`datanode-env.bat`, `datanode-env.sh`), 
-  * system config module (`iotdb-datanode.properties`)
-  * log config module (`logback.xml`). 
-
-For more, see [Config](../Reference/DataNode-Config-Manual.md) in detail.
-
 ## Start
 
 You can go through the following step to test the installation, if there is no error after execution, the installation is completed. 
@@ -230,7 +220,7 @@ ALTER USER <username> SET PASSWORD <password>;
 Example: IoTDB > ALTER USER root SET PASSWORD 'newpwd';
 ```
 
-More about administration management：[Administration Management](https://iotdb.apache.org/UserGuide/V1.0.x/Administration-Management/Administration.html)
+More about administration management：[Administration Management](../User-Manual/Authority-Management.md)
 
 
 ## Basic configuration

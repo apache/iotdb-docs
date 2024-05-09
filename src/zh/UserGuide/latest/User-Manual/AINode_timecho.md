@@ -436,12 +436,12 @@ Total line number = 4
 
 ## 5. 权限管理
 
-使用AINode相关的功能时，可以使用IoTDB本身的鉴权去做一个权限管理，用户只有在具备USE_ML权限时，才可以使用模型管理的相关功能。当使用推理功能时，用户需要有访问输入模型的SQL对应的源序列的权限。
+使用AINode相关的功能时，可以使用IoTDB本身的鉴权去做一个权限管理，用户只有在具备 USE_MODEL 权限时，才可以使用模型管理的相关功能。当使用推理功能时，用户需要有访问输入模型的SQL对应的源序列的权限。
 
-| 权限名称  | 权限范围                          | 管理员用户（默认ROOT） | 普通用户 | 路径相关 |
+| 权限名称  | 权限范围                           | 管理员用户（默认ROOT）   | 普通用户  | 路径相关 |
 | --------- | --------------------------------- | ---------------------- | -------- | -------- |
-| USE_MODEL | create model / show models / drop model | √                      | √        | x        |
-|           | call inference                    |                        |          |          |
+| USE_MODEL | create model / show models / drop model | √                | √        | x        |
+| READ_DATA | call inference                          |  √               | √        |   √      |
 
 ## 6. 实际案例
 

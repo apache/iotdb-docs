@@ -437,12 +437,12 @@ where the labels of each row in the result set correspond to the model output co
 
 ## 5. Privilege Management
 
-When using AINode related functions, the authentication of IoTDB itself can be used to do a permission management, users can only use the model management related functions when they have the USE_ML permission. When using the inference function, the user needs to have the permission to access the source sequence corresponding to the SQL of the input model.
+When using AINode related functions, the authentication of IoTDB itself can be used to do a permission management, users can only use the model management related functions when they have the USE_MODEL permission. When using the inference function, the user needs to have the permission to access the source sequence corresponding to the SQL of the input model.
 
 | Privilege Name | Privilege Scope | Administrator User (default ROOT) | Normal User | Path Related |
 | --------- | --------------------------------- | ---------------------- | -------- | -------- |
-| USE_MODEL | create model/show model/sdrop model | √ | √ √ | x |
-| | | call inference | | | | |
+| USE_MODEL | create model/show models/drop model | √ | √  | x |
+| READ_DATA| call inference | √ | √|√ |
 
 ## 6. Practical Examples
 

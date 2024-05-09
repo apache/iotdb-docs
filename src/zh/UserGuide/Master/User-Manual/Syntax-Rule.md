@@ -278,7 +278,7 @@ create schema template `t1't"t`
 
 关键字是在 SQL 具有特定含义的词，可以作为标识符。保留字是关键字的一个子集，保留字不能用于标识符。
 
-关于 IoTDB 的关键字列表，可以查看 [关键字](https://iotdb.apache.org/zh/UserGuide/Master/Reference/Keywords.html) 。
+关于 IoTDB 的关键字列表，可以查看 [关键字](../Reference/Keywords.md) 。
 
 ## 词法与文法详细定义
 

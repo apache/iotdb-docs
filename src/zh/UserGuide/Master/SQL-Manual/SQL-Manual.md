@@ -8,9 +8,6 @@
 
 ```sql
 CREATE DATABASE root.ln
-
-CREATE DATABASE root.ln.wf01
-> Msg: 300: root.ln has already been created as database.
 ```
 
 #### 查看数据库
@@ -253,15 +250,8 @@ IoTDB> count devices root.ln.**
 
 ![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
 
+![img](https://alioss.timecho.com/docs/img/template.jpg)
 
-
-Create template(s1 int, s2 float) on root.sg
-
-Create device root.sg.d1
-
-
-
-![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF%E6%B5%81%E7%A8%8B.png)
 
 #### 创建设备模板
 

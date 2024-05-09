@@ -96,7 +96,7 @@ By default settings, the data files (including tsfile, metadata, and WAL files) 
 Use IoTDB's Command Line Interface:
 
 ```
-IoTDB> show timeseries root
+IoTDB> show timeseries
 ```
 
 In the result, there is a statement shows `Total timeseries number`, this number is the timeseries number in IoTDB.
@@ -104,7 +104,7 @@ In the result, there is a statement shows `Total timeseries number`, this number
 In the current version, IoTDB supports querying the number of time series. Use IoTDB's Command Line Interface:
 
 ```
-IoTDB> count timeseries root
+IoTDB> count timeseries
 ```
 
 If you are using Linux, you can use the following shell command:
@@ -116,7 +116,7 @@ If you are using Linux, you can use the following shell command:
 
 ### 5. Can I use Hadoop and Spark to read TsFile in IoTDB?
 
-Yes. IoTDB has intense integration with Open Source Ecosystem. IoTDB supports [Hadoop](https://github.com/apache/iotdb/tree/master/hadoop), [Spark](https://github.com/apache/iotdb/tree/master/spark-tsfile) and [Grafana](https://github.com/apache/iotdb/tree/master/grafana-plugin) visualization tool.
+Yes. IoTDB has intense integration with Open Source Ecosystem. IoTDB supports [Hadoop](https://github.com/apache/iotdb/tree/master/iotdb-connector/hadoop), [Spark](https://github.com/apache/iotdb/tree/master/iotdb-connector/spark-iotdb-connector) and [Grafana](https://github.com/apache/iotdb/tree/master/iotdb-connector/grafana-connector) visualization tool.
 
 ### 6. How does IoTDB handle duplicate points?
 
@@ -126,10 +126,10 @@ A data point is uniquely identified by a full time series path (e.g. ```root.veh
 
 Use ```SHOW TIMESERIES <timeseries path>``` SQL in IoTDB's Command Line Interface:
 
-For example, if you want to know the type of all timeseries, the \<timeseries path> should be `root`. The statement will be:
+For example, if you want to know the type of all timeseries, the \<timeseries path> should be `root.**`. The statement will be:
 
 ```
-IoTDB> show timeseries root
+IoTDB> show timeseries root.**
 ```
 
 If you want to query specific sensor, you can replace the \<timeseries path> with the sensor name. For example:
@@ -153,6 +153,9 @@ The default IoTDB's Cli time display format is readable (e.g. ```1970-01-01T08:0
 ```
 
 ### 9. How to handle error `IndexOutOfBoundsException` from `org.apache.ratis.grpc.server.GrpcLogAppender`?
+
+This is an internal error log from Ratis 2.4.1, our dependency, and no impact on data writes or reads is expected.
+It has been reported to the Ratis community and will be fixed in the future releases.
 
 ### 10. How to deal with estimated out of memory errors?
 

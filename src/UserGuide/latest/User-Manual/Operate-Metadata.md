@@ -315,7 +315,6 @@ IoTDB> show all ttl
 
 IoTDB supports the device template function, enabling different entities of the same type to share metadata, reduce the memory usage of metadata, and simplify the management of numerous entities and measurements.
 
-Note: The `device` keyword in the following statements can be omitted.
 
 ### Create Device Template
 
@@ -338,6 +337,10 @@ IoTDB> create device template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT 
 ```
 
 The` lat` and `lon` measurements are aligned.
+
+![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
+
+![img](https://alioss.timecho.com/docs/img/templateEN.jpg)
 
 ### Set Device Template
 

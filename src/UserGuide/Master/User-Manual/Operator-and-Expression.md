@@ -259,7 +259,7 @@ The functions in this function library are not built-in functions, and must be l
 
 1. [Download](https://archive.apache.org/dist/iotdb/1.0.1/apache-iotdb-1.0.1-library-udf-bin.zip) the JAR with all dependencies and the script of registering UDF.
 2. Copy the JAR package to `ext\udf` under the directory of IoTDB system (Please put JAR to this directory of all DataNodes if you use Cluster).
-3. Run `sbin\start-server.bat` (for Windows) or `sbin\start-server.sh` (for Linux or MacOS) to start IoTDB server.
+3. Run `sbin\start-confignode.bat` and then `sbin\start-datanode.bat` (for Windows) or `sbin\start-confignode.sh` and `sbin\start-datanode.sh` (for Linux or MacOS) to start IoTDB server.
 4. Copy the script to the directory of IoTDB system (under the root directory, at the same level as `sbin`), modify the parameters in the script if needed and run it to register UDF.
 
 ### Implemented Functions
@@ -342,7 +342,8 @@ Aggregate functions are many-to-one functions. They perform aggregate calculatio
 > select a, count(a) from root.sg group by ([10,100),10ms)
 > ```
 
-For the aggregation functions supported by IoTDB, see chapter 2.1 of this documentation.
+For the aggregation functions supported by IoTDB, see the document [Aggregate Functions](../Reference/Function-and-Expression.md#aggregate-functions).
+
 
 #### Time Series Generation Function
 

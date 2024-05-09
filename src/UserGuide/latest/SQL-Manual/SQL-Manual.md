@@ -30,10 +30,6 @@ For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadat
 ```sql
 IoTDB > create database root.ln
 IoTDB > create database root.sgcc
-IoTDB> CREATE DATABASE root.ln.wf01
-Msg: 300: root.ln has already been created as database.
-IoTDB> create database root.ln.wf01
-Msg: 300: root.ln has already been created as database.
 ```
 
 ### Show Databases
@@ -112,15 +108,8 @@ For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadat
 
 ![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
 
+![img](https://alioss.timecho.com/docs/img/templateEN.jpg)
 
-
-Create template(s1 int, s2 float) on root.sg
-
-Create device root.sg.d1
-
-
-
-![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF%E6%B5%81%E7%A8%8B.png)
 
 ### Create Device Template
 
@@ -1348,7 +1337,7 @@ select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0
 
 ## LAMBDA EXPRESSION
 
-For details and examples, see the document [Lambda](../Reference/Function-and-Expression#lambda-expression).
+For details and examples, see the document [Lambda](../Reference/Function-and-Expression.md#lambda-expression).
 
 ```sql
 select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'expr'='x -> {x * 3}') as jexl2, jexl(temperature, 'expr'='x -> {x * x}') as jexl3, jexl(temperature, 'expr'='x -> {multiply(x, 100)}') as jexl4, jexl(temperature, st, 'expr'='(x, y) -> {x + y}') as jexl5, jexl(temperature, st, str, 'expr'='(x, y, z) -> {x + y + z}') as jexl6 from root.ln.wf01.wt01;```
@@ -1356,7 +1345,7 @@ select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'exp
 
 ## CONDITIONAL EXPRESSION
 
-For details and examples, see the document [Conditional Expressions](../Reference/Function-and-Expression#conditional-expressions).
+For details and examples, see the document [Conditional Expressions](../Reference/Function-and-Expression.md#conditional-expressions).
 
 ```sql
 select T, P, case
