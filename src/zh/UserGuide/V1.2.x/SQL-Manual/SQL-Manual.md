@@ -1353,10 +1353,6 @@ select ifft(re, im, 'interval'='1m', 'start'='2021-01-01 00:00:00') from root.te
 
 # LowPass
 select lowpass(s1,'wpass'='0.45') from root.test.d1
-
-
-# Envelope
-select envelope(s1) from root.test.d1
 ```
 
 ### 数据匹配
