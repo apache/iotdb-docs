@@ -124,8 +124,8 @@ iotdbctl cluster check example
 * `global` is a general configuration that mainly configures machine username and password, IoTDB local installation files, Jdk configuration, etc. A `default_cluster.yaml` sample data is provided in the `iotdbctl/config` directory,
   Users can copy and modify it to their own cluster name and refer to the instructions inside to configure the IoTDB cluster. In the `default_cluster.yaml` sample, all uncommented items are required, and those that have been commented are non-required.
 
-例如要执行`default_cluster.yaml`检查命令则需要执行命令`iotdbctl cluster check default_cluster`即可，
-更多详细命令请参考下面命令列表。
+For example, to execute the `default_cluster.yaml` check command you need to execute the command `iotdbctl cluster check default_cluster`.
+See further details in the following list of commands.
 
 
 | parameter name          | parameter describe                                                                                                                                                                                                                                                                                                                                                             | required |
@@ -278,7 +278,7 @@ iotdbctl cluster scalein default_cluster
 
 * Configure the server's `user`, `passwod` or `pkey`, `ssh_port`
 * Modify the IoTDB deployment path in config/xxx.yaml, `deploy_dir` (IoTDB deployment directory), `iotdb_dir_name` (IoTDB decompression directory name, the default is iotdb)
-  For example, if the full path of IoTDB deployment is `/home/data/apache-iotdb-1.1.1`, you need to modify the yaml files `deploy_dir:/home/data/` and `iotdb_dir_name:apache-iotdb-1.1.1`
+  For example, if the full path of IoTDB deployment is `/home/data/apache-iotdb-1.1.1`, you need to modify the yaml files `deploy_dir:/home/data/` and `iotdb_dir_name:apache-iotdb-1.3.x`
 * If the server is not using java_home, modify `jdk_deploy_dir` (jdk deployment directory) and `jdk_dir_name` (the directory name after jdk decompression, the default is jdk_iotdb). If java_home is used, there is no need to modify the configuration.
   For example, the full path of jdk deployment is `/home/data/jdk_1.8.2`, you need to modify the yaml files `jdk_deploy_dir:/home/data/`, `jdk_dir_name:jdk_1.8.2`
 * Configure `cn_internal_address`, `dn_internal_address`
@@ -754,13 +754,13 @@ In the cluster deployment tool installation directory config/example, there are 
 
 ### Get the Installation Package
 
-You can either download the binary release files (see Chap 3.1) or compile with source code (see Chap 3.2).
+You can either download the binary release files or compile with source code.
 
 #### Download the binary distribution
 
 1. Open our website [Download Page](https://iotdb.apache.org/Download/).
 2. Download the binary distribution.
-3. Decompress to get the apache-iotdb-1.0.0-all-bin directory.
+3. Decompress to get the apache-iotdb-1.3.x-all-bin directory.
 
 #### Compile with source code
 
@@ -770,14 +770,14 @@ You can either download the binary release files (see Chap 3.1) or compile with 
 
 ```
 git clone https://github.com/apache/iotdb.git
-git checkout v1.0.0
+git checkout v1.3.x
 ```
 
 **Website**
 
 1. Open our website [Download Page](https://iotdb.apache.org/Download/).
 2. Download the source code.
-3. Decompress to get the apache-iotdb-1.0.0 directory.
+3. Decompress to get the apache-iotdb-1.3.x directory.
 
 ##### Compile source code
 
@@ -788,7 +788,7 @@ mvn clean package -pl distribution -am -DskipTests
 ```
 
 Then you will get the binary distribution under 
-**distribution/target/apache-iotdb-1.0.0-SNAPSHOT-all-bin/apache-iotdb-1.0.0-SNAPSHOT-all-bin**.
+**distribution/target/apache-iotdb-1.3.x-SNAPSHOT-all-bin/apache-iotdb-1.3.x-SNAPSHOT-all-bin**.
 
 ### Binary Distribution Content
 
@@ -811,7 +811,7 @@ Please deploy the files to all servers of your target cluster.
 A best practice is deploying the files into the same directory in all servers.
 
 If you want to try the cluster mode on one server, please read 
-[Cluster Quick Start](https://iotdb.apache.org/UserGuide/Master/QuickStart/ClusterQuickStart.html).
+[Cluster Quick Start](../QuickStart/ClusterQuickStart.md).
 
 #### Cluster Configuration
 
@@ -819,11 +819,11 @@ We need to modify the configurations on each server.
 Therefore, login each server and switch the working directory to `apache-iotdb-1.0.0-SNAPSHOT-all-bin`.
 The configuration files are stored in the `./conf` directory.
 
-For all ConfigNode servers, we need to modify the common configuration (see Chap 5.2.1) 
-and ConfigNode configuration (see Chap 5.2.2).
+For all ConfigNode servers, we need to modify the common configuration  
+and ConfigNode configuration.
 
-For all DataNode servers, we need to modify the common configuration (see Chap 5.2.1) 
-and DataNode configuration (see Chap 5.2.3).
+For all DataNode servers, we need to modify the common configuration
+and DataNode configuration.
 
 ##### Common configuration
 
@@ -930,7 +930,7 @@ nohup bash ./sbin/start-confignode.sh >/dev/null 2>&1 &
 ```
 
 For more details about other configuration parameters of ConfigNode, see the
-[ConfigNode Configurations](https://iotdb.apache.org/UserGuide/Master/Reference/ConfigNode-Config-Manual.html).
+[ConfigNode Configurations](../Reference/ConfigNode-Config-Manual.md).
 
 ##### Add more ConfigNodes (Optional)
 
@@ -975,7 +975,7 @@ nohup bash ./sbin/start-confignode.sh >/dev/null 2>&1 &
 ```
 
 For more details about other configuration parameters of ConfigNode, see the
-[ConfigNode Configurations](https://iotdb.apache.org/UserGuide/Master/Reference/ConfigNode-Config-Manual.html).
+[ConfigNode Configurations](../Reference/ConfigNode-Config-Manual.md).
 
 ##### Start DataNode
 
@@ -1017,7 +1017,7 @@ nohup bash ./sbin/start-datanode.sh >/dev/null 2>&1 &
 ```
 
 For more details about other configuration parameters of DataNode, see the
-[DataNode Configurations](https://iotdb.apache.org/UserGuide/Master/Reference/DataNode-Config-Manual.html).
+[DataNode Configurations](../Reference/DataNode-Config-Manual.md).
 
 **Notice: The cluster can provide services only if the number of its DataNodes is no less than the number of replicas(max{schema\_replication\_factor, data\_replication\_factor}).**
 
@@ -1034,7 +1034,7 @@ If the cluster is in local environment, you can directly run the Cli startup scr
 ```
 
 If you want to use the Cli to connect to a cluster in the production environment,
-Please read the [Cli manual](https://iotdb.apache.org/UserGuide/Master/QuickStart/Command-Line-Interface.html).
+Please read the [Cli manual](../Tools-System/CLI.md).
 
 #### Verify Cluster
 
@@ -1162,7 +1162,7 @@ Run the remove-datanode script on an active DataNode:
 
 ### FAQ
 
-See [FAQ](https://iotdb.apache.org/UserGuide/Master/FAQ/FAQ-for-cluster-setup.html).
+See [FAQ](../FAQ/Frequently-asked-questions.md).
 
 ## AINode deployment
 
