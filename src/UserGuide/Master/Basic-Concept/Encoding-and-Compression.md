@@ -120,7 +120,7 @@ The specified syntax for compression is detailed in [Create Timeseries Statement
 
 ### Compression Ratio Statistics
 
-Compression ratio statistics file: data/system/compression_ratio/Ratio-{ratio_sum}-{memtable_flush_time}
+Compression ratio statistics file: data/datanode/system/compression_ratio
 
 * ratio_sum: sum of memtable compression ratios
 * memtable_flush_time: memtable flush times

@@ -150,11 +150,11 @@ cd grafana-*
 3. Enter http://localhost:3000 in your browser to access Grafana, the default initial username and password are both admin.
 4. First we configure the Data Source in Configuration to be Prometheus.
 
-![](https://alioss.timecho.com/docs/img/3a.png)
+![](https://alioss.timecho.com/upload/3aea.jpg)
 
 5. When configuring the Data Source, pay attention to the URL where Prometheus is located, and click Save & Test after configuration, the Data source is working prompt appears, then the configuration is successful.
 
-![](https://alioss.timecho.com/docs/img/4a.png)
+![](https://alioss.timecho.com/upload/4aen.jpg)
 
 ### 1.3.2 Step2：Import the IoTDB Dashboards
 
@@ -200,7 +200,7 @@ cd grafana-*
 
 2. After that, you can visualize the monitoring-related data in the panel according to your needs (all relevant monitoring metrics can be filtered by selecting confignode/datanode in the job first).
 
-![](https://alioss.timecho.com/docs/img/12a.png)
+![](https://alioss.timecho.com/upload/12aen.jpg)
 
 3. Once the visualisation of the monitoring metrics selected for attention is complete, we get a panel like this:
 

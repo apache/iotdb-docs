@@ -118,7 +118,7 @@ IoTDB> count timeseries
 
 ### 5. 可以使用Hadoop和Spark读取IoTDB中的TsFile吗？
 
-是的。IoTDB 与开源生态紧密结合。IoTDB 支持 [Hadoop](https://github.com/apache/iotdb/tree/master/iotdb-connector/hadoop), [Spark](https://github.com/apache/iotdb/tree/master/iotdb-connector/spark-iotdb-connector) 和 [Grafana](https://github.com/apache/iotdb/tree/master/iotdb-connector/grafana-connector) 可视化工具。
+是的。IoTDB 与开源生态紧密结合。IoTDB 支持 [Hadoop](https://github.com/apache/iotdb-extras/tree/master/connectors/iotdb-connector/hadoop), [Spark](https://github.com/apache/iotdb-extras/tree/master/connectors/spark-iotdb-connector) 和 [Grafana](https://github.com/apache/iotdb-extras/tree/master/connectors/grafana-connector) 可视化工具。
 
 ### 6. IoTDB如何处理重复的数据点？
 
@@ -205,7 +205,7 @@ datanode_memory_proportion参数控制分给查询的内存，chunk_timeseriesme
 - 检查remove-datanode脚本的参数是否正确，是否传入了正确的ip:port或正确的dataNodeId
 - 只有集群可用节点数量 > max(元数据副本数量, 数据副本数量)时，移除操作才允许被执行
 - 执行移除DataNode的过程会将该DataNode上的数据迁移到其他存活的DataNode，数据迁移以Region为粒度，如果某个Region迁移失败，则被移除的DataNode会一直处于Removing状态
-- 补充：处于Removing状态的节点，其节点上的Region也是Removing或Unknown状态，即不可用状态。 该Remvoing状态的节点也不会接受客户端的请求。如果要使Removing状态的节点变为可用，用户可以使用set system status to running 命令将该节点设置为Running状态；如果要使迁移失败的Region处于可用状态，可以使用migrate region from datanodeId1 to datanodeId2 命令将该不可用的Region迁移到其他存活的节点。另外IoTDB后续也会提供remove-datanode.sh -f命令，来强制移除节点（迁移失败的Region会直接丢弃）
+- 补充：处于Removing状态的节点，其节点上的Region也是Removing或Unknown状态，即不可用状态。 该Remvoing状态的节点也不会接受客户端的请求。如果要使Removing状态的节点变为可用，用户可以使用set system status to running 命令将该节点设置为Running状态；如果要使迁移失败的Region处于可用状态，可以使用migrate region from datanodeId1 to datanodeId2 命令将该不可用的Region迁移到其他存活的节点。另外IoTDB后续也会提供 `remove-datanode.sh -f` 命令，来强制移除节点（迁移失败的Region会直接丢弃）
 
 #### 5. 挂掉的DataNode是否支持移除？
 
@@ -221,14 +221,14 @@ datanode_memory_proportion参数控制分给查询的内存，chunk_timeseriesme
 
 #### 1. 如何重启集群中的某个ConfigNode？
 
-- 第一步：通过stop-confignode.sh或kill进程方式关闭ConfigNode进程
-- 第二步：通过执行start-confignode.sh启动ConfigNode进程实现重启
+- 第一步：通过`stop-confignode.sh`或kill进程方式关闭ConfigNode进程
+- 第二步：通过执行`start-confignode.sh`启动ConfigNode进程实现重启
 - 下个版本IoTDB会提供一键重启的操作
 
 #### 2. 如何重启集群中的某个DataNode？
 
-- 第一步：通过stop-datanode.sh或kill进程方式关闭DataNode进程
-- 第二步：通过执行start-datanode.sh启动DataNode进程实现重启
+- 第一步：通过`stop-datanode.sh`或kill进程方式关闭DataNode进程
+- 第二步：通过执行`start-datanode.sh`启动DataNode进程实现重启
 - 下个版本IoTDB会提供一键重启的操作
 
 #### 3. 将某个ConfigNode移除后（remove-confignode），能否再利用该ConfigNode的data目录重启？
@@ -239,7 +239,7 @@ datanode_memory_proportion参数控制分给查询的内存，chunk_timeseriesme
 
 - 不能正常重启，启动结果为“Reject DataNode restart. Because there are no corresponding DataNode(whose nodeId=xx) in the cluster. Possible solutions are as follows:...”
 
-#### 5. 用户看到某个ConfigNode/DataNode变成了Unknown状态，在没有kill对应进程的情况下，直接删除掉ConfigNode/DataNode对应的data目录，然后执行start-confignode.sh/start-datanode.sh，这种情况下能成功吗?
+#### 5. 用户看到某个ConfigNode/DataNode变成了Unknown状态，在没有kill对应进程的情况下，直接删除掉ConfigNode/DataNode对应的data目录，然后执行`start-confignode.sh`/`start-datanode.sh`，这种情况下能成功吗?
 
 - 无法启动成功，会报错端口已被占用
 
