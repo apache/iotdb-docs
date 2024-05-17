@@ -37,22 +37,26 @@ mvn clean package -pl iotdb-client/jdbc -am -DskipTests -P get-jar-with-dependen
 ### 准备 ODBC-JDBC 桥
 *注意: 这里给出的仅仅是一种 ODBC-JDBC 桥，仅作示例。读者可以自行寻找其他的 ODBC-JDBC 桥来对接 IoTDB 的 JDBC 插件。*
 1.  **下载 Zappy-Sys ODBC-JDBC 桥插件**：
-进入 https://zappysys.com/products/odbc-powerpack/odbc-jdbc-bridge-driver/ 网站，点击下载按钮并直接安装。
+    进入 https://zappysys.com/products/odbc-powerpack/odbc-jdbc-bridge-driver/ 网站，点击下载按钮并直接安装。![ZappySys_website.jpg](https://alioss.timecho.com/upload/ZappySys_website.jpg)
 2. **准备 IoTDB**：打开 IoTDB 集群，并任意写入一条数据。
+    ```sql
+    IoTDB > insert into root.ln.wf02.wt02(timestamp,status) values(1,true)
+    ```
 3. **部署及调试插件**：
-   1. 打开 ODBC 数据源 32/64 位，取决于 Windows 的位数，一个示例的位置是 `C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools`。
-   2. 点击添加，选择 ZappySys JDBC Bridge。
-   3. 填写如下配置：
+    1. 打开 ODBC 数据源 32/64 位，取决于 Windows 的位数，一个示例的位置是 `C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools`。![ODBC_ADD_CN.jpg](https://alioss.timecho.com/upload/ODBC_ADD_CN.jpg)
+    2. 点击添加，选择 ZappySys JDBC Bridge。![ODBC_CREATE_CN.jpg](https://alioss.timecho.com/upload/ODBC_CREATE_CN.jpg)
+    3. 填写如下配置：
 
-      | 配置项                 | 填写内容                                          | 示例                                                                                                                 |
-      |---------------------|-----------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
-      | Connection String   | jdbc:iotdb://<IoTDB 的 IP>:<IoTDB 的 rpc port>/ | jdbc:iotdb://127.0.0.1:6667/                                                                                       |
-      | Driver Class        | org.apache.iotdb.jdbc.IoTDBDriver             | org.apache.iotdb.jdbc.IoTDBDriver                                                                                  |
-      | JDBC driver file(s) | IoTDB JDBC jar-with-dependencies 插件路径         | C:\Users\13361\Documents\GitHub\iotdb\iotdb-client\jdbc\target\iotdb-jdbc-1.3.2-SNAPSHOT-jar-with-dependencies.jar |
-      | User name           | IoTDB 的用户名                                    | root                                                                                                               |
-      | User password       | IoTDB 的密码                                     | root                                                                                                               |
-   4. 点击 Test Connection 按钮，应该显示连接成功。
-   5. 点击上方的 Preview， 将查询文本换为 `select * from root.**`，点击 Preview Data，应该正确显示查询结果。
+       | 配置项                 | 填写内容                                          | 示例                                                                                                                 |
+             |---------------------|-----------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
+       | Connection String   | jdbc:iotdb://<IoTDB 的 IP>:<IoTDB 的 rpc port>/ | jdbc:iotdb://127.0.0.1:6667/                                                                                       |
+       | Driver Class        | org.apache.iotdb.jdbc.IoTDBDriver             | org.apache.iotdb.jdbc.IoTDBDriver                                                                                  |
+       | JDBC driver file(s) | IoTDB JDBC jar-with-dependencies 插件路径         | C:\Users\13361\Documents\GitHub\iotdb\iotdb-client\jdbc\target\iotdb-jdbc-1.3.2-SNAPSHOT-jar-with-dependencies.jar |
+       | User name           | IoTDB 的用户名                                    | root                                                                                                               |
+       | User password       | IoTDB 的密码                                     | root                                                                                                               |
+       ![ODBC_CONNECTION.png](https://alioss.timecho.com/upload/ODBC_CONNECTION.png)
+    4. 点击 Test Connection 按钮，应该显示连接成功。![ODBC_CONFIG_CN.jpg](https://alioss.timecho.com/upload/ODBC_CONFIG_CN.jpg)
+    5. 点击上方的 Preview， 将查询文本换为 `select * from root.**`，点击 Preview Data，应该正确显示查询结果。![ODBC_TEST.jpg](https://alioss.timecho.com/upload/ODBC_TEST.jpg)
 4. **使用 ODBC 操作数据**：正确部署后，就可以使用 Windows 的 ODBC 库，对 IoTDB 的数据进行操作。 这里给出 C# 语言的代码示例：
     ```C#
     using System.Data.Odbc;
@@ -121,4 +125,4 @@ mvn clean package -pl iotdb-client/jdbc -am -DskipTests -P get-jar-with-dependen
     dbCommand.Dispose();
     dbConnection.Close();
     ```
-    运行该程序可以向 IoTDB 内写入数据，并且查询并打印写入的数据。
+   运行该程序可以向 IoTDB 内写入数据，并且查询并打印写入的数据。
