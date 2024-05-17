@@ -116,7 +116,7 @@ If you are using Linux, you can use the following shell command:
 
 ### 5. Can I use Hadoop and Spark to read TsFile in IoTDB?
 
-Yes. IoTDB has intense integration with Open Source Ecosystem. IoTDB supports [Hadoop](https://github.com/apache/iotdb/tree/master/iotdb-connector/hadoop), [Spark](https://github.com/apache/iotdb/tree/master/iotdb-connector/spark-iotdb-connector) and [Grafana](https://github.com/apache/iotdb/tree/master/iotdb-connector/grafana-connector) visualization tool.
+Yes. IoTDB has intense integration with Open Source Ecosystem. IoTDB supports [Hadoop](https://github.com/apache/iotdb-extras/tree/master/connectors/hadoop), [Spark](https://github.com/apache/iotdb-extras/tree/master/connectors/spark-iotdb-connector) and [Grafana](https://github.com/apache/iotdb-extras/tree/master/connectors/grafana-connector) visualization tool.
 
 ### 6. How does IoTDB handle duplicate points?
 
@@ -202,7 +202,7 @@ not affect normal operations. We will fix this message in the incoming releases.
 
 #### 4. Failed to remove DataNode, how to find the reason?
 
-- Examine whether the parameter of remove-datanode.sh is correct, only rpcIp:rpcPort and dataNodeId are correct parameter.
+- Examine whether the parameter of `remove-datanode.sh` is correct, only rpcIp:rpcPort and dataNodeId are correct parameter.
 - Only when the number of available DataNodes in the cluster is greater than max(schema_replication_factor, data_replication_factor), removing operation can be executed.
 - Removing DataNode will migrate the data from the removing DataNode to other alive DataNodes. Data migration is based on Region, if some regions are migrated failed, the removing DataNode will always in the status of `Removing`.
 - If the DataNode is in the status of `Removing`, the regions in the removing DataNode will also in the status of `Removing` or `Unknown`, which are unavailable status. Besides, the removing DataNode will not receive new write requests from client.
@@ -226,13 +226,13 @@ not affect normal operations. We will fix this message in the incoming releases.
 
 #### 1. How to restart any ConfigNode in the cluster?
 
-- First step: stop the process by stop-confignode.sh or kill PID of ConfigNode.
-- Second step: execute start-confignode.sh to restart ConfigNode.
+- First step: stop the process by `stop-confignode.sh` or kill PID of ConfigNode.
+- Second step: execute `start-confignode.sh` to restart ConfigNode.
 
 #### 2. How to restart any DataNode in the cluster?
 
-- First step: stop the process by stop-datanode.sh or kill PID of DataNode.
-- Second step: execute start-datanode.sh to restart DataNode.
+- First step: stop the process by `stop-datanode.sh` or kill PID of DataNode.
+- Second step: execute `s`tart-datanode.sh` to restart DataNode.
 
 #### 3. If it's possible to restart ConfigNode using the old data directory when it's removed?
 
@@ -242,7 +242,7 @@ not affect normal operations. We will fix this message in the incoming releases.
 
 - Can't. The running result will be "Reject DataNode restart. Because there are no corresponding DataNode(whose nodeId=xx) in the cluster. Possible solutions are as follows:...".
 
-#### 5. Can we execute start-confignode.sh/start-datanode.sh successfully when delete the data directory of given ConfigNode/DataNode without killing the PID?
+#### 5. Can we execute `start-confignode.sh`/`start-datanode.sh` successfully when delete the data directory of given ConfigNode/DataNode without killing the PID?
 
 - Can't. The running result will be "The port is already occupied".
 
@@ -255,7 +255,7 @@ not affect normal operations. We will fix this message in the incoming releases.
 
 #### 2. How to fix one DataNode when the disk file is broken?
 
-- We can use remove-datanode.sh to fix it. Remove-datanode will migrate the data in the removing DataNode to other alive DataNodes.
+- We can use `remove-datanode.sh` to fix it. Remove-datanode will migrate the data in the removing DataNode to other alive DataNodes.
 - IoTDB will publish Node-Fix tools in the next version.
 
 #### 3. How to decrease the memory usage of ConfigNode/DataNode?

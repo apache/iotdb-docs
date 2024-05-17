@@ -185,11 +185,11 @@
 
 ```SQL
 # 创建模板 t1`t
-create schema template `t1``t` 
+create device template `t1``t` 
 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 
 # 创建模板 t1't"t
-create schema template `t1't"t` 
+create device template `t1't"t` 
 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 ```
 
@@ -222,7 +222,7 @@ create schema template `t1't"t`
 
   ```sql
   # 创建名为 111 的元数据模板，111 为实数，需要用反引号引用。
-  create schema template `111` 
+  create device template `111` 
   (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
   ```
 

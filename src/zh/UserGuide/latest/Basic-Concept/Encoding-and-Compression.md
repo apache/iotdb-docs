@@ -115,7 +115,7 @@ IoTDB 允许在创建一个时间序列的时候指定该列的压缩方式。�
 
 ### 压缩比统计信息
 
-压缩比统计信息文件：data/datanode/system/compression_ratio/Ratio-{ratio_sum}-{memtable_flush_time}
+压缩比统计信息文件：data/datanode/system/compression_ratio
 
 * ratio_sum: memtable压缩比的总和
 * memtable_flush_time: memtable刷盘的总次数

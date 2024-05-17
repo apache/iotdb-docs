@@ -266,7 +266,7 @@ You can either download the binary release files (see Chap 3.1) or compile with 
 
 1. Open our website [Download Page](https://iotdb.apache.org/Download/).
 2. Download the binary distribution.
-3. Decompress to get the apache-iotdb-1.0.0-all-bin directory.
+3. Decompress to get the apache-iotdb-1.3.x-all-bin directory.
 
 #### Compile with source code
 
@@ -276,14 +276,14 @@ You can either download the binary release files (see Chap 3.1) or compile with 
 
 ```
 git clone https://github.com/apache/iotdb.git
-git checkout v1.0.0
+git checkout v1.3.x
 ```
 
 **Website**
 
 1. Open our website [Download Page](https://iotdb.apache.org/Download/).
 2. Download the source code.
-3. Decompress to get the apache-iotdb-1.0.0 directory.
+3. Decompress to get the apache-iotdb-1.3.x directory.
 
 ##### Compile source code
 
@@ -294,7 +294,7 @@ mvn clean package -pl distribution -am -DskipTests
 ```
 
 Then you will get the binary distribution under 
-**distribution/target/apache-iotdb-1.0.0-SNAPSHOT-all-bin/apache-iotdb-1.0.0-SNAPSHOT-all-bin**.
+**distribution/target/apache-iotdb-1.3.x-SNAPSHOT-all-bin/apache-iotdb-1.3.x-SNAPSHOT-all-bin**.
 
 ### Binary Distribution Content
 
@@ -317,7 +317,7 @@ Please deploy the files to all servers of your target cluster.
 A best practice is deploying the files into the same directory in all servers.
 
 If you want to try the cluster mode on one server, please read 
-[Cluster Quick Start](https://iotdb.apache.org/UserGuide/Master/QuickStart/ClusterQuickStart.html).
+[Cluster Quick Start](../QuickStart/ClusterQuickStart.md).
 
 #### Cluster Configuration
 
@@ -436,7 +436,7 @@ nohup bash ./sbin/start-confignode.sh >/dev/null 2>&1 &
 ```
 
 For more details about other configuration parameters of ConfigNode, see the
-[ConfigNode Configurations](https://iotdb.apache.org/UserGuide/Master/Reference/ConfigNode-Config-Manual.html).
+[ConfigNode Configurations](../Reference/ConfigNode-Config-Manual.md).
 
 ##### Add more ConfigNodes (Optional)
 
@@ -481,7 +481,7 @@ nohup bash ./sbin/start-confignode.sh >/dev/null 2>&1 &
 ```
 
 For more details about other configuration parameters of ConfigNode, see the
-[ConfigNode Configurations](https://iotdb.apache.org/UserGuide/Master/Reference/ConfigNode-Config-Manual.html).
+[ConfigNode Configurations](../Reference/ConfigNode-Config-Manual.md).
 
 ##### Start DataNode
 
@@ -523,7 +523,7 @@ nohup bash ./sbin/start-datanode.sh >/dev/null 2>&1 &
 ```
 
 For more details about other configuration parameters of DataNode, see the
-[DataNode Configurations](https://iotdb.apache.org/UserGuide/Master/Reference/DataNode-Config-Manual.html).
+[DataNode Configurations](../Reference/DataNode-Config-Manual.md).
 
 **Notice: The cluster can provide services only if the number of its DataNodes is no less than the number of replicas(max{schema\_replication\_factor, data\_replication\_factor}).**
 
@@ -668,4 +668,4 @@ Run the remove-datanode script on an active DataNode:
 
 ### FAQ
 
-See [FAQ](https://iotdb.apache.org/UserGuide/Master/FAQ/FAQ-for-cluster-setup.html).
+See [FAQ](../FAQ/Frequently-asked-questions.md).

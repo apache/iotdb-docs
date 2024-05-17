@@ -23,7 +23,7 @@
 
 IoTDB manages metadata and data based on data partitions (DataRegion), dividing the data from both the sequence and time dimensions.
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/%E5%88%86%E5%8C%BA%E6%A7%BD%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%88%86%E5%8C%BA.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/upload/data-region.jpg">
 
 ## Partition Slots
 
