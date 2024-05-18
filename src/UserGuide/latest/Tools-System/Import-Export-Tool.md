@@ -47,7 +47,7 @@ The first parameter indicates the path of the tsfile to be loaded. This command 
 
 SGLEVEL option. If the database correspond to the tsfile does not exist, the user can set the level of database through the fourth parameter. By default, it uses the database level which is set in `iotdb-datanode.properties`.
 
-The ONSUCCESS option indicates the treatment method for successfully loaded tsfile. The default value is NONE, indicating that tsfile will be retained in the source folder after successfully loaded. If true, tsfile will be deleted after successfully loaded.
+ONSUCCESS option. The default value is DELETE, which means  the processing method of successfully loaded tsfiles, and DELETE means  after the tsfile is successfully loaded, it will be deleted. NONE means after the tsfile is successfully loaded, it will be remained in the origin dir.
 
 If the `.resource` file corresponding to the file exists, it will be loaded into the data directory and engine of the Apache IoTDB. Otherwise, the corresponding `.resource` file will be regenerated from the tsfile file.
 
