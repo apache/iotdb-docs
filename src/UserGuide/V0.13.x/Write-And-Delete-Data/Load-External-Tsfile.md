@@ -31,7 +31,7 @@ The user sends specified commands to the Apache IoTDB system through the Cli too
 
 ### load tsfiles
 
-The command to load tsfiles is `load <path/dir> [autoregister=true/false][,sglevel=int][,verify=true/false]`.
+The command to load tsfiles is `load <path/dir> [autoregister=true/false][,sglevel=int]`.
 
 This command has two usages:
 
@@ -43,21 +43,14 @@ AUTOREGISTER option. If the metadata correspond to the timeseries in the tsfile 
 
 SGLEVEL option. If the storage group correspond to the tsfile does not exist, the user can set the level of storage group through the fourth parameter. By default, it uses the storage group level which is set in `iotdb-engine.properties`.
 
-VERIFY option. If this parameter is true, All timeseries in this loading tsfile will be compared with the timeseries in IoTDB. If existing a measurement which has different datatype with the measurement in IoTDB, the loading process will be stopped and exit. If consistence can be promised, setting false for this parameter will be a better choice.
-
 If the `.resource` file corresponding to the file exists, it will be loaded into the data directory and engine of the Apache IoTDB. Otherwise, the corresponding `.resource` file will be regenerated from the tsfile file.
 
 Examples:
 
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile'`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=true`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' sglevel=1`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=true`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=true,sglevel=1`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=false,sglevel=1`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false,verify=true`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false,sglevel=1,verify=true`
+- `load '/Users/Desktop/data/1575028885956-101-0.tsfile'`
+- `load '/Users/Desktop/data/1575028885956-101-0.tsfile' sglevel=1`
+- `load '/Users/Desktop/data/1575028885956-101-0.tsfile' onSuccess=delete`
+- `load '/Users/Desktop/data/1575028885956-101-0.tsfile' sglevel=1 onSuccess=delete`
 
 2. Load a batch of files by specifying a folder path (absolute path). 
 
@@ -69,7 +62,7 @@ Examples:
 * `load '/Users/Desktop/data' autoregister=false`
 * `load '/Users/Desktop/data' autoregister=true`
 * `load '/Users/Desktop/data' autoregister=true,sglevel=1`
-* `load '/Users/Desktop/data' autoregister=false,sglevel=1,verify=true`
+* `load '/Users/Desktop/data' autoregister=false,sglevel=1`
 
 #### Remote Load TsFile
 
