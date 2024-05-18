@@ -66,6 +66,7 @@ Examples:
 
 * `load '/Users/Desktop/data'`
 * `load '/Users/Desktop/data' sglevel=1`
+* `load '/Users/Desktop/data' onSuccess=delete`
 * `load '/Users/Desktop/data' sglevel=1 onSuccess=delete`
 
 **NOTICE**:  When `$IOTDB_HOME$/conf/iotdb-datanode.properties` has `enable_auto_create_schema=true`, it will automatically create metadata in TSFILE, otherwise it will not be created automatically.

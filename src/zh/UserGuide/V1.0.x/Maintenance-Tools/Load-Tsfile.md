@@ -35,7 +35,7 @@
 
 1. 通过指定文件路径(绝对路径)加载单 tsfile 文件。
 
-第一个参数表示待加载的 tsfile 文件的路径。load 命令有三个可选项，分别是 sglevel，值域为整数，onSuccess，值域为delete/none。不同选项之间用空格隔开，选项之间无顺序要求。
+第一个参数表示待加载的 tsfile 文件的路径。load 命令有两个可选项，分别是 sglevel，值域为整数，onSuccess，值域为delete/none。不同选项之间用空格隔开，选项之间无顺序要求。
 
 SGLEVEL 选项，当 tsfile 对应的 database 不存在时，用户可以通过 sglevel 参数的值来制定 database 的级别，默认为`iotdb-datanode.properties`中设置的级别。例如当设置 level 参数为1时表明此 tsfile 中所有时间序列中层级为1的前缀路径是 database，即若存在设备 root.sg.d1.s1，此时 root.sg 被指定为 database。
 
@@ -59,6 +59,7 @@ ONSUCCESS选项表示对于成功载入的tsfile的处置方式，默认为delet
 
 * `load '/Users/Desktop/data'`
 * `load '/Users/Desktop/data' sglevel=1`
+* `load '/Users/Desktop/data' onSuccess=delete`
 * `load '/Users/Desktop/data' sglevel=1 onSuccess=delete`
 
 **注意**，如果`$IOTDB_HOME$/conf/iotdb-datanode.properties`中`enable_auto_create_schema=true`时会在加载tsfile的时候自动创建tsfile中的元数据，否则不会自动创建。

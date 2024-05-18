@@ -35,7 +35,7 @@
 
 1. 通过指定文件路径(绝对路径)加载单 tsfile 文件。
 
-第二个参数表示待加载的 tsfile 文件的路径，其中文件名称需要符合 tsfile 的命名规范，即`{systemTime}-{versionNum}-{in_space_compaction_num}-{cross_space_compaction_num}.tsfile`。load 命令有三个可选项，分别是 autoregister，值域为 true/false，sglevel，值域为整数。不同选项之间用逗号连接，选项之间无顺序要求。
+第二个参数表示待加载的 tsfile 文件的路径，其中文件名称需要符合 tsfile 的命名规范，即`{systemTime}-{versionNum}-{in_space_compaction_num}-{cross_space_compaction_num}.tsfile`。load 命令有两个可选项，分别是 autoregister，值域为 true/false，sglevel，值域为整数。不同选项之间用逗号连接，选项之间无顺序要求。
 
 AUTOREGISTER 选项表示当待加载的 tsfile 文件中时间序列对应的元数据不存在时，用户可以选择是否自动创建 schema ，参数为 true 表示自动创建 schema，相反 false 表示不创建，缺省时默认创建 schema。
 

@@ -57,6 +57,7 @@ ONSUCCESS选项表示对于成功载入的tsfile的处置方式，默认为delet
 
 * `load '/Users/Desktop/data'`
 * `load '/Users/Desktop/data' sglevel=1`
+* `load '/Users/Desktop/data' onSuccess=delete`
 * `load '/Users/Desktop/data' sglevel=1 onSuccess=delete`
 
 **注意**，如果`$IOTDB_HOME$/conf/iotdb-datanode.properties`中`enable_auto_create_schema=true`时会在加载tsfile的时候自动创建tsfile中的元数据，否则不会自动创建。
