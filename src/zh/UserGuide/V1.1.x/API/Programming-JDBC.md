@@ -43,7 +43,7 @@ mvn clean install -pl jdbc -am -Dmaven.test.skip=true
     <dependency>
       <groupId>org.apache.iotdb</groupId>
       <artifactId>iotdb-jdbc</artifactId>
-      <version>1.0.0</version>
+      <version>1.1.0</version>
     </dependency>
 </dependencies>
 ```

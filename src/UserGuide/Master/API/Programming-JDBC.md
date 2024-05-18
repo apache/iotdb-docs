@@ -45,7 +45,7 @@ mvn clean install -pl iotdb-client/jdbc -am -DskipTests
     <dependency>
       <groupId>org.apache.iotdb</groupId>
       <artifactId>iotdb-jdbc</artifactId>
-      <version>0.12.0</version>
+      <version>1.3.1</version>
     </dependency>
 </dependencies>
 ```
