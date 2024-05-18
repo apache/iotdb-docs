@@ -46,9 +46,10 @@ SGLEVEL 选项，当 tsfile 对应的存储组不存在时，用户可以通过 
 示例：
 
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile'`
+* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false`
+* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=true`
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile' sglevel=1`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' onSuccess=delete`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' sglevel=1 onSuccess=delete`
+* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=true,sglevel=1`
 
 
 2. 通过指定文件夹路径(绝对路径)批量加载文件。

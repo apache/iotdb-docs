@@ -47,10 +47,11 @@ If the `.resource` file corresponding to the file exists, it will be loaded into
 
 Examples:
 
-- `load '/Users/Desktop/data/1575028885956-101-0.tsfile'`
-- `load '/Users/Desktop/data/1575028885956-101-0.tsfile' sglevel=1`
-- `load '/Users/Desktop/data/1575028885956-101-0.tsfile' onSuccess=delete`
-- `load '/Users/Desktop/data/1575028885956-101-0.tsfile' sglevel=1 onSuccess=delete`
+* `load '/Users/Desktop/data/1575028885956-101-0.tsfile'`	
+* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false`	
+* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=true`	
+* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' sglevel=1`	
+* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=true,sglevel=1`
 
 2. Load a batch of files by specifying a folder path (absolute path). 
 
