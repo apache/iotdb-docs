@@ -54,7 +54,7 @@ mvn clean package -pl iotdb-client/jdbc -am -DskipTests -P get-jar-with-dependen
     3. 填写如下配置：
 
        | 配置项                 | 填写内容                                          | 示例                                                                                                                 |
-             |---------------------|-----------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
+       |---------------------|-----------------------------------------------|--------------------------------------------------------------------------------------------------------------------|
        | Connection String   | jdbc:iotdb://<IoTDB 的 IP>:<IoTDB 的 rpc port>/ | jdbc:iotdb://127.0.0.1:6667/                                                                                       |
        | Driver Class        | org.apache.iotdb.jdbc.IoTDBDriver             | org.apache.iotdb.jdbc.IoTDBDriver                                                                                  |
        | JDBC driver file(s) | IoTDB JDBC jar-with-dependencies 插件路径         | C:\Users\13361\Documents\GitHub\iotdb\iotdb-client\jdbc\target\iotdb-jdbc-1.3.2-SNAPSHOT-jar-with-dependencies.jar |
