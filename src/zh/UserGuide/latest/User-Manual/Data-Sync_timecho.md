@@ -41,7 +41,7 @@
 
 SQL 示例如下：
 
-```SQL
+
 CREATE PIPE <PipeId> -- PipeId 是能够唯一标定任务任务的名字
 -- 数据抽取插件，必填插件
 WITH SOURCE (
@@ -50,7 +50,7 @@ WITH SOURCE (
 WITH SINK (
   [<parameter> = <value>,],
 )
-```
+
 > 📌 注：使用数据同步功能，请保证接收端开启自动创建元数据
 
 
@@ -77,7 +77,7 @@ WITH SINK (
 
 创建之后，任务不会立即被处理，需要启动任务。使用`START PIPE`语句来启动任务，从而开始处理数据：
 
-```Go
+```sql
 START PIPE<PipeId>
 ```
 
@@ -85,15 +85,14 @@ START PIPE<PipeId>
 
 停止处理数据：
 
-```Go
+
 STOP PIPE <PipeId>
-```
 
 ####  删除任务
 
 删除指定任务：
 
-```Go
+```sql
 DROP PIPE <PipeId>
 ```
 删除任务不需要先停止同步任务。
@@ -101,13 +100,13 @@ DROP PIPE <PipeId>
 
 查看全部任务：
 
-```Go
+```sql
 SHOW PIPES
 ```
 
 查看指定任务：
 
-```Go
+```sql
 SHOW PIPE <PipeId>
 ```
 
@@ -137,13 +136,13 @@ SHOW PIPE <PipeId>
 
 查看系统中的插件（含自定义与内置插件）可以用以下语句：
 
-```Go
+```sql
 SHOW PIPEPLUGINS
 ```
 
 返回结果如下：
 
-```Go
+```sql
 IoTDB> show pipeplugins
 +------------------------------+----------+---------------------------------------------------------------------------------+---------+
 |                    PluginName|PluginType|                                                                        ClassName|PluginJar|
@@ -168,14 +167,13 @@ IoTDB> show pipeplugins
 
 在这个例子中，我们可以创建一个名为 A2B 的同步任务，用来同步 A IoTDB 到 B IoTDB 间的全量数据，这里需要用到用到 sink 的 iotdb-thrift-sink 插件（内置插件），需指定接收端地址，这个例子中指定了'sink.ip'和'sink.port'，也可指定'sink.node-urls'，如下面的示例语句：
 
-```Go
+
 create pipe A2B
 with sink (
   'sink'='iotdb-thrift-sink',
   'sink.ip'='127.0.0.1',
   'sink.port'='6668'
-)
-```
+）
 
 
 ### 历史数据同步
@@ -215,7 +213,7 @@ with SINK (
 
 在 A IoTDB 上执行下列语句：
 
-```Go
+```SQL
 create pipe AB
 with source (
   'source.forwarding-pipe-requests' = 'false'
@@ -229,7 +227,7 @@ with sink (
 
 在 B IoTDB 上执行下列语句：
 
-```Go
+```SQL
 create pipe BA
 with source (
   'source.forwarding-pipe-requests' = 'false'
@@ -253,7 +251,7 @@ with sink (
 
 在 A IoTDB 上执行下列语句，将 A 中数据同步至 B：
 
-```Go
+```SQL
 create pipe AB
 with sink (
   'sink'='iotdb-thrift-sink',
@@ -264,7 +262,7 @@ with sink (
 
 在 B IoTDB 上执行下列语句，将 B 中数据同步至 C：
 
-```Go
+```SQL
 create pipe BC
 with source (
   'source.forwarding-pipe-requests' = 'true'
