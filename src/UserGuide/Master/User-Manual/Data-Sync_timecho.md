@@ -77,7 +77,7 @@ We provide the following SQL statements to manage the status of synchronisation 
 
 After creation, the task will not be processed immediately, you need to start the task. Use the `START PIPE` statement to start the task so that it can begin processing data:
 
-```Go
+```sql
 START PIPE<PipeId>
 ```
 
@@ -85,7 +85,7 @@ START PIPE<PipeId>
 
 Stop processing data:
 
-``` Go
+``` sql
 STOP PIPE <PipeId>
 ```
 
@@ -93,7 +93,7 @@ STOP PIPE <PipeId>
 
 Deletes the specified task:
 
-``` Go
+``` sql
 DROP PIPE <PipeId>
 ```
 Deleting a task does not require you to stop synchronising the task first.
@@ -101,13 +101,13 @@ Deleting a task does not require you to stop synchronising the task first.
 
 View all tasks:
 
-```Go
+```sql
 SHOW PIPES
 ```
 
 To view a specified task:
 
-```Go
+```sql
 SHOW PIPE <PipeId>.
 ```
 
@@ -137,13 +137,13 @@ Detailed parameters for each plugin can be found in the [Parameter Description](
 
 To view the plugins in the system (including custom and built-in plugins) you can use the following statement:
 
-```Go
+```sql
 SHOW PIPEPLUGINS
 ```
 
 The following results are returned:
 
-```Go
+```sql
 IoTDB> show pipeplugins
 +------------------------------+----------+---------------------------------------------------------------------------------+---------+
 |                    PluginName|PluginType|                                                                        ClassName|PluginJar|
@@ -168,7 +168,7 @@ This example is used to demonstrate the synchronisation of all data from one IoT
 
 In this example, we can create a synchronisation task named A2B to synchronise the full amount of data from IoTDB A to IoTDB B. Here we need to use the iotdb-thrift-sink plugin (built-in plugin) which uses sink, and we need to specify the address of the receiving end, in this example, we have specified 'sink.ip' and 'sink.port', and we can also specify 'sink.port'. This example specifies 'sink.ip' and 'sink.port', and also 'sink.node-urls', as in the following example statement:
 
-```Go
+```sql
 create pipe A2B
 with sink (
   'sink'='iotdb-thrift-sink', 
@@ -214,7 +214,7 @@ The detailed statement is as follows:
 
 Execute the following statements on A IoTDB:
 
-```Go
+```sql
 create pipe AB
 with source (
   'source.forwarding-pipe-requests' = 'false',
@@ -227,7 +227,7 @@ with sink (
 
 Execute the following statements on B IoTDB:
 
-```Go
+```sql
 create pipe BA
 with source (
   'source.forwarding-pipe-requests' = 'false',
@@ -250,7 +250,7 @@ In this example, in order to synchronise the data from cluster A to C, the pipe 
 
 Execute the following statement on A IoTDB to synchronise data from A to B:
 
-```Go
+```sql
 create pipe AB
 with sink (
   'sink'='iotdb-thrift-sink',
@@ -261,7 +261,7 @@ with sink (
 
 Execute the following statement on B IoTDB to synchronise data in B to C:
 
-```Go
+```sql
 create pipe BC
 with source (
   'source.forwarding-pipe-requests' = 'true',
@@ -280,7 +280,7 @@ This example is used to demonstrate a scenario where data from one IoTDB is sync
 
 In this example, you need to use the iotdb-air-gap-sink plugin in the sink task (currently supports some models of network gates, please contact the staff of Timecho Technology to confirm the specific model), and after configuring the network gate, execute the following statements on IoTDB A, where ip and port fill in the information of the network gate, and the detailed statements are as follows:
 
-```Go
+```sql
 create pipe A2B
 with sink (
   'sink'='iotdb-air-gap-sink',
