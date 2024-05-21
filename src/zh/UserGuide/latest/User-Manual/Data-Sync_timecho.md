@@ -41,7 +41,7 @@
 
 SQL 示例如下：
 
-
+```sql
 CREATE PIPE <PipeId> -- PipeId 是能够唯一标定任务任务的名字
 -- 数据抽取插件，必填插件
 WITH SOURCE (
@@ -50,7 +50,7 @@ WITH SOURCE (
 WITH SINK (
   [<parameter> = <value>,],
 )
-
+```
 > 📌 注：使用数据同步功能，请保证接收端开启自动创建元数据
 
 
@@ -85,9 +85,9 @@ START PIPE<PipeId>
 
 停止处理数据：
 
-
+```sql
 STOP PIPE <PipeId>
-
+```
 ####  删除任务
 
 删除指定任务：
