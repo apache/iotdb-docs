@@ -103,7 +103,7 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'CLI', link: 'CLI' },
-        // { text: 'Workbench', link: 'Workbench' },
+        { text: 'Workbench', link: 'Workbench_timecho' },
         { text: 'Monitor Tool', link: 'Monitor-Tool_timecho' },
         { text: 'Benchmark', link: 'Benchmark' },
         { text: 'Maintenance Tool', link: 'Maintenance-Tool_timecho' },
