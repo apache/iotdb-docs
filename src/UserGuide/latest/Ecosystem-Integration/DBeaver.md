@@ -70,11 +70,11 @@ DBeaver is a SQL client software application and a database administration tool.
    Default User: root
    ```
 
-9. Open New DataBase Connection and select iotdb
+8. Open New DataBase Connection and select iotdb
 
    ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/06.png) 
 
-10.  Edit JDBC Connection Settings
+9.  Edit JDBC Connection Settings
 
    ```
    JDBC URL: jdbc:iotdb://127.0.0.1:6667/
