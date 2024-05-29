@@ -83,14 +83,15 @@ Illustrated as the following figure:
 
 ### Type inference
 
-| Data(String Format) | Format Type | iotdb-datanode.properties     | Default |
-|:---:|:---|:------------------------------|:---|
-| true | boolean | boolean\_string\_infer\_type  | BOOLEAN |
-| 1 | integer | integer\_string\_infer\_type  | FLOAT |
-| 17000000（integer > 2^24） | integer | long\_string\_infer\_type     | DOUBLE |
-| 1.2 | floating | floating\_string\_infer\_type | FLOAT |
-| NaN | nan | nan\_string\_infer\_type      | DOUBLE |
-| 'I am text' | text | x                             | x |
+|   Data(String Format)    | Format Type | iotdb-datanode.properties                                                                                                                     | Default |
+|:------------------------:|:------------|:----------------------------------------------------------------------------------------------------------------------------------------------|:--------|
+|           true           | boolean     | boolean\_string\_infer\_type                                                                                                                  | BOOLEAN |
+|            1             | integer     | integer\_string\_infer\_type                                                                                                                  | FLOAT   |
+| 17000000（integer > 2^24） | integer     | long\_string\_infer\_type                                                                                                                     | DOUBLE  |
+|           1.2            | floating    | floating\_string\_infer\_type                                                                                                                 | FLOAT   |
+|           NaN            | nan         | nan\_string\_infer\_type                                                                                                                      | DOUBLE  |
+|        X'CAFEBABE'        | blob        | x                                                                                                                                             | x       |
+|       'I am text'        | string      | x（Strings with a length less than 512 bytes are automatically inferred to be of type STRING, otherwise they are inferred to be of type TEXT.） | x       |
 
 * Data types can be configured as BOOLEAN, INT32, INT64, FLOAT, DOUBLE, TEXT.
 
@@ -99,13 +100,17 @@ Illustrated as the following figure:
 ### Encoding Type
 
 | Data Type | iotdb-datanode.properties  | Default |
-|:---|:---------------------------|:---|
-| BOOLEAN | default\_boolean\_encoding | RLE |
-| INT32 | default\_int32\_encoding   | RLE |
-| INT64 | default\_int64\_encoding   | RLE |
-| FLOAT | default\_float\_encoding   | GORILLA |
-| DOUBLE | default\_double\_encoding  | GORILLA |
-| TEXT | default\_text\_encoding    | PLAIN |
+|:----------|:---------------------------|:---|
+| BOOLEAN   | default\_boolean\_encoding | RLE |
+| INT32     | default\_int32\_encoding   | RLE |
+| DATE      | default\_int32\_encoding   | RLE |
+| INT64     | default\_int64\_encoding   | RLE |
+| TIEMSTAMP | default\_int64\_encoding   | RLE |
+| FLOAT     | default\_float\_encoding   | GORILLA |
+| DOUBLE    | default\_double\_encoding  | GORILLA |
+| TEXT      | default\_text\_encoding    | PLAIN |
+| STRING    | default\_text\_encoding    | PLAIN |
+| BLOB      | default\_text\_encoding    | PLAIN |
 
 * Encoding types can be configured as PLAIN, RLE, TS_2DIFF, GORILLA, DICTIONARY.
 
