@@ -82,15 +82,14 @@
 
 ### 类型推断
 
-|      数据(String)       | 字符串格式    | iotdb-datanode.properties配置项                    | 默认值     |
-|:---------------------:|:---------|:------------------------------------------------|:--------|
-|         true          | boolean  | boolean\_string\_infer\_type                    | BOOLEAN |
-|           1           | integer  | integer\_string\_infer\_type                    | FLOAT   |
-| 17000000（大于 2^24 的整数） | integer  | long\_string\_infer\_type                       | DOUBLE  |
-|          1.2          | floating | floating\_string\_infer\_type                   | FLOAT   |
-|          NaN          | nan      | nan\_string\_infer\_type                        | DOUBLE  |
-|      X'CAFEBABE'       | blob     | 无                                               | 无       |
-|      'I am text'      | string   | 无（字节数小于512B的字符串，会自动推断为 STRING 类型，否则推断为 TEXT 类型） | 无       |
+| 数据(String) | 字符串格式 | iotdb-datanode.properties配置项  | 默认值 |
+|:---:|:---|:------------------------------|:---|
+| true | boolean | boolean\_string\_infer\_type  | BOOLEAN |
+| 1 | integer | integer\_string\_infer\_type  | FLOAT |
+| 17000000（大于 2^24 的整数） | integer | long\_string\_infer\_type     | DOUBLE |
+| 1.2 | floating | floating\_string\_infer\_type | FLOAT |
+| NaN | nan | nan\_string\_infer\_type      | DOUBLE |
+| 'I am text' | text | 无                             | 无 |
 
 * 可配置的数据类型包括：BOOLEAN, INT32, INT64, FLOAT, DOUBLE, TEXT
 

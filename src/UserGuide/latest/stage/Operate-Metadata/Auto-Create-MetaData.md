@@ -83,15 +83,14 @@ Illustrated as the following figure:
 
 ### Type inference
 
-|   Data(String Format)    | Format Type | iotdb-datanode.properties                                                                                                                     | Default |
-|:------------------------:|:------------|:----------------------------------------------------------------------------------------------------------------------------------------------|:--------|
-|           true           | boolean     | boolean\_string\_infer\_type                                                                                                                  | BOOLEAN |
-|            1             | integer     | integer\_string\_infer\_type                                                                                                                  | FLOAT   |
-| 17000000（integer > 2^24） | integer     | long\_string\_infer\_type                                                                                                                     | DOUBLE  |
-|           1.2            | floating    | floating\_string\_infer\_type                                                                                                                 | FLOAT   |
-|           NaN            | nan         | nan\_string\_infer\_type                                                                                                                      | DOUBLE  |
-|        X'CAFEBABE'        | blob        | x                                                                                                                                             | x       |
-|       'I am text'        | string      | x（Strings with a length less than 512 bytes are automatically inferred to be of type STRING, otherwise they are inferred to be of type TEXT.） | x       |
+| Data(String Format) | Format Type | iotdb-datanode.properties     | Default |
+|:---:|:---|:------------------------------|:---|
+| true | boolean | boolean\_string\_infer\_type  | BOOLEAN |
+| 1 | integer | integer\_string\_infer\_type  | FLOAT |
+| 17000000（integer > 2^24） | integer | long\_string\_infer\_type     | DOUBLE |
+| 1.2 | floating | floating\_string\_infer\_type | FLOAT |
+| NaN | nan | nan\_string\_infer\_type      | DOUBLE |
+| 'I am text' | text | x                             | x |
 
 * Data types can be configured as BOOLEAN, INT32, INT64, FLOAT, DOUBLE, TEXT.
 
