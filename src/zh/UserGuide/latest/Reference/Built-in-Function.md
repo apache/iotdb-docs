@@ -672,7 +672,7 @@ select sqrt(s1) from root.db
 
 ### ON_OFF
 ```sql
-ON_OFF('threshold'='ts_value')
+ON_OFF(expr,'threshold'='ts_value')
 ```
 #### 功能描述
 返回`ts_value >= threshold`的bool值
@@ -714,7 +714,7 @@ IoTDB> select ts, on_off(ts, 'threshold'='2') from root.test;
 
 ### IN_RANGE
 ```sql
-IN_RANGE(timeseries,'lower'='x', 'upper'='y')
+IN_RANGE(expr,[lower,upper])
 ```
 #### 功能描述
 返回`ts_value >= lower && ts_value <= upper`的bool值
@@ -760,7 +760,7 @@ IoTDB> select ts, in_range(ts, 'lower'='2', 'upper'='3.1') from root.test;
 
 ###  STRING_CONTAINS
 ```sql
-STRING_CONTAINS(s='x')
+STRING_CONTAINS('s'='content')
 ```
 + 参数`s`: 待搜寻的字符串
 #### 功能描述
@@ -788,7 +788,7 @@ Total line number = 3
 
 ###  STRING_MATCHES
 ```sql
-STRING_MATCHES(`regex`='x')
+STRING_MATCHES('regex'='s')
 ```
 + `regex`: Java 标准库风格的正则表达式
 #### 功能描述
@@ -851,7 +851,7 @@ select s1, length(s1) from root.sg1.d1;
 
 ###  Locate
 ```sql
-Locate("target"='x',"reverse"='x')
+Locate('target'='s','reverse'='false')
 ```
 
 **参数:**
@@ -891,7 +891,7 @@ select s1, locate(s1, "target"="1", "reverse"="true") from root.sg1.d1;
 
 ###  StartsWith
 ```sql
-StartsWith("target"='x')
+StartsWith('target'='s')
 ```
 **参数:**
 + `target`: 需要匹配的前缀
@@ -928,7 +928,7 @@ select s1, startswith(s1, "target"="1") from root.sg1.d1;
 
 ###  EndsWith
 ```sql
-EndsWith("target")
+EndsWith('target'='s')
 ```
 **参数:**
 + `target`: 需要匹配的后缀
@@ -965,7 +965,7 @@ select s1, endswith(s1, "target"="1") from root.sg1.d1;
 
 ###  Concat
 ```sql
-Concat("targets",`series_behind`)
+Concat('targets','series_behind'='s')
 ```
 **参数:**
 + `targets`: 一系列 K-V, key需要以`target`为前缀且不重复, value是待拼接的字符串。
@@ -1006,7 +1006,7 @@ select s1, s2, concat(s1, s2, "target1"="IoT", "target2"="DB") from root.sg1.d1;
 
 ###  Substring
 ```sql
-Substring("targets",`series_behind`)
+Substring(timeseries from a to b)
 ```
 **参数:**
 + `from`: 指定子串开始下标。
@@ -1045,11 +1045,11 @@ select s1, substring(s1 from 1 for 2) from root.sg1.d1;
 
 ###  Replace
 ```sql
-Replace('x', 'y')
+Replace(timeseries,'source', 'target')
 ```
 **参数:**
-+ 'x': 需要替换的目标子串。
-+ 'y': 要替换成的子串。
++ `source`: 需要替换的目标子串。
++ `target`: 要替换成的子串。
   
 #### 功能描述
 将输入序列中的子串替换成目标子串
@@ -1279,7 +1279,7 @@ select cast(s6 as INT32), cast(s6 as INT64), cast(s6 as FLOAT), cast(s6 as DOUBL
 ## 选择函数
 ###  TOP_K
 ```sql
-TOP_K(expr1,`k`)
+TOP_K(expr,'k'='value')
 ```
 **参数:** 
 + `k`: 最多选择的数据点数，必须大于 0 小于等于 1000
@@ -1320,7 +1320,7 @@ select s1,top_k(s1, 'k'='2') from root.sg1.d2 where time > 2020-12-10T20:36:15.5
 
 ###  BOTTOM_K
 ```sql
-BOTTOM_K(expr,'k')
+BOTTOM_K(expr,'k'='value')
 ```
 **参数:** 
 + `k`: 最多选择的数据点数，必须大于 0 小于等于 1000
@@ -1394,7 +1394,7 @@ It costs 0.006s
 ###  EQUAL_SIZE_BUCKET_RANDOM_SAMPLE
 本函数对等数量分桶后，桶内进行随机采样。
 ```sql
-EQUAL_SIZE_BUCKET_RANDOM_SAMPLE(expr,`proportion`)
+EQUAL_SIZE_BUCKET_RANDOM_SAMPLE(expr,'proportion'='value')
 ```
 **参数**
 降采样比例 `proportion`，取值范围为`(0, 1]`，默认为`0.1`
@@ -1433,7 +1433,7 @@ select equal_size_bucket_random_sample(temperature,'proportion'='0.1') as random
 
 每个桶采样输出的时间戳为这个桶第一个点的时间戳
 ```sql
-EQUAL_SIZE_BUCKET_AGG_SAMPLE(expr,`proportion`)
+EQUAL_SIZE_BUCKET_AGG_SAMPLE(expr,'proportion'='value','type'='type_name')
 ```
 **参数**
 `proportion`取值范围为`(0, 1]`，默认为`0.1`<br>`type`:取值类型有`avg`, `max`, `min`, `sum`, `extreme`, `variance`, 默认为`avg`
@@ -1469,7 +1469,7 @@ select equal_size_bucket_agg_sample(temperature, 'type'='avg','proportion'='0.1'
 ###  EQUAL_SIZE_BUCKET_M4_SAMPLE
 本函数采用M4采样法对输入序列进行采样。即对于每个桶采样首、尾、最小和最大值。
 ```sql
-EQUAL_SIZE_BUCKET_M4_SAMPLE(expr1,expr2)
+L_SIZE_BUCKET_M4_SAMPLE(expr,'proportion'='value')
 ```
 **参数**
 `proportion`取值范围为`(0, 1]`，默认为`0.1`
@@ -1507,7 +1507,7 @@ select equal_size_bucket_m4_sample(temperature, 'proportion'='0.1') as M4_sample
 ###  EQUAL_SIZE_BUCKET_OUTLIER_SAMPLE
 本函数对输入序列进行等数量分桶离群值采样，即根据用户给定的降采样比例和桶内采样个数将输入序列按固定点数等分为若干桶，在每个桶内通过给定的离群值采样方法进行采样。
 ```sql
-EQUAL_SIZE_BUCKET_OUTLIER_SAMPLE(expr,`proportion`,`type`)
+EQUAL_SIZE_BUCKET_OUTLIER_SAMPLE(expr,'proportion'='value','type'='type_name')
 ```
 **参数说明**
 - `proportion`: 采样比例
@@ -1582,7 +1582,7 @@ select equal_size_bucket_outlier_sample(temperature, 'proportion'='0.1', 'type'=
 
 ###  M4
 ```sql
-M4(expr,'timeInterval','displayWindowBegin','displayWindowEnd')
+M4(expr,'timeInterval'='a','displayWindowBegin'='b','displayWindowEnd'='c')
 ```
 #### 功能描述
 返回每个窗口内的第一个点（`first`）、最后一个点（`last`）、最小值点（`bottom`）、最大值点（`top`）。在一个窗口内的聚合点输出之前，M4会将它们按照时间戳递增排序并且去重。
@@ -1731,7 +1731,7 @@ select M4(s1,'timeInterval'='$__interval_ms') from root.sg1.d1
 常序列生成函数接受一个或者多个时间序列输入，其输出的数据点的时间戳集合是这些输入序列时间戳集合的并集。
 ###  CONST
 ```sql
-CONST(expr,`value`,`type`)
+CONST(expr,'value'='s','type'='type_name')
 ```
 **参数：**
 `value`: 输出的数据点的值 <br />`type`: 输出的数据点的类型，只能是 INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | 由输入属性参数 `type` 决定
@@ -1761,7 +1761,7 @@ select s1, s2, const(s1, 'value'='1024', 'type'='INT64'), pi(s2), e(s1, s2) from
 
 ###  PI
 ```sql
-PI(expr1,expr2)
+PI(expr1,expr2,expr...)
 ```
 #### 功能描述
 返回常序列的值：`π` 的 `double` 值，圆的周长与其直径的比值，即圆周率，等于 *Java标准库* 中的`Math.PI`。
@@ -1790,7 +1790,7 @@ select s1, s2, const(s1, 'value'='1024', 'type'='INT64'), pi(s2), e(s1, s2) from
 
 ###  E
 ```sql
-E(expr1,expr2)
+E(expr1,expr2,expr...)
 ```
 #### 功能描述
 返回常序列的值：`e` 的 `double` 值，自然对数的底，它等于 *Java 标准库*  中的 `Math.E`。
@@ -2195,7 +2195,7 @@ select s1, non_negative_difference(s1) from root.sg1.d1 limit 5 offset 1000;
 
 ###  DIFF
 ```sql
-DIFF(expr,`ignoreNull`)
+DIFF(expr,'ignoreNull'='false')
 ```
 **参数**
 `ignoreNull`：可选，默认为true；为true时，前一个数据点值为null时，忽略该数据点继续向前找到第一个出现的不为null的值；为false时，如果前一个数据点为null，则不忽略，使用null进行相减，结果也为null
