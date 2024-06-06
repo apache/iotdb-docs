@@ -42,7 +42,7 @@ TsFile 是在 IoTDB 中使用的时间序列的文件格式，您可以通过CLI
 
 SGLEVEL 选项，当 tsfile 对应的 database 不存在时，用户可以通过 sglevel 参数的值来制定 database 的级别，默认为`iotdb-datanode.properties`中设置的级别。例如当设置 level 参数为1时表明此 tsfile 中所有时间序列中层级为1的前缀路径是 database，即若存在设备 root.sg.d1.s1，此时 root.sg 被指定为 database。
 
-ONSUCCESS选项表示对于成功载入的tsfile的处置方式，默认为delete，即tsfile成功加载后将被删除，如果是none表明tsfile成功加载之后依然被保留在源文件夹。
+ONSUCCESS选项表示对于成功载入的tsfile的处置方式，默认为none。如果是none表明tsfile成功加载之后依然被保留在源文件夹。可选delete，即tsfile成功加载后将被删除。
 
 若待加载的 tsfile 文件对应的`.resource`文件存在，会被一并加载至 Apache IoTDB 数据文件的目录和引擎中，否则将通过 tsfile 文件重新生成对应的`.resource`文件，即加载的 tsfile 文件所对应的`.resource`文件不是必要的。
 
