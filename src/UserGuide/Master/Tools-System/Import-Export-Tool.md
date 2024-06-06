@@ -43,11 +43,9 @@ This command has two usages:
 
 1. Load a single tsfile by specifying a file path (absolute path).
 
-The first parameter indicates the path of the tsfile to be loaded. This command has three options: sglevel, verify, onSuccess.
+The first parameter indicates the path of the tsfile to be loaded. This command has 2 options: sglevel, onSuccess.
 
 SGLEVEL option. If the database correspond to the tsfile does not exist, the user can set the level of database through the fourth parameter. By default, it uses the database level which is set in `iotdb-datanode.properties`.
-
-VERIFY option. If this parameter is true, All timeseries in this loading tsfile will be compared with the timeseries in IoTDB. If existing a measurement which has different datatype with the measurement in IoTDB, the loading process will be stopped and exit. If consistence can be promised, setting false for this parameter will be a better choice.
 
 ONSUCCESS option. The default value is DELETE, which means  the processing method of successfully loaded tsfiles, and DELETE means  after the tsfile is successfully loaded, it will be deleted. NONE means after the tsfile is successfully loaded, it will be remained in the origin dir.
 
@@ -77,14 +75,13 @@ Examples:
 Run rewrite-tsfile.bat if you are in a Windows environment, or rewrite-tsfile.sh if you are on Linux or Unix.
 
 ```bash
-./load-tsfile.bat -f filePath [-h host] [-p port] [-u username] [-pw password] [--sgLevel int] [--verify true/false] [--onSuccess none/delete]
+./load-tsfile.bat -f filePath [-h host] [-p port] [-u username] [-pw password] [--sgLevel int] [--onSuccess none/delete]
 -f 			File/Directory to be load, required
 -h 			IoTDB Host address, optional field, 127.0.0.1 by default
 -p 			IoTDB port, optional field, 6667 by default
 -u 			IoTDB user name, optional field, root by default
 -pw 		IoTDB password, optional field, root by default
 --sgLevel 	Sg level of loading Tsfile, optional field, default_storage_group_level in 				iotdb-common.properties by default
---verify 	Verify schema or not, optional field, True by default
 --onSuccess Delete or remain origin TsFile after loading, optional field, none by default
 ```
 
