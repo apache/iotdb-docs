@@ -31,7 +31,7 @@
 
 #### 加载 tsfile 文件
 
-加载 tsfile 文件的指令为：`load '<path/dir>' [sglevel=int][verify=true/false][onSuccess=delete/none]`
+加载 tsfile 文件的指令为：`load '<path/dir>' [sglevel=int][onSuccess=delete/none]`
 
 该指令有两种用法：
 
@@ -50,14 +50,9 @@ ONSUCCESS选项表示对于成功载入的tsfile的处置方式，默认为delet
 示例：
 
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile'`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=true`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=false`
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile' sglevel=1`
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile' onSuccess=delete`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=true sglevel=1`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=false sglevel=1`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=true onSuccess=none`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=false sglevel=1 onSuccess=delete`
+* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' sglevel=1 onSuccess=delete`
 
 
 2. 通过指定文件夹路径(绝对路径)批量加载文件。
@@ -67,10 +62,8 @@ ONSUCCESS选项表示对于成功载入的tsfile的处置方式，默认为delet
 示例：
 
 * `load '/Users/Desktop/data'`
-* `load '/Users/Desktop/data' verify=false`
-* `load '/Users/Desktop/data' verify=true`
-* `load '/Users/Desktop/data' verify=true sglevel=1`
-* `load '/Users/Desktop/data' verify=false sglevel=1 onSuccess=delete`
+* `load '/Users/Desktop/data' sglevel=1`
+* `load '/Users/Desktop/data' sglevel=1 onSuccess=delete`
 
 **注意**，如果`$IOTDB_HOME$/conf/iotdb-datanode.properties`中`enable_auto_create_schema=true`时会在加载tsfile的时候自动创建tsfile中的元数据，否则不会自动创建。
 

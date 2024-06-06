@@ -32,7 +32,7 @@ The user sends specified commands to the Apache IoTDB system through the Cli too
 
 #### load tsfiles
 
-The command to load tsfiles is `load <path/dir> [sglevel=int][verify=true/false][onSuccess=delete/none]`.
+The command to load tsfiles is `load <path/dir> [sglevel=int][onSuccess=delete/none]`.
 
 This command has two usages:
 
@@ -51,14 +51,9 @@ If the `.resource` file corresponding to the file exists, it will be loaded into
 Examples:
 
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile'`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=true`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=false`
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile' sglevel=1`
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile' onSuccess=delete`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=true sglevel=1`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=false sglevel=1`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=true onSuccess=none`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=false sglevel=1 onSuccess=delete`
+* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' sglevel=1 onSuccess=delete`
 
 2. Load a batch of files by specifying a folder path (absolute path).
 
@@ -67,10 +62,8 @@ The first parameter indicates the path of the tsfile to be loaded. The options a
 Examples:
 
 * `load '/Users/Desktop/data'`
-* `load '/Users/Desktop/data' verify=false`
-* `load '/Users/Desktop/data' verify=true`
-* `load '/Users/Desktop/data' verify=true sglevel=1`
-* `load '/Users/Desktop/data' verify=false sglevel=1 onSuccess=delete`
+* `load '/Users/Desktop/data' sglevel=1`
+* `load '/Users/Desktop/data' sglevel=1 onSuccess=delete`
 
 **NOTICE**:  When `$IOTDB_HOME$/conf/iotdb-datanode.properties` has `enable_auto_create_schema=true`, it will automatically create metadata in TSFILE, otherwise it will not be created automatically.
 

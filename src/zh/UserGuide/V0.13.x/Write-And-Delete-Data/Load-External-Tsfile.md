@@ -29,7 +29,7 @@
 
 #### 加载 tsfile 文件
 
-加载 tsfile 文件的指令为：`load '<path/dir>' [autoregister=true/false][,sglevel=int][,verify=true/false]`
+加载 tsfile 文件的指令为：`load '<path/dir>' [autoregister=true/false][,sglevel=int]`
 
 该指令有两种用法：
 
@@ -51,11 +51,9 @@ VERIFY 选项表示是否对载入的 tsfile 中的所有时间序列进行元�
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false`
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=true`
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile' sglevel=1`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=true`
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=true,sglevel=1`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=false,sglevel=1`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false,verify=true`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false,sglevel=1,verify=true`
+* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false`
+* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false,sglevel=1`
 
 
 2. 通过指定文件夹路径(绝对路径)批量加载文件。
@@ -68,7 +66,6 @@ VERIFY 选项表示是否对载入的 tsfile 中的所有时间序列进行元�
 * `load '/Users/Desktop/data' autoregister=false`
 * `load '/Users/Desktop/data' autoregister=true`
 * `load '/Users/Desktop/data' autoregister=true,sglevel=1`
-* `load '/Users/Desktop/data' autoregister=false,sglevel=1,verify=true`
 
 #### 远程加载
 

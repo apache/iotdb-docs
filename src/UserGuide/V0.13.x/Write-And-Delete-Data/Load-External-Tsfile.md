@@ -31,7 +31,7 @@ The user sends specified commands to the Apache IoTDB system through the Cli too
 
 ### load tsfiles
 
-The command to load tsfiles is `load <path/dir> [autoregister=true/false][,sglevel=int][,verify=true/false]`.
+The command to load tsfiles is `load <path/dir> [autoregister=true/false][,sglevel=int]`.
 
 This command has two usages:
 
@@ -53,11 +53,7 @@ Examples:
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false`
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=true`
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile' sglevel=1`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=true`
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=true,sglevel=1`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=false,sglevel=1`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false,verify=true`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false,sglevel=1,verify=true`
 
 2. Load a batch of files by specifying a folder path (absolute path). 
 
@@ -69,7 +65,6 @@ Examples:
 * `load '/Users/Desktop/data' autoregister=false`
 * `load '/Users/Desktop/data' autoregister=true`
 * `load '/Users/Desktop/data' autoregister=true,sglevel=1`
-* `load '/Users/Desktop/data' autoregister=false,sglevel=1,verify=true`
 
 #### Remote Load TsFile
 
