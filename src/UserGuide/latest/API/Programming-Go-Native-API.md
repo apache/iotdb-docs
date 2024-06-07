@@ -26,7 +26,7 @@
  * golang >= 1.13
  * make   >= 3.0
  * curl   >= 7.1.1
- * thrift 0.13.x
+ * thrift 0.15.x
  * Linux、Macos or other unix-like systems
  * Windows+bash (WSL、cygwin、Git Bash)
 
@@ -52,10 +52,10 @@ go run session_example.go
 * GOPATH
 
 ```sh
-# get thrift 0.13.0
+# get thrift 0.15.0
 go get github.com/apache/thrift
 cd $GOPATH/src/github.com/apache/thrift
-git checkout 0.13.0
+git checkout 0.15.0
 
 mkdir -p $GOPATH/src/iotdb-client-go-example/session_example
 cd $GOPATH/src/iotdb-client-go-example/session_example
