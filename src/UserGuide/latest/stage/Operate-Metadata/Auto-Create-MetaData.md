@@ -99,13 +99,17 @@ Illustrated as the following figure:
 ### Encoding Type
 
 | Data Type | iotdb-datanode.properties  | Default |
-|:---|:---------------------------|:---|
-| BOOLEAN | default\_boolean\_encoding | RLE |
-| INT32 | default\_int32\_encoding   | RLE |
-| INT64 | default\_int64\_encoding   | RLE |
-| FLOAT | default\_float\_encoding   | GORILLA |
-| DOUBLE | default\_double\_encoding  | GORILLA |
-| TEXT | default\_text\_encoding    | PLAIN |
+|:----------|:---------------------------|:---|
+| BOOLEAN   | default\_boolean\_encoding | RLE |
+| INT32     | default\_int32\_encoding   | RLE |
+| DATE      | default\_int32\_encoding   | RLE |
+| INT64     | default\_int64\_encoding   | RLE |
+| TIEMSTAMP | default\_int64\_encoding   | RLE |
+| FLOAT     | default\_float\_encoding   | GORILLA |
+| DOUBLE    | default\_double\_encoding  | GORILLA |
+| TEXT      | default\_text\_encoding    | PLAIN |
+| STRING    | default\_text\_encoding    | PLAIN |
+| BLOB      | default\_text\_encoding    | PLAIN |
 
 * Encoding types can be configured as PLAIN, RLE, TS_2DIFF, GORILLA, DICTIONARY.
 

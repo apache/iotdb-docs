@@ -89,20 +89,20 @@ OR, |, ||
 
 ### 聚合函数
 
-| 函数名      | 功能描述                                                     | 允许的输入类型           | 输出类型       |
-| ----------- | ------------------------------------------------------------ | ------------------------ | -------------- |
-| SUM         | 求和。                                                       | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
-| COUNT       | 计算数据点数。                                               | 所有类型                 | INT            |
-| AVG         | 求平均值。                                                   | INT32 INT64 FLOAT DOUBLE | DOUBLE         |
-| EXTREME     | 求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。 | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
-| MAX_VALUE   | 求最大值。                                                   | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
-| MIN_VALUE   | 求最小值。                                                   | INT32 INT64 FLOAT DOUBLE | 与输入类型一致 |
-| FIRST_VALUE | 求时间戳最小的值。                                           | 所有类型                 | 与输入类型一致 |
-| LAST_VALUE  | 求时间戳最大的值。                                           | 所有类型                 | 与输入类型一致 |
-| MAX_TIME    | 求最大时间戳。                                               | 所有类型                 | Timestamp      |
-| MIN_TIME    | 求最小时间戳。                                               | 所有类型                 | Timestamp      |
-| MAX_BY      | MAX_BY(x, y) 求二元输入 x 和 y 在 y 最大时对应的 x 的值。MAX_BY(time, x) 返回 x 取最大值时对应的时间戳。 | 第一个输入 x 可以是任意类型，第二个输入 y 只能是 INT32 INT64 FLOAT DOUBLE  |  与第一个输入 x 的数据类型一致 |
-| MIN_BY      | MIN_BY(x, y) 求二元输入 x 和 y 在 y 最小时对应的 x 的值。MIN_BY(time, x) 返回 x 取最小值时对应的时间戳。 | 第一个输入 x 可以是任意类型，第二个输入 y 只能是 INT32 INT64 FLOAT DOUBLE  |  与第一个输入 x 的数据类型一致 |
+| 函数名      | 功能描述                                                     | 允许的输入类型                                              | 输出类型       |
+| ----------- | ------------------------------------------------------------ |------------------------------------------------------| -------------- |
+| SUM         | 求和。                                                       | INT32 INT64 FLOAT DOUBLE                             | DOUBLE         |
+| COUNT       | 计算数据点数。                                               | 所有类型                                                 | INT            |
+| AVG         | 求平均值。                                                   | INT32 INT64 FLOAT DOUBLE                             | DOUBLE         |
+| EXTREME     | 求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。 | INT32 INT64 FLOAT DOUBLE                             | 与输入类型一致 |
+| MAX_VALUE   | 求最大值。                                                   | INT32 INT64 FLOAT DOUBLE STRING TIMESTAMP DATE       | 与输入类型一致 |
+| MIN_VALUE   | 求最小值。                                                   | INT32 INT64 FLOAT DOUBLE STRING TIMESTAMP DATE                             | 与输入类型一致 |
+| FIRST_VALUE | 求时间戳最小的值。                                           | 所有类型                                                 | 与输入类型一致 |
+| LAST_VALUE  | 求时间戳最大的值。                                           | 所有类型                                                 | 与输入类型一致 |
+| MAX_TIME    | 求最大时间戳。                                               | 所有类型                                                 | Timestamp      |
+| MIN_TIME    | 求最小时间戳。                                               | 所有类型                                                 | Timestamp      |
+| MAX_BY      | MAX_BY(x, y) 求二元输入 x 和 y 在 y 最大时对应的 x 的值。MAX_BY(time, x) 返回 x 取最大值时对应的时间戳。 | 第一个输入 x 可以是任意类型，第二个输入 y 只能是 INT32 INT64 FLOAT DOUBLE STRING TIMESTAMP DATE  |  与第一个输入 x 的数据类型一致 |
+| MIN_BY      | MIN_BY(x, y) 求二元输入 x 和 y 在 y 最小时对应的 x 的值。MIN_BY(time, x) 返回 x 取最小值时对应的时间戳。 | 第一个输入 x 可以是任意类型，第二个输入 y 只能是 INT32 INT64 FLOAT DOUBLE STRING TIMESTAMP DATE  |  与第一个输入 x 的数据类型一致 |
 
 详细说明及示例见文档 [聚合函数](../Reference/Function-and-Expression.md#聚合函数)。
 
@@ -145,21 +145,21 @@ OR, |, ||
 
 ### 字符串函数
 
-| 函数名             | 输入序列类型 | 必要的属性参数                                                                                                   | 输出序列类型 | 功能描述                                                                    |
-|-----------------| ------------ |-----------------------------------------------------------------------------------------------------------| ------------ |-------------------------------------------------------------------------|
-| STRING_CONTAINS | TEXT         | `s`: 待搜寻的字符串                                                                                              | BOOLEAN      | 判断字符串中是否存在`s`                                                           |
-| STRING_MATCHES  | TEXT         | `regex`: Java 标准库风格的正则表达式                                                                                 | BOOLEAN      | 判断字符串是否能够被正则表达式`regex`匹配                                                |
-| LENGTH          | TEXT | 无                                                                                                         | INT32 | 返回字符串的长度                                                                |
-| LOCATE          | TEXT | `target`: 需要被定位的子串 <br/> `reverse`: 指定是否需要倒序定位，默认值为`false`, 即从左至右定位                                       | INT32 | 获取`target`子串第一次出现在输入序列的位置，如果输入序列中不包含`target`则返回 -1                      |
-| STARTSWITH      | TEXT | `target`: 需要匹配的前缀                                                                                         | BOOLEAN | 判断字符串是否有指定前缀                                                            |
-| ENDSWITH        | TEXT | `target`: 需要匹配的后缀                                                                                         | BOOLEAN | 判断字符串是否有指定后缀                                                            |
-| CONCAT          | TEXT | `targets`: 一系列 K-V, key需要以`target`为前缀且不重复, value是待拼接的字符串。<br/>`series_behind`: 指定拼接时时间序列是否在后面，默认为`false`。 | TEXT | 拼接字符串和`target`字串                                                        |
-| SUBSTRING       | TEXT | `from`: 指定子串开始下标 <br/>`for`: 指定的字符个数之后停止                                                                  | TEXT | 提取字符串的子字符串，从指定的第一个字符开始，并在指定的字符数之后停止。下标从1开始。from 和 for的范围是 INT32 类型取值范围。 |
-| REPLACE | TEXT | 第一个参数： 需要替换的目标子串<br />第二个参数：要替换成的子串 | TEXT | 将输入序列中的子串替换成目标子串 |
-| UPPER           | TEXT | 无                                                                                                         | TEXT | 将字符串转化为大写                                                               |
-| LOWER           | TEXT | 无                                                                                                         | TEXT | 将字符串转化为小写                                                               |
-| TRIM            | TEXT | 无                                                                                                         | TEXT | 移除字符串前后的空格                                                              |
-| STRCMP          | TEXT | 无                                                                                                         | TEXT | 用于比较两个输入序列，如果值相同返回 `0` , 序列1的值小于序列2的值返回一个`负数`，序列1的值大于序列2的值返回一个`正数`      |
+| 函数名             | 输入序列类型      | 必要的属性参数                                                                                                   | 输出序列类型 | 功能描述                                                                    |
+|-----------------|-------------|-----------------------------------------------------------------------------------------------------------| ------------ |-------------------------------------------------------------------------|
+| STRING_CONTAINS | TEXT STRING | `s`: 待搜寻的字符串                                                                                              | BOOLEAN      | 判断字符串中是否存在`s`                                                           |
+| STRING_MATCHES  | TEXT STRING        | `regex`: Java 标准库风格的正则表达式                                                                                 | BOOLEAN      | 判断字符串是否能够被正则表达式`regex`匹配                                                |
+| LENGTH          | TEXT STRING        | 无                                                                                                         | INT32 | 返回字符串的长度                                                                |
+| LOCATE          | TEXT STRING        | `target`: 需要被定位的子串 <br/> `reverse`: 指定是否需要倒序定位，默认值为`false`, 即从左至右定位                                       | INT32 | 获取`target`子串第一次出现在输入序列的位置，如果输入序列中不包含`target`则返回 -1                      |
+| STARTSWITH      | TEXT STRING        | `target`: 需要匹配的前缀                                                                                         | BOOLEAN | 判断字符串是否有指定前缀                                                            |
+| ENDSWITH        | TEXT STRING        | `target`: 需要匹配的后缀                                                                                         | BOOLEAN | 判断字符串是否有指定后缀                                                            |
+| CONCAT          | TEXT STRING        | `targets`: 一系列 K-V, key需要以`target`为前缀且不重复, value是待拼接的字符串。<br/>`series_behind`: 指定拼接时时间序列是否在后面，默认为`false`。 | TEXT | 拼接字符串和`target`字串                                                        |
+| SUBSTRING       | TEXT STRING        | `from`: 指定子串开始下标 <br/>`for`: 指定的字符个数之后停止                                                                  | TEXT | 提取字符串的子字符串，从指定的第一个字符开始，并在指定的字符数之后停止。下标从1开始。from 和 for的范围是 INT32 类型取值范围。 |
+| REPLACE | TEXT STRING        | 第一个参数： 需要替换的目标子串<br />第二个参数：要替换成的子串 | TEXT | 将输入序列中的子串替换成目标子串 |
+| UPPER           | TEXT STRING        | 无                                                                                                         | TEXT | 将字符串转化为大写                                                               |
+| LOWER           | TEXT STRING        | 无                                                                                                         | TEXT | 将字符串转化为小写                                                               |
+| TRIM            | TEXT STRING        | 无                                                                                                         | TEXT | 移除字符串前后的空格                                                              |
+| STRCMP          | TEXT STRING        | 无                                                                                                         | TEXT | 用于比较两个输入序列，如果值相同返回 `0` , 序列1的值小于序列2的值返回一个`负数`，序列1的值大于序列2的值返回一个`正数`      |
 
 详细说明及示例见文档 [字符串处理函数](../Reference/Function-and-Expression.md#字符串处理)。
 
@@ -183,10 +183,10 @@ OR, |, ||
 
 ### 选择函数
 
-| 函数名   | 输入序列类型                          | 必要的属性参数                                    | 输出序列类型             | 功能描述                                                     |
-| -------- | ------------------------------------- | ------------------------------------------------- | ------------------------ | ------------------------------------------------------------ |
-| TOP_K    | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: 最多选择的数据点数，必须大于 0 小于等于 1000 | 与输入序列的实际类型一致 | 返回某时间序列中值最大的`k`个数据点。若多于`k`个数据点的值并列最大，则返回时间戳最小的数据点。 |
-| BOTTOM_K | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: 最多选择的数据点数，必须大于 0 小于等于 1000 | 与输入序列的实际类型一致 | 返回某时间序列中值最小的`k`个数据点。若多于`k`个数据点的值并列最小，则返回时间戳最小的数据点。 |
+| 函数名   | 输入序列类型                                                            | 必要的属性参数                                    | 输出序列类型             | 功能描述                                                     |
+| -------- |-------------------------------------------------------------------| ------------------------------------------------- | ------------------------ | ------------------------------------------------------------ |
+| TOP_K    | INT32 / INT64 / FLOAT / DOUBLE / TEXT / STRING / DATE / TIEMSTAMP | `k`: 最多选择的数据点数，必须大于 0 小于等于 1000 | 与输入序列的实际类型一致 | 返回某时间序列中值最大的`k`个数据点。若多于`k`个数据点的值并列最大，则返回时间戳最小的数据点。 |
+| BOTTOM_K | INT32 / INT64 / FLOAT / DOUBLE / TEXT / STRING / DATE / TIEMSTAMP                            | `k`: 最多选择的数据点数，必须大于 0 小于等于 1000 | 与输入序列的实际类型一致 | 返回某时间序列中值最小的`k`个数据点。若多于`k`个数据点的值并列最小，则返回时间戳最小的数据点。 |
 
 详细说明及示例见文档 [选择函数](../Reference/Function-and-Expression.md#选择函数)。
 

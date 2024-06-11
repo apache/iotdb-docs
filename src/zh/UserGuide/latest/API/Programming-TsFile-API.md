@@ -210,7 +210,7 @@ TsFile 可以通过以下三个步骤生成，完整的代码参见"写入 TsFil
     
     * measurementID: 测量的名称，通常是传感器的名称。
       
-    * type: 数据类型，现在支持六种类型：`BOOLEAN`, `INT32`, `INT64`, `FLOAT`, `DOUBLE`, `TEXT`;
+    * type: 数据类型，现在支持十种类型：`BOOLEAN`, `INT32`, `DATE`, `INT64`, `TIMESTAMP`, `FLOAT`, `DOUBLE`, `TEXT`, `STRING`, `BLOB`;
     
     * encoding: 编码类型。
     
