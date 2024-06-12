@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# IoTDB-Package
+# Database Resources
 
 ## How to obtain the open source version
 The open source installation package can be directly obtained from the Apache IoTDB official website:https://iotdb.apache.org/zh/Download/
