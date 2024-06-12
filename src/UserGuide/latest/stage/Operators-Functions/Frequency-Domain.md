@@ -603,3 +603,69 @@ Output series:
 ```
 
 Note: The input is $y=sin(2\pi t/4)+2sin(2\pi t/5)$ with a length of 20. Thus, the output is $y=2sin(2\pi t/5)$ after low-pass filtering.
+
+## Envelope
+
+### Usage
+
+This function can demodulate the signal and extract the envelope by inputting the one-dimensional floating-point number set and the modulation frequency specified by the user. The goal of demodulation is to extract parts of interest from complex signals and make them easier to understand. For example, demodulation can find the envelope of the signal, that is, the trend of amplitude change.
+
+**Name:** Envelope
+
+**Input:** Only a single input sequence is supported. The type is INT32 / INT64 / FLOAT / DOUBLE
+
+**Parameters:**
+
++ `frequency`：Modulation frequency (optional, positive). Without this parameter, the system will infer the frequency based on the time interval of the corresponding time of the sequence.
++ `amplification`: Amplification multiple (optional, a positive integer. The result of the output Time column is a collection of positive integers, with no decimals. When the frequency is less than 1, the frequency can be amplified by this parameter to show normal results).
+
+
+**Output:**
++ `Time`： The value returned in this column means frequency, not time. If the output format is time (for example, 1970-01-01T08:00:19.000+08:00), convert it to a timestamp value.
++ `Envelope(Path, 'frequency'='{frequency}')`：Output a single sequence of type DOUBLE, which is the result of envelope analysis.
+
+**Note:** When the values of the demodulated original sequence are not continuous, this function is treated as continuous, and it is recommended that the analyzed time series be a complete time series. Specify the start time and end time.
+
+### Examples
+
+Input series:
+
+```
++-----------------------------+---------------+
+|                         Time|root.test.d1.s1|
++-----------------------------+---------------+
+|1970-01-01T08:00:01.000+08:00|       1.0     |
+|1970-01-01T08:00:02.000+08:00|       2.0     |
+|1970-01-01T08:00:03.000+08:00|       3.0     |
+|1970-01-01T08:00:04.000+08:00|       4.0     |
+|1970-01-01T08:00:05.000+08:00|       5.0     |
+|1970-01-01T08:00:06.000+08:00|       6.0     |
+|1970-01-01T08:00:07.000+08:00|       7.0     |
+|1970-01-01T08:00:08.000+08:00|       8.0     |
+|1970-01-01T08:00:09.000+08:00|       9.0     |
+|1970-01-01T08:00:10.000+08:00|       10.0    |
++-----------------------------+---------------+
+```
+
+SQL for query:
+```sql
+set time_display_type=long;
+select envelope(s1),envelope(s1,'frequency'='1000'),envelope(s1,'amplification'='10') from root.test.d1;
+```
+Output series:
+
+```
++----+-------------------------+---------------------------------------------+-----------------------------------------------+
+|Time|envelope(root.test.d1.s1)|envelope(root.test.d1.s1, "frequency"="1000")|envelope(root.test.d1.s1, "amplification"="10")|
++----+-------------------------+---------------------------------------------+-----------------------------------------------+
+|   0|        6.284350808484124|                            6.284350808484124|                              6.284350808484124|
+| 100|       1.5581923657404393|                           1.5581923657404393|                                           null|
+| 200|       0.8503211038340728|                           0.8503211038340728|                                           null|
+| 300|        0.512808785945551|                            0.512808785945551|                                           null|
+| 400|      0.26361156774506744|                          0.26361156774506744|                                           null|
+|1000|                     null|                                         null|                             1.5581923657404393|
+|2000|                     null|                                         null|                             0.8503211038340728|
+|3000|                     null|                                         null|                              0.512808785945551|
+|4000|                     null|                                         null|                            0.26361156774506744|
++----+-------------------------+---------------------------------------------+-----------------------------------------------+
+```
