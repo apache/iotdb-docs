@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Resource-Plan
+# Database Resources
 ## CPU
 | Number of second level sequences | CPU                                              | Number of nodes |      |                                                  |
 | -------------------------------- | ------------------------------------------------ | --------------- | ---- | ------------------------------------------------ |
