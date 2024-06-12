@@ -19,43 +19,45 @@
 
 -->
 # IoTDB-Package
-## CPU
-| Number of second level sequences | CPU                                              | Number of nodes |      |                                                  |
-| -------------------------------- | ------------------------------------------------ | --------------- | ---- | ------------------------------------------------ |
-| standalone mode                  | Double active                                    | Distributed     |      |                                                  |
-| Within 100000                    | 2-4 core                                         | 1               | 2    | 3                                                |
-| Within 300000                    | 4-8core                                          | 1               | 2    | 3                                                |
-| Within 500000                    | 8-26core                                         | 1               | 2    | 3                                                |
-| Within 1000000                   | 16-32core                                        | 1               | 2    | 3                                                |
-| Within 2000000                   | 32-48core                                        | 1               | 2    | 3                                                |
-| Within 10000000                  | 48-core                                          | 1               | 2    | Please contact Timecho Business for consultation |
-| Over 10000000                    | Please contact Timecho Business for consultation |                 |      |                                                  |
-## Memory 
-| Number of second level sequences | Memory                                           | Number of nodes |      |                                                  |
-| -------------------------------- | ------------------------------------------------ | --------------- | ---- | ------------------------------------------------ |
-| standalone mode                  | Double active                                    | Distributed     |      |                                                  |
-| Within 100000                    | 4G-8G                                            | 1               | 2    | 3                                                |
-| Within 300000                    | 12G-32G                                          | 1               | 2    | 3                                                |
-| Within 500000                    | 24G-48G                                          | 1               | 2    | 3                                                |
-| Within 1000000                   | 32G-96G                                          | 1               | 2    | 3                                                |
-| Within 2000000                   | 64G-128G                                         | 1               | 2    | 3                                                |
-| Within 10000000                  | 128G                                             | 1               | 2    | Please contact Timecho Business for consultation |
-| 1000w以上Over 10000000           | Please contact Timecho Business for consultation |                 |      |                                                  |
-## Storage (Disk)
-### Storage space
-Calculation formula: Number of measurement points * Sampling frequency (Hz) * Size of each data point (Byte, different data types may vary, see table below) * Storage time (seconds) * Number of copies (usually 1 copy for a single node and 2 copies for a cluster) ÷ Compression ratio (can be estimated at 5-10 times, but may be higher in actual situations)
-| Data point size calculation table |                   |                  |                                      |
-| --------------------------------- | ----------------- | ---------------- | ------------------------------------ |
-| data type                         | Timestamp (Bytes) | Value (Bytes)    | Total size of data points (in bytes) |
-| Boolean                           | 8                 | 1                | 9                                    |
-| INT32）/FLOAT                     | 8                 | 4                | 12                                   |
-| INT64/DOUBLE                      | 8                 | 8                | 16                                   |
-| TEXT                              | 8                 | The average is a | 8+a                                  |
+## TimechoDB version acquisition method
+The enterprise version installation package can be obtained through product trial application or by directly contacting the business personnel who are in contact with you.
 
-Example: 1000 devices, each with 100 measurement points, a total of 100000 sequences, INT32 type. Sampling frequency 1Hz (once per second), storage for 1 year, 3 copies.
-- Complete calculation formula: 1000 devices * 100 measurement points * 12 bytes per data point * 86400 seconds per day * 365 days per year * 3 copies/10 compression ratio=11T
-- Simplified calculation formula: 1000 * 100 * 12 * 86400 * 365 * 3/10=11T
-### Storage Configuration
-If the number of nodes is over 10000000 or the query load is high, it is recommended to configure SSD
-## Other instructions
-IoTDB has the ability to scale up clusters in seconds, and expanding node data does not require migration. Therefore, you do not need to worry about the limited cluster capacity estimated based on existing data. In the future, you can add new nodes to the cluster when you need to scale up.
+## Installation Package Structure
+Install the package after decompression（iotdb-enterprise-{version}-bin.zip），The directory structure after unpacking the installation package is as follows：
+after unpacking the installation package is as follows：
+|  **catalogue**   | **Type** | **Explanation**                                              |
+| :--------------: | -------- | ------------------------------------------------------------ |
+|    activation    | folder   | The directory where the activation file is located, including the generated machine code and the enterprise version activation code obtained from the business side (this directory will only be generated after starting ConfigNode to obtain the activation code) |
+|       conf       | folder   | Configuration file directory, including configuration files such as ConfigNode, DataNode, JMX, and logback |
+|       data       | folder   | The default data file directory contains data files for ConfigNode and DataNode. (The directory will only be generated after starting the program) |
+|       lib        | folder   | IoTDB executable library file directory                      |
+|     licenses     | folder   | Open source community certificate file directory             |
+|       logs       | folder   | The default log file directory, which includes log files for ConfigNode and DataNode (this directory will only be generated after starting the program) |
+|       sbin       | folder   | Main script directory, including start, stop, and other scripts |
+|      tools       | folder   | Directory of System Peripheral Tools                         |
+|       ext        | folder   | Related files for pipe, trigger, and UDF plugins (created by the user when needed) |
+|     LICENSE      | file     | certificate                                                  |
+|      NOTICE      | file     | Tip                                                          |
+|   README_ZH.md   | file     | Explanation of the Chinese version in Markdown format        |
+|    README.md     | file     | Instructions for use                                         |
+| RELEASE_NOTES.md | file     | Version Description                                          |
+## How to obtain the open source version
+The open source installation package can be directly obtained from the Apache IoTDB official website:https://iotdb.apache.org/zh/Download/
+
+## Installation Package Structure
+Install the package after decompression（apache-iotdb-<version>-all-bin.zip）,After decompressing the installation package, the directory structure is as follows:
+|  **catalogue**   | **Type** |                       **Explanation**                        |
+| :--------------: | :------: | :----------------------------------------------------------: |
+|       conf       |  folder  | Configuration file directory, including configuration files such as ConfigNode, DataNode, JMX, and logback |
+|       data       |  folder  | The default data file directory contains data files for ConfigNode and DataNode. (The directory will only be generated after starting the program) |
+|       lib        |  folder  |           IoTDB executable library file directory            |
+|     licenses     |  folder  |       Open source community certificate file directory       |
+|       logs       |  folder  | The default log file directory, which includes log files for ConfigNode and DataNode (this directory will only be generated after starting the program) |
+|       sbin       |  folder  | Main script directory, including start, stop, and other scripts |
+|      tools       |  folder  |             Directory of System Peripheral Tools             |
+|       ext        |  folder  | Related files for pipe, trigger, and UDF plugins (created by the user when needed) |
+|     LICENSE      |   file   |                         certificate                          |
+|      NOTICE      |   file   |                             Tip                              |
+|   README_ZH.md   |   file   |    Explanation of the Chinese version in Markdown format     |
+|    README.md     |   file   |                     Instructions for use                     |
+| RELEASE_NOTES.md |   file   |                     Version Description                      |

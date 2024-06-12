@@ -66,7 +66,7 @@ export const zhSidebar = {
       prefix: 'Deployment-and-Maintenance/',
       // children: 'structure',
       children: [
-        { text: '安装包获取', link: 'IoTDB-Get_timecho' },
+        { text: '安装包获取', link: 'IoTDB-Package' },
         { text: '资源规划', link: 'Resource-Plan' },
         { text: '部署准备', link: 'Deployment-Preparation' },
         { text: '资源推荐', link: 'Deployment-Recommendation' },
