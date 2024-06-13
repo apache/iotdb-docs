@@ -22,8 +22,8 @@
 ## CPU
 <table>
       <tr>
-            <td rowspan="2">秒级序列数</th>
-            <td rowspan="2">CPU</th>        
+            <th rowspan="2">秒级序列数</th>
+            <th rowspan="2">CPU</th>        
             <th colspan="3">节点数</th>
       </tr>
       <tr>
@@ -82,8 +82,8 @@
 ## 内存
 <table>
       <tr>
-            <td rowspan="2">秒级序列数</th>
-            <td rowspan="2">内存</th>        
+            <th rowspan="2">秒级序列数</th>
+            <th rowspan="2">内存</th>        
             <th colspan="3">节点数</th>
       </tr>
       <tr>
