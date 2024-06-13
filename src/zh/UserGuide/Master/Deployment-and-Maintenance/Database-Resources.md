@@ -30,6 +30,7 @@
       <th>单机</th>   
       <th>双活</th> 
       <th>分布式</th> 
+      </tr>
       <tr>
             <td>10W以内</td>
             <td>2核-4核</td>
@@ -89,6 +90,7 @@
       <th>单机</th>   
       <th>双活</th> 
       <th>分布式</th> 
+      </tr>
       <tr>
             <td>10W以内</td>
             <td>4G-8G</td>

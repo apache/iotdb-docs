@@ -30,6 +30,7 @@
       <th>standalone mode</th>   
       <th>Double active</th> 
       <th>Distributed</th> 
+      </tr>
       <tr>
             <td>Within 100000</td>
             <td>2core-4core</td>
@@ -89,6 +90,7 @@
       <th>standalone mode</th>   
       <th>Double active</th> 
       <th>Distributed</th> 
+      </tr>
       <tr>
             <td>Within 100000</td>
             <td>4G-8G</td>
@@ -150,6 +152,7 @@ Calculation formula: Number of measurement points * Sampling frequency (Hz) * Si
             <th> Value (Bytes)</th> 
             <th> Total size of data points (in bytes) 
       </th> 
+      </tr>
       <tr>
             <td>Boolean</td>
             <td>8</td>
