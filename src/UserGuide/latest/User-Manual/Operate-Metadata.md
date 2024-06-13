@@ -802,8 +802,6 @@ It costs 0.002s
 ### Active Timeseries Query
 By adding WHERE time filter conditions to the existing SHOW/COUNT TIMESERIES, we can obtain time series with data within the specified time range.
 
-It is important to note that in metadata queries with time filters, views are not considered; only the time series actually stored in the TsFile are taken into account.
-
 An example usage is as follows:
 ```
 IoTDB> insert into root.sg.data(timestamp, s1,s2) values(15000, 1, 2);

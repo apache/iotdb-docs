@@ -83,7 +83,7 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '语法约定', link: 'Syntax-Rule' },
-        { text: '元数据管理', link: 'Operate-Metadata' },
+        { text: '元数据管理', link: 'Operate-Metadata_timecho' },
         { text: '数据增删', link: 'Write-Delete-Data' },
         { text: '数据查询', link: 'Query-Data' },
         { text: '运算符和表达式', link: 'Operator-and-Expression' },

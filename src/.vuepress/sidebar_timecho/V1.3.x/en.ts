@@ -83,7 +83,7 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'Syntax Rule', link: 'Syntax-Rule' },
-        { text: 'Operate Metadata', link: 'Operate-Metadata' },
+        { text: 'Operate Metadata', link: 'Operate-Metadata_timecho' },
         { text: 'Write Delete Data', link: 'Write-Delete-Data' },
         { text: 'Query Data', link: 'Query-Data' },
         { text: 'Operator and Expression', link: 'Operator-and-Expression' },
