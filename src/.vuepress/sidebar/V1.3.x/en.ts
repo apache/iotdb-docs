@@ -66,6 +66,8 @@ export const enSidebar = {
       prefix: 'Deployment-and-Maintenance/',
       // children: 'structure',
       children: [
+        { text: 'Package acquisition', link: 'IoTDB-Package' },
+        { text: 'Database Resources', link: 'Database Resources' },
         { text: 'Environmental Requirement', link: 'Environmental-Requirement' },
         { text: 'Resource Recommendation', link: 'Deployment-Recommendation' },
         { text: 'Deployment Guide', link: 'Deployment-Guide' },
