@@ -19,7 +19,6 @@
 
 -->
 # 资源规划
-## CPU
 <table>
       <tr>
             <td rowspan="2">秒级序列数</th>
@@ -136,7 +135,6 @@
             <th colspan="4">请联系天谋商务咨询</th>
       </tr>
 </table>
-
 ## 存储(磁盘)
 ### 存储空间
 <table>
