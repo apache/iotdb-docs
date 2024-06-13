@@ -86,11 +86,12 @@ drop timeseries root.ln.wf02.*
 ```sql
 SHOW TIMESERIES
 SHOW TIMESERIES <Path>
-show timeseries root.**
-show timeseries root.ln.**
-show timeseries root.ln.** limit 10 offset 10
-show timeseries root.ln.** where timeseries contains 'wf01.wt'
-show timeseries root.ln.** where dataType=FLOAT
+SHOW TIMESERIES root.**
+SHOW TIMESERIES root.ln.**
+SHOW TIMESERIES root.ln.** limit 10 offset 10
+SHOW TIMESERIES root.ln.** where timeseries contains 'wf01.wt'
+SHOW TIMESERIES root.ln.** where dataType=FLOAT
+SHOW TIMESERIES root.ln.** where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
 SHOW LATEST TIMESERIES
 ```
 
@@ -106,6 +107,7 @@ COUNT TIMESERIES root.** WHERE DATATYPE = INT64
 COUNT TIMESERIES root.** WHERE TAGS(unit) contains 'c' 
 COUNT TIMESERIES root.** WHERE TAGS(unit) = 'c' 
 COUNT TIMESERIES root.** WHERE TIMESERIES contains 'sgcc' group by level = 1
+COUNT TIMESERIES root.** WHERE time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
 COUNT TIMESERIES root.** GROUP BY LEVEL=1
 COUNT TIMESERIES root.ln.** GROUP BY LEVEL=2
 COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2
@@ -218,6 +220,8 @@ SHOW CHILD NODES pathPattern
 IoTDB> show devices
 
 IoTDB> show devices root.ln.**
+
+IoTDB> show devices where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
 ```
 ##### 查看设备及其 database 信息
 
@@ -240,11 +244,12 @@ IoTDB > COUNT NODES root.**.temperature LEVEL=3
 #### 统计设备数量
 
 ```sql
-IoTDB> show devices
 
 IoTDB> count devices
 
 IoTDB> count devices root.ln.**
+
+IoTDB> count devices where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
 ```
 ### 4、设备模板管理
 

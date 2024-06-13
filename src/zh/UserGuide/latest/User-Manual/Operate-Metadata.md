@@ -779,6 +779,47 @@ It costs 0.002s
 
 > 注意：时间序列的路径只是过滤条件，与 level 的定义无关。
 
+### 活跃时间序列查询
+我们在原有的时间序列查询和统计上添加新的WHERE时间过滤条件，可以得到在指定时间范围中存在数据的时间序列。
+
+需要注意的是， 在带有时间过滤的元数据查询中并不考虑视图的存在，只考虑TsFile中实际存储的时间序列。
+
+一个使用样例如下：
+```
+IoTDB> insert into root.sg.data(timestamp, s1,s2) values(15000, 1, 2);
+IoTDB> insert into root.sg.data2(timestamp, s1,s2) values(15002, 1, 2);
+IoTDB> insert into root.sg.data3(timestamp, s1,s2) values(16000, 1, 2);
+IoTDB> show timeseries;
++----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+|      Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|
++----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+| root.sg.data.s1| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+| root.sg.data.s2| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|root.sg.data3.s1| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|root.sg.data3.s2| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|root.sg.data2.s1| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|root.sg.data2.s2| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
++----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+
+IoTDB> show timeseries where time >= 15000 and time < 16000;
++----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+|      Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|
++----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+| root.sg.data.s1| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+| root.sg.data.s2| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|root.sg.data2.s1| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|root.sg.data2.s2| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
++----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+
+IoTDB> count timeseries where time >= 15000 and time < 16000;
++-----------------+
+|count(timeseries)|
++-----------------+
+|                4|
++-----------------+
+```
+关于活跃时间序列的定义，能通过正常查询查出来的数据就是活跃数据，也就是说插入但被删除的时间序列不在考虑范围内。
+
 ### 标签点管理
 
 我们可以在创建时间序列的时候，为它添加别名和额外的标签和属性信息。
@@ -1216,4 +1257,35 @@ It costs 0.004s
 +--------------+
 Total line number = 1
 It costs 0.004s
+```
+
+### 活跃设备查询
+和活跃时间序列一样，我们可以在查看和统计设备的基础上添加时间过滤条件来查询在某段时间内存在数据的活跃设备。这里活跃的定义与活跃时间序列相同，使用样例如下：
+```
+IoTDB> insert into root.sg.data(timestamp, s1,s2) values(15000, 1, 2);
+IoTDB> insert into root.sg.data2(timestamp, s1,s2) values(15002, 1, 2);
+IoTDB> insert into root.sg.data3(timestamp, s1,s2) values(16000, 1, 2);
+IoTDB> show devices;
++-------------------+---------+
+|            devices|isAligned|
++-------------------+---------+
+|       root.sg.data|    false|
+|      root.sg.data2|    false|
+|      root.sg.data3|    false|
++-------------------+---------+
+
+IoTDB> show devices where time >= 15000 and time < 16000;
++-------------------+---------+
+|            devices|isAligned|
++-------------------+---------+
+|       root.sg.data|    false|
+|      root.sg.data2|    false|
++-------------------+---------+
+
+IoTDB> count devices where time >= 15000 and time < 16000;
++--------------+
+|count(devices)|
++--------------+
+|             2|
++--------------+
 ```
