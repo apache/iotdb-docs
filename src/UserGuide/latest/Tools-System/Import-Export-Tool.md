@@ -84,26 +84,32 @@ Examples:
 Run rewrite-tsfile.bat if you are in a Windows environment, or rewrite-tsfile.sh if you are on Linux or Unix.
 
 ```bash
-./load-tsfile.bat -f filePath [-h host] [-p port] [-u username] [-pw password] [--sgLevel int] [--verify true/false] [--onSuccess none/delete]
--f 			File/Directory to be load, required
--h 			IoTDB Host address, optional field, 127.0.0.1 by default
--p 			IoTDB port, optional field, 6667 by default
--u 			IoTDB user name, optional field, root by default
--pw 		IoTDB password, optional field, root by default
---sgLevel 	Sg level of loading Tsfile, optional field, default_storage_group_level in 				iotdb-common.properties by default
---verify 	Verify schema or not, optional field, True by default
---onSuccess Delete or remain origin TsFile after loading, optional field, none by default
+./load-tsfile.bat -s/--source <source> -os/--on_success <none/delete/cp/mv> -of/--on_fail <none/delete/cp/mv> [-h/--host <host>] [-p/--port <port>] [-u/--user <username>] [-pw/--password <password>] [-sd/--success_dir <success_dir>] [-fd/--fail_dir <fail_dir>] [-tn/thread_num <thread_num>]
+-s/--source         Path to the directory where the TsFile file (folder) to be loaded is located.
+-os/--on_success    Handling of successful files, required, options are none, mv, cp, delete; setting none retains the original files, setting mv moves successful files to the destination folder, setting cp hard-links (copies) successful files to the destination folder, setting delete keeps successful files, setting cp moves successful files to the destination folder, and setting delete moves successful files to the destination folder, setting cp moves successful files to the destination folder. file to the target folder, cp will hardwire (copy) the successful file to the target folder, delete will delete the original file.
+-of/--on_fail       Handling of failed files, required, options are none, mv, cp, delete; setting none retains the original files, setting mv moves successful files to the destination folder, setting cp hard-links (copies) successful files to the destination folder, setting delete keeps the original files, setting none moves successful file to the target folder, cp will hardwire (copy) the successful file to the target folder, delete will delete the original file.
+-h/--host           IoTDB Host address, optional field, 127.0.0.1 by default
+-p/--port           IoTDB port, optional field, 6667 by default
+-u/--user           IoTDB user name, optional field, root by default
+-pw/--password      IoTDB password, optional field, root by default
+-sd/--success_dir   When -os/--on_success is specified as mv or cp, the target folder of mv or cp, optional, defaults to the success folder under the current execution folder, and the naming rule of the file is the folder is flattened and spliced with the original file name.
+-fd/--fail_dir      When -of/--on_fail is specified as mv or cp, the target folder of mv or cp, optional, defaults to the fail folder under the current execution folder, and the naming rule of the file is the folder is flattened and then spliced with the original file name.
+-tn/thread_num      Maximum number of parallel threads
 ```
 
 ##### Example
 
 Assuming that an IoTDB instance is running on server 192.168.0.101:6667, you want to load all TsFile files from the locally saved TsFile backup folder D:\IoTDB\data into this IoTDB instance.
 
-First move to the folder `$IOTDB_HOME/tools/`, open the command line, and execute
+First move to the folder `$IOTDB_HOME/tools/`, open the command line, and execute one of the following commands
 
-```bash
-./load-rewrite.bat -f D:\IoTDB\data -h 192.168.0.101 -p 6667 -u root -pw root
-```
+* ./load-tsfile.bat -s D:\IoTDB\data -os delete -of delete -h 192.168.0.101 -p 6667 -u root -pw root
+* ./load-tsfile.bat -s D:\IoTDB\data -os none -of none -h 192.168.0.101 -p 6667 -u root -pw root
+* ./load-tsfile.bat -s D:\IoTDB\data -os mv -of mv -h 192.168.0.101 -p 6667 -u root -pw root
+* ./load-tsfile.bat -s D:\IoTDB\data -os cp -of cp -h 192.168.0.101 -p 6667 -u root -pw root
+* ./load-tsfile.bat -s D:\IoTDB\data -os delete -of mv -h 192.168.0.101 -p 6667 -u root -pw root
+* ./load-tsfile.bat -s D:\IoTDB\data -os cp -of mv -h 192.168.0.101 -p 6667 -u root -pw root -sd D:\IoTDB\success -fd D:\IoTDB\fail
+* ./load-tsfile.bat -s D:\IoTDB\data -os none -of cp -h 192.168.0.101 -p 6667 -u root -pw root -fd D:\IoTDB\fail
 
 After waiting for the script execution to complete, you can check that the data in the IoTDB instance has been loaded correctly.
 
@@ -111,8 +117,8 @@ After waiting for the script execution to complete, you can check that the data 
 
 - Cannot find or load the main class
     - It may be because the environment variable $IOTDB_HOME is not set, please set the environment variable and try again
-- -f option must be set!
-    - The input command is missing the -f field (file or folder path to be loaded) or the -u field (user name), please add it and re-execute
+- Failed to parse the provided options: Missing required options: s, os, of
+    - The input command is missing the -s, -os, -of field, please add it and re-execute
 - What if the execution crashes in the middle and you want to reload?
     - You re-execute the command just now, reloading the data will not affect the correctness after loading
 
