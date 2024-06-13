@@ -66,10 +66,9 @@ export const enSidebar = {
       prefix: 'Deployment-and-Maintenance/',
       // children: 'structure',
       children: [
-        { text: 'Package acquisition', link: 'IoTDB-Package_timecho' },
+        { text: 'Package Acquisition', link: 'IoTDB-Package_timecho' },
         { text: 'Database Resources', link: 'Database-Resources' },
         { text: 'Environmental Requirement', link: 'Environmental-Requirement' },
-        { text: 'Resource Recommendation', link: 'Deployment-Recommendation' },
         { text: 'Deployment Guide', link: 'Deployment-Guide_timecho' },
         { text: 'Docker Install', link: 'Docker-Install' },
         { text: 'Monitoring-Board-Install-and-Deploy', link: 'Monitoring-Board-Install-and-Deploy' },
