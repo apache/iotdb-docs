@@ -20,37 +20,161 @@
 -->
 # Database Resources
 ## CPU
-| Number of second level sequences | CPU                                              | Number of nodes |      |                                                  |
-| -------------------------------- | ------------------------------------------------ | --------------- | ---- | ------------------------------------------------ |
-| standalone mode                  | Double active                                    | Distributed     |      |                                                  |
-| Within 100000                    | 2-4 core                                         | 1               | 2    | 3                                                |
-| Within 300000                    | 4-8core                                          | 1               | 2    | 3                                                |
-| Within 500000                    | 8-26core                                         | 1               | 2    | 3                                                |
-| Within 1000000                   | 16-32core                                        | 1               | 2    | 3                                                |
-| Within 2000000                   | 32-48core                                        | 1               | 2    | 3                                                |
-| Within 10000000                  | 48-core                                          | 1               | 2    | Please contact Timecho Business for consultation |
-| Over 10000000                    | Please contact Timecho Business for consultation |                 |      |                                                  |
+<table>
+      <tr>
+            <th rowspan="2">Number of second level sequences</th>
+            <th rowspan="2">CPU</th>        
+            <th colspan="3">Number of nodes</th>
+      </tr>
+      <tr>
+      <th>standalone mode</th>   
+      <th>Double active</th> 
+      <th>Distributed</th> 
+      <tr>
+            <td>Within 100000</td>
+            <td>2core-4core</td>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+      </tr>
+      <tr>
+            <td>Within 300000</td>
+            <td>4core-8core</td>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+      </tr>
+      <tr>
+            <td>Within 500000</td>
+            <td>8core-26core</td>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+      </tr>
+      <tr>
+            <td>Within 1000000</td>
+            <td>16core-32core</td>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+      </tr>
+      <tr>
+            <td>Within 2000000</td>
+            <td>32core-48core</td>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+      </tr>
+      <tr>
+            <td>Within 10000000</td>
+            <td>48core</td>
+            <td>1</td>
+            <td>2</td>
+            <td>Please contact Timecho Business for consultation</td>
+      </tr>
+      <tr>
+            <td>Over 10000000</td>
+            <td colspan="4">Please contact Timecho Business for consultation</td>
+      </tr>
+</table>
+
 ## Memory 
-| Number of second level sequences | Memory                                           | Number of nodes |      |                                                  |
-| -------------------------------- | ------------------------------------------------ | --------------- | ---- | ------------------------------------------------ |
-| standalone mode                  | Double active                                    | Distributed     |      |                                                  |
-| Within 100000                    | 4G-8G                                            | 1               | 2    | 3                                                |
-| Within 300000                    | 12G-32G                                          | 1               | 2    | 3                                                |
-| Within 500000                    | 24G-48G                                          | 1               | 2    | 3                                                |
-| Within 1000000                   | 32G-96G                                          | 1               | 2    | 3                                                |
-| Within 2000000                   | 64G-128G                                         | 1               | 2    | 3                                                |
-| Within 10000000                  | 128G                                             | 1               | 2    | Please contact Timecho Business for consultation |
-| 1000w以上Over 10000000           | Please contact Timecho Business for consultation |                 |      |                                                  |
+<table>
+      <tr>
+            <th rowspan="2">Number of second level sequences</th>
+            <th rowspan="2">Memory</th>        
+            <th colspan="3">Number of nodes</th>
+      </tr>
+      <tr>
+      <th>standalone mode</th>   
+      <th>Double active</th> 
+      <th>Distributed</th> 
+      <tr>
+            <td>Within 100000</td>
+            <td>4G-8G</td>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+      </tr>
+      <tr>
+            <td>Within 300000</td>
+            <td>12G-32G</td>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+      </tr>
+      <tr>
+            <td>Within 500000</td>
+            <td>24G-48G</td>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+      </tr>
+      <tr>
+            <td>Within 1000000</td>
+            <td>32G-96G</td>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+      </tr>
+      <tr>
+            <td>Within 2000000</td>
+            <td>64G-128G</td>
+            <td>1</td>
+            <td>2</td>
+            <td>3</td>
+      </tr>
+      <tr>
+            <td>Within 10000000</td>
+            <td>128G</td>
+            <td>1</td>
+            <td>2</td>
+            <td>Please contact Timecho Business for consultation</td>
+      </tr>
+      <tr>
+            <td>Over 10000000</td>
+            <td colspan="4">Please contact Timecho Business for consultation</td>
+      </tr>
+</table>
+
 ## Storage (Disk)
 ### Storage space
 Calculation formula: Number of measurement points * Sampling frequency (Hz) * Size of each data point (Byte, different data types may vary, see table below) * Storage time (seconds) * Number of copies (usually 1 copy for a single node and 2 copies for a cluster) ÷ Compression ratio (can be estimated at 5-10 times, but may be higher in actual situations)
-| Data point size calculation table |                   |                  |                                      |
-| --------------------------------- | ----------------- | ---------------- | ------------------------------------ |
-| data type                         | Timestamp (Bytes) | Value (Bytes)    | Total size of data points (in bytes) |
-| Boolean                           | 8                 | 1                | 9                                    |
-| INT32）/FLOAT                     | 8                 | 4                | 12                                   |
-| INT64/DOUBLE                      | 8                 | 8                | 16                                   |
-| TEXT                              | 8                 | The average is a | 8+a                                  |
+<table>
+      <tr>
+            <th colspan="4">Data point size calculation</th>
+      </tr>
+      <tr>
+            <th>data type</th>   
+            <th>Timestamp (Bytes)</th> 
+            <th> Value (Bytes)</th> 
+            <th> Total size of data points (in bytes) 
+      </th> 
+      <tr>
+            <td>Boolean</td>
+            <td>8</td>
+            <td>1</td>
+            <td>9</td>
+      </tr>
+      <tr>
+            <td> INT32/FLOAT</td>
+            <td>8</td>
+            <td>4</td>
+            <td>12</td>
+      </tr>
+      <tr>
+            <td>INT64/DOUBLE</td>
+            <td>8</td>
+            <td>8</td>
+            <td>16</td>
+      </tr>
+      <tr>
+            <td>TEXT</td>
+            <td>8</td>
+            <td>The average is a</td>
+            <td>8+a</td>
+      </tr>
+</table>
 
 Example: 1000 devices, each with 100 measurement points, a total of 100000 sequences, INT32 type. Sampling frequency 1Hz (once per second), storage for 1 year, 3 copies.
 - Complete calculation formula: 1000 devices * 100 measurement points * 12 bytes per data point * 86400 seconds per day * 365 days per year * 3 copies/10 compression ratio=11T
