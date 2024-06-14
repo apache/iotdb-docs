@@ -41,6 +41,6 @@
 | ext              | 文件夹   | pipe，trigger，udf插件的相关文件（需要使用时用户自行创建）   |
 | LICENSE          | 文件     | 证书                                                         |
 | NOTICE           | 文件     | 提示                                                         |
-| README_ZH.md     | 文件     | markdown格式的中文版说明                                     |
-| README.md        | 文件     | 使用说明                                                     |
-| RELEASE_NOTES.md | 文件     | 版本说明                                                     |
+| README_ZH\.md     | 文件     | markdown格式的中文版说明                                     |
+| README\.md        | 文件     | 使用说明                                                     |
+| RELEASE_NOTES\.md | 文件     | 版本说明                                                     |

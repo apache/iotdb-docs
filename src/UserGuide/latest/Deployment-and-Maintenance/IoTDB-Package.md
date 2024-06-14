@@ -37,6 +37,6 @@ Install the package after decompressionï¼ˆ`apache-iotdb-<version>-all-bin.zip`ï¼
 |       ext        |  folder  | Related files for pipe, trigger, and UDF plugins (created by the user when needed) |
 |     LICENSE      |   file   |                         certificate                          |
 |      NOTICE      |   file   |                             Tip                              |
-|   README_ZH.md   |   file   |    Explanation of the Chinese version in Markdown format     |
-|    README.md     |   file   |                     Instructions for use                     |
-| RELEASE_NOTES.md |   file   |                     Version Description                      |
+|   README_ZH\.md   |   file   |    Explanation of the Chinese version in Markdown format     |
+|    README\.md     |   file   |                     Instructions for use                     |
+| RELEASE_NOTES\.md |   file   |                     Version Description                      |

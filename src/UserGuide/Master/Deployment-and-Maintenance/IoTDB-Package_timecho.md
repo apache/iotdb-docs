@@ -37,6 +37,6 @@ Install the package after decompression（iotdb-enterprise-{version}-bin.zip）�
 |       ext        | folder   | Related files for pipe, trigger, and UDF plugins (created by the user when needed) |
 |     LICENSE      | file     | certificate                                                  |
 |      NOTICE      | file     | Tip                                                          |
-|   README_ZH.md   | file     | Explanation of the Chinese version in Markdown format        |
-|    README.md     | file     | Instructions for use                                         |
-| RELEASE_NOTES.md | file     | Version Description                                          |
+|   README_ZH\.md   | file     | Explanation of the Chinese version in Markdown format        |
+|    README\.md     | file     | Instructions for use                                         |
+| RELEASE_NOTES\.md | file     | Version Description                                          |
