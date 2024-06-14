@@ -27,9 +27,9 @@
             <th colspan="3">节点数</th>
       </tr>
       <tr>
-      <th>单机</th>   
-      <th>双活</th> 
-      <th>分布式</th> 
+            <th>单机</th>   
+            <th>双活</th> 
+            <th>分布式</th> 
       </tr>
       <tr>
             <td>10W以内</td>
@@ -87,9 +87,9 @@
             <th colspan="3">节点数</th>
       </tr>
       <tr>
-      <th>单机</th>   
-      <th>双活</th> 
-      <th>分布式</th> 
+            <th>单机</th>   
+            <th>双活</th> 
+            <th>分布式</th> 
       </tr>
       <tr>
             <td>10W以内</td>
