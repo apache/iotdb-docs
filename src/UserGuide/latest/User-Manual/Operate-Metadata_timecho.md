@@ -19,46 +19,50 @@
 
 -->
 
-# 元数据操作
-## 数据库管理
+# Operate Metadata
 
-数据库（Database）可以被视为关系数据库中的Database。
+## Database Management
 
-### 创建数据库
+### Create Database
 
-我们可以根据存储模型建立相应的数据库。如下所示：
+According to the storage model we can set up the corresponding database. Two SQL statements are supported for creating databases, as follows:
 
 ```
-IoTDB > CREATE DATABASE root.ln
+IoTDB > create database root.ln
+IoTDB > create database root.sgcc
 ```
 
-需要注意的是，推荐创建一个 database. 
+We can thus create two databases using the above two SQL statements.
 
-Database 的父子节点都不能再设置 database。例如在已经有`root.ln`和`root.sgcc`这两个 database 的情况下，创建`root.ln.wf01` database 是不可行的。系统将给出相应的错误提示，如下所示：
+It is worth noting that 1 database is recommended.
+
+When the path itself or the parent/child layer of the path is already created as database, the path is then not allowed to be created as database. For example, it is not feasible to create `root.ln.wf01` as database when two databases `root.ln` and `root.sgcc` exist. The system gives the corresponding error prompt as shown below:
 
 ```
 IoTDB> CREATE DATABASE root.ln.wf01
 Msg: 300: root.ln has already been created as database.
-```
-Database 节点名只支持中英文字符、数字、下划线的组合，如果想设置为纯数字或者包含其他字符，需要用反引号(``)把 database 名称引起来。
-
-还需注意，如果在 Windows 系统上部署，database 名是大小写不敏感的。例如同时创建`root.ln` 和 `root.LN` 是不被允许的。
-
-### 查看数据库
-
-在 database 创建后，我们可以使用 [SHOW DATABASES](../SQL-Manual/SQL-Manual.md#查看数据库) 语句和 [SHOW DATABASES \<PathPattern>](../SQL-Manual/SQL-Manual.md#查看数据库) 来查看 database，SQL 语句如下所示：
-
-```
-IoTDB> show databases
-IoTDB> show databases root.*
-IoTDB> show databases root.**
+IoTDB> create database root.ln.wf01
+Msg: 300: root.ln has already been created as database.
 ```
 
-执行结果为：
+The LayerName of database can only be characters, numbers, underscores. If you want to set it to pure numbers or contain other characters, you need to enclose the database name with backticks (``). 
+
+Besides, if deploy on Windows system, the LayerName is case-insensitive, which means it's not allowed to create databases `root.ln` and `root.LN` at the same time.
+
+### Show Databases
+
+After creating the database, we can use the [SHOW DATABASES](../SQL-Manual/SQL-Manual.md) statement and [SHOW DATABASES \<PathPattern>](../SQL-Manual/SQL-Manual.md) to view the databases. The SQL statements are as follows:
+
+```
+IoTDB> SHOW DATABASES
+IoTDB> SHOW DATABASES root.**
+```
+
+The result is as follows:
 
 ```
 +-------------+----+-------------------------+-----------------------+-----------------------+
-|     database| ttl|schema_replication_factor|data_replication_factor|time_partition_interval|
+|database| ttl|schema_replication_factor|data_replication_factor|time_partition_interval|
 +-------------+----+-------------------------+-----------------------+-----------------------+
 |    root.sgcc|null|                        2|                      2|                 604800|
 |      root.ln|null|                        2|                      2|                 604800|
@@ -67,32 +71,31 @@ Total line number = 2
 It costs 0.060s
 ```
 
-### 删除数据库
+### Delete Database
 
-用户可以使用`DELETE DATABASE <PathPattern>`语句删除该路径模式匹配的所有的数据库。在删除的过程中，需要注意的是数据库的数据也会被删除。
+User can use the `DELETE DATABASE <PathPattern>` statement to delete all databases matching the pathPattern. Please note the data in the database will also be deleted. 
 
 ```
 IoTDB > DELETE DATABASE root.ln
 IoTDB > DELETE DATABASE root.sgcc
-// 删除所有数据，时间序列以及数据库
+// delete all data, all timeseries and all databases
 IoTDB > DELETE DATABASE root.**
 ```
 
-### 统计数据库数量
+### Count Databases
 
-用户可以使用`COUNT DATABASES <PathPattern>`语句统计数据库的数量，允许指定`PathPattern` 用来统计匹配该`PathPattern` 的数据库的数量
+User can use the `COUNT DATABASE <PathPattern>` statement to count the number of databases. It is allowed to specify `PathPattern` to count the number of databases matching the `PathPattern`.
 
-SQL 语句如下所示：
+SQL statement is as follows:
 
 ```
-IoTDB> show databases
 IoTDB> count databases
 IoTDB> count databases root.*
 IoTDB> count databases root.sgcc.*
 IoTDB> count databases root.sgcc
 ```
 
-执行结果为：
+The result is as follows:
 
 ```
 +-------------+
@@ -106,7 +109,7 @@ Total line number = 3
 It costs 0.003s
 
 +-------------+
-|     Database|
+|     database|
 +-------------+
 |            3|
 +-------------+
@@ -114,7 +117,7 @@ Total line number = 1
 It costs 0.003s
 
 +-------------+
-|     Database|
+|     database|
 +-------------+
 |            3|
 +-------------+
@@ -122,7 +125,7 @@ Total line number = 1
 It costs 0.002s
 
 +-------------+
-|     Database|
+|     database|
 +-------------+
 |            0|
 +-------------+
@@ -138,139 +141,73 @@ Total line number = 1
 It costs 0.002s
 ```
 
-### TTL
+### Setting up heterogeneous databases (Advanced operations)
 
-IoTDB 支持对 database 级别设置数据存活时间（TTL），这使得 IoTDB 可以定期、自动地删除一定时间之前的数据。合理使用 TTL
-可以帮助您控制 IoTDB 占用的总磁盘空间以避免出现磁盘写满等异常。并且，随着文件数量的增多，查询性能往往随之下降，
-内存占用也会有所提高。及时地删除一些较老的文件有助于使查询性能维持在一个较高的水平和减少内存资源的占用。
+Under the premise of familiar with IoTDB metadata modeling, 
+users can set up heterogeneous databases in IoTDB to cope with different production needs.
 
-TTL的默认单位为毫秒，如果配置文件中的时间精度修改为其他单位，设置ttl时仍然使用毫秒单位。
+Currently, the following database heterogeneous parameters are supported:
 
-#### 设置 TTL
+| Parameter                 | Type    | Description                                   |
+| ------------------------- | ------- | --------------------------------------------- |
+| TTL                       | Long    | TTL of the Database                           |
+| SCHEMA_REPLICATION_FACTOR | Integer | The schema replication number of the Database |
+| DATA_REPLICATION_FACTOR   | Integer | The data replication number of the Database   |
+| SCHEMA_REGION_GROUP_NUM   | Integer | The SchemaRegionGroup number of the Database  |
+| DATA_REGION_GROUP_NUM     | Integer | The DataRegionGroup number of the Database    |
 
-设置 TTL 的 SQL 语句如下所示：
-```
-IoTDB> set ttl to root.ln 3600000
-```
-这个例子表示在`root.ln`数据库中，只有3600000毫秒，即最近一个小时的数据将会保存，旧数据会被移除或不可见。
-```
-IoTDB> set ttl to root.sgcc.** 3600000
-```
-支持给某一路径下的 database 设置TTL，这个例子表示`root.sgcc`路径下的所有 database 设置TTL。
-```
-IoTDB> set ttl to root.** 3600000
-```
-表示给所有 database 设置TTL。
+Note the following when configuring heterogeneous parameters:
 
-#### 取消 TTL
++ TTL and TIME_PARTITION_INTERVAL must be positive integers.
++ SCHEMA_REPLICATION_FACTOR and DATA_REPLICATION_FACTOR must be smaller than or equal to the number of deployed DataNodes.
++ The function of SCHEMA_REGION_GROUP_NUM and DATA_REGION_GROUP_NUM are related to the parameter `schema_region_group_extension_policy` and `data_region_group_extension_policy` in iotdb-common.properties configuration file. Take DATA_REGION_GROUP_NUM as an example:
+    If `data_region_group_extension_policy=CUSTOM` is set, DATA_REGION_GROUP_NUM serves as the number of DataRegionGroups owned by the Database.
+    If `data_region_group_extension_policy=AUTO`, DATA_REGION_GROUP_NUM is used as the lower bound of the DataRegionGroup quota owned by the Database. That is, when the Database starts writing data, it will have at least this number of DataRegionGroups.
 
-取消 TTL 的 SQL 语句如下所示：
+Users can set any heterogeneous parameters when creating a Database, or adjust some heterogeneous parameters during a stand-alone/distributed IoTDB run.
 
-```
-IoTDB> unset ttl to root.ln
-```
+#### Set heterogeneous parameters when creating a Database
 
-取消设置 TTL 后， database `root.ln`中所有的数据都会被保存。
-```
-IoTDB> unset ttl to root.sgcc.**
-```
-
-取消设置`root.sgcc`路径下的所有 database 的 TTL 。
-```
-IoTDB> unset ttl to root.**
-```
-
-取消设置所有 database 的 TTL 。
-
-#### 显示 TTL
-
-显示 TTL 的 SQL 语句如下所示：
-
-```
-IoTDB> SHOW ALL TTL
-IoTDB> SHOW TTL ON DataBaseNames
-```
-
-SHOW ALL TTL 这个例子会给出所有 database 的 TTL。
-SHOW TTL ON root.ln,root.sgcc,root.DB 这个例子会显示指定的三个 database 的 TTL。
-注意：没有设置 TTL 的 database 的 TTL 将显示为 null。
-
-```
-IoTDB> show all ttl
-+-------------+-------+
-|     database|ttl(ms)|
-+-------------+-------+
-|      root.ln|3600000|
-|    root.sgcc|   null|
-|      root.DB|3600000|
-+-------------+-------+
-```
-
-
-
-### 设置异构数据库（进阶操作）
-
-在熟悉 IoTDB 元数据建模的前提下，用户可以在 IoTDB 中设置异构的数据库，以便应对不同的生产需求。
-
-目前支持的数据库异构参数有：
-
-| 参数名                       | 参数类型    | 参数描述                      |
-|---------------------------|---------|---------------------------|
-| TTL                       | Long    | 数据库的 TTL                  |
-| SCHEMA_REPLICATION_FACTOR | Integer | 数据库的元数据副本数                |
-| DATA_REPLICATION_FACTOR   | Integer | 数据库的数据副本数                 |
-| SCHEMA_REGION_GROUP_NUM   | Integer | 数据库的 SchemaRegionGroup 数量 |
-| DATA_REGION_GROUP_NUM     | Integer | 数据库的 DataRegionGroup 数量   |
-
-用户在配置异构参数时需要注意以下三点：
-+ TTL 和 TIME_PARTITION_INTERVAL 必须为正整数。
-+ SCHEMA_REPLICATION_FACTOR 和 DATA_REPLICATION_FACTOR 必须小于等于已部署的 DataNode 数量。
-+ SCHEMA_REGION_GROUP_NUM 和 DATA_REGION_GROUP_NUM 的功能与 iotdb-common.properties 配置文件中的 
-`schema_region_group_extension_policy` 和 `data_region_group_extension_policy` 参数相关，以 DATA_REGION_GROUP_NUM 为例：
-若设置 `data_region_group_extension_policy=CUSTOM`，则 DATA_REGION_GROUP_NUM 将作为 Database 拥有的 DataRegionGroup 的数量；
-若设置 `data_region_group_extension_policy=AUTO`，则 DATA_REGION_GROUP_NUM 将作为 Database 拥有的 DataRegionGroup 的配额下界，即当该 Database 开始写入数据时，将至少拥有此数量的 DataRegionGroup。
-
-用户可以在创建 Database 时设置任意异构参数，或在单机/分布式 IoTDB 运行时调整部分异构参数。
-
-#### 创建 Database 时设置异构参数
-
-用户可以在创建 Database 时设置上述任意异构参数，SQL 语句如下所示：
+The user can set any of the above heterogeneous parameters when creating a Database. The SQL statement is as follows:
 
 ```
 CREATE DATABASE prefixPath (WITH databaseAttributeClause (COMMA? databaseAttributeClause)*)?
 ```
 
-例如：
+For example:
+
 ```
 CREATE DATABASE root.db WITH SCHEMA_REPLICATION_FACTOR=1, DATA_REPLICATION_FACTOR=3, SCHEMA_REGION_GROUP_NUM=1, DATA_REGION_GROUP_NUM=2;
 ```
 
-#### 运行时调整异构参数
+#### Adjust heterogeneous parameters at run time
 
-用户可以在 IoTDB 运行时调整部分异构参数，SQL 语句如下所示：
+Users can adjust some heterogeneous parameters during the IoTDB runtime, as shown in the following SQL statement:
 
 ```
 ALTER DATABASE prefixPath WITH databaseAttributeClause (COMMA? databaseAttributeClause)*
 ```
 
-例如：
+For example:
+
 ```
 ALTER DATABASE root.db WITH SCHEMA_REGION_GROUP_NUM=1, DATA_REGION_GROUP_NUM=2;
 ```
 
-注意，运行时只能调整下列异构参数：
+Note that only the following heterogeneous parameters can be adjusted at runtime:
+
 + SCHEMA_REGION_GROUP_NUM
 + DATA_REGION_GROUP_NUM
 
-#### 查看异构数据库
+#### Show heterogeneous databases
 
-用户可以查询每个 Database 的具体异构配置，SQL 语句如下所示：
+The user can query the specific heterogeneous configuration of each Database, and the SQL statement is as follows:
 
 ```
 SHOW DATABASES DETAILS prefixPath?
 ```
 
-例如：
+For example:
 
 ```
 IoTDB> SHOW DATABASES DETAILS
@@ -285,78 +222,155 @@ Total line number = 3
 It costs 0.058s
 ```
 
-各列查询结果依次为：
-+ 数据库名称
-+ 数据库的 TTL
-+ 数据库的元数据副本数
-+ 数据库的数据副本数
-+ 数据库的时间分区间隔
-+ 数据库当前拥有的 SchemaRegionGroup 数量
-+ 数据库需要拥有的最小 SchemaRegionGroup 数量
-+ 数据库允许拥有的最大 SchemaRegionGroup 数量
-+ 数据库当前拥有的 DataRegionGroup 数量
-+ 数据库需要拥有的最小 DataRegionGroup 数量
-+ 数据库允许拥有的最大 DataRegionGroup 数量
+The query results in each column are as follows:
+
++ The name of the Database
++ The TTL of the Database
++ The schema replication number of the Database
++ The data replication number of the Database
++ The time partition interval of the Database
++ The current SchemaRegionGroup number of the Database
++ The required minimum SchemaRegionGroup number of the Database
++ The permitted maximum SchemaRegionGroup number of the Database
++ The current DataRegionGroup number of the Database
++ The required minimum DataRegionGroup number of the Database
++ The permitted maximum DataRegionGroup number of the Database
+
+### TTL
+
+IoTDB supports storage-level TTL settings, which means it is able to delete old data automatically and periodically. The benefit of using TTL is that hopefully you can control the total disk space usage and prevent the machine from running out of disks. Moreover, the query performance may downgrade as the total number of files goes up and the memory usage also increase as there are more files. Timely removing such files helps to keep at a high query performance level and reduce memory usage.
+
+The default unit of TTL is milliseconds. If the time precision in the configuration file changes to another, the TTL is still set to milliseconds.
+
+#### Set TTL
+
+The SQL Statement for setting TTL is as follow:
+
+```
+IoTDB> set ttl to root.ln 3600000
+```
+
+This example means that for data in `root.ln`, only 3600000 ms, that is, the latest 1 hour will remain, the older one is removed or made invisible.
+
+```
+IoTDB> set ttl to root.sgcc.** 3600000
+```
+
+It supports setting TTL for databases in a path. This example represents setting TTL for all databases in the `root.sgcc` path.
+
+```
+IoTDB> set ttl to root.** 3600000
+```
+
+This example represents setting TTL for all databases.
+
+#### Unset TTL
+
+To unset TTL, we can use follwing SQL statement:
+
+```
+IoTDB> unset ttl to root.ln
+```
+
+After unset TTL, all data will be accepted in `root.ln`.
+
+```
+IoTDB> unset ttl to root.sgcc.**
+```
+
+Unset the TTL setting for all databases in the `root.sgcc` path.
+
+```
+IoTDB> unset ttl to root.**
+```
+
+Unset the TTL setting for all databases.
+
+#### Show TTL
+
+To Show TTL, we can use following SQL statement:
+
+```
+IoTDB> SHOW ALL TTL
+IoTDB> SHOW TTL ON DataBaseNames
+```
+
+The SHOW ALL TTL example gives the TTL for all databases.
+The SHOW TTL ON root.ln,root.sgcc,root.DB example shows the TTL for the three storage 
+groups specified.
+Note: the TTL for databases that do not have a TTL set will display as null.
+
+```
+IoTDB> show all ttl
++----------+-------+
+| database|ttl(ms)|
++---------+-------+
+|  root.ln|3600000|
+|root.sgcc|   null|
+|  root.DB|3600000|
++----------+-------+
+```
+
+## Device Template
+
+IoTDB supports the device template function, enabling different entities of the same type to share metadata, reduce the memory usage of metadata, and simplify the management of numerous entities and measurements.
 
 
-## 设备模板管理
+### Create Device Template
 
-IoTDB 支持设备模板功能，实现同类型不同实体的物理量元数据共享，减少元数据内存占用，同时简化同类型实体的管理。
-
-
-![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
-
-![img](https://alioss.timecho.com/docs/img/template.jpg)
-
-### 创建设备模板
-
-创建设备模板的 SQL 语法如下：
+The SQL syntax for creating a metadata template is as follows:
 
 ```sql
 CREATE DEVICE TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
 ```
 
-**示例1：** 创建包含两个非对齐序列的元数据模板
+**Example 1:** Create a template containing two non-aligned timeseires
 
 ```shell
 IoTDB> create device template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 ```
 
-**示例2：** 创建包含一组对齐序列的元数据模板
+**Example 2:** Create a template containing a group of aligned timeseires
 
 ```shell
 IoTDB> create device template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)
 ```
 
-其中，物理量 `lat` 和 `lon` 是对齐的。
+The` lat` and `lon` measurements are aligned.
 
-### 挂载设备模板
+![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
 
-元数据模板在创建后，需执行挂载操作，方可用于相应路径下的序列创建与数据写入。
+![img](https://alioss.timecho.com/docs/img/templateEN.jpg)
 
-**挂载模板前，需确保相关数据库已经创建。**
+### Set Device Template
 
-**推荐将模板挂载在 database 节点上，不建议将模板挂载到 database 上层的节点上。**
+After a device template is created, it should be set to specific path before creating related timeseries or insert data.
 
-**模板挂载路径下禁止创建普通序列，已创建了普通序列的前缀路径上不允许挂载模板。**
+**It should be ensured that the related database has been set before setting template.**
 
-挂载元数据模板的 SQL 语句如下所示：
+**It is recommended to set device template to database path. It is not suggested to set device template to some path above database**
+
+**It is forbidden to create timeseries under a path setting s tedeviceplate. Device template shall not be set on a prefix path of an existing timeseries.**
+
+The SQL Statement for setting device template is as follow:
 
 ```shell
 IoTDB> set device template t1 to root.sg1.d1
 ```
 
-### 激活设备模板
+### Activate Device Template
 
-挂载好设备模板后，且系统开启自动注册序列功能的情况下，即可直接进行数据的写入。例如 database 为 root.sg1，模板 t1 被挂载到了节点 root.sg1.d1，那么可直接向时间序列（如 root.sg1.d1.temperature 和 root.sg1.d1.status）写入时间序列数据，该时间序列已可被当作正常创建的序列使用。
+After setting the device template, with the system enabled to auto create schema, you can insert data into the timeseries. For example, suppose there's a database root.sg1 and t1 has been set to root.sg1.d1, then timeseries like root.sg1.d1.temperature and root.sg1.d1.status are available and data points can be inserted.
 
-**注意**：在插入数据之前或系统未开启自动注册序列功能，模板定义的时间序列不会被创建。可以使用如下SQL语句在插入数据前创建时间序列即激活模板：
+
+**Attention**: Before inserting data or the system not enabled to auto create schema, timeseries defined by the device template will not be created. You can use the following SQL statement to create the timeseries or activate the  templdeviceate, act before inserting data:
 
 ```shell
 IoTDB> create timeseries using device template on root.sg1.d1
 ```
 
-**示例：** 执行以下语句
+**Example:** Execute the following statement
+
 ```shell
 IoTDB> set device template t1 to root.sg1.d1
 IoTDB> set device template t2 to root.sg1.d2
@@ -364,10 +378,11 @@ IoTDB> create timeseries using device template on root.sg1.d1
 IoTDB> create timeseries using device template on root.sg1.d2
 ```
 
-查看此时的时间序列：
+Show the time series:
+
 ```sql
 show timeseries root.sg1.**
-```
+````
 
 ```shell
 +-----------------------+-----+-------------+--------+--------+-----------+----+----------+--------+-------------------+
@@ -380,31 +395,33 @@ show timeseries root.sg1.**
 +-----------------------+-----+-------------+--------+--------+-----------+----+----------+--------+-------------------+
 ```
 
-查看此时的设备：
+Show the devices:
+
 ```sql
 show devices root.sg1.**
-```
+````
 
 ```shell
-+---------------+---------+---------+
-|        devices|isAligned| Template|
-+---------------+---------+---------+
-|    root.sg1.d1|    false|     null|
-|    root.sg1.d2|     true|     null|
-+---------------+---------+---------+
-```
++---------------+---------+
+|        devices|isAligned|
++---------------+---------+
+|    root.sg1.d1|    false|
+|    root.sg1.d2|     true|
++---------------+---------+
+````
 
-### 查看设备模板
+### Show Device Template
 
-- 查看所有设备模板
+- Show all device templates
 
-SQL 语句如下所示：
+The SQL statement looks like this:
 
 ```shell
 IoTDB> show device templates
 ```
 
-执行结果如下：
+The execution result is as follows:
+
 ```shell
 +-------------+
 |template name|
@@ -414,15 +431,16 @@ IoTDB> show device templates
 +-------------+
 ```
 
-- 查看某个设备模板下的物理量
+- Show nodes under in device template
 
-SQL 语句如下所示：
+The SQL statement looks like this:
 
 ```shell
 IoTDB> show nodes in device template t1
 ```
 
-执行结果如下：
+The execution result is as follows:
+
 ```shell
 +-----------+--------+--------+-----------+
 |child nodes|dataType|encoding|compression|
@@ -432,13 +450,14 @@ IoTDB> show nodes in device template t1
 +-----------+--------+--------+-----------+
 ```
 
-- 查看挂载了某个设备模板的路径
+- Show the path prefix where a device template is set
 
 ```shell
 IoTDB> show paths set device template t1
 ```
 
-执行结果如下：
+The execution result is as follows:
+
 ```shell
 +-----------+
 |child paths|
@@ -447,13 +466,14 @@ IoTDB> show paths set device template t1
 +-----------+
 ```
 
-- 查看使用了某个设备模板的路径（即模板在该路径上已激活，序列已创建）
+- Show the path prefix where a device template is used (i.e. the time series has been created)
 
 ```shell
 IoTDB> show paths using device template t1
 ```
 
-执行结果如下：
+The execution result is as follows:
+
 ```shell
 +-----------+
 |child paths|
@@ -462,72 +482,71 @@ IoTDB> show paths using device template t1
 +-----------+
 ```
 
-### 解除设备模板
+### Deactivate device Template
 
-若需删除模板表示的某一组时间序列，可采用解除模板操作，SQL语句如下所示：
+To delete a group of timeseries represented by device template, namely deactivate the device template, use the following SQL statement:
 
 ```shell
 IoTDB> delete timeseries of device template t1 from root.sg1.d1
 ```
 
-或
+or
 
 ```shell
 IoTDB> deactivate device template t1 from root.sg1.d1
 ```
 
-解除操作支持批量处理，SQL语句如下所示：
+The deactivation supports batch process. 
 
 ```shell
 IoTDB> delete timeseries of device template t1 from root.sg1.*, root.sg2.*
 ```
 
-或
+or
 
 ```shell
 IoTDB> deactivate device template t1 from root.sg1.*, root.sg2.*
 ```
 
-若解除命令不指定模板名称，则会将给定路径涉及的所有模板使用情况均解除。
+If the template name is not provided in sql, all template activation on paths matched by given path pattern will be removed.
 
-### 卸载设备模板
+### Unset Device Template
 
-卸载设备模板的 SQL 语句如下所示：
+The SQL Statement for unsetting device template is as follow:
 
 ```shell
 IoTDB> unset device template t1 from root.sg1.d1
 ```
 
-**注意**：不支持卸载仍处于激活状态的模板，需保证执行卸载操作前解除对该模板的所有使用，即删除所有该模板表示的序列。
+**Attention**: It should be guaranteed that none of the timeseries represented by the target device template exists, before unset it. It can be achieved by deactivation operation.
 
-### 删除设备模板
+### Drop Device Template
 
-删除设备模板的 SQL 语句如下所示：
+The SQL Statement for dropping device template is as follow:
 
 ```shell
 IoTDB> drop device template t1
 ```
 
-**注意**：不支持删除已经挂载的模板，需在删除操作前保证该模板卸载成功。
+**Attention**: Dropping an already set template is not supported.
 
-### 修改设备模板
+### Alter Device Template
 
-在需要新增物理量的场景中，可以通过修改设备模板来给所有已激活该模板的设备新增物理量。
+In a scenario where measurements need to be added, you can modify the  template to add measurements to all devicesdevice using the device template.
 
-修改设备模板的 SQL 语句如下所示：
+The SQL Statement for altering device template is as follow:
 
 ```shell
 IoTDB> alter device template t1 add (speed FLOAT encoding=RLE, FLOAT TEXT encoding=PLAIN compression=SNAPPY)
 ```
 
-**向已挂载模板的路径下的设备中写入数据，若写入请求中的物理量不在模板中，将自动扩展模板。**
+**When executing data insertion to devices with device template set on related prefix path and there are measurements not present in this device template, the measurements will be auto added to this device template.**
 
+## Timeseries Management
 
-## 时间序列管理
+### Create Timeseries
 
-### 创建时间序列
-
-根据建立的数据模型，我们可以分别在两个数据库中创建相应的时间序列。创建时间序列的 SQL 语句如下所示：
+According to the storage model selected before, we can create corresponding timeseries in the two databases respectively. The SQL statements for creating timeseries are as follows:
 
 ```
 IoTDB > create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN,encoding=PLAIN
@@ -538,7 +557,7 @@ IoTDB > create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN,encod
 IoTDB > create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT,encoding=RLE
 ```
 
-从 v0.13 起，可以使用简化版的 SQL 语句创建时间序列：
+From v0.13, you can use a simplified version of the SQL statements to create timeseries:
 
 ```
 IoTDB > create timeseries root.ln.wf01.wt01.status BOOLEAN encoding=PLAIN
@@ -549,29 +568,32 @@ IoTDB > create timeseries root.sgcc.wf03.wt01.status BOOLEAN encoding=PLAIN
 IoTDB > create timeseries root.sgcc.wf03.wt01.temperature FLOAT encoding=RLE
 ```
 
-需要注意的是，当创建时间序列时指定的编码方式与数据类型不对应时，系统会给出相应的错误提示，如下所示：
+Notice that when in the CREATE TIMESERIES statement the encoding method conflicts with the data type, the system gives the corresponding error prompt as shown below:
+
 ```
-IoTDB> create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODING=TS_2DIFF
+IoTDB > create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODING=TS_2DIFF
 error: encoding TS_2DIFF does not support BOOLEAN
 ```
 
-详细的数据类型与编码方式的对应列表请参见 [编码方式](../Basic-Concept/Encoding-and-Compression.md)。
+Please refer to [Encoding](../Basic-Concept/Encoding-and-Compression.md) for correspondence between data type and encoding.
 
-### 创建对齐时间序列
+### Create Aligned Timeseries
 
-创建一组对齐时间序列的SQL语句如下所示：
+The SQL statement for creating a group of timeseries are as follows:
 
 ```
-IoTDB> CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT encoding=PLAIN compressor=SNAPPY, longitude FLOAT encoding=PLAIN compressor=SNAPPY) 
+IoTDB> CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT encoding=PLAIN compressor=SNAPPY, longitude FLOAT encoding=PLAIN compressor=SNAPPY)
 ```
 
-一组对齐序列中的序列可以有不同的数据类型、编码方式以及压缩方式。
+You can set different datatype, encoding, and compression for the timeseries in a group of aligned timeseries
 
-对齐的时间序列也支持设置别名、标签、属性。
+It is also supported to set an alias, tag, and attribute for aligned timeseries.
 
-### 删除时间序列
+### Delete Timeseries
 
-我们可以使用`(DELETE | DROP) TimeSeries <PathPattern>`语句来删除我们之前创建的时间序列。SQL 语句如下所示：
+To delete the timeseries we created before, we are able to use `(DELETE | DROP) TimeSeries <PathPattern>` statement.
+
+The usage are as follows:
 
 ```
 IoTDB> delete timeseries root.ln.wf01.wt01.status
@@ -580,30 +602,30 @@ IoTDB> delete timeseries root.ln.wf02.*
 IoTDB> drop timeseries root.ln.wf02.*
 ```
 
-### 查看时间序列
+### Show Timeseries
 
-* SHOW LATEST? TIMESERIES pathPattern? timeseriesWhereClause? limitClause?
+* SHOW LATEST? TIMESERIES pathPattern? whereClause? limitClause?
 
-  SHOW TIMESERIES 中可以有四种可选的子句，查询结果为这些时间序列的所有信息
+    There are four optional clauses added in SHOW TIMESERIES, return information of time series 
 
-时间序列信息具体包括：时间序列路径名，database，Measurement 别名，数据类型，编码方式，压缩方式，属性和标签。
+Timeseries information includes: timeseries path, alias of measurement, database it belongs to, data type, encoding type, compression type, tags and attributes.
 
-示例：
+Examples:
 
 * SHOW TIMESERIES
 
-  展示系统中所有的时间序列信息
+    presents all timeseries information in JSON form
 
-* SHOW TIMESERIES <`Path`>
+* SHOW TIMESERIES <`PathPattern`> 
 
-  返回给定路径的下的所有时间序列信息。其中 `Path` 需要为一个时间序列路径或路径模式。例如，分别查看`root`路径和`root.ln`路径下的时间序列，SQL 语句如下所示：
+    returns all timeseries information matching the given <`PathPattern`>. SQL statements are as follows:
 
 ```
 IoTDB> show timeseries root.**
 IoTDB> show timeseries root.ln.**
 ```
 
-执行结果分别为：
+The results are shown below respectively:
 
 ```
 +-------------------------------+--------+-------------+--------+--------+-----------+-------------------------------------------+--------------------------------------------------------+--------+-------------------+
@@ -634,7 +656,7 @@ It costs 0.004s
 
 * SHOW TIMESERIES LIMIT INT OFFSET INT
 
-  只返回从指定下标开始的结果，最大返回条数被 LIMIT 限制，用于分页查询。例如：
+    returns all the timeseries information start from the offset and limit the number of series returned. For example,
 
 ```
 show timeseries root.ln.** limit 10 offset 10
@@ -642,13 +664,13 @@ show timeseries root.ln.** limit 10 offset 10
 
 * SHOW TIMESERIES WHERE TIMESERIES contains 'containStr'
 
-  对查询结果集根据 timeseries 名称进行字符串模糊匹配过滤。例如：
+    The query result set is filtered by string fuzzy matching based on the names of the timeseries. For example:
 
 ```
 show timeseries root.ln.** where timeseries contains 'wf01.wt'
 ```
 
-执行结果为：
+The result is shown below:
 
 ```
 +-------------------------------+--------+-------------+--------+--------+-----------+-------------------------------------------+--------------------------------------------------------+--------+-------------------+
@@ -663,13 +685,13 @@ It costs 0.016s
 
 * SHOW TIMESERIES WHERE DataType=type
 
-  对查询结果集根据时间序列数据类型进行过滤。例如：
+    The query result set is filtered by data type. For example:
 
 ```
 show timeseries root.ln.** where dataType=FLOAT
 ```
 
-执行结果为:
+The result is shown below:
 
 ```
 +-------------------------------+--------+-------------+--------+--------+-----------+-------------------------------------------+--------------------------------------------------------+--------+-------------------+
@@ -687,19 +709,20 @@ It costs 0.016s
 
 * SHOW LATEST TIMESERIES
 
-  表示查询出的时间序列需要按照最近插入时间戳降序排列
+    all the returned timeseries information should be sorted in descending order of the last timestamp of timeseries
+
+It is worth noting that when the queried path does not exist, the system will return no timeseries.  
 
 
-需要注意的是，当查询路径不存在时，系统会返回 0 条时间序列。
+### Count Timeseries
 
-### 统计时间序列总数
+IoTDB is able to use `COUNT TIMESERIES <Path>` to count the number of timeseries matching the path. SQL statements are as follows:
 
-IoTDB 支持使用`COUNT TIMESERIES<Path>`来统计一条路径中的时间序列个数。SQL 语句如下所示：
+* `WHERE` condition could be used to fuzzy match a time series name with the following syntax: `COUNT TIMESERIES <Path> WHERE TIMESERIES contains 'containStr'`.
+* `WHERE` condition could be used to filter result by data type with the syntax: `COUNT TIMESERIES <Path> WHERE DataType=<DataType>'`.
+* `WHERE` condition could be used to filter result by tags with the syntax: `COUNT TIMESERIES <Path> WHERE TAGS(key)='value'` or `COUNT TIMESERIES <Path> WHERE TAGS(key) contains 'value'`.
+* `LEVEL` could be defined to show count the number of timeseries of each node at the given level in current Metadata Tree. This could be used to query the number of sensors under each device. The grammar is: `COUNT TIMESERIES <Path> GROUP BY LEVEL=<INTEGER>`.
 
-* 可以通过 `WHERE` 条件对时间序列名称进行字符串模糊匹配，语法为： `COUNT TIMESERIES <Path> WHERE TIMESERIES contains 'containStr'` 。
-* 可以通过 `WHERE` 条件对时间序列数据类型进行过滤，语法为： `COUNT TIMESERIES <Path> WHERE DataType=<DataType>'`。
-* 可以通过 `WHERE` 条件对标签点进行过滤，语法为： `COUNT TIMESERIES <Path> WHERE TAGS(key)='value'` 或 `COUNT TIMESERIES <Path> WHERE TAGS(key) contains 'value'`。
-* 可以通过定义`LEVEL`来统计指定层级下的时间序列个数。这条语句可以用来统计每一个设备下的传感器数量，语法为：`COUNT TIMESERIES <Path> GROUP BY LEVEL=<INTEGER>`。
 
 ```
 IoTDB > COUNT TIMESERIES root.**
@@ -713,7 +736,7 @@ IoTDB > COUNT TIMESERIES root.** WHERE TAGS(unit) = 'c'
 IoTDB > COUNT TIMESERIES root.** WHERE TIMESERIES contains 'sgcc' group by level = 1
 ```
 
-例如有如下时间序列（可以使用`show timeseries`展示所有时间序列）：
+For example, if there are several timeseries (use `show timeseries` to show all timeseries):
 
 ```
 +-------------------------------+--------+-------------+--------+--------+-----------+-------------------------------------------+--------------------------------------------------------+--------+-------------------+
@@ -731,11 +754,11 @@ Total line number = 7
 It costs 0.004s
 ```
 
-那么 Metadata Tree 如下所示：
+Then the Metadata Tree will be as below:
 
-<img style="width:100%; max-width:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/69792176-1718f400-1201-11ea-861a-1a83c07ca144.jpg">
+<center><img style="width:100%; max-width:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/69792176-1718f400-1201-11ea-861a-1a83c07ca144.jpg"></center>
 
-可以看到，`root`被定义为`LEVEL=0`。那么当你输入如下语句时：
+As can be seen, `root` is considered as `LEVEL=0`. So when you enter statements such as:
 
 ```
 IoTDB > COUNT TIMESERIES root.** GROUP BY LEVEL=1
@@ -743,10 +766,9 @@ IoTDB > COUNT TIMESERIES root.ln.** GROUP BY LEVEL=2
 IoTDB > COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2
 ```
 
-你将得到以下结果：
+You will get following results:
 
 ```
-IoTDB> COUNT TIMESERIES root.** GROUP BY LEVEL=1
 +------------+-----------------+
 |      column|count(timeseries)|
 +------------+-----------------+
@@ -757,7 +779,6 @@ IoTDB> COUNT TIMESERIES root.** GROUP BY LEVEL=1
 Total line number = 3
 It costs 0.002s
 
-IoTDB > COUNT TIMESERIES root.ln.** GROUP BY LEVEL=2
 +------------+-----------------+
 |      column|count(timeseries)|
 +------------+-----------------+
@@ -767,7 +788,6 @@ IoTDB > COUNT TIMESERIES root.ln.** GROUP BY LEVEL=2
 Total line number = 2
 It costs 0.002s
 
-IoTDB > COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2
 +------------+-----------------+
 |      column|count(timeseries)|
 +------------+-----------------+
@@ -777,12 +797,14 @@ Total line number = 1
 It costs 0.002s
 ```
 
-> 注意：时间序列的路径只是过滤条件，与 level 的定义无关。
+> Note: The path of timeseries is just a filter condition, which has no relationship with the definition of level.
 
-### 活跃时间序列查询
-我们在原有的时间序列查询和统计上添加新的WHERE时间过滤条件，可以得到在指定时间范围中存在数据的时间序列。
+### Active Timeseries Query
+By adding WHERE time filter conditions to the existing SHOW/COUNT TIMESERIES, we can obtain time series with data within the specified time range.
 
-一个使用样例如下：
+It is important to note that in metadata queries with time filters, views are not considered; only the time series actually stored in the TsFile are taken into account.
+
+An example usage is as follows:
 ```
 IoTDB> insert into root.sg.data(timestamp, s1,s2) values(15000, 1, 2);
 IoTDB> insert into root.sg.data2(timestamp, s1,s2) values(15002, 1, 2);
@@ -816,63 +838,75 @@ IoTDB> count timeseries where time >= 15000 and time < 16000;
 |                4|
 +-----------------+
 ```
-关于活跃时间序列的定义，能通过正常查询查出来的数据就是活跃数据，也就是说插入但被删除的时间序列不在考虑范围内。
+Regarding the definition of active time series, data that can be queried normally is considered active, meaning time series that have been inserted but deleted are not included.
+### Tag and Attribute Management
 
-### 标签点管理
+We can also add an alias, extra tag and attribute information while creating one timeseries.
 
-我们可以在创建时间序列的时候，为它添加别名和额外的标签和属性信息。
+The differences between tag and attribute are:
 
-标签和属性的区别在于：
+* Tag could be used to query the path of timeseries, we will maintain an inverted index in memory on the tag: Tag -> Timeseries
+* Attribute could only be queried by timeseries path : Timeseries -> Attribute
 
-* 标签可以用来查询时间序列路径，会在内存中维护标点到时间序列路径的倒排索引：标签 -> 时间序列路径
-* 属性只能用时间序列路径来查询：时间序列路径 -> 属性
+The SQL statements for creating timeseries with extra tag and attribute information are extended as follows:
 
-所用到的扩展的创建时间序列的 SQL 语句如下所示：
 ```
 create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT, encoding=RLE, compression=SNAPPY tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2)
 ```
 
-括号里的`temprature`是`s1`这个传感器的别名。
-我们可以在任何用到`s1`的地方，将其用`temprature`代替，这两者是等价的。
+The `temprature` in the brackets is an alias for the sensor `s1`. So we can use `temprature` to replace `s1` anywhere.
 
-> IoTDB 同时支持在查询语句中使用 AS 函数设置别名。二者的区别在于：AS 函数设置的别名用于替代整条时间序列名，且是临时的，不与时间序列绑定；而上文中的别名只作为传感器的别名，与其绑定且可与原传感器名等价使用。
+> IoTDB also supports using AS function to set alias. The difference between the two is: the alias set by the AS function is used to replace the whole time series name, temporary and not bound with the time series; while the alias mentioned above is only used as the alias of the sensor, which is bound with it and can be used equivalent to the original sensor name.
 
-> 注意：额外的标签和属性信息总的大小不能超过`tag_attribute_total_size`.
+> Notice that the size of the extra tag and attribute information shouldn't exceed the `tag_attribute_total_size`.
 
- * 标签点属性更新
-创建时间序列后，我们也可以对其原有的标签点属性进行更新，主要有以下六种更新方式：
-* 重命名标签或属性
+We can update the tag information after creating it as following:
+
+* Rename the tag/attribute key
+
 ```
 ALTER timeseries root.turbine.d1.s1 RENAME tag1 TO newTag1
 ```
-* 重新设置标签或属性的值
+
+* Reset the tag/attribute value
+
 ```
 ALTER timeseries root.turbine.d1.s1 SET newTag1=newV1, attr1=newV1
 ```
-* 删除已经存在的标签或属性
+
+* Delete the existing tag/attribute
+
 ```
 ALTER timeseries root.turbine.d1.s1 DROP tag1, tag2
 ```
-* 添加新的标签
+
+* Add new tags
+
 ```
 ALTER timeseries root.turbine.d1.s1 ADD TAGS tag3=v3, tag4=v4
 ```
-* 添加新的属性
+
+* Add new attributes
+
 ```
 ALTER timeseries root.turbine.d1.s1 ADD ATTRIBUTES attr3=v3, attr4=v4
 ```
-* 更新插入别名，标签和属性
-> 如果该别名，标签或属性原来不存在，则插入，否则，用新值更新原来的旧值
+
+* Upsert alias, tags and attributes
+
+> add alias or a new key-value if the alias or key doesn't exist, otherwise, update the old one with new value.
+
 ```
-ALTER timeseries root.turbine.d1.s1 UPSERT ALIAS=newAlias TAGS(tag2=newV2, tag3=v3) ATTRIBUTES(attr3=v3, attr4=v4)
+ALTER timeseries root.turbine.d1.s1 UPSERT ALIAS=newAlias TAGS(tag3=v3, tag4=v4) ATTRIBUTES(attr3=v3, attr4=v4)
 ```
 
-* 使用标签作为过滤条件查询时间序列，使用 TAGS(tagKey) 来标识作为过滤条件的标签
+* Show timeseries using tags. Use TAGS(tagKey) to identify the tags used as filter key
+
 ```
 SHOW TIMESERIES (<`PathPattern`>)? timeseriesWhereClause
 ```
 
-返回给定路径的下的所有满足条件的时间序列信息，SQL 语句如下所示：
+returns all the timeseries information that satisfy the where condition and match the pathPattern. SQL statements are as follows:
 
 ```
 ALTER timeseries root.ln.wf02.wt02.hardware ADD TAGS unit=c
@@ -881,7 +915,7 @@ show timeseries root.ln.** where TAGS(unit)='c'
 show timeseries root.ln.** where TAGS(description) contains 'test1'
 ```
 
-执行结果分别为：
+The results are shown below respectly:
 
 ```
 +--------------------------+-----+-------------+--------+--------+-----------+------------+----------+--------+-------------------+
@@ -901,14 +935,14 @@ Total line number = 1
 It costs 0.004s
 ```
 
-- 使用标签作为过滤条件统计时间序列数量
+- count timeseries using tags
 
 ```
 COUNT TIMESERIES (<`PathPattern`>)? timeseriesWhereClause
 COUNT TIMESERIES (<`PathPattern`>)? timeseriesWhereClause GROUP BY LEVEL=<INTEGER>
 ```
 
-返回给定路径的下的所有满足条件的时间序列的数量，SQL 语句如下所示：
+returns all the number of timeseries that satisfy the where condition and match the pathPattern. SQL statements are as follows:
 
 ```
 count timeseries
@@ -916,7 +950,7 @@ count timeseries root.** where TAGS(unit)='c'
 count timeseries root.** where TAGS(unit)='c' group by level = 2
 ```
 
-执行结果分别为：
+The results are shown below respectly :
 
 ```
 IoTDB> count timeseries
@@ -947,15 +981,15 @@ Total line number = 3
 It costs 0.011s
 ```
 
-> 注意，现在我们只支持一个查询条件，要么是等值条件查询，要么是包含条件查询。当然 where 子句中涉及的必须是标签值，而不能是属性值。
+> Notice that, we only support one condition in the where clause. Either it's an equal filter or it is an `contains` filter. In both case, the property in the where condition must be a tag.
 
-创建对齐时间序列
+create aligned timeseries
 
 ```
 create aligned timeseries root.sg1.d1(s1 INT32 tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2), s2 DOUBLE tags(tag3=v3, tag4=v4) attributes(attr3=v3, attr4=v4))
 ```
 
-执行结果如下：
+The execution result is as follows:
 
 ```
 IoTDB> show timeseries
@@ -967,7 +1001,7 @@ IoTDB> show timeseries
 +--------------+-----+-------------+--------+--------+-----------+-------------------------+---------------------------+--------+-------------------+
 ```
 
-支持查询：
+Support query：
 
 ```
 IoTDB> show timeseries where TAGS(tag1)='v1'
@@ -978,24 +1012,24 @@ IoTDB> show timeseries where TAGS(tag1)='v1'
 +--------------+-----+-------------+--------+--------+-----------+-------------------------+---------------------------+--------+-------------------+
 ```
 
-上述对时间序列标签、属性的更新等操作都支持。
+The above operations are supported for timeseries tag, attribute updates, etc.
 
+## Node Management
 
-## 路径查询
-
-### 查看路径的所有子路径
+### Show Child Paths
 
 ```
 SHOW CHILD PATHS pathPattern
 ```
 
-可以查看此路径模式所匹配的所有路径的下一层的所有路径和它对应的节点类型，即pathPattern.*所匹配的路径及其节点类型。
+Return all child paths and their node types of all the paths matching pathPattern.
 
-节点类型：ROOT -> SG INTERNAL -> DATABASE -> INTERNAL -> DEVICE -> TIMESERIES
+node types: ROOT -> DB INTERNAL -> DATABASE -> INTERNAL -> DEVICE -> TIMESERIES
 
-示例：
 
-* 查询 root.ln 的下一层：show child paths root.ln
+Example：
+
+* return the child paths of root.ln：show child paths root.ln
 
 ```
 +------------+----------+
@@ -1008,28 +1042,19 @@ Total line number = 2
 It costs 0.002s
 ```
 
-* 查询形如 root.xx.xx.xx 的路径：show child paths root.\*.\*
+> get all paths in form of root.xx.xx.xx：show child paths root.xx.xx
 
-```
-+---------------+
-|    child paths|
-+---------------+
-|root.ln.wf01.s1|
-|root.ln.wf02.s2|
-+---------------+
-```
-
-### 查看路径的下一级节点
+### Show Child Nodes
 
 ```
 SHOW CHILD NODES pathPattern
 ```
 
-可以查看此路径模式所匹配的节点的下一层的所有节点。
+Return all child nodes of the pathPattern.
 
-示例：
+Example：
 
-* 查询 root 的下一层：show child nodes root
+* return the child nodes of root：show child nodes root
 
 ```
 +------------+
@@ -1039,7 +1064,7 @@ SHOW CHILD NODES pathPattern
 +------------+
 ```
 
-* 查询 root.ln 的下一层 ：show child nodes root.ln
+* return the child nodes of root.ln：show child nodes root.ln
 
 ```
 +------------+
@@ -1050,19 +1075,22 @@ SHOW CHILD NODES pathPattern
 +------------+
 ```
 
-### 统计节点数
+### Count Nodes
 
-IoTDB 支持使用`COUNT NODES <PathPattern> LEVEL=<INTEGER>`来统计当前 Metadata
- 树下满足某路径模式的路径中指定层级的节点个数。这条语句可以用来统计带有特定采样点的设备数。例如：
+IoTDB is able to use `COUNT NODES <PathPattern> LEVEL=<INTEGER>` to count the number of nodes at
+ the given level in current Metadata Tree considering a given pattern. IoTDB will find paths that
+  match the pattern and counts distinct nodes at the specified level among the matched paths.
+  This could be used to query the number of devices with specified measurements. The usage are as
+   follows:
 
 ```
 IoTDB > COUNT NODES root.** LEVEL=2
 IoTDB > COUNT NODES root.ln.** LEVEL=2
-IoTDB > COUNT NODES root.ln.wf01.* LEVEL=3
+IoTDB > COUNT NODES root.ln.wf01.** LEVEL=3
 IoTDB > COUNT NODES root.**.temperature LEVEL=3
 ```
 
-对于上面提到的例子和 Metadata Tree，你可以获得如下结果：
+As for the above mentioned example and Metadata tree, you can get following results:
 
 ```
 +------------+
@@ -1098,127 +1126,96 @@ Total line number = 1
 It costs 0.002s
 ```
 
-> 注意：时间序列的路径只是过滤条件，与 level 的定义无关。
+> Note: The path of timeseries is just a filter condition, which has no relationship with the definition of level.
 
-### 查看设备
+### Show Devices
 
-* SHOW DEVICES pathPattern? (WITH DATABASE)? devicesWhereClause? limitClause? 
+* SHOW DEVICES pathPattern? (WITH DATABASE)? devicesWhereClause? limitClause?
 
-与 `Show Timeseries` 相似，IoTDB 目前也支持两种方式查看设备。
+Similar to `Show Timeseries`, IoTDB also supports two ways of viewing devices:
 
-* `SHOW DEVICES` 语句显示当前所有的设备信息，等价于 `SHOW DEVICES root.**`。
-* `SHOW DEVICES <PathPattern>` 语句规定了 `PathPattern`，返回给定的路径模式所匹配的设备信息。
-* `WHERE` 条件中可以使用 `DEVICE contains 'xxx'`，根据 device 名称进行模糊查询。
-* `WHERE` 条件中可以使用 `TEMPLATE = 'xxx'`,`TEMPLATE != 'xxx'`，根据 template 名称进行过滤查询。
-* `WHERE` 条件中可以使用 `TEMPLATE is null`,`TEMPLATE is not null`，根据 template 是否为null(null 表示没激活)进行过滤查询。
+* `SHOW DEVICES` statement presents all devices' information, which is equal to `SHOW DEVICES root.**`.
+* `SHOW DEVICES <PathPattern>` statement specifies the `PathPattern` and returns the devices information matching the pathPattern and under the given level.
+* `WHERE` condition supports `DEVICE contains 'xxx'`  to do a fuzzy query based on the device name.
 
-SQL 语句如下所示：
+SQL statement is as follows:
 
 ```
 IoTDB> show devices
 IoTDB> show devices root.ln.**
 IoTDB> show devices root.ln.** where device contains 't'
-IoTDB> show devices root.ln.** where template = 't1'
-IoTDB> show devices root.ln.** where template is null
-IoTDB> show devices root.ln.** where template != 't1'
-IoTDB> show devices root.ln.** where template is not null
 ```
 
-你可以获得如下数据：
+You can get results below:
 
 ```
-+-------------------+---------+---------+
-|            devices|isAligned| Template|
-+-------------------+---------+---------+
-|  root.ln.wf01.wt01|    false|       t1|
-|  root.ln.wf02.wt02|    false|     null|
-|root.sgcc.wf03.wt01|    false|     null|
-|    root.turbine.d1|    false|     null|
-+-------------------+---------+---------+
++-------------------+---------+
+|            devices|isAligned|
++-------------------+---------+
+|  root.ln.wf01.wt01|    false|
+|  root.ln.wf02.wt02|    false|
+|root.sgcc.wf03.wt01|    false|
+|    root.turbine.d1|    false|
++-------------------+---------+
 Total line number = 4
 It costs 0.002s
 
-+-----------------+---------+---------+
-|          devices|isAligned| Template|
-+-----------------+---------+---------+
-|root.ln.wf01.wt01|    false|       t1|
-|root.ln.wf02.wt02|    false|     null|
-+-----------------+---------+---------+
++-----------------+---------+
+|          devices|isAligned|
++-----------------+---------+
+|root.ln.wf01.wt01|    false|
+|root.ln.wf02.wt02|    false|
++-----------------+---------+
 Total line number = 2
-It costs 0.001s
-
-+-----------------+---------+---------+
-|          devices|isAligned| Template|
-+-----------------+---------+---------+
-|root.ln.wf01.wt01|    false|       t1|
-|root.ln.wf02.wt02|    false|     null|
-+-----------------+---------+---------+
-Total line number = 2
-It costs 0.001s
-
-+-----------------+---------+---------+
-|          devices|isAligned| Template|
-+-----------------+---------+---------+
-|root.ln.wf01.wt01|    false|       t1|
-+-----------------+---------+---------+
-Total line number = 1
-It costs 0.001s
-
-+-----------------+---------+---------+
-|          devices|isAligned| Template|
-+-----------------+---------+---------+
-|root.ln.wf02.wt02|    false|     null|
-+-----------------+---------+---------+
-Total line number = 1
 It costs 0.001s
 ```
 
-其中，`isAligned`表示该设备下的时间序列是否对齐,
-`Template`显示着该设备所激活的模板名，null 表示没有激活模板。
+`isAligned` indicates whether the timeseries under the device are aligned.
 
-查看设备及其 database 信息，可以使用 `SHOW DEVICES WITH DATABASE` 语句。
+To view devices' information with database, we can use `SHOW DEVICES WITH DATABASE` statement.
 
-* `SHOW DEVICES WITH DATABASE` 语句显示当前所有的设备信息和其所在的 database，等价于 `SHOW DEVICES root.**`。
-* `SHOW DEVICES <PathPattern> WITH DATABASE` 语句规定了 `PathPattern`，返回给定的路径模式所匹配的设备信息和其所在的 database。
+* `SHOW DEVICES WITH DATABASE` statement presents all devices' information with their database.
+* `SHOW DEVICES <PathPattern> WITH DATABASE` statement specifies the `PathPattern` and returns the 
+    devices' information under the given level with their database information.
 
-SQL 语句如下所示：
+SQL statement is as follows:
 
 ```
 IoTDB> show devices with database
 IoTDB> show devices root.ln.** with database
 ```
 
-你可以获得如下数据：
+You can get results below:
 
 ```
-+-------------------+-------------+---------+---------+
-|            devices|     database|isAligned| Template|
-+-------------------+-------------+---------+---------+
-|  root.ln.wf01.wt01|      root.ln|    false|       t1|
-|  root.ln.wf02.wt02|      root.ln|    false|     null|
-|root.sgcc.wf03.wt01|    root.sgcc|    false|     null|
-|    root.turbine.d1| root.turbine|    false|     null|
-+-------------------+-------------+---------+---------+
++-------------------+-------------+---------+
+|            devices|     database|isAligned|
++-------------------+-------------+---------+
+|  root.ln.wf01.wt01|      root.ln|    false|
+|  root.ln.wf02.wt02|      root.ln|    false|
+|root.sgcc.wf03.wt01|    root.sgcc|    false|
+|    root.turbine.d1| root.turbine|    false|
++-------------------+-------------+---------+
 Total line number = 4
 It costs 0.003s
 
-+-----------------+-------------+---------+---------+
-|          devices|     database|isAligned| Template|
-+-----------------+-------------+---------+---------+
-|root.ln.wf01.wt01|      root.ln|    false|       t1|
-|root.ln.wf02.wt02|      root.ln|    false|     null|
-+-----------------+-------------+---------+---------+
++-----------------+-------------+---------+
+|          devices|     database|isAligned|
++-----------------+-------------+---------+
+|root.ln.wf01.wt01|      root.ln|    false|
+|root.ln.wf02.wt02|      root.ln|    false|
++-----------------+-------------+---------+
 Total line number = 2
 It costs 0.001s
 ```
 
-### 统计设备数量
+### Count Devices
 
-* COUNT DEVICES \<PathPattern\>
+* COUNT DEVICES /<PathPattern/>
 
-上述语句用于统计设备的数量，同时允许指定`PathPattern` 用于统计匹配该`PathPattern` 的设备数量
+The above statement is used to count the number of devices. At the same time, it is allowed to specify `PathPattern` to count the number of devices matching the `PathPattern`.
 
-SQL 语句如下所示：
+SQL statement is as follows:
 
 ```
 IoTDB> show devices
@@ -1226,17 +1223,17 @@ IoTDB> count devices
 IoTDB> count devices root.ln.**
 ```
 
-你可以获得如下数据：
+You can get results below:
 
 ```
-+-------------------+---------+---------+
-|            devices|isAligned| Template|
-+-------------------+---------+---------+
-|root.sgcc.wf03.wt03|    false|     null|
-|    root.turbine.d1|    false|     null|
-|  root.ln.wf02.wt02|    false|     null|
-|  root.ln.wf01.wt01|    false|       t1|
-+-------------------+---------+---------+
++-------------------+---------+
+|            devices|isAligned|
++-------------------+---------+
+|root.sgcc.wf03.wt03|    false|
+|    root.turbine.d1|    false|
+|  root.ln.wf02.wt02|    false|
+|  root.ln.wf01.wt01|    false|
++-------------------+---------+
 Total line number = 4
 It costs 0.024s
 
@@ -1257,8 +1254,8 @@ Total line number = 1
 It costs 0.004s
 ```
 
-### 活跃设备查询
-和活跃时间序列一样，我们可以在查看和统计设备的基础上添加时间过滤条件来查询在某段时间内存在数据的活跃设备。这里活跃的定义与活跃时间序列相同，使用样例如下：
+### Active Device Query
+Similar to active timeseries query, we can add time filter conditions to device viewing and statistics to query active devices that have data within a certain time range. The definition of active here is the same as for active time series. An example usage is as follows:
 ```
 IoTDB> insert into root.sg.data(timestamp, s1,s2) values(15000, 1, 2);
 IoTDB> insert into root.sg.data2(timestamp, s1,s2) values(15002, 1, 2);
