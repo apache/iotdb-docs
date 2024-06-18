@@ -68,7 +68,7 @@ export const enSidebar = {
       children: [
         { text: 'Package Acquisition', link: 'IoTDB-Package' },
         { text: 'Database Resources', link: 'Database-Resources' },
-        { text: 'Enviroment-Requirements', link: 'Enviroment-Requirements' },
+        { text: 'Enviroment Requirements', link: 'Enviroment-Requirements' },
         { text: 'Deployment Guide', link: 'Deployment-Guide' },
         { text: 'Docker Install', link: 'Docker-Install' },
       ],

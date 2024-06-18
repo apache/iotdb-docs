@@ -22,7 +22,7 @@
 
 # Operating System Requirements
 
-IoTDB supports operating systems such as Linux, Windows, and MacOS, while the enterprise version supports domestic CPUs such as Longxin, Feiteng, and Kunpeng. It also supports domestic server operating systems such as Zhongbiao Qilin, Galaxy Qilin, Tongxin, and Ningsi.
+IoTDB supports operating systems such as Linux, Windows, and MacOS, while the enterprise version supports domestic CPUs such as Loongson, Phytium, and Kunpeng. It also supports domestic server operating systems such as Neokylin, KylinOS, UOS, and Linx.
 
 
 
