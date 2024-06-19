@@ -18,23 +18,23 @@
     under the License.
 
 -->
-# Enviroment Requirements
+# Environment Requirements
 
-# Operating System Requirements
+## Operating System Requirements
 
 IoTDB supports operating systems such as Linux, Windows, and MacOS, while the enterprise version supports domestic CPUs such as Loongson, Phytium, and Kunpeng. It also supports domestic server operating systems such as Neokylin, KylinOS, UOS, and Linx.
 
 
 
-# System Environment Preparation
+## System Environment Preparation
 
-## Important Reminder
+### Important Reminder
 
 Whether in Linux or Windows, please ensure that the installation path of IoTDB does not contain spaces or Chinese characters to avoid software running abnormally.
 
 
 
-## Environmental Preparation
+### Environmental Preparation
 
 To use IoTDB, the system environment needs to meet the following conditions (using the centos7 command as an example):
 

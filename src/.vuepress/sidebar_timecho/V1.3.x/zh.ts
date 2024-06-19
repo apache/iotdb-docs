@@ -68,7 +68,7 @@ export const zhSidebar = {
       children: [
         { text: '安装包获取', link: 'IoTDB-Package_timecho' },
         { text: '资源规划', link: 'Database-Resources' },
-        { text: '环境要求', link: 'Enviroment-Requirements' },
+        { text: '环境要求', link: 'Environment-Requirements' },
         { text: '部署指导', link: 'Deployment-Guide_timecho' },
         { text: 'docker部署', link: 'Docker-Install' },
         { text: '监控面板安装部署', link: 'Monitoring-Board-Install-and-Deploy' },
