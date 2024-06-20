@@ -78,9 +78,9 @@ Users can start IoTDB standalone mode by the start-standalone script under the s
 
 ## Cluster deployment(Cluster management tool)
 
-The IoTDB cluster management tool is an easy-to-use operation and maintenance tool (enterprise version tool). 
-It is designed to solve the operation and maintenance problems of multiple nodes in the IoTDB distributed system. 
-It mainly includes cluster deployment, cluster start and stop, elastic expansion, configuration update, data export and other functions, thereby realizing one-click command issuance for complex database clusters, which greatly Reduce management difficulty. 
+The IoTDB cluster management tool is an easy-to-use operation and maintenance tool (enterprise version tool).
+It is designed to solve the operation and maintenance problems of multiple nodes in the IoTDB distributed system.
+It mainly includes cluster deployment, cluster start and stop, elastic expansion, configuration update, data export and other functions, thereby realizing one-click command issuance for complex database clusters, which greatly Reduce management difficulty.
 This document will explain how to remotely deploy, configure, start and stop IoTDB cluster instances with cluster management tools.
 
 ### Environment dependence
