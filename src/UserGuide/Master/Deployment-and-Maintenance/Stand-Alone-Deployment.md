@@ -43,7 +43,7 @@ cd  apache-iotdb-{version}-all-bin
 
 #### Environment Script Configuration
 
-- ./conf/confignode env. sh (./conf/confignode env. bat) configuration
+- ./conf/confignode env.sh (./conf/confignode env.bat) configuration
 
 | **Configuration** |                       **Description**                        | **Default** |                    **Recommended value**                     |                Note                 |
 | :---------------: | :----------------------------------------------------------: | :---------: | :----------------------------------------------------------: | :---------------------------------: |
@@ -91,7 +91,7 @@ Open the DataNode configuration file/ conf/iotdb-datanode.properties,Set the fol
 | dn_schema_region_consensus_port | The port used by DataNode for metadata replica consensus protocol communication |      10760      |                            10760                             | Cannot be modified after initial startup |
 |       dn_seed_config_node       | The ConfigNode address that the node connects to when registering to join the cluster, i.e. cn_internal-address: cn_internal_port | 127.0.0.1:10710 |             cn_internal_address:cn_internal_port             | Cannot be modified after initial startup |
 
-### 3、Start ConfigNode Node
+### 3、Start ConfigNode
 
 Enter the sbin directory of iotdb and start confignode
 
@@ -99,7 +99,7 @@ Enter the sbin directory of iotdb and start confignode
 ./start-confignode.sh    -d      #The "- d" parameter will start in the background 
 ```
 
-### 4、Start DataNode Node
+### 4、Start DataNode
 
 Enter the sbin directory of iotdb and start datanode:
 
