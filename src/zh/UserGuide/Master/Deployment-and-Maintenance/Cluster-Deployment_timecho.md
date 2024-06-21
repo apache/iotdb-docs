@@ -19,56 +19,7 @@
 
 -->
 
-# 部署指导
-
-## 单机版部署
-
-本文将介绍关于 IoTDB 使用的基本流程，如果需要更多信息，请浏览我们官网的 [指引](../IoTDB-Introduction/What-is-IoTDB.md).
-
-### 安装环境
-
-安装前需要保证设备上配有 JDK>=1.8 的运行环境，并配置好 JAVA_HOME 环境变量。
-
-设置最大文件打开数为 65535。
-
-### 安装步骤
-
-IoTDB 支持多种安装途径。用户可以使用三种方式对 IoTDB 进行安装——下载二进制可运行程序、使用源码、使用 docker 镜像。
-
-* 使用源码：您可以从代码仓库下载源码并编译，具体编译方法见下方。
-
-* 二进制可运行程序：请从 [下载](https://iotdb.apache.org/Download/) 页面下载最新的安装包，解压后即完成安装。
-
-* 使用 Docker 镜像：dockerfile 文件位于[github](https://github.com/apache/iotdb/blob/master/docker/src/main)
-
-### 软件目录结构
-
-* sbin 启动和停止脚本目录
-* conf 配置文件目录
-* tools 系统工具目录
-* lib 依赖包目录
-
-### IoTDB 试用
-
-用户可以根据以下操作对 IoTDB 进行简单的试用，若以下操作均无误，则说明 IoTDB 安装成功。
-
-#### 启动 IoTDB
-
-IoTDB 是一个基于分布式系统的数据库。要启动 IoTDB ，你可以先启动单机版（一个 ConfigNode 和一个 DataNode）来检查安装。
-
-用户可以使用 sbin 文件夹下的 start-standalone 脚本启动 IoTDB。
-
-Linux 系统与 MacOS 系统启动命令如下：
-
-```
-> bash sbin/start-standalone.sh
-```
-
-Windows 系统启动命令如下：
-
-```
-> sbin\start-standalone.bat
-```
+# 集群版部署
 
 ## 集群版部署（使用集群管理工具）
 
