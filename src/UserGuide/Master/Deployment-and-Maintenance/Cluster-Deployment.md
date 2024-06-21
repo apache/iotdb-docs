@@ -19,66 +19,7 @@
 
 -->
 
-# Deployment Guide
-
-## Stand-Alone Deployment
-
-This short guide will walk you through the basic process of using IoTDB. For a more-complete guide, please visit our website's [User Guide](../IoTDB-Introduction/What-is-IoTDB.md).
-
-### Prerequisites
-
-To use IoTDB, you need to have:
-
-1. Java >= 1.8 (Please make sure the environment path has been set)
-2. Set the max open files num as 65535 to avoid "too many open files" problem.
-
-### Installation
-
-IoTDB provides you three installation methods, you can refer to the following suggestions, choose one of them:
-
-* Installation from source code. If you need to modify the code yourself, you can use this method.
-* Installation from binary files. Download the binary files from the official website. This is the recommended method, in which you will get a binary released package which is out-of-the-box.
-* Using Docker：The path to the dockerfile is [github](https://github.com/apache/iotdb/blob/master/docker/src/main)
-
-
-### Download
-
-You can download the binary file from:
-[Download Page](https://iotdb.apache.org/Download/)
-
-### Configurations
-
-Configuration files are under "conf" folder
-
-* environment config module (`datanode-env.bat`, `datanode-env.sh`),
-* system config module (`iotdb-datanode.properties`)
-* log config module (`logback.xml`).
-
-For more, see [Config](../Reference/DataNode-Config-Manual.md) in detail.
-
-### Start
-
-You can go through the following step to test the installation, if there is no error after execution, the installation is completed.
-
-#### Start IoTDB
-
-IoTDB is a database based on distributed system. To launch IoTDB, you can first start standalone mode (i.e. 1 ConfigNode and 1 DataNode) to check.
-
-Users can start IoTDB standalone mode by the start-standalone script under the sbin folder.
-
-```
-# Unix/OS X
-> bash sbin/start-standalone.sh
-```
-
-```
-# Windows
-> sbin\start-standalone.bat
-```
-
-Note: Currently, To run standalone mode, you need to ensure that all addresses are set to 127.0.0.1, If you need to access the IoTDB from a machine different from the one where the IoTDB is located, please change the configuration item `dn_rpc_address` to the IP of the machine where the IoTDB lives. And replication factors set to 1, which is by now the default setting.
-Besides, it's recommended to use SimpleConsensus in this mode, since it brings additional efficiency.
-
+# Cluster Deployment
 ## Cluster Deployment
 This article uses a local environment as an example to
 illustrate how to start, expand, and shrink an IoTDB Cluster.
