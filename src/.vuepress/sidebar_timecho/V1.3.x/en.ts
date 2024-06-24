@@ -54,7 +54,7 @@ export const enSidebar = {
       prefix: 'Basic-Concept/',
       // children: 'structure',
       children: [
-        { text: 'Entering TimeSeries Data', link: 'Entering_TimeSeries_Data' },
+        { text: 'Navigating Time Series Data', link: 'Navigating_Time_Series_Data' },
         { text: 'Data Model and Terminology', link: 'Data-Model-and-Terminology' },
         { text: 'Data Type', link: 'Data-Type' },
         { text: 'Encoding and Compression', link: 'Encoding-and-Compression' },
