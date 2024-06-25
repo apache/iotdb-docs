@@ -54,6 +54,7 @@ export const zhSidebar = {
       prefix: 'Basic-Concept/',
       // children: 'structure',
       children: [
+        { text: '走进时序数据', link: 'Navigating_Time_Series_Data' },
         { text: '数据模型', link: 'Data-Model-and-Terminology' },
         { text: '数据类型', link: 'Data-Type' },
         { text: '编码和压缩', link: 'Encoding-and-Compression' },
