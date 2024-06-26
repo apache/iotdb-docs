@@ -73,7 +73,7 @@ export const enSidebar = {
         { text: 'Stand-Alone Deployment', link: 'Stand-Alone-Deployment_timecho' },
         { text: 'Cluster Deployment', link: 'Cluster-Deployment_timecho' },
         { text: 'Docker Install', link: 'Docker-Install' },
-        { text: 'Monitoring-Board-Install-and-Deploy', link: 'Monitoring-Board-Install-and-Deploy' },
+        { text: 'Monitoring Panel Deployment', link: 'Monitoring-panel-deployment' },
       ],
     },
 
