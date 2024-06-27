@@ -73,7 +73,7 @@ export const zhSidebar = {
         { text: '单机版部署', link: 'Stand-Alone-Deployment_timecho' },       
         { text: '集群版部署', link: 'Cluster-Deployment_timecho' },
         { text: 'docker部署', link: 'Docker-Install' },
-        { text: '工具部署（监控面板）', link: 'Monitoring-panel-deploymenty' },
+        { text: '工具部署（监控面板）', link: 'Monitoring-panel-deployment' },
       ],
     },
 
