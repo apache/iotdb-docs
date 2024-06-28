@@ -172,7 +172,11 @@ cd grafana-*
 
 7. 同样地，我们可以导入Apache IoTDB DataNode Dashboard、Apache Performance Overview Dashboard、Apache System Overview Dashboard，可看到如下的监控面板：
 
-      ![](https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF1.png)
+      <div style="display: flex;justify-content: space-between;">
+      <img src="https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF1-eppf.png" alt="" style="width: 30%;" />
+      <img src="https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF2.png"  alt="" style="width: 30%;"/> 
+      <img src="https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF3.png"  alt="" style="width: 30%;"/>
+    </div>
 
 8. 至此，IoTDB监控面板就全部导入完成了，现在可以随时查看监控信息了。
 
