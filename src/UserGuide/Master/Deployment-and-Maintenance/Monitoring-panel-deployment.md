@@ -170,7 +170,11 @@ When configuring the Data Source, pay attention to the URL where Prometheus is l
 
 7. Similarly, we can import the Apache IoTDB DataNode Dashboard Apache Performance Overview Dashboard、Apache System Overview Dashboard， You can see the following monitoring panel:
 
-      ![](https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF1.png)
+      <div style="display: flex;justify-content: space-between;">
+      <img src="https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF1-eppf.png" alt="" style="width: 30%;" />
+      <img src="https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF2.png"  alt="" style="width: 30%;"/> 
+      <img src="https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF3.png"  alt="" style="width: 30%;"/>
+    </div>
 
 8. At this point, all IoTDB monitoring panels have been imported and monitoring information can now be viewed at any time.
 
