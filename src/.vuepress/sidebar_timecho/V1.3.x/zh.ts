@@ -75,6 +75,7 @@ export const zhSidebar = {
         { text: 'docker部署', link: 'Docker-Install' },
         { text: 'AINode部署', link: 'AINode_Deployment' },
         { text: '工具部署（监控面板）', link: 'Monitoring-panel-deployment' },
+        { text: '工具部署（可视化控制台）', link: 'workbench-deployment' },
       ],
     },
 
