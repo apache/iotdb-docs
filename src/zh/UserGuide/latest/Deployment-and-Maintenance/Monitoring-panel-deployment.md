@@ -108,7 +108,10 @@ scrape_configs:
 
 5. 确认启动成功。在浏览器中输入 http://192.168.1.3:9090，进入Prometheus，点击进入Status下的Target界面，当看到State均为Up时表示配置成功并已经联通。
 
-![](https://alioss.timecho.com/docs/img/prometheus.png)
+    <div style="display: flex;justify-content: space-between;">
+      <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
+      <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_2.png" alt="" style="width: 48%;"/>
+    </div>
 
 
 

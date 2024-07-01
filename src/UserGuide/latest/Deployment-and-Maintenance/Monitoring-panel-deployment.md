@@ -108,7 +108,10 @@ scrape_configs:
 
 5. Confirm successful startup. Enter in browser http://192.168.1.3:9090 Go to Prometheus and click on the Target interface under Status. When you see that all States are Up, it indicates successful configuration and connectivity.
 
-![prometheus.png](https://alioss.timecho.com/docs/img/prometheus.png)
+    <div style="display: flex;justify-content: space-between;">
+      <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
+      <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_2.png" alt="" style="width: 48%;"/>
+    </div>
 
 6. Clicking on the left link in Targets will redirect you to web monitoring and view the monitoring information of the corresponding node:
 
