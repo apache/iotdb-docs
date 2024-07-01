@@ -23,7 +23,7 @@
 
 ### 使用“IoTDB”的项目和产品名称
 
-- 其他组织或企业在使用 Apache IoTDB 建立项目或者产品时，应该应该注意尊重“Apache IoTDB”的商标。
+- 其他组织或企业在使用 Apache IoTDB 建立项目或者产品时，应该注意尊重“Apache IoTDB”的商标。
 - 具体事项请参阅 [ASF Trademarks Guidance](https://www.apache.org/foundation/marks/)和 [FAQ](https://www.apache.org/foundation/marks/faq/)。
 
 - 一般来说，我们建议不要仅使用"IoTDB"在任何名字中，以避免出现商标风险。
