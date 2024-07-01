@@ -75,7 +75,7 @@ export const enSidebar = {
         { text: 'Docker Install', link: 'Docker-Install' },
         { text: 'AINode Deployment', link: 'AINode_Deployment' },
         { text: 'Monitoring Panel Deployment', link: 'Monitoring-panel-deployment' },
-        { text: 'Workbench Deployment', link: 'Workbench' },
+        { text: 'Workbench Deployment', link: 'workbench-deployment' },
       ],
     },
 

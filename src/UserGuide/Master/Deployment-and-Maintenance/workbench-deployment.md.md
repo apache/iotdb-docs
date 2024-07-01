@@ -148,7 +148,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
 5. Confirm successful startup. Enter in browser http://IP:port Go to Prometheus and click on the Target interface under Status. When you see that all States are Up, it indicates successful configuration and connectivity.
 
-    <div style="display: flex;justify-content: space-between;">
+ <div style="display: flex;justify-content: space-between;">
       <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
       <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_2.png" alt="" style="width: 48%;"/>
     </div>
@@ -214,7 +214,6 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
 | Workbench Version Number | Release Note                                                 | Supports IoTDB Versions   |
 | ------------------------ | ------------------------------------------------------------ | ------------------------- |
-| V1.3.0                   | New database configuration function added                    | V1.3.3 and above versions |
 | V1.2.6                   | Optimize the permission control function of each module      | V1.3.1 and above versions |
 | V1.2.5                   | The visualization function has added the concept of "commonly used templates", and all interface optimization and page caching functions have been supplemented | V1.3.0 and above versions |
 | V1.2.4                   | The calculation function has added the "import and export" function, and the measurement point list has added the "time alignment" field | V1.2.2 and above versions |
