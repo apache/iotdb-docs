@@ -62,7 +62,7 @@ Step 1: Enter the `Configuration` - `System` - `Modules` module and click on the
 
 Step 2: Select the obtained `modl`, select the file and upload it, click `Install`, and trust the relevant certificate.
 
-![](https://alioss.timecho.com/docs/img/ignition-3.png)
+![](https://alioss.timecho.com/docs/img/20240703-151030.png)
 
 Step 3: After installation is completed, you can see the following content
 
