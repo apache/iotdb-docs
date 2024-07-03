@@ -150,6 +150,7 @@ export const enSidebar = {
         { text: 'Flink IoTDB Connector', link: 'Flink-IoTDB' },
         //        { text: 'Flink SQL IoTDB Connector', link: 'Flink-SQL-IoTDB' },
         { text: 'Flink TsFile Connector', link: 'Flink-TsFile' },
+        { text: 'Ignition-IoTDB Plugin', link: 'Ignition-IoTDB-plugin' },
         { text: 'NiFi IoTDB Connector', link: 'NiFi-IoTDB' },
         { text: 'DBeaver-IoTDB', link: 'DBeaver' },
       ],
