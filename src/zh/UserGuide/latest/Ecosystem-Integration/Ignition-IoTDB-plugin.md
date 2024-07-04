@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Ignition-IoTDB 插件
+# Ignition-IoTDB Connector
 
 ## 一、产品概述
 
@@ -26,9 +26,9 @@
 
     Ignition 是一个基于WEB的监控和数据采集工具（SCADA）- 一个开放且可扩展的通用平台。Ignition可以让你更轻松地控制、跟踪、显示和分析企业的所有数据，提升业务能力。更多介绍详情请参考[Ignition官网](https://docs.inductiveautomation.com/docs/8.1/getting-started/introducing-ignition)
 
-2. Ignition-IoTDB 插件介绍
+2. Ignition-IoTDB Connector介绍
 
-    Ignition-IoTDB连接器分为两个模块：Ignition-IoTDB连接器、Ignition-IoTDB With JDBC。其中：
+    Ignition-IoTDB Connector分为两个模块：Ignition-IoTDB连接器、Ignition-IoTDB With JDBC。其中：
 
     - Ignition-IoTDB 连接器：提供了将 Ignition 采集到的数据存入 IoTDB 的能力，也支持在Components中进行数据读取，同时注入了 `system.iotdb.insert`和`system.iotdb.query`脚本接口用于方便在Ignition编程使用
     - Ignition-IoTDB With JDBC：Ignition-IoTDB With JDBC 可以在 `Transaction Groups` 模块中使用，不适用于 `Tag Historian`模块，可以用于自定义写入和查询。
@@ -40,11 +40,11 @@
 ## 二、安装要求
 
 | **准备内容**             | **版本要求**                                                 |
-| ------------------------ | ------------------------------------------------------------ |
+| :------------------------: | :------------------------------------------------------------: |
 | IoTDB                    | 要求已安装V1.3.1及以上版本，安装请参考 IoTDB [部署指导](https://www.timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_timecho.html) |
 | Ignition                 | 要求已安装 8.1.x版本（8.1.37及以上）的 8.1 版本，安装请参考 Ignition 官网[安装指导](https://docs.inductiveautomation.com/docs/8.1/getting-started/installing-and-upgrading)（其他版本适配请联系商务了解） |
 | Ignition-IoTDB连接器模块 | 请联系商务获取                                               |
-| Ignition-IoTDB With JDBC | 下载地址：https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/ |
+| Ignition-IoTDB With JDBC模块 | 下载地址：https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/ |
 
 ## 三、Ignition-IoTDB连接器使用说明
 
