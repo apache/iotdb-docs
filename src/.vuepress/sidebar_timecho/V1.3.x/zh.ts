@@ -150,7 +150,7 @@ export const zhSidebar = {
         { text: 'Flink-IoTDB-Connector', link: 'Flink-IoTDB' },
         //        { text: 'Flink-SQL-IoTDB-Connector', link: 'Flink-SQL-IoTDB' },
         { text: 'Flink-TsFile-Connector', link: 'Flink-TsFile' },
-        { text: 'Ignition-IoTDB 插件', link: 'Ignition-IoTDB-plugin' },
+        { text: 'Ignition-IoTDB-Connector', link: 'Ignition-IoTDB-plugin' },
         { text: 'NiFi-IoTDB-Connector', link: 'NiFi-IoTDB' },
         { text: 'DBeaver-IoTDB 集成方案', link: 'DBeaver' },
       ],
