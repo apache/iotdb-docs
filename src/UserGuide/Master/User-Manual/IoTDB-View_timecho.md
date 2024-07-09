@@ -427,7 +427,6 @@ ALTER view root.turbine.d1.s1 UPSERT TAGS(tag2=newV2, tag3=v3) ATTRIBUTES(attr3=
 
 Since a view is a sequence, a view can be deleted as if it were a time series.
 
-The original method of deleting a time series is expanded without a new ``DELETE VIEW`` statement.
 
 ```SQL
 DELETE VIEW root.view.device.avg_temperatue
