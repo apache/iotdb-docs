@@ -22,7 +22,9 @@
 
 This section describes how to manually deploy an instance that includes 3 ConfigNodes and 3 DataNodes, commonly known as a 3C3D cluster.
 
-![](https://alioss.timecho.com/docs/img/20240705141552.png)
+<div align="center">
+    <img src="https://alioss.timecho.com/docs/img/20240705141552.png" alt="" style="width: 60%;"/>
+</div>
 
 ## Note
 
@@ -38,7 +40,7 @@ This section describes how to manually deploy an instance that includes 3 Config
 ## Preparation Steps
 
 1. Prepare the IoTDB database installation package: iotdb enterprise- {version}-bin.zip（The installation package can be obtained from:[IoTDB-Package](https://www.timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_timecho.html)）
-2. Configure the operating system environment according to environmental requirements（The system environment configuration can be found in:[Database Resources](https://www.timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/Database-Resources.html)）
+2. Configure the operating system environment according to environmental requirements（The system environment configuration can be found in:[Environment Requirement](https://www.timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/Environment-Requirements.html)）
 
 ## Installation Steps
 

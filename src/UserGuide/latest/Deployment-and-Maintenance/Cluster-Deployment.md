@@ -22,7 +22,9 @@
 
 This section will take the IoTDB classic cluster deployment architecture 3C3D (3 ConfigNodes and 3 DataNodes) as an example to introduce how to deploy a cluster, commonly known as the 3C3D cluster. The architecture diagram of the 3C3D cluster is as follows:
 
-![](https://alioss.timecho.com/docs/img/20240705141552.png)
+<div align="center">
+    <img src="https://alioss.timecho.com/docs/img/20240705141552.png" alt="" style="width: 60%;"/>
+</div>
 
 ## Note
 
@@ -38,7 +40,7 @@ This section will take the IoTDB classic cluster deployment architecture 3C3D (3
 
 1. Prepare the IoTDB database installation package:：apache-iotdb-{version}-all-bin.zip（Please refer to the installation package for details：[IoTDB-Package](https://iotdb.apache.org/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package.html)）
 
-2. Configure the operating system environment according to environmental requirements (system environment configuration can be found in:[Database Resources](https://iotdb.apache.org/UserGuide/latest/Deployment-and-Maintenance/Database-Resources.html))
+2. Configure the operating system environment according to environmental requirements (system environment configuration can be found in:[Environment Requirements](https://iotdb.apache.org/UserGuide/latest/Deployment-and-Maintenance/Environment-Requirements.html))
 
 ## Installation Steps
 

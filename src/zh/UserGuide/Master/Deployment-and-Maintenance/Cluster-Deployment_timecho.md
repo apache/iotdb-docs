@@ -22,7 +22,9 @@
 
 本小节描述如何手动部署包括3个ConfigNode和3个DataNode的实例，即通常所说的3C3D集群。
 
-![](https://alioss.timecho.com/docs/img/%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.png)
+<div align="center">
+    <img src="https://alioss.timecho.com/docs/img/%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.png" alt="" style="width: 60%;"/>
+</div>
 
 ## 注意事项
 
@@ -33,14 +35,12 @@
    ```
 
 2. 有些参数首次启动后不能修改，请参考下方的"参数配置"章节来进行设置。
-3. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，
-
-​       部署监控面板步骤可以参考：[监控面板部署](https://timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/Monitoring-panel-deployment.html)
+3. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取,部署监控面板步骤可以参考：[监控面板部署](https://timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/Monitoring-panel-deployment.html)
 
 ## 准备步骤
 
 1. 准备IoTDB数据库安装包 ：iotdb-enterprise-{version}-bin.zip（安装包获取见：[链接](https://www.timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_timecho.html)）
-2. 按环境要求配置好操作系统环境（系统环境配置见：[链接](https://www.timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/Database-Resources.html)）
+2. 按环境要求配置好操作系统环境（系统环境配置见：[链接](https://www.timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/Environment-Requirements.html)）
 
 ## 安装步骤
 
