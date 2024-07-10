@@ -335,7 +335,7 @@ Created using wildcards, only static mapping relationships at the moment of crea
 The SELECT clause used when creating a serial view is subject to certain restrictions. The main restrictions are as follows:
 
 1. the `WHERE` clause cannot be used.
-2. `GROUP BY` clause cannot be used. 3.
+2. `GROUP BY` clause cannot be used.
 3. `MAX_VALUE` and other aggregation functions cannot be used.
 
 Simply put, after `AS` you can only use `SELECT ... FROM ... ` and the results of this query must form a time series.
@@ -522,7 +522,7 @@ Both of the above queries involve the data type of the view. The data type of a 
 
 ## IV. FAQ
 
-####Q1: I want the view to implement the function of type conversion. For example, a time series of type int32 was originally placed in the same view as other series of type int64. I now want all the data queried through the view to be automatically converted to int64 type.
+#### Q1: I want the view to implement the function of type conversion. For example, a time series of type int32 was originally placed in the same view as other series of type int64. I now want all the data queried through the view to be automatically converted to int64 type.
 
 > Ans: This is not the function of the sequence view. But the conversion can be done using `CAST`, for example:
 
@@ -536,7 +536,7 @@ AS
 > 
 > Please note in particular that in the above example, the data for the sequence view is obtained by `CAST` conversion, so `root.db.device.int64_status` is not an aliased sequence, and thus **not supported for writing**.
 
-####Q2: Is default naming supported? Select a number of time series and create a view; but I don't specify the name of each series, it is named automatically by the database?
+#### Q2: Is default naming supported? Select a number of time series and create a view; but I don't specify the name of each series, it is named automatically by the database?
 
 > Ans: Not supported. Users must specify the naming explicitly.
 
