@@ -428,7 +428,6 @@ ALTER view root.turbine.d1.s1 UPSERT TAGS(tag2=newV2, tag3=v3) ATTRIBUTES(attr3=
 
 因为一个视图就是一条序列，因此可以像删除时间序列一样删除一个视图。
 
-扩充原有删除时间序列的方法，不新增`DELETE VIEW`的语句。
 
 ```SQL
 DELETE VIEW root.view.device.avg_temperatue
