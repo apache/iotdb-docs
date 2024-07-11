@@ -878,12 +878,12 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * enable\_unseq\_space\_compaction
 
-|     名字     | enable\_unseq\_space\_compaction       |
-| :----------: | :------------------------------------- |
-|     描述     | 乱序空间内合并，开启乱序文件之间的合并 |
-|     类型     | Boolean                                |
-|    默认值    | false                                  |
-| 改后生效方式 | 热加载                           |
+|     名字     | enable\_unseq\_space\_compaction |
+| :----------: |:---------------------------------|
+|     描述     | 乱序空间内合并，开启乱序文件之间的合并              |
+|     类型     | Boolean                          |
+|    默认值    | true                             |
+| 改后生效方式 | 热加载                              |
 
 * enable\_cross\_space\_compaction
 

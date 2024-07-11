@@ -25,7 +25,7 @@ IoTDB ConfigNode files are under `conf`.
 
 * `confignode-env.sh/bat`：Environment configurations, in which we could set the memory allocation of ConfigNode.
 
-* `iotdb-confignode.properties`：IoTDB ConfigNode system configurations.
+* `iotdb-system.properties`：IoTDB system configurations.
 
 ## Environment Configuration File（confignode-env.sh/bat）
 
