@@ -33,7 +33,7 @@ From the IoTDB 1.0 version, we introduced the system monitoring module, you can 
 
 ### 1.1.2 Start ConfigNode
 1. Enter the `iotdb-enterprise-1.x.x.x-bin` package
-2. Modify the configuration file `conf/iotdb-confignode.properties` and modify the following configuration. Other configurations remain unchanged:
+2. Modify the configuration file `conf/iotdb-system.properties` and modify the following configuration. Other configurations remain unchanged:
 
 ```properties
 cn_metric_reporter_list=PROMETHEUS
@@ -53,7 +53,7 @@ cn_metric_prometheus_reporter_port=9091
 
 ### 1.1.3 Start DataNode
 1. Enter the `iotdb-enterprise-1.x.x.x-bin` package
-2. Modify the configuration file `conf/iotdb-datanode.properties` and modify the following configuration. Other configurations remain unchanged:
+2. Modify the configuration file `conf/iotdb-system.properties` and modify the following configuration. Other configurations remain unchanged:
 
 ```properties
 dn_metric_reporter_list=PROMETHEUS

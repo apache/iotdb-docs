@@ -79,14 +79,14 @@ echo "192.168.132.12 iotdb-3" >> /etc/hosts
 
 |  配置|      配置项      |IP:192.168.132.10       | IP:192.168.132.11       | IP:192.168.132.12       |
 |------------|:-------------------------------|----------------------|----------------------|:---------------------|
-| iotdb-confignode.properties | cn_internal_address          | iotdb-1       | iotdb-2       | iotdb-3       |
+| iotdb-system.properties | cn_internal_address          | iotdb-1       | iotdb-2       | iotdb-3       |
 |            | cn_seed_config_node | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 |
-| iotdb-datanode.properties   | dn_rpc_address               | iotdb-1       | iotdb-2       | iotdb-3       |
+| iotdb-system.properties   | dn_rpc_address               | iotdb-1       | iotdb-2       | iotdb-3       |
 |            | dn_internal_address          | iotdb-1       | iotdb-2       | iotdb-3       |
 |            | dn_seed_config_node | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 |       
 
 **注意：**
-我们推荐所有节点的 iotdb-common.properties 和 JVM 的内存配置是一致的。
+我们推荐所有节点的 iotdb-system.properties 和 JVM 的内存配置是一致的。
 
 ### 1.3. 启动集群
 启动集群前，需保证配置正确，保证 IoTDB 安装目录下没有数据(`data`目录)。
@@ -178,7 +178,7 @@ rm -rf data logs
 扩容方式与上方启动其他节点相同。也就是，在要添加的节点上，下载IoTDB的安装包，解压，修改配置，然后启动。这里要添加节点的IP为 `192.168.132.13`
 **注意：**
 - 扩容的节点必须是干净的节点，不能有数据(也就是`data`目录)
-- iotdb-common.properties中的`cluster_name`的配置必须和已有集群一致。
+- iotdb-system.properties中的`cluster_name`的配置必须和已有集群一致。
 - `cn_seed_config_node` 和 `dn_seed_config_node`的配置必须和已有集群一致。
 - 原有数据不会移动到新节点，新创建的元数据分区和数据分区很可能在新的节点。
 
@@ -199,9 +199,9 @@ echo "192.168.132.13 iotdb-4" >> /etc/hosts
 
 |  配置 |      配置项      | IP:192.168.132.13  | 
 |------------|:-------------------------------|:---------------------|
-| iotdb-confignode.properties | cn_internal_address          | iotdb-4       | 
+| iotdb-system.properties | cn_internal_address          | iotdb-4       | 
 |            | cn_seed_config_node |  iotdb-1:10710 | 
-| iotdb-datanode.properties   | dn_rpc_address               | iotdb-4       | 
+| iotdb-system.properties   | dn_rpc_address               | iotdb-4       | 
 |            | dn_internal_address          | iotdb-4       | 
 |            | dn_seed_config_node | iotdb-1:10710 | 
 

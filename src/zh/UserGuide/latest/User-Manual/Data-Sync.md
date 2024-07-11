@@ -415,7 +415,7 @@ SHOW PIPEPLUGINS
 
 ## 配置参数
 
-在 iotdb-common.properties 中：
+在 iotdb-system.properties 中：
 
 V1.3.0+:
 ```Properties

@@ -105,7 +105,7 @@ IoTDB> DROP PIPE my_pipe
 
 ## 5.Parameter Configuration
 
-All parameters are in `$IOTDB_ HOME$/conf/iotdb-common.properties`, after all modifications are completed, execute `load configuration` and it will take effect immediately.
+All parameters are in `$IOTDB_ HOME$/conf/iotdb-system.properties`, after all modifications are completed, execute `load configuration` and it will take effect immediately.
 
 ### 5.1 Sender
 
@@ -265,7 +265,7 @@ IoTDB> SHOW PIPE [PipeName]
 
 ### Receiver
 
-- `vi conf/iotdb-common.properties`  to config the parameters，set the IP white list to 192.168.0.1/32 to receive and only receive data from sender.
+- `vi conf/iotdb-system.properties`  to config the parameters，set the IP white list to 192.168.0.1/32 to receive and only receive data from sender.
 
 ```
 ####################

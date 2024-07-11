@@ -61,7 +61,7 @@ The details of each parameter are as follows:
 |Effective|After restarting system|
 
 
-## ConfigNode Configuration File (iotdb-confignode.properties)
+## ConfigNode Configuration File (iotdb-system.properties)
 
 The global configuration of cluster is in ConfigNode.
 

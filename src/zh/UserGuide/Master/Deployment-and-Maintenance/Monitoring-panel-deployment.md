@@ -35,24 +35,24 @@ IoTDB配套监控面板是IoTDB企业版配套工具之一。它旨在解决IoTD
 
 | 配置项                             | 所在配置文件                     | 配置说明                                                     |
 | :--------------------------------- | :------------------------------- | :----------------------------------------------------------- |
-| cn_metric_reporter_list            | conf/iotdb-confignode.properties | 将配置项取消注释，值设置为PROMETHEUS                         |
-| cn_metric_level                    | conf/iotdb-confignode.properties | 将配置项取消注释，值设置为IMPORTANT                          |
-| cn_metric_prometheus_reporter_port | conf/iotdb-confignode.properties | 将配置项取消注释，可保持默认设置9091，如设置其他端口，不与其他端口冲突即可 |
-| dn_metric_reporter_list            | conf/iotdb-datanode.properties   | 将配置项取消注释，值设置为PROMETHEUS                         |
-| dn_metric_level                    | conf/iotdb-datanode.properties   | 将配置项取消注释，值设置为IMPORTANT                          |
-| dn_metric_prometheus_reporter_port | conf/iotdb-datanode.properties   | 将配置项取消注释，可默认设置为9092，如设置其他端口，不与其他端口冲突即可 |
-| dn_metric_internal_reporter_type   | conf/iotdb-datanode.properties   | 将配置项取消注释，值设置为IOTDB                              |
+| cn_metric_reporter_list            | conf/iotdb-system.properties | 将配置项取消注释，值设置为PROMETHEUS                         |
+| cn_metric_level                    | conf/iotdb-system.properties | 将配置项取消注释，值设置为IMPORTANT                          |
+| cn_metric_prometheus_reporter_port | conf/iotdb-system.properties | 将配置项取消注释，可保持默认设置9091，如设置其他端口，不与其他端口冲突即可 |
+| dn_metric_reporter_list            | conf/iotdb-system.properties   | 将配置项取消注释，值设置为PROMETHEUS                         |
+| dn_metric_level                    | conf/iotdb-system.properties   | 将配置项取消注释，值设置为IMPORTANT                          |
+| dn_metric_prometheus_reporter_port | conf/iotdb-system.properties   | 将配置项取消注释，可默认设置为9092，如设置其他端口，不与其他端口冲突即可 |
+| dn_metric_internal_reporter_type   | conf/iotdb-system.properties   | 将配置项取消注释，值设置为IOTDB                              |
 
 以3C3D集群为例，需要修改的监控配置如下：
 
 | 节点ip      | 主机名  | 集群角色   | 配置文件路径                     | 配置项                                                       |
 | ----------- | ------- | ---------- | -------------------------------- | ------------------------------------------------------------ |
-| 192.168.1.3 | iotdb-1 | confignode | conf/iotdb-confignode.properties | cn_metric_reporter_list=PROMETHEUS cn_metric_level=IMPORTANT cn_metric_prometheus_reporter_port=9091 |
-| 192.168.1.4 | iotdb-2 | confignode | conf/iotdb-confignode.properties | cn_metric_reporter_list=PROMETHEUS cn_metric_level=IMPORTANT cn_metric_prometheus_reporter_port=9091 |
-| 192.168.1.5 | iotdb-3 | confignode | conf/iotdb-confignode.properties | cn_metric_reporter_list=PROMETHEUS cn_metric_level=IMPORTANT cn_metric_prometheus_reporter_port=9091 |
-| 192.168.1.3 | iotdb-1 | datanode   | conf/iotdb-datanode.properties   | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 dn_metric_internal_reporter_type=IOTDB |
-| 192.168.1.4 | iotdb-2 | datanode   | conf/iotdb-datanode.properties   | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 dn_metric_internal_reporter_type=IOTDB |
-| 192.168.1.5 | iotdb-3 | datanode   | conf/iotdb-datanode.properties   | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 dn_metric_internal_reporter_type=IOTDB |
+| 192.168.1.3 | iotdb-1 | confignode | conf/iotdb-system.properties | cn_metric_reporter_list=PROMETHEUS cn_metric_level=IMPORTANT cn_metric_prometheus_reporter_port=9091 |
+| 192.168.1.4 | iotdb-2 | confignode | conf/iotdb-system.properties | cn_metric_reporter_list=PROMETHEUS cn_metric_level=IMPORTANT cn_metric_prometheus_reporter_port=9091 |
+| 192.168.1.5 | iotdb-3 | confignode | conf/iotdb-system.properties | cn_metric_reporter_list=PROMETHEUS cn_metric_level=IMPORTANT cn_metric_prometheus_reporter_port=9091 |
+| 192.168.1.3 | iotdb-1 | datanode   | conf/iotdb-system.properties   | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 dn_metric_internal_reporter_type=IOTDB |
+| 192.168.1.4 | iotdb-2 | datanode   | conf/iotdb-system.properties   | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 dn_metric_internal_reporter_type=IOTDB |
+| 192.168.1.5 | iotdb-3 | datanode   | conf/iotdb-system.properties   | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 dn_metric_internal_reporter_type=IOTDB |
 
 2. 重启所有节点。修改3个节点的监控指标配置后，可重新启动所有节点的confignode和datanode服务：
 

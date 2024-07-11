@@ -82,7 +82,7 @@
 
 ### 类型推断
 
-| 数据(String) | 字符串格式 | iotdb-datanode.properties配置项  | 默认值 |
+| 数据(String) | 字符串格式 | iotdb-system.properties配置项  | 默认值 |
 |:---:|:---|:------------------------------|:---|
 | true | boolean | boolean\_string\_infer\_type  | BOOLEAN |
 | 1 | integer | integer\_string\_infer\_type  | FLOAT |
@@ -97,7 +97,7 @@
 
 ### 编码方式
 
-| 数据类型 | iotdb-datanode.properties配置项 | 默认值 |
+| 数据类型 | iotdb-system.properties配置项 | 默认值 |
 |:---|:-----------------------------|:---|
 | BOOLEAN | default\_boolean\_encoding   | RLE |
 | INT32 | default\_int32\_encoding     | RLE |

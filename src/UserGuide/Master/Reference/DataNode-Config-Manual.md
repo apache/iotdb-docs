@@ -102,7 +102,7 @@ The user and passwords are in ${IOTDB\_CONF}/conf/jmx.password.
 
 The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 
-## DataNode/Standalone Configuration File (iotdb-datanode.properties)
+## DataNode/Standalone Configuration File (iotdb-system.properties)
 
 ### Data Node RPC Configuration
 

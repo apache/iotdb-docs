@@ -26,7 +26,7 @@
 在物联网数据分析场景中，此功能尤为重要。为了满足了用户对设备实时监控的需求，Apache IoTDB 对最新点查询进行了**缓存优化**，能够提供毫秒级的返回速度。
 
 ### 相关配置项
-IoTDB 在 `iotdb-common.properties` 中提供了 `enable_last_cache` 和 `schema_memory_proportion` 两个配置参数，分别用于开启/关闭最新点缓存，以及控制打开最新点缓存后的内存占用。
+IoTDB 在 `iotdb-system.properties` 中提供了 `enable_last_cache` 和 `schema_memory_proportion` 两个配置参数，分别用于开启/关闭最新点缓存，以及控制打开最新点缓存后的内存占用。
 
 #### enable_last_cache
 

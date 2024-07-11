@@ -29,13 +29,13 @@
 
 **配置文件**
 
-conf/iotdb-common.properties
+conf/iotdb-system.properties
 
 conf/white.list
 
 **配置项**
 
-iotdb-common.properties:
+iotdb-system.properties:
 
 决定是否开启白名单功能
 
@@ -124,7 +124,7 @@ white.list:
 
 #### 配置项
 
- 在iotdb-engine.properties 或 iotdb-common.properties中修改以下几项配置
+ 在iotdb-engine.properties 或 iotdb-system.properties中修改以下几项配置
 
 ```YAML
 ####################

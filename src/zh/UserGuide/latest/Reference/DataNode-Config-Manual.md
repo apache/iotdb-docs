@@ -83,7 +83,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |默认值|31999|
 |改后生效方式|重启服务生效|
 
-## 系统配置项（iotdb-datanode.properties）
+## 系统配置项（iotdb-system.properties）
 
 系统配置项是 IoTDB DataNode/Standalone 运行的核心配置，它主要用于设置 DataNode/Standalone 数据库引擎的参数。
 

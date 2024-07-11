@@ -29,13 +29,13 @@ Allow which client addresses can connect to IoTDB
 
 **configuration file**
 
-conf/iotdb-common.properties
+conf/iotdb-system.properties
 
 conf/white.list
 
 **configuration item**
 
-iotdb-common.properties:
+iotdb-system.properties:
 
 Decide whether to enable white list
 
@@ -110,7 +110,7 @@ It is available through through configurations:
 
 #### configuration item
 
-In iotdb-engine.properties or iotdb-common.properties, change the following configurations:
+In iotdb-engine.properties or iotdb-system.properties, change the following configurations:
 
 ```YAML
 ####################
