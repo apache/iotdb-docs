@@ -124,7 +124,7 @@ white.list:
 
 #### 配置项
 
- 在iotdb-engine.properties 或 iotdb-system.properties中修改以下几项配置
+ 在 iotdb-system.properties中修改以下几项配置
 
 ```YAML
 ####################

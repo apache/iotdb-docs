@@ -110,7 +110,7 @@ It is available through through configurations:
 
 #### configuration item
 
-In iotdb-engine.properties or iotdb-system.properties, change the following configurations:
+In iotdb-system.properties, change the following configurations:
 
 ```YAML
 ####################
