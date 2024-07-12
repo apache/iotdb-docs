@@ -96,7 +96,6 @@ iotd cluster check example
 | --------------------------- | ------------------------------------------------------------ | -------- |
 | name                        | Confignode 名称                                              | 必填     |
 | deploy_dir                  | IoTDB config node 部署目录，注:该目录不能与下面的IoTDB data node部署目录相同 | 必填｜   |
-| iotdb-system.properties | 对应`iotdb/config/iotdb-system.properties`更加详细请参看`iotdb-system.properties`文件说明 | 非必填   |
 | cn_internal_address         | 对应iotdb/内部通信地址，对应`iotdb/config/iotdb-system.properties`中的`cn_internal_address` | 必填     |
 | cn_seed_config_node  | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值，对应`iotdb/config/iotdb-system.properties`中的`cn_seed_config_node` | 必填     |
 | cn_internal_port            | 内部通信端口，对应`iotdb/config/iotdb-system.properties`中的`cn_internal_port` | 必填     |
@@ -111,7 +110,6 @@ iotd cluster check example
 | -------------------------- | ------------------------------------------------------------ | -------- |
 | name                       | Datanode 名称                                                | 必填     |
 | deploy_dir                 | IoTDB data node 部署目录，注:该目录不能与下面的IoTDB config node部署目录相同 | 必填     |
-| iotdb-system.properties  | 对应`iotdb/config/iotdb-system.properties`更加详细请参看`iotdb-system.properties`文件说明 | 非必填   |
 | dn_rpc_address             | datanode rpc 地址对应`iotdb/config/iotdb-system.properties`中的`dn_rpc_address` | 必填     |
 | dn_internal_address        | 内部通信地址，对应`iotdb/config/iotdb-system.properties`中的`dn_internal_address` | 必填     |
 | dn_seed_config_node | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-system.properties`中的`dn_seed_config_node` | 必填     |
@@ -195,7 +193,7 @@ iotd cluster deploy default_cluster
 
 * 根据`confignode_servers` 和`datanode_servers`中的节点信息上传iotdb压缩包和jdk压缩包(如果yaml中配置`jdk_tar_dir`和`jdk_deploy_dir`值)
 
-* 根据yaml文件节点配置信息生成并上传`iotdb-system.properties`、`iotdb-system.properties`、`iotdb-system.properties`
+* 根据yaml文件节点配置信息生成并上传`iotdb-system.properties`
 
 提示：这里的confignode 和datanode部署到同一台机器上时目录不能为相同，否则会被后部署的节点文件覆盖
 
