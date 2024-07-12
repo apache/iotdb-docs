@@ -72,10 +72,10 @@ Modify the specified configuration file according to the table below:
 |  Configuration|      Configuration Option      | IP:192.168.132.10       | IP:192.168.132.11       | IP:192.168.132.12       |
 |------------|:-------------------------------|----------------------|----------------------|:---------------------|
 | iotdb-system.properties | cn\_internal\_address          | 192.168.132.10       | 192.168.132.11       | 192.168.132.12       |
-|            | cn_seed_config_node | 192.168.132.10:10710 | 192.168.132.10:10710 | 192.168.132.10:10710 |
+| iotdb-system.properties           | cn_seed_config_node | 192.168.132.10:10710 | 192.168.132.10:10710 | 192.168.132.10:10710 |
 | iotdb-system.properties   | dn\_rpc\_address               | 192.168.132.10       | 192.168.132.11       | 192.168.132.12       |
-|            | dn\_internal\_address          | 192.168.132.10       | 192.168.132.11       | 192.168.132.12       |
-|            | dn_seed_config_node | 192.168.132.10:10710 | 192.168.132.10:10710 | 192.168.132.10:10710 |       
+| iotdb-system.properties           | dn\_internal\_address          | 192.168.132.10       | 192.168.132.11       | 192.168.132.12       |
+| iotdb-system.properties           | dn_seed_config_node | 192.168.132.10:10710 | 192.168.132.10:10710 | 192.168.132.10:10710 |       
 
 **Notice:**
 It's recommended that the configurations of iotdb-system.properties and the heap size of JVM in all nodes are the same.
@@ -182,10 +182,10 @@ Modify the specified configuration file according to the table below:
 |  Configuration |      Configuration Option| IP:192.168.132.13  | 
 |------------|:-------------------------------|:---------------------|
 | iotdb-system.properties | cn\_internal\_address          | 192.168.132.13       | 
-|            | cn\_target\_config\_node\_list | 192.168.132.10:10710 | 
+| iotdb-system.properties           | cn\_target\_config\_node\_list | 192.168.132.10:10710 | 
 | iotdb-system.properties   | dn\_rpc\_address               | 192.168.132.13       | 
-|            | dn\_internal\_address          | 192.168.132.13       | 
-|            | dn\_target\_config\_node\_list | 192.168.132.10:10710 | 
+| iotdb-system.properties           | dn\_internal\_address          | 192.168.132.13       | 
+| iotdb-system.properties           | dn\_target\_config\_node\_list | 192.168.132.10:10710 | 
 
 ### 2.2. expand
 Execute commands below in new node of `192.168.132.13`:

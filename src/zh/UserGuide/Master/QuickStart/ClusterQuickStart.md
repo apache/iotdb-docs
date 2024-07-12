@@ -80,10 +80,10 @@ echo "192.168.132.12 iotdb-3" >> /etc/hosts
 |  配置|      配置项      |IP:192.168.132.10       | IP:192.168.132.11       | IP:192.168.132.12       |
 |------------|:-------------------------------|----------------------|----------------------|:---------------------|
 | iotdb-system.properties | cn_internal_address          | iotdb-1       | iotdb-2       | iotdb-3       |
-|            | cn_seed_config_node | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 |
+| iotdb-system.properties           | cn_seed_config_node | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 |
 | iotdb-system.properties   | dn_rpc_address               | iotdb-1       | iotdb-2       | iotdb-3       |
-|            | dn_internal_address          | iotdb-1       | iotdb-2       | iotdb-3       |
-|            | dn_seed_config_node | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 |       
+| iotdb-system.properties           | dn_internal_address          | iotdb-1       | iotdb-2       | iotdb-3       |
+| iotdb-system.properties           | dn_seed_config_node | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 |       
 
 **注意：**
 我们推荐所有节点的 iotdb-system.properties 和 JVM 的内存配置是一致的。
@@ -200,10 +200,10 @@ echo "192.168.132.13 iotdb-4" >> /etc/hosts
 |  配置 |      配置项      | IP:192.168.132.13  | 
 |------------|:-------------------------------|:---------------------|
 | iotdb-system.properties | cn_internal_address          | iotdb-4       | 
-|            | cn_seed_config_node |  iotdb-1:10710 | 
+| iotdb-system.properties           | cn_seed_config_node |  iotdb-1:10710 | 
 | iotdb-system.properties   | dn_rpc_address               | iotdb-4       | 
-|            | dn_internal_address          | iotdb-4       | 
-|            | dn_seed_config_node | iotdb-1:10710 | 
+| iotdb-system.properties           | dn_internal_address          | iotdb-4       | 
+| iotdb-system.properties           | dn_seed_config_node | iotdb-1:10710 | 
 
 ### 2.2. 扩容
 在新增节点`iotdb-4(192.168.132.13)`上，执行：

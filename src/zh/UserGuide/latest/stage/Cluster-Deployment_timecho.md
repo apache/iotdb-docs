@@ -117,7 +117,6 @@ datanode-env.sh:
 |-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------|
 | `name`                        | Confignode 名称                                                                                                                                                              | 必填   |
 | `deploy_dir`                 | IoTDB config node 部署目录                                                                                                                                                     | 必填｜  |
-| `iotdb-system.properties` | 对应`iotdb/config/iotdb-system.properties`更加详细请参看`iotdb-system.properties`文件说明                                                                                       | 非必填  |
 | `cn_internal_address`       | 对应iotdb/内部通信地址，对应`iotdb/config/iotdb-system.properties`中的`cn_internal_address`                                                                                         | 必填   |
 | `cn_seed_config_node`      | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值，对应`iotdb/config/iotdb-system.properties`中的`cn_seed_config_node` | 必填   |
 | `cn_internal_port`          | 内部通信端口，对应`iotdb/config/iotdb-system.properties`中的`cn_internal_port`                                                                                                    | 必填   |
@@ -131,7 +130,6 @@ datanode-env.sh:
 |---------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|--- |
 | name                      | Datanode 名称                                                                                                                                                          |必填|
 | `deploy_dir`               | IoTDB data node 部署目录                                                                                                                                                 |必填|
-| `iotdb-system.properties` | 对应`iotdb/config/iotdb-system.properties`更加详细请参看`iotdb-system.properties`文件说明                                                                                     |非必填|
 | `dn_rpc_address`          | datanode rpc 地址对应`iotdb/config/iotdb-system.properties`中的`dn_rpc_address`                                                                                          |必填|
 | `dn_internal_address`     | 内部通信地址，对应`iotdb/config/iotdb-system.properties`中的`dn_internal_address`                                                                                             |必填|
 | `dn_seed_config_node`    | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-system.properties`中的`dn_seed_config_node` |必填|
@@ -162,7 +160,7 @@ datanode-env.sh:
 | `storage_tsdb_retention_time` | 默认保存数据天数 默认15天    | 非必填                   |
 | `storage_tsdb_retention_size` | 指定block可以保存的数据大小 ，注意单位KB, MB, GB, TB, PB, EB    | 非必填                   |
 
-如果在config/xxx.yaml的`iotdb-system.properties`和`iotdb-system.properties`中配置了metrics,则会自动把配置放入到promethues无需手动修改
+如果在config/xxx.yaml的`iotdb-system.properties`中配置了metrics,则会自动把配置放入到promethues无需手动修改
 
 注意:如何配置yaml key对应的值包含特殊字符如:等建议整个value使用双引号，对应的文件路径中不要使用包含空格的路径，防止出现识别出现异常问题。
 
@@ -247,7 +245,7 @@ iotdbctl cluster init default_cluster
 
 #### 一键部署IoTDB、Grafana和Prometheus 场景
 
-* 配置`iotdb-system.properties` 、`iotdb-system.properties` 打开metrics接口
+* 配置`iotdb-system.properties` 打开metrics接口
 * 配置Grafana 配置，如果`dashboards` 有多个就用逗号隔开，名字不能重复否则会被覆盖。
 * 配置Prometheus配置，IoTDB 集群配置了metrics 则无需手动修改Prometheus 配置会根据哪个节点配置了metrics，自动修改Prometheus 配置。
 * 启动集群
@@ -331,7 +329,7 @@ iotdbctl cluster deploy default_cluster
 
 * 根据`confignode_servers` 和`datanode_servers`中的节点信息上传IoTDB压缩包和jdk压缩包(如果yaml中配置`jdk_tar_dir`和`jdk_deploy_dir`值)
 
-* 根据yaml文件节点配置信息生成并上传`iotdb-system.properties`、`iotdb-system.properties`、`iotdb-system.properties`
+* 根据yaml文件节点配置信息生成并上传`iotdb-system.properties`
 
 ```bash
 iotdbctl cluster deploy default_cluster -op force
@@ -514,7 +512,7 @@ iotdbctl cluster scaleout default_cluster
 
 * 找到要扩容的节点，执行上传IoTDB压缩包和jdb包(如果yaml中配置`jdk_tar_dir`和`jdk_deploy_dir`值)并解压
 
-* 根据yaml文件节点配置信息生成并上传`iotdb-system.properties`、`iotdb-system.properties`或`iotdb-system.properties`
+* 根据yaml文件节点配置信息生成并上传`iotdb-system.properties`
 
 * 执行启动该节点命令并校验节点是否启动成功
 
@@ -551,7 +549,7 @@ iotdbctl cluster distribute default_cluster
 
 * 根据 cluster-name 找到默认位置的 yaml 文件，获取`confignode_servers`、`datanode_servers`、`grafana`、`prometheus`配置信息
 
-* 根据yaml文件节点配置信息生成并依次上传`iotdb-system.properties`、`iotdb-system.properties`、`iotdb-system.properties`、到指定节点
+* 根据yaml文件节点配置信息生成并依次上传`iotdb-system.properties`到指定节点
 
 #### 热加载集群配置命令
 ```bash

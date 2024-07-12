@@ -106,7 +106,6 @@ IOTDB_JMX_OPTS="$IOTDB_JMX_OPTS -XX:MaxGCPauseMillis=200"
 |-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
 | name                        | Confignode name                                                                                                                                                                   | YES      |
 | deploy\_dir                 | IoTDB config node deployment directory                                                                                                                                                            | YES     |
-| iotdb-system.properties | Corresponding to `iotdb/config/iotdb-system.properties`, please refer to the `iotdb-system.properties` file description for more details.                                                                                             | NO       |
 | cn_internal_address       | The cluster configuration address points to the surviving ConfigNode, and it points to confignode_x by default. When `global` and `confignode_servers` are configured at the same time, the value in `confignode_servers` is used first, corresponding to `cn_internal_address` in `iotdb/config/iotdb-system.properties` | YES      |
 | cn\_internal\_port          | Internal communication port, corresponding to `cn_internal_port` in `iotdb/config/iotdb-system.properties`                                                                                                          | YES      |
 | cn\_consensus\_port         | Corresponds to `cn_consensus_port` in `iotdb/config/iotdb-system.properties`                                                                                                               | NO      |
@@ -119,7 +118,6 @@ IOTDB_JMX_OPTS="$IOTDB_JMX_OPTS -XX:MaxGCPauseMillis=200"
 |---------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
 | name                      | Datanode name                                                                                                                                                                                                                                                                                                                 | YES      |
 | deploy\_dir               | IoTDB data node deployment directory                                                                                                                                                                                                                                                                                          | YES      |
-| iotdb-system.properties | Corresponding to `iotdb/config/iotdb-system.properties`, please refer to the `iotdb-system.properties` file description for more details.                                                                                                                                                                                 | NO       |
 | dn\_rpc\_address          | The datanode rpc address corresponds to `dn_rpc_address` in `iotdb/config/iotdb-system.properties`                                                                                                                                                                                                                          | YES      |
 | dn\_internal\_address     | Internal communication address, corresponding to `dn_internal_address` in `iotdb/config/iotdb-system.properties`                                                                                                                                                                                                            | YES      |
 | dn\_seed\_config\_node    | The cluster configuration address points to the surviving ConfigNode, and points to confignode_x by default. When configuring values for `global` and `datanode_servers` at the same time, the value in `datanode_servers` is used first, corresponding to `dn_seed_config_node` in `iotdb/config/iotdb-system.properties`. | YES      |
@@ -150,7 +148,7 @@ IOTDB_JMX_OPTS="$IOTDB_JMX_OPTS -XX:MaxGCPauseMillis=200"
 | storage\_tsdb\_retention\_time | The number of days to save data is 15 days by default                                     | NO       |
 | storage\_tsdb\_retention\_size | The data size that can be saved by the specified block defaults to 512M. Please note the units are KB, MB, GB, TB, PB, and EB. | NO       |
 
-If metrics are configured in `iotdb-system.properties` and `iotdb-system.properties` of config/xxx.yaml, the configuration will be automatically put into promethues without manual modification.
+If metrics are configured in `iotdb-system.properties` of config/xxx.yaml, the configuration will be automatically put into promethues without manual modification.
 
 Note: How to configure the value corresponding to the yaml key to contain special characters such as: etc. It is recommended to use double quotes for the entire value, and do not use paths containing spaces in the corresponding file paths to prevent abnormal recognition problems.
 
@@ -238,7 +236,7 @@ iotdbctl cluster init default_cluster
 
 #### Deploy IoTDB, Grafana and Prometheus
 
-* Configure `iotdb-system.properties`, `iotdb-system.properties` to open the metrics interface
+* Configure `iotdb-system.properties` to open the metrics interface
 * Configure the Grafana configuration. If there are multiple `dashboards`, separate them with commas. The names cannot be repeated or they will be overwritten.
 * Configure the Prometheus configuration. If the IoTDB cluster is configured with metrics, there is no need to manually modify the Prometheus configuration. The Prometheus configuration will be automatically modified according to which node is configured with metrics.
 * Start the cluster
@@ -321,7 +319,7 @@ iotdbctl cluster deploy default_cluster
 
 * Upload IoTDB compressed package and jdk compressed package according to the node information in `confignode_servers` and `datanode_servers` (if `jdk_tar_dir` and `jdk_deploy_dir` values ​​are configured in yaml)
 
-* Generate and upload `iotdb-system.properties`, `iotdb-system.properties`, `iotdb-system.properties` according to the yaml file node configuration information
+* Generate and upload `iotdb-system.properties` according to the yaml file node configuration information
 
 ```bash
 iotdbctl cluster deploy default_cluster -op force
@@ -506,7 +504,7 @@ iotdbctl cluster scaleout default_cluster
 
 * Find the node to be expanded, upload the IoTDB compressed package and jdb package (if the `jdk_tar_dir` and `jdk_deploy_dir` values ​​are configured in yaml) and decompress it
 
-* Generate and upload `iotdb-system.properties`, `iotdb-system.properties` or `iotdb-system.properties` according to the yaml file node configuration information
+* Generate and upload `iotdb-system.properties` according to the yaml file node configuration information
 
 * Execute the command to start the node and verify whether the node is started successfully
 
@@ -545,7 +543,7 @@ iotdbctl cluster distribute default_cluster
 
 * Find the yaml file in the default location according to cluster-name and obtain the configuration information of `confignode_servers`, `datanode_servers`, `grafana` and `prometheus`
 
-* Generate and upload `iotdb-system.properties`, `iotdb-system.properties`, `iotdb-system.properties` to the specified node according to the node configuration information of the yaml file
+* Generate and upload `iotdb-system.properties` to the specified node according to the node configuration information of the yaml file
 
 #### Hot load cluster configuration command
 
