@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# AINode 部署1
+# AINode 部署
 
 ##  安装环境
 
