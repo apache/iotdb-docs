@@ -36,6 +36,9 @@ github:
     merge:   false
     # disable rebase button:
     rebase:  true
+  collaborators:
+    - CritasWang
+    - krystal-xiao
 
 staging:
   profile: ~
