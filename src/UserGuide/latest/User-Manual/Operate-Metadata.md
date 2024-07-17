@@ -799,6 +799,44 @@ It costs 0.002s
 
 > Note: The path of timeseries is just a filter condition, which has no relationship with the definition of level.
 
+### Active Timeseries Query
+By adding WHERE time filter conditions to the existing SHOW/COUNT TIMESERIES, we can obtain time series with data within the specified time range.
+
+An example usage is as follows:
+```
+IoTDB> insert into root.sg.data(timestamp, s1,s2) values(15000, 1, 2);
+IoTDB> insert into root.sg.data2(timestamp, s1,s2) values(15002, 1, 2);
+IoTDB> insert into root.sg.data3(timestamp, s1,s2) values(16000, 1, 2);
+IoTDB> show timeseries;
++----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+|      Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|
++----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+| root.sg.data.s1| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+| root.sg.data.s2| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|root.sg.data3.s1| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|root.sg.data3.s2| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|root.sg.data2.s1| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|root.sg.data2.s2| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
++----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+
+IoTDB> show timeseries where time >= 15000 and time < 16000;
++----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+|      Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|
++----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+| root.sg.data.s1| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+| root.sg.data.s2| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|root.sg.data2.s1| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
+|root.sg.data2.s2| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
++----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
+
+IoTDB> count timeseries where time >= 15000 and time < 16000;
++-----------------+
+|count(timeseries)|
++-----------------+
+|                4|
++-----------------+
+```
+Regarding the definition of active time series, data that can be queried normally is considered active, meaning time series that have been inserted but deleted are not included.
 ### Tag and Attribute Management
 
 We can also add an alias, extra tag and attribute information while creating one timeseries.
@@ -1214,3 +1252,33 @@ Total line number = 1
 It costs 0.004s
 ```
 
+### Active Device Query
+Similar to active timeseries query, we can add time filter conditions to device viewing and statistics to query active devices that have data within a certain time range. The definition of active here is the same as for active time series. An example usage is as follows:
+```
+IoTDB> insert into root.sg.data(timestamp, s1,s2) values(15000, 1, 2);
+IoTDB> insert into root.sg.data2(timestamp, s1,s2) values(15002, 1, 2);
+IoTDB> insert into root.sg.data3(timestamp, s1,s2) values(16000, 1, 2);
+IoTDB> show devices;
++-------------------+---------+
+|            devices|isAligned|
++-------------------+---------+
+|       root.sg.data|    false|
+|      root.sg.data2|    false|
+|      root.sg.data3|    false|
++-------------------+---------+
+
+IoTDB> show devices where time >= 15000 and time < 16000;
++-------------------+---------+
+|            devices|isAligned|
++-------------------+---------+
+|       root.sg.data|    false|
+|      root.sg.data2|    false|
++-------------------+---------+
+
+IoTDB> count devices where time >= 15000 and time < 16000;
++--------------+
+|count(devices)|
++--------------+
+|             2|
++--------------+
+```
