@@ -166,9 +166,9 @@ In addition to displaying information about all models directly, you can specify
 
 State is used to show the current state of model registration, which consists of the following three stages
 
-- **LOADING:** The corresponding model meta information has been added to the configNode, and the model file is being transferred to the AINode node.
-- **ACTIVE:** The model has been set up and the model is in the available state
-- **DROPPING:** Model deletion is in progress, model related information is being deleted from configNode and AINode.
+- **LOADING**: The corresponding model meta information has been added to the configNode, and the model file is being transferred to the AINode node.
+- **ACTIVE**: The model has been set up and the model is in the available state
+- **DROPPING**: Model deletion is in progress, model related information is being deleted from configNode and AINode.
 - **UNAVAILABLE**: Model creation failed, you can delete the failed model_name by drop model.
 
 #### 4.2.1 Example
@@ -217,9 +217,9 @@ call inference(<built_in_model_name>,sql[,<parameterName>=<parameterValue>])
 
 Built-in model inference does not require a registration process, the inference function can be used by calling the inference function through the call keyword, and its corresponding parameters are described as follows:
 
-- **built_in_model_name:** built-in model name
-- **parameterName:** parameter name
-- **parameterValue:** parameter value
+- **built_in_model_name**: built-in model name
+- **parameterName**: parameter name
+- **parameterValue**: parameter value
 
 #### 4.4.1 Built-in Models and Parameter Descriptions
 
@@ -293,7 +293,7 @@ window_function:
 After completing the registration of the model, the inference function can be used by calling the inference function through the call keyword, and its corresponding parameters are described as follows:
 
 - **model_name**: corresponds to a registered model
-- **sql**: sql query statement, the result of the query is used as input to the model for model inference. The dimensions of the rows and columns in the result of the query need to match the size specified in the specific model config. (It is not recommended to use the 'SELECT *' clause for the sql here because in IoTDB, '*' does not sort the columns, so the order of the columns is undefined, you can use 'SELECT s0,s1' to ensure that the columns order matches the expectations of the model input)
+- **sql**: sql query statement, the result of the query is used as input to the model for model inference. The dimensions of the rows and columns in the result of the query need to match the size specified in the specific model config. (It is not recommended to use the `SELECT *` clause for the sql here because in IoTDB, `*` does not sort the columns, so the order of the columns is undefined, you can use `SELECT s0,s1` to ensure that the columns order matches the expectations of the model input)
 - **window_function**: Window functions that can be used in the inference process, there are currently three types of window functions provided to assist in model inference:
   - **head(window_size)**: Get the top window_size points in the data for model inference, this window can be used for data cropping.
   ![](https://alioss.timecho.com/docs/img/s1.png)
@@ -301,7 +301,7 @@ After completing the registration of the model, the inference function can be us
   - **tail(window_size)**: get the last window_size point in the data for model inference, this window can be used for data cropping.
   ![](https://alioss.timecho.com/docs/img/s2.png)
 
-  - **count(window_size, sliding_step):** sliding window based on the number of points, the data in each window will be reasoned through the model respectively, as shown in the example below, window_size for 2 window function will be divided into three windows of the input dataset, and each window will perform reasoning operations to generate results respectively. The window can be used for continuous inference
+  - **count(window_size, sliding_step)**: sliding window based on the number of points, the data in each window will be reasoned through the model respectively, as shown in the example below, window_size for 2 window function will be divided into three windows of the input dataset, and each window will perform reasoning operations to generate results respectively. The window can be used for continuous inference
   ![](https://alioss.timecho.com/docs/img/s3.png)
 
 **Explanation 1**: window can be used to solve the problem of cropping rows when the results of the sql query and the input row requirements of the model do not match. Note that when the number of columns does not match or the number of rows is directly less than the model requirement, the inference cannot proceed and an error message will be returned. 
