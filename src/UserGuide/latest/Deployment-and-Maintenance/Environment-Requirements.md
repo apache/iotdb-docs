@@ -38,7 +38,7 @@ Whether in Linux or Windows, please ensure that the installation path of IoTDB d
 
 To use IoTDB, the system environment needs to meet the following conditions (using the centos7 command as an example):
 
-1. Install Java runtime environment, Java version>=1.8, please ensure that the jdk environment variable is set.
+1. Install Java runtime environment, Java version>=1.8, please ensure that the jdk environment variable is set.  V1.3.2.2 and above versions are recommended to deploy JDK17 directly. In some scenarios, older versions of JDK may have performance issues, and the datanode may not stop.
 
 ```shell
  # Taking JDK-17 installation in Centos7 as an example:
