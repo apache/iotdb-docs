@@ -63,9 +63,9 @@ or json array of the above two.
 
 ## MQTT Configurations
 
-The IoTDB MQTT service load configurations from `${IOTDB_HOME}/${IOTDB_CONF}/iotdb-common.properties` by default.
+The IoTDB MQTT service load configurations from `${IOTDB_HOME}/${IOTDB_CONF}/iotdb-system.properties` by default.
 
-The `IoTDB MQTT service` loads it's configuration from `${IOTDB_HOME}/${IOTDB_CONF}/iotdb-datanode.properties` per default.
+The `IoTDB MQTT service` loads it's configuration from `${IOTDB_HOME}/${IOTDB_CONF}/iotdb-system.properties` per default.
 
 The configuration options of this file are as follows:
 
@@ -161,7 +161,7 @@ public class CustomizedJsonPayloadFormatter implements PayloadFormatter {
 
     @Override
     public String getName() {
-        // set the value of mqtt_payload_formatter in iotdb-datanode.properties as the following string:
+        // set the value of mqtt_payload_formatter in iotdb-system.properties as the following string:
         return "CustomizedJson";
     }
 }
@@ -172,8 +172,8 @@ public class CustomizedJsonPayloadFormatter implements PayloadFormatter {
 
 Then, in your server:
 * Create an `${IOTDB_HOME}/ext/mqtt/` folder, and put the jar into this directory.
-* Update configuration to enable MQTT service in `conf/iotdb-datanode.properties` by setting `enable_mqtt_service=true`.
-* Set the value of `mqtt_payload_formatter` in `conf/iotdb-datanode.properties` to the value you are returning in your implementation of getName().
+* Update configuration to enable MQTT service in `conf/iotdb-system.properties` by setting `enable_mqtt_service=true`.
+* Set the value of `mqtt_payload_formatter` in `conf/iotdb-system.properties` to the value you are returning in your implementation of getName().
   (In this example, the value would be: `CustomizedJson`)
 * Launch the IoTDB server.
 * Now IoTDB will use your implementation to parse the MQTT message.

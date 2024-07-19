@@ -50,7 +50,7 @@ Starting Printing the IoTDB Data Directory Overview
 ````````````````````````
 output save path:IoTDB_data_dir_overview.txt
 data dir num:1
-143  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-common.properties, use the default configs.
+143  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-system.properties, use the default configs.
 |==============================================================
 |D:\github\master\iotdb\data\datanode\data
 |--sequence
@@ -111,7 +111,7 @@ Starting Printing the TsFile Sketch
 ````````````````````````
 TsFile path:D:\github\master\1669359533965-1-0-0.tsfile
 Sketch save path:D:\github\master\sketch.txt
-148  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-common.properties, use the default configs.
+148  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-system.properties, use the default configs.
 -------------------------------- TsFile Sketch --------------------------------
 file path: D:\github\master\1669359533965-1-0-0.tsfile
 file length: 2974
@@ -195,11 +195,11 @@ Use Windows in this example:
 ````````````````````````
 Starting Printing the TsFileResources
 ````````````````````````
-147  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-common.properties, use the default configs.
-230  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Cannot find IOTDB_HOME or IOTDB_CONF environment variable when loading config file iotdb-common.properties, use default configuration
-231  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Couldn't load the configuration iotdb-common.properties from any of the known sources.
-233  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Cannot find IOTDB_HOME or IOTDB_CONF environment variable when loading config file iotdb-datanode.properties, use default configuration
-237  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Couldn't load the configuration iotdb-datanode.properties from any of the known sources.
+147  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-system.properties, use the default configs.
+230  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Cannot find IOTDB_HOME or IOTDB_CONF environment variable when loading config file iotdb-system.properties, use default configuration
+231  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Couldn't load the configuration iotdb-system.properties from any of the known sources.
+233  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Cannot find IOTDB_HOME or IOTDB_CONF environment variable when loading config file iotdb-system.properties, use default configuration
+237  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Couldn't load the configuration iotdb-system.properties from any of the known sources.
 Analyzing D:\github\master\iotdb\data\datanode\data\sequence\root.sg1\0\0\1669359533489-1-0-0.tsfile ...
 
 Resource plan index range [9223372036854775807, -9223372036854775808]
@@ -213,11 +213,11 @@ Analyzing the resource file folder D:\github\master\iotdb\data\datanode\data\seq
 ````````````````````````
 Starting Printing the TsFileResources
 ````````````````````````
-178  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Cannot find IOTDB_HOME or IOTDB_CONF environment variable when loading config file iotdb-common.properties, use default configuration
-186  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-common.properties, use the default configs.
-187  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Couldn't load the configuration iotdb-common.properties from any of the known sources.
-188  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Cannot find IOTDB_HOME or IOTDB_CONF environment variable when loading config file iotdb-datanode.properties, use default configuration
-192  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Couldn't load the configuration iotdb-datanode.properties from any of the known sources.
+178  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Cannot find IOTDB_HOME or IOTDB_CONF environment variable when loading config file iotdb-system.properties, use default configuration
+186  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-system.properties, use the default configs.
+187  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Couldn't load the configuration iotdb-system.properties from any of the known sources.
+188  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Cannot find IOTDB_HOME or IOTDB_CONF environment variable when loading config file iotdb-system.properties, use default configuration
+192  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Couldn't load the configuration iotdb-system.properties from any of the known sources.
 Analyzing D:\github\master\iotdb\data\datanode\data\sequence\root.sg1\0\0\1669359533489-1-0-0.tsfile ...
 
 Resource plan index range [9223372036854775807, -9223372036854775808]

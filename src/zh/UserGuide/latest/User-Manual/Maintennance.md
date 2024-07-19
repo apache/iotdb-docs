@@ -161,7 +161,7 @@ explain analyze select column2 from root.explain.analyze.data order by column1
 
 在Fragment中会输出当前节点中执行的所有节点信息，然而当一次查询涉及的序列过多时，每个节点都被输出会导致Explain Analyze返回的结果集过大，因此当相同类型的节点超过10个时，会合并当前Fragment下所有相同类型的节点。合并后统计信息也被累积，对于一些无法合并的定制信息会直接丢弃。
 
-可以通过修改iotdb-common.properties中的配置项`merge_threshold_of_explain_analyze`来设置触发合并的节点阈值，该参数支持热加载。下面是一个触发合并后的部分结果示例：
+可以通过修改iotdb-system.properties中的配置项`merge_threshold_of_explain_analyze`来设置触发合并的节点阈值，该参数支持热加载。下面是一个触发合并后的部分结果示例：
 
 ```
 Analyze Cost: 143.679 ms                                                              

@@ -735,7 +735,7 @@ The following diagram illustrates the different states and their transitions:
 
 ## Configure Parameters
 
-In iotdb-common.properties ：
+In iotdb-system.properties ：
 
 V1.3.0:
 ```Properties

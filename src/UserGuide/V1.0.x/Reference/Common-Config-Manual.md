@@ -813,10 +813,10 @@ Different configuration parameters take effect in the following three ways:
 * enable\_unseq\_space\_compaction
 
 |    Name     | enable\_unseq\_space\_compaction               |
-| :---------: | :--------------------------------------------- |
+| :---------: |:-----------------------------------------------|
 | Description | enable the compaction between unsequence files |
 |    Type     | Boolean                                        |
-|   Default   | false                                          |
+|   Default   | true                                           |
 |  Effective  | After restart system                           |
 
 * enable\_cross\_space\_compaction

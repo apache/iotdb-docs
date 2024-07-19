@@ -78,7 +78,7 @@ Open the ConfigNode configuration file (./conf/iotdb configure. properties file)
 
 #### DataNode Configuration
 
-Open the DataNode configuration file/ conf/iotdb-datanode.properties,Set the following parameters:
+Open the DataNode configuration file/ conf/iotdb-system.properties,Set the following parameters:
 
 |        **Configuration**        |                       **Description**                        |   **Default**   |                    **Recommended value**                     | **Note**                                 |
 | :-----------------------------: | :----------------------------------------------------------: | :-------------: | :----------------------------------------------------------: | :--------------------------------------- |

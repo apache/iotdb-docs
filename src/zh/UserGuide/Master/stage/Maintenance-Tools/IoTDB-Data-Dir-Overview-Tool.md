@@ -50,7 +50,7 @@ Starting Printing the IoTDB Data Directory Overview
 ````````````````````````
 output save path:IoTDB_data_dir_overview.txt
 data dir num:1
-143  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-common.properties, use the default configs.
+143  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-system.properties, use the default configs.
 |==============================================================
 |D:\github\master\iotdb\data\datanode\data
 |--sequence

@@ -100,7 +100,7 @@ IoTDB> DROP PIPE my_pipe
 
 ## 5.配置参数
 
-所有参数修改均在`$IOTDB_HOME$/conf/iotdb-common.properties`中，所有修改完成之后执行`load configuration`之后即可立刻生效。
+所有参数修改均在`$IOTDB_HOME$/conf/iotdb-system.properties`中，所有修改完成之后执行`load configuration`之后即可立刻生效。
 
 ### 5.1发送端相关
 
@@ -256,7 +256,7 @@ IoTDB> SHOW PIPE [PipeName]
 
 ### 接收端操作
 
-`vi conf/iotdb-common.properties` 配置云端参数，将白名单设置为仅接收来自 IP 为 192.168.0.1 的边端的数据
+`vi conf/iotdb-system.properties` 配置云端参数，将白名单设置为仅接收来自 IP 为 192.168.0.1 的边端的数据
 
 ```
 ####################

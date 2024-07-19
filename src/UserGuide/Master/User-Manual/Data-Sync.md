@@ -408,7 +408,7 @@ Function: Does nothing with the events passed in by the processor.
 
 ## Configure Parameters
 
-In iotdb-common.properties ：
+In iotdb-system.properties ：
 
 V1.3.0:
 ```Properties

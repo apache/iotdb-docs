@@ -91,7 +91,7 @@ For more details，please click [here](https://grafana.com/docs/grafana/latest/i
 
 ### Configure IoTDB REST Service
 
-* Modify `{iotdb directory}/conf/iotdb-common.properties` as following:
+* Modify `{iotdb directory}/conf/iotdb-system.properties` as following:
 
 ```properties
 # Is the REST service enabled

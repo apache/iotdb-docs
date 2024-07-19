@@ -274,7 +274,7 @@ mvn clean package -pl distribution -am -DskipTests
 
 ##### 通用配置
 
-打开通用配置文件 ./conf/iotdb-common.properties，
+打开通用配置文件 ./conf/iotdb-system.properties，
 可根据 [部署推荐](./Deployment-Recommendation.md)
 设置以下参数：
 
@@ -291,7 +291,7 @@ mvn clean package -pl distribution -am -DskipTests
 
 ##### ConfigNode 配置
 
-打开 ConfigNode 配置文件 ./conf/iotdb-confignode.properties，根据服务器/虚拟机的 IP 地址和可用端口，设置以下参数：
+打开 ConfigNode 配置文件 ./conf/iotdb-system.properties，根据服务器/虚拟机的 IP 地址和可用端口，设置以下参数：
 
 | **配置项**                     | **说明**                                                     | **默认**        | **用法**                                                     |
 | ------------------------------ | ------------------------------------------------------------ | --------------- | ------------------------------------------------------------ |
@@ -304,7 +304,7 @@ mvn clean package -pl distribution -am -DskipTests
 
 ##### DataNode 配置
 
-打开 DataNode 配置文件 ./conf/iotdb-datanode.properties，根据服务器/虚拟机的 IP 地址和可用端口，设置以下参数：
+打开 DataNode 配置文件 ./conf/iotdb-system.properties，根据服务器/虚拟机的 IP 地址和可用端口，设置以下参数：
 
 | **配置项**                          | **说明**                                  | **默认**        | **用法**                                                     |
 | ----------------------------------- | ----------------------------------------- | --------------- | ------------------------------------------------------------ |
@@ -337,7 +337,7 @@ mvn clean package -pl distribution -am -DskipTests
 **集群第一个启动的节点必须是 ConfigNode，第一个启动的 ConfigNode 必须遵循本小节教程。**
 
 第一个启动的 ConfigNode 是 Seed-ConfigNode，标志着新集群的创建。
-在启动 Seed-ConfigNode 前，请打开通用配置文件 ./conf/iotdb-common.properties，并检查如下参数：
+在启动 Seed-ConfigNode 前，请打开通用配置文件 ./conf/iotdb-system.properties，并检查如下参数：
 
 | **配置项**                                 | **检查**                   |
 | ------------------------------------------ | -------------------------- |
@@ -350,7 +350,7 @@ mvn clean package -pl distribution -am -DskipTests
 
 **注意：** 请根据[部署推荐](./Deployment-Recommendation.md)配置合适的通用参数，这些参数在首次配置后即不可修改。
 
-接着请打开它的配置文件 ./conf/iotdb-confignode.properties，并检查如下参数：
+接着请打开它的配置文件 ./conf/iotdb-system.properties，并检查如下参数：
 
 | **配置项**                     | **检查**                                                     |
 | ------------------------------ | ------------------------------------------------------------ |
@@ -393,7 +393,7 @@ ConfigNode 的其它配置参数可参考
 | data_replication_factor                  | 与 Seed-ConfigNode 保持一致 |
 | data_region_consensus_protocol_class   | 与 Seed-ConfigNode 保持一致 |
 
-接着请打开它的配置文件 ./conf/iotdb-confignode.properties，并检查以下参数：
+接着请打开它的配置文件 ./conf/iotdb-system.properties，并检查以下参数：
 
 | **配置项**                     | **检查**                                                     |
 | ------------------------------ | ------------------------------------------------------------ |
@@ -423,13 +423,13 @@ ConfigNode 的其它配置参数可参考
 **确保集群已有正在运行的 ConfigNode 后，才能开始增加 DataNode。**
 
 可以向集群中添加任意个 DataNode。
-在添加新的 DataNode 前，请先打开通用配置文件 ./conf/iotdb-common.properties 并检查以下参数：
+在添加新的 DataNode 前，请先打开通用配置文件 ./conf/iotdb-system.properties 并检查以下参数：
 
 | **配置项**    | **检查**                    |
 | ------------- | --------------------------- |
 | cluster_name | 与 Seed-ConfigNode 保持一致 |
 
-接着打开它的配置文件 ./conf/iotdb-datanode.properties 并检查以下参数：
+接着打开它的配置文件 ./conf/iotdb-system.properties 并检查以下参数：
 
 | **配置项**                          | **检查**                                                     |
 | ----------------------------------- | ------------------------------------------------------------ |

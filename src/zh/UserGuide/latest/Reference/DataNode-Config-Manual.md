@@ -25,14 +25,14 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 
 * `datanode-env.sh/bat`：环境配置项的配置文件，可以配置 DataNode 的内存大小。
 
-* `iotdb-datanode.properties`：IoTDB DataNode 和单机版的配置文件。
+* `iotdb-system.properties`：IoTDB 配置文件。
 
 ## 热修改配置项
 
-为方便用户使用，IoTDB 为用户提供了热修改功能，即在系统运行过程中修改 `iotdb-datanode.properties` 和 `iotdb-common.properties` 中部分配置参数并即时应用到系统中。下面介绍的参数中，改后 生效方式为`热加载`
+为方便用户使用，IoTDB 为用户提供了热修改功能，即在系统运行过程中修改 `iotdb-system.properties` 中部分配置参数并即时应用到系统中。下面介绍的参数中，改后 生效方式为`热加载`
 的均为支持热修改的配置参数。
 
-通过 Session 或 Cli 发送 ```load configuration``` 命令（SQL）至 IoTDB 可触发配置热加载。
+通过 Session 或 Cli 发送 ```load configuration``` 或  `set configuration` 命令（SQL）至 IoTDB 可触发配置热加载。
 
 ## 环境配置项（datanode-env.sh/bat）
 
@@ -83,7 +83,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |默认值|31999|
 |改后生效方式|重启服务生效|
 
-## 系统配置项（iotdb-datanode.properties）
+## 系统配置项（iotdb-system.properties）
 
 系统配置项是 IoTDB DataNode/Standalone 运行的核心配置，它主要用于设置 DataNode/Standalone 数据库引擎的参数。
 

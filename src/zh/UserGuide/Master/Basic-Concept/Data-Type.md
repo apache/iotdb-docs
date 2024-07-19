@@ -41,7 +41,7 @@ IoTDB 支持以下六种数据类型：
 CREATE TIMESERIES root.vehicle.d0.s0 WITH DATATYPE=FLOAT, ENCODING=RLE, 'MAX_POINT_NUMBER'='2';
 ```
 
-若不指定，系统会按照配置文件 `iotdb-common.properties` 中的 [float_precision](../Reference/Common-Config-Manual.md) 项配置（默认为 2 位）。
+若不指定，系统会按照配置文件 `iotdb-system.properties` 中的 [float_precision](../Reference/Common-Config-Manual.md) 项配置（默认为 2 位）。
 
 ### 数据类型兼容性
 

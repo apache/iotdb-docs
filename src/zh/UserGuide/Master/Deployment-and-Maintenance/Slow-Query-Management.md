@@ -25,7 +25,7 @@ IoTDB 会将慢查询输出到单独的日志文件 log_datanode_slow_sql.log �
 
 ## 配置慢查询的阈值
 
-IoTDB 在 `iotdb-common.properties` 提供了 `slow_query_threshold` 配置项，单位是毫秒，默认是30秒，超过此参数指定的阈值，便会被判断为慢查询，待其查询执行结束后，将其记录在 log_datanode_slow_sql.log 中。
+IoTDB 在 `iotdb-system.properties` 提供了 `slow_query_threshold` 配置项，单位是毫秒，默认是30秒，超过此参数指定的阈值，便会被判断为慢查询，待其查询执行结束后，将其记录在 log_datanode_slow_sql.log 中。
 
 ## 慢查询日志示例
 

@@ -25,14 +25,14 @@
 
 IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
-* `iotdb-common.properties`：IoTDB 集群的公共配置。
+* `iotdb-system.properties`：IoTDB 集群的公共配置。
 
 ### 改后生效方式
 不同的配置参数有不同的生效方式，分为以下三种：
 
 + **仅允许在第一次启动服务前修改：** 在第一次启动 ConfigNode/DataNode 后即禁止修改，修改会导致 ConfigNode/DataNode 无法启动。
 + **重启服务生效：** ConfigNode/DataNode 启动后仍可修改，但需要重启 ConfigNode/DataNode 后才生效。
-+ **热加载：** 可在 ConfigNode/DataNode 运行时修改，修改后通过 Session 或 Cli 发送 ```load configuration``` 命令（SQL）至 IoTDB 使配置生效。
++ **热加载：** 可在 ConfigNode/DataNode 运行时修改，修改后通过 Session 或 Cli 发送 ```load configuration``` 或 `set configuration` 命令（SQL）至 IoTDB 使配置生效。
 
 ### 系统配置项
 
@@ -834,12 +834,12 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * enable\_unseq\_space\_compaction
 
-|     名字     | enable\_unseq\_space\_compaction       |
-| :----------: | :------------------------------------- |
-|     描述     | 乱序空间内合并，开启乱序文件之间的合并 |
-|     类型     | Boolean                                |
-|    默认值    | false                                  |
-| 改后生效方式 | 热加载                           |
+|     名字     | enable\_unseq\_space\_compaction |
+| :----------: |:---------------------------------|
+|     描述     | 乱序空间内合并，开启乱序文件之间的合并              |
+|     类型     | Boolean                          |
+|    默认值    | true                             |
+| 改后生效方式 | 热加载                              |
 
 * enable\_cross\_space\_compaction
 

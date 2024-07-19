@@ -164,7 +164,7 @@ Get result following:
 
 In a Fragment, the information of all nodes executed in the current node will be output. However, when a query involves too many series, outputting each seriesScanNode can lead to an excessively large result set from Explain Analyze. Therefore, when the same type of nodes exceeds 10, all nodes of the same type under the current Fragment will be merged. The statistical information is also accumulated after the merge, and some customized information that cannot be merged will be directly discarded.
 
-The threshold for triggering the merge of nodes can be set by modifying the configuration item `merge_threshold_of_explain_analyze` in iotdb-common.properties, and this parameter supports hot loading. Below is a part of the result example after triggering a merge:
+The threshold for triggering the merge of nodes can be set by modifying the configuration item `merge_threshold_of_explain_analyze` in iotdb-system.properties, and this parameter supports hot loading. Below is a part of the result example after triggering a merge:
 
 ```
 Analyze Cost: 143.679 ms                                                              
