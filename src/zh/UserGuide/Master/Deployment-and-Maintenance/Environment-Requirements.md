@@ -38,7 +38,7 @@ IoTDB 支持 Linux、Windows、MacOS 等操作系统，同时企业版支持龙�
 
 要使用 IoTDB，需要系统环境具备以下条件（以 centos7 命令为例）：
 
-1. 安装 Java 运行环境 ，Java 版本 >= 1.8，请确保已设置 jdk 环境变量。
+1. 安装 Java 运行环境 ，Java 版本 >= 1.8，请确保已设置 jdk 环境变量。  V1.3.2.2 及之上版本推荐直接部署JDK17，老版本JDK部分场景下性能有问题，且datanode会出现stop不掉的问题。
 
 ```shell
  #下面以在centos7，使用JDK-17安装为例：
