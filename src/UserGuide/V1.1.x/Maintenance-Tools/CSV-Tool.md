@@ -49,7 +49,7 @@ Description:
   - specifying  the directory that the data will be exported
 * `-tf <time-format>`:
   - specifying a time format that you want. The time format have to obey [ISO 8601](https://calendars.wikia.org/wiki/ISO_8601) standard. If you want to save the time as the timestamp, then setting `-tf timestamp`
-  - example: `-tf yyyy-MM-dd\ HH:mm:ss` or `-tf timestamp`
+  - example: `-tf "yyyy-MM-dd HH:mm:ss"` or `-tf timestamp`
 * `-linesPerFile <int>`:
   - Specifying lines of each dump file, `10000` is default.
   - example: `-linesPerFile 1`
@@ -65,32 +65,32 @@ More, if you don't use one of `-s` and `-q`, you need to enter some queries afte
 # Unix/OS X
 > tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./
 # Or
-> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss
+> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf "yyyy-MM-dd HH:mm:ss"
 # or
 > tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -q "select * from root.**"
 # Or
 > tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s sql.txt
 # Or
-> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt
+> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf "yyyy-MM-dd HH:mm:ss" -s sql.txt
 # Or
-> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt -linesPerFile 10
+> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf "yyyy-MM-dd HH:mm:ss" -s sql.txt -linesPerFile 10
 # Or
-> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt -linesPerFile 10 -t 10000
+> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf "yyyy-MM-dd HH:mm:ss" -s sql.txt -linesPerFile 10 -t 10000
 
 # Windows
 > tools/export-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./
 # Or
-> tools/export-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss
+> tools/export-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf "yyyy-MM-dd HH:mm:ss"
 # or
 > tools/export-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -q "select * from root.**"
 # Or
 > tools/export-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s sql.txt
 # Or
-> tools/export-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt
+> tools/export-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf "yyyy-MM-dd HH:mm:ss" -s sql.txt
 # Or
-> tools/export-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt -linesPerFile 10
+> tools/export-csv.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf "yyyy-MM-dd HH:mm:ss" -s sql.txt -linesPerFile 10
 # Or
-> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf yyyy-MM-dd\ HH:mm:ss -s sql.txt -linesPerFile 10 -t 10000
+> tools/export-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -tf "yyyy-MM-dd HH:mm:ss" -s sql.txt -linesPerFile 10 -t 10000
 ```
 
 ### Sample SQL file
