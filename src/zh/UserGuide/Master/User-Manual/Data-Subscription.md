@@ -43,7 +43,7 @@ IoTDB 数据订阅模块（**下称 IoTDB 订阅客户端**）虽然参考了部
    3. 允许 `SubscriptionPullConsumer` 和 `SubscriptionPushConsumer` 加入同一个 consumer group
    4. 不允许一个 consumer 同时加入多个不同的 consumer groups
 
-TODO: PIC
+![subscription-example](https://github.com/user-attachments/assets/80bfe5bd-6b0c-4836-a14b-d811ccf54ae2)
 
 # 语法说明
 

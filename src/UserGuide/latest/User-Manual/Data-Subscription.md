@@ -43,7 +43,7 @@ Although the IoTDB data subscription module (**hereinafter referred to as the Io
    3. Both `SubscriptionPullConsumer` and `SubscriptionPushConsumer` are allowed to join the same consumer group.
    4. A consumer is not allowed to join multiple different consumer groups simultaneously.
 
-TODO: PIC
+![subscription-example](https://github.com/user-attachments/assets/80bfe5bd-6b0c-4836-a14b-d811ccf54ae2)
 
 # Syntax Description
 

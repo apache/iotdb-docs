@@ -69,7 +69,7 @@ If you have installed and the error still occurs, then `sudo xcode-select --rese
 # Document format
 
 - All mds will be compiled into html, README.md will be compiled into index.html, and xx.md will be compiled into xx.html
-- The tags in .md must have a beginning and an end. For example, \<tr> must have a \</ tr> corresponding to it, and it is strictly corresponding; if you need to insert tags in the document, such as List \<String>, you can add this into the code block, You can also add \ before the two  angle brackets, such as \\\<String\\>
+- The tags in .md must have a beginning and an end. For example, \<tr> must have a \</ tr> corresponding to it, and it is strictly corresponding; if you need to insert tags in the document, such as List \<String>, you can add this into the code block, You can also add \ before the two angle brackets, such as \\<String\\>
 - Tags cannot be cross-nested, such as \<p> \<center>\</p>\</center> This is not allowed
 - The first-level title of the article is the title of the sidebar of the document, so the largest chapter title of the document is not needed
 
