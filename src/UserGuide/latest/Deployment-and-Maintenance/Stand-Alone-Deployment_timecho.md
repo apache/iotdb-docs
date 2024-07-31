@@ -18,7 +18,7 @@
     under the License.
 
 -->
-## Stand-Alone Deployment
+# Stand-Alone Deployment
 
 This chapter will introduce how to start an IoTDB standalone instance, which includes 1 ConfigNode and 1 DataNode (commonly known as 1C1D).
 

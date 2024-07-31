@@ -72,6 +72,7 @@ export const zhSidebar = {
         { text: '环境要求', link: 'Environment-Requirements' },
         { text: '单机版部署', link: 'Stand-Alone-Deployment_timecho' },
         { text: '集群版部署', link: 'Cluster-Deployment_timecho' },
+        { text: '双活版部署', link: 'Dual-Active-Deployment_timecho' },
         { text: 'docker部署', link: 'Docker-Install' },
         { text: 'AINode部署', link: 'AINode_Deployment' },
         { text: '工具部署（监控面板）', link: 'Monitoring-panel-deployment' },
