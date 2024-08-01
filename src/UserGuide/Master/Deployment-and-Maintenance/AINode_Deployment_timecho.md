@@ -44,7 +44,7 @@
  Users can download the software installation package for AINode, download and unzip it to complete the installation of AINode.
 
  Unzip and install the package
- (iotdb enterprise entity -<version>. zip)， The directory structure after unpacking the installation package is as follows:
+  `(iotdb-enterprise-ainode-<version>.zip)`， The directory structure after unpacking the installation package is as follows:
 | **Catalogue**     | **Type** | **Explain**                                         |
 | ------------ | -------- | ------------------------------------------------ |
 | lib          | folder   | AINode compiled binary executable files and related code dependencies |
