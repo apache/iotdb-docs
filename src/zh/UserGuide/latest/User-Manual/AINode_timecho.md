@@ -62,8 +62,7 @@ AINode 是 IoTDB 在ConfigNode、DataNode后提供的第三种内生节点，该
 
 ## 3. 安装部署
 
-AINode 的部署可参考文档 [部署指导](https://timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/AINode_Deployment_timecho.html) 章节。
-
+AINode 的部署可参考文档 [部署指导](../Deployment-and-Maintenance/AINode_Deployment_timecho.md#AINode-部署) 章节。
 
 ## 4. 使用指导
 

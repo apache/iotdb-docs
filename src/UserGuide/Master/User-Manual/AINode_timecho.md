@@ -63,7 +63,7 @@ Compared with building a machine learning service alone, it has the following ad
 
 ## 3. Installation and Deployment
 
-The deployment of AINode can be found in the document [Deployment Guidelines](https://timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/AINode_Deployment_timecho.html) .
+The deployment of AINode can be found in the document [Deployment Guidelines](../Deployment-and-Maintenance/AINode_Deployment_timecho.md#AINode-部署) .
 
 
 ## 4. Usage Guidelines
