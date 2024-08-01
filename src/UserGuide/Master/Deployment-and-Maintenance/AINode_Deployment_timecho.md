@@ -30,11 +30,9 @@
  It is an additional package outside the IoTDB cluster, with independent installation and activation (if you need to try or use it, please contact Tianmu Technology Business or Technical Support).
 
 ### 1.3 Deployment mode
-<div align="center">
-    <img src="https://alioss.timecho.com/docs/img/AINode%E9%83%A8%E7%BD%B21.png" alt="" style="width: 60%;"/>
-</div>
-<div align="center">
-    <img src="https://alioss.timecho.com/docs/img/AINode%E9%83%A8%E7%BD%B22.png" alt="" style="width: 70%;"/>
+<div >
+    <img src="https://alioss.timecho.com/docs/img/AINode%20Deployment%201.png" alt="" style="width: 45%;"/>
+    <img src="https://alioss.timecho.com/docs/img/AINode%20Deployment%202.png" alt="" style="width: 45%;"/>
 </div>
 
 ##  2 Installation preparation
@@ -44,7 +42,7 @@
  Users can download the software installation package for AINode, download and unzip it to complete the installation of AINode.
 
  Unzip and install the package
-  `(iotdb-enterprise-ainode-<version>.zip)`， The directory structure after unpacking the installation package is as follows:
+ `(iotdb-enterprise-ainode-<version>.zip)`， The directory structure after unpacking the installation package is as follows:
 | **Catalogue**     | **Type** | **Explain**                                         |
 | ------------ | -------- | ------------------------------------------------ |
 | lib          | folder   | AINode compiled binary executable files and related code dependencies |
@@ -53,7 +51,7 @@
 | LICENSE      | file     | Certificate                                             |
 | NOTICE       | file     | Tips                                             |
 | README_ZH.md | file     | Explanation of the Chinese version of the markdown format                         |
-| README.md    | file     | Instructions                                         |
+| `README.md`    | file     | Instructions                                         |
 
 ###  2.2 Environmental preparation  
 - Suggested operating environment：Ubuntu, CentOS, MacOS  
@@ -65,7 +63,7 @@
 
   - There must be a Python interpreter in the environment variables that can be directly called through the `python` instruction.
   - It is recommended to create a Python interpreter venv virtual environment in the `iotdb enterprise android -<version>` folder. If installing version 3.8.0 virtual environment, the statement is as follows:
-    ```Bash
+    ```shell
       # Install version 3.8.0 of Venv 
       ../Python-3.8.0/python -m venv venv(Folder Name）
     ```
@@ -84,25 +82,25 @@ Require IoTDB to be in normal operation and have AINode module authorization in 
 
 - Method 2: Activate Script Activation
   - Obtain the required machine code for activation, enter the `sbin` directory of the installation directory, and execute the activation script：
-    ```Bash
+    ```shell
       cd sbin 
       ./start-activate.sh
       ```
   - The following information is displayed. Please copy the machine code (i.e. this string of characters) to the Tianmou staff and inform them to apply for independent authorization of AINode：
-      ```Bash
+      ```shell
       Please copy the system_info's content and send it to Timecho:
       Y17hFA0xRCE1TmkVxILuCIEPc7uJcr5bzlXWiptw8uZTmTX5aThfypQdLUIhMljw075hNRSicyvyJR9JM7QaNm1gcFZPHVRWVXIiY5IlZkXdxCVc1erXMsbCqUYsR2R2Mw4PSpFJsUF5jHWSoFIIjQ2bmJFW5P52KCccFMVeHTc=
       Please enter license:
       ```
   - Enter the activation code returned by the staff into the `Please enter license:` command prompt in the previous step, as shown below：
-      ```Bash
+      ```shell
       Please enter license:
       Jw+MmF+AtexsfgNGOFgTm83BgXbq0zT1+fOfPvQsLlj6ZsooHFU6HycUSEGC78eT1g67KPvkcLCUIsz2QpbyVmPLr9x1+kVjBubZPYlVpsGYLqLFc8kgpb5vIrPLd3hGLbJ5Ks8fV1WOVrDDVQq89YF2atQa2EaB9EAeTWd0bRMZ+s9ffjc/1Zmh9NSP/T3VCfJcJQyi7YpXWy5nMtcW0gSV+S6fS5r7a96PjbtE0zXNjnEhqgRzdU+mfO8gVuUNaIy9l375cp1GLpeCh6m6pF+APW1CiXLTSijK9Qh3nsL5bAOXNeob5l+HO5fEMgzrW8OJPh26Vl6ljKUpCvpTiw==
       License has been stored to sbin/../activation/license
       Import completed. Please start cluster and excute 'show cluster' to verify activation status
       ```
 - After updating the license, restart the DataNode node and enter the sbin directory of IoTDB to start the datanode：
-  ```Bash
+  ```shell
     cd sbin
     ./start-datanode.sh   -d   #The parameter'd 'will be started in the background 
     ```
@@ -127,18 +125,18 @@ AINode supports modifying some necessary parameters. You can find the following 
 
  After completing the deployment of Seed Config Node, the registration and inference functions of the model can be supported by adding AINode nodes. After specifying the information of the IoTDB cluster in the configuration item, the corresponding instruction can be executed to start AINode and join the IoTDB cluster。  
 
-### Networking environment startup
+#### Networking environment startup
 
-#### Start command
+##### Start command
 
-```Bash
+```shell
   # Linux / MacOS 
   bash sbin/start-ainode.sh  -i <directory>  -r  -n
 
   # Windows
   sbin\start-ainode.bat  -i <directory>  -r  -n
   ```
-#### Parameter introduction:
+##### Parameter introduction:
 
 | **Name**                | **Label** | **Describe**                                                         | **Is it mandatory** | **Type**   | **Default value**           | **Input method**               |
 | ------------------- | ---- | ------------------------------------------------------------ | -------- | ------ | ---------------- | ---------------------- |
@@ -149,23 +147,23 @@ AINode supports modifying some necessary parameters. You can find the following 
  If you don't want to specify the corresponding parameters every time you start, you can also persistently modify the parameters in the `ainode-env.sh` and `ainode-env.bat` scripts in the `conf` folder (currently supporting persistent modification of the ain_interpreter-dir parameter).
  
  `ainode-env.sh` : 
- ```Bash
+ ```shell
   # The defaulte venv environment is used if ain_interpreter_dir is not set. Please use absolute path without quotation mark
   # ain_interpreter_dir=
   ```
   `ainode-env.bat` : 
-```Bash
+```shell
   @REM The defaulte venv environment is used if ain_interpreter_dir is not set. Please use absolute path without quotation mark
   @REM set ain_interpreter_dir=
   ```
   After writing the parameter value, uncomment the corresponding line and save it to take effect on the next script execution.
 
 
-### Example  
+#### Example  
 
-#### Directly start:
+##### Directly start:
  
-```Bash
+```shell
   # Start command
   # Linux and MacOS systems
   bash sbin/start-ainode.sh
@@ -180,11 +178,11 @@ AINode supports modifying some necessary parameters. You can find the following 
   nohup bash sbin/start-ainode.bat  > myout.file 2>& 1 &
   ```
 
-#### Update Start:
+##### Update Start:
 If the version of AINode has been updated (such as updating the `lib` folder), this command can be used. Firstly, it is necessary to ensure that AINode has stopped running, and then restart it using the `-r` parameter, which will reinstall AINode based on the files under `lib`.
 
 
-```Bash
+```shell
   # Update startup command
   # Linux and MacOS systems
   bash sbin/start-ainode.sh -r
@@ -198,18 +196,18 @@ If the version of AINode has been updated (such as updating the `lib` folder), t
   # Windows systems
   nohup bash sbin/start-ainode.bat -r > myout.file 2>& 1 &
   ```
-### Non networked environment startup 
+#### Non networked environment startup 
 
-### Start command
+##### Start command
 
-```Bash
+```shell
   # Linux / MacOS 
   bash sbin/start-ainode.sh  -i <directory>  -r  -n
 
   # Windows
   sbin\start-ainode.bat  -i <directory>  -r  -n
   ```
-#### Parameter introduction:
+##### Parameter introduction:
 
 | **Name**                | **Label** | **Describe**                                                         | **Is it mandatory** | **Type**   | **Default value**           | **Input method**               |
 | ------------------- | ---- | ------------------------------------------------------------ | -------- | ------ | ---------------- | ---------------------- |
@@ -218,11 +216,11 @@ If the version of AINode has been updated (such as updating the `lib` folder), t
 
 > Attention: When installation fails in a non networked environment, first check if the installation package corresponding to the platform is selected, and then confirm that the Python version is 3.8 (due to the limitations of the downloaded installation package on Python versions, 3.7, 3.9, and others are not allowed)
 
-### Example  
+#### Example  
 
-#### Directly start:
+##### Directly start:
  
-```Bash
+```shell
   # Start command
   # Linux and MacOS systems
   bash sbin/start-ainode.sh
@@ -241,7 +239,7 @@ If the version of AINode has been updated (such as updating the `lib` folder), t
 During the startup process of AINode, the new AINode will be automatically added to the IoTDB cluster. After starting AINode, you can enter SQL in the command line to query. If you see an AINode node in the cluster and its running status is Running (as shown below), it indicates successful joining.
 
 
-```Bash
+```shell
 IoTDB> show cluster
 +------+----------+-------+---------------+------------+-------+-----------+
 |NodeID|  NodeType| Status|InternalAddress|InternalPort|Version|  BuildInfo|
@@ -256,9 +254,9 @@ IoTDB> show cluster
 
 If you need to stop a running AINode node, execute the corresponding shutdown script.
 
-### Stop command
+#### Stop command
 
-```Bash
+```shell
   # Linux / MacOS 
   bash sbin/stop-ainode.sh  -t<AINode-id>/<ip>:<rpc-port>
 
@@ -266,15 +264,15 @@ If you need to stop a running AINode node, execute the corresponding shutdown sc
   sbin\stop-ainode.bat  -t<AINode-id>/<ip>:<rpc-port>
   ```
 
-#### Parameter introduction:
+##### Parameter introduction:
  
 | **Name**                | **Label** | **Describe**                                                         | **Is it mandatory** | **Type**   | **Default value**           | **Input method**   |
 | ----------------- | ---- | ------------------------------------------------------------ | -------- | ------ | ------ | ---------- |
 | ain_remove_target | -t   | When closing AINode, you can specify the Node ID, address, and port number of the target AINode to be removed, in the format of `<AINode id>/<ip>:<rpc port>` | no       | String | nothing     | Input when calling |
 
-### Example
+#### Example
 
-```Bash
+```shell
   # Linux / MacOS 
   bash sbin/stop-ainode.sh
 
@@ -283,7 +281,7 @@ If you need to stop a running AINode node, execute the corresponding shutdown sc
   ```
 After stopping AINode, you can still see AINode nodes in the cluster, whose running status is UNKNOWN (as shown below), and the AINode function cannot be used at this time.
 
- ```Bash
+ ```shell
 IoTDB> show cluster
 +------+----------+-------+---------------+------------+-------+-----------+
 |NodeID|  NodeType| Status|InternalAddress|InternalPort|Version|  BuildInfo|
@@ -299,9 +297,9 @@ If you need to restart the node, you need to execute the startup script again.
 
 When it is necessary to remove an AINode node from the cluster, a removal script can be executed. The difference between removing and stopping scripts is that stopping retains the AINode node in the cluster but stops the AINode service, while removing removes the AINode node from the cluster.
 
- ### Remove command
+#### Remove command
 
-```Bash
+```shell
   # Linux / MacOS 
   bash sbin/stop-ainode.sh  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
 
@@ -309,7 +307,7 @@ When it is necessary to remove an AINode node from the cluster, a removal script
   sbin\stop-ainode.bat  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
   ```
 
-#### Parameter introduction:
+##### Parameter introduction:
  
  | **Name**                | **Label** | **Describe**                                                         | **Is it mandatory** | **Type**   | **Default value**           | **Input method**              |
 | ------------------- | ---- | ------------------------------------------------------------ | -------- | ------ | ---------------- | --------------------- |
@@ -321,22 +319,22 @@ When it is necessary to remove an AINode node from the cluster, a removal script
  If you don't want to specify the corresponding parameters every time you start, you can also persistently modify the parameters in the `ainode-env.sh` and `ainode-env.bat` scripts in the `conf` folder (currently supporting persistent modification of the ain_interpreter-dir parameter).
  
  `ainode-env.sh` : 
- ```Bash
+ ```shell
   # The defaulte venv environment is used if ain_interpreter_dir is not set. Please use absolute path without quotation mark
   # ain_interpreter_dir=
   ```
   `ainode-env.bat` : 
-```Bash
+```shell
   @REM The defaulte venv environment is used if ain_interpreter_dir is not set. Please use absolute path without quotation mark
   @REM set ain_interpreter_dir=
   ```
   After writing the parameter value, uncomment the corresponding line and save it to take effect on the next script execution.
 
-### Example  
+#### Example  
 
-#### Directly remove:
+##### Directly remove:
  
-  ```Bash
+  ```shell
   # Linux / MacOS 
   bash sbin/remove-ainode.sh
 
@@ -345,7 +343,7 @@ When it is necessary to remove an AINode node from the cluster, a removal script
   ```
  After removing the node, relevant information about the node cannot be queried.
 
- ```Bash
+ ```shell
 IoTDB> show cluster
 +------+----------+-------+---------------+------------+-------+-----------+
 |NodeID|  NodeType| Status|InternalAddress|InternalPort|Version|  BuildInfo|
@@ -354,11 +352,11 @@ IoTDB> show cluster
 |     1|  DataNode|Running|      127.0.0.1|       10730|UNKNOWN|190e303-dev|
 +------+----------+-------+---------------+------------+-------+-----------+
 ```
-#### Specify removal:
+##### Specify removal:
 
 If the user loses files in the data folder, AINode may not be able to actively remove them locally. The user needs to specify the node number, address, and port number for removal. In this case, we support users to input parameters according to the following methods for deletion.
 
-  ```Bash
+  ```shell
   # Linux / MacOS 
   bash sbin/remove-ainode.sh -t <AINode-id>/<ip>:<rpc-port>
 
@@ -374,12 +372,12 @@ If the user loses files in the data folder, AINode may not be able to actively r
 
  To install the Venv module locally, taking Ubuntu as an example, you can run the following command to install the built-in Venv module in Python. Or install a Python version with built-in Venv from the Python official website.
 
- ```Bash
+ ```shell
 apt-get install python3.8-venv 
 ```
 Install version 3.8.0 of venv into AINode in the AINode path.
 
- ```Bash
+ ```shell
 ../Python-3.8.0/python -m venv venv(Folder Name）
 ```
  When running the startup script, use ` -i ` to specify an existing Python interpreter path as the running environment for AINode, eliminating the need to create a new virtual environment.
@@ -391,7 +389,7 @@ You can install OpenSSLS and then rebuild Python to solve this problem
 
  Python requires OpenSSL to be installed on our system, the specific installation method can be found in [link](https://stackoverflow.com/questions/56552390/how-to-fix-ssl-module-in-python-is-not-available-in-centos)
 
- ```Bash
+ ```shell
 sudo apt-get install build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev uuid-dev lzma-dev liblzma-dev
 sudo -E ./configure --with-ssl
 make
@@ -404,7 +402,7 @@ sudo make install
 
 The corresponding error occurs during installation and compilation, usually due to insufficient C++version or Setup tools version. You can check it in
 
- ```Bash
+ ```shell
 ./python -m pip install --upgrade pip
 ./python -m pip install --upgrade setuptools
 ```
@@ -413,12 +411,12 @@ The corresponding error occurs during installation and compilation, usually due 
  ### 4.4 Install and compile Python
 
  Use the following instructions to download the installation package from the official website and extract it:
-  ```Bash
+  ```shell
 .wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tar.xz
 tar Jxf Python-3.8.0.tar.xz 
 ```
  Compile and install the corresponding Python package:
- ```Bash
+ ```shell
 cd Python-3.8.0
 ./configure prefix=/usr/local/python3
 make
