@@ -114,7 +114,7 @@ export const enSidebar = {
         { text: 'Benchmark', link: 'Benchmark' },
         { text: 'Maintenance Tool', link: 'Maintenance-Tool_timecho' },
         { text: 'Data Import Export Tool', link: 'Data-Import-Export-Tool' },
-        { text: 'TsFile Import Export Script', link: 'Import-Export-Tool' },
+        { text: 'TsFile Import Export Script', link: 'TsFile-Import-Export-Tool' },
       ],
     },
     {

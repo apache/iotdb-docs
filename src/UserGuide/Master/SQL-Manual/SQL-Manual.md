@@ -443,7 +443,7 @@ IoTDB > select * from root.sg1.d1
 
 ### Load External TsFile Tool
 
-For more details, see document [Import-Export-Tool](../Tools-System/Import-Export-Tool.md).
+For more details, see document [Import-Export-Tool](../Tools-System/TsFile-Import-Export-Tool.md).
 
 #### Load with SQL
 
