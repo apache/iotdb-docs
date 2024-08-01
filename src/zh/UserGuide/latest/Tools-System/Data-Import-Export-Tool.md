@@ -19,7 +19,7 @@
 
 -->
 
-# 数据导入导出工具
+# 数据导入导出脚本
 
 IoTDB 提供了数据导入导出脚本（tools/export-data、tools/import-data，V1.3.2 及之后版本支持；历史版本可使用tools/export-csv、tools/import-csv脚本，使用参考[导入导出工具](./TsFile-Import-Export-Tool.md)），用于实现 IoTDB 内部数据与外部文件的交互，适用于单个文件或目录文件批量操作。
 

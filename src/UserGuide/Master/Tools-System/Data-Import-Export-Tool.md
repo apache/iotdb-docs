@@ -19,7 +19,7 @@
 
 -->
 
-# Data Import Export Tool
+# Data Import Export Script
 
 IoTDB provides data import and export scripts (tools/export-data, tools/import-data, supported in versions 1.3.2 and above; for historical versions, tools/export-csv, tools/import-csv scripts can be used, see the reference link for usage [Import Export Tool](./TsFile-Import-Export-Tool.md) ), which are used to facilitate the interaction between IoTDB internal data and external files, suitable for batch operations of single files or directories.
 
