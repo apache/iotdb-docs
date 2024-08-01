@@ -74,7 +74,7 @@ export const enSidebar = {
         { text: 'Cluster Deployment', link: 'Cluster-Deployment_timecho' },
         { text: 'Dual Active Deployment', link: 'Dual-Active-Deployment_timecho' },
         { text: 'Docker Install', link: 'Docker-Install' },
-        { text: 'AINode Deployment', link: 'AINode_Deployment' },
+        { text: 'AINode_Deployment_timecho', link: 'AINode_Deployment_timecho' },
         { text: 'Monitoring Panel Deployment', link: 'Monitoring-panel-deployment' },
         { text: 'Workbench Deployment', link: 'workbench-deployment' },
       ],
