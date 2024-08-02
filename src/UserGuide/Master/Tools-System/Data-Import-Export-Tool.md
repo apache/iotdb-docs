@@ -21,7 +21,7 @@
 
 # Data Import Export Script
 
-IoTDB provides data import and export scripts (tools/export-data, tools/import-data, supported in versions 1.3.2 and above; for historical versions, tools/export-csv, tools/import-csv scripts can be used, see the reference link for usage [Import Export Tool](./TsFile-Import-Export-Tool.md) ), which are used to facilitate the interaction between IoTDB internal data and external files, suitable for batch operations of single files or directories.
+IoTDB provides data import and export scripts (tools/export-data, tools/import-data, supported in versions 1.3.2 and above; for historical versions, tools/export-csv, tools/import-csv scripts can be used, see the reference link for usage [Document](./TsFile-Import-Export-Tool.md) ), which are used to facilitate the interaction between IoTDB internal data and external files, suitable for batch operations of single files or directories.
 
 
 ## Supported Data Formats
@@ -29,9 +29,9 @@ IoTDB provides data import and export scripts (tools/export-data, tools/import-d
 - **CSV** : Plain text format for storing formatted data, which must be constructed according to the specified CSV format below.
 - **SQL** : Files containing custom SQL statements.
 
-# export-data Script (Data Export)
+## export-data Script (Data Export)
 
-## Command
+### Command
 
 ```Bash
 # Unix/OS X
@@ -69,10 +69,10 @@ SQL Statement Support Rules:
 | Raw data multi-device query (align by device)          | Supported            | select * from root.** align by device         |
 | Raw data multi-device query (without align by device)  | Unsupported          | select * from root.**<br/>select * from root.s_0.* |
 
-## Running Examples
+### Running Examples
 
 - Export all data within a certain SQL execution range to a CSV file.
-  ```Bash
+```Bash
   # Unix/OS X
   >tools/export-data.sh -t ./data/ -q 'select * from root.stock.**'
   # Windows
@@ -86,12 +86,12 @@ SQL Statement Support Rules:
   2024-07-29T18:37:19.701+08:00,0.3057328,3.0,0.9965377284981661,-5.0,false,0.15167356
   ```
 - All data within the scope of all SQL statements in the SQL file is exported to CSV files.
-    ```Bash
-    # Unix/OS X
-    >tools/export-data.sh -t ./data/ -s export.sql
-    # Windows
-    >tools/export-data.bat -t ./data/ -s export.sql
-    ```
+  ```Bash
+  # Unix/OS X
+  >tools/export-data.sh -t ./data/ -s export.sql
+  # Windows
+  >tools/export-data.bat -t ./data/ -s export.sql
+  ```
 
 - Contents of export.sql File (Pointed to by -s Parameter)
   ```SQL
@@ -113,12 +113,12 @@ SQL Statement Support Rules:
   2024-07-22T17:16:02.597+08:00,false
   ```
 - Export Data in SQL File to SQL Statements with Aligned Format
-    ```Bash
-    # Unix/OS X
-    >tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -p root -t ./data/ -s export.sql -type sql -aligned true
-    # Windows
-    >tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -p root -t ./data/ -s export.sql -type sql -aligned true
-    ```
+  ```Bash
+  # Unix/OS X
+  >tools/export-data.sh -h 127.0.0.1 -p 6667 -u root -p root -t ./data/ -s export.sql -type sql -aligned true
+  # Windows
+  >tools/export-data.bat -h 127.0.0.1 -p 6667 -u root -p root -t ./data/ -s export.sql -type sql -aligned true
+  ```
 
 - Export Results
   ```Bash
@@ -127,12 +127,12 @@ SQL Statement Support Rules:
   INSERT INTO root.stock.Legacy.0700HK(TIMESTAMP,L1_BidPrice,Type,L1_BidSize,Domain,L1_BuyNo,L1_AskPrice) ALIGNED VALUES (1722249631835,0.3981064,3.0,0.6254559288663467,-6.0,false,0.9767922);
   ```
 - Export Data in a Certain SQL Execution Range to a CSV File with Specified Time Format and Data Types
-    ```Bash
-    # Unix/OS X
-    >tools/export-data.sh -t ./data/ -tf 'yyyy-MM-dd HH:mm:ss' -datatype true -q "select * from root.stock.**" -type csv
-    # Windows
-    >tools/export-data.bat -t ./data/ -tf 'yyyy-MM-dd HH:mm:ss' -datatype true -q "select * from root.stock.**" -type csv
-    ```
+  ```Bash
+  # Unix/OS X
+  >tools/export-data.sh -t ./data/ -tf 'yyyy-MM-dd HH:mm:ss' -datatype true -q "select * from root.stock.**" -type csv
+  # Windows
+  >tools/export-data.bat -t ./data/ -tf 'yyyy-MM-dd HH:mm:ss' -datatype true -q "select * from root.stock.**" -type csv
+  ```
 
 - Export Results
   ```Bash
@@ -141,11 +141,11 @@ SQL Statement Support Rules:
   2024-07-30 10:33:56,0.6880933,3.0,0.6289119476165305,-5.0,false,0.114634395
   ```
 
-# import-data Script (Data Import)
+## import-data Script (Data Import)
 
-## Import File Examples
+### Import File Examples
 
-### CSV File Example
+#### CSV File Example
 
 Note that before importing CSV data, special characters need to be handled as follows:
 
@@ -189,7 +189,7 @@ Time,Device,str(TEXT),var(INT32)
 1970-01-01T08:00:00.002+08:00,root.test.t1,hello world,123
 ```
 
-### SQL File Example
+#### SQL File Example
 
 > For unsupported SQL, illegal SQL, or failed SQL executions, they will be placed in the failed directory under the failed file (default to filename.failed).
 
@@ -200,7 +200,7 @@ INSERT INTO root.stock.Legacy.0700HK(TIMESTAMP,L1_BidPrice,Type,L1_BidSize,Domai
 INSERT INTO root.stock.Legacy.0700HK(TIMESTAMP,L1_BidPrice,Type,L1_BidSize,Domain,L1_BuyNo,L1_AskPrice) VALUES (1721728581814,0.034122765,4.0,0.9313345284181858,-4.0,true,0.9945297);
 ```
 
-## Command
+### Command
 
 ```Bash
 # Unix/OS X
@@ -225,21 +225,21 @@ CREATE TIMESERIES root.fit.p.s1 WITH DATATYPE=INT32,ENCODING=RLE;
 
 Parameter Introduction:
 
-| Parameter                                                                    | Definition                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Required | Default                                          |
-|:-----------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|:-------------------------------------------------|
-| -h                                                                           | Database IP address	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | No       | 127.0.0.1                                        |
-| -p                                                                           | Database port                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | No       | 6667                                             |
-| -u                                                                           | Database connection username                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | No       | root                                             |
-| -pw                                                                          | Database connection password                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | No       | root                                             |
-| -s                                                                           | Specify the data you want to import, here you can specify a file or folder. If a folder is specified, all files with the suffix CSV or SQL in the folder will be imported in bulk.                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Yes      |                                                  |
-| -fd                                                                          | Specify the directory to store the failed SQL files. If this parameter is not specified, the failed files will be saved to the directory of the source data. <br/>Note: For unsupported SQL, illegal SQL, and failed SQL, they will be placed in the failed file in the failed directory (default file name is. failed)                                                                                                                                                                                                                                                                                                                         | No       | Add the suffix '. failed' to the source file name |
-| -aligned                                                                     | Specify whether to use the 'aligned' interface, with options of true or false. <br/>Note: This parameter only takes effect when the imported file is a CSV file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | No       | false                                            |
-| -batch                                                                       | Used to specify the number of points to be inserted for each batch of data (minimum value is 1, maximum value is Integer.MAX_VALUE). If the program reports' org.apache.hrift.transport ' If TTransportException: Frame size larger than protect max size is incorrect, you can adjust this parameter appropriately.                                                                                                                                                                                                                                                                                                                            | No       | `100000`                                         |
-| -tp                                                                          | Specify time precision, optional values include 'ms' (milliseconds),' ns' (nanoseconds), 'us' (microseconds)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | No       | `ms`                                             |
-| -lpf                                                                         | Specify the number of lines to write data to each failed import file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | No       | 10000                                            |
-| -typeInfer                                                                   | Used to specify type inference rules. For Example:<srcTsDataType1=dstTsDataType1,srcTsDataType2=dstTsDataType2,...>. <br/>Note: Used to specify type inference rules.`srcTsDataType` include `boolean`,`int`,`long`,`float`,`double`,`NaN`.`dstTsDataType` include `boolean`,`int`,`long`,`float`,`double`,`text`.when`srcTsDataType`is`boolean`, `dstTsDataType`can only be`boolean`or`text`.when`srcTsDataType`is`NaN`, `dstTsDataType`can only be`float`, `double`or`text`.when`srcTsDataType`is numeric, the precision of `dstTsDataType`needs to be higher than that of `srcTsDataType`.For example:`-typeInfer boolean=text,float=double` | No       |                 |
+| Parameter                                                                   | Definition                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Required | Default                                          |
+|:----------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------|:-------------------------------------------------|
+| -h                                                                          | Database IP address	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | No       | 127.0.0.1                                        |
+| -p                                                                          | Database port                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | No       | 6667                                             |
+| -u                                                                          | Database connection username                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | No       | root                                             |
+| -pw                                                                         | Database connection password                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | No       | root                                             |
+| -s                                                                          | Specify the data you want to import, here you can specify a file or folder. If a folder is specified, all files with the suffix CSV or SQL in the folder will be imported in bulk.                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Yes      |                                                  |
+| -fd                                                                         | Specify the directory to store the failed SQL files. If this parameter is not specified, the failed files will be saved to the directory of the source data. <br/>Note: For unsupported SQL, illegal SQL, and failed SQL, they will be placed in the failed file in the failed directory (default file name is. failed)                                                                                                                                                                                                                                                                                                                        | No       | Add the suffix '. failed' to the source file name |
+| -aligned                                                                    | Specify whether to use the 'aligned' interface, with options of true or false. This parameter only takes effect when the imported file is a CSV file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | No       | false                                            |
+| -batch                                                                      | Used to specify the number of points to be inserted for each batch of data (minimum value is 1, maximum value is Integer.MAX_VALUE). If the program reports' org.apache.hrift.transport ' If TTransportException: Frame size larger than protect max size is incorrect, you can adjust this parameter appropriately.                                                                                                                                                                                                                                                                                                                           | No       | `100000`                                         |
+| -tp                                                                         | Specify time precision, optional values include 'ms' (milliseconds),' ns' (nanoseconds), 'us' (microseconds)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | No       | `ms`                                             |
+| -lpf                                                                        | Specify the number of lines to write data to each failed import file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | No       | 10000                                            |
+| -typeInfer                                                                  | Used to specify type inference rules. For Example:<srcTsDataType1=dstTsDataType1,srcTsDataType2=dstTsDataType2,...>.<br/>Note: Used to specify type inference rules.`srcTsDataType` include `boolean`,`int`,`long`,`float`,`double`,`NaN`.`dstTsDataType` include `boolean`,`int`,`long`,`float`,`double`,`text`.when`srcTsDataType`is`boolean`, `dstTsDataType`can only be`boolean`or`text`.when`srcTsDataType`is`NaN`, `dstTsDataType`can only be`float`, `double`or`text`.when`srcTsDataType`is numeric, the precision of `dstTsDataType`needs to be higher than that of `srcTsDataType`.For example:`-typeInfer boolean=text,float=double` | No       |                 |
 
-## Running Examples
+### Running Examples
 
 - Import the `dump0_0.sql` data in the current data directory into the local IoTDB database.
 
