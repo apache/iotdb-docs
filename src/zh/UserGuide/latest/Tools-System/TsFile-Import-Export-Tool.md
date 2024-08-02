@@ -19,17 +19,17 @@
 
 -->
 
-# 导入导出工具
+# TsFile 导入导出脚本
 
 针对于不同场景，IoTDB 为用户提供多种批量导入数据的操作方式，本章节向大家介绍最为常用的两种方式为 CSV文本形式的导入 和 TsFile文件形式的导入。
 
-## TsFile导入导出工具
+## TsFile 导入导出脚本
 
 TsFile 是在 IoTDB 中使用的时间序列的文件格式，您可以通过CLI等工具直接将存有时间序列的一个或多个 TsFile 文件导入到另外一个正在运行的IoTDB实例中。
 ### 介绍
 加载外部 tsfile 文件工具允许用户向正在运行中的 Apache IoTDB 中加载 tsfile 文件。或者您也可以使用脚本的方式将tsfile加载进IoTDB。
 
-### 使用SQL加载
+### 使用 SQL 加载
 用户通过 Cli 工具或 JDBC 向 Apache IoTDB 系统发送指定命令实现文件加载的功能。
 
 #### 加载 tsfile 文件

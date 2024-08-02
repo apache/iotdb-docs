@@ -19,11 +19,11 @@
 
 -->
 
-# Import Export Tool
+# TsFile Import Export Script
 
 For different scenarios, IoTDB provides users with a variety of operation methods for batch importing data. This chapter introduces the two most commonly used methods for importing in the form of CSV text and importing in the form of TsFile files.
 
-## TsFile Load And Export Tool
+## TsFile Load And Export Script
 
 ### TsFile Load Tool
 
