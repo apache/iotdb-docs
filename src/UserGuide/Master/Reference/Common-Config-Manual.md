@@ -194,6 +194,8 @@ Different configuration parameters take effect in the following three ways:
 
 ### Cluster Management
 
+* cluster\_name
+
 |    Name     | cluster\_name                                                                                                                                                          |
 |:-----------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Description | The name of cluster                                                                                                                                                    |
