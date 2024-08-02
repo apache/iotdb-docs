@@ -30,13 +30,9 @@ IoTDB supports the following data types:
 * INT64 (Long Integer)
 * FLOAT (Single Precision Floating Point)
 * DOUBLE (Double Precision Floating Point)
-* TEXT (Long String)
-* STRING（String）
-* BLOB（Large binary Object）
-* TIMESTAMP（Timestamp）
-* DATE（Date）
+* TEXT (String)
 
-The difference between STRING and TEXT types is that STRING type has more statistical information and can be used to optimize value filtering queries, while TEXT type is suitable for storing long strings.
+
 
 ### Float Precision
 

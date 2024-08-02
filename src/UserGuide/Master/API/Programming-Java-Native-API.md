@@ -329,15 +329,18 @@ void insertTablets(Map<String, Tablet> tablet)
 
   The correspondence between the Object type and the TSDataType type is shown in the following table.
 
-  | TSDataType | Object         |
-  | ---------- | -------------- |
-  | BOOLEAN    | Boolean        |
-  | INT32      | Integer        |
-  | INT64      | Long           |
-  | FLOAT      | Float          |
-  | DOUBLE     | Double         |
+  | TSDataType | Object       |
+  |------------|--------------|
+  | BOOLEAN    | Boolean      |
+  | INT32      | Integer      |
+  | DATE       | LocalDate    |
+  | INT64      | Long         |
+  | TIMESTAMP  | Long         |
+  | FLOAT      | Float        |
+  | DOUBLE     | Double       |
   | TEXT       | String, Binary |
-
+  | STRING     | String, Binary |
+  | BLOB       | Binary |
 ``` java
 void insertRecord(String deviceId, long time, List<String> measurements,
    List<TSDataType> types, List<Object> values)

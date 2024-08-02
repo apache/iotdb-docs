@@ -305,18 +305,14 @@ void insertTablets(Map<String, Tablet> tablets)
 
   其中，Object 类型与 TSDataType 类型的对应关系如下表所示：
 
-  | TSDataType | Object       |
-  |------------|--------------|
-  | BOOLEAN    | Boolean      |
-  | INT32      | Integer      |
-  | DATE       | LocalDate    |
-  | INT64      | Long         |
-  | TIMESTAMP  | Long         |
-  | FLOAT      | Float        |
-  | DOUBLE     | Double       |
+  | TSDataType | Object         |
+  | ---------- | -------------- |
+  | BOOLEAN    | Boolean        |
+  | INT32      | Integer        |
+  | INT64      | Long           |
+  | FLOAT      | Float          |
+  | DOUBLE     | Double         |
   | TEXT       | String, Binary |
-  | STRING     | String, Binary |
-  | BLOB       | Binary |
 
 ``` java
 void insertRecord(String prefixPath, long time, List<String> measurements,
