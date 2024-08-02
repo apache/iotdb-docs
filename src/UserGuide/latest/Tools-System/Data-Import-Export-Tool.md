@@ -21,7 +21,7 @@
 
 # Data Import Export Script
 
-IoTDB provides data import and export scripts (tools/export-data, tools/import-data, supported in versions 1.3.2 and above; for historical versions, tools/export-csv, tools/import-csv scripts can be used, see the reference link for usage [Import Export Tool](./TsFile-Import-Export-Tool.md) ), which are used to facilitate the interaction between IoTDB internal data and external files, suitable for batch operations of single files or directories.
+IoTDB provides data import and export scripts (tools/export-data, tools/import-data, supported in versions 1.3.2 and above; for historical versions, tools/export-csv, tools/import-csv scripts can be used, see the reference link for usage [Document](./TsFile-Import-Export-Tool.md) ), which are used to facilitate the interaction between IoTDB internal data and external files, suitable for batch operations of single files or directories.
 
 
 ## Supported Data Formats
@@ -29,9 +29,9 @@ IoTDB provides data import and export scripts (tools/export-data, tools/import-d
 - **CSV** : Plain text format for storing formatted data, which must be constructed according to the specified CSV format below.
 - **SQL** : Files containing custom SQL statements.
 
-# export-data Script (Data Export)
+## export-data Script (Data Export)
 
-## Command
+### Command
 
 ```Bash
 # Unix/OS X
@@ -69,7 +69,7 @@ SQL Statement Support Rules:
 | Raw data multi-device query (align by device)          | Supported            | select * from root.** align by device         |
 | Raw data multi-device query (without align by device)  | Unsupported          | select * from root.**<br/>select * from root.s_0.* |
 
-## Running Examples
+### Running Examples
 
 - Export all data within a certain SQL execution range to a CSV file.
 ```Bash
@@ -141,11 +141,11 @@ SQL Statement Support Rules:
   2024-07-30 10:33:56,0.6880933,3.0,0.6289119476165305,-5.0,false,0.114634395
   ```
 
-# import-data Script (Data Import)
+## import-data Script (Data Import)
 
-## Import File Examples
+### Import File Examples
 
-### CSV File Example
+#### CSV File Example
 
 Note that before importing CSV data, special characters need to be handled as follows:
 
@@ -189,7 +189,7 @@ Time,Device,str(TEXT),var(INT32)
 1970-01-01T08:00:00.002+08:00,root.test.t1,hello world,123
 ```
 
-### SQL File Example
+#### SQL File Example
 
 > For unsupported SQL, illegal SQL, or failed SQL executions, they will be placed in the failed directory under the failed file (default to filename.failed).
 
@@ -200,7 +200,7 @@ INSERT INTO root.stock.Legacy.0700HK(TIMESTAMP,L1_BidPrice,Type,L1_BidSize,Domai
 INSERT INTO root.stock.Legacy.0700HK(TIMESTAMP,L1_BidPrice,Type,L1_BidSize,Domain,L1_BuyNo,L1_AskPrice) VALUES (1721728581814,0.034122765,4.0,0.9313345284181858,-4.0,true,0.9945297);
 ```
 
-## Command
+### Command
 
 ```Bash
 # Unix/OS X
@@ -239,7 +239,7 @@ Parameter Introduction:
 | -lpf                                                                        | Specify the number of lines to write data to each failed import file                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | No       | 10000                                            |
 | -typeInfer                                                                  | Used to specify type inference rules. For Example:<srcTsDataType1=dstTsDataType1,srcTsDataType2=dstTsDataType2,...>.<br/>Note: Used to specify type inference rules.`srcTsDataType` include `boolean`,`int`,`long`,`float`,`double`,`NaN`.`dstTsDataType` include `boolean`,`int`,`long`,`float`,`double`,`text`.when`srcTsDataType`is`boolean`, `dstTsDataType`can only be`boolean`or`text`.when`srcTsDataType`is`NaN`, `dstTsDataType`can only be`float`, `double`or`text`.when`srcTsDataType`is numeric, the precision of `dstTsDataType`needs to be higher than that of `srcTsDataType`.For example:`-typeInfer boolean=text,float=double` | No       |                 |
 
-## Running Examples
+### Running Examples
 
 - Import the `dump0_0.sql` data in the current data directory into the local IoTDB database.
 

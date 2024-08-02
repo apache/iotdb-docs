@@ -21,16 +21,16 @@
 
 # 数据导入导出脚本
 
-IoTDB 提供了数据导入导出脚本（tools/export-data、tools/import-data，V1.3.2 及之后版本支持；历史版本可使用 tools/export-csv、tools/import-csv 脚本，使用参考[导入导出工具](./TsFile-Import-Export-Tool.md)），用于实现 IoTDB 内部数据与外部文件的交互，适用于单个文件或目录文件批量操作。
+IoTDB 提供了数据导入导出脚本（tools/export-data、tools/import-data，V1.3.2 及之后版本支持；历史版本可使用 tools/export-csv、tools/import-csv 脚本，使用参考[文档](./TsFile-Import-Export-Tool.md)），用于实现 IoTDB 内部数据与外部文件的交互，适用于单个文件或目录文件批量操作。
 
 ## 支持的数据格式
 
 - **CSV**：纯文本格式，存储格式化数据，需按照下文指定 CSV 格式进行构造
 - **SQL**：包含自定义 SQL 语句的文件
 
-# export-data 脚本（数据导出）
+## export-data 脚本（数据导出）
 
-## 运行命令
+### 运行命令
 
 ```Bash
 # Unix/OS X
@@ -68,7 +68,7 @@ IoTDB 提供了数据导入导出脚本（tools/export-data、tools/import-data�
 | 原始数据多设备查询（aligin by device）   | 支持     | select * from root.** align by device         |
 | 原始数据多设备查询（无 aligin by device） | 不支持   | select * from root.**<br/>select * from root.s_0.* |
 
-## 运行示例
+### 运行示例
 
 - 导出某 SQL 执行范围下的所有数据至 CSV 文件。
     ```Bash
@@ -140,11 +140,11 @@ IoTDB 提供了数据导入导出脚本（tools/export-data、tools/import-data�
   2024-07-30 10:33:56,0.6880933,3.0,0.6289119476165305,-5.0,false,0.114634395
   ```
 
-# import-data 脚本（数据导入）
+## import-data 脚本（数据导入）
 
-## 导入文件示例
+### 导入文件示例
 
-### CSV 文件示例
+#### CSV 文件示例
 
 注意，在导入 CSV 数据前，需要特殊处理下列的字符：
 
@@ -189,7 +189,7 @@ Time,Device,str(TEXT),var(INT32)
 1970-01-01T08:00:00.002+08:00,root.test.t1,hello world,123
 ```
 
-### SQL 文件示例
+#### SQL 文件示例
 
 > 对于不支持的 SQL ，不合法的 SQL ，执行失败的 SQL 都会放到失败目录下的失败文件里（默认为 文件名.failed）
 
@@ -200,7 +200,7 @@ INSERT INTO root.stock.Legacy.0700HK(TIMESTAMP,L1_BidPrice,Type,L1_BidSize,Domai
 INSERT INTO root.stock.Legacy.0700HK(TIMESTAMP,L1_BidPrice,Type,L1_BidSize,Domain,L1_BuyNo,L1_AskPrice) VALUES (1721728581814,0.034122765,4.0,0.9313345284181858,-4.0,true,0.9945297);
 ```
 
-## 运行命令
+### 运行命令
 
 ```Bash
 # Unix/OS X
@@ -239,7 +239,7 @@ CREATE TIMESERIES root.fit.p.s1 WITH DATATYPE=INT32,ENCODING=RLE;
 | -lpf         | 指定每个导入失败文件写入数据的行数                                                                                                                                                                                                                                                                                                                                                                                                                                                            | 否       | 10000                     |
 | -typeInfer   | 用于指定类型推断规则，如<srcTsDataType1=dstTsDataType1,srcTsDataType2=dstTsDataType2,...>。<br/>说明：用于指定类型推断规则.`srcTsDataType` 包括 `boolean`,`int`,`long`,`float`,`double`,`NaN`.`dstTsDataType` 包括 `boolean`,`int`,`long`,`float`,`double`,`text`.当`srcTsDataType`为`boolean`, `dstTsDataType`只能为`boolean`或`text`.当`srcTsDataType`为`NaN`, `dstTsDataType`只能为`float`, `double`或`text`.当`srcTsDataType`为数值类型, `dstTsDataType`的精度需要高于`srcTsDataType`.例如:`-typeInfer boolean=text,float=double` | 否       |                           |
 
-## 运行示例
+### 运行示例
 
 - 导入当前`data`目录下的`dump0_0.sql`数据到本机 IoTDB 数据库中。
 
