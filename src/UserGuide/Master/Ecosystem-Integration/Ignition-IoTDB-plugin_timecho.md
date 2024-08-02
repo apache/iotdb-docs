@@ -18,17 +18,18 @@
     under the License.
 
 -->
+
 # Ignition-IoTDB Connector
 
 ## 1、Product Overview
 
 1. Introduction to Ignition
 
-Ignition is a web-based monitoring and data acquisition tool (SCADA) - an open and scalable universal platform. Ignition allows you to more easily control, track, display, and analyze all data of your enterprise, enhancing business capabilities. For more introduction details, please refer to [Ignition官网](https://docs.inductiveautomation.com/docs/8.1/getting-started/introducing-ignition)
+    Ignition is a web-based monitoring and data acquisition tool (SCADA) - an open and scalable universal platform. Ignition allows you to more easily control, track, display, and analyze all data of your enterprise, enhancing business capabilities. For more introduction details, please refer to [Ignition Official Website](https://docs.inductiveautomation.com/docs/8.1/getting-started/introducing-ignition)
 
 2. Introduction to the Ignition-IoTDB Connector
 
-    The ignition-IoTDB Connector is divided into two modules: the ignition-IoTDB Connector,Ignition-IoTDB With JDBC。 Among them:
+   The ignition-IoTDB Connector is divided into two modules: the ignition-IoTDB Connector,Ignition-IoTDB With JDBC。 Among them:
 
    - Ignition-IoTDB Connector: Provides the ability to store data collected by Ignition into IoTDB, and also supports data reading in Components. It injects script interfaces such as `system. iotdb. insert`and`system. iotdb. query`to facilitate programming in Ignition
    - Ignition-IoTDB With JDBC: Ignition-IoTDB With JDBC can be used in the`Transaction Groups`module and is not applicable to the`Tag Historian`module. It can be used for custom writing and querying.
@@ -44,7 +45,7 @@ Ignition is a web-based monitoring and data acquisition tool (SCADA) - an open a
 | IoTDB                           | Version 1.3.1 and above are required to be installed, please refer to IoTDB for installation [Deployment Guidance](https://www.timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_timecho.html) |
 | Ignition                        | Requirement: 8.1 version (8.1.37 and above) of version 8.1 must be installed. Please refer to the Ignition official website for installation [Installation Guidance](https://docs.inductiveautomation.com/docs/8.1/getting-started/installing-and-upgrading)（Other versions are compatible, please contact the business department for more information） |
 | Ignition-IoTDB Connector module | Please contact Business to obtain                            |
-| Ignition-IoTDB With JDBC module        | Download address：https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/ |
+| Ignition-IoTDB With JDBC module | Download address：https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/ |
 
 ## 3、Instruction Manual For Ignition-IoTDB Connector
 
@@ -153,6 +154,7 @@ The configuration content is as follows:
 </table>
 
 
+
 ### 3、Instructions
 
 #### Configure Historical Data Storage
@@ -219,14 +221,15 @@ The configuration content is as follows:
   - `str sql`：SQL statement to be queried
 
 - Return Value：
-Query Results：`List<Map<String, Object>>`
+  Query Results：`List<Map<String, Object>>`
 
 - Available Range：Client, Designer, Gateway
+
 - Usage example：
 
-```Python
-system.iotdb.query("IoTDB", "select * from root.db.Sine where time > 1709563427247")
-```
+  ```Python
+  system.iotdb.query("IoTDB", "select * from root.db.Sine where time > 1709563427247")
+  ```
 
 ## 4、Ignition-IoTDB With JDBC
 
