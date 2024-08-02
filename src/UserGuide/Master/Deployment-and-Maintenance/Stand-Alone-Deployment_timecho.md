@@ -164,6 +164,5 @@ When you see the display "Activated" on the far right, it indicates successful a
 
 ![](https://alioss.timecho.com/docs/img/show%20cluster.png)
 
-The appearance of `ACTIVATED (W)` indicates passive activation, indicating that this Config Node does not have a license file (or has not issued the latest license file with a timestamp).
 
-Suggestion for `ACTIVATED (W)`: If there is no license file, it is recommended to put it in the license file. If there is a license file, it may be invalid due to inconsistency between the license file and other node information. Please contact the staff.
+> The appearance of 'Activated (W)' indicates passive activation, indicating that this Config Node does not have a license file (or has not issued the latest license file with a timestamp). At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Tianmu staff to reapply.
