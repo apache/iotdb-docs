@@ -80,14 +80,18 @@ RLBE编码是一种无损编码，将差分编码，位填充编码，游程长�
 
 前文介绍的五种编码适用于不同的数据类型，若对应关系错误，则无法正确创建时间序列。数据类型与支持其编码的编码方式对应关系总结如下表所示。
 
-| 数据类型 |                         支持的编码                          |
-| :------: | :---------------------------------------------------------: |
-| BOOLEAN  |                         PLAIN, RLE                          |
-|  INT32   | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
-|  INT64   | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
-|  FLOAT   |     PLAIN, RLE, TS_2DIFF, GORILLA, CHIMP, SPRINTZ, RLBE     |
-|  DOUBLE  |     PLAIN, RLE, TS_2DIFF, GORILLA, CHIMP, SPRINTZ, RLBE     |
-|   TEXT   |                      PLAIN, DICTIONARY                      |
+|   数据类型    |                         支持的编码                          |
+|:---------:| :---------------------------------------------------------: |
+|  BOOLEAN  |                         PLAIN, RLE                          |
+|   INT32   | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
+|   DATE    | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
+|   INT64   | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
+| TIMESTAMP | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
+|   FLOAT   |     PLAIN, RLE, TS_2DIFF, GORILLA, CHIMP, SPRINTZ, RLBE     |
+|  DOUBLE   |     PLAIN, RLE, TS_2DIFF, GORILLA, CHIMP, SPRINTZ, RLBE     |
+|   TEXT    |                      PLAIN, DICTIONARY                      |
+|  STRING   |                      PLAIN, DICTIONARY                      |
+|   BLOB    |                      PLAIN, DICTIONARY                      |
 
 当用户输入的数据类型与编码方式不对应时，系统会提示错误。如下所示，二阶差分编码不支持布尔类型：
 

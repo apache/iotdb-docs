@@ -81,12 +81,16 @@ The correspondence between the data type and its supported encodings is summariz
 
 | Data Type |                     Supported Encoding                      |
 |:---------:|:-----------------------------------------------------------:|
-| BOOLEAN   |                         PLAIN, RLE                          |
-| INT32     | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
-| INT64     | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
-| FLOAT     |     PLAIN, RLE, TS_2DIFF, GORILLA, CHIMP, SPRINTZ, RLBE     |
-| DOUBLE    |     PLAIN, RLE, TS_2DIFF, GORILLA, CHIMP, SPRINTZ, RLBE     |
-| TEXT      |                      PLAIN, DICTIONARY                      |
+|  BOOLEAN  |                         PLAIN, RLE                          |
+|   INT32   | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
+|   DATE    | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
+|   INT64   | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
+|   LONG    | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
+|   FLOAT   |     PLAIN, RLE, TS_2DIFF, GORILLA, CHIMP, SPRINTZ, RLBE     |
+|  DOUBLE   |     PLAIN, RLE, TS_2DIFF, GORILLA, CHIMP, SPRINTZ, RLBE     |
+|   TEXT    |                      PLAIN, DICTIONARY                      |
+|  STRING   |                      PLAIN, DICTIONARY                      |
+|   BLOB    |                      PLAIN, DICTIONARY                      |
 
 When the data type specified by the user does not correspond to the encoding method, the system will prompt an error. 
 
