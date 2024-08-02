@@ -27,7 +27,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * `iotdb-system.properties`：IoTDB 集群的公共配置。
 
-### 修改与生效方式
+### 改后生效方式
 
 不同的配置参数有不同的生效方式，分为以下三种：
 

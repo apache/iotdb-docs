@@ -194,6 +194,14 @@ Different configuration parameters take effect in the following three ways:
 
 ### Cluster Management
 
+|    Name     | cluster\_name                                                                                                                                                          |
+|:-----------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description | The name of cluster                                                                                                                                                    |
+|    Type     | String                                                                                                                                                                 |
+|   Default   | default_cluster                                                                                                                                                        |
+|  Effective  | Execute SQL in CLI: ```set configuration "cluster_name"="xxx"``` (xxx is the new cluster name)                                                                         |
+|  Attention  | This change is distributed to each node through the network. In the event of network fluctuations or node downtime, it is not guaranteed that the modification will be successful on all nodes. Nodes that fail to modify will not be able to join the cluster upon restart. At this time, it is necessary to manually modify the cluster_name item in the configuration file of the node, and then restart. Under normal circumstances, it is not recommended to change the cluster name by manually modifying the configuration file, nor is it recommended to hot load through the load configuration method. |
+
 * time\_partition\_interval
 
 |    Name     | time\_partition\_interval                                     |
