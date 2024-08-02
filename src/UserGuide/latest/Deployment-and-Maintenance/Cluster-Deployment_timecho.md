@@ -192,3 +192,6 @@ When you see the display of `Activated` on the far right, it indicates successfu
 
 ![](https://alioss.timecho.com/docs/img/%E4%BC%81%E4%B8%9A%E7%89%88%E6%BF%80%E6%B4%BB.png)
 
+The appearance of `ACTIVATED (W)` indicates passive activation, which means that this Configurable Node does not have a license file (or has not issued the latest license file with a timestamp), and its activation depends on other Activated Configurable Nodes in the cluster.
+
+Suggestion for `ACTIVATED (W)`: If there is no license file, it is recommended to put it in the license file. If there is a license file, it may be invalid due to inconsistency between the license file and other node information. Please contact the staff.

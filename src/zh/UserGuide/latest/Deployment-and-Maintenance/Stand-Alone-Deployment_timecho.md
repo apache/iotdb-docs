@@ -163,3 +163,7 @@ cd sbin
 当看到最右侧显示ACTIVATED表示激活成功
 
 ![](https://alioss.timecho.com/docs/img/show%20cluster.png)
+
+出现`ACTIVATED(W)`为被动激活，表示此ConfigNode没有license文件（或没有签发时间戳最新的license文件）。
+
+看到`ACTIVATED(W)`建议：没有license文件对建议放入license文件，有license文件可能是license文件与其他节点信息不一致导致失效，请联系工作人员。

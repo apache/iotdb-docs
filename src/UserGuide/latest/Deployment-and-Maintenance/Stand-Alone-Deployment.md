@@ -119,3 +119,7 @@ Can be executed directly/ Cli startup script in sbin directory:
 After successful startup, the following interface will appear displaying successful installation of IOTDB.
 
 ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90%E7%89%88%E5%90%AF%E5%8A%A8%E6%88%90%E5%8A%9F.png)
+
+The appearance of `ACTIVATED (W)` indicates passive activation, indicating that this Config Node does not have a license file (or has not issued the latest license file with a timestamp).
+
+Suggestion for `ACTIVATED (W)`: If there is no license file, it is recommended to put it in the license file. If there is a license file, it may be invalid due to inconsistency between the license file and other node information. Please contact the staff.
