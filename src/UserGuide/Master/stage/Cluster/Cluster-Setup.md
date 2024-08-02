@@ -422,9 +422,7 @@ Run the remove-confignode script on an active ConfigNode:
 
 #### 6.5.2 Remove DataNode
 
-Remove a DataNode from the cluster through the DataNode id. 
-The prerequisite for removing a DataNode is that after the removal, the cluster still has no fewer than the number of (data/schema) replicas of DataNode.
-
+Before removing a DataNode, ensure that the cluster has at least the number of data/schema replicas DataNodes.
 Run the remove-datanode script on an active DataNode:
 
 ```
@@ -432,9 +430,16 @@ Run the remove-datanode script on an active DataNode:
 # Remove the DataNode with datanode_id
 ./sbin/remove-datanode.sh <datanode_id>
 
+# Remove the DataNode with rpc address:port
+./sbin/remove-datanode.sh <dn_rpc_address>:<dn_rpc_port>
+
+
 # Windows
 # Remove the DataNode with datanode_id
 .\sbin\remove-datanode.bat <datanode_id>
+
+# Remove the DataNode with rpc address:port
+.\sbin\remove-datanode.bat <dn_rpc_address>:<dn_rpc_port>
 ```
 
 ## 7. FAQ

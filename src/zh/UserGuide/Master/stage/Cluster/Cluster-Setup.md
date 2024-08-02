@@ -411,8 +411,7 @@ kill -9 <pid>
 
 #### 6.5.2 移除 DataNode
 
-通过 DataNode id 从集群中移除 DataNode。移除 DataNode 的前提条件是，DataNode 移除后集群还有不少于（数据/元数据）副本个数的 DataNode。
-
+在移除 DataNode 前，请确保移除后集群至少还有不少于（数据/元数据）副本个数的 DataNode。
 在活跃的 DataNode 上执行 remove-datanode 脚本：
 
 ```
@@ -420,9 +419,16 @@ kill -9 <pid>
 ## 根据 datanode_id 移除节点
 ./sbin/remove-datanode.sh <datanode_id>
 
+## 根据 DataNode RPC 服务地址和端口移除节点
+./sbin/remove-datanode.sh <dn_rpc_address>:<dn_rpc_port>
+
+
 # Windows
 ## 根据 datanode_id 移除节点
 .\sbin\remove-datanode.bat <datanode_id>
+
+## 根据 DataNode RPC 服务地址和端口移除节点
+.\sbin\remove-datanode.bat <dn_rpc_address>:<dn_rpc_port>
 ```
 
 ## 7. 常见问题
