@@ -2229,8 +2229,7 @@ It costs 0.342s
 SQL 语句：
 
 ```sql
-select status,temperature from root.ln.wf01.wt01 where time > 2024-07-07T00:05:00.000 and time< 2024-07-12T00:12:00
-.000 limit 5 offset 3
+select status,temperature from root.ln.wf01.wt01 where time > 2024-07-07T00:05:00.000 and time< 2024-07-12T00:12:00.000 limit 5 offset 3
 ```
 
 含义：
