@@ -383,7 +383,7 @@ void executeNonQueryStatement(const std::string &sql);
 The sample code of using these interfaces is in:
 
 - `example/client-cpp-example/src/SessionExample.cpp`
-- `example/client-cpp-example/src/AlignedTimeseriesSessionExample.cpp` （使用对齐时间序列）
+- `example/client-cpp-example/src/AlignedTimeseriesSessionExample.cpp` (Aligned Timeseries)
 
 If the compilation finishes successfully, the example project will be placed under `example/client-cpp-example/target`
 
