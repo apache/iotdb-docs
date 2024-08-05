@@ -2071,12 +2071,13 @@ It costs 0.342s
 The SQL statement is:
 
 ```sql
-select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time< 2017-11-01T00:12:00.000 limit 2 offset 3
+select status,temperature from root.ln.wf01.wt01 where time > 2024-07-07T00:05:00.000 and time< 2024-07-12T00:12:00
+.000 limit 5 offset 3
 ```
 
 which means:
 
-The selected device is ln group wf01 plant wt01 device; the selected timeseries is "status" and "temperature". The SQL statement requires rows 3 to 4 of  the status and temperature sensor values between the time point of "2017-11-01T00:05:00.000" and "2017-11-01T00:12:00.000" (with the first row numbered as row 0).
+The selected device is ln group wf01 plant wt01 device; the selected timeseries is "status" and "temperature". The SQL statement requires rows 3 to 4 of  the status and temperature sensor values between the time point of "2024-07-07T00:05:00.000" and "2024-07-12T00:12:00.000" (with the first row numbered as row 0).
 
 The result is shown below:
 
@@ -2084,14 +2085,14 @@ The result is shown below:
 +-----------------------------+------------------------+-----------------------------+
 |                         Time|root.ln.wf01.wt01.status|root.ln.wf01.wt01.temperature|
 +-----------------------------+------------------------+-----------------------------+
-|2017-11-01T00:03:00.000+08:00|                   false|                        20.18|
-|2017-11-01T00:04:00.000+08:00|                   false|                        21.13|
-|2017-11-01T00:05:00.000+08:00|                   false|                        22.72|
-|2017-11-01T00:06:00.000+08:00|                   false|                        20.71|
-|2017-11-01T00:07:00.000+08:00|                   false|                        21.45|
+|2024-07-09T17:32:11.943+08:00|                    true|                    24.941973|
+|2024-07-09T17:32:12.944+08:00|                    true|                     20.05108|
+|2024-07-09T17:32:13.945+08:00|                    true|                    20.541632|
+|2024-07-09T17:32:14.945+08:00|                    null|                     23.09016|
+|2024-07-09T17:32:14.946+08:00|                    true|                         null|
 +-----------------------------+------------------------+-----------------------------+
 Total line number = 5
-It costs 0.000s
+It costs 0.070s
 ```
 
 * Example 4: LIMIT clause combined with GROUP BY clause
