@@ -20,7 +20,7 @@
 -->
 # Database Resources
 ## CPU
-<table>
+<table style="text-align: center;">
       <tr>
             <th rowspan="2">Number of second level sequences</th>
             <th rowspan="2">CPU</th>        
@@ -80,7 +80,7 @@
 </table>
 
 ## Memory 
-<table>
+<table style="text-align: center;">
       <tr>
             <th rowspan="2">Number of second level sequences</th>
             <th rowspan="2">Memory</th>        
@@ -142,7 +142,7 @@
 ## Storage (Disk)
 ### Storage space
 Calculation formula: Number of measurement points * Sampling frequency (Hz) * Size of each data point (Byte, different data types may vary, see table below) * Storage time (seconds) * Number of copies (usually 1 copy for a single node and 2 copies for a cluster) ÷ Compression ratio (can be estimated at 5-10 times, but may be higher in actual situations)
-<table>
+<table style="text-align: center;">
       <tr>
             <th colspan="4">Data point size calculation</th>
       </tr>
