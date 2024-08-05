@@ -141,6 +141,12 @@ If the compilation finishes successfully, the packaged zip file will be placed u
 
 ### Compile Q&A
 
+Q: What are the requirements for the environment on Linux?
+
+A：
+- Recommend `glibc-2.33` or above version. In some scenarios, it is known that `glibc-2.31` cannot be compiled successfully. Please refer to [document]（ https://www.gnu.org/software/gnulib/manual/html_node/_005f_005flibc_005fsingle_005fthreaded.html ）.
+- Recommend `gcc 10` or above.
+
 Q：How to deal with compile error`undefined reference to '_libc_sinle_thread'`?
 
 A：
