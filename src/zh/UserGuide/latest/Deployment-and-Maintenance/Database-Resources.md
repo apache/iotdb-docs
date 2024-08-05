@@ -20,7 +20,7 @@
 -->
 # 资源规划
 ## CPU
-<table>
+<table style="text-align: center;">
       <tr>
             <th rowspan="2">秒级序列数</th>
             <th rowspan="2">CPU</th>        
@@ -80,7 +80,7 @@
 </table>
 
 ## 内存
-<table>
+<table style="text-align: center;">
       <tr>
             <th rowspan="2">秒级序列数</th>
             <th rowspan="2">内存</th>        
@@ -135,14 +135,14 @@
       </tr>
       <tr>
             <td>1000w以上</td>
-            <td colspan="4">请联系天谋商务咨询</td>
+            <th colspan="4">请联系天谋商务咨询</th>
       </tr>
 </table>
 
 ## 存储(磁盘)
 ### 存储空间
 计算公式：测点数量 * 采样频率（Hz）* 每个数据点大小（Byte，不同数据类型不一样，见下表）
-<table>
+<table style="text-align: center;">
       <tr>
             <th colspan="4"> 数据点大小计算表 </th>        
       </tr>
