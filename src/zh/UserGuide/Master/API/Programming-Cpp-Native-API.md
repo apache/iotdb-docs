@@ -71,7 +71,7 @@
     使用以下命令安装所有依赖：
 
     ```shell
-    sudo apt-get install gcc-9 g++-9 libstdc++-9-dev bison flex libboost-all-dev libssl-dev zlib1g-dev
+    sudo apt-get install gcc-10 g++-10 libstdc++-10-dev bison flex libboost-all-dev libssl-dev zlib1g-dev
     ```
 
 

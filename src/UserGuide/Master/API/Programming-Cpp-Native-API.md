@@ -77,7 +77,7 @@
   To install all dependencies, run:
 
     ```shell
-    sudo apt-get install gcc-9 g++-9 libstdc++-9-dev bison flex libboost-all-dev libssl-dev zlib1g-dev
+    sudo apt-get install gcc-10 g++-10 libstdc++-10-dev bison flex libboost-all-dev libssl-dev zlib1g-dev
     ```
 
 
@@ -700,7 +700,7 @@ void executeNonQueryStatement(const std::string &sql);
 The sample code of using these interfaces is in:
 
 - `example/client-cpp-example/src/SessionExample.cpp`
-- `example/client-cpp-example/src/AlignedTimeseriesSessionExample.cpp` （使用对齐时间序列）
+- `example/client-cpp-example/src/AlignedTimeseriesSessionExample.cpp` (Aligned Timeseries)
 
 If the compilation finishes successfully, the example project will be placed under `example/client-cpp-example/target`
 
