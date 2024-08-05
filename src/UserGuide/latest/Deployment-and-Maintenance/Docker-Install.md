@@ -18,170 +18,401 @@
     under the License.
 
 -->
+# Docker Deployment
 
-# Installation by Docker
+## Environmental Preparation
 
-Apache IoTDB' Docker image is released on [https://hub.docker.com/r/apache/iotdb](https://hub.docker.com/r/apache/iotdb)
-Add environments of docker to update the configurations of Apache IoTDB.
+### 1.Docker Installation
 
-## Have a try
-
-```shell
-# get IoTDB official image
-docker pull apache/iotdb:1.3.0-standalone
-# create docker bridge network
-docker network create --driver=bridge --subnet=172.18.0.0/16 --gateway=172.18.0.1 iotdb
-# create docker container
-docker run -d --name iotdb-service \
-              --hostname iotdb-service \
-              --network iotdb \
-              --ip 172.18.0.6 \
-              -p 6667:6667 \
-              -e cn_internal_address=iotdb-service \
-              -e cn_seed_config_node=iotdb-service:10710 \
-              -e cn_internal_port=10710 \
-              -e cn_consensus_port=10720 \
-              -e dn_rpc_address=iotdb-service \
-              -e dn_internal_address=iotdb-service \
-              -e dn_seed_config_node=iotdb-service:10710 \
-              -e dn_mpp_data_exchange_port=10740 \
-              -e dn_schema_region_consensus_port=10750 \
-              -e dn_data_region_consensus_port=10760 \
-              -e dn_rpc_port=6667 \
-              apache/iotdb:1.3.0-standalone              
-# execute SQL
-docker exec -ti iotdb-service /iotdb/sbin/start-cli.sh -h iotdb-service
+```SQL
+#Taking Ubuntu as an example, other operating systems can search for installation methods themselves
+#step1: Install some necessary system tools
+sudo apt-get update
+sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common
+#step2: Install GPG certificate
+curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
+#step3: Write software source information
+sudo add-apt-repository "deb [arch=amd64] https://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable"
+#step4: Update and install Docker CE
+sudo apt-get -y update
+sudo apt-get -y install docker-ce
+#step5: Set Docker to start automatically upon startup
+sudo systemctl enable docker
+#step6： Verify if Docker installation is successful
+docker --version  #Display version information, indicating successful installation
 ```
 
-External access：
+### 2. Docker-compose Installation
 
-```shell
-# <IP Address/hostname> is the real IP or domain address rather than the one in docker network, could be 127.0.0.1 within the computer.
-$IOTDB_HOME/sbin/start-cli.sh -h <IP Address/hostname> -p 6667
+```SQL
+#Installation command
+curl -L "https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+ln -s  /usr/local/bin/docker-compose  /usr/bin/docker-compose
+#Verify if the installation was successful
+docker-compose --version  #Displaying version information indicates successful installation
 ```
 
-Notice：The confignode service would fail when restarting this container if the IP Adress of the container has been changed.
+## Stand-Alone Deployment
 
-```yaml
-# docker-compose-standalone.yml
+This section demonstrates how to deploy a standalone Docker version of 1C1D.
+
+### 1. Pull Image File
+
+The Docker image of Apache IoTDB has been uploaded tohttps://hub.docker.com/r/apache/iotdb。
+
+Taking obtaining version 1.3.2 as an example, pull the image command:
+
+```bash
+docker pull apache/iotdb:1.3.2-standalone
+```
+
+View image:
+
+```bash
+docker images
+```
+
+![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F.PNG)
+
+### 2. Create Docker Bridge Network
+
+```Bash
+docker network create --driver=bridge --subnet=172.18.0.0/16 --gateway=172.18.0.1  iotdb
+```
+
+### 3. Write The Yml File For Docker-Compose
+
+Here we take the example of consolidating the IoTDB installation directory and yml files in the/docker iotdb folder:
+
+The file directory structure is:`/docker-iotdb/iotdb`, `/docker-iotdb/docker-compose-standalone.yml `
+
+```bash
+docker-iotdb：
+├── iotdb  #Iotdb installation directory
+│── docker-compose-standalone.yml #YML file for standalone Docker Composer
+```
+
+The complete docker-compose-standalone.yml content is as follows:
+
+```bash
 version: "3"
 services:
   iotdb-service:
-    image: apache/iotdb:1.3.0-standalone
-    hostname: iotdb-service
-    container_name: iotdb-service
+    image: apache/iotdb:1.3.2-standalone #The image used
+    hostname: iotdb
+    container_name: iotdb
+    restart: always       
     ports:
       - "6667:6667"
     environment:
-      - cn_internal_address=iotdb-service
+      - cn_internal_address=iotdb
       - cn_internal_port=10710
       - cn_consensus_port=10720
-      - cn_seed_config_node=iotdb-service:10710
-      - dn_rpc_address=iotdb-service
-      - dn_internal_address=iotdb-service
+      - cn_seed_config_node=iotdb:10710
+      - dn_rpc_address=iotdb
+      - dn_internal_address=iotdb
       - dn_rpc_port=6667
+      - dn_internal_port=10730
       - dn_mpp_data_exchange_port=10740
       - dn_schema_region_consensus_port=10750
       - dn_data_region_consensus_port=10760
-      - dn_seed_config_node=iotdb-service:10710
+      - dn_seed_config_node=iotdb:10710
+    privileged: true
     volumes:
-        - ./data:/iotdb/data
-        - ./logs:/iotdb/logs
+        - ./iotdb/data:/iotdb/data
+        - ./iotdb/logs:/iotdb/logs
+        - /dev/mem:/dev/mem:ro
     networks:
       iotdb:
         ipv4_address: 172.18.0.6
-
 networks:
   iotdb:
     external: true
 ```
 
-If you'd like to limit the memory of IoTDB, follow these steps:
-1. Add another configuration of volumes: `./iotdb-conf:/iotdb/conf` and then start the IoTDB docker container. Thus, there are some configuration files in directory of iotdb-conf.
-2. Change the memory configurations in confignode-env.sh and datanode-env.sh of iotdb-conf, and then restart the IoTDB docker container again.
+### 4. Start IoTDB
 
-## deploy cluster
+Use the following command to start:
 
-Until now, we support host and overlay networks but haven't supported bridge networks on multiple computers.
-Overlay networks see [1C2D](https://github.com/apache/iotdb/tree/master/docker/src/main/DockerCompose/docker-compose-cluster-1c2d.yml) and here are the configurations and operation steps to start an IoTDB cluster with docker using host networks。
+```bash
+cd　/docker-iotdb
+docker-compose -f docker-compose-standalone.yml up  -d  #Background startup
+```
 
-Suppose that there are three computers of iotdb-1, iotdb-2 and iotdb-3. We called them nodes.
-Here is the docker-compose file of iotdb-2, as the sample:
+### 5. Validate Deployment
 
-```yaml
+- Viewing the log, the following words indicate successful startup
+
+```SQL
+docker logs -f iotdb-datanode #View log command
+2024-07-21 08:22:38,457 [main] INFO  o.a.i.db.service.DataNode:227 - Congratulations, IoTDB DataNode is set up successfully. Now, enjoy yourself!
+```
+
+![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B2.png)
+
+- Enter the container to view the service running status and activation information 
+
+View the launched container
+
+```SQL
+docker ps
+```
+
+![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B22.png)
+
+Enter the container, log in to the database through CLI, and use the `show cluster` command to view the service status and activation status
+
+```SQL
+docker exec -it iotdb   /bin/bash        #Entering the container
+./start-cli.sh -h iotdb                  #Log in to the database
+IoTDB> show cluster                      #View status
+```
+
+You can see that all services are running and the activation status shows as activated.
+
+![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B23.png)
+
+### 6.  Map/conf Directory (optional)
+
+If you want to directly modify the configuration file in the physical machine in the future, you can map the/conf folder in the container in three steps:
+
+Step 1: Copy the /conf directory from the container to `/docker-iotdb/iotdb/conf`
+
+```bash
+docker cp iotdb:/iotdb/conf /docker-iotdb/iotdb/conf
+```
+
+Step 2: Add mappings in docker-compose-standalone.yml
+
+```bash
+    volumes:
+        - ./iotdb/conf:/iotdb/conf   #Add mapping for this/conf folder
+        - ./iotdb/data:/iotdb/data
+        - ./iotdb/logs:/iotdb/logs
+        - /dev/mem:/dev/mem:ro
+```
+
+Step 3: Restart IoTDB
+
+```bash
+docker-compose  -f docker-compose-standalone.yml  up  -d
+```
+
+## Cluster Deployment
+
+This section describes how to manually deploy an instance that includes 3 Config Nodes and 3 Data Nodes, commonly known as a 3C3D cluster.
+
+<div align="center">
+    <img src="https://alioss.timecho.com/docs/img/20240705141552.png" alt="" style="width: 60%;"/>
+</div>
+
+**Note: The cluster version currently only supports host and overlay networks, and does not support bridge networks.**
+
+Taking the host network as an example, we will demonstrate how to deploy a 3C3D cluster.
+
+### 1.Set Host Name
+
+Assuming there are currently three Linux servers, the IP addresses and service role assignments are as follows:
+
+| Node IP     | Host Name | Service              |
+| ----------- | --------- | -------------------- |
+| 192.168.1.3 | iotdb-1   | ConfigNode、DataNode |
+| 192.168.1.4 | iotdb-2   | ConfigNode、DataNode |
+| 192.168.1.5 | iotdb-3   | ConfigNode、DataNode |
+
+Configure the host names on three machines separately. To set the host names, configure `/etc/hosts` on the target server using the following command:
+
+```Bash
+echo "192.168.1.3  iotdb-1"  >> /etc/hosts
+echo "192.168.1.4  iotdb-2"  >> /etc/hosts
+echo "192.168.1.5  iotdb-3"  >> /etc/hosts 
+```
+
+### 2. Pull Image File
+
+The Docker image of Apache IoTDB has been uploaded tohttps://hub.docker.com/r/apache/iotdb。
+
+Pull IoTDB images from three servers separately, taking version 1.3.2 as an example. The pull image command is:
+
+```SQL
+docker pull apache/iotdb:1.3.2-standalone
+```
+
+View image:
+
+```SQL
+docker images
+```
+
+![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%881.png)
+
+### 3.Write The Yml File For Docker Compose
+
+Here we take the example of consolidating the IoTDB installation directory and yml files in the `/docker-iotdb` folder:
+
+The file directory structure is :`/docker-iotdb/iotdb`,  `/docker-iotdb/confignode.yml`，`/docker-iotdb/datanode.yml`
+
+```SQL
+docker-iotdb：
+├── confignode.yml #Yml file of confignode
+├── datanode.yml   #Yml file of datanode
+└── iotdb          #IoTDB installation directory
+```
+
+On each server, two yml files need to be written, namely confignnode. yml and datanode. yml. The example of yml is as follows:
+
+**confignode.yml：**
+
+```bash
+#confignode.yml
 version: "3"
 services:
   iotdb-confignode:
-    image: apache/iotdb:1.3.0-confignode
+    image: iotdb-enterprise:1.3.2.3-standalone #The image used
+    hostname: iotdb-1|iotdb-2|iotdb-3 #Choose from three options based on the actual situation
     container_name: iotdb-confignode
+    command: ["bash", "-c", "entrypoint.sh confignode"]
+    restart: always
     environment:
-      - cn_internal_address=iotdb-2
-      - cn_seed_config_node=iotdb-1:10710
+      - cn_internal_address=iotdb-1|iotdb-2|iotdb-3 #Choose from three options based on the actual situation
       - cn_internal_port=10710
       - cn_consensus_port=10720
-      - schema_replication_factor=3
-      - schema_region_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus
-      - config_node_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus
-      - data_replication_factor=3
-      - data_region_consensus_protocol_class=org.apache.iotdb.consensus.iot.IoTConsensus
+      - cn_seed_config_node=iotdb-1:10710   #The default first node is the seed node
+      - schema_replication_factor=3         #Number of metadata copies
+      - data_replication_factor=2           #Number of data replicas
+    privileged: true
     volumes:
-      - /etc/hosts:/etc/hosts:ro
-      - ./data/confignode:/iotdb/data
-      - ./logs/confignode:/iotdb/logs
-    network_mode: "host"
+      - ./iotdb/activation:/iotdb/activation
+      - ./iotdb/data:/iotdb/data
+      - ./iotdb/logs:/iotdb/logs
+      - /usr/sbin/dmidecode:/usr/sbin/dmidecode:ro
+      - /dev/mem:/dev/mem:ro
+    network_mode: "host"    #Using the host network
+```
 
+**datanode.yml：**
+
+```bash
+#datanode.yml
+version: "3"
+services:
   iotdb-datanode:
-    image: apache/iotdb:1.3.0-datanode
+    image: iotdb-enterprise:1.3.2.3-standalone #The image used
+    hostname: iotdb-1|iotdb-2|iotdb-3 #Choose from three options based on the actual situation
     container_name: iotdb-datanode
+    command: ["bash", "-c", "entrypoint.sh datanode"]
+    restart: always
+    ports:
+      - "6667:6667"
+    privileged: true
     environment:
-      - dn_rpc_address=iotdb-2
-      - dn_internal_address=iotdb-2
-      - dn_seed_config_node=iotdb-1:10710
-      - data_replication_factor=3
+      - dn_rpc_address=iotdb-1|iotdb-2|iotdb-3 #Choose from three options based on the actual situation
+      - dn_internal_address=iotdb-1|iotdb-2|iotdb-3 #Choose from three options based on the actual situation
+      - dn_seed_config_node=iotdb-1:10710      #The default first node is the seed node
       - dn_rpc_port=6667
+      - dn_internal_port=10730
       - dn_mpp_data_exchange_port=10740
       - dn_schema_region_consensus_port=10750
       - dn_data_region_consensus_port=10760
-      - data_region_consensus_protocol_class=org.apache.iotdb.consensus.iot.IoTConsensus
-       - schema_replication_factor=3
-      - schema_region_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus
-      - config_node_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus
+      - schema_replication_factor=3         #Number of metadata copies
+      - data_replication_factor=2           #Number of data replicas
     volumes:
-      - /etc/hosts:/etc/hosts:ro
-      - ./data/datanode:/iotdb/data/
-      - ./logs/datanode:/iotdb/logs/
-    network_mode: "host"
+      - ./iotdb/activation:/iotdb/activation
+      - ./iotdb/data:/iotdb/data
+      - ./iotdb/logs:/iotdb/logs
+      - /usr/sbin/dmidecode:/usr/sbin/dmidecode:ro
+      - /dev/mem:/dev/mem:ro
+    network_mode: "host"   #Using the host network
 ```
 
-Notice：
+### 4. Starting Confignode For The First Time
 
-1. The `cn_seed_config_node` and `dn_seed_config_node` of three nodes must the same and they are the first starting node of `iotdb-1` with the `cn_internal_port` of 10710。
-2. In this docker-compose file，`iotdb-2` should be replace with the real IP or hostname of each node to generate docker compose files in the other nodes.
-3. The services would talk with each other, so they need map the /etc/hosts file or add the `extra_hosts` to the docker compose file.
-4. We must start the IoTDB services of `iotdb-1` first at the first time of starting.
-5. Stop and remove all the IoTDB services and clean up the `data` and `logs` directories of the 3 nodes，then start the cluster again.
+First, start configNodes on each of the three servers to obtain the machine code. Pay attention to the startup order, start the first iotdb-1 first, then start iotdb-2 and iotdb-3.
 
+```bash
+cd　/docker-iotdb
+docker-compose -f confignode.yml up  -d #Background startup
+```
 
-## Configuration
-All configuration files are in the directory of `conf`. 
-The elements of environment in docker-compose file is the configurations of IoTDB.
-If you'd changed the configurations files in conf, please map the directory of `conf` in docker-compose file.
+### 5. Start Datanode
 
+Start datanodes on 3 servers separately
 
-### log level
-The conf directory contains log configuration files, namely logback-confignode.xml and logback-datanode.xml.
+```SQL
+cd /docker-iotdb
+docker-compose  -f  datanode.yml  up -d #Background startup
+```
 
+![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%882.png)
 
-### memory set
-The conf directory contains memory configuration files, namely confignode-env.sh and datanode-env.sh. JVM heap size uses ON_HEAP_MEMORY and JVM direct memroy uses OFF_HEAP_MEMORY. e.g. `ON_HEAP_MEMORY=8G, OFF_HEAP_MEMORY=2G`
+### 6. Validate Deployment
 
-## upgrade IoTDB
-1. Downloads the newer IoTDB docker image from docker hub
-2. Update the image of docker-compose file
-3. Stop the IoTDB docker containers with the commands of docker stop and docker rm.
-4. Start IoTDB with `docker-compose -f docker-compose-standalone.yml up -d`
+- Viewing the logs, the following words indicate that the datanode has successfully started
 
-## boot automatically
-1. Add `restart: always` to every service of IoTDB in docker-compose file
-2. Set docker service to boot automatically
-e.g. in CentOS: `systemctl enable docker`
+    ```SQL
+    docker logs -f iotdb-datanode #View log command
+    2024-07-21 09:40:58,120 [main] INFO  o.a.i.db.service.DataNode:227 - Congratulations, IoTDB DataNode is set up successfully. Now, enjoy yourself!
+    ```
+
+    ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%883.png)
+
+- Enter any container to view the service running status and activation information
+
+    View the launched container
+
+    ```SQL
+    docker ps
+    ```
+
+    ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%884.png)
+
+    Enter the container, log in to the database through CLI, and use the `show cluster` command to view the service status and activation status
+
+    ```SQL
+    docker exec -it iotdb-datanode /bin/bash #Entering the container
+    ./start-cli.sh -h iotdb-1                #Log in to the database
+    IoTDB> show cluster                      #View status
+    ```
+
+    You can see that all services are running and the activation status shows as activated.
+
+    ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%885.png)
+
+### 7. Map/conf Directory (optional)
+
+If you want to directly modify the configuration file in the physical machine in the future, you can map the/conf folder in the container in three steps:
+
+Step 1: Copy the `/conf` directory from the container to `/docker-iotdb/iotdb/conf` on each of the three servers
+
+```bash
+docker cp iotdb-confignode:/iotdb/conf /docker-iotdb/iotdb/conf
+or
+docker cp iotdb-datanode:/iotdb/conf   /docker-iotdb/iotdb/conf 
+```
+
+Step 2: Add `/conf` directory mapping in `confignode.yml` and `datanode. yml` on 3 servers
+
+```bash
+#confignode.yml
+    volumes:
+      - ./iotdb/conf:/iotdb/conf  #Add mapping for this /conf folder
+      - ./iotdb/data:/iotdb/data
+      - ./iotdb/logs:/iotdb/logs
+      - /dev/mem:/dev/mem:ro
+
+#datanode.yml
+    volumes:
+      - ./iotdb/conf:/iotdb/conf   #Add mapping for this /conf folder
+      - ./iotdb/data:/iotdb/data
+      - ./iotdb/logs:/iotdb/logs
+      - /dev/mem:/dev/mem:ro
+```
+
+Step 3: Restart IoTDB on 3 servers
+
+```bash
+cd /docker-iotdb
+docker-compose  -f confignode.yml  up  -d
+docker-compose  -f datanode.yml    up  -d
+```
