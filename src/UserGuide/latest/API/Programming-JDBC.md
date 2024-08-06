@@ -23,7 +23,7 @@
 
 *NOTICE: CURRENTLY, JDBC IS USED FOR CONNECTING SOME THIRD-PART TOOLS. 
 IT CAN NOT PROVIDE HIGH THROUGHPUT FOR WRITE OPERATIONS. 
-PLEASE USE [JAVA NATIVE API](https://iotdb.apache.org/zh/UserGuide/latest/API/Programming-Java-Native-API.html) INSTEAD*
+PLEASE USE [Java Native API](./Programming-Java-Native-API.md) INSTEAD*
 
 ## Dependencies
 
