@@ -75,7 +75,7 @@
       </tr>
       <tr>
             <td>1000w以上</td>
-            <th colspan="4">请联系天谋商务咨询</th>
+            <td colspan="4">请联系天谋商务咨询</td>
       </tr>
 </table>
 
@@ -135,7 +135,7 @@
       </tr>
       <tr>
             <td>1000w以上</td>
-            <th colspan="4">请联系天谋商务咨询</th>
+            <td colspan="4">请联系天谋商务咨询</td>
       </tr>
 </table>
 
