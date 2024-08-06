@@ -139,6 +139,7 @@ Q：Linux 上的环境有哪些要求呢？
 A：
 - 推荐 `glibc-2.33` 或以上版本，部分场景下已知 `glibc-2.31` 无法编译成功，参考[文档](https://www.gnu.org/software/gnulib/manual/html_node/_005f_005flibc_005fsingle_005fthreaded.html)。
 - 推荐 `gcc 10` 以上版本。
+- 也可以修改`pom.xml`文件中的`<iotdb-tools-thrift.version>`，将其更改为`0.14.1.1-old-glibc-SNAPSHOT`，这是一个使用旧版本`glibc`编译的`thrift`。
 
 Q：编译报错`undefined reference to '_libc_sinle_thread'`如何处理？
 
