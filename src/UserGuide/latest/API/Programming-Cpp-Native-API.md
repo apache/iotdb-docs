@@ -146,7 +146,7 @@ Q: What are the requirements for the environment on Linux?
 A：
 - Recommend `glibc-2.33` or above version. In some scenarios, it is known that `glibc-2.31` cannot be compiled successfully. Please refer to [document]（ https://www.gnu.org/software/gnulib/manual/html_node/_005f_005flibc_005fsingle_005fthreaded.html ）.
 - Recommend `gcc 10` or above.
-- You can also modify the`<iotdb-tools-thrift.version>`in the `pom.xml` file to `0.14.1.1-old-glibc-SNAPSHOT`, which is a thrift compiled using the old version ` glibc`.
+- You can also modify the`<iotdb-tools-thrift.version>`in the `pom.xml` file to `0.14.1.1-old-glibc-SNAPSHOT`, which is a thrift compiled using the old version `glibc`.
 
 Q：How to deal with compile error`undefined reference to '_libc_sinle_thread'`?
 
