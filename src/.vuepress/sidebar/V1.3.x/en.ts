@@ -89,6 +89,7 @@ export const enSidebar = {
         { text: 'Operator and Expression', link: 'Operator-and-Expression' },
         { text: 'Streaming', link: 'Streaming' },
         { text: 'Data Sync', link: 'Data-Sync' },
+        { text: 'Data Subscription', link: 'Data-Subscription' },
         { text: 'Database Programming', link: 'Database-Programming' },
         { text: 'Authority Management', link: 'Authority-Management' },
         { text: 'Maintennance', link: 'Maintennance' },
