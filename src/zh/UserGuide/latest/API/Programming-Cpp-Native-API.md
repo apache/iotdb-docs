@@ -71,7 +71,7 @@
     使用以下命令安装所有依赖：
 
     ```shell
-    sudo apt-get install gcc-9 g++-9 libstdc++-9-dev bison flex libboost-all-dev libssl-dev zlib1g-dev
+    sudo apt-get install gcc-10 g++-10 libstdc++-10-dev bison flex libboost-all-dev libssl-dev zlib1g-dev
     ```
 
 
@@ -133,6 +133,13 @@ git checkout rel/0.13
 编译成功后，打包好的 zip 文件位于 `client-cpp/target/client-cpp-1.3.0-SNAPSHOT-cpp-${os}.zip`
 
 ### 编译 Q&A
+
+Q：Linux 上的环境有哪些要求呢？
+
+A：
+- 推荐 `glibc-2.33` 或以上版本，部分场景下已知 `glibc-2.31` 无法编译成功，参考[文档](https://www.gnu.org/software/gnulib/manual/html_node/_005f_005flibc_005fsingle_005fthreaded.html)。
+- 推荐 `gcc 10` 以上版本。
+- 也可以修改`pom.xml`文件中的`<iotdb-tools-thrift.version>`，将其更改为`0.14.1.1-old-glibc-SNAPSHOT`，这是一个使用旧版本`glibc`编译的`thrift`。
 
 Q：编译报错`undefined reference to '_libc_sinle_thread'`如何处理？
 
@@ -440,7 +447,7 @@ A：
     </profiles>
 </project>
 ```
-- 再次执行 mvn clean package -P with-cpp -pl iotdb-client/client-cpp -am -DskipTests，成功build
+- 再次执行 `mvn clean package -P with-cpp -pl iotdb-client/client-cpp -am -DskipTests`，成功build
 
 
 ## 基本接口说明

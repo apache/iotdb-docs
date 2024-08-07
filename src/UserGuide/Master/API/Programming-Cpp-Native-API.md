@@ -77,7 +77,7 @@
   To install all dependencies, run:
 
     ```shell
-    sudo apt-get install gcc-9 g++-9 libstdc++-9-dev bison flex libboost-all-dev libssl-dev zlib1g-dev
+    sudo apt-get install gcc-10 g++-10 libstdc++-10-dev bison flex libboost-all-dev libssl-dev zlib1g-dev
     ```
 
 
@@ -140,6 +140,13 @@ Under the root path of iotdb:
 If the compilation finishes successfully, the packaged zip file will be placed under `client-cpp/target/client-cpp-1.3.0-SNAPSHOT-cpp-${os}.zip`
 
 ### Compile Q&A
+
+Q: What are the requirements for the environment on Linux?
+
+A：
+- Recommend `glibc-2.33` or above version. In some scenarios, it is known that `glibc-2.31` cannot be compiled successfully. Please refer to [document]（ https://www.gnu.org/software/gnulib/manual/html_node/_005f_005flibc_005fsingle_005fthreaded.html ）.
+- Recommend `gcc 10` or above.
+- You can also modify the`<iotdb-tools-thrift.version>`in the `pom.xml` file to `0.14.1.1-old-glibc-SNAPSHOT`, which is a thrift compiled using the old version `glibc`.
 
 Q：How to deal with compile error`undefined reference to '_libc_sinle_thread'`?
 
@@ -694,7 +701,7 @@ void executeNonQueryStatement(const std::string &sql);
 The sample code of using these interfaces is in:
 
 - `example/client-cpp-example/src/SessionExample.cpp`
-- `example/client-cpp-example/src/AlignedTimeseriesSessionExample.cpp` （使用对齐时间序列）
+- `example/client-cpp-example/src/AlignedTimeseriesSessionExample.cpp` (Aligned Timeseries)
 
 If the compilation finishes successfully, the example project will be placed under `example/client-cpp-example/target`
 
