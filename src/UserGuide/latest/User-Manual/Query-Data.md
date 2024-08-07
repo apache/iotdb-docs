@@ -2077,7 +2077,8 @@ select status,temperature from root.ln.wf01.wt01 where time > 2024-07-07T00:05:0
 
 which means:
 
-The selected device is ln group wf01 plant wt01 device; the selected timeseries is "status" and "temperature". The SQL statement requires rows 3 to 4 of  the status and temperature sensor values between the time point of "2024-07-07T00:05:00.000" and "2024-07-12T00:12:00.000" (with the first row numbered as row 0).
+The selected equipment is the ln group wf01 factory wt01 equipment; The selected time series are "state" and "temperature". The SQL statement requires the return of the status and temperature sensor values between the time "2024-07-07T00:05:00.000" and "2024-07-12T00:12:00.0000" on lines 3 to 7 (the first line is numbered as line 0).
+
 
 The result is shown below:
 
