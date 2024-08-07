@@ -72,7 +72,7 @@ export const enSidebar = {
         { text: 'Environment Requirements', link: 'Environment-Requirements' },
         { text: 'Stand-Alone Deployment', link: 'Stand-Alone-Deployment' },
         { text: 'Cluster Deployment', link: 'Cluster-Deployment' },
-        { text: 'Docker Deployment', link: 'Docker-Install' },
+        { text: 'Docker Deployment', link: 'Docker-Deployment' },
       ],
     },
 

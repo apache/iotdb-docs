@@ -72,7 +72,7 @@ export const zhSidebar = {
         { text: '环境要求', link: 'Environment-Requirements' },
         { text: '单机版部署', link: 'Stand-Alone-Deployment' },
         { text: '集群版部署', link: 'Cluster-Deployment' },
-        { text: 'Docker部署', link: 'Docker-Install' },
+        { text: 'Docker部署', link: 'Docker-Deployment' },
       ],
     },
 
