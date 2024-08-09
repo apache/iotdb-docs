@@ -194,3 +194,140 @@ cd sbin
 
 > 出现`ACTIVATED(W)`为被动激活，表示此ConfigNode没有license文件（或没有签发时间戳最新的license文件），其激活依赖于集群中其它Activate状态的ConfigNode。此时建议检查license文件是否已放入license文件夹，没有请放入license文件，若已存在license文件，可能是此节点license文件与其他节点信息不一致导致，请联系天谋工作人员重新申请.
 
+## 节点维护步骤
+
+### ConfigNode节点维护
+
+ConfigNode节点维护分为ConfigNode添加和移除两种操作，有两个常见使用场景：
+- 集群扩展：如集群中只有1个ConfigNode时，希望增加ConfigNode以提升ConfigNode节点高可用性，则可以添加2个ConfigNode，使得集群中有3个ConfigNode。
+- 集群故障恢复：1个ConfigNode所在机器发生故障，使得该ConfigNode无法正常运行，此时可以移除该ConfigNode，然后添加一个新的ConfigNode进入集群。
+
+> ❗️注意，在完成ConfigNode节点维护后，需要保证集群中有1或者3个正常运行的ConfigNode。2个ConfigNode不具备高可用性，超过3个ConfigNode会导致性能损失。
+
+#### 添加ConfigNode节点
+
+脚本命令：
+```shell
+# Linux / MacOS
+# 首先切换到IoTDB根目录
+sbin/start-confignode.sh
+
+# Windows
+# 首先切换到IoTDB根目录
+sbin/start-confignode.bat
+```
+
+参数介绍：
+
+| 参数 | 描述                                           | 是否为必填项 |
+| :--- | :--------------------------------------------- | :----------- |
+| -v   | 显示版本信息                                   | 否           |
+| -f   | 在前台运行脚本，不将其放到后台                 | 否           |
+| -d   | 以守护进程模式启动，即在后台运行               | 否           |
+| -p   | 指定一个文件来存放进程ID，用于进程管理         | 否           |
+| -c   | 指定配置文件夹的路径，脚本会从这里加载配置文件 | 否           |
+| -g   | 打印垃圾回收（GC）的详细信息                   | 否           |
+| -H   | 指定Java堆转储文件的路径，当JVM内存溢出时使用  | 否           |
+| -E   | 指定JVM错误日志文件的路径                      | 否           |
+| -D   | 定义系统属性，格式为 key=value                 | 否           |
+| -X   | 直接传递 -XX 参数给 JVM                        | 否           |
+| -h   | 帮助指令                                       | 否           |
+
+#### 移除ConfigNode节点
+
+首先通过CLI连接集群，通过`show confignodes`确认想要移除ConfigNode的内部地址与端口号：
+
+```Bash
+IoTDB> show confignodes
++------+-------+---------------+------------+--------+
+|NodeID| Status|InternalAddress|InternalPort|    Role|
++------+-------+---------------+------------+--------+
+|     0|Running|      127.0.0.1|       10710|  Leader|
+|     1|Running|      127.0.0.1|       10711|Follower|
+|     2|Running|      127.0.0.1|       10712|Follower|
++------+-------+---------------+------------+--------+
+Total line number = 3
+It costs 0.030s
+```
+
+然后使用脚本将DataNode移除。脚本命令：
+
+```Bash
+# Linux / MacOS 
+sbin/remove-confignode.sh [confignode_id]
+或
+./sbin/remove-confignode.sh [cn_internal_address:cn_internal_port]
+
+#Windows
+sbin/remove-confignode.bat [confignode_id]
+或
+./sbin/remove-confignode.bat [cn_internal_address:cn_internal_port]
+```
+
+### DataNode节点维护
+
+DataNode节点维护有两个常见场景：
+
+- 集群扩容：出于集群能力扩容等目的，添加新的DataNode进入集群
+- 集群故障恢复：一个DataNode所在机器出现故障，使得该DataNode无法正常运行，此时可以移除该DataNode，并添加新的DataNode进入集群
+
+> ❗️注意，为了使集群能正常工作，在DataNode节点维护过程中以及维护完成后，正常运行的DataNode总数不得少于数据副本数（通常为2），也不得少于元数据副本数（通常为3）。
+
+#### 添加DataNode节点
+
+脚本命令：
+
+```Bash
+# Linux / MacOS 
+# 首先切换到IoTDB根目录
+sbin/start-datanode.sh
+
+# Windows
+# 首先切换到IoTDB根目录
+sbin/start-datanode.bat
+```
+
+参数介绍：
+
+| 缩写 | 描述                                           | 是否为必填项 |
+| :--- | :--------------------------------------------- | :----------- |
+| -v   | 显示版本信息                                   | 否           |
+| -f   | 在前台运行脚本，不将其放到后台                 | 否           |
+| -d   | 以守护进程模式启动，即在后台运行               | 否           |
+| -p   | 指定一个文件来存放进程ID，用于进程管理         | 否           |
+| -c   | 指定配置文件夹的路径，脚本会从这里加载配置文件 | 否           |
+| -g   | 打印垃圾回收（GC）的详细信息                   | 否           |
+| -H   | 指定Java堆转储文件的路径，当JVM内存溢出时使用  | 否           |
+| -E   | 指定JVM错误日志文件的路径                      | 否           |
+| -D   | 定义系统属性，格式为 key=value                 | 否           |
+| -X   | 直接传递 -XX 参数给 JVM                        | 否           |
+| -h   | 帮助指令                                       | 否           |
+
+说明：在添加DataNode后，随着新的写入到来（以及旧数据过期，如果设置了TTL），集群负载会逐渐向新的DataNode均衡，最终在所有节点上达到存算资源的均衡。
+
+#### 移除DataNode节点
+
+首先通过CLI连接集群，通过`show datanodes`确认想要移除的DataNode的RPC地址与端口号：
+
+```Bash
+IoTDB> show datanodes
++------+-------+----------+-------+-------------+---------------+
+|NodeID| Status|RpcAddress|RpcPort|DataRegionNum|SchemaRegionNum|
++------+-------+----------+-------+-------------+---------------+
+|     1|Running|   0.0.0.0|   6667|            0|              0|
+|     2|Running|   0.0.0.0|   6668|            1|              1|
+|     3|Running|   0.0.0.0|   6669|            1|              0|
++------+-------+----------+-------+-------------+---------------+
+Total line number = 3
+It costs 0.110s
+```
+
+然后使用脚本将DataNode移除。脚本命令：
+
+```Bash
+# Linux / MacOS 
+sbin/remove-datanode.sh [datanode_id]
+
+#Windows
+sbin/remove-datanode.bat [datanode_id]
+```
