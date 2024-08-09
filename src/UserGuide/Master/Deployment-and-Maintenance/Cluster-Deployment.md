@@ -156,3 +156,141 @@ You can use the `show cluster` command to view cluster information:
 ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90%E7%89%88%20show%20cluter.png)
 
 > The appearance of `ACTIVATED (W)` indicates passive activation, which means that this Configurable Node does not have a license file (or has not issued the latest license file with a timestamp), and its activation depends on other Activated Configurable Nodes in the cluster. At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Tianmu staff to reapply.
+
+## Node Maintenance Steps
+
+### ConfigNode Node Maintenance
+
+ConfigNode node maintenance is divided into two types of operations: adding and removing ConfigNodes, with two common use cases:
+- Cluster expansion: For example, when there is only one ConfigNode in the cluster, and you want to increase the high availability of ConfigNode nodes, you can add two ConfigNodes, making a total of three ConfigNodes in the cluster.
+- Cluster failure recovery: When the machine where a ConfigNode is located fails, making the ConfigNode unable to run normally, you can remove this ConfigNode and then add a new ConfigNode to the cluster.
+
+> ❗️Note, after completing ConfigNode node maintenance, you need to ensure that there are 1 or 3 ConfigNodes running normally in the cluster. Two ConfigNodes do not have high availability, and more than three ConfigNodes will lead to performance loss.
+
+#### Adding ConfigNode Nodes
+
+Script command:
+```shell
+# Linux / MacOS
+# First switch to the IoTDB root directory
+sbin/start-confignode.sh
+
+# Windows
+# First switch to the IoTDB root directory
+sbin/start-confignode.bat
+```
+
+Parameter introduction:
+
+| Parameter | Description                                           | Is it required |
+| :--- | :--------------------------------------------- | :----------- |
+| -v   | Show version information                                   | No           |
+| -f   | Run the script in the foreground, do not put it in the background                 | No           |
+| -d   | Start in daemon mode, i.e. run in the background               | No           |
+| -p   | Specify a file to store the process ID for process management         | No           |
+| -c   | Specify the path to the configuration file folder, the script will load the configuration file from here | No           |
+| -g   | Print detailed garbage collection (GC) information                   | No           |
+| -H   | Specify the path of the Java heap dump file, used when JVM memory overflows  | No           |
+| -E   | Specify the path of the JVM error log file                      | No           |
+| -D   | Define system properties, in the format key=value                 | No           |
+| -X   | Pass -XX parameters directly to the JVM                        | No           |
+| -h   | Help instruction                                       | No           |
+
+#### Removing ConfigNode Nodes
+
+First connect to the cluster through the CLI and confirm the internal address and port number of the ConfigNode you want to remove by using `show confignodes`:
+
+```Bash
+IoTDB> show confignodes
++------+-------+---------------+------------+--------+
+|NodeID| Status|InternalAddress|InternalPort|    Role|
++------+-------+---------------+------------+--------+
+|     0|Running|      127.0.0.1|       10710|  Leader|
+|     1|Running|      127.0.0.1|       10711|Follower|
+|     2|Running|      127.0.0.1|       10712|Follower|
++------+-------+---------------+------------+--------+
+Total line number = 3
+It costs 0.030s
+```
+
+Then use the script to remove the DataNode. Script command:
+
+```Bash
+# Linux / MacOS 
+sbin/remove-confignode.sh [confignode_id]
+or
+./sbin/remove-confignode.sh [cn_internal_address:cn_internal_port]
+
+#Windows
+sbin/remove-confignode.bat [confignode_id]
+or
+./sbin/remove-confignode.bat [cn_internal_address:cn_internal_port]
+```
+
+### DataNode Node Maintenance
+
+There are two common scenarios for DataNode node maintenance:
+
+- Cluster expansion: For the purpose of expanding cluster capabilities, add new DataNodes to the cluster
+- Cluster failure recovery: When a machine where a DataNode is located fails, making the DataNode unable to run normally, you can remove this DataNode and add a new DataNode to the cluster
+
+> ❗️Note, in order for the cluster to work normally, during the process of DataNode node maintenance and after the maintenance is completed, the total number of DataNodes running normally should not be less than the number of data replicas (usually 2), nor less than the number of metadata replicas (usually 3).
+
+#### Adding DataNode Nodes
+
+Script command:
+
+```Bash
+# Linux / MacOS 
+# First switch to the IoTDB root directory
+sbin/start-datanode.sh
+
+# Windows
+# First switch to the IoTDB root directory
+sbin/start-datanode.bat
+```
+
+Parameter introduction:
+
+| Abbreviation | Description                                           | Is it required |
+| :--- | :--------------------------------------------- | :----------- |
+| -v   | Show version information                                   | No           |
+| -f   | Run the script in the foreground, do not put it in the background                 | No           |
+| -d   | Start in daemon mode, i.e. run in the background               | No           |
+| -p   | Specify a file to store the process ID for process management         | No           |
+| -c   | Specify the path to the configuration file folder, the script will load the configuration file from here | No           |
+| -g   | Print detailed garbage collection (GC) information                   | No           |
+| -H   | Specify the path of the Java heap dump file, used when JVM memory overflows  | No           |
+| -E   | Specify the path of the JVM error log file                      | No           |
+| -D   | Define system properties, in the format key=value                 | No           |
+| -X   | Pass -XX parameters directly to the JVM                        | No           |
+| -h   | Help instruction                                       | No           |
+
+Note: After adding a DataNode, as new writes arrive (and old data expires, if TTL is set), the cluster load will gradually balance towards the new DataNode, eventually achieving a balance of storage and computation resources on all nodes.
+
+#### Removing DataNode Nodes
+
+First connect to the cluster through the CLI and confirm the RPC address and port number of the DataNode you want to remove with `show datanodes`:
+
+```Bash
+IoTDB> show datanodes
++------+-------+----------+-------+-------------+---------------+
+|NodeID| Status|RpcAddress|RpcPort|DataRegionNum|SchemaRegionNum|
++------+-------+----------+-------+-------------+---------------+
+|     1|Running|   0.0.0.0|   6667|            0|              0|
+|     2|Running|   0.0.0.0|   6668|            1|              1|
+|     3|Running|   0.0.0.0|   6669|            1|              0|
++------+-------+----------+-------+-------------+---------------+
+Total line number = 3
+It costs 0.110s
+```
+
+Then use the script to remove the DataNode. Script command:
+
+```Bash
+# Linux / MacOS 
+sbin/remove-datanode.sh [datanode_id]
+
+#Windows
+sbin/remove-datanode.bat [datanode_id]
+```
