@@ -133,7 +133,7 @@ export const zhSidebar = {
         { text: 'JDBC (不推荐)', link: 'Programming-JDBC' },
         { text: 'MQTT', link: 'Programming-MQTT' },
         { text: 'Kafka', link: 'Programming-Kafka' },
-        { text: 'REST API V1', link: 'RestServiceV1' },
+        { text: 'REST API V1 (不推荐)', link: 'RestServiceV1' },
         { text: 'REST API V2', link: 'RestServiceV2' },
       ],
     },
