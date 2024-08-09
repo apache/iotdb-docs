@@ -164,7 +164,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
    | Configuration    | Before Modification                 | After modification                              |
    | ---------------- | ----------------------------------- | ----------------------------------------------- |
-   | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<Deployed IP address>` |
+   | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<Deploy Workbench's IP address>` |
 
     ![](https://alioss.timecho.com/docs/img/windows.png)
 
@@ -181,9 +181,9 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
 5. Verification successful: Open "http://Server IP: Port in configuration file" in the browser to access, for example:“ http://127.0.0.1:9190 ”When the login interface appears, it is considered successful
 
-    ![](https://alioss.timecho.com/docs/img/windows-success.png)
+    ![](https://alioss.timecho.com/docs/img/workbench-en.png)
 
-#### Linux版：
+#### Linux：
 
 1. Enter the IoTDB Workbench -`<version>` directory
 
@@ -191,7 +191,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
    | Configuration    | Before Modification                 | After modification                              |
    | ---------------- | ----------------------------------- | ----------------------------------------------- |
-   | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<Deployed IP address>` |
+   | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<Deploy Workbench's IP address>` |
 
    ![](https://alioss.timecho.com/docs/img/linux.png)
 
@@ -208,12 +208,34 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
 5. Verification successful: Open "http://Server IP: Port in configuration file" in the browser to access, for example:"http://127.0.0.1:9190" When the login interface appears, it is considered successful
 
-    ![](https://alioss.timecho.com/docs/img/linux-success.png)
+    ![](https://alioss.timecho.com/docs/img/workbench-en.png)
+
+### Step 4: Configure Instance Information
+
+1. Configure instance information: You only need to fill in the following information to connect to the instance
+
+   ![](https://alioss.timecho.com/docs/img/workbench-en-1.jpeg)
+
+
+    | Field Name      | Is It A Required Field | Field Meaning                                                | Default Value |
+    | --------------- | ---------------------- | ------------------------------------------------------------ | ------ |
+    | Connection Type |                        | The content filled in for different connection types varies, and supports selecting "single machine, cluster, dual active" | -      |
+    | Instance Name   | Yes                    | You can distinguish different instances based on their names, with a maximum input of 50 characters | -      |
+    | Instance        | Yes                    | Fill in the database address (`dn_rpc_address` field in the `iotdb/conf/iotdb-datanode.properties` file) and port number (`dn_rpc_port` field). Note: For clusters and dual active devices, clicking the "+" button supports entering multiple instance information | -      |
+    | Prometheus      | No                     | Fill in `http://<Prometheus IP address>:<Prometheus port number>/app/v1/query` to view some monitoring information on the homepage. We recommend that you configure and use it | -      |
+    | Username        | Yes                    | Fill in the username for IoTDB, supporting input of 4 to 32 characters, including uppercase and lowercase letters, numbers, and special characters (! @ # $% ^&* () _+-=) | root   |
+    | Enter Password  | No                     | Fill in the password for IoTDB. To ensure the security of the database, we will not save the password. Please fill in the password yourself every time you connect to the instance or test | root   |
+
+2. Test the accuracy of the information filled in: You can perform a connection test on the instance information by clicking the "Test" button
+
+    ![](https://alioss.timecho.com/docs/img/workbench-en-2.png)
 
 ## Appendix: IoTDB and Workbench Version Comparison Table
 
 | Workbench Version Number | Release Note                                                 | Supports IoTDB Versions   |
-| ------------------------ | ------------------------------------------------------------ | ------------------------- |
+| :------------------------: | :------------------------------------------------------------: | :-------------------------: |
+| V1.3.1       |New analysis methods have been added to the analysis function, and functions such as optimizing import templates have been optimized                                  |V1.3.2 and above versions  |
+| V1.3.0       |                      Add database configuration function             |V1.3.3 and above versions  |
 | V1.2.6                   | Optimize the permission control function of each module      | V1.3.1 and above versions |
 | V1.2.5                   | The visualization function has added the concept of "commonly used templates", and all interface optimization and page caching functions have been supplemented | V1.3.0 and above versions |
 | V1.2.4                   | The calculation function has added the "import and export" function, and the measurement point list has added the "time alignment" field | V1.2.2 and above versions |

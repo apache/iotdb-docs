@@ -161,7 +161,7 @@
 
    | 配置项           | 修改前                            | 修改后                                 |
       | ---------------- | --------------------------------- | -------------------------------------- |
-      | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<部署的IP地址>` |
+      | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<部署Workbench的IP地址>` |
 
     ![](https://alioss.timecho.com/docs/img/windows.png)
 
@@ -178,7 +178,7 @@
 
 5. 验证是否成功：浏览器中打开:"http://服务器ip:配置文件中端口"进行访问，例如:"http://127.0.0.1:9190"，当出现登录界面时即为成功
 
-    ![](https://alioss.timecho.com/docs/img/windows-success.png)
+    ![](https://alioss.timecho.com/docs/img/workbench.png)
 
 #### Linux版：
 
@@ -188,7 +188,7 @@
 
    | 配置项           | 修改前                            | 修改后                                 |
       | ---------------- | --------------------------------- | -------------------------------------- |
-      | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<部署的IP地址>` |
+      | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<部署Workbench的IP地址>` |
 
     ![](https://alioss.timecho.com/docs/img/linux.png)
 
@@ -205,12 +205,34 @@
 
 5. 验证是否成功：浏览器中打开 "http://服务器ip:配置文件中端口"进行访问，例如:"http://127.0.0.1:9190"，当出现登录界面时即为成功
 
-    ![](https://alioss.timecho.com/docs/img/linux-success.png)
+    ![](https://alioss.timecho.com/docs/img/workbench.png)
+
+### 步骤四：配置实例信息
+
+1. 配置实例信息：您只需要填写以下信息即可连接到实例
+   
+  ![](https://alioss.timecho.com/docs/img/%E5%AE%9E%E4%BE%8B%E4%BF%A1%E6%81%AF.png)
+
+  | 字段名称        | 是否为必填项 | 字段含义                                                     | 默认值 |
+  | :---------------: | :------------: | :------------------------------------------------------------: | :------: |
+  | 连接类型        | 是           | 不同连接类型连接所填内容不同，支持选择“单机、集群、双活”     | -      |
+  | 实例名称        | 是           | 您可根据名称对不同实例进行区分，最多输入 50 个字符           | -      |
+  | 实例信息        | 是           | 填写数据库的地址（iotdb/conf/iotdb-datanode.properties 文件中 dn_rpc_address 字段）以及端口号（dn_rpc_port字段）注：对于集群和双活点击“+”支持输入多个实例信息 | -      |
+  | Prometheus 信息 | 否           | 填写“http:/<Prometheus的IP地址>:<Prometheus的端口号>/api/v1/query”即可通过首页查看部分监控信息，推荐您进行配置使用 | -      |
+  | 用户名          | 是           | 填写IoTDB的用户名，支持输入 4～32 个字符，可使用英文大小写字母、数字、特殊字符（!@#$%^&*()_+-=） | root   |
+  | 密码            | 否           | 填写IoTDB的密码，为了保证数据库的安全我们不会对密码进行保存，请您在每次连接实例或测试时自行填写 | root   |
+
+2. 测试所填信息的准确性：您可以通过点击“测试”按钮对实例信息进行连接测试
+
+  ![](https://alioss.timecho.com/docs/img/%E5%AE%9E%E4%BE%8B%E4%BF%A1%E6%81%AF-%E6%B5%8B%E8%AF%95.png)
+
 
 ## 附录：IoTDB与控制台版本对照表
 
 | 控制台版本号 | 版本说明                                                     | 可支持IoTDB版本  |
-| ------------ | ------------------------------------------------------------ | ---------------- |
+| :------------: | :------------------------------------------------------------: | :----------------: |
+| V1.3.1       | 分析功能新增分析方式，优化导入模版等功能                     | V1.3.2及以上版本 |
+| V1.3.0       | 新增数据库配置功能，优化部分版本细节                         | V1.3.2及以上版本 |
 | V1.2.6       | 优化各模块权限控制功能                                       | V1.3.1及以上版本 |
 | V1.2.5       | 可视化功能新增“常用模版”概念，所有界面优化补充页面缓存等功能 | V1.3.0及以上版本 |
 | V1.2.4       | 计算功能新增“导入、导出”功能，测点列表新增“时间对齐”字段     | V1.2.2及以上版本 |
