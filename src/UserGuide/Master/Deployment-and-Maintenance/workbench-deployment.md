@@ -164,7 +164,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
    | Configuration    | Before Modification                 | After modification                              |
    | ---------------- | ----------------------------------- | ----------------------------------------------- |
-   | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<Deploy Workbench's IP address>` |
+   | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<Workbench's IP address>` |
 
     ![](https://alioss.timecho.com/docs/img/windows.png)
 
@@ -191,7 +191,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
    | Configuration    | Before Modification                 | After modification                              |
    | ---------------- | ----------------------------------- | ----------------------------------------------- |
-   | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<Deployed IP address>` |
+   | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<Workbench's IP address>` |
 
    ![](https://alioss.timecho.com/docs/img/linux.png)
 
@@ -235,7 +235,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 | Workbench Version Number | Release Note                                                 | Supports IoTDB Versions   |
 | :------------------------: | :------------------------------------------------------------: | :-------------------------: |
 | V1.3.1       |New analysis methods have been added to the analysis function, and functions such as optimizing import templates have been optimized                                  |V1.3.2 and above versions  |
-| V1.3.0       |                      Add database configuration function             |V1.3.3 and above versions  |
+| V1.3.0       |                      Add database configuration function             |V1.3.2 and above versions  |
 | V1.2.6                   | Optimize the permission control function of each module      | V1.3.1 and above versions |
 | V1.2.5                   | The visualization function has added the concept of "commonly used templates", and all interface optimization and page caching functions have been supplemented | V1.3.0 and above versions |
 | V1.2.4                   | The calculation function has added the "import and export" function, and the measurement point list has added the "time alignment" field | V1.2.2 and above versions |
