@@ -19,7 +19,7 @@
 
 -->
 
-# Ignition-IoTDB Connector
+# Ignition
 
 ## 1、Product Overview
 

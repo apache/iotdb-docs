@@ -19,7 +19,7 @@
 
 -->
 
-# Spark-IoTDB 用户手册
+# Apache Spark(IoTDB)
 
 ## 版本支持
 

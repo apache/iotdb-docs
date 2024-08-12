@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Ignition-IoTDB Connector
+# Ignition
 
 ## 一、产品概述
 
