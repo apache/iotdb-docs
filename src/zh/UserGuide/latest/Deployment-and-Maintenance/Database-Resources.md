@@ -22,7 +22,7 @@
 ## CPU
 <table style="text-align: center;">
       <tr>
-            <th rowspan="2">秒级序列数</th>
+            <th rowspan="2">序列数（采集频率<=1HZ）</th>
             <th rowspan="2">CPU</th>        
             <th colspan="3">节点数</th>
       </tr>
@@ -82,7 +82,7 @@
 ## 内存
 <table style="text-align: center;">
       <tr>
-            <th rowspan="2">秒级序列数</th>
+            <th rowspan="2">序列数（采集频率<=1HZ）</th>
             <th rowspan="2">内存</th>        
             <th colspan="3">节点数</th>
       </tr>
