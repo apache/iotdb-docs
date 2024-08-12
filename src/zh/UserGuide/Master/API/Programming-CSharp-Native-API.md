@@ -31,13 +31,13 @@
 
 您可以使用 NuGet Package Manager, .NET CLI等工具来安装，以 .NET CLI为例
 
-如果您使用的是.NET 5.0 或者更高版本的SDK，输入如下命令即可安装最新的NuGet包
+如果您使用的是\.NET 5.0 或者更高版本的SDK，输入如下命令即可安装最新的NuGet包
 
 ```
 dotnet add package Apache.IoTDB
 ```
 
-为了适配 .NET Framework 4.x，我们单独构建了一个NuGet包，如果您使用的是.NET Framework 4.x，输入如下命令即可安装最新的包
+为了适配 .NET Framework 4.x，我们单独构建了一个NuGet包，如果您使用的是\.NET Framework 4.x，输入如下命令即可安装最新的包
 
 ```bash
 dotnet add package Apache.IoTDB.framework
