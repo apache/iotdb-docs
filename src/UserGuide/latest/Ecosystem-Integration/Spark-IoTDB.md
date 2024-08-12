@@ -19,7 +19,7 @@
 
 -->
 
-# Spark-IoTDB User Guide
+# Apache Spark(IoTDB)
 
 ## Supported Versions
 

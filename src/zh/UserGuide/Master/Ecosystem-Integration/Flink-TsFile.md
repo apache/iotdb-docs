@@ -19,7 +19,7 @@
 
 -->
 
-# TsFile-Flink 连接器
+# Apache Flink(TsFile)
 
 ##  关于 TsFile-Flink 连接器
 

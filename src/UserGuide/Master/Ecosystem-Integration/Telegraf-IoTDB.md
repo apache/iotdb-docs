@@ -19,7 +19,7 @@
 
 -->
 
-# Telegraf Introduction
+# Telegraf
 Telegraf is an open-source agent that facilitates the collection, processing, and transmission of metric data. Developed by InfluxData.
 Telegraf includes the following features:
 * Plugin Architecture: Telegraf's strength lies in its extensive plugin ecosystem. It supports a wide range of input, output, and processor plugins, allowing seamless integration with various data sources and destinations.
