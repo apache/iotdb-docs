@@ -19,7 +19,7 @@
 
 -->
 
-# Data synchronisation
+# Data Sync
 Data synchronisation is a typical requirement of industrial IoT. Through the data synchronisation mechanism, data sharing between IoTDBs can be achieved, and a complete data link can be built to meet the needs of intranet and extranet data interoperability, end-to-end cloud synchronisation, data migration, data backup, and so on.
 
 ## Introduction
