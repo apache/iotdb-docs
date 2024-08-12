@@ -22,7 +22,7 @@
 ## CPU
 <table style="text-align: center;">
       <tr>
-            <th rowspan="2">Number of sequences (acquisition frequency<=1HZ)</th>
+            <th rowspan="2">Number of timeseries (frequency<=1HZ)</th>
             <th rowspan="2">CPU</th>        
             <th colspan="3">Number of nodes</th>
       </tr>
@@ -82,7 +82,7 @@
 ## Memory 
 <table style="text-align: center;">
       <tr>
-            <th rowspan="2">Number of sequences (acquisition frequency<=1HZ)</th>
+            <th rowspan="2">Number of timeseries (frequency<=1HZ)</th>
             <th rowspan="2">Memory</th>        
             <th colspan="3">Number of nodes</th>
       </tr>
