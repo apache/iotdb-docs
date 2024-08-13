@@ -25,13 +25,13 @@ IoT-benchmark is a time-series database benchmarking tool based on Java and big 
 
 Figure 1-1 below includes the test benchmark process and other extended functions. These processes can be unified by IoT-benchmark. IoT Benchmark supports a variety of workloads, including **pure write, pure query, write query mixed**, etc., supports **software and hardware system monitoring, test metric measurement** and other monitoring functions, and also realizes **initializing the database automatically, test data analysis and system parameter optimization** functions.
 
-![img](https://alioss.timecho.com/docs/img/bm1.PNG)
+![img](https://alioss.timecho.com/docs/img/benchmark-English1.png)
 
 Figure 1-1
 
 Referring to the YCSB test tool's design idea of separating the three components of workload generation, performance metric measurement and database interface, the modular design of IoT-benchmark is shown in Figure 1-2. Different from the YCSB-based test tool system, IoT-benchmark adds a system monitoring module to support the persistence of test data and system monitoring data. In addition, some special load testing functions especially designed for time series data scenarios have been added, such as supporting batch writing and multiple out-of-sequence data writing modes for IoT scenarios.
 
-![img](https://alioss.timecho.com/docs/img/bm2.PNG)
+![img](https://alioss.timecho.com/docs/img/benchmark-%20English2.png)
 
 Figure 1-2
 
