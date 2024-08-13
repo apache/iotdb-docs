@@ -51,7 +51,7 @@
           </tr>
           <tr>
                 <td>cn_metric_reporter_list</td>   
-                <td rowspan="3">conf/iotdb-system.properties</td> 
+                <td rowspan="3">conf/iotdb-confignode.properties</td> 
                 <td>将配置项取消注释，值设置为PROMETHEUS</td> 
           </tr>
           <tr>
@@ -64,7 +64,7 @@
           </tr>
           <tr>
                 <td>dn_metric_reporter_list</td>   
-                <td rowspan="4">conf/iotdb-system.properties</td> 
+                <td rowspan="4">conf/iotdb-datanode.properties</td> 
                 <td>将配置项取消注释，值设置为PROMETHEUS</td> 
           </tr>
           <tr>
@@ -81,7 +81,7 @@
           </tr>
           <tr>
                 <td>enable_audit_log</td>   
-                <td rowspan="3">conf/iotdb-system.properties</td> 
+                <td rowspan="3">conf/iotdb-common.properties</td> 
                 <td>将配置项取消注释，值设置为true</td> 
           </tr>
           <tr>
