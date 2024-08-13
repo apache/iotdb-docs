@@ -93,9 +93,9 @@ await session_pool.Close();
 - 对**IoTDB**中的`record`数据进行封装和抽象。
 - 示例：
 
-| timestamp | status | temperature |
-| --------- | ------ | ----------- |
-| 1         | 0      | 20          |
+    | timestamp | status | temperature |
+    | --------- | ------ | ----------- |
+    | 1         | 0      | 20          |
 
 - 构造方法：
 
@@ -109,11 +109,11 @@ var rowRecord =
 - 一种类似于表格的数据结构，包含一个设备的若干行非空数据块。
 - 示例：
 
-| time | status | temperature |
-| ---- | ------ | ----------- |
-| 1    | 0      | 20          |
-| 2    | 0      | 20          |
-| 3    | 3      | 21          |
+    | time | status | temperature |
+    | ---- | ------ | ----------- |
+    | 1    | 0      | 20          |
+    | 2    | 0      | 20          |
+    | 3    | 3      | 21          |
 
 - 构造方法：
 
