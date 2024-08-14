@@ -61,6 +61,26 @@ Simply execute the following command:
 cp spark-iotdb-connector_2.12.10-${iotdb.version}.jar $SPARK_HOME/jars/
 ```
 
+In addition, to ensure that spark can use JDBC and IoTDB connections, you need to do the following:
+
+Run the following command to compile the IoTDB JDBC connector:
+
+```shell
+mvn clean package -pl iotdb-client/jdbc -am -DskipTests -P get-jar-with-dependencies
+```
+
+The compiled jar package is located in the following directory:
+
+```shell
+$IoTDB_HOME/iotdb-client/jdbc/target/iotdb-jdbc-{version}-SNAPSHOT-jar-with-dependencies.jar
+```
+
+At last, copy the jar package to the ${SPARK_HOME}/jars directory. Simply execute the following command:
+
+```shell
+cp iotdb-jdbc-{version}-SNAPSHOT-jar-with-dependencies.jar $SPARK_HOME/jars/
+```
+
 ## Usage
 
 ### Parameters

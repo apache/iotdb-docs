@@ -53,11 +53,31 @@
 
 ### `spark-shell` 调试
 
-如果需要在 `spark-shell` 中使用 `spark-iotdb-connetcor`，需要先在官网下载 `with-dependencies` 版本的 jar 包。然后再将 Jar 包拷贝到 `${SPARK_HOME}/jars` 目录中即可。
+如果需要在 `spark-shell` 中使用 `spark-iotdb-connetcor`，需要先在官网下载 `with-dependencies` 版本的 jar 包。然后再将 jar 包拷贝到 `${SPARK_HOME}/jars` 目录中即可。
 执行以下命令即可：
 
 ```shell
 cp spark-iotdb-connector_2.12.10-${iotdb.version}.jar $SPARK_HOME/jars/
+```
+
+此外，为了保证 spark 能使用 JDBC 和 IoTDB 连接，需要进行如下操作:
+
+运行如下命令来编译 IoTDB-JDBC 连接器：
+
+```shell
+mvn clean package -pl iotdb-client/jdbc -am -DskipTests -P get-jar-with-dependencies
+```
+
+编译后的 jar 包在如下目录中：
+
+```shell
+$IoTDB_HOME/iotdb-client/jdbc/target/iotdb-jdbc-{version}-SNAPSHOT-jar-with-dependencies.jar
+```
+
+最后再将 jar 包拷贝到 `${SPARK_HOME}/jars` 目录中即可。执行以下命令即可：
+
+```shell
+cp iotdb-jdbc-{version}-SNAPSHOT-jar-with-dependencies.jar $SPARK_HOME/jars/
 ```
 
 ## 使用
