@@ -239,7 +239,7 @@ Step 3: Restart IoTDB
 docker-compose  -f docker-compose-standalone.yml  up  -d
 ```
 
-# Cluster Deployment
+## Cluster Deployment
 
 This section describes how to manually deploy an instance that includes 3 Config Nodes and 3 Data Nodes, commonly known as a 3C3D cluster.
 
