@@ -185,11 +185,11 @@ When configuring the Data Source, pay attention to the URL where Prometheus is l
 
 ## Appendix, Detailed Explanation of Monitoring Indicators
 
-### 1. System Dashboard
+### System Dashboard
 
 This panel displays the current usage of system CPU, memory, disk, and network resources, as well as partial status of the JVM.
 
-#### 1.1 CPU
+#### CPU
 
 - CPU Core：CPU cores
 - CPU Load：
@@ -197,7 +197,7 @@ This panel displays the current usage of system CPU, memory, disk, and network r
   - Process CPU Load：The proportion of CPU occupied by the IoTDB process during sampling time
 - CPU Time Per Minute：The total CPU time of all processes in the system per minute
 
-#### 1.2 Memory
+#### Memory
 
 - System Memory：The current usage of system memory.
   - Commited vm size： The size of virtual memory allocated by the operating system to running processes.
@@ -209,7 +209,7 @@ This panel displays the current usage of system CPU, memory, disk, and network r
   - Total Memory：The total amount of memory that the IoTDB process has currently requested from the operating system.
   - Used Memory：The total amount of memory currently used by the IoTDB process.
 
-#### 1.3 Disk
+#### Disk
 
 - Disk Space：
   - Total disk space：The maximum disk space that IoTDB can use.
@@ -236,7 +236,7 @@ This panel displays the current usage of system CPU, memory, disk, and network r
 - I/O System Call Rate：The frequency of process calls to read and write system calls, similar to IOPS.
 - I/O Throughput：The throughput of process I/O can be divided into two categories: actual-read/write and attemppt-read/write. Actual read and actual write refer to the number of bytes that a process actually causes block devices to perform I/O, excluding the parts processed by Page Cache.
 
-#### 1.4 JVM
+#### JVM
 
 - GC Time Percentage：The proportion of GC time spent by the node JVM in the past minute's time window
 - GC Allocated/Promoted Size Detail： The average size of objects promoted to the old era per minute by the node JVM, as well as the size of objects newly applied for by the new generation/old era and non generational new applications
@@ -262,7 +262,7 @@ This panel displays the current usage of system CPU, memory, disk, and network r
   - unloaded：The number of classes uninstalled by the JVM since system startup
 - The Number of Java Thread：The current number of surviving threads in IoTDB. Each sub item represents the number of threads in each state.
 
-#### 1.5 Network
+#### Network
 
 Eno refers to the network card connected to the public network, while lo refers to the virtual network card.
 
@@ -271,9 +271,9 @@ Eno refers to the network card connected to the public network, while lo refers 
 - Packet Speed：The speed at which the network card sends and receives packets, and one RPC request can correspond to one or more packets
 - Connection Num：The current number of socket connections for the selected process (IoTDB only has TCP)
 
-### 2.Performance Overview Dashboard
+### Performance Overview Dashboard
 
-#### 2.1 Cluster Overview
+#### Cluster Overview
 
 - Total CPU Core:Total CPU cores of cluster machines
 - DataNode CPU Load:CPU usage of each DataNode node in the cluster
@@ -294,7 +294,7 @@ Eno refers to the network card connected to the public network, while lo refers 
 - Total DataRegion: The total number of DataRegions managed by the cluster
 - Total SchemaRegion: The total number of SchemeRegions managed by the cluster
 
-####  2.2 Node Overview
+#### Node Overview
 
 - CPU Core: The number of CPU cores in the machine where the node is located
 - Disk Space: The disk size of the machine where the node is located
@@ -305,7 +305,7 @@ Eno refers to the network card connected to the public network, while lo refers 
 - Swap Memory:The swap memory size of the machine where the node is located
 - File Number: Number of files managed by nodes
 
-#### 2.3 Performance
+#### Performance
 
 - Session Idle Time:The total idle time and total busy time of the session connection of the node
 - Client Connection: The client connection status of the node, including the total number of connections and the number of active connections

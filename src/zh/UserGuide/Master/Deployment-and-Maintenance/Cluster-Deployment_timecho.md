@@ -52,7 +52,7 @@
 | 192.168.1.4 | iotdb-2 | ConfigNode、DataNode |
 | 192.168.1.5 | iotdb-3 | ConfigNode、DataNode |
 
-### 1. 设置主机名
+### 设置主机名
 
 在3台机器上分别配置主机名，设置主机名需要在目标服务器上配置`/etc/hosts`，使用如下命令：
 
@@ -62,7 +62,7 @@ echo "192.168.1.4  iotdb-2"  >> /etc/hosts
 echo "192.168.1.5  iotdb-3"  >> /etc/hosts 
 ```
 
-### 2. 参数配置
+### 参数配置
 
 解压安装包并进入安装目录
 
@@ -121,7 +121,7 @@ cd  iotdb-enterprise-{version}-bin
 | dn_schema_region_consensus_port | DataNode用于元数据副本共识协议通信使用的端口                 | 10760           | 10760                                                   | 10760         | 10760         | 10760         | 首次启动后不能修改 |
 | dn_seed_config_node             | 节点注册加入集群时连接的ConfigNode地址,即cn_internal_address:cn_internal_port | 127.0.0.1:10710 | 第一个CongfigNode的cn_internal_address:cn_internal_port | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | 首次启动后不能修改 |
 
-### 3. 启动ConfigNode节点
+### 启动ConfigNode节点
 
 先启动第一个iotdb-1的confignode, 保证种子confignode节点先启动，然后依次启动第2和第3个confignode节点
 
@@ -130,7 +130,7 @@ cd sbin
 ./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
 ```
 
-### 4. 激活数据库
+### 激活数据库
 
 #### **方式一：激活文件拷贝激活**
 
@@ -165,7 +165,7 @@ cd sbin
     Import completed. Please start cluster and excute 'show cluster' to verify activation status
     ```
 
-### 5. 启动DataNode 节点
+### 启动DataNode 节点
 
  分别进入iotdb的`sbin`目录下，依次启动3个datanode节点：
 
@@ -174,7 +174,7 @@ cd sbin
 ./start-datanode.sh   -d   #-d参数将在后台进行启动 
 ```
 
-### 6. 验证部署
+### 验证部署
 
 可直接执行`./sbin`目录下的Cli启动脚本：
 

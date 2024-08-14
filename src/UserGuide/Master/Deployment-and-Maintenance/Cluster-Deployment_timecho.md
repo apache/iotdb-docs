@@ -52,7 +52,7 @@ Assuming there are three Linux servers now, the IP addresses and service roles a
 | 192.168.1.4 | iotdb-2   | ConfigNode、DataNode |
 | 192.168.1.5 | iotdb-3   | ConfigNode、DataNode |
 
-### 1. Set Host Name
+### Set Host Name
 
 On three machines, configure the host names separately. To set the host names, configure `/etc/hosts` on the target server. Use the following command:
 
@@ -62,7 +62,7 @@ echo "192.168.1.4  iotdb-2"  >> /etc/hosts
 echo "192.168.1.5  iotdb-3"  >> /etc/hosts 
 ```
 
-### 2. Configuration
+### Configuration
 
 Unzip the installation package and enter the installation directory
 
@@ -121,7 +121,7 @@ Open DataNode Configuration File `./conf/iotdb-system.properties`,Set the follow
 | dn_schema_region_consensus_port | The port used by DataNode for metadata replica consensus protocol communication | 10760           | 10760                                                        | 10760         | 10760         | 10760         | Cannot be modified after initial startup |
 | dn_seed_config_node             | The ConfigNode address that the node connects to when registering to join the cluster, i.e. `cn_internal-address: cn_internal_port` | 127.0.0.1:10710 | The first CongfigNode's cn_internal-address: cn_internal_port | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | Cannot be modified after initial startup |
 
-### 3. Start ConfigNode
+### Start ConfigNode
 
 Start the first confignode of IoTDB-1 first, ensuring that the seed confignode node starts first, and then start the second and third confignode nodes in sequence
 
@@ -130,7 +130,7 @@ cd sbin
 ./start-confignode.sh    -d      #"- d" parameter will start in the background
 ```
 
-### 4. Activate Database
+### Activate Database
 
 #### Method 1: Activate file copy activation
 
@@ -165,7 +165,7 @@ cd sbin
     Import completed. Please start cluster and excute 'show cluster' to verify activation status
     ```
 
-### 5. Start DataNode
+### Start DataNode
 
  Enter the `sbin` directory of iotdb and start three datanode nodes in sequence:
 
@@ -174,7 +174,7 @@ cd sbin
 ./start-datanode.sh   -d   #"- d" parameter will start in the background
 ```
 
-### 6. Verify Deployment
+### Verify Deployment
 
 Can be executed directly Cli startup script in `./sbin`  directory:
 
