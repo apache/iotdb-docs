@@ -113,7 +113,7 @@ Since the Fragment will output all the node information executed in the current 
 
 ![img](https://timechor.feishu.cn/space/api/box/stream/download/asynccode/?code=ZGE4YTBhMGU3OTljMTgxZjYxOTg4NjI1ODBmM2Q4MDVfektkTTM2c0NYVVVkNFR6ZktWTW1ZTFlHQkVJSmNzYWpfVG9rZW46STEwd2J0VDQ1b0VkR2x4OHc3S2NMYWQ3blhmXzE3MjM2MTU4NDY6MTcyMzYxOTQ0Nl9WNA)
 
-Users can also modify the configuration item `merge_threshold_of_explain_analyze` in `iotdb-system.properties` to set the threshold for triggering the merge of nodes. This parameter supports hot loading.
+Users can also modify the configuration item `merge_threshold_of_explain_analyze` in `iotdb-common.properties` to set the threshold for triggering the merge of nodes. This parameter supports hot loading.
 
 2. Use of Explain Analyze Statement in Query Timeout Scenarios
 
