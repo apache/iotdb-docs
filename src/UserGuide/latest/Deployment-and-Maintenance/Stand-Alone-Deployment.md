@@ -32,14 +32,14 @@
 
 ## Installation Steps
 
-### 1、Unzip the installation package and enter the installation directory
+### Unzip the installation package and enter the installation directory
 
 ```Shell
 unzip  apache-iotdb-{version}-all-bin.zip
 cd  apache-iotdb-{version}-all-bin
 ```
 
-### 2、Parameter Configuration
+### Parameter Configuration
 
 #### Environment Script Configuration
 
@@ -91,7 +91,7 @@ Open the DataNode configuration file/ conf/iotdb-system.properties,Set the follo
 | dn_schema_region_consensus_port | The port used by DataNode for metadata replica consensus protocol communication |      10760      |                            10760                             | Cannot be modified after initial startup |
 |       dn_seed_config_node       | The ConfigNode address that the node connects to when registering to join the cluster, i.e. cn_internal-address: cn_internal_port | 127.0.0.1:10710 |             cn_internal_address:cn_internal_port             | Cannot be modified after initial startup |
 
-### 3、Start ConfigNode
+### Start ConfigNode
 
 Enter the sbin directory of iotdb and start confignode
 
@@ -99,7 +99,7 @@ Enter the sbin directory of iotdb and start confignode
 ./start-confignode.sh    -d      #The "- d" parameter will start in the background 
 ```
 
-### 4、Start DataNode
+### Start DataNode
 
 Enter the sbin directory of iotdb and start datanode:
 
@@ -108,7 +108,7 @@ cd sbin
 ./start-datanode.sh   -d   #The "- d" parameter will start in the background 
 ```
 
-### 5、Verify Deployment
+### Verify Deployment
 
 Can be executed directly/ Cli startup script in sbin directory:
 

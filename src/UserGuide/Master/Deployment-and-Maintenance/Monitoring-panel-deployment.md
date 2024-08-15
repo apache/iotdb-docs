@@ -337,7 +337,7 @@ Eno refers to the network card connected to the public network, while lo refers 
   - Average Time Consumed Of Engine Stage: The average time consumption of each sub stage in the engine stage of a node
   - P99 Time Consumed Of Engine Stage: P99 time consumption of each sub stage in the node engine stage
 
-#### 2.4 System
+#### System
 
 - CPU Load: CPU load of nodes
 - CPU Time Per Minute: The CPU time per minute of a node, with the maximum value related to the number of CPU cores
@@ -349,11 +349,11 @@ Eno refers to the network card connected to the public network, while lo refers 
 - File Size: Node management file size situation
 - Log Number Per Minute: Different types of logs per minute for nodes
 
-### 3. ConfigNode Dashboard
+### ConfigNode Dashboard
 
 This panel displays the performance of all management nodes in the cluster, including partitioning, node information, and client connection statistics.
 
-#### 3.1 Node Overview
+#### Node Overview
 
 - Database Count: Number of databases for nodes
 - Region
@@ -367,7 +367,7 @@ This panel displays the performance of all management nodes in the cluster, incl
 - DataNodes:The DataNode situation of the cluster where the node is located
 - System Overview: System overview of nodes, including system memory, disk usage, process memory, and CPU load
 
-#### 3.2 NodeInfo
+#### NodeInfo
 
 - Node Count: The number of nodes in the cluster where the node is located, including ConfigNode and DataNode
 - ConfigNode Status: The status of the ConfigNode node in the cluster where the node is located
@@ -377,7 +377,7 @@ This panel displays the performance of all management nodes in the cluster, incl
 - DataRegion Distribution: The distribution of DataRegions in the cluster where the node is located
 - DataRegionGroup Leader Distribution:The distribution of leaders in the DataRegionGroup of the cluster where the node is located
 
-#### 3.3 Protocol
+#### Protocol
 
 - Client Count
   - Active Client Num: The number of active clients in each thread pool of a node
@@ -390,7 +390,7 @@ This panel displays the performance of all management nodes in the cluster, incl
   - Client Mean Borrow Wait Time: The average borrowing waiting time of clients in each thread pool of a node
   - Client Mean Idle Time: The average idle time of clients in each thread pool of a node
 
-#### 3.4 Partition Table
+#### Partition Table
 
 - SchemaRegionGroup Count: The number of SchemaRegionGroups in the Database of the cluster where the node is located
 - DataRegionGroup Count: The number of DataRegionGroups in the Database of the cluster where the node is located
@@ -399,7 +399,7 @@ This panel displays the performance of all management nodes in the cluster, incl
 - DataRegion Status: The DataRegion status of the cluster where the node is located
 - SchemaRegion Status: The status of the SchemeRegion of the cluster where the node is located
 
-#### 3.5 Consensus
+#### Consensus
 
 - Ratis Stage Time: The time consumption of each stage of the node's Ratis
 - Write Log Entry: The time required to write a log for the Ratis of a node
@@ -407,17 +407,17 @@ This panel displays the performance of all management nodes in the cluster, incl
 - Remote / Local Write QPS: Remote and local QPS written to node Ratis
 - RatisConsensus Memory: Memory usage of Node Ratis consensus protocol
 
-### 4.DataNode Dashboard
+### DataNode Dashboard
 
 This panel displays the monitoring status of all data nodes in the cluster, including write time, query time, number of stored files, etc.
 
-#### 4.1 Node Overview
+#### Node Overview
 
 - The Number Of Entity: Entity situation of node management
 - Write Point Per Second: The write speed per second of the node
 - Memory Usage: The memory usage of the node, including the memory usage of various parts of IoT Consensus, the total memory usage of SchemaRegion, and the memory usage of various databases.
 
-#### 4.2 Protocol
+#### Protocol
 
 - Node Operation Time Consumption
   - The Time Consumed Of Operation (avg): The average time spent on various operations of a node
@@ -438,7 +438,7 @@ This panel displays the monitoring status of all data nodes in the cluster, incl
   - Client Mean Borrow Wait Time: The average borrowing waiting time of clients in each thread pool of a node
   - Client Mean Idle Time: The average idle time of clients in each thread pool of a node
 
-#### 4.3 Storage Engine
+#### Storage Engine
 
 - File Count: Number of files of various types managed by nodes
 - File Size: Node management of various types of file sizes
@@ -454,7 +454,7 @@ This panel displays the monitoring status of all data nodes in the cluster, incl
   - Compaction Process Chunk Status: The number of Chunks in different states merged by nodes
   - Compacted Point Num Per Minute: The number of merged nodes per minute
 
-#### 4.4 Write Performance
+#### Write Performance
 
 - Write Cost(avg): Average node write time, including writing wal and memtable
 - Write Cost(50%): Median node write time, including writing wal and memtable
@@ -490,7 +490,7 @@ This panel displays the monitoring status of all data nodes in the cluster, incl
 - Series Num Of Flushing MemTable: The number of time series when flashing Memtables in different DataRegions of a node
 - Average Point Num Of Flushing MemChunk: The average number of disk flushing points for node MemChunk
 
-#### 4.5 Schema Engine
+#### Schema Engine
 
 - Schema Engine Mode: The metadata engine pattern of nodes
 - Schema Consensus Protocol: Node metadata consensus protocol
@@ -519,7 +519,7 @@ This panel displays the monitoring status of all data nodes in the cluster, incl
 - Time Consumed of Relead and Flush (avg): The average time taken for node triggered cache release and buffer flushing
 - Time Consumed of Relead and Flush (99%): P99 time consumption for node triggered cache release and buffer flushing
 
-#### 4.6 Query Engine
+#### Query Engine
 
 - Time Consumption In Each Stage
   - The time consumed of query plan stages(avg): The average time spent on node queries at each stage
@@ -562,7 +562,7 @@ This panel displays the monitoring status of all data nodes in the cluster, incl
   - The time consumed of query schedule time(50%): Median time spent on node query task scheduling
   - The time consumed of query schedule time(99%): P99 of node query task scheduling time
 
-#### 4.7 Query Interface
+#### Query Interface
 
 - Load Time Series Metadata
   - The time consumed of load timeseries metadata(avg): The average time taken for node queries to load time series metadata
@@ -609,7 +609,7 @@ This panel displays the monitoring status of all data nodes in the cluster, incl
   - The time consumed of build tsblock from merge reader(50%): The median time spent on constructing TsBlock through Merge Reader for node queries
   - The time consumed of build tsblock from merge reader(99%): Node query using Merge Reader to construct TsBlock time-consuming P99
 
-####  4.8 Query Data Exchange
+#### Query Data Exchange
 
 The data exchange for the query is time-consuming.
 
@@ -634,7 +634,7 @@ The data exchange for the query is time-consuming.
   - The time consumed of get data block task(50%): The median time taken for node queries to obtain data block tasks
   - The time consumed of get data block task(99%): P99 time consumption for node query to obtain data block task
 
-#### 4.9 Query Related Resource
+#### Query Related Resource
 
 - MppDataExchangeManager:The number of shuffle sink handles and source handles during node queries
 - LocalExecutionPlanner: The remaining memory that nodes can allocate to query shards
@@ -644,7 +644,7 @@ The data exchange for the query is time-consuming.
 - MemoryPool Capacity: The size of memory pools related to node queries, including maximum and remaining available values
 - DriverScheduler: Number of queue tasks related to node queries
 
-#### 4.10 Consensus - IoT Consensus
+#### Consensus - IoT Consensus
 
 - Memory Usage
   - IoTConsensus Used Memory: The memory usage of IoT Consumes for nodes, including total memory usage, queue usage, and synchronization usage
@@ -664,7 +664,7 @@ The data exchange for the query is time-consuming.
   - The Time Consumed Of Different Stages (50%): The median time spent on different execution stages of node IoT Consusus
   - The Time Consumed Of Different Stages (99%):P99 of the time consumption for different execution stages of node IoT Consusus
 
-#### 4.11 Consensus - DataRegion Ratis Consensus
+#### Consensus - DataRegion Ratis Consensus
 
 - Ratis Stage Time: The time consumption of different stages of node Ratis
 - Write Log Entry: The time consumption of writing logs at different stages of node Ratis
@@ -672,7 +672,7 @@ The data exchange for the query is time-consuming.
 - Remote / Local Write QPS: QPS written by node Ratis locally or remotely
 - RatisConsensus Memory:Memory usage of node Ratis
 
-#### 4.12 Consensus - SchemaRegion Ratis Consensus
+#### Consensus - SchemaRegion Ratis Consensus
 
 - Ratis Stage Time: The time consumption of different stages of node Ratis
 - Write Log Entry: The time consumption for writing logs at each stage of node Ratis
