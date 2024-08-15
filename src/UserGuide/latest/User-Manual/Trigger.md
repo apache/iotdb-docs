@@ -21,7 +21,7 @@
 
 # TRIGGER
 
-## 1. Instructions
+## Instructions
 
 The trigger provides a mechanism for listening to changes in time series data. With user-defined logic, tasks such as alerting and data forwarding can be conducted.
 
@@ -47,7 +47,7 @@ There are currently two trigger events for the trigger, and other trigger events
 - BEFORE INSERT: Fires before the data is persisted. **Please note that currently the trigger does not support data cleaning and will not change the data to be persisted itself.**
 - AFTER INSERT: Fires after the data is persisted.
 
-## 2. How to Implement a Trigger
+## How to Implement a Trigger
 
 You need to implement the trigger by writing a Java class, where the dependency shown below is required. If you use [Maven](http://search.maven.org/), you can search for them directly from the [Maven repository](http://search.maven.org/).
 
@@ -318,7 +318,7 @@ public class ClusterAlertingExample implements Trigger {
 }
 ```
 
-## 3. Trigger Management
+## Trigger Management
 
 You can create and drop a trigger through an SQL statement, and you can also query all registered triggers through an SQL statement.
 
@@ -448,7 +448,7 @@ During the process of creating and dropping triggers in the cluster, we maintain
 | DROPPING     | Intermediate state of executing `DROP TRIGGER`, the cluster is in the process of dropping the trigger. | NO                                |
 | TRANSFERRING | The cluster is migrating the location of this trigger instance. | NO                                |
 
-## 4. Notes
+## Notes
 
 - The trigger takes effect from the time of registration, and does not process the existing historical data. **That is, only insertion requests that occur after the trigger is successfully registered will be listened to by the trigger. **
 - The fire process of trigger is synchronous currently, so you need to ensure the efficiency of the trigger, otherwise the writing performance may be greatly affected. **You need to guarantee concurrency safety of triggers yourself**.
@@ -458,7 +458,7 @@ During the process of creating and dropping triggers in the cluster, we maintain
 - The trigger JAR package has a size limit, which must be less than min(`config_node_ratis_log_appender_buffer_size_max`, 2G), where `config_node_ratis_log_appender_buffer_size_max` is a configuration item. For the specific meaning, please refer to the IOTDB configuration item description.
 - **It is better not to have classes with the same full class name but different function implementations in different JAR packages.** For example, trigger1 and trigger2 correspond to resources trigger1.jar and trigger2.jar respectively. If two JAR packages contain a `org.apache.iotdb.trigger.example.AlertListener` class, when `CREATE TRIGGER` uses this class, the system will randomly load the class in one of the JAR packages, which will eventually leads the inconsistent behavior of trigger and other issues.
 
-## 5. Configuration Parameters
+## Configuration Parameters
 
 | Parameter                                         | Meaning                                                      |
 | ------------------------------------------------- | ------------------------------------------------------------ |

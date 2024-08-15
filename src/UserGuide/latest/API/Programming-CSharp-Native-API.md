@@ -106,9 +106,9 @@ await session_pool.Close();
 - Encapsulate and abstract the `record` data in **IoTDB**
 - e.g.
 
-| timestamp | status | temperature |
-| --------- | ------ | ----------- |
-| 1         | 0      | 20          |
+  | timestamp | status | temperature |
+  | --------- | ------ | ----------- |
+  | 1         | 0      | 20          |
 
 - Construction：
 
@@ -122,11 +122,11 @@ var rowRecord =
 - A data structure similar to a table, containing several non empty data blocks of a device's rows。
 - e.g.
 
-| time | status | temperature |
-| ---- | ------ | ----------- |
-| 1    | 0      | 20          |
-| 2    | 0      | 20          |
-| 3    | 3      | 21          |
+  | time | status | temperature |
+  | ---- | ------ | ----------- |
+  | 1    | 0      | 20          |
+  | 2    | 0      | 20          |
+  | 3    | 3      | 21          |
 
 - Construction：
 

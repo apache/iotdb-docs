@@ -37,7 +37,7 @@
 
 - **MAC**
 
-    1. Install Bison ：Bison 2.3 is preinstalled on OSX, but this version is too low.
+1. Install Bison ：Bison 2.3 is preinstalled on OSX, but this version is too low.
 
        When building Thrift with Bison 2.3, the following error would pop out:
        ```invalid directive: '%code'```
@@ -60,14 +60,14 @@
           echo 'export PATH="/usr/local/opt/bison/bin:$PATH"' >> ~/.zshrc
           ```
 
-    2. Install Boost ：Please make sure a relative new version of Boost is ready on your machine.
-       If no Boost available, install the latest version of Boost:
-          ```shell
-          brew install boost
-          brew link boost
-          ```
+2. Install Boost ：Please make sure a relative new version of Boost is ready on your machine.
+    If no Boost available, install the latest version of Boost:
+    ```shell
+    brew install boost
+    brew link boost
+    ```
 
-    3. OpenSSL ：Make sure the Openssl libraries has been install on your Mac. The default Openssl include file search path is "/usr/local/opt/openssl/include".
+3. OpenSSL ：Make sure the Openssl libraries has been install on your Mac. The default Openssl include file search path is "/usr/local/opt/openssl/include".
 
        If Openssl header files can not be found when building Thrift, please add option`-Dopenssl.include.dir=""`.
 
@@ -94,20 +94,20 @@
 
 - **Windows**
 
-    1. Building environment
-        * Install `MS Visual Studio`(recommend 2019 version): remember to install Visual Studio C/C++ IDE and compiler(supporting CMake, Clang, MinGW).
-        * Download and install [CMake](https://cmake.org/download/) .
+1. Building environment
+   - Install `MS Visual Studio`(recommend 2019 version): remember to install Visual Studio C/C++ IDE and compiler(supporting CMake, Clang, MinGW).
+   - Download and install [CMake](https://cmake.org/download/) .
 
-    2. Download and install `Flex` & `Bison`
-        * Download [Win_Flex_Bison](https://sourceforge.net/projects/winflexbison/) .
-        * After downloaded, please rename the executables to `flex.exe` and `bison.exe` and add them to "PATH" environment variables.
+2. Download and install `Flex` & `Bison`
+   - Download [Win_Flex_Bison](https://sourceforge.net/projects/winflexbison/) .
+   - After downloaded, please rename the executables to `flex.exe` and `bison.exe` and add them to "PATH" environment variables.
 
-    3. Install `Boost`
-        * Download [Boost](https://www.boost.org/users/download/) .
-        * Then build `Boost` by executing bootstrap.bat and b2.exe.
+3. Install `Boost`
+   - Download [Boost](https://www.boost.org/users/download/) .
+   - Then build `Boost` by executing bootstrap.bat and b2.exe.
 
-    4. Install `OpenSSL`
-        * Download and install [OpenSSL](http://slproweb.com/products/Win32OpenSSL.html) .
+4. Install `OpenSSL`
+   - Download and install [OpenSSL](http://slproweb.com/products/Win32OpenSSL.html) .
 
 
 ### Compile

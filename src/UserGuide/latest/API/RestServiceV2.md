@@ -81,7 +81,7 @@ The `/ping` API can be used for service liveness probing.
 
 Request method: `GET`
 
-Request path: http://ip:port/ping
+Request path: `http://ip:port/ping`
 
 The user name used in the example is: root, password: root
 
@@ -133,7 +133,7 @@ Request method: `POST`
 
 Request header: `application/json`
 
-Request path: http://ip:port/rest/v2/query
+Request path: `http://ip:port/rest/v2/query`
 
 Parameter Description:
 
@@ -774,7 +774,7 @@ Request method: `POST`
 
 Request header: `application/json`
 
-Request path: http://ip:port/rest/v2/nonQuery
+Request path: `http://ip:port/rest/v2/nonQuery`
 
 Parameter Description:
 
@@ -810,7 +810,7 @@ Request method: `POST`
 
 Request header: `application/json`
 
-Request path: http://ip:port/rest/v2/insertTablet
+Request path: `http://ip:port/rest/v2/insertTablet`
 
 Parameter Description:
 
@@ -849,7 +849,7 @@ Request method: `POST`
 
 Request header: `application/json`
 
-Request path: http://ip:port/rest/v2/insertRecords
+Request path: `http://ip:port/rest/v2/insertRecords`
 
 Parameter Description:
 

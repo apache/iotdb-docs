@@ -36,14 +36,14 @@
 
 ## 安装步骤
 
-### 1、解压安装包并进入安装目录
+### 解压安装包并进入安装目录
 
 ```shell
 unzip  iotdb-enterprise-{version}-bin.zip
 cd  iotdb-enterprise-{version}-bin
 ```
 
-### 2、参数配置
+### 参数配置
 
 #### 环境脚本配置
 
@@ -95,7 +95,7 @@ cd  iotdb-enterprise-{version}-bin
 | dn_schema_region_consensus_port | DataNode用于元数据副本共识协议通信使用的端口                 | 10760           | 10760                                            | 首次启动后不能修改 |
 | dn_seed_config_node             | 节点注册加入集群时连接的ConfigNode地址,即cn_internal_address:cn_internal_port | 127.0.0.1:10710 | cn_internal_address:cn_internal_port             | 首次启动后不能修改 |
 
-### 3、启动 ConfigNode 节点
+### 启动 ConfigNode 节点
 
 进入iotdb的sbin目录下，启动confignode
 
@@ -103,7 +103,7 @@ cd  iotdb-enterprise-{version}-bin
 ./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
 ```
 
-### 4、激活数据库
+### 激活数据库
 
 #### 方式一：激活文件拷贝激活
 
@@ -137,7 +137,7 @@ License has been stored to sbin/../activation/license
 Import completed. Please start cluster and excute 'show cluster' to verify activation status
 ```
 
-### 5、启动DataNode 节点
+### 启动DataNode 节点
 
 进入iotdb的sbin目录下，启动datanode：
 
@@ -146,7 +146,7 @@ cd sbin
 ./start-datanode.sh   -d   #-d参数将在后台进行启动 
 ```
 
-### 6、验证部署
+### 验证部署
 
 可直接执行 ./sbin 目录下的 Cli 启动脚本：
 

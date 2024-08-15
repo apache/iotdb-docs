@@ -37,8 +37,7 @@
 ### 安装相关依赖
 
 - **MAC**
-
-  1. 安装 Bison ：Mac 环境下预安装了 Bison 2.3 版本，但该版本过低不能够用来编译 Thrift。
+ 1. 安装 Bison ：Mac 环境下预安装了 Bison 2.3 版本，但该版本过低不能够用来编译 Thrift。
   
      使用 Bison 2.3 版本会报以下错误：
      ```invalid directive: '%code'```
@@ -88,20 +87,20 @@
 
 - **Windows**
 
-    1. 构建编译环境
-       * 安装 MS Visual Studio（推荐安装 2019 版本）：安装时需要勾选 Visual Studio C/C++ IDE and compiler(supporting CMake, Clang, MinGW)。
-       * 下载安装 [CMake](https://cmake.org/download/) 。
+1. 构建编译环境
+   - 安装 MS Visual Studio（推荐安装 2019 版本）：安装时需要勾选 Visual Studio C/C++ IDE and compiler(supporting CMake, Clang, MinGW)。
+   - 下载安装 [CMake](https://cmake.org/download/) 。
 
-    2. 下载安装 Flex、Bison
-       * 下载 [Win_Flex_Bison](https://sourceforge.net/projects/winflexbison/) 。
-       * 下载后需要将可执行文件重命名为 flex.exe 和 bison.exe 以保证编译时能够被找到，添加可执行文件的目录到 PATH 环境变量中。
+2. 下载安装 Flex、Bison
+   - 下载 [Win_Flex_Bison](https://sourceforge.net/projects/winflexbison/) 。
+   - 下载后需要将可执行文件重命名为 flex.exe 和 bison.exe 以保证编译时能够被找到，添加可执行文件的目录到 PATH 环境变量中。
 
-    3. 安装 Boost
-       * 下载 [Boost](https://www.boost.org/users/download/) 。
-       * 本地编译 Boost ：依次执行 bootstrap.bat 和 b2.exe 。
+3. 安装 Boost
+   - 下载 [Boost](https://www.boost.org/users/download/) 。
+   - 本地编译 Boost ：依次执行 bootstrap.bat 和 b2.exe 。
        
-    4. 安装 OpenSSL 
-       * 下载安装 [OpenSSL](http://slproweb.com/products/Win32OpenSSL.html) 。
+4. 安装 OpenSSL 
+   - 下载安装 [OpenSSL](http://slproweb.com/products/Win32OpenSSL.html) 。
 
 
 ### 执行编译

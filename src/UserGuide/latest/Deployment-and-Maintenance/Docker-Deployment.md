@@ -22,7 +22,7 @@
 
 ## Environmental Preparation
 
-### 1.Docker Installation
+### Docker Installation
 
 ```SQL
 #Taking Ubuntu as an example, other operating systems can search for installation methods themselves
@@ -42,7 +42,7 @@ sudo systemctl enable docker
 docker --version  #Display version information, indicating successful installation
 ```
 
-### 2. Docker-compose Installation
+### Docker-compose Installation
 
 ```SQL
 #Installation command
@@ -57,7 +57,7 @@ docker-compose --version  #Displaying version information indicates successful i
 
 This section demonstrates how to deploy a standalone Docker version of 1C1D.
 
-### 1. Pull Image File
+### Pull Image File
 
 The Docker image of Apache IoTDB has been uploaded tohttps://hub.docker.com/r/apache/iotdb。
 
@@ -75,13 +75,13 @@ docker images
 
 ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F.PNG)
 
-### 2. Create Docker Bridge Network
+### Create Docker Bridge Network
 
 ```Bash
 docker network create --driver=bridge --subnet=172.18.0.0/16 --gateway=172.18.0.1  iotdb
 ```
 
-### 3. Write The Yml File For Docker-Compose
+### Write The Yml File For Docker-Compose
 
 Here we take the example of consolidating the IoTDB installation directory and yml files in the/docker iotdb folder:
 
@@ -131,7 +131,7 @@ networks:
     external: true
 ```
 
-### 4. Start IoTDB
+### Start IoTDB
 
 Use the following command to start:
 
@@ -140,7 +140,7 @@ cd　/docker-iotdb
 docker-compose -f docker-compose-standalone.yml up  -d  #Background startup
 ```
 
-### 5. Validate Deployment
+### Validate Deployment
 
 - Viewing the log, the following words indicate successful startup
 
@@ -173,7 +173,7 @@ You can see that all services are running and the activation status shows as act
 
 ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B23.png)
 
-### 6.  Map/conf Directory (optional)
+### Map/conf Directory (optional)
 
 If you want to directly modify the configuration file in the physical machine in the future, you can map the/conf folder in the container in three steps:
 
@@ -211,7 +211,7 @@ This section describes how to manually deploy an instance that includes 3 Config
 
 Taking the host network as an example, we will demonstrate how to deploy a 3C3D cluster.
 
-### 1.Set Host Name
+### Set Host Name
 
 Assuming there are currently three Linux servers, the IP addresses and service role assignments are as follows:
 
@@ -229,7 +229,7 @@ echo "192.168.1.4  iotdb-2"  >> /etc/hosts
 echo "192.168.1.5  iotdb-3"  >> /etc/hosts 
 ```
 
-### 2. Pull Image File
+### Pull Image File
 
 The Docker image of Apache IoTDB has been uploaded tohttps://hub.docker.com/r/apache/iotdb。
 
@@ -247,7 +247,7 @@ docker images
 
 ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%881.png)
 
-### 3.Write The Yml File For Docker Compose
+### Write The Yml File For Docker Compose
 
 Here we take the example of consolidating the IoTDB installation directory and yml files in the `/docker-iotdb` folder:
 
@@ -326,7 +326,7 @@ services:
     network_mode: "host"   #Using the host network
 ```
 
-### 4. Starting Confignode For The First Time
+### Starting Confignode For The First Time
 
 First, start configNodes on each of the three servers to obtain the machine code. Pay attention to the startup order, start the first iotdb-1 first, then start iotdb-2 and iotdb-3.
 
@@ -335,7 +335,7 @@ cd　/docker-iotdb
 docker-compose -f confignode.yml up  -d #Background startup
 ```
 
-### 5. Start Datanode
+### Start Datanode
 
 Start datanodes on 3 servers separately
 
@@ -346,7 +346,7 @@ docker-compose  -f  datanode.yml  up -d #Background startup
 
 ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%882.png)
 
-### 6. Validate Deployment
+### Validate Deployment
 
 - Viewing the logs, the following words indicate that the datanode has successfully started
 
@@ -379,7 +379,7 @@ docker-compose  -f  datanode.yml  up -d #Background startup
 
     ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%885.png)
 
-### 7. Map/conf Directory (optional)
+### Map/conf Directory (optional)
 
 If you want to directly modify the configuration file in the physical machine in the future, you can map the/conf folder in the container in three steps:
 
