@@ -20,7 +20,7 @@
 -->
 # Ignition
 
-## 一、产品概述
+## 产品概述
 
 1. Ignition简介
 
@@ -37,7 +37,7 @@ Ignition 是一个基于WEB的监控和数据采集工具（SCADA）- 一个开�
 
   ![](https://alioss.timecho.com/docs/img/Ignition.png)
 
-## 二、安装要求
+## 安装要求
 
 | **准备内容**             | **版本要求**                                                 |
 | :------------------------: | :------------------------------------------------------------: |
@@ -46,15 +46,15 @@ Ignition 是一个基于WEB的监控和数据采集工具（SCADA）- 一个开�
 | Ignition-IoTDB连接器模块 | 请联系商务获取                                               |
 | Ignition-IoTDB With JDBC模块 | 下载地址：https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/ |
 
-## 三、Ignition-IoTDB连接器使用说明
+## Ignition-IoTDB连接器使用说明
 
-### 1、简介
+### 简介
 
 Ignition-IoTDB连接器模块可以将数据存入与历史数据库提供程序关联的数据库连接中。数据根据其数据类型直接存储到 SQL 数据库中的表中，以及毫秒时间戳。根据每个标签上的值模式和死区设置，仅在更改时存储数据，从而避免重复和不必要的数据存储。
 
 Ignition-IoTDB连接器提供了将 Ignition 采集到的数据存入 IoTDB 的能力。
 
-### 2、安装步骤
+### 安装步骤
 
 步骤一：进入 `Config` - `System`- `Modules` 模块，点击最下方的`Install or Upgrade a Module...`
 
@@ -153,7 +153,7 @@ Ignition-IoTDB连接器提供了将 Ignition 采集到的数据存入 IoTDB 的�
 </table>
 
 
-### 3、使用说明
+### 使用说明
 
 #### 配置历史数据存储
 
@@ -230,13 +230,13 @@ Ignition-IoTDB连接器提供了将 Ignition 采集到的数据存入 IoTDB 的�
 system.iotdb.query("IoTDB", "select * from root.db.Sine where time > 1709563427247")
 ```
 
-## 四、Ignition-IoTDB With JDBC
+## Ignition-IoTDB With JDBC
 
-###  1、简介
+### 简介
 
  Ignition-IoTDB With JDBC提供了一个 JDBC 驱动，允许用户使用标准的JDBC API 连接和查询 lgnition-loTDB 数据库
 
-###  2、安装步骤
+### 安装步骤
 
  步骤一：进入 `Config` - `Databases` -`Drivers` 模块，创建 `Translator`
 
@@ -250,7 +250,7 @@ system.iotdb.query("IoTDB", "select * from root.db.Sine where time > 17095634272
 
 ![](https://alioss.timecho.com/docs/img/Ignition-IoTDB%20With%20JDBC-3.png)
 
-### 3、使用说明
+### 使用说明
 
 #### 数据写入
 
