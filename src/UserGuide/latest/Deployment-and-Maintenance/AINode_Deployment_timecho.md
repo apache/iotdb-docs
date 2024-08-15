@@ -20,24 +20,24 @@
 -->
 # AINode Deployment
 
-##  1 AINode Introduction
+## AINode Introduction
 
-### 1.1 Capability Introduction
+### Capability Introduction
 
  AINode is the third type of endogenous node provided by IoTDB after the Configurable Node and DataNode. This node extends its ability to perform machine learning analysis on time series by interacting with the DataNode and Configurable Node of the IoTDB cluster. It supports the introduction of existing machine learning models from external sources for registration and the use of registered models to complete time series analysis tasks on specified time series data through simple SQL statements. The creation, management, and inference of models are integrated into the database engine. Currently, machine learning algorithms or self-developed models are available for common time series analysis scenarios, such as prediction and anomaly detection.
 
-### 1.2 Delivery Method
+### Delivery Method
  It is an additional package outside the IoTDB cluster, with independent installation and activation (if you need to try or use it, please contact Tianmu Technology Business or Technical Support).
 
-### 1.3 Deployment mode
+### Deployment mode
 <div >
     <img src="https://alioss.timecho.com/docs/img/AINode%20Deployment%201.png" alt="" style="width: 45%;"/>
     <img src="https://alioss.timecho.com/docs/img/AINode%20Deployment%202.png" alt="" style="width: 45%;"/>
 </div>
 
-##  2 Installation preparation
+## Installation preparation
 
-### 2.1 Get installation package
+### Get installation package
 
  Users can download the software installation package for AINode, download and unzip it to complete the installation of AINode.
 
@@ -53,7 +53,7 @@
 | README_ZH.md | file     | Explanation of the Chinese version of the markdown format                         |
 | `README.md`    | file     | Instructions                                         |
 
-###  2.2 Environmental preparation  
+### Environmental preparation  
 - Suggested operating environment：Ubuntu, CentOS, MacOS  
 
 - Runtime Environment   
@@ -68,9 +68,9 @@
       ../Python-3.8.0/python -m venv venv(Folder Name）
     ```
 
-## 3 Installation steps
+## Installation steps
 
-### 3.1 AINode activation
+### AINode activation
 
 Require IoTDB to be in normal operation and have AINode module authorization in the license (usually not in the license, please contact Tianmou Business or technical support personnel to obtain AINode module authorization).
 
@@ -105,7 +105,7 @@ Require IoTDB to be in normal operation and have AINode module authorization in 
     ./start-datanode.sh   -d   #The parameter'd 'will be started in the background 
     ```
 
- ### 3.2 Configuration item modification
+ ### Configuration item modification
 
 AINode supports modifying some necessary parameters. You can find the following parameters in the `conf/iotdb-ainode.properties` file and make persistent modifications to them:
 ：
@@ -121,7 +121,7 @@ AINode supports modifying some necessary parameters. You can find the following 
 | ain_logs_dir                   | The path where AINode stores logs, the starting directory of the relative path is related to the operating system, and it is recommended to use an absolute path | String  | logs/AINode        | Effective after restart                   |
 | ain_thrift_compression_enabled | Does AINode enable Thrift's compression mechanism , 0-Do not start, 1-Start          | Boolean | 0                  | Effective after restart                   |
 
-### 3.3 Start AINode
+### Start AINode
 
  After completing the deployment of Seed Config Node, the registration and inference functions of the model can be supported by adding AINode nodes. After specifying the information of the IoTDB cluster in the configuration item, the corresponding instruction can be executed to start AINode and join the IoTDB cluster。  
 
@@ -234,7 +234,7 @@ If the version of AINode has been updated (such as updating the `lib` folder), t
   nohup bash sbin/start-ainode.bat  > myout.file 2>& 1 &
   ```
 
-### 3.4 Detecting the status of AINode nodes 
+### Detecting the status of AINode nodes 
 
 During the startup process of AINode, the new AINode will be automatically added to the IoTDB cluster. After starting AINode, you can enter SQL in the command line to query. If you see an AINode node in the cluster and its running status is Running (as shown below), it indicates successful joining.
 
@@ -250,7 +250,7 @@ IoTDB> show cluster
 +------+----------+-------+---------------+------------+-------+-----------+
 ```
 
-### 3.5 Stop AINode
+### Stop AINode
 
 If you need to stop a running AINode node, execute the corresponding shutdown script.
 
@@ -293,7 +293,7 @@ IoTDB> show cluster
 ```
 If you need to restart the node, you need to execute the startup script again.
 
-### 3.6 Remove AINode
+### Remove AINode
 
 When it is necessary to remove an AINode node from the cluster, a removal script can be executed. The difference between removing and stopping scripts is that stopping retains the AINode node in the cluster but stops the AINode service, while removing removes the AINode node from the cluster.
 
@@ -364,9 +364,9 @@ If the user loses files in the data folder, AINode may not be able to actively r
   sbin\remove-ainode.bat -t <AINode-id>/<ip>:<rpc-port>
   ```
 
-## 4 common problem
+## common problem
 
-### 4.1 An error occurs when starting AINode stating that the venv module cannot be found
+### An error occurs when starting AINode stating that the venv module cannot be found
 
  When starting AINode using the default method, a Python virtual environment will be created in the installation package directory and dependencies will be installed, so it is required to install the venv module. Generally speaking, Python 3.8 and above versions come with built-in VenV, but for some systems with built-in Python environments, this requirement may not be met. There are two solutions when this error occurs (choose one or the other):
 
@@ -382,7 +382,7 @@ Install version 3.8.0 of venv into AINode in the AINode path.
 ```
  When running the startup script, use ` -i ` to specify an existing Python interpreter path as the running environment for AINode, eliminating the need to create a new virtual environment.
 
- ### 4.2 The SSL module in Python is not properly installed and configured to handle HTTPS resources
+ ### The SSL module in Python is not properly installed and configured to handle HTTPS resources
 WARNING: pip is configured with locations that require TLS/SSL, however the ssl module in Python is not available.      
 You can install OpenSSLS and then rebuild Python to solve this problem
 > Currently Python versions 3.6 to 3.9 are compatible with OpenSSL 1.0.2, 1.1.0, and 1.1.1.
@@ -396,7 +396,7 @@ make
 sudo make install
 ```
 
- ### 4.3 Pip version is lower
+ ### Pip version is lower
 
  A compilation issue similar to "error: Microsoft Visual C++14.0 or greater is required..." appears on Windows
 
@@ -408,7 +408,7 @@ The corresponding error occurs during installation and compilation, usually due 
 ```
 
 
- ### 4.4 Install and compile Python
+ ### Install and compile Python
 
  Use the following instructions to download the installation package from the official website and extract it:
   ```shell

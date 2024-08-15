@@ -397,7 +397,7 @@ The above SQL statement creates a trigger named triggerTest:
 
 - The trigger is stateless.
 - Fires before insertion.
-- Listens on path pattern root.sg.**
+- Listens on path pattern root\.sg.**
 - The implemented trigger class is named `org.apache.iotdb.trigger.ClusterAlertingExample`
 - The JAR package URI is http://jar/ClusterAlertingExample.jar
 - When creating the trigger instance, two parameters, name and limit, are passed in.

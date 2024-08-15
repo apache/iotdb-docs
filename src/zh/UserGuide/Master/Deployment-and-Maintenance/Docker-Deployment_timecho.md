@@ -22,7 +22,7 @@
 
 ## 环境准备
 
-### 1. Docker安装
+### Docker安装
 
 ```Bash
 #以ubuntu为例，其他操作系统可以自行搜索安装方法
@@ -42,7 +42,7 @@ sudo systemctl enable docker
 docker --version  #显示版本信息，即安装成功
 ```
 
-### 2. docker-compose安装
+### docker-compose安装
 
 ```Bash
 #安装命令
@@ -53,7 +53,7 @@ ln -s  /usr/local/bin/docker-compose  /usr/bin/docker-compose
 docker-compose --version  #显示版本信息即安装成功
 ```
 
-### 3. 安装dmidecode插件
+### 安装dmidecode插件
 
 默认情况下，linux服务器应该都已安装，如果没有安装的话，可以使用下面的命令安装。
 
@@ -63,7 +63,7 @@ sudo apt-get install dmidecode
 
 dmidecode 安装后，查找安装路径：`whereis dmidecode`，这里假设结果为`/usr/sbin/dmidecode`，记住该路径，后面的docker-compose的yml文件会用到。
 
-### 4. 获取IoTDB的容器镜像
+### 获取IoTDB的容器镜像
 
 关于IoTDB企业版的容器镜像您可联系商务或技术支持获取。
 
@@ -71,7 +71,7 @@ dmidecode 安装后，查找安装路径：`whereis dmidecode`，这里假设结
 
 本节演示如何部署1C1D的docker单机版。
 
-### 1. load 镜像文件
+### load 镜像文件
 
 比如这里获取的IoTDB的容器镜像文件名是：`iotdb-enterprise-1.3.2.3-standalone-docker.tar.gz`
 
@@ -89,13 +89,13 @@ docker images
 
 ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E6%9F%A5%E7%9C%8B%E9%95%9C%E5%83%8F.PNG)
 
-### 2. 创建docker bridge网络
+### 创建docker bridge网络
 
 ```Bash
 docker network create --driver=bridge --subnet=172.18.0.0/16 --gateway=172.18.0.1  iotdb
 ```
 
-### 3. 编写docker-compose的yml文件
+### 编写docker-compose的yml文件
 
 这里我们以把IoTDB安装目录和yml文件统一放在`/docker-iotdb` 文件夹下为例：
 
@@ -147,7 +147,7 @@ networks:
     external: true
 ```
 
-### 4. 首次启动
+### 首次启动
 
 使用下面的命令启动：
 
@@ -160,7 +160,7 @@ docker-compose -f docker-compose-standalone.yml up
 
 ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E6%BF%80%E6%B4%BB.png)
 
-### 5. 申请激活
+### 申请激活
 
 - 首次启动后，在物理机目录`/docker-iotdb/iotdb/activation`下会生成一个 `system_info`文件，将这个文件拷贝给天谋工作人员。
 
@@ -170,7 +170,7 @@ docker-compose -f docker-compose-standalone.yml up
 
     ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB2.png)
 
-### 6. 再次启动IoTDB
+### 再次启动IoTDB
 
 ```Bash
 docker-compose -f docker-compose-standalone.yml up  -d
@@ -178,7 +178,7 @@ docker-compose -f docker-compose-standalone.yml up  -d
 
 ![](https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8iotdb.png)
 
-### 7. 验证部署
+### 验证部署
 
 - 查看日志，有如下字样，表示启动成功
 
@@ -211,7 +211,7 @@ docker logs -f iotdb-datanode #查看日志命令
 
     ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B23.png)
 
-### 8. 映射/conf目录(可选)
+### 映射/conf目录(可选)
 
 后续如果想在物理机中直接修改配置文件，可以把容器中的/conf文件夹映射出来，分三步：
 
@@ -251,7 +251,7 @@ docker-compose  -f docker-compose-standalone.yml  up  -d
 
 下面以host网络为例演示如何部署3C3D集群。
 
-### 1. 设置主机名
+### 设置主机名
 
 假设现在有3台linux服务器，IP地址和服务角色分配如下：
 
@@ -269,7 +269,7 @@ echo "192.168.1.4  iotdb-2"  >> /etc/hosts
 echo "192.168.1.5  iotdb-3"  >> /etc/hosts 
 ```
 
-### 2. load镜像文件
+### load镜像文件
 
 比如获取的IoTDB的容器镜像文件名是：`iotdb-enterprise-1.3.2.3-standalone-docker.tar.gz`
 
@@ -287,7 +287,7 @@ docker images
 
 ![](https://alioss.timecho.com/docs/img/%E9%95%9C%E5%83%8F%E5%8A%A0%E8%BD%BD.png)
 
-### 3. 编写docker-compose的yml文件
+### 编写docker-compose的yml文件
 
 这里我们以把IoTDB安装目录和yml文件统一放在/docker-iotdb文件夹下为例：
 
@@ -366,7 +366,7 @@ services:
     network_mode: "host"   #使用host网络
 ```
 
-### 4. 首次启动confignode
+### 首次启动confignode
 
 先在3台服务器上分别启动confignode, 用来获取机器码，注意启动顺序，先启动第1台iotdb-1,再启动iotdb-2和iotdb-3。
 
@@ -375,7 +375,7 @@ cd　/docker-iotdb
 docker-compose -f confignode.yml up  -d #后台启动
 ```
 
-### 5. 申请激活
+### 申请激活
 
 - 首次启动3个confignode后，在每个物理机目录`/docker-iotdb/iotdb/activation`下都会生成一个`system_info`文件，将3个服务器的`system_info`文件拷贝给天谋工作人员；
 
@@ -387,7 +387,7 @@ docker-compose -f confignode.yml up  -d #后台启动
 
 - license放入对应的activation文件夹后，confignode会自动激活，不用重启confignode
 
-### 6. 启动datanode
+### 启动datanode
 
 在3台服务器上分别启动datanode
 
@@ -398,7 +398,7 @@ docker-compose  -f  datanode.yml  up -d #后台启动
 
 ![](https://alioss.timecho.com/docs/img/%E9%9B%86%E7%BE%A4%E7%89%88-dn%E5%90%AF%E5%8A%A8.png)
 
-### 7. 验证部署
+### 验证部署
 
 - 查看日志，有如下字样，表示datanode启动成功
 
@@ -431,7 +431,7 @@ docker-compose  -f  datanode.yml  up -d #后台启动
 
     ![](https://alioss.timecho.com/docs/img/%E9%9B%86%E7%BE%A4-%E6%BF%80%E6%B4%BB.png)
 
-### 8. 映射/conf目录(可选)
+### 映射/conf目录(可选)
 
 后续如果想在物理机中直接修改配置文件，可以把容器中的/conf文件夹映射出来，分三步：
 

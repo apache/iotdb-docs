@@ -22,7 +22,7 @@
 
 ## 环境准备
 
-### 1. Docker安装
+### Docker安装
 
 ```SQL
 #以ubuntu为例，其他操作系统可以自行搜索安装方法
@@ -42,7 +42,7 @@ sudo systemctl enable docker
 docker --version  #显示版本信息，即安装成功
 ```
 
-### 2. docker-compose安装
+### docker-compose安装
 
 ```SQL
 #安装命令
@@ -57,7 +57,7 @@ docker-compose --version  #显示版本信息即安装成功
 
 本节演示如何部署1C1D的docker单机版。
 
-### 1. 拉取镜像文件
+### 拉取镜像文件
 
 Apache IoTDB的Docker镜像已经上传至https://hub.docker.com/r/apache/iotdb。
 
@@ -75,13 +75,13 @@ docker images
 
 ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F.PNG)
 
-### 2. 创建docker bridge网络
+### 创建docker bridge网络
 
 ```Bash
 docker network create --driver=bridge --subnet=172.18.0.0/16 --gateway=172.18.0.1  iotdb
 ```
 
-### 3.编写docker-compose的yml文件
+### 编写docker-compose的yml文件
 
 这里我们以把IoTDB安装目录和yml文件统一放在`/docker-iotdb`文件夹下为例：
 
@@ -131,7 +131,7 @@ networks:
     external: true
 ```
 
-### 4. 启动IoTDB
+### 启动IoTDB
 
 使用下面的命令启动：
 
@@ -140,7 +140,7 @@ cd　/docker-iotdb
 docker-compose -f docker-compose-standalone.yml up  -d  #后台启动
 ```
 
-### 5. 验证部署
+### 验证部署
 
 - 查看日志，有如下字样，表示启动成功
 
@@ -173,7 +173,7 @@ docker-compose -f docker-compose-standalone.yml up  -d  #后台启动
 
     ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B23.png)
 
-### 6. 映射/conf目录(可选)
+### 映射/conf目录(可选)
 
 后续如果想在物理机中直接修改配置文件，可以把容器中的/conf文件夹映射出来，分三步：
 
@@ -211,7 +211,7 @@ docker-compose  -f docker-compose-standalone.yml  up  -d
 
 下面以host网络为例演示如何部署3C3D集群。
 
-### 1.设置主机名
+### 设置主机名
 
 假设现在有3台linux服务器，IP地址和服务角色分配如下：
 
@@ -229,7 +229,7 @@ echo "192.168.1.4  iotdb-2"  >> /etc/hosts
 echo "192.168.1.5  iotdb-3"  >> /etc/hosts 
 ```
 
-### 2. 拉取镜像文件
+### 拉取镜像文件
 
 Apache IoTDB的Docker镜像已经上传至https://hub.docker.com/r/apache/iotdb。
 
@@ -247,7 +247,7 @@ docker images
 
 ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%881.png)
 
-### 3.编写docker-compose的yml文件
+### 编写docker-compose的yml文件
 
 这里我们以把IoTDB安装目录和yml文件统一放在`/docker-iotdb`文件夹下为例：
 
@@ -322,7 +322,7 @@ services:
     network_mode: "host"      #使用host网络
 ```
 
-### 4. 首次启动confignode
+### 首次启动confignode
 
 先在3台服务器上分别启动confignode, 注意启动顺序，先启动第1台iotdb-1,再启动iotdb-2和iotdb-3。
 
@@ -331,7 +331,7 @@ cd　/docker-iotdb
 docker-compose -f confignode.yml up  -d #后台启动
 ```
 
-### 5. 启动datanode
+### 启动datanode
 
 在3台服务器上分别启动datanode
 
@@ -342,7 +342,7 @@ docker-compose  -f  datanode.yml  up -d #后台启动
 
 ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%882.png)
 
-### 6. 验证部署
+### 验证部署
 
 - 查看日志,有如下字样，表示datanode启动成功
 
@@ -375,7 +375,7 @@ docker-compose  -f  datanode.yml  up -d #后台启动
 
     ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%885.png)
 
-### 7. 映射/conf目录(可选)
+### 映射/conf目录(可选)
 
 后续如果想在物理机中直接修改配置文件，可以把容器中的/conf文件夹映射出来，分三步：
 
