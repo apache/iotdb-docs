@@ -59,6 +59,17 @@ cd $IoTDB_HOME
 $IoTDB_HOME/zeppelin-interpreter/target/zeppelin-{version}-SNAPSHOT-jar-with-dependencies.jar
 ```
 
+### 修改 Zeppelin 配置
+
+进入 `$Zeppelin_HOME/conf`，使用 template 创建 Zeppelin 配置文件：
+
+```shell
+cp zeppelin-site.xml.template zeppelin-site.xml
+```
+
+打开 zeppelin-site.xml 文件，将 `zeppelin.server.addr` 项修改为 `0.0.0.0`
+
+
 ### 安装解释器
 
 当你编译好了解释器，在 Zeppelin 的解释器目录下创建一个新的文件夹`iotdb`，并将 IoTDB 解释器放入其中。
