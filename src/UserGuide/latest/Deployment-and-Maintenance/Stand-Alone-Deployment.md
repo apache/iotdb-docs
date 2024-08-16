@@ -21,7 +21,7 @@
 # Stand-Alone Deployment
 
 ## Matters Needing Attention
-1. Before installation, ensure that the system is complete by referring to [System configuration](.\Environment-Requirements.md)
+1. Before installation, ensure that the system is complete by referring to [System configuration](.\Environment-Requirements.md).
 
 2. It is recommended to prioritize using 'hostname' for IP configuration during deployment, which can avoid the problem of modifying the host IP in the later stage and causing the database to fail to start. To set the host name, you need to configure/etc/hosts on the target server. For example, if the local IP is 192.168.1.3 and the host name is iotdb-1, you can use the following command to set the server's host name and configure IoTDB's' cn_internal-address' using the host name dn_internal_address、dn_rpc_address。
 
