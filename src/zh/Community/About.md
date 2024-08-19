@@ -100,7 +100,7 @@
     - 学习如何调试IoTDB
        - [如何调试 IoTDB server](https://my.oschina.net/u/3664598/blog/4500279)
     - 学习IoTDB的基本使用
-       - [IoTDB下载与安装](https://iotdb.apache.org/zh/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package.html)
+       - [IoTDB下载与安装](../UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_apache.md)
        - [IoTDB快速上手](https://iotdb.apache.org/zh/UserGuide/Master/QuickStart/QuickStart.html)
        - [数据模式与概念](https://iotdb.apache.org/zh/UserGuide/latest/Basic-Concept/Data-Model-and-Terminology.html)
        - [API接口](https://iotdb.apache.org/zh/UserGuide/latest/API/Programming-Java-Native-API.html)

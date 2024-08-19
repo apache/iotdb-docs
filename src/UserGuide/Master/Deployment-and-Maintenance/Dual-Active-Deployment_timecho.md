@@ -53,7 +53,7 @@ Taking the dual active version IoTDB built by two single machines A and B as an 
 
 ### Step1：Install Two Independent IoTDBs Separately
 
-Install IoTDB on two machines separately, and refer to the deployment documentation for the standalone version [Stand-Alone Deployment](https://www.timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/Stand-Alone-Deployment_timecho.html)，The deployment document for the cluster version can be referred to [Cluster Deployment](https://www.timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/Cluster-Deployment_timecho.html)。**It is recommended that the configurations of clusters A and B remain consistent to achieve the best dual active effect**
+Install IoTDB on two machines separately, and refer to the deployment documentation for the standalone version [Stand-Alone Deployment](../Deployment-and-Maintenance/Stand-Alone-Deployment_timecho.md)，The deployment document for the cluster version can be referred to [Cluster Deployment](../Deployment-and-Maintenance/Cluster-Deployment_timecho.md)。**It is recommended that the configurations of clusters A and B remain consistent to achieve the best dual active effect**
 
 ### Step2：Create A Aata Synchronization Task On Machine A To Machine B
 

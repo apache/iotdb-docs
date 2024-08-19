@@ -38,7 +38,7 @@ This section will take the IoTDB classic cluster deployment architecture 3C3D (3
 
 ## Preparation Steps
 
-1. Prepare the IoTDB database installation package:：apache-iotdb-{version}-all-bin.zip（Please refer to the installation package for details：[IoTDB-Package](https://iotdb.apache.org/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package.html)）
+1. Prepare the IoTDB database installation package:：apache-iotdb-{version}-all-bin.zip（Please refer to the installation package for details：[IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_apache.md)）
 
 2. Configure the operating system environment according to environmental requirements (system environment configuration can be found in:[Environment Requirements](https://iotdb.apache.org/UserGuide/latest/Deployment-and-Maintenance/Environment-Requirements.html))
 
@@ -75,7 +75,7 @@ cd  apache-iotdb-{version}-all-bin
 
 - `./conf/confignode-env.sh` configuration
 
-| **Configuration**  | **Description**                                              | **Default** | **Recommended value**                                        | **Note**                            |
+| **配置项**  | **Description**                                              | **Default** | **Recommended value**                                        | **Note**                            |
 | :---------- | :----------------------------------------------------------- | :---------- | :----------------------------------------------------------- | :---------------------------------- |
 | MEMORY_SIZE | The total amount of memory that IoTDB ConfigNode nodes can use | -           | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
 
@@ -154,7 +154,6 @@ After successful startup, the following interface will appear displaying success
 You can use the `show cluster` command to view cluster information:
 
 ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90%E7%89%88%20show%20cluter.png)
-
 
 > The appearance of `ACTIVATED (W)` indicates passive activation, which means that this Configurable Node does not have a license file (or has not issued the latest license file with a timestamp), and its activation depends on other Activated Configurable Nodes in the cluster. At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Tianmu staff to reapply.
 
@@ -290,8 +289,8 @@ Then use the script to remove the DataNode. Script command:
 
 ```Bash
 # Linux / MacOS 
-sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
+sbin/remove-datanode.sh [datanode_id]
 
 #Windows
-sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
+sbin/remove-datanode.bat [datanode_id]
 ```

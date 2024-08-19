@@ -32,7 +32,7 @@
 
 2. 部分参数首次启动后不能修改，请参考下方的【参数配置】章节进行设置
 
-3. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，部署监控面板步骤可以参考：[监控面板部署](https://timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/Monitoring-Board-Install-and-Deploy.html)。
+3. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，部署监控面板步骤可以参考：[监控面板部署](../Deployment-and-Maintenance/Monitoring-panel-deployment.md)。
 
 ## 安装步骤
 

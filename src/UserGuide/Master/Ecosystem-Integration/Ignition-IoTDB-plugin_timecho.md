@@ -42,7 +42,7 @@
 
 | **Preparation Content**         | Version Requirements                                         |
 | ------------------------------- | ------------------------------------------------------------ |
-| IoTDB                           | Version 1.3.1 and above are required to be installed, please refer to IoTDB for installation [Deployment Guidance](https://www.timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_timecho.html) |
+| IoTDB                           | Version 1.3.1 and above are required to be installed, please refer to IoTDB for installation [Deployment Guidance](../Deployment-and-Maintenance/IoTDB-Package_timecho.md) |
 | Ignition                        | Requirement: 8.1 version (8.1.37 and above) of version 8.1 must be installed. Please refer to the Ignition official website for installation [Installation Guidance](https://docs.inductiveautomation.com/docs/8.1/getting-started/installing-and-upgrading)（Other versions are compatible, please contact the business department for more information） |
 | Ignition-IoTDB Connector module | Please contact Business to obtain                            |
 | Ignition-IoTDB With JDBC module | Download address：https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/ |
