@@ -28,14 +28,19 @@ This section describes how to manually deploy an instance that includes 3 Config
 
 ## Note
 
-1. It is recommended to prioritize using `hostname` for IP configuration during deployment, which can avoid the problem of modifying the host IP in the later stage and causing the database to fail to start. To set the host name, you need to configure /etc/hosts on the target server. For example, if the local IP is 192.168.1.3 and the host name is iotdb-1, you can use the following command to set the server's host name and configure the `cn_internal_address` and `dn_internal_address` of IoTDB using the host name.
+1. Before installation, ensure that the system is complete by referring to [System configuration](.\Environment-Requirements.md)
+
+2. It is recommended to prioritize using `hostname` for IP configuration during deployment, which can avoid the problem of modifying the host IP in the later stage and causing the database to fail to start. To set the host name, you need to configure /etc/hosts on the target server. For example, if the local IP is 192.168.1.3 and the host name is iotdb-1, you can use the following command to set the server's host name and configure the `cn_internal_address` and `dn_internal_address` of IoTDB using the host name.
 
    ``` shell
    echo "192.168.1.3  iotdb-1" >> /etc/hosts 
    ```
 
-2. Some parameters cannot be modified after the first startup. Please refer to the "Parameter Configuration" section below for settings.
-3. It is recommended to deploy a monitoring panel, which can monitor important operational indicators and keep track of database operation status at any time. The monitoring panel can be obtained by contacting the business department,The steps for deploying a monitoring panel can refer to:[Monitoring Panel Deployment](https://timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/Monitoring-panel-deployment.html)
+3. Some parameters cannot be modified after the first startup. Please refer to the "Parameter Configuration" section below for settings.
+
+4. Whether in linux or windows, ensure that the IoTDB installation path does not contain Spaces and Chinese characters to avoid software exceptions.
+
+5. It is recommended to deploy a monitoring panel, which can monitor important operational indicators and keep track of database operation status at any time. The monitoring panel can be obtained by contacting the business department,The steps for deploying a monitoring panel can refer to:[Monitoring Panel Deployment](https://timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/Monitoring-panel-deployment.html)
 
 ## Preparation Steps
 

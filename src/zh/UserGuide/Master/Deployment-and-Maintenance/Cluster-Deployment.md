@@ -27,14 +27,17 @@
 </div>
 
 ## 注意事项
+1. 安装前请确认系统已参照[系统配置](.\Environment-Requirements.md)准备完成。
 
-1. 部署时推荐优先使用`hostname`进行IP配置，可避免后期修改主机ip导致数据库无法启动的问题。设置hostname需要在目标服务器上配置/etc/hosts，如本机ip是192.168.1.3，hostname是iotdb-1，则可以使用以下命令设置服务器的 hostname，并使用hostname配置IoTDB的`cn_internal_address`、`dn_internal_address`。
+2. 部署时推荐优先使用`hostname`进行IP配置，可避免后期修改主机ip导致数据库无法启动的问题。设置hostname需要在目标服务器上配置/etc/hosts，如本机ip是192.168.1.3，hostname是iotdb-1，则可以使用以下命令设置服务器的 hostname，并使用hostname配置IoTDB的`cn_internal_address`、`dn_internal_address`。
 
    ``` shell
    echo "192.168.1.3  iotdb-1" >> /etc/hosts 
    ```
 
-2. 有些参数首次启动后不能修改，请参考下方的"参数配置"章节来进行设置。
+3. 有些参数首次启动后不能修改，请参考下方的"参数配置"章节来进行设置。
+
+4. 无论是在linux还是windows中，请确保IoTDB的安装路径中不含空格和中文，避免软件运行异常。
 
 ## 准备步骤
 
