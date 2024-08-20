@@ -69,7 +69,7 @@ export const zhSidebar = {
       children: [
         { text: '安装包获取', link: 'IoTDB-Package_timecho' },
         { text: '资源规划', link: 'Database-Resources' },
-        { text: '环境要求', link: 'Environment-Requirements' },
+        { text: '系统配置', link: 'Environment-Requirements' },
         { text: '单机版部署', link: 'Stand-Alone-Deployment_timecho' },
         { text: '集群版部署', link: 'Cluster-Deployment_timecho' },
         { text: '双活版部署', link: 'Dual-Active-Deployment_timecho' },

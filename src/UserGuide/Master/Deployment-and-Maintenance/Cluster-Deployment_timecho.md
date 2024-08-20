@@ -40,7 +40,7 @@ This section describes how to manually deploy an instance that includes 3 Config
 
 4. Whether in linux or windows, ensure that the IoTDB installation path does not contain Spaces and Chinese characters to avoid software exceptions.
 
-5. It is recommended to deploy a monitoring panel, which can monitor important operational indicators and keep track of database operation status at any time. The monitoring panel can be obtained by contacting the business department,The steps for deploying a monitoring panel can refer to:[Monitoring Panel Deployment](https://timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/Monitoring-panel-deployment.html)
+5. It is recommended to deploy a monitoring panel, which can monitor important operational indicators and keep track of database operation status at any time. The monitoring panel can be obtained by contacting the business department,The steps for deploying a monitoring panel can refer to:[Monitoring Panel Deployment](.\Monitoring-panel-deployment.md)
 
 ## Preparation Steps
 

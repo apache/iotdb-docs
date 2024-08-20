@@ -40,7 +40,7 @@
 
 4. 无论是在linux还是windows中，请确保IoTDB的安装路径中不含空格和中文，避免软件运行异常。
 
-5. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，部署监控面板步骤可以参考：[监控面板部署](https://timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/Monitoring-panel-deployment.html)
+5. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，部署监控面板步骤可以参考：[监控面板部署](.\Monitoring-panel-deployment.md)
 
 ## 准备步骤
 
