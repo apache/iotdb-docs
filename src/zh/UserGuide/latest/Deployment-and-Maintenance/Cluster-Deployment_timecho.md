@@ -38,8 +38,8 @@
 
 ## 准备步骤
 
-1. 准备IoTDB数据库安装包 ：iotdb-enterprise-{version}-bin.zip（安装包获取见：[链接](https://www.timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_timecho.html)）
-2. 按环境要求配置好操作系统环境（系统环境配置见：[链接](https://www.timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/Environment-Requirements.html)）
+1. 准备IoTDB数据库安装包 ：iotdb-enterprise-{version}-bin.zip（安装包获取见：[链接](../Deployment-and-Maintenance/IoTDB-Package_timecho.md)）
+2. 按环境要求配置好操作系统环境（系统环境配置见：[链接](../Deployment-and-Maintenance/Environment-Requirements.md)）
 
 ## 安装步骤
 

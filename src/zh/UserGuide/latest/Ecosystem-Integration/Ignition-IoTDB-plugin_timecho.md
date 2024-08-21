@@ -41,7 +41,7 @@
 
 | **准备内容**             | **版本要求**                                                 |
 | :------------------------: | :------------------------------------------------------------: |
-| IoTDB                    | 要求已安装V1.3.1及以上版本，安装请参考 IoTDB [部署指导](https://www.timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_timecho.html) |
+| IoTDB                    | 要求已安装V1.3.1及以上版本，安装请参考 IoTDB [部署指导](../Deployment-and-Maintenance/IoTDB-Package_timecho.md) |
 | Ignition                 | 要求已安装 8.1.x版本（8.1.37及以上）的 8.1 版本，安装请参考 Ignition 官网[安装指导](https://docs.inductiveautomation.com/docs/8.1/getting-started/installing-and-upgrading)（其他版本适配请联系商务了解） |
 | Ignition-IoTDB连接器模块 | 请联系商务获取                                               |
 | Ignition-IoTDB With JDBC模块 | 下载地址：https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/ |

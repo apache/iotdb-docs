@@ -53,7 +53,7 @@
 
 ### Step1：分别安装两套独立的 IoTDB
 
-在2个机器上分别安装 IoTDB，单机版部署文档可参考[文档](https://www.timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/Stand-Alone-Deployment_timecho.html)，集群版部署文档可参考[文档](https://www.timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/Cluster-Deployment_timecho.html)。**推荐 A、B 集群的各项配置保持一致，以实现最佳的双活效果。**
+在2个机器上分别安装 IoTDB，单机版部署文档可参考[文档](../Deployment-and-Maintenance/Stand-Alone-Deployment_timecho.md)，集群版部署文档可参考[文档](../Deployment-and-Maintenance/Cluster-Deployment_timecho.md)。**推荐 A、B 集群的各项配置保持一致，以实现最佳的双活效果。**
 
 ### Step2：在机器A上创建数据同步任务至机器B
 

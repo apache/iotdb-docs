@@ -38,7 +38,7 @@
 
 ## 准备步骤
 
-1. 准备IoTDB数据库安装包 ：apache-iotdb-{version}-all-bin.zip（安装包获取见：[链接](https://iotdb.apache.org/zh/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package.html)）
+1. 准备IoTDB数据库安装包 ：apache-iotdb-{version}-all-bin.zip（安装包获取见：[链接](../Deployment-and-Maintenance/IoTDB-Package_apache.md)）
 
 2. 按环境要求配置好操作系统环境（系统环境配置见：[链接](https://iotdb.apache.org/zh/UserGuide/latest/Deployment-and-Maintenance/Environment-Requirements.html)）
 
