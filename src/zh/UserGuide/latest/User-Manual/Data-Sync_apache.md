@@ -118,7 +118,7 @@ SHOW PIPE <PipeId>
 | 模块             | 插件           | 预置插件                                 | 自定义插件 |
 |----------------|--------------|--------------------------------------|-------|
 | 抽取（Source）     | Source 插件    | iotdb-source                         | 不支持   |
-| 发送（Sink）       | Sink 插件      | iotdb-thrift-sink、iotdb-air-gap-sink | 支持    |
+| 发送（Sink）       | Sink 插件      | iotdb-thrift-sink| 支持    |
 
 #### 预置插件
 
@@ -128,8 +128,6 @@ SHOW PIPE <PipeId>
 |-----------------------|--------------|-----------------------------------------------------------------------------------------------------------------------|-----------|
 | iotdb-source          | source 插件    | 默认的 source 插件，用于抽取 IoTDB 历史或实时数据                                                                                      | 1.2.x     |
 | iotdb-thrift-sink     | sink 插件      | 用于 IoTDB（v1.2.0及以上）与 IoTDB（v1.2.0及以上）之间的数据传输。使用 Thrift RPC 框架传输数据，多线程 async non-blocking IO 模型，传输性能高，尤其适用于目标端为分布式时的场景 | 1.2.x     |
-| iotdb-air-gap-sink    | sink 插件      | 用于 IoTDB（v1.2.2+）向 IoTDB（v1.2.2+）跨单向数据网闸的数据同步。支持的网闸型号包括南瑞 Syskeeper 2000 等                                            | 1.2.2 及以上 |
-| iotdb-thrift-ssl-sink | sink plugin | 用于 IoTDB（v1.3.1及以上）与 IoTDB（v1.2.0及以上）之间的数据传输。使用 Thrift RPC 框架传输数据，单线程 sync blocking IO 模型，适用于安全需求较高的场景                | 1.3.1 及以上 |
 
 每个插件的详细参数可参考本文[参数说明](#sink-参数)章节。
 
@@ -150,10 +148,8 @@ IoTDB> show pipeplugins
 +------------------------------+--------------------------------------------------------------------------------------------+---------+
 |          DO-NOTHING-PROCESSOR|   Builtin|        org.apache.iotdb.commons.pipe.plugin.builtin.processor.DoNothingProcessor|         |
 |               DO-NOTHING-SINK|   Builtin|                  org.apache.iotdb.commons.pipe.plugin.builtin.sink.DoNothingSink|         |
-|            IOTDB-AIR-GAP-SINK|   Builtin|                org.apache.iotdb.commons.pipe.plugin.builtin.sink.IoTDBAirGapSink|         |
 |                  IOTDB-SOURCE|   Builtin|                  org.apache.iotdb.commons.pipe.plugin.builtin.source.IoTDBSOURCE|         |
 |             IOTDB-THRIFT-SINK|   Builtin|                org.apache.iotdb.commons.pipe.plugin.builtin.sink.IoTDBThriftSink|         |
-|IOTDB-THRIFT-SSL-SINK(V1.3.1+)|   Builtin|org.apache.iotdb.commons.pipe.plugin.builtin.sink.iotdb.thrift.IoTDBThriftSslSink|         |
 +------------------------------+----------+---------------------------------------------------------------------------------+---------+
 
 ```
@@ -202,46 +198,6 @@ with SINK (
 )
 ```
 
-
-### 双向数据传输
-
-本例子用来演示两个 IoTDB 之间互为双活的场景，数据链路如下图所示：
-
-![](https://alioss.timecho.com/docs/img/1706698592139.jpg)
-
-在这个例子中，为了避免数据无限循环，需要将 A 和 B 上的参数`source.forwarding-pipe-requests` 均设置为 `false`，表示不转发从另一pipe传输而来的数据。
- 
-详细语句如下：
-
-在 A IoTDB 上执行下列语句：
-
-```Go
-create pipe AB
-with source (
-  'source.forwarding-pipe-requests' = 'false'
-)
-with sink (
-  'sink'='iotdb-thrift-sink',
-  'sink.ip'='127.0.0.1',
-  'sink.port'='6668'
-)
-```
-
-在 B IoTDB 上执行下列语句：
-
-```Go
-create pipe BA
-with source (
-  'source.forwarding-pipe-requests' = 'false'
-)
-with sink (
-  'sink'='iotdb-thrift-sink',
-  'sink.ip'='127.0.0.1',
-  'sink.port'='6667'
-)
-```
-
-
 ### 级联数据传输
 
 
@@ -273,23 +229,6 @@ with sink (
   'sink'='iotdb-thrift-sink',
   'sink.ip'='127.0.0.1',
   'sink.port'='6669'
-)
-```
-
-### 跨网闸数据传输
-
-本例子用来演示将一个 IoTDB 的数据，经过单向网闸，同步至另一个 IoTDB 的场景，数据链路如下图所示：
-
-![](https://alioss.timecho.com/docs/img/w5.png)
-
-在这个例子中，需要使用 sink 任务中的 iotdb-air-gap-sink 插件（目前支持部分型号网闸，具体型号请联系天谋科技工作人员确认），配置网闸后，在 A IoTDB 上执行下列语句，其中 ip 和 port 填写网闸配置的虚拟 ip 和相关 port，详细语句如下：
-
-```Sql
-create pipe A2B
-with sink (
-  'sink'='iotdb-air-gap-sink',
-  'sink.ip'='10.53.53.53',
-  'sink.port'='9780'
 )
 ```
 
@@ -346,12 +285,6 @@ V1.3.0+:
 # The maximum number of clients that can be used in the async connector.
 # pipe_async_connector_max_client_number=16
 
-# Whether to enable receiving pipe data through air gap.
-# The receiver can only return 0 or 1 in tcp mode to indicate whether the data is received successfully.
-# pipe_air_gap_receiver_enabled=false
-
-# The port for the server to receive pipe data through air gap.
-# pipe_air_gap_receiver_port=9780
 ```
 
 V1.3.1+:
@@ -378,13 +311,6 @@ V1.3.1+:
 
 # The maximum number of clients that can be used in the sink.
 # pipe_sink_max_client_number=16
-
-# Whether to enable receiving pipe data through air gap.
-# The receiver can only return 0 or 1 in tcp mode to indicate whether the data is received successfully.
-# pipe_air_gap_receiver_enabled=false
-
-# The port for the server to receive pipe data through air gap.
-# pipe_air_gap_receiver_port=9780
 ```
 
 ## 参考：参数说明
@@ -418,7 +344,6 @@ with sink (
 | start-time(V1.3.1+)             | 同步所有数据的开始 event time，包含 start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MIN_VALUE |
 | end-time(V1.3.1+)               | 同步所有数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MAX_VALUE |
 | source.realtime.mode            | 实时数据的抽取模式                          | String: hybrid, stream, batch          | 选填   | hybrid         |
-| source.forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据        | Boolean: true, false                   | 选填   | true           |
 
 > 💎 **说明：历史数据与实时数据的差异**
 > 
@@ -447,27 +372,3 @@ with sink (
 | sink.batch.enable            | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS                               | Boolean: true, false                                                      | 选填   | true                       |
 | sink.batch.max-delay-seconds | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s）                      | Integer                                                                   | 选填   | 1                          |
 | sink.batch.size-bytes        | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte）                       | Long                                                                      | 选填   |                            |
-
-#### iotdb-air-gap-sink
-
-| key                               | value                                  | value 取值范围                                                                | 是否必填 | 默认取值                       |
-|-----------------------------------|----------------------------------------|---------------------------------------------------------------------------|------|----------------------------|
-| sink                              | iotdb-air-gap-sink                     | String: iotdb-air-gap-sink                                                | 必填   |                            |
-| sink.ip                           | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip     | String                                                                    | 选填   | 与 sink.node-urls 任选其一填写    |
-| sink.port                         | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port   | Integer                                                                   | 选填   | 与 sink.node-urls 任选其一填写    |
-| sink.node-urls                    | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | 选填   | 与 sink.ip:sink.port 任选其一填写 |
-| sink.air-gap.handshake-timeout-ms | 发送端与接收端在首次尝试建立连接时握手请求的超时时长，单位：毫秒       | Integer                                                                   | 选填   | 5000                       |
-
-#### iotdb-thrift-ssl-sink(V1.3.1+)
-
-| key                          | value                                                       | value range                                                                      | required or not | default value                    |
-|------------------------------|-------------------------------------------------------------|----------------------------------------------------------------------------------|-----------------|----------------------------------|
-| sink                         | iotdb-thrift-ssl-sink                                       | String: iotdb-thrift-ssl-sink                                                    | 必填              |                                  |
-| sink.ip                      | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 ip（请注意同步任务不支持向自身服务进行转发）     | String                                                                           | 选填              | 与 sink.node-urls 任选其一填写          |
-| sink.port                    | 目标端 IoTDB 其中一个 DataNode 节点的数据服务 port（请注意同步任务不支持向自身服务进行转发）   | Integer                                                                          | 选填              | 与 sink.node-urls 任选其一填写          |
-| sink.node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发） | String。例：'127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667'        | 选填              | 与 sink.ip:sink.port 任选其一填写       |
-| sink.batch.enable            | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS                               | Boolean: true, false                                                             | 选填              | true                             |
-| sink.batch.max-delay-seconds | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s）                      | Integer                                                                          | 选填              | 1                                |
-| sink.batch.size-bytes        | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte）                       | Long                                                                             | 选填              |                                  |
-| ssl.trust-store-path         | 连接目标端 DataNode 所需的 trust store 证书路径                         | String.Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | Optional        | Fill in either sink.ip:sink.port |
-| ssl.trust-store-pwd          | 连接目标端 DataNode 所需的 trust store 证书密码                         | Integer                                                                          | Optional        | 5000                             |
