@@ -61,7 +61,7 @@ env.sh
 
 #### System General Configuration
 
-Open the general configuration file (./conf/iotdb common. properties file) and set the following parameters:
+Open the general configuration file (./conf/iotdb-common. properties file) and set the following parameters:
 
 |     **Configuration**     |                       **Description**                        |  **Default**   |                    **Recommended value**                     |                         Note                          |
 | :-----------------------: | :----------------------------------------------------------: | :------------: | :----------------------------------------------------------: | :---------------------------------------------------: |
@@ -71,7 +71,7 @@ Open the general configuration file (./conf/iotdb common. properties file) and s
 
 #### ConfigNode Configuration
 
-Open the ConfigNode configuration file (./conf/iotdb configure. properties file) and set the following parameters:
+Open the ConfigNode configuration file (./conf/iotdb-configure. properties file) and set the following parameters:
 
 |  **Configuration**  |                       **Description**                        |   **Default**   |                    **Recommended value**                     |                   Note                   |
 | :-----------------: | :----------------------------------------------------------: | :-------------: | :----------------------------------------------------------: | :--------------------------------------: |
@@ -82,7 +82,7 @@ Open the ConfigNode configuration file (./conf/iotdb configure. properties file)
 
 #### DataNode Configuration
 
-Open the DataNode configuration file/ conf/iotdb-system.properties， Set the following parameters:
+Open the DataNode configuration file (./conf/iotdb-datanode.properties file) and set the following parameters:
 
 | **Configuration**               | **Description**                                              | **Default**     | **Recommended value**                                        | **Note**                                 |
 | :------------------------------ | :----------------------------------------------------------- | :-------------- | :----------------------------------------------------------- | :--------------------------------------- |
