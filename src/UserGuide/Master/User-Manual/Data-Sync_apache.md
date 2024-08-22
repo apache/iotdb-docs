@@ -231,24 +231,6 @@ with sink (
 )
 ```
 
-### Transfer data using SSL protocol
-
-This example demonstrates the scenario of configuring IoTDB one-way data synchronization using the SSL protocol, with the data link shown in the following figure：
-
-![](https://alioss.timecho.com/docs/img/1706696772065.jpg)
-
-In this scenario, it is necessary to use IoTDB's iotdb-thrift-ssl-sink plugin. We can create a synchronization task called A2B and configure the password and address of our own certificate. The detailed statement is as follows:
-```Sql
-create pipe A2B
-with sink (
-  'sink'='iotdb-thrift-ssl-sink',
-  'sink.ip'='127.0.0.1',
-  'sink.port'='6669',
-  'ssl.trust-store-path'='pki/trusted'
-  'ssl.trust-store-pwd'='root'
-)
-```
-
 ## Reference: Notes
 
 The IoTDB configuration file (iotdb-system.properties) can be modified in order to adjust the parameters for data synchronisation, such as the synchronisation data storage directory. The complete configuration is as follows:

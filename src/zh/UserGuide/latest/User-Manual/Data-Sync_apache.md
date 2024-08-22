@@ -232,24 +232,6 @@ with sink (
 )
 ```
 
-### SSL协议数据传输
-
-本例子演示了使用 SSL 协议配置 IoTDB 单向数据同步的场景，数据链路如下图所示：
-
-![](https://alioss.timecho.com/docs/img/1706696754380.jpg)
-
-在该场景下，需要使用 IoTDB 的 iotdb-thrift-ssl-sink 插件。我们可以创建一个名为 A2B 的同步任务，并配置自身证书的密码和地址，详细语句如下：
-```Sql
-create pipe A2B
-with sink (
-  'sink'='iotdb-thrift-ssl-sink',
-  'sink.ip'='127.0.0.1',
-  'sink.port'='6669',
-  'ssl.trust-store-path'='pki/trusted'
-  'ssl.trust-store-pwd'='root'
-)
-```
-
 ## 参考：注意事项
 
 可通过修改 IoTDB 配置文件（iotdb-system.properties）以调整数据同步的参数，如同步数据存储目录等。完整配置如下：
