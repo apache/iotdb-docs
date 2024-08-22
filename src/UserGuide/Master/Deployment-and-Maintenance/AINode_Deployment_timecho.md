@@ -89,7 +89,7 @@ Require IoTDB to be in normal operation and have AINode module authorization in 
   - The following information is displayed. Please copy the machine code (i.e. this string of characters) to the Tianmou staff and inform them to apply for independent authorization of AINode：
       ```shell
       Please copy the system_info's content and send it to Timecho:
-      Y17hFA0xRCE1TmkVxILuCIEPc7uJcr5bzlXWiptw8uZTmTX5aThfypQdLUIhMljw075hNRSicyvyJR9JM7QaNm1gcFZPHVRWVXIiY5IlZkXdxCVc1erXMsbCqUYsR2R2Mw4PSpFJsUF5jHWSoFIIjQ2bmJFW5P52KCccFMVeHTc=
+      01-KU5LDFFN-PNBEHDRH
       Please enter license:
       ```
   - Enter the activation code returned by the staff into the `Please enter license:` command prompt in the previous step, as shown below：
