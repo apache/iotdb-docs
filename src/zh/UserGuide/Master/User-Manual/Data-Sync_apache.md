@@ -325,7 +325,7 @@ with sink (
 | source.history.end-time         | 同步历史数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MAX_VALUE |
 | start-time(V1.3.1+)             | 同步所有数据的开始 event time，包含 start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MIN_VALUE |
 | end-time(V1.3.1+)               | 同步所有数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MAX_VALUE |
-| source.realtime.mode            | 实时数据的抽取模式                          | String: hybrid, stream, batch          | 选填   | hybrid         |
+| source.realtime.mode            | 数据的抽取模式                         | String: batch          | 选填   | hybrid         |
 
 > 💎 **说明：历史数据与实时数据的差异**
 > 
@@ -334,10 +334,8 @@ with sink (
 > * **全量数据**: 全量数据 = 历史数据 + 实时数据
 
 
-> 💎  ​**说明：数据抽取模式hybrid, stream和batch的差异**
+> 💎  ​**说明：batch模式的含义**
 > 
->    - **hybrid（推荐）**：该模式下，任务将优先对数据进行实时处理、发送，当数据产生积压时自动切换至批量发送模式，其特点是平衡了数据同步的时效性和吞吐量
->    - **stream**：该模式下，任务将对数据进行实时处理、发送，其特点是高时效、低吞吐
 >    - **batch**：该模式下，任务将对数据进行批量（按底层数据文件）处理、发送，其特点是低时效、高吞吐
 
 

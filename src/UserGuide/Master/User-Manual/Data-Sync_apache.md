@@ -323,7 +323,7 @@ with sink (
 | source.history.end-time         | end event time for synchronised history data, contains end-time           | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional        | Long.MAX_VALUE |
 | start-time(V1.3.1+)             | Synchronise the start event time of all data, including start-time        | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional        | Long.MIN_VALUE |
 | end-time(V1.3.1+)               | end event time for synchronised all data, contains end-time               | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional        | Long.MAX_VALUE |
-| source.realtime.mode            | Extraction mode for real-time data                                        | String: hybrid, stream, batch          | optional        | hybrid         |
+| source.realtime.mode            | Extraction mode of data                                      | String: batch          | optional        | hybrid         |
 
 > 💎 **Note: Difference between historical and real-time data**
 >
@@ -332,10 +332,8 @@ with sink (
 > * **Full data**: full data = historical data + real time data
 
 
-> 💎 **Explanation: Difference between data extraction modes hybrid, stream and batch**
+> 💎 **Explanation: The meaning of batch mode**
 >
-> - **hybrid (recommended)**: In this mode, the task will give priority to real-time processing and sending of data, and automatically switch to batch sending mode when data backlog occurs, which is characterised by a balance between timeliness of data synchronisation and throughput
-> - **stream**: In this mode, the task will process and send data in real time, which is characterised by high timeliness and low throughput.
 > - **batch**: In this mode, the task will process and send data in batch (by underlying data file), which is characterised by low latency and high throughput.
 
 ### sink parameters
