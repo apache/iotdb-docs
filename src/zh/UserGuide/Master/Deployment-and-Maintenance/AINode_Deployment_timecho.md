@@ -250,17 +250,17 @@ IoTDB> show cluster
 
 ```shell
   # Linux / MacOS 
-  bash sbin/stop-ainode.sh  -t<AINode-id>/<ip>:<rpc-port>
+  bash sbin/stop-ainode.sh  -t<AINode-id>
 
   #Windows
-  sbin\stop-ainode.bat  -t<AINode-id>/<ip>:<rpc-port>
+  sbin\stop-ainode.bat  -t<AINode-id>
   ```
 
 ##### 参数介绍：
  
  | **名称**              | **标签** | **描述**                                                         | **是否必填** | **类型**   | **默认值** | **输入方式**   |
 | ----------------- | ---- | ------------------------------------------------------------ | -------- | ------ | ------ | ---------- |
-| ain_remove_target | -t   | AINode 关闭时可以指定待移除的目标 AINode 的 Node ID、地址和端口号，格式为`<AINode-id>/<ip>:<rpc-port>` | 否       | String | 无     | 调用时输入 |
+| ain_remove_target | -t   | AINode 关闭时可以指定待移除的目标 AINode 的 Node ID、地址和端口号，格式为`<AINode-id>` | 否       | String | 无     | 调用时输入 |
 
 #### 示例
 ```shell
@@ -292,10 +292,10 @@ IoTDB> show cluster
 
 ```shell
   # Linux / MacOS 
-  bash sbin/stop-ainode.sh  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  bash sbin/stop-ainode.sh  -i<directory>  -t<AINode-id>  -r  -n
 
   # Windows
-  sbin\stop-ainode.bat  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  sbin\stop-ainode.bat  -i<directory>  -t<AINode-id>  -r  -n
   ```
 
 ##### 参数介绍：
@@ -303,7 +303,7 @@ IoTDB> show cluster
  | **名称**                | **标签** | **描述**                                                         | **是否必填** | **类型**   | **默认值**           | **输入方式**              |
 | ------------------- | ---- | ------------------------------------------------------------ | -------- | ------ | ---------------- | --------------------- |
 | ain_interpreter_dir | -i   | AINode 所安装在的虚拟环境的解释器路径，需要使用绝对路径      | 否       | String | 默认读取环境变量 | 调用时输入+持久化修改 |
-| ain_remove_target   | -t   | AINode 关闭时可以指定待移除的目标 AINode 的 Node ID、地址和端口号，格式为`<AINode-id>/<ip>:<rpc-port>` | 否       | String | 无               | 调用时输入            |
+| ain_remove_target   | -t   | AINode 关闭时可以指定待移除的目标 AINode 的 Node ID、地址和端口号，格式为`<AINode-id>` | 否       | String | 无               | 调用时输入            |
 | ain_force_reinstall | -r   | 该脚本在检查 AINode 安装情况的时候是否检查版本，如果检查则在版本不对的情况下会强制安装 lib 里的 whl 安装包 | 否       | Bool   | false            | 调用时输入            |
 | ain_no_dependencies | -n   | 指定在安装 AINode 的时候是否安装依赖，如果指定则仅安装 AINode 主程序而不安装依赖。 | 否       | Bool   | false            | 调用时输入            |
 

@@ -258,17 +258,17 @@ If you need to stop a running AINode node, execute the corresponding shutdown sc
 
 ```shell
   # Linux / MacOS 
-  bash sbin/stop-ainode.sh  -t<AINode-id>/<ip>:<rpc-port>
+  bash sbin/stop-ainode.sh  -t<AINode-id>
 
   #Windows
-  sbin\stop-ainode.bat  -t<AINode-id>/<ip>:<rpc-port>
+  sbin\stop-ainode.bat  -t<AINode-id>
   ```
 
 ##### Parameter introduction:
  
 | **Name**                | **Label** | **Describe**                                                         | **Is it mandatory** | **Type**   | **Default value**           | **Input method**   |
 | ----------------- | ---- | ------------------------------------------------------------ | -------- | ------ | ------ | ---------- |
-| ain_remove_target | -t   | When closing AINode, you can specify the Node ID, address, and port number of the target AINode to be removed, in the format of `<AINode id>/<ip>:<rpc port>` | no       | String | nothing     | Input when calling |
+| ain_remove_target | -t   | When closing AINode, you can specify the Node ID, address, and port number of the target AINode to be removed, in the format of `<AINode id>` | no       | String | nothing     | Input when calling |
 
 #### Example
 
@@ -301,10 +301,10 @@ When it is necessary to remove an AINode node from the cluster, a removal script
 
 ```shell
   # Linux / MacOS 
-  bash sbin/stop-ainode.sh  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  bash sbin/stop-ainode.sh  -i<directory>  -t<AINode-id>  -r  -n
 
   # Windows
-  sbin\stop-ainode.bat  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  sbin\stop-ainode.bat  -i<directory>  -t<AINode-id>  -r  -n
   ```
 
 ##### Parameter introduction:
@@ -312,7 +312,7 @@ When it is necessary to remove an AINode node from the cluster, a removal script
  | **Name**                | **Label** | **Describe**                                                         | **Is it mandatory** | **Type**   | **Default value**           | **Input method**              |
 | ------------------- | ---- | ------------------------------------------------------------ | -------- | ------ | ---------------- | --------------------- |
 | ain_interpreter_dir | -i   | The interpreter path of the virtual environment where AINode is installed requires the use of an absolute path      | no       | String | Default reading of environment variables | Input+persistent modification during invocation |
-| ain_remove_target   | -t   | When closing AINode, you can specify the Node ID, address, and port number of the target AINode to be removed, in the format of `<AINode id>/<ip>:<rpc port>` | no       | String | nothing               | Input when calling            |
+| ain_remove_target   | -t   | When closing AINode, you can specify the Node ID, address, and port number of the target AINode to be removed, in the format of `<AINode id>` | no       | String | nothing               | Input when calling            |
 | ain_force_reinstall | -r   | Does this script check the version when checking the installation status of AINode. If it does, it will force the installation of the whl package in lib if the version is incorrect | no       | Bool   | false            | Input when calling            |
 | ain_no_dependencies | -n   | Specify whether to install dependencies when installing AINode, and if so, only install the AINode main program without installing dependencies | no       | Bool   | false            | Input when calling            |
 
