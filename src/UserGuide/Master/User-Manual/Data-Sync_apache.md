@@ -323,7 +323,7 @@ with sink (
 | source.history.end-time         | end event time for synchronised history data, contains end-time           | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional        | Long.MAX_VALUE |
 | start-time(V1.3.1+)             | Synchronise the start event time of all data, including start-time        | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional        | Long.MIN_VALUE |
 | end-time(V1.3.1+)               | end event time for synchronised all data, contains end-time               | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional        | Long.MAX_VALUE |
-| source.realtime.mode            | Extraction mode for real-time data                                        | String: batch          | optional        | hybrid         |
+| source.realtime.mode            | Extraction mode of data                                      | String: batch          | optional        | hybrid         |
 
 > 💎 **Note: Difference between historical and real-time data**
 >

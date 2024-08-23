@@ -325,7 +325,7 @@ with sink (
 | source.history.end-time         | 同步历史数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MAX_VALUE |
 | start-time(V1.3.1+)             | 同步所有数据的开始 event time，包含 start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MIN_VALUE |
 | end-time(V1.3.1+)               | 同步所有数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MAX_VALUE |
-| source.realtime.mode            | 实时数据的抽取模式                          | String: batch          | 选填   | hybrid         |
+| source.realtime.mode            | 数据的抽取模式                          | String: batch          | 选填   | hybrid         |
 
 > 💎 **说明：历史数据与实时数据的差异**
 > 
