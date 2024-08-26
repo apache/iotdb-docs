@@ -138,7 +138,10 @@ Q: What are the requirements for the environment on Linux?
 A:
 - The known minimum version requirement for glibc (x86_64 version) is 2.17, and the minimum version for GCC is 5.5.
 - The known minimum version requirement for glibc (ARM version) is 2.31, and the minimum version for GCC is 10.2.
-- If these requirements are not met, you may need to compile Thrift locally. For details, refer to https://github.com/apache/iotdb/blob/master/iotdb-client/client-cpp/README.md.
+- If the above requirements are not met, you can try compiling Thrift locally:
+    - Download the code from https://github.com/apache/iotdb-bin-resources/tree/iotdb-tools-thrift-v0.14.1.0/iotdb-tools-thrift.
+    - Run `./mvnw clean install`.
+    - Go back to the IoTDB code directory and run `./mvnw clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp`.
 
 Q: How to resolve the `undefined reference to '_libc_single_thread'` error during Linux compilation?
 
