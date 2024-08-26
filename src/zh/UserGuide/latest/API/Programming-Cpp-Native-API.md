@@ -78,19 +78,21 @@
 
 1. 构建编译环境
     - 安装 MS Visual Studio（推荐安装 2019+ 版本）：安装时需要勾选 Visual Studio C/C++ IDE and compiler(supporting CMake, Clang, MinGW)。
-    - 下载安装 [CMake](https://cmake.org/download/) 。
+    - 下载安装 [CMake](https://cmake.org/download/) 
 
 2. 下载安装 Flex、Bison
-    - 下载 [Win_Flex_Bison](https://sourceforge.net/projects/winflexbison/) 。
+    - 下载 [Win_Flex_Bison](https://sourceforge.net/projects/winflexbison/) 
     - 下载后需要将可执行文件重命名为 flex.exe 和 bison.exe 以保证编译时能够被找到，添加可执行文件的目录到 PATH 环境变量中。
 
 3. 安装 Boost 库
-    - 下载 [Boost](https://www.boost.org/users/download/) 。
+    - 下载 [Boost](https://www.boost.org/users/download/) 
     - 本地编译 Boost ：依次执行 bootstrap.bat 和 b2.exe
-    - 添加 Boost 安装的目录到 PATH 环境变量中，例如 `C:\Program Files (x86)\boost_1_78_0`
+    - 添加 Boost 安装目录到 PATH 环境变量中，例如 `C:\Program Files (x86)\boost_1_78_0`
 
 4. 安装 OpenSSL
-    - 下载安装 [OpenSSL](http://slproweb.com/products/Win32OpenSSL.html) 。
+    - 下载安装 [OpenSSL](http://slproweb.com/products/Win32OpenSSL.html) 
+    - 添加 OpenSSL 下的 include 目录到 PATH 环境变量中。
+
 
 
 ### 执行编译
@@ -142,7 +144,11 @@ Q：Linux 上的环境有哪些要求呢？
 A：
 - 已知依赖的 glibc (x86_64 版本) 最低版本要求为 2.17，GCC 最低版本为 5.5
 - 已知依赖的 glibc (ARM 版本) 最低版本要求为 2.31，GCC 最低版本为 10.2
-- 不满足的情况需要尝试自己本地编译 Thrift，具体可以参考 https://github.com/apache/iotdb/blob/master/iotdb-client/client-cpp/README.md
+- 如果不满足上面的要求，可以尝试自己本地编译 Thrift
+  - 下载 https://github.com/apache/iotdb-bin-resources/tree/iotdb-tools-thrift-v0.14.1.0/iotdb-tools-thrift 这里的代码
+  - 执行 `./mvnw clean install`
+  - 回到 iotdb 代码目录执行 `./mvnw clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp`
+
 
 Q：Linux 编译报错`undefined reference to '_libc_sinle_thread'`如何处理？
 
@@ -153,8 +159,10 @@ A：
 Q：如果在 Windows 上需要使用 Visual Studio 2017 或更早版本进行编译，要怎么做？
 
 A:
-- 需要先自己本地编译 Thrift 后再进行客户端的编译
-- 具体可以参考 https://github.com/apache/iotdb/blob/master/iotdb-client/client-cpp/README.md
+- 可以尝试自己本地编译 Thrift 后再进行客户端的编译
+  - 下载 https://github.com/apache/iotdb-bin-resources/tree/iotdb-tools-thrift-v0.14.1.0/iotdb-tools-thrift 这里的代码
+  - 执行 `.\mvnw.cmd clean install`
+  - 回到 iotdb 代码目录执行 `.\mvnw.cmd clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp -Dcmake.generator="Visual Studio 15 2017"`
 
 
 ## 基本接口说明
