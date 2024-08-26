@@ -91,7 +91,7 @@ cd  apache-iotdb-{version}-all-bin
 
 #### General Configuration
 
-Open the general configuration file `./conf/iotdb-system.properties`， The following parameters can be set according to the deployment method:
+Open the general configuration file `./conf/iotdb-common.properties`， The following parameters can be set according to the deployment method:
 
 | **Configuration**         | **Description**                                              | 192.168.1.3    | 192.168.1.4    | 192.168.1.5    |
 | ------------------------- | ------------------------------------------------------------ | -------------- | -------------- | -------------- |
@@ -101,7 +101,7 @@ Open the general configuration file `./conf/iotdb-system.properties`， The foll
 
 #### ConfigNode Configuration
 
-Open the ConfigNode configuration file `./conf/iotdb-system.properties`， Set the following parameters
+Open the ConfigNode configuration file `./conf/iotdb-confignode.properties`， Set the following parameters
 
 | **Configuration**   | **Description**                                              | **Default**     | **Recommended value**                                        | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | Note                                     |
 | ------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------------ | ------------- | ------------- | ------------- | ---------------------------------------- |
@@ -112,7 +112,7 @@ Open the ConfigNode configuration file `./conf/iotdb-system.properties`， Set t
 
 #### DataNode Configuration
 
-Open DataNode Configuration File `./conf/iotdb-system.properties`,Set the following parameters:
+Open DataNode Configuration File `./conf/iotdb-datanode.properties`,Set the following parameters:
 
 | **Configuration**               | **Description**                                              | **Default**     | **Recommended value**                                        | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | Note                                     |
 | ------------------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------------ | ------------- | ------------- | ------------- | ---------------------------------------- |

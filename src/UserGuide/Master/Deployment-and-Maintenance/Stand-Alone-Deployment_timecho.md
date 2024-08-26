@@ -65,7 +65,7 @@ cd  iotdb-enterprise-{version}-bin
 
 #### System General Configuration
 
-Open the general configuration file (./conf/iotdb common.properties file) and set the following parameters:
+Open the general configuration file (./conf/iotdb-system. properties file) and set the following parameters:
 
 |     **Configuration**     |                       **Description**                        |  **Default**   |                    **Recommended value**                     |                         Note                          |
 | :-----------------------: | :----------------------------------------------------------: | :------------: | :----------------------------------------------------------: | :---------------------------------------------------: |
@@ -75,7 +75,7 @@ Open the general configuration file (./conf/iotdb common.properties file) and se
 
 #### ConfigNode Configuration
 
-Open the ConfigNode configuration file (./conf/iotdb configure.properties file) and set the following parameters:
+Open the ConfigNode configuration file (./conf/iotdb-system. properties file) and set the following parameters:
 
 |  **Configuration**  |                       **Description**                        |   **Default**   |                    **Recommended value**                     |                   Note                   |
 | :-----------------: | :----------------------------------------------------------: | :-------------: | :----------------------------------------------------------: | :--------------------------------------: |
@@ -86,7 +86,7 @@ Open the ConfigNode configuration file (./conf/iotdb configure.properties file) 
 
 #### DataNode Configuration
 
-Open the DataNode configuration file/ conf/iotdb-system.properties， Set the following parameters:
+Open the DataNode configuration file (./conf/iotdb-system. properties file) and set the following parameters:
 
 | **Configuration**               | **Description**                                              | **Default**     | **Recommended value**                                        | **Note**                                 |
 | :------------------------------ | :----------------------------------------------------------- | :-------------- | :----------------------------------------------------------- | :--------------------------------------- |
@@ -128,7 +128,7 @@ Enter the sbin directory of iotdb and start confignode
 
 ```shell
 Please copy the system_info's content and send it to Timecho:
-Y17hFA0xRCE1TmkVxILuCIEPc7uJcr5bzlXWiptw8uZTmTX5aThfypQdLUIhMljw075hNRSicyvyJR9JM7QaNm1gcFZPHVRWVXIiY5IlZkXdxCVc1erXMsbCqUYsR2R2Mw4PSpFJsUF5jHWSoFIIjQ2bmJFW5P52KCccFMVeHTc=
+01-KU5LDFFN-PNBEHDRH
 Please enter license:
 ```
 

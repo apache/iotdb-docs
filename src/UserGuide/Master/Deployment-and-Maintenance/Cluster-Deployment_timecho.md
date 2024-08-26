@@ -155,7 +155,7 @@ cd sbin
 
     ```Bash
     Please copy the system_info's content and send it to Timecho:
-    Y17hFA0xRCE1TmkVxILuxxxxxxxxxxxxxxxxxxxxxxxxxxxxW5P52KCccFMVeHTc=
+    01-KU5LDFFN-PNBEHDRH
     Please enter license:
     ```
 
