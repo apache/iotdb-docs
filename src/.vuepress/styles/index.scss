@@ -80,5 +80,5 @@ footer {
   z-index: 999;
 }
 div[class*=language-] pre code {
-  color: #abb2bf;
+  color: var(--code-c-text);
 }
