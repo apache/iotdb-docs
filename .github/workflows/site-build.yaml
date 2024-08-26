@@ -26,7 +26,7 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Test build website
         env:
           NODE_OPTIONS: --max_old_space_size=8192 
@@ -45,7 +45,7 @@ jobs:
         with:
           node-version: 20
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Build website
         env:
           NODE_OPTIONS: --max_old_space_size=8192 
