@@ -79,3 +79,6 @@ h1, h2, h3, h4, h5, h6 {
 footer {
   z-index: 999;
 }
+div[class*=language-] pre code {
+  color: var(--code-c-text);
+}

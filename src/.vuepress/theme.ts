@@ -107,8 +107,15 @@ export default hopeTheme({
 
     // all features are enabled for demo, only preserve features you need here
     prismjs: {
-      light: 'one-dark',
+      themes: {
+        light: 'one-dark',
+        dark: 'one-dark',
+      },
     },
+    // shiki: {
+    //   theme: 'one-dark-pro',
+    //   langs: ['java', 'shell', 'sql', 'yaml', 'json', 'xml', 'go', 'python', 'scala', 'text', 'plaintext', 'txt', 'properties', 'rust', 'javascript', 'cpp', 'c#', 'csharp', 'js', 'cmd'],
+    // },
     catalog: true,
     git: true,
     comment: {
