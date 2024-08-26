@@ -63,9 +63,8 @@ export const Docsearch = defineComponent({
     };
 
     const version = computed(() => getDocVersion(defaultBranch, pageData.value.path));
-
     // resolve docsearch options for current locale
-    const docsearchOptions = computed(() => {
+    const options = computed(() => {
       const { locales = {}, ...options } = props.options;
 
       return {
@@ -82,12 +81,12 @@ export const Docsearch = defineComponent({
       const { default: docsearch } = await import('@docsearch/js');
       docsearch({
         ...docsearchShim,
-        ...docsearchOptions.value,
+        ...options.value,
         container: `#${props.containerId}`,
         searchParameters: {
-          ...docsearchOptions.value.searchParameters,
+          ...options.value.searchParameters,
           facetFilters: getFacetFilters(
-            docsearchOptions.value.searchParameters?.facetFilters,
+            options.value.searchParameters?.facetFilters,
             lang.value,
             version.value,
           ),
@@ -116,7 +115,7 @@ export const Docsearch = defineComponent({
     useDocsearchHotkeyListener(trigger);
 
     // preconnect to algolia
-    onMounted(() => preconnectToAlgolia(docsearchOptions.value.appId));
+    onMounted(() => preconnectToAlgolia(options.value.appId));
 
     return () => [
       h('div', {
@@ -128,7 +127,7 @@ export const Docsearch = defineComponent({
         : h('div', {
           onClick: trigger,
           innerHTML: getSearchButtonTemplate(
-            docsearchOptions.value.translations?.button,
+            options.value.translations?.button,
           ),
         }),
     ];
