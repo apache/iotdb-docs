@@ -313,7 +313,7 @@ IoT-benchmark目前支持通过配置参数“TEST_DATA_PERSISTENCE”将测试�
 
 | 参数名称             | 示例                  |
 | -------------------- | --------------------- |
-| CLIENT_NUMBER        | 100                   |
+| CLIENT_NUMBER        | 10                    |
 | QUERY_DEVICE_NUM     | 2                     |
 | QUERY_SENSOR_NUM     | 2                     |
 | QUERY_AGGREGATE_FUN  | count                 |
