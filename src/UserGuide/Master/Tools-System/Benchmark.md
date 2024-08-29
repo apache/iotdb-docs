@@ -305,7 +305,7 @@ Table 2-4 Configuration parameter information
 
 | Parameter Name       | Example               |
 | -------------------- | --------------------- |
-| CLIENT_NUMBER        | 100                   |
+| CLIENT_NUMBER        | 10                    |
 | QUERY_DEVICE_NUM     | 2                     |
 | QUERY_SENSOR_NUM     | 2                     |
 | QUERY_AGGREGATE_FUN  | count                 |

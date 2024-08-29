@@ -37,7 +37,7 @@ The responsibilities of the three nodes are as follows:
 
 Compared with building a machine learning service alone, it has the following advantages:
 
-- **Simple and easy to use**: no need to use Python or Java programming, the complete process of machine learning model management and inference can be completed using SQL statements. For example, to create a model, you can use the CREATE MODEL statement, and to reason with a model, you can use the CALL INFERENCE(...) statement. statement to create a model and CALL INFERENCE(...) statement to reason with a model, making it easier and more convenient to use.
+- **Simple and easy to use**: no need to use Python or Java programming, the complete process of machine learning model management and inference can be completed using SQL statements.  Creating a model can be done using the CREATE MODEL statement, and using a model for inference can be done using the CALL INFERENCE (...) statement, making it simpler and more convenient to use.
 
 - **Avoid Data Migration**: With IoTDB native machine learning, data stored in IoTDB can be directly applied to the inference of machine learning models without having to move the data to a separate machine learning service platform, which accelerates data processing, improves security, and reduces costs.
 
