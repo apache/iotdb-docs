@@ -19,7 +19,7 @@
 
 -->
 
-# IoTDB Deployment Recommendation
+# Resource Recommendation
 ## Backgrounds
 
 System Abilities

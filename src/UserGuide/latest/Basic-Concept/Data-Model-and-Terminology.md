@@ -19,7 +19,7 @@
 
 -->
 
-# Data Model
+# Data Model and Terminology
 
 A wind power IoT scenario is taken as an example to illustrate how to creat a correct data model in IoTDB.
 

@@ -19,7 +19,7 @@
 
 -->
 
-# Overview
+# Operator and Expression
 
 This chapter describes the operators and functions supported by IoTDB. IoTDB provides a wealth of built-in operators and functions to meet your computing needs, and supports extensions through the [User-Defined Function](../Reference/UDF-Libraries.md).
 

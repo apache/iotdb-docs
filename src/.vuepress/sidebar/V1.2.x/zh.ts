@@ -84,7 +84,7 @@ export const zhSidebar = {
         { text: '数据增删', link: 'Write-Delete-Data' },
         { text: '数据查询', link: 'Query-Data' },
         { text: '运算符和表达式', link: 'Operator-and-Expression' },
-        { text: '流处理', link: 'Streaming' },
+        { text: '流处理框架', link: 'Streaming' },
         { text: '数据同步', link: 'Data-Sync' },
         { text: '数据库编程', link: 'Database-Programming' },
         { text: '权限管理', link: 'Authority-Management' },
