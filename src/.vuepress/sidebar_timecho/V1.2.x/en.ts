@@ -54,7 +54,7 @@ export const enSidebar = {
       prefix: 'Basic-Concept/',
       // children: 'structure',
       children: [
-        { text: 'Data Model and Terminology', link: 'Data-Model-and-Terminology' },
+        { text: 'Data Model', link: 'Data-Model-and-Terminology' },
         { text: 'Data Type', link: 'Data-Type' },
         { text: 'Encoding and Compression', link: 'Encoding-and-Compression' },
         { text: 'Data Partitioning & Load Balancing', link: 'Cluster-data-partitioning' },
@@ -70,7 +70,7 @@ export const enSidebar = {
         { text: 'Resource Recommendation', link: 'Deployment-Recommendation' },
         { text: 'Deployment Guide', link: 'Deployment-Guide_timecho' },
         { text: 'Docker Install', link: 'Docker-Install' },
-        { text: 'Monitoring-Board-Install-and-Deploy', link: 'Monitoring-Board-Install-and-Deploy' },
+        { text: 'Monitoring Board Install and Deploy', link: 'Monitoring-Board-Install-and-Deploy' },
       ],
     },
 
@@ -91,7 +91,7 @@ export const enSidebar = {
         { text: 'View', link: 'IoTDB-View_timecho' },
         { text: 'Database Programming', link: 'Database-Programming' },
         { text: 'Security Management', link: 'Security-Management_timecho' },
-        { text: 'Authority Management', link: 'Authority-Management' },
+        { text: 'Database Administration', link: 'Authority-Management' },
       ],
     },
     {

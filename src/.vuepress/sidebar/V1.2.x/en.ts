@@ -54,7 +54,7 @@ export const enSidebar = {
       prefix: 'Basic-Concept/',
       // children: 'structure',
       children: [
-        { text: 'Data Model and Terminology', link: 'Data-Model-and-Terminology' },
+        { text: 'Data Model', link: 'Data-Model-and-Terminology' },
         { text: 'Data Type', link: 'Data-Type' },
         { text: 'Encoding and Compression', link: 'Encoding-and-Compression' },
         { text: 'Data Partitioning & Load Balancing', link: 'Cluster-data-partitioning' },
@@ -85,10 +85,10 @@ export const enSidebar = {
         { text: 'Write Delete Data', link: 'Write-Delete-Data' },
         { text: 'Query Data', link: 'Query-Data' },
         { text: 'Operator and Expression', link: 'Operator-and-Expression' },
-        { text: 'Streaming Framework', link: 'Streaming' },
+        { text: 'Streaming', link: 'Streaming' },
         { text: 'Data Sync', link: 'Data-Sync' },
         { text: 'Database Programming', link: 'Database-Programming' },
-        { text: 'Authority Management', link: 'Authority-Management' },
+        { text: 'Database Administration', link: 'Authority-Management' },
       ],
     },
     {

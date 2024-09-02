@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Package Acquisition
+# Obtain TimechoDB
 ## How to obtain TimechoDB
 The enterprise version installation package can be obtained through product trial application or by directly contacting the business personnel who are in contact with you.
 
