@@ -18,20 +18,19 @@
     under the License.
 
 -->
-# Ecosystem Integration
 
-## Grafana(IoTDB)
+# Grafana(IoTDB)
 
 Grafana is an open source volume metrics monitoring and visualization tool, which can be used to display time series data and application runtime analysis. Grafana supports Graphite, InfluxDB and other major time series databases as data sources. IoTDB-Grafana-Connector is a connector which we developed to show time series data in IoTDB by reading data from IoTDB and sends to Grafana(https://grafana.com/). Before using this tool, make sure Grafana and IoTDB are correctly installed and started.
 
-### Installation and deployment
+## Installation and deployment
 
-#### Install Grafana
+### Install Grafana
 
 * Download url: https://grafana.com/grafana/download
 * Version >= 4.4.1
 
-#### Install data source plugin
+### Install data source plugin
 
 * Plugin name: simple-json-datasource
 * Download url: https://github.com/grafana/simple-json-datasource
@@ -65,7 +64,7 @@ Please try to find config file of grafana(eg. customer.ini in windows, and /etc/
 allow_loading_unsigned_plugins = "grafana-simple-json-datasource"
 ```
 
-#### Start Grafana
+### Start Grafana
 If Unix is used, Grafana will start automatically after installing, or you can run `sudo service grafana-server start` command. See more information [here](http://docs.grafana.org/installation/debian/).
 
 If Mac and `homebrew` are used to install Grafana, you can use `homebrew` to start Grafana.
@@ -74,17 +73,17 @@ See more information [here](http://docs.grafana.org/installation/mac/).
 
 If Windows is used, start Grafana by executing grafana-server.exe, located in the bin directory, preferably from the command line. See more information [here](http://docs.grafana.org/installation/windows/).
 
-### IoTDB installation
+## IoTDB installation
 
 See https://github.com/apache/iotdb
 
-### IoTDB-Grafana-Connector installation
+## IoTDB-Grafana-Connector installation
 
 ```shell
 git clone https://github.com/apache/iotdb.git
 ```
 
-### Start IoTDB-Grafana-Connector
+## Start IoTDB-Grafana-Connector
 
 * Option one
 
@@ -118,13 +117,13 @@ $ java -jar iotdb-grafana-connector-{version}.war
 
 To configure properties, move the `grafana-connector/src/main/resources/application.properties` to the same directory as the war package (`grafana/target`)
 
-### Explore in Grafana
+## Explore in Grafana
 
 The default port of Grafana is 3000, see http://localhost:3000/
 
 Username and password are both "admin" by default.
 
-#### Add data source
+### Add data source
 
 Select `Data Sources` and  then `Add data source`, select `SimpleJson` in `Type` and `URL` is http://localhost:8888. 
 After that, make sure IoTDB has been started, click "Save & Test", and "Data Source is working" will be shown to indicate successful configuration.
@@ -132,13 +131,13 @@ After that, make sure IoTDB has been started, click "Save & Test", and "Data Sou
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/51664842-554bf280-1ff5-11e9-97d2-54eebe0b2ca1.png">
 
-#### Design in dashboard
+### Design in dashboard
 
 Add diagrams in dashboard and customize your query. See http://docs.grafana.org/guides/getting_started/
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/51664878-6e54a380-1ff5-11e9-9718-4d0e24627fa8.png">
 
-### config grafana
+## config grafana
 
 ```
 # ip and port of IoTDB 
