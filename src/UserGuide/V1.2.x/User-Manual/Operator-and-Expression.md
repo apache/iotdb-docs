@@ -27,7 +27,7 @@ A list of all available functions, both built-in and custom, can be displayed wi
 
 See the documentation [Select-Expression](../User-Manual/Query-Data.md) for the behavior of operators and functions in SQL.
 
-## OPERATORS
+## Operator and Expression
 
 ### Arithmetic Operators
 

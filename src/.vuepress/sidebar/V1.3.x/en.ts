@@ -55,7 +55,7 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'Navigating Time Series Data', link: 'Navigating_Time_Series_Data' },
-        { text: 'Data Model and Terminology', link: 'Data-Model-and-Terminology' },
+        { text: 'Data Model', link: 'Data-Model-and-Terminology' },
         { text: 'Data Type', link: 'Data-Type' },
         { text: 'Encoding and Compression', link: 'Encoding-and-Compression' },
         { text: 'Data Partitioning & Load Balancing', link: 'Cluster-data-partitioning' },
@@ -67,7 +67,7 @@ export const enSidebar = {
       prefix: 'Deployment-and-Maintenance/',
       // children: 'structure',
       children: [
-        { text: 'Package Acquisition', link: 'IoTDB-Package_apache' },
+        { text: 'Obtain IoTDB', link: 'IoTDB-Package_apache' },
         { text: 'Database Resources', link: 'Database-Resources' },
         { text: 'System Requirements', link: 'Environment-Requirements' },
         { text: 'Stand-Alone Deployment', link: 'Stand-Alone-Deployment_apache' },
@@ -90,7 +90,7 @@ export const enSidebar = {
         { text: 'Streaming', link: 'Streaming_apache' },
         { text: 'Data Sync', link: 'Data-Sync_apache' },
         { text: 'Database Programming', link: 'Database-Programming' },
-        { text: 'Authority Management', link: 'Authority-Management' },
+        { text: 'Database Administration', link: 'Authority-Management' },
         { text: 'Maintennance', link: 'Maintennance' },
       ],
     },

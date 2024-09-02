@@ -19,7 +19,7 @@
 
 -->
 
-# 集群版
+# 快速上手（集群版）
 本文将简单介绍 IoTDB 集群的安装配置、扩容和缩容等常规操作。
 遇到问题可以看: 
 [FAQ](../FAQ/Frequently-asked-questions.md)
