@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# 集群版安装部署
+# 集群版部署
 
 本小节描述如何手动部署包括3个ConfigNode和3个DataNode的实例，即通常所说的3C3D集群。
 <div align="center">
