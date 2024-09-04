@@ -313,7 +313,7 @@ with sink (
 
 ## 参考：注意事项
 
-可通过修改 IoTDB 配置文件（iotdb-system.properties）以调整数据同步的参数，如同步数据存储目录等。完整配置如下：
+可通过修改 IoTDB 配置文件（iotdb-common.properties）以调整数据同步的参数，如同步数据存储目录等。完整配置如下：
 
 V1.3.0+:
 ```Properties
