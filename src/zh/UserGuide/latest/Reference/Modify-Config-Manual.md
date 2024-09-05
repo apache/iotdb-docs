@@ -44,22 +44,22 @@ set configuration "key1"="value1" "key2"="value2"... (on nodeId)
 ```
 set configuration "enable_cross_space_compaction"="false"
 ```
-对集群所有节点永久生效，设置 enable_cross_space_compaction 为 false，并写入到 iotdb-system.properties 中。
+对集群所有节点永久生效，设置 enable_cross_space_compaction 为 false，并写入到 iotdb-common.properties 中。
 ### 示例2
 ```
 set configuration "enable_cross_space_compaction"="false" "enable_seq_space_compaction"="false" on 1
 ```
-对 nodeId 为 1 的节点永久生效，设置 enable_cross_space_compaction 为 false，设置 enable_seq_space_compaction 为 false，并写入到 iotdb-system.properties 中。
+对 nodeId 为 1 的节点永久生效，设置 enable_cross_space_compaction 为 false，设置 enable_seq_space_compaction 为 false，并写入到 iotdb-common.properties 中。
 ### 示例3
 ```
 set configuration "enable_cross_space_compaction"="false" "timestamp_precision"="ns"
 ```
-对集群所有节点永久生效，设置 enable_cross_space_compaction 为 false，timestamp_precision 为 ns，并写入到 iotdb-system.properties 中。但是，timestamp_precision 是第一次启动后就无法修改的配置项，因此会忽略这个配置项的更新，返回如下。
+对集群所有节点永久生效，设置 enable_cross_space_compaction 为 false，timestamp_precision 为 ns，并写入到 iotdb-common.properties 中。但是，timestamp_precision 是第一次启动后就无法修改的配置项，因此会忽略这个配置项的更新，返回如下。
 ```
 Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 301: ignored config items: [timestamp_precision]
 ```
 # 生效配置项
-支持热加载立即生效的配置项在 iotdb-system.properties.template 文件中标记 effectiveMode 为 hot_reload
+支持热加载立即生效的配置项在 iotdb-common.properties.template 文件中标记 effectiveMode 为 hot_reload
 
 示例
 ```

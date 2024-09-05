@@ -228,5 +228,5 @@ More about administration management：[Administration Management](../User-Manua
 The configuration files is in the `conf` folder, includes:
 
 * environment configuration (`datanode-env.bat`, `datanode-env.sh`,`confignode-env.bat`,`confignode-env.sh`),
-* system configuration (`iotdb-system.properties`,`iotdb-cluster.properties`)
+* system configuration (`iotdb-common.properties`,`iotdb-confignode.properties`,`iotdb-datanode.properties`,`iotdb-cluster.properties`)
 * log configuration (`logback.xml`).
