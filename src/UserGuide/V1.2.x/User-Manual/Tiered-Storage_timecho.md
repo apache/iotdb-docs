@@ -93,4 +93,4 @@ In this example, a total of three levels of storage are configured, specifically
 | -------- | -------------------------------------- | ---------------------------- | ------------------------ |
 | tier1   | path 1：/data1/data                    | data for last 1 day              | 20%                      |
 | tier2   | path 1：/data2/data path 2：/data3/data | data from past 1 day to past 10 days | 15%                      |
-| tier3   | Remote AWS S3 Storage                       | data from 1 day ago         | 10%                      |
+| tier3   | Remote AWS S3 Storage                       | data from 10 days ago         | 10%                      |
