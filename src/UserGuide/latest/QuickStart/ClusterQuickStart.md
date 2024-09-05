@@ -78,7 +78,7 @@ Modify the specified configuration file according to the table below:
 | iotdb-datanode.properties           | dn_seed_config_node | 192.168.132.10:10710 | 192.168.132.10:10710 | 192.168.132.10:10710 |       
 
 **Notice:**
-It's recommended that the configurations of iotdb-system.properties and the heap size of JVM in all nodes are the same.
+It's recommended that the configurations of `iotdb-common.properties` and the heap size of JVM in all nodes are the same.
 
 ### start IoTDB cluster
 Before starting the IoTDB cluster, make sure the configurations are correct and there is no any data in the working directory. 
@@ -172,7 +172,7 @@ It's necessary to remove directory of `data` but it's not necessary to remove di
 It's the same as starting the other nodes mentioned above. That is downloading IoTDB install package, extracting, configurating and then starting. The new node here is `192.168.132.13`.
 **Notice**
 - It's must be cleaned up, in other words doing [cleanup](#cleanup) in it.
-- `cluster_name` of `iotdb-system.properties` must be the same to the cluster.
+- `cluster_name` of `iotdb-common.properties` must be the same to the cluster.
 - `cn_seed_config_node` and `dn_seed_config_node` must be the same to the cluster.
 - The old data wouldn't be moved to the new node but the new data would be.
 
@@ -220,7 +220,7 @@ IoTDB>show cluster;
 `Shrink` means removing a service from the IoTDB cluster.
 **Notice:**
 - `Shrink` could be done in any node within the cluster
-- Any service could be shrinked within cluster. But the DataNode service of the cluster must greater than the data replica of iotdb-system.properties.
+- Any service could be shrinked within cluster. But the DataNode service of the cluster must greater than the data replica of iotdb-common.properties.
 - Be patient to wait for the end of shrinking, and then read the guide in logs carefully.
 
 ### shrink service ConfigNode
