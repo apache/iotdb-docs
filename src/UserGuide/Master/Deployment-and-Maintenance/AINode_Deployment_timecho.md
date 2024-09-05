@@ -27,7 +27,7 @@
  AINode is the third type of endogenous node provided by IoTDB after the Configurable Node and DataNode. This node extends its ability to perform machine learning analysis on time series by interacting with the DataNode and Configurable Node of the IoTDB cluster. It supports the introduction of existing machine learning models from external sources for registration and the use of registered models to complete time series analysis tasks on specified time series data through simple SQL statements. The creation, management, and inference of models are integrated into the database engine. Currently, machine learning algorithms or self-developed models are available for common time series analysis scenarios, such as prediction and anomaly detection.
 
 ### Delivery Method
- It is an additional package outside the IoTDB cluster, with independent installation and activation (if you need to try or use it, please contact Tianmu Technology Business or Technical Support).
+ It is an additional package outside the IoTDB cluster, with independent installation and activation (if you need to try or use it, please contact Timecho Technology Business or Technical Support).
 
 ### Deployment mode
 <div >
@@ -72,11 +72,11 @@
 
 ### AINode activation
 
-Require IoTDB to be in normal operation and have AINode module authorization in the license (usually not in the license, please contact Tianmou Business or technical support personnel to obtain AINode module authorization).
+Require IoTDB to be in normal operation and have AINode module authorization in the license (usually not in the license, please contact Timecho Business or technical support personnel to obtain AINode module authorization).
 
  The authorization method for activating the AINode module is as follows：
  - Method 1: Activate file copy activation
-    - After restarting the confignode node, enter the activation folder, copy the system_info file to the Tianmou staff, and inform them to apply for independent authorization for AINode;
+    - After restarting the confignode node, enter the activation folder, copy the system_info file to the Timecho staff, and inform them to apply for independent authorization for AINode;
     - Received the license file returned by the staff;
     - Put the license file into the activation folder of the corresponding node;
 
@@ -86,7 +86,7 @@ Require IoTDB to be in normal operation and have AINode module authorization in 
       cd sbin 
       ./start-activate.sh
       ```
-  - The following information is displayed. Please copy the machine code (i.e. this string of characters) to the Tianmou staff and inform them to apply for independent authorization of AINode：
+  - The following information is displayed. Please copy the machine code (i.e. this string of characters) to the Timecho staff and inform them to apply for independent authorization of AINode：
       ```shell
       Please copy the system_info's content and send it to Timecho:
       01-KU5LDFFN-PNBEHDRH

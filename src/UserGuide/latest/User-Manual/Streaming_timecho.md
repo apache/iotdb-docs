@@ -779,7 +779,7 @@ The following diagram shows all states and state transitions:
 
 ## Configuration parameters
 
-In iotdb-system.properties：
+In iotdb-common.properties：
 
 V1.3.0+:
 ```Properties

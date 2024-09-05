@@ -60,7 +60,7 @@ MQTT 主题与 IoTDB 时间序列相对应。
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/78357469-1bf11880-75e4-11ea-978f-a53996667a0d.png">
 
 ## MQTT 配置
-默认情况下，IoTDB MQTT 服务从`${IOTDB_HOME}/${IOTDB_CONF}/iotdb-system.properties`加载配置。
+默认情况下，IoTDB MQTT 服务从`${IOTDB_HOME}/${IOTDB_CONF}/iotdb-common.properties`加载配置。
 
 配置如下：
 
@@ -156,7 +156,7 @@ public class CustomizedJsonPayloadFormatter implements PayloadFormatter {
 
     @Override
     public String getName() {
-        // set the value of mqtt_payload_formatter in iotdb-system.properties as the following string:
+        // set the value of mqtt_payload_formatter in iotdb-common.properties as the following string:
         return "CustomizedJson";
     }
 }
@@ -169,8 +169,8 @@ public class CustomizedJsonPayloadFormatter implements PayloadFormatter {
 
 在 IoTDB 服务端:
 1. 创建 ${IOTDB_HOME}/ext/mqtt/ 文件夹, 将刚才的 jar 包放入此文件夹。
-2. 打开 MQTT 服务参数. (`enable_mqtt_service=true` in `conf/iotdb-system.properties`)
-3. 用刚才的实现类中的 getName() 方法的返回值 设置为 `conf/iotdb-system.properties` 中 `mqtt_payload_formatter` 的值， 
+2. 打开 MQTT 服务参数. (`enable_mqtt_service=true` in `conf/iotdb-common.properties`)
+3. 用刚才的实现类中的 getName() 方法的返回值 设置为 `conf/iotdb-common.properties` 中 `mqtt_payload_formatter` 的值， 
   , 在本例中，为 `CustomizedJson`
 4. 启动 IoTDB
 5. 搞定

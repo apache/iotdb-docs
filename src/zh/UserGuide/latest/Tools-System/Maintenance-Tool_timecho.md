@@ -103,7 +103,7 @@ iotd cluster check example
 | cn_internal_port            | 内部通信端口，对应`iotdb/config/iotdb-confignode.properties`中的`cn_internal_port` | 必填     |
 | cn_consensus_port           | 对应`iotdb/config/iotdb-confignode.properties`中的`cn_consensus_port` | 非必填   |
 | cn_data_dir                 | 对应`iotdb/config/iotdb-confignode.properties`中的`cn_data_dir` | 必填     |
-| iotdb-system.properties     | 对应`iotdb/config/iotdb-confignode.properties`在`global`与`confignode_servers`同时配置值优先使用confignode_servers中的值 | 非必填   |
+| iotdb-confignode.properties     | 对应`iotdb/config/iotdb-confignode.properties`在`global`与`confignode_servers`同时配置值优先使用confignode_servers中的值 | 非必填   |
 
 
 * datanode_servers 是部署IoTDB Datanodes配置，里面可以配置多个Datanode
@@ -117,7 +117,7 @@ iotd cluster check example
 | dn_seed_config_node | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-datanode.properties`中的`dn_seed_config_node` | 必填     |
 | dn_rpc_port                | datanode rpc端口地址，对应`iotdb/config/iotdb-datanode.properties`中的`dn_rpc_port` | 必填     |
 | dn_internal_port           | 内部通信端口，对应`iotdb/config/iotdb-datanode.properties`中的`dn_internal_port` | 必填     |
-| iotdb-system.properties    | 对应`iotdb/config/iotdb-datanode.properties`在`global`与`datanode_servers`同时配置值优先使用`datanode_servers`中的值 | 非必填   |
+| iotdb-datanode.properties    | 对应`iotdb/config/iotdb-datanode.properties`在`global`与`datanode_servers`同时配置值优先使用`datanode_servers`中的值 | 非必填   |
 
 * grafana_servers 是部署Grafana 相关配置
     该模块暂不支持
