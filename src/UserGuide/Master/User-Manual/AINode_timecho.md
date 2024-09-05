@@ -296,13 +296,13 @@ After completing the registration of the model, the inference function can be us
 - **sql**: sql query statement, the result of the query is used as input to the model for model inference. The dimensions of the rows and columns in the result of the query need to match the size specified in the specific model config. (It is not recommended to use the `SELECT *` clause for the sql here because in IoTDB, `*` does not sort the columns, so the order of the columns is undefined, you can use `SELECT s0,s1` to ensure that the columns order matches the expectations of the model input)
 - **window_function**: Window functions that can be used in the inference process, there are currently three types of window functions provided to assist in model inference:
   - **head(window_size)**: Get the top window_size points in the data for model inference, this window can be used for data cropping.
-  ![](https://alioss.timecho.com/docs/img/s1.png)
+  ![](https://alioss.timecho.com/docs/img/AINode-call1.png)
 
   - **tail(window_size)**: get the last window_size point in the data for model inference, this window can be used for data cropping.
-  ![](https://alioss.timecho.com/docs/img/s2.png)
+  ![](https://alioss.timecho.com/docs/img/AINode-call2.png)
 
   - **count(window_size, sliding_step)**: sliding window based on the number of points, the data in each window will be reasoned through the model respectively, as shown in the example below, window_size for 2 window function will be divided into three windows of the input dataset, and each window will perform reasoning operations to generate results respectively. The window can be used for continuous inference
-  ![](https://alioss.timecho.com/docs/img/s3.png)
+  ![](https://alioss.timecho.com/docs/img/AINode-call3.png)
 
 **Explanation 1**: window can be used to solve the problem of cropping rows when the results of the sql query and the input row requirements of the model do not match. Note that when the number of columns does not match or the number of rows is directly less than the model requirement, the inference cannot proceed and an error message will be returned. 
 

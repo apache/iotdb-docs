@@ -46,6 +46,7 @@ CREATE PIPE <PipeId> -- PipeId 是能够唯一标定任务任务的名字
 -- 数据抽取插件，必填插件
 WITH SOURCE (
   [<parameter> = <value>,],
+)
 -- 数据连接插件，必填插件
 WITH SINK (
   [<parameter> = <value>,],

@@ -293,13 +293,13 @@ window_function:
 - **sql**：sql查询语句，查询的结果作为模型的输入进行模型推理。查询的结果中行列的维度需要与具体模型config中指定的大小相匹配。(这里的sql不建议使用`SELECT *`子句，因为在IoTDB中，`*`并不会对列进行排序，因此列的顺序是未定义的，可以使用`SELECT s0,s1`的方式确保列的顺序符合模型输入的预期)
 - **window_function**: 推理过程中可以使用的窗口函数，目前提供三种类型的窗口函数用于辅助模型推理：
   - **head(window_size)**: 获取数据中最前的window_size个点用于模型推理，该窗口可用于数据裁剪
-  ![](https://alioss.timecho.com/docs/img/s1.png)
+  ![](https://alioss.timecho.com/docs/img/AINode-call1.png)
 
   - **tail(window_size)**：获取数据中最后的window_size个点用于模型推，该窗口可用于数据裁剪
-  ![](https://alioss.timecho.com/docs/img/s2.png)
+  ![](https://alioss.timecho.com/docs/img/AINode-call2.png)
 
   - **count(window_size, sliding_step)**：基于点数的滑动窗口，每个窗口的数据会分别通过模型进行推理，如下图示例所示，window_size为2的窗口函数将输入数据集分为三个窗口，每个窗口分别进行推理运算生成结果。该窗口可用于连续推理
-  ![](https://alioss.timecho.com/docs/img/s3.png)
+  ![](https://alioss.timecho.com/docs/img/AINode-call3.png)
 
 **说明1: window可以用来解决sql查询结果和模型的输入行数要求不一致时的问题，对行进行裁剪。需要注意的是，当列数不匹配或是行数直接少于模型需求时，推理无法进行，会返回错误信息。**
 
