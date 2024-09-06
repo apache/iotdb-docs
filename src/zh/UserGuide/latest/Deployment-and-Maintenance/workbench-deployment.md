@@ -24,8 +24,7 @@
 
   <div style="display: flex;justify-content: space-between;">        		
     <img src="https://alioss.timecho.com/docs/img/%E9%A6%96%E9%A1%B5.PNG" alt=" " style="width: 50%;"/>
-    <img src="https://alioss.timecho.com/docs/img/workbench-1.png" alt=" " style="width: 50%;"/
-    >     
+    <img src="https://alioss.timecho.com/docs/img/workbench-1.png" alt=" " style="width: 50%;"/>     
   </div>
 
 ## 安装准备
