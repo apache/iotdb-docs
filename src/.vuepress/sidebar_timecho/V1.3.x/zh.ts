@@ -155,6 +155,7 @@ export const zhSidebar = {
         { text: 'Ignition', link: 'Ignition-IoTDB-plugin_timecho' },
         { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
         { text: 'DBeaver', link: 'DBeaver' },
+        { text: 'DataEase', link: 'DataEase' },
       ],
     },
     {
