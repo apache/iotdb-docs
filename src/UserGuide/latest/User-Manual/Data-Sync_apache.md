@@ -45,7 +45,8 @@ The SQL example is as follows:
 CREATE PIPE <PipeId> -- PipeId is the name that uniquely identifies the task.
 -- Data Extraction Plugin, Required Plugin
 WITH SOURCE (
-  [<parameter> = <value>,], [<value>,]
+  [<parameter> = <value>,],
+)
 -- Data connection plugin, required
 WITH SINK (
   [<parameter> = <value>,], -- data connection plugin, required.

@@ -297,13 +297,13 @@ After completing the registration of the model, the inference function can be us
 - **sql**: sql query statement, the result of the query is used as input to the model for model inference. The dimensions of the rows and columns in the result of the query need to match the size specified in the specific model config. (It is not recommended to use the `SELECT *` clause for the sql here because in IoTDB, `*` does not sort the columns, so the order of the columns is undefined, you can use `SELECT s0,s1` to ensure that the columns order matches the expectations of the model input)
 - **window_function**: Window functions that can be used in the inference process, there are currently three types of window functions provided to assist in model inference:
   - **head(window_size)**: Get the top window_size points in the data for model inference, this window can be used for data cropping.
-  ![](https://alioss.timecho.com/docs/img/s1.png)
+  ![](https://alioss.timecho.com/docs/img/AINode-call1.png)
 
   - **tail(window_size)**: get the last window_size point in the data for model inference, this window can be used for data cropping.
-  ![](https://alioss.timecho.com/docs/img/s2.png)
+  ![](https://alioss.timecho.com/docs/img/AINode-call2.png)
 
   - **count(window_size, sliding_step)**: sliding window based on the number of points, the data in each window will be reasoned through the model respectively, as shown in the example below, window_size for 2 window function will be divided into three windows of the input dataset, and each window will perform reasoning operations to generate results respectively. The window can be used for continuous inference
-  ![](https://alioss.timecho.com/docs/img/s3.png)
+  ![](https://alioss.timecho.com/docs/img/AINode-call3.png)
 
 **Explanation 1**: window can be used to solve the problem of cropping rows when the results of the sql query and the input row requirements of the model do not match. Note that when the number of columns does not match or the number of rows is directly less than the model requirement, the inference cannot proceed and an error message will be returned. 
 
@@ -553,13 +553,13 @@ IoTDB> select * from root.eg.voltage limit 96
 +-----------------------------+------------------+------------------+------------------+
 |                         Time|root.eg.voltage.s0|root.eg.voltage.s1|root.eg.voltage.s2|
 +-----------------------------+------------------+------------------+------------------+
-|2023-02-14T20:38:32.000+08:00|            2038.0|            2028.0|            2041.0|
-|2023-02-14T20:38:38.000+08:00|            2014.0|            2005.0|            2018.0|
-|2023-02-14T20:38:44.000+08:00|            2014.0|            2005.0|            2018.0|
+|2024-03-15T20:35:31.000+08:00|            2037.0|            2017.0|            2032.0|
+|2024-03-15T20:35:37.000+08:00|            2015.0|            2014.0|            2019.0|
+|2024-03-15T20:35:44.000+08:00|            2014.0|            2007.0|            2019.0|
 ......
-|2023-02-14T20:47:52.000+08:00|            2024.0|            2016.0|            2027.0|
-|2023-02-14T20:47:57.000+08:00|            2024.0|            2016.0|            2027.0|
-|2023-02-14T20:48:03.000+08:00|            2024.0|            2016.0|            2027.0|
+|2024-03-15T20:43:51.000+08:00|            2024.0|            2012.0|            2022.0|
+|2024-03-15T20:43:56.000+08:00|            2023.0|            2016.0|            2022.0|
+|2024-03-15T20:44:03.000+08:00|            2024.0|            2016.0|            2022.0|
 +-----------------------------+------------------+------------------+------------------+
 Total line number = 96
 
@@ -581,7 +581,7 @@ Total line number = 48
 
 Comparing the predicted results of the C-phase voltage with the real results, we can get the following image.
 
-The data before 01/25 14:33 is the past data input to the model, the yellow line after 01/25 14:33 is the predicted C-phase voltage given by the model, and the blue colour is the actual A-phase voltage data in the dataset (used for comparison).
+The data before 02/14 20:44 is the past data input to the model, the yellow line after 02/14 20:44 is the predicted C-phase voltage given by the model, and the blue colour is the actual A-phase voltage data in the dataset (used for comparison).
 
 ![](https://alioss.timecho.com/docs/img/s5.png)
 
