@@ -553,13 +553,13 @@ IoTDB> select * from root.eg.voltage limit 96
 +-----------------------------+------------------+------------------+------------------+
 |                         Time|root.eg.voltage.s0|root.eg.voltage.s1|root.eg.voltage.s2|
 +-----------------------------+------------------+------------------+------------------+
-|2023-02-14T20:38:32.000+08:00|            2038.0|            2028.0|            2041.0|
-|2023-02-14T20:38:38.000+08:00|            2014.0|            2005.0|            2018.0|
-|2023-02-14T20:38:44.000+08:00|            2014.0|            2005.0|            2018.0|
+|2024-03-15T20:35:31.000+08:00|            2037.0|            2017.0|            2032.0|
+|2024-03-15T20:35:37.000+08:00|            2015.0|            2014.0|            2019.0|
+|2024-03-15T20:35:44.000+08:00|            2014.0|            2007.0|            2019.0|
 ......
-|2023-02-14T20:47:52.000+08:00|            2024.0|            2016.0|            2027.0|
-|2023-02-14T20:47:57.000+08:00|            2024.0|            2016.0|            2027.0|
-|2023-02-14T20:48:03.000+08:00|            2024.0|            2016.0|            2027.0|
+|2024-03-15T20:43:51.000+08:00|            2024.0|            2012.0|            2022.0|
+|2024-03-15T20:43:56.000+08:00|            2023.0|            2016.0|            2022.0|
+|2024-03-15T20:44:03.000+08:00|            2024.0|            2016.0|            2022.0|
 +-----------------------------+------------------+------------------+------------------+
 Total line number = 96
 
@@ -581,7 +581,7 @@ Total line number = 48
 
 Comparing the predicted results of the C-phase voltage with the real results, we can get the following image.
 
-The data before 01/25 14:33 is the past data input to the model, the yellow line after 01/25 14:33 is the predicted C-phase voltage given by the model, and the blue colour is the actual A-phase voltage data in the dataset (used for comparison).
+The data before 02/14 20:44 is the past data input to the model, the yellow line after 02/14 20:44 is the predicted C-phase voltage given by the model, and the blue colour is the actual A-phase voltage data in the dataset (used for comparison).
 
 ![](https://alioss.timecho.com/docs/img/s5.png)
 
