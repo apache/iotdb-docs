@@ -24,7 +24,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
  <div style="display: flex;justify-content: space-between;">                
    <img src="https://alioss.timecho.com/docs/img/%E9%A6%96%E9%A1%B5.PNG" alt=" " style="width: 50%;"/>
-   <img src="https://alioss.timecho.com/docs/img/%E6%B5%8B%E7%82%B9%E5%88%97%E8%A1%A8.PNG" alt="" style="width: 50%;"/>     
+   <img src="https://alioss.timecho.com/docs/img/workbench-en-bxzk.png" alt=" " style="width: 50%;"/>     
 </div>
 
 
