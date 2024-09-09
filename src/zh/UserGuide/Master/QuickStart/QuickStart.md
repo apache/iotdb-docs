@@ -19,7 +19,7 @@
 
 -->
 
-# 快速上手
+# 快速上手（单机版）
 
 本文将介绍关于 IoTDB 使用的基本流程，如果需要更多信息，请浏览我们官网的 [指引](../IoTDB-Introduction/What-is-IoTDB.md).
 
@@ -269,5 +269,5 @@ Example: IoTDB > ALTER USER root SET PASSWORD 'newpwd';
 配置文件在"conf"文件夹下，包括：
 
   * 环境配置模块 (`datanode-env.bat`, `datanode-env.sh`,`confignode-env.bat`,`confignode-env.sh`), 
-  * 系统配置模块 (`iotdb-datanode.properties`,`iotdb-common.properties`,`iotdb-confingnode.properties`,`iotdb-datanode.properties`,`iotdb-cluster.properties`)
+  * 系统配置模块 (`iotdb-system.properties`,`iotdb-cluster.properties`)
   * 日志配置模块 (`logback.xml`). 

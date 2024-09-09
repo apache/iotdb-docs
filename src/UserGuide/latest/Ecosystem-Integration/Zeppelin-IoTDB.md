@@ -19,7 +19,7 @@
 
 -->
 
-# Zeppelin-IoTDB
+# Apache Zeppelin
 
 ## About Zeppelin
 
@@ -71,7 +71,15 @@ Once you have built your interpreter, create a new folder under the Zeppelin int
  cp $IoTDB_HOME/zeppelin-interpreter/target/zeppelin-{version}-SNAPSHOT-jar-with-dependencies.jar $Zeppelin_HOME/interpreter/iotdb
 ```
 
+### Modify Configuration
 
+Enter `$Zeppelin_HOME/conf` and use template to create Zeppelin configuration file:
+
+```shell
+cp zeppelin-site.xml.template zeppelin-site.xml
+```
+
+Open the zeppelin-site.xml file and change the `zeppelin.server.addr` item to `0.0.0.0`
 
 ### Running Zeppelin and IoTDB
 

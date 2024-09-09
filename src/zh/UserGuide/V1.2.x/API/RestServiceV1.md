@@ -19,7 +19,7 @@
 
 -->
 
-# RESTful 服务
+# RESTful API V1（不推荐）
 IoTDB 的 RESTful 服务可用于查询、写入和管理操作，它使用 OpenAPI 标准来定义接口并生成框架。
 
 ## 开启RESTful 服务

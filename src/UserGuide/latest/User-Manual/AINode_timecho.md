@@ -19,7 +19,7 @@
 
 -->
 
-# AINode（Machine Learning Framework）
+# AI Capability（AINode）
 
 AINode is the third internal node after ConfigNode and DataNode in Apache IoTDB, which extends the capability of machine learning analysis of time series by interacting with DataNode and ConfigNode of IoTDB cluster, supports the introduction of pre-existing machine learning models from the outside to be registered, and uses the registered models in the It supports the process of introducing existing machine learning models from outside for registration, and using the registered models to complete the time series analysis tasks on the specified time series data through simple SQL statements, which integrates the model creation, management and inference in the database engine. At present, we have provided machine learning algorithms or self-developed models for common timing analysis scenarios (e.g. prediction and anomaly detection).
 
@@ -33,11 +33,12 @@ The responsibilities of the three nodes are as follows:
 - **DataNode**: responsible for receiving and parsing SQL requests from users; responsible for storing time-series data; responsible for preprocessing computation of data.
 - **AINode**: responsible for model file import creation and model inference.
 
-## 1. Advantageous features
+## Advantageous features
 
 Compared with building a machine learning service alone, it has the following advantages:
 
-- **Simple and easy to use**: no need to use Python or Java programming, the complete process of machine learning model management and inference can be completed using SQL statements. For example, to create a model, you can use the CREATE MODEL statement, and to reason with a model, you can use the CALL INFERENCE(...) statement. statement to create a model and CALL INFERENCE(...) statement to reason with a model, making it easier and more convenient to use.
+- **Simple and easy to use**: no need to use Python or Java programming, the complete process of machine learning model management and inference can be completed using SQL statements. Creating a model can be done using the CREATE MODEL statement, and using a model for inference can be done using the CALL INFERENCE (...) statement, making it simpler and more convenient to use.
+
 
 - **Avoid Data Migration**: With IoTDB native machine learning, data stored in IoTDB can be directly applied to the inference of machine learning models without having to move the data to a separate machine learning service platform, which accelerates data processing, improves security, and reduces costs.
 
@@ -50,7 +51,7 @@ Compared with building a machine learning service alone, it has the following ad
 
 
 
-## 2. Basic Concepts
+## Basic Concepts
 
 - **Model**: a machine learning model that takes time-series data as input and outputs the results or decisions of an analysis task. Model is the basic management unit of AINode, which supports adding (registration), deleting, checking, and using (inference) of models.
 - **Create**: Load externally designed or trained model files or algorithms into MLNode for unified management and use by IoTDB.
@@ -61,16 +62,16 @@ Compared with building a machine learning service alone, it has the following ad
 <img src="https://alioss.timecho.com/upload/AInode2.png" style="zoom:50%" />
 ::::
 
-## 3. Installation and Deployment
+## Installation and Deployment
 
-The deployment of AINode can be found in the document [Deployment Guidelines](../Deployment-and-Maintenance/Deployment-Guide_timecho.md#AINode-部署) .
+The deployment of AINode can be found in the document [Deployment Guidelines](../Deployment-and-Maintenance/AINode_Deployment_timecho.md#AINode-部署) .
 
 
-## 4. Usage Guidelines
+## Usage Guidelines
 
 AINode provides model creation and deletion process for deep learning models related to timing data. Built-in models do not need to be created and deleted, they can be used directly, and the built-in model instances created after inference is completed will be destroyed automatically.
 
-### 4.1 Registering Models
+### Registering Models
 
 A trained deep learning model can be registered by specifying the vector dimensions of the model's inputs and outputs, which can be used for model inference. The following is the SQL syntax definition for model registration.
 
@@ -113,7 +114,7 @@ The specific meanings of the parameters in the SQL are as follows:
 
 In addition to registration of local model files, registration can also be done by specifying remote resource paths via URIs, using open source model repositories (e.g. HuggingFace).
 
-#### 4.1.1 Example
+#### Example
 
 In the current example folder, it contains model.pt and config.yaml files, model.pt is the training get, and the content of config.yaml is as follows:
 
@@ -148,7 +149,7 @@ After the SQL is executed, the registration process will be carried out asynchro
 
 Once the model registration is complete, you can call specific functions and perform model inference by using normal queries.
 
-### 4.2 Viewing Models
+### Viewing Models
 
 Successfully registered models can be queried for model-specific information through the show models command. The SQL definition is as follows:
 
@@ -166,12 +167,12 @@ In addition to displaying information about all models directly, you can specify
 
 State is used to show the current state of model registration, which consists of the following three stages
 
-- **LOADING:** The corresponding model meta information has been added to the configNode, and the model file is being transferred to the AINode node.
-- **ACTIVE:** The model has been set up and the model is in the available state
-- **DROPPING:** Model deletion is in progress, model related information is being deleted from configNode and AINode.
+- **LOADING**: The corresponding model meta information has been added to the configNode, and the model file is being transferred to the AINode node.
+- **ACTIVE**: The model has been set up and the model is in the available state
+- **DROPPING**: Model deletion is in progress, model related information is being deleted from configNode and AINode.
 - **UNAVAILABLE**: Model creation failed, you can delete the failed model_name by drop model.
 
-#### 4.2.1 Example
+#### Example
 
 ```SQL
 IoTDB> show models
@@ -196,7 +197,7 @@ IoTDB> show models
 
 We have registered the corresponding model earlier, you can view the model status through the corresponding designation, active indicates that the model is successfully registered and can be used for inference.
 
-### 4.3 Delete Model
+### Delete Model
 
 For a successfully registered model, the user can delete it via SQL. In addition to deleting the meta information on the configNode, this operation also deletes all the related model files under the AINode. The SQL is as follows:
 
@@ -206,7 +207,7 @@ drop model <model_name>
 
 You need to specify the model model_name that has been successfully registered to delete the corresponding model. Since model deletion involves the deletion of data on multiple nodes, the operation will not be completed immediately, and the state of the model at this time is DROPPING, and the model in this state cannot be used for model inference.
 
-### 4.4 Using Built-in Model Reasoning
+### Using Built-in Model Reasoning
 
 The SQL syntax is as follows:
 
@@ -217,11 +218,11 @@ call inference(<built_in_model_name>,sql[,<parameterName>=<parameterValue>])
 
 Built-in model inference does not require a registration process, the inference function can be used by calling the inference function through the call keyword, and its corresponding parameters are described as follows:
 
-- **built_in_model_name:** built-in model name
-- **parameterName:** parameter name
-- **parameterValue:** parameter value
+- **built_in_model_name**: built-in model name
+- **parameterName**: parameter name
+- **parameterValue**: parameter value
 
-#### 4.4.1 Built-in Models and Parameter Descriptions
+#### Built-in Models and Parameter Descriptions
 
 The following machine learning models are currently built-in, please refer to the following links for detailed parameter descriptions.
 
@@ -236,7 +237,7 @@ The following machine learning models are currently built-in, please refer to th
 | Stray                | _Stray                | Anomaly detection | [Stray Parameter description](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.annotation.stray.STRAY.html) |
 
 
-#### 4.4.2 Example
+#### Example
 
 The following is an example of an operation using built-in model inference. The built-in Stray model is used for anomaly detection algorithm. The input is `[144,1]` and the output is `[144,1]`. We use it for reasoning through SQL.
 
@@ -276,7 +277,7 @@ IoTDB> call inference(_Stray, "select s0 from root.eg.airline", k=2)
 Total line number = 144
 ```
 
-### 4.5 Reasoning with Deep Learning Models
+### Reasoning with Deep Learning Models
 
 The SQL syntax is as follows:
 
@@ -293,23 +294,23 @@ window_function:
 After completing the registration of the model, the inference function can be used by calling the inference function through the call keyword, and its corresponding parameters are described as follows:
 
 - **model_name**: corresponds to a registered model
-- **sql**: sql query statement, the result of the query is used as input to the model for model inference. The dimensions of the rows and columns in the result of the query need to match the size specified in the specific model config. (It is not recommended to use the 'SELECT *' clause for the sql here because in IoTDB, '*' does not sort the columns, so the order of the columns is undefined, you can use 'SELECT s0,s1' to ensure that the columns order matches the expectations of the model input)
+- **sql**: sql query statement, the result of the query is used as input to the model for model inference. The dimensions of the rows and columns in the result of the query need to match the size specified in the specific model config. (It is not recommended to use the `SELECT *` clause for the sql here because in IoTDB, `*` does not sort the columns, so the order of the columns is undefined, you can use `SELECT s0,s1` to ensure that the columns order matches the expectations of the model input)
 - **window_function**: Window functions that can be used in the inference process, there are currently three types of window functions provided to assist in model inference:
   - **head(window_size)**: Get the top window_size points in the data for model inference, this window can be used for data cropping.
-  ![](https://alioss.timecho.com/docs/img/s1.png)
+  ![](https://alioss.timecho.com/docs/img/AINode-call1.png)
 
   - **tail(window_size)**: get the last window_size point in the data for model inference, this window can be used for data cropping.
-  ![](https://alioss.timecho.com/docs/img/s2.png)
+  ![](https://alioss.timecho.com/docs/img/AINode-call2.png)
 
-  - **count(window_size, sliding_step):** sliding window based on the number of points, the data in each window will be reasoned through the model respectively, as shown in the example below, window_size for 2 window function will be divided into three windows of the input dataset, and each window will perform reasoning operations to generate results respectively. The window can be used for continuous inference
-  ![](https://alioss.timecho.com/docs/img/s3.png)
+  - **count(window_size, sliding_step)**: sliding window based on the number of points, the data in each window will be reasoned through the model respectively, as shown in the example below, window_size for 2 window function will be divided into three windows of the input dataset, and each window will perform reasoning operations to generate results respectively. The window can be used for continuous inference
+  ![](https://alioss.timecho.com/docs/img/AINode-call3.png)
 
 **Explanation 1**: window can be used to solve the problem of cropping rows when the results of the sql query and the input row requirements of the model do not match. Note that when the number of columns does not match or the number of rows is directly less than the model requirement, the inference cannot proceed and an error message will be returned. 
 
 **Explanation 2**: In deep learning applications, timestamp-derived features (time columns in the data) are often used as covariates in generative tasks, and are input into the model together to enhance the model, but the time columns are generally not included in the model's output. In order to ensure the generality of the implementation, the model inference results only correspond to the real output of the model, if the model does not output the time column, it will not be included in the results. 
 
 
-#### 4.5.1 Example
+#### Example
 
 The following is an example of inference in action using a deep learning model, for the `dlinear` prediction model with input `[96,2]` and output `[48,2]` mentioned above, which we use via SQL.
 
@@ -351,7 +352,7 @@ IoTDB> call inference(dlinear_example,"select s0,s1 from root.**")
 Total line number = 48
 ```
 
-#### 4.5.2 Example of using the tail/head window function
+#### Example of using the tail/head window function
 
 When the amount of data is variable and you want to take the latest 96 rows of data for inference, you can use the corresponding window function tail. head function is used in a similar way, except that it takes the earliest 96 points.
 
@@ -395,7 +396,7 @@ IoTDB> call inference(dlinear_example,"select s0,s1 from root.**",window=tail(96
 Total line number = 48
 ```
 
-#### 4.5.3 Example of using the count window function
+#### Example of using the count window function
 
 This window is mainly used for computational tasks, when the model corresponding to the task can only process a fixed row of data at a time and what is ultimately desired is indeed multiple sets of predictions, using this window function allows for sequential inference using a sliding window of points. Suppose we now have an anomaly detection model anomaly_example(input: [24,2], output[1,1]) that generates a 0/1 label for each row of data, an example of its use is shown below:
 ```Shell
@@ -435,7 +436,7 @@ Total line number = 4
 
 where the labels of each row in the result set correspond to the model output corresponding to the 16 rows of input.
 
-## 5. Privilege Management
+## Privilege Management
 
 When using AINode related functions, the authentication of IoTDB itself can be used to do a permission management, users can only use the model management related functions when they have the USE_MODEL permission. When using the inference function, the user needs to have the permission to access the source sequence corresponding to the SQL of the input model.
 
@@ -444,9 +445,9 @@ When using AINode related functions, the authentication of IoTDB itself can be u
 | USE_MODEL | create model/show models/drop model | √ | √  | x |
 | READ_DATA| call inference | √ | √|√ |
 
-## 6. Practical Examples
+## Practical Examples
 
-### 6.1 Power Load Prediction
+### Power Load Prediction
 
 In some industrial scenarios, there is a need to predict power loads, which can be used to optimise power supply, conserve energy and resources, support planning and expansion, and enhance power system reliability.
 
@@ -517,7 +518,7 @@ The data before 10/24 00:00 in the image is the past data input into the model, 
 
 As can be seen, we have used the relationship between the six load information and the corresponding time oil temperatures for the past 96 hours (4 days) to model the possible changes in this data for the oil temperature for the next 48 hours (2 days) based on the inter-relationships between the sequences learned previously, and it can be seen that the predicted curves maintain a high degree of consistency in trend with the actual results after visualisation.
 
-### 6.2 Power Prediction
+### Power Prediction
 
 Power monitoring of current, voltage and power data is required in substations for detecting potential grid problems, identifying faults in the power system, effectively managing grid loads and analysing power system performance and trends.
 
@@ -552,13 +553,13 @@ IoTDB> select * from root.eg.voltage limit 96
 +-----------------------------+------------------+------------------+------------------+
 |                         Time|root.eg.voltage.s0|root.eg.voltage.s1|root.eg.voltage.s2|
 +-----------------------------+------------------+------------------+------------------+
-|2023-02-14T20:38:32.000+08:00|            2038.0|            2028.0|            2041.0|
-|2023-02-14T20:38:38.000+08:00|            2014.0|            2005.0|            2018.0|
-|2023-02-14T20:38:44.000+08:00|            2014.0|            2005.0|            2018.0|
+|2024-03-15T20:35:31.000+08:00|            2037.0|            2017.0|            2032.0|
+|2024-03-15T20:35:37.000+08:00|            2015.0|            2014.0|            2019.0|
+|2024-03-15T20:35:44.000+08:00|            2014.0|            2007.0|            2019.0|
 ......
-|2023-02-14T20:47:52.000+08:00|            2024.0|            2016.0|            2027.0|
-|2023-02-14T20:47:57.000+08:00|            2024.0|            2016.0|            2027.0|
-|2023-02-14T20:48:03.000+08:00|            2024.0|            2016.0|            2027.0|
+|2024-03-15T20:43:51.000+08:00|            2024.0|            2012.0|            2022.0|
+|2024-03-15T20:43:56.000+08:00|            2023.0|            2016.0|            2022.0|
+|2024-03-15T20:44:03.000+08:00|            2024.0|            2016.0|            2022.0|
 +-----------------------------+------------------+------------------+------------------+
 Total line number = 96
 
@@ -580,13 +581,13 @@ Total line number = 48
 
 Comparing the predicted results of the C-phase voltage with the real results, we can get the following image.
 
-The data before 01/25 14:33 is the past data input to the model, the yellow line after 01/25 14:33 is the predicted C-phase voltage given by the model, and the blue colour is the actual A-phase voltage data in the dataset (used for comparison).
+The data before 02/14 20:44 is the past data input to the model, the yellow line after 02/14 20:44 is the predicted C-phase voltage given by the model, and the blue colour is the actual A-phase voltage data in the dataset (used for comparison).
 
 ![](https://alioss.timecho.com/docs/img/s5.png)
 
 It can be seen that we have used the data of the last 8 minutes of voltage to model the possible changes in the A-phase voltage for the next 4 minutes based on the inter-relationships between the sequences learned earlier, and it can be seen that the predicted curves and the actual results maintain a high degree of synchronicity in terms of trends after visualisation.
 
-### 6.3 Anomaly Detection
+### Anomaly Detection
 
 In the civil aviation and transport industry, there exists a need for anomaly detection of the number of passengers travelling on an aircraft. The results of anomaly detection can be used to guide the adjustment of flight scheduling to make the organisation more efficient.
 

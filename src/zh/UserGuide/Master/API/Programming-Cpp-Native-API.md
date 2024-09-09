@@ -24,7 +24,6 @@
 ## 依赖
 
 - Java 8+
-- Maven 3.5+
 - Flex
 - Bison 2.7+
 - Boost 1.56+
@@ -37,28 +36,17 @@
 ### 安装相关依赖
 
 - **MAC**
-
-  1. 安装 Bison ：Mac 环境下预安装了 Bison 2.3 版本，但该版本过低不能够用来编译 Thrift。
+ 1. 安装 Bison ：
   
-     使用 Bison 2.3 版本会报以下错误：
-     ```invalid directive: '%code'```
-  
-     使用下面 brew 命令更新 bison 版本：
+     使用下面 brew 命令安装 bison 版本：
      ```shell
      brew install bison
-     brew link bison --force
      ```
      
-     添加环境变量：
-     ```shell
-     echo 'export PATH="/usr/local/opt/bison/bin:$PATH"' >> ~/.bash_profile
-     ```
-     
-  2. 安装 Boost ：确保安装较新的 Boost 版本。
+  2. 安装 Boost ：确保安装最新的 Boost 版本。
   
      ```shell
      brew install boost
-     brew link boost
      ```
      
   3. 检查 OpenSSL ：确保 openssl 库已安装，默认的 openssl 头文件路径为"/usr/local/opt/openssl/include"
@@ -66,42 +54,44 @@
      如果在编译过程中出现找不到 openssl 的错误，尝试添加`-Dopenssl.include.dir=""`
 
 
-- **Ubuntu 20**
+- **Ubuntu 16.04+ 或其他 Debian 系列**
 
-    使用以下命令安装所有依赖：
+    使用以下命令安装所赖：
 
     ```shell
-    sudo apt-get install gcc-9 g++-9 libstdc++-9-dev bison flex libboost-all-dev libssl-dev zlib1g-dev
+    sudo apt-get update
+    sudo apt-get install gcc g++ bison flex libboost-all-dev libssl-dev
     ```
 
 
-- **CentOS 7.x**
+- **CentOS 7.7+/Fedora/Rocky Linux 或其他 Red-hat 系列**
 
-    使用 yum 命令安装部分依赖。
+    使用 yum 命令安装依赖：
 
     ```shell
-    sudo yum install bison flex openssl-devel
+    sudo yum update
+    sudo yum install gcc gcc-c++ boost-devel bison flex openssl-devel
     ```
-
-    使用 yum 安装的 GCC、Boost 版本过低，在编译时会报错，需自行安装或升级。
 
 
 - **Windows**
 
-    1. 构建编译环境
-       * 安装 MS Visual Studio（推荐安装 2019 版本）：安装时需要勾选 Visual Studio C/C++ IDE and compiler(supporting CMake, Clang, MinGW)。
-       * 下载安装 [CMake](https://cmake.org/download/) 。
+1. 构建编译环境
+   - 安装 MS Visual Studio（推荐安装 2019+ 版本）：安装时需要勾选 Visual Studio C/C++ IDE and compiler(supporting CMake, Clang, MinGW)
+   - 下载安装 [CMake](https://cmake.org/download/) 。
 
-    2. 下载安装 Flex、Bison
-       * 下载 [Win_Flex_Bison](https://sourceforge.net/projects/winflexbison/) 。
-       * 下载后需要将可执行文件重命名为 flex.exe 和 bison.exe 以保证编译时能够被找到，添加可执行文件的目录到 PATH 环境变量中。
+2. 下载安装 Flex、Bison
+   - 下载 [Win_Flex_Bison](https://sourceforge.net/projects/winflexbison/) 
+   - 下载后需要将可执行文件重命名为 flex.exe 和 bison.exe 以保证编译时能够被找到，添加可执行文件的目录到 PATH 环境变量中
 
-    3. 安装 Boost
-       * 下载 [Boost](https://www.boost.org/users/download/) 。
-       * 本地编译 Boost ：依次执行 bootstrap.bat 和 b2.exe 。
+3. 安装 Boost 库
+   - 下载 [Boost](https://www.boost.org/users/download/) 
+   - 本地编译 Boost ：依次执行 bootstrap.bat 和 b2.exe
+   - 添加 Boost 安装目录到 PATH 环境变量中，例如 `C:\Program Files (x86)\boost_1_78_0`
        
-    4. 安装 OpenSSL 
-       * 下载安装 [OpenSSL](http://slproweb.com/products/Win32OpenSSL.html) 。
+4. 安装 OpenSSL
+   - 下载安装 [OpenSSL](http://slproweb.com/products/Win32OpenSSL.html) 
+   - 添加 OpenSSL 下的 include 目录到 PATH 环境变量中
 
 
 ### 执行编译
@@ -111,337 +101,67 @@
 git clone https://github.com/apache/iotdb.git
 ```
 
-默认的主分支是master分支，如果你想使用某个发布版本，请切换分支 (如 0.13 版本):
+默认的主分支是 master 分支，如果你想使用某个发布版本，请切换分支 (如 1.3.2 版本):
 ```shell
-git checkout rel/0.13
+git checkout rc/1.3.2
 ```
 
 在 IoTDB 根目录下执行 maven 编译:
 
-- Mac & Linux
+- Mac 或 glibc 版本 >= 2.32 的 Linux 
     ```shell
-    mvn package -P compile-cpp -pl example/client-cpp-example -am -DskipTest
-    ```
-  
-- Windows
-    ```shell
-    mvn package -P compile-cpp -pl iotdb-client/client-cpp,iotdb-core/datanode,example/client-cpp-example -am -Dcmake.generator="your cmake generator" -Dboost.include.dir=${your boost header folder} -Dboost.library.dir=${your boost lib (stage) folder} -DskipTests
-    ```
-     - CMake 根据不同编译平台使用不同的生成器，需添加`-Dcmake.generator=""`选项来指定使用的生成器名称，例如： `-Dcmake.generator="Visual Studio 16 2019"`。（通过`cmake --help`命令可以查看 CMake 支持的生成器列表）
-     - 为了帮助 CMake 找到本地安装好的 Boost，在编译命令中需添加相关参数，例如：`-DboostIncludeDir="C:\Program Files (x86)\boost_1_78_0" -DboostLibraryDir="C:\Program Files (x86)\boost_1_78_0\stage\lib"`
+    ./mvnw clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp
+    ``` 
 
-编译成功后，打包好的 zip 文件位于 `client-cpp/target/client-cpp-1.3.0-SNAPSHOT-cpp-${os}.zip`
+- glibc 版本 >= 2.31 的 Linux
+    ```shell
+    ./mvnw clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp -Diotdb-tools-thrift.version=0.14.1.1-old-glibc-SNAPSHOT
+    ```
+
+- glibc 版本 >= 2.17 的 Linux
+    ```shell
+    ./mvnw clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp -Diotdb-tools-thrift.version=0.14.1.1-glibc223-SNAPSHOT
+    ```
+
+- 使用 Visual Studio 2022 的 Windows
+    ```Batchfile
+    .\mvnw.cmd clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp
+    ```
+
+- 使用 Visual Studio 2019 的 Windows
+    ```Batchfile
+    .\mvnw.cmd clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp -Dcmake.generator="Visual Studio 16 2019" -Diotdb-tools-thrift.version=0.14.1.1-msvc142-SNAPSHOT
+    ```
+    - 如果没有将 Boost 库地址加入 PATH 环境变量，在编译命令中还需添加相关参数，例如：`-DboostIncludeDir="C:\Program Files (x86)\boost_1_78_0" -DboostLibraryDir="C:\Program Files (x86)\boost_1_78_0\stage\lib"`
+
+编译成功后，打包好的库文件位于 `iotdb-client/client-cpp/target` 中，同时可以在 `example/client-cpp-example/target` 下找到编译好的示例程序。
 
 ### 编译 Q&A
 
-Q：编译报错`undefined reference to '_libc_sinle_thread'`如何处理？
+Q：Linux 上的环境有哪些要求呢？
 
 A：
-- 删除 C++client 的 pom.xml 里关于test相关的编译和运行操作，修改后的 pom 如下所示：
+- 已知依赖的 glibc (x86_64 版本) 最低版本要求为 2.17，GCC 最低版本为 5.5
+- 已知依赖的 glibc (ARM 版本) 最低版本要求为 2.31，GCC 最低版本为 10.2
+- 如果不满足上面的要求，可以尝试自己本地编译 Thrift
+    - 下载 https://github.com/apache/iotdb-bin-resources/tree/iotdb-tools-thrift-v0.14.1.0/iotdb-tools-thrift 这里的代码
+    - 执行 `./mvnw clean install`
+    - 回到 iotdb 代码目录执行 `./mvnw clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp`
 
-```
-      
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
 
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
+Q：Linux 编译报错`undefined reference to '_libc_sinle_thread'`如何处理？
 
-        http://www.apache.org/licenses/LICENSE-2.0
+A：
+- 该问题是用于默认的预编译 Thrift 依赖了过高的 glibc 版本导致的
+- 可以尝试在编译的 maven 命令中增加 `-Diotdb-tools-thrift.version=0.14.1.1-glibc223-SNAPSHOT` 或者 `-Diotdb-tools-thrift.version=0.14.1.1-old-glibc-SNAPSHOT`
 
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
+Q：如果在 Windows 上需要使用 Visual Studio 2017 或更早版本进行编译，要怎么做？
 
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>org.apache.iotdb</groupId>
-        <artifactId>iotdb-client</artifactId>
-        <version>1.3.1-SNAPSHOT</version>
-    </parent>
-    <artifactId>client-cpp</artifactId>
-    <packaging>pom</packaging>
-    <name>IoTDB: Client: Client for CPP</name>
-    <description>C++ client</description>
-    <!-- TODO: The tests don't run, if distribution has not been built locally and fails without reasoning -->
-    <properties>
-        <catch2.url>https://alioss.timecho.com/upload/catch.hpp</catch2.url>
-        <cmake.build.type>Release</cmake.build.type>
-        <!-- Default value of cmake root -->
-        <cmake.root.dir>${project.build.directory}/dependency/cmake/</cmake.root.dir>
-        <thrift.exec.absolute.path>${project.build.directory}/thrift/bin/${thrift.executable}</thrift.exec.absolute.path>
-    </properties>
-    <dependencies>
-        <dependency>
-            <groupId>org.apache.iotdb</groupId>
-            <artifactId>iotdb-thrift-commons</artifactId>
-            <version>1.3.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-    </dependencies>
-    <build>
-        <plugins>
-            <!-- Build and do session integration test -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>get-thrift</id>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <phase>generate-sources</phase>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.apache.iotdb.tools</groupId>
-                                    <artifactId>iotdb-tools-thrift</artifactId>
-                                    <version>${iotdb-tools-thrift.version}</version>
-                                    <classifier>${os.classifier}</classifier>
-                                    <type>zip</type>
-                                    <overWrite>true</overWrite>
-                                    <outputDirectory>${project.build.directory}/thrift</outputDirectory>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.googlecode.maven-download-plugin</groupId>
-                <artifactId>download-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>get-catch2</id>
-                        <goals>
-                            <goal>wget</goal>
-                        </goals>
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <url>${catch2.url}</url>
-                            <unpack>false</unpack>
-                            <outputDirectory>${project.build.directory}/build/test/catch2</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.coderplus.maven.plugins</groupId>
-                <artifactId>copy-rename-maven-plugin</artifactId>
-                <executions>
-                    <!-- TODO: Do this differently using the artifact downloader -->
-                    <execution>
-                        <id>copy-protocol-thrift-source</id>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <configuration>
-                            <fileSets>
-                                <fileSet>
-                                    <sourceFile>../../iotdb-protocol/thrift-datanode/src/main/thrift/client.thrift</sourceFile>
-                                    <destinationFile>${project.build.directory}/protocols/client.thrift</destinationFile>
-                                </fileSet>
-                                <fileSet>
-                                    <sourceFile>../../iotdb-protocol/thrift-commons/src/main/thrift/common.thrift</sourceFile>
-                                    <destinationFile>${project.build.directory}/protocols/common.thrift</destinationFile>
-                                </fileSet>
-                            </fileSets>
-                        </configuration>
-                    </execution>
-                    <!-- TODO: Do this differently using the maven-resources-plugin -->
-                    <execution>
-                        <!-- Copy source file and CmakeLists.txt into target directory -->
-                        <id>copy-cmakelist-file</id>
-                        <goals>
-                            <goal>copy</goal>
-                        </goals>
-                        <phase>compile</phase>
-                        <configuration>
-                            <fileSets>
-                                <fileSet>
-                                    <sourceFile>${project.basedir}/src/main/CMakeLists.txt</sourceFile>
-                                    <destinationFile>${project.build.directory}/build/main/CMakeLists.txt</destinationFile>
-                                </fileSet>
-                                <fileSet>
-                                    <sourceFile>${project.basedir}/src/main/Session.h</sourceFile>
-                                    <destinationFile>${project.build.directory}/build/main/generated-sources-cpp/Session.h</destinationFile>
-                                </fileSet>
-                                <fileSet>
-                                    <sourceFile>${project.basedir}/src/main/Session.cpp</sourceFile>
-                                    <destinationFile>${project.build.directory}/build/main/generated-sources-cpp/Session.cpp</destinationFile>
-                                </fileSet>
-                            </fileSets>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.thrift.tools</groupId>
-                <artifactId>maven-thrift-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>generate-thrift-sources-cpp</id>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <!-- Move from generate-sources to generate-resources to avoid double executions -->
-                        <phase>generate-resources</phase>
-                        <configuration>
-                            <generator>cpp:no_skeleton</generator>
-                            <thriftExecutable>${thrift.exec.absolute.path}</thriftExecutable>
-                            <thriftSourceRoot>${project.build.directory}/protocols</thriftSourceRoot>
-                            <outputDirectory>${project.build.directory}/build/main/generated-sources-cpp</outputDirectory>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.googlecode.cmake-maven-project</groupId>
-                <artifactId>cmake-maven-plugin</artifactId>
-                <executions>
-                    <!-- Uses a CMake generator to generate the build using the build tool of choice -->
-                    <execution>
-                        <id>cmake-generate</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <phase>compile</phase>
-                        <configuration>
-                            <generator>${cmake.generator}</generator>
-                            <sourcePath>${project.build.directory}/build/main</sourcePath>
-                            <targetPath>${project.build.directory}/build/main</targetPath>
-                            <options>
-                                <option>-DBOOST_INCLUDEDIR=${boost.include.dir}</option>
-                            </options>
-                        </configuration>
-                    </execution>
-                    <!-- Generate Cmake build directory to compile testing program -->
-                    <!-- Actually executes the build -->
-                    <execution>
-                        <id>cmake-compile</id>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <phase>compile</phase>
-                        <configuration>
-                            <config>${cmake.build.type}</config>
-                            <!-- The directory where the "generate" step generated the build configuration -->
-                            <projectDirectory>${project.build.directory}/build/main</projectDirectory>
-                        </configuration>
-                    </execution>
-                    <!-- Actually executes the testing compilation -->
-                </executions>
-            </plugin>
-            <!--Package all C++ header files and client library-->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>package-client-cpp</id>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <phase>package</phase>
-                        <configuration>
-                            <finalName>${project.artifactId}-${project.version}</finalName>
-                            <descriptors>
-                                <descriptor>src/assembly/client-cpp.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-    <profiles>
-        <profile>
-            <id>.os-unix</id>
-            <activation>
-                <os>
-                    <name>Linux</name>
-                    <family>unix</family>
-                    <arch>!aarch64</arch>
-                </os>
-            </activation>
-            <properties>
-                <iotdb.start.script>start-standalone.sh</iotdb.start.script>
-                <iotdb.stop.script>stop-standalone.sh</iotdb.stop.script>
-                <os.suffix>linux</os.suffix>
-            </properties>
-        </profile>
-        <profile>
-            <id>.os-unix-arm</id>
-            <activation>
-                <os>
-                    <name>Linux</name>
-                    <family>unix</family>
-                    <arch>aarch64</arch>
-                </os>
-            </activation>
-            <properties>
-                <iotdb.start.script>start-standalone.sh</iotdb.start.script>
-                <iotdb.stop.script>stop-standalone.sh</iotdb.stop.script>
-                <os.suffix>linux</os.suffix>
-            </properties>
-        </profile>
-        <profile>
-            <id>.os-mac</id>
-            <activation>
-                <os>
-                    <family>mac</family>
-                    <arch>!aarch64</arch>
-                </os>
-            </activation>
-            <properties>
-                <iotdb.start.script>start-standalone.sh</iotdb.start.script>
-                <iotdb.stop.script>stop-standalone.sh</iotdb.stop.script>
-                <os.suffix>mac</os.suffix>
-            </properties>
-        </profile>
-        <profile>
-            <id>.os-mac-arm</id>
-            <activation>
-                <os>
-                    <family>mac</family>
-                    <arch>aarch64</arch>
-                </os>
-            </activation>
-            <properties>
-                <iotdb.start.script>start-standalone.sh</iotdb.start.script>
-                <iotdb.stop.script>stop-standalone.sh</iotdb.stop.script>
-                <os.suffix>mac</os.suffix>
-            </properties>
-        </profile>
-        <profile>
-            <id>.os-windows</id>
-            <activation>
-                <os>
-                    <family>windows</family>
-                </os>
-            </activation>
-            <properties>
-                <iotdb.start.script>start-standalone.bat</iotdb.start.script>
-                <iotdb.stop.script>stop-standalone.bat</iotdb.stop.script>
-                <os.suffix>win</os.suffix>
-            </properties>
-        </profile>
-    </profiles>
-</project>
-```
-- 再次执行 mvn clean package -P with-cpp -pl iotdb-client/client-cpp -am -DskipTests，成功build
-
+A:
+- 可以尝试自己本地编译 Thrift 后再进行客户端的编译
+    - 下载 https://github.com/apache/iotdb-bin-resources/tree/iotdb-tools-thrift-v0.14.1.0/iotdb-tools-thrift 这里的代码
+    - 执行 `.\mvnw.cmd clean install`
+    - 回到 iotdb 代码目录执行 `.\mvnw.cmd clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp -Dcmake.generator="Visual Studio 15 2017"`
 
 ## 基本接口说明
 

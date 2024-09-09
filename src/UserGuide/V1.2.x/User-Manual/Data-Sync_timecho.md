@@ -19,7 +19,7 @@
 
 -->
 
-# IoTDB Data Sync
+# Data Sync
 **The IoTDB data sync transfers data from IoTDB to another data platform, and <font color=RED>a data sync task is called a Pipe</font>.**
 
 **A Pipe consists of three subtasks (plugins):**

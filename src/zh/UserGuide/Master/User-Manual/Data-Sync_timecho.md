@@ -46,6 +46,7 @@ CREATE PIPE <PipeId> -- PipeId 是能够唯一标定任务任务的名字
 -- 数据抽取插件，必填插件
 WITH SOURCE (
   [<parameter> = <value>,],
+)
 -- 数据连接插件，必填插件
 WITH SINK (
   [<parameter> = <value>,],
@@ -164,7 +165,7 @@ IoTDB> show pipeplugins
 
 本例子用来演示将一个 IoTDB 的所有数据同步至另一个 IoTDB，数据链路如下图所示：
 
-![](https://alioss.timecho.com/docs/img/w1.png)
+![](https://alioss.timecho.com/docs/img/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A51.png)
 
 在这个例子中，我们可以创建一个名为 A2B 的同步任务，用来同步 A IoTDB 到 B IoTDB 间的全量数据，这里需要用到用到 sink 的 iotdb-thrift-sink 插件（内置插件），需指定接收端地址，这个例子中指定了'sink.ip'和'sink.port'，也可指定'sink.node-urls'，如下面的示例语句：
 
@@ -182,7 +183,7 @@ with sink (
 
 本例子用来演示同步某个历史时间范围（ 2023 年 8 月 23 日 8 点到 2023 年 10 月 23 日 8 点）的数据至另一个 IoTDB，数据链路如下图所示：
 
-![](https://alioss.timecho.com/docs/img/w2.png)
+![](https://alioss.timecho.com/docs/img/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A51.png)
 
 在这个例子中，我们可以创建一个名为 A2B 的同步任务。首先我们需要在 source 中定义传输数据的范围，由于传输的是历史数据（历史数据是指同步任务创建之前存在的数据），所以需要将 source.realtime.enable 参数配置为 false；同时需要配置数据的起止时间 start-time 和 end-time 以及传输的模式 mode，此处推荐 mode 设置为 hybrid 模式（hybrid 模式为混合传输，在无数据积压时采用实时传输方式，有数据积压时采用批量传输方式，并根据系统内部情况自动切换）。
 
@@ -280,7 +281,7 @@ with sink (
 
 本例子用来演示将一个 IoTDB 的数据，经过单向网闸，同步至另一个 IoTDB 的场景，数据链路如下图所示：
 
-![](https://alioss.timecho.com/docs/img/w5.png)
+![](https://alioss.timecho.com/docs/img/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%931.png)
 
 在这个例子中，需要使用 sink 任务中的 iotdb-air-gap-sink 插件（目前支持部分型号网闸，具体型号请联系天谋科技工作人员确认），配置网闸后，在 A IoTDB 上执行下列语句，其中 ip 和 port 填写网闸配置的虚拟 ip 和相关 port，详细语句如下：
 
@@ -313,7 +314,7 @@ with sink (
 
 ## 参考：注意事项
 
-可通过修改 IoTDB 配置文件（iotdb-common.properties）以调整数据同步的参数，如同步数据存储目录等。完整配置如下：
+可通过修改 IoTDB 配置文件（iotdb-system.properties）以调整数据同步的参数，如同步数据存储目录等。完整配置如下：
 
 V1.3.0+:
 ```Properties

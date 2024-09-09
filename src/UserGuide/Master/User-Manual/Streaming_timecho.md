@@ -19,7 +19,7 @@
 
 -->
 
-# IoTDB stream processing framework
+# Stream Framework
 
 The IoTDB stream processing framework allows users to implement customized stream processing logic, which can monitor and capture storage engine changes, transform changed data, and push transformed data outward.
 
@@ -779,7 +779,7 @@ The following diagram shows all states and state transitions:
 
 ## Configuration parameters
 
-In iotdb-common.properties：
+In iotdb-system.properties：
 
 V1.3.0+:
 ```Properties

@@ -1,9 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { DocSearchProps } from '@docsearch/react';
-import { deepAssign } from '@vuepress/helper/client';
-import type { App, ComputedRef, InjectionKey } from 'vue';
-import { computed, inject } from 'vue';
+import { deepAssign, isFunction } from '@vuepress/helper/client';
+import type {
+  App, ComputedRef, InjectionKey, MaybeRefOrGetter, Ref,
+} from 'vue';
+import {
+  computed, inject, isRef, ref, watch,
+} from 'vue';
 import { useRouteLocale } from 'vuepress/client';
 import type { DocsearchOptions } from '../../shared/index.js';
 
@@ -12,12 +16,14 @@ declare const __DOCSEARCH_OPTIONS__: DocsearchOptions;
 
 const docSearchOptions: Partial<DocSearchProps> = __DOCSEARCH_OPTIONS__;
 
-let docsearch: Partial<DocSearchProps> = docSearchOptions;
+const docsearch: Ref<DocSearchProps> = ref(docSearchOptions as DocSearchProps);
 
 const docsearchSymbol: InjectionKey<
+Ref<
 DocSearchProps & {
   locales?: Record<string, DocSearchProps>
 }
+>
 > = Symbol(__VUEPRESS_DEV__ ? 'docsearch' : '');
 
 export type DocSearchClientLocaleOptions = Partial<
@@ -29,9 +35,22 @@ export interface DocSearchClientOptions extends DocSearchClientLocaleOptions {
 }
 
 export const defineDocSearchConfig = (
-  options: DocSearchClientOptions,
+  options: MaybeRefOrGetter<DocSearchClientOptions>,
 ): void => {
-  docsearch = deepAssign({}, docSearchOptions, options);
+  if (isRef(options)) {
+    watch(
+      () => options.value,
+      (value) => {
+        docsearch.value = deepAssign({}, docSearchOptions, value);
+      },
+    );
+  } else if (isFunction(options)) {
+    watch(options, (value) => {
+      docsearch.value = deepAssign({}, docSearchOptions, value);
+    });
+  } else {
+    docsearch.value = deepAssign({}, docSearchOptions, options);
+  }
 };
 
 export const useDocSearchOptions = (): ComputedRef<DocSearchProps> => {
@@ -39,8 +58,8 @@ export const useDocSearchOptions = (): ComputedRef<DocSearchProps> => {
   const routeLocale = useRouteLocale();
 
   return computed(() => ({
-    ...options,
-    ...options.locales?.[routeLocale.value],
+    ...options.value,
+    ...options.value.locales?.[routeLocale.value],
   }));
 };
 

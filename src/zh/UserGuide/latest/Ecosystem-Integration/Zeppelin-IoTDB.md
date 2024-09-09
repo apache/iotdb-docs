@@ -19,7 +19,7 @@
 
 -->
 
-# Zeppelin-IoTDB
+# Apache Zeppelin
 
 ## Zeppelin 简介
 
@@ -68,6 +68,16 @@ cd $IoTDB_HOME
 mkdir -p $Zeppelin_HOME/interpreter/iotdb
 cp $IoTDB_HOME/zeppelin-interpreter/target/zeppelin-{version}-SNAPSHOT-jar-with-dependencies.jar $Zeppelin_HOME/interpreter/iotdb
 ```
+
+### 修改 Zeppelin 配置
+
+进入 `$Zeppelin_HOME/conf`，使用 template 创建 Zeppelin 配置文件：
+
+```shell
+cp zeppelin-site.xml.template zeppelin-site.xml
+```
+
+打开 zeppelin-site.xml 文件，将 `zeppelin.server.addr` 项修改为 `0.0.0.0`
 
 ### 启动 Zeppelin 和 IoTDB
 

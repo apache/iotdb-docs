@@ -27,7 +27,7 @@ See also:
 [FAQ](../FAQ/Frequently-asked-questions.md)
 
 
-## 1. Installation and deployment
+## Installation and deployment
 
 As an example, we'd like to start an IoTDB cluster with 3 ConfigNodes and 3 DataNodes(3C3D) with minimum modifications. Thus, 
 - the cluster name is defaultCluster
@@ -53,7 +53,7 @@ Port:
 - We could use IP address or hostname/domain to set up an IoTDB cluster, then we would take IP address. If using hostname/domain, `/etc/hosts` must be set well.
 - JVM memory configuration: `ON_HEAP_MEMORY` in `confignode-env.sh` and `datanode-env.sh`, equal to or greater than 1G is recommended. It's enough for ConfigNode taking 1~2G. The memory taking of DataNode is decided by the inputing and querying data. 
 
-### 1.1 download
+### download
 In every computer, [Download](https://iotdb.apache.org/Download/) the IoTDB install package and extract it to working directory of `/data/iotdb`.
 Then get the directory tree:
 ```shell
@@ -64,26 +64,26 @@ Then get the directory tree:
 └── tools   # other tools
 ```
 
-### 1.2. configuration
+### configuration
 
 Configuration files are in `/data/iotdb/conf`.
 Modify the specified configuration file according to the table below:
 
 |  Configuration|      Configuration Option      | IP:192.168.132.10       | IP:192.168.132.11       | IP:192.168.132.12       |
 |------------|:-------------------------------|----------------------|----------------------|:---------------------|
-| iotdb-confignode.properties | cn\_internal\_address          | 192.168.132.10       | 192.168.132.11       | 192.168.132.12       |
-|            | cn_seed_config_node | 192.168.132.10:10710 | 192.168.132.10:10710 | 192.168.132.10:10710 |
-| iotdb-datanode.properties   | dn\_rpc\_address               | 192.168.132.10       | 192.168.132.11       | 192.168.132.12       |
-|            | dn\_internal\_address          | 192.168.132.10       | 192.168.132.11       | 192.168.132.12       |
-|            | dn_seed_config_node | 192.168.132.10:10710 | 192.168.132.10:10710 | 192.168.132.10:10710 |       
+| iotdb-system.properties | cn\_internal\_address          | 192.168.132.10       | 192.168.132.11       | 192.168.132.12       |
+| iotdb-system.properties           | cn_seed_config_node | 192.168.132.10:10710 | 192.168.132.10:10710 | 192.168.132.10:10710 |
+| iotdb-system.properties   | dn\_rpc\_address               | 192.168.132.10       | 192.168.132.11       | 192.168.132.12       |
+| iotdb-system.properties           | dn\_internal\_address          | 192.168.132.10       | 192.168.132.11       | 192.168.132.12       |
+| iotdb-system.properties           | dn_seed_config_node | 192.168.132.10:10710 | 192.168.132.10:10710 | 192.168.132.10:10710 |       
 
 **Notice:**
-It's recommended that the configurations of iotdb-common.properties and the heap size of JVM in all nodes are the same.
+It's recommended that the configurations of iotdb-system.properties and the heap size of JVM in all nodes are the same.
 
-### 1.3. start IoTDB cluster
+### start IoTDB cluster
 Before starting the IoTDB cluster, make sure the configurations are correct and there is no any data in the working directory. 
 
-#### 1.3.1. start the first node
+#### start the first node
 That is `cn_seed_config_node` in above configuration table.
 Execute these commands below in node of `192.168.132.10`.
 ```shell
@@ -109,7 +109,7 @@ sbin/start-confignode.sh -d
 sbin/start-datanode.sh -d
 ```
 
-#### 1.3.2. start service ConfigNode and DataNode in other nodes
+#### start service ConfigNode and DataNode in other nodes
 Execute commands below in both 192.168.132.11 and 192.168.132.12:
 ```shell
 cd /data/iotdb
@@ -118,7 +118,7 @@ sbin/start-standalone.sh
 ```
 If starting failed, it's necessary to do [cleanup](#【reference】cleanup) in all nodes, and then doging all again from starting the first node.
 
-#### 1.3.3. check the cluster status
+#### check the cluster status
 If everything goes well, the cluster will start successfully. Then, we can start the Cli for verification.
 ```shell
 /data/iotdb/sbin/start-cli.sh -h 192.168.132.10
@@ -166,28 +166,28 @@ rm -rf data logs
 It's necessary to remove directory of `data` but it's not necessary to remove directory of `logs`, only for convenience.
 
 
-## 2. Expand
+## Expand
 `Expand` means add services of ConfigNode or DataNode into an existing IoTDB cluster.
 
 It's the same as starting the other nodes mentioned above. That is downloading IoTDB install package, extracting, configurating and then starting. The new node here is `192.168.132.13`.
 **Notice**
 - It's must be cleaned up, in other words doing [cleanup](#cleanup) in it.
-- `cluster_name` of `iotdb-common.properties` must be the same to the cluster.
+- `cluster_name` of `iotdb-system.properties` must be the same to the cluster.
 - `cn_seed_config_node` and `dn_seed_config_node` must be the same to the cluster.
 - The old data wouldn't be moved to the new node but the new data would be.
 
-### 2.1. configuration
+### configuration
 Modify the specified configuration file according to the table below:
 
 |  Configuration |      Configuration Option| IP:192.168.132.13  | 
 |------------|:-------------------------------|:---------------------|
-| iotdb-confignode.properties | cn\_internal\_address          | 192.168.132.13       | 
-|            | cn\_target\_config\_node\_list | 192.168.132.10:10710 | 
-| iotdb-datanode.properties   | dn\_rpc\_address               | 192.168.132.13       | 
-|            | dn\_internal\_address          | 192.168.132.13       | 
-|            | dn\_target\_config\_node\_list | 192.168.132.10:10710 | 
+| iotdb-system.properties | cn\_internal\_address          | 192.168.132.13       | 
+|   iotdb-system.properties         | cn\_target\_config\_node\_list | 192.168.132.10:10710 | 
+| iotdb-system.properties   | dn\_rpc\_address               | 192.168.132.13       | 
+|  iotdb-system.properties          | dn\_internal\_address          | 192.168.132.13       | 
+| iotdb-system.properties           | dn\_target\_config\_node\_list | 192.168.132.10:10710 | 
 
-### 2.2. expand
+### expand
 Execute commands below in new node of `192.168.132.13`:
 ```shell
 cd /data/iotdb
@@ -195,7 +195,7 @@ cd /data/iotdb
 sbin/start-standalone.sh
 ```
 
-### 2.3. check the result
+### check the result
 Execute `show cluster` through Cli and the result like below:
 ```shell
 /data/iotdb/sbin/start-cli.sh -h 192.168.132.10
@@ -216,14 +216,14 @@ IoTDB>show cluster;
 ``` 
 
 
-## 3. Remove service
+## Remove service
 `Shrink` means removing a service from the IoTDB cluster.
 **Notice:**
 - `Shrink` could be done in any node within the cluster
-- Any service could be shrinked within cluster. But the DataNode service of the cluster must greater than the data replica of iotdb-common.properties.
+- Any service could be shrinked within cluster. But the DataNode service of the cluster must greater than the data replica of iotdb-system.properties.
 - Be patient to wait for the end of shrinking, and then read the guide in logs carefully.
 
-### 3.1 shrink service ConfigNode
+### shrink service ConfigNode
 ```shell
 cd /data/iotdb
 # way 1: shrink with ip:port
@@ -233,7 +233,7 @@ sbin/remove-confignode.sh 192.168.132.13:10710
 sbin/remove-confignode.sh 6
 ```
 
-### 3.2 shrink service DataNode
+### shrink service DataNode
 ```shell
 cd /data/iotdb
 # way 1: shrink with ip:port
@@ -243,7 +243,7 @@ sbin/remove-datanode.sh 192.168.132.13:6667
 sbin/remove-datanode.sh 7
 ```
 
-### 3.3 check the result
+### check the result
 
 Execute `show cluster` through Cli, the result is like below:
 ```shell
