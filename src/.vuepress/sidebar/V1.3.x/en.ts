@@ -145,7 +145,6 @@ export const enSidebar = {
         { text: 'Apache Flink(TsFile)', link: 'Flink-TsFile' },
         { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
         { text: 'DBeaver', link: 'DBeaver' },
-        { text: 'DataEase', link: 'DataEase' },
       ],
     },
     {
