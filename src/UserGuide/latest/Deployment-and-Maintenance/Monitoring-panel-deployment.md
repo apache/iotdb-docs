@@ -70,7 +70,7 @@ Taking the 3C3D cluster as an example, the monitoring configuration that needs t
 
 > Taking Prometheus installed on server 192.168.1.3 as an example.
 
-1. Download the Prometheus installation package, which requires installation of V2.30.3 and above. You can go to the Prometheus official website to download it（https://prometheus.io/download）
+1. Download the Prometheus installation package, which requires installation of V2.30.3 and above. You can go to the Prometheus official website to download it(https://prometheus.io/docs/introduction/first_steps/)
 2. Unzip the installation package and enter the unzipped folder:
 
 ```Shell
@@ -121,7 +121,7 @@ scrape_configs:
 
 > Taking Grafana installed on server 192.168.1.3 as an example.
 
-1. Download the Grafana installation package, which requires installing version 8.4.2 or higher. You can go to the Grafana official website to download it（https://grafana.com/grafana/download）
+1. Download the Grafana installation package, which requires installing version 8.4.2 or higher. You can go to the Grafana official website to download it(https://grafana.com/grafana/download)
 2. Unzip and enter the corresponding folder
 
 ```Shell

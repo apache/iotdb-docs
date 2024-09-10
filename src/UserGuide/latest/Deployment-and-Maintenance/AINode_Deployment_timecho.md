@@ -57,7 +57,7 @@
 - Suggested operating environment：Ubuntu, CentOS, MacOS  
 
 - Runtime Environment   
-  - Python>=3.8 is sufficient in a networked environment, and comes with pip and venv tools; Python 3.8 version is required for non networked environments,And from [here](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) Download the zip file corresponding to the operating system (Note that when downloading dependencies, you need to select the zip file in the libs folder, as shown in the following figure)，Copy all files in the folder to the `lib` folder in the iotdb `enterprise android -<version>` folder, and follow the steps below to start AINode.
+  - Python>=3.8 is sufficient in a networked environment, and comes with pip and venv tools; Python 3.8 version is required for non networked environments, and download the zip package for the corresponding operating system from [here](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) (Note that when downloading dependencies, you need to select the zip file in the libs folder, as shown in the following figure). Copy all files in the folder to the `lib` folder in the iotdb `enterprise android -<version>` folder, and follow the steps below to start AINode.
 
      <img src="https://alioss.timecho.com/docs/img/AINode%E9%83%A8%E7%BD%B2%E7%8E%AF%E5%A2%83.png" alt="" style="width: 80%;"/>
 

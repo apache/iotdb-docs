@@ -110,7 +110,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
 ### Step 2: Install and configure Prometheus
 
-1. Download the Prometheus installation package, which requires installation of V2.30.3 and above. You can go to the Prometheus official website to download it（https://prometheus.io/download）
+1. Download the Prometheus installation package, which requires installation of V2.30.3 and above. You can go to the Prometheus official website to download it (https://prometheus.io/docs/introduction/first_steps/)
 2. Unzip the installation package and enter the unzipped folder:
 
     ```Shell

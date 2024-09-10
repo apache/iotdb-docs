@@ -108,7 +108,7 @@
 
 ### 步骤二：安装、配置Prometheus监控
 
-1. 确保Prometheus安装完成（官方安装说明可参考：https://prometheus.io/docs/introduction/first_steps/）
+1. 确保Prometheus安装完成(官方安装说明可参考：https://prometheus.io/docs/introduction/first_steps/)
 2. 解压安装包，进入解压后的文件夹：
 
     ```Shell
