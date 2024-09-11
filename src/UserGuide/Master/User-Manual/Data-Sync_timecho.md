@@ -337,23 +337,7 @@ with connector (
 
 By configuring SSL related parameters such as certificate address and password（`ssl.trust-store-path`）、（`ssl.trust-store-pwd`）, it can be ensured that data is protected by SSL encryption during synchronization.
 
-### Transfer data using SSL protocol
 
-This example demonstrates the scenario of configuring IoTDB one-way data synchronization using the SSL protocol, with the data link shown in the following figure：
-
-![](https://alioss.timecho.com/docs/img/1706696772065.jpg)
-
-In this scenario, it is necessary to use IoTDB's iotdb-thrift-ssl-sink plugin. We can create a synchronization task called A2B and configure the password and address of our own certificate. The detailed statement is as follows:
-```Sql
-create pipe A2B
-with sink (
-  'sink'='iotdb-thrift-ssl-sink',
-  'sink.ip'='127.0.0.1',
-  'sink.port'='6669',
-  'ssl.trust-store-path'='pki/trusted'
-  'ssl.trust-store-pwd'='root'
-)
-```
 
 ## Reference: Notes
 

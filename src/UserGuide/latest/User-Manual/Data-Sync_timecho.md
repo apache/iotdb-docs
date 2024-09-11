@@ -291,7 +291,7 @@ with sink (
 ```
 ### Downsampling data synchronization
 
-The downsampling synchronization task can convert high-frequency data into low-frequency data, reducing storage pressure and improving processing efficiency.When creating a synchronization task, the`processor` parameter can be configured,Specify the use of the built-in`changing-value-sampling-processor`plugin (based on positional upload downsampling, supported in versions 1.3.3 and later)，or`swinging-door-trending-sampling-processor`(Trend change downsampling based on the revolving door algorithm, supported in V1.3.2 and later versions)、`tumbling-time-sampling-processor`(Downsampling based on scrolling time window, supported in V1.3.2 and later versions)plugin to implement downsampling.
+The downsampling synchronization task can convert high-frequency data into low-frequency data, reducing storage pressure and improving processing efficiency.When creating a synchronization task, the`processor` parameter can be configured,Specify the use of the built-in`swinging-door-trending-sampling-processor`(Trend change downsampling based on the revolving door algorithm, supported in V1.3.2 and later versions)、`tumbling-time-sampling-processor`(Downsampling based on scrolling time window, supported in V1.3.2 and later versions)plugin to implement downsampling.
 
 ```SQL
 create pipe A2B
@@ -337,23 +337,6 @@ with connector (
 
 By configuring SSL related parameters such as certificate address and password（`ssl.trust-store-path`）、（`ssl.trust-store-pwd`）, it can be ensured that data is protected by SSL encryption during synchronization.
 
-### Transfer data using SSL protocol
-
-This example demonstrates the scenario of configuring IoTDB one-way data synchronization using the SSL protocol, with the data link shown in the following figure：
-
-![](https://alioss.timecho.com/docs/img/1706696772065.jpg)
-
-In this scenario, it is necessary to use IoTDB's iotdb-thrift-ssl-sink plugin. We can create a synchronization task called A2B and configure the password and address of our own certificate. The detailed statement is as follows:
-```Sql
-create pipe A2B
-with sink (
-  'sink'='iotdb-thrift-ssl-sink',
-  'sink.ip'='127.0.0.1',
-  'sink.port'='6669',
-  'ssl.trust-store-path'='pki/trusted'
-  'ssl.trust-store-pwd'='root'
-)
-```
 
 ## Reference: Notes
 
