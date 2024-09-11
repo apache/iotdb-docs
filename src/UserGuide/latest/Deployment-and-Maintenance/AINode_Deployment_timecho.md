@@ -57,7 +57,7 @@
 - Suggested operating environment：Ubuntu, CentOS, MacOS  
 
 - Runtime Environment   
-  - Python>=3.8 is sufficient in a networked environment, and comes with pip and venv tools; Python 3.8 version is required for non networked environments,And from [here](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) Download the zip file corresponding to the operating system (Note that when downloading dependencies, you need to select the zip file in the libs folder, as shown in the following figure)，Copy all files in the folder to the `lib` folder in the iotdb `enterprise android -<version>` folder, and follow the steps below to start AINode.
+  - Python>=3.8 is sufficient in a networked environment, and comes with pip and venv tools; Python 3.8 version is required for non networked environments, and download the zip package for the corresponding operating system from [here](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) (Note that when downloading dependencies, you need to select the zip file in the libs folder, as shown in the following figure). Copy all files in the folder to the `lib` folder in the iotdb `enterprise android -<version>` folder, and follow the steps below to start AINode.
 
      <img src="https://alioss.timecho.com/docs/img/AINode%E9%83%A8%E7%BD%B2%E7%8E%AF%E5%A2%83.png" alt="" style="width: 80%;"/>
 
@@ -130,12 +130,21 @@ AINode supports modifying some necessary parameters. You can find the following 
 ##### Start command
 
 ```shell
-  # Linux / MacOS 
+  # Start command
+  # Linux and MacOS systems
   bash sbin/start-ainode.sh  -i <directory>  -r  -n
 
-  # Windows
+  # Windows systems
   sbin\start-ainode.bat  -i <directory>  -r  -n
-  ```
+
+  # Backend startup command (recommended for long-term running)
+  # Linux and MacOS systems
+  nohup bash sbin/start-ainode.sh  > myout.file 2>& 1 &
+
+  # Windows systems
+  nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
+  ``` 
+
 ##### Parameter introduction:
 
 | **Name**                | **Label** | **Describe**                                                         | **Is it mandatory** | **Type**   | **Default value**           | **Input method**               |
@@ -175,7 +184,7 @@ AINode supports modifying some necessary parameters. You can find the following 
   # Linux and MacOS systems
   nohup bash sbin/start-ainode.sh  > myout.file 2>& 1 &
   # Windows systems
-  nohup bash sbin/start-ainode.bat  > myout.file 2>& 1 &
+  nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
   ```
 
 ##### Update Start:
@@ -194,19 +203,29 @@ If the version of AINode has been updated (such as updating the `lib` folder), t
   # Linux and MacOS systems
   nohup bash sbin/start-ainode.sh -r > myout.file 2>& 1 &
   # Windows systems
-  nohup bash sbin/start-ainode.bat -r > myout.file 2>& 1 &
+  nohup bash sbin\start-ainode.bat -r > myout.file 2>& 1 &
   ```
 #### Non networked environment startup 
 
 ##### Start command
 
+
 ```shell
-  # Linux / MacOS 
+  # Start command
+  # Linux and MacOS systems
   bash sbin/start-ainode.sh  -i <directory>  -r  -n
 
-  # Windows
+  # Windows systems
   sbin\start-ainode.bat  -i <directory>  -r  -n
-  ```
+
+  # Backend startup command (recommended for long-term running)
+  # Linux and MacOS systems
+  nohup bash sbin/start-ainode.sh  > myout.file 2>& 1 &
+
+  # Windows systems
+  nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
+  ``` 
+
 ##### Parameter introduction:
 
 | **Name**                | **Label** | **Describe**                                                         | **Is it mandatory** | **Type**   | **Default value**           | **Input method**               |
@@ -231,7 +250,7 @@ If the version of AINode has been updated (such as updating the `lib` folder), t
   # Linux and MacOS systems
   nohup bash sbin/start-ainode.sh  > myout.file 2>& 1 &
   # Windows systems
-  nohup bash sbin/start-ainode.bat  > myout.file 2>& 1 &
+  nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
   ```
 
 ### Detecting the status of AINode nodes 

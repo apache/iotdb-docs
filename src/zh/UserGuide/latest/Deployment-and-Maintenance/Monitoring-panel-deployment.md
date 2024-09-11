@@ -70,7 +70,7 @@ IoTDB配套监控面板是IoTDB企业版配套工具之一。它旨在解决IoTD
 
 > 此处以prometheus安装在服务器192.168.1.3为例。
 
-1. 下载 Prometheus 安装包，要求安装 V2.30.3 版本及以上，可前往 Prometheus 官网下载（https://prometheus.io/download）
+1. 下载 Prometheus 安装包，要求安装 V2.30.3 版本及以上，可前往 Prometheus 官网下载(https://prometheus.io/docs/introduction/first_steps/)
 2. 解压安装包，进入解压后的文件夹：
 
 ```Shell
@@ -123,7 +123,7 @@ scrape_configs:
 
 > 此处以Grafana安装在服务器192.168.1.3为例。
 
-1. 下载 Grafana 安装包，要求安装 V8.4.2 版本及以上，可以前往Grafana官网下载（https://grafana.com/grafana/download）
+1. 下载 Grafana 安装包，要求安装 V8.4.2 版本及以上，可以前往Grafana官网下载(https://grafana.com/grafana/download)
 2. 解压并进入对应文件夹
 
 ```Shell
