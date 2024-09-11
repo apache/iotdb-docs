@@ -130,12 +130,21 @@ AINode supports modifying some necessary parameters. You can find the following 
 ##### Start command
 
 ```shell
-  # Linux / MacOS 
+  # Start command
+  # Linux and MacOS systems
   bash sbin/start-ainode.sh  -i <directory>  -r  -n
 
-  # Windows
+  # Windows systems
   sbin\start-ainode.bat  -i <directory>  -r  -n
-  ```
+
+  # Backend startup command (recommended for long-term running)
+  # Linux and MacOS systems
+  nohup bash sbin/start-ainode.sh  > myout.file 2>& 1 &
+
+  # Windows systems
+  nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
+  ``` 
+
 ##### Parameter introduction:
 
 | **Name**                | **Label** | **Describe**                                                         | **Is it mandatory** | **Type**   | **Default value**           | **Input method**               |
@@ -175,7 +184,7 @@ AINode supports modifying some necessary parameters. You can find the following 
   # Linux and MacOS systems
   nohup bash sbin/start-ainode.sh  > myout.file 2>& 1 &
   # Windows systems
-  nohup bash sbin/start-ainode.bat  > myout.file 2>& 1 &
+  nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
   ```
 
 ##### Update Start:
@@ -194,19 +203,29 @@ If the version of AINode has been updated (such as updating the `lib` folder), t
   # Linux and MacOS systems
   nohup bash sbin/start-ainode.sh -r > myout.file 2>& 1 &
   # Windows systems
-  nohup bash sbin/start-ainode.bat -r > myout.file 2>& 1 &
+  nohup bash sbin\start-ainode.bat -r > myout.file 2>& 1 &
   ```
 #### Non networked environment startup 
 
 ##### Start command
 
+
 ```shell
-  # Linux / MacOS 
+  # Start command
+  # Linux and MacOS systems
   bash sbin/start-ainode.sh  -i <directory>  -r  -n
 
-  # Windows
+  # Windows systems
   sbin\start-ainode.bat  -i <directory>  -r  -n
-  ```
+
+  # Backend startup command (recommended for long-term running)
+  # Linux and MacOS systems
+  nohup bash sbin/start-ainode.sh  > myout.file 2>& 1 &
+
+  # Windows systems
+  nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
+  ``` 
+
 ##### Parameter introduction:
 
 | **Name**                | **Label** | **Describe**                                                         | **Is it mandatory** | **Type**   | **Default value**           | **Input method**               |
@@ -231,7 +250,7 @@ If the version of AINode has been updated (such as updating the `lib` folder), t
   # Linux and MacOS systems
   nohup bash sbin/start-ainode.sh  > myout.file 2>& 1 &
   # Windows systems
-  nohup bash sbin/start-ainode.bat  > myout.file 2>& 1 &
+  nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
   ```
 
 ### Detecting the status of AINode nodes 
