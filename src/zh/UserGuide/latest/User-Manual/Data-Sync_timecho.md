@@ -293,6 +293,53 @@ with sink (
   'sink.port'='9780'
 )
 ```
+### 降采样数据同步
+
+降采样同步任务可以将高频数据转换为低频数据，减轻存储压力并提升处理效率。创建同步任务时，可配置`processor`参数，指定使用内置`changing-value-sampling-processor`（基于变位上传的降采样，1.3.3及以后版本支持）插件，或`swinging-door-trending-sampling-processor`（基于旋转门算法的趋势变化降采样，V1.3.2及以后版本支持）、`tumbling-time-sampling-processor`（基于滚动时间窗口的降采样，V1.3.2及以后版本支持）插件来实现降采样。
+
+```SQL
+create pipe A2B
+with processor (
+  'processor' = 'changing-value-sampling-processor'
+)
+with connector (
+  'node-urls' = '127.0.0.1:6668'
+)
+```
+
+### 压缩同步（1.3.2及以后版本）
+
+IoTDB支持在同步过程中指定数据压缩方式。
+
+如创建一个名为 A2B 的同步任务：
+
+```SQL
+create pipe A2B 
+with connector (
+ 'node-urls' = '127.0.0.1:6668',
+ 'compressor' = 'snappy,lz4'
+)
+```
+
+可通过配置 `compressor` 参数，实现数据的实时压缩和传输。`compressor`目前支持 snappy / gzip / lz4 / zstd / lzma2 5 种可选算法，且可以选择多种压缩算法组合，按配置的顺序进行压缩。
+
+### 加密同步（1.3.1及以后版本）
+
+IoTDB支持在同步过程中使用 SSL 加密，从而在不同的 IoTDB 实例之间安全地传输数据。
+
+如创建名为 A2B 的同步任务：
+
+```SQL
+create pipe A2B
+with connector (
+  'connector'='iotdb-thrift-ssl-connector',
+  'node-urls'='127.0.0.1:6667',
+  'ssl.trust-store-path'='pki/trusted',
+  'ssl.trust-store-pwd'='root'
+)
+```
+
+通过配置 SSL 相关的参数，如证书地址和密码（`ssl.trust-store-path`）、（`ssl.trust-store-pwd`）可以确保数据在同步过程中被 SSL 加密所保护。
 
 ### SSL协议数据传输
 

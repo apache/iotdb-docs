@@ -289,6 +289,53 @@ with sink (
   'sink.port'='9780'
 )
 ```
+### Downsampling data synchronization
+
+The downsampling synchronization task can convert high-frequency data into low-frequency data, reducing storage pressure and improving processing efficiency.When creating a synchronization task, the`processor` parameter can be configured,Specify the use of the built-in`changing-value-sampling-processor`plugin (based on positional upload downsampling, supported in versions 1.3.3 and later)，or`swinging-door-trending-sampling-processor`(Trend change downsampling based on the revolving door algorithm, supported in V1.3.2 and later versions)、`tumbling-time-sampling-processor`(Downsampling based on scrolling time window, supported in V1.3.2 and later versions)plugin to implement downsampling.
+
+```SQL
+create pipe A2B
+with processor (
+  'processor' = 'changing-value-sampling-processor'
+)
+with connector (
+  'node-urls' = '127.0.0.1:6668'
+)
+```
+
+### Compression synchronization (1.3.2 and later versions)
+
+IoTDB supports specifying data compression methods during synchronization.
+
+To create a synchronization task named A2B:
+
+```SQL
+create pipe A2B 
+with connector (
+ 'node-urls' = '127.0.0.1:6668',
+ 'compressor' = 'snappy,lz4'
+)
+```
+
+Real time compression and transmission of data can be achieved by configuring the `compressor` parameter.`compressor` currently supports 5 optional algorithms:  snappy / gzip / lz4 / zstd / lzma2 , and can choose multiple compression algorithm combinations to compress in the order of configuration.
+
+### Encryption synchronization (1.3.1 and later versions)
+
+IoTDB supports the use of SSL encryption during synchronization to securely transfer data between different IoTDB instances.
+
+Create a synchronization task named A2B:
+
+```SQL
+create pipe A2B
+with connector (
+  'connector'='iotdb-thrift-ssl-connector',
+  'node-urls'='127.0.0.1:6667',
+  'ssl.trust-store-path'='pki/trusted',
+  'ssl.trust-store-pwd'='root'
+)
+```
+
+By configuring SSL related parameters such as certificate address and password（`ssl.trust-store-path`）、（`ssl.trust-store-pwd`）, it can be ensured that data is protected by SSL encryption during synchronization.
 
 ### Transfer data using SSL protocol
 
