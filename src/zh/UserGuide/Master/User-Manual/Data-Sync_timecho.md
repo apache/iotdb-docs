@@ -149,7 +149,7 @@ with sink (
 |----------------|--------------|--------------------------------------|-------|
 | 抽取（Source）     | Source 插件    | iotdb-source                         | 不支持   |
 | 处理（Process）    | Processor 插件 | ido-nothing-processor                 | 支持    |
-| 发送（Sink）       | Sink 插件      | iotdb-thrift-sink、iotdb-air-gap-sink | 不支持    |
+| 发送（Sink）       | Sink 插件      | iotdb-thrift-sink、iotdb-air-gap-sink | 支持    |
 
 #### 预置插件
 

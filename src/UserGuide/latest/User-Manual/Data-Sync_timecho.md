@@ -125,7 +125,7 @@ In order to make the overall architecture more flexible to match different synch
 |------------------|---------------|---------------------------------------|--------------------| 
 | Extract (Source) | Source Plugin | iotdb-source                          | Not Supported      |
 | handle（Process） | Processor Plugin | ido-nothing-processor                 | Support        |
-| Send (Sink)      | Sink plugin   | iotdb-thrift-sink, iotdb-air-gap-sink | Not Supported             |
+| Send (Sink)      | Sink plugin   | iotdb-thrift-sink, iotdb-air-gap-sink | Support             |
 
 #### Preconfigured Plugins
 
