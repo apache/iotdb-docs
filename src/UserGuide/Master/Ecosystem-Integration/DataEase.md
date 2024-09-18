@@ -27,8 +27,7 @@
     DataEase is an open-source data visualization and analysis tool that provides a drag and drop interface, allowing users to easily create charts and dashboards. It supports MySQL SQL Server、Hive、ClickHouse、 Multiple data sources such as Dameng can be integrated into other applications. Can help users quickly gain insights into data and make decisions.For more detailed information, please refer to[DataEase official website](https://www.fit2cloud.com/dataease/index.html)
 
     <div style="text-align: center;">
-      <img src="https://alioss.timecho.com/docs/img/DataEase-English1.png" alt="" style="width: 50%;"/>
-      <img src="https://alioss.timecho.com/docs/img/DataEase2.png" alt="" style="width: 40%;"/>
+      <img src="https://alioss.timecho.com/docs/img/DataEase2.png" alt="" style="width: 60%;"/>
     </div>
 
 2. Introduction to the DataEase-IoTDB Connector
@@ -93,7 +92,7 @@ Step 4: After startup, you can check whether the startup was successful through 
 
 ### Sign in DataEase
 
-1. Sign in DataEase，access address : `http://目标服务器IP地址:80`
+1. Sign in DataEase，access address : `http://target server IP address:80`
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English3.png" alt="" style="width: 70%;"/>
 </div>
