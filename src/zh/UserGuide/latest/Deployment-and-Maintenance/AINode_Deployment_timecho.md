@@ -109,10 +109,10 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
 | :----------------------------- | ------------------------------------------------------------ | ------- | ------------------ | ---------------------------- |
 | cluster_name                   | AINode 要加入集群的标识                                      | string  | defaultCluster     | 仅允许在第一次启动服务前修改 |
 | ain_seed_config_node           | AINode 启动时注册的 ConfigNode 地址                          | String  | 10710              | 仅允许在第一次启动服务前修改 |
-| ain_inference_rpc_address      | AINode 提供服务与通信的地址                                  | String  | 127.0.0.1          | 重启后生效                   |
-| ain_inference_rpc_port         | AINode 提供服务与通信的端口                                  | String  | 10810              | 重启后生效                   |
-| ain_system_dir                 | AINode 元数据存储路径，相对路径的起始目录与操作系统相关，建议使用绝对路径 | String  | data/AINode/system | 重启后生效                   |
-| ain_models_dir                 | AINode 存储模型文件的路径，相对路径的起始目录与操作系统相关，建议使用绝对路径 | String  | data/AINode/models | 重启后生效                   |
+| ain_inference_rpc_address      | AINode 提供服务与通信的地址                                  | String  | 127.0.0.1          | 仅允许在第一次启动服务前修改  |
+| ain_inference_rpc_port         | AINode 提供服务与通信的端口                                  | String  | 10810              | 仅允许在第一次启动服务前修改  |
+| ain_system_dir                 | AINode 元数据存储路径，相对路径的起始目录与操作系统相关，建议使用绝对路径 | String  | data/AINode/system | 仅允许在第一次启动服务前修改 |
+| ain_models_dir                 | AINode 存储模型文件的路径，相对路径的起始目录与操作系统相关，建议使用绝对路径 | String  | data/AINode/models | 仅允许在第一次启动服务前修改   |
 | ain_logs_dir                   | AINode 存储日志的路径，相对路径的起始目录与操作系统相关，建议使用绝对路径 | String  | logs/AINode        | 重启后生效                   |
 | ain_thrift_compression_enabled | AINode 是否启用 thrift 的压缩机制，0-不启动、1-启动          | Boolean | 0                  | 重启后生效                   |
 ### 启动 AINode
