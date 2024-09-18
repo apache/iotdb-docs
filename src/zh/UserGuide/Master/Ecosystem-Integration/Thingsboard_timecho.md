@@ -24,7 +24,7 @@
 
 1. ThingsBoard 简介
 
-    ThingsBoard 是一个开源物联网平台，可实现物联网项目的快速开发、管理和扩展。更多介绍详情请参考[ ThingsBoard 官网](https://thingsboard.io/docs/getting-started-guides/what-is-thingsboard/https://thingsboard.io/docs/getting-started-guides/what-is-thingsboard/)。
+    ThingsBoard 是一个开源物联网平台，可实现物联网项目的快速开发、管理和扩展。更多介绍详情请参考[ ThingsBoard 官网](https://thingsboard.io/docs/getting-started-guides/what-is-thingsboard/)。
 
     ![](https://alioss.timecho.com/docs/img/ThingsBoard-1.PNG)
 

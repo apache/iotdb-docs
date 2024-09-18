@@ -24,11 +24,11 @@
 
 1. Introduction to ThingsBoard
 
-  ThingsBoard is an open-source IoT platform that enables rapid development, management, and expansion of IoT projects. For more detailed information, please refer to [ThingsBoard Official Website](https://thingsboard.io/docs/getting-started-guides/what-is-thingsboard/https://thingsboard.io/docs/getting-started-guides/what-is-thingsboard/)。
+  ThingsBoard is an open-source IoT platform that enables rapid development, management, and expansion of IoT projects. For more detailed information, please refer to [ThingsBoard Official Website](https://thingsboard.io/docs/getting-started-guides/what-is-thingsboard/)。
 
   ![](https://alioss.timecho.com/docs/img/ThingsBoard-en1.png)
 
-2. Introduction to ThingsBoard-IoTDB
+1. Introduction to ThingsBoard-IoTDB
 
   ThingsBoard IoTDB provides the ability to store data from ThingsBoard to IoTDB, and also supports reading data information from the `root.thingsboard` database in ThingsBoard. The detailed architecture diagram is shown in yellow in the following figure.
 
