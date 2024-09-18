@@ -156,6 +156,7 @@ export const zhSidebar = {
         { text: 'Grafana插件', link: 'Grafana-Plugin' },
         { text: 'ThingsBoard', link: 'Thingsboard_timecho' },
          //        { text: 'Apache Flink(SQL)'', link: 'Flink-SQL-IoTDB' },
+        { text: 'DataEase', link: 'DataEase' },
       ],
     },
     {

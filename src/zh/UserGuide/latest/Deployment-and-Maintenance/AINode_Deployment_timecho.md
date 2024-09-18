@@ -124,11 +124,19 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
 ##### 启动命令
 
 ```shell
-  # Linux / MacOS 
+  # 启动命令
+  # Linux 和 MacOS 系统
   bash sbin/start-ainode.sh  -i <directory>  -r  -n
 
-  # Windows
+  # Windows 系统
   sbin\start-ainode.bat  -i <directory>  -r  -n
+
+  # 后台启动命令（长期运行推荐）
+  # Linux 和 MacOS 系统
+  nohup bash sbin/start-ainode.sh  > myout.file 2>& 1 &
+
+  # Windows 系统
+  nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
   ```
 ##### 参数介绍：
 
@@ -168,7 +176,7 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
   # Linux 和 MacOS 系统
   nohup bash sbin/start-ainode.sh  > myout.file 2>& 1 &
   # Windows 系统
-  nohup bash sbin/start-ainode.bat  > myout.file 2>& 1 &
+  nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
   ```
 
 ##### 更新启动：
@@ -186,18 +194,26 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
   # Linux 和 MacOS 系统
   nohup bash sbin/start-ainode.sh -r > myout.file 2>& 1 &
   # Windows 系统
-  nohup bash sbin/start-ainode.bat -r > myout.file 2>& 1 &
+  nohup bash sbin\start-ainode.bat -r > myout.file 2>& 1 &
   ```
 #### 非联网环境启动 
 
 ##### 启动命令
 
 ```shell
-  # Linux / MacOS 
+  # 启动命令
+  # Linux 和 MacOS 系统
   bash sbin/start-ainode.sh  -i <directory>  -r  -n
 
-  # Windows
+  # Windows 系统
   sbin\start-ainode.bat  -i <directory>  -r  -n
+
+  # 后台启动命令（长期运行推荐）
+  # Linux 和 MacOS 系统
+  nohup bash sbin/start-ainode.sh  > myout.file 2>& 1 &
+
+  # Windows 系统
+  nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
   ```
 ##### 参数介绍：
 
@@ -224,7 +240,7 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
   # Linux 和 MacOS 系统
   nohup bash sbin/start-ainode.sh  > myout.file 2>& 1 &
   # Windows 系统
-  nohup bash sbin/start-ainode.bat  > myout.file 2>& 1 &
+  nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
   ```
 
 ### 检测 AINode 节点状态 
