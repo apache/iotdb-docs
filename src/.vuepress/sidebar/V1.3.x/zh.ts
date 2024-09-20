@@ -39,14 +39,7 @@ export const zhSidebar = {
     },
     {
       text: '快速上手',
-      collapsible: true,
-      prefix: 'QuickStart/',
-      // children: 'structure',
-      children: [
-        { text: '单机版', link: 'QuickStart' },
-        { text: '集群版', link: 'ClusterQuickStart' },
-        { text: '常用SQL语句', link: 'General-SQL-Statements' },
-      ],
+      link: 'QuickStart/QuickStart_apache',
     },
     {
       text: '基础概念',
@@ -140,7 +133,7 @@ export const zhSidebar = {
         { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
         { text: 'Apache Spark(TsFile)', link: 'Spark-TsFile' },
         { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
-        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB' },
+        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_apache' },
         { text: 'DBeaver', link: 'DBeaver' },
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana插件', link: 'Grafana-Plugin' },

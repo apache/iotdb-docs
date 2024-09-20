@@ -39,14 +39,7 @@ export const enSidebar = {
     },
     {
       text: 'Quick Start',
-      collapsible: true,
-      prefix: 'QuickStart/',
-      // children: 'structure',
-      children: [
-        { text: 'Quick Start', link: 'QuickStart' },
-        { text: 'Cluster Quick Start', link: 'ClusterQuickStart' },
-        { text: 'General SQL Statements', link: 'General-SQL-Statements' },
-      ],
+      link: 'QuickStart/QuickStart_timecho',
     },
     {
       text: 'Basic Concept',
@@ -149,7 +142,7 @@ export const enSidebar = {
         { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
         { text: 'Apache Spark(TsFile)', link: 'Spark-TsFile' },
         { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
-        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB' },
+        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_timecho' },
         { text: 'DataEase', link: 'DataEase' },
         { text: 'DBeaver', link: 'DBeaver' },
         { text: 'Ignition', link: 'Ignition-IoTDB-plugin_timecho' },

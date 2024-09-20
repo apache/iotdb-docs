@@ -32,7 +32,7 @@
     },
     {
       text: '文档',
-      link: 'https://www.timecho.com/docs/zh/UserGuide/V1.2.x/QuickStart/QuickStart.html',
+      link: 'https://www.timecho.com/docs/zh/latest/QuickStart/QuickStart_timecho.html',
       target: '_self',
       // children: [
       //   { text: 'latest', link: '/zh/UserGuide/Master/QuickStart/QuickStart' },
