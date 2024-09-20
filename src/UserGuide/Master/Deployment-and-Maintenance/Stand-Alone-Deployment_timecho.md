@@ -36,7 +36,13 @@ This chapter will introduce how to start an IoTDB standalone instance, which inc
 
 4. Whether in linux or windows, ensure that the IoTDB installation path does not contain Spaces and Chinese characters to avoid software exceptions.
 
-5. It is recommended to deploy a monitoring panel, which can monitor important operational indicators and keep track of database operation status at any time. The monitoring panel can be obtained by contacting the business department, and the steps for deploying the monitoring panel can be referred to：[Monitoring Board Install and Deploy](./Monitoring-panel-deployment.md).
+5. Please note that when installing and deploying IoTDB (including activating and using software), it is necessary to use the same user for operations. You can:
+- Using root user (recommended): Using root user can avoid issues such as permissions.
+- Non root fixed user：
+  - Use the same user operation: Ensure that you always use the non root user used during activation.
+  - Avoid using sudo: Try to avoid using sudo commands as they execute commands with root privileges, which may cause confusion or security issues.
+
+6. It is recommended to deploy a monitoring panel, which can monitor important operational indicators and keep track of database operation status at any time. The monitoring panel can be obtained by contacting the business department, and the steps for deploying the monitoring panel can be referred to：[Monitoring Board Install and Deploy](./Monitoring-panel-deployment.md).
 
 ## Installation Steps
 
@@ -98,6 +104,8 @@ Open the DataNode configuration file (./conf/iotdb-system. properties file) and 
 | dn_data_region_consensus_port   | The port used by DataNode for data replica consensus protocol communication | 10750           | 10750                                                        | Cannot be modified after initial startup |
 | dn_schema_region_consensus_port | The port used by DataNode for metadata replica consensus protocol communication | 10760           | 10760                                                        | Cannot be modified after initial startup |
 | dn_seed_config_node             | The ConfigNode address that the node connects to when registering to join the cluster, i.e. cn_internal-address: cn_internal_port | 127.0.0.1:10710 | cn_internal_address:cn_internal_port                         | Cannot be modified after initial startup |
+
+> ❗️Attention: If using editors such as VSCode Remote that cannot automatically save, the configuration file needs to be manually saved after modification for the modified information to take effect.
 
 ### 3、Start ConfigNode
 
@@ -170,3 +178,9 @@ When you see the display "Activated" on the far right, it indicates successful a
 
 
 > The appearance of 'Activated (W)' indicates passive activation, indicating that this Config Node does not have a license file (or has not issued the latest license file with a timestamp). At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Timecho staff to reapply.
+
+## Common Problem
+
+1. Multiple prompts indicating activation failure during deployment process
+    - Use the `ls -al` command: Use the `ls -al` command to check if the owner information of the installation package root directory is the current user.
+    - Check activation directory: Check all files in the `./activation` directory and whether the owner information is the current user.

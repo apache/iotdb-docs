@@ -39,7 +39,13 @@ This section describes how to manually deploy an instance that includes 3 Config
 
 4. Whether in linux or windows, ensure that the IoTDB installation path does not contain Spaces and Chinese characters to avoid software exceptions.
 
-5. It is recommended to deploy a monitoring panel, which can monitor important operational indicators and keep track of database operation status at any time. The monitoring panel can be obtained by contacting the business department,The steps for deploying a monitoring panel can refer to:[Monitoring Panel Deployment](.\Monitoring-panel-deployment.md)
+5. Please note that when installing and deploying IoTDB (including activating and using software), it is necessary to use the same user for operations. You can:
+- Using root user (recommended): Using root user can avoid issues such as permissions.
+- Non root fixed user：
+  - Use the same user operation: Ensure that you always use the non root user used during activation.
+  - Avoid using sudo: Try to avoid using sudo commands as they execute commands with root privileges, which may cause confusion or security issues.
+
+6. It is recommended to deploy a monitoring panel, which can monitor important operational indicators and keep track of database operation status at any time. The monitoring panel can be obtained by contacting the business department,The steps for deploying a monitoring panel can refer to:[Monitoring Panel Deployment](.\Monitoring-panel-deployment.md)
 
 ## Preparation Steps
 
@@ -124,6 +130,8 @@ Open DataNode Configuration File `./conf/iotdb-system.properties`,Set the follow
 | dn_data_region_consensus_port   | The port used by DataNode for data replica consensus protocol communication | 10750           | 10750                                                        | 10750         | 10750         | 10750         | Cannot be modified after initial startup |
 | dn_schema_region_consensus_port | The port used by DataNode for metadata replica consensus protocol communication | 10760           | 10760                                                        | 10760         | 10760         | 10760         | Cannot be modified after initial startup |
 | dn_seed_config_node             | The ConfigNode address that the node connects to when registering to join the cluster, i.e. `cn_internal-address: cn_internal_port` | 127.0.0.1:10710 | The first CongfigNode's cn_internal-address: cn_internal_port | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | Cannot be modified after initial startup |
+
+> ❗️Attention: If using editors such as VSCode Remote that cannot automatically save, the configuration file needs to be manually saved after modification for the modified information to take effect.
 
 ### Start ConfigNode
 
@@ -335,3 +343,9 @@ sbin/remove-datanode.sh [datanode_id]
 #Windows
 sbin/remove-datanode.bat [datanode_id]
 ```
+
+## Common Problem
+
+1. Multiple prompts indicating activation failure during deployment process
+    - Use the `ls -al` command: Use the `ls -al` command to check if the owner information of the installation package root directory is the current user.
+    - Check activation directory: Check all files in the `./activation` directory and whether the owner information is the current user.
