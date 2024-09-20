@@ -39,7 +39,13 @@
 
 4. 无论是在linux还是windows中，请确保IoTDB的安装路径中不含空格和中文，避免软件运行异常。
 
-5. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，部署监控面板步骤可以参考：[监控面板部署](./Monitoring-panel-deployment.md)
+5. 请注意，安装部署（包括激活和使用软件）IoTDB时需要保持使用同一个用户进行操作，您可以：
+- 使用 root 用户（推荐）：使用 root 用户可以避免权限等问题。
+- 使用固定的非 root 用户：
+  - 使用同一用户操作：确保在启动、激活、停止等操作均保持使用同一用户，不要切换用户。
+  - 避免使用 sudo：尽量避免使用 sudo 命令，因为它会以 root 用户权限执行命令，可能会引起权限混淆或安全问题。 
+
+6. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，部署监控面板步骤可以参考：[监控面板部署](./Monitoring-panel-deployment.md)
 
 ## 准备步骤
 
@@ -124,6 +130,8 @@ cd  iotdb-enterprise-{version}-bin
 | dn_data_region_consensus_port   | DataNode用于数据副本共识协议通信使用的端口                   | 10750           | 10750                                                   | 10750         | 10750         | 10750         | 首次启动后不能修改 |
 | dn_schema_region_consensus_port | DataNode用于元数据副本共识协议通信使用的端口                 | 10760           | 10760                                                   | 10760         | 10760         | 10760         | 首次启动后不能修改 |
 | dn_seed_config_node             | 节点注册加入集群时连接的ConfigNode地址,即cn_internal_address:cn_internal_port | 127.0.0.1:10710 | 第一个CongfigNode的cn_internal_address:cn_internal_port | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | 首次启动后不能修改 |
+
+> ❗️注意：VSCode Remote等编辑器无自动保存配置功能，请确保修改的文件被持久化保存，否则配置项无法生效
 
 ### 启动ConfigNode节点
 
@@ -336,3 +344,9 @@ sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
 #Windows
 sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 ```
+
+## 常见问题
+
+1. 部署过程中多次提示激活失败
+    - 使用 `ls -al` 命令：使用 `ls -al` 命令检查安装包根目录的所有者信息是否为当前用户。
+    - 检查激活目录：检查 `./activation` 目录下的所有文件，所有者信息是否为当前用户。  
