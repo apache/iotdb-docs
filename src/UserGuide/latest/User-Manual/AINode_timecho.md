@@ -73,7 +73,15 @@ AINode provides model creation and deletion process for deep learning models rel
 
 ### Registering Models
 
-A trained deep learning model can be registered by specifying the vector dimensions of the model's inputs and outputs, which can be used for model inference. The following is the SQL syntax definition for model registration.
+A trained deep learning model can be registered by specifying the vector dimensions of the model's inputs and outputs, which can be used for model inference. 
+
+Models that meet the following criteria can be registered in AINode:
+1. Models trained on PyTorch 2.1.0 and 2.2.0 versions supported by AINode should avoid using features from versions 2.2.0 and above.
+2. AINode supports models stored using PyTorch JIT, and the model file needs to include the parameters and structure of the model.
+3. The input sequence of the model can contain one or more columns, and if there are multiple columns, they need to correspond to the model capability and model configuration file.
+4. The input and output dimensions of the model must be clearly defined in the `config.yaml` configuration file. When using the model, it is necessary to strictly follow the input-output dimensions defined in the `config.yaml` configuration file. If the number of input and output columns does not match the configuration file, it will result in errors.
+
+The following is the SQL syntax definition for model registration.
 
 ```SQL
 create model <model_name> using uri <uri>
