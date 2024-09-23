@@ -34,6 +34,12 @@
 
 4. Whether in linux or windows, ensure that the IoTDB installation path does not contain Spaces and Chinese characters to avoid software exceptions.
 
+5. Please note that when installing and deploying IoTDB, it is necessary to use the same user for operations. You can:
+- Using root user (recommended): Using root user can avoid issues such as permissions.
+- Using a fixed non root user:
+  - Using the same user operation: Ensure that the same user is used for start, stop and other operations, and do not switch users.
+  - Avoid using sudo: Try to avoid using sudo commands as they execute commands with root privileges, which may cause confusion or security issues.
+  
 ## Installation Steps
 
 ### Unzip the installation package and enter the installation directory
@@ -94,6 +100,8 @@ Open the DataNode configuration file (./conf/iotdb-datanode.properties file) and
 |  dn_data_region_consensus_port  | The port used by DataNode for data replica consensus protocol communication |      10750      |                            10750                             | Cannot be modified after initial startup |
 | dn_schema_region_consensus_port | The port used by DataNode for metadata replica consensus protocol communication |      10760      |                            10760                             | Cannot be modified after initial startup |
 |       dn_seed_config_node       | The ConfigNode address that the node connects to when registering to join the cluster, i.e. cn_internal-address: cn_internal_port | 127.0.0.1:10710 |             cn_internal_address:cn_internal_port             | Cannot be modified after initial startup |
+
+> ❗️Attention: Editors such as VSCode Remote do not have automatic configuration saving function. Please ensure that the modified files are saved persistently, otherwise the configuration items will not take effect
 
 ### Start ConfigNode
 
