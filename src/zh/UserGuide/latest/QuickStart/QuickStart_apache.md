@@ -48,11 +48,11 @@
 
 2. 数据写入：在数据写入方面，IoTDB 提供了多种方式来插入实时数据，基本的数据写入操作请查看 [数据写入](../User-Manual/Write-Delete-Data.md)
 
-3. 数据查询：IoTDB 提供了丰富的数据查询功能，数据查询的基本介绍请查看 [数据查询](../User-Manual/Query-Data.mdl)
+3. 数据查询：IoTDB 提供了丰富的数据查询功能，数据查询的基本介绍请查看 [数据查询](../User-Manual/Query-Data.md)
 
 4. 其他进阶功能：除了数据库常见的写入、查询等功能外，IoTDB 还支持“数据同步、流处理框架、权限管理”等功能，具体使用方法可参见具体文档：
 
-   - 数据同步：[数据同步](../User-Manual/Data-Sync_apache.mdl)
+   - 数据同步：[数据同步](../User-Manual/Data-Sync_apache.md)
 
    - 流处理框架：[流处理框架](../User-Manual/Streaming_apache.md)
 
