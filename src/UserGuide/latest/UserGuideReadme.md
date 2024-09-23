@@ -25,7 +25,7 @@ We keep introducing more features into IoTDB. Therefore, different released vers
 The "In Progress Version" is for matching the master branch of IOTDB's source code Repository.
 Other documents are for IoTDB previous released versions.
 
-- [In progress version](https://iotdb.apache.org/UserGuide/Master/QuickStart/QuickStart.html) 
-- [Version 1.0.x](https://iotdb.apache.org/UserGuide/V1.0.x/QuickStart/QuickStart.html)
-- [Version 0.13.x](https://iotdb.apache.org/UserGuide/V0.13.x/QuickStart/QuickStart.html)
+- [In progress version](https://iotdb.apache.org/UserGuide/Master/QuickStart/QuickStart_apache.html) 
+- [Version 1.0.x](https://iotdb.apache.org/UserGuide/V1.0.x/QuickStart/QuickStart_apache.html)
+- [Version 0.13.x](https://iotdb.apache.org/UserGuide/V0.13.x/QuickStart/QuickStart_apache.html)
 
