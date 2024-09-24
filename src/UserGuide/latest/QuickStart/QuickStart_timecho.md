@@ -80,11 +80,11 @@ This document will help you quickly install and deploy IoTDB. You can quickly lo
 
 In addition to its rich features, IoTDB also has a comprehensive range of tools in its surrounding system. This document will help you quickly use the peripheral tool system :
 
-- Benchmark Tool: IoT benchmark is a time series database benchmark testing tool developed based on Java and big data environments, developed and open sourced by the School of Software at Tsinghua University. It supports multiple writing and querying methods, can store test information and results for further query or analysis, and supports integration with Tableau to visualize test results. For specific usage instructions, please refer to: [Benchmark Tool](../Tools-System/Benchmark.md)
+   - Benchmark Tool: IoT benchmark is a time series database benchmark testing tool developed based on Java and big data environments, developed and open sourced by the School of Software at Tsinghua University. It supports multiple writing and querying methods, can store test information and results for further query or analysis, and supports integration with Tableau to visualize test results. For specific usage instructions, please refer to: [Benchmark Tool](../Tools-System/Benchmark.md)
 
-- Data Import Export Script: Used to achieve the interaction between internal data and external files in IoTDB, suitable for batch operations of individual files or directory files. For specific usage instructions, please refer to: [Data Import Export Script](../Tools-System/Data-Import-Export-Tool.md)
+   - Data Import Export Script: Used to achieve the interaction between internal data and external files in IoTDB, suitable for batch operations of individual files or directory files. For specific usage instructions, please refer to: [Data Import Export Script](../Tools-System/Data-Import-Export-Tool.md)
 
-- TsFile Import Export Script: For different scenarios, IoTDB provides users with multiple ways to batch import data. For specific usage instructions, please refer to: [TsFile Import Export Script](../Tools-System/TsFile-Import-Export-Tool.md)
+   - TsFile Import Export Script: For different scenarios, IoTDB provides users with multiple ways to batch import data. For specific usage instructions, please refer to: [TsFile Import Export Script](../Tools-System/TsFile-Import-Export-Tool.md)
 
 ## Encountering problems during use?
 
