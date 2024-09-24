@@ -52,26 +52,40 @@
 ## 如何使用？
 
 1. 数据库建模设计：数据库建模是创建数据库系统的重要步骤，它涉及到设计数据的结构和关系，以确保数据的组织方式能够满足特定应用的需求，下面的文档将会帮助您快速了解 IoTDB 的建模设计：
+   
    - 时序概念介绍：[走进时序数据](../Basic-Concept/Navigating_Time_Series_Data.md)
+
    - 建模设计介绍：[数据模型介绍](../Basic-Concept/Data-Model-and-Terminology.md)
+
    - SQL 语法介绍：[SQL 语法介绍](../User-Manual/Operate-Metadata_timecho.md)
+
 2. 数据写入：在数据写入方面，IoTDB 提供了多种方式来插入实时数据，基本的数据写入操作请查看 [数据写入](../User-Manual/Write-Delete-Data.md)
+
 3. 数据查询：IoTDB 提供了丰富的数据查询功能，数据查询的基本介绍请查看 [数据查询](../User-Manual/Query-Data.md)
+
 4. 其他进阶功能：除了数据库常见的写入、查询等功能外，IoTDB 还支持“数据同步、流处理框架、安全控制、权限管理、AI 分析”等功能，具体使用方法可参见具体文档：
+
    - 数据同步：[数据同步](../User-Manual/Data-Sync_timecho.md)
+
    - 流处理框架：[流处理框架](../User-Manual/Streaming_timecho.md)
+
    - 安全控制：[安全控制](../User-Manual/Security-Management_timecho.md)
+
    - 权限管理：[权限管理](../User-Manual/Authority-Management.md)
+
    - AI 分析：[AI 能力](../User-Manual/AINode_timecho.md)
+
 5. 应用编程接口： IoTDB 提供了多种应用编程接口（API），以便于开发者在应用程序中与 IoTDB 进行交互，目前支持[ Java 原生接口](../API/Programming-Java-Native-API.md)、[Python 原生接口](../API/Programming-Python-Native-API.md)、[C++原生接口](../API/Programming-Cpp-Native-API.md)、[Go 原生接口](../API/Programming-Go-Native-API.md)等，更多编程接口可参见官网【应用编程接口】其他章节
 
 ## 还有哪些便捷的周边工具？
 
 IoTDB 除了自身拥有丰富的功能外，其周边的工具体系包含的种类十分齐全。本篇文档将帮助您快速使用周边工具体系：
 
-- 测试工具：IoT-benchmark 是一个基于 Java 和大数据环境开发的时序数据库基准测试工具，由清华大学软件学院研发并开源。它支持多种写入和查询方式，能够存储测试信息和结果供进一步查询或分析，并支持与 Tableau 集成以可视化测试结果。具体使用介绍请查看：[测试工具](../Tools-System/Benchmark.md)
--  数据导入导出脚本：用于实现 IoTDB 内部数据与外部文件的交互，适用于单个文件或目录文件批量操作，具体使用介绍请查看：[数据导入导出脚本](../Tools-System/Data-Import-Export-Tool.md)
--  TsFile 导入导出脚本：针对于不同场景，IoTDB 为用户提供多种批量导入数据的操作方式，具体使用介绍请查看：[TsFile 导入导出脚本](../Tools-System/TsFile-Import-Export-Tool.md)
+   - 测试工具：IoT-benchmark 是一个基于 Java 和大数据环境开发的时序数据库基准测试工具，由清华大学软件学院研发并开源。它支持多种写入和查询方式，能够存储测试信息和结果供进一步查询或分析，并支持与 Tableau 集成以可视化测试结果。具体使用介绍请查看：[测试工具](../Tools-System/Benchmark.md)
+
+   -  数据导入导出脚本：用于实现 IoTDB 内部数据与外部文件的交互，适用于单个文件或目录文件批量操作，具体使用介绍请查看：[数据导入导出脚本](../Tools-System/Data-Import-Export-Tool.md)
+
+   -  TsFile 导入导出脚本：针对于不同场景，IoTDB 为用户提供多种批量导入数据的操作方式，具体使用介绍请查看：[TsFile 导入导出脚本](../Tools-System/TsFile-Import-Export-Tool.md)
 
 ## 使用过程中遇到问题？
 

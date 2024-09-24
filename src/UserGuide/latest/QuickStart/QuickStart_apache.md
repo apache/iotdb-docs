@@ -32,11 +32,11 @@ This document will help you quickly install and deploy IoTDB. You can quickly lo
 
 3. Get installation package:You can visit [Apache IoTDB official website](https://iotdb.apache.org/zh/Download/ ) Get the IoTDB installation package.The specific installation package structure can be viewed: [Obtain IoTDB](../Deployment-and-Maintenance/IoTDB-Package_apache.md)
 
-4. Install database：You can choose the following tutorials for installation and deployment based on the actual deployment architecture:
+4. Install database: You can choose the following tutorials for installation and deployment based on the actual deployment architecture:
 
-   - Stand-Alone Deployment：[Stand-Alone Deployment](../Deployment-and-Maintenance/Stand-Alone-Deployment_apache.md)
+   - Stand-Alone Deployment: [Stand-Alone Deployment](../Deployment-and-Maintenance/Stand-Alone-Deployment_apache.md)
 
-   - Cluster Deployment：[Cluster Deployment](../Deployment-and-Maintenance/Cluster-Deployment_apache.md)
+   - Cluster Deployment: [Cluster Deployment](../Deployment-and-Maintenance/Cluster-Deployment_apache.md)
 
 > ❗️Attention: Currently, we still recommend installing and deploying directly on physical/virtual machines. If Docker deployment is required, please refer to: [Docker Deployment](../Deployment-and-Maintenance/Docker-Deployment_apache.md)
 
@@ -44,9 +44,9 @@ This document will help you quickly install and deploy IoTDB. You can quickly lo
 
 1. Database modeling design: Database modeling is an important step in creating a database system, which involves designing the structure and relationships of data to ensure that the organization of data meets the specific application requirements. The following document will help you quickly understand the modeling design of IoTDB:
 
-   - Introduction to the concept of timeseries：[Navigating Time Series Data](../Basic-Concept/Navigating_Time_Series_Data.md)
+   - Introduction to the concept of timeseries: [Navigating Time Series Data](../Basic-Concept/Navigating_Time_Series_Data.md)
 
-   - Introduction to Modeling Design:：[Data Model](../Basic-Concept/Data-Model-and-Terminology.md)
+   - Introduction to Modeling Design: [Data Model](../Basic-Concept/Data-Model-and-Terminology.md)
 
    - SQL syntax introduction: [Operate Metadata](../User-Manual/Operate-Metadata_apache.md)
 
@@ -68,11 +68,11 @@ This document will help you quickly install and deploy IoTDB. You can quickly lo
 
 In addition to its rich features, IoTDB also has a comprehensive range of tools in its surrounding system. This document will help you quickly use the peripheral tool system : 
 
-- Benchmark Tool: IoT benchmark is a time series database benchmark testing tool developed based on Java and big data environments, developed and open sourced by the School of Software at Tsinghua University. It supports multiple writing and querying methods, can store test information and results for further query or analysis, and supports integration with Tableau to visualize test results. For specific usage instructions, please refer to:[Benchmark Tool](../Tools-System/Benchmark.md)
+   - Benchmark Tool: IoT benchmark is a time series database benchmark testing tool developed based on Java and big data environments, developed and open sourced by the School of Software at Tsinghua University. It supports multiple writing and querying methods, can store test information and results for further query or analysis, and supports integration with Tableau to visualize test results. For specific usage instructions, please refer to: [Benchmark Tool](../Tools-System/Benchmark.md)
 
-- Data Import Export Script: Used to achieve the interaction between internal data and external files in IoTDB, suitable for batch operations of individual files or directory files. For specific usage instructions, please refer to: [Data Import Export Script](../Tools-System/Data-Import-Export-Tool.md)
+   - Data Import Export Script: Used to achieve the interaction between internal data and external files in IoTDB, suitable for batch operations of individual files or directory files. For specific usage instructions, please refer to: [Data Import Export Script](../Tools-System/Data-Import-Export-Tool.md)
 
-- TsFile Import Export Script: For different scenarios, IoTDB provides users with multiple ways to batch import data. For specific usage instructions, please refer to:  [TsFile Import Export Script](../Tools-System/TsFile-Import-Export-Tool.md)
+   - TsFile Import Export Script: For different scenarios, IoTDB provides users with multiple ways to batch import data. For specific usage instructions, please refer to: [TsFile Import Export Script](../Tools-System/TsFile-Import-Export-Tool.md)
 
 ## Encountering problems during use?
 

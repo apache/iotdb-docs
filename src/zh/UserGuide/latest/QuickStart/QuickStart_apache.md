@@ -28,10 +28,15 @@
 本篇文档将帮助您快速安装部署 IoTDB，您可以通过以下文档的链接快速定位到所需要查看的内容：
 
 1. 准备所需机器资源：IoTDB 的部署和运行需要考虑多个方面的机器资源配置。具体资源配置可查看 [资源规划](../Deployment-and-Maintenance/Database-Resources.md)
+
 2. 完成系统配置准备：IoTDB 的系统配置涉及多个方面，关键的系统配置介绍可查看 [系统配置](../Deployment-and-Maintenance/Environment-Requirements.md)
+
 3. 获取安装包：您可以在[ Apache IoTDB 官网](https://iotdb.apache.org/zh/Download/)获取获取 IoTDB 安装包。具体安装包结构可查看：[安装包获取](../Deployment-and-Maintenance/IoTDB-Package_apache.md)
+
 4. 安装数据库：您可以根据实际部署架构选择以下教程进行安装部署：
+
    -  单机版：[单机版](../Deployment-and-Maintenance/Stand-Alone-Deployment_apache.md)
+
    -  集群版：[集群版](../Deployment-and-Maintenance/Cluster-Deployment_apache.md)
 
 > ❗️注意：目前我们仍然推荐直接在物理机/虚拟机上安装部署，如需要 docker 部署，可参考：[Docker 部署](../Deployment-and-Maintenance/Docker-Deployment_apache.md)
@@ -64,11 +69,11 @@
 
 IoTDB 除了自身拥有丰富的功能外，其周边的工具体系包含的种类十分齐全。本篇文档将帮助您快速使用周边工具体系：
 
-- 测试工具：IoT-benchmark 是一个基于 Java 和大数据环境开发的时序数据库基准测试工具，由清华大学软件学院研发并开源。它支持多种写入和查询方式，能够存储测试信息和结果供进一步查询或分析，并支持与 Tableau 集成以可视化测试结果。具体使用介绍请查看：[测试工具](../Tools-System/Benchmark.md)
+   - 测试工具：IoT-benchmark 是一个基于 Java 和大数据环境开发的时序数据库基准测试工具，由清华大学软件学院研发并开源。它支持多种写入和查询方式，能够存储测试信息和结果供进一步查询或分析，并支持与 Tableau 集成以可视化测试结果。具体使用介绍请查看：[测试工具](../Tools-System/Benchmark.md)
 
-- 数据导入导出脚本：用于实现 IoTDB 内部数据与外部文件的交互，适用于单个文件或目录文件批量操作，具体使用介绍请查看：[数据导入导出脚本](../Tools-System/Data-Import-Export-Tool.md)
+   - 数据导入导出脚本：用于实现 IoTDB 内部数据与外部文件的交互，适用于单个文件或目录文件批量操作，具体使用介绍请查看：[数据导入导出脚本](../Tools-System/Data-Import-Export-Tool.md)
 
-- TsFile 导入导出脚本：针对于不同场景，IoTDB 为用户提供多种批量导入数据的操作方式，具体使用介绍请查看：[TsFile 导入导出脚本](../Tools-System/TsFile-Import-Export-Tool.md)
+   - TsFile 导入导出脚本：针对于不同场景，IoTDB 为用户提供多种批量导入数据的操作方式，具体使用介绍请查看：[TsFile 导入导出脚本](../Tools-System/TsFile-Import-Export-Tool.md)
 
 ## 使用过程中遇到问题？
 
