@@ -447,9 +447,9 @@ V1.3.0/1/2:
 | source.history.enable           | 是否发送历史数据                                             | Boolean: true / false                  | 选填     | true           |
 | source.history.start-time       | 同步历史数据的开始 event time，包含 start-time               | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填     | Long.MIN_VALUE |
 | source.history.end-time         | 同步历史数据的结束 event time，包含 end-time                 | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填     | Long.MAX_VALUE |
-| source.realtime.enable          | 是否发送实时数据                                             | Boolean: true / false                  | 选填     | true           |
-| source.realtime.mode            | 新插入数据（pipe 创建后）的抽取模式                          | String: stream, batch                  | 选填     | stream         |
-| source.forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据             | Boolean: true, false                   | 选填     | true           |
+| source.realtime.enable          | 是否发送实时数据                                             | Boolean: true / false                 | 选填     | batch            |
+| source.realtime.mode            | 新插入数据（pipe 创建后）的抽取模式                          | String: batch                        | 选填     | stream         |
+| source.forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据             |  Boolean: true                      | 选填     | true           |
 | source.history.loose-range      | tsfile 传输时，是否放宽历史数据（pipe 创建前）范围。""：不放宽范围，严格按照设置的条件挑选数据"time"：放宽时间范围，避免对 TsFile 进行拆分，可以提升同步效率 | String: "" / "time"                    | 选填     | 空字符串       |
 
 > 💎 **说明：历史数据与实时数据的差异**
@@ -471,8 +471,8 @@ V1.3.0/1/2:
 | pattern                  | 用于筛选时间序列的路径前缀                                   | String: 任意的时间序列前缀             | 选填     | root           |
 | start-time               | 同步所有数据的开始 event time，包含 start-time               | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填     | Long.MIN_VALUE |
 | end-time                 | 同步所有数据的结束 event time，包含 end-time                 | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填     | Long.MAX_VALUE |
-| realtime.mode            | 新插入数据（pipe 创建后）的抽取模式                          | String: stream, batch                  | 选填     | stream         |
-| forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据             | Boolean: true, false                   | 选填     | true           |
+| realtime.mode            | 新插入数据（pipe 创建后）的抽取模式                          | String: batch                                   | 选填     | batch            |
+| forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据             | Boolean: true                                     | 选填     | true           |
 | history.loose-range      | tsfile 传输时，是否放宽历史数据（pipe 创建前）范围。""：不放宽范围，严格按照设置的条件挑选数据"time"：放宽时间范围，避免对 TsFile 进行拆分，可以提升同步效率 | String: "" / "time"                    | 选填     | 空字符串       |
 
 > 💎  **说明**：为保持低版本兼容，history.enable、history.start-time、history.end-time、realtime.enable 仍可使用，但在新版本中不推荐。
@@ -494,8 +494,8 @@ V1.3.0/1/2:
 | pattern                  | 用于筛选时间序列的路径前缀                                   | String: 任意的时间序列前缀                                   | 选填     | root           |
 | start-time               | 同步所有数据的开始 event time，包含 start-time               | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                       | 选填     | Long.MIN_VALUE |
 | end-time                 | 同步所有数据的结束 event time，包含 end-time                 | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                       | 选填     | Long.MAX_VALUE |
-| realtime.mode            | 新插入数据（pipe 创建后）的抽取模式                          | String: stream, batch                                        | 选填     | stream         |
-| forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据             | Boolean: true, false                                         | 选填     | true           |
+| realtime.mode            | 新插入数据（pipe 创建后）的抽取模式                          | String: batch                                                 | 选填     | batch            |
+| forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据             | Boolean: true                                                | 选填     | true           |
 | history.loose-range      | tsfile 传输时，是否放宽历史数据（pipe 创建前）范围。""：不放宽范围，严格按照设置的条件挑选数据"time"：放宽时间范围，避免对 TsFile 进行拆分，可以提升同步效率 | String: "" 、 "time"                                         | 选填     | ""             |
 | mods.enable              | 是否发送 tsfile 的 mods 文件                                 | Boolean: true / false                                        | 选填     | false          |
 

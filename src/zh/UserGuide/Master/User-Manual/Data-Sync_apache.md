@@ -481,8 +481,8 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | pattern                  | 用于筛选时间序列的路径前缀                                   | String: 任意的时间序列前缀                                   | 选填     | root           |
 | start-time               | 同步所有数据的开始 event time，包含 start-time               | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                       | 选填     | Long.MIN_VALUE |
 | end-time                 | 同步所有数据的结束 event time，包含 end-time                 | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                       | 选填     | Long.MAX_VALUE |
-| realtime.mode            | 新插入数据（pipe创建后）的抽取模式                           | String: stream, batch                                        | 选填     | stream         |
-| forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据             | Boolean: true, false                                         | 选填     | true           |
+| realtime.mode            | 新插入数据（pipe 创建后）的抽取模式                          | String: batch                                                 | 选填     | batch            |
+| forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据             | Boolean: true                                                | 选填     | true           |
 | loose-range              | tsfile传输时，是否放宽历史数据（pipe创建前）范围。""：不放宽范围，严格按照设置的条件挑选数据"time"：放宽时间范围，避免对TsFile进行拆分，可以提升同步效率"path"：放宽路径范围，避免对TsFile进行拆分，可以提升同步效率"time, path" 、 "path, time" 、"all" ： 放宽所有范围，避免对TsFile进行拆分，可以提升同步效率 | String: "" 、 "time" 、 "path" 、 "time, path" 、 "path, time" 、 "all" | 选填     | 空字符串       |
 | mods.enable              | 是否发送 tsfile 的 mods 文件                                 | Boolean: true / false                                        | 选填     | false          |
 
