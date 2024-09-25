@@ -40,15 +40,15 @@
 
 | **Preparation Content**                   | **Version Requirements**                                     |
 | :---------------------------------------- | :----------------------------------------------------------- |
-| JDK                                       | Requirement to have installed version 17 or above. Please refer to the specific download for details [Oracle Official Website](https://www.oracle.com/java/technologies/downloads/) |
-| IoTDB                                     | Require installation of V1.3.0 and above. Please refer to the specific installation process [Deployment guidance](https://www.timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_timecho.html) |
-| ThingsBoard<br /> (IoTDB adapted version) | Please contact the business department to obtain the installation package. For specific installation steps, please refer to the following text |
+| JDK                                       | JDK17 or above. Please refer to the downloads on [Oracle Official Website](https://www.oracle.com/java/technologies/downloads/) |
+| IoTDB                                     |IoTDB v1.3.0 or above. Please refer to the [Deployment guidance](../Deployment-and-Maintenance/IoTDB-Package_timecho.md) |
+| ThingsBoard<br /> (IoTDB adapted version) | Please contact Timecho staff to obtain the installation package. Detailed installation steps are provided below. |
 
 ## Installation Steps
 
-Please refer to the specific installation steps  [ThingsBoard Official Website](https://thingsboard.io/docs/user-guide/install/ubuntu/)。wherein：
+Please refer to the installation steps on [ThingsBoard Official Website](https://thingsboard.io/docs/user-guide/install/ubuntu/),wherein:
 
-- [ThingsBoard Official Website](https://thingsboard.io/docs/user-guide/install/ubuntu/)【 Step 2: ThingsBoard Service Installation 】 Use the installation package obtained from the business above to install (using the official ThingsBoard installation package cannot use IoTDB)
+- [ThingsBoard Official Website](https://thingsboard.io/docs/user-guide/install/ubuntu/)【 Step 2: ThingsBoard Service Installation 】 Use the installation package provided by your Timecho contact to install the software. Please note that the official ThingsBoard installation package does not support IoTDB.
 - [ThingsBoard Official Website](https://thingsboard.io/docs/user-guide/install/ubuntu/) 【Step 3: Configure ThingsBoard Database - ThingsBoard Configuration】 In this step, you need to add environment variables according to the following content
 
 ```Shell
@@ -75,11 +75,11 @@ export IoTDB_DATABASE:root.thingsboard  ## Thingsboard data is written to the da
 
 ## Instructions
 
-1. Create devices and connect data：Create devices in the entity device of Thingsboard and send data to the specified devices on ThingsBoard through an industrial gateway
+1. Set up devices and connect datasource: Add a new device under "Entities" - "Devices" in Thingsboard and send data to the specified devices through gateway.
 
   ![](https://alioss.timecho.com/docs/img/Thingsboard-en2.png)
 
-2. Set rule chain：Set alarm rules for "SD-032F pump" in the rule chain library and set the rule chain as the root chain
+2. Set rule chain: Set alarm rules for "SD-032F pump" in the rule chain library and set the rule chain as the root chain
 
   <div style="display: flex;justify-content: space-between;">           
     <img src="https://alioss.timecho.com/docs/img/thingsboard-en3.png" alt=" " style="width: 50%;"/>
@@ -87,14 +87,13 @@ export IoTDB_DATABASE:root.thingsboard  ## Thingsboard data is written to the da
   </div>
 
 
-3. View alarm records：The generated alarm records have been viewed by clicking on "Device Alarm"
+3. View alarm records: The generated alarm records can be found under "Devices" - "Alarms
 
   ![](https://alioss.timecho.com/docs/img/Thingsboard-en5.png)
 
-4. Data Visualization：Visualize settings through "New Dashboard - Bind Devices - Associate Parameters" in the "Dashboard"
+4. Data Visualization: Configure datasource and parameters for data visualization.
 
  <div style="display: flex;justify-content: space-between;">           
-    <img src="https://alioss.timecho.com/docs/img/thingsboard-en6.png" alt=" " style="width: 50%;"/>
+    <img src="https://alioss.timecho.com/upload/thingsboard-en1.png" alt=" " style="width: 50%;"/>
     <img src="https://alioss.timecho.com/docs/img/thingsboard-en7.png" alt=" " style="width: 50%;"/>     
-  </div>
-
+ </div>
