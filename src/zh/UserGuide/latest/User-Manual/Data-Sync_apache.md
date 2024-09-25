@@ -456,9 +456,8 @@ V1.3.0/1/2:
 > - **历史数据**：所有 arrival time < 创建 pipe 时当前系统时间的数据称为历史数据
 > - **实时数据**：所有 arrival time >= 创建 pipe 时当前系统时间的数据称为实时数据
 > - **全量数据**： 全量数据 = 历史数据 + 实时数据
->
-> 💎  **说明：数据抽取模式 stream 和 batch 的差异**
-> - **stream（推荐）**：该模式下，任务将对数据进行实时处理、发送，其特点是高时效、低吞吐
+> 
+> 💎 **说明：数据抽取模式 batch 的含义**
 > - **batch**：该模式下，任务将对数据进行批量（按底层数据文件）处理、发送，其特点是低时效、高吞吐
 
 ### source  参数（V1.3.1）
@@ -475,12 +474,10 @@ V1.3.0/1/2:
 | forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据             | Boolean: true                                     | 选填     | true           |
 | history.loose-range      | tsfile 传输时，是否放宽历史数据（pipe 创建前）范围。""：不放宽范围，严格按照设置的条件挑选数据"time"：放宽时间范围，避免对 TsFile 进行拆分，可以提升同步效率 | String: "" / "time"                    | 选填     | 空字符串       |
 
-> 💎  **说明**：为保持低版本兼容，history.enable、history.start-time、history.end-time、realtime.enable 仍可使用，但在新版本中不推荐。
->
-> 💎  **说明：数据抽取模式 stream 和 batch 的差异**
-> - **stream（推荐）**：该模式下，任务将对数据进行实时处理、发送，其特点是高时效、低吞吐
+> 💎 **说明**：为保持低版本兼容，history.enable、history.start-time、history.end-time、realtime.enable 仍可使用，但在新版本中不推荐。
+> 
+> 💎 **说明：数据抽取模式 batch 的含义**
 > - **batch**：该模式下，任务将对数据进行批量（按底层数据文件）处理、发送，其特点是低时效、高吞吐
-
 ### source  参数（V1.3.2）
 
 > 在 1.3.1 及以上的版本中，各项参数不再需要额外增加 source、processor、sink 前缀
@@ -499,12 +496,10 @@ V1.3.0/1/2:
 | history.loose-range      | tsfile 传输时，是否放宽历史数据（pipe 创建前）范围。""：不放宽范围，严格按照设置的条件挑选数据"time"：放宽时间范围，避免对 TsFile 进行拆分，可以提升同步效率 | String: "" 、 "time"                                         | 选填     | ""             |
 | mods.enable              | 是否发送 tsfile 的 mods 文件                                 | Boolean: true / false                                        | 选填     | false          |
 
-> 💎  **说明**：为保持低版本兼容，history.enable、history.start-time、history.end-time、realtime.enable 仍可使用，但在新版本中不推荐。
->
-> 💎  **说明：数据抽取模式 stream 和 batch 的差异**
-> - **stream（推荐）**：该模式下，任务将对数据进行实时处理、发送，其特点是高时效、低吞吐
+> 💎 **说明**：为保持低版本兼容，history.enable、history.start-time、history.end-time、realtime.enable 仍可使用，但在新版本中不推荐。
+> 
+> 💎 **说明：数据抽取模式 batch 的含义**
 > - **batch**：该模式下，任务将对数据进行批量（按底层数据文件）处理、发送，其特点是低时效、高吞吐
-
 ### sink 参数
 
 > 在 1.3.1 及以上的版本中，各项参数不再需要额外增加 source、processor、sink 前缀

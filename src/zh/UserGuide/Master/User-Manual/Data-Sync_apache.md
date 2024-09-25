@@ -486,10 +486,9 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | loose-range              | tsfile传输时，是否放宽历史数据（pipe创建前）范围。""：不放宽范围，严格按照设置的条件挑选数据"time"：放宽时间范围，避免对TsFile进行拆分，可以提升同步效率"path"：放宽路径范围，避免对TsFile进行拆分，可以提升同步效率"time, path" 、 "path, time" 、"all" ： 放宽所有范围，避免对TsFile进行拆分，可以提升同步效率 | String: "" 、 "time" 、 "path" 、 "time, path" 、 "path, time" 、 "all" | 选填     | 空字符串       |
 | mods.enable              | 是否发送 tsfile 的 mods 文件                                 | Boolean: true / false                                        | 选填     | false          |
 
-> 💎  **说明**：为保持低版本兼容，history.enable、history.start-time、history.end-time、realtime.enable 仍可使用，但在新版本中不推荐。
+> 💎 **说明**：为保持低版本兼容，history.enable、history.start-time、history.end-time、realtime.enable 仍可使用，但在新版本中不推荐。
 >
-> 💎  **说明：数据抽取模式 stream 和 batch 的差异**
-> - **stream（推荐）**：该模式下，任务将对数据进行实时处理、发送，其特点是高时效、低吞吐
+> 💎 **说明：数据抽取模式 batch 的含义**
 > - **batch**：该模式下，任务将对数据进行批量（按底层数据文件）处理、发送，其特点是低时效、高吞吐
 
 
