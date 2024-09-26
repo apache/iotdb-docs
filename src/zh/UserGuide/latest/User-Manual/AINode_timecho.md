@@ -553,6 +553,7 @@ create model patchtst using uri 'https://huggingface.co/hvlgo/patchtst/resolve/m
 
 #### 步骤三：模型推理
 
+
 ```Shell
 IoTDB> select * from root.eg.voltage limit 96
 +-----------------------------+------------------+------------------+------------------+

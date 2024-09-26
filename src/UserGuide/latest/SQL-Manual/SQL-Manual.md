@@ -108,8 +108,11 @@ For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadat
 
 ![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
 
-![img](https://alioss.timecho.com/docs/img/templateEN.jpg)
 
+
+
+
+![img](https://alioss.timecho.com/docs/img/templateEN.jpg)
 
 ### Create Device Template
 
@@ -234,7 +237,6 @@ IoTDB> show timeseries root.ln.**
 IoTDB> show timeseries root.ln.** limit 10 offset 10
 IoTDB> show timeseries root.ln.** where timeseries contains 'wf01.wt'
 IoTDB> show timeseries root.ln.** where dataType=FLOAT
-IoTDB> show timeseries root.ln.** where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
 ```
 
 ### Count Timeseries
@@ -249,7 +251,6 @@ IoTDB > COUNT TIMESERIES root.** WHERE DATATYPE = INT64
 IoTDB > COUNT TIMESERIES root.** WHERE TAGS(unit) contains 'c' 
 IoTDB > COUNT TIMESERIES root.** WHERE TAGS(unit) = 'c' 
 IoTDB > COUNT TIMESERIES root.** WHERE TIMESERIES contains 'sgcc' group by level = 1
-IoTDB > COUNT TIMESERIES root.** WHERE time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
 IoTDB > COUNT TIMESERIES root.** GROUP BY LEVEL=1
 IoTDB > COUNT TIMESERIES root.ln.** GROUP BY LEVEL=2
 IoTDB > COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2
@@ -902,6 +903,7 @@ IoTDB > select * into ::(backup_${4}) from root.sg.** align by device;
 
 IoTDB > select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
 ```
+
 ## Maintennance
 Generate the corresponding query plan:
 ```

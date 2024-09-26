@@ -19,7 +19,7 @@
 
 -->
 
-# 流处理框架
+# IoTDB 流处理框架
 
 IoTDB 流处理框架允许用户实现自定义的流处理逻辑，可以实现对存储引擎变更的监听和捕获、实现对变更数据的变形、实现对变形后数据的向外推送等逻辑。
 
@@ -50,10 +50,10 @@ Pipe Source 用于抽取数据，Pipe Processor 用于处理数据，Pipe Sink �
 
 ```xml
 <dependency>
-    <groupId>org.apache.iotdb</groupId>
-    <artifactId>pipe-api</artifactId>
-    <version>1.3.1</version>
-    <scope>provided</scope>
+  <groupId>org.apache.iotdb</groupId>
+  <artifactId>pipe-api</artifactId>
+  <version>1.3.1</version>
+  <scope>provided</scope>
 </dependency>
 ```
 
@@ -505,17 +505,17 @@ SHOW PIPEPLUGINS
 > * Pattern 需用反引号修饰不合法字符或者是不合法路径节点，例如如果希望筛选 root.\`a@b\` 或者 root.\`123\`，应设置 pattern 为 root.\`a@b\` 或者 root.\`123\`（具体参考 [单双引号和反引号的使用时机](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
 > * 在底层实现中，当检测到 pattern 为 root（默认值）时，抽取效率较高，其他任意格式都将降低性能
 > * 路径前缀不需要能够构成完整的路径。例如，当创建一个包含参数为 'source.pattern'='root.aligned.1' 的 pipe 时：
->
->   * root.aligned.1TS
+    >
+    >   * root.aligned.1TS
 >   * root.aligned.1TS.\`1\`
 >   * root.aligned.100T
->   
->   的数据会被抽取；
->   
->   * root.aligned.\`1\`
+    >
+    >   的数据会被抽取；
+    >
+    >   * root.aligned.\`1\`
 >   * root.aligned.\`123\`
->
->   的数据不会被抽取。
+    >
+    >   的数据不会被抽取。
 
 > ❗️**source.history 的 start-time，end-time 参数说明**
 >
@@ -748,7 +748,7 @@ WHERE SINK USED BY <PipeId>
 
 ## 配置参数
 
-在 iotdb-common.properties 中：
+在 iotdb-system.properties 中：
 
 V1.3.0:
 ```Properties

@@ -386,7 +386,7 @@ docker-compose -f confignode.yml up  -d #Background startup
   ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB2.png)
 
 - After the license is placed in the corresponding activation folder, confignode will be automatically activated without restarting confignode
-
+  
 ### Start Datanode
 
 Start datanodes on 3 servers separately

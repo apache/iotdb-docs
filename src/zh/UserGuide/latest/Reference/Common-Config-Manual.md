@@ -25,7 +25,7 @@
 
 IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
-* `iotdb-common.properties`：IoTDB 集群的公共配置。
+* `iotdb-system.properties`：IoTDB 集群的公共配置。
 
 ### 改后生效方式
 不同的配置参数有不同的生效方式，分为以下三种：
@@ -196,6 +196,16 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 #### 集群管理
 
+* cluster\_name
+
+|  名字  | cluster\_name                                                                                                                                                        |
+|:----:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|  描述  | 集群名称                                                                                                                                                                 |
+|  类型  | String                                                                                                                                                               |
+| 默认值  | default_cluster                                                                                                                                                      |
+| 修改方式 | CLI 中执行语句 ```set configuration "cluster_name"="xxx"``` （xxx为希望修改成的集群名称）                                                                                              |
+| 注意 | 此修改通过网络分发至每个节点。在网络波动或者有节点宕机的情况下，不保证能够在全部节点修改成功。未修改成功的节点重启时无法加入集群，此时需要手动修改该节点的配置文件中的cluster_name项，再重启。正常情况下，不建议通过手动修改配置文件的方式修改集群名称，不建议通过```load configuration```的方式热加载。 |
+
 * time\_partition\_interval
 
 |   名字   | time\_partition\_interval |
@@ -226,7 +236,6 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 | 改后生效方式 | 重启服务生效                          |
 
 #### 内存控制配置
-
 
 * datanode\_memory\_proportion
 
@@ -451,11 +460,11 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 * floating\_string\_infer\_type
 
 |     名字     | floating\_string\_infer\_type |
-| :----------: | :---------------------------- |
-|     描述     | "6.7"等字符串被推断的数据类型 |
+| :----------: |:------------------------------|
+|     描述     | "6.7"等字符串被推断的数据类型             |
 |     取值     | DOUBLE, FLOAT or TEXT         |
-|    默认值    | FLOAT                         |
-| 改后生效方式 | 重启服务生效                  |
+|    默认值    | DOUBLE                        |
+| 改后生效方式 | 重启服务生效                        |
 
 * nan\_string\_infer\_type
 

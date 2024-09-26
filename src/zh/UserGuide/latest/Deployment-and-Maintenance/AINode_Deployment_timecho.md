@@ -67,7 +67,7 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
       # 安装3.8.0版本的venv 
       ../Python-3.8.0/python -m venv venv(文件夹名）
       ```
-##  安装步骤
+## 安装步骤
 
 ### AINode 激活
 
@@ -87,7 +87,7 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
   - 显示如下信息，请将机器码（即该串字符）复制给天谋工作人员，并告知工作人员申请 AINode 独立授权：
       ```shell
       Please copy the system_info's content and send it to Timecho:
-      Y17hFA0xRCE1TmkVxILuCIEPc7uJcr5bzlXWiptw8uZTmTX5aThfypQdLUIhMljw075hNRSicyvyJR9JM7QaNm1gcFZPHVRWVXIiY5IlZkXdxCVc1erXMsbCqUYsR2R2Mw4PSpFJsUF5jHWSoFIIjQ2bmJFW5P52KCccFMVeHTc=
+      01-KU5LDFFN-PNBEHDRH
       Please enter license:
       ```
   - 将工作人员返回的激活码输入上一步的命令行提示处 `Please enter license:`，如下提示：
@@ -109,9 +109,9 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
 | :----------------------------- | ------------------------------------------------------------ | ------- | ------------------ | ---------------------------- |
 | cluster_name                   | AINode 要加入集群的标识                                      | string  | defaultCluster     | 仅允许在第一次启动服务前修改 |
 | ain_seed_config_node           | AINode 启动时注册的 ConfigNode 地址                          | String  | 10710              | 仅允许在第一次启动服务前修改 |
-| ain_inference_rpc_address      | AINode 提供服务与通信的地址                                  | String  | 127.0.0.1          | 仅允许在第一次启动服务前修改  |
-| ain_inference_rpc_port         | AINode 提供服务与通信的端口                                  | String  | 10810              | 仅允许在第一次启动服务前修改  |
-| ain_system_dir                 | AINode 元数据存储路径，相对路径的起始目录与操作系统相关，建议使用绝对路径 | String  | data/AINode/system | 仅允许在第一次启动服务前修改 |
+| ain_inference_rpc_address      | AINode 提供服务与通信的地址                                  | String  | 127.0.0.1          | 仅允许在第一次启动服务前修改    |
+| ain_inference_rpc_port         | AINode 提供服务与通信的端口                                  | String  | 10810              | 仅允许在第一次启动服务前修改   |
+| ain_system_dir                 | AINode 元数据存储路径，相对路径的起始目录与操作系统相关，建议使用绝对路径 | String  | data/AINode/system | 仅允许在第一次启动服务前修改   |
 | ain_models_dir                 | AINode 存储模型文件的路径，相对路径的起始目录与操作系统相关，建议使用绝对路径 | String  | data/AINode/models | 仅允许在第一次启动服务前修改   |
 | ain_logs_dir                   | AINode 存储日志的路径，相对路径的起始目录与操作系统相关，建议使用绝对路径 | String  | logs/AINode        | 重启后生效                   |
 | ain_thrift_compression_enabled | AINode 是否启用 thrift 的压缩机制，0-不启动、1-启动          | Boolean | 0                  | 重启后生效                   |
@@ -266,17 +266,17 @@ IoTDB> show cluster
 
 ```shell
   # Linux / MacOS 
-  bash sbin/stop-ainode.sh  -t<AINode-id>/<ip>:<rpc-port>
+  bash sbin/stop-ainode.sh  -t<AINode-id>
 
   #Windows
-  sbin\stop-ainode.bat  -t<AINode-id>/<ip>:<rpc-port>
+  sbin\stop-ainode.bat  -t<AINode-id>
   ```
 
 ##### 参数介绍：
  
  | **名称**              | **标签** | **描述**                                                         | **是否必填** | **类型**   | **默认值** | **输入方式**   |
 | ----------------- | ---- | ------------------------------------------------------------ | -------- | ------ | ------ | ---------- |
-| ain_remove_target | -t   | AINode 关闭时可以指定待移除的目标 AINode 的 Node ID、地址和端口号，格式为`<AINode-id>/<ip>:<rpc-port>` | 否       | String | 无     | 调用时输入 |
+| ain_remove_target | -t   | AINode 关闭时可以指定待移除的目标 AINode 的 Node ID、地址和端口号，格式为`<AINode-id>` | 否       | String | 无     | 调用时输入 |
 
 #### 示例
 ```shell
@@ -308,10 +308,10 @@ IoTDB> show cluster
 
 ```shell
   # Linux / MacOS 
-  bash sbin/stop-ainode.sh  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  bash sbin/stop-ainode.sh  -i<directory>  -t<AINode-id>  -r  -n
 
   # Windows
-  sbin\stop-ainode.bat  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  sbin\stop-ainode.bat  -i<directory>  -t<AINode-id>  -r  -n
   ```
 
 ##### 参数介绍：
@@ -319,7 +319,7 @@ IoTDB> show cluster
  | **名称**                | **标签** | **描述**                                                         | **是否必填** | **类型**   | **默认值**           | **输入方式**              |
 | ------------------- | ---- | ------------------------------------------------------------ | -------- | ------ | ---------------- | --------------------- |
 | ain_interpreter_dir | -i   | AINode 所安装在的虚拟环境的解释器路径，需要使用绝对路径      | 否       | String | 默认读取环境变量 | 调用时输入+持久化修改 |
-| ain_remove_target   | -t   | AINode 关闭时可以指定待移除的目标 AINode 的 Node ID、地址和端口号，格式为`<AINode-id>/<ip>:<rpc-port>` | 否       | String | 无               | 调用时输入            |
+| ain_remove_target   | -t   | AINode 关闭时可以指定待移除的目标 AINode 的 Node ID、地址和端口号，格式为`<AINode-id>` | 否       | String | 无               | 调用时输入            |
 | ain_force_reinstall | -r   | 该脚本在检查 AINode 安装情况的时候是否检查版本，如果检查则在版本不对的情况下会强制安装 lib 里的 whl 安装包 | 否       | Bool   | false            | 调用时输入            |
 | ain_no_dependencies | -n   | 指定在安装 AINode 的时候是否安装依赖，如果指定则仅安装 AINode 主程序而不安装依赖。 | 否       | Bool   | false            | 调用时输入            |
 
@@ -415,7 +415,7 @@ sudo make install
 ```
 
 
- ###  安装编译python
+ ### 安装编译python
 
  使用以下指定从官网下载安装包并解压:
   ```shell

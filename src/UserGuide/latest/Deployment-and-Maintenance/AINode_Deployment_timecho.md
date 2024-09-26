@@ -35,7 +35,7 @@
     <img src="https://alioss.timecho.com/docs/img/AINode%20Deployment%202.png" alt="" style="width: 45%;"/>
 </div>
 
-## Installation preparation
+##  Installation preparation
 
 ### Get installation package
 
@@ -72,7 +72,7 @@
 
 ### AINode activation
 
-Require IoTDB to be in normal operation and have AINode module authorization in the license (usually not in the license, please contact T Business or technical support personnel to obtain AINode module authorization).
+Require IoTDB to be in normal operation and have AINode module authorization in the license (usually not in the license, please contact Timecho Business or technical support personnel to obtain AINode module authorization).
 
  The authorization method for activating the AINode module is as follows：
  - Method 1: Activate file copy activation
@@ -89,7 +89,7 @@ Require IoTDB to be in normal operation and have AINode module authorization in 
   - The following information is displayed. Please copy the machine code (i.e. this string of characters) to the Timecho staff and inform them to apply for independent authorization of AINode：
       ```shell
       Please copy the system_info's content and send it to Timecho:
-      Y17hFA0xRCE1TmkVxILuCIEPc7uJcr5bzlXWiptw8uZTmTX5aThfypQdLUIhMljw075hNRSicyvyJR9JM7QaNm1gcFZPHVRWVXIiY5IlZkXdxCVc1erXMsbCqUYsR2R2Mw4PSpFJsUF5jHWSoFIIjQ2bmJFW5P52KCccFMVeHTc=
+      01-KU5LDFFN-PNBEHDRH
       Please enter license:
       ```
   - Enter the activation code returned by the staff into the `Please enter license:` command prompt in the previous step, as shown below：
@@ -143,8 +143,7 @@ AINode supports modifying some necessary parameters. You can find the following 
 
   # Windows systems
   nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
-  ``` 
-
+  ```
 ##### Parameter introduction:
 
 | **Name**                | **Label** | **Describe**                                                         | **Is it mandatory** | **Type**   | **Default value**           | **Input method**               |
@@ -202,13 +201,12 @@ If the version of AINode has been updated (such as updating the `lib` folder), t
   # Backend startup command (recommended for long-term running)
   # Linux and MacOS systems
   nohup bash sbin/start-ainode.sh -r > myout.file 2>& 1 &
-  # Windows systems
+  # Windows c
   nohup bash sbin\start-ainode.bat -r > myout.file 2>& 1 &
   ```
 #### Non networked environment startup 
 
 ##### Start command
-
 
 ```shell
   # Start command
@@ -277,17 +275,17 @@ If you need to stop a running AINode node, execute the corresponding shutdown sc
 
 ```shell
   # Linux / MacOS 
-  bash sbin/stop-ainode.sh  -t<AINode-id>/<ip>:<rpc-port>
+  bash sbin/stop-ainode.sh  -t<AINode-id>
 
   #Windows
-  sbin\stop-ainode.bat  -t<AINode-id>/<ip>:<rpc-port>
+  sbin\stop-ainode.bat  -t<AINode-id>
   ```
 
 ##### Parameter introduction:
  
 | **Name**                | **Label** | **Describe**                                                         | **Is it mandatory** | **Type**   | **Default value**           | **Input method**   |
 | ----------------- | ---- | ------------------------------------------------------------ | -------- | ------ | ------ | ---------- |
-| ain_remove_target | -t   | When closing AINode, you can specify the Node ID, address, and port number of the target AINode to be removed, in the format of `<AINode id>/<ip>:<rpc port>` | no       | String | nothing     | Input when calling |
+| ain_remove_target | -t   | When closing AINode, you can specify the Node ID, address, and port number of the target AINode to be removed, in the format of `<AINode id>` | no       | String | nothing     | Input when calling |
 
 #### Example
 
@@ -320,10 +318,10 @@ When it is necessary to remove an AINode node from the cluster, a removal script
 
 ```shell
   # Linux / MacOS 
-  bash sbin/stop-ainode.sh  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  bash sbin/stop-ainode.sh  -i<directory>  -t<AINode-id>  -r  -n
 
   # Windows
-  sbin\stop-ainode.bat  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  sbin\stop-ainode.bat  -i<directory>  -t<AINode-id>  -r  -n
   ```
 
 ##### Parameter introduction:
@@ -331,7 +329,7 @@ When it is necessary to remove an AINode node from the cluster, a removal script
  | **Name**                | **Label** | **Describe**                                                         | **Is it mandatory** | **Type**   | **Default value**           | **Input method**              |
 | ------------------- | ---- | ------------------------------------------------------------ | -------- | ------ | ---------------- | --------------------- |
 | ain_interpreter_dir | -i   | The interpreter path of the virtual environment where AINode is installed requires the use of an absolute path      | no       | String | Default reading of environment variables | Input+persistent modification during invocation |
-| ain_remove_target   | -t   | When closing AINode, you can specify the Node ID, address, and port number of the target AINode to be removed, in the format of `<AINode id>/<ip>:<rpc port>` | no       | String | nothing               | Input when calling            |
+| ain_remove_target   | -t   | When closing AINode, you can specify the Node ID, address, and port number of the target AINode to be removed, in the format of `<AINode id>` | no       | String | nothing               | Input when calling            |
 | ain_force_reinstall | -r   | Does this script check the version when checking the installation status of AINode. If it does, it will force the installation of the whl package in lib if the version is incorrect | no       | Bool   | false            | Input when calling            |
 | ain_no_dependencies | -n   | Specify whether to install dependencies when installing AINode, and if so, only install the AINode main program without installing dependencies | no       | Bool   | false            | Input when calling            |
 

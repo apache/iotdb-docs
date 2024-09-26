@@ -34,7 +34,7 @@
 
 3. 部分参数首次启动后不能修改，请参考下方的【参数配置】章节进行设置
 
-4. 无论是在 linux 还是 windows 中，请确保 IoTDB 的安装路径中不含空格和中文，避免软件运行异常。
+4. 无论是在linux还是windows中，请确保IoTDB的安装路径中不含空格和中文，避免软件运行异常。
 
 5. 请注意，安装部署（包括激活和使用软件）IoTDB时需要保持使用同一个用户进行操作，您可以：
 - 使用 root 用户（推荐）：使用 root 用户可以避免权限等问题。
@@ -71,7 +71,7 @@ cd  iotdb-enterprise-{version}-bin
 
 #### 系统通用配置
 
-打开通用配置文件（./conf/iotdb-common.properties 文件），设置以下参数：
+打开通用配置文件（./conf/iotdb-system.properties 文件），设置以下参数：
 
 |        **配置项**         |             **说明**             |   **默认值**   |                    **推荐值**                    |           备注            |
 | :-----------------------: | :------------------------------: | :------------: | :----------------------------------------------: | :-----------------------: |
@@ -81,7 +81,7 @@ cd  iotdb-enterprise-{version}-bin
 
 #### ConfigNode配置
 
-打开ConfigNode配置文件（./conf/iotdb-confignode.properties文件），设置以下参数：
+打开ConfigNode配置文件（./conf/iotdb-system.properties文件），设置以下参数：
 
 |     **配置项**      |                           **说明**                           |    **默认**     |                      推荐值                      |      **备注**      |
 | :-----------------: | :----------------------------------------------------------: | :-------------: | :----------------------------------------------: | :----------------: |
@@ -92,7 +92,7 @@ cd  iotdb-enterprise-{version}-bin
 
 #### DataNode 配置
 
-打开DataNode配置文件（./conf/iotdb-datanode.properties文件），设置以下参数：
+打开DataNode配置文件 ./conf/iotdb-system.properties，设置以下参数：
 
 | **配置项**                      | **说明**                                                     | **默认**        | 推荐值                                           | **备注**           |
 | :------------------------------ | :----------------------------------------------------------- | :-------------- | :----------------------------------------------- | :----------------- |
@@ -136,7 +136,7 @@ cd  iotdb-enterprise-{version}-bin
 
 ```shell
 Please copy the system_info's content and send it to Timecho:
-Y17hFA0xRCE1TmkVxILuCIEPc7uJcr5bzlXWiptw8uZTmTX5aThfypQdLUIhMljw075hNRSicyvyJR9JM7QaNm1gcFZPHVRWVXIiY5IlZkXdxCVc1erXMsbCqUYsR2R2Mw4PSpFJsUF5jHWSoFIIjQ2bmJFW5P52KCccFMVeHTc=
+01-KU5LDFFN-PNBEHDRH
 Please enter license:
 ```
 
@@ -177,6 +177,7 @@ cd sbin
 ![](https://alioss.timecho.com/docs/img/show%20cluster.png)
 
 > 出现`ACTIVATED(W)`为被动激活，表示此ConfigNode没有license文件（或没有签发时间戳最新的license文件）。此时建议检查license文件是否已放入license文件夹，没有请放入license文件，若已存在license文件，可能是此节点license文件与其他节点信息不一致导致，请联系天谋工作人员重新申请.
+
 
 ## 常见问题
 

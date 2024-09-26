@@ -351,6 +351,7 @@ triggerEventClause
     : (BEFORE | AFTER) INSERT
     ;
 
+uriClause
     : USING URI uri
     ;
 
@@ -503,7 +504,7 @@ END
 #### 连续查询语法中参数含义的描述
 
 - `<cq_id>` 为连续查询指定一个全局唯一的标识。
-- `<every_interval>` 指定了连续查询周期性执行的间隔。现在支持的时间单位有：ns, us, ms, s, m, h, d, w, 并且它的值不能小于用户在`iotdb-common.properties`配置文件中指定的`continuous_query_min_every_interval`。这是一个可选参数，默认等于group by子句中的`group_by_interval`。
+- `<every_interval>` 指定了连续查询周期性执行的间隔。现在支持的时间单位有：ns, us, ms, s, m, h, d, w, 并且它的值不能小于用户在`iotdb-system.properties`配置文件中指定的`continuous_query_min_every_interval`。这是一个可选参数，默认等于group by子句中的`group_by_interval`。
 - `<start_time_offset>` 指定了每次查询执行窗口的开始时间，即`now()-<start_time_offset>`。现在支持的时间单位有：ns, us, ms, s, m, h, d, w。这是一个可选参数，默认等于`EVERY`子句中的`every_interval`。
 - `<end_time_offset>` 指定了每次查询执行窗口的结束时间，即`now()-<end_time_offset>`。现在支持的时间单位有：ns, us, ms, s, m, h, d, w。这是一个可选参数，默认等于`0`.
 - `<execution_boundary_time>` 表示用户期待的连续查询的首个周期任务的执行时间。（因为连续查询只会对当前实时的数据流做计算，所以该连续查询实际首个周期任务的执行时间并不一定等于用户指定的时间，具体计算逻辑如下所示）
@@ -1733,7 +1734,7 @@ SHOW FUNCTIONS
 ###  配置项
 
 使用配置项 `udf_lib_dir` 来配置 udf 的存储目录.  
-在 SQL 语句中使用自定义函数时，可能提示内存不足。这种情况下，您可以通过更改配置文件`iotdb-common.properties`中的`udf_initial_byte_array_length_for_memory_control`，`udf_memory_budget_in_mb`和`udf_reader_transformer_collector_memory_proportion`并重启服务来解决此问题。
+在 SQL 语句中使用自定义函数时，可能提示内存不足。这种情况下，您可以通过更改配置文件`iotdb-system.properties`中的`udf_initial_byte_array_length_for_memory_control`，`udf_memory_budget_in_mb`和`udf_reader_transformer_collector_memory_proportion`并重启服务来解决此问题。
 
 ###  贡献 UDF
 

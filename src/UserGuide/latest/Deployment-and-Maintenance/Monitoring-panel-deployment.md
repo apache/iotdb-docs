@@ -35,24 +35,24 @@ The IoTDB monitoring panel is one of the supporting tools for the IoTDB Enterpri
 
 | **Configuration**                  | Located in the configuration file | **Description**                                              |
 | :--------------------------------- | :-------------------------------- | :----------------------------------------------------------- |
-| cn_metric_reporter_list            | conf/iotdb-confignode.properties  | Uncomment the configuration item and set the value to PROMETHEUS |
-| cn_metric_level                    | conf/iotdb-confignode.properties  | Uncomment the configuration item and set the value to IMPORTANT |
-| cn_metric_prometheus_reporter_port | conf/iotdb-sysconfignodetem.properties  | Uncomment the configuration item to maintain the default setting of 9091. If other ports are set, they will not conflict with each other |
-| dn_metric_reporter_list            | conf/iotdb-datanode.properties    | Uncomment the configuration item and set the value to PROMETHEUS |
-| dn_metric_level                    | conf/iotdb-datanode.properties    | Uncomment the configuration item and set the value to IMPORTANT |
-| dn_metric_prometheus_reporter_port | conf/iotdb-datanode.properties    | Uncomment the configuration item and set it to 9092 by default. If other ports are set, they will not conflict with each other |
-| dn_metric_internal_reporter_type   | conf/iotdb-datanode.properties    | Uncomment the configuration item and set the value to IOTDB  |
+| cn_metric_reporter_list            | conf/iotdb-system.properties  | Uncomment the configuration item and set the value to PROMETHEUS |
+| cn_metric_level                    | conf/iotdb-system.properties  | Uncomment the configuration item and set the value to IMPORTANT |
+| cn_metric_prometheus_reporter_port | conf/iotdb-system.properties  | Uncomment the configuration item to maintain the default setting of 9091. If other ports are set, they will not conflict with each other |
+| dn_metric_reporter_list            | conf/iotdb-system.properties    | Uncomment the configuration item and set the value to PROMETHEUS |
+| dn_metric_level                    | conf/iotdb-system.properties    | Uncomment the configuration item and set the value to IMPORTANT |
+| dn_metric_prometheus_reporter_port | conf/iotdb-system.properties    | Uncomment the configuration item and set it to 9092 by default. If other ports are set, they will not conflict with each other |
+| dn_metric_internal_reporter_type   | conf/iotdb-system.properties    | Uncomment the configuration item and set the value to IOTDB  |
 
 Taking the 3C3D cluster as an example, the monitoring configuration that needs to be modified is as follows:
 
 | Node IP     | Host Name | Cluster Role | Configuration File Path          | Configuration                                                |
 | ----------- | --------- | ------------ | -------------------------------- | ------------------------------------------------------------ |
-| 192.168.1.3 | iotdb-1   | confignode   | conf/iotdb-confignode.properties | cn_metric_reporter_list=PROMETHEUS cn_metric_level=IMPORTANT cn_metric_prometheus_reporter_port=9091 |
-| 192.168.1.4 | iotdb-2   | confignode   | conf/iotdb-confignode.properties | cn_metric_reporter_list=PROMETHEUS cn_metric_level=IMPORTANT cn_metric_prometheus_reporter_port=9091 |
-| 192.168.1.5 | iotdb-3   | confignode   | conf/iotdb-confignode.properties | cn_metric_reporter_list=PROMETHEUS cn_metric_level=IMPORTANT cn_metric_prometheus_reporter_port=9091 |
-| 192.168.1.3 | iotdb-1   | datanode     | conf/iotdb-datanode.properties   | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 dn_metric_internal_reporter_type=IOTDB |
-| 192.168.1.4 | iotdb-2   | datanode     | conf/iotdb-datanode.properties   | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 dn_metric_internal_reporter_type=IOTDB |
-| 192.168.1.5 | iotdb-3   | datanode     | conf/iotdb-datanode.properties   | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 dn_metric_internal_reporter_type=IOTDB |
+| 192.168.1.3 | iotdb-1   | confignode   | conf/iotdb-system.properties | cn_metric_reporter_list=PROMETHEUS cn_metric_level=IMPORTANT cn_metric_prometheus_reporter_port=9091 |
+| 192.168.1.4 | iotdb-2   | confignode   | conf/iotdb-system.properties | cn_metric_reporter_list=PROMETHEUS cn_metric_level=IMPORTANT cn_metric_prometheus_reporter_port=9091 |
+| 192.168.1.5 | iotdb-3   | confignode   | conf/iotdb-system.properties | cn_metric_reporter_list=PROMETHEUS cn_metric_level=IMPORTANT cn_metric_prometheus_reporter_port=9091 |
+| 192.168.1.3 | iotdb-1   | datanode     | conf/iotdb-system.properties   | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 dn_metric_internal_reporter_type=IOTDB |
+| 192.168.1.4 | iotdb-2   | datanode     | conf/iotdb-system.properties   | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 dn_metric_internal_reporter_type=IOTDB |
+| 192.168.1.5 | iotdb-3   | datanode     | conf/iotdb-system.properties   | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 dn_metric_internal_reporter_type=IOTDB |
 
 2. Restart all nodes. After modifying the monitoring indicator configuration of three nodes, the confignode and datanode services of all nodes can be restarted:
 
@@ -173,7 +173,7 @@ When configuring the Data Source, pay attention to the URL where Prometheus is l
 
 7. Similarly, we can import the Apache IoTDB DataNode Dashboard Apache Performance Overview Dashboard、Apache System Overview Dashboard， You can see the following monitoring panel:
 
-     <div style="display: flex;justify-content: space-between;">
+      <div style="display: flex;justify-content: space-between;">
       <img src="https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF1-eppf.png" alt="" style="width: 30%;" />
       <img src="https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF2.png"  alt="" style="width: 30%;"/> 
       <img src="https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF3.png"  alt="" style="width: 30%;"/>

@@ -235,7 +235,7 @@ with sink (
 
 ## 参考：注意事项
 
-可通过修改 IoTDB 配置文件（iotdb-common.properties）以调整数据同步的参数，如同步数据存储目录等。完整配置如下：
+可通过修改 IoTDB 配置文件（iotdb-system.properties）以调整数据同步的参数，如同步数据存储目录等。完整配置如下：
 
 V1.3.0+:
 ```Properties
@@ -326,7 +326,7 @@ with sink (
 | source.history.end-time         | 同步历史数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MAX_VALUE |
 | start-time(V1.3.1+)             | 同步所有数据的开始 event time，包含 start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MIN_VALUE |
 | end-time(V1.3.1+)               | 同步所有数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MAX_VALUE |
-| source.realtime.mode            | 数据的抽取模式                          | String: batch          | 选填   | hybrid         |
+| source.realtime.mode            | 数据的抽取模式                         | String: batch          | 选填   | hybrid         |
 
 > 💎 **说明：历史数据与实时数据的差异**
 > 

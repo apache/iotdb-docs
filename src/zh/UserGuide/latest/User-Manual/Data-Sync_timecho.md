@@ -211,7 +211,7 @@ with SINK (
 ![](https://alioss.timecho.com/docs/img/1706698592139.jpg)
 
 在这个例子中，为了避免数据无限循环，需要将 A 和 B 上的参数`source.forwarding-pipe-requests` 均设置为 `false`，表示不转发从另一pipe传输而来的数据。
- 
+
 详细语句如下：
 
 在 A IoTDB 上执行下列语句：
@@ -314,7 +314,7 @@ with sink (
 
 ## 参考：注意事项
 
-可通过修改 IoTDB 配置文件（iotdb-common.properties）以调整数据同步的参数，如同步数据存储目录等。完整配置如下：
+可通过修改 IoTDB 配置文件（iotdb-system.properties）以调整数据同步的参数，如同步数据存储目录等。完整配置如下：
 
 V1.3.0+:
 ```Properties
@@ -422,14 +422,14 @@ with sink (
 | source.forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据        | Boolean: true, false                   | 选填   | true           |
 
 > 💎 **说明：历史数据与实时数据的差异**
-> 
+>
 > * **历史数据**：所有 arrival time < 创建 pipe 时当前系统时间的数据称为历史数据
 > * **实时数据**：所有 arrival time >= 创建 pipe 时当前系统时间的数据称为实时数据
 > * **全量数据**: 全量数据 = 历史数据 + 实时数据
 
 
 > 💎  ​**说明：数据抽取模式hybrid, stream和batch的差异**
-> 
+>
 >    - **hybrid（推荐）**：该模式下，任务将优先对数据进行实时处理、发送，当数据产生积压时自动切换至批量发送模式，其特点是平衡了数据同步的时效性和吞吐量
 >    - **stream**：该模式下，任务将对数据进行实时处理、发送，其特点是高时效、低吞吐
 >    - **batch**：该模式下，任务将对数据进行批量（按底层数据文件）处理、发送，其特点是低时效、高吞吐

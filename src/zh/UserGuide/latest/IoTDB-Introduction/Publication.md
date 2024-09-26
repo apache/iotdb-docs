@@ -24,7 +24,6 @@
 Apache IoTDB 始于清华大学软件学院。IoTDB 是一个用于管理大量时间序列数据的数据库，它采用了列式存储、数据编码、预计算和索引技术，具有类 SQL 的接口，可支持每秒每节点写入数百万数据点，可以秒级获得超过数万亿个数据点的查询结果。它还可以很容易地与 Apache Hadoop、MapReduce 和 Apache Spark 集成以进行分析。
 
 相关研究论文如下：
-* [Apache IoTDB: A Time Series Database for IoT Applications](https://sxsong.github.io/doc/23sigmod-iotdb.pdf), Chen Wang, Jialin Qiao, Xiangdong Huang, Shaoxu Song, Haonan Hou, Tian Jiang, Lei Rui, Jianmin Wang, Jiaguang Sun. SIGMOD 2023.
 * [Grouping Time Series for Efficient Columnar Storage](https://sxsong.github.io/doc/23sigmod-group.pdf), Chenguang Fang, Shaoxu Song, Haoquan Guan, Xiangdong Huang, Chen Wang, Jianmin Wang. SIGMOD 2023.
 * [Learning Autoregressive Model in LSM-Tree based Store](https://sxsong.github.io/doc/23kdd.pdf), Yunxiang Su, Wenxuan Ma, Shaoxu Song. SIGMOD 2023.
 * [TsQuality: Measuring Time Series Data Quality in Apache IoTDB](https://sxsong.github.io/doc/23vldb-qaulity.pdf), Yuanhui Qiu, Chenguang Fang, Shaoxu Song, Xiangdong Huang, Chen Wang, Jianmin Wang. VLDB 2023.

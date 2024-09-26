@@ -52,7 +52,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
         </tr>
         <tr>
                 <td>cn_metric_reporter_list</td>   
-                <td rowspan="3">conf/iotdb-confignode.properties</td> 
+                <td rowspan="3">conf/iotdb-system.properties</td> 
                 <td>Uncomment the configuration item and set the value to PROMETHEUS</td> 
         </tr>
         <tr>
@@ -65,7 +65,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
         </tr>
             <tr>
                 <td>dn_metric_reporter_list</td>   
-                <td rowspan="4">conf/iotdb-datanode.properties</td> 
+                <td rowspan="4">conf/iotdb-system.properties</td> 
                 <td>Uncomment the configuration item and set the value to PROMETHEUS</td> 
         </tr>
         <tr>
@@ -82,7 +82,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
         </tr>
             <tr>
                 <td>enable_audit_log</td>   
-                <td rowspan="3">conf/iotdb-common.properties</td> 
+                <td rowspan="3">conf/iotdb-system.properties</td> 
                 <td>Uncomment the configuration item and set the value to true</td> 
         </tr>
         <tr>
@@ -148,7 +148,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
 5. Confirm successful startup. Enter in browser http://IP:port Go to Prometheus and click on the Target interface under Status. When you see that all States are Up, it indicates successful configuration and connectivity.
 
-    <div style="display: flex;justify-content: space-between;">
+ <div style="display: flex;justify-content: space-between;">
       <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
       <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_2.png" alt="" style="width: 48%;"/>
     </div>
@@ -219,9 +219,9 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
     | Field Name      | Is It A Required Field | Field Meaning                                                | Default Value |
     | --------------- | ---------------------- | ------------------------------------------------------------ | ------ |
-    | Connection Type |                        | The content filled in for different connection types varies, and supports selecting "single machine, cluster, dual active" | -      |
+    | Connection Type |   Yes                     | The content filled in for different connection types varies, and supports selecting "single machine, cluster, dual active" | -      |
     | Instance Name   | Yes                    | You can distinguish different instances based on their names, with a maximum input of 50 characters | -      |
-    | Instance        | Yes                    | Fill in the database address (`dn_rpc_address` field in the `iotdb/conf/iotdb-datanode.properties` file) and port number (`dn_rpc_port` field). Note: For clusters and dual active devices, clicking the "+" button supports entering multiple instance information | -      |
+    | Instance        | Yes                    | Fill in the database address (`dn_rpc_address` field in the `iotdb/conf/iotdb-system.properties` file) and port number (`dn_rpc_port` field). Note: For clusters and dual active devices, clicking the "+" button supports entering multiple instance information | -      |
     | Prometheus      | No                     | Fill in `http://<Prometheus IP address>:<Prometheus port number>/app/v1/query` to view some monitoring information on the homepage. We recommend that you configure and use it | -      |
     | Username        | Yes                    | Fill in the username for IoTDB, supporting input of 4 to 32 characters, including uppercase and lowercase letters, numbers, and special characters (! @ # $% ^&* () _+-=) | root   |
     | Enter Password  | No                     | Fill in the password for IoTDB. To ensure the security of the database, we will not save the password. Please fill in the password yourself every time you connect to the instance or test | root   |

@@ -21,6 +21,7 @@
 # 集群版部署
 
 本小节描述如何手动部署包括3个ConfigNode和3个DataNode的实例，即通常所说的3C3D集群。
+
 <div align="center">
     <img src="https://alioss.timecho.com/docs/img/%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.png" alt="" style="width: 60%;"/>
 </div>
@@ -97,7 +98,7 @@ cd  iotdb-enterprise-{version}-bin
 
 #### 通用配置
 
-打开通用配置文件`./conf/iotdb-common.properties`，可根据部署方式设置以下参数：
+打开通用配置文件`./conf/iotdb-system.properties`，可根据部署方式设置以下参数：
 
 | 配置项                    | 说明                                     | 192.168.1.3    | 192.168.1.4    | 192.168.1.5    |
 | ------------------------- | ---------------------------------------- | -------------- | -------------- | -------------- |
@@ -107,7 +108,7 @@ cd  iotdb-enterprise-{version}-bin
 
 #### ConfigNode 配置
 
-打开ConfigNode配置文件`./conf/iotdb-confignode.properties`，设置以下参数
+打开ConfigNode配置文件`./conf/iotdb-system.properties`，设置以下参数
 
 | 配置项              | 说明                                                         | 默认            | 推荐值                                                  | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | 备注               |
 | ------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------- | ------------- | ------------- | ------------- | ------------------ |
@@ -118,7 +119,7 @@ cd  iotdb-enterprise-{version}-bin
 
 #### DataNode 配置
 
-打开DataNode配置文件 `./conf/iotdb-datanode.properties`，设置以下参数：
+打开DataNode配置文件 `./conf/iotdb-system.properties`，设置以下参数：
 
 | 配置项                          | 说明                                                         | 默认            | 推荐值                                                  | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | 备注               |
 | ------------------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------- | ------------- | ------------- | ------------- | ------------------ |
@@ -144,7 +145,7 @@ cd sbin
 
 ### 激活数据库
 
-#### 方式一：激活文件拷贝激活
+#### **方式一：激活文件拷贝激活**
 
 - 依次启动3个confignode节点后，每台机器各自的`activation`文件夹, 分别拷贝每台机器的`system_info`文件给天谋工作人员;
 - 工作人员将返回每个ConfigNode节点的license文件，这里会返回3个license文件；
@@ -163,7 +164,7 @@ cd sbin
 
     ```Bash
     Please copy the system_info's content and send it to Timecho:
-    Y17hFA0xRCE1TmkVxILuxxxxxxxxxxxxxxxxxxxxxxxxxxxxW5P52KCccFMVeHTc=
+    01-KU5LDFFN-PNBEHDRH
     Please enter license:
     ```
 
@@ -205,7 +206,6 @@ cd sbin
 ![](https://alioss.timecho.com/docs/img/%E4%BC%81%E4%B8%9A%E7%89%88%E6%BF%80%E6%B4%BB.png)
 
 > 出现`ACTIVATED(W)`为被动激活，表示此ConfigNode没有license文件（或没有签发时间戳最新的license文件），其激活依赖于集群中其它Activate状态的ConfigNode。此时建议检查license文件是否已放入license文件夹，没有请放入license文件，若已存在license文件，可能是此节点license文件与其他节点信息不一致导致，请联系天谋工作人员重新申请.
-
 
 ## 节点维护步骤
 
@@ -339,10 +339,10 @@ It costs 0.110s
 
 ```Bash
 # Linux / MacOS 
-sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
+sbin/remove-datanode.sh [datanode_id]
 
 #Windows
-sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
+sbin/remove-datanode.bat [datanode_id]
 ```
 
 ## 常见问题
