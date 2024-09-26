@@ -48,7 +48,7 @@ This document will help you quickly install and deploy IoTDB. You can quickly lo
 
    - Introduction to Modeling Design: [Data Model](../Basic-Concept/Data-Model-and-Terminology.md)
 
-   - SQL syntax introduction: [Operate Metadata](../User-Manual/Operate-Metadata_apache.md)
+   - SQL syntax introduction: [Operate Metadata](../User-Manual/Operate-Metadata.md)
 
 2. Write Data: In terms of data writing, IoTDB provides multiple ways to insert real-time data. Please refer to the basic data writing operations for details [Write Data](../User-Manual/Write-Delete-Data.md)
 
