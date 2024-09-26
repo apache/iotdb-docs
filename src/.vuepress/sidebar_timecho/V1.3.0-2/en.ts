@@ -18,9 +18,9 @@
  */
 
 export const enSidebar = {
-  '/UserGuide/latest/': [
+  '/UserGuide/V1.3.0-2/': [
     {
-      text: 'IoTDB User Guide (V1.3.3)',
+      text: 'IoTDB User Guide (V1.3.0/1/2)',
       children: [],
     },
     {
@@ -39,7 +39,7 @@ export const enSidebar = {
     },
     {
       text: 'Quick Start',
-      link: 'QuickStart/QuickStart_apache',
+      link: 'QuickStart/QuickStart_timecho',
     },
     {
       text: 'Basic Concept',
@@ -60,12 +60,16 @@ export const enSidebar = {
       prefix: 'Deployment-and-Maintenance/',
       // children: 'structure',
       children: [
-        { text: 'Obtain IoTDB', link: 'IoTDB-Package_apache' },
+        { text: 'Obtain TimechoDB', link: 'IoTDB-Package_timecho' },
         { text: 'Database Resources', link: 'Database-Resources' },
         { text: 'System Requirements', link: 'Environment-Requirements' },
-        { text: 'Stand-Alone Deployment', link: 'Stand-Alone-Deployment_apache' },
-        { text: 'Cluster Deployment', link: 'Cluster-Deployment_apache' },
-        { text: 'Docker Deployment', link: 'Docker-Deployment_apache' },
+        { text: 'Stand-Alone Deployment', link: 'Stand-Alone-Deployment_timecho' },
+        { text: 'Cluster Deployment', link: 'Cluster-Deployment_timecho' },
+        { text: 'Dual Active Deployment', link: 'Dual-Active-Deployment_timecho' },
+        { text: 'Docker Deployment', link: 'Docker-Deployment_timecho' },
+        { text: 'AINode Deployment', link: 'AINode_Deployment_timecho' },
+        { text: 'Monitoring Panel Deployment', link: 'Monitoring-panel-deployment' },
+        { text: 'Workbench Deployment', link: 'workbench-deployment' },
       ],
     },
 
@@ -76,13 +80,17 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'Syntax Rule', link: 'Syntax-Rule' },
-        { text: 'Operate Metadata', link: 'Operate-Metadata_apache' },
+        { text: 'Operate Metadata', link: 'Operate-Metadata_timecho' },
         { text: 'Write & Delete Data', link: 'Write-Delete-Data' },
         { text: 'Query Data', link: 'Query-Data' },
         { text: 'Operator and Expression', link: 'Operator-and-Expression' },
-        { text: 'Streaming Framework', link: 'Streaming_apache' },
-        { text: 'Data Sync', link: 'Data-Sync_apache' },
+        { text: 'Streaming Framework', link: 'Streaming_timecho' },
+        { text: 'Data Sync', link: 'Data-Sync_timecho' },
+        { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
+        { text: 'View', link: 'IoTDB-View_timecho' },
+        { text: 'AI Capability', link: 'AINode_timecho' },
         { text: 'Database Programming', link: 'Database-Programming' },
+        { text: 'Security Management', link: 'Security-Management_timecho' },
         { text: 'Database Administration', link: 'Authority-Management' },
         { text: 'Maintennance', link: 'Maintennance' },
       ],
@@ -94,9 +102,10 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'Command Line Interface (CLI)', link: 'CLI' },
-        { text: 'Monitor Tool', link: 'Monitor-Tool_apache' },
+        { text: 'Workbench', link: 'Workbench_timecho' },
+        { text: 'Monitor Tool', link: 'Monitor-Tool_timecho' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
-        { text: 'Maintenance Tool', link: 'Maintenance-Tool_apache' },
+        { text: 'Maintenance Tool', link: 'Maintenance-Tool_timecho' },
         { text: 'Data Import Export Script', link: 'Data-Import-Export-Tool' },
         { text: 'TsFile Import Export Script', link: 'TsFile-Import-Export-Tool' },
       ],
@@ -133,8 +142,10 @@ export const enSidebar = {
         { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
         { text: 'Apache Spark(TsFile)', link: 'Spark-TsFile' },
         { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
-        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_apache' },
+        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_timecho' },
+        { text: 'DataEase', link: 'DataEase' },
         { text: 'DBeaver', link: 'DBeaver' },
+        { text: 'Ignition', link: 'Ignition-IoTDB-plugin_timecho' },
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana Plugin', link: 'Grafana-Plugin' },
         { text: 'ThingsBoard', link: 'Thingsboard' },
@@ -166,6 +177,8 @@ export const enSidebar = {
         { text: 'UDF Libraries', link: 'UDF-Libraries' },
         { text: 'Function and Expression', link: 'Function-and-Expression' },
         { text: 'Common Config Manual', link: 'Common-Config-Manual' },
+        { text: 'ConfigNode Config Manual', link: 'ConfigNode-Config-Manual' },
+        { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual' },
         { text: 'Status Codes', link: 'Status-Codes' },
         { text: 'Keywords', link: 'Keywords' },
       ],

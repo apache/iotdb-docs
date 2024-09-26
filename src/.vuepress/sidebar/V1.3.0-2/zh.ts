@@ -18,9 +18,9 @@
  */
 
 export const zhSidebar = {
-  '/zh/UserGuide/latest/': [
+  '/zh/UserGuide/V1.3.0-2/': [
     {
-      text: 'IoTDB用户手册 (V1.3.3)',
+      text: 'IoTDB用户手册 (V1.3.0/1/2)',
       children: [],
     },
     {
@@ -39,7 +39,7 @@ export const zhSidebar = {
     },
     {
       text: '快速上手',
-      link: 'QuickStart/QuickStart_timecho',
+      link: 'QuickStart/QuickStart_apache',
     },
     {
       text: '基础概念',
@@ -60,16 +60,12 @@ export const zhSidebar = {
       prefix: 'Deployment-and-Maintenance/',
       // children: 'structure',
       children: [
-        { text: '安装包获取', link: 'IoTDB-Package_timecho' },
+        { text: '安装包获取', link: 'IoTDB-Package_apache' },
         { text: '资源规划', link: 'Database-Resources' },
         { text: '系统配置', link: 'Environment-Requirements' },
-        { text: '单机版部署', link: 'Stand-Alone-Deployment_timecho' },
-        { text: '集群版部署', link: 'Cluster-Deployment_timecho' },
-        { text: '双活版部署', link: 'Dual-Active-Deployment_timecho' },
-        { text: 'Docker部署', link: 'Docker-Deployment_timecho' },
-        { text: 'AINode部署', link: 'AINode_Deployment_timecho' },
-        { text: '监控面板部署', link: 'Monitoring-panel-deployment' },
-        { text: '可视化控制台部署', link: 'workbench-deployment' },
+        { text: '单机版部署', link: 'Stand-Alone-Deployment_apache' },
+        { text: '集群版部署', link: 'Cluster-Deployment_apache' },
+        { text: 'Docker部署', link: 'Docker-Deployment_apache' },
       ],
     },
 
@@ -80,17 +76,13 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '语法约定', link: 'Syntax-Rule' },
-        { text: '元数据管理', link: 'Operate-Metadata_timecho' },
+        { text: '元数据管理', link: 'Operate-Metadata_apache' },
         { text: '数据写入与删除', link: 'Write-Delete-Data' },
         { text: '数据查询', link: 'Query-Data' },
-        { text: '运算符和表达式', link: 'Operator-and-Expression' },
-        { text: '流处理框架', link: 'Streaming_timecho' },
-        { text: '数据同步', link: 'Data-Sync_timecho' },
-        { text: '多级存储', link: 'Tiered-Storage_timecho' },
-        { text: '视图', link: 'IoTDB-View_timecho' },
-        { text: 'AI能力', link: 'AINode_timecho' },
+        { text: '运算符、函数和表达式', link: 'Operator-and-Expression' },
+        { text: '流处理框架', link: 'Streaming_apache' },
+        { text: '数据同步', link: 'Data-Sync_apache' },
         { text: '数据库编程', link: 'Database-Programming' },
-        { text: '安全控制', link: 'Security-Management_timecho' },
         { text: '权限管理', link: 'Authority-Management' },
         { text: '运维语句', link: 'Maintennance' },
       ],
@@ -102,10 +94,9 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: 'SQL命令行终端 (CLI)', link: 'CLI' },
-        { text: '可视化控制台', link: 'Workbench_timecho' },
-        { text: '监控工具', link: 'Monitor-Tool_timecho' },
+        { text: '监控工具', link: 'Monitor-Tool_apache' },
         { text: '测试工具', link: 'Benchmark' },
-        { text: '运维工具', link: 'Maintenance-Tool_timecho' },
+        { text: '运维工具', link: 'Maintenance-Tool_apache' },
         { text: '数据导入导出脚本', link: 'Data-Import-Export-Tool' },
         { text: 'TsFile导入导出脚本', link: 'TsFile-Import-Export-Tool' },
       ],
@@ -122,7 +113,7 @@ export const zhSidebar = {
         { text: 'Go原生接口', link: 'Programming-Go-Native-API' },
         { text: 'C#原生接口', link: 'Programming-CSharp-Native-API' },
         { text: 'Node.js原生接口', link: 'Programming-NodeJS-Native-API' },
-        { text: 'Rust', link: 'Programming-Rust-Native-API' },
+        { text: 'Rust原生接口', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC (不推荐)', link: 'Programming-JDBC' },
         { text: 'MQTT协议', link: 'Programming-MQTT' },
         { text: 'Kafka', link: 'Programming-Kafka' },
@@ -142,13 +133,11 @@ export const zhSidebar = {
         { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
         { text: 'Apache Spark(TsFile)', link: 'Spark-TsFile' },
         { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
-        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_timecho' },
-        { text: 'DataEase', link: 'DataEase' },
+        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_apache' },
         { text: 'DBeaver', link: 'DBeaver' },
-        { text: 'Ignition', link: 'Ignition-IoTDB-plugin_timecho' },
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana插件', link: 'Grafana-Plugin' },
-        { text: 'ThingsBoard', link: 'Thingsboard' }, 
+        { text: 'ThingsBoard', link: 'Thingsboard' },
       ],
     },
     {

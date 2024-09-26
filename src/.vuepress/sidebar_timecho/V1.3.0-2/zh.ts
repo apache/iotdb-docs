@@ -18,9 +18,9 @@
  */
 
 export const zhSidebar = {
-  '/zh/UserGuide/latest/': [
+  '/zh/UserGuide/V1.3.0-2/': [
     {
-      text: 'IoTDB用户手册 (V1.3.3)',
+      text: 'IoTDB用户手册 (V1.3.0/1/2)',
       children: [],
     },
     {
