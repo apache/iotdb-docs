@@ -53,7 +53,7 @@ export const zhSidebar = {
     {
       text: '基础概念',
       collapsible: true,
-      prefix: 'Basic-Concept/',
+      prefix: 'Data-Concept/',
       // children: 'structure',
       children: [
         { text: '数据模型', link: 'Data-Model-and-Terminology' },

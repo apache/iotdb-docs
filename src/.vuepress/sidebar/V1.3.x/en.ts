@@ -80,7 +80,7 @@ export const enSidebar = {
         { text: 'Write & Delete Data', link: 'Write-Delete-Data' },
         { text: 'Query Data', link: 'Query-Data' },
         { text: 'Operator and Expression', link: 'Operator-and-Expression' },
-        { text: 'Streaming Framework', link: 'Streaming_apache' },
+        { text: 'Stream Processing', link: 'Streaming_apache' },
         { text: 'Data Sync', link: 'Data-Sync_apache' },
         { text: 'Database Programming', link: 'Database-Programming' },
         { text: 'Database Administration', link: 'Authority-Management' },
