@@ -25,7 +25,7 @@ TimechoDB 是一款低成本、高性能的物联网原生时序数据库，是�
 
 天谋科技基于 TimechoDB 提供更多样的产品功能、更强大的性能和稳定性、更丰富的效能工具，并为用户提供全方位的企业服务，从而为商业化客户提供更强大的产品能力，和更优质的开发、运维、使用体验。
 
-- 下载、部署与使用：https://www.timecho.com/docs/zh/UserGuide/latest/QuickStart/QuickStart_timecho.html
+- 下载、部署与使用：[快速上手](../QuickStart/QuickStart_timecho.md)
 
 ## 产品特性
 

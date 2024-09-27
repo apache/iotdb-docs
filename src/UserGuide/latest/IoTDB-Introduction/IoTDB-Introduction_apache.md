@@ -21,13 +21,13 @@
 
 # Product Introduction
 
-Apache IoTDB is a low-cost, high-performance native temporal database for the Internet of Things. It can solve various problems encountered by enterprises when building IoT big data platforms to manage time-series data, such as complex application scenarios, large data volumes, high sampling frequencies, frequent data disorder, long data processing time, diverse analysis requirements, and high storage and operation costs.
+Apache IoTDB is a low-cost, high-performance native temporal database for the Internet of Things. It can solve various problems encountered by enterprises when building IoT big data platforms to manage time-series data, such as complex application scenarios, large data volumes, high sampling frequencies, high amount of unaligned data, long data processing time, diverse analysis requirements, and high storage and operation costs.
 
 - Github repository link: https://github.com/apache/iotdb
 
 - Open source installation package download: https://iotdb.apache.org/zh/Download/
 
-- Installation, deployment, and usage documentation: https://iotdb.apache.org/zh/UserGuide/latest/QuickStart/QuickStart_apache.html
+- Installation, deployment, and usage documentation:  [QuickStart](../QuickStart/QuickStart_apache.md)
 
 ##  Product Features
 
@@ -39,7 +39,7 @@ TimechoDB has the following advantages and characteristics:
 
 - Hierarchical sensor organization and management: Supports modeling in the system according to the actual hierarchical relationship of devices to achieve alignment with the industrial sensor management structure, and supports directory viewing, search, and other capabilities for hierarchical structures.
 
-- High throughput data reading and writing: supports access to millions of devices, high-speed data reading and writing, out of order/multi frequency acquisition, and other complex industrial reading and writing scenarios.
+- High throughput data reading and writing: supports access to millions of devices, high-speed data reading and writing, out of unaligned/multi frequency acquisition, and other complex industrial reading and writing scenarios.
 
 - Rich time series query semantics: Supports a native computation engine for time series data, supports timestamp alignment during queries, provides nearly a hundred built-in aggregation and time series calculation functions, and supports time series feature analysis and AI capabilities.
 
@@ -51,10 +51,10 @@ TimechoDB has the following advantages and characteristics:
 
 ## Commercial version
 
-Timecho provides the original commercial product TimechoDB based on the open source version of Apache IoTDB, providing enterprise level products and services for enterprises and commercial customers. It can solve various problems encountered by enterprises when building IoT big data platforms to manage time-series data, such as complex application scenarios, large data volumes, high sampling frequencies, frequent data disorder, long data processing time, diverse analysis requirements, and high storage and operation costs.
+Timecho provides the original commercial product TimechoDB based on the open source version of Apache IoTDB, providing enterprise level products and services for enterprises and commercial customers. It can solve various problems encountered by enterprises when building IoT big data platforms to manage time-series data, such as complex application scenarios, large data volumes, high sampling frequencies, high amount of unaligned data, long data processing time, diverse analysis requirements, and high storage and operation costs.
 
 Timecho provides a more diverse range of product features, stronger performance and stability, and a richer set of utility tools based on TimechoDB. It also offers comprehensive enterprise services to users, thereby providing commercial customers with more powerful product capabilities and a higher quality of development, operations, and usage experience.
 
 - Timecho Official website：https://www.timecho.com/
 
-- TimechoDB installation, deployment and usage documentation：https://www.timecho.com/docs/zh/UserGuide/latest/QuickStart/QuickStart_timecho.html
+- TimechoDB installation, deployment and usage documentation：[QuickStart](../QuickStart/QuickStart_timecho.md)
