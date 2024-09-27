@@ -1,4 +1,4 @@
-# Apache Flink(SQL)
+# fApache Flink(SQL)
 
 The flink-sql-iotdb-connector seamlessly connects Flink SQL or Flink Table with IoTDB, enabling real-time read and write operations on IoTDB within Flink tasks. It can be applied to the following scenarios:
 

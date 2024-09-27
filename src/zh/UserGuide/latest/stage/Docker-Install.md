@@ -158,7 +158,6 @@ services:
 4. 首次启动时，必须首先启动 `iotdb-1`。
 5. 如果部署失败要重新部署集群，必须将所有节点上的IoTDB服务停止并删除，然后清除`data`和`logs`文件夹后，再启动。
 
-
 ## 配置
 IoTDB 的配置文件，都在安装目录的conf目录下。
 IoTDB 本身配置都可以在 docker-compose 文件的 environment 中进行配置。 
@@ -174,7 +173,7 @@ IoTDB 本身配置都可以在 docker-compose 文件的 environment 中进行配
 1. 获取新的镜像
 2. 修改 docker-compose 文件的 image
 3. 使用 docker stop 和 docker rm 命令，停止运行的 docker 容器
-4. 启动 IoTDB
+4. 启动 IoTDB: `docker-compose -f docker-compose-standalone.yml up -d`
 
 ## 设置开机自启动
 1. 修改 docker-compose 文件，每个docker 容器配置：`restart: always`

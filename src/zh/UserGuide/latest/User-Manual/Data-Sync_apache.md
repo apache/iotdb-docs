@@ -373,7 +373,11 @@ with sink (
 
 ### 压缩同步（V1.3.2+ ）
 
+
+可通过修改 IoTDB 配置文件（iotdb-system.properties）以调整数据同步的参数，如同步数据存储目录等。完整配置如下：
+
 IoTDB 支持在同步过程中指定数据压缩方式。可通过配置 `compressor` 参数，实现数据的实时压缩和传输。`compressor`目前支持 snappy / gzip / lz4 / zstd / lzma2 5 种可选算法，且可以选择多种压缩算法组合，按配置的顺序进行压缩。
+
 
 如创建一个名为 A2B 的同步任务：
 
@@ -440,6 +444,17 @@ V1.3.0/1/2:
 
 ### source  参数（V1.3.0）
 
+
+| key                             | value                              | value 取值范围                             | 是否必填 | 默认取值           |
+|---------------------------------|------------------------------------|----------------------------------------|------|----------------|
+| source                          | iotdb-source                       | String: iotdb-source                   | 必填   | -              |
+| source.pattern                  | 用于筛选时间序列的路径前缀                      | String: 任意的时间序列前缀                      | 选填   | root           |
+| source.history.start-time       | 同步历史数据的开始 event time，包含 start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MIN_VALUE |
+| source.history.end-time         | 同步历史数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MAX_VALUE |
+| start-time(V1.3.1+)             | 同步所有数据的开始 event time，包含 start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MIN_VALUE |
+| end-time(V1.3.1+)               | 同步所有数据的结束 event time，包含 end-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填   | Long.MAX_VALUE |
+| source.realtime.mode            | 数据的抽取模式                         | String: batch          | 选填   | hybrid         |
+=======
 | 参数                            | 描述                                                         | value 取值范围                         | 是否必填 | 默认取值       |
 | :------------------------------ | :----------------------------------------------------------- | :------------------------------------- | :------- | :------------- |
 | source                          | iotdb-source                                                 | String: iotdb-source                   | 必填     | -              |
@@ -451,6 +466,7 @@ V1.3.0/1/2:
 | source.realtime.mode            | 新插入数据（pipe 创建后）的抽取模式                          | String: batch                        | 选填     | stream         |
 | source.forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据             |  Boolean: true                      | 选填     | true           |
 | source.history.loose-range      | tsfile 传输时，是否放宽历史数据（pipe 创建前）范围。""：不放宽范围，严格按照设置的条件挑选数据"time"：放宽时间范围，避免对 TsFile 进行拆分，可以提升同步效率 | String: "" / "time"                    | 选填     | 空字符串       |
+
 
 > 💎 **说明：历史数据与实时数据的差异**
 > - **历史数据**：所有 arrival time < 创建 pipe 时当前系统时间的数据称为历史数据

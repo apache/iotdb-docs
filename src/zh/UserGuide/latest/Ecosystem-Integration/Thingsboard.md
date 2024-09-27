@@ -41,7 +41,7 @@
 | 准备内容                    | 版本要求                                                     |
 | :-------------------------- | :----------------------------------------------------------- |
 | JDK                         | 要求已安装 17 及以上版本，具体下载请查看 [Oracle 官网](https://www.oracle.com/java/technologies/downloads/) |
-| IoTDB                       | 要求已安装 V1.3.0 及以上版本，具体安装过程请参考[部署指导](https://www.timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_timecho.html) |
+| IoTDB                       | 要求已安装 V1.3.0 及以上版本，具体安装过程请参考[ 部署指导](https://www.timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_timecho.html) |
 | ThingsBoard（IoTDB 适配版） | 安装包请联系商务获取，具体安装步骤参见下文                   |
 
 ## 安装步骤

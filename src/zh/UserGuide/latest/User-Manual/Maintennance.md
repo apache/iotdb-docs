@@ -104,7 +104,7 @@ EXPLAIN ANALYZE [VERBOSE] <SELECT_STATEMENT>
 
 ![explain-analyze-2.png](https://alioss.timecho.com/upload/explain-analyze-2.png)
 
-用户也可以自行修改 iotdb-common.properties 中的配置项`merge_threshold_of_explain_analyze`来设置触发合并的节点阈值，该参数支持热加载。
+用户也可以自行修改 iotdb-system.properties 中的配置项`merge_threshold_of_explain_analyze`来设置触发合并的节点阈值，该参数支持热加载。
 
 2. 查询超时场景使用 Explain Analyze 语句
 

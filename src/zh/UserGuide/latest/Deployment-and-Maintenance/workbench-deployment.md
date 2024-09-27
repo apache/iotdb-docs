@@ -51,7 +51,7 @@
           </tr>
           <tr>
                 <td>cn_metric_reporter_list</td>   
-                <td rowspan="3">conf/iotdb-confignode.properties</td> 
+                <td rowspan="3">conf/iotdb-system.properties</td> 
                 <td>将配置项取消注释，值设置为PROMETHEUS</td> 
           </tr>
           <tr>
@@ -64,7 +64,7 @@
           </tr>
           <tr>
                 <td>dn_metric_reporter_list</td>   
-                <td rowspan="4">conf/iotdb-datanode.properties</td> 
+                <td rowspan="4">conf/iotdb-system.properties</td> 
                 <td>将配置项取消注释，值设置为PROMETHEUS</td> 
           </tr>
           <tr>
@@ -81,7 +81,7 @@
           </tr>
           <tr>
                 <td>enable_audit_log</td>   
-                <td rowspan="3">conf/iotdb-common.properties</td> 
+                <td rowspan="3">conf/iotdb-system.properties</td> 
                 <td>将配置项取消注释，值设置为true</td> 
           </tr>
           <tr>
@@ -217,7 +217,7 @@
   | :---------------: | :------------: | :------------------------------------------------------------: | :------: |
   | 连接类型        | 是           | 不同连接类型连接所填内容不同，支持选择“单机、集群、双活”     | -      |
   | 实例名称        | 是           | 您可根据名称对不同实例进行区分，最多输入 50 个字符           | -      |
-  | 实例信息        | 是           | 填写数据库的地址（iotdb/conf/iotdb-datanode.properties 文件中 dn_rpc_address 字段）以及端口号（dn_rpc_port字段）注：对于集群和双活点击“+”支持输入多个实例信息 | -      |
+  | 实例信息        | 是           | 填写数据库的地址（iotdb/conf/iotdb-system.properties 文件中 dn_rpc_address 字段）以及端口号（dn_rpc_port字段）注：对于集群和双活点击“+”支持输入多个实例信息 | -      |
   | Prometheus 信息 | 否           | 填写“http://<Prometheus的IP地址>:<Prometheus的端口号>/api/v1/query”即可通过首页查看部分监控信息，推荐您进行配置使用 | -      |
   | 用户名          | 是           | 填写IoTDB的用户名，支持输入 4～32 个字符，可使用英文大小写字母、数字、特殊字符（!@#$%^&*()_+-=） | root   |
   | 密码            | 否           | 填写IoTDB的密码，为了保证数据库的安全我们不会对密码进行保存，请您在每次连接实例或测试时自行填写 | root   |

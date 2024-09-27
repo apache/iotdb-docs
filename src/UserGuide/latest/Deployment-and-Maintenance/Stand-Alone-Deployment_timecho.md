@@ -32,7 +32,7 @@ This chapter will introduce how to start an IoTDB standalone instance, which inc
    echo "192.168.1.3  iotdb-1" >> /etc/hosts 
    ```
 
-3. Some parameters cannot be modified after the first startup. Please refer to the "Parameter Configuration" section below for settings
+3. Some parameters cannot be modified after the first startup. Please refer to the "Parameter Configuration" section below for settings.
 
 4. Whether in linux or windows, ensure that the IoTDB installation path does not contain Spaces and Chinese characters to avoid software exceptions.
 
@@ -46,14 +46,14 @@ This chapter will introduce how to start an IoTDB standalone instance, which inc
 
 ## Installation Steps
 
-### Unzip the installation package and enter the installation directory
+### 1、Unzip the installation package and enter the installation directory
 
 ```shell
 unzip  iotdb-enterprise-{version}-bin.zip
 cd  iotdb-enterprise-{version}-bin
 ```
 
-### Parameter Configuration
+### 2、Parameter Configuration
 
 #### Environment Script Configuration
 
@@ -64,14 +64,14 @@ cd  iotdb-enterprise-{version}-bin
 |    MEMORY_SIZE    | The total amount of memory that IoTDB ConfigNode nodes can use |    empty    | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
 
 - ./conf/datanode-env.sh（./conf/datanode-env.bat）configuration
-env.sh
+
 | **Configuration** |                       **Description**                        | **Default** |                    **Recommended value**                     |                Note                 |
 | :---------------: | :----------------------------------------------------------: | :---------: | :----------------------------------------------------------: | :---------------------------------: |
 |    MEMORY_SIZE    | The total amount of memory that IoTDB DataNode nodes can use |    empty    | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
 
 #### System General Configuration
 
-Open the general configuration file (./conf/iotdb-common. properties file) and set the following parameters:
+Open the general configuration file (./conf/iotdb-system. properties file) and set the following parameters:
 
 |     **Configuration**     |                       **Description**                        |  **Default**   |                    **Recommended value**                     |                         Note                          |
 | :-----------------------: | :----------------------------------------------------------: | :------------: | :----------------------------------------------------------: | :---------------------------------------------------: |
@@ -81,7 +81,7 @@ Open the general configuration file (./conf/iotdb-common. properties file) and s
 
 #### ConfigNode Configuration
 
-Open the ConfigNode configuration file (./conf/iotdb-configure. properties file) and set the following parameters:
+Open the ConfigNode configuration file (./conf/iotdb-system. properties file) and set the following parameters:
 
 |  **Configuration**  |                       **Description**                        |   **Default**   |                    **Recommended value**                     |                   Note                   |
 | :-----------------: | :----------------------------------------------------------: | :-------------: | :----------------------------------------------------------: | :--------------------------------------: |
@@ -92,7 +92,7 @@ Open the ConfigNode configuration file (./conf/iotdb-configure. properties file)
 
 #### DataNode Configuration
 
-Open the DataNode configuration file (./conf/iotdb-datanode.properties file) and set the following parameters:
+Open the DataNode configuration file (./conf/iotdb-system. properties file) and set the following parameters:
 
 | **Configuration**               | **Description**                                              | **Default**     | **Recommended value**                                        | **Note**                                 |
 | :------------------------------ | :----------------------------------------------------------- | :-------------- | :----------------------------------------------------------- | :--------------------------------------- |
@@ -107,7 +107,7 @@ Open the DataNode configuration file (./conf/iotdb-datanode.properties file) and
 
 > ❗️Attention: Editors such as VSCode Remote do not have automatic configuration saving function. Please ensure that the modified files are saved persistently, otherwise the configuration items will not take effect
 
-### Start ConfigNode
+### 3、Start ConfigNode
 
 Enter the sbin directory of iotdb and start confignode
 
@@ -115,7 +115,7 @@ Enter the sbin directory of iotdb and start confignode
 ./start-confignode.sh    -d      #The "- d" parameter will start in the background 
 ```
 
-### Activate Database
+### 4、Activate Database
 
 #### Method 1: Activate file copy activation
 
@@ -136,7 +136,7 @@ Enter the sbin directory of iotdb and start confignode
 
 ```shell
 Please copy the system_info's content and send it to Timecho:
-Y17hFA0xRCE1TmkVxILuCIEPc7uJcr5bzlXWiptw8uZTmTX5aThfypQdLUIhMljw075hNRSicyvyJR9JM7QaNm1gcFZPHVRWVXIiY5IlZkXdxCVc1erXMsbCqUYsR2R2Mw4PSpFJsUF5jHWSoFIIjQ2bmJFW5P52KCccFMVeHTc=
+01-KU5LDFFN-PNBEHDRH
 Please enter license:
 ```
 
@@ -144,12 +144,12 @@ Please enter license:
 
 ```shell
 Please enter license:
-Jw+MmF+AtexsfgNGOFgTm83Bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxm6pF+APW1CiXLTSijK9Qh3nsLgzrW8OJPh26Vl6ljKUpCvpTiw==
+JJw+MmF+AtexsfgNGOFgTm83Bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxm6pF+APW1CiXLTSijK9Qh3nsLgzrW8OJPh26Vl6ljKUpCvpTiw==
 License has been stored to sbin/../activation/license
 Import completed. Please start cluster and excute 'show cluster' to verify activation status
 ```
 
-### Start DataNode
+### 5、Start DataNode
 
 Enter the sbin directory of iotdb and start datanode:
 
@@ -158,7 +158,7 @@ cd sbin
 ./start-datanode.sh   -d   # The "- d" parameter will start in the background
 ```
 
-### Verify Deployment
+### 6、Verify Deployment
 
 Can be executed directly/ Cli startup script in sbin directory:
 
@@ -175,6 +175,7 @@ After the installation success interface appears, continue to check if the activ
 When you see the display "Activated" on the far right, it indicates successful activation
 
 ![](https://alioss.timecho.com/docs/img/show%20cluster.png)
+
 
 > The appearance of 'Activated (W)' indicates passive activation, indicating that this Config Node does not have a license file (or has not issued the latest license file with a timestamp). At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Timecho staff to reapply.
 

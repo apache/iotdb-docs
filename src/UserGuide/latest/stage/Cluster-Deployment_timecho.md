@@ -148,7 +148,7 @@ IOTDB_JMX_OPTS="$IOTDB_JMX_OPTS -XX:MaxGCPauseMillis=200"
 | storage\_tsdb\_retention\_time | The number of days to save data is 15 days by default                                     | NO       |
 | storage\_tsdb\_retention\_size | The data size that can be saved by the specified block defaults to 512M. Please note the units are KB, MB, GB, TB, PB, and EB. | NO       |
 
-If metrics are configured in `iotdb-system.properties` of config/xxx.yaml, the configuration will be automatically put into promethues without manual modification.
+If metrics are configured in `iotdb-system.properties` of config/xxx.yaml, the configuration will be automatically put into prometheus without manual modification.
 
 Note: How to configure the value corresponding to the yaml key to contain special characters such as: etc. It is recommended to use double quotes for the entire value, and do not use paths containing spaces in the corresponding file paths to prevent abnormal recognition problems.
 
@@ -227,7 +227,7 @@ iotdbctl cluster scalein default_cluster
 * Configure `cn_internal_address`, `dn_internal_address`
 * Configure `cn_internal_address`, `cn_internal_port`, `cn_consensus_port`, `cn_system_dir`, in `iotdb-system.properties` in `confignode_servers`
   If the values in `cn_consensus_dir` and `iotdb-system.properties` are not the default for IoTDB, they need to be configured, otherwise there is no need to configure them.
-* Configure `dn_rpc_address`, `dn_internal_address`, `dn_data_dirs`, `dn_consensus_dir`, `dn_system_dir` and `iotdb-system.properties` in `iotdb-system.properties` in `datanode_servers`
+* Configure `dn_rpc_address`, `dn_internal_address`, `dn_data_dirs`, `dn_consensus_dir`, `dn_system_dir` and `iotdb-system.properties` in `datanode_servers`
 * Execute initialization command
 
 ```bash
@@ -762,10 +762,10 @@ We need to modify the configurations on each server.
 Therefore, login each server and switch the working directory to `apache-iotdb-1.0.0-SNAPSHOT-all-bin`.
 The configuration files are stored in the `./conf` directory.
 
-For all ConfigNode servers, we need to modify the common configuration 
-and ConfigNode configuration .
+For all ConfigNode servers, we need to modify the common configuration  
+and ConfigNode configuration.
 
-For all DataNode servers, we need to modify the common configuration 
+For all DataNode servers, we need to modify the common configuration
 and DataNode configuration.
 
 ##### Common configuration

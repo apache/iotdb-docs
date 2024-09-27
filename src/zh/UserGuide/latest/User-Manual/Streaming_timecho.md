@@ -19,7 +19,7 @@
 
 -->
 
-# 流处理框架
+# IoTDB 流处理框架
 
 IoTDB 流处理框架允许用户实现自定义的流处理逻辑，可以实现对存储引擎变更的监听和捕获、实现对变更数据的变形、实现对变形后数据的向外推送等逻辑。
 
@@ -79,21 +79,21 @@ Pipe Source 用于抽取数据，Pipe Processor 用于处理数据，Pipe Sink �
 /** TabletInsertionEvent is used to define the event of data insertion. */
 public interface TabletInsertionEvent extends Event {
 
-  /**
-   * The consumer processes the data row by row and collects the results by RowCollector.
-   *
-   * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
-   *     results collected by the RowCollector
-   */
-  Iterable<TabletInsertionEvent> processRowByRow(BiConsumer<Row, RowCollector> consumer);
+    /**
+     * The consumer processes the data row by row and collects the results by RowCollector.
+     *
+     * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
+     *     results collected by the RowCollector
+     */
+    Iterable<TabletInsertionEvent> processRowByRow(BiConsumer<Row, RowCollector> consumer);
 
-  /**
-   * The consumer processes the Tablet directly and collects the results by RowCollector.
-   *
-   * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
-   *     results collected by the RowCollector
-   */
-  Iterable<TabletInsertionEvent> processTablet(BiConsumer<Tablet, RowCollector> consumer);
+    /**
+     * The consumer processes the Tablet directly and collects the results by RowCollector.
+     *
+     * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
+     *     results collected by the RowCollector
+     */
+    Iterable<TabletInsertionEvent> processTablet(BiConsumer<Tablet, RowCollector> consumer);
 }
 ```
 
@@ -118,12 +118,12 @@ IoTDB 的存储引擎是 LSM 结构的。数据写入时会先将写入操作落
  */
 public interface TsFileInsertionEvent extends Event {
 
-  /**
-   * The method is used to convert the TsFileInsertionEvent into several TabletInsertionEvents.
-   *
-   * @return {@code Iterable<TabletInsertionEvent>} the list of TabletInsertionEvent
-   */
-  Iterable<TabletInsertionEvent> toTabletInsertionEvents();
+    /**
+     * The method is used to convert the TsFileInsertionEvent into several TabletInsertionEvents.
+     *
+     * @return {@code Iterable<TabletInsertionEvent>} the list of TabletInsertionEvent
+     */
+    Iterable<TabletInsertionEvent> toTabletInsertionEvents();
 }
 ```
 
@@ -525,15 +525,15 @@ SHOW PIPEPLUGINS
 > * 路径前缀不需要能够构成完整的路径。例如，当创建一个包含参数为 'source.pattern'='root.aligned.1' 的 pipe 时：
     >
     >   * root.aligned.1TS
->   * root.aligned.1TS.\`1\`
+    >   * root.aligned.1TS.\`1\`
 >   * root.aligned.100T
-    >
-    >   的数据会被抽取；
-    >
-    >   * root.aligned.\`1\`
+      >
+      >   的数据会被抽取；
+      >
+      >   * root.aligned.\`1\`
 >   * root.aligned.\`123\`
-    >
-    >   的数据不会被抽取。
+      >
+      >   的数据不会被抽取。
 
 > ❗️**source.history 的 start-time，end-time 参数说明**
 >
@@ -658,7 +658,7 @@ WITH SINK (
 - SINK 为必填配置，需要在 CREATE PIPE 语句中声明式配置
 - SINK 具备自复用能力。对于不同的流处理任务，如果他们的 SINK 具备完全相同 KV 属性的（所有属性的 key 对应的 value 都相同），**那么系统最终只会创建一个 SINK 实例**，以实现对连接资源的复用。
 
-  - 例如，有下面 pipe1, pipe2 两个流处理任务的声明：
+    - 例如，有下面 pipe1, pipe2 两个流处理任务的声明：
 
   ```sql
   CREATE PIPE pipe1
@@ -676,11 +676,11 @@ WITH SINK (
   )
   ```
 
-  - 因为它们对 SINK 的声明完全相同（**即使某些属性声明时的顺序不同**），所以框架会自动对它们声明的 SINK 进行复用，最终 pipe1, pipe2 的 SINK 将会是同一个实例。
+    - 因为它们对 SINK 的声明完全相同（**即使某些属性声明时的顺序不同**），所以框架会自动对它们声明的 SINK 进行复用，最终 pipe1, pipe2 的 SINK 将会是同一个实例。
 - 在 source 为默认的 iotdb-source，且 source.forwarding-pipe-requests 为默认值 true 时，请不要构建出包含数据循环同步的应用场景（会导致无限循环）：
 
-  - IoTDB A -> IoTDB B -> IoTDB A
-  - IoTDB A -> IoTDB A
+    - IoTDB A -> IoTDB B -> IoTDB A
+    - IoTDB A -> IoTDB A
 
 ### 启动流处理任务
 
@@ -748,11 +748,11 @@ WHERE SINK USED BY <PipeId>
 一个流处理 pipe 在其的生命周期中会经过多种状态：
 
 - **RUNNING：** pipe 正在正常工作
-  - 当一个 pipe 被成功创建之后，其初始状态为工作状态（V1.3.1+）
+    - 当一个 pipe 被成功创建之后，其初始状态为工作状态（V1.3.1+）
 - **STOPPED：** pipe 处于停止运行状态。当管道处于该状态时，有如下几种可能：
-  - 当一个 pipe 被成功创建之后，其初始状态为暂停状态（V1.3.0）
-  - 用户手动将一个处于正常运行状态的 pipe 暂停，其状态会被动从 RUNNING 变为 STOPPED
-  - 当一个 pipe 运行过程中出现无法恢复的错误时，其状态会自动从 RUNNING 变为 STOPPED
+    - 当一个 pipe 被成功创建之后，其初始状态为暂停状态（V1.3.0）
+    - 用户手动将一个处于正常运行状态的 pipe 暂停，其状态会被动从 RUNNING 变为 STOPPED
+    - 当一个 pipe 运行过程中出现无法恢复的错误时，其状态会自动从 RUNNING 变为 STOPPED
 - **DROPPED：** pipe 任务被永久删除
 
 下图表明了所有状态以及状态的迁移：
@@ -783,7 +783,7 @@ WHERE SINK USED BY <PipeId>
 
 ## 配置参数
 
-在 iotdb-common.properties 中：
+在 iotdb-system.properties 中：
 
 V1.3.0+:
 ```Properties

@@ -57,7 +57,7 @@
 
    - 建模设计介绍：[数据模型介绍](../Basic-Concept/Data-Model-and-Terminology.md)
 
-   - SQL 语法介绍：[SQL 语法介绍](../User-Manual/Operate-Metadata_timecho.md)
+   - SQL 语法介绍：[SQL 语法介绍](../User-Manual/Operate-Metadata.md)
 
 2. 数据写入：在数据写入方面，IoTDB 提供了多种方式来插入实时数据，基本的数据写入操作请查看 [数据写入](../User-Manual/Write-Delete-Data.md)
 

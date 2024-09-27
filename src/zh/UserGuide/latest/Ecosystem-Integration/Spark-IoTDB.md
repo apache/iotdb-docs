@@ -53,7 +53,7 @@
 
 ### `spark-shell` 调试
 
-如果需要在 `spark-shell` 中使用 `spark-iotdb-connetcor`，需要先在官网下载 `with-dependencies` 版本的 jar 包。然后再将 jar 包拷贝到 `${SPARK_HOME}/jars` 目录中即可。
+如果需要在 `spark-shell` 中使用 `spark-iotdb-connetcor`，需要先在官网下载 `with-dependencies` 版本的 jar 包。然后再将 Jar 包拷贝到 `${SPARK_HOME}/jars` 目录中即可。
 执行以下命令即可：
 
 ```shell

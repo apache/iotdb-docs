@@ -30,13 +30,17 @@ IoTDB supports the following data types:
 * INT64 (Long Integer)
 * FLOAT (Single Precision Floating Point)
 * DOUBLE (Double Precision Floating Point)
-* TEXT (String)
-
-
+* TEXT (Long String)
+* STRING（String）
+* BLOB（Large binary Object）
+* TIMESTAMP（Timestamp）
+* DATE（Date）
+  
+The difference between STRING and TEXT types is that STRING type has more statistical information and can be used to optimize value filtering queries, while TEXT type is suitable for storing long strings.
 
 ### Float Precision
 
-The time series of **FLOAT** and **DOUBLE** type can specify (MAX\_POINT\_NUMBER, see [this page](../SQL-Manual/SQL-Manual.md) for more information on how to specify), which is the number of digits after the decimal point of the floating point number, if the encoding method is [RLE](Encoding-and-Compression.md) or [TS\_2DIFF](Encoding-and-Compression.md). If MAX\_POINT\_NUMBER is not specified, the system will use [float\_precision](../Reference/DataNode-Config-Manual.md) in the configuration file `iotdb-datanode.properties`.
+The time series of **FLOAT** and **DOUBLE** type can specify (MAX\_POINT\_NUMBER, see [this page](../SQL-Manual/SQL-Manual.md) for more information on how to specify), which is the number of digits after the decimal point of the floating point number, if the encoding method is [RLE](Encoding-and-Compression.md) or [TS\_2DIFF](Encoding-and-Compression.md). If MAX\_POINT\_NUMBER is not specified, the system will use [float\_precision](../Reference/DataNode-Config-Manual.md) in the configuration file `iotdb-system.properties`.
 
 ```sql
 CREATE TIMESERIES root.vehicle.d0.s0 WITH DATATYPE=FLOAT, ENCODING=RLE, 'MAX_POINT_NUMBER'='2';

@@ -91,7 +91,7 @@ Readme.md
 
 ### 在哪里可以找到IoTDB的数据文件？
 
-在默认的设置里，数据文件（包含 TsFile，metadata，WAL）被存储在```IOTDB_HOME/data/dtanode```文件夹。
+在默认的设置里，数据文件（包含 TsFile，metadata，WAL）被存储在```IOTDB_HOME/data/datanode```文件夹。
 
 ### 如何知道IoTDB中存储了多少时间序列？
 
@@ -102,7 +102,7 @@ IoTDB> show timeseries
 ```
 
 在返回的结果里，会展示`Total timeseries number`，这个数据就是 IoTDB 中 timeseries 的数量。
-a
+
 在当前版本中，IoTDB 支持直接使用命令行接口查询时间序列的数量：
 
 ```
@@ -118,7 +118,7 @@ IoTDB> count timeseries
 
 ### 可以使用Hadoop和Spark读取IoTDB中的TsFile吗？
 
-是的。IoTDB 与开源生态紧密结合。IoTDB 支持 [Hadoop](https://github.com/apache/iotdb-extras/tree/master/connectors/hadoop), [Spark](https://github.com/apache/iotdb-extras/tree/master/connectors/spark-iotdb-connector) 和 [Grafana](https://github.com/apache/iotdb-extras/tree/master/connectors/grafana-connector) 可视化工具。
+是的。IoTDB 与开源生态紧密结合。IoTDB 支持 [Hadoop](https://github.com/apache/iotdb-extras/tree/master/connectors/iotdb-connector/hadoop), [Spark](https://github.com/apache/iotdb-extras/tree/master/connectors/spark-iotdb-connector) 和 [Grafana](https://github.com/apache/iotdb-extras/tree/master/connectors/grafana-connector) 可视化工具。
 
 ### IoTDB如何处理重复的数据点？
 
@@ -202,10 +202,10 @@ datanode_memory_proportion参数控制分给查询的内存，chunk_timeseriesme
 
 #### 移除DataNode执行失败，如何排查？
 
-- 检查`remove-datanode`脚本的参数是否正确，是否传入了正确的ip:port或正确的dataNodeId
+- 检查remove-datanode脚本的参数是否正确，是否传入了正确的ip:port或正确的dataNodeId
 - 只有集群可用节点数量 > max(元数据副本数量, 数据副本数量)时，移除操作才允许被执行
 - 执行移除DataNode的过程会将该DataNode上的数据迁移到其他存活的DataNode，数据迁移以Region为粒度，如果某个Region迁移失败，则被移除的DataNode会一直处于Removing状态
-- 补充：处于Removing状态的节点，其节点上的Region也是Removing或Unknown状态，即不可用状态。 该Remvoing状态的节点也不会接受客户端的请求。如果要使Removing状态的节点变为可用，用户可以使用set system status to running 命令将该节点设置为Running状态；如果要使迁移失败的Region处于可用状态，可以使用migrate region from datanodeId1 to datanodeId2 命令将该不可用的Region迁移到其他存活的节点。另外IoTDB后续也会提供`remove-datanode.sh -f`命令，来强制移除节点（迁移失败的Region会直接丢弃）
+- 补充：处于Removing状态的节点，其节点上的Region也是Removing或Unknown状态，即不可用状态。 该Remvoing状态的节点也不会接受客户端的请求。如果要使Removing状态的节点变为可用，用户可以使用set system status to running 命令将该节点设置为Running状态；如果要使迁移失败的Region处于可用状态，可以使用migrate region from datanodeId1 to datanodeId2 命令将该不可用的Region迁移到其他存活的节点。另外IoTDB后续也会提供 `remove-datanode.sh -f` 命令，来强制移除节点（迁移失败的Region会直接丢弃）
 
 #### 挂掉的DataNode是否支持移除？
 
@@ -257,5 +257,5 @@ datanode_memory_proportion参数控制分给查询的内存，chunk_timeseriesme
 
 #### 如何降低ConfigNode、DataNode使用的内存？
 
-- 在`conf/confignode-env.sh`、`conf/datanode-env.sh`文件可通过调整ON_HEAP_MEMORY、OFF_HEAP_MEMORY等选项可以调整ConfigNode、DataNode使用的最大堆内、堆外内存
+- 在conf/confignode-env.sh、conf/datanode-env.sh文件可通过调整ON_HEAP_MEMORY、OFF_HEAP_MEMORY等选项可以调整ConfigNode、DataNode使用的最大堆内、堆外内存
 

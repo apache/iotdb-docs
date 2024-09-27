@@ -604,7 +604,7 @@ Output series:
 
 This function is used to calculate the auto-correlation factor of the input time series,
 which equals to cross correlation between the same series.
-For more information, please refer to [XCorr](./UDF-Libraries.md#xcorr) function.
+For more information, please refer to [XCorr](./UDF-Libraries.md#XCorr) function.
 
 **Name:** ACF
 

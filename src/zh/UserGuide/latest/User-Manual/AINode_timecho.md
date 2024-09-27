@@ -549,6 +549,7 @@ bash ./import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ../../data.csv
 
 #### 步骤三：模型推理
 
+
 ```Shell
 IoTDB> select * from root.eg.voltage limit 96
 +-----------------------------+------------------+------------------+------------------+

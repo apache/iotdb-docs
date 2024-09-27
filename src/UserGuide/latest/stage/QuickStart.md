@@ -119,7 +119,7 @@ IoTDB> SHOW DATABASES
 Database number = 1
 ```
 
-After the database is set, we can use CREATE TIMESERIES to create new timeseries. When we create a timeseries, we should define its data type and the encoding scheme. We create two timeseries as follow:
+After the database is set, we can use CREATE TIMESERIES to create new timeseries. When we create a timeseries, we should define its data type and the encoding scheme. We create two timeseries as follows:
 
 ```
 IoTDB> CREATE TIMESERIES root.ln.wf01.wt01.status WITH DATATYPE=BOOLEAN, ENCODING=PLAIN
@@ -228,5 +228,5 @@ More about administration management：[Administration Management](../User-Manua
 The configuration files is in the `conf` folder, includes:
 
 * environment configuration (`datanode-env.bat`, `datanode-env.sh`,`confignode-env.bat`,`confignode-env.sh`),
-* system configuration (`iotdb-common.properties`,`iotdb-confignode.properties`,`iotdb-datanode.properties`,`iotdb-cluster.properties`)
+* system configuration (`iotdb-system.properties`,`iotdb-cluster.properties`)
 * log configuration (`logback.xml`).
