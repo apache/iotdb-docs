@@ -29,7 +29,7 @@ export const enSidebar = {
       prefix: 'IoTDB-Introduction/',
       // children: 'structure',
       children: [
-        { text: 'Product Introduction', link: 'IoTDB-Introduction_timecho' },
+        { text: 'What is IoTDB', link: 'IoTDB-Introduction_timecho' },
         { text: 'Features', link: 'Features' },
         { text: 'System Architecture', link: 'Architecture' },
         { text: 'Performance', link: 'Performance' },

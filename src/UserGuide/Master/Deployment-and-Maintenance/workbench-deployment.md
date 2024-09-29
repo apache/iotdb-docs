@@ -146,7 +146,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
     ./prometheus --config.file=prometheus.yml --storage.tsdb.retention.time=180d
     ```
 
-5. Confirm successful startup. Enter in browser http://IP:port Go to Prometheus and click on the Target interface under Status. When you see that all States are Up, it indicates successful configuration and connectivity.
+5. Confirm successful startup. Enter in browser `http://IP:port` Go to Prometheus and click on the Target interface under Status. When you see that all States are Up, it indicates successful configuration and connectivity.
 
  <div style="display: flex;justify-content: space-between;">
       <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
