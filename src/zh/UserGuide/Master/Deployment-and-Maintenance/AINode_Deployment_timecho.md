@@ -306,12 +306,13 @@ IoTDB> show cluster
 
  #### 移除命令
 
+
 ```shell
   # Linux / MacOS 
-  bash sbin/stop-ainode.sh  -i<directory>  -t<AINode-id>  -r  -n
+  bash sbin/remove-ainode.sh  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
 
   # Windows
-  sbin\stop-ainode.bat  -i<directory>  -t<AINode-id>  -r  -n
+  sbin\remove-ainode.bat  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
   ```
 
 ##### 参数介绍：

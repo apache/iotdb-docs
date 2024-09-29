@@ -318,12 +318,13 @@ When it is necessary to remove an AINode node from the cluster, a removal script
 
 #### Remove command
 
+
 ```shell
   # Linux / MacOS 
-  bash sbin/stop-ainode.sh  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  bash sbin/remove-ainode.sh  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
 
   # Windows
-  sbin\stop-ainode.bat  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  sbin\remove-ainode.bat  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
   ```
 
 ##### Parameter introduction:
