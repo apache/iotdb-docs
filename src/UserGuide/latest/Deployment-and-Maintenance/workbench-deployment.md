@@ -161,6 +161,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 1. Enter the config directory of iotdb Workbench -`<version>`
 
 2. Modify Workbench configuration file: Go to the `config` folder and modify the configuration file `application-prod.properties`. If you are installing it locally, there is no need to modify it. If you are deploying it on a server, you need to modify the IP address
+    > Workbench can be deployed on a local or cloud server as long as it can connect to IoTDB
 
    | Configuration    | Before Modification                 | After modification                              |
    | ---------------- | ----------------------------------- | ----------------------------------------------- |
@@ -188,6 +189,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 1. Enter the IoTDB Workbench -`<version>` directory
 
 2. Modify Workbench configuration: Go to the `config` folder and modify the configuration file `application-prod.properties`. If you are installing it locally, there is no need to modify it. If you are deploying it on a server, you need to modify the IP address
+    > Workbench can be deployed on a local or cloud server as long as it can connect to IoTDB
 
    | Configuration    | Before Modification                 | After modification                              |
    | ---------------- | ----------------------------------- | ----------------------------------------------- |

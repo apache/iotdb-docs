@@ -158,6 +158,7 @@
 1. 进入iotdb-Workbench-`<version>`的config目录
 
 2. 修改Workbench配置文件：进入`config`文件夹下修改配置文件`application-prod.properties`。若您是在本机安装则无需修改，若是部署在服务器上则需修改IP地址
+    > Workbench可以部署在本地或者云服务器，只要能与 IoTDB 连接即可
 
    | 配置项           | 修改前                            | 修改后                                 |
       | ---------------- | --------------------------------- | -------------------------------------- |
@@ -185,7 +186,8 @@
 1. 进入IoTDB-Workbench-`<version>`目录
 
 2. 修改Workbench配置：进入`config`文件夹下修改配置文件`application-prod.properties`。若您是在本机安装则无需修改，若是部署在服务器上则需修改IP地址
-
+   > Workbench可以部署在本地或者云服务器，只要能与 IoTDB 连接即可
+   
    | 配置项           | 修改前                            | 修改后                                 |
       | ---------------- | --------------------------------- | -------------------------------------- |
       | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<部署Workbench的IP地址>` |
