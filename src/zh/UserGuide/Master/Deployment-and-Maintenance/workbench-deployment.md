@@ -144,7 +144,7 @@
     ./prometheus --config.file=prometheus.yml --storage.tsdb.retention.time=180d
     ```
 
-5. 确认启动成功。在浏览器中输入 http://IP:port，进入Prometheus，点击进入Status下的Target界面，当看到State均为Up时表示配置成功并已经联通。
+5. 确认启动成功。在浏览器中输入 `http://IP:port`，进入Prometheus，点击进入Status下的Target界面，当看到State均为Up时表示配置成功并已经联通。
 
     <div style="display: flex;justify-content: space-between;">
       <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
