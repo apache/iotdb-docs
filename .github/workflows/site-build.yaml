@@ -69,7 +69,7 @@ jobs:
         env:
           IOTDB_WEBSITE_BUILD: ${{ secrets.IOTDB_WEBSITE_BUILD }}
         run: |
-          git config --global url."https://asf-ci-deploy:$IOTDB_WEBSITE_BUILD@github.com/apache/".insteadOf "https://github.com/apache/"
+          git config --global url."https://asf-ci-deploy:$IOTDB_WEBSITE_BUILD@gitbox.apache.org/repos/asf/".insteadOf "https://github.com/apache/"
           git config --global user.name github-actions
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
           npm run deploy
