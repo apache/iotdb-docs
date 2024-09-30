@@ -139,7 +139,7 @@ iotdb.password=root
   <img src="https://alioss.timecho.com/docs/img/DataEase10.png" alt="" style="width: 70%;"/>
 </div>
 
-7. 点击【下一步】，将在`data`部分看到接口返回结果。如果下图展示接口中，返回了`time`、 `rownumber`和`value`信息，同时需要指定各字段数据类型。完成设置后，点击界面右下角的【保存】按钮。
+7. 点击【下一步】，将在`data`部分看到接口返回结果。如下图展示接口中，返回了`time`、 `rownumber`和`value`信息，同时需要指定各字段数据类型。完成设置后，点击界面右下角的【保存】按钮。
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase11.png" alt="" style="width: 70%;"/>
 </div>
@@ -207,7 +207,7 @@ iotdb.password=root
   <img src="https://alioss.timecho.com/docs/img/DataEase23.png" alt="" style="width: 70%;"/>
 </div>
 
-4. 在选择图标类型的步骤中，根据展示需求，选择一个合适的图表类型，如【基础折线图】。选择完毕后，点击【确认】按钮应用选择。
+4. 在选择图表类型的步骤中，根据展示需求，选择一个合适的图表类型，如【基础折线图】。选择完毕后，点击【确认】按钮应用选择。
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase24.png" alt="" style="width: 70%;"/>
 </div>
