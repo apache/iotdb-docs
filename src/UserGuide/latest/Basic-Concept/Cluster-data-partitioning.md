@@ -42,9 +42,9 @@ Furthermore, if a more accurate estimate of the actual load in the production en
 
 ##### Time Partitioning Operator
 The time partitioning operator converts a given timestamp to the corresponding time partition by:
-$$\left\lfloor\frac{\text{timestamp}-\text{start\_timestamp}}{\text{time\_partition\_interval}}\right\rfloor.$$
+$$\left\lfloor\frac{\text{Timestamp}-\text{StartTimestamp}}{\text{TimePartitionInterval}}\right\rfloor.$$
 
-In this equation, both $\text{start\_timestamp}$ and $\text{time\_partition\_interval}$ are configurable parameters to accommodate various production environments. The $\text{start\_timestamp}$ represents the starting time of the first time partition, while the $\text{time\_partition\_interval}$ defines the duration of each time partition. By default, the $\text{time\_partition\_interval}$ is set to one day.
+In this equation, both $\text{StartTimestamp}$ and $\text{TimePartitionInterval}$ are configurable parameters to accommodate various production environments. The $\text{StartTimestamp}$ represents the starting time of the first time partition, while the $\text{TimePartitionInterval}$ defines the duration of each time partition. By default, the $\text{TimePartitionInterval}$ is set to one day.
 
 #### Schema Partitioning
 Since the series partitioning operator evenly partitions the time series, each series partition corresponds to a schema partition. These schema partitions are then evenly allocated across the SchemaRegionGroups to achieve a balanced schema distribution.
@@ -60,9 +60,9 @@ IoTDB uses RegionGroups to enable elastic storage of time series, with the numbe
 #### RegionGroup Expansion
 The number of RegionGroups is given by
 
-$$\text{RegionGroup\_number}=\left\lfloor\frac{\sum_{i=1}^{DataNode\_number}\text{Region\_number}_i}{\text{replication\_factor}}\right\rfloor.$$
+$$\text{RegionGroupNumber}=\left\lfloor\frac{\sum_{i=1}^{DataNodeNumber}\text{RegionNumber}_i}{\text{ReplicationFactor}}\right\rfloor.$$
 
-In this equation, $\text{Region\_number}_i$ represents the number of Regions expected to be hosted on the $i$-th DataNode, while $\text{replication\_factor}$ denotes the number of Regions within each RegionGroup. Both $\text{Region\_number}_i$ and $\text{replication\_factor}$ are configurable parameters. The $\text{Region\_number}_i$ can be determined by the available hardware resources---such as CPU cores, memory sizes, etc.---on the $i$-th DataNode to accommodate different physical servers. The $\text{replication\_factor}$ can be adjusted to ensure diverse levels of fault tolerance.
+In this equation, $\text{RegionNumber}_i$ represents the number of Regions expected to be hosted on the $i$-th DataNode, while $\text{ReplicationFactor}$ denotes the number of Regions within each RegionGroup. Both $\text{RegionNumber}_i$ and $\text{ReplicationFactor}$ are configurable parameters. The $\text{RegionNumber}_i$ can be determined by the available hardware resources---such as CPU cores, memory sizes, etc.---on the $i$-th DataNode to accommodate different physical servers. The $\text{ReplicationFactor}$ can be adjusted to ensure diverse levels of fault tolerance.
 
 #### Allocation Strategy
 Both the SchemaRegionGroup and the DataRegionGroup follow the same allocation strategy—-splitting all series partitions evenly. As a result, each SchemaRegionGroup holds the same number of schema partitions, ensuring balanced schema storage. Similarly, for each time partition, each DataRegionGroup acquires the data partitions corresponding to the series partitions it holds. Consequently, the data partitions within a time partition are evenly distributed across all DataRegionGroups, ensuring balanced data storage in each time partition.

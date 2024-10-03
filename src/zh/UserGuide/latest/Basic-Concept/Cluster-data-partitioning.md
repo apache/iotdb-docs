@@ -42,9 +42,9 @@ IoTDB 将生产环境中的每个传感器映射为一个时间序列。然后�
 
 ##### 时间分区算子
 时间分区算子通过下式将给定的时间戳转换为相应的时间分区：
-$$\left\lfloor\frac{\text{timestamp}-\text{start\_timestamp}}{\text{time\_partition\_interval}}\right\rfloor。$$
+$$\left\lfloor\frac{\text{Timestamp}-\text{StartTimestamp}}{\text{TimePartitionInterval}}\right\rfloor。$$
 
-在此式中，$\text{start\_timestamp}$ 和 $\text{time\_partition\_interval}$ 都是可配置参数，以适应不同的生产环境。$\text{start\_timestamp}$ 表示第一个时间分区的起始时间，而 $\text{time\_partition\_interval}$ 定义了每个时间分区的持续时间。默认情况下，$\text{time\_partition\_interval}$ 设置为一天。
+在此式中，$\text{StartTimestamp}$ 和 $\text{TimePartitionInterval}$ 都是可配置参数，以适应不同的生产环境。$\text{StartTimestamp}$ 表示第一个时间分区的起始时间，而 $\text{TimePartitionInterval}$ 定义了每个时间分区的持续时间。默认情况下，$\text{TimePartitionInterval}$ 设置为一天。
 
 #### 元数据分区
 由于序列分区算子对时间序列进行了均匀分区，每个序列分区对应一个元数据分区。这些元数据分区随后被均匀分配到 SchemaRegionGroup 中，以实现元数据的均衡分布。
@@ -60,9 +60,9 @@ IoTDB 使用 RegionGroup 来实现时间序列的弹性存储，集群中RegionG
 #### RegionGroup 扩容
 RegionGroup 的数量由下式给出：
 
-$$\text{RegionGroup\_number}=\left\lfloor\frac{\sum_{i=1}^{DataNode\_number}\text{Region\_number}_i}{\text{replication\_factor}}\right\rfloor。$$
+$$\text{RegionGroupNumber}=\left\lfloor\frac{\sum_{i=1}^{DataNodeNumber}\text{RegionNumber}_i}{\text{ReplicationFactor}}\right\rfloor。$$
 
-在此式中，$\text{Region\_number}_i$ 表示期望在第 $i$ 个 DataNode 上放置的 Region 数量，而 $\text{replication\_factor}$ 表示每个 RegionGroup 中的 Region 数量。$\text{Region\_number}_i$ 和 $\text{replication\_factor}$ 都是可配置的参数。$\text{Region\_number}_i$ 可以根据第 $i$ 个 DataNode 上的可用硬件资源（如 CPU 核心数量、内存大小等）确定，以适应不同的物理服务器。$\text{replication\_factor}$ 可以调整以确保不同级别的容错能力。
+在此式中，$\text{RegionNumber}_i$ 表示期望在第 $i$ 个 DataNode 上放置的 Region 数量，而 $\text{ReplicationFactor}$ 表示每个 RegionGroup 中的 Region 数量。$\text{RegionNumber}_i$ 和 $\text{ReplicationFactor}$ 都是可配置的参数。$\text{RegionNumber}_i$ 可以根据第 $i$ 个 DataNode 上的可用硬件资源（如 CPU 核心数量、内存大小等）确定，以适应不同的物理服务器。$\text{ReplicationFactor}$ 可以调整以确保不同级别的容错能力。
 
 #### 分配策略
 SchemaRegionGroup 和 DataRegionGroup 都遵循相同的分配策略，即均匀划分所有序列分区。因此，每个 SchemaRegionGroup 持有相同数量的元数据分区，以确保元数据存储均衡。同样，对于每个时间分区，每个 DataRegionGroup 获取与其持有的序列分区对应的数据分区。因此，时间分区内的数据分区均匀分布在所有 DataRegionGroup 中，确保每个时间分区内的数据存储均衡。
