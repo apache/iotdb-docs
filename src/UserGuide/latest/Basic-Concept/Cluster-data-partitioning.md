@@ -19,8 +19,8 @@
 
 -->
 
-# Partitioning & Load Balance
-This document introduces the partitioning strategies and load balance algorithms in IoTDB. According to the characteristics of time series data, IoTDB partitions them by series and time dimensions. Combining a series partition with a time partition creates a partition, the unit of division. To enhance throughput and reduce management costs, these partitions are evenly allocated to RegionGroups, which serve as the unit of replication. The RegionGroup's Regions then determine the storage location, with the leader Region managing the primary load. During this process, the Region placement algorithm determines which nodes will host the replicas, while the leader selection algorithm designates which Region will act as the leader.
+# Load Balance
+This document introduces the partitioning strategies and load balance strategies in IoTDB. According to the characteristics of time series data, IoTDB partitions them by series and time dimensions. Combining a series partition with a time partition creates a partition, the unit of division. To enhance throughput and reduce management costs, these partitions are evenly allocated to RegionGroups, which serve as the unit of replication. The RegionGroup's Regions then determine the storage location, with the leader Region managing the primary load. During this process, the Region placement strategy determines which nodes will host the replicas, while the leader selection strategy designates which Region will act as the leader.
 
 ## Partitioning Strategy & Partition Allocation
 IoTDB implements tailored partitioning operators for time series data. Building on this foundation, the partition information cached on both ConfigNodes and DataNodes is not only manageable in size but also clearly differentiated between hot and cold. Subsequently, balanced partitions are evenly allocated across the cluster's RegionGroups to achieve storage balance.
@@ -70,11 +70,11 @@ Both the SchemaRegionGroup and the DataRegionGroup follow the same allocation st
 
 Notably, IoTDB effectively leverages the characteristics of time series data. When the TTL (Time to Live) is configured, IoTDB enables migration-free elastic storage for time series data. This feature facilitates cluster expansion while minimizing the impact on online operations. The figures above illustrate an instance of this feature: newborn data partitions are evenly allocated to each DataRegion, and expired data are automatically archived. As a result, the cluster's storage will eventually remain balanced.
 
-## Load Balance
-To enhance the cluster's availability and performance, IoTDB employs sophisticated Region placement and leader selection algorithms.
+## Balance Strategy
+To enhance the cluster's availability and performance, IoTDB employs sophisticated storage load and computing load balance strategies.
 
-### Region Placement
-The number of Regions held by a DataNode reflects its storage load. If the difference in the number of Regions across DataNodes is relatively large, the DataNode with more Regions is likely to become a storage bottleneck. Although a straightforward Round Robin placement algorithm can achieve storage balance by ensuring that each DataNode hosts an equal number of Regions, it compromises the cluster's fault tolerance, as illustrated below:
+### Storage Load Balance
+The number of Regions held by a DataNode reflects its storage load. If the difference in the number of Regions across DataNodes is relatively large, the DataNode with more Regions is likely to become a storage bottleneck. Although a straightforward Round Robin placement strategy can achieve storage balance by ensuring that each DataNode hosts an equal number of Regions, it compromises the cluster's fault tolerance, as illustrated below:
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/placement_en.png?raw=true">
 
@@ -86,10 +86,10 @@ The number of Regions held by a DataNode reflects its storage load. If the diffe
 
 In this scenario, if DataNode $n_2$ fails, the load previously handled by DataNode $n_2$ would be transferred solely to DataNode $n_1$, potentially overloading it.
 
-To address this issue, IoTDB employs a Region placement algorithm that not only evenly distributes Regions across all DataNodes but also ensures that each DataNode can offload its storage to sufficient other DataNodes in the event of a failure. As a result, the cluster achieves balanced storage distribution and a high level of fault tolerance, ensuring its availability.
+To address this issue, IoTDB employs a Region placement strategy that not only evenly distributes Regions across all DataNodes but also ensures that each DataNode can offload its storage to sufficient other DataNodes in the event of a failure. As a result, the cluster achieves balanced storage distribution and a high level of fault tolerance, ensuring its availability.
 
-### Leader Selection
-The number of leader Regions held by a DataNode reflects its computational load. If the difference in the number of leaders across DataNodes is relatively large, the DataNode with more leaders is likely to become a computational bottleneck. If the leader selection process is conducted using a transparent Greedy algorithm, the result may be an unbalanced leader distribution when the Regions are fault-tolerantly placed, as demonstrated below:
+### Computing Load Balance
+The number of leader Regions held by a DataNode reflects its Computing load. If the difference in the number of leaders across DataNodes is relatively large, the DataNode with more leaders is likely to become a Computing bottleneck. If the leader selection process is conducted using a transparent Greedy strategy, the result may be an unbalanced leader distribution when the Regions are fault-tolerantly placed, as demonstrated below:
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/selection_en.png?raw=true">
 
@@ -99,9 +99,9 @@ The number of leader Regions held by a DataNode reflects its computational load.
 + Select RegionGroup $r_7$'s Region on DataNode $n_7$ as the leader.
 + Select RegionGroup $r_8$'s Region on DataNode $n_8$ as the leader.
 
-Please note that all the above steps strictly follow the Greedy algorithm. However, by Step 3, selecting the leader of RegionGroup $r_7$ on either DataNode $n_5$ or $n_7$ results in an unbalanced leader distribution. The rationale is that each greedy step lacks a global perspective, leading to a locally optimal solution.
+Please note that all the above steps strictly follow the Greedy strategy. However, by Step 3, selecting the leader of RegionGroup $r_7$ on either DataNode $n_5$ or $n_7$ results in an unbalanced leader distribution. The rationale is that each greedy step lacks a global perspective, leading to a locally optimal solution.
 
-To address this issue, IoTDB employs a leader selection algorithm that can consistently balance the cluster's leader distribution. Consequently, the cluster achieves balanced computational load distribution, ensuring its performance.
+To address this issue, IoTDB employs a leader selection strategy that can consistently balance the cluster's leader distribution. Consequently, the cluster achieves balanced Computing load distribution, ensuring its performance.
 
 ## Source Code
 + [Data Partitioning](https://github.com/apache/iotdb/tree/master/iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/partition)
