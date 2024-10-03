@@ -41,7 +41,8 @@ By default, IoTDB limits the number of series partitions to 1000 and configures 
 Furthermore, if a more accurate estimate of the actual load in the production environment is available, the series partitioning operator can be configured to use a customized hash partitioning strategy or a list partitioning strategy to achieve a more uniform load distribution across all series partitions.
 
 ##### Time Partitioning Operator
-The time partitioning operator converts a given timestamp to the corresponding time partition by:
+The time partitioning operator converts a given timestamp to the corresponding time partition by
+
 $$\left\lfloor\frac{\text{Timestamp}-\text{StartTimestamp}}{\text{TimePartitionInterval}}\right\rfloor.$$
 
 In this equation, both $\text{StartTimestamp}$ and $\text{TimePartitionInterval}$ are configurable parameters to accommodate various production environments. The $\text{StartTimestamp}$ represents the starting time of the first time partition, while the $\text{TimePartitionInterval}$ defines the duration of each time partition. By default, the $\text{TimePartitionInterval}$ is set to one day.
@@ -55,7 +56,7 @@ Combining a series partition with a time partition creates a data partition. Sin
 ### Partition Allocation
 IoTDB uses RegionGroups to enable elastic storage of time series, with the number of RegionGroups in the cluster determined by the total resources available across all DataNodes. Since the number of RegionGroups is dynamic, IoTDB can easily scale out. Both the SchemaRegionGroup and DataRegionGroup follow the same partition allocation strategy, which evenly splits all series partitions. The following figure demonstrates the partition allocation process, where the dynamic RegionGroups match the variously expending time series and cluster.
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/partition_allocation.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/partition_allocation_en.png?raw=true">
 
 #### RegionGroup Expansion
 The number of RegionGroups is given by
@@ -65,7 +66,7 @@ $$\text{RegionGroupNumber}=\left\lfloor\frac{\sum_{i=1}^{DataNodeNumber}\text{Re
 In this equation, $\text{RegionNumber}_i$ represents the number of Regions expected to be hosted on the $i$-th DataNode, while $\text{ReplicationFactor}$ denotes the number of Regions within each RegionGroup. Both $\text{RegionNumber}_i$ and $\text{ReplicationFactor}$ are configurable parameters. The $\text{RegionNumber}_i$ can be determined by the available hardware resources---such as CPU cores, memory sizes, etc.---on the $i$-th DataNode to accommodate different physical servers. The $\text{ReplicationFactor}$ can be adjusted to ensure diverse levels of fault tolerance.
 
 #### Allocation Strategy
-Both the SchemaRegionGroup and the DataRegionGroup follow the same allocation strategy—-splitting all series partitions evenly. As a result, each SchemaRegionGroup holds the same number of schema partitions, ensuring balanced schema storage. Similarly, for each time partition, each DataRegionGroup acquires the data partitions corresponding to the series partitions it holds. Consequently, the data partitions within a time partition are evenly distributed across all DataRegionGroups, ensuring balanced data storage in each time partition.
+Both the SchemaRegionGroup and the DataRegionGroup follow the same allocation strategy--splitting all series partitions evenly. As a result, each SchemaRegionGroup holds the same number of schema partitions, ensuring balanced schema storage. Similarly, for each time partition, each DataRegionGroup acquires the data partitions corresponding to the series partitions it holds. Consequently, the data partitions within a time partition are evenly distributed across all DataRegionGroups, ensuring balanced data storage in each time partition.
 
 Notably, IoTDB effectively leverages the characteristics of time series data. When the TTL (Time to Live) is configured, IoTDB enables migration-free elastic storage for time series data. This feature facilitates cluster expansion while minimizing the impact on online operations. The figures above illustrate an instance of this feature: newborn data partitions are evenly allocated to each DataRegion, and expired data are automatically archived. As a result, the cluster's storage will eventually remain balanced.
 
@@ -75,7 +76,7 @@ To enhance the cluster's availability and performance, IoTDB employs sophisticat
 ### Region Placement
 The number of Regions held by a DataNode reflects its storage load. If the difference in the number of Regions across DataNodes is relatively large, the DataNode with more Regions is likely to become a storage bottleneck. Although a straightforward Round Robin placement algorithm can achieve storage balance by ensuring that each DataNode hosts an equal number of Regions, it compromises the cluster's fault tolerance, as illustrated below:
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/placement.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/placement_en.png?raw=true">
 
 + Assume the cluster has 4 DataNodes, 4 RegionGroups and a replication factor of 2.
 + Place RegionGroup $r_1$'s 2 Regions on DataNodes $n_1$ and $n_2$.
@@ -90,7 +91,7 @@ To address this issue, IoTDB employs a Region placement algorithm that not only 
 ### Leader Selection
 The number of leader Regions held by a DataNode reflects its computational load. If the difference in the number of leaders across DataNodes is relatively large, the DataNode with more leaders is likely to become a computational bottleneck. If the leader selection process is conducted using a transparent Greedy algorithm, the result may be an unbalanced leader distribution when the Regions are fault-tolerantly placed, as demonstrated below:
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/selection.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/selection_en.png?raw=true">
 
 + Assume the cluster has 4 DataNodes, 4 RegionGroups and a replication factor of 2.
 + Select RegionGroup $r_5$'s Region on DataNode $n_5$ as the leader.
