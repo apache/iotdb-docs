@@ -19,7 +19,7 @@
 
 -->
 
-# 分区与负载均衡
+# 负载均衡
 本文档介绍 IoTDB 中的分区策略和负载均衡策略。根据时序数据的特性，IoTDB 按序列和时间维度对其进行分区。结合序列分区与时间分区创建一个分区，作为划分的基本单元。为了提高吞吐量并降低管理成本，这些分区被均匀分配到分片（Region）中，分片是复制的基本单元。分片的副本决定了数据的存储位置，主副本负责主要负载的管理。在此过程中，副本放置算法决定哪些节点将持有分片副本，而主副本选择算法则指定哪个副本将成为主副本。
 
 ## 分区策略和分区分配
@@ -30,7 +30,7 @@ IoTDB 将生产环境中的每个传感器映射为一个时间序列。然后�
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/partition_table_cn.png?raw=true">
 
-#### 分区策略
+#### 分区算法
 由于生产环境中通常部署大量设备和传感器，IoTDB 使用序列分区算法以确保分区信息的大小可控。由于生成的时间序列与时间戳相关联，IoTDB 使用时间分区算法来清晰区分冷热分区。
 
 ##### 序列分区算法
@@ -43,7 +43,7 @@ IoTDB 将生产环境中的每个传感器映射为一个时间序列。然后�
 ##### 时间分区算法
 时间分区算法通过下式将给定的时间戳转换为相应的时间分区
 
-$$\left\lfloor\frac{\text{Timestamp}-\text{StartTimestamp}}{\text{TimePartitionInterval}}\right\rfloor。$$
+$$\left\lfloor\frac{\text{Timestamp}-\text{StartTimestamp}}{\text{TimePartitionInterval}}\right\rfloor\text{。}$$
 
 在此式中，$\text{StartTimestamp}$ 和 $\text{TimePartitionInterval}$ 都是可配置参数，以适应不同的生产环境。$\text{StartTimestamp}$ 表示第一个时间分区的起始时间，而 $\text{TimePartitionInterval}$ 定义了每个时间分区的持续时间。默认情况下，$\text{TimePartitionInterval}$ 设置为一天。
 
@@ -61,7 +61,7 @@ IoTDB 使用分片来实现时间序列的弹性存储，集群中分片的数�
 #### 分片扩容
 分片的数量由下式给出
 
-$$\text{RegionGroupNumber}=\left\lfloor\frac{\sum_{i=1}^{DataNodeNumber}\text{RegionNumber}_i}{\text{ReplicationFactor}}\right\rfloor。$$
+$$\text{RegionGroupNumber}=\left\lfloor\frac{\sum_{i=1}^{DataNodeNumber}\text{RegionNumber}_i}{\text{ReplicationFactor}}\right\rfloor\text{。}$$
 
 在此式中，$\text{RegionNumber}_i$ 表示期望在第 $i$ 个数据节点上放置的副本数量，而 $\text{ReplicationFactor}$ 表示每个分片中的副本数量。$\text{RegionNumber}_i$ 和 $\text{ReplicationFactor}$ 都是可配置的参数。$\text{RegionNumber}_i$ 可以根据第 $i$ 个数据节点上的可用硬件资源（如 CPU 核心数量、内存大小等）确定，以适应不同的物理服务器。$\text{ReplicationFactor}$ 可以调整以确保不同级别的容错能力。
 
