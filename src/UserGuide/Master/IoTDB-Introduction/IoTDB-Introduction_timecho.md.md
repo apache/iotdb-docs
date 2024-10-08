@@ -21,7 +21,7 @@
 
 # What is IoTDB
 
-TimechoDB is a low-cost, high-performance native temporal database for the Internet of Things, provided by Timecho based on the Apache IoTDB community version as an original commercial product.It can solve various problems encountered by enterprises when building IoT big data platforms to manage time-series data, such as complex application scenarios, large data volumes, high sampling frequencies, high amount of unaligned data, long data processing time, diverse analysis requirements, and high storage and operation costs.
+TimechoDB is a low-cost, high-performance native temporal database for the Internet of Things, provided by Timecho based on the Apache IoTDB community version as an original commercial product. It can solve various problems encountered by enterprises when building IoT big data platforms to manage time-series data, such as complex application scenarios, large data volumes, high sampling frequencies, high amount of unaligned data, long data processing time, diverse analysis requirements, and high storage and operation costs.
 
 Timecho provides a more diverse range of product features, stronger performance and stability, and a richer set of utility tools based on TimechoDB. It also offers comprehensive enterprise services to users, thereby providing commercial customers with more powerful product capabilities and a higher quality of development, operations, and usage experience.
 
