@@ -24,7 +24,7 @@
 
 1. Introduction to DataEase
 
-    DataEase is an open-source data visualization and analysis tool that provides a drag and drop interface, allowing users to easily create charts and dashboards. It supports MySQL SQL Server、Hive、ClickHouse、 Multiple data sources such as Dameng can be integrated into other applications. Can help users quickly gain insights into data and make decisions.For more detailed information, please refer to[DataEase official website](https://www.fit2cloud.com/dataease/index.html)
+    DataEase is an open-source data visualization and analysis tool that provides a drag-and-drop interface, allowing users to easily create charts and dashboards. It supports multiple data sources such as MySQL, SQL Server, Hive, ClickHouse, and DM, and can be integrated into other applications. This tool helps users quickly gain insights from their data and make informed decisions. For more detailed information, please refer to [DataEase official website](https://www.fit2cloud.com/dataease/index.html)
 
     <div style="text-align: center;">
       <img src="https://alioss.timecho.com/docs/img/DataEase2.png" alt="" style="width: 60%;"/>
@@ -41,28 +41,28 @@
 
 | **Preparation Content**              | **Version Requirements**                                                     |
 | :-------------------- | :----------------------------------------------------------- |
-| IoTDB                 | Version not required, please refer to installation IoTDB [Deployment guidance](https://www.timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_timecho.html) |
-| JDK                   | Suggest JDK11 and above versions (recommend deploying JDK17 and above versions)           |
-| DataEase              | Request v1 series v1.18 version, please refer to DataEase official website for installation [Installation Guide](https://dataease.io/docs/v2/installation/offline_INSTL_and_UPG/)（V2. x is currently not supported, please contact Timecho Business for compatibility with other versions） |
-| DataEase-IoTDB Connector | Please contact Timecho Business for assistance                                           |
+| IoTDB                 | Version not required, please refer to [Deployment Guidance](https://www.timecho-global.com/docs/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_timecho.html) |
+| JDK                   | Requires JDK 11 or higher (JDK 17 or above is recommended for optimal performance)           |
+| DataEase              | Requires v1 series v1.18 version, please refer to the official [DataEase Installation Guide](https://dataease.io/docs/v2/installation/offline_INSTL_and_UPG/)(V2.x is currently not supported. For integration with other versions, please contact Timecho) |
+| DataEase-IoTDB Connector | Please contact Timecho for assistance                                           |
 
 ## Installation Steps
 
-Step 1: Please contact the business to obtain the compressed file and unzip the installation package（ iotdb-api-source-1.0.0.zip ）
+Step 1: Please contact Timecho to obtain the file and unzip the installation package `iotdb-api-source-1.0.0.zip`
 
-Step 2: After decompression,Modify the configuration file`application.properties` in the `config` folder
+Step 2: After extracting the files, modify the `application.properties` configuration file in the `config` folder
 
-- port`server.port` can be modified as needed
-- `iotdb.nodeUrls` need to configure the address and port of the IoTDB instance to be connected
-- `iotdb.user` need to configure the username for IoTDB
-- `iotdb.password` password for IoTDB needs to be configured
+- `server.port` can be modified as needed.
+- `iotdb.nodeUrls` should be configured with the address and port of the IoTDB instance to be connected.
+- `iotdb.user` should be set to the IoTDB username.
+- `iotdb.password` should be set to the IoTDB password.
 
 ```Properties
-# Port to start IoTDB API Source listening
+# Port on which the IoTDB API Source listens 
 server.port=8097
-# The instance address of IoTDB,multiple nodeUrls use; division
+# IoTDB instance addresses, multiple nodeUrls separated by ;
 iotdb.nodeUrls=127.0.0.1:6667
-# IoTDB user name
+# IoTDB username
 iotdb.user=root
 # IoTDB password
 iotdb.password=root
@@ -70,13 +70,13 @@ iotdb.password=root
 
 Step 3: Start up  DataEase-IoTDB Connector
 
-- Front end startup
+- Foreground start
 
 ```Shell
 ./sbin/start.sh
 ```
 
-- Background startup (add - d parameter)
+- Background start (add - d parameter)
 
 ```Shell
 ./sbin/start.sh -d
@@ -85,43 +85,43 @@ Step 3: Start up  DataEase-IoTDB Connector
 Step 4: After startup, you can check whether the startup was successful through the log.
 
 ```Shell
- lsof -i:8097  // Starting the IoTDB API Source listening port in config
+ lsof -i:8097  // The port configured in the file where the IoTDB API Source listens
 ```
 
 ## Instructions
 
 ### Sign in DataEase
 
-1. Sign in DataEase，access address : `http://target server IP address:80`
+1. Sign in DataEase，access address: `http://[target server IP address]:80`
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English3.png" alt="" style="width: 70%;"/>
 </div>
 
 ### Configure data source
 
-1. Jump in the navigation bar【Data Source】interface
+1. Navigate to "Data Source".
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English4.png" alt="" style="width: 70%;"/>
 </div>
 
-2. Click on the top left corner 【 + 】，slide to the bottom，choice【API】Data Source
+2.  Click on the "+" on the top left corner, choose "API" at the bottom as data source.
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English5.png" alt="" style="width: 70%;"/>
 </div>
 
-3. New API Data Source，set the basic information on your own【Display name】，click on the data table location【+ Add】
+3. Set the "Display Name" and add the API Data Source.
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English6.png" alt="" style="width: 70%;"/>
 </div>
 
-4. Enter custom in the data table name field【Name】，request type selection `Post`，address filling `http://[IoTDB API Source]:[port]/getData`，If operating locally and using the default port，address filling`http://127.0.0.1:8097/getData`
+4. Set the name of the Dataset Table, select "Post" as the Request Type, fill in the address with `http://[IoTDB API Source]:[port]/getData>`. If operating on the local machine and using the default port, the address should be set to `http://127.0.0.1:8097/getData`.
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English7.png" alt="" style="width: 70%;"/>
 </div>
 
-5. In the【Request parameters】section, select the【Request Body】tab，and ensure that the format is set to JSON.Please fill in the parameters according to the following example, where：
-    timeseries：The complete path of the sequence to be queried (currently only supports querying one sequence)
-    limit：The number of items to be queried (valid range is greater than 0 and less than 100000)
+5. In the "Request parameters"-"Request Body" configuration, set the format as "JSON". Please fill in the parameters according to the following example：
+    - timeseries：The full path of the series to be queried (currently only one series can be queried).
+    - limit：The number of entries to query (valid range is greater than 0 and less than 100,000).
 
     ```JSON
     { 
@@ -133,96 +133,96 @@ Step 4: After startup, you can check whether the startup was successful through 
   <img src="https://alioss.timecho.com/docs/img/DataEase-English8.png" alt="" style="width: 70%;"/>
 </div>
 
-6. Click on the【Auth config】tab, select【Basic Auth】as the authentication method, and enter the IoTDB username and password accurately
+6. In the "Request parameters"-"Request Body" configuration, set "Basic Auth" as the verification method, and enter the IoTDB username and password.
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English9.png" alt="" style="width: 70%;"/>
 </div>
 
-7. Click【Next】，you will see the interface return result in the`data`section.If the following figure shows the interface,returned`time`、 `rownumber`and `value`information，at the same time, it is necessary to specify the data types of each field。。After completing the settings, click the 'Save' button in the bottom right corner of the interface.
+7. In the next step, results are returned in the "data" section. For example, it returns `time`, `rownumber` and `value` as shown in the interface below. The date type for each field also need to be specified. After completing the settings, click the "Save" button in the bottom.
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English11.png" alt="" style="width: 70%;"/>
 </div>
 
-8. After saving, enter the new API data source page and click the 【 Save 】 button in the upper right corner.
+8. Save the settings to complete creating new API data source.
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English12.png" alt="" style="width: 70%;"/>
 </div>
 
-9. Save Data Source: After saving, you can view the data source and its detailed information under the API classification menu, or edit the data source. 
+9. You can now view and edit the data source and its detailed information under "API"-"Data Source". 
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English13.png" alt="" style="width: 70%;"/>
 </div>
 
-### Configure the dataset
+### Configure the Dataset
 
-1. Create API dataset: navigate to in the navigation bar【Data Set】page，Click on the top left corner of the page 【 + 】 symbol，Select the【API dataset】type and choose the directory where this dataset is located to enter the New API Dataset page.
+1. Create API dataset: Navigate to "Data Set"，click on the "+" on the top left corner, select "API dataset" and choose the directory where this dataset is located to enter the New API Dataset interface.
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English14.png" alt="" style="width: 49%;"/>
   <img src="https://alioss.timecho.com/docs/img/DataEase-English15.png" alt="" style="width: 49%;"/>
 </div>
 
-2. On the New API Dataset page, select the newly created API data source and the corresponding data table contained in the dataset (left in the figure below), and set the dataset name (right in the figure below). After setting up, click the【 Save 】button in the upper right corner of the page to complete the creation of the dataset.
+2. Select the newly created API data source and the corresponding dataset table, then define the DataSet Name. Save the settings to complete the creation of the dataset.
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English16.png" alt="" style="width: 49%;"/>
   <img src="https://alioss.timecho.com/docs/img/DataEase-English17.png" alt="" style="width: 49%;"/>
 </div>
 
-3. Select the newly created dataset and enter【Field Manage】tag page, then mark the required fields (such as rowNum) as dimensions
+3. Select the newly created dataset and navigate to "Field Manage", check the required fields (such as `rowNum`) and convert them to dimensions.
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English18.png" alt="" style="width: 70%;"/>
 </div>
 
-4. onfigure update frequency: Click on 【Update info】on the【Add Task】page and set the following information:
+4. Configure update frequency: Click on "Add Task" under "Update info" tag and set the following information:
 
-    Task Name: Fill in according to the actual situation
+    - Task Name: Define the task name
     
-    Update method: Select【Full update】
+    - Update method: Select "Full update"
     
-    Execution frequency: Set according to the actual situation (considering DataEase acquisition speed, it is recommended to set it to update every 5 seconds). For example, if it needs to be set to update every 5 seconds, you can choose【Expression setting】Aad in【cron expression】set as`0/5 * * * * ? *`
-    After the configuration is complete, click the【confirm】button in the bottom right corner of the page to save the settings. 
+    - Execution frequency: Set according to the actual situation. Considering the data retrieval speed of DataEase, it is recommended to set the update frequency to more than 5 seconds. For example, to set the update frequency to every 5 seconds, select "Expression setting" and configure the cron expression as `0/5****?*`.
+    Click on "Confirm" to save the settings.
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English19.png" alt="" style="width: 70%;"/>
 </div>
 
-5. The task has been successfully added. You can click on the top left corner of the page【Execution record】option to view execution records
+5. The task is now successfully added. You can click "Execution record" to view the logs.
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English20.png" alt="" style="width: 70%;"/>
 </div>
 
-### Configure dashboard
+### Configure Dashboard
 
-1. Jump to the 【 Dashboard 】 page in the navigation bar and click on it【 + 】symbol creation directory，and in the corresponding directory，Click on the【 + 】symbol and select from the pop-up menu【Create Dashboard】
+1. Navigate to "Dashboard", click on "+" to create a directory, then click on "+" of the directory and select "Create Dashboard".
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English21.png" alt="" style="width: 70%;"/>
 </div>
 
-2. After setting up as needed, click on【Confirm】. Taking custom settings as an example, confirm and enter the new dashboard page.
+2. After setting up as needed, click on "Confirm". We will taking "Custom" setting as an example.
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English22.png" alt="" style="width: 70%;"/>
 </div>
 
-3. On the new dashboard page, click the【Chart】button to open a pop-up window for adding views.In the pop-up window, select the previously created dataset and click【Next】continue with the operation.
+3. In the new dashboard interface, click on "Chart" to open a pop-up window for adding views. Select the previously created dataset and click on "Next".
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English23.png" alt="" style="width: 70%;"/>
 </div>
 
-4. In the step of selecting icon types, choose a suitable chart type based on the display requirements,Like the【Base Line】. After selecting, click the 【Confirm】 button to apply the selection.
+4. Choose a chart type by need and define the chart title. We take "Base Line" as an example. Confirm to proceed.
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English24.png" alt="" style="width: 70%;"/>
 </div>
 
-5. In the chart configuration interface, drag and drop the`rowNum`field to the category axis (usually the X-axis) and the`value`field to the value axis (usually the Y-axis).
+5. In the chart configuration interface, drag and drop the `rowNum` field to the category axis (usually the X-axis) and the `value` field to the value axis (usually the Y-axis).
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English25.png" alt="" style="width: 70%;"/>
 </div>
 
-6. In the category axis settings of the chart, select to set the sorting method to ascending, so that the data will be displayed in ascending order. Set the data refresh frequency to determine the frequency of chart updates. After completing these settings, you can further adjust other formatting and style options of the chart, such as color, size, etc., to meet display needs.After adjusting, click the【save】button in the upper right corner of the page to save the chart configuration.
->Due to the possibility of DataEase automatically updating the dataset, the original API data returned in ascending order may be out of order. Therefore, it is necessary to manually specify the sorting method in the chart configuration.
+6. In the chart's category axis settings, set the sorting order to ascending, so that the data will be displayed in increasing order. Set the data refresh frequency to determine the frequency of chart updates. After completing these settings, you can further adjust other format and style options for the chart, such as color, size, etc., to meet display needs. Once adjustments are made, click the "Save" button to save the chart configuration.
+>Since DataEase may cause the API data, originally returned in ascending order, to become disordered after automatically updating the dataset, it is necessary to manually specify the sorting order in the chart configuration.
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English26.png" alt="" style="width: 70%;"/>
 </div>
 
-7. View the effect after exiting editing
+7. After exiting the editing mode, you will be able to see the corresponding chart.
 <div style="text-align: center;">
   <img src="https://alioss.timecho.com/docs/img/DataEase-English27.png" alt="" style="width: 70%;"/>
 </div>
