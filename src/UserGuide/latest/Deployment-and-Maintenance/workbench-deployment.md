@@ -23,7 +23,7 @@
 The visualization console is one of the supporting tools for IoTDB. It is an official application tool system used in various stages of database deployment, operation and maintenance management, and application development, making the use, operation and management of databases simpler and more efficient, truly achieving low-cost management and operation of databases. This document will help you install Workbench.
 
  <div style="display: flex;justify-content: space-between;">                
-   <img src="https://alioss.timecho.com/docs/img/%E9%A6%96%E9%A1%B5.PNG" alt=" " style="width: 50%;"/>
+   <img src="https://alioss.timecho.com/docs/img/workbench-en-pklh.png" alt=" " style="width: 50%;"/>
    <img src="https://alioss.timecho.com/docs/img/workbench-en-bxzk.png" alt=" " style="width: 50%;"/>     
 </div>
 
@@ -146,7 +146,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
     ./prometheus --config.file=prometheus.yml --storage.tsdb.retention.time=180d
     ```
 
-5. Confirm successful startup. Enter in browser http://IP:port Go to Prometheus and click on the Target interface under Status. When you see that all States are Up, it indicates successful configuration and connectivity.
+5. Confirm successful startup. Enter in browser `http://IP:port` Go to Prometheus and click on the Target interface under Status. When you see that all States are Up, it indicates successful configuration and connectivity.
 
     <div style="display: flex;justify-content: space-between;">
       <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
@@ -161,12 +161,13 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 1. Enter the config directory of iotdb Workbench -`<version>`
 
 2. Modify Workbench configuration file: Go to the `config` folder and modify the configuration file `application-prod.properties`. If you are installing it locally, there is no need to modify it. If you are deploying it on a server, you need to modify the IP address
+    > Workbench can be deployed on a local or cloud server as long as it can connect to IoTDB
 
    | Configuration    | Before Modification                 | After modification                              |
    | ---------------- | ----------------------------------- | ----------------------------------------------- |
    | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<Workbench's IP address>` |
 
-    ![](https://alioss.timecho.com/docs/img/windows.png)
+    ![](https://alioss.timecho.com/docs/img/workbench-conf-1.png)
 
 3. Startup program: Please execute the startup command in the sbin folder of IoTDB Workbench -`<version>`
 
@@ -179,7 +180,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
     ![](https://alioss.timecho.com/docs/img/windows-jps.png)
 
-5. Verification successful: Open "http://Server IP: Port in configuration file" in the browser to access, for example:“ http://127.0.0.1:9190 ”When the login interface appears, it is considered successful
+5. Verification successful: Open "`http://Server IP: Port in configuration file`" in the browser to access, for example:"`http://127.0.0.1:9190`" When the login interface appears, it is considered successful
 
     ![](https://alioss.timecho.com/docs/img/workbench-en.png)
 
@@ -188,12 +189,13 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 1. Enter the IoTDB Workbench -`<version>` directory
 
 2. Modify Workbench configuration: Go to the `config` folder and modify the configuration file `application-prod.properties`. If you are installing it locally, there is no need to modify it. If you are deploying it on a server, you need to modify the IP address
+    > Workbench can be deployed on a local or cloud server as long as it can connect to IoTDB
 
    | Configuration    | Before Modification                 | After modification                              |
    | ---------------- | ----------------------------------- | ----------------------------------------------- |
    | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<Workbench's IP address>` |
 
-   ![](https://alioss.timecho.com/docs/img/linux.png)
+    ![](https://alioss.timecho.com/docs/img/workbench-conf-1.png)
 
 3. Startup program: Please execute the startup command in the sbin folder of IoTDB Workbench -`<version>`
 
@@ -206,7 +208,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
     ![](https://alioss.timecho.com/docs/img/linux-jps.png)
 
-5. Verification successful: Open "http://Server IP: Port in configuration file" in the browser to access, for example:"http://127.0.0.1:9190" When the login interface appears, it is considered successful
+5. Verification successful: Open "`http://Server IP: Port in configuration file`" in the browser to access, for example:"`http://127.0.0.1:9190`" When the login interface appears, it is considered successful
 
     ![](https://alioss.timecho.com/docs/img/workbench-en.png)
 
@@ -234,6 +236,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
 | Workbench Version Number | Release Note                                                 | Supports IoTDB Versions   |
 | :------------------------: | :------------------------------------------------------------: | :-------------------------: |
+| V1.4.0       | New tree model display and internationalization                  | V1.3.2 and above versions |
 | V1.3.1       |New analysis methods have been added to the analysis function, and functions such as optimizing import templates have been optimized                                  |V1.3.2 and above versions  |
 | V1.3.0       |                      Add database configuration function             |V1.3.2 and above versions  |
 | V1.2.6                   | Optimize the permission control function of each module      | V1.3.1 and above versions |

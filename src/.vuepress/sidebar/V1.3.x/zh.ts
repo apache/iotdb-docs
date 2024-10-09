@@ -29,7 +29,7 @@ export const zhSidebar = {
       prefix: 'IoTDB-Introduction/',
       // children: 'structure', 使用该方式自动获取文件夹下的文件
       children: [
-        { text: 'IoTDB简介', link: 'What-is-IoTDB' },
+        { text: '产品简介', link: 'IoTDB-Introduction_apache' },
         { text: '主要功能特点', link: 'Features' },
         { text: '系统架构', link: 'Architecture' },
         { text: '性能特点', link: 'Performance' },
@@ -39,14 +39,7 @@ export const zhSidebar = {
     },
     {
       text: '快速上手',
-      collapsible: true,
-      prefix: 'QuickStart/',
-      // children: 'structure',
-      children: [
-        { text: '单机版', link: 'QuickStart' },
-        { text: '集群版', link: 'ClusterQuickStart' },
-        { text: '常用SQL语句', link: 'General-SQL-Statements' },
-      ],
+      link: 'QuickStart/QuickStart_apache',
     },
     {
       text: '基础概念',
@@ -134,17 +127,17 @@ export const zhSidebar = {
       prefix: 'Ecosystem-Integration/',
       // children: 'structure',
       children: [
-        { text: 'Grafana插件', link: 'Grafana-Plugin' },
-        { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
-        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB' },
+        { text: 'Apache Flink(IoTDB)', link: 'Flink-IoTDB' },
+        { text: 'Apache Flink(TsFile)', link: 'Flink-TsFile' },
+        { text: 'Apache Hive(TsFile)', link: 'Hive-TsFile' },
+        { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
         { text: 'Apache Spark(TsFile)', link: 'Spark-TsFile' },
         { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
-        { text: 'Apache Hive(TsFile)', link: 'Hive-TsFile' },
-        { text: 'Apache Flink(IoTDB)', link: 'Flink-IoTDB' },
-        { text: 'Apache Flink(SQL)', link: 'Flink-SQL-IoTDB' },
-        { text: 'Apache Flink(TsFile)', link: 'Flink-TsFile' },
-        { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
+        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_apache' },
         { text: 'DBeaver', link: 'DBeaver' },
+        { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
+        { text: 'Grafana插件', link: 'Grafana-Plugin' },
+        { text: 'ThingsBoard', link: 'Thingsboard' },
       ],
     },
     {

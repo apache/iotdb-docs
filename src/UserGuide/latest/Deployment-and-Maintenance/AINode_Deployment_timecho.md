@@ -114,10 +114,10 @@ AINode supports modifying some necessary parameters. You can find the following 
 | :----------------------------- | ------------------------------------------------------------ | ------- | ------------------ | ---------------------------- |
 | cluster_name                   | The identifier for AINode to join the cluster                                      | string  | defaultCluster     | Only allow modifications before the first service startup |
 | ain_seed_config_node           | The Configurable Node address registered during AINode startup                          | String  | 10710              | Only allow modifications before the first service startup |
-| ain_inference_rpc_address      | AINode provides service and communication addresses                                  | String  | 127.0.0.1          | Effective after restart                   |
-| ain_inference_rpc_port         | AINode provides ports for services and communication                                  | String  | 10810              | Effective after restart                   |
-| ain_system_dir                 | AINode metadata storage path, the starting directory of the relative path is related to the operating system, and it is recommended to use an absolute path | String  | data/AINode/system | Effective after restart                   |
-| ain_models_dir                 | AINode stores the path of the model file, and the starting directory of the relative path is related to the operating system. It is recommended to use an absolute path | String  | data/AINode/models | Effective after restart                   |
+| ain_inference_rpc_address      | AINode provides service and communication addresses                                  | String  | 127.0.0.1          | Only allow modifications before the first service startup                   |
+| ain_inference_rpc_port         | AINode provides ports for services and communication                                  | String  | 10810              | Only allow modifications before the first service startup                   |
+| ain_system_dir                 | AINode metadata storage path, the starting directory of the relative path is related to the operating system, and it is recommended to use an absolute path | String  | data/AINode/system | Only allow modifications before the first service startup                   |
+| ain_models_dir                 | AINode stores the path of the model file, and the starting directory of the relative path is related to the operating system. It is recommended to use an absolute path | String  | data/AINode/models | Only allow modifications before the first service startup                   |
 | ain_logs_dir                   | The path where AINode stores logs, the starting directory of the relative path is related to the operating system, and it is recommended to use an absolute path | String  | logs/AINode        | Effective after restart                   |
 | ain_thrift_compression_enabled | Does AINode enable Thrift's compression mechanism , 0-Do not start, 1-Start          | Boolean | 0                  | Effective after restart                   |
 
@@ -318,12 +318,13 @@ When it is necessary to remove an AINode node from the cluster, a removal script
 
 #### Remove command
 
+
 ```shell
   # Linux / MacOS 
-  bash sbin/stop-ainode.sh  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  bash sbin/remove-ainode.sh  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
 
   # Windows
-  sbin\stop-ainode.bat  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  sbin\remove-ainode.bat  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
   ```
 
 ##### Parameter introduction:

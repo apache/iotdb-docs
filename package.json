@@ -46,6 +46,7 @@
     }
   ],
   "dependencies": {
-    "@vue/repl": "^4.1.1"
+    "@vue/repl": "^4.1.1",
+    "katex": "^0.16.11"
   }
 }

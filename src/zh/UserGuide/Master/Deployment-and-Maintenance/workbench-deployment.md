@@ -144,7 +144,7 @@
     ./prometheus --config.file=prometheus.yml --storage.tsdb.retention.time=180d
     ```
 
-5. 确认启动成功。在浏览器中输入 http://IP:port，进入Prometheus，点击进入Status下的Target界面，当看到State均为Up时表示配置成功并已经联通。
+5. 确认启动成功。在浏览器中输入 `http://IP:port`，进入Prometheus，点击进入Status下的Target界面，当看到State均为Up时表示配置成功并已经联通。
 
     <div style="display: flex;justify-content: space-between;">
       <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
@@ -158,14 +158,15 @@
 1. 进入iotdb-Workbench-`<version>`的config目录
 
 2. 修改Workbench配置文件：进入`config`文件夹下修改配置文件`application-prod.properties`。若您是在本机安装则无需修改，若是部署在服务器上则需修改IP地址
+    > Workbench可以部署在本地或者云服务器，只要能与 IoTDB 连接即可
 
    | 配置项           | 修改前                            | 修改后                                 |
       | ---------------- | --------------------------------- | -------------------------------------- |
       | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<部署Workbench的IP地址>` |
 
-    ![](https://alioss.timecho.com/docs/img/windows.png)
+    ![](https://alioss.timecho.com/docs/img/workbench-conf-1.png)
 
-1. 启动程序：请在IoTDB-Workbench-`<version>`的sbin文件夹下执行启动命令
+3. 启动程序：请在IoTDB-Workbench-`<version>`的sbin文件夹下执行启动命令
 
     ```shell
     # 后台启动Workbench
@@ -176,7 +177,7 @@
 
    ![](https://alioss.timecho.com/docs/img/windows-jps.png)
 
-5. 验证是否成功：浏览器中打开:"http://服务器ip:配置文件中端口"进行访问，例如:"http://127.0.0.1:9190"，当出现登录界面时即为成功
+5. 验证是否成功：浏览器中打开:"`http://服务器ip:配置文件中端口`"进行访问，例如:"`http://127.0.0.1:9190`"，当出现登录界面时即为成功
 
     ![](https://alioss.timecho.com/docs/img/workbench.png)
 
@@ -185,12 +186,13 @@
 1. 进入IoTDB-Workbench-`<version>`目录
 
 2. 修改Workbench配置：进入`config`文件夹下修改配置文件`application-prod.properties`。若您是在本机安装则无需修改，若是部署在服务器上则需修改IP地址
-
+   > Workbench可以部署在本地或者云服务器，只要能与 IoTDB 连接即可
+   
    | 配置项           | 修改前                            | 修改后                                 |
       | ---------------- | --------------------------------- | -------------------------------------- |
       | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<部署Workbench的IP地址>` |
 
-    ![](https://alioss.timecho.com/docs/img/linux.png)
+    ![](https://alioss.timecho.com/docs/img/workbench-conf-1.png)
 
 3. 启动程序：请在IoTDB-Workbench-`<version>`的sbin文件夹下执行启动命令
 
@@ -203,7 +205,7 @@
 
     ![](https://alioss.timecho.com/docs/img/linux-jps.png)
 
-5. 验证是否成功：浏览器中打开 "http://服务器ip:配置文件中端口"进行访问，例如:"http://127.0.0.1:9190"，当出现登录界面时即为成功
+5. 验证是否成功：浏览器中打开 "`http://服务器ip:配置文件中端口`"进行访问，例如:"`http://127.0.0.1:9190`"，当出现登录界面时即为成功
 
     ![](https://alioss.timecho.com/docs/img/workbench.png)
 
@@ -231,6 +233,7 @@
 
 | 控制台版本号 | 版本说明                                                     | 可支持IoTDB版本  |
 | :------------: | :------------------------------------------------------------: | :----------------: |
+| V1.4.0       | 新增树模型展示及国际化                    | V1.3.2及以上版本 |
 | V1.3.1       | 分析功能新增分析方式，优化导入模版等功能                     | V1.3.2及以上版本 |
 | V1.3.0       | 新增数据库配置功能，优化部分版本细节                         | V1.3.2及以上版本 |
 | V1.2.6       | 优化各模块权限控制功能                                       | V1.3.1及以上版本 |

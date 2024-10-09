@@ -73,7 +73,15 @@ AINode provides model creation and deletion process for deep learning models rel
 
 ### Registering Models
 
-A trained deep learning model can be registered by specifying the vector dimensions of the model's inputs and outputs, which can be used for model inference. The following is the SQL syntax definition for model registration.
+A trained deep learning model can be registered by specifying the vector dimensions of the model's inputs and outputs, which can be used for model inference. 
+
+Models that meet the following criteria can be registered in AINode:
+1. Models trained on PyTorch 2.1.0 and 2.2.0 versions supported by AINode should avoid using features from versions 2.2.0 and above.
+2. AINode supports models stored using PyTorch JIT, and the model file needs to include the parameters and structure of the model.
+3. The input sequence of the model can contain one or more columns, and if there are multiple columns, they need to correspond to the model capability and model configuration file.
+4. The input and output dimensions of the model must be clearly defined in the `config.yaml` configuration file. When using the model, it is necessary to strictly follow the input-output dimensions defined in the `config.yaml` configuration file. If the number of input and output columns does not match the configuration file, it will result in errors.
+
+The following is the SQL syntax definition for model registration.
 
 ```SQL
 create model <model_name> using uri <uri>
@@ -398,7 +406,8 @@ Total line number = 48
 
 #### Example of using the count window function
 
-This window is mainly used for computational tasks, when the model corresponding to the task can only process a fixed row of data at a time and what is ultimately desired is indeed multiple sets of predictions, using this window function allows for sequential inference using a sliding window of points. Suppose we now have an anomaly detection model anomaly_example(input: [24,2], output[1,1]) that generates a 0/1 label for each row of data, an example of its use is shown below:
+This window is mainly used for computational tasks. When the task's corresponding model can only handle a fixed number of rows of data at a time, but the final desired outcome is multiple sets of prediction results, this window function can be used to perform continuous inference using a sliding window of points. Suppose we now have an anomaly detection model `anomaly_example(input: [24,2], output[1,1])`, which generates a 0/1 label for every 24 rows of data. An example of its use is as follows:
+
 ```Shell
 IoTDB> select s1,s2 from root.**
 +-----------------------------+-------------------+-------------------+
@@ -434,7 +443,7 @@ IoTDB> call inference(anomaly_example,"select s0,s1 from root.**",window=count(2
 Total line number = 4
 ```
 
-where the labels of each row in the result set correspond to the model output corresponding to the 16 rows of input.
+In the result set, each row's label corresponds to the output of the anomaly detection model after inputting each group of 24 rows of data.
 
 ## Privilege Management
 
@@ -512,9 +521,9 @@ Total line number = 48
 
 We compare the results of the prediction of the oil temperature with the real results, and we can get the following image.
 
-The data before 10/24 00:00 in the image is the past data input into the model, the yellow line after 10/24 00:00 is the prediction of oil temperature given by the model, and the blue colour is the actual oil temperature data in the dataset (used for comparison).
+The data before 10/24 00:00 represents the past data input to the model, the blue line after 10/24 00:00 is the oil temperature forecast result given by the model, and the red line is the actual oil temperature data from the dataset (used for comparison).
 
-![](https://alioss.timecho.com/docs/img/s4.png)
+![](https://alioss.timecho.com/docs/img/AINode-analysis1.png)
 
 As can be seen, we have used the relationship between the six load information and the corresponding time oil temperatures for the past 96 hours (4 days) to model the possible changes in this data for the oil temperature for the next 48 hours (2 days) based on the inter-relationships between the sequences learned previously, and it can be seen that the predicted curves maintain a high degree of consistency in trend with the actual results after visualisation.
 
@@ -538,13 +547,9 @@ bash ./import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ... /... /data.csv
 
 #### Step 2: Model Import
 
-We can enter the following SQL in iotdb-cli to pull a trained model from huggingface for registration for subsequent inference.
+We can select built-in models or registered models in IoTDB CLI for subsequent inference.
 
-```SQL
-create model patchtst using uri `https://huggingface.co/hvlgo/patchtst/resolve/main`
-```
-
-We use the deep model PatchTST for prediction, which is a transformer-based temporal prediction model with excellent performance in long time series prediction tasks.
+We use the built-in model STLForecaster for prediction. STLForecaster is a time series forecasting method based on the STL implementation in the statsmodels library.
 
 #### Step 3: Model Inference
 
@@ -553,39 +558,40 @@ IoTDB> select * from root.eg.voltage limit 96
 +-----------------------------+------------------+------------------+------------------+
 |                         Time|root.eg.voltage.s0|root.eg.voltage.s1|root.eg.voltage.s2|
 +-----------------------------+------------------+------------------+------------------+
-|2024-03-15T20:35:31.000+08:00|            2037.0|            2017.0|            2032.0|
-|2024-03-15T20:35:37.000+08:00|            2015.0|            2014.0|            2019.0|
-|2024-03-15T20:35:44.000+08:00|            2014.0|            2007.0|            2019.0|
+|2023-02-14T20:38:32.000+08:00|            2038.0|            2028.0|            2041.0|
+|2023-02-14T20:38:38.000+08:00|            2014.0|            2005.0|            2018.0|
+|2023-02-14T20:38:44.000+08:00|            2014.0|            2005.0|            2018.0|
 ......
-|2024-03-15T20:43:51.000+08:00|            2024.0|            2012.0|            2022.0|
-|2024-03-15T20:43:56.000+08:00|            2023.0|            2016.0|            2022.0|
-|2024-03-15T20:44:03.000+08:00|            2024.0|            2016.0|            2022.0|
+|2023-02-14T20:47:52.000+08:00|            2024.0|            2016.0|            2027.0|
+|2023-02-14T20:47:57.000+08:00|            2024.0|            2016.0|            2027.0|
+|2023-02-14T20:48:03.000+08:00|            2024.0|            2016.0|            2027.0|
 +-----------------------------+------------------+------------------+------------------+
 Total line number = 96
 
-IoTDB> call inference(patchtst, "select s0,s1,s2 from root.eg.voltage", window=head(96))
+IoTDB> call inference(_STLForecaster, "select s0,s1,s2 from root.eg.voltage", window=head(96),predict_length=48)
 +---------+---------+---------+
 |  output0|  output1|  output2|
 +---------+---------+---------+
-|2013.4113|2011.2539|2010.2732|
-|2013.2792| 2007.902|2035.7709|
-|2019.9114|2011.0453|2016.5848|
+|2026.3601|2018.2953|2029.4257|
+|2019.1538|2011.4361|2022.0888|
+|2025.5074|2017.4522|2028.5199|
 ......
-|2018.7078|2009.7993|2017.3502|
-|2033.9062|2010.2087|2018.1757|
-|2022.2194| 2011.923|2020.5442|
-|2022.1393|2023.4688|2020.9344|
+
+|2022.2336|2015.0290|2025.1023|
+|2015.7241|2008.8975|2018.5085|
+|2022.0777|2014.9136|2024.9396|
+|2015.5682|2008.7821|2018.3458|
 +---------+---------+---------+
 Total line number = 48
 ```
 
 Comparing the predicted results of the C-phase voltage with the real results, we can get the following image.
 
-The data before 02/14 20:44 is the past data input to the model, the yellow line after 02/14 20:44 is the predicted C-phase voltage given by the model, and the blue colour is the actual A-phase voltage data in the dataset (used for comparison).
+The data before 02/14 20:48 represents the past data input to the model, the blue line after 02/14 20:48 is the predicted result of phase C voltage given by the model, while the red line is the actual phase C voltage data from the dataset (used for comparison).
 
-![](https://alioss.timecho.com/docs/img/s5.png)
+![](https://alioss.timecho.com/docs/img/AINode-analysis2.png)
 
-It can be seen that we have used the data of the last 8 minutes of voltage to model the possible changes in the A-phase voltage for the next 4 minutes based on the inter-relationships between the sequences learned earlier, and it can be seen that the predicted curves and the actual results maintain a high degree of synchronicity in terms of trends after visualisation.
+It can be seen that we used the voltage data from the past 10 minutes and, based on the previously learned inter-sequence relationships, modeled the possible changes in the phase C voltage data for the next 5 minutes. The visualized forecast curve shows a certain degree of synchronicity with the actual results in terms of trend.
 
 ### Anomaly Detection
 

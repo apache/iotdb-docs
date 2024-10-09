@@ -530,7 +530,7 @@ Please conduct discussions in English:
 
 - Resource Repository (project's documents, compiler, etc): https://github.com/apache/iotdb-bin-resources
 
-- Quick Start Guide：http://iotdb.apache.org/UserGuide/Master/QuickStart/QuickStart.html
+- Quick Start Guide：http://iotdb.apache.org/UserGuide/Master/QuickStart/QuickStart_apache.html
 
 - JIRA Task Management：https://issues.apache.org/jira/projects/IOTDB/issues
 
