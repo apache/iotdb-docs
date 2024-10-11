@@ -195,7 +195,6 @@ IoTDB> SHOW PIPEPLUGINS
 +---------------------+----------+-------------------------------------------------------------------------------------------+----------------------------------------------------+
 | DO-NOTHING-PROCESSOR|   Builtin|        org.apache.iotdb.commons.pipe.plugin.builtin.processor.donothing.DoNothingProcessor|                                                    |
 |      DO-NOTHING-SINK|   Builtin|        org.apache.iotdb.commons.pipe.plugin.builtin.connector.donothing.DoNothingConnector|                                                    |
-|   IOTDB-AIR-GAP-SINK|   Builtin|   org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.airgap.IoTDBAirGapConnector|                                                    |
 |         IOTDB-SOURCE|   Builtin|                org.apache.iotdb.commons.pipe.plugin.builtin.extractor.iotdb.IoTDBExtractor|                                                    |
 |    IOTDB-THRIFT-SINK|   Builtin|   org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftConnector|                                                    |
 |IOTDB-THRIFT-SSL-SINK|   Builtin|org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftSslConnector|                                                    |
@@ -448,7 +447,7 @@ V1.3.0/1/2:
 | source.history.start-time       | 同步历史数据的开始 event time，包含 start-time               | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填     | Long.MIN_VALUE |
 | source.history.end-time         | 同步历史数据的结束 event time，包含 end-time                 | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填     | Long.MAX_VALUE |
 | source.realtime.enable          | 是否发送实时数据                                             | Boolean: true / false                 | 选填     | batch            |
-| source.realtime.mode            | 新插入数据（pipe 创建后）的抽取模式                          | String: batch                        | 选填     | stream         |
+| source.realtime.mode            | 新插入数据（pipe 创建后）的抽取模式                          | String: batch                        | 选填     | batch         |
 | source.forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据             |  Boolean: true                      | 选填     | true           |
 | source.history.loose-range      | tsfile 传输时，是否放宽历史数据（pipe 创建前）范围。""：不放宽范围，严格按照设置的条件挑选数据"time"：放宽时间范围，避免对 TsFile 进行拆分，可以提升同步效率 | String: "" / "time"                    | 选填     | 空字符串       |
 
@@ -486,9 +485,9 @@ V1.3.0/1/2:
 | :----------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- | :------------- |
 | source                   | iotdb-source                                                 | String: iotdb-source                                         | 必填     | -              |
 | inclusion                | 用于指定数据同步任务中需要同步范围，分为数据、元数据和权限   | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | 选填     | data.insert    |
-| inclusion.exclusion      | 用于从 inclusion 指定的同步范围内排除特定的操作，减少同步的数据量 | 选填                                                         | -        |                |
-| path                     | 用于筛选待同步的时间序列及其相关元数据 / 数据的路径模式元数据同步只能用 pathpath 是精确匹配，参数必须为前缀路径或完整路径，即不能含有 `"*"`，最多在 path 参数的尾部含有一个 `"**"` | String：IoTDB 的 pattern                                     | 选填     | root.**        |
-| pattern                  | 用于筛选时间序列的路径前缀                                   | String: 任意的时间序列前缀                                   | 选填     | root           |
+| inclusion.exclusion      | 用于从 inclusion 指定的同步范围内排除特定的操作，减少同步的数据量 | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | 选填     | -              |
+| path                     | 用于筛选待同步的时间序列及其相关元数据 / 数据的路径模式path 是精确匹配，参数必须为前缀路径或完整路径，即不能含有 `"*"`，最多在 path 参数的尾部含有一个 `"**"` | String：IoTDB 的 pattern                                     | 选填     | root.**        |
+| pattern                  | 用于筛选时间序列的路径前缀元数据同步不能用 pattern 参数      | String: 任意的时间序列前缀                                   | 选填     | root           |
 | start-time               | 同步所有数据的开始 event time，包含 start-time               | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                       | 选填     | Long.MIN_VALUE |
 | end-time                 | 同步所有数据的结束 event time，包含 end-time                 | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                       | 选填     | Long.MAX_VALUE |
 | realtime.mode            | 新插入数据（pipe 创建后）的抽取模式                          | String: batch                                                 | 选填     | batch            |
