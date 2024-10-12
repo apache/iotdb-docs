@@ -859,6 +859,16 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |    默认值    | true                                       |
 | 改后生效方式 | 热加载                               |
 
+* enable\_auto\_repair\_compaction
+
+|     名字     | enable\_auto\_repair\_compaction |
+| :----------: |:---------------------------------|
+|     描述     | 修复文件的合并任务                        |
+|     类型     | Boolean                          |
+|    默认值    | true                             |
+| 改后生效方式 | 热加载                              |
+
+
 * cross\_selector
 
 |名字| cross\_selector |
@@ -879,12 +889,12 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * inner\_seq\_selector
 
-|名字| inner\_seq\_selector |
-|:---:|:---------------------|
-|描述| 顺序空间内合并任务选择器的类型      |
-|类型| String               |
-|默认值| size\_tiered         |
-|改后生效方式| 重启服务生效               |
+|名字| inner\_seq\_selector                                                        |
+|:---:|:----------------------------------------------------------------------------|
+|描述| 顺序空间内合并任务选择器的类型,可选 size\_tiered\_single_\target,size\_tiered\_multi\_target |
+|类型| String                                                                      |
+|默认值| size\_tiered\_multi\_target                                                 |
+|改后生效方式| 热加载                                                                         |
 
 * inner\_seq\_performer
 
@@ -897,12 +907,12 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * inner\_unseq\_selector
 
-|名字| inner\_unseq\_selector |
-|:---:|:-----------------------|
-|描述| 乱序空间内合并任务选择器的类型        |
-|类型| String                 |
-|默认值| size\_tiered           |
-|改后生效方式| 重启服务生效                 |
+|名字| inner\_unseq\_selector                                                      |
+|:---:|:----------------------------------------------------------------------------|
+|描述| 乱序空间内合并任务选择器的类型,可选 size\_tiered\_single_\target,size\_tiered\_multi\_target |
+|类型| String                                                                      |
+|默认值| size\_tiered\_multi\_target                                                 |
+|改后生效方式| 热加载                                                                         |
 
 * inner\_unseq\_performer
 
@@ -915,12 +925,12 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * compaction\_priority
 
-|     名字     | compaction\_priority                                                                                                                               |
-| :----------: | :------------------------------------------------------------------------------------------------------------------------------------------------- |
+|     名字     | compaction\_priority                                                                      |
+| :----------: |:------------------------------------------------------------------------------------------|
 |     描述     | 合并时的优先级，BALANCE 各种合并平等，INNER_CROSS 优先进行顺序文件和顺序文件或乱序文件和乱序文件的合并，CROSS_INNER 优先将乱序文件合并到顺序文件中 |
-|     类型     | String                                                                                                                                             |
-|    默认值    | BALANCE                                                                                                                                            |
-| 改后生效方式 | 重启服务生效                                                                                                                                       |
+|     类型     | String                                                                                    |
+|    默认值    | INNER_CROSS                                                                               |
+| 改后生效方式 | 重启服务生效                                                                                    |
 
 * target\_compaction\_file\_size
 
@@ -967,14 +977,50 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |默认值| 1000                                            |
 |改后生效方式| 重启服务生效                                          |
 
-* max\_inner\_compaction\_candidate\_file\_num
+* inner\_compaction\_total\_file\_num\_threshold
 
-|名字| max\_inner\_compaction\_candidate\_file\_num |
+|名字| inner\_compaction\_total\_file\_num\_threshold |
 |:---:|:---|
 |描述| 空间内合并中一次合并最多参与的文件数 |
 |类型| int32 |
 |默认值| 30|
 |改后生效方式|重启服务生效|
+
+* inner\_compaction\_total\_file\_size\_threshold
+
+|名字| inner\_compaction\_total\_file\_size\_threshold |
+|:---:|:------------------------------------------------|
+|描述| 空间内合并任务最大选中文件总大小，单位：byte                        |
+|类型| int64                                           |
+|默认值| 10737418240                                     |
+|改后生效方式| 热加载                                             |
+
+* compaction\_max\_aligned\_series\_num\_in\_one\_batch
+
+|名字| compaction\_max\_aligned\_series\_num\_in\_one\_batch |
+|:---:|:------------------------------------------------------|
+|描述| 对齐序列合并一次执行时处理的值列数量                                    |
+|类型| int32                                                 |
+|默认值| 10                                                    |
+|改后生效方式| 热加载                                                   |
+
+* max\_level\_gap\_in\_inner\_compaction
+
+|名字| max\_level\_gap\_in\_inner\_compaction |
+|:---:|:---------------------------------------|
+|描述| 空间内合并选文件时最大允许跨的文件层级                    |
+|类型| int32                                  |
+|默认值| 2                                      |
+|改后生效方式| 热加载                                    |
+
+* inner\_compaction\_candidate\_file\_num
+
+|名字| inner\_compaction\_candidate\_file\_num |
+|:---:|:----------------------------------------|
+|描述| 符合构成一个空间内合并任务的候选文件数量                    |
+|类型| int32                                   |
+|默认值| 30                                      |
+|改后生效方式| 热加载                                     |
 
 * max\_cross\_compaction\_candidate\_file\_num
 
@@ -983,7 +1029,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |描述| 跨空间合并中一次合并最多参与的文件数                           |
 |类型| int32                                        |
 |默认值| 500                                          |
-|改后生效方式| 重启服务生效                                       |
+|改后生效方式| 热加载                                          |
 
 * max\_cross\_compaction\_candidate\_file\_size
 
@@ -991,17 +1037,8 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |:---:|:----------------------------------------------|
 |描述| 跨空间合并中一次合并最多参与的文件总大小                          |
 |类型| Int64                                         |
-|默认值| 5368709120                                          |
-|改后生效方式| 重启服务生效                                        |
-
-* cross\_compaction\_file\_selection\_time\_budget
-
-|名字| cross\_compaction\_file\_selection\_time\_budget |
-|:---:|:---|
-|描述| 若一个合并文件选择运行的时间超过这个时间，它将结束，并且当前的文件合并选择将用作为最终选择。当时间小于0 时，则表示时间是无边界的。单位：ms。|
-|类型| int32 |
-|默认值| 30000 |
-|改后生效方式| 重启服务生效|
+|默认值| 5368709120                                    |
+|改后生效方式| 热加载                                           |
 
 * compaction\_thread\_count
 
@@ -1039,6 +1076,24 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |默认值| 16 |
 |改后生效方式| 重启服务生效|
 
+* compaction\_read\_throughput\_mb\_per\_sec
+
+|    名字     | compaction\_read\_throughput\_mb\_per\_sec |
+|:---------:|:-------------------------------------------|
+|    描述     | 合并每秒读吞吐限制，单位为 byte，设置为 0 代表不限制             |
+|    类型     | int32                                      |
+|    默认值    | 0                                          |
+| Effective | 热加载                                        |
+
+* compaction\_read\_operation\_per\_sec
+
+|    名字     | compaction\_read\_operation\_per\_sec |
+|:---------:|:--------------------------------------|
+|    描述     | 合并每秒读操作数量限制，设置为 0 代表不限制               |
+|    类型     | int32                                 |
+|    默认值    | 0                                     |
+| Effective | 热加载                                   |
+
 * sub\_compaction\_thread\_count
 
 |名字| sub\_compaction\_thread\_count  |
@@ -1048,15 +1103,14 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |默认值| 4                               |
 |改后生效方式| 热加载                             |
 
-* compaction\_validation\_level
+* enable\_tsfile\_validation
 
-|名字| compaction\_validation\_level                                                                 |
-|:---:|:----------------------------------------------------------------------------------------------|
-|描述| 合并结束后对顺序文件时间范围的检查,NONE关闭检查，RESOURCE_ONLY检查resource文件，RESOURCE_AND_TSFILE检查resource文件和tsfile文件 |
-|类型| String                                                                                        |
-|默认值| NONE                                                                                          |
-|改后生效方式| 热加载                                                                                           |
-
+|    名字     | enable\_tsfile\_validation    |
+|:---------:|:------------------------------|
+|    描述     | Flush, Load 或合并后验证 tsfile 正确性 |
+|    类型     | boolean                       |
+|    默认值    | false                         |
+| Effective | 热加载                           |
 
 * candidate\_compaction\_task\_queue\_size
 

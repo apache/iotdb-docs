@@ -364,12 +364,12 @@ Different configuration parameters take effect in the following three ways:
 
 * schema\_engine\_mode
 
-|名字| schema\_engine\_mode                                                                                                                                                                                                                                                     |
-|:---:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|Description| Schema engine mode, supporting Memory and PBTree modes; PBTree mode support evict the timeseries schema temporarily not used in memory at runtime, and load it into memory from disk when needed. This parameter must be the same on all DataNodes in one cluster. |
-|Type| string                                                                                                                                                                                                                                                                   |
-|Default| Memory                                                                                                                                                                                                                                                                   |
-|Effective| Only allowed to be modified in first start up                                                                                                                                                                                                                            |
+|    Name     | schema\_engine\_mode                                                                                                                                                                                                                                                     |
+|:-----------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description | Schema engine mode, supporting Memory and PBTree modes; PBTree mode support evict the timeseries schema temporarily not used in memory at runtime, and load it into memory from disk when needed. This parameter must be the same on all DataNodes in one cluster. |
+|    Type     | string                                                                                                                                                                                                                                                                   |
+|   Default   | Memory                                                                                                                                                                                                                                                                   |
+|  Effective  | Only allowed to be modified in first start up                                                                                                                                                                                                                            |
 
 * mlog\_buffer\_size
 
@@ -894,12 +894,12 @@ Different configuration parameters take effect in the following three ways:
 
 * target\_compaction\_file\_size
 
-|    Name     | target\_compaction\_file\_size                 |
-| :---------: |:-----------------------------------------------|
+|    Name     | target\_compaction\_file\_size     |
+| :---------: |:-----------------------------------|
 | Description | The target file size in compaction |
-|    Type     | Int64                                          |
-|   Default   | 2147483648                                     |
-|  Effective  | After restart system                           |
+|    Type     | Int64                              |
+|   Default   | 2147483648                         |
+|  Effective  | hot-load                           |
 
 * target\_chunk\_size
 
@@ -939,12 +939,12 @@ Different configuration parameters take effect in the following three ways:
 
 * max\_inner\_compaction\_candidate\_file\_num
 
-|Name| max\_inner\_compaction\_candidate\_file\_num |
-|:---:|:---|
+|Name| max\_inner\_compaction\_candidate\_file\_num             |
+|:---:|:---------------------------------------------------------|
 |Description| The max num of files encounter in inner space compaction |
-|Type| int32 |
-|Default| 30 |
-|Effective|After restart system|
+|Type| int32                                                    |
+|Default| 30                                                       |
+|Effective| hot-load                                                 |
 
 * max\_cross\_compaction\_file\_num
 
@@ -953,7 +953,7 @@ Different configuration parameters take effect in the following three ways:
 |Description| The max num of files encounter in cross space compaction |
 |Type| int32                                                    |
 |Default| 500                                                      |
-|Effective| After restart system                                     |
+|Effective| hot-load                                                 |
 
 * max\_cross\_compaction\_file\_size
 
@@ -961,17 +961,8 @@ Different configuration parameters take effect in the following three ways:
 |:---:|:----------------------------------------------------------|
 |Description| The max size of files encounter in cross space compaction |
 |Type| Int64                                                     |
-|Default| 5368709120                                                      |
-|Effective| After restart system                                      |
-
-* cross\_compaction\_file\_selection\_time\_budget
-
-|Name| cross\_compaction\_file\_selection\_time\_budget |
-|:---:|:---|
-|Description| Time budget for cross space compaction file selection |
-|Type| int32 |
-|Default| 30000 |
-|Effective|After restart system|
+|Default| 5368709120                                                |
+|Effective| hot-load                                                  |
 
 * compaction\_thread\_count
 
@@ -991,23 +982,32 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | 60000                                  |
 |  Effective  | After restart system                   |
 
-* compaction\_submission\_interval\_in\_ms
-
-|    Name     | compaction\_submission\_interval\_in\_ms |
-| :---------: | :--------------------------------------- |
-| Description | interval of submitting compaction task   |
-|    Type     | Int64                                    |
-|   Default   | 60000                                    |
-|  Effective  | After restart system                     |
-
 * compaction\_write\_throughput\_mb\_per\_sec
 
-|Name| compaction\_write\_throughput\_mb\_per\_sec |
-|:---:|:---|
+|Name| compaction\_write\_throughput\_mb\_per\_sec    |
+|:---:|:-----------------------------------------------|
 |Description| The write rate of all compaction tasks in MB/s |
-|Type| int32 |
-|Default| 16 |
-|Effective|After restart system|
+|Type| int32                                          |
+|Default| 16                                             |
+|Effective| hot-load                                       |
+
+* compaction\_read\_throughput\_mb\_per\_sec
+
+|Name| compaction\_read\_throughput\_mb\_per\_sec     |
+|:---:|:------------------------------------------------|
+|Description| The read rate of all compaction tasks in MB/s, values less than or equal to 0 means no limit |
+|Type| int32                                           |
+|Default| 0                                               |
+|Effective| hot-load                                        |
+
+* compaction\_read\_operation\_per\_sec
+
+|Name| compaction\_read\_operation\_per\_sec                                                                          |
+|:---:|:---------------------------------------------------------------------------------------------------------------|
+|Description| The read operation of all compaction tasks can reach per second, values less than or equal to 0 means no limit |
+|Type| int32                                                                                                          |
+|Default| 0                                                                                                              |
+|Effective| hot-load                                                                                                       |
 
 * sub\_compaction\_thread\_count
 
@@ -1018,13 +1018,13 @@ Different configuration parameters take effect in the following three ways:
 |Default| 4                                                                         |
 |Effective| hot-load                                                            |
 
-* compaction\_validation\_level
+* enable\_tsfile\_validation
 
-|     名字      | compaction\_validation\_level                                                                                                                                                                                                                         |
-|:-----------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Description | The level of validation after compaction. NONE: the validation after compaction is disabled. RESOURCE_ONLY: the validation after compaction check tsfile resource only. RESOURCE_AND_TSFILE: the validation after compaction check resource and file. |
-|    Type     | String                                                                                                                                                                                                                                                |
-|   Default   | NONE                                                                                                                                                                                                                                                  |
+|    Name     | enable\_tsfile\_validation                                                |
+|:-----------:|:--------------------------------------------------------------------------|
+| Description | Verify that TSfiles generated by Flush, Load, and Compaction are correct. |
+|    Type     | boolean                                                                   |
+|   Default   | false                                                                     |
 |  Effective  | hot-load                                                                                                                                                                                                                                              |
 
 * candidate\_compaction\_task\_queue\_size
