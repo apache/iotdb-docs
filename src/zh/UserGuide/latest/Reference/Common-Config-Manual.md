@@ -1028,7 +1028,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |    描述     | 合并每秒读操作数量限制，设置为 0 代表不限制               |
 |    类型     | int32                                 |
 |    默认值    | 0                                     |
-| Effective | 热加载                                   |
+| 改后生效方式 | 热加载                                   |
 
 * sub\_compaction\_thread\_count
 
