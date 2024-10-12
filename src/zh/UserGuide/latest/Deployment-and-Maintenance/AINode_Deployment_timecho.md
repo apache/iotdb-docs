@@ -64,8 +64,8 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
     - 建议在 `iotdb-enterprise-ainode-<version>` 文件夹下，新建 Python 解释器 venv 虚拟环境。如安装 3.8.0 版本虚拟环境，语句如下：
     
       ```shell
-      # 安装3.8.0版本的venv 
-      ../Python-3.8.0/python -m venv venv(文件夹名）
+      # 安装3.8.0版本的venv，创建虚拟环境，文件夹名为 `venv`
+      ../Python-3.8.0/python -m venv `venv`
       ```
 ##  安装步骤
 
@@ -109,7 +109,7 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
 | :----------------------------- | ------------------------------------------------------------ | ------- | ------------------ | ---------------------------- |
 | cluster_name                   | AINode 要加入集群的标识                                      | string  | defaultCluster     | 仅允许在第一次启动服务前修改 |
 | ain_seed_config_node           | AINode 启动时注册的 ConfigNode 地址                          | String  | 10710              | 仅允许在第一次启动服务前修改 |
-| ain_inference_rpc_address      | AINode 提供服务与通信的地址                                  | String  | 127.0.0.1          | 仅允许在第一次启动服务前修改  |
+| ain_inference_rpc_address      | AINode 提供服务与通信的地址，内部服务通讯接口                    | String  | 127.0.0.1          | 仅允许在第一次启动服务前修改  |
 | ain_inference_rpc_port         | AINode 提供服务与通信的端口                                  | String  | 10810              | 仅允许在第一次启动服务前修改  |
 | ain_system_dir                 | AINode 元数据存储路径，相对路径的起始目录与操作系统相关，建议使用绝对路径 | String  | data/AINode/system | 仅允许在第一次启动服务前修改 |
 | ain_models_dir                 | AINode 存储模型文件的路径，相对路径的起始目录与操作系统相关，建议使用绝对路径 | String  | data/AINode/models | 仅允许在第一次启动服务前修改   |
@@ -126,10 +126,10 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
 ```shell
   # 启动命令
   # Linux 和 MacOS 系统
-  bash sbin/start-ainode.sh  -i <directory>  -r  -n
+  bash sbin/start-ainode.sh  
 
   # Windows 系统
-  sbin\start-ainode.bat  -i <directory>  -r  -n
+  sbin\start-ainode.bat  
 
   # 后台启动命令（长期运行推荐）
   # Linux 和 MacOS 系统
@@ -138,6 +138,18 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
   # Windows 系统
   nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
   ```
+
+##### 详细语法
+
+```shell
+  # 启动命令
+  # Linux 和 MacOS 系统
+  bash sbin/start-ainode.sh  -i <path>  -r  -n
+
+  # Windows 系统
+  sbin\start-ainode.bat  -i <path>  -r  -n
+  ```
+
 ##### 参数介绍：
 
 | **名称**                | **标签** | **描述**                                                         | **是否必填** | **类型**   | **默认值**           | **输入方式**               |
@@ -203,10 +215,10 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
 ```shell
   # 启动命令
   # Linux 和 MacOS 系统
-  bash sbin/start-ainode.sh  -i <directory>  -r  -n
+  bash sbin/start-ainode.sh  
 
   # Windows 系统
-  sbin\start-ainode.bat  -i <directory>  -r  -n
+  sbin\start-ainode.bat  
 
   # 后台启动命令（长期运行推荐）
   # Linux 和 MacOS 系统
@@ -215,6 +227,18 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
   # Windows 系统
   nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
   ```
+
+##### 详细语法
+
+```shell
+  # 启动命令
+  # Linux 和 MacOS 系统
+  bash sbin/start-ainode.sh  -i <path>  -r  -n
+
+  # Windows 系统
+  sbin\start-ainode.bat  -i <path>  -r  -n
+  ```
+
 ##### 参数介绍：
 
 | **名称**                | **标签** | **描述**                                                         | **是否必填** | **类型**   | **默认值**           | **输入方式**               |
@@ -266,6 +290,16 @@ IoTDB> show cluster
 
 ```shell
   # Linux / MacOS 
+  bash sbin/stop-ainode.sh 
+
+  #Windows
+  sbin\stop-ainode.bat
+  ```
+
+##### 详细语法
+
+```shell
+   # Linux / MacOS 
   bash sbin/stop-ainode.sh  -t<AINode-id>/<ip>:<rpc-port>
 
   #Windows
@@ -308,10 +342,20 @@ IoTDB> show cluster
 
 ```shell
   # Linux / MacOS 
-  bash sbin/remove-ainode.sh  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  bash sbin/remove-ainode.sh  
 
   # Windows
-  sbin\remove-ainode.bat  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  sbin\remove-ainode.bat  
+  ```
+
+##### 详细语法
+
+```shell
+  # Linux / MacOS 
+  bash sbin/remove-ainode.sh  -i<path>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+
+  # Windows
+  sbin\remove-ainode.bat  -i<path>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
   ```
 
 ##### 参数介绍：
