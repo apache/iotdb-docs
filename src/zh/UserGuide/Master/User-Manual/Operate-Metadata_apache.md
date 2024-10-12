@@ -40,7 +40,7 @@ Database 的父子节点都不能再设置 database。例如在已经有`root.ln
 IoTDB> CREATE DATABASE root.ln.wf01
 Msg: 300: root.ln has already been created as database.
 ```
-Database 节点名只支持中英文字符、数字、下划线的组合，如果想设置为纯数字或者包含其他字符，需要用反引号(``)把 database 名称引起来。
+Database 节点名只支持中英文字符、数字、下划线、英文句号和反引号的组合，如果想设置为纯数字或者包含下划线和英文句号，需要用反引号(` `` `)把 database 名称引起来。其中` `` `内，两个反引号表示一个反引号，例如 ` ```` ` 表示`` ` ``。
 
 还需注意，如果在 Windows 系统上部署，database 名是大小写不敏感的。例如同时创建`root.ln` 和 `root.LN` 是不被允许的。
 
