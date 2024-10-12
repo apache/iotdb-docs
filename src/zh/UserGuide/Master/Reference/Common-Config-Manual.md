@@ -1110,7 +1110,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |    描述     | Flush, Load 或合并后验证 tsfile 正确性 |
 |    类型     | boolean                       |
 |    默认值    | false                         |
-| Effective | 热加载                           |
+| 改后生效方式 | 热加载                           |
 
 * candidate\_compaction\_task\_queue\_size
 
