@@ -33,7 +33,7 @@
 在根目录下运行：
 
 ```shell
-mvn clean install -pl session -am -Dmaven.test.skip=true
+mvn clean install -pl session -am -DskipTests
 ```
 
 ### 在 MAVEN 中使用原生接口
@@ -423,11 +423,11 @@ void insertStringRecordsOfOneDevice(String deviceId, List<Long> times,
 
 #### 数据删除
 
-* 删除一个或多个时间序列在某个时间点前或这个时间点的数据
-
-```java
-void deleteData(String path, long endTime)
-void deleteData(List<String> paths, long endTime)
+* 删除一个或多个时间序列在某个时间范围的数据
+```cpp
+void deleteData(const std::string &path, int64_t endTime);
+void deleteData(const std::vector<std::string> &paths, int64_t endTime);
+void deleteData(const std::vector<std::string> &paths, int64_t startTime, int64_t endTime);
 ```
 
 #### 数据查询

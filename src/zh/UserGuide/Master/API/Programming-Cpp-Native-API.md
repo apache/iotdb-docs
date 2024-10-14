@@ -384,17 +384,18 @@ void insertRecordsOfOneDevice(const std::string &deviceId,
 
 #### 数据删除
 
-- 删除一个或多个时间序列在某个时间点前或这个时间点的数据
+- 删除一个或多个时间序列在某个时间范围的数据
 ```cpp
-void deleteData(const std::string &path, int64_t time);
-void deleteData(const std::vector<std::string> &deviceId, int64_t time);
+void deleteData(const std::string &path, int64_t endTime);
+void deleteData(const std::vector<std::string> &paths, int64_t endTime);
+void deleteData(const std::vector<std::string> &paths, int64_t startTime, int64_t endTime);
 ```
 
 ### IoTDB-SQL 接口
 
 - 执行查询语句
 ```cpp
-void executeNonQueryStatement(const std::string &sql);
+unique_ptr<SessionDataSet> executeQueryStatement(const std::string &sql);
 ```
 
 - 执行非查询语句
