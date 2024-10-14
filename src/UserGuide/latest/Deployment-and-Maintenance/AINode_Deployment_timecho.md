@@ -150,10 +150,10 @@ AINode supports modifying some necessary parameters. You can find the following 
 ```shell
   # Start command
   # Linux and MacOS systems
-  bash sbin/start-ainode.sh  -i <path>  -r  -n
+  bash sbin/start-ainode.sh  -i <bin_path>  -r  -n
 
   # Windows systems
-  sbin\start-ainode.bat  -i <path>  -r  -n
+  sbin\start-ainode.bat  -i <bin_path>  -r  -n
   ```
 
 ##### Parameter introduction:
@@ -241,10 +241,10 @@ If the version of AINode has been updated (such as updating the `lib` folder), t
 ```shell
   # Start command
   # Linux and MacOS systems
-  bash sbin/start-ainode.sh  -i <path>  -r  -n
+  bash sbin/start-ainode.sh  -i <bin_path>  -r  -n
 
   # Windows systems
-  sbin\start-ainode.bat  -i <path>  -r  -n
+  sbin\start-ainode.bat  -i <bin_path>  -r  -n
   ```
 
 ##### Parameter introduction:
@@ -362,10 +362,10 @@ When it is necessary to remove an AINode node from the cluster, a removal script
 
 ```shell
   # Linux / MacOS 
-  bash sbin/remove-ainode.sh  -i<path>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  bash sbin/remove-ainode.sh  -i<bin_path>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
 
   # Windows
-  sbin\remove-ainode.bat  -i<path>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  sbin\remove-ainode.bat  -i<bin_path>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
   ```
 
 ##### Parameter introduction:

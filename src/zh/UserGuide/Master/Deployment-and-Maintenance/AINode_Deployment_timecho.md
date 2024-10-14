@@ -144,10 +144,10 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
 ```shell
   # 启动命令
   # Linux 和 MacOS 系统
-  bash sbin/start-ainode.sh  -i <path>  -r  -n
+  bash sbin/start-ainode.sh  -i <bin_path>  -r  -n
 
   # Windows 系统
-  sbin\start-ainode.bat  -i <path>  -r  -n
+  sbin\start-ainode.bat  -i <bin_path>  -r  -n
   ```
 
 ##### 参数介绍：
@@ -233,10 +233,10 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
 ```shell
   # 启动命令
   # Linux 和 MacOS 系统
-  bash sbin/start-ainode.sh  -i <path>  -r  -n
+  bash sbin/start-ainode.sh  -i <bin_path>  -r  -n
 
   # Windows 系统
-  sbin\start-ainode.bat  -i <path>  -r  -n
+  sbin\start-ainode.bat  -i <bin_path>  -r  -n
   ```
 
 ##### 参数介绍：
@@ -353,10 +353,10 @@ IoTDB> show cluster
 
 ```shell
   # Linux / MacOS 
-  bash sbin/remove-ainode.sh  -i<path>  -t<AINode-id>  -r  -n
+  bash sbin/remove-ainode.sh  -i<bin_path>  -t<AINode-id>  -r  -n
 
   # Windows
-  sbin\remove-ainode.bat  -i<path>  -t<AINode-id>  -r  -n
+  sbin\remove-ainode.bat  -i<bin_path>  -t<AINode-id>  -r  -n
   ```
 
 ##### 参数介绍：
