@@ -19,9 +19,9 @@
 
 -->
 
-# Ignition-IoTDB Connector
+# Ignition
 
-## 1、Product Overview
+## Product Overview
 
 1. Introduction to Ignition
 
@@ -38,24 +38,24 @@
 
     ![](https://alioss.timecho.com/docs/img/20240703114443.png)
 
-## 2、Installation Requirements
+## Installation Requirements
 
 | **Preparation Content**         | Version Requirements                                         |
 | ------------------------------- | ------------------------------------------------------------ |
-| IoTDB                           | Version 1.3.1 and above are required to be installed, please refer to IoTDB for installation [Deployment Guidance](https://www.timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_timecho.html) |
+| IoTDB                           | Version 1.3.1 and above are required to be installed, please refer to IoTDB for installation [Deployment Guidance](../Deployment-and-Maintenance/IoTDB-Package_timecho.md) |
 | Ignition                        | Requirement: 8.1 version (8.1.37 and above) of version 8.1 must be installed. Please refer to the Ignition official website for installation [Installation Guidance](https://docs.inductiveautomation.com/docs/8.1/getting-started/installing-and-upgrading)（Other versions are compatible, please contact the business department for more information） |
 | Ignition-IoTDB Connector module | Please contact Business to obtain                            |
 | Ignition-IoTDB With JDBC module | Download address：https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/ |
 
-## 3、Instruction Manual For Ignition-IoTDB Connector
+## Instruction Manual For Ignition-IoTDB Connector
 
-### 1、Introduce
+### Introduce
 
 The Ignition-IoTDB Connector module can store data in a database connection associated with the historical database provider. The data is directly stored in a table in the SQL database based on its data type, as well as a millisecond timestamp. Store data only when making changes based on the value pattern and dead zone settings on each label, thus avoiding duplicate and unnecessary data storage.
 
 The Ignition-IoTDB Connector provides the ability to store the data collected by Ignition into IoTDB.
 
-### 2、Installation Steps
+### Installation Steps
 
 Step 1: Enter the `Configuration` - `System` - `Modules` module and click on the `Install or Upgrade a Module` button at the bottom
 
@@ -155,7 +155,7 @@ The configuration content is as follows:
 
 
 
-### 3、Instructions
+### Instructions
 
 #### Configure Historical Data Storage
 
@@ -231,13 +231,13 @@ The configuration content is as follows:
   system.iotdb.query("IoTDB", "select * from root.db.Sine where time > 1709563427247")
   ```
 
-## 4、Ignition-IoTDB With JDBC
+## Ignition-IoTDB With JDBC
 
-###  1、Introduce
+### Introduce
 
  Ignition-IoTDB With JDBC provides a JDBC driver that allows users to connect and query the Ignition IoTDB database using standard JDBC APIs
 
-###  2、Installation Steps
+### Installation Steps
 
 Step 1: Enter the `Configuration` - `Databases` -`Drivers` module and create the `Translator`
 
@@ -251,7 +251,7 @@ Step 3: Enter the `Configuration` - `Databases` - `Connections` module, create a
 
 ![](https://alioss.timecho.com/docs/img/Ignition-IoTDB%20With%20JDBC-3.png)
 
-### 3、Instructions
+### Instructions
 
 #### Data Writing
 

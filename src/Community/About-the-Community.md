@@ -106,8 +106,8 @@ Referring to the Apache Software Foundation's community philosophy, our communit
     - Learn how to debug IoTDB
       - [How to debug IoTDB server](https://my.oschina.net/u/3664598/blog/4500279)
     - Understand the basics of using IoTDB
-      - [IoTDB download and installation](https://iotdb.apache.org/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package.html)
-      - [IoTDB Quick Start Guide](https://iotdb.apache.org/UserGuide/latest/QuickStart/QuickStart.html)
+      - [IoTDB download and installation](../UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_apache.md)
+      - [IoTDB Quick Start Guide](https://iotdb.apache.org/UserGuide/latest/QuickStart/QuickStart_apache.html)
       - [Data Schema and Concepts](https://iotdb.apache.org/UserGuide/latest/Basic-Concept/Data-Model-and-Terminology.html)
       - [API Interface](https://iotdb.apache.org/UserGuide/latest/API/Programming-Java-Native-API.html)
     - Understand IoTDB's Internal Design

@@ -23,7 +23,7 @@
 
 IoTDB common files for ConfigNode and DataNode are under `conf`.
 
-* `iotdb-system.properties`：IoTDB system configurations.
+* `iotdb-common.properties`：IoTDB system configurations.
 
 
 ## Effective

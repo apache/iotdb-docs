@@ -33,7 +33,7 @@ Docs library：https://github.com/apache/iotdb-docs
 
 Library for resources (project's documents, compiler, etc): https://github.com/apache/iotdb-bin-resources
 
-Get started quickly：http://iotdb.apache.org/UserGuide/Master/QuickStart/QuickStart.html
+Get started quickly：http://iotdb.apache.org/UserGuide/Master/QuickStart/QuickStart_apache.html
 
 Jira Task Management：https://issues.apache.org/jira/projects/IOTDB/issues
 

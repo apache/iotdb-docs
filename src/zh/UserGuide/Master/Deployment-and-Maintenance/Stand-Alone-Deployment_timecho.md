@@ -24,26 +24,36 @@
 
 ## 注意事项
 
-1. 部署时推荐优先使用`hostname`进行IP配置，可避免后期修改主机ip导致数据库无法启动的问题。设置hostname需要在目标服务器上配置/etc/hosts，如本机ip是192.168.1.3，hostname是iotdb-1，则可以使用以下命令设置服务器的 hostname，并使用hostname配置IoTDB的`cn_internal_address`、dn_internal_address、dn_rpc_address。
+1. 安装前请确认系统已参照[系统配置](./Environment-Requirements.md)准备完成。
+
+2. 部署时推荐优先使用`hostname`进行IP配置，可避免后期修改主机ip导致数据库无法启动的问题。设置hostname需要在目标服务器上配置/etc/hosts，如本机ip是192.168.1.3，hostname是iotdb-1，则可以使用以下命令设置服务器的 hostname，并使用hostname配置IoTDB的`cn_internal_address`、dn_internal_address、dn_rpc_address。
 
    ```shell
    echo "192.168.1.3  iotdb-1" >> /etc/hosts 
    ```
 
-2. 部分参数首次启动后不能修改，请参考下方的【参数配置】章节进行设置
+3. 部分参数首次启动后不能修改，请参考下方的【参数配置】章节进行设置
 
-3. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，部署监控面板步骤可以参考：[监控面板部署](https://timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/Monitoring-Board-Install-and-Deploy.html)。
+4. 无论是在linux还是windows中，请确保IoTDB的安装路径中不含空格和中文，避免软件运行异常。
+
+5. 请注意，安装部署（包括激活和使用软件）IoTDB时需要保持使用同一个用户进行操作，您可以：
+- 使用 root 用户（推荐）：使用 root 用户可以避免权限等问题。
+- 使用固定的非 root 用户：
+  - 使用同一用户操作：确保在启动、激活、停止等操作均保持使用同一用户，不要切换用户。
+  - 避免使用 sudo：尽量避免使用 sudo 命令，因为它会以 root 用户权限执行命令，可能会引起权限混淆或安全问题。 
+
+6. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，部署监控面板步骤可以参考：[监控面板部署](./Monitoring-panel-deployment.md)。
 
 ## 安装步骤
 
-### 1、解压安装包并进入安装目录
+### 解压安装包并进入安装目录
 
 ```shell
 unzip  iotdb-enterprise-{version}-bin.zip
 cd  iotdb-enterprise-{version}-bin
 ```
 
-### 2、参数配置
+### 参数配置
 
 #### 环境脚本配置
 
@@ -95,7 +105,9 @@ cd  iotdb-enterprise-{version}-bin
 | dn_schema_region_consensus_port | DataNode用于元数据副本共识协议通信使用的端口                 | 10760           | 10760                                            | 首次启动后不能修改 |
 | dn_seed_config_node             | 节点注册加入集群时连接的ConfigNode地址,即cn_internal_address:cn_internal_port | 127.0.0.1:10710 | cn_internal_address:cn_internal_port             | 首次启动后不能修改 |
 
-### 3、启动 ConfigNode 节点
+> ❗️注意：VSCode Remote等编辑器无自动保存配置功能，请确保修改的文件被持久化保存，否则配置项无法生效
+
+### 启动 ConfigNode 节点
 
 进入iotdb的sbin目录下，启动confignode
 
@@ -103,7 +115,7 @@ cd  iotdb-enterprise-{version}-bin
 ./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
 ```
 
-### 4、激活数据库
+### 激活数据库
 
 #### 方式一：激活文件拷贝激活
 
@@ -124,7 +136,7 @@ cd  iotdb-enterprise-{version}-bin
 
 ```shell
 Please copy the system_info's content and send it to Timecho:
-Y17hFA0xRCE1TmkVxILuCIEPc7uJcr5bzlXWiptw8uZTmTX5aThfypQdLUIhMljw075hNRSicyvyJR9JM7QaNm1gcFZPHVRWVXIiY5IlZkXdxCVc1erXMsbCqUYsR2R2Mw4PSpFJsUF5jHWSoFIIjQ2bmJFW5P52KCccFMVeHTc=
+01-KU5LDFFN-PNBEHDRH
 Please enter license:
 ```
 
@@ -137,7 +149,7 @@ License has been stored to sbin/../activation/license
 Import completed. Please start cluster and excute 'show cluster' to verify activation status
 ```
 
-### 5、启动DataNode 节点
+### 启动DataNode 节点
 
 进入iotdb的sbin目录下，启动datanode：
 
@@ -146,7 +158,7 @@ cd sbin
 ./start-datanode.sh   -d   #-d参数将在后台进行启动 
 ```
 
-### 6、验证部署
+### 验证部署
 
 可直接执行 ./sbin 目录下的 Cli 启动脚本：
 
@@ -165,3 +177,10 @@ cd sbin
 ![](https://alioss.timecho.com/docs/img/show%20cluster.png)
 
 > 出现`ACTIVATED(W)`为被动激活，表示此ConfigNode没有license文件（或没有签发时间戳最新的license文件）。此时建议检查license文件是否已放入license文件夹，没有请放入license文件，若已存在license文件，可能是此节点license文件与其他节点信息不一致导致，请联系天谋工作人员重新申请.
+
+
+## 常见问题
+
+1. 部署过程中多次提示激活失败
+    - 使用 `ls -al` 命令：使用 `ls -al` 命令检查安装包根目录的所有者信息是否为当前用户。
+    - 检查激活目录：检查 `./activation` 目录下的所有文件，所有者信息是否为当前用户。  

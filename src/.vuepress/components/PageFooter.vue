@@ -27,7 +27,7 @@
 </template>
 <script setup lang="ts">
 import { computed } from 'vue';
-import { usePageData } from '@vuepress/client';
+import { usePageData } from 'vuepress/client';
 
 const pageData = usePageData();
 

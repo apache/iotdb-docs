@@ -19,7 +19,7 @@
 
 -->
 
-# Flink-TsFile-Connector
+# Apache Flink(TsFile)
 
 ## About Flink-TsFile-Connector
 

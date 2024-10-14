@@ -170,7 +170,7 @@ Map<PartialPath, List<Trigger>> pathToTriggerListMap => Map<Trigger, Tablet>
 
 假设有三个触发器，触发器的触发时机均为 BEFORE INSERT
 
-- 触发器 Trigger1 侦听路径模式：root.sg.*
+- 触发器 Trigger1 侦听路径模式：root\.sg.*
 - 触发器 Trigger2 侦听路径模式：root.sg.a
 - 触发器 Trigger3 侦听路径模式：root.sg.b
 
@@ -396,7 +396,7 @@ WITH (
 
 - 该触发器是无状态的（STATELESS）
 - 在写入前触发（BEFORE INSERT）
-- 该触发器侦听路径模式为 root.sg.**
+- 该触发器侦听路径模式为 root\.sg.**
 - 所编写的触发器类名为 org.apache.iotdb.trigger.ClusterAlertingExample
 - JAR 包的 URI 为 http://jar/ClusterAlertingExample.jar
 - 创建该触发器实例时会传入 name 和 limit 两个参数。

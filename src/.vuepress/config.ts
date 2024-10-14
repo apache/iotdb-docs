@@ -130,8 +130,8 @@ _paq.push(['enableLinkTracking']);
     redirectPlugin({
       // hostname: 'https://iotdb.apache.org/',
       config: {
-        '/UserGuide/Master/QuickStart/QuickStart.html': '/UserGuide/latest/QuickStart/QuickStart.html',
-        '/zh/UserGuide/Master/QuickStart/QuickStart.html': '/zh/UserGuide/latest/QuickStart/QuickStart.html',
+        '/UserGuide/Master/QuickStart/QuickStart.html': '/UserGuide/latest/QuickStart/QuickStart_apache.html',
+        '/zh/UserGuide/Master/QuickStart/QuickStart.html': '/zh/UserGuide/latest/QuickStart/QuickStart_apache.html',
       },
     }),
   ],

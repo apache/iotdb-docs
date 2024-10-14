@@ -83,8 +83,8 @@ iotd cluster check example
 | pkey                       | 密钥登陆如果password 有值优先使用password否则使用pkey登陆    | 非必填   |
 | ssh_port                   | ssh登录端口                                                  | 必填     |
 | deploy_dir                 | iotdb 部署目录，会把 iotdb 部署到目标节点该文件夹下最终部署完成的路径是`<deploy_dir>/iotdb` | 必填     |
-| datanode-env.sh            | 对应`iotdb/config/datanode-env.sh`                           | 非必填   |
-| confignode-env.sh          | 对应`iotdb/config/confignode-env.sh`                         | 非必填   |
+| datanode-env\.sh            | 对应`iotdb/config/datanode-env.sh`                           | 非必填   |
+| confignode-env\.sh          | 对应`iotdb/config/confignode-env.sh`                         | 非必填   |
 | iotdb-system.properties    | 对应`iotdb/config/iotdb-system.properties`                   | 非必填   |
 | cn_seed_config_node | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`confignode_servers`同时配置值时优先使用`confignode_servers`中的值，对应`iotdb/config/iotdb-system.properties`中的`cn_seed_config_node` | 必填     |
 | dn_seed_config_node | 集群配置地址指向存活的ConfigNode,默认指向confignode_x，在`global`与`datanode_servers`同时配置值时优先使用`datanode_servers`中的值，对应`iotdb/config/iotdb-system.properties`中的`dn_seed_config_node` | 必填     |

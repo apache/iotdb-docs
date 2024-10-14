@@ -19,7 +19,7 @@
 
 -->
 
-# IoTDB 流处理框架
+# 流处理框架
 
 IoTDB 流处理框架允许用户实现自定义的流处理逻辑，可以实现对存储引擎变更的监听和捕获、实现对变更数据的变形、实现对变形后数据的向外推送等逻辑。
 
@@ -783,7 +783,7 @@ WHERE SINK USED BY <PipeId>
 
 ## 配置参数
 
-在 iotdb-system.properties 中：
+在 iotdb-common.properties 中：
 
 V1.3.0+:
 ```Properties

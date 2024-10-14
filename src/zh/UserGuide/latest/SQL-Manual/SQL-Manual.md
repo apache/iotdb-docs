@@ -2,7 +2,7 @@
 
 ## 元数据操作
 
-### 1、数据库管理
+### 数据库管理
 
 #### 创建数据库
 
@@ -35,7 +35,7 @@ count databases root.sgcc.*
 count databases root.sgcc
 ```
 
-### 2、时间序列管理
+### 时间序列管理
 
 #### 创建时间序列
 
@@ -197,7 +197,7 @@ create aligned timeseries root.sg1.d1(s1 INT32 tags(tag1=v1, tag2=v2) attributes
 show timeseries where TAGS(tag1)='v1'
 ```
 
-### 3、时间序列路径管理
+### 时间序列路径管理
 
 #### 查看路径的所有子路径
 
@@ -251,7 +251,7 @@ IoTDB> count devices root.ln.**
 
 IoTDB> count devices where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
 ```
-### 4、设备模板管理
+### 设备模板管理
 
 
 ![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
@@ -327,7 +327,7 @@ IoTDB> unset device template t1 from root.sg1.d1
 ```sql
 IoTDB> drop device template t1
 ```
-### 5、数据存活时间管理
+### 数据存活时间管理
 
 #### 设置 TTL
 ```sql
@@ -359,25 +359,25 @@ IoTDB> SHOW TTL ON StorageGroupNames
 ```
 ## 写入数据
 
-### 1、写入单列数据
+### 写入单列数据
 ```sql
 IoTDB > insert into root.ln.wf02.wt02(timestamp,status) values(1,true)
 ```
 ```sql
 IoTDB > insert into root.ln.wf02.wt02(timestamp,hardware) values(1, 'v1'),(2, 'v1')
 ```
-### 2、写入多列数据
+### 写入多列数据
 ```sql
 IoTDB > insert into root.ln.wf02.wt02(timestamp, status, hardware) values (2, false, 'v2')
 ```
 ```sql
 IoTDB > insert into root.ln.wf02.wt02(timestamp, status, hardware) VALUES (3, false, 'v3'),(4, true, 'v4')
 ```
-### 3、使用服务器时间戳
+### 使用服务器时间戳
 ```sql
 IoTDB > insert into root.ln.wf02.wt02(status, hardware) values (false, 'v2')
 ```
-### 4、写入对齐时间序列数据
+### 写入对齐时间序列数据
 ```sql
 IoTDB > create aligned timeseries root.sg1.d1(s1 INT32, s2 DOUBLE)
 ```
@@ -390,7 +390,7 @@ IoTDB > insert into root.sg1.d1(timestamp, s1, s2) aligned values(2, 2, 2), (3, 
 ```sql
 IoTDB > select * from root.sg1.d1
 ```
-### 5、加载 TsFile 文件数据
+### 加载 TsFile 文件数据
 
 load '<path/dir>' [sglevel=int][verify=true/false][onSuccess=delete/none]
 
@@ -416,7 +416,7 @@ load '<path/dir>' [sglevel=int][verify=true/false][onSuccess=delete/none]
 
 ## 删除数据
 
-### 1、删除单列数据
+### 删除单列数据
 ```sql
 delete from root.ln.wf02.wt02.status where time<=2017-11-01T16:26:00;
 ```
@@ -457,7 +457,7 @@ expressions like : time > XXX, time <= XXX, or two atomic expressions connected 
 ```sql
 delete from root.ln.wf02.wt02.status
 ```
-### 2、删除多列数据
+### 删除多列数据
 ```sql
 delete from root.ln.wf02.wt02.* where time <= 2017-11-01T16:26:00;
 ```
@@ -469,7 +469,7 @@ Msg: The statement is executed successfully.
 ```
 ## 数据查询
 
-### 1、基础查询
+### 基础查询
 
 #### 时间过滤查询
 ```sql
@@ -491,7 +491,7 @@ select wf01.wt01.status, wf02.wt02.hardware from root.ln where (time > 2017-11-0
 ```sql
 select * from root.ln.** where time > 1 order by time desc limit 10;
 ```
-### 2、选择表达式
+### 选择表达式
 
 #### 使用别名
 ```sql
@@ -597,7 +597,7 @@ IoTDB> select last status, temperature from root.ln.wf01.wt01 where time >= 2017
 ```sql
 IoTDB> select last * from root.ln.wf01.wt01 order by timeseries desc;
 ```
-### 3、查询过滤条件
+### 查询过滤条件
 
 #### 时间过滤条件
 
@@ -666,7 +666,7 @@ IoTDB> select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
 IoTDB> select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
 ```
 
-### 4、分段分组聚合
+### 分段分组聚合
 
 #### 未指定滑动步长的时间区间分组聚合查询
 ```sql
@@ -788,7 +788,7 @@ select count(charging_stauts), first_value(soc) from root.sg group by count(char
 ```sql
 select count(charging_stauts), first_value(soc) from root.sg group by count(charging_status,5,ignoreNull=false) 
 ```
-### 5、聚合结果过滤
+### 聚合结果过滤
 
 不正确的：
 ```sql
@@ -806,7 +806,7 @@ SQL 示例：
 
  select count(s1), count(s2) from root.** group by ([1,11),2ms) having count(s2) > 1 align by device;
 ```
-### 6、结果集补空值
+### 结果集补空值
 ```sql
 FILL '(' PREVIOUS | LINEAR | constant (, interval=DURATION_LITERAL)? ')'
 ```
@@ -830,7 +830,7 @@ select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:
 ```sql
 select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(true);
 ```
-### 7、查询结果分页
+### 查询结果分页
 
 #### 按行分页
 
@@ -868,7 +868,7 @@ select max_value(*) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-
 ```sql
 select * from root.ln.wf01.wt01 limit 10 offset 100 slimit 2 soffset 0
 ```
-### 8、排序
+### 排序
 
 时间对齐模式下的排序
 ```sql
@@ -890,13 +890,13 @@ select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
 ```sql
 select count(*) from root.ln.** group by ((2017-11-01T00:00:00.000+08:00,2017-11-01T00:03:00.000+08:00],1m) order by device asc,time asc align by device
 ```
-### 9、查询对齐模式
+### 查询对齐模式
 
 #### 按设备对齐
 ```sql
 select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
 ```
-### 10、查询写回（SELECT INTO）
+### 查询写回（SELECT INTO）
 
 #### 整体描述
 ```sql
@@ -950,7 +950,7 @@ IoTDB> select s1 + s2 into root.expr.add(d1s1_d1s2), root.expr.add(d2s1_d2s2) fr
 
 ##### 按时间对齐（默认）
 
-###### （1）目标设备不使用变量占位符 & 目标物理量列表使用变量占位符
+###### 目标设备不使用变量占位符 & 目标物理量列表使用变量占位符
 ```
 
 select s1, s2
@@ -970,7 +970,7 @@ into root.sg_copy.d1(s1), root.sg_copy.d2(s1), root.sg_copy.d1(s2), root.sg_copy
 from root.sg.d1, root.sg.d2;
 ```
 
-###### （2）目标设备使用变量占位符 & 目标物理量列表不使用变量占位符
+###### 目标设备使用变量占位符 & 目标物理量列表不使用变量占位符
 
 ```
 select d1.s1, d1.s2, d2.s3, d3.s4 
@@ -980,7 +980,7 @@ into ::(s1_1, s2_2), root.sg.d2_2(s3_3), root.${2}_copy.::(s4)
 from root.sg;
 ```
 
-###### （3）目标设备使用变量占位符 & 目标物理量列表使用变量占位符
+###### 目标设备使用变量占位符 & 目标物理量列表使用变量占位符
 
 ```
 select * into root.sg_bk.::(::) from root.sg.**;
@@ -988,7 +988,7 @@ select * into root.sg_bk.::(::) from root.sg.**;
 
 ##### 按设备对齐（使用 `ALIGN BY DEVICE`）
 
-###### （1）目标设备不使用变量占位符 & 目标物理量列表使用变量占位符
+###### 目标设备不使用变量占位符 & 目标物理量列表使用变量占位符
 ```
 
 select s1, s2, s3, s4
@@ -1000,7 +1000,7 @@ from root.sg.d1, root.sg.d2, root.sg.d3
 align by device;
 ```
 
-###### （2）目标设备使用变量占位符 & 目标物理量列表不使用变量占位符
+###### 目标设备使用变量占位符 & 目标物理量列表不使用变量占位符
 ```
 
 select avg(s1), sum(s2) + sum(s3), count(s4)
@@ -1012,7 +1012,7 @@ from root.**
 align by device;
 ```
 
-###### （3）目标设备使用变量占位符 & 目标物理量列表使用变量占位符
+###### 目标设备使用变量占位符 & 目标物理量列表使用变量占位符
 ```
 
 select * into ::(backup_${4}) from root.sg.** align by device;

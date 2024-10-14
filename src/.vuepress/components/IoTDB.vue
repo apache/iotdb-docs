@@ -189,7 +189,7 @@ export default {
       window.location.href = '/Download/';
     },
     addRoutes2() {
-      window.location.href = '/UserGuide/latest/QuickStart/QuickStart.html';
+      window.location.href = '/UserGuide/latest/QuickStart/QuickStart_apache.html';
     },
   },
 };

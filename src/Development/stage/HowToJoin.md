@@ -47,7 +47,7 @@ Scan the QR code to subscribe official public account: Apache IoTDB
 ### Learn the basic use of IoTDB
 
  - [Download and Setup](https://iotdb.apache.org/UserGuide/Master/QuickStart/WayToGetIoTDB.html)
- - [IoTDB Quick Start](https://iotdb.apache.org/UserGuide/Master/QuickStart/QuickStart.html)
+ - [IoTDB Quick Start](https://iotdb.apache.org/UserGuide/Master/QuickStart/QuickStart_apache.html)
  - [Data Concept](https://iotdb.apache.org/UserGuide/Master/Data-Concept/Data-Model-and-Terminology.html)
  - [API](https://iotdb.apache.org/UserGuide/Master/API/Programming-Java-Native-API.html)
 

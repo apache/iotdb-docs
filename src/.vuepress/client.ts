@@ -16,7 +16,7 @@
 * limitations under the License.
 */
 
-import { defineClientConfig } from '@vuepress/client';
+import { defineClientConfig } from 'vuepress/client';
 import ElementPlus from 'element-plus';
 import IoTDB from './components/IoTDB.vue';
 import IoTDBZH from './components/IoTDBZH.vue';

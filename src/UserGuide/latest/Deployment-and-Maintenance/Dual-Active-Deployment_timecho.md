@@ -40,7 +40,7 @@ Dual active usually refers to two independent machines (or clusters) that perfor
 
 2. Some parameters cannot be modified after the first startup, please refer to the "Installation Steps" section below to set them.
 
-3. Recommend deploying a monitoring panel, which can monitor important operational indicators and keep track of database operation status at any time. The monitoring panel can be obtained by contacting the business department. The steps for deploying the monitoring panel can be referred to [Monitoring Panel Deployment](https://www.timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/Monitoring-panel-deployment.html)
+3. Recommend deploying a monitoring panel, which can monitor important operational indicators and keep track of database operation status at any time. The monitoring panel can be obtained by contacting the business department. The steps for deploying the monitoring panel can be referred to [Monitoring Panel Deployment](../Deployment-and-Maintenance/Monitoring-panel-deployment.md)
 
 ## Installation Steps
 
@@ -53,7 +53,7 @@ Taking the dual active version IoTDB built by two single machines A and B as an 
 
 ### Step1：Install Two Independent IoTDBs Separately
 
-Install IoTDB on two machines separately, and refer to the deployment documentation for the standalone version [Stand-Alone Deployment](https://www.timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/Stand-Alone-Deployment_timecho.html)，The deployment document for the cluster version can be referred to [Cluster Deployment](https://www.timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/Cluster-Deployment_timecho.html)。**It is recommended that the configurations of clusters A and B remain consistent to achieve the best dual active effect**
+Install IoTDB on two machines separately, and refer to the deployment documentation for the standalone version [Stand-Alone Deployment](../Deployment-and-Maintenance/Stand-Alone-Deployment_timecho.md)，The deployment document for the cluster version can be referred to [Cluster Deployment](../Deployment-and-Maintenance/Cluster-Deployment_timecho.md)。**It is recommended that the configurations of clusters A and B remain consistent to achieve the best dual active effect**
 
 ### Step2：Create A Aata Synchronization Task On Machine A To Machine B
 
@@ -77,7 +77,7 @@ Install IoTDB on two machines separately, and refer to the deployment documentat
     )
     ```
 
-- Note: To avoid infinite data loops, it is necessary to set the parameter `source. forwarding pipe questions` on both A and B to `false`, indicating that data transmitted from another pipe will not be forwarded.
+- Note: To avoid infinite data loops, it is necessary to set the parameter `source.forwarding pipe questions` on both A and B to `false`, indicating that data transmitted from another pipe will not be forwarded.
 
 ### Step3：Create A Data Synchronization Task On Machine B To Machine A
 

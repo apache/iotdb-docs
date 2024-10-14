@@ -19,7 +19,9 @@
 
 -->
 
+
 # Data Sync
+
 Data synchronisation is a typical requirement of industrial IoT. Through the data synchronisation mechanism, data sharing between IoTDBs can be achieved, and a complete data link can be built to meet the needs of intranet and extranet data interoperability, end-to-end cloud synchronisation, data migration, data backup, and so on.
 
 ## Introduction
@@ -45,7 +47,8 @@ The SQL example is as follows:
 CREATE PIPE <PipeId> -- PipeId is the name that uniquely identifies the task.
 -- Data Extraction Plugin, Required Plugin
 WITH SOURCE (
-  [<parameter> = <value>,], [<value>,]
+  [<parameter> = <value>,],
+)
 -- Data connection plugin, required
 WITH SINK (
   [<parameter> = <value>,], -- data connection plugin, required.
@@ -309,7 +312,7 @@ with sink (
 
 ## Reference: Notes
 
-The IoTDB configuration file (iotdb-system.properties) can be modified in order to adjust the parameters for data synchronisation, such as the synchronisation data storage directory. The complete configuration is as follows:
+The IoTDB configuration file (iotdb-common.properties) can be modified in order to adjust the parameters for data synchronisation, such as the synchronisation data storage directory. The complete configuration is as follows:
 
 V1.3.0+:
 ```Properties

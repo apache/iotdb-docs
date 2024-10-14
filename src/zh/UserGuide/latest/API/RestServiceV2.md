@@ -19,7 +19,7 @@
 
 -->
 
-# RESTful 服务
+# RESTful API V2
 IoTDB 的 RESTful 服务可用于查询、写入和管理操作，它使用 OpenAPI 标准来定义接口并生成框架。
 
 ## 开启RESTful 服务
@@ -30,7 +30,7 @@ RESTful 服务默认情况是关闭的
 
  * 使用者  
    
-   找到IoTDB安装目录下面的`conf/iotdb-system.properties`文件，将 `enable_rest_service` 设置为 `true` 以启用该模块。
+   找到IoTDB安装目录下面的`conf/iotdb-datanode.properties`文件，将 `enable_rest_service` 设置为 `true` 以启用该模块。
    
    ```properties
     enable_rest_service=true
@@ -127,7 +127,7 @@ query 接口可以用于处理数据查询和元数据查询。
 
 请求头：`application/json`
 
-请求路径：http://ip:port/rest/v2/query
+请求路径： `http://ip:port/rest/v2/query`
 
 参数说明:
 
@@ -149,12 +149,12 @@ query 接口可以用于处理数据查询和元数据查询。
 
 提示:为了避免OOM问题，不推荐使用select * from root.xx.** 这种查找方式。
 
-请求示例 表达式查询:
+1. 请求示例 表达式查询:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"select s3, s4, s3 + 1 from root.sg27 limit 2"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -185,12 +185,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 show child paths:
+2.请求示例 show child paths:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"show child paths root"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -208,12 +208,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 show child nodes:
+3. 请求示例 show child nodes:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"show child nodes root"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -231,12 +231,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 show all ttl:
+4. 请求示例 show all ttl:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"show all ttl"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -259,12 +259,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 show ttl:
+5. 请求示例 show ttl:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"show ttl on root.sg27"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -285,12 +285,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 show functions:
+6. 请求示例 show functions:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"show functions"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -324,12 +324,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 show timeseries:
+7. 请求示例 show timeseries:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"show timeseries"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -398,12 +398,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 show latest timeseries:
+8. 请求示例 show latest timeseries:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"show latest timeseries"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -472,12 +472,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 count timeseries:
+9. 请求示例 count timeseries:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"count timeseries root.**"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -494,12 +494,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 count nodes:
+10. 请求示例 count nodes:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"count nodes root.** level=2"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -516,12 +516,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 show devices:
+11. 请求示例 show devices:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"show devices"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -544,12 +544,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 show devices with database:
+12. 请求示例 show devices with database:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"show devices with database"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -577,12 +577,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 list user:
+13. 请求示例 list user:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"list user"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -599,12 +599,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 原始聚合查询:
+14. 请求示例 原始聚合查询:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"select count(*) from root.sg27"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -627,12 +627,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 group by level:
+15. 请求示例 group by level:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"select count(*) from root.** group by level = 1"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -653,12 +653,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 group by:
+16. 请求示例 group by:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"select count(*) from root.sg27 group by([1635232143960,1635232153960),1s)"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -708,12 +708,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 last:
+17. 请求示例 last:
 ```shell
 curl -H "Content-Type:application/json"  -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"select last s3 from root.sg27"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -740,12 +740,12 @@ curl -H "Content-Type:application/json"  -H "Authorization:Basic cm9vdDpyb290" -
 }
 ```
 
-请求示例 disable align:
+18. 请求示例 disable align:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"select * from root.sg27 disable align"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -754,12 +754,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 align by device:
+19. 请求示例 align by device:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"select count(s3) from root.sg27 align by device"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -768,12 +768,12 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-请求示例 select into:
+20. 请求示例 select into:
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"select s3, s4 into root.sg29.s1, root.sg29.s2 from root.sg27"}' http://127.0.0.1:18080/rest/v2/query
 ```
 
-响应示例:
+- 响应示例:
 
 ```json
 {
@@ -788,7 +788,7 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 
 请求头：`application/json`
 
-请求路径：http://ip:port/rest/v2/nonQuery
+请求路径：`http://ip:port/rest/v2/nonQuery`
 
 参数说明:
 
@@ -824,7 +824,7 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 
 请求头：`application/json`
 
-请求路径：http://ip:port/rest/v2/insertTablet
+请求路径：`http://ip:port/rest/v2/insertTablet`
 
 参数说明:
 
@@ -863,7 +863,7 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 
 请求头：`application/json`
 
-请求路径：http://ip:port/rest/v2/insertRecords
+请求路径：`http://ip:port/rest/v2/insertRecords`
 
 参数说明:
 
@@ -899,7 +899,7 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 
 ## 配置
 
-配置位于 `iotdb-system.properties` 中。
+配置位于 `iotdb-datanode.properties` 中。
 
 
 
