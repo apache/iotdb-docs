@@ -19,7 +19,7 @@
 
 -->
 
-# Data Synchronisation
+# Data Sync
 
 Data synchronization is a typical requirement in industrial Internet of Things (IoT). Through data synchronization mechanisms, it is possible to achieve data sharing between IoTDB, and to establish a complete data link to meet the needs for internal and external network data interconnectivity, edge-cloud synchronization, data migration, and data backup.
 
