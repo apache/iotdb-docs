@@ -377,7 +377,7 @@ with sink (
 ```
 
 
-### Compression Synchronization (V1.3.2+)
+### Compression Synchronization (V1.3.3+)
 
 IoTDB supports specifying data compression methods during the synchronization process. By configuring the  `compressor` parameter, real-time data compression and transmission can be achieved. The  `compressor` currently supports five optional algorithms: snappy, gzip, lz4, zstd, and lzma2, and multiple compression algorithms can be combined, compressed in the order of configuration.
 

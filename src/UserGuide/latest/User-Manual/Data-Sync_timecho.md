@@ -435,19 +435,6 @@ with sink (
   'node-urls' = '10.53.53.53:9780', -- The URL of the data service port of the DataNode node on the target IoTDB
 ```
 
-### Compression Synchronization (V1.3.2+)
-
-IoTDB supports specifying data compression methods during the synchronization process. By configuring the  `compressor` parameter, real-time data compression and transmission can be achieved. The  `compressor` currently supports five optional algorithms: snappy, gzip, lz4, zstd, and lzma2, and multiple compression algorithms can be combined, compressed in the order of configuration.
-
-For example, to create a synchronization task named A2B:
-
-```SQL
-create pipe A2B 
-with sink (
- 'node-urls' = '127.0.0.1:6668', -- The URL of the data service port of the DataNode node on the target IoTDB
- 'compressor' = 'snappy,lz4'  -- Compression algorithms
-)
-```
 
 ### Encrypted Synchronization (V1.3.1+)
 

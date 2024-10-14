@@ -370,20 +370,6 @@ with sink (
 )
 ```
 
-### 压缩同步（V1.3.2+ ）
-
-IoTDB 支持在同步过程中指定数据压缩方式。可通过配置 `compressor` 参数，实现数据的实时压缩和传输。`compressor`目前支持 snappy / gzip / lz4 / zstd / lzma2 5 种可选算法，且可以选择多种压缩算法组合，按配置的顺序进行压缩。
-
-如创建一个名为 A2B 的同步任务：
-
-```SQL
-create pipe A2B 
-with sink (
- 'node-urls' = '127.0.0.1:6668', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
- 'compressor' = 'snappy,lz4'  -- 压缩算法
-)
-```
-
 ### 加密同步（V1.3.1+ ）
 
 IoTDB 支持在同步过程中使用 SSL 加密，从而在不同的 IoTDB 实例之间安全地传输数据。通过配置 SSL 相关的参数，如证书地址和密码（`ssl.trust-store-path`）、（`ssl.trust-store-pwd`）可以确保数据在同步过程中被 SSL 加密所保护。
