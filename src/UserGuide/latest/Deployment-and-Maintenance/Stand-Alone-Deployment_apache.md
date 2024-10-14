@@ -53,17 +53,17 @@ cd  apache-iotdb-{version}-all-bin
 
 #### Environment Script Configuration
 
-- ./conf/confignode env.sh (./conf/confignode env.bat) configuration
+- ./conf/confignode env.sh (./conf/confignode-env.bat) configuration
 
 | **Configuration** |                       **Description**                        | **Default** |                    **Recommended value**                     |                Note                 |
 | :---------------: | :----------------------------------------------------------: | :---------: | :----------------------------------------------------------: | :---------------------------------: |
 |    MEMORY_SIZE    | The total amount of memory that IoTDB ConfigNode nodes can use |    empty    | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
 
-- ./conf/datanode-env.sh（./conf/datanode-env.bat）configuration
+- ./conf/datanode env.sh (./conf/datanode-env.bat) configuration
 
-| **Configuration** |                       **Description**                        | **Default** |                    **Recommended value**                     |                Note                 |
-| :---------------: | :----------------------------------------------------------: | :---------: | :----------------------------------------------------------: | :---------------------------------: |
-|    MEMORY_SIZE    | The total amount of memory that IoTDB DataNode nodes can use |    empty    | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
+| **Configuration**  |               **Description**               | **Default** |                    **Recommended value**                    |      **Note**      |
+| :---------: | :----------------------------------: | :--------: | :----------------------------------------------: | :----------: |
+| MEMORY_SIZE | The total amount of memory that IoTDB DataNode nodes can use |     empty     | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
 
 #### System General Configuration
 
@@ -77,7 +77,7 @@ Open the general configuration file (./conf/iotdb-common. properties file) and s
 
 #### ConfigNode Configuration
 
-Open the ConfigNode configuration file (./conf/iotdb-configure. properties file) and set the following parameters:
+Open the ConfigNode configuration file (./conf/iotdb-confignode. properties file) and set the following parameters:
 
 |  **Configuration**  |                       **Description**                        |   **Default**   |                    **Recommended value**                     |                   Note                   |
 | :-----------------: | :----------------------------------------------------------: | :-------------: | :----------------------------------------------------------: | :--------------------------------------: |
