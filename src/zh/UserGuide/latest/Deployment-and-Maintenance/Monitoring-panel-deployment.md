@@ -41,7 +41,7 @@ IoTDB配套监控面板是IoTDB企业版配套工具之一。它旨在解决IoTD
 | dn_metric_reporter_list            | conf/iotdb-datanode.properties   | 将配置项取消注释，值设置为PROMETHEUS                         |
 | dn_metric_level                    | conf/iotdb-datanode.properties   | 将配置项取消注释，值设置为IMPORTANT                          |
 | dn_metric_prometheus_reporter_port | conf/iotdb-datanode.properties   | 将配置项取消注释，可默认设置为9092，如设置其他端口，不与其他端口冲突即可 |
-| dn_metric_internal_reporter_type   | conf/iotdb-datanode.properties   | 将配置项取消注释，值设置为IOTDB                              |
+
 
 以3C3D集群为例，需要修改的监控配置如下：
 

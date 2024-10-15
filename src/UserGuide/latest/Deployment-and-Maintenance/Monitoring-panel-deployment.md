@@ -41,7 +41,7 @@ The IoTDB monitoring panel is one of the supporting tools for the IoTDB Enterpri
 | dn_metric_reporter_list            | conf/iotdb-datanode.properties    | Uncomment the configuration item and set the value to PROMETHEUS |
 | dn_metric_level                    | conf/iotdb-datanode.properties    | Uncomment the configuration item and set the value to IMPORTANT |
 | dn_metric_prometheus_reporter_port | conf/iotdb-datanode.properties    | Uncomment the configuration item and set it to 9092 by default. If other ports are set, they will not conflict with each other |
-| dn_metric_internal_reporter_type   | conf/iotdb-datanode.properties    | Uncomment the configuration item and set the value to IOTDB  |
+
 
 Taking the 3C3D cluster as an example, the monitoring configuration that needs to be modified is as follows:
 
