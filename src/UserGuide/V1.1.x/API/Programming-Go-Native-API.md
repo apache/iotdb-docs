@@ -26,7 +26,7 @@
  * golang >= 1.13
  * make   >= 3.0
  * curl   >= 7.1.1
- * thrift 0.13.x
+ * thrift 0.15.0 
  * Linux、Macos or other unix-like systems
  * Windows+bash (WSL、cygwin、Git Bash)
 
