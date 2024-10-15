@@ -53,7 +53,10 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
 | `README.md`    | 文件     | 使用说明                                         |
 
 ### 环境准备  
-- 建议操作环境: Ubuntu, CentOS, MacOS  
+
+- 建议操作环境: Ubuntu 20+, MacOS。
+
+- 对于 Ubuntu 20 以下或 CentOS7 等操作系统， 推荐使用 miniconda 或 手动编译python>= 3.8 。
 
 - 运行环境   
     - 联网环境下 Python >= 3.8即可，且带有 pip 和 venv 工具；非联网环境下需要使用 Python 3.8版本，并从 [此处](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) 下载对应操作系统的zip压缩包（注意下载依赖需选择libs文件夹中的zip压缩包，如下图），并将文件夹下的所有文件拷贝到 `iotdb-enterprise-ainode-<version>` 文件夹中 `lib` 文件夹下，并按下文步骤启动AINode。 
