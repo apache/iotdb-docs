@@ -54,7 +54,9 @@
 | `README.md`    | file     | Instructions                                         |
 
 ### Environmental preparation  
-- Suggested operating environment：Ubuntu, CentOS, MacOS  
+- Suggested operating environment：Ubuntu 20+, MacOS  
+
+- For operating systems such as Ubuntu 20 and below or CentOS 7, it is recommended to use Miniconda or manually compile Python>=3.8 .
 
 - Runtime Environment   
   - Python>=3.8 is sufficient in a networked environment, and comes with pip and venv tools; Python 3.8 version is required for non networked environments, and download the zip package for the corresponding operating system from [here](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) (Note that when downloading dependencies, you need to select the zip file in the libs folder, as shown in the following figure). Copy all files in the folder to the `lib` folder in the iotdb `enterprise android -<version>` folder, and follow the steps below to start AINode.
