@@ -21,7 +21,7 @@
 # Package Acquisition
 
 ## How to obtain the open source version
-The open source installation package can be directly obtained from the Apache IoTDB official website:https://iotdb.apache.org/zh/Download/
+The open source installation package can be directly obtained from the Apache IoTDB official website:https://iotdb.apache.org/Download/
 
 ## Installation Package Structure
 Install the package after decompression（`apache-iotdb-<version>-all-bin.zip`）,After decompressing the installation package, the directory structure is as follows:
