@@ -19,7 +19,7 @@
 
 -->
 
-# Grafana-Plugin
+# Grafana Plugin
 
 
 Grafana is an open source volume metrics monitoring and visualization tool, which can be used to present time series data and analyze application runtime status.
@@ -55,7 +55,7 @@ grafana-cli plugins install apache-iotdb-datasource
 
 * Click on Configuration ->Plugins ->Search IoTDB from local Grafana to install the plugin
 
-### Method 3: Manually install the grafana-plugin plug-in (not recommended)
+### Method 3: Manually install the grafana-plugin plugin (not recommended)
 
 
 * Copy the front-end project target folder generated above to Grafana's plugin directory `${Grafana directory}\data\plugins\`。If there is no such directory, you can manually create it or start grafana and it will be created automatically. Of course, you can also modify the location of plugins. For details, please refer to the following instructions for modifying the location of Grafana's plugin directory.
@@ -91,7 +91,7 @@ For more details，please click [here](https://grafana.com/docs/grafana/latest/i
 
 ### Configure IoTDB REST Service
 
-* Modify `{iotdb directory}/conf/iotdb-common.properties` as following:
+* Modify `{iotdb directory}/conf/iotdb-datanode.properties` as following:
 
 ```properties
 # Is the REST service enabled

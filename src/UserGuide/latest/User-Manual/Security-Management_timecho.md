@@ -19,7 +19,7 @@
 
 -->
 
-# SecurityManagement
+# Security Management
 
 ## White List 
 
@@ -110,7 +110,7 @@ It is available through through configurations:
 
 #### configuration item
 
-In iotdb-engine.properties or iotdb-common.properties, change the following configurations:
+In iotdb-common.properties, change the following configurations:
 
 ```YAML
 ####################

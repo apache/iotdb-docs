@@ -23,7 +23,7 @@
 
 ## TRIGGER
 
-### 1. Instructions
+### Instructions
 
 The trigger provides a mechanism for listening to changes in time series data. With user-defined logic, tasks such as alerting and data forwarding can be conducted.
 
@@ -49,7 +49,7 @@ There are currently two trigger events for the trigger, and other trigger events
 - BEFORE INSERT: Fires before the data is persisted. **Please note that currently the trigger does not support data cleaning and will not change the data to be persisted itself.**
 - AFTER INSERT: Fires after the data is persisted.
 
-### 2. How to Implement a Trigger
+### How to Implement a Trigger
 
 You need to implement the trigger by writing a Java class, where the dependency shown below is required. If you use [Maven](http://search.maven.org/), you can search for them directly from the [Maven repository](http://search.maven.org/).
 
@@ -320,7 +320,7 @@ public class ClusterAlertingExample implements Trigger {
 }
 ```
 
-### 3. Trigger Management
+### Trigger Management
 
 You can create and drop a trigger through an SQL statement, and you can also query all registered triggers through an SQL statement.
 
@@ -397,7 +397,7 @@ The above SQL statement creates a trigger named triggerTest:
 
 - The trigger is stateless.
 - Fires before insertion.
-- Listens on path pattern root.sg.**
+- Listens on path pattern root\.sg.**
 - The implemented trigger class is named `org.apache.iotdb.trigger.ClusterAlertingExample`
 - The JAR package URI is http://jar/ClusterAlertingExample.jar
 - When creating the trigger instance, two parameters, name and limit, are passed in.
@@ -450,7 +450,7 @@ During the process of creating and dropping triggers in the cluster, we maintain
 | DROPPING     | Intermediate state of executing `DROP TRIGGER`, the cluster is in the process of dropping the trigger. | NO                                |
 | TRANSFERRING | The cluster is migrating the location of this trigger instance. | NO                                |
 
-### 4. Notes
+### Notes
 
 - The trigger takes effect from the time of registration, and does not process the existing historical data. **That is, only insertion requests that occur after the trigger is successfully registered will be listened to by the trigger. **
 - The fire process of trigger is synchronous currently, so you need to ensure the efficiency of the trigger, otherwise the writing performance may be greatly affected. **You need to guarantee concurrency safety of triggers yourself**.
@@ -460,7 +460,7 @@ During the process of creating and dropping triggers in the cluster, we maintain
 - The trigger JAR package has a size limit, which must be less than min(`config_node_ratis_log_appender_buffer_size_max`, 2G), where `config_node_ratis_log_appender_buffer_size_max` is a configuration item. For the specific meaning, please refer to the IOTDB configuration item description.
 - **It is better not to have classes with the same full class name but different function implementations in different JAR packages.** For example, trigger1 and trigger2 correspond to resources trigger1.jar and trigger2.jar respectively. If two JAR packages contain a `org.apache.iotdb.trigger.example.AlertListener` class, when `CREATE TRIGGER` uses this class, the system will randomly load the class in one of the JAR packages, which will eventually leads the inconsistent behavior of trigger and other issues.
 
-### 5. Configuration Parameters
+### Configuration Parameters
 
 | Parameter                                         | Meaning                                                      |
 | ------------------------------------------------- | ------------------------------------------------------------ |
@@ -469,13 +469,13 @@ During the process of creating and dropping triggers in the cluster, we maintain
 
 ## CONTINUOUS QUERY (CQ)
 
-### 1. Introduction
+### Introduction
 
 Continuous queries(CQ) are queries that run automatically and periodically on realtime data and store query results in other specified time series.
 
 Users can implement sliding window streaming computing through continuous query, such as calculating the hourly average temperature of a sequence and writing it into a new sequence. Users can customize the `RESAMPLE` clause to create different sliding windows, which can achieve a certain degree of tolerance for out-of-order data.
 
-### 2. Syntax
+### Syntax
 
 ```sql
 CREATE (CONTINUOUS QUERY | CQ) <cq_id> 
@@ -540,7 +540,7 @@ END
 
 ##### `<every_interval>`  is not zero
 
-![4](https://alioss.timecho.com/docs/img/UserGuide/Process-Data/Continuous-Query/pic4.png?raw=true)
+![](https://alioss.timecho.com/docs/img/UserGuide/Process-Data/Continuous-Query/pic4.png?raw=true)
 
 
 - `TIMEOUT POLICY` specify how we deal with the cq task whose previous time interval execution is not finished while the next execution time has reached. The default value is `BLOCKED`.
@@ -548,7 +548,7 @@ END
     - `DISCARD` means that we just discard the current cq execution task and wait for the next execution time and do the next time interval cq task. If using `DISCARD` policy, some time intervals won't be executed when the execution time of one cq task is longer than the `<every_interval>`. However, once a cq task is executed, it will use the latest time interval, so it can catch up at the sacrifice of some time intervals being discarded.
 
 
-### 3. Examples of CQ
+### Examples of CQ
 
 The examples below use the following sample data. It's a real time data stream and we can assume that the data arrives on time.
 
@@ -931,7 +931,7 @@ At **2021-05-11T22:19:00.000+08:00**, `cq5` executes a query within the time ran
 +-----------------------------+-------------------------------+-----------+
 ````
 
-### 4. CQ Management
+### CQ Management
 
 #### Listing continuous queries
 
@@ -979,7 +979,7 @@ DROP CONTINUOUS QUERY s1_count_cq;
 CQs can't be altered once they're created. To change a CQ, you must `DROP` and re`CREATE` it with the updated settings.
 
 
-### 5. CQ Use Cases
+### CQ Use Cases
 
 #### Downsampling and Data Retention
 
@@ -1005,7 +1005,7 @@ SELECT avg(count_s1) from (select count(s1) as count_s1 from root.sg.d group by(
 
 To get the same results:
 
-**1. Create a CQ**
+**Create a CQ**
 
 This step performs the nested sub query in from clause of the query above. The following CQ automatically calculates the number of non-null values of `s1` at 30 minute intervals and writes those counts into the new `root.sg_count.d.count_s1` time series.
 
@@ -1019,7 +1019,7 @@ BEGIN
 END
 ```
 
-**2. Query the CQ results**
+**Query the CQ results**
 
 Next step performs the avg([...]) part of the outer query above.
 
@@ -1030,7 +1030,7 @@ SELECT avg(count_s1) from root.sg_count.d;
 ```
 
 
-### 6. System Parameter Configuration
+### System Parameter Configuration
 
 | Name                                        | Description                                                  | Data Type | Default Value |
 | :------------------------------------------ | ------------------------------------------------------------ | --------- | ------------- |
@@ -1867,23 +1867,23 @@ The instructions should be added in `docs/UserGuide/Operation Manual/DML Data Ma
 
 #### Submit a PR
 
-When you have prepared the UDF source code, test cases, and instructions, you are ready to submit a Pull Request (PR) on [Github](https://github.com/apache/iotdb). You can refer to our code contribution guide to submit a PR: [Pull Request Guide](https://iotdb.apache.org/Development/HowToCommit.html).
+When you have prepared the UDF source code, test cases, and instructions, you are ready to submit a Pull Request (PR) on [Github](https://github.com/apache/iotdb). You can refer to our code contribution guide to submit a PR: [Development Guide](https://iotdb.apache.org/Community/Development-Guide.html).
 
 ### Known Implementations
 
 #### Built-in UDF
 
-1.   Aggregate Functions, such as `SUM`. For details and examples, see the document [Aggregate Functions](../Operators-Functions/Aggregation.md).
-2.   Arithmetic Functions, such as `SIN`. For details and examples, see the document [Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md).
-3.   Comparison Functions, such as `ON_OFF`. For details and examples, see the document [Comparison Operators and Functions](../Operators-Functions/Comparison.md).
-4.   String Processing Functions, such as `STRING_CONTAINS`. For details and examples, see the document [String Processing](../Operators-Functions/String.md).
-5.   Data Type Conversion Function, such as `CAST`. For details and examples, see the document [Data Type Conversion Function](../Operators-Functions/Conversion.md).
-6.   Constant Timeseries Generating Functions, such as `CONST`. For details and examples, see the document [Constant Timeseries Generating Functions](../Operators-Functions/Constant.md).
-7.   Selector Functions, such as `TOP_K`. For details and examples, see the document [Selector Functions](../Operators-Functions/Selection.md).
-8.   Continuous Interval Functions, such as `ZERO_DURATION`. For details and examples, see the document [Continuous Interval Functions](../Operators-Functions/Continuous-Interval.md).
-9.   Variation Trend Calculation Functions, such as `TIME_DIFFERENCE`. For details and examples, see the document [Variation Trend Calculation Functions](../Operators-Functions/Variation-Trend.md).
-10.   Sample Functions, such as `M4`. For details and examples, see the document [Sample Functions](../Operators-Functions/Sample.md).
-11.   Change Points Function, such as `CHANGE_POINTS`. For details and examples, see the document [Time-Series](../Operators-Functions/Time-Series.md).
+1.   Aggregate Functions, such as `SUM`. For details and examples, see the document [Aggregate Functions](../Reference/Function-and-Expression.md#aggregate-functions).
+2.   Arithmetic Functions, such as `SIN`. For details and examples, see the document [Arithmetic Operators and Functions](../Reference/Function-and-Expression.md#arithmetic-operators-and-functions).
+3.   Comparison Functions, such as `ON_OFF`. For details and examples, see the document [Comparison Operators and Functions](../Reference/Function-and-Expression.md#comparison-operators-and-functions).
+4.   String Processing Functions, such as `STRING_CONTAINS`. For details and examples, see the document [String Processing](../Reference/Function-and-Expression.md#string-processing).
+5.   Data Type Conversion Function, such as `CAST`. For details and examples, see the document [Data Type Conversion Function](../Reference/Function-and-Expression.md#data-type-conversion-function).
+6.   Constant Timeseries Generating Functions, such as `CONST`. For details and examples, see the document [Constant Timeseries Generating Functions](../Reference/Function-and-Expression.md#constant-timeseries-generating-functions).
+7.   Selector Functions, such as `TOP_K`. For details and examples, see the document [Selector Functions](../Reference/Function-and-Expression.md#selector-functions).
+8.   Continuous Interval Functions, such as `ZERO_DURATION`. For details and examples, see the document [Continuous Interval Functions](../Reference/Function-and-Expression.md#continuous-interval-functions).
+9.   Variation Trend Calculation Functions, such as `TIME_DIFFERENCE`. For details and examples, see the document [Variation Trend Calculation Functions](../Reference/Function-and-Expression.md#variation-trend-calculation-functions).
+10.   Sample Functions, such as `M4`. For details and examples, see the document [Sample Functions](../Reference/Function-and-Expression.md#sample-functions).
+11.   Change Points Function, such as `CHANGE_POINTS`. For details and examples, see the document [Time-Series](../Reference/Function-and-Expression.md#time-series-processing).
 
 #### Data Quality Function Library
 
@@ -1902,14 +1902,14 @@ The functions in this function library are not built-in functions, and must be l
 
 ##### Implemented Functions
 
-1.   Data Quality related functions, such as `Completeness`. For details and examples, see the document [Data-Quality](../Operators-Functions/Data-Quality.md).
-2.   Data Profiling related functions, such as `ACF`. For details and examples, see the document [Data-Profiling](../Operators-Functions/Data-Profiling.md).
-3.   Anomaly Detection related functions, such as `IQR`. For details and examples, see the document [Anomaly-Detection](../Operators-Functions/Anomaly-Detection.md).
-4.   Frequency Domain Analysis related functions, such as `Conv`. For details and examples, see the document [Frequency-Domain](../Operators-Functions/Frequency-Domain.md).
-5.   Data Matching related functions, such as `DTW`. For details and examples, see the document [Data-Matching](../Operators-Functions/Data-Matching.md).
-6.   Data Repairing related functions, such as `TimestampRepair`. For details and examples, see the document [Data-Repairing](../Operators-Functions/Data-Repairing.md).
-7.   Series Discovery related functions, such as `ConsecutiveSequences`. For details and examples, see the document [Series-Discovery](../Operators-Functions/Series-Discovery.md).
-8.   Machine Learning related functions, such as `AR`. For details and examples, see the document [Machine-Learning](../Operators-Functions/Machine-Learning.md).
+1.   Data Quality related functions, such as `Completeness`. For details and examples, see the document [Data-Quality](../Reference/UDF-Libraries.md#data-quality).
+2.   Data Profiling related functions, such as `ACF`. For details and examples, see the document [Data-Profiling](../Reference/UDF-Libraries.md#data-profiling).
+3.   Anomaly Detection related functions, such as `IQR`. For details and examples, see the document [Anomaly-Detection](../Reference/UDF-Libraries.md#anomaly-detection).
+4.   Frequency Domain Analysis related functions, such as `Conv`. For details and examples, see the document [Frequency-Domain](../Reference/UDF-Libraries.md#frequency-domain-analysis).
+5.   Data Matching related functions, such as `DTW`. For details and examples, see the document [Data-Matching](../Reference/UDF-Libraries.md#data-matching).
+6.   Data Repairing related functions, such as `TimestampRepair`. For details and examples, see the document [Data-Repairing](../Reference/UDF-Libraries.md#data-repairing).
+7.   Series Discovery related functions, such as `ConsecutiveSequences`. For details and examples, see the document [Series-Discovery](../Reference/UDF-Libraries.md#series-discovery).
+8.   Machine Learning related functions, such as `AR`. For details and examples, see the document [Machine-Learning](../Reference/UDF-Libraries.md#machine-learning).
 
 
 ### Q&A

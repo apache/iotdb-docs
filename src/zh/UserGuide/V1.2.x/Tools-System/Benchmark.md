@@ -33,7 +33,7 @@ IoT-benchmark 是基于 Java 和大数据环境开发的时序数据库基准测
 
 借鉴 YCSB 测试工具将工作负载生成、性能指标测量和数据库接口三个组件分离的设计思想，IoT-benchmark 的模块化设计如图1-2所示。与基于 YCSB 的测试工具系统不同的是，IoT-benchmark 增加了系统监控模块，支持测试数据和系统指标监控数据的持久化。此外也增加了一些特别针对时序数据场景的特殊负载测试功能，如支持物联网场景的批量写入和多种乱序数据写入模式。
 
-![img](https://alioss.timecho.com/docs/img/bm2.PNG)
+![](https://alioss.timecho.com/docs/img/bm2.PNG)
 
 图1-2
 
@@ -75,28 +75,28 @@ IoT-benchmark 是基于 Java 和大数据环境开发的时序数据库基准测
 
 #### IoT Benchmark 的测试包结构
 
-测试包的目录结构如下图1-3所示。其中测试配置文件为conf/config.properties，测试启动脚本为benchmark.sh (Linux & MacOS) 和 benchmark.bat (Windows)，详细文件用途见表1-2所示。
+测试包的目录结构如下图1-3所示。其中测试配置文件为conf/config.properties，测试启动脚本为benchmark\.sh (Linux & MacOS) 和 benchmark.bat (Windows)，详细文件用途见表1-2所示。
 
-![img](https://alioss.timecho.com/docs/img/bm3.png)
+![](https://alioss.timecho.com/docs/img/bm3.png)
 
 图1-3文件和文件夹列表
 
 | 名称             | 子文件            | 用途                      |
 | ---------------- | ----------------- | ------------------------- |
 | benchmark.bat    | -                 | Windows环境运行启动脚本   |
-| benchmark.sh     | -                 | Linux/Mac环境运行启动脚本 |
+| benchmark\.sh     | -                 | Linux/Mac环境运行启动脚本 |
 | conf             | config.properties | 测试场景配置文件          |
 | logback.xml      | 日志输出配置文件  |                           |
 | lib              | -                 | 依赖库文件                |
 | LICENSE          | -                 | 许可文件                  |
-| bin              | startup.sh        | 初始化脚本文件夹          |
-| ser-benchmark.sh | -                 | 监控模式启动脚本          |
+| bin              | startup\.sh        | 初始化脚本文件夹          |
+| ser-benchmark\.sh | -                 | 监控模式启动脚本          |
 
 表1-2文件和文件夹列表用途
 
 #### IoT Benchmark 执行测试
 
-1. 按照测试需求修改配置文件，主要参数介绍见 1.2 节，对应配置文件为conf/config.properties，**比如测试****Apache** **IoTDB 1.0，则需要修改 DB_SWITCH=IoTDB-100-SESSION_BY_TABLET**
+1. 按照测试需求修改配置文件，主要参数介绍见 1.2 节，对应配置文件为conf/config.properties，**比如测试Apache** **IoTDB 1.0，则需要修改 DB_SWITCH=IoTDB-100-SESSION_BY_TABLET**
 2. 启动被测时间序列数据库
 3. 通过运行
 4. 启动IoT-benchmark执行测试。执行中观测被测时间序列数据库和IoT-benchmark状态，执行完毕后查看结果和分析测试过程。
@@ -105,7 +105,7 @@ IoT-benchmark 是基于 Java 和大数据环境开发的时序数据库基准测
 
 测试的所有日志文件被存放于 logs 文件夹下，测试的结果在测试完成后被存放到 data/csvOutput 文件夹下，例如测试后我们得到了如下的结果矩阵：
 
-![img](https://alioss.timecho.com/docs/img/bm4.png)
+![](https://alioss.timecho.com/docs/img/bm4.png)
 
 - Result Matrix
   - OkOperation：成功的对应操作次数
@@ -267,24 +267,24 @@ IoT-benchmark目前支持通过配置参数“TEST_DATA_PERSISTENCE”将测试�
 
 首先在172.21.4.3和172.21.4.4上分别启动被测时间序列数据库Apache-IoTDB和KairosDB，之后在172.21.4.2、172.21.4.3和172.21.4.4上通过ser-benchamrk.sh脚本启动服务器资源监控（图2-1）。然后按照表2-3在172.21.4.2分别修改iotdb-0.13-0.0.1和kairosdb-0.0.1文件夹内的conf/config.properties文件满足测试需求。先后使用benchmark.sh启动对Apache-IoTDB和KairosDB的写入测试。
 
-![img](https://alioss.timecho.com/docs/img/bm5.png)
+![](https://alioss.timecho.com/docs/img/bm5.png)
 
 图2-1服务器监控任务
 
 ​    例如我们首先启动对KairosDB的测试，IoT-benchmark会在MySQL数据库中创建CONFIG数据表存放本次测试配置信息（图2-2），测试执行中会有日志输出当前测试进度（图2-3）。测试完成时会输出本次测试结果（图2-3），同时将结果写入FINAL_RESULT数据表中（图2-4）。
 
-![img](https://alioss.timecho.com/docs/img/bm6.png)
+![](https://alioss.timecho.com/docs/img/bm6.png)
 
 图2-2测试配置信息表
 
-![img](https://alioss.timecho.com/docs/img/bm7.png)
-![img](https://alioss.timecho.com/docs/img/bm8.png)
-![img](https://alioss.timecho.com/docs/img/bm9.png)
-![img](https://alioss.timecho.com/docs/img/bm10.png)
+![](https://alioss.timecho.com/docs/img/bm7.png)
+![](https://alioss.timecho.com/docs/img/bm8.png)
+![](https://alioss.timecho.com/docs/img/bm9.png)
+![](https://alioss.timecho.com/docs/img/bm10.png)
 
 图2-3测试进度和结果
 
-![img](https://alioss.timecho.com/docs/img/bm11.png)
+![](https://alioss.timecho.com/docs/img/bm11.png)
 
 图2-4测试结果表
 
@@ -313,7 +313,7 @@ IoT-benchmark目前支持通过配置参数“TEST_DATA_PERSISTENCE”将测试�
 
 | 参数名称             | 示例                  |
 | -------------------- | --------------------- |
-| CLIENT_NUMBER        | 100                   |
+| CLIENT_NUMBER        | 10                    |
 | QUERY_DEVICE_NUM     | 2                     |
 | QUERY_SENSOR_NUM     | 2                     |
 | QUERY_AGGREGATE_FUN  | count                 |

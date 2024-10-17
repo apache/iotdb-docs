@@ -107,7 +107,7 @@ If you do not like the above Json format, you can customize your MQTT Message fo
 of codes. An example can be found in `example/mqtt-customize` project.
 
 Steps:
-* Create a java project, and add dependency:
+1. Create a java project, and add dependency:
 ```xml
         <dependency>
             <groupId>org.apache.iotdb</groupId>
@@ -115,7 +115,7 @@ Steps:
             <version>1.1.0-SNAPSHOT</version>
         </dependency>
 ```
-* Define your implementation which implements `org.apache.iotdb.db.protocol.mqtt.PayloadFormatter`
+2. Define your implementation which implements `org.apache.iotdb.db.protocol.mqtt.PayloadFormatter`
 e.g.,
 
 ```java
@@ -157,24 +157,24 @@ public class CustomizedJsonPayloadFormatter implements PayloadFormatter {
 
     @Override
     public String getName() {
-        // set the value of mqtt_payload_formatter in iotdb-datanode.properties as the following string:
+        // set the value of mqtt_payload_formatter in iotdb-common.properties as the following string:
         return "CustomizedJson";
     }
 }
 ```
-* modify the file in `src/main/resources/META-INF/services/org.apache.iotdb.db.protocol.mqtt.PayloadFormatter`:
+3. modify the file in `src/main/resources/META-INF/services/org.apache.iotdb.db.protocol.mqtt.PayloadFormatter`:
   clean the file and put your implementation class name into the file.
   In this example, the content is: `org.apache.iotdb.mqtt.server.CustomizedJsonPayloadFormatter`
-* compile your implementation as a jar file: `mvn package -DskipTests`
+4. compile your implementation as a jar file: `mvn package -DskipTests`
 
 
 Then, in your server:
-* Create ${IOTDB_HOME}/ext/mqtt/ folder, and put the jar into this folder.
-* Update configuration to enable MQTT service. (`enable_mqtt_service=true` in `conf/iotdb-datanode.properties`)
-* Set the value of `mqtt_payload_formatter` in `conf/iotdb-datanode.properties` as the value of getName() in your implementation
+1. Create ${IOTDB_HOME}/ext/mqtt/ folder, and put the jar into this folder.
+2. Update configuration to enable MQTT service. (`enable_mqtt_service=true` in `conf/iotdb-common.properties`)
+3. Set the value of `mqtt_payload_formatter` in `conf/iotdb-common.properties` as the value of getName() in your implementation
   , in this example, the value is `CustomizedJson`
-* Launch the IoTDB server.
-* Now IoTDB will use your implementation to parse the MQTT message.
+4. Launch the IoTDB server.
+5. Now IoTDB will use your implementation to parse the MQTT message.
 
 More: the message format can be anything you want. For example, if it is a binary format, 
 just use `payload.forEachByte()` or `payload.array` to get bytes content. 

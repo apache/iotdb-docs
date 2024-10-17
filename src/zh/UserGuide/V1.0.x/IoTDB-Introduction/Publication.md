@@ -19,20 +19,23 @@
 
 -->
 
-## 研究论文
+# 学术成果
 
 Apache IoTDB 始于清华大学软件学院。IoTDB 是一个用于管理大量时间序列数据的数据库，它采用了列式存储、数据编码、预计算和索引技术，具有类 SQL 的接口，可支持每秒每节点写入数百万数据点，可以秒级获得超过数万亿个数据点的查询结果。它还可以很容易地与 Apache Hadoop、MapReduce 和 Apache Spark 集成以进行分析。
 
 相关研究论文如下：
-
-* [PISA: An Index for Aggregating Big Time Series Data](https://dl.acm.org/citation.cfm?id=2983775&dl=ACM&coll=DL), Xiangdong Huang and Jianmin Wang and Raymond K. Wong and Jinrui Zhang and Chen Wang. CIKM 2016.
-* [Matching Consecutive Subpatterns over Streaming Time Series](https://link.springer.com/chapter/10.1007/978-3-319-96893-3_8), Rong Kang and Chen Wang and Peng Wang and Yuting Ding and Jianmin Wang. APWeb/WAIM 2018.
+* [Grouping Time Series for Efficient Columnar Storage](https://sxsong.github.io/doc/23sigmod-group.pdf), Chenguang Fang, Shaoxu Song, Haoquan Guan, Xiangdong Huang, Chen Wang, Jianmin Wang. SIGMOD 2023.
+* [Learning Autoregressive Model in LSM-Tree based Store](https://sxsong.github.io/doc/23kdd.pdf), Yunxiang Su, Wenxuan Ma, Shaoxu Song. SIGMOD 2023.
+* [TsQuality: Measuring Time Series Data Quality in Apache IoTDB](https://sxsong.github.io/doc/23vldb-qaulity.pdf), Yuanhui Qiu, Chenguang Fang, Shaoxu Song, Xiangdong Huang, Chen Wang, Jianmin Wang. VLDB 2023.
+* [Frequency Domain Data Encoding in Apache IoTDB](https://sxsong.github.io/doc/22vldb-frequency.pdf), Haoyu Wang, Shaoxu Song. VLDB 2023.
+* [Non-Blocking Raft for High Throughput IoT Data](https://sxsong.github.io/doc/23icde-raft.pdf), Tian Jiang, Xiangdong Huang, Shaoxu Song, Chen Wang, Jianmin Wang, Ruibo Li, Jincheng Sun. ICDE 2023.
+* [Backward-Sort for Time Series in Apache IoTDB](https://sxsong.github.io/doc/23icde-sort.pdf), Xiaojian Zhang, Hongyin Zhang, Shaoxu Song, Xiangdong Huang, Chen Wang, Jianmin Wang. ICDE 2023.
+* [Time Series Data Encoding for Efficient Storage: A Comparative Analysis in Apache IoTDB](https://sxsong.github.io/doc/22vldb-encoding.pdf), Jinzhao Xiao, Yuxiang Huang, Changyu Hu, Shaoxu Song, Xiangdong Huang, Jianmin Wang. VLDB 2022.
+* [Separation or Not: On Handing Out-of-Order Time-Series Data in Leveled LSM-Tree](https://sxsong.github.io/doc/22icde-separation.pdf), Yuyuan Kang, Xiangdong Huang, Shaoxu Song, Lingzhe Zhang, Jialin Qiao, Chen Wang, Jianmin Wang, Julian Feinauer. ICDE 2022.
+* [Dual-PISA: An index for aggregation operations on time series data](https://www.sciencedirect.com/science/article/pii/S0306437918305489), Jialin Qiao, Xiangdong Huang, Jianmin Wang, Raymond K Wong. IS 2020.
+* [Apache IoTDB: time-series database for internet of things](http://www.vldb.org/pvldb/vol13/p2901-wang.pdf), Chen Wang, Xiangdong Huang, Jialin Qiao, Tian Jiang, Lei Rui, Jinrui Zhang, Rong Kang, Julian Feinauer, Kevin A. McGrail, Peng Wang, Jun Yuan, Jianmin Wang, Jiaguang Sun. VLDB 2020.
 * [KV-match: A Subsequence Matching Approach Supporting Normalization and Time Warping](https://www.semanticscholar.org/paper/KV-match%3A-A-Subsequence-Matching-Approach-and-Time-Wu-Wang/9ed84cb15b7e5052028fc5b4d667248713ac8592), Jiaye Wu and Peng Wang and Chen Wang and Wei Wang and Jianmin Wang. ICDE 2019.
-* [The Design of Apache IoTDB distributed framework](http://ndbc2019.sdu.edu.cn/info/1002/1044.htm), Tianan Li, Jianmin Wang, Xiangdong Huang, Yi Xu, Dongfang Mao, Jun Yuan. NDBC 2019
-* [Dual-PISA: An index for aggregation operations on time series data](https://www.sciencedirect.com/science/article/pii/S0306437918305489), Jialin Qiao, Xiangdong Huang, Jianmin Wang, Raymond K Wong. IS 2020
+* [The Design of Apache IoTDB distributed framework](http://ndbc2019.sdu.edu.cn/info/1002/1044.htm), Tianan Li, Jianmin Wang, Xiangdong Huang, Yi Xu, Dongfang Mao, Jun Yuan. NDBC 2019.
+* [Matching Consecutive Subpatterns over Streaming Time Series](https://link.springer.com/chapter/10.1007/978-3-319-96893-3_8), Rong Kang and Chen Wang and Peng Wang and Yuting Ding and Jianmin Wang. APWeb/WAIM 2018.
+* [PISA: An Index for Aggregating Big Time Series Data](https://dl.acm.org/citation.cfm?id=2983775&dl=ACM&coll=DL), Xiangdong Huang and Jianmin Wang and Raymond K. Wong and Jinrui Zhang and Chen Wang. CIKM 2016.
 
-## Benchmark 工具
-
-我们还研发了面向时间序列数据库的 Benchmark 工具： 
-
-[https://github.com/thulab/iot-benchmark](https://github.com/thulab/iot-benchmark)

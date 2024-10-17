@@ -37,11 +37,11 @@ It is information measured by detection equipment in an actual scene and can tra
 
 ### Entity (Also called device)
 
-**An entity** is an equipped with measurements in real scenarios. In IoTDB, all measurements should have their corresponding entities.
+**An entity** is an equipped with measurements in real scenarios. In IoTDB, all measurements should have their corresponding entities. Entities do not need to be created manually, the default is the second last layer.
 
 ### Database
 
-**A group of entities.** Users can create any prefix path as a database. Provided that there are four timeseries `root.ln.wf01.wt01.status`, `root.ln.wf01.wt01.temperature`, `root.ln.wf02.wt02.hardware`, `root.ln.wf02.wt02.status`, two devices `wt01`, `wt02` under the path `root.ln` may belong to the same owner or the same manufacturer, so d1 and d2 are closely related. At this point, the prefix path root.vehicle can be designated as a database, which will enable IoTDB to store all devices under it in the same folder. Newly added devices under `root.ln` will also belong to this database.
+**A group of entities.** Users can create any prefix path as a database. Provided that there are four timeseries `root.ln.wf01.wt01.status`, `root.ln.wf01.wt01.temperature`, `root.ln.wf02.wt02.hardware`, `root.ln.wf02.wt02.status`, two devices  `wf01`, `wf02` under the path `root.ln` may belong to the same owner or the same manufacturer, so d1 and d2 are closely related. At this point, the prefix path root.vehicle can be designated as a database, which will enable IoTDB to store all devices under it in the same folder. Newly added devices under `root.ln` will also belong to this database.
 
 In general, it is recommended to create 1 database.
 
@@ -142,6 +142,6 @@ In the following chapters of data definition language, data operation language a
 
 ## Schema Template
 
-In the actual scenario, many entities collect the same measurements, that is, they have the same measurements name and type. A **schema template** can be declared to define the collectable measurements set. Schema template helps save memory by implementing schema sharing. For detailed description, please refer to [Schema Template doc](./Schema-Template.md).
+In the actual scenario, many entities collect the same measurements, that is, they have the same measurements name and type. A **schema template** can be declared to define the collectable measurements set. Schema template helps save memory by implementing schema sharing. For detailed description, please refer to [Schema Template doc](../User-Manual/Operate-Metadata.md#Device-Template).
 
 In the following chapters of, data definition language, data operation language and Java Native Interface, various operations related to schema template will be introduced one by one.

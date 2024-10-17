@@ -19,13 +19,13 @@
 
 -->
 
-# Overview
+# Operator and Expression
 
-This chapter describes the operators and functions supported by IoTDB. IoTDB provides a wealth of built-in operators and functions to meet your computing needs, and supports extensions through the [User-Defined Function](./User-Defined-Function.md).
+This chapter describes the operators and functions supported by IoTDB. IoTDB provides a wealth of built-in operators and functions to meet your computing needs, and supports extensions through the [User-Defined Function](../Reference/UDF-Libraries.md).
 
 A list of all available functions, both built-in and custom, can be displayed with `SHOW FUNCTIONS` command.
 
-See the documentation [Select-Expression](../Query-Data/Select-Expression.md) for the behavior of operators and functions in SQL.
+See the documentation [Select-Expression](../Reference/Function-and-Expression.md#selector-functions) for the behavior of operators and functions in SQL.
 
 ## OPERATORS
 
@@ -41,7 +41,7 @@ See the documentation [Select-Expression](../Query-Data/Select-Expression.md) fo
 | `+`      | addition                  |
 | `-`      | subtraction               |
 
-For details and examples, see the document [Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md).
+For details and examples, see the document [Arithmetic Operators and Functions](../Reference/Function-and-Expression.md#arithmetic-functions).
 
 ### Comparison Operators
 
@@ -64,7 +64,7 @@ For details and examples, see the document [Arithmetic Operators and Functions](
 | `IN` / `CONTAINS`         | is a value in the specified list     |
 | `NOT IN` / `NOT CONTAINS` | is not a value in the specified list |
 
-For details and examples, see the document [Comparison Operators and Functions](../Operators-Functions/Comparison.md).
+For details and examples, see the document [Comparison Operators and Functions](../Reference/Function-and-Expression.md#comparison-operators-and-functions).
 
 ### Logical Operators
 
@@ -74,7 +74,7 @@ For details and examples, see the document [Comparison Operators and Functions](
 | `AND` / `&` / `&&`          | logical AND                       |
 | `OR`/ &#124; / &#124;&#124; | logical OR                        |
 
-For details and examples, see the document [Logical Operators](../Operators-Functions/Logical.md).
+For details and examples, see the document [Logical Operators](../Reference/Function-and-Expression.md#logical-operators).
 
 ### Operator Precedence
 
@@ -99,23 +99,25 @@ The built-in functions can be used in IoTDB without registration, and the functi
 
 ### Aggregate Functions
 
-| Function Name | Description                                                  | Allowed Input Series Data Types | Required Attributes                                          | Output Series Data Type             |
-| ------------- | ------------------------------------------------------------ | ------------------------------- | ------------------------------------------------------------ | ----------------------------------- |
-| SUM           | Summation.                                                   | INT32 INT64 FLOAT DOUBLE        | /                                                            | DOUBLE                              |
-| COUNT         | Counts the number of data points.                            | All types                       | /                                                            | INT                                 |
-| AVG           | Average.                                                     | INT32 INT64 FLOAT DOUBLE        | /                                                            | DOUBLE                              |
-| EXTREME       | Finds the value with the largest absolute value. Returns a positive value if the maximum absolute value of positive and negative values is equal. | INT32 INT64 FLOAT DOUBLE        | /                                                            | Consistent with the input data type |
-| MAX_VALUE     | Find the maximum value.                                      | INT32 INT64 FLOAT DOUBLE        | /                                                            | Consistent with the input data type |
-| MIN_VALUE     | Find the minimum value.                                      | INT32 INT64 FLOAT DOUBLE        | /                                                            | Consistent with the input data type |
-| FIRST_VALUE   | Find the value with the smallest timestamp.                  | All data types                  | /                                                            | Consistent with input data type     |
-| LAST_VALUE    | Find the value with the largest timestamp.                   | All data types                  | /                                                            | Consistent with input data type     |
-| MAX_TIME      | Find the maximum timestamp.                                  | All data Types                  | /                                                            | Timestamp                           |
-| MIN_TIME      | Find the minimum timestamp.                                  | All data Types                  | /                                                            | Timestamp                           |
-| COUNT_IF      | Find the number of data points that continuously meet a given condition and the number of data points that meet the condition (represented by keep) meet the specified threshold. | BOOLEAN                         | `[keep >=/>/=/!=/</<=]threshold`：The specified threshold or threshold condition, it is equivalent to `keep >= threshold` if `threshold` is used alone, type of `threshold` is `INT64` `ignoreNull`：Optional, default value is `true`；If the value is `true`, null values are ignored, it means that if there is a null value in the middle, the value is ignored without interrupting the continuity. If the value is `true`, null values are not ignored, it means that if there are null values in the middle, continuity will be broken | INT64                               |
-| TIME_DURATION | Find the difference between the timestamp of the largest non-null value and the timestamp of the smallest non-null value in a column | All data Types                  | /                                                            | INT64                               |
-| MODE          | Find the mode. Note:  1.Having too many different values in the input series risks a memory exception;  2.If all the elements have the same number of occurrences, that is no Mode, return the value with earliest time;  3.If there are many Modes, return the Mode with earliest time. | All data Types                  | /                                                            | Consistent with the input data type |
+| Function Name | Description                                                  | Allowed Input Series Data Types | Required Attributes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Output Series Data Type                             |
+| ------------- | ------------------------------------------------------------ | ------------------------------- |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
+| SUM           | Summation.                                                   | INT32 INT64 FLOAT DOUBLE        | /                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | DOUBLE                                              |
+| COUNT         | Counts the number of data points.                            | All types                       | /                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | INT                                                 |
+| AVG           | Average.                                                     | INT32 INT64 FLOAT DOUBLE        | /                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | DOUBLE                                              |
+| EXTREME       | Finds the value with the largest absolute value. Returns a positive value if the maximum absolute value of positive and negative values is equal. | INT32 INT64 FLOAT DOUBLE        | /                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Consistent with the input data type                 |
+| MAX_VALUE     | Find the maximum value.                                      | INT32 INT64 FLOAT DOUBLE        | /                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Consistent with the input data type                 |
+| MIN_VALUE     | Find the minimum value.                                      | INT32 INT64 FLOAT DOUBLE        | /                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Consistent with the input data type                 |
+| FIRST_VALUE   | Find the value with the smallest timestamp.                  | All data types                  | /                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Consistent with input data type                     |
+| LAST_VALUE    | Find the value with the largest timestamp.                   | All data types                  | /                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Consistent with input data type                     |
+| MAX_TIME      | Find the maximum timestamp.                                  | All data Types                  | /                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Timestamp                                           |
+| MIN_TIME      | Find the minimum timestamp.                                  | All data Types                  | /                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Timestamp                                           |
+| COUNT_IF      | Find the number of data points that continuously meet a given condition and the number of data points that meet the condition (represented by keep) meet the specified threshold. | BOOLEAN                         | `[keep >=/>/=/!=/</<=]threshold`：The specified threshold or threshold condition, it is equivalent to `keep >= threshold` if `threshold` is used alone, type of `threshold` is `INT64` `ignoreNull`：Optional, default value is `true`；If the value is `true`, null values are ignored, it means that if there is a null value in the middle, the value is ignored without interrupting the continuity. If the value is `true`, null values are not ignored, it means that if there are null values in the middle, continuity will be broken | INT64                                               |
+| TIME_DURATION | Find the difference between the timestamp of the largest non-null value and the timestamp of the smallest non-null value in a column | All data Types                  | /                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | INT64                                               |
+| MODE          | Find the mode. Note:  1.Having too many different values in the input series risks a memory exception;  2.If all the elements have the same number of occurrences, that is no Mode, return the value with earliest time;  3.If there are many Modes, return the Mode with earliest time. | All data Types                  | /                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Consistent with the input data type                 |
+| MAX_BY        | MAX_BY(x, y) returns the value of x corresponding to the maximum value of the input y. MAX_BY(time, x) returns the timestamp when x is at its maximum value.                                                                                                                             | The first input x can be of any type, while the second input y must be of type INT32, INT64, FLOAT, or DOUBLE. | /                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Consistent with the data type of the first input x. |
+| MIN_BY        | MIN_BY(x, y) returns the value of x corresponding to the minimum value of the input y. MIN_BY(time, x) returns the timestamp when x is at its minimum value.                                                                                                                             | The first input x can be of any type, while the second input y must be of type INT32, INT64, FLOAT, or DOUBLE. | /                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Consistent with the data type of the first input x. |
 
-For details and examples, see the document [Aggregate Functions](../Operators-Functions/Aggregation.md).
+For details and examples, see the document [Aggregate Functions](../Reference/Function-and-Expression.md#aggregate-functions).
 
 ### Arithmetic Functions
 
@@ -142,7 +144,7 @@ For details and examples, see the document [Aggregate Functions](../Operators-Fu
 | LOG10         | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#log10(double)                                           |
 | SQRT          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#sqrt(double)                                            |
 
-For details and examples, see the document [Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md).
+For details and examples, see the document [Arithmetic Operators and Functions](../Reference/Function-and-Expression.md#arithmetic-operators-and-functions).
 
 ### Comparison Functions
 
@@ -151,7 +153,7 @@ For details and examples, see the document [Arithmetic Operators and Functions](
 | ON_OFF        | INT32 / INT64 / FLOAT / DOUBLE  | `threshold`: a double type variate        | BOOLEAN                 | Return `ts_value >= threshold`.               |
 | IN_RANGR      | INT32 / INT64 / FLOAT / DOUBLE  | `lower`: DOUBLE type `upper`: DOUBLE type | BOOLEAN                 | Return `ts_value >= lower && value <= upper`. |
 
-For details and examples, see the document [Comparison Operators and Functions](../Operators-Functions/Comparison.md).
+For details and examples, see the document [Comparison Operators and Functions](../Reference/Function-and-Expression.md#comparison-operators-and-functions).
 
 ### String Processing Functions
 
@@ -171,7 +173,8 @@ For details and examples, see the document [Comparison Operators and Functions](
 | TRIM            | TEXT                            | /                                                            | TEXT                    | Get the string whose value is same to input series, with all leading and trailing space removed. |
 | STRCMP          | TEXT                            | /                                                            | TEXT                    | Get the compare result of two input series. Returns `0` if series value are the same, a `negative integer` if value of series1 is smaller than series2, <br/>a `positive integer` if value of series1  is more than series2. |
 
-For details and examples, see the document [String Processing](../Operators-Functions/String.md).
+
+For details and examples, see the document [String Processing](../Reference/Function-and-Expression.md#string-processing).
 
 ### Data Type Conversion Function
 
@@ -179,7 +182,7 @@ For details and examples, see the document [String Processing](../Operators-Func
 | ------------- | ------------------------------------------------------------ | ----------------------- | ------------------------------------------------------------ |
 | CAST          | `type`: Output data type, INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | determined by `type`    | Convert the data to the type specified by the `type` parameter. |
 
-For details and examples, see the document [Data Type Conversion Function](../Operators-Functions/Conversion.md).
+For details and examples, see the document [Data Type Conversion Function](../Reference/Function-and-Expression.md#data-type-conversion-function).
 
 ### Constant Timeseries Generating Functions
 
@@ -189,7 +192,7 @@ For details and examples, see the document [Data Type Conversion Function](../Op
 | PI            | None                                                         | DOUBLE                                       | Data point value: a `double` value of  `π`, the ratio of the circumference of a circle to its diameter, which is equals to `Math.PI` in the *Java Standard Library*. |
 | E             | None                                                         | DOUBLE                                       | Data point value: a `double` value of  `e`, the base of the natural logarithms, which is equals to `Math.E` in the *Java Standard Library*. |
 
-For details and examples, see the document [Constant Timeseries Generating Functions](../Operators-Functions/Constant.md).
+For details and examples, see the document [Constant Timeseries Generating Functions](../Reference/Function-and-Expression.md#constant-timeseries-generating-functions).
 
 ### Selector Functions
 
@@ -198,7 +201,7 @@ For details and examples, see the document [Constant Timeseries Generating Funct
 | TOP_K         | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: the maximum number of selected data points, must be greater than 0 and less than or equal to 1000 | Same type as the input series | Returns `k` data points with the largest values in a time series. |
 | BOTTOM_K      | INT32 / INT64 / FLOAT / DOUBLE / TEXT | `k`: the maximum number of selected data points, must be greater than 0 and less than or equal to 1000 | Same type as the input series | Returns `k` data points with the smallest values in a time series. |
 
-For details and examples, see the document [Selector Functions](../Operators-Functions/Selection.md).
+For details and examples, see the document [Selector Functions](../Reference/Function-and-Expression.md#selector-functions).
 
 ### Continuous Interval Functions
 
@@ -209,7 +212,7 @@ For details and examples, see the document [Selector Functions](../Operators-Fun
 | ZERO_COUNT        | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:Optional with default value `1L` `max`:Optional with default value `Long.MAX_VALUE` | Long                    | Return intervals' start times and the number of data points in the interval in which the value is always 0(false). Data points number `n` satisfy `n >= min && n <= max` |
 | NON_ZERO_COUNT    | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:Optional with default value `1L` `max`:Optional with default value `Long.MAX_VALUE` | Long                    | Return intervals' start times and the number of data points in the interval in which the value is always not 0(false). Data points number `n` satisfy `n >= min && n <= max` |
 
-For details and examples, see the document [Continuous Interval Functions](../Operators-Functions/Continuous-Interval.md).
+For details and examples, see the document [Continuous Interval Functions](../Reference/Function-and-Expression.md#continuous-interval-functions).
 
 ### Variation Trend Calculation Functions
 
@@ -222,7 +225,7 @@ For details and examples, see the document [Continuous Interval Functions](../Op
 | NON_NEGATIVE_DERIVATIVE | INT32 / INT64 / FLOAT / DOUBLE                  | /                                                            | DOUBLE                        | Calculates the absolute value of the rate of change of a data point compared to the previous data point, the result is equals to NON_NEGATIVE_DIFFERENCE / TIME_DIFFERENCE. There is no corresponding output for the first data point. |
 | DIFF                    | INT32 / INT64 / FLOAT / DOUBLE                  | `ignoreNull`：optional，default is true. If is true, the previous data point is ignored when it is null and continues to find the first non-null value forwardly. If the value is false, previous data point is not ignored when it is null, the result is also null because null is used for subtraction | DOUBLE                        | Calculates the difference between the value of a data point and the value of the previous data point. There is no corresponding output for the first data point, so output is null |
 
-For details and examples, see the document [Variation Trend Calculation Functions](../Operators-Functions/Variation-Trend.md).
+For details and examples, see the document [Variation Trend Calculation Functions](../Reference/Function-and-Expression.md#variation-trend-calculation-functions).
 
 ### Sample Functions
 
@@ -234,7 +237,7 @@ For details and examples, see the document [Variation Trend Calculation Function
 | EQUAL_SIZE_BUCKET_OUTLIER_SAMPLE | INT32 / INT64 / FLOAT / DOUBLE  | The value range of `proportion` is `(0, 1]`, the default is `0.1`<br> The value of `type` is `avg` or `stendis` or `cos` or `prenextdis`, the default is `avg` <br>The value of `number` should be greater than 0, the default is `3` | INT32 / INT64 / FLOAT / DOUBLE | Returns outlier samples in equal buckets that match the sampling ratio and the number of samples in the bucket |
 | M4                               | INT32 / INT64 / FLOAT / DOUBLE  | Different attributes used by the size window and the time window. The size window uses attributes `windowSize` and `slidingStep`. The time window uses attributes `timeInterval`, `slidingStep`, `displayWindowBegin`, and `displayWindowEnd`. More details see below. | INT32 / INT64 / FLOAT / DOUBLE | Returns the `first, last, bottom, top` points in each sliding window. M4 sorts and deduplicates the aggregated points within the window before outputting them. |
 
-For details and examples, see the document [Sample Functions](../Operators-Functions/Sample.md).
+For details and examples, see the document [Sample Functions](../Reference/Function-and-Expression.md#sample-functions).
 
 ### Change Points Function
 
@@ -242,7 +245,7 @@ For details and examples, see the document [Sample Functions](../Operators-Funct
 | ------------- | ------------------------------- | ------------------- | ----------------------------- | ----------------------------------------------------------- |
 | CHANGE_POINTS | INT32 / INT64 / FLOAT / DOUBLE  | /                   | Same type as the input series | Remove consecutive identical values from an input sequence. |
 
-For details and examples, see the document [Time-Series](../Operators-Functions/Time-Series.md).
+For details and examples, see the document [Time-Series](../Reference/Function-and-Expression.md#time-series-processing).
 
 ## DATA QUALITY FUNCTION LIBRARY
 
@@ -256,19 +259,19 @@ The functions in this function library are not built-in functions, and must be l
 
 1. [Download](https://archive.apache.org/dist/iotdb/1.0.1/apache-iotdb-1.0.1-library-udf-bin.zip) the JAR with all dependencies and the script of registering UDF.
 2. Copy the JAR package to `ext\udf` under the directory of IoTDB system (Please put JAR to this directory of all DataNodes if you use Cluster).
-3. Run `sbin\start-server.bat` (for Windows) or `sbin\start-server.sh` (for Linux or MacOS) to start IoTDB server.
+3. Run `sbin\start-confignode.bat` and then `sbin\start-datanode.bat` (for Windows) or `sbin\start-confignode.sh` and `sbin\start-datanode.sh` (for Linux or MacOS) to start IoTDB server.
 4. Copy the script to the directory of IoTDB system (under the root directory, at the same level as `sbin`), modify the parameters in the script if needed and run it to register UDF.
 
 ### Implemented Functions
 
-1.   Data Quality related functions, such as `Completeness`. For details and examples, see the document [Data-Quality](../Operators-Functions/Data-Quality.md).
-2.   Data Profiling related functions, such as `ACF`. For details and examples, see the document [Data-Profiling](../Operators-Functions/Data-Profiling.md).
-3.   Anomaly Detection related functions, such as `IQR`. For details and examples, see the document [Anomaly-Detection](../Operators-Functions/Anomaly-Detection.md).
-4.   Frequency Domain Analysis related functions, such as `Conv`. For details and examples, see the document [Frequency-Domain](../Operators-Functions/Frequency-Domain.md).
-5.   Data Matching related functions, such as `DTW`. For details and examples, see the document [Data-Matching](../Operators-Functions/Data-Matching.md).
-6.   Data Repairing related functions, such as `TimestampRepair`. For details and examples, see the document [Data-Repairing](../Operators-Functions/Data-Repairing.md).
-7.   Series Discovery related functions, such as `ConsecutiveSequences`. For details and examples, see the document [Series-Discovery](../Operators-Functions/Series-Discovery.md).
-8.   Machine Learning related functions, such as `AR`. For details and examples, see the document [Machine-Learning](../Operators-Functions/Machine-Learning.md).
+1.   Data Quality related functions, such as `Completeness`. For details and examples, see the document [Data-Quality](../Reference/UDF-Libraries.md#data-quality).
+2.   Data Profiling related functions, such as `ACF`. For details and examples, see the document [Data-Profiling](../Reference/UDF-Libraries.md#data-profiling).
+3.   Anomaly Detection related functions, such as `IQR`. For details and examples, see the document [Anomaly-Detection](../Reference/UDF-Libraries.md#anomaly-detection).
+4.   Frequency Domain Analysis related functions, such as `Conv`. For details and examples, see the document [Frequency-Domain](../Reference/UDF-Libraries.md#frequency-domain-analysis).
+5.   Data Matching related functions, such as `DTW`. For details and examples, see the document [Data-Matching](../Reference/UDF-Libraries.md#data-matching).
+6.   Data Repairing related functions, such as `TimestampRepair`. For details and examples, see the document [Data-Repairing](../Reference/UDF-Libraries.md#timestamprepair).
+7.   Series Discovery related functions, such as `ConsecutiveSequences`. For details and examples, see the document [Series-Discovery](../Reference/UDF-Libraries.md).
+8.   Machine Learning related functions, such as `AR`. For details and examples, see the document [Machine-Learning](../Reference/UDF-Libraries.md#machine-learning).
 
 ## LAMBDA EXPRESSION
 
@@ -276,7 +279,7 @@ The functions in this function library are not built-in functions, and must be l
 | ------------- | ----------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------- | ------------------------------------------------------------ |
 | JEXL          | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | `expr` is a lambda expression that supports standard one or multi arguments in the form `x -> {...}` or `(x, y, z) -> {...}`, e.g. `x -> {x * 2}`, `(x, y, z) -> {x + y * z}` | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | Returns the input time series transformed by a lambda expression |
 
-For details and examples, see the document [Lambda](../Operators-Functions/Lambda.md).
+For details and examples, see the document [Lambda](../Reference/Function-and-Expression.md#lambda-expression).
 
 ## CONDITIONAL EXPRESSION
 
@@ -284,7 +287,7 @@ For details and examples, see the document [Lambda](../Operators-Functions/Lambd
 | --------------- | -------------------- |
 | `CASE`          | similar to "if else" |
 
-For details and examples, see the document [Conditional Expressions](../Operators-Functions/Conditional.md).
+For details and examples, see the document [Conditional Expressions](../Reference/Function-and-Expression.md#conditional-expressions).
 
 ## SELECT EXPRESSION
 
@@ -339,7 +342,8 @@ Aggregate functions are many-to-one functions. They perform aggregate calculatio
 > select a, count(a) from root.sg group by ([10,100),10ms)
 > ```
 
-For the aggregation functions supported by IoTDB, see chapter 2.1 of this documentation.
+For the aggregation functions supported by IoTDB, see the document [Aggregate Functions](../Reference/Function-and-Expression.md#aggregate-functions).
+
 
 #### Time Series Generation Function
 
@@ -353,7 +357,7 @@ See this documentation for a list of built-in functions supported in IoTDB.
 
 ##### User-Defined Time Series Generation Functions
 
-IoTDB supports function extension through User Defined Function (click for [User-Defined Function](./Database-Programming.md)) capability.
+IoTDB supports function extension through User Defined Function (click for [User-Defined Function](./Database-Programming.md#udtfuser-defined-timeseries-generating-function)) capability.
 
 ### Nested Expressions
 

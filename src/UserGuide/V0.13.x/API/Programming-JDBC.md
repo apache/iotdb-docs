@@ -19,7 +19,7 @@
 
 -->
 
-## JDBC
+## JDBC (Not Recommend)
 
 *NOTICE: CURRENTLY, JDBC IS USED FOR CONNECTING SOME THIRD-PART TOOLS. 
 IT CAN NOT PROVIDE HIGH THROUGHPUT FOR WRITE OPERATIONS. 
@@ -49,7 +49,7 @@ mvn clean install -pl jdbc -am -Dmaven.test.skip=true
     <dependency>
       <groupId>org.apache.iotdb</groupId>
       <artifactId>iotdb-jdbc</artifactId>
-      <version>0.12.0</version>
+      <version>0.13.4</version>
     </dependency>
 </dependencies>
 ```

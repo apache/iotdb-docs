@@ -29,19 +29,14 @@
 	    <th>release notes</th>  
 	</tr>
     <tr>
-          <td rowspan="2">1.3.0</td>
-          <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.0/apache-iotdb-1.3.0-all-bin.zip">All-in-one</a></td>
-          <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.0/apache-iotdb-1.3.0-all-bin.zip.sha512">SHA512</a></td>
-          <td><a href="https://www.apache.org/dyn/closer.cgi/1.3.0/apache-iotdb-1.3.0-all-bin.zip.asc">ASC</a></td>
-          <td rowspan="2"><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.0/apache-iotdb-1.3.0-source-release.zip">Sources</a></td>
-          <td rowspan="2"><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.0/apache-iotdb-1.3.0-source-release.zip.sha512">SHA512</a></td>
-          <td rowspan="2"><a href="https://www.apache.org/dyn/closer.cgi/1.3.0/apache-iotdb-1.3.0-source-release.zip.asc">ASC</a></td>
-          <td rowspan="2"><a href="https://dlcdn.apache.org/iotdb/1.3.0/RELEASE_NOTES.md">release notes</a></td>
-    </tr>
-    <tr>
-          <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.0/apache-iotdb-1.3.0-library-udf-bin.zip">Library-udf</a></td>
-          <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.0/apache-iotdb-1.3.0-library-udf-bin.zip.sha512">SHA512</a></td>
-          <td><a href="https://www.apache.org/dyn/closer.cgi/1.3.0/apache-iotdb-1.3.0-library-udf-bin.zip.asc">ASC</a></td>
+          <td rowspan="1">1.3.2</td>
+          <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-all-bin.zip">All-in-one</a></td>
+          <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-all-bin.zip.sha512">SHA512</a></td>
+          <td><a href="https://www.apache.org/dyn/closer.cgi/1.3.2/apache-iotdb-1.3.2-all-bin.zip.asc">ASC</a></td>
+          <td rowspan="1"><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-source-release.zip">Sources</a></td>
+          <td rowspan="1"><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-source-release.zip.sha512">SHA512</a></td>
+          <td rowspan="1"><a href="https://www.apache.org/dyn/closer.cgi/1.3.2/apache-iotdb-1.3.2-source-release.zip.asc">ASC</a></td>
+          <td rowspan="1"><a href="https://raw.githubusercontent.com/apache/iotdb/rc/1.3.2/RELEASE_NOTES.md">release notes</a></td>
     </tr>
     <tr>
           <td rowspan="3">0.13.4</td>
@@ -81,7 +76,7 @@ Legacy version are available here: [https://archive.apache.org/dist/iotdb/](http
 
 ## About Version 1.0
 
-**After we release version 1.0, how to upgrade from v.13.x to v1.0.x?**
+**After we release version 1.0, how to upgrade from v0.13.x to v1.0.x?**
   
   - **Version 1.0 has changed the SQL syntax conventions (please refer to the syntax conventions section of the user manual)**.
   - In order to ensure the stability of UDF-related APIs, in version 1.0, UDF-related APIs are seperated into an independent module and no longer depend on the tsfile package. The implemented UDFs need to rewrite the code, replace `TsDataType` with `Type`, and replace `org .apache.iotdb.tsfile.utils.Binary` with `org.apache.iotdb.udf.api.type.Binary`, then redo the packaging and loading process.
@@ -225,7 +220,7 @@ Query the data of root.sg.a, you can see that the string is unescaped:
     with what you set in the old version.
   * stop the old version instance, and start the new one.
 
-- How to upgrade from v.12.x to v0.13.x?
+- How to upgrade from v0.12.x to v0.13.x?
 
   * The data format (i.e., TsFile data) of v0.12.x and v0.13.x are compatible, but the WAL file is
     incompatible. So, you can follow the steps:
@@ -246,7 +241,7 @@ Query the data of root.sg.a, you can see that the string is unescaped:
     * **['\u2E80'..'\u9FFF'] (UNICODE Chinese characters)**
   * **In 0.13, if the path node name in the `SELECT` clause consists of pure numbers, it needs to be enclosed in backquotes to distinguish it from the constant in the expression. For example, in the statement "select 123 + \`123\` from root.sg", the former 123 represents a constant, and the latter \`123\` will be spliced with root.sg, indicating the path root.sg.\`123\`.**
 
-- How to upgrade from v.11.x or v0.10.x to v0.12.x?
+- How to upgrade from v0.11.x or v0.10.x to v0.12.x?
   * Upgrading from v0.11 or v0.10 to v0.12 is similar as v0.9 to v0.10. The upgrade tool will rewrite the data files automatically.
   * **<font color=red>Stop writing new data.</font>**
   * Call `flush` command using sbin/start-cli.sh in original version to close all TsFiles.
@@ -261,7 +256,7 @@ Query the data of root.sg.a, you can see that the string is unescaped:
   * __NOTICE 2: V0.12 doesn't support upgrade from v0.9 or lower version, please upgrade to v0.10 first if needed.__
   * __NOTICE 3: We don't recommend deleting data before the upgrading finished. The deletion will fail if you try to delete data in the database with upgrading files.__
 
-- How to upgrade from v.10.x to v0.11.x?
+- How to upgrade from v0.10.x to v0.11.x?
   * The data format (i.e., TsFile data) of v0.10.x and v0.11 are compatible, but the WAL file is 
   incompatible. So, you can follow the steps:
   * **<font color=red>Stop writing new data.</font>**

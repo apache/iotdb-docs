@@ -23,7 +23,7 @@
 
 IoTDB common files for ConfigNode and DataNode are under `conf`.
 
-* `iotdb-common.properties`：IoTDB common configurations.
+* `iotdb-common.properties`：IoTDB system configurations.
 
 
 ## Effective
@@ -31,7 +31,7 @@ Different configuration parameters take effect in the following three ways:
 
 + **Only allowed to be modified in first start up:** Can't be modified after first start, otherwise the ConfigNode/DataNode cannot start.
 + **After restarting system:** Can be modified after the ConfigNode/DataNode first start, but take effect after restart.
-+ **hot-load:** Can be modified while the ConfigNode/DataNode is running, and trigger through sending the command(sql) `load configuration` to the IoTDB server by client or session.
++ **hot-load:** Can be modified while the ConfigNode/DataNode is running, and trigger through sending the command(sql) `load configuration` or `set configuration` to the IoTDB server by client or session.
 
 ## Configuration File
 
@@ -224,15 +224,6 @@ Different configuration parameters take effect in the following three ways:
 |  Effective  | After restarting system         |
 
 ### Memory Control Configuration
-
-* enable\_mem\_control
-
-|Name| enable\_mem\_control |
-|:---:|:---|
-|Description| enable memory control to avoid OOM|
-|Type|Boolean|
-|Default| true |
-|Effective|After restarting system|
 
 * datanode\_memory\_proportion
 
@@ -478,16 +469,16 @@ Different configuration parameters take effect in the following three ways:
 | :---------: | :------------------------------------------------------------------------------ |
 | Description | To which type a floating number string like "6.7" in a query should be resolved |
 |    Type     | DOUBLE, FLOAT or TEXT                                                           |
-|   Default   | FLOAT                                                                           |
+|   Default   | DOUBLE                                                                           |
 |  Effective  | After restarting system                                                         |
 
 * nan\_string\_infer\_type
 
 |    Name     | nan\_string\_infer\_type                                  |
-| :---------: | :-------------------------------------------------------- |
+| :---------: |:----------------------------------------------------------|
 | Description | To which type the value NaN in a query should be resolved |
 |    Type     | DOUBLE, FLOAT or TEXT                                     |
-|   Default   | FLOAT                                                     |
+|   Default   | DOUBLE                                                    |
 |  Effective  | After restarting system                                   |
 
 ### Query Configurations
@@ -664,15 +655,6 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | 10000                                                                         |
 |  Effective  | After restarting system                                                       |
 
-* enable\_discard\_out\_of\_order\_data
-
-|    Name     | enable\_discard\_out\_of\_order\_data |
-| :---------: |:--------------------------------------|
-| Description | whether to discard out of order data  |
-|    Type     | Boolean                               |
-|   Default   | false                                 |
-|  Effective  | After restarting system               |
-
 * handle\_system\_error
 
 |    Name     | handle\_system\_error                                  |
@@ -681,15 +663,6 @@ Different configuration parameters take effect in the following three ways:
 |    Type     | String                                                 |
 |   Default   | CHANGE\_TO\_READ\_ONLY                                 |
 |  Effective  | After restarting system                                |
-
-* memtable\_size\_threshold
-
-|    Name     | memtable\_size\_threshold                                    |
-| :---------: | :----------------------------------------------------------- |
-| Description | max memtable size                                            |
-|    Type     | Long                                                         |
-|   Default   | 1073741824                                                   |
-|  Effective  | when enable\_mem\_control is false & After restarting system |
 
 * write\_memory\_variation\_report\_proportion
 
@@ -844,7 +817,7 @@ Different configuration parameters take effect in the following three ways:
 | :---------: |:-----------------------------------------------|
 | Description | enable the compaction between unsequence files |
 |    Type     | Boolean                                        |
-|   Default   | false                                          |
+|   Default   | true                                           |
 |  Effective  | hot-load                                       |
 
 * enable\_cross\_space\_compaction

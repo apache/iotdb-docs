@@ -28,7 +28,7 @@ The Git repository for the Go Native API client is located [here](https://github
  * golang >= 1.13
  * make   >= 3.0
  * curl   >= 7.1.1
- * thrift 0.15.x
+ * thrift 0.15.0
  * Linux、Macos or other unix-like systems
  * Windows+bash (WSL、cygwin、Git Bash)
 

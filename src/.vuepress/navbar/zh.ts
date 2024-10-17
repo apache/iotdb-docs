@@ -23,8 +23,8 @@ export const zhNavbar = navbar([
   {
     text: '文档',
     children: [
-      // { text: 'latest', link: '/zh/UserGuide/Master/QuickStart/QuickStart' },
-      { text: 'v1.3.x', link: '/zh/UserGuide/latest/QuickStart/QuickStart' },
+      // { text: 'latest', link: '/zh/UserGuide/Master/QuickStart/QuickStart_apache' },
+      { text: 'v1.3.0/1/2', link: '/zh/UserGuide/latest/QuickStart/QuickStart_apache' },
       { text: 'v1.2.x', link: '/zh/UserGuide/V1.2.x/QuickStart/QuickStart' },
       { text: 'v1.1.x', link: '/zh/UserGuide/V1.1.x/QuickStart/QuickStart' },
       { text: 'v1.0.x', link: '/zh/UserGuide/V1.0.x/QuickStart/QuickStart' },
@@ -43,16 +43,11 @@ export const zhNavbar = navbar([
     text: '社区',
     children: [
       { text: '关于社区', link: '/zh/Community/About' },
+      { text: '贡献指南', link: '/zh/Community/Development-Guide' },
+      { text: '社区伙伴', link: '/zh/Community/Powered-By' },
       { text: '交流与反馈', link: '/zh/Community/Feedback' },
       { text: '活动与报告', link: 'zh/Community/Materials' },
-    ],
-  },
-  {
-    text: '开发',
-    children: [
-      { text: '成为开发者', link: '/zh/Development/Community-Project-Committers' },
-      { text: '开发指南', link: '/zh/Development/Development-Guide' },
-      { text: 'Power by', link: '/zh/Development/Powered-By' },
+      { text: 'Commiters', link: '/zh/Community/Community-Project-Committers' },
     ],
   },
   {
@@ -64,6 +59,7 @@ export const zhNavbar = navbar([
       { text: '赞助', link: 'https://www.apache.org/foundation/sponsorship.html' },
       { text: '致谢', link: 'https://www.apache.org/foundation/thanks.html' },
       { text: '活动', link: 'https://www.apache.org/events/current-event' },
+      { text: '隐私', link: 'https://privacy.apache.org/policies/privacy-policy-public.html' },
     ],
   },
 ]);

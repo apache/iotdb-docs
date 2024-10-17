@@ -19,25 +19,25 @@
 
 -->
 
-# IoTDB stream processing framework
+# Stream Processing
 
 The IoTDB stream processing framework allows users to implement customized stream processing logic, which can monitor and capture storage engine changes, transform changed data, and push transformed data outward.
 
 We call <font color=RED>a data flow processing task a Pipe</font>. A stream processing task (Pipe) contains three subtasks:
 
-- Extract
-- Process
-- Send (Connect)
+- Source task
+- Processor task
+- Sink task
 
 The stream processing framework allows users to customize the processing logic of three subtasks using Java language and process data in a UDF-like manner.
 In a Pipe, the above three subtasks are executed by three plugins respectively, and the data will be processed by these three plugins in turn:
-Pipe Extractor is used to extract data, Pipe Processor is used to process data, Pipe Connector is used to send data, and the final data will be sent to an external system.
+Pipe Source is used to extract data, Pipe Processor is used to process data, Pipe Sink is used to send data, and the final data will be sent to an external system.
 
 **The model of the Pipe task is as follows:**
 
-![pipe.png](https://alioss.timecho.com/upload/pipe.png)
+![pipe.png](https://alioss.timecho.com/docs/img/1706778988482.jpg)
 
-Describing a data flow processing task essentially describes the properties of Pipe Extractor, Pipe Processor and Pipe Connector plugins.
+Describing a data flow processing task essentially describes the properties of Pipe Source, Pipe Processor and Pipe Sink plugins.
 Users can declaratively configure the specific attributes of the three subtasks through SQL statements, and achieve flexible data ETL capabilities by combining different attributes.
 
 Using the stream processing framework, a complete data link can be built to meet the needs of end-side-cloud synchronization, off-site disaster recovery, and read-write load sub-library*.
@@ -52,7 +52,7 @@ It is recommended to use maven to build the project and add the following depend
 <dependency>
     <groupId>org.apache.iotdb</groupId>
     <artifactId>pipe-api</artifactId>
-    <version>1.2.1</version>
+    <version>1.3.1</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -61,7 +61,7 @@ It is recommended to use maven to build the project and add the following depend
 
 The user programming interface design of the stream processing plugin refers to the general design concept of the event-driven programming model. Events are data abstractions in the user programming interface, and the programming interface is decoupled from the specific execution method. It only needs to focus on describing the processing method expected by the system after the event (data) reaches the system.
 
-In the user programming interface of the stream processing plugin, events are an abstraction of database data writing operations. The event is captured by the stand-alone stream processing engine, and is passed to the PipeExtractor plugin, PipeProcessor plugin, and PipeConnector plugin in sequence according to the three-stage stream processing process, and triggers the execution of user logic in the three plugins in turn.
+In the user programming interface of the stream processing plugin, events are an abstraction of database data writing operations. The event is captured by the stand-alone stream processing engine, and is passed to the PipeSource plugin, PipeProcessor plugin, and PipeSink plugin in sequence according to the three-stage stream processing process, and triggers the execution of user logic in the three plugins in turn.
 
 In order to take into account the low latency of stream processing in low load scenarios on the end side and the high throughput of stream processing in high load scenarios on the end side, the stream processing engine will dynamically select processing objects in the operation logs and data files. Therefore, user programming of stream processing The interface requires users to provide processing logic for the following two types of events: operation log writing event TabletInsertionEvent and data file writing event TsFileInsertionEvent.
 
@@ -133,95 +133,95 @@ Based on the custom stream processing plugin programming interface, users can ea
 
 #### Data extraction plugin interface
 
-Data extraction is the first stage of the three stages of stream processing data from data extraction to data sending. The data extraction plugin (PipeExtractor) is the bridge between the stream processing engine and the storage engine. It monitors the behavior of the storage engine,
+Data extraction is the first stage of the three stages of stream processing data from data extraction to data sending. The data extraction plugin (PipeSource) is the bridge between the stream processing engine and the storage engine. It monitors the behavior of the storage engine,
 Capture various data write events.
 
 ```java
 /**
- * PipeExtractor
+ * PipeSource
  *
- * <p>PipeExtractor is responsible for capturing events from sources.
+ * <p>PipeSource is responsible for capturing events from sources.
  *
- * <p>Various data sources can be supported by implementing different PipeExtractor classes.
+ * <p>Various data sources can be supported by implementing different PipeSource classes.
  *
- * <p>The lifecycle of a PipeExtractor is as follows:
+ * <p>The lifecycle of a PipeSource is as follows:
  *
  * <ul>
- *   <li>When a collaboration task is created, the KV pairs of `WITH EXTRACTOR` clause in SQL are
- *       parsed and the validation method {@link PipeExtractor#validate(PipeParameterValidator)}
- *       will be called to validate the parameters.
+ *   <li>When a collaboration task is created, the KV pairs of `WITH Source` clause in SQL are
+ *       parsed and the validation method {@link PipeSource#validate(PipeParameterValidator)} will
+ *       be called to validate the parameters.
  *   <li>Before the collaboration task starts, the method {@link
- *       PipeExtractor#customize(PipeParameters, PipeExtractorRuntimeConfiguration)} will be called
- *       to config the runtime behavior of the PipeExtractor.
- *   <li>Then the method {@link PipeExtractor#start()} will be called to start the PipeExtractor.
- *   <li>While the collaboration task is in progress, the method {@link PipeExtractor#supply()} will
- *       be called to capture events from sources and then the events will be passed to the
+ *       PipeSource#customize(PipeParameters, PipeSourceRuntimeConfiguration)} will be called to
+ *       configure the runtime behavior of the PipeSource.
+ *   <li>Then the method {@link PipeSource#start()} will be called to start the PipeSource.
+ *   <li>While the collaboration task is in progress, the method {@link PipeSource#supply()} will be
+ *       called to capture events from sources and then the events will be passed to the
  *       PipeProcessor.
- *   <li>The method {@link PipeExtractor#close()} will be called when the collaboration task is
+ *   <li>The method {@link PipeSource#close()} will be called when the collaboration task is
  *       cancelled (the `DROP PIPE` command is executed).
  * </ul>
  */
-public interface PipeExtractor extends PipePlugin {
+public interface PipeSource extends PipePlugin {
 
-  /**
-   * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
-   * PipeExtractor#customize(PipeParameters, PipeExtractorRuntimeConfiguration)} is called.
-   *
-   * @param validator the validator used to validate {@link PipeParameters}
-   * @throws Exception if any parameter is not valid
-   */
-  void validate(PipeParameterValidator validator) throws Exception;
+    /**
+     * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
+     * PipeSource#customize(PipeParameters, PipeSourceRuntimeConfiguration)} is called.
+     *
+     * @param validator the validator used to validate {@link PipeParameters}
+     * @throws Exception if any parameter is not valid
+     */
+    void validate(PipeParameterValidator validator) throws Exception;
 
-  /**
-   * This method is mainly used to customize PipeExtractor. In this method, the user can do the
-   * following things:
-   *
-   * <ul>
-   *   <li>Use PipeParameters to parse key-value pair attributes entered by the user.
-   *   <li>Set the running configurations in PipeExtractorRuntimeConfiguration.
-   * </ul>
-   *
-   * <p>This method is called after the method {@link
-   * PipeExtractor#validate(PipeParameterValidator)} is called.
-   *
-   * @param parameters used to parse the input parameters entered by the user
-   * @param configuration used to set the required properties of the running PipeExtractor
-   * @throws Exception the user can throw errors if necessary
-   */
-  void customize(PipeParameters parameters, PipeExtractorRuntimeConfiguration configuration)
-          throws Exception;
+    /**
+     * This method is mainly used to customize PipeSource. In this method, the user can do the
+     * following things:
+     *
+     * <ul>
+     *   <li>Use PipeParameters to parse key-value pair attributes entered by the user.
+     *   <li>Set the running configurations in PipeSourceRuntimeConfiguration.
+     * </ul>
+     *
+     * <p>This method is called after the method {@link PipeSource#validate(PipeParameterValidator)}
+     * is called.
+     *
+     * @param parameters used to parse the input parameters entered by the user
+     * @param configuration used to set the required properties of the running PipeSource
+     * @throws Exception the user can throw errors if necessary
+     */
+    void customize(PipeParameters parameters, PipeSourceRuntimeConfiguration configuration)
+            throws Exception;
 
-  /**
-   * Start the extractor. After this method is called, events should be ready to be supplied by
-   * {@link PipeExtractor#supply()}. This method is called after {@link
-   * PipeExtractor#customize(PipeParameters, PipeExtractorRuntimeConfiguration)} is called.
-   *
-   * @throws Exception the user can throw errors if necessary
-   */
-  void start() throws Exception;
+    /**
+     * Start the Source. After this method is called, events should be ready to be supplied by
+     * {@link PipeSource#supply()}. This method is called after {@link
+     * PipeSource#customize(PipeParameters, PipeSourceRuntimeConfiguration)} is called.
+     *
+     * @throws Exception the user can throw errors if necessary
+     */
+    void start() throws Exception;
 
-  /**
-   * Supply single event from the extractor and the caller will send the event to the processor.
-   * This method is called after {@link PipeExtractor#start()} is called.
-   *
-   * @return the event to be supplied. the event may be null if the extractor has no more events at
-   *     the moment, but the extractor is still running for more events.
-   * @throws Exception the user can throw errors if necessary
-   */
-  Event supply() throws Exception;
+    /**
+     * Supply single event from the Source and the caller will send the event to the processor.
+     * This method is called after {@link PipeSource#start()} is called.
+     *
+     * @return the event to be supplied. the event may be null if the Source has no more events at
+     *     the moment, but the Source is still running for more events.
+     * @throws Exception the user can throw errors if necessary
+     */
+    Event supply() throws Exception;
 }
 ```
 
 #### Data processing plugin interface
 
-Data processing is the second stage of the three stages of stream processing data from data extraction to data sending. The data processing plugin (PipeProcessor) is mainly used to filter and transform the data captured by the data extraction plugin (PipeExtractor).
+Data processing is the second stage of the three stages of stream processing data from data extraction to data sending. The data processing plugin (PipeProcessor) is mainly used to filter and transform the data captured by the data extraction plugin (PipeSource).
 various events.
 
 ```java
 /**
  * PipeProcessor
  *
- * <p>PipeProcessor is used to filter and transform the Event formed by the PipeExtractor.
+ * <p>PipeProcessor is used to filter and transform the Event formed by the PipeSource.
  *
  * <p>The lifecycle of a PipeProcessor is as follows:
  *
@@ -231,16 +231,16 @@ various events.
  *       will be called to validate the parameters.
  *   <li>Before the collaboration task starts, the method {@link
  *       PipeProcessor#customize(PipeParameters, PipeProcessorRuntimeConfiguration)} will be called
- *       to config the runtime behavior of the PipeProcessor.
+ *       to configure the runtime behavior of the PipeProcessor.
  *   <li>While the collaboration task is in progress:
  *       <ul>
- *         <li>PipeExtractor captures the events and wraps them into three types of Event instances.
- *         <li>PipeProcessor processes the event and then passes them to the PipeConnector. The
+ *         <li>PipeSource captures the events and wraps them into three types of Event instances.
+ *         <li>PipeProcessor processes the event and then passes them to the PipeSource. The
  *             following 3 methods will be called: {@link
  *             PipeProcessor#process(TabletInsertionEvent, EventCollector)}, {@link
  *             PipeProcessor#process(TsFileInsertionEvent, EventCollector)} and {@link
  *             PipeProcessor#process(Event, EventCollector)}.
- *         <li>PipeConnector serializes the events into binaries and send them to sinks.
+ *         <li>PipeSink serializes the events into binaries and send them to sinks.
  *       </ul>
  *   <li>When the collaboration task is cancelled (the `DROP PIPE` command is executed), the {@link
  *       PipeProcessor#close() } method will be called.
@@ -315,125 +315,126 @@ public interface PipeProcessor extends PipePlugin {
 
 #### Data sending plugin interface
 
-Data sending is the third stage of the three stages of stream processing data from data extraction to data sending. The data sending plugin (PipeConnector) is mainly used to send data processed by the data processing plugin (PipeProcessor).
-Various events, it serves as the network implementation layer of the stream processing framework, and the interface should allow access to multiple real-time communication protocols and multiple connectors.
+Data sending is the third stage of the three stages of stream processing data from data extraction to data sending. The data sending plugin (PipeSink) is mainly used to send data processed by the data processing plugin (PipeProcessor).
+Various events, it serves as the network implementation layer of the stream processing framework, and the interface should allow access to multiple real-time communication protocols and multiple sinks.
 
 ```java
 /**
- * PipeConnector
+ * PipeSink
  *
- * <p>PipeConnector is responsible for sending events to sinks.
+ * <p>PipeSink is responsible for sending events to sinks.
  *
- * <p>Various network protocols can be supported by implementing different PipeConnector classes.
+ * <p>Various network protocols can be supported by implementing different PipeSink classes.
  *
- * <p>The lifecycle of a PipeConnector is as follows:
+ * <p>The lifecycle of a PipeSink is as follows:
  *
  * <ul>
- *   <li>When a collaboration task is created, the KV pairs of `WITH CONNECTOR` clause in SQL are
- *       parsed and the validation method {@link PipeConnector#validate(PipeParameterValidator)}
- *       will be called to validate the parameters.
- *   <li>Before the collaboration task starts, the method {@link
- *       PipeConnector#customize(PipeParameters, PipeConnectorRuntimeConfiguration)} will be called
- *       to config the runtime behavior of the PipeConnector and the method {@link
- *       PipeConnector#handshake()} will be called to create a connection with sink.
+ *   <li>When a collaboration task is created, the KV pairs of `WITH SINK` clause in SQL are
+ *       parsed and the validation method {@link PipeSink#validate(PipeParameterValidator)} will be
+ *       called to validate the parameters.
+ *   <li>Before the collaboration task starts, the method {@link PipeSink#customize(PipeParameters,
+ *       PipeSinkRuntimeConfiguration)} will be called to configure the runtime behavior of the
+ *       PipeSink and the method {@link PipeSink#handshake()} will be called to create a connection
+ *       with sink.
  *   <li>While the collaboration task is in progress:
  *       <ul>
- *         <li>PipeExtractor captures the events and wraps them into three types of Event instances.
- *         <li>PipeProcessor processes the event and then passes them to the PipeConnector.
- *         <li>PipeConnector serializes the events into binaries and send them to sinks. The
- *             following 3 methods will be called: {@link
- *             PipeConnector#transfer(TabletInsertionEvent)}, {@link
- *             PipeConnector#transfer(TsFileInsertionEvent)} and {@link
- *             PipeConnector#transfer(Event)}.
+ *         <li>PipeSource captures the events and wraps them into three types of Event instances.
+ *         <li>PipeProcessor processes the event and then passes them to the PipeSink.
+ *         <li>PipeSink serializes the events into binaries and send them to sinks. The following 3
+ *             methods will be called: {@link PipeSink#transfer(TabletInsertionEvent)}, {@link
+ *             PipeSink#transfer(TsFileInsertionEvent)} and {@link PipeSink#transfer(Event)}.
  *       </ul>
  *   <li>When the collaboration task is cancelled (the `DROP PIPE` command is executed), the {@link
- *       PipeConnector#close() } method will be called.
+ *       PipeSink#close() } method will be called.
  * </ul>
  *
- * <p>In addition, the method {@link PipeConnector#heartbeat()} will be called periodically to check
- * whether the connection with sink is still alive. The method {@link PipeConnector#handshake()}
- * will be called to create a new connection with the sink when the method {@link
- * PipeConnector#heartbeat()} throws exceptions.
+ * <p>In addition, the method {@link PipeSink#heartbeat()} will be called periodically to check
+ * whether the connection with sink is still alive. The method {@link PipeSink#handshake()} will be
+ * called to create a new connection with the sink when the method {@link PipeSink#heartbeat()}
+ * throws exceptions.
  */
-public interface PipeConnector extends PipePlugin {
+public interface PipeSink extends PipePlugin {
 
-  /**
-   * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
-   * PipeConnector#customize(PipeParameters, PipeConnectorRuntimeConfiguration)} is called.
-   *
-   * @param validator the validator used to validate {@link PipeParameters}
-   * @throws Exception if any parameter is not valid
-   */
-  void validate(PipeParameterValidator validator) throws Exception;
+    /**
+     * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
+     * PipeSink#customize(PipeParameters, PipeSinkRuntimeConfiguration)} is called.
+     *
+     * @param validator the validator used to validate {@link PipeParameters}
+     * @throws Exception if any parameter is not valid
+     */
+    void validate(PipeParameterValidator validator) throws Exception;
 
-  /**
-   * This method is mainly used to customize PipeConnector. In this method, the user can do the
-   * following things:
-   *
-   * <ul>
-   *   <li>Use PipeParameters to parse key-value pair attributes entered by the user.
-   *   <li>Set the running configurations in PipeConnectorRuntimeConfiguration.
-   * </ul>
-   *
-   * <p>This method is called after the method {@link
-   * PipeConnector#validate(PipeParameterValidator)} is called and before the method {@link
-   * PipeConnector#handshake()} is called.
-   *
-   * @param parameters used to parse the input parameters entered by the user
-   * @param configuration used to set the required properties of the running PipeConnector
-   * @throws Exception the user can throw errors if necessary
-   */
-  void customize(PipeParameters parameters, PipeConnectorRuntimeConfiguration configuration)
-          throws Exception;
+    /**
+     * This method is mainly used to customize PipeSink. In this method, the user can do the following
+     * things:
+     *
+     * <ul>
+     *   <li>Use PipeParameters to parse key-value pair attributes entered by the user.
+     *   <li>Set the running configurations in PipeSinkRuntimeConfiguration.
+     * </ul>
+     *
+     * <p>This method is called after the method {@link PipeSink#validate(PipeParameterValidator)} is
+     * called and before the method {@link PipeSink#handshake()} is called.
+     *
+     * @param parameters used to parse the input parameters entered by the user
+     * @param configuration used to set the required properties of the running PipeSink
+     * @throws Exception the user can throw errors if necessary
+     */
+    void customize(PipeParameters parameters, PipeSinkRuntimeConfiguration configuration)
+            throws Exception;
 
-  /**
-   * This method is used to create a connection with sink. This method will be called after the
-   * method {@link PipeConnector#customize(PipeParameters, PipeConnectorRuntimeConfiguration)} is
-   * called or will be called when the method {@link PipeConnector#heartbeat()} throws exceptions.
-   *
-   * @throws Exception if the connection is failed to be created
-   */
-  void handshake() throws Exception;
+    /**
+     * This method is used to create a connection with sink. This method will be called after the
+     * method {@link PipeSink#customize(PipeParameters, PipeSinkRuntimeConfiguration)} is called or
+     * will be called when the method {@link PipeSink#heartbeat()} throws exceptions.
+     *
+     * @throws Exception if the connection is failed to be created
+     */
+    void handshake() throws Exception;
 
-  /**
-   * This method will be called periodically to check whether the connection with sink is still
-   * alive.
-   *
-   * @throws Exception if the connection dies
-   */
-  void heartbeat() throws Exception;
+    /**
+     * This method will be called periodically to check whether the connection with sink is still
+     * alive.
+     *
+     * @throws Exception if the connection dies
+     */
+    void heartbeat() throws Exception;
 
-  /**
-   * This method is used to transfer the TabletInsertionEvent.
-   *
-   * @param tabletInsertionEvent TabletInsertionEvent to be transferred
-   * @throws PipeConnectionException if the connection is broken
-   * @throws Exception the user can throw errors if necessary
-   */
-  void transfer(TabletInsertionEvent tabletInsertionEvent) throws Exception;
+    /**
+     * This method is used to transfer the TabletInsertionEvent.
+     *
+     * @param tabletInsertionEvent TabletInsertionEvent to be transferred
+     * @throws PipeConnectionException if the connection is broken
+     * @throws Exception the user can throw errors if necessary
+     */
+    void transfer(TabletInsertionEvent tabletInsertionEvent) throws Exception;
 
-  /**
-   * This method is used to transfer the TsFileInsertionEvent.
-   *
-   * @param tsFileInsertionEvent TsFileInsertionEvent to be transferred
-   * @throws PipeConnectionException if the connection is broken
-   * @throws Exception the user can throw errors if necessary
-   */
-  default void transfer(TsFileInsertionEvent tsFileInsertionEvent) throws Exception {
-    for (final TabletInsertionEvent tabletInsertionEvent :
-            tsFileInsertionEvent.toTabletInsertionEvents()) {
-      transfer(tabletInsertionEvent);
+    /**
+     * This method is used to transfer the TsFileInsertionEvent.
+     *
+     * @param tsFileInsertionEvent TsFileInsertionEvent to be transferred
+     * @throws PipeConnectionException if the connection is broken
+     * @throws Exception the user can throw errors if necessary
+     */
+    default void transfer(TsFileInsertionEvent tsFileInsertionEvent) throws Exception {
+        try {
+            for (final TabletInsertionEvent tabletInsertionEvent :
+                    tsFileInsertionEvent.toTabletInsertionEvents()) {
+                transfer(tabletInsertionEvent);
+            }
+        } finally {
+            tsFileInsertionEvent.close();
+        }
     }
-  }
 
-  /**
-   * This method is used to transfer the Event.
-   *
-   * @param event Event to be transferred
-   * @throws PipeConnectionException if the connection is broken
-   * @throws Exception the user can throw errors if necessary
-   */
-  void transfer(Event event) throws Exception;
+    /**
+     * This method is used to transfer the generic events, including HeartbeatEvent.
+     *
+     * @param event Event to be transferred
+     * @throws PipeConnectionException if the connection is broken
+     * @throws Exception the user can throw errors if necessary
+     */
+    void transfer(Event event) throws Exception;
 }
 ```
 
@@ -444,7 +445,7 @@ The stream processing plugin management statements introduced in this chapter pr
 
 ### Load plugin statement
 
-In IoTDB, if you want to dynamically load a user-defined plugin in the system, you first need to implement a specific plugin class based on PipeExtractor, PipeProcessor or PipeConnector.
+In IoTDB, if you want to dynamically load a user-defined plugin in the system, you first need to implement a specific plugin class based on PipeSource, PipeProcessor or PipeSink.
 Then the plugin class needs to be compiled and packaged into a jar executable file, and finally the plugin is loaded into IoTDB using the management statement for loading the plugin.
 
 The syntax of the management statement for loading the plugin is shown in the figure.
@@ -455,7 +456,7 @@ AS <full class name>
 USING <URI of JAR package>
 ```
 
-Example: If you implement a data processing plugin named edu.tsinghua.iotdb.pipe.ExampleProcessor, and the packaged jar package is pipe-plugin.jar, you want to use this plugin in the stream processing engine, and mark the plugin as example. There are two ways to use the plug-in package, one is to upload to the URI server, and the other is to upload to the local directory of the cluster.
+Example: If you implement a data processing plugin named edu.tsinghua.iotdb.pipe.ExampleProcessor, and the packaged jar package is pipe-plugin.jar, you want to use this plugin in the stream processing engine, and mark the plugin as example. There are two ways to use the plugin package, one is to upload to the URI server, and the other is to upload to the local directory of the cluster.
 
 Method 1: Upload to the URI server
 
@@ -498,74 +499,67 @@ SHOW PIPEPLUGINS
 
 ## System preset stream processing plugin
 
-### Preset extractor plugin
+### Pre-built Source Plugin
 
-####iotdb-extractor
+#### iotdb-source
 
-Function: Extract historical or real-time data inside IoTDB into pipe.
+Function: Extract historical or realtime data inside IoTDB into pipe.
 
 
-| key                                | value                                            | value range                         | required or not |default value|
-| ---------------------------------- | ------------------------------------------------ | -------------------------------------- | -------- |------|
-| source                          | iotdb-source                                  | String: iotdb-source                | required  | - |
-| source.pattern                  | Path prefix for filtering time series                       | String: any time series prefix            | optional  | root |
-| source.history.enable           | Whether to synchronise history data                                 | Boolean: true, false                   | optional | true |
-| source.history.start-time       | Synchronise the start event time of historical data, including start-time   | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional  | Long.MIN_VALUE |
-| source.history.end-time         | end event time for synchronised history data, contains end-time     | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional  | Long.MAX_VALUE |
-| source.realtime.enable          | Whether to synchronise real-time data                                 | Boolean: true, false                   | optional | true |
-| source.realtime.mode            | Extraction mode for real-time data                               | String: hybrid, stream, batch              | optional | hybrid |
-| source.forwarding-pipe-requests | Whether to forward data written by another Pipe (usually Data Sync) | Boolean: true, false                   | optional | true |
+| key                             | value                                                                                                                               | value range                            | required or optional with default |
+|---------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------|-----------------------------------|
+| source                          | iotdb-source                                                                                                                        | String: iotdb-source                   | required                          |
+| source.pattern                  | path prefix for filtering time series                                                                                               | String: any time series prefix         | optional: root                    |
+| source.history.start-time       | start of synchronizing historical data event time，including start-time                                                              | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
+| source.history.end-time         | end of synchronizing historical data event time，including end-time                                                                  | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
+| source.forwarding-pipe-requests | Whether to forward data written by another Pipe (usually Data Sync)                                                                 | Boolean: true, false                   | optional:true                     |
+| start-time(V1.3.1+)             | start of synchronizing all data event time，including start-time. Will disable "history.start-time" "history.end-time" if configured | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MIN_VALUE          |
+| end-time(V1.3.1+)               | end of synchronizing all data event time，including end-time. Will disable "history.start-time" "history.end-time" if configured     | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional: Long.MAX_VALUE          |
+| source.realtime.mode            | Extraction mode for real-time data                                                                                                  | String: hybrid, stream, batch          | optional:hybrid                   |
+| source.forwarding-pipe-requests | Whether to forward data written by another Pipe (usually Data Sync)                                                                 | Boolean: true, false                   | optional:true                     |
 
-> 🚫 **extractor.pattern 参数说明**
+> 🚫 **source.pattern Parameter Description**
 >
->* Pattern needs to use backticks to modify illegal characters or illegal path nodes. For example, if you want to filter root.\`a@b\` or root.\`123\`, you should set pattern to root.\`a@b \` or root.\`123\` (For details, please refer to [When to use single and double quotes and backticks](https://iotdb.apache.org/zh/Download/#_1-0-version incompatible syntax details illustrate))
-> * In the underlying implementation, when pattern is detected as root (default value), the extraction efficiency is higher, and any other format will reduce performance.
-> * The path prefix does not need to form a complete path. For example, when creating a pipe with the parameter 'extractor.pattern'='root.aligned.1':
-     >
-     > * root.aligned.1TS
-> * root.aligned.1TS.\`1\`
-> * root.aligned.100T
-     >
-     > The data will be extracted;
-     >
-     > * root.aligned.\`1\`
-> * root.aligned.\`123\`
-     >
-     > The data will not be extracted.
-> * The data of root.\_\_system will not be extracted by pipe. Although users can include any prefix in extractor.pattern, including prefixes with (or overriding) root.\__system, the data under root.__system will always be ignored by pipe
+> * Pattern should use backquotes to modify illegal characters or illegal path nodes, for example, if you want to filter root.\`a@b\` or root.\`123\`, you should set the pattern to root.\`a@b\` or root.\`123\`（Refer specifically to [Timing of single and double quotes and backquotes](https://iotdb.apache.org/Download/)）
+> * In the underlying implementation, when pattern is detected as root (default value) or a database name, synchronization efficiency is higher, and any other format will reduce performance.
+> * The path prefix does not need to form a complete path. For example, when creating a pipe with the parameter 'source.pattern'='root.aligned.1':
+    >
+    >   * root.aligned.1TS
+    >   * root.aligned.1TS.\`1\`
+>   * root.aligned.100TS
+      >
+      >   the data will be synchronized;
+      >
+      >   * root.aligned.\`1\`
+>   * root.aligned.\`123\`
+      >
+      >   the data will not be synchronized.
 
-> ❗️**Start-time, end-time parameter description of extractor.history**
+> ❗️**start-time, end-time parameter description of source**
 >
-> * start-time, end-time should be in ISO format, such as 2011-12-03T10:15:30 or 2011-12-03T10:15:30+01:00
+> * start-time, end-time should be in ISO format, such as 2011-12-03T10:15:30 or 2011-12-03T10:15:30+01:00. However, version 1.3.1+ supports timeStamp format like 1706704494000.
 
 > ✅ **A piece of data from production to IoTDB contains two key concepts of time**
 >
 > * **event time:** The time when the data is actually produced (or the generation time assigned to the data by the data production system, which is the time item in the data point), also called event time.
 > * **arrival time:** The time when data arrives in the IoTDB system.
 >
-> What we often call out-of-order data refers to data whose **event time** is far behind the current system time (or the maximum **event time** that has been dropped) when the data arrives. On the other hand, whether it is out-of-order data or sequential data, as long as they arrive newly in the system, their **arrival time** will increase with the order in which the data arrives at IoTDB.
+> The out-of-order data we often refer to refers to data whose **event time** is far behind the current system time (or the maximum **event time** that has been dropped) when the data arrives. On the other hand, whether it is out-of-order data or sequential data, as long as they arrive newly in the system, their **arrival time** will increase with the order in which the data arrives at IoTDB.
 
-> 💎 **iotdb-extractor’s work can be split into two stages**
+> 💎 **The work of iotdb-source can be split into two stages**
 >
-> 1. Historical data extraction: all data with **arrival time** < **current system time** when creating pipe is called historical data
-> 2. Real-time data extraction: all **arrival time** >= data of **current system time** when creating pipe is called real-time data
+> 1. Historical data extraction: All data with **arrival time** < **current system time** when creating the pipe is called historical data
+> 2. Realtime data extraction: All data with **arrival time** >= **current system time** when the pipe is created is called realtime data
 >
-> The historical data transmission phase and the real-time data transmission phase are executed serially. Only when the historical data transmission phase is completed, the real-time data transmission phase is executed. **
->
-> Users can specify iotdb-extractor to:
->
-> * Historical data extraction (`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'false'` )
-> * Real-time data extraction (`'extractor.history.enable' = 'false'`, `'extractor.realtime.enable' = 'true'` )
-> * Full data extraction (`'extractor.history.enable' = 'true'`, `'extractor.realtime.enable' = 'true'` )
-> * Disable setting `extractor.history.enable` and `extractor.realtime.enable` to `false` at the same time
-> 
-> 📌 **extractor.realtime.mode: Data extraction mode**
+> The historical data transmission phase and the realtime data transmission phase are executed serially. Only when the historical data transmission phase is completed, the realtime data transmission phase is executed.**
+
+> 📌 **source.realtime.mode: Data extraction mode**
 >
 > * log: In this mode, the task only uses the operation log for data processing and sending
 > * file: In this mode, the task only uses data files for data processing and sending.
 > * hybrid: This mode takes into account the characteristics of low latency but low throughput when sending data one by one in the operation log, and the characteristics of high throughput but high latency when sending in batches of data files. It can automatically operate under different write loads. Switch the appropriate data extraction method. First, adopt the data extraction method based on operation logs to ensure low sending delay. When a data backlog occurs, it will automatically switch to the data extraction method based on data files to ensure high sending throughput. When the backlog is eliminated, it will automatically switch back to the data extraction method based on data files. The data extraction method of the operation log avoids the problem of difficulty in balancing data sending delay or throughput using a single data extraction algorithm.
 
-> 🍕 **extractor.forwarding-pipe-requests: Whether to allow forwarding data transmitted from another pipe**
+> 🍕 **source.forwarding-pipe-requests: Whether to allow forwarding data transmitted from another pipe**
 >
 > * If you want to use pipe to build data synchronization of A -> B -> C, then the pipe of B -> C needs to set this parameter to true, so that the data written by A to B through the pipe in A -> B can be forwarded correctly. to C
 > * If you want to use pipe to build two-way data synchronization (dual-active) of A \<-> B, then the pipes of A -> B and B -> A need to set this parameter to false, otherwise the data will be endless. inter-cluster round-robin forwarding
@@ -574,22 +568,22 @@ Function: Extract historical or real-time data inside IoTDB into pipe.
 
 #### do-nothing-processor
 
-Function: No processing is done on the events passed in by the extractor.
+Function: No processing is done on the events passed in by the source.
 
 
-| key       | value                | value range               | required or optional with default |
-| --------- | -------------------- | ---------------------------- | --------------------------------- |
+| key       | value                | value range                  | required or optional with default |
+|-----------|----------------------|------------------------------|-----------------------------------|
 | processor | do-nothing-processor | String: do-nothing-processor | required                          |
 
-### Preset connector plugin
+### Preset sink plugin
 
-#### do-nothing-connector
+#### do-nothing-sink
 
 Function: No processing is done on the events passed in by the processor.
 
-| key       | value                | value range               | required or optional with default |
-| --------- | -------------------- | ---------------------------- | --------------------------------- |
-| connector | do-nothing-connector | String: do-nothing-connector | required                          |
+| key  | value           | value range             | required or optional with default |
+|------|-----------------|-------------------------|-----------------------------------|
+| sink | do-nothing-sink | String: do-nothing-sink | required                          |
 
 ## Stream processing task management
 
@@ -598,59 +592,57 @@ Function: No processing is done on the events passed in by the processor.
 Use the `CREATE PIPE` statement to create a stream processing task. Taking the creation of a data synchronization stream processing task as an example, the sample SQL statement is as follows:
 
 ```sql
-CREATE PIPE <PipeId> -- PipeId is a name that uniquely identifies the stream processing task
-WITH EXTRACTOR (
-   --Default IoTDB data extraction plugin
-   'extractor' = 'iotdb-extractor',
-   --Path prefix, only data that can match the path prefix will be extracted for subsequent processing and sending
-   'extractor.pattern' = 'root.timecho',
-   -- Whether to extract historical data
-   'extractor.history.enable' = 'true',
-   -- Describes the time range of the extracted historical data, indicating the earliest time
-   'extractor.history.start-time' = '2011.12.03T10:15:30+01:00',
-   -- Describes the time range of the extracted historical data, indicating the latest time
-   'extractor.history.end-time' = '2022.12.03T10:15:30+01:00',
-   -- Whether to extract real-time data
-   'extractor.realtime.enable' = 'true',
-   --Describe the extraction method of real-time data
-   'extractor.realtime.mode' = 'hybrid',
+CREATE PIPE <PipeId> -- PipeId is the name that uniquely identifies the sync task
+WITH SOURCE (
+  -- Default IoTDB Data Extraction Plugin
+  'source'                    = 'iotdb-source',
+  -- Path prefix, only data that can match the path prefix will be extracted for subsequent processing and delivery
+  'source.pattern'            = 'root.timecho',
+  -- Whether to extract historical data
+  'source.history.enable'     = 'true',
+  -- Describes the time range of the historical data being extracted, indicating the earliest possible time
+  'source.history.start-time' = '2011.12.03T10:15:30+01:00',
+  -- Describes the time range of the extracted historical data, indicating the latest time
+  'source.history.end-time'   = '2022.12.03T10:15:30+01:00',
+  -- Whether to extract realtime data
+  'source.realtime.enable'    = 'true',
 )
 WITH PROCESSOR (
-   --The default data processing plugin, which does not do any processing
-   'processor' = 'do-nothing-processor',
+  -- Default data processing plugin, means no processing
+  'processor'                    = 'do-nothing-processor',
 )
-WITH CONNECTOR (
-   -- IoTDB data sending plugin, the target is IoTDB
-   'connector' = 'iotdb-thrift-connector',
-   --The data service IP of one of the DataNode nodes in the target IoTDB
-   'connector.ip' = '127.0.0.1',
-   -- The data service port of one of the DataNode nodes in the target IoTDB
-   'connector.port' = '6667',
+WITH SINK (
+  -- IoTDB data sending plugin with target IoTDB
+  'sink'                    = 'iotdb-thrift-sink',
+  -- Data service for one of the DataNode nodes on the target IoTDB ip
+  'sink.ip'                 = '127.0.0.1',
+  -- Data service port of one of the DataNode nodes of the target IoTDB
+  'sink.port'               = '6667',
 )
 ```
 
 **When creating a stream processing task, you need to configure the PipeId and the parameters of the three plugin parts:**
 
-| Configuration | Description                                                  | Required or not                 | Default implementation | Default implementation description                           | Default implementation description |
-| ------------- | ------------------------------------------------------------ | ------------------------------- | ---------------------- | ------------------------------------------------------------ | ---------------------------------- |
-| PipeId        | A globally unique name that identifies a stream processing   | <font color=red>Required</font> | -                      | -                                                            | -                                  |
-| extractor     | Pipe Extractor plugin, responsible for extracting stream processing data at the bottom of the database | Optional                        | iotdb-extractor        | Integrate the full historical data of the database and subsequent real-time data arriving into the stream processing task | No                                 |
-| processor     | Pipe Processor plugin, responsible for processing data       | Optional                        | do-nothing-processor   | Does not do any processing on the incoming data              | <font color=red>Yes</font>         |
-| connector     | Pipe Connector plugin, responsible for sending data          | <font color=red>Required</font> | -                      | -                                                            | <font color=red>Yes</font>         |
+| Configuration | Description                                                                                         | Required or not                 | Default implementation | Default implementation description                                                                                        | Default implementation description |
+|---------------|-----------------------------------------------------------------------------------------------------|---------------------------------|------------------------|---------------------------------------------------------------------------------------------------------------------------|------------------------------------|
+| PipeId        | A globally unique name that identifies a stream processing                                          | <font color=red>Required</font> | -                      | -                                                                                                                         | -                                  |
+| source        | Pipe Source plugin, responsible for extracting stream processing data at the bottom of the database | Optional                        | iotdb-source           | Integrate the full historical data of the database and subsequent real-time data arriving into the stream processing task | No                                 |
+| processor     | Pipe Processor plugin, responsible for processing data                                              | Optional                        | do-nothing-processor   | Does not do any processing on the incoming data                                                                           | <font color=red>Yes</font>         |
+| sink          | Pipe Sink plugin, responsible for sending data                                                      | <font color=red>Required</font> | -                      | -                                                                                                                         | <font color=red>Yes</font>         |
 
-In the example, the iotdb-extractor, do-nothing-processor and iotdb-thrift-connector plugins are used to build the data flow processing task. IoTDB also has other built-in stream processing plugins, **please check the "System Preset Stream Processing plugin" section**.
+In the example, the iotdb-source, do-nothing-processor and iotdb-thrift-sink plugins are used to build the data flow processing task. IoTDB also has other built-in stream processing plugins, **please check the "System Preset Stream Processing plugin" section**.
 
 **A simplest example of the CREATE PIPE statement is as follows:**
 
 ```sql
 CREATE PIPE <PipeId> -- PipeId is a name that uniquely identifies the stream processing task
-WITH CONNECTOR (
+WITH SINK (
    -- IoTDB data sending plugin, the target is IoTDB
-   'connector' = 'iotdb-thrift-connector',
+   'sink' = 'iotdb-thrift-sink',
    --The data service IP of one of the DataNode nodes in the target IoTDB
-   'connector.ip' = '127.0.0.1',
+   'sink.ip' = '127.0.0.1',
    -- The data service port of one of the DataNode nodes in the target IoTDB
-   'connector.port' = '6667',
+   'sink.port' = '6667',
 )
 ```
 
@@ -658,37 +650,37 @@ The semantics expressed are: synchronize all historical data in this database in
 
 **Notice:**
 
-- EXTRACTOR and PROCESSOR are optional configurations. If you do not fill in the configuration parameters, the system will use the corresponding default implementation.
-- CONNECTOR is a required configuration and needs to be configured declaratively in the CREATE PIPE statement
-- CONNECTOR has self-reuse capability. For different stream processing tasks, if their CONNECTORs have the same KV attributes (the keys corresponding to the values of all attributes are the same), then the system will only create one CONNECTOR instance in the end to realize the duplication of connection resources. use.
+- SOURCE and PROCESSOR are optional configurations. If you do not fill in the configuration parameters, the system will use the corresponding default implementation.
+- SINK is a required configuration and needs to be configured declaratively in the CREATE PIPE statement
+- SINK has self-reuse capability. For different stream processing tasks, if their SINKs have the same KV attributes (the keys corresponding to the values of all attributes are the same), then the system will only create one SINK instance in the end to realize the duplication of connection resources.
 
    - For example, there are the following declarations of two stream processing tasks, pipe1 and pipe2:
 
   ```sql
   CREATE PIPE pipe1
-  WITH CONNECTOR (
-    'connector' = 'iotdb-thrift-connector',
-    'connector.thrift.host' = 'localhost',
-    'connector.thrift.port' = '9999',
+  WITH SINK (
+    'sink' = 'iotdb-thrift-sink',
+    'sink.ip' = 'localhost',
+    'sink.port' = '9999',
   )
 
   CREATE PIPE pipe2
-  WITH CONNECTOR (
-    'connector' = 'iotdb-thrift-connector',
-    'connector.thrift.port' = '9999',
-    'connector.thrift.host' = 'localhost',
+  WITH SINK (
+    'sink' = 'iotdb-thrift-sink',
+    'sink.port' = '9999',
+    'sink.ip' = 'localhost',
   )
   ```
 
-- Because their declarations of CONNECTOR are exactly the same (**even if the order of declaration of some attributes is different**), the framework will automatically reuse the CONNECTORs they declared, and ultimately the CONNECTORs of pipe1 and pipe2 will be the same instance. .
-- When the extractor is the default iotdb-extractor, and extractor.forwarding-pipe-requests is the default value true, please do not build an application scenario that includes data cycle synchronization (it will cause an infinite loop):
+- Because their declarations of SINK are exactly the same (**even if the order of declaration of some attributes is different**), the framework will automatically reuse the SINKs they declared, and ultimately the SINKs of pipe1 and pipe2 will be the same instance. .
+- When the source is the default iotdb-source, and source.forwarding-pipe-requests is the default value true, please do not build an application scenario that includes data cycle synchronization (it will cause an infinite loop):
 
    - IoTDB A -> IoTDB B -> IoTDB A
    - IoTDB A -> IoTDB A
 
 ### Start the stream processing task
 
-After the CREATE PIPE statement is successfully executed, the stream processing task-related instance will be created, but the running status of the entire stream processing task will be set to STOPPED, that is, the stream processing task will not process data immediately.
+After the CREATE PIPE statement is successfully executed, the stream processing task-related instance will be created, but the running status of the entire stream processing task will be set to STOPPED(V1.3.0), that is, the stream processing task will not process data immediately. In version 1.3.1 and later, the status of the task will be set to RUNNING after CREATE.
 
 You can use the START PIPE statement to cause a stream processing task to start processing data:
 
@@ -725,13 +717,13 @@ SHOW PIPES
 The query results are as follows:
 
 ```sql
-+-----------+-----------------------+-------+-------------+-------------+-------------+----------------+
-|         ID|          CreationTime |  State|PipeExtractor|PipeProcessor|PipeConnector|ExceptionMessage|
-+-----------+-----------------------+-------+-------------+-------------+-------------+----------------+
-|iotdb-kafka|2022-03-30T20:58:30.689|RUNNING|          ...|          ...|          ...|            None|
-+-----------+-----------------------+-------+-------------+-------------+-------------+----------------+
-|iotdb-iotdb|2022-03-31T12:55:28.129|STOPPED|          ...|          ...|          ...| TException: ...|
-+-----------+-----------------------+-------+-------------+-------------+-------------+----------------+
++-----------+-----------------------+-------+----------+-------------+--------+----------------+
+|         ID|           CreationTime|  State|PipeSource|PipeProcessor|PipeSink|ExceptionMessage|
++-----------+-----------------------+-------+----------+-------------+--------+----------------+
+|iotdb-kafka|2022-03-30T20:58:30.689|RUNNING|       ...|          ...|     ...|              {}|
++-----------+-----------------------+-------+----------+-------------+--------+----------------+
+|iotdb-iotdb|2022-03-31T12:55:28.129|STOPPED|       ...|          ...|     ...| TException: ...|
++-----------+-----------------------+-------+----------+-------------+--------+----------------+
 ```
 
 You can use `<PipeId>` to specify the status of a stream processing task you want to see:
@@ -740,22 +732,23 @@ You can use `<PipeId>` to specify the status of a stream processing task you wan
 SHOW PIPE <PipeId>
 ```
 
-You can also use the where clause to determine whether the Pipe Connector used by a certain \<PipeId\> is reused.
+You can also use the where clause to determine whether the Pipe Sink used by a certain \<PipeId\> is reused.
 
 ```sql
 SHOW PIPES
-WHERE CONNECTOR USED BY <PipeId>
+WHERE SINK USED BY <PipeId>
 ```
 
 ### Stream processing task running status migration
 
 A stream processing pipe will pass through various states during its managed life cycle:
 
+- **RUNNING:** pipe is working properly
+   - When a pipe is successfully created, its initial state is RUNNING.(V1.3.1+)
 - **STOPPED:** The pipe is stopped. When the pipeline is in this state, there are several possibilities:
-   - When a pipe is successfully created, its initial state is paused.
+   - When a pipe is successfully created, its initial state is STOPPED.(V1.3.0)
    - The user manually pauses a pipe that is in normal running status, and its status will passively change from RUNNING to STOPPED.
    - When an unrecoverable error occurs during the running of a pipe, its status will automatically change from RUNNING to STOPPED
-- **RUNNING:** pipe is working properly
 - **DROPPED:** The pipe task was permanently deleted
 
 The following diagram shows all states and state transitions:
@@ -767,27 +760,28 @@ The following diagram shows all states and state transitions:
 ### Stream processing tasks
 
 
-| Permission name | Description |
-| ----------- | -------------------------- |
-| USE_PIPE | Register a stream processing task. The path is irrelevant. |
-| USE_PIPE | Start the stream processing task. The path is irrelevant. |
-| USE_PIPE | Stop the stream processing task. The path is irrelevant. |
-| USE_PIPE | Offload stream processing tasks. The path is irrelevant. |
-| USE_PIPE | Query stream processing tasks. The path is irrelevant. |
+| Permission name | Description                                                |
+|-----------------|------------------------------------------------------------|
+| USE_PIPE        | Register a stream processing task. The path is irrelevant. |
+| USE_PIPE        | Start the stream processing task. The path is irrelevant.  |
+| USE_PIPE        | Stop the stream processing task. The path is irrelevant.   |
+| USE_PIPE        | Offload stream processing tasks. The path is irrelevant.   |
+| USE_PIPE        | Query stream processing tasks. The path is irrelevant.     |
 
 ### Stream processing task plugin
 
 
-| Permission name | Description |
-| ------------------ | ---------------------------------- |
-| USE_PIPE | Register stream processing task plugin. The path is irrelevant. |
-| USE_PIPE | Uninstall the stream processing task plugin. The path is irrelevant. |
-| USE_PIPE | Query stream processing task plugin. The path is irrelevant. |
+| Permission name | Description                                                          |
+|-----------------|----------------------------------------------------------------------|
+| USE_PIPE        | Register stream processing task plugin. The path is irrelevant.      |
+| USE_PIPE        | Uninstall the stream processing task plugin. The path is irrelevant. |
+| USE_PIPE        | Query stream processing task plugin. The path is irrelevant.         |
 
 ## Configuration parameters
 
 In iotdb-common.properties：
 
+V1.3.0+:
 ```Properties
 ####################
 ### Pipe Configuration
@@ -808,4 +802,53 @@ In iotdb-common.properties：
 
 # The connection timeout (in milliseconds) for the thrift client.
 # pipe_connector_timeout_ms=900000
+
+# The maximum number of selectors that can be used in the async connector.
+# pipe_async_connector_selector_number=1
+
+# The core number of clients that can be used in the async connector.
+# pipe_async_connector_core_client_number=8
+
+# The maximum number of clients that can be used in the async connector.
+# pipe_async_connector_max_client_number=16
+
+# Whether to enable receiving pipe data through air gap.
+# The receiver can only return 0 or 1 in tcp mode to indicate whether the data is received successfully.
+# pipe_air_gap_receiver_enabled=false
+
+# The port for the server to receive pipe data through air gap.
+# pipe_air_gap_receiver_port=9780
+```
+
+V1.3.1+:
+```Properties
+# Uncomment the following field to configure the pipe lib directory.
+# For Windows platform
+# If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is
+# absolute. Otherwise, it is relative.
+# pipe_lib_dir=ext\\pipe
+# For Linux platform
+# If its prefix is "/", then the path is absolute. Otherwise, it is relative.
+# pipe_lib_dir=ext/pipe
+
+# The maximum number of threads that can be used to execute the pipe subtasks in PipeSubtaskExecutor.
+# The actual value will be min(pipe_subtask_executor_max_thread_num, max(1, CPU core number / 2)).
+# pipe_subtask_executor_max_thread_num=5
+
+# The connection timeout (in milliseconds) for the thrift client.
+# pipe_sink_timeout_ms=900000
+
+# The maximum number of selectors that can be used in the sink.
+# Recommend to set this value to less than or equal to pipe_sink_max_client_number.
+# pipe_sink_selector_number=4
+
+# The maximum number of clients that can be used in the sink.
+# pipe_sink_max_client_number=16
+
+# Whether to enable receiving pipe data through air gap.
+# The receiver can only return 0 or 1 in tcp mode to indicate whether the data is received successfully.
+# pipe_air_gap_receiver_enabled=false
+
+# The port for the server to receive pipe data through air gap.
+# pipe_air_gap_receiver_port=9780
 ```

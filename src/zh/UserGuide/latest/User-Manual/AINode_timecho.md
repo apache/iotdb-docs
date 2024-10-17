@@ -19,7 +19,7 @@
 
 -->
 
-# 内生机器学习框架（AINode）
+# AI能力（AINode）
 
 AINode 是 IoTDB 在ConfigNode、DataNode后提供的第三种内生节点，该节点通过与 IoTDB 集群的 DataNode、ConfigNode 的交互，扩展了对时间序列进行机器学习分析的能力，支持从外部引入已有机器学习模型进行注册，并使用注册的模型在指定时序数据上通过简单 SQL 语句完成时序分析任务的过程，将模型的创建、管理及推理融合在数据库引擎中。目前已提供常见时序分析场景（例如预测与异常检测）的机器学习算法或自研模型。
 
@@ -33,11 +33,11 @@ AINode 是 IoTDB 在ConfigNode、DataNode后提供的第三种内生节点，该
 - **DataNode**：负责接收并解析用户的 SQL请求；负责存储时间序列数据；负责数据的预处理计算。
 - **AINode**：负责模型文件的导入创建以及模型推理。
 
-## 1. 优势特点
+## 优势特点
 
 与单独构建机器学习服务相比，具有以下优势：
 
-- **简单易用**：无需使用 Python 或 Java 编程，使用 SQL 语句即可完成机器学习模型管理与推理的完整流程。如创建模型可使用CREATE MODEL语句、使用模型进行推理可使用CALL INFERENCE(...)语句等，使用更急简单便捷。
+- **简单易用**：无需使用 Python 或 Java 编程，使用 SQL 语句即可完成机器学习模型管理与推理的完整流程。如创建模型可使用CREATE MODEL语句、使用模型进行推理可使用CALL INFERENCE(...)语句等，使用更加简单便捷。
 
 - **避免数据迁移**：使用 IoTDB 原生机器学习可以将存储在 IoTDB 中的数据直接应用于机器学习模型的推理，无需将数据移动到单独的机器学习服务平台，从而加速数据处理、提高安全性并降低成本。
 
@@ -49,7 +49,7 @@ AINode 是 IoTDB 在ConfigNode、DataNode后提供的第三种内生节点，该
   - **时间序列标注（Time Series Annotation）**：为每个数据点或特定时间段添加额外的信息或标记，例如事件发生、异常点、趋势变化等，以便更好地理解和分析数据。
 
 
-## 2. 基本概念
+## 基本概念
 
 - **模型（Model）**：机器学习模型，以时序数据作为输入，输出分析任务的结果或决策。模型是AINode 的基本管理单元，支持模型的增（注册）、删、查、用（推理）。
 - **创建（Create）**: 将外部设计或训练好的模型文件或算法加载到MLNode中，由IoTDB统一管理与使用。
@@ -60,18 +60,25 @@ AINode 是 IoTDB 在ConfigNode、DataNode后提供的第三种内生节点，该
 <img src="https://alioss.timecho.com/docs/img/h3.PNG" style="zoom:50%" />
 :::
 
-## 3. 安装部署
+## 安装部署
 
-AINode 的部署可参考文档 [部署指导](../Deployment-and-Maintenance/Deployment-Guide_timecho.md#AINode-部署) 章节。
+AINode 的部署可参考文档 [部署指导](../Deployment-and-Maintenance/AINode_Deployment_timecho.md#AINode-部署) 章节。
 
-
-## 4. 使用指导
+## 使用指导
 
 AINode 对时序数据相关的深度学习模型提供了模型创建及删除的流程，内置模型无需创建及删除，可直接使用，并且在完成推理后创建的内置模型实例将自动销毁。
 
-### 4.1 注册模型
+### 注册模型
 
-通过指定模型输入输出的向量维度，可以注册训练好的深度学习模型，从而用于模型推理。下方为模型注册的SQL语法定义。
+通过指定模型输入输出的向量维度，可以注册训练好的深度学习模型，从而用于模型推理。
+
+符合以下内容的模型可以注册到AINode中：
+  1.  AINode 支持的PyTorch 2.1.0、 2.2.0版本训练的模型，需避免使用2.2.0版本以上的特性。
+  2.  AINode支持使用PyTorch JIT存储的模型，模型文件需要包含模型的参数和结构。
+  3.  模型输入序列可以包含一列或多列，若有多列，需要和模型能力、模型配置文件对应。
+  4.  模型的输入输出维度必须在`config.yaml`配置文件中明确定义。使用模型时，必须严格按照`config.yaml`配置文件中定义的输入输出维度。如果输入输出列数不匹配配置文件，将会导致错误。
+
+下方为模型注册的SQL语法定义。
 
 ```SQL
 create model <model_name> using uri <uri>
@@ -112,7 +119,7 @@ SQL中参数的具体含义如下：
 
 除了本地模型文件的注册，还可以通过URI来指定远程资源路径来进行注册，使用开源的模型仓库（例如HuggingFace）。
 
-#### 4.1.1 示例
+#### 示例
 
 在当前的example文件夹下，包含model.pt和config.yaml文件，model.pt为训练得到，config.yaml的内容如下：
 
@@ -147,7 +154,7 @@ SQL执行后会异步进行注册的流程，可以通过模型展示查看模�
 
 模型注册完成后，就可以通过使用正常查询的方式调用具体函数，进行模型推理。
 
-### 4.2 查看模型
+### 查看模型
 
 注册成功的模型可以通过show models指令查询模型的具体信息。其SQL定义如下：
 
@@ -165,12 +172,12 @@ show models <model_name>
 
 其中，State用于展示当前模型注册的状态，包含以下三个阶段
 
-- **LOADING：**已经在configNode中添加对应的模型元信息，正将模型文件传输到AINode节点上
+- **LOADING**：已经在configNode中添加对应的模型元信息，正将模型文件传输到AINode节点上
 - **ACTIVE:** 模型已经设置完成，模型处于可用状态
-- **DROPPING：**模型删除中，正在从configNode以及AINode处删除模型相关信息
+- **DROPPING**：模型删除中，正在从configNode以及AINode处删除模型相关信息
 - **UNAVAILABLE**: 模型创建失败，可以通过drop model删除创建失败的model_name。
 
-#### 4.2.1 示例
+#### 示例
 
 ```SQL
 IoTDB> show models
@@ -195,7 +202,7 @@ IoTDB> show models
 
 我们前面已经注册了对应的模型，可以通过对应的指定查看模型状态，active表明模型注册成功，可用于推理。
 
-### 4.3 删除模型
+### 删除模型
 
 对于注册成功的模型，用户可以通过SQL进行删除。该操作除了删除configNode上的元信息外，还会删除所有AINode下的相关模型文件。其SQL如下：
 
@@ -205,7 +212,7 @@ drop model <model_name>
 
 需要指定已经成功注册的模型model_name来删除对应的模型。由于模型删除涉及多个节点上的数据删除，操作不会立即完成，此时模型的状态为DROPPING，该状态的模型不能用于模型推理。
 
-### 4.4 使用内置模型推理
+### 使用内置模型推理
 
 SQL语法如下：
 
@@ -217,10 +224,10 @@ call inference(<built_in_model_name>,sql[,<parameterName>=<parameterValue>])
 内置模型推理无需注册流程，通过call关键字，调用inference函数就可以使用模型的推理功能，其对应的参数介绍如下：
 
 - **built_in_model_name:** 内置模型名称
-- **parameterName：**参数名
-- **parameterValue：**参数值
+- **parameterName**：参数名
+- **parameterValue**：参数值
 
-#### 4.4.1 内置模型及参数说明
+#### 内置模型及参数说明
 
 目前已内置如下机器学习模型，具体参数说明请参考以下链接。
 
@@ -234,7 +241,7 @@ call inference(<built_in_model_name>,sql[,<parameterName>=<parameterValue>])
 | GMMHMM               | _GMMHMM               | 标注     | [GMMHMM参数说明](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.annotation.hmm_learn.gmm.GMMHMM.html) |
 | Stray                | _Stray                | 异常检测 | [Stray参数说明](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.annotation.stray.STRAY.html) |
 
-#### 4.4.2 示例
+#### 示例
 
 下面是使用内置模型推理的一个操作示例，使用内置的Stray模型进行异常检测算法，输入为`[144,1]`，输出为`[144,1]`，我们通过SQL使用其进行推理。
 
@@ -274,7 +281,7 @@ IoTDB> call inference(_Stray, "select s0 from root.eg.airline", k=2)
 Total line number = 144
 ```
 
-### 4.5 使用深度学习模型推理
+### 使用深度学习模型推理
 
 SQL语法如下：
 
@@ -291,23 +298,23 @@ window_function:
 在完成模型的注册后，通过call关键字，调用inference函数就可以使用模型的推理功能，其对应的参数介绍如下：
 
 - **model_name**: 对应一个已经注册的模型
-- **sql**：sql查询语句，查询的结果作为模型的输入进行模型推理。查询的结果中行列的维度需要与具体模型config中指定的大小相匹配。(这里的sql不建议使用‘SELECT *’子句，因为在IoTDB中，‘*’并不会对列进行排序，因此列的顺序是未定义的，可以使用'SELECT s0,s1'的方式确保列的顺序符合模型输入的预期)
+- **sql**：sql查询语句，查询的结果作为模型的输入进行模型推理。查询的结果中行列的维度需要与具体模型config中指定的大小相匹配。(这里的sql不建议使用`SELECT *`子句，因为在IoTDB中，`*`并不会对列进行排序，因此列的顺序是未定义的，可以使用`SELECT s0,s1`的方式确保列的顺序符合模型输入的预期)
 - **window_function**: 推理过程中可以使用的窗口函数，目前提供三种类型的窗口函数用于辅助模型推理：
   - **head(window_size)**: 获取数据中最前的window_size个点用于模型推理，该窗口可用于数据裁剪
-  ![](https://alioss.timecho.com/docs/img/s1.png)
+  ![](https://alioss.timecho.com/docs/img/AINode-call1.png)
 
   - **tail(window_size)**：获取数据中最后的window_size个点用于模型推，该窗口可用于数据裁剪
-  ![](https://alioss.timecho.com/docs/img/s2.png)
+  ![](https://alioss.timecho.com/docs/img/AINode-call2.png)
 
-  - **count(window_size, sliding_step)：**基于点数的滑动窗口，每个窗口的数据会分别通过模型进行推理，如下图示例所示，window_size为2的窗口函数将输入数据集分为三个窗口，每个窗口分别进行推理运算生成结果。该窗口可用于连续推理
-  ![](https://alioss.timecho.com/docs/img/s3.png)
+  - **count(window_size, sliding_step)**：基于点数的滑动窗口，每个窗口的数据会分别通过模型进行推理，如下图示例所示，window_size为2的窗口函数将输入数据集分为三个窗口，每个窗口分别进行推理运算生成结果。该窗口可用于连续推理
+  ![](https://alioss.timecho.com/docs/img/AINode-call3.png)
 
 **说明1: window可以用来解决sql查询结果和模型的输入行数要求不一致时的问题，对行进行裁剪。需要注意的是，当列数不匹配或是行数直接少于模型需求时，推理无法进行，会返回错误信息。**
 
 **说明2: 在深度学习应用中，经常将时间戳衍生特征（数据中的时间列）作为生成式任务的协变量，一同输入到模型中以提升模型的效果，但是在模型的输出结果中一般不包含时间列。为了保证实现的通用性，模型推理结果只对应模型的真实输出，如果模型不输出时间列，则结果中不会包含。**
 
 
-#### 4.5.1 示例
+#### 示例
 
 下面是使用深度学习模型推理的一个操作示例，针对上面提到的输入为`[96,2]`，输出为`[48,2]`的`dlinear`预测模型，我们通过SQL使用其进行推理。
 
@@ -349,7 +356,7 @@ IoTDB> call inference(dlinear_example,"select s0,s1 from root.**")
 Total line number = 48
 ```
 
-#### 4.5.2 使用tail/head窗口函数的示例
+#### 使用tail/head窗口函数的示例
 
 当数据量不定且想要取96行最新数据用于推理时，可以使用对应的窗口函数tail。head函数的用法与其类似，不同点在于其取的是最早的96个点。
 
@@ -393,9 +400,9 @@ IoTDB> call inference(dlinear_example,"select s0,s1 from root.**",window=tail(96
 Total line number = 48
 ```
 
-#### 4.5.3 使用count窗口函数的示例
+#### 使用count窗口函数的示例
 
-该窗口主要用于计算式任务，当任务对应的模型一次只能处理固定行数据而最终想要的确实多组预测结果时，使用该窗口函数可以使用点数滑动窗口进行连续推理。假设我们现在有一个异常检测模型anomaly_example(input: [24,2], output[1,1])，对每行数据会生成一个0/1的标签，其使用示例如下：
+该窗口主要用于计算式任务，当任务对应的模型一次只能处理固定行数据而最终想要的确实多组预测结果时，使用该窗口函数可以使用点数滑动窗口进行连续推理。假设我们现在有一个异常检测模型anomaly_example(input: [24,2], output[1,1])，对每24行数据会生成一个0/1的标签，其使用示例如下：
 
 ```Shell
 IoTDB> select s1,s2 from root.**
@@ -432,20 +439,20 @@ IoTDB> call inference(anomaly_example,"select s0,s1 from root.**",window=count(2
 Total line number = 4
 ```
 
-其中结果集中的每行的标签对应16行输入对应的模型输出。
+其中结果集中每行的标签对应每24行数据为一组，输入该异常检测模型后的输出。
 
-## 5. 权限管理
+## 权限管理
 
-使用AINode相关的功能时，可以使用IoTDB本身的鉴权去做一个权限管理，用户只有在具备USE_ML权限时，才可以使用模型管理的相关功能。当使用推理功能时，用户需要有访问输入模型的SQL对应的源序列的权限。
+使用AINode相关的功能时，可以使用IoTDB本身的鉴权去做一个权限管理，用户只有在具备 USE_MODEL 权限时，才可以使用模型管理的相关功能。当使用推理功能时，用户需要有访问输入模型的SQL对应的源序列的权限。
 
-| 权限名称  | 权限范围                          | 管理员用户（默认ROOT） | 普通用户 | 路径相关 |
+| 权限名称  | 权限范围                           | 管理员用户（默认ROOT）   | 普通用户  | 路径相关 |
 | --------- | --------------------------------- | ---------------------- | -------- | -------- |
-| USE_MODEL | create model / show models / drop model | √                      | √        | x        |
-|           | call inference                    |                        |          |          |
+| USE_MODEL | create model / show models / drop model | √                | √        | x        |
+| READ_DATA | call inference                          |  √               | √        |   √      |
 
-## 6. 实际案例
+## 实际案例
 
-### 6.1 电力负载预测
+### 电力负载预测
 
 在部分工业场景下，会存在预测电力负载的需求，预测结果可用于优化电力供应、节约能源和资源、支持规划和扩展以及增强电力系统的可靠性。
 
@@ -510,13 +517,13 @@ Total line number = 48
 
 我们将对油温的预测的结果和真实结果进行对比，可以得到以下的图像。
 
-图中10/24 00:00之前的数据为输入模型的过去数据，10/24 00:00后的黄色线条为模型给出的油温预测结果，而蓝色为数据集中实际的油温数据（用于进行对比）。
+图中10/24 00:00之前的数据为输入模型的过去数据，10/24 00:00后的蓝色线条为模型给出的油温预测结果，而红色为数据集中实际的油温数据（用于进行对比）。
 
-![](https://alioss.timecho.com/docs/img/s4.png)
+![](https://alioss.timecho.com/docs/img/AINode-analysis1.png)
 
 可以看到，我们使用了过去96个小时（4天）的六个负载信息和对应时间油温的关系，基于之前学习到的序列间相互关系对未来48个小时（2天）的油温这一数据的可能变化进行了建模，可以看到可视化后预测曲线与实际结果在趋势上保持了较高程度的一致性。
 
-### 6.2 功率预测
+### 功率预测
 
 变电站需要对电流、电压、功率等数据进行电力监控，用于检测潜在的电网问题、识别电力系统中的故障、有效管理电网负载以及分析电力系统的性能和趋势等。
 
@@ -536,13 +543,9 @@ bash ./import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ../../data.csv
 
 #### 步骤二：模型导入
 
-我们可以在iotdb-cli 中输入以下SQL从 huggingface 上拉取一个已经训练好的模型进行注册，用于后续的推理。
+我们可以在iotdb-cli 中选择内置模型或已经注册好的模型用于后续的推理。
 
-```SQL
-create model patchtst using uri 'https://huggingface.co/hvlgo/patchtst/resolve/main'
-```
-
-我们采用深度模型PatchTST进行预测，PatchTST 是一种基于 transformer 的时序预测模型，在长时间序列预测任务中有出色的表现。
+我们采用内置模型STLForecaster进行预测，STLForecaster 是一个基于 statsmodels 库中 STL 实现的时间序列预测方法。
 
 #### 步骤三：模型推理
 
@@ -561,31 +564,31 @@ IoTDB> select * from root.eg.voltage limit 96
 +-----------------------------+------------------+------------------+------------------+
 Total line number = 96
 
-IoTDB> call inference(patchtst, "select s0,s1,s2 from root.eg.voltage", window=head(96))
+IoTDB> call inference(_STLForecaster, "select s0,s1,s2 from root.eg.voltage", window=head(96),predict_length=48)
 +---------+---------+---------+
 |  output0|  output1|  output2|
 +---------+---------+---------+
-|2013.4113|2011.2539|2010.2732|
-|2013.2792| 2007.902|2035.7709|
-|2019.9114|2011.0453|2016.5848|
+|2026.3601|2018.2953|2029.4257|
+|2019.1538|2011.4361|2022.0888|
+|2025.5074|2017.4522|2028.5199|
 ......
-|2018.7078|2009.7993|2017.3502|
-|2033.9062|2010.2087|2018.1757|
-|2022.2194| 2011.923|2020.5442|
-|2022.1393|2023.4688|2020.9344|
+
+|2022.2336|2015.0290|2025.1023|
+|2015.7241|2008.8975|2018.5085|
+|2022.0777|2014.9136|2024.9396|
+|2015.5682|2008.7821|2018.3458|
 +---------+---------+---------+
 Total line number = 48
 ```
-
 我们将对C相电压的预测的结果和真实结果进行对比，可以得到以下的图像。
 
-图中 01/25 14:33 之前的数据为输入模型的过去数据， 01/25 14:33 后的黄色线条为模型给出的C相电压预测结果，而蓝色为数据集中实际的A相电压数据（用于进行对比）。
+图中 02/14 20:48 之前的数据为输入模型的过去数据， 02/14 20:48 后的蓝色线条为模型给出的C相电压预测结果，而红色为数据集中实际的C相电压数据（用于进行对比）。
 
-![](https://alioss.timecho.com/docs/img/s5.png)
+![](https://alioss.timecho.com/docs/img/AINode-analysis2.png)
 
-可以看到，我们使用了过去8分钟的电压的数据，基于之前学习到的序列间相互关系对未来4分钟的A相电压这一数据的可能变化进行了建模，可以看到可视化后预测曲线与实际结果在趋势上保持了较高程度的同步性。
+可以看到，我们使用了过去10分钟的电压的数据，基于之前学习到的序列间相互关系对未来5分钟的C相电压这一数据的可能变化进行了建模，可以看到可视化后预测曲线与实际结果在趋势上保持了一定的同步性。
 
-### 6.3 异常检测
+### 异常检测
 
 在民航交通运输业，存在着对乘机旅客数量进行异常检测的需求。异常检测的结果可用于指导调整航班的调度，以使得企业获得更大效益。
 

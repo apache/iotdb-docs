@@ -1,28 +1,10 @@
-/*
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
- */
-
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable @typescript-eslint/naming-convention */
 import type { DocSearchProps } from '@docsearch/react';
-import { resolveRoutePathFromUrl } from '@vuepress/shared';
 import { debounce } from 'ts-debounce';
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vuepress/client';
+import { removeLeadingSlash, resolveRoutePathFromUrl } from 'vuepress/shared';
 
-// eslint-disable-next-line @typescript-eslint/naming-convention, no-underscore-dangle
 declare const __DOCSEARCH_INDEX_BASE__: string;
 
 const isSpecialClick = (event: MouseEvent): boolean => event.button === 1
@@ -38,6 +20,18 @@ export const useDocsearchShim = (): Partial<DocSearchProps> => {
   const router = useRouter();
 
   return {
+    // convert item url to pathname of current site
+    transformItems: (items) => items.map((item) => ({
+      ...item,
+      url: `${
+        // append current base
+        __VUEPRESS_BASE__
+      }${removeLeadingSlash(
+        // get route path
+        resolveRoutePathFromUrl(item.url, __DOCSEARCH_INDEX_BASE__),
+      )}`,
+    })),
+
     // render the hit component with custom `onClick` handler
     hitComponent: ({ hit, children }) => ({
       type: 'a',
@@ -52,20 +46,18 @@ export const useDocsearchShim = (): Partial<DocSearchProps> => {
             return;
           }
           event.preventDefault();
-          router.push(
-            resolveRoutePathFromUrl(hit.url, __DOCSEARCH_INDEX_BASE__),
-          );
+          router.push(hit.url.replace(__VUEPRESS_BASE__, '/'));
         },
         children,
       },
       __v: null,
-    } as unknown),
+    }) as unknown,
 
     // navigation behavior triggered by `onKeyDown` internally
     navigator: {
       // when pressing Enter without metaKey
       navigate: ({ itemUrl }) => {
-        router.push(resolveRoutePathFromUrl(itemUrl, __DOCSEARCH_INDEX_BASE__));
+        router.push(itemUrl);
       },
     },
 

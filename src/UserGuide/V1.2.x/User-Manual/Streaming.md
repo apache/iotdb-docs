@@ -19,7 +19,7 @@
 
 -->
 
-# IoTDB Stream Processing Framework
+# Stream Processing
 
 The IoTDB stream processing framework allows users to implement customized stream processing logic, which can monitor and capture storage engine changes, transform changed data, and push transformed data outward.
 
@@ -458,7 +458,7 @@ USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
 
 ### Delete Plugin Statement
 
-When user no longer wants to use a plugin and needs to uninstall the plug-in from the system, you can use the Remove plugin statement as shown below.
+When user no longer wants to use a plugin and needs to uninstall the plugin from the system, you can use the Remove plugin statement as shown below.
 ```sql
 DROP PIPEPLUGIN <alias>
 ```
@@ -593,11 +593,11 @@ WITH CONNECTOR (
 | configuration item    | description                                              | Required or not                    | default implementation             | Default implementation description                                           | Whether to allow custom implementations        |
 | --------- | ------------------------------------------------- | --------------------------- | -------------------- | ------------------------------------------------------ | ------------------------- |
 | pipeId    | Globally uniquely identifies the name of a sync task                    | <font color=red>required</font> | -                    | -                                                      | -                         |
-| extractor | pipe Extractor plug-in, for extracting synchronized data at the bottom of the database | Optional                        | iotdb-extractor      | Integrate all historical data of the database and subsequent realtime data into the sync task |        no                |
-| processor | Pipe Processor plug-in, for processing data                 | Optional                        | do-nothing-processor | no processing of incoming data                               | <font color=red>yes</font> |
-| connector | Pipe Connector plug-in，for sending data                 | <font color=red>required</font> | -                    | -                                                      | <font color=red>yes</font> |
+| extractor | pipe Extractor plugin, for extracting synchronized data at the bottom of the database | Optional                        | iotdb-extractor      | Integrate all historical data of the database and subsequent realtime data into the sync task |        no                |
+| processor | Pipe Processor plugin, for processing data                 | Optional                        | do-nothing-processor | no processing of incoming data                               | <font color=red>yes</font> |
+| connector | Pipe Connector plugin，for sending data                 | <font color=red>required</font> | -                    | -                                                      | <font color=red>yes</font> |
 
-In the example, the iotdb-extractor, do-nothing-processor, and iotdb-thrift-connector plug-ins are used to build the data synchronisation task. iotdb has other built-in data synchronisation plug-ins, **see the section "System pre-built data synchronisation plug-ins" **. See the "System Pre-installed Stream Processing Plugin" section**.
+In the example, the iotdb-extractor, do-nothing-processor, and iotdb-thrift-connector plugins are used to build the data synchronisation task. iotdb has other built-in data synchronisation plugins, **see the section "System pre-built data synchronisation plugins" **. See the "System Pre-installed Stream Processing Plugin" section**.
 
 **An example of a minimalist CREATE PIPE statement is as follows:**
 
@@ -722,21 +722,21 @@ The following diagram illustrates the different states and their transitions:
 
 ### Stream Processing Task
 
-| Authority Name    | Description                 |
-| ----------- | -------------------- |
-| CREATE_PIPE | Register task,path-independent |
-| START_PIPE  | Start task,path-independent |
-| STOP_PIPE   | Stop task,path-independent |
-| DROP_PIPE   | Uninstall task,path-independent |
-| SHOW_PIPES  | Query task,path-independent |
+| Authority Name | Description                     |
+|----------------|---------------------------------|
+| CREATE_PIPE    | Register task,path-independent  |
+| START_PIPE     | Start task,path-independent     |
+| STOP_PIPE      | Stop task,path-independent      |
+| DROP_PIPE      | Uninstall task,path-independent |
+| SHOW_PIPES     | Query task,path-independent     |
 ### Stream Processing Task Plugin
 
 
-| Authority Name          | Description                           |
-| ----------------- | ------------------------------ |
+| Authority Name    | Description                                             |
+|-------------------|---------------------------------------------------------|
 | CREATE_PIPEPLUGIN | Register stream processing task plugin,path-independent |
-| DROP_PIPEPLUGIN   | Delete stream processing task plugin,path-independent |
-| SHOW_PIPEPLUGINS  | Query stream processing task plugin,path-independent |
+| DROP_PIPEPLUGIN   | Delete stream processing task plugin,path-independent   |
+| SHOW_PIPEPLUGINS  | Query stream processing task plugin,path-independent    |
 
 ## Configure Parameters
 

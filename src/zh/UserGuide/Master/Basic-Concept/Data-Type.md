@@ -23,14 +23,20 @@
 
 ## 基本数据类型
 
-IoTDB 支持以下六种数据类型：
+IoTDB 支持以下十种数据类型：
 
 * BOOLEAN（布尔值）
 * INT32（整型）
 * INT64（长整型）
 * FLOAT（单精度浮点数）
 * DOUBLE（双精度浮点数）
-* TEXT（字符串）
+* TEXT（长字符串）
+* STRING（字符串）
+* BLOB（大二进制对象）
+* TIMESTAMP（时间戳）
+* DATE（日期）
+
+其中，STRING 和 TEXT 类型的区别在于，STRING 类型具有更多的统计信息，能够用于优化值过滤查询。TEXT 类型适合用于存储长字符串。
 
 ### 浮点数精度配置
 
@@ -41,7 +47,7 @@ IoTDB 支持以下六种数据类型：
 CREATE TIMESERIES root.vehicle.d0.s0 WITH DATATYPE=FLOAT, ENCODING=RLE, 'MAX_POINT_NUMBER'='2';
 ```
 
-若不指定，系统会按照配置文件 `iotdb-common.properties` 中的 [float_precision](../Reference/Common-Config-Manual.md) 项配置（默认为 2 位）。
+若不指定，系统会按照配置文件 `iotdb-system.properties` 中的 [float_precision](../Reference/Common-Config-Manual.md) 项配置（默认为 2 位）。
 
 ### 数据类型兼容性
 

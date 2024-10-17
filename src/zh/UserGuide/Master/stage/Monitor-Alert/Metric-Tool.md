@@ -550,7 +550,7 @@ Core 级别的监控指标在系统运行中默认开启，每一个 Core 级别
 
 #### 5.2.2. 修改配置文件
 
-1) 以 DataNode 为例，修改 iotdb-datanode.properties 配置文件如下：
+1) 以 DataNode 为例，修改 iotdb-system.properties 配置文件如下：
 
 ```properties
 dn_metric_reporter_list=PROMETHEUS

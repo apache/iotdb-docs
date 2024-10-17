@@ -25,13 +25,15 @@ IoT-benchmark is a time-series database benchmarking tool based on Java and big 
 
 Figure 1-1 below includes the test benchmark process and other extended functions. These processes can be unified by IoT-benchmark. IoT Benchmark supports a variety of workloads, including **pure write, pure query, write query mixed**, etc., supports **software and hardware system monitoring, test metric measurement** and other monitoring functions, and also realizes **initializing the database automatically, test data analysis and system parameter optimization** functions.
 
-![img](https://alioss.timecho.com/docs/img/bm1.PNG)
+![img](https://alioss.timecho.com/docs/img/benchmark-English1.png)
+
 
 Figure 1-1
 
 Referring to the YCSB test tool's design idea of separating the three components of workload generation, performance metric measurement and database interface, the modular design of IoT-benchmark is shown in Figure 1-2. Different from the YCSB-based test tool system, IoT-benchmark adds a system monitoring module to support the persistence of test data and system monitoring data. In addition, some special load testing functions especially designed for time series data scenarios have been added, such as supporting batch writing and multiple out-of-sequence data writing modes for IoT scenarios.
 
-![img](https://alioss.timecho.com/docs/img/bm2.PNG)
+![img](https://alioss.timecho.com/docs/img/benchmark-%20English2.png)
+
 
 Figure 1-2
 
@@ -67,22 +69,22 @@ Table 1-1 Comparison of big data test benchmarks
 
 ### IoT Benchmark's Test Package Structure
 
-The directory structure of the test package is shown in Figure 1-3 below. The test configuration file is conf/config.properties, and the test startup scripts are benchmark.sh (Linux & MacOS) and benchmark.bat (Windows). The detailed usage of the files is shown in Table 1-2.
+The directory structure of the test package is shown in Figure 1-3 below. The test configuration file is conf/config.properties, and the test startup scripts are benchmark\.sh (Linux & MacOS) and benchmark.bat (Windows). The detailed usage of the files is shown in Table 1-2.
 
-![img](https://alioss.timecho.com/docs/img/bm3.png)
+![](https://alioss.timecho.com/docs/img/bm3.png)
 
 Figure 1-3 List of files and folders
 
 | Name             | File              | Usage                            |
 | ---------------- | ----------------- | -------------------------------- |
 | benchmark.bat    | -                 | Startup script on Windows        |
-| benchmark.sh     | -                 | Startup script on Linux/Mac      |
+| benchmark\.sh     | -                 | Startup script on Linux/Mac      |
 | conf             | config.properties | Test scenario configuration file |
 | logback.xml      | -                 | Log output configuration file    |
 | lib              | -                 | Dependency library               |
 | LICENSE          | -                 | License file                     |
-| bin              | startup.sh        | Init script folder               |
-| ser-benchmark.sh | -                 | Monitor mode startup script      |
+| bin              | startup\.sh        | Init script folder               |
+| ser-benchmark\.sh | -                 | Monitor mode startup script      |
 
 Table 1-2 Usage list of files and folders
 
@@ -97,7 +99,7 @@ Table 1-2 Usage list of files and folders
 
 All the log files of the test are stored in the logs folder, and the test results are stored in the data/csvOutput folder after the test is completed. For example, after the test, we get the following result matrix:
 
-![img](https://alioss.timecho.com/docs/img/bm4.png)
+![](https://alioss.timecho.com/docs/img/bm4.png)
 
 - Result Matrix
   - OkOperation: successful operations
@@ -115,7 +117,7 @@ This chapter mainly explains the purpose and configuration method of the main pa
 
 ### Working Mode and Operation Proportion
 
-- The working mode parameter "BENCHMARK_WORK_MODE" can be selected as "default mode" and "server monitoring"; the "server monitoring" mode can be started directly by executing the ser-benchmark.sh script, and the script will automatically modify this parameter. "Default mode" is a commonly used test mode, combined with the configuration of the OPERATION_PROPORTION parameter to achieve the definition of test operation proportions of "pure write", "pure query" and "read-write mix".
+- The working mode parameter "BENCHMARK_WORK_MODE" can be selected as "default mode" and "server monitoring"; the "server monitoring" mode can be started directly by executing the ser-benchmark\.sh script, and the script will automatically modify this parameter. "Default mode" is a commonly used test mode, combined with the configuration of the OPERATION_PROPORTION parameter to achieve the definition of test operation proportions of "pure write", "pure query" and "read-write mix".
 
 -   When running ServerMode to monitor the operating environment of the time series database under test, IoT-benchmark relies on sysstat software related commands; if MySQL or IoTDB is selected for persistent test process data, this type of database needs to be installed; the recording mode of ServerMode and CSV can only be used in the Linux system to record relevant system information during the test. Therefore, we recommend using MacOs or Linux system. This article uses Linux (Centos7) system as an example. If you use Windows system, you can use the benchmark.bat script in the conf folder to start IoT-benchmark.
 
@@ -124,7 +126,7 @@ Table 1-3 Test mode
 | Mode Name    | BENCHMARK_WORK_MODE | Description                                                  |
 | ------------ | ------------------- | ------------------------------------------------------------ |
 | default mode | testWithDefaultPath | Supports mixed workloads with multiple read and write operations |
-| server mode  | serverMODE          | Server resource usage monitoring mode (running in this mode is started by the ser-benchmark.sh script, no need to manually configure this parameter) |
+| server mode  | serverMODE          | Server resource usage monitoring mode (running in this mode is started by the ser-benchmark\.sh script, no need to manually configure this parameter) |
 
 ### Server Connection Information
 
@@ -207,7 +209,7 @@ Table 2-1 Virtual machine configuration information
 | number of CPU cores                | 16      |
 | memory                             | 32G     |
 | hard disk                          | 200G    |
-| network                            | 千兆    |
+| network                            | Gigabit    |
 
 Table 2-2 Virtual machine usage
 
@@ -249,26 +251,26 @@ Table 2-3 Configuration parameter information
 | TEST_DATA_STORE_PW         | admin                       |                |
 | REMARK                     | demo                        |                |
 
-First, start the tested time series databases Apache-IoTDB and KairosDB on 172.21.4.3 and 172.21.4.4 respectively, and then start server resource monitoring through the ser-benchamrk.sh script on 172.21.4.2, 172.21.4.3 and 172.21.4.4 (Figure 2-1). Then modify the conf/config.properties files in the iotdb-0.13-0.0.1 and kairosdb-0.0.1 folders in 172.21.4.2 according to Table 2-3 to meet the test requirements. Use benchmark.sh to start the writing test of Apache-IoTDB and KairosDB successively.
+First, start the tested time series databases Apache-IoTDB and KairosDB on 172.21.4.3 and 172.21.4.4 respectively, and then start server resource monitoring through the ser-benchamrk\.sh script on 172.21.4.2, 172.21.4.3 and 172.21.4.4 (Figure 2-1). Then modify the conf/config.properties files in the iotdb-0.13-0.0.1 and kairosdb-0.0.1 folders in 172.21.4.2 according to Table 2-3 to meet the test requirements. Use benchmark\.sh to start the writing test of Apache-IoTDB and KairosDB successively.
 
-![img](https://alioss.timecho.com/docs/img/bm5.png)
+![](https://alioss.timecho.com/docs/img/bm5.png)
 
 Figure 2-1 Server monitoring tasks
 
 For example, if we first start the test on KairosDB, IoT-benchmark will create a CONFIG data table in the MySQL database to store the configuration information of this test (Figure 2-2), and there will be a log output of the current test progress during the test execution (Figure 2-3) . When the test is completed, the test result will be output (Figure 2-3), and the result will be written into the FINAL_RESULT data table (Figure 2-4).
 
-![img](https://alioss.timecho.com/docs/img/bm6.png)
+![](https://alioss.timecho.com/docs/img/bm6.png)
 
 Figure 2-2 Test configuration information table
 
-![img](https://alioss.timecho.com/docs/img/bm7.png)
-![img](https://alioss.timecho.com/docs/img/bm8.png)
-![img](https://alioss.timecho.com/docs/img/bm9.png)
-![img](https://alioss.timecho.com/docs/img/bm10.png)
+![](https://alioss.timecho.com/docs/img/bm7.png)
+![](https://alioss.timecho.com/docs/img/bm8.png)
+![](https://alioss.timecho.com/docs/img/bm9.png)
+![](https://alioss.timecho.com/docs/img/bm10.png)
 
 Figure 2-3 Test progress and results
 
-![img](https://alioss.timecho.com/docs/img/bm11.png)
+![](https://alioss.timecho.com/docs/img/bm11.png)
 
 Figure 2-4 Test result table
 
@@ -276,14 +278,14 @@ Afterwards, we will start the test on Apache-IoTDB. The same IoT-benchmark will 
 
 According to the test result information, we know that under the same configuration the write delay times of Apache-IoTDB and KairosDB are 55.98ms and 1324.45ms respectively; the write throughputs are 5,125,600.86 points/second and 224,819.01 points/second respectively; the tests were executed respectively 585.30 seconds and 11777.99 seconds. And KairosDB has a write failure. After investigation, it is found that the data disk usage has reached 100%, and there is no disk space to continue receiving data. However, Apache-IoTDB has no write failure, and the disk space occupied after all data is written is only 4.7G (as shown in Figure 2-5); Apache-IoTDB is better than KairosDB in terms of write throughput and disk occupation. Of course, there will be other tests in the follow-up to observe and compare from various aspects, such as query performance, file compression ratio, data security, etc.
 
-![img](https://alioss.timecho.com/docs/img/bm12.png)
+![](https://alioss.timecho.com/docs/img/bm12.png)
 
 Figure 2-5 Disk usage
 
 So what is the resource usage of each server during the test? What is the specific performance of each write operation? At this time, we can visualize the data in the server monitoring table and test process recording table by installing and using Tableau. The use of Tableau will not be introduced in this article. After connecting to the data table for test data persistence, the specific results are as follows (taking Apache-IoTDB as an example):
 
-![img](https://alioss.timecho.com/docs/img/bm13.png)
-![img](https://alioss.timecho.com/docs/img/bm14.png)
+![](https://alioss.timecho.com/docs/img/bm13.png)
+![](https://alioss.timecho.com/docs/img/bm14.png)
 
 Figure 2-6 Visualization of testing process in Tableau
 
@@ -295,7 +297,7 @@ Table 2-4 Configuration parameter information
 
 | Parameter Name       | Example               |
 | -------------------- | --------------------- |
-| CLIENT_NUMBER        | 100                   |
+| CLIENT_NUMBER        | 10                    |
 | QUERY_DEVICE_NUM     | 2                     |
 | QUERY_SENSOR_NUM     | 2                     |
 | QUERY_AGGREGATE_FUN  | count                 |
@@ -331,4 +333,4 @@ Table 2-5 Configuration parameter information
 | STRING_LENGTH                                                | 10                         | String length                                                |                                                              |
 | DOUBLE_LENGTH                                                | 2                          | Decimal places                                               |                                                              |
 | Three machines simulate data writing of 300 devices          | BENCHMARK_CLUSTER          | true                                                         | Enable multi-benchmark mode                                  |
-| BENCHMARK_INDEX                                              | 0, 1, 3                    | Take the writing parameters in the previous chapter as an example: No. 0 is responsible for writing data of device numbers 0-99; No. 1 is responsible for writing data of device numbers 100-199; No. 2 is responsible for writing data of device numbers 200-299. |                                                              |
+| BENCHMARK_INDEX                                              | 0, 1, 3                    | Take the writing parameters in the [write test](./Benchmark.md#write-test) as an example: No. 0 is responsible for writing data of device numbers 0-99; No. 1 is responsible for writing data of device numbers 100-199; No. 2 is responsible for writing data of device numbers 200-299. |                                                              |

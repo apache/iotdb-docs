@@ -19,7 +19,7 @@
 
 -->
 
-# IoTDB Data Sync
+# Data Sync
 **The IoTDB data sync transfers data from IoTDB to another data platform, and <font color=RED>a data sync task is called a Pipe</font>.**
 
 **A Pipe consists of three subtasks (plugins):**
@@ -70,7 +70,7 @@ By utilizing the data sync functionality, a complete data pipeline can be built 
 
 > ❗️**Note: The current IoTDB -> IoTDB implementation of data sync does not support DDL sync**
 >
-> That is: ttl, trigger, alias, template, view, create/delete sequence, create/delete storage group, etc. are not supported.
+> That is: ttl, trigger, alias, template, view, create/delete sequence, create/delete database, etc. are not supported.
 >
 > **IoTDB -> IoTDB data sync requires the target IoTDB:**
 >
@@ -119,11 +119,11 @@ WITH CONNECTOR (
 | configuration item    | description                                              | Required or not                    | default implementation             | Default implementation description                                           | Whether to allow custom implementations        |
 | --------- | ------------------------------------------------- | --------------------------- | -------------------- | ------------------------------------------------------ | ------------------------- |
 | pipeId    | Globally uniquely identifies the name of a sync task                    | <font color=red>required</font> | -                    | -                                                      | -                         |
-| extractor | pipe Extractor plug-in, for extracting synchronized data at the bottom of the database | Optional                        | iotdb-extractor      | Integrate all historical data of the database and subsequent realtime data into the sync task |        no                |
-| processor | Pipe Processor plug-in, for processing data                 | Optional                        | do-nothing-processor | no processing of incoming data                               | <font color=red>yes</font> |
-| connector | Pipe Connector plug-in，for sending data                 | <font color=red>required</font> | -                    | -                                                      | <font color=red>yes</font> |
+| extractor | pipe Extractor plugin, for extracting synchronized data at the bottom of the database | Optional                        | iotdb-extractor      | Integrate all historical data of the database and subsequent realtime data into the sync task |        no                |
+| processor | Pipe Processor plugin, for processing data                 | Optional                        | do-nothing-processor | no processing of incoming data                               | <font color=red>yes</font> |
+| connector | Pipe Connector plugin，for sending data                 | <font color=red>required</font> | -                    | -                                                      | <font color=red>yes</font> |
 
-In the example, the iotdb-extractor, do-nothing-processor, and iotdb-thrift-connector plug-ins are used to build the data sync task. iotdb has other built-in data sync plug-ins, **see the section "System Pre-built Data Sync Plugin"**.
+In the example, the iotdb-extractor, do-nothing-processor, and iotdb-thrift-connector plugins are used to build the data sync task. iotdb has other built-in data sync plugins, **see the section "System Pre-built Data Sync Plugin"**.
 **An example of a minimalist CREATE PIPE statement is as follows:**
 
 ```sql
@@ -250,7 +250,7 @@ The following diagram illustrates the different states and their transitions:
 
 ### View pre-built plugin
 
-User can view the plug-ins in the system on demand. The statement for viewing plug-ins is shown below.
+User can view the plugins in the system on demand. The statement for viewing plugins is shown below.
 ```sql
 SHOW PIPEPLUGINS
 ```
@@ -386,19 +386,19 @@ Note: In theory, any version prior to v1.2.0 of IoTDB can serve as the data sync
 Function: Does not do anything with the events passed in by the processor.
 
 
-| key       | value                | value range               | required or optional with default |
-| --------- | -------------------- | ---------------------------- | --------------------------------- |
+| key       | value                | value range                  | required or optional with default |
+|-----------|----------------------|------------------------------|-----------------------------------|
 | connector | do-nothing-connector | String: do-nothing-connector | required                          |
 
 ## Authority Management
 
-| Authority Name    | Description                 |
-| ----------- | -------------------- |
-| CREATE_PIPE | Register task,path-independent |
-| START_PIPE  | Start task,path-independent |
-| STOP_PIPE   | Stop task,path-independent |
-| DROP_PIPE   | Uninstall task,path-independent |
-| SHOW_PIPES  | Query task,path-independent |
+| Authority Name | Description                     |
+|----------------|---------------------------------|
+| CREATE_PIPE    | Register task,path-independent  |
+| START_PIPE     | Start task,path-independent     |
+| STOP_PIPE      | Stop task,path-independent      |
+| DROP_PIPE      | Uninstall task,path-independent |
+| SHOW_PIPES     | Query task,path-independent     |
 
 ## Configure Parameters
 

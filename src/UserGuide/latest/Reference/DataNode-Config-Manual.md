@@ -25,14 +25,14 @@ We use the same configuration files for IoTDB DataNode and Standalone version, a
 
 * `datanode-env.sh/bat`：Environment configurations, in which we could set the memory allocation of DataNode and Standalone.
 
-* `iotdb-datanode.properties`：IoTDB DataNode system configurations.
+* `iotdb-datanode.properties`：IoTDB system configurations.
 
 ## Hot Modification Configuration
 
-For the convenience of users, IoTDB provides users with hot modification function, that is, modifying some configuration parameters in `iotdb-datanode.properties` and `iotdb-common.properties` during the system operation and applying them to the system immediately. 
+For the convenience of users, IoTDB provides users with hot modification function, that is, modifying some configuration parameters in `iotdb-datanode.properties` during the system operation and applying them to the system immediately. 
 In the parameters described below, these parameters whose way of `Effective` is `hot-load` support hot modification.
 
-Trigger way: The client sends the command(sql) `load configuration` to the IoTDB server.
+Trigger way: The client sends the command(sql) `load configuration` or `set configuration` to the IoTDB server.
 
 ## Environment Configuration File（datanode-env.sh/bat）
 
@@ -191,7 +191,7 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 
 * enable\_https
 
-|Name| cache\_init\_num           |
+|Name| enable\_https           |
 |:---:|:-------------------------|
 |Description| REST Service Specifies whether to enable SSL configuration |
 |Type| Boolean                  |

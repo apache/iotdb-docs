@@ -23,7 +23,7 @@
 
 IoTDB common files for ConfigNode and DataNode are under `conf`.
 
-* `iotdb-common.properties`：IoTDB common configurations.
+* `iotdb-system.properties`：IoTDB system configurations.
 
 
 ## Effective
@@ -31,7 +31,7 @@ Different configuration parameters take effect in the following three ways:
 
 + **Only allowed to be modified in first start up:** Can't be modified after first start, otherwise the ConfigNode/DataNode cannot start.
 + **After restarting system:** Can be modified after the ConfigNode/DataNode first start, but take effect after restart.
-+ **hot-load:** Can be modified while the ConfigNode/DataNode is running, and trigger through sending the command(sql) `load configuration` to the IoTDB server by client or session.
++ **hot-load:** Can be modified while the ConfigNode/DataNode is running, and trigger through sending the command(sql) `load configuration` or `set configuration` to the IoTDB server by client or session.
 
 ## Configuration File
 
@@ -194,6 +194,16 @@ Different configuration parameters take effect in the following three ways:
 
 ### Cluster Management
 
+* cluster\_name
+
+|    Name     | cluster\_name                                                                                                                                                          |
+|:-----------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description | The name of cluster                                                                                                                                                    |
+|    Type     | String                                                                                                                                                                 |
+|   Default   | default_cluster                                                                                                                                                        |
+|  Effective  | Execute SQL in CLI: ```set configuration "cluster_name"="xxx"``` (xxx is the new cluster name)                                                                         |
+|  Attention  | This change is distributed to each node through the network. In the event of network fluctuations or node downtime, it is not guaranteed that the modification will be successful on all nodes. Nodes that fail to modify will not be able to join the cluster upon restart. At this time, it is necessary to manually modify the cluster_name item in the configuration file of the node, and then restart. Under normal circumstances, it is not recommended to change the cluster name by manually modifying the configuration file, nor is it recommended to hot load through the load configuration method. |
+
 * time\_partition\_interval
 
 |    Name     | time\_partition\_interval                                     |
@@ -224,15 +234,6 @@ Different configuration parameters take effect in the following three ways:
 |  Effective  | After restarting system         |
 
 ### Memory Control Configuration
-
-* enable\_mem\_control
-
-|Name| enable\_mem\_control |
-|:---:|:---|
-|Description| enable memory control to avoid OOM|
-|Type|Boolean|
-|Default| true |
-|Effective|After restarting system|
 
 * datanode\_memory\_proportion
 
@@ -475,10 +476,10 @@ Different configuration parameters take effect in the following three ways:
 * floating\_string\_infer\_type
 
 |    Name     | floating\_string\_infer\_type                                                   |
-| :---------: | :------------------------------------------------------------------------------ |
+| :---------: |:--------------------------------------------------------------------------------|
 | Description | To which type a floating number string like "6.7" in a query should be resolved |
 |    Type     | DOUBLE, FLOAT or TEXT                                                           |
-|   Default   | FLOAT                                                                           |
+|   Default   | DOUBLE                                                                          |
 |  Effective  | After restarting system                                                         |
 
 * nan\_string\_infer\_type
@@ -664,15 +665,6 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | 10000                                                                         |
 |  Effective  | After restarting system                                                       |
 
-* enable\_discard\_out\_of\_order\_data
-
-|    Name     | enable\_discard\_out\_of\_order\_data |
-| :---------: |:--------------------------------------|
-| Description | whether to discard out of order data  |
-|    Type     | Boolean                               |
-|   Default   | false                                 |
-|  Effective  | After restarting system               |
-
 * handle\_system\_error
 
 |    Name     | handle\_system\_error                                  |
@@ -681,15 +673,6 @@ Different configuration parameters take effect in the following three ways:
 |    Type     | String                                                 |
 |   Default   | CHANGE\_TO\_READ\_ONLY                                 |
 |  Effective  | After restarting system                                |
-
-* memtable\_size\_threshold
-
-|    Name     | memtable\_size\_threshold                                    |
-| :---------: | :----------------------------------------------------------- |
-| Description | max memtable size                                            |
-|    Type     | Long                                                         |
-|   Default   | 1073741824                                                   |
-|  Effective  | when enable\_mem\_control is false & After restarting system |
 
 * write\_memory\_variation\_report\_proportion
 
@@ -844,7 +827,7 @@ Different configuration parameters take effect in the following three ways:
 | :---------: |:-----------------------------------------------|
 | Description | enable the compaction between unsequence files |
 |    Type     | Boolean                                        |
-|   Default   | false                                          |
+|   Default   | true                                           |
 |  Effective  | hot-load                                       |
 
 * enable\_cross\_space\_compaction

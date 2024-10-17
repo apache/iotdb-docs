@@ -30,10 +30,6 @@ For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadat
 ```sql
 IoTDB > create database root.ln
 IoTDB > create database root.sgcc
-IoTDB> CREATE DATABASE root.ln.wf01
-Msg: 300: root.ln has already been created as database.
-IoTDB> create database root.ln.wf01
-Msg: 300: root.ln has already been created as database.
 ```
 
 ### Show Databases
@@ -114,13 +110,9 @@ For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadat
 
 
 
-Create template(s1 int, s2 float) on root.sg
-
-Create device root.sg.d1
 
 
-
-![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF%E6%B5%81%E7%A8%8B.png)
+![img](https://alioss.timecho.com/docs/img/templateEN.jpg)
 
 ### Create Device Template
 
@@ -451,7 +443,7 @@ IoTDB > select * from root.sg1.d1
 
 ### Load External TsFile Tool
 
-For more details, see document [Import-Export-Tool](../Tools-System/Import-Export-Tool.md).
+For more details, see document [Import-Export-Tool](../Tools-System/TsFile-Import-Export-Tool.md).
 
 #### Load with SQL
 
@@ -538,7 +530,7 @@ SELECT [LAST] selectExpr [, selectExpr] ...
     }]
     [HAVING havingCondition]
     [ORDER BY sortKey {ASC | DESC}]
-    [FILL ({PREVIOUS | LINEAR | constant})]
+    [FILL ({PREVIOUS | LINEAR | constant} (, interval=DURATION_LITERAL)?)]
     [SLIMIT seriesLimit] [SOFFSET seriesOffset]
     [LIMIT rowLimit] [OFFSET rowOffset]
     [ALIGN BY {TIME | DEVICE}]
@@ -792,6 +784,11 @@ IoTDB > select count(d1.s1) from root.** group by ([1,3),1ms), level=1 having su
 IoTDB > select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(previous);
 ```
 
+#### `PREVIOUS` FILL and specify the fill timeout threshold
+```sql
+select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(previous, 2m);
+```
+
 #### `LINEAR` Fill
 
 ```sql
@@ -907,13 +904,22 @@ IoTDB > select * into ::(backup_${4}) from root.sg.** align by device;
 IoTDB > select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
 ```
 
+## Maintennance
+Generate the corresponding query plan:
+```
+explain select s1,s2 from root.sg.d1
+```
+Execute the corresponding SQL, analyze the execution and output:
+```
+explain analyze select s1,s2 from root.sg.d1 order by s1
+``` 
 ## OPERATOR
 
 For more details, see document [Operator-and-Expression](../User-Manual/Operator-and-Expression.md).
 
 ### Arithmetic Operators
 
-For details and examples, see the document [Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md).
+For details and examples, see the document [Arithmetic Operators and Functions](../Reference/Function-and-Expression.md#arithmetic-operators-and-functions).
 
 ```sql
 select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root.sg.d1
@@ -921,7 +927,7 @@ select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root
 
 ### Comparison Operators
 
-For details and examples, see the document [Comparison Operators and Functions](../Operators-Functions/Comparison.md).
+For details and examples, see the document [Comparison Operators and Functions](../Reference/Function-and-Expression.md#comparison-operators-and-functions).
 
 ```sql
 # Basic comparison operators
@@ -952,7 +958,7 @@ select a, a in (1, 2) from root.test;
 
 ### Logical Operators
 
-For details and examples, see the document [Logical Operators](../Operators-Functions/Logical.md).
+For details and examples, see the document [Logical Operators](../Reference/Function-and-Expression.md#logical-operators).
 
 ```sql
 select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
@@ -960,11 +966,11 @@ select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
 
 ## BUILT-IN FUNCTIONS
 
-For more details, see document [Operator-and-Expression](../User-Manual/Operator-and-Expression.md).
+For more details, see document [Operator-and-Expression](../Reference/Function-and-Expression.md).
 
 ### Aggregate Functions
 
-For details and examples, see the document [Aggregate Functions](../Operators-Functions/Aggregation.md).
+For details and examples, see the document [Aggregate Functions](../Reference/Function-and-Expression.md#aggregate-functions).
 
 ```sql
 select count(status) from root.ln.wf01.wt01;
@@ -977,7 +983,7 @@ select time_duration(s1) from root.db.d1;
 
 ### Arithmetic Functions
 
-For details and examples, see the document [Arithmetic Operators and Functions](../Operators-Functions/Mathematical.md).
+For details and examples, see the document [Arithmetic Operators and Functions](../Reference/Function-and-Expression.md#arithmetic-operators-and-functions).
 
 ```sql
 select s1, sin(s1), cos(s1), tan(s1) from root.sg1.d1 limit 5 offset 1000;
@@ -986,7 +992,7 @@ select s4,round(s4),round(s4,2),round(s4,-1) from root.sg1.d1;
 
 ### Comparison Functions
 
-For details and examples, see the document [Comparison Operators and Functions](../Operators-Functions/Comparison.md).
+For details and examples, see the document [Comparison Operators and Functions](../Reference/Function-and-Expression.md#comparison-operators-and-functions).
 
 ```sql
 select ts, on_off(ts, 'threshold'='2') from root.test;
@@ -995,7 +1001,7 @@ select ts, in_range(ts, 'lower'='2', 'upper'='3.1') from root.test;
 
 ### String Processing Functions
 
-For details and examples, see the document [String Processing](../Operators-Functions/String.md).
+For details and examples, see the document [String Processing](../Reference/Function-and-Expression.md#string-processing).
 
 ```sql
 select s1, string_contains(s1, 's'='warn') from root.sg1.d4;
@@ -1023,7 +1029,7 @@ select regexsplit(s1, "regex"=",", "index"="3") from root.test.d1
 
 ### Data Type Conversion Function
 
-For details and examples, see the document [Data Type Conversion Function](../Operators-Functions/Conversion.md).
+For details and examples, see the document [Data Type Conversion Function](../Reference/Function-and-Expression.md#data-type-conversion-function).
 
 ```sql
 SELECT cast(s1 as INT32) from root.sg
@@ -1031,7 +1037,7 @@ SELECT cast(s1 as INT32) from root.sg
 
 ### Constant Timeseries Generating Functions
 
-For details and examples, see the document [Constant Timeseries Generating Functions](../Operators-Functions/Constant.md).
+For details and examples, see the document [Constant Timeseries Generating Functions](../Reference/Function-and-Expression.md#constant-timeseries-generating-functions).
 
 ```sql
 select s1, s2, const(s1, 'value'='1024', 'type'='INT64'), pi(s2), e(s1, s2) from root.sg1.d1; 
@@ -1039,7 +1045,7 @@ select s1, s2, const(s1, 'value'='1024', 'type'='INT64'), pi(s2), e(s1, s2) from
 
 ### Selector Functions
 
-For details and examples, see the document [Selector Functions](../Operators-Functions/Selection.md).
+For details and examples, see the document [Selector Functions](../Reference/Function-and-Expression.md#selector-functions).
 
 ```sql
 select s1, top_k(s1, 'k'='2'), bottom_k(s1, 'k'='2') from root.sg1.d2 where time > 2020-12-10T20:36:15.530+08:00;
@@ -1047,7 +1053,7 @@ select s1, top_k(s1, 'k'='2'), bottom_k(s1, 'k'='2') from root.sg1.d2 where time
 
 ### Continuous Interval Functions
 
-For details and examples, see the document [Continuous Interval Functions](../Operators-Functions/Continuous-Interval.md).
+For details and examples, see the document [Continuous Interval Functions](../Reference/Function-and-Expression.md#continuous-interval-functions).
 
 ```sql
 select s1, zero_count(s1), non_zero_count(s2), zero_duration(s3), non_zero_duration(s4) from root.sg.d2;
@@ -1055,7 +1061,7 @@ select s1, zero_count(s1), non_zero_count(s2), zero_duration(s3), non_zero_durat
 
 ### Variation Trend Calculation Functions
 
-For details and examples, see the document [Variation Trend Calculation Functions](../Operators-Functions/Variation-Trend.md).
+For details and examples, see the document [Variation Trend Calculation Functions](../Reference/Function-and-Expression.md#variation-trend-calculation-functions).
 
 ```sql
 select s1, time_difference(s1), difference(s1), non_negative_difference(s1), derivative(s1), non_negative_derivative(s1) from root.sg1.d1 limit 5 offset 1000; 
@@ -1066,7 +1072,7 @@ SELECT DIFF(s1, 'ignoreNull'='false'), DIFF(s2, 'ignoreNull'='false') from root.
 
 ### Sample Functions
 
-For details and examples, see the document [Sample Functions](../Operators-Functions/Sample.md).
+For details and examples, see the document [Sample Functions](../Reference/Function-and-Expression.md#sample-functions).
 
 ```sql
 select equal_size_bucket_random_sample(temperature,'proportion'='0.1') as random_sample from root.ln.wf01.wt01;
@@ -1080,7 +1086,7 @@ select M4(s1,'windowSize'='10') from root.vehicle.d1
 
 ### Change Points Function
 
-For details and examples, see the document [Time-Series](../Operators-Functions/Time-Series.md).
+For details and examples, see the document [Time-Series](../Reference/Function-and-Expression.md#time-series-processing).
 
 ```sql
 select change_points(s1), change_points(s2), change_points(s3), change_points(s4), change_points(s5), change_points(s6) from root.testChangePoints.d1
@@ -1088,11 +1094,11 @@ select change_points(s1), change_points(s2), change_points(s3), change_points(s4
 
 ## DATA QUALITY FUNCTION LIBRARY
 
-For more details, see document [Operator-and-Expression](../User-Manual/Operator-and-Expression.md).
+For more details, see document [Operator-and-Expression](../Reference/UDF-Libraries.md#).
 
 ### Data Quality
 
-For details and examples, see the document [Data-Quality](../Operators-Functions/Data-Quality.md).
+For details and examples, see the document [Data-Quality](../Reference/UDF-Libraries.md#data-quality).
 
 ```sql
 # Completeness
@@ -1117,7 +1123,7 @@ select Accuracy(t1,t2,t3,m1,m2,m3) from root.test
 
 ### Data Profiling
 
-For details and examples, see the document [Data-Profiling](../Operators-Functions/Data-Profiling.md).
+For details and examples, see the document [Data-Profiling](../Reference/UDF-Libraries.md#data-profiling).
 
 ```sql
 # ACF
@@ -1197,7 +1203,7 @@ select zscore(s1) from root.test
 
 ### Anomaly Detection
 
-For details and examples, see the document [Anomaly-Detection](../Operators-Functions/Anomaly-Detection.md).
+For details and examples, see the document [Anomaly-Detection](../Reference/UDF-Libraries.md#anomaly-detection).
 
 ```sql
 # IQR
@@ -1232,7 +1238,7 @@ select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='anomaly','p'='3','k'='3
 
 ### Frequency Domain
 
-For details and examples, see the document [Frequency-Domain](../Operators-Functions/Frequency-Domain.md).
+For details and examples, see the document [Frequency-Domain](../Reference/UDF-Libraries.md#frequency-domain-analysis).
 
 ```sql
 # Conv
@@ -1261,7 +1267,7 @@ select lowpass(s1,'wpass'='0.45') from root.test.d1
 
 ### Data Matching
 
-For details and examples, see the document [Data-Matching](../Operators-Functions/Data-Matching.md).
+For details and examples, see the document [Data-Matching](../Reference/UDF-Libraries.md#data-matching).
 
 ```sql
 # Cov
@@ -1282,7 +1288,7 @@ select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
 
 ### Data Repairing
 
-For details and examples, see the document [Data-Repairing](../Operators-Functions/Data-Repairing.md).
+For details and examples, see the document [Data-Repairing](../Reference/UDF-Libraries.md#data-repairing).
 
 ```sql
 # TimestampRepair
@@ -1307,7 +1313,7 @@ select seasonalrepair(s1,'method'='improved','period'=3) from root.test.d2
 
 ### Series Discovery
 
-For details and examples, see the document [Series-Discovery](../Operators-Functions/Series-Discovery.md).
+For details and examples, see the document [Series-Discovery](../Reference/UDF-Libraries.md#series-discovery).
 
 ```sql
 # ConsecutiveSequences
@@ -1320,7 +1326,7 @@ select consecutivewindows(s1,s2,'length'='10m') from root.test.d1
 
 ### Machine Learning
 
-For details and examples, see the document [Machine-Learning](../Operators-Functions/Machine-Learning.md).
+For details and examples, see the document [Machine-Learning](../Reference/UDF-Libraries.md#machine-learning).
 
 ```sql
 # AR
@@ -1335,7 +1341,7 @@ select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0
 
 ## LAMBDA EXPRESSION
 
-For details and examples, see the document [Lambda](../Operators-Functions/Lambda.md).
+For details and examples, see the document [Lambda](../Reference/Function-and-Expression.md#lambda-expression).
 
 ```sql
 select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'expr'='x -> {x * 3}') as jexl2, jexl(temperature, 'expr'='x -> {x * x}') as jexl3, jexl(temperature, 'expr'='x -> {multiply(x, 100)}') as jexl4, jexl(temperature, st, 'expr'='(x, y) -> {x + y}') as jexl5, jexl(temperature, st, str, 'expr'='(x, y, z) -> {x + y + z}') as jexl6 from root.ln.wf01.wt01;```
@@ -1343,7 +1349,7 @@ select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'exp
 
 ## CONDITIONAL EXPRESSION
 
-For details and examples, see the document [Conditional Expressions](../Operators-Functions/Conditional.md).
+For details and examples, see the document [Conditional Expressions](../Reference/Function-and-Expression.md#conditional-expressions).
 
 ```sql
 select T, P, case
@@ -1450,7 +1456,7 @@ BEGIN
     [WHERE CLAUSE]
     [GROUP BY(<group_by_interval>[, <sliding_step>]) [, level = <level>]]
     [HAVING CLAUSE]
-    [FILL {PREVIOUS | LINEAR | constant}]
+    [FILL ({PREVIOUS | LINEAR | constant} (, interval=DURATION_LITERAL)?)]
     [LIMIT rowLimit OFFSET rowOffset]
     [ALIGN BY DEVICE]
 END
@@ -1543,7 +1549,7 @@ CQs can't be altered once they're created. To change a CQ, you must `DROP` and r
 
 ## USER-DEFINED FUNCTION (UDF)
 
-For more details, see document [Operator-and-Expression](../User-Manual/Operator-and-Expression.md).
+For more details, see document [Operator-and-Expression](../Reference/UDF-Libraries.md).
 
 ### UDF Registration
 

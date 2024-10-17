@@ -33,7 +33,7 @@ export const enSidebar = {
         { text: 'Architecture', link: 'Architecture' },
         { text: 'Scenario', link: 'Scenario' },
         { text: 'Features', link: 'Features' },
-        { text: 'Publication', link: 'Publication' },
+        { text: 'Achievement', link: 'Publication' },
       ],
     },
     {

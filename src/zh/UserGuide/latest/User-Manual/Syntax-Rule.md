@@ -185,11 +185,11 @@
 
 ```SQL
 # 创建模板 t1`t
-create schema template `t1``t` 
+create device template `t1``t` 
 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 
 # 创建模板 t1't"t
-create schema template `t1't"t` 
+create device template `t1't"t` 
 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 ```
 
@@ -222,7 +222,7 @@ create schema template `t1't"t`
 
   ```sql
   # 创建名为 111 的元数据模板，111 为实数，需要用反引号引用。
-  create schema template `111` 
+  create device template `111` 
   (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
   ```
 
@@ -278,7 +278,7 @@ create schema template `t1't"t`
 
 关键字是在 SQL 具有特定含义的词，可以作为标识符。保留字是关键字的一个子集，保留字不能用于标识符。
 
-关于 IoTDB 的关键字列表，可以查看 [关键字](https://iotdb.apache.org/zh/UserGuide/Master/Reference/Keywords.html) 。
+关于 IoTDB 的关键字列表，可以查看 [关键字](../Reference/Keywords.md) 。
 
 ## 词法与文法详细定义
 
