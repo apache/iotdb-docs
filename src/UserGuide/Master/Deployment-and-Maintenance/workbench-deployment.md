@@ -53,45 +53,45 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
         <tr>
                 <td>cn_metric_reporter_list</td>   
                 <td rowspan="3">conf/iotdb-system.properties</td> 
-                <td>Uncomment the configuration item and set the value to PROMETHEUS</td> 
+                <td>Please add this configuration item to the configuration file and set the value to PROMETHEUS</td> 
         </tr>
         <tr>
                 <td>cn_metric_level</td>   
-                <td>Uncomment the configuration item and set the value to IMPORTANT</td> 
+                <td>Please add this configuration item to the configuration file and set the value to IMPORTANT</td> 
         </tr>
             <tr>
                 <td>cn_metric_prometheus_reporter_port</td>   
-                <td>Uncomment the configuration item to maintain the default setting of 9091. If other ports are set, they will not conflict with each other</td> 
+                <td>Please add this configuration item to the configuration file to maintain the default setting of 9091. If other ports are set, they will not conflict with each other</td> 
         </tr>
             <tr>
                 <td>dn_metric_reporter_list</td>   
                 <td rowspan="4">conf/iotdb-system.properties</td> 
-                <td>Uncomment the configuration item and set the value to PROMETHEUS</td> 
+                <td>Please add this configuration item to the configuration file and set the value to PROMETHEUS</td> 
         </tr>
         <tr>
                 <td>dn_metric_level</td>   
-                <td>Uncomment the configuration item and set the value to IMPORTANT</td> 
+                <td>Please add this configuration item to the configuration file and set the value to IMPORTANT</td> 
         </tr>
             <tr>
                 <td>dn_metric_prometheus_reporter_port</td>   
-                <td>Uncomment the configuration item and set it to 9092 by default. If other ports are set, they will not conflict with each other</td> 
+                <td>Please add this configuration item to the configuration file and set it to 9092 by default. If other ports are set, they will not conflict with each other</td> 
         </tr>
             <tr>
                 <td>dn_metric_internal_reporter_type</td>   
-                <td>Uncomment the configuration item and set the value to IOTDB</td> 
+                <td>Please add this configuration item to the configuration file and set the value to IOTDB</td> 
         </tr>
             <tr>
                 <td>enable_audit_log</td>   
                 <td rowspan="3">conf/iotdb-system.properties</td> 
-                <td>Uncomment the configuration item and set the value to true</td> 
+                <td>Please add this configuration item to the configuration file and set the value to true</td> 
         </tr>
         <tr>
                 <td>audit_log_storage</td>   
-                <td>Uncomment configuration items</td> 
+                <td>Please add this configuration item in the configuration file, with values set to IOTDB and LOGGER</td> 
         </tr>
             <tr>
                 <td>audit_log_operation</td>   
-                <td>Uncomment configuration items</td> 
+                <td>Please add this configuration item in the configuration file, with values set to DML,DDL,QUERY</td> 
         </tr>
     </table>
 
@@ -156,8 +156,6 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
 ### Step 3: Install Workbench
 
-#### Windows：
-
 1. Enter the config directory of iotdb Workbench -`<version>`
 
 2. Modify Workbench configuration file: Go to the `config` folder and modify the configuration file `application-prod.properties`. If you are installing it locally, there is no need to modify it. If you are deploying it on a server, you need to modify the IP address
@@ -170,12 +168,16 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
     ![](https://alioss.timecho.com/docs/img/workbench-conf-1.png)
 
 3. Startup program: Please execute the startup command in the sbin folder of IoTDB Workbench -`<version>`
-
+    Windows:
     ```shell
     # Start Workbench in the background
     start.bat -d
     ```
-
+    Linux：
+    ```shell
+    # Start Workbench in the background
+    ./start.sh -d
+    ```
 4. You can use the `jps` command to check if the startup was successful, as shown in the figure:
 
     ![](https://alioss.timecho.com/docs/img/windows-jps.png)
@@ -184,33 +186,6 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
     ![](https://alioss.timecho.com/docs/img/workbench-en.png)
 
-#### Linux：
-
-1. Enter the IoTDB Workbench -`<version>` directory
-
-2. Modify Workbench configuration: Go to the `config` folder and modify the configuration file `application-prod.properties`. If you are installing it locally, there is no need to modify it. If you are deploying it on a server, you need to modify the IP address
-    > Workbench can be deployed on a local or cloud server as long as it can connect to IoTDB
-
-   | Configuration    | Before Modification                 | After modification                              |
-   | ---------------- | ----------------------------------- | ----------------------------------------------- |
-   | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<Workbench's IP address>` |
-
-    ![](https://alioss.timecho.com/docs/img/workbench-conf-1.png)
-
-3. Startup program: Please execute the startup command in the sbin folder of IoTDB Workbench -`<version>`
-
-    ```shell
-    # Start Workbench in the background
-    ./start.sh -d
-    ```
-
-4. You can use the `jps` command to check if the startup was successful, as shown in the figure:
-
-    ![](https://alioss.timecho.com/docs/img/linux-jps.png)
-
-5. Verification successful: Open "`http://Server IP: Port in configuration file`" in the browser to access, for example:"`http://127.0.0.1:9190`" When the login interface appears, it is considered successful
-
-    ![](https://alioss.timecho.com/docs/img/workbench-en.png)
 
 ### Step 4: Configure Instance Information
 
