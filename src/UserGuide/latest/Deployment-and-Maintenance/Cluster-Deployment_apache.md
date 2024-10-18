@@ -142,6 +142,8 @@ cd sbin
 ./start-confignode.sh    -d      #"- d" parameter will start in the background
 ```
 
+If the startup fails, you need to [clean the environment](#common-questions) and then start again.
+
 ### Start DataNode
 
  Enter the `sbin` directory of iotdb and start three datanode nodes in sequence:
@@ -307,3 +309,34 @@ sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
 #Windows
 sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 ```
+
+## Common Questions
+
+1. Cleaning the Environment
+
+   ​	Execute the following on all nodes:
+
+   1. Terminate the ConfigNode and DataNode processes.
+
+```Bash
+    # 1. Stop the ConfigNode and DataNode services
+    sbin/stop-standalone.sh
+
+    # 2. Check for any remaining processes
+    jps
+    # Or
+    ps -ef|gerp iotdb
+
+    # 3. If there are any remaining processes, manually kill the
+    kill -9 <pid>
+    # If you are sure there is only one iotdb on the machine, you can use the following command to clean up residual processes
+    ps -ef|grep iotdb|grep -v grep|tr -s '  ' ' ' |cut -d ' ' -f2|xargs kill -9
+```
+   2.  Delete the data and logs directories.
+
+```Bash
+    cd /data/iotdb
+    rm -rf data logs
+```
+
+> Explanation: Deleting the data directory is necessary, deleting the logs directory is for clean logs and is not mandatory.

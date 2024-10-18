@@ -141,6 +141,7 @@ cd  apache-iotdb-{version}-all-bin
 cd sbin
 ./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
 ```
+如果启动失败，需要[清理环境](#常见问题)后，再次启动。
 
 ### 启动DataNode 节点
 
@@ -306,3 +307,32 @@ sbin/remove-datanode.sh [datanode_id]
 #Windows
 sbin/remove-datanode.bat [datanode_id]
 ```
+
+## 常见问题
+
+1. 清理环境
+
+   ​	在所有节点执行：
+   1. 结束 ConfigNode 和 DataNode 进程。
+
+```Bash
+    # 1. 停止 ConfigNode 和 DataNode 服务
+    sbin/stop-standalone.sh
+
+    # 2. 检查是否还有进程残留
+    jps
+    # 或者
+    ps -ef|gerp iotdb
+
+    # 3. 如果有进程残留，则手动kill
+    kill -9 <pid>
+    # 如果确定机器上仅有1个iotdb，可以使用下面命令清理残留进程
+    ps -ef|grep iotdb|grep -v grep|tr -s '  ' ' ' |cut -d ' ' -f2|xargs kill -9
+```
+   2.  删除 data 和 logs 目录。 
+```Bash
+    cd /data/iotdb
+    rm -rf data logs
+```
+
+> 说明：删除 data 目录是必要的，删除 logs 目录是为了纯净日志，非必需。

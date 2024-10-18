@@ -141,6 +141,7 @@ Start the first confignode of IoTDB-1 first, ensuring that the seed confignode n
 cd sbin
 ./start-confignode.sh    -d      #"- d" parameter will start in the background
 ```
+If the startup fails, you need to [clean the environment](#common-questions) and then start again.
 
 ### Activate Database
 
@@ -344,7 +345,36 @@ sbin/remove-datanode.sh [datanode_id]
 sbin/remove-datanode.bat [datanode_id]
 ```
 
-## Common Problem
+## Common Questions
 1. Multiple prompts indicating activation failure during deployment process
     - Use the `ls -al` command: Use the `ls -al` command to check if the owner information of the installation package root directory is the current user.
     - Check activation directory: Check all files in the `./activation` directory and whether the owner information is the current user.
+
+2. Cleaning the Environment
+
+   ​	Execute the following on all nodes:
+
+   1. Terminate the ConfigNode and DataNode processes.
+
+```Bash
+    # 1. Stop the ConfigNode and DataNode services
+    sbin/stop-standalone.sh
+
+    # 2. Check for any remaining processes
+    jps
+    # Or
+    ps -ef|gerp iotdb
+
+    # 3. If there are any remaining processes, manually kill the
+    kill -9 <pid>
+    # If you are sure there is only one iotdb on the machine, you can use the following command to clean up residual processes
+    ps -ef|grep iotdb|grep -v grep|tr -s '  ' ' ' |cut -d ' ' -f2|xargs kill -9
+```
+   2.  Delete the data and logs directories.
+
+```Bash
+    cd /data/iotdb
+    rm -rf data logs
+```
+
+> Explanation: Deleting the data directory is necessary, deleting the logs directory is for clean logs and is not mandatory.
