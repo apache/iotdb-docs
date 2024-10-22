@@ -1446,7 +1446,7 @@ public void deserialize(byte[] bytes) {
 | `void validate(UDFParameterValidator validator) throws Exception` | 在初始化方法`beforeStart`调用前执行，用于检测`UDFParameters`中用户输入的参数是否合法。该方法与 UDTF 的`validate`相同。 | 否       |
 | `void beforeStart(UDFParameters parameters, UDAFConfigurations configurations) throws Exception` | 初始化方法，在 UDAF 处理输入数据前，调用用户自定义的初始化行为。与 UDTF 不同的是，这里的 configuration 是 `UDAFConfiguration` 类型。 | 是       |
 | `State createState()`                                        | 创建`State`对象，一般只需要调用默认构造函数，然后按需修改默认的初始值即可。 | 是       |
-| `void addInput(State state, Column[] columns, BitMap bitMap)` | 根据传入的数据`Column[]`批量地更新`State`对象，注意 `column[0]` 总是代表时间列。另外`BitMap`表示之前已经被过滤掉的数据，您在编写该方法时需要手动判断对应的数据是否被过滤掉。 | 是       |
+| `void addInput(State state, Column[] columns, BitMap bitMap)` | 根据传入的数据`Column[]`批量地更新`State`对象，注意最后一列，也就是 `columns[columns.length - 1]` 总是代表时间列。另外`BitMap`表示之前已经被过滤掉的数据，您在编写该方法时需要手动判断对应的数据是否被过滤掉。 | 是       |
 | `void combineState(State state, State rhs)`                  | 将`rhs`状态合并至`state`状态中。在分布式场景下，同一组的数据可能分布在不同节点上，IoTDB 会为每个节点上的部分数据生成一个`State`对象，然后调用该方法合并成完整的`State`。 | 是       |
 | `void outputFinal(State state, ResultValue resultValue)`     | 根据`State`中的数据，计算出最终的聚合结果。注意根据聚合的语义，每一组只能输出一个值。 | 是       |
 | `void beforeDestroy() `                                      | UDAF 的结束方法。此方法由框架调用，并且只会被调用一次，即在处理完最后一条记录之后被调用。 | 否       |
@@ -1539,22 +1539,22 @@ public State createState() {
 
 - void addInput(State state, Column[] columns, BitMap bitMap)
 
-该方法的作用是，通过原始的输入数据来更新 `State` 对象。出于性能上的考量，也是为了和 IoTDB 向量化的查询引擎相对齐，原始的输入数据不再是一个数据点，而是列的数组 `Column[]`。注意第一列（也就是 `column[0]` ）总是时间列，因此您也可以在 UDAF 中根据时间进行不同的操作。
+该方法的作用是，通过原始的输入数据来更新 `State` 对象。出于性能上的考量，也是为了和 IoTDB 向量化的查询引擎相对齐，原始的输入数据不再是一个数据点，而是列的数组 `Column[]`。注意最后一列（也就是 `columns[columns.length - 1]` ）总是时间列，因此您也可以在 UDAF 中根据时间进行不同的操作。
 
 由于输入参数的类型不是一个数据点，而是多个列，您需要手动对列中的部分数据进行过滤处理，这就是第三个参数 `BitMap` 存在的意义。它用来标识这些列中哪些数据被过滤掉了，您在任何情况下都无需考虑被过滤掉的数据。
 
 下面是一个用于统计数据条数（也就是 count）的 `addInput()` 示例。它展示了您应该如何使用 `BitMap` 来忽视那些已经被过滤掉的数据。注意还是由于 Java 语言本身的限制，您需要在方法的开头将接口中定义的 `State` 类型强制转化为自定义的 `State` 类型，不然后续无法正常使用该 `State` 对象。
 
 ```java
-public void addInput(State state, Column[] column, BitMap bitMap) {
+public void addInput(State state, Column[] columns, BitMap bitMap) {
   CountState countState = (CountState) state;
 
-  int count = column[0].getPositionCount();
+  int count = columns[0].getPositionCount();
   for (int i = 0; i < count; i++) {
     if (bitMap != null && !bitMap.isMarked(i)) {
       continue;
     }
-    if (!column[1].isNull(i)) {
+    if (!columns[0].isNull(i)) {
       countState.count++;
     }
   }
