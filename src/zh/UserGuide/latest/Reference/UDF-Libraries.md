@@ -524,59 +524,6 @@ select validity(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:
 +-----------------------------+----------------------------------------+
 ```
 
-### Accuracy
-
-#### 函数简介
-
-本函数基于主数据计算原始时间序列的准确性。
-
-**函数名**：Accuracy
-
-**输入序列：** 支持多个输入序列，类型为 INT32 / INT64 / FLOAT / DOUBLE。
-
-**参数：**
-
-- `omega`：算法窗口大小，非负整数（单位为毫秒）， 在缺省情况下，算法根据不同时间差下的两个元组距离自动估计该参数。
-- `eta`：算法距离阈值，正数， 在缺省情况下，算法根据窗口中元组的距离分布自动估计该参数。
-- `k`：主数据中的近邻数量，正整数， 在缺省情况下，算法根据主数据中的k个近邻的元组距离自动估计该参数。
-
-**输出序列**：输出单个值，类型为DOUBLE，值的范围为[0,1]。
-
-#### 使用示例
-
-输入序列：
-
-```
-+-----------------------------+------------+------------+------------+------------+------------+------------+
-|                         Time|root.test.t1|root.test.t2|root.test.t3|root.test.m1|root.test.m2|root.test.m3|
-+-----------------------------+------------+------------+------------+------------+------------+------------+
-|2021-07-01T12:00:01.000+08:00|        1704|     1154.55|       0.195|        1704|     1154.55|       0.195|
-|2021-07-01T12:00:02.000+08:00|        1702|     1152.30|       0.193|        1702|     1152.30|       0.193|
-|2021-07-01T12:00:03.000+08:00|        1702|     1148.65|       0.192|        1702|     1148.65|       0.192|
-|2021-07-01T12:00:04.000+08:00|        1701|     1145.20|       0.194|        1701|     1145.20|       0.194|
-|2021-07-01T12:00:07.000+08:00|        1703|     1150.55|       0.195|        1703|     1150.55|       0.195|
-|2021-07-01T12:00:08.000+08:00|        1694|     1151.55|       0.193|        1704|     1151.55|       0.193|
-|2021-07-01T12:01:09.000+08:00|        1705|     1153.55|       0.194|        1705|     1153.55|       0.194|
-|2021-07-01T12:01:10.000+08:00|        1706|     1152.30|       0.190|        1706|     1152.30|       0.190|
-+-----------------------------+------------+------------+------------+------------+------------+------------+
-```
-
-用于查询的 SQL 语句：
-
-```sql
-select Accuracy(t1,t2,t3,m1,m2,m3) from root.test
-```
-
-输出序列：
-
-
-```
-+-----------------------------+---------------------------------------------------------------------------------------+
-|                         Time|Accuracy(root.test.t1,root.test.t2,root.test.t3,root.test.m1,root.test.m2,root.test.m3)|
-+-----------------------------+---------------------------------------------------------------------------------------+
-|2021-07-01T12:00:01.000+08:00|                                                                                  0.875|
-+-----------------------------+---------------------------------------------------------------------------------------+
-```
 
 <!--
 
@@ -2893,6 +2840,7 @@ select range(s1,"lower_bound"="101.0","upper_bound"="125.0") from root.test.d1 w
 |Time                         |range(root.test.d1.s1,"lower_bound"="101.0","upper_bound"="125.0")|
 +-----------------------------+------------------------------------------------------------------+
 |2020-01-01T00:00:02.000+08:00|                                                             100.0|
+|2020-01-01T00:00:08.000+08:00|                                                             126.0|
 |2020-01-01T00:00:28.000+08:00|                                                             126.0|
 +-----------------------------+------------------------------------------------------------------+
 ```
@@ -3079,8 +3027,9 @@ select outlier(s1,"r"="5.0","k"="4","w"="10","s"="5") from root.test
 **安装方式：**
 
 - 从IoTDB代码仓库下载`research/master-detector`分支代码到本地
-- 在根目录运行 `mvn clean package -am -Dmaven.test.skip=true` 编译项目
-- 将 `./distribution/target/apache-iotdb-1.2.0-SNAPSHOT-library-udf-bin/apache-iotdb-1.2.0-SNAPSHOT-library-udf-bin/ext/udf/library-udf.jar`复制到IoTDB服务器的`./ext/udf/` 路径下。
+- 在根目录运行 `mvn spotless:apply`
+- 在根目录运行 `mvn clean package -pl library-udf -DskipTests -am -P get-jar-with-dependencies` 编译项目
+- 将 `./library-UDF/target/library-udf-1.2.0-SNAPSHOT-jar-with-dependencies.jar`复制到IoTDB服务器的`./ext/udf/` 路径下。
 - 启动 IoTDB服务器，在客户端中执行 `create function MasterTrain as org.apache.iotdb.library.anomaly.UDTFMasterTrain'`。
 
 #### 使用示例
@@ -3165,8 +3114,9 @@ select MasterTrain(lo,la,m_lo,m_la,'p'='3','eta'='1.0') from root.test
 **安装方式：**
 
 - 从IoTDB代码仓库下载`research/master-detector`分支代码到本地
-- 在根目录运行 `mvn clean package -am -Dmaven.test.skip=true` 编译项目
-- 将 `./distribution/target/apache-iotdb-1.2.0-SNAPSHOT-library-udf-bin/apache-iotdb-1.2.0-SNAPSHOT-library-udf-bin/ext/udf/library-udf.jar`复制到IoTDB服务器的`./ext/udf/` 路径下。
+- 在根目录运行 `mvn spotless:apply`
+- 在根目录运行 `mvn clean package -pl library-udf -DskipTests -am -P get-jar-with-dependencies` 编译项目
+- 将 `./library-UDF/target/library-udf-1.2.0-SNAPSHOT-jar-with-dependencies.jar`复制到IoTDB服务器的`./ext/udf/` 路径下。
 - 启动 IoTDB服务器，在客户端中执行 `create function MasterDetect as 'org.apache.iotdb.library.anomaly.UDTFMasterDetect'`。
 
 **输出序列：** 输出单个序列，类型与输入数据中对应列的类型相同，序列为输入列修复后的结果。
