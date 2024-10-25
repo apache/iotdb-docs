@@ -347,3 +347,26 @@ Observing the results, we found that it is because the query did not add a time 
 The final optimization plan is: Add a time filtering condition to avoid a full table scan.
 
 
+## Start/Stop Repair Data Statements
+Used to repair the unsorted data generate by system bug. 
+### START REPAIR DATA
+
+Start a repair task to scan all files created before current time.
+The repair task will scan all tsfiles and repair some bad files.
+
+```sql
+IoTDB> START REPAIR DATA
+IoTDB> START REPAIR DATA ON LOCAL
+IoTDB> START REPAIR DATA ON CLUSTER
+```
+
+### STOP REPAIR DATA
+
+Stop the running repair task. To restart the stopped task.
+If there is a stopped repair task, it can be restart and recover the repair progress by executing SQL `START REPAIR DATA`.
+
+```sql
+IoTDB> STOP REPAIR DATA
+IoTDB> STOP REPAIR DATA ON LOCAL
+IoTDB> STOP REPAIR DATA ON CLUSTER
+```
