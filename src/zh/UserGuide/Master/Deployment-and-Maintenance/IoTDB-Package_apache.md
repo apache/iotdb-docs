@@ -19,9 +19,9 @@
 
 -->
 # 安装包获取
-## 开源版获取方式
+## 安装包获取方式
 
-开源版安装包可直接在Apache IoTDB官网获取：https://iotdb.apache.org/zh/Download/
+安装包可直接在Apache IoTDB官网获取：https://iotdb.apache.org/zh/Download/
 
 ## 安装包结构
 
