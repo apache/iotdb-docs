@@ -1491,7 +1491,7 @@ The following table shows all the interfaces available for user implementation.
 | `void validate(UDFParameterValidator validator) throws Exception` | This method is mainly used to validate `UDFParameters` and it is executed before `beforeStart(UDFParameters, UDTFConfigurations)` is called. | Optional              |
 | `void beforeStart(UDFParameters parameters, UDAFConfigurations configurations) throws Exception` | Initialization method that invokes user-defined initialization behavior before UDAF processes the input data. Unlike UDTF, configuration is of type `UDAFConfiguration`. | Required              |
 | `State createState()`                                        | To create a `State` object, usually just call the default constructor and modify the default initial value as needed. | Required              |
-| `void addInput(State state, Column[] columns, BitMap bitMap)` | Update `State` object according to the incoming data `Column[]` in batch, note that `column[0]` always represents the time column. In addition, `BitMap` represents the data that has been filtered out before, you need to manually determine whether the corresponding data has been filtered out when writing this method. | Required              |
+| `void addInput(State state, Column[] columns, BitMap bitMap)` | Update `State` object according to the incoming data `Column[]` in batch, note that last column `columns[columns.length - 1]` always represents the time column. In addition, `BitMap` represents the data that has been filtered out before, you need to manually determine whether the corresponding data has been filtered out when writing this method. | Required              |
 | `void combineState(State state, State rhs)`                  | Merge `rhs` state into `state` state. In a distributed scenario, the same set of data may be distributed on different nodes, IoTDB generates a `State` object for the partial data on each node, and then calls this method to merge it into the complete `State`. | Required              |
 | `void outputFinal(State state, ResultValue resultValue)`     | Computes the final aggregated result based on the data in `State`. Note that according to the semantics of the aggregation, only one value can be output per group. | Required              |
 | `void beforeDestroy() `                                      | This method is called by the framework after the last input data is processed, and will only be called once in the life cycle of each UDF instance. | Optional              |
@@ -1592,22 +1592,22 @@ public State createState() {
 
 ##### void addInput(State state, Column[] columns, BitMap bitMap)
 
-This method updates the `State` object with the raw input data. For performance reasons, also to align with the IoTDB vectorized query engine, the raw input data is no longer a data point, but an array of columns ``Column[]``. Note that the first column (i.e. `column[0]`) is always the time column, so you can also do different operations in UDAF depending on the time.
+This method updates the `State` object with the raw input data. For performance reasons, also to align with the IoTDB vectorized query engine, the raw input data is no longer a data point, but an array of columns ``Column[]``. Note that the last column (i.e. `columns[columns.length - 1]`) is always the time column, so you can also do different operations in UDAF depending on the time.
 
 Since the input parameter is not of a single data point type, but of multiple columns, you need to manually filter some of the data in the columns, which is why the third parameter, `BitMap`, exists. It identifies which of these columns have been filtered out, so you don't have to think about the filtered data in any case.
 
 Here's an example of `addInput()` that counts the number of items (aka count). It shows how you can use `BitMap` to ignore data that has been filtered out. Note that due to the limitations of the Java language, you need to do the explicit cast the `State` object  from type defined in the interface to a custom `State` type at the beginning of the method, otherwise you won't be able to use the `State` object.
 
 ```java
-public void addInput(State state, Column[] column, BitMap bitMap) {
+public void addInput(State state, Column[] columns, BitMap bitMap) {
   CountState countState = (CountState) state;
 
-  int count = column[0].getPositionCount();
+  int count = columns[0].getPositionCount();
   for (int i = 0; i < count; i++) {
     if (bitMap != null && !bitMap.isMarked(i)) {
       continue;
     }
-    if (!column[1].isNull(i)) {
+    if (!columns[0].isNull(i)) {
       countState.count++;
     }
   }

@@ -1472,23 +1472,77 @@ Different configuration parameters take effect in the following three ways:
 
 ### PIPE Configuration
 
-* ip\_white\_list
+* pipe_lib_dir
 
-|     Name     | ip\_white\_list                                                                                                    |
-| :----------: | :----------------------------------------------------------------------------------------------------------------- |
-|     Description     | Set the white list of IP addresses of the sender of the synchronization, which is expressed in the form of network segments, and multiple network segments are separated by commas. When the sender synchronizes data to the receiver, the receiver allows synchronization only when the IP address of the sender is within the network segment set in the white list. If the whitelist is empty, the receiver does not allow any sender to synchronize data. By default, the receiver rejects the synchronization request of all IP addresses except 127.0.0.1. When configuring this parameter, please ensure that all DataNode addresses on the sender are set. |
-|     Type     | String                                                                                                             |
-|    Default    | 127.0.0.1/32                                                                                                          |
-| Effective | hot-load                                                                                                      |
+| **Name**     | **pipe_lib_dir**               |
+| ------------ | -------------------------- |
+| Description         | Directory for storing custom Pipe plugins |
+| Type         | string                     |
+| Default Value       | ext/pipe                   |
+| Effective | Not currently supported for modification               |
 
-* max\_number\_of\_sync\_file\_retry
+* pipe_subtask_executor_max_thread_num
 
-|     Name     | max\_number\_of\_sync\_file\_retry |
-| :----------: | :---------------------------- |
-|     Description     | The maximum number of retries when the sender fails to synchronize files to the receiver.          |
-|     Type     | int32                           |
-|    Default    | 5                             |
-| Effective | hot-load                  |
+| **Name**     | **pipe_subtask_executor_max_thread_num**                         |
+| ------------ | ------------------------------------------------------------ |
+| Description         | The maximum number of threads that can be used for processors and sinks in Pipe subtasks. The actual value will be the minimum of pipe_subtask_executor_max_thread_num and the maximum of 1 and half of the CPU core count. |
+| Type         | int                                                          |
+| Default Value       | 5                                                            |
+| Effective | After restarting system                                                 |
+
+* pipe_sink_timeout_ms
+
+| **Name**     | **pipe_sink_timeout_ms**                          |
+| ------------ | --------------------------------------------- |
+| Description         | The connection timeout for Thrift clients in milliseconds. |
+| Type         | int                                           |
+| Default Value       | 900000                                        |
+| Effective | After restarting system                                  |
+
+* pipe_sink_selector_number
+
+| **Name**     | **pipe_sink_selector_number**                                    |
+| ------------ | ------------------------------------------------------------ |
+| Description         | The maximum number of threads for processing execution results in the iotdb-thrift-async-sink plugin. It is recommended to set this value to be less than or equal to pipe_sink_max_client_number. |
+| Type         | int                                                          |
+| Default Value       | 4                                                            |
+| Effective | After restarting system                                                 |
+
+* pipe_sink_max_client_number
+
+| **Name**     | **pipe_sink_max_client_number**                                 |
+| ------------ | ----------------------------------------------------------- |
+| Description         | The maximum number of clients that can be used in the iotdb-thrift-async-sink plugin. |
+| Type         | int                                                         |
+| Default Value       | 16                                                          |
+| Effective | After restarting system                                                |
+
+* pipe_air_gap_receiver_enabled
+
+| **Name**     | **pipe_air_gap_receiver_enabled**                                |
+| ------------ | ------------------------------------------------------------ |
+| Description         | Whether to enable receiving Pipe data through a gateway. The receiver can only return 0 or 1 in TCP mode to indicate whether the data was successfully received. |
+| Type         | Boolean                                                      |
+| Default Value       | false                                                        |
+| Effective | After restarting system                                                 |
+
+* pipe_air_gap_receiver_port
+
+| **Name**     | **pipe_air_gap_receiver_port**           |
+| ------------ | ------------------------------------ |
+| Description         | The port used by the server to receive Pipe data through a gateway. |
+| Type         | int                                  |
+| Default Value       | 9780                                 |
+| Effective | After restarting system                         |
+
+* pipe_all_sinks_rate_limit_bytes_per_second
+
+| **Name**     | **pipe_all_sinks_rate_limit_bytes_per_second**                   |
+| ------------ | ------------------------------------------------------------ |
+| Description         | The total number of bytes per second that all Pipe sinks can transmit. When the given value is less than or equal to 0, it indicates there is no limit. The default value is -1, which means there is no limit. |
+| Type         | double                                                       |
+| Default Value       | -1                                                           |
+| Effective  | Can be hot-loaded                                                     |
 
 ### IOTConsensus Configuration
 

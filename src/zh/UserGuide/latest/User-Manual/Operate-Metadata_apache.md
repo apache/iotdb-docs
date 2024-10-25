@@ -809,12 +809,6 @@ IoTDB> show timeseries where time >= 15000 and time < 16000;
 |root.sg.data2.s2| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
 +----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
 
-IoTDB> count timeseries where time >= 15000 and time < 16000;
-+-----------------+
-|count(timeseries)|
-+-----------------+
-|                4|
-+-----------------+
 ```
 关于活跃时间序列的定义，能通过正常查询查出来的数据就是活跃数据，也就是说插入但被删除的时间序列不在考虑范围内。
 

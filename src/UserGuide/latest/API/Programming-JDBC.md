@@ -35,7 +35,7 @@ PLEASE USE [Java Native API](./Programming-Java-Native-API.md) INSTEAD*
 In root directory:
 
 ```shell
-mvn clean install -pl iotdb-client/jdbc -am -Dmaven.test.skip=true
+mvn clean install -pl iotdb-client/jdbc -am -DskipTests
 ```
 
 ## Use IoTDB JDBC with Maven

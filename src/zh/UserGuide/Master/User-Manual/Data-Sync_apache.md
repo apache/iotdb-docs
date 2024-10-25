@@ -197,7 +197,6 @@ IoTDB> SHOW PIPEPLUGINS
 +------------------------------+----------+--------------------------------------------------------------------------------------------------+----------------------------------------------------+
 |          DO-NOTHING-PROCESSOR|   Builtin|               org.apache.iotdb.commons.pipe.plugin.builtin.processor.donothing.DoNothingProcessor|                                                    |
 |               DO-NOTHING-SINK|   Builtin|               org.apache.iotdb.commons.pipe.plugin.builtin.connector.donothing.DoNothingConnector|                                                    |
-|            IOTDB-AIR-GAP-SINK|   Builtin|          org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.airgap.IoTDBAirGapConnector|                                                    |
 |                  IOTDB-SOURCE|   Builtin|                       org.apache.iotdb.commons.pipe.plugin.builtin.extractor.iotdb.IoTDBExtractor|                                                    |
 |             IOTDB-THRIFT-SINK|   Builtin|          org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftConnector|                                                    |
 |         IOTDB-THRIFT-SSL-SINK|   Builtin|       org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftSslConnector|                                                    |
@@ -475,7 +474,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- | -------------- |
 | source                   | iotdb-source                                                 | String: iotdb-source                                         | 必填     | -              |
 | inclusion                | 用于指定数据同步任务中需要同步范围，分为数据、元数据和权限   | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | 选填     | data.insert    |
-| inclusion.exclusion      | 用于从 inclusion 指定的同步范围内排除特定的操作，减少同步的数据量 | 选填                                                         | 空字符串 |                |
+| inclusion.exclusion      | 用于从 inclusion 指定的同步范围内排除特定的操作，减少同步的数据量 | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | 选填     | 空字符串       |
 | mode                     | 用于在每个 data region 发送完毕时分别发送结束事件，并在全部 data region 发送完毕后自动 drop pipe。query:结束，subscribe:不结束。 | String: query / subscribe                                    | 选填     | subscribe      |
 | path                     | 用于筛选待同步的时间序列及其相关元数据 / 数据的路径模式元数据同步只能用pathpath 是精确匹配，参数必须为前缀路径或完整路径，即不能含有 `"*"`，最多在 path参数的尾部含有一个 `"**"` | String：IoTDB 的 pattern                                     | 选填     | root.**        |
 | pattern                  | 用于筛选时间序列的路径前缀                                   | String: 任意的时间序列前缀                                   | 选填     | root           |

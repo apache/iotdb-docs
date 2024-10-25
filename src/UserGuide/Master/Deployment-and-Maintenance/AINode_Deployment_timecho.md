@@ -53,19 +53,19 @@
 | README_ZH.md | file     | Explanation of the Chinese version of the markdown format                         |
 | `README.md`    | file     | Instructions                                         |
 
-### Environmental preparation  
+### Environment preparation  
 - Suggested operating environment：Ubuntu, CentOS, MacOS  
 
 - Runtime Environment   
-  - Python>=3.8 is sufficient in a networked environment, and comes with pip and venv tools; Python 3.8 version is required for non networked environments, and download the zip package for the corresponding operating system from [here](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) (Note that when downloading dependencies, you need to select the zip file in the libs folder, as shown in the following figure). Copy all files in the folder to the `lib` folder in the iotdb `enterprise android -<version>` folder, and follow the steps below to start AINode.
+  - Python>=3.8 and Python <= 3.14 is sufficient in a networked environment, and comes with pip and venv tools; Python 3.8 version is required for non networked environments, and download the zip package for the corresponding operating system from [here](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) (Note that when downloading dependencies, you need to select the zip file in the libs folder, as shown in the following figure). Copy all files in the folder to the `lib` folder in the `iotdb-enterprise-ainode-<version>` folder, and follow the steps below to start AINode.
 
      <img src="https://alioss.timecho.com/docs/img/AINode%E9%83%A8%E7%BD%B2%E7%8E%AF%E5%A2%83.png" alt="" style="width: 80%;"/>
 
   - There must be a Python interpreter in the environment variables that can be directly called through the `python` instruction.
-  - It is recommended to create a Python interpreter venv virtual environment in the `iotdb enterprise android -<version>` folder. If installing version 3.8.0 virtual environment, the statement is as follows:
+  - It is recommended to create a Python interpreter venv virtual environment in the `iotdb-enterprise-ainode-<version>` folder. If installing version 3.8.0 virtual environment, the statement is as follows:
     ```shell
-      # Install version 3.8.0 of Venv 
-      ../Python-3.8.0/python -m venv venv(Folder Name）
+      # Install version 3.8.0 of Venv , Create a virtual environment with the folder name `venv`.
+      ../Python-3.8.0/python -m venv `venv`
     ```
 
 ## Installation steps
@@ -113,8 +113,8 @@ AINode supports modifying some necessary parameters. You can find the following 
 | **Name**                           | **Describe**                                                         | **Type**    | **Default value**             | **Effective method after modification**                 |
 | :----------------------------- | ------------------------------------------------------------ | ------- | ------------------ | ---------------------------- |
 | cluster_name                   | The identifier for AINode to join the cluster                                      | string  | defaultCluster     | Only allow modifications before the first service startup |
-| ain_seed_config_node           | The Configurable Node address registered during AINode startup                          | String  | 10710              | Only allow modifications before the first service startup |
-| ain_inference_rpc_address      | AINode provides service and communication addresses                                  | String  | 127.0.0.1          | Only allow modifications before the first service startup                   |
+| ain_seed_config_node           | The Configurable Node address registered during AINode startup                          | String  | 127.0.0.1:10710     | Only allow modifications before the first service startup |
+| ain_inference_rpc_address      | AINode provides service and communication addresses , Internal Service Communication Interface        | String  | 127.0.0.1          | Only allow modifications before the first service startup                   |
 | ain_inference_rpc_port         | AINode provides ports for services and communication                                  | String  | 10810              | Only allow modifications before the first service startup                   |
 | ain_system_dir                 | AINode metadata storage path, the starting directory of the relative path is related to the operating system, and it is recommended to use an absolute path | String  | data/AINode/system | Only allow modifications before the first service startup                   |
 | ain_models_dir                 | AINode stores the path of the model file, and the starting directory of the relative path is related to the operating system. It is recommended to use an absolute path | String  | data/AINode/models | Only allow modifications before the first service startup                   |
@@ -123,7 +123,7 @@ AINode supports modifying some necessary parameters. You can find the following 
 
 ### Start AINode
 
- After completing the deployment of Seed Config Node, the registration and inference functions of the model can be supported by adding AINode nodes. After specifying the information of the IoTDB cluster in the configuration item, the corresponding instruction can be executed to start AINode and join the IoTDB cluster。  
+ After completing the deployment of Seed Config Node, the registration and inference functions of the model can be supported by adding AINode nodes. After specifying the information of the IoTDB cluster in the configuration file, the corresponding instruction can be executed to start AINode and join the IoTDB cluster。  
 
 #### Networking environment startup
 
@@ -132,10 +132,10 @@ AINode supports modifying some necessary parameters. You can find the following 
 ```shell
   # Start command
   # Linux and MacOS systems
-  bash sbin/start-ainode.sh  -i <directory>  -r  -n
+  bash sbin/start-ainode.sh 
 
   # Windows systems
-  sbin\start-ainode.bat  -i <directory>  -r  -n
+  sbin\start-ainode.bat  
 
   # Backend startup command (recommended for long-term running)
   # Linux and MacOS systems
@@ -144,6 +144,18 @@ AINode supports modifying some necessary parameters. You can find the following 
   # Windows systems
   nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
   ```
+
+#### Detailed Syntax
+
+```shell
+  # Start command
+  # Linux and MacOS systems
+  bash sbin/start-ainode.sh  -i <bin_path>  -r  -n
+
+  # Windows systems
+  sbin\start-ainode.bat  -i <bin_path>  -r  -n
+  ```
+
 ##### Parameter introduction:
 
 | **Name**                | **Label** | **Describe**                                                         | **Is it mandatory** | **Type**   | **Default value**           | **Input method**               |
@@ -211,10 +223,10 @@ If the version of AINode has been updated (such as updating the `lib` folder), t
 ```shell
   # Start command
   # Linux and MacOS systems
-  bash sbin/start-ainode.sh  -i <directory>  -r  -n
+  bash sbin/start-ainode.sh  
 
   # Windows systems
-  sbin\start-ainode.bat  -i <directory>  -r  -n
+  sbin\start-ainode.bat  
 
   # Backend startup command (recommended for long-term running)
   # Linux and MacOS systems
@@ -223,6 +235,17 @@ If the version of AINode has been updated (such as updating the `lib` folder), t
   # Windows systems
   nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
   ``` 
+
+#### Detailed Syntax
+
+```shell
+  # Start command
+  # Linux and MacOS systems
+  bash sbin/start-ainode.sh  -i <bin_path>  -r  -n
+
+  # Windows systems
+  sbin\start-ainode.bat  -i <bin_path>  -r  -n
+  ```
 
 ##### Parameter introduction:
 
@@ -275,6 +298,17 @@ If you need to stop a running AINode node, execute the corresponding shutdown sc
 
 ```shell
   # Linux / MacOS 
+  bash sbin/stop-ainode.sh  
+
+  #Windows
+  sbin\stop-ainode.bat 
+  ```
+
+
+#### Detailed Syntax
+
+```shell
+  # Linux / MacOS 
   bash sbin/stop-ainode.sh  -t<AINode-id>
 
   #Windows
@@ -319,10 +353,20 @@ When it is necessary to remove an AINode node from the cluster, a removal script
 
 ```shell
   # Linux / MacOS 
-  bash sbin/remove-ainode.sh  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  bash sbin/remove-ainode.sh  
 
   # Windows
-  sbin\remove-ainode.bat  -i<directory>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+  sbin\remove-ainode.bat  
+  ```
+
+#### Detailed Syntax
+
+```shell
+  # Linux / MacOS 
+  bash sbin/remove-ainode.sh  -i<bin_path>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
+
+  # Windows
+  sbin\remove-ainode.bat  -i<bin_path>  -t<AINode-id>/<ip>:<rpc-port>  -r  -n
   ```
 
 ##### Parameter introduction:

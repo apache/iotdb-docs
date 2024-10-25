@@ -829,12 +829,6 @@ IoTDB> show timeseries where time >= 15000 and time < 16000;
 |root.sg.data2.s2| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
 +----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
 
-IoTDB> count timeseries where time >= 15000 and time < 16000;
-+-----------------+
-|count(timeseries)|
-+-----------------+
-|                4|
-+-----------------+
 ```
 Regarding the definition of active time series, data that can be queried normally is considered active, meaning time series that have been inserted but deleted are not included.
 ### Tag and Attribute Management

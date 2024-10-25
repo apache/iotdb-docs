@@ -431,19 +431,6 @@ with sink (
 )
 ```
 
-### 压缩同步（V1.3.2+ ）
-
-IoTDB 支持在同步过程中指定数据压缩方式。可通过配置 `compressor` 参数，实现数据的实时压缩和传输。`compressor`目前支持 snappy / gzip / lz4 / zstd / lzma2 5 种可选算法，且可以选择多种压缩算法组合，按配置的顺序进行压缩。
-
-如创建一个名为 A2B 的同步任务：
-
-```SQL
-create pipe A2B 
-with sink (
- 'node-urls' = '127.0.0.1:6668', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
- 'compressor' = 'snappy,lz4'  -- 压缩算法
-)
-```
 
 ### 加密同步（V1.3.1+ ）
 
@@ -556,9 +543,9 @@ V1.3.0/1/2:
 | :----------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- | :------------- |
 | source                   | iotdb-source                                                 | String: iotdb-source                                         | 必填     | -              |
 | inclusion                | 用于指定数据同步任务中需要同步范围，分为数据、元数据和权限   | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | 选填     | data.insert    |
-| inclusion.exclusion      | 用于从 inclusion 指定的同步范围内排除特定的操作，减少同步的数据量 | 选填                                                         | -        |                |
-| path                     | 用于筛选待同步的时间序列及其相关元数据 / 数据的路径模式元数据同步只能用 pathpath 是精确匹配，参数必须为前缀路径或完整路径，即不能含有 `"*"`，最多在 path 参数的尾部含有一个 `"**"` | String：IoTDB 的 pattern                                     | 选填     | root.**        |
-| pattern                  | 用于筛选时间序列的路径前缀                                   | String: 任意的时间序列前缀                                   | 选填     | root           |
+| inclusion.exclusion      | 用于从 inclusion 指定的同步范围内排除特定的操作，减少同步的数据量 | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | 选填     | -              |
+| path                     | 用于筛选待同步的时间序列及其相关元数据 / 数据的路径模式path 是精确匹配，参数必须为前缀路径或完整路径，即不能含有 `"*"`，最多在 path 参数的尾部含有一个 `"**"` | String：IoTDB 的 pattern                                     | 选填     | root.**        |
+| pattern                  | 用于筛选时间序列的路径前缀元数据同步不能用 pattern 参数      | String: 任意的时间序列前缀                                   | 选填     | root           |
 | start-time               | 同步所有数据的开始 event time，包含 start-time               | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                       | 选填     | Long.MIN_VALUE |
 | end-time                 | 同步所有数据的结束 event time，包含 end-time                 | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                       | 选填     | Long.MAX_VALUE |
 | realtime.mode            | 新插入数据（pipe 创建后）的抽取模式                          | String: stream, batch                                        | 选填     | stream         |
@@ -584,7 +571,7 @@ V1.3.0/1/2:
 | sink.node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发） | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填     | -            |
 | sink.batch.enable            | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS        | Boolean: true, false                                         | 选填     | true         |
 | sink.batch.max-delay-seconds | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                      | 选填     | 1            |
-| batch.size-bytes             | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte） | Long                                                         | 选填     | 16*1024*1024 |
+| sink.batch.size-bytes             | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte） | Long                                                         | 选填     | 16*1024*1024 |
 
 #### iotdb-air-gap-sink( V1.3.0/1/2) 
 
