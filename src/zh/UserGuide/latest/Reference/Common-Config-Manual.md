@@ -906,12 +906,13 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * compaction\_priority
 
-|     名字     | compaction\_priority                                                                                                                               |
-| :----------: | :------------------------------------------------------------------------------------------------------------------------------------------------- |
+|     名字     | compaction\_priority                                                                      |
+| :----------: |:------------------------------------------------------------------------------------------|
 |     描述     | 合并时的优先级，BALANCE 各种合并平等，INNER_CROSS 优先进行顺序文件和顺序文件或乱序文件和乱序文件的合并，CROSS_INNER 优先将乱序文件合并到顺序文件中 |
-|     类型     | String                                                                                                                                             |
-|    默认值    | BALANCE                                                                                                                                            |
-| 改后生效方式 | 重启生效                                                                                                                                       |
+|     类型     | String                                                                                    |
+|    默认值    | INNER_CROSS                                                                               |
+| 改后生效方式 | 重启服务生效                                                                                    |
+
 
 * target\_compaction\_file\_size
 
@@ -920,7 +921,8 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     描述     | 合并后的目标文件大小                     |
 |     类型     | Int64                          |
 |    默认值    | 2147483648                     |
-| 改后生效方式 | 重启生效                         |
+| 改后生效方式 | 热加载生效                          |
+
 
 * target\_chunk\_size
 
@@ -965,7 +967,8 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |描述| 空间内合并中一次合并最多参与的文件数 |
 |类型| int32 |
 |默认值| 30|
-|改后生效方式|重启生效|
+|改后生效方式|热加载生效|
+
 
 * max\_cross\_compaction\_candidate\_file\_num
 
@@ -974,7 +977,8 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |描述| 跨空间合并中一次合并最多参与的文件数                           |
 |类型| int32                                        |
 |默认值| 500                                          |
-|改后生效方式| 重启生效                                       |
+|改后生效方式| 热加载生效                                      |
+
 
 * max\_cross\_compaction\_candidate\_file\_size
 
@@ -983,16 +987,8 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |描述| 跨空间合并中一次合并最多参与的文件总大小                          |
 |类型| Int64                                         |
 |默认值| 5368709120                                          |
-|改后生效方式| 重启生效                                        |
+|改后生效方式| 热加载生效                                      |
 
-* cross\_compaction\_file\_selection\_time\_budget
-
-|名字| cross\_compaction\_file\_selection\_time\_budget |
-|:---:|:---|
-|描述| 若一个合并文件选择运行的时间超过这个时间，它将结束，并且当前的文件合并选择将用作为最终选择。当时间小于0 时，则表示时间是无边界的。单位：ms。|
-|类型| int32 |
-|默认值| 30000 |
-|改后生效方式| 重启生效|
 
 * compaction\_thread\_count
 
@@ -1012,23 +1008,34 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |    默认值    | 60000                                  |
 | 改后生效方式 | 重启生效                           |
 
-* compaction\_submission\_interval\_in\_ms
-
-|     名字     | compaction\_submission\_interval\_in\_ms |
-| :----------: | :--------------------------------------- |
-|     描述     | 合并任务提交的间隔                       |
-|     类型     | Int64                                    |
-|    默认值    | 60000                                    |
-| 改后生效方式 | 重启生效                             |
 
 * compaction\_write\_throughput\_mb\_per\_sec
 
 |名字| compaction\_write\_throughput\_mb\_per\_sec |
-|:---:|:---|
-|描述| 每秒可达到的写入吞吐量合并限制。|
-|类型| int32 |
-|默认值| 16 |
-|改后生效方式| 重启生效|
+|:---:|:--------------------------------------------|
+|描述| 每秒可达到的写入吞吐量合并限制。                            |
+|类型| int32                                       |
+|默认值| 16                                          |
+|改后生效方式| 热加载生效                                       |
+
+* compaction\_read\_throughput\_mb\_per\_sec
+
+|    名字     | compaction\_read\_throughput\_mb\_per\_sec |
+|:---------:|:-------------------------------------------|
+|    描述     | 合并每秒读吞吐限制，单位为 byte，设置为 0 代表不限制             |
+|    类型     | int32                                      |
+|    默认值    | 0                                          |
+| Effective | 热加载                                        |
+
+* compaction\_read\_operation\_per\_sec
+
+|    名字     | compaction\_read\_operation\_per\_sec |
+|:---------:|:--------------------------------------|
+|    描述     | 合并每秒读操作数量限制，设置为 0 代表不限制               |
+|    类型     | int32                                 |
+|    默认值    | 0                                     |
+| 改后生效方式 | 热加载                                   |
+
 
 * sub\_compaction\_thread\_count
 
@@ -1039,15 +1046,14 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |默认值| 4                               |
 |改后生效方式| 热加载                             |
 
-* compaction\_validation\_level
+* enable\_tsfile\_validation
 
-|名字| compaction\_validation\_level                                                                 |
-|:---:|:----------------------------------------------------------------------------------------------|
-|描述| 合并结束后对顺序文件时间范围的检查,NONE关闭检查，RESOURCE_ONLY检查resource文件，RESOURCE_AND_TSFILE检查resource文件和tsfile文件 |
-|类型| String                                                                                        |
-|默认值| NONE                                                                                          |
-|改后生效方式| 热加载                                                                                           |
-
+|    名字     | enable\_tsfile\_validation    |
+|:---------:|:------------------------------|
+|    描述     | Flush, Load 或合并后验证 tsfile 正确性 |
+|    类型     | boolean                       |
+|    默认值    | false                         |
+| 改后生效方式 | 热加载                           |
 
 * candidate\_compaction\_task\_queue\_size
 
