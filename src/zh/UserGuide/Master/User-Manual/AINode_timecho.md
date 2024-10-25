@@ -476,7 +476,7 @@ bash ./import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ../../ETTh1.csv
 我们可以在iotdb-cli 中输入以下SQL从 huggingface 上拉取一个已经训练好的模型进行注册，用于后续的推理。
 
 ```SQL
-create model dlinear using uri 'https://huggingface.co/hvlgo/dlinear/resolve/main'
+create model dlinear using uri 'https://huggingface.co/hvlgo/dlinear/tree/main'
 ```
 
 该模型基于较为轻量化的深度模型DLinear训练而得，能够以相对快的推理速度尽可能多地捕捉到序列内部的变化趋势和变量间的数据变化关系，相较于其他更深的模型更适用于快速实时预测。

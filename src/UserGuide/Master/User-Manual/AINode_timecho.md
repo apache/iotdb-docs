@@ -479,7 +479,7 @@ bash . /import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ... /... /ETTh1.c
 We can enter the following SQL in iotdb-cli to pull a trained model from huggingface for registration for subsequent inference.
 
 ```SQL
-create model dlinear using uri 'https://huggingface.co/hvlgo/dlinear/resolve/main'
+create model dlinear using uri 'https://huggingface.co/hvlgo/dlinear/tree/main'
 ```
 
 This model is trained on the lighter weight deep model DLinear, which is able to capture as many trends within a sequence and relationships between variables as possible with relatively fast inference, making it more suitable for fast real-time prediction than other deeper models.
