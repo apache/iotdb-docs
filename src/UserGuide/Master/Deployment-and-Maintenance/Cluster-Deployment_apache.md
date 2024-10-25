@@ -310,31 +310,29 @@ sbin/remove-datanode.bat [datanode_id]
 ```
 ## Common Questions
 
-1. Cleaning the Environment
+1. After starting the confignode command, if the node fails to start multiple times or prompts running errors, the environment needs to be cleaned up.
 
    ​	Execute the following on all nodes:
 
    1. Terminate the ConfigNode and DataNode processes.
+   ```Bash
+     # 1. Stop the ConfigNode and DataNode services
+     sbin/stop-standalone.sh
 
-```Bash
-    # 1. Stop the ConfigNode and DataNode services
-    sbin/stop-standalone.sh
+     # 2. Check for any remaining processes
+     jps
+     # Or
+     ps -ef|gerp iotdb
 
-    # 2. Check for any remaining processes
-    jps
-    # Or
-    ps -ef|gerp iotdb
-
-    # 3. If there are any remaining processes, manually kill the
-    kill -9 <pid>
-    # If you are sure there is only one iotdb on the machine, you can use the following command to clean up residual processes
-    ps -ef|grep iotdb|grep -v grep|tr -s '  ' ' ' |cut -d ' ' -f2|xargs kill -9
-```
+     # 3. If there are any remaining processes, manually kill the
+     kill -9 <pid>
+     # If you are sure there is only one iotdb on the machine, you can use the following command to clean up residual processes
+     ps -ef|grep iotdb|grep -v grep|tr -s '  ' ' ' |cut -d ' ' -f2|xargs kill -9
+   ```
    2.  Delete the data and logs directories.
-
-```Bash
-    cd /data/iotdb
-    rm -rf data logs
-```
+   ```Bash
+     cd /data/iotdb
+     rm -rf data logs
+   ```
 
 > Explanation: Deleting the data directory is necessary, deleting the logs directory is for clean logs and is not mandatory.

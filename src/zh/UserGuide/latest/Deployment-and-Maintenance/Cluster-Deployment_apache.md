@@ -310,12 +310,11 @@ sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 
 ## 常见问题
 
-1. 清理环境
+1. 启动confignode的命令后，若节点多次启动失败或出现运行错误的提示，需清理环境。
 
    ​	在所有节点执行：
    1. 结束 ConfigNode 和 DataNode 进程。
-
-```Bash
+   ```Bash
     # 1. 停止 ConfigNode 和 DataNode 服务
     sbin/stop-standalone.sh
 
@@ -328,11 +327,11 @@ sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
     kill -9 <pid>
     # 如果确定机器上仅有1个iotdb，可以使用下面命令清理残留进程
     ps -ef|grep iotdb|grep -v grep|tr -s '  ' ' ' |cut -d ' ' -f2|xargs kill -9
-```
+   ```
    2.  删除 data 和 logs 目录。 
-```Bash
+   ```Bash
     cd /data/iotdb
     rm -rf data logs
-```
+   ```
 
 > 说明：删除 data 目录是必要的，删除 logs 目录是为了纯净日志，非必需。
