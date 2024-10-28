@@ -53,7 +53,7 @@
 | README_ZH.md | file     | Explanation of the Chinese version of the markdown format                         |
 | `README.md`    | file     | Instructions                                         |
 
-### Environmental preparation  
+### Environment preparation  
 - Suggested operating environment：Ubuntu, CentOS, MacOS  
 
 - Runtime Environment   

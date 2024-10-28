@@ -57,13 +57,13 @@ cd  iotdb-enterprise-{version}-bin
 
 #### Environment Script Configuration
 
-- ./conf/confignode env.sh (./conf/confignode-env.bat) configuration
+- ./conf/confignode-env.sh (./conf/confignode-env.bat) configuration
 
 | **Configuration** |                       **Description**                        | **Default** |                    **Recommended value**                     |                Note                 |
 | :---------------: | :----------------------------------------------------------: | :---------: | :----------------------------------------------------------: | :---------------------------------: |
 |    MEMORY_SIZE    | The total amount of memory that IoTDB ConfigNode nodes can use |    empty    | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
 
-- ./conf/datanode env.sh (./conf/datanode-env.bat) configuration
+- ./conf/datanode-env.sh (./conf/datanode-env.bat) configuration
 
 | **Configuration**  |               **Description**               | **Default** |                    **Recommended value**                    |      **Note**      |
 | :---------: | :----------------------------------: | :--------: | :----------------------------------------------: | :----------: |
