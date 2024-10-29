@@ -125,16 +125,16 @@
     scrape_interval: 15s 
     evaluation_interval: 15s 
     scrape_configs:
-      - job_name: "prometheus"
+    - job_name: "prometheus"
         static_configs:
-          - targets: ["localhost:9090"]
-      - job_name: "confignode"
+        - targets: ["localhost:9090"]
+    - job_name: "confignode"
         static_configs:
-          - targets: ["iotdb-1:9091","iotdb-2:9091","iotdb-3:9091"]
+        - targets: ["iotdb-1:9091","iotdb-2:9091","iotdb-3:9091"]
         honor_labels: true
-      - job_name: "datanode"
+    - job_name: "datanode"
         static_configs:
-          - targets: ["iotdb-1:9092","iotdb-2:9092","iotdb-3:9092"]
+        - targets: ["iotdb-1:9092","iotdb-2:9092","iotdb-3:9092"]
         honor_labels: true
     ```
 
