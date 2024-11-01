@@ -70,9 +70,11 @@
 
 ## Installation steps
 
-### AINode activation
+### Install AINode
 
-Require IoTDB to be in normal operation and have AINode module authorization in the license (usually not in the license, please contact T Business or technical support personnel to obtain AINode module authorization).
+1. AINode activation
+
+ Require IoTDB to be in normal operation and have AINode module authorization in the license (usually not in the license, please contact T Business or technical support personnel to obtain AINode module authorization).
 
  The authorization method for activating the AINode module is as follows：
  - Method 1: Activate file copy activation
@@ -104,6 +106,74 @@ Require IoTDB to be in normal operation and have AINode module authorization in 
     cd sbin
     ./start-datanode.sh   -d   #The parameter'd 'will be started in the background 
     ```
+
+    2. Check the kernel architecture of Linux
+  ```shell
+    uname -m
+    ```
+
+    3. Import Python environment [Download](https://repo.anaconda.com/miniconda/)
+    
+    Recommend downloading the py311 version application and importing it into the iotdb dedicated folder in the user's root directory
+
+    4. Switch to the iotdb dedicated folder to install the Python environment
+
+    Taking Miniconda 3-py311_24.5.0-0-Lux-x86_64 as an example:
+
+  ```shell
+    bash ./Miniconda3-py311_24.5.0-0-Linux-x86_64.sh
+    ```
+  > Type "Enter", "Long press space", "Enter", "Yes", "Yes" according to the prompt <br>
+  > Close the current SSH window and reconnect
+
+   5. Create a dedicated environment
+
+  ```shell
+    conda create -n ainode_py python=3.11.9
+    ```
+
+    Type 'y' according to the prompt
+
+   6. Activate dedicated environment
+
+  ```shell
+    conda activate ainode_py
+    ```
+
+   7. Verify Python version
+
+  ```shell
+    python --version
+    ```
+   8. Download and import AINode to a dedicated folder, switch to the dedicated folder and extract the installation package
+
+  ```shell
+    unzip iotdb-enterprise-ainode-1.3.3.2.zip
+    ```
+
+   9. Configuration item modification
+
+  ```shell
+    vi iotdb-enterprise-ainode-1.3.3.2/conf/iotdb-ainode.properties
+    ```
+   Configuration item modification：[detailed information](#configuration-item-modification)
+
+  > ain_seed_config_node=iotdb-1:10710 (Cluster communication node IP: communication node port)<br>
+  > ain_inference_rpc_address=iotdb-3 (IP address of the server running AINode)
+
+   10. Replace Python source
+
+  ```shell
+    pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
+    ```
+
+   11. Start the AINode node
+
+  ```shell
+    nohup bash iotdb-enterprise-ainode-1.3.3.2/sbin/start-ainode.sh  > myout.file 2>& 1 &
+    ```
+  > Return to the default environment of the system: conda deactivate
+
 
  ### Configuration item modification
 
