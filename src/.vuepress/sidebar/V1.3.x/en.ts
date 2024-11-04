@@ -83,6 +83,7 @@ export const enSidebar = {
         { text: 'Stream Processing', link: 'Streaming_apache' },
         { text: 'Data Sync', link: 'Data-Sync_apache' },
         { text: 'Database Programming', link: 'Database-Programming' },
+        { text: 'UDF', link: 'User-defined-function' },
         { text: 'Database Administration', link: 'Authority-Management' },
         { text: 'Maintennance', link: 'Maintennance' },
       ],
@@ -164,6 +165,7 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'UDF Libraries', link: 'UDF-Libraries' },
+        { text: 'UDF development', link: 'UDF-development' },
         { text: 'Function and Expression', link: 'Function-and-Expression' },
         { text: 'Common Config Manual', link: 'Common-Config-Manual' },
         { text: 'Status Codes', link: 'Status-Codes' },

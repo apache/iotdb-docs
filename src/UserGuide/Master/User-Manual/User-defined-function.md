@@ -122,7 +122,7 @@ In IoTDB, you can expand two types of UDF:
 | UDF Class                                            | Description                                                          |
 | --------------------------------------------------- | ------------------------------------------------------------ |
 | UDTF（User Defined Timeseries Generating Function） | This type of function can take **multiple** time series as input, and output **one** time series, which can have any number of data points. |
-| UDAF（User Defined Aggregation Function）           | Custom Aggregation Functions. This type of function can take one time series as input, and output **one** aggregated data point for each group based on the GROUP BY type. |
+| UDAF（User Defined Aggregation Function）           | Custom Aggregation Functions.  This type of function can take **multiple** time series as input, and output **one** aggregated data point for each group based on the GROUP BY type. |
 
 UDF Function Development: [Development guidance](../Reference/UDF-development.md)
 

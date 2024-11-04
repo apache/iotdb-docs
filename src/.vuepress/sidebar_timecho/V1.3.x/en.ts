@@ -90,6 +90,7 @@ export const enSidebar = {
         { text: 'View', link: 'IoTDB-View_timecho' },
         { text: 'AI Capability', link: 'AINode_timecho' },
         { text: 'Database Programming', link: 'Database-Programming' },
+        { text: 'UDF', link: 'User-defined-function' },
         { text: 'Security Management', link: 'Security-Management_timecho' },
         { text: 'Database Administration', link: 'Authority-Management' },
         { text: 'Maintennance', link: 'Maintennance' },
@@ -175,6 +176,7 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'UDF Libraries', link: 'UDF-Libraries' },
+        { text: 'UDF development', link: 'UDF-development' },
         { text: 'Function and Expression', link: 'Function-and-Expression' },
         { text: 'Common Config Manual', link: 'Common-Config-Manual' },
         { text: 'ConfigNode Config Manual', link: 'ConfigNode-Config-Manual' },
