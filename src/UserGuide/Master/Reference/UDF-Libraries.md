@@ -1140,60 +1140,6 @@ Output series:
 +-----------------------------+--------------------+
 ```
 
-### Mode
-
-#### Usage
-
-This function is used to calculate the mode of time series, that is, the value that occurs most frequently.
-
-**Name:** MODE
-
-**Input Series:** Only support a single input series. The type is arbitrary.
-
-**Output Series:** Output a single series. The type is the same as the input. There is only one data point in the series, whose timestamp is the same as which the first mode value has and value is the mode.
-
-**Note:**
-
-+ If there are multiple values with the most occurrences, the arbitrary one will be output.
-+ Missing points and null points in the input series will be ignored, but `NaN` will not.
-
-#### Examples
-
-Input series:
-
-```
-+-----------------------------+---------------+
-|                         Time|root.test.d2.s2|
-+-----------------------------+---------------+
-|1970-01-01T08:00:00.001+08:00|          Hello|
-|1970-01-01T08:00:00.002+08:00|          hello|
-|1970-01-01T08:00:00.003+08:00|          Hello|
-|1970-01-01T08:00:00.004+08:00|          World|
-|1970-01-01T08:00:00.005+08:00|          World|
-|1970-01-01T08:00:01.600+08:00|          World|
-|1970-01-15T09:37:34.451+08:00|          Hello|
-|1970-01-15T09:37:34.452+08:00|          hello|
-|1970-01-15T09:37:34.453+08:00|          Hello|
-|1970-01-15T09:37:34.454+08:00|          World|
-|1970-01-15T09:37:34.455+08:00|          World|
-+-----------------------------+---------------+
-```
-
-SQL for query:
-
-```sql
-select mode(s2) from root.test.d2
-```
-
-Output series:
-
-```
-+-----------------------------+---------------------+
-|                         Time|mode(root.test.d2.s2)|
-+-----------------------------+---------------------+
-|1970-01-01T08:00:00.004+08:00|                World|
-+-----------------------------+---------------------+
-```
 
 ### MvAvg
 
@@ -2264,66 +2210,7 @@ Output series:
 +-----------------------------+-----------------------+
 ```
 
-### Stddev
 
-#### Usage
-
-This function is used to calculate the population standard deviation.
-
-**Name:** STDDEV
-
-**Input Series:** Only support a single input series. The type is INT32 / INT64 / FLOAT / DOUBLE.
-
-**Output Series:** Output a single series. The type is DOUBLE. There is only one data point in the series, whose timestamp is 0 and value is the population standard deviation.
-
-**Note:** Missing points, null points and `NaN` in the input series will be ignored.
-
-#### Examples
-
-Input series:
-
-```
-+-----------------------------+---------------+
-|                         Time|root.test.d1.s1|
-+-----------------------------+---------------+
-|2020-01-01T00:00:00.000+08:00|            1.0|
-|2020-01-01T00:00:01.000+08:00|            2.0|
-|2020-01-01T00:00:02.000+08:00|            3.0|
-|2020-01-01T00:00:03.000+08:00|            4.0|
-|2020-01-01T00:00:04.000+08:00|            5.0|
-|2020-01-01T00:00:05.000+08:00|            6.0|
-|2020-01-01T00:00:06.000+08:00|            7.0|
-|2020-01-01T00:00:07.000+08:00|            8.0|
-|2020-01-01T00:00:08.000+08:00|            9.0|
-|2020-01-01T00:00:09.000+08:00|           10.0|
-|2020-01-01T00:00:10.000+08:00|           11.0|
-|2020-01-01T00:00:11.000+08:00|           12.0|
-|2020-01-01T00:00:12.000+08:00|           13.0|
-|2020-01-01T00:00:13.000+08:00|           14.0|
-|2020-01-01T00:00:14.000+08:00|           15.0|
-|2020-01-01T00:00:15.000+08:00|           16.0|
-|2020-01-01T00:00:16.000+08:00|           17.0|
-|2020-01-01T00:00:17.000+08:00|           18.0|
-|2020-01-01T00:00:18.000+08:00|           19.0|
-|2020-01-01T00:00:19.000+08:00|           20.0|
-+-----------------------------+---------------+
-```
-
-SQL for query:
-
-```sql
-select stddev(s1) from root.test.d1
-```
-
-Output series:
-
-```
-+-----------------------------+-----------------------+
-|                         Time|stddev(root.test.d1.s1)|
-+-----------------------------+-----------------------+
-|1970-01-01T08:00:00.000+08:00|     5.7662812973353965|
-+-----------------------------+-----------------------+
-```
 
 ### ZScore
 
