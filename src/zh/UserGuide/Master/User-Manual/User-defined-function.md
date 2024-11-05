@@ -4,6 +4,26 @@ UDF（User Defined Function）即用户自定义函数。IoTDB 提供多种内�
 
 根据此文档，您将会很快学会 UDF 的编写、注册、使用等操作。
 
+## UDF 函数库
+
+### 安装步骤
+
+1. 请联系商务获取与您 IoTDB 版本兼容的 UDF 函数库 JAR 包，文件名为 library-udf.jar。
+2. 将获取到的 library-udf.jar 文件放置在IoTDB中 `/iotdb-enterprise-x.x.x.x-bin/ext/udf` 的路径下
+3. 在 IoTDB 的 SQL 命令行终端（CLI）或可视化控制台（Workbench）的 SQL 操作界面中，执行相应的函数注册语句。
+4. 您可以参考 [UDF 函数库](../Reference/UDF-Libraries.md)文档，查找每个函数对应的注册语句，以确保正确注册所有需要的函数。
+
+##  UDF 类型
+
+IoTDB 支持两种类型的 UDF 函数，如下表所示。
+
+| UDF 分类                                            | 描述                                                         |
+| --------------------------------------------------- | ------------------------------------------------------------ |
+| UDTF（User Defined Timeseries Generating Function） | 自定义时间序列生成函数。该类函数允许接收多条时间序列，最终会输出一条时间序列，生成的时间序列可以有任意多数量的数据点。 |
+| UDAF（User Defined Aggregation Function）           | 自定义聚合函数。该类函数接受多条时间序列数据，最终会根据用户指定的 GROUP BY 类型，为每个组生成一个聚合后的数据点。 |
+
+UDF函数开发：[开发指导](../Reference/UDF-development.md)
+
 ##  UDF 注册
 
 注册一个 UDF 可以按如下流程进行：
@@ -114,17 +134,6 @@ SELECT *, example(*) FROM root.sg.d1 DISABLE ALIGN;
 SELECT s1 * example(* / s1 + s2) FROM root.sg.d1;
 SELECT s1, s2, s1 + example(s1, s2), s1 - example(s1 + example(s1, s2) / s2) FROM root.sg.d1;
 ```
-
-##  UDF 类型
-
-IoTDB 支持两种类型的 UDF 函数，如下表所示。
-
-| UDF 分类                                            | 描述                                                         |
-| --------------------------------------------------- | ------------------------------------------------------------ |
-| UDTF（User Defined Timeseries Generating Function） | 自定义时间序列生成函数。该类函数允许接收多条时间序列，最终会输出一条时间序列，生成的时间序列可以有任意多数量的数据点。 |
-| UDAF（User Defined Aggregation Function）           | 自定义聚合函数。该类函数接受多条时间序列数据，最终会根据用户指定的 GROUP BY 类型，为每个组生成一个聚合后的数据点。 |
-
-UDF函数开发：[开发指导](../Reference/UDF-development.md)
 
 ##  查看所有注册的 UDF
 

@@ -4,6 +4,27 @@ IoTDB provides a variety of built-in functions to meet your computing needs, and
 
 This document describes how to write, register and use a UDF.
 
+## UDF library
+
+### Installation steps
+
+1. Please contact Timecho to obtain  UDF library JAR package that is compatible with your IoTDB version, with the file name `library udf. jar`.
+2. Place the obtained library-udf.jar file in the `/iotdb-enterprise-x.x.x.x-bin/ext/udf` directory of IoTDB.
+3. Execute the corresponding function registration statements in the SQL command-line interface (CLI) or the SQL operation interface of the visualization console (Workbench) in IoTDB.
+4. You can refer to the [UDF library](../Reference/UDF-Libraries.md) documentation to find the registration statements for each function, ensuring that all required functions are correctly registered.
+
+
+##  UDF Types
+
+In IoTDB, you can expand two types of UDF:
+
+| UDF Class                                            | Description                                                          |
+| --------------------------------------------------- | ------------------------------------------------------------ |
+| UDTF（User Defined Timeseries Generating Function） | This type of function can take **multiple** time series as input, and output **one** time series, which can have any number of data points. |
+| UDAF（User Defined Aggregation Function）           | Custom Aggregation Functions.  This type of function can take **multiple** time series as input, and output **one** aggregated data point for each group based on the GROUP BY type. |
+
+UDF Function Development: [Development guidance](../Reference/UDF-development.md)
+
 ##  UDF Registration
 
 The process of registering a UDF in IoTDB is as follows:
@@ -114,17 +135,6 @@ SELECT *, example(*) FROM root.sg.d1 DISABLE ALIGN;
 SELECT s1 * example(* / s1 + s2) FROM root.sg.d1;
 SELECT s1, s2, s1 + example(s1, s2), s1 - example(s1 + example(s1, s2) / s2) FROM root.sg.d1;
 ```
-
-##  UDF Types
-
-In IoTDB, you can expand two types of UDF:
-
-| UDF Class                                            | Description                                                          |
-| --------------------------------------------------- | ------------------------------------------------------------ |
-| UDTF（User Defined Timeseries Generating Function） | This type of function can take **multiple** time series as input, and output **one** time series, which can have any number of data points. |
-| UDAF（User Defined Aggregation Function）           | Custom Aggregation Functions.  This type of function can take **multiple** time series as input, and output **one** aggregated data point for each group based on the GROUP BY type. |
-
-UDF Function Development: [Development guidance](../Reference/UDF-development.md)
 
 ##  Show All Registered UDFs
 

@@ -24,6 +24,12 @@
 
 ### Completeness
 
+#### 注册语句
+
+```sql
+create function completeness as 'org.apache.iotdb.library.dquality.UDTFCompleteness'
+```
+
 #### 函数简介
 
 本函数用于计算时间序列的完整性。将输入序列划分为若干个连续且不重叠的窗口，分别计算每一个窗口的完整性，并输出窗口第一个数据点的时间戳和窗口的完整性。
@@ -150,6 +156,12 @@ select completeness(s1,"window"="15") from root.test.d1 where time <= 2020-01-01
 
 ### Consistency
 
+#### 注册语句
+
+```sql
+create function consistency as 'org.apache.iotdb.library.dquality.UDTFConsistency'
+```
+
 #### 函数简介
 
 本函数用于计算时间序列的一致性。将输入序列划分为若干个连续且不重叠的窗口，分别计算每一个窗口的一致性，并输出窗口第一个数据点的时间戳和窗口的时效性。
@@ -275,6 +287,12 @@ select consistency(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 
 
 ### Timeliness
 
+#### 注册语句
+
+```sql
+create function timeliness as 'org.apache.iotdb.library.dquality.UDTFTimeliness'
+```
+
 #### 函数简介
 
 本函数用于计算时间序列的时效性。将输入序列划分为若干个连续且不重叠的窗口，分别计算每一个窗口的时效性，并输出窗口第一个数据点的时间戳和窗口的时效性。
@@ -399,6 +417,12 @@ select timeliness(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 0
 ```
 
 ### Validity
+
+#### 注册语句
+
+```sql
+create function validity as 'org.apache.iotdb.library.dquality.UDTFValidity'
+```
 
 #### 函数简介
 
@@ -550,6 +574,12 @@ select validity(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:
 
 ### ACF
 
+#### 注册语句
+
+```sql
+create function acf as 'org.apache.iotdb.library.dprofile.UDTFACF'
+```
+
 #### 函数简介
 
 本函数用于计算时间序列的自相关函数值，即序列与自身之间的互相关函数。
@@ -607,6 +637,12 @@ select acf(s1) from root.test.d1 where time <= 2020-01-01 00:00:05
 
 ### Distinct
 
+#### 注册语句
+
+```sql
+create function distinct as 'org.apache.iotdb.library.dprofile.UDTFDistinct'
+```
+
 #### 函数简介
 
 本函数可以返回输入序列中出现的所有不同的元素。
@@ -659,6 +695,12 @@ select distinct(s2) from root.test.d2
 ```
 
 ### Histogram
+
+#### 注册语句
+
+```sql
+create function histogram as 'org.apache.iotdb.library.dprofile.UDTFHistogram'
+```
 
 #### 函数简介
 
@@ -739,6 +781,12 @@ select histogram(s1,"min"="1","max"="20","count"="10") from root.test.d1
 ```
 
 ### Integral
+
+#### 注册语句
+
+```sql
+create function integral as 'org.apache.iotdb.library.dprofile.UDAFIntegral'
+```
 
 #### 函数简介
 
@@ -831,6 +879,12 @@ $$\frac{1}{2\times 60}[(1+2) \times 1 + (2+3) \times 1 + (5+6) \times 1 + (6+7) 
 
 ### IntegralAvg
 
+#### 注册语句
+
+```sql
+create function integralavg as 'org.apache.iotdb.library.dprofile.UDAFIntegralAvg'
+```
+
 #### 函数简介
 
 本函数用于计算时间序列的函数均值，即在相同时间单位下的数值积分除以序列总的时间跨度。更多关于数值积分计算的信息请参考`Integral`函数。
@@ -890,6 +944,12 @@ select integralavg(s1) from root.test.d1 where time <= 2020-01-01 00:00:10
 $$\frac{1}{2}[(1+2)\times 1 + (2+5) \times 1 + (5+6) \times 1 + (6+7) \times 1 + (7+8) \times 3 + (8+10) \times 2] / 10 = 5.75$$
 
 ### Mad
+
+#### 注册语句
+
+```sql
+create function mad as 'org.apache.iotdb.library.dprofile.UDAFMad'
+```
 
 #### 函数简介
 
@@ -990,6 +1050,12 @@ select mad(s0, "error"="0.01") from root.test
 
 ### Median
 
+#### 注册语句
+
+```sql
+create function median as 'org.apache.iotdb.library.dprofile.UDAFMedian'
+```
+
 #### 函数简介
 
 本函数用于计算单列数值型数据的精确或近似中位数。中位数是顺序排列的一组数据中居于中间位置的数；当序列有偶数个时，中位数为中间二者的平均数。
@@ -1059,6 +1125,12 @@ select median(s0, "error"="0.01") from root.test
 ```
 
 ### MinMax
+
+#### 注册语句
+
+```sql
+create function minmax as 'org.apache.iotdb.library.dprofile.UDTFMinMax'
+```
 
 #### 函数简介
 
@@ -1201,6 +1273,12 @@ select mode(s2) from root.test.d2
 
 ### MvAvg
 
+#### 注册语句
+
+```sql
+create function mvavg as 'org.apache.iotdb.library.dprofile.UDTFMvAvg'
+```
+
 #### 函数简介
 
 本函数计算序列的移动平均。
@@ -1283,6 +1361,12 @@ select mvavg(s1, "window"="3") from root.test
 
 ### PACF
 
+#### 注册语句
+
+```sql
+create function pacf as 'org.apache.iotdb.library.dprofile.UDTFPACF'
+```
+
 #### 函数简介
 
 本函数通过求解 Yule-Walker 方程，计算序列的偏自相关系数。对于特殊的输入序列，方程可能没有解，此时输出`NaN`。
@@ -1353,6 +1437,12 @@ select pacf(s1, "lag"="5") from root.test
 ```
 
 ### Percentile
+
+#### 注册语句
+
+```sql
+create function percentile as 'org.apache.iotdb.library.dprofile.UDAFPercentile'
+```
 
 #### 函数简介
 
@@ -1426,6 +1516,12 @@ select percentile(s0, "rank"="0.2", "error"="0.01") from root.test
 ```
 
 ### Quantile
+
+#### 注册语句
+
+```sql
+create function quantile as 'org.apache.iotdb.library.dprofile.UDAFQuantile'
+```
 
 #### 函数简介
 
@@ -1501,6 +1597,12 @@ select quantile(s0, "rank"="0.2", "K"="800") from root.test
 
 ### Period
 
+#### 注册语句
+
+```sql
+create function period as 'org.apache.iotdb.library.dprofile.UDAFPeriod'
+```
+
 #### 函数简介
 
 本函数用于计算单列数值型数据的周期。
@@ -1548,6 +1650,12 @@ select period(s1) from root.test.d3
 ```
 
 ### QLB
+
+#### 注册语句
+
+```sql
+create function qlb as 'org.apache.iotdb.library.dprofile.UDTFQLB'
+```
 
 #### 函数简介
 
@@ -1633,6 +1741,12 @@ select QLB(s1) from root.test.d1
 ```
 
 ### Resample
+
+#### 注册语句
+
+```sql
+create function re_sample as 'org.apache.iotdb.library.dprofile.UDTFResample'
+```
 
 #### 函数简介
 
@@ -1752,6 +1866,12 @@ select resample(s1,'every'='30m','start'='2021-03-06 15:00:00') from root.test.d
 
 ### Sample
 
+#### 注册语句
+
+```sql
+create function sample as 'org.apache.iotdb.library.dprofile.UDTFSample'
+```
+
 #### 函数简介
 
 本函数对输入序列进行采样，即从输入序列中选取指定数量的数据点并输出。目前，本函数支持三种采样方法：**蓄水池采样法 (reservoir sampling)** 对数据进行随机采样，所有数据点被采样的概率相同；**等距采样法 (isometric sampling)** 按照相等的索引间隔对数据进行采样，**最大三角采样法 (triangle sampling)** 对所有数据会按采样率分桶，每个桶内会计算数据点间三角形面积，并保留面积最大的点，该算法通常用于数据的可视化展示中，采用过程可以保证一些关键的突变点在采用中得到保留，更多抽样算法细节可以阅读论文 [here](http://skemman.is/stream/get/1946/15343/37285/3/SS_MSthesis.pdf)。
@@ -1842,6 +1962,12 @@ select sample(s1,'method'='isometric','k'='5') from root.test.d1
 ```
 
 ### Segment
+
+#### 注册语句
+
+```sql
+create function segment as 'org.apache.iotdb.library.dprofile.UDTFSegment'
+```
 
 #### 函数简介
 
@@ -1935,6 +2061,12 @@ select segment(s1,"error"="0.1") from root.test
 
 ### Skew
 
+#### 注册语句
+
+```sql
+create function skew as 'org.apache.iotdb.library.dprofile.UDAFSkew'
+```
+
 #### 函数简介
 
 本函数用于计算单列数值型数据的总体偏度
@@ -1995,6 +2127,12 @@ select skew(s1) from root.test.d1
 ```
 
 ### Spline
+
+#### 注册语句
+
+```sql
+create function spline as 'org.apache.iotdb.library.dprofile.UDTFSpline'
+```
 
 #### 函数简介
 
@@ -2203,6 +2341,12 @@ select spline(s1, "points"="151") from root.test
 
 ### Spread
 
+#### 注册语句
+
+```sql
+create function spread as 'org.apache.iotdb.library.dprofile.UDAFSpread'
+```
+
 #### 函数简介
 
 本函数用于计算时间序列的极差，即最大值减去最小值的结果。
@@ -2320,6 +2464,12 @@ select stddev(s1) from root.test.d1
 
 ### ZScore
 
+#### 注册语句
+
+```sql
+create function zscore as 'org.apache.iotdb.library.dprofile.UDTFZScore'
+```
+
 #### 函数简介
 
 本函数将输入序列使用z-score方法进行归一化。
@@ -2429,6 +2579,12 @@ select zscore(s1) from root.test
 
 ### IQR
 
+#### 注册语句
+
+```sql
+create function iqr as 'org.apache.iotdb.library.anomaly.UDTFIQR'
+```
+
 #### 函数简介
 
 本函数用于检验超出上下四分位数1.5倍IQR的数据分布异常。
@@ -2498,6 +2654,12 @@ select iqr(s1) from root.test
 
 ### KSigma
 
+#### 注册语句
+
+```sql
+create function ksigma as 'org.apache.iotdb.library.anomaly.UDTFKSigma'
+```
+
 #### 函数简介
 
 本函数利用动态 K-Sigma 算法进行异常检测。在一个窗口内，与平均值的差距超过k倍标准差的数据将被视作异常并输出。
@@ -2564,6 +2726,12 @@ select ksigma(s1,"k"="1.0") from root.test.d1 where time <= 2020-01-01 00:00:30
 ```
 
 ### LOF
+
+#### 注册语句
+
+```sql
+create function LOF as 'org.apache.iotdb.library.anomaly.UDTFLOF'
+```
 
 #### 函数简介
 
@@ -2694,6 +2862,12 @@ select lof(s1, "method"="series") from root.test.d1 where time<1000
 
 ### MissDetect
 
+#### 注册语句
+
+```sql
+create function missdetect as 'org.apache.iotdb.library.anomaly.UDTFMissDetect'
+```
+
 #### 函数简介
 
 本函数用于检测数据中的缺失异常。在一些数据中，缺失数据会被线性插值填补，在数据中出现完美的线性片段，且这些片段往往长度较大。本函数通过在数据中发现这些完美线性片段来检测缺失异常。
@@ -2781,6 +2955,12 @@ select missdetect(s2,'minlen'='10') from root.test.d2
 
 ### Range
 
+#### 注册语句
+
+```sql
+create function range as 'org.apache.iotdb.library.anomaly.UDTFRange'
+```
+
 #### 函数简介
 
 本函数用于查找时间序列的范围异常。将根据提供的上界与下界，判断输入数据是否越界，即异常，并输出所有异常点为新的时间序列。
@@ -2846,6 +3026,12 @@ select range(s1,"lower_bound"="101.0","upper_bound"="125.0") from root.test.d1 w
 ```
 
 ### TwoSidedFilter
+
+#### 注册语句
+
+```sql
+create function twosidedfilter as 'org.apache.iotdb.library.anomaly.UDTFTwoSidedFilter'
+```
 
 #### 函数简介
 
@@ -2938,6 +3124,12 @@ select TwoSidedFilter(s0, 'len'='5', 'threshold'='0.3') from root.test
 ```
 
 ### Outlier
+
+#### 注册语句
+
+```sql
+create function outlier as 'org.apache.iotdb.library.anomaly.UDTFOutlier'
+```
 
 #### 函数简介
 
@@ -3267,6 +3459,12 @@ select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='anomaly','p'='3','k'='3
 
 ### Conv
 
+#### 注册语句
+
+```sql
+create function conv as 'org.apache.iotdb.library.frequency.UDTFConv'
+```
+
 #### 函数简介
 
 本函数对两个输入序列进行卷积，即多项式乘法。
@@ -3314,6 +3512,12 @@ select conv(s1,s2) from root.test.d2
 ```
 
 ### Deconv
+
+#### 注册语句
+
+```sql
+create function deconv as 'org.apache.iotdb.library.frequency.UDTFDeconv'
+```
 
 #### 函数简介
 
@@ -3391,6 +3595,12 @@ select deconv(s3,s2,'result'='remainder') from root.test.d2
 ```
 
 ### DWT
+
+#### 注册语句
+
+```sql
+create function dwt as 'org.apache.iotdb.library.frequency.UDTFDWT'
+```
 
 #### 函数简介
 
@@ -3472,6 +3682,12 @@ select dwt(s1,"method"="haar") from root.test.d1
 ```
 
 ### FFT
+
+#### 注册语句
+
+```sql
+create function fft as 'org.apache.iotdb.library.frequency.UDTFFFT'
+```
 
 #### 函数简介
 
@@ -3593,6 +3809,12 @@ select fft(s1, 'result'='real', 'compress'='0.99'), fft(s1, 'result'='imag','com
 
 ### HighPass
 
+#### 注册语句
+
+```sql
+create function highpass as 'org.apache.iotdb.library.frequency.UDTFHighPass'
+```
+
 #### 函数简介
 
 本函数对输入序列进行高通滤波，提取高于截止频率的分量。输入序列的时间戳将被忽略，所有数据点都将被视作等距的。
@@ -3681,6 +3903,12 @@ select highpass(s1,'wpass'='0.45') from root.test.d1
 
 ### IFFT
 
+#### 注册语句
+
+```sql
+create function ifft as 'org.apache.iotdb.library.frequency.UDTFIFFT'
+```
+
 #### 函数简介
 
 本函数将输入的两个序列作为实部和虚部视作一个复数，进行逆快速傅里叶变换，并输出结果的实部。输入数据的格式参见`FFT`函数的输出，并支持以`FFT`函数压缩后的输出作为本函数的输入。
@@ -3755,6 +3983,12 @@ select ifft(re, im, 'interval'='1m', 'start'='2021-01-01 00:00:00') from root.te
 ```
 
 ### LowPass
+
+#### 注册语句
+
+```sql
+create function lowpass as 'org.apache.iotdb.library.frequency.UDTFLowPass'
+```
 
 #### 函数简介
 
@@ -3866,6 +4100,12 @@ select lowpass(s1,'wpass'='0.45') from root.test.d1
 
 ### Cov
 
+#### 注册语句
+
+```sql
+create function cov as 'org.apache.iotdb.library.dmatch.UDAFCov'
+```
+
 #### 函数简介
 
 本函数用于计算两列数值型数据的总体协方差。
@@ -3926,6 +4166,12 @@ select cov(s1,s2) from root.test.d2
 ```
 
 ### Dtw
+
+#### 注册语句
+
+```sql
+create function dtw as 'org.apache.iotdb.library.dmatch.UDAFDtw'
+```
 
 #### 函数简介
 
@@ -3992,6 +4238,12 @@ select dtw(s1,s2) from root.test.d2
 
 ### Pearson
 
+#### 注册语句
+
+```sql
+create function pearson as 'org.apache.iotdb.library.dmatch.UDAFPearson'
+```
+
 #### 函数简介
 
 本函数用于计算两列数值型数据的皮尔森相关系数。
@@ -4052,6 +4304,12 @@ select pearson(s1,s2) from root.test.d2
 
 ### PtnSym
 
+#### 注册语句
+
+```sql
+create function ptnsym as 'org.apache.iotdb.library.dmatch.UDTFPtnSym'
+```
+
 #### 函数简介
 
 本函数用于寻找序列中所有对称度小于阈值的对称子序列。对称度通过 DTW 计算，值越小代表序列对称性越高。
@@ -4109,6 +4367,12 @@ select ptnsym(s4, 'window'='5', 'threshold'='0') from root.test.d1
 ```
 
 ### XCorr
+
+#### 注册语句
+
+```sql
+create function xcorr as 'org.apache.iotdb.library.dmatch.UDTFXCorr'
+```
 
 #### 函数简介
 
@@ -4199,6 +4463,12 @@ select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
 ## 数据修复
 
 ### TimestampRepair
+
+#### 注册语句
+
+```sql
+create function timestamprepair as 'org.apache.iotdb.library.drepair.UDTFTimestampRepair'
+```
 
 ### 函数简介
 
@@ -4296,6 +4566,12 @@ select timestamprepair(s1) from root.test.d2
 ```
 
 ### ValueFill
+
+#### 注册语句
+
+```sql
+create function valuefill as 'org.apache.iotdb.library.drepair.UDTFValueFill'
+```
 
 #### 函数简介
 
@@ -4407,6 +4683,12 @@ select valuefill(s1,"method"="previous") from root.test.d2
 ```
 
 ### ValueRepair
+
+#### 注册语句
+
+```sql
+create function valuerepair as 'org.apache.iotdb.library.drepair.UDTFValueRepair'
+```
 
 #### 函数简介
 
@@ -4711,6 +4993,12 @@ select seasonalrepair(s1,'method'='improved','period'=3) from root.test.d2
 
 ### ConsecutiveSequences
 
+#### 注册语句
+
+```sql
+create function consecutivesequences as 'org.apache.iotdb.library.series.UDTFConsecutiveSequences'
+```
+
 #### 函数简介
 
 本函数用于在多维严格等间隔数据中发现局部最长连续子序列。
@@ -4799,6 +5087,12 @@ select consecutivesequences(s1,s2) from root.test.d1
 
 ### ConsecutiveWindows
 
+#### 注册语句
+
+```sql
+create function consecutivewindows as 'org.apache.iotdb.library.series.UDTFConsecutiveWindows'
+```
+
 #### 函数简介
 
 本函数用于在多维严格等间隔数据中发现指定长度的连续窗口。
@@ -4885,6 +5179,11 @@ select consecutivewindows(s1,s2,'length'='10m') from root.test.d1
 
 ### AR
 
+#### 注册语句
+
+```sql
+create function ar as 'org.apache.iotdb.library.dlearn.UDTFAR'
+```
 #### 函数简介
 
 本函数用于学习数据的自回归模型系数。

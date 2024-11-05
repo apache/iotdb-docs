@@ -25,6 +25,12 @@
 
 ### Completeness
 
+#### Registration statement
+
+```sql
+create function completeness as 'org.apache.iotdb.library.dquality.UDTFCompleteness'
+```
+
 #### Usage
 
 This function is used to calculate the completeness of time series. The input series are divided into several continuous and non overlapping windows. The timestamp of the first data point and the completeness of each window will be output.
@@ -150,6 +156,12 @@ Output series:
 
 ### Consistency
 
+#### Registration statement
+
+```sql
+create function consistency as 'org.apache.iotdb.library.dquality.UDTFConsistency'
+```
+
 #### Usage
 
 This function is used to calculate the consistency of time series. The input series are divided into several continuous and non overlapping windows. The timestamp of the first data point and the consistency of each window will be output.
@@ -274,6 +286,12 @@ Output series:
 
 ### Timeliness
 
+#### Registration statement
+
+```sql
+create function timeliness as 'org.apache.iotdb.library.dquality.UDTFTimeliness'
+```
+
 #### Usage
 
 This function is used to calculate the timeliness of time series. The input series are divided into several continuous and non overlapping windows. The timestamp of the first data point and the timeliness of each window will be output.
@@ -397,6 +415,12 @@ Output series:
 ```
 
 ### Validity
+
+#### Registration statement
+
+```sql
+create function validity as 'org.apache.iotdb.library.dquality.UDTFValidity'
+```
 
 #### Usage
 
@@ -547,6 +571,12 @@ Output series:
 
 ### ACF
 
+#### Registration statement
+
+```sql
+create function acf as 'org.apache.iotdb.library.dprofile.UDTFACF'
+```
+
 #### Usage
 
 This function is used to calculate the auto-correlation factor of the input time series,
@@ -606,6 +636,12 @@ Output series:
 
 ### Distinct
 
+#### Registration statement
+
+```sql
+create function distinct as 'org.apache.iotdb.library.dprofile.UDTFDistinct'
+```
+
 #### Usage
 
 This function returns all unique values in time series.
@@ -658,6 +694,12 @@ Output series:
 ```
 
 ### Histogram
+
+#### Registration statement
+
+```sql
+create function histogram as 'org.apache.iotdb.library.dprofile.UDTFHistogram'
+```
 
 #### Usage
 
@@ -737,6 +779,12 @@ Output series:
 ```
 
 ### Integral
+
+#### Registration statement
+
+```sql
+create function integral as 'org.apache.iotdb.library.dprofile.UDAFIntegral'
+```
 
 #### Usage
 
@@ -829,6 +877,12 @@ $$\frac{1}{2\times 60}[(1+2) \times 1 + (2+5) \times 1 + (5+6) \times 1 + (6+7) 
 
 ### IntegralAvg
 
+#### Registration statement
+
+```sql
+create function integralavg as 'org.apache.iotdb.library.dprofile.UDAFIntegralAvg'
+```
+
 #### Usage
 
 This function is used to calculate the function average of time series.
@@ -889,6 +943,12 @@ Calculation expression:
 $$\frac{1}{2}[(1+2) \times 1 + (2+5) \times 1 + (5+6) \times 1 + (6+7) \times 1 + (7+8) \times 3 + (8+10) \times 2] / 10 = 5.75$$
 
 ### Mad
+
+#### Registration statement
+
+```sql
+create function mad as 'org.apache.iotdb.library.dprofile.UDAFMad'
+```
 
 #### Usage
 
@@ -988,6 +1048,12 @@ Output series:
 
 ### Median
 
+#### Registration statement
+
+```sql
+create function median as 'org.apache.iotdb.library.dprofile.UDAFMedian'
+```
+
 #### Usage
 
 The function is used to compute the exact or approximate median of a numeric time series. Median is the value separating the higher half from the lower half of a data sample.
@@ -1057,6 +1123,12 @@ Output series:
 ```
 
 ### MinMax
+
+#### Registration statement
+
+```sql
+create function minmax as 'org.apache.iotdb.library.dprofile.UDTFMinMax'
+```
 
 #### Usage
 
@@ -1197,6 +1269,12 @@ Output series:
 
 ### MvAvg
 
+#### Registration statement
+
+```sql
+create function mvavg as 'org.apache.iotdb.library.dprofile.UDTFMvAvg'
+```
+
 #### Usage
 
 This function is used to calculate moving average of input series.
@@ -1277,6 +1355,12 @@ Output series:
 
 ### PACF
 
+#### Registration statement
+
+```sql
+create function pacf as 'org.apache.iotdb.library.dprofile.UDTFPACF'
+```
+
 #### Usage
 
 This function is used to calculate partial autocorrelation of input series by solving Yule-Walker equation. For some cases, the equation may not be solved, and NaN will be output.
@@ -1345,6 +1429,12 @@ Output series:
 ```
 
 ### Percentile
+
+#### Registration statement
+
+```sql
+create function percentile as 'org.apache.iotdb.library.dprofile.UDAFPercentile'
+```
 
 #### Usage
 
@@ -1419,6 +1509,12 @@ Output series:
 
 ### Quantile
 
+#### Registration statement
+
+```sql
+create function quantile as 'org.apache.iotdb.library.dprofile.UDAFQuantile'
+```
+
 #### Usage
 
 The function is used to compute the approximate quantile of a numeric time series. A quantile is value of element in the certain rank of the sorted series.
@@ -1492,6 +1588,12 @@ Output series:
 
 ### Period
 
+#### Registration statement
+
+```sql
+create function period as 'org.apache.iotdb.library.dprofile.UDAFPeriod'
+```
+
 #### Usage
 
 The function is used to compute the period of a numeric time series.
@@ -1540,6 +1642,12 @@ Output series:
 ```
 
 ### QLB
+
+#### Registration statement
+
+```sql
+create function qlb as 'org.apache.iotdb.library.dprofile.UDTFQLB'
+```
 
 #### Usage
 
@@ -1624,6 +1732,12 @@ Output series:
 ```
 
 ### Resample
+
+#### Registration statement
+
+```sql
+create function re_sample as 'org.apache.iotdb.library.dprofile.UDTFResample'
+```
 
 #### Usage
 
@@ -1754,6 +1868,12 @@ Output series:
 
 ### Sample
 
+#### Registration statement
+
+```sql
+create function sample as 'org.apache.iotdb.library.dprofile.UDTFSample'
+```
+
 #### Usage
 
 This function is used to sample the input series,
@@ -1852,6 +1972,12 @@ Output series:
 
 ### Segment
 
+#### Registration statement
+
+```sql
+create function segment as 'org.apache.iotdb.library.dprofile.UDTFSegment'
+```
+
 #### Usage
 
 This function is used to segment a time series into subsequences according to linear trend, and returns linear fitted values of first values in each subsequence or every data point.
@@ -1944,6 +2070,12 @@ Output series:
 
 ### Skew
 
+#### Registration statement
+
+```sql
+create function skew as 'org.apache.iotdb.library.dprofile.UDAFSkew'
+```
+
 #### Usage
 
 This function is used to calculate the population skewness.
@@ -2004,6 +2136,12 @@ Output series:
 ```
 
 ### Spline
+
+#### Registration statement
+
+```sql
+create function spline as 'org.apache.iotdb.library.dprofile.UDTFSpline'
+```
 
 #### Usage
 
@@ -2210,6 +2348,12 @@ Output series:
 
 ### Spread
 
+#### Registration statement
+
+```sql
+create function spread as 'org.apache.iotdb.library.dprofile.UDAFSpread'
+```
+
 #### Usage
 
 This function is used to calculate the spread of time series, that is, the maximum value minus the minimum value.
@@ -2327,6 +2471,12 @@ Output series:
 
 ### ZScore
 
+#### Registration statement
+
+```sql
+create function zscore as 'org.apache.iotdb.library.dprofile.UDTFZScore'
+```
+
 #### Usage
 
 This function is used to standardize the input series with z-score.
@@ -2433,6 +2583,12 @@ Output series:
 
 ### IQR
 
+#### Registration statement
+
+```sql
+create function iqr as 'org.apache.iotdb.library.anomaly.UDTFIQR'
+```
+
 #### Usage
 
 This function is used to detect anomalies based on IQR. Points distributing beyond 1.5 times IQR are selected.
@@ -2500,6 +2656,12 @@ Output series:
 
 ### KSigma
 
+#### Registration statement
+
+```sql
+create function ksigma as 'org.apache.iotdb.library.anomaly.UDTFKSigma'
+```
+
 #### Usage
 
 This function is used to detect anomalies based on the Dynamic K-Sigma Algorithm.
@@ -2564,6 +2726,12 @@ Output series:
 ```
 
 ### LOF
+
+#### Registration statement
+
+```sql
+create function LOF as 'org.apache.iotdb.library.anomaly.UDTFLOF'
+```
 
 #### Usage
 
@@ -2691,6 +2859,12 @@ Output series:
 
 ### MissDetect
 
+#### Registration statement
+
+```sql
+create function missdetect as 'org.apache.iotdb.library.anomaly.UDTFMissDetect'
+```
+
 #### Usage
 
 This function is used to detect missing anomalies.
@@ -2779,6 +2953,12 @@ Output series:
 
 ### Range
 
+#### Registration statement
+
+```sql
+create function range as 'org.apache.iotdb.library.anomaly.UDTFRange'
+```
+
 #### Usage
 
 This function is used to detect range anomaly of time series. According to upper bound and lower bound parameters, the function judges if a input value is beyond range, aka range anomaly, and a new time series of anomaly will be output.
@@ -2843,6 +3023,12 @@ Output series:
 ```
 
 ### TwoSidedFilter
+
+#### Registration statement
+
+```sql
+create function twosidedfilter as 'org.apache.iotdb.library.anomaly.UDTFTwoSidedFilter'
+```
 
 #### Usage
 
@@ -2936,6 +3122,12 @@ Output series:
 ```
 
 ### Outlier
+
+#### Registration statement
+
+```sql
+create function outlier as 'org.apache.iotdb.library.anomaly.UDTFOutlier'
+```
 
 #### Usage
 
@@ -3260,6 +3452,12 @@ Output series:
 
 ### Conv
 
+#### Registration statement
+
+```sql
+create function conv as 'org.apache.iotdb.library.frequency.UDTFConv'
+```
+
 #### Usage
 
 This function is used to calculate the convolution, i.e. polynomial multiplication.
@@ -3306,6 +3504,12 @@ Output series:
 ```
 
 ### Deconv
+
+#### Registration statement
+
+```sql
+create function deconv as 'org.apache.iotdb.library.frequency.UDTFDeconv'
+```
 
 #### Usage
 
@@ -3387,6 +3591,12 @@ Output series:
 
 ### DWT
 
+#### Registration statement
+
+```sql
+create function dwt as 'org.apache.iotdb.library.frequency.UDTFDWT'
+```
+
 #### Usage
 
 This function is used to calculate 1d discrete wavelet transform of a numerical series.
@@ -3467,6 +3677,12 @@ Output series:
 ```
 
 ### FFT
+
+#### Registration statement
+
+```sql
+create function fft as 'org.apache.iotdb.library.frequency.UDTFFFT'
+```
 
 #### Usage
 
@@ -3592,6 +3808,12 @@ The last data point is reserved to indicate the length of the series.
 
 ### HighPass
 
+#### Registration statement
+
+```sql
+create function highpass as 'org.apache.iotdb.library.frequency.UDTFHighPass'
+```
+
 #### Usage
 
 This function performs low-pass filtering on the input series and extracts components above the cutoff frequency.
@@ -3679,6 +3901,12 @@ Note: The input is $y=sin(2\pi t/4)+2sin(2\pi t/5)$ with a length of 20. Thus, t
 
 ### IFFT
 
+#### Registration statement
+
+```sql
+create function ifft as 'org.apache.iotdb.library.frequency.UDTFIFFT'
+```
+
 #### Usage
 
 This function treats the two input series as the real and imaginary part of a complex series, performs an inverse fast Fourier transform (IFFT), and outputs the real part of the result.
@@ -3755,6 +3983,12 @@ Output series:
 ```
 
 ### LowPass
+
+#### Registration statement
+
+```sql
+create function lowpass as 'org.apache.iotdb.library.frequency.UDTFLowPass'
+```
 
 #### Usage
 
@@ -3866,6 +4100,12 @@ Note: The input is $y=sin(2\pi t/4)+2sin(2\pi t/5)$ with a length of 20. Thus, t
 
 ### Cov
 
+#### Registration statement
+
+```sql
+create function cov as 'org.apache.iotdb.library.dmatch.UDAFCov'
+```
+
 #### Usage
 
 This function is used to calculate the population covariance.
@@ -3926,6 +4166,12 @@ Output series:
 ```
 
 ### DTW
+
+#### Registration statement
+
+```sql
+create function dtw as 'org.apache.iotdb.library.dmatch.UDAFDtw'
+```
 
 #### Usage
 
@@ -3992,6 +4238,12 @@ Output series:
 
 ### Pearson
 
+#### Registration statement
+
+```sql
+create function pearson as 'org.apache.iotdb.library.dmatch.UDAFPearson'
+```
+
 #### Usage
 
 This function is used to calculate the Pearson Correlation Coefficient.
@@ -4053,6 +4305,12 @@ Output series:
 
 ### PtnSym
 
+#### Registration statement
+
+```sql
+create function ptnsym as 'org.apache.iotdb.library.dmatch.UDTFPtnSym'
+```
+
 #### Usage
 
 This function is used to find all symmetric subseries in the input whose degree of symmetry is less than the threshold.
@@ -4112,6 +4370,12 @@ Output series:
 ```
 
 ### XCorr
+
+#### Registration statement
+
+```sql
+create function xcorr as 'org.apache.iotdb.library.dmatch.UDTFXCorr'
+```
 
 #### Usage
 
@@ -4201,6 +4465,14 @@ Output series:
 ## Data Repairing
 
 ### TimestampRepair
+
+#### Registration statement
+
+```sql
+create function timestamprepair as 'org.apache.iotdb.library.drepair.UDTFTimestampRepair'
+```
+
+#### Usage
 
 This function is used for timestamp repair.
 According to the given standard time interval,
@@ -4302,6 +4574,12 @@ Output series:
 ```
 
 ### ValueFill
+
+#### Registration statement
+
+```sql
+create function valuefill as 'org.apache.iotdb.library.drepair.UDTFValueFill'
+```
 
 #### Usage
 
@@ -4414,6 +4692,12 @@ Output series:
 ```
 
 ### ValueRepair
+
+#### Registration statement
+
+```sql
+create function valuerepair as 'org.apache.iotdb.library.drepair.UDTFValueRepair'
+```
 
 #### Usage
 
@@ -4723,6 +5007,12 @@ Output series:
 
 ### ConsecutiveSequences
 
+#### Registration statement
+
+```sql
+create function consecutivesequences as 'org.apache.iotdb.library.series.UDTFConsecutiveSequences'
+```
+
 #### Usage
 
 This function is used to find locally longest consecutive subsequences in strictly equispaced multidimensional data.
@@ -4811,6 +5101,12 @@ Output series:
 
 ### ConsecutiveWindows
 
+#### Registration statement
+
+```sql
+create function consecutivewindows as 'org.apache.iotdb.library.series.UDTFConsecutiveWindows'
+```
+
 #### Usage
 
 This function is used to find consecutive windows of specified length in strictly equispaced multidimensional data.
@@ -4896,6 +5192,12 @@ Output series:
 ## Machine Learning
 
 ### AR
+
+#### Registration statement
+
+```sql
+create function ar as 'org.apache.iotdb.library.dlearn.UDTFAR'
+```
 
 #### Usage
 
