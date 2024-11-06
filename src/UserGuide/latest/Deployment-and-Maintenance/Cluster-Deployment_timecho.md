@@ -142,7 +142,11 @@ Start the first confignode of IoTDB-1 first, ensuring that the seed confignode n
 cd sbin
 ./start-confignode.sh    -d      #"- d" parameter will start in the background
 ```
-If the startup fails, you need to [clean the environment](#common-questions) and then start again.
+
+If the startup fails, please check the startup log to see if any parameters or other exceptions that cannot be changed after the first startup have been modified.
+
+If it is the first deployment or data can be deleted, you can also [clean the environment](#common-questions) redeploy and restart.
+
 
 ### Activate Database
 
