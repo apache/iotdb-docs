@@ -141,7 +141,7 @@ cd  apache-iotdb-{version}-all-bin
 cd sbin
 ./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
 ```
-如果启动失败，请到[常见问题](#常见问题)查看解决方案。
+如果启动失败，请参考[常见问题](#常见问题)。
 
 ### 启动DataNode 节点
 
