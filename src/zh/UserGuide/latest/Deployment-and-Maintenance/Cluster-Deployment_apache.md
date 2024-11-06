@@ -310,7 +310,7 @@ sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 
 ## 常见问题
 
-1. 启动confignode的命令后，节点多次启动失败或出现运行错误的提示？
+1. Confignode节点启动失败
 
     步骤 1: 请查看启动日志，检查是否修改了某些首次启动后不可改的参数。
 
