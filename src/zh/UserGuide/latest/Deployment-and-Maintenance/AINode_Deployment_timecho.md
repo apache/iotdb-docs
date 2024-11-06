@@ -69,7 +69,9 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
       ```
 ##  安装步骤
 
-### AINode 激活
+### 安装 AINode
+
+1. AINode 激活
 
  要求 IoTDB 处于正常运行状态，且 license 中有 AINode 模块授权（通常 license 中不具有 AINode 授权，可联系天谋商务或技术支持人员获取 AINode 模块授权）。
 
@@ -87,7 +89,7 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
   - 显示如下信息，请将机器码（即该串字符）复制给天谋工作人员，并告知工作人员申请 AINode 独立授权：
       ```shell
       Please copy the system_info's content and send it to Timecho:
-      Y17hFA0xRCE1TmkVxILuCIEPc7uJcr5bzlXWiptw8uZTmTX5aThfypQdLUIhMljw075hNRSicyvyJR9JM7QaNm1gcFZPHVRWVXIiY5IlZkXdxCVc1erXMsbCqUYsR2R2Mw4PSpFJsUF5jHWSoFIIjQ2bmJFW5P52KCccFMVeHTc=
+      01-KU5LDFFN-PNBEHDRH
       Please enter license:
       ```
   - 将工作人员返回的激活码输入上一步的命令行提示处 `Please enter license:`，如下提示：
@@ -102,6 +104,73 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
     cd sbin
     ./start-datanode.sh   -d   #-d参数将在后台进行启动 
     ```
+
+    2. 检查Linux的内核架构
+  ```shell
+    uname -m
+    ```
+
+    3. 导入Python环境[下载](https://repo.anaconda.com/miniconda/)
+    
+    推荐下载py311版本应用，导入至用户根目录下 iotdb专用文件夹 中
+
+    4. 切换至iotdb专用文件夹安装Python环境
+
+    以 Miniconda3-py311_24.5.0-0-Linux-x86_64 为例：
+
+  ```shell
+    bash ./Miniconda3-py311_24.5.0-0-Linux-x86_64.sh
+    ```
+  > 根据提示键入“回车”、“长按空格”、“回车”、“yes”、“yes” <br>
+  > 关闭当前SSH窗口重新连接
+
+   5. 创建专用环境
+
+  ```shell
+    conda create -n ainode_py python=3.11.9
+    ```
+
+    根据提示键入“y”
+
+   6. 激活专用环境
+
+  ```shell
+    conda activate ainode_py
+    ```
+
+   7. 验证Python版本
+
+  ```shell
+    python --version
+    ```
+   8. 下载导入AINode到专用文件夹，切换到专用文件夹并解压安装包
+
+  ```shell
+    unzip iotdb-enterprise-ainode-1.3.3.2.zip
+    ```
+
+   9. 配置项修改
+
+  ```shell
+    vi iotdb-enterprise-ainode-1.3.3.2/conf/iotdb-ainode.properties
+    ```
+   配置项修改：[详细信息](#配置项修改)
+  > ain_seed_config_node=iotdb-1:10710（集群通讯节点IP:通讯节点端口）<br>
+  > ain_inference_rpc_address=iotdb-3（运行AINode的服务器IP）
+
+   10. 更换Python源
+
+  ```shell
+    pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
+    ```
+
+   11. 启动AINode节点
+
+  ```shell
+    nohup bash iotdb-enterprise-ainode-1.3.3.2/sbin/start-ainode.sh  > myout.file 2>& 1 &
+    ```
+  > 回到系统默认环境：conda deactivate
+  
 ### 配置项修改
 AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properties` 文件中找到下列参数并进行持久化的修改：
 
