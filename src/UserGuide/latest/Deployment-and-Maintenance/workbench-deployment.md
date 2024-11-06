@@ -20,7 +20,7 @@
 -->
 # Workbench Deployment
 
-The visualization console is one of the supporting tools for IoTDB. It is an official application tool system used for database deployment implementation, operation and maintenance management, and development stages. The console is aimed at system administrators, database operation and maintenance personnel, some DBAs, some developers, and other users, making the use, operation, and management of databases simpler and more efficient, truly achieving low-cost management and operation of databases. This document will assist you in installing Workbench.
+Visual Console is one of the supporting tools for IoTDB (similar to Navicat for MySQL). It is an official application tool system used for database deployment implementation, operation and maintenance management, and development stages. The console is aimed at system administrators, database operation and maintenance personnel, some DBAs, some developers, and other users, making the use, operation, and management of databases simpler and more efficient, truly achieving low-cost management and operation of databases. This document will assist you in installing Workbench.
 
  <div style="display: flex;justify-content: space-between;">                
    <img src="https://alioss.timecho.com/docs/img/workbench-en-pklh.png" alt=" " style="width: 50%;"/>

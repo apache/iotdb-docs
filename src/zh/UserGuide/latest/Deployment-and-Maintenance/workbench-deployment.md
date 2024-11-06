@@ -20,7 +20,7 @@
 -->
 # 可视化控制台部署
 
-可视化控制台是IoTDB配套工具之一。它用于数据库部署实施、运维管理、开发各阶段的官方应用工具体系，控制台面向于系统管理员、数据库运维人员、部分DBA、部分开发人员等用户，让数据库的使用、运维和管理更加简单、高效，真正实现数据库低成本的管理和运维。本文档将帮助您安装Workbench。
+可视化控制台是IoTDB配套工具之一（类似 Navicat for MySQL）。它用于数据库部署实施、运维管理、开发各阶段的官方应用工具体系，控制台面向于系统管理员、数据库运维人员、部分DBA、部分开发人员等用户，让数据库的使用、运维和管理更加简单、高效，真正实现数据库低成本的管理和运维。本文档将帮助您安装Workbench。
 
   <div style="display: flex;justify-content: space-between;">        		
     <img src="https://alioss.timecho.com/docs/img/%E9%A6%96%E9%A1%B5.PNG" alt=" " style="width: 50%;"/>
