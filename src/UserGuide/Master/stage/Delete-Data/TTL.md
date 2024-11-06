@@ -21,19 +21,20 @@
 
 # TTL
 
-IoTDB supports device-level TTL settings, which means it is able to delete old data automatically and periodically. The benefit of using TTL is that hopefully you can control the total disk space usage and prevent the machine from running out of disks. Moreover, the query performance may downgrade as the total number of files goes up and the memory usage also increase as there are more files. Timely removing such files helps to keep at a high query performance level and reduce memory usage.
+IoTDB supports device-level TTL settings, which means it is able to delete old data automatically and periodically. The benefit of using TTL is that hopefully you can control the total disk space usage and prevent the machine from running out of disks. Moreover, the query performance may downgrade as the total number of files goes up and the memory usage also increases as there are more files. Timely removing such files helps to keep at a high query performance level and reduce memory usage.
 
 The default unit of TTL is milliseconds. If the time precision in the configuration file changes to another, the TTL is still set to milliseconds.
 
-When setting TTL, the system will look for all devices included in the set path and set TTL time for these devices. The system will delete expired data at the device granularity.
-After the device data expires, it will not be queryable, but the data in the disk file cannot be guaranteed to be deleted immediately (it will be deleted within a certain time), but it can be guaranteed to be deleted eventually.
-Considering the operational cost, the system will not immediately physically delete data exceeding TTL, but will delay physical deletion through merging. Therefore, before the data is physically deleted, if the TTL is reduced or lifted, it may cause data that was previously invisible due to TTL to reappear.
+When setting TTL, the system will look for all devices included in the set path and set TTL for these devices. The system will delete expired data at the device granularity.
+After the device data expires, it will not be queryable. The data in the disk file cannot be guaranteed to be deleted immediately, but it can be guaranteed to be deleted eventually.
+However, due to operational costs, the expired data will not be physically deleted right after expiring. The physical deletion is delayed until compaction.
+Therefore, before the data is physically deleted, if the TTL is reduced or lifted, it may cause data that was previously invisible due to TTL to reappear.
 The system can only set up to 1000 TTL rules, and when this limit is reached, some TTL rules need to be deleted before new rules can be set.
 
 ## TTL Path Rule
-The set path only supports prefix paths (i.e., the path cannot contain \* and \*\*, and must end with \*\*).
+The path can only be prefix paths (i.e., the path cannot contain \* , except \*\* in the last level).
 This path will match devices and also allows users to specify paths without asterisks as specific databases or devices.
-When the path does not contain asterisks, it will check if it matches a database; if it matches a database, both the path and path.\*\* will be set at the same time. Note: Device TTL settings do not verify the existence of metadata, i.e., it is allowed to set TTL for a non-existent device.
+When the path does not contain asterisks, the system will check if it matches a database; if it matches a database, both the path and path.\*\* will be set at the same time. Note: Device TTL settings do not verify the existence of metadata, i.e., it is allowed to set TTL for a non-existent device.
 ```
 qualified path：
 root.**
@@ -54,7 +55,7 @@ The set ttl operation can be understood as setting a TTL rule, for example, sett
 The unset ttl operation indicates unmounting TTL for the corresponding path pattern; if there is no corresponding TTL, nothing will be done.
 If you want to set TTL to be infinitely large, you can use the INF keyword.
 The SQL Statement for setting TTL is as follow:
-Set the Time to Live (TTL) to a prefix path of 360,000 milliseconds; the prefix path should not contain a wildcard (\*) and must end with a double asterisk (\*\*). The prefix path is used to match corresponding devices.
+Set the Time to Live (TTL) to a prefix path of 360,000 milliseconds; the prefix path should not contain a wildcard (\*) in the middle and must end with a double asterisk (\*\*). The prefix path is used to match corresponding devices.
 To maintain compatibility with older SQL syntax, if the user-provided prefix path matches a database (db), the prefix path is automatically expanded to include all sub-paths denoted by path.\*\*. For instance, writing "set ttl to root.sg 360000" will automatically be transformed into "set ttl to root.sg.\*\* 360000", which sets the TTL for all devices under root.sg. However, if the specified path pattern does not match a database, the aforementioned logic will not apply. For example, writing "set ttl to root.sg.group 360000" will not be expanded to "root.sg.group.\*\*" since root.sg.group does not match a database.
 It is also permissible to specify a particular device without a wildcard (*).
 ## Unset TTL

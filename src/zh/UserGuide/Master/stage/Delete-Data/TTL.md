@@ -33,7 +33,7 @@ TTL的默认单位为毫秒，如果配置文件中的时间精度修改为其�
 系统中仅能设置至多 1000 条 TTL 规则，达到该上限时，需要先删除部分 TTL 规则才能设置新的规则
 
 ## TTL Path 规则
-设置的路径 path 只支持前缀路径（即路径中间不能带 \* 和 \*\*， 且必须以 \*\* 结尾），该路径会匹配到设备，也允许用户指定不带星的 path 为具体的 database 或 device，当 path 不带星时，会检查是否匹配到 database，若匹配到 database，则会同时设置 path 和 path.\*\*。
+设置的路径 path 只支持前缀路径（即路径中间不能带 \* ， 且必须以 \*\* 结尾），该路径会匹配到设备，也允许用户指定不带星的 path 为具体的 database 或 device，当 path 不带 \* 时，会检查是否匹配到 database，若匹配到 database，则会同时设置 path 和 path.\*\*。
 注意：设备 TTL 设置不会对元数据的存在性进行校验，即允许对一条不存在的设备设置 TTL。
 ```
 合格的 path：
@@ -56,7 +56,7 @@ set ttl 操作可以理解为设置一条 TTL规则，比如 set ttl to root.sg.
 ```
 set ttl to prefixPath 360000;
 ```
-prefixPath 是前缀路径，即路径不能带 \* 且以 \*\* 结尾。
+prefixPath 是前缀路径，即路径中间不能带 \* 且必须以 \*\* 结尾。
 prefixPath 匹配对应的设备。为了兼容老版本 SQL 语法，允许用户输入的 prefixPath 匹配到 db，则自动将前缀路径扩展为 path.\*\*。
 例如，写set ttl to root.sg 360000 则会自动转化为set ttl to root.sg.\*\* 360000，转化后的语句对所有 root.sg 下的 device 设置TTL。
 但若写的 pathPattern 无法匹配到 db，则上述逻辑不会生效。

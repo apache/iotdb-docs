@@ -639,21 +639,21 @@ Different configuration parameters take effect in the following three ways:
 ### TTL 配置
 * ttl\_check\_interval
 
-|    Name     | ttl\_check\_interval     |
-|:-----------:|:-------------------------|
-| Description |  The interval of TTL check task in each database. Default is 2 hours.  |
-|    Type     | int                      |
-|   Default   | 7200000                  |
-|  Effective  | After restarting system  |
+|    Name     | ttl\_check\_interval                                                           |
+|:-----------:|:-------------------------------------------------------------------------------|
+| Description | The interval of TTL check task in each database. Unit: ms. Default is 2 hours. |
+|    Type     | int                                                                            |
+|   Default   | 7200000                                                                        |
+|  Effective  | After restarting system                                                        |
 
 * max\_expired\_time
 
-|     Name     | max\_expired\_time                                                       |
-| :----------: |:-------------------------------------------------------------------------|
-|     Description     | The maximum expiring time of device which has a ttl. Default is 1 month. |
-|     Type     | int                                                                      |
-|    Default    | 2592000000                                                               |
-| Effective | After restarting system                                                  |
+|     Name     | max\_expired\_time                                                                  |
+| :----------: |:------------------------------------------------------------------------------------|
+|     Description     | The maximum expiring time of device which has a ttl. Unit: ms.  Default is 1 month. |
+|     Type     | int                                                                                 |
+|    Default    | 2592000000                                                                          |
+| Effective | After restarting system                                                             |
 
 * expired\_data\_ratio
 
