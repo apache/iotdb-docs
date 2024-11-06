@@ -93,7 +93,6 @@ session =
 
 Version represents the SQL semantic version used by the client, which is used to be compatible with the SQL semantics of 0.12 when upgrading 0.13. The possible values are: `V_0_12`, `V_0_13`, `V_1_0`.
 
-> Note: In cluster deployment, when configuring the dn_rpc_dedress parameter in DataNode, if set to **0.0.0.0** ,the redirection function is not available. Please set the enableAutoFetch value in the session to false.   
 
 * Open a Session
 
