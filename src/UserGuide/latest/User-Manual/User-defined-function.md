@@ -1,20 +1,14 @@
 #  USER-DEFINED FUNCTION (UDF)
 
+## UDF Introduction
+
 IoTDB provides a variety of built-in functions to meet your computing needs, and you can also create user defined functions to meet more computing needs. 
 
 This document describes how to write, register and use a UDF.
 
-## UDF library
+## UDF usage method
 
-### Installation steps
-
-1. Please contact Timecho to obtain  UDF library JAR package that is compatible with your IoTDB version, with the file name `library udf. jar`.
-2. Place the obtained library-udf.jar file in the `/iotdb-enterprise-x.x.x.x-bin/ext/udf` directory of IoTDB.
-3. Execute the corresponding function registration statements in the SQL command-line interface (CLI) or the SQL operation interface of the visualization console (Workbench) in IoTDB.
-4. You can refer to the [UDF library](../Reference/UDF-Libraries.md) documentation to find the registration statements for each function, ensuring that all required functions are correctly registered.
-
-
-##  UDF Types
+###  UDF Types
 
 In IoTDB, you can expand two types of UDF:
 
@@ -25,7 +19,7 @@ In IoTDB, you can expand two types of UDF:
 
 UDF Function Development: [Development guidance](../Reference/UDF-development.md)
 
-##  UDF Registration
+###  UDF Registration
 
 The process of registering a UDF in IoTDB is as follows:
 
@@ -38,7 +32,7 @@ The process of registering a UDF in IoTDB is as follows:
 CREATE FUNCTION <UDF-NAME> AS <UDF-CLASS-FULL-PATHNAME> (USING URI URI-STRING)
 ```
 
-###  Example: register UDF named `example`, you can choose either of the following two registration methods
+####  Example: register UDF named `example`, you can choose either of the following two registration methods
 
 ####  Method 1: Do not specify URI
 
@@ -74,7 +68,7 @@ CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample' USING URI 'http://
 
 4. We recommend that you do not use classes that have the same class name but different function logic in different JAR packages. For example, in `UDF(UDAF/UDTF): udf1, udf2`, the JAR package of udf1 is `udf1.jar` and the JAR package of udf2 is `udf2.jar`. Assume that both JAR packages contain the `org.apache.iotdb.udf.ExampleUDTF` class. If you use two UDFs in the same SQL statement at the same time, the system will randomly load either of them and may cause inconsistency in UDF execution behavior.
 
-##  UDF Deregistration
+###  UDF Deregistration
 
 The SQL syntax is as follows:
 
@@ -88,7 +82,7 @@ Example: Uninstall the UDF from the above example:
 DROP FUNCTION example
 ```
 
-##  UDF Queries
+###  UDF Queries
 
 The usage of UDF is similar to that of built-in aggregation functions.
 
@@ -136,13 +130,13 @@ SELECT s1 * example(* / s1 + s2) FROM root.sg.d1;
 SELECT s1, s2, s1 + example(s1, s2), s1 - example(s1 + example(s1, s2) / s2) FROM root.sg.d1;
 ```
 
-##  Show All Registered UDFs
+###  Show All Registered UDFs
 
 ``` sql
 SHOW FUNCTIONS
 ```
 
-##  User Permission Management
+###  User Permission Management
 
 
 There are 1 types of user permissions related to UDF: `USE_UDF`
@@ -159,17 +153,17 @@ For more user permissions related content, please refer to [Account Management S
 You can use `udf_lib_dir` to config udf lib directory.  
 When querying by a UDF, IoTDB may prompt that there is insufficient memory. You can resolve the issue by configuring `udf_initial_byte_array_length_for_memory_control`, `udf_memory_budget_in_mb` and `udf_reader_transformer_collector_memory_proportion` in `iotdb-datanode.properties` and restarting the server.
 
-##  Configurable Properties
+###  Configurable Properties
 
 You can use `udf_lib_dir` to config udf lib directory.  
 When querying by a UDF, IoTDB may prompt that there is insufficient memory. You can resolve the issue by configuring `udf_initial_byte_array_length_for_memory_control`, `udf_memory_budget_in_mb` and `udf_reader_transformer_collector_memory_proportion` in `iotdb-datanode.properties` and restarting the server.
 
 
-##  Contribute UDF
+###  Contribute UDF
 
 This part mainly introduces how external users can contribute their own UDFs to the IoTDB community.
 
-###  Prerequisites
+####  Prerequisites
 
 1. UDFs must be universal.
 
@@ -180,13 +174,13 @@ This part mainly introduces how external users can contribute their own UDFs to 
 2. The UDF you are going to contribute has been well tested and can run normally in the production environment.
 
 
-###  What you need to prepare
+####  What you need to prepare
 
 1. UDF source code
 2. Test cases
 3. Instructions
 
-###  UDF Source Code
+####  UDF Source Code
 
 1. Create the UDF main class and related classes in `iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/udf/builtin` or in its subfolders.
 2. Register your UDF in `iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/udf/builtin/BuiltinTimeSeriesGeneratingFunction.java`.
@@ -204,65 +198,22 @@ The instructions need to include: the name and the function of the UDF, the attr
 
 The instructions for use should include both Chinese and English versions. Instructions for use should be added separately in `docs/zh/UserGuide/Operation Manual/DML Data Manipulation Language.md` and `docs/UserGuide/Operation Manual/DML Data Manipulation Language.md`.
 
-###  Submit a PR
+####  Submit a PR
 
 When you have prepared the UDF source code, test cases, and instructions, you are ready to submit a Pull Request (PR) on [Github](https://github.com/apache/iotdb). You can refer to our code contribution guide to submit a PR: [Development Guide](https://iotdb.apache.org/Community/Development-Guide.html).
 
 
 After the PR review is approved and merged, your UDF has already contributed to the IoTDB community!
 
-### Known Implementations
+## UDF Libraries
 
-#### Built-in UDF
+You can refer to the [UDF Libraries](../Reference/UDF-Libraries.md)document to find the installation steps and registration statements for each function, to ensure that all required functions are registered correctly.
 
-1.   Aggregate Functions, such as `SUM`. For details and examples, see the document [Aggregate Functions](../Reference/Function-and-Expression.md#aggregate-functions).
-2.   Arithmetic Functions, such as `SIN`. For details and examples, see the document [Arithmetic Operators and Functions](../Reference/Function-and-Expression.md#arithmetic-operators-and-functions).
-3.   Compare operators and functions, such as `>`. For details and examples, see the document [Comparison Operators and Functions](../Reference/Function-and-Expression.md#comparison-Operators-and-Functions) 
-4.   Logical Operators, such as `&`. For details and examples, see the document [Logical Operators](../Reference/Function-and-Expression.md#logical-operators).
-5.   String Processing Functions, such as `STRING_CONTAINS`. For details and examples, see the document [String Processing](../Reference/Function-and-Expression.md#string-processing).
-6.   Data Type Conversion Function, such as `CAST`. For details and examples, see the document [Data Type Conversion Function](../Reference/Function-and-Expression.md#data-type-conversion-function).
-7.   Constant Timeseries Generating Functions, such as `CONST`. For details and examples, see the document [Constant Timeseries Generating Functions](../Reference/Function-and-Expression.md#constant-timeseries-generating-functions).
-8.   Selector Functions, such as `TOP_K`. For details and examples, see the document [Selector Functions](../Reference/Function-and-Expression.md#selector-functions).
-9.   Continuous Interval Functions, such as `ZERO_DURATION`. For details and examples, see the document [Continuous Interval Functions](../Reference/Function-and-Expression.md#continuous-interval-functions).
-10.   Variation Trend Calculation Functions, such as `TIME_DIFFERENCE`. For details and examples, see the document [Variation Trend Calculation Functions](../Reference/Function-and-Expression.md#variation-trend-calculation-functions).
-11.   Sample Functions, such as `M4`. For details and examples, see the document [Sample Functions](../Reference/Function-and-Expression.md#sample-functions).
-12.   Change Points Function, such as `CHANGE_POINTS`. For details and examples, see the document [Time-Series](../Reference/Function-and-Expression.md#time-series-processing).
-13.   Lambda Expression,such as  `x -> {...} `. For details and examples, see the document [Lambda Expression](../Reference/Function-and-Expression.md#lambda-expression) 
-14.   Conditional Expressions,such as `CASE`. For details and examples, see the document [Conditional Expressions](../Reference/Function-and-Expression.md#conditional-expressions)
+## UDF Development process
 
-#### Data Quality Function Library
+You can refer to UDF development：[Development Guide](../Reference/UDF-development.md)
 
-##### About
-
-For applications based on time series data, data quality is vital. **UDF Library** is IoTDB User Defined Functions (UDF) about data quality, including data profiling, data quality evalution and data repairing. It effectively meets the demand for data quality in the industrial field.
-
-##### Quick Start
-
-**The functions in this library are not built-in functions and must be loaded into the system before use** The operation process is as follows:
-
-1. Execute compilation instructions in the root directory of iotdb;
-   ```
-      mvn clean package -pl library-udf -am -DskipTests -Pget-jar-with-dependencies
-   ```
-2. Copy the dependent jar files generated under the target to the `ext\udf` directory in the IoTDB program directory (if you are using a cluster, please copy the jar files to this directory on all DataNodes), as shown in the following figure;
-![](https://alioss.timecho.com/docs/img/20230814-191908.jpg)
-3.  Download registration script:[linux](https://alioss.timecho.com/docs/img/register-UDF.sh), [windows](https://alioss.timecho.com/docs/img/register-UDF.bat);
-4. Copy the registration script to the `sbin` directory of IoTDB and modify the parameters in the script (default is host=127.0.0.1, rpcPort=6667, user=root, pass=root);
-5. Start the IoTDB service;
-6. Run the registration script `register-UDF.sh` to register UDF.
-
-##### Implemented Functions
-
-1.   Data Quality related functions, such as `Completeness`. For details and examples, see the document [Data-Quality](../Reference/UDF-Libraries.md#data-quality).
-2.   Data Profiling related functions, such as `ACF`. For details and examples, see the document [Data-Profiling](../Reference/UDF-Libraries.md#data-profiling).
-3.   Anomaly Detection related functions, such as `IQR`. For details and examples, see the document [Anomaly-Detection](../Reference/UDF-Libraries.md#anomaly-detection).
-4.   Frequency Domain Analysis related functions, such as `Conv`. For details and examples, see the document [Frequency-Domain](../Reference/UDF-Libraries.md#frequency-domain-analysis).
-5.   Data Matching related functions, such as `DTW`. For details and examples, see the document [Data-Matching](../Reference/UDF-Libraries.md#data-matching).
-6.   Data Repairing related functions, such as `TimestampRepair`. For details and examples, see the document [Data-Repairing](../Reference/UDF-Libraries.md#data-repairing).
-7.   Series Discovery related functions, such as `ConsecutiveSequences`. For details and examples, see the document [Series-Discovery](../Reference/UDF-Libraries.md#series-discovery).
-8.   Machine Learning related functions, such as `AR`. For details and examples, see the document [Machine-Learning](../Reference/UDF-Libraries.md#machine-learning).
-
-###  common problem:
+##  Common problem:
 
 Q1: How to modify the registered UDF? 
 
