@@ -4,8 +4,6 @@
 
 UDF (User Defined Function) refers to user-defined functions. IoTDB provides a variety of built-in time series processing functions and also supports extending custom functions to meet more computing needs.
 
-This document describes how to write, register and use a UDF.
-
 ## UDF usage method
 
 ###  UDF Types
