@@ -27,7 +27,7 @@ Based on the ability of user-defined functions, IoTDB provides a series of funct
 
 ## Installation steps
 
-1. Please obtain a compressed version of the UDF library JAR package that is compatible with your IoTDB version.
+1. Please obtain the compressed file of the UDF library JAR package that is compatible with the IoTDB version.
 
     | UDF libraries version  | Supported IoTDB versions | Download link                                                     |
     | --------------- | ----------------- | ------------------------------------------------------------ |

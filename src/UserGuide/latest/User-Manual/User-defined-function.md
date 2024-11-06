@@ -2,7 +2,7 @@
 
 ## UDF Introduction
 
-IoTDB provides a variety of built-in functions to meet your computing needs, and you can also create user defined functions to meet more computing needs. 
+UDF (User Defined Function) refers to user-defined functions. IoTDB provides a variety of built-in time series processing functions and also supports extending custom functions to meet more computing needs.
 
 This document describes how to write, register and use a UDF.
 
@@ -24,7 +24,7 @@ UDF Function Development: [Development guidance](../Reference/UDF-development.md
 The process of registering a UDF in IoTDB is as follows:
 
 1. Implement a complete UDF class, assuming the full class name of this class is `org.apache.iotdb.udf.ExampleUDTF`.
-2. Package your project into a JAR. If you use Maven to manage your project, you can refer to the [Maven project example](https://github.com/apache/iotdb/tree/master/example/udf) above.
+2. Convert the project into a JAR package. If using Maven to manage the project, you can refer to the [Maven project example](https://github.com/apache/iotdb/tree/master/example/udf) above.
 3. Make preparations for registration according to the registration mode. For details, see the following example.
 4. You can use following SQL to register UDF.
 
@@ -37,8 +37,8 @@ CREATE FUNCTION <UDF-NAME> AS <UDF-CLASS-FULL-PATHNAME> (USING URI URI-STRING)
 ####  Method 1: Do not specify URI
 
 Prepare:  
-When use this method to register，you should put JAR to directory `iotdb-server-1.0.0-all-bin/ext/udf`（directory can config）.  
-**Note，you should put JAR to this directory of all DataNodes if using Cluster**
+When registering using this method, it is necessary to place the JAR package in advance in the directory `iotdb-server-1.0.0-all-bin/ext/udf`（directory can config）.  
+**Note that if using a cluster, the JAR package needs to be placed in that directory on all DataNodes**
 
 Registration statement:
 
@@ -49,8 +49,8 @@ CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample'
 ####  Method 2: Specify URI
 
 Prepare:  
-When use this method to register，you need to upload the JAR to URI server and ensure the IoTDB instance executing this registration statement has access to the URI server.  
-**Note，you needn't place JAR manually，IoTDB will download the JAR and sync it.**
+When registering using this method, it is necessary to upload the JAR package to the URI server in advance and ensure that the IoTDB instance executing the registration statement can access the URI server.
+**Note that there is no need to manually place the JAR package. IoTDB will download the JAR package and synchronize it correctly to the entire cluster.**
 
 Registration statement:
 
@@ -112,7 +112,7 @@ Then the result set will include the results of  `example(root.sg.d1.s1, root.sg
 
 #### 3. Queries with Key-value Attributes in UDF Parameters
 
-您可You can pass any number of key-value pair parameters to the UDF when constructing a UDF query. The key and value in the key-value pair need to be enclosed in single or double quotes. Note that key-value pair parameters can only be passed in after all time series have been passed in. Here is a set of examples:
+You can pass any number of key-value pair parameters to the UDF when constructing a UDF query. The key and value in the key-value pair need to be enclosed in single or double quotes. Note that key-value pair parameters can only be passed in after all time series have been passed in. Here is a set of examples:
 
   Example:
 ``` sql

@@ -2,9 +2,9 @@
 
 ## UDF 介绍
 
-UDF（User Defined Function）即用户自定义函数。IoTDB 提供多种内建函数来满足您的计算需求，同时您还可以通过创建自定义函数来满足更多的计算需求。
+UDF（User Defined Function）即用户自定义函数，IoTDB 提供多种内建的面向时序处理的函数，也支持扩展自定义函数来满足更多的计算需求。
 
-根据此文档，您将会很快学会 UDF 的编写、注册、使用等操作。
+根据此文档，将很快学会 UDF 的编写、注册、使用等操作。
 
 ## UDF 使用方式
 
@@ -22,7 +22,7 @@ IoTDB 支持两种类型的 UDF 函数，如下表所示。
 注册一个 UDF 可以按如下流程进行：
 
 1. 实现一个完整的 UDF 类，假定这个类的全类名为`org.apache.iotdb.udf.UDTFExample`
-2. 将项目打成 JAR 包，如果您使用 Maven 管理项目，可以参考 [Maven 项目示例](https://github.com/apache/iotdb/tree/master/example/udf)的写法
+2. 将项目打成 JAR 包，如果使用 Maven 管理项目，可以参考 [Maven 项目示例](https://github.com/apache/iotdb/tree/master/example/udf)的写法
 3. 进行注册前的准备工作，根据注册方式的不同需要做不同的准备，具体可参考以下例子
 4. 使用以下 SQL 语句注册 UDF
 
@@ -35,8 +35,8 @@ CREATE FUNCTION <UDF-NAME> AS <UDF-CLASS-FULL-PATHNAME> (USING URI URI-STRING)
 ####  方式一：不指定URI
 
 准备工作：  
-使用该种方式注册时，您需要提前将 JAR 包放置到目录 `iotdb-server-1.X.X-all-bin/ext/udf`（该目录可配置） 下。  
-**注意，如果您使用的是集群，那么需要将 JAR 包放置到所有 DataNode 的该目录下**  
+使用该种方式注册时，需要提前将 JAR 包放置到目录 `iotdb-server-1.X.X-all-bin/ext/udf`（该目录可配置） 下。  
+**注意，如果使用的是集群，那么需要将 JAR 包放置到所有 DataNode 的该目录下**  
 
 注册语句：
 
@@ -47,8 +47,8 @@ CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample'
 ####  方式二：指定URI
 
 准备工作：  
-使用该种方式注册时，您需要提前将 JAR 包上传到 URI 服务器上并确保执行注册语句的 IoTDB 实例能够访问该 URI 服务器。  
-**注意，您无需手动放置 JAR 包，IoTDB 会下载 JAR 包并正确同步到整个集群**
+使用该种方式注册时，需要提前将 JAR 包上传到 URI 服务器上并确保执行注册语句的 IoTDB 实例能够访问该 URI 服务器。  
+**注意，无需手动放置 JAR 包，IoTDB 会下载 JAR 包并正确同步到整个集群**
 
 注册语句：
 
@@ -58,7 +58,7 @@ CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample' USING URI 'http://
 
 ####  注意
 
-1. 由于 IoTDB 的 UDF 是通过反射技术动态装载的，因此您在装载过程中无需启停服务器。
+1. 由于 IoTDB 的 UDF 是通过反射技术动态装载的，因此在装载过程中无需启停服务器。
 
 2. UDF 函数名称是大小写不敏感的。
 
@@ -110,7 +110,7 @@ UDF 的使用方法与普通内建函数的类似。
 
 #### 3. 带自定义输入参数的查询
 
-您可以在进行 UDF 查询的时候，向 UDF 传入任意数量的键值对参数。键值对中的键和值都需要被单引号或者双引号引起来。注意，键值对参数只能在所有时间序列后传入。下面是一组例子：
+可以在进行 UDF 查询的时候，向 UDF 传入任意数量的键值对参数。键值对中的键和值都需要被单引号或者双引号引起来。注意，键值对参数只能在所有时间序列后传入。下面是一组例子：
 
   示例：
 ``` sql
@@ -147,7 +147,7 @@ SHOW FUNCTIONS
 ###  配置项
 
 使用配置项 `udf_lib_dir` 来配置 udf 的存储目录.  
-在 SQL 语句中使用自定义函数时，可能提示内存不足。这种情况下，您可以通过更改配置文件`iotdb-common.properties`中的`udf_initial_byte_array_length_for_memory_control`，`udf_memory_budget_in_mb`和`udf_reader_transformer_collector_memory_proportion`并重启服务来解决此问题。
+在 SQL 语句中使用自定义函数时，可能提示内存不足。这种情况下，可以通过更改配置文件`iotdb-common.properties`中的`udf_initial_byte_array_length_for_memory_control`，`udf_memory_budget_in_mb`和`udf_reader_transformer_collector_memory_proportion`并重启服务来解决此问题。
 
 ###  贡献 UDF
 
@@ -159,7 +159,7 @@ SHOW FUNCTIONS
 
     通用性主要指的是：UDF 在某些业务场景下，可以被广泛使用。换言之，就是 UDF 具有复用价值，可被社区内其他用户直接使用。
 
-    如果您不确定自己写的 UDF 是否具有通用性，可以发邮件到 `dev@iotdb.apache.org` 或直接创建 ISSUE 发起讨论。
+    如果不确定自己写的 UDF 是否具有通用性，可以发邮件到 `dev@iotdb.apache.org` 或直接创建 ISSUE 发起讨论。
 
 2. UDF 已经完成测试，且能够正常运行在用户的生产环境中。
 
@@ -172,13 +172,13 @@ SHOW FUNCTIONS
 ####  源代码
 
 1. 在`iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/udf/builtin`中创建 UDF 主类和相关的辅助类。
-2. 在`iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/udf/builtin/BuiltinTimeSeriesGeneratingFunction.java`中注册您编写的 UDF。
+2. 在`iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/udf/builtin/BuiltinTimeSeriesGeneratingFunction.java`中注册编写的 UDF。
 
 ####  测试用例
 
-您至少需要为您贡献的 UDF 编写集成测试。
+至少需要为贡献的 UDF 编写集成测试。
 
-您可以在`integration-test/src/test/java/org/apache/iotdb/db/it/udf`中为您贡献的 UDF 新增一个测试类进行测试。
+可以在`integration-test/src/test/java/org/apache/iotdb/db/it/udf`中为贡献的 UDF 新增一个测试类进行测试。
 
 ####  使用说明
 
@@ -188,17 +188,17 @@ SHOW FUNCTIONS
 
 ####  提交 PR
 
-当您准备好源代码、测试用例和使用说明后，就可以将 UDF 贡献到 IoTDB 社区了。在 [Github](https://github.com/apache/iotdb) 上面提交 Pull Request (PR) 即可。具体提交方式见：[贡献指南](https://iotdb.apache.org/zh/Community/Development-Guide.html)。
+当准备好源代码、测试用例和使用说明后，就可以将 UDF 贡献到 IoTDB 社区了。在 [Github](https://github.com/apache/iotdb) 上面提交 Pull Request (PR) 即可。具体提交方式见：[贡献指南](https://iotdb.apache.org/zh/Community/Development-Guide.html)。
 
-当 PR 评审通过并被合并后，您的 UDF 就已经贡献给 IoTDB 社区了！
+当 PR 评审通过并被合并后， UDF 就已经贡献给 IoTDB 社区了！
 
 ## UDF 函数库
 
-您可以参考 [UDF 函数库](../Reference/UDF-Libraries.md)文档，查找安装步骤及每个函数对应的注册语句，以确保正确注册所有需要的函数。
+可以参考 [UDF 函数库](../Reference/UDF-Libraries.md)文档，查找安装步骤及每个函数对应的注册语句，以确保正确注册所有需要的函数。
 
 ## UDF 开发流程
 
-您可以参考 UDF函数开发：[开发指导](../Reference/UDF-development.md)
+可以参考 UDF函数开发：[开发指导](../Reference/UDF-development.md)
 
 ##  常见问题：
 
