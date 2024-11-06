@@ -142,6 +142,7 @@ Start the first confignode of IoTDB-1 first, ensuring that the seed confignode n
 cd sbin
 ./start-confignode.sh    -d      #"- d" parameter will start in the background
 ```
+If the startup fails, please refer to [Common Questions](#common-questions) for solutions.
 
 ### Activate Database
 
@@ -347,7 +348,42 @@ sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
 sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 ```
 
-## Common Problem
+## Common Questions
 1. Multiple prompts indicating activation failure during deployment process
     - Use the `ls -al` command: Use the `ls -al` command to check if the owner information of the installation package root directory is the current user.
     - Check activation directory: Check all files in the `./activation` directory and whether the owner information is the current user.
+
+2. After starting the confignode command, does the node fail to start multiple times or receive prompts for running errors?
+
+    Step 1: Please check the startup log to see if any parameters that cannot be changed after the first startup have been modified.
+
+    Step 2: Please check the startup log for any other abnormalities. If there are any abnormal phenomena in the log, please contact Timecho Technical Support personnel for consultation on solutions.
+
+    Step 3: If it is the first deployment or data can be deleted, you can also clean up the environment according to the following steps, redeploy, and restart.
+
+    Clean up the environment:
+
+   ​	Execute the following on all nodes:
+
+   1. Terminate all ConfigNode Node and DataNode processes.
+   ```Bash
+     # 1. Stop the ConfigNode and DataNode services
+     sbin/stop-standalone.sh
+
+     # 2. Check for any remaining processes
+     jps
+     # Or
+     ps -ef|gerp iotdb
+
+     # 3. If there are any remaining processes, manually kill the
+     kill -9 <pid>
+     # If you are sure there is only one iotdb on the machine, you can use the following command to clean up residual processes
+     ps -ef|grep iotdb|grep -v grep|tr -s '  ' ' ' |cut -d ' ' -f2|xargs kill -9
+   ```
+   2.  Delete the data and logs directories.
+   
+   Explanation: Deleting the data directory is necessary, deleting the logs directory is for clean logs and is not mandatory.
+   ```Bash
+     cd /data/iotdb
+     rm -rf data logs
+   ```

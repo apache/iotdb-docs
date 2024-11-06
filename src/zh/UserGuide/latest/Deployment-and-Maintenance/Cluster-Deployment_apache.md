@@ -141,6 +141,7 @@ cd  apache-iotdb-{version}-all-bin
 cd sbin
 ./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
 ```
+如果启动失败，请参考[常见问题](#常见问题)。
 
 ### 启动DataNode 节点
 
@@ -306,3 +307,37 @@ sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
 #Windows
 sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 ```
+
+## 常见问题
+
+1. Confignode节点启动失败
+
+    步骤 1: 请查看启动日志，检查是否修改了某些首次启动后不可改的参数。
+
+    步骤 2: 请查看启动日志，检查是否出现其他异常。日志中若存在异常现象，请联系天谋技术支持人员咨询解决方案。
+
+    步骤 3: 如果是首次部署或者数据可删除，也可按下述步骤清理环境，重新部署后，再次启动。
+
+    清理环境：
+   1. 结束所有 ConfigNode 和 DataNode 进程。
+   ```Bash
+    # 1. 停止 ConfigNode 和 DataNode 服务
+    sbin/stop-standalone.sh
+
+    # 2. 检查是否还有进程残留
+    jps
+    # 或者
+    ps -ef|gerp iotdb
+
+    # 3. 如果有进程残留，则手动kill
+    kill -9 <pid>
+    # 如果确定机器上仅有1个iotdb，可以使用下面命令清理残留进程
+    ps -ef|grep iotdb|grep -v grep|tr -s '  ' ' ' |cut -d ' ' -f2|xargs kill -9
+   ```
+   2.  删除 data 和 logs 目录。 
+
+   说明：删除 data 目录是必要的，删除 logs 目录是为了纯净日志，非必需。
+   ```Bash
+    cd /data/iotdb
+    rm -rf data logs
+   ```
