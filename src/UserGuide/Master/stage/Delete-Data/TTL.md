@@ -36,14 +36,14 @@ The path can only be prefix paths (i.e., the path cannot contain \* , except \*\
 This path will match devices and also allows users to specify paths without asterisks as specific databases or devices.
 When the path does not contain asterisks, the system will check if it matches a database; if it matches a database, both the path and path.\*\* will be set at the same time. Note: Device TTL settings do not verify the existence of metadata, i.e., it is allowed to set TTL for a non-existent device.
 ```
-qualified path：
+qualified paths：
 root.**
 root.db.**
 root.db.group1.**
 root.db
 root.db.group1.d1
 
-unqualified path：
+unqualified paths：
 root.*.db
 root.**.db.*
 root.db.*
