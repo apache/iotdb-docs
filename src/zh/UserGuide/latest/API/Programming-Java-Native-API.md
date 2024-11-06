@@ -96,7 +96,7 @@ session =
 
 其中，version 表示客户端使用的 SQL 语义版本，用于升级 0.13 时兼容 0.12 的 SQL 语义，可能取值有：`V_0_12`、`V_0_13`、`V_1_0`。
 
-> 注意： 在集群版部署中，配置 DataNode 中 dn_rpc_address 参数时，如设置为IPV4地址或hostname时，请将session中的enableAutoFetch值设置为false。  
+> 注意： 在集群版部署中，配置 DataNode 中 dn_rpc_address 参数时，如设置为**0.0.0.0**时，重定向功能不可用，请将session中的enableAutoFetch值设置为false。  
 
 * 开启 Session
 
