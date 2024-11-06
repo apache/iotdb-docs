@@ -142,9 +142,8 @@ cd sbin
 ./start-confignode.sh    -d      #"- d" parameter will start in the background
 ```
 
-If the startup fails, please check the startup log to see if any parameters or other exceptions that cannot be changed after the first startup have been modified.
+If the startup fails, please refer to [Common Questions](#common-questions) for solutions.
 
-If it is the first deployment or data can be deleted, you can also [clean the environment](#common-questions) redeploy and restart.
 
 ### Start DataNode
 
@@ -312,11 +311,19 @@ sbin/remove-datanode.bat [datanode_id]
 ```
 ## Common Questions
 
-1. After starting the confignode command, if the node fails to start multiple times or prompts running errors, the environment needs to be cleaned up.
+1. After starting the confignode command, does the node fail to start multiple times or receive prompts for running errors?
+
+    Step 1: Please check the startup log to see if any parameters that cannot be changed after the first startup have been modified.
+
+    Step 2: Please check the startup log for any other abnormalities. If there are any abnormal phenomena in the log, please contact Timecho Technical Support personnel for consultation on solutions.
+
+    Step 3: If it is the first deployment or data can be deleted, you can also clean up the environment according to the following steps, redeploy, and restart.
+
+    Clean up the environment:
 
    ​	Execute the following on all nodes:
 
-   1. Terminate the ConfigNode and DataNode processes.
+   1. Terminate all ConfigNode Node and DataNode processes.
    ```Bash
      # 1. Stop the ConfigNode and DataNode services
      sbin/stop-standalone.sh
@@ -332,9 +339,9 @@ sbin/remove-datanode.bat [datanode_id]
      ps -ef|grep iotdb|grep -v grep|tr -s '  ' ' ' |cut -d ' ' -f2|xargs kill -9
    ```
    2.  Delete the data and logs directories.
+   
+   Explanation: Deleting the data directory is necessary, deleting the logs directory is for clean logs and is not mandatory.
    ```Bash
      cd /data/iotdb
      rm -rf data logs
    ```
-
-> Explanation: Deleting the data directory is necessary, deleting the logs directory is for clean logs and is not mandatory.

@@ -142,9 +142,7 @@ cd  iotdb-enterprise-{version}-bin
 cd sbin
 ./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
 ```
-如果启动失败，请查看启动日志，检查是否修改了某些首次启动后不可改的参数或其他异常。
-
-如果是首次部署或数据可删，也可[清理环境](#常见问题)重新部署后，再次启动。
+如果启动失败，请到[常见问题](#常见问题)查看解决方案。
 
 ### 激活数据库
 
@@ -354,10 +352,16 @@ sbin/remove-datanode.bat [datanode_id]
     - 使用 `ls -al` 命令：使用 `ls -al` 命令检查安装包根目录的所有者信息是否为当前用户。
     - 检查激活目录：检查 `./activation` 目录下的所有文件，所有者信息是否为当前用户。  
 
-2. 启动confignode的命令后，若节点多次启动失败或出现运行错误的提示，需清理环境。
+2. 启动confignode的命令后，节点多次启动失败或出现运行错误的提示？
 
-   ​	在所有节点执行：
-   1. 结束 ConfigNode 和 DataNode 进程。
+    步骤 1: 请查看启动日志，检查是否修改了某些首次启动后不可改的参数。
+
+    步骤 2: 请查看启动日志，检查是否出现其他异常。日志中若存在异常现象，请联系天谋技术支持人员咨询解决方案。
+
+    步骤 3: 如果是首次部署或者数据可删除，也可按下述步骤清理环境，重新部署后，再次启动。
+
+    清理环境：
+   1. 结束所有 ConfigNode 和 DataNode 进程。
    ```Bash
     # 1. 停止 ConfigNode 和 DataNode 服务
     sbin/stop-standalone.sh
@@ -373,9 +377,9 @@ sbin/remove-datanode.bat [datanode_id]
     ps -ef|grep iotdb|grep -v grep|tr -s '  ' ' ' |cut -d ' ' -f2|xargs kill -9
    ```
    2.  删除 data 和 logs 目录。 
+   
+   说明：删除 data 目录是必要的，删除 logs 目录是为了纯净日志，非必需。
    ```Bash
     cd /data/iotdb
     rm -rf data logs
    ```
-
-> 说明：删除 data 目录是必要的，删除 logs 目录是为了纯净日志，非必需。
