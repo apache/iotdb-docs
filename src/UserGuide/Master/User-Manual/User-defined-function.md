@@ -198,6 +198,8 @@ For more user permissions related content, please refer to [Account Management S
 
 ## 4. UDF Libraries
 
+Based on the ability of user-defined functions, IoTDB provides a series of functions for temporal data processing, including data quality, data profiling, anomaly detection, frequency domain analysis, data matching, data repairing, sequence discovery, machine learning, etc., which can meet the needs of industrial fields for temporal data processing.
+
 You can refer to the [UDF Libraries](../Reference/UDF-Libraries.md)document to find the installation steps and registration statements for each function, to ensure that all required functions are registered correctly.
 
 
