@@ -1,7 +1,8 @@
  # UDF development
 
+## UDF development
 
-## UDF Development Dependencies
+### UDF Development Dependencies
 
 If you use [Maven](http://search.maven.org/), you can search for the development dependencies listed below from the [Maven repository](http://search.maven.org/) . Please note that you must select the same dependency version as the target IoTDB server version for development.
 
@@ -115,11 +116,13 @@ The following are the strategies you can set:
 
 | Interface definition              | Description                                                  | The `transform` Method to Call                               |
 | :-------------------------------- | :----------------------------------------------------------- | ------------------------------------------------------------ |
-| RowByRowAccessStrategy          | Process raw data row by row. The framework calls the `transform` method once for each row of raw data input. When UDF has only one input sequence, a row of input is one data point in the input sequence. When UDF has multiple input sequences, one row of input is a result record of the raw query (aligned by time) on these input sequences. (In a row, there may be a column with a value of `null`, but not all of them are `null`) | void transform(Row row, PointCollector collector) throws Exception |
-| SlidingTimeWindowAccessStrategy | Process a batch of data in a fixed time interval each time. We call the container of a data batch a window. The framework calls the `transform` method once for each raw data input window. There may be multiple rows of data in a window, and each row is a result record of the raw query (aligned by time) on these input sequences. (In a row, there may be a column with a value of `null`, but not all of them are `null`) | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
-| SlidingSizeWindowAccessStrategy | The raw data is processed batch by batch, and each batch contains a fixed number of raw data rows (except the last batch). We call the container of a data batch a window. The framework calls the `transform` method once for each raw data input window. There may be multiple rows of data in a window, and each row is a result record of the raw query (aligned by time) on these input sequences. (In a row, there may be a column with a value of `null`, but not all of them are `null`) | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
-| SessionTimeWindowAccessStrategy | The raw data is processed batch by batch. We call the container of a data batch a window. The time interval between each two windows is greater than or equal to the `sessionGap` given by the user. The framework calls the `transform` method once for each raw data input window. There may be multiple rows of data in a window, and each row is a result record of the raw query (aligned by time) on these input sequences. (In a row, there may be a column with a value of `null`, but not all of them are `null`) | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
-| StateWindowAccessStrategy       | The raw data is processed batch by batch. We call the container of a data batch a window. In the state window, for text type or boolean type data, each value of the point in window is equal to the value of the first point in the window, and for numerical data, the distance between each value of the point in window and the value of the first point in the window is less than the threshold `delta` given by the user. The framework calls the `transform` method once for each raw data input window. There may be multiple rows of data in a window. Currently, we only support state window for one measurement, that is, a column of data. | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
+| MappableRowByRow                | Custom scalar function<br>The framework will call the `transform` method once for each row of raw data input, with k columns of time series and 1 row of data input, and 1 column of time series and 1 row of data output. It can be used in any clause and expression where scalar functions appear, such as select clauses, where clauses, etc. | void transform(Column[] columns, ColumnBuilder builder) throws ExceptionObject transform(Row row) throws Exception |
+| RowByRowAccessStrategy          | Customize time series generation function to process raw data line by line.<br>The framework will call the `transform` method once for each row of raw data input, inputting k columns of time series and 1 row of data, and outputting 1 column of time series and n rows of data.<br> When a sequence is input, the row serves as a data point for the input sequence.<br> When multiple sequences are input, after aligning the input sequences in time, each row serves as a data point for the input sequence.<br>（In a row of data, there may be a column with a `null` value, but not all columns are `null`） | void transform(Row row, PointCollector collector) throws Exception |
+| SlidingTimeWindowAccessStrategy | Customize time series generation functions to process raw data in a sliding time window manner.<br>The framework will call the `transform` method once for each raw data input window, input k columns of time series m rows of data, and output 1 column of time series n rows of data.<br>A window may contain multiple rows of data, and after aligning the input sequence in time, each window serves as a data point for the input sequence. <br>(Each window may have i rows, and each row of data may have a column with a `null` value, but not all of them are `null`) | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
+| SlidingSizeWindowAccessStrategy | Customize the time series generation function to process raw data in a fixed number of rows, meaning that each data processing window will contain a fixed number of rows of data (except for the last window).<br>The framework will call the `transform` method once for each raw data input window, input k columns of time series m rows of data, and output 1 column of time series n rows of data.<br>A window may contain multiple rows of data, and after aligning the input sequence in time, each window serves as a data point for the input sequence. <br>(Each window may have i rows, and each row of data may have a column with a `null` value, but not all of them are `null`) | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
+| SessionTimeWindowAccessStrategy | Customize time series generation functions to process raw data in a session window format.<br>The framework will call the `transform` method once for each raw data input window, input k columns of time series m rows of data, and output 1 column of time series n rows of data.<br>A window may contain multiple rows of data, and after aligning the input sequence in time, each window serves as a data point for the input sequence.<br> (Each window may have i rows, and each row of data may have a column with a `null` value, but not all of them are `null`) | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
+| StateWindowAccessStrategy       | Customize time series generation functions to process raw data in a state window format.<br>he framework will call the `transform` method once for each raw data input window, inputting 1 column of time series m rows of data and outputting 1 column of time series n rows of data.<br>A window may contain multiple rows of data, and currently only supports opening windows for one physical quantity, which is one column of data. | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
+
 
 #### Interface Description:
 
@@ -354,11 +357,11 @@ This method is called by the framework. For a UDF instance, `beforeDestroy` will
 
 
 
-## UDAF (User Defined Aggregation Function)
+### UDAF (User Defined Aggregation Function)
 
 A complete definition of UDAF involves two classes, `State` and `UDAF`.
 
-### State Class
+#### State Class
 
 To write your own `State`, you need to implement the `org.apache.iotdb.udf.api.State` interface.
 
@@ -420,7 +423,7 @@ public void deserialize(byte[] bytes) {
 
 
 
-### UDAF Classes
+#### UDAF Classes
 
 To write a UDAF, you need to implement the `org.apache.iotdb.udf.api.UDAF` interface.
 
@@ -591,7 +594,53 @@ The method for terminating a UDF.
 This method is called by the framework. For a UDF instance, `beforeDestroy` will be called after the last record is processed. In the entire life cycle of the instance, `beforeDestroy` will only be called once.
 
 
-## Maven Project Example
+### Maven Project Example
 
 If you use Maven, you can build your own UDF project referring to our **udf-example** module. You can find the project [here](https://github.com/apache/iotdb/tree/master/example/udf).
 
+
+## Contribute universal built-in UDF functions to iotdb
+
+This part mainly introduces how external users can contribute their own UDFs to the IoTDB community.
+
+####  Prerequisites
+
+1. UDFs must be universal.
+
+    The "universal" mentioned here refers to: UDFs can be widely used in some scenarios. In other words, the UDF function must have reuse value and may be directly used by other users in the community.
+
+    If you are not sure whether the UDF you want to contribute is universal, you can send an email to `dev@iotdb.apache.org` or create an issue to initiate a discussion.
+
+2. The UDF you are going to contribute has been well tested and can run normally in the production environment.
+
+
+####  What you need to prepare
+
+1. UDF source code
+2. Test cases
+3. Instructions
+
+####  UDF Source Code
+
+1. Create the UDF main class and related classes in `iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/udf/builtin` or in its subfolders.
+2. Register your UDF in `iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/udf/builtin/BuiltinTimeSeriesGeneratingFunction.java`.
+
+####  Test Cases
+
+At a minimum, you need to write integration tests for the UDF.
+
+You can add a test class in `integration-test/src/test/java/org/apache/iotdb/db/it/udf`. 
+
+
+####  Instructions
+
+The instructions need to include: the name and the function of the UDF, the attribute parameters that must be provided when the UDF is executed, the applicable scenarios, and the usage examples, etc.
+
+The instructions for use should include both Chinese and English versions. Instructions for use should be added separately in `docs/zh/UserGuide/Operation Manual/DML Data Manipulation Language.md` and `docs/UserGuide/Operation Manual/DML Data Manipulation Language.md`.
+
+####  Submit a PR
+
+When you have prepared the UDF source code, test cases, and instructions, you are ready to submit a Pull Request (PR) on [Github](https://github.com/apache/iotdb). You can refer to our code contribution guide to submit a PR: [Development Guide](https://iotdb.apache.org/Community/Development-Guide.html).
+
+
+After the PR review is approved and merged, your UDF has already contributed to the IoTDB community!

@@ -1,6 +1,8 @@
 # UDF 开发
 
-##  UDF 依赖
+## 1. UDF 开发
+
+###  1.1 UDF 依赖
 
 如果您使用 [Maven](http://search.maven.org/) ，可以从 [Maven 库](http://search.maven.org/) 中搜索下面示例中的依赖。请注意选择和目标 IoTDB 服务器版本相同的依赖版本。
 
@@ -13,7 +15,7 @@
 </dependency>
 ```
 
-##  UDTF（User Defined Timeseries Generating Function）
+###  1.2 UDTF（User Defined Timeseries Generating Function）
 
 编写一个 UDTF 需要继承`org.apache.iotdb.udf.api.UDTF`类，并至少实现`beforeStart`方法和一种`transform`方法。
 
@@ -106,13 +108,14 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 
 下面是您可以设定的访问原始数据的策略：
 
-| 接口定义                          | 描述                                                         | 调用的`transform`方法                                        |
-| :-------------------------------- | :----------------------------------------------------------- | ------------------------------------------------------------ |
-| RowByRowAccessStrategy          | 逐行地处理原始数据。框架会为每一行原始数据输入调用一次`transform`方法。当 UDF 只有一个输入序列时，一行输入就是该输入序列中的一个数据点。当 UDF 有多个输入序列时，一行输入序列对应的是这些输入序列按时间对齐后的结果（一行数据中，可能存在某一列为`null`值，但不会全部都是`null`）。 | void transform(Row row, PointCollector collector) throws Exception |
-| SlidingTimeWindowAccessStrategy | 以滑动时间窗口的方式处理原始数据。框架会为每一个原始数据输入窗口调用一次`transform`方法。一个窗口可能存在多行数据，每一行数据对应的是输入序列按时间对齐后的结果（一行数据中，可能存在某一列为`null`值，但不会全部都是`null`）。 | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
-| SlidingSizeWindowAccessStrategy | 以固定行数的方式处理原始数据，即每个数据处理窗口都会包含固定行数的数据（最后一个窗口除外）。框架会为每一个原始数据输入窗口调用一次`transform`方法。一个窗口可能存在多行数据，每一行数据对应的是输入序列按时间对齐后的结果（一行数据中，可能存在某一列为`null`值，但不会全部都是`null`）。 | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
-| SessionTimeWindowAccessStrategy | 以会话窗口的方式处理原始数据，框架会为每一个原始数据输入窗口调用一次`transform`方法。一个窗口可能存在多行数据，每一行数据对应的是输入序列按时间对齐后的结果（一行数据中，可能存在某一列为`null`值，但不会全部都是`null`）。 | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
-| StateWindowAccessStrategy       | 以状态窗口的方式处理原始数据，框架会为每一个原始数据输入窗口调用一次`transform`方法。一个窗口可能存在多行数据。目前仅支持对一个物理量也就是一列数据进行开窗。 | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
+| 接口定义                        | 描述                                                         | 调用的`transform`方法                                        |
+| ------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| MappableRowByRow                | 自定义标量函数<br>框架会为每一行原始数据输入调用一次`transform`方法，输入 k 列时间序列 1 行数据，输出 1 列时间序列 1 行数据，可用于标量函数出现的任何子句和表达式中，如select子句、where子句等。 | void transform(Column[] columns, ColumnBuilder builder) throws ExceptionObject transform(Row row) throws Exception |
+| RowByRowAccessStrategy          | 自定义时间序列生成函数，逐行地处理原始数据。<br>框架会为每一行原始数据输入调用一次`transform`方法，输入 k 列时间序列 1 行数据，输出 1 列时间序列 n 行数据。<br> 当输入一个序列时，该行就作为输入序列的一个数据点。<br> 当输入多个序列时，输入序列按时间对齐后，每一行作为的输入序列的一个数据点。<br>（一行数据中，可能存在某一列为`null`值，但不会全部都是`null`） | void transform(Row row, PointCollector collector) throws Exception |
+| SlidingTimeWindowAccessStrategy | 自定义时间序列生成函数，以滑动时间窗口的方式处理原始数据。<br>框架会为每一个原始数据输入窗口调用一次`transform`方法，输入 k 列时间序列 m 行数据，输出 1 列时间序列 n 行数据。<br>一个窗口可能存在多行数据，输入序列按时间对齐后，每个窗口作为的输入序列的一个数据点。 <br>（每个窗口可能存在 i 行，每行数据可能存在某一列为`null`值，但不会全部都是`null`） | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
+| SlidingSizeWindowAccessStrategy | 自定义时间序列生成函数，以固定行数的方式处理原始数据，即每个数据处理窗口都会包含固定行数的数据（最后一个窗口除外）。<br>框架会为每一个原始数据输入窗口调用一次`transform`方法，输入 k 列时间序列 m 行数据，输出 1 列时间序列 n 行数据。<br>一个窗口可能存在多行数据，输入序列按时间对齐后，每个窗口作为的输入序列的一个数据点。 <br>（每个窗口可能存在 i 行，每行数据可能存在某一列为`null`值，但不会全部都是`null`） | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
+| SessionTimeWindowAccessStrategy | 自定义时间序列生成函数，以会话窗口的方式处理原始数据。<br>框架会为每一个原始数据输入窗口调用一次`transform`方法，输入 k 列时间序列 m 行数据，输出 1 列时间序列 n 行数据。<br>一个窗口可能存在多行数据，输入序列按时间对齐后，每个窗口作为的输入序列的一个数据点。<br> （每个窗口可能存在 i 行，每行数据可能存在某一列为`null`值，但不会全部都是`null`） | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
+| StateWindowAccessStrategy       | 自定义时间序列生成函数，以状态窗口的方式处理原始数据。<br>框架会为每一个原始数据输入窗口调用一次`transform`方法，输入 1 列时间序列 m 行数据，输出 1 列时间序列 n 行数据。<br>一个窗口可能存在多行数据，目前仅支持对一个物理量也就是一列数据进行开窗。 | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
 
 #### 接口详情：
 
@@ -344,11 +347,11 @@ UDTF 的结束方法，您可以在此方法中进行一些资源释放等的操
 
 此方法由框架调用。对于一个 UDF 类实例而言，生命周期中会且只会被调用一次，即在处理完最后一条记录之后被调用。
 
-## UDAF（User Defined Aggregation Function）
+### 1.3 UDAF（User Defined Aggregation Function）
 
 一个完整的 UDAF 定义涉及到 State 和 UDAF 两个类。
 
-### State 类
+#### State 类
 
 编写一个 State 类需要实现`org.apache.iotdb.udf.api.State`接口，下表是需要实现的方法说明。
 
@@ -408,7 +411,7 @@ public void deserialize(byte[] bytes) {
 }
 ```
 
-### UDAF 类
+#### UDAF 类
 
 编写一个 UDAF 类需要实现`org.apache.iotdb.udf.api.UDAF`接口，下表是需要实现的方法说明。
 
@@ -574,7 +577,52 @@ UDAF 的结束方法，您可以在此方法中进行一些资源释放等的操
 
 此方法由框架调用。对于一个 UDF 类实例而言，生命周期中会且只会被调用一次，即在处理完最后一条记录之后被调用。
 
-##  完整 Maven 项目示例
+###  1.4 完整 Maven 项目示例
 
 如果您使用 [Maven](http://search.maven.org/)，可以参考我们编写的示例项目**udf-example**。您可以在 [这里](https://github.com/apache/iotdb/tree/master/example/udf) 找到它。
 
+
+## 2. 为iotdb贡献通用的内置UDF函数
+
+该部分主要讲述了外部用户如何将自己编写的 UDF 贡献给 IoTDB 社区。
+
+##  2.1 前提条件
+
+1. UDF 具有通用性。
+
+    通用性主要指的是：UDF 在某些业务场景下，可以被广泛使用。换言之，就是 UDF 具有复用价值，可被社区内其他用户直接使用。
+
+    如果不确定自己写的 UDF 是否具有通用性，可以发邮件到 `dev@iotdb.apache.org` 或直接创建 ISSUE 发起讨论。
+
+2. UDF 已经完成测试，且能够正常运行在用户的生产环境中。
+
+###  2.2 贡献清单
+
+1. UDF 的源代码
+2. UDF 的测试用例
+3. UDF 的使用说明
+
+###  2.3 贡献内容
+
+#### 2.3.1 源代码
+
+1. 在`iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/udf/builtin`中创建 UDF 主类和相关的辅助类。
+2. 在`iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/udf/builtin/BuiltinTimeSeriesGeneratingFunction.java`中注册编写的 UDF。
+
+#### 2.3.2 测试用例
+
+至少需要为贡献的 UDF 编写集成测试。
+
+可以在`integration-test/src/test/java/org/apache/iotdb/db/it/udf`中为贡献的 UDF 新增一个测试类进行测试。
+
+####  2.3.3 使用说明
+
+使用说明需要包含：UDF 的名称、UDF 的作用、执行函数必须的属性参数、函数的适用的场景以及使用示例等。
+
+使用说明需包含中英文两个版本。应分别在 `docs/zh/UserGuide/Operation Manual/DML Data Manipulation Language.md` 和 `docs/UserGuide/Operation Manual/DML Data Manipulation Language.md` 中新增使用说明。
+
+####  2.3.4 提交 PR
+
+当准备好源代码、测试用例和使用说明后，就可以将 UDF 贡献到 IoTDB 社区了。在 [Github](https://github.com/apache/iotdb) 上面提交 Pull Request (PR) 即可。具体提交方式见：[贡献指南](https://iotdb.apache.org/zh/Community/Development-Guide.html)。
+
+当 PR 评审通过并被合并后， UDF 就已经贡献给 IoTDB 社区了！
