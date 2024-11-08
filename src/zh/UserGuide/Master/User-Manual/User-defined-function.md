@@ -98,11 +98,10 @@ CREATE FUNCTION <UDF-NAME> AS <UDF-CLASS-FULL-PATHNAME> (USING URI URI-STRING)
 
 ####  示例：注册名为`example`的 UDF，以下两种注册方式任选其一即可
 
-####  方式一：不指定URI
+####  方式一：手动放置jar包
 
 准备工作：  
-使用该种方式注册时，需要提前将 JAR 包放置到目录 `iotdb-server-1.X.X-all-bin/ext/udf`（该目录可配置） 下。  
-**注意，如果使用的是集群，那么需要将 JAR 包放置到所有 DataNode 的该目录下**  
+使用该种方式注册时，需要提前将 JAR 包放置到集群所有 DataNode 的 `ext/udf`目录下（该目录可配置）。
 
 注册语句：
 
@@ -110,17 +109,18 @@ CREATE FUNCTION <UDF-NAME> AS <UDF-CLASS-FULL-PATHNAME> (USING URI URI-STRING)
 CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample'
 ```
 
-####  方式二：指定URI
+####  方式二：集群通过URI自动安装jar包
 
 准备工作：  
 使用该种方式注册时，需要提前将 JAR 包上传到 URI 服务器上并确保执行注册语句的 IoTDB 实例能够访问该 URI 服务器。  
-**注意，无需手动放置 JAR 包，IoTDB 会下载 JAR 包并正确同步到整个集群**
 
 注册语句：
 
 ```sql
 CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample' USING URI 'http://jar/example.jar'
 ```
+
+IoTDB 会下载 JAR 包并同步到整个集群。
 
 ####  注意
 

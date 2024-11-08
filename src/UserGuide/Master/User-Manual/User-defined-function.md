@@ -97,11 +97,10 @@ CREATE FUNCTION <UDF-NAME> AS <UDF-CLASS-FULL-PATHNAME> (USING URI URI-STRING)
 
 ####  Example: register UDF named `example`, you can choose either of the following two registration methods
 
-####  Method 1: Do not specify URI
+####  Method 1: Manually place the jar package
 
-Prepare:  
-When registering using this method, it is necessary to place the JAR package in advance in the directory `iotdb-server-1.0.0-all-bin/ext/udf`（directory can config）.  
-**Note that if using a cluster, the JAR package needs to be placed in that directory on all DataNodes**
+Prepare:   
+When registering using this method, it is necessary to place the JAR package in advance in the 'ext/udf' directory of all DataNodes in the cluster (which can be configured).
 
 Registration statement:
 
@@ -109,17 +108,18 @@ Registration statement:
 CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample'
 ```
 
-####  Method 2: Specify URI
+####  Method 2: Cluster automatically installs jar packages through URI
 
-Prepare:  
+Prepare:   
 When registering using this method, it is necessary to upload the JAR package to the URI server in advance and ensure that the IoTDB instance executing the registration statement can access the URI server.
-**Note that there is no need to manually place the JAR package. IoTDB will download the JAR package and synchronize it correctly to the entire cluster.**
 
 Registration statement:
 
 ```sql
 CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample' USING URI 'http://jar/example.jar'
 ```
+
+IoTDB will download JAR packages and synchronize them to the entire cluster.
 
 ####  Note
 
