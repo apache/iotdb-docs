@@ -19,10 +19,10 @@
 
 -->
 
-# JDBC
+# JDBC （不推荐）
 
 *注意: 目前的JDBC实现仅是为与第三方工具连接使用的。使用JDBC（执行插入语句时）无法提供高性能写入。
-对于Java应用，我们推荐使用[JAVA NATIVE API](https://iotdb.apache.org/zh/UserGuide/Master/API/Programming-Java-Native-API.html)*
+对于Java应用，我们推荐使用[Java 原生接口](./Programming-Java-Native-API.md)*
 
 ## 依赖
 
@@ -33,7 +33,7 @@
 
 在根目录下执行下面的命令：
 ```shell
-mvn clean install -pl iotdb-client/jdbc -am -Dmaven.test.skip=true
+mvn clean install -pl iotdb-client/jdbc -am -DskipTests
 ```
 
 ### 在 MAVEN 中使用 IoTDB JDBC
@@ -43,7 +43,7 @@ mvn clean install -pl iotdb-client/jdbc -am -Dmaven.test.skip=true
     <dependency>
       <groupId>org.apache.iotdb</groupId>
       <artifactId>iotdb-jdbc</artifactId>
-      <version>1.0.0</version>
+      <version>1.3.1</version>
     </dependency>
 </dependencies>
 ```

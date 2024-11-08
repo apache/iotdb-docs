@@ -23,8 +23,8 @@ export const enNavbar = navbar([
   {
     text: 'Documentation',
     children: [
-      // { text: 'latest', link: '/UserGuide/Master/QuickStart/QuickStart' },
-      { text: 'v1.3.x', link: '/UserGuide/latest/QuickStart/QuickStart' },
+      // { text: 'latest', link: '/UserGuide/Master/QuickStart/QuickStart_apache' },
+      { text: 'v1.3.0/1/2', link: '/UserGuide/latest/QuickStart/QuickStart_apache' },
       { text: 'v1.2.x', link: '/UserGuide/V1.2.x/QuickStart/QuickStart' },
       { text: 'v1.1.x', link: '/UserGuide/V1.1.x/QuickStart/QuickStart' },
       { text: 'v1.0.x', link: '/UserGuide/V1.0.x/QuickStart/QuickStart' },
@@ -42,27 +42,14 @@ export const enNavbar = navbar([
   {
     text: 'Community',
     children: [
-      { text: 'About', link: '/Community/About' },
-      { text: 'Wiki', link: 'https://cwiki.apache.org/confluence/display/iotdb' },
-      { text: 'People', link: '/Community/Community-Project-Committers' },
-      { text: 'Powered  By', link: '/Community/Community-Powered-By' },
-      { text: 'Resources', link: '/Community/Materials' },
-      { text: 'Feedback', link: '/Community/Feedback' },
+      { text: 'About the Community', link: '/Community/About-the-Community' },
+      { text: 'Development Guide', link: '/Community/Development-Guide' },
+      { text: 'Community Partners', link: '/Community/Community-Partners' },
+      { text: 'Communication Channels', link: '/Community/Communication-Channels' },
+      { text: 'Events and Reports', link: '/Community/Events-and-Reports' },
+      { text: 'Commiters', link: '/Community/Commiters' },
     ],
-  },
-  {
-    text: 'Development',
-    children: [
-      { text: 'How  to  vote', link: '/Development/VoteRelease' },
-      { text: 'How  to  Commit', link: '/Development/HowToCommit' },
-      { text: 'Become  a  Contributor', link: '/Development/HowToJoin' },
-      { text: 'Become  a  Committer', link: '/Development/Committer' },
-      { text: 'ContributeGuide', link: '/Development/ContributeGuide' },
-      { text: 'How  to  Contribute  Code', link: '/Development/HowtoContributeCode' },
-      { text: 'Changelist  of  TsFile', link: '/Development/format-changelist' },
-      { text: 'Changelist  of  RPC', link: '/Development/rpc-changelist' },
-    ],
-  },
+  }, 
   {
     text: 'ASF',
     children: [

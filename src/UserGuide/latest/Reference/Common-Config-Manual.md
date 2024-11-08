@@ -23,7 +23,7 @@
 
 IoTDB common files for ConfigNode and DataNode are under `conf`.
 
-* `iotdb-common.properties`：IoTDB common configurations.
+* `iotdb-common.properties`：IoTDB system configurations.
 
 
 ## Effective
@@ -31,7 +31,7 @@ Different configuration parameters take effect in the following three ways:
 
 + **Only allowed to be modified in first start up:** Can't be modified after first start, otherwise the ConfigNode/DataNode cannot start.
 + **After restarting system:** Can be modified after the ConfigNode/DataNode first start, but take effect after restart.
-+ **hot-load:** Can be modified while the ConfigNode/DataNode is running, and trigger through sending the command(sql) `load configuration` to the IoTDB server by client or session.
++ **hot-load:** Can be modified while the ConfigNode/DataNode is running, and trigger through sending the command(sql) `load configuration` or `set configuration` to the IoTDB server by client or session.
 
 ## Configuration File
 
@@ -817,7 +817,7 @@ Different configuration parameters take effect in the following three ways:
 | :---------: |:-----------------------------------------------|
 | Description | enable the compaction between unsequence files |
 |    Type     | Boolean                                        |
-|   Default   | false                                          |
+|   Default   | true                                           |
 |  Effective  | hot-load                                       |
 
 * enable\_cross\_space\_compaction

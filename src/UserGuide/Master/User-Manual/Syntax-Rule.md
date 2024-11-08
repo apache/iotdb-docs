@@ -188,11 +188,11 @@ Below are basic constraints of identifiers, specific identifiers may have other 
 
 ```sql
 # create template t1't"t
-create schema template `t1't"t` 
+create device template `t1't"t` 
 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 
 # create template t1`t
-create schema template `t1``t` 
+create device template `t1``t` 
 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 ```
 
@@ -225,7 +225,7 @@ Examples of case in which quoted identifier is used ：
 
     ```sql
     # create a template named 111, 111 is a real number.
-    create schema template `111` 
+    create device template `111` 
     (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
     ```
 

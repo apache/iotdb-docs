@@ -397,7 +397,7 @@ The above SQL statement creates a trigger named triggerTest:
 
 - The trigger is stateless.
 - Fires before insertion.
-- Listens on path pattern root.sg.**
+- Listens on path pattern root\.sg.**
 - The implemented trigger class is named `org.apache.iotdb.trigger.ClusterAlertingExample`
 - The JAR package URI is http://jar/ClusterAlertingExample.jar
 - When creating the trigger instance, two parameters, name and limit, are passed in.
@@ -1615,7 +1615,7 @@ The instructions should be added in `docs/UserGuide/Operation Manual/DML Data Ma
 
 #### Submit a PR
 
-When you have prepared the UDF source code, test cases, and instructions, you are ready to submit a Pull Request (PR) on [Github](https://github.com/apache/iotdb). You can refer to our code contribution guide to submit a PR: [Pull Request Guide](https://iotdb.apache.org/Development/HowToCommit.html).
+When you have prepared the UDF source code, test cases, and instructions, you are ready to submit a Pull Request (PR) on [Github](https://github.com/apache/iotdb). You can refer to our code contribution guide to submit a PR: [Development Guide](https://iotdb.apache.org/Community/Development-Guide.html).
 
 ### Known Implementations
 

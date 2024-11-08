@@ -50,7 +50,7 @@ Starting Printing the TsFile Sketch
 ````````````````````````
 TsFile path:D:\github\master\1669359533965-1-0-0.tsfile
 Sketch save path:D:\github\master\sketch.txt
-148  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-common.properties, use the default configs.
+148  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-system.properties, use the default configs.
 -------------------------------- TsFile Sketch --------------------------------
 file path: D:\github\master\1669359533965-1-0-0.tsfile
 file length: 2974

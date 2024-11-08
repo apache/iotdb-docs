@@ -60,6 +60,17 @@ The interpreter will be in the folder:
 ```
 
 
+#### Modify Configuration
+
+Enter `$Zeppelin_HOME/conf` and use template to create Zeppelin configuration file:
+
+```shell
+cp zeppelin-site.xml.template zeppelin-site.xml
+```
+
+Open the zeppelin-site.xml file and change the `zeppelin.server.addr` item to `0.0.0.0`
+
+
 
 #### Install Interpreter
 

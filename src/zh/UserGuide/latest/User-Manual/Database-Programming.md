@@ -19,7 +19,7 @@
 
 -->
 
-
+# 数据库编程
 ## 触发器
 ### 使用说明
 
@@ -170,7 +170,7 @@ Map<PartialPath, List<Trigger>> pathToTriggerListMap => Map<Trigger, Tablet>
 
 假设有三个触发器，触发器的触发时机均为 BEFORE INSERT
 
-- 触发器 Trigger1 侦听路径模式：root.sg.*
+- 触发器 Trigger1 侦听路径模式：root\.sg.*
 - 触发器 Trigger2 侦听路径模式：root.sg.a
 - 触发器 Trigger3 侦听路径模式：root.sg.b
 
@@ -351,7 +351,6 @@ triggerEventClause
     : (BEFORE | AFTER) INSERT
     ;
 
-uriClause
     : USING URI uri
     ;
 
@@ -396,7 +395,7 @@ WITH (
 
 - 该触发器是无状态的（STATELESS）
 - 在写入前触发（BEFORE INSERT）
-- 该触发器侦听路径模式为 root.sg.**
+- 该触发器侦听路径模式为 root\.sg.**
 - 所编写的触发器类名为 org.apache.iotdb.trigger.ClusterAlertingExample
 - JAR 包的 URI 为 http://jar/ClusterAlertingExample.jar
 - 创建该触发器实例时会传入 name 和 limit 两个参数。
@@ -1734,7 +1733,7 @@ SHOW FUNCTIONS
 ###  配置项
 
 使用配置项 `udf_lib_dir` 来配置 udf 的存储目录.  
-在 SQL 语句中使用自定义函数时，可能提示内存不足。这种情况下，您可以通过更改配置文件`iotdb-datanode.properties`中的`udf_initial_byte_array_length_for_memory_control`，`udf_memory_budget_in_mb`和`udf_reader_transformer_collector_memory_proportion`并重启服务来解决此问题。
+在 SQL 语句中使用自定义函数时，可能提示内存不足。这种情况下，您可以通过更改配置文件`iotdb-common.properties`中的`udf_initial_byte_array_length_for_memory_control`，`udf_memory_budget_in_mb`和`udf_reader_transformer_collector_memory_proportion`并重启服务来解决此问题。
 
 ###  贡献 UDF
 
@@ -1777,7 +1776,7 @@ SHOW FUNCTIONS
 
 ####  提交 PR
 
-当您准备好源代码、测试用例和使用说明后，就可以将 UDF 贡献到 IoTDB 社区了。在 [Github](https://github.com/apache/iotdb) 上面提交 Pull Request (PR) 即可。具体提交方式见：[Pull Request Guide](https://iotdb.apache.org/Development/HowToCommit.html)。
+当您准备好源代码、测试用例和使用说明后，就可以将 UDF 贡献到 IoTDB 社区了。在 [Github](https://github.com/apache/iotdb) 上面提交 Pull Request (PR) 即可。具体提交方式见：[贡献指南](https://iotdb.apache.org/zh/Community/Development-Guide.html)。
 
 当 PR 评审通过并被合并后，您的 UDF 就已经贡献给 IoTDB 社区了！
 

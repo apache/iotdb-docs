@@ -398,10 +398,11 @@ The insertion of aligned timeseries is performed by functions such as `insertAli
 
 #### Delete
 
-- Delete data with timestamps before or equal to a given timestamp of one or several timeseries:
+- Delete data in a time range of one or several timeseries
 ```cpp
-void deleteData(const std::string &path, int64_t time);
-void deleteData(const std::vector<std::string> &deviceId, int64_t time);
+void deleteData(const std::string &path, int64_t endTime);
+void deleteData(const std::vector<std::string> &paths, int64_t endTime);
+void deleteData(const std::vector<std::string> &paths, int64_t startTime, int64_t endTime);
 ```
 
 ### IoTDB-SQL Interface

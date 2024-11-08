@@ -234,6 +234,7 @@ IoTDB> show timeseries root.ln.**
 IoTDB> show timeseries root.ln.** limit 10 offset 10
 IoTDB> show timeseries root.ln.** where timeseries contains 'wf01.wt'
 IoTDB> show timeseries root.ln.** where dataType=FLOAT
+IoTDB> show timeseries root.ln.** where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
 ```
 
 ### Count Timeseries
@@ -248,6 +249,7 @@ IoTDB > COUNT TIMESERIES root.** WHERE DATATYPE = INT64
 IoTDB > COUNT TIMESERIES root.** WHERE TAGS(unit) contains 'c' 
 IoTDB > COUNT TIMESERIES root.** WHERE TAGS(unit) = 'c' 
 IoTDB > COUNT TIMESERIES root.** WHERE TIMESERIES contains 'sgcc' group by level = 1
+IoTDB > COUNT TIMESERIES root.** WHERE time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
 IoTDB > COUNT TIMESERIES root.** GROUP BY LEVEL=1
 IoTDB > COUNT TIMESERIES root.ln.** GROUP BY LEVEL=2
 IoTDB > COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2
@@ -440,7 +442,7 @@ IoTDB > select * from root.sg1.d1
 
 ### Load External TsFile Tool
 
-For more details, see document [Import-Export-Tool](../Tools-System/Import-Export-Tool.md).
+For more details, see document [Import-Export-Tool](../Tools-System/TsFile-Import-Export-Tool.md).
 
 #### Load with SQL
 

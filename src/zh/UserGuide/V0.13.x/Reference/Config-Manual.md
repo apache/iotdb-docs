@@ -802,11 +802,11 @@ Server，客户端的使用方式详见 [SQL 命令行终端（CLI）](https://i
 * enable\_unseq\_space\_compaction
 
 |名字| enable\_unseq\_space\_compaction |
-|:---:|:---|
-|描述| 乱序空间内合并，开启乱序文件之间的合并 |
-|类型| Boolean |
-|默认值| false |
-|改后生效方式|重启服务生效|
+|:---:|:---------------------------------|
+|描述| 乱序空间内合并，开启乱序文件之间的合并              |
+|类型| Boolean                          |
+|默认值| true                             |
+|改后生效方式| 重启服务生效                           |
 
 * enable\_cross\_space\_compaction
 

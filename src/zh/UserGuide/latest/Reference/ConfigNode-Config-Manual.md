@@ -25,7 +25,7 @@ IoTDB ConfigNode 配置文件均位于 IoTDB 安装目录：`conf`文件夹下�
 
 * `confignode-env.sh/bat`：环境配置项的配置文件，可以配置 ConfigNode 的内存大小。
 
-* `iotdb-confignode.properties`：IoTDB ConfigNode 的配置文件。
+* `iotdb-confignode.properties`：IoTDB 的配置文件。
 
 ## 环境配置项（confignode-env.sh/bat）
 

@@ -579,7 +579,7 @@ the sidebar `org.apache.iotdb.db.service` to view the cache hit ratio:
 
 #### 5.2.2. Config File
 
-1) Taking DataNode as an example, modify the iotdb-datanode.properties configuration file as follows:
+1) Taking DataNode as an example, modify the iotdb-system.properties configuration file as follows:
 
 ```properties
 dn_metric_reporter_list=PROMETHEUS
