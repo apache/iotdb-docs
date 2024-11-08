@@ -7,9 +7,9 @@
     to you under the Apache License, Version 2.0 (the
     "License"); you may not use this file except in compliance
     with the License.  You may obtain a copy of the License at
-
+    
         http://www.apache.org/licenses/LICENSE-2.0
-
+    
     Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -187,7 +187,7 @@ public interface PipeSource extends PipePlugin {
    * @throws Exception the user can throw errors if necessary
    */
   void customize(PipeParameters parameters, PipeSourceRuntimeConfiguration configuration)
-          throws Exception;
+      throws Exception;
 
   /**
    * Start the source. After this method is called, events should be ready to be supplied by
@@ -272,7 +272,7 @@ public interface PipeProcessor extends PipePlugin {
    * @throws Exception the user can throw errors if necessary
    */
   void customize(PipeParameters parameters, PipeProcessorRuntimeConfiguration configuration)
-          throws Exception;
+      throws Exception;
 
   /**
    * This method is called to process the TabletInsertionEvent.
@@ -282,7 +282,7 @@ public interface PipeProcessor extends PipePlugin {
    * @throws Exception the user can throw errors if necessary
    */
   void process(TabletInsertionEvent tabletInsertionEvent, EventCollector eventCollector)
-          throws Exception;
+      throws Exception;
 
   /**
    * This method is called to process the TsFileInsertionEvent.
@@ -292,9 +292,9 @@ public interface PipeProcessor extends PipePlugin {
    * @throws Exception the user can throw errors if necessary
    */
   default void process(TsFileInsertionEvent tsFileInsertionEvent, EventCollector eventCollector)
-          throws Exception {
+      throws Exception {
     for (final TabletInsertionEvent tabletInsertionEvent :
-            tsFileInsertionEvent.toTabletInsertionEvents()) {
+        tsFileInsertionEvent.toTabletInsertionEvents()) {
       process(tabletInsertionEvent, eventCollector);
     }
   }
@@ -377,7 +377,7 @@ public interface PipeSink extends PipePlugin {
    * @throws Exception the user can throw errors if necessary
    */
   void customize(PipeParameters parameters, PipeSinkRuntimeConfiguration configuration)
-          throws Exception;
+      throws Exception;
 
   /**
    * This method is used to create a connection with sink. This method will be called after the
@@ -415,7 +415,7 @@ public interface PipeSink extends PipePlugin {
   default void transfer(TsFileInsertionEvent tsFileInsertionEvent) throws Exception {
     try {
       for (final TabletInsertionEvent tabletInsertionEvent :
-              tsFileInsertionEvent.toTabletInsertionEvents()) {
+          tsFileInsertionEvent.toTabletInsertionEvents()) {
         transfer(tabletInsertionEvent);
       }
     } finally {
@@ -702,11 +702,11 @@ WHERE SINK USED BY <PipeId>
 A stream processing task status can transition through several states during the lifecycle of a data synchronization pipe:
 
 - **RUNNING：** The pipe is actively processing data
-  - After the successful creation of a pipe, its initial state is set to RUNNING (V1.3.1+)
+    - After the successful creation of a pipe, its initial state is set to RUNNING (V1.3.1+)
 - **STOPPED：** The pipe is in a stopped state. It can have the following possibilities:
-  - After the successful creation of a pipe, its initial state is set to STOPPED (V1.3.0)
-  - The user manually pauses a pipe that is in normal running state, transitioning its status from RUNNING to STOPPED
-  - If a pipe encounters an unrecoverable error during execution, its status automatically changes from RUNNING to STOPPED.
+    - After the successful creation of a pipe, its initial state is set to RUNNING (V1.3.0)
+    - The user manually pauses a pipe that is in normal running state, transitioning its status from RUNNING to STOPPED
+    - If a pipe encounters an unrecoverable error during execution, its status automatically changes from RUNNING to STOPPED.
 - **DROPPED：** The pipe is permanently deleted
 
 The following diagram illustrates the different states and their transitions:
