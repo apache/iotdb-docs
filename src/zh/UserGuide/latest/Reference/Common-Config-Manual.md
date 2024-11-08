@@ -34,9 +34,9 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 **仅允许在第一次启动服务前修改：** 在第一次启动 ConfigNode/DataNode 后即禁止修改，修改会导致 ConfigNode/DataNode 无法启动。
 **重启服务生效：** ConfigNode/DataNode 启动后仍可修改，但需要重启 ConfigNode/DataNode 后才生效。
 
-+ **热加载：**  
-  + 手动修改配置文件 + ```load configuration```：可在 DataNode 运行时修改，修改后通过 Session 或 Cli 发送 ```load configuration``` 命令至 IoTDB 使配置生效。
-  + ```set configuration```：对于需要整个集群统一的参数，推荐使用此 SQL 修改。
+**热加载：**  
+  手动修改配置文件 + ```load configuration```：可在 DataNode 运行时修改，修改后通过 Session 或 Cli 发送 ```load configuration``` 命令至 IoTDB 使配置生效。
+  ```set configuration```：对于需要整个集群统一的参数，推荐使用此 SQL 修改。
 
 
 ### 系统配置项
