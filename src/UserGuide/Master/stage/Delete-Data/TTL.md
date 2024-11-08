@@ -55,8 +55,12 @@ The set ttl operation can be understood as setting a TTL rule, for example, sett
 The unset ttl operation indicates unmounting TTL for the corresponding path pattern; if there is no corresponding TTL, nothing will be done.
 If you want to set TTL to be infinitely large, you can use the INF keyword.
 The SQL Statement for setting TTL is as follow:
-Set the Time to Live (TTL) to a prefix path of 360,000 milliseconds; the prefix path should not contain a wildcard (\*) in the middle and must end with a double asterisk (\*\*). The prefix path is used to match corresponding devices.
-To maintain compatibility with older SQL syntax, if the user-provided prefix path matches a database (db), the prefix path is automatically expanded to include all sub-paths denoted by path.\*\*. For instance, writing "set ttl to root.sg 360000" will automatically be transformed into "set ttl to root.sg.\*\* 360000", which sets the TTL for all devices under root.sg. However, if the specified path pattern does not match a database, the aforementioned logic will not apply. For example, writing "set ttl to root.sg.group 360000" will not be expanded to "root.sg.group.\*\*" since root.sg.group does not match a database.
+```
+set ttl to pathPattern 360000;
+```
+Set the Time to Live (TTL) to a pathPattern of 360,000 milliseconds; the pathPattern should not contain a wildcard (\*) in the middle and must end with a double asterisk (\*\*). The pathPattern is used to match corresponding devices.
+To maintain compatibility with older SQL syntax, if the user-provided pathPattern matches a database (db), the path pattern is automatically expanded to include all sub-paths denoted by path.\*\*. 
+For instance, writing "set ttl to root.sg 360000" will automatically be transformed into "set ttl to root.sg.\*\* 360000", which sets the TTL for all devices under root.sg. However, if the specified pathPattern does not match a database, the aforementioned logic will not apply. For example, writing "set ttl to root.sg.group 360000" will not be expanded to "root.sg.group.\*\*" since root.sg.group does not match a database.
 It is also permissible to specify a particular device without a wildcard (*).
 ## Unset TTL
 

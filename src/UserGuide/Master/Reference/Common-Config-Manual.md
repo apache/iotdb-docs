@@ -648,12 +648,12 @@ Different configuration parameters take effect in the following three ways:
 
 * max\_expired\_time
 
-|     Name     | max\_expired\_time                                                                  |
-| :----------: |:------------------------------------------------------------------------------------|
-|     Description     | The maximum expiring time of device which has a ttl. Unit: ms.  Default is 1 month. |
-|     Type     | int                                                                                 |
-|    Default    | 2592000000                                                                          |
-| Effective | After restarting system                                                             |
+|     Name     | max\_expired\_time                                                                                                                                |
+| :----------: |:--------------------------------------------------------------------------------------------------------------------------------------------------|
+|     Description     | If a file contains device that has expired for more than this duration, then the file will be settled immediately. Unit: ms.  Default is 1 month. |
+|     Type     | int                                                                                                                                               |
+|    Default    | 2592000000                                                                                                                                        |
+| Effective | After restarting system                                                                                                                           |
 
 * expired\_data\_ratio
 

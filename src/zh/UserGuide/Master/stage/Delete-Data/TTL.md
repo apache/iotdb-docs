@@ -54,10 +54,10 @@ root.db.*
 set ttl 操作可以理解为设置一条 TTL规则，比如 set ttl to root.sg.group1.\*\* 就相当于对所有可以匹配到该路径模式的设备挂载 ttl。 unset ttl 操作表示对相应路径模式卸载 TTL，若不存在对应 TTL，则不做任何事。若想把 TTL 调成无限大，则可以使用 INF 关键字
 设置 TTL 的 SQL 语句如下所示：
 ```
-set ttl to prefixPath 360000;
+set ttl to pathPattern 360000;
 ```
-prefixPath 是前缀路径，即路径中间不能带 \* 且必须以 \*\* 结尾。
-prefixPath 匹配对应的设备。为了兼容老版本 SQL 语法，允许用户输入的 prefixPath 匹配到 db，则自动将前缀路径扩展为 path.\*\*。
+pathPattern 是前缀路径，即路径中间不能带 \* 且必须以 \*\* 结尾。
+pathPattern 匹配对应的设备。为了兼容老版本 SQL 语法，允许用户输入的 pathPattern 匹配到 db，则自动将前缀路径扩展为 path.\*\*。
 例如，写set ttl to root.sg 360000 则会自动转化为set ttl to root.sg.\*\* 360000，转化后的语句对所有 root.sg 下的 device 设置TTL。
 但若写的 pathPattern 无法匹配到 db，则上述逻辑不会生效。
 如写set ttl to root.sg.group 360000 ，由于root.sg.group未匹配到 db，则不会被扩充为root.sg.group.\*\*。 也允许指定具体 device，不带 \*。
