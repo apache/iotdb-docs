@@ -21,7 +21,7 @@
 
 # Data Model
 
-A wind power IoT scenario is taken as an example to illustrate how to creat a correct data model in IoTDB.
+A wind power IoT scenario is taken as an example to illustrate how to create a correct data model in IoTDB.
 
 According to the enterprise organization structure and equipment entity hierarchy, it is expressed as an attribute hierarchy structure, as shown below. The hierarchical from top to bottom is: power group layer - power plant layer - entity layer - measurement layer. ROOT is the root node, and each node of measurement layer is a leaf node. In the process of using IoTDB, the attributes on the path from ROOT node is directly connected to each leaf node with ".", thus forming the name of a timeseries in IoTDB. For example, The left-most path in Figure 2.1 can generate a timeseries named `root.ln.wf01.wt01.status`.
 
