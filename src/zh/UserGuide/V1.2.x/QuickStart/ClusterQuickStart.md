@@ -145,7 +145,7 @@ sbin/stop-standalone.sh
 # 2. 检查是否还有进程残留
 jps
 # 或者
-ps -ef|gerp iotdb
+ps -ef|grep iotdb
 
 # 3. 如果有进程残留，则手动kill
 kill -9 <pid>
