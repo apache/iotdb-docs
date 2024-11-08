@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Hive-TsFile
+# Apache Hive(TsFile)
 
 ## About Hive-TsFile-Connector
 

@@ -126,7 +126,7 @@ Openid connect (oidc) uses keycloack as the authority authentication service of 
 
 
 #### configuration
-The configuration is located in iotdb-common.properties , set the author_provider_class is org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer Openid service is enabled, and the default value is org.apache.iotdb.db.auth.authorizer.LocalFileAuthorizer Indicates that the openid service is not enabled.
+The configuration is located in iotdb-system.properties , set the author_provider_class is org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer Openid service is enabled, and the default value is org.apache.iotdb.db.auth.authorizer.LocalFileAuthorizer Indicates that the openid service is not enabled.
 
 ```
 authorizer_provider_class=org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer

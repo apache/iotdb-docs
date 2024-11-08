@@ -19,144 +19,247 @@
 
 -->
 
-# Data synchronisation
-Data synchronisation is a typical requirement of industrial IoT. Through the data synchronisation mechanism, data sharing between IoTDBs can be achieved, and a complete data link can be built to meet the needs of intranet and extranet data interoperability, end-to-end cloud synchronisation, data migration, data backup, and so on.
+# Data Sync
 
-## Introduction
+Data synchronization is a typical requirement in industrial Internet of Things (IoT). Through data synchronization mechanisms, it is possible to achieve data sharing between IoTDB, and to establish a complete data link to meet the needs for internal and external network data interconnectivity, edge-cloud synchronization, data migration, and data backup.
 
-### Synchronisation Task Overview
+## Function Overview
 
-A data synchronisation task consists of 2 phases:
+### Data Synchronization
 
-- Source phase: This part is used to extract data from the source IoTDB, which is defined in the source part of the SQL statement.
-- Sink phase: This part is used to send data to the target IoTDB and is defined in the sink part of the SQL statement.
+A data synchronization task consists of three stages:
 
+![](https://alioss.timecho.com/docs/img/sync_en_01.png)
 
+- Source Stage：This part is used to extract data from the source IoTDB, defined in the source section of the SQL statement.
+- Process Stage：This part is used to process the data extracted from the source IoTDB, defined in the processor section of the SQL statement.
+- Sink Stage：This part is used to send data to the target IoTDB, defined in the sink section of the SQL statement.
 
-Flexible data synchronisation capabilities can be achieved by declaratively configuring the specifics of the 2 sections through SQL statements.
+By declaratively configuring the specific content of the three parts through SQL statements, flexible data synchronization capabilities can be achieved. Currently, data synchronization supports the synchronization of the following information, and you can select the synchronization scope when creating a synchronization task (the default is data.insert, which means synchronizing newly written data):
 
-### Synchronisation Task - Create
+<table style="text-align: left;">
+      <tr>
+            <th>Synchronization Scope</th>
+            <th>Synchronization Content	</th>        
+            <th>Description</th>
+      </tr>
+      <tr>
+            <td colspan="2">all</td>  
+            <td>All scopes</td> 
+      </tr>
+      <tr>
+            <td rowspan="2">data（Data）</td>
+            <td>insert</td>
+            <td>Synchronize newly written data</td>
+      </tr>
+      <tr>
+            <td>delete</td>
+            <td>Synchronize deleted data</td>
+      </tr>
+       <tr>
+            <td rowspan="3">schema</td>
+            <td>database</td>
+            <td>Synchronize database creation, modification or deletion operations</td>
+      </tr>
+      <tr>
+            <td>timeseries</td>
+            <td>Synchronize the definition and attributes of time series</td>       
+      </tr>
+      <tr>
+            <td>TTL</td>
+            <td>Synchronize the data retention time</td>       
+      </tr>
+      <tr>
+            <td>auth</td>
+            <td>-</td>       
+            <td>Synchronize user permissions and access control</td>
+      </tr>
+</table>
 
-Use the `CREATE PIPE` statement to create a data synchronisation task, the following attributes `PipeId` and `sink` are mandatory, `source` and `processor` are optional, when entering the SQL note that the order of the `SOURCE ` and `SINK` plugins are not interchangeable.
+### Functional limitations and instructions
+
+The schema and auth synchronization functions have the following limitations:
+
+- When using schema synchronization, it is required that the consensus protocol of `Schema region` and `ConfigNode` must be the default ratis protocol,  that is: In the `iotdb-common.properties` configuration file, both the `config_node_consensus_protocol_class` and `schema_region_consensus_protocol_class` configuration items are set to `org.apache.iotdb.consensus.ratis.RatisConsensus`.
+
+- To prevent potential conflicts, please turn off the automatic creation of metadata on the receiving end when enabling schema synchronization. You can do this by setting the `enable_auto_create_schema` configuration in the `iotdb-common.properties` configuration file to false. 
+
+- When schema synchronization is enabled, the use of custom plugins is not supported.
+
+- In a dual-active cluster, schema synchronization should avoid simultaneous operations on both ends.
+
+- During data synchronization tasks, please avoid performing any deletion operations to prevent inconsistent states between the two ends.
+
+## Usage Instructions
+
+Data synchronization tasks have three states: RUNNING, STOPPED, and DROPPED. The task state transitions are shown in the following diagram:
+
+![](https://alioss.timecho.com/docs/img/sync_en_02.png)
+
+Provide the following SQL statements for state management of synchronization tasks.
+
+### Create Task
+
+Use the `CREATE PIPE` statement to create a data synchronization task. The `PipeId` and `sink` attributes are required, while `source` and `processor` are optional. When entering the SQL, note that the order of the `SOURCE` and `SINK` plugins cannot be swapped.
 
 The SQL example is as follows:
 
+
 ```SQL
 CREATE PIPE <PipeId> -- PipeId is the name that uniquely identifies the task.
--- Data Extraction Plugin, Required Plugin
+-- Data extraction plugin, optional plugin
 WITH SOURCE (
-  [<parameter> = <value>,], [<value>,]
--- Data connection plugin, required
+  [<parameter> = <value>,],
+)
+-- Data processing plugin, optional plugin
+WITH PROCESSOR (
+  [<parameter> = <value>,],
+)
+-- Data connection plugin, required plugin
 WITH SINK (
-  [<parameter> = <value>,], -- data connection plugin, required.
+  [<parameter> = <value>,],
 )
 ```
-> 📌 Note: To use the data synchronisation feature, make sure that automatic metadata creation is enabled on the receiving side
 
+### Start Task
 
+After creation, the task will not be processed immediately and needs to be started. Use the `START PIPE` statement to start the task and begin processing data: 
 
-### Synchronisation Tasks - Management
-
-The Data Synchronisation task has three states; RUNNING, STOPPED and DROPPED.The task state transitions are shown below:
-
-![State Migration Diagram](https://alioss.timecho.com/docs/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
-
-A data synchronisation task passes through multiple states during its lifecycle:
-
-- RUNNING: Running state.
-  - Explanation 1: The initial state of the task is the running state(V1.3.1+).
-- STOPPED: Stopped state.
-  - Description 1: The initial state of the task is the stopped state(V1.3.0). A SQL statement is required to start the task.
-  - Description 2: You can manually stop a running task with a SQL statement, and the state will change from RUNNING to STOPPED.
-  - Description 3: When a task has an unrecoverable error, its status will automatically change from RUNNING to STOPPED.
-- DROPPED: deleted state.
-
-We provide the following SQL statements to manage the status of synchronisation tasks.
-
-#### Starting a Task
-
-After creation, the task will not be processed immediately, you need to start the task. Use the `START PIPE` statement to start the task so that it can begin processing data:
-
-```sql
+```SQL
 START PIPE<PipeId>
 ```
 
-#### Stop the task
+### Stop Task
 
 Stop processing data:
 
-``` sql
+
+```SQL
 STOP PIPE <PipeId>
 ```
 
-#### Delete a task
+###  Delete Task
 
 Deletes the specified task:
 
-``` sql
+
+```SQL
 DROP PIPE <PipeId>
 ```
-Deleting a task does not require you to stop synchronising the task first.
-#### Viewing Tasks
+
+Deleting a task does not require stopping the synchronization task first.
+
+### View Task
 
 View all tasks:
 
-```sql
+
+```SQL
 SHOW PIPES
 ```
 
 To view a specified task:
 
-```sql
-SHOW PIPE <PipeId>.
+
+```SQL
+SHOW PIPE <PipeId>
 ```
 
-### Plugin
+Example of the show pipes result for a pipe:
 
-In order to make the overall architecture more flexible to match different synchronisation scenarios, IoTDB supports plugin assembly in the above synchronisation task framework. Some common plugins are pre-built for you to use directly, and you can also customise sink plugins and load them into the IoTDB system for use.
+```SQL
++--------------------------------+-----------------------+-------+---------------+--------------------+------------------------------------------------------------+----------------+
+|                              ID|           CreationTime|  State|     PipeSource|      PipeProcessor|                                                     PipeSink|ExceptionMessage|
++--------------------------------+-----------------------+-------+---------------+--------------------+------------------------------------------------------------+----------------+
+|3421aacb16ae46249bac96ce4048a220|2024-08-13T09:55:18.717|RUNNING|             {}|                 {}|{{sink=iotdb-thrift-sink, sink.ip=127.0.0.1, sink.port=6668}}|                |
++--------------------------------+-----------------------+-------+---------------+--------------------+------------------------------------------------------------+----------------+
+```
 
-| Modules          | Plugins       | Pre-configured Plugins                | Customised Plugins |
-|------------------|---------------|---------------------------------------|--------------------| 
-| Extract (Source) | Source Plugin | iotdb-source                          | Not Supported      |
-| Send (Sink)      | Sink plugin   | iotdb-thrift-sink, iotdb-air-gap-sink | Support            |
+The meanings of each column are as follows:
 
-#### Preconfigured Plugins
+- **ID**：The unique identifier for the synchronization task
+- **CreationTime**：The time when the synchronization task was created
+- **State**：The state of the synchronization task
+- **PipeSource**：The source of the synchronized data stream
+- **PipeProcessor**：The processing logic of the synchronized data stream during transmission
+- **PipeSink**：The destination of the synchronized data stream
+- **ExceptionMessage**：Displays the exception information of the synchronization task
 
-The preset plugins are listed below:
 
-| Plugin Name           | Type          | Introduction                                                                                                                                                                                                                                                          | Available Versions |
-|-----------------------|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------|
-| iotdb-source          | source plugin | Default source plugin for extracting IoTDB historical or real-time data                                                                                                                                                                                               | 1.2.x              |
-| iotdb-thrift-sink     | sink plugin   | Used for data transfer between IoTDB (v1.2.0 and above) and IoTDB (v1.2.0 and above). Uses the Thrift RPC framework to transfer data, multi-threaded async non-blocking IO model, high transfer performance, especially for scenarios where the target is distributed | 1.2.x              |
-| iotdb-air-gap-sink    | sink plugin   | Used for data synchronization from IoTDB (v1.2.2+) to IoTDB (v1.2.2+) across unidirectional data gates. Supported gate models include Nanrui Syskeeper 2000, etc.                                                                                                     | 1.2.2+             |
-| iotdb-thrift-ssl-sink | sink plugin   | Used for data synchronization from IoTDB (v1.3.1+) to IoTDB (v1.2.0+). Uses the Thrift RPC framework to transfer data, single-thread blocking IO model.                                                                                                               | 1.3.1+             |
+### Synchronization Plugins
 
-Detailed parameters for each plugin can be found in the [Parameter Description](#sink-parameters) section of this document.
+To make the overall architecture more flexible to match different synchronization scenario requirements, we support plugin assembly within the synchronization task framework. The system comes with some pre-installed common plugins that you can use directly. At the same time, you can also customize processor plugins and Sink plugins, and load them into the IoTDB system for use. You can view the plugins in the system (including custom and built-in plugins) with the following statement:
 
-#### View Plugins
 
-To view the plugins in the system (including custom and built-in plugins) you can use the following statement:
-
-```sql
+```SQL
 SHOW PIPEPLUGINS
 ```
 
-The following results are returned:
+The return result is as follows (version 1.3.2):
 
-```sql
-IoTDB> show pipeplugins
-+------------------------------+----------+---------------------------------------------------------------------------------+---------+
-|                    PluginName|PluginType|                                                                        ClassName|PluginJar|
-+------------------------------+--------------------------------------------------------------------------------------------+---------+
-|          DO-NOTHING-PROCESSOR|   Builtin|        org.apache.iotdb.commons.pipe.plugin.builtin.processor.DoNothingProcessor|         |
-|               DO-NOTHING-SINK|   Builtin|                  org.apache.iotdb.commons.pipe.plugin.builtin.sink.DoNothingSink|         |
-|            IOTDB-AIR-GAP-SINK|   Builtin|                org.apache.iotdb.commons.pipe.plugin.builtin.sink.IoTDBAirGapSink|         |
-|                  IOTDB-SOURCE|   Builtin|                  org.apache.iotdb.commons.pipe.plugin.builtin.source.IoTDBSOURCE|         |
-|             IOTDB-THRIFT-SINK|   Builtin|                org.apache.iotdb.commons.pipe.plugin.builtin.sink.IoTDBThriftSink|         |
-|IOTDB-THRIFT-SSL-SINK(V1.3.1+)|   Builtin|org.apache.iotdb.commons.pipe.plugin.builtin.sink.iotdb.thrift.IoTDBThriftSslSink|         |
-+------------------------------+----------+---------------------------------------------------------------------------------+---------+
-
+```SQL
+IoTDB> SHOW PIPEPLUGINS
++---------------------+----------+-------------------------------------------------------------------------------------------+----------------------------------------------------+
+|           PluginName|PluginType|                                                                                  ClassName|                                           PluginJar|
++---------------------+----------+-------------------------------------------------------------------------------------------+----------------------------------------------------+
+| DO-NOTHING-PROCESSOR|   Builtin|        org.apache.iotdb.commons.pipe.plugin.builtin.processor.donothing.DoNothingProcessor|                                                    |
+|      DO-NOTHING-SINK|   Builtin|        org.apache.iotdb.commons.pipe.plugin.builtin.connector.donothing.DoNothingConnector|                                                    |
+|   IOTDB-AIR-GAP-SINK|   Builtin|   org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.airgap.IoTDBAirGapConnector|                                                    |
+|         IOTDB-SOURCE|   Builtin|                org.apache.iotdb.commons.pipe.plugin.builtin.extractor.iotdb.IoTDBExtractor|                                                    |
+|    IOTDB-THRIFT-SINK|   Builtin|   org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftConnector|                                                    |
+|IOTDB-THRIFT-SSL-SINK|   Builtin|org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftSslConnector|                                                    |
++---------------------+----------+-------------------------------------------------------------------------------------------+----------------------------------------------------+
 ```
+
+Detailed introduction of pre-installed plugins is as follows (for detailed parameters of each plugin, please refer to the [Parameter Description](#reference-parameter-description) section):
+
+<table style="text-align: left;">
+      <tr>
+            <th>Type</th>
+            <th>Custom Plugin</th>        
+            <th>Plugin Name</th>
+            <th>Description</th>
+            <th>Applicable Version</th>
+      </tr>
+      <tr> 
+            <td>source plugin</td>
+            <td>Not Supported</td>
+            <td>iotdb-source</td>
+            <td>The default extractor plugin, used to extract historical or real-time data from IoTDB</td>
+            <td>1.2.x</td>
+      </tr>
+      <tr>
+            <td>processor plugin</td>
+            <td>Supported</td>
+            <td>do-nothing-processor</td>
+            <td>The default processor plugin, which does not process the incoming data</td>
+            <td>1.2.x</td>
+      </tr>
+      <tr>
+            <td rowspan="4">sink plugin</td>
+            <td rowspan="4">Supported</td>
+            <td>do-nothing-sink</td>
+            <td>Does not process the data that is sent out</td>
+            <td>1.2.x</td>
+      </tr>
+      <tr>
+            <td>iotdb-thrift-sink</td>
+            <td>The default sink plugin ( V1.3.1+ ), used for data transfer between IoTDB ( V1.2.0+ ) and IoTDB( V1.2.0+ ) . It uses the Thrift RPC framework to transfer data, with a multi-threaded async non-blocking IO model, high transfer performance, especially suitable for scenarios where the target end is distributed</td>
+            <td>1.2.x</td>
+      </tr>
+      <tr>
+            <td>iotdb-air-gap-sink</td>
+            <td>Used for data synchronization across unidirectional data diodes from IoTDB ( V1.2.0+ ) to IoTDB ( V1.2.0+ ). Supported diode models include Nanrui Syskeeper 2000, etc</td>
+            <td>1.2.x</td>
+      </tr>
+      <tr>
+            <td>iotdb-thrift-ssl-sink</td>
+            <td>Used for data transfer between IoTDB ( V1.3.1+ ) and IoTDB ( V1.2.0+ ). It uses the Thrift RPC framework to transfer data, with a single-threaded sync blocking IO model, suitable for scenarios with higher security requirements</td>
+            <td>1.3.1+</td>
+      </tr>
+</table>
+
+For importing custom plugins, please refer to the [Stream Processing](./Streaming_timecho.md#custom-stream-processing-plugin-management) section.
 
 ## Use examples
 
@@ -166,191 +269,207 @@ This example is used to demonstrate the synchronisation of all data from one IoT
 
 ![](https://alioss.timecho.com/upload/pipe1.jpg)
 
-In this example, we can create a synchronisation task named A2B to synchronise the full amount of data from IoTDB A to IoTDB B. Here we need to use the iotdb-thrift-sink plugin (built-in plugin) which uses sink, and we need to specify the address of the receiving end, in this example, we have specified 'sink.ip' and 'sink.port', and we can also specify 'sink.port'. This example specifies 'sink.ip' and 'sink.port', and also 'sink.node-urls', as in the following example statement:
+In this example, we can create a synchronization task named A2B to synchronize the full data from A IoTDB to B IoTDB. The iotdb-thrift-sink plugin (built-in plugin) for the sink is required. The URL of the data service port of the DataNode node on the target IoTDB needs to be configured through node-urls, as shown in the following example statement:
 
-```sql
+
+```SQL
 create pipe A2B
 with sink (
-  'sink'='iotdb-thrift-sink', 
-  'sink.ip'='127.0.0.1',
-  'sink.port'='6668'
-)
+  'sink'='iotdb-thrift-sink',
+  'node-urls' = '127.0.0.1:6668',  -- The URL of the data service port of the DataNode node on the target IoTDB
 ```
 
-
-### Synchronising historical data
+### Partial data synchronization
 
 This example is used to demonstrate the synchronisation of data from a certain historical time range (8:00pm 23 August 2023 to 8:00pm 23 October 2023) to another IoTDB, the data link is shown below:
 
 ![](https://alioss.timecho.com/upload/pipe2.jpg)
 
-In this example we can create a synchronisation task called A2B. First of all, we need to define the range of data to be transferred in source, since the data to be transferred is historical data (historical data refers to the data that existed before the creation of the synchronisation task), we need to configure the source.realtime.enable parameter to false; at the same time, we need to configure the start-time and end-time of the data and the mode of the transfer. At the same time, you need to configure the start-time and end-time of the data and the mode of transmission, and it is recommended that the mode be set to hybrid mode (hybrid mode is a mixed transmission mode, which adopts the real-time transmission mode when there is no backlog of data, and adopts the batch transmission mode when there is a backlog of data, and automatically switches according to the internal situation of the system).
+In this example, we can create a synchronization task named A2B. First, we need to define the range of data to be transferred in the source. Since the data being transferred is historical data (historical data refers to data that existed before the creation of the synchronization task), we need to configure the start-time and end-time of the data and the transfer mode mode. The URL of the data service port of the DataNode node on the target IoTDB needs to be configured through node-urls.
 
 The detailed statements are as follows:
 
 ```SQL
 create pipe A2B
 WITH SOURCE (
-'source'= 'iotdb-source',
-'source.realtime.mode'='hybrid',
-'source.history.start-time' = '2023.08.23T08:00:00+00:00',
-'source.history.end-time' = '2023.10.23T08:00:00+00:00') 
+  'source'= 'iotdb-source',
+  'realtime.mode' = 'stream' -- The extraction mode for newly inserted data (after pipe creation)
+  'start-time' = '2023.08.23T08:00:00+00:00',  -- The start event time for synchronizing all data, including start-time
+  'end-time' = '2023.10.23T08:00:00+00:00'  -- The end event time for synchronizing all data, including end-time
+) 
 with SINK (
-'sink'='iotdb-thrift-async-sink',
-'sink.node-urls'='xxxx:6668',
-'sink.batch.enable'='false')
+  'sink'='iotdb-thrift-async-sink',
+  'node-urls' = '127.0.0.1:6668', -- The URL of the data service port of the DataNode node on the target IoTDB
+)
 ```
-
 
 ### Bidirectional data transfer
 
-This example is used to demonstrate a scenario where two IoTDBs are dual-active with each other, with the data link shown below:
+This example is used to demonstrate the scenario where two IoTDB act as active-active pairs, with the data link shown in the figure below:
 
 ![](https://alioss.timecho.com/upload/pipe3.jpg)
 
-In this example, in order to avoid an infinite loop of data, the parameter `'source.forwarding-pipe-requests` needs to be set to ``false`` on both A and B to indicate that the data transferred from the other pipe will not be forwarded. Also set `'source.history.enable'` to `false` to indicate that historical data is not transferred, i.e., data prior to the creation of the task is not synchronised.
+In this example, to avoid infinite data loops, the `forwarding-pipe-requests` parameter on A and B needs to be set to `false`, indicating that data transmitted from another pipe is not forwarded, and to keep the data consistent on both sides, the pipe needs to be configured with `inclusion=all` to synchronize full data and metadata.
 
 The detailed statement is as follows:
 
-Execute the following statements on A IoTDB:
+On A IoTDB, execute the following statement:
 
-```sql
+
+```SQL
 create pipe AB
 with source (
-  'source.forwarding-pipe-requests' = 'false',
+  'inclusion'='all',  -- Indicates synchronization of full data, schema , and auth
+  'forwarding-pipe-requests' = 'false'   -- Do not forward data written by other Pipes
+)
 with sink (
   'sink'='iotdb-thrift-sink',
-  'sink.ip'='127.0.0.1',
-  'sink.port'='6668'
+  'node-urls' = '127.0.0.1:6668', -- The URL of the data service port of the DataNode node on the target IoTDB
 )
 ```
 
-Execute the following statements on B IoTDB:
+On B IoTDB, execute the following statement:
 
-```sql
+
+```SQL
 create pipe BA
 with source (
-  'source.forwarding-pipe-requests' = 'false',
+  'inclusion'='all',   -- Indicates synchronization of full data, schema , and auth
+  'forwarding-pipe-requests' = 'false'   -- Do not forward data written by other Pipes
+)
 with sink (
   'sink'='iotdb-thrift-sink',
-  'sink.ip'='127.0.0.1',
-  'sink.port'='6667'
+  'node-urls' = '127.0.0.1:6667', -- The URL of the data service port of the DataNode node on the target IoTDB
 )
 ```
 
+### Edge-cloud data transfer
 
-### Cascading Data Transfer
+This example is used to demonstrate the scenario where data from multiple IoTDB is transferred to the cloud, with data from clusters B, C, and D all synchronized to cluster A, as shown in the figure below:
+
+![](https://alioss.timecho.com/docs/img/sync_en_03.png)
+
+In this example, to synchronize the data from clusters B, C, and D to A, the pipe between BA, CA, and DA needs to configure the `path` to limit the range, and to keep the edge and cloud data consistent, the pipe needs to be configured with `inclusion=all` to synchronize full data and metadata. The detailed statement is as follows:
+
+On B IoTDB, execute the following statement to synchronize data from B to A:
+
+```SQL
+create pipe BA
+with source (
+   'inclusion'='all',   -- Indicates synchronization of full data, schema , and auth
+   'path'='root.db.**', -- Limit the range
+)
+with sink (
+  'sink'='iotdb-thrift-sink',
+  'node-urls' = '127.0.0.1:6668', -- The URL of the data service port of the DataNode node on the target IoTDB
+)
+)
+```
+
+On C IoTDB, execute the following statement to synchronize data from C to A:
+
+```SQL
+create pipe CA
+with source (
+   'inclusion'='all',  -- Indicates synchronization of full data, schema , and auth
+   'path'='root.db.**', -- Limit the range
+with sink (
+  'sink'='iotdb-thrift-sink',
+  'node-urls' = '127.0.0.1:6668', -- The URL of the data service port of the DataNode node on the target IoTDB
+)
+)
+```
+
+On D IoTDB, execute the following statement to synchronize data from D to A:
+
+```SQL
+create pipe DA
+with source (
+   'inclusion'='all',  -- Indicates synchronization of full data, schema , and auth
+   'path'='root.db.**', -- Limit the range
+)
+with sink (
+  'sink'='iotdb-thrift-sink',
+  'node-urls' = '127.0.0.1:6668', -- The URL of the data service port of the DataNode node on the target IoTDB
+)
+)
+```
+
+### Cascading data transfer
+
+This example is used to demonstrate the scenario where data is transferred in a cascading manner between multiple IoTDB, with data from cluster A synchronized to cluster B, and then to cluster C, as shown in the figure below:
+
+![](https://alioss.timecho.com/docs/img/sync_en_04.png)
+
+In this example, to synchronize the data from cluster A to C, the `forwarding-pipe-requests` needs to be set to `true` between BC. The detailed statement is as follows:
+
+On A IoTDB, execute the following statement to synchronize data from A to B:
 
 
-This example is used to demonstrate a cascading data transfer scenario between multiple IoTDBs, where data is synchronised from cluster A to cluster B and then to cluster C. The data link is shown in the figure below:
-
-![](https://alioss.timecho.com/upload/pipe4.jpg)
-
-In this example, in order to synchronise the data from cluster A to C, the pipe between BC needs to be configured with `source.forwarding-pipe-requests` to `true`, the detailed statement is as follows:
-
-Execute the following statement on A IoTDB to synchronise data from A to B:
-
-```sql
+```SQL
 create pipe AB
 with sink (
   'sink'='iotdb-thrift-sink',
-  'sink.ip'='127.0.0.1',
-  'sink.port'='6668'
+  'node-urls' = '127.0.0.1:6668', -- The URL of the data service port of the DataNode node on the target IoTDB
+)
 )
 ```
 
-Execute the following statement on B IoTDB to synchronise data in B to C:
+On B IoTDB, execute the following statement to synchronize data from B to C:
 
-```sql
+
+```SQL
 create pipe BC
 with source (
-  'source.forwarding-pipe-requests' = 'true',
+  'forwarding-pipe-requests' = 'true'   -- Whether to forward data written by other Pipes
+)
 with sink (
   'sink'='iotdb-thrift-sink',
-  'sink.ip'='127.0.0.1',
-  'sink.port'='6669'
+  'node-urls' = '127.0.0.1:6669', -- The URL of the data service port of the DataNode node on the target IoTDB
+)
 )
 ```
 
-### Transmission of data through an air gap
+### Cross-gate data transfer
 
-This example is used to demonstrate a scenario where data from one IoTDB is synchronised to another IoTDB via a unidirectional gate, with the data link shown below:
+This example is used to demonstrate the scenario where data from one IoTDB is synchronized to another IoTDB through a unidirectional gateway, as shown in the figure below:
 
-![](https://alioss.timecho.com/docs/img/1706698659207.jpg)
+![](https://alioss.timecho.com/upload/pipe5.jpg)
 
-In this example, you need to use the iotdb-air-gap-sink plugin in the sink task (currently supports some models of network gates, please contact the staff of Timecho Technology to confirm the specific model), and after configuring the network gate, execute the following statements on IoTDB A, where ip and port fill in the information of the network gate, and the detailed statements are as follows:
 
-```sql
+
+In this example, the iotdb-air-gap-sink plugin in the sink task needs to be used (currently supports some gateway models, for specific models, please contact Timecho staff for confirmation). After configuring the gateway, execute the following statement on A IoTDB. Fill in the node-urls with the URL of the data service port of the DataNode node on the target IoTDB configured by the gateway, as detailed below:
+
+```SQL
 create pipe A2B
 with sink (
   'sink'='iotdb-air-gap-sink',
-  'sink.ip'='10.53.53.53',
-  'sink.port'='9780'
-)
+  'node-urls' = '10.53.53.53:9780', -- The URL of the data service port of the DataNode node on the target IoTDB
 ```
 
-### Transfer data using SSL protocol
 
-This example demonstrates the scenario of configuring IoTDB one-way data synchronization using the SSL protocol, with the data link shown in the following figure：
+### Encrypted Synchronization (V1.3.1+)
 
-![](https://alioss.timecho.com/docs/img/1706696772065.jpg)
+IoTDB supports the use of SSL encryption during the synchronization process, ensuring the secure transfer of data between different IoTDB instances. By configuring SSL-related parameters, such as the certificate address and password （`ssl.trust-store-path`）、（`ssl.trust-store-pwd`）, data can be protected by SSL encryption during the synchronization process.
 
-In this scenario, it is necessary to use IoTDB's iotdb-thrift-ssl-sink plugin. We can create a synchronization task called A2B and configure the password and address of our own certificate. The detailed statement is as follows:
-```Sql
+For example, to create a synchronization task named A2B:
+
+```SQL
 create pipe A2B
 with sink (
   'sink'='iotdb-thrift-ssl-sink',
-  'sink.ip'='127.0.0.1',
-  'sink.port'='6669',
-  'ssl.trust-store-path'='pki/trusted'
-  'ssl.trust-store-pwd'='root'
+  'node-urls'='127.0.0.1:6667',  -- The URL of the data service port of the DataNode node on the target IoTDB
+  'ssl.trust-store-path'='pki/trusted',  -- The trust store certificate path required to connect to the target DataNode
+  'ssl.trust-store-pwd'='root' -- The trust store certificate password required to connect to the target DataNode
 )
 ```
 
 ## Reference: Notes
 
-The IoTDB configuration file (iotdb-common.properties) can be modified in order to adjust the parameters for data synchronisation, such as the synchronisation data storage directory. The complete configuration is as follows:
+You can adjust the parameters for data synchronization by modifying the IoTDB configuration file （`iotdb-common.properties`）, such as the directory for storing synchronized data. The complete configuration is as follows:
 
-V1.3.0+:
-```Properties
-####################
-### Pipe Configuration
-####################
+V1.3.0/1/2:
 
-# Uncomment the following field to configure the pipe lib directory.
-# For Windows platform
-# If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is
-# absolute. Otherwise, it is relative.
-# pipe_lib_dir=ext\\pipe
-# For Linux platform
-# If its prefix is "/", then the path is absolute. Otherwise, it is relative.
-# pipe_lib_dir=ext/pipe
-
-# The maximum number of threads that can be used to execute the pipe subtasks in PipeSubtaskExecutor.
-# The actual value will be min(pipe_subtask_executor_max_thread_num, max(1, CPU core number / 2)).
-# pipe_subtask_executor_max_thread_num=5
-
-# The connection timeout (in milliseconds) for the thrift client.
-# pipe_connector_timeout_ms=900000
-
-# The maximum number of selectors that can be used in the async connector.
-# pipe_async_connector_selector_number=1
-
-# The core number of clients that can be used in the async connector.
-# pipe_async_connector_core_client_number=8
-
-# The maximum number of clients that can be used in the async connector.
-# pipe_async_connector_max_client_number=16
-
-# Whether to enable receiving pipe data through air gap.
-# The receiver can only return 0 or 1 in tcp mode to indicate whether the data is received successfully.
-# pipe_air_gap_receiver_enabled=false
-
-# The port for the server to receive pipe data through air gap.
-# pipe_air_gap_receiver_port=9780
-```
-
-V1.3.1+:
 ```Properties
 ####################
 ### Pipe Configuration
@@ -372,6 +491,13 @@ V1.3.1+:
 # The connection timeout (in milliseconds) for the thrift client.
 # pipe_sink_timeout_ms=900000
 
+# The maximum number of selectors that can be used in the sink.
+# Recommend to set this value to less than or equal to pipe_sink_max_client_number.
+# pipe_sink_selector_number=4
+
+# The maximum number of clients that can be used in the sink.
+# pipe_sink_max_client_number=16
+
 # Whether to enable receiving pipe data through air gap.
 # The receiver can only return 0 or 1 in tcp mode to indicate whether the data is received successfully.
 # pipe_air_gap_receiver_enabled=false
@@ -381,86 +507,106 @@ V1.3.1+:
 ```
 
 ## Reference: parameter description
-📌 Notes: for version 1.3.1 or later, any parameters other than "source", "processor", "sink" themselves need not be with the prefixes. For instance:
-```Sql
-create pipe A2B
-with sink (
-  'sink'='iotdb-air-gap-sink',
-  'sink.ip'='10.53.53.53',
-  'sink.port'='9780'
-)
-```
-can be written as
-```Sql
-create pipe A2B
-with sink (
-  'sink'='iotdb-air-gap-sink',
-  'ip'='10.53.53.53',
-  'port'='9780'
-)
-```
 
-### source parameter
+### source parameter（V1.3.0）
 
+| key                            | value                                                         | value range                         | required or not	 | default value       |
+| :------------------------------ | :----------------------------------------------------------- | :------------------------------------- | :------- | :------------- |
+| source                          | iotdb-source                                                 | String: iotdb-source                   | required	     | -              |
+| source.pattern                  | Used to filter the path prefix of time series	                                   | String: any time series prefix             | optional     | root           |
+| source.history.enable           | Whether to send historical data	                                             | Boolean: true / false                  | optional     | true           |
+| source.history.start-time       | The start event time for synchronizing historical data, including start-time	               | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional     | Long.MIN_VALUE |
+| source.history.end-time         | The end event time for synchronizing historical data, including end-time	                 | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional     | Long.MAX_VALUE |
+| source.realtime.enable          | Whether to send real-time data	                                             | Boolean: true / false                  | optional     | true           |
+| source.realtime.mode            | The extraction mode for newly inserted data (after pipe creation)	                          | String: stream, batch                  | optional     | stream         |
+| source.forwarding-pipe-requests | Whether to forward data written by other Pipes (usually data synchronization)	             | Boolean: true, false                   | optional     | true           |
+| source.history.loose-range      | When transferring tsfile, whether to relax the historical data (before pipe creation) range. "": Do not relax the range, select data strictly according to the set conditions "time": Relax the time range to avoid splitting TsFile, which can improve synchronization efficiency	 | String: "" / "time"                    | optional     | Empty String |
 
-| key                             | value                                                                     | value range                            | required or not | default value  |
-|---------------------------------|---------------------------------------------------------------------------|----------------------------------------|-----------------|----------------|
-| source                          | iotdb-source                                                              | String: iotdb-source                   | required        | -              |
-| source.pattern                  | Path prefix for filtering time series                                     | String: any time series prefix         | optional        | root           |
-| source.history.start-time       | Synchronise the start event time of historical data, including start-time | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional        | Long.MIN_VALUE |
-| source.history.end-time         | end event time for synchronised history data, contains end-time           | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional        | Long.MAX_VALUE |
-| start-time(V1.3.1+)             | Synchronise the start event time of all data, including start-time        | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional        | Long.MIN_VALUE |
-| end-time(V1.3.1+)               | end event time for synchronised all data, contains end-time               | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | optional        | Long.MAX_VALUE |
-| source.realtime.mode            | Extraction mode for real-time data                                        | String: hybrid, stream, batch          | optional        | hybrid         |
-| source.forwarding-pipe-requests | Whether to forward data written by another Pipe (usually Data Sync)       | Boolean: true, false                   | optional        | true           |
-
-> 💎 **Note: Difference between historical and real-time data**
+> 💎 **Explanation: Difference between Historical Data and Real-time Data**
+> - **Historical Data**: All data with arrival time < the current system time when the pipe is created is called historical data.
+> - **Real-time Data**：All data with arrival time >= the current system time when the pipe is created is called real-time data.
+> - **Full Data**： Full data = Historical data + Real-time data
 >
-> * **Historical data**: all data with arrival time < current system time when the pipe was created is called historical data
-> * **Real-time data**: All data with arrival time >= current system time when the pipe was created is called real-time data.
-> * **Full data**: full data = historical data + real time data
+> 💎  **Explanation: Differences between Stream and Batch Data Extraction Modes**
+> - **stream (recommended)**: In this mode, tasks process and send data in real-time. It is characterized by high timeliness and low throughput.
+> - **batch**: In this mode, tasks process and send data in batches (according to the underlying data files). It is characterized by low timeliness and high throughput.
 
+### source parameter（V1.3.1）
 
-> 💎 **Explanation: Difference between data extraction modes hybrid, stream and batch**
+> In versions 1.3.1 and above, the parameters no longer require additional source, processor, and sink prefixes.
+
+| key                            | value                                                         | value range                         | required or not	 | default value       |
+| :----------------------- | :----------------------------------------------------------- | :------------------------------------- | :------- | :------------- |
+| source                   | iotdb-source                                                 | String: iotdb-source                   | Required     | -              |
+| pattern                  | Used to filter the path prefix of time series	                                   | String: any time series prefix	             | Optional     | root           |
+| start-time               | The start event time for synchronizing all data, including start-time	              | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | Optional     | Long.MIN_VALUE |
+| end-time                 | The end event time for synchronizing all data, including end-time	                 | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | Optional     | Long.MAX_VALUE |
+| realtime.mode            | The extraction mode for newly inserted data (after pipe creation)	                          | String: stream, batch                  | Optional     | stream         |
+| forwarding-pipe-requests | Whether to forward data written by other Pipes (usually data synchronization)             | Boolean: true, false                   | Optional     | true           |
+| history.loose-range      | When transferring tsfile, whether to relax the historical data (before pipe creation) range. "": Do not relax the range, select data strictly according to the set conditions "time": Relax the time range to avoid splitting TsFile, which can improve synchronization efficiency	 | String: "" / "time"                    | Optional     | Empty String  |
+
+> 💎  **Explanation**：To maintain compatibility with lower versions, history.enable, history.start-time, history.end-time, realtime.enable can still be used, but they are not recommended in the new version.
 >
-> - **hybrid (recommended)**: In this mode, the task will give priority to real-time processing and sending of data, and automatically switch to batch sending mode when data backlog occurs, which is characterised by a balance between timeliness of data synchronisation and throughput
-> - **stream**: In this mode, the task will process and send data in real time, which is characterised by high timeliness and low throughput.
-> - **batch**: In this mode, the task will process and send data in batch (by underlying data file), which is characterised by low latency and high throughput.
+> 💎  **Explanation: Differences between Stream and Batch Data Extraction Modes**
+> - **stream (recommended)**: In this mode, tasks process and send data in real-time. It is characterized by high timeliness and low throughput.
+> - **batch**: In this mode, tasks process and send data in batches (according to the underlying data files). It is characterized by low timeliness and high throughput.
 
-### sink parameters
+### source parameter（V1.3.2）
 
-#### iotdb-thrift-sink
+> In versions 1.3.1 and above, the parameters no longer require additional source, processor, and sink prefixes.
 
-| key                          | value                                                                                                                                                               | value range                                                                       | required or not | default value                    |
-|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|-----------------|----------------------------------|
-| sink                         | iotdb-thrift-sink or iotdb-thrift-async-sink                                                                                                                        | String: iotdb-thrift-sink or iotdb-thrift-async-sink                              | required        |                                  |
-| sink.ip                      | Data service IP of a DataNode in the target IoTDB (note that the synchronisation task does not support forwarding to its own service)                               | String                                                                            | Optional        | Fill in either sink.node-urls    |
-| sink.port                    | Data service port of a DataNode in the target IoTDB (note that the synchronisation task does not support forwarding to its own service)                             | Integer                                                                           | Optional        | Fill in either sink.node-urls    |
-| sink.node-urls               | The url of the data service port of any number of DataNodes on the target IoTDB (note that the synchronisation task does not support forwarding to its own service) | String. Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | Optional        | Fill in either sink.ip:sink.port |
-| sink.batch.enable            | Whether to enable the log saving wholesale delivery mode, which is used to improve transmission throughput and reduce IOPS                                          | Boolean: true, false                                                              | Optional        | true                             |
-| sink.batch.max-delay-seconds | Effective when the log save and send mode is turned on, indicates the longest time a batch of data waits before being sent (unit: s)                                | Integer                                                                           | Optional        | 1                                |
-| sink.batch.size-bytes        | Effective when log saving and delivery mode is enabled, indicates the maximum saving size of a batch of data (unit: byte)                                           | Long                                                                              | Optional        |                                  |
+| key                            | value                                                         | value range                         | required or not	 | default value       |
+| :----------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- | :------------- |
+| source                   | iotdb-source                                                 | String: iotdb-source                                         | Required     | -              |
+| inclusion                | Used to specify the range of data to be synchronized in the data synchronization task, including data, schema, and auth   | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | Optional     | data.insert    |
+| inclusion.exclusion      | Used to exclude specific operations from the range specified by inclusion, reducing the amount of data synchronized | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | Optional     | -              |
+| path                     | Used to filter the path pattern schema of time series and data to be synchronized / schema synchronization can only use pathpath is exact matching, parameters must be prefix paths or complete paths, i.e., cannot contain `"*"`, at most one `"**"` at the end of the path parameter  | String：IoTDB  pattern                                     | Optional     | root.**        |
+| pattern                  | Used to filter the path prefix of time series	                                   | String: Optional                                   | Optional     | root           |
+| start-time               | The start event time for synchronizing all data, including start-time	              | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                       | Optional     | Long.MIN_VALUE |
+| end-time                 | The end event time for synchronizing all data, including end-time                 | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                       | Optional     | Long.MAX_VALUE |
+| realtime.mode            | The extraction mode for newly inserted data (after pipe creation)                          | String: stream, batch                                        | Optional     | stream         |
+| forwarding-pipe-requests | Whether to forward data written by other Pipes (usually data synchronization)             | Boolean: true, false                                         | Optional     | true           |
+| history.loose-range      | When transferring tsfile, whether to relax the historical data (before pipe creation) range. "": Do not relax the range, select data strictly according to the set conditions "time": Relax the time range to avoid splitting TsFile, which can improve synchronization efficiency  | String: "" 、 "time"                                         | Optional     | ""             |
+| mods.enable              | Whether to send the mods file of tsfile	                                 | Boolean: true / false                                        | Optional     | false          |
 
-#### iotdb-air-gap-sink
+> 💎  **Explanation**：To maintain compatibility with lower versions, history.enable, history.start-time, history.end-time, realtime.enable can still be used, but they are not recommended in the new version.
+>
+> 💎  **Explanation: Differences between Stream and Batch Data Extraction Modes**
+> - **stream (recommended)**: In this mode, tasks process and send data in real-time. It is characterized by high timeliness and low throughput.
+> - **batch**: In this mode, tasks process and send data in batches (according to the underlying data files). It is characterized by low timeliness and high throughput.
 
-| key                               | value                                                                                                                                             | value range                                                                      | required or not | default value                    |
-|-----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|-----------------|----------------------------------|
-| sink                              | iotdb-air-gap-sink                                                                                                                                | String: iotdb-air-gap-sink                                                       | required        |                                  |
-| sink.ip                           | Data service IP of a DataNode in the target IoTDB                                                                                                 | String                                                                           | Optional        | Fill in either sink.node-urls    |
-| sink.port                         | Data service port of a DataNode in the target IoTDB                                                                                               | Integer                                                                          | Optional        | Fill in either sink.node-urls    |
-| sink.node-urls                    | URL of the data service port of any multiple DataNodes on the target                                                                              | String.Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | Optional        | Fill in either sink.ip:sink.port |
-| sink.air-gap.handshake-timeout-ms | The timeout length of the handshake request when the sender and the receiver try to establish a connection for the first time, unit: milliseconds | Integer                                                                          | Optional        | 5000                             |
+### sink parameter
 
-#### iotdb-thrift-ssl-sink(V1.3.1+)
+> In versions 1.3.1 and above, the parameters no longer require additional source, processor, and sink prefixes.
 
-| key                          | value                                                                                                                                                               | value range                                                                       | required or not | default value                    |
-|------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------|-----------------|----------------------------------|
-| sink                         | iotdb-thrift-sink or iotdb-thrift-async-sink                                                                                                                        | String: iotdb-thrift-sink or iotdb-thrift-sync-sink                               | required        |                                  |
-| sink.ip                      | Data service IP of a DataNode in the target  IoTDB (note that the synchronisation task does not support forwarding to its own service)                              | String                                                                            | Optional        | Fill in either sink.node-urls    |
-| sink.port                    | Data service port of a DataNode in the target IoTDB (note that the synchronisation task does not support forwarding to its own service)                             | Integer                                                                           | Optional        | Fill in either sink.node-urls    |
-| sink.node-urls               | The url of the data service port of any number of DataNodes on the target IoTDB (note that the synchronisation task does not support forwarding to its own service) | String. Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | Optional        | Fill in either sink.ip:sink.port |
-| sink.batch.enable            | Whether to enable the log saving wholesale delivery mode, which is used to improve transmission throughput and reduce IOPS                                          | Boolean: true, false                                                              | Optional        | true                             |
-| sink.batch.max-delay-seconds | Effective when the log save and send mode is turned on, indicates the longest time a batch of data waits before being sent (unit: s)                                | Integer                                                                           | Optional        | 1                                |
-| sink.batch.size-bytes        | Effective when log saving and delivery mode is enabled, indicates the maximum saving size of a batch of data (unit: byte)                                           | Long                                                                              | Optional        |                                  |
-| ssl.trust-store-path         | The certificate trust store path to connect to the target DataNodes                                                                                                 | String.Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667'  | Optional        | Fill in either sink.ip:sink.port |
-| ssl.trust-store-pwd          | The certificate trust store password to connect to the target DataNodes                                                                                             | Integer                                                                           | Optional        | 5000                             |
+#### iotdb-thrift-sink( V1.3.0/1/2) 
+
+
+| key                          | value                                                        | value Range                                               | required or not  | Default Value     |
+| :--------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- | :----------- |
+| sink                         | iotdb-thrift-sink or iotdb-thrift-async-sink                 | String: iotdb-thrift-sink or iotdb-thrift-async-sink         | Required     |              |
+| sink.node-urls               | The URL of the data service port of any DataNode nodes on the target IoTDB (please note that synchronization tasks do not support forwarding to its own service)	 | String. Example: '127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | Required     | -            |
+| sink.batch.enable            | Whether to enable batched log transmission mode to improve transmission throughput and reduce IOPS        | Boolean: true, false                                         | Optional     | true         |
+| sink.batch.max-delay-seconds | Effective when batched log transmission mode is enabled, it represents the maximum waiting time for a batch of data before sending (unit: s)  | Integer                                                      | Optional     | 1            |
+| sink.batch.size-bytes             | Effective when batched log transmission mode is enabled, it represents the maximum batch size for a batch of data (unit: byte)	 | Long                                                         | Optional     | 16*1024*1024 |
+
+#### iotdb-air-gap-sink( V1.3.0/1/2) 
+
+| key                          | value                                                        | value Range                                               | required or not  | Default Value     |
+| :--------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- | :----------- |
+| sink                              | iotdb-air-gap-sink                                           | String: iotdb-air-gap-sink                                   | Required     | -        |
+| sink.node-urls                    | The URL of the data service port of any DataNode nodes on the target IoTDB      | String. Example: ：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | Required     | -        |
+| sink.air-gap.handshake-timeout-ms | The timeout duration of the handshake request when the sender and receiver first attempt to establish a connection, unit: ms | Integer                                                      | Optional     | 5000     |
+
+
+#### iotdb-thrift-ssl-sink( V1.3.1/2) 
+
+| key                               | value                                                        | value Range                                                | required or not | Default Value      |
+| :---------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- | :----------- |
+| sink                    | iotdb-thrift-ssl-sink                                        | String: iotdb-thrift-ssl-sink                                | Required     | -            |
+| node-urls               | The URL of the data service port of any DataNode nodes on the target IoTDB (please note that synchronization tasks do not support forwarding to its own service)	  | String. Example: '127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | Required     | -            |
+| batch.enable            | Whether to enable batched log transmission mode to improve transmission throughput and reduce IOPS	       | Boolean: true, false                                         | Optional     | true         |
+| batch.max-delay-seconds | Effective when batched log transmission mode is enabled, it represents the maximum waiting time for a batch of data before sending (unit: s)	  | Integer                                                      | Optional     | 1            |
+| batch.size-bytes        | Effective when batched log transmission mode is enabled, it represents the maximum batch size for a batch of data (unit: byte)	 | Long                                                         | Optional     | 16*1024*1024 |
+| ssl.trust-store-path    | The trust store certificate path required to connect to the target DataNode	              | String: certificate directory name, when configured as a relative directory, it is relative to the IoTDB root directory.  Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667'| Required     | -            |
+| ssl.trust-store-pwd     | The trust store certificate password required to connect to the target DataNode	              | Integer                                                      | Required     | -            |

@@ -23,7 +23,7 @@
 
 IoTDB common files for ConfigNode and DataNode are under `conf`.
 
-* `iotdb-common.properties`：IoTDB common configurations.
+* `iotdb-system.properties`：IoTDB system configurations.
 
 
 ## Effective
@@ -31,7 +31,7 @@ Different configuration parameters take effect in the following three ways:
 
 + **Only allowed to be modified in first start up:** Can't be modified after first start, otherwise the ConfigNode/DataNode cannot start.
 + **After restarting system:** Can be modified after the ConfigNode/DataNode first start, but take effect after restart.
-+ **hot-load:** Can be modified while the ConfigNode/DataNode is running, and trigger through sending the command(sql) `load configuration` to the IoTDB server by client or session.
++ **hot-load:** Can be modified while the ConfigNode/DataNode is running, and trigger through sending the command(sql) `load configuration` or `set configuration` to the IoTDB server by client or session.
 
 ## Configuration File
 
@@ -193,6 +193,16 @@ Different configuration parameters take effect in the following three ways:
 |  Effective  | After restarting system                                         |
 
 ### Cluster Management
+
+* cluster\_name
+
+|    Name     | cluster\_name                                                                                                                                                          |
+|:-----------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description | The name of cluster                                                                                                                                                    |
+|    Type     | String                                                                                                                                                                 |
+|   Default   | default_cluster                                                                                                                                                        |
+|  Effective  | Execute SQL in CLI: ```set configuration "cluster_name"="xxx"``` (xxx is the new cluster name)                                                                         |
+|  Attention  | This change is distributed to each node through the network. In the event of network fluctuations or node downtime, it is not guaranteed that the modification will be successful on all nodes. Nodes that fail to modify will not be able to join the cluster upon restart. At this time, it is necessary to manually modify the cluster_name item in the configuration file of the node, and then restart. Under normal circumstances, it is not recommended to change the cluster name by manually modifying the configuration file, nor is it recommended to hot load through the load configuration method. |
 
 * time\_partition\_interval
 
@@ -364,12 +374,12 @@ Different configuration parameters take effect in the following three ways:
 
 * schema\_engine\_mode
 
-|名字| schema\_engine\_mode                                                                                                                                                                                                                                                     |
-|:---:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|Description| Schema engine mode, supporting Memory and PBTree modes; PBTree mode support evict the timeseries schema temporarily not used in memory at runtime, and load it into memory from disk when needed. This parameter must be the same on all DataNodes in one cluster. |
-|Type| string                                                                                                                                                                                                                                                                   |
-|Default| Memory                                                                                                                                                                                                                                                                   |
-|Effective| Only allowed to be modified in first start up                                                                                                                                                                                                                            |
+|    Name     | schema\_engine\_mode                                                                                                                                                                                                                                                     |
+|:-----------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description | Schema engine mode, supporting Memory and PBTree modes; PBTree mode support evict the timeseries schema temporarily not used in memory at runtime, and load it into memory from disk when needed. This parameter must be the same on all DataNodes in one cluster. |
+|    Type     | string                                                                                                                                                                                                                                                                   |
+|   Default   | Memory                                                                                                                                                                                                                                                                   |
+|  Effective  | Only allowed to be modified in first start up                                                                                                                                                                                                                            |
 
 * mlog\_buffer\_size
 
@@ -817,7 +827,7 @@ Different configuration parameters take effect in the following three ways:
 | :---------: |:-----------------------------------------------|
 | Description | enable the compaction between unsequence files |
 |    Type     | Boolean                                        |
-|   Default   | false                                          |
+|   Default   | true                                           |
 |  Effective  | hot-load                                       |
 
 * enable\_cross\_space\_compaction
@@ -825,6 +835,15 @@ Different configuration parameters take effect in the following three ways:
 |    Name     | enable\_cross\_space\_compaction                                  |
 | :---------: |:------------------------------------------------------------------|
 | Description | enable the compaction between sequence files and unsequence files |
+|    Type     | Boolean                                                           |
+|   Default   | true                                                              |
+|  Effective  | hot-load                                                             |
+
+* enable\_auto\_repair\_compaction
+
+|    Name     | enable\_auto\_repair\_compaction                                  |
+| :---------: |:------------------------------------------------------------------|
+| Description | enable auto repair unsorted file by compaction |
 |    Type     | Boolean                                                           |
 |   Default   | true                                                              |
 |  Effective  | hot-load                                                             |
@@ -849,12 +868,12 @@ Different configuration parameters take effect in the following three ways:
 
 * inner\_seq\_selector
 
-|Name| inner\_seq\_selector                                      |
-|:---:|:----------------------------------------------------------|
-|Description| the task selector type of inner sequence space compaction |
-|Type| String                                                    |
-|Default| size\_tiered                                              |
-|Effective| After restart system                                      |
+|Name| inner\_seq\_selector                                                                                                         |
+|:---:|:-----------------------------------------------------------------------------------------------------------------------------|
+|Description| the task selector type of inner sequence space compaction. Options: size\_tiered\_single_\target,size\_tiered\_multi\_target |
+|Type| String                                                                                                                       |
+|Default| hot-load                                                                                                                     |
+|Effective| hot-load                                                                                                                     |
 
 * inner\_seq\_performer
 
@@ -869,10 +888,10 @@ Different configuration parameters take effect in the following three ways:
 
 |Name| inner\_unseq\_selector                                      |
 |:---:|:------------------------------------------------------------|
-|Description| the task selector type of inner unsequence space compaction |
+|Description| the task selector type of inner unsequence space compactionn. Options: size\_tiered\_single_\target,size\_tiered\_multi\_target |
 |Type| String                                                      |
-|Default| size\_tiered                                                |
-|Effective| After restart system                                        |
+|Default| hot-load                                                |
+|Effective| hot-load                                         |
 
 * inner\_unseq\_performer
 
@@ -885,12 +904,12 @@ Different configuration parameters take effect in the following three ways:
 
 * compaction\_priority
 
-|    Name     | compaction\_priority                                                                                                                                                                                                                                                                     |
-| :---------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|    Name     | compaction\_priority                                                                                                                                                                                                                                                                       |
+| :---------: |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | Description | Priority of compaction task. When it is BALANCE, system executes all types of compaction equally; when it is INNER\_CROSS, system takes precedence over executing inner space compaction task; when it is CROSS\_INNER, system takes precedence over executing cross space compaction task |
-|    Type     | String                                                                                                                                                                                                                                                                                   |
-|   Default   | BALANCE                                                                                                                                                                                                                                                                                  |
-|  Effective  | After restart system                                                                                                                                                                                                                                                                     |
+|    Type     | String                                                                                                                                                                                                                                                                                     |
+|   Default   | INNER_CROSS                                                                                                                                                                                                                                                                                |
+|  Effective  | After restart system                                                                                                                                                                                                                                                                       |
 
 * target\_compaction\_file\_size
 
@@ -937,14 +956,50 @@ Different configuration parameters take effect in the following three ways:
 |Default| 1000                                                                                         |
 |Effective| After restart system                                                                         |
 
-* max\_inner\_compaction\_candidate\_file\_num
+* inner\_compaction\_total\_file\_num\_threshold
 
-|Name| max\_inner\_compaction\_candidate\_file\_num |
-|:---:|:---|
+|Name| inner\_compaction\_total\_file\_num\_threshold           |
+|:---:|:---------------------------------------------------------|
 |Description| The max num of files encounter in inner space compaction |
-|Type| int32 |
-|Default| 30 |
-|Effective|After restart system|
+|Type| int32                                                    |
+|Default| 100                                                      |
+|Effective| hot-load                                                 |
+
+* inner\_compaction\_total\_file\_size\_threshold
+
+|Name| inner\_compaction\_total\_file\_size\_threshold                 |
+|:---:|:----------------------------------------------------------------|
+|Description| The total file size limit in inner space compaction. Unit: byte |
+|Type| int64                                                           |
+|Default| 10737418240                                                     |
+|Effective| hot-load                                                        |
+
+* compaction\_max\_aligned\_series\_num\_in\_one\_batch
+
+|Name| compaction\_max\_aligned\_series\_num\_in\_one\_batch               |
+|:---:|:--------------------------------------------------------------------|
+|Description| How many value chunk will be compacted in aligned series compaction |
+|Type| int32                                                               |
+|Default| 10                                                                  |
+|Effective| hot-load                                                            |
+
+* max\_level\_gap\_in\_inner\_compaction
+
+|Name| max\_level\_gap\_in\_inner\_compaction          |
+|:---:|:------------------------------------------------|
+|Description| The max level gap in inner compaction selection |
+|Type| int32                                           |
+|Default| 2                                               |
+|Effective| hot-load                                        |
+
+* inner\_compaction\_candidate\_file\_num
+
+|Name| inner\_compaction\_candidate\_file\_num                                        |
+|:---:|:-------------------------------------------------------------------------------|
+|Description| The file num requirement when selecting inner space compaction candidate files |
+|Type| int32                                                                          |
+|Default| 30                                                                             |
+|Effective| hot-load                                                                       |
 
 * max\_cross\_compaction\_file\_num
 
@@ -953,7 +1008,7 @@ Different configuration parameters take effect in the following three ways:
 |Description| The max num of files encounter in cross space compaction |
 |Type| int32                                                    |
 |Default| 500                                                      |
-|Effective| After restart system                                     |
+|Effective| hot-load                                                 |
 
 * max\_cross\_compaction\_file\_size
 
@@ -961,17 +1016,8 @@ Different configuration parameters take effect in the following three ways:
 |:---:|:----------------------------------------------------------|
 |Description| The max size of files encounter in cross space compaction |
 |Type| Int64                                                     |
-|Default| 5368709120                                                      |
-|Effective| After restart system                                      |
-
-* cross\_compaction\_file\_selection\_time\_budget
-
-|Name| cross\_compaction\_file\_selection\_time\_budget |
-|:---:|:---|
-|Description| Time budget for cross space compaction file selection |
-|Type| int32 |
-|Default| 30000 |
-|Effective|After restart system|
+|Default| 5368709120                                                |
+|Effective| hot-load                                                  |
 
 * compaction\_thread\_count
 
@@ -1002,12 +1048,30 @@ Different configuration parameters take effect in the following three ways:
 
 * compaction\_write\_throughput\_mb\_per\_sec
 
-|Name| compaction\_write\_throughput\_mb\_per\_sec |
-|:---:|:---|
-|Description| The write rate of all compaction tasks in MB/s |
-|Type| int32 |
-|Default| 16 |
-|Effective|After restart system|
+|Name| compaction\_write\_throughput\_mb\_per\_sec      |
+|:---:|:-------------------------------------------------|
+|Description| The write rate of all compaction tasks in MB/s, values less than or equal to 0 means no limit |
+|Type| int32                                            |
+|Default| 16                                               |
+|Effective| hot-load                                         |
+
+* compaction\_read\_throughput\_mb\_per\_sec
+
+|Name| compaction\_read\_throughput\_mb\_per\_sec     |
+|:---:|:------------------------------------------------|
+|Description| The read rate of all compaction tasks in MB/s, values less than or equal to 0 means no limit |
+|Type| int32                                           |
+|Default| 0                                               |
+|Effective| hot-load                                        |
+
+* compaction\_read\_operation\_per\_sec
+
+|Name| compaction\_read\_operation\_per\_sec                                                                          |
+|:---:|:---------------------------------------------------------------------------------------------------------------|
+|Description| The read operation of all compaction tasks can reach per second, values less than or equal to 0 means no limit |
+|Type| int32                                                                                                          |
+|Default| 0                                                                                                              |
+|Effective| hot-load                                                                                                       |
 
 * sub\_compaction\_thread\_count
 
@@ -1018,14 +1082,14 @@ Different configuration parameters take effect in the following three ways:
 |Default| 4                                                                         |
 |Effective| hot-load                                                            |
 
-* compaction\_validation\_level
+* enable\_tsfile\_validation
 
-|     名字      | compaction\_validation\_level                                                                                                                                                                                                                         |
-|:-----------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Description | The level of validation after compaction. NONE: the validation after compaction is disabled. RESOURCE_ONLY: the validation after compaction check tsfile resource only. RESOURCE_AND_TSFILE: the validation after compaction check resource and file. |
-|    Type     | String                                                                                                                                                                                                                                                |
-|   Default   | NONE                                                                                                                                                                                                                                                  |
-|  Effective  | hot-load                                                                                                                                                                                                                                              |
+|    Name     | enable\_tsfile\_validation                                                |
+|:-----------:|:--------------------------------------------------------------------------|
+| Description | Verify that TSfiles generated by Flush, Load, and Compaction are correct. |
+|    Type     | boolean                                                                   |
+|   Default   | false                                                                     |
+|  Effective  | hot-load                                                                  |
 
 * candidate\_compaction\_task\_queue\_size
 
@@ -1408,23 +1472,77 @@ Different configuration parameters take effect in the following three ways:
 
 ### PIPE Configuration
 
-* ip\_white\_list
+* pipe_lib_dir
 
-|     Name     | ip\_white\_list                                                                                                    |
-| :----------: | :----------------------------------------------------------------------------------------------------------------- |
-|     Description     | Set the white list of IP addresses of the sender of the synchronization, which is expressed in the form of network segments, and multiple network segments are separated by commas. When the sender synchronizes data to the receiver, the receiver allows synchronization only when the IP address of the sender is within the network segment set in the white list. If the whitelist is empty, the receiver does not allow any sender to synchronize data. By default, the receiver rejects the synchronization request of all IP addresses except 127.0.0.1. When configuring this parameter, please ensure that all DataNode addresses on the sender are set. |
-|     Type     | String                                                                                                             |
-|    Default    | 127.0.0.1/32                                                                                                          |
-| Effective | hot-load                                                                                                      |
+| **Name**     | **pipe_lib_dir**               |
+| ------------ | -------------------------- |
+| Description         | Directory for storing custom Pipe plugins |
+| Type         | string                     |
+| Default Value       | ext/pipe                   |
+| Effective | Not currently supported for modification               |
 
-* max\_number\_of\_sync\_file\_retry
+* pipe_subtask_executor_max_thread_num
 
-|     Name     | max\_number\_of\_sync\_file\_retry |
-| :----------: | :---------------------------- |
-|     Description     | The maximum number of retries when the sender fails to synchronize files to the receiver.          |
-|     Type     | int32                           |
-|    Default    | 5                             |
-| Effective | hot-load                  |
+| **Name**     | **pipe_subtask_executor_max_thread_num**                         |
+| ------------ | ------------------------------------------------------------ |
+| Description         | The maximum number of threads that can be used for processors and sinks in Pipe subtasks. The actual value will be the minimum of pipe_subtask_executor_max_thread_num and the maximum of 1 and half of the CPU core count. |
+| Type         | int                                                          |
+| Default Value       | 5                                                            |
+| Effective | After restarting system                                                 |
+
+* pipe_sink_timeout_ms
+
+| **Name**     | **pipe_sink_timeout_ms**                          |
+| ------------ | --------------------------------------------- |
+| Description         | The connection timeout for Thrift clients in milliseconds. |
+| Type         | int                                           |
+| Default Value       | 900000                                        |
+| Effective | After restarting system                                  |
+
+* pipe_sink_selector_number
+
+| **Name**     | **pipe_sink_selector_number**                                    |
+| ------------ | ------------------------------------------------------------ |
+| Description         | The maximum number of threads for processing execution results in the iotdb-thrift-async-sink plugin. It is recommended to set this value to be less than or equal to pipe_sink_max_client_number. |
+| Type         | int                                                          |
+| Default Value       | 4                                                            |
+| Effective | After restarting system                                                 |
+
+* pipe_sink_max_client_number
+
+| **Name**     | **pipe_sink_max_client_number**                                 |
+| ------------ | ----------------------------------------------------------- |
+| Description         | The maximum number of clients that can be used in the iotdb-thrift-async-sink plugin. |
+| Type         | int                                                         |
+| Default Value       | 16                                                          |
+| Effective | After restarting system                                                |
+
+* pipe_air_gap_receiver_enabled
+
+| **Name**     | **pipe_air_gap_receiver_enabled**                                |
+| ------------ | ------------------------------------------------------------ |
+| Description         | Whether to enable receiving Pipe data through a gateway. The receiver can only return 0 or 1 in TCP mode to indicate whether the data was successfully received. |
+| Type         | Boolean                                                      |
+| Default Value       | false                                                        |
+| Effective | After restarting system                                                 |
+
+* pipe_air_gap_receiver_port
+
+| **Name**     | **pipe_air_gap_receiver_port**           |
+| ------------ | ------------------------------------ |
+| Description         | The port used by the server to receive Pipe data through a gateway. |
+| Type         | int                                  |
+| Default Value       | 9780                                 |
+| Effective | After restarting system                         |
+
+* pipe_all_sinks_rate_limit_bytes_per_second
+
+| **Name**     | **pipe_all_sinks_rate_limit_bytes_per_second**                   |
+| ------------ | ------------------------------------------------------------ |
+| Description         | The total number of bytes per second that all Pipe sinks can transmit. When the given value is less than or equal to 0, it indicates there is no limit. The default value is -1, which means there is no limit. |
+| Type         | double                                                       |
+| Default Value       | -1                                                           |
+| Effective  | Can be hot-loaded                                                     |
 
 ### IOTConsensus Configuration
 

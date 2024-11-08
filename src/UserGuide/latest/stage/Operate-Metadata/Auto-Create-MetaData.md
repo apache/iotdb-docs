@@ -83,7 +83,7 @@ Illustrated as the following figure:
 
 ### Type inference
 
-| Data(String Format) | Format Type | iotdb-datanode.properties     | Default |
+| Data(String Format) | Format Type | iotdb-system.properties     | Default |
 |:---:|:---|:------------------------------|:---|
 | true | boolean | boolean\_string\_infer\_type  | BOOLEAN |
 | 1 | integer | integer\_string\_infer\_type  | FLOAT |
@@ -98,14 +98,18 @@ Illustrated as the following figure:
 
 ### Encoding Type
 
-| Data Type | iotdb-datanode.properties  | Default |
-|:---|:---------------------------|:---|
-| BOOLEAN | default\_boolean\_encoding | RLE |
-| INT32 | default\_int32\_encoding   | RLE |
-| INT64 | default\_int64\_encoding   | RLE |
-| FLOAT | default\_float\_encoding   | GORILLA |
-| DOUBLE | default\_double\_encoding  | GORILLA |
-| TEXT | default\_text\_encoding    | PLAIN |
+| Data Type | iotdb-system.properties  | Default |
+|:----------|:---------------------------|:---|
+| BOOLEAN   | default\_boolean\_encoding | RLE |
+| INT32     | default\_int32\_encoding   | RLE |
+| DATE      | default\_int32\_encoding   | RLE |
+| INT64     | default\_int64\_encoding   | RLE |
+| TIEMSTAMP | default\_int64\_encoding   | RLE |
+| FLOAT     | default\_float\_encoding   | GORILLA |
+| DOUBLE    | default\_double\_encoding  | GORILLA |
+| TEXT      | default\_text\_encoding    | PLAIN |
+| STRING    | default\_text\_encoding    | PLAIN |
+| BLOB      | default\_text\_encoding    | PLAIN |
 
 * Encoding types can be configured as PLAIN, RLE, TS_2DIFF, GORILLA, DICTIONARY.
 

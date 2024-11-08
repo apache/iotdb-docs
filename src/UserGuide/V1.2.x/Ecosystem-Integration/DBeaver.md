@@ -19,7 +19,7 @@
 
 -->
 
-# DBeaver-IoTDB
+# DBeaver
 
 DBeaver is a SQL client software application and a database administration tool. It can use the JDBC application programming interface (API) to interact with IoTDB via the JDBC driver. 
 
@@ -60,6 +60,14 @@ DBeaver is a SQL client software application and a database administration tool.
 7. Edit the driver Settings
 
    ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/05.png)
+
+   ```
+   Driver Name: IoTDB
+   Driver Type: Generic
+   URL Template: jdbc:iotdb://{host}:{port}/
+   Default Port: 6667
+   Default User: root
+   ```
 
 8. Open New DataBase Connection and select iotdb
 

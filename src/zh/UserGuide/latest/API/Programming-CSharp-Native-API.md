@@ -31,13 +31,13 @@
 
 您可以使用 NuGet Package Manager, .NET CLI等工具来安装，以 .NET CLI为例
 
-如果您使用的是.NET 5.0 或者更高版本的SDK，输入如下命令即可安装最新的NuGet包
+如果您使用的是\.NET 5.0 或者更高版本的SDK，输入如下命令即可安装最新的NuGet包
 
 ```
 dotnet add package Apache.IoTDB
 ```
 
-为了适配 .NET Framework 4.x，我们单独构建了一个NuGet包，如果您使用的是.NET Framework 4.x，输入如下命令即可安装最新的包
+为了适配 .NET Framework 4.x，我们单独构建了一个NuGet包，如果您使用的是\.NET Framework 4.x，输入如下命令即可安装最新的包
 
 ```bash
 dotnet add package Apache.IoTDB.framework
@@ -93,9 +93,9 @@ await session_pool.Close();
 - 对**IoTDB**中的`record`数据进行封装和抽象。
 - 示例：
 
-| timestamp | status | temperature |
-| --------- | ------ | ----------- |
-| 1         | 0      | 20          |
+    | timestamp | status | temperature |
+    | --------- | ------ | ----------- |
+    | 1         | 0      | 20          |
 
 - 构造方法：
 
@@ -109,11 +109,11 @@ var rowRecord =
 - 一种类似于表格的数据结构，包含一个设备的若干行非空数据块。
 - 示例：
 
-| time | status | temperature |
-| ---- | ------ | ----------- |
-| 1    | 0      | 20          |
-| 2    | 0      | 20          |
-| 3    | 3      | 21          |
+    | time | status | temperature |
+    | ---- | ------ | ----------- |
+    | 1    | 0      | 20          |
+    | 2    | 0      | 20          |
+    | 3    | 3      | 21          |
 
 - 构造方法：
 

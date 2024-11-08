@@ -19,7 +19,7 @@
 
 -->
 
-## JDBC
+## JDBC (Not Recommend)
 
 *NOTICE: CURRENTLY, JDBC IS USED FOR CONNECTING SOME THIRD-PART TOOLS. 
 IT CAN NOT PROVIDE HIGH THROUGHPUT FOR WRITE OPERATIONS. 
@@ -37,7 +37,7 @@ PLEASE USE [JAVA NATIVE API](https://iotdb.apache.org/UserGuide/Master/API/Progr
 In root directory:
 
 ```shell
-mvn clean install -pl jdbc -am -Dmaven.test.skip=true
+mvn clean install -pl jdbc -am -DskipTests
 ```
 
 

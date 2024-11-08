@@ -19,7 +19,7 @@
 
 -->
 
-# RESTful Services  
+# RESTful API V1(Not Recommend)  
 IoTDB's RESTful services can be used for query, write, and management operations, using the OpenAPI standard to define interfaces and generate frameworks.
 
 ## Enable RESTful Services
@@ -81,7 +81,7 @@ The `/ping` API can be used for service liveness probing.
 
 Request method: `GET`
 
-Request path: http://ip:port/ping
+Request path: `http://ip:port/ping`
 
 The user name used in the example is: root, password: root
 
@@ -133,7 +133,7 @@ Request method: `POST`
 
 Request header: `application/json`
 
-Request path: http://ip:port/rest/v1/query
+Request path: `http://ip:port/rest/v1/query`
 
 Parameter Description:
 
@@ -157,38 +157,38 @@ Tip: Statements like `select * from root.xx.**` are not recommended because thos
 
 **Expression query**
 
-```shell
-curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"select s3, s4, s3 + 1 from root.sg27 limit 2"}' http://127.0.0.1:18080/rest/v1/query
-````
-
-```json
-{
-  "expressions": [
-    "root.sg27.s3",
-    "root.sg27.s4",
-    "root.sg27.s3 + 1"
-  ],
-  "columnNames": null,
-  "timestamps": [
-    1635232143960,
-    1635232153960
-  ],
-  "values": [
-    [
-      11,
-      null
+  ```shell
+  curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"select s3, s4, s3 + 1 from root.sg27 limit 2"}' http://127.0.0.1:18080/rest/v1/query
+  ````
+Response instance
+  ```json
+  {
+    "expressions": [
+      "root.sg27.s3",
+      "root.sg27.s4",
+      "root.sg27.s3 + 1"
     ],
-    [
-      false,
-      true
+    "columnNames": null,
+    "timestamps": [
+      1635232143960,
+      1635232153960
     ],
-    [
-      12.0,
-      null
+    "values": [
+      [
+        11,
+        null
+      ],
+      [
+        false,
+        true
+      ],
+      [
+        12.0,
+        null
+      ]
     ]
-  ]
-}
-```
+  }
+  ```
 
 **Show child paths**
 
@@ -774,7 +774,7 @@ Request method: `POST`
 
 Request header: `application/json`
 
-Request path: http://ip:port/rest/v1/nonQuery
+Request path: `http://ip:port/rest/v1/nonQuery`
 
 Parameter Description:
 
@@ -810,7 +810,7 @@ Request method: `POST`
 
 Request header: `application/json`
 
-Request path: http://ip:port/rest/v1/insertTablet
+Request path: `http://ip:port/rest/v1/insertTablet`
 
 Parameter Description:
 

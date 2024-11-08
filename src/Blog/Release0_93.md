@@ -59,7 +59,7 @@ The [issue module](https://github.com/apache/iotdb/issues) is open on Github, so
 
 To download and use the new Version of IoTDB go to: https://downloads.apache.org/incubator/iotdb/0.9.3-incubating/apache-iotdb-0.9.3-incubating-bin.zip
 
-User documentation for this release can be found under: http://iotdb.apache.org/UserGuide/Master/0-Get%20Started/1-QuickStart.html
+User documentation for this release can be found under: http://iotdb.apache.org/UserGuide/Master/0-Get%20Started/1-QuickStart_apache.html
 
 The github repository has a well-established example module that contains sample code for each of the other modules.
 

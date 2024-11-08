@@ -23,7 +23,7 @@
 
 IoTDB common files for ConfigNode and DataNode are under `conf`.
 
-* `iotdb-common.properties`：IoTDB common configurations.
+* `iotdb-common.properties`：IoTDB system configurations.
 
 
 ## Effective
@@ -31,7 +31,7 @@ Different configuration parameters take effect in the following three ways:
 
 + **Only allowed to be modified in first start up:** Can't be modified after first start, otherwise the ConfigNode/DataNode cannot start.
 + **After restarting system:** Can be modified after the ConfigNode/DataNode first start, but take effect after restart.
-+ **hot-load:** Can be modified while the ConfigNode/DataNode is running, and trigger through sending the command(sql) `load configuration` to the IoTDB server by client or session.
++ **hot-load:** Can be modified while the ConfigNode/DataNode is running, and trigger through sending the command(sql) `load configuration` or `set configuration` to the IoTDB server by client or session.
 
 ## Configuration File
 
@@ -364,12 +364,12 @@ Different configuration parameters take effect in the following three ways:
 
 * schema\_engine\_mode
 
-|名字| schema\_engine\_mode                                                                                                                                                                                                                                                     |
-|:---:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|Description| Schema engine mode, supporting Memory and PBTree modes; PBTree mode support evict the timeseries schema temporarily not used in memory at runtime, and load it into memory from disk when needed. This parameter must be the same on all DataNodes in one cluster. |
-|Type| string                                                                                                                                                                                                                                                                   |
-|Default| Memory                                                                                                                                                                                                                                                                   |
-|Effective| Only allowed to be modified in first start up                                                                                                                                                                                                                            |
+|    Name     | schema\_engine\_mode                                                                                                                                                                                                                                                     |
+|:-----------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description | Schema engine mode, supporting Memory and PBTree modes; PBTree mode support evict the timeseries schema temporarily not used in memory at runtime, and load it into memory from disk when needed. This parameter must be the same on all DataNodes in one cluster. |
+|    Type     | string                                                                                                                                                                                                                                                                   |
+|   Default   | Memory                                                                                                                                                                                                                                                                   |
+|  Effective  | Only allowed to be modified in first start up                                                                                                                                                                                                                            |
 
 * mlog\_buffer\_size
 
@@ -817,7 +817,7 @@ Different configuration parameters take effect in the following three ways:
 | :---------: |:-----------------------------------------------|
 | Description | enable the compaction between unsequence files |
 |    Type     | Boolean                                        |
-|   Default   | false                                          |
+|   Default   | true                                           |
 |  Effective  | hot-load                                       |
 
 * enable\_cross\_space\_compaction
@@ -894,12 +894,12 @@ Different configuration parameters take effect in the following three ways:
 
 * target\_compaction\_file\_size
 
-|    Name     | target\_compaction\_file\_size                 |
-| :---------: |:-----------------------------------------------|
+|    Name     | target\_compaction\_file\_size     |
+| :---------: |:-----------------------------------|
 | Description | The target file size in compaction |
-|    Type     | Int64                                          |
-|   Default   | 2147483648                                     |
-|  Effective  | After restart system                           |
+|    Type     | Int64                              |
+|   Default   | 2147483648                         |
+|  Effective  | hot-load                           |
 
 * target\_chunk\_size
 
@@ -939,12 +939,12 @@ Different configuration parameters take effect in the following three ways:
 
 * max\_inner\_compaction\_candidate\_file\_num
 
-|Name| max\_inner\_compaction\_candidate\_file\_num |
-|:---:|:---|
+|Name| max\_inner\_compaction\_candidate\_file\_num             |
+|:---:|:---------------------------------------------------------|
 |Description| The max num of files encounter in inner space compaction |
-|Type| int32 |
-|Default| 30 |
-|Effective|After restart system|
+|Type| int32                                                    |
+|Default| 30                                                       |
+|Effective| hot-load                                                 |
 
 * max\_cross\_compaction\_file\_num
 
@@ -953,7 +953,7 @@ Different configuration parameters take effect in the following three ways:
 |Description| The max num of files encounter in cross space compaction |
 |Type| int32                                                    |
 |Default| 500                                                      |
-|Effective| After restart system                                     |
+|Effective| hot-load                                                 |
 
 * max\_cross\_compaction\_file\_size
 
@@ -961,17 +961,8 @@ Different configuration parameters take effect in the following three ways:
 |:---:|:----------------------------------------------------------|
 |Description| The max size of files encounter in cross space compaction |
 |Type| Int64                                                     |
-|Default| 5368709120                                                      |
-|Effective| After restart system                                      |
-
-* cross\_compaction\_file\_selection\_time\_budget
-
-|Name| cross\_compaction\_file\_selection\_time\_budget |
-|:---:|:---|
-|Description| Time budget for cross space compaction file selection |
-|Type| int32 |
-|Default| 30000 |
-|Effective|After restart system|
+|Default| 5368709120                                                |
+|Effective| hot-load                                                  |
 
 * compaction\_thread\_count
 
@@ -991,23 +982,32 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | 60000                                  |
 |  Effective  | After restart system                   |
 
-* compaction\_submission\_interval\_in\_ms
-
-|    Name     | compaction\_submission\_interval\_in\_ms |
-| :---------: | :--------------------------------------- |
-| Description | interval of submitting compaction task   |
-|    Type     | Int64                                    |
-|   Default   | 60000                                    |
-|  Effective  | After restart system                     |
-
 * compaction\_write\_throughput\_mb\_per\_sec
 
-|Name| compaction\_write\_throughput\_mb\_per\_sec |
-|:---:|:---|
+|Name| compaction\_write\_throughput\_mb\_per\_sec    |
+|:---:|:-----------------------------------------------|
 |Description| The write rate of all compaction tasks in MB/s |
-|Type| int32 |
-|Default| 16 |
-|Effective|After restart system|
+|Type| int32                                          |
+|Default| 16                                             |
+|Effective| hot-load                                       |
+
+* compaction\_read\_throughput\_mb\_per\_sec
+
+|Name| compaction\_read\_throughput\_mb\_per\_sec     |
+|:---:|:------------------------------------------------|
+|Description| The read rate of all compaction tasks in MB/s, values less than or equal to 0 means no limit |
+|Type| int32                                           |
+|Default| 0                                               |
+|Effective| hot-load                                        |
+
+* compaction\_read\_operation\_per\_sec
+
+|Name| compaction\_read\_operation\_per\_sec                                                                          |
+|:---:|:---------------------------------------------------------------------------------------------------------------|
+|Description| The read operation of all compaction tasks can reach per second, values less than or equal to 0 means no limit |
+|Type| int32                                                                                                          |
+|Default| 0                                                                                                              |
+|Effective| hot-load                                                                                                       |
 
 * sub\_compaction\_thread\_count
 
@@ -1018,13 +1018,13 @@ Different configuration parameters take effect in the following three ways:
 |Default| 4                                                                         |
 |Effective| hot-load                                                            |
 
-* compaction\_validation\_level
+* enable\_tsfile\_validation
 
-|     名字      | compaction\_validation\_level                                                                                                                                                                                                                         |
-|:-----------:|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Description | The level of validation after compaction. NONE: the validation after compaction is disabled. RESOURCE_ONLY: the validation after compaction check tsfile resource only. RESOURCE_AND_TSFILE: the validation after compaction check resource and file. |
-|    Type     | String                                                                                                                                                                                                                                                |
-|   Default   | NONE                                                                                                                                                                                                                                                  |
+|    Name     | enable\_tsfile\_validation                                                |
+|:-----------:|:--------------------------------------------------------------------------|
+| Description | Verify that TSfiles generated by Flush, Load, and Compaction are correct. |
+|    Type     | boolean                                                                   |
+|   Default   | false                                                                     |
 |  Effective  | hot-load                                                                                                                                                                                                                                              |
 
 * candidate\_compaction\_task\_queue\_size
@@ -1408,23 +1408,144 @@ Different configuration parameters take effect in the following three ways:
 
 ### PIPE Configuration
 
-* ip\_white\_list
+##### Version 1.3.0:
 
-|     Name     | ip\_white\_list                                                                                                    |
-| :----------: | :----------------------------------------------------------------------------------------------------------------- |
-|     Description     | Set the white list of IP addresses of the sender of the synchronization, which is expressed in the form of network segments, and multiple network segments are separated by commas. When the sender synchronizes data to the receiver, the receiver allows synchronization only when the IP address of the sender is within the network segment set in the white list. If the whitelist is empty, the receiver does not allow any sender to synchronize data. By default, the receiver rejects the synchronization request of all IP addresses except 127.0.0.1. When configuring this parameter, please ensure that all DataNode addresses on the sender are set. |
-|     Type     | String                                                                                                             |
-|    Default    | 127.0.0.1/32                                                                                                          |
-| Effective | hot-load                                                                                                      |
+* pipe_lib_dir 
 
-* max\_number\_of\_sync\_file\_retry
+| **Name**     | **pipe_lib_dir**               |
+| ------------ | -------------------------- |
+| Description         | Directory for storing custom Pipe plugins |
+| Type         | string                     |
+| Default Value       | ext/pipe                   |
+| Effective | Not currently supported for modification               |
 
-|     Name     | max\_number\_of\_sync\_file\_retry |
-| :----------: | :---------------------------- |
-|     Description     | The maximum number of retries when the sender fails to synchronize files to the receiver.          |
-|     Type     | int32                           |
-|    Default    | 5                             |
-| Effective | hot-load                  |
+* pipe_subtask_executor_max_thread_num
+
+| **Name**     | **pipe_subtask_executor_max_thread_num**                         |
+| ------------ | ------------------------------------------------------------ |
+| Description         | The maximum number of threads that can be used for processors and sinks in Pipe subtasks. The actual value will be the minimum of pipe_subtask_executor_max_thread_num and the maximum of 1 and half of the CPU core count. |
+| Type         | int                                                          |
+| Default Value       | 5                                                            |
+| Effective | After restarting system                                                 |
+
+* pipe_connector_timeout_ms
+
+| **Name**     | **pipe_connector_timeout_ms**                  |
+| ------------ | --------------------------------------------- |
+| Description         | The connection timeout for Thrift clients in milliseconds. |
+| Type         | int                                           |
+| Default Value       | 900000                                        |
+| Effective | After restarting system                                  |
+
+* pipe_async_connector_selector_number
+
+| **Name**     | **pipe_async_connector_selector_number**                         |
+| ------------ | ------------------------------------------------------------ |
+| Description         | The maximum number of threads for processing execution results in the iotdb-thrift-async-connector plugin. |
+| Type         | int                                                          |
+| Default Value       | 1                                                            |
+| Effective | After restarting system                                                 |
+
+* pipe_async_connector_core_client_number
+
+| **Name**     | **pipe_async_connector_core_client_number**                      |
+| ------------ | ------------------------------------------------------------ |
+| Description         | The maximum number of clients that can be used in the iotdb-thrift-async-connector plugin. |
+| Type         | int                                                          |
+| Default Value       | 8                                                            |
+| Effective | After restarting system                                                 |
+
+* pipe_async_connector_max_client_number
+
+| **Name**     | **pipe_async_connector_max_client_number**                       |
+| ------------ | ------------------------------------------------------------ |
+| Description         | The maximum number of clients that can be used in the iotdb-thrift-async-connector plugin. |
+| Type         | int                                                          |
+| Default Value       | 16                                                           |
+| Effective | After restarting system                                                 |
+
+* pipe_air_gap_receiver_enabled
+
+| **Name**     | **pipe_air_gap_receiver_enabled**                                |
+| ------------ | ------------------------------------------------------------ |
+| Description         | Whether to enable receiving Pipe data through a gateway. The receiver can only return 0 or 1 in TCP mode to indicate whether the data was successfully received. |
+| Type         | Boolean                                                      |
+| Default Value       | false                                                        |
+| Effective | After restarting system                                                 |
+
+* pipe_air_gap_receiver_enabled
+
+| **Name**     | **pipe_air_gap_receiver_port**           |
+| ------------ | ------------------------------------ |
+| Description         | The port used by the server to receive Pipe data through a gateway. |
+| Type         | int                                  |
+| Default Value       | 9780                                 |
+| Effective | After restarting system                         |
+
+##### Version 1.3.1/2:
+
+* pipe_lib_dir
+
+| **Name**     | **pipe_lib_dir**               |
+| ------------ | -------------------------- |
+| Description         | Directory for storing custom Pipe plugins |
+| Type         | string                     |
+| Default Value       | ext/pipe                   |
+| Effective | Not currently supported for modification               |
+
+* pipe_subtask_executor_max_thread_num
+
+| **Name**     | **pipe_subtask_executor_max_thread_num**                         |
+| ------------ | ------------------------------------------------------------ |
+| Description         | The maximum number of threads that can be used for processors and sinks in Pipe subtasks. The actual value will be the minimum of pipe_subtask_executor_max_thread_num and the maximum of 1 and half of the CPU core count. |
+| Type         | int                                                          |
+| Default Value       | 5                                                            |
+| Effective | After restarting system                                                 |
+
+* pipe_sink_timeout_ms
+
+| **Name**     | **pipe_sink_timeout_ms**                          |
+| ------------ | --------------------------------------------- |
+| Description         | The connection timeout for Thrift clients in milliseconds. |
+| Type         | int                                           |
+| Default Value       | 900000                                        |
+| Effective | After restarting system                                  |
+
+* pipe_sink_selector_number
+
+| **Name**     | **pipe_sink_selector_number**                                    |
+| ------------ | ------------------------------------------------------------ |
+| Description         | The maximum number of threads for processing execution results in the iotdb-thrift-async-sink plugin. It is recommended to set this value to be less than or equal to pipe_sink_max_client_number. |
+| Type         | int                                                          |
+| Default Value       | 4                                                            |
+| Effective | After restarting system                                                 |
+
+* pipe_sink_max_client_number
+
+| **Name**     | **pipe_sink_max_client_number**                                 |
+| ------------ | ----------------------------------------------------------- |
+| Description         | The maximum number of clients that can be used in the iotdb-thrift-async-sink plugin. |
+| Type         | int                                                         |
+| Default Value       | 16                                                          |
+| Effective | After restarting system                                                |
+
+* pipe_air_gap_receiver_enabled
+
+| **Name**     | **pipe_air_gap_receiver_enabled**                                |
+| ------------ | ------------------------------------------------------------ |
+| Description         | Whether to enable receiving Pipe data through a gateway. The receiver can only return 0 or 1 in TCP mode to indicate whether the data was successfully received. |
+| Type         | Boolean                                                      |
+| Default Value       | false                                                        |
+| Effective | After restarting system                                                 |
+
+* pipe_air_gap_receiver_port
+
+| **Name**     | **pipe_air_gap_receiver_port**           |
+| ------------ | ------------------------------------ |
+| Description         | The port used by the server to receive Pipe data through a gateway. |
+| Type         | int                                  |
+| Default Value       | 9780                                 |
+| Effective | After restarting system                         |
 
 ### IOTConsensus Configuration
 

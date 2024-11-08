@@ -19,11 +19,11 @@
 
 -->
 
-# JDBC
+# JDBC (Not Recommend)
 
 *NOTICE: CURRENTLY, JDBC IS USED FOR CONNECTING SOME THIRD-PART TOOLS. 
 IT CAN NOT PROVIDE HIGH THROUGHPUT FOR WRITE OPERATIONS. 
-PLEASE USE [JAVA NATIVE API](https://iotdb.apache.org/UserGuide/Master/API/Programming-Java-Native-API.html) INSTEAD*
+PLEASE USE [Java Native API](./Programming-Java-Native-API.md) INSTEAD*
 
 ## Dependencies
 
@@ -211,3 +211,86 @@ String url = "jdbc:iotdb://127.0.0.1:6667?version=V_1_0";
 ````
 The parameter `version` represents the SQL semantic version used by the client, which is used in order to be compatible with the SQL semantics of `0.12` when upgrading to `0.13`. 
 The possible values are: `V_0_12`, `V_0_13`, `V_1_0`.
+
+In addition, IoTDB provides additional interfaces in JDBC for users to read and write the database using different character sets (e.g., GB18030) in the connection.
+The default character set for IoTDB is UTF-8. When users want to use a character set other than UTF-8, they need to specify the charset property in the JDBC connection. For example:
+1. Create a connection using the GB18030 charset:
+```java
+DriverManager.getConnection("jdbc:iotdb://127.0.0.1:6667?charset=GB18030", "root", "root");
+```
+2. When executing SQL with the `IoTDBStatement` interface, the SQL can be provided as a `byte[]` array, and it will be parsed into a string according to the specified charset.
+```java
+public boolean execute(byte[] sql) throws SQLException;
+```
+3. When outputting query results, the `getBytes` method of `ResultSet` can be used to get `byte[]`, which will be encoded using the charset specified in the connection.
+```java
+System.out.print(resultSet.getString(i) + " (" + new String(resultSet.getBytes(i), charset) + ")");
+```
+Here is a complete example:
+```java
+public class JDBCCharsetExample {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(JDBCCharsetExample.class);
+
+  public static void main(String[] args) throws Exception {
+    Class.forName("org.apache.iotdb.jdbc.IoTDBDriver");
+
+    try (final Connection connection =
+            DriverManager.getConnection(
+                "jdbc:iotdb://127.0.0.1:6667?charset=GB18030", "root", "root");
+        final IoTDBStatement statement = (IoTDBStatement) connection.createStatement()) {
+
+      final String insertSQLWithGB18030 =
+          "insert into root.测试(timestamp, 维语, 彝语, 繁体, 蒙文, 简体, 标点符号, 藏语) values(1, 'ئۇيغۇر تىلى', 'ꆈꌠꉙ', \"繁體\", 'ᠮᠣᠩᠭᠣᠯ ᠬᠡᠯᠡ', '简体', '——？！', \"བོད་སྐད།\");";
+      final byte[] insertSQLWithGB18030Bytes = insertSQLWithGB18030.getBytes("GB18030");
+      statement.execute(insertSQLWithGB18030Bytes);
+    } catch (IoTDBSQLException e) {
+      LOGGER.error("IoTDB Jdbc example error", e);
+    }
+
+    outputResult("GB18030");
+    outputResult("UTF-8");
+    outputResult("UTF-16");
+    outputResult("GBK");
+    outputResult("ISO-8859-1");
+  }
+
+  private static void outputResult(String charset) throws SQLException {
+    System.out.println("[Charset: " + charset + "]");
+    try (final Connection connection =
+            DriverManager.getConnection(
+                "jdbc:iotdb://127.0.0.1:6667?charset=" + charset, "root", "root");
+        final IoTDBStatement statement = (IoTDBStatement) connection.createStatement()) {
+      outputResult(statement.executeQuery("select ** from root"), Charset.forName(charset));
+    } catch (IoTDBSQLException e) {
+      LOGGER.error("IoTDB Jdbc example error", e);
+    }
+  }
+
+  private static void outputResult(ResultSet resultSet, Charset charset) throws SQLException {
+    if (resultSet != null) {
+      System.out.println("--------------------------");
+      final ResultSetMetaData metaData = resultSet.getMetaData();
+      final int columnCount = metaData.getColumnCount();
+      for (int i = 0; i < columnCount; i++) {
+        System.out.print(metaData.getColumnLabel(i + 1) + " ");
+      }
+      System.out.println();
+
+      while (resultSet.next()) {
+        for (int i = 1; ; i++) {
+          System.out.print(
+              resultSet.getString(i) + " (" + new String(resultSet.getBytes(i), charset) + ")");
+          if (i < columnCount) {
+            System.out.print(", ");
+          } else {
+            System.out.println();
+            break;
+          }
+        }
+      }
+      System.out.println("--------------------------\n");
+    }
+  }
+}
+```

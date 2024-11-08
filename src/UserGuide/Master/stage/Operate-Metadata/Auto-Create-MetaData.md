@@ -83,7 +83,7 @@ Illustrated as the following figure:
 
 ### Type inference
 
-| Data(String Format) | Format Type | iotdb-datanode.properties     | Default |
+| Data(String Format) | Format Type | iotdb-system.properties     | Default |
 |:---:|:---|:------------------------------|:---|
 | true | boolean | boolean\_string\_infer\_type  | BOOLEAN |
 | 1 | integer | integer\_string\_infer\_type  | FLOAT |
@@ -98,7 +98,7 @@ Illustrated as the following figure:
 
 ### Encoding Type
 
-| Data Type | iotdb-datanode.properties  | Default |
+| Data Type | iotdb-system.properties  | Default |
 |:---|:---------------------------|:---|
 | BOOLEAN | default\_boolean\_encoding | RLE |
 | INT32 | default\_int32\_encoding   | RLE |
