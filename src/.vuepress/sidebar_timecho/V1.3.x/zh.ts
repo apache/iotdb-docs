@@ -90,6 +90,7 @@ export const zhSidebar = {
         { text: '视图', link: 'IoTDB-View_timecho' },
         { text: 'AI能力', link: 'AINode_timecho' },
         { text: '数据库编程', link: 'Database-Programming' },
+        { text: '用户自定义函数', link: 'User-defined-function' },
         { text: '安全控制', link: 'Security-Management_timecho' },
         { text: '权限管理', link: 'Authority-Management' },
         { text: '运维语句', link: 'Maintennance' },
@@ -175,6 +176,7 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: 'UDF函数库', link: 'UDF-Libraries' },
+        { text: 'UDF开发', link: 'UDF-development' },
         { text: '内置函数与表达式', link: 'Function-and-Expression' },
         { text: '配置参数', link: 'Common-Config-Manual' },
         { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
