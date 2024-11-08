@@ -1974,6 +1974,25 @@ Different configuration parameters take effect in the following three ways:
 |  Default   | 10s                                 |
 | Effective | After restarting system                                |
 
+* ratis\_first\_election\_timeout\_min\_ms
+
+|   Name   | ratis\_first\_election\_timeout\_min\_ms           |
+|:------:|:----------------------------------------------------------------|
+|   Description   | minimal first election timeout for RatisConsensus |
+|   Type   | int64                                                          |
+|  Default   | 50 (ms)                                                             |
+| Effective | After restarting system                                         |
+
+* ratis\_first\_election\_timeout\_max\_ms
+
+|   Name   | ratis\_first\_election\_timeout\_max\_ms           |
+|:------:|:----------------------------------------------------------------|
+|   Description   | maximal first election timeout for RatisConsensus |
+|   Type   | int64                                                          |
+|  Default   | 150 (ms)                                                             |
+| Effective | After restarting system      |
+
+
 * config\_node\_ratis\_preserve\_logs\_num\_when\_purge
 
 |   Name   | config\_node\_ratis\_preserve\_logs\_num\_when\_purge          |
@@ -1999,6 +2018,60 @@ Different configuration parameters take effect in the following three ways:
 |   Description   | data region preserves certain logs when take snapshot and purge |
 |   Type   | int32                                                           |
 |  Default   | 1000                                                            |
+| Effective | After restarting system                                         |
+
+* config\_node\_ratis\_log\_max\_size 
+
+|   Name   | config\_node\_ratis\_log\_max\_size            |
+|:------:|:----------------------------------------------------------------|
+|   Description   | Max file size of in-disk Raft Log for config node |
+|   Type   | int64                                                          |
+|  Default   | 2147483648 (2GB)                                             |
+| Effective | After restarting system                                         |
+
+* schema\_region\_ratis\_log\_max\_size 
+
+|   Name   | schema\_region\_ratis\_log\_max\_size            |
+|:------:|:----------------------------------------------------------------|
+|   Description   | Max file size of in-disk Raft Log for schema region |
+|   Type   | int64                                                          |
+|  Default   | 2147483648 (2GB)                                             |
+| Effective | After restarting system                                         |
+
+* data\_region\_ratis\_log\_max\_size 
+
+|   Name   | data\_region\_ratis\_log\_max\_size            |
+|:------:|:----------------------------------------------------------------|
+|   Description   | Max file size of in-disk Raft Log for data region |
+|   Type   | int64                                                          |
+|  Default   | 21474836480 (20GB)                                             |
+| Effective | After restarting system                                         |
+
+* config\_node\_ratis\_periodic\_snapshot\_interval
+
+|   Name   | config\_node\_ratis\_periodic\_snapshot\_interval           |
+|:------:|:----------------------------------------------------------------|
+|   Description   | duration interval of config-node periodic snapshot |
+|   Type   | int64                                                           |
+|  Default   | 86400 (seconds)                                                           |
+| Effective | After restarting system                                         |
+
+* schema\_region\_ratis\_periodic\_snapshot\_interval  
+
+|   Name   | schema\_region\_ratis\_preserve\_logs\_num\_when\_purge           |
+|:------:|:----------------------------------------------------------------|
+|   Description   | duration interval of schema-region periodic snapshot |
+|   Type   | int64                                                          |
+|  Default   | 86400 (seconds)                                                             |
+| Effective | After restarting system                                         |
+
+* data\_region\_ratis\_periodic\_snapshot\_interval  
+
+|   Name   | data\_region\_ratis\_preserve\_logs\_num\_when\_purge           |
+|:------:|:----------------------------------------------------------------|
+|   Description   | duration interval of data-region periodic snapshot |
+|   Type   | int64                                                          |
+|  Default   | 86400 (seconds)                                                             |
 | Effective | After restarting system                                         |
 
 ### Procedure Configuration
