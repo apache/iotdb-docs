@@ -18,15 +18,15 @@ The IoTDB Subscription Client encompasses three core concepts: Topic, Consumer, 
     <img src="https://alioss.timecho.com/docs/img/Data_sub_01.png" alt="" style="width: 60%;"/>
 </div>
 
-1. **Topic**: A Topic is a logical concept used in the IoTDB Subscription Client to categorize data, which can be considered as a data publication channel. Producers publish data to specific topics, and consumers subscribe to these topics to receive relevant data. Unlike Kafka, in the IoTDB Subscription Client, a topic describes the sequence characteristics, temporal features, presentation form, and optional custom processing logic of the subscribed data.
+1. **Topic**: A Topic is a logical concept used in the IoTDB Subscription Client to categorize data, which can be considered as a data publication channel. Producers publish data to specific topics, and consumers subscribe to these topics to receive relevant data. Unlike Kafka, in the IoTDB subscription client, topics correspond to the sequence and time range to be subscribed to, output format (message or TsFile), and optional custom processing logic.
 
-2. **Consumer**: A Consumer is an application or service within the IoTDB Subscription Client responsible for receiving and processing data published to a specific Topic. Consumers fetch data from the queue and perform相应的 processing. The IoTDB Subscription Client offers two types of Consumers:
+2. **Consumer**: Consumer is the application or service where the IoTDB subscription client is located, responsible for receiving and processing data published to specific topics. Consumers retrieve data from the queue and process it accordingly. There are two types of Consumers available in the IoTDB subscription client:
   - `SubscriptionPullConsumer`, which corresponds to the pull consumption model in message queues, where user code needs to actively invoke data retrieval logic.
   - `SubscriptionPushConsumer`, which corresponds to the push consumption model in message queues, where user code is triggered by newly arriving data events.
 
 
 3. **Consumer Group**: A Consumer Group is a collection of Consumers who share the same Consumer Group ID. The Consumer Group has the following characteristics:
-  - There is a one-to-many relationship between Consumers and Consumer Groups. That is, there can be any number of consumers in a consumer group, but a consumer is not allowed to join multiple consumer groups simultaneously.
+  - Consumer Group and Consumer are in a one to many relationship. That is, there can be any number of consumers in a consumer group, but a consumer is not allowed to join multiple consumer groups simultaneously.
   - A Consumer Group can have different types of Consumers (`SubscriptionPullConsumer` and `SubscriptionPushConsumer`).
   - It is not necessary for all consumers in a Consumer Group to subscribe to the same topic.
   - When different Consumers in the same Consumer Group subscribe to the same Topic, each piece of data under that Topic will only be processed by one Consumer within the group, ensuring that data is not processed repeatedly.
@@ -74,9 +74,9 @@ Examples are as follows:
 CREATE TOPIC root_all;
 
 -- Custom subscription
-CREATE TOPIC sg_timerange
+CREATE TOPIC db_timerange
 WITH (
-  'path' = 'root.sg.**',
+  'path' = 'root.db.**',
   'start-time' = '2023-01-01',
   'end-time' = '2023-12-31',
 );
@@ -151,7 +151,7 @@ Example:
 try (final SubscriptionSession session = new SubscriptionSession(host, port)) {
   session.open();
   final Properties config = new Properties();
-  config.put(TopicConstant.PATH_KEY, "root.sg.**");
+  config.put(TopicConstant.PATH_KEY, "root.db.**");
   session.createTopic(topicName, config);
 }
 ```
@@ -350,7 +350,7 @@ void close();
 try (final SubscriptionSession session = new SubscriptionSession(HOST, PORT)) {
   session.open();
   final Properties config = new Properties();
-  config.put(TopicConstant.PATH_KEY, "root.sg.**");
+  config.put(TopicConstant.PATH_KEY, "root.db.**");
   session.createTopic(TOPIC_1, config);
 }
 

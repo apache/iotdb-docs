@@ -17,14 +17,14 @@ IoTDB 订阅客户端包含 3 个核心概念：Topic、Consumer、Consumer Grou
     <img src="https://alioss.timecho.com/docs/img/Data_sub_05.png" alt="" style="width: 60%;"/>
 </div>
 
-1. **Topic（主题）**: Topic 是 IoTDB 订阅客户端中用于分类数据的逻辑概念，可以看作是数据的发布通道。生产者将数据发布到特定的主题，而消费者则订阅这些主题以接收相关数据。不同于 Kafka，在 IoTDB 订阅客户端中，主题描述了订阅数据的序列特征，时间特征，呈现形式，及可选的自定义处理逻辑
+1. **Topic（主题）**: Topic 是 IoTDB 订阅客户端中用于分类数据的逻辑概念，可以看作是数据的发布通道。生产者将数据发布到特定的主题，而消费者则订阅这些主题以接收相关数据。不同于 Kafka，在 IoTDB 订阅客户端中，主题对应了待订阅的序列和时间范围，输出格式（消息或 TsFile），及可选的自定义处理逻辑。
 
-2. **Consumer（消费者）**: Consumer 是 IoTDB 订阅客户端中的应用程序或服务，负责接收和处理发布到特定 Topic 的数据。Consumer 从队列中获取数据并进行相应的处理。在 IoTDB 订阅客户端中提供了两种类型的 Consumers:
+2. **Consumer（消费者）**: Consumer 是 IoTDB 订阅客户端有所在的应用程序或服务，负责接收和处理发布到特定 Topic 的数据。Consumer 从队列中获取数据并进行相应的处理。在 IoTDB 订阅客户端中提供了两种类型的 Consumers:
   - 一种是 `SubscriptionPullConsumer`，对应的是消息队列中的 pull 消费模式，用户代码需要主动调用数据获取逻辑
   - 一种是 `SubscriptionPushConsumer`，对应的是消息队列中的 push 消费模式，用户代码由新到达的数据事件触发
 
 3. **Consumer Group（消费者组）**: Consumer Group 是一组 Consumers 的集合，拥有相同 Consumer Group ID 的消费者属于同一个消费者组。Consumer Group 有以下特点：
-  - Consumer 与 Consumer Group 为一对多的关系。即一个 consumer group 中的 consumers 可以有任意多个，但不允许一个 consumer 同时加入多个 consumer groups
+  - Consumer Group 与 Consumer  为一对多的关系。即一个 consumer group 中的 consumers 可以有任意多个，但不允许一个 consumer 同时加入多个 consumer groups
   - 允许一个 Consumer Group 中有不同类型的 Consumer（`SubscriptionPullConsumer` 和 `SubscriptionPushConsumer`）
   - 一个 topic 不需要被一个 consumer group 中的所有 consumer 订阅
   - 当同一个 Consumer Group 中不同的 Consumers 订阅了相同的 Topic 时，该 Topic 下的每条数据只会被组内的一个 Consumer 处理，确保数据不会被重复处理
@@ -69,9 +69,9 @@ SQL 语句为：
 CREATE TOPIC root_all;
 
 -- 自定义订阅
-CREATE TOPIC sg_timerange
+CREATE TOPIC db_timerange
 WITH (
-  'path' = 'root.sg.**',
+  'path' = 'root.db.**',
   'start-time' = '2023-01-01',
   'end-time' = '2023-12-31',
 );
@@ -146,7 +146,7 @@ Topic createTopic(String topicName, Properties properties) throws Exception;
 try (final SubscriptionSession session = new SubscriptionSession(host, port)) {
   session.open();
   final Properties config = new Properties();
-  config.put(TopicConstant.PATH_KEY, "root.sg.**");
+  config.put(TopicConstant.PATH_KEY, "root.db.**");
   session.createTopic(topicName, config);
 }
 ```
@@ -330,7 +330,7 @@ void close();
 try (final SubscriptionSession session = new SubscriptionSession(HOST, PORT)) {
   session.open();
   final Properties config = new Properties();
-  config.put(TopicConstant.PATH_KEY, "root.sg.**");
+  config.put(TopicConstant.PATH_KEY, "root.db.**");
   session.createTopic(TOPIC_1, config);
 }
 
