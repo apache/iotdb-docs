@@ -636,6 +636,35 @@ Different configuration parameters take effect in the following three ways:
 |Default| 100000 |
 |Effective|After restarting system|
 
+### TTL 配置
+* ttl\_check\_interval
+
+|    Name     | ttl\_check\_interval                                                           |
+|:-----------:|:-------------------------------------------------------------------------------|
+| Description | The interval of TTL check task in each database. Unit: ms. Default is 2 hours. |
+|    Type     | int                                                                            |
+|   Default   | 7200000                                                                        |
+|  Effective  | After restarting system                                                        |
+
+* max\_expired\_time
+
+|     Name     | max\_expired\_time                                                                                                                                |
+| :----------: |:--------------------------------------------------------------------------------------------------------------------------------------------------|
+|     Description     | If a file contains device that has expired for more than this duration, then the file will be settled immediately. Unit: ms.  Default is 1 month. |
+|     Type     | int                                                                                                                                               |
+|    Default    | 2592000000                                                                                                                                        |
+| Effective | After restarting system                                                                                                                           |
+
+* expired\_data\_ratio
+
+|     Name     | expired\_data\_ratio                                                                                                                                    |
+| :----------: |:--------------------------------------------------------------------------------------------------------------------------------------------------------|
+|     Description     | The expired device ratio. If the ratio of expired devices in one file exceeds this value, then expired data of this file will be cleaned by compaction. |
+|     Type     | float                                                                                                                                                   |
+|    Default    | 0.3                                                                                                                                                     |
+| Effective | After restarting system                                                                                                                                 |
+
+
 ### Storage Engine Configuration
 
 * timestamp\_precision
