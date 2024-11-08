@@ -327,13 +327,13 @@ The SQL syntax for creating a metadata template is as follows:
 CREATE DEVICE TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
 ```
 
-**Example 1:** Create a template containing two non-aligned timeseires
+**Example 1:** Create a template containing two non-aligned timeseries
 
 ```shell
 IoTDB> create device template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 ```
 
-**Example 2:** Create a template containing a group of aligned timeseires
+**Example 2:** Create a template containing a group of aligned timeseries
 
 ```shell
 IoTDB> create device template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)
