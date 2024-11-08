@@ -19,7 +19,7 @@
 
 -->
 
-# Grafana-Plugin
+# Grafana Plugin
 
 
 Grafana is an open source volume metrics monitoring and visualization tool, which can be used to present time series data and analyze application runtime status.
@@ -91,7 +91,7 @@ For more details，please click [here](https://grafana.com/docs/grafana/latest/i
 
 ### Configure IoTDB REST Service
 
-* Modify `{iotdb directory}/conf/iotdb-common.properties` as following:
+* Modify `{iotdb directory}/conf/iotdb-system.properties` as following:
 
 ```properties
 # Is the REST service enabled

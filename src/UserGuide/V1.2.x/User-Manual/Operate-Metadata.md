@@ -323,13 +323,13 @@ The SQL syntax for creating a schema template is as follows:
 CREATE SCHEMA TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
 ```
 
-**Example 1:** Create a template containing two non-aligned timeseires
+**Example 1:** Create a template containing two non-aligned timeseries
 
 ```shell
 IoTDB> create schema template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 ```
 
-**Example 2:** Create a template containing a group of aligned timeseires
+**Example 2:** Create a template containing a group of aligned timeseries
 
 ```shell
 IoTDB> create schema template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)

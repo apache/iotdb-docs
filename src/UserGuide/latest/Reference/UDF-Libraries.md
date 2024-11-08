@@ -21,9 +21,37 @@
 
 # UDF Libraries
 
+Based on the ability of user-defined functions, IoTDB provides a series of functions for temporal data processing, including data quality, data profiling, anomaly detection, frequency domain analysis, data matching, data repairing, sequence discovery, machine learning, etc., which can meet the needs of industrial fields for temporal data processing.
+
+## Installation steps
+
+1. Please obtain the compressed file of the UDF library JAR package that is compatible with the IoTDB version.
+
+    | UDF libraries version  | Supported IoTDB versions | Download link                                                     |
+    | --------------- | ----------------- | ------------------------------------------------------------ |
+    | UDF-1.3.3.zip | V1.3.3 and above      | [UDF.zip](https://alioss.timecho.com/upload/UDF-1.3.3.zip)   |
+    | UDF-1.3.2.zip | V1.0.0～V1.3.2  | [UDF.zip](https://alioss.timecho.com/upload/UDF-1.3.2.zip) |
+    
+2. Place the library-udf.jar file in the compressed file obtained in the directory `/ext/udf ` of all nodes in the IoTDB cluster
+3. In the SQL command line terminal (CLI) or visualization console (Workbench) SQL operation interface of IoTDB, execute the corresponding function registration statement as follows.
+4.  Batch registration: Two registration methods: registration script or SQL full statement
+- Register Script 
+    - Copy the registration script (register-UDF.sh or register-UDF.bat) from the compressed package to the `tools` directory of IoTDB as needed, and modify the parameters in the script (default is host=127.0.0.1, rpcPort=6667, user=root, pass=root);
+    - Start IoTDB service, run registration script to batch register UDF
+
+- All SQL statements
+    - Open the SQl file in the compressed package, copy all SQL statements, and execute all SQl statements in the SQL command line terminal (CLI) of IoTDB or the SQL operation interface of the visualization console (Workbench) to batch register UDF
+
+
 ## Data Quality
 
 ### Completeness
+
+#### Registration statement
+
+```sql
+create function completeness as 'org.apache.iotdb.library.dquality.UDTFCompleteness'
+```
 
 #### Usage
 
@@ -150,6 +178,12 @@ Output series:
 
 ### Consistency
 
+#### Registration statement
+
+```sql
+create function consistency as 'org.apache.iotdb.library.dquality.UDTFConsistency'
+```
+
 #### Usage
 
 This function is used to calculate the consistency of time series. The input series are divided into several continuous and non overlapping windows. The timestamp of the first data point and the consistency of each window will be output.
@@ -273,6 +307,12 @@ Output series:
 ```
 
 ### Timeliness
+
+#### Registration statement
+
+```sql
+create function timeliness as 'org.apache.iotdb.library.dquality.UDTFTimeliness'
+```
 
 #### Usage
 
@@ -398,6 +438,12 @@ Output series:
 
 ### Validity
 
+#### Registration statement
+
+```sql
+create function validity as 'org.apache.iotdb.library.dquality.UDTFValidity'
+```
+
 #### Usage
 
 This function is used to calculate the Validity of time series. The input series are divided into several continuous and non overlapping windows. The timestamp of the first data point and the Validity of each window will be output.
@@ -520,59 +566,6 @@ Output series:
 +-----------------------------+----------------------------------------+
 ```
 
-### Accuracy
-
-#### Usage
-
-This function is used to calculate the Accuracy of time series based on master data.
-
-**Name**: Accuracy
-
-**Input Series:** Support multiple input series. The types are are in INT32 / INT64 / FLOAT / DOUBLE.
-
-**Parameters:**
-
-+ `omega`: The window size. It is a non-negative integer whose unit is millisecond. By default, it will be estimated according to the distances of two tuples with various time differences.
-+ `eta`: The distance threshold. It is a positive number. By default, it will be estimated according to the distance distribution of tuples in windows.
-+ `k`: The number of neighbors in master data. It is a positive integer. By default, it will be estimated according to the tuple dis- tance of the k-th nearest neighbor in the master data.
-
-**Output Series**: Output a single value. The type is DOUBLE. The range is [0,1].
-
-#### Examples
-
-Input series:
-
-```
-+-----------------------------+------------+------------+------------+------------+------------+------------+
-|                         Time|root.test.t1|root.test.t2|root.test.t3|root.test.m1|root.test.m2|root.test.m3|
-+-----------------------------+------------+------------+------------+------------+------------+------------+
-|2021-07-01T12:00:01.000+08:00|        1704|     1154.55|       0.195|        1704|     1154.55|       0.195|
-|2021-07-01T12:00:02.000+08:00|        1702|     1152.30|       0.193|        1702|     1152.30|       0.193|
-|2021-07-01T12:00:03.000+08:00|        1702|     1148.65|       0.192|        1702|     1148.65|       0.192|
-|2021-07-01T12:00:04.000+08:00|        1701|     1145.20|       0.194|        1701|     1145.20|       0.194|
-|2021-07-01T12:00:07.000+08:00|        1703|     1150.55|       0.195|        1703|     1150.55|       0.195|
-|2021-07-01T12:00:08.000+08:00|        1694|     1151.55|       0.193|        1704|     1151.55|       0.193|
-|2021-07-01T12:01:09.000+08:00|        1705|     1153.55|       0.194|        1705|     1153.55|       0.194|
-|2021-07-01T12:01:10.000+08:00|        1706|     1152.30|       0.190|        1706|     1152.30|       0.190|
-+-----------------------------+------------+------------+------------+------------+------------+------------+
-```
-
-SQL for query:
-
-```sql
-select Accuracy(t1,t2,t3,m1,m2,m3) from root.test
-```
-
-Output series:
-
-
-```
-+-----------------------------+---------------------------------------------------------------------------------------+
-|                         Time|Accuracy(root.test.t1,root.test.t2,root.test.t3,root.test.m1,root.test.m2,root.test.m3)|
-+-----------------------------+---------------------------------------------------------------------------------------+
-|2021-07-01T12:00:01.000+08:00|                                                                                  0.875|
-+-----------------------------+---------------------------------------------------------------------------------------+
-```
 
 <!--
 
@@ -599,6 +592,12 @@ Output series:
 ## Data Profiling
 
 ### ACF
+
+#### Registration statement
+
+```sql
+create function acf as 'org.apache.iotdb.library.dprofile.UDTFACF'
+```
 
 #### Usage
 
@@ -659,6 +658,12 @@ Output series:
 
 ### Distinct
 
+#### Registration statement
+
+```sql
+create function distinct as 'org.apache.iotdb.library.dprofile.UDTFDistinct'
+```
+
 #### Usage
 
 This function returns all unique values in time series.
@@ -711,6 +716,12 @@ Output series:
 ```
 
 ### Histogram
+
+#### Registration statement
+
+```sql
+create function histogram as 'org.apache.iotdb.library.dprofile.UDTFHistogram'
+```
 
 #### Usage
 
@@ -790,6 +801,12 @@ Output series:
 ```
 
 ### Integral
+
+#### Registration statement
+
+```sql
+create function integral as 'org.apache.iotdb.library.dprofile.UDAFIntegral'
+```
 
 #### Usage
 
@@ -882,6 +899,12 @@ $$\frac{1}{2\times 60}[(1+2) \times 1 + (2+5) \times 1 + (5+6) \times 1 + (6+7) 
 
 ### IntegralAvg
 
+#### Registration statement
+
+```sql
+create function integralavg as 'org.apache.iotdb.library.dprofile.UDAFIntegralAvg'
+```
+
 #### Usage
 
 This function is used to calculate the function average of time series.
@@ -943,6 +966,12 @@ $$\frac{1}{2}[(1+2) \times 1 + (2+5) \times 1 + (5+6) \times 1 + (6+7) \times 1 
 
 ### Mad
 
+#### Registration statement
+
+```sql
+create function mad as 'org.apache.iotdb.library.dprofile.UDAFMad'
+```
+
 #### Usage
 
 The function is used to compute the exact or approximate median absolute deviation (MAD) of a numeric time series. MAD is the median of the deviation of each element from the elements' median.
@@ -971,52 +1000,47 @@ Input series:
 
 ```
 +-----------------------------+------------+
-|                         Time|root.test.s0|
+|                         Time|root.test.s1|
 +-----------------------------+------------+
-|2021-03-17T10:32:17.054+08:00|   0.5319929|
-|2021-03-17T10:32:18.054+08:00|   0.9304316|
-|2021-03-17T10:32:19.054+08:00|  -1.4800133|
-|2021-03-17T10:32:20.054+08:00|   0.6114087|
-|2021-03-17T10:32:21.054+08:00|   2.5163336|
-|2021-03-17T10:32:22.054+08:00|  -1.0845392|
-|2021-03-17T10:32:23.054+08:00|   1.0562582|
-|2021-03-17T10:32:24.054+08:00|   1.3867859|
-|2021-03-17T10:32:25.054+08:00| -0.45429882|
-|2021-03-17T10:32:26.054+08:00|   1.0353678|
-|2021-03-17T10:32:27.054+08:00|   0.7307929|
-|2021-03-17T10:32:28.054+08:00|   2.3167255|
-|2021-03-17T10:32:29.054+08:00|    2.342443|
-|2021-03-17T10:32:30.054+08:00|   1.5809103|
-|2021-03-17T10:32:31.054+08:00|   1.4829416|
-|2021-03-17T10:32:32.054+08:00|   1.5800357|
-|2021-03-17T10:32:33.054+08:00|   0.7124368|
-|2021-03-17T10:32:34.054+08:00| -0.78597564|
-|2021-03-17T10:32:35.054+08:00|   1.2058644|
-|2021-03-17T10:32:36.054+08:00|   1.4215064|
-|2021-03-17T10:32:37.054+08:00|   1.2808295|
-|2021-03-17T10:32:38.054+08:00|  -0.6173715|
-|2021-03-17T10:32:39.054+08:00|  0.06644377|
-|2021-03-17T10:32:40.054+08:00|    2.349338|
-|2021-03-17T10:32:41.054+08:00|   1.7335888|
-|2021-03-17T10:32:42.054+08:00|   1.5872132|
+|1970-01-01T08:00:00.100+08:00|         0.0|
+|1970-01-01T08:00:00.200+08:00|         0.0|
+|1970-01-01T08:00:00.300+08:00|         1.0|
+|1970-01-01T08:00:00.400+08:00|        -1.0|
+|1970-01-01T08:00:00.500+08:00|         0.0|
+|1970-01-01T08:00:00.600+08:00|         0.0|
+|1970-01-01T08:00:00.700+08:00|        -2.0|
+|1970-01-01T08:00:00.800+08:00|         2.0|
+|1970-01-01T08:00:00.900+08:00|         0.0|
+|1970-01-01T08:00:01.000+08:00|         0.0|
+|1970-01-01T08:00:01.100+08:00|         1.0|
+|1970-01-01T08:00:01.200+08:00|        -1.0|
+|1970-01-01T08:00:01.300+08:00|        -1.0|
+|1970-01-01T08:00:01.400+08:00|         1.0|
+|1970-01-01T08:00:01.500+08:00|         0.0|
+|1970-01-01T08:00:01.600+08:00|         0.0|
+|1970-01-01T08:00:01.700+08:00|        10.0|
+|1970-01-01T08:00:01.800+08:00|         2.0|
+|1970-01-01T08:00:01.900+08:00|        -2.0|
+|1970-01-01T08:00:02.000+08:00|         0.0|
++-----------------------------+------------+
 ............
-Total line number = 10000
+Total line number = 20
 ```
 
 SQL for query:
 
 ```sql
-select mad(s0) from root.test
+select mad(s1) from root.test
 ```
 
 Output series:
 
 ```
-+-----------------------------+------------------+
-|                         Time| mad(root.test.s0)|
-+-----------------------------+------------------+
-|1970-01-01T08:00:00.000+08:00|0.6806197166442871|
-+-----------------------------+------------------+
++-----------------------------+---------------------------------+
+|                         Time|median(root.test.s1, "error"="0")|
++-----------------------------+---------------------------------+
+|1970-01-01T08:00:00.000+08:00|                              0.0|
++-----------------------------+---------------------------------+
 ```
 
 ##### Approximate Query
@@ -1026,20 +1050,26 @@ By setting `error` within (0,1), the function queries the approximate MAD.
 SQL for query:
 
 ```sql
-select mad(s0, "error"="0.01") from root.test
+select mad(s1, "error"="0.01") from root.test
 ```
 
 Output series:
 
 ```
 +-----------------------------+---------------------------------+
-|                         Time|mad(root.test.s0, "error"="0.01")|
+|                         Time|mad(root.test.s1, "error"="0.01")|
 +-----------------------------+---------------------------------+
-|1970-01-01T08:00:00.000+08:00|               0.6806616245859518|
+|1970-01-01T08:00:00.000+08:00|               0.9900000000000001|
 +-----------------------------+---------------------------------+
 ```
 
 ### Median
+
+#### Registration statement
+
+```sql
+create function median as 'org.apache.iotdb.library.dprofile.UDAFMedian'
+```
 
 #### Usage
 
@@ -1061,55 +1091,55 @@ Input series:
 
 ```
 +-----------------------------+------------+
-|                         Time|root.test.s0|
+|                         Time|root.test.s1|
 +-----------------------------+------------+
-|2021-03-17T10:32:17.054+08:00|   0.5319929|
-|2021-03-17T10:32:18.054+08:00|   0.9304316|
-|2021-03-17T10:32:19.054+08:00|  -1.4800133|
-|2021-03-17T10:32:20.054+08:00|   0.6114087|
-|2021-03-17T10:32:21.054+08:00|   2.5163336|
-|2021-03-17T10:32:22.054+08:00|  -1.0845392|
-|2021-03-17T10:32:23.054+08:00|   1.0562582|
-|2021-03-17T10:32:24.054+08:00|   1.3867859|
-|2021-03-17T10:32:25.054+08:00| -0.45429882|
-|2021-03-17T10:32:26.054+08:00|   1.0353678|
-|2021-03-17T10:32:27.054+08:00|   0.7307929|
-|2021-03-17T10:32:28.054+08:00|   2.3167255|
-|2021-03-17T10:32:29.054+08:00|    2.342443|
-|2021-03-17T10:32:30.054+08:00|   1.5809103|
-|2021-03-17T10:32:31.054+08:00|   1.4829416|
-|2021-03-17T10:32:32.054+08:00|   1.5800357|
-|2021-03-17T10:32:33.054+08:00|   0.7124368|
-|2021-03-17T10:32:34.054+08:00| -0.78597564|
-|2021-03-17T10:32:35.054+08:00|   1.2058644|
-|2021-03-17T10:32:36.054+08:00|   1.4215064|
-|2021-03-17T10:32:37.054+08:00|   1.2808295|
-|2021-03-17T10:32:38.054+08:00|  -0.6173715|
-|2021-03-17T10:32:39.054+08:00|  0.06644377|
-|2021-03-17T10:32:40.054+08:00|    2.349338|
-|2021-03-17T10:32:41.054+08:00|   1.7335888|
-|2021-03-17T10:32:42.054+08:00|   1.5872132|
-............
-Total line number = 10000
+|1970-01-01T08:00:00.100+08:00|         0.0|
+|1970-01-01T08:00:00.200+08:00|         0.0|
+|1970-01-01T08:00:00.300+08:00|         1.0|
+|1970-01-01T08:00:00.400+08:00|        -1.0|
+|1970-01-01T08:00:00.500+08:00|         0.0|
+|1970-01-01T08:00:00.600+08:00|         0.0|
+|1970-01-01T08:00:00.700+08:00|        -2.0|
+|1970-01-01T08:00:00.800+08:00|         2.0|
+|1970-01-01T08:00:00.900+08:00|         0.0|
+|1970-01-01T08:00:01.000+08:00|         0.0|
+|1970-01-01T08:00:01.100+08:00|         1.0|
+|1970-01-01T08:00:01.200+08:00|        -1.0|
+|1970-01-01T08:00:01.300+08:00|        -1.0|
+|1970-01-01T08:00:01.400+08:00|         1.0|
+|1970-01-01T08:00:01.500+08:00|         0.0|
+|1970-01-01T08:00:01.600+08:00|         0.0|
+|1970-01-01T08:00:01.700+08:00|        10.0|
+|1970-01-01T08:00:01.800+08:00|         2.0|
+|1970-01-01T08:00:01.900+08:00|        -2.0|
+|1970-01-01T08:00:02.000+08:00|         0.0|
++-----------------------------+------------+
+Total line number = 20
 ```
 
 SQL for query:
 
 ```sql
-select median(s0, "error"="0.01") from root.test
+select median(s1, "error"="0.01") from root.test
 ```
 
 Output series:
 
 ```
 +-----------------------------+------------------------------------+
-|                         Time|median(root.test.s0, "error"="0.01")|
+|                         Time|median(root.test.s1, "error"="0.01")|
 +-----------------------------+------------------------------------+
-|1970-01-01T08:00:00.000+08:00|                   1.021884560585022|
+|1970-01-01T08:00:00.000+08:00|                                 0.0|
 +-----------------------------+------------------------------------+
 ```
 
 ### MinMax
+
+#### Registration statement
+
+```sql
+create function minmax as 'org.apache.iotdb.library.dprofile.UDTFMinMax'
+```
 
 #### Usage
 
@@ -1193,62 +1223,15 @@ Output series:
 +-----------------------------+--------------------+
 ```
 
-### Mode
 
-#### Usage
-
-This function is used to calculate the mode of time series, that is, the value that occurs most frequently.
-
-**Name:** MODE
-
-**Input Series:** Only support a single input series. The type is arbitrary.
-
-**Output Series:** Output a single series. The type is the same as the input. There is only one data point in the series, whose timestamp is the same as which the first mode value has and value is the mode.
-
-**Note:**
-
-+ If there are multiple values with the most occurrences, the arbitrary one will be output.
-+ Missing points and null points in the input series will be ignored, but `NaN` will not.
-
-#### Examples
-
-Input series:
-
-```
-+-----------------------------+---------------+
-|                         Time|root.test.d2.s2|
-+-----------------------------+---------------+
-|1970-01-01T08:00:00.001+08:00|          Hello|
-|1970-01-01T08:00:00.002+08:00|          hello|
-|1970-01-01T08:00:00.003+08:00|          Hello|
-|1970-01-01T08:00:00.004+08:00|          World|
-|1970-01-01T08:00:00.005+08:00|          World|
-|1970-01-01T08:00:01.600+08:00|          World|
-|1970-01-15T09:37:34.451+08:00|          Hello|
-|1970-01-15T09:37:34.452+08:00|          hello|
-|1970-01-15T09:37:34.453+08:00|          Hello|
-|1970-01-15T09:37:34.454+08:00|          World|
-|1970-01-15T09:37:34.455+08:00|          World|
-+-----------------------------+---------------+
-```
-
-SQL for query:
-
-```sql
-select mode(s2) from root.test.d2
-```
-
-Output series:
-
-```
-+-----------------------------+---------------------+
-|                         Time|mode(root.test.d2.s2)|
-+-----------------------------+---------------------+
-|1970-01-01T08:00:00.004+08:00|                World|
-+-----------------------------+---------------------+
-```
 
 ### MvAvg
+
+#### Registration statement
+
+```sql
+create function mvavg as 'org.apache.iotdb.library.dprofile.UDTFMvAvg'
+```
 
 #### Usage
 
@@ -1330,6 +1313,12 @@ Output series:
 
 ### PACF
 
+#### Registration statement
+
+```sql
+create function pacf as 'org.apache.iotdb.library.dprofile.UDTFPACF'
+```
+
 #### Usage
 
 This function is used to calculate partial autocorrelation of input series by solving Yule-Walker equation. For some cases, the equation may not be solved, and NaN will be output.
@@ -1349,55 +1338,44 @@ This function is used to calculate partial autocorrelation of input series by so
 Input series:
 
 ```
-+-----------------------------+------------+
-|                         Time|root.test.s1|
-+-----------------------------+------------+
-|2019-12-27T00:00:00.000+08:00|         5.0|
-|2019-12-27T00:05:00.000+08:00|         5.0|
-|2019-12-27T00:10:00.000+08:00|         5.0|
-|2019-12-27T00:15:00.000+08:00|         5.0|
-|2019-12-27T00:20:00.000+08:00|         6.0|
-|2019-12-27T00:25:00.000+08:00|         5.0|
-|2019-12-27T00:30:00.000+08:00|         6.0|
-|2019-12-27T00:35:00.000+08:00|         6.0|
-|2019-12-27T00:40:00.000+08:00|         6.0|
-|2019-12-27T00:45:00.000+08:00|         6.0|
-|2019-12-27T00:50:00.000+08:00|         6.0|
-|2019-12-27T00:55:00.000+08:00|    5.982609|
-|2019-12-27T01:00:00.000+08:00|   5.9652176|
-|2019-12-27T01:05:00.000+08:00|    5.947826|
-|2019-12-27T01:10:00.000+08:00|   5.9304347|
-|2019-12-27T01:15:00.000+08:00|   5.9130435|
-|2019-12-27T01:20:00.000+08:00|   5.8956523|
-|2019-12-27T01:25:00.000+08:00|    5.878261|
-|2019-12-27T01:30:00.000+08:00|   5.8608694|
-|2019-12-27T01:35:00.000+08:00|    5.843478|
-............
-Total line number = 18066
++-----------------------------+---------------+
+|                         Time|root.test.d1.s1|
++-----------------------------+---------------+
+|2020-01-01T00:00:01.000+08:00|              1|
+|2020-01-01T00:00:02.000+08:00|            NaN|
+|2020-01-01T00:00:03.000+08:00|              3|
+|2020-01-01T00:00:04.000+08:00|            NaN|
+|2020-01-01T00:00:05.000+08:00|              5|
++-----------------------------+---------------+
 ```
 
 SQL for query:
 
 ```sql
-select pacf(s1, "lag"="5") from root.test
+select pacf(s1, "lag"="5") from root.test.d1
 ```
 
 Output series:
 
 ```
-+-----------------------------+-----------------------------+
-|                         Time|pacf(root.test.s1, "lag"="5")|
-+-----------------------------+-----------------------------+
-|2019-12-27T00:00:00.000+08:00|                          1.0|
-|2019-12-27T00:05:00.000+08:00|           0.3528915091942786|
-|2019-12-27T00:10:00.000+08:00|           0.1761346122516304|
-|2019-12-27T00:15:00.000+08:00|           0.1492391973294682|
-|2019-12-27T00:20:00.000+08:00|          0.03560059645868398|
-|2019-12-27T00:25:00.000+08:00|           0.0366222998995286|
-+-----------------------------+-----------------------------+
++-----------------------------+--------------------------------+
+|                         Time|pacf(root.test.d1.s1, "lag"="5")|
++-----------------------------+--------------------------------+
+|2020-01-01T00:00:01.000+08:00|                             1.0|
+|2020-01-01T00:00:02.000+08:00|             -0.5744680851063829|
+|2020-01-01T00:00:03.000+08:00|              0.3172297297297296|
+|2020-01-01T00:00:04.000+08:00|             -0.2977686586304181|
+|2020-01-01T00:00:05.000+08:00|             -2.0609033521065867|
++-----------------------------+--------------------------------+
 ```
 
 ### Percentile
+
+#### Registration statement
+
+```sql
+create function percentile as 'org.apache.iotdb.library.dprofile.UDAFPercentile'
+```
 
 #### Usage
 
@@ -1421,37 +1399,31 @@ The function is used to compute the exact or approximate percentile of a numeric
 Input series:
 
 ```
-+-----------------------------+------------+
-|                         Time|root.test.s0|
-+-----------------------------+------------+
-|2021-03-17T10:32:17.054+08:00|   0.5319929|
-|2021-03-17T10:32:18.054+08:00|   0.9304316|
-|2021-03-17T10:32:19.054+08:00|  -1.4800133|
-|2021-03-17T10:32:20.054+08:00|   0.6114087|
-|2021-03-17T10:32:21.054+08:00|   2.5163336|
-|2021-03-17T10:32:22.054+08:00|  -1.0845392|
-|2021-03-17T10:32:23.054+08:00|   1.0562582|
-|2021-03-17T10:32:24.054+08:00|   1.3867859|
-|2021-03-17T10:32:25.054+08:00| -0.45429882|
-|2021-03-17T10:32:26.054+08:00|   1.0353678|
-|2021-03-17T10:32:27.054+08:00|   0.7307929|
-|2021-03-17T10:32:28.054+08:00|   2.3167255|
-|2021-03-17T10:32:29.054+08:00|    2.342443|
-|2021-03-17T10:32:30.054+08:00|   1.5809103|
-|2021-03-17T10:32:31.054+08:00|   1.4829416|
-|2021-03-17T10:32:32.054+08:00|   1.5800357|
-|2021-03-17T10:32:33.054+08:00|   0.7124368|
-|2021-03-17T10:32:34.054+08:00| -0.78597564|
-|2021-03-17T10:32:35.054+08:00|   1.2058644|
-|2021-03-17T10:32:36.054+08:00|   1.4215064|
-|2021-03-17T10:32:37.054+08:00|   1.2808295|
-|2021-03-17T10:32:38.054+08:00|  -0.6173715|
-|2021-03-17T10:32:39.054+08:00|  0.06644377|
-|2021-03-17T10:32:40.054+08:00|    2.349338|
-|2021-03-17T10:32:41.054+08:00|   1.7335888|
-|2021-03-17T10:32:42.054+08:00|   1.5872132|
-............
-Total line number = 10000
++-----------------------------+-------------+
+|                         Time|root.test2.s1|
++-----------------------------+-------------+
+|1970-01-01T08:00:00.100+08:00|          0.0|
+|1970-01-01T08:00:00.200+08:00|          0.0|
+|1970-01-01T08:00:00.300+08:00|          1.0|
+|1970-01-01T08:00:00.400+08:00|         -1.0|
+|1970-01-01T08:00:00.500+08:00|          0.0|
+|1970-01-01T08:00:00.600+08:00|          0.0|
+|1970-01-01T08:00:00.700+08:00|         -2.0|
+|1970-01-01T08:00:00.800+08:00|          2.0|
+|1970-01-01T08:00:00.900+08:00|          0.0|
+|1970-01-01T08:00:01.000+08:00|          0.0|
+|1970-01-01T08:00:01.100+08:00|          1.0|
+|1970-01-01T08:00:01.200+08:00|         -1.0|
+|1970-01-01T08:00:01.300+08:00|         -1.0|
+|1970-01-01T08:00:01.400+08:00|          1.0|
+|1970-01-01T08:00:01.500+08:00|          0.0|
+|1970-01-01T08:00:01.600+08:00|          0.0|
+|1970-01-01T08:00:01.700+08:00|         10.0|
+|1970-01-01T08:00:01.800+08:00|          2.0|
+|1970-01-01T08:00:01.900+08:00|         -2.0|
+|1970-01-01T08:00:02.000+08:00|          0.0|
++-----------------------------+-------------+
+Total line number = 20
 ```
 
 SQL for query:
@@ -1463,14 +1435,20 @@ select percentile(s0, "rank"="0.2", "error"="0.01") from root.test
 Output series:
 
 ```
-+-----------------------------+------------------------------------------------------+
-|                         Time|percentile(root.test.s0, "rank"="0.2", "error"="0.01")|
-+-----------------------------+------------------------------------------------------+
-|2021-03-17T10:35:02.054+08:00|                                    0.1801469624042511|
-+-----------------------------+------------------------------------------------------+
++-----------------------------+-------------------------------------------------------+
+|                         Time|percentile(root.test2.s1, "rank"="0.2", "error"="0.01")|
++-----------------------------+-------------------------------------------------------+
+|1970-01-01T08:00:00.000+08:00|                                                   -1.0|
++-----------------------------+-------------------------------------------------------+
 ```
 
 ### Quantile
+
+#### Registration statement
+
+```sql
+create function quantile as 'org.apache.iotdb.library.dprofile.UDAFQuantile'
+```
 
 #### Usage
 
@@ -1494,56 +1472,45 @@ The function is used to compute the approximate quantile of a numeric time serie
 Input series:
 
 ```
-+-----------------------------+------------+
-|                         Time|root.test.s0|
-+-----------------------------+------------+
-|2021-03-17T10:32:17.054+08:00|   0.5319929|
-|2021-03-17T10:32:18.054+08:00|   0.9304316|
-|2021-03-17T10:32:19.054+08:00|  -1.4800133|
-|2021-03-17T10:32:20.054+08:00|   0.6114087|
-|2021-03-17T10:32:21.054+08:00|   2.5163336|
-|2021-03-17T10:32:22.054+08:00|  -1.0845392|
-|2021-03-17T10:32:23.054+08:00|   1.0562582|
-|2021-03-17T10:32:24.054+08:00|   1.3867859|
-|2021-03-17T10:32:25.054+08:00| -0.45429882|
-|2021-03-17T10:32:26.054+08:00|   1.0353678|
-|2021-03-17T10:32:27.054+08:00|   0.7307929|
-|2021-03-17T10:32:28.054+08:00|   2.3167255|
-|2021-03-17T10:32:29.054+08:00|    2.342443|
-|2021-03-17T10:32:30.054+08:00|   1.5809103|
-|2021-03-17T10:32:31.054+08:00|   1.4829416|
-|2021-03-17T10:32:32.054+08:00|   1.5800357|
-|2021-03-17T10:32:33.054+08:00|   0.7124368|
-|2021-03-17T10:32:34.054+08:00| -0.78597564|
-|2021-03-17T10:32:35.054+08:00|   1.2058644|
-|2021-03-17T10:32:36.054+08:00|   1.4215064|
-|2021-03-17T10:32:37.054+08:00|   1.2808295|
-|2021-03-17T10:32:38.054+08:00|  -0.6173715|
-|2021-03-17T10:32:39.054+08:00|  0.06644377|
-|2021-03-17T10:32:40.054+08:00|    2.349338|
-|2021-03-17T10:32:41.054+08:00|   1.7335888|
-|2021-03-17T10:32:42.054+08:00|   1.5872132|
++-----------------------------+-------------+
+|                         Time|root.test1.s1|
++-----------------------------+-------------+
+|2021-03-17T10:32:17.054+08:00|            7|
+|2021-03-17T10:32:18.054+08:00|           15|
+|2021-03-17T10:32:19.054+08:00|           36|
+|2021-03-17T10:32:20.054+08:00|           39|
+|2021-03-17T10:32:21.054+08:00|           40|
+|2021-03-17T10:32:22.054+08:00|           41|
+|2021-03-17T10:32:23.054+08:00|           20|
+|2021-03-17T10:32:24.054+08:00|           18|
++-----------------------------+-------------+
 ............
-Total line number = 10000
+Total line number = 8
 ```
 
 SQL for query:
 
 ```sql
-select quantile(s0, "rank"="0.2", "K"="800") from root.test
+select quantile(s1, "rank"="0.2", "K"="800") from root.test1
 ```
 
 Output series:
 
 ```
-+-----------------------------+------------------------------------------------------+
-|                         Time|quantile(root.test.s0, "rank"="0.2", "K"="800")|
-+-----------------------------+------------------------------------------------------+
-|1970-01-01T08:00:00.000+08:00|                                    0.1801469624042511|
-+-----------------------------+------------------------------------------------------+
++-----------------------------+------------------------------------------------+
+|                         Time|quantile(root.test1.s1, "rank"="0.2", "K"="800")|
++-----------------------------+------------------------------------------------+
+|1970-01-01T08:00:00.000+08:00|                               7.000000000000001|
++-----------------------------+------------------------------------------------+
 ```
 
 ### Period
+
+#### Registration statement
+
+```sql
+create function period as 'org.apache.iotdb.library.dprofile.UDAFPeriod'
+```
 
 #### Usage
 
@@ -1593,6 +1560,12 @@ Output series:
 ```
 
 ### QLB
+
+#### Registration statement
+
+```sql
+create function qlb as 'org.apache.iotdb.library.dprofile.UDTFQLB'
+```
 
 #### Usage
 
@@ -1677,6 +1650,12 @@ Output series:
 ```
 
 ### Resample
+
+#### Registration statement
+
+```sql
+create function re_sample as 'org.apache.iotdb.library.dprofile.UDTFResample'
+```
 
 #### Usage
 
@@ -1807,6 +1786,12 @@ Output series:
 
 ### Sample
 
+#### Registration statement
+
+```sql
+create function sample as 'org.apache.iotdb.library.dprofile.UDTFSample'
+```
+
 #### Usage
 
 This function is used to sample the input series,
@@ -1905,6 +1890,12 @@ Output series:
 
 ### Segment
 
+#### Registration statement
+
+```sql
+create function segment as 'org.apache.iotdb.library.dprofile.UDTFSegment'
+```
+
 #### Usage
 
 This function is used to segment a time series into subsequences according to linear trend, and returns linear fitted values of first values in each subsequence or every data point.
@@ -1997,6 +1988,12 @@ Output series:
 
 ### Skew
 
+#### Registration statement
+
+```sql
+create function skew as 'org.apache.iotdb.library.dprofile.UDAFSkew'
+```
+
 #### Usage
 
 This function is used to calculate the population skewness.
@@ -2057,6 +2054,12 @@ Output series:
 ```
 
 ### Spline
+
+#### Registration statement
+
+```sql
+create function spline as 'org.apache.iotdb.library.dprofile.UDTFSpline'
+```
 
 #### Usage
 
@@ -2263,6 +2266,12 @@ Output series:
 
 ### Spread
 
+#### Registration statement
+
+```sql
+create function spread as 'org.apache.iotdb.library.dprofile.UDAFSpread'
+```
+
 #### Usage
 
 This function is used to calculate the spread of time series, that is, the maximum value minus the minimum value.
@@ -2317,68 +2326,14 @@ Output series:
 +-----------------------------+-----------------------+
 ```
 
-### Stddev
-
-#### Usage
-
-This function is used to calculate the population standard deviation.
-
-**Name:** STDDEV
-
-**Input Series:** Only support a single input series. The type is INT32 / INT64 / FLOAT / DOUBLE.
-
-**Output Series:** Output a single series. The type is DOUBLE. There is only one data point in the series, whose timestamp is 0 and value is the population standard deviation.
-
-**Note:** Missing points, null points and `NaN` in the input series will be ignored.
-
-#### Examples
-
-Input series:
-
-```
-+-----------------------------+---------------+
-|                         Time|root.test.d1.s1|
-+-----------------------------+---------------+
-|2020-01-01T00:00:00.000+08:00|            1.0|
-|2020-01-01T00:00:01.000+08:00|            2.0|
-|2020-01-01T00:00:02.000+08:00|            3.0|
-|2020-01-01T00:00:03.000+08:00|            4.0|
-|2020-01-01T00:00:04.000+08:00|            5.0|
-|2020-01-01T00:00:05.000+08:00|            6.0|
-|2020-01-01T00:00:06.000+08:00|            7.0|
-|2020-01-01T00:00:07.000+08:00|            8.0|
-|2020-01-01T00:00:08.000+08:00|            9.0|
-|2020-01-01T00:00:09.000+08:00|           10.0|
-|2020-01-01T00:00:10.000+08:00|           11.0|
-|2020-01-01T00:00:11.000+08:00|           12.0|
-|2020-01-01T00:00:12.000+08:00|           13.0|
-|2020-01-01T00:00:13.000+08:00|           14.0|
-|2020-01-01T00:00:14.000+08:00|           15.0|
-|2020-01-01T00:00:15.000+08:00|           16.0|
-|2020-01-01T00:00:16.000+08:00|           17.0|
-|2020-01-01T00:00:17.000+08:00|           18.0|
-|2020-01-01T00:00:18.000+08:00|           19.0|
-|2020-01-01T00:00:19.000+08:00|           20.0|
-+-----------------------------+---------------+
-```
-
-SQL for query:
-
-```sql
-select stddev(s1) from root.test.d1
-```
-
-Output series:
-
-```
-+-----------------------------+-----------------------+
-|                         Time|stddev(root.test.d1.s1)|
-+-----------------------------+-----------------------+
-|1970-01-01T08:00:00.000+08:00|     5.7662812973353965|
-+-----------------------------+-----------------------+
-```
 
 ### ZScore
+
+#### Registration statement
+
+```sql
+create function zscore as 'org.apache.iotdb.library.dprofile.UDTFZScore'
+```
 
 #### Usage
 
@@ -2486,6 +2441,12 @@ Output series:
 
 ### IQR
 
+#### Registration statement
+
+```sql
+create function iqr as 'org.apache.iotdb.library.anomaly.UDTFIQR'
+```
+
 #### Usage
 
 This function is used to detect anomalies based on IQR. Points distributing beyond 1.5 times IQR are selected.
@@ -2553,6 +2514,12 @@ Output series:
 
 ### KSigma
 
+#### Registration statement
+
+```sql
+create function ksigma as 'org.apache.iotdb.library.anomaly.UDTFKSigma'
+```
+
 #### Usage
 
 This function is used to detect anomalies based on the Dynamic K-Sigma Algorithm.
@@ -2617,6 +2584,12 @@ Output series:
 ```
 
 ### LOF
+
+#### Registration statement
+
+```sql
+create function LOF as 'org.apache.iotdb.library.anomaly.UDTFLOF'
+```
 
 #### Usage
 
@@ -2744,6 +2717,12 @@ Output series:
 
 ### MissDetect
 
+#### Registration statement
+
+```sql
+create function missdetect as 'org.apache.iotdb.library.anomaly.UDTFMissDetect'
+```
+
 #### Usage
 
 This function is used to detect missing anomalies.
@@ -2832,6 +2811,12 @@ Output series:
 
 ### Range
 
+#### Registration statement
+
+```sql
+create function range as 'org.apache.iotdb.library.anomaly.UDTFRange'
+```
+
 #### Usage
 
 This function is used to detect range anomaly of time series. According to upper bound and lower bound parameters, the function judges if a input value is beyond range, aka range anomaly, and a new time series of anomaly will be output.
@@ -2890,11 +2875,18 @@ Output series:
 |Time                         |range(root.test.d1.s1,"lower_bound"="101.0","upper_bound"="125.0")|
 +-----------------------------+------------------------------------------------------------------+
 |2020-01-01T00:00:02.000+08:00|                                                             100.0|
+|2020-01-01T00:00:08.000+08:00|                                                             126.0|
 |2020-01-01T00:00:28.000+08:00|                                                             126.0|
 +-----------------------------+------------------------------------------------------------------+
 ```
 
 ### TwoSidedFilter
+
+#### Registration statement
+
+```sql
+create function twosidedfilter as 'org.apache.iotdb.library.anomaly.UDTFTwoSidedFilter'
+```
 
 #### Usage
 
@@ -2989,6 +2981,12 @@ Output series:
 
 ### Outlier
 
+#### Registration statement
+
+```sql
+create function outlier as 'org.apache.iotdb.library.anomaly.UDTFOutlier'
+```
+
 #### Usage
 
 This function is used to detect distance-based outliers. For each point in the current window, if the number of its neighbors within the distance of neighbor distance threshold is less than the neighbor count threshold, the point in detected as an outlier.
@@ -3075,8 +3073,9 @@ This function is used to train the VAR model based on master data. The model is 
 
 **Installation**
 - Install IoTDB from branch `research/master-detector`.
-- Run `mvn clean package -am -Dmaven.test.skip=true`.
-- Copy `./distribution/target/apache-iotdb-1.2.0-SNAPSHOT-library-udf-bin/apache-iotdb-1.2.0-SNAPSHOT-library-udf-bin/ext/udf/library-udf.jar` to `./ext/udf/`.
+- Run `mvn spotless:apply`.
+- Run `mvn clean package -pl library-udf -DskipTests -am -P get-jar-with-dependencies`.
+- Copy `./library-UDF/target/library-udf-1.2.0-SNAPSHOT-jar-with-dependencies.jar` to `./ext/udf/`.
 - Start IoTDB server and run `create function MasterTrain as 'org.apache.iotdb.library.anomaly.UDTFMasterTrain'` in client.
 
 #### Examples
@@ -3161,8 +3160,9 @@ This function is used to detect time series and repair errors based on master da
 
 **Installation**
 - Install IoTDB from branch `research/master-detector`.
-- Run `mvn clean package -am -Dmaven.test.skip=true`.
-- Copy `./distribution/target/apache-iotdb-1.2.0-SNAPSHOT-library-udf-bin/apache-iotdb-1.2.0-SNAPSHOT-library-udf-bin/ext/udf/library-udf.jar` to `./ext/udf/`.
+- Run `mvn spotless:apply`.
+- Run `mvn clean package -pl library-udf -DskipTests -am -P get-jar-with-dependencies`.
+- Copy `./library-UDF/target/library-udf-1.2.0-SNAPSHOT-jar-with-dependencies.jar` to `./ext/udf/`.
 - Start IoTDB server and run `create function MasterDetect as 'org.apache.iotdb.library.anomaly.UDTFMasterDetect'` in client.
 
 #### Examples
@@ -3310,6 +3310,12 @@ Output series:
 
 ### Conv
 
+#### Registration statement
+
+```sql
+create function conv as 'org.apache.iotdb.library.frequency.UDTFConv'
+```
+
 #### Usage
 
 This function is used to calculate the convolution, i.e. polynomial multiplication.
@@ -3356,6 +3362,12 @@ Output series:
 ```
 
 ### Deconv
+
+#### Registration statement
+
+```sql
+create function deconv as 'org.apache.iotdb.library.frequency.UDTFDeconv'
+```
 
 #### Usage
 
@@ -3437,6 +3449,12 @@ Output series:
 
 ### DWT
 
+#### Registration statement
+
+```sql
+create function dwt as 'org.apache.iotdb.library.frequency.UDTFDWT'
+```
+
 #### Usage
 
 This function is used to calculate 1d discrete wavelet transform of a numerical series.
@@ -3517,6 +3535,12 @@ Output series:
 ```
 
 ### FFT
+
+#### Registration statement
+
+```sql
+create function fft as 'org.apache.iotdb.library.frequency.UDTFFFT'
+```
 
 #### Usage
 
@@ -3642,6 +3666,12 @@ The last data point is reserved to indicate the length of the series.
 
 ### HighPass
 
+#### Registration statement
+
+```sql
+create function highpass as 'org.apache.iotdb.library.frequency.UDTFHighPass'
+```
+
 #### Usage
 
 This function performs low-pass filtering on the input series and extracts components above the cutoff frequency.
@@ -3729,6 +3759,12 @@ Note: The input is $y=sin(2\pi t/4)+2sin(2\pi t/5)$ with a length of 20. Thus, t
 
 ### IFFT
 
+#### Registration statement
+
+```sql
+create function ifft as 'org.apache.iotdb.library.frequency.UDTFIFFT'
+```
+
 #### Usage
 
 This function treats the two input series as the real and imaginary part of a complex series, performs an inverse fast Fourier transform (IFFT), and outputs the real part of the result.
@@ -3805,6 +3841,12 @@ Output series:
 ```
 
 ### LowPass
+
+#### Registration statement
+
+```sql
+create function lowpass as 'org.apache.iotdb.library.frequency.UDTFLowPass'
+```
 
 #### Usage
 
@@ -3916,6 +3958,12 @@ Note: The input is $y=sin(2\pi t/4)+2sin(2\pi t/5)$ with a length of 20. Thus, t
 
 ### Cov
 
+#### Registration statement
+
+```sql
+create function cov as 'org.apache.iotdb.library.dmatch.UDAFCov'
+```
+
 #### Usage
 
 This function is used to calculate the population covariance.
@@ -3976,6 +4024,12 @@ Output series:
 ```
 
 ### DTW
+
+#### Registration statement
+
+```sql
+create function dtw as 'org.apache.iotdb.library.dmatch.UDAFDtw'
+```
 
 #### Usage
 
@@ -4042,6 +4096,12 @@ Output series:
 
 ### Pearson
 
+#### Registration statement
+
+```sql
+create function pearson as 'org.apache.iotdb.library.dmatch.UDAFPearson'
+```
+
 #### Usage
 
 This function is used to calculate the Pearson Correlation Coefficient.
@@ -4103,6 +4163,12 @@ Output series:
 
 ### PtnSym
 
+#### Registration statement
+
+```sql
+create function ptnsym as 'org.apache.iotdb.library.dmatch.UDTFPtnSym'
+```
+
 #### Usage
 
 This function is used to find all symmetric subseries in the input whose degree of symmetry is less than the threshold.
@@ -4162,6 +4228,12 @@ Output series:
 ```
 
 ### XCorr
+
+#### Registration statement
+
+```sql
+create function xcorr as 'org.apache.iotdb.library.dmatch.UDTFXCorr'
+```
 
 #### Usage
 
@@ -4251,6 +4323,14 @@ Output series:
 ## Data Repairing
 
 ### TimestampRepair
+
+#### Registration statement
+
+```sql
+create function timestamprepair as 'org.apache.iotdb.library.drepair.UDTFTimestampRepair'
+```
+
+#### Usage
 
 This function is used for timestamp repair.
 According to the given standard time interval,
@@ -4352,6 +4432,12 @@ Output series:
 ```
 
 ### ValueFill
+
+#### Registration statement
+
+```sql
+create function valuefill as 'org.apache.iotdb.library.drepair.UDTFValueFill'
+```
 
 #### Usage
 
@@ -4464,6 +4550,12 @@ Output series:
 ```
 
 ### ValueRepair
+
+#### Registration statement
+
+```sql
+create function valuerepair as 'org.apache.iotdb.library.drepair.UDTFValueRepair'
+```
 
 #### Usage
 
@@ -4773,6 +4865,12 @@ Output series:
 
 ### ConsecutiveSequences
 
+#### Registration statement
+
+```sql
+create function consecutivesequences as 'org.apache.iotdb.library.series.UDTFConsecutiveSequences'
+```
+
 #### Usage
 
 This function is used to find locally longest consecutive subsequences in strictly equispaced multidimensional data.
@@ -4861,6 +4959,12 @@ Output series:
 
 ### ConsecutiveWindows
 
+#### Registration statement
+
+```sql
+create function consecutivewindows as 'org.apache.iotdb.library.series.UDTFConsecutiveWindows'
+```
+
 #### Usage
 
 This function is used to find consecutive windows of specified length in strictly equispaced multidimensional data.
@@ -4946,6 +5050,12 @@ Output series:
 ## Machine Learning
 
 ### AR
+
+#### Registration statement
+
+```sql
+create function ar as 'org.apache.iotdb.library.dlearn.UDTFAR'
+```
 
 #### Usage
 

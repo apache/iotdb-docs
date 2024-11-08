@@ -21,8 +21,6 @@
 
 # C# Native API
 
-The Git repository for the C# Native API client is located [here](https://github.com/apache/iotdb-client-csharp/)
-
 ## Installation
 
 ### Install from NuGet Package
@@ -33,7 +31,7 @@ We have prepared Nuget Package for C# users. Users can directly install the clie
 dotnet add package Apache.IoTDB
 ```
 
-Note that the `Apache.IoTDB` package only supports versions of the `.net framework 4.6.1` greater than `4.6.1`.
+Note that the `Apache.IoTDB` package only supports versions greater than `.net framework 4.6.1`.
 
 ## Prerequisites
 
@@ -42,9 +40,9 @@ Note that the `Apache.IoTDB` package only supports versions of the `.net framewo
 
 ## How to Use the Client (Quick Start)
 
-Users can quickly get started by referring to the use cases under the [Apache-IoTDB-Client-CSharp-UserCase](https://github.com/apache/iotdb-client-csharp/tree/main/Apache-IoTDB-Client-CSharp-UserCase) directory in the [iotdb-client-csharp Git repository](https://github.com/apache/iotdb-client-csharp). These use cases serve as a useful resource for getting familiar with the client's functionality and capabilities.
+Users can quickly get started by referring to the use cases under the Apache-IoTDB-Client-CSharp-UserCase directory. These use cases serve as a useful resource for getting familiar with the client's functionality and capabilities.
 
-For those who wish to delve deeper into the client's usage and explore more advanced features, the [samples](https://github.com/apache/iotdb-client-csharp/tree/main/samples/Apache.IoTDB.Samples) directory in the same repository contains additional code samples. 
+For those who wish to delve deeper into the client's usage and explore more advanced features, the samples directory contains additional code samples. 
 
 ## Developer environment requirements for iotdb-client-csharp
 
@@ -103,32 +101,32 @@ await session_pool.InsertTabletAsync(tablet);
 await session_pool.Close();
 ```
 
-### **Row Record**
+## **Row Record**
 
 - Encapsulate and abstract the `record` data in **IoTDB**
 - e.g.
 
-| timestamp | status | temperature |
-| --------- | ------ | ----------- |
-| 1         | 0      | 20          |
+  | timestamp | status | temperature |
+  | --------- | ------ | ----------- |
+  | 1         | 0      | 20          |
 
 - Construction：
 
 ```csharp
 var rowRecord = 
-  new RowRecord(long timestamp, List<object> values, List<string> measurements);
+  new RowRecord(long timestamps, List<object> values, List<string> measurements);
 ```
 
 ### **Tablet**
 
-- A data structure similar to a table, containing several non-empty data blocks of a device's rows。
+- A data structure similar to a table, containing several non empty data blocks of a device's rows。
 - e.g.
 
-| time | status | temperature |
-| ---- | ------ | ----------- |
-| 1    | 0      | 20          |
-| 2    | 0      | 20          |
-| 3    | 3      | 21          |
+  | time | status | temperature |
+  | ---- | ------ | ----------- |
+  | 1    | 0      | 20          |
+  | 2    | 0      | 20          |
+  | 3    | 3      | 21          |
 
 - Construction：
 
@@ -137,59 +135,61 @@ var tablet =
   Tablet(string deviceId,  List<string> measurements, List<List<object>> values, List<long> timestamps);
 ```
 
+
+
 ## **API**
 
 ### **Basic API**
 
-| api name       | parameters                | notes                    | use example                        |
-| -------------- | ------------------------- | ------------------------ |------------------------------------|
-| Open           | bool                      | open session             | session_pool.Open(false)           |
-| Close          | null                      | close session            | session_pool.Close()               |
-| IsOpen         | null                      | check if session is open | session_pool.IsOpen()              |
-| OpenDebugMode  | LoggingConfiguration=null | open debug mode          | session_pool.OpenDebugMode()       |
-| CloseDebugMode | null                      | close debug mode         | session_pool.CloseDebugMode()      |
-| SetTimeZone    | string                    | set time zone            | session_pool.SetTimeZone("+08:00") |
-| GetTimeZone    | null                      | get time zone            | session_pool.GetTimeZone()         |
+| api name       | parameters                | notes                    | use example                   |
+| -------------- | ------------------------- | ------------------------ | ----------------------------- |
+| Open           | bool                      | open session             | session_pool.Open(false)      |
+| Close          | null                      | close session            | session_pool.Close()          |
+| IsOpen         | null                      | check if session is open | session_pool.IsOpen()         |
+| OpenDebugMode  | LoggingConfiguration=null | open debug mode          | session_pool.OpenDebugMode()  |
+| CloseDebugMode | null                      | close debug mode         | session_pool.CloseDebugMode() |
+| SetTimeZone    | string                    | set time zone            | session_pool.GetTimeZone()    |
+| GetTimeZone    | null                      | get time zone            | session_pool.GetTimeZone()    |
 
 ### **Record API**
 
-| api name                            | parameters                        | notes                               | use example                                                                                                                          |
-|-------------------------------------|-----------------------------------|-------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------|
-| InsertRecordAsync                   | string, RowRecord                 | insert single record                | session_pool.InsertRecordAsync("root.97209_TEST_CSHARP_CLIENT_GROUP.TEST_CSHARP_CLIENT_DEVICE", new RowRecord(1, values, measures)); |
-| InsertRecordsAsync                  | List\<string\>, List\<RowRecord\> | insert records                      | session_pool.InsertRecordsAsync(device_ids, rowRecords)                                                                              |
-| InsertRecordsOfOneDeviceAsync       | string, List\<RowRecord\>         | insert records of one device        | session_pool.InsertRecordsOfOneDeviceAsync(device_id, rowRecords)                                                                    |
-| InsertRecordsOfOneDeviceSortedAsync | string, List\<RowRecord\>         | insert sorted records of one device | InsertRecordsOfOneDeviceSortedAsync(deviceId, sortedRowRecords);                                                                     |
-| TestInsertRecordAsync               | string, RowRecord                 | test insert record                  | session_pool.TestInsertRecordAsync("root.97209_TEST_CSHARP_CLIENT_GROUP.TEST_CSHARP_CLIENT_DEVICE", rowRecord)                       |
-| TestInsertRecordsAsync              | List\<string\>, List\<RowRecord\> | test insert record                  | session_pool.TestInsertRecordsAsync(device_ids, rowRecords)                                                                          |
+| api name                            | parameters                    | notes                               | use example                                                  |
+| ----------------------------------- | ----------------------------- | ----------------------------------- | ------------------------------------------------------------ |
+| InsertRecordAsync                   | string, RowRecord             | insert single record                | session_pool.InsertRecordAsync("root.97209_TEST_CSHARP_CLIENT_GROUP.TEST_CSHARP_CLIENT_DEVICE", new RowRecord(1, values, measures)); |
+| InsertRecordsAsync                  | List\<string\>, List\<RowRecord\> | insert records                      | session_pool.InsertRecordsAsync(device_id, rowRecords)       |
+| InsertRecordsOfOneDeviceAsync       | string, List\<RowRecord\>       | insert records of one device        | session_pool.InsertRecordsOfOneDeviceAsync(device_id, rowRecords) |
+| InsertRecordsOfOneDeviceSortedAsync | string, List\<RowRecord\>       | insert sorted records of one device | InsertRecordsOfOneDeviceSortedAsync(deviceId, sortedRowRecords); |
+| TestInsertRecordAsync               | string, RowRecord             | test insert record                  | session_pool.TestInsertRecordAsync("root.97209_TEST_CSHARP_CLIENT_GROUP.TEST_CSHARP_CLIENT_DEVICE", rowRecord) |
+| TestInsertRecordsAsync              | List\<string\>, List\<RowRecord\> | test insert record                  | session_pool.TestInsertRecordsAsync(device_id, rowRecords)   |
 
 ### **Tablet API**
 
-| api name               | parameters     | notes                | use example                                  |
-| ---------------------- |----------------| -------------------- |----------------------------------------------|
-| InsertTabletAsync      | Tablet         | insert single tablet | session_pool.InsertTabletAsync(tablet)       |
+| api name               | parameters   | notes                | use example                                  |
+| ---------------------- | ------------ | -------------------- | -------------------------------------------- |
+| InsertTabletAsync      | Tablet       | insert single tablet | session_pool.InsertTabletAsync(tablet)       |
 | InsertTabletsAsync     | List\<Tablet\> | insert tablets       | session_pool.InsertTabletsAsync(tablets)     |
-| TestInsertTabletAsync  | Tablet         | test insert tablet   | session_pool.TestInsertTabletAsync(tablet)   |
+| TestInsertTabletAsync  | Tablet       | test insert tablet   | session_pool.TestInsertTabletAsync(tablet)   |
 | TestInsertTabletsAsync | List\<Tablet\> | test insert tablets  | session_pool.TestInsertTabletsAsync(tablets) |
 
 ### **SQL API**
 
-| api name                      | parameters | notes                          | use example                                                                                                                                                                |
-| ----------------------------- | ---------- | ------------------------------ |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| ExecuteQueryStatementAsync    | string     | execute sql query statement    | session_pool.ExecuteQueryStatementAsync("select * from root.97209_TEST_CSHARP_CLIENT_GROUP.TEST_CSHARP_CLIENT_DEVICE where time<15");                                      |
+| api name                      | parameters | notes                          | use example                                                  |
+| ----------------------------- | ---------- | ------------------------------ | ------------------------------------------------------------ |
+| ExecuteQueryStatementAsync    | string     | execute sql query statement    | session_pool.ExecuteQueryStatementAsync("select * from root.97209_TEST_CSHARP_CLIENT_GROUP.TEST_CSHARP_CLIENT_DEVICE where time<15"); |
 | ExecuteNonQueryStatementAsync | string     | execute sql nonquery statement | session_pool.ExecuteNonQueryStatementAsync( "create timeseries root.97209_TEST_CSHARP_CLIENT_GROUP.TEST_CSHARP_CLIENT_DEVICE.status with datatype=BOOLEAN,encoding=PLAIN") |
 
 ### **Scheam API**
 
-| api name                   | parameters                                                                   | notes                       | use example                                                                                                      |
-| -------------------------- |------------------------------------------------------------------------------| --------------------------- |------------------------------------------------------------------------------------------------------------------|
-| SetStorageGroup            | string                                                                       | set storage group           | session_pool.SetStorageGroup("root.97209_TEST_CSHARP_CLIENT_GROUP_01")                                           |
-| CreateTimeSeries           | string, TSDataType, TSEncoding, Compressor                                   | create time series          | session_pool.CreateTimeSeries("root.97209_TEST_CSHARP_CLIENT_GROUP_01", data_type, encoding, compressor)         |
-| DeleteStorageGroupAsync    | string                                                                       | delete single storage group | session_pool.DeleteStorageGroupAsync("root.97209_TEST_CSHARP_CLIENT_GROUP_01")                                   |
-| DeleteStorageGroupsAsync   | List\<string\>                                                               | delete storage group        | session_pool.DeleteStorageGroupAsync("root.97209_TEST_CSHARP_CLIENT_GROUP")                                      |
-| CreateMultiTimeSeriesAsync | List\<string\>, List\<TSDataType\> , List\<TSEncoding\> , List\<Compressor\> | create multi time series    | session_pool.CreateMultiTimeSeriesAsync(ts_path_lst, data_type_lst, encoding_lst, compressor_lst);               |
-| DeleteTimeSeriesAsync      | List\<string\>                                                               | delete time series          | session_pool.DeleteTimeSeriesAsync(ts_path_lst)                                                                  |
-| DeleteTimeSeriesAsync      | string                                                                       | delete time series          | session_pool.DeleteTimeSeriesAsync("root.97209_TEST_CSHARP_CLIENT_GROUP_01")                                     |
-| DeleteDataAsync            | List\<string\>, long, long                                                   | delete data                 | session_pool.DeleteDataAsync(ts_path_lst, 2, 3)                                                                  |
+| api name                   | parameters                                                   | notes                       | use example                                                  |
+| -------------------------- | ------------------------------------------------------------ | --------------------------- | ------------------------------------------------------------ |
+| SetStorageGroup            | string                                                       | set storage group           | session_pool.SetStorageGroup("root.97209_TEST_CSHARP_CLIENT_GROUP_01") |
+| CreateTimeSeries           | string, TSDataType, TSEncoding, Compressor                   | create time series          | session_pool.InsertTabletsAsync(tablets)                     |
+| DeleteStorageGroupAsync    | string                                                       | delete single storage group | session_pool.DeleteStorageGroupAsync("root.97209_TEST_CSHARP_CLIENT_GROUP_01") |
+| DeleteStorageGroupsAsync   | List\<string\>                                                 | delete storage group        | session_pool.DeleteStorageGroupAsync("root.97209_TEST_CSHARP_CLIENT_GROUP") |
+| CreateMultiTimeSeriesAsync | List\<string\>, List\<TSDataType\> , List\<TSEncoding\> , List\<Compressor\> | create multi time series    | session_pool.CreateMultiTimeSeriesAsync(ts_path_lst, data_type_lst, encoding_lst, compressor_lst); |
+| DeleteTimeSeriesAsync      | List\<string\>                                                 | delete time series          |                                                              |
+| DeleteTimeSeriesAsync      | string                                                       | delete time series          |                                                              |
+| DeleteDataAsync            | List\<string\>, long, long                                     | delete data                 | session_pool.DeleteDataAsync(ts_path_lst, 2, 3)              |
 
 ### **Other API**
 
@@ -203,15 +203,11 @@ var tablet =
 
 ## SessionPool
 
-In order to execute concurrent client requests, we provide a `SessionPool` for the native interface. 
-Since `SessionPool` itself is a superset of `Session`, as soon as `SessionPool` is instantiated with a `pool_size` parameter set to 1, it reverts to the original `Session`.
+To implement concurrent client requests, we provide a `SessionPool` for the native interface. Since `SessionPool` itself is a superset of `Session`, when `SessionPool` is a When the `pool_size` parameter is set to 1, it reverts to the original `Session`
 
-We use the `ConcurrentQueue` data structure to encapsulate a client queue to maintain multiple connections with the server. 
-When the `Open()` interface is called, a specified number of clients are created and stored in the queue. 
-Synchronous access to the queue is achieved through the `System.Threading.Monitor` class.
+We use the `ConcurrentQueue` data structure to encapsulate a client queue to maintain multiple connections with the server. When the `Open()` interface is called, a specified number of clients are created in the queue, and synchronous access to the queue is achieved through the `System.Threading.Monitor` class.
 
-When a request is executed, it will try to find an idle client connection from the Connection pool. 
-If there is no idle connection, the program will wait until there is an idle connection available and use that.
+When a request occurs, it will try to find an idle client connection from the Connection pool. If there is no idle connection, the program will need to wait until there is an idle connection
 
-When a connection is finished executing a request, it will automatically be returned to the pool and be available for processing other requests.
+When a connection is used up, it will automatically return to the pool and wait for the next time it is used up
 

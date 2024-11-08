@@ -20,9 +20,9 @@
 -->
 # Database Resources
 ## CPU
-<table>
+<table style="text-align: center;">
       <tr>
-            <th rowspan="2">Number of second level sequences</th>
+            <th rowspan="2">Number of timeseries (frequency<=1HZ)</th>
             <th rowspan="2">CPU</th>        
             <th colspan="3">Number of nodes</th>
       </tr>
@@ -80,9 +80,9 @@
 </table>
 
 ## Memory 
-<table>
+<table style="text-align: center;">
       <tr>
-            <th rowspan="2">Number of second level sequences</th>
+            <th rowspan="2">Number of timeseries (frequency<=1HZ)</th>
             <th rowspan="2">Memory</th>        
             <th colspan="3">Number of nodes</th>
       </tr>
@@ -142,7 +142,7 @@
 ## Storage (Disk)
 ### Storage space
 Calculation formula: Number of measurement points * Sampling frequency (Hz) * Size of each data point (Byte, different data types may vary, see table below) * Storage time (seconds) * Number of copies (usually 1 copy for a single node and 2 copies for a cluster) ÷ Compression ratio (can be estimated at 5-10 times, but may be higher in actual situations)
-<table>
+<table style="text-align: center;">
       <tr>
             <th colspan="4">Data point size calculation</th>
       </tr>
@@ -184,5 +184,11 @@ Example: 1000 devices, each with 100 measurement points, a total of 100000 seque
 - Simplified calculation formula: 1000 * 100 * 12 * 86400 * 365 * 3/10=11T
 ### Storage Configuration
 If the number of nodes is over 10000000 or the query load is high, it is recommended to configure SSD
+## Network (Network card)
+If the write throughput does not exceed 10 million points/second, configure 1Gbps network card. When the write throughput exceeds 10 million points per second, a 10Gbps network card needs to be configured.
+| **Write throughput (data points per second)** | **NIC rate** |
+| ------------------- | ------------- |
+| <10 million | 1Gbps |
+| >=10 million | 10Gbps |
 ## Other instructions
 IoTDB has the ability to scale up clusters in seconds, and expanding node data does not require migration. Therefore, you do not need to worry about the limited cluster capacity estimated based on existing data. In the future, you can add new nodes to the cluster when you need to scale up.

@@ -26,7 +26,7 @@
  * golang >= 1.13
  * make   >= 3.0
  * curl   >= 7.1.1
- * thrift 0.13.x
+ * thrift 0.15.0
  * Linux、Macos 或其他类 unix 系统
  * Windows+bash (下载 IoTDB Go client 需要 git ，通过 WSL、cygwin、Git Bash 任意一种方式均可)
 

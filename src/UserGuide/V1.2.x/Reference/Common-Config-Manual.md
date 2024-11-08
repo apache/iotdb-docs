@@ -844,8 +844,8 @@ Different configuration parameters take effect in the following three ways:
 | :---------: |:-----------------------------------------------|
 | Description | enable the compaction between unsequence files |
 |    Type     | Boolean                                        |
-|   Default   | false                                          |
-|  Effective  | hot-load                                          |
+|   Default   | true                                           |
+|  Effective  | hot-load                                       |
 
 * enable\_cross\_space\_compaction
 

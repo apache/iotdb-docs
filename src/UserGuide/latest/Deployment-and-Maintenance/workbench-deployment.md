@@ -20,11 +20,11 @@
 -->
 # Workbench Deployment
 
-The visualization console is one of the supporting tools for IoTDB. It is an official application tool system used in various stages of database deployment, operation and maintenance management, and application development, making the use, operation and management of databases simpler and more efficient, truly achieving low-cost management and operation of databases. This document will help you install Workbench.
+The visualization console is one of the supporting tools for IoTDB (similar to Navicat for MySQL). It is an official application tool system used for database deployment implementation, operation and maintenance management, and application development stages, making the use, operation, and management of databases simpler and more efficient, truly achieving low-cost management and operation of databases. This document will assist you in installing Workbench.
 
  <div style="display: flex;justify-content: space-between;">                
-   <img src="https://alioss.timecho.com/docs/img/%E9%A6%96%E9%A1%B5.PNG" alt=" " style="width: 50%;"/>
-   <img src="https://alioss.timecho.com/docs/img/%E6%B5%8B%E7%82%B9%E5%88%97%E8%A1%A8.PNG" alt="" style="width: 50%;"/>     
+   <img src="https://alioss.timecho.com/docs/img/workbench-en-pklh.png" alt=" " style="width: 50%;"/>
+   <img src="https://alioss.timecho.com/docs/img/workbench-en-bxzk.png" alt=" " style="width: 50%;"/>     
 </div>
 
 
@@ -110,7 +110,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
 ### Step 2: Install and configure Prometheus
 
-1. Download the Prometheus installation package, which requires installation of V2.30.3 and above. You can go to the Prometheus official website to download it（https://prometheus.io/download）
+1. Download the Prometheus installation package, which requires installation of V2.30.3 and above. You can go to the Prometheus official website to download it (https://prometheus.io/docs/introduction/first_steps/)
 2. Unzip the installation package and enter the unzipped folder:
 
     ```Shell
@@ -146,7 +146,7 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
     ./prometheus --config.file=prometheus.yml --storage.tsdb.retention.time=180d
     ```
 
-5. Confirm successful startup. Enter in browser http://IP:port Go to Prometheus and click on the Target interface under Status. When you see that all States are Up, it indicates successful configuration and connectivity.
+5. Confirm successful startup. Enter in browser `http://IP:port` Go to Prometheus and click on the Target interface under Status. When you see that all States are Up, it indicates successful configuration and connectivity.
 
     <div style="display: flex;justify-content: space-between;">
       <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
@@ -161,12 +161,13 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 1. Enter the config directory of iotdb Workbench -`<version>`
 
 2. Modify Workbench configuration file: Go to the `config` folder and modify the configuration file `application-prod.properties`. If you are installing it locally, there is no need to modify it. If you are deploying it on a server, you need to modify the IP address
+    > Workbench can be deployed on a local or cloud server as long as it can connect to IoTDB
 
    | Configuration    | Before Modification                 | After modification                              |
    | ---------------- | ----------------------------------- | ----------------------------------------------- |
-   | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<Deployed IP address>` |
+   | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<Workbench's IP address>` |
 
-    ![](https://alioss.timecho.com/docs/img/windows.png)
+    ![](https://alioss.timecho.com/docs/img/workbench-conf-1.png)
 
 3. Startup program: Please execute the startup command in the sbin folder of IoTDB Workbench -`<version>`
 
@@ -179,21 +180,22 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
     ![](https://alioss.timecho.com/docs/img/windows-jps.png)
 
-5. Verification successful: Open "http://Server IP: Port in configuration file" in the browser to access, for example:“ http://127.0.0.1:9190 ”When the login interface appears, it is considered successful
+5. Verification successful: Open "`http://Server IP: Port in configuration file`" in the browser to access, for example:"`http://127.0.0.1:9190`" When the login interface appears, it is considered successful
 
-    ![](https://alioss.timecho.com/docs/img/windows-success.png)
+    ![](https://alioss.timecho.com/docs/img/workbench-en.png)
 
-#### Linux版：
+#### Linux：
 
 1. Enter the IoTDB Workbench -`<version>` directory
 
 2. Modify Workbench configuration: Go to the `config` folder and modify the configuration file `application-prod.properties`. If you are installing it locally, there is no need to modify it. If you are deploying it on a server, you need to modify the IP address
+    > Workbench can be deployed on a local or cloud server as long as it can connect to IoTDB
 
    | Configuration    | Before Modification                 | After modification                              |
    | ---------------- | ----------------------------------- | ----------------------------------------------- |
-   | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<Deployed IP address>` |
+   | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<Workbench's IP address>` |
 
-   ![](https://alioss.timecho.com/docs/img/linux.png)
+    ![](https://alioss.timecho.com/docs/img/workbench-conf-1.png)
 
 3. Startup program: Please execute the startup command in the sbin folder of IoTDB Workbench -`<version>`
 
@@ -206,14 +208,37 @@ The visualization console is one of the supporting tools for IoTDB. It is an off
 
     ![](https://alioss.timecho.com/docs/img/linux-jps.png)
 
-5. Verification successful: Open "http://Server IP: Port in configuration file" in the browser to access, for example:"http://127.0.0.1:9190" When the login interface appears, it is considered successful
+5. Verification successful: Open "`http://Server IP: Port in configuration file`" in the browser to access, for example:"`http://127.0.0.1:9190`" When the login interface appears, it is considered successful
 
-    ![](https://alioss.timecho.com/docs/img/linux-success.png)
+    ![](https://alioss.timecho.com/docs/img/workbench-en.png)
+
+### Step 4: Configure Instance Information
+
+1. Configure instance information: You only need to fill in the following information to connect to the instance
+
+   ![](https://alioss.timecho.com/docs/img/workbench-en-1.jpeg)
+
+
+    | Field Name      | Is It A Required Field | Field Meaning                                                | Default Value |
+    | --------------- | ---------------------- | ------------------------------------------------------------ | ------ |
+    | Connection Type |                        | The content filled in for different connection types varies, and supports selecting "single machine, cluster, dual active" | -      |
+    | Instance Name   | Yes                    | You can distinguish different instances based on their names, with a maximum input of 50 characters | -      |
+    | Instance        | Yes                    | Fill in the database address (`dn_rpc_address` field in the `iotdb/conf/iotdb-datanode.properties` file) and port number (`dn_rpc_port` field). Note: For clusters and dual active devices, clicking the "+" button supports entering multiple instance information | -      |
+    | Prometheus      | No                     | Fill in `http://<Prometheus IP address>:<Prometheus port number>/app/v1/query` to view some monitoring information on the homepage. We recommend that you configure and use it | -      |
+    | Username        | Yes                    | Fill in the username for IoTDB, supporting input of 4 to 32 characters, including uppercase and lowercase letters, numbers, and special characters (! @ # $% ^&* () _+-=) | root   |
+    | Enter Password  | No                     | Fill in the password for IoTDB. To ensure the security of the database, we will not save the password. Please fill in the password yourself every time you connect to the instance or test | root   |
+
+2. Test the accuracy of the information filled in: You can perform a connection test on the instance information by clicking the "Test" button
+
+    ![](https://alioss.timecho.com/docs/img/workbench-en-2.png)
 
 ## Appendix: IoTDB and Workbench Version Comparison Table
 
 | Workbench Version Number | Release Note                                                 | Supports IoTDB Versions   |
-| ------------------------ | ------------------------------------------------------------ | ------------------------- |
+| :------------------------: | :------------------------------------------------------------: | :-------------------------: |
+| V1.4.0       | New tree model display and internationalization                  | V1.3.2 and above versions |
+| V1.3.1       |New analysis methods have been added to the analysis function, and functions such as optimizing import templates have been optimized                                  |V1.3.2 and above versions  |
+| V1.3.0       |                      Add database configuration function             |V1.3.2 and above versions  |
 | V1.2.6                   | Optimize the permission control function of each module      | V1.3.1 and above versions |
 | V1.2.5                   | The visualization function has added the concept of "commonly used templates", and all interface optimization and page caching functions have been supplemented | V1.3.0 and above versions |
 | V1.2.4                   | The calculation function has added the "import and export" function, and the measurement point list has added the "time alignment" field | V1.2.2 and above versions |

@@ -19,7 +19,7 @@
 
 -->
 
-# IoTDB stream processing framework
+# Stream Processing
 
 The IoTDB stream processing framework allows users to implement customized stream processing logic, which can monitor and capture storage engine changes, transform changed data, and push transformed data outward.
 
@@ -465,7 +465,7 @@ Preparation: To register in this way, you need to upload the JAR package to the 
 SQL：
 
 ```sql
-SQL CREATE PIPEPLUGIN example 
+CREATE PIPEPLUGIN example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
 USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
 ```
@@ -477,7 +477,7 @@ Preparation: To register in this way, you need to place the JAR package in any p
 SQL：
 
 ```sql
-SQL CREATE PIPEPLUGIN example 
+CREATE PIPEPLUGIN example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
 USING URI '<file:/IoTDB installation path/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar>'
 ```
@@ -779,7 +779,7 @@ The following diagram shows all states and state transitions:
 
 ## Configuration parameters
 
-In iotdb-common.properties：
+In iotdb-system.properties：
 
 V1.3.0+:
 ```Properties

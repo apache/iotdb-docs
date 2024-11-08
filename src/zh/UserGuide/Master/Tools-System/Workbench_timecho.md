@@ -24,7 +24,7 @@ IoTDB的可视化控制台包含以下功能模块：
 * 首页
 ![首页.png](https://alioss.timecho.com/docs/img/%E9%A6%96%E9%A1%B5.png)
 * 测点列表
-![测点列表.png](https://alioss.timecho.com/docs/img/%E6%B5%8B%E7%82%B9%E5%88%97%E8%A1%A8.png)
+![测点列表.png](https://alioss.timecho.com/docs/img/workbench-1.png)
 * 数据查询
 ![数据查询.png](https://alioss.timecho.com/docs/img/%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2.png)
 * 趋势

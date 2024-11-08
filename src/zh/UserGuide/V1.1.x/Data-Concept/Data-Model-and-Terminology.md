@@ -43,7 +43,7 @@ IoTDB 模型结构涉及的基本概念在下文将做详细叙述。
 
 ### 数据库（Database）
 
-用户可以将任意前缀路径设置成数据库。如有 4 条时间序列`root.ln.wf01.wt01.status`, `root.ln.wf01.wt01.temperature`, `root.ln.wf02.wt02.hardware`, `root.ln.wf02.wt02.status`，路径`root.ln`下的两个实体 `wt01`, `wt02`可能属于同一个业主，或者同一个制造商，这时候就可以将前缀路径`root.ln`指定为一个数据库。未来`root.ln`下增加了新的实体，也将属于该数据库。
+用户可以将任意前缀路径设置成数据库。如有 4 条时间序列`root.ln.wf01.wt01.status`, `root.ln.wf01.wt01.temperature`, `root.ln.wf02.wt02.hardware`, `root.ln.wf02.wt02.status`，路径`root.ln`下的两个实体 `wf01`, `wf02`可能属于同一个业主，或者同一个制造商，这时候就可以将前缀路径`root.ln`指定为一个数据库。未来`root.ln`下增加了新的实体，也将属于该数据库。
 
 一个 database 中的所有数据会存储在同一批文件夹下，不同 database 的数据会存储在磁盘的不同文件夹下，从而实现物理隔离。
 

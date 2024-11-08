@@ -40,7 +40,7 @@ This command has two usages:
 
 The first parameter indicates the path of the tsfile to be loaded. This command has three options: sglevel, verify, onSuccess.
 
-SGLEVEL option. If the database correspond to the tsfile does not exist, the user can set the level of database through the fourth parameter. By default, it uses the database level which is set in `iotdb-datanode.properties`.
+SGLEVEL option. If the database correspond to the tsfile does not exist, the user can set the level of database through the fourth parameter. By default, it uses the database level which is set in `iotdb-system.properties`.
 
 VERIFY option. If this parameter is true, All timeseries in this loading tsfile will be compared with the timeseries in IoTDB. If existing a measurement which has different datatype with the measurement in IoTDB, the loading process will be stopped and exit. If consistence can be promised, setting false for this parameter will be a better choice.
 
@@ -72,7 +72,7 @@ Examples:
 * `load '/Users/Desktop/data' verify=true sglevel=1`
 * `load '/Users/Desktop/data' verify=false sglevel=1 onSuccess=delete`
 
-**NOTICE**:  When `$IOTDB_HOME$/conf/iotdb-datanode.properties` has `enable_auto_create_schema=true`, it will automatically create metadata in TSFILE, otherwise it will not be created automatically.
+**NOTICE**:  When `$IOTDB_HOME$/conf/iotdb-system.properties` has `enable_auto_create_schema=true`, it will automatically create metadata in TSFILE, otherwise it will not be created automatically.
 
 ### Load with Script
 
@@ -85,7 +85,7 @@ Run rewrite-tsfile.bat if you are in a Windows environment, or rewrite-tsfile.sh
 -p 			IoTDB port, optional field, 6667 by default
 -u 			IoTDB user name, optional field, root by default
 -pw 		IoTDB password, optional field, root by default
---sgLevel 	Sg level of loading Tsfile, optional field, default_storage_group_level in 				iotdb-common.properties by default
+--sgLevel 	Sg level of loading Tsfile, optional field, default_storage_group_level in 				iotdb-system.properties by default
 --verify 	Verify schema or not, optional field, True by default
 --onSuccess Delete or remain origin TsFile after loading, optional field, none by default
 ```

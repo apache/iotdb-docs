@@ -36,7 +36,7 @@
 > 本文以 3C3D 为例
 
 1. 进入`iotdb-enterprise-1.3.x.x-bin`包
-2. 修改配置文件`conf/iotdb-confignode.properties`，修改如下配置，其他配置保持不变：
+2. 修改配置文件`conf/iotdb-system.properties`，修改如下配置，其他配置保持不变：
 
 ```properties
 cn_metric_reporter_list=PROMETHEUS
@@ -56,7 +56,7 @@ cn_metric_prometheus_reporter_port=9091
 
 ### 1.1.3 启动 DataNode
 1. 进入`iotdb-enterprise-1.3.x.x-bin`包
-2. 修改配置文件`conf/iotdb-datanode.properties`，修改如下配置，其他配置保持不变：
+2. 修改配置文件`conf/iotdb-system.properties`，修改如下配置，其他配置保持不变：
 
 ```properties
 dn_metric_reporter_list=PROMETHEUS

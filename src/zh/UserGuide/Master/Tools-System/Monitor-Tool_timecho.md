@@ -20,7 +20,7 @@
 -->
 
 
-# Prometheus
+# 监控工具
 
 ## 监控指标的 Prometheus 映射关系
 
@@ -36,7 +36,7 @@
 
 ## 修改配置文件
 
-1) 以 DataNode 为例，修改 iotdb-datanode.properties 配置文件如下：
+1) 以 DataNode 为例，修改 iotdb-system.properties 配置文件如下：
 
 ```properties
 dn_metric_reporter_list=PROMETHEUS

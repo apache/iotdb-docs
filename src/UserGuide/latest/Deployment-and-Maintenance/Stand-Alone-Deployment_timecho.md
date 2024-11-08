@@ -18,50 +18,62 @@
     under the License.
 
 -->
-## Stand-Alone Deployment
+# Stand-Alone Deployment
 
 This chapter will introduce how to start an IoTDB standalone instance, which includes 1 ConfigNode and 1 DataNode (commonly known as 1C1D).
 
 ## Matters Needing Attention
 
-1. It is recommended to prioritize using 'hostname' for IP configuration during deployment, which can avoid the problem of modifying the host IP in the later stage and causing the database to fail to start. To set the host name, you need to configure/etc/hosts on the target server. For example, if the local IP is 192.168.1.3 and the host name is iotdb-1, you can use the following command to set the server's host name and configure IoTDB's' cn_internal-address' using the host name dn_internal_address、dn_rpc_address。
+1. Before installation, ensure that the system is complete by referring to [System configuration](./Environment-Requirements.md).
+
+2. It is recommended to prioritize using 'hostname' for IP configuration during deployment, which can avoid the problem of modifying the host IP in the later stage and causing the database to fail to start. To set the host name, you need to configure/etc/hosts on the target server. For example, if the local IP is 192.168.1.3 and the host name is iotdb-1, you can use the following command to set the server's host name and configure IoTDB's' cn_internal-address' using the host name dn_internal_address、dn_rpc_address。
 
    ```shell
    echo "192.168.1.3  iotdb-1" >> /etc/hosts 
    ```
 
-2. Some parameters cannot be modified after the first startup. Please refer to the "Parameter Configuration" section below for settings
+3. Some parameters cannot be modified after the first startup. Please refer to the "Parameter Configuration" section below for settings
 
-3. It is recommended to deploy a monitoring panel, which can monitor important operational indicators and keep track of database operation status at any time. The monitoring panel can be obtained by contacting the business department, and the steps for deploying the monitoring panel can be referred to：[Monitoring Board Install and Deploy](https://timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/Monitoring-Board-Install-and-Deploy.html)。
+4. Whether in linux or windows, ensure that the IoTDB installation path does not contain Spaces and Chinese characters to avoid software exceptions.
+
+5. Please note that when installing and deploying IoTDB (including activating and using software), it is necessary to use the same user for operations. You can:
+- Using root user (recommended): Using root user can avoid issues such as permissions.
+- Using a fixed non root user:
+  - Using the same user operation: Ensure that the same user is used for start, activation, stop, and other operations, and do not switch users.
+  - Avoid using sudo: Try to avoid using sudo commands as they execute commands with root privileges, which may cause confusion or security issues.
+
+6. It is recommended to deploy a monitoring panel, which can monitor important operational indicators and keep track of database operation status at any time. The monitoring panel can be obtained by contacting the business department, and the steps for deploying the monitoring panel can be referred to：[Monitoring Board Install and Deploy](./Monitoring-panel-deployment.md).
 
 ## Installation Steps
 
-### 1、Unzip the installation package and enter the installation directory
+### Unzip the installation package and enter the installation directory
 
 ```shell
 unzip  iotdb-enterprise-{version}-bin.zip
 cd  iotdb-enterprise-{version}-bin
 ```
 
-### 2、Parameter Configuration
+### Parameter Configuration
 
 #### Environment Script Configuration
 
-- ./conf/confignode env.sh (./conf/confignode env.bat) configuration
+- ./conf/confignode-env.sh (./conf/confignode-env.bat) configuration
 
 | **Configuration** |                       **Description**                        | **Default** |                    **Recommended value**                     |                Note                 |
 | :---------------: | :----------------------------------------------------------: | :---------: | :----------------------------------------------------------: | :---------------------------------: |
 |    MEMORY_SIZE    | The total amount of memory that IoTDB ConfigNode nodes can use |    empty    | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
 
-- ./conf/datanode-env.sh（./conf/datanode-env.bat）configuration
-env.sh
-| **Configuration** |                       **Description**                        | **Default** |                    **Recommended value**                     |                Note                 |
-| :---------------: | :----------------------------------------------------------: | :---------: | :----------------------------------------------------------: | :---------------------------------: |
-|    MEMORY_SIZE    | The total amount of memory that IoTDB DataNode nodes can use |    empty    | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
+
+- ./conf/datanode-env.sh (./conf/datanode-env.bat) configuration
+
+| **Configuration**  |               **Description**               | **Default** |                    **Recommended value**                    |      **Note**      |
+| :---------: | :----------------------------------: | :--------: | :----------------------------------------------: | :----------: |
+| MEMORY_SIZE | The total amount of memory that IoTDB DataNode nodes can use |     empty     | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
+
 
 #### System General Configuration
 
-Open the general configuration file (./conf/iotdb common. properties file) and set the following parameters:
+Open the general configuration file (./conf/iotdb-common. properties file) and set the following parameters:
 
 |     **Configuration**     |                       **Description**                        |  **Default**   |                    **Recommended value**                     |                         Note                          |
 | :-----------------------: | :----------------------------------------------------------: | :------------: | :----------------------------------------------------------: | :---------------------------------------------------: |
@@ -71,7 +83,7 @@ Open the general configuration file (./conf/iotdb common. properties file) and s
 
 #### ConfigNode Configuration
 
-Open the ConfigNode configuration file (./conf/iotdb configure. properties file) and set the following parameters:
+Open the ConfigNode configuration file (./conf/iotdb-confignode. properties file) and set the following parameters:
 
 |  **Configuration**  |                       **Description**                        |   **Default**   |                    **Recommended value**                     |                   Note                   |
 | :-----------------: | :----------------------------------------------------------: | :-------------: | :----------------------------------------------------------: | :--------------------------------------: |
@@ -82,7 +94,7 @@ Open the ConfigNode configuration file (./conf/iotdb configure. properties file)
 
 #### DataNode Configuration
 
-Open the DataNode configuration file/ conf/iotdb-datanode.properties， Set the following parameters:
+Open the DataNode configuration file (./conf/iotdb-datanode.properties file) and set the following parameters:
 
 | **Configuration**               | **Description**                                              | **Default**     | **Recommended value**                                        | **Note**                                 |
 | :------------------------------ | :----------------------------------------------------------- | :-------------- | :----------------------------------------------------------- | :--------------------------------------- |
@@ -95,7 +107,9 @@ Open the DataNode configuration file/ conf/iotdb-datanode.properties， Set the 
 | dn_schema_region_consensus_port | The port used by DataNode for metadata replica consensus protocol communication | 10760           | 10760                                                        | Cannot be modified after initial startup |
 | dn_seed_config_node             | The ConfigNode address that the node connects to when registering to join the cluster, i.e. cn_internal-address: cn_internal_port | 127.0.0.1:10710 | cn_internal_address:cn_internal_port                         | Cannot be modified after initial startup |
 
-### 3、Start ConfigNode
+> ❗️Attention: Editors such as VSCode Remote do not have automatic configuration saving function. Please ensure that the modified files are saved persistently, otherwise the configuration items will not take effect
+
+### Start ConfigNode
 
 Enter the sbin directory of iotdb and start confignode
 
@@ -103,7 +117,7 @@ Enter the sbin directory of iotdb and start confignode
 ./start-confignode.sh    -d      #The "- d" parameter will start in the background 
 ```
 
-### 4、Activate Database
+### Activate Database
 
 #### Method 1: Activate file copy activation
 
@@ -137,7 +151,7 @@ License has been stored to sbin/../activation/license
 Import completed. Please start cluster and excute 'show cluster' to verify activation status
 ```
 
-### 5、Start DataNode
+### Start DataNode
 
 Enter the sbin directory of iotdb and start datanode:
 
@@ -146,7 +160,7 @@ cd sbin
 ./start-datanode.sh   -d   # The "- d" parameter will start in the background
 ```
 
-### 6、Verify Deployment
+### Verify Deployment
 
 Can be executed directly/ Cli startup script in sbin directory:
 
@@ -163,3 +177,10 @@ After the installation success interface appears, continue to check if the activ
 When you see the display "Activated" on the far right, it indicates successful activation
 
 ![](https://alioss.timecho.com/docs/img/show%20cluster.png)
+
+> The appearance of 'Activated (W)' indicates passive activation, indicating that this Config Node does not have a license file (or has not issued the latest license file with a timestamp). At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Timecho staff to reapply.
+
+## Common Problem
+1. Multiple prompts indicating activation failure during deployment process
+    - Use the `ls -al` command: Use the `ls -al` command to check if the owner information of the installation package root directory is the current user.
+    - Check activation directory: Check all files in the `./activation` directory and whether the owner information is the current user.

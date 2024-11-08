@@ -19,7 +19,7 @@
 
 -->
 
-# Installation by Docker
+# Docker Install
 
 Apache IoTDB' Docker image is released on [https://hub.docker.com/r/apache/iotdb](https://hub.docker.com/r/apache/iotdb)
 Add environments of docker to update the configurations of Apache IoTDB.
