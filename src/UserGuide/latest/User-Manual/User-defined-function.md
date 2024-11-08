@@ -189,9 +189,7 @@ udf_reader_transformer_collector_memory_proportion=1:1:1
 
 There are 1 types of user permissions related to UDF: `USE_UDF`
 
-* Only users with this permission are allowed to register UDFs
-* Only users with this permission are allowed to deregister UDFs
-* Only users with this permission are allowed to use UDFs for queries
+* Only users with this permission are allowed to perform UDF registration, uninstallation, and query operations
 
 For more user permissions related content, please refer to [Account Management Statements](./Authority-Management.md).
 
