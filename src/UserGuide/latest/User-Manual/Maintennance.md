@@ -345,3 +345,27 @@ When executing explain analyze verbose, even if the query times out, the interme
 Observing the results, we found that it is because the query did not add a time condition, involving too much data, and the time of constructAlignedChunkReadersDiskTime and pageReadersDecodeAlignedDiskTime has been increasing, which means that new chunks are being read all the time. However, the output information of AlignedSeriesScanNode has always been 0, because the operator only gives up the time slice and updates the information when at least one line of data that meets the condition is output. Looking at the total reading time (loadTimeSeriesMetadataAlignedDiskSeqTime + loadTimeSeriesMetadataAlignedDiskUnSeqTime + constructAlignedChunkReadersDiskTime + pageReadersDecodeAlignedDiskTime = about 13.4 seconds), the other time (60s - 13.4 = 46.6) should all be spent on executing the filtering condition (the execution of the like predicate is very time-consuming).
 
 The final optimization plan is: Add a time filtering condition to avoid a full table scan.
+
+## Start/Stop Repair Data Statements
+Used to repair the unsorted data generate by system bug.(Supported version: 1.3.1 and later)
+### START REPAIR DATA
+
+Start a repair task to scan all files created before current time.
+The repair task will scan all tsfiles and repair some bad files.
+
+```sql
+IoTDB> START REPAIR DATA
+IoTDB> START REPAIR DATA ON LOCAL
+IoTDB> START REPAIR DATA ON CLUSTER
+```
+
+### STOP REPAIR DATA
+
+Stop the running repair task. To restart the stopped task.
+If there is a stopped repair task, it can be restart and recover the repair progress by executing SQL `START REPAIR DATA`.
+
+```sql
+IoTDB> STOP REPAIR DATA
+IoTDB> STOP REPAIR DATA ON LOCAL
+IoTDB> STOP REPAIR DATA ON CLUSTER
+```

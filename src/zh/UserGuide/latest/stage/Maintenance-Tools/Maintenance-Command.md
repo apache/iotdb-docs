@@ -47,6 +47,25 @@ IoTDB> CLEAR CACHE ON LOCAL
 IoTDB> CLEAR CACHE ON CLUSTER
 ```
 
+## START REPAIR DATA
+
+启动一个数据修复任务，扫描创建修复任务的时间之前产生的 tsfile 文件并修复有乱序错误的文件。(支持版本：1.3.1以上)
+
+```sql
+IoTDB> START REPAIR DATA
+IoTDB> START REPAIR DATA ON LOCAL
+IoTDB> START REPAIR DATA ON CLUSTER
+```
+
+## STOP REPAIR DATA
+
+停止一个进行中的修复任务。如果需要再次恢复一个已停止的数据修复任务的进度，可以重新执行 `START REPAIR DATA`。(支持版本：1.3.1以上)
+
+```sql
+IoTDB> STOP REPAIR DATA
+IoTDB> STOP REPAIR DATA ON LOCAL
+IoTDB> STOP REPAIR DATA ON CLUSTER
+```
 
 ## SET SYSTEM TO READONLY / RUNNING
 

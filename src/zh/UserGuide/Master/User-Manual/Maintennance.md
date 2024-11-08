@@ -326,3 +326,26 @@ select count(s1) as total from root.db.d1 where s1 like '%XXXXXXXX%'
 观察结果，我们发现是因为查询未加时间条件，涉及的数据太多 constructAlignedChunkReadersDiskTime 和 pageReadersDecodeAlignedDiskTime的耗时一直在涨，意味着一直在读新的 chunk。但 AlignedSeriesScanNode 的输出信息一直是 0，这是因为算子只有在输出至少一行满足条件的数据时，才会让出时间片，并更新信息。从总的读取耗时（loadTimeSeriesMetadataAlignedDiskSeqTime + loadTimeSeriesMetadataAlignedDiskUnSeqTime + constructAlignedChunkReadersDiskTime + pageReadersDecodeAlignedDiskTime=约13.4秒）来看，其他耗时（60s - 13.4 = 46.6）应该都是在执行过滤条件上（like 谓词的执行很耗时）。
 
 最终优化方案为：增加时间过滤条件，避免全表扫描
+
+## Start/Stop Repair Data 语句
+用于修复由于系统 bug 导致的乱序
+### START REPAIR DATA
+
+启动一个数据修复任务，扫描创建修复任务的时间之前产生的 tsfile 文件并修复有乱序错误的文件。
+
+```sql
+IoTDB> START REPAIR DATA
+IoTDB> START REPAIR DATA ON LOCAL
+IoTDB> START REPAIR DATA ON CLUSTER
+```
+
+### STOP REPAIR DATA
+
+停止一个进行中的修复任务。如果需要再次恢复一个已停止的数据修复任务的进度，可以重新执行 `START REPAIR DATA`.
+
+```sql
+IoTDB> STOP REPAIR DATA
+IoTDB> STOP REPAIR DATA ON LOCAL
+IoTDB> STOP REPAIR DATA ON CLUSTER
+```
+

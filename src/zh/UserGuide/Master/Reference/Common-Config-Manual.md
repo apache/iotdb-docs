@@ -1146,6 +1146,15 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |默认值| 50                                       |
 |改后生效方式| 重启生效                                   |
 
+* compaction\_schedule\_thread\_num
+
+|名字| compaction\_schedule\_thread\_num |
+|:---:|:-----------------------------------------|
+|描述| 选择合并任务的线程数量                              |
+|类型| int32                                    |
+|默认值| 4                                        |
+|改后生效方式| 热加载                                      |
+
 #### 写前日志配置
 
 * wal\_mode
