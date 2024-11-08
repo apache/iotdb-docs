@@ -34,7 +34,7 @@ Based on the ability of user-defined functions, IoTDB provides a series of funct
     | UDF-1.3.3.zip | V1.3.3 and above      | [UDF.zip](https://alioss.timecho.com/upload/UDF-1.3.3.zip)   |
     | UDF-1.3.2.zip | V1.0.0～V1.3.2  | [UDF.zip](https://alioss.timecho.com/upload/UDF-1.3.2.zip) |
     
-2. Place the library-udf.jar file from the obtained compressed package in the path of IoTDB at `/iotdb-enterprise-x.x.x.x-bin/ext/udf` 
+2. Place the library-udf.jar file in the compressed file obtained in the directory `/ext/udf ` of all nodes in the IoTDB cluster
 3. In the SQL command line terminal (CLI) or visualization console (Workbench) SQL operation interface of IoTDB, execute the corresponding function registration statement as follows.
 4.  Batch registration: Two registration methods: registration script or SQL full statement
 - Register Script 
