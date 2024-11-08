@@ -185,9 +185,7 @@ udf_reader_transformer_collector_memory_proportion=1:1:1
 
 ###  3.5 UDF 用户权限
 
-用户在使用 UDF 时会涉及到 1 种权限：`USE_UDF`
-
-* 具备该权限的用户才被允许执行 UDF 注册、卸载和查询操作
+用户在使用 UDF 时会涉及到 `USE_UDF` 权限，具备该权限的用户才被允许执行 UDF 注册、卸载和查询操作。
 
 更多用户权限相关的内容，请参考 [权限管理语句](./Authority-Management.md##权限管理)。
 
