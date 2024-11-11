@@ -23,7 +23,7 @@
 本小节将以IoTDB经典集群部署架构3C3D（3个ConfigNode和3个DataNode）为例，介绍如何部署集群，即通常所说的3C3D集群。3C3D集群架构图如下：
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.png" alt="" style="width: 60%;"/>
+    <img src="https://alioss.timecho.com/docs/img/%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.png)" alt="" style="width: 60%;"/>
 </div>
 
 ## 注意事项
@@ -97,7 +97,7 @@ cd  apache-iotdb-{version}-all-bin
 
 #### 通用配置
 
-打开通用配置文件`./conf/iotdb-common.properties`，可根据部署方式设置以下参数：
+打开通用配置文件`./conf/iotdb-system.properties`，可根据部署方式设置以下参数：
 
 | 配置项                    | 说明                                     | 192.168.1.3    | 192.168.1.4    | 192.168.1.5    |
 | ------------------------- | ---------------------------------------- | -------------- | -------------- | -------------- |
@@ -107,7 +107,7 @@ cd  apache-iotdb-{version}-all-bin
 
 #### ConfigNode 配置
 
-打开ConfigNode配置文件`./conf/iotdb-confignode.properties`，设置以下参数
+打开ConfigNode配置文件`./conf/iotdb-system.properties`，设置以下参数
 
 | 配置项              | 说明                                                         | 默认            | 推荐值                                                  | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | 备注               |
 | ------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------- | ------------- | ------------- | ------------- | ------------------ |
@@ -118,11 +118,11 @@ cd  apache-iotdb-{version}-all-bin
 
 #### DataNode 配置
 
-打开DataNode配置文件 `./conf/iotdb-datanode.properties`，设置以下参数：
+打开DataNode配置文件 `./conf/iotdb-system.properties`，设置以下参数：
 
 | 配置项                          | 说明                                                         | 默认            | 推荐值                                                  | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | 备注               |
 | ------------------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------- | ------------- | ------------- | ------------- | ------------------ |
-| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 127.0.0.1       |  推荐使用所在服务器的**IPV4地址或hostname**       |  iotdb-1       |iotdb-2       | iotdb-3       | 重启服务生效       |
+| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 127.0.0.1       |  推荐使用所在服务器的**IPV4地址或hostname**      |  iotdb-1       |iotdb-2       | iotdb-3       | 重启服务生效       |
 | dn_rpc_port                     | 客户端 RPC 服务的端口                                        | 6667            | 6667                                                    | 6667          | 6667          | 6667          | 重启服务生效       |
 | dn_internal_address             | DataNode在集群内部通讯使用的地址                             | 127.0.0.1       | 所在服务器的IPV4地址或hostname，推荐使用hostname        | iotdb-1       | iotdb-2       | iotdb-3       | 首次启动后不能修改 |
 | dn_internal_port                | DataNode在集群内部通信使用的端口                             | 10730           | 10730                                                   | 10730         | 10730         | 10730         | 首次启动后不能修改 |
@@ -141,7 +141,7 @@ cd  apache-iotdb-{version}-all-bin
 cd sbin
 ./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
 ```
-如果启动失败，请参考[常见问题](#常见问题)。
+如果启动失败，请到[常见问题](#常见问题)查看解决方案。
 
 ### 启动DataNode 节点
 
@@ -149,7 +149,7 @@ cd sbin
 
 ```Bash
 cd sbin
-./start-datanode.sh   -d   # “-d”参数将在后台进行启动  
+./start-datanode.sh   -d   #“-d”参数将在后台进行启动 
 ```
 
 ### 验证部署
@@ -178,7 +178,7 @@ ConfigNode节点维护分为ConfigNode添加和移除两种操作，有两个常
 - 集群扩展：如集群中只有1个ConfigNode时，希望增加ConfigNode以提升ConfigNode节点高可用性，则可以添加2个ConfigNode，使得集群中有3个ConfigNode。
 - 集群故障恢复：1个ConfigNode所在机器发生故障，使得该ConfigNode无法正常运行，此时可以移除该ConfigNode，然后添加一个新的ConfigNode进入集群。
 
-> ❗️注意，在完成ConfigNode节点维护后，需要保证集群中有1或者3个正常运行的ConfigNode。2个ConfigNode不具备高可用性，超过3个ConfigNode会导致性能损失。
+> ❗️注意，在完成ConfigNode节点维护后，需要保证集群中有1或者3个正常运行的ConfigNode。2个ConfigNode不具备高可用性，超过3个ConfigNode会导致性能损失。 
 
 #### 添加ConfigNode节点
 
@@ -302,15 +302,15 @@ It costs 0.110s
 
 ```Bash
 # Linux / MacOS 
-sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
+sbin/remove-datanode.sh [datanode_id]
 
 #Windows
-sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
+sbin/remove-datanode.bat [datanode_id]
 ```
 
 ## 常见问题
 
-1. Confignode节点启动失败
+1.  启动confignode的命令后，节点多次启动失败或出现运行错误的提示？
 
     步骤 1: 请查看启动日志，检查是否修改了某些首次启动后不可改的参数。
 

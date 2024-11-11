@@ -260,7 +260,7 @@ ALTER USER <username> SET PASSWORD <password>;
 Example: IoTDB > ALTER USER root SET PASSWORD 'newpwd';
 ```
 
-More about administration options：[Administration Management](../User-Manual/Security-Management.md)
+More about administration options：[Administration Management](../User-Manual/Security-Management_timecho.md)
 
 ## Basic configuration
 

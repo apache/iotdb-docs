@@ -550,14 +550,14 @@ Output series:
 
 This function is used to calculate the auto-correlation factor of the input time series,
 which equals to cross correlation between the same series.
-For more information, please refer to [XCorr](./Data-Matching.md#XCorr) function.
+For more information, please refer to [XCorr](#xcorr) function.
 
 **Name:** ACF
 
 **Input Series:** Only support a single input numeric series. The type is INT32 / INT64 / FLOAT / DOUBLE.
 
 **Output Series:** Output a single series. The type is DOUBLE.
-There are $2N-1$ data points in the series, and the values are interpreted in details in [XCorr](./Data-Matching.md#XCorr) function.
+There are $2N-1$ data points in the series, and the values are interpreted in details in [XCorr](#xcorr) function.
 
 **Note:**
 

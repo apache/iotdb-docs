@@ -28,7 +28,7 @@
 
   ![](https://alioss.timecho.com/docs/img/ThingsBoard-en1.png)
 
-2. Introduction to ThingsBoard-IoTDB
+1. Introduction to ThingsBoard-IoTDB
 
   ThingsBoard IoTDB provides the ability to store data from ThingsBoard to IoTDB, and also supports reading data information from the `root.thingsboard` database in ThingsBoard. The detailed architecture diagram is shown in yellow in the following figure.
 
@@ -79,7 +79,7 @@ export IoTDB_DATABASE:root.thingsboard  ## Thingsboard data is written to the da
 
   ![](https://alioss.timecho.com/docs/img/Thingsboard-en2.png)
 
-2. Set rule chain: Set alarm rules for "SD-032F pump" in the rule chain library and set the rule chain as the root chain.
+2. Set rule chain: Set alarm rules for "SD-032F pump" in the rule chain library and set the rule chain as the root chain
 
   <div style="display: flex;justify-content: space-between;">           
     <img src="https://alioss.timecho.com/docs/img/thingsboard-en3.png" alt=" " style="width: 50%;"/>
@@ -87,7 +87,7 @@ export IoTDB_DATABASE:root.thingsboard  ## Thingsboard data is written to the da
   </div>
 
 
-3. View alarm records: The generated alarm records can be found under "Devices" - "Alarms.
+3. View alarm records: The generated alarm records can be found under "Devices" - "Alarms
 
   ![](https://alioss.timecho.com/docs/img/Thingsboard-en5.png)
 

@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Obtain IoTDB
+# Package Acquisition
 
 ## How to obtain installation packages
 The installation package can be directly obtained from the Apache IoTDB official website:https://iotdb.apache.org/Download/

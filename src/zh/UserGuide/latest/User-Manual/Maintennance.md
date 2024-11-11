@@ -104,7 +104,7 @@ EXPLAIN ANALYZE [VERBOSE] <SELECT_STATEMENT>
 
 ![explain-analyze-2.png](https://alioss.timecho.com/upload/explain-analyze-2.png)
 
-用户也可以自行修改 iotdb-common.properties 中的配置项`merge_threshold_of_explain_analyze`来设置触发合并的节点阈值，该参数支持热加载。
+用户也可以自行修改 iotdb-system.properties 中的配置项`merge_threshold_of_explain_analyze`来设置触发合并的节点阈值，该参数支持热加载。
 
 2. 查询超时场景使用 Explain Analyze 语句
 
@@ -328,7 +328,7 @@ select count(s1) as total from root.db.d1 where s1 like '%XXXXXXXX%'
 最终优化方案为：增加时间过滤条件，避免全表扫描
 
 ## Start/Stop Repair Data 语句
-用于修复由于系统 bug 导致的乱序（1.3.1 以上版本支持此命令）
+用于修复由于系统 bug 导致的乱序
 ### START REPAIR DATA
 
 启动一个数据修复任务，扫描创建修复任务的时间之前产生的 tsfile 文件并修复有乱序错误的文件。

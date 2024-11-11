@@ -79,21 +79,21 @@ The existence of operation log writing events provides users with a unified view
 /** TabletInsertionEvent is used to define the event of data insertion. */
 public interface TabletInsertionEvent extends Event {
 
-  /**
-   * The consumer processes the data row by row and collects the results by RowCollector.
-   *
-   * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
-   *     results collected by the RowCollector
-   */
-  Iterable<TabletInsertionEvent> processRowByRow(BiConsumer<Row, RowCollector> consumer);
+    /**
+     * The consumer processes the data row by row and collects the results by RowCollector.
+     *
+     * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
+     *     results collected by the RowCollector
+     */
+    Iterable<TabletInsertionEvent> processRowByRow(BiConsumer<Row, RowCollector> consumer);
 
-  /**
-   * The consumer processes the Tablet directly and collects the results by RowCollector.
-   *
-   * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
-   *     results collected by the RowCollector
-   */
-  Iterable<TabletInsertionEvent> processTablet(BiConsumer<Tablet, RowCollector> consumer);
+    /**
+     * The consumer processes the Tablet directly and collects the results by RowCollector.
+     *
+     * @return {@code Iterable<TabletInsertionEvent>} a list of new TabletInsertionEvent contains the
+     *     results collected by the RowCollector
+     */
+    Iterable<TabletInsertionEvent> processTablet(BiConsumer<Tablet, RowCollector> consumer);
 }
 ```
 
@@ -118,12 +118,12 @@ To sum up, the data file writing event appears in the event stream of the stream
  */
 public interface TsFileInsertionEvent extends Event {
 
-  /**
-   * The method is used to convert the TsFileInsertionEvent into several TabletInsertionEvents.
-   *
-   * @return {@code Iterable<TabletInsertionEvent>} the list of TabletInsertionEvent
-   */
-  Iterable<TabletInsertionEvent> toTabletInsertionEvents();
+    /**
+     * The method is used to convert the TsFileInsertionEvent into several TabletInsertionEvents.
+     *
+     * @return {@code Iterable<TabletInsertionEvent>} the list of TabletInsertionEvent
+     */
+    Iterable<TabletInsertionEvent> toTabletInsertionEvents();
 }
 ```
 
@@ -248,68 +248,68 @@ various events.
  */
 public interface PipeProcessor extends PipePlugin {
 
-  /**
-   * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
-   * PipeProcessor#customize(PipeParameters, PipeProcessorRuntimeConfiguration)} is called.
-   *
-   * @param validator the validator used to validate {@link PipeParameters}
-   * @throws Exception if any parameter is not valid
-   */
-  void validate(PipeParameterValidator validator) throws Exception;
+    /**
+     * This method is mainly used to validate {@link PipeParameters} and it is executed before {@link
+     * PipeProcessor#customize(PipeParameters, PipeProcessorRuntimeConfiguration)} is called.
+     *
+     * @param validator the validator used to validate {@link PipeParameters}
+     * @throws Exception if any parameter is not valid
+     */
+    void validate(PipeParameterValidator validator) throws Exception;
 
-  /**
-   * This method is mainly used to customize PipeProcessor. In this method, the user can do the
-   * following things:
-   *
-   * <ul>
-   *   <li>Use PipeParameters to parse key-value pair attributes entered by the user.
-   *   <li>Set the running configurations in PipeProcessorRuntimeConfiguration.
-   * </ul>
-   *
-   * <p>This method is called after the method {@link
-   * PipeProcessor#validate(PipeParameterValidator)} is called and before the beginning of the
-   * events processing.
-   *
-   * @param parameters used to parse the input parameters entered by the user
-   * @param configuration used to set the required properties of the running PipeProcessor
-   * @throws Exception the user can throw errors if necessary
-   */
-  void customize(PipeParameters parameters, PipeProcessorRuntimeConfiguration configuration)
-          throws Exception;
+    /**
+     * This method is mainly used to customize PipeProcessor. In this method, the user can do the
+     * following things:
+     *
+     * <ul>
+     *   <li>Use PipeParameters to parse key-value pair attributes entered by the user.
+     *   <li>Set the running configurations in PipeProcessorRuntimeConfiguration.
+     * </ul>
+     *
+     * <p>This method is called after the method {@link
+     * PipeProcessor#validate(PipeParameterValidator)} is called and before the beginning of the
+     * events processing.
+     *
+     * @param parameters used to parse the input parameters entered by the user
+     * @param configuration used to set the required properties of the running PipeProcessor
+     * @throws Exception the user can throw errors if necessary
+     */
+    void customize(PipeParameters parameters, PipeProcessorRuntimeConfiguration configuration)
+            throws Exception;
 
-  /**
-   * This method is called to process the TabletInsertionEvent.
-   *
-   * @param tabletInsertionEvent TabletInsertionEvent to be processed
-   * @param eventCollector used to collect result events after processing
-   * @throws Exception the user can throw errors if necessary
-   */
-  void process(TabletInsertionEvent tabletInsertionEvent, EventCollector eventCollector)
-          throws Exception;
+    /**
+     * This method is called to process the TabletInsertionEvent.
+     *
+     * @param tabletInsertionEvent TabletInsertionEvent to be processed
+     * @param eventCollector used to collect result events after processing
+     * @throws Exception the user can throw errors if necessary
+     */
+    void process(TabletInsertionEvent tabletInsertionEvent, EventCollector eventCollector)
+            throws Exception;
 
-  /**
-   * This method is called to process the TsFileInsertionEvent.
-   *
-   * @param tsFileInsertionEvent TsFileInsertionEvent to be processed
-   * @param eventCollector used to collect result events after processing
-   * @throws Exception the user can throw errors if necessary
-   */
-  default void process(TsFileInsertionEvent tsFileInsertionEvent, EventCollector eventCollector)
-          throws Exception {
-    for (final TabletInsertionEvent tabletInsertionEvent :
-            tsFileInsertionEvent.toTabletInsertionEvents()) {
-      process(tabletInsertionEvent, eventCollector);
+    /**
+     * This method is called to process the TsFileInsertionEvent.
+     *
+     * @param tsFileInsertionEvent TsFileInsertionEvent to be processed
+     * @param eventCollector used to collect result events after processing
+     * @throws Exception the user can throw errors if necessary
+     */
+    default void process(TsFileInsertionEvent tsFileInsertionEvent, EventCollector eventCollector)
+            throws Exception {
+        for (final TabletInsertionEvent tabletInsertionEvent :
+                tsFileInsertionEvent.toTabletInsertionEvents()) {
+            process(tabletInsertionEvent, eventCollector);
+        }
     }
-  }
 
-  /**
-   * This method is called to process the Event.
-   *
-   * @param event Event to be processed
-   * @param eventCollector used to collect result events after processing
-   * @throws Exception the user can throw errors if necessary
-   */
-  void process(Event event, EventCollector eventCollector) throws Exception;
+    /**
+     * This method is called to process the Event.
+     *
+     * @param event Event to be processed
+     * @param eventCollector used to collect result events after processing
+     * @throws Exception the user can throw errors if necessary
+     */
+    void process(Event event, EventCollector eventCollector) throws Exception;
 }
 ```
 
@@ -526,11 +526,11 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
     >
     >   * root.aligned.1TS
     >   * root.aligned.1TS.\`1\`
->   * root.aligned.100TS
-      >
-      >   the data will be synchronized;
-      >
-      >   * root.aligned.\`1\`
+    >   * root.aligned.100TS
+          >
+          >   the data will be synchronized;
+          >
+          >   * root.aligned.\`1\`
 >   * root.aligned.\`123\`
       >
       >   the data will not be synchronized.
@@ -654,7 +654,7 @@ The semantics expressed are: synchronize all historical data in this database in
 - SINK is a required configuration and needs to be configured declaratively in the CREATE PIPE statement
 - SINK has self-reuse capability. For different stream processing tasks, if their SINKs have the same KV attributes (the keys corresponding to the values of all attributes are the same), then the system will only create one SINK instance in the end to realize the duplication of connection resources.
 
-   - For example, there are the following declarations of two stream processing tasks, pipe1 and pipe2:
+    - For example, there are the following declarations of two stream processing tasks, pipe1 and pipe2:
 
   ```sql
   CREATE PIPE pipe1
@@ -675,8 +675,8 @@ The semantics expressed are: synchronize all historical data in this database in
 - Because their declarations of SINK are exactly the same (**even if the order of declaration of some attributes is different**), the framework will automatically reuse the SINKs they declared, and ultimately the SINKs of pipe1 and pipe2 will be the same instance. .
 - When the source is the default iotdb-source, and source.forwarding-pipe-requests is the default value true, please do not build an application scenario that includes data cycle synchronization (it will cause an infinite loop):
 
-   - IoTDB A -> IoTDB B -> IoTDB A
-   - IoTDB A -> IoTDB A
+    - IoTDB A -> IoTDB B -> IoTDB A
+    - IoTDB A -> IoTDB A
 
 ### Start the stream processing task
 
@@ -744,11 +744,11 @@ WHERE SINK USED BY <PipeId>
 A stream processing pipe will pass through various states during its managed life cycle:
 
 - **RUNNING:** pipe is working properly
-   - When a pipe is successfully created, its initial state is RUNNING.(V1.3.1+)
+    - When a pipe is successfully created, its initial state is RUNNING.(V1.3.1+)
 - **STOPPED:** The pipe is stopped. When the pipeline is in this state, there are several possibilities:
-   - When a pipe is successfully created, its initial state is STOPPED.(V1.3.0)
-   - The user manually pauses a pipe that is in normal running status, and its status will passively change from RUNNING to STOPPED.
-   - When an unrecoverable error occurs during the running of a pipe, its status will automatically change from RUNNING to STOPPED
+    - When a pipe is successfully created, its initial state is STOPPED.(V1.3.0)
+    - The user manually pauses a pipe that is in normal running status, and its status will passively change from RUNNING to STOPPED.
+    - When an unrecoverable error occurs during the running of a pipe, its status will automatically change from RUNNING to STOPPED
 - **DROPPED:** The pipe task was permanently deleted
 
 The following diagram shows all states and state transitions:
@@ -779,7 +779,7 @@ The following diagram shows all states and state transitions:
 
 ## Configuration parameters
 
-In iotdb-common.properties：
+In iotdb-system.properties：
 
 V1.3.0+:
 ```Properties

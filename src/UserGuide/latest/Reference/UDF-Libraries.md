@@ -21,6 +21,8 @@
 
 # UDF Libraries
 
+# UDF Libraries
+
 Based on the ability of user-defined functions, IoTDB provides a series of functions for temporal data processing, including data quality, data profiling, anomaly detection, frequency domain analysis, data matching, data repairing, sequence discovery, machine learning, etc., which can meet the needs of industrial fields for temporal data processing.
 
 ## Installation steps
@@ -41,7 +43,6 @@ Based on the ability of user-defined functions, IoTDB provides a series of funct
 
 - All SQL statements
     - Open the SQl file in the compressed package, copy all SQL statements, and execute all SQl statements in the SQL command line terminal (CLI) of IoTDB or the SQL operation interface of the visualization console (Workbench) to batch register UDF
-
 
 ## Data Quality
 
@@ -1224,7 +1225,6 @@ Output series:
 ```
 
 
-
 ### MvAvg
 
 #### Registration statement
@@ -2325,6 +2325,7 @@ Output series:
 |1970-01-01T08:00:00.000+08:00|                   26.0|
 +-----------------------------+-----------------------+
 ```
+
 
 
 ### ZScore

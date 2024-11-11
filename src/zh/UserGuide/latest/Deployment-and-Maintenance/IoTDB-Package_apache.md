@@ -19,7 +19,6 @@
 
 -->
 # 安装包获取
-
 ## 安装包获取方式
 
 安装包可直接在Apache IoTDB官网获取：https://iotdb.apache.org/zh/Download/

@@ -20,7 +20,6 @@
 -->
 
 
-
 # Maintennance
 
 ## Explain/Explain Analyze Statements
@@ -93,7 +92,7 @@ Explain Analyze is a performance analysis SQL that comes with the IoTDB query en
 ```SQL
 EXPLAIN ANALYZE [VERBOSE] <SELECT_STATEMENT>
 ```
-
+        
 Where SELECT_STATEMENT corresponds to the query statement that needs to be analyzed; VERBOSE prints detailed analysis results, and when VERBOSE is not filled in, EXPLAIN ANALYZE will omit some information.
 
 In the EXPLAIN ANALYZE result set, the following information is included:
@@ -113,7 +112,7 @@ Since the Fragment will output all the node information executed in the current 
 
 ![explain-analyze-2.png](https://alioss.timecho.com/upload/explain-analyze-2.png)
 
-Users can also modify the configuration item `merge_threshold_of_explain_analyze` in `iotdb-common.properties` to set the threshold for triggering the merge of nodes. This parameter supports hot loading.
+Users can also modify the configuration item `merge_threshold_of_explain_analyze` in `iotdb-system.properties` to set the threshold for triggering the merge of nodes. This parameter supports hot loading.
 
 2. Use of Explain Analyze Statement in Query Timeout Scenarios
 
@@ -279,9 +278,9 @@ Wall time, also known as real time or physical time, refers to the total time fr
 
 1. Scenarios where WALL TIME < CPU TIME: For example, a query slice is finally executed in parallel by the scheduler using two threads. In the real physical world, 10 seconds have passed, but the two threads may have occupied two CPU cores and run for 10 seconds each, so the CPU time would be 20 seconds, while the wall time would be 10 seconds.
 
-2. Scenarios where WALL TIME > CPU TIME: Since there may be multiple queries running in parallel within the system, but the number of execution threads and memory is fixed,
-    1. So when a query slice is blocked by some resources (such as not having enough memory for data transfer or waiting for upstream data), it will be put into the Blocked Queue. At this time, the query slice will not occupy CPU time, but the WALL TIME (real physical time) is still advancing.
-    2. Or when the query thread resources are insufficient, for example, there are currently 16 query threads in total, but there are 20 concurrent query slices within the system. Even if all queries are not blocked, only 16 query slices can run in parallel at the same time, and the other four will be put into the READY QUEUE, waiting to be scheduled for execution. At this time, the query slice will not occupy CPU time, but the WALL TIME (real physical time) is still advancing.
+2. Scenarios where WALL TIME > CPU TIME: Since there may be multiple queries running in parallel within the system, but the number of execution threads and memory is fixed, 
+   1. So when a query slice is blocked by some resources (such as not having enough memory for data transfer or waiting for upstream data), it will be put into the Blocked Queue. At this time, the query slice will not occupy CPU time, but the WALL TIME (real physical time) is still advancing. 
+   2. Or when the query thread resources are insufficient, for example, there are currently 16 query threads in total, but there are 20 concurrent query slices within the system. Even if all queries are not blocked, only 16 query slices can run in parallel at the same time, and the other four will be put into the READY QUEUE, waiting to be scheduled for execution. At this time, the query slice will not occupy CPU time, but the WALL TIME (real physical time) is still advancing.
 
 #### Is there any additional overhead with Explain Analyze, and is the measured time different from when the query is actually executed?
 
@@ -299,10 +298,10 @@ There are mainly two impacts of unaligned data:
 
 1. An additional merge sort needs to be done in memory (it is generally believed that this time consumption is relatively short, after all, it is a pure memory CPU operation)
 
-2. Unaligned data will generate overlapping time ranges between data blocks, making statistical information unusable
-    1. Unable to directly skip the entire chunk that does not meet the value filtering requirements using statistical information
-        1. Generally, the user's query only includes time filtering conditions, so there will be no impact
-    2. Unable to directly calculate the aggregate value using statistical information without reading the data
+2. Unaligned data will generate overlapping time ranges between data blocks, making statistical information unusable 
+   1. Unable to directly skip the entire chunk that does not meet the value filtering requirements using statistical information 
+      1. Generally, the user's query only includes time filtering conditions, so there will be no impact 
+   2. Unable to directly calculate the aggregate value using statistical information without reading the data
 
 At present, there is no effective observation method for the performance impact of unaligned data alone, unless a query is executed when there is unaligned data, and then executed again after the unaligned data is merged, in order to compare.
 
@@ -342,12 +341,14 @@ When executing explain analyze verbose, even if the query times out, the interme
 
 ![explain-analyze-5.png](https://alioss.timecho.com/upload/explain-analyze-5.png)
 
+
 Observing the results, we found that it is because the query did not add a time condition, involving too much data, and the time of constructAlignedChunkReadersDiskTime and pageReadersDecodeAlignedDiskTime has been increasing, which means that new chunks are being read all the time. However, the output information of AlignedSeriesScanNode has always been 0, because the operator only gives up the time slice and updates the information when at least one line of data that meets the condition is output. Looking at the total reading time (loadTimeSeriesMetadataAlignedDiskSeqTime + loadTimeSeriesMetadataAlignedDiskUnSeqTime + constructAlignedChunkReadersDiskTime + pageReadersDecodeAlignedDiskTime = about 13.4 seconds), the other time (60s - 13.4 = 46.6) should all be spent on executing the filtering condition (the execution of the like predicate is very time-consuming).
 
 The final optimization plan is: Add a time filtering condition to avoid a full table scan.
 
+
 ## Start/Stop Repair Data Statements
-Used to repair the unsorted data generate by system bug.(Supported version: 1.3.1 and later)
+Used to repair the unsorted data generate by system bug. 
 ### START REPAIR DATA
 
 Start a repair task to scan all files created before current time.

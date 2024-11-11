@@ -45,12 +45,12 @@ This section will take the IoTDB classic cluster deployment architecture 3C3D (3
 - Using a fixed non root user:
   - Using the same user operation: Ensure that the same user is used for start, stop and other operations, and do not switch users.
   - Avoid using sudo: Try to avoid using sudo commands as they execute commands with root privileges, which may cause confusion or security issues.
-
+  
 ## Preparation Steps
 
 1. Prepare the IoTDB database installation package:：apache-iotdb-{version}-all-bin.zip（Please refer to the installation package for details：[IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_apache.md)）
 
-2. Configure the operating system environment according to environmental requirements (system environment configuration can be found in:[Environment Requirements](../Deployment-and-Maintenance/Environment-Requirements.md))
+2. Configure the operating system environment according to environmental requirements (system environment configuration can be found in:[Environment Requirements](https://iotdb.apache.org/UserGuide/latest/Deployment-and-Maintenance/Environment-Requirements.html))
 
 ## Installation Steps
 
@@ -85,7 +85,7 @@ cd  apache-iotdb-{version}-all-bin
 
 - `./conf/confignode-env.sh` configuration
 
-| **Configuration**  | **Description**                                              | **Default** | **Recommended value**                                        | **Note**                            |
+| **配置项**  | **Description**                                              | **Default** | **Recommended value**                                        | **Note**                            |
 | :---------- | :----------------------------------------------------------- | :---------- | :----------------------------------------------------------- | :---------------------------------- |
 | MEMORY_SIZE | The total amount of memory that IoTDB ConfigNode nodes can use | -           | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
 
@@ -97,7 +97,7 @@ cd  apache-iotdb-{version}-all-bin
 
 #### General Configuration
 
-Open the general configuration file `./conf/iotdb-common.properties`， The following parameters can be set according to the deployment method:
+Open the general configuration file `./conf/iotdb-system.properties`， The following parameters can be set according to the deployment method:
 
 | **Configuration**         | **Description**                                              | 192.168.1.3    | 192.168.1.4    | 192.168.1.5    |
 | ------------------------- | ------------------------------------------------------------ | -------------- | -------------- | -------------- |
@@ -107,22 +107,22 @@ Open the general configuration file `./conf/iotdb-common.properties`， The foll
 
 #### ConfigNode Configuration
 
-Open the ConfigNode configuration file `./conf/iotdb-confignode.properties`， Set the following parameters
+Open the ConfigNode configuration file `./conf/iotdb-system.properties`， Set the following parameters
 
 | **Configuration**   | **Description**                                              | **Default**     | **Recommended value**                                        | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | Note                                     |
 | ------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------------ | ------------- | ------------- | ------------- | ---------------------------------------- |
 | cn_internal_address | The address used by ConfigNode for communication within the cluster | 127.0.0.1       | The IPV4 address or host name of the server where it is located, and it is recommended to use host name | iotdb-1       | iotdb-2       | iotdb-3       | Cannot be modified after initial startup |
 | cn_internal_port    | The port used by ConfigNode for communication within the cluster | 10710           | 10710                                                        | 10710         | 10710         | 10710         | Cannot be modified after initial startup |
 | cn_consensus_port   | The port used for ConfigNode replica group consensus protocol communication | 10720           | 10720                                                        | 10720         | 10720         | 10720         | Cannot be modified after initial startup |
-| cn_seed_config_node | TThe address of the ConfigNode that the node connects to when registering to join the cluster, `cn_internal_address:cn_internal_port` | 127.0.0.1:10710 | The first CongfigNode's `cn_internal-address: cn_internal_port` | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | Cannot be modified after initial startup |
+| cn_seed_config_node | The address of the ConfigNode that the node connects to when registering to join the cluster, `cn_internal_address:cn_internal_port` | 127.0.0.1:10710 | The first CongfigNode's `cn_internal-address: cn_internal_port` | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | Cannot be modified after initial startup |
 
 #### DataNode Configuration
 
-Open DataNode Configuration File `./conf/iotdb-datanode.properties`,Set the following parameters:
+Open DataNode Configuration File `./conf/iotdb-system.properties`,Set the following parameters:
 
 | **Configuration**               | **Description**                                              | **Default**     | **Recommended value**                                        | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | Note                                     |
 | ------------------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------------ | ------------- | ------------- | ------------- | ---------------------------------------- |
-| dn_rpc_address                  | The address of the client RPC service                                        | 127.0.0.1       |  Recommend using the **IPV4 address or hostname** of the server where it is located        |  iotdb-1       |iotdb-2       | iotdb-3       | Restarting the service takes effect       |
+| dn_rpc_address                  | The address of the client RPC service                                        | 127.0.0.1       |  Recommend using the **IPV4 address or hostname** of the server where it is located      |  iotdb-1       |iotdb-2       | iotdb-3       | Restarting the service takes effect       |
 | dn_rpc_port                     | The port of the client RPC service                           | 6667            | 6667                                                         | 6667          | 6667          | 6667          | Restarting the service takes effect      |
 | dn_internal_address             | The address used by DataNode for communication within the cluster | 127.0.0.1       | The IPV4 address or host name of the server where it is located, and it is recommended to use host name | iotdb-1       | iotdb-2       | iotdb-3       | Cannot be modified after initial startup |
 | dn_internal_port                | The port used by DataNode for communication within the cluster | 10730           | 10730                                                        | 10730         | 10730         | 10730         | Cannot be modified after initial startup |
@@ -143,6 +143,7 @@ cd sbin
 ```
 
 If the startup fails, please refer to [Common Questions](#common-questions) for solutions.
+
 
 ### Start DataNode
 
@@ -168,7 +169,6 @@ After successful startup, the following interface will appear displaying success
 You can use the `show cluster` command to view cluster information:
 
 ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90%E7%89%88%20show%20cluter.png)
-
 
 > The appearance of `ACTIVATED (W)` indicates passive activation, which means that this Configurable Node does not have a license file (or has not issued the latest license file with a timestamp), and its activation depends on other Activated Configurable Nodes in the cluster. At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Timecho staff to reapply.
 
@@ -304,12 +304,11 @@ Then use the script to remove the DataNode. Script command:
 
 ```Bash
 # Linux / MacOS 
-sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
+sbin/remove-datanode.sh [datanode_id]
 
 #Windows
-sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
+sbin/remove-datanode.bat [datanode_id]
 ```
-
 ## Common Questions
 
 1. After starting the confignode command, does the node fail to start multiple times or receive prompts for running errors?

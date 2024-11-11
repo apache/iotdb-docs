@@ -26,7 +26,7 @@ In IoTDB, you can expand two types of UDF:
             <td>-</td>       
             <td>Custom aggregation function, input k columns of time series m rows of data, output 1 column of time series 1 row of data, can be used in any clause and expression that appears in the aggregation function, such as select clause, having clause, etc.</td>
       </tr>
-</table> 
+</table>
 
 ###  1.1 UDF usage 
 
@@ -155,14 +155,14 @@ SHOW FUNCTIONS
 
 ### 3.4 UDF configuration
 
-- UDF configuration allows configuring the storage directory of UDF in `iotdb-common.properties`
+- UDF configuration allows configuring the storage directory of UDF in `iotdb-system.properties`
  ``` Properties
 # UDF lib dir
 
 udf_lib_dir=ext/udf
 ```
 
-- -When using custom functions, there is a message indicating insufficient memory. Change the following configuration parameters in `iotdb-common.properties` and restart the service.
+- -When using custom functions, there is a message indicating insufficient memory. Change the following configuration parameters in `iotdb-system.properties` and restart the service.
 
  ``` Properties
 

@@ -27,13 +27,13 @@
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/123542457-5f511d00-d77c-11eb-8006-562d83069baa.png">
 
-在上图所描述的实际场景中，有许多实体所采集的物理量相同，即具有相同的工况名称和类型，因此，可以声明一个**元数据模板**来定义可采集的物理量集合。在实践中，元数据模板的使用可帮助减少元数据的资源占用，详细内容参见 [元数据模板](../User-Manual/Operate-Metadata.md#元数据模板管理)。
+在上图所描述的实际场景中，有许多实体所采集的物理量相同，即具有相同的工况名称和类型，因此，可以声明一个**元数据模板**来定义可采集的物理量集合。在实践中，元数据模板的使用可帮助减少元数据的资源占用，详细内容参见 [元数据模板](../User-Manual/Operate-Metadata_timecho.md#元数据模板管理)。
 
 IoTDB 模型结构涉及的基本概念在下文将做详细叙述。
 
 ## 数据库（Database）
 
-用户可以将任意前缀路径设置成数据库。如有 4 条时间序列`root.ln.wf01.wt01.status`, `root.ln.wf01.wt01.temperature`, `root.ln.wf02.wt02.hardware`, `root.ln.wf02.wt02.status`，路径`root.ln`下的两个实体 `wf01`, `wf02`可能属于同一个业主，或者同一个制造商，这时候就可以将前缀路径`root.ln`指定为一个数据库。未来`root.ln`下增加了新的实体，也将属于该数据库。
+用户可以将任意前缀路径设置成数据库。如有 4 条时间序列`root.ln.wf01.wt01.status`, `root.ln.wf01.wt01.temperature`, `root.ln.wf02.wt02.hardware`, `root.ln.wf02.wt02.status`，路径`root.ln`下的两个实体  `wf01`, `wf02`可能属于同一个业主，或者同一个制造商，这时候就可以将前缀路径`root.ln`指定为一个数据库。未来`root.ln`下增加了新的实体，也将属于该数据库。
 
 一个 database 中的所有数据会存储在同一批文件夹下，不同 database 的数据会存储在磁盘的不同文件夹下，从而实现物理隔离。一般情况下建议设置 1 个 database。
 
@@ -126,7 +126,7 @@ wildcard
     * ['\u2E80'..'\u9FFF'] （UNICODE 中文字符）
 * 特别地，如果系统在 Windows 系统上部署，那么 database 路径结点名是大小写不敏感的。例如，同时创建`root.ln` 和 `root.LN` 是不被允许的。
 * 如果需要在路径结点名中用特殊字符，可以用反引号引用路径结点名，具体使用方法可以参考[语法约定](../User-Manual/Syntax-Rule.md)。
-  
+
 ## 路径模式（Path Pattern）
 
 为了使得在表达多个时间序列的时候更加方便快捷，IoTDB 为用户提供带通配符`*`或`**`的路径。用户可以利用两种通配符构造出期望的路径模式。通配符可以出现在路径中的任何层。

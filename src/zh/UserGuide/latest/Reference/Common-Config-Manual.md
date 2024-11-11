@@ -25,19 +25,14 @@
 
 IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
-* `iotdb-common.properties`：IoTDB 集群的公共配置。
+* `iotdb-system.properties`：IoTDB 集群的公共配置。
 
-### 修改与生效方式
-
+### 改后生效方式
 不同的配置参数有不同的生效方式，分为以下三种：
 
-**仅允许在第一次启动服务前修改：** 在第一次启动 ConfigNode/DataNode 后即禁止修改，修改会导致 ConfigNode/DataNode 无法启动。
-**重启服务生效：** ConfigNode/DataNode 启动后仍可修改，但需要重启 ConfigNode/DataNode 后才生效。
-
-**热加载：**  
-  手动修改配置文件 + ```load configuration```：可在 DataNode 运行时修改，修改后通过 Session 或 Cli 发送 ```load configuration``` 命令至 IoTDB 使配置生效。
-  ```set configuration```：对于需要整个集群统一的参数，推荐使用此 SQL 修改。
-
++ **仅允许在第一次启动服务前修改：** 在第一次启动 ConfigNode/DataNode 后即禁止修改，修改会导致 ConfigNode/DataNode 无法启动。
++ **重启服务生效：** ConfigNode/DataNode 启动后仍可修改，但需要重启 ConfigNode/DataNode 后才生效。
++ **热加载：** 可在 ConfigNode/DataNode 运行时修改，修改后通过 Session 或 Cli 发送 ```load configuration``` 或 `set configuration` 命令（SQL）至 IoTDB 使配置生效。
 
 ### 系统配置项
 
@@ -154,11 +149,11 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |  默认值   | 2                                                                                                                                               |
 | 改后生效方式 | 重启生效                                                                                                                                          |
 
-* data\_region\_per\_processor
+* data\_region\_per\_data\_node
 
-|   名字   | data\_region\_per\_processor |
+|   名字   | data\_region\_per\_data\_node|
 |:------:|:-----------------------------|
-|   描述   | 期望每个处理器可管理的 DataRegion 的最大数量 |
+|   描述   | 期望每个 DataNode 可管理的 DataRegion 的最大数量 |
 |   类型   | double                       |
 |  默认值   | 1.0                          |
 | 改后生效方式 | 重启生效                       |
@@ -241,7 +236,6 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 | 改后生效方式 | 重启生效                          |
 
 #### 内存控制配置
-
 
 * datanode\_memory\_proportion
 
@@ -466,11 +460,11 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 * floating\_string\_infer\_type
 
 |     名字     | floating\_string\_infer\_type |
-| :----------: | :---------------------------- |
-|     描述     | "6.7"等字符串被推断的数据类型 |
+| :----------: |:------------------------------|
+|     描述     | "6.7"等字符串被推断的数据类型             |
 |     取值     | DOUBLE, FLOAT or TEXT         |
-|    默认值    | FLOAT                         |
-| 改后生效方式 | 重启生效                  |
+|    默认值    | DOUBLE                        |
+| 改后生效方式 | 重启生效                        |
 
 * nan\_string\_infer\_type
 
@@ -672,6 +666,34 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |默认值| 100000 |
 |改后生效方式|重启生效|
 
+#### TTL 配置
+* ttl\_check\_interval
+
+|     名字     | ttl\_check\_interval     |
+| :----------: |:-------------------------|
+|     描述     | ttl 检查任务的间隔，单位 ms，默认为 2h |
+|     类型     | int                      |
+|    默认值    | 7200000                  |
+| 改后生效方式 | 重启生效                     |
+
+* max\_expired\_time
+
+|     名字     | max\_expired\_time           |
+| :----------: |:-----------------------------|
+|     描述     | 如果一个文件中存在设备已经过期超过此时间，那么这个文件将被立即整理。单位 ms，默认为一个月 |
+|     类型     | int                          |
+|    默认值    | 2592000000                      |
+| 改后生效方式 | 重启生效                         |
+
+* expired\_data\_ratio
+
+|     名字     | expired\_data\_ratio                                      |
+| :----------: |:----------------------------------------------------------|
+|     描述     | 过期设备比例。如果一个文件中过期设备的比率超过这个值，那么这个文件中的过期数据将通过 compaction 清理。 |
+|     类型     | float                                                     |
+|    默认值    | 0.3                                                       |
+| 改后生效方式 | 重启生效                                                      |
+
 #### 存储引擎配置
 
 * timestamp\_precision
@@ -682,15 +704,6 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     类型     | String                      |
 |    默认值    | ms                          |
 | 改后生效方式 | 仅允许在第一次启动服务前修改                   |
-
-* default\_ttl\_in\_ms
-
-|     名字     | default\_ttl\_in\_ms                                        |
-| :----------: | :---------------------------------------------------------- |
-|     描述     | 数据保留时间，会丢弃 now()-default\_ttl 之前的数据，单位 ms |
-|     类型     | long                                                        |
-|    默认值    | 36000000                                                    |
-| 改后生效方式 | 重启生效                                                |
 
 * max\_waiting\_time\_when\_insert\_blocked
 
@@ -865,6 +878,16 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |    默认值    | true                                       |
 | 改后生效方式 | 热加载                               |
 
+* enable\_auto\_repair\_compaction
+
+|     名字     | enable\_auto\_repair\_compaction |
+| :----------: |:---------------------------------|
+|     描述     | 修复文件的合并任务                        |
+|     类型     | Boolean                          |
+|    默认值    | true                             |
+| 改后生效方式 | 热加载                              |
+
+
 * cross\_selector
 
 |名字| cross\_selector |
@@ -885,12 +908,14 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * inner\_seq\_selector
 
-|名字| inner\_seq\_selector |
-|:---:|:---------------------|
-|描述| 顺序空间内合并任务选择器的类型      |
-|类型| String               |
-|默认值| size\_tiered         |
-|改后生效方式| 重启生效               |
+
+|名字| inner\_seq\_selector                                                        |
+|:---:|:----------------------------------------------------------------------------|
+|描述| 顺序空间内合并任务选择器的类型,可选 size\_tiered\_single_\target,size\_tiered\_multi\_target |
+|类型| String                                                                      |
+|默认值| size\_tiered\_multi\_target                                                 |
+|改后生效方式| 热加载                                                                         |
+
 
 * inner\_seq\_performer
 
@@ -903,12 +928,13 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * inner\_unseq\_selector
 
-|名字| inner\_unseq\_selector |
-|:---:|:-----------------------|
-|描述| 乱序空间内合并任务选择器的类型        |
-|类型| String                 |
-|默认值| size\_tiered           |
-|改后生效方式| 重启生效                 |
+|名字| inner\_unseq\_selector                                                      |
+|:---:|:----------------------------------------------------------------------------|
+|描述| 乱序空间内合并任务选择器的类型,可选 size\_tiered\_single_\target,size\_tiered\_multi\_target |
+|类型| String                                                                      |
+|默认值| size\_tiered\_multi\_target                                                 |
+|改后生效方式| 热加载                                                                         |
+
 
 * inner\_unseq\_performer
 
@@ -936,8 +962,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     描述     | 合并后的目标文件大小                     |
 |     类型     | Int64                          |
 |    默认值    | 2147483648                     |
-| 改后生效方式 | 热加载生效                          |
-
+| 改后生效方式 | 重启生效                         |
 
 * target\_chunk\_size
 
@@ -975,15 +1000,50 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |默认值| 1000                                            |
 |改后生效方式| 重启生效                                          |
 
-* max\_inner\_compaction\_candidate\_file\_num
+* inner\_compaction\_total\_file\_num\_threshold
 
-|名字| max\_inner\_compaction\_candidate\_file\_num |
+|名字| inner\_compaction\_total\_file\_num\_threshold |
 |:---:|:---|
 |描述| 空间内合并中一次合并最多参与的文件数 |
 |类型| int32 |
 |默认值| 30|
-|改后生效方式|热加载生效|
+|改后生效方式|重启生效|
 
+* inner\_compaction\_total\_file\_size\_threshold
+
+|名字| inner\_compaction\_total\_file\_size\_threshold |
+|:---:|:------------------------------------------------|
+|描述| 空间内合并任务最大选中文件总大小，单位：byte                        |
+|类型| int64                                           |
+|默认值| 10737418240                                     |
+|改后生效方式| 热加载                                             |
+
+* compaction\_max\_aligned\_series\_num\_in\_one\_batch
+
+|名字| compaction\_max\_aligned\_series\_num\_in\_one\_batch |
+|:---:|:------------------------------------------------------|
+|描述| 对齐序列合并一次执行时处理的值列数量                                    |
+|类型| int32                                                 |
+|默认值| 10                                                    |
+|改后生效方式| 热加载                                                   |
+
+* max\_level\_gap\_in\_inner\_compaction
+
+|名字| max\_level\_gap\_in\_inner\_compaction |
+|:---:|:---------------------------------------|
+|描述| 空间内合并选文件时最大允许跨的文件层级                    |
+|类型| int32                                  |
+|默认值| 2                                      |
+|改后生效方式| 热加载                                    |
+
+* inner\_compaction\_candidate\_file\_num
+
+|名字| inner\_compaction\_candidate\_file\_num |
+|:---:|:----------------------------------------|
+|描述| 符合构成一个空间内合并任务的候选文件数量                    |
+|类型| int32                                   |
+|默认值| 30                                      |
+|改后生效方式| 热加载                                     |
 
 * max\_cross\_compaction\_candidate\_file\_num
 
@@ -992,7 +1052,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |描述| 跨空间合并中一次合并最多参与的文件数                           |
 |类型| int32                                        |
 |默认值| 500                                          |
-|改后生效方式| 热加载生效                                      |
+|改后生效方式| 热加载                                          |
 
 
 * max\_cross\_compaction\_candidate\_file\_size
@@ -1001,8 +1061,8 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |:---:|:----------------------------------------------|
 |描述| 跨空间合并中一次合并最多参与的文件总大小                          |
 |类型| Int64                                         |
-|默认值| 5368709120                                          |
-|改后生效方式| 热加载生效                                      |
+|默认值| 5368709120                                    |
+|改后生效方式| 热加载                                           |
 
 
 * compaction\_thread\_count
@@ -1023,15 +1083,23 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |    默认值    | 60000                                  |
 | 改后生效方式 | 重启生效                           |
 
+* compaction\_submission\_interval\_in\_ms
+
+|     名字     | compaction\_submission\_interval\_in\_ms |
+| :----------: | :--------------------------------------- |
+|     描述     | 合并任务提交的间隔                       |
+|     类型     | Int64                                    |
+|    默认值    | 60000                                    |
+| 改后生效方式 | 重启生效                             |
 
 * compaction\_write\_throughput\_mb\_per\_sec
 
 |名字| compaction\_write\_throughput\_mb\_per\_sec |
-|:---:|:--------------------------------------------|
-|描述| 每秒可达到的写入吞吐量合并限制。                            |
-|类型| int32                                       |
-|默认值| 16                                          |
-|改后生效方式| 热加载生效                                       |
+|:---:|:---|
+|描述| 每秒可达到的写入吞吐量合并限制。|
+|类型| int32 |
+|默认值| 16 |
+|改后生效方式| 重启生效|
 
 * compaction\_read\_throughput\_mb\_per\_sec
 
@@ -1049,8 +1117,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |    描述     | 合并每秒读操作数量限制，设置为 0 代表不限制               |
 |    类型     | int32                                 |
 |    默认值    | 0                                     |
-| 改后生效方式 | 热加载                                   |
-
+| Effective | 热加载                                   |
 
 * sub\_compaction\_thread\_count
 
@@ -1440,82 +1507,6 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 #### PIPE 配置
 
-##### 1.3.0版本：
-
-* pipe_lib_dir 
-
-| **名字**     | **pipe_lib_dir**               |
-| ------------ | -------------------------- |
-| 描述         | 自定义 Pipe 插件的存放目录 |
-| 类型         | string                     |
-| 默认值       | ext/pipe                   |
-| 改后生效方式 | 暂不支持修改               |
-
-* pipe_subtask_executor_max_thread_num
-
-| **名字**     | **pipe_subtask_executor_max_thread_num**                         |
-| ------------ | ------------------------------------------------------------ |
-| 描述         | pipe 子任务 processor、sink 中各自可以使用的最大线程数。实际值将是 min(pipe_subtask_executor_max_thread_num, max(1, CPU核心数 / 2))。 |
-| 类型         | int                                                          |
-| 默认值       | 5                                                            |
-| 改后生效方式 | 重启生效                                                 |
-
-* pipe_connector_timeout_ms
-
-| **名字**     | **pipe_connector_timeout_ms**                  |
-| ------------ | --------------------------------------------- |
-| 描述         | thrift 客户端的连接超时时间（以毫秒为单位）。 |
-| 类型         | int                                           |
-| 默认值       | 900000                                        |
-| 改后生效方式 | 重启生效                                  |
-
-* pipe_async_connector_selector_number
-
-| **名字**     | **pipe_async_connector_selector_number**                         |
-| ------------ | ------------------------------------------------------------ |
-| 描述         | 在iotdb-thrift-async-connector插件中可以使用的最大执行结果处理线程数量。 |
-| 类型         | int                                                          |
-| 默认值       | 1                                                            |
-| 改后生效方式 | 重启生效                                                 |
-
-* pipe_async_connector_core_client_number
-
-| **名字**     | **pipe_async_connector_core_client_number**                      |
-| ------------ | ------------------------------------------------------------ |
-| 描述         | 在 iotdb-thrift-async-connector 插件中可以使用的连接客户端数量。 |
-| 类型         | int                                                          |
-| 默认值       | 8                                                            |
-| 改后生效方式 | 重启生效                                                 |
-
-* pipe_async_connector_max_client_number
-
-| **名字**     | **pipe_async_connector_max_client_number**                       |
-| ------------ | ------------------------------------------------------------ |
-| 描述         | 在 iotdb-thrift-async-connector 插件中可以使用的最大客户端数量。 |
-| 类型         | int                                                          |
-| 默认值       | 16                                                           |
-| 改后生效方式 | 重启生效                                                 |
-
-* pipe_air_gap_receiver_enabled
-
-| **名字**     | **pipe_air_gap_receiver_enabled**                                |
-| ------------ | ------------------------------------------------------------ |
-| 描述         | 是否启用通过网闸接收 pipe 数据。接收器只能在 tcp 模式下返回 0 或 1，以指示数据是否成功接收。 |
-| 类型         | Boolean                                                      |
-| 默认值       | false                                                        |
-| 改后生效方式 | 重启生效                                                 |
-
-* pipe_air_gap_receiver_enabled
-
-| **名字**     | **pipe_air_gap_receiver_port**           |
-| ------------ | ------------------------------------ |
-| 描述         | 服务器通过网闸接收 pipe 数据的端口。 |
-| 类型         | int                                  |
-| 默认值       | 9780                                 |
-| 改后生效方式 | 重启生效                         |
-
-##### 1.3.1/2版本：
-
 * pipe_lib_dir
 
 | **名字**     | **pipe_lib_dir**               |
@@ -1578,6 +1569,15 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 | 类型         | int                                  |
 | 默认值       | 9780                                 |
 | 改后生效方式 | 重启生效                         |
+
+* pipe_all_sinks_rate_limit_bytes_per_second
+
+| **名字**     | **pipe_all_sinks_rate_limit_bytes_per_second**                   |
+| ------------ | ------------------------------------------------------------ |
+| 描述         | 所有 pipe sink 每秒可以传输的总字节数。当给定的值小于或等于 0 时，表示没有限制。默认值是 -1，表示没有限制。 |
+| 类型         | double                                                       |
+| 默认值       | -1                                                           |
+| 改后生效方式 | 可热加载                                                     |
 
 #### IoT 共识协议配置
 
@@ -1974,6 +1974,25 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |  默认值   | 10s                                 |
 | 改后生效方式 | 重启生效                                |
 
+* ratis\_first\_election\_timeout\_min\_ms
+
+|   名字   | ratis\_first\_election\_timeout\_min\_ms           |
+|:------:|:----------------------------------------------------------------|
+|   描述   | Ratis协议首次选举最小超时时间 |
+|   类型   | int64                                                          |
+|  默认值   | 50 (ms)                                                             |
+| 改后生效方式 | 重启生效                                         |
+
+* ratis\_first\_election\_timeout\_max\_ms
+
+|   名字   | ratis\_first\_election\_timeout\_max\_ms           |
+|:------:|:----------------------------------------------------------------|
+|   描述   | Ratis协议首次选举最大超时时间 |
+|   类型   | int64                                                          |
+|  默认值   | 150 (ms)                                                             |
+| 改后生效方式 | 重启生效      |
+
+
 * config\_node\_ratis\_preserve\_logs\_num\_when\_purge
 
 |   名字   | config\_node\_ratis\_preserve\_logs\_num\_when\_purge |
@@ -2000,6 +2019,62 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |   类型   | int32                                          |
 |  默认值   | 1000                                           |
 | 改后生效方式 | 重启生效                                           |
+
+* config\_node\_ratis\_log\_max\_size 
+
+|   名字   | config\_node\_ratis\_log\_max\_size            |
+|:------:|:----------------------------------------------------------------|
+|   描述   | config node磁盘Raft Log最大占用空间 |
+|   类型   | int64                                                          |
+|  默认值   | 2147483648 (2GB)                                             |
+| 改后生效方式 | 重启生效                                         |
+
+* schema\_region\_ratis\_log\_max\_size 
+
+|   名字   | schema\_region\_ratis\_log\_max\_size            |
+|:------:|:----------------------------------------------------------------|
+|   描述   | schema region 磁盘Raft Log最大占用空间 |
+|   类型   | int64                                                          |
+|  默认值   | 2147483648 (2GB)                                             |
+| 改后生效方式 | 重启生效                                         |
+
+* data\_region\_ratis\_log\_max\_size 
+
+|   名字   | data\_region\_ratis\_log\_max\_size            |
+|:------:|:----------------------------------------------------------------|
+|   描述   | data region 磁盘Raft Log最大占用空间|
+|   类型   | int64                                                          |
+|  默认值   | 21474836480 (20GB)                                             |
+| 改后生效方式 | 重启生效                                         |
+
+
+* config\_node\_ratis\_periodic\_snapshot\_interval
+
+|   名字   | config\_node\_ratis\_periodic\_snapshot\_interval           |
+|:------:|:----------------------------------------------------------------|
+|   描述   | config node定期snapshot的间隔时间 |
+|   类型   | int64                                                           |
+|  默认值   | 86400 (秒)                                                           |
+| 改后生效方式 | 重启生效                                         |
+
+* schema\_region\_ratis\_periodic\_snapshot\_interval  
+
+|   名字   | schema\_region\_ratis\_preserve\_logs\_num\_when\_purge           |
+|:------:|:----------------------------------------------------------------|
+|   描述   | schema region定期snapshot的间隔时间 |
+|   类型   | int64                                                          |
+|  默认值   | 86400 (秒)                                                             |
+| 改后生效方式 | 重启生效                                         |
+
+* data\_region\_ratis\_periodic\_snapshot\_interval  
+
+|   名字   | data\_region\_ratis\_preserve\_logs\_num\_when\_purge           |
+|:------:|:----------------------------------------------------------------|
+|   描述   | data region定期snapshot的间隔时间 |
+|   类型   | int64                                                          |
+|  默认值   | 86400 (秒)                                                             |
+| 改后生效方式 | 重启生效                                     |
+
 
 #### Procedure 配置
 

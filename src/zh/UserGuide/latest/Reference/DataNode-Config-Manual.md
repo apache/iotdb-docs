@@ -25,13 +25,14 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 
 * `datanode-env.sh/bat`：环境配置项的配置文件，可以配置 DataNode 的内存大小。
 
-* `iotdb-datanode.properties`：IoTDB 配置文件。
+* `iotdb-system.properties`：IoTDB 的配置文件。
 
 ## 热修改配置项
 
-为方便用户使用，IoTDB 为用户提供了热修改功能，即在系统运行过程中修改 `iotdb-datanode.properties` 中部分配置参数并即时应用到系统中。下面介绍的参数中，改后 生效方式为`热加载`的均为支持热修改的配置参数。
+为方便用户使用，IoTDB 为用户提供了热修改功能，即在系统运行过程中修改 `iotdb-system.properties` 中部分配置参数并即时应用到系统中。下面介绍的参数中，改后 生效方式为`热加载`
+的均为支持热修改的配置参数。
 
-通过 Session 或 Cli 发送 ```load configuration``` 或  `set configuration` 命令（SQL）至 IoTDB 可触发配置热加载。
+通过 Session 或 Cli 发送 ```load configuration``` 或 `set configuration` 命令（SQL）至 IoTDB 可触发配置热加载。
 
 ## 环境配置项（datanode-env.sh/bat）
 
@@ -82,7 +83,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |默认值|31999|
 |改后生效方式|重启服务生效|
 
-## 系统配置项（iotdb-datanode.properties）
+## 系统配置项（iotdb-system.properties）
 
 系统配置项是 IoTDB DataNode/Standalone 运行的核心配置，它主要用于设置 DataNode/Standalone 数据库引擎的参数。
 
@@ -165,7 +166,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 
 * enable\_thrift\_ssl
 
-|名字|        enable\_thrift\_ssl                                    |
+|名字|   enable\_thrift\_ssl                                         |
 |:---:|:----------------------------------------------|
 |描述| 当enable\_thrift\_ssl配置为true时，将通过dn\_rpc\_port使用 SSL 加密进行通信 |
 |类型| Boolean                                       |
@@ -200,13 +201,13 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |改后生效方式| 重启服务生效          |
 
 
-### 目标 Config Nodes 配置
+### SeedConfigNode 配置
 
 * dn\_seed\_config\_node
 
 |名字| dn\_seed\_config\_node      |
 |:---:|:------------------------------------|
-|描述| ConfigNode 地址，DataNode 启动时通过此地址加入集群 |
+|描述| ConfigNode 地址，DataNode 启动时通过此地址加入集群，推荐使用 SeedConfigNode。V1.2.2 及以前曾用名是 dn\_target\_config\_node\_list |
 |类型| String                              |
 |默认值| 127.0.0.1:10710                     |
 |改后生效方式| 仅允许在第一次启动服务前修改                              |

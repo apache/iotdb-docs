@@ -94,7 +94,6 @@ session =
 Version represents the SQL semantic version used by the client, which is used to be compatible with the SQL semantics of 0.12 when upgrading 0.13. The possible values are: `V_0_12`, `V_0_13`, `V_1_0`.
 
 
-
 * Open a Session
 
 ``` java
@@ -331,15 +330,18 @@ void insertTablets(Map<String, Tablet> tablet)
 
   The correspondence between the Object type and the TSDataType type is shown in the following table.
 
-  | TSDataType | Object         |
-  | ---------- | -------------- |
-  | BOOLEAN    | Boolean        |
-  | INT32      | Integer        |
-  | INT64      | Long           |
-  | FLOAT      | Float          |
-  | DOUBLE     | Double         |
+  | TSDataType | Object       |
+  |------------|--------------|
+  | BOOLEAN    | Boolean      |
+  | INT32      | Integer      |
+  | DATE       | LocalDate    |
+  | INT64      | Long         |
+  | TIMESTAMP  | Long         |
+  | FLOAT      | Float        |
+  | DOUBLE     | Double       |
   | TEXT       | String, Binary |
-
+  | STRING     | String, Binary |
+  | BLOB       | Binary |
 ``` java
 void insertRecord(String deviceId, long time, List<String> measurements,
    List<TSDataType> types, List<Object> values)
@@ -535,5 +537,4 @@ you have to call `SessionPool.closeResultSet(wrapper)` manually;
 Examples: ```session/src/test/java/org/apache/iotdb/session/pool/SessionPoolTest.java```
 
 Or `example/session/src/main/java/org/apache/iotdb/SessionPoolExample.java`
-
 

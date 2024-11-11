@@ -50,7 +50,7 @@ IoTDB> CLEAR CACHE ON CLUSTER
 ## START REPAIR DATA
 
 Start a repair task to scan all files created before current time.
-The repair task will scan all tsfiles and repair some bad files.(Supported version: 1.3.1 and later)
+The repair task will scan all tsfiles and repair some bad files.
 
 ```sql
 IoTDB> START REPAIR DATA
@@ -61,7 +61,7 @@ IoTDB> START REPAIR DATA ON CLUSTER
 ## STOP REPAIR DATA
 
 Stop the running repair task. To restart the stopped task.
-If there is a stopped repair task, it can be restart and recover the repair progress by executing SQL `START REPAIR DATA`.(Supported version: 1.3.1 and later)
+If there is a stopped repair task, it can be restart and recover the repair progress by executing SQL `START REPAIR DATA`.
 
 ```sql
 IoTDB> STOP REPAIR DATA

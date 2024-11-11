@@ -95,8 +95,8 @@ iotdb.password=root
 
 1. 登录 DataEase，访问地址 : `http://目标服务器IP地址:80`
 <div style="text-align: center;">
-    <img src="https://alioss.timecho.com/docs/img/DataEase4.png" alt="" style="width: 70%;"/>
-  </div>
+  <img src="https://alioss.timecho.com/docs/img/DataEase4.png" alt="" style="width: 70%;"/>
+</div>
 
 ### 配置数据源
 
@@ -182,8 +182,8 @@ iotdb.password=root
     执行频率：根据实际情况设置（考虑DataEase获取速度，建议设置为大于 5 秒更新一次），例如需要设置为每 5 秒更新，则可以选择【表达式设定】并在【cron 表达式】中设置为`0/5 * * * * ? *`
     配置完成后，点击页面右下角的【确认】按钮保存设置。 
 <div style="text-align: center;">
-  <img src="https://alioss.timecho.com/docs/img/DataEase19.png" alt="" style="width: 70%;"/>
-</div>
+    <img src="https://alioss.timecho.com/docs/img/DataEase19.png" alt="" style="width: 70%;"/>
+  </div>
 
 5. 任务已成功添加。可以通过点击页面左上角的【执行记录】选项查看执行记录。
 <div style="text-align: center;">

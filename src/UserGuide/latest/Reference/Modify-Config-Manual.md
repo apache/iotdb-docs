@@ -43,22 +43,22 @@ set configuration "key1"="value1" "key2"="value2"... (on nodeId)
 ```
 set configuration "enable_cross_space_compaction"="false"
 ```
-To take effect permanently on all nodes in the cluster, set enable_cross_space_compaction to false and write it to iotdb-common.properties.
+To take effect permanently on all nodes in the cluster, set enable_cross_space_compaction to false and write it to iotdb-system.properties.
 ### Example 2
 ```
 set configuration "enable_cross_space_compaction"="false" "enable_seq_space_compaction"="false" on 1
 ```
-To take effect permanently on the node with nodeId 1, set enable_cross_space_compaction to false, set enable_seq_space_compaction to false, and write it to iotdb-common.properties.
+To take effect permanently on the node with nodeId 1, set enable_cross_space_compaction to false, set enable_seq_space_compaction to false, and write it to iotdb-system.properties.
 ### Example 3
 ```
 set configuration "enable_cross_space_compaction"="false" "timestamp_precision"="ns"
 ```
-To take effect permanently on all nodes in the cluster, set enable_cross_space_compaction to false, timestamp_precision to ns, and write it to iotdb-common.properties. However, timestamp_precision is a configuration item that cannot be modified after the first startup, so the update of this configuration item will be ignored and the return is as follows.
+To take effect permanently on all nodes in the cluster, set enable_cross_space_compaction to false, timestamp_precision to ns, and write it to iotdb-system.properties. However, timestamp_precision is a configuration item that cannot be modified after the first startup, so the update of this configuration item will be ignored and the return is as follows.
 ```
 Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 301: ignored config items: [timestamp_precision]
 ```
 Effective configuration item
-Configuration items that support hot reloading and take effect immediately are marked with effectiveMode as hot_reload in the iotdb-common.properties.template file.
+Configuration items that support hot reloading and take effect immediately are marked with effectiveMode as hot_reload in the iotdb-system.properties.template file.
 
 Example
 ```

@@ -267,7 +267,7 @@ IoT-benchmark目前支持通过配置参数“TEST_DATA_PERSISTENCE”将测试�
 
 首先在172.21.4.3和172.21.4.4上分别启动被测时间序列数据库Apache-IoTDB和KairosDB，之后在172.21.4.2、172.21.4.3和172.21.4.4上通过ser-benchamrk.sh脚本启动服务器资源监控（图2-1）。然后按照表2-3在172.21.4.2分别修改iotdb-0.13-0.0.1和kairosdb-0.0.1文件夹内的conf/config.properties文件满足测试需求。先后使用benchmark.sh启动对Apache-IoTDB和KairosDB的写入测试。
 
-![](https://alioss.timecho.com/docs/img/bm5.png)
+![img](https://alioss.timecho.com/docs/img/bm5.png)
 
 图2-1服务器监控任务
 
