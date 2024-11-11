@@ -24,18 +24,18 @@
 
 1. Ignition简介
 
-    Ignition 是一个基于WEB的监控和数据采集工具（SCADA）- 一个开放且可扩展的通用平台。Ignition可以让你更轻松地控制、跟踪、显示和分析企业的所有数据，提升业务能力。更多介绍详情请参考[Ignition官网](https://docs.inductiveautomation.com/docs/8.1/getting-started/introducing-ignition)
+Ignition 是一个基于WEB的监控和数据采集工具（SCADA）- 一个开放且可扩展的通用平台。Ignition可以让你更轻松地控制、跟踪、显示和分析企业的所有数据，提升业务能力。更多介绍详情请参考[Ignition官网](https://docs.inductiveautomation.com/docs/8.1/getting-started/introducing-ignition)
 
 2. Ignition-IoTDB Connector介绍
 
-    Ignition-IoTDB Connector分为两个模块：Ignition-IoTDB连接器、Ignition-IoTDB With JDBC。其中：
+  Ignition-IoTDB Connector分为两个模块：Ignition-IoTDB连接器、Ignition-IoTDB With JDBC。其中：
 
-    - Ignition-IoTDB 连接器：提供了将 Ignition 采集到的数据存入 IoTDB 的能力，也支持在Components中进行数据读取，同时注入了 `system.iotdb.insert`和`system.iotdb.query`脚本接口用于方便在Ignition编程使用
-    - Ignition-IoTDB With JDBC：Ignition-IoTDB With JDBC 可以在 `Transaction Groups` 模块中使用，不适用于 `Tag Historian`模块，可以用于自定义写入和查询。
+   - Ignition-IoTDB 连接器：提供了将 Ignition 采集到的数据存入 IoTDB 的能力，也支持在Components中进行数据读取，同时注入了 `system.iotdb.insert`和`system.iotdb.query`脚本接口用于方便在Ignition编程使用
+   - Ignition-IoTDB With JDBC：Ignition-IoTDB With JDBC 可以在 `Transaction Groups` 模块中使用，不适用于 `Tag Historian`模块，可以用于自定义写入和查询。
 
-    两个模块与Ignition的具体关系与内容如下图所示。
+  两个模块与Ignition的具体关系与内容如下图所示。
 
-    ![](https://alioss.timecho.com/docs/img/Ignition.png)
+  ![](https://alioss.timecho.com/docs/img/Ignition.png)
 
 ## 安装要求
 
@@ -221,7 +221,7 @@ Ignition-IoTDB连接器提供了将 Ignition 采集到的数据存入 IoTDB 的�
   - `str sql`：待查询的 sql 语句
 
 - 返回值：
-    查询的结果：`List<Map<String, Object>>`
+  查询的结果：`List<Map<String, Object>>`
 
 - 可用范围：Client, Designer, Gateway
 - 使用示例：

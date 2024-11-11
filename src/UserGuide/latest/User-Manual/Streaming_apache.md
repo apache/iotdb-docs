@@ -187,7 +187,7 @@ public interface PipeSource extends PipePlugin {
    * @throws Exception the user can throw errors if necessary
    */
   void customize(PipeParameters parameters, PipeSourceRuntimeConfiguration configuration)
-          throws Exception;
+      throws Exception;
 
   /**
    * Start the source. After this method is called, events should be ready to be supplied by
@@ -272,7 +272,7 @@ public interface PipeProcessor extends PipePlugin {
    * @throws Exception the user can throw errors if necessary
    */
   void customize(PipeParameters parameters, PipeProcessorRuntimeConfiguration configuration)
-          throws Exception;
+      throws Exception;
 
   /**
    * This method is called to process the TabletInsertionEvent.
@@ -282,7 +282,7 @@ public interface PipeProcessor extends PipePlugin {
    * @throws Exception the user can throw errors if necessary
    */
   void process(TabletInsertionEvent tabletInsertionEvent, EventCollector eventCollector)
-          throws Exception;
+      throws Exception;
 
   /**
    * This method is called to process the TsFileInsertionEvent.
@@ -292,9 +292,9 @@ public interface PipeProcessor extends PipePlugin {
    * @throws Exception the user can throw errors if necessary
    */
   default void process(TsFileInsertionEvent tsFileInsertionEvent, EventCollector eventCollector)
-          throws Exception {
+      throws Exception {
     for (final TabletInsertionEvent tabletInsertionEvent :
-            tsFileInsertionEvent.toTabletInsertionEvents()) {
+        tsFileInsertionEvent.toTabletInsertionEvents()) {
       process(tabletInsertionEvent, eventCollector);
     }
   }
@@ -377,7 +377,7 @@ public interface PipeSink extends PipePlugin {
    * @throws Exception the user can throw errors if necessary
    */
   void customize(PipeParameters parameters, PipeSinkRuntimeConfiguration configuration)
-          throws Exception;
+      throws Exception;
 
   /**
    * This method is used to create a connection with sink. This method will be called after the
@@ -415,7 +415,7 @@ public interface PipeSink extends PipePlugin {
   default void transfer(TsFileInsertionEvent tsFileInsertionEvent) throws Exception {
     try {
       for (final TabletInsertionEvent tabletInsertionEvent :
-              tsFileInsertionEvent.toTabletInsertionEvents()) {
+          tsFileInsertionEvent.toTabletInsertionEvents()) {
         transfer(tabletInsertionEvent);
       }
     } finally {
@@ -495,16 +495,16 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 > * Pattern should use backquotes to modify illegal characters or illegal path nodes, for example, if you want to filter root.\`a@b\` or root.\`123\`, you should set the pattern to root.\`a@b\` or root.\`123\`（Refer specifically to [Timing of single and double quotes and backquotes](https://iotdb.apache.org/zh/Download/#_1-0-版本不兼容的语法详细说明)）
 > * In the underlying implementation, when pattern is detected as root (default value) or a database name, synchronization efficiency is higher, and any other format will reduce performance.
 > * The path prefix does not need to form a complete path. For example, when creating a pipe with the parameter 'source.pattern'='root.aligned.1':
->
->   * root.aligned.1TS
+    >
+    >   * root.aligned.1TS
 >   * root.aligned.1TS.\`1\`
 >   * root.aligned.100TS
->
->   the data will be synchronized;
->
->   * root.aligned.\`123\`
->
->   the data will not be synchronized.
+    >
+    >   the data will be synchronized;
+    >
+    >   * root.aligned.\`123\`
+    >
+    >   the data will not be synchronized.
 
 > ❗️**start-time, end-time parameter description of source**
 >
@@ -615,7 +615,7 @@ The expressed semantics are: synchronise the full amount of historical data and 
 - The SINK is a mandatory configuration that needs to be declared in the CREATE PIPE statement for configuring purposes.
 - The SINK exhibits self-reusability. For different tasks, if their SINK possesses identical KV properties (where the value corresponds to every key), **the system will ultimately create only one instance of the SINK** to achieve resource reuse for connections.
 
-  - For example, there are the following pipe1, pipe2 task declarations:
+    - For example, there are the following pipe1, pipe2 task declarations:
 
   ```sql
   CREATE PIPE pipe1
@@ -702,11 +702,11 @@ WHERE SINK USED BY <PipeId>
 A stream processing task status can transition through several states during the lifecycle of a data synchronization pipe:
 
 - **RUNNING：** The pipe is actively processing data
-  - After the successful creation of a pipe, its initial state is set to RUNNING (V1.3.1+)
+    - After the successful creation of a pipe, its initial state is set to RUNNING (V1.3.1+)
 - **STOPPED：** The pipe is in a stopped state. It can have the following possibilities:
-  - After the successful creation of a pipe, its initial state is set to RUNNING (V1.3.0)
-  - The user manually pauses a pipe that is in normal running state, transitioning its status from RUNNING to STOPPED
-  - If a pipe encounters an unrecoverable error during execution, its status automatically changes from RUNNING to STOPPED.
+    - After the successful creation of a pipe, its initial state is set to RUNNING (V1.3.0)
+    - The user manually pauses a pipe that is in normal running state, transitioning its status from RUNNING to STOPPED
+    - If a pipe encounters an unrecoverable error during execution, its status automatically changes from RUNNING to STOPPED.
 - **DROPPED：** The pipe is permanently deleted
 
 The following diagram illustrates the different states and their transitions:
@@ -735,7 +735,7 @@ The following diagram illustrates the different states and their transitions:
 
 ## Configure Parameters
 
-In iotdb-common.properties ：
+In iotdb-system.properties ：
 
 V1.3.0:
 ```Properties

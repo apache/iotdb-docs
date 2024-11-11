@@ -45,7 +45,7 @@ This section describes how to manually deploy an instance that includes 3 Config
   - Using the same user operation: Ensure that the same user is used for start, activation, stop, and other operations, and do not switch users.
   - Avoid using sudo: Try to avoid using sudo commands as they execute commands with root privileges, which may cause confusion or security issues.
 
-6. It is recommended to deploy a monitoring panel, which can monitor important operational indicators and keep track of database operation status at any time. The monitoring panel can be obtained by contacting the business department,The steps for deploying a monitoring panel can refer to:[Monitoring Panel Deployment](.\Monitoring-panel-deployment.md)
+6. It is recommended to deploy a monitoring panel, which can monitor important operational indicators and keep track of database operation status at any time. The monitoring panel can be obtained by contacting the business department,The steps for deploying a monitoring panel can refer to:[Monitoring Panel Deployment](./Monitoring-panel-deployment.md)
 
 ## Preparation Steps
 

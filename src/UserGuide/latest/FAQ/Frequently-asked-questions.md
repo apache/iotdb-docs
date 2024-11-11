@@ -96,7 +96,7 @@ By default settings, the data files (including tsfile, metadata, and WAL files) 
 Use IoTDB's Command Line Interface:
 
 ```
-IoTDB> show timeseries
+IoTDB> show timeseries root
 ```
 
 In the result, there is a statement shows `Total timeseries number`, this number is the timeseries number in IoTDB.
@@ -104,7 +104,7 @@ In the result, there is a statement shows `Total timeseries number`, this number
 In the current version, IoTDB supports querying the number of time series. Use IoTDB's Command Line Interface:
 
 ```
-IoTDB> count timeseries
+IoTDB> count timeseries root
 ```
 
 If you are using Linux, you can use the following shell command:
@@ -129,7 +129,7 @@ Use ```SHOW TIMESERIES <timeseries path>``` SQL in IoTDB's Command Line Interfac
 For example, if you want to know the type of all timeseries, the \<timeseries path> should be `root.**`. The statement will be:
 
 ```
-IoTDB> show timeseries root.**
+IoTDB> show timeseries.**
 ```
 
 If you want to query specific sensor, you can replace the \<timeseries path> with the sensor name. For example:
@@ -232,7 +232,7 @@ not affect normal operations. We will fix this message in the incoming releases.
 #### How to restart any DataNode in the cluster?
 
 - First step: stop the process by `stop-datanode.sh` or kill PID of DataNode.
-- Second step: execute `s`tart-datanode.sh` to restart DataNode.
+- Second step: execute `start-datanode.sh` to restart DataNode.
 
 #### If it's possible to restart ConfigNode using the old data directory when it's removed?
 

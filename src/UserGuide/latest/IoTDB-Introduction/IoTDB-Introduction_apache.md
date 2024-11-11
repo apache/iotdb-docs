@@ -27,7 +27,7 @@ Apache IoTDB is a low-cost, high-performance native temporal database for the In
 
 - Open source installation package download: https://iotdb.apache.org/zh/Download/
 
-- Installation, deployment, and usage documentation:  [QuickStart](../QuickStart/QuickStart_apache.md)
+- Installation, deployment, and usage documentation: [QuickStart](../QuickStart/QuickStart_apache.md)
 
 ##  Product Features
 

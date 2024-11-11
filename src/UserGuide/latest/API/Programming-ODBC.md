@@ -66,7 +66,7 @@ Then, you can see the output `iotdb-jdbc-1.3.2-SNAPSHOT-jar-with-dependencies.ja
        | User password       | IoTDB's password                                          | root                                                                                                               |
 
        ![ODBC_CONNECTION.png](https://alioss.timecho.com/upload/ODBC_CONNECTION.png)
- 
+
     4. Click on "Test Connection" button, and a "Test Connection: SUCCESSFUL" should appear.
 
        ![ODBC_CONFIG_EN.jpg](https://alioss.timecho.com/upload/ODBC_CONFIG_EN.jpg)

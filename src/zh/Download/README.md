@@ -219,7 +219,7 @@ insert into root.sg(time, a) values(4, "\u96d5")
   * 停掉旧版本进程，启动新版本即可。
 
 - 如何从 v0.13.x 升级到 v1.0.x？
-  * 0.13版本与1.0版本的文件目录结构不同，**<font color=red>不能将0.13的data目录直接拷贝到1.0集群使用</font>**。如果需要将0.13的数据导入至1.0，可以使用[LOAD](../UserGuide/Master/Tools-System/TsFile-Import-Export-Tool.md)功能;
+  * 0.13版本与1.0版本的文件目录结构不同，**<font color=red>不能将0.13的data目录直接拷贝到1.0集群使用</font>**。如果需要将0.13的数据导入至1.0，可以使用[LOAD](../UserGuide/latest/Tools-System/TsFile-Import-Export-Tool.md)功能;
   * __0.13版本的默认RPC地址是0.0.0.0，1.0版本的默认RPC地址是127.0.0.1__
 
 - 如何从 v1.0.0 升级到 v1.x.0？

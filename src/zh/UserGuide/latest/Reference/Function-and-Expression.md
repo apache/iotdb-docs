@@ -284,6 +284,8 @@ select count_time(*) from root.db.** group by([0, 10), 2ms) align by device
 > 3. having语句里不支持使用count_time, 使用count_time聚合函数时不支持使用having语句。
 > 4. count_time不支持与group by level, group by tag一起使用。
 
+
+
 ### MAX_BY
 
 #### 功能定义
@@ -477,6 +479,7 @@ IoTDB> select min_by(b, a) from root.test group by ([0,7),4ms) order by time des
 |1970-01-01T08:00:00.000+08:00|                             3.0|
 +-----------------------------+--------------------------------+
 ```
+
 
 <!--
 

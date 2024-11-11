@@ -24,7 +24,7 @@
 
 1. Before installation, ensure that the system is complete by referring to [System configuration](./Environment-Requirements.md).
 
-2. It is recommended to prioritize using 'hostname' for IP configuration during deployment, which can avoid the problem of modifying the host IP in the later stage and causing the database to fail to start. To set the host name, you need to configure/etc/hosts on the target server. For example, if the local IP is 192.168.1.3 and the host name is iotdb-1, you can use the following command to set the server's host name and configure IoTDB's' cn_internal-address' using the host name dn_internal_address、dn_rpc_address.
+2. It is recommended to prioritize using 'hostname' for IP configuration during deployment, which can avoid the problem of modifying the host IP in the later stage and causing the database to fail to start. To set the host name, you need to configure/etc/hosts on the target server. For example, if the local IP is 192.168.1.3 and the host name is iotdb-1, you can use the following command to set the server's host name and configure IoTDB's' cn_internal-address' using the host name dn_internal_address、dn_rpc_address。
 
    ``` Shell
    echo "192.168.1.3  iotdb-1" >> /etc/hosts 
@@ -42,14 +42,14 @@
   
 ## Installation Steps
 
-### Unzip the installation package and enter the installation directory
+### 1、Unzip the installation package and enter the installation directory
 
 ```Shell
 unzip  apache-iotdb-{version}-all-bin.zip
 cd  apache-iotdb-{version}-all-bin
 ```
 
-### Parameter Configuration
+### 2、Parameter Configuration
 
 #### Environment Script Configuration
 
@@ -67,7 +67,7 @@ cd  apache-iotdb-{version}-all-bin
 
 #### System General Configuration
 
-Open the general configuration file (./conf/iotdb-common. properties file) and set the following parameters:
+Open the general configuration file (./conf/iotdb-system. properties file) and set the following parameters:
 
 |     **Configuration**     |                       **Description**                        |  **Default**   |                    **Recommended value**                     |                         Note                          |
 | :-----------------------: | :----------------------------------------------------------: | :------------: | :----------------------------------------------------------: | :---------------------------------------------------: |
@@ -77,7 +77,7 @@ Open the general configuration file (./conf/iotdb-common. properties file) and s
 
 #### ConfigNode Configuration
 
-Open the ConfigNode configuration file (./conf/iotdb-confignode. properties file) and set the following parameters:
+Open the ConfigNode configuration file (./conf/iotdb-system. properties file) and set the following parameters:
 
 |  **Configuration**  |                       **Description**                        |   **Default**   |                    **Recommended value**                     |                   Note                   |
 | :-----------------: | :----------------------------------------------------------: | :-------------: | :----------------------------------------------------------: | :--------------------------------------: |
@@ -88,7 +88,7 @@ Open the ConfigNode configuration file (./conf/iotdb-confignode. properties file
 
 #### DataNode Configuration
 
-Open the DataNode configuration file (./conf/iotdb-datanode.properties file) and set the following parameters:
+Open the DataNode configuration file (./conf/iotdb-system. properties file) and set the following parameters:
 
 |        **Configuration**        |                       **Description**                        |   **Default**   |                    **Recommended value**                     | **Note**                                 |
 | :-----------------------------: | :----------------------------------------------------------: | :-------------: | :----------------------------------------------------------: | :--------------------------------------- |
@@ -103,7 +103,7 @@ Open the DataNode configuration file (./conf/iotdb-datanode.properties file) and
 
 > ❗️Attention: Editors such as VSCode Remote do not have automatic configuration saving function. Please ensure that the modified files are saved persistently, otherwise the configuration items will not take effect
 
-### Start ConfigNode
+### 3、Start ConfigNode
 
 Enter the sbin directory of iotdb and start confignode
 
@@ -111,7 +111,7 @@ Enter the sbin directory of iotdb and start confignode
 ./start-confignode.sh    -d      #The "- d" parameter will start in the background 
 ```
 
-### Start DataNode
+### 4、Start DataNode
 
 Enter the sbin directory of iotdb and start datanode:
 
@@ -120,7 +120,7 @@ cd sbin
 ./start-datanode.sh   -d   #The "- d" parameter will start in the background 
 ```
 
-### Verify Deployment
+### 5、Verify Deployment
 
 Can be executed directly/ Cli startup script in sbin directory:
 

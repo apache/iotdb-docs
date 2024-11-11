@@ -27,7 +27,7 @@ Note: The `schema` keyword in the following statements can be omitted.
 
 ## Create Schema Template
 
-The SQL syntax for creating a metadata template is as follows:
+The SQL syntax for creating a schema template is as follows:
 
 ```sql
 CREATE SCHEMA TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
@@ -104,12 +104,12 @@ show devices root.sg1.**
 ````
 
 ```shell
-+---------------+---------+
-|        devices|isAligned|
-+---------------+---------+
-|    root.sg1.d1|    false|
-|    root.sg1.d2|     true|
-+---------------+---------+
++---------------+---------+---------+
+|        devices|isAligned| Template|
++---------------+---------+---------+
+|    root.sg1.d1|    false|     null|
+|    root.sg1.d2|     true|     null|
++---------------+---------+---------+
 ````
 
 ## Show Schema Template

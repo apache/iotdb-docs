@@ -557,7 +557,7 @@ select validity(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:
 
 **输入序列：** 仅支持单个输入序列，类型为 INT32 / INT64 / FLOAT / DOUBLE。
 
-**输出序列：** 输出单个序列，类型为 DOUBLE。序列中共包含$2N-1$个数据点，每个值的具体含义参见[XCorr](#XCorr)函数文档。
+**输出序列：** 输出单个序列，类型为 DOUBLE。序列中共包含$2N-1$个数据点，每个值的具体含义参见[XCorr](#xcorr)函数文档。
 
 **提示：**
 

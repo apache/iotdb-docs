@@ -31,6 +31,7 @@
 3. Grafana：8.4.2 版本及以上，可以前往官网下载：https://grafana.com/grafana/download
 4. IoTDB 监控面板：基于企业版IoTDB的数据库监控面板，您可联系商务获取
 
+
 ### 1.1.2 启动 ConfigNode
 > 本文以 3C3D 为例
 

@@ -227,7 +227,7 @@ iotdbctl cluster scalein default_cluster
 * Configure `cn_internal_address`, `dn_internal_address`
 * Configure `cn_internal_address`, `cn_internal_port`, `cn_consensus_port`, `cn_system_dir`, in `iotdb-system.properties` in `confignode_servers`
   If the values in `cn_consensus_dir` and `iotdb-system.properties` are not the default for IoTDB, they need to be configured, otherwise there is no need to configure them.
-* Configure `dn_rpc_address`, `dn_internal_address`, `dn_data_dirs`, `dn_consensus_dir`, `dn_system_dir` in `iotdb-system.properties` in `datanode_servers`
+* Configure `dn_rpc_address`, `dn_internal_address`, `dn_data_dirs`, `dn_consensus_dir`, `dn_system_dir` in `iotdb-system.properties`
 * Execute initialization command
 
 ```bash
@@ -267,31 +267,33 @@ iotdbctl cluster deploy default_cluster
 
 * The functions and parameters of the cluster are listed as follows:
 
-| command         | description                                                                                     | parameter                                                                                                                                                                                                                                       |
-|-----------------|-------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| check           | check whether the cluster can be deployed                                                       | Cluster name list                                                                                                                                                                                                                               |
-| clean           | cleanup-cluster                                                                                 | cluster-name                                                                                                                                                                                                                                    |
-| deploy/dist-all | deploy cluster                                                                                  | Cluster name, -N, module name (optional for iotdb, grafana, prometheus), -op force (optional)                                                                                                                                                   |
-| list            | cluster status list                                                                             | None                                                                                                                                                                                                                                            |
-| start           | start cluster                                                                                   | Cluster name, -N, node name (nodename, grafana, prometheus optional)                                                                                                                                                                            |
-| stop            | stop cluster                                                                                    | Cluster name, -N, node name (nodename, grafana, prometheus optional), -op force (nodename, grafana, prometheus optional)                                                                                                                        |
-| restart         | restart cluster                                                                                 | Cluster name, -N, node name (nodename, grafana, prometheus optional), -op force (nodename, grafana, prometheus optional)                                                                                                                        |
-| show            | view cluster information. The details field indicates the details of the cluster information.   | Cluster name, details (optional)                                                                                                                                                                                                                |
-| destroy         | destroy cluster                                                                                 | Cluster name, -N, module name (iotdb, grafana, prometheus optional)                                                                                                                                                                             |
-| scaleout        | cluster expansion                                                                               | Cluster name                                                                                                                                                                                                                                    |
-| scalein         | cluster shrink                                                                                  | Cluster name, -N, cluster node name or cluster node ip+port                                                                                                                                                                                     |
-| reload          | hot loading of cluster configuration files                                                      | Cluster name                                                                                                                                                                                                                                    |
-| dist-conf       | cluster configuration file distribution                                                         | Cluster name                                                                                                                                                                                                                                    |
-| dumplog         | Back up specified cluster logs                                                                  | Cluster name, -N, cluster node name -h Back up to target machine ip -pw Back up to target machine password -p Back up to target machine port -path Backup directory -startdate Start time -enddate End time -loglevel Log type -l transfer speed |
-| dumpdata        | Backup cluster data                                                                             | Cluster name, -h backup to target machine ip -pw backup to target machine password -p backup to target machine port -path backup directory -startdate start time -enddate end time -l transmission speed                                        |
-| dist-lib        | lib package upgrade                                                                             | Cluster name                                                                                                                                                                                                                                    |
-| init            | When an existing cluster uses the cluster deployment tool, initialize the cluster configuration | Cluster name                                                                                                                                                                                                                                    |
-| status          | View process status                                                                             | Cluster name                                                                                                                                                                                                                                    |
-| activate        | Activate cluster                                                                                | Cluster name                                                                                                                                                                                                                                    |
+| command         | description                                                                                      | parameter                                                                                                                                                                                                                                        |
+|-----------------|-----------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| check           | check whether the cluster can be deployed                                                     | Cluster name list                                                                                                                                                                                                                                |
+| clean           | cleanup-cluster                                                                               | cluster-name                                                                                                                                                                                                                                     |
+| deploy/dist-all | deploy cluster                                                                                | Cluster name, -N, module name (optional for iotdb, grafana, prometheus), -op force (optional)                                                                                                                                                    |
+| list            | cluster status list                                                                           | None                                                                                                                                                                                                                                             |
+| start           | start cluster                                                                                 | Cluster name, -N, node name (nodename, grafana, prometheus optional)                                                                                                                                                                             |
+| stop            | stop cluster                                                                                  | Cluster name, -N, node name (nodename, grafana, prometheus optional), -op force (nodename, grafana, prometheus optional)                                                                                                                         |
+| restart         | restart cluster                                                                               | Cluster name, -N, node name (nodename, grafana, prometheus optional), -op force (nodename, grafana, prometheus optional)                                                                                                                         |
+| show            | view cluster information. The details field indicates the details of the cluster information. | Cluster name, details (optional)                                                                                                                                                                                                                 |
+| destroy         | destroy cluster                                                                               | Cluster name, -N, module name (iotdb, grafana, prometheus optional)                                                                                                                                                                              |
+| scaleout        | cluster expansion                                                                             | Cluster name                                                                                                                                                                                                                                     |
+| scalein         | cluster shrink                                                                                | Cluster name, -N, cluster node name or cluster node ip+port                                                                                                                                                                                      |
+| reload          | hot loading of cluster configuration files                                                    | Cluster name                                                                                                                                                                                                                                     |
+| dist-conf       | cluster configuration file distribution                                                       | Cluster name                                                                                                                                                                                                                                     |
+| dumplog         | Back up specified cluster logs                                                                                      | Cluster name, -N, cluster node name -h Back up to target machine ip -pw Back up to target machine password -p Back up to target machine port -path Backup directory -startdate Start time -enddate End time -loglevel Log type -l transfer speed |
+| dumpdata        | Backup cluster data                                                                                      | Cluster name, -h backup to target machine ip -pw backup to target machine password -p backup to target machine port -path backup directory -startdate start time -enddate end time -l transmission speed                                         |
+| dist-lib        | lib package upgrade                                                                                       | Cluster name                                                                                                                                                                                                                                     |
+| init            | When an existing cluster uses the cluster deployment tool, initialize the cluster configuration             | Cluster name                                                                                                                                                                                                                                     |
+| status          | View process status                                                                                        | Cluster name                                                                                                                                                                                                                                     |
+| activate        | Activate cluster                                                                                        | Cluster name                                                                                                                                                                                                                                     |
 | health_check    | health check                                                                                    | Cluster name, -N, nodename (optional)                                                                                                                                                                                                           |
 | backup          | Activate cluster                                                                                | Cluster name,-N nodename (optional)                                                                                                                                                                                                             |
 | importschema    | Activate cluster                                                                                | Cluster name,-N nodename  -param   paramters                                                                                                                                                                                                    |
 | exportschema    | Activate cluster                                                                                | Cluster name,-N nodename  -param   paramters                                                                                                                                                                                                    |
+
+
 
 ### Detailed command execution process
 
@@ -703,7 +705,7 @@ iotdbctl cluster backup default_cluster -N datanode_1
 
 * Locate the yaml file in the default location based on the cluster-name to retrieve datanode_servers configuration information.
 * Execute backup.sh on datanode1.
-  Note: Multi-node deployment on a single machine only supports quick mode.
+Note: Multi-node deployment on a single machine only supports quick mode.
 
 #### Cluster Metadata Import
 ```bash
@@ -736,6 +738,7 @@ iotdbctl cluster exportschema default_cluster -N datanode1 -param "-t ./ -pf ./p
 | -pf         | If -path is not specified, this parameter must be specified. It designates the file path containing the metadata paths to be exported, supporting txt file format. Each path to be exported is on a new line.| NO       |
 | -lpf        | Specify the maximum number of lines for the exported dump file. The default is 10000.| NO       |
 | -timeout    | Specify the timeout for session queries in milliseconds.| NO       |
+
 
 
 ### Introduction to Cluster Deployment Tool Samples
@@ -780,7 +783,7 @@ Starting Printing the IoTDB Data Directory Overview
 ````````````````````````
 output save path:IoTDB_data_dir_overview.txt
 data dir num:1
-143  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-common.properties, use the default configs.
+143  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-system.properties, use the default configs.
 |==============================================================
 |D:\github\master\iotdb\data\datanode\data
 |--sequence
@@ -841,7 +844,7 @@ Starting Printing the TsFile Sketch
 ````````````````````````
 TsFile path:D:\github\master\1669359533965-1-0-0.tsfile
 Sketch save path:D:\github\master\sketch.txt
-148  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-common.properties, use the default configs.
+148  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-system.properties, use the default configs.
 -------------------------------- TsFile Sketch --------------------------------
 file path: D:\github\master\1669359533965-1-0-0.tsfile
 file length: 2974
@@ -925,11 +928,11 @@ Use Windows in this example:
 ````````````````````````
 Starting Printing the TsFileResources
 ````````````````````````
-147  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-common.properties, use the default configs.
-230  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Cannot find IOTDB_HOME or IOTDB_CONF environment variable when loading config file iotdb-common.properties, use default configuration
-231  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Couldn't load the configuration iotdb-common.properties from any of the known sources.
-233  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Cannot find IOTDB_HOME or IOTDB_CONF environment variable when loading config file iotdb-datanode.properties, use default configuration
-237  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Couldn't load the configuration iotdb-datanode.properties from any of the known sources.
+147  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-system.properties, use the default configs.
+230  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Cannot find IOTDB_HOME or IOTDB_CONF environment variable when loading config file iotdb-system.properties, use default configuration
+231  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Couldn't load the configuration iotdb-system.properties from any of the known sources.
+233  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Cannot find IOTDB_HOME or IOTDB_CONF environment variable when loading config file iotdb-system.properties, use default configuration
+237  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Couldn't load the configuration iotdb-system.properties from any of the known sources.
 Analyzing D:\github\master\iotdb\data\datanode\data\sequence\root.sg1\0\0\1669359533489-1-0-0.tsfile ...
 
 Resource plan index range [9223372036854775807, -9223372036854775808]
@@ -943,11 +946,11 @@ Analyzing the resource file folder D:\github\master\iotdb\data\datanode\data\seq
 ````````````````````````
 Starting Printing the TsFileResources
 ````````````````````````
-178  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Cannot find IOTDB_HOME or IOTDB_CONF environment variable when loading config file iotdb-common.properties, use default configuration
-186  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-common.properties, use the default configs.
-187  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Couldn't load the configuration iotdb-common.properties from any of the known sources.
-188  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Cannot find IOTDB_HOME or IOTDB_CONF environment variable when loading config file iotdb-datanode.properties, use default configuration
-192  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Couldn't load the configuration iotdb-datanode.properties from any of the known sources.
+178  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Cannot find IOTDB_HOME or IOTDB_CONF environment variable when loading config file iotdb-system.properties, use default configuration
+186  [main] WARN  o.a.i.t.c.conf.TSFileDescriptor - not found iotdb-system.properties, use the default configs.
+187  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Couldn't load the configuration iotdb-system.properties from any of the known sources.
+188  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Cannot find IOTDB_HOME or IOTDB_CONF environment variable when loading config file iotdb-system.properties, use default configuration
+192  [main] WARN  o.a.iotdb.db.conf.IoTDBDescriptor - Couldn't load the configuration iotdb-system.properties from any of the known sources.
 Analyzing D:\github\master\iotdb\data\datanode\data\sequence\root.sg1\0\0\1669359533489-1-0-0.tsfile ...
 
 Resource plan index range [9223372036854775807, -9223372036854775808]

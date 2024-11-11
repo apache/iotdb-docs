@@ -35,7 +35,7 @@
     <img src="https://alioss.timecho.com/docs/img/AINode%20Deployment%202.png" alt="" style="width: 45%;"/>
 </div>
 
-## Installation preparation
+##  Installation preparation
 
 ### Get installation package
 
@@ -57,13 +57,13 @@
 - Suggested operating environment：Ubuntu, CentOS, MacOS  
 
 - Runtime Environment   
-  - Python>=3.8 and Python <= 3.14 is sufficient in a networked environment, and comes with pip and venv tools; Python 3.8 version is required for non networked environments, and download the zip package for the corresponding operating system from [here](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) (Note that when downloading dependencies, you need to select the zip file in the libs folder, as shown in the following figure). Copy all files in the folder to the `lib` folder in the `iotdb-enterprise-ainode-<version>`  folder, and follow the steps below to start AINode.
+  - Python>=3.8 and Python <= 3.14 is sufficient in a networked environment, and comes with pip and venv tools; Python 3.8 version is required for non networked environments, and download the zip package for the corresponding operating system from [here](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) (Note that when downloading dependencies, you need to select the zip file in the libs folder, as shown in the following figure). Copy all files in the folder to the `lib` folder in the `iotdb-enterprise-ainode-<version>` folder, and follow the steps below to start AINode.
 
      <img src="https://alioss.timecho.com/docs/img/AINode%E9%83%A8%E7%BD%B2%E7%8E%AF%E5%A2%83.png" alt="" style="width: 80%;"/>
 
   - There must be a Python interpreter in the environment variables that can be directly called through the `python` instruction.
-  - It is recommended to create a Python interpreter venv virtual environment in the `iotdb-enterprise-ainode-<version>`  folder. If installing version 3.8.0 virtual environment, the statement is as follows:
-     ```shell
+  - It is recommended to create a Python interpreter venv virtual environment in the `iotdb-enterprise-ainode-<version>` folder. If installing version 3.8.0 virtual environment, the statement is as follows:
+    ```shell
       # Install version 3.8.0 of Venv , Create a virtual environment with the folder name `venv`.
       ../Python-3.8.0/python -m venv `venv`
     ```
@@ -174,7 +174,6 @@
     ```
   > Return to the default environment of the system: conda deactivate
 
-
  ### Configuration item modification
 
 AINode supports modifying some necessary parameters. You can find the following parameters in the `conf/iotdb-ainode.properties` file and make persistent modifications to them:
@@ -184,7 +183,7 @@ AINode supports modifying some necessary parameters. You can find the following 
 | :----------------------------- | ------------------------------------------------------------ | ------- | ------------------ | ---------------------------- |
 | cluster_name                   | The identifier for AINode to join the cluster                                      | string  | defaultCluster     | Only allow modifications before the first service startup |
 | ain_seed_config_node           | The Configurable Node address registered during AINode startup                          | String  | 127.0.0.1:10710     | Only allow modifications before the first service startup |
-| ain_inference_rpc_address      | AINode provides service and communication addresses , Internal Service Communication Interface              | String  | 127.0.0.1          | Only allow modifications before the first service startup                   |
+| ain_inference_rpc_address      | AINode provides service and communication addresses , Internal Service Communication Interface        | String  | 127.0.0.1          | Only allow modifications before the first service startup                   |
 | ain_inference_rpc_port         | AINode provides ports for services and communication                                  | String  | 10810              | Only allow modifications before the first service startup                   |
 | ain_system_dir                 | AINode metadata storage path, the starting directory of the relative path is related to the operating system, and it is recommended to use an absolute path | String  | data/AINode/system | Only allow modifications before the first service startup                   |
 | ain_models_dir                 | AINode stores the path of the model file, and the starting directory of the relative path is related to the operating system. It is recommended to use an absolute path | String  | data/AINode/models | Only allow modifications before the first service startup                   |
@@ -283,7 +282,7 @@ If the version of AINode has been updated (such as updating the `lib` folder), t
   # Backend startup command (recommended for long-term running)
   # Linux and MacOS systems
   nohup bash sbin/start-ainode.sh -r > myout.file 2>& 1 &
-  # Windows systems
+  # Windows c
   nohup bash sbin\start-ainode.bat -r > myout.file 2>& 1 &
   ```
 #### Non networked environment startup 
@@ -368,27 +367,28 @@ If you need to stop a running AINode node, execute the corresponding shutdown sc
 
 ```shell
   # Linux / MacOS 
-  bash sbin/stop-ainode.sh 
+  bash sbin/stop-ainode.sh  
 
   #Windows
   sbin\stop-ainode.bat 
   ```
 
+
 #### Detailed Syntax
 
 ```shell
   # Linux / MacOS 
-  bash sbin/stop-ainode.sh  -t<AINode-id>/<ip>:<rpc-port>
+  bash sbin/stop-ainode.sh  -t<AINode-id>
 
   #Windows
-  sbin\stop-ainode.bat  -t<AINode-id>/<ip>:<rpc-port>
+  sbin\stop-ainode.bat  -t<AINode-id>
   ```
 
 ##### Parameter introduction:
  
 | **Name**                | **Label** | **Describe**                                                         | **Is it mandatory** | **Type**   | **Default value**           | **Input method**   |
 | ----------------- | ---- | ------------------------------------------------------------ | -------- | ------ | ------ | ---------- |
-| ain_remove_target | -t   | When closing AINode, you can specify the Node ID, address, and port number of the target AINode to be removed, in the format of `<AINode id>/<ip>:<rpc port>` | no       | String | nothing     | Input when calling |
+| ain_remove_target | -t   | When closing AINode, you can specify the Node ID, address, and port number of the target AINode to be removed, in the format of `<AINode id>` | no       | String | nothing     | Input when calling |
 
 #### Example
 
@@ -425,7 +425,7 @@ When it is necessary to remove an AINode node from the cluster, a removal script
   bash sbin/remove-ainode.sh  
 
   # Windows
-  sbin\remove-ainode.bat 
+  sbin\remove-ainode.bat  
   ```
 
 #### Detailed Syntax
@@ -443,7 +443,7 @@ When it is necessary to remove an AINode node from the cluster, a removal script
  | **Name**                | **Label** | **Describe**                                                         | **Is it mandatory** | **Type**   | **Default value**           | **Input method**              |
 | ------------------- | ---- | ------------------------------------------------------------ | -------- | ------ | ---------------- | --------------------- |
 | ain_interpreter_dir | -i   | The interpreter path of the virtual environment where AINode is installed requires the use of an absolute path      | no       | String | Default reading of environment variables | Input+persistent modification during invocation |
-| ain_remove_target   | -t   | When closing AINode, you can specify the Node ID, address, and port number of the target AINode to be removed, in the format of `<AINode id>/<ip>:<rpc port>` | no       | String | nothing               | Input when calling            |
+| ain_remove_target   | -t   | When closing AINode, you can specify the Node ID, address, and port number of the target AINode to be removed, in the format of `<AINode id>` | no       | String | nothing               | Input when calling            |
 | ain_force_reinstall | -r   | Does this script check the version when checking the installation status of AINode. If it does, it will force the installation of the whl package in lib if the version is incorrect | no       | Bool   | false            | Input when calling            |
 | ain_no_dependencies | -n   | Specify whether to install dependencies when installing AINode, and if so, only install the AINode main program without installing dependencies | no       | Bool   | false            | Input when calling            |
 

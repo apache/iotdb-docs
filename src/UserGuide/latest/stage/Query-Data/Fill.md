@@ -114,13 +114,12 @@ result will be like:
 Total line number = 4
 ```
 
-
 **While using `FILL(PREVIOUS)`, you can specify a time interval. If the interval between the timestamp of the current null value and the timestamp of the previous non-null value exceeds the specified time interval, no filling will be performed.**
 
 > 1. In the case of FILL(LINEAR) and FILL(CONSTANT), if the second parameter is specified, an exception will be thrown
 > 2. The interval parameter only supports integers
 
-For example, the raw data looks like this:
+For example, the raw data looks like this: 
 
 ```sql
 select s1 from root.db.d1

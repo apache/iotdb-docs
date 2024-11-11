@@ -79,9 +79,9 @@
 
 元数据（schema）、权限（auth）同步功能存在如下限制：
 
-- 使用元数据同步时，要求`Schema region`、`ConfigNode` 的共识协议必须为默认的 ratis 协议，即：`iotdb-common.properties`配置文件中`config_node_consensus_protocol_class`和`schema_region_consensus_protocol_class`配置项均为`org.apache.iotdb.consensus.ratis.RatisConsensus`
+- 使用元数据同步时，要求`Schema region`、`ConfigNode` 的共识协议必须为默认的 ratis 协议，即`iotdb-system.properties`配置文件中是否包含`config_node_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus`、`schema_region_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus`，不包含即为默认值ratis 协议。
 
-- 为了防止潜在的冲突，请在开启元数据同步时关闭接收端自动创建元数据功能。可通过修改 `iotdb-common.properties`配置文件中的`enable_auto_create_schema`配置项为 false，关闭元数据自动创建功能。
+- 为了防止潜在的冲突，请在开启元数据同步时关闭接收端自动创建元数据功能。可通过修改 `iotdb-system.properties`配置文件中的`enable_auto_create_schema`配置项为 false，关闭元数据自动创建功能。
 
 - 开启元数据同步时，不支持使用自定义插件。
 
@@ -159,14 +159,14 @@ SHOW PIPES
 SHOW PIPE <PipeId>
 ```
 
-pipe 的 show pipes 结果示例：
+ pipe 的 show pipes 结果示例：
 
 ```SQL
-+--------------------------------+-----------------------+-------+---------------+--------------------+------------------------------------------------------------+----------------+
-|                              ID|           CreationTime|  State|     PipeSource|      PipeProcessor|                                                     PipeSink|ExceptionMessage|
-+--------------------------------+-----------------------+-------+---------------+--------------------+------------------------------------------------------------+----------------+
-|3421aacb16ae46249bac96ce4048a220|2024-08-13T09:55:18.717|RUNNING|             {}|                 {}|{{sink=iotdb-thrift-sink, sink.ip=127.0.0.1, sink.port=6668}}|                |
-+--------------------------------+-----------------------+-------+---------------+--------------------+------------------------------------------------------------+----------------+
++--------------------------------+-----------------------+-------+----------+-------------+-----------------------------------------------------------+----------------+-------------------+-------------------------+
+|                              ID|           CreationTime|  State|PipeSource|PipeProcessor|                                                   PipeSink|ExceptionMessage|RemainingEventCount|EstimatedRemainingSeconds|
++--------------------------------+-----------------------+-------+----------+-------------+-----------------------------------------------------------+----------------+-------------------+-------------------------+
+|59abf95db892428b9d01c5fa318014ea|2024-06-17T14:03:44.189|RUNNING|        {}|           {}|{sink=iotdb-thrift-sink, sink.ip=127.0.0.1, sink.port=6668}|                |                128|                     1.03|
++--------------------------------+-----------------------+-------+----------+-------------+-----------------------------------------------------------+----------------+-------------------+-------------------------+
 ```
 
 其中各列含义如下：
@@ -178,7 +178,8 @@ pipe 的 show pipes 结果示例：
 - **PipeProcessor**：同步数据流在传输过程中的处理逻辑
 - **PipeSink**：同步数据流的目的地
 - **ExceptionMessage**：显示同步任务的异常信息
-
+- **RemainingEventCount（统计存在延迟）**：剩余 event 数，当前数据同步任务中的所有 event 总数，包括数据和元数据同步的 event，以及系统和用户自定义的 event。
+- **EstimatedRemainingSeconds（统计存在延迟）**：剩余时间，基于当前 event 个数和 pipe 处速率，预估完成传输的剩余时间。
 
 ### 同步插件
 
@@ -188,20 +189,21 @@ pipe 的 show pipes 结果示例：
 SHOW PIPEPLUGINS
 ```
 
-返回结果如下（1.3.2 版本）：
+返回结果如下：
 
 ```SQL
 IoTDB> SHOW PIPEPLUGINS
-+---------------------+----------+-------------------------------------------------------------------------------------------+----------------------------------------------------+
-|           PluginName|PluginType|                                                                                  ClassName|                                           PluginJar|
-+---------------------+----------+-------------------------------------------------------------------------------------------+----------------------------------------------------+
-| DO-NOTHING-PROCESSOR|   Builtin|        org.apache.iotdb.commons.pipe.plugin.builtin.processor.donothing.DoNothingProcessor|                                                    |
-|      DO-NOTHING-SINK|   Builtin|        org.apache.iotdb.commons.pipe.plugin.builtin.connector.donothing.DoNothingConnector|                                                    |
-|   IOTDB-AIR-GAP-SINK|   Builtin|   org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.airgap.IoTDBAirGapConnector|                                                    |
-|         IOTDB-SOURCE|   Builtin|                org.apache.iotdb.commons.pipe.plugin.builtin.extractor.iotdb.IoTDBExtractor|                                                    |
-|    IOTDB-THRIFT-SINK|   Builtin|   org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftConnector|                                                    |
-|IOTDB-THRIFT-SSL-SINK|   Builtin|org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftSslConnector|                                                    |
-+---------------------+----------+-------------------------------------------------------------------------------------------+----------------------------------------------------+
++------------------------------+----------+--------------------------------------------------------------------------------------------------+----------------------------------------------------+
+|                    PluginName|PluginType|                                                                                         ClassName|                                           PluginJar|
++------------------------------+----------+--------------------------------------------------------------------------------------------------+----------------------------------------------------+
+|          DO-NOTHING-PROCESSOR|   Builtin|               org.apache.iotdb.commons.pipe.plugin.builtin.processor.donothing.DoNothingProcessor|                                                    |
+|               DO-NOTHING-SINK|   Builtin|               org.apache.iotdb.commons.pipe.plugin.builtin.connector.donothing.DoNothingConnector|                                                    |
+|            IOTDB-AIR-GAP-SINK|   Builtin|          org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.airgap.IoTDBAirGapConnector|                                                    |
+|                  IOTDB-SOURCE|   Builtin|                       org.apache.iotdb.commons.pipe.plugin.builtin.extractor.iotdb.IoTDBExtractor|                                                    |
+|             IOTDB-THRIFT-SINK|   Builtin|          org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftConnector|                                                    |
+|         IOTDB-THRIFT-SSL-SINK|   Builtin|       org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftSslConnector|                                                    |
++------------------------------+----------+--------------------------------------------------------------------------------------------------+----------------------------------------------------+
+
 ```
 
 预置插件详细介绍如下(各插件的详细参数可参考本文[参数说明](#参考参数说明))：
@@ -352,7 +354,7 @@ with source (
 )
 with sink (
   'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6668', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
+  'node-urls' = '127.0.0.1:6667', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
 )
 ```
 
@@ -380,7 +382,7 @@ with source (
 )
 with sink (
   'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6668', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
+  'node-urls' = '127.0.0.1:6669', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
 )
 ```
 
@@ -431,8 +433,22 @@ with sink (
 )
 ```
 
+### 压缩同步
 
-### 加密同步（V1.3.1+ ）
+IoTDB 支持在同步过程中指定数据压缩方式。可通过配置 `compressor` 参数，实现数据的实时压缩和传输。`compressor`目前支持 snappy / gzip / lz4 / zstd / lzma2 5 种可选算法，且可以选择多种压缩算法组合，按配置的顺序进行压缩。`rate-limit-bytes-per-second`（V1.3.3 及以后版本支持）每秒最大允许传输的byte数,计算压缩后的byte，若小于0则不限制。
+
+如创建一个名为 A2B 的同步任务：
+
+```SQL
+create pipe A2B 
+with sink (
+ 'node-urls' = '127.0.0.1:6668', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
+ 'compressor' = 'snappy,lz4'  -- 
+ 'rate-limit-bytes-per-second'='1048576'  -- 每秒最大允许传输的byte数
+)
+```
+
+### 加密同步
 
 IoTDB 支持在同步过程中使用 SSL 加密，从而在不同的 IoTDB 实例之间安全地传输数据。通过配置 SSL 相关的参数，如证书地址和密码（`ssl.trust-store-path`）、（`ssl.trust-store-pwd`）可以确保数据在同步过程中被 SSL 加密所保护。
 
@@ -450,84 +466,97 @@ with sink (
 
 ## 参考：注意事项
 
-可通过修改 IoTDB 配置文件（`iotdb-common.properties`）以调整数据同步的参数，如同步数据存储目录等。完整配置如下：：
+可通过修改 IoTDB 配置文件（`iotdb-system.properties`）以调整数据同步的参数，如同步数据存储目录等。完整配置如下：：
 
-V1.3.0/1/2:
+V1.3.3+:
 
 ```Properties
+# pipe_receiver_file_dir
+# If this property is unset, system will save the data in the default relative path directory under the IoTDB folder(i.e., %IOTDB_HOME%/${cn_system_dir}/pipe/receiver).
+# If it is absolute, system will save the data in the exact location it points to.
+# If it is relative, system will save the data in the relative path directory it indicates under the IoTDB folder.
+# Note: If pipe_receiver_file_dir is assigned an empty string(i.e.,zero-size), it will be handled as a relative path.
+# effectiveMode: restart
+# For windows platform
+# If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is absolute. Otherwise, it is relative.
+# pipe_receiver_file_dir=data\\confignode\\system\\pipe\\receiver
+# For Linux platform
+# If its prefix is "/", then the path is absolute. Otherwise, it is relative.
+pipe_receiver_file_dir=data/confignode/system/pipe/receiver
+
 ####################
 ### Pipe Configuration
 ####################
 
 # Uncomment the following field to configure the pipe lib directory.
+# effectiveMode: first_start
 # For Windows platform
 # If its prefix is a drive specifier followed by "\\", or if its prefix is "\\\\", then the path is
 # absolute. Otherwise, it is relative.
 # pipe_lib_dir=ext\\pipe
 # For Linux platform
 # If its prefix is "/", then the path is absolute. Otherwise, it is relative.
-# pipe_lib_dir=ext/pipe
+pipe_lib_dir=ext/pipe
 
 # The maximum number of threads that can be used to execute the pipe subtasks in PipeSubtaskExecutor.
 # The actual value will be min(pipe_subtask_executor_max_thread_num, max(1, CPU core number / 2)).
-# pipe_subtask_executor_max_thread_num=5
+# effectiveMode: restart
+# Datatype: int
+pipe_subtask_executor_max_thread_num=5
 
 # The connection timeout (in milliseconds) for the thrift client.
-# pipe_sink_timeout_ms=900000
+# effectiveMode: restart
+# Datatype: int
+pipe_sink_timeout_ms=900000
 
 # The maximum number of selectors that can be used in the sink.
 # Recommend to set this value to less than or equal to pipe_sink_max_client_number.
-# pipe_sink_selector_number=4
+# effectiveMode: restart
+# Datatype: int
+pipe_sink_selector_number=4
 
 # The maximum number of clients that can be used in the sink.
-# pipe_sink_max_client_number=16
+# effectiveMode: restart
+# Datatype: int
+pipe_sink_max_client_number=16
 
 # Whether to enable receiving pipe data through air gap.
 # The receiver can only return 0 or 1 in tcp mode to indicate whether the data is received successfully.
-# pipe_air_gap_receiver_enabled=false
+# effectiveMode: restart
+# Datatype: Boolean
+pipe_air_gap_receiver_enabled=false
 
 # The port for the server to receive pipe data through air gap.
-# pipe_air_gap_receiver_port=9780
+# Datatype: int
+# effectiveMode: restart
+pipe_air_gap_receiver_port=9780
+
+# The total bytes that all pipe sinks can transfer per second.
+# When given a value less than or equal to 0, it means no limit.
+# default value is -1, which means no limit.
+# effectiveMode: hot_reload
+# Datatype: double
+pipe_all_sinks_rate_limit_bytes_per_second=-1
 ```
 
 ## 参考：参数说明
 
-### source  参数（V1.3.0）
+### source  参数（V1.3.3）
 
-| 参数                            | 描述                                                         | value 取值范围                         | 是否必填 | 默认取值       |
-| :------------------------------ | :----------------------------------------------------------- | :------------------------------------- | :------- | :------------- |
-| source                          | iotdb-source                                                 | String: iotdb-source                   | 必填     | -              |
-| source.pattern                  | 用于筛选时间序列的路径前缀                                   | String: 任意的时间序列前缀             | 选填     | root           |
-| source.history.enable           | 是否发送历史数据                                             | Boolean: true / false                  | 选填     | true           |
-| source.history.start-time       | 同步历史数据的开始 event time，包含 start-time               | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填     | Long.MIN_VALUE |
-| source.history.end-time         | 同步历史数据的结束 event time，包含 end-time                 | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填     | Long.MAX_VALUE |
-| source.realtime.enable          | 是否发送实时数据                                             | Boolean: true / false                  | 选填     | true           |
-| source.realtime.mode            | 新插入数据（pipe 创建后）的抽取模式                          | String: stream, batch                  | 选填     | stream         |
-| source.forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据             | Boolean: true, false                   | 选填     | true           |
-| source.history.loose-range      | tsfile 传输时，是否放宽历史数据（pipe 创建前）范围。""：不放宽范围，严格按照设置的条件挑选数据"time"：放宽时间范围，避免对 TsFile 进行拆分，可以提升同步效率 | String: "" / "time"                    | 选填     | 空字符串       |
-
-> 💎 **说明：历史数据与实时数据的差异**
-> - **历史数据**：所有 arrival time < 创建 pipe 时当前系统时间的数据称为历史数据
-> - **实时数据**：所有 arrival time >= 创建 pipe 时当前系统时间的数据称为实时数据
-> - **全量数据**： 全量数据 = 历史数据 + 实时数据
->
-> 💎  **说明：数据抽取模式 stream 和 batch 的差异**
-> - **stream（推荐）**：该模式下，任务将对数据进行实时处理、发送，其特点是高时效、低吞吐
-> - **batch**：该模式下，任务将对数据进行批量（按底层数据文件）处理、发送，其特点是低时效、高吞吐
-
-### source  参数（V1.3.1）
-
-> 在 1.3.1 及以上的版本中，各项参数不再需要额外增加 source、processor、sink 前缀
-
-| 参数                     | 描述                                                         | value 取值范围                         | 是否必填 | 默认取值       |
-| :----------------------- | :----------------------------------------------------------- | :------------------------------------- | :------- | :------------- |
-| source                   | iotdb-source                                                 | String: iotdb-source                   | 必填     | -              |
-| pattern                  | 用于筛选时间序列的路径前缀                                   | String: 任意的时间序列前缀             | 选填     | root           |
-| start-time               | 同步所有数据的开始 event time，包含 start-time               | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填     | Long.MIN_VALUE |
-| end-time                 | 同步所有数据的结束 event time，包含 end-time                 | Long: [Long.MIN_VALUE, Long.MAX_VALUE] | 选填     | Long.MAX_VALUE |
-| realtime.mode            | 新插入数据（pipe 创建后）的抽取模式                          | String: stream, batch                  | 选填     | stream         |
-| forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据             | Boolean: true, false                   | 选填     | true           |
-| history.loose-range      | tsfile 传输时，是否放宽历史数据（pipe 创建前）范围。""：不放宽范围，严格按照设置的条件挑选数据"time"：放宽时间范围，避免对 TsFile 进行拆分，可以提升同步效率 | String: "" / "time"                    | 选填     | 空字符串       |
+| 参数                     | 描述                                                         | value 取值范围                                               | 是否必填 |
+| ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- |
+| source                   | iotdb-source                                                 | String: iotdb-source                                         | 必填     |
+| inclusion                | 用于指定数据同步任务中需要同步范围，分为数据、元数据和权限   | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | 选填     |
+| inclusion.exclusion      | 用于从 inclusion 指定的同步范围内排除特定的操作，减少同步的数据量 | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | 选填     |
+| mode                     | 用于在每个 data region 发送完毕时分别发送结束事件，并在全部 data region 发送完毕后自动 drop pipe。query:结束，subscribe:不结束。 | String: query / subscribe                                    | 选填     |
+| path                     | 用于筛选待同步的时间序列及其相关元数据 / 数据的路径模式元数据同步只能用pathpath 是精确匹配，参数必须为前缀路径或完整路径，即不能含有 `"*"`，最多在 path参数的尾部含有一个 `"**"` | String：IoTDB 的 pattern                                     | 选填     |
+| pattern                  | 用于筛选时间序列的路径前缀                                   | String: 任意的时间序列前缀                                   | 选填     |
+| start-time               | 同步所有数据的开始 event time，包含 start-time               | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                       | 选填     |
+| end-time                 | 同步所有数据的结束 event time，包含 end-time                 | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                       | 选填     |
+| realtime.mode            | 新插入数据（pipe创建后）的抽取模式                           | String: stream, batch                                        | 选填     |
+| forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据             | Boolean: true, false                                         | 选填     |
+| loose-range              | tsfile传输时，是否放宽历史数据（pipe创建前）范围。""：不放宽范围，严格按照设置的条件挑选数据"time"：放宽时间范围，避免对TsFile进行拆分，可以提升同步效率"path"：放宽路径范围，避免对TsFile进行拆分，可以提升同步效率"time, path" 、 "path, time" 、"all" ： 放宽所有范围，避免对TsFile进行拆分，可以提升同步效率 | String: "" 、 "time" 、 "path" 、 "time, path" 、 "path, time" 、 "all" | 选填     |
+| mods.enable              | 是否发送 tsfile 的 mods 文件                                 | Boolean: true / false                                        | 选填     |
 
 > 💎  **说明**：为保持低版本兼容，history.enable、history.start-time、history.end-time、realtime.enable 仍可使用，但在新版本中不推荐。
 >
@@ -535,60 +564,37 @@ V1.3.0/1/2:
 > - **stream（推荐）**：该模式下，任务将对数据进行实时处理、发送，其特点是高时效、低吞吐
 > - **batch**：该模式下，任务将对数据进行批量（按底层数据文件）处理、发送，其特点是低时效、高吞吐
 
-### source  参数（V1.3.2）
 
-> 在 1.3.1 及以上的版本中，各项参数不再需要额外增加 source、processor、sink 前缀
+## sink **参数**
 
-| 参数                     | 描述                                                         | value 取值范围                                               | 是否必填 | 默认取值       |
-| :----------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- | :------------- |
-| source                   | iotdb-source                                                 | String: iotdb-source                                         | 必填     | -              |
-| inclusion                | 用于指定数据同步任务中需要同步范围，分为数据、元数据和权限   | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | 选填     | data.insert    |
-| inclusion.exclusion      | 用于从 inclusion 指定的同步范围内排除特定的操作，减少同步的数据量 | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | 选填     | -              |
-| path                     | 用于筛选待同步的时间序列及其相关元数据 / 数据的路径模式path 是精确匹配，参数必须为前缀路径或完整路径，即不能含有 `"*"`，最多在 path 参数的尾部含有一个 `"**"` | String：IoTDB 的 pattern                                     | 选填     | root.**        |
-| pattern                  | 用于筛选时间序列的路径前缀元数据同步不能用 pattern 参数      | String: 任意的时间序列前缀                                   | 选填     | root           |
-| start-time               | 同步所有数据的开始 event time，包含 start-time               | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                       | 选填     | Long.MIN_VALUE |
-| end-time                 | 同步所有数据的结束 event time，包含 end-time                 | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                       | 选填     | Long.MAX_VALUE |
-| realtime.mode            | 新插入数据（pipe 创建后）的抽取模式                          | String: stream, batch                                        | 选填     | stream         |
-| forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据             | Boolean: true, false                                         | 选填     | true           |
-| history.loose-range      | tsfile 传输时，是否放宽历史数据（pipe 创建前）范围。""：不放宽范围，严格按照设置的条件挑选数据"time"：放宽时间范围，避免对 TsFile 进行拆分，可以提升同步效率 | String: "" 、 "time"                                         | 选填     | ""             |
-| mods.enable              | 是否发送 tsfile 的 mods 文件                                 | Boolean: true / false                                        | 选填     | false          |
+> 在 1.3.3 及以上的版本中，只包含sink的情况下，不再需要额外增加with sink 前缀
 
-> 💎  **说明**：为保持低版本兼容，history.enable、history.start-time、history.end-time、realtime.enable 仍可使用，但在新版本中不推荐。
->
-> 💎  **说明：数据抽取模式 stream 和 batch 的差异**
-> - **stream（推荐）**：该模式下，任务将对数据进行实时处理、发送，其特点是高时效、低吞吐
-> - **batch**：该模式下，任务将对数据进行批量（按底层数据文件）处理、发送，其特点是低时效、高吞吐
-
-### sink 参数
-
-> 在 1.3.1 及以上的版本中，各项参数不再需要额外增加 source、processor、sink 前缀
-
-#### iotdb-thrift-sink( V1.3.0/1/2) 
-
-| key                          | value                                                        | value 取值范围                                               | 是否必填 | 默认取值     |
-| :--------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- | :----------- |
-| sink                         | iotdb-thrift-sink 或 iotdb-thrift-async-sink                 | String: iotdb-thrift-sink 或 iotdb-thrift-async-sink         | 必填     |              |
-| sink.node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发） | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填     | -            |
-| sink.batch.enable            | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS        | Boolean: true, false                                         | 选填     | true         |
-| sink.batch.max-delay-seconds | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                      | 选填     | 1            |
-| sink.batch.size-bytes             | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte） | Long                                                         | 选填     | 16*1024*1024 |
-
-#### iotdb-air-gap-sink( V1.3.0/1/2) 
-
-| key                               | value                                                        | value 取值范围                                               | 是否必填 | 默认取值 |
-| :-------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- | :------- |
-| sink                              | iotdb-air-gap-sink                                           | String: iotdb-air-gap-sink                                   | 必填     | -        |
-| sink.node-urls                    | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url      | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填     | -        |
-| sink.air-gap.handshake-timeout-ms | 发送端与接收端在首次尝试建立连接时握手请求的超时时长，单位：毫秒 | Integer                                                      | 选填     | 5000     |
-
-#### iotdb-thrift-ssl-sink( V1.3.1/2) 
+#### iotdb-thrift-sink
 
 | key                     | value                                                        | value 取值范围                                               | 是否必填 | 默认取值     |
-| :---------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- | :----------- |
+| ----------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- | ------------ |
+| sink                    | iotdb-thrift-sink 或 iotdb-thrift-async-sink                 | String: iotdb-thrift-sink 或 iotdb-thrift-async-sink         | 必填     | -            |
+| node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发） | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填     | -            |
+| batch.enable            | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS        | Boolean: true, false                                         | 选填     | true         |
+| batch.max-delay-seconds | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                      | 选填     | 1            |
+| batch.size-bytes        | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte） | Long                                                         | 选填     | 16*1024*1024 |
+
+#### iotdb-air-gap-sink
+
+| key                          | value                                                        | value 取值范围                                               | 是否必填 | 默认取值 |
+| ---------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- | -------- |
+| sink                         | iotdb-air-gap-sink                                           | String: iotdb-air-gap-sink                                   | 必填     | -        |
+| node-urls                    | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url      | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填     | -        |
+| air-gap.handshake-timeout-ms | 发送端与接收端在首次尝试建立连接时握手请求的超时时长，单位：毫秒 | Integer                                                      | 选填     | 5000     |
+
+#### iotdb-thrift-ssl-sink
+
+| key                     | value                                                        | value 取值范围                                               | 是否必填 | 默认取值     |
+| ----------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- | ------------ |
 | sink                    | iotdb-thrift-ssl-sink                                        | String: iotdb-thrift-ssl-sink                                | 必填     | -            |
 | node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发） | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填     | -            |
 | batch.enable            | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS        | Boolean: true, false                                         | 选填     | true         |
 | batch.max-delay-seconds | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                      | 选填     | 1            |
 | batch.size-bytes        | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte） | Long                                                         | 选填     | 16*1024*1024 |
-| ssl.trust-store-path    | 连接目标端 DataNode 所需的 trust store 证书路径              | String: 证书目录名，配置为相对目录时，相对于 IoTDB 根目录Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | 必填     | -            |
+| ssl.trust-store-path    | 连接目标端 DataNode 所需的 trust store 证书路径              | String.Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | 必填     | -            |
 | ssl.trust-store-pwd     | 连接目标端 DataNode 所需的 trust store 证书密码              | Integer                                                      | 必填     | -            |

@@ -604,6 +604,7 @@ Output series:
 
 Note: The input is $y=sin(2\pi t/4)+2sin(2\pi t/5)$ with a length of 20. Thus, the output is $y=2sin(2\pi t/5)$ after low-pass filtering.
 
+
 ## Envelope
 
 ### Usage
@@ -619,9 +620,9 @@ This function can demodulate the signal and extract the envelope by inputting th
 + `frequency`：Modulation frequency (optional, positive). Without this parameter, the system will infer the frequency based on the time interval of the corresponding time of the sequence.
 + `amplification`: Amplification multiple (optional, a positive integer. The result of the output Time column is a collection of positive integers, with no decimals. When the frequency is less than 1, the frequency can be amplified by this parameter to show normal results).
 
-
 **Output:**
 + `Time`： The value returned in this column means frequency, not time. If the output format is time (for example, 1970-01-01T08:00:19.000+08:00), convert it to a timestamp value.
+
 + `Envelope(Path, 'frequency'='{frequency}')`：Output a single sequence of type DOUBLE, which is the result of envelope analysis.
 
 **Note:** When the values of the demodulated original sequence are not continuous, this function is treated as continuous, and it is recommended that the analyzed time series be a complete time series. Specify the start time and end time.

@@ -25,11 +25,11 @@ We use the same configuration files for IoTDB DataNode and Standalone version, a
 
 * `datanode-env.sh/bat`：Environment configurations, in which we could set the memory allocation of DataNode and Standalone.
 
-* `iotdb-datanode.properties`：IoTDB system configurations.
+* `iotdb-system.properties`：IoTDB system configurations.
 
 ## Hot Modification Configuration
 
-For the convenience of users, IoTDB provides users with hot modification function, that is, modifying some configuration parameters in `iotdb-datanode.properties` during the system operation and applying them to the system immediately. 
+For the convenience of users, IoTDB provides users with hot modification function, that is, modifying some configuration parameters in `iotdb-system.properties` during the system operation and applying them to the system immediately. 
 In the parameters described below, these parameters whose way of `Effective` is `hot-load` support hot modification.
 
 Trigger way: The client sends the command(sql) `load configuration` or `set configuration` to the IoTDB server.
@@ -102,7 +102,7 @@ The user and passwords are in ${IOTDB\_CONF}/conf/jmx.password.
 
 The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 
-## DataNode/Standalone Configuration File (iotdb-datanode.properties)
+## DataNode/Standalone Configuration File (iotdb-system.properties)
 
 ### Data Node RPC Configuration
 
@@ -216,13 +216,13 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |Default| ""              |
 |Effective| After restarting system        |
 
-### Target Config Nodes
+### SeedConfigNode
 
 * dn\_seed\_config\_node
 
 |Name| dn\_seed\_config\_node                  |
 |:---:|:------------------------------------------------|
-|Description| ConfigNode Address for DataNode to join cluster |
+|Description| ConfigNode Address for DataNode to join cluster. This parameter is corresponding to dn\_target\_config\_node\_list before V1.2.2 |
 |Type| String                                          |
 |Default| 127.0.0.1:10710                                 |
 |Effective| Only allowed to be modified in first start up                         |

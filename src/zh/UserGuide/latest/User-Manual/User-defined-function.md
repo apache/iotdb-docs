@@ -155,14 +155,14 @@ SHOW FUNCTIONS
 
 ###  3.4 UDF 配置
 
-- 允许在 `iotdb-common.properties` 中配置 udf 的存储目录.：
+- 允许在 `iotdb-system.properties` 中配置 udf 的存储目录.：
  ``` Properties
 # UDF lib dir
 
 udf_lib_dir=ext/udf
 ```
 
-- 使用自定义函数时，提示内存不足，更改 `iotdb-common.properties` 中下述配置参数并重启服务。
+- 使用自定义函数时，提示内存不足，更改 `iotdb-system.properties` 中下述配置参数并重启服务。
  ``` Properties
 
 # Used to estimate the memory usage of text fields in a UDF query.

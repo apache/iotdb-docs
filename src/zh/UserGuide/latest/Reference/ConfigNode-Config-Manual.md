@@ -25,7 +25,7 @@ IoTDB ConfigNode 配置文件均位于 IoTDB 安装目录：`conf`文件夹下�
 
 * `confignode-env.sh/bat`：环境配置项的配置文件，可以配置 ConfigNode 的内存大小。
 
-* `iotdb-confignode.properties`：IoTDB 的配置文件。
+* `iotdb-system.properties`：IoTDB 的配置文件。
 
 ## 环境配置项（confignode-env.sh/bat）
 
@@ -58,7 +58,7 @@ IoTDB ConfigNode 配置文件均位于 IoTDB 安装目录：`conf`文件夹下�
 |默认值|取决于MEMORY\_SIZE的配置。|
 |改后生效方式|重启服务生效|
 
-## 系统配置项（iotdb-confignode.properties）
+## 系统配置项（iotdb-system.properties）
 
 IoTDB 集群的全局配置通过 ConfigNode 配置。
 
@@ -93,13 +93,13 @@ IoTDB 集群的全局配置通过 ConfigNode 配置。
 |  默认值   | 10720                 |
 | 改后生效方式 | 仅允许在第一次启动服务前修改                |
 
-### 目标 Config Node 配置
+### SeedConfigNode 配置
 
 * cn\_seed\_config\_node
 
 |   名字   | cn\_seed\_config\_node        |
 |:------:|:--------------------------------------|
-|   描述   | 目标 ConfigNode 地址，ConfigNode 通过此地址加入集群 |
+|   描述   | 目标 ConfigNode 地址，ConfigNode 通过此地址加入集群，推荐使用 SeedConfigNode。V1.2.2 及以前曾用名是 cn\_target\_config\_node\_list |
 |   类型   | String                                |
 |  默认值   | 127.0.0.1:10710                       |
 | 改后生效方式 | 仅允许在第一次启动服务前修改                                |

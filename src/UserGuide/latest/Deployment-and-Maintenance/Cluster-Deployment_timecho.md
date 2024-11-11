@@ -31,7 +31,6 @@ This section describes how to manually deploy an instance that includes 3 Config
 1. Before installation, ensure that the system is complete by referring to [System configuration](./Environment-Requirements.md)
 
 2. It is recommended to prioritize using `hostname` for IP configuration during deployment, which can avoid the problem of modifying the host IP in the later stage and causing the database to fail to start. To set the host name, you need to configure /etc/hosts on the target server. For example, if the local IP is 192.168.1.3 and the host name is iotdb-1, you can use the following command to set the server's host name and configure the `cn_internal_address` and `dn_internal_address` of IoTDB using the host name.
-
    ``` shell
    echo "192.168.1.3  iotdb-1" >> /etc/hosts 
    ```
@@ -51,7 +50,7 @@ This section describes how to manually deploy an instance that includes 3 Config
 ## Preparation Steps
 
 1. Prepare the IoTDB database installation package: iotdb enterprise- {version}-bin.zip（The installation package can be obtained from:[IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_timecho.md)）
-2. Configure the operating system environment according to environmental requirements（The system environment configuration can be found in:[Environment Requirements](../Deployment-and-Maintenance/Environment-Requirements.md)）
+2. Configure the operating system environment according to environmental requirements（The system environment configuration can be found in:[Environment Requirement](https://www.timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/Environment-Requirements.html)）
 
 ## Installation Steps
 
@@ -98,7 +97,7 @@ cd  iotdb-enterprise-{version}-bin
 
 #### General Configuration
 
-Open the general configuration file `./conf/iotdb-common.properties`,The following parameters can be set according to the deployment method:
+Open the general configuration file `./conf/iotdb-system.properties`,The following parameters can be set according to the deployment method:
 
 | **Configuration**         | **Description**                                              | 192.168.1.3    | 192.168.1.4    | 192.168.1.5    |
 | ------------------------- | ------------------------------------------------------------ | -------------- | -------------- | -------------- |
@@ -106,9 +105,9 @@ Open the general configuration file `./conf/iotdb-common.properties`,The followi
 | schema_replication_factor | The number of metadata replicas, the number of DataNodes should not be less than this number | 3              | 3              | 3              |
 | data_replication_factor   | The number of data replicas should not be less than this number of DataNodes | 2              | 2              | 2              |
 
-#### **ConfigNode Configuration**
+#### ConfigNode Configuration
 
-Open the ConfigNode configuration file `./conf/iotdb-confignode.properties`,Set the following parameters
+Open the ConfigNode configuration file `./conf/iotdb-system.properties`,Set the following parameters
 
 | **Configuration**   | **Description**                                              | **Default**     | **Recommended value**                                        | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | Note                                     |
 | ------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------------ | ------------- | ------------- | ------------- | ---------------------------------------- |
@@ -119,7 +118,7 @@ Open the ConfigNode configuration file `./conf/iotdb-confignode.properties`,Set 
 
 #### DataNode Configuration
 
-Open DataNode Configuration File `./conf/iotdb-datanode.properties`,Set the following parameters:
+Open DataNode Configuration File `./conf/iotdb-system.properties`,Set the following parameters:
 
 | **Configuration**               | **Description**                                              | **Default**     | **Recommended value**                                        | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | Note                                     |
 | ------------------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------------ | ------------- | ------------- | ------------- | ---------------------------------------- |
@@ -130,7 +129,7 @@ Open DataNode Configuration File `./conf/iotdb-datanode.properties`,Set the foll
 | dn_mpp_data_exchange_port       | The port used by DataNode to receive data streams            | 10740           | 10740                                                        | 10740         | 10740         | 10740         | Cannot be modified after initial startup |
 | dn_data_region_consensus_port   | The port used by DataNode for data replica consensus protocol communication | 10750           | 10750                                                        | 10750         | 10750         | 10750         | Cannot be modified after initial startup |
 | dn_schema_region_consensus_port | The port used by DataNode for metadata replica consensus protocol communication | 10760           | 10760                                                        | 10760         | 10760         | 10760         | Cannot be modified after initial startup |
-| dn_seed_config_node             | The addresses of the ConfigNode that the node connects to when registering to join the cluster, i.e. `cn_internal-address: cn_internal_port` | 127.0.0.1:10710 | The first CongfigNode's cn_internal-address: cn_internal_port | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | Cannot be modified after initial startup |
+| dn_seed_config_node             | The address of the ConfigNode that the node connects to when registering to join the cluster, i.e. `cn_internal-address: cn_internal_port` | 127.0.0.1:10710 | The first CongfigNode's cn_internal-address: cn_internal_port | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | Cannot be modified after initial startup |
 
 > ❗️Attention: Editors such as VSCode Remote do not have automatic configuration saving function. Please ensure that the modified files are saved persistently, otherwise the configuration items will not take effect
 
@@ -142,7 +141,9 @@ Start the first confignode of IoTDB-1 first, ensuring that the seed confignode n
 cd sbin
 ./start-confignode.sh    -d      #"- d" parameter will start in the background
 ```
+
 If the startup fails, please refer to [Common Questions](#common-questions) for solutions.
+
 
 ### Activate Database
 
@@ -165,7 +166,7 @@ If the startup fails, please refer to [Common Questions](#common-questions) for 
 
     ```Bash
     Please copy the system_info's content and send it to Timecho:
-    Y17hFA0xRCE1TmkVxILuxxxxxxxxxxxxxxxxxxxxxxxxxxxxW5P52KCccFMVeHTc=
+    01-KU5LDFFN-PNBEHDRH
     Please enter license:
     ```
 
@@ -183,7 +184,7 @@ If the startup fails, please refer to [Common Questions](#common-questions) for 
 
  Enter the `sbin` directory of iotdb and start three datanode nodes in sequence:
 
-```Go
+```Bash
 cd sbin
 ./start-datanode.sh   -d   #"- d" parameter will start in the background
 ```
@@ -206,9 +207,7 @@ When you see the display of `Activated` on the far right, it indicates successfu
 
 ![](https://alioss.timecho.com/docs/img/%E4%BC%81%E4%B8%9A%E7%89%88%E6%BF%80%E6%B4%BB.png)
 
-
 > The appearance of `ACTIVATED (W)` indicates passive activation, which means that this Configurable Node does not have a license file (or has not issued the latest license file with a timestamp), and its activation depends on other Activated Configurable Nodes in the cluster. At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Timecho staff to reapply.
-
 
 ## Node Maintenance Steps
 
@@ -342,10 +341,10 @@ Then use the script to remove the DataNode. Script command:
 
 ```Bash
 # Linux / MacOS 
-sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
+sbin/remove-datanode.sh [datanode_id]
 
 #Windows
-sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
+sbin/remove-datanode.bat [datanode_id]
 ```
 
 ## Common Questions
