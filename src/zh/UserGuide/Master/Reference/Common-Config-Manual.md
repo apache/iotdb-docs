@@ -61,7 +61,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 |   名字   | schema\_region\_consensus\_protocol\_class                      |
 |:------:|:----------------------------------------------------------------|
-|   描述   | 元数据副本的共识协议，1 副本时可以使用 SimpleConsensus 协议，多副本时只能使用 RatisConsensus |
+|   描述   | 元数据副本的共识协议，多副本时只能使用 RatisConsensus |
 |   类型   | String                                                          |
 |  默认值   | org.apache.iotdb.consensus.ratis.RatisConsensus                 |
 | 改后生效方式 | 仅允许在第一次启动服务前修改                                                  |
@@ -79,7 +79,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 |   名字   | data\_region\_consensus\_protocol\_class                                      |
 |:------:|:------------------------------------------------------------------------------|
-|   描述   | 数据副本的共识协议，1 副本时可以使用 SimpleConsensus 协议，多副本时可以使用 IoTConsensus 或 RatisConsensus |
+|   描述   | 数据副本的共识协议，多副本时可以使用 IoTConsensus 或 RatisConsensus |
 |   类型   | String                                                                        |
 |  默认值   | org.apache.iotdb.consensus.iot.IoTConsensus                                   |
 | 改后生效方式 | 仅允许在第一次启动服务前修改                                                                |
@@ -149,11 +149,11 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |  默认值   | 2                                                                                                                                               |
 | 改后生效方式 | 重启生效                                                                                                                                          |
 
-* data\_region\_per\_processor
+* data\_region\_per\_data\_node
 
-|   名字   | data\_region\_per\_processor |
+|   名字   | data\_region\_per\_data\_node|
 |:------:|:-----------------------------|
-|   描述   | 期望每个处理器可管理的 DataRegion 的最大数量 |
+|   描述   | 期望每个 DataNode 可管理的 DataRegion 的最大数量 |
 |   类型   | double                       |
 |  默认值   | 1.0                          |
 | 改后生效方式 | 重启生效                       |

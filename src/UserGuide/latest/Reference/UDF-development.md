@@ -1,8 +1,8 @@
  # UDF development
 
-## UDF development
+## 1. UDF development
 
-### UDF Development Dependencies
+### 1.1 UDF Development Dependencies
 
 If you use [Maven](http://search.maven.org/), you can search for the development dependencies listed below from the [Maven repository](http://search.maven.org/) . Please note that you must select the same dependency version as the target IoTDB server version for development.
 
@@ -15,7 +15,7 @@ If you use [Maven](http://search.maven.org/), you can search for the development
 </dependency>
 ```
 
-## UDTF（User Defined Timeseries Generating Function）
+## 1.2 UDTF（User Defined Timeseries Generating Function）
 
 To write a UDTF,  you need to inherit the `org.apache.iotdb.udf.api.UDTF` class, and at least implement the `beforeStart` method and a `transform` method.
 
@@ -25,6 +25,8 @@ To write a UDTF,  you need to inherit the `org.apache.iotdb.udf.api.UDTF` class,
 | :----------------------------------------------------------- | :----------------------------------------------------------- | ----------------------------------------------------- |
 | void validate(UDFParameterValidator validator) throws Exception | This method is mainly used to validate `UDFParameters` and it is executed before `beforeStart(UDFParameters, UDTFConfigurations)` is called. | Optional                                              |
 | void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) throws Exception | The initialization method to call the user-defined initialization behavior before a UDTF processes the input data. Every time a user executes a UDTF query, the framework will construct a new UDF instance, and `beforeStart` will be called. | Required                                              |
+| Object transform(Row row) throws Exception                 | This method is called by the framework. This data processing method will be called when you choose to use the `MappableRowByRowAccessStrategy` strategy (set in `beforeStart`) to consume raw data. Input data is passed in by `Row`, and the transformation result should be returned. | Required to implement at least one `transform` method |
+| void transform(Column[] columns, ColumnBuilder builder) throws Exception | This method is called by the framework. This data processing method will be called when you choose to use the `MappableRowByRowAccessStrategy` strategy (set in `beforeStart`) to consume raw data. Input data is passed in by `Column[]`, and the transformation result should be output by `ColumnBuilder`. You need to call the data collection method provided by `builder`  to determine the output data. | Required to implement at least one `transform` method |
 | void transform(Row row, PointCollector collector) throws Exception | This method is called by the framework. This data processing method will be called when you choose to use the `RowByRowAccessStrategy` strategy (set in `beforeStart`) to consume raw data. Input data is passed in by `Row`, and the transformation result should be output by `PointCollector`. You need to call the data collection method provided by `collector`  to determine the output data. | Required to implement at least one `transform` method |
 | void transform(RowWindow rowWindow, PointCollector collector) throws Exception | This method is called by the framework. This data processing method will be called when you choose to use the `SlidingSizeWindowAccessStrategy` or `SlidingTimeWindowAccessStrategy` strategy (set in `beforeStart`) to consume raw data. Input data is passed in by `RowWindow`, and the transformation result should be output by `PointCollector`. You need to call the data collection method provided by `collector`  to determine the output data. | Required to implement at least one `transform` method |
 | void terminate(PointCollector collector) throws Exception  | This method is called by the framework. This method will be called once after all `transform` calls have been executed. In a single UDF query, this method will and will only be called once. You need to call the data collection method provided by `collector`  to determine the output data. | Optional                                              |
@@ -34,7 +36,7 @@ In the life cycle of a UDTF instance, the calling sequence of each method is as 
 
 1. void validate(UDFParameterValidator validator) throws Exception
 2. void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) throws Exception
-3. void transform(Row row, PointCollector collector) throws Exception or void transform(RowWindow rowWindow, PointCollector collector) throws Exception
+3. `Object transform(Row row) throws Exception` or `void transform(Column[] columns, ColumnBuilder builder) throws Exception` or `void transform(Row row, PointCollector collector) throws Exception` or `void transform(RowWindow rowWindow, PointCollector collector) throws Exception`
 4. void terminate(PointCollector collector) throws Exception
 5. void beforeDestroy() 
 
@@ -116,7 +118,7 @@ The following are the strategies you can set:
 
 | Interface definition              | Description                                                  | The `transform` Method to Call                               |
 | :-------------------------------- | :----------------------------------------------------------- | ------------------------------------------------------------ |
-| MappableRowByRow                | Custom scalar function<br>The framework will call the `transform` method once for each row of raw data input, with k columns of time series and 1 row of data input, and 1 column of time series and 1 row of data output. It can be used in any clause and expression where scalar functions appear, such as select clauses, where clauses, etc. | void transform(Column[] columns, ColumnBuilder builder) throws ExceptionObject transform(Row row) throws Exception |
+| MappableRowByRowStrategy                 | Custom scalar function<br>The framework will call the `transform` method once for each row of raw data input, with k columns of time series and 1 row of data input, and 1 column of time series and 1 row of data output. It can be used in any clause and expression where scalar functions appear, such as select clauses, where clauses, etc. | void transform(Column[] columns, ColumnBuilder builder) throws ExceptionObject transform(Row row) throws Exception |
 | RowByRowAccessStrategy          | Customize time series generation function to process raw data line by line.<br>The framework will call the `transform` method once for each row of raw data input, inputting k columns of time series and 1 row of data, and outputting 1 column of time series and n rows of data.<br> When a sequence is input, the row serves as a data point for the input sequence.<br> When multiple sequences are input, after aligning the input sequences in time, each row serves as a data point for the input sequence.<br>（In a row of data, there may be a column with a `null` value, but not all columns are `null`） | void transform(Row row, PointCollector collector) throws Exception |
 | SlidingTimeWindowAccessStrategy | Customize time series generation functions to process raw data in a sliding time window manner.<br>The framework will call the `transform` method once for each raw data input window, input k columns of time series m rows of data, and output 1 column of time series n rows of data.<br>A window may contain multiple rows of data, and after aligning the input sequence in time, each window serves as a data point for the input sequence. <br>(Each window may have i rows, and each row of data may have a column with a `null` value, but not all of them are `null`) | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
 | SlidingSizeWindowAccessStrategy | Customize the time series generation function to process raw data in a fixed number of rows, meaning that each data processing window will contain a fixed number of rows of data (except for the last window).<br>The framework will call the `transform` method once for each raw data input window, input k columns of time series m rows of data, and output 1 column of time series n rows of data.<br>A window may contain multiple rows of data, and after aligning the input sequence in time, each window serves as a data point for the input sequence. <br>(Each window may have i rows, and each row of data may have a column with a `null` value, but not all of them are `null`) | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
@@ -126,7 +128,7 @@ The following are the strategies you can set:
 
 #### Interface Description:
 
-- `RowByRowAccessStrategy`: The construction of `RowByRowAccessStrategy` does not require any parameters.
+- `MappableRowByRowStrategy` and `RowByRowAccessStrategy`: The construction of `RowByRowAccessStrategy` does not require any parameters.
 
 - `SlidingTimeWindowAccessStrategy`
 
@@ -219,7 +221,100 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 }
 ```
 
-3. **void transform(Row row, PointCollector collector) throws Exception**
+3. **Object transform(Row row) throws Exception**
+
+You need to implement this method or `transform(Column[] columns, ColumnBuilder builder) throws Exception` when you specify the strategy of UDF to read the original data as `MappableRowByRowAccessStrategy`.
+
+This method processes the raw data one row at a time. The raw data is input from `Row` and output by its return object. You must return only one object based on each input data point in a single `transform` method call, i.e., input and output are  one-to-one. It should be noted that the type of output data points must be the same as you set in the `beforeStart` method, and the timestamps of output data points must be strictly monotonically increasing.
+
+The following is a complete UDF example that implements the `Object transform(Row row) throws Exception` method. It is an adder that receives two columns of time series as input. 
+
+```java
+import org.apache.iotdb.udf.api.UDTF;
+import org.apache.iotdb.udf.api.access.Row;
+import org.apache.iotdb.udf.api.customizer.config.UDTFConfigurations;
+import org.apache.iotdb.udf.api.customizer.parameter.UDFParameterValidator;
+import org.apache.iotdb.udf.api.customizer.parameter.UDFParameters;
+import org.apache.iotdb.udf.api.customizer.strategy.MappableRowByRowAccessStrategy;
+import org.apache.iotdb.udf.api.type.Type;
+
+public class Adder implements UDTF {
+  private Type dataType;
+
+  @Override
+  public void validate(UDFParameterValidator validator) throws Exception {
+    validator
+        .validateInputSeriesNumber(2)
+        .validateInputSeriesDataType(0, Type.INT64)
+        .validateInputSeriesDataType(1, Type.INT64);
+  }
+
+  @Override
+  public void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) {
+    dataType = parameters.getDataType(0);
+    configurations
+        .setAccessStrategy(new MappableRowByRowAccessStrategy())
+        .setOutputDataType(dataType);
+  }
+
+  @Override
+  public Object transform(Row row) throws Exception {
+		return row.getLong(0) + row.getLong(1);
+  }
+}
+```
+
+
+
+4. **void transform(Column[] columns, ColumnBuilder builder) throws Exception**
+
+You need to implement this method or `Object transform(Row row) throws Exception` when you specify the strategy of UDF to read the original data as `MappableRowByRowAccessStrategy`.
+
+This method processes the raw data multiple rows at a time. After performance tests, we found that UDTF that process multiple rows at once perform better than those UDTF that process one data point at a time. The raw data is input from `Column[]` and output by `ColumnBuilder`. You must output a corresponding data point based on each input data point in a single `transform` method call, i.e., input and output are still one-to-one. It should be noted that the type of output data points must be the same as you set in the `beforeStart` method, and the timestamps of output data points must be strictly monotonically increasing.
+
+The following is a complete UDF example that implements the `void transform(Column[] columns, ColumnBuilder builder) throws Exception` method. It is an adder that receives two columns of time series as input. 
+
+```java
+import org.apache.iotdb.tsfile.read.common.block.column.Column;
+import org.apache.iotdb.tsfile.read.common.block.column.ColumnBuilder;
+import org.apache.iotdb.udf.api.UDTF;
+import org.apache.iotdb.udf.api.customizer.config.UDTFConfigurations;
+import org.apache.iotdb.udf.api.customizer.parameter.UDFParameterValidator;
+import org.apache.iotdb.udf.api.customizer.parameter.UDFParameters;
+import org.apache.iotdb.udf.api.customizer.strategy.MappableRowByRowAccessStrategy;
+import org.apache.iotdb.udf.api.type.Type;
+
+public class Adder implements UDTF {
+  private Type type;
+
+  @Override
+  public void validate(UDFParameterValidator validator) throws Exception {
+    validator
+        .validateInputSeriesNumber(2)
+        .validateInputSeriesDataType(0, Type.INT64)
+        .validateInputSeriesDataType(1, Type.INT64);
+  }
+
+  @Override
+  public void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) {
+    type = parameters.getDataType(0);
+    configurations.setAccessStrategy(new MappableRowByRowAccessStrategy()).setOutputDataType(type);
+  }
+
+  @Override
+  public void transform(Column[] columns, ColumnBuilder builder) throws Exception {
+    long[] inputs1 = columns[0].getLongs();
+    long[] inputs2 = columns[1].getLongs();
+
+    int count = columns[0].getPositionCount();
+    for (int i = 0; i < count; i++) {
+      builder.writeLong(inputs1[i] + inputs2[i]);
+    }
+  }
+}
+```
+
+5. **void transform(Row row, PointCollector collector) throws Exception**
 
 You need to implement this method when you specify the strategy of UDF to read the original data as `RowByRowAccessStrategy`.
 
@@ -255,7 +350,7 @@ public class Adder implements UDTF {
 }
 ```
 
-4. **void transform(RowWindow rowWindow, PointCollector collector) throws Exception**
+6. **void transform(RowWindow rowWindow, PointCollector collector) throws Exception**
 
 You need to implement this method when you specify the strategy of UDF to read the original data as `SlidingTimeWindowAccessStrategy` or `SlidingSizeWindowAccessStrategy`.
 
@@ -296,7 +391,7 @@ public class Counter implements UDTF {
 }
 ```
 
-5. **void terminate(PointCollector collector) throws Exception**
+7. **void terminate(PointCollector collector) throws Exception**
 
 In some scenarios, a UDF needs to traverse all the original data to calculate the final output data points. The `terminate` interface provides support for those scenarios.
 
@@ -349,7 +444,7 @@ public class Max implements UDTF {
 }
 ```
 
-6. **void beforeDestroy()**
+8. **void beforeDestroy()**
 
 The method for terminating a UDF.
 
@@ -357,7 +452,7 @@ This method is called by the framework. For a UDF instance, `beforeDestroy` will
 
 
 
-### UDAF (User Defined Aggregation Function)
+### 1.3 UDAF (User Defined Aggregation Function)
 
 A complete definition of UDAF involves two classes, `State` and `UDAF`.
 
@@ -594,16 +689,16 @@ The method for terminating a UDF.
 This method is called by the framework. For a UDF instance, `beforeDestroy` will be called after the last record is processed. In the entire life cycle of the instance, `beforeDestroy` will only be called once.
 
 
-### Maven Project Example
+### 1.4 Maven Project Example
 
 If you use Maven, you can build your own UDF project referring to our **udf-example** module. You can find the project [here](https://github.com/apache/iotdb/tree/master/example/udf).
 
 
-## Contribute universal built-in UDF functions to iotdb
+## 2. Contribute universal built-in UDF functions to iotdb
 
 This part mainly introduces how external users can contribute their own UDFs to the IoTDB community.
 
-####  Prerequisites
+####  2.1 Prerequisites
 
 1. UDFs must be universal.
 
@@ -614,31 +709,33 @@ This part mainly introduces how external users can contribute their own UDFs to 
 2. The UDF you are going to contribute has been well tested and can run normally in the production environment.
 
 
-####  What you need to prepare
+####  2.2 What you need to prepare
 
 1. UDF source code
 2. Test cases
 3. Instructions
 
-####  UDF Source Code
+###  2.3 Contribution Content
+
+####  2.3.1 UDF Source Code
 
 1. Create the UDF main class and related classes in `iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/udf/builtin` or in its subfolders.
 2. Register your UDF in `iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/udf/builtin/BuiltinTimeSeriesGeneratingFunction.java`.
 
-####  Test Cases
+#### 2.3.2 Test Cases
 
 At a minimum, you need to write integration tests for the UDF.
 
 You can add a test class in `integration-test/src/test/java/org/apache/iotdb/db/it/udf`. 
 
 
-####  Instructions
+####  2.3.3 Instructions
 
 The instructions need to include: the name and the function of the UDF, the attribute parameters that must be provided when the UDF is executed, the applicable scenarios, and the usage examples, etc.
 
 The instructions for use should include both Chinese and English versions. Instructions for use should be added separately in `docs/zh/UserGuide/Operation Manual/DML Data Manipulation Language.md` and `docs/UserGuide/Operation Manual/DML Data Manipulation Language.md`.
 
-####  Submit a PR
+####  2.3.4 Submit a PR
 
 When you have prepared the UDF source code, test cases, and instructions, you are ready to submit a Pull Request (PR) on [Github](https://github.com/apache/iotdb). You can refer to our code contribution guide to submit a PR: [Development Guide](https://iotdb.apache.org/Community/Development-Guide.html).
 

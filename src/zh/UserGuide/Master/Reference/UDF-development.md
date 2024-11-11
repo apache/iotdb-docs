@@ -21,20 +21,22 @@
 
 #### 接口说明:
 
-| 接口定义                                                     | 描述                                                         | 是否必须           |
-| :----------------------------------------------------------- | :----------------------------------------------------------- | ------------------ |
-| void validate(UDFParameterValidator validator) throws Exception | 在初始化方法`beforeStart`调用前执行，用于检测`UDFParameters`中用户输入的参数是否合法。 | 否                 |
-| void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) throws Exception | 初始化方法，在 UDTF 处理输入数据前，调用用户自定义的初始化行为。用户每执行一次 UDTF 查询，框架就会构造一个新的 UDF 类实例，该方法在每个 UDF 类实例被初始化时调用一次。在每一个 UDF 类实例的生命周期内，该方法只会被调用一次。 | 是                 |
-| void transform(Row row, PointCollector collector) throws Exception | 这个方法由框架调用。当您在`beforeStart`中选择以`RowByRowAccessStrategy`的策略消费原始数据时，这个数据处理方法就会被调用。输入参数以`Row`的形式传入，输出结果通过`PointCollector`输出。您需要在该方法内自行调用`collector`提供的数据收集方法，以决定最终的输出数据。 | 与下面的方法二选一 |
-| void transform(RowWindow rowWindow, PointCollector collector) throws Exception | 这个方法由框架调用。当您在`beforeStart`中选择以`SlidingSizeWindowAccessStrategy`或者`SlidingTimeWindowAccessStrategy`的策略消费原始数据时，这个数据处理方法就会被调用。输入参数以`RowWindow`的形式传入，输出结果通过`PointCollector`输出。您需要在该方法内自行调用`collector`提供的数据收集方法，以决定最终的输出数据。 | 与上面的方法二选一 |
-| void terminate(PointCollector collector) throws Exception  | 这个方法由框架调用。该方法会在所有的`transform`调用执行完成后，在`beforeDestory`方法执行前被调用。在一个 UDF 查询过程中，该方法会且只会调用一次。您需要在该方法内自行调用`collector`提供的数据收集方法，以决定最终的输出数据。 | 否                 |
-| void beforeDestroy()                                      | UDTF 的结束方法。此方法由框架调用，并且只会被调用一次，即在处理完最后一条记录之后被调用。 | 否                 |
+| 接口定义                                                     | 描述                                                         | 是否必须                  |
+| :----------------------------------------------------------- | :----------------------------------------------------------- | ------------------------- |
+| void validate(UDFParameterValidator validator) throws Exception | 在初始化方法`beforeStart`调用前执行，用于检测`UDFParameters`中用户输入的参数是否合法。 | 否                        |
+| void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) throws Exception | 初始化方法，在 UDTF 处理输入数据前，调用用户自定义的初始化行为。用户每执行一次 UDTF 查询，框架就会构造一个新的 UDF 类实例，该方法在每个 UDF 类实例被初始化时调用一次。在每一个 UDF 类实例的生命周期内，该方法只会被调用一次。 | 是                        |
+| Object transform(Row row) throws Exception`                 | 这个方法由框架调用。当您在`beforeStart`中选择以`MappableRowByRowAccessStrategy`的策略消费原始数据时，可以选用该方法进行数据处理。输入参数以`Row`的形式传入，输出结果通过返回值`Object`输出。 | 所有`transform`方法四选一 |
+| void transform(Column[] columns, ColumnBuilder builder) throws Exception | 这个方法由框架调用。当您在`beforeStart`中选择以`MappableRowByRowAccessStrategy`的策略消费原始数据时，可以选用该方法进行数据处理。输入参数以`Column[]`的形式传入，输出结果通过`ColumnBuilder`输出。您需要在该方法内自行调用`builder`提供的数据收集方法，以决定最终的输出数据。 | 所有`transform`方法四选一 |
+| void transform(Row row, PointCollector collector) throws Exception | 这个方法由框架调用。当您在`beforeStart`中选择以`RowByRowAccessStrategy`的策略消费原始数据时，这个数据处理方法就会被调用。输入参数以`Row`的形式传入，输出结果通过`PointCollector`输出。您需要在该方法内自行调用`collector`提供的数据收集方法，以决定最终的输出数据。 | 所有`transform`方法四选一 |
+| void transform(RowWindow rowWindow, PointCollector collector) throws Exception | 这个方法由框架调用。当您在`beforeStart`中选择以`SlidingSizeWindowAccessStrategy`或者`SlidingTimeWindowAccessStrategy`的策略消费原始数据时，这个数据处理方法就会被调用。输入参数以`RowWindow`的形式传入，输出结果通过`PointCollector`输出。您需要在该方法内自行调用`collector`提供的数据收集方法，以决定最终的输出数据。 | 所有`transform`方法四选一 |
+| void terminate(PointCollector collector) throws Exception  | 这个方法由框架调用。该方法会在所有的`transform`调用执行完成后，在`beforeDestory`方法执行前被调用。在一个 UDF 查询过程中，该方法会且只会调用一次。您需要在该方法内自行调用`collector`提供的数据收集方法，以决定最终的输出数据。 | 否                        |
+| void beforeDestroy()                                       | UDTF 的结束方法。此方法由框架调用，并且只会被调用一次，即在处理完最后一条记录之后被调用。 | 否                        |
 
 在一个完整的 UDTF 实例生命周期中，各个方法的调用顺序如下：
 
 1. void validate(UDFParameterValidator validator) throws Exception
 2. void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) throws Exception
-3. void transform(Row row, PointCollector collector) throws Exception 或者 void transform(RowWindow rowWindow, PointCollector collector) throws Exception
+3. Object transform(Row row) throws Exception 或着 void transform(Column[] columns, ColumnBuilder builder) throws Exception 或者 void transform(Row row, PointCollector collector) throws Exception 或者 void transform(RowWindow rowWindow, PointCollector collector) throws Exception
 4. void terminate(PointCollector collector) throws Exception
 5. void beforeDestroy() 
 
@@ -110,7 +112,7 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 
 | 接口定义                        | 描述                                                         | 调用的`transform`方法                                        |
 | ------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| MappableRowByRow                | 自定义标量函数<br>框架会为每一行原始数据输入调用一次`transform`方法，输入 k 列时间序列 1 行数据，输出 1 列时间序列 1 行数据，可用于标量函数出现的任何子句和表达式中，如select子句、where子句等。 | void transform(Column[] columns, ColumnBuilder builder) throws ExceptionObject transform(Row row) throws Exception |
+| MappableRowByRowStrategy                | 自定义标量函数<br>框架会为每一行原始数据输入调用一次`transform`方法，输入 k 列时间序列 1 行数据，输出 1 列时间序列 1 行数据，可用于标量函数出现的任何子句和表达式中，如select子句、where子句等。 | void transform(Column[] columns, ColumnBuilder builder) throws ExceptionObject transform(Row row) throws Exception |
 | RowByRowAccessStrategy          | 自定义时间序列生成函数，逐行地处理原始数据。<br>框架会为每一行原始数据输入调用一次`transform`方法，输入 k 列时间序列 1 行数据，输出 1 列时间序列 n 行数据。<br> 当输入一个序列时，该行就作为输入序列的一个数据点。<br> 当输入多个序列时，输入序列按时间对齐后，每一行作为的输入序列的一个数据点。<br>（一行数据中，可能存在某一列为`null`值，但不会全部都是`null`） | void transform(Row row, PointCollector collector) throws Exception |
 | SlidingTimeWindowAccessStrategy | 自定义时间序列生成函数，以滑动时间窗口的方式处理原始数据。<br>框架会为每一个原始数据输入窗口调用一次`transform`方法，输入 k 列时间序列 m 行数据，输出 1 列时间序列 n 行数据。<br>一个窗口可能存在多行数据，输入序列按时间对齐后，每个窗口作为的输入序列的一个数据点。 <br>（每个窗口可能存在 i 行，每行数据可能存在某一列为`null`值，但不会全部都是`null`） | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
 | SlidingSizeWindowAccessStrategy | 自定义时间序列生成函数，以固定行数的方式处理原始数据，即每个数据处理窗口都会包含固定行数的数据（最后一个窗口除外）。<br>框架会为每一个原始数据输入窗口调用一次`transform`方法，输入 k 列时间序列 m 行数据，输出 1 列时间序列 n 行数据。<br>一个窗口可能存在多行数据，输入序列按时间对齐后，每个窗口作为的输入序列的一个数据点。 <br>（每个窗口可能存在 i 行，每行数据可能存在某一列为`null`值，但不会全部都是`null`） | void transform(RowWindow rowWindow, PointCollector collector) throws Exception |
@@ -119,7 +121,7 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 
 #### 接口详情：
 
-- `RowByRowAccessStrategy`的构造不需要任何参数。
+- `MappableRowByRowStrategy` 和 `RowByRowAccessStrategy`的构造不需要任何参数。
 
 - `SlidingTimeWindowAccessStrategy`
 
@@ -212,7 +214,98 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 }
 ```
 
-3. **void transform(Row row, PointCollector collector) throws Exception**
+3. **Object transform(Row row) throws Exception**
+
+当您在`beforeStart`方法中指定 UDF 读取原始数据的策略为 `MappableRowByRowAccessStrategy`，您就需要该方法和下面的`void transform(Column[] columns, ColumnBuilder builder) throws Exception` 二选一来实现，在该方法中增加对原始数据处理的逻辑。
+
+该方法每次处理原始数据的一行。原始数据由`Row`读入，由返回值输出。您必须在一次`transform`方法调用中，根据每个输入的数据点输出一个对应的数据点，即输入和输出依然是一对一的。需要注意的是，输出数据点的类型必须与您在`beforeStart`方法中设置的一致，而输出数据点的时间戳必须是严格单调递增的。
+
+下面是一个实现了`Object transform(Row row) throws Exception`方法的完整 UDF 示例。它是一个加法器，接收两列时间序列输入，输出这两个数据点的代数和。
+
+```java
+import org.apache.iotdb.udf.api.UDTF;
+import org.apache.iotdb.udf.api.access.Row;
+import org.apache.iotdb.udf.api.customizer.config.UDTFConfigurations;
+import org.apache.iotdb.udf.api.customizer.parameter.UDFParameterValidator;
+import org.apache.iotdb.udf.api.customizer.parameter.UDFParameters;
+import org.apache.iotdb.udf.api.customizer.strategy.MappableRowByRowAccessStrategy;
+import org.apache.iotdb.udf.api.type.Type;
+
+public class Adder implements UDTF {
+  private Type dataType;
+
+  @Override
+  public void validate(UDFParameterValidator validator) throws Exception {
+    validator
+        .validateInputSeriesNumber(2)
+        .validateInputSeriesDataType(0, Type.INT64)
+        .validateInputSeriesDataType(1, Type.INT64);
+  }
+
+  @Override
+  public void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) {
+    dataType = parameters.getDataType(0);
+    configurations
+        .setAccessStrategy(new MappableRowByRowAccessStrategy())
+        .setOutputDataType(dataType);
+  }
+
+  @Override
+  public Object transform(Row row) throws Exception {
+		return row.getLong(0) + row.getLong(1);
+  }
+}
+```
+
+4. **void transform(Column[] columns, ColumnBuilder builder) throws Exception**
+
+当您在`beforeStart`方法中指定 UDF 读取原始数据的策略为 `MappableRowByRowAccessStrategy`，您就需要实现该方法，在该方法中增加对原始数据处理的逻辑。
+
+该方法每次处理原始数据的多行，经过性能测试，我们发现一次性处理多行的 UDTF 比一次处理一行的 UDTF 性能更好。原始数据由`Column[]`读入，由`ColumnBuilder`输出。您必须在一次`transform`方法调用中，根据每个输入的数据点输出一个对应的数据点，即输入和输出依然是一对一的。需要注意的是，输出数据点的类型必须与您在`beforeStart`方法中设置的一致，而输出数据点的时间戳必须是严格单调递增的。
+
+下面是一个实现了`void transform(Column[] columns, ColumnBuilder builder) throws Exceptionn`方法的完整 UDF 示例。它是一个加法器，接收两列时间序列输入，输出这两个数据点的代数和。
+
+``` java
+import org.apache.iotdb.tsfile.read.common.block.column.Column;
+import org.apache.iotdb.tsfile.read.common.block.column.ColumnBuilder;
+import org.apache.iotdb.udf.api.UDTF;
+import org.apache.iotdb.udf.api.customizer.config.UDTFConfigurations;
+import org.apache.iotdb.udf.api.customizer.parameter.UDFParameterValidator;
+import org.apache.iotdb.udf.api.customizer.parameter.UDFParameters;
+import org.apache.iotdb.udf.api.customizer.strategy.MappableRowByRowAccessStrategy;
+import org.apache.iotdb.udf.api.type.Type;
+
+public class Adder implements UDTF {
+  private Type type;
+
+  @Override
+  public void validate(UDFParameterValidator validator) throws Exception {
+    validator
+        .validateInputSeriesNumber(2)
+        .validateInputSeriesDataType(0, Type.INT64)
+        .validateInputSeriesDataType(1, Type.INT64);
+  }
+
+  @Override
+  public void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) {
+    type = parameters.getDataType(0);
+    configurations.setAccessStrategy(new MappableRowByRowAccessStrategy()).setOutputDataType(type);
+  }
+
+  @Override
+  public void transform(Column[] columns, ColumnBuilder builder) throws Exception {
+    long[] inputs1 = columns[0].getLongs();
+    long[] inputs2 = columns[1].getLongs();
+
+    int count = columns[0].getPositionCount();
+    for (int i = 0; i < count; i++) {
+      builder.writeLong(inputs1[i] + inputs2[i]);
+    }
+  }
+}
+```
+
+5. **void transform(Row row, PointCollector collector) throws Exception**
 
 当您在`beforeStart`方法中指定 UDF 读取原始数据的策略为 `RowByRowAccessStrategy`，您就需要实现该方法，在该方法中增加对原始数据处理的逻辑。
 
@@ -248,7 +341,7 @@ public class Adder implements UDTF {
 }
 ```
 
-4. **void transform(RowWindow rowWindow, PointCollector collector) throws Exception**
+6. **void transform(RowWindow rowWindow, PointCollector collector) throws Exception**
 
 当您在`beforeStart`方法中指定 UDF 读取原始数据的策略为 `SlidingTimeWindowAccessStrategy`或者`SlidingSizeWindowAccessStrategy`时，您就需要实现该方法，在该方法中增加对原始数据处理的逻辑。
 
@@ -288,7 +381,7 @@ public class Counter implements UDTF {
 }
 ```
 
-5. **void terminate(PointCollector collector) throws Exception**
+7. **void terminate(PointCollector collector) throws Exception**
 
 在一些场景下，UDF 需要遍历完所有的原始数据后才能得到最后的输出结果。`terminate`接口为这类 UDF 提供了支持。
 
@@ -341,7 +434,7 @@ public class Max implements UDTF {
 }
 ```
 
-6. **void beforeDestroy()**
+8. **void beforeDestroy()**
 
 UDTF 的结束方法，您可以在此方法中进行一些资源释放等的操作。
 
