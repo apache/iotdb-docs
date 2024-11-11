@@ -67,10 +67,10 @@ Examples:
 
 ## Load with Script
 
-Run rewrite-tsfile.bat if you are in a Windows environment, or rewrite-tsfile.sh if you are on Linux or Unix.
+If you are in a Windows environment, please run `$IOTDB_HOME\tools\load-tsfile.bat`. If you are in Linux or Unix, please run `load-tsfile.sh`
 
 ```bash
-./load-tsfile.bat -f filePath [-h host] [-p port] [-u username] [-pw password] [--sgLevel int] [--onSuccess none/delete]
+.\load-tsfile.bat -f filePath [-h host] [-p port] [-u username] [-pw password] [--sgLevel int] [--onSuccess none/delete]
 -f 			File/Directory to be load, required
 -h 			IoTDB Host address, optional field, 127.0.0.1 by default
 -p 			IoTDB port, optional field, 6667 by default

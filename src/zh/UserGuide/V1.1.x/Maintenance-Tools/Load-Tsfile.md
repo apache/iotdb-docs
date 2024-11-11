@@ -63,10 +63,11 @@ ONSUCCESS选项表示对于成功载入的tsfile的处置方式，默认为delet
 
 ### 使用脚本加载
 
-若您在Windows环境中，请运行`$IOTDB_HOME/tools/load-tsfile.bat`，若为Linux或Unix，请运行`load-tsfile.sh`
+
+若您在Windows环境中，请运行`$IOTDB_HOME\tools\load-tsfile.bat`，若为Linux或Unix，请运行`load-tsfile.sh`
 
 ```bash
-./load-tsfile.bat -f filePath [-h host] [-p port] [-u username] [-pw password] [--sgLevel int] [--onSuccess none/delete]
+.\load-tsfile.bat -f filePath [-h host] [-p port] [-u username] [-pw password] [--sgLevel int] [--onSuccess none/delete]
 -f 			待加载的文件或文件夹路径，必要字段
 -h 			IoTDB的Host地址，可选，默认127.0.0.1
 -p 			IoTDB的端口，可选，默认6667
