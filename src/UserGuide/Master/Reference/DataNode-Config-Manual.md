@@ -216,7 +216,7 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |Default| ""              |
 |Effective| After restarting system        |
 
-### Seed Config Node
+### SeedConfigNode
 
 * dn\_seed\_config\_node
 

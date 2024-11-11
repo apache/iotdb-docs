@@ -201,7 +201,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |改后生效方式| 重启服务生效          |
 
 
-### SeedConfigNodes 配置
+### SeedConfigNode 配置
 
 * dn\_seed\_config\_node
 
