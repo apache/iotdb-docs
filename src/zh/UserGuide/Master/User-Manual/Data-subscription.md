@@ -6,8 +6,8 @@ IoTDB 数据订阅模块（又称 IoTDB 订阅客户端）是IoTDB V1.3.3 版本
 
 在下面应用场景中，使用 IoTDB 订阅客户端消费数据会有显著的优势：
 
-1. **替换大量数据的轮询查询**：避免查询频率高、测点多时，轮询查询对原有系统性能的较大影响；避免查询范围不好确定问题，可保证下游拿到准确全量的数据；
-2. **与下游系统快速集成**：更方便对接 Flink、Spark、Kafka / DataX、Camel / MySQL、PG 等系统组件。不需要为每一个大数据组件，单独定制开发 IoTDB 的变更捕获等逻辑，可简化集成组件设计，提升开发效率。
+1. **持续获取最新数据**：使用订阅的方式，比定时查询更实时、应用编程更简单、系统负担更小；
+2. **简化数据推送至第三方系统**：无需在 IoTDB 内部开发不同系统的数据推送组件，可以在第三方系统内实现数据的流式获取，更方便将数据发送至 Flink、Kafka、DataX、Camel、MySQL、PG 等系统。
 
 ## 2. 主要概念
 
@@ -17,9 +17,9 @@ IoTDB 订阅客户端包含 3 个核心概念：Topic、Consumer、Consumer Grou
     <img src="https://alioss.timecho.com/docs/img/Data_sub_05.png" alt="" style="width: 60%;"/>
 </div>
 
-1. **Topic（主题）**: Topic 是 IoTDB 订阅客户端中用于分类数据的逻辑概念，可以看作是数据的发布通道。生产者将数据发布到特定的主题，而消费者则订阅这些主题以接收相关数据。不同于 Kafka，在 IoTDB 订阅客户端中，主题对应了待订阅的序列和时间范围，输出格式（消息或 TsFile），及可选的自定义处理逻辑。
+1. **Topic（主题）**: Topic 是 IoTDB 的数据空间，由路径和时间范围表示（如 root.** 的全时间范围）。消费者可以订阅这些主题的数据（当前已有的和未来写入的）。不同于 Kafka，IoTDB 可在数据入库后再创建 Topic，且输出格式可选择 Message 或 TsFile 两种。
 
-2. **Consumer（消费者）**: Consumer 是 IoTDB 订阅客户端有所在的应用程序或服务，负责接收和处理发布到特定 Topic 的数据。Consumer 从队列中获取数据并进行相应的处理。在 IoTDB 订阅客户端中提供了两种类型的 Consumers:
+2. **Consumer（消费者）**: Consumer 是 IoTDB 的订阅客户端，负责接收和处理发布到特定 Topic 的数据。Consumer 从队列中获取数据并进行相应的处理。在 IoTDB 订阅客户端中提供了两种类型的 Consumers:
   - 一种是 `SubscriptionPullConsumer`，对应的是消息队列中的 pull 消费模式，用户代码需要主动调用数据获取逻辑
   - 一种是 `SubscriptionPushConsumer`，对应的是消息队列中的 push 消费模式，用户代码由新到达的数据事件触发
 

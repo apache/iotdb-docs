@@ -6,9 +6,9 @@ The IoTDB data subscription module (also known as the IoTDB subscription client)
 
 Using the IoTDB Subscription Client to consume data has significant advantages in the following application scenarios:
 
-1. **Replacing Polling Queries for Large Amounts of Data**: Avoids the significant impact on the performance of the original system when the query frequency is high and there are many measurement points; avoids the issue of determining the query range, ensuring that the downstream can obtain accurate and complete data;
+1. **Continuously obtaining the latest data**: By using a subscription method, it is more real-time than scheduled queries, simpler to program applications, and has a lower system burden;
 
-2. **Rapid Integration with Downstream Systems**: Easier to integrate with system components such as Flink, Spark, Kafka / DataX, Camel / MySQL, PG, etc. There is no need to develop custom logic for IoTDB change capture for each big data component, which simplifies the design of integration components and improves development efficiency.
+2. **Simplify data push to third-party systems**: No need to develop data push components for different systems within IoTDB, data can be streamed within third-party systems, making it easier to send data to systems such as Flink, Kafka, DataX, Camel, MySQL, PG, etc.
 
 ## 2. Key Concepts
 
@@ -18,9 +18,9 @@ The IoTDB Subscription Client encompasses three core concepts: Topic, Consumer, 
     <img src="https://alioss.timecho.com/docs/img/Data_sub_01.png" alt="" style="width: 60%;"/>
 </div>
 
-1. **Topic**: A Topic is a logical concept used in the IoTDB Subscription Client to categorize data, which can be considered as a data publication channel. Producers publish data to specific topics, and consumers subscribe to these topics to receive relevant data. Unlike Kafka, in the IoTDB subscription client, topics correspond to the sequence and time range to be subscribed to, output format (message or TsFile), and optional custom processing logic.
+1. **Topic**: Topic is the data space of IoTDB, represented by paths and time ranges (such as the full time range of root. * *). Consumers can subscribe to data on these topics (currently existing and future written). Unlike Kafka, IoTDB can create topics after data is stored, and the output format can be either Message or TsFile.
 
-2. **Consumer**: Consumer is the application or service where the IoTDB subscription client is located, responsible for receiving and processing data published to specific topics. Consumers retrieve data from the queue and process it accordingly. There are two types of Consumers available in the IoTDB subscription client:
+2. **Consumer**: Consumer is an IoTDB subscription client is located, responsible for receiving and processing data published to specific topics. Consumers retrieve data from the queue and process it accordingly. There are two types of Consumers available in the IoTDB subscription client:
   - `SubscriptionPullConsumer`, which corresponds to the pull consumption model in message queues, where user code needs to actively invoke data retrieval logic.
   - `SubscriptionPushConsumer`, which corresponds to the push consumption model in message queues, where user code is triggered by newly arriving data events.
 
