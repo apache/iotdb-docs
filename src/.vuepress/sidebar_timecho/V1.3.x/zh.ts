@@ -86,7 +86,7 @@ export const zhSidebar = {
         { text: '运算符和表达式', link: 'Operator-and-Expression' },
         { text: '流处理框架', link: 'Streaming_timecho' },
         { text: '数据同步', link: 'Data-Sync_timecho' },
-        { text: '数据订阅', link: 'Data-subscription' },
+        { text: '数据订阅', link: 'Data-Subscription' },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
         { text: '视图', link: 'IoTDB-View_timecho' },
         { text: 'AI能力', link: 'AINode_timecho' },

@@ -82,7 +82,7 @@ export const enSidebar = {
         { text: 'Operator and Expression', link: 'Operator-and-Expression' },
         { text: 'Stream Processing', link: 'Streaming_apache' },
         { text: 'Data Sync', link: 'Data-Sync_apache' },
-        { text: 'Data subscription', link: 'Data-subscription' },
+        { text: 'Data Subscription', link: 'Data-Subscription' },
         { text: 'Database Programming', link: 'Database-Programming' },
         { text: 'UDF', link: 'User-defined-function' },
         { text: 'Database Administration', link: 'Authority-Management' },

@@ -15,7 +15,7 @@ Using the IoTDB Subscription Client to consume data has significant advantages i
 The IoTDB Subscription Client encompasses three core concepts: Topic, Consumer, and Consumer Group. The specific relationships are illustrated in the diagram below:
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/Data_sub_01.png" alt="" style="width: 60%;"/>
+    <img src="https://alioss.timecho.com/docs/img/Data-sub05.png" alt="" style="width: 60%;"/>
 </div>
 
 1. **Topic**: Topic is the data space of IoTDB, represented by paths and time ranges (such as the full time range of root. * *). Consumers can subscribe to data on these topics (currently existing and future written). Unlike Kafka, IoTDB can create topics after data is stored, and the output format can be either Message or TsFile.
@@ -189,17 +189,17 @@ For both `SubscriptionPullConsumer` and `SubscriptionPushConsumer`, the followin
 
 | key                     | **required or optional with default**                        | description                                                  |
 | :---------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
-| host                    | optional: 127.0.0.1                                          | String: The RPC host of a certain DataNode in IoTDB                     |
+| host                    | optional: 127.0.0.1                                          | `String`: The RPC host of a certain DataNode in IoTDB                     |
 | port                    | optional: 6667                                               | Integer: The RPC port of a certain DataNode in IoTDB                     |
-| node-urls               | optional: 127.0.0.1:6667                                     | List<String>: The RPC addresses of all DataNodes in IoTDB, can be multiple; either host:port or node-urls can be filled in. If both host:port and node-urls are filled in, the union of host:port and node-urls will be used to form a new node-urls application |
-| username                | optional: root                                               | String: The username of a DataNode in IoTDB                          |
-| password                | optional: root                                               | String: The password of a DataNode in IoTDB                             |
-| groupId                 | optional                                                     | String: consumer group id, if not specified, a new consumer group will be randomly assigned, ensuring that different consumer groups have different consumer group ids |
-| consumerId              | optional                                                     | String: consumer client id, if not specified, it will be randomly assigned, ensuring that each consumer client id in the same consumer group is unique |
-| heartbeatIntervalMs     | optional: 30000 (min: 1000)                                  | Long: The interval at which the consumer sends heartbeat requests to the IoTDB DataNode      |
-| endpointsSyncIntervalMs | optional: 120000 (min: 5000)                                 | Long: The interval at which the consumer detects the expansion and contraction of IoTDB cluster nodes and adjusts the subscription connection |
-| fileSaveDir             | optional: Paths.get(System.getProperty("user.dir"), "iotdb-subscription").toString() | String: The temporary directory path where the TsFile files subscribed by the consumer are stored      |
-| fileSaveFsync           | optional: false                                              | Boolean: Whether the consumer actively calls fsync during the subscription of TsFile    |
+| node-urls               | optional: 127.0.0.1:6667                                     | `List<String>`: The RPC addresses of all DataNodes in IoTDB, can be multiple; either host:port or node-urls can be filled in. If both host:port and node-urls are filled in, the union of host:port and node-urls will be used to form a new node-urls application |
+| username                | optional: root                                               | `String`: The username of a DataNode in IoTDB                          |
+| password                | optional: root                                               | `String`: The password of a DataNode in IoTDB                             |
+| groupId                 | optional                                                     | `String`: consumer group id, if not specified, a new consumer group will be randomly assigned, ensuring that different consumer groups have different consumer group ids |
+| consumerId              | optional                                                     | `String`: consumer client id, if not specified, it will be randomly assigned, ensuring that each consumer client id in the same consumer group is unique |
+| heartbeatIntervalMs     | optional: 30000 (min: 1000)                                  | `Long`: The interval at which the consumer sends heartbeat requests to the IoTDB DataNode      |
+| endpointsSyncIntervalMs | optional: 120000 (min: 5000)                                 | `Long`: The interval at which the consumer detects the expansion and contraction of IoTDB cluster nodes and adjusts the subscription connection |
+| fileSaveDir             | optional: Paths.get(System.getProperty("user.dir"), "iotdb-subscription").toString() | `String`: The temporary directory path where the TsFile files subscribed by the consumer are stored      |
+| fileSaveFsync           | optional: false                                              | `Boolean`: Whether the consumer actively calls fsync during the subscription of TsFile    |
 
 
 #### 4.3.1 SubscriptionPushConsumer
