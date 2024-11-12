@@ -184,17 +184,17 @@ Set<Subscription> getSubscriptions(final String topicName) throws Exception;
 
 | 参数                                          | 是否必填（默认值）                 | 参数含义                                                     |
 | :-------------------------------------------- | :--------------------------------- | :----------------------------------------------------------- |
-| host                    | optional: 127.0.0.1                                          | String: IoTDB 中某 DataNode 的 RPC host                      |
-| port                    | optional: 6667                                               | Integer: IoTDB 中某 DataNode 的 RPC port                     |
-| node-urls               | optional: 127.0.0.1:6667                                     | List<String>: IoTDB 中所有 DataNode 的 RPC 地址，可以是多个；host:port 和 node-urls 选填一个即可。当 host:port 和 node-urls 都填写了，则取 host:port 和 node-urls 的**并集**构成新的 node-urls 应用 |
-| username                | optional: root                                               | String: IoTDB 中 DataNode 的用户名                           |
-| password                | optional: root                                               | String: IoTDB 中 DataNode 的密码                             |
-| groupId                 | optional                                                     | String: consumer group id，若未指定则随机分配（新的 consumer group），保证不同的 consumer group 对应的 consumer group id 均不相同 |
-| consumerId              | optional                                                     | String: consumer client id，若未指定则随机分配，保证同一个 consumer group 中每一个 consumer client id 均不相同 |
-| heartbeatIntervalMs     | optional: 30000 (min: 1000)                                  | Long: consumer 向 IoTDB DataNode 定期发送心跳请求的间隔      |
-| endpointsSyncIntervalMs | optional: 120000 (min: 5000)                                 | Long: consumer 探测 IoTDB 集群节点扩缩容情况调整订阅连接的间隔 |
-| fileSaveDir             | optional: Paths.get(System.getProperty("user.dir"), "iotdb-subscription").toString() | String: consumer 订阅出的 TsFile 文件临时存放的目录路径      |
-| fileSaveFsync           | optional: false                                              | Boolean: consumer 订阅 TsFile 的过程中是否主动调用 fsync     |
+| host                    | optional: 127.0.0.1                                          | `String`: IoTDB 中某 DataNode 的 RPC host                      |
+| port                    | optional: 6667                                               | `Integer`: IoTDB 中某 DataNode 的 RPC port                     |
+| node-urls               | optional: 127.0.0.1:6667                                     | `List<String>`: IoTDB 中所有 DataNode 的 RPC 地址，可以是多个；host:port 和 node-urls 选填一个即可。当 host:port 和 node-urls 都填写了，则取 host:port 和 node-urls 的**并集**构成新的 node-urls 应用 |
+| username                | optional: root                                               | `String`: IoTDB 中 DataNode 的用户名                           |
+| password                | optional: root                                               | `String`: IoTDB 中 DataNode 的密码                             |
+| groupId                 | optional                                                     | `String`: consumer group id，若未指定则随机分配（新的 consumer group），保证不同的 consumer group 对应的 consumer group id 均不相同 |
+| consumerId              | optional                                                     | `String`: consumer client id，若未指定则随机分配，保证同一个 consumer group 中每一个 consumer client id 均不相同 |
+| heartbeatIntervalMs     | optional: 30000 (min: 1000)                                  | `Long`: consumer 向 IoTDB DataNode 定期发送心跳请求的间隔      |
+| endpointsSyncIntervalMs | optional: 120000 (min: 5000)                                 | `Long`: consumer 探测 IoTDB 集群节点扩缩容情况调整订阅连接的间隔 |
+| fileSaveDir             | optional: Paths.get(System.getProperty("user.dir"), "iotdb-subscription").toString() | `String`: consumer 订阅出的 TsFile 文件临时存放的目录路径      |
+| fileSaveFsync           | optional: false                                              | `Boolean`: consumer 订阅 TsFile 的过程中是否主动调用 fsync     |
 
 
 #### 4.3.1 SubscriptionPushConsumer
