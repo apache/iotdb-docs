@@ -66,44 +66,57 @@ pathPattern 匹配对应的设备。为了兼容老版本 SQL 语法，允许用
 取消 TTL 的 SQL 语句如下所示：
 
 ```
-IoTDB> unset ttl to root.ln
+IoTDB> unset ttl from root.ln
 ```
 
 取消设置 TTL 后， database `root.ln`中所有的数据都会被保存。
 ```
-IoTDB> unset ttl to root.sgcc.**
+IoTDB> unset ttl from root.sgcc.**
 ```
 
-取消设置`root.sgcc`路径下的所有 database 的 TTL 。
+取消设置`root.sgcc`路径下的所有的 TTL 。
 ```
 IoTDB> unset ttl to root.**
 ```
 
-取消设置所有 database 的 TTL 。
+取消设置指定路径的 TTL 。
 
+新语法
+```
+IoTDB> unset ttl from root.**
+```
+
+旧语法
+```
+IoTDB> unset ttl to root.**
+```
+新旧语法在功能上没有区别并且同时兼容，仅是新语法在用词上更符合常规。
 ## 显示 TTL
 
 显示 TTL 的 SQL 语句如下所示：
+show all ttl
 
 ```
 IoTDB> SHOW ALL TTL
-IoTDB> SHOW TTL ON StorageGroupNames
++--------------+--------+
+|          path|     TTL|
+|       root.**|55555555|
+| root.sg2.a.**|44440000|
++--------------+--------+
 ```
 
-SHOW ALL TTL 这个例子会给出所有 database 的 TTL。
-SHOW TTL ON root.ln,root.sgcc,root.DB 这个例子会显示指定的三个 database 的 TTL。
-注意：没有设置 TTL 的 database 的 TTL 将显示为 null。
+show ttl on pathPattern
+```
+IoTDB> SHOW TTL ON root.db.**;
++--------------+--------+
+|          path|     TTL|
+|    root.db.**|55555555|
+|  root.db.a.**|44440000|
++--------------+--------+
+```
+SHOW ALL TTL 这个例子会给出所有的 TTL。
+SHOW TTL ON pathPattern 这个例子会显示指定路径的 TTL。
 
-```
-IoTDB> show all ttl
-+-------------+-------+
-|     database|ttl(ms)|
-+-------------+-------+
-|      root.ln|3600000|
-|    root.sgcc|   null|
-|      root.DB|3600000|
-+-------------+-------+
-```
 显示设备的 TTL。
 ```
 IoTDB> show devices
