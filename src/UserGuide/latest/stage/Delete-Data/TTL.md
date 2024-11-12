@@ -89,7 +89,7 @@ IoTDB> unset ttl to root.**
 There is no functional difference between the old and new syntax, and they are compatible with each other.
 The new syntax is just more conventional in terms of wording.
 
-Unset the TTL setting for specified path pattern.
+Unset the TTL setting for all path pattern.
 
 ## Show TTL
 

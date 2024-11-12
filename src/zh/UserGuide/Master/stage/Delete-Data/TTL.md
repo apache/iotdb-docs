@@ -69,17 +69,17 @@ pathPattern 匹配对应的设备。为了兼容老版本 SQL 语法，允许用
 IoTDB> unset ttl from root.ln
 ```
 
-取消设置 TTL 后， database `root.ln`中所有的数据都会被保存。
+取消设置 TTL 后， `root.ln` 路径下所有的数据都会被保存。
 ```
 IoTDB> unset ttl from root.sgcc.**
 ```
 
 取消设置`root.sgcc`路径下的所有的 TTL 。
 ```
-IoTDB> unset ttl to root.**
+IoTDB> unset ttl from root.**
 ```
 
-取消设置指定路径的 TTL 。
+取消设置所有的 TTL 。
 
 新语法
 ```
