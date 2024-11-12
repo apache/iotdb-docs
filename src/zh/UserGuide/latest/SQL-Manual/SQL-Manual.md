@@ -341,13 +341,13 @@ IoTDB> set ttl to root.** 3600000
 ```
 #### 取消 TTL
 ```sql
-IoTDB> unset ttl to root.ln
+IoTDB> unset ttl from root.ln
 ```
 ```sql
-IoTDB> unset ttl to root.sgcc.**
+IoTDB> unset ttl from root.sgcc.**
 ```
 ```sql
-IoTDB> unset ttl to root.**
+IoTDB> unset ttl from root.**
 ```
 
 #### 显示 TTL
@@ -355,7 +355,10 @@ IoTDB> unset ttl to root.**
 IoTDB> SHOW ALL TTL
 ```
 ```sql
-IoTDB> SHOW TTL ON StorageGroupNames
+IoTDB> SHOW TTL ON pathPattern
+```
+```sql
+IoTDB> show DEVICES
 ```
 ## 写入数据
 

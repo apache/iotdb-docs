@@ -90,9 +90,9 @@ IoTDB> set ttl to root.** 3600000
 #### Unset TTL
 
 ```sql
-IoTDB> unset ttl to root.ln
-IoTDB> unset ttl to root.sgcc.**
-IoTDB> unset ttl to root.**
+IoTDB> unset ttl from root.ln
+IoTDB> unset ttl from root.sgcc.**
+IoTDB> unset ttl from root.**
 ```
 
 #### Show TTL
@@ -100,6 +100,7 @@ IoTDB> unset ttl to root.**
 ```sql
 IoTDB> SHOW ALL TTL
 IoTDB> SHOW TTL ON StorageGroupNames
+IoTDB> SHOW DEVICES
 ```
 
 ## DEVICE TEMPLATE
