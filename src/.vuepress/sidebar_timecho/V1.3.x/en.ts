@@ -86,6 +86,7 @@ export const enSidebar = {
         { text: 'Operator and Expression', link: 'Operator-and-Expression' },
         { text: 'Stream Processing', link: 'Streaming_timecho' },
         { text: 'Data Sync', link: 'Data-Sync_timecho' },
+        { text: 'Data subscription', link: 'Data-subscription' },
         { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
         { text: 'View', link: 'IoTDB-View_timecho' },
         { text: 'AI Capability', link: 'AINode_timecho' },
