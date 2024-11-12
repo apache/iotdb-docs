@@ -142,7 +142,7 @@ cd sbin
 ./start-confignode.sh    -d      #"- d" parameter will start in the background
 ```
 
-If the startup fails, please refer to [Common Questions](#common-questions) for solutions.
+If the startup fails, please refer to [Common Questions](#common-questions).
 
 
 ### Activate Database
@@ -352,7 +352,7 @@ sbin/remove-datanode.bat [datanode_id]
     - Use the `ls -al` command: Use the `ls -al` command to check if the owner information of the installation package root directory is the current user.
     - Check activation directory: Check all files in the `./activation` directory and whether the owner information is the current user.
 
-2. After starting the confignode command, does the node fail to start multiple times or receive prompts for running errors?
+2. Confignode failed to start
 
     Step 1: Please check the startup log to see if any parameters that cannot be changed after the first startup have been modified.
 
