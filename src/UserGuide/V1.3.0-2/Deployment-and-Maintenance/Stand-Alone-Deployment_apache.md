@@ -110,6 +110,7 @@ Enter the sbin directory of iotdb and start confignode
 ```Shell
 ./start-confignode.sh    -d      #The "- d" parameter will start in the background 
 ```
+If the startup fails, please refer to [Common Questions](#common-questions).
 
 ### Start DataNode
 
@@ -139,3 +140,40 @@ When the status is all running, it indicates that the service has started succes
 ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E5%8D%95%E6%9C%BAshow.jpeg)
 
 > The appearance of 'Activated (W)' indicates passive activation, indicating that this Config Node does not have a license file (or has not issued the latest license file with a timestamp). At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Timecho staff to reapply.
+
+## Common Questions
+
+1. Confignode failed to start
+
+    Step 1: Please check the startup log to see if any parameters that cannot be changed after the first startup have been modified.
+
+    Step 2: Please check the startup log for any other abnormalities. If there are any abnormal phenomena in the log, please contact Timecho Technical Support personnel for consultation on solutions.
+
+    Step 3: If it is the first deployment or data can be deleted, you can also clean up the environment according to the following steps, redeploy, and restart.
+
+    Clean up the environment:
+
+   ​	Execute the following on all nodes:
+
+   1. Terminate all ConfigNode Node and DataNode processes.
+   ```Bash
+     # 1. Stop the ConfigNode and DataNode services
+     sbin/stop-standalone.sh
+
+     # 2. Check for any remaining processes
+     jps
+     # Or
+     ps -ef|gerp iotdb
+
+     # 3. If there are any remaining processes, manually kill the
+     kill -9 <pid>
+     # If you are sure there is only one iotdb on the machine, you can use the following command to clean up residual processes
+     ps -ef|grep iotdb|grep -v grep|tr -s '  ' ' ' |cut -d ' ' -f2|xargs kill -9
+   ```
+   2.  Delete the data and logs directories.
+   
+   Explanation: Deleting the data directory is necessary, deleting the logs directory is for clean logs and is not mandatory.
+   ```Bash
+     cd /data/iotdb
+     rm -rf data logs
+   ```

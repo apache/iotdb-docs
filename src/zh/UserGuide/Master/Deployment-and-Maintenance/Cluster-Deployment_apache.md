@@ -141,7 +141,7 @@ cd  apache-iotdb-{version}-all-bin
 cd sbin
 ./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
 ```
-如果启动失败，请到[常见问题](#常见问题)查看解决方案。
+如果启动失败，请参考[常见问题](#常见问题)。
 
 ### 启动DataNode 节点
 
@@ -310,7 +310,7 @@ sbin/remove-datanode.bat [datanode_id]
 
 ## 常见问题
 
-1.  启动confignode的命令后，节点多次启动失败或出现运行错误的提示？
+1.  Confignode节点启动失败
 
     步骤 1: 请查看启动日志，检查是否修改了某些首次启动后不可改的参数。
 
