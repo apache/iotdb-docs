@@ -81,7 +81,7 @@ export const zhSidebar = {
         { text: '数据查询', link: 'Query-Data' },
         { text: '运算符、函数和表达式', link: 'Operator-and-Expression' },
         { text: '数据同步', link: 'Data-Sync_apache' },
-        { text: '数据订阅', link: 'Data-Subscription' },
+        { text: '数据订阅', link: 'Data-subscription' },
         { text: '流处理框架', link: 'Streaming_apache' },
         { text: '数据库编程', link: 'Database-Programming' },
         { text: '用户自定义函数', link: 'User-defined-function' },
