@@ -1083,50 +1083,115 @@ Note: the statement needs to satisfy this constraint: <PrefixPath> + <Path> = <T
 
 ## TTL
 
-IoTDB supports storage-level TTL settings, which means it is able to delete old data
-automatically and periodically. The benefit of using TTL is that hopefully you can control the 
-total disk space usage and prevent the machine from running out of disks. Moreover, the query
-performance may downgrade as the total number of files goes up and the memory usage also increase
-as there are more files. Timely removing such files helps to keep at a high query performance
-level and reduce memory usage. The TTL operations in IoTDB are supported by the following three
-statements:
+IoTDB supports device-level TTL settings, which means it is able to delete old data automatically and periodically. The benefit of using TTL is that hopefully you can control the total disk space usage and prevent the machine from running out of disks. Moreover, the query performance may downgrade as the total number of files goes up and the memory usage also increases as there are more files. Timely removing such files helps to keep at a high query performance level and reduce memory usage.
 
-* Set TTL
+The default unit of TTL is milliseconds. If the time precision in the configuration file changes to another, the TTL is still set to milliseconds.
+
+When setting TTL, the system will look for all devices included in the set path and set TTL for these devices. The system will delete expired data at the device granularity.
+After the device data expires, it will not be queryable. The data in the disk file cannot be guaranteed to be deleted immediately, but it can be guaranteed to be deleted eventually.
+However, due to operational costs, the expired data will not be physically deleted right after expiring. The physical deletion is delayed until compaction.
+Therefore, before the data is physically deleted, if the TTL is reduced or lifted, it may cause data that was previously invisible due to TTL to reappear.
+The system can only set up to 1000 TTL rules, and when this limit is reached, some TTL rules need to be deleted before new rules can be set.
+
+### TTL Path Rule
+The path can only be prefix paths (i.e., the path cannot contain \* , except \*\* in the last level).
+This path will match devices and also allows users to specify paths without asterisks as specific databases or devices.
+When the path does not contain asterisks, the system will check if it matches a database; if it matches a database, both the path and path.\*\* will be set at the same time. Note: Device TTL settings do not verify the existence of metadata, i.e., it is allowed to set TTL for a non-existent device.
 ```
-SET TTL TO StorageGroupName TTLTime
-Eg. SET TTL TO root.group1 3600000
-This example means that for data in root.group1, only that of the latest 1 hour will remain, the
-older one is removed or made invisible. 
-Note: TTLTime should be millisecond timestamp. When TTL is set, insertions that fall
-out of TTL will be rejected.
+qualified paths：
+root.**
+root.db.**
+root.db.group1.**
+root.db
+root.db.group1.d1
+
+unqualified paths：
+root.*.db
+root.**.db.*
+root.db.*
+```
+### TTL Applicable Rules
+When a device is subject to multiple TTL rules, the more precise and longer rules are prioritized. For example, for the device "root.bj.hd.dist001.turbine001", the rule "root.bj.hd.dist001.turbine001" takes precedence over "root.bj.hd.dist001.\*\*", and the rule "root.bj.hd.dist001.\*\*" takes precedence over "root.bj.hd.**".
+### Set TTL
+The set ttl operation can be understood as setting a TTL rule, for example, setting ttl to root.sg.group1.** is equivalent to mounting ttl for all devices that can match this path pattern.
+The unset ttl operation indicates unmounting TTL for the corresponding path pattern; if there is no corresponding TTL, nothing will be done.
+If you want to set TTL to be infinitely large, you can use the INF keyword.
+The SQL Statement for setting TTL is as follow:
+```
+set ttl to pathPattern 360000;
+```
+Set the Time to Live (TTL) to a pathPattern of 360,000 milliseconds; the pathPattern should not contain a wildcard (\*) in the middle and must end with a double asterisk (\*\*). The pathPattern is used to match corresponding devices.
+To maintain compatibility with older SQL syntax, if the user-provided pathPattern matches a database (db), the path pattern is automatically expanded to include all sub-paths denoted by path.\*\*.
+For instance, writing "set ttl to root.sg 360000" will automatically be transformed into "set ttl to root.sg.\*\* 360000", which sets the TTL for all devices under root.sg. However, if the specified pathPattern does not match a database, the aforementioned logic will not apply. For example, writing "set ttl to root.sg.group 360000" will not be expanded to "root.sg.group.\*\*" since root.sg.group does not match a database.
+It is also permissible to specify a particular device without a wildcard (*).
+### Unset TTL
+
+To unset TTL, we can use follwing SQL statement:
+
+```
+IoTDB> unset ttl from root.ln
 ```
 
-* Unset TTL
+After unset TTL, all data will be accepted in `root.ln`.
 ```
-UNSET TTL TO StorageGroupName
-Eg. UNSET TTL TO root.group1
-This example means that data of all time will be accepted in this group. 
+IoTDB> unset ttl from root.sgcc.**
 ```
 
-* Show TTL
+Unset the TTL in the `root.sgcc` path.
+
+New syntax
 ```
-SHOW ALL TTL
-SHOW TTL ON StorageGroupNames
-Eg.1 SHOW ALL TTL
-This example will show TTLs of all databases.
-Eg.2 SHOW TTL ON root.group1,root.group2,root.group3
-This example will show TTLs of the specified 3 groups.
-Notice: databases without TTL will show a "null"
+IoTDB> unset ttl from root.**
 ```
 
-Notice: When you set TTL to some databases, data out of the TTL will be made invisible
-immediately, but because the data files may contain both out-dated and living data or the data files may
-be being used by queries, the physical removal of data is stale. If you increase or unset TTL
-just after setting it previously, some previously invisible data may be seen again, but the
-physically removed one is lost forever. In other words, different from delete statement, the
-atomicity of data deletion is not guaranteed for efficiency concerns. So we recommend that you do
-not change the TTL once it is set or at least do not reset it frequently, unless you are determined 
-to suffer the unpredictability. 
+Old syntax
+```
+IoTDB> unset ttl to root.**
+```
+There is no functional difference between the old and new syntax, and they are compatible with each other.
+The new syntax is just more conventional in terms of wording.
+
+Unset the TTL setting for all path pattern.
+
+### Show TTL
+
+To Show TTL, we can use following SQL statement:
+
+show all ttl
+
+```
+IoTDB> SHOW ALL TTL
++--------------+--------+
+|          path|     TTL|
+|       root.**|55555555|
+| root.sg2.a.**|44440000|
++--------------+--------+
+```
+
+show ttl on pathPattern
+```
+IoTDB> SHOW TTL ON root.db.**;
++--------------+--------+
+|          path|     TTL|
+|    root.db.**|55555555|
+|  root.db.a.**|44440000|
++--------------+--------+
+```
+
+The SHOW ALL TTL example gives the TTL for all path patterns.
+The SHOW TTL ON pathPattern shows the TTL for the path pattern specified.
+
+Display devices' ttl
+```
+IoTDB> show devices
++---------------+---------+---------+
+|         Device|IsAligned|      TTL|
++---------------+---------+---------+
+|root.sg.device1|    false| 36000000|
+|root.sg.device2|     true|      INF|
++---------------+---------+---------+
+```
+All devices will definitely have a TTL, meaning it cannot be null. INF represents infinity.
 
 * Delete Partition (experimental)
 ```

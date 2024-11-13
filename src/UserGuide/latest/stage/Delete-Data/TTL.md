@@ -59,7 +59,7 @@ The SQL Statement for setting TTL is as follow:
 set ttl to pathPattern 360000;
 ```
 Set the Time to Live (TTL) to a pathPattern of 360,000 milliseconds; the pathPattern should not contain a wildcard (\*) in the middle and must end with a double asterisk (\*\*). The pathPattern is used to match corresponding devices.
-To maintain compatibility with older SQL syntax, if the user-provided pathPattern matches a database (db), the path pattern is automatically expanded to include all sub-paths denoted by path.\*\*. 
+To maintain compatibility with older SQL syntax, if the user-provided pathPattern matches a database (db), the path pattern is automatically expanded to include all sub-paths denoted by path.\*\*.
 For instance, writing "set ttl to root.sg 360000" will automatically be transformed into "set ttl to root.sg.\*\* 360000", which sets the TTL for all devices under root.sg. However, if the specified pathPattern does not match a database, the aforementioned logic will not apply. For example, writing "set ttl to root.sg.group 360000" will not be expanded to "root.sg.group.\*\*" since root.sg.group does not match a database.
 It is also permissible to specify a particular device without a wildcard (*).
 ## Unset TTL
@@ -67,45 +67,58 @@ It is also permissible to specify a particular device without a wildcard (*).
 To unset TTL, we can use follwing SQL statement:
 
 ```
-IoTDB> unset ttl to root.ln
+IoTDB> unset ttl from root.ln
 ```
 
 After unset TTL, all data will be accepted in `root.ln`.
 ```
-IoTDB> unset ttl to root.sgcc.**
+IoTDB> unset ttl from root.sgcc.**
 ```
 
-Unset the TTL setting for all databases in the `root.sgcc` path.
+Unset the TTL in the `root.sgcc` path.
+
+New syntax
+```
+IoTDB> unset ttl from root.**
+```
+
+Old syntax
 ```
 IoTDB> unset ttl to root.**
 ```
+There is no functional difference between the old and new syntax, and they are compatible with each other.
+The new syntax is just more conventional in terms of wording.
 
-Unset the TTL setting for all databases.
+Unset the TTL setting for all path pattern.
 
 ## Show TTL
 
 To Show TTL, we can use following SQL statement:
 
+show all ttl
+
 ```
 IoTDB> SHOW ALL TTL
-IoTDB> SHOW TTL ON StorageGroupNames
++--------------+--------+
+|          path|     TTL|
+|       root.**|55555555|
+| root.sg2.a.**|44440000|
++--------------+--------+
 ```
 
-The SHOW ALL TTL example gives the TTL for all databases.
-The SHOW TTL ON root.ln,root.sgcc,root.DB example shows the TTL for the three storage 
-groups specified.
-Note: the TTL for databases that do not have a TTL set will display as null.
+show ttl on pathPattern
+```
+IoTDB> SHOW TTL ON root.db.**;
++--------------+--------+
+|          path|     TTL|
+|    root.db.**|55555555|
+|  root.db.a.**|44440000|
++--------------+--------+
+```
 
-```
-IoTDB> show all ttl
-+----------+-------+
-| database|ttl(ms)|
-+---------+-------+
-|  root.ln|3600000|
-|root.sgcc|   null|
-|  root.DB|3600000|
-+----------+-------+
-```
+The SHOW ALL TTL example gives the TTL for all path patterns.
+The SHOW TTL ON pathPattern shows the TTL for the path pattern specified.
+
 Display devices' ttl
 ```
 IoTDB> show devices
