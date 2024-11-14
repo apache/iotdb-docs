@@ -464,7 +464,7 @@ Preparation: To register in this way, you need to upload the JAR package to the 
 SQL：
 
 ```sql
-SQL CREATE PIPEPLUGIN example 
+CREATE PIPEPLUGIN example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
 USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
 ```
@@ -476,7 +476,7 @@ Preparation: To register in this way, you need to place the JAR package in any p
 SQL：
 
 ```sql
-SQL CREATE PIPEPLUGIN example 
+CREATE PIPEPLUGIN example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
 USING URI '<file:/IoTDB installation path/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar>'
 ```

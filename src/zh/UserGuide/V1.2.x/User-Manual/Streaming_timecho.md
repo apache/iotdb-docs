@@ -464,7 +464,7 @@ USING <JAR 包的 URI>
 创建语句：
 
 ```sql
-SQL CREATE PIPEPLUGIN example 
+CREATE PIPEPLUGIN example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
 USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
 ```
@@ -476,7 +476,7 @@ USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
 创建语句：
 
 ```sql
-SQL CREATE PIPEPLUGIN example 
+CREATE PIPEPLUGIN example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
 USING URI '<file:/iotdb安装路径/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar>'
 ```
