@@ -99,8 +99,7 @@ export const zhSidebar = {
         { text: '监控工具', link: 'Monitor-Tool_apache' },
         { text: '测试工具', link: 'Benchmark' },
         { text: '运维工具', link: 'Maintenance-Tool_apache' },
-        { text: '数据导入导出脚本', link: 'Data-Import-Export-Tool' },
-        { text: 'TsFile导入导出脚本', link: 'TsFile-Import-Export-Tool' },
+        { text: '导出工具', link: 'Data-Export-Tool' },
       ],
     },
     {
