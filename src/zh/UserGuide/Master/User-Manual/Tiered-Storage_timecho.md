@@ -37,7 +37,7 @@
 | 配置项                                   | 默认值                   | 说明                                                         | 约束                                                         |
 | ---------------------------------------- | ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | dn_data_dirs                             | 无                       | 用来指定不同的存储目录，并将存储目录进行层级划分             | 每级存储使用分号分隔，单级内使用逗号分隔；云端配置只能作为最后一级存储且第一级不能作为云端存储；最多配置一个云端对象；远端存储目录使用 OBJECT_STORAGE 来表示 |
-| default_ttl_in_ms                        | 无                       | 定义每个层级负责的数据范围，通过 TTL 表示                    | 每级存储使用分号分隔；层级数量需与 dn_data_dirs 定义的层级数一致；"-1" 表示"无限制" |
+| tier_ttl_in_ms                        | 无                       | 定义每个层级负责的数据范围，通过 TTL 表示                    | 每级存储使用分号分隔；层级数量需与 dn_data_dirs 定义的层级数一致；"-1" 表示"无限制" |
 | dn_default_space_move_thresholds         | 0.15                     | 定义每个层级数据目录的最小剩余空间比例；当剩余空间少于该比例时，数据会被自动迁移至下一个层级；当最后一个层级的剩余存储空间到低于此阈值时，会将系统置为 READ_ONLY | 每级存储使用分号分隔；层级数量需与 dn_data_dirs 定义的层级数一致 |
 | object_storage_type                      | AWS_S3                   | 云端存储类型                                                 | IoTDB 当前只支持 AWS S3 作为远端存储类型，此参数不支持修改   |
 | object_storage_bucket                    | 无                       | 云端存储 bucket 的名称                                       | AWS S3 中的 bucket 定义；如果未使用远端存储，无需配置        |
@@ -55,7 +55,7 @@
 ```JavaScript
 // 必须配置项
 dn_data_dirs=/data1/data;/data2/data,/data3/data;
-default_ttl_in_ms=86400000;-1
+tier_ttl_in_ms=86400000;-1
 dn_default_space_move_thresholds=0.2;0.1
 ```
 
@@ -73,7 +73,7 @@ dn_default_space_move_thresholds=0.2;0.1
 ```JavaScript
 // 必须配置项
 dn_data_dirs=/data1/data;/data2/data,/data3/data;OBJECT_STORAGE
-default_ttl_in_ms=86400000;864000000;-1
+tier_ttl_in_ms=86400000;864000000;-1
 dn_default_space_move_thresholds=0.2;0.15;0.1
 object_storage_name=AWS_S3
 object_storage_bucket=iotdb

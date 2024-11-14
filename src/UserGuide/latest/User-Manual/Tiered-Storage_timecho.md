@@ -37,7 +37,7 @@ The specific parameter definitions and their descriptions are as follows.
 | Configuration                                    | Default                    | Description                                                          | Constraint                                                          |
 | ---------------------------------------- | ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | dn_data_dirs                             | None                        | specify different storage directories and divide the storage directories into tiers             | Each level of storage uses a semicolon to separate, and commas to separate within a single level; cloud (OBJECT_STORAGE) configuration can only be used as the last level of storage and the first level can't be used as cloud storage; a cloud object at most; the remote storage directory is denoted by OBJECT_STORAGE |
-| default_ttl_in_ms                        | None                        | Define the maximum age of data for which each tier is responsible                    | Each level of storage is separated by a semicolon; the number of levels should match the number of levels defined by dn_data_dirs；"-1" means "unlimited". |
+| tier_ttl_in_ms                        | None                        | Define the maximum age of data for which each tier is responsible                    | Each level of storage is separated by a semicolon; the number of levels should match the number of levels defined by dn_data_dirs；"-1" means "unlimited". |
 | dn_default_space_move_thresholds         | 0.15                     | Define the minimum remaining space ratio for each tier data catalogue; when the remaining space is less than this ratio, the data will be automatically migrated to the next tier; when the remaining storage space of the last tier falls below this threshold, the system will be set to READ_ONLY | Each level of storage is separated by a semicolon; the number of levels should match the number of levels defined by dn_data_dirs |
 | object_storage_type                      | AWS_S3                   | Cloud Storage Type                                                 | IoTDB currently only supports AWS S3 as a remote storage type, and this parameter can't be modified   |
 | object_storage_bucket                    | None                        | Name of cloud storage bucket                                       | Bucket definition in AWS S3; no need to configure if remote storage is not used        |
@@ -55,7 +55,7 @@ The following is an example of a local two-level storage configuration.
 ```JavaScript
 //Required configuration items
 dn_data_dirs=/data1/data;/data2/data,/data3/data;
-default_ttl_in_ms=86400000;-1
+tier_ttl_in_ms=86400000;-1
 dn_default_space_move_thresholds=0.2;0.1
 ```
 
@@ -73,7 +73,7 @@ The following takes three-level storage as an example:
 ```JavaScript
 //Required configuration items
 dn_data_dirs=/data1/data;/data2/data,/data3/data;OBJECT_STORAGE
-default_ttl_in_ms=86400000;864000000;-1
+tier_ttl_in_ms=86400000;864000000;-1
 dn_default_space_move_thresholds=0.2;0.15;0.1
 object_storage_name=AWS_S3
 object_storage_bucket=iotdb
