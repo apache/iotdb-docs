@@ -231,13 +231,10 @@ It costs 0.030s
 ```Bash
 # Linux / MacOS 
 sbin/remove-confignode.sh [confignode_id]
-或
-./sbin/remove-confignode.sh [cn_internal_address:cn_internal_port]
 
 #Windows
 sbin/remove-confignode.bat [confignode_id]
-或
-./sbin/remove-confignode.bat [cn_internal_address:cn_internal_port]
+
 ```
 
 ### DataNode节点维护
