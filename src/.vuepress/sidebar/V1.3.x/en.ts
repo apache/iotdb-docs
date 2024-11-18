@@ -99,7 +99,7 @@ export const enSidebar = {
         { text: 'Monitor Tool', link: 'Monitor-Tool_apache' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
         { text: 'Maintenance Tool', link: 'Maintenance-Tool_apache' },
-        { text: 'Data Export Script', link: 'Data-Export-Tool' },
+        { text: 'Data Export', link: 'Data-Export-Tool' },
       ],
     },
     {

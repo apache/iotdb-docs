@@ -1,4 +1,4 @@
-# Data Export Script
+# Data Export
 
 ## 1. Introduction to Export Tools
 
