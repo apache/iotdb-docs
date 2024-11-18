@@ -508,7 +508,7 @@ There will be at most 10 gc.log.* files and each one can reach to 10MB.
 |:---:|:--------------|
 |Description| Define the maximum age of data for which each tier is responsible		 |
 |Type| long         |
-|Default| None          |
+|Default| -1          |
 |Effective| After restarting system          |
 
 * dn\_default\_space\_usage\_thresholds
@@ -517,7 +517,7 @@ There will be at most 10 gc.log.* files and each one can reach to 10MB.
 |:---:|:--------------|
 |Description| Define the minimum remaining space ratio for each tier data catalogue; when the remaining space is less than this ratio, the data will be automatically migrated to the next tier; when the remaining storage space of the last tier falls below this threshold, the system will be set to READ_ONLY			 |
 |Type| double         |
-|Default| 0.15          |
+|Default| 0.85          |
 |Effective| hot-load           |
 
 * remote\_tsfile\_cache\_dirs
@@ -562,7 +562,7 @@ There will be at most 10 gc.log.* files and each one can reach to 10MB.
 |:---:|:--------------|
 |Description| Name of cloud storage bucket					 |
 |Type| string         |
-|Default| None	         |
+|Default| iotdb_data	         |
 |Effective| After restarting system          |
 
 * object\_storage\_endpoiont	

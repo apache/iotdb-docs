@@ -500,7 +500,7 @@ GC 日志会被存储在`IOTDB_HOME/logs/gc.log`. 至多会存储 10 个 gc.log 
 |:---:|:--------------|
 |描述| 定义每个层级负责的数据范围，通过 TTL 表示	 |
 |类型| long         |
-|默认值| 无          |
+|默认值| -1          |
 |改后生效方式| 重启生效          |
 
 * dn\_default\_space\_usage\_thresholds
@@ -509,7 +509,7 @@ GC 日志会被存储在`IOTDB_HOME/logs/gc.log`. 至多会存储 10 个 gc.log 
 |:---:|:--------------|
 |描述| 定义每个层级数据目录的最小剩余空间比例；当剩余空间少于该比例时，数据会被自动迁移至下一个层级；当最后一个层级的剩余存储空间到低于此阈值时，会将系统置为 READ_ONLY		 |
 |类型| double         |
-|默认值| 0.15          |
+|默认值| 0.85          |
 |改后生效方式| 热加载          |
 
 * remote\_tsfile\_cache\_dirs
@@ -554,7 +554,7 @@ GC 日志会被存储在`IOTDB_HOME/logs/gc.log`. 至多会存储 10 个 gc.log 
 |:---:|:--------------|
 |描述| 云端存储 bucket 的名称				 |
 |类型| string         |
-|默认值| 无	         |
+|默认值| iotdb_data	         |
 |改后生效方式| 重启生效          |
 
 * object\_storage\_endpoiont	
