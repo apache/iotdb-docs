@@ -2160,3 +2160,51 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |类型| int32 |
 |默认值| 1048576 |
 |改后生效方式|热加载|
+
+#### TsFile 主动监听&加载功能配置
+
+* load\_active\_listening\_enable
+
+|名字| load\_active\_listening\_enable |
+|:---:|:---|
+|描述| 是否开启 DataNode 主动监听并且加载 tsfile 的功能（默认开启）。 |
+|类型| Boolean |
+|默认值| true |
+|改后生效方式|热加载|
+
+* load\_active\_listening\_dirs
+
+|名字| load\_active\_listening\_dirs |
+|:---:|:---|
+|描述| 需要监听的目录（自动包括目录中的子目录），如有多个使用 “，“ 隔开默认的目录为 ext/load/pending（支持热装载）。 |
+|类型| String |
+|默认值| ext/load/pending |
+|改后生效方式|热加载|
+
+* load\_active\_listening\_fail\_dir
+
+|名字| load\_active\_listening\_fail\_dir |
+|:---:|:---|
+|描述| 执行加载 tsfile 文件失败后将文件转存的目录，只能配置一个。 |
+|类型| String |
+|默认值| ext/load/failed |
+|改后生效方式|热加载|
+
+* load\_active\_listening\_max\_thread\_num
+
+|名字|  load\_active\_listening\_max\_thread\_num |
+|:---:|:---|
+|描述| 同时执行加载 tsfile 任务的最大线程数，参数被注释掉时的默值为 max(1, CPU 核心数 / 2)，当用户设置的值不在这个区间[1, CPU核心数 /2]内时，会设置为默认值 (1, CPU 核心数 / 2)。 |
+|类型| Long |
+|默认值| max(1, CPU 核心数 / 2) |
+|改后生效方式|重启后生效|
+
+
+* load\_active\_listening\_check\_interval\_seconds
+
+|名字|  load\_active\_listening\_check\_interval\_seconds |
+|:---:|:---|
+|描述| 主动监听轮询间隔，单位秒。主动监听 tsfile 的功能是通过轮询检查文件夹实现的。该配置指定了两次检查 load_active_listening_dirs 的时间间隔，每次检查完成 load_active_listening_check_interval_seconds 秒后，会执行下一次检查。当用户设置的轮询间隔小于 1 时，会被设置为默认值 5 秒。 |
+|类型| Long |
+|默认值| 5|
+|改后生效方式|重启后生效|
