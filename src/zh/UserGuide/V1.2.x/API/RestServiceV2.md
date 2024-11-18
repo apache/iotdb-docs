@@ -42,7 +42,7 @@ RESTful 服务默认情况是关闭的
 示例中使用的用户名为：`root`，密码为：`root`，对应的 Basic 鉴权 Header 格式为
 
 ```
-Authorization: Basic cm9vdDpyb2901
+Authorization: Basic cm9vdDpyb290
 ```
 
 - 若用户名密码认证失败，则返回如下信息：
