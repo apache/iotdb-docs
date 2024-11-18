@@ -451,10 +451,12 @@ public interface PipeSink extends PipePlugin {
 加载插件的管理语句的语法如图所示。
 
 ```sql
-CREATE PIPEPLUGIN <别名>
+CREATE PIPEPLUGIN [IF NOT EXISTS] <别名>
 AS <全类名>
 USING <JAR 包的 URI>
 ```
+
+**IF NOT EXISTS 语义**：用于创建操作中，确保当指定 Pipe Plugin 不存在时，执行创建命令，防止因尝试创建已存在的 Pipe Plugin 而导致报错。
 
 示例：假如用户实现了一个全类名为edu.tsinghua.iotdb.pipe.ExampleProcessor 的数据处理插件，打包后的jar包为 pipe-plugin.jar ，用户希望在流处理引擎中使用这个插件，将插件标记为 example。插件包有两种使用方式，一种为上传到URI服务器，一种为上传到集群本地目录，两种方法任选一种即可。
 
@@ -465,7 +467,7 @@ USING <JAR 包的 URI>
 创建语句：
 
 ```sql
-CREATE PIPEPLUGIN example 
+CREATE PIPEPLUGIN IF NOT EXISTS example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
 USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
 ```
@@ -477,7 +479,7 @@ USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
 创建语句：
 
 ```sql
-CREATE PIPEPLUGIN example 
+CREATE PIPEPLUGIN IF NOT EXISTS example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
 USING URI '<file:/iotdb安装路径/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar>'
 ```
@@ -487,8 +489,10 @@ USING URI '<file:/iotdb安装路径/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar>'
 当用户不再想使用一个插件，需要将插件从系统中卸载时，可以使用如图所示的删除插件语句。
 
 ```sql
-DROP PIPEPLUGIN <别名>
+DROP PIPEPLUGIN [IF EXISTS] <别名>
 ```
+
+**IF EXISTS 语义**：用于删除操作中，确保当指定 Pipe Plugin 存在时，执行删除命令，防止因尝试删除不存在的 Pipe Plugin 而导致报错。
 
 ### 查看插件语句
 

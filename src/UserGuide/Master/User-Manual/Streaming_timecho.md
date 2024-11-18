@@ -451,10 +451,11 @@ Then the plugin class needs to be compiled and packaged into a jar executable fi
 The syntax of the management statement for loading the plugin is shown in the figure.
 
 ```sql
-CREATE PIPEPLUGIN <alias>
+CREATE PIPEPLUGIN [IF NOT EXISTS] <alias>
 AS <full class name>
 USING <URI of JAR package>
 ```
+**IF NOT EXISTS semantics**: Used in creation operations to ensure that the create command is executed when the specified Pipe Plugin does not exist, preventing errors caused by attempting to create an existing Pipe Plugin.
 
 Example: If you implement a data processing plugin named edu.tsinghua.iotdb.pipe.ExampleProcessor, and the packaged jar package is pipe-plugin.jar, you want to use this plugin in the stream processing engine, and mark the plugin as example. There are two ways to use the plugin package, one is to upload to the URI server, and the other is to upload to the local directory of the cluster.
 
@@ -465,7 +466,7 @@ Preparation: To register in this way, you need to upload the JAR package to the 
 SQL：
 
 ```sql
-CREATE PIPEPLUGIN example 
+CREATE PIPEPLUGIN IF NOT EXISTS example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
 USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
 ```
@@ -477,7 +478,7 @@ Preparation: To register in this way, you need to place the JAR package in any p
 SQL：
 
 ```sql
-CREATE PIPEPLUGIN example 
+CREATE PIPEPLUGIN IF NOT EXISTS example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
 USING URI '<file:/IoTDB installation path/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar>'
 ```
@@ -487,8 +488,10 @@ USING URI '<file:/IoTDB installation path/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.j
 When the user no longer wants to use a plugin and needs to uninstall the plugin from the system, he can use the delete plugin statement as shown in the figure.
 
 ```sql
-DROP PIPEPLUGIN <alias>
+DROP PIPEPLUGIN [IF EXISTS] <alias>
 ```
+
+**IF EXISTS semantics**: Used in deletion operations to ensure that when a specified Pipe Plugin exists, the delete command is executed to prevent errors caused by attempting to delete a non-existent Pipe Plugin.
 
 ### View plugin statements
 
