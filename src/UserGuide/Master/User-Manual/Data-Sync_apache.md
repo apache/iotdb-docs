@@ -92,7 +92,7 @@ The schema and auth synchronization functions have the following limitations:
 
 Data synchronization tasks have three states: RUNNING, STOPPED, and DROPPED. The task state transitions are shown in the following diagram:
 
-![](https://alioss.timecho.com/docs/img/sync_en_02.png)
+![](https://alioss.timecho.com/docs/img/Data-Sync02.png)
 
 Provide the following SQL statements for state management of synchronization tasks.
 
@@ -120,7 +120,7 @@ WITH SINK (
 
 ### Start Task
 
-After creation, the task will not be processed immediately and needs to be started. Use the `START PIPE` statement to start the task and begin processing data: 
+After creation, the task directly enters the running state without the need to execute the startup task. When using the `STOP PIPE` statement to stop a task, you need to manually use the `START PIPE` statement to start the task. If PIPE encounters an abnormal situation and stops, it will automatically restart the task to start processing data:
 
 ```SQL
 START PIPE<PipeId>
