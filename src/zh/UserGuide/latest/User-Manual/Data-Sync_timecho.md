@@ -104,7 +104,7 @@
 SQL 示例如下：
 
 ```SQL
-CREATE PIPE [IF NOT EXISTS] <PipeId> -- PipeId 是能够唯一标定任务任务的名字
+CREATE PIPE [IF NOT EXISTS] <PipeId> -- PipeId 是能够唯一标定任务的名字
 -- 数据抽取插件，可选插件
 WITH SOURCE (
   [<parameter> = <value>,],
@@ -119,7 +119,7 @@ WITH SINK (
 )
 ```
 
-**IF NOT EXISTS 语义**：用于创建操作中，确保当指定对象不存在时，执行创建命令，防止因尝试创建已存在的对象而导致报错。
+**IF NOT EXISTS 语义**：用于创建操作中，确保当指定 Pipe 不存在时，执行创建命令，防止因尝试创建已存在的 Pipe 而导致报错。
 
 ### 开始任务
 
@@ -145,7 +145,7 @@ STOP PIPE <PipeId>
 DROP PIPE [IF EXISTS] <PipeId>
 ```
 
-**IF EXISTS 语义**：用于删除操作中，确保当指定对象存在时，执行删除命令，防止因尝试删除不存在的对象而导致报错。
+**IF EXISTS 语义**：用于删除操作中，确保当指定 Pipe 存在时，执行删除命令，防止因尝试删除不存在的 Pipe 而导致报错。
 
 删除任务不需要先停止同步任务。
 

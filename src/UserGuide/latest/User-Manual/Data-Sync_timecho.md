@@ -120,7 +120,7 @@ WITH SINK (
 )
 ```
 
-**IF NOT EXISTS semantics**: Used in creation operations to ensure that the create command is executed when the specified object does not exist, preventing errors caused by attempting to create an existing object.
+**IF NOT EXISTS semantics**: Used in creation operations to ensure that the create command is executed when the specified Pipe does not exist, preventing errors caused by attempting to create an existing Pipe.
 
 ### Start Task
 
@@ -145,7 +145,7 @@ Deletes the specified task:
 ```SQL
 DROP PIPE [IF EXISTS] <PipeId>
 ```
-**IF EXISTS semantics**: Used in deletion operations to ensure that the delete command is executed when the specified object exists, preventing errors caused by attempting to delete non-existent objects.
+**IF EXISTS semantics**: Used in deletion operations to ensure that when a specified Pipe exists, the delete command is executed to prevent errors caused by attempting to delete non-existent Pipes.
 
 Deleting a task does not require stopping the synchronization task first.
 

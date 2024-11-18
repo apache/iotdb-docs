@@ -445,15 +445,17 @@ In IoTDB, to dynamically load a user-defined plugin into the system, you first n
 The syntax of the loading plugin management statement is as follows:
 
 ```sql
-CREATE PIPEPLUGIN <alias>
+CREATE PIPEPLUGIN [IF NOT EXISTS] <alias>
 AS <Full class name>
 USING <URL of jar file>
 ```
 
+**IF NOT EXISTS semantics**: Used in creation operations to ensure that the create command is executed when the specified Pipe Plugin does not exist, preventing errors caused by attempting to create an existing Pipe Plugin.
+
 For example, if a user implements a data processing plugin with the fully qualified class name "edu.tsinghua.iotdb.pipe.ExampleProcessor" and packages it into a jar file, which is stored at "https://example.com:8080/iotdb/pipe-plugin.jar", and the user wants to use this plugin in the stream processing engine, marking the plugin as "example". The creation statement for this data processing plugin is as follows:
 
 ```sql
-CREATE PIPEPLUGIN example
+CREATE PIPEPLUGIN IF NOT EXISTS example
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor'
 USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
 ```
@@ -462,8 +464,10 @@ USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
 
 When user no longer wants to use a plugin and needs to uninstall the plugin from the system, you can use the Remove plugin statement as shown below.
 ```sql
-DROP PIPEPLUGIN <alias>
+DROP PIPEPLUGIN [IF EXISTS] <alias>
 ```
+
+**IF EXISTS semantics**: Used in deletion operations to ensure that when a specified Pipe Plugin exists, the delete command is executed to prevent errors caused by attempting to delete a non-existent Pipe Plugin.
 
 ### Show Plugin Statement
 

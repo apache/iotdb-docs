@@ -51,7 +51,8 @@ The SQL statement is as follows:
     [<parameter> = <value>,],
     );
 ```
-**IF NOT EXISTS semantics**: Used in creation operations to ensure that the create command is executed when the specified object does not exist, preventing errors caused by attempting to create an existing object.
+
+**IF NOT EXISTS semantics**: Used in creation operations to ensure that the create command is executed when the specified topic does not exist, preventing errors caused by attempting to create an existing topic.
 
 Detailed explanation of each parameter is as follows:
 
@@ -90,7 +91,7 @@ A Topic can only be deleted if it is not subscribed to. When a Topic is deleted,
 ```SQL
 DROP TOPIC [IF EXISTS] <topicName>;
 ```
-**IF EXISTS semantics**: Used in deletion operations to ensure that the delete command is executed when the specified object exists, preventing errors caused by attempting to delete non-existent objects.
+**IF EXISTS semantics**: Used in deletion operations to ensure that the delete command is executed when a specified topic exists, preventing errors caused by attempting to delete non-existent topics.
 
 #### 3.1.3 View Topic
 
