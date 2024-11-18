@@ -94,6 +94,8 @@ Data synchronization tasks have three states: RUNNING, STOPPED, and DROPPED. The
 
 ![](https://alioss.timecho.com/docs/img/Data-Sync02.png)
 
+After creation, the task will start directly, and when the task stops abnormally, the system will automatically attempt to restart the task.
+
 Provide the following SQL statements for state management of synchronization tasks.
 
 ### Create Task
@@ -120,7 +122,7 @@ WITH SINK (
 
 ### Start Task
 
-After creation, the task directly enters the running state without the need to execute the startup task. When using the `STOP PIPE` statement to stop a task, you need to manually use the `START PIPE` statement to start the task. If PIPE encounters an abnormal situation and stops, it will automatically restart the task to start processing data:
+Start processing data:
 
 ```SQL
 START PIPE<PipeId>
