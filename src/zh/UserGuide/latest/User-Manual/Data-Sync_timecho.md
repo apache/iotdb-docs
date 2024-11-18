@@ -93,7 +93,9 @@
 
 数据同步任务有三种状态：RUNNING、STOPPED 和 DROPPED。任务状态转换如下图所示：
 
-![](https://alioss.timecho.com/docs/img/dataSync02.png)
+![](https://alioss.timecho.com/docs/img/Data-Sync01.png)
+
+创建后任务会直接启动，同时当任务发生异常停止后，系统会自动尝试重启任务。
 
 提供以下 SQL 语句对同步任务进行状态管理。
 
@@ -123,7 +125,7 @@ WITH SINK (
 
 ### 开始任务
 
-创建之后，任务不会立即被处理，需要启动任务。使用`START PIPE`语句来启动任务，从而开始处理数据：
+开始处理数据：
 
 ```SQL
 START PIPE<PipeId>
