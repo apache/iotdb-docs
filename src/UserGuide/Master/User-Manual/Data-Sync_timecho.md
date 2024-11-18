@@ -105,7 +105,7 @@ Use the `CREATE PIPE` statement to create a data synchronization task. The `Pipe
 The SQL example is as follows:
 
 ```SQL
-CREATE PIPE <PipeId> -- PipeId is the name that uniquely identifies the task.
+CREATE PIPE [IF NOT EXISTS] <PipeId> -- PipeId is the name that uniquely identifies the task.
 -- Data extraction plugin, optional plugin
 WITH SOURCE (
   [<parameter> = <value>,],
@@ -119,6 +119,8 @@ WITH SINK (
   [<parameter> = <value>,],
 )
 ```
+
+**IF NOT EXISTS semantics**: Used in creation operations to ensure that the create command is executed when the specified object does not exist, preventing errors caused by attempting to create an existing object.
 
 ### Start Task
 
@@ -141,8 +143,9 @@ STOP PIPE <PipeId>
 Deletes the specified task:
 
 ```SQL
-DROP PIPE <PipeId>
+DROP PIPE [IF EXISTS] <PipeId>
 ```
+**IF EXISTS semantics**: Used in deletion operations to ensure that the delete command is executed when the specified object exists, preventing errors caused by attempting to delete non-existent objects.
 
 Deleting a task does not require stopping the synchronization task first.
 

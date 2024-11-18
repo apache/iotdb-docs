@@ -44,11 +44,12 @@ IoTDB 支持通过 SQL 语句对 Topic 进行创建、删除、查看操作。To
 SQL 语句为：
 
 ```SQL
-    CREATE TOPIC <topicName> 
+    CREATE TOPIC [IF NOT EXISTS] <topicName> 
     WITH (
     [<parameter> = <value>,],
     );
 ```
+**IF NOT EXISTS 语义**：用于创建操作中，确保当指定对象不存在时，执行创建命令，防止因尝试创建已存在的对象而导致报错。
 
 各参数详细解释如下：
 
@@ -69,7 +70,7 @@ SQL 语句为：
 CREATE TOPIC root_all;
 
 -- 自定义订阅
-CREATE TOPIC db_timerange
+CREATE TOPIC IF NOT EXISTS db_timerange
 WITH (
   'path' = 'root.db.**',
   'start-time' = '2023-01-01',
@@ -82,8 +83,10 @@ WITH (
 Topic 在没有被订阅的情况下，才能被删除，Topic 被删除时，其相关的消费进度都会被清理
 
 ```SQL
-DROP TOPIC <topicName>;
+DROP TOPIC [IF EXISTS] <topicName>;
 ```
+
+**IF EXISTS 语义**：用于删除操作中，确保当指定对象存在时，执行删除命令，防止因尝试删除不存在的对象而导致报错。
 
 #### 3.1.3 查看 Topic
 
@@ -137,7 +140,7 @@ IoTDB 订阅客户端中的 `SubscriptionSession` 类提供了 Topic 管理的�
 #### 4.1.1 创建 Topic
 
 ```Java
-Topic createTopic(String topicName, Properties properties) throws Exception;
+ void createTopicIfNotExists(String topicName, Properties properties) throws Exception;
 ```
 
 示例：
@@ -154,7 +157,7 @@ try (final SubscriptionSession session = new SubscriptionSession(host, port)) {
 #### 4.1.2 删除 Topic
 
 ```Java
-void dropTopic(String topicName) throws Exception;
+void dropTopicIfExists(String topicName) throws Exception;
 ```
 
 #### 4.1.3 查看 Topic

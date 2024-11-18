@@ -46,11 +46,13 @@ IoTDB supports the creation, deletion, and viewing of Topics through SQL stateme
 The SQL statement is as follows:
 
 ```SQL
-    CREATE TOPIC <topicName> 
+    CREATE TOPIC [IF NOT EXISTS] <topicName> 
     WITH (
     [<parameter> = <value>,],
     );
 ```
+
+**IF NOT EXISTS semantics**: Used in creation operations to ensure that the create command is executed when the specified object does not exist, preventing errors caused by attempting to create an existing object.
 
 Detailed explanation of each parameter is as follows:
 
@@ -74,7 +76,7 @@ Examples are as follows:
 CREATE TOPIC root_all;
 
 -- Custom subscription
-CREATE TOPIC db_timerange
+CREATE TOPIC IF NOT EXISTS db_timerange
 WITH (
   'path' = 'root.db.**',
   'start-time' = '2023-01-01',
@@ -87,8 +89,9 @@ WITH (
 A Topic can only be deleted if it is not subscribed to. When a Topic is deleted, its related consumption progress will be cleared.
 
 ```SQL
-DROP TOPIC <topicName>;
+DROP TOPIC [IF EXISTS] <topicName>;
 ```
+**IF EXISTS semantics**: Used in deletion operations to ensure that the delete command is executed when the specified object exists, preventing errors caused by attempting to delete non-existent objects.
 
 #### 3.1.3 View Topic
 
@@ -142,7 +145,7 @@ The `SubscriptionSession` class in the IoTDB subscription client provides interf
 #### 4.1.1 Create Topic
 
 ```Java
-Topic createTopic(String topicName, Properties properties) throws Exception;
+ void createTopicIfNotExists(String topicName, Properties properties) throws Exception;
 ```
 
 Example:
@@ -159,7 +162,7 @@ try (final SubscriptionSession session = new SubscriptionSession(host, port)) {
 #### 4.1.2 Delete Topic
 
 ```Java
-void dropTopic(String topicName) throws Exception;
+void dropTopicIfExists(String topicName) throws Exception;
 ```
 
 #### 4.1.3 View Topic
