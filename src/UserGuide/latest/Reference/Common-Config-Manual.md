@@ -2162,3 +2162,52 @@ Different configuration parameters take effect in the following three ways:
 | Effective | hot-load                                  |
 
 
+
+
+#### TsFile Active Listening&Loading Function Configuration
+
+* load\_active\_listening\_enable
+
+|Name| load\_active\_listening\_enable |
+|:---:|:---|
+|Description| Whether to enable the DataNode's active listening and loading of tsfile functionality (default is enabled). |
+|Type| Boolean |
+|Default| true |
+|Effective| hot-load |
+
+* load\_active\_listening\_dirs
+
+|Name| load\_active\_listening\_dirs |
+|:---:|:---|
+|Description| The directories to be listened to (automatically includes subdirectories of the directory), if there are multiple, separate with “,”. The default directory is ext/load/pending (supports hot loading). |
+|Type| String |
+|Default| ext/load/pending |
+|Effective|hot-load|
+
+* load\_active\_listening\_fail\_dir
+
+|Name| load\_active\_listening\_fail\_dir |
+|:---:|:---|
+|Description| The directory to which files are transferred after the execution of loading tsfile files fails, only one directory can be configured. |
+|Type| String |
+|Default| ext/load/failed |
+|Effective|hot-load|
+
+* load\_active\_listening\_max\_thread\_num
+
+|Name|  load\_active\_listening\_max\_thread\_num |
+|:---:|:---|
+|Description| The maximum number of threads to perform loading tsfile tasks simultaneously. The default value when the parameter is commented out is max(1, CPU core count / 2). When the user sets a value not in the range [1, CPU core count / 2], it will be set to the default value (1, CPU core count / 2). |
+|Type| Long |
+|Default| max(1, CPU core count / 2) |
+|Effective|Effective after restart|
+
+
+* load\_active\_listening\_check\_interval\_seconds
+
+|Name|  load\_active\_listening\_check\_interval\_seconds |
+|:---:|:---|
+|Description| Active listening polling interval in seconds. The function of actively listening to tsfile is achieved by polling the folder. This configuration specifies the time interval between two checks of load_active_listening_dirs, and the next check will be executed after load_active_listening_check_interval_seconds seconds of each check. When the user sets the polling interval to less than 1, it will be set to the default value of 5 seconds. |
+|Type| Long |
+|Default| 5|
+|Effective|Effective after restart|
