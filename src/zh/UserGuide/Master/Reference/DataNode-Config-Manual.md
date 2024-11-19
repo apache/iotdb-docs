@@ -489,3 +489,87 @@ GC 日志会被存储在`IOTDB_HOME/logs/gc.log`. 至多会存储 10 个 gc.log 
 |类型| int32         |
 |默认值| 5000          |
 |改后生效方式| 重启生效          |
+
+
+#### 存储引擎配置
+
+* dn\_default\_space\_usage\_thresholds
+
+|名字| dn\_default\_space\_usage\_thresholds  |
+|:---:|:--------------|
+|描述| 定义每个层级数据目录的最小剩余空间比例；当剩余空间少于该比例时，数据会被自动迁移至下一个层级；当最后一个层级的剩余存储空间到低于此阈值时，会将系统置为 READ_ONLY		 |
+|类型| double         |
+|默认值| 0.85          |
+|改后生效方式| 热加载          |
+
+* remote\_tsfile\_cache\_dirs
+
+|名字| remote\_tsfile\_cache\_dirs  |
+|:---:|:--------------|
+|描述| 云端存储在本地的缓存目录		 |
+|类型| string         |
+|默认值| data/datanode/data/cache         |
+|改后生效方式| 重启生效          |
+
+* remote\_tsfile\_cache\_page\_size\_in\_kb	
+
+|名字| remote\_tsfile\_cache\_page\_size\_in\_kb	  |
+|:---:|:--------------|
+|描述| 云端存储在本地缓存文件的块大小			 |
+|类型| int         |
+|默认值| 20480	         |
+|改后生效方式| 重启生效          |
+
+* remote\_tsfile\_cache\_max\_disk\_usage\_in\_mb	
+
+|名字| remote\_tsfile\_cache\_max\_disk\_usage\_in\_mb  |
+|:---:|:--------------|
+|描述| 云端存储本地缓存的最大磁盘占用大小			 |
+|类型| long         |
+|默认值| 51200         |
+|改后生效方式| 重启生效          |
+
+* object\_storage\_type	
+
+|名字| object\_storage\_type  |
+|:---:|:--------------|
+|描述| 云端存储类型			 |
+|类型| string         |
+|默认值| AWS_S3	         |
+|改后生效方式| 重启生效          |
+
+* object\_storage\_bucket	
+
+|名字| object\_storage\_bucket	  |
+|:---:|:--------------|
+|描述| 云端存储 bucket 的名称				 |
+|类型| string         |
+|默认值| iotdb_data	         |
+|改后生效方式| 重启生效          |
+
+* object\_storage\_endpoiont	
+
+|名字| object\_storage\_endpoiont  |
+|:---:|:--------------|
+|描述| 云端存储的 endpoint				 |
+|类型| string         |
+|默认值| 无         |
+|改后生效方式| 重启生效          |
+
+* object\_storage\_access\_key	
+
+|名字| object\_storage\_access\_key	  |
+|:---:|:--------------|
+|描述| 云端存储的验证信息 key				 |
+|类型| string         |
+|默认值| 无         |
+|改后生效方式| 重启生效          |
+
+* object\_storage\_access\_secret		
+
+|名字| object\_storage\_access\_secret	 |
+|:---:|:--------------|
+|描述| 云端存储的验证信息 secret				 |
+|类型| string         |
+|默认值| 无         |
+|改后生效方式| 重启生效          |

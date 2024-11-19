@@ -705,6 +705,15 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |    默认值    | ms                          |
 | 改后生效方式 | 仅允许在第一次启动服务前修改                   |
 
+* tier\_ttl\_in\_ms
+
+|名字| tier\_ttl\_in\_ms  |
+|:---:|:--------------|
+|描述| 定义每个层级负责的数据范围，通过 TTL 表示	 |
+|类型| long         |
+|默认值| -1          |
+|改后生效方式| 重启生效          |
+
 * max\_waiting\_time\_when\_insert\_blocked
 
 |     名字     | max\_waiting\_time\_when\_insert\_blocked |

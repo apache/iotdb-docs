@@ -497,3 +497,88 @@ There will be at most 10 gc.log.* files and each one can reach to 10MB.
 |Type| int32         |
 |Default| 5000          |
 |Effective| After restarting system          |
+
+
+#### Storage engine configuration
+
+
+* dn\_default\_space\_usage\_thresholds
+
+|Name| dn\_default\_space\_usage\_thresholds  |
+|:---:|:--------------|
+|Description| Define the minimum remaining space ratio for each tier data catalogue; when the remaining space is less than this ratio, the data will be automatically migrated to the next tier; when the remaining storage space of the last tier falls below this threshold, the system will be set to READ_ONLY			 |
+|Type| double         |
+|Default| 0.85          |
+|Effective| hot-load           |
+
+* remote\_tsfile\_cache\_dirs
+
+|Name| remote\_tsfile\_cache\_dirs  |
+|:---:|:--------------|
+|Description| Cache directory stored locally in the cloud			 |
+|Type| string         |
+|Default| data/datanode/data/cache         |
+|Effective| After restarting system          |
+
+* remote\_tsfile\_cache\_page\_size\_in\_kb	
+
+|Name| remote\_tsfile\_cache\_page\_size\_in\_kb	  |
+|:---:|:--------------|
+|Description| Block size of locally cached files stored in the cloud				 |
+|Type| int         |
+|Default| 20480	         |
+|Effective| After restarting system          |
+
+* remote\_tsfile\_cache\_max\_disk\_usage\_in\_mb	
+
+|Name| remote\_tsfile\_cache\_max\_disk\_usage\_in\_mb  |
+|:---:|:--------------|
+|Description| Maximum Disk Occupancy Size for Cloud Storage Local Cache				 |
+|Type| long         |
+|Default| 51200         |
+|Effective| After restarting system          |
+
+* object\_storage\_type	
+
+|Name| object\_storage\_type  |
+|:---:|:--------------|
+|Description| Cloud Storage Type				 |
+|Type| string         |
+|Default| AWS_S3	         |
+|Effective| After restarting system          |
+
+* object\_storage\_bucket	
+
+|Name| object\_storage\_bucket	  |
+|:---:|:--------------|
+|Description| Name of cloud storage bucket					 |
+|Type| string         |
+|Default| iotdb_data	         |
+|Effective| After restarting system          |
+
+* object\_storage\_endpoiont	
+
+|Name| object\_storage\_endpoiont  |
+|:---:|:--------------|
+|Description| endpoint of cloud storage					 |
+|Type| string         |
+|Default| None         |
+|Effective| After restarting system          |
+
+* object\_storage\_access\_key	
+
+|Name| object\_storage\_access\_key	  |
+|:---:|:--------------|
+|Description| Authentication information stored in the cloud: key					 |
+|Type| string         |
+|Default| None         |
+|Effective| After restarting system          |
+
+* object\_storage\_access\_secret		
+
+|Name| object\_storage\_access\_secret	 |
+|:---:|:--------------|
+|Description| Authentication information stored in the cloud: secret				 |
+|Type| string         |
+|Default| None         |
+|Effective| After restarting system          |
