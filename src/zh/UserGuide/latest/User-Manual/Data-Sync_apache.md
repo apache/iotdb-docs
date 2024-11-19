@@ -91,7 +91,9 @@
 
 数据同步任务有三种状态：RUNNING、STOPPED 和 DROPPED。任务状态转换如下图所示：
 
-![](https://alioss.timecho.com/docs/img/dataSync02.png)
+![](https://alioss.timecho.com/docs/img/Data-Sync01.png)
+
+创建后任务会直接启动，同时当任务发生异常停止后，系统会自动尝试重启任务。
 
 提供以下 SQL 语句对同步任务进行状态管理。
 
@@ -102,7 +104,7 @@
 SQL 示例如下：
 
 ```SQL
-CREATE PIPE <PipeId> -- PipeId 是能够唯一标定任务任务的名字
+CREATE PIPE [IF NOT EXISTS] <PipeId> -- PipeId 是能够唯一标定任务的名字
 -- 数据抽取插件，可选插件
 WITH SOURCE (
   [<parameter> = <value>,],
@@ -117,9 +119,11 @@ WITH SINK (
 )
 ```
 
+**IF NOT EXISTS 语义**：用于创建操作中，确保当指定 Pipe 不存在时，执行创建命令，防止因尝试创建已存在的 Pipe 而导致报错。
+
 ### 开始任务
 
-创建之后，任务不会立即被处理，需要启动任务。使用`START PIPE`语句来启动任务，从而开始处理数据：
+开始处理数据：
 
 ```SQL
 START PIPE<PipeId>
@@ -138,8 +142,10 @@ STOP PIPE <PipeId>
 删除指定任务：
 
 ```SQL
-DROP PIPE <PipeId>
+DROP PIPE [IF EXISTS] <PipeId>
 ```
+
+**IF EXISTS 语义**：用于删除操作中，确保当指定 Pipe 存在时，执行删除命令，防止因尝试删除不存在的 Pipe 而导致报错。
 
 删除任务不需要先停止同步任务。
 

@@ -46,7 +46,7 @@ The username used in the following examples is: `root`, and password is: `root`.
 And the authorization header is
 
 ```
-Authorization: Basic cm9vdDpyb2901
+Authorization: Basic cm9vdDpyb290
 ```
 
 - If a user authorized with incorrect username or password, the following error is returned:

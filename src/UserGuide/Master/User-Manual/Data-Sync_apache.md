@@ -92,7 +92,9 @@ The schema and auth synchronization functions have the following limitations:
 
 Data synchronization tasks have three states: RUNNING, STOPPED, and DROPPED. The task state transitions are shown in the following diagram:
 
-![](https://alioss.timecho.com/docs/img/sync_en_02.png)
+![](https://alioss.timecho.com/docs/img/Data-Sync02.png)
+
+After creation, the task will start directly, and when the task stops abnormally, the system will automatically attempt to restart the task.
 
 Provide the following SQL statements for state management of synchronization tasks.
 
@@ -103,7 +105,7 @@ Use the `CREATE PIPE` statement to create a data synchronization task. The `Pipe
 The SQL example is as follows:
 
 ```SQL
-CREATE PIPE <PipeId> -- PipeId is the name that uniquely identifies the task.
+CREATE PIPE [IF NOT EXISTS] <PipeId> -- PipeId is the name that uniquely identifies the task. 
 -- Data extraction plugin, optional plugin
 WITH SOURCE (
   [<parameter> = <value>,],
@@ -118,9 +120,11 @@ WITH SINK (
 )
 ```
 
+**IF NOT EXISTS semantics**: Used in creation operations to ensure that the create command is executed when the specified Pipe does not exist, preventing errors caused by attempting to create an existing Pipe.
+
 ### Start Task
 
-After creation, the task will not be processed immediately and needs to be started. Use the `START PIPE` statement to start the task and begin processing data: 
+Start processing data:
 
 ```SQL
 START PIPE<PipeId>
@@ -139,8 +143,9 @@ STOP PIPE <PipeId>
 Deletes the specified task:
 
 ```SQL
-DROP PIPE <PipeId>
+DROP PIPE [IF EXISTS] <PipeId>
 ```
+**IF EXISTS semantics**: Used in deletion operations to ensure that when a specified Pipe exists, the delete command is executed to prevent errors caused by attempting to delete non-existent Pipes.
 
 Deleting a task does not require stopping the synchronization task first.
 

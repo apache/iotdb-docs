@@ -108,9 +108,8 @@ export const enSidebar = {
         { text: 'Monitor Tool', link: 'Monitor-Tool_timecho' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
         { text: 'Maintenance Tool', link: 'Maintenance-Tool_timecho' },
-        { text: 'Data Import Export Script', link: 'Data-Import-Export-Tool' },
-        { text: 'TsFile Import Export Script', link: 'TsFile-Import-Export-Tool' },
         { text: 'Data Import', link: 'Data-Import-Tool' },
+        { text: 'Data Export', link: 'Data-Export-Tool' },
       ],
     },
     {

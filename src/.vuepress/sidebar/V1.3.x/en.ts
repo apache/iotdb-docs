@@ -98,10 +98,9 @@ export const enSidebar = {
         { text: 'Command Line Interface (CLI)', link: 'CLI' },
         { text: 'Monitor Tool', link: 'Monitor-Tool_apache' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
-        { text: 'Maintenance Tool', link: 'Maintenance-Tool_apache' },
-        { text: 'Data Import Export Script', link: 'Data-Import-Export-Tool' },
-        { text: 'TsFile Import Export Script', link: 'TsFile-Import-Export-Tool' },
+        { text: 'Maintenance Tool', link: 'Maintenance-Tool_apache' },      
         { text: 'Data Import', link: 'Data-Import-Tool' },
+        { text: 'Data Export', link: 'Data-Export-Tool' },
       ],
     },
     {
