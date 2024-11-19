@@ -127,6 +127,7 @@ export const enSidebar = {
         { text: 'Rust Native API', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC (Not Recommend)', link: 'Programming-JDBC' },
         { text: 'MQTT Protocol', link: 'Programming-MQTT' },
+        { text: 'OPC UA Protocol', link: 'Programming-OPC-UA' },
         { text: 'Kafka', link: 'Programming-Kafka' },
         { text: 'REST API V1 (Not Recommend)', link: 'RestServiceV1' },
         { text: 'REST API V2', link: 'RestServiceV2' },
