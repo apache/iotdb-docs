@@ -71,9 +71,10 @@ IoTDB 除了自身拥有丰富的功能外，其周边的工具体系包含的�
 
    - 测试工具：IoT-benchmark 是一个基于 Java 和大数据环境开发的时序数据库基准测试工具，由清华大学软件学院研发并开源。它支持多种写入和查询方式，能够存储测试信息和结果供进一步查询或分析，并支持与 Tableau 集成以可视化测试结果。具体使用介绍请查看：[测试工具](../Tools-System/Benchmark.md)
 
-   - 数据导入导出脚本：用于实现 IoTDB 内部数据与外部文件的交互，适用于单个文件或目录文件批量操作，具体使用介绍请查看：[数据导入导出脚本](../Tools-System/Data-Import-Export-Tool.md)
+   - 数据导入脚本：针对于不同场景，IoTDB 为用户提供多种批量导入数据的操作方式，具体使用介绍请查看：[数据导入](../Tools-System/Data-Import-Tool.md)
 
-   - TsFile 导入导出脚本：针对于不同场景，IoTDB 为用户提供多种批量导入数据的操作方式，具体使用介绍请查看：[TsFile 导入导出脚本](../Tools-System/TsFile-Import-Export-Tool.md)
+
+   - 数据导出脚本：针对于不同场景，IoTDB 为用户提供多种批量导出数据的操作方式，具体使用介绍请查看：[数据导出](../Tools-System/Data-Export-Tool.md)
 
 ## 使用过程中遇到问题？
 
