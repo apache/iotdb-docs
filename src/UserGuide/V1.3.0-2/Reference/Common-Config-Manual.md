@@ -640,11 +640,11 @@ Different configuration parameters take effect in the following three ways:
 * default\_ttl\_in\_ms
 
 |    Name     | default\_ttl\_in\_ms                   |
-| :---------: | :------------------------------------- |
-| Description | Default ttl when each database created |
-|    Type     | Long                                   |
-|   Default   | Infinity                               |
-|  Effective  | After restarting system                |
+|:---:|:--------------|
+|Description| Define the maximum age of data for which each tier is responsible		 |
+|Type| long         |
+|Default| -1          |
+|Effective| After restarting system          |
 
 * max\_waiting\_time\_when\_insert\_blocked
 

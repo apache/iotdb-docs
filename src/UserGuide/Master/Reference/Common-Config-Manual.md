@@ -676,14 +676,14 @@ Different configuration parameters take effect in the following three ways:
 |    Default    | ms                          |
 | Effective | Only allowed to be modified in first start up                   |
 
-* default\_ttl\_in\_ms
+* tier\_ttl\_in\_ms
 
-|    Name     | default\_ttl\_in\_ms                   |
-| :---------: | :------------------------------------- |
-| Description | Default ttl when each database created |
-|    Type     | Long                                   |
-|   Default   | Infinity                               |
-|  Effective  | After restarting system                |
+|Name| tier\_ttl\_in\_ms  |
+|:---:|:--------------|
+|Description| Define the maximum age of data for which each tier is responsible		 |
+|Type| long         |
+|Default| -1          |
+|Effective| After restarting system          |
 
 * max\_waiting\_time\_when\_insert\_blocked
 

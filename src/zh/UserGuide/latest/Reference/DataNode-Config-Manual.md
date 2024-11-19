@@ -494,15 +494,6 @@ GC 日志会被存储在`IOTDB_HOME/logs/gc.log`. 至多会存储 10 个 gc.log 
 
 #### 多级存储配置
 
-* tier\_ttl\_in\_ms
-
-|名字| tier\_ttl\_in\_ms  |
-|:---:|:--------------|
-|描述| 定义每个层级负责的数据范围，通过 TTL 表示	 |
-|类型| long         |
-|默认值| -1          |
-|改后生效方式| 重启生效          |
-
 * dn\_default\_space\_usage\_thresholds
 
 |名字| dn\_default\_space\_usage\_thresholds  |
