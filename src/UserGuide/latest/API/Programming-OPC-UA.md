@@ -151,7 +151,7 @@ insert into root.test.db(time, s2) values(now(), 2)
 3. Configure the connection to IoTDB in UAExpert, where the password should be set to the one defined in the sink.password parameter (using the default password "root" as an example):
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA03.png" alt="" style="width: 60%;"/>
+    <img src="https://alioss.timecho.com/docs/img/OPCUA18.png" alt="" style="width: 60%;"/>
 </div>
 
 <div align="center">
@@ -165,7 +165,7 @@ insert into root.test.db(time, s2) values(now(), 2)
 </div>
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA06.png" alt="" style="width: 60%;"/>
+    <img src="https://alioss.timecho.com/docs/img/OPCUA17.png" alt="" style="width: 60%;"/>
 </div>
 
 5. You can drag the node on the left to the center and display the latest value of that node:
@@ -254,7 +254,7 @@ start pipe p1;
 
 ### Notes
 
-1. **stand alone and cluster：**It is recommended to use a 1C1D (one coordinator and one data node) single machine version. If there are multiple DataNodes in the cluster, data may be sent in a scattered manner across various DataNodes, and it may not be possible to listen to all the data.
+1. **stand alone and cluster:**It is recommended to use a 1C1D (one coordinator and one data node) single machine version. If there are multiple DataNodes in the cluster, data may be sent in a scattered manner across various DataNodes, and it may not be possible to listen to all the data.
 
 2. **No Need to Operate Root Directory Certificates:** During the certificate operation process, there is no need to operate the `iotdb-server.pfx` certificate under the IoTDB security root directory and the `example-client.pfx` directory under the client security directory. When the Client and Server connect bidirectionally, they will send the root directory certificate to each other. If it is the first time the other party sees this certificate, it will be placed in the reject dir. If the certificate is in the trusted/certs, then the other party can trust it.
 

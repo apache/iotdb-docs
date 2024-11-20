@@ -249,7 +249,7 @@ start pipe p1;
 
 ### 注意事项
 
-1. **单机与集群：**建议使用1C1D单机版，如果集群中有多个 DataNode，可能数据会分散发送在各个 DataNode 上，无法收听到全量数据。
+1. **单机与集群**：建议使用1C1D单机版，如果集群中有多个 DataNode，可能数据会分散发送在各个 DataNode 上，无法收听到全量数据。
 
 2. **无需操作根目录下证书**：在证书操作过程中，无需操作 IoTDB security 根目录下的 `iotdb-server.pfx` 证书和 client security 目录下的 `example-client.pfx` 目录。Client 和 Server 双向连接时，会将根目录下的证书发给对方，对方如果第一次看见此证书，就会放入 reject dir，如果该证书在 trusted/certs 里面，则能够信任对方。
 
