@@ -45,7 +45,7 @@ IoTDB 将生产环境中的每个传感器映射为一个时间序列。然后�
 
 $$\left\lfloor\frac{\text{Timestamp}-\text{StartTimestamp}}{\text{TimePartitionInterval}}\right\rfloor\text{。}$$
 
-在此式中，$\text{StartTimestamp}$ 和 $\text{TimePartitionInterval}$ 都是可配置参数，以适应不同的生产环境。$\text{StartTimestamp}$ 表示第一个时间分区的起始时间，而 $\text{TimePartitionInterval}$ 定义了每个时间分区的持续时间。默认情况下，$\text{TimePartitionInterval}$ 设置为一天。
+在此式中，$\text{StartTimestamp}$ 和 $\text{TimePartitionInterval}$ 都是可配置参数，以适应不同的生产环境。$\text{StartTimestamp}$ 表示第一个时间分区的起始时间，而 $\text{TimePartitionInterval}$ 定义了每个时间分区的持续时间。默认情况下，$\text{TimePartitionInterval}$ 设置为七天。
 
 #### 元数据分区
 由于序列分区算法对时间序列进行了均匀分区，每个序列分区对应一个元数据分区。这些元数据分区随后被均匀分配到 元数据分片 中，以实现元数据的均衡分布。
