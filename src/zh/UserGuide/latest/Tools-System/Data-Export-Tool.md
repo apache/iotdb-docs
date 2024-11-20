@@ -2,7 +2,7 @@
 
 ## 1. 导出工具介绍
 
-导出工具可以将 SQL 查询的数据导出为指定的格式，包含用于导出 TsFile 文件的 export-tsfile.sh/bat 脚本和支持 CSV 和 SQL 格式的导出的 export-data.sh/bat 脚本。
+导出工具可以将 SQL 查询的数据导出为指定的格式，包含用于导出 TsFile 文件的 `export-tsfile.sh/bat` 脚本和支持 CSV 和 SQL 格式的导出的 `export-data.sh/bat` 脚本。
 
 ## 2. 支持的数据类型
 
