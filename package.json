@@ -14,9 +14,9 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix"
   },
   "devDependencies": {
-    "@docsearch/css": "3.6.1",
-    "@docsearch/js": "3.6.1",
-    "@docsearch/react": "3.6.1",
+    "@docsearch/css": "3.8.0",
+    "@docsearch/js": "3.8.0",
+    "@docsearch/react": "3.8.0",
     "@rushstack/eslint-patch": "1.6.0",
     "@vue/eslint-config-airbnb-with-typescript": "^7.0.1",
     "@vue/repl": "4.1.1",
