@@ -29,14 +29,19 @@
 	    <th>release notes</th>  
 	</tr>
     <tr>
-          <td rowspan="1">1.3.2</td>
-          <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-all-bin.zip">All-in-one</a></td>
-          <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-all-bin.zip.sha512">SHA512</a></td>
-          <td><a href="https://www.apache.org/dyn/closer.cgi/1.3.2/apache-iotdb-1.3.2-all-bin.zip.asc">ASC</a></td>
-          <td rowspan="1"><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-source-release.zip">Sources</a></td>
-          <td rowspan="1"><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-source-release.zip.sha512">SHA512</a></td>
-          <td rowspan="1"><a href="https://www.apache.org/dyn/closer.cgi/1.3.2/apache-iotdb-1.3.2-source-release.zip.asc">ASC</a></td>
-          <td rowspan="1"><a href="https://raw.githubusercontent.com/apache/iotdb/rc/1.3.2/RELEASE_NOTES.md">release notes</a></td>
+          <td rowspan="2">1.3.3</td>
+          <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-all-bin.zip">All-in-one</a></td>
+          <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-all-bin.zip.sha512">SHA512</a></td>
+          <td><a href="https://www.apache.org/dyn/closer.cgi/1.3.3/apache-iotdb-1.3.3-all-bin.zip.asc">ASC</a></td>
+          <td rowspan="2"><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-source-release.zip">Sources</a></td>
+          <td rowspan="2"><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-source-release.zip.sha512">SHA512</a></td>
+          <td rowspan="2"><a href="https://www.apache.org/dyn/closer.cgi/1.3.3/apache-iotdb-1.3.3-source-release.zip.asc">ASC</a></td>
+          <td rowspan="2"><a href="https://dlcdn.apache.org/iotdb/1.3.3/RELEASE_NOTES.md">release notes</a></td>
+    </tr>
+    <tr>
+          <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip">AINode</a></td>
+          <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip.sha512">SHA512</a></td>
+          <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip.asc">ASC</a></td>
     </tr>
     <tr>
           <td rowspan="3">0.13.4</td>
