@@ -177,7 +177,7 @@ export const enSidebar = {
       prefix: 'Reference/',
       // children: 'structure',
       children: [
-        { text: 'UDF Libraries', link: 'UDF-Libraries' },
+        { text: 'UDF Libraries', link: 'UDF-Libraries_timecho' },
         { text: 'UDF development', link: 'UDF-development' },
         { text: 'Function and Expression', link: 'Function-and-Expression' },
         { text: 'Common Config Manual', link: 'Common-Config-Manual' },
