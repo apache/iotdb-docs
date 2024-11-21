@@ -83,6 +83,7 @@ _paq.push(['enableLinkTracking']);
       apiKey: 'f1f30c0df04d74534e066d07786bce05',
       indexName: 'iotdb-apache',
       maxResultsPerGroup: 10,
+      disableUserPersonalization: true,
       locales: {
         '/zh/': {
           placeholder: '搜索文档',
