@@ -23,7 +23,7 @@
 本小节将以IoTDB经典集群部署架构3C3D（3个ConfigNode和3个DataNode）为例，介绍如何部署集群，即通常所说的3C3D集群。3C3D集群架构图如下：
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.png" alt="" style="width: 60%;"/>
+    <img src="https://alioss.timecho.com/docs/img/cluster01.png" alt="" style="width: 60%;"/>
 </div>
 
 ## 注意事项
