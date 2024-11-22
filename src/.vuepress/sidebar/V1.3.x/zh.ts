@@ -29,30 +29,21 @@ export const zhSidebar = {
       prefix: 'IoTDB-Introduction/',
       // children: 'structure', 使用该方式自动获取文件夹下的文件
       children: [
-        { text: '产品简介', link: 'IoTDB-Introduction_apache' },
-        { text: '主要功能特点', link: 'Features' },
-        { text: '系统架构', link: 'Architecture' },
-        { text: '性能特点', link: 'Performance' },
+        { text: '产品介绍', link: 'IoTDB-Introduction_timecho' },
         { text: '应用场景', link: 'Scenario' },
-        { text: '学术成果', link: 'Publication' },
+      ],
+    },
+    {
+      text: '预备知识',
+      collapsible: true,
+      prefix: 'Preparatory-knowledge/',
+      children: [
+        { text: '数据类型', link: 'Data-Type' },
       ],
     },
     {
       text: '快速上手',
       link: 'QuickStart/QuickStart_apache',
-    },
-    {
-      text: '基础概念',
-      collapsible: true,
-      prefix: 'Basic-Concept/',
-      // children: 'structure',
-      children: [
-        { text: '走进时序数据', link: 'Navigating_Time_Series_Data' },
-        { text: '数据模型', link: 'Data-Model-and-Terminology' },
-        { text: '数据类型', link: 'Data-Type' },
-        { text: '编码和压缩', link: 'Encoding-and-Compression' },
-        { text: '数据分区与负载均衡', link: 'Cluster-data-partitioning' },
-      ],
     },
     {
       text: '部署与运维',
@@ -63,30 +54,56 @@ export const zhSidebar = {
         { text: '安装包获取', link: 'IoTDB-Package_apache' },
         { text: '资源规划', link: 'Database-Resources' },
         { text: '系统配置', link: 'Environment-Requirements' },
-        { text: '单机版部署', link: 'Stand-Alone-Deployment_apache' },
-        { text: '集群版部署', link: 'Cluster-Deployment_apache' },
-        { text: 'Docker部署', link: 'Docker-Deployment_apache' },
+        { text: '单机版部署指导', link: 'Stand-Alone-Deployment_apache' },
+        { text: '集群版部署指导', link: 'Cluster-Deployment_apache' },
+        { text: 'Docker部署指导', link: 'Docker-Deployment_apache' },
       ],
     },
-
     {
-      text: '使用手册',
+      text: '基础功能',
+      collapsible: true,
+      prefix: 'Basic-Concept/',
+      // children: 'structure',
+      children: [
+        {
+          text: '数据建模',
+          collapsible: true,
+          children: [
+            { text: '时序数据模型', link: 'Navigating_Time_Series_Data'  },
+            { text: '建模方案设计', link: 'Data-Model-and-Terminology' },
+            { text: '测点管理', link: 'Operate-Metadata_apache' },
+          ],
+        },
+        { text: '写入&删除', link: 'Write-Delete-Data'  },
+        { text: '数据查询', link: 'Query-Data' },
+      ],
+    },
+    {
+      text: '高级功能',
       collapsible: true,
       prefix: 'User-Manual/',
       // children: 'structure',
       children: [
-        { text: '语法约定', link: 'Syntax-Rule' },
-        { text: '元数据管理', link: 'Operate-Metadata_apache' },
-        { text: '数据写入与删除', link: 'Write-Delete-Data' },
-        { text: '数据查询', link: 'Query-Data' },
-        { text: '运算符、函数和表达式', link: 'Operator-and-Expression' },
         { text: '数据同步', link: 'Data-Sync_apache' },
         { text: '数据订阅', link: 'Data-subscription' },
-        { text: '流处理框架', link: 'Streaming_apache' },
-        { text: '数据库编程', link: 'Database-Programming' },
+        {
+          text: '安全管理',
+          collapsible: true,
+          children: [
+            { text: '权限管理', link: 'Authority-Management' },
+          ],
+        },
         { text: '用户自定义函数', link: 'User-defined-function' },
-        { text: '权限管理', link: 'Authority-Management' },
-        { text: '运维语句', link: 'Maintennance' },
+        { text: '连续查询', link: 'Database-Programming' },
+        {
+          text: '数据库编程',
+          collapsible: true,
+          children: [
+            { text: 'UDF开发', link: 'UDF-development'  },
+            { text: '触发器', link: 'Trigger' },
+            { text: '流处理框架', link: 'Streaming_apache' },
+          ],
+        },
       ],
     },
     {
@@ -95,13 +112,12 @@ export const zhSidebar = {
       prefix: 'Tools-System/',
       // children: 'structure',
       children: [
-        { text: 'SQL命令行终端 (CLI)', link: 'CLI' },
+        { text: '命令行工具', link: 'CLI' },
         { text: '监控工具', link: 'Monitor-Tool_apache' },
         { text: '测试工具', link: 'Benchmark' },
-        { text: '运维工具', link: 'Maintenance-Tool_apache' },
+        { text: '集群管理工具', link: 'Maintenance-Tool_apache' },
         { text: '数据导入', link: 'Data-Import-Tool' },
         { text: '数据导出', link: 'Data-Export-Tool' },
-
       ],
     },
     {
@@ -120,8 +136,14 @@ export const zhSidebar = {
         { text: 'JDBC (不推荐)', link: 'Programming-JDBC' },
         { text: 'MQTT协议', link: 'Programming-MQTT' },
         { text: 'Kafka', link: 'Programming-Kafka' },
-        { text: 'REST API V1 (不推荐)', link: 'RestServiceV1' },
-        { text: 'REST API V2', link: 'RestServiceV2' },
+        {
+          text: 'REST API',
+          collapsible: true,
+          children: [
+            { text: 'V1 (不推荐)', link: 'RestServiceV1'  },
+            { text: 'V2', link: 'RestServiceV2' },
+          ],
+        },
       ],
     },
     {
@@ -153,12 +175,15 @@ export const zhSidebar = {
       ],
     },
     {
-      text: 'FAQ',
+      text: '技术内幕',
       collapsible: true,
-      prefix: 'FAQ/',
+      prefix: 'Technical-Insider/',
       // children: 'structure',
       children: [
-        { text: '常见问题', link: 'Frequently-asked-questions' }],
+        { text: '研究论文', link: 'Publication' },
+        { text: '压缩&编码', link: 'Encoding-and-Compression' },
+        { text: '数据分区和负载均衡', link: 'Cluster-data-partitioning' },
+      ],
     },
     {
       text: '参考',
@@ -166,15 +191,41 @@ export const zhSidebar = {
       prefix: 'Reference/',
       // children: 'structure',
       children: [
-        { text: 'UDF函数库', link: 'UDF-Libraries_apache' },
-        { text: 'UDF开发', link: 'UDF-development' },
-        { text: '内置函数与表达式', link: 'Function-and-Expression' },
-        { text: '配置参数', link: 'Common-Config-Manual' },
-        { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
-        { text: 'DataNode配置参数', link: 'DataNode-Config-Manual' },
+        {
+          text: '配置参数',
+          collapsible: true,
+          children: [
+            { text: '配置参数', link: 'Common-Config-Manual' },
+            { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
+            { text: 'DataNode配置参数', link: 'DataNode-Config-Manual' },
+          ],
+        },
+        {
+          text: '函数与运算符',
+          collapsible: true,
+          children: [
+            { text: 'UDF函数库', link: 'UDF-Libraries_apache' },
+            { text: '函数和操作符', link: 'Operator-and-Expression' },          
+          ],
+        },
+        {
+          text: '语法约定',
+          collapsible: true,
+          children: [
+            { text: '保留字&标识符', link: 'Syntax-Rule' },
+            { text: '关键字', link: 'Keywords' },          
+          ],
+        },
         { text: '状态码', link: 'Status-Codes' },
-        { text: '关键字', link: 'Keywords' },
       ],
+    },
+    {
+      text: 'FAQ',
+      collapsible: true,
+      prefix: 'FAQ/',
+      // children: 'structure',
+      children: [
+        { text: '常见问题', link: 'Frequently-asked-questions' }],
     },
   ],
 };

@@ -27,32 +27,23 @@ export const enSidebar = {
       text: 'About IoTDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
-      // children: 'structure',
+      // children: 'structure', 使用该方式自动获取文件夹下的文件
       children: [
-        { text: 'What is IoTDB', link: 'IoTDB-Introduction_timecho' },
-        { text: 'Features', link: 'Features' },
-        { text: 'System Architecture', link: 'Architecture' },
-        { text: 'Performance', link: 'Performance' },
+        { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_timecho' },
         { text: 'Scenario', link: 'Scenario' },
-        { text: 'Academic Achievement', link: 'Publication' },
+      ],
+    },
+    {
+      text: 'Preparatory knowledge',
+      collapsible: true,
+      prefix: 'Preparatory-knowledge/',
+      children: [
+        { text: 'Data Type', link: 'Data-Type' },
       ],
     },
     {
       text: 'Quick Start',
       link: 'QuickStart/QuickStart_timecho',
-    },
-    {
-      text: 'Basic Concept',
-      collapsible: true,
-      prefix: 'Basic-Concept/',
-      // children: 'structure',
-      children: [
-        { text: 'Navigating Time Series Data', link: 'Navigating_Time_Series_Data' },
-        { text: 'Data Model', link: 'Data-Model-and-Terminology' },
-        { text: 'Data Type', link: 'Data-Type' },
-        { text: 'Encoding and Compression', link: 'Encoding-and-Compression' },
-        { text: 'Data Partitioning & Load Balancing', link: 'Cluster-data-partitioning' },
-      ],
     },
     {
       text: 'Deployment & Maintenance',
@@ -72,29 +63,56 @@ export const enSidebar = {
         { text: 'Workbench Deployment', link: 'workbench-deployment' },
       ],
     },
-
     {
-      text: 'User Manual',
+      text: 'Basic Functions',
+      collapsible: true,
+      prefix: 'Basic-Concept/',
+      // children: 'structure',
+      children: [
+        {
+          text: 'Data Modeling',
+          collapsible: true,
+          children: [
+            { text: 'Timeseries Data Model', link: 'Navigating_Time_Series_Data'  },
+            { text: 'Modeling Scheme Design', link: 'Data-Model-and-Terminology' },
+            { text: 'Measurement Point Management', link: 'Operate-Metadata_timecho' },
+          ],
+        },
+        { text: 'Write & Delete', link: 'Write-Delete-Data'  }, 
+        { text: 'Query Data', link: 'Query-Data' },
+      ],
+    },
+    {
+      text: 'Advanced Features',
       collapsible: true,
       prefix: 'User-Manual/',
       // children: 'structure',
       children: [
-        { text: 'Syntax Rule', link: 'Syntax-Rule' },
-        { text: 'Operate Metadata', link: 'Operate-Metadata_timecho' },
-        { text: 'Write & Delete Data', link: 'Write-Delete-Data' },
-        { text: 'Query Data', link: 'Query-Data' },
-        { text: 'Operator and Expression', link: 'Operator-and-Expression' },
         { text: 'Data Sync', link: 'Data-Sync_timecho' },
         { text: 'Data Subscription', link: 'Data-subscription' },
-        { text: 'Stream Processing', link: 'Streaming_timecho' },
-        { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
-        { text: 'View', link: 'IoTDB-View_timecho' },
         { text: 'AI Capability', link: 'AINode_timecho' },
-        { text: 'Database Programming', link: 'Database-Programming' },
+        {
+          text: 'Security Management',
+          collapsible: true,
+          children: [
+            { text: 'White List', link: 'White-List_timecho'  },
+            { text: 'Audit Log', link: 'Audit-Log_timecho' },
+            { text: 'Authority Management', link: 'Authority-Management' },
+          ],
+        },
         { text: 'UDF', link: 'User-defined-function' },
-        { text: 'Security Management', link: 'Security-Management_timecho' },
-        { text: 'Database Administration', link: 'Authority-Management' },
-        { text: 'Maintennance', link: 'Maintennance' },
+        { text: 'View', link: 'IoTDB-View_timecho' },
+        { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
+        { text: 'Continuous Query', link: 'Database-Programming' },
+        {
+          text: 'Database Programming',
+          collapsible: true,
+          children: [
+            { text: 'UDF Development', link: 'UDF-development'  },
+            { text: 'Trigger', link: 'Trigger' },
+            { text: 'Stream Processing', link: 'Streaming_timecho' },
+          ],
+        },
       ],
     },
     {
@@ -103,11 +121,11 @@ export const enSidebar = {
       prefix: 'Tools-System/',
       // children: 'structure',
       children: [
-        { text: 'Command Line Interface (CLI)', link: 'CLI' },
+        { text: 'CLI', link: 'CLI' },
         { text: 'Workbench', link: 'Workbench_timecho' },
         { text: 'Monitor Tool', link: 'Monitor-Tool_timecho' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
-        { text: 'Maintenance Tool', link: 'Maintenance-Tool_timecho' },
+        { text: 'Cluster Management Tool', link: 'Maintenance-Tool_timecho' },
         { text: 'Data Import', link: 'Data-Import-Tool' },
         { text: 'Data Export', link: 'Data-Export-Tool' },
       ],
@@ -129,8 +147,14 @@ export const enSidebar = {
         { text: 'MQTT Protocol', link: 'Programming-MQTT' },
         { text: 'OPC UA Protocol', link: 'Programming-OPC-UA_timecho' },
         { text: 'Kafka', link: 'Programming-Kafka' },
-        { text: 'REST API V1 (Not Recommend)', link: 'RestServiceV1' },
-        { text: 'REST API V2', link: 'RestServiceV2' },
+        {
+          text: 'REST API',
+          collapsible: true,
+          children: [
+            { text: 'V1 (Not Recommend)', link: 'RestServiceV1'  },
+            { text: 'V2', link: 'RestServiceV2' },
+          ],
+        },
       ],
     },
     {
@@ -164,12 +188,15 @@ export const enSidebar = {
       ],
     },
     {
-      text: 'FAQ',
+      text: 'Technical Insider',
       collapsible: true,
-      prefix: 'FAQ/',
+      prefix: 'Technical-Insider/',
       // children: 'structure',
       children: [
-        { text: 'Frequently Asked Questions', link: 'Frequently-asked-questions' }],
+        { text: 'Research Paper ', link: 'Publication' },
+        { text: 'Compression & Encoding', link: 'Encoding-and-Compression' },
+        { text: 'Data Partitioning & Load Balancing', link: 'Cluster-data-partitioning' },
+      ],
     },
     {
       text: 'Reference',
@@ -177,15 +204,42 @@ export const enSidebar = {
       prefix: 'Reference/',
       // children: 'structure',
       children: [
-        { text: 'UDF Libraries', link: 'UDF-Libraries_timecho' },
-        { text: 'UDF development', link: 'UDF-development' },
-        { text: 'Function and Expression', link: 'Function-and-Expression' },
-        { text: 'Common Config Manual', link: 'Common-Config-Manual' },
-        { text: 'ConfigNode Config Manual', link: 'ConfigNode-Config-Manual' },
-        { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual' },
+        {
+          text: 'Config Manual',
+          collapsible: true,
+          children: [
+            { text: 'Common Config Manual', link: 'Common-Config-Manual' },
+            { text: 'ConfigNode Config Manual', link: 'ConfigNode-Config-Manual' },
+            { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual' },
+          ],
+        },
+        {
+          text: 'Functions and Operators',
+          collapsible: true,
+          children: [
+            { text: 'UDF Libraries', link: 'UDF-Libraries_timecho' },
+            { text: 'Functions and Operators', link: 'Operator-and-Expression' },      
+          ],
+        },
+        {
+          text: 'Syntax-Rule',
+          collapsible: true,
+          children: [
+            { text: 'Reserved Words&Identifiers', link: 'Syntax-Rule' },
+            { text: 'Keywords', link: 'Keywords' },        
+          ],
+        },
         { text: 'Status Codes', link: 'Status-Codes' },
-        { text: 'Keywords', link: 'Keywords' },
       ],
+    },
+    {
+      text: 'FAQ',
+      collapsible: true,
+      prefix: 'FAQ/',
+      // children: 'structure',
+      children: [
+        { text: 'Frequently Asked Questions', link: 'Frequently-asked-questions' }],
     },
   ],
 };
+
