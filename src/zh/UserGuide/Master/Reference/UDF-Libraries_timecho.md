@@ -30,11 +30,11 @@
     | UDF-1.3.3.zip | V1.3.3及以上      | [压缩包](https://alioss.timecho.com/upload/UDF-1.3.3.zip)   |
     | UDF-1.3.2.zip | V1.0.0～V1.3.2  | [压缩包](https://alioss.timecho.com/upload/UDF-1.3.2.zip) |
     
-2. 将获取的压缩包中的 library-udf.jar 文件放置在 IoTDB 集群所有节点的 `/ext/udf` 的目录下
+2. 将获取的压缩包中的 `library-udf.jar` 文件放置在 IoTDB 集群所有节点的 `/ext/udf` 的目录下
 3. 在 IoTDB 的 SQL 命令行终端（CLI）或可视化控制台（Workbench）的 SQL 操作界面中，执行下述相应的函数注册语句。
 4. 批量注册：两种注册方式：注册脚本 或 SQL汇总语句
 - 注册脚本 
-    - 将压缩包中的注册脚本（register-UDF.sh 或 register-UDF.bat）按需复制到 IoTDB 的 tools 目录下，修改脚本中的参数（默认为host=127.0.0.1，rpcPort=6667，user=root，pass=root）；
+    - 将压缩包中的注册脚本（`register-UDF.sh` 或 `register-UDF.bat`）按需复制到 IoTDB 的 tools 目录下，修改脚本中的参数（默认为host=127.0.0.1，rpcPort=6667，user=root，pass=root）；
     - 启动 IoTDB 服务，运行注册脚本批量注册 UDF
 
 - SQL汇总语句
@@ -3946,7 +3946,6 @@ create function lowpass as 'org.apache.iotdb.library.frequency.UDTFLowPass'
 +-----------------------------+---------------+
 ```
 
-
 用于查询的SQL语句：
 
 ```sql
@@ -3981,9 +3980,19 @@ select lowpass(s1,'wpass'='0.45') from root.test.d1
 |1970-01-01T08:00:19.000+08:00|                  -2.664535259100376E-16|
 +-----------------------------+----------------------------------------+
 ```
-## Envelope
 
-### 函数简介
+注：输入序列服从$y=sin(2\pi t/4)+2sin(2\pi t/5)$，长度为20，因此低通滤波之后的输出序列服从$y=2sin(2\pi t/5)$。
+
+
+### Envelope
+
+#### 注册语句
+
+```sql
+create function envelope as 'org.apache.iotdb.library.frequency.UDFEnvelopeAnalysis'
+```
+
+#### 函数简介
 
 本函数通过输入一维浮点数数组和用户指定的调制频率，实现对信号的解调和包络提取。解调的目标是从复杂的信号中提取感兴趣的部分，使其更易理解。比如通过解调可以找到信号的包络，即振幅的变化趋势。
 
@@ -4003,7 +4012,7 @@ select lowpass(s1,'wpass'='0.45') from root.test.d1
 
 **提示：** 当解调的原始序列的值不连续时，本函数会视为连续处理，建议被分析的时间序列是一段值完整的时间序列。同时建议指定开始时间与结束时间。
 
-### 使用示例
+#### 使用示例
 
 输入序列：
 
@@ -4047,29 +4056,6 @@ select envelope(s1),envelope(s1,'frequency'='1000'),envelope(s1,'amplification'=
 +----+-------------------------+---------------------------------------------+-----------------------------------------------+
 
 ```
-
-注：输入序列服从$y=sin(2\pi t/4)+2sin(2\pi t/5)$，长度为20，因此低通滤波之后的输出序列服从$y=2sin(2\pi t/5)$。
-
-<!--
-
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-    
-        http://www.apache.org/licenses/LICENSE-2.0
-    
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
-
--->
 
 ## 数据匹配
 

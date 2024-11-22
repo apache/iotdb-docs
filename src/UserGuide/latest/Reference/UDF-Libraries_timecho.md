@@ -34,11 +34,11 @@ Based on the ability of user-defined functions, IoTDB provides a series of funct
     | UDF-1.3.3.zip | V1.3.3 and above      | [UDF.zip](https://alioss.timecho.com/upload/UDF-1.3.3.zip)   |
     | UDF-1.3.2.zip | V1.0.0～V1.3.2  | [UDF.zip](https://alioss.timecho.com/upload/UDF-1.3.2.zip) |
     
-2. Place the library-udf.jar file in the compressed file obtained in the directory `/ext/udf ` of all nodes in the IoTDB cluster
+2. Place the `library-udf.jar` file in the compressed file obtained in the directory `/ext/udf ` of all nodes in the IoTDB cluster
 3. In the SQL command line terminal (CLI) or visualization console (Workbench) SQL operation interface of IoTDB, execute the corresponding function registration statement as follows.
 4.  Batch registration: Two registration methods: registration script or SQL full statement
 - Register Script 
-    - Copy the registration script (register-UDF.sh or register-UDF.bat) from the compressed package to the `tools` directory of IoTDB as needed, and modify the parameters in the script (default is host=127.0.0.1, rpcPort=6667, user=root, pass=root);
+    - Copy the registration script (`register-UDF.sh` or `register-UDF.bat`) from the compressed package to the `tools` directory of IoTDB as needed, and modify the parameters in the script (default is host=127.0.0.1, rpcPort=6667, user=root, pass=root);
     - Start IoTDB service, run registration script to batch register UDF
 
 - All SQL statements
@@ -3934,26 +3934,86 @@ Output series:
 
 Note: The input is $y=sin(2\pi t/4)+2sin(2\pi t/5)$ with a length of 20. Thus, the output is $y=2sin(2\pi t/5)$ after low-pass filtering.
 
-<!--
 
-​    Licensed to the Apache Software Foundation (ASF) under one
-​    or more contributor license agreements.  See the NOTICE file
-​    distributed with this work for additional information
-​    regarding copyright ownership.  The ASF licenses this file
-​    to you under the Apache License, Version 2.0 (the
-​    "License"); you may not use this file except in compliance
-​    with the License.  You may obtain a copy of the License at
-​
-​        http://www.apache.org/licenses/LICENSE-2.0
-​
-​    Unless required by applicable law or agreed to in writing,
-​    software distributed under the License is distributed on an
-​    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-​    KIND, either express or implied.  See the License for the
-​    specific language governing permissions and limitations
-​    under the License.
+### Envelope
 
--->
+#### Registration statement
+
+```sql
+create function envelope as 'org.apache.iotdb.library.frequency.UDFEnvelopeAnalysis'
+```
+
+#### Usage
+
+This function achieves signal demodulation and envelope extraction by inputting a one-dimensional floating-point array and a user specified modulation frequency. The goal of demodulation is to extract the parts of interest from complex signals, making them easier to understand. For example, demodulation can be used to find the envelope of the signal, that is, the trend of amplitude changes.
+
+**Name：** Envelope
+
+**Input：** Only supports a single input sequence, with types INT32/INT64/FLOAT/DOUBLE
+
+
+**Parameters：**
+
++ `frequency`: Frequency (optional, positive number. If this parameter is not filled in, the system will infer the frequency based on the time interval corresponding to the sequence).
++ `amplification`: Amplification factor (optional, positive integer. The output of the Time column is a set of positive integers and does not output decimals. When the frequency is less than 1, this parameter can be used to amplify the frequency to display normal results).
+
+**Output：**
++ `Time`： The meaning of the value returned by this column is frequency rather than time. If the output format is time format (e.g. 1970-01-01T08:00: 19.000+08:00), please convert it to a timestamp value.
+
+
++ `Envelope(Path, 'frequency'='{frequency}')`：Output a single sequence of type DOUBLE, which is the result of envelope analysis.
+
+**Note：** When the values of the demodulated original sequence are discontinuous, this function will treat it as continuous processing. It is recommended that the analyzed time series be a complete time series of values. It is also recommended to specify a start time and an end time.
+
+#### Examples
+
+Input series:
+
+
+```
++-----------------------------+---------------+
+|                         Time|root.test.d1.s1|
++-----------------------------+---------------+
+|1970-01-01T08:00:01.000+08:00|       1.0     |
+|1970-01-01T08:00:02.000+08:00|       2.0     |
+|1970-01-01T08:00:03.000+08:00|       3.0     |
+|1970-01-01T08:00:04.000+08:00|       4.0     |
+|1970-01-01T08:00:05.000+08:00|       5.0     |
+|1970-01-01T08:00:06.000+08:00|       6.0     |
+|1970-01-01T08:00:07.000+08:00|       7.0     |
+|1970-01-01T08:00:08.000+08:00|       8.0     |
+|1970-01-01T08:00:09.000+08:00|       9.0     |
+|1970-01-01T08:00:10.000+08:00|       10.0    |
++-----------------------------+---------------+
+```
+
+SQL for query:
+
+```sql
+set time_display_type=long;
+select envelope(s1),envelope(s1,'frequency'='1000'),envelope(s1,'amplification'='10') from root.test.d1;
+```
+
+Output series:
+
+
+```
++----+-------------------------+---------------------------------------------+-----------------------------------------------+
+|Time|envelope(root.test.d1.s1)|envelope(root.test.d1.s1, "frequency"="1000")|envelope(root.test.d1.s1, "amplification"="10")|
++----+-------------------------+---------------------------------------------+-----------------------------------------------+
+|   0|        6.284350808484124|                            6.284350808484124|                              6.284350808484124|
+| 100|       1.5581923657404393|                           1.5581923657404393|                                           null|
+| 200|       0.8503211038340728|                           0.8503211038340728|                                           null|
+| 300|        0.512808785945551|                            0.512808785945551|                                           null|
+| 400|      0.26361156774506744|                          0.26361156774506744|                                           null|
+|1000|                     null|                                         null|                             1.5581923657404393|
+|2000|                     null|                                         null|                             0.8503211038340728|
+|3000|                     null|                                         null|                              0.512808785945551|
+|4000|                     null|                                         null|                            0.26361156774506744|
++----+-------------------------+---------------------------------------------+-----------------------------------------------+
+
+```
+
 
 ## Data Matching
 
