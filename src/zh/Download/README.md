@@ -38,7 +38,7 @@
             <td rowspan="2"><a href="https://dlcdn.apache.org/iotdb/1.3.3/RELEASE_NOTES.md">release notes</a></td>
       </tr>
       <tr>
-            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip">AINode</a></td>
+            <td><a href="https://archive.apache.org/dist/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip">AINode</a></td>
             <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip.sha512">SHA512</a></td>
             <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip.asc">ASC</a></td>
       </tr>
