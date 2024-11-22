@@ -145,5 +145,5 @@ _paq.push(['enableLinkTracking']);
       },
     },
   }),
-  pagePatterns: ['**/*.md', '!**/stage/**/*.md', '!**/Master/**/*.md', '!.vuepress', '!node_modules'],
+  pagePatterns: ['**/*.md', '!**/*_timecho.md', '!**/stage/**/*.md', '!**/Master/**/*.md', '!.vuepress', '!node_modules'],
 });
