@@ -45,7 +45,7 @@ The time partitioning algorithm converts a given timestamp to the corresponding 
 
 $$\left\lfloor\frac{\text{Timestamp}-\text{StartTimestamp}}{\text{TimePartitionInterval}}\right\rfloor.$$
 
-In this equation, both $\text{StartTimestamp}$ and $\text{TimePartitionInterval}$ are configurable parameters to accommodate various production environments. The $\text{StartTimestamp}$ represents the starting time of the first time partition, while the $\text{TimePartitionInterval}$ defines the duration of each time partition. By default, the $\text{TimePartitionInterval}$ is set to one day.
+In this equation, both $\text{StartTimestamp}$ and $\text{TimePartitionInterval}$ are configurable parameters to accommodate various production environments. The $\text{StartTimestamp}$ represents the starting time of the first time partition, while the $\text{TimePartitionInterval}$ defines the duration of each time partition. By default, the $\text{TimePartitionInterval}$ is set to seven day.
 
 #### Schema Partitioning
 Since the series partitioning algorithm evenly partitions the time series, each series partition corresponds to a schema partition. These schema partitions are then evenly allocated across the SchemaRegionGroups to achieve a balanced schema distribution.
