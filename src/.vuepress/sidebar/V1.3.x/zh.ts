@@ -166,7 +166,7 @@ export const zhSidebar = {
       prefix: 'Reference/',
       // children: 'structure',
       children: [
-        { text: 'UDF函数库', link: 'UDF-Libraries' },
+        { text: 'UDF函数库', link: 'UDF-Libraries_apache' },
         { text: 'UDF开发', link: 'UDF-development' },
         { text: '内置函数与表达式', link: 'Function-and-Expression' },
         { text: '配置参数', link: 'Common-Config-Manual' },
