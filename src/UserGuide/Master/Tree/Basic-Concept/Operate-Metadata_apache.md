@@ -19,7 +19,7 @@
 
 -->
 
-# Measurement point management
+# Timeseries Management
 
 ## Database Management
 
