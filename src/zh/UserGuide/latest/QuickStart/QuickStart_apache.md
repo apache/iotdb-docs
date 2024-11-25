@@ -49,11 +49,11 @@
 
    - 建模设计介绍：[数据模型介绍](../Basic-Concept/Data-Model-and-Terminology.md)
 
-   - SQL 语法介绍：[SQL 语法介绍](../User-Manual/Operate-Metadata_apache.md)
+   - SQL 语法介绍：[SQL 语法介绍](../Basic-Concept/Operate-Metadata_apache.md)
 
-2. 数据写入：在数据写入方面，IoTDB 提供了多种方式来插入实时数据，基本的数据写入操作请查看 [数据写入](../User-Manual/Write-Delete-Data.md)
+2. 数据写入：在数据写入方面，IoTDB 提供了多种方式来插入实时数据，基本的数据写入操作请查看 [数据写入](../Basic-Concept/Write-Delete-Data.md)
 
-3. 数据查询：IoTDB 提供了丰富的数据查询功能，数据查询的基本介绍请查看 [数据查询](../User-Manual/Query-Data.md)
+3. 数据查询：IoTDB 提供了丰富的数据查询功能，数据查询的基本介绍请查看 [数据查询](../Basic-Concept/Query-Data.md)
 
 4. 其他进阶功能：除了数据库常见的写入、查询等功能外，IoTDB 还支持“数据同步、流处理框架、权限管理”等功能，具体使用方法可参见具体文档：
 
@@ -75,6 +75,16 @@ IoTDB 除了自身拥有丰富的功能外，其周边的工具体系包含的�
 
 
    - 数据导出脚本：针对于不同场景，IoTDB 为用户提供多种批量导出数据的操作方式，具体使用介绍请查看：[数据导出](../Tools-System/Data-Export-Tool.md)
+
+## 想了解更多技术细节？
+
+如果您想了解 IoTDB 的更多技术内幕，可以移步至下面的文档：
+
+   - 研究论文：IoTDB 具有列式存储、数据编码、预计算和索引技术，以及其类 SQL 接口和高性能数据处理能力，同时与 Apache Hadoop、MapReduce 和 Apache Spark 无缝集成。相关研究论文请查看 [研究论文](../Technical-Insider/Publication.md)
+
+   - 压缩&编码：IoTDB 通过多样化的编码和压缩技术，针对不同数据类型优化存储效率，想了解更多请查看 [压缩&编码](../Technical-Insider/Encoding-and-Compression.md)
+
+   - 数据分区和负载均衡：IoTDB 基于时序数据特性，精心设计了数据分区策略和负载均衡算法，提升了集群的可用性和性能，想了解更多请查看 [数据分区和负载均衡](../Technical-Insider/Cluster-data-partitioning.md)
 
 ## 使用过程中遇到问题？
 

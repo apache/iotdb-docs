@@ -19,7 +19,7 @@
 
 -->
 
-# Operate Metadata
+# Timeseries Management
 
 ## Database Management
 
