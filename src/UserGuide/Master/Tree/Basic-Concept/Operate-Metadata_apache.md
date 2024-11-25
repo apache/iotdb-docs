@@ -19,7 +19,7 @@
 
 -->
 
-# Operate Metadata
+# Measurement point management
 
 ## Database Management
 
