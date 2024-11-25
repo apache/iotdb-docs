@@ -205,14 +205,14 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: 'UDF函数库', link: 'UDF-Libraries_apache' },
-            { text: '函数和操作符', link: 'Operator-and-Expression' },          
+            { text: '函数与运算符', link: 'Operator-and-Expression' },          
           ],
         },
         {
           text: '语法约定',
           collapsible: true,
           children: [
-            { text: '保留字&标识符', link: 'Syntax-Rule' },
+            { text: '标识符', link: 'Syntax-Rule' },
             { text: '关键字', link: 'Keywords' },          
           ],
         },
