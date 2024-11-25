@@ -19,7 +19,7 @@
 
 -->
 
-# Syntax Rule
+# Identifiers
 
 ## Literal Values
 
@@ -277,17 +277,3 @@ Examples of case in which quoted identifier is used ：
 - The key/value of an attribute can be String Literal and identifier, more details can be found at **key-value pair** part. 
   
 - Nodes except database in the path are allowed to contain the "*" symbol, when using this symbol it is required to enclose the node in backquotes, e.g., root.db.`*`, but this usage is only recommended when the path cannot avoid containing the "*" symbol. 
-
-## KeyWords Words
-
-Keywords are words that have significance in SQL. Keywords can be used as an identifier. Certain keywords, such as TIME/TIMESTAMP and ROOT, are reserved and cannot use as identifiers.
-
-[Keywords](../Reference/Keywords.md) shows the keywords in IoTDB.
-
-## Detailed Definitions of Lexical and Grammar
-
-Please read the lexical and grammar description files in our code repository:
-
-Lexical file: `antlr/src/main/antlr4/org/apache/iotdb/db/qp/sql/IoTDBSqlLexer.g4`
-
-Grammer file: `antlr/src/main/antlr4/org/apache/iotdb/db/qp/sql/IoTDBSqlParser.g4`

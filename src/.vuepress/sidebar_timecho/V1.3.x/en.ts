@@ -225,7 +225,7 @@ export const enSidebar = {
           text: 'Syntax-Rule',
           collapsible: true,
           children: [
-            { text: 'Reserved Words&Identifiers', link: 'Syntax-Rule' },
+            { text: 'Identifiers', link: 'Syntax-Rule' },
             { text: 'Keywords', link: 'Keywords' },        
           ],
         },

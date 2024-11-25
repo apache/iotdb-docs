@@ -252,31 +252,6 @@ For details and examples, see the document [Sample Functions](../Reference/Funct
 
 For details and examples, see the document [Time-Series](../Reference/Function-and-Expression.md#time-series-processing).
 
-## DATA QUALITY FUNCTION LIBRARY
-
-### About
-
-For applications based on time series data, data quality is vital. **UDF Library** is IoTDB User Defined Functions (UDF) about data quality, including data profiling, data quality evalution and data repairing. It effectively meets the demand for data quality in the industrial field.
-
-### Quick Start
-
-The functions in this function library are not built-in functions, and must be loaded into the system before use.
-
-1. [Download](https://archive.apache.org/dist/iotdb/1.0.1/apache-iotdb-1.0.1-library-udf-bin.zip) the JAR with all dependencies and the script of registering UDF.
-2. Copy the JAR package to `ext\udf` under the directory of IoTDB system (Please put JAR to this directory of all DataNodes if you use Cluster).
-3. Run `sbin\start-confignode.bat` and then `sbin\start-datanode.bat` (for Windows) or `sbin\start-confignode.sh` and `sbin\start-datanode.sh` (for Linux or MacOS) to start IoTDB server.
-4. Copy the script to the directory of IoTDB system (under the root directory, at the same level as `sbin`), modify the parameters in the script if needed and run it to register UDF.
-
-### Implemented Functions
-
-1.   Data Quality related functions, such as `Completeness`. For details and examples, see the document [Data-Quality](../Reference/UDF-Libraries.md#data-quality).
-2.   Data Profiling related functions, such as `ACF`. For details and examples, see the document [Data-Profiling](../Reference/UDF-Libraries.md#data-profiling).
-3.   Anomaly Detection related functions, such as `IQR`. For details and examples, see the document [Anomaly-Detection](../Reference/UDF-Libraries.md#anomaly-detection).
-4.   Frequency Domain Analysis related functions, such as `Conv`. For details and examples, see the document [Frequency-Domain](../Reference/UDF-Libraries.md#frequency-domain-analysis).
-5.   Data Matching related functions, such as `DTW`. For details and examples, see the document [Data-Matching](../Reference/UDF-Libraries.md#data-matching).
-6.   Data Repairing related functions, such as `TimestampRepair`. For details and examples, see the document [Data-Repairing](../Reference/UDF-Libraries.md#timestamprepair).
-7.   Series Discovery related functions, such as `ConsecutiveSequences`. For details and examples, see the document [Series-Discovery](../Reference/UDF-Libraries.md).
-8.   Machine Learning related functions, such as `AR`. For details and examples, see the document [Machine-Learning](../Reference/UDF-Libraries.md#machine-learning).
 
 ## LAMBDA EXPRESSION
 

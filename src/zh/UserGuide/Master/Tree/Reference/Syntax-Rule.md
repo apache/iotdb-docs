@@ -19,7 +19,7 @@
 
 -->
 
-# 语法约定
+# 标识符
 ## 字面值常量
 
 该部分对 IoTDB 中支持的字面值常量进行说明，包括字符串常量、数值型常量、时间戳常量、布尔型常量和空值。
@@ -274,16 +274,3 @@ create device template `t1't"t`
   
 - 路径中非database的节点允许含有“*”符号，在使用时需要把该节点用反引号括起来，如root.db.`*`，但是此种用法只建议在路径中不可避免含有“*”时使用。
   
-## 关键字
-
-关键字是在 SQL 具有特定含义的词，可以作为标识符。保留字是关键字的一个子集，保留字不能用于标识符。
-
-关于 IoTDB 的关键字列表，可以查看 [关键字](../Reference/Keywords.md) 。
-
-## 词法与文法详细定义
-
-请阅读代码仓库中的词法和语法描述文件：
-
-词法文件：`antlr/src/main/antlr4/org/apache/iotdb/db/qp/sql/IoTDBSqlLexer.g4`
-
-语法文件：`antlr/src/main/antlr4/org/apache/iotdb/db/qp/sql/IoTDBSqlParser.g4`
