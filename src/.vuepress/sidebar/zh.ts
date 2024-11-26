@@ -18,7 +18,7 @@
  */
 
 import { sidebar } from 'vuepress-theme-hope';
-import { zhSidebar as V103xSidebar } from './V1.3.x/zh.js';
+import { zhSidebar as V103xSidebar } from './V1.3.3/zh.js';
 import { zhSidebar as V1030Sidebar } from './V1.3.0-2/zh.js';
 import { zhSidebar as V102xSidebar } from './V1.2.x/zh.js';
 import { zhSidebar as V101xSidebar } from './V1.1.x/zh.js';
