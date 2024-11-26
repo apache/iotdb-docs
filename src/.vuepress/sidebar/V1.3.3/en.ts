@@ -34,9 +34,9 @@ export const enSidebar = {
       ],
     },
     {
-      text: 'Preparatory knowledge',
+      text: 'Background knowledge',
       collapsible: true,
-      prefix: 'Preparatory-knowledge/',
+      prefix: 'Background-knowledge/',
       children: [
         { text: 'Data Type', link: 'Data-Type' },
         { text: 'Cluster-related Concepts', link: 'Cluster-Concept' },
@@ -173,6 +173,14 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'SQL Manual', link: 'SQL-Manual' },
+        {
+          text: 'Functions and Operators',
+          collapsible: true,
+          children: [
+            { text: 'UDF Libraries', link: 'UDF-Libraries_timecho' },
+            { text: 'Functions and Operators', link: 'Operator-and-Expression' },      
+          ],
+        },
       ],
     },
     {
@@ -199,14 +207,6 @@ export const enSidebar = {
             { text: 'Common Config Manual', link: 'Common-Config-Manual' },
             { text: 'ConfigNode Config Manual', link: 'ConfigNode-Config-Manual' },
             { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual' },
-          ],
-        },
-        {
-          text: 'Functions and Operators',
-          collapsible: true,
-          children: [
-            { text: 'UDF Libraries', link: 'UDF-Libraries_timecho' },
-            { text: 'Functions and Operators', link: 'Operator-and-Expression' },      
           ],
         },
         {
