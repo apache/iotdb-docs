@@ -42,7 +42,6 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Preparatory-knowledge/',
       children: [
-        { text: 'Data Type', link: 'Data-Type' },
         { text: 'Cluster-related Concepts', link: 'Cluster-Concept' },
       ],
     },
