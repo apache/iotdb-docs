@@ -38,6 +38,15 @@ export const zhSidebar = {
       ],
     },
     {
+      text: '预备知识',
+      collapsible: true,
+      prefix: 'Preparatory-knowledge/',
+      children: [
+        { text: '数据类型', link: 'Data-Type' },
+        { text: '集群相关概念', link: 'Cluster-Concept' },
+      ],
+    },
+    {
       text: '快速上手',
       link: 'QuickStart/QuickStart_timecho',
     },

@@ -38,6 +38,15 @@ export const enSidebar = {
       ],
     },
     {
+      text: 'Preparatory knowledge',
+      collapsible: true,
+      prefix: 'Preparatory-knowledge/',
+      children: [
+        { text: 'Data Type', link: 'Data-Type' },
+        { text: 'Cluster-related Concepts', link: 'Cluster-Concept' },
+      ],
+    },
+    {
       text: 'Quick Start',
       link: 'QuickStart/QuickStart_timecho',
     },
