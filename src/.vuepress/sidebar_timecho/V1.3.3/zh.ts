@@ -101,7 +101,7 @@ export const zhSidebar = {
             { text: '权限管理', link: 'Authority-Management' },
           ],
         },
-        { text: '用户自定义函数', link: 'User-defined-function' },
+        { text: '用户自定义函数', link: 'User-defined-function_timecho' },
         { text: '视图', link: 'IoTDB-View_timecho' },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
         { text: '连续查询', link: 'Database-Programming' },
@@ -191,7 +191,8 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: 'UDF函数库', link: 'UDF-Libraries_timecho' },
-            { text: '函数与运算符', link: 'Operator-and-Expression' },          
+            { text: '函数与运算符', link: 'Operator-and-Expression' }, 
+            { text: '内置函数与表达式', link: 'Function-and-Expression' },         
           ],
         },
       ],

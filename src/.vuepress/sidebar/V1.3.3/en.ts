@@ -94,7 +94,7 @@ export const enSidebar = {
             { text: 'Authority Management', link: 'Authority-Management' },
           ],
         },
-        { text: 'UDF', link: 'User-defined-function' },
+        { text: 'UDF', link: 'User-defined-function_apache' },
         { text: 'Continuous Query', link: 'Database-Programming' },
         {
           text: 'Database Programming',
@@ -178,7 +178,8 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'UDF Libraries', link: 'UDF-Libraries_timecho' },
-            { text: 'Functions and Operators', link: 'Operator-and-Expression' },      
+            { text: 'Operator and Expression', link: 'Operator-and-Expression' }, 
+            { text: 'Function and Expression', link: 'Function-and-Expression' },        
           ],
         },
       ],

@@ -332,7 +332,7 @@ SessionDataSet executeAggregationQuery(
 ```
 
 ## `SELECT` CLAUSE
-The `SELECT` clause specifies the output of the query, consisting of several `selectExpr`. Each `selectExpr` defines one or more columns in the query result. For select expression details, see document [Operator-and-Expression](./Operator-and-Expression.md).
+The `SELECT` clause specifies the output of the query, consisting of several `selectExpr`. Each `selectExpr` defines one or more columns in the query result. For select expression details, see document [Operator-and-Expression](../SQL-Manual/Operator-and-Expression.md).
 
 -   Example 1:
 

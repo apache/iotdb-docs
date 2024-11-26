@@ -94,7 +94,7 @@ export const zhSidebar = {
             { text: '权限管理', link: 'Authority-Management' },
           ],
         },
-        { text: '用户自定义函数', link: 'User-defined-function' },
+        { text: '用户自定义函数', link: 'User-defined-function_apache' },
         { text: '连续查询', link: 'Database-Programming' },
         {
           text: '数据库编程',
@@ -178,7 +178,8 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: 'UDF函数库', link: 'UDF-Libraries_apache' },
-            { text: '函数与运算符', link: 'Operator-and-Expression' },          
+            { text: '函数与运算符', link: 'Operator-and-Expression' },  
+            { text: '内置函数与表达式', link: 'Function-and-Expression' },                 
           ],
         },
       ],
