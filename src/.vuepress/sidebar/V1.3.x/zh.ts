@@ -39,6 +39,7 @@ export const zhSidebar = {
       prefix: 'Preparatory-knowledge/',
       children: [
         { text: '数据类型', link: 'Data-Type' },
+        { text: '集群相关概念', link: 'Cluster-Concept' },
       ],
     },
     {

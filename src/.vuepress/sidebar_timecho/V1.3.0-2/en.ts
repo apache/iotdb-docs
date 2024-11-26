@@ -51,6 +51,7 @@ export const enSidebar = {
         { text: 'Data Model', link: 'Data-Model-and-Terminology' },
         { text: 'Data Type', link: 'Data-Type' },
         { text: 'Encoding and Compression', link: 'Encoding-and-Compression' },
+        { text: 'Cluster-related Concepts', link: 'Cluster-Concept' },
         { text: 'Data Partitioning & Load Balancing', link: 'Cluster-data-partitioning' },
       ],
     },
