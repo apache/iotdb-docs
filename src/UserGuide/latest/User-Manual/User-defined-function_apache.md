@@ -78,7 +78,7 @@ SELECT s1, s2, s1 + example(s1, s2), s1 - example(s1 + example(s1, s2) / s2) FRO
 
 ## 2. UDF Development 
 
-You can refer to UDF development：[Development Guide](../Reference/UDF-development.md)
+You can refer to UDF development：[Development Guide](./UDF-development.md)
 
 ## 3. UDF management
 
@@ -196,7 +196,7 @@ For more user permissions related content, please refer to [Account Management S
 
 Based on the ability of user-defined functions, IoTDB provides a series of functions for temporal data processing, including data quality, data profiling, anomaly detection, frequency domain analysis, data matching, data repairing, sequence discovery, machine learning, etc., which can meet the needs of industrial fields for temporal data processing.
 
-You can refer to the [UDF Libraries](../Reference/UDF-Libraries.md)document to find the installation steps and registration statements for each function, to ensure that all required functions are registered correctly.
+You can refer to the [UDF Libraries](../SQL-Manual/UDF-Libraries_apache.md)document to find the installation steps and registration statements for each function, to ensure that all required functions are registered correctly.
 
 
 ##  5. Common problem:

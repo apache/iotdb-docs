@@ -2708,7 +2708,7 @@ It costs 0.012s
 ### 设备对齐模式下的排序
 在设备对齐模式下，默认按照设备名的字典序升序排列，每个设备内部按照时间戳大小升序排列，可以通过 `ORDER BY` 子句调整设备列和时间列的排序优先级。
 
-详细说明及示例见文档 [结果集排序](./Operator-and-Expression.md)。 
+详细说明及示例见文档 [结果集排序](../SQL-Manual/Operator-and-Expression.md)。 
 
 ## 查询写回（INTO 子句）
 

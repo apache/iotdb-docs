@@ -36,7 +36,7 @@ export const zhSidebar = {
     {
       text: '预备知识',
       collapsible: true,
-      prefix: 'Preparatory-knowledge/',
+      prefix: 'Background-knowledge/',
       children: [
         { text: '数据类型', link: 'Data-Type' },
         { text: '集群相关概念', link: 'Cluster-Concept' },
@@ -101,7 +101,7 @@ export const zhSidebar = {
             { text: '权限管理', link: 'Authority-Management' },
           ],
         },
-        { text: '用户自定义函数', link: 'User-defined-function' },
+        { text: '用户自定义函数', link: 'User-defined-function_timecho' },
         { text: '视图', link: 'IoTDB-View_timecho' },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
         { text: '连续查询', link: 'Database-Programming' },
@@ -186,6 +186,15 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: 'SQL手册', link: 'SQL-Manual' },
+        {
+          text: '函数与运算符',
+          collapsible: true,
+          children: [
+            { text: 'UDF函数库', link: 'UDF-Libraries_timecho' },
+            { text: '函数与运算符', link: 'Operator-and-Expression' }, 
+            { text: '内置函数与表达式', link: 'Function-and-Expression' },         
+          ],
+        },
       ],
     },
     {
@@ -212,14 +221,6 @@ export const zhSidebar = {
             { text: '配置参数', link: 'Common-Config-Manual' },
             { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
             { text: 'DataNode配置参数', link: 'DataNode-Config-Manual' },
-          ],
-        },
-        {
-          text: '函数与运算符',
-          collapsible: true,
-          children: [
-            { text: 'UDF函数库', link: 'UDF-Libraries_timecho' },
-            { text: '函数与运算符', link: 'Operator-and-Expression' },          
           ],
         },
         {
