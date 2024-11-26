@@ -38,14 +38,6 @@ export const zhSidebar = {
       ],
     },
     {
-      text: '预备知识',
-      collapsible: true,
-      prefix: 'Preparatory-knowledge/',
-      children: [
-        { text: '集群相关概念', link: 'Cluster-Concept' },
-      ],
-    },
-    {
       text: '快速上手',
       link: 'QuickStart/QuickStart_apache',
     },
@@ -59,6 +51,7 @@ export const zhSidebar = {
         { text: '数据模型', link: 'Data-Model-and-Terminology' },
         { text: '数据类型', link: 'Data-Type' },
         { text: '编码和压缩', link: 'Encoding-and-Compression' },
+        { text: '集群相关概念', link: 'Cluster-Concept' },
         { text: '数据分区与负载均衡', link: 'Cluster-data-partitioning' },
       ],
     },
