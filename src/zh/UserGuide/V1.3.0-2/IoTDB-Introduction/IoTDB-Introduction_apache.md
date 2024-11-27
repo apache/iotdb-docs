@@ -29,6 +29,22 @@ Apache IoTDB 是一款低成本、高性能的物联网原生时序数据库。�
 
 - 安装部署与使用文档：[快速上手](../QuickStart/QuickStart_apache.md)
 
+
+## 产品体系
+
+IoTDB 体系由若干个组件构成，帮助用户高效地管理和分析物联网产生的海量时序数据。
+
+<div style="text-align: center;">        		
+    <img src="https://alioss.timecho.com/docs/img/Introduction-zh-apache.png" alt="Introduction-zh-apache.png" style="width: 90%;"/>
+</div>
+
+其中：
+
+1. **时序数据库（Apache IoTDB）**：时序数据存储的核心组件，其能够为用户提供高压缩存储能力、丰富时序查询能力、实时流处理能力，同时具备数据的高可用和集群的高扩展性，并在安全层面提供全方位保障。同时 IoTDB 还为用户提供多种应用工具，方便用户配置和管理系统；多语言API和外部系统应用集成能力，方便用户在 IoTDB 基础上构建业务应用。
+2. **时序数据标准文件格式（Apache TsFile）**：该文件格式是一种专为时序数据设计的存储格式，可以高效地存储和查询海量时序数据。目前 IoTDB、AINode 等模块的底层存储文件均由 Apache TsFile 进行支撑。通过 TsFile，用户可以在采集、管理、应用&分析阶段统一使用相同的文件格式进行数据管理，极大简化了数据采集到分析的整个流程，提高时序数据管理的效率和便捷度。
+3. **时序模型训推一体化引擎（IoTDB AINode）**：针对智能分析场景，IoTDB 提供 AINode 时序模型训推一体化引擎，它提供了一套完整的时序数据分析工具，底层为模型训练引擎，支持训练任务与数据管理，与包括机器学习、深度学习等。通过这些工具，用户可以对存储在 IoTDB 中的数据进行深入分析，挖掘出其中的价值。
+
+
 ## 产品特性
 
 Apache IoTDB 具备以下优势和特性：
