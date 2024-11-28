@@ -23,7 +23,7 @@
 This section describes how to manually deploy an instance that includes 3 ConfigNodes and 3 DataNodes, commonly known as a 3C3D cluster.
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/20240705141552.png" alt="" style="width: 60%;"/>
+    <img src="https://alioss.timecho.com/docs/img/cluster02.png" alt="" style="width: 60%;"/>
 </div>
 
 ## Note
