@@ -31,8 +31,8 @@ Based on the ability of user-defined functions, IoTDB provides a series of funct
 
     | UDF libraries version  | Supported IoTDB versions | Download link                                                     |
     | --------------- | ----------------- | ------------------------------------------------------------ |
-    | UDF-1.3.3.zip | V1.3.3 and above      | [UDF.zip](https://alioss.timecho.com/upload/apache-UDF-1.3.3.zip)   |
-    | UDF-1.3.2.zip | V1.0.0～V1.3.2  | [UDF.zip](https://alioss.timecho.com/upload/apache-UDF-1.3.2.zip) |
+    | UDF-1.3.3.zip | V1.3.3 and above      | Please contact Timecho for assistance |
+    | UDF-1.3.2.zip | V1.0.0～V1.3.2  | Please contact Timecho for assistance |
     
 2. Place the library-udf.jar file in the compressed file obtained in the directory `/ext/udf ` of all nodes in the IoTDB cluster
 3. In the SQL command line terminal (CLI) or visualization console (Workbench) SQL operation interface of IoTDB, execute the corresponding function registration statement as follows.
