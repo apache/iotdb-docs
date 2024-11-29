@@ -23,7 +23,7 @@
 This section will take the IoTDB classic cluster deployment architecture 3C3D (3 ConfigNodes and 3 DataNodes) as an example to introduce how to deploy a cluster, commonly known as the 3C3D cluster. The architecture diagram of the 3C3D cluster is as follows:
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/20240705141552.png" alt="" style="width: 60%;"/>
+    <img src="https://alioss.timecho.com/docs/img/cluster02.png" alt="" style="width: 60%;"/>
 </div>
 
 ## Note
