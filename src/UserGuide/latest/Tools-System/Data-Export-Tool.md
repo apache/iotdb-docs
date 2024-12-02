@@ -31,10 +31,10 @@ tools\export-tsfile.bat -h <ip> -p <port> -u <username> -pw <password> -td <dire
 
 | **Parameter** | **Definition**                                                     | **Required** | **Default**  |
 | -------- | ------------------------------------------------------------ | ------------ | --------- |
-| -h       | Hostname                                                       | No           | root      |
-| -p       | Port 	                                                       | No           | root      |
-| -u       | Username	                                                       | No           | 127.0.0.1 |
-| -pw      | Password                                                         | No           | 6667      |
+| -h       | Hostname                                                       | No           | 127.0.0.1       |
+| -p       | Port 	                                                       | No           | 6667      |
+| -u       | Username	                                                       | No           | root |
+| -pw      | Password                                                         | No           | root      |
 | -t       | Target file directory, used to specify the directory where the output file should be saved	               | Yes           | -         |
 | -tfn     | Name of the export file	                                               | No           | -         |
 | -q       | Number of query commands to be executed, possibly used for batch execution of queries	               | No           | -         |
