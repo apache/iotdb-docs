@@ -33,7 +33,7 @@
 
 ## 节点
 IoTDB 集群包括三种节点（进程），**ConfigNode**（管理节点），**DataNode**（数据节点）和 **AINode**（分析节点），如下所示：
-- **ConfigNode**：存储集群的配置信息、数据库的元数据、时间序列元数据和数据的路由信息，监控集群节点并实施负载均衡，所有 ConfigNode 之间互为全量备份，如上图中的 ConfigNode-1，ConfigNode-2 和 ConfigNode-3 所示。ConfigNode 不直接接收客户端读写请求，它会通过一系列[负载均衡算法](https://iotdb.apache.org/zh/UserGuide/latest/Technical-Insider/Cluster-data-partitioning.html)对集群中元数据和数据的分布提供指导。
+- **ConfigNode**：存储集群的配置信息、数据库的元数据、时间序列元数据和数据的路由信息，监控集群节点并实施负载均衡，所有 ConfigNode 之间互为全量备份，如上图中的 ConfigNode-1，ConfigNode-2 和 ConfigNode-3 所示。ConfigNode 不直接接收客户端读写请求，它会通过一系列[负载均衡算法](../Technical-Insider/Cluster-data-partitioning.md)对集群中元数据和数据的分布提供指导。
 - **DataNode**：负责时间序列元数据和数据的读写，每个 DataNode 都能接收客户端读写请求并提供相应服务，如上图中的 DataNode-1，DataNode-2 和 DataNode-3 所示。接收客户端读写请求时，若 DataNode 缓存有对应的路由信息，它能直接在本地执行或是转发这些请求；否则它会向 ConfigNode 询问并缓存路由信息，以加速后续请求的服务效率。
 - **AINode**：负责与 ConfigNode 和 DataNode 交互来扩展 IoTDB 集群对时间序列进行智能分析的能力，支持从外部引入已有机器学习模型进行注册，并使用注册的模型在指定时序数据上通过简单 SQL 语句完成时序分析任务的过程，将模型的创建、管理及推理融合在数据库引擎中。目前已提供常见时序分析场景（例如预测与异常检测）的机器学习算法或自研模型。
 
