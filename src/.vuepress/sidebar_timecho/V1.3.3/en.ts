@@ -61,7 +61,7 @@ export const enSidebar = {
         { text: 'Docker Deployment', link: 'Docker-Deployment_timecho' },
         { text: 'AINode Deployment', link: 'AINode_Deployment_timecho' },
         { text: 'Monitoring Panel Deployment', link: 'Monitoring-panel-deployment' },
-        { text: 'Workbench Deployment', link: 'workbench-deployment' },
+        { text: 'Workbench Deployment', link: 'workbench-deployment_timecho' },
       ],
     },
     {

@@ -47,7 +47,7 @@
 
    - 监控面板：提供了上百个数据库监控指标，用来对 IoTDB 及其所在操作系统进行细致监控，从而进行系统优化、性能优化、发现瓶颈等，安装步骤可查看 [监控面板部署](../Deployment-and-Maintenance/Monitoring-panel-deployment.md)
 
-   - 可视化控制台：是 IoTDB 的可视化界面，支持通过界面交互的形式提供元数据管理、数据查询、数据可视化等功能的操作，帮助用户简单、高效的使用数据库，安装步骤可查看 [可视化控制台部署](../Deployment-and-Maintenance/workbench-deployment.md)
+   - 可视化控制台：是 IoTDB 的可视化界面，支持通过界面交互的形式提供元数据管理、数据查询、数据可视化等功能的操作，帮助用户简单、高效的使用数据库，安装步骤可查看 [可视化控制台部署](../Deployment-and-Maintenance/workbench-deployment_timecho.md)
 
 ## 如何使用？
 
@@ -81,7 +81,7 @@
 
 IoTDB 除了自身拥有丰富的功能外，其周边的工具体系包含的种类十分齐全。本篇文档将帮助您快速使用周边工具体系：
 
-   - 可视化控制台：workbench 是 IoTDB 的一个支持界面交互的形式的可视化界面，提供直观的元数据管理、数据查询和数据可视化等功能，提升用户操作数据库的便捷性和效率，具体使用介绍请查看 [可视化控制台部署](../Deployment-and-Maintenance/workbench-deployment.md)
+   - 可视化控制台：workbench 是 IoTDB 的一个支持界面交互的形式的可视化界面，提供直观的元数据管理、数据查询和数据可视化等功能，提升用户操作数据库的便捷性和效率，具体使用介绍请查看 [可视化控制台部署](../Deployment-and-Maintenance/workbench-deployment_timecho.md)
 
    - 监控面板：是一个对 IoTDB 及其所在操作系统进行细致监控的工具，涵盖数据库性能、系统资源等上百个数据库监控指标，助力系统优化与瓶颈识别等，具体使用介绍请查看 [监控面板部署](../Deployment-and-Maintenance/Monitoring-panel-deployment.md)
 
