@@ -46,7 +46,7 @@ This document will help you quickly install and deploy IoTDB. You can quickly lo
 
    - Monitoring panel：Provides over a hundred database monitoring metrics for detailed monitoring of IoTDB and its operating system, enabling system optimization, performance optimization, bottleneck discovery, and more. The installation steps can be viewed [Monitoring panel](../Deployment-and-Maintenance/Monitoring-panel-deployment.md)
 
-   - Workbench: It is the visual interface of IoTDB,Support providing through interface interaction Operate Metadata、Query Data、Data Visualization and other functions, help users use the database easily and efficiently, and the installation steps can be viewed [Workbench Deployment](../Deployment-and-Maintenance/workbench-deployment_timecho.md.md)
+   - Workbench: It is the visual interface of IoTDB,Support providing through interface interaction Operate Metadata、Query Data、Data Visualization and other functions, help users use the database easily and efficiently, and the installation steps can be viewed [Workbench Deployment](../Deployment-and-Maintenance/workbench-deployment_timecho.md)
 
 ## How to use it?
 
@@ -80,7 +80,7 @@ This document will help you quickly install and deploy IoTDB. You can quickly lo
 
 In addition to its rich features, IoTDB also has a comprehensive range of tools in its surrounding system. This document will help you quickly use the peripheral tool system :
 
-   - Workbench: Workbench is a visual interface for IoTDB that supports interactive operations. It offers intuitive features for metadata management, data querying, and data visualization, enhancing the convenience and efficiency of user database operations. For detailed usage instructions, please refer to:   [Workbench](../Deployment-and-Maintenance/workbench-deployment_timecho.md)
+   - Workbench: Workbench is a visual interface for IoTDB that supports interactive operations. It offers intuitive features for metadata management, data querying, and data visualization, enhancing the convenience and efficiency of user database operations. For detailed usage instructions, please refer to:   [Workbench](../Deployment-and-Maintenance/)
 
    - Monitor Tool: This is a tool for meticulous monitoring of IoTDB and its host operating system, covering hundreds of database monitoring metrics including database performance and system resources, which aids in system optimization and bottleneck identification. For detailed usage instructions, please refer to:  [Monitor Tool](../Deployment-and-Maintenance/Monitoring-panel-deployment.md)
 
