@@ -28,22 +28,11 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 import { usePageData } from 'vuepress/client';
+import { getDocVersion } from '../utils/version.js';
 
 const pageData = usePageData();
 
 const year = computed(() => new Date().getFullYear());
-
-const getDocVersion = (branch = 'latest', path = '') => {
-  if (path.indexOf('UserGuide/Master') > -1 || path.indexOf('UserGuide') === -1) {
-    return branch;
-  }
-  const branchRex = /UserGuide\/V(\d+\.\d+\.x)/;
-  if (branchRex.test(path)) {
-    const tag = branchRex.exec(path)![1];
-    return `rel/${tag.replace('.x', '')}`;
-  }
-  return branch;
-};
 
 const docVersion = computed(() => getDocVersion('latest', pageData.value.path));
 </script>
