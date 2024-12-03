@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/naming-convention */
+import type { SearchParamsObject } from 'algoliasearch';
 import type { PropType } from 'vue';
 import {
   computed, defineComponent, h, onMounted, ref, watch,
@@ -17,6 +18,8 @@ import {
   pollToOpenDocsearch,
   preconnectToAlgolia,
 } from '../utils/index.js';
+
+import { getDocVersion } from '../../../../utils/version.js';
 
 declare const __DOCSEARCH_INJECT_STYLES__: boolean;
 const defaultBranch = 'latest';
@@ -50,26 +53,14 @@ export const Docsearch = defineComponent({
     const hasInitialized = ref(false);
     const hasTriggered = ref(false);
 
-    const getDocVersion = (branch = 'latest', path = '') => {
-      if (path.indexOf('UserGuide/Master') > -1 || path.indexOf('UserGuide') === -1) {
-        return branch;
-      }
-      const branchRex = /UserGuide\/V(\d+\.\d+\.x)/;
-      if (branchRex.test(path)) {
-        const tag = branchRex.exec(path)![1];
-        return `rel/${tag.replace('.x', '')}`;
-      }
-      return branch;
-    };
-
     const version = computed(() => getDocVersion(defaultBranch, pageData.value.path));
     // resolve docsearch options for current locale
     const options = computed(() => {
-      const { locales = {}, ...options } = props.options;
+      const { locales = {}, ...rest } = props.options;
 
       return {
         ...docSearchOptions.value,
-        ...options,
+        ...rest,
         ...locales[routeLocale.value],
       };
     });
@@ -79,14 +70,17 @@ export const Docsearch = defineComponent({
      */
     const initialize = async (): Promise<void> => {
       const { default: docsearch } = await import('@docsearch/js');
+
+      const { indexName, searchParameters } = options.value;
       docsearch({
         ...docsearchShim,
         ...options.value,
         container: `#${props.containerId}`,
         searchParameters: {
-          ...options.value.searchParameters,
+          ...searchParameters,
+          indexName,
           facetFilters: getFacetFilters(
-            options.value.searchParameters?.facetFilters,
+            (searchParameters as SearchParamsObject | undefined)?.facetFilters,
             lang.value,
             version.value,
           ),
