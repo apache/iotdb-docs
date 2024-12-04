@@ -733,7 +733,9 @@ for (int i = 0; i < 8; ++i) {
                     .buildPushConsumer()) {
               consumer2.open();
               consumer2.subscribe(TOPIC_2);
-            } catch (final IOException e) {
+              // block the consumer main thread
+              Thread.sleep(Long.MAX_VALUE);
+            } catch (final IOException | InterruptedException e) {
               throw new RuntimeException(e);
             }
           });
