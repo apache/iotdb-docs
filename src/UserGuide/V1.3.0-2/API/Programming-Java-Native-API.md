@@ -28,10 +28,7 @@
 * JDK >= 1.8
 * Maven >= 3.6
 
-### How to install
 
-In root directory:
-> mvn clean install -pl iotdb-client/session -am -DskipTests
 
 ### Using IoTDB Java Native API with Maven
 

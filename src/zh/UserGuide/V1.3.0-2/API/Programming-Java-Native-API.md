@@ -28,13 +28,7 @@
 * JDK >= 1.8
 * Maven >= 3.6
 
-### 安装方法
 
-在根目录下运行：
-
-```shell
-mvn clean install -pl iotdb-client/session -am -DskipTests
-```
 
 ### 在 MAVEN 中使用原生接口
 
