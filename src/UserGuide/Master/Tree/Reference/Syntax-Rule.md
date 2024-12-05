@@ -171,110 +171,111 @@ Below are basic constraints of identifiers, specific identifiers may have other 
 - Permitted characters in unquoted identifiers:
     - [0-9 a-z A-Z _ ] (letters, digits and underscore)
     - ['\u2E80'..'\u9FFF'] (UNICODE Chinese characters)
-- Identifiers may begin with a digit, unquoted identifiers can not be a real number.
-- Identifiers are case sensitive.
-- Key words can be used as an identifier.
 
-**You need to quote the identifier with back quote(`) in the following cases:**
+### Reverse quotation marks
 
-- Identifier contains special characters.
-- Identifier that is a real number.
+**If the following situations occur, the identifier needs to be quoted using reverse quotes:**
 
-### How to use quotations marks in quoted identifiers
+- The identifier contains special characters that are not allowed.
+- The identifier is a real number.
 
-`'` and `"` can be used directly in quoted identifiers.
+#### How to use quotation marks in identifiers caused by reverse quotation marks
 
-` may be written as `` in quoted  identifiers. See the example below:
+**Single and double quotes can be directly used in identifiers caused by reverse quotes.**
 
-```sql
-# create template t1't"t
-create device template `t1't"t` 
+**In identifiers referenced with quotation marks, quotation marks can be used by double writing them, meaning  ` can be represented as``.**
+
+example：
+
+```SQL
+# Create Template t1 ` t
+create device template `t1``t` 
 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 
-# create template t1`t
-create device template `t1``t` 
+# Create Template t1't "t
+create device template `t1't"t` 
 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 ```
 
-### Examples
+#### Examples of Reverse Quotation Marks
 
-Examples of case in which quoted identifier is used ：
+- When the trigger name encounters the above special situations, reverse quotation marks should be used to reference it:
 
-- Trigger name should be quoted in cases described above ：
+  ```sql
+  # Create trigger alert.` listener-sg1d1s1
+  CREATE TRIGGER `alert.``listener-sg1d1s1`
+  AFTER INSERT
+  ON root.sg1.d1.s1
+  AS 'org.apache.iotdb.db.engine.trigger.example.AlertListener'
+  WITH (
+    'lo' = '0', 
+    'hi' = '100.0'
+  )
+  ```
 
-    ```sql
-    # create trigger named alert.`listener-sg1d1s1
-    CREATE TRIGGER `alert.``listener-sg1d1s1`
-    AFTER INSERT
-    ON root.sg1.d1.s1
-    AS 'org.apache.iotdb.db.storageengine.trigger.example.AlertListener'
-    WITH (
-      'lo' = '0', 
-      'hi' = '100.0'
-    )
-    ```
+- When the UDF name encounters the above special situations, reverse quotation marks should be used for reference:
 
-- UDF name should be quoted in cases described above ：
+  ```sql
+  # Create a UDF named 111, which is a real number and needs to be quoted in reverse quotation marks.
+  CREATE FUNCTION `111` AS 'org.apache.iotdb.udf.UDTFExample'
+  ```
 
-    ```sql
-    # create a funciton named 111, 111 is a real number.
-    CREATE FUNCTION `111` AS 'org.apache.iotdb.udf.UDTFExample'
-    ```
+- When the metadata template name encounters the above special situations, reverse quotation marks should be used for reference:
 
-- Template name should be quoted in cases described above ：
+  ```sql
+  # Create a metadata template named 111, where 111 is a real number and needs to be quoted in reverse quotation marks.
+  create device template `111` 
+  (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
+  ```
 
-    ```sql
-    # create a template named 111, 111 is a real number.
-    create device template `111` 
-    (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
-    ```
+- When the username and role name encounter the above special situations, reverse quotation marks should be used for reference. Regardless of whether reverse quotation marks are used or not, spaces are not allowed in the username and role name. Please refer to the instructions in the permission management section for details.
 
-- User and Role name should be quoted in cases described above, blank space is not allow in User and Role name whether quoted or not ：
-
-    ```sql
-    # create user special`user.
-    CREATE USER `special``user.` 'write_pwd'
-    
-    # create role 111
-    CREATE ROLE `111`
-    ```
-
-- Continuous query name should be quoted in cases described above ：
-
-    ```sql
-    # create continuous query test.cq
-    CREATE CONTINUOUS QUERY `test.cq` 
-    BEGIN 
-      SELECT max_value(temperature) 
-      INTO temperature_max 
-      FROM root.ln.*.* 
-      GROUP BY time(10s) 
-    END
-    ```
-
-- Pipe、PipeSink should be quoted in cases described above ：
-
-    ```sql
-    # create PipeSink test.*1
-    CREATE PIPESINK `test.*1` AS IoTDB ('ip' = '输入你的IP')
-    
-    # create Pipe test.*2
-    CREATE PIPE `test.*2` TO `test.*1` FROM 
-    (select ** from root WHERE time>=yyyy-mm-dd HH:MM:SS) WITH 'SyncDelOp' = 'true'
-    ```
-
-- `AS` function provided by IoTDB can assign an alias to time series selected in query. Alias can be constant(including string) or identifier.
-
-    ```sql
-    select s1 as temperature, s2 as speed from root.ln.wf01.wt01;
-    
-    # Header of result dataset
-    +-----------------------------+-----------|-----+
-    |                         Time|temperature|speed|
-    +-----------------------------+-----------|-----+
-    ```
-
-- The key/value of an attribute can be String Literal and identifier, more details can be found at **key-value pair** part. 
+  ```sql
+  # Create user special ` user.
+  CREATE USER `special``user.` 'write_pwd'
   
-- Nodes except database in the path are allowed to contain the "*" symbol, when using this symbol it is required to enclose the node in backquotes, e.g., root.db.`*`, but this usage is only recommended when the path cannot avoid containing the "*" symbol. 
+  # Create Character 111
+  CREATE ROLE `111`
+  ```
 
+- When encountering the above special situations in continuous query identification, reverse quotation marks should be used to reference:
+
+  ```sql
+  # Create continuous query test.cq
+  CREATE CONTINUOUS QUERY `test.cq` 
+  BEGIN 
+    SELECT max_value(temperature) 
+    INTO temperature_max 
+    FROM root.ln.*.* 
+    GROUP BY time(10s) 
+  END
+  ```
+
+- When the names Pipe and PipeSink encounter the above special situations, reverse quotation marks should be used for reference:
+
+  ```sql
+  # Create PipeSink test. * 1
+  CREATE PIPESINK `test.*1` AS IoTDB ('ip' = '输入你的IP')
+  
+  # Create Pipe Test. * 2
+  CREATE PIPE `test.*2` TO `test.*1` FROM 
+  (select ** from root WHERE time>=yyyy-mm-dd HH:MM:SS) WITH 'SyncDelOp' = 'true'
+  ```
+
+- In the Select clause, an alias can be specified for the value in the result set, which can be defined as a string or identifier. Examples are as follows:
+
+  ```sql
+  select s1 as temperature, s2 as speed from root.ln.wf01.wt01;
+  # 表头如下所示
+  +-----------------------------+-----------+-----+
+  |                         Time|temperature|speed|
+  +-----------------------------+-----------+-----+
+  ```
+
+- Used to represent key value pairs, the keys and values of key value pairs can be defined as constants (including strings) or identifiers. Please refer to the Key Value Pair section for details.
+
+- Non database nodes in the path are allowed to contain the symbol `*`. When using it, the node needs to be enclosed in reverse quotes (as shown below), but this usage is only recommended when the path inevitably contains `*`.
+
+  ```sql
+  `root.db.*`
+  ```
