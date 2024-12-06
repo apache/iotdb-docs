@@ -781,7 +781,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |:------:|:---------------------------------------------|
 |   描述   | 当 memTable 的创建时间小于当前时间减去该值时，该 memtable 需要被刷盘 |
 |   类型   | int32                                        |
-|  默认值   | 600000                                     |
+|  默认值   | 10800000                                     |
 | 改后生效方式 | 热加载                                          |
 
 * unseq\_memtable\_flush\_check\_interval\_in\_ms
@@ -790,7 +790,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |:---:|:---|
 |描述| 检查乱序 memtable 是否需要刷盘的时间间隔 |
 |类型| int32 |
-|默认值| 30000 |
+|默认值| 600000 |
 |改后生效方式| 热加载 |
 
 * tvlist\_sort\_algorithm

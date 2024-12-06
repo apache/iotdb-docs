@@ -342,7 +342,7 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |:---:|:---|
 |Description| if a memTable's created time is older than current time minus this, the memtable will be flushed to disk |
 |Type|Int32|
-|Default| 600000 |
+|Default| 3600000 |
 |Effective| Trigger |
 
 * unseq\_memtable\_flush\_check\_interval\_in\_ms
@@ -351,7 +351,7 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |:---:|:---|
 |Description| the interval to check whether unsequence memtables need flushing |
 |Type|Int32|
-|Default| 30000 |
+|Default| 600000 |
 |Effective| Trigger |
 
 * enable\_timed\_close\_tsfile

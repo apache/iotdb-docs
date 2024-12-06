@@ -472,7 +472,7 @@ Server，客户端的使用方式详见 [SQL 命令行终端（CLI）](https://i
 |:---:|:---|
 |描述| 当 memTable 的创建时间小于当前时间减去该值时，该 memtable 需要被刷盘 |
 |类型| Int32 |
-|默认值| 600000 |
+|默认值| 3600000 |
 |改后生效方式| 触发生效 |
 
 * unseq\_memtable\_flush\_check\_interval\_in\_ms
@@ -481,7 +481,7 @@ Server，客户端的使用方式详见 [SQL 命令行终端（CLI）](https://i
 |:---:|:---|
 |描述| 检查乱序 memtable 是否需要刷盘的时间间隔 |
 |类型| Int32 |
-|默认值| 30000 |
+|默认值| 600000 |
 |改后生效方式| 触发生效 |
 
 * enable\_timed\_close\_tsfile
