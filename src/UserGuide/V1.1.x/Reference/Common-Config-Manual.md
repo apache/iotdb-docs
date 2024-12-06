@@ -733,7 +733,7 @@ Different configuration parameters take effect in the following three ways:
 |:-----------:|:---------------------------------------------------------------------------------------------------------|
 | Description | if a memTable's created time is older than current time minus this, the memtable will be flushed to disk |
 |    Type     | int32                                                                                                    |
-|   Default   | 10800000                                                                                                 |
+|   Default   | 600000                                                                                                 |
 |  Effective  | hot-load                                                                                                 |
 
 * unseq\_memtable\_flush\_check\_interval\_in\_ms
@@ -742,7 +742,7 @@ Different configuration parameters take effect in the following three ways:
 |:---:|:---|
 |Description| the interval to check whether unsequence memtables need flushing |
 |Type|int32|
-|Default| 600000 |
+|Default| 30000 |
 |Effective| hot-load |
 
 * tvlist\_sort\_algorithm
