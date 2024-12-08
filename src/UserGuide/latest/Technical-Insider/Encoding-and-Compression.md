@@ -78,18 +78,18 @@ The five encodings described in the previous sections are applicable to differen
 
 The correspondence between the data type and its supported encodings is summarized in the Table below.
 
-| Data Type |                     Supported Encoding                      |
-|:---------:|:-----------------------------------------------------------:|
-|  BOOLEAN  |                         PLAIN, RLE                          |
-|   INT32   | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
-|   DATE    | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
-|   INT64   | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
-|   LONG    | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
-|   FLOAT   |     PLAIN, RLE, TS_2DIFF, GORILLA, CHIMP, SPRINTZ, RLBE     |
-|  DOUBLE   |     PLAIN, RLE, TS_2DIFF, GORILLA, CHIMP, SPRINTZ, RLBE     |
-|   TEXT    |                      PLAIN, DICTIONARY                      |
-|  STRING   |                      PLAIN, DICTIONARY                      |
-|   BLOB    |                      PLAIN, DICTIONARY                      |
+| **Data Type** | **Best Encoding (default)** | **Supported Encoding**                                      |
+| ------------- | --------------------------- | ----------------------------------------------------------- |
+| BOOLEAN       | RLE                         | PLAIN, RLE                                                  |
+| INT32         | TS_2DIFF                    | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
+| DATE          | TS_2DIFF                    | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
+| INT64         | TS_2DIFF                    | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
+| TIMESTAMP     | TS_2DIFF                    | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
+| FLOAT         | GORILLA                     | PLAIN, RLE, TS_2DIFF, GORILLA, CHIMP, SPRINTZ, RLBE         |
+| DOUBLE        | GORILLA                     | PLAIN, RLE, TS_2DIFF, GORILLA, CHIMP, SPRINTZ, RLBE         |
+| TEXT          | PLAIN                       | PLAIN, DICTIONARY                                           |
+| STRING        | PLAIN                       | PLAIN, DICTIONARY                                           |
+| BLOB          | PLAIN                       | PLAIN                                                       |
 
 When the data type specified by the user does not correspond to the encoding method, the system will prompt an error. 
 
@@ -111,7 +111,7 @@ IoTDB allows you to specify the compression method of the column when creating a
 
 * SNAPPY
 
-* LZ4
+* LZ4 (Best compression method)
 
 * GZIP
 
