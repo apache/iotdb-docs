@@ -194,29 +194,28 @@ When you see the display "Activated" on the far right, it indicates successful a
 
     Step 3: If it is the first deployment or data can be deleted, you can also clean up the environment according to the following steps, redeploy, and restart.
 
-    Clean up the environment:
+    Step 4: Clean up the environment:
 
-   ​	Execute the following on all nodes:
+    a. Terminate all ConfigNode Node and DataNode processes.
+    ```Bash
+      # 1. Stop the ConfigNode and DataNode services
+      sbin/stop-standalone.sh
 
-   1. Terminate all ConfigNode Node and DataNode processes.
-   ```Bash
-     # 1. Stop the ConfigNode and DataNode services
-     sbin/stop-standalone.sh
+      # 2. Check for any remaining processes
+      jps
+      # Or
+      ps -ef|gerp iotdb
 
-     # 2. Check for any remaining processes
-     jps
-     # Or
-     ps -ef|gerp iotdb
-
-     # 3. If there are any remaining processes, manually kill the
-     kill -9 <pid>
-     # If you are sure there is only one iotdb on the machine, you can use the following command to clean up residual processes
-     ps -ef|grep iotdb|grep -v grep|tr -s '  ' ' ' |cut -d ' ' -f2|xargs kill -9
-   ```
-   2.  Delete the data and logs directories.
+      # 3. If there are any remaining processes, manually kill the
+      kill -9 <pid>
+      # If you are sure there is only one iotdb on the machine, you can use the following command to clean up residual processes
+      ps -ef|grep iotdb|grep -v grep|tr -s '  ' ' ' |cut -d ' ' -f2|xargs kill -9
+    ```
+    b.  Delete the data and logs directories.
    
-   Explanation: Deleting the data directory is necessary, deleting the logs directory is for clean logs and is not mandatory.
-   ```Bash
-     cd /data/iotdb
-     rm -rf data logs
-   ```
+    Explanation: Deleting the data directory is necessary, deleting the logs directory is for clean logs and is not mandatory.
+    
+    ```Bash
+      cd /data/iotdb
+      rm -rf data logs
+    ```

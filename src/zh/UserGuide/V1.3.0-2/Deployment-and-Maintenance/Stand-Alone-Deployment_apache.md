@@ -152,26 +152,28 @@ cd sbin
 
     步骤 3: 如果是首次部署或者数据可删除，也可按下述步骤清理环境，重新部署后，再次启动。
 
-    清理环境：
-   1. 结束所有 ConfigNode 和 DataNode 进程。
-   ```Bash
-    # 1. 停止 ConfigNode 和 DataNode 服务
-    sbin/stop-standalone.sh
+    步骤 4: 清理环境：
 
-    # 2. 检查是否还有进程残留
-    jps
-    # 或者
-    ps -ef|gerp iotdb
+    a. 结束所有 ConfigNode 和 DataNode 进程。
+   
+    ```Bash
+        # 1. 停止 ConfigNode 和 DataNode 服务
+        sbin/stop-standalone.sh
 
-    # 3. 如果有进程残留，则手动kill
-    kill -9 <pid>
-    # 如果确定机器上仅有1个iotdb，可以使用下面命令清理残留进程
-    ps -ef|grep iotdb|grep -v grep|tr -s '  ' ' ' |cut -d ' ' -f2|xargs kill -9
-   ```
-   2.  删除 data 和 logs 目录。 
+        # 2. 检查是否还有进程残留
+        jps
+        # 或者
+        ps -ef|gerp iotdb
 
-   说明：删除 data 目录是必要的，删除 logs 目录是为了纯净日志，非必需。
-   ```Bash
-    cd /data/iotdb
-    rm -rf data logs
-   ```
+        # 3. 如果有进程残留，则手动kill
+        kill -9 <pid>
+        # 如果确定机器上仅有1个iotdb，可以使用下面命令清理残留进程
+        ps -ef|grep iotdb|grep -v grep|tr -s '  ' ' ' |cut -d ' ' -f2|xargs kill -9
+    ```
+     b.  删除 data 和 logs 目录。 
+
+    说明：删除 data 目录是必要的，删除 logs 目录是为了纯净日志，非必需。
+    ```Bash
+        cd /data/iotdb
+        rm -rf data logs
+    ```
