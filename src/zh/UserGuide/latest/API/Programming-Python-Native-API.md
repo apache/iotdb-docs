@@ -29,9 +29,9 @@
 
 首先下载包：`pip3 install apache-iotdb`
 
-您可以从这里得到一个使用该包进行数据读写的例子：[Session Example](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/SessionExample.py)
+您可以从这里得到一个使用该包进行数据读写的例子：[Session Example](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/session_example.py)
 
-关于对齐时间序列读写的例子：[Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/SessionAlignedTimeseriesExample.py)
+关于对齐时间序列读写的例子：[Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/session_aligned_timeseries_example.py)
 
 （您需要在文件的头部添加`import iotdb`）
 
@@ -652,7 +652,7 @@ pip install -r requirements_dev.txt
 
 ### Session 客户端 & 使用示例 
 
-我们将 thrift 接口打包到`client-py/src/iotdb/session.py `中（与 Java 版本类似），还提供了一个示例文件`client-py/src/SessionExample.py`来说明如何使用 Session 模块。请仔细阅读。
+我们将 thrift 接口打包到`client-py/src/iotdb/session.py `中（与 Java 版本类似），还提供了一个示例文件`client-py/src/session_example.py`来说明如何使用 Session 模块。请仔细阅读。
 
 另一个简单的例子：
 
