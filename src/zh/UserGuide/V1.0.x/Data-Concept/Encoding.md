@@ -71,13 +71,13 @@ ZigZag编码将有符号整型映射到无符号整型，适合比较小的整�
 
 **表格 2-3 数据类型与支持其编码的对应关系**
 
-|数据类型	|支持的编码|
-|:---:|:---:|
-|BOOLEAN|	PLAIN, RLE|
-|INT32	|PLAIN, RLE, TS_2DIFF, GORILLA, FREQ, ZIGZAG|
-|INT64	|PLAIN, RLE, TS_2DIFF, GORILLA, FREQ, ZIGZAG|
-|FLOAT	|PLAIN, RLE, TS_2DIFF, GORILLA, FREQ|
-|DOUBLE	|PLAIN, RLE, TS_2DIFF, GORILLA, FREQ|
-|TEXT	|PLAIN, DICTIONARY|
+| **数据类型** | **最佳的编码（默认）** | **支持的编码**                                              |
+| ------------ | ---------------------- | ----------------------------------------------------------- |
+| BOOLEAN      | RLE                    | PLAIN, RLE                                                  |
+| INT32        | TS_2DIFF               | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
+| INT64        | TS_2DIFF               | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
+| FLOAT        | GORILLA                | PLAIN, RLE, TS_2DIFF, GORILLA, CHIMP, SPRINTZ, RLBE         |
+| DOUBLE       | GORILLA                | PLAIN, RLE, TS_2DIFF, GORILLA, CHIMP, SPRINTZ, RLBE         |
+| TEXT         | PLAIN                  | PLAIN, DICTIONARY                                           |
 
 </div>
