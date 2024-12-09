@@ -31,7 +31,7 @@ IoTDB allows you to specify the compression method of the column when creating a
 
 * SNAPPY
 
-* LZ4
+* LZ4 (Best compression method)
 
 * GZIP
 

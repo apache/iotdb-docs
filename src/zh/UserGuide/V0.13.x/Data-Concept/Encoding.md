@@ -62,13 +62,13 @@ GORILLA 编码是一种无损编码，它比较适合编码前后值比较接近
 
 **表格 2-3 数据类型与支持其编码的对应关系**
 
-|数据类型	|支持的编码|
-|:---:|:---:|
-|BOOLEAN|	PLAIN, RLE|
-|INT32	|PLAIN, RLE, TS_2DIFF, GORILLA|
-|INT64	|PLAIN, RLE, TS_2DIFF, GORILLA|
-|FLOAT	|PLAIN, RLE, TS_2DIFF, GORILLA|
-|DOUBLE	|PLAIN, RLE, TS_2DIFF, GORILLA|
-|TEXT	|PLAIN, DICTIONARY|
+| **数据类型** | **最佳的编码（默认）** | **支持的编码**                                              |
+| ------------ | ---------------------- | ----------------------------------------------------------- |
+| BOOLEAN      | RLE                    | PLAIN, RLE                                                  |
+| INT32        | TS_2DIFF               | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
+| INT64        | TS_2DIFF               | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
+| FLOAT        | GORILLA                | PLAIN, RLE, TS_2DIFF, GORILLA, CHIMP, SPRINTZ, RLBE         |
+| DOUBLE       | GORILLA                | PLAIN, RLE, TS_2DIFF, GORILLA, CHIMP, SPRINTZ, RLBE         |
+| TEXT         | PLAIN                  | PLAIN, DICTIONARY                                           |
 
 </div>
