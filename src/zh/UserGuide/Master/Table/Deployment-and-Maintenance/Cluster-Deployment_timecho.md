@@ -163,32 +163,55 @@ cd sbin
 - 将3个license文件分别放入对应的ConfigNode节点的activation文件夹下；
 
 #### 方式二：激活脚本激活
+- 依次获取3台机器的机器码，进入 IoTDB CLI
 
-- 依次获取3台机器的机器码，进入到IoTDB树模型的CLI中（./start-cli.sh -sql_dialect table/start-cli.bat -sql_dialect table），执行以下内容:
-  - 注：当  sql_dialect 为 table 时，暂时不支持使用
+  - 表模型 CLI 进入命令：
 
-```shell
-show system info
-```
+  ```SQL
+  # Linux或MACOS系统
+  ./start-cli.sh -sql_dialect table
+  
+  # windows系统
+  ./start-cli.bat -sql_dialect table
+  ```
 
-- 显示如下信息，这里显示的是1台机器的机器码 ：
+  - 树模型 CLI 进入命令：
 
-```shell
-+--------------------------------------------------------------+
-|                                                    SystemInfo|
-+--------------------------------------------------------------+
-|01-TE5NLES4-UDDWCMYE,01-GG5NLES4-XXDWCMYE,01-FF5NLES4-WWWWCMYE|
-+--------------------------------------------------------------+
-Total line number = 1
-It costs 0.030s
-```
+  ```SQL
+  # Linux或MACOS系统
+  ./start-cli.sh
+  
+  # windows系统
+  ./start-cli.bat
+  ```
+
+  - 执行以下内容获取激活所需机器码：
+
+  ```Bash
+  show system info
+  ```
+
+  - 显示如下信息，这里显示的是1台机器的机器码 ：
+
+    ```Bash
+    +--------------------------------------------------------------+
+    |                                                    SystemInfo|
+    +--------------------------------------------------------------+
+    |01-TE5NLES4-UDDWCMYE,01-GG5NLES4-XXDWCMYE,01-FF5NLES4-WWWWCMYE|
+    +--------------------------------------------------------------+
+    Total line number = 1
+    It costs 0.030s
+    ```
 
 - 其他2个节点依次进入到IoTDB树模型的CLI中，执行语句后将获取的3台机器的机器码都复制给天谋工作人员
+
 - 工作人员会返回3段激活码，正常是与提供的3个机器码的顺序对应的，请分别将各自的激活码粘贴到CLI中，如下提示：
-  - 注：激活码前后需要用`'`符号进行标注，如下所示
-```shell
+
+  - 注：激活码前后需要用`'`符号进行标注，如所示
+
+   ```Bash
     IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
-```
+    ```
 
 ### 验证激活
 

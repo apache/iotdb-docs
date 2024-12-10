@@ -126,17 +126,33 @@ DataNode 配置
 - 将license文件放入对应节点的activation文件夹下；
 
 #### 方式二：命令激活
+- 进入 IoTDB CLI
+  - 表模型 CLI 进入命令：
+  ```SQL
+    # Linux或MACOS系统
+    ./start-cli.sh -sql_dialect table
+    
+    # windows系统
+    ./start-cli.bat -sql_dialect table
+    ```
 
-- 获取激活所需机器码，进入到 IoTDB CLI 中（./start-cli.sh -sql_dialect table/start-cli.bat -sql_dialect table），执行以下内容：
-  - 注：当 sql_dialect 为 table 时，暂时不支持使用
+  - 树模型 CLI 进入命令：
+  ```SQL
+    # Linux或MACOS系统
+    ./start-cli.sh
+    
+    # windows系统
+    ./start-cli.bat
+    ```
+- 执行以下内容获取激活所需机器码：
 
-```shell
+```Bash
 show system info
 ```
 
-- 显示如下信息，请将机器码（即绿色字符串）复制给天谋工作人员：
+- 将返回机器码（即绿色字符串）复制给天谋工作人员：
 
-```sql
+```Bash
 +--------------------------------------------------------------+
 |                                                    SystemInfo|
 +--------------------------------------------------------------+
@@ -149,7 +165,7 @@ It costs 0.030s
 - 将工作人员返回的激活码输入到CLI中，输入以下内容
   - 注：激活码前后需要用`'`符号进行标注，如所示
 
-```sql
+```Bash
 IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
 ```
 

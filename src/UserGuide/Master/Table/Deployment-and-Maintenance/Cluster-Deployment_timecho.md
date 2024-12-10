@@ -166,30 +166,51 @@ cd sbin
 
 #### Method 2: Activate Script Activation
 
-- Retrieve the machine codes of three machines in sequence, enter them into the CLI of the IoTDB tree model (./start-cli.sh-sql-dialect table/start-cli.bat - sql-dialect table), and execute the following tasks:
-  - Note: When sql-dialect is a table, it is temporarily not supported to use
+- Retrieve the machine codes of 3 machines in sequence and enter IoTDB CLI
 
-```Bash
-show system info
-```
+  - Table Model CLI Enter Command：
 
-- The following information is displayed, where the machine code of one machine is displayed:
+  ```SQL
+  # Linux or MACOS
+  ./start-cli.sh -sql_dialect table
+  
+  # windows
+  ./start-cli.bat -sql_dialect table
+  ```
 
-```Bash
-+--------------------------------------------------------------+
-|                                                    SystemInfo|
-+--------------------------------------------------------------+
-|01-TE5NLES4-UDDWCMYE,01-GG5NLES4-XXDWCMYE,01-FF5NLES4-WWWWCMYE|
-+--------------------------------------------------------------+
-Total line number = 1
-It costs 0.030s
-```
+  - Enter the tree model CLI command:
+
+  ```SQL
+  # Linux or MACOS
+  ./start-cli.sh
+  
+  # windows
+  ./start-cli.bat
+  ```
+
+  - Execute the following to obtain the machine code required for activation:
+
+  ```Bash
+  show system info
+  ```
+
+  - The following information is displayed, which shows the machine code of one machine:
+
+  ```Bash
+  +--------------------------------------------------------------+
+  |                                                    SystemInfo|
+  +--------------------------------------------------------------+
+  |01-TE5NLES4-UDDWCMYE,01-GG5NLES4-XXDWCMYE,01-FF5NLES4-WWWWCMYE|
+  +--------------------------------------------------------------+
+  Total line number = 1
+  It costs 0.030s
+  ```
 
 - The other two nodes enter the CLI of the IoTDB tree model in sequence, execute the statement, and copy the machine codes of the three machines obtained to the Timecho staff
 
 - The staff will return three activation codes, which normally correspond to the order of the three machine codes provided. Please paste each activation code into the CLI separately, as prompted below:
 
-  - Note: The activation code needs to be marked with a 'symbol before and after, as shown in
+  - Note: The activation code needs to be marked with a `'`symbol before and after, as shown in
 
    ```Bash
     IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='

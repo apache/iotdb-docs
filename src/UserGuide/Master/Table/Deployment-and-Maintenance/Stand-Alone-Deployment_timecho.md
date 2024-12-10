@@ -140,17 +140,39 @@ cd sbin
 
 #### Method 2: Activate Script Activation
 
-- Obtain the required machine code for activation, enter the IoTDB CLI (./start-cli.sh-sql-dialect table/start-cli.bat - sql-dialect table), and perform the following:
+- Retrieve the machine codes of 3 machines in sequence and enter IoTDB CLI
+
+  - Table Model CLI Enter Command：
+
+  ```SQL
+  # Linux or MACOS
+  ./start-cli.sh -sql_dialect table
   
-  - Note: When sql-dialect is a table, it is temporarily not supported to use
+  # windows
+  ./start-cli.bat -sql_dialect table
+  ```
 
-```shell
-show system info
-```
+  - Enter the tree model CLI command:
 
-- Display the following information, please copy the machine code (i.e. green string) to the Timecho staff:
+  ```SQL
+  # Linux or MACOS
+  ./start-cli.sh
+  
+  # windows
+  ./start-cli.bat
+  ```
 
-```sql
+-   Execute the following to obtain the machine code required for activation:
+
+    ```Bash
+
+    show system info
+
+    ```
+
+-  The following information is displayed, which shows the machine code of one machine:
+
+```Bash
 +--------------------------------------------------------------+
 |                                                    SystemInfo|
 +--------------------------------------------------------------+
@@ -161,10 +183,9 @@ It costs 0.030s
 ```
 
 - Enter the activation code returned by the staff into the CLI and enter the following content
-  
   - Note: The activation code needs to be marked with a `'`symbol before and after, as shown in
 
-```sql
+```Bash
 IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
 ```
 
