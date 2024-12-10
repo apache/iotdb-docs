@@ -352,7 +352,11 @@ The Region migration feature has operating costs. It is recommended to read this
 
 ### Feature introduction
 
-IoTDB is a distributed database. The balanced distribution of data plays an important role in the load balance of disk space and write pressure in the cluster. Region  is the basic unit for distributed storage of data in IoTDB cluster (specific concept can be seen in https://iotdb.apache.org/zh/UserGuide/latest/Background-knowledge/Cluster-Concept.html#region ).
+IoTDB is a distributed database.
+The balanced distribution of data plays an important role in the load balance of disk space
+and write pressure in the cluster.
+Region is the basic unit for distributed storage of data in IoTDB cluster.
+Specific concept can be seen in [region](../UserGuide/latest/Background-knowledge/Cluster-Concept.html#region).
 
 In cluster normal operation, IoTDB  kernel will automatically load balance the data, but in the cluster new join DataNode node, DataNode where the machine hard disk damage needs to recover data and other scenarios, will involve the region  of manual migration, in order to achieve more fine adjustment of the cluster load goal.
 

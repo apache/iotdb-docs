@@ -333,7 +333,8 @@ region 迁移功能具有一定操作成本，建议完整阅读本节后再使�
 
 ### 功能介绍
 
-IoTDB 是一个分布式数据库，数据的均衡分布对集群的磁盘空间、写入压力的负载均衡有着重要作用，region 是数据在 IoTDB 集群中进行分布式存储的基本单元（具体概念可见https://iotdb.apache.org/zh/UserGuide/latest/Background-knowledge/Cluster-Concept.html#region）。
+IoTDB 是一个分布式数据库，数据的均衡分布对集群的磁盘空间、写入压力的负载均衡有着重要作用，region 是数据在 IoTDB 集群中进行分布式存储的基本单元，
+具体概念可见[region](../UserGuide/latest/Background-knowledge/Cluster-Concept.html#region)。
 
 集群正常运行情况下，IoTDB 内核将会自动对数据进行负载均衡，但在集群新加入 DataNode 节点、DataNode 所在机器硬盘损坏需要恢复数据等场景下，会涉及到对 region 的手动迁移，以达到更精细化的调整集群负载的目标。
 
