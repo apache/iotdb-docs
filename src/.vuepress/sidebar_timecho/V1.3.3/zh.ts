@@ -114,6 +114,7 @@ export const zhSidebar = {
             { text: '流处理框架', link: 'Streaming_timecho' },
           ],
         },
+        { text: '运维语句', link: 'Maintennance'},
       ],
     },
     {

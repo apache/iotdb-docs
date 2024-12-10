@@ -114,6 +114,7 @@ export const enSidebar = {
             { text: 'Stream Processing', link: 'Streaming_timecho' },
           ],
         },
+        { text: 'Maintenance SQL', link: 'Maintennance' },
       ],
     },
     {
