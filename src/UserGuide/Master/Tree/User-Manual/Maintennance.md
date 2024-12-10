@@ -352,17 +352,13 @@ The Region migration feature has operating costs. It is recommended to read this
 
 ### Feature introduction
 
-IoTDB is a distributed database.
-The balanced distribution of data plays an important role in the load balance of disk space
-and write pressure in the cluster.
-Region is the basic unit for distributed storage of data in IoTDB cluster.
-Specific concept can be seen in [region](../../Background-knowledge/Cluster-Concept.md).
+IoTDB is a distributed database. The balanced distribution of data plays an important role in the load balance of disk space and write pressure in the cluster. Region is the basic unit for distributed storage of data in IoTDB cluster. Specific concept can be seen in [region](../Background-knowledge/Cluster-Concept.md).
 
 In cluster normal operation, IoTDB  kernel will automatically load balance the data, but in the cluster new join DataNode node, DataNode where the machine hard disk damage needs to recover data and other scenarios, will involve the region  of manual migration, in order to achieve more fine adjustment of the cluster load goal.
 
 Here is a schematic diagram of the region migration process :
 
-![image-20241209174037655.png](https://alioss.timecho.com/docs/img/image-20241209174037655.png)
+![](https://alioss.timecho.com/docs/img/region%E8%BF%81%E7%A7%BB%E7%A4%BA%E6%84%8F%E5%9B%BE20241210.png)
 
 ### Notes
 
@@ -398,7 +394,7 @@ Here is a schematic diagram of the region migration process :
    - Stages: `Removing `, `Running `, `Running `.
    - Migration complete: `Running `, `Running `.
   
-  Taking the expansion phase as an example, the result of `show regions `may be:
+  Taking the expansion phase as an example, the result of `show regions` may be:
 
   ```Plain
     IoTDB> show regions
