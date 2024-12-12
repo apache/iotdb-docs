@@ -163,6 +163,7 @@ cd sbin
   ```
 
 -   Execute the following to obtain the machine code required for activation:
+    - : Currently, activation is only supported in tree models
 
     ```Bash
 

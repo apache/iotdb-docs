@@ -189,6 +189,7 @@ cd sbin
   ```
 
   - Execute the following to obtain the machine code required for activation:
+    - Note: Currently, activation is only supported in tree models
 
   ```Bash
   show system info
