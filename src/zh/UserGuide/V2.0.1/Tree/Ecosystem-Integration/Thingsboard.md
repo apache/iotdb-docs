@@ -64,13 +64,13 @@ export DATABASE_TS_TYPE=iotdb  ## 原配置为sql，将变量值改为iotdb
 # 使用IoTDB需增加以下变量
 export DATABASE_TS_LATEST_TYPE=iotdb
 export IoTDB_HOST=127.0.0.1  ## iotdb所在的ip地址
-export IoTDB_PORT:6667       ##  iotdb的端口号，默认为6667
-export IoTDB_USER:root       ## iotdb的用户名，默认为root
-export IoTDB_PASSWORD:root   ## iotdb的密码，默认为root
-export IoTDB_CONNECTION_TIMEOUT:5000   ## iotdb超时时间设置
-export IoTDB_FETCH_SIZE:1024   ## 单次请求所拉取的数据条数，推荐设置为1024
-export IoTDB_MAX_SIZE:200      ##sessionpool内的最大数量，推荐设置为>=并发请求数
-export IoTDB_DATABASE:root.thingsboard  ##thingsboard数据写入iotdb所存储的数据库，支持自定义
+export IoTDB_PORT=6667       ##  iotdb的端口号，默认为6667
+export IoTDB_USER=root       ## iotdb的用户名，默认为root
+export IoTDB_PASSWORD=root   ## iotdb的密码，默认为root
+export IoTDB_CONNECTION_TIMEOUT=5000   ## iotdb超时时间设置
+export IoTDB_FETCH_SIZE=1024   ## 单次请求所拉取的数据条数，推荐设置为1024
+export IoTDB_MAX_SIZE=200      ##sessionpool内的最大数量，推荐设置为>=并发请求数
+export IoTDB_DATABASE=root.thingsboard  ##thingsboard数据写入iotdb所存储的数据库，支持自定义
 ```
 
 ## 使用说明
