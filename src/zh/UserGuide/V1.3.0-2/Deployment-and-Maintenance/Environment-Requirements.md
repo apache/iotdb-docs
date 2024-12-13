@@ -162,7 +162,7 @@ systemctl start sshd                  #启用22号端口
 
 ### 其他配置
 
-1. 关闭系统 swap 内存
+1. 将系统 swap 优先级降至最低
 
 ```Bash
 echo "vm.swappiness = 0">> /etc/sysctl.conf
@@ -171,7 +171,7 @@ echo "vm.swappiness = 0">> /etc/sysctl.conf
 swapoff -a && swapon -a
 # 在不重启的情况下使配置生效。
 sysctl -p
-# 检查内存分配，预期 swap 为 0
+# swap的已使用内存变为0
 free -m
 ```
 
