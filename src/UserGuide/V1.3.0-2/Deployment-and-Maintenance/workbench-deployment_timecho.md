@@ -236,6 +236,7 @@ The visualization console is one of the supporting tools for IoTDB (similar to N
 
 | Workbench Version Number | Release Note                                                 | Supports IoTDB Versions   |
 | :------------------------: | :------------------------------------------------------------: | :-------------------------: |
+| V1.5.1       | Add AI analysis function and pattern matching function                    | V1.3.2 and above versions |
 | V1.4.0       | New tree model display and internationalization                  | V1.3.2 and above versions |
 | V1.3.1       |New analysis methods have been added to the analysis function, and functions such as optimizing import templates have been optimized                                  |V1.3.2 and above versions  |
 | V1.3.0       |                      Add database configuration function             |V1.3.2 and above versions  |
