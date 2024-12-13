@@ -33,7 +33,7 @@
     | apache-UDF-1.3.2.zip | V1.0.0～V1.3.2  | 请联系天谋商务获取|
     
 2. 将获取的压缩包中的 library-udf.jar 文件放置在 IoTDB 集群所有节点的 `/ext/udf` 的目录下
-3. 在 IoTDB 的 SQL 命令行终端（CLI）或可视化控制台（Workbench）的 SQL 操作界面中，执行下述相应的函数注册语句。
+3. 在 IoTDB 的 SQL 命令行终端（CLI）的 SQL 操作界面中，执行下述相应的函数注册语句。
 4. 批量注册：两种注册方式：注册脚本 或 SQL汇总语句
 - 注册脚本 
     - 将压缩包中的注册脚本（register-UDF.sh 或 register-UDF.bat）按需复制到 IoTDB 的 tools 目录下，修改脚本中的参数（默认为host=127.0.0.1，rpcPort=6667，user=root，pass=root）；
