@@ -31,7 +31,7 @@ You have to install thrift (>=0.13) before using the package.
 
 First, download the package: `pip3 install apache-iotdb`
 
-You can get an example of using the package to read and write data at here: [Example](https://github.com/apache/iotdb/blob/rel/1.1/client-py/SessionExample.py)
+You can get an example of using the package to read and write data at here: [Session Example](https://github.com/apache/iotdb/blob/rel/1.1/client-py/SessionExample.py)
 
 An example of aligned timeseries: [Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/rel/1.1/client-py/SessionAlignedTimeseriesExample.py)
 
