@@ -178,7 +178,7 @@ export const enSidebar = {
           text: 'Functions and Operators',
           collapsible: true,
           children: [
-            { text: 'UDF Libraries', link: 'UDF-Libraries_timecho' },
+            { text: 'UDF Libraries', link: 'UDF-Libraries_apache' },
             { text: 'Operator and Expression', link: 'Operator-and-Expression' }, 
             { text: 'Function and Expression', link: 'Function-and-Expression' },        
           ],
