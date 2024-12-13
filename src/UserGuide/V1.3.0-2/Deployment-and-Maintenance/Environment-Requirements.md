@@ -150,7 +150,7 @@ systemctl start sshd # Enable port 22
 
 ### Other Configuration
 
-1. Disable the system swap memory
+1. Reduce the system swap priority to the lowest level
 
 ```Bash
 echo "vm.swappiness = 0">> /etc/sysctl.conf
@@ -159,9 +159,10 @@ echo "vm.swappiness = 0">> /etc/sysctl.conf
 swapoff -a && swapon -a
 # Make the configuration take effect without restarting.
 sysctl -p
-# Check memory allocation, expecting swap to be 0
+# Swap's used memory has become 0
 free -m
 ```
+
 2. Set the maximum number of open files to 65535 to avoid the error of "too many open files".
 
 ```Bash
