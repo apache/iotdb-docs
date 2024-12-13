@@ -74,7 +74,7 @@ CREATE TOPIC IF NOT EXISTS db_timerange
 WITH (
   'path' = 'root.db.**',
   'start-time' = '2023-01-01',
-  'end-time' = '2023-12-31',
+  'end-time' = '2023-12-31'
 );
 ```
 
