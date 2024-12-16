@@ -22,4 +22,8 @@ home: true
 
 -->
 
-<Contributors/>
+<ProjectContributors />
+
+<script setup>
+import ProjectContributors from '@source/.vuepress/components/ProjectContributors.vue'
+</script>

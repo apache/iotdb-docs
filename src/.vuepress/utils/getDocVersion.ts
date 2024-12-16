@@ -16,19 +16,19 @@
  * limitations under the License.
  */
 
-import { sidebar } from 'vuepress-theme-hope';
-import { zhSidebar as V103xSidebar } from './V1.3.3/zh.js';
-import { zhSidebar as V1030Sidebar } from './V1.3.0-2/zh.js';
-import { zhSidebar as V102xSidebar } from './V1.2.x/zh.js';
-import { zhSidebar as V101xSidebar } from './V1.1.x/zh.js';
-import { zhSidebar as V100xSidebar } from './V1.0.x/zh.js';
-import { zhSidebar as V013xSidebar } from './V0.13.x/zh.js';
+const VERSION_REG = /UserGuide\/([^/]+)/;
 
-export const zhSidebar = sidebar({
-  ...V103xSidebar,
-  ...V1030Sidebar,
-  ...V102xSidebar,
-  ...V101xSidebar,
-  ...V100xSidebar,
-  ...V013xSidebar,
-});
+export const getDocVersion = (path = '', defaultValue = 'latest') => {
+  if (path.includes('UserGuide/Master') || !path.includes('UserGuide')) {
+    return defaultValue;
+  }
+  /**
+   * 路径 /zh/UserGuide/V1.3.0-2/QuickStart/QuickStart_apache.html, 匹配 V1.3.0-2
+   * 路径 /zh/UserGuide/V1.2.x/QuickStart/QuickStart_apache.html, 匹配 V1.2.x
+   * 路径 /zh/UserGuide/latest/QuickStart/QuickStart_apache.html, 匹配 latest
+   *
+   * 匹配路径中的版本号，UserGuide 后面的版本号为当前文档的版本号, 版本号不一定为数字，可能为 latest或其它，因此只用 / 作为分隔符
+   */
+
+  return VERSION_REG.exec(path)?.[1] ?? defaultValue;
+};

@@ -1,5 +1,44 @@
 ---
 home: true
+heroText: Apache IoTDB
+tagline: Database for Internet of Things
+actions:
+  - text: Download
+    link: /Download/
+    type: primary
+
+  - text: Quick Start
+    link: //UserGuide/latest/QuickStart/QuickStart_apache.html
+
+highlights:
+  - header: Introduction
+    description: Apache IoTDB (Database for Internet of Things) is an IoT native database with high performance for data management and analysis, deployable on the edge and the cloud. Due to its light-weight architecture, high performance and rich feature set together with its deep integration with Apache Hadoop, Spark and Flink, Apache IoTDB can meet the requirements of massive data storage, high-speed data ingestion and complex data analysis in the IoT industrial fields.
+
+  - header: Main Features
+    features: 
+      - title: High-throughput read and write
+        details: Apache IoTDB can support high-speed write access for millions of low-power and intelligently networked devices. It also provides lightning read access for retrieving data.
+        icon: /img/home-icon1.png
+
+      - title: Efficient directory structure
+        details: Apache IoTDB can efficiently organize complex data structure from IoT devices and large size of timeseries data with fuzzy searching strategy for complex directory of timeseries data.
+        icon: /img/home-icon2.png
+
+      - title: Rich query semantics
+        details: Apache IoTDB can support time alignment for timeseries data across devices and sensors, computation in timeseries field and abundant aggregation functions in time dimension.
+        icon: /img/home-icon3.png
+
+      - title: Low cost on hardware
+        details: Apache IoTDB can reach a high compression ratio of disk storage (it costs less than $0.23 to store 1GB of data on hard disk).
+        icon: /img/home-icon4.png
+
+      - title: Flexible deployment
+        details: Apache IoTDB can provide users one-click installation on the cloud, terminal tool on desktop and the bridge tool between cloud platform and on premise machine (Data Synchronization Tool).
+        icon: /img/home-icon5.png
+
+      - title: Intense integration with Open Source Ecosystem
+        details: Apache IoTDB can support analysis ecosystems, for example, Hadoop, Spark, Flink and Grafana (visualization tool).
+        icon: /img/home-icon6.png
 ---
 <!--
 
@@ -21,4 +60,8 @@ home: true
     under the License.
 
 -->
-<IoTDB/>
+<HomeCarousel />
+
+<script setup>
+import HomeCarousel from '@source/.vuepress/components/HomeCarousel.vue'
+</script>

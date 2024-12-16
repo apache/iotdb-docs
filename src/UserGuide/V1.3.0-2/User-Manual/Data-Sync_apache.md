@@ -74,6 +74,7 @@ By declaratively configuring the specific content of the three parts through SQL
             <td>-</td>       
             <td>Synchronize user permissions and access control</td>
       </tr>
+</tbody>
 </table>
 
 ### Functional limitations and instructions
@@ -259,6 +260,7 @@ Detailed introduction of pre-installed plugins is as follows (for detailed param
             <td>Used for data transfer between IoTDB ( V1.3.1+ ) and IoTDB ( V1.2.0+ ). It uses the Thrift RPC framework to transfer data, with a single-threaded sync blocking IO model, suitable for scenarios with higher security requirements</td>
             <td>1.3.1+</td>
       </tr>
+</tbody>
 </table>
 
 For importing custom plugins, please refer to the [Stream Processing](./Streaming_timecho.md#custom-stream-processing-plugin-management) section.

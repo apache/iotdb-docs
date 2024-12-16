@@ -80,7 +80,8 @@ Step 5: Select `IoTDB`  and fill in the configuration information
 The configuration content is as follows:
 
 <table>
-  <tr>             
+<tbody>
+<tr>             
     <th>Name</th>             
     <th>Description</th>                     
     <th>Default Value</th> 
@@ -151,6 +152,7 @@ The configuration content is as follows:
     <td>Just keep it as default</td>
     <td> </td>
   </tr>
+</tbody>
 </table>
 
 

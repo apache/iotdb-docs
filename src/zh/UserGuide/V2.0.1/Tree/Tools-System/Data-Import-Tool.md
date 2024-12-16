@@ -29,6 +29,7 @@ IoTDB 目前支持将 CSV、SQL、及TsFile（IoTDB底层开放式时间序列�
             <td>TsFile 主动监听&加载功能</td>
             <td>根据用户配置，监听指定路径下TsFile文件的变化，将新增加的TsFile文件加载入IoTDB</td>       
       </tr>
+</tbody>
 </table>
 
 ## 2. import-data 脚本

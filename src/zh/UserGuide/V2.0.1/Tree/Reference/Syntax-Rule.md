@@ -28,7 +28,7 @@
 
 在 IoTDB 中，字符串是由**单引号（`'`）或双引号（`"`）字符括起来的字符序列**。示例如下：
 
-```Plain%20Text
+```
 'a string'
 "another string"
 ```
@@ -112,7 +112,7 @@
 
 字符串内使用引号的示例如下：
 
-```Plain%20Text
+```
 'string'  // string
 '"string"'  // "string"
 '""string""'  // ""string""

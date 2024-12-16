@@ -70,7 +70,7 @@ The PutBack method must be called after use
 
 #### New sessionPool
 
-```golang
+```go
 config := &client.PoolConfig{
     Host:     host,
     Port:     port,
@@ -84,7 +84,7 @@ sessionPool = client.NewSessionPool(config, 3, 60000, 60000, false)
 
 set storage group
 
-```golang
+```go
 session, err := sessionPool.GetSession()
 defer sessionPool.PutBack(session)
 if err == nil {
@@ -94,7 +94,7 @@ if err == nil {
 
 query statement
 
-```golang
+```go
 var timeout int64 = 1000
 session, err := sessionPool.GetSession()
 defer sessionPool.PutBack(session)

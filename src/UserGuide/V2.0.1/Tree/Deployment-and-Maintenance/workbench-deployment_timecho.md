@@ -45,7 +45,8 @@ The visualization console is one of the supporting tools for IoTDB (similar to N
 1. Open the monitoring configuration item. The configuration items related to monitoring in IoTDB are disabled by default. Before deploying the monitoring panel, you need to open the relevant configuration items (note that the service needs to be restarted after enabling monitoring configuration).
 
     <table>
-        <tr>
+<tbody>
+<tr>
                 <th>Configuration</th>
                 <th>Located in the configuration file</th>        
                 <th>Description</th>
@@ -93,7 +94,8 @@ The visualization console is one of the supporting tools for IoTDB (similar to N
                 <td>audit_log_operation</td>   
                 <td>Please add this configuration item in the configuration file, with values set to DML,DDL,QUERY</td> 
         </tr>
-    </table>
+</tbody>
+</table>
 
 
 2. Restart all nodes. After modifying the monitoring indicator configuration of three nodes, the confignode and datanode services of all nodes can be restarted:

@@ -19,145 +19,90 @@ import { hopeTheme } from 'vuepress-theme-hope';
 import { enNavbar, zhNavbar } from './navbar/index.js';
 import { enSidebar, zhSidebar } from './sidebar/index.js';
 
-export default hopeTheme({
-  hostname: 'https://iotdb.apache.org/',
+export default hopeTheme(
+  {
+    hostname: 'https://iotdb.apache.org/',
+    logo: '/logo.png',
 
-  darkmode: 'toggle',
+    repo: 'apache/iotdb',
+    docsRepo: 'https://github.com/apache/iotdb-docs',
+    docsDir: 'src',
 
-  logo: '/logo.png',
+    pure: true,
+    darkmode: 'toggle',
+    breadcrumb: false,
+    contributors: false,
 
-  repo: 'https://github.com/apache/iotdb',
+    navbarTitle: '',
+    navbarLayout: {
+      start: ['Brand'],
+      center: [],
+      end: ['Search', 'Links', 'Language', 'Outlook', 'Repo'],
+    },
 
-  repoLabel: 'GitHub',
+    locales: {
+      '/': {
+        // navbar
+        navbar: enNavbar,
 
-  repoDisplay: true,
+        // sidebar
+        sidebar: enSidebar,
 
-  docsRepo: 'https://github.com/apache/iotdb-docs',
+        footer: 'Default footer',
 
-  docsDir: 'src',
+        displayFooter: true,
 
-  docsBranch: 'main',
+        metaLocales: {
+          editLink: 'Found Error? Edit this page on GitHub',
+        },
+      },
 
-  pure: true,
+      /**
+       * Chinese locale config
+       */
+      '/zh/': {
+        // navbar
+        navbar: zhNavbar,
 
-  breadcrumb: false,
+        // sidebar
+        sidebar: zhSidebar,
 
-  navbarIcon: false,
+        footer: '默认页脚',
 
-  lastUpdated: true,
+        displayFooter: true,
 
-  contributors: false,
-
-  navbarLayout: {
-    start: ['Brand'],
-    center: [],
-    end: ['Search', 'Links', 'Language', 'Outlook', 'Repo'],
-  },
-
-  locales: {
-    '/': {
-      // navbar
-      navbar: enNavbar,
-
-      // sidebar
-      sidebar: enSidebar,
-
-      footer: 'Default footer',
-
-      displayFooter: true,
-
-      metaLocales: {
-        editLink: 'Found Error? Edit this page on GitHub',
+        // page meta
+        metaLocales: {
+          editLink: '发现错误？在 GitHub 上编辑此页',
+        },
       },
     },
 
-    /**
-     * Chinese locale config
-     */
-    '/zh/': {
-      // navbar
-      navbar: zhNavbar,
-
-      // sidebar
-      sidebar: zhSidebar,
-
-      footer: '默认页脚',
-
-      displayFooter: true,
-
-      // page meta
-      metaLocales: {
-        editLink: '发现错误？在 GitHub 上编辑此页',
-      },
-    },
-  },
-
-  // encrypt: {
-  //   config: {
-  //     "/demo/encrypt.html": ["1234"],
-  //     "/zh/demo/encrypt.html": ["1234"],
-  //   },
-  // },
-
-  plugins: {
-    // comment: {
-    //   // @ts-expect-error: You should generate and use your own comment service
-    //   provider: "Waline",
-    // },
-
-    // all features are enabled for demo, only preserve features you need here
-    prismjs: {
-      themes: {
-        light: 'one-dark',
-        dark: 'one-dark',
-      },
-    },
-    // shiki: {
-    //   theme: 'one-dark-pro',
-    //   langs: ['java', 'shell', 'sql', 'yaml', 'json', 'xml', 'go', 'python', 'scala', 'text', 'plaintext', 'txt', 'properties', 'rust', 'javascript', 'cpp', 'c#', 'csharp', 'js', 'cmd'],
-    // },
-    catalog: true,
-    git: true,
-    comment: {
-      provider: 'None',
-    },
-    mdEnhance: {
+    markdown: {
       align: true,
-      attrs: true,
-      chart: false,
-      codetabs: true,
-      hint: true,
-      demo: false,
-      echarts: false,
+      hint: false,
       figure: true,
-      flowchart: false,
       gfm: true,
       imgLazyload: true,
-      imgSize: true,
-      include: true,
-      katex: true,
-      mark: true,
-      mermaid: false,
-      stylize: [
-        {
-          matcher: 'Recommended',
-          // eslint-disable-next-line consistent-return
-          replacer: ({ tag }) => {
-            if (tag === 'em') {
-              return {
-                tag: 'Badge',
-                attrs: { type: 'tip' },
-                content: 'Recommended',
-              };
-            }
-          },
+      math: true,
+      highlighter: {
+        type: 'shiki',
+        theme: 'one-dark-pro',
+      },
+    },
+
+    plugins: {
+      docsearch: {},
+
+      redirect: {
+        config: {
+          '/UserGuide/Master/QuickStart/QuickStart.html':
+            '/UserGuide/latest/QuickStart/QuickStart_apache.html',
+          '/zh/UserGuide/Master/QuickStart/QuickStart.html':
+            '/zh/UserGuide/latest/QuickStart/QuickStart_apache.html',
         },
-      ],
-      sub: true,
-      sup: true,
-      tabs: true,
-      vPre: true,
-      vuePlayground: false,
+      },
     },
   },
-}, { custom: true });
+  { custom: true },
+);

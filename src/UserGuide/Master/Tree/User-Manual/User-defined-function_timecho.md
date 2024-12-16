@@ -26,6 +26,7 @@ In IoTDB, you can expand two types of UDF:
             <td>-</td>       
             <td>Custom aggregation function, input k columns of time series m rows of data, output 1 column of time series 1 row of data, can be used in any clause and expression that appears in the aggregation function, such as select clause, having clause, etc.</td>
       </tr>
+</tbody>
 </table>
 
 ###  1.1 UDF usage 

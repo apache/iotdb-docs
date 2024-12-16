@@ -504,7 +504,8 @@ Please conduct discussions in English:
 
 - Unable to download `errorprone`:
 
-  ```Failed to read artifact descriptor for com.google.errorprone:javac
+  ```
+  Failed to read artifact descriptor for com.google.errorprone:javac
   -shaded:jar:9+181-r4173-1: Could not transfer artifact com.google.errorprone:javac-shaded:pom:9+181-r4173-1
   ```
 

@@ -80,7 +80,8 @@ IoTDB supports operating systems such as Linux, Windows, and MacOS, while the en
 - Each disk group corresponds to only one partition. Data disks (with multiple disk groups, corresponding to raid) do not need additional partitions. All space is used by the IoTDB.
 The following table lists the recommended disk partitioning methods.
 <table>
-      <tr>
+<tbody>
+<tr>
             <th>Disk classification</th>
             <th>Disk set</th>        
             <th>Drive</th>
@@ -115,6 +116,7 @@ The following table lists the recommended disk partitioning methods.
       <tr>
             <td colspan="4">......</td>   
       </tr>
+</tbody>
 </table>
 ### Network Configuration
 

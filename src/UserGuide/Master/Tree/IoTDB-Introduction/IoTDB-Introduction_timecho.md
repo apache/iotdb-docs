@@ -208,6 +208,7 @@ The detailed functional comparison is as follows：
             <td>×</td> 
             <td>√</td>
       </tr>
+</tbody>
 </table>
 
 ### More efficient/stable product performance

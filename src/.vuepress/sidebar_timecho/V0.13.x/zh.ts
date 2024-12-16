@@ -1,20 +1,19 @@
 /*
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 export const zhSidebar = {
@@ -31,8 +30,8 @@ export const zhSidebar = {
       children: [
         { text: 'IoTDB简介', link: 'What-is-IoTDB' },
         { text: '主要功能特点', link: 'Features' },
-      //    { text: '系统架构', link: 'Architecture' },
-     //     { text: '应用场景', link: 'Scenario' },
+        //    { text: '系统架构', link: 'Architecture' },
+        //     { text: '应用场景', link: 'Scenario' },
         { text: '研究论文', link: 'Publication' },
       ],
     },
@@ -66,9 +65,7 @@ export const zhSidebar = {
       text: '语法约定',
       collapsible: true,
       prefix: 'Reference/',
-      children: [
-        { text: '语法约定', link: 'Syntax-Conventions' },
-      ],
+      children: [{ text: '语法约定', link: 'Syntax-Conventions' }],
     },
     {
       text: '应用编程接口',
@@ -143,17 +140,13 @@ export const zhSidebar = {
       text: '权限管理',
       collapsible: true,
       prefix: 'Administration-Management/',
-      children: [
-        { text: '权限管理', link: 'Administration' },
-      ],
+      children: [{ text: '权限管理', link: 'Administration' }],
     },
     {
       text: '双活版本',
       collapsible: true,
       prefix: 'Active-Active/',
-      children: [
-        { text: '双活', link: 'Active-Active' },
-      ],
+      children: [{ text: '双活', link: 'Active-Active' }],
     },
     {
       text: '运维工具',

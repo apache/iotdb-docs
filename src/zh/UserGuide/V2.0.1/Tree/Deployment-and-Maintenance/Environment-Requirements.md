@@ -90,7 +90,8 @@ IoTDB支持Linux、Windows、MacOS等操作系统，同时企业版支持龙芯�
 
 建议的磁盘分区方式如下表所示。
 <table>
-    <tr>
+<tbody>
+<tr>
         <th>硬盘分类</th>
         <th>磁盘组</th>        
         <th>对应盘符</th>
@@ -125,6 +126,7 @@ IoTDB支持Linux、Windows、MacOS等操作系统，同时企业版支持龙芯�
     <tr>
         <td colspan="4">......</td>   
     </tr>
+</tbody>
 </table>
 
 ### 网络配置 

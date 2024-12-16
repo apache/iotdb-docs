@@ -1,20 +1,19 @@
 /*
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 export const enSidebar = {
@@ -55,12 +54,21 @@ export const enSidebar = {
         { text: 'Obtain TimechoDB', link: 'IoTDB-Package_timecho' },
         { text: 'Database Resources', link: 'Database-Resources' },
         { text: 'System Requirements', link: 'Environment-Requirements' },
-        { text: 'Stand-Alone Deployment', link: 'Stand-Alone-Deployment_timecho' },
+        {
+          text: 'Stand-Alone Deployment',
+          link: 'Stand-Alone-Deployment_timecho',
+        },
         { text: 'Cluster Deployment', link: 'Cluster-Deployment_timecho' },
-        { text: 'Dual Active Deployment', link: 'Dual-Active-Deployment_timecho' },
+        {
+          text: 'Dual Active Deployment',
+          link: 'Dual-Active-Deployment_timecho',
+        },
         { text: 'Docker Deployment', link: 'Docker-Deployment_timecho' },
         { text: 'AINode Deployment', link: 'AINode_Deployment_timecho' },
-        { text: 'Monitoring Panel Deployment', link: 'Monitoring-panel-deployment' },
+        {
+          text: 'Monitoring Panel Deployment',
+          link: 'Monitoring-panel-deployment',
+        },
         { text: 'Workbench Deployment', link: 'workbench-deployment_timecho' },
       ],
     },
@@ -74,12 +82,21 @@ export const enSidebar = {
           text: 'Data Modeling',
           collapsible: true,
           children: [
-            { text: 'Timeseries Data Model', link: 'Navigating_Time_Series_Data'  },
-            { text: 'Modeling Scheme Design', link: 'Data-Model-and-Terminology' },
-            { text: 'Measurement Point Management', link: 'Operate-Metadata_timecho' },
+            {
+              text: 'Timeseries Data Model',
+              link: 'Navigating_Time_Series_Data',
+            },
+            {
+              text: 'Modeling Scheme Design',
+              link: 'Data-Model-and-Terminology',
+            },
+            {
+              text: 'Measurement Point Management',
+              link: 'Operate-Metadata_timecho',
+            },
           ],
         },
-        { text: 'Write & Delete', link: 'Write-Delete-Data'  }, 
+        { text: 'Write & Delete', link: 'Write-Delete-Data' },
         { text: 'Query Data', link: 'Query-Data' },
       ],
     },
@@ -96,7 +113,7 @@ export const enSidebar = {
           text: 'Security Management',
           collapsible: true,
           children: [
-            { text: 'White List', link: 'White-List_timecho'  },
+            { text: 'White List', link: 'White-List_timecho' },
             { text: 'Audit Log', link: 'Audit-Log_timecho' },
             { text: 'Authority Management', link: 'Authority-Management' },
           ],
@@ -109,7 +126,7 @@ export const enSidebar = {
           text: 'Database Programming',
           collapsible: true,
           children: [
-            { text: 'UDF Development', link: 'UDF-development'  },
+            { text: 'UDF Development', link: 'UDF-development' },
             { text: 'Trigger', link: 'Trigger' },
             { text: 'Stream Processing', link: 'Streaming_timecho' },
           ],
@@ -153,7 +170,7 @@ export const enSidebar = {
           text: 'REST API',
           collapsible: true,
           children: [
-            { text: 'V1 (Not Recommend)', link: 'RestServiceV1'  },
+            { text: 'V1 (Not Recommend)', link: 'RestServiceV1' },
             { text: 'V2', link: 'RestServiceV2' },
           ],
         },
@@ -192,8 +209,14 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'UDF Libraries', link: 'UDF-Libraries_timecho' },
-            { text: 'Operator and Expression', link: 'Operator-and-Expression' }, 
-            { text: 'Function and Expression', link: 'Function-and-Expression' },         
+            {
+              text: 'Operator and Expression',
+              link: 'Operator-and-Expression',
+            },
+            {
+              text: 'Function and Expression',
+              link: 'Function-and-Expression',
+            },
           ],
         },
       ],
@@ -206,7 +229,10 @@ export const enSidebar = {
       children: [
         { text: 'Research Paper ', link: 'Publication' },
         { text: 'Compression & Encoding', link: 'Encoding-and-Compression' },
-        { text: 'Data Partitioning & Load Balancing', link: 'Cluster-data-partitioning' },
+        {
+          text: 'Data Partitioning & Load Balancing',
+          link: 'Cluster-data-partitioning',
+        },
       ],
     },
     {
@@ -220,7 +246,10 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'Common Config Manual', link: 'Common-Config-Manual' },
-            { text: 'ConfigNode Config Manual', link: 'ConfigNode-Config-Manual' },
+            {
+              text: 'ConfigNode Config Manual',
+              link: 'ConfigNode-Config-Manual',
+            },
             { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual' },
           ],
         },
@@ -229,7 +258,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'Identifiers', link: 'Syntax-Rule' },
-            { text: 'Keywords', link: 'Keywords' },        
+            { text: 'Keywords', link: 'Keywords' },
           ],
         },
         { text: 'Status Codes', link: 'Status-Codes' },
@@ -241,8 +270,11 @@ export const enSidebar = {
       prefix: 'FAQ/',
       // children: 'structure',
       children: [
-        { text: 'Frequently Asked Questions', link: 'Frequently-asked-questions' }],
+        {
+          text: 'Frequently Asked Questions',
+          link: 'Frequently-asked-questions',
+        },
+      ],
     },
   ],
 };
-

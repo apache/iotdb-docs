@@ -1,20 +1,19 @@
 /*
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 export const enSidebar = {
@@ -57,7 +56,10 @@ export const enSidebar = {
         { text: 'Data Model', link: 'Data-Model-and-Terminology' },
         { text: 'Data Type', link: 'Data-Type' },
         { text: 'Encoding and Compression', link: 'Encoding-and-Compression' },
-        { text: 'Data Partitioning & Load Balancing', link: 'Cluster-data-partitioning' },
+        {
+          text: 'Data Partitioning & Load Balancing',
+          link: 'Cluster-data-partitioning',
+        },
       ],
     },
     {
@@ -66,11 +68,17 @@ export const enSidebar = {
       prefix: 'Deployment-and-Maintenance/',
       // children: 'structure',
       children: [
-        { text: 'Environmental Requirement', link: 'Environmental-Requirement' },
+        {
+          text: 'Environmental Requirement',
+          link: 'Environmental-Requirement',
+        },
         { text: 'Resource Recommendation', link: 'Deployment-Recommendation' },
         { text: 'Deployment Guide', link: 'Deployment-Guide' },
         { text: 'Docker Install', link: 'Docker-Install' },
-        { text: 'Monitoring Board Install and Deploy', link: 'Monitoring-Board-Install-and-Deploy' },
+        {
+          text: 'Monitoring Board Install and Deploy',
+          link: 'Monitoring-Board-Install-and-Deploy',
+        },
       ],
     },
 
@@ -150,9 +158,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       // children: 'structure',
-      children: [
-        { text: 'SQL Manual', link: 'SQL-Manual' },
-      ],
+      children: [{ text: 'SQL Manual', link: 'SQL-Manual' }],
     },
     {
       text: 'FAQ',
@@ -160,7 +166,11 @@ export const enSidebar = {
       prefix: 'FAQ/',
       // children: 'structure',
       children: [
-        { text: 'Frequently Asked Questions', link: 'Frequently-asked-questions' }],
+        {
+          text: 'Frequently Asked Questions',
+          link: 'Frequently-asked-questions',
+        },
+      ],
     },
     {
       text: 'Reference',

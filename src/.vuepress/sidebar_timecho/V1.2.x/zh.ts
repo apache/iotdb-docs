@@ -1,20 +1,19 @@
 /*
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 export const zhSidebar = {
@@ -70,7 +69,10 @@ export const zhSidebar = {
         { text: '资源推荐', link: 'Deployment-Recommendation' },
         { text: '部署指导', link: 'Deployment-Guide_timecho' },
         { text: 'docker部署', link: 'Docker-Install' },
-        { text: '监控面板安装部署', link: 'Monitoring-Board-Install-and-Deploy' },   
+        {
+          text: '监控面板安装部署',
+          link: 'Monitoring-Board-Install-and-Deploy',
+        },
       ],
     },
 
@@ -142,7 +144,7 @@ export const zhSidebar = {
         { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
         { text: 'Apache Hive(TsFile)', link: 'Hive-TsFile' },
         { text: 'Apache Flink(IoTDB)', link: 'Flink-IoTDB' },
-//        { text: 'Apache Flink(SQL)', link: 'Flink-SQL-IoTDB' },
+        //        { text: 'Apache Flink(SQL)', link: 'Flink-SQL-IoTDB' },
         { text: 'Apache Flink(TsFile)', link: 'Flink-TsFile' },
         { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
         { text: 'DBeaver', link: 'DBeaver' },
@@ -154,17 +156,14 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       // children: 'structure',
-      children: [
-        { text: 'SQL手册', link: 'SQL-Manual' },
-      ],
+      children: [{ text: 'SQL手册', link: 'SQL-Manual' }],
     },
     {
       text: 'FAQ',
       collapsible: true,
       prefix: 'FAQ/',
       // children: 'structure',
-      children: [
-        { text: '常见问题', link: 'Frequently-asked-questions' }],
+      children: [{ text: '常见问题', link: 'Frequently-asked-questions' }],
     },
     {
       text: '参考',

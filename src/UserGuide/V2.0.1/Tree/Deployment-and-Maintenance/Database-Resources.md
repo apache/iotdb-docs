@@ -77,6 +77,7 @@
             <td>Over 10000000</td>
             <td colspan="4">Please contact Timecho Business for consultation</td>
       </tr>
+</tbody>
 </table>
 
 ## Memory 
@@ -137,6 +138,7 @@
             <td>Over 10000000</td>
             <td colspan="4">Please contact Timecho Business for consultation</td>
       </tr>
+</tbody>
 </table>
 
 ## Storage (Disk)
@@ -177,6 +179,7 @@ Calculation formula: Number of measurement points * Sampling frequency (Hz) * Si
             <td>The average is a</td>
             <td>8+a</td>
       </tr>
+</tbody>
 </table>
 
 Example: 1000 devices, each with 100 measurement points, a total of 100000 sequences, INT32 type. Sampling frequency 1Hz (once per second), storage for 1 year, 3 copies.

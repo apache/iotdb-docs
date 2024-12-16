@@ -125,12 +125,12 @@ git checkout rc/1.3.2
     ```
 
 - 使用 Visual Studio 2022 的 Windows
-    ```Batchfile
+    ```batch
     .\mvnw.cmd clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp
     ```
 
 - 使用 Visual Studio 2019 的 Windows
-    ```Batchfile
+    ```batch
     .\mvnw.cmd clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp -Dcmake.generator="Visual Studio 16 2019" -Diotdb-tools-thrift.version=0.14.1.1-msvc142-SNAPSHOT
     ```
     - 如果没有将 Boost 库地址加入 PATH 环境变量，在编译命令中还需添加相关参数，例如：`-DboostIncludeDir="C:\Program Files (x86)\boost_1_78_0" -DboostLibraryDir="C:\Program Files (x86)\boost_1_78_0\stage\lib"`
