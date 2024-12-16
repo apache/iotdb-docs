@@ -11,12 +11,12 @@
     }
   ],
   "scripts": {
-    "build": "node --max_old_space_size=6000  ./node_modules/vuepress/bin/vuepress.js build src",
+    "build": "node --max_old_space_size=8192  ./node_modules/vuepress/bin/vuepress.js build src",
     "clean-dev": "vuepress dev src --clean-cache",
     "dev": "vuepress dev src",
     "update-package": "npx vp-update",
-    "deploy": "node --max_old_space_size=6000 deploy.cjs",
-    "deploy:staging": "node --max_old_space_size=6000 deploy_staging.cjs",
+    "deploy": "node --max_old_space_size=8192 deploy.cjs",
+    "deploy:staging": "node --max_old_space_size=8192 deploy_staging.cjs",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix"
   },
   "dependencies": {
