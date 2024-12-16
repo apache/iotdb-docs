@@ -439,7 +439,8 @@ Issue 的完整生命周期：创建 issue -> 认领 issue -> 提交 pr -> 审�
    * 将该文件拷贝到 thrift/target/tools/目录下 
    * 重新执行 maven 的编译命令
 - 无法下载errorprone ：
-  ```Failed to read artifact descriptor for com.google.errorprone:javac
+  ```
+  Failed to read artifact descriptor for com.google.errorprone:javac
   -shaded:jar:9+181-r4173-1: Could not transfer artifact com.google.errorprone:javac-shaded:pom:9+181-r4173-1
   ```
   解决方法：

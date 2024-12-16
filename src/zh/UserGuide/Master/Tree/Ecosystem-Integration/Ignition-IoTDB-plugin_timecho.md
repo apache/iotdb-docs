@@ -79,7 +79,8 @@ Ignition-IoTDB连接器提供了将 Ignition 采集到的数据存入 IoTDB 的�
 配置内容如下：
 
 <table>
-  <tr>             
+<tbody>
+<tr>             
     <th>名称</th>             
     <th>含义</th>                     
     <th>默认值</th> 
@@ -150,6 +151,7 @@ Ignition-IoTDB连接器提供了将 Ignition 采集到的数据存入 IoTDB 的�
     <td>保持默认即可</td>
     <td> </td>
   </tr>
+</tbody>
 </table>
 
 

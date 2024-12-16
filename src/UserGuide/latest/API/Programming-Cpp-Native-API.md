@@ -119,12 +119,12 @@ Run Maven to compile in the IoTDB root directory:
     ```
 
 - Windows using Visual Studio 2022
-    ```Batchfile
+    ```batch
     .\mvnw.cmd clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp
     ```
 
 - Windows using Visual Studio 2019
-    ```Batchfile
+    ```batch
     .\mvnw.cmd clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp -Dcmake.generator="Visual Studio 16 2019" -Diotdb-tools-thrift.version=0.14.1.1-msvc142-SNAPSHOT
     ```
     - If you haven't added the Boost library path to the PATH environment variable, you need to add the relevant parameters to the compile command, e.g., `-DboostIncludeDir="C:\Program Files (x86)\boost_1_78_0" -DboostLibraryDir="C:\Program Files (x86)\boost_1_78_0\stage\lib"`.

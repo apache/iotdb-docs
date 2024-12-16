@@ -1,8 +1,20 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "module": "ESNext",
-    "baseUrl": "./",
+    "module": "NodeNext",
+    "baseUrl": "./"
   },
-  "include": ["**/*.ts", "**/*.js", "**/*.vue", "src/.vuepress/*.js", "src/.vuepress/*.ts", "src/.vuepress/*.vue", "src/.vuepress/**/*.js", "src/.vuepress/**/*.ts", "src/.vuepress/**/*.vue", "deploy.cjs", "deploy_staging.cjs"]
+  "include": [
+    "**/*.ts",
+    "**/*.js",
+    "**/*.vue",
+    "src/.vuepress/*.js",
+    "src/.vuepress/*.ts",
+    "src/.vuepress/*.vue",
+    "src/.vuepress/**/*.js",
+    "src/.vuepress/**/*.ts",
+    "src/.vuepress/**/*.vue",
+    "deploy.cjs",
+    "deploy_staging.cjs"
+  ]
 }

@@ -1,20 +1,19 @@
 /*
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 export const zhSidebar = {
@@ -216,9 +215,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Administration-Management/',
       // children: 'structure',
-      children: [
-        { text: '权限管理', link: 'Administration' },
-      ],
+      children: [{ text: '权限管理', link: 'Administration' }],
     },
     {
       text: '运维工具',
@@ -230,9 +227,15 @@ export const zhSidebar = {
         { text: '日志工具', link: 'Log-Tool' },
         { text: 'JMX 工具', link: 'JMX-Tool' },
         { text: 'Mlog解析工具', link: 'MLogParser-Tool' },
-        { text: 'IoTDB数据文件夹概览工具', link: 'IoTDB-Data-Dir-Overview-Tool' },
+        {
+          text: 'IoTDB数据文件夹概览工具',
+          link: 'IoTDB-Data-Dir-Overview-Tool',
+        },
         { text: 'TsFile概览工具', link: 'TsFile-Sketch-Tool' },
-        { text: 'TsFile Resource概览工具', link: 'TsFile-Resource-Sketch-Tool' },
+        {
+          text: 'TsFile Resource概览工具',
+          link: 'TsFile-Resource-Sketch-Tool',
+        },
         { text: 'TsFile 拆分工具', link: 'TsFile-Split-Tool' },
         { text: 'TsFile 导入导出工具', link: 'TsFile-Load-Export-Tool' },
         { text: 'CSV 导入导出工具', link: 'CSV-Tool' },
@@ -244,9 +247,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Edge-Cloud-Collaboration/',
       // children: 'structure',
-      children: [
-        { text: 'TsFile 同步工具', link: 'Sync-Tool' },
-      ],
+      children: [{ text: 'TsFile 同步工具', link: 'Sync-Tool' }],
     },
     {
       text: '系统集成',

@@ -43,7 +43,8 @@
 1. 打开监控配置项。IoTDB中监控有关的配置项默认是关闭的，在部署监控面板前，您需要打开相关配置项（注意开启监控配置后需要重启服务）。
 
     <table>
-          <tr>
+<tbody>
+<tr>
                 <th>配置项</th>
                 <th>所在配置文件</th>        
                 <th>配置说明</th>
@@ -91,7 +92,8 @@
                 <td>audit_log_operation</td>   
                 <td>将配置项取消注释</td> 
           </tr>
-    </table>
+</tbody>
+</table>
 
 2. 重启所有节点。修改3个节点的监控指标配置后，可重新启动所有节点的confignode和datanode服务：
 

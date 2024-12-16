@@ -1,20 +1,19 @@
 /*
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 export const enSidebar = {
@@ -55,7 +54,10 @@ export const enSidebar = {
         { text: 'Obtain IoTDB', link: 'IoTDB-Package_apache' },
         { text: 'Database Resources', link: 'Database-Resources' },
         { text: 'System Requirements', link: 'Environment-Requirements' },
-        { text: 'Stand-Alone Deployment', link: 'Stand-Alone-Deployment_apache' },
+        {
+          text: 'Stand-Alone Deployment',
+          link: 'Stand-Alone-Deployment_apache',
+        },
         { text: 'Cluster Deployment', link: 'Cluster-Deployment_apache' },
         { text: 'Docker Deployment', link: 'Docker-Deployment_apache' },
       ],
@@ -70,12 +72,21 @@ export const enSidebar = {
           text: 'Data Modeling',
           collapsible: true,
           children: [
-            { text: 'Timeseries Data Model', link: 'Navigating_Time_Series_Data'  },
-            { text: 'Modeling Scheme Design', link: 'Data-Model-and-Terminology' },
-            { text: 'Measurement Point Management', link: 'Operate-Metadata_apache' },
+            {
+              text: 'Timeseries Data Model',
+              link: 'Navigating_Time_Series_Data',
+            },
+            {
+              text: 'Modeling Scheme Design',
+              link: 'Data-Model-and-Terminology',
+            },
+            {
+              text: 'Measurement Point Management',
+              link: 'Operate-Metadata_apache',
+            },
           ],
         },
-        { text: 'Write & Delete', link: 'Write-Delete-Data'  }, 
+        { text: 'Write & Delete', link: 'Write-Delete-Data' },
         { text: 'Query Data', link: 'Query-Data' },
       ],
     },
@@ -100,7 +111,7 @@ export const enSidebar = {
           text: 'Database Programming',
           collapsible: true,
           children: [
-            { text: 'UDF Development', link: 'UDF-development'  },
+            { text: 'UDF Development', link: 'UDF-development' },
             { text: 'Trigger', link: 'Trigger' },
             { text: 'Stream Processing', link: 'Streaming_apache' },
           ],
@@ -117,7 +128,7 @@ export const enSidebar = {
         { text: 'Command Line Interface (CLI)', link: 'CLI' },
         { text: 'Monitor Tool', link: 'Monitor-Tool_apache' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
-        { text: 'Cluster Management Tool', link: 'Maintenance-Tool_apache' },      
+        { text: 'Cluster Management Tool', link: 'Maintenance-Tool_apache' },
         { text: 'Data Import', link: 'Data-Import-Tool' },
         { text: 'Data Export', link: 'Data-Export-Tool' },
       ],
@@ -142,7 +153,7 @@ export const enSidebar = {
           text: 'REST API',
           collapsible: true,
           children: [
-            { text: 'V1 (Not Recommend)', link: 'RestServiceV1'  },
+            { text: 'V1 (Not Recommend)', link: 'RestServiceV1' },
             { text: 'V2', link: 'RestServiceV2' },
           ],
         },
@@ -179,8 +190,14 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'UDF Libraries', link: 'UDF-Libraries_apache' },
-            { text: 'Operator and Expression', link: 'Operator-and-Expression' }, 
-            { text: 'Function and Expression', link: 'Function-and-Expression' },        
+            {
+              text: 'Operator and Expression',
+              link: 'Operator-and-Expression',
+            },
+            {
+              text: 'Function and Expression',
+              link: 'Function-and-Expression',
+            },
           ],
         },
       ],
@@ -193,7 +210,10 @@ export const enSidebar = {
       children: [
         { text: 'Research Paper ', link: 'Publication' },
         { text: 'Compression & Encoding', link: 'Encoding-and-Compression' },
-        { text: 'Data Partitioning & Load Balancing', link: 'Cluster-data-partitioning' },
+        {
+          text: 'Data Partitioning & Load Balancing',
+          link: 'Cluster-data-partitioning',
+        },
       ],
     },
     {
@@ -207,7 +227,10 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'Common Config Manual', link: 'Common-Config-Manual' },
-            { text: 'ConfigNode Config Manual', link: 'ConfigNode-Config-Manual' },
+            {
+              text: 'ConfigNode Config Manual',
+              link: 'ConfigNode-Config-Manual',
+            },
             { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual' },
           ],
         },
@@ -216,7 +239,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'Identifiers', link: 'Syntax-Rule' },
-            { text: 'Keywords', link: 'Keywords' },        
+            { text: 'Keywords', link: 'Keywords' },
           ],
         },
         { text: 'Status Codes', link: 'Status-Codes' },
@@ -228,7 +251,11 @@ export const enSidebar = {
       prefix: 'FAQ/',
       // children: 'structure',
       children: [
-        { text: 'Frequently Asked Questions', link: 'Frequently-asked-questions' }],
+        {
+          text: 'Frequently Asked Questions',
+          link: 'Frequently-asked-questions',
+        },
+      ],
     },
   ],
 };

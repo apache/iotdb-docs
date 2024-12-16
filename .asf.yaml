@@ -17,13 +17,12 @@
 # under the License.
 #
 
-
 notifications:
-  issues:       reviews@iotdb.apache.org
+  issues: reviews@iotdb.apache.org
   pullrequests: reviews@iotdb.apache.org
 
 github:
-  description: "Apache IoTDB Documentation and Site"
+  description: 'Apache IoTDB Documentation and Site'
   homepage: https://iotdb.apache.org/
   labels:
     - timeseries
@@ -31,11 +30,11 @@ github:
     - documentation
   enabled_merge_buttons:
     # enable squash button:
-    squash:  true
+    squash: true
     # enable merge button:
-    merge:   false
+    merge: false
     # disable rebase button:
-    rebase:  true
+    rebase: true
   collaborators:
     - CritasWang
     - krystal-xiao
@@ -44,7 +43,7 @@ github:
 
 staging:
   profile: ~
-  whoami:  asf-staging
+  whoami: asf-staging
 
 publish:
-  whoami:  asf-site
+  whoami: asf-site

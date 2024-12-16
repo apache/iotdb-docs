@@ -1,20 +1,19 @@
 /*
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 export const zhSidebar = {
@@ -74,12 +73,12 @@ export const zhSidebar = {
           text: '数据建模',
           collapsible: true,
           children: [
-            { text: '时序数据模型', link: 'Navigating_Time_Series_Data'  },
+            { text: '时序数据模型', link: 'Navigating_Time_Series_Data' },
             { text: '建模方案设计', link: 'Data-Model-and-Terminology' },
             { text: '测点管理', link: 'Operate-Metadata_timecho' },
           ],
         },
-        { text: '写入&删除', link: 'Write-Delete-Data'  },
+        { text: '写入&删除', link: 'Write-Delete-Data' },
         { text: '数据查询', link: 'Query-Data' },
       ],
     },
@@ -96,7 +95,7 @@ export const zhSidebar = {
           text: '安全管理',
           collapsible: true,
           children: [
-            { text: '白名单', link: 'White-List_timecho'  },
+            { text: '白名单', link: 'White-List_timecho' },
             { text: '审计日志', link: 'Audit-Log_timecho' },
             { text: '权限管理', link: 'Authority-Management' },
           ],
@@ -109,12 +108,12 @@ export const zhSidebar = {
           text: '数据库编程',
           collapsible: true,
           children: [
-            { text: 'UDF开发', link: 'UDF-development'  },
+            { text: 'UDF开发', link: 'UDF-development' },
             { text: '触发器', link: 'Trigger' },
             { text: '流处理框架', link: 'Streaming_timecho' },
           ],
         },
-        { text: '运维语句', link: 'Maintennance'},
+        { text: '运维语句', link: 'Maintennance' },
       ],
     },
     {
@@ -153,7 +152,7 @@ export const zhSidebar = {
           text: 'REST API',
           collapsible: true,
           children: [
-            { text: 'V1 (不推荐)', link: 'RestServiceV1'  },
+            { text: 'V1 (不推荐)', link: 'RestServiceV1' },
             { text: 'V2', link: 'RestServiceV2' },
           ],
         },
@@ -177,7 +176,7 @@ export const zhSidebar = {
         { text: 'Ignition', link: 'Ignition-IoTDB-plugin_timecho' },
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana插件', link: 'Grafana-Plugin' },
-        { text: 'ThingsBoard', link: 'Thingsboard' }, 
+        { text: 'ThingsBoard', link: 'Thingsboard' },
       ],
     },
     {
@@ -192,8 +191,8 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: 'UDF函数库', link: 'UDF-Libraries_timecho' },
-            { text: '函数与运算符', link: 'Operator-and-Expression' }, 
-            { text: '内置函数与表达式', link: 'Function-and-Expression' },         
+            { text: '函数与运算符', link: 'Operator-and-Expression' },
+            { text: '内置函数与表达式', link: 'Function-and-Expression' },
           ],
         },
       ],
@@ -229,7 +228,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '标识符', link: 'Syntax-Rule' },
-            { text: '关键字', link: 'Keywords' },          
+            { text: '关键字', link: 'Keywords' },
           ],
         },
         { text: '状态码', link: 'Status-Codes' },
@@ -240,8 +239,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'FAQ/',
       // children: 'structure',
-      children: [
-        { text: '常见问题', link: 'Frequently-asked-questions' }],
+      children: [{ text: '常见问题', link: 'Frequently-asked-questions' }],
     },
   ],
 };

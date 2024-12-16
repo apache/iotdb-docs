@@ -1,20 +1,19 @@
 /*
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 import { navbar } from 'vuepress-theme-hope';
@@ -24,8 +23,14 @@ export const zhNavbar = navbar([
     text: '文档',
     children: [
       // { text: 'latest', link: '/zh/UserGuide/Master/QuickStart/QuickStart_apache' },
-      { text: 'v1.3.3', link: '/zh/UserGuide/latest/QuickStart/QuickStart_apache' },
-      { text: 'v1.3.0/1/2', link: '/zh/UserGuide/V1.3.0-2/QuickStart/QuickStart_apache' },
+      {
+        text: 'v1.3.3',
+        link: '/zh/UserGuide/latest/QuickStart/QuickStart_apache',
+      },
+      {
+        text: 'v1.3.0/1/2',
+        link: '/zh/UserGuide/V1.3.0-2/QuickStart/QuickStart_apache',
+      },
       { text: 'v1.2.x', link: '/zh/UserGuide/V1.2.x/QuickStart/QuickStart' },
       { text: 'v1.1.x', link: '/zh/UserGuide/V1.1.x/QuickStart/QuickStart' },
       { text: 'v1.0.x', link: '/zh/UserGuide/V1.0.x/QuickStart/QuickStart' },
@@ -57,10 +62,16 @@ export const zhNavbar = navbar([
       { text: '基金会', link: 'https://www.apache.org/' },
       { text: '许可证', link: 'https://www.apache.org/licenses/' },
       { text: '安全', link: 'https://www.apache.org/security/' },
-      { text: '赞助', link: 'https://www.apache.org/foundation/sponsorship.html' },
+      {
+        text: '赞助',
+        link: 'https://www.apache.org/foundation/sponsorship.html',
+      },
       { text: '致谢', link: 'https://www.apache.org/foundation/thanks.html' },
       { text: '活动', link: 'https://www.apache.org/events/current-event' },
-      { text: '隐私', link: 'https://privacy.apache.org/policies/privacy-policy-public.html' },
+      {
+        text: '隐私',
+        link: 'https://privacy.apache.org/policies/privacy-policy-public.html',
+      },
     ],
   },
 ]);

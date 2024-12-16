@@ -7,8 +7,8 @@ UDF（User Defined Function）即用户自定义函数，IoTDB 提供多种内�
 IoTDB 支持两种类型的 UDF 函数，如下表所示。
 
 <table style="text-align: left;">
-      <tr>
-            <th>UDF 分类</th>
+  <tbody>
+     <tr>            <th>UDF 分类</th>
             <th>数据访问策略</th>        
             <th>描述</th>
       </tr>
@@ -26,6 +26,7 @@ IoTDB 支持两种类型的 UDF 函数，如下表所示。
             <td>-</td>       
             <td>自定义聚合函数，输入 k 列时间序列 m 行数据，输出 1 列时间序列 1 行数据，可用于聚合函数出现的任何子句和表达式中，如select子句、having子句等。</td>
       </tr>
+  </tbody>
 </table>
 
 ###  1.1 UDF 使用

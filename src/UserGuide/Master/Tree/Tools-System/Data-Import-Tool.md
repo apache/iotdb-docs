@@ -5,8 +5,8 @@
 IoTDB currently supports importing data in CSV, SQL, and TsFile (IoTDB's underlying open-time series file format) into the database. The specific functionalities are as follows:
 
 <table style="text-align: left;">
-      <tr>
-            <th>File Format</th>
+  <tbody>
+     <tr>            <th>File Format</th>
             <th>IoTDB Tool</th>        
             <th>Description</th>
       </tr>
@@ -29,6 +29,7 @@ IoTDB currently supports importing data in CSV, SQL, and TsFile (IoTDB's underly
             <td>TsFile Active Listening & Loading Feature</td>
             <td>According to user configuration, it listens for changes in TsFile files in the specified path and loads newly added TsFile files into IoTDB</td>       
       </tr>
+</tbody>
 </table>
 
 ## 2. import-data Scripts

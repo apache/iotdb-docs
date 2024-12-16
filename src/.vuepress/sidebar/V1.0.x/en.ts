@@ -1,20 +1,19 @@
 /*
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 export const enSidebar = {
@@ -52,7 +51,10 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Data-Concept/',
       children: [
-        { text: 'Data Model and Terminology', link: 'Data-Model-and-Terminology' },
+        {
+          text: 'Data Model and Terminology',
+          link: 'Data-Model-and-Terminology',
+        },
         { text: 'Schema Template', link: 'Schema-Template' },
         { text: 'Data Type', link: 'Data-Type' },
         { text: 'Deadband Process', link: 'Deadband-Process' },
@@ -73,7 +75,10 @@ export const enSidebar = {
         { text: 'Key-Value Pair', link: 'KeyValue-Pair' },
         { text: 'Keywords', link: 'Keywords-And-Reserved-Words' },
         { text: 'Session And TsFile API', link: 'Session-And-TsFile-API' },
-        { text: 'Detailed Definitions of Lexical and Grammar', link: 'Detailed-Grammar' },
+        {
+          text: 'Detailed Definitions of Lexical and Grammar',
+          link: 'Detailed-Grammar',
+        },
       ],
     },
     {
@@ -199,9 +204,7 @@ export const enSidebar = {
       text: 'Administration Management',
       collapsible: true,
       prefix: 'Administration-Management/',
-      children: [
-        { text: 'Administration', link: 'Administration' },
-      ],
+      children: [{ text: 'Administration', link: 'Administration' }],
     },
     {
       text: 'Maintenance Tools',
@@ -212,9 +215,15 @@ export const enSidebar = {
         { text: 'Log Tool', link: 'Log-Tool' },
         { text: 'JMX Tool', link: 'JMX-Tool' },
         { text: 'MLogParser Tool', link: 'MLogParser-Tool' },
-        { text: 'IoTDB Data Directory Overview Tool', link: 'IoTDB-Data-Dir-Overview-Tool' },
+        {
+          text: 'IoTDB Data Directory Overview Tool',
+          link: 'IoTDB-Data-Dir-Overview-Tool',
+        },
         { text: 'TsFile Sketch Tool', link: 'TsFile-Sketch-Tool' },
-        { text: 'TsFile Resource Sketch Tool', link: 'TsFile-Resource-Sketch-Tool' },
+        {
+          text: 'TsFile Resource Sketch Tool',
+          link: 'TsFile-Resource-Sketch-Tool',
+        },
         { text: 'TsFile Split Tool', link: 'TsFile-Split-Tool' },
         { text: 'TsFile Load Export Tool', link: 'TsFile-Load-Export-Tool' },
         { text: 'CSV Load Export Tool', link: 'CSV-Tool' },
@@ -224,9 +233,7 @@ export const enSidebar = {
       text: 'Collaboration of Edge and Cloud',
       collapsible: true,
       prefix: 'Edge-Cloud-Collaboration/',
-      children: [
-        { text: 'TsFile Sync Tool', link: 'Sync-Tool' },
-      ],
+      children: [{ text: 'TsFile Sync Tool', link: 'Sync-Tool' }],
     },
     {
       text: 'Ecosystem Integration',
@@ -234,7 +241,10 @@ export const enSidebar = {
       prefix: 'Ecosystem-Integration/',
       children: [
         { text: 'Grafana-Plugin', link: 'Grafana-Plugin' },
-        { text: 'Grafana-Connector (Not Recommended)', link: 'Grafana-Connector' },
+        {
+          text: 'Grafana-Connector (Not Recommended)',
+          link: 'Grafana-Connector',
+        },
         { text: 'Zeppelin-IoTDB', link: 'Zeppelin-IoTDB' },
         { text: 'DBeaver-IoTDB', link: 'DBeaver' },
         { text: 'MapReduce-TsFile', link: 'MapReduce-TsFile' },
@@ -254,7 +264,10 @@ export const enSidebar = {
         { text: 'Cluster Concept', link: 'Cluster-Concept' },
         { text: 'Cluster Setup', link: 'Cluster-Setup' },
         { text: 'Cluster Maintenance', link: 'Cluster-Maintenance' },
-        { text: 'Deployment Recommendation', link: 'Deployment-Recommendation' },
+        {
+          text: 'Deployment Recommendation',
+          link: 'Deployment-Recommendation',
+        },
       ],
     },
     {
@@ -262,7 +275,10 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'FAQ/',
       children: [
-        { text: 'Frequently asked questions', link: 'Frequently-asked-questions' },
+        {
+          text: 'Frequently asked questions',
+          link: 'Frequently-asked-questions',
+        },
         { text: 'FAQ for cluster setup', link: 'FAQ-for-cluster-setup' },
       ],
     },

@@ -19,59 +19,208 @@
 
 -->
 # 发行版本
-
 <table>
-	  <tr>
+  <tbody>
+    <tr>
       <th>版本</th>
-	    <th colspan="3">IoTDB 二进制包</th>
-	    <th colspan="3">IoTDB 源代码</th>
-	    <th>发布说明</th>  
-	  </tr>
-      <tr>
-            <td rowspan="2">1.3.3</td>
-            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-all-bin.zip">All-in-one</a></td>
-            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-all-bin.zip.sha512">SHA512</a></td>
-            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-all-bin.zip.asc">ASC</a></td>
-            <td rowspan="2"><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-source-release.zip">源代码</a></td>
-            <td rowspan="2"><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-source-release.zip.sha512">SHA512</a></td>
-            <td rowspan="2"><a href="https://www.apache.org/dyn/closer.cgi/1.3.3/apache-iotdb-1.3.3-source-release.zip.asc">ASC</a></td>
-            <td rowspan="2"><a href="https://dlcdn.apache.org/iotdb/1.3.3/RELEASE_NOTES.md">release notes</a></td>
-      </tr>
-      <tr>
-            <td><a href="https://archive.apache.org/dist/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip">AINode</a></td>
-            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip.sha512">SHA512</a></td>
-            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip.asc">ASC</a></td>
-      </tr>
-      <tr>
-            <td rowspan="1">1.3.2</td>
-            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-all-bin.zip">All-in-one</a></td>
-            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-all-bin.zip.sha512">SHA512</a></td>
-            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-all-bin.zip.asc">ASC</a></td>
-            <td rowspan="1"><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-source-release.zip">源代码</a></td>
-            <td rowspan="1"><a href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-source-release.zip.sha512">SHA512</a></td>
-            <td rowspan="1"><a href="https://www.apache.org/dyn/closer.cgi/1.3.2/apache-iotdb-1.3.2-source-release.zip.asc">ASC</a></td>
-            <td rowspan="1"><a href="https://raw.githubusercontent.com/apache/iotdb/rc/1.3.2/RELEASE_NOTES.md">release notes</a></td>
-      </tr>      
-      <tr>
-            <td rowspan="3">0.13.4</td>
-            <td><a href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-all-bin.zip">All-in-one</a></td>
-            <td><a href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-all-bin.zip.sha512">SHA512</a></td>
-            <td><a href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-all-bin.zip.asc">ASC</a></td>
-            <td rowspan="3"><a href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-source-release.zip">源代码</a></td>
-            <td rowspan="3"><a href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-source-release.zip.sha512">SHA512</a></td>
-            <td rowspan="3"><a href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-source-release.zip.asc">ASC</a></td>
-            <td rowspan="3"><a href="https://archive.apache.org/dist/iotdb/0.13.4/RELEASE_NOTES.md">release notes</a></td>
-      </tr>
-      <tr>
-            <td><a href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-grafana-connector-bin.zip">Grafana 连接器</a></td>
-            <td><a href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-grafana-connector-bin.zip.sha512">SHA512</a></td>
-            <td><a href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-grafana-connector-bin.zip.asc">ASC</a></td>
-      </tr>
-      <tr>
-            <td><a href="https://www.apache.org/dyn/closer.cgi/iotdb/0.13.3/apache-iotdb-0.13.3-grafana-plugin-bin.zip">Grafana 插件</a></td>
-            <td><a href="https://downloads.apache.org/iotdb/0.13.3/apache-iotdb-0.13.3-grafana-plugin-bin.zip.sha512">SHA512</a></td>
-            <td><a href="https://downloads.apache.org/iotdb/0.13.3/apache-iotdb-0.13.3-grafana-plugin-bin.zip.asc">ASC</a></td>
-      </tr>
+      <th colspan="3">IoTDB 二进制包</th>
+      <th colspan="3">IoTDB 源代码</th>
+      <th>发布说明</th>
+    </tr>
+    <tr>
+      <td rowspan="2">1.3.3</td>
+      <td>
+        <a
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-all-bin.zip"
+          >All-in-one</a
+        >
+      </td>
+      <td>
+        <a
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-all-bin.zip.sha512"
+          >SHA512</a
+        >
+      </td>
+      <td>
+        <a
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-all-bin.zip.asc"
+          >ASC</a
+        >
+      </td>
+      <td rowspan="2">
+        <a
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-source-release.zip"
+          >源代码</a
+        >
+      </td>
+      <td rowspan="2">
+        <a
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-source-release.zip.sha512"
+          >SHA512</a
+        >
+      </td>
+      <td rowspan="2">
+        <a
+          href="https://www.apache.org/dyn/closer.cgi/1.3.3/apache-iotdb-1.3.3-source-release.zip.asc"
+          >ASC</a
+        >
+      </td>
+      <td rowspan="2">
+        <a href="https://dlcdn.apache.org/iotdb/1.3.3/RELEASE_NOTES.md"
+          >release notes</a
+        >
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a
+          href="https://archive.apache.org/dist/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip"
+          >AINode</a
+        >
+      </td>
+      <td>
+        <a
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip.sha512"
+          >SHA512</a
+        >
+      </td>
+      <td>
+        <a
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip.asc"
+          >ASC</a
+        >
+      </td>
+    </tr>
+    <tr>
+      <td rowspan="1">1.3.2</td>
+      <td>
+        <a
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-all-bin.zip"
+          >All-in-one</a
+        >
+      </td>
+      <td>
+        <a
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-all-bin.zip.sha512"
+          >SHA512</a
+        >
+      </td>
+      <td>
+        <a
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-all-bin.zip.asc"
+          >ASC</a
+        >
+      </td>
+      <td rowspan="1">
+        <a
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-source-release.zip"
+          >源代码</a
+        >
+      </td>
+      <td rowspan="1">
+        <a
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.2/apache-iotdb-1.3.2-source-release.zip.sha512"
+          >SHA512</a
+        >
+      </td>
+      <td rowspan="1">
+        <a
+          href="https://www.apache.org/dyn/closer.cgi/1.3.2/apache-iotdb-1.3.2-source-release.zip.asc"
+          >ASC</a
+        >
+      </td>
+      <td rowspan="1">
+        <a
+          href="https://raw.githubusercontent.com/apache/iotdb/rc/1.3.2/RELEASE_NOTES.md"
+          >release notes</a
+        >
+      </td>
+    </tr>
+    <tr>
+      <td rowspan="3">0.13.4</td>
+      <td>
+        <a
+          href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-all-bin.zip"
+          >All-in-one</a
+        >
+      </td>
+      <td>
+        <a
+          href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-all-bin.zip.sha512"
+          >SHA512</a
+        >
+      </td>
+      <td>
+        <a
+          href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-all-bin.zip.asc"
+          >ASC</a
+        >
+      </td>
+      <td rowspan="3">
+        <a
+          href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-source-release.zip"
+          >源代码</a
+        >
+      </td>
+      <td rowspan="3">
+        <a
+          href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-source-release.zip.sha512"
+          >SHA512</a
+        >
+      </td>
+      <td rowspan="3">
+        <a
+          href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-source-release.zip.asc"
+          >ASC</a
+        >
+      </td>
+      <td rowspan="3">
+        <a href="https://archive.apache.org/dist/iotdb/0.13.4/RELEASE_NOTES.md"
+          >release notes</a
+        >
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a
+          href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-grafana-connector-bin.zip"
+          >Grafana 连接器</a
+        >
+      </td>
+      <td>
+        <a
+          href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-grafana-connector-bin.zip.sha512"
+          >SHA512</a
+        >
+      </td>
+      <td>
+        <a
+          href="https://dlcdn.apache.org/iotdb/0.13.4/apache-iotdb-0.13.4-grafana-connector-bin.zip.asc"
+          >ASC</a
+        >
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <a
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/0.13.3/apache-iotdb-0.13.3-grafana-plugin-bin.zip"
+          >Grafana 插件</a
+        >
+      </td>
+      <td>
+        <a
+          href="https://downloads.apache.org/iotdb/0.13.3/apache-iotdb-0.13.3-grafana-plugin-bin.zip.sha512"
+          >SHA512</a
+        >
+      </td>
+      <td>
+        <a
+          href="https://downloads.apache.org/iotdb/0.13.3/apache-iotdb-0.13.3-grafana-plugin-bin.zip.asc"
+          >ASC</a
+        >
+      </td>
+    </tr>
+  </tbody>
 </table>
 
 历史版本下载：[https://archive.apache.org/dist/iotdb/](https://archive.apache.org/dist/iotdb/)
@@ -190,7 +339,7 @@ for(int i = 0; i <= values.length; i++){
 
 查询 root.sg.a 的数据，可以看到没有做反转义处理：
 
-```Plain%20Text
+```
 // 查询结果
 +-----------------------------+---------+
 |                         Time|root.sg.a|
@@ -214,7 +363,7 @@ insert into root.sg(time, a) values(4, "\u96d5")
 
 查询 root.sg.a 的数据，可以看到字符串进行了反转义：
 
-```Plain%20Text
+```
 // 查询结果
 +-----------------------------+---------+
 |                         Time|root.sg.a|

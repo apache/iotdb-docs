@@ -21,6 +21,7 @@
 # 资源规划
 ## CPU
 <table style="text-align: center;">
+   <tbody>
       <tr>
             <th rowspan="2">序列数（采集频率<=1HZ）</th>
             <th rowspan="2">CPU</th>        
@@ -77,10 +78,12 @@
             <td>1000w以上</td>
             <td colspan="4">请联系天谋商务咨询</td>
       </tr>
+  </tbody>
 </table>
 
 ## 内存
 <table style="text-align: center;">
+   <tbody>
       <tr>
             <th rowspan="2">序列数（采集频率<=1HZ）</th>
             <th rowspan="2">内存</th>        
@@ -137,12 +140,14 @@
             <td>1000w以上</td>
             <td colspan="4">请联系天谋商务咨询</td>
       </tr>
+  </tbody>
 </table>
 
 ## 存储(磁盘)
 ### 存储空间
 计算公式：测点数量 * 采样频率（Hz）* 每个数据点大小（Byte，不同数据类型不一样，见下表）
 <table style="text-align: center;">
+   <tbody>
       <tr>
             <th colspan="4"> 数据点大小计算表 </th>        
       </tr>
@@ -176,6 +181,7 @@
             <td>平均为a</td>
             <td>8+a</td>
       </tr>
+  </tbody>
 </table>
 
 示例：1000设备，每个设备100 测点，共 100000 序列，INT32 类型。采样频率1Hz（每秒一次），存储1年，3副本。

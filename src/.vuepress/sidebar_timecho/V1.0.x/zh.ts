@@ -1,20 +1,19 @@
 /*
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 export const zhSidebar = {
@@ -31,7 +30,7 @@ export const zhSidebar = {
       children: [
         { text: 'IoTDB简介', link: 'What-is-IoTDB' },
         { text: '主要功能特点', link: 'Features' },
-       //   { text: '系统架构', link: 'Architecture' },
+        //   { text: '系统架构', link: 'Architecture' },
         //  { text: '应用场景', link: 'Scenario' },
         { text: '研究论文', link: 'Publication' },
       ],
@@ -42,9 +41,9 @@ export const zhSidebar = {
       prefix: 'QuickStart/',
       children: [
         { text: '快速上手', link: 'QuickStart' },
- //       { text: '下载与安装', link: 'WayToGetIoTDB' },
-//        { text: 'SQL命令行终端(CLI)', link: 'Command-Line-Interface' },
-//        { text: '数据文件存储', link: 'Files' },
+        //       { text: '下载与安装', link: 'WayToGetIoTDB' },
+        //        { text: 'SQL命令行终端(CLI)', link: 'Command-Line-Interface' },
+        //        { text: '数据文件存储', link: 'Files' },
       ],
     },
     {
@@ -64,12 +63,12 @@ export const zhSidebar = {
       prefix: 'Basic-Concept/',
       children: [
         { text: '数据模型', link: 'Data-Model-and-Terminology' },
- //        { text: '元数据模板', link: 'Schema-Template' },
+        //        { text: '元数据模板', link: 'Schema-Template' },
         { text: '数据类型', link: 'Data-Type' },
- //        { text: '死区处理', link: 'Deadband-Process' },
+        //        { text: '死区处理', link: 'Deadband-Process' },
         { text: '编码和压缩', link: 'Encoding-and-Compression' },
- //       { text: '数据的时间分区', link: 'Time-Partition' },
- //     { text: '时区', link: 'Time-zone' },
+        //       { text: '数据的时间分区', link: 'Time-Partition' },
+        //     { text: '时区', link: 'Time-zone' },
       ],
     },
     {
@@ -216,9 +215,15 @@ export const zhSidebar = {
         { text: '日志工具', link: 'Log-Tool' },
         { text: 'JMX 工具', link: 'JMX-Tool' },
         { text: 'Mlog解析工具', link: 'MLogParser-Tool' },
-        { text: 'IoTDB数据文件夹概览工具', link: 'IoTDB-Data-Dir-Overview-Tool' },
+        {
+          text: 'IoTDB数据文件夹概览工具',
+          link: 'IoTDB-Data-Dir-Overview-Tool',
+        },
         { text: 'TsFile概览工具', link: 'TsFile-Sketch-Tool' },
-        { text: 'TsFile Resource概览工具', link: 'TsFile-Resource-Sketch-Tool' },
+        {
+          text: 'TsFile Resource概览工具',
+          link: 'TsFile-Resource-Sketch-Tool',
+        },
         { text: 'TsFile 拆分工具', link: 'TsFile-Split-Tool' },
         { text: 'TsFile 导入导出工具', link: 'TsFile-Load-Export-Tool' },
         { text: 'CSV 导入导出工具', link: 'CSV-Tool' },
@@ -228,9 +233,7 @@ export const zhSidebar = {
       text: '端云协同',
       collapsible: true,
       prefix: 'Edge-Cloud-Collaboration/',
-      children: [
-        { text: 'TsFile 同步工具', link: 'Sync-Tool' },
-      ],
+      children: [{ text: 'TsFile 同步工具', link: 'Sync-Tool' }],
     },
     {
       text: '系统集成',

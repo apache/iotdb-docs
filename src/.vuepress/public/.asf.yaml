@@ -19,7 +19,7 @@
 
 staging:
   profile: ~
-  whoami:  asf-staging
+  whoami: asf-staging
 
 publish:
-  whoami:  asf-site
+  whoami: asf-site
