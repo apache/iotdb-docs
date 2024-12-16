@@ -78,6 +78,7 @@
             <td>1000w以上</td>
             <td colspan="4">请联系天谋商务咨询</td>
       </tr>
+  </tbody>
 </table>
 
 ## 内存
@@ -139,6 +140,7 @@
             <td>1000w以上</td>
             <td colspan="4">请联系天谋商务咨询</td>
       </tr>
+  </tbody>
 </table>
 
 ## 存储(磁盘)
@@ -179,6 +181,7 @@
             <td>平均为a</td>
             <td>8+a</td>
       </tr>
+  </tbody>
 </table>
 
 

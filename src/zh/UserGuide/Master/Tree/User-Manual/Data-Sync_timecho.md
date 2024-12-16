@@ -73,6 +73,7 @@
             <td>-</td>       
             <td>同步用户权限和访问控制</td>
       </tr>
+  </tbody>
 </table>
 
 ### 功能限制及说明
@@ -259,6 +260,7 @@ IoTDB> SHOW PIPEPLUGINS
             <td>用于 IoTDB（V1.3.1 及以上）与 IoTDB（V1.2.0 及以上）之间的数据传输。使用 Thrift RPC 框架传输数据，单线程 sync blocking IO 模型，适用于安全需求较高的场景 </td>
             <td>1.3.1+</td>
       </tr>
+  </tbody>
 </table>
 
 导入自定义插件可参考[流处理框架](./Streaming_timecho.md#自定义流处理插件管理)章节。
