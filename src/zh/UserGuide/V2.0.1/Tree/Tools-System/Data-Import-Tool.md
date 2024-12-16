@@ -5,8 +5,8 @@
 IoTDB 目前支持将 CSV、SQL、及TsFile（IoTDB底层开放式时间序列文件格式）格式的数据导入数据库。具体功能如下：
 
 <table style="text-align: left;">
-      <tr>
-            <th>文件格式</th>
+  <tbody>
+     <tr>            <th>文件格式</th>
             <th>IoTDB工具</th>        
             <th>具体介绍</th>
       </tr>

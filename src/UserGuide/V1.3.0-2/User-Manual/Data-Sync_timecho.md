@@ -38,8 +38,8 @@ A data synchronization task consists of three stages:
 By declaratively configuring the specific content of the three parts through SQL statements, flexible data synchronization capabilities can be achieved. Currently, data synchronization supports the synchronization of the following information, and you can select the synchronization scope when creating a synchronization task (the default is data.insert, which means synchronizing newly written data):
 
 <table style="text-align: left;">
-      <tr>
-            <th>Synchronization Scope</th>
+  <tbody>
+     <tr>            <th>Synchronization Scope</th>
             <th>Synchronization Content	</th>        
             <th>Description</th>
       </tr>
@@ -220,8 +220,8 @@ IoTDB> SHOW PIPEPLUGINS
 Detailed introduction of pre-installed plugins is as follows (for detailed parameters of each plugin, please refer to the [Parameter Description](#reference-parameter-description) section):
 
 <table style="text-align: left;">
-      <tr>
-            <th>Type</th>
+  <tbody>
+     <tr>            <th>Type</th>
             <th>Custom Plugin</th>        
             <th>Plugin Name</th>
             <th>Description</th>

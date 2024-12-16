@@ -37,8 +37,8 @@
 通过 SQL 语句声明式地配置 3 个部分的具体内容，可实现灵活的数据同步能力。目前数据同步支持以下信息的同步，您可以在创建同步任务时对同步范围进行选择（默认选择 data.insert，即同步新写入的数据）：
 
 <table style="text-align: left;">
-      <tr>
-            <th>同步范围</th>
+  <tbody>
+     <tr>            <th>同步范围</th>
             <th>同步内容</th>        
             <th>说明</th>
       </tr>
@@ -218,8 +218,8 @@ IoTDB> SHOW PIPEPLUGINS
 
 
 <table style="text-align: left;">
-      <tr>
-            <th>类型</th>
+  <tbody>
+     <tr>            <th>类型</th>
             <th>自定义插件</th>        
             <th>插件名称</th>
             <th>介绍</th>

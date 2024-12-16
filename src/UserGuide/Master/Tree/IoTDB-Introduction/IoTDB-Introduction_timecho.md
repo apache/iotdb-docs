@@ -83,8 +83,8 @@ Building on the open-source version, TimechoDB offers a range of advanced produc
 The detailed functional comparison is as follows：
 
 <table style="text-align: left;">
-      <tr>
-            <th colspan="2">Function</th>
+  <tbody>
+     <tr>            <th colspan="2">Function</th>
             <th>Apache IoTDB</th>        
             <th>TimechoDB</th>
       </tr>

@@ -81,8 +81,8 @@ TimechoDB 在开源版基础上提供了更多高阶产品功能，在内核层�
 详细功能对比如下：
 
 <table style="text-align: left;">
-      <tr>
-            <th colspan="2">功能</th>
+  <tbody>
+     <tr>            <th colspan="2">功能</th>
             <th>Apache IoTDB</th>        
             <th>TimechoDB</th>
       </tr>

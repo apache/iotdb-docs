@@ -7,8 +7,8 @@ UDF（User Defined Function）即用户自定义函数，IoTDB 提供多种内�
 IoTDB 支持两种类型的 UDF 函数，如下表所示。
 
 <table style="text-align: left;">
-      <tr>
-            <th>UDF 分类</th>
+  <tbody>
+     <tr>            <th>UDF 分类</th>
             <th>数据访问策略</th>        
             <th>描述</th>
       </tr>
