@@ -1,6 +1,7 @@
 ---
 home: true
 heroText: Apache IoTDB
+heroImage: /img/logo.svg
 tagline: 物联网数据库
 actions:
   - text: 下载

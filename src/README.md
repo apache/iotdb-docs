@@ -1,6 +1,7 @@
 ---
 home: true
 heroText: Apache IoTDB
+heroImage: /img/logo.svg
 tagline: Database for Internet of Things
 actions:
   - text: Download
