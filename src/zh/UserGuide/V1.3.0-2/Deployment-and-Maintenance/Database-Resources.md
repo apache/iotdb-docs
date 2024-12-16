@@ -21,6 +21,7 @@
 # 资源规划
 ## CPU
 <table style="text-align: center;">
+   <tbody>
       <tr>
             <th rowspan="2">序列数（采集频率<=1HZ）</th>
             <th rowspan="2">CPU</th>        
@@ -81,6 +82,7 @@
 
 ## 内存
 <table style="text-align: center;">
+   <tbody>
       <tr>
             <th rowspan="2">序列数（采集频率<=1HZ）</th>
             <th rowspan="2">内存</th>        
@@ -143,6 +145,7 @@
 ### 存储空间
 计算公式：测点数量 * 采样频率（Hz）* 每个数据点大小（Byte，不同数据类型不一样，见下表）
 <table style="text-align: center;">
+   <tbody>
       <tr>
             <th colspan="4"> 数据点大小计算表 </th>        
       </tr>
