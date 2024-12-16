@@ -5,11 +5,11 @@ heroImage: /img/logo.svg
 tagline: 物联网数据库
 actions:
   - text: 下载
-    link: /Download/
+    link: ./Download/
     type: primary
 
   - text: 快速上手
-    link: //UserGuide/latest/QuickStart/QuickStart_apache.html
+    link: ./UserGuide/latest/QuickStart/QuickStart_apache.html
 
 highlights:
   - header: 介绍

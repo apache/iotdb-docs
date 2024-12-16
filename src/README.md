@@ -5,11 +5,11 @@ heroImage: /img/logo.svg
 tagline: Database for Internet of Things
 actions:
   - text: Download
-    link: /Download/
+    link: ./Download/
     type: primary
 
   - text: Quick Start
-    link: //UserGuide/latest/QuickStart/QuickStart_apache.html
+    link: ./UserGuide/latest/QuickStart/QuickStart_apache.html
 
 highlights:
   - header: Introduction
