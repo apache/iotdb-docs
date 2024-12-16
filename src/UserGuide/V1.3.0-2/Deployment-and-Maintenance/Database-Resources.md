@@ -20,169 +20,172 @@
 -->
 # Database Resources
 ## CPU
-<table style="text-align: center;">
+
+<table style="text-align: center">
   <tbody>
-      <tr>
-            <th rowspan="2">Number of timeseries (frequency<=1HZ)</th>
-            <th rowspan="2">CPU</th>        
-            <th colspan="3">Number of nodes</th>
-      </tr>
-      <tr>
-      <th>standalone mode</th>   
-      <th>Double active</th> 
-      <th>Distributed</th> 
-      </tr>
-      <tr>
-            <td>Within 100000</td>
-            <td>2core-4core</td>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-      </tr>
-      <tr>
-            <td>Within 300000</td>
-            <td>4core-8core</td>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-      </tr>
-      <tr>
-            <td>Within 500000</td>
-            <td>8core-26core</td>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-      </tr>
-      <tr>
-            <td>Within 1000000</td>
-            <td>16core-32core</td>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-      </tr>
-      <tr>
-            <td>Within 2000000</td>
-            <td>32core-48core</td>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-      </tr>
-      <tr>
-            <td>Within 10000000</td>
-            <td>48core</td>
-            <td>1</td>
-            <td>2</td>
-            <td>Please contact Timecho Business for consultation</td>
-      </tr>
-      <tr>
-            <td>Over 10000000</td>
-            <td colspan="4">Please contact Timecho Business for consultation</td>
-      </tr>
-</tbody>
+    <tr>
+      <th rowspan="2">Number of timeseries (frequency<=1HZ)</th>
+      <th rowspan="2">CPU</th>
+      <th colspan="3">Number of nodes</th>
+    </tr>
+    <tr>
+      <th>standalone mode</th>
+      <th>Double active</th>
+      <th>Distributed</th>
+    </tr>
+    <tr>
+      <td>Within 100000</td>
+      <td>2core-4core</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Within 300000</td>
+      <td>4core-8core</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Within 500000</td>
+      <td>8core-26core</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Within 1000000</td>
+      <td>16core-32core</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Within 2000000</td>
+      <td>32core-48core</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Within 10000000</td>
+      <td>48core</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Please contact Timecho Business for consultation</td>
+    </tr>
+    <tr>
+      <td>Over 10000000</td>
+      <td colspan="4">Please contact Timecho Business for consultation</td>
+    </tr>
+  </tbody>
 </table>
 
-## Memory 
-<table style="text-align: center;">
+## Memory
+
+<table style="text-align: center">
   <tbody>
-      <tr>
-            <th rowspan="2">Number of timeseries (frequency<=1HZ)</th>
-            <th rowspan="2">Memory</th>        
-            <th colspan="3">Number of nodes</th>
-      </tr>
-      <tr>
-      <th>standalone mode</th>   
-      <th>Double active</th> 
-      <th>Distributed</th> 
-      </tr>
-      <tr>
-            <td>Within 100000</td>
-            <td>4G-8G</td>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-      </tr>
-      <tr>
-            <td>Within 300000</td>
-            <td>12G-32G</td>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-      </tr>
-      <tr>
-            <td>Within 500000</td>
-            <td>24G-48G</td>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-      </tr>
-      <tr>
-            <td>Within 1000000</td>
-            <td>32G-96G</td>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-      </tr>
-      <tr>
-            <td>Within 2000000</td>
-            <td>64G-128G</td>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-      </tr>
-      <tr>
-            <td>Within 10000000</td>
-            <td>128G</td>
-            <td>1</td>
-            <td>2</td>
-            <td>Please contact Timecho Business for consultation</td>
-      </tr>
-      <tr>
-            <td>Over 10000000</td>
-            <td colspan="4">Please contact Timecho Business for consultation</td>
-      </tr>
-</tbody>
+    <tr>
+      <th rowspan="2">Number of timeseries (frequency<=1HZ)</th>
+      <th rowspan="2">Memory</th>
+      <th colspan="3">Number of nodes</th>
+    </tr>
+    <tr>
+      <th>standalone mode</th>
+      <th>Double active</th>
+      <th>Distributed</th>
+    </tr>
+    <tr>
+      <td>Within 100000</td>
+      <td>4G-8G</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Within 300000</td>
+      <td>12G-32G</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Within 500000</td>
+      <td>24G-48G</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Within 1000000</td>
+      <td>32G-96G</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Within 2000000</td>
+      <td>64G-128G</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>Within 10000000</td>
+      <td>128G</td>
+      <td>1</td>
+      <td>2</td>
+      <td>Please contact Timecho Business for consultation</td>
+    </tr>
+    <tr>
+      <td>Over 10000000</td>
+      <td colspan="4">Please contact Timecho Business for consultation</td>
+    </tr>
+  </tbody>
 </table>
+
 
 ## Storage (Disk)
 ### Storage space
 Calculation formula: Number of measurement points * Sampling frequency (Hz) * Size of each data point (Byte, different data types may vary, see table below) * Storage time (seconds) * Number of copies (usually 1 copy for a single node and 2 copies for a cluster) ÷ Compression ratio (can be estimated at 5-10 times, but may be higher in actual situations)
-<table style="text-align: center;">
+
+<table style="text-align: center">
   <tbody>
-      <tr>
-            <th colspan="4">Data point size calculation</th>
-      </tr>
-      <tr>
-            <th>data type</th>   
-            <th>Timestamp (Bytes)</th> 
-            <th> Value (Bytes)</th> 
-            <th> Total size of data points (in bytes) 
-      </th> 
-      </tr>
-      <tr>
-            <td>Boolean</td>
-            <td>8</td>
-            <td>1</td>
-            <td>9</td>
-      </tr>
-      <tr>
-            <td> INT32/FLOAT</td>
-            <td>8</td>
-            <td>4</td>
-            <td>12</td>
-      </tr>
-      <tr>
-            <td>INT64/DOUBLE</td>
-            <td>8</td>
-            <td>8</td>
-            <td>16</td>
-      </tr>
-      <tr>
-            <td>TEXT</td>
-            <td>8</td>
-            <td>The average is a</td>
-            <td>8+a</td>
-      </tr>
-</tbody>
+    <tr>
+      <th colspan="4">Data point size calculation</th>
+    </tr>
+    <tr>
+      <th>data type</th>
+      <th>Timestamp (Bytes)</th>
+      <th>Value (Bytes)</th>
+      <th>Total size of data points (in bytes)</th>
+    </tr>
+    <tr>
+      <td>Boolean</td>
+      <td>8</td>
+      <td>1</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <td>INT32/FLOAT</td>
+      <td>8</td>
+      <td>4</td>
+      <td>12</td>
+    </tr>
+    <tr>
+      <td>INT64/DOUBLE</td>
+      <td>8</td>
+      <td>8</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <td>TEXT</td>
+      <td>8</td>
+      <td>The average is a</td>
+      <td>8+a</td>
+    </tr>
+  </tbody>
 </table>
 
 Example: 1000 devices, each with 100 measurement points, a total of 100000 sequences, INT32 type. Sampling frequency 1Hz (once per second), storage for 1 year, 3 copies.
