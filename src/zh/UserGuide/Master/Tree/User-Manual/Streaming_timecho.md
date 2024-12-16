@@ -469,7 +469,7 @@ USING <JAR 包的 URI>
 ```sql
 CREATE PIPEPLUGIN IF NOT EXISTS example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
-USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
+USING URI <https://example.com:8080/iotdb/pipe-plugin.jar>
 ```
 
 【方式二】上传到集群本地目录
@@ -481,7 +481,7 @@ USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
 ```sql
 CREATE PIPEPLUGIN IF NOT EXISTS example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
-USING URI '<file:/iotdb安装路径/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar>'
+USING URI <file:/iotdb安装路径/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar>
 ```
 
 ### 删除插件语句

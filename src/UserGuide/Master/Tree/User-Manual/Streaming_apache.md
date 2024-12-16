@@ -457,7 +457,7 @@ For example, if a user implements a data processing plugin with the fully qualif
 ```sql
 CREATE PIPEPLUGIN IF NOT EXISTS example
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor'
-USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
+USING URI <https://example.com:8080/iotdb/pipe-plugin.jar>
 ```
 
 ### Delete Plugin Statement
