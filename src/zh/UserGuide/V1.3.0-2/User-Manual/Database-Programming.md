@@ -1028,5 +1028,5 @@ SELECT avg(count_s1) from root.sg_count.d;
 ### 连续查询相关的配置参数
 | 参数名 | 描述                   | 类型 | 默认值 |
 | :---------------------------------- |----------------------|----------|---------------|
-| `continuous_query_submit_thread` | 用于周期性提交连续查询执行任务的线程数  | int32    | 2             |
+| `continuous_query_submit_thread_count` | 用于周期性提交连续查询执行任务的线程数  | int32    | 2             |
 | `continuous_query_min_every_interval_in_ms` | 系统允许的连续查询最小的周期性时间间隔  | duration | 1000          |

@@ -1034,7 +1034,7 @@ SELECT avg(count_s1) from root.sg_count.d;
 
 | Name                                        | Description                                                  | Data Type | Default Value |
 | :------------------------------------------ | ------------------------------------------------------------ | --------- | ------------- |
-| `continuous_query_submit_thread`            | The number of threads in the scheduled thread pool that submit continuous query tasks periodically | int32     | 2             |
+| `continuous_query_submit_thread_count`            | The number of threads in the scheduled thread pool that submit continuous query tasks periodically | int32     | 2             |
 | `continuous_query_min_every_interval_in_ms` | The minimum value of the continuous query execution time interval | duration  | 1000          |
 
 ## USER-DEFINED FUNCTION (UDF)
