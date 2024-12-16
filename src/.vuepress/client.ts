@@ -19,9 +19,13 @@
 import { defineDocSearchConfig } from '@vuepress/plugin-docsearch/client';
 import { computed } from 'vue';
 import { defineClientConfig, usePageData } from 'vuepress/client';
+import DocSearch from './components/DocSearch.vue';
 import { getDocVersion } from './utils/index.js';
 
 export default defineClientConfig({
+  enhance: ({ app }) => {
+    app.component('DocSearch', DocSearch);
+  },
   setup() {
     const pageData = usePageData();
 
