@@ -69,8 +69,6 @@ Detailed explanation of each parameter is as follows:
 
 Examples are as follows:
 
-
-
 ```SQL
 -- Full subscription
 CREATE TOPIC root_all;
@@ -80,9 +78,8 @@ CREATE TOPIC IF NOT EXISTS db_timerange
 WITH (
   'path' = 'root.db.**',
   'start-time' = '2023-01-01',
-  'end-time' = '2023-12-31',
+  'end-time' = '2023-12-31'
 );
-```
 
 #### 3.1.2 Delete Topic
 
