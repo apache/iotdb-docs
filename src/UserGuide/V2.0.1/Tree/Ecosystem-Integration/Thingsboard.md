@@ -64,13 +64,13 @@ export DATABASE_TS_TYPE=iotdb  ## Originally configured as SQL, change the varia
 # To use IoTDB, the following variables need to be added
 export DATABASE_TS_LATEST_TYPE=iotdb
 export IoTDB_HOST=127.0.0.1  ## The IP address where iotdb is located
-export IoTDB_PORT:6667       ## The port number for iotdb is 6667 by default
-export IoTDB_USER:root       ## The username for iotdb,defaults as root
-export IoTDB_PASSWORD:root   ## The password for iotdb,default as root
-export IoTDB_CONNECTION_TIMEOUT:5000   ## IoTDB timeout setting
-export IoTDB_FETCH_SIZE:1024   ## The number of data pulled in a single request is recommended to be set to 1024
-export IoTDB_MAX_SIZE:200      ## The maximum number of sessions in the session pool is recommended to be set to>=concurrent requests
-export IoTDB_DATABASE:root.thingsboard  ## Thingsboard data is written to the database stored in IoTDB, supporting customization
+export IoTDB_PORT=6667       ## The port number for iotdb is 6667 by default
+export IoTDB_USER=root       ## The username for iotdb,defaults as root
+export IoTDB_PASSWORD=root   ## The password for iotdb,default as root
+export IoTDB_CONNECTION_TIMEOUT=5000   ## IoTDB timeout setting
+export IoTDB_FETCH_SIZE=1024   ## The number of data pulled in a single request is recommended to be set to 1024
+export IoTDB_MAX_SIZE=200      ## The maximum number of sessions in the session pool is recommended to be set to>=concurrent requests
+export IoTDB_DATABASE=root.thingsboard  ## Thingsboard data is written to the database stored in IoTDB, supporting customization
 ```
 
 ## Instructions

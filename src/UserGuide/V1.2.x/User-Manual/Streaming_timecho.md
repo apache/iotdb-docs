@@ -466,7 +466,7 @@ SQL：
 ```sql
 CREATE PIPEPLUGIN example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
-USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
+USING URI <https://example.com:8080/iotdb/pipe-plugin.jar>
 ```
 
 Method 2: Upload the data to the local directory of the cluster
@@ -478,7 +478,7 @@ SQL：
 ```sql
 CREATE PIPEPLUGIN example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
-USING URI '<file:/IoTDB installation path/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar>'
+USING URI <file:/IoTDB installation path/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar>
 ```
 
 ### Delete plugin statement

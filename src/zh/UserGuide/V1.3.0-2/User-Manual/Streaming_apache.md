@@ -463,7 +463,7 @@ USING <JAR 包的 URI>
 ```sql
 CREATE PIPEPLUGIN example
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor'
-USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
+USING URI <https://example.com:8080/iotdb/pipe-plugin.jar>
 ```
 
 ### 删除插件语句
