@@ -1,22 +1,19 @@
 <!--
-
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-    
-        http://www.apache.org/licenses/LICENSE-2.0
-    
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
-
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
 -->
 
 # Java Native API
@@ -25,9 +22,8 @@
 
 ### Dependencies
 
-* JDK >= 1.8
-* Maven >= 3.6
-
+- JDK >= 1.8
+- Maven >= 3.6
 
 ### Using IoTDB Java Native API with Maven
 
@@ -45,7 +41,7 @@
 
 - **IoTDB-SQL interface:** The input SQL parameter needs to conform to the [syntax conventions](../User-Manual/Syntax-Rule.md#Literal-Values) and be escaped for JAVA strings. For example, you need to add a backslash before the double-quotes. (That is: after JAVA escaping, it is consistent with the SQL statement executed on the command line.)
 - **Other interfaces:**
-  - The node names in path or path prefix as parameter: The node names which should be escaped by backticks (`) in the SQL statement,  escaping is required here.
+  - The node names in path or path prefix as parameter: The node names which should be escaped by backticks (`) in the SQL statement, escaping is required here.
   - Identifiers (such as template names) as parameters: The identifiers which should be escaped by backticks (`) in the SQL statement, and escaping is not required here.
 - **Code example for syntax convention could be found at:** `example/session/src/main/java/org/apache/iotdb/SyntaxConventionRelatedExample.java`
 
@@ -55,27 +51,27 @@ Here we show the commonly used interfaces and their parameters in the Native API
 
 ### Session Management
 
-* Initialize a Session
+- Initialize a Session
 
-``` java
-// use default configuration 
+```java
+// use default configuration
 session = new Session.Builder.build();
 
 // initialize with a single node
-session = 
+session =
     new Session.Builder()
         .host(String host)
         .port(int port)
         .build();
 
 // initialize with multiple nodes
-session = 
+session =
     new Session.Builder()
         .nodeUrls(List<String> nodeUrls)
         .build();
 
 // other configurations
-session = 
+session =
     new Session.Builder()
         .fetchSize(int fetchSize)
         .username(String username)
@@ -89,28 +85,27 @@ session =
 
 Version represents the SQL semantic version used by the client, which is used to be compatible with the SQL semantics of 0.12 when upgrading 0.13. The possible values are: `V_0_12`, `V_0_13`, `V_1_0`, etc.
 
+- Open a Session
 
-* Open a Session
-
-``` java
+```java
 void open()
 ```
 
-* Open a session, with a parameter to specify whether to enable RPC compression
-  
-``` java
+- Open a session, with a parameter to specify whether to enable RPC compression
+
+```java
 void open(boolean enableRPCCompression)
 ```
 
 Notice: this RPC compression status of client must comply with that of IoTDB server
 
-* Close a Session
+- Close a Session
 
-``` java
+```java
 void close()
 ```
 
-* SessionPool
+- SessionPool
 
 We provide a connection pool (`SessionPool) for Native API.
 Using the interface, you need to define the pool size.
@@ -118,7 +113,7 @@ Using the interface, you need to define the pool size.
 If you can not get a session connection in 60 seconds, there is a warning log but the program will hang.
 
 If a session has finished an operation, it will be put back to the pool automatically.
-If a session connection is broken, the session will be removed automatically and the pool will try 
+If a session connection is broken, the session will be removed automatically and the pool will try
 to create a new session and redo the operation.
 You can also specify an url list of multiple reachable nodes when creating a SessionPool, just as you would when creating a Session. To ensure high availability of clients in distributed cluster.
 
@@ -126,50 +121,50 @@ For query operations:
 
 1. When using SessionPool to query data, the result set is `SessionDataSetWrapper`;
 2. Given a `SessionDataSetWrapper`, if you have not scanned all the data in it and stop to use it,
-you have to call `SessionPool.closeResultSet(wrapper)` manually;
+   you have to call `SessionPool.closeResultSet(wrapper)` manually;
 3. When you call `hasNext()` and `next()` of a `SessionDataSetWrapper` and there is an exception, then
-you have to call `SessionPool.closeResultSet(wrapper)` manually;
+   you have to call `SessionPool.closeResultSet(wrapper)` manually;
 4. You can call `getColumnNames()` of `SessionDataSetWrapper` to get the column names of query result;
 
-Examples: ```session/src/test/java/org/apache/iotdb/session/pool/SessionPoolTest.java```
+Examples: `session/src/test/java/org/apache/iotdb/session/pool/SessionPoolTest.java`
 
 Or `example/session/src/main/java/org/apache/iotdb/SessionPoolExample.java`
-
 
 ### Database & Timeseries Management API
 
 #### Database Management
 
-* CREATE DATABASE
+- CREATE DATABASE
 
-``` java
-void setStorageGroup(String storageGroupId)    
+```java
+void setStorageGroup(String storageGroupId)
 ```
 
-* Delete one or several databases
+- Delete one or several databases
 
-``` java
+```java
 void deleteStorageGroup(String storageGroup)
 void deleteStorageGroups(List<String> storageGroups)
 ```
 
 #### Timeseries Management
 
-* Create one or multiple timeseries
+- Create one or multiple timeseries
 
-``` java
+```java
 void createTimeseries(String path, TSDataType dataType,
       TSEncoding encoding, CompressionType compressor, Map<String, String> props,
       Map<String, String> tags, Map<String, String> attributes, String measurementAlias)
-      
+
 void createMultiTimeseries(List<String> paths, List<TSDataType> dataTypes,
       List<TSEncoding> encodings, List<CompressionType> compressors,
       List<Map<String, String>> propsList, List<Map<String, String>> tagsList,
       List<Map<String, String>> attributesList, List<String> measurementAliasList)
 ```
 
-* Create aligned timeseries
-```
+- Create aligned timeseries
+
+```java
 void createAlignedTimeseries(String prefixPath, List<String> measurements,
       List<TSDataType> dataTypes, List<TSEncoding> encodings,
       List <CompressionType> compressors, List<String> measurementAliasList);
@@ -177,25 +172,24 @@ void createAlignedTimeseries(String prefixPath, List<String> measurements,
 
 Attention: Alias of measurements are **not supported** currently.
 
-* Delete one or several timeseries
+- Delete one or several timeseries
 
-``` java
+```java
 void deleteTimeseries(String path)
 void deleteTimeseries(List<String> paths)
 ```
 
-* Check whether the specific timeseries exists.
+- Check whether the specific timeseries exists.
 
-``` java
+```java
 boolean checkTimeseriesExists(String path)
 ```
 
 #### Schema Template
 
-
 Create a schema template for massive identical devices will help to improve memory performance. You can use Template, InternalNode and MeasurementNode to depict the structure of the template, and use belowed interface to create it inside session.
 
-``` java
+```java
 public void createSchemaTemplate(Template template);
 
 Class Template {
@@ -203,7 +197,7 @@ Class Template {
     private boolean directShareTime;
     Map<String, Node> children;
     public Template(String name, boolean isShareTime);
-    
+
     public void addToTemplate(Node node);
     public void deleteFromTemplate(String name);
     public void setShareTime(boolean shareTime);
@@ -219,8 +213,8 @@ Class MeasurementNode extends Node {
     TSDataType dataType;
     TSEncoding encoding;
     CompressionType compressor;
-    public MeasurementNode(String name, 
-                           TSDataType dataType, 
+    public MeasurementNode(String name,
+                           TSDataType dataType,
                            TSEncoding encoding,
                           CompressionType compressor);
 }
@@ -230,7 +224,7 @@ We strongly suggest you implement templates only with flat-measurement (like obj
 
 A snippet of using above Method and Class：
 
-``` java
+```java
 MeasurementNode nodeX = new MeasurementNode("x", TSDataType.FLOAT, TSEncoding.RLE, CompressionType.SNAPPY);
 MeasurementNode nodeY = new MeasurementNode("y", TSDataType.FLOAT, TSEncoding.RLE, CompressionType.SNAPPY);
 MeasurementNode nodeSpeed = new MeasurementNode("speed", TSDataType.DOUBLE, TSEncoding.GORILLA, CompressionType.SNAPPY);
@@ -267,25 +261,25 @@ To implement schema template, you can set the measurement template named 'templa
 
 **Please notice that, we strongly recommend not setting templates on the nodes above the database to accommodate future updates and collaboration between modules.**
 
-``` java
+```java
 void setSchemaTemplate(String templateName, String prefixPath)
 ```
 
 Before setting template, you should firstly create the template using
 
-``` java
+```java
 void createSchemaTemplate(Template template)
 ```
 
-After setting template to a certain path, you can use the template to create timeseries on given device paths through the following interface, or you can write data directly to trigger timeseries auto creation using schema template under target devices. 
+After setting template to a certain path, you can use the template to create timeseries on given device paths through the following interface, or you can write data directly to trigger timeseries auto creation using schema template under target devices.
 
-``` java
+```java
 void createTimeseriesUsingSchemaTemplate(List<String> devicePathList)
 ```
 
 After setting template to a certain path, you can query for info about template using belowed interface in session:
 
-``` java
+```java
 /** @return All template names. */
 public List<String> showAllTemplates();
 
@@ -298,7 +292,7 @@ public List<String> showPathsTemplateUsingOn(String templateName)
 
 If you are ready to get rid of schema template, you can drop it with belowed interface. Make sure the template to drop has been unset from MTree.
 
-``` java
+```java
 void unsetSchemaTemplate(String prefixPath, String templateName);
 public void dropSchemaTemplate(String templateName);
 ```
@@ -307,19 +301,18 @@ Unset the measurement template named 'templateName' from path 'prefixPath'. When
 
 Attention: Unsetting the template named 'templateName' from node at path 'prefixPath' or descendant nodes which have already inserted records using template is **not supported**.
 
-
 ### Data Manipulation Interface (DML Interface)
 
 ### Data Insert API
 
 It is recommended to use insertTablet to help improve write efficiency.
 
-* Insert a Tablet，which is multiple rows of a device, each row has the same measurements
-  * **Better Write Performance**
-  * **Support batch write**
-  * **Support null values**: fill the null value with any value, and then mark the null value via BitMap
+- Insert a Tablet，which is multiple rows of a device, each row has the same measurements
+  - **Better Write Performance**
+  - **Support batch write**
+  - **Support null values**: fill the null value with any value, and then mark the null value via BitMap
 
-``` java
+```java
 void insertTablet(Tablet tablet)
 
 public class Tablet {
@@ -342,44 +335,46 @@ public class Tablet {
 }
 ```
 
-* Insert multiple Tablets
+- Insert multiple Tablets
 
-``` java
+```java
 void insertTablets(Map<String, Tablet> tablet)
 ```
 
-* Insert a Record, which contains multiple measurement value of a device at a timestamp. This method is equivalent to providing a common interface for multiple data types of values. Later, the value can be cast to the original type through TSDataType.
+- Insert a Record, which contains multiple measurement value of a device at a timestamp. This method is equivalent to providing a common interface for multiple data types of values. Later, the value can be cast to the original type through TSDataType.
 
   The correspondence between the Object type and the TSDataType type is shown in the following table.
 
-  | TSDataType | Object       |
-  |------------|--------------|
-  | BOOLEAN    | Boolean      |
-  | INT32      | Integer      |
-  | DATE       | LocalDate    |
-  | INT64      | Long         |
-  | TIMESTAMP  | Long         |
-  | FLOAT      | Float        |
-  | DOUBLE     | Double       |
+  | TSDataType | Object         |
+  | ---------- | -------------- |
+  | BOOLEAN    | Boolean        |
+  | INT32      | Integer        |
+  | DATE       | LocalDate      |
+  | INT64      | Long           |
+  | TIMESTAMP  | Long           |
+  | FLOAT      | Float          |
+  | DOUBLE     | Double         |
   | TEXT       | String, Binary |
   | STRING     | String, Binary |
-  | BLOB       | Binary |
-``` java
+  | BLOB       | Binary         |
+
+```java
 void insertRecord(String deviceId, long time, List<String> measurements,
    List<TSDataType> types, List<Object> values)
 ```
 
-* Insert multiple Records
+- Insert multiple Records
 
-``` java
+```java
 void insertRecords(List<String> deviceIds, List<Long> times,
     List<List<String>> measurementsList, List<List<TSDataType>> typesList,
     List<List<Object>> valuesList)
 ```
-* Insert multiple Records that belong to the same device. 
+
+- Insert multiple Records that belong to the same device.
   With type info the server has no need to do type inference, which leads a better performance
 
-``` java
+```java
 void insertRecordsOfOneDevice(String deviceId, List<Long> times,
     List<List<String>> measurementsList, List<List<TSDataType>> typesList,
     List<List<Object>> valuesList)
@@ -389,22 +384,22 @@ void insertRecordsOfOneDevice(String deviceId, List<Long> times,
 
 When the data is of String type, we can use the following interface to perform type inference based on the value of the value itself. For example, if value is "true" , it can be automatically inferred to be a boolean type. If value is "3.2" , it can be automatically inferred as a flout type. Without type information, server has to do type inference, which may cost some time.
 
-* Insert a Record, which contains multiple measurement value of a device at a timestamp
+- Insert a Record, which contains multiple measurement value of a device at a timestamp
 
-``` java
+```java
 void insertRecord(String prefixPath, long time, List<String> measurements, List<String> values)
 ```
 
-* Insert multiple Records
+- Insert multiple Records
 
-``` java
-void insertRecords(List<String> deviceIds, List<Long> times, 
+```java
+void insertRecords(List<String> deviceIds, List<Long> times,
    List<List<String>> measurementsList, List<List<String>> valuesList)
 ```
 
-* Insert multiple Records that belong to the same device.
+- Insert multiple Records that belong to the same device.
 
-``` java
+```java
 void insertStringRecordsOfOneDevice(String deviceId, List<Long> times,
         List<List<String>> measurementsList, List<List<String>> valuesList)
 ```
@@ -413,48 +408,52 @@ void insertStringRecordsOfOneDevice(String deviceId, List<Long> times,
 
 The Insert of aligned timeseries uses interfaces like insertAlignedXXX, and others are similar to the above interfaces:
 
-* insertAlignedRecord
-* insertAlignedRecords
-* insertAlignedRecordsOfOneDevice
-* insertAlignedStringRecordsOfOneDevice
-* insertAlignedTablet
-* insertAlignedTablets
+- insertAlignedRecord
+- insertAlignedRecords
+- insertAlignedRecordsOfOneDevice
+- insertAlignedStringRecordsOfOneDevice
+- insertAlignedTablet
+- insertAlignedTablets
 
 ### Data Delete API
 
-* Delete data before or equal to a timestamp of one or several timeseries
+- Delete data before or equal to a timestamp of one or several timeseries
 
-``` java
+```java
 void deleteData(String path, long time)
 void deleteData(List<String> paths, long time)
 ```
 
 ### Data Query API
 
-* Time-series raw data query with time range:
+- Time-series raw data query with time range:
   - The specified query time range is a left-closed right-open interval, including the start time but excluding the end time.
 
-``` java
+```java
 SessionDataSet executeRawDataQuery(List<String> paths, long startTime, long endTime);
 ```
 
-* Last query: 
+- Last query:
+
   - Query the last data, whose timestamp is greater than or equal LastTime.
-    ``` java
+
+    ```java
     SessionDataSet executeLastDataQuery(List<String> paths, long LastTime);
     ```
+
   - Query the latest point of the specified series of single device quickly, and support redirection;
     If you are sure that the query path is valid, set 'isLegalPathNodes' to true to avoid performance penalties from path verification.
-    ``` java
+
+    ```java
     SessionDataSet executeLastDataQueryForOneDevice(
         String db, String device, List<String> sensors, boolean isLegalPathNodes);
     ```
 
-* Aggregation query:
+- Aggregation query:
   - Support specified query time range: The specified query time range is a left-closed right-open interval, including the start time but not the end time.
   - Support GROUP BY TIME.
 
-``` java
+```java
 SessionDataSet executeAggregationQuery(List<String> paths, List<Aggregation> aggregations);
 
 SessionDataSet executeAggregationQuery(
@@ -476,9 +475,9 @@ SessionDataSet executeAggregationQuery(
     long slidingStep);
 ```
 
-* Execute query statement
+- Execute query statement
 
-``` java
+```java
 SessionDataSet executeQueryStatement(String sql)
 ```
 
@@ -488,9 +487,11 @@ SessionDataSet executeQueryStatement(String sql)
 
 The `SubscriptionSession` class in the IoTDB subscription client provides interfaces for topic management. The status changes of topics are illustrated in the diagram below:
 
-<div align="center">
-    <img src="https://alioss.timecho.com/docs/img/Data_sub_04.png" alt="" style="width: 60%;"/>
-</div>
+::: center
+
+<img src="https://alioss.timecho.com/docs/img/Data_sub_04.png" alt="" style="width: 60%;"/>
+
+:::
 
 ##### 1.1 Create Topic
 
@@ -526,6 +527,7 @@ Optional<Topic> getTopic(String topicName) throws Exception;
 ```
 
 #### 2 Check Subscription Status
+
 The `SubscriptionSession` class in the IoTDB subscription client provides interfaces to check the subscription status:
 
 ```Java
@@ -539,36 +541,32 @@ When creating a consumer using the JAVA native interface, you need to specify th
 
 For both `SubscriptionPullConsumer` and `SubscriptionPushConsumer`, the following common configurations are available:
 
-
-| key                     | **required or optional with default**                        | description                                                  |
-| :---------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
-| host                    | optional: 127.0.0.1                                          | `String`: The RPC host of a certain DataNode in IoTDB                     |
-| port                    | optional: 6667                                               | Integer: The RPC port of a certain DataNode in IoTDB                     |
-| node-urls               | optional: 127.0.0.1:6667                                     | `List<String>`: The RPC addresses of all DataNodes in IoTDB, can be multiple; either host:port or node-urls can be filled in. If both host:port and node-urls are filled in, the union of host:port and node-urls will be used to form a new node-urls application |
-| username                | optional: root                                               | `String`: The username of a DataNode in IoTDB                          |
-| password                | optional: root                                               | `String`: The password of a DataNode in IoTDB                             |
-| groupId                 | optional                                                     | `String`: consumer group id, if not specified, a new consumer group will be randomly assigned, ensuring that different consumer groups have different consumer group ids |
-| consumerId              | optional                                                     | `String`: consumer client id, if not specified, it will be randomly assigned, ensuring that each consumer client id in the same consumer group is unique |
-| heartbeatIntervalMs     | optional: 30000 (min: 1000)                                  | `Long`: The interval at which the consumer sends heartbeat requests to the IoTDB DataNode      |
-| endpointsSyncIntervalMs | optional: 120000 (min: 5000)                                 | `Long`: The interval at which the consumer detects the expansion and contraction of IoTDB cluster nodes and adjusts the subscription connection |
-| fileSaveDir             | optional: Paths.get(System.getProperty("user.dir"), "iotdb-subscription").toString() | `String`: The temporary directory path where the TsFile files subscribed by the consumer are stored      |
-| fileSaveFsync           | optional: false                                              | `Boolean`: Whether the consumer actively calls fsync during the subscription of TsFile    |
-
+| key                     | **required or optional with default**                                                | description                                                                                                                                                                                                                                                        |
+| :---------------------- | :----------------------------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| host                    | optional: 127.0.0.1                                                                  | `String`: The RPC host of a certain DataNode in IoTDB                                                                                                                                                                                                              |
+| port                    | optional: 6667                                                                       | Integer: The RPC port of a certain DataNode in IoTDB                                                                                                                                                                                                               |
+| node-urls               | optional: 127.0.0.1:6667                                                             | `List<String>`: The RPC addresses of all DataNodes in IoTDB, can be multiple; either host:port or node-urls can be filled in. If both host:port and node-urls are filled in, the union of host:port and node-urls will be used to form a new node-urls application |
+| username                | optional: root                                                                       | `String`: The username of a DataNode in IoTDB                                                                                                                                                                                                                      |
+| password                | optional: root                                                                       | `String`: The password of a DataNode in IoTDB                                                                                                                                                                                                                      |
+| groupId                 | optional                                                                             | `String`: consumer group id, if not specified, a new consumer group will be randomly assigned, ensuring that different consumer groups have different consumer group ids                                                                                           |
+| consumerId              | optional                                                                             | `String`: consumer client id, if not specified, it will be randomly assigned, ensuring that each consumer client id in the same consumer group is unique                                                                                                           |
+| heartbeatIntervalMs     | optional: 30000 (min: 1000)                                                          | `Long`: The interval at which the consumer sends heartbeat requests to the IoTDB DataNode                                                                                                                                                                          |
+| endpointsSyncIntervalMs | optional: 120000 (min: 5000)                                                         | `Long`: The interval at which the consumer detects the expansion and contraction of IoTDB cluster nodes and adjusts the subscription connection                                                                                                                    |
+| fileSaveDir             | optional: Paths.get(System.getProperty("user.dir"), "iotdb-subscription").toString() | `String`: The temporary directory path where the TsFile files subscribed by the consumer are stored                                                                                                                                                                |
+| fileSaveFsync           | optional: false                                                                      | `Boolean`: Whether the consumer actively calls fsync during the subscription of TsFile                                                                                                                                                                             |
 
 ##### 3.1 SubscriptionPushConsumer
 
 The following are special configurations for `SubscriptionPushConsumer`:
 
-
-| key                | **required or optional with default** | description                                                  |
-| :----------------- | :------------------------------------ | :----------------------------------------------------------- |
+| key                | **required or optional with default** | description                                                                                                                                                                                                                                                                                                                  |
+| :----------------- | :------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ackStrategy        | optional: `ACKStrategy.AFTER_CONSUME` | Consumption progress confirmation mechanism includes the following options: `ACKStrategy.BEFORE_CONSUME` (submit consumption progress immediately when the consumer receives data, before `onReceive`) `ACKStrategy.AFTER_CONSUME` (submit consumption progress after the consumer has consumed the data, after `onReceive`) |
-| consumeListener    | optional                              | Consumption data callback function, need to implement the `ConsumeListener` interface, define the consumption logic of `SessionDataSetsHandler` and `TsFileHandler` form data|
-| autoPollIntervalMs | optional: 5000 (min: 500)             | Long: The interval at which the consumer automatically pulls data, in ms       |
-| autoPollTimeoutMs  | optional: 10000 (min: 1000)           | Long: The timeout time for the consumer to pull data each time, in ms |
+| consumeListener    | optional                              | Consumption data callback function, need to implement the `ConsumeListener` interface, define the consumption logic of `SessionDataSetsHandler` and `TsFileHandler` form data                                                                                                                                                |
+| autoPollIntervalMs | optional: 5000 (min: 500)             | Long: The interval at which the consumer automatically pulls data, in ms                                                                                                                                                                                                                                                     |
+| autoPollTimeoutMs  | optional: 10000 (min: 1000)           | Long: The timeout time for the consumer to pull data each time, in ms                                                                                                                                                                                                                                                        |
 
 Among them, the ConsumerListener interface is defined as follows:
-
 
 ```Java
 @FunctionInterface
@@ -588,14 +586,13 @@ enum ConsumeResult {
 
 The following are special configurations for `SubscriptionPullConsumer` :
 
-| key                | **required or optional with default** | description                                                  |
-| :----------------- | :------------------------------------ | :----------------------------------------------------------- |
+| key                | **required or optional with default** | description                                                                                                                                                                   |
+| :----------------- | :------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | autoCommit         | optional: true                        | Boolean: Whether to automatically commit consumption progress. If this parameter is set to false, the commit method must be called to manually `commit` consumption progress. |
-| autoCommitInterval | optional: 5000 (min: 500)             | Long: The interval at which consumption progress is automatically committed, in milliseconds. This only takes effect when the autoCommit parameter is true.
- |
+| autoCommitInterval | optional: 5000 (min: 500)             | Long: The interval at which consumption progress is automatically committed, in milliseconds. This only takes effect when the autoCommit parameter is true.                   |
+|                    |
 
 After creating a consumer, you need to manually call the consumer's open method:
-
 
 ```Java
 void open() throws Exception;
@@ -605,7 +602,7 @@ At this point, the IoTDB subscription client will verify the correctness of the 
 
 #### 4 Subscribe to Topics
 
-Both `SubscriptionPushConsumer` and `SubscriptionPullConsumer` provide the following JAVA native interfaces for subscribing to topics: 
+Both `SubscriptionPushConsumer` and `SubscriptionPullConsumer` provide the following JAVA native interfaces for subscribing to topics:
 
 ```Java
 // Subscribe to topics
@@ -619,11 +616,9 @@ void subscribe(List<String> topics) throws Exception;
 
 - If there are other consumers in the same consumer group that have subscribed to the same topics, the consumer will reuse the corresponding consumption progress.
 
-
 #### 5 Consume Data
 
 For both push and pull mode consumers:
-
 
 - Only after explicitly subscribing to a topic will the consumer receive data for that topic.
 
@@ -631,7 +626,7 @@ For both push and pull mode consumers:
 
 ##### 5.1 SubscriptionPushConsumer
 
-After `SubscriptionPushConsumer` subscribes to topics, there is no need to manually pull data. 
+After `SubscriptionPushConsumer` subscribes to topics, there is no need to manually pull data.
 
 The data consumption logic is within the `consumeListener` configuration specified when creating `SubscriptionPushConsumer`.
 
@@ -648,9 +643,7 @@ List<SubscriptionMessage> poll(final Set<String> topicNames, final long timeoutM
 
 In the poll method, you can specify the topic names to be pulled (if not specified, it defaults to pulling all topics that the consumer has subscribed to) and the timeout period.
 
-
 When the SubscriptionPullConsumer is configured with the autoCommit parameter set to false, it is necessary to manually call the commitSync and commitAsync methods to synchronously or asynchronously commit the consumption progress of a batch of data:
-
 
 ```Java
 void commitSync(final SubscriptionMessage message) throws Exception;
@@ -692,7 +685,6 @@ void close();
 - If a consumer unsubscribes from a topic that it has not subscribed to, no error will occur.
 - When a consumer is closed, it will exit the corresponding consumer group and automatically unsubscribe from all topics it is currently subscribed to.
 - Once a consumer is closed, its lifecycle ends, and it cannot be reopened to subscribe to and consume data again.
-
 
 #### 7 Code Examples
 
@@ -790,53 +782,52 @@ for (final Thread thread : threads) {
 
 ### Other Modules (Execute SQL Directly)
 
-* Execute non query statement
+- Execute non query statement
 
-``` java
+```java
 void executeNonQueryStatement(String sql)
 ```
-
 
 ### Write Test Interface (to profile network cost)
 
 These methods **don't** insert data into database and server just return after accept the request.
 
-* Test the network and client cost of insertRecord
+- Test the network and client cost of insertRecord
 
-``` java
+```java
 void testInsertRecord(String deviceId, long time, List<String> measurements, List<String> values)
 
 void testInsertRecord(String deviceId, long time, List<String> measurements,
         List<TSDataType> types, List<Object> values)
 ```
 
-* Test the network and client cost of insertRecords
+- Test the network and client cost of insertRecords
 
-``` java
+```java
 void testInsertRecords(List<String> deviceIds, List<Long> times,
         List<List<String>> measurementsList, List<List<String>> valuesList)
-        
+
 void testInsertRecords(List<String> deviceIds, List<Long> times,
         List<List<String>> measurementsList, List<List<TSDataType>> typesList
         List<List<Object>> valuesList)
 ```
 
-* Test the network and client cost of insertTablet
+- Test the network and client cost of insertTablet
 
-``` java
+```java
 void testInsertTablet(Tablet tablet)
 ```
 
-* Test the network and client cost of insertTablets
+- Test the network and client cost of insertTablets
 
-``` java
+```java
 void testInsertTablets(Map<String, Tablet> tablets)
 ```
 
 ### Coding Examples
 
-To get more information of the following interfaces, please view session/src/main/java/org/apache/iotdb/session/Session.java
+To get more information of the following interfaces, please view `session/src/main/java/org/apache/iotdb/session/Session.java`
 
-The sample code of using these interfaces is in example/session/src/main/java/org/apache/iotdb/SessionExample.java，which provides an example of how to open an IoTDB session, execute a batch insertion.
+The sample code of using these interfaces is in `example/session/src/main/java/org/apache/iotdb/SessionExample.java`，which provides an example of how to open an IoTDB session, execute a batch insertion.
 
 For examples of aligned timeseries and measurement template, you can refer to `example/session/src/main/java/org/apache/iotdb/AlignedTimeseriesSessionExample.java`
