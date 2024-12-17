@@ -1,23 +1,21 @@
 <!--
-
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-    
-        http://www.apache.org/licenses/LICENSE-2.0
-    
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
-
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
 -->
+
 # About the Community
 
 ## Community Organization
@@ -54,66 +52,66 @@ Referring to the Apache Software Foundation's community philosophy, our communit
 
 ### PMC
 
-  - Get recommendations from existing PMC members
-  - Technical Expertise:
-    - Have a comprehensive understanding of the program
-  - Development Insight:
-    - Deep insight into the time-series database industry and the ability to grasp the direction of the project
-  - Cultural Alignment:
-    - Have a strong sense of open source culture, and contribute to the open source software advocacy
+- Get recommendations from existing PMC members
+- Technical Expertise:
+  - Have a comprehensive understanding of the program
+- Development Insight:
+  - Deep insight into the time-series database industry and the ability to grasp the direction of the project
+- Cultural Alignment:
+  - Have a strong sense of open source culture, and contribute to the open source software advocacy
 
 ### Committer
 
-  - Get recommendations from the existing PMC members
-  - Development Path
-    - Need to have complete understanding of a functional module
-  - Open Source Evangelist Path
-    - Contribute substantially to the open source advocacy of the project, e.g., contribute to technical documentation, provide and present user stories, actively participate in community exchanges and activities, etc.
-  - To understand the Apache Software Foundation's Code of Conduct (See [ASF Documentation](https://www.apache.org/foundation/policies/conduct.html)) In particular, they are committed to:
-    - Be open
-    - Be empathetic, welcoming, friendly, and patient
-    - Be collaborative
-    - Be inquisitive
-    - Be careful in the words that we choose
-    - Be concise
-    - Step down considerately
-  - Adhere to the responsibilities of an Apache Software Foundation’s committer (See the [ASF documentation](https://www.apache.org/dev/committers.html#committer-responsibilities))
-    - Help create a product that will outlive the interest of any particular volunteer, including themselves
-    - Maintain the health of the Apache community and help it grow
-    - Decide on release plans and releases
-    - Apply patches
-    - Help users
-    - Monitor commits and issues
-    - Help out with the website
-  - Practices that strengthen the IoTDB community
-    - Have a strong commitment to the project
-    - Share ideas with the community
-    - Take community feedback and integrate it into plans, designs, code, etc
-    - Be serious about trying to make IoTDB better through contributions
-    - Especially, if code contributors:
-      - are serious about trying to make IoTDB better through their code
-      - are serious about trying to make the IoTDB better through code reviews
-      - accept and integrate feedback about their code
-      - understand, adhere to, and continually optimize IoTDB best practices when reviewing/merging code (styles, documentation, tests, backward compatibility, etc.)
+- Get recommendations from the existing PMC members
+- Development Path
+  - Need to have complete understanding of a functional module
+- Open Source Evangelist Path
+  - Contribute substantially to the open source advocacy of the project, e.g., contribute to technical documentation, provide and present user stories, actively participate in community exchanges and activities, etc.
+- To understand the Apache Software Foundation's Code of Conduct (See [ASF Documentation](https://www.apache.org/foundation/policies/conduct.html)) In particular, they are committed to:
+  - Be open
+  - Be empathetic, welcoming, friendly, and patient
+  - Be collaborative
+  - Be inquisitive
+  - Be careful in the words that we choose
+  - Be concise
+  - Step down considerately
+- Adhere to the responsibilities of an Apache Software Foundation’s committer (See the [ASF documentation](https://www.apache.org/dev/committers.html#committer-responsibilities))
+  - Help create a product that will outlive the interest of any particular volunteer, including themselves
+  - Maintain the health of the Apache community and help it grow
+  - Decide on release plans and releases
+  - Apply patches
+  - Help users
+  - Monitor commits and issues
+  - Help out with the website
+- Practices that strengthen the IoTDB community
+  - Have a strong commitment to the project
+  - Share ideas with the community
+  - Take community feedback and integrate it into plans, designs, code, etc
+  - Be serious about trying to make IoTDB better through contributions
+  - Especially, if code contributors:
+    - are serious about trying to make IoTDB better through their code
+    - are serious about trying to make the IoTDB better through code reviews
+    - accept and integrate feedback about their code
+    - understand, adhere to, and continually optimize IoTDB best practices when reviewing/merging code (styles, documentation, tests, backward compatibility, etc.)
 
 ### Contributor
 
-  - Set up a development platform account:
-    - Create a Jira account: [https://issues.apache.org/jira/projects/IOTDB/issues](https://issues.apache.org/jira/projects/IOTDB/issues) to claim an issue.
-    - Create a Confluence account: [https://cwiki.apache.org/confluence/display/IOTDB/Home](https://cwiki.apache.org/confluence/display/IOTDB/Home). This will be used to write the design documentation.
-      Once created, send an email to the mailing list with **Introduction** and **Jira ID** and **Confluence ID** and the community PMC will add permissions to the account.
-  - Long Term Matters:
-    - Learn how to debug IoTDB
-      - [How to debug IoTDB server](https://my.oschina.net/u/3664598/blog/4500279)
-    - Understand the basics of using IoTDB
-      - [IoTDB download and installation](../UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_apache.md)
-      - [IoTDB Quick Start Guide](https://iotdb.apache.org/UserGuide/latest/QuickStart/QuickStart_apache.html)
-      - [Data Schema and Concepts](https://iotdb.apache.org/UserGuide/latest/Basic-Concept/Data-Model-and-Terminology.html)
-      - [API Interface](https://iotdb.apache.org/UserGuide/latest/API/Programming-Java-Native-API.html)
-    - Understand IoTDB's Internal Design
-      - [IoTDB Design Documentation](https://cwiki.apache.org/confluence/display/IOTDB/Home)
-    - Finding tasks to be done
-      - [Resolving Issues on Jira](https://issues.apache.org/jira/projects/IOTDB/issues)
+- Set up a development platform account:
+  - Create a Jira account: [https://issues.apache.org/jira/projects/IOTDB/issues](https://issues.apache.org/jira/projects/IOTDB/issues) to claim an issue.
+  - Create a Confluence account: [https://cwiki.apache.org/confluence/display/IOTDB/Home](https://cwiki.apache.org/confluence/display/IOTDB/Home). This will be used to write the design documentation.
+    Once created, send an email to the mailing list with **Introduction** and **Jira ID** and **Confluence ID** and the community PMC will add permissions to the account.
+- Long Term Matters:
+  - Learn how to debug IoTDB
+    - [How to debug IoTDB server](https://my.oschina.net/u/3664598/blog/4500279)
+  - Understand the basics of using IoTDB
+    - [IoTDB download and installation](../UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_apache.md)
+    - [IoTDB Quick Start Guide](https://iotdb.apache.org/UserGuide/latest/QuickStart/QuickStart_apache.html)
+    - [Data Schema and Concepts](https://iotdb.apache.org/UserGuide/latest/Basic-Concept/Data-Model-and-Terminology.html)
+    - [API Interface](https://iotdb.apache.org/UserGuide/latest/API/Programming-Java-Native-API.html)
+  - Understand IoTDB's Internal Design
+    - [IoTDB Design Documentation](https://cwiki.apache.org/confluence/display/IOTDB/Home)
+  - Finding tasks to be done
+    - [Resolving Issues on Jira](https://issues.apache.org/jira/projects/IOTDB/issues)
 
 ## Code of Conduct in the Apache Community
 
