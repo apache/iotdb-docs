@@ -222,7 +222,7 @@ In IDEA, you can align your style settings as follows.
 
 Tasks are managed as issues in JIRA in the Apache IoTDB community. 
 
-The full lifecycle of an Issue: Create an issue -> assign an issue -> submit a PR(pull request) -> review the PR -> merge the pr -> close the issue. 
+The full lifecycle of an Issue: Create an issue -> assign an issue -> submit a PR(pull request) -> review the PR -> merge the PR -> close the issue. 
 
 #### Create an Issue：
 

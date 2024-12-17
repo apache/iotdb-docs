@@ -1615,7 +1615,7 @@ The instructions should be added in `docs/UserGuide/Operation Manual/DML Data Ma
 
 #### Submit a PR
 
-When you have prepared the UDF source code, test cases, and instructions, you are ready to submit a Pull Request (PR) on [Github](https://github.com/apache/iotdb). You can refer to our code contribution guide to submit a PR: [Development Guide](https://iotdb.apache.org/Community/Development-Guide.html).
+When you have prepared the UDF source code, test cases, and instructions, you are ready to submit a Pull Request (PR) on [GitHub](https://github.com/apache/iotdb). You can refer to our code contribution guide to submit a PR: [Development Guide](https://iotdb.apache.org/Community/Development-Guide.html).
 
 ### Known Implementations
 

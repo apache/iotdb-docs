@@ -32,7 +32,7 @@
 
 ## 相关贡献或应用的公司和组织
 - 要将自己添加到列表中，请给 dev@iotdb.apache.org 发送电子邮件，其中包含您的组织名称，URL，正在使用的 IoTDB 组件列表以及用例的简短描述。
-  - 你也可以在 [Github](https://github.com/apache/iotdb/issues/748) 留言。
+  - 你也可以在 [GitHub](https://github.com/apache/iotdb/issues/748) 留言。
 
 - 清华大学软件学院和大数据系统软件国家工程实验室最初开发了 IoTDB，并捐献给 Apache。
 	- 我们有很多研究生和专业软件工程师在持续开发 IoTDB

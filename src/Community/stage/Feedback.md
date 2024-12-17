@@ -21,7 +21,7 @@
 
 ## Where to Find Us
 
-As an Apache project, we are using mailing list, JIRA, and Github Issues to obtain the feedback of users. We also have a Twitter account.
+As an Apache project, we are using mailing list, JIRA, and GitHub Issues to obtain the feedback of users. We also have a Twitter account.
 
 * Mailing list: dev@iotdb.apache.org.
 
@@ -33,7 +33,7 @@ As an Apache project, we are using mailing list, JIRA, and Github Issues to obta
 
 * JIRA issue: https://issues.apache.org/jira/projects/IOTDB/issues
 
-* Github issue: https://github.com/apache/iotdb/issues
+* GitHub issue: https://github.com/apache/iotdb/issues
 
 * Twitter: https://twitter.com/apacheiotdb
 

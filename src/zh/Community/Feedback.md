@@ -36,7 +36,7 @@
 
 ## 途径二：通过 GitHub 进行交流
 
-Github Issue链接：https://github.com/apache/iotdb/issues
+GitHub Issue链接：https://github.com/apache/iotdb/issues
 
 ## 途经三：通过 Jira 进行交流
 

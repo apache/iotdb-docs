@@ -22,7 +22,7 @@
 # How to Contribute Code
 ## Process
 Tasks are managed as issues in JIRA.
-The full lifecycle of an Issue: Create an issue -> assign an issue -> submit a pr(pull request) -> review a pr -> squash merge a pr -> close an issue.
+The full lifecycle of an Issue: Create an issue -> assign an issue -> submit a pr(pull request) -> review a PR -> squash merge a PR -> close an issue.
 
 ## Contributing Conventions
 
@@ -40,7 +40,7 @@ To address this, please send an email to the dev@iotdb.apache.org mailing list w
 #### What you need to submit
 Issue type : New Feature
 
-1.Submit the user manual and the pr for code changes. 
+1.Submit the user manual and the PR for code changes. 
 
 A user manual is mainly for helping users understand how the functions work and how to use them. It is recommended to contain scenario and background, configuration, interface description and examples. The user manual of the official website is placed in the src/UserGuide folder of apache/iotdb-docs repository. To update the user manual directory, including adding, deleting documents and renaming documents, you need to make corresponding changes in the file(path:src/.vuepress/sidebar) in the main branch.
 
@@ -65,7 +65,7 @@ The IoTDB version naming method is 0.{major version}.{minor version}. For exampl
 
 As the current development branch, the master branch corresponds to the next major release version. When each major version is released for the first time, a separate branch will be created for archiving. For example, codes of  the 0.12.x versions are placed under the rel/0.12 branch.
 
-If a bug of a released version is found and fixed, the bugfix pr should be submitted to all branches that are newer than the specific branch. For example, a pr which is about a version 0.11.x bugfix should be submitted to rel/0.11 branch, rel/0.12 branch and master branch.
+If a bug of a released version is found and fixed, the bugfix PR should be submitted to all branches that are newer than the specific branch. For example, a PR which is about a version 0.11.x bugfix should be submitted to rel/0.11 branch, rel/0.12 branch and master branch.
 
 Code formatting
 It is required to use "mvn spotless:apply" to format the code before committing, otherwise, the ci code format check will fail. 
@@ -91,7 +91,7 @@ Example: [To rel/0.12] [IoTDB-1907] implement customized sync process: sender
 
 To branch
 
-It is required when submitting pr to a non-master branch (such as rel/0.13, in which case the pr name should contain [To rel/0.13]) and not required when submitting to a master branch.
+It is required when submitting PR to a non-master branch (such as rel/0.13, in which case the PR name should contain [To rel/0.13]) and not required when submitting to a master branch.
 
 Jira number
 
@@ -101,7 +101,7 @@ This auto-linking won't happen if the PR is created without any JIRA number or w
 #### PR Description
 Usually, the PR name can't reflect all changes, so it is better to add a description about what has been changed and give explanations for any difficult-to-understand part.
 
-The description of a bug-fixing pr needs to cover the cause of the bug and how to fix it, as well as the added UT/IT test cases and associated negative effects.
+The description of a bug-fixing PR needs to cover the cause of the bug and how to fix it, as well as the added UT/IT test cases and associated negative effects.
 
 #### After Submitting a PR
 
@@ -131,7 +131,7 @@ Obtain approval from at least 1 committer.
 
 Choose squash merge. You can choose rebase only when the author has only one commit record with a clear commit log.
 
-Close the corresponding issue in JIRA, and mark the repaired or completed version. Note that solving or closing an issue requires adding a pr or description to the issue, so that changes can be tracked via the issue.
+Close the corresponding issue in JIRA, and mark the repaired or completed version. Note that solving or closing an issue requires adding a PR or description to the issue, so that changes can be tracked via the issue.
 
 ## How to Prepare User Manual and Design Document
 User manual and other documentation on the official website are maintained in the apache/iotdb-docs repository. 

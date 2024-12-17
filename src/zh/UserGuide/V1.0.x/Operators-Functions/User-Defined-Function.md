@@ -533,7 +533,7 @@ SHOW FUNCTIONS
 
 ### 提交 PR
 
-当您准备好源代码、测试用例和使用说明后，就可以将 UDF 贡献到 IoTDB 社区了。在 [Github](https://github.com/apache/iotdb) 上面提交 Pull Request (PR) 即可。具体提交方式见：[Pull Request Guide](https://iotdb.apache.org/Development/HowToCommit.html)。
+当您准备好源代码、测试用例和使用说明后，就可以将 UDF 贡献到 IoTDB 社区了。在 [GitHub](https://github.com/apache/iotdb) 上面提交 Pull Request (PR) 即可。具体提交方式见：[Pull Request Guide](https://iotdb.apache.org/Development/HowToCommit.html)。
 
 当 PR 评审通过并被合并后，您的 UDF 就已经贡献给 IoTDB 社区了！
 

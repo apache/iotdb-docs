@@ -737,7 +737,7 @@ The instructions for use should include both Chinese and English versions. Instr
 
 ####  2.3.4 Submit a PR
 
-When you have prepared the UDF source code, test cases, and instructions, you are ready to submit a Pull Request (PR) on [Github](https://github.com/apache/iotdb). You can refer to our code contribution guide to submit a PR: [Development Guide](https://iotdb.apache.org/Community/Development-Guide.html).
+When you have prepared the UDF source code, test cases, and instructions, you are ready to submit a Pull Request (PR) on [GitHub](https://github.com/apache/iotdb). You can refer to our code contribution guide to submit a PR: [Development Guide](https://iotdb.apache.org/Community/Development-Guide.html).
 
 
 After the PR review is approved and merged, your UDF has already contributed to the IoTDB community!

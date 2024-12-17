@@ -206,7 +206,7 @@
 ### 贡献代码
 #### 贡献流程：
   - Apache IoTDB 社区通过 JIRA 上的 issue 进行任务管理。
-Issue 的完整生命周期：创建 issue -> 认领 issue -> 提交 pr -> 审阅 pr -> 合并 pr -> 关闭 issue。
+Issue 的完整生命周期：创建 issue -> 认领 issue -> 提交 PR -> 审阅 PR -> 合并 PR -> 关闭 issue。
 
 #### 创建 issue ：
   - 在 JIRA 上创建 issue 需要注意几个事项:
@@ -222,7 +222,7 @@ Issue 的完整生命周期：创建 issue -> 认领 issue -> 提交 pr -> 审�
       - IoTDB 诚邀广大开发者参与开源项目构建，您可以查看 [issues](https://issues.apache.org/jira/projects/IOTDB/issues) 并参与解决，或者做其他改善。
       - 提交 pr，通过 Travis-CI 测试和 Sonar 代码质量检测后，至少有一位以上 Committer 同意且代码无冲突，就可以合并了
     - PR指南：
-      - 在 Github 上面可以很方便地提交 [Pull Request (PR)](https://help.github.com/articles/about-pull-requests/)，下面将以本网站项目 [apache/iotdb](https://github.com/apache/iotdb) 为例（如果是其他项目，请替换项目名 iotdb）
+      - 在 GitHub 上面可以很方便地提交 [Pull Request (PR)](https://help.github.com/articles/about-pull-requests/)，下面将以本网站项目 [apache/iotdb](https://github.com/apache/iotdb) 为例（如果是其他项目，请替换项目名 iotdb）
         * 1.Fork仓库：
           - 进入 apache/iotdb 的 [github 页面](https://github.com/apache/iotdb) ，点击右上角按钮 `Fork` 进行 Fork
         * 2.配置 git 和提交修改
@@ -354,7 +354,7 @@ Issue 的完整生命周期：创建 issue -> 认领 issue -> 提交 pr -> 审�
 
           master 分支作为当前主开发分支，对应下一个未发布的大版本，每个大版本发布时会切出一个单独的分支归档，如 0.12.x 系列版本的代码处于 rel/0.12 分支下。
 
-          后续如果发现并修复了某发布版本的 bug。对这些 bug 的修复都需要往大于等于该版本对应的归档分支提 pr。如一个关于 0.11.x 版本 bug 修复的 pr 需要同时向 rel/0.11、rel/0.12 和 master 分支提交。
+          后续如果发现并修复了某发布版本的 bug。对这些 bug 的修复都需要往大于等于该版本对应的归档分支提 pr。如一个关于 0.11.x 版本 bug 修复的 PR 需要同时向 rel/0.11、rel/0.12 和 master 分支提交。
 
      * b.代码格式化:
        * 提交 PR 前需要使用 mvn spotless:apply 将代码格式化，再 commit，不然会导致 ci 代码格式化检查失败。
@@ -373,7 +373,7 @@ Issue 的完整生命周期：创建 issue -> 认领 issue -> 提交 pr -> 审�
 
     * 分支标签
 
-      如果是向非 master 分支提 pr，如 rel/0.13 分支，需要在 pr 名写上 [To rel/0.13]。如果是指向master分支，则不需要写分支标签。
+      如果是向非 master 分支提 pr，如 rel/0.13 分支，需要在 PR 名写上 [To rel/0.13]。如果是指向master分支，则不需要写分支标签。
 
     * Jira 标签
 
@@ -383,7 +383,7 @@ Issue 的完整生命周期：创建 issue -> 认领 issue -> 提交 pr -> 审�
   * 5. PR 描述
       通常 PR 名无法涵盖所有改动，需要添加具体描述，改动了哪些内容。对于较难理解的地方给予一定的解释。
 
-      修改 bug 的 pr 需要描述 bug 出现的原因，以及解决方法，另外还需要描述UT/IT测试用例添加的情况和负面效果的描述。
+      修改 bug 的 PR 需要描述 bug 出现的原因，以及解决方法，另外还需要描述UT/IT测试用例添加的情况和负面效果的描述。
   * 6.提交 PR 后
 
     向邮件列表 dev@iotdb.apache.org 发送一封邮件，主要介绍 PR 的工作。重视每个审阅者的意见，一一回复，并对达成一致的建议进行修改。
@@ -407,7 +407,7 @@ Issue 的完整生命周期：创建 issue -> 认领 issue -> 提交 pr -> 审�
 
 - 选择 squash merge （当且仅当作者仅有一个提交记录，且记录的commitlog清晰，可选择rebase）。
 
-- 到 JIRA 上关闭对应的 issue，标记修复或完成的版本【注意，解决或关闭 issue 都需要对 issue 添加 pr 或描述，通过 issue 要能够追踪这个任务的变动】。
+- 到 JIRA 上关闭对应的 issue，标记修复或完成的版本【注意，解决或关闭 issue 都需要对 issue 添加 PR 或描述，通过 issue 要能够追踪这个任务的变动】。
 
 ### 贡献文档
 

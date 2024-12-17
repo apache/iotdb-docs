@@ -716,6 +716,6 @@ UDAF 的结束方法，您可以在此方法中进行一些资源释放等的操
 
 ####  2.3.4 提交 PR
 
-当准备好源代码、测试用例和使用说明后，就可以将 UDF 贡献到 IoTDB 社区了。在 [Github](https://github.com/apache/iotdb) 上面提交 Pull Request (PR) 即可。具体提交方式见：[贡献指南](https://iotdb.apache.org/zh/Community/Development-Guide.html)。
+当准备好源代码、测试用例和使用说明后，就可以将 UDF 贡献到 IoTDB 社区了。在 [GitHub](https://github.com/apache/iotdb) 上面提交 Pull Request (PR) 即可。具体提交方式见：[贡献指南](https://iotdb.apache.org/zh/Community/Development-Guide.html)。
 
 当 PR 评审通过并被合并后， UDF 就已经贡献给 IoTDB 社区了！

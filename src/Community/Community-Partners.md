@@ -33,7 +33,7 @@ To avoid potential trademark issues, it is advised not to include "IoTDB" direct
 
 To join the list, please send an email to dev@iotdb.apache.org with your organization's name, URL, a list of IoTDB components you are using, and a brief description of your use case.
 
-Alternatively, you may leave your information on [Github](https://github.com/apache/iotdb/discussions/4040).
+Alternatively, you may leave your information on [GitHub](https://github.com/apache/iotdb/discussions/4040).
 
 - School of Software (Tsinghua University), and National Engineering Laboratory for Big Data Software originally launched IoTDB  
   - Their team, comprising both graduate students and professional software engineers, actively develops IoTDB.

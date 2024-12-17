@@ -23,7 +23,7 @@
 
 Apache IoTDB 是一款低成本、高性能的物联网原生时序数据库。它可以解决企业组建物联网大数据平台管理时序数据时所遇到的应用场景复杂、数据体量大、采样频率高、数据乱序多、数据处理耗时长、分析需求多样、存储与运维成本高等多种问题。
 
-- Github仓库链接：https://github.com/apache/iotdb
+- GitHub仓库链接：https://github.com/apache/iotdb
 
 - 开源安装包下载：https://iotdb.apache.org/zh/Download/
 
