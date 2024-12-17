@@ -1,37 +1,34 @@
 <!--
-
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-    
-        http://www.apache.org/licenses/LICENSE-2.0
-    
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
-
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
 -->
 
 # How to vote for a release
 
 For non-Chinese users, please read
 
-https://cwiki.apache.org/confluence/display/IOTDB/Validating+a+staged+Release
+<https://cwiki.apache.org/confluence/display/IOTDB/Validating+a+staged+Release>
 
 ## Download everything under voting version / rc
 
-https://dist.apache.org/repos/dist/dev/iotdb/
+<https://dist.apache.org/repos/dist/dev/iotdb/>
 
 ## Import the public key of the release manager
 
-https://dist.apache.org/repos/dist/dev/iotdb/KEYS
+<https://dist.apache.org/repos/dist/dev/iotdb/KEYS>
 
 At the bottom is the public key of the Release Manager (RM)
 
@@ -51,10 +48,10 @@ pub   rsa4096/28662AC6 2019-12-23 [SC]
 
 Download the public key
 
-```
+```bash
 gpg2 --receive-keys 10F3B3F8A1201B79AA43F2E00FC7F131CAA00430 (or 28662AC6)
 
-or (Designation keyserver) 
+# or (Designation keyserver) 
 gpg2 --keyserver p80.pool.sks-keyservers.net --recv-keys 10F3B3F8A1201B79AA43F2E00FC7F131CAA00430 (或 28662AC6)
 ```
 
@@ -71,25 +68,25 @@ Version: GnuPG v2
 
 Import RM's public key to your computer
 
-```
+```bash
 gpg2 --import key.asc
 ```
 
 ## Verify the source distribution
 
-* Verify that there are  NOTICE, LICENSE, and the content is correct.
+- Verify that there are  NOTICE, LICENSE, and the content is correct.
 
-* Verify README, RELEASE_NOTES
+- Verify README, RELEASE_NOTES
 
-* Validation header
+- Validation header
 
-```
+```bash
 mvn -B apache-rat:check
 ```
 
-* Verify signatures and hashes
+- Verify signatures and hashes
 
-```
+```bash
 gpg2 --verify apache-iotdb-0.12.0-source-release.zip.asc apache-iotdb-0.12.0-source-release.zip
 
 appear Good Singnature 
@@ -99,9 +96,9 @@ shasum -a512 apache-iotdb-0.12.0-source-release.zip
 Compared with the corresponding .sha512, the same is fine.
 ```
 
-* Verify compilation
+- Verify compilation
 
-```
+```bash
 mvnw install
 
 Should end up all SUCCESS
@@ -109,13 +106,13 @@ Should end up all SUCCESS
 
 ## Verifying the binary release
 
-* Verify that there are NOTICE, LICENSE, and the content is correct.
+- Verify that there are NOTICE, LICENSE, and the content is correct.
 
-* Verify README, RELEASE_NOTES
+- Verify README, RELEASE_NOTES
 
-* Verify signatures and hashes
+- Verify signatures and hashes
 
-```
+```bash
 gpg2 --verify apache-iotdb-0.12.0-bin.zip.asc apache-iotdb-0.12.0-bin.zip
 
 appear Good Singnature 
@@ -125,9 +122,9 @@ shasum -a512 apache-iotdb-0.12.0-bin.zip
 Compared with the corresponding .sha512, the same is fine.
 ```
 
-* Verify that it starts and the sample statements execute correctly
+- Verify that it starts and the sample statements execute correctly
 
-```
+```bash
 nohup ./sbin/start-server.sh >/dev/null 2>&1 &
 
 ./sbin/start-cli.sh
@@ -181,12 +178,11 @@ Thanks,
 xxx
 ```
 
-
 ## small tools
 
-* Print out lines containing certain characters (just look at the top output, you don't need to look at the bottom file)
+- Print out lines containing certain characters (just look at the top output, you don't need to look at the bottom file)
 
-```
+```bash
 find . -type f -exec grep -i "copyright" {} \; -print | sort -u
 find **/src -type f -exec grep -i "copyright" {} \; -print | sort -u
 ```
