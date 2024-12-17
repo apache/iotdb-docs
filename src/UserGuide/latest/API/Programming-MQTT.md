@@ -116,11 +116,11 @@ Steps:
 1. Create a java project, and add dependency:
 
    ```xml
-           <dependency>
-               <groupId>org.apache.iotdb</groupId>
-               <artifactId>iotdb-server</artifactId>
-               <version>1.1.0-SNAPSHOT</version>
-           </dependency>
+     <dependency>
+         <groupId>org.apache.iotdb</groupId>
+         <artifactId>iotdb-server</artifactId>
+         <version>1.1.0-SNAPSHOT</version>
+     </dependency>
    ```
 
 2. Define your implementation which implements `org.apache.iotdb.db.protocol.mqtt.PayloadFormatter`
