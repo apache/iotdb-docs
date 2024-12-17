@@ -449,4 +449,4 @@ insert into root.sg(time, a) values(4, "\u96d5")
 
 # 验证哈希和签名
 
-除了我们的发行版，我们还在 _.sha512 文件中提供了 sha512 散列，并在 `_.asc` 文件中提供了加密签名。 Apache Software Foundation 提供了广泛的教程来 [验证哈希和签名](http://www.apache.org/info/verification.html)，您可以使用任何这些发布签名的 [KEYS](https://downloads.apache.org/iotdb/KEYS) 来遵循这些哈希和签名。
+除了我们的发行版，我们还在 `*.sha512` 文件中提供了 sha512 散列，并在 `*.asc` 文件中提供了加密签名。 Apache Software Foundation 提供了广泛的教程来 [验证哈希和签名](http://www.apache.org/info/verification.html)，您可以使用任何这些发布签名的 [KEYS](https://downloads.apache.org/iotdb/KEYS) 来遵循这些哈希和签名。
