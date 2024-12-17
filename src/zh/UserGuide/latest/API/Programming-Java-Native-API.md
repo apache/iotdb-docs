@@ -1,457 +1,891 @@
 <!--
 
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-    
-        http://www.apache.org/licenses/LICENSE-2.0
-    
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
+* Licensed to the Apache Software Foundation (ASF) under one
+* or more contributor license agreements.  See the NOTICE file
+* distributed with this work for additional information
+* regarding copyright ownership.  The ASF licenses this file
+* to you under the Apache License, Version 2.0 (the
+* "License"); you may not use this file except in compliance
+* with the License.  You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
 
 -->
 
 # Java 原生接口
 
-## 安装
+## 概述
 
-### 依赖
+IoTDB 原生 API 中的 Session 是实现与数据库交互的核心接口，它集成了丰富的方法，支持数据写入、查询以及元数据操作等功能。通过实例化 Session，能够建立与 IoTDB 服务器的连接，在该连接所构建的环境中执行各类数据库操作。
+此外，IoTDB 还提供了 Session Pool，Session Pool 是 Session 的池化形式，专门针对多线程并发场景进行了优化，在多线程并发的情形下，Session Pool 能够合理地管理和分配连接资源，以提升系统性能与资源利用效率。Session 与 Session Pool 在功能方法层面保持一致，均为开发者在不同场景下与 IoTDB 数据库进行交互提供了有力支撑，开发者可依据实际需求灵活选用。
 
-* JDK >= 1.8
-* Maven >= 3.6
+## 步骤概览
+使用Session的核心步骤：
+1. 创建会话实例：初始化一个Session对象，为与IoTDB服务器的交互做准备。
+2. 打开连接：通过Session实例建立与IoTDB服务器的连接。
+3. 执行操作：在已建立的连接上执行数据写入、查询或元数据管理等操作。 
+4. 关闭连接：完成操作后，关闭与IoTDB服务器的连接，释放资源。
 
-### 在 MAVEN 中使用原生接口
+使用SessionPool的核心步骤：
+1. 创建会话池实例：初始化一个SessionPool对象，用于管理多个Session实例。
+2. 执行操作：直接从SessionPool中获取Session实例，并执行数据库操作，无需每次都打开和关闭连接。 
+3. 关闭会话池资源：在不再需要进行数据库操作时，关闭SessionPool，释放所有相关资源。
+
+## 详细步骤
+本章节用于说明开发的核心流程，并未演示所有的参数和接口，如需了解全部功能及参数请参见: [详细接口说明](./Programming-Java-Native-API.md#详细接口说明) 或 查阅: [源码](https://github.com/apache/iotdb/tree/master/example/session/src/main/java/org/apache/iotdb)
+
+### 1. 创建maven项目
+创建一个maven项目，并导入以下依赖（JDK >= 1.8, Maven >= 3.6）
 
 ```xml
 <dependencies>
     <dependency>
       <groupId>org.apache.iotdb</groupId>
       <artifactId>iotdb-session</artifactId>
+      <!-- 版本号与数据库版本号相同 -->
       <version>${project.version}</version>
     </dependency>
 </dependencies>
 ```
+### 2. 创建会话实例
+#### Session
+方式一：通过Builder构造器创建Session实例
+```java
+package org.example;
 
-## 语法说明
+import org.apache.iotdb.isession.util.Version;
+import org.apache.iotdb.rpc.IoTDBConnectionException;
+import org.apache.iotdb.session.Session;
 
- - 对于 IoTDB-SQL 接口：传入的 SQL 参数需要符合  [语法规范](../User-Manual/Syntax-Rule.md#字面值常量) ，并且针对 JAVA 字符串进行反转义，如双引号前需要加反斜杠。（即：经 JAVA 转义之后与命令行执行的 SQL 语句一致。） 
- - 对于其他接口： 
-   - 经参数传入的路径或路径前缀中的节点： 在 SQL 语句中需要使用反引号（`）进行转义的，此处均需要进行转义。 
-   - 经参数传入的标识符（如模板名）：在 SQL 语句中需要使用反引号（`）进行转义的，均可以不用进行转义。
- - 语法说明相关代码示例可以参考：`example/session/src/main/java/org/apache/iotdb/SyntaxConventionRelatedExample.java`
+public class IoTDBSessionExample {
+    public static void main(String[] args) {
+        Session session =
+                new Session.Builder()
+                        .host("127.0.0.1")
+                        .port(6667)
+                        .username("root")
+                        .password("root")
+                        .version(Version.V_1_0)
+                        .build();
+        try {
+            session.open();
+        } catch (IoTDBConnectionException e) {
+            // 连接Session异常
+            System.out.println("Connecting to the IoTDB failed.");
+        }
+        System.out.println("Connecting to the IoTDB succeeded.");
+    }
+}
+```
+方式二：通过new Session对象创建Session实例
+```java
+package org.example;
 
-## 基本接口说明
+import org.apache.iotdb.rpc.IoTDBConnectionException;
+import org.apache.iotdb.session.Session;
 
-下面将给出 Session 对应的接口的简要介绍和对应参数：
-
-### Session管理
-
-* 初始化 Session
-
-``` java
-// 全部使用默认配置
-session = new Session.Builder.build();
-
-// 指定一个可连接节点
-session = 
-    new Session.Builder()
-        .host(String host)
-        .port(int port)
-        .build();
-
-// 指定多个可连接节点
-session = 
-    new Session.Builder()
-        .nodeUrls(List<String> nodeUrls)
-        .build();
-
-// 其他配置项
-session = 
-    new Session.Builder()
-        .fetchSize(int fetchSize)
-        .username(String username)
-        .password(String password)
-        .thriftDefaultBufferSize(int thriftDefaultBufferSize)
-        .thriftMaxFrameSize(int thriftMaxFrameSize)
-        .enableRedirection(boolean enableRedirection)
-        .version(Version version)
-        .build();
+public class IoTDBSessionExample {
+    public static void main(String[] args) {
+        Session session = new Session("127.0.0.1", 6667);
+        try {
+            session.open();
+        } catch (IoTDBConnectionException e) {
+            // 连接Session异常
+            System.out.println("Connecting to the IoTDB failed.");
+        }
+        System.out.println("Connecting to the IoTDB succeeded.");
+    }
+}
 ```
 
-其中，version 表示客户端使用的 SQL 语义版本，用于升级 0.13 时兼容 0.12 的 SQL 语义，可能取值有：`V_0_12`、`V_0_13`、`V_1_0`等。
+#### Session Pool
+方式一：通过Builder来创建Session Pool实例
+```java
+package org.example;
 
+import org.apache.iotdb.session.pool.SessionPool;
 
-* 开启 Session
-
-``` java
-void open()
+public class IoTDBSessionExample {
+    public static void main(String[] args) {
+        SessionPool sessionPool =
+                new SessionPool.Builder()
+                        .host("127.0.0.1")
+                        .port(6667)
+                        .user("root")
+                        .password("root")
+                        .maxSize(3)
+                        .build();
+    }
+}
 ```
 
-* 开启 Session，并决定是否开启 RPC 压缩
+方式二：通过直接new SessionPool对象创建Session Pool实例
+```java
+package org.example;
 
-``` java
-void open(boolean enableRPCCompression)
+import org.apache.iotdb.session.pool.SessionPool;
+
+public class IoTDBSessionExample {
+    public static void main(String[] args) {
+      SessionPool sessionPool =
+              new SessionPool("127.0.0.1",6667,"root","root",100);
+    }
+}
 ```
 
-注意: 客户端的 RPC 压缩开启状态需和服务端一致
 
-* 关闭 Session
+### 执行数据库操作
+Session与Session Pool中的方法列表相同，本文档中以Session进行举例说明，如需用SessionPool，将Session对象替换为SessionPool即可。
 
-``` java
-void close()
+#### 元数据操作
+```java
+package org.example;
+
+import org.apache.iotdb.isession.util.Version;
+import org.apache.iotdb.rpc.IoTDBConnectionException;
+import org.apache.iotdb.rpc.StatementExecutionException;
+import org.apache.iotdb.session.Session;
+import org.apache.tsfile.enums.TSDataType;
+import org.apache.tsfile.file.metadata.enums.CompressionType;
+import org.apache.tsfile.file.metadata.enums.TSEncoding;
+
+public class IoTDBSessionExample {
+
+    public static void main(String[] args) {
+        Session session =
+                new Session.Builder()
+                        .host("127.0.0.1")
+                        .port(6667)
+                        .username("root")
+                        .password("root")
+                        .version(Version.V_1_0)
+                        .build();
+        try {
+            session.open();
+        } catch (IoTDBConnectionException e) {
+            // 连接Session异常
+            System.out.println("Connecting to the IoTDB failed.");
+        }
+        System.out.println("Connecting to the IoTDB succeeded.");
+
+        try {
+            // 1. 创建database
+            session.createDatabase("root.sg1");
+            // 2. 创建一个时间序列
+            session.createTimeseries(
+                    "root.sg1.d1.s1", TSDataType.INT64, TSEncoding.RLE, CompressionType.SNAPPY);
+            // 3. 删除一个时间序列
+            session.deleteTimeseries("root.sg1.d1.s1");
+        } catch (IoTDBConnectionException | StatementExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+          session.close();
+        } catch (IoTDBConnectionException e) {
+          // solve exception
+        }
+    }
+}
+```
+#### 数据写入
+在工业场景中，数据写入可以根据设备数量、写入频率和数据类型分为以下几类：单点实时写入、多设备批量写入、单设备历史数据补写、批量数据上传、对齐数据写入。不同的场景适用于不同的写入接口。下面按不同场景对写入接口进行介绍。
+##### 单点实时写入
+场景：单台设备的实时状态数据写入，更新频率较低，通常每次只写入一条记录。
+
+适用接口：
+
+| 接口名称                                                                                  | 功能描述                                                                                          |
+|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `insertRecord(String deviceId, long time, List<String> measurements, List<TSDataType> types, List<Object> values)` | 插入单个设备多个测点的一个时刻的记录                                                                            |
+| `insertRecord(String deviceId, long time, List<String> measurements, List<String> values)` | 同上，不需要指定数据类型，会根据传入的值进行推断。推断规则可在服务端配置，详细配置在iotdb-system.properties.template中的搜索`infer_type`关键字 |
+| `insertAlignedRecord(String deviceId, long time, List<String> measurements, List<TSDataType> types, List<Object> values)` | 插入单个设备多个测点的一个时刻的记录，该设备为对齐设备                                                                   |
+| `insertAlignedRecord(String deviceId, long time, List<String> measurements, List<String> values)` | 同上，不需要指定数据类型，会根据传入的值进行推断。推断规则可在服务端配置，详细配置在iotdb-system.properties.template中的搜索`infer_type`关键字                                                                               |
+
+代码案例：
+```java
+package org.example;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.iotdb.isession.util.Version;
+import org.apache.iotdb.rpc.IoTDBConnectionException;
+import org.apache.iotdb.rpc.StatementExecutionException;
+import org.apache.iotdb.session.Session;
+import org.apache.tsfile.enums.TSDataType;
+
+public class IoTDBSessionExample {
+
+    public static void main(String[] args) {
+        Session session =
+                new Session.Builder()
+                        .host("127.0.0.1")
+                        .port(6667)
+                        .username("root")
+                        .password("root")
+                        .version(Version.V_1_0)
+                        .build();
+        try {
+            session.open();
+        } catch (IoTDBConnectionException e) {
+            // 连接Session异常
+            System.out.println("Connecting to the IoTDB failed.");
+        }
+        System.out.println("Connecting to the IoTDB succeeded.");
+        String deviceId = "root.sg1.d1";
+        List<String> measurements = new ArrayList<>();
+        List<TSDataType> types = new ArrayList<>();
+        measurements.add("s1");
+        measurements.add("s2");
+        measurements.add("s3");
+        types.add(TSDataType.INT64);
+        types.add(TSDataType.INT64);
+        types.add(TSDataType.INT64);
+
+        for (long time = 0; time < 100; time++) {
+            List<Object> values = new ArrayList<>();
+            values.add(1L);
+            values.add(2L);
+            values.add(3L);
+            try {
+                session.insertRecord(deviceId, time, measurements, types, values);
+            } catch (IoTDBConnectionException | StatementExecutionException e) {
+                // solve exception
+            }
+        }
+        try {
+          session.close();
+        } catch (IoTDBConnectionException e) {
+          // solve exception
+        }
+    }
+}
 ```
 
-* SessionPool
+##### 多设备批量写入
+场景：多个设备的实时状态或传感器数据批量写入，适合工厂或车间环境。
 
-我们提供了一个针对原生接口的连接池 (`SessionPool`)，使用该接口时，你只需要指定连接池的大小，就可以在使用时从池中获取连接。
-如果超过 60s 都没得到一个连接的话，那么会打印一条警告日志，但是程序仍将继续等待。
+适用接口：
 
-当一个连接被用完后，他会自动返回池中等待下次被使用；
-当一个连接损坏后，他会从池中被删除，并重建一个连接重新执行用户的操作；
-你还可以像创建 Session 那样在创建 SessionPool 时指定多个可连接节点的 url，以保证分布式集群中客户端的高可用性。
-
-对于查询操作：
-
-1. 使用 SessionPool 进行查询时，得到的结果集是`SessionDataSet`的封装类`SessionDataSetWrapper`;
-2. 若对于一个查询的结果集，用户并没有遍历完且不再想继续遍历时，需要手动调用释放连接的操作`closeResultSet`;
-3. 若对一个查询的结果集遍历时出现异常，也需要手动调用释放连接的操作`closeResultSet`.
-4. 可以调用 `SessionDataSetWrapper` 的 `getColumnNames()` 方法得到结果集列名 
-
-使用示例可以参见 `session/src/test/java/org/apache/iotdb/session/pool/SessionPoolTest.java`
-
-或 `example/session/src/main/java/org/apache/iotdb/SessionPoolExample.java`
+| 接口名称                                                                                  | 功能描述                                                                                          |
+|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `insertRecords(List<String> deviceIds, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList)` | 插入多个设备，每个设备多个测点的一个时刻的记录                                                                       |
+| `insertRecords(List<String> deviceIds, List<Long> times, List<List<String>> measurementsList, List<List<Object>> valuesList)` |                                               同上，不需要指定数据类型，会根据传入的值进行推断。推断规则可在服务端配置，详细配置在iotdb-system.properties.template中的搜索`infer_type`关键字                                                |
+| `insertAlignedRecords(List<String> deviceIds, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList)` | 插入多个设备，每个设备多个测点的一个时刻的记录。每个设备为对齐设备                                                             |
+| `insertAlignedRecords(List<String> deviceIds, List<Long> times, List<List<String>> measurementsList, List<List<Object>> valuesList)` | 同上，不需要指定数据类型，会根据传入的值进行推断。推断规则可在服务端配置，详细配置在iotdb-system.properties.template中的搜索`infer_type`关键字 |
 
 
-### 测点管理接口
+代码案例：
+```java
+package org.example;
 
-#### Database 管理
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.iotdb.isession.util.Version;
+import org.apache.iotdb.rpc.IoTDBConnectionException;
+import org.apache.iotdb.rpc.StatementExecutionException;
+import org.apache.iotdb.session.Session;
+import org.apache.tsfile.enums.TSDataType;
 
-* 设置 database
+public class IoTDBSessionExample {
 
-``` java
-void setStorageGroup(String storageGroupId)
+    public static void main(String[] args) {
+        Session session =
+                new Session.Builder()
+                        .host("127.0.0.1")
+                        .port(6667)
+                        .username("root")
+                        .password("root")
+                        .version(Version.V_1_0)
+                        .build();
+        try {
+            session.open();
+        } catch (IoTDBConnectionException e) {
+            // 连接Session异常
+            System.out.println("Connecting to the IoTDB failed.");
+        }
+        System.out.println("Connecting to the IoTDB succeeded.");
+        String deviceId = "root.sg1.d1.s1";
+        List<String> measurements = new ArrayList<>();
+        measurements.add("s1");
+        measurements.add("s2");
+        measurements.add("s3");
+        List<String> deviceIds = new ArrayList<>();
+        List<List<String>> measurementsList = new ArrayList<>();
+        List<List<Object>> valuesList = new ArrayList<>();
+        List<Long> timestamps = new ArrayList<>();
+        List<List<TSDataType>> typesList = new ArrayList<>();
+
+        for (long time = 0; time < 500; time++) {
+            List<Object> values = new ArrayList<>();
+            List<TSDataType> types = new ArrayList<>();
+            values.add(1L);
+            values.add(2L);
+            values.add(3L);
+            types.add(TSDataType.INT64);
+            types.add(TSDataType.INT64);
+            types.add(TSDataType.INT64);
+
+            deviceIds.add(deviceId);
+            measurementsList.add(measurements);
+            valuesList.add(values);
+            typesList.add(types);
+            timestamps.add(time);
+            if (time != 0 && time % 100 == 0) {
+                try {
+                    session.insertRecords(deviceIds, timestamps, measurementsList, typesList, valuesList);
+                } catch (IoTDBConnectionException | StatementExecutionException e) {
+                    // solve exception
+                }
+                deviceIds.clear();
+                measurementsList.clear();
+                valuesList.clear();
+                typesList.clear();
+                timestamps.clear();
+            }
+        }
+
+        try {
+            session.insertRecords(deviceIds, timestamps, measurementsList, typesList, valuesList);
+        } catch (IoTDBConnectionException | StatementExecutionException e) {
+            // solve exception
+        }
+        try {
+          session.close();
+        } catch (IoTDBConnectionException e) {
+          // solve exception
+        }
+    }
+}
 ```
 
-* 删除单个或多个 database
+##### 单设备历史数据补写
 
-``` java
-void deleteStorageGroup(String storageGroup)
-void deleteStorageGroups(List<String> storageGroups)
+场景：单台设备采集数据中存在时间间隔，需要一次性补充多条历史记录。
+
+适用接口：
+
+| 接口名称                                                                                  | 功能描述                                                                                          |
+|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
+| `insertRecordsOfOneDevice(String deviceId, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList)` | 插入单设备的多条记录                                                                                    |
+| `insertRecordsOfOneDevice(String deviceId, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList, boolean haveSorted)` | 插入单设备的排序记录，其数据已经排好序，无乱序情况                                                                     |
+| `insertRecordsOfOneDevice(String deviceId, List<Long> times, List<List<String>> measurementsList, List<List<Object>> valuesList)` | 同上，不需要指定数据类型，会根据传入的值进行推断。推断规则可在服务端配置，详细配置在iotdb-system.properties.template中的搜索`infer_type`关键字 |
+| `insertAlignedRecordsOfOneDevice(String deviceId, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList)` | 插入单设备的多条记录，该设备为对齐设备                |
+| `insertAlignedRecordsOfOneDevice(String deviceId, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList, boolean haveSorted)` | 插入单设备的多条记录，该设备为对齐设备，其数据已经排好序，无乱序情况                 |
+| `insertAlignedRecordsOfOneDevice(String deviceId, List<Long> times, List<List<String>> measurementsList, List<List<Object>> valuesList)` | 同上，不需要指定数据类型，会根据传入的值进行推断。推断规则可在服务端配置，详细配置在iotdb-system.properties.template中的搜索`infer_type`关键字                     |
+
+代码案例：
+```java
+package org.example;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.iotdb.isession.util.Version;
+import org.apache.iotdb.rpc.IoTDBConnectionException;
+import org.apache.iotdb.rpc.StatementExecutionException;
+import org.apache.iotdb.session.Session;
+import org.apache.tsfile.enums.TSDataType;
+
+public class IoTDBSessionExample {
+
+    public static void main(String[] args) throws IoTDBConnectionException, StatementExecutionException {
+        Session session =
+                new Session.Builder()
+                        .host("127.0.0.1")
+                        .port(6667)
+                        .username("root")
+                        .password("root")
+                        .version(Version.V_1_0)
+                        .build();
+        try {
+            session.open();
+        } catch (IoTDBConnectionException e) {
+            // 连接Session异常
+            System.out.println("Connecting to the IoTDB failed.");
+        }
+        System.out.println("Connecting to the IoTDB succeeded.");
+        String deviceId = "root.sg1.d1.s1";
+        List<String> measurements = new ArrayList<>();
+        measurements.add("s1");
+        measurements.add("s2");
+        measurements.add("s3");
+        List<List<String>> measurementsList = new ArrayList<>();
+        List<List<Object>> valuesList = new ArrayList<>();
+        List<Long> timestamps = new ArrayList<>();
+        List<List<TSDataType>> typesList = new ArrayList<>();
+
+        for (long time = 0; time < 10; time ++) {
+            List<Object> values = new ArrayList<>();
+            List<TSDataType> types = new ArrayList<>();
+            values.add(1L);
+            values.add(2L);
+            values.add(3L);
+            types.add(TSDataType.INT64);
+            types.add(TSDataType.INT64);
+            types.add(TSDataType.INT64);
+            measurementsList.add(measurements);
+            valuesList.add(values);
+            typesList.add(types);
+            timestamps.add(time);
+        }
+
+        session.insertRecordsOfOneDevice(deviceId, timestamps, measurementsList, typesList, valuesList);
+        try {
+          session.close();
+        } catch (IoTDBConnectionException e) {
+          // solve exception
+        }
+    }
+}
 ```
-#### 时间序列管理
+##### 批量数据上传
+场景：多个设备的大量数据同时上传，适合大规模分布式数据接入。
 
-* 创建单个或多个时间序列
+适用接口：
 
-``` java
-void createTimeseries(String path, TSDataType dataType,
-      TSEncoding encoding, CompressionType compressor, Map<String, String> props,
-      Map<String, String> tags, Map<String, String> attributes, String measurementAlias)
-      
-void createMultiTimeseries(List<String> paths, List<TSDataType> dataTypes,
-      List<TSEncoding> encodings, List<CompressionType> compressors,
-      List<Map<String, String>> propsList, List<Map<String, String>> tagsList,
-      List<Map<String, String>> attributesList, List<String> measurementAliasList)
+| 接口名称                                                                                  | 功能描述                                     |
+|-----------------------------------------------------------------------------------------|------------------------------------------|
+| `insertTablet(Tablet tablet)`                                                          | 插入单个设备多个测点，每个测点多个时刻的数据                   |
+| `insertTablet(Tablet tablet, boolean sorted)`                                          | 插入单个设备多个测点，每个测点多个时刻的数据，其数据已经排好序          |
+| `insertTablets(Map<String, Tablet> tablets)`                                           | 插入单个设备多个测点，每个测点多个时刻的数据                   |
+| `insertTablets(Map<String, Tablet> tablets, boolean sorted)`                           | 插入单个设备多个测点，每个测点多个时刻的数据，其数据已经排好序          |
+| `insertAlignedTablet(Tablet tablet)`                                                  | 插入单个设备多个测点，每个测点多个时刻的数据，该设备为对齐设备          |
+| `insertAlignedTablet(Tablet tablet, boolean sorted)`                                   | 插入单个设备多个测点，每个测点多个时刻的数据，该设备为对齐设备，其数据已经排好序 |
+| `insertAlignedTablets(Map<String, Tablet> tablets)`                                    | 插入多个设备多个测点，每个测点多个时刻的数据                   |
+| `insertAlignedTablets(Map<String, Tablet> tablets, boolean sorted)`                   | 插入多个设备多个测点，每个测点多个时刻的数据，其数据已经排好序          |
+
+代码案例：
+```java
+package org.example;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import org.apache.iotdb.isession.util.Version;
+import org.apache.iotdb.rpc.IoTDBConnectionException;
+import org.apache.iotdb.rpc.StatementExecutionException;
+import org.apache.iotdb.session.Session;
+import org.apache.tsfile.enums.TSDataType;
+import org.apache.tsfile.write.record.Tablet;
+import org.apache.tsfile.write.schema.MeasurementSchema;
+
+public class IoTDBSessionExample {
+
+    public static void main(String[] args) throws IoTDBConnectionException, StatementExecutionException {
+        Session session =
+                new Session.Builder()
+                        .host("127.0.0.1")
+                        .port(6667)
+                        .username("root")
+                        .password("root")
+                        .version(Version.V_1_0)
+                        .build();
+        try {
+            session.open();
+        } catch (IoTDBConnectionException e) {
+            // 连接Session异常
+            System.out.println("Connecting to the IoTDB failed.");
+        }
+        System.out.println("Connecting to the IoTDB succeeded.");
+        String deviceId = "root.sg1.d1.s1";
+        /*
+         * A Tablet example:
+         *      device1
+         * time s1, s2, s3
+         * 1,   1,  1,  1
+         * 2,   2,  2,  2
+         * 3,   3,  3,  3
+         */
+        // The schema of measurements of one device
+        // only measurementId and data type in MeasurementSchema take effects in Tablet
+        List<MeasurementSchema> schemaList = new ArrayList<>();
+        schemaList.add(new MeasurementSchema("s1", TSDataType.INT64));
+        schemaList.add(new MeasurementSchema("s2", TSDataType.INT64));
+        schemaList.add(new MeasurementSchema("s3", TSDataType.INT64));
+
+        Tablet tablet = new Tablet(deviceId, schemaList, 100);
+
+        // Method 1 to add tablet data
+        long timestamp = System.currentTimeMillis();
+        Random random = new Random();
+        for (long row = 0; row < 100; row++) {
+            int rowIndex = tablet.rowSize++;
+            tablet.addTimestamp(rowIndex, timestamp);
+            for (int s = 0; s < 3; s++) {
+                long value = random.nextLong();
+                tablet.addValue(schemaList.get(s).getMeasurementId(), rowIndex, value);
+            }
+            if (tablet.rowSize == tablet.getMaxRowNumber()) {
+                session.insertTablet(tablet, true);
+                tablet.reset();
+            }
+            timestamp++;
+        }
+
+        if (tablet.rowSize != 0) {
+            session.insertTablet(tablet);
+            tablet.reset();
+        }
+        try {
+          session.close();
+        } catch (IoTDBConnectionException e) {
+          // solve exception
+        }
+    }
+}
 ```
 
-* 创建对齐时间序列
+#### 数据查询
+```java
+package org.example;
 
-```
-void createAlignedTimeseries(String prefixPath, List<String> measurements,
-      List<TSDataType> dataTypes, List<TSEncoding> encodings,
-      List <CompressionType> compressors, List<String> measurementAliasList);
-```
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.iotdb.common.rpc.thrift.TAggregationType;
+import org.apache.iotdb.isession.SessionDataSet;
+import org.apache.iotdb.isession.util.Version;
+import org.apache.iotdb.rpc.IoTDBConnectionException;
+import org.apache.iotdb.rpc.StatementExecutionException;
+import org.apache.iotdb.session.Session;
 
-注意：目前**暂不支持**使用传感器别名。
-
-* 删除一个或多个时间序列
-
-``` java
-void deleteTimeseries(String path)
-void deleteTimeseries(List<String> paths)
-```
-
-* 检测时间序列是否存在
-
-``` java
-boolean checkTimeseriesExists(String path)
-```
-
-#### 元数据模版
-
-* 创建元数据模板，可以通过先后创建 Template、MeasurementNode 的对象，描述模板内物理量结构与类型、编码方式、压缩方式等信息，并通过以下接口创建模板
-
-``` java
-public void createSchemaTemplate(Template template);
-
-Class Template {
-    private String name;
-    private boolean directShareTime;
-    Map<String, Node> children;
-    public Template(String name, boolean isShareTime);
+public class IoTDBSessionExample {
+    private static final String ROOT_SG1_D1_S1 = "root.sg1.d1.s1";
+    private static final String ROOT_SG1_D1_S2 = "root.sg1.d1.s2";
+    private static final String ROOT_SG1_D1_S3 = "root.sg1.d1.s3";
     
-    public void addToTemplate(Node node);
-    public void deleteFromTemplate(String name);
-    public void setShareTime(boolean shareTime);
-}
+    public static void main(String[] args) throws IoTDBConnectionException, StatementExecutionException {
+        Session session =
+                new Session.Builder()
+                        .host("127.0.0.1")
+                        .port(6667)
+                        .username("root")
+                        .password("root")
+                        .version(Version.V_1_0)
+                        .build();
+        try {
+            session.open();
+        } catch (IoTDBConnectionException e) {
+            // 连接Session异常
+            System.out.println("Connecting to the IoTDB failed.");
+        }
+        System.out.println("Connecting to the IoTDB succeeded.");
 
-Abstract Class Node {
-    private String name;
-    public void addChild(Node node);
-    public void deleteChild(Node node);
-}
+        // 1. 使用sql查询原始数据
+        try (SessionDataSet dataSet = session.executeQueryStatement("select * from root.sg1.d1")) {
+            System.out.println(dataSet.getColumnNames());
+            dataSet.setFetchSize(1024); // default is 10000
+            while (dataSet.hasNext()) {
+                System.out.println(dataSet.next());
+            }
+        }
 
-Class MeasurementNode extends Node {
-    TSDataType dataType;
-    TSEncoding encoding;
-    CompressionType compressor;
-    public MeasurementNode(String name, 
-                           TSDataType dataType, 
-                           TSEncoding encoding,
-                          CompressionType compressor);
-}
-```
+        // 2.指定测点、开始时间、结束时间、超时时间进行查询
+        List<String> paths = new ArrayList<>();
+        paths.add(ROOT_SG1_D1_S1);
+        paths.add(ROOT_SG1_D1_S2);
+        paths.add(ROOT_SG1_D1_S3);
+        long startTime = 10L;
+        long endTime = 200L;
+        long timeOut = 60000;
 
-通过上述类的实例描述模板时，Template 内应当仅能包含单层的 MeasurementNode，具体可以参见如下示例：
+        try (SessionDataSet dataSet = session.executeRawDataQuery(paths, startTime, endTime, timeOut)) {
+            System.out.println(dataSet.getColumnNames());
+            dataSet.setFetchSize(1024);
+            while (dataSet.hasNext()) {
+                System.out.println(dataSet.next());
+            }
+        }
 
-``` java
-MeasurementNode nodeX = new MeasurementNode("x", TSDataType.FLOAT, TSEncoding.RLE, CompressionType.SNAPPY);
-MeasurementNode nodeY = new MeasurementNode("y", TSDataType.FLOAT, TSEncoding.RLE, CompressionType.SNAPPY);
-MeasurementNode nodeSpeed = new MeasurementNode("speed", TSDataType.DOUBLE, TSEncoding.GORILLA, CompressionType.SNAPPY);
+        // 3. 最新值查询
+        try (SessionDataSet sessionDataSet = session.executeLastDataQuery(paths, 3, 60000)) {
+            System.out.println(sessionDataSet.getColumnNames());
+            sessionDataSet.setFetchSize(1024);
+            while (sessionDataSet.hasNext()) {
+                System.out.println(sessionDataSet.next());
+            }
+        }
 
-// This is the template we suggest to implement
-Template flatTemplate = new Template("flatTemplate");
-template.addToTemplate(nodeX);
-template.addToTemplate(nodeY);
-template.addToTemplate(nodeSpeed);
+        // 4. 聚合查询
+        List<TAggregationType> aggregations = new ArrayList<>();
+        aggregations.add(TAggregationType.COUNT);
+        aggregations.add(TAggregationType.SUM);
+        aggregations.add(TAggregationType.MAX_VALUE);
+        try (SessionDataSet sessionDataSet = session.executeAggregationQuery(paths, aggregations)) {
+            System.out.println(sessionDataSet.getColumnNames());
+            sessionDataSet.setFetchSize(1024);
+            while (sessionDataSet.hasNext()) {
+                System.out.println(sessionDataSet.next());
+            }
+        }
 
-createSchemaTemplate(flatTemplate);
-```
-
-* 完成模板挂载操作后，可以通过如下的接口在给定的设备上使用模板注册序列，或者也可以直接向相应的设备写入数据以自动使用模板注册序列。
-
-``` java
-void createTimeseriesUsingSchemaTemplate(List<String> devicePathList)
-```
-
-* 将名为'templateName'的元数据模板挂载到'prefixPath'路径下，在执行这一步之前，你需要创建名为'templateName'的元数据模板
-* **请注意，我们强烈建议您将模板设置在 database 或 database 下层的节点中，以更好地适配未来版本更新及各模块的协作**
-
-``` java
-void setSchemaTemplate(String templateName, String prefixPath)
-```
-
-- 将模板挂载到 MTree 上之后，你可以随时查询所有模板的名称、某模板被设置到 MTree 的所有路径、所有正在使用某模板的所有路径，即如下接口：
-
-``` java
-/** @return All template names. */
-public List<String> showAllTemplates();
-
-/** @return All paths have been set to designated template. */
-public List<String> showPathsTemplateSetOn(String templateName);
-
-/** @return All paths are using designated template. */
-public List<String> showPathsTemplateUsingOn(String templateName)
-```
-
-- 如果你需要删除某一个模板，请确保在进行删除之前，MTree 上已经没有节点被挂载了模板，对于已经被挂载模板的节点，可以用如下接口卸载模板；
-
-
-``` java
-void unsetSchemaTemplate(String prefixPath, String templateName);
-public void dropSchemaTemplate(String templateName);
-```
-
-* 请注意，如果一个子树中有多个孩子节点需要使用模板，可以在其共同父母节点上使用 setSchemaTemplate 。而只有在已有数据点插入模板对应的物理量时，模板才会被设置为激活状态，进而被 show timeseries 等查询检测到。
-* 卸载'prefixPath'路径下的名为'templateName'的元数据模板。你需要保证给定的路径'prefixPath'下需要有名为'templateName'的元数据模板。
-
-注意：目前不支持从曾经在'prefixPath'路径及其后代节点使用模板插入数据后（即使数据已被删除）卸载模板。
-
-
-### 数据写入接口
-
-推荐使用 insertTablet 帮助提高写入效率
-
-* 插入一个 Tablet，Tablet 是一个设备若干行数据块，每一行的列都相同
-  * **写入效率高**
-  * **支持批量写入**
-  * **支持写入空值**：空值处可以填入任意值，然后通过 BitMap 标记空值
-
-``` java
-void insertTablet(Tablet tablet)
-
-public class Tablet {
-  /** deviceId of this tablet */
-  public String prefixPath;
-  /** the list of measurement schemas for creating the tablet */
-  private List<MeasurementSchema> schemas;
-  /** timestamps in this tablet */
-  public long[] timestamps;
-  /** each object is a primitive type array, which represents values of one measurement */
-  public Object[] values;
-  /** each bitmap represents the existence of each value in the current column. */
-  public BitMap[] bitMaps;
-  /** the number of rows to include in this tablet */
-  public int rowSize;
-  /** the maximum number of rows for this tablet */
-  private int maxRowNumber;
-  /** whether this tablet store data of aligned timeseries or not */
-  private boolean isAligned;
+        // 5. 分组查询
+        try (SessionDataSet sessionDataSet =
+                     session.executeAggregationQuery(paths, aggregations, 0, 100, 10, 20)) {
+            System.out.println(sessionDataSet.getColumnNames());
+            sessionDataSet.setFetchSize(1024);
+            while (sessionDataSet.hasNext()) {
+                System.out.println(sessionDataSet.next());
+            }
+        }
+    }
 }
 ```
 
-* 插入多个 Tablet
+#### 数据删除
+```java
+package org.example;
 
-``` java
-void insertTablets(Map<String, Tablet> tablets)
+import java.util.Collections;
+import org.apache.iotdb.isession.util.Version;
+import org.apache.iotdb.rpc.IoTDBConnectionException;
+import org.apache.iotdb.rpc.StatementExecutionException;
+import org.apache.iotdb.session.Session;
+
+public class IoTDBSessionExample {
+    private static final String ROOT_SG1_D1_S1 = "root.sg1.d1.s1";
+
+    public static void main(String[] args) throws IoTDBConnectionException, StatementExecutionException {
+        Session session =
+                new Session.Builder()
+                        .host("127.0.0.1")
+                        .port(6667)
+                        .username("root")
+                        .password("root")
+                        .version(Version.V_1_0)
+                        .build();
+        try {
+            session.open();
+        } catch (IoTDBConnectionException e) {
+            // 连接Session异常
+            System.out.println("Connecting to the IoTDB failed.");
+        }
+        System.out.println("Connecting to the IoTDB succeeded.");
+
+        // 1. 精确删除某个时间点的数据
+        String path = ROOT_SG1_D1_S1;
+        long deleteTime = 99;
+        session.deleteData(path, deleteTime);
+        
+        // 2. 删除某个时间段的数据
+        long startTime = 1;
+        session.deleteData(Collections.singletonList(path),startTime, deleteTime);
+        
+        // 3. 删除某个测点
+        session.deleteTimeseries(path);
+    }
+}
 ```
 
-* 插入一个 Record，一个 Record 是一个设备一个时间戳下多个测点的数据。这里的 value 是 Object 类型，相当于提供了一个公用接口，后面可以通过 TSDataType 将 value 强转为原类型
+## 详细接口说明
+### 参数列表
+#### Session 
+| 字段名                        | 类型                          | 说明                                                                 |
+|--------------------------------|-------------------------------|----------------------------------------------------------------------|
+| `nodeUrls`                    | `List<String>`                | 数据库节点的 URL 列表，支持多节点连接                               |
+| `username`                    | `String`                      | 用户名                                                              |
+| `password`                    | `String`                      | 密码                                                                |
+| `fetchSize`                   | `int`                         | 查询结果的默认批量返回大小                                          |
+| `useSSL`                      | `boolean`                     | 是否启用 SSL                                                        |
+| `trustStore`                  | `String`                      | 信任库路径                                                          |
+| `trustStorePwd`               | `String`                      | 信任库密码                                                          |
+| `queryTimeoutInMs`            | `long`                        | 查询的超时时间，单位毫秒                                           |
+| `enableRPCCompression`        | `boolean`                     | 是否启用 RPC 压缩                                                   |
+| `connectionTimeoutInMs`       | `int`                         | 连接超时时间，单位毫秒                                             |
+| `zoneId`                      | `ZoneId`                      | 会话的时区设置                                                      |
+| `thriftDefaultBufferSize`     | `int`                         | Thrift 默认缓冲区大小                                               |
+| `thriftMaxFrameSize`          | `int`                         | Thrift 最大帧大小                                                   |
+| `defaultEndPoint`             | `TEndPoint`                   | 默认的数据库端点信息                                                |
+| `defaultSessionConnection`    | `SessionConnection`           | 默认的会话连接对象                                                  |
+| `isClosed`                    | `boolean`                     | 当前会话是否已关闭                                                  |
+| `enableRedirection`           | `boolean`                     | 是否启用重定向功能                                                  |
+| `enableRecordsAutoConvertTablet` | `boolean`                  | 是否启用记录自动转换为 Tablet 的功能                                |
+| `deviceIdToEndpoint`          | `Map<String, TEndPoint>`      | 设备 ID 和数据库端点的映射关系                                      |
+| `endPointToSessionConnection` | `Map<TEndPoint, SessionConnection>` | 数据库端点和会话连接的映射关系                                   |
+| `executorService`             | `ScheduledExecutorService`    | 用于定期更新节点列表的线程池                                        |
+| `availableNodes`              | `INodeSupplier`               | 可用节点的供应器                                                    |
+| `enableQueryRedirection`      | `boolean`                     | 是否启用查询重定向功能                                              |
+| `version`                     | `Version`                     | 客户端的版本号，用于与服务端的兼容性判断                            |
+| `enableAutoFetch`             | `boolean`                     | 是否启用自动获取功能                                                |
+| `maxRetryCount`               | `int`                         | 最大重试次数                                                        |
+| `retryIntervalInMs`           | `long`                        | 重试的间隔时间，单位毫秒                                            |
+需要额外说明的参数
 
-  其中，Object 类型与 TSDataType 类型的对应关系如下表所示：
+nodeUrls: 多节点 URL 列表，支持自动切换到下一个可用节点。格式为 ip:port。
 
-  | TSDataType | Object       |
-  |------------|--------------|
-  | BOOLEAN    | Boolean      |
-  | INT32      | Integer      |
-  | DATE       | LocalDate    |
-  | INT64      | Long         |
-  | TIMESTAMP  | Long         |
-  | FLOAT      | Float        |
-  | DOUBLE     | Double       |
-  | TEXT       | String, Binary |
-  | STRING     | String, Binary |
-  | BLOB       | Binary |
+queryTimeoutInMs: 如果为负数，则表示使用服务端默认配置；如果为 0，则禁用查询超时功能。
 
-``` java
-void insertRecord(String prefixPath, long time, List<String> measurements,
-   List<TSDataType> types, List<Object> values)
-```
+enableRPCCompression: 启用后，RPC 数据传输将启用压缩，适用于高带宽延迟场景。
 
-* 插入多个 Record
+zoneId: 会话时区，可用值参考 Java 的 ZoneId 标准，例如 Asia/Shanghai。
 
-``` java
-void insertRecords(List<String> deviceIds,
-        List<Long> times,
-        List<List<String>> measurementsList,
-        List<List<TSDataType>> typesList,
-        List<List<Object>> valuesList)
-```
+#### SessionPool
+| 字段名                        | 类型                          | 说明                                                                 |
+|--------------------------------|-------------------------------|----------------------------------------------------------------------|
+| `host`                        | `String`                      | 数据库主机地址                                                      |
+| `port`                        | `int`                         | 数据库端口                                                          |
+| `user`                        | `String`                      | 数据库用户名                                                        |
+| `password`                    | `String`                      | 数据库密码                                                          |
+| `nodeUrls`                    | `List<String>`                | 多节点的 URL 列表                                                   |
+| `maxSize`                     | `int`                         | 连接池的最大连接数                                                  |
+| `fetchSize`                   | `int`                         | 查询结果的默认批量返回大小                                          |
+| `waitToGetSessionTimeoutInMs` | `long`                        | 获取连接的等待超时时间（毫秒）                                      |
+| `enableCompression`           | `boolean`                     | 是否启用 RPC 压缩                                                   |
+| `enableRedirection`           | `boolean`                     | 是否启用重定向功能                                                  |
+| `enableRecordsAutoConvertTablet` | `boolean`                  | 是否启用记录自动转换为 Tablet 的功能                                |
+| `thriftDefaultBufferSize`     | `int`                         | Thrift 默认缓冲区大小                                               |
+| `thriftMaxFrameSize`          | `int`                         | Thrift 最大帧大小                                                   |
+| `queryTimeoutInMs`            | `long`                        | 查询超时时间，单位毫秒                                              |
+| `version`                     | `Version`                     | 客户端版本号                                                        |
+| `connectionTimeoutInMs`       | `int`                         | 连接超时时间，单位毫秒                                              |
+| `zoneId`                      | `ZoneId`                      | 时区设置                                                            |
+| `useSSL`                      | `boolean`                     | 是否启用 SSL                                                        |
+| `trustStore`                  | `String`                      | 信任库路径                                                          |
+| `trustStorePwd`               | `String`                      | 信任库密码                                                          |
+| `enableQueryRedirection`      | `boolean`                     | 是否启用查询重定向功能                                              |
+| `executorService`             | `ScheduledExecutorService`    | 定期更新节点列表的线程池                                            |
+| `availableNodes`              | `INodeSupplier`               | 可用节点的供应器                                                    |
+| `maxRetryCount`               | `int`                         | 最大重试次数                                                        |
+| `retryIntervalInMs`           | `long`                        | 重试间隔时间，单位毫秒                                              |
+| `closed`                      | `boolean`                     | 当前连接池是否已关闭                                                |
+| `queue`                       | `ConcurrentLinkedDeque<ISession>` | 可用会话连接的队列                                               |
+| `occupied`                    | `ConcurrentMap<ISession, ISession>` | 已占用的会话连接映射                                             |
+| `deviceIdToEndpoint`          | `Map<String, TEndPoint>`      | 设备 ID 到数据库端点的映射                                          |
+| `formattedNodeUrls`           | `String`                      | 格式化后的节点 URL 字符串                                           |
+需要额外说明的字段
 
-* 插入同属于一个 device 的多个 Record
+nodeUrls：一个包含多个节点地址的列表，用于支持集群环境的连接。格式为 ["host1:port1", "host2:port2"]。
 
-``` java
-void insertRecordsOfOneDevice(String deviceId, List<Long> times,
-    List<List<String>> measurementsList, List<List<TSDataType>> typesList,
-    List<List<Object>> valuesList)
-```
+queue：保存所有可用的会话连接。当需要连接时会从队列中取出。
 
-#### 带有类型推断的写入
+occupied：用于记录正在被占用的连接，以便在释放连接时可以正确回收。
 
-当数据均是 String 类型时，我们可以使用如下接口，根据 value 的值进行类型推断。例如：value 为 "true" ，就可以自动推断为布尔类型。value 为 "3.2" ，就可以自动推断为数值类型。服务器需要做类型推断，可能会有额外耗时，速度较无需类型推断的写入慢
+maxRetryCount 和 retryIntervalInMs：用于控制重试策略，当操作失败时会按设定的间隔重试指定的次数。
 
-* 插入一个 Record，一个 Record 是一个设备一个时间戳下多个测点的数据
 
-``` java
-void insertRecord(String prefixPath, long time, List<String> measurements, List<String> values)
-```
+### 函数列表
+#### 会话管理
+| 方法名                                                                                  | 功能描述                                   | 参数解释                                                                                                   |
+|-----------------------------------------------------------------------------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| `open()`                                                                                | 打开会话                                   | 无参数                                                                                                     |
+| `open(boolean enableRPCCompression)`                                                   | 打开会话并启用RPC压缩                      | `enableRPCCompression`: 是否启用RPC压缩                                                                    |
+| `open(boolean enableRPCCompression, int connectionTimeoutInMs)`                        | 打开会话并设置连接超时                     | `enableRPCCompression`: 是否启用RPC压缩，`connectionTimeoutInMs`: 连接超时时间（毫秒）                     |
+| `open(boolean enableRPCCompression, int connectionTimeoutInMs, Map<String, TEndPoint> deviceIdToEndpoint, INodeSupplier nodeSupplier)` | 打开会话并配置节点                        | `enableRPCCompression`: 是否启用RPC压缩，`connectionTimeoutInMs`: 超时时间，`deviceIdToEndpoint`: 设备映射 |
+| `close()`                                                                              | 关闭会话                                   | 无参数                                                                                                     |
+| `getVersion()`                                                                         | 获取会话版本                               | 无参数                                                                                                     |
+| `setVersion(Version version)`                                                         | 设置会话版本                               | `version`: 要设置的版本                                                                                   |
+| `getTimeZone()`                                                                        | 获取当前时区                               | 无参数                                                                                                     |
+| `setTimeZone(String zoneId)`                                                           | 设置时区                                   | `zoneId`: 时区标识符（例如 `Asia/Shanghai`）                                                               |
+| `setTimeZoneOfSession(String zoneId)`                                                  | 设置会话时区                               | `zoneId`: 时区标识符                                                                                       |
+| `getFetchSize()`                                                                       | 获取批量查询的记录数限制                   | 无参数                                                                                                     |
+| `setFetchSize(int fetchSize)`                                                          | 设置批量查询的记录数限制                   | `fetchSize`: 每批查询返回的最大记录数                                                                     |
+| `setQueryTimeout(long timeoutInMs)`                                                    | 设置查询超时时间                           | `timeoutInMs`: 查询的超时时间（毫秒）                                                                     |
+| `getQueryTimeout()`                                                                    | 获取查询超时时间                           | 无参数                                                                                                     |
+| `isEnableQueryRedirection()`                                                           | 检查是否启用查询重定向                     | 无参数                                                                                                     |
+| `setEnableQueryRedirection(boolean enableQueryRedirection)`                            | 设置查询重定向                             | `enableQueryRedirection`: 是否启用查询重定向                                                              |
+| `isEnableRedirection()`                                                                | 检查是否启用重定向                         | 无参数                                                                                                     |
+| `setEnableRedirection(boolean enableRedirection)`                                      | 设置重定向                                 | `enableRedirection`: 是否启用重定向                                                                        |
 
-* 插入多个 Record
 
-``` java
-void insertRecords(List<String> deviceIds, List<Long> times,
-   List<List<String>> measurementsList, List<List<String>> valuesList)
-```
+#### 元数据管理
+| 方法名                                                                                  | 功能描述                                   | 参数解释                                                                                                   |
+|-----------------------------------------------------------------------------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| `createDatabase(String database)`                                                     | 创建数据库                                 | `database`: 数据库名称                                                                                     |
+| `deleteDatabase(String database)`                                                     | 删除指定数据库                             | `database`: 要删除的数据库名称                                                                             |
+| `deleteDatabases(List<String> databases)`                                             | 批量删除数据库                             | `databases`: 要删除的数据库名称列表                                                                        |
+| `createTimeseries(String path, TSDataType dataType, TSEncoding encoding, CompressionType compressor)` | 创建单个时间序列                          | `path`: 时间序列路径，`dataType`: 数据类型，`encoding`: 编码类型，`compressor`: 压缩类型                  |
+| `createAlignedTimeseries(...)`                                                        | 创建对齐时间序列                          | 设备ID、测点列表、数据类型列表、编码列表、压缩类型列表                                                     |
+| `createMultiTimeseries(...)`                                                          | 批量创建时间序列                          | 多个路径、数据类型、编码、压缩类型、属性、标签、别名等                                                     |
+| `deleteTimeseries(String path)`                                                       | 删除时间序列                               | `path`: 要删除的时间序列路径                                                                               |
+| `deleteTimeseries(List<String> paths)`                                                | 批量删除时间序列                           | `paths`: 要删除的时间序列路径列表                                                                          |
+| `setSchemaTemplate(String templateName, String prefixPath)`                           | 设置模式模板                               | `templateName`: 模板名称，`prefixPath`: 应用模板的路径                                                     |
+| `createSchemaTemplate(Template template)`                                             | 创建模式模板                               | `template`: 模板对象                                                                                       |
+| `dropSchemaTemplate(String templateName)`                                             | 删除模式模板                               | `templateName`: 要删除的模板名称                                                                           |
+| `addAlignedMeasurementsInTemplate(...)`                                               | 添加对齐测点到模板                        | 模板名称、测点路径列表、数据类型、编码类型、压缩类型                                                      |
+| `addUnalignedMeasurementsInTemplate(...)`                                             | 添加非对齐测点到模板                      | 同上                                                                                                       |
+| `deleteNodeInTemplate(String templateName, String path)`                              | 删除模板中的节点                          | `templateName`: 模板名称，`path`: 要删除的路径                                                             |
+| `countMeasurementsInTemplate(String name)`                                            | 统计模板中测点数量                        | `name`: 模板名称                                                                                           |
+| `isMeasurementInTemplate(String templateName, String path)`                           | 检查模板中是否存在某测点                  | `templateName`: 模板名称，`path`: 测点路径                                                                 |
+| `isPathExistInTemplate(String templateName, String path)`                             | 检查模板中路径是否存在                    | 同上                                                                                                       |
+| `showMeasurementsInTemplate(String templateName)`                                     | 显示模板中的测点                          | `templateName`: 模板名称                                                                                   |
+| `showMeasurementsInTemplate(String templateName, String pattern)`                    | 按模式显示模板中的测点                    | `templateName`: 模板名称，`pattern`: 匹配模式                                                              |
+| `showAllTemplates()`                                                                  | 显示所有模板                              | 无参数                                                                                                     |
+| `showPathsTemplateSetOn(String templateName)`                                         | 显示模板应用的路径                        | `templateName`: 模板名称                                                                                   |
+| `showPathsTemplateUsingOn(String templateName)`                                       | 显示模板实际使用的路径                    | 同上                                                                                                       |
+| `unsetSchemaTemplate(String prefixPath, String templateName)`                         | 取消路径的模板设置                        | `prefixPath`: 路径，`templateName`: 模板名称                                                               |
 
-* 插入同属于一个 device 的多个 Record
 
-``` java
-void insertStringRecordsOfOneDevice(String deviceId, List<Long> times,
-    List<List<String>> measurementsList, List<List<String>> valuesList)
-```
+#### 数据写入
+| 方法名                                                                                  | 功能描述                                   | 参数解释                                                                                                   |
+|-----------------------------------------------------------------------------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| `insertRecord(String deviceId, long time, List<String> measurements, List<TSDataType> types, Object... values)` | 插入单条记录                              | `deviceId`: 设备ID，`time`: 时间戳，`measurements`: 测点列表，`types`: 数据类型列表，`values`: 值列表       |
+| `insertRecord(String deviceId, long time, List<String> measurements, List<String> values)` | 插入单条记录                              | `deviceId`: 设备ID，`time`: 时间戳，`measurements`: 测点列表，`values`: 值列表                             |
+| `insertRecords(List<String> deviceIds, List<Long> times, List<List<String>> measurementsList, List<List<Object>> valuesList)` | 插入多条记录                              | `deviceIds`: 设备ID列表，`times`: 时间戳列表，`measurementsList`: 测点列表列表，`valuesList`: 值列表        |
+| `insertRecords(List<String> deviceIds, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList)` | 插入多条记录                              | 同上，增加 `typesList`: 数据类型列表                                                                        |
+| `insertRecordsOfOneDevice(String deviceId, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList)` | 插入单设备的多条记录                     | `deviceId`: 设备ID，`times`: 时间戳列表，`measurementsList`: 测点列表列表，`typesList`: 类型列表，`valuesList`: 值列表 |
+| `insertRecordsOfOneDevice(String deviceId, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList, boolean haveSorted)` | 插入排序后的单设备多条记录                | 同上，增加 `haveSorted`: 数据是否已排序                                                                    |
+| `insertStringRecordsOfOneDevice(String deviceId, List<Long> times, List<List<String>> measurementsList, List<List<String>> valuesList)` | 插入字符串格式的单设备记录               | `deviceId`: 设备ID，`times`: 时间戳列表，`measurementsList`: 测点列表，`valuesList`: 值列表                 |
+| `insertStringRecordsOfOneDevice(String deviceId, List<Long> times, List<List<String>> measurementsList, List<List<String>> valuesList, boolean haveSorted)` | 插入排序的字符串格式单设备记录           | 同上，增加 `haveSorted`: 数据是否已排序                                                                    |
+| `insertAlignedRecord(String deviceId, long time, List<String> measurements, List<TSDataType> types, List<Object> values)` | 插入单条对齐记录                         | `deviceId`: 设备ID，`time`: 时间戳，`measurements`: 测点列表，`types`: 类型列表，`values`: 值列表          |
+| `insertAlignedRecord(String deviceId, long time, List<String> measurements, List<String> values)` | 插入字符串格式的单条对齐记录             | `deviceId`: 设备ID，`time`: 时间戳，`measurements`: 测点列表，`values`: 值列表                             |
+| `insertAlignedRecords(List<String> deviceIds, List<Long> times, List<List<String>> measurementsList, List<List<Object>> valuesList)` | 插入多条对齐记录                         | `deviceIds`: 设备ID列表，`times`: 时间戳列表，`measurementsList`: 测点列表，`valuesList`: 值列表            |
+| `insertAlignedRecords(List<String> deviceIds, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList)` | 插入多条对齐记录                         | 同上，增加 `typesList`: 数据类型列表                                                                        |
+| `insertAlignedRecordsOfOneDevice(String deviceId, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList)` | 插入单设备的多条对齐记录                | 同上                                                                                                       |
+| `insertAlignedRecordsOfOneDevice(String deviceId, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList, boolean haveSorted)` | 插入排序的单设备多条对齐记录            | 同上，增加 `haveSorted`: 数据是否已排序                                                                    |
+| `insertAlignedStringRecordsOfOneDevice(String deviceId, List<Long> times, List<List<String>> measurementsList, List<List<String>> valuesList)` | 插入字符串格式的单设备对齐记录           | `deviceId`: 设备ID，`times`: 时间戳列表，`measurementsList`: 测点列表，`valuesList`: 值列表                 |
+| `insertAlignedStringRecordsOfOneDevice(String deviceId, List<Long> times, List<List<String>> measurementsList, List<List<String>> valuesList, boolean haveSorted)` | 插入排序的字符串格式单设备对齐记录       | 同上，增加 `haveSorted`: 数据是否已排序                                                                    |
+| `insertTablet(Tablet tablet)`                                                          | 插入单个Tablet数据                        | `tablet`: 要插入的Tablet数据                                                                              |
+| `insertTablet(Tablet tablet, boolean sorted)`                                          | 插入排序的Tablet数据                      | 同上，增加 `sorted`: 数据是否已排序                                                                        |
+| `insertAlignedTablet(Tablet tablet)`                                                  | 插入对齐的Tablet数据                      | `tablet`: 要插入的Tablet数据                                                                              |
+| `insertAlignedTablet(Tablet tablet, boolean sorted)`                                   | 插入排序的对齐Tablet数据                  | 同上，增加 `sorted`: 数据是否已排序                                                                        |
+| `insertTablets(Map<String, Tablet> tablets)`                                           | 批量插入多个Tablet数据                    | `tablets`: 设备ID到Tablet的映射表                                                                          |
+| `insertTablets(Map<String, Tablet> tablets, boolean sorted)`                           | 批量插入排序的多个Tablet数据              | 同上，增加 `sorted`: 数据是否已排序                                                                        |
+| `insertAlignedTablets(Map<String, Tablet> tablets)`                                    | 批量插入多个对齐Tablet数据                | `tablets`: 设备ID到Tablet的映射表                                                                          |
+| `insertAlignedTablets(Map<String, Tablet> tablets, boolean sorted)`                   | 批量插入排序的多个对齐Tablet数据          | 同上，增加 `sorted`: 数据是否已排序                                                                        |
 
-#### 对齐时间序列的写入
+#### 数据删除
+| 方法名                                                                                  | 功能描述                                   | 参数解释                                                                                                   |
+|-----------------------------------------------------------------------------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| `deleteTimeseries(String path)`                                                       | 删除单个时间序列                          | `path`: 时间序列路径                                                                                      |
+| `deleteTimeseries(List<String> paths)`                                                | 批量删除时间序列                          | `paths`: 时间序列路径列表                                                                                  |
+| `deleteData(String path, long endTime)`                                               | 删除指定路径的历史数据                    | `path`: 路径，`endTime`: 结束时间戳                                                                        |
+| `deleteData(List<String> paths, long endTime)`                                        | 批量删除路径的历史数据                    | `paths`: 路径列表，`endTime`: 结束时间戳                                                                   |
+| `deleteData(List<String> paths, long startTime, long endTime)`                        | 删除路径时间范围内的历史数据              | 同上，增加 `startTime`: 起始时间戳                                                                         |
 
-对齐时间序列的写入使用 insertAlignedXXX 接口，其余与上述接口类似：
 
-* insertAlignedRecord
-* insertAlignedRecords
-* insertAlignedRecordsOfOneDevice
-* insertAlignedStringRecordsOfOneDevice
-* insertAlignedTablet
-* insertAlignedTablets
+#### 数据查询
+| 方法名                                                                                  | 功能描述                                   | 参数解释                                                                                                   |
+|-----------------------------------------------------------------------------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| `executeQueryStatement(String sql)`                                                   | 执行查询语句                               | `sql`: 查询SQL语句                                                                                        |
+| `executeQueryStatement(String sql, long timeoutInMs)`                                  | 执行带超时的查询语句                       | `sql`: 查询SQL语句，`timeoutInMs`: 查询超时时间（毫秒）                                                   |
+| `executeRawDataQuery(List<String> paths, long startTime, long endTime)`                | 查询指定路径的原始数据                     | `paths`: 查询路径列表，`startTime`: 起始时间戳，`endTime`: 结束时间戳                                      |
+| `executeRawDataQuery(List<String> paths, long startTime, long endTime, long timeOut)`  | 查询指定路径的原始数据（带超时）           | 同上，增加 `timeOut`: 超时时间                                                                            |
+| `executeLastDataQuery(List<String> paths)`                                             | 查询最新数据                               | `paths`: 查询路径列表                                                                                      |
+| `executeLastDataQuery(List<String> paths, long lastTime)`                              | 查询指定时间的最新数据                     | `paths`: 查询路径列表，`lastTime`: 指定的时间戳                                                           |
+| `executeLastDataQuery(List<String> paths, long lastTime, long timeOut)`                | 查询指定时间的最新数据（带超时）           | 同上，增加 `timeOut`: 超时时间                                                                            |
+| `executeLastDataQueryForOneDevice(String db, String device, List<String> sensors, boolean isLegalPathNodes)` | 查询单个设备的最新数据                  | `db`: 数据库名，`device`: 设备名，`sensors`: 传感器列表，`isLegalPathNodes`: 是否合法路径节点               |
+| `executeAggregationQuery(List<String> paths, List<TAggregationType> aggregations)`     | 执行聚合查询                               | `paths`: 查询路径列表，`aggregations`: 聚合类型列表                                                       |
+| `executeAggregationQuery(List<String> paths, List<TAggregationType> aggregations, long startTime, long endTime)` | 执行带时间范围的聚合查询               | 同上，增加 `startTime`: 起始时间戳，`endTime`: 结束时间戳                                                 |
+| `executeAggregationQuery(List<String> paths, List<TAggregationType> aggregations, long startTime, long endTime, long interval)` | 执行带时间间隔的聚合查询             | 同上，增加 `interval`: 时间间隔                                                                           |
+| `executeAggregationQuery(List<String> paths, List<TAggregationType> aggregations, long startTime, long endTime, long interval, long slidingStep)` | 执行滑动窗口聚合查询               | 同上，增加 `slidingStep`: 滑动步长                                                                        |
+| `fetchAllConnections()`                                                               | 获取所有活动连接信息                       | 无参数                                                                                                     |
 
-### 数据删除接口
+#### 系统状态与备份
+| 方法名                                                                                  | 功能描述                                   | 参数解释                                                                                                   |
+|-----------------------------------------------------------------------------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------|
+| `getBackupConfiguration()`                                                             | 获取备份配置信息                          | 无参数                                                                                                     |
+| `fetchAllConnections()`                                                               | 获取所有活动的连接信息                    | 无参数                                                                                                     |
+| `getSystemStatus()`                                                                    | 获取系统状态                              | 已废弃，默认返回 `SystemStatus.NORMAL`                                                                     |
 
-* 删除一个或多个时间序列在某个时间点前或这个时间点的数据
 
-``` java
-void deleteData(String path, long endTime)
-void deleteData(List<String> paths, long endTime)
-```
 
-### 数据查询接口
+# 数据订阅
 
-* 时间序列原始数据范围查询：
-  - 指定的查询时间范围为左闭右开区间，包含开始时间但不包含结束时间。
-
-``` java
-SessionDataSet executeRawDataQuery(List<String> paths, long startTime, long endTime);
-```
-
-* 最新点查询：
-  - 查询最后一条时间戳大于等于某个时间点的数据。
-  ``` java
-  SessionDataSet executeLastDataQuery(List<String> paths, long lastTime);
-  ```
-  - 快速查询单设备下指定序列最新点，支持重定向；如果您确认使用的查询路径是合法的，可将`isLegalPathNodes`置为true以避免路径校验带来的性能损失。
-  ``` java
-  SessionDataSet executeLastDataQueryForOneDevice(
-      String db, String device, List<String> sensors, boolean isLegalPathNodes);
-  ```
-
-* 聚合查询：
-  - 支持指定查询时间范围。指定的查询时间范围为左闭右开区间，包含开始时间但不包含结束时间。
-  - 支持按照时间区间分段查询。
-
-``` java
-SessionDataSet executeAggregationQuery(List<String> paths, List<Aggregation> aggregations);
-
-SessionDataSet executeAggregationQuery(
-    List<String> paths, List<Aggregation> aggregations, long startTime, long endTime);
-
-SessionDataSet executeAggregationQuery(
-    List<String> paths,
-    List<Aggregation> aggregations,
-    long startTime,
-    long endTime,
-    long interval);
-
-SessionDataSet executeAggregationQuery(
-    List<String> paths,
-    List<Aggregation> aggregations,
-    long startTime,
-    long endTime,
-    long interval,
-    long slidingStep);
-```
-
-* 直接执行查询语句
-
-``` java
-SessionDataSet executeQueryStatement(String sql)
-```
-
-### 数据订阅
-
-#### 1 Topic 管理
+## 1 Topic 管理
 
 IoTDB 订阅客户端中的 `SubscriptionSession` 类提供了 Topic 管理的相关接口。Topic状态变化如下图所示：
 
@@ -459,7 +893,7 @@ IoTDB 订阅客户端中的 `SubscriptionSession` 类提供了 Topic 管理的�
     <img src="https://alioss.timecho.com/docs/img/Data_sub_03.png" alt="" style="width: 60%;"/>
 </div>
 
-##### 1.1 创建 Topic
+### 1.1 创建 Topic
 
 ```Java
  void createTopicIfNotExists(String topicName, Properties properties) throws Exception;
@@ -476,13 +910,13 @@ try (final SubscriptionSession session = new SubscriptionSession(host, port)) {
 }
 ```
 
-##### 1.2 删除 Topic
+### 1.2 删除 Topic
 
 ```Java
 void dropTopicIfExists(String topicName) throws Exception;
 ```
 
-##### 1.3 查看 Topic
+### 1.3 查看 Topic
 
 ```Java
 // 获取所有 topics
@@ -492,7 +926,7 @@ Set<Topic> getTopics() throws Exception;
 Optional<Topic> getTopic(String topicName) throws Exception;
 ```
 
-#### 2 查看订阅状态
+## 2 查看订阅状态
 
 IoTDB 订阅客户端中的 `SubscriptionSession` 类提供了获取订阅状态的相关接口：
 
@@ -501,7 +935,7 @@ Set<Subscription> getSubscriptions() throws Exception;
 Set<Subscription> getSubscriptions(final String topicName) throws Exception;
 ```
 
-#### 3 创建 Consumer
+## 3 创建 Consumer
 
 在使用 JAVA 原生接口创建 consumer 时，需要指定 consumer 所应用的参数。
 
@@ -522,7 +956,7 @@ Set<Subscription> getSubscriptions(final String topicName) throws Exception;
 | fileSaveFsync           | optional: false                                              | `Boolean`: consumer 订阅 TsFile 的过程中是否主动调用 fsync     |
 
 
-##### 3.1 SubscriptionPushConsumer
+### 3.1 SubscriptionPushConsumer
 
 以下为 `SubscriptionPushConsumer` 中的特殊配置：
 | 参数                                          | 是否必填（默认值）                 | 参数含义                                                     |
@@ -548,7 +982,7 @@ enum ConsumeResult {
 }
 ```
 
-##### 3.2 SubscriptionPullConsumer
+### 3.2 SubscriptionPullConsumer
 
 以下为 `SubscriptionPullConsumer` 中的特殊配置：
 
@@ -565,7 +999,7 @@ void open() throws Exception;
 
 此时，IoTDB 订阅客户端才会校验 consumer 的配置正确性，在校验成功后 consumer 就会加入对应的 consumer group。也就是说，在打开 consumer 后，才可以使用返回的 consumer 对象进行订阅 Topic，消费数据等操作。
 
-#### 4 订阅 Topic
+## 4 订阅 Topic
 
 `SubscriptionPushConsumer` 和 `SubscriptionPullConsumer` 提供了下述 JAVA 原生接口用于订阅 Topics:
 
@@ -579,18 +1013,18 @@ void subscribe(List<String> topics) throws Exception;
 - 一个 consumer 在已经订阅了某个 topic 的情况下再次订阅这个 topic，不会报错
 - 如果该 consumer 所在的 consumer group 中已经有 consumers 订阅了相同的 topics，那么该 consumer 将会复用对应的消费进度
 
-#### 5 消费数据
+## 5 消费数据
 
 无论是 push 模式还是 pull 模式的 consumer：
 
 - 只有显式订阅了某个 topic，才会收到对应 topic 的数据
 - 若在创建后没有订阅任何 topics，此时该 consumer 无法消费到任何数据，即使该 consumer 所在的 consumer group 中其它的 consumers 订阅了一些 topics
 
-##### 5.1 SubscriptionPushConsumer
+### 5.1 SubscriptionPushConsumer
 
 SubscriptionPushConsumer 在订阅 topics 后，无需手动拉取数据，其消费数据的逻辑在创建 SubscriptionPushConsumer 指定的 `consumeListener` 配置中。
 
-##### 5.2 SubscriptionPullConsumer
+### 5.2 SubscriptionPullConsumer
 
 SubscriptionPullConsumer 在订阅 topics 后，需要主动调用 `poll` 方法拉取数据：
 
@@ -629,7 +1063,7 @@ public interface AsyncCommitCallback {
 }
 ```
 
-#### 6 取消订阅
+## 6 取消订阅
 
 `SubscriptionPushConsumer` 和 `SubscriptionPullConsumer` 提供了下述 JAVA 原生接口用于取消订阅并关闭 consumer:
 
@@ -646,9 +1080,9 @@ void close();
 - consumer close 时会退出对应的 consumer group，同时自动 unsubscribe 该 consumer 现存订阅的所有 topics
 - consumer 在 close 后生命周期即结束，无法再重新 open 订阅并消费数据
 
-#### 7 代码示例
+## 7 代码示例
 
-##### 7.1 单 Pull Consumer 消费 SessionDataSetsHandler 形式的数据
+### 7.1 单 Pull Consumer 消费 SessionDataSetsHandler 形式的数据
 
 ```Java
 // Create topics
@@ -693,7 +1127,7 @@ consumer1.unsubscribe(TOPIC_1);
 consumer1.close();
 ```
 
-##### 7.2 多 Push Consumer 消费 TsFileHandler 形式的数据
+## 7.2 多 Push Consumer 消费 TsFileHandler 形式的数据
 
 ```Java
 // Create topics
@@ -739,54 +1173,3 @@ for (final Thread thread : threads) {
   thread.join();
 }
 ```
-
-
-### 其他功能（直接执行SQL语句）
-
-``` java
-void executeNonQueryStatement(String sql)
-```
-
-### 写入测试接口 (用于分析网络带宽)
-
-不实际写入数据，只将数据传输到 server 即返回
-
-* 测试 insertRecord
-
-``` java
-void testInsertRecord(String deviceId, long time, List<String> measurements, List<String> values)
-
-void testInsertRecord(String deviceId, long time, List<String> measurements,
-        List<TSDataType> types, List<Object> values)
-```
-
-* 测试 testInsertRecords
-
-``` java
-void testInsertRecords(List<String> deviceIds, List<Long> times,
-        List<List<String>> measurementsList, List<List<String>> valuesList)
-
-void testInsertRecords(List<String> deviceIds, List<Long> times,
-        List<List<String>> measurementsList, List<List<TSDataType>> typesList,
-        List<List<Object>> valuesList)
-```
-
-* 测试 insertTablet
-
-``` java
-void testInsertTablet(Tablet tablet)
-```
-
-* 测试 insertTablets
-
-``` java
-void testInsertTablets(Map<String, Tablet> tablets)
-```
-
-### 示例代码
-
-浏览上述接口的详细信息，请参阅代码 ```session/src/main/java/org/apache/iotdb/session/Session.java```
-
-使用上述接口的示例代码在 ```example/session/src/main/java/org/apache/iotdb/SessionExample.java```
-
-使用对齐时间序列和元数据模板的示例可以参见 `example/session/src/main/java/org/apache/iotdb/AlignedTimeseriesSessionExample.java`
