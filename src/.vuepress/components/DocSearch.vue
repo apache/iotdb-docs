@@ -19,11 +19,15 @@
 <script setup lang="ts">
 import { usePageData } from 'vuepress/client';
 import { getDocVersion } from '../utils/index.js';
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 
 const pageData = usePageData();
 
 const docVersion = computed(() => getDocVersion(pageData.value.path));
+
+watch(() => docVersion.value, () => {
+  window.location.reload();
+});
 </script>
 
 <template>
