@@ -959,6 +959,7 @@ Set<Subscription> getSubscriptions(final String topicName) throws Exception;
 ### 3.1 SubscriptionPushConsumer
 
 以下为 `SubscriptionPushConsumer` 中的特殊配置：
+
 | 参数                                          | 是否必填（默认值）                 | 参数含义                                                     |
 | :-------------------------------------------- | :--------------------------------- | :----------------------------------------------------------- |
 | ackStrategy        | optional: `ACKStrategy.AFTER_CONSUME` | 消费进度的确认机制包含以下选项：`ACKStrategy.BEFORE_CONSUME`（当 consumer 收到数据时立刻提交消费进度，`onReceive` 前）`ACKStrategy.AFTER_CONSUME`（当 consumer 消费完数据再去提交消费进度，`onReceive` 后） |
