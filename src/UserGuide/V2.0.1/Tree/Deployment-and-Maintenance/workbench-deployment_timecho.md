@@ -44,9 +44,8 @@ The visualization console is one of the supporting tools for IoTDB (similar to N
 
 1. Open the monitoring configuration item. The configuration items related to monitoring in IoTDB are disabled by default. Before deploying the monitoring panel, you need to open the relevant configuration items (note that the service needs to be restarted after enabling monitoring configuration).
 
-    <table>
-<tbody>
-<tr>
+<table>
+        <tr>
                 <th>Configuration</th>
                 <th>Located in the configuration file</th>        
                 <th>Description</th>
