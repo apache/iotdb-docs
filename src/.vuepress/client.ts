@@ -18,6 +18,7 @@
 
 import { defineDocSearchConfig } from '@vuepress/plugin-docsearch/client';
 import { computed } from 'vue';
+import { useRouter, withBase } from 'vuepress/client';
 import { defineClientConfig, usePageData } from 'vuepress/client';
 import DocSearch from './components/DocSearch.vue';
 import { getDocVersion } from './utils/index.js';
@@ -28,6 +29,19 @@ export default defineClientConfig({
   },
   setup() {
     const pageData = usePageData();
+    const router = useRouter();
+
+    let lastTo  = '';
+    
+    router.onError((error) => {
+      console.warn(error);
+      if(!lastTo) return;
+      window.location.href = withBase(lastTo);
+      lastTo = '';
+    });
+    router.beforeEach((to) => {
+      lastTo = to.fullPath;
+    });
 
     const docSearchConfig = computed(() => ({
       appId: 'JLT9R2YGAE',
