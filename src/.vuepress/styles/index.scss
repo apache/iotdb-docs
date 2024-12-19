@@ -16,6 +16,12 @@
  * limitations under the License.
  */
 
+// #main-description {
+//   max-width: 55rem;
+// }
+.vp-skip-link {
+  z-index: 1;
+}
 .vp-hero-image {
   max-width: 420px;
 }
@@ -81,4 +87,18 @@ footer {
 
 div[class*='language-'] pre code {
   color: var(--code-c-text);
+}
+
+.home {
+  .theme-hope-content {
+    inset: 0;
+    z-index: 0;
+    position: relative;
+    background-attachment: fixed;
+    background-position: 50%;
+    background-size: cover;
+    max-width: 100%;
+    padding: 0;
+    display: inline;
+  }
 }
