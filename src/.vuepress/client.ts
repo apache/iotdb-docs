@@ -18,8 +18,7 @@
 
 import { defineDocSearchConfig } from '@vuepress/plugin-docsearch/client';
 import { computed } from 'vue';
-import { useRouter, withBase } from 'vuepress/client';
-import { defineClientConfig, usePageData } from 'vuepress/client';
+import { defineClientConfig, usePageData, useRouter, withBase } from 'vuepress/client';
 import DocSearch from './components/DocSearch.vue';
 import { getDocVersion } from './utils/index.js';
 
