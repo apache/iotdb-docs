@@ -16,9 +16,10 @@
  * limitations under the License.
  */
 
-// #main-description {
-//   max-width: 55rem;
-// }
+#main-description {
+  max-width: 55rem;
+}
+
 .vp-skip-link {
   z-index: 1;
 }
@@ -31,11 +32,15 @@
 }
 
 .vp-highlight-header,
-.vp-feature-header {
-  color: #ffa500;
+.vp-feature-header,
+.slide-title {
+  color: var(--vp-c-accent-bg);
   text-align: center;
 }
+.vp-feature-title{
+  color: var(--vp-c-accent-bg);
 
+}
 // FIXME: Should be an upstream bug
 .vp-highlight-info-wrapper:only-child {
   flex-basis: 0;
@@ -90,6 +95,28 @@ div[class*='language-'] pre code {
 }
 
 .home {
+  .vp-hero-title {
+    background: linear-gradient(90deg, rgb(158, 40, 120) 0%, rgb(103, 56, 189) 100%);
+    background-clip: text;
+    display: inline-block;
+  }
+
+  .vp-feature-item {
+    &:hover {
+      background-color: transparent;
+      box-shadow: 0 2px 12px 0 var(--vp-c-shadow);
+      transform: translate(-2px, -2px);
+      transform: scale(1.05);
+    }
+  }
+  
+  .vp-hero-action.default {
+    background: var(--vp-c-bg);
+    color: var(--vp-c-accent);
+    &:hover {
+      background: var(--vp-c-bg-alt);
+    }
+  }
   .theme-hope-content {
     inset: 0;
     z-index: 0;
