@@ -420,6 +420,8 @@ IoTDB 提供了强大的数据订阅功能，允许用户通过订阅获取数�
 </dependencies>
 ```
 
+#### 2. 代码案例
+
 ```java
 public class DataConsumerExample {
 
