@@ -19,10 +19,6 @@ actions:
   - text: Quick Start
     link: ./UserGuide/latest/QuickStart/QuickStart_apache.html
 
-# highlights:
-#   - header: Introduction
-#     description: Apache IoTDB (Database for Internet of Things) is an IoT native database with high performance for data management and analysis, deployable on the edge and the cloud. Due to its light-weight architecture, high performance and rich feature set together with its deep integration with Apache Hadoop, Spark and Flink, Apache IoTDB can meet the requirements of massive data storage, high-speed data ingestion and complex data analysis in the IoT industrial fields.
-
 highlights:
   - header: Main Features
     bgImage: /bg.svg

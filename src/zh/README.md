@@ -19,10 +19,6 @@ actions:
   - text: 快速上手
     link: ./UserGuide/latest/QuickStart/QuickStart_apache
 
-# highlights:
-  # - header: 介绍
-  #   description: Apache IoTDB（物联网数据库）是一体化收集、存储、管理与分析物联网时序数据的软件系统。Apache IoTDB 采用轻量式架构，具有高性能和丰富的功能，并与 Apache Hadoop、Spark 和 Flink 等进行了深度集成，可以满足工业物联网领域的海量数据存储、高速数据读取和复杂数据分析需求。
-
 highlights:
   - header: 主要特点
     bgImage: /bg.svg
