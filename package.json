@@ -36,11 +36,12 @@
     "eslint-plugin-vue": "9.32.0",
     "gh-pages": "6.2.0",
     "globals": "15.13.0",
+    "typescript": "5.5.4",
     "typescript-eslint": "8.18.0"
   },
   "prettier": {
     "singleQuote": true,
     "trailingComma": "all"
   },
-  "packageManager": "pnpm@9.15.0"
+  "packageManager": "pnpm@9.15.1"
 }

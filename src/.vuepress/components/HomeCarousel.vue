@@ -77,26 +77,30 @@ const slidesData = useLocaleConfig({
 </script>
 
 <template>
-  <h2 class="vp-feature-header">
-    {{ title }}
-  </h2>
-  <Carousel v-bind="config">
-    <Slide v-for="item in slidesData" :key="item.title">
-      <div>
-        <img class="slide-image" :src="item.src" alt="">
-        <h3 class="slide-title">
-          {{ item.title }}
-        </h3>
-        <p class="slide-description">
-          {{ item.detail }}
-        </p>
-      </div>
-    </Slide>
+  <div class="vp-feature-bg light" style="background-image: url('/bg.svg'); background-attachment: fixed;" />
+  <div class="vp-feature-bg dark" style="background-image: url('/bg.svg'); background-attachment: fixed;" />
+  <div class="vp-feature" style="max-width: unset;">
+    <h2 class="vp-feature-header" style="margin-top: 0 !important; padding-top: 0 !important; color: var(--vp-c-accent-bg) !important;">
+      {{ title }}
+    </h2>
+    <Carousel v-bind="config">
+      <Slide v-for="item in slidesData" :key="item.title">
+        <div>
+          <img class="slide-image" :src="item.src" alt="">
+          <h3 class="slide-title">
+            {{ item.title }}
+          </h3>
+          <p class="slide-description">
+            {{ item.detail }}
+          </p>
+        </div>
+      </Slide>
 
-    <template #addons>
-      <Navigation />
-    </template>
-  </Carousel>
+      <template #addons>
+        <Navigation />
+      </template>
+    </Carousel>
+  </div>
 </template>
 <style lang="scss">
 .slide-image {
@@ -106,7 +110,6 @@ const slidesData = useLocaleConfig({
 
 .slide-title {
   font-size: 30px;
-  color: #fcac45;
   text-align: center;
   line-height: normal;
 }
@@ -117,5 +120,12 @@ const slidesData = useLocaleConfig({
   line-height: 22px;
   text-align: justify !important;
   padding: 15px;
+  padding: 0 30rem;
+}
+@media screen and (max-width: 768px) {
+  .slide-description {
+    padding: 0 1rem;
+  }
+  
 }
 </style>

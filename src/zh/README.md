@@ -1,21 +1,30 @@
 ---
+containerClass: home
 home: true
+icon: home
 heroText: Apache IoTDB
 heroImage: /img/logo.svg
-tagline: 物联网数据库
+bgImage: bg.svg
+bgImageDark: bg.svg
+bgImageStyle:
+  background-attachment: fixed
+heroFullScreen: true
+tagline: Apache IoTDB（物联网数据库）是一体化收集、存储、管理与分析物联网时序数据的软件系统。Apache IoTDB 采用轻量式架构，具有高性能和丰富的功能，并与 Apache Hadoop、Spark 和 Flink 等进行了深度集成，可以满足工业物联网领域的海量数据存储、高速数据读取和复杂数据分析需求。
+
 actions:
   - text: 下载
     link: ./Download/
     type: primary
 
   - text: 快速上手
-    link: ./UserGuide/latest/QuickStart/QuickStart_apache.html
+    link: ./UserGuide/latest/QuickStart/QuickStart_apache
 
 highlights:
-  - header: 介绍
-    description: Apache IoTDB（物联网数据库）是一体化收集、存储、管理与分析物联网时序数据的软件系统。Apache IoTDB 采用轻量式架构，具有高性能和丰富的功能，并与 Apache Hadoop、Spark 和 Flink 等进行了深度集成，可以满足工业物联网领域的海量数据存储、高速数据读取和复杂数据分析需求。
-
   - header: 主要特点
+    bgImage: /bg.svg
+    bgImageDark: /bg.svg
+    bgImageStyle:
+      background-attachment: fixed
     features:
       - title: 高吞吐量读写
         details: Apache IoTDB 中可以支持数百万个低功耗和智能联网设备的高速写访问。 它还提供数据快速读取访问以查询。
@@ -34,6 +43,8 @@ highlights:
 
       - title: 与开源生态系统的紧密集成
         details: Apache IoTDB 支持许多大数据软件生态系统，例如Hadoop、Spark、Flink和Grafana（可视化工具）
+
+
 ---
 
 <!--

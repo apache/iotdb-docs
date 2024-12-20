@@ -29,7 +29,7 @@ export default hopeTheme(
     docsRepo: 'https://github.com/apache/iotdb-docs',
     docsDir: 'src',
 
-    pure: true,
+    focus: false,
     darkmode: 'toggle',
     breadcrumb: false,
     contributors: false,
