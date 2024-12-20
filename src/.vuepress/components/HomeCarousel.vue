@@ -22,7 +22,7 @@ import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import 'vue3-carousel/dist/carousel.css';
 
 const config = {
-  autoplay: 2000,
+  autoplay: 5000,
   wrapAround: true,
   pauseAutoplayOnHover: true,
 };
