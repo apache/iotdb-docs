@@ -42,5 +42,5 @@
     "singleQuote": true,
     "trailingComma": "all"
   },
-  "packageManager": "pnpm@9.15.0"
+  "packageManager": "pnpm@9.15.1"
 }
