@@ -57,6 +57,8 @@ After a database is set, the ancestral layers, children and descendant layers of
 
 The Layer Name of database can only consist of characters, numbers, and underscores, like `root.storagegroup_1`.
 
+**Typeless writing**: When metadata is not defined, data can be directly written through an insert statement, and the required metadata will be automatically recognized and registered in the database, achieving automatic modeling.
+
 ### Path
 
 A `path` is an expression that conforms to the following constraints:

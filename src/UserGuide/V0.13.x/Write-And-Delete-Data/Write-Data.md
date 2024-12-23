@@ -29,6 +29,8 @@ This section mainly introduces the use of [INSERT SQL statement](../Reference/SQ
 
 The [INSERT SQL statement](../Reference/SQL-Reference.md) statement is used to insert data into one or more specified timeseries created. For each point of data inserted, it consists of a [timestamp](../Data-Concept/Data-Model-and-Terminology.md) and a sensor acquisition value (see [Data Type](../Data-Concept/Data-Type.md)).
 
+**Typeless writing**: When metadata is not defined, data can be directly written through an insert statement, and the required metadata will be automatically identified and registered in the storage group, achieving automatic modeling.
+
 In the scenario of this section, take two timeseries `root.ln.wf02.wt02.status` and `root.ln.wf02.wt02.hardware` as an example, and their data types are BOOLEAN and TEXT, respectively.
 
 The sample code for single column data insertion is as follows:

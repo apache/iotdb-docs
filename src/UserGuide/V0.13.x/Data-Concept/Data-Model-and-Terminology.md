@@ -53,6 +53,8 @@ After a storage group is set, the ancestral layers, children and descendant laye
 
 The Layer Name of storage group can only consist of characters, numbers and underscores, like `root.storagegroup_1`.
 
+**Typeless writing**: When metadata is not defined, data can be directly written through an insert statement, and the required metadata will be automatically identified and registered in the storage group, achieving automatic modeling.
+
 ### Path
 
 A `path` is an expression that conforms to the following constraints:
