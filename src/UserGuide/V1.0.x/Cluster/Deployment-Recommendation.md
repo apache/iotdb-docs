@@ -121,7 +121,8 @@ Series number * Sampling frequency * Data point size * Storage duration * data_r
 
 
 > Example: 1000 devices, 100 sensors for one device, 100,000 series total, INT32 data type, 1Hz sampling frequency, 1 year storage duration, 3 replicas, compression ratio is 10
-> Data storage size = 1000 * 100 * 12 * 86400 * 365 * 3 / 10 = 11T
+> * Simplified calculation formula: 1000 * 100 * 12 * 86400 * 365 * 3 / 10 / 1024 / 1024 / 1024 / 1024 = 11T 
+> * Complete calculation formula: 1000 devices * 100 measurement points * 12 bytes per data point * 86400 seconds per day * 365 days per year * 3 copies / 10 compression ratio / 1024 / 1024 / 1024 = 11T
 
 ##### Schema storage size
 
