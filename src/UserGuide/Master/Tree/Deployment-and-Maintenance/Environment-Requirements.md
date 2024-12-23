@@ -33,6 +33,7 @@ IoTDB has no strict operation requirements on disk array configuration. It is re
     It is recommended to provide multiple disks (1-6 disks) or disk groups for the IoTDB. (It is not recommended to create a disk array for all disks, as this will affect the maximum performance of the IoTDB.)
 2. Virtual environment
     You are advised to mount multiple hard disks (1-6 disks).
+3. When deploying IoTDB, it is recommended to avoid using network storage devices such as NAS.
 
 ### Configuration Example
 
