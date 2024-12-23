@@ -122,7 +122,6 @@ services:
     volumes:
         - ./iotdb/data:/iotdb/data
         - ./iotdb/logs:/iotdb/logs
-        - /dev/mem:/dev/mem:ro
     networks:
       iotdb:
         ipv4_address: 172.18.0.6
@@ -190,7 +189,6 @@ Step 2: Add mappings in docker-compose-standalone.yml
         - ./iotdb/conf:/iotdb/conf   #Add mapping for this/conf folder
         - ./iotdb/data:/iotdb/data
         - ./iotdb/logs:/iotdb/logs
-        - /dev/mem:/dev/mem:ro
 ```
 
 Step 3: Restart IoTDB

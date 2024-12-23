@@ -122,7 +122,6 @@ services:
     volumes:
         - ./iotdb/data:/iotdb/data
         - ./iotdb/logs:/iotdb/logs
-        - /dev/mem:/dev/mem:ro
     networks:
       iotdb:
         ipv4_address: 172.18.0.6
@@ -190,7 +189,6 @@ docker cp iotdb:/iotdb/conf /docker-iotdb/iotdb/conf
         - ./iotdb/conf:/iotdb/conf   #增加这个/conf文件夹的映射
         - ./iotdb/data:/iotdb/data
         - ./iotdb/logs:/iotdb/logs
-        - /dev/mem:/dev/mem:ro
 ```
 
 步骤三：重新启动IoTDB
