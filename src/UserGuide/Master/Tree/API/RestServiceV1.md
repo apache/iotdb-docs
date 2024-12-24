@@ -26,12 +26,6 @@ IoTDB's RESTful services can be used for query, write, and management operations
 
 RESTful services are disabled by default.
 
-* Developer
-
-  Find the `IoTDBrestServiceConfig` class under `org.apache.iotdb.db.conf.rest` in the sever module, and modify `enableRestService=true`.
-
-* User
-
   Find the `conf/conf/iotdb-system.properties` file under the IoTDB installation directory and set `enable_rest_service` to `true` to enable the module.
 
   ```properties
