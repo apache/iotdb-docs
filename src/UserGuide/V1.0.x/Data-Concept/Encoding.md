@@ -72,7 +72,7 @@ The five encodings described in the previous sections are applicable to differen
 
 **The correspondence between the data type and its supported encodings**
 
-| **Data Type** | **Best Encoding (default)** | **Supported Encoding**                                      |
+| **Data Type** | **Recommended Encoding (default)** | **Supported Encoding**                                      |
 | ------------- | --------------------------- | ----------------------------------------------------------- |
 | BOOLEAN       | RLE                         | PLAIN, RLE                                                  |
 | INT32         | TS_2DIFF                    | PLAIN, RLE, TS_2DIFF, GORILLA, ZIGZAG, CHIMP, SPRINTZ, RLBE |
