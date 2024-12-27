@@ -32,8 +32,6 @@ export const enNavbar = navbar([
         link: '/UserGuide/V1.3.0-2/QuickStart/QuickStart_apache',
       },
       { text: 'v1.2.x', link: '/UserGuide/V1.2.x/QuickStart/QuickStart' },
-      { text: 'v1.1.x', link: '/UserGuide/V1.1.x/QuickStart/QuickStart' },
-      { text: 'v1.0.x', link: '/UserGuide/V1.0.x/QuickStart/QuickStart' },
       { text: 'v0.13.x', link: '/UserGuide/V0.13.x/QuickStart/QuickStart' },
     ],
   },
