@@ -57,7 +57,7 @@ The Layer Name of database can only consist of characters, numbers, and undersco
 
 > Note ：Database name do not support enclosing * in back quotes, e.g., root.\ ` * \ `, but the rest of the level is free of this restriction.
 
-**Typeless writing**: When metadata is not defined, data can be directly written through an insert statement, and the required metadata will be automatically recognized and registered in the database, achieving automatic modeling.
+**Schema-less writing**: When metadata is not defined, data can be directly written through an insert statement, and the required metadata will be automatically recognized and registered in the database, achieving automatic modeling.
 
 ### Path
 
