@@ -23,13 +23,13 @@
 
 本章节主要介绍一个简单的时序数据应用场景以及在此场景下的建模与示例数据，IoTDB 表模型用户手册中所有的示例 SQL 语句都可以在此建模和示例数据下执行。
 
-## 数据结构
+## 1. 数据结构
 
 table1和table2均为如下表结构：
 
 ![](https://alioss.timecho.com/docs/img/Sample_data01.png)
 
-## 导入语句
+## 2. 导入语句
 
 以下为构建上述表结构及数据的SQL语句，您可以点此（[sample_data.sql](https://alioss.timecho.com/upload/sample_data.sql)）下载全部SQL并在CLI中执行，从而将数据导入您的IoTDB。
 
