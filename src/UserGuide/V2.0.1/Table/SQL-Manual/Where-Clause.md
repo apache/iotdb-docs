@@ -19,27 +19,28 @@
 
 -->
 
-# WHERE 子句
+# WHERE Clauses
 
-## 语法概览
+## Syntax Overview
 
 ```sql
 WHERE booleanExpression
 ```
 
-__WHERE 子句__:用于在 SQL 查询中指定筛选条件，WHERE 子句在 FROM 子句之后立即执行。
+__WHERE clause __: Used to specify filtering conditions in SQL queries, the WHERE clause is executed immediately after the FROM clause.
 
-## 示例数据
+## Example Data
 
-在[示例数据页面](../Basic-Concept/Sample-Data.md)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
 
-####  示例1：选择特定 ID 的行
+In the [Example Data page](../Basic-Concept/Sample-Data.md), there are SQL statements for building the table structure and inserting data. By downloading and executing these statements in the IoTDB CLI, you can import data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
+
+####  Example 1: Select a row with a specific ID
 
 ```sql
 SELECT * FROM table1 WHERE plant_id = '1001';
 ```
 
-执行结果如下：
+The execution result is as follows:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -59,13 +60,13 @@ Total line number = 9
 It costs 0.091s
 ```
 
-#### 示例2：选择使用 LIKE 表达式匹配
+#### Example 2: Choose to use LIKE expression for matching
 
 ```sql
 SELECT * FROM table1 WHERE plant_id LIKE '300%';
 ```
 
-执行结果如下：
+The execution result is as follows:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -85,13 +86,13 @@ Total line number = 9
 It costs 0.261s
 ```
 
-#### 示例3：选择使用复合表达式筛选
+#### Example 3: Choose to use composite expression filtering
 
 ```sql
 SELECT * FROM table1 WHERE time >= 2024-11-28 00:00:00 and (plant_id = '3001' OR plant_id = '3002');
 ```
 
-执行结果如下：
+The execution result is as follows:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+

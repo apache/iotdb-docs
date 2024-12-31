@@ -90,7 +90,7 @@ joinCriteria
     ;
 ```
 
-**注意：USING 和 ON 的区别**
+__注意：USING 和 ON 的区别__
 
 USING 是显式连接条件的缩写语法，它接收一个用逗号分隔的字段名列表，这些字段必须是连接表共有的字段。例如，USING (time) 等效于 ON (t1.time = t2.time)。当使用 `ON` 关键字时，两个表中的 `time` 字段在逻辑上是区分的，分别表示为 `t1.time` 和 `t2.time`。而当使用 `USING` 关键字时，逻辑上只会有一个 `time` 字段。而最终的查询结果取决于 `SELECT` 语句中指定的字段。
 
@@ -113,7 +113,7 @@ SELECT selectExpr [, selectExpr] ... FROM <TABLE_NAME> [, <TABLE_NAME>] ... [WHE
 - RIGHT（右侧表的所有行至少出现一次）
 - FULL（两个表的所有行至少出现一次）
 
-在当前版本的 IoTDB 中，只支持 FULL [OUTER] JOIN，即全外连接，返回左表和右表连接后的所有记录。如果某个表中的记录没有与另一个表中的记录匹配，则会返回 NULL 值。**FULL JOIN 只能使用显式连接方式。**
+在当前版本的 IoTDB 中，只支持 FULL [OUTER] JOIN，即全外连接，返回左表和右表连接后的所有记录。如果某个表中的记录没有与另一个表中的记录匹配，则会返回 NULL 值。__FULL JOIN 只能使用显式连接方式。__
 
 ## 示例数据
 

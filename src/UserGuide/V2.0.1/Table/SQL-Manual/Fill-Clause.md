@@ -19,15 +19,17 @@
 
 -->
 
-# FILL 子句
+# FILL Clause
 
-## 功能介绍
 
-在执行数据查询时，可能会遇到某些列在某些行中没有数据，导致结果集中出现 NULL 值。这些 NULL 值不利于数据的可视化展示和分析，因此 IoTDB 提供了 FILL 子句来填充这些 NULL 值。
+## Function Introduction
 
-当查询中包含 ORDER BY 子句时，FILL 子句会在 ORDER BY 之前执行。而如果存在 GAPFILL（ date_bin_gapfill 函数）操作，则 FILL 子句会在 GAPFILL 之后执行。
+When performing data queries, you may encounter situations where certain columns lack data in some rows, resulting in NULL values in the result set. These NULL values are not conducive to data visualization and analysis, so IoTDB provides the FILL clause to fill in these NULL values.
 
-## 语法概览
+When the query includes an ORDER BY clause, the FILL clause will be executed before the ORDER BY. If there is a GAPFILL (date_bin_gapfill function) operation, the FILL clause will be executed after the GAPFILL.
+
+## Syntax Overview
+
 
 ```sql
 fillClause
@@ -60,17 +62,18 @@ intervalField
     ;
 ```
 
-### 填充方式
+### Filling Methods
 
-IoTDB 支持以下三种空值填充方式：
+IoTDB supports the following three methods for filling null values:
 
-1. **`PREVIOUS`填充**：使用该列前一个非空值进行填充。
-2. **`LINEAR`填充**：使用该列前一个非空值和下一个非空值的线性插值进行填充。
-3. **`Constant`填充**：使用指定的常量值进行填充。
+1. __`PREVIOUS` Filling__：Fills with the previous non-null value of the column.
+2. __`LINEAR` Filling__：Fills with the linear interpolation between the previous and next non-null values of the column.
+3. __`Constant` Filling__：Fills with a specified constant value.
 
-只能指定一种填充方法，且该方法会作用于结果集的全部列。
+Only one filling method can be specified, and this method will be applied to all columns in the result set.
 
-### 数据类型与支持的填充方法
+### Data Types and Supported Filling Methods
+
 
 | Data Type | Previous | Linear | Constant |
 | :-------- | :------- | :----- | :------- |
@@ -85,25 +88,26 @@ IoTDB 支持以下三种空值填充方式：
 | timestamp | √        | √      | √        |
 | date      | √        | √      | √        |
 
-注意：对于数据类型不支持指定填充方法的列，既不进行填充，也不抛出异常，只是保持原样。
+Note: For columns whose data types do not support the specified filling method, neither filling is performed nor exceptions are thrown; the original state is simply maintained.
 
-## 示例数据
+## Example Data
 
-在[示例数据页面](../Basic-Concept/Sample-Data.md)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
 
-### PREVIOUS 填充：
+In the [Example Data page](../Basic-Concept/Sample-Data.md), there are SQL statements for building the table structure and inserting data. By downloading and executing these statements in the IoTDB CLI, you can import data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
 
-对于查询结果集中的空值，使用该列的前一个非空值进行填充。
+### PREVIOUS Filling：
 
-#### 参数介绍：
+For null values in the query result set, fill with the previous non-null value of the column.
 
-- TIME_BOUND（可选）：向前查看的时间阈值。如果当前空值的时间戳与前一个非空值的时间戳之间的间隔超过了此阈值，则不会进行填充。默认选择查询结果中第一个 TIMESTAMP 类型的列来确定是否超出了时间阈值。
-  - 时间阈值参数格式为时间间隔，数值部分需要为整数，单位部分 y 表示年，mo 表示月，w 表示周，d 表示天，h 表示小时，m 表示分钟，s 表示秒，ms 表示毫秒，µs 表示微秒，ns 表示纳秒，如1d1h。
-- TIME_COLUMN（可选）：若需手动指定用于判断时间阈值的 TIMESTAMP 列，可通过在 `TIME_COLUMN` 参数后指定数字（从1开始）来确定列的顺序位置，该数字代表在原始表中 TIMESTAMP 列的具体位置。
+#### Parameter Introduction：
 
-#### 示例
+- TIME_BOUND（optional）：The time threshold to look forward. If the time interval between the current null value's timestamp and the previous non-null value's timestamp exceeds this threshold, filling will not be performed. By default, the first TIMESTAMP type column in the query result is used to determine whether the time threshold has been exceeded.
+  - The format of the time threshold parameter is a time interval, where the numerical part must be an integer, and the unit part y represents years, mo represents months, w represents weeks, d represents days, h represents hours, m represents minutes, s represents seconds, ms represents milliseconds, µs represents microseconds, and ns represents nanoseconds, such as 1d1h.
+- TIME_COLUMN（optional）：If you need to manually specify the TIMESTAMP column used to judge the time threshold, you can determine the order of the column by specifying a number (starting from 1) after the `TIME_COLUMN`parameter. This number represents the specific position of the TIMESTAMP column in the original table.
 
-不使用任何填充方法：
+#### Example
+
+Without using any filling method:
 
 ```sql
 SELECT time, temperature, status 
@@ -112,7 +116,7 @@ SELECT time, temperature, status
     AND plant_id='1001' and device_id='101';
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+-----------+------+
@@ -130,7 +134,7 @@ Total line number = 7
 It costs 0.088s
 ```
 
-使用 PREVIOUS 填充方法（结果将使用前一个非空值填充 NULL 值）：
+Use the PREVIOUS padding method (the result will be filled with the previous non null value to fill the NULL value):
 
 ```sql
 SELECT time, temperature, status 
@@ -140,7 +144,7 @@ SELECT time, temperature, status
   FILL METHOD PREVIOUS;
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+-----------+------+
@@ -158,17 +162,17 @@ Total line number = 7
 It costs 0.091s
 ```
 
-使用 PREVIOUS 填充方法（指定时间阈值）：
+Use the PREVIOUS padding method (specify time threshold):
 
 ```sql
-# 不指定时间列
+# Do not specify a time column
 SELECT time, temperature, status 
   FROM table1 
   WHERE time >= 2024-11-27 00:00:00  and time <= 2024-11-29 00:00:00
       AND plant_id='1001' and device_id='101'
   FILL METHOD PREVIOUS TIME_BOUND 1m;
 
-# 手动指定时间列
+# Manually specify the time column
 SELECT time, temperature, status 
   FROM table1 
   WHERE time >= 2024-11-27 00:00:00  and time <= 2024-11-29 00:00:00
@@ -176,7 +180,7 @@ SELECT time, temperature, status
   FILL METHOD PREVIOUS        1m TIME_COLUMN 1;
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+-----------+------+
@@ -194,23 +198,25 @@ Total line number = 7
 It costs 0.075s
 ```
 
-### LINEAR 填充
+### LINEAR Filling
 
-对于查询结果集中的空值，用该列的前一个非空值和后一个非空值的线性插值填充。
+For null values in the query result set, fill with the linear interpolation between the previous and next non-null values of the column.
 
-#### 线性填充规则：
+#### Linear Filling Rules:
 
-- 如果之前都是空值，或者之后都是空值，则不进行填充。
-- 如果列的数据类型是 boolean/string/blob/text，则不会进行填充，也不会抛出异常。
-- 若没有指定时间列，默认选择 SELECT 子句中第一个数据类型为 TIMESTAMP 类型的列作为辅助时间列进行线性插值。如果不存在数据类型为TIMESTAMP的列，系统将抛出异常。
+- If all previous values are null, or all subsequent values are null, no filling is performed.
+- If the column's data type is boolean/string/blob/text, no filling is performed, and no exceptions are thrown.
+- If no time column is specified, the system defaults to selecting the first column with a data type of TIMESTAMP in the SELECT clause as the auxiliary time column for linear interpolation. If no column with a TIMESTAMP data type exists, the system will throw an exception.
 
-#### 参数介绍：
+#### Parameter Introduction:
 
-- TIME_COLUMN（可选）：可以通过在`TIME_COLUMN`参数后指定数字（从1开始）来手动指定用于判断时间阈值的`TIMESTAMP`列，作为线性插值的辅助列，该数字代表原始表中`TIMESTAMP`列的具体位置。
+- TIME_COLUMN（optional）：You can manually specify the `TIMESTAMP` column used to determine the time threshold as an auxiliary column for linear interpolation by specifying a number (starting from 1) after the `TIME_COLUMN` parameter. This number represents the specific position of the `TIMESTAMP` column in the original table.
 
-注意：不强制要求线性插值的辅助列一定是 time 列，任何类型为 TIMESTAMP 的表达式都可以，不过因为线性插值只有在辅助列是升序或者降序的时候，才有意义，所以用户如果指定了其他的列，需要自行保证结果集是按照那一列升序或降序排列的。
+Note: It is not mandatory that the auxiliary column for linear interpolation must be a time column; any expression with a TIMESTAMP type is acceptable. However, since linear interpolation only makes sense when the auxiliary column is in ascending or descending order, users need to ensure that the result set is ordered by that column in ascending or descending order if they specify other columns.
 
-#### 示例
+
+#### Example
+
 
 ```sql
 SELECT time, temperature, status 
@@ -220,7 +226,7 @@ SELECT time, temperature, status
   FILL METHOD LINEAR;
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+-----------+------+
@@ -238,18 +244,20 @@ Total line number = 7
 It costs 0.053s
 ```
 
-### Constant 填充：
+### Constant Filling:
 
-对于查询结果集中的空值，使用指定的常量进行填充。
+For null values in the query result set, fill with a specified constant.
 
-#### 常量填充规则：
+#### Constant Filling Rules:
 
-- 若数据类型与输入的常量不匹配，IoTDB 不会填充查询结果，也不会抛出异常。
-- 若插入的常量值超出了其数据类型所能表示的最大值，IoTDB 不会填充查询结果，也不会抛出异常。
+- If the data type does not match the input constant, IoTDB will not fill the query result and will not throw an exception.
+- If the inserted constant value exceeds the maximum value that its data type can represent, IoTDB will not fill the query result and will not throw an exception.
 
-#### 示例
 
-使用`FLOAT`常量填充时，SQL 语句如下所示：
+#### Example
+
+When using a `FLOAT` constant for filling, the SQL statement is as follows:
+
 
 ```sql
 SELECT time, temperature, status 
@@ -259,7 +267,7 @@ SELECT time, temperature, status
   FILL METHOD CONSTANT 80.0;
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+-----------+------+
@@ -277,7 +285,8 @@ Total line number = 7
 It costs 0.242s
 ```
 
-使用`BOOLEAN`常量填充时，SQL 语句如下所示：
+When using the constant `BOOLEAN` to fill in, the SQL statement is as follows:
+
 
 ```sql
 SELECT time, temperature, status 
@@ -287,7 +296,7 @@ SELECT time, temperature, status
   FILL METHOD CONSTANT true;
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+-----------+------+
@@ -305,13 +314,13 @@ Total line number = 7
 It costs 0.073s
 ```
 
-## 高阶用法
+## Advanced Usage
 
-使用 `PREVIOUS` 和 `LINEAR` FILL 时，还支持额外的 `FILL_GROUP` 参数，来进行分组内填充。
+When using `PREVIOUS` and `LINEAR` FILL, an additional `FILL_GROUP` parameter is also supported for filling within groups.
 
-在使用 group by 子句 + fill 时，想在分组内进行填充，而不受其他分组的影响。
+When using a group by clause with fill, you may want to fill within groups without being affected by other groups.
 
-例如：对每个 `device_id` 内部的空值进行填充，而不使用其他设备的值：
+For example: Fill the null values within each `device_id` without using values from other devices:
 
 ```sql
 SELECT date_bin(1h, time) AS hour_time,  plant_id, device_id, avg(temperature) AS avg_temp
@@ -320,7 +329,7 @@ SELECT date_bin(1h, time) AS hour_time,  plant_id, device_id, avg(temperature) A
   group by 1, plant_id, device_id;
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+--------+---------+--------+
@@ -339,7 +348,7 @@ Total line number = 8
 It costs 0.110s
 ```
 
-若没有指定 FILL_GROUP 参数时，`100` 的空值会被 `101` 的值填充：
+If the FILL_GROUP parameter is not specified, the null value for `100` will be filled with the value of `101`:
 
 ```sql
 SELECT date_bin(1h, time) AS hour_time,  plant_id, device_id, avg(temperature) AS avg_temp
@@ -349,7 +358,7 @@ SELECT date_bin(1h, time) AS hour_time,  plant_id, device_id, avg(temperature) A
   FILL METHOD PREVIOUS;
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+--------+---------+--------+
@@ -368,7 +377,7 @@ Total line number = 8
 It costs 0.066s
 ```
 
-指定了 FILL_GROUP 为第 2 列后，填充只会发生在以第二列`device_id`为分组键的分组中，`100` 的空值不会被 `101` 的值填充，因为它们属于不同的分组。
+After specifying FILL_GROUP as the second column, the filling will only occur within the group that uses the second column `device_id` as the group key. The null value for `100` will not be filled with the value of `101` because they belong to different groups.
 
 ```sql
 SELECT date_bin(1h, time) AS hour_time,  plant_id, device_id, avg(temperature) AS avg_temp
@@ -378,7 +387,7 @@ SELECT date_bin(1h, time) AS hour_time,  plant_id, device_id, avg(temperature) A
   FILL METHOD PREVIOUS FILL_GROUP 2;
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+--------+---------+--------+
@@ -397,14 +406,16 @@ Total line number = 8
 It costs 0.089s
 ```
 
-## 特别说明
+## Special Notes
 
-在使用 `LINEAR FILL` 或 `PREVIOUS FILL` 时，如果辅助时间列（用于确定填充逻辑的时间列）中存在 NULL 值，IoTDB 将遵循以下规则：
+When using  `LINEAR FILL` or `PREVIOUS FILL`, if there are NULL values in the auxiliary time column (the column used to determine the filling logic), IoTDB will follow these rules:
 
-- 不对辅助时间列为 NULL 的行进行填充。
-- 这些行也不会参与到填充逻辑的计算中。
+- Do not fill rows where the auxiliary time column is NULL.
+- These rows will also not participate in the filling logic calculation.
 
-以 `PREVIOUS FILL`为例，原始数据如下所示：
+Taking  `PREVIOUS FILL` as an example, the original data is as follows:
+
+
 
 ```sql
 SELECT time, plant_id, device_id, humidity, arrival_time
@@ -413,7 +424,7 @@ SELECT time, plant_id, device_id, humidity, arrival_time
       AND plant_id='1001' and device_id='101';
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+--------+---------+--------+-----------------------------+
@@ -431,7 +442,7 @@ Total line number = 7
 It costs 0.119s
 ```
 
-使用 arrival_time 列作为辅助时间列，并设置时间间隔（TIME_BOUND）为 2 ms（前值距离当前值超过 2ms 就不填充）：
+Use the arrival_time column as the auxiliary time column and set the time interval (TIME_SOUND) to 2 ms (if the previous value is more than 2ms away from the current value, it will not be filled in):
 
 ```sql
 SELECT time, plant_id, device_id, humidity, arrival_time
@@ -441,7 +452,7 @@ SELECT time, plant_id, device_id, humidity, arrival_time
   FILL METHOD PREVIOUS TIME_BOUND 2s TIME_COLUMN 5;
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+--------+---------+--------+-----------------------------+
@@ -459,8 +470,8 @@ Total line number = 7
 It costs 0.049s
 ```
 
-填充结果详情：
+Filling results details:
 
-- 16:39、16:42、16:43 的 humidity 列，由于辅助列 arrival_time 为 NULL，所以不进行填充。
-- 16:40 的 humidity 列，由于辅助列 arrival_time 非 NULL ，为 `1970-01-01T08:00:00.003+08:00`且与前一个非 NULL 值 `1970-01-01T08:00:00.001+08:00`的时间差未超过 2ms，因此使用第一行 s1 的值 1 进行填充。
-- 16:41 的 humidity 列，尽管 arrival_time 非 NULL，但与前一个非 NULL 值的时间差超过 2ms，因此不进行填充。第七行同理。
+- For the humidity column at 16:39, 16:42, and 16:43, filling is not performed because the auxiliary column arrival_time is NULL.
+- For the humidity column at 16:40, since the auxiliary column arrival_time is not NULL and is `1970-01-01T08:00:00.003+08:00`, which is within a 2ms time difference from the previous non-NULL value `1970-01-01T08:00:00.001+08:00`, it is filled with the value 1 from the first row (s1).
+- For the humidity column at 16:41, although arrival_time is not NULL, the time difference from the previous non-NULL value exceeds 2ms, so no filling is performed. The same applies to the seventh row.

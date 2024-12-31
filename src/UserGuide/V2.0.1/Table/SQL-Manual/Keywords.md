@@ -19,9 +19,9 @@
 
 -->
 
-# 保留字&关键字
+# Reserved Words & Keywords
 
-保留关键字必须被双引号（`"`）引用才能用作标识符。以下是 IoTDB 表模型中的所有保留字：
+Reserved keywords must be quoted in double quotes (`"`) to be used as identifiers. The following are all reserved words in the IoTDB table model:
 
 - ALTER
 - AND

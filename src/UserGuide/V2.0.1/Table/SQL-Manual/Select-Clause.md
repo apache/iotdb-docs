@@ -19,9 +19,9 @@
 
 -->
 
-# SELECT 子句
+# SELECT Clauses
 
-## 语法概览
+## Syntax Overview
 
 ```sql
 SELECT selectItem (',' selectItem)*
@@ -33,33 +33,36 @@ selectItem
     ;
 ```
 
-- __SELECT 子句__: 指定了查询结果应包含的列，包含聚合函数（如 SUM、AVG、COUNT 等）以及窗口函数，在逻辑上最后执行。
+- __SELECT Clause__: SELECT Clause: Specifies the columns to be included in the query results, including aggregate functions (such as SUM, AVG, COUNT, etc.) and window functions, which are logically executed last.
 
-## 语法详释：
+## Detailed Syntax:
 
-每个 `selectItem` 可以是以下形式之一：
+Each `selectItem` can be one of the following forms:
 
-- __表达式__: `expression [ [ AS ] column_alias ]` 定义单个输出列，可以指定列别名。
-- __选择某个关系的所有列__: `relation.*` 选择某个关系的所有列，不允许使用列别名。
-- __选择结果集中的所有列__: `*` 选择查询的所有列，不允许使用列别名。
+- __Expression__: `expression [ [ AS ] column_alias ]` defines a single output column, and a column alias can be specified.
+- __Selecting all columns of a relation__: `relation.*` selects all columns of a certain relation, and column aliases are not allowed.
+- __Selecting all columns in the result set__: `*` selects all columns of the query, and column aliases are not allowed.
 
-## 示例数据
 
-在[示例数据页面](../Basic-Concept/Sample-Data.md)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
+## Example Data
 
-### 选择列表
 
-#### 星表达式
+In the [Example Data page](../Basic-Concept/Sample-Data.md), there are SQL statements for building the table structure and inserting data. By downloading and executing these statements in the IoTDB CLI, you can import data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
 
-使用星号(*)可以选取表中的所有列，__注意__，星号表达式不能被大多数函数转换，除了`count(*)`的情况。
+### Select List
 
-示例：从表中选择所有列
+#### Star Expression
+
+The asterisk (*) can be used to select all columns from a table. __Note__, the star expression cannot be transformed by most functions, except in the case of `count(*)`.
+
+Example: Select all columns from a table
+
 
 ```sql
 SELECT * FROM table1;
 ```
 
-执行结果如下：
+The execution result is as follows:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -88,17 +91,17 @@ Total line number = 18
 It costs 0.653s
 ```
 
-#### 聚合函数
+#### Aggregate Functions
 
-聚合函数将多行数据汇总为单个值。当 SELECT 子句中存在聚合函数时，查询将被视为聚合查询。在聚合查询中，所有表达式必须是聚合函数的一部分或由[GROUP BY子句](../SQL-Manual/GroupBy-Clause.md)指定的分组的一部分。
+Aggregate functions summarize multiple rows of data into a single value. When the SELECT clause contains aggregate functions, the query is considered an aggregate query. In aggregate queries, all expressions must be part of an aggregate function or specified by the [GROUP BY clause](../SQL-Manual/GroupBy-Clause.md) for grouping.
 
-示例1：返回地址表中的总行数：
+Example 1: Return the total number of rows in the address table:
 
 ```sql
 SELECT count(*) FROM table1;
 ```
 
-执行结果如下：
+The execution result is as follows:
 
 ```sql
 +-----+
@@ -110,7 +113,8 @@ Total line number = 1
 It costs 0.091s
 ```
 
-示例2：返回按城市分组的地址表中的总行数：
+Example 2: Return the total number of rows in the address table grouped by city:
+
 
 ```sql
 SELECT region, count(*) 
@@ -118,7 +122,7 @@ SELECT region, count(*)
   GROUP BY region;
 ```
 
-执行结果如下：
+The execution result is as follows:
 
 ```sql
 +------+-----+
@@ -131,17 +135,18 @@ Total line number = 2
 It costs 0.071s
 ```
 
-#### 别名
+#### Aliases
 
-关键字`AS`：为选定的列指定别名，别名将覆盖已存在的列名，以提高查询结果的可读性。
+The keyword `AS` is used to specify an alias for the selected column, which overrides the existing column name to improve the readability of the query results.
 
-示例1：原始表格：
+Example 1: Original Table:
+
 
 ```sql
 IoTDB> SELECT * FROM table1;
 ```
 
-执行结果如下：
+The execution result is as follows:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -170,7 +175,7 @@ Total line number = 18
 It costs 0.653s
 ```
 
-示例2：单列设置别名：
+Example 2: Single column alias setting:
 
 ```sql
 IoTDB> SELECT device_id 
@@ -178,7 +183,7 @@ IoTDB> SELECT device_id
          FROM table1;
 ```
 
-执行结果如下：
+The execution result is as follows:
 
 ```sql
 +------+
@@ -207,7 +212,7 @@ Total line number = 18
 It costs 0.053s
 ```
 
-示例3：所有列的别名：
+Example 3: Aliases for all columns:
 
 ```sql
 IoTDB> SELECT table1.* 
@@ -215,7 +220,7 @@ IoTDB> SELECT table1.*
          FROM table1;
 ```
 
-执行结果如下：
+The execution result is as follows:
 
 ```sql
 +-----------------------------+----+----+-----+---+---+----+----+-----+-----------------------------+
@@ -244,7 +249,7 @@ Total line number = 18
 It costs 0.189s
 ```
 
-## 结果集列顺序
+## Result Set Column Order
 
-- __列顺序__: 结果集中的列顺序与 SELECT 子句中指定的顺序相同。
-- __多列排序__: 如果选择表达式返回多个列，它们的排序方式与源关系中的排序方式相同
+- __Column order__: The column order in the result set is the same as the order specified in the SELECT clause.
+- __Multi column sorting__: If an expression is selected to return multiple columns, their sorting method is the same as the sorting method in the source relationship.

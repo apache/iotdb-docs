@@ -27,7 +27,7 @@
 WHERE booleanExpression
 ```
 
-**WHERE 子句**:用于在 SQL 查询中指定筛选条件，WHERE 子句在 FROM 子句之后立即执行。
+__WHERE 子句__:用于在 SQL 查询中指定筛选条件，WHERE 子句在 FROM 子句之后立即执行。
 
 ## 示例数据
 

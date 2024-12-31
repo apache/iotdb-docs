@@ -19,29 +19,30 @@
 
 -->
 
-# HAVING 子句
+# HAVING Clause
 
-## 语法概览
+## Syntax Overview
 
 ```sql
 HAVING booleanExpression
 ```
 
-### HAVING 子句
+### HAVING Clause
 
-用于在数据分组聚合(GROUP BY)完成后，对聚合结果进行筛选。
+The HAVING clause is used to filter the results of a query after the data has been grouped and aggregated by GROUP BY.
 
-#### 注意事项
+#### Notes
 
-- 就语法而言，`HAVING`子句与`WHERE`子句相同，WHERE子句在分组聚合之前对数据进行过滤，HAVING子句是对分组聚合后的结果进行过滤。
+- In terms of syntax, the `HAVING` clause is similar to the `WHERE` clause. The WHERE clause filters data before grouping and aggregation, while the HAVING clause filters the results after grouping and aggregation has been performed.
 
-## 示例数据
 
-在[示例数据页面](../Basic-Concept/Sample-Data.md)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
+## Example Data
 
-#### 示例 1：过滤计数低于特定值的设备
+In the [Example Data page](../Basic-Concept/Sample-Data.md), there are SQL statements for building the table structure and inserting data. By downloading and executing these statements in the IoTDB CLI, you can import data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
 
-查询将计算 `table1` 表中每个 `device_id` 的条目数，并过滤掉那些计数低于 5 的设备。
+#### Example 1: Filtering Devices with Counts Below a Specific Value
+
+The query calculates the number of entries for each `device_id` in `table1` and filters out devices that have a count below 5.
 
 ```sql
 SELECT device_id, COUNT(*)
@@ -50,7 +51,7 @@ SELECT device_id, COUNT(*)
   HAVING COUNT(*) >= 5;
 ```
 
-执行结果如下：
+The execution results are as follows:
 
 ```sql
 +---------+-----+
@@ -63,9 +64,10 @@ Total line number = 2
 It costs 0.063s
 ```
 
-### 示例 2：计算每个设备的每小时平均温度并过滤
+### Example 2: Calculate the Hourly Average Temperature for Each Device and Filter
 
-查询将计算 `table1` 表中每个设备每小时的平均温度，并过滤掉那些平均温度低于 27.2 的设备。
+The query calculates the average temperature per hour for each device in `table1` and filters out devices with an average temperature below 85.0.
+
 
 ```sql
 SELECT date_bin(1h, time) as hour_time, device_id, AVG(temperature) as avg_temp
@@ -74,7 +76,7 @@ SELECT date_bin(1h, time) as hour_time, device_id, AVG(temperature) as avg_temp
   HAVING AVG(temperature) >= 85.0;
 ```
 
-执行结果如下：
+The execution results are as follows:
 
 ```sql
 +-----------------------------+---------+--------+

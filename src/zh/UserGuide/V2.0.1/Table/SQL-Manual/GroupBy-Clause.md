@@ -29,7 +29,8 @@ GROUP BY expression (',' expression)*
 
 - GROUP BY 子句用于将 SELECT 语句的结果集按指定的列值进行分组计算。这些分组列的值在结果中保持原样，其他列中具备相同分组列值的所有记录通过指定的聚合函数（例如 COUNT、AVG）进行计算。
 
-暂时无法在飞书文档外展示此内容
+![](https://alioss.timecho.com/docs/img/groupby01.png)
+
 
 ## 注意事项
 
@@ -249,7 +250,7 @@ Total line number = 8
 It costs 0.081s
 ```
 
-有关date_bin函数的更多详细信息可以参见[date_bin （时间分桶规整）函数功能定义](https://timechor.feishu.cn/docx/PjCNda4S7oUnKIxqVxpcgalxnmh)
+有关date_bin函数的更多详细信息可以参见 date_bin （时间分桶规整）函数功能定义
 
 #### 示例 2：查询每个设备的最新数据点
 

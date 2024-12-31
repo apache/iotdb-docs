@@ -64,9 +64,9 @@ intervalField
 
 IoTDB 支持以下三种空值填充方式：
 
-1. **`PREVIOUS`填充**：使用该列前一个非空值进行填充。
-2. **`LINEAR`填充**：使用该列前一个非空值和下一个非空值的线性插值进行填充。
-3. **`Constant`填充**：使用指定的常量值进行填充。
+1. __`PREVIOUS`填充__：使用该列前一个非空值进行填充。
+2. __`LINEAR`填充__：使用该列前一个非空值和下一个非空值的线性插值进行填充。
+3. __`Constant`填充__：使用指定的常量值进行填充。
 
 只能指定一种填充方法，且该方法会作用于结果集的全部列。
 
@@ -339,7 +339,7 @@ Total line number = 8
 It costs 0.110s
 ```
 
-若没有指定 FILL_GROUP 参数时，`100` 的空值会被 `10`1 的值填充：
+若没有指定 FILL_GROUP 参数时，`100` 的空值会被 `101` 的值填充：
 
 ```sql
 SELECT date_bin(1h, time) AS hour_time,  plant_id, device_id, avg(temperature) AS avg_temp

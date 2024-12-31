@@ -19,20 +19,20 @@
 
 -->
 
-# 标识符
+# Identifiers
 
-在 IoTDB 中，标识符用于标识 database、table、column、function 或其他对象名称。
+In IoTDB, identifiers are used to identify database, table, column, function, or other object names.
 
-## 命名规则
+## Naming Rules
 
-- __开头字符__：标识符必须以字母开头。
-- __后续字符__：可以包含字母、数字和下划线。
-- __特殊字符__：如果标识符包含除字母、数字和下划线之外的其他字符，必须用双引号（`"`）括起来。
-- __转义字符__：在双引号定界的标识符中，使用两个连续的双引号（`""`）来表示一个双引号字符。
+- __First Character__：Identifiers must begin with a letter.
+- __Subsequent Characters__：Can include letters, numbers, and underscores.
+- __Special Characters__：If an identifier contains characters other than letters, numbers, and underscores, it must be enclosed in double quotes (`"`).
+- __Escape Character__：Within double-quoted identifiers, two consecutive double quotes (`""`) are used to represent a single double quote character.
 
-### 示例
+### Examples
 
-以下是一些有效的标识符示例：
+Here are some valid identifier examples:
 
 ```sql
 test
@@ -42,23 +42,23 @@ test
 "quotes"
 ```
 
-无效的标识符示例，使用时必须用双引号引用：
+Invalid identifier examples that must be quoted with double quotes:
 
 ```sql
-table-name // 包含短横线
-123SchemaName // 以数字开头
-colum$name@field  // 包含特殊字符且未用双引号括起
+table-name // contains a hyphen
+123SchemaName // starts with a number
+colum$name@field  // contains special characters and is not enclosed in double quotes
 ```
 
-## 大小写敏感性
+## Case Sensitivity
 
-标识符不区分大小写，且系统存储标识符时不保留原始大小写，查询结果会根据用户在`SELECT`子句中指定的大小写显示列名。
+Identifiers are not case-sensitive, and the system does not retain the original case when storing identifiers. The column names in the query results will be displayed based on the case specified by the user in the SELECT clause.
 
-> 双引号括起来的标识符也不区分大小写。
+> Identifiers enclosed in double quotes are also not case-sensitive.
 
-### 示例
+### Example
 
-当创建了一个名为 `Device_id` 的列，在查看表时看到为 `device_id`，但返回的结果列与用户查询时指定的格式保持相同为`Device_ID`：
+When a column named `Device_id` is created, it is seen as `device_id` when viewing the table, but the returned result column matches the format specified by the user in the query as `Device_ID`:
 
 ```sql
 IoTDB> create table table1(Device_id STRING TAG, Model STRING ATTRIBUTE, TemPerature FLOAT FIELD, Humidity DOUBLE FIELD)

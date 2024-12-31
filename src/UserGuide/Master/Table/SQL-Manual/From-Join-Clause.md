@@ -19,9 +19,9 @@
 
 -->
 
-# FROM & JOIN 子句
+# FROM & JOIN Clause
 
-## 语法概览
+## Syntax Overview
 
 ```sql
 FROM relation (',' relation)*
@@ -60,28 +60,28 @@ qualifiedName
     ;
 ```
 
-## FROM 子句
+## FROM Clause
 
-FROM 子句指定了查询操作的数据源。在逻辑上，查询的执行从 FROM 子句开始。FROM 子句可以包含单个表、使用 JOIN 子句连接的多个表的组合，或者子查询中的另一个 SELECT 查询。
+The FROM clause specifies the data source for the query operation. Logically, the execution of the query starts with the FROM clause. The FROM clause can contain a single table, a combination of multiple tables joined using the JOIN clause, or another SELECT query within a subquery.
 
-## JOIN 子句
+## JOIN Clause
 
-JOIN 用于将两个表基于某些条件连接起来，通常，连接条件是一个谓词，但也可以指定其他隐含的规则。
+JOIN is used to combine two tables based on certain conditions. Typically, the join condition is a predicate, but other implicit rules can also be specified.
 
-在当前版本的 IoTDB 中，支持内连接（Inner Join）和全外连接（Full Outer Join），并且连接条件只能是时间列的等值连接。
+In the current version of IoTDB, inner joins (Inner Join) and full outer joins (Full Outer Join) are supported, and the join condition can only be an equi-join on the time column.
 
-### 内连接（Inner Join）
+### Inner Join
 
-INNER JOIN 表示内连接，其中 INNER 关键字可以省略。它返回两个表中满足连接条件的记录，舍弃不满足的记录，等同于两个表的交集。
+INNER JOIN indicates an inner join, where the INNER keyword can be omitted. It returns records that satisfy the join condition from both tables, discarding those that do not, equivalent to the intersection of the two tables.
 
-#### 显式指定连接条件（推荐）
+#### Explicitly Specifying Join Conditions (Recommended)
 
-显式连接需要使用 JOIN + ON 或 JOIN + USING 语法，在 ON 或 USING 关键字后指定连接条件。
+Explicit joins require the use of JOIN + ON or JOIN + USING syntax, specifying the join condition after the ON or USING keyword.
 
-SQL语法如下所示：
+The SQL syntax is as follows:
 
 ```sql
-// 显式连接, 在ON关键字后指定连接条件或在Using关键字后指定连接列
+// Explicit join, specify join conditions after the ON keyword or specify join columns after the USING keyword
 SELECT selectExpr [, selectExpr] ... FROM <TABLE_NAME> [INNER] JOIN <TABLE_NAME> joinCriteria [WHERE whereCondition]
 
 joinCriteria
@@ -90,46 +90,48 @@ joinCriteria
     ;
 ```
 
-__注意：USING 和 ON 的区别__
+__Note: The Difference Between USING and ON__
 
-USING 是显式连接条件的缩写语法，它接收一个用逗号分隔的字段名列表，这些字段必须是连接表共有的字段。例如，USING (time) 等效于 ON (t1.time = t2.time)。当使用 `ON` 关键字时，两个表中的 `time` 字段在逻辑上是区分的，分别表示为 `t1.time` 和 `t2.time`。而当使用 `USING` 关键字时，逻辑上只会有一个 `time` 字段。而最终的查询结果取决于 `SELECT` 语句中指定的字段。
 
-#### 隐式指定连接条件
+USING is an abbreviated syntax for explicit join conditions. It accepts a list of field names separated by commas, which must be fields common to the joined tables. For example, USING (time) is equivalent to ON (t1.time = t2.time). When using the `ON` keyword, the `time` fields in the two tables are logically distinct, represented as `t1.time` and `t2.time`. When using the `USING` keyword, there is logically only one `time` field. The final query result depends on the fields specified in the SELECT statement.
 
-隐式连接不需要出现 JOIN、ON、USING 关键字，而是通过在 WHERE 子句中指定条件来实现表与表之间的连接。
+#### Implicitly Specifying Join Conditions
 
-SQL语法如下所示：
+Implicit joins do not require the use of JOIN, ON, or USING keywords, but instead achieve table-to-table connections by specifying conditions in the WHERE clause.
+
+The SQL syntax is as follows:
 
 ```sql
-// 隐式连接, 在WHERE子句里指定连接条件
+// Implicit join, specify join conditions in the WHERE clause
 SELECT selectExpr [, selectExpr] ... FROM <TABLE_NAME> [, <TABLE_NAME>] ... [WHERE whereCondition] 
 ```
 
-### 外连接（Outer Join）
+### Outer Join
 
-如果没有匹配的行，仍然可以通过指定外连接返回行。外连接可以是：
+If there are no matching rows, you can still return rows by specifying an outer join. Outer joins can be:
 
-- LEFT（左侧表的所有行至少出现一次）
-- RIGHT（右侧表的所有行至少出现一次）
-- FULL（两个表的所有行至少出现一次）
+- LEFT（all rows from the left table appear at least once）
+- RIGHT（all rows from the right table appear at least once）
+- FULL（all rows from both tables appear at least once）
 
-在当前版本的 IoTDB 中，只支持 FULL [OUTER] JOIN，即全外连接，返回左表和右表连接后的所有记录。如果某个表中的记录没有与另一个表中的记录匹配，则会返回 NULL 值。__FULL JOIN 只能使用显式连接方式。__
 
-## 示例数据
+In the current version of IoTDB, only FULL [OUTER] JOIN is supported, which is a full outer join, returning all records after the left and right tables are joined. If a record from one table does not match with a record from the other table, NULL values will be returned. __FULL JOIN can only be used with explicit join methods.__
 
-在[示例数据页面](../Basic-Concept/Sample-Data.md)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
+## Example Data
 
-### From 示例
+In the [Example Data page](../Basic-Concept/Sample-Data.md), there are SQL statements for building table structures and inserting data. By downloading and executing these statements in the IoTDB CLI, you can import data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
 
-#### 从单个表查询
+### From Example
 
-示例 1：此查询将返回 `table1` 中的所有记录，并按时间排序。
+#### Query from a Single Table
+
+Example 1: This query will return all records from `table1, sorted by time.
 
 ```sql
 SELECT * FROM table1 ORDER BY time;
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -158,13 +160,13 @@ Total line number = 18
 It costs 0.085s
 ```
 
-示例 1：此查询将返回 `table1`中`device`为`d1`的记录，并按时间排序。
+Example 1: This query will return records with `device` `d1` in `table1`, sorted by time.
 
 ```sql
 SELECT * FROM table1 t1 where t1.device_id='101' order by time;
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -185,15 +187,15 @@ Total line number = 10
 It costs 0.061s
 ```
 
-#### 从子查询中查询
+#### Search From Subqueries
 
-示例 1：此查询将返回 `table1` 中的记录总数。
+Example 1: This query will return the total number of records in `table1`.
 
 ```sql
 SELECT COUNT(*) AS count FROM (SELECT * FROM table1);
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----+
@@ -205,11 +207,11 @@ Total line number = 1
 It costs 0.072s
 ```
 
-### Join 示例
+### Join Example
 
 #### Inner Join
 
-示例 1：显式连接
+Example 1: Explicit Connection
 
 ```sql
 SELECT 
@@ -223,7 +225,7 @@ FROM
 ON t1.time = t2.time
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+-------+------------+-------+------------+
@@ -237,7 +239,8 @@ Total line number = 3
 It costs 0.076s
 ```
 
-示例 2：显式连接
+Example 2: Explicit Connection
+
 
 ```sql
 SELECT time,
@@ -250,7 +253,7 @@ FROM
 USING(time)
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+-------+------------+-------+------------+
@@ -264,7 +267,7 @@ Total line number = 3
 It costs 0.081s
 ```
 
-示例 3：隐式连接
+Example 3: Implicit Connection
 
 ```sql
 SELECT t1.time, 
@@ -278,7 +281,7 @@ WHERE
 t1.time=t2.time
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+-------+------------+-------+------------+
@@ -294,7 +297,7 @@ It costs 0.082s
 
 #### Outer Join
 
-示例 1：显式连接
+Example 1: Explicit Connection
 
 ```sql
 SELECT 
@@ -308,7 +311,7 @@ FROM
 ON t1.time = t2.time
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+-----------------------------+-------+------------+-------+------------+
@@ -340,7 +343,7 @@ Total line number = 21
 It costs 0.071s
 ```
 
-示例 2：显式连接
+Example 2: Explicit Connection
 
 ```sql
 SELECT 
@@ -354,7 +357,7 @@ FROM
 USING(time)
 ```
 
-查询结果：
+Query results:
 
 ```sql
 +-----------------------------+-------+------------+-------+------------+
