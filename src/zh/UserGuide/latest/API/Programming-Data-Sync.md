@@ -18,7 +18,7 @@
 
 -->
 
-# 数据订阅编程
+# 数据订阅API
 IoTDB 提供了强大的数据订阅功能，允许用户通过订阅SDK实时获取IoTDB新增的数据。详细的功能定义及介绍：[数据订阅](../../User-Manual/Data-Sync_timecho.md#数据同步)
 
 ## 1 核心步骤
@@ -110,7 +110,7 @@ public class DataConsumerExample {
         consumerConfig.put(ConsumerConstant.CONSUME_LISTENER_KEY, TopicConstant.FORMAT_SESSION_DATA_SETS_HANDLER_VALUE);
         try (SubscriptionPullConsumer pullConsumer = new SubscriptionPullConsumer(consumerConfig)) {
             pullConsumer.open();
-            pullConsumer.subscribe("topoc_all");
+            pullConsumer.subscribe("topic_all");
             while (true) {
                 List<SubscriptionMessage> messages = pullConsumer.poll(10000);
                 for (final SubscriptionMessage message : messages) {
@@ -131,9 +131,9 @@ public class DataConsumerExample {
 
 
 ```
-##### 场景-2:订阅新增的 Tsfile（定期数据备份的场景）
+##### 场景-2:订阅新增的 TsFile（定期数据备份的场景）
 
-前提：需要被消费的topic为TsfileHandler类型，举例：`create topic topic_all_tsfile with ('path'='root.**','format'='TsFileHandler')`
+前提：需要被消费的topic的格式为TsfileHandler类型，举例：`create topic topic_all_tsfile with ('path'='root.**','format'='TsFileHandler')`
 
 ```java
 import java.io.IOException;
@@ -154,14 +154,14 @@ public class DataConsumerExample {
         consumerConfig.put(ConsumerConstant.CONSUMER_GROUP_ID_KEY, "cg1");
         // 2. Specify the consumption type as the tsfile type
         consumerConfig.put(TopicConstant.FORMAT_KEY, TopicConstant.FORMAT_TS_FILE_HANDLER_VALUE);
-        consumerConfig.put(ConsumerConstant.FILE_SAVE_DIR_KEY, "/Users/caozhijia/Desktop");
+        consumerConfig.put(ConsumerConstant.FILE_SAVE_DIR_KEY, "/Users/iotdb/Downloads");
         try (SubscriptionPullConsumer pullConsumer = new SubscriptionPullConsumer(consumerConfig)) {
             pullConsumer.open();
             pullConsumer.subscribe("topic_all_tsfile");
             while (true) {
                 List<SubscriptionMessage> messages = pullConsumer.poll(10000);
                 for (final SubscriptionMessage message : messages) {
-                    message.getTsFileHandler().copyFile("/Users/caozhijia/Downloads/1.tsfile");
+                    message.getTsFileHandler().copyFile("/Users/iotdb/Downloads/1.tsfile");
                 }
             }
         }

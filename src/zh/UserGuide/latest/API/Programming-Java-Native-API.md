@@ -83,7 +83,6 @@ public class IoTDBSessionPoolExample {
 | 接口名称                                                                                                                                                                   | 功能描述                  |
 |------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|
 | `insertRecords(List<String> deviceIds, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList)`        | 插入多行数据，适用于不同测点独立采集的场景 |
-| `insertAlignedRecords(List<String> deviceIds, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList)` | 插入多行数据，适用于不同测点同时采集的场景 |
 
 
 代码案例：
@@ -188,7 +187,6 @@ public class SessionPoolExample {
 | 接口名称                                                                                  | 功能描述                       |
 |-----------------------------------------------------------------------------------------|----------------------------|
 | `insertTablet(Tablet tablet)`                                                          | 插入单个设备的多行数据，适用于不同测点独立采集的场景 |
-| `insertAlignedTablet(Tablet tablet)`                                                  | 插入单个设备的多行数据，适用于不同测点同时采集的场景 |
 
 代码案例：
 ```java
@@ -282,7 +280,10 @@ public class SessionPoolExample {
 }
 ```
 
-#### 2.3.2 数据查询
+#### 2.3.2 SQL操作
+
+SQL操作分为查询和非查询两类操作，对应的接口为`executeQuery`和`executeNonQuery`操作，其区别为前者执行的是具体的查询语句，会返回一个结果集，后者是执行的是增、删、改操作，不返回结果集。
+
 ```java
 import java.util.ArrayList;
 import java.util.List;
@@ -314,7 +315,7 @@ public class SessionPoolExample {
 
     private static void executeNonQueryExample() throws IoTDBConnectionException, StatementExecutionException {
 
-        // 1. create time series
+        // 1. create a nonAligned time series
         sessionPool.executeNonQueryStatement("create timeseries root.test.d1.s1 with dataType = int32");
 
         // 2. set ttl
