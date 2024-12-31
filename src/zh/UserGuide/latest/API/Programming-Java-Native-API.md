@@ -18,26 +18,22 @@
 
 -->
 
-# Java编程接口
+# Session原生API
 
-## Session原生API
+IoTDB 原生 API 中的 Session 是实现与数据库交互的核心接口，它集成了丰富的方法，支持数据写入、查询以及元数据操作等功能。通过实例化 Session，能够建立与 IoTDB 服务器的连接，在该连接所构建的环境中执行各类数据库操作。Session为非线程安全，不能被多线程同时调用。
 
-IoTDB 原生 API 中的 Session 是实现与数据库交互的核心接口，它集成了丰富的方法，支持数据写入、查询以及元数据操作等功能。通过实例化 Session，能够建立与 IoTDB 服务器的连接，在该连接所构建的环境中执行各类数据库操作。
+SessionPool 是 Session 的连接池，推荐使用SessionPool编程。在多线程并发的情形下，SessionPool 能够合理地管理和分配连接资源，以提升系统性能与资源利用效率。
 
-Session为单线程安全模型，如实际的应用场景为多线程并发场景，强烈推荐使用SessionPool编程。SessionPool 是 Session 的池化形式，专门针对多线程并发场景进行了优化，在多线程并发的情形下，SessionPool 能够合理地管理和分配连接资源，以提升系统性能与资源利用效率。
-
-### 步骤概览
-
-使用SessionPool的核心步骤：
-1. 创建会话池实例：初始化一个SessionPool对象，用于管理多个Session实例。
+## 1 步骤概览
+1. 创建连接池实例：初始化一个SessionPool对象，用于管理多个Session实例。
 2. 执行操作：直接从SessionPool中获取Session实例，并执行数据库操作，无需每次都打开和关闭连接。
-3. 关闭会话池资源：在不再需要进行数据库操作时，关闭SessionPool，释放所有相关资源。
+3. 关闭连接池资源：在不再需要进行数据库操作时，关闭SessionPool，释放所有相关资源。
 
-### 详细步骤
-本章节用于说明开发的核心流程，并未演示所有的参数和接口，如需了解全部功能及参数请参见: [附录](./Programming-Java-Native-API.md#附录) 或 查阅: [源码](https://github.com/apache/iotdb/tree/master/example/session/src/main/java/org/apache/iotdb)
+## 2 详细步骤
+本章节用于说明开发的核心流程，并未演示所有的参数和接口，如需了解全部功能及参数请参见: [全量接口说明](./Programming-Java-Native-API.md#) 或 查阅: [源码](https://github.com/apache/iotdb/tree/master/example/session/src/main/java/org/apache/iotdb)
 
-#### 1. 创建maven项目
-创建一个maven项目，并导入以下依赖（JDK >= 1.8, Maven >= 3.6）
+### 2.1 创建maven项目
+创建一个maven项目，并在pom.xml文件中添加以下依赖（JDK >= 1.8, Maven >= 3.6）
 
 ```xml
 <dependencies>
@@ -49,10 +45,16 @@ Session为单线程安全模型，如实际的应用场景为多线程并发场�
     </dependency>
 </dependencies>
 ```
-#### 2. 创建会话实例
+### 2.2 创建连接池实例
 
 ```java
-public class IoTDBSessionExample {
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.iotdb.session.pool.SessionPool;
+
+public class IoTDBSessionPoolExample {
+    private static SessionPool sessionPool;
+
     public static void main(String[] args) {
         // Using nodeUrls ensures that when one node goes down, other nodes are automatically connected to retry
         List<String> nodeUrls = new ArrayList<>();
@@ -69,30 +71,35 @@ public class IoTDBSessionExample {
 }
 ```
 
-#### 执行数据库操作
-##### 数据写入
-在工业场景中，数据写入可以根据设备数量、写入频率和数据类型分为以下几类：多（单）设备同一时刻写入、单设备不同时刻数据（攒批）写入。业务允许的情况下，推荐攒批写入以提高写入效率。下面按不同场景对写入接口进行介绍。
+### 2.3 执行数据库操作
+#### 2.3.1 数据写入
+在工业场景中，数据写入可分为以下几类：多行数据写入、单设备多行数据写入，下面按不同场景对写入接口进行介绍。
 
-###### 多（单）设备同一时刻写入
-场景：多（单）个设备的实时状态或传感器数据批量写入，特点是采集一次上传一次。
+##### 多行数据写入接口
+接口说明：支持一次写入多行数据，每一行对应一个设备一个时间戳的多个测点值。
 
-适用接口：
+接口列表：
 
-| 接口名称                                                                                                                                                                   | 功能描述                                                                                          |
-|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
-| `insertRecords(List<String> deviceIds, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList)`        | 插入多个设备，每个设备多个测点的一个时刻的记录                                                                       |
-| `insertRecords(List<String> deviceIds, List<Long> times, List<List<String>> measurementsList, List<List<String>> valuesList)`                                          |同上，不需要指定数据类型，会根据传入的值进行推断。推断规则可在服务端配置，详细配置在iotdb-system.properties.template中的搜索`infer_type`关键字 |
-| `insertAlignedRecords(List<String> deviceIds, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList)` | 插入多个设备，每个设备多个测点的一个时刻的记录。每个设备为对齐设备                                                             |
-| `insertAlignedRecords(List<String> deviceIds, List<Long> times, List<List<String>> measurementsList, List<List<String>> valuesList)`                                   | 同上，不需要指定数据类型，会根据传入的值进行推断。推断规则可在服务端配置，详细配置在iotdb-system.properties.template中的搜索`infer_type`关键字 |
+| 接口名称                                                                                                                                                                   | 功能描述                  |
+|------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------|
+| `insertRecords(List<String> deviceIds, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList)`        | 插入多行数据，适用于不同测点独立采集的场景 |
+| `insertAlignedRecords(List<String> deviceIds, List<Long> times, List<List<String>> measurementsList, List<List<TSDataType>> typesList, List<List<Object>> valuesList)` | 插入多行数据，适用于不同测点同时采集的场景 |
 
 
 代码案例：
 ```java
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.iotdb.rpc.IoTDBConnectionException;
+import org.apache.iotdb.rpc.StatementExecutionException;
+import org.apache.iotdb.session.pool.SessionPool;
+import org.apache.tsfile.enums.TSDataType;
+
 public class SessionPoolExample {
 
     private static SessionPool sessionPool;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IoTDBConnectionException, StatementExecutionException {
 
         // 1. init SessionPool
         constructSessionPool();
@@ -119,7 +126,7 @@ public class SessionPoolExample {
                         .build();
     }
 
-    public static void insertRecordsExample(){
+    public static void insertRecordsExample() throws IoTDBConnectionException, StatementExecutionException {
         String deviceId = "root.sg1.d1";
         List<String> measurements = new ArrayList<>();
         measurements.add("s1");
@@ -173,18 +180,28 @@ public class SessionPoolExample {
 }
 ```
 
-###### 批量数据上传
-场景：多个设备的大量数据同时上传，适合大规模分布式数据接入。
+##### 单设备多行数据写入接口
+接口说明：支持一次写入单个设备的多行数据，每一行对应一个时间戳的多个测点值。
 
-适用接口：
+接口列表：
 
-| 接口名称                                                                                  | 功能描述                                     |
-|-----------------------------------------------------------------------------------------|------------------------------------------|
-| `insertTablet(Tablet tablet)`                                                          | 插入单个设备多个测点，每个测点多个时刻的数据                   |
-| `insertAlignedTablet(Tablet tablet)`                                                  | 插入单个设备多个测点，每个测点多个时刻的数据，该设备为对齐设备          |
+| 接口名称                                                                                  | 功能描述                       |
+|-----------------------------------------------------------------------------------------|----------------------------|
+| `insertTablet(Tablet tablet)`                                                          | 插入单个设备的多行数据，适用于不同测点独立采集的场景 |
+| `insertAlignedTablet(Tablet tablet)`                                                  | 插入单个设备的多行数据，适用于不同测点同时采集的场景 |
 
 代码案例：
 ```java
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import org.apache.iotdb.rpc.IoTDBConnectionException;
+import org.apache.iotdb.rpc.StatementExecutionException;
+import org.apache.iotdb.session.pool.SessionPool;
+import org.apache.tsfile.enums.TSDataType;
+import org.apache.tsfile.write.record.Tablet;
+import org.apache.tsfile.write.schema.MeasurementSchema;
+
 public class SessionPoolExample {
 
     private static SessionPool sessionPool;
@@ -265,8 +282,15 @@ public class SessionPoolExample {
 }
 ```
 
-##### 数据查询
+#### 2.3.2 数据查询
 ```java
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.iotdb.isession.pool.SessionDataSetWrapper;
+import org.apache.iotdb.rpc.IoTDBConnectionException;
+import org.apache.iotdb.rpc.StatementExecutionException;
+import org.apache.iotdb.session.pool.SessionPool;
+
 public class SessionPoolExample {
 
     private static SessionPool sessionPool;
@@ -300,7 +324,7 @@ public class SessionPoolExample {
         sessionPool.executeNonQueryStatement("delete timeseries root.test.d1.s1");
     }
 
-    
+
     private static void executeQueryExample() throws IoTDBConnectionException, StatementExecutionException {
         // 1. execute normal query
         try(SessionDataSetWrapper wrapper = sessionPool.executeQueryStatement("select s1 from root.sg1.d1 limit 10")) {
@@ -338,165 +362,11 @@ public class SessionPoolExample {
 }
 ```
 
-##### 数据删除
-```java
-public class SessionPoolExample {
+### 3 全量接口说明
 
-    private static SessionPool sessionPool;
+#### 3.1 参数列表
+Session具有如下的字段，可以通过构造函数或Session.Builder方式设置如下参数
 
-    public static void main(String[] args) throws IoTDBConnectionException, StatementExecutionException {
-
-        // 1. init SessionPool
-        constructSessionPool();
-
-        // 2. delete data
-        deleteDataExample();
-
-        // 3. close SessionPool
-        closeSessionPool();
-
-    }
-
-    public static void deleteDataExample() throws IoTDBConnectionException, StatementExecutionException {
-        // 1. Delete data at a precise point in time
-        String path = "root.sg.d1.s1";
-        long deleteTime = 99;
-        sessionPool.deleteData(path, deleteTime);
-
-        // 2. The data of a certain period is deleted
-        long startTime = 1;
-        sessionPool.deleteData(Collections.singletonList(path),startTime, deleteTime);
-
-        // 3. Delete a measurement point
-        sessionPool.deleteTimeseries(path);
-    }
-
-    private static void constructSessionPool() {
-        // Using nodeUrls ensures that when one node goes down, other nodes are automatically connected to retry
-        List<String> nodeUrls = new ArrayList<>();
-        nodeUrls.add("127.0.0.1:6667");
-        nodeUrls.add("127.0.0.1:6668");
-        sessionPool =
-                new SessionPool.Builder()
-                        .nodeUrls(nodeUrls)
-                        .user("root")
-                        .password("root")
-                        .maxSize(3)
-                        .build();
-    }
-
-    public static void closeSessionPool(){
-        sessionPool.close();
-    }
-}
-```
-
-## 数据订阅
-IoTDB 提供了强大的数据订阅功能，允许用户通过订阅获取数据更新通知。订阅功能支持多种消费模式，包括拉取模式（Pull）和推送模式（Push）。章节旨在帮助用户理解并使用 IoTDB 的数据订阅功能。详细的功能定义及介绍：[数据订阅](../../User-Manual/Data-Sync_timecho.md#数据同步)
-
-### 核心步骤
-
-1. 创建Topic：创建一个Topic，Topic中包含指定的数据范围。
-2. 订阅Topic：在 consumer 订阅 topic 前，topic 必须已经被创建，否则订阅会失败。如果该 consumer 所在的 consumer group 中已经有 consumers 订阅了相同的 topics，那么该 consumer 将会复用对应的消费进度。
-3. 消费数据：支持Pull和Push两种消费模型。只有显式订阅了某个 topic，才会收到对应 topic 的数据。若在创建后没有订阅任何 topics，此时该 consumer 无法消费到任何数据，即使该 consumer 所在的 consumer group 中其它的 consumers 订阅了一些 topics.
-4. 取消订阅： consumer close 时会退出对应的 consumer group，同时自动 unsubscribe 该 consumer 现存订阅的所有 topics. consumer 在 close 后生命周期即结束，无法再重新 open 订阅并消费数据。
-
-
-### 详细步骤
-本章节用于说明开发的核心流程，并未演示所有的参数和接口，如需了解全部功能及参数请参见: [附录](./Programming-Java-Native-API.md#附录)
-
-
-#### 1. 创建maven项目
-创建一个maven项目，并导入以下依赖（JDK >= 1.8, Maven >= 3.6）
-
-```xml
-<dependencies>
-    <dependency>
-      <groupId>org.apache.iotdb</groupId>
-      <artifactId>iotdb-session</artifactId>
-      <!-- 版本号与数据库版本号相同 -->
-      <version>${project.version}</version>
-    </dependency>
-</dependencies>
-```
-
-#### 2. 代码案例
-
-```java
-public class DataConsumerExample {
-
-    public static void main(String[] args) throws IoTDBConnectionException, StatementExecutionException {
-        try (SubscriptionSession session = new SubscriptionSession("127.0.0.1", 6667)) {
-            // 1. open session
-            session.open();
-
-            // 2. create a topic of all data
-            Properties sessionConfig = new Properties();
-            sessionConfig.put(TopicConstant.PATH_KEY, "root.db.**");
-
-            session.createTopic("allData", sessionConfig);
-
-            // 3. show all topics
-            Set<Topic> topics = session.getTopics();
-            System.out.println(topics);
-
-            // 4. show a specific topic
-            Optional<Topic> allData = session.getTopic("allData");
-            System.out.println(allData.get());
-        }
-
-        // 5. create a pull consumer, the subscription is automatically cancelled when the logic in the try resources is completed
-        Properties consumerConfig = new Properties();
-        consumerConfig.put(ConsumerConstant.CONSUMER_ID_KEY, "c1");
-        consumerConfig.put(ConsumerConstant.CONSUMER_GROUP_ID_KEY, "cg1");
-        try (SubscriptionPullConsumer pullConsumer = new SubscriptionPullConsumer(consumerConfig)) {
-            pullConsumer.open();
-            pullConsumer.subscribe("allData");
-            int i = 0;
-            while (i < 100) {
-                List<SubscriptionMessage> messages = pullConsumer.poll(10000);
-                for (SubscriptionMessage message : messages) {
-                    for (SubscriptionSessionDataSet dataSet : message.getSessionDataSetsHandler()) {
-                        System.out.println(dataSet.getColumnNames());
-                        System.out.println(dataSet.getColumnTypes());
-                        while (dataSet.hasNext()) {
-                            System.out.println(dataSet.next());
-                        }
-                    }
-                }
-                i++;
-            }
-        }
-
-
-        // 6. create a push consumer, the subscription is automatically cancelled when the logic in the try resources is completed
-        try (SubscriptionPushConsumer consumer2 =
-                     new SubscriptionPushConsumer.Builder().consumerId("c2").consumerGroupId("sg2")
-                             .fileSaveDir(System.getProperty("java.io.tmpdir"))
-                             .ackStrategy(AckStrategy.AFTER_CONSUME)
-                             .consumeListener(
-                                     message -> {
-                                         for (SubscriptionSessionDataSet dataSet : message.getSessionDataSetsHandler()) {
-                                             System.out.println(dataSet.getColumnNames());
-                                             System.out.println(dataSet.getColumnTypes());
-                                             while (dataSet.hasNext()) {
-                                                 System.out.println(dataSet.next());
-                                             }
-                                         }
-                                         return ConsumeResult.SUCCESS;
-                                     })
-                             .buildPushConsumer()) {
-            consumer2.open();
-            consumer2.subscribe("allData");
-        }
-    }
-}
-
-```
-
-## 附录
-### 参数列表
-#### Session
 | 字段名                        | 类型                          | 说明                                                                 |
 |--------------------------------|-------------------------------|----------------------------------------------------------------------|
 | `nodeUrls`                    | `List<String>`                | 数据库节点的 URL 列表，支持多节点连接                               |
@@ -526,116 +396,12 @@ public class DataConsumerExample {
 | `enableAutoFetch`             | `boolean`                     | 是否启用自动获取功能                                                |
 | `maxRetryCount`               | `int`                         | 最大重试次数                                                        |
 | `retryIntervalInMs`           | `long`                        | 重试的间隔时间，单位毫秒                                            |
-需要额外说明的参数
-
-nodeUrls: 多节点 URL 列表，支持自动切换到下一个可用节点。格式为 ip:port。
-
-queryTimeoutInMs: 如果为负数，则表示使用服务端默认配置；如果为 0，则禁用查询超时功能。
-
-enableRPCCompression: 启用后，RPC 数据传输将启用压缩，适用于高带宽延迟场景。
-
-zoneId: 会话时区，可用值参考 Java 的 ZoneId 标准，例如 Asia/Shanghai。
-
-#### SessionPool
-| 字段名                        | 类型                          | 说明                                                                 |
-|--------------------------------|-------------------------------|----------------------------------------------------------------------|
-| `host`                        | `String`                      | 数据库主机地址                                                      |
-| `port`                        | `int`                         | 数据库端口                                                          |
-| `user`                        | `String`                      | 数据库用户名                                                        |
-| `password`                    | `String`                      | 数据库密码                                                          |
-| `nodeUrls`                    | `List<String>`                | 多节点的 URL 列表                                                   |
-| `maxSize`                     | `int`                         | 连接池的最大连接数                                                  |
-| `fetchSize`                   | `int`                         | 查询结果的默认批量返回大小                                          |
-| `waitToGetSessionTimeoutInMs` | `long`                        | 获取连接的等待超时时间（毫秒）                                      |
-| `enableCompression`           | `boolean`                     | 是否启用 RPC 压缩                                                   |
-| `enableRedirection`           | `boolean`                     | 是否启用重定向功能                                                  |
-| `enableRecordsAutoConvertTablet` | `boolean`                  | 是否启用记录自动转换为 Tablet 的功能                                |
-| `thriftDefaultBufferSize`     | `int`                         | Thrift 默认缓冲区大小                                               |
-| `thriftMaxFrameSize`          | `int`                         | Thrift 最大帧大小                                                   |
-| `queryTimeoutInMs`            | `long`                        | 查询超时时间，单位毫秒                                              |
-| `version`                     | `Version`                     | 客户端版本号                                                        |
-| `connectionTimeoutInMs`       | `int`                         | 连接超时时间，单位毫秒                                              |
-| `zoneId`                      | `ZoneId`                      | 时区设置                                                            |
-| `useSSL`                      | `boolean`                     | 是否启用 SSL                                                        |
-| `trustStore`                  | `String`                      | 信任库路径                                                          |
-| `trustStorePwd`               | `String`                      | 信任库密码                                                          |
-| `enableQueryRedirection`      | `boolean`                     | 是否启用查询重定向功能                                              |
-| `executorService`             | `ScheduledExecutorService`    | 定期更新节点列表的线程池                                            |
-| `availableNodes`              | `INodeSupplier`               | 可用节点的供应器                                                    |
-| `maxRetryCount`               | `int`                         | 最大重试次数                                                        |
-| `retryIntervalInMs`           | `long`                        | 重试间隔时间，单位毫秒                                              |
-| `closed`                      | `boolean`                     | 当前连接池是否已关闭                                                |
-| `queue`                       | `ConcurrentLinkedDeque<ISession>` | 可用会话连接的队列                                               |
-| `occupied`                    | `ConcurrentMap<ISession, ISession>` | 已占用的会话连接映射                                             |
-| `deviceIdToEndpoint`          | `Map<String, TEndPoint>`      | 设备 ID 到数据库端点的映射                                          |
-| `formattedNodeUrls`           | `String`                      | 格式化后的节点 URL 字符串                                           |
-需要额外说明的字段
-
-nodeUrls：一个包含多个节点地址的列表，用于支持集群环境的连接。格式为 ["host1:port1", "host2:port2"]。
-
-queue：保存所有可用的会话连接。当需要连接时会从队列中取出。
-
-occupied：用于记录正在被占用的连接
-
-#### SubscriptionConsumer
-
-| 参数                                          | 是否必填（默认值）                 | 参数含义                                                     |
-| :-------------------------------------------- | :--------------------------------- | :----------------------------------------------------------- |
-| host                    | optional: 127.0.0.1                                          | `String`: IoTDB 中某 DataNode 的 RPC host                      |
-| port                    | optional: 6667                                               | `Integer`: IoTDB 中某 DataNode 的 RPC port                     |
-| node-urls               | optional: 127.0.0.1:6667                                     | `List<String>`: IoTDB 中所有 DataNode 的 RPC 地址，可以是多个；host:port 和 node-urls 选填一个即可。当 host:port 和 node-urls 都填写了，则取 host:port 和 node-urls 的**并集**构成新的 node-urls 应用 |
-| username                | optional: root                                               | `String`: IoTDB 中 DataNode 的用户名                           |
-| password                | optional: root                                               | `String`: IoTDB 中 DataNode 的密码                             |
-| groupId                 | optional                                                     | `String`: consumer group id，若未指定则随机分配（新的 consumer group），保证不同的 consumer group 对应的 consumer group id 均不相同 |
-| consumerId              | optional                                                     | `String`: consumer client id，若未指定则随机分配，保证同一个 consumer group 中每一个 consumer client id 均不相同 |
-| heartbeatIntervalMs     | optional: 30000 (min: 1000)                                  | `Long`: consumer 向 IoTDB DataNode 定期发送心跳请求的间隔      |
-| endpointsSyncIntervalMs | optional: 120000 (min: 5000)                                 | `Long`: consumer 探测 IoTDB 集群节点扩缩容情况调整订阅连接的间隔 |
-| fileSaveDir             | optional: Paths.get(System.getProperty("user.dir"), "iotdb-subscription").toString() | `String`: consumer 订阅出的 TsFile 文件临时存放的目录路径      |
-| fileSaveFsync           | optional: false                                              | `Boolean`: consumer 订阅 TsFile 的过程中是否主动调用 fsync     |
-
-`SubscriptionPushConsumer` 中的特殊配置：
-
-| 参数                                          | 是否必填（默认值）                 | 参数含义                                                     |
-| :-------------------------------------------- | :--------------------------------- | :----------------------------------------------------------- |
-| ackStrategy        | optional: `ACKStrategy.AFTER_CONSUME` | 消费进度的确认机制包含以下选项：`ACKStrategy.BEFORE_CONSUME`（当 consumer 收到数据时立刻提交消费进度，`onReceive` 前）`ACKStrategy.AFTER_CONSUME`（当 consumer 消费完数据再去提交消费进度，`onReceive` 后） |
-| consumeListener    | optional                              | 消费数据的回调函数，需实现 `ConsumeListener` 接口，定义消费 `SessionDataSetsHandler` 和 `TsFileHandler` 形式数据的处理逻辑 |
-| autoPollIntervalMs | optional: 5000 (min: 500)             | Long: consumer 自动拉取数据的时间间隔，单位为**毫秒**        |
-| autoPollTimeoutMs  | optional: 10000 (min: 1000)           | Long: consumer 每次拉取数据的超时时间，单位为**毫秒**        |
-
-`SubscriptionPullConsumer` 中的特殊配置：
-
-| 参数                                          | 是否必填（默认值）                 | 参数含义                                                     |
-| :-------------------------------------------- | :--------------------------------- | :----------------------------------------------------------- |
-| autoCommit         | optional: true                        | Boolean: 是否自动提交消费进度如果此参数设置为 false，则需要调用 `commit` 方法来手动提交消费进度 |
-| autoCommitInterval | optional: 5000 (min: 500)             | Long: 自动提交消费进度的时间间隔，单位为**毫秒**仅当 autoCommit 参数为 true 的时候才会生效 |
 
 
-### 函数列表
-#### 会话管理
 
-| 方法名                                                                                  | 功能描述                                   | 参数解释                                                                                                   |
-|-----------------------------------------------------------------------------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------|
-| `open()`                                                                                | 打开会话                                   | 无参数                                                                                                     |
-| `open(boolean enableRPCCompression)`                                                   | 打开会话并启用RPC压缩                      | `enableRPCCompression`: 是否启用RPC压缩                                                                    |
-| `open(boolean enableRPCCompression, int connectionTimeoutInMs)`                        | 打开会话并设置连接超时                     | `enableRPCCompression`: 是否启用RPC压缩，`connectionTimeoutInMs`: 连接超时时间（毫秒）                     |
-| `open(boolean enableRPCCompression, int connectionTimeoutInMs, Map<String, TEndPoint> deviceIdToEndpoint, INodeSupplier nodeSupplier)` | 打开会话并配置节点                        | `enableRPCCompression`: 是否启用RPC压缩，`connectionTimeoutInMs`: 超时时间，`deviceIdToEndpoint`: 设备映射 |
-| `close()`                                                                              | 关闭会话                                   | 无参数                                                                                                     |
-| `getVersion()`                                                                         | 获取会话版本                               | 无参数                                                                                                     |
-| `setVersion(Version version)`                                                         | 设置会话版本                               | `version`: 要设置的版本                                                                                   |
-| `getTimeZone()`                                                                        | 获取当前时区                               | 无参数                                                                                                     |
-| `setTimeZone(String zoneId)`                                                           | 设置时区                                   | `zoneId`: 时区标识符（例如 `Asia/Shanghai`）                                                               |
-| `setTimeZoneOfSession(String zoneId)`                                                  | 设置会话时区                               | `zoneId`: 时区标识符                                                                                       |
-| `getFetchSize()`                                                                       | 获取批量查询的记录数限制                   | 无参数                                                                                                     |
-| `setFetchSize(int fetchSize)`                                                          | 设置批量查询的记录数限制                   | `fetchSize`: 每批查询返回的最大记录数                                                                     |
-| `setQueryTimeout(long timeoutInMs)`                                                    | 设置查询超时时间                           | `timeoutInMs`: 查询的超时时间（毫秒）                                                                     |
-| `getQueryTimeout()`                                                                    | 获取查询超时时间                           | 无参数                                                                                                     |
-| `isEnableQueryRedirection()`                                                           | 检查是否启用查询重定向                     | 无参数                                                                                                     |
-| `setEnableQueryRedirection(boolean enableQueryRedirection)`                            | 设置查询重定向                             | `enableQueryRedirection`: 是否启用查询重定向                                                              |
-| `isEnableRedirection()`                                                                | 检查是否启用重定向                         | 无参数                                                                                                     |
-| `setEnableRedirection(boolean enableRedirection)`                                      | 设置重定向                                 | `enableRedirection`: 是否启用重定向                                                                        |
+#### 3.2 接口列表
 
-
-#### 元数据管理
+##### 3.2.1 元数据管理
 
 | 方法名                                                                                  | 功能描述                                   | 参数解释                                                                                                   |
 |-----------------------------------------------------------------------------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------|
@@ -664,7 +430,7 @@ occupied：用于记录正在被占用的连接
 | `unsetSchemaTemplate(String prefixPath, String templateName)`                         | 取消路径的模板设置                        | `prefixPath`: 路径，`templateName`: 模板名称                                                               |
 
 
-#### 数据写入
+##### 3.2.2 数据写入
 | 方法名                                                                                  | 功能描述                                   | 参数解释                                                                                                   |
 |-----------------------------------------------------------------------------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------|
 | `insertRecord(String deviceId, long time, List<String> measurements, List<TSDataType> types, Object... values)` | 插入单条记录                              | `deviceId`: 设备ID，`time`: 时间戳，`measurements`: 测点列表，`types`: 数据类型列表，`values`: 值列表       |
@@ -692,7 +458,7 @@ occupied：用于记录正在被占用的连接
 | `insertAlignedTablets(Map<String, Tablet> tablets)`                                    | 批量插入多个对齐Tablet数据                | `tablets`: 设备ID到Tablet的映射表                                                                          |
 | `insertAlignedTablets(Map<String, Tablet> tablets, boolean sorted)`                   | 批量插入排序的多个对齐Tablet数据          | 同上，增加 `sorted`: 数据是否已排序                                                                        |
 
-#### 数据删除
+##### 3.2.3 数据删除
 
 | 方法名                                                                                  | 功能描述                                   | 参数解释                                                                                                   |
 |-----------------------------------------------------------------------------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------|
@@ -703,7 +469,7 @@ occupied：用于记录正在被占用的连接
 | `deleteData(List<String> paths, long startTime, long endTime)`                        | 删除路径时间范围内的历史数据              | 同上，增加 `startTime`: 起始时间戳                                                                         |
 
 
-#### 数据查询
+##### 3.2.4 数据查询
 | 方法名                                                                                  | 功能描述                                   | 参数解释                                                                                                   |
 |-----------------------------------------------------------------------------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------|
 | `executeQueryStatement(String sql)`                                                   | 执行查询语句                               | `sql`: 查询SQL语句                                                                                        |
@@ -720,43 +486,9 @@ occupied：用于记录正在被占用的连接
 | `executeAggregationQuery(List<String> paths, List<TAggregationType> aggregations, long startTime, long endTime, long interval, long slidingStep)` | 执行滑动窗口聚合查询               | 同上，增加 `slidingStep`: 滑动步长                                                                        |
 | `fetchAllConnections()`                                                               | 获取所有活动连接信息                       | 无参数                                                                                                     |
 
-#### 系统状态与备份
+##### 3.2.5 系统状态与备份
 | 方法名                                                                                  | 功能描述                                   | 参数解释                                                                                                   |
 |-----------------------------------------------------------------------------------------|--------------------------------------------|------------------------------------------------------------------------------------------------------------|
 | `getBackupConfiguration()`                                                             | 获取备份配置信息                          | 无参数                                                                                                     |
 | `fetchAllConnections()`                                                               | 获取所有活动的连接信息                    | 无参数                                                                                                     |
 | `getSystemStatus()`                                                                    | 获取系统状态                              | 已废弃，默认返回 `SystemStatus.NORMAL`                                                                     |
-
-#### 数据订阅
-##### SubscriptionPullConsumer
-
-| **函数名**                          | **说明**                                                                 | **参数**                                                                                                                                                                                                                              |
-|-------------------------------------|--------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `open()`                            | 打开消费者连接，启动消息消费。如果 `autoCommit` 启用，会启动自动提交工作器。 | 无                                                                                                                                                                                                                                   | 
-| `close()`                           | 关闭消费者连接。如果 `autoCommit` 启用，会在关闭前提交所有未提交的消息。       | 无                                                                                                                                                                                                                                   |
-| `poll(final Duration timeout)`      | 拉取消息，指定超时时间。                                                 | `timeout` : 拉取的超时时间。                                                                                                                                                                                                |
-| `poll(final long timeoutMs)`        | 拉取消息，指定超时时间（毫秒）。                                         | `timeoutMs` : 超时时间，单位为毫秒。                                                                                                                                                                                            | 
-| `poll(final Set<String> topicNames, final Duration timeout)` | 拉取指定主题的消息，指定超时时间。                                       | `topicNames` : 要拉取的主题集合。`timeout`: 超时时间。                                                                                                                                                      | 
-| `poll(final Set<String> topicNames, final long timeoutMs)`   | 拉取指定主题的消息，指定超时时间（毫秒）。                               | `topicNames` : 要拉取的主题集合。`timeoutMs`: 超时时间，单位为毫秒。                                                                                                                                             | 
-| `commitSync(final SubscriptionMessage message)`             | 同步提交单条消息。                                                      | `message` : 需要提交的消息对象。                                                                                                                                                                                | 
-| `commitSync(final Iterable<SubscriptionMessage> messages)`  | 同步提交多条消息。                                                      | `messages` : 需要提交的消息集合。                                                                                                                                                                     |
-| `commitAsync(final SubscriptionMessage message)`            | 异步提交单条消息。                                                      | `message` : 需要提交的消息对象。                                                                                                                                                                                |
-| `commitAsync(final Iterable<SubscriptionMessage> messages)` | 异步提交多条消息。                                                      | `messages` : 需要提交的消息集合。                                                                                                                                                                     |
-| `commitAsync(final SubscriptionMessage message, final AsyncCommitCallback callback)` | 异步提交单条消息并指定回调函数。                                         | `message` : 需要提交的消息对象。`callback` : 异步提交完成后的回调函数。                                                                                                                |
-| `commitAsync(final Iterable<SubscriptionMessage> messages, final AsyncCommitCallback callback)` | 异步提交多条消息并指定回调函数。                                         | `messages` : 需要提交的消息集合。`callback` : 异步提交完成后的回调函数。                                                                                                     |
-
-##### SubscriptionPushConsumer
-
-| **函数名**                          | **说明**                                                                                           | **参数**                                                                                                                                                                              |
-|-------------------------------------|----------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `open()`                            | 打开消费者连接，启动消息消费，提交自动轮询工作器。                                                  | 无                                                                                                                                                                                   | 
-| `close()`                           | 关闭消费者连接，停止消息消费。                                                                      | 无                                                                                                                                                                                   | 
-| `toString()`                        | 返回消费者对象的核心配置信息。                                                                      | 无                                                                                                                                                                                   |
-| `coreReportMessage()`               | 获取消费者核心配置的键值对表示形式。                                                                | 无                                                                                                                                                                                   | 
-| `allReportMessage()`                | 获取消费者所有配置的键值对表示形式。                                                                | 无                                                                                                                                                                                   | 
-| `buildPushConsumer()`               | 通过 `Builder` 构建 `SubscriptionPushConsumer` 实例。                                               | 无                                                                                                                                                                                   |
-| `ackStrategy(final AckStrategy ackStrategy)` | 配置消费者的消息确认策略。                                                                          | `ackStrategy`: 指定的消息确认策略。                                                                                                                                    | 
-| `consumeListener(final ConsumeListener consumeListener)` | 配置消费者的消息消费逻辑。                                                                          | `consumeListener`: 消费者接收消息时的处理逻辑。                                                                                                                     | 
-| `autoPollIntervalMs(final long autoPollIntervalMs)` | 配置自动轮询的时间间隔。                                                                             | `autoPollIntervalMs` : 自动轮询的间隔时间，单位为毫秒。                                                                                                                         | 
-| `autoPollTimeoutMs(final long autoPollTimeoutMs)` | 配置自动轮询的超时时间。                                                                             | `autoPollTimeoutMs`: 自动轮询的超时时间，单位为毫秒。                                                                                                                         | 
-
