@@ -37,8 +37,8 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Background-knowledge/',
       children: [
-        { text: 'Data Type', link: 'Data-Type' },
         { text: 'Cluster-related Concepts', link: 'Cluster-Concept' },
+        { text: 'Data Type', link: 'Data-Type' },
       ],
     },
     {
