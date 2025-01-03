@@ -21,7 +21,7 @@
 
 # 概览
 
-## 语法概览
+## 1 语法概览
 
 ```SQL
 SELECT ⟨select_list⟩
@@ -47,7 +47,7 @@ IoTDB 查询语法提供以下子句：
 - OFFSET 子句：用于指定查询结果的起始位置，即跳过前 OFFSET 行。与 LIMIT 子句配合使用。详细语法见：[LIMIT 和 OFFSET 子句](../SQL-Manual/Limit-Offset-Clause.md)
 - LIMIT 子句：限制查询结果的行数，通常与 OFFSET 子句一起使用以实现分页功能。详细语法见：[LIMIT 和 OFFSET 子句](../SQL-Manual/Limit-Offset-Clause.md)
 
-## 子句执行顺序
+## 2 子句执行顺序
 
 1. FROM(表名)
 2. WHERE(条件过滤)

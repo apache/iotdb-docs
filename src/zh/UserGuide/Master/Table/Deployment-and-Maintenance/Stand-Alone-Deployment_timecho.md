@@ -22,7 +22,7 @@
 
 本章将介绍如何启动IoTDB单机实例，IoTDB单机实例包括 1 个ConfigNode 和1个DataNode（即通常所说的1C1D）。
 
-## 注意事项
+## 1 注意事项
 
 1. 安装前请确认系统已参照[系统配置](../Deployment-and-Maintenance/Environment-Requirements.md)准备完成。
 2. 推荐使用`hostname`进行IP配置，可避免后期修改主机ip导致数据库无法启动的问题。设置hostname需要在服务器上配置`/etc/hosts`，如本机ip是192.168.1.3，hostname是iotdb-1，则可以使用以下命令设置服务器的 hostname，并使用hostname配置IoTDB的 `cn_internal_address`、`dn_internal_address`。
@@ -40,18 +40,18 @@
       - 避免使用 sudo：使用 sudo 命令会以 root 用户权限执行命令，可能会引起权限混淆或安全问题。
 6. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系工作人员获取，部署监控面板步骤可以参考：[监控面板部署](../Deployment-and-Maintenance/Monitoring-panel-deployment.md)
 
-## 安装步骤
+## 2 安装步骤
 
-### 1、解压安装包并进入安装目录
+### 2.1 解压安装包并进入安装目录
 
 ```Plain
 unzip  timechodb-{version}-bin.zip
 cd  timechodb-{version}-bin
 ```
 
-### 2、参数配置
+### 2.2 参数配置
 
-#### 内存配置
+#### 2.2.1 内存配置
 
 - conf/confignode-env.sh（或 .bat）
 
@@ -65,7 +65,7 @@ cd  timechodb-{version}-bin
 | :---------- | :----------------------------------- | :--------- | :----------------------------------------------- | :----------- |
 | MEMORY_SIZE | IoTDB DataNode节点可以使用的内存总量 | 空         | 可按需填写，填写后系统会根据填写的数值来分配内存 | 重启服务生效 |
 
-#### 功能配置
+#### 2.2.2 功能配置
 
 系统实际生效的参数在文件 conf/iotdb-system.properties 中，启动需设置以下参数，可以从 conf/iotdb-system.properties.template 文件中查看全部参数
 
@@ -99,7 +99,7 @@ DataNode 配置
 | dn_schema_region_consensus_port | DataNode用于元数据副本共识协议通信使用的端口                 | 10760           | 10760                                            | 首次启动后不能修改 |
 | dn_seed_config_node             | 节点注册加入集群时连接的ConfigNode地址,即cn_internal_address:cn_internal_port | 127.0.0.1:10710 | cn_internal_address:cn_internal_port             | 首次启动后不能修改 |
 
-### 3、启动 ConfigNode 节点
+### 2.3 启动 ConfigNode 节点
 
 进入iotdb的sbin目录下，启动confignode
 
@@ -109,7 +109,7 @@ DataNode 配置
 
 如果启动失败，请参考下方[常见问题](#常见问题)。
 
-### 4、启动 DataNode 节点
+### 2.4 启动 DataNode 节点
 
  进入iotdb的sbin目录下，启动datanode：
 
@@ -117,7 +117,7 @@ DataNode 配置
 ./sbin/start-datanode.sh -d    #“-d”参数将在后台进行启动
 ```
 
-### 5、激活数据库
+### 2.5 激活数据库
 
 #### 方式一：文件激活
 
@@ -145,7 +145,7 @@ DataNode 配置
     ./start-cli.bat
     ```
 - 执行以下内容获取激活所需机器码：
-  - 注：当前仅支持在树模型中进行激活
+    - 注：当前仅支持在树模型中进行激活
 
 ```Bash
 show system info
@@ -170,13 +170,13 @@ It costs 0.030s
 IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
 ```
 
-### 6、验证激活
+### 2.6 验证激活
 
 当看到“ClusterActivationStatus”字段状态显示为ACTIVATED表示激活成功
 
 ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81.png)
 
-## 常见问题
+## 3 常见问题
 
 1. 部署过程中多次提示激活失败
    - 使用 `ls -al` 命令：使用 `ls -al` 命令检查安装包根目录的所有者信息是否为当前用户。
@@ -208,15 +208,15 @@ IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOM
             cd /data/iotdb rm -rf data logs
         ```
 
-## 附录
+## 4 附录
 
-### Confignode节点参数介绍
+### 4.1 Confignode节点参数介绍
 
 | 参数 | 描述                             | 是否为必填项 |
 | :--- | :------------------------------- | :----------- |
 | -d   | 以守护进程模式启动，即在后台运行 | 否           |
 
-### Datanode节点参数介绍
+### 4.2 Datanode节点参数介绍
 
 | 缩写 | 描述                                           | 是否为必填项 |
 | :--- | :--------------------------------------------- | :----------- |

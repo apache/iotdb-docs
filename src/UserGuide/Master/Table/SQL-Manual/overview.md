@@ -21,7 +21,7 @@
 
 # Overview
 
-## Syntax Overview
+## 1 Syntax Overview
 
 ```SQL
 SELECT ⟨select_list⟩
@@ -47,7 +47,7 @@ IoTDB query syntax provides the following clauses:
 - OFFSET Clause: Used to specify the starting position of the query results, that is, skipping the first OFFSET rows. Used in conjunction with the LIMIT clause. For detailed syntax, see: [LIMIT and OFFSET Clauses](../SQL-Manual/Limit-Offset-Clause.md)
 - LIMIT Clause: Limits the number of rows in the query results, often used with the OFFSET clause to implement pagination. For detailed syntax, see: [LIMIT and OFFSET Clauses](../SQL-Manual/Limit-Offset-Clause.md)
 
-## Clause Execution Order
+## 2 Clause Execution Order
 
 1. FROM (table name)
 2. WHERE (condition filtering)

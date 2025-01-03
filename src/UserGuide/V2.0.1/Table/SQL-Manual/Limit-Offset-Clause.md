@@ -19,39 +19,38 @@
 
 -->
 
-# LIMIT and OFFSET Clauses
+# LIMIT & OFFSET Clause
 
-## Syntax Overview
+## 1 Syntax Overview
 
 ```sql
 OFFSET INTEGER_VALUE LIMIT INTEGER_VALUE
 ```
 
-### LIMIT Clause
+### 1.1 LIMIT Clause
 
-The LIMIT clause is applied in the final stage of a query and is used to limit the number of rows returned.
-
-#### Notes
-
-- Using LIMIT without an ORDER BY clause may result in an indeterminate order of query results.
-- The LIMIT clause must use a non-negative integer.
-
-### OFFSET Clause
-
-The OFFSET clause is used in conjunction with the LIMIT clause to specify skipping the first OFFSET rows of the query result, in order to achieve pagination or data retrieval at specific positions.
+The `LIMIT` clause is applied in the final stage of a query to restrict the number of rows returned.
 
 #### Notes
 
-- The OFFSET clause must be followed by a non-negative integer.
-- If the total number of records `n >= OFFSET+LIMIT`, return `LIMIT` number of records.
-- If the total number of records `n < OFFSET+LIMIT`, return all records from `OFFSET` to the end, up to `n-offset` entries.
+- When `LIMIT` is used without an `ORDER BY` clause, the result order may not be deterministic.
+- The `LIMIT` clause requires a non-negative integer.。
 
-## Example Data
+### 1.2 OFFSET Clause
 
+The `OFFSET` clause works in conjunction with the `LIMIT` clause to skip a specified number of rows in the query result. This is particularly useful for pagination or retrieving data starting from a specific position.
 
-In the [Example Data page](../Basic-Concept/Sample-Data.md), there are SQL statements for building the table structure and inserting data. By downloading and executing these statements in the IoTDB CLI, you can import data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
+#### Notes
 
-#### Example 1: Querying the latest row of devices
+- The `OFFSET` clause also requires a non-negative integer.
+- If the total number of rows (`n`) is greater than or equal to the sum of `OFFSET` and `LIMIT`, the query returns `LIMIT` rows.
+- If the total number of rows (`n`) is less than the sum of `OFFSET` and `LIMIT`, the query returns rows from `OFFSET` to the end of the dataset, up to a maximum of `n - OFFSET`.
+
+## 2 Sample Data and Usage Examples
+
+The [Example Data page](../Basic-Concept/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.corresponding results.
+
+#### Example 1: Retrieve the Latest Row for a Device
 
 ```sql
 SELECT *
@@ -60,7 +59,7 @@ SELECT *
   LIMIT 1;
 ```
 
-The execution results are as follows:：
+Result:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -72,7 +71,7 @@ Total line number = 1
 It costs 0.103s
 ```
 
-#### Example 2: Querying the top 10 rows of data with the highest temperature
+#### Example 2: Query the Top 10 Rows by Highest Temperature
 
 ```sql
 SELECT *
@@ -81,7 +80,7 @@ SELECT *
   LIMIT 10;
 ```
 
-The execution results are as follows:：
+Result:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -102,7 +101,7 @@ Total line number = 10
 It costs 0.063s
 ```
 
-#### Example 3: Select 5 rows of data from a specific location
+#### Example 3: Select 5 Rows Starting from a Specific Position
 
 ```sql
 SELECT *
@@ -112,7 +111,7 @@ SELECT *
   LIMIT 5;
 ```
 
-The execution results are as follows:：
+Result:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+

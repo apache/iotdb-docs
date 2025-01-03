@@ -21,13 +21,13 @@
 
 # LIMIT 和 OFFSET 子句
 
-## 语法概览
+## 1 语法概览
 
 ```sql
 OFFSET INTEGER_VALUE LIMIT INTEGER_VALUE
 ```
 
-### LIMIT 子句
+### 1.1 LIMIT 子句
 
 LIMIT 子句应用在查询的最后阶段，用于限制返回的行数。
 
@@ -36,7 +36,7 @@ LIMIT 子句应用在查询的最后阶段，用于限制返回的行数。
 - 在没有 ORDER BY 子句的情况下使用 LIMIT，查询结果的顺序可能是不确定的。
 - LIMIT 子句必须使用非负整数。
 
-### OFFSET 子句
+### 1.2 OFFSET 子句
 
 OFFSET 子句与 LIMIT 子句配合使用，用于指定查询结果跳过前 OFFSET 行，以实现分页或特定位置的数据检索。
 
@@ -46,7 +46,7 @@ OFFSET 子句与 LIMIT 子句配合使用，用于指定查询结果跳过前 OF
 - 如果总记录数`n >= OFFSET+LIMIT`之和，返回`LIMIT`数量的记录。
 - 如果总记录数`n < OFFSET+LIMIT`之和，返回从`OFFSET`开始到末尾的所有记录，最多`n-offset`条。
 
-## 示例数据
+## 2 示例数据
 
 在[示例数据页面](../Basic-Concept/Sample-Data.md)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
 

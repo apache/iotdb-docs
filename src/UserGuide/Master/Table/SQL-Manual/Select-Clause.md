@@ -21,7 +21,7 @@
 
 # SELECT Clauses
 
-## Syntax Overview
+## 1 Syntax Overview
 
 ```sql
 SELECT selectItem (',' selectItem)*
@@ -35,7 +35,7 @@ selectItem
 
 - __SELECT Clause__: SELECT Clause: Specifies the columns to be included in the query results, including aggregate functions (such as SUM, AVG, COUNT, etc.) and window functions, which are logically executed last.
 
-## Detailed Syntax:
+## 2 Detailed Syntax:
 
 Each `selectItem` can be one of the following forms:
 
@@ -44,14 +44,14 @@ Each `selectItem` can be one of the following forms:
 - __Selecting all columns in the result set__: `*` selects all columns of the query, and column aliases are not allowed.
 
 
-## Example Data
+## 3 Example Data
 
 
 In the [Example Data page](../Basic-Concept/Sample-Data.md), there are SQL statements for building the table structure and inserting data. By downloading and executing these statements in the IoTDB CLI, you can import data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
 
-### Select List
+### 3.1 Select List
 
-#### Star Expression
+#### 3.1.1 Star Expression
 
 The asterisk (*) can be used to select all columns from a table. __Note__, the star expression cannot be transformed by most functions, except in the case of `count(*)`.
 
@@ -91,7 +91,7 @@ Total line number = 18
 It costs 0.653s
 ```
 
-#### Aggregate Functions
+#### 3.1.2 Aggregate Functions
 
 Aggregate functions summarize multiple rows of data into a single value. When the SELECT clause contains aggregate functions, the query is considered an aggregate query. In aggregate queries, all expressions must be part of an aggregate function or specified by the [GROUP BY clause](../SQL-Manual/GroupBy-Clause.md) for grouping.
 
@@ -135,7 +135,7 @@ Total line number = 2
 It costs 0.071s
 ```
 
-#### Aliases
+#### 3.1.3 Aliases
 
 The keyword `AS` is used to specify an alias for the selected column, which overrides the existing column name to improve the readability of the query results.
 
@@ -249,7 +249,7 @@ Total line number = 18
 It costs 0.189s
 ```
 
-## Result Set Column Order
+## 4 Result Set Column Order
 
 - __Column order__: The column order in the result set is the same as the order specified in the SELECT clause.
 - __Multi column sorting__: If an expression is selected to return multiple columns, their sorting method is the same as the sorting method in the source relationship.

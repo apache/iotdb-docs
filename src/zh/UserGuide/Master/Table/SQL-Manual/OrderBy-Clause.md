@@ -21,7 +21,7 @@
 
 # ORDER BY 子句
 
-## 语法概览
+## 1 语法概览
 
 ```sql
 ORDER BY sortItem (',' sortItem)*
@@ -31,14 +31,14 @@ sortItem
     ;
 ```
 
-### ORDER BY 子句
+### 1.1 ORDER BY 子句
 
 - 用于在查询的最后阶段对结果集进行排序，能够根据指定的排序条件，将查询结果中的行按照升序（ASC）或降序（DESC）进行排列。
 - 提供了对 NULL 值排序位置的控制，允许用户指定 NULL 值是排在结果的开头（NULLS FIRST）还是结尾（NULLS LAST）。
 - 默认情况下， 将采用 ASC  NULLS LAST排序，即值按升序排序，空值放在最后。可以通过手动指定其他参数更改默认排序顺序。
 - ORDER BY 子句的执行顺序排在 LIMIT 或 OFFSET 子句之前。
 
-## 示例数据
+## 2 示例数据
 
 在[示例数据页面](../Basic-Concept/Sample-Data.md)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
 

@@ -23,14 +23,14 @@
 
 In IoTDB, identifiers are used to identify database, table, column, function, or other object names.
 
-## Naming Rules
+## 1 Naming Rules
 
 - __First Character__：Identifiers must begin with a letter.
 - __Subsequent Characters__：Can include letters, numbers, and underscores.
 - __Special Characters__：If an identifier contains characters other than letters, numbers, and underscores, it must be enclosed in double quotes (`"`).
 - __Escape Character__：Within double-quoted identifiers, two consecutive double quotes (`""`) are used to represent a single double quote character.
 
-### Examples
+### 1.1 Examples
 
 Here are some valid identifier examples:
 
@@ -50,13 +50,13 @@ table-name // contains a hyphen
 colum$name@field  // contains special characters and is not enclosed in double quotes
 ```
 
-## Case Sensitivity
+## 2 Case Sensitivity
 
 Identifiers are not case-sensitive, and the system does not retain the original case when storing identifiers. The column names in the query results will be displayed based on the case specified by the user in the SELECT clause.
 
 > Identifiers enclosed in double quotes are also not case-sensitive.
 
-### Example
+### 2.1 Example
 
 When a column named `Device_id` is created, it is seen as `device_id` when viewing the table, but the returned result column matches the format specified by the user in the query as `Device_ID`:
 

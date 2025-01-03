@@ -21,7 +21,7 @@
 
 # WHERE 子句
 
-## 语法概览
+## 1 语法概览
 
 ```sql
 WHERE booleanExpression
@@ -29,7 +29,7 @@ WHERE booleanExpression
 
 __WHERE 子句__:用于在 SQL 查询中指定筛选条件，WHERE 子句在 FROM 子句之后立即执行。
 
-## 示例数据
+## 2 示例数据
 
 在[示例数据页面](../Basic-Concept/Sample-Data.md)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
 

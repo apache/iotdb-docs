@@ -22,13 +22,13 @@
 # FILL Clause
 
 
-## Function Introduction
+## 1 Function Introduction
 
 When performing data queries, you may encounter situations where certain columns lack data in some rows, resulting in NULL values in the result set. These NULL values are not conducive to data visualization and analysis, so IoTDB provides the FILL clause to fill in these NULL values.
 
 When the query includes an ORDER BY clause, the FILL clause will be executed before the ORDER BY. If there is a GAPFILL (date_bin_gapfill function) operation, the FILL clause will be executed after the GAPFILL.
 
-## Syntax Overview
+## 2 Syntax Overview
 
 
 ```sql
@@ -62,7 +62,7 @@ intervalField
     ;
 ```
 
-### Filling Methods
+### 2.1 Filling Methods
 
 IoTDB supports the following three methods for filling null values:
 
@@ -72,7 +72,7 @@ IoTDB supports the following three methods for filling null values:
 
 Only one filling method can be specified, and this method will be applied to all columns in the result set.
 
-### Data Types and Supported Filling Methods
+### 2.2 Data Types and Supported Filling Methods
 
 
 | Data Type | Previous | Linear | Constant |
@@ -90,22 +90,22 @@ Only one filling method can be specified, and this method will be applied to all
 
 Note: For columns whose data types do not support the specified filling method, neither filling is performed nor exceptions are thrown; the original state is simply maintained.
 
-## Example Data
+## 3 Example Data
 
 
 In the [Example Data page](../Basic-Concept/Sample-Data.md), there are SQL statements for building the table structure and inserting data. By downloading and executing these statements in the IoTDB CLI, you can import data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
 
-### PREVIOUS Filling：
+### 3.1 PREVIOUS Filling：
 
 For null values in the query result set, fill with the previous non-null value of the column.
 
-#### Parameter Introduction：
+#### 3.1.1 Parameter Introduction：
 
 - TIME_BOUND（optional）：The time threshold to look forward. If the time interval between the current null value's timestamp and the previous non-null value's timestamp exceeds this threshold, filling will not be performed. By default, the first TIMESTAMP type column in the query result is used to determine whether the time threshold has been exceeded.
   - The format of the time threshold parameter is a time interval, where the numerical part must be an integer, and the unit part y represents years, mo represents months, w represents weeks, d represents days, h represents hours, m represents minutes, s represents seconds, ms represents milliseconds, µs represents microseconds, and ns represents nanoseconds, such as 1d1h.
 - TIME_COLUMN（optional）：If you need to manually specify the TIMESTAMP column used to judge the time threshold, you can determine the order of the column by specifying a number (starting from 1) after the `TIME_COLUMN`parameter. This number represents the specific position of the TIMESTAMP column in the original table.
 
-#### Example
+#### 3.1.2 Example
 
 Without using any filling method:
 
@@ -198,24 +198,24 @@ Total line number = 7
 It costs 0.075s
 ```
 
-### LINEAR Filling
+### 3.2 LINEAR Filling
 
 For null values in the query result set, fill with the linear interpolation between the previous and next non-null values of the column.
 
-#### Linear Filling Rules:
+#### 3.2.1 Linear Filling Rules:
 
 - If all previous values are null, or all subsequent values are null, no filling is performed.
 - If the column's data type is boolean/string/blob/text, no filling is performed, and no exceptions are thrown.
 - If no time column is specified, the system defaults to selecting the first column with a data type of TIMESTAMP in the SELECT clause as the auxiliary time column for linear interpolation. If no column with a TIMESTAMP data type exists, the system will throw an exception.
 
-#### Parameter Introduction:
+#### 3.2.2 Parameter Introduction:
 
 - TIME_COLUMN（optional）：You can manually specify the `TIMESTAMP` column used to determine the time threshold as an auxiliary column for linear interpolation by specifying a number (starting from 1) after the `TIME_COLUMN` parameter. This number represents the specific position of the `TIMESTAMP` column in the original table.
 
 Note: It is not mandatory that the auxiliary column for linear interpolation must be a time column; any expression with a TIMESTAMP type is acceptable. However, since linear interpolation only makes sense when the auxiliary column is in ascending or descending order, users need to ensure that the result set is ordered by that column in ascending or descending order if they specify other columns.
 
 
-#### Example
+#### 3.2.3 Example
 
 
 ```sql
@@ -244,17 +244,17 @@ Total line number = 7
 It costs 0.053s
 ```
 
-### Constant Filling:
+### 3.3 Constant Filling:
 
 For null values in the query result set, fill with a specified constant.
 
-#### Constant Filling Rules:
+#### 3.3.1 Constant Filling Rules:
 
 - If the data type does not match the input constant, IoTDB will not fill the query result and will not throw an exception.
 - If the inserted constant value exceeds the maximum value that its data type can represent, IoTDB will not fill the query result and will not throw an exception.
 
 
-#### Example
+#### 3.3.2 Example
 
 When using a `FLOAT` constant for filling, the SQL statement is as follows:
 
@@ -314,7 +314,7 @@ Total line number = 7
 It costs 0.073s
 ```
 
-## Advanced Usage
+## 4 Advanced Usage
 
 When using `PREVIOUS` and `LINEAR` FILL, an additional `FILL_GROUP` parameter is also supported for filling within groups.
 
@@ -406,7 +406,7 @@ Total line number = 8
 It costs 0.089s
 ```
 
-## Special Notes
+## 5 Special Notes
 
 When using  `LINEAR FILL` or `PREVIOUS FILL`, if there are NULL values in the auxiliary time column (the column used to determine the filling logic), IoTDB will follow these rules:
 

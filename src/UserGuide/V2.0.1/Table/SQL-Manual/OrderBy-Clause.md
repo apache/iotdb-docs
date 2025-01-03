@@ -21,7 +21,7 @@
 
 # ORDER BY Clauses
 
-## Syntax Overview
+## 1 Syntax Overview
 
 ```sql
 ORDER BY sortItem (',' sortItem)*
@@ -31,14 +31,14 @@ sortItem
     ;
 ```
 
-### ORDER BY Clauses
+### 1.1 ORDER BY Clauses
 
 - The ORDER BY clause is used in the final stage of a query to sort the result set. It arranges the rows in the query result in ascending (ASC) or descending (DESC) order based on the specified sorting conditions.
 - It provides control over the position of NULL values in the排序, allowing users to specify whether NULL values should be placed at the beginning (NULLS FIRST) or the end (NULLS LAST) of the sorted results.
 - By default, ASC NULLS LAST sorting is used, meaning values are sorted in ascending order with NULLs placed at the end. You can change the default sorting order by manually specifying other parameters.
 - The execution order of the ORDER BY clause is before the LIMIT or OFFSET clauses.
 
-## Example Data
+## 2 Example Data
 
 
 In the [Example Data page](../Basic-Concept/Sample-Data.md), there are SQL statements for building the table structure and inserting data. By downloading and executing these statements in the IoTDB CLI, you can import data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.

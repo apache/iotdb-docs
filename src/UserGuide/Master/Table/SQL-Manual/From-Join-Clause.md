@@ -21,7 +21,7 @@
 
 # FROM & JOIN Clause
 
-## Syntax Overview
+## 1 Syntax Overview
 
 ```sql
 FROM relation (',' relation)*
@@ -60,78 +60,85 @@ qualifiedName
     ;
 ```
 
-## FROM Clause
+## 2 FROM Clause Syntax
 
-The FROM clause specifies the data source for the query operation. Logically, the execution of the query starts with the FROM clause. The FROM clause can contain a single table, a combination of multiple tables joined using the JOIN clause, or another SELECT query within a subquery.
+The `FROM` clause specifies the data sources for the query. Logically, query execution begins with the `FROM` clause. It can include a single table, a combination of multiple tables joined using `JOIN` clauses, or a subquery containing another `SELECT` query.
 
-## JOIN Clause
+## 3 JOIN Clause
 
-JOIN is used to combine two tables based on certain conditions. Typically, the join condition is a predicate, but other implicit rules can also be specified.
+The `JOIN` clause combines two tables based on specific conditions, typically predicates, but other implicit rules can also apply.
 
-In the current version of IoTDB, inner joins (Inner Join) and full outer joins (Full Outer Join) are supported, and the join condition can only be an equi-join on the time column.
+In the current version of IoTDB, the following joins are supported:
 
-### Inner Join
+1. **Inner Join**: Combines rows that meet the join condition, effectively returning the intersection of the two tables.
+2. **Full Outer Join**: Returns all records from both tables, inserting `NULL` values for unmatched rows.
 
-INNER JOIN indicates an inner join, where the INNER keyword can be omitted. It returns records that satisfy the join condition from both tables, discarding those that do not, equivalent to the intersection of the two tables.
+**Note:** The join condition in IoTDB must be an equality condition on the `time` column. This restriction ensures that rows are joined based on the equality of their timestamps.
 
-#### Explicitly Specifying Join Conditions (Recommended)
+### 3.1 Inner Join
 
-Explicit joins require the use of JOIN + ON or JOIN + USING syntax, specifying the join condition after the ON or USING keyword.
+`INNER JOIN` can be written explicitly or implicitly by omitting the `INNER` keyword. It returns records where the join condition is satisfied.
+
+#### 3.1.1 Explicit Join (Recommended)
+
+Explicit joins use the syntax `JOIN + ON` or `JOIN + USING` to specify join conditions.
 
 The SQL syntax is as follows:
 
 ```sql
-// Explicit join, specify join conditions after the ON keyword or specify join columns after the USING keyword
+// Explicit join: Specify the join condition after the ON keyword or the join column(s) after the USING keyword.
 SELECT selectExpr [, selectExpr] ... FROM <TABLE_NAME> [INNER] JOIN <TABLE_NAME> joinCriteria [WHERE whereCondition]
 
 joinCriteria
     : ON booleanExpression
     | USING '(' identifier (',' identifier)* ')'
-    ;
+    ;  
 ```
 
-__Note: The Difference Between USING and ON__
+**Note: Difference Between** **`USING`** **and** **`ON`**
+
+- `USING` simplifies explicit join conditions by accepting a list of column names common to both tables. For example, `USING (time)` is equivalent to `ON (t1.time = t2.time)`. When using `USING`, there is logically one `time` column in the result.
+- With `ON`, column names remain distinct (e.g., `t1.time` and `t2.time`).
+- The final query result depends on the fields specified in the `SELECT` statement.
 
 
-USING is an abbreviated syntax for explicit join conditions. It accepts a list of field names separated by commas, which must be fields common to the joined tables. For example, USING (time) is equivalent to ON (t1.time = t2.time). When using the `ON` keyword, the `time` fields in the two tables are logically distinct, represented as `t1.time` and `t2.time`. When using the `USING` keyword, there is logically only one `time` field. The final query result depends on the fields specified in the SELECT statement.
 
-#### Implicitly Specifying Join Conditions
+#### 3.1.2 Implicit Join
 
-Implicit joins do not require the use of JOIN, ON, or USING keywords, but instead achieve table-to-table connections by specifying conditions in the WHERE clause.
+Implicit joins do not use `JOIN`, `ON`, or `USING` keywords. Instead, conditions are specified in the `WHERE` clause:
 
 The SQL syntax is as follows:
 
 ```sql
-// Implicit join, specify join conditions in the WHERE clause
+// Implicit join: Specify the join condition in the WHERE clause.
 SELECT selectExpr [, selectExpr] ... FROM <TABLE_NAME> [, <TABLE_NAME>] ... [WHERE whereCondition] 
 ```
 
-### Outer Join
+### 3.2 Outer Join
 
-If there are no matching rows, you can still return rows by specifying an outer join. Outer joins can be:
+An **outer join** returns rows even when no matching records exist in the other table. Types include:
 
-- LEFT（all rows from the left table appear at least once）
-- RIGHT（all rows from the right table appear at least once）
-- FULL（all rows from both tables appear at least once）
+- **LEFT OUTER JOIN**: Returns all rows from the left table.
+- **RIGHT OUTER JOIN**: Returns all rows from the right table.
+- **FULL OUTER JOIN**: Returns all rows from both tables.
 
+IoTDB currently supports only `FULL [OUTER] JOIN`. This type returns all records from both tables. If a record in one table has no match in the other, `NULL` values are returned for the unmatched fields. `FULL JOIN` **must use explicit join conditions**.
 
-In the current version of IoTDB, only FULL [OUTER] JOIN is supported, which is a full outer join, returning all records after the left and right tables are joined. If a record from one table does not match with a record from the other table, NULL values will be returned. __FULL JOIN can only be used with explicit join methods.__
+## 4 Example Queries
 
-## Example Data
+The [Example Data page](../Basic-Concept/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.corresponding results.
 
-In the [Example Data page](../Basic-Concept/Sample-Data.md), there are SQL statements for building table structures and inserting data. By downloading and executing these statements in the IoTDB CLI, you can import data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
+### 4.1 FROM Examples
 
-### From Example
+#### 4.1.1 Query from a Single Table
 
-#### Query from a Single Table
-
-Example 1: This query will return all records from `table1, sorted by time.
+**Example 1:** This query retrieves all records from `table1` and sorts them by time.
 
 ```sql
 SELECT * FROM table1 ORDER BY time;
 ```
 
-Query results:
+Query Results:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -160,13 +167,13 @@ Total line number = 18
 It costs 0.085s
 ```
 
-Example 1: This query will return records with `device` `d1` in `table1`, sorted by time.
+**Example 2:** This query retrieves all records from `table1` where the device is `101` and sorts them by time.
 
 ```sql
 SELECT * FROM table1 t1 where t1.device_id='101' order by time;
 ```
 
-Query results:
+Query Results:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -187,15 +194,15 @@ Total line number = 10
 It costs 0.061s
 ```
 
-#### Search From Subqueries
+#### 4.1.2 Querying from a Subquery
 
-Example 1: This query will return the total number of records in `table1`.
+**Example 1:** This query retrieves the total number of records in `table1`.
 
 ```sql
 SELECT COUNT(*) AS count FROM (SELECT * FROM table1);
 ```
 
-Query results:
+Query Results:
 
 ```sql
 +-----+
@@ -207,11 +214,11 @@ Total line number = 1
 It costs 0.072s
 ```
 
-### Join Example
+### 4.2 JOIN Examples
 
-#### Inner Join
+#### 4.2.1 Inner Join
 
-Example 1: Explicit Connection
+**Example 1: Explicit Join using** **`ON`** This query retrieves records where `table1` and `table2` share the same `time` values.
 
 ```sql
 SELECT 
@@ -225,7 +232,7 @@ FROM
 ON t1.time = t2.time
 ```
 
-Query results:
+Query Results:
 
 ```sql
 +-----------------------------+-------+------------+-------+------------+
@@ -239,8 +246,7 @@ Total line number = 3
 It costs 0.076s
 ```
 
-Example 2: Explicit Connection
-
+**Example 2: Explicit Join using** **`USING`** This query retrieves records from `table1` and `table2`, joining on the `time` column.
 
 ```sql
 SELECT time,
@@ -253,7 +259,7 @@ FROM
 USING(time)
 ```
 
-Query results:
+Query Results:
 
 ```sql
 +-----------------------------+-------+------------+-------+------------+
@@ -267,7 +273,7 @@ Total line number = 3
 It costs 0.081s
 ```
 
-Example 3: Implicit Connection
+**Example 3: Implicit Join using** **`WHERE`** This query joins `table1` and `table2` by specifying the condition in the `WHERE` clause.
 
 ```sql
 SELECT t1.time, 
@@ -281,7 +287,7 @@ WHERE
 t1.time=t2.time
 ```
 
-Query results:
+Query Results:
 
 ```sql
 +-----------------------------+-------+------------+-------+------------+
@@ -295,9 +301,9 @@ Total line number = 3
 It costs 0.082s
 ```
 
-#### Outer Join
+#### 4.2.2 Outer Join
 
-Example 1: Explicit Connection
+**Example 1: Full Outer Join using** **`ON`** This query retrieves all records from `table1` and `table2`, including unmatched rows with `NULL` values.
 
 ```sql
 SELECT 
@@ -311,7 +317,7 @@ FROM
 ON t1.time = t2.time
 ```
 
-Query results:
+Query Results:
 
 ```sql
 +-----------------------------+-----------------------------+-------+------------+-------+------------+
@@ -343,7 +349,9 @@ Total line number = 21
 It costs 0.071s
 ```
 
-Example 2: Explicit Connection
+**Example 2: Explicit Join using** **`USING`**
+
+This query retrieves all records from `table1` and `table2`, combining them based on the `time` column. Rows with no matches in one of the tables will include `NULL` values for the missing fields.
 
 ```sql
 SELECT 
@@ -357,7 +365,7 @@ FROM
 USING(time)
 ```
 
-Query results:
+Query Results:
 
 ```sql
 +-----------------------------+-------+------------+-------+------------+

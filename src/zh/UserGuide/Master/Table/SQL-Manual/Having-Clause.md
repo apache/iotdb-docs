@@ -21,13 +21,13 @@
 
 # HAVING 子句
 
-## 语法概览
+## 1 语法概览
 
 ```sql
 HAVING booleanExpression
 ```
 
-### HAVING 子句
+### 1.1 HAVING 子句
 
 用于在数据分组聚合(GROUP BY)完成后，对聚合结果进行筛选。
 
@@ -35,7 +35,7 @@ HAVING booleanExpression
 
 - 就语法而言，`HAVING`子句与`WHERE`子句相同，WHERE子句在分组聚合之前对数据进行过滤，HAVING子句是对分组聚合后的结果进行过滤。
 
-## 示例数据
+## 2 示例数据
 
 在[示例数据页面](../Basic-Concept/Sample-Data.md)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
 

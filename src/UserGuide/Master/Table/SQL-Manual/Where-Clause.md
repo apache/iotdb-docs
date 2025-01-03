@@ -21,7 +21,7 @@
 
 # WHERE Clauses
 
-## Syntax Overview
+## 1 Syntax Overview
 
 ```sql
 WHERE booleanExpression
@@ -29,7 +29,7 @@ WHERE booleanExpression
 
 __WHERE clause __: Used to specify filtering conditions in SQL queries, the WHERE clause is executed immediately after the FROM clause.
 
-## Example Data
+## 2 Example Data
 
 
 In the [Example Data page](../Basic-Concept/Sample-Data.md), there are SQL statements for building the table structure and inserting data. By downloading and executing these statements in the IoTDB CLI, you can import data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.

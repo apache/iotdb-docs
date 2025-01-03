@@ -21,31 +21,30 @@
 
 # GROUP BY Clause
 
-## Syntax Overview
+## 1 Syntax Overview
 
 ```sql
 GROUP BY expression (',' expression)*
 ```
 
-- The GROUP BY clause is used to group the result set of a SELECT statement by specified column values. The values of these grouping columns remain unchanged in the result, while all records with the same grouping column values in other columns are calculated through specified aggregate functions (such as COUNT, AVG).
+- The `GROUP BY` clause is used to group the result set of a `SELECT` statement based on the specified column values. The values of the grouping columns remain unchanged in the results, while other columns with the same grouping column values are calculated using specified aggregate functions (e.g., `COUNT`, `AVG`).
 
 ![](https://alioss.timecho.com/docs/img/groupby01.png)
 
 
-## Notes
+## 2 Notes
 
-- Items in the SELECT clause must include aggregate functions or consist of columns that appear in the GROUP BY clause.
+-  Items in the `SELECT` clause must either include aggregate functions or consist of columns specified in the `GROUP BY` clause.
 
 Valid Example:
 
 ```sql
 SELECT concat(device_id, model_id), avg(temperature) 
   FROM table1 
-  GROUP BY device_id, model_id; -- Valid
+  GROUP BY device_id, model_id; -- valid
 ```
 
-Execution results are as follows:
-
+Result:
 
 ```sql
 +-----+-----+
@@ -67,10 +66,10 @@ Invalid Example 1:
 ```sql
 SELECT device_id, temperature  
   FROM table1  
-  GROUP BY device_id;-- Invalid
+  GROUP BY device_id;-- invalid
 ```
 
-Execution results are as follows:
+Error Message:
 
 ```sql
 Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701:
@@ -82,26 +81,26 @@ Invalid Example 2:
 ```sql
 SELECT device_id, avg(temperature) 
   FROM table1  
-  GROUP BY model; -- 不合法
+  GROUP BY model; -- invalid
 ```
 
-Execution results are as follows:
+Error Message:
 
 ```sql
 Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701:
   Column 'model' cannot be resolved
 ```
 
-- If there is no GROUP BY clause, then all items in the SELECT clause must either include aggregate functions or none at all.
+- If there is no `GROUP BY` clause, all items in the `SELECT` clause must either include aggregate functions or exclude them entirely.
 
 Valid Example:
 
 ```sql
 SELECT COUNT(*), avg(temperature) 
-  FROM table1; -- Valid
+  FROM table1; -- 合法
 ```
 
-Execution results are as follows:
+Result:
 
 ```sql
 +-----+-----------------+
@@ -113,20 +112,22 @@ Total line number = 1
 It costs 0.094s
 ```
 
-Invalid Example ：
+Invalid Example:
 
 ```sql
-SELECT humidity, avg(temperature) FROM table1;    -- Invalid
+SELECT humidity, avg(temperature) FROM table1;   -- invalid
 ```
 
-Execution results are as follows:
+Result:
 
 ```sql
 Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: 
   'humidity' must be an aggregate expression or appear in GROUP BY clause
 ```
 
-- The GROUP BY clause can use constant integers starting from 1 to reference items in the SELECT clause; if the constant integer is less than 1 or greater than the size of the selection list, an error will be thrown.
+- The `GROUP BY` clause supports referencing `SELECT` items using constant integers starting from 1. If the constant is less than 1 or exceeds the size of the `SELECT` item list, an error will occur.
+
+ **Example:**
 
 ```sql
 SELECT date_bin(1h, time), device_id, avg(temperature)
@@ -135,7 +136,7 @@ SELECT date_bin(1h, time), device_id, avg(temperature)
   GROUP BY 1, device_id;
 ```
 
-Execution results are as follows:
+Result:
 
 ```sql
 +-----------------------------+---------+-----+
@@ -151,7 +152,9 @@ Total line number = 5
 It costs 0.092s
 ```
 
-- Aliases of select items are not supported in the group by clause. The following SQL will throw an error and can be replaced with the above SQL.
+-  Aliases from `SELECT` items cannot be used in the `GROUP BY` clause. Use the original expression instead.
+
+ **Example:**
 
 ```sql
 SELECT date_bin(1h, time) AS hour_time, device_id, avg(temperature)
@@ -160,7 +163,7 @@ SELECT date_bin(1h, time) AS hour_time, device_id, avg(temperature)
   GROUP BY date_bin(1h, time), device_id;
 ```
 
-Execution results are as follows:
+Result:
 
 ```sql
 +-----------------------------+---------+-----+
@@ -176,13 +179,15 @@ Total line number = 5
 It costs 0.092s
 ```
 
-- Only the COUNT function can be used with an asterisk (*) to calculate the total number of rows in the table. Other aggregate functions used with * will throw an error.
+- Only the `COUNT` function can be used with `*` to calculate the total number of rows. Using `*` with other aggregate functions will result in an error.
+
+ **Example:**
 
 ```sql
 SELECT count(*) FROM table1;
 ```
 
-Execution results are as follows:
+Result:
 
 ```sql
 +-----+
@@ -194,13 +199,13 @@ Total line number = 1
 It costs 0.047s
 ```
 
-## Example Data
+## 3 Sample Data and Usage Examples
 
-In the [Example Data page](../Basic-Concept/Sample-Data.md), there are SQL statements for building the table structure and inserting data. By downloading and executing these statements in the IoTDB CLI, you can import data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
+The [Example Data page](../Basic-Concept/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.corresponding results.
 
-#### Example 1: Downsampling Time Series Data
+#### Example 1: Downsampling Time-Series Data
 
-Downsample the temperature of device 101 within the specified time range, returning the average temperature per hour.
+Downsample the temperature of device `101` over the specified time range, returning one average temperature per hour:
 
 ```sql
 SELECT date_bin(1h, time) AS hour_time, AVG(temperature) AS avg_temperature
@@ -210,7 +215,7 @@ SELECT date_bin(1h, time) AS hour_time, AVG(temperature) AS avg_temperature
   GROUP BY 1;
 ```
 
-Execution results are as follows:
+Result:
 
 ```sql
 +-----------------------------+---------------+
@@ -223,8 +228,7 @@ Total line number = 2
 It costs 0.054s
 ```
 
-Downsample the temperature for each device over the past day, returning the average temperature per hour.
-
+Downsample the temperature of all devices over the past day, returning one average temperature per hour for each device:
 
 ```sql
 SELECT date_bin(1h, time) AS hour_time, device_id, AVG(temperature) AS avg_temperature
@@ -233,7 +237,7 @@ SELECT date_bin(1h, time) AS hour_time, device_id, AVG(temperature) AS avg_tempe
   GROUP BY 1, device_id;
 ```
 
-Execution results are as follows:
+Result:
 
 ```sql
 +-----------------------------+---------+---------------+
@@ -252,9 +256,10 @@ Total line number = 8
 It costs 0.081s
 ```
 
-For more information about the date_bin function, please refer to the date_bin function definition
+有关date_bin函数的更多详细信息可以参见 date_bin （时间分桶规整）函数功能定义
+ For more details on the `date_bin` function, refer to the **Definition of Date Bin** **(Time Bucketing)** feature documentation.
 
-#### Example 2: Querying the Latest Data Point for Each Device
+#### Example 2: Query the Latest Data Point for Each Device
 
 ```sql
 SELECT device_id, LAST(temperature), LAST_BY(time, temperature)
@@ -262,7 +267,7 @@ SELECT device_id, LAST(temperature), LAST_BY(time, temperature)
   GROUP BY device_id;
 ```
 
-Execution results are as follows:
+Result:
 
 ```sql
 +---------+-----+-----------------------------+
@@ -275,16 +280,15 @@ Total line number = 2
 It costs 0.078s
 ```
 
-#### Example 3: Calculating Total Number of Rows
+#### Example 3: Count Total Rows
 
-Calculate the total number of rows for all devices:
-
+Count the total number of rows for all devices:
 
 ```sql
 SELECT COUNT(*) FROM table1;
 ```
 
-Execution results are as follows:
+Result:
 
 ```sql
 +-----+
@@ -296,7 +300,7 @@ Total line number = 1
 It costs 0.060s
 ```
 
-Execution results are as follows:
+Count the total number of rows for each device:
 
 ```sql
 SELECT device_id, COUNT(*) AS total_rows
@@ -304,7 +308,7 @@ SELECT device_id, COUNT(*) AS total_rows
   GROUP BY device_id;
 ```
 
-Execution results are as follows:
+Result:
 
 ```sql
 +---------+----------+
@@ -317,16 +321,16 @@ Total line number = 2
 It costs 0.060s
 ```
 
-#### Example 4: Aggregation Without GROUP BY Clause
+#### Example 4: Aggregate without a `GROUP BY` Clause
 
-Query the maximum temperature among all devices:
+Query the maximum temperature across all devices:
 
 ```sql
 SELECT MAX(temperature)
 FROM table1;
 ```
 
-Execution results are as follows:
+Result:
 
 ```sql
 +-----+
@@ -338,9 +342,9 @@ Total line number = 1
 It costs 0.086s
 ```
 
-#### Example 5: Aggregating on the Results of a Subquery
+#### Example 5: Aggregate Results from a Subquery
 
-Query the combinations of devices and factories with an average temperature exceeding 80.0 and at least two records within the specified time period:
+Query the combinations of plants and devices where the average temperature exceeds 80.0 over a specified time range and has at least two records:
 
 ```sql
 SELECT plant_id, device_id 
@@ -353,7 +357,7 @@ GROUP BY plant_id, device_id
 HAVING COUNT(*) > 1;
 ```
 
-Execution results are as follows:
+Result:
 
 ```sql
 +--------+---------+

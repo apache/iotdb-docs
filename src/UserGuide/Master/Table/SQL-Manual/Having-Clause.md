@@ -21,28 +21,28 @@
 
 # HAVING Clause
 
-## Syntax Overview
+## 1 Syntax Overview
 
 ```sql
 HAVING booleanExpression
 ```
 
-### HAVING Clause
+### 1.1 HAVING Clause
 
-The HAVING clause is used to filter the results of a query after the data has been grouped and aggregated by GROUP BY.
+
+The `HAVING` clause is used to filter aggregated results after a `GROUP BY` operation has been applied.
 
 #### Notes
 
-- In terms of syntax, the `HAVING` clause is similar to the `WHERE` clause. The WHERE clause filters data before grouping and aggregation, while the HAVING clause filters the results after grouping and aggregation has been performed.
+- 就语法而言，`HAVING`子句与`WHERE`子句相同，WHERE子句在分组聚合之前对数据进行过滤，HAVING子句是对分组聚合后的结果进行过滤。
 
+## 2 Sample Data and Usage Examples
 
-## Example Data
+The [Example Data page](../Basic-Concept/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.corresponding results.
 
-In the [Example Data page](../Basic-Concept/Sample-Data.md), there are SQL statements for building the table structure and inserting data. By downloading and executing these statements in the IoTDB CLI, you can import data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
+#### Example 1: Filtering Devices with Entry Counts Below a Certain Threshold
 
-#### Example 1: Filtering Devices with Counts Below a Specific Value
-
-The query calculates the number of entries for each `device_id` in `table1` and filters out devices that have a count below 5.
+This query calculates the number of entries (`COUNT(*)`) for each `device_id` in the `table1` table and filters out devices with a count less than 5.
 
 ```sql
 SELECT device_id, COUNT(*)
@@ -51,7 +51,7 @@ SELECT device_id, COUNT(*)
   HAVING COUNT(*) >= 5;
 ```
 
-The execution results are as follows:
+Result:
 
 ```sql
 +---------+-----+
@@ -64,10 +64,9 @@ Total line number = 2
 It costs 0.063s
 ```
 
-### Example 2: Calculate the Hourly Average Temperature for Each Device and Filter
+### Example 2: Calculating Hourly Average Temperatures and Filtering Results
 
-The query calculates the average temperature per hour for each device in `table1` and filters out devices with an average temperature below 85.0.
-
+This query calculates the hourly average temperature (`AVG(temperature)`) for each device in the `table1` table and filters out those with an average temperature below 85.0.
 
 ```sql
 SELECT date_bin(1h, time) as hour_time, device_id, AVG(temperature) as avg_temp
@@ -76,7 +75,7 @@ SELECT date_bin(1h, time) as hour_time, device_id, AVG(temperature) as avg_temp
   HAVING AVG(temperature) >= 85.0;
 ```
 
-The execution results are as follows:
+Result:
 
 ```sql
 +-----------------------------+---------+--------+
