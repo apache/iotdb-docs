@@ -42,6 +42,10 @@ export const zhSidebar = {
       ],
     },
     {
+      text: '快速上手',
+      link: 'QuickStart/QuickStart_timecho',
+    },
+    {
       text: '部署与运维',
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
