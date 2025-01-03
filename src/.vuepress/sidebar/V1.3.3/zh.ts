@@ -37,8 +37,8 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Background-knowledge/',
       children: [
-        { text: '数据类型', link: 'Data-Type' },
         { text: '集群相关概念', link: 'Cluster-Concept' },
+        { text: '数据类型', link: 'Data-Type' },
       ],
     },
     {

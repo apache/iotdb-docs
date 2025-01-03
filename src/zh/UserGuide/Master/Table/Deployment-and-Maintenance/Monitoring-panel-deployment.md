@@ -22,12 +22,12 @@
 
 IoTDB配套监控面板是IoTDB企业版配套工具之一。它旨在解决IoTDB及其所在操作系统的监控问题，主要包括：操作系统资源监控、IoTDB性能监控，及上百项内核监控指标，从而帮助用户监控集群健康状态，并进行集群调优和运维。本文将以常见的3C3D集群(3个Confignode和3个Datanode)为例，为您介绍如何在IoTDB的实例中开启系统监控模块，并且使用Prometheus + Grafana的方式完成对系统监控指标的可视化。
 
-## 安装准备
+## 1 安装准备
 
 1. 安装 IoTDB：需先安装IoTDB V1.0 版本及以上企业版，您可联系商务或技术支持获取
 2. 获取 IoTDB 监控面板安装包：基于企业版 IoTDB 的数据库监控面板，您可联系商务或技术支持获取
 
-## 安装步骤
+## 2 安装步骤
 
 ### 步骤一：IoTDB开启监控指标采集
 
@@ -184,13 +184,13 @@ cd grafana-*
 
       ![](https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF%E6%B1%87%E6%80%BB.png)
 
-## 附录、监控指标详解
+## 3 附录、监控指标详解
 
-### 系统面板（System Dashboard）
+### 3.1 系统面板（System Dashboard）
 
 该面板展示了当前系统CPU、内存、磁盘、网络资源的使用情况已经JVM的部分状况。
 
-#### CPU
+#### 3.1.1 CPU
 
 - CPU Core：CPU 核数
 - CPU Load：
@@ -198,7 +198,7 @@ cd grafana-*
   - Process CPU Load：IoTDB 进程在采样时间内占用的 CPU 比例
 - CPU Time Per Minute：系统每分钟内所有进程的 CPU 时间总和
 
-#### Memory
+#### 3.1.2 Memory
 
 - System Memory：当前系统内存的使用情况。
   - Commited vm size： 操作系统分配给正在运行的进程使用的虚拟内存的大小。
@@ -210,7 +210,7 @@ cd grafana-*
   - Total Memory：IoTDB 进程当前已经从操作系统中请求到的内存总量。
   - Used Memory：IoTDB 进程当前已经使用的内存总量。
 
-#### Disk
+#### 3.1.3 Disk
 
 - Disk Space：
   - Total disk space：IoTDB 可使用的最大磁盘空间。
@@ -237,7 +237,7 @@ cd grafana-*
 - I/O System Call Rate：进程调用读写系统调用的频率，类似于 IOPS。
 - I/O Throughput：进程进行 I/O 的吞吐量，分为 actual_read/write 和 attempt_read/write 两类。actual read 和 actual write 指的是进程实际导致块设备进行 I/O 的字节数，不包含被 Page Cache 处理的部分。
 
-#### JVM
+#### 3.1.4 JVM
 
 - GC Time Percentage：节点 JVM 在过去一分钟的时间窗口内，GC 耗时所占的比例
 - GC Allocated/Promoted Size Detail： 节点 JVM 平均每分钟晋升到老年代的对象大小，新生代/老年代和非分代新申请的对象大小
@@ -263,7 +263,7 @@ cd grafana-*
   - unloaded：系统启动至今 JVM 卸载的类的数量
 - The Number of Java Thread：IoTDB 目前存活的线程数。各子项分别为各状态的线程数。
 
-#### Network
+#### 3.1.5 Network
 
 eno 指的是到公网的网卡，lo 是虚拟网卡。
 
@@ -272,9 +272,9 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
 - Packet Speed：网卡发送和接收数据包的速度，一次 RPC 请求可以对应一个或者多个数据包
 - Connection Num：当前选定进程的 socket 连接数（IoTDB只有 TCP）
 
-### 整体性能面板（Performance Overview Dashboard）
+### 3.2 整体性能面板（Performance Overview Dashboard）
 
-#### Cluster Overview
+#### 3.2.1 Cluster Overview
 
 - Total CPU Core: 集群机器 CPU 总核数
 - DataNode CPU Load: 集群各DataNode 节点的 CPU 使用率
@@ -295,7 +295,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
 - Total DataRegion: 集群管理的 DataRegion 总数
 - Total SchemaRegion: 集群管理的 SchemaRegion 总数
 
-#### Node Overview
+#### 3.2.2 Node Overview
 
 - CPU Core: 节点所在机器的 CPU 核数
 - Disk Space: 节点所在机器的磁盘大小
@@ -306,7 +306,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
 - Swap Memory: 节点所在机器的交换内存大小
 - File Number: 节点管理的文件数
 
-#### Performance
+#### 3.2.3 Performance
 
 - Session Idle Time: 节点的 session 连接的总空闲时间和总忙碌时间
 - Client Connection: 节点的客户端连接情况，包括总连接数和活跃连接数
@@ -338,7 +338,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
   - Average Time Consumed Of Engine Stage: 节点的 engine 阶段各子阶段平均耗时
   - P99 Time Consumed Of Engine Stage: 节点 engine 阶段各子阶段的 P99 耗时
 
-#### System
+#### 3.2.4 System
 
 - CPU Load: 节点的 CPU 负载
 - CPU Time Per Minute: 节点的每分钟 CPU 时间，最大值和 CPU 核数相关
@@ -350,11 +350,11 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
 - File Size: 节点管理文件大小情况
 - Log Number Per Minute: 节点的每分钟不同类型日志情况
 
-### ConfigNode 面板（ConfigNode Dashboard）
+### 3.3 ConfigNode 面板（ConfigNode Dashboard）
 
 该面板展示了集群中所有管理节点的表现情况，包括分区、节点信息、客户端连接情况统计等。
 
-#### Node Overview
+#### 3.3.1 Node Overview
 
 - Database Count: 节点的数据库数量
 - Region
@@ -368,7 +368,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
 - DataNodes: 节点所在集群的 DataNode 情况
 - System Overview: 节点的系统概述，包括系统内存、磁盘使用、进程内存以及CPU负载
 
-#### NodeInfo
+#### 3.3.2 NodeInfo
 
 - Node Count: 节点所在集群的节点数量，包括 ConfigNode 和 DataNode
 - ConfigNode Status: 节点所在集群的 ConfigNode 节点的状态
@@ -378,7 +378,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
 - DataRegion Distribution: 节点所在集群的 DataRegion 的分布情况
 - DataRegionGroup Leader Distribution: 节点所在集群的 DataRegionGroup 的 Leader 分布情况
 
-#### Protocol
+#### 3.3.3 Protocol
 
 - 客户端数量统计
   - Active Client Num: 节点各线程池的活跃客户端数量
@@ -391,7 +391,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
   - Client Mean Borrow Wait Time: 节点各线程池的客户端平均借用等待时间
   - Client Mean Idle Time: 节点各线程池的客户端平均空闲时间
 
-#### Partition Table
+#### 3.3.4 Partition Table
 
 - SchemaRegionGroup Count: 节点所在集群的 Database 的 SchemaRegionGroup 的数量
 - DataRegionGroup Count: 节点所在集群的 Database 的 DataRegionGroup 的数量
@@ -400,7 +400,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
 - DataRegion Status: 节点所在集群的 DataRegion 状态
 - SchemaRegion Status: 节点所在集群的 SchemaRegion 的状态
 
-#### Consensus
+#### 3.3.5 Consensus
 
 - Ratis Stage Time: 节点的 Ratis 各阶段耗时
 - Write Log Entry: 节点的 Ratis 写 Log 的耗时
@@ -408,17 +408,17 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
 - Remote / Local Write QPS: 节点 Ratis 的远程和本地写入的 QPS
 - RatisConsensus Memory: 节点 Ratis 共识协议的内存使用
 
-### DataNode 面板（DataNode Dashboard）
+### 3.4 DataNode 面板（DataNode Dashboard）
 
 该面板展示了集群中所有数据节点的监控情况，包含写入耗时、查询耗时、存储文件数等。
 
-#### Node Overview
+#### 3.4.1 Node Overview
 
 - The Number Of Entity: 节点管理的实体情况
 - Write Point Per Second: 节点的每秒写入速度
 - Memory Usage: 节点的内存使用情况，包括 IoT Consensus 各部分内存占用、SchemaRegion内存总占用和各个数据库的内存占用。
 
-#### Protocol
+#### 3.4.2 Protocol
 
 - 节点操作耗时
   - The Time Consumed Of Operation (avg): 节点的各项操作的平均耗时
@@ -439,7 +439,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
   - Client Mean Borrow Wait Time: 节点各线程池的客户端平均借用等待时间
   - Client Mean Idle Time: 节点各线程池的客户端平均空闲时间
 
-#### Storage Engine
+#### 3.4.3 Storage Engine
 
 - File Count: 节点管理的各类型文件数量
 - File Size: 节点管理的各类型文件大小
@@ -455,7 +455,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
   - Compaction Process Chunk Status: 节点合并不同状态的 Chunk 的数量
   - Compacted Point Num Per Minute: 节点每分钟合并的点数
 
-#### Write Performance
+#### 3.4.4 Write Performance
 
 - Write Cost(avg): 节点写入耗时平均值，包括写入 wal 和 memtable
 - Write Cost(50%): 节点写入耗时中位数，包括写入 wal 和 memtable
@@ -491,7 +491,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
 - Series Num Of Flushing MemTable: 节点的不同 DataRegion 的 Memtable 刷盘时的时间序列数
 - Average Point Num Of Flushing MemChunk: 节点 MemChunk 刷盘的平均点数
 
-#### Schema Engine
+#### 3.4.5 Schema Engine
 
 - Schema Engine Mode: 节点的元数据引擎模式
 - Schema Consensus Protocol: 节点的元数据共识协议
@@ -520,7 +520,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
 - Time Consumed of Relead and Flush (avg): 节点触发 cache 释放和 buffer 刷盘耗时的平均值
 - Time Consumed of Relead and Flush (99%): 节点触发 cache 释放和 buffer 刷盘的耗时的 P99
 
-#### Query Engine
+#### 3.4.6 Query Engine
 
 - 各阶段耗时
   - The time consumed of query plan stages(avg): 节点查询各阶段耗时的平均值
@@ -563,7 +563,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
   - The time consumed of query schedule time(50%): 节点查询任务调度耗时的中位数
   - The time consumed of query schedule time(99%): 节点查询任务调度耗时的P99
 
-#### Query Interface
+#### 3.4.7 Query Interface
 
 - 加载时间序列元数据
   - The time consumed of load timeseries metadata(avg): 节点查询加载时间序列元数据耗时的平均值
@@ -610,7 +610,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
   - The time consumed of build tsblock from merge reader(50%): 节点查询通过 Merge Reader 构造 TsBlock 耗时的中位数
   - The time consumed of build tsblock from merge reader(99%): 节点查询通过 Merge Reader 构造 TsBlock 耗时的P99
 
-#### Query Data Exchange
+#### 3.4.8 Query Data Exchange
 
 查询的数据交换耗时。
 
@@ -635,7 +635,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
   - The time consumed of get data block task(50%): 节点查询获取 data block task 耗时的中位数
   - The time consumed of get data block task(99%): 节点查询获取 data block task 耗时的 P99
 
-#### Query Related Resource
+#### 3.4.9 Query Related Resource
 
 - MppDataExchangeManager: 节点查询时 shuffle sink handle 和 source handle 的数量
 - LocalExecutionPlanner: 节点可分配给查询分片的剩余内存
@@ -645,7 +645,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
 - MemoryPool Capacity: 节点查询相关的内存池的大小情况，包括最大值和剩余可用值
 - DriverScheduler: 节点查询相关的队列任务数量
 
-#### Consensus - IoT Consensus
+#### 3.4.10 Consensus - IoT Consensus
 
 - 内存使用
   - IoTConsensus Used Memory: 节点的 IoT Consensus 的内存使用情况，包括总使用内存大小、队列使用内存大小、同步使用内存大小
@@ -665,7 +665,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
   - The Time Consumed Of Different Stages (50%): 节点 IoT Consensus 不同执行阶段的耗时的中位数
   - The Time Consumed Of Different Stages (99%): 节点 IoT Consensus 不同执行阶段的耗时的P99
 
-#### Consensus - DataRegion Ratis Consensus
+#### 3.4.11 Consensus - DataRegion Ratis Consensus
 
 - Ratis Stage Time: 节点 Ratis 不同阶段的耗时
 - Write Log Entry: 节点 Ratis 写 Log 不同阶段的耗时
@@ -673,7 +673,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
 - Remote / Local Write QPS: 节点 Ratis 在本地或者远端写入的 QPS
 - RatisConsensus Memory: 节点 Ratis 的内存使用情况
 
-#### Consensus - SchemaRegion Ratis Consensus
+#### 3.4.12 Consensus - SchemaRegion Ratis Consensus
 
 - Ratis Stage Time: 节点 Ratis 不同阶段的耗时
 - Write Log Entry: 节点 Ratis 写 Log 各阶段的耗时

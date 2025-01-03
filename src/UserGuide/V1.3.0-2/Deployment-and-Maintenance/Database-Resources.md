@@ -24,7 +24,7 @@
 <table style="text-align: center">
   <tbody>
     <tr>
-      <th rowspan="2">Number of timeseries (frequency<=1HZ)</th>
+      <th rowspan="2">Number of timeseries (frequency&lt;=1HZ)</th>
       <th rowspan="2">CPU</th>
       <th colspan="3">Number of nodes</th>
     </tr>
@@ -87,7 +87,7 @@
 <table style="text-align: center">
   <tbody>
     <tr>
-      <th rowspan="2">Number of timeseries (frequency<=1HZ)</th>
+      <th rowspan="2">Number of timeseries (frequency&lt;=1HZ)</th>
       <th rowspan="2">Memory</th>
       <th colspan="3">Number of nodes</th>
     </tr>
@@ -197,7 +197,7 @@ If the number of nodes is over 10000000 or the query load is high, it is recomme
 If the write throughput does not exceed 10 million points/second, configure 1Gbps network card. When the write throughput exceeds 10 million points per second, a 10Gbps network card needs to be configured.
 | **Write throughput (data points per second)** | **NIC rate** |
 | ------------------- | ------------- |
-| <10 million | 1Gbps |
+| /<10 million | 1Gbps |
 | >=10 million | 10Gbps |
 ## Other instructions
 IoTDB has the ability to scale up clusters in seconds, and expanding node data does not require migration. Therefore, you do not need to worry about the limited cluster capacity estimated based on existing data. In the future, you can add new nodes to the cluster when you need to scale up.

@@ -23,7 +23,7 @@
 <table style="text-align: center;">
    <tbody>
       <tr>
-            <th rowspan="2">Number of timeseries (frequency<=1HZ)</th>
+            <th rowspan="2">Number of timeseries (frequency&lt;=1HZ)</th>
             <th rowspan="2">CPU</th>        
             <th colspan="3">Number of nodes</th>
       </tr>
@@ -85,7 +85,7 @@
 <table style="text-align: center;">
    <tbody>
       <tr>
-            <th rowspan="2">Number of timeseries (frequency<=1HZ)</th>
+            <th rowspan="2">Number of timeseries (frequency&lt;=1HZ)</th>
             <th rowspan="2">Memory</th>        
             <th colspan="3">Number of nodes</th>
       </tr>

@@ -26,7 +26,7 @@
     <img src="https://alioss.timecho.com/docs/img/cluster01.png" alt="" style="width: 60%;"/>
 </div>
 
-## 注意事项
+## 1 注意事项
 
 1. 安装前请确认系统已参照[系统配置](../Deployment-and-Maintenance/Environment-Requirements.md)准备完成。
    
@@ -52,12 +52,12 @@
 
 6. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，部署监控面板步骤可以参考：[监控面板部署](./Monitoring-panel-deployment.md)
 
-## 准备步骤
+## 2 准备步骤
 
 1. 准备IoTDB数据库安装包 ：timechodb-{version}-bin.zip（安装包获取见：[链接](./IoTDB-Package_timecho.md)）
 2. 按环境要求配置好操作系统环境（系统环境配置见：[链接](./Environment-Requirements.md)）
 
-## 安装步骤
+## 3 安装步骤
 
 假设现在有3台linux服务器，IP地址和服务角色分配如下：
 
@@ -67,7 +67,7 @@
 | 11.101.17.225 | iotdb-2 | ConfigNode、DataNode |
 | 11.101.17.226 | iotdb-3 | ConfigNode、DataNode |
 
-### 设置主机名
+### 3.1 设置主机名
 
 在3台机器上分别配置主机名，设置主机名需要在目标服务器上配置/etc/hosts，使用如下命令：
 
@@ -77,7 +77,7 @@ echo "11.101.17.225  iotdb-2"  >> /etc/hosts
 echo "11.101.17.226  iotdb-3"  >> /etc/hosts 
 ```
 
-### 参数配置
+### 3.2 参数配置
 
 解压安装包并进入安装目录
 
@@ -86,7 +86,7 @@ unzip  timechodb-{version}-bin.zip
 cd  timechodb-{version}-bin
 ```
 
-#### 环境脚本配置
+#### 3.2.1 环境脚本配置
 
 - ./conf/confignode-env.sh配置
 
@@ -100,7 +100,7 @@ cd  timechodb-{version}-bin
 | :---------- | :----------------------------------- | :--------- | :----------------------------------------------- | :----------- |
 | MEMORY_SIZE | IoTDB DataNode节点可以使用的内存总量 | 空         | 可按需填写，填写后系统会根据填写的数值来分配内存 | 重启服务生效 |
 
-#### 通用配置（./conf/iotdb-system.properties）
+#### 3.2.2 通用配置（./conf/iotdb-system.properties）
 
 - 集群配置
 
@@ -110,7 +110,7 @@ cd  timechodb-{version}-bin
 | schema_replication_factor | 元数据副本数，DataNode数量不应少于此数目 | 3              | 3              | 3              |
 | data_replication_factor   | 数据副本数，DataNode数量不应少于此数目   | 2              | 2              | 2              |
 
-#### ConfigNode 配置
+#### 3.2.3 ConfigNode 配置
 
 | 配置项              | 说明                                                         | 默认            | 推荐值                                                  | 11.101.17.224 | 11.101.17.225 | 11.101.17.226 | 备注               |
 | ------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------- | ------------- | ------------- | ------------- | ------------------ |
@@ -119,7 +119,7 @@ cd  timechodb-{version}-bin
 | cn_consensus_port   | ConfigNode副本组共识协议通信使用的端口                       | 10720           | 10720                                                   | 10720         | 10720         | 10720         | 首次启动后不能修改 |
 | cn_seed_config_node | 节点注册加入集群时连接的ConfigNode 的地址，cn_internal_address:cn_internal_port | 127.0.0.1:10710 | 第一个CongfigNode的cn_internal_address:cn_internal_port | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | 首次启动后不能修改 |
 
-#### DataNode 配置
+#### 3.2.4 DataNode 配置
 
 | 配置项                          | 说明                                                         | 默认            | 推荐值                                                  | 11.101.17.224 | 11.101.17.225 | 11.101.17.226 | 备注               |
 | ------------------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------- | ------------- | ------------- | ------------- | ------------------ |
@@ -134,7 +134,7 @@ cd  timechodb-{version}-bin
 
 > ❗️注意：VSCode Remote等编辑器无自动保存配置功能，请确保修改的文件被持久化保存，否则配置项无法生效
 
-### 启动ConfigNode节点
+### 3.3 启动ConfigNode节点
 
 先启动第一个iotdb-1的confignode, 保证种子confignode节点先启动，然后依次启动第2和第3个confignode节点
 
@@ -145,7 +145,7 @@ cd sbin
 
 如果启动失败，请参考下[常见问题](#常见问题)
 
-### 启动DataNode 节点
+### 3.4 启动DataNode 节点
 
  分别进入iotdb的sbin目录下，依次启动3个datanode节点：
 
@@ -154,7 +154,7 @@ cd sbin
 ./start-datanode.sh   -d   #-d参数将在后台进行启动 
 ```
 
-### 激活数据库
+### 3.5 激活数据库
 
 #### 方式一：激活文件拷贝激活
 
@@ -214,15 +214,15 @@ cd sbin
     IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
     ```
 
-### 验证激活
+### 3.6 验证激活
 
 当看到“Result”字段状态显示为success表示激活成功
 
 ![](https://alioss.timecho.com/docs/img/%E9%9B%86%E7%BE%A4-%E9%AA%8C%E8%AF%81.png)
 
-## 节点维护步骤
+## 4 节点维护步骤
 
-### ConfigNode节点维护
+### 4.1 ConfigNode节点维护
 
 ConfigNode节点维护分为ConfigNode添加和移除两种操作，有两个常见使用场景：
 
@@ -231,7 +231,7 @@ ConfigNode节点维护分为ConfigNode添加和移除两种操作，有两个常
 
 > ❗️注意，在完成ConfigNode节点维护后，需要保证集群中有1或者3个正常运行的ConfigNode。2个ConfigNode不具备高可用性，超过3个ConfigNode会导致性能损失。
 
-#### 添加ConfigNode节点
+#### 4.1.1 添加ConfigNode节点
 
 脚本命令：
 
@@ -245,7 +245,7 @@ sbin/start-confignode.sh
 sbin/start-confignode.bat
 ```
 
-#### 移除ConfigNode节点
+#### 4.1.2 移除ConfigNode节点
 
 首先通过CLI连接集群，通过`show confignodes`确认想要移除ConfigNode的内部地址与端口号：
 
@@ -276,7 +276,7 @@ sbin/remove-confignode.bat [confignode_id]
 ./sbin/remove-confignode.bat [cn_internal_address:cn_internal_port]
 ```
 
-### DataNode节点维护
+### 4.2 DataNode节点维护
 
 DataNode节点维护有两个常见场景：
 
@@ -285,7 +285,7 @@ DataNode节点维护有两个常见场景：
 
 > ❗️注意，为了使集群能正常工作，在DataNode节点维护过程中以及维护完成后，正常运行的DataNode总数不得少于数据副本数（通常为2），也不得少于元数据副本数（通常为3）。
 
-#### 添加DataNode节点
+#### 4.2.1 添加DataNode节点
 
 脚本命令：
 
@@ -301,7 +301,7 @@ sbin/start-datanode.bat
 
 说明：在添加DataNode后，随着新的写入到来（以及旧数据过期，如果设置了TTL），集群负载会逐渐向新的DataNode均衡，最终在所有节点上达到存算资源的均衡。
 
-#### 移除DataNode节点
+#### 4.2.2 移除DataNode节点
 
 首先通过CLI连接集群，通过`show datanodes`确认想要移除的DataNode的RPC地址与端口号：
 
@@ -328,7 +328,7 @@ sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
 sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 ```
 
-## 常见问题
+## 5 常见问题
 
 1. 部署过程中多次提示激活失败
    - 使用 `ls -al` 命令：使用 `ls -al` 命令检查安装包根目录的所有者信息是否为当前用户。
@@ -360,15 +360,15 @@ sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
         ```shell
             cd /data/iotdb rm -rf data logs
         ```
-## 附录
+## 6 附录
 
-### Confignode节点参数介绍
+### 6.1 Confignode节点参数介绍
 
 | 参数 | 描述                             | 是否为必填项 |
 | :--- | :------------------------------- | :----------- |
 | -d   | 以守护进程模式启动，即在后台运行 | 否           |
 
-### Datanode节点参数介绍
+### 6.2 Datanode节点参数介绍
 
 | 缩写 | 描述                                           | 是否为必填项 |
 | :--- | :--------------------------------------------- | :----------- |
