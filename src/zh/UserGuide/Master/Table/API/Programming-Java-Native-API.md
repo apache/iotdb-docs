@@ -144,7 +144,7 @@ TableSessionBuilder类是一个构建器，用于配置和创建ITableSession接
 
 | **配置项**                                           | **描述**                                 | **默认值**                                  |
 | ---------------------------------------------------- | ---------------------------------------- | ------------------------------------------- |
-| nodeUrls(List<String> nodeUrls)                      | 设置IoTDB集群的节点URL列表               | Collections.singletonList("localhost:6667") |
+| nodeUrls(List`<String>` nodeUrls)                      | 设置IoTDB集群的节点URL列表               | Collections.singletonList("localhost:6667") |
 | username(String username)                            | 设置连接的用户名                         | "root"                                      |
 | password(String password)                            | 设置连接的密码                           | "root"                                      |
 | database(String database)                            | 设置目标数据库名称                       | null                                        |
@@ -404,7 +404,7 @@ TableSessionPool 的构造器，用于配置和创建 ITableSessionPool 的实�
 
 | **配置项**                                                   | **描述**                                     | **默认值**                                  |
 | ------------------------------------------------------------ | -------------------------------------------- | ------------------------------------------- |
-| nodeUrls(List<String> nodeUrls)                              | 设置IoTDB集群的节点URL列表                   | Collections.singletonList("localhost:6667") |
+| nodeUrls(List`<String>` nodeUrls)                              | 设置IoTDB集群的节点URL列表                   | Collections.singletonList("localhost:6667") |
 | maxSize(int maxSize)                                         | 设置会话池的最大大小，即池中允许的最大会话数 | 5                                           |
 | user(String user)                                            | 设置连接的用户名                             | "root"                                      |
 | password(String password)                                    | 设置连接的密码                               | "root"                                      |
