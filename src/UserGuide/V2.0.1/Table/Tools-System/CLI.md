@@ -55,12 +55,12 @@ Among them:
 
 | **Parameter**              | **Type** | **Required** | **Description**                                              | **Example**         |
 | -------------------------- | -------- | ------------ | ------------------------------------------------------------ | ------------------- |
-| -h /<host>                  | string   | No           | The IP address of the IoTDB server. (Default: 127.0.0.1)     | -h 127.0.0.1        |
-| -p /<rpcPort>               | int      | No           | The RPC port of the IoTDB server. (Default: 6667)            | -p 6667             |
-| -u /<username>              | string   | No           | The username to connect to the IoTDB server. (Default: root) | -u root             |
-| -pw /<password>             | string   | No           | The password to connect to the IoTDB server. (Default: root) | -pw root            |
-| -sql_dialect /<sql_dialect> | string   | No           | The data model type: tree or table. (Default: tree)          | -sql_dialect table  |
-| -e /<execute>               | string   | No           | Batch operations in non-interactive mode.                    | -e "show databases" |
+| -h `<host>`                 | string   | No           | The IP address of the IoTDB server. (Default: 127.0.0.1)     | -h 127.0.0.1        |
+| -p `<rpcPort>`               | int      | No           | The RPC port of the IoTDB server. (Default: 6667)            | -p 6667             |
+| -u `<username>`              | string   | No           | The username to connect to the IoTDB server. (Default: root) | -u root             |
+| -pw `<password>`             | string   | No           | The password to connect to the IoTDB server. (Default: root) | -pw root            |
+| -sql_dialect `<sql_dialect>` | string   | No           | The data model type: tree or table. (Default: tree)          | -sql_dialect table  |
+| -e `<execute>`               | string   | No           | Batch operations in non-interactive mode.                    | -e "show databases" |
 | -c                         | Flag     | No           | Required if rpc_thrift_compression_enable=true on the server. | -c                  |
 | -disableISO8601            | Flag     | No           | If set, timestamps will be displayed as numeric values instead of ISO8601 format. | -disableISO8601     |
 | -help                      | Flag     | No           | Displays help information for the CLI tool.                  | -help               |
