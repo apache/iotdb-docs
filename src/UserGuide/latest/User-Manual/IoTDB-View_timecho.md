@@ -363,7 +363,7 @@ In addition, for aliased sequences, if the user wants to get information about t
 
 ### Modify Views
 
-Modifying a view, such as changing its name, modifying its calculation logic, deleting it, etc., is similar to creating a new view, in that you need to re-specify all the column descriptions for the entire view.
+The modification operations supported by the view include: modifying its calculation logic,modifying tag/attributes/aliases, and deleting.
 
 #### Modify view data source
 
@@ -434,7 +434,7 @@ DELETE VIEW root.view.device.avg_temperatue
 
 ### View Synchronisation
 
-Sequence view data is always obtained via real-time queries, so data synchronisation is naturally supported.
+
 
 #### If the dependent original sequence is deleted
 
