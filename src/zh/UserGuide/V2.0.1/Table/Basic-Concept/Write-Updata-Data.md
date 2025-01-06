@@ -190,7 +190,7 @@ updateAssignment
     ;
 ```
 
-1. 更新操作仅允许修改属性（ATTRIBUTE）列的值
+1. 更新操作可以通过`insert`语句实现，该语句仅允许修改属性（ATTRIBUTE）列的值。
 2.  `WHERE` 的规则：
     - 范围仅限于标签列（TAG）和属性列（ATTRIBUTE），不允许涉及测点列（FIELD）和时间列（TIME）。
     - 不允许使用聚合函数
