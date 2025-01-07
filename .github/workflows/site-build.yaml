@@ -37,6 +37,29 @@ jobs:
         env:
           NODE_OPTIONS: --max_old_space_size=8192
         run: pnpm build
+  
+  linksCheck:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Test build website
+        env:
+          NODE_OPTIONS: --max_old_space_size=8192
+        run: pnpm run check-links 
 
   deploy:
     runs-on: ubuntu-latest
