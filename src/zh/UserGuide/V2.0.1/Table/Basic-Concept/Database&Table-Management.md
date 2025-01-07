@@ -126,7 +126,8 @@ SHOW DATABASES (DETAILS)?
 | SchemaReplicationFactor | 元数据副本数，用于确保元数据的高可用性。可以在`iotdb-system.properties`中修改`schema_replication_factor`配置项。 |
 | DataReplicationFactor   | 数据副本数，用于确保数据的高可用性。可以在`iotdb-system.properties`中修改`data_replication_factor`配置项。 |
 | TimePartitionInterval   | 时间分区间隔，决定了数据在磁盘上按多长时间进行目录分组，通常采用默认1周即可。 |
-| Model                   | 使用`DETAILS`语句会返回此列，展示每个数据库对应的数据模型（测点树模型、设备表模型） |
+| SchemaRegionGroupNum          | 使用`DETAILS`语句会返回此列，展示数据库的元数据副本组数量，一般不需要修改 |
+| DataRegionGroupNum         | 使用`DETAILS`语句会返回此列，展示数据库的数据副本组数量，一般不需要修改 |
 
 **示例:** 
 
@@ -140,7 +141,7 @@ IoTDB> show databases
 +---------+-------+-----------------------+---------------------+---------------------+
 IoTDB> show databases details
 +---------+-------+-----------------------+---------------------+---------------------+-----------------------+-----------------------+
-| Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|SCHEMA_REGION_GROUP_NUM|  DATA_REGION_GROUP_NUM|
+| Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|SchemaRegionGroupNum|  DataRegionGroupNum|
 +---------+-------+-----------------------+---------------------+---------------------+-----------------------+-----------------------+
 |test_prop|    300|                      3|                    2|               100000|                      1|                      2|
 |    test2|    300|                      3|                    2|            604800000|                      1|                      2|
