@@ -176,6 +176,7 @@ export const zhSidebar = {
         { text: 'Ignition', link: 'Ignition-IoTDB-plugin_timecho' },
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana插件', link: 'Grafana-Plugin' },
+        { text: 'Telegraf插件', link: 'Telegraf' },
         { text: 'ThingsBoard', link: 'Thingsboard' },
       ],
     },
