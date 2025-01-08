@@ -30,6 +30,7 @@ export const zhSidebar = {
       children: [
         { text: '产品介绍', link: 'IoTDB-Introduction_apache' },
         { text: '应用场景', link: 'Scenario' },
+        { text: '发布历史', link: 'Release-history_apache' },
       ],
     },
     {
