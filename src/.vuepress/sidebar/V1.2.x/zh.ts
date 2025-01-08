@@ -166,7 +166,7 @@ export const zhSidebar = {
         { text: 'UDF函数库', link: 'UDF-Libraries' },
         { text: '配置参数', link: 'Common-Config-Manual' },
         { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
-        { text: 'DataNode配置参数', link: 'DataNode-Config-Manual' },
+        { text: 'DataNode配置参数', link: 'DataNode-Config-Manual_apache' },
         { text: '状态码', link: 'Status-Codes' },
         { text: '关键字', link: 'Keywords' },
       ],

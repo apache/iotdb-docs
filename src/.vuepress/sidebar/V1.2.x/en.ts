@@ -180,6 +180,8 @@ export const enSidebar = {
       children: [
         { text: 'UDF Libraries', link: 'UDF-Libraries' },
         { text: 'Common Config Manual', link: 'Common-Config-Manual' },
+        { text: 'ConfigNode Config Manual', link: 'ConfigNode-Config-Manual' },
+        { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual_apache' },
         { text: 'Status Codes', link: 'Status-Codes' },
         { text: 'Keywords', link: 'Keywords' },
       ],
