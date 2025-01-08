@@ -18,44 +18,52 @@
     under the License.
 
 -->
-# 运维语句
 
-## Explain/Explain Analyze 语句
 
-查询分析的意义在于帮助用户理解查询的执行机制和性能瓶颈，从而实现查询优化和性能提升。这不仅关乎到查询的执行效率，也直接影响到应用的用户体验和资源的有效利用。为了进行有效的查询分析，**IoTDB** **V1.3.2及以上版本**提供了查询分析语句：Explain 和 Explain Analyze。
+# Maintennance
 
-- Explain 语句：允许用户预览查询 SQL 的执行计划，包括 IoTDB 如何组织数据检索和处理。
-- Explain Analyze 语句：在 Explain 语句基础上增加了性能分析，完整执行SQL并展示查询执行过程中的时间和资源消耗。为IoTDB用户深入理解查询详情以及进行查询优化提供了详细的相关信息。与其他常用的 IoTDB 排查手段相比，Explain Analyze 没有部署负担，同时能够针对单条 sql 进行分析，能够更好定位问题。各类方法对比如下：
+## Query Performance Analysis
 
-| 方法                | 安装难度                                                     | 业务影响                                             | 功能范围                                               |
-| :------------------ | :----------------------------------------------------------- | :--------------------------------------------------- | :----------------------------------------------------- |
-| Explain Analyze语句 | 低。无需安装额外组件，为IoTDB内置SQL语句                     | 低。只会影响当前分析的单条查询，对线上其他负载无影响 | 支持分布式，可支持对单条SQL进行追踪                    |
-| 监控面板            | 中。需要安装IoTDB监控面板工具（企业版工具），并开启IoTDB监控服务 | 中。IoTDB监控服务记录指标会带来额外耗时              | 支持分布式，仅支持对数据库整体查询负载和耗时进行分析   |
-| Arthas抽样          | 中。需要安装Java Arthas工具（部分内网无法直接安装Arthas，且安装后，有时需要重启应用） | 高。CPU 抽样可能会影响线上业务的响应速度             | 不支持分布式，仅支持对数据库整体查询负载和耗时进行分析 |
+The purpose of query analysis is to assist users in understanding the execution mechanism and performance bottlenecks of queries, thereby facilitating query optimization and performance enhancement. This is crucial not only for the efficiency of query execution but also for the user experience of applications and the efficient utilization of resources. For effective query analysis, IoTDB versions V1.3.2 and above offer the query analysis statements: Explain and Explain Analyze.
 
-### Explain 语句
+- Explain Statement: The Explain statement allows users to preview the execution plan of a query SQL, including how IoTDB organizes data retrieval and processing.
 
-#### 语法
+- Explain Analyze Statement: The Explain Analyze statement builds upon the Explain statement by incorporating performance analysis, fully executing the SQL, and displaying the time and resource consumption during the query execution process. This provides IoTDB users with detailed information to deeply understand the details of the query and to perform query optimization. Compared to other common IoTDB troubleshooting methods, Explain Analyze imposes no deployment burden and can analyze a single SQL statement, which can better pinpoint issues.
 
-Explain命令允许用户查看SQL查询的执行计划。执行计划以算子的形式展示，描述了IoTDB会如何执行查询。其语法如下，其中SELECT_STATEMENT是查询相关的SQL语句：
+The comparison of various methods is as follows:
+
+| Method                | Installation Difficulty | Business Impact | Functional Scope                                             |
+| :------------------ | :----------------------------------------------------------- | :------------------------------------------------ | :----------------------------------------------------------- |
+| Explain Analyze Statement | Low. No additional components are needed; it's a built-in SQL statement of IoTDB. | Low. It only affects the single query being analyzed, with no impact on other online loads. | Supports distributed systems, and can track a single SQL statement. |
+| Monitoring Panel            | Medium. Requires the installation of the IoTDB monitoring panel tool (an enterprise version tool) and the activation of the IoTDB monitoring service. | Medium. The IoTDB monitoring service's recording of metrics will introduce additional latency. | Supports distributed systems, but only analyzes the overall query load and time consumption of the database. |
+| Arthas Sampling          | Medium. Requires the installation of the Java Arthas tool (Arthas cannot be directly installed in some intranets, and sometimes a restart of the application is needed after installation). | High. CPU sampling may affect the response speed of online business. | Does not support distributed systems and only analyzes the overall query load and time consumption of the database. |
+
+### Explain Statement
+
+#### Syntax
+
+The Explain command enables users to view the execution plan of a SQL query. The execution plan is presented in the form of operators, describing how IoTDB will execute the query. The syntax is as follows, where SELECT_STATEMENT is the SQL statement related to the query:
 
 ```SQL
 EXPLAIN <SELECT_STATEMENT>
 ```
 
-Explain的返回结果包括了数据访问策略、过滤条件是否下推以及查询计划在不同节点的分配等信息，为用户提供了一种手段，以可视化查询的内部执行逻辑。
+The results returned by Explain include information such as data access strategies, whether filter conditions are pushed down, and how the query plan is distributed across different nodes, providing users with a means to visualize the internal execution logic of the query.
 
-#### 示例
+#### Example
 
 ```SQL
-# 插入数据
+
+# Insert data
+
 insert into root.explain.data(timestamp, column1, column2) values(1710494762, "hello", "explain")
 
-# 执行explain语句
+# Execute explain statement
+
 explain select * from root.explain.data
 ```
 
-执行上方SQL，会得到如下结果。不难看出，IoTDB分别通过两个SeriesScan节点去获取column1和column2的数据，最后通过fullOuterTimeJoin将其连接。
+Executing the above SQL will yield the following results. It is evident that IoTDB uses two SeriesScan nodes to retrieve the data for column1 and column2, and finally connects them through a fullOuterTimeJoin.
 
 ```Plain
 +-----------------------------------------------------------------------+
@@ -75,58 +83,62 @@ explain select * from root.explain.data
 +-----------------------------------------------------------------------+
 ```
 
-### Explain Analyze 语句
+### Explain Analyze Statement
 
-#### 语法
+#### Syntax
 
-Explain Analyze 是 IOTDB 查询引擎自带的性能分析 SQL，与 Explain 不同，它会执行对应的查询计划并统计执行信息，可以用于追踪一条查询的具体性能分布，用于对资源进行观察，进行性能调优与异常分析。其语法如下：
+Explain Analyze is a performance analysis SQL that comes with the IoTDB query engine. Unlike Explain, it executes the corresponding query plan and collects execution information, which can be used to track the specific performance distribution of a query, for observing resources, performance tuning, and anomaly analysis. The syntax is as follows:
 
 ```SQL
 EXPLAIN ANALYZE [VERBOSE] <SELECT_STATEMENT>
 ```
+        
+Where SELECT_STATEMENT corresponds to the query statement that needs to be analyzed; VERBOSE prints detailed analysis results, and when VERBOSE is not filled in, EXPLAIN ANALYZE will omit some information.
 
-其中SELECT_STATEMENT对应需要分析的查询语句；VERBOSE为打印详细分析结果，不填写VERBOSE时EXPLAIN ANALYZE将会省略部分信息。
+In the EXPLAIN ANALYZE result set, the following information is included:
 
-在EXPLAIN ANALYZE的结果集中，会包含如下信息：
 
 ![explain-analyze-1.png](https://alioss.timecho.com/upload/explain-analyze-1.png)
 
-其中：
 
-- QueryStatistics包含查询层面进的统计信息，主要包含规划解析阶段耗时，Fragment元数据等信息。
-- FragmentInstance是IoTDB在一个节点上查询计划的封装，每一个节点都会在结果集中输出一份Fragment信息，主要包含FragmentStatistics和算子信息。FragmentStastistics包含Fragment的统计信息，包括总实际耗时（墙上时间），所涉及到的TsFile，调度信息等情况。在一个Fragment的信息输出同时会以节点树层级的方式展示该Fragment下计划节点的统计信息，主要包括：CPU运行时间、输出的数据行数、指定接口被调用的次数、所占用的内存、节点专属的定制信息。
+- QueryStatistics contains statistical information at the query level, mainly including the time spent in the planning and parsing phase, Fragment metadata, and other information.
+- FragmentInstance is an encapsulation of the query plan on a node by IoTDB. Each node will output a Fragment information in the result set, mainly including FragmentStatistics and operator information. FragmentStatistics contains statistical information of the Fragment, including total actual time (wall time), TsFile involved, scheduling information, etc. At the same time, the statistical information of the plan nodes under this Fragment will be displayed in a hierarchical way of the node tree, mainly including: CPU running time, the number of output data rows, the number of times the specified interface is called, the memory occupied, and the custom information exclusive to the node.
 
-#### 特别说明
+#### Special Instructions
 
-1. Explain Analyze 语句的结果简化
+1. Simplification of Explain Analyze Statement Results
 
-由于在 Fragment 中会输出当前节点中执行的所有节点信息，当一次查询涉及的序列过多时，每个节点都被输出，会导致 Explain Analyze 返回的结果集过大，因此当相同类型的节点超过 10 个时，系统会自动合并当前 Fragment 下所有相同类型的节点，合并后统计信息也被累积，对于一些无法合并的定制信息会直接丢弃（如下图）。
+Since the Fragment will output all the node information executed in the current node, when a query involves too many series, each node is output, which will cause the result set returned by Explain Analyze to be too large. Therefore, when the same type of node exceeds 10, the system will automatically merge all the same types of nodes under the current Fragment, and the merged statistical information is also accumulated. Some custom information that cannot be merged will be directly discarded (as shown in the figure below).
 
 ![explain-analyze-2.png](https://alioss.timecho.com/upload/explain-analyze-2.png)
 
-用户也可以自行修改 iotdb-system.properties 中的配置项`merge_threshold_of_explain_analyze`来设置触发合并的节点阈值，该参数支持热加载。
+Users can also modify the configuration item `merge_threshold_of_explain_analyze` in `iotdb-system.properties` to set the threshold for triggering the merge of nodes. This parameter supports hot loading.
 
-2. 查询超时场景使用 Explain Analyze 语句
+2. Use of Explain Analyze Statement in Query Timeout Scenarios
 
-Explain Analyze 本身是一种特殊的查询，当执行超时的时候，无法使用Explain Analyze语句进行分析。为了在查询超时的情况下也可以通过分析结果排查超时原因，Explain Analyze还提供了**定时日志**机制（无需用户配置），每经过一定的时间间隔会将 Explain Analyze 的当前结果以文本的形式输出到专门的日志中。当查询超时时，用户可以前往logs/log_explain_analyze.log中查看对应的日志进行排查。
+Explain Analyze itself is a special query. When the execution times out, it cannot be analyzed with the Explain Analyze statement. In order to be able to investigate the cause of the timeout through the analysis results even when the query times out, Explain Analyze also provides a timing log mechanism (no user configuration is required), which will output the current results of Explain Analyze in the form of text to a special log at a certain time interval. When the query times out, users can go to `logs/log_explain_analyze.log` to check the corresponding log for investigation.
 
-日志的时间间隔基于查询的超时时间进行计算，可以保证在超时的情况下至少会有两次的结果记录。
+The time interval of the log is calculated based on the query timeout time to ensure that at least two result records will be saved before the timeout.
 
-#### 示例
+#### Example
 
-下面是Explain Analyze的一个例子:
+Here is an example of Explain Analyze:
 
 ```SQL
-# 插入数据
+
+# Insert data
+
 insert into root.explain.analyze.data(timestamp, column1, column2, column3) values(1710494762, "hello", "explain", "analyze")
 insert into root.explain.analyze.data(timestamp, column1, column2, column3) values(1710494862, "hello2", "explain2", "analyze2")
 insert into root.explain.analyze.data(timestamp, column1, column2, column3) values(1710494962, "hello3", "explain3", "analyze3")
 
-# 执行explain analyze语句
+# Execute explain analyze statement
+
 explain analyze select column2 from root.explain.analyze.data order by column1
 ```
 
-得到输出如下：
+The output is as follows:
+
 
 ```Plain
 +-------------------------------------------------------------------------------------------------+
@@ -186,7 +198,7 @@ explain analyze select column2 from root.explain.analyze.data order by column1
 +-------------------------------------------------------------------------------------------------+
 ```
 
-触发合并后的部分结果示例如下：
+Example of Partial Results After Triggering Merge:
 
 ```Plain
 Analyze Cost: 143.679 ms                                                              
@@ -255,97 +267,82 @@ FRAGMENT-INSTANCE[Id: 20240311_041502_00001_1.3.0][IP: 192.168.130.9][DataRegion
 ......
 ```
 
-### 常见问题
 
-#### WALL TIME（墙上时间）和 CPU TIME（CPU时间）的区别？
+### Common Issues
 
-CPU 时间也称为处理器时间或处理器使用时间，指的是程序在执行过程中实际占用 CPU 进行计算的时间，显示的是程序实际消耗的处理器资源。
+#### What is the difference between WALL TIME and CPU TIME?
 
-墙上时间也称为实际时间或物理时间，指的是从程序开始执行到程序结束的总时间，包括了所有等待时间。
+CPU time, also known as processor time or CPU usage time, refers to the actual time the CPU is occupied with computation during the execution of a program, indicating the actual consumption of processor resources by the program.
 
-1. WALL TIME < CPU TIME 的场景：比如一个查询分片最后被调度器使用两个线程并行执行，真实物理世界上是 10s 过去了，但两个线程，可能一直占了两个 cpu 核跑了 10s，那 cpu time 就是 20s，wall time就是 10s
-2. WALL TIME > CPU TIME 的场景：因为系统内可能会存在多个查询并行执行，但查询的执行线程数和内存是固定的，
-    1. 所以当查询分片被某些资源阻塞住时（比如没有足够的内存进行数据传输、或等待上游数据）就会放入Blocked Queue，此时查询分片并不会占用 CPU TIME，但WALL TIME（真实物理时间的时间）是在向前流逝的
-    2. 或者当查询线程资源不足时，比如当前共有16个查询线程，但系统内并发有20个查询分片，即使所有查询都没有被阻塞，也只会同时并行运行16个查询分片，另外四个会被放入 READY QUEUE，等待被调度执行，此时查询分片并不会占用 CPU TIME，但WALL TIME（真实物理时间的时间）是在向前流逝的
+Wall time, also known as real time or physical time, refers to the total time from the start to the end of a program's execution, including all waiting times.
 
-#### Explain Analyze 是否有额外开销，测出的耗时是否与查询真实执行时有差别？
+1. Scenarios where WALL TIME < CPU TIME: For example, a query slice is finally executed in parallel by the scheduler using two threads. In the real physical world, 10 seconds have passed, but the two threads may have occupied two CPU cores and run for 10 seconds each, so the CPU time would be 20 seconds, while the wall time would be 10 seconds.
 
-几乎没有，因为 explain analyze operator 是单独的线程执行，收集原查询的统计信息，且这些统计信息，即使不explain analyze，原来的查询也会生成，只是没有人去取。并且 explain analyze 是纯 next 遍历结果集，不会打印，所以与原来查询真实执行时的耗时不会有显著差别。
+2. Scenarios where WALL TIME > CPU TIME: Since there may be multiple queries running in parallel within the system, but the number of execution threads and memory is fixed, 
+   1. So when a query slice is blocked by some resources (such as not having enough memory for data transfer or waiting for upstream data), it will be put into the Blocked Queue. At this time, the query slice will not occupy CPU time, but the WALL TIME (real physical time) is still advancing. 
+   2. Or when the query thread resources are insufficient, for example, there are currently 16 query threads in total, but there are 20 concurrent query slices within the system. Even if all queries are not blocked, only 16 query slices can run in parallel at the same time, and the other four will be put into the READY QUEUE, waiting to be scheduled for execution. At this time, the query slice will not occupy CPU time, but the WALL TIME (real physical time) is still advancing.
 
-#### IO 耗时主要关注几个指标？
+#### Is there any additional overhead with Explain Analyze, and is the measured time different from when the query is actually executed?
 
-可能涉及 IO 耗时的主要有个指标，loadTimeSeriesMetadataDiskSeqTime, loadTimeSeriesMetadataDiskUnSeqTime 以及 construct[NonAligned/Aligned]ChunkReadersDiskTime
+Almost none, because the explain analyze operator is executed by a separate thread to collect the statistical information of the original query, and these statistical information, even if not explain analyze, the original query will also generate, but no one goes to get it. And explain analyze is a pure next traversal of the result set, which will not be printed, so there will be no significant difference from the actual execution time of the original query.
 
-TimeSeriesMetadata 的加载分别统计了顺序和乱序文件，但 Chunk 的读取暂时未分开统计，但顺乱序比例可以通过TimeseriesMetadata 顺乱序的比例计算出来。
+#### What are the main indicators to focus on for IO time consumption?
 
-#### 乱序数据对查询性能的影响能否有一些指标展示出来？
+The main indicators that may involve IO time consumption are loadTimeSeriesMetadataDiskSeqTime, loadTimeSeriesMetadataDiskUnSeqTime, and construct[NonAligned/Aligned]ChunkReadersDiskTime.
 
-乱序数据产生的影响主要有两个：
+The loading of TimeSeriesMetadata statistics is divided into sequential and unaligned files, but the reading of Chunks is not temporarily separated, but the proportion of sequential and unaligned can be calculated based on the proportion of TimeSeriesMetadata.
 
-1. 需要在内存中多做一个归并排序（一般认为这个耗时是比较短的，毕竟是纯内存的 cpu 操作）
-2. 乱序数据会产生数据块间的时间范围重叠，导致统计信息无法使用
-    1. 无法利用统计信息直接 skip 掉整个不满足值过滤要求的 chunk
-        1. 一般用户的查询都是只包含时间过滤条件，则不会有影响
-    2. 无法利用统计信息直接计算出聚合值，无需读取数据
+#### Can the impact of unaligned data on query performance be demonstrated with some indicators?
 
-单独对于乱序数据的性能影响，目前并没有有效的观测手段，除非就是在有乱序数据的时候，执行一遍查询耗时，然后等乱序合完了，再执行一遍，才能对比出来。
+There are mainly two impacts of unaligned data:
 
-因为即使乱序这部分数据进了顺序，也是需要 IO、加压缩、decode，这个耗时少不了，不会因为乱序数据被合并进乱序了，就减少了。
+1. An additional merge sort needs to be done in memory (it is generally believed that this time consumption is relatively short, after all, it is a pure memory CPU operation)
 
-#### 执行 explain analyze 时，查询超时后，为什么结果没有输出在 log_explain_analyze.log 中？
+2. Unaligned data will generate overlapping time ranges between data blocks, making statistical information unusable 
+   1. Unable to directly skip the entire chunk that does not meet the value filtering requirements using statistical information 
+      1. Generally, the user's query only includes time filtering conditions, so there will be no impact 
+   2. Unable to directly calculate the aggregate value using statistical information without reading the data
 
-升级时，只替换了 lib 包，没有替换 conf/logback-datanode.xml，需要替换一下 conf/logback-datanode.xml，然后不需要重启（该文件内容可以被热加载），大约等待 1 分钟后，重新执行 explain analyze verbose。
+At present, there is no effective observation method for the performance impact of unaligned data alone, unless a query is executed when there is unaligned data, and then executed again after the unaligned data is merged, in order to compare.
 
-### 实战案例
+Because even if this part of the unaligned data is entered into the sequence, IO, compression, and decoding are also required. This time cannot be reduced, and it will not be reduced just because the unaligned data has been merged into the unaligned.
 
-#### 案例一：查询涉及文件数量过多，磁盘IO成为瓶颈，导致查询速度变慢
+#### Why is there no output in the log_explain_analyze.log when the query times out during the execution of explain analyze?
+
+During the upgrade, only the lib package was replaced, and the conf/logback-datanode.xml was not replaced. It needs to be replaced, and there is no need to restart (the content of this file can be hot loaded). After waiting for about 1 minute, re-execute explain analyze verbose.
+
+
+### Practical Case Studies
+
+#### Case Study 1: The query involves too many files, and disk IO becomes a bottleneck, causing the query speed to slow down.
 
 ![explain-analyze-3.png](https://alioss.timecho.com/upload/explain-analyze-3.png)
 
-查询总耗时为 938 ms，其中从文件中读取索引区和数据区的耗时占据 918 ms，涉及了总共 289 个文件，假设查询涉及 N 个 TsFile，磁盘单次 seek 耗时为 t_seek，读取文件尾部索引的耗时为 t_index，读取文件的数据块的耗时为 t_chunk，则首次查询（未命中缓存）的理论耗时为 `cost = N * (t_seek + t_index + t_seek + t_chunk)`，按经验值，HDD 磁盘的一次 seek 耗时约为 5-10ms，所以查询涉及的文件数越多，查询延迟会越大。
+The total query time is 938 ms, of which the time to read the index area and data area from the files accounts for 918 ms, involving a total of 289 files. Assuming the query involves N TsFiles, the theoretical time for the first query (not hitting the cache) is cost = N * (t_seek + t_index + t_seek + t_chunk). Based on experience, the time for a single seek on an HDD disk is about 5-10ms, so the more files involved in the query, the greater the query delay will be.
 
-最终优化方案为：
+The final optimization plan is:
 
-1. 调整合并参数，降低文件数量
-2. 更换 HDD 为 SSD，降低磁盘单次 IO 的延迟
+1. Adjust the merge parameters to reduce the number of files
 
-#### 案例二：like 谓词执行慢导致查询超时
+2. Replace HDD with SSD to reduce the latency of a single disk IO
 
-执行如下 sql 时，查询超时（默认超时时间为 60s）
+
+#### Case Study 2: The execution of the like predicate is slow, causing the query to time out
+
+When executing the following SQL, the query times out (the default timeout is 60 seconds)
 
 ```SQL
-select count(s1) as total from root.db.d1 where s1 like '%XXXXXXXX%' 
+select count(s1) as total from root.db.d1 where s1 like '%XXXXXXXX%'
 ```
 
-执行 explain analyze verbose 时，即使查询超时，也会每隔 15s，将阶段性的采集结果输出到 log_explain_analyze.log 中，从 log_explain_analyze.log 中得到最后两次的输出结果如下：
+When executing explain analyze verbose, even if the query times out, the intermediate collection results will be output to log_explain_analyze.log every 15 seconds. The last two outputs obtained from log_explain_analyze.log are as follows:
 
 ![explain-analyze-4.png](https://alioss.timecho.com/upload/explain-analyze-4.png)
 
 ![explain-analyze-5.png](https://alioss.timecho.com/upload/explain-analyze-5.png)
 
-观察结果，我们发现是因为查询未加时间条件，涉及的数据太多 constructAlignedChunkReadersDiskTime 和 pageReadersDecodeAlignedDiskTime的耗时一直在涨，意味着一直在读新的 chunk。但 AlignedSeriesScanNode 的输出信息一直是 0，这是因为算子只有在输出至少一行满足条件的数据时，才会让出时间片，并更新信息。从总的读取耗时（loadTimeSeriesMetadataAlignedDiskSeqTime + loadTimeSeriesMetadataAlignedDiskUnSeqTime + constructAlignedChunkReadersDiskTime + pageReadersDecodeAlignedDiskTime=约13.4秒）来看，其他耗时（60s - 13.4 = 46.6）应该都是在执行过滤条件上（like 谓词的执行很耗时）。
 
-最终优化方案为：增加时间过滤条件，避免全表扫描
+Observing the results, we found that it is because the query did not add a time condition, involving too much data, and the time of constructAlignedChunkReadersDiskTime and pageReadersDecodeAlignedDiskTime has been increasing, which means that new chunks are being read all the time. However, the output information of AlignedSeriesScanNode has always been 0, because the operator only gives up the time slice and updates the information when at least one line of data that meets the condition is output. Looking at the total reading time (loadTimeSeriesMetadataAlignedDiskSeqTime + loadTimeSeriesMetadataAlignedDiskUnSeqTime + constructAlignedChunkReadersDiskTime + pageReadersDecodeAlignedDiskTime = about 13.4 seconds), the other time (60s - 13.4 = 46.6) should all be spent on executing the filtering condition (the execution of the like predicate is very time-consuming).
 
-## Start/Stop Repair Data 语句
-用于修复由于系统 bug 导致的乱序
-### START REPAIR DATA
-
-启动一个数据修复任务，扫描创建修复任务的时间之前产生的 tsfile 文件并修复有乱序错误的文件。
-
-```sql
-IoTDB> START REPAIR DATA
-IoTDB> START REPAIR DATA ON LOCAL
-IoTDB> START REPAIR DATA ON CLUSTER
-```
-
-### STOP REPAIR DATA
-
-停止一个进行中的修复任务。如果需要再次恢复一个已停止的数据修复任务的进度，可以重新执行 `START REPAIR DATA`.
-
-```sql
-IoTDB> STOP REPAIR DATA
-IoTDB> STOP REPAIR DATA ON LOCAL
-IoTDB> STOP REPAIR DATA ON CLUSTER
-```
+The final optimization plan is: Add a time filtering condition to avoid a full table scan.
 
