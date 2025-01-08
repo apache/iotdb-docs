@@ -367,9 +367,8 @@ Here is a schematic diagram of the region migration process :
 ### Notes
 
 1. Region migration is supported only 1.3.3 IoTDB and later.
-2. IoTConsensus and Ratis protocols ( `schema_region_consensus_protocol_class `and `data_region_consensus_protocol_class `in `iotdb-system.properties `) are currently supported .
-3. Region migration requires system resources such as hard disk and internet bandwidth, and although the process does not block reads and writes , it may affect read and write speeds .
-4. The region migration process will block the deletion of the WAL file of this consensus group. If the total number of WAL files reaches `wal_file_size_threshold_in_byte `, it will block writing.
+2. IoTConsensus and Ratis protocols ( `schema_region_consensus_protocol_class `and `data_region_consensus_protocol_class `in `iotdb-system.properties `) are currently supported.
+3. Region migration requires system resources such as hard disk and internet bandwidth, and although the process does not block reads and writes , it may affect read and write speeds. For detailed identification and handling methods of blocked write scenarios, refer to the following section.
 
 ### Instructions for use
 
@@ -415,6 +414,13 @@ Here is a schematic diagram of the region migration process :
     Total line number = 3
     It costs 0.003s
     ```
+
+- **Block Write**: Although region migration typically does not block write operations, the cleanup of WAL files needs to be paused during the process. If the accumulation of WAL files reaches the `wal_throttle_threshold_in_byte`, the current DataNode will switch to Readonly mode and suspend writes.
+If the DataNode enters Readonly mode during migration and sufficient disk space is confirmed, you should increase the `wal_throttle_threshold_in_byte` to 500GB or more to allow writes to continue. Use the following SQL statement:
+  ```plain
+    IoTDB> set configuration "wal_throttle_threshold_in_byte"="536870912000" 
+    Msg: The statement is executed successfully.
+  ```
 
 ## Start/Stop Repair Data Statements
 Used to repair the unsorted data generate by system bug. 
