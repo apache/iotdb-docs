@@ -19,12 +19,13 @@
 
 -->
 # 发版历史
+> 下载地址：：https://iotdb.apache.org/zh/Download/
 
 ## V1.3.3
 
 > 发版时间：2024.11.20
 >
-> 下载地址：：https://iotdb.apache.org/zh/Download/
+
 
 V1.3.3主要新增 String、Blob、Date、Timestamp 数据类型、增加数据订阅、DataNode 主动监听并加载 TsFile，同时增加可观测性指标、发送端支持传文件至指定目录后，接收端自动加载到 IoTDB、配置文件整合、客户端查询请求负载均衡等功能，对数据库监控、性能、稳定性进行了全方位提升，并修复部分产品 bug 和性能问题。具体发布内容如下：
 
