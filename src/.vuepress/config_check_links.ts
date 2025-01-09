@@ -21,6 +21,7 @@ import { defineUserConfig } from 'vuepress';
 import config from './config.js';
 
 if(config.plugins === undefined) config.plugins = [];
+
 config.plugins = [...config.plugins,linksCheckPlugin({build: 'error'})];
 
 export default defineUserConfig(config);

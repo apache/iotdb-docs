@@ -308,7 +308,7 @@ AS
     SELECT temperature FROM root.db.*
 ```
 
-This is modelled on the query writeback (`SELECT INTO`) convention for naming rules, which uses variable placeholders to specify naming rules. See also: [QUERY WRITEBACK (SELECT INTO)](../User-Manual/Query-Data.md#into-clause-query-write-back)
+This is modelled on the query writeback (`SELECT INTO`) convention for naming rules, which uses variable placeholders to specify naming rules. See also: [QUERY WRITEBACK (SELECT INTO)](../Basic-Concept/Query-Data.md#into-clause-query-write-back)
 
 Here `root.db.*.temperature` specifies what time series will be included in the view; and `${2}` specifies from which node in the time series the name is extracted to name the sequence view.
 

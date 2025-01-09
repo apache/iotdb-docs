@@ -110,7 +110,7 @@ In order to make it easier and faster to express multiple timeseries paths, IoTD
 
 ### Timestamp
 
-The timestamp is the time point at which data is produced. It includes absolute timestamps and relative timestamps. For detailed description, please go to [Data Type doc](./Data-Type.md).
+The timestamp is the time point at which data is produced. It includes absolute timestamps and relative timestamps. For detailed description, please go to [Data Type doc](../Background-knowledge/Data-Type.md).
 
 ### Data point
 
@@ -148,6 +148,6 @@ In the following chapters of data definition language, data operation language a
 
 ## Schema Template
 
-In the actual scenario, many entities collect the same measurements, that is, they have the same measurements name and type. A **schema template** can be declared to define the collectable measurements set. Schema template helps save memory by implementing schema sharing. For detailed description, please refer to [Schema Template doc](../User-Manual/Operate-Metadata_timecho.md#Device-Template).
+In the actual scenario, many entities collect the same measurements, that is, they have the same measurements name and type. A **schema template** can be declared to define the collectable measurements set. Schema template helps save memory by implementing schema sharing. For detailed description, please refer to [Schema Template doc](../Basic-Concept/Operate-Metadata.md#Device-Template).
 
 In the following chapters of, data definition language, data operation language and Java Native Interface, various operations related to schema template will be introduced one by one.

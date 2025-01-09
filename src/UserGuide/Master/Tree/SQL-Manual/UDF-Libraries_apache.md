@@ -607,14 +607,14 @@ create function acf as 'org.apache.iotdb.library.dprofile.UDTFACF'
 
 This function is used to calculate the auto-correlation factor of the input time series,
 which equals to cross correlation between the same series.
-For more information, please refer to [XCorr](./UDF-Libraries.md#xcorr) function.
+For more information, please refer to [XCorr](#XCorr) function.
 
 **Name:** ACF
 
 **Input Series:** Only support a single input numeric series. The type is INT32 / INT64 / FLOAT / DOUBLE.
 
 **Output Series:** Output a single series. The type is DOUBLE.
-There are $2N-1$ data points in the series, and the values are interpreted in details in [XCorr](./UDF-Libraries.md#XCorr) function.
+There are $2N-1$ data points in the series, and the values are interpreted in details in [XCorr](#XCorr) function.
 
 **Note:**
 
