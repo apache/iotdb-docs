@@ -22,7 +22,7 @@
 
 ## V1.3.3
 
-> 最新发版时间：2024.11.20
+> 发版时间：2024.11.20
 >
 > 下载地址：：https://iotdb.apache.org/zh/Download/
 
@@ -46,9 +46,8 @@ V1.3.3主要新增 String、Blob、Date、Timestamp 数据类型、增加数据�
 
 ## V1.3.2
 
-> 最新发版时间：2024.7.1
->
-> 下载地址：https://iotdb.apache.org/zh/Download/
+> 发版时间：2024.7.1
+
 
 V1.3.2主要新增 explain analyze 语句分析单个 SQL 查询耗时、新增 UDAF 用户自定义聚合函数框架、元数据同步、统计指定路径下数据点数、SQL 语句导入导出脚本等功能，同时集群管理工具支持滚动升级、上传插件到整个集群，对数据库监控、性能、稳定性进行了全方位提升，并修复部分产品 bug 和性能问题。具体发布内容如下：
 
@@ -67,9 +66,8 @@ V1.3.2主要新增 explain analyze 语句分析单个 SQL 查询耗时、新增 
 
 ## V1.3.1
 
-> 最新发版时间：2024.4.22
->
-> 下载地址：https://iotdb.apache.org/zh/Download/
+> 发版时间：2024.4.22
+
 
 V1.3.1主要新增一键启停集群脚本、一键收集实例信息脚本、多种内置函数等新特性，优化了原有数据同步、日志输出策略、查询执行过程，提升系统可观测性，并修复部分产品 bug 和性能问题。具体发布内容如下：
 
@@ -88,9 +86,8 @@ V1.3.1主要新增一键启停集群脚本、一键收集实例信息脚本、�
 
 ## V1.3.0
 
-> 最新发版时间：2024.1.1
->
-> 下载地址：https://iotdb.apache.org/zh/Download/
+> 发版时间：2024.1.1
+
 
 V1.3.0主要新增SSL通讯加密、数据同步监控项统计等新特性，优化了原有权限模块的语法和逻辑、metrics算法库性能、python客户端写入性能以及在部分查询场景下的查询效率，修复部分产品 bug 和性能问题。具体发布内容如下：
 
@@ -109,9 +106,8 @@ V1.3.0主要新增SSL通讯加密、数据同步监控项统计等新特性，�
 
 ## V1.2.0
 
-> 最新发版时间：2023.6.30
->
-> 下载地址：https://iotdb.apache.org/zh/Download/
+> 发版时间：2023.6.30
+
 
 V1.2.0主要增加了流处理框架、动态模板、substring/replace/round内置查询函数等新特性，增强了show region、show timeseries、show variable等内置语句功能和Session接口，同时优化了内置监控项及其实现，修复部分产品bug和性能问题。
 
@@ -128,9 +124,8 @@ V1.2.0主要增加了流处理框架、动态模板、substring/replace/round内
 
 ## V1.1.0
 
-> 最新发版时间：2023-04-03
->
-> 下载地址：https://iotdb.apache.org/zh/Download/
+> 发版时间：2023-04-03
+
 
 V1.1.0主要改进增加了部分新特性，如支持 GROUP BY VARIATION、GROUP BY CONDITION 等分段方式、增加 DIFF、COUNT_IF 等实用函数，引入 pipeline 执行引擎进一步提升查询速度等。同时修复对齐序列 last 查询 order by timeseries、LIMIT&OFFSET 不生效、重启后元数据模版错误、删除所有 database 后创建序列错误等相关问题。
 
@@ -149,9 +144,8 @@ V1.1.0主要改进增加了部分新特性，如支持 GROUP BY VARIATION、GROU
 
 ## V1.0.0
 
-> 最新发版时间：2022.12.03
->
-> 下载地址：https://iotdb.apache.org/zh/Download/
+> 发版时间：2022.12.03
+
 
 V1.0.0主要修复分区计算及查询执行时的相关问题，历史快照未删除，数据查询及 SessionPool 内存使用上的相关问题等；同时改进增加部分新特性，如支持 show variables、explain align by device 等命令，完善 ExportCSV/ExportTsFile/MQTT 等功能，完善集群的启停流程、更改 IoTDB 集群默认的内部端口、新增用于区分集群的 cluster_name 属性等。
 
