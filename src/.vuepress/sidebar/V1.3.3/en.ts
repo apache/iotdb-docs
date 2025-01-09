@@ -116,7 +116,15 @@ export const enSidebar = {
             { text: 'Stream Processing', link: 'Streaming_apache' },
           ],
         },
-        { text: 'Maintenance SQL', link: 'Maintennance' },
+        {
+          text: 'Maintenance SQL',
+          collapsible: true,
+          children: [
+            { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis' },
+            { text: 'Load Balance', link: 'Load-Balance' },
+            { text: 'Data Recovery', link: 'Data-Recovery' },
+          ],
+        },
       ],
     },
     {
