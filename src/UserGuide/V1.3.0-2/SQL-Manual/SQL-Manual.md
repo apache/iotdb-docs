@@ -23,7 +23,7 @@
 
 ## DATABASE MANAGEMENT
 
-For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadata_timecho.md).
+For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadata.md).
 
 ### Create Database
 
@@ -104,7 +104,7 @@ IoTDB> SHOW TTL ON StorageGroupNames
 
 ## DEVICE TEMPLATE
 
-For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadata_timecho.md).
+For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadata.md).
 
 ![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
 
@@ -180,7 +180,7 @@ IoTDB> alter device template t1 add (speed FLOAT encoding=RLE, FLOAT TEXT encodi
 
 ## TIMESERIES MANAGEMENT
 
-For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadata_timecho.md).
+For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadata.md).
 
 ### Create Timeseries
 
@@ -362,7 +362,7 @@ The above operations are supported for timeseries tag, attribute updates, etc.
 
 ## NODE MANAGEMENT
 
-For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadata_timecho.md).
+For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadata.md).
 
 ### Show Child Paths
 

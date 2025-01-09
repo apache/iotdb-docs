@@ -3027,7 +3027,7 @@ It costs 0.375s
 * 所有 `SELECT` 子句中源序列的 `WRITE_SCHEMA` 权限。
 * 所有 `INTO` 子句中目标序列 `WRITE_DATA` 权限。
 
-更多用户权限相关的内容，请参考[权限管理语句](./Authority-Management.md)。
+更多用户权限相关的内容，请参考[权限管理语句](../User-Manual/Authority-Management.md)。
 
 ### 相关配置参数
 

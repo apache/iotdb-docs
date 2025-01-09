@@ -2904,7 +2904,7 @@ It costs 0.375s
 * 所有 `SELECT` 子句中源序列的 `READ_TIMESERIES` 权限。
 * 所有 `INTO` 子句中目标序列 `INSERT_TIMESERIES` 权限。
 
-更多用户权限相关的内容，请参考[权限管理语句](../User-Manual/Security-Management_timecho.md#权限管理)。
+更多用户权限相关的内容，请参考[权限管理语句](../User-Manual/Authority-Management.md#权限管理)。
 
 ### 相关配置参数
 

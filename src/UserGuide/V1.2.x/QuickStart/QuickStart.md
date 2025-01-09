@@ -244,7 +244,7 @@ The server can be stopped using `ctrl-C` or by running the following script:
 ```
 Note: In Linux, please add the `sudo` as far as possible, or else the stopping process may fail. <!-- TODO: Actually running things as `root` is considered a bad practice from security perspective. Is there a reson for requiring root? I don't think we're using any privileged ports or resources. -->
 
-More explanations on running IoTDB in a clustered environment are available at [Cluster-Setup](../Deployment-and-Maintenance/Deployment-Guide_timecho.md).
+More explanations on running IoTDB in a clustered environment are available at [Cluster-Setup](../Deployment-and-Maintenance/Deployment-Guide.md).
 
 ### Administration
 
@@ -260,7 +260,7 @@ ALTER USER <username> SET PASSWORD <password>;
 Example: IoTDB > ALTER USER root SET PASSWORD 'newpwd';
 ```
 
-More about administration options：[Administration Management](../User-Manual/Security-Management_timecho.md)
+More about administration options：[Administration Management](../User-Manual/Authority-Management.md)
 
 ## Basic configuration
 

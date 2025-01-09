@@ -23,7 +23,7 @@
 
 ## DATABASE MANAGEMENT
 
-For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadata_timecho.md).
+For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metadata.md).
 
 ### Create Database
 
@@ -105,7 +105,7 @@ IoTDB> SHOW DEVICES
 
 ## DEVICE TEMPLATE
 
-For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadata_timecho.md).
+For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metadata.md).
 
 ![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
 
@@ -184,7 +184,7 @@ IoTDB> alter device template t1 add (speed FLOAT encoding=RLE, FLOAT TEXT encodi
 
 ## TIMESERIES MANAGEMENT
 
-For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadata_timecho.md).
+For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metadata.md).
 
 ### Create Timeseries
 
@@ -364,7 +364,7 @@ The above operations are supported for timeseries tag, attribute updates, etc.
 
 ## NODE MANAGEMENT
 
-For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadata_timecho.md).
+For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metadata.md).
 
 ### Show Child Paths
 
@@ -409,7 +409,7 @@ IoTDB> count devices root.ln.**
 
 ### Insert Data
 
-For more details, see document [Write-Delete-Data](../User-Manual/Write-Delete-Data.md).
+For more details, see document [Write-Delete-Data](../Basic-Concept/Write-Delete-Data.md).
 
 #### Use of INSERT Statements
 
@@ -471,7 +471,7 @@ For more details, see document [Data Import](../Tools-System/Data-Import-Tool.md
 
 ## DELETE DATA
 
-For more details, see document [Write-Delete-Data](../User-Manual/Write-Delete-Data.md).
+For more details, see document [Write-Delete-Data](../Basic-Concept/Write-Delete-Data.md).
 
 ### Delete Single Timeseries
 
@@ -508,7 +508,7 @@ IoTDB > DELETE PARTITION root.ln 0,1,2
 
 ## QUERY DATA
 
-For more details, see document [Query-Data](../User-Manual/Query-Data.md).
+For more details, see document [Query-Data](../Basic-Concept/Query-Data.md).
 
 ```sql
 SELECT [LAST] selectExpr [, selectExpr] ...
@@ -1090,11 +1090,11 @@ select change_points(s1), change_points(s2), change_points(s3), change_points(s4
 
 ## DATA QUALITY FUNCTION LIBRARY
 
-For more details, see document [Operator-and-Expression](./UDF-Libraries_timecho.md).
+For more details, see document [Operator-and-Expression](./UDF-Libraries.md).
 
 ### Data Quality
 
-For details and examples, see the document [Data-Quality](./UDF-Libraries_timecho.md#data-quality).
+For details and examples, see the document [Data-Quality](./UDF-Libraries.md#data-quality).
 
 ```sql
 # Completeness
@@ -1119,7 +1119,7 @@ select Accuracy(t1,t2,t3,m1,m2,m3) from root.test
 
 ### Data Profiling
 
-For details and examples, see the document [Data-Profiling](./UDF-Libraries_timecho.md#data-profiling).
+For details and examples, see the document [Data-Profiling](./UDF-Libraries.md#data-profiling).
 
 ```sql
 # ACF
@@ -1199,7 +1199,7 @@ select zscore(s1) from root.test
 
 ### Anomaly Detection
 
-For details and examples, see the document [Anomaly-Detection](./UDF-Libraries_timecho.md#anomaly-detection).
+For details and examples, see the document [Anomaly-Detection](./UDF-Libraries.md#anomaly-detection).
 
 ```sql
 # IQR
@@ -1234,7 +1234,7 @@ select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='anomaly','p'='3','k'='3
 
 ### Frequency Domain
 
-For details and examples, see the document [Frequency-Domain](./UDF-Libraries_timecho.md#frequency-domain-analysis).
+For details and examples, see the document [Frequency-Domain](./UDF-Libraries.md#frequency-domain-analysis).
 
 ```sql
 # Conv
@@ -1266,7 +1266,7 @@ select envelope(s1) from root.test.d1
 
 ### Data Matching
 
-For details and examples, see the document [Data-Matching](./UDF-Libraries_timecho.md#data-matching).
+For details and examples, see the document [Data-Matching](./UDF-Libraries.md#data-matching).
 
 ```sql
 # Cov
@@ -1287,7 +1287,7 @@ select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
 
 ### Data Repairing
 
-For details and examples, see the document [Data-Repairing](./UDF-Libraries_timecho.md#data-repairing).
+For details and examples, see the document [Data-Repairing](./UDF-Libraries.md#data-repairing).
 
 ```sql
 # TimestampRepair
@@ -1312,7 +1312,7 @@ select seasonalrepair(s1,'method'='improved','period'=3) from root.test.d2
 
 ### Series Discovery
 
-For details and examples, see the document [Series-Discovery](./UDF-Libraries_timecho.md#series-discovery).
+For details and examples, see the document [Series-Discovery](./UDF-Libraries.md#series-discovery).
 
 ```sql
 # ConsecutiveSequences
@@ -1325,7 +1325,7 @@ select consecutivewindows(s1,s2,'length'='10m') from root.test.d1
 
 ### Machine Learning
 
-For details and examples, see the document [Machine-Learning](./UDF-Libraries_timecho.md#machine-learning).
+For details and examples, see the document [Machine-Learning](./UDF-Libraries.md#machine-learning).
 
 ```sql
 # AR
@@ -1340,7 +1340,7 @@ select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0
 
 ## LAMBDA EXPRESSION
 
-For details and examples, see the document [Lambda](./UDF-Libraries_timecho.md#lambda-expression).
+For details and examples, see the document [Lambda](./UDF-Libraries.md#lambda-expression).
 
 ```sql
 select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'expr'='x -> {x * 3}') as jexl2, jexl(temperature, 'expr'='x -> {x * x}') as jexl3, jexl(temperature, 'expr'='x -> {multiply(x, 100)}') as jexl4, jexl(temperature, st, 'expr'='(x, y) -> {x + y}') as jexl5, jexl(temperature, st, str, 'expr'='(x, y, z) -> {x + y + z}') as jexl6 from root.ln.wf01.wt01;```
@@ -1348,7 +1348,7 @@ select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'exp
 
 ## CONDITIONAL EXPRESSION
 
-For details and examples, see the document [Conditional Expressions](./UDF-Libraries_timecho.md#conditional-expressions).
+For details and examples, see the document [Conditional Expressions](./UDF-Libraries.md#conditional-expressions).
 
 ```sql
 select T, P, case
@@ -1548,7 +1548,7 @@ CQs can't be altered once they're created. To change a CQ, you must `DROP` and r
 
 ## USER-DEFINED FUNCTION (UDF)
 
-For more details, see document [Operator-and-Expression](./UDF-Libraries_timecho.md).
+For more details, see document [Operator-and-Expression](./UDF-Libraries.md).
 
 ### UDF Registration
 

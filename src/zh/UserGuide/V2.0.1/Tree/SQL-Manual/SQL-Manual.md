@@ -1214,11 +1214,11 @@ select change_points(s1), change_points(s2), change_points(s3), change_points(s4
 
 ## 数据质量函数库
 
-更多见文档[UDF-Libraries](./UDF-Libraries_timecho.md)
+更多见文档[UDF-Libraries](../SQL-Manual/UDF-Libraries.md)
 
 ### 数据质量
 
-更多见文档[Data-Quality](./UDF-Libraries_timecho.md#数据质量)
+更多见文档[Data-Quality](../SQL-Manual/UDF-Libraries.md#数据质量)
 
 ```sql
 # Completeness
@@ -1243,7 +1243,7 @@ select Accuracy(t1,t2,t3,m1,m2,m3) from root.test
 
 ### 数据画像
 
-更多见文档[Data-Profiling](./UDF-Libraries_timecho.md#数据画像)
+更多见文档[Data-Profiling](../SQL-Manual/UDF-Libraries.md#数据画像)
 
 ```sql
 # ACF
@@ -1323,7 +1323,7 @@ select zscore(s1) from root.test
 
 ### 异常检测
 
-更多见文档[Anomaly-Detection](./UDF-Libraries_timecho.md#异常检测)
+更多见文档[Anomaly-Detection](../SQL-Manual/UDF-Libraries.md#异常检测)
 
 ```sql
 # IQR
@@ -1358,7 +1358,7 @@ select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='anomaly','p'='3','k'='3
 
 ### 频域分析
 
-更多见文档[Frequency-Domain](./UDF-Libraries_timecho.md#频域分析)
+更多见文档[Frequency-Domain](../SQL-Manual/UDF-Libraries.md#频域分析)
 
 ```sql
 # Conv
@@ -1390,7 +1390,7 @@ select envelope(s1) from root.test.d1
 
 ### 数据匹配
 
-更多见文档[Data-Matching](./UDF-Libraries_timecho.md#数据匹配)
+更多见文档[Data-Matching](../SQL-Manual/UDF-Libraries.md#数据匹配)
 
 ```sql
 # Cov
@@ -1411,7 +1411,7 @@ select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
 
 ### 数据修复
 
-更多见文档[Data-Repairing](./UDF-Libraries_timecho.md#数据修复)
+更多见文档[Data-Repairing](../SQL-Manual/UDF-Libraries.md#数据修复)
 
 ```sql
 # TimestampRepair
@@ -1436,7 +1436,7 @@ select seasonalrepair(s1,'method'='improved','period'=3) from root.test.d2
 
 ### 序列发现
 
-更多见文档[Series-Discovery](./UDF-Libraries_timecho.md#序列发现)
+更多见文档[Series-Discovery](../SQL-Manual/UDF-Libraries.md#序列发现)
 
 ```sql
 # ConsecutiveSequences
@@ -1449,7 +1449,7 @@ select consecutivewindows(s1,s2,'length'='10m') from root.test.d1
 
 ### 机器学习
 
-更多见文档[Machine-Learning](./UDF-Libraries_timecho.md#机器学习)
+更多见文档[Machine-Learning](../SQL-Manual/UDF-Libraries.md#机器学习)
 
 ```sql
 # AR

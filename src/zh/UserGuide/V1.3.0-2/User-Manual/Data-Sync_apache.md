@@ -257,7 +257,7 @@ IoTDB> SHOW PIPEPLUGINS
   </tbody>
 </table>
 
-导入自定义插件可参考[流处理框架](./Streaming_timecho.md#自定义流处理插件管理)章节。
+导入自定义插件可参考[流处理框架](./Streaming_apache.md#自定义流处理插件管理)章节。
 
 ## 使用示例
 

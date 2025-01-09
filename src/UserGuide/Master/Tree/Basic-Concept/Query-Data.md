@@ -3002,7 +3002,7 @@ The user must have the following permissions to execute a query write-back state
 * All `WRITE_SCHEMA` permissions for the source series in the `select` clause.
 * All `WRITE_DATA` permissions for the target series in the `into` clause.
 
-For more user permissions related content, please refer to [Account Management Statements](./Authority-Management.md).
+For more user permissions related content, please refer to [Account Management Statements](../User-Manual/Authority-Management.md).
 
 ### Configurable Properties
 

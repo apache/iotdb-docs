@@ -27,7 +27,7 @@
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/123542457-5f511d00-d77c-11eb-8006-562d83069baa.png">
 
-在上图所描述的实际场景中，有许多实体所采集的物理量相同，即具有相同的工况名称和类型，因此，可以声明一个**元数据模板**来定义可采集的物理量集合。在实践中，元数据模板的使用可帮助减少元数据的资源占用，详细内容参见 [元数据模板](../User-Manual/Operate-Metadata_timecho.md#元数据模板管理)。
+在上图所描述的实际场景中，有许多实体所采集的物理量相同，即具有相同的工况名称和类型，因此，可以声明一个**元数据模板**来定义可采集的物理量集合。在实践中，元数据模板的使用可帮助减少元数据的资源占用，详细内容参见 [元数据模板](../Basic-Concept/Operate-Metadata.md#元数据模板管理)。
 
 IoTDB 模型结构涉及的基本概念在下文将做详细叙述。
 
@@ -64,7 +64,7 @@ Database 节点名只支持中英文字符、数字和下划线的组合。例�
 
 ### 时间戳 (Timestamp)
 
-时间戳是一个数据到来的时间点，其中包括绝对时间戳和相对时间戳，详细描述参见 [数据类型文档](./Data-Type.md)。
+时间戳是一个数据到来的时间点，其中包括绝对时间戳和相对时间戳，详细描述参见 [数据类型文档](../Background-knowledge/Data-Type.md)。
 
 ### 数据点（Data Point）
 

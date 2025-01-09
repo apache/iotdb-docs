@@ -33,7 +33,7 @@
 |`+`                         |加|
 |`-`                         |减|
 
-详细说明及示例见文档 [算数运算符和函数](../Reference/Function-and-Expression.md#算数运算符)。
+详细说明及示例见文档 [算数运算符和函数](../SQL-Manual/Function-and-Expression.md#算数运算符)。
 
 ### 比较运算符
 |运算符                       |含义|
@@ -55,7 +55,7 @@
 |`IN` / `CONTAINS`           |是指定列表中的值|
 |`NOT IN` / `NOT CONTAINS`   |不是指定列表中的值|
 
-详细说明及示例见文档 [比较运算符和函数](../Reference/Function-and-Expression.md#比较运算符和函数)。
+详细说明及示例见文档 [比较运算符和函数](../SQL-Manual/Function-and-Expression.md#比较运算符和函数)。
 
 ### 逻辑运算符
 |运算符                       |含义|
@@ -64,7 +64,7 @@
 |`AND` / `&` / `&&`          |逻辑与|
 |`OR`/ &#124; / &#124;&#124; |逻辑或|
 
-详细说明及示例见文档 [逻辑运算符](../Reference/Function-and-Expression.md#逻辑运算符)。
+详细说明及示例见文档 [逻辑运算符](../SQL-Manual/Function-and-Expression.md#逻辑运算符)。
 
 ### 运算符优先级
 
@@ -110,7 +110,7 @@ OR, |, ||
 | MAX_BY      | MAX_BY(x, y) 求二元输入 x 和 y 在 y 最大时对应的 x 的值。MAX_BY(time, x) 返回 x 取最大值时对应的时间戳。 | 第一个输入 x 可以是任意类型，第二个输入 y 只能是 INT32 INT64 FLOAT DOUBLE STRING TIMESTAMP DATE  |  与第一个输入 x 的数据类型一致 |
 | MIN_BY      | MIN_BY(x, y) 求二元输入 x 和 y 在 y 最小时对应的 x 的值。MIN_BY(time, x) 返回 x 取最小值时对应的时间戳。 | 第一个输入 x 可以是任意类型，第二个输入 y 只能是 INT32 INT64 FLOAT DOUBLE STRING TIMESTAMP DATE  |  与第一个输入 x 的数据类型一致 |
 
-详细说明及示例见文档 [聚合函数](../Reference/Function-and-Expression.md#聚合函数)。
+详细说明及示例见文档 [聚合函数](../SQL-Manual/Function-and-Expression.md#聚合函数)。
 
 ### 数学函数 
 
@@ -138,7 +138,7 @@ OR, |, ||
 | SQRT    | INT32 / INT64 / FLOAT / DOUBLE | DOUBLE                   |                                              | Math#sqrt(double)                                                 |
 
 
-详细说明及示例见文档 [数学函数](../Reference/Function-and-Expression.md#数学函数)。
+详细说明及示例见文档 [数学函数](../SQL-Manual/Function-and-Expression.md#数学函数)。
 
 ### 比较函数
 
@@ -147,7 +147,7 @@ OR, |, ||
 | ON_OFF   | INT32 / INT64 / FLOAT / DOUBLE | `threshold`:DOUBLE                  | BOOLEAN | 返回`ts_value >= threshold`的bool值                  |
 | IN_RANGE | INT32 / INT64 / FLOAT / DOUBLE | `lower`:DOUBLE<br/>`upper`:DOUBLE | BOOLEAN | 返回`ts_value >= lower && ts_value <= upper`的bool值 |                                                    |
 
-详细说明及示例见文档 [比较运算符和函数](../Reference/Function-and-Expression.md#比较运算符和函数)。
+详细说明及示例见文档 [比较运算符和函数](../SQL-Manual/Function-and-Expression.md#比较运算符和函数)。
 
 ### 字符串函数
 
@@ -167,7 +167,7 @@ OR, |, ||
 | TRIM            | TEXT STRING        | 无                                                                                                         | TEXT | 移除字符串前后的空格                                                              |
 | STRCMP          | TEXT STRING        | 无                                                                                                         | TEXT | 用于比较两个输入序列，如果值相同返回 `0` , 序列1的值小于序列2的值返回一个`负数`，序列1的值大于序列2的值返回一个`正数`      |
 
-详细说明及示例见文档 [字符串处理函数](../Reference/Function-and-Expression.md#字符串处理)。
+详细说明及示例见文档 [字符串处理函数](../SQL-Manual/Function-and-Expression.md#字符串处理)。
 
 ### 数据类型转换函数
 
@@ -175,7 +175,7 @@ OR, |, ||
 | ------ | ------------------------------------------------------------ | ------------------------ | ---------------------------------- |
 | CAST   | `type`:输出的数据点的类型，只能是 INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | 由输入属性参数`type`决定 | 将数据转换为`type`参数指定的类型。 |
 
-详细说明及示例见文档 [数据类型转换](../Reference/Function-and-Expression.md#数据类型转换)。
+详细说明及示例见文档 [数据类型转换](../SQL-Manual/Function-and-Expression.md#数据类型转换)。
 
 ### 常序列生成函数
 
@@ -185,7 +185,7 @@ OR, |, ||
 | PI     | 无                                                           | DOUBLE                     | 常序列的值：`π` 的 `double` 值，圆的周长与其直径的比值，即圆周率，等于 *Java标准库* 中的`Math.PI`。 |
 | E      | 无                                                           | DOUBLE                     | 常序列的值：`e` 的 `double` 值，自然对数的底，它等于 *Java 标准库*  中的 `Math.E`。 |
 
-详细说明及示例见文档 [常序列生成函数](../Reference/Function-and-Expression.md#常序列生成函数)。
+详细说明及示例见文档 [常序列生成函数](../SQL-Manual/Function-and-Expression.md#常序列生成函数)。
 
 ### 选择函数
 
@@ -194,7 +194,7 @@ OR, |, ||
 | TOP_K    | INT32 / INT64 / FLOAT / DOUBLE / TEXT / STRING / DATE / TIEMSTAMP | `k`: 最多选择的数据点数，必须大于 0 小于等于 1000 | 与输入序列的实际类型一致 | 返回某时间序列中值最大的`k`个数据点。若多于`k`个数据点的值并列最大，则返回时间戳最小的数据点。 |
 | BOTTOM_K | INT32 / INT64 / FLOAT / DOUBLE / TEXT / STRING / DATE / TIEMSTAMP                            | `k`: 最多选择的数据点数，必须大于 0 小于等于 1000 | 与输入序列的实际类型一致 | 返回某时间序列中值最小的`k`个数据点。若多于`k`个数据点的值并列最小，则返回时间戳最小的数据点。 |
 
-详细说明及示例见文档 [选择函数](../Reference/Function-and-Expression.md#选择函数)。
+详细说明及示例见文档 [选择函数](../SQL-Manual/Function-and-Expression.md#选择函数)。
 
 ### 区间查询函数
 
@@ -205,7 +205,7 @@ OR, |, ||
 | ZERO_COUNT        | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值1<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续为0(false)的开始时间与其后数据点的个数，数据点个数n满足`n >= min && n <= max`   |               |
 | NON_ZERO_COUNT    | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:可选，默认值1<br>`max`:可选，默认值`Long.MAX_VALUE` | Long  | 返回时间序列连续不为0(false)的开始时间与其后数据点的个数，数据点个数n满足`n >= min && n <= max`  |               |
 
-详细说明及示例见文档 [区间查询函数](../Reference/Function-and-Expression.md#区间查询函数)。
+详细说明及示例见文档 [区间查询函数](../SQL-Manual/Function-and-Expression.md#区间查询函数)。
 
 ### 趋势计算函数
 
@@ -222,7 +222,7 @@ OR, |, ||
 |------|--------------------------------|------------------------------------------------------------------------------------------------------------------------|--------|------------------------------------------------|
 | DIFF | INT32 / INT64 / FLOAT / DOUBLE | `ignoreNull`：可选，默认为true；为true时，前一个数据点值为null时，忽略该数据点继续向前找到第一个出现的不为null的值；为false时，如果前一个数据点为null，则不忽略，使用null进行相减，结果也为null | DOUBLE | 统计序列中某数据点的值与前一数据点的值的差。第一个数据点没有对应的结果输出，输出值为null |
 
-详细说明及示例见文档 [趋势计算函数](../Reference/Function-and-Expression.md#趋势计算函数)。
+详细说明及示例见文档 [趋势计算函数](../SQL-Manual/Function-and-Expression.md#趋势计算函数)。
 
 ### 采样函数
 
@@ -234,14 +234,14 @@ OR, |, ||
 | EQUAL_SIZE_BUCKET_OUTLIER_SAMPLE   | INT32 / INT64 / FLOAT / DOUBLE | `proportion`取值范围为`(0, 1]`，默认为`0.1`<br>`type`取值为`avg`或`stendis`或`cos`或`prenextdis`，默认为`avg`<br>`number`取值应大于0，默认`3`| INT32 / INT64 / FLOAT / DOUBLE | 返回符合采样比例和桶内采样个数的等分桶离群值采样                |
 | M4     | INT32 / INT64 / FLOAT / DOUBLE | 包含固定点数的窗口和滑动时间窗口使用不同的属性参数。包含固定点数的窗口使用属性`windowSize`和`slidingStep`。滑动时间窗口使用属性`timeInterval`、`slidingStep`、`displayWindowBegin`和`displayWindowEnd`。更多细节见下文。 | INT32 / INT64 / FLOAT / DOUBLE | 返回每个窗口内的第一个点（`first`）、最后一个点（`last`）、最小值点（`bottom`）、最大值点（`top`）。在一个窗口内的聚合点输出之前，M4会将它们按照时间戳递增排序并且去重。 |
 
-详细说明及示例见文档 [采样函数](../Reference/Function-and-Expression.md#采样函数)。
+详细说明及示例见文档 [采样函数](../SQL-Manual/Function-and-Expression.md#采样函数)。
 ### 时间序列处理函数
 
 | 函数名        | 输入序列类型                   | 参数 | 输出序列类型             | 功能描述                   |
 | ------------- | ------------------------------ | ---- | ------------------------ | -------------------------- |
 | CHANGE_POINTS | INT32 / INT64 / FLOAT / DOUBLE | /    | 与输入序列的实际类型一致 | 去除输入序列中的连续相同值 |
 
-详细说明及示例见文档 [时间序列处理](../Reference/Function-and-Expression.md#时间序列处理)。
+详细说明及示例见文档 [时间序列处理](../SQL-Manual/Function-and-Expression.md#时间序列处理)。
 
 
 ## Lambda 表达式
@@ -250,7 +250,7 @@ OR, |, ||
 | ------ | ----------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------- | ---------------------------------------------- |
 | JEXL   | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | `expr`是一个支持标准的一元或多元参数的lambda表达式，符合`x -> {...}`或`(x, y, z) -> {...}`的格式，例如`x -> {x * 2}`, `(x, y, z) -> {x + y * z}` | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | 返回将输入的时间序列通过lambda表达式变换的序列 |
 
-详细说明及示例见文档 [Lambda 表达式](../Reference/Function-and-Expression.md#Lambda表达式)
+详细说明及示例见文档 [Lambda 表达式](../SQL-Manual/Function-and-Expression.md#Lambda表达式)
 
 ## 条件表达式
 
@@ -258,7 +258,7 @@ OR, |, ||
 |---------------------------|-----------|
 | `CASE` | 类似if else |
 
-详细说明及示例见文档 [条件表达式](../Reference/Function-and-Expression.md#条件表达式)
+详细说明及示例见文档 [条件表达式](../SQL-Manual/Function-and-Expression.md#条件表达式)
 
 ## SELECT 表达式
 
@@ -296,7 +296,7 @@ select s1 as temperature, s2 as speed from root.ln.wf01.wt01;
 
 #### 运算符
 
-IoTDB 中支持的运算符列表见文档 [运算符和函数](../Reference/Function-and-Expression.md#算数运算符和函数)。
+IoTDB 中支持的运算符列表见文档 [运算符和函数](../SQL-Manual/Function-and-Expression.md#算数运算符和函数)。
 
 #### 函数
 
@@ -314,7 +314,7 @@ select sin(s1), count(s1) from root.sg.d1;
 select s1, count(s1) from root.sg.d1 group by ([10,100),10ms);
 ```
 
-IoTDB 支持的聚合函数见文档 [聚合函数](../Reference/Function-and-Expression.md#聚合函数)。
+IoTDB 支持的聚合函数见文档 [聚合函数](../SQL-Manual/Function-and-Expression.md#聚合函数)。
 
 ##### 时间序列生成函数
 
@@ -324,11 +324,11 @@ IoTDB 支持的聚合函数见文档 [聚合函数](../Reference/Function-and-Ex
 
 ###### 内置时间序列生成函数
 
-IoTDB 中支持的内置函数列表见文档 [运算符和函数](../Reference/Function-and-Expression.md#算数运算符)。
+IoTDB 中支持的内置函数列表见文档 [运算符和函数](../SQL-Manual/Function-and-Expression.md#算数运算符)。
 
 ###### 自定义时间序列生成函数
 
-IoTDB 支持通过用户自定义函数（点击查看： [用户自定义函数](../Reference/UDF-Libraries.md) ）能力进行函数功能扩展。
+IoTDB 支持通过用户自定义函数（点击查看： [用户自定义函数](../SQL-Manual/UDF-Libraries.md) ）能力进行函数功能扩展。
 
 #### 嵌套表达式举例
 

@@ -263,7 +263,7 @@ Detailed introduction of pre-installed plugins is as follows (for detailed param
 </tbody>
 </table>
 
-For importing custom plugins, please refer to the [Stream Processing](./Streaming_timecho.md#custom-stream-processing-plugin-management) section.
+For importing custom plugins, please refer to the [Stream Processing](./Streaming_apache.md#custom-stream-processing-plugin-management) section.
 
 ## Use examples
 

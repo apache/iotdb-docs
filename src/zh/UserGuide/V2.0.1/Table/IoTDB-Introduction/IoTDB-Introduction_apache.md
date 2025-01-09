@@ -27,7 +27,7 @@ Apache IoTDB 是一款低成本、高性能的物联网原生时序数据库。�
 
 - 开源安装包下载：https://iotdb.apache.org/zh/Download/
 
-- 安装部署与使用文档：[快速上手](../QuickStart/QuickStart_apache.md)
+- 安装部署与使用文档：[快速上手](../QuickStart/QuickStart.md)
 
 
 ## 产品体系
@@ -73,4 +73,4 @@ Apache IoTDB 具备以下优势和特性：
 
 - 天谋科技官网：https://www.timecho.com/
 
-- TimechoDB 安装部署与使用文档：[快速上手](../QuickStart/QuickStart_timecho.md)
+- TimechoDB 安装部署与使用文档：[快速上手](https://www.timecho.com/docs/zh/UserGuide/latest/QuickStart/QuickStart_timecho.html)

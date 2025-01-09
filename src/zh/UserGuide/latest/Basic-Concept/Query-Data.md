@@ -368,7 +368,7 @@ select s1 as temperature, s2 as speed from root.ln.wf01.wt01;
 
 ### 运算符
 
-IoTDB 中支持的运算符列表见文档 [运算符和函数](../User-Manual/Operator-and-Expression.md)。
+IoTDB 中支持的运算符列表见文档 [运算符和函数](../SQL-Manual/Operator-and-Expression.md)。
 
 ### 函数
 
@@ -386,7 +386,7 @@ select sin(s1), count(s1) from root.sg.d1;
 select s1, count(s1) from root.sg.d1 group by ([10,100),10ms);
 ```
 
-IoTDB 支持的聚合函数见文档 [聚合函数](../User-Manual/Operator-and-Expression.md#内置函数)。
+IoTDB 支持的聚合函数见文档 [聚合函数](../SQL-Manual/Operator-and-Expression.md#内置函数)。
 
 #### 时间序列生成函数
 
@@ -396,7 +396,7 @@ IoTDB 支持的聚合函数见文档 [聚合函数](../User-Manual/Operator-and-
 
 ##### 内置时间序列生成函数
 
-IoTDB 中支持的内置函数列表见文档 [运算符和函数](../User-Manual/Operator-and-Expression.md)。
+IoTDB 中支持的内置函数列表见文档 [运算符和函数](../SQL-Manual/Operator-and-Expression.md)。
 
 ##### 自定义时间序列生成函数
 
@@ -691,7 +691,7 @@ It costs 0.002s
 
 ### 时间过滤条件
 
-使用时间过滤条件可以筛选特定时间范围的数据。对于时间戳支持的格式，请参考 [时间戳类型](../Basic-Concept/Data-Type.md) 。
+使用时间过滤条件可以筛选特定时间范围的数据。对于时间戳支持的格式，请参考 [时间戳类型](../Background-knowledge/Data-Type.md) 。
 
 示例如下：
 
@@ -2961,7 +2961,7 @@ select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from
 #### 其他要注意的点
 
 - 对于一般的聚合查询，时间戳是无意义的，约定使用 0 来存储。
-- 当目标序列存在时，需要保证源序列和目标时间序列的数据类型兼容。关于数据类型的兼容性，查看文档 [数据类型](../Basic-Concept/Data-Type.md#数据类型兼容性)。
+- 当目标序列存在时，需要保证源序列和目标时间序列的数据类型兼容。关于数据类型的兼容性，查看文档 [数据类型](../Background-knowledge/Data-Type.md#数据类型兼容性)。
 - 当目标序列不存在时，系统将自动创建目标序列（包括 database）。
 - 当查询的序列不存在或查询的序列不存在数据，则不会自动创建目标序列。
 
@@ -3027,7 +3027,7 @@ It costs 0.375s
 * 所有 `SELECT` 子句中源序列的 `WRITE_SCHEMA` 权限。
 * 所有 `INTO` 子句中目标序列 `WRITE_DATA` 权限。
 
-更多用户权限相关的内容，请参考[权限管理语句](./Authority-Management.md)。
+更多用户权限相关的内容，请参考[权限管理语句](../User-Manual/Authority-Management.md)。
 
 ### 相关配置参数
 

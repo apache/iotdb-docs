@@ -74,4 +74,4 @@ Timecho provides a more diverse range of product features, stronger performance 
 
 - Timecho Official website：https://www.timecho.com/
 
-- TimechoDB installation, deployment and usage documentation：[QuickStart](../QuickStart/QuickStart_timecho.md)
+- TimechoDB installation, deployment and usage documentation：[QuickStart](https://www.timecho.com/docs/UserGuide/V1.3.0-2/QuickStart/QuickStart_timecho.html)

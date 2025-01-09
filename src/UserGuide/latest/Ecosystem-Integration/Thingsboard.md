@@ -41,7 +41,7 @@
 | **Preparation Content**                   | **Version Requirements**                                     |
 | :---------------------------------------- | :----------------------------------------------------------- |
 | JDK                                       | JDK17 or above. Please refer to the downloads on [Oracle Official Website](https://www.oracle.com/java/technologies/downloads/) |
-| IoTDB                                     |IoTDB v1.3.0 or above. Please refer to the [Deployment guidance](../Deployment-and-Maintenance/IoTDB-Package_timecho.md) |
+| IoTDB                                     |IoTDB v1.3.0 or above. Please refer to the [Deployment guidance](../Deployment-and-Maintenance/IoTDB-Package.md) |
 | ThingsBoard<br /> (IoTDB adapted version) | Please contact Timecho staff to obtain the installation package. Detailed installation steps are provided below. |
 
 ## Installation Steps
