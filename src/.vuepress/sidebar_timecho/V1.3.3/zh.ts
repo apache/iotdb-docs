@@ -138,7 +138,12 @@ export const zhSidebar = {
       prefix: 'API/',
       // children: 'structure',
       children: [
-        { text: 'Java原生接口', link: 'Programming-Java-Native-API' },
+        { text: 'Java原生接口', collapsible: true,
+          children: [
+            { text: 'Java原生API', link: 'Programming-Java-Native-API' },
+            { text: '数据订阅API', link: 'Programming-Data-Sync' },
+          ],
+        },
         { text: 'Python原生接口', link: 'Programming-Python-Native-API' },
         { text: 'C++原生接口', link: 'Programming-Cpp-Native-API' },
         { text: 'Go原生接口', link: 'Programming-Go-Native-API' },
