@@ -19,7 +19,6 @@
 
 -->
 # 发版历史
-> 下载地址：：https://iotdb.apache.org/zh/Download/
 
 ## V1.3.3
 
