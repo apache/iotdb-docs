@@ -200,7 +200,7 @@ export const enSidebar = {
         { text: 'Function and Expression', link: 'Function-and-Expression' },
         { text: 'Common Config Manual', link: 'Common-Config-Manual' },
         { text: 'ConfigNode Config Manual', link: 'ConfigNode-Config-Manual' },
-        { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual' },
+        { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual_timecho' },
         { text: 'Status Codes', link: 'Status-Codes' },
         { text: 'Keywords', link: 'Keywords' },
       ],

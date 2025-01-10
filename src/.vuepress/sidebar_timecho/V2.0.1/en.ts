@@ -250,7 +250,7 @@ export const enSidebar = {
               text: 'ConfigNode Config Manual',
               link: 'ConfigNode-Config-Manual',
             },
-            { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual' },
+            { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual_timecho' },
           ],
         },
         {
