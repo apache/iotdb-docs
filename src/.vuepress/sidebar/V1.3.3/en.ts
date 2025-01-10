@@ -175,6 +175,7 @@ export const enSidebar = {
         { text: 'DBeaver', link: 'DBeaver' },
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana Plugin', link: 'Grafana-Plugin' },
+        { text: 'Kubernetes', link: 'Kubernetes_apache' },
         { text: 'ThingsBoard', link: 'Thingsboard' },
       ],
     },

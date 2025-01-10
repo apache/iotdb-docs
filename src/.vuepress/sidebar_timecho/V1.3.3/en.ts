@@ -194,6 +194,7 @@ export const enSidebar = {
         { text: 'Ignition', link: 'Ignition-IoTDB-plugin_timecho' },
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana Plugin', link: 'Grafana-Plugin' },
+        { text: 'Kubernetes', link: 'Kubernetes_timecho' },
         { text: 'ThingsBoard', link: 'Thingsboard' },
       ],
     },
