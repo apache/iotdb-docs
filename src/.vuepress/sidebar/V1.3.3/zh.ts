@@ -162,6 +162,7 @@ export const zhSidebar = {
         { text: 'DBeaver', link: 'DBeaver' },
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana插件', link: 'Grafana-Plugin' },
+        { text: 'Kubernetes', link: 'Kubernetes_apache' },
         { text: 'ThingsBoard', link: 'Thingsboard' },
       ],
     },
