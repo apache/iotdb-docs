@@ -222,7 +222,7 @@ export const zhSidebar = {
           children: [
             { text: '配置参数', link: 'Common-Config-Manual' },
             { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
-            { text: 'DataNode配置参数', link: 'DataNode-Config-Manual' },
+            { text: 'DataNode配置参数', link: 'DataNode-Config-Manual_timecho' },
           ],
         },
         {
