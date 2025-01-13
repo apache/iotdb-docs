@@ -363,7 +363,7 @@ In addition, for aliased sequences, if the user wants to get information about t
 
 ### Modify Views
 
-The modification operations supported by the view include: modifying its calculation logic,modifying tag/attributes/aliases, and deleting.
+The modification operations supported by the view include: modifying its calculation logic,modifying tag/attributes, and deleting.
 
 #### Modify view data source
 
@@ -415,9 +415,9 @@ ALTER view root.turbine.d1.s1 SET newTag1=newV1, attr1=newV1
 ALTER view root.turbine.d1.s1 DROP tag1, tag2
 ```
 
-- Update insert aliases, tags and attributes
+- Update insert tags and attributes
 
-> If the alias, tag or attribute did not exist before, insert it, otherwise, update the old value with the new one.
+> If the tag or attribute did not exist before, insert it, otherwise, update the old value with the new one.
 
 ```SQL
 ALTER view root.turbine.d1.s1 UPSERT TAGS(tag2=newV2, tag3=v3) ATTRIBUTES(attr3=v3, attr4=v4)
