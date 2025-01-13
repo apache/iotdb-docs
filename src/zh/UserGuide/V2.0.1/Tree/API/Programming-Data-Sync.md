@@ -17,7 +17,7 @@
 -->
 
 # 数据订阅API
-IoTDB 提供了强大的数据订阅功能，允许用户通过订阅SDK实时获取IoTDB新增的数据。详细的功能定义及介绍：[数据订阅](../../User-Manual/Data-Sync_timecho.md#数据同步)
+IoTDB 提供了强大的数据订阅功能，允许用户通过订阅SDK实时获取IoTDB新增的数据。详细的功能定义及介绍：[数据订阅](../User-Manual/Data-Sync.md)
 
 ## 1 核心步骤
 
