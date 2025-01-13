@@ -39,8 +39,8 @@ Here is a schematic diagram of the region migration process :
 
 1. It is recommended to only use the Region Migration feature on IoTDB 1.3.3 and higher versions.
 2. Region migration is only supported when the consensus protocol is IoTConsus or Ratis (in iotdb system. properties, the `schema_region_consensus_protocol_class` and`data_region_consensus_protocol_class`).
-3. Region migration will occupy system resources such as hard drives and network bandwidth, and it is recommended to perform it during low business loads.
-4. The region migration process will occupy WAL files, blocking the deletion of WAL files in this consensus group. If the total number of WAL files reaches `wal_file_size_threshold_in_byte`, writing will be blocked.
+3. Region migration consumes system resources such as disk space and network bandwidth. It is recommended to perform the migration during periods of low business load.
+4. Under ideal circumstances, Region migration does not affect user-side read or write operations. In special cases, Region migration may block writes. For detailed identification and handling of such situations, please refer to the user guide.
 
 ### Instructions for use
 
@@ -92,4 +92,13 @@ Here is a schematic diagram of the region migration process :
   +--------+------------+-------+--------+-------------+-----------+----------+----------+-------+---------------+--------+-----------------------+
   Total line number = 3
   It costs 0.003s
+  ```
+- **Block Write**:
+  The region migration in IoTConsensus does not directly block writes. However, since the process requires suspending the cleanup of WAL files, if the accumulated WAL files exceed the threshold defined by wal_throttle_threshold_in_byte, the current DataNode will pause writing until the WAL files fall below the threshold.
+
+  If a write error occurs during the migration due to the WAL exceeding the threshold (e.g., an error message like “The write is rejected because the wal directory size has reached the threshold”), you can increase the wal_throttle_threshold_in_byte value to 500GB or more to allow continued writing. Use the following SQL statement:
+
+  ```plain
+    IoTDB> set configuration "wal_throttle_threshold_in_byte"="536870912000" 
+    Msg: The statement is executed successfully.
   ```
