@@ -448,13 +448,14 @@ with sink (
 
 | Gateway Type           | Model                                                        | Return Packet Limit | Send Limit             |
 | ---------------------- | ------------------------------------------------------------ | ------------------- | ---------------------- |
-| Unidirectional         | Nanrui Syskeeper-2000 Unidirectional                         | All 0 / All 1 bytes | No Limit               |
-| Unidirectional         | XJ Self-developed Diaphragm                                  | All 0 / All 1 bytes | No Limit               |
-| Unmarked Direction     | Weintech Security Isolation and Data Exchange System         | No Limit            | No Limit               |
-| Unidirectional         | Kedong StoneWall-2000 Network Security Isolation Device (Unidirectional) | No Limit            | No Limit               |
-| Reverse Direction      | Nanrui Syskeeper-2000 Reverse Direction                      | All 0 / All 1 bytes | Meet E Language Format |
-| Unmarked Direction     | Dipu Technology ISG5000                                      | No Limit            | No Limit               |
-| Unmarked Direction     | Xiling Security Isolation and Data Exchange System XL—GAP    | No Limit            | No Limit               |
+| Forward Gate         | NARI Syskeeper-2000 Forward Gate                         | All 0 / All 1 bytes | No Limit               |
+| Forward Gate         | XJ Self-developed Diaphragm                                  | All 0 / All 1 bytes | No Limit               |
+| Unmarked Forward and Reverse     | WISGAP         | No Limit            | No Limit               |
+| Forward Gate         | KEDONG StoneWall-2000 Network Security Isolation Device | No Limit            | No Limit               |
+| Reverse Gate      | NARI Syskeeper-2000 Reverse Direction                      | All 0 / All 1 bytes | Meet E Language Format |
+| Unmarked Forward and Reverse     | DPtech ISG5000                                      | No Limit            | No Limit               |
+| Unmarked Forward and Reverse     | GAP‌‌
+ XL—GAP    | No Limit            | No Limit               |
 
 ### Compression Synchronization (V1.3.3+)
 
