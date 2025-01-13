@@ -77,7 +77,7 @@ Telegraf支持多种操作系统，包括Linux、Windows、macOS，Telegraf 的�
 | host                | IoTDB 的 host  | # host = "127.0.0.1"                | host = "部署 IoTDB 的 host"                       | 默认为 127.0.0.1                                             |
 | port                | IoTDB 的端口号 | # port = "6667"                     | port = "部署 IoTDB 的端口号"                      | 默认为 6667                                                  |
 | user                | IoTDB 的用户名 | # user = "root"                     | user = "IoTDB 的用户名"                           | 默认为 root                                                  |
-| password            | IoTDB 的用户名 | # password = "root"                 | password= "IoTDB 的用户名"                        | 默认为 root                                                  |
+| password            | IoTDB 的密码 | # password = "root"                 | password= "IoTDB 的密码"                        | 默认为 root                                                  |
 | timestamp_precision | 时间戳精度     | timestamp_precision = "millisecond" | timestamp_precision = "与 IoTDB 相同的时间戳精度" | 您可以通过查看"iotdb-system.properties"中"timestamp_precision"字段即可 |
 | sanitize_tag        | 数据库版本     | 无                                  | sanitize_tag = "0.13/1.0/1.1/1.2/1.3"             |                                                              |
 
@@ -122,7 +122,7 @@ telegraf --sample-config --input-filter cpu --output-filter iotdb > cpu_iotdb.co
 | host                | IoTDB 的 host  | # host = "127.0.0.1"                | host = "部署 IoTDB 的 host"                       | 默认为 127.0.0.1                                             |
 | port                | IoTDB 的端口号 | # port = "6667"                     | port = "部署 IoTDB 的端口号"                      | 默认为 6667                                                  |
 | user                | IoTDB 的用户名 | # user = "root"                     | user = "IoTDB 的用户名"                           | 默认为 root                                                  |
-| password            | IoTDB 的用户名 | # password = "root"                 | password= "IoTDB 的用户名"                        | 默认为 root                                                  |
+| password            | IoTDB 的密码 | # password = "root"                 | password= "IoTDB 的密码"                        | 默认为 root                                                  |
 | timestamp_precision | 时间戳精度     | timestamp_precision = "millisecond" | timestamp_precision = "与 IoTDB 相同的时间戳精度" | 您可以通过查看"iotdb-system.properties"中"timestamp_precision"字段即可 |
 | sanitize_tag        | 数据库版本     | 无                                  | sanitize_tag = "0.13/1.0/1.1/1.2/1.3"             |                                                              |
 
