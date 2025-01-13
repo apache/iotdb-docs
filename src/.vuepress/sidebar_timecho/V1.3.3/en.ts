@@ -155,7 +155,12 @@ export const enSidebar = {
       prefix: 'API/',
       // children: 'structure',
       children: [
-        { text: 'Java Native API', link: 'Programming-Java-Native-API' },
+        { text: 'Java Native Interface', collapsible: true,
+          children: [
+            { text: 'Java Native API', link: 'Programming-Java-Native-API' },
+            { text: 'Data Sync API', link: 'Programming-Data-Sync' },
+          ],
+        },
         { text: 'Python Native API', link: 'Programming-Python-Native-API' },
         { text: 'C++ Native API', link: 'Programming-Cpp-Native-API' },
         { text: 'Go Native API', link: 'Programming-Go-Native-API' },
