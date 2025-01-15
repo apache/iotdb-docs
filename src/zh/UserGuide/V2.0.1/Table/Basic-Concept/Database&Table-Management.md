@@ -419,6 +419,7 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? col
 **说明：**
 
 1. `SET PROPERTIES`操作目前仅支持对表的 TTL 属性进行配置。
+2. 删除列功能，仅支持删除属性列(ATTRIBUTE)和物理量列(FIELD)，标识列(TAG)不支持删除。
 
 **示例:** 
 
