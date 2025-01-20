@@ -184,6 +184,7 @@ export const enSidebar = {
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana Plugin', link: 'Grafana-Plugin' },
         { text: 'Kubernetes', link: 'Kubernetes_apache' },
+        { text: 'Telegraf Plugin', link: 'Telegraf' },
         { text: 'ThingsBoard', link: 'Thingsboard' },
       ],
     },

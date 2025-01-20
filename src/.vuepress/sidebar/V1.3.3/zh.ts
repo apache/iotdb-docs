@@ -171,6 +171,7 @@ export const zhSidebar = {
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana插件', link: 'Grafana-Plugin' },
         { text: 'Kubernetes', link: 'Kubernetes_apache' },
+        { text: 'Telegraf插件', link: 'Telegraf' },
         { text: 'ThingsBoard', link: 'Thingsboard' },
       ],
     },
