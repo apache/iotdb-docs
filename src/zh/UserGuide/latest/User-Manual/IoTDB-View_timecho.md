@@ -363,7 +363,7 @@ WHERE temperature01 < temperature02
 
 ### 视图修改
 
-视图支持的修改操作包括：修改计算逻辑，修改标签/属性/别名，以及删除。
+视图支持的修改操作包括：修改计算逻辑，修改标签/属性，以及删除。
 
 #### 修改视图数据来源
 
@@ -415,9 +415,9 @@ ALTER view root.turbine.d1.s1 SET newTag1=newV1, attr1=newV1
 ALTER view root.turbine.d1.s1 DROP tag1, tag2
 ```
 
-- 更新插入别名，标签和属性
+- 更新插入标签和属性
 
-> 如果该别名，标签或属性原来不存在，则插入，否则，用新值更新原来的旧值
+> 如果该标签或属性原来不存在，则插入，否则，用新值更新原来的旧值
 
 ```SQL
 ALTER view root.turbine.d1.s1 UPSERT TAGS(tag2=newV2, tag3=v3) ATTRIBUTES(attr3=v3, attr4=v4)
