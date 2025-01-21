@@ -19,6 +19,13 @@
 # 活动与报告
 
 ## 2024 年活动
+- 2024.10.24，德国美因茨，OCX 2024（原 EclipseCon）
+  - （英语）[工业数据采集的创新实践：Apache PLC4X、TsFile 和 IoTDB](https://www.youtube.com/watch?v=LnTDmdIf7U0)，演讲者：Christofer Dutz
+- 2024.10.9，美国丹佛，Community Over Code NA 2024（原 ApacheCon）
+  - 借助 Apache PLC4X、TsFile 和 IoTDB 实现工业数据采集的创新之道，演讲者：Christofer Dutz
+- 2024.7.28，中国杭州，Community Over Code Asia 2024（前称 ApacheCon）
+  - （中文）[Apache IoTDB：具备可扩展分区和共识算法的分布式时序数据库](https://www.youtube.com/watch?v=jW4YJZgkA5E)，演讲者：谭新宇
+  - （中文）[揭示 IoTDB 流处理引擎在工业物联网端边云应用中的强大能力](https://www.youtube.com/watch?v=QRwyZVHk0_E),演讲者：苏宇荣
 
 - 2024.06.03，斯洛伐克布拉迪斯拉发，Community Over Code EU 2024 （原 ApacheCon）
   - （英语）使用 Apache PLC4X、TsFile 和 IoTDB 进行工业数据采集的魔法。演讲人：Christofer Dutz
