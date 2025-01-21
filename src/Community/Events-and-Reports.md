@@ -19,6 +19,19 @@
 # Events and Reports
 
 ## 2024 Meetups and Conferences
+- October 24, 2024, Mainz, Germany. OCX 2024 (formerly EclipseCon)
+  
+  - [Magic Industrial Data Acquisition with Apache PLC4X, TsFile and IoTDB.](https://www.youtube.com/watch?v=LnTDmdIf7U0) Speaker: Christofer Dutz
+
+- October 9, 2024, Denver, United States. Community Over Code NA 2024 (formerly ApacheCon)
+  
+  - Magic Industrial Data Acquisition with Apache PLC4X, TsFile and IoTDB. Speaker: Christofer Dutz
+
+- July 28, 2024, Hangzhou, China. Community Over Code Asia 2024 (formerly ApacheCon)
+  
+  - (Chinese) [Apache IoTDB : A Distributed Time Series Database with Scalable Partitioning and Consensus Algorithm.](https://www.youtube.com/watch?v=jW4YJZgkA5E) Speaker: Xinyu Tan
+  
+  - (Chinese) [Unveiling the Power of IoTDB Stream Processing Engine in Industrial IoT Edge-Cloud Applications.](https://www.youtube.com/watch?v=QRwyZVHk0_E) Speaker: Steve Yurong Su
 
 - Jun 03, Bratislava, Slovakia. Community Over Code EU 2024
 
