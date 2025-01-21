@@ -450,11 +450,11 @@ with sink (
 | ---------------------- | ------------------------------------------------------------ | ------------------- | ---------------------- |
 | Forward Gate         | NARI Syskeeper-2000 Forward Gate                         | All 0 / All 1 bytes | No Limit               |
 | Forward Gate         | XJ Self-developed Diaphragm                                  | All 0 / All 1 bytes | No Limit               |
-| Unmarked Forward and Reverse     | WISGAP         | No Limit            | No Limit               |
+| Unknown     | WISGAP         | No Limit            | No Limit               |
 | Forward Gate         | KEDONG StoneWall-2000 Network Security Isolation Device | No Limit            | No Limit               |
 | Reverse Gate      | NARI Syskeeper-2000 Reverse Direction                      | All 0 / All 1 bytes | Meet E Language Format |
-| Unmarked Forward and Reverse     | DPtech ISG5000                                      | No Limit            | No Limit               |
-| Unmarked Forward and Reverse     | GAP‌‌
+| Unknown     | DPtech ISG5000                                      | No Limit            | No Limit               |
+| Unknown     | GAP‌‌
  XL—GAP    | No Limit            | No Limit               |
 
 ### Compression Synchronization (V1.3.3+)
