@@ -289,22 +289,25 @@ public void dropSchemaTemplate(String templateName);
 void insertTablet(Tablet tablet)
 
 public class Tablet {
-  /** deviceId of this tablet */
-  public String prefixPath;
+  /** DeviceId if using tree-view interfaces or TableName when using table-view interfaces. */
+  private String insertTargetName;
   /** the list of measurement schemas for creating the tablet */
   private List<MeasurementSchema> schemas;
+  /**
+  * Marking the type of each column, namely ID or MEASUREMENT. Notice: the ID columns must be the
+  * FIRST ones.
+  */
+  private List<ColumnCategory> columnCategories;
   /** timestamps in this tablet */
-  public long[] timestamps;
+  private long[] timestamps;
   /** each object is a primitive type array, which represents values of one measurement */
-  public Object[] values;
+  private Object[] values;
   /** each bitmap represents the existence of each value in the current column. */
-  public BitMap[] bitMaps;
+  private BitMap[] bitMaps;
   /** the number of rows to include in this tablet */
-  public int rowSize;
+  private int rowSize;
   /** the maximum number of rows for this tablet */
   private int maxRowNumber;
-  /** whether this tablet store data of aligned timeseries or not */
-  private boolean isAligned;
 }
 ```
 
