@@ -37,7 +37,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Background-knowledge/',
       children: [
-        { text: 'Cluster-related Concepts', link: 'Cluster-Concept' },
+        { text: 'Common Concepts', link: 'Cluster-Concept_apache' },
         { text: 'Data Type', link: 'Data-Type' },
       ],
     },
@@ -116,7 +116,15 @@ export const enSidebar = {
             { text: 'Stream Processing', link: 'Streaming_apache' },
           ],
         },
-        { text: 'Maintenance SQL', link: 'Maintennance' },
+        {
+          text: 'Maintenance SQL',
+          collapsible: true,
+          children: [
+            { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis' },
+            { text: 'Load Balance', link: 'Load-Balance' },
+            { text: 'Data Recovery', link: 'Data-Recovery' },
+          ],
+        },
       ],
     },
     {
@@ -180,6 +188,8 @@ export const enSidebar = {
         { text: 'DBeaver', link: 'DBeaver' },
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana Plugin', link: 'Grafana-Plugin' },
+        { text: 'Kubernetes', link: 'Kubernetes_apache' },
+        { text: 'Telegraf Plugin', link: 'Telegraf' },
         { text: 'ThingsBoard', link: 'Thingsboard' },
       ],
     },
@@ -236,7 +246,7 @@ export const enSidebar = {
               text: 'ConfigNode Config Manual',
               link: 'ConfigNode-Config-Manual',
             },
-            { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual' },
+            { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual_apache' },
           ],
         },
         {

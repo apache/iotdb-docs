@@ -38,7 +38,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Background-knowledge/',
       children: [
-        { text: '集群相关概念', link: 'Cluster-Concept' },
+        { text: '常见概念', link: 'Cluster-Concept_timecho' },
         { text: '数据类型', link: 'Data-Type' },
       ],
     },
@@ -114,7 +114,15 @@ export const zhSidebar = {
             { text: '流处理框架', link: 'Streaming_timecho' },
           ],
         },
-        { text: '运维语句', link: 'Maintennance' },
+        {
+          text: '运维语句',
+          collapsible: true,
+          children: [
+            { text: '查询性能分析', link: 'Query-Performance-Analysis' },
+            { text: '负载均衡', link: 'Load-Balance' },
+            { text: '数据修复', link: 'Data-Recovery' },
+          ],
+        },
       ],
     },
     {
@@ -182,6 +190,8 @@ export const zhSidebar = {
         { text: 'Ignition', link: 'Ignition-IoTDB-plugin_timecho' },
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana插件', link: 'Grafana-Plugin' },
+        { text: 'Kubernetes', link: 'Kubernetes_timecho' },
+        { text: 'Telegraf插件', link: 'Telegraf' },
         { text: 'ThingsBoard', link: 'Thingsboard' },
       ],
     },
@@ -226,7 +236,7 @@ export const zhSidebar = {
           children: [
             { text: '配置参数', link: 'Common-Config-Manual' },
             { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
-            { text: 'DataNode配置参数', link: 'DataNode-Config-Manual' },
+            { text: 'DataNode配置参数', link: 'DataNode-Config-Manual_timecho' },
           ],
         },
         {
