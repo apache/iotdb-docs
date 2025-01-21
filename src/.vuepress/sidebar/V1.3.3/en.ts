@@ -142,7 +142,7 @@ export const enSidebar = {
         { text: 'Java Native Interface', collapsible: true,
           children: [
             { text: 'Java Native API', link: 'Programming-Java-Native-API' },
-            { text: 'Data Sync API', link: 'Programming-Data-Sync' },
+            { text: 'Data Sync API', link: 'Programming-Data-Subscription' },
           ],
         },
         { text: 'Python Native API', link: 'Programming-Python-Native-API' },

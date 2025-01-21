@@ -141,7 +141,7 @@ export const zhSidebar = {
         { text: 'Java原生接口', collapsible: true,
           children: [
             { text: 'Java原生API', link: 'Programming-Java-Native-API' },
-            { text: '数据订阅API', link: 'Programming-Data-Sync' },
+            { text: '数据订阅API', link: 'Programming-Data-Subscription' },
           ],
         },
         { text: 'Python原生接口', link: 'Programming-Python-Native-API' },
