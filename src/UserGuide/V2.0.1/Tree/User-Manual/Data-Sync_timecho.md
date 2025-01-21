@@ -436,7 +436,7 @@ This example is used to demonstrate the scenario where data from one IoTDB is sy
 ![](https://alioss.timecho.com/upload/pipe5.jpg)
 
 
-In this example, the iotdb-air-gap-sink plugin in the sink task needs to be used (currently supports some gateway models, for specific models, please contact Timecho staff for confirmation). After configuring the gateway, execute the following statement on A IoTDB. Fill in the node-urls with the URL of the data service port of the DataNode node on the target IoTDB configured by the gateway, as detailed below:
+In this example, the iotdb-air-gap-sink plugin in the sink task needs to be used . After configuring the gateway, execute the following statement on A IoTDB. Fill in the node-urls with the URL of the data service port of the DataNode node on the target IoTDB configured by the gateway, as detailed below:
 
 ```SQL
 create pipe A2B
@@ -444,6 +444,19 @@ with sink (
   'sink'='iotdb-air-gap-sink',
   'node-urls' = '10.53.53.53:9780', -- The URL of the data service port of the DataNode node on the target IoTDB
 ```
+**Notes: Currently supported gateway models**
+
+| Gateway Type           | Model                                                        | Return Packet Limit | Send Limit             |
+| ---------------------- | ------------------------------------------------------------ | ------------------- | ---------------------- |
+| Forward Gate         | NARI Syskeeper-2000 Forward Gate                         | All 0 / All 1 bytes | No Limit               |
+| Forward Gate         | XJ Self-developed Diaphragm                                  | All 0 / All 1 bytes | No Limit               |
+| Unknown     | WISGAP         | No Limit            | No Limit               |
+| Forward Gate         | KEDONG StoneWall-2000 Network Security Isolation Device | No Limit            | No Limit               |
+| Reverse Gate      | NARI Syskeeper-2000 Reverse Direction                      | All 0 / All 1 bytes | Meet E Language Format |
+| Unknown     | DPtech ISG5000                                      | No Limit            | No Limit               |
+| Unknown     | GAP‌‌
+ XL—GAP    | No Limit            | No Limit               |
+
 
 ### Compression Synchronization (V1.3.3+)
 
