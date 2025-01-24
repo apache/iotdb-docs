@@ -21,6 +21,19 @@
 # 发版历史
 
 ## TimechoDB（数据库内核）
+### V1.3.4.1
+> 发版时间：2025.01.08
+>
+> 下载地址：请联系天谋工作人员进行下载
+
+V1.3.4.1版本新增模式匹配函数、持续优化数据订阅机制，提升稳定性、import-data/export-data 脚本扩展支持新数据类型，import-data/export-data 脚本合并同时兼容 TsFile、CSV 和 SQL 三种类型数据的导入导出等功能，同时对数据库监控、性能、稳定性进行了全方位提升。具体发布内容如下：
+
+- 查询模块：用户可通过配置项控制 UDF、PipePlugin、Trigger 和 AINode 通过 URI 加载 jar 包
+- 系统模块：UDF 函数拓展，新增 pattern_match 模式匹配函数
+- 数据同步：支持在发送端指定接收端鉴权信息
+- 生态集成：支持 Kubernetes Operator 
+- 脚本与工具：import-data/export-data 脚本扩展，支持新数据类型（字符串、大二进制对象、日期、时间戳）
+- 脚本与工具：import-data/export-data 脚本迭代，同时兼容 TsFile、CSV 和 SQL 三种类型数据的导入导出
 
 ### V1.3.3.3
 
