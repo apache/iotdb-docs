@@ -636,7 +636,7 @@ Different configuration parameters take effect in the following three ways:
 |Default| 100000 |
 |Effective|After restarting system|
 
-### TTL 配置
+### TTL Configuration
 * ttl\_check\_interval
 
 |    Name     | ttl\_check\_interval                                                           |
