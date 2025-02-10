@@ -161,6 +161,7 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '配置参数', link: 'System-Config-Manual' },
+        { text: '状态码', link: 'Status-Codes' },
       ],
     },
   ],
