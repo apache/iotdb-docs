@@ -1,23 +1,25 @@
 <!--
-* Licensed to the Apache Software Foundation (ASF) under one
-* or more contributor license agreements.  See the NOTICE file
-* distributed with this work for additional information
-* regarding copyright ownership.  The ASF licenses this file
-* to you under the Apache License, Version 2.0 (the
-* "License"); you may not use this file except in compliance
-* with the License.  You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+    
+        http://www.apache.org/licenses/LICENSE-2.0
+    
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
 -->
 
-# RESTful API V1(Not Recommend)
-
+# RESTful API V1(Not Recommend)  
 IoTDB's RESTful services can be used for query, write, and management operations, using the OpenAPI standard to define interfaces and generate frameworks.
 
 ## Enable RESTful Services
@@ -31,7 +33,6 @@ RESTful services are disabled by default.
   ```
 
 ## Authentication
-
 Except the liveness probe API `/ping`, RESTful services use the basic authentication. Each URL request needs to carry `'Authorization': 'Basic ' + base64.encode(username + ':' + password)`.
 
 The username used in the following examples is: `root`, and password is: `root`.
@@ -47,26 +48,24 @@ Authorization: Basic cm9vdDpyb290
   HTTP Status Code：`401`
 
   HTTP response body:
-
-  ```json
-  {
-    "code": 600,
-    "message": "WRONG_LOGIN_PASSWORD_ERROR"
-  }
-  ```
+    ```json
+    {
+      "code": 600,
+      "message": "WRONG_LOGIN_PASSWORD_ERROR"
+    }
+    ```
 
 - If the `Authorization` header is missing，the following error is returned:
 
   HTTP Status Code：`401`
 
   HTTP response body:
-
-  ```json
-  {
-    "code": 603,
-    "message": "UNINITIALIZED_AUTH_ERROR"
-  }
-  ```
+    ```json
+    {
+      "code": 603,
+      "message": "UNINITIALIZED_AUTH_ERROR"
+    }
+    ```
 
 ## Interface
 
@@ -80,7 +79,7 @@ Request path: `http://ip:port/ping`
 
 The user name used in the example is: root, password: root
 
-Example request:
+Example request: 
 
 ```shell
 $ curl http://127.0.0.1:18080/ping
@@ -93,10 +92,10 @@ Response status codes:
 
 Response parameters:
 
-| parameter name | parameter type | parameter describe |
-| :------------- | :------------- | :----------------- |
-| code           | integer        | status code        |
-| message        | string         | message            |
+|parameter name  |parameter type |parameter describe|
+|:--- | :--- | :---|
+|code | integer |  status code |
+| message  |  string | message |
 
 Sample response:
 
@@ -132,18 +131,18 @@ Request path: `http://ip:port/rest/v1/query`
 
 Parameter Description:
 
-| parameter name | parameter type | required | parameter description                                                                                                                                                                                                                                                                                                                       |
-| -------------- | -------------- | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| sql            | string         | yes      |                                                                                                                                                                                                                                                                                                                                             |
-| rowLimit       | integer        | no       | The maximum number of rows in the result set that can be returned by a query. <br />If this parameter is not set, the `rest_query_default_row_size_limit` of the configuration file will be used as the default value. <br /> When the number of rows in the returned result set exceeds the limit, the status code `411` will be returned. |
+| parameter name | parameter type | required | parameter description                                        |
+|----------------| -------------- | -------- | ------------------------------------------------------------ |
+| sql            | string         | yes      |                                                              |
+| rowLimit      | integer        | no       | The maximum number of rows in the result set that can be returned by a query. <br />If this parameter is not set, the `rest_query_default_row_size_limit` of the configuration file will be used as the default value. <br /> When the number of rows in the returned result set exceeds the limit, the status code `411` will be returned. |
 
 Response parameters:
 
-| parameter name | parameter type | parameter description                                                                                                                                                      |
-| -------------- | -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| expressions    | array          | Array of result set column names for data query, `null` for metadata query                                                                                                 |
-| columnNames    | array          | Array of column names for metadata query result set, `null` for data query                                                                                                 |
-| timestamps     | array          | Timestamp column, `null` for metadata query                                                                                                                                |
+| parameter name | parameter type | parameter description                                        |
+|----------------| -------------- | ------------------------------------------------------------ |
+| expressions    | array          | Array of result set column names for data query, `null` for metadata query |
+| columnNames   | array          | Array of column names for metadata query result set, `null` for data query |
+| timestamps     | array          | Timestamp column, `null` for metadata query                  |
 | values         | array          | A two-dimensional array, the first dimension has the same length as the result set column name array, and the second dimension array represents a column of the result set |
 
 **Examples:**
@@ -152,24 +151,38 @@ Tip: Statements like `select * from root.xx.**` are not recommended because thos
 
 **Expression query**
 
-```shell
-curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"select s3, s4, s3 + 1 from root.sg27 limit 2"}' http://127.0.0.1:18080/rest/v1/query
-```
-
+  ```shell
+  curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"select s3, s4, s3 + 1 from root.sg27 limit 2"}' http://127.0.0.1:18080/rest/v1/query
+  ````
 Response instance
-
-```json
-{
-  "expressions": ["root.sg27.s3", "root.sg27.s4", "root.sg27.s3 + 1"],
-  "columnNames": null,
-  "timestamps": [1635232143960, 1635232153960],
-  "values": [
-    [11, null],
-    [false, true],
-    [12.0, null]
-  ]
-}
-```
+  ```json
+  {
+    "expressions": [
+      "root.sg27.s3",
+      "root.sg27.s4",
+      "root.sg27.s3 + 1"
+    ],
+    "columnNames": null,
+    "timestamps": [
+      1635232143960,
+      1635232153960
+    ],
+    "values": [
+      [
+        11,
+        null
+      ],
+      [
+        false,
+        true
+      ],
+      [
+        12.0,
+        null
+      ]
+    ]
+  }
+  ```
 
 **Show child paths**
 
@@ -180,9 +193,16 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 ```json
 {
   "expressions": null,
-  "columnNames": ["child paths"],
+  "columnNames": [
+    "child paths"
+  ],
   "timestamps": null,
-  "values": [["root.sg27", "root.sg28"]]
+  "values": [
+    [
+      "root.sg27",
+      "root.sg28"
+    ]
+  ]
 }
 ```
 
@@ -195,9 +215,16 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 ```json
 {
   "expressions": null,
-  "columnNames": ["child nodes"],
+  "columnNames": [
+    "child nodes"
+  ],
   "timestamps": null,
-  "values": [["sg27", "sg28"]]
+  "values": [
+    [
+      "sg27",
+      "sg28"
+    ]
+  ]
 }
 ```
 
@@ -210,11 +237,20 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 ```json
 {
   "expressions": null,
-  "columnNames": ["database", "ttl"],
+  "columnNames": [
+    "database",
+    "ttl"
+  ],
   "timestamps": null,
   "values": [
-    ["root.sg27", "root.sg28"],
-    [null, null]
+    [
+      "root.sg27",
+      "root.sg28"
+    ],
+    [
+      null,
+      null
+    ]
   ]
 }
 ```
@@ -228,9 +264,19 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 ```json
 {
   "expressions": null,
-  "columnNames": ["database", "ttl"],
+  "columnNames": [
+    "database",
+    "ttl"
+  ],
   "timestamps": null,
-  "values": [["root.sg27"], [null]]
+  "values": [
+    [
+      "root.sg27"
+    ],
+    [
+      null
+    ]
+  ]
 }
 ```
 
@@ -293,14 +339,54 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
   ],
   "timestamps": null,
   "values": [
-    ["root.sg27.s3", "root.sg27.s4", "root.sg28.s3", "root.sg28.s4"],
-    [null, null, null, null],
-    ["root.sg27", "root.sg27", "root.sg28", "root.sg28"],
-    ["INT32", "BOOLEAN", "INT32", "BOOLEAN"],
-    ["RLE", "RLE", "RLE", "RLE"],
-    ["SNAPPY", "SNAPPY", "SNAPPY", "SNAPPY"],
-    [null, null, null, null],
-    [null, null, null, null]
+    [
+      "root.sg27.s3",
+      "root.sg27.s4",
+      "root.sg28.s3",
+      "root.sg28.s4"
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "root.sg27",
+      "root.sg27",
+      "root.sg28",
+      "root.sg28"
+    ],
+    [
+      "INT32",
+      "BOOLEAN",
+      "INT32",
+      "BOOLEAN"
+    ],
+    [
+      "RLE",
+      "RLE",
+      "RLE",
+      "RLE"
+    ],
+    [
+      "SNAPPY",
+      "SNAPPY",
+      "SNAPPY",
+      "SNAPPY"
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ]
   ]
 }
 ```
@@ -326,14 +412,54 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
   ],
   "timestamps": null,
   "values": [
-    ["root.sg28.s4", "root.sg27.s4", "root.sg28.s3", "root.sg27.s3"],
-    [null, null, null, null],
-    ["root.sg28", "root.sg27", "root.sg28", "root.sg27"],
-    ["BOOLEAN", "BOOLEAN", "INT32", "INT32"],
-    ["RLE", "RLE", "RLE", "RLE"],
-    ["SNAPPY", "SNAPPY", "SNAPPY", "SNAPPY"],
-    [null, null, null, null],
-    [null, null, null, null]
+    [
+      "root.sg28.s4",
+      "root.sg27.s4",
+      "root.sg28.s3",
+      "root.sg27.s3"
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      "root.sg28",
+      "root.sg27",
+      "root.sg28",
+      "root.sg27"
+    ],
+    [
+      "BOOLEAN",
+      "BOOLEAN",
+      "INT32",
+      "INT32"
+    ],
+    [
+      "RLE",
+      "RLE",
+      "RLE",
+      "RLE"
+    ],
+    [
+      "SNAPPY",
+      "SNAPPY",
+      "SNAPPY",
+      "SNAPPY"
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ],
+    [
+      null,
+      null,
+      null,
+      null
+    ]
   ]
 }
 ```
@@ -347,9 +473,15 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 ```json
 {
   "expressions": null,
-  "columnNames": ["count"],
+  "columnNames": [
+    "count"
+  ],
   "timestamps": null,
-  "values": [[4]]
+  "values": [
+    [
+      4
+    ]
+  ]
 }
 ```
 
@@ -362,9 +494,15 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 ```json
 {
   "expressions": null,
-  "columnNames": ["count"],
+  "columnNames": [
+    "count"
+  ],
   "timestamps": null,
-  "values": [[4]]
+  "values": [
+    [
+      4
+    ]
+  ]
 }
 ```
 
@@ -377,11 +515,20 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 ```json
 {
   "expressions": null,
-  "columnNames": ["devices", "isAligned"],
+  "columnNames": [
+    "devices",
+    "isAligned"
+  ],
   "timestamps": null,
   "values": [
-    ["root.sg27", "root.sg28"],
-    ["false", "false"]
+    [
+      "root.sg27",
+      "root.sg28"
+    ],
+    [
+      "false",
+      "false"
+    ]
   ]
 }
 ```
@@ -395,12 +542,25 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 ```json
 {
   "expressions": null,
-  "columnNames": ["devices", "database", "isAligned"],
+  "columnNames": [
+    "devices",
+    "database",
+    "isAligned"
+  ],
   "timestamps": null,
   "values": [
-    ["root.sg27", "root.sg28"],
-    ["root.sg27", "root.sg28"],
-    ["false", "false"]
+    [
+      "root.sg27",
+      "root.sg28"
+    ],
+    [
+      "root.sg27",
+      "root.sg28"
+    ],
+    [
+      "false",
+      "false"
+    ]
   ]
 }
 ```
@@ -414,9 +574,15 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 ```json
 {
   "expressions": null,
-  "columnNames": ["user"],
+  "columnNames": [
+    "user"
+  ],
   "timestamps": null,
-  "values": [["root"]]
+  "values": [
+    [
+      "root"
+    ]
+  ]
 }
 ```
 
@@ -428,10 +594,22 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 
 ```json
 {
-  "expressions": ["count(root.sg27.s3)", "count(root.sg27.s4)"],
+  "expressions": [
+    "count(root.sg27.s3)",
+    "count(root.sg27.s4)"
+  ],
   "columnNames": null,
-  "timestamps": [0],
-  "values": [[1], [2]]
+  "timestamps": [
+    0
+  ],
+  "values": [
+    [
+      1
+    ],
+    [
+      2
+    ]
+  ]
 }
 ```
 
@@ -444,9 +622,19 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 ```json
 {
   "expressions": null,
-  "columnNames": ["count(root.sg27.*)", "count(root.sg28.*)"],
+  "columnNames": [
+    "count(root.sg27.*)",
+    "count(root.sg28.*)"
+  ],
   "timestamps": null,
-  "values": [[3], [3]]
+  "values": [
+    [
+      3
+    ],
+    [
+      3
+    ]
+  ]
 }
 ```
 
@@ -458,15 +646,48 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 
 ```json
 {
-  "expressions": ["count(root.sg27.s3)", "count(root.sg27.s4)"],
+  "expressions": [
+    "count(root.sg27.s3)",
+    "count(root.sg27.s4)"
+  ],
   "columnNames": null,
   "timestamps": [
-    1635232143960, 1635232144960, 1635232145960, 1635232146960, 1635232147960,
-    1635232148960, 1635232149960, 1635232150960, 1635232151960, 1635232152960
+    1635232143960,
+    1635232144960,
+    1635232145960,
+    1635232146960,
+    1635232147960,
+    1635232148960,
+    1635232149960,
+    1635232150960,
+    1635232151960,
+    1635232152960
   ],
   "values": [
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [1, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
   ]
 }
 ```
@@ -480,9 +701,25 @@ curl -H "Content-Type:application/json"  -H "Authorization:Basic cm9vdDpyb290" -
 ```json
 {
   "expressions": null,
-  "columnNames": ["timeseries", "value", "dataType"],
-  "timestamps": [1635232143960],
-  "values": [["root.sg27.s3"], ["11"], ["INT32"]]
+  "columnNames": [
+    "timeseries",
+    "value",
+    "dataType"
+  ],
+  "timestamps": [
+    1635232143960
+  ],
+  "values": [
+    [
+      "root.sg27.s3"
+    ],
+    [
+      "11"
+    ],
+    [
+      "INT32"
+    ]
+  ]
 }
 ```
 
@@ -535,31 +772,31 @@ Request path: `http://ip:port/rest/v1/nonQuery`
 
 Parameter Description:
 
-| parameter name | parameter type | parameter describe |
-| :------------- | :------------- | :----------------- |
-| sql            | string         | query content      |
+|parameter name  |parameter type |parameter describe|
+|:--- | :--- | :---|
+|  sql | string | query content  |
 
 Example request:
-
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"sql":"CREATE DATABASE root.ln"}' http://127.0.0.1:18080/rest/v1/nonQuery
 ```
 
 Response parameters:
 
-| parameter name | parameter type | parameter describe |
-| :------------- | :------------- | :----------------- |
-| code           | integer        | status code        |
-| message        | string         | message            |
+|parameter name  |parameter type |parameter describe|
+|:--- | :--- | :---|
+| code | integer |  status code |
+| message  |  string | message |
 
 Sample response:
-
 ```json
 {
   "code": 200,
   "message": "SUCCESS_STATUS"
 }
 ```
+
+
 
 ### insertTablet
 
@@ -571,30 +808,28 @@ Request path: `http://ip:port/rest/v1/insertTablet`
 
 Parameter Description:
 
-| parameter name | parameter type | is required | parameter describe                                     |
-| :------------- | :------------- | :---------- | :----------------------------------------------------- |
-| timestamps     | array          | yes         | Time column                                            |
-| measurements   | array          | yes         | The name of the measuring point                        |
-| dataTypes      | array          | yes         | The data type                                          |
-| values         | array          | yes         | Value columns, the values in each column can be `null` |
-| isAligned      | boolean        | yes         | Whether to align the timeseries                        |
-| deviceId       | string         | yes         | Device name                                            |
+| parameter name |parameter type |is required|parameter describe|
+|:---------------| :--- | :---| :---|
+| timestamps     | array | yes |  Time column  |
+| measurements   | array | yes  | The name of the measuring point |
+| dataTypes     | array | yes  | The data type |
+| values         | array | yes  | Value columns, the values in each column can be `null` |
+| isAligned     | boolean | yes  | Whether to align the timeseries |
+| deviceId         | string | yes  | Device name |
 
 Example request:
-
 ```shell
 curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"timestamps":[1635232143960,1635232153960],"measurements":["s3","s4"],"dataTypes":["INT32","BOOLEAN"],"values":[[11,null],[false,true]],"isAligned":false,"deviceId":"root.sg27"}' http://127.0.0.1:18080/rest/v1/insertTablet
 ```
 
 Sample response:
 
-| parameter name | parameter type | parameter describe |
-| :------------- | :------------- | :----------------- |
-| code           | integer        | status code        |
-| message        | string         | message            |
+|parameter name  |parameter type |parameter describe|
+|:--- | :--- | :---|
+| code | integer |  status code |
+| message  |  string | message |
 
 Sample response:
-
 ```json
 {
   "code": 200,
@@ -606,79 +841,83 @@ Sample response:
 
 The configuration is located in 'iotdb-system.properties'.
 
-- Set 'enable_rest_service' to 'true' to enable the module, and 'false' to disable the module. By default, this value is' false '.
+* Set 'enable_rest_service' to 'true' to enable the module, and 'false' to disable the module. By default, this value is' false '.
 
 ```properties
 enable_rest_service=true
 ```
 
-- This parameter is valid only when 'enable_REST_service =true'. Set 'rest_service_port' to a number (1025 to 65535) to customize the REST service socket port. By default, the value is 18080.
+* This parameter is valid only when 'enable_REST_service =true'. Set 'rest_service_port' to a number (1025 to 65535) to customize the REST service socket port. By default, the value is 18080.
 
 ```properties
 rest_service_port=18080
 ```
 
-- Set 'enable_swagger' to 'true' to display rest service interface information through swagger, and 'false' to do not display the rest service interface information through the swagger. By default, this value is' false '.
+* Set 'enable_swagger' to 'true' to display rest service interface information through swagger, and 'false' to do not display the rest service interface information through the swagger. By default, this value is' false '.
 
 ```properties
 enable_swagger=false
 ```
 
-- The maximum number of rows in the result set that can be returned by a query. When the number of rows in the returned result set exceeds the limit, the status code `411` is returned.
+* The maximum number of rows in the result set that can be returned by a query. When the number of rows in the returned result set exceeds the limit, the status code `411` is returned.
 
-```properties
+````properties
 rest_query_default_row_size_limit=10000
-```
+````
 
-- Expiration time for caching customer login information (used to speed up user authentication, in seconds, 8 hours by default)
+* Expiration time for caching customer login information (used to speed up user authentication, in seconds, 8 hours by default)
 
 ```properties
 cache_expire=28800
 ```
 
-- Maximum number of users stored in the cache (default: 100)
+
+* Maximum number of users stored in the cache (default: 100)
 
 ```properties
 cache_max_num=100
 ```
 
-- Initial cache size (default: 10)
+* Initial cache size (default: 10)
 
 ```properties
 cache_init_num=10
 ```
 
-- REST Service whether to enable SSL configuration, set 'enable_https' to' true 'to enable the module, and set' false 'to disable the module. By default, this value is' false '.
+* REST Service whether to enable SSL configuration, set 'enable_https' to' true 'to enable the module, and set' false 'to disable the module. By default, this value is' false '.
 
 ```properties
 enable_https=false
 ```
 
-- keyStore location path (optional)
+* keyStore location path (optional)
 
 ```properties
 key_store_path=
 ```
 
-- keyStore password (optional)
+
+* keyStore password (optional)
 
 ```properties
 key_store_pwd=
 ```
 
-- trustStore location path (optional)
+
+* trustStore location path (optional)
 
 ```properties
 trust_store_path=
 ```
 
-- trustStore password (optional)
+* trustStore password (optional)
 
 ```properties
 trust_store_pwd=
 ```
 
-- SSL timeout period, in seconds
+
+* SSL timeout period, in seconds
 
 ```properties
 idle_timeout=5000

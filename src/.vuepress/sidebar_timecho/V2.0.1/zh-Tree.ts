@@ -17,7 +17,7 @@
  */
 
 export const zhSidebar = {
-  '/zh/UserGuide/V2.0.1/Tree': [
+  '/zh/UserGuide/latest/': [
     {
       text: 'IoTDB用户手册',
       children: [],
@@ -201,6 +201,8 @@ export const zhSidebar = {
       prefix: 'SQL-Manual/',
       // children: 'structure',
       children: [
+        { text: '标识符', link: 'Syntax-Rule' },
+        { text: '关键字', link: 'Keywords' },
         { text: 'SQL手册', link: 'SQL-Manual' },
         {
           text: '函数与运算符',
@@ -225,7 +227,7 @@ export const zhSidebar = {
       ],
     },
     {
-      text: '参考',
+      text: '附录',
       collapsible: true,
       prefix: 'Reference/',
       // children: 'structure',
@@ -237,14 +239,6 @@ export const zhSidebar = {
             { text: '配置参数', link: 'Common-Config-Manual' },
             { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
             { text: 'DataNode配置参数', link: 'DataNode-Config-Manual_timecho' },
-          ],
-        },
-        {
-          text: '语法约定',
-          collapsible: true,
-          children: [
-            { text: '标识符', link: 'Syntax-Rule' },
-            { text: '关键字', link: 'Keywords' },
           ],
         },
         { text: '状态码', link: 'Status-Codes' },

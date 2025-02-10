@@ -62,7 +62,7 @@ Telegraf支持多种操作系统，包括Linux、Windows、macOS，Telegraf 的�
 | interval          | 收集此指标的频率。普通插件使用单个全局间隔，但如果某个特定输入的运行频率应更低或更高，您可以在此处进行配置。`interval`可以增加间隔以减少数据输入速率限制。 |                                                              |
 | precision         | 覆盖`precision`代理的设置。收集的指标四舍五入到指定的精度`interval`。当在服务输入上设置此值（例如`statsd`：）时，输出数据库可能会合并在同一时间戳发生的多个事件。 |                                                              |
 | collection_jitter | 覆盖`collection_jitter`代理的设置。Collection jitter 用于通过随机的`interval` |                                                              |
-| name_override     | 输出到 IoTDB 时使用的自定义时间序列路径名                    | 输出的路径名称需满足“[语法要求](../Reference/Syntax-Rule.md)”要求 |
+| name_override     | 输出到 IoTDB 时使用的自定义时间序列路径名                    | 输出的路径名称需满足“[语法要求](../SQL-Manual/Syntax-Rule.md)”要求 |
 | name_prefix       | 指定附加到测量名称的前缀                                     |                                                              |
 | name_suffix       | 指定附加到测量名称的后缀                                     |                                                              |
 

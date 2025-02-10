@@ -457,6 +457,7 @@ with sink (
 | Unknown     | GAP‌‌
  XL—GAP    | No Limit            | No Limit               |
 
+
 ### Compression Synchronization (V1.3.3+)
 
 IoTDB supports specifying data compression methods during synchronization. Real time compression and transmission of data can be achieved by configuring the `compressor` parameter. `Compressor` currently supports 5 optional algorithms: snappy/gzip/lz4/zstd/lzma2, and can choose multiple compression algorithm combinations to compress in the order of configuration `rate-limit-bytes-per-second`(supported in V1.3.3 and later versions) is the maximum number of bytes allowed to be transmitted per second, calculated as compressed bytes. If it is less than 0, there is no limit.

@@ -1,19 +1,22 @@
 <!--
-* Licensed to the Apache Software Foundation (ASF) under one
-* or more contributor license agreements.  See the NOTICE file
-* distributed with this work for additional information
-* regarding copyright ownership.  The ASF licenses this file
-* to you under the Apache License, Version 2.0 (the
-* "License"); you may not use this file except in compliance
-* with the License.  You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+    
+        http://www.apache.org/licenses/LICENSE-2.0
+    
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
 -->
 
 # Data Type
@@ -22,41 +25,40 @@
 
 IoTDB supports the following data types:
 
-- BOOLEAN (Boolean)
-- INT32 (Integer)
-- INT64 (Long Integer)
-- FLOAT (Single Precision Floating Point)
-- DOUBLE (Double Precision Floating Point)
-- TEXT (Long String)
-- STRING（String）
-- BLOB（Large binary Object）
-- TIMESTAMP（Timestamp）
-- DATE（Date）
-
+* BOOLEAN (Boolean)
+* INT32 (Integer)
+* INT64 (Long Integer)
+* FLOAT (Single Precision Floating Point)
+* DOUBLE (Double Precision Floating Point)
+* TEXT (Long String)
+* STRING（String）
+* BLOB（Large binary Object）
+* TIMESTAMP（Timestamp）
+* DATE（Date）
+  
 The difference between STRING and TEXT types is that STRING type has more statistical information and can be used to optimize value filtering queries, while TEXT type is suitable for storing long strings.
 
 ### Float Precision
 
-The time series of **FLOAT** and **DOUBLE** type can specify (MAX_POINT_NUMBER, see [this page](../SQL-Manual/SQL-Manual.md) for more information on how to specify), which is the number of digits after the decimal point of the floating point number, if the encoding method is [RLE](../Technical-Insider/Encoding-and-Compression.md) or [TS_2DIFF](../Technical-Insider/Encoding-and-Compression.md). If MAX_POINT_NUMBER is not specified, the system will use [float_precision](../Reference/DataNode-Config-Manual.md) in the configuration file `iotdb-system.properties`.
+The time series of **FLOAT** and **DOUBLE** type can specify (MAX\_POINT\_NUMBER, see [this page](../SQL-Manual/SQL-Manual.md) for more information on how to specify), which is the number of digits after the decimal point of the floating point number, if the encoding method is [RLE](../Technical-Insider/Encoding-and-Compression.md) or [TS\_2DIFF](../Technical-Insider/Encoding-and-Compression.md). If MAX\_POINT\_NUMBER is not specified, the system will use [float\_precision](../Reference/DataNode-Config-Manual.md) in the configuration file `iotdb-system.properties`.
 
 ```sql
 CREATE TIMESERIES root.vehicle.d0.s0 WITH DATATYPE=FLOAT, ENCODING=RLE, 'MAX_POINT_NUMBER'='2';
 ```
 
-- For Float data value, The data range is (-Integer.MAX_VALUE, Integer.MAX_VALUE), rather than Float.MAX_VALUE, and the max_point_number is 19, caused by the limitation of function Math.round(float) in Java.
-- For Double data value, The data range is (-Long.MAX_VALUE, Long.MAX_VALUE), rather than Double.MAX_VALUE, and the max_point_number is 19, caused by the limitation of function Math.round(double) in Java (Long.MAX_VALUE=9.22E18).
+* For Float data value, The data range is (-Integer.MAX_VALUE, Integer.MAX_VALUE), rather than Float.MAX_VALUE, and the max_point_number is 19, caused by the limition of function Math.round(float) in Java.
+* For Double data value, The data range is (-Long.MAX_VALUE, Long.MAX_VALUE), rather than Double.MAX_VALUE, and the max_point_number is 19, caused by the limition of function Math.round(double) in Java (Long.MAX_VALUE=9.22E18).
 
 ### Data Type Compatibility
 
 When the written data type is inconsistent with the data type of time-series,
-
 - If the data type of time-series is not compatible with the written data type, the system will give an error message.
 - If the data type of time-series is compatible with the written data type, the system will automatically convert the data type.
 
 The compatibility of each data type is shown in the following table:
 
 | Series Data Type | Supported Written Data Types |
-| ---------------- | ---------------------------- |
+|------------------|------------------------------|
 | BOOLEAN          | BOOLEAN                      |
 | INT32            | INT32                        |
 | INT64            | INT32 INT64                  |
@@ -72,9 +74,11 @@ The timestamp is the time point at which data is produced. It includes absolute 
 
 Absolute timestamps in IoTDB are divided into two types: LONG and DATETIME (including DATETIME-INPUT and DATETIME-DISPLAY). When a user inputs a timestamp, he can use a LONG type timestamp or a DATETIME-INPUT type timestamp, and the supported formats of the DATETIME-INPUT type timestamp are shown in the table below:
 
-::: center
+<div style="text-align: center;">
 
 **Supported formats of DATETIME-INPUT type timestamp**
+
+
 
 |            Format            |
 | :--------------------------: |
@@ -92,13 +96,15 @@ Absolute timestamps in IoTDB are divided into two types: LONG and DATETIME (incl
 |  yyyy.MM.dd HH:mm:ss.SSSZZ   |
 | ISO8601 standard time format |
 
-:::
+</div>
+
 
 IoTDB can support LONG types and DATETIME-DISPLAY types when displaying timestamps. The DATETIME-DISPLAY type can support user-defined time formats. The syntax of the custom time format is shown in the table below:
 
-::: center
+<div style="text-align: center;">
 
 **The syntax of the custom time format**
+
 
 | Symbol |           Meaning           | Presentation |              Examples              |
 | :----: | :-------------------------: | :----------: | :--------------------------------: |
@@ -132,22 +138,24 @@ IoTDB can support LONG types and DATETIME-DISPLAY types when displaying timestam
 |   '    |       escape for text       |  delimiter   |                                    |
 |   ''   |        single quote         |   literal    |                 '                  |
 
-:::
+</div>
 
 ### Relative timestamp
 
-Relative time refers to the time relative to the server time `now()` and `DATETIME` time.
+Relative time refers to the time relative to the server time ```now()``` and ```DATETIME``` time.
 
-Syntax:
+ Syntax:
 
-```
-Duration = (Digit+ ('Y'|'MO'|'W'|'D'|'H'|'M'|'S'|'MS'|'US'|'NS'))+
-RelativeTime = (now() | DATETIME) ((+|-) Duration)+
-```
+ ```
+  Duration = (Digit+ ('Y'|'MO'|'W'|'D'|'H'|'M'|'S'|'MS'|'US'|'NS'))+
+  RelativeTime = (now() | DATETIME) ((+|-) Duration)+
+        
+ ```
 
-::: center
+  <div style="text-align: center;">
 
 **The syntax of the duration unit**
+
 
 | Symbol |   Meaning   |       Presentation       | Examples |
 | :----: | :---------: | :----------------------: | :------: |
@@ -164,13 +172,13 @@ RelativeTime = (now() | DATETIME) ((+|-) Duration)+
 |   us   | microsecond |   1us=1000 nanoseconds   |   1us    |
 |   ns   | nanosecond  |     1ns=1 nanosecond     |   1ns    |
 
-:::
+  </div>
 
-eg：
+  eg：
 
-```
-now() - 1d2h //1 day and 2 hours earlier than the current server time
-now() - 1w //1 week earlier than the current server time
-```
+  ```
+  now() - 1d2h //1 day and 2 hours earlier than the current server time
+  now() - 1w //1 week earlier than the current server time
+  ```
 
-> Note：There must be spaces on the left and right of '+' and '-'.
+  > Note：There must be spaces on the left and right of '+' and '-'.

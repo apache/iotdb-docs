@@ -158,7 +158,7 @@ export const zhSidebar = {
       children: [{ text: '常见问题', link: 'Frequently-asked-questions' }],
     },
     {
-      text: '参考',
+      text: '附录',
       collapsible: true,
       prefix: 'Reference/',
       // children: 'structure',

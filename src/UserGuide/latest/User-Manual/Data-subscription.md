@@ -80,6 +80,7 @@ WITH (
   'start-time' = '2023-01-01',
   'end-time' = '2023-12-31'
 );
+```
 
 #### 3.1.2 Delete Topic
 

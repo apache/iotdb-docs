@@ -172,7 +172,6 @@ Below are basic constraints of identifiers, specific identifiers may have other 
     - [0-9 a-z A-Z _ ] (letters, digits and underscore)
     - ['\u2E80'..'\u9FFF'] (UNICODE Chinese characters)
 
-
 ### Reverse quotation marks
 
 **If the following situations occur, the identifier needs to be quoted using reverse quotes:**
@@ -280,4 +279,3 @@ create device template `t1't"t`
   ```sql
   `root.db.*`
   ```
-
