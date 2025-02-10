@@ -123,6 +123,8 @@ export const zhSidebar = {
       prefix: 'SQL-Manual/',
       // children: 'structure',
       children: [
+        { text: '标识符', link: 'Identifier' },
+        { text: '保留字&关键字', link: 'Keywords' },
         {
           text: '查询语句',
           collapsible: true,
@@ -138,8 +140,6 @@ export const zhSidebar = {
             { text: 'LIMIT&OFFSET子句', link: 'Limit-Offset-Clause' },
           ],
         },
-        { text: '保留字&关键字', link: 'Keywords' },
-        { text: '标识符', link: 'Identifier' },
       ],
     },
     {
