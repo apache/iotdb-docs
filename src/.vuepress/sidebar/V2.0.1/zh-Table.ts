@@ -28,7 +28,7 @@ export const zhSidebar = {
       prefix: 'IoTDB-Introduction/',
       // children: 'structure', 使用该方式自动获取文件夹下的文件
       children: [
-        { text: '产品介绍', link: 'IoTDB-Introduction_timecho' },
+        { text: '产品介绍', link: 'IoTDB-Introduction_apache' },
         { text: '应用场景', link: 'Scenario' },
       ],
     },
@@ -37,13 +37,13 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Background-knowledge/',
       children: [
-        { text: '常见概念', link: 'Cluster-Concept_timecho' },
+        { text: '常见概念', link: 'Cluster-Concept_apache' },
         { text: '数据类型', link: 'Data-Type' },
       ],
     },
     {
       text: '快速上手',
-      link: 'QuickStart/QuickStart_timecho',
+      link: 'QuickStart/QuickStart_apache',
     },
     {
       text: '部署与运维',
@@ -51,14 +51,12 @@ export const zhSidebar = {
       prefix: 'Deployment-and-Maintenance/',
       // children: 'structure',
       children: [
-        { text: '安装包获取', link: 'IoTDB-Package_timecho' },
+        { text: '安装包获取', link: 'IoTDB-Package_apache' },
         { text: '资源规划', link: 'Database-Resources' },
         { text: '系统配置', link: 'Environment-Requirements' },
-        { text: '单机版部署指导', link: 'Stand-Alone-Deployment_timecho' },
-        { text: '集群版部署指导', link: 'Cluster-Deployment_timecho' },
-        { text: '双活版部署指导', link: 'Dual-Active-Deployment_timecho' },
-        { text: 'Docker部署指导', link: 'Docker-Deployment_timecho' },
-        { text: '监控面板部署', link: 'Monitoring-panel-deployment' },
+        { text: '单机版部署指导', link: 'Stand-Alone-Deployment_apache' },
+        { text: '集群版部署指导', link: 'Cluster-Deployment_apache' },
+        { text: 'Docker部署指导', link: 'Docker-Deployment_apache' },
       ],
     },
     {
@@ -95,7 +93,7 @@ export const zhSidebar = {
       prefix: 'User-Manual/',
       // children: 'structure',
       children: [
-        { text: '数据同步', link: 'Data-Sync_timecho' },
+        { text: '数据同步', link: 'Data-Sync_apache' },
       ],
     },
     {

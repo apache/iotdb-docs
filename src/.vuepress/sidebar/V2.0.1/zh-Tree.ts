@@ -28,9 +28,9 @@ export const zhSidebar = {
       prefix: 'IoTDB-Introduction/',
       // children: 'structure', 使用该方式自动获取文件夹下的文件
       children: [
-        { text: '产品介绍', link: 'IoTDB-Introduction_timecho' },
+        { text: '产品介绍', link: 'IoTDB-Introduction_apache' },
         { text: '应用场景', link: 'Scenario' },
-        { text: '发布历史', link: 'Release-history_timecho' },
+        { text: '发布历史', link: 'Release-history_apache' },
       ],
     },
     {
@@ -38,13 +38,13 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Background-knowledge/',
       children: [
-        { text: '常见概念', link: 'Cluster-Concept_timecho' },
+        { text: '常见概念', link: 'Cluster-Concept_apache' },
         { text: '数据类型', link: 'Data-Type' },
       ],
     },
     {
       text: '快速上手',
-      link: 'QuickStart/QuickStart_timecho',
+      link: 'QuickStart/QuickStart_apache',
     },
     {
       text: '部署与运维',
@@ -52,16 +52,12 @@ export const zhSidebar = {
       prefix: 'Deployment-and-Maintenance/',
       // children: 'structure',
       children: [
-        { text: '安装包获取', link: 'IoTDB-Package_timecho' },
+        { text: '安装包获取', link: 'IoTDB-Package_apache' },
         { text: '资源规划', link: 'Database-Resources' },
         { text: '系统配置', link: 'Environment-Requirements' },
-        { text: '单机版部署指导', link: 'Stand-Alone-Deployment_timecho' },
-        { text: '集群版部署指导', link: 'Cluster-Deployment_timecho' },
-        { text: '双活版部署指导', link: 'Dual-Active-Deployment_timecho' },
-        { text: 'Docker部署指导', link: 'Docker-Deployment_timecho' },
-        { text: 'AINode部署', link: 'AINode_Deployment_timecho' },
-        { text: '监控面板部署', link: 'Monitoring-panel-deployment' },
-        { text: '可视化控制台部署', link: 'workbench-deployment_timecho' },
+        { text: '单机版部署指导', link: 'Stand-Alone-Deployment_apache' },
+        { text: '集群版部署指导', link: 'Cluster-Deployment_apache' },
+        { text: 'Docker部署指导', link: 'Docker-Deployment_apache' },
       ],
     },
     {
@@ -76,7 +72,7 @@ export const zhSidebar = {
           children: [
             { text: '时序数据模型', link: 'Navigating_Time_Series_Data' },
             { text: '建模方案设计', link: 'Data-Model-and-Terminology' },
-            { text: '测点管理', link: 'Operate-Metadata_timecho' },
+            { text: '测点管理', link: 'Operate-Metadata_apache' },
           ],
         },
         { text: '写入&删除', link: 'Write-Delete-Data' },
@@ -89,21 +85,14 @@ export const zhSidebar = {
       prefix: 'User-Manual/',
       // children: 'structure',
       children: [
-        { text: '数据同步', link: 'Data-Sync_timecho' },
+        { text: '数据同步', link: 'Data-Sync_apache' },
         { text: '数据订阅', link: 'Data-subscription' },
-        { text: 'AI能力', link: 'AINode_timecho' },
         {
           text: '安全管理',
           collapsible: true,
-          children: [
-            { text: '白名单', link: 'White-List_timecho' },
-            { text: '审计日志', link: 'Audit-Log_timecho' },
-            { text: '权限管理', link: 'Authority-Management' },
-          ],
+          children: [{ text: '权限管理', link: 'Authority-Management' }],
         },
-        { text: '用户自定义函数', link: 'User-defined-function_timecho' },
-        { text: '视图', link: 'IoTDB-View_timecho' },
-        { text: '多级存储', link: 'Tiered-Storage_timecho' },
+        { text: '用户自定义函数', link: 'User-defined-function_apache' },
         { text: '连续查询', link: 'Database-Programming' },
         {
           text: '数据库编程',
@@ -111,7 +100,7 @@ export const zhSidebar = {
           children: [
             { text: 'UDF开发', link: 'UDF-development' },
             { text: '触发器', link: 'Trigger' },
-            { text: '流处理框架', link: 'Streaming_timecho' },
+            { text: '流处理框架', link: 'Streaming_apache' },
           ],
         },
         {
@@ -132,10 +121,9 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '命令行工具', link: 'CLI' },
-        { text: '可视化控制台', link: 'Workbench_timecho' },
-        { text: '监控工具', link: 'Monitor-Tool_timecho' },
+        { text: '监控工具', link: 'Monitor-Tool_apache' },
         { text: '测试工具', link: 'Benchmark' },
-        { text: '集群管理工具', link: 'Maintenance-Tool_timecho' },
+        { text: '集群管理工具', link: 'Maintenance-Tool_apache' },
         { text: '数据导入', link: 'Data-Import-Tool' },
         { text: '数据导出', link: 'Data-Export-Tool' },
       ],
@@ -157,10 +145,9 @@ export const zhSidebar = {
         { text: 'Go原生接口', link: 'Programming-Go-Native-API' },
         { text: 'C#原生接口', link: 'Programming-CSharp-Native-API' },
         { text: 'Node.js原生接口', link: 'Programming-NodeJS-Native-API' },
-        { text: 'Rust', link: 'Programming-Rust-Native-API' },
+        { text: 'Rust原生接口', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC (不推荐)', link: 'Programming-JDBC' },
         { text: 'MQTT协议', link: 'Programming-MQTT' },
-        { text: 'OPC UA协议', link: 'Programming-OPC-UA_timecho' },
         { text: 'Kafka', link: 'Programming-Kafka' },
         {
           text: 'REST API',
@@ -184,13 +171,11 @@ export const zhSidebar = {
         { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
         { text: 'Apache Spark(TsFile)', link: 'Spark-TsFile' },
         { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
-        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_timecho' },
-        { text: 'DataEase', link: 'DataEase' },
+        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_apache' },
         { text: 'DBeaver', link: 'DBeaver' },
-        { text: 'Ignition', link: 'Ignition-IoTDB-plugin_timecho' },
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana插件', link: 'Grafana-Plugin' },
-        { text: 'Kubernetes', link: 'Kubernetes_timecho' },
+        { text: 'Kubernetes', link: 'Kubernetes_apache' },
         { text: 'Telegraf插件', link: 'Telegraf' },
         { text: 'ThingsBoard', link: 'Thingsboard' },
       ],
@@ -206,7 +191,7 @@ export const zhSidebar = {
           text: '函数与运算符',
           collapsible: true,
           children: [
-            { text: 'UDF函数库', link: 'UDF-Libraries_timecho' },
+            { text: 'UDF函数库', link: 'UDF-Libraries_apache' },
             { text: '函数与运算符', link: 'Operator-and-Expression' },
             { text: '内置函数与表达式', link: 'Function-and-Expression' },
           ],
@@ -236,7 +221,7 @@ export const zhSidebar = {
           children: [
             { text: '配置参数', link: 'Common-Config-Manual' },
             { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
-            { text: 'DataNode配置参数', link: 'DataNode-Config-Manual_timecho' },
+            { text: 'DataNode配置参数', link: 'DataNode-Config-Manual_apache' },
           ],
         },
         {
