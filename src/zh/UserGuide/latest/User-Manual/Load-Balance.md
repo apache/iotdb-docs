@@ -102,10 +102,9 @@ IoTDB 是一个分布式数据库，数据的均衡分布对集群的磁盘空�
 - **阻塞写入**：
 
   IoTConsensus 的 region 迁移不直接阻塞写入，但由于过程中需要阻塞 WAL 文件的清理，如果 WAL 文件堆积达到阈值`wal_throttle_threshold_in_byte`，那么当前 DataNode 会暂停写入，直到 WAL 文件恢复到阈值以下。
-  
+
   如果迁移过程中由于 WAL 达到阈值造成写入报错（例如报错信息为 The write is rejected because the wal directory size has reached the threshold），可以将`wal_throttle_threshold_in_byte`调大到 500GB 或更大以允许继续写入。使用 SQL 语句：
   ```plain
     IoTDB> set configuration "wal_throttle_threshold_in_byte"="536870912000" 
     Msg: The statement is executed successfully.
   ```
-

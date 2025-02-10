@@ -83,7 +83,7 @@ IoTDB单机实例包括 1 个ConfigNode、1个DataNode，即1C1D；
 
 - **特点**：便于开发者安装部署，部署和维护成本较低，操作方便。
 - **适用场景**：资源有限或对高可用要求不高的场景，例如边缘端服务器。
-- **部署方法**：[单机版部署](../Deployment-and-Maintenance/Stand-Alone-Deployment_timecho.md)
+- **部署方法**：[单机版部署](../Deployment-and-Maintenance/Stand-Alone-Deployment_apache.md)
 
 
 ### 集群模式
@@ -92,7 +92,7 @@ IoTDB 集群实例为 3 个ConfigNode 和不少于 3 个 DataNode，通常为 3 
 
 - **特点**：具有高可用性、高扩展性，可通过增加 DataNode 提高系统性能。
 - **适用场景**：需要提供高可用和可靠性的企业级应用场景。
-- **部署方法**：[集群版部署](../Deployment-and-Maintenance/Cluster-Deployment_timecho.md)
+- **部署方法**：[集群版部署](../Deployment-and-Maintenance/Cluster-Deployment_apache.md)
 
 ### 特点总结
 

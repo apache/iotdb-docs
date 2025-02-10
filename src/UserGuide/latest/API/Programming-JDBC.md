@@ -1,35 +1,34 @@
 <!--
-* Licensed to the Apache Software Foundation (ASF) under one
-* or more contributor license agreements.  See the NOTICE file
-* distributed with this work for additional information
-* regarding copyright ownership.  The ASF licenses this file
-* to you under the Apache License, Version 2.0 (the
-* "License"); you may not use this file except in compliance
-* with the License.  You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+    
+        http://www.apache.org/licenses/LICENSE-2.0
+    
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
 -->
 
 # JDBC (Not Recommend)
 
-::: warning
-
-NOTICE: CURRENTLY, JDBC IS USED FOR CONNECTING SOME THIRD-PART TOOLS.
-IT CAN NOT PROVIDE HIGH THROUGHPUT FOR WRITE OPERATIONS.
-PLEASE USE [Java Native API](./Programming-Java-Native-API.md) INSTEAD
-
-:::
+*NOTICE: CURRENTLY, JDBC IS USED FOR CONNECTING SOME THIRD-PART TOOLS. 
+IT CAN NOT PROVIDE HIGH THROUGHPUT FOR WRITE OPERATIONS. 
+PLEASE USE [Java Native API](./Programming-Java-Native-API.md) INSTEAD*
 
 ## Dependencies
 
-- JDK >= 1.8+
-- Maven >= 3.9+
+* JDK >= 1.8+
+* Maven >= 3.9+
 
 ## Installation
 
@@ -111,7 +110,7 @@ public class JDBCExample {
     //Count timeseries group by each node at the given level
     statement.execute("COUNT TIMESERIES root GROUP BY LEVEL=3");
     outputResult(statement.getResultSet());
-
+    
 
     //Execute insert statements in batch
     statement.addBatch("INSERT INTO root.demo(timestamp,s0) VALUES(1,1);");
@@ -207,37 +206,27 @@ public class JDBCExample {
 ```
 
 The parameter `version` can be used in the url:
-
-```java
+````java
 String url = "jdbc:iotdb://127.0.0.1:6667?version=V_1_0";
-```
-
-The parameter `version` represents the SQL semantic version used by the client, which is used in order to be compatible with the SQL semantics of `0.12` when upgrading to `0.13`.
+````
+The parameter `version` represents the SQL semantic version used by the client, which is used in order to be compatible with the SQL semantics of `0.12` when upgrading to `0.13`. 
 The possible values are: `V_0_12`, `V_0_13`, `V_1_0`.
 
 In addition, IoTDB provides additional interfaces in JDBC for users to read and write the database using different character sets (e.g., GB18030) in the connection.
 The default character set for IoTDB is UTF-8. When users want to use a character set other than UTF-8, they need to specify the charset property in the JDBC connection. For example:
-
 1. Create a connection using the GB18030 charset:
-
 ```java
 DriverManager.getConnection("jdbc:iotdb://127.0.0.1:6667?charset=GB18030", "root", "root");
 ```
-
 2. When executing SQL with the `IoTDBStatement` interface, the SQL can be provided as a `byte[]` array, and it will be parsed into a string according to the specified charset.
-
 ```java
 public boolean execute(byte[] sql) throws SQLException;
 ```
-
 3. When outputting query results, the `getBytes` method of `ResultSet` can be used to get `byte[]`, which will be encoded using the charset specified in the connection.
-
 ```java
 System.out.print(resultSet.getString(i) + " (" + new String(resultSet.getBytes(i), charset) + ")");
 ```
-
 Here is a complete example:
-
 ```java
 public class JDBCCharsetExample {
 

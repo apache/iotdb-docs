@@ -25,7 +25,7 @@ export const enNavbar = navbar([
       // { text: 'latest', link: '/UserGuide/Master/QuickStart/QuickStart_apache' },
       {
         text: 'v1.3.3',
-        link: '/UserGuide/latest/QuickStart/QuickStart_apache',
+        link: '/UserGuide/V1.3.3/QuickStart/QuickStart_apache',
       },
       {
         text: 'v1.3.0/1/2',

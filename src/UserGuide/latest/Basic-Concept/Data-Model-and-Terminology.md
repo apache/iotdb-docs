@@ -94,7 +94,6 @@ The following are the constraints on the `nodeName`:
 
 If you need to use special characters in the path node name, you can use reverse quotation marks to reference the path node name. For specific usage, please refer to [Reverse Quotation Marks](../Reference/Syntax-Rule.md#reverse-quotation-marks).
 
-
 ### Path Pattern
 
 In order to make it easier and faster to express multiple timeseries paths, IoTDB provides users with the path pattern. Users can construct a path pattern by using wildcard `*` and `**`. Wildcard can appear in any node of the path. 

@@ -29,9 +29,9 @@
 
 首先下载包：`pip3 install apache-iotdb`
 
-您可以从这里得到一个使用该包进行数据读写的例子：[Session Example](https://github.com/apache/iotdb/blob/rc/1.3.3/iotdb-client/client-py/SessionExample.py)
+您可以从这里得到一个使用该包进行数据读写的例子：[Session Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/session_example.py)
 
-关于对齐时间序列读写的例子：[Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/rc/1.3.3/iotdb-client/client-py/SessionAlignedTimeseriesExample.py)
+关于对齐时间序列读写的例子：[Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/session_aligned_timeseries_example.py)
 
 （您需要在文件的头部添加`import iotdb`）
 

@@ -24,16 +24,12 @@ export const zhNavbar = navbar([
     children: [
       // { text: 'latest', link: '/zh/UserGuide/Master/QuickStart/QuickStart_apache' },
       {
-        text: 'v2.0.1-Table',
-        link: '/zh/UserGuide/V2.0.1-Table/QuickStart/QuickStart_apache',
-      },
-      {
-        text: 'v2.0.1-Tree',
-        link: 'src/zh/UserGuide/V2.0.1-Tree/QuickStart/QuickStart_apache',
+        text: 'v2.0.1',
+        link: 'src/zh/UserGuide/latest/QuickStart/QuickStart_apache',
       },
       {
         text: 'v1.3.3',
-        link: '/zh/UserGuide/latest/QuickStart/QuickStart_apache',
+        link: '/zh/UserGuide/V1.3.3/QuickStart/QuickStart_apache',
       },
       {
         text: 'v1.3.0/1/2',
