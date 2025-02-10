@@ -25,7 +25,7 @@
 
 ## 1 时序数据模型
 
-在构建IoTDB建模方案前，需要先了解时序数据和时序数据模型，详细内容见此页面：[时序数据模型](../Basic-Concept/Navigating_Time_Series_Data.md)
+在构建IoTDB建模方案前，需要先了解时序数据和时序数据模型，详细内容见此页面：[时序数据模型](../Background-knowledge/Navigating_Time_Series_Data.md)
 
 ## 2 IoTDB 的两种时序模型
 
