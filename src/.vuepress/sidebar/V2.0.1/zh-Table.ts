@@ -153,7 +153,7 @@ export const zhSidebar = {
       ],
     },
     {
-      text: '参考',
+      text: '附录',
       collapsible: true,
       prefix: 'Reference/',
       // children: 'structure',
