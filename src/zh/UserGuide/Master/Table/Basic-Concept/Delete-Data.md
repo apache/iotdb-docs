@@ -57,7 +57,7 @@ ID_CONDITION:
 
 ### 1.2 示例：
 
-可以在[示例数据页面](../Basic-Concept/Sample-Data.md)中导入示例数据。可以使用这些数据来测试和执行示例中的SQL语句。
+可以在[示例数据页面](../Reference/Sample-Data.md)中导入示例数据。可以使用这些数据来测试和执行示例中的SQL语句。
 
 #### 1.2.1 删除全表数据
 
