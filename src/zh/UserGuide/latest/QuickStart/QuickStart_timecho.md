@@ -53,10 +53,10 @@
 
 1. 数据库建模设计：数据库建模是创建数据库系统的重要步骤，它涉及到设计数据的结构和关系，以确保数据的组织方式能够满足特定应用的需求，下面的文档将会帮助您快速了解 IoTDB 的建模设计：
    
-   - 时序概念介绍：[走进时序数据](../Basic-Concept/Navigating_Time_Series_Data.md)
+   - 时序概念介绍：[走进时序数据](../Background-knowledge/Navigating_Time_Series_Data.md)
 
-   - 建模设计介绍：[数据模型介绍](../Basic-Concept/Data-Model-and-Terminology.md)
-
+   - 建模设计介绍：[数据模型介绍](../Background-knowledge/Data-Model-and-Terminology.md)
+   
    - SQL 语法介绍：[SQL 语法介绍](../Basic-Concept/Operate-Metadata_timecho.md)
 
 2. 数据写入：在数据写入方面，IoTDB 提供了多种方式来插入实时数据，基本的数据写入操作请查看 [数据写入](../Basic-Concept/Write-Delete-Data.md)
