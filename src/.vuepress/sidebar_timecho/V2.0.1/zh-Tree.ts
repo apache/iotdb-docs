@@ -40,6 +40,8 @@ export const zhSidebar = {
       children: [
         { text: '常见概念', link: 'Cluster-Concept_timecho' },
         { text: '数据类型', link: 'Data-Type' },
+        { text: '时序数据模型', link: 'Navigating_Time_Series_Data' },
+        { text: '建模方案设计', link: 'Data-Model-and-Terminology' },
       ],
     },
     {
@@ -70,15 +72,7 @@ export const zhSidebar = {
       prefix: 'Basic-Concept/',
       // children: 'structure',
       children: [
-        {
-          text: '数据建模',
-          collapsible: true,
-          children: [
-            { text: '时序数据模型', link: 'Navigating_Time_Series_Data' },
-            { text: '建模方案设计', link: 'Data-Model-and-Terminology' },
-            { text: '测点管理', link: 'Operate-Metadata_timecho' },
-          ],
-        },
+        { text: '测点管理', link: 'Operate-Metadata_timecho' },
         { text: '写入&删除', link: 'Write-Delete-Data' },
         { text: '数据查询', link: 'Query-Data' },
       ],
