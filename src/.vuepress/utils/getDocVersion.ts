@@ -17,6 +17,7 @@
  */
 
 const VERSION_REG = /UserGuide\/([^/]+)/;
+const URL_REG = /UserGuide\/([^/]+)\/([^/]+)/;
 
 export const getDocVersion = (path = '', defaultValue = 'latest') => {
   if (path.includes('UserGuide/Master') || !path.includes('UserGuide')) {
@@ -31,4 +32,26 @@ export const getDocVersion = (path = '', defaultValue = 'latest') => {
    */
 
   return VERSION_REG.exec(path)?.[1] ?? defaultValue;
+};
+
+export const getDialect = (path = '', defaultValue = '') => {
+  if (path.includes('UserGuide/Master') || !path.includes('UserGuide')) {
+    return defaultValue;
+  }
+  /**
+   * 路径 /zh/UserGuide/V1.3.0-2/QuickStart/QuickStart_apache.html, 匹配 QuickStart
+   * 路径 /zh/UserGuide/V1.2.x/QuickStart/QuickStart_apache.html, 匹配 QuickStart
+   * 路径 /zh/UserGuide/latest-Table/QuickStart/QuickStart_apache.html, 匹配 Table
+   * 路径 /zh/UserGuide/latest/QuickStart/QuickStart_apache.html, 匹配 Tree
+   *
+   * 匹配路径中的版本号，UserGuide 后面的版本号为当前文档的版本号, 版本号不一定为数字，可能为 latest或其它，因此只用 / 作为分隔符
+   */
+  const docVersion = getDocVersion(path);
+  if (docVersion === 'latest' || docVersion.includes('-Tree')) {
+    return 'Tree';
+  } 
+  if (docVersion.includes('-Table')) {
+    return 'Table';
+  }
+  return defaultValue;
 };
