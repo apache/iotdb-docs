@@ -19,6 +19,7 @@
 import { defineDocSearchConfig } from '@vuepress/plugin-docsearch/client';
 import { computed } from 'vue';
 import { defineClientConfig, usePageData, useRouter, withBase } from 'vuepress/client';
+import useLegacyRoute from './composables/useLegacyRoute';
 import DocSearch from './components/DocSearch.vue';
 import { getDocVersion } from './utils/index.js';
 
@@ -27,6 +28,7 @@ export default defineClientConfig({
     app.component('DocSearch', DocSearch);
   },
   setup() {
+    useLegacyRoute();
     const pageData = usePageData();
     const router = useRouter();
 

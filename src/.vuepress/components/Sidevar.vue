@@ -64,17 +64,20 @@ watch(
 }
 .switch-list {
   display: flex;
-  width: 100px;
+  text-align: center;
+  width: 120px;
   margin-right: 12px;
   border-radius: 14px;
   background-color: #f0f1fa;
   list-style-type: none;
   padding: 4px;
   margin: 0;
+  margin-left: 16px;
   margin-top: 1rem;
 
   .switch-type {
     padding: 3px 9px;
+    flex: 1;
     cursor: pointer;
     border-radius: 14px;
     background-color: transparent;
