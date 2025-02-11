@@ -92,6 +92,10 @@ _paq.push(['enableLinkTracking']);
       dirname,
       './components/PageFooter.vue',
     ),
+    '@theme-hope/modules/sidebar/components/Sidebar': path.resolve(
+      dirname,
+      './components/Sidevar.vue',
+    ),
   },
   bundler: viteBundler({
     vuePluginOptions: {
