@@ -17,7 +17,7 @@
  */
 
 import { sidebar } from 'vuepress-theme-hope';
-import { enSidebar as V201xSidebar } from './V2.0.1/en.js';
+import { enSidebar as V201xSidebar } from './V2.0.x/en.js';
 import { enSidebar as V103xSidebar } from './V1.3.3/en.js';
 import { enSidebar as V1030Sidebar } from './V1.3.0-2/en.js';
 import { enSidebar as V102xSidebar } from './V1.2.x/en.js';

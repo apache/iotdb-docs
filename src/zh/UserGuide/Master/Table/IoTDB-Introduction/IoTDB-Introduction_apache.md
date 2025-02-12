@@ -44,6 +44,11 @@ IoTDB 体系由若干个组件构成，帮助用户高效地管理和分析物�
 2. **时序数据标准文件格式（Apache TsFile）**：该文件格式是一种专为时序数据设计的存储格式，可以高效地存储和查询海量时序数据。目前 IoTDB、AINode 等模块的底层存储文件均由 Apache TsFile 进行支撑。通过 TsFile，用户可以在采集、管理、应用&分析阶段统一使用相同的文件格式进行数据管理，极大简化了数据采集到分析的整个流程，提高时序数据管理的效率和便捷度。
 3. **时序模型训推一体化引擎（IoTDB AINode）**：针对智能分析场景，IoTDB 提供 AINode 时序模型训推一体化引擎，它提供了一套完整的时序数据分析工具，底层为模型训练引擎，支持训练任务与数据管理，与包括机器学习、深度学习等。通过这些工具，用户可以对存储在 IoTDB 中的数据进行深入分析，挖掘出其中的价值。
 
+## TimechoDB 整体架构
+
+下图展示了一个常见的 IoTDB 3C3D（3 个 ConfigNode、3 个 DataNode）的集群部署模式：                 
+
+<img src="https://alioss.timecho.com/docs/img/Cluster-Concept01.png" alt="" style="width: 60%;"/>
 
 ## 产品特性
 

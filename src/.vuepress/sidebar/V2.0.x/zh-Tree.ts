@@ -19,7 +19,7 @@
 export const zhSidebar = {
   '/zh/UserGuide/latest/': [
     {
-      text: 'IoTDB用户手册(V2.0.1)',
+      text: 'IoTDB用户手册(V2.0.x)',
       children: [],
     },
     {
@@ -39,9 +39,9 @@ export const zhSidebar = {
       prefix: 'Background-knowledge/',
       children: [
         { text: '常见概念', link: 'Cluster-Concept_apache' },
-        { text: '数据类型', link: 'Data-Type' },
         { text: '时序数据模型', link: 'Navigating_Time_Series_Data' },
         { text: '建模方案设计', link: 'Data-Model-and-Terminology' },
+        { text: '数据类型', link: 'Data-Type' },
       ],
     },
     {
@@ -54,9 +54,10 @@ export const zhSidebar = {
       prefix: 'Deployment-and-Maintenance/',
       // children: 'structure',
       children: [
+        { text: '部署形态', link: 'Deployment-form' },
         { text: '安装包获取', link: 'IoTDB-Package_apache' },
         { text: '资源规划', link: 'Database-Resources' },
-        { text: '系统配置', link: 'Environment-Requirements' },
+        { text: '环境配置', link: 'Environment-Requirements' },
         { text: '单机版部署指导', link: 'Stand-Alone-Deployment_apache' },
         { text: '集群版部署指导', link: 'Cluster-Deployment_apache' },
         { text: 'Docker部署指导', link: 'Docker-Deployment_apache' },

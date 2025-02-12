@@ -68,7 +68,7 @@ export const enSidebar = {
       children: [
         { text: 'Obtain TimechoDB', link: 'IoTDB-Package_timecho' },
         { text: 'Database Resources', link: 'Database-Resources' },
-        { text: 'System Requirements', link: 'Environment-Requirements' },
+        { text: 'Environment Requirements', link: 'Environment-Requirements' },
         {
           text: 'Stand-Alone Deployment',
           link: 'Stand-Alone-Deployment_timecho',
