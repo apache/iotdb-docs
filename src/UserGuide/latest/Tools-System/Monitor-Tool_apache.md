@@ -21,6 +21,8 @@
 
 # Monitor Tool
 
+The deployment of monitoring tools can refer to the document [Monitoring Panel Deployment](../Deployment-and-Maintenance/Monitoring-panel-deployment.md) section.
+
 ## Prometheus
 
 ### The mapping from metric type to prometheus format

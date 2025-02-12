@@ -1,4 +1,7 @@
 # WorkBench
+
+The deployment of the visualization console can refer to the document [Workbench Deployment](../Deployment-and-Maintenance/workbench-deployment_timecho.md) chapter.
+
 ## Product Introduction
 IoTDB Visualization Console is an extension component developed for industrial scenarios based on the IoTDB Enterprise Edition time series database. It integrates real-time data collection, storage, and analysis, aiming to provide users with efficient and reliable real-time data storage and query solutions. It features lightweight, high performance, and ease of use, seamlessly integrating with the Hadoop and Spark ecosystems. It is suitable for high-speed writing and complex analytical queries of massive time series data in industrial IoT applications.
 
