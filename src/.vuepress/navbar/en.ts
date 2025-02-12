@@ -22,7 +22,7 @@ export const enNavbar = navbar([
   {
     text: 'Documentation',
     children: [
-      { text: 'v2.0.1', link: '/UserGuide/latest/QuickStart/QuickStart_apache' },
+      { text: 'v2.0.x', link: '/UserGuide/latest/QuickStart/QuickStart_apache' },
       {
         text: 'v1.3.3',
         link: '/UserGuide/V1.3.3/QuickStart/QuickStart_apache',
