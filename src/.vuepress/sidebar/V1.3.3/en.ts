@@ -60,6 +60,7 @@ export const enSidebar = {
         },
         { text: 'Cluster Deployment', link: 'Cluster-Deployment_apache' },
         { text: 'Docker Deployment', link: 'Docker-Deployment_apache' },
+        { text: 'AINode Deployment', link: 'AINode_Deployment_apache' },
       ],
     },
     {
@@ -98,6 +99,7 @@ export const enSidebar = {
       children: [
         { text: 'Data Sync', link: 'Data-Sync_apache' },
         { text: 'Data Subscription', link: 'Data-subscription' },
+        { text: 'AI Capability', link: 'AINode_apache' },
         {
           text: 'Security Management',
           collapsible: true,

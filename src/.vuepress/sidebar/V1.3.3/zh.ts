@@ -58,6 +58,7 @@ export const zhSidebar = {
         { text: '单机版部署指导', link: 'Stand-Alone-Deployment_apache' },
         { text: '集群版部署指导', link: 'Cluster-Deployment_apache' },
         { text: 'Docker部署指导', link: 'Docker-Deployment_apache' },
+        { text: 'AINode部署', link: 'AINode_Deployment_apache' },
       ],
     },
     {
@@ -87,6 +88,7 @@ export const zhSidebar = {
       children: [
         { text: '数据同步', link: 'Data-Sync_apache' },
         { text: '数据订阅', link: 'Data-subscription' },
+        { text: 'AI能力', link: 'AINode_apache' },
         {
           text: '安全管理',
           collapsible: true,
