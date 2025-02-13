@@ -137,6 +137,14 @@ export const zhSidebar = {
             { text: 'LIMIT&OFFSET子句', link: 'Limit-Offset-Clause' },
           ],
         },
+        {
+          text: '函数与操作符',
+          collapsible: true,
+          children: [
+            { text: '基础函数', link: 'Basis-Function' },
+            { text: '特色函数', link: 'Featured-Functions' },
+          ],
+        },
       ],
     },
     {
