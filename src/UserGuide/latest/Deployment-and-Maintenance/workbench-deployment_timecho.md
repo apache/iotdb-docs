@@ -27,6 +27,7 @@ The visualization console is one of the supporting tools for IoTDB (similar to N
    <img src="https://alioss.timecho.com/docs/img/workbench-en-bxzk.png" alt=" " style="width: 50%;"/>     
 </div>
 
+The instructions for using the visualization console tool can be found in the [Instructions](../Tools-System/Monitor-Tool.md) section of the document.
 
 ## Installation Preparation
 

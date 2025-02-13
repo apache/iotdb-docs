@@ -27,6 +27,8 @@
     <img src="https://alioss.timecho.com/docs/img/workbench-1.png" alt=" " style="width: 50%;"/>     
   </div>
 
+可视化控制台工具的使用说明可参考文档 [使用说明](../Tools-System/Workbench_timecho.md) 章节。
+
 ## 安装准备
 
 | 准备内容 |           名称            |                           版本要求                           |                        官方链接                        |

@@ -22,6 +22,8 @@
 
 # Prometheus
 
+监控工具的部署可参考文档 [监控面板部署](../Deployment-and-Maintenance/Monitoring-panel-deployment.md) 章节。
+
 ## 监控指标的 Prometheus 映射关系
 
 > 对于 Metric Name 为 name, Tags 为 K1=V1, ..., Kn=Vn 的监控指标有如下映射，其中 value 为具体值
