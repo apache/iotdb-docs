@@ -26,7 +26,7 @@
 
     ThingsBoard 是一个开源物联网平台，可实现物联网项目的快速开发、管理和扩展。更多介绍详情请参考[ ThingsBoard 官网](https://thingsboard.io/docs/getting-started-guides/what-is-thingsboard/)。
 
-    ![](https://alioss.timecho.com/docs/img/ThingsBoard-1.PNG)
+    ![](/img/ThingsBoard-1.png)
 
 2. ThingsBoard-IoTDB 简介
 
@@ -34,7 +34,7 @@
 
 ### 关系示意图
 
-![](https://alioss.timecho.com/docs/img/Thingsboard-2.png)
+![](/img/Thingsboard-2.png)
 
 ## 安装要求
 
@@ -77,23 +77,23 @@ export IoTDB_DATABASE=root.thingsboard  ##thingsboard数据写入iotdb所存储�
 
 1. 创建设备并接入数据：在 Thingsboard 的实体-设备中创建设备并通过工业网关将数据发送到 ThingsBoard 指定设备中
 
-![](https://alioss.timecho.com/docs/img/ThingsBoard-3.PNG)
+![](/img/ThingsBoard-3.png)
 
 2. 设置规则链：在规则链库中对于“SD-032F 泵”设置告警规则并将该规则链设置为根链
 
   <div style="display: flex;justify-content: space-between;">           
-    <img src="https://alioss.timecho.com/docs/img/ThingsBoard-4.PNG" alt=" " style="width: 50%;"/>
-    <img src="https://alioss.timecho.com/docs/img/ThingsBoard-5.PNG" alt=" " style="width: 50%;"/>     
+    <img src="/img/ThingsBoard-4.png" alt=" " style="width: 50%;"/>
+    <img src="/img/ThingsBoard-5.png" alt=" " style="width: 50%;"/>     
   </div>
 
 3. 查看告警记录：对于产生的告警记录已经通过点击“设备-告警”来进行查看
 
-![](https://alioss.timecho.com/docs/img/ThingsBoard-6.png)
+![](/img/ThingsBoard-6.png)
 
 4. 数据可视化：在“仪表板”中通过“新建仪表板-绑定设备-关联参数”进行可视化设置
 
  <div style="display: flex;justify-content: space-between;">           
-    <img src="https://alioss.timecho.com/docs/img/ThingsBoard-7.png" alt=" " style="width: 50%;"/>
-    <img src="https://alioss.timecho.com/docs/img/Thingsboard-10.png" alt=" " style="width: 50%;"/>     
+    <img src="/img/ThingsBoard-7.png" alt=" " style="width: 50%;"/>
+    <img src="/img/Thingsboard-10.png" alt=" " style="width: 50%;"/>     
   </div>
 

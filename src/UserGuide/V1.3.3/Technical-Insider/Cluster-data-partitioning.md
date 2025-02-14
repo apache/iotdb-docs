@@ -28,7 +28,7 @@ IoTDB implements tailored partitioning algorithms for time series data. Building
 ### Partitioning Strategy
 IoTDB maps each sensor in the production environment to a time series. The time series are then partitioned using the series partitioning algorithm to manage their schema, and combined with the time partitioning algorithm to manage their data. The following figure illustrates how IoTDB partitions time series data.
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/partition_table_en.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/partition_table_en.png?raw=true">
 
 #### Partitioning Algorithm
 Because numerous devices and sensors are commonly deployed in production environments, IoTDB employs a series partitioning algorithm to ensure the size of partition information is manageable. Since the generated time series associated with timestamps, IoTDB uses a time partioning algorithm to clearly distinguish between hot and cold partitions.
@@ -56,7 +56,7 @@ Combining a series partition with a time partition creates a data partition. Sin
 ### Partition Allocation
 IoTDB uses RegionGroups to enable elastic storage of time series, with the number of RegionGroups in the cluster determined by the total resources available across all DataNodes. Since the number of RegionGroups is dynamic, IoTDB can easily scale out. Both the SchemaRegionGroup and DataRegionGroup follow the same partition allocation algorithm, which evenly splits all series partitions. The following figure demonstrates the partition allocation process, where the dynamic RegionGroups match the variously expending time series and cluster.
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/partition_allocation_en.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/partition_allocation_en.png?raw=true">
 
 #### RegionGroup Expansion
 The number of RegionGroups is given by
@@ -76,7 +76,7 @@ To enhance the cluster's availability and performance, IoTDB employs sophisticat
 ### Storage Load Balance
 The number of Regions held by a DataNode reflects its storage load. If the difference in the number of Regions across DataNodes is relatively large, the DataNode with more Regions is likely to become a storage bottleneck. Although a straightforward Round Robin placement algorithm can achieve storage balance by ensuring that each DataNode hosts an equal number of Regions, it compromises the cluster's fault tolerance, as illustrated below:
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/placement_en.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/placement_en.png?raw=true">
 
 + Assume the cluster has 4 DataNodes, 4 RegionGroups and a replication factor of 2.
 + Place RegionGroup $r_1$'s 2 Regions on DataNodes $n_1$ and $n_2$.
@@ -91,7 +91,7 @@ To address this issue, IoTDB employs a Region placement algorithm that not only 
 ### Computing Load Balance
 The number of leader Regions held by a DataNode reflects its Computing load. If the difference in the number of leaders across DataNodes is relatively large, the DataNode with more leaders is likely to become a Computing bottleneck. If the leader selection process is conducted using a transparent Greedy algorithm, the result may be an unbalanced leader distribution when the Regions are fault-tolerantly placed, as demonstrated below:
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/selection_en.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/selection_en.png?raw=true">
 
 + Assume the cluster has 4 DataNodes, 4 RegionGroups and a replication factor of 2.
 + Select RegionGroup $r_5$'s Region on DataNode $n_5$ as the leader.

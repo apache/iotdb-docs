@@ -23,7 +23,7 @@
 
 IoTDB 以数据分区（DataRegion）为单位对元数据和数据进行管理，从序列和时间两个维度进行数据划分。
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/%E5%88%86%E5%8C%BA%E6%A7%BD%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%88%86%E5%8C%BA.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/%E5%88%86%E5%8C%BA%E6%A7%BD%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%88%86%E5%8C%BA.png?raw=true">
 
 ## 分区槽
 
@@ -33,7 +33,7 @@ IoTDB 以数据分区（DataRegion）为单位对元数据和数据进行管理�
 
 每个数据库持有固定数量的序列分区槽，默认为1000个。该数据库管理的每个时间序列都将通过序列分区算法（通常为某种哈希算法）被分配给唯一的序列分区槽管理。
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/SeriesPartitionSlot.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/SeriesPartitionSlot.png?raw=true">
 
 ### 时间分区槽
 
@@ -45,13 +45,13 @@ IoTDB 以数据分区（DataRegion）为单位对元数据和数据进行管理�
 
 单个数据库的元数据分区管理，会按照一定的负载均衡策略，将所有序列槽分配到相应的 SchemaRegionGroup 中，进而在集群中横向扩展。
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/SchemaRegion.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/SchemaRegion.png?raw=true">
 
 ## 数据分区
 
 会按照一定的负载均衡策略，进行时间分区槽和序列分区槽的划分，并分配到相应的 DataRegionGroup 中，进而在集群中横向扩展。
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/DataRegion.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/DataRegion.png?raw=true">
 
 ## 负载均衡
 

@@ -29,7 +29,7 @@ GROUP BY expression (',' expression)*
 
 - The `GROUP BY` clause is used to group the result set of a `SELECT` statement based on the specified column values. The values of the grouping columns remain unchanged in the results, while other columns with the same grouping column values are calculated using specified aggregate functions (e.g., `COUNT`, `AVG`).
 
-![](https://alioss.timecho.com/docs/img/groupby01.png)
+![](/img/groupby01.png)
 
 
 ## 2 Notes

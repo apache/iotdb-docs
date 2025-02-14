@@ -32,7 +32,7 @@ IoTDB 是一个分布式数据库，数据的均衡分布对集群的磁盘空�
 下面是一次region迁移过程的示意图：
 
 
-![](https://alioss.timecho.com/docs/img/region%E8%BF%81%E7%A7%BB%E7%A4%BA%E6%84%8F%E5%9B%BE20241210.png)
+![](/img/region%E8%BF%81%E7%A7%BB%E7%A4%BA%E6%84%8F%E5%9B%BE20241210.png)
 
 ### 注意事项
 

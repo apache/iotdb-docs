@@ -376,9 +376,9 @@ IoTDB> create device template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT 
 
 The` lat` and `lon` measurements are aligned.
 
-![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
+![img](/img/%E6%A8%A1%E6%9D%BF.png)
 
-![img](https://alioss.timecho.com/docs/img/templateEN.jpg)
+![img](/img/templateEN.jpg)
 
 ### Set Device Template
 
@@ -794,7 +794,7 @@ It costs 0.004s
 
 Then the Metadata Tree will be as below:
 
-<center><img style="width:100%; max-width:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/69792176-1718f400-1201-11ea-861a-1a83c07ca144.jpg"></center>
+<center><img style="width:100%; max-width:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/69792176-1718f400-1201-11ea-861a-1a83c07ca144.jpg"></center>
 
 As can be seen, `root` is considered as `LEVEL=0`. So when you enter statements such as:
 

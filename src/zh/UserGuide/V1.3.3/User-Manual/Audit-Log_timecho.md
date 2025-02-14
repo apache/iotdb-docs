@@ -45,7 +45,7 @@
 
 - Cli、workbench、Zeppelin、Grafana、通过 Session/JDBC/MQTT 等协议传入的请求
 
-![审计日志](https://alioss.timecho.com/docs/img/%E5%AE%A1%E8%AE%A1%E6%97%A5%E5%BF%97.PNG)
+![审计日志](/img/%E5%AE%A1%E8%AE%A1%E6%97%A5%E5%BF%97.png)
 
 
 #### 可关闭部分用户连接的审计日志

@@ -89,7 +89,7 @@ EXPLAIN ANALYZE [VERBOSE] <SELECT_STATEMENT>
 
 在EXPLAIN ANALYZE的结果集中，会包含如下信息：
 
-![explain-analyze-1.png](https://alioss.timecho.com/upload/explain-analyze-1.png)
+![explain-analyze-1.png](/img/explain-analyze-1.png)
 
 其中：
 
@@ -102,7 +102,7 @@ EXPLAIN ANALYZE [VERBOSE] <SELECT_STATEMENT>
 
 由于在 Fragment 中会输出当前节点中执行的所有节点信息，当一次查询涉及的序列过多时，每个节点都被输出，会导致 Explain Analyze 返回的结果集过大，因此当相同类型的节点超过 10 个时，系统会自动合并当前 Fragment 下所有相同类型的节点，合并后统计信息也被累积，对于一些无法合并的定制信息会直接丢弃（如下图）。
 
-![explain-analyze-2.png](https://alioss.timecho.com/upload/explain-analyze-2.png)
+![explain-analyze-2.png](/img/explain-analyze-2.png)
 
 用户也可以自行修改 iotdb-common.properties 中的配置项`merge_threshold_of_explain_analyze`来设置触发合并的节点阈值，该参数支持热加载。
 
@@ -300,7 +300,7 @@ TimeSeriesMetadata 的加载分别统计了顺序和乱序文件，但 Chunk 的
 
 #### 案例一：查询涉及文件数量过多，磁盘IO成为瓶颈，导致查询速度变慢
 
-![explain-analyze-3.png](https://alioss.timecho.com/upload/explain-analyze-3.png)
+![explain-analyze-3.png](/img/explain-analyze-3.png)
 
 查询总耗时为 938 ms，其中从文件中读取索引区和数据区的耗时占据 918 ms，涉及了总共 289 个文件，假设查询涉及 N 个 TsFile，磁盘单次 seek 耗时为 t_seek，读取文件尾部索引的耗时为 t_index，读取文件的数据块的耗时为 t_chunk，则首次查询（未命中缓存）的理论耗时为 `cost = N * (t_seek + t_index + t_seek + t_chunk)`，按经验值，HDD 磁盘的一次 seek 耗时约为 5-10ms，所以查询涉及的文件数越多，查询延迟会越大。
 
@@ -319,9 +319,9 @@ select count(s1) as total from root.db.d1 where s1 like '%XXXXXXXX%'
 
 执行 explain analyze verbose 时，即使查询超时，也会每隔 15s，将阶段性的采集结果输出到 log_explain_analyze.log 中，从 log_explain_analyze.log 中得到最后两次的输出结果如下：
 
-![explain-analyze-4.png](https://alioss.timecho.com/upload/explain-analyze-4.png)
+![explain-analyze-4.png](/img/explain-analyze-4.png)
 
-![explain-analyze-5.png](https://alioss.timecho.com/upload/explain-analyze-5.png)
+![explain-analyze-5.png](/img/explain-analyze-5.png)
 
 观察结果，我们发现是因为查询未加时间条件，涉及的数据太多 constructAlignedChunkReadersDiskTime 和 pageReadersDecodeAlignedDiskTime的耗时一直在涨，意味着一直在读新的 chunk。但 AlignedSeriesScanNode 的输出信息一直是 0，这是因为算子只有在输出至少一行满足条件的数据时，才会让出时间片，并更新信息。从总的读取耗时（loadTimeSeriesMetadataAlignedDiskSeqTime + loadTimeSeriesMetadataAlignedDiskUnSeqTime + constructAlignedChunkReadersDiskTime + pageReadersDecodeAlignedDiskTime=约13.4秒）来看，其他耗时（60s - 13.4 = 46.6）应该都是在执行过滤条件上（like 谓词的执行很耗时）。
 

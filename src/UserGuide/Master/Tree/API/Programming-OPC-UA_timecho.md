@@ -30,7 +30,7 @@ OPC UA is a technical specification used in the automation field for communicati
 - **Client/Server Mode**：In this mode, IoTDB's stream processing engine establishes a connection with the OPC UA Server via an OPC UA Sink. The OPC UA Server maintains data within its Address Space, from which IoTDB can request and retrieve data. Additionally, other OPC UA Clients can access the data on the server.
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA15.png" alt="" style="width: 70%;"/>
+    <img src="/img/OPCUA15.png" alt="" style="width: 70%;"/>
 </div>
 
 
@@ -45,7 +45,7 @@ OPC UA is a technical specification used in the automation field for communicati
 - **Pub/Sub Mode**： In this mode, IoTDB's stream processing engine sends data change events to the OPC UA Server through an OPC UA Sink. These events are published to the server's message queue and managed through Event Nodes. Other OPC UA Clients can subscribe to these Event Nodes to receive notifications upon data changes.
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA16.png" alt="" style="width: 70%;"/>
+    <img src="/img/OPCUA16.png" alt="" style="width: 70%;"/>
 </div>
 
 - Features：
@@ -151,27 +151,27 @@ insert into root.test.db(time, s2) values(now(), 2)
 3. Configure the connection to IoTDB in UAExpert, where the password should be set to the one defined in the sink.password parameter (using the default password "root" as an example):
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA18.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA18.png" alt="" style="width: 60%;"/>
 </div>
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA04.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA04.png" alt="" style="width: 60%;"/>
 </div>
 
 4. After trusting the server's certificate, you can see the written data in the Objects folder on the left.
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA05.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA05.png" alt="" style="width: 60%;"/>
 </div>
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA17.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA17.png" alt="" style="width: 60%;"/>
 </div>
 
 5. You can drag the node on the left to the center and display the latest value of that node:
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA07.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA07.png" alt="" style="width: 60%;"/>
 </div>
 
 ### Pub / Sub Mode
@@ -210,37 +210,37 @@ start pipe p1;
 ​     At this point, you can see that the opc certificate-related directory has been created under the server's conf directory.
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA08.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA08.png" alt="" style="width: 60%;"/>
 </div>
 
 3. Run the Client connection directly; the Client's certificate will be rejected by the server.
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA09.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA09.png" alt="" style="width: 60%;"/>
 </div>
 
 4. Go to the server's sink.opcua.security.dir directory, then to the pki's rejected directory, where the Client's certificate should have been generated.
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA10.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA10.png" alt="" style="width: 60%;"/>
 </div>
 
 5. Move (not copy) the client's certificate into (not into a subdirectory of) the trusted directory's certs folder in the same directory.
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA11.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA11.png" alt="" style="width: 60%;"/>
 </div>
 
 6. Open the Client connection again; the server's certificate should now be rejected by the Client.
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA12.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA12.png" alt="" style="width: 60%;"/>
 </div>
 
 7. Go to the client's <java.io.tmpdir>/client/security directory, then to the pki's rejected directory, and move the server's certificate into (not into a subdirectory of) the trusted directory.
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA13.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA13.png" alt="" style="width: 60%;"/>
 </div>
 
 8. Open the Client, and now the two-way trust is successful, and the Client can connect to the server.
@@ -248,7 +248,7 @@ start pipe p1;
 9. Write data to the server, and the Client will print out the received data.
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA14.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA14.png" alt="" style="width: 60%;"/>
 </div>
 
 

@@ -28,11 +28,11 @@ This chapter mainly introduces a simple temporal data application scenario and t
 
 Table 1 and Table 2 both have the following table structure:
 
-![](https://alioss.timecho.com/docs/img/Sample_data02.png)
+![](/img/Sample_data02.png)
 
 ## 2 Import Statement
 
-The following is the SQL statement used to construct the above table structure and data. You can click here（[sample_data.sql](https://alioss.timecho.com/upload/sample_data.sql)）to download all the SQL statements and execute them in CLI to import the data into your IoTDB.
+The following is the SQL statement used to construct the above table structure and data. You can click here（[sample_data.sql](/img/sample_data.sql)）to download all the SQL statements and execute them in CLI to import the data into your IoTDB.
 
 ```SQL
 -- Create a table with table names that are close to business semantics. Here, we use table1 instead

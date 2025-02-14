@@ -38,7 +38,7 @@
 示例：下图是一个风电场的建模管理，通过多个层级【集团】-【风电场】-【风机】-【物理量】可以唯一确定一个实体测点。
 
 <div style="text-align: center;">
-      <img src="https://alioss.timecho.com/docs/img/data-modeling01.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling01.png" alt="" style="width: 70%;"/>
 </div>
 
 ### 2.2 表模型
@@ -48,7 +48,7 @@
 此时通过【地区】-【工厂】-【设备】（下图橙色列，又称设备标签）可以唯一确定一个实体设备，同时一个设备的描述信息【型号】【维护周期】（下图黄色列，又称设备属性/描述信息）也可在表格里进行记录。设备最终采集的指标为【温度】、【湿度】、【状态】、【到达时间】（下图蓝色列）。
 
 <div style="text-align: center;">
-      <img src="https://alioss.timecho.com/docs/img/data-modeling02.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling02.png" alt="" style="width: 70%;"/>
 </div>
 
 ### 2.3 模型选择
@@ -93,7 +93,7 @@
 - 如场景中不同类型的设备具备不同的层级路径和测点集合，可以在数据库节点下按设备类型创建分支。每种设备下可以有不同的测点结构。
 
 <div style="text-align: center;">
-      <img src="https://alioss.timecho.com/docs/img/data-modeling03.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling03.png" alt="" style="width: 70%;"/>
 </div>
 
 #### 3.3.2 如果场景中没有设备，只有测点，如何建模？
@@ -101,7 +101,7 @@
 - 如场站的监控系统中，每个测点都有唯一编号，但无法对应到某些设备。
 
 <div style="text-align: center;">
-      <img src="https://alioss.timecho.com/docs/img/data-modeling04.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling04.png" alt="" style="width: 70%;"/>
 </div>
 
 #### 3.3.3 如果在一个设备下，既有子设备，也有测点，如何建模？
@@ -109,7 +109,7 @@
 - 如在储能场景中，每一层结构都要监控其电压和电流，可以采用如下建模方式
 
 <div style="text-align: center;">
-      <img src="https://alioss.timecho.com/docs/img/data-modeling05.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling05.png" alt="" style="width: 70%;"/>
 </div>
 
 
@@ -142,7 +142,7 @@
 - 推荐为每一类型的设备建立一张表，每个表可以具有不同的标签和测点集合
 
 <div style="text-align: center;">
-      <img src="https://alioss.timecho.com/docs/img/data-modeling06.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling06.png" alt="" style="width: 70%;"/>
 </div>
 
 #### 4.3.2 如果没有设备标识列和属性列，如何建模？
@@ -150,7 +150,7 @@
 - 列数没有数量限制，可以达到数十万以上。
 
 <div style="text-align: center;">
-      <img src="https://alioss.timecho.com/docs/img/data-modeling07.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling07.png" alt="" style="width: 70%;"/>
 </div>
 
 #### 4.3.3 如果在一个设备下，既有子设备，也有测点，如何建模？
@@ -158,5 +158,5 @@
 - 设备之间存在嵌套关系，每个设备可以有多个子设备及测点信息，推荐建立多个表进行管理。
 
 <div style="text-align: center;">
-      <img src="https://alioss.timecho.com/docs/img/data-modeling09.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-modeling09.png" alt="" style="width: 70%;"/>
 </div>

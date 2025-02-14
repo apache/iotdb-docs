@@ -31,8 +31,8 @@
 
 ### Deployment mode
 <div >
-    <img src="https://alioss.timecho.com/docs/img/AINode%20Deployment%201.png" alt="" style="width: 45%;"/>
-    <img src="https://alioss.timecho.com/docs/img/AINode%20Deployment%202.png" alt="" style="width: 45%;"/>
+    <img src="/img/AINodeDeployment1.png" alt="" style="width: 45%;"/>
+    <img src="/img/AINodeDeployment2.png" alt="" style="width: 45%;"/>
 </div>
 
 ##  Installation preparation
@@ -59,7 +59,7 @@
 - Runtime Environment   
   - Python>=3.8 and Python <= 3.14 is sufficient in a networked environment, and comes with pip and venv tools; Python 3.8 version is required for non networked environments, and download the zip package for the corresponding operating system from [here](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) (Note that when downloading dependencies, you need to select the zip file in the libs folder, as shown in the following figure). Copy all files in the folder to the `lib` folder in the `iotdb-enterprise-ainode-<version>` folder, and follow the steps below to start AINode.
 
-     <img src="https://alioss.timecho.com/docs/img/AINode%E9%83%A8%E7%BD%B2%E7%8E%AF%E5%A2%83.png" alt="" style="width: 80%;"/>
+     <img src="/img/AINode%E9%83%A8%E7%BD%B2%E7%8E%AF%E5%A2%83.png" alt="" style="width: 80%;"/>
 
   - There must be a Python interpreter in the environment variables that can be directly called through the `python` instruction.
   - It is recommended to create a Python interpreter venv virtual environment in the `iotdb-enterprise-ainode-<version>` folder. If installing version 3.8.0 virtual environment, the statement is as follows:
