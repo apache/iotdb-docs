@@ -1,4 +1,4 @@
-name: Check TODOs and FIXMEs in Changed Files
+name: Check alioss in Changed Files
 
 on:
   push:
