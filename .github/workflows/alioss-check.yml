@@ -33,12 +33,10 @@ jobs:
           # Check the diff for alioss
           echo Check the diff for alioss
           ALIOSS=$(echo "$DIFF" | grep -E '^\+.*(alioss)' | wc -l)
-          echo $ALIOSS
-          echo "$DIFF" | grep -E '^\+.*(alioss)' > check.log
-          if [ $(wc -l < check.log> -eq 0)]; then
-            echo "No alioss found in changed content."
-          else
-            echo "alioss found in the changes. Please use upload to src/.vuepress/public/img."
-            cat check.log
-            exit 1
+          if [ $($ALIOSS -eq 0)]; then
+            echo "No alioss found in changed content.";
+            exit 0;
           fi
+          echo "alioss found in the changes. Please use upload to src/.vuepress/public/img."
+          echo "$DIFF" | grep -E '^\+.*(alioss)' | tee -a output.log
+          exit 1
