@@ -92,6 +92,7 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '数据同步', link: 'Data-Sync_timecho' },
+        { text: '多级存储', link: 'Tiered-Storage_timecho' },
       ],
     },
     {
