@@ -24,8 +24,8 @@ jobs:
           
           # Get the diff of the changes
           echo Get the diff of the changes
-          DIFF=$(git diff origin/$GITHUB_BASE_REF check_branch  -- . ':(exclude).github/workflows/alioss-check.yml')
-          
+          DIFF=$(git diff origin/$GITHUB_BASE_REF check_branch -- . ':(exclude).github/workflows/alioss-check.yml')
+          echo diff end
           if [ -z "$DIFF" ]; then
             echo "No changes detected."
             exit 0
