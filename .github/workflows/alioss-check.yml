@@ -32,7 +32,8 @@ jobs:
 
           # Check the diff for alioss
           echo Check the diff for alioss
-          echo "$DIFF" | grep -E '^\+.*(alioss)' | wc -l
+          ALIOSS=$(echo "$DIFF" | grep -E '^\+.*(alioss)' | wc -l)
+          echo ALIOSS
           echo "$DIFF" | grep -E '^\+.*(alioss)' > check.log
           if [ $(wc -l < check.log> -eq 0)]; then
             echo "No alioss found in changed content."
