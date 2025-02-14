@@ -598,7 +598,7 @@ The mapping relationship between them is：
 
 The following figure shows the relationship between the two more intuitively:
 
-![sqlalchemy-to-iotdb](https://alioss.timecho.com/docs/img/UserGuide/API/IoTDB-SQLAlchemy/sqlalchemy-to-iotdb.png?raw=true)
+![sqlalchemy-to-iotdb](/img/UserGuide/API/IoTDB-SQLAlchemy/sqlalchemy-to-iotdb.png?raw=true)
 
 ### Data type mapping
 

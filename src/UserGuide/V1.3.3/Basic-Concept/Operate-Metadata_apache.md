@@ -352,9 +352,9 @@ All devices will definitely have a TTL, meaning it cannot be null. INF represent
 
 IoTDB supports the device template function, enabling different entities of the same type to share metadata, reduce the memory usage of metadata, and simplify the management of numerous entities and measurements.
 
-![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
+![img](/img/%E6%A8%A1%E6%9D%BF.png)
 
-![img](https://alioss.timecho.com/docs/img/templateEN.jpg)
+![img](/img/templateEN.jpg)
 
 ### Create Device Template
 
@@ -793,7 +793,7 @@ It costs 0.004s
 
 Then the Metadata Tree will be as below:
 
-<center><img style="width:100%; max-width:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/69792176-1718f400-1201-11ea-861a-1a83c07ca144.jpg"></center>
+<center><img style="width:100%; max-width:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/69792176-1718f400-1201-11ea-861a-1a83c07ca144.jpg"></center>
 
 As can be seen, `root` is considered as `LEVEL=0`. So when you enter statements such as:
 

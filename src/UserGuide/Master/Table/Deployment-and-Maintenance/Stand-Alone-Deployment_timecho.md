@@ -194,7 +194,7 @@ IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOM
 
 When the "ClusterActivation Status" field is displayed as Activated, it indicates successful activation
 
-![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81.png)
+![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81.png)
 
 ## Common Problem
 

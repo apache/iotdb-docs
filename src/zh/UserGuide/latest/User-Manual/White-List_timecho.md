@@ -66,5 +66,5 @@ white.list:
 5. 是否开启白名单功能的配置，可以热加载。
 6. 使用Java 原生接口修改白名单，必须是root用户才能修改，拒绝非root用户修改；修改内容必须合法，否则会抛出StatementExecutionException异常。
 
-![白名单](https://alioss.timecho.com/docs/img/%E7%99%BD%E5%90%8D%E5%8D%95.PNG)
+![白名单](/img/%E7%99%BD%E5%90%8D%E5%8D%95.PNG)
 

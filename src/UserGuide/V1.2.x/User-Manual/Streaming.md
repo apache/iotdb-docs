@@ -35,7 +35,7 @@ Pipe Extractor is used to extract data, Pipe Processor is used to process data, 
 
 **The model for a Pipe task is as follows:**
 
-![pipe.png](https://alioss.timecho.com/docs/img/pipe.png)
+![pipe.png](/img/pipe.png)
 A data stream processing task essentially describes the attributes of the Pipe Extractor, Pipe Processor, and Pipe Connector plugins.
 
 Users can configure the specific attributes of these three subtasks declaratively using SQL statements. By combining different attributes, flexible data ETL (Extract, Transform, Load) capabilities can be achieved.
@@ -716,7 +716,7 @@ A stream processing task status can transition through several states during the
 
 The following diagram illustrates the different states and their transitions:
 
-![state migration diagram](https://alioss.timecho.com/docs/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
+![state migration diagram](/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
 
 ## Authority Management
 

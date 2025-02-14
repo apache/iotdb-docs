@@ -38,7 +38,7 @@ Telegraf 有以下这些特点：
 
 Telegraf-IoTDB 插件可以将保存在 Telegraf 中的监控信息输出存储到 IoTDB，输出插件使用了 IoTDB session 进行连接和数据写入。
 
-![](https://alioss.timecho.com/docs/img/Telegraf.png)
+![](/img/Telegraf.png)
 
 ## 2、安装要求
 
@@ -66,7 +66,7 @@ Telegraf支持多种操作系统，包括Linux、Windows、macOS，Telegraf 的�
 | name_prefix       | 指定附加到测量名称的前缀                                     |                                                              |
 | name_suffix       | 指定附加到测量名称的后缀                                     |                                                              |
 
-![](https://alioss.timecho.com/docs/img/Telegraf_1.png)
+![](/img/Telegraf_1.png)
 
 ### 4.2 设置输出源
 
@@ -81,7 +81,7 @@ Telegraf支持多种操作系统，包括Linux、Windows、macOS，Telegraf 的�
 | timestamp_precision | 时间戳精度     | timestamp_precision = "millisecond" | timestamp_precision = "与 IoTDB 相同的时间戳精度" | 您可以通过查看"iotdb-system.properties"中"timestamp_precision"字段即可 |
 | sanitize_tag        | 数据库版本     | 无                                  | sanitize_tag = "0.13/1.0/1.1/1.2/1.3"             |                                                              |
 
-![](https://alioss.timecho.com/docs/img/Telegraf_2.png)
+![](/img/Telegraf_2.png)
 
 ### 4.3 启动Telegraf服务
 

@@ -63,7 +63,7 @@ Taking the 3C3D cluster as an example, the monitoring configuration that needs t
 
 3. After restarting, confirm the running status of each node through the client. If the status is Running, it indicates successful configuration:
 
-![](https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8.PNG)
+![](/img/%E5%90%AF%E5%8A%A8.PNG)
 
 ### Step 2: Install and configure Prometheus
 
@@ -108,13 +108,13 @@ scrape_configs:
 5. Confirm successful startup. Enter in browser http://192.168.1.3:9090 Go to Prometheus and click on the Target interface under Status. When you see that all States are Up, it indicates successful configuration and connectivity.
 
     <div style="display: flex;justify-content: space-between;">
-      <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
-      <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_2.png" alt="" style="width: 48%;"/>
+      <img src="/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
+      <img src="/img/%E5%90%AF%E5%8A%A8_2.png" alt="" style="width: 48%;"/>
     </div>
 
 6. Clicking on the left link in Targets will redirect you to web monitoring and view the monitoring information of the corresponding node:
 
-![](https://alioss.timecho.com/docs/img/%E8%8A%82%E7%82%B9%E7%9B%91%E6%8E%A7.png)
+![](/img/%E8%8A%82%E7%82%B9%E7%9B%91%E6%8E%A7.png)
 
 ### Step 3: Install Grafana and configure the data source
 
@@ -138,49 +138,49 @@ cd grafana-*
 
 5. Configure data sources. Find Data sources in Connections, add a new data source, and configure the Data Source to Prometheus
 
-![](https://alioss.timecho.com/docs/img/%E6%B7%BB%E5%8A%A0%E9%85%8D%E7%BD%AE.png)
+![](/img/%E6%B7%BB%E5%8A%A0%E9%85%8D%E7%BD%AE.png)
 
 When configuring the Data Source, pay attention to the URL where Prometheus is located. After configuring it, click on Save&Test and a Data Source is working prompt will appear, indicating successful configuration
 
-![](https://alioss.timecho.com/docs/img/%E9%85%8D%E7%BD%AE%E6%88%90%E5%8A%9F.png)
+![](/img/%E9%85%8D%E7%BD%AE%E6%88%90%E5%8A%9F.png)
 
 ### Step 4: Import IoTDB Grafana Dashboards
 
 1. Enter Grafana and select Dashboards:
 
-   ![](https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF%E9%80%89%E6%8B%A9.png)
+   ![](/img/%E9%9D%A2%E6%9D%BF%E9%80%89%E6%8B%A9.png)
 
 2. Click the Import button on the right side
 
-      ![](https://alioss.timecho.com/docs/img/Import%E6%8C%89%E9%92%AE.png)
+      ![](/img/Import%E6%8C%89%E9%92%AE.png)
 
 3. Import Dashboard using upload JSON file
 
-      ![](https://alioss.timecho.com/docs/img/%E5%AF%BC%E5%85%A5Dashboard.png)
+      ![](/img/%E5%AF%BC%E5%85%A5Dashboard.png)
 
 4. Select the JSON file of one of the panels in the IoTDB monitoring panel, using the Apache IoTDB ConfigNode Dashboard as an example (refer to the installation preparation section in this article for the monitoring panel installation package):
 
-      ![](https://alioss.timecho.com/docs/img/%E9%80%89%E6%8B%A9%E9%9D%A2%E6%9D%BF.png)
+      ![](/img/%E9%80%89%E6%8B%A9%E9%9D%A2%E6%9D%BF.png)
 
 5. Select Prometheus as the data source and click Import
 
-      ![](https://alioss.timecho.com/docs/img/%E9%80%89%E6%8B%A9%E6%95%B0%E6%8D%AE%E6%BA%90.png)
+      ![](/img/%E9%80%89%E6%8B%A9%E6%95%B0%E6%8D%AE%E6%BA%90.png)
 
 6. Afterwards, you can see the imported Apache IoTDB ConfigNode Dashboard monitoring panel
 
-      ![](https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF.png)
+      ![](/img/%E9%9D%A2%E6%9D%BF.png)
 
 7. Similarly, we can import the Apache IoTDB DataNode Dashboard Apache Performance Overview Dashboard、Apache System Overview Dashboard， You can see the following monitoring panel:
 
       <div style="display: flex;justify-content: space-between;">
-      <img src="https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF1-eppf.png" alt="" style="width: 30%;" />
-      <img src="https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF2.png"  alt="" style="width: 30%;"/> 
-      <img src="https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF3.png"  alt="" style="width: 30%;"/>
+      <img src="/img/%E9%9D%A2%E6%9D%BF1-eppf.png" alt="" style="width: 30%;" />
+      <img src="/img/%E9%9D%A2%E6%9D%BF2.png"  alt="" style="width: 30%;"/> 
+      <img src="/img/%E9%9D%A2%E6%9D%BF3.png"  alt="" style="width: 30%;"/>
     </div>
 
 8. At this point, all IoTDB monitoring panels have been imported and monitoring information can now be viewed at any time.
 
-      ![](https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF%E6%B1%87%E6%80%BB.png)
+      ![](/img/%E9%9D%A2%E6%9D%BF%E6%B1%87%E6%80%BB.png)
 
 ## Appendix, Detailed Explanation of Monitoring Indicators
 

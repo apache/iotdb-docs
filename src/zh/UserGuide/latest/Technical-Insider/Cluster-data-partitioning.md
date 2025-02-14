@@ -28,7 +28,7 @@ IoTDB 为时间序列数据实现了量身定制的分区算法。在此基础�
 ### 分区策略
 IoTDB 将生产环境中的每个传感器映射为一个时间序列。然后，使用序列分区算法对时间序列进行分区以管理其元数据，再结合时间分区算法来管理其数据。下图展示了 IoTDB 如何对时序数据进行分区。
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/partition_table_cn.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/partition_table_cn.png?raw=true">
 
 #### 分区算法
 由于生产环境中通常部署大量设备和传感器，IoTDB 使用序列分区算法以确保分区信息的大小可控。由于生成的时间序列与时间戳相关联，IoTDB 使用时间分区算法来清晰区分冷热分区。
@@ -56,7 +56,7 @@ $$\left\lfloor\frac{\text{Timestamp}-\text{StartTimestamp}}{\text{TimePartitionI
 ### 分区分配
 IoTDB 使用分片来实现时间序列的弹性存储，集群中分片的数量由所有数据节点的总资源决定。由于分片的数量是动态的，IoTDB 可以轻松扩展。元数据分片和数据分片都遵循相同的分区分配算法，即均匀划分所有序列分区。下图展示了分区分配过程，其中动态扩展的分片匹配不断扩展的时间序列和集群。
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/partition_allocation_cn.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/partition_allocation_cn.png?raw=true">
 
 #### 分片扩容
 分片的数量由下式给出
@@ -76,7 +76,7 @@ $$\text{RegionGroupNumber}=\left\lfloor\frac{\sum_{i=1}^{DataNodeNumber}\text{Re
 ### 存储均衡
 数据节点持有的副本数量反映了它的存储负载。如果数据节点之间的副本数量差异较大，拥有更多副本的数据节点可能成为存储瓶颈。尽管简单的轮询（Round Robin）放置算法可以通过确保每个数据节点持有等量副本来实现存储均衡，但它会降低集群的容错能力，如下所示：
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/placement_cn.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/placement_cn.png?raw=true">
 
 + 假设集群有 4 个数据节点，4 个分片，并且副本因子为 2。
 + 将分片 $r_1$ 的 2 个副本放置在数据节点 $n_1$ 和 $n_2$ 上。
@@ -91,7 +91,7 @@ $$\text{RegionGroupNumber}=\left\lfloor\frac{\sum_{i=1}^{DataNodeNumber}\text{Re
 ### 计算均衡
 数据节点持有的主副本数量反映了它的计算负载。如果数据节点之间持有主副本数量差异较大，拥有更多主副本的数据节点可能成为计算瓶颈。如果主副本选择过程使用直观的贪心算法，当副本以容错算法放置时，可能会导致主副本分布不均，如下所示：
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/selection_cn.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/selection_cn.png?raw=true">
 
 + 假设集群有 4 个数据节点，4 个分片，并且副本因子为 2。
 + 选择分片 $r_5$ 在数据节点 $n_5$ 上的副本作为主副本。

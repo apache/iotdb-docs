@@ -107,13 +107,13 @@ IoTDB> SHOW DEVICES
 
 For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metadata.md).
 
-![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
+![img](/img/%E6%A8%A1%E6%9D%BF.png)
 
 
 
 
 
-![img](https://alioss.timecho.com/docs/img/templateEN.jpg)
+![img](/img/templateEN.jpg)
 
 ### Create Device Template
 

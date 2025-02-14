@@ -38,7 +38,7 @@ Telegraf has the following characteristics:
 
 The Telegraf IoTDB plugin can output and store monitoring information saved in Telegraf to IoTDB. The output plugin uses IoTDB sessions for connection and data writing.
 
-![](https://alioss.timecho.com/docs/img/telegraf-en.png)
+![](/img/telegraf-en.png)
 
 ## 2、Installation Requirements
 
@@ -66,7 +66,7 @@ Find 'INPUT PLUGINS' in the' telegraf. conf 'configuration file to configure the
 | name_prefix       |  Specify the prefix attached to the measurement name                                    |                                                              |
 | name_suffix       |  Specify the suffix attached to the measurement name                                    |                                                              |
 
-![](https://alioss.timecho.com/docs/img/Telegraf_1.png)
+![](/img/Telegraf_1.png)
 
 ### 4.2 Set Output Source
 
@@ -81,7 +81,7 @@ Find "outputs. iotdb" in the "telegraf. conf" configuration file to configure th
 | timestamp_precision | Timestamp accuracy     | timestamp_precision = "millisecond" | timestamp_precision = "Same timestamp accuracy as IoTDB" | You can check the 'timestamp-precision' field in 'iotdb system. properties' |
 | sanitize_tag        | Database version     | none                                  | sanitize_tag = "0.13/1.0/1.1/1.2/1.3"             |                                                              |
 
-![](https://alioss.timecho.com/docs/img/Telegraf_2.png)
+![](/img/Telegraf_2.png)
 
 ### 4.3 Start Telegraf Service
 

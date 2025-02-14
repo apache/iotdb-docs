@@ -29,7 +29,7 @@ Data synchronization is a typical requirement in industrial Internet of Things (
 
 A data synchronization task consists of three stages:
 
-![](https://alioss.timecho.com/docs/img/sync_en_01.png)
+![](/img/sync_en_01.png)
 
 - Source Stage：This part is used to extract data from the source IoTDB, defined in the source section of the SQL statement.
 - Process Stage：This part is used to process the data extracted from the source IoTDB, defined in the processor section of the SQL statement.
@@ -100,13 +100,13 @@ V1.3.0 and earlier versions:
 
 After creation, it will not start immediately and needs to execute the `START PIPE` statement to start the task.
 
-![](https://alioss.timecho.com/docs/img/sync_en_02.png)
+![](/img/sync_en_02.png)
 
 V1.3.1 and later versions:
 
 After creation, the task will start directly, and when the task stops abnormally, the system will automatically attempt to restart the task.
 
-![](https://alioss.timecho.com/docs/img/Data-Sync02.png)
+![](/img/Data-Sync02.png)
 
 Provide the following SQL statements for state management of synchronization tasks.
 
@@ -274,7 +274,7 @@ For importing custom plugins, please refer to the [Stream Processing](./Streamin
 
 This example is used to demonstrate the synchronisation of all data from one IoTDB to another IoTDB with the data link as shown below:
 
-![](https://alioss.timecho.com/upload/pipe1.jpg)
+![](/img/pipe1.jpg)
 
 In this example, we can create a synchronization task named A2B to synchronize the full data from A IoTDB to B IoTDB. The iotdb-thrift-sink plugin (built-in plugin) for the sink is required. The URL of the data service port of the DataNode node on the target IoTDB needs to be configured through node-urls, as shown in the following example statement:
 
@@ -289,7 +289,7 @@ with sink (
 
 This example is used to demonstrate the synchronisation of data from a certain historical time range (8:00pm 23 August 2023 to 8:00pm 23 October 2023) to another IoTDB, the data link is shown below:
 
-![](https://alioss.timecho.com/upload/pipe2.jpg)
+![](/img/pipe2.jpg)
 
 In this example, we can create a synchronization task named A2B. First, we need to define the range of data to be transferred in the source. Since the data being transferred is historical data (historical data refers to data that existed before the creation of the synchronization task), we need to configure the start-time and end-time of the data and the transfer mode mode. The URL of the data service port of the DataNode node on the target IoTDB needs to be configured through node-urls.
 
@@ -313,7 +313,7 @@ with SINK (
 
 This example is used to demonstrate the scenario where two IoTDB act as active-active pairs, with the data link shown in the figure below:
 
-![](https://alioss.timecho.com/upload/pipe3.jpg)
+![](/img/pipe3.jpg)
 
 In this example, to avoid infinite data loops, the `forwarding-pipe-requests` parameter on A and B needs to be set to `false`, indicating that data transmitted from another pipe is not forwarded, and to keep the data consistent on both sides, the pipe needs to be configured with `inclusion=all` to synchronize full data and metadata.
 
@@ -351,7 +351,7 @@ with sink (
 
 This example is used to demonstrate the scenario where data from multiple IoTDB is transferred to the cloud, with data from clusters B, C, and D all synchronized to cluster A, as shown in the figure below:
 
-![](https://alioss.timecho.com/docs/img/sync_en_03.png)
+![](/img/sync_en_03.png)
 
 In this example, to synchronize the data from clusters B, C, and D to A, the pipe between BA, CA, and DA needs to configure the `path` to limit the range, and to keep the edge and cloud data consistent, the pipe needs to be configured with `inclusion=all` to synchronize full data and metadata. The detailed statement is as follows:
 
@@ -403,7 +403,7 @@ with sink (
 
 This example is used to demonstrate the scenario where data is transferred in a cascading manner between multiple IoTDB, with data from cluster A synchronized to cluster B, and then to cluster C, as shown in the figure below:
 
-![](https://alioss.timecho.com/docs/img/sync_en_04.png)
+![](/img/sync_en_04.png)
 
 In this example, to synchronize the data from cluster A to C, the `forwarding-pipe-requests` needs to be set to `true` between BC. The detailed statement is as follows:
 
@@ -436,7 +436,7 @@ with sink (
 
 This example is used to demonstrate the scenario where data from one IoTDB is synchronized to another IoTDB through a unidirectional gateway, as shown in the figure below:
 
-![](https://alioss.timecho.com/upload/pipe5.jpg)
+![](/img/pipe5.jpg)
 
 
 In this example, the iotdb-air-gap-sink plugin in the sink task needs to be used (currently supports some gateway models, for specific models, please contact Timecho staff for confirmation). After configuring the gateway, execute the following statement on A IoTDB. Fill in the node-urls with the URL of the data service port of the DataNode node on the target IoTDB configured by the gateway, as detailed below:

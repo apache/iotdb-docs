@@ -68,7 +68,7 @@ Decide which IP addresses can connect to IoTDB
 5. whether to enable the configuration of the white list function, can be hot loaded.
 6. Use the Java native interface to modify the whitelist, must be the root user to modify, reject non-root user to modify; modify the content must be legal, otherwise it will throw a StatementExecutionException.
 
-![](https://alioss.timecho.com/docs/img/%E7%99%BD%E5%90%8D%E5%8D%95.PNG)
+![](/img/%E7%99%BD%E5%90%8D%E5%8D%95.PNG)
 
 ## Audit log
 
@@ -88,7 +88,7 @@ The audit log function traces all user operations in the database. The informati
 Client Sources：
 - Cli、workbench、Zeppelin、Grafana、通过 Session/JDBC/MQTT 等协议传入的请求
 
-![](https://alioss.timecho.com/docs/img/%E5%AE%A1%E8%AE%A1%E6%97%A5%E5%BF%97.PNG)
+![](/img/%E5%AE%A1%E8%AE%A1%E6%97%A5%E5%BF%97.PNG)
 
 ##### Audit logging can be turned off for some user connections
 

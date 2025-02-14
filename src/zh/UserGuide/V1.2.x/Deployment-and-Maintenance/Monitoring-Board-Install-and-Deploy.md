@@ -83,8 +83,8 @@ scrape_configs:
 
 4. 确认启动成功。在浏览器中输入 http://localhost:9090，进入Prometheus，点击进入Status下的Target界面（如下图1），当看到State均为Up时表示配置成功并已经联通（如下图2），点击左侧链接可以跳转到网页监控。
 
-![](https://alioss.timecho.com/docs/img/1a.PNG)
-![](https://alioss.timecho.com/docs/img/2a.PNG)
+![](/img/1a.PNG)
+![](/img/2a.PNG)
 
 
 
@@ -108,51 +108,51 @@ cd grafana-*
 3. 在浏览器中输入 http://localhost:3000，进入Grafana，默认初始用户名和密码均为 admin。
 4. 首先我们在 Configuration 中配置 Data Source 为 Prometheus
 
-![](https://alioss.timecho.com/docs/img/3a.png)
+![](/img/3a.png)
 
 5. 在配置 Data Source 时注意 Prometheus 所在的URL，配置好后点击Save & Test 出现 Data source is working 提示则为配置成功
 
-![](https://alioss.timecho.com/docs/img/4a.png)
+![](/img/4a.png)
 
 ### Step2：使用IoTDB官方提供的Grafana看板
 
 1. 进入 Grafana，选择 Dashboards 的 Browse
 
-![](https://alioss.timecho.com/docs/img/5a.png)
+![](/img/5a.png)
 
 2. 点击右侧 Import 按钮
 
-![](https://alioss.timecho.com/docs/img/6a.png)
+![](/img/6a.png)
 
 3. 选择一种方式导入 Dashboard
    a. 上传本地已下载的 Dashboard 的 Json 文件
    b. 输入 Grafana 官网获取到的 Dashboard 的 URL 或者 ID
    c. 将 Dashboard 的 Json 文件内容直接粘贴进入
 
-![](https://alioss.timecho.com/docs/img/7a.png)
+![](/img/7a.png)
 
 4. 选择 Dashboard 的 Prometheus 为刚刚配置好的 Data Source，然后点击 Import
 
-![](https://alioss.timecho.com/docs/img/8a.png)
+![](/img/8a.png)
 
 5. 之后进入 Dashboard，选择 job 为 ConfigNode，就看到如下的监控面板
 
-![](https://alioss.timecho.com/docs/img/9a.png)
+![](/img/9a.png)
 
 6. 同样地，我们可以导入 Apache DataNode Dashboard，选择 job 为 DataNode，就看到如下的监控面板：
 
-![](https://alioss.timecho.com/docs/img/10a.pngA)
+![](/img/10a.pngA)
 
 ### Step3：创建新的 Dashboard 进行数据可视化
 
 1. 首先创建Dashboard，然后创建Panel
 
-![](https://alioss.timecho.com/docs/img/11a.png)
+![](/img/11a.png)
 
 2. 之后就可以在面板根据自己的需求对监控相关的数据进行可视化（所有相关的监控指标可以先在job中选择confignode/datanode筛选）
 
-![](https://alioss.timecho.com/docs/img/12a.png)
+![](/img/12a.png)
 
 3. 选择关注的监控指标可视化完成后，我们就得到了这样的面板：
 
-![](https://alioss.timecho.com/docs/img/13a.png)
+![](/img/13a.png)

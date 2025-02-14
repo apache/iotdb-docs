@@ -83,8 +83,8 @@ scrape_configs:
 
 4. Confirm the startup is successful. Enter http://localhost:9090 in the browser to enter Prometheus, click to enter the Target interface under Status (Figure 1 below), when you see State are Up, it means the configuration is successful and connected (Figure 2 below), click the link on the left side to jump to the webpage monitoring.
 
-![](https://alioss.timecho.com/docs/img/1a.PNG)
-![](https://alioss.timecho.com/docs/img/2a.PNG)
+![](/img/1a.PNG)
+![](/img/2a.PNG)
 
 
 
@@ -108,51 +108,51 @@ cd grafana-*
 3. Enter http://localhost:3000 in your browser to access Grafana, the default initial username and password are both admin.
 4. First we configure the Data Source in Configuration to be Prometheus.
 
-![](https://alioss.timecho.com/docs/img/3a.png)
+![](/img/3a.png)
 
 5. When configuring the Data Source, pay attention to the URL where Prometheus is located, and click Save & Test after configuration, the Data source is working prompt appears, then the configuration is successful.
 
-![](https://alioss.timecho.com/docs/img/4a.png)
+![](/img/4a.png)
 
 ### Step2：Use the official Grafana dashboard provided by IoTDB
 
 1. Enter Grafana，click Browse of Dashboards
 
-![](https://alioss.timecho.com/docs/img/5a.png)
+![](/img/5a.png)
 
 2. Click the Import button on the right
 
-![](https://alioss.timecho.com/docs/img/6a.png)
+![](/img/6a.png)
 
 3. Select a way to import Dashboard
    a. Upload the Json file of the downloaded Dashboard locally
    b. Enter the URL or ID of the Dashboard obtained from the Grafana website
    c. Paste the contents of the Dashboard's Json file
 
-![](https://alioss.timecho.com/docs/img/7a.png)
+![](/img/7a.png)
 
 4. Select Prometheus in the Dashboard as the Data Source you just configured and click Import
 
-![](https://alioss.timecho.com/docs/img/8a.png)
+![](/img/8a.png)
 
 5. Then enter Dashboard，select job to be ConfigNode，then following monitoring dashboard will be seen:
 
-![](https://alioss.timecho.com/docs/img/9a.png)
+![](/img/9a.png)
 
 6. Similarly, we can import the Apache DataNode Dashboard, select job as DataNode,then following monitoring dashboard will be seen:
 
-![](https://alioss.timecho.com/docs/img/10a.pngA)
+![](/img/10a.pngA)
 
 ### Step3：Creating a new Dashboard for data visualisation
 
 1. First create the Dashboard, then create the Panel.
 
-![](https://alioss.timecho.com/docs/img/11a.png)
+![](/img/11a.png)
 
 2. After that, you can visualize the monitoring-related data in the panel according to your needs (all relevant monitoring metrics can be filtered by selecting confignode/datanode in the job first).
 
-![](https://alioss.timecho.com/docs/img/12a.png)
+![](/img/12a.png)
 
 3. Once the visualisation of the monitoring metrics selected for attention is complete, we get a panel like this:
 
-![](https://alioss.timecho.com/docs/img/13a.png)
+![](/img/13a.png)

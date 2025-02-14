@@ -449,13 +449,13 @@ The full lifecycle of an Issue: Create an issue -> assign an issue -> submit a P
 - Review Process：
 
   - First step: Click "Files changed" in the PR
-    <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/zh/development/howtocontributecode/01.png">
+    <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/zh/development/howtocontributecode/01.png">
 
   - Second step: For lines with issues, move to the left side where a plus sign appears. Click the plus, leave a comment, and then click "Start a review". At this point, all review comments are saved temporarily and are not visible to others.
-    <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/zh/development/howtocontributecode/02.png">
+    <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/zh/development/howtocontributecode/02.png">
 
   - Third step: After all the comments are added, click "Review changes", choose your feedback — "Approve" if it’s ready to merge, "Request changes" if there are bugs that need correction, or "Comment" if you're unsure. Finally, submit your review comments which will then be visible to the person who submitted the PR.
-    <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/zh/development/howtocontributecode/03.png">
+    <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/zh/development/howtocontributecode/03.png">
 
 #### Merge a PR
 

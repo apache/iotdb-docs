@@ -39,7 +39,7 @@ mvn clean package -pl iotdb-client/jdbc -am -DskipTests -P get-jar-with-dependen
 1.  **下载 Zappy-Sys ODBC-JDBC 桥插件**：
     进入 https://zappysys.com/products/odbc-powerpack/odbc-jdbc-bridge-driver/ 网站，点击下载按钮并直接安装。
 
-    ![ZappySys_website.jpg](https://alioss.timecho.com/upload/ZappySys_website.jpg)
+    ![ZappySys_website.jpg](/img/ZappySys_website.jpg)
 
 2. **准备 IoTDB**：打开 IoTDB 集群，并任意写入一条数据。
     ```sql
@@ -49,11 +49,11 @@ mvn clean package -pl iotdb-client/jdbc -am -DskipTests -P get-jar-with-dependen
 3. **部署及调试插件**：
     1. 打开 ODBC 数据源 32/64 位，取决于 Windows 的位数，一个示例的位置是 `C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools`。
 
-       ![ODBC_ADD_CN.jpg](https://alioss.timecho.com/upload/ODBC_ADD_CN.jpg)
+       ![ODBC_ADD_CN.jpg](/img/ODBC_ADD_CN.jpg)
 
     2. 点击添加，选择 ZappySys JDBC Bridge。
 
-       ![ODBC_CREATE_CN.jpg](https://alioss.timecho.com/upload/ODBC_CREATE_CN.jpg)
+       ![ODBC_CREATE_CN.jpg](/img/ODBC_CREATE_CN.jpg)
 
     3. 填写如下配置：
 
@@ -65,15 +65,15 @@ mvn clean package -pl iotdb-client/jdbc -am -DskipTests -P get-jar-with-dependen
        | User name           | IoTDB 的用户名                                    | root                                                                                                               |
        | User password       | IoTDB 的密码                                     | root                                                                                                               |
 
-       ![ODBC_CONNECTION.png](https://alioss.timecho.com/upload/ODBC_CONNECTION.png)
+       ![ODBC_CONNECTION.png](/img/ODBC_CONNECTION.png)
 
     4. 点击 Test Connection 按钮，应该显示连接成功。
 
-       ![ODBC_CONFIG_CN.jpg](https://alioss.timecho.com/upload/ODBC_CONFIG_CN.jpg)
+       ![ODBC_CONFIG_CN.jpg](/img/ODBC_CONFIG_CN.jpg)
 
     5. 点击上方的 Preview， 将查询文本换为 `select * from root.**`，点击 Preview Data，应该正确显示查询结果。
 
-       ![ODBC_TEST.jpg](https://alioss.timecho.com/upload/ODBC_TEST.jpg)
+       ![ODBC_TEST.jpg](/img/ODBC_TEST.jpg)
 
 4. **使用 ODBC 操作数据**：正确部署后，就可以使用 Windows 的 ODBC 库，对 IoTDB 的数据进行操作。 这里给出 C# 语言的代码示例：
     ```C#

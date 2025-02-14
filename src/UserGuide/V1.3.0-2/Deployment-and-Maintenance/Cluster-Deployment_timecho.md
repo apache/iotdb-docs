@@ -23,7 +23,7 @@
 This section describes how to manually deploy an instance that includes 3 ConfigNodes and 3 DataNodes, commonly known as a 3C3D cluster.
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/20240705141552.png" alt="" style="width: 60%;"/>
+    <img src="/img/20240705141552.png" alt="" style="width: 60%;"/>
 </div>
 
 ## Note
@@ -198,13 +198,13 @@ Can be executed directly Cli startup script in `./sbin`  directory:
 
    After successful startup, the following interface will appear displaying successful installation of IOTDB.
 
-![](https://alioss.timecho.com/docs/img/%E4%BC%81%E4%B8%9A%E7%89%88%E6%88%90%E5%8A%9F.png)
+![](/img/%E4%BC%81%E4%B8%9A%E7%89%88%E6%88%90%E5%8A%9F.png)
 
 After the installation success interface appears, continue to check if the activation is successful and use the `show cluster`  command.
 
 When you see the display of `Activated` on the far right, it indicates successful activation.
 
-![](https://alioss.timecho.com/docs/img/%E4%BC%81%E4%B8%9A%E7%89%88%E6%BF%80%E6%B4%BB.png)
+![](/img/%E4%BC%81%E4%B8%9A%E7%89%88%E6%BF%80%E6%B4%BB.png)
 
 
 > The appearance of `ACTIVATED (W)` indicates passive activation, which means that this Configurable Node does not have a license file (or has not issued the latest license file with a timestamp), and its activation depends on other Activated Configurable Nodes in the cluster. At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Timecho staff to reapply.

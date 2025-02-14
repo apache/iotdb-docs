@@ -67,7 +67,7 @@ Shell> sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect tab
 
 启动后出现如图提示即为启动成功。
 
-![](https://alioss.timecho.com/docs/img/Cli-01.png)
+![](/img/Cli-01.png)
 
 
 ## 2 在 CLI 中执行语句
@@ -80,7 +80,7 @@ Shell> sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect tab
 create database test
 ```
 
-![](https://alioss.timecho.com/docs/img/Cli-02.png)
+![](/img/Cli-02.png)
 
 
 - 查看数据库
@@ -89,7 +89,7 @@ create database test
 show databases
 ```
 
-![](https://alioss.timecho.com/docs/img/Cli-03.png)
+![](/img/Cli-03.png)
 
 
 ## 3 CLI 退出

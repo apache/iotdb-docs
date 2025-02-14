@@ -73,7 +73,7 @@ View image:
 docker images
 ```
 
-![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F.PNG)
+![](/img/%E5%BC%80%E6%BA%90-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F.PNG)
 
 ### Create Docker Bridge Network
 
@@ -148,7 +148,7 @@ docker logs -f iotdb-datanode #View log command
 2024-07-21 08:22:38,457 [main] INFO  o.a.i.db.service.DataNode:227 - Congratulations, IoTDB DataNode is set up successfully. Now, enjoy yourself!
 ```
 
-![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B2.png)
+![](/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B2.png)
 
 - Enter the container to view the service running status and activation information 
 
@@ -158,7 +158,7 @@ View the launched container
 docker ps
 ```
 
-![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B22.png)
+![](/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B22.png)
 
 Enter the container, log in to the database through CLI, and use the `show cluster` command to view the service status and activation status
 
@@ -170,7 +170,7 @@ IoTDB> show cluster                      #View status
 
 You can see that all services are running and the activation status shows as activated.
 
-![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B23.png)
+![](/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B23.png)
 
 ### Map/conf Directory (optional)
 
@@ -202,7 +202,7 @@ docker-compose  -f docker-compose-standalone.yml  up  -d
 This section describes how to manually deploy an instance that includes 3 Config Nodes and 3 Data Nodes, commonly known as a 3C3D cluster.
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/20240705141552.png" alt="" style="width: 60%;"/>
+    <img src="/img/20240705141552.png" alt="" style="width: 60%;"/>
 </div>
 
 **Note: The cluster version currently only supports host and overlay networks, and does not support bridge networks.**
@@ -243,7 +243,7 @@ View image:
 docker images
 ```
 
-![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%881.png)
+![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%881.png)
 
 ### Write The Yml File For Docker Compose
 
@@ -342,7 +342,7 @@ cd /docker-iotdb
 docker-compose  -f  datanode.yml  up -d #Background startup
 ```
 
-![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%882.png)
+![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%882.png)
 
 ### Validate Deployment
 
@@ -353,7 +353,7 @@ docker-compose  -f  datanode.yml  up -d #Background startup
     2024-07-21 09:40:58,120 [main] INFO  o.a.i.db.service.DataNode:227 - Congratulations, IoTDB DataNode is set up successfully. Now, enjoy yourself!
     ```
 
-    ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%883.png)
+    ![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%883.png)
 
 - Enter any container to view the service running status and activation information
 
@@ -363,7 +363,7 @@ docker-compose  -f  datanode.yml  up -d #Background startup
     docker ps
     ```
 
-    ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%884.png)
+    ![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%884.png)
 
     Enter the container, log in to the database through CLI, and use the `show cluster` command to view the service status and activation status
 
@@ -375,7 +375,7 @@ docker-compose  -f  datanode.yml  up -d #Background startup
 
     You can see that all services are running and the activation status shows as activated.
 
-    ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%885.png)
+    ![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%885.png)
 
 ### Map/conf Directory (optional)
 

@@ -35,7 +35,7 @@ Apache IoTDB 是一款低成本、高性能的物联网原生时序数据库。�
 IoTDB 体系由若干个组件构成，帮助用户高效地管理和分析物联网产生的海量时序数据。
 
 <div style="text-align: center;">        		
-    <img src="https://alioss.timecho.com/docs/img/Introduction-zh-apache.png" alt="Introduction-zh-apache.png" style="width: 90%;"/>
+    <img src="/img/Introduction-zh-apache.png" alt="Introduction-zh-apache.png" style="width: 90%;"/>
 </div>
 
 其中：
@@ -48,7 +48,7 @@ IoTDB 体系由若干个组件构成，帮助用户高效地管理和分析物�
 
 下图展示了一个常见的 IoTDB 3C3D（3 个 ConfigNode、3 个 DataNode）的集群部署模式：                 
 
-<img src="https://alioss.timecho.com/docs/img/Cluster-Concept01.png" alt="" style="width: 60%;"/>
+<img src="/img/Cluster-Concept01.png" alt="" style="width: 60%;"/>
 
 ## 产品特性
 

@@ -23,13 +23,13 @@
 
 IoTDB manages metadata and data based on data partitions (DataRegion), dividing the data from both the sequence and time dimensions.
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/%E5%88%86%E5%8C%BA%E6%A7%BD%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%88%86%E5%8C%BA.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/%E5%88%86%E5%8C%BA%E6%A7%BD%E4%B8%8E%E6%95%B0%E6%8D%AE%E5%88%86%E5%8C%BA.png?raw=true">
 
 ## Partition Slots
 
 A sequence partition slot combined with a time partition slot can generate a data partition (when the sequence slot has corresponding data under that time slot).
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/SeriesPartitionSlot.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/SeriesPartitionSlot.png?raw=true">
 
 ### Sequence Partition Slots
 
@@ -45,13 +45,13 @@ Time partition slots slice the time-series data from the time dimension (typical
 
 The metadata partition management of a single database, following a specific load balancing strategy, assigns all sequence slots to the corresponding SchemaRegionGroup, further horizontally scaling within the cluster.
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/SchemaRegion.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/SchemaRegion.png?raw=true">
 
 ## Data Partitioning
 
 It follows a certain load balancing strategy, dividing time and sequence partition slots, and allocating them to the relevant DataRegionGroup, further allowing horizontal scaling in the cluster.
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/DataRegion.png?raw=true">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/DataRegion.png?raw=true">
 
 ## Load Balancing
 

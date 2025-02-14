@@ -127,11 +127,11 @@ Checklist
 How to review a pr
 
 1. Click Files changed
-   <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/zh/development/howtocontributecode/01.png">
+   <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/zh/development/howtocontributecode/01.png">
 
-2. Add review comments. First, move your mouse to the left. And then there will be a plus sign, click the plus sign. Second, write comments. Third, click Start a Review. At this step, all review comments will be temporarily saved, which others can not see.<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/zh/development/howtocontributecode/02.png">
+2. Add review comments. First, move your mouse to the left. And then there will be a plus sign, click the plus sign. Second, write comments. Third, click Start a Review. At this step, all review comments will be temporarily saved, which others can not see.<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/zh/development/howtocontributecode/02.png">
 3. Submit review. After all the comments are added, click Review Changes and select your opinion. Select "Approve" for those that can be combined. Select "Request Changes" or "Comment" for those that need to be modified. Select "Comment" for those that are not sure. Finally, submit a review and only the person submitting the PR can see the review.
-   <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/zh/development/howtocontributecode/03.png">
+   <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/zh/development/howtocontributecode/03.png">
 
 ### Merging a PR
 

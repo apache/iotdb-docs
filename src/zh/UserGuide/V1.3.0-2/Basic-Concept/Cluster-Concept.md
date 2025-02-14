@@ -21,7 +21,7 @@
 
 # 集群相关概念
 下图展示了一个常见的 IoTDB 3C3D1A（3 个 ConfigNode、3 个 DataNode 和 1 个 AINode）的集群部署模式：
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/Common-Concepts_01.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/Common-Concepts_01.png">
 
 其中包括了 IoTDB 集群使用中用户常接触到的几个概念，包括：
 - **节点**（ConfigNode、DataNode、AINode）；

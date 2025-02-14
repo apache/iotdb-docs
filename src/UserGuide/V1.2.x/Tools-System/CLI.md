@@ -154,46 +154,46 @@ Shell >./kc.sh start-dev
 ```
 
 2、use url(https://ip:port) login keycloack, the first login needs to create a user
-![avatar](https://alioss.timecho.com/docs/img/UserGuide/CLI/Command-Line-Interface/login_keycloak.png?raw=true)
+![avatar](/img/UserGuide/CLI/Command-Line-Interface/login_keycloak.png?raw=true)
 
 3、Click administration console
-![avatar](https://alioss.timecho.com/docs/img/UserGuide/CLI/Command-Line-Interface/AdministrationConsole.png?raw=true)
+![avatar](/img/UserGuide/CLI/Command-Line-Interface/AdministrationConsole.png?raw=true)
 
 4、In the master menu on the left, click Create realm and enter Realm name to create a new realm
-![avatar](https://alioss.timecho.com/docs/img/UserGuide/CLI/Command-Line-Interface/add_Realm_1.jpg?raw=true)
+![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_Realm_1.jpg?raw=true)
 
-![avatar](https://alioss.timecho.com/docs/img/UserGuide/CLI/Command-Line-Interface/add_Realm_2.jpg?raw=true)
+![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_Realm_2.jpg?raw=true)
 
 
 5、Click the menu clients on the left to create clients
 
-![avatar](https://alioss.timecho.com/docs/img/UserGuide/CLI/Command-Line-Interface/client.jpg?raw=true)
+![avatar](/img/UserGuide/CLI/Command-Line-Interface/client.jpg?raw=true)
 
 6、Click user on the left menu to create user
 
-![avatar](https://alioss.timecho.com/docs/img/UserGuide/CLI/Command-Line-Interface/user.jpg?raw=true)
+![avatar](/img/UserGuide/CLI/Command-Line-Interface/user.jpg?raw=true)
 
 7、Click the newly created user ID, click the credentials navigation, enter the password and close the temporary option. The configuration of keycloud is completed
 
-![avatar](https://alioss.timecho.com/docs/img/UserGuide/CLI/Command-Line-Interface/pwd.jpg?raw=true)
+![avatar](/img/UserGuide/CLI/Command-Line-Interface/pwd.jpg?raw=true)
 
 8、To create a role, click Roles on the left menu and then click the Create Role button to add a role
 
-![avatar](https://alioss.timecho.com/docs/img/UserGuide/CLI/Command-Line-Interface/add_role1.jpg?raw=true)
+![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_role1.jpg?raw=true)
 
 9、 Enter `iotdb_admin` in the Role Name and click the save button. Tip: `iotdb_admin` here cannot be any other name, otherwise even after successful login, you will not have permission to use iotdb's query, insert, create database, add users, roles and other functions
 
-![avatar](https://alioss.timecho.com/docs/img/UserGuide/CLI/Command-Line-Interface/add_role2.jpg?raw=true)
+![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_role2.jpg?raw=true)
 
 10、Click on the User menu on the left and then click on the user in the user list to add the `iotdb_admin` role we just created for that user
 
-![avatar](https://alioss.timecho.com/docs/img/UserGuide/CLI/Command-Line-Interface/add_role3.jpg?raw=true)
+![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_role3.jpg?raw=true)
 
 11、 Select Role Mappings, select the `iotdb_admin` role in Assign Role 
 
-![avatar](https://alioss.timecho.com/docs/img/UserGuide/CLI/Command-Line-Interface/add_role4.jpg?raw=true)
+![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_role4.jpg?raw=true)
 
-![avatar](https://alioss.timecho.com/docs/img/UserGuide/CLI/Command-Line-Interface/add_role5.jpg?raw=true)
+![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_role5.jpg?raw=true)
 
 
 Tip: If the user role is adjusted, you need to regenerate the token and log in to iotdb again to take effect
@@ -209,7 +209,7 @@ Shell > bash sbin/start-cli.sh -h 10.129.187.21 -p 6667 -u {my-access-token} -pw
 
 Among them, you need to replace {my access token} (note, including {}) with your token, that is, the value corresponding to access_token. The password is empty and needs to be confirmed again.
 
-![avatar](https://alioss.timecho.com/docs/img/UserGuide/CLI/Command-Line-Interface/iotdbpw.jpeg?raw=true)
+![avatar](/img/UserGuide/CLI/Command-Line-Interface/iotdbpw.jpeg?raw=true)
 
 
 How to get the token is dependent on your OpenID Connect setup and not covered here.

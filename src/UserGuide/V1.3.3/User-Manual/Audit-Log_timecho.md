@@ -37,7 +37,7 @@ The audit log function traces all user operations in the database. The informati
 Client Sources：
 - Cli、workbench、Zeppelin、Grafana、通过 Session/JDBC/MQTT 等协议传入的请求
 
-![](https://alioss.timecho.com/docs/img/%E5%AE%A1%E8%AE%A1%E6%97%A5%E5%BF%97.PNG)
+![](/img/%E5%AE%A1%E8%AE%A1%E6%97%A5%E5%BF%97.PNG)
 
 #### Audit logging can be turned off for some user connections
 

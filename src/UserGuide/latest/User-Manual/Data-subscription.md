@@ -15,7 +15,7 @@ Using the IoTDB Subscription Client to consume data has significant advantages i
 The IoTDB Subscription Client encompasses three core concepts: Topic, Consumer, and Consumer Group. The specific relationships are illustrated in the diagram below:
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/Data-sub05.png" alt="" style="width: 60%;"/>
+    <img src="/img/Data-sub05.png" alt="" style="width: 60%;"/>
 </div>
 
 1. **Topic**: Topic is the data space of IoTDB, represented by paths and time ranges (such as the full time range of root. * *). Consumers can subscribe to data on these topics (currently existing and future written). Unlike Kafka, IoTDB can create topics after data is stored, and the output format can be either Message or TsFile.
@@ -38,7 +38,7 @@ The IoTDB Subscription Client encompasses three core concepts: Topic, Consumer, 
 IoTDB supports the creation, deletion, and viewing of Topics through SQL statements. The status changes of Topics are illustrated in the diagram below:
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/Data_sub_04.png" alt="" style="width: 60%;"/>
+    <img src="/img/Data_sub_04.png" alt="" style="width: 60%;"/>
 </div>
 
 #### 3.1.1 Create Topic

@@ -36,7 +36,7 @@
 
 The following figure shows a common IoTDB 3C3D (3 ConfigNodes, 3 DataNodes) cluster deployment pattern:                
 
-<img src="https://alioss.timecho.com/docs/img/Cluster-Concept03.png" alt="" style="width: 60%;"/>
+<img src="/img/Cluster-Concept03.png" alt="" style="width: 60%;"/>
 
 IoTDB's cluster includes the following common concepts:
 

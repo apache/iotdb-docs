@@ -21,7 +21,7 @@
 
 # Cluster-related Concepts
 The figure below illustrates a typical IoTDB 3C3D1A cluster deployment mode, comprising 3 ConfigNodes, 3 DataNodes, and 1 AINode:  
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/Common-Concepts_02.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/Common-Concepts_02.png">
 
 This deployment involves several key concepts that users commonly encounter when working with IoTDB clusters, including:  
 - **Nodes** (ConfigNode, DataNode, AINode);  
