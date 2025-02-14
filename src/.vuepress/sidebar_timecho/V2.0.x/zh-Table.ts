@@ -101,6 +101,9 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '命令行工具', link: 'CLI' },
+        { text: '监控工具', link: 'Monitor-Tool_timecho' },
+        { text: '测试工具', link: 'Benchmark' },
+        { text: '集群管理工具', link: 'Maintenance-Tool_timecho' },
       ],
     },
     {

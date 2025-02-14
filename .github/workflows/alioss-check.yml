@@ -1,9 +1,6 @@
 name: Check alioss in Changed Files
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
     branches:
       - main
@@ -11,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  todo-check:
+  img-check:
     runs-on: ubuntu-latest
 
     steps:
@@ -26,13 +23,20 @@ jobs:
           git switch -c check_branch
           
           # Get the diff of the changes
-          DIFF=$(git diff origin/$GITHUB_BASE_REF check_branch)
-          
-  
-          # Check the diff for alioss
-          if echo "$DIFF" | grep -Eq '^\+.*(alioss)'; then
-            echo "alioss found in the changes. Please use upload to src/.vuepress/public/img."
-            # exit 1
-          else
-            echo "No alioss found in changed content."
+          echo Get the diff of the changes
+          DIFF=$(git diff origin/$GITHUB_BASE_REF check_branch -- . ':(exclude).github/workflows/alioss-check.yml')
+          if [ -z "$DIFF" ]; then
+            echo "No changes detected."
+            exit 0
           fi
+
+          # Check the diff for alioss
+          echo Check the diff for alioss
+          ALIOSS=$(echo "$DIFF" | grep -E '^\+.*(alioss)' | wc -l)
+          if [ "$ALIOSS" -eq 0 ]; then
+            echo "No alioss found in changed content.";
+            exit 0
+          fi
+          echo "alioss found in the changes. Please use upload to src/.vuepress/public/img."
+          echo "$DIFF" | grep -E '^\+.*(alioss)' | tee -a output.log
+          exit 1
