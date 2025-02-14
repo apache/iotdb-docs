@@ -27,10 +27,11 @@ jobs:
           
   
           # Check the diff for alioss
-          if echo "$DIFF" | grep -Eq 'alioss'; then
-            echo "alioss found in the changes. Please use upload to src/.vuepress/public/img."
-            echo "$DIFF" | grep -Eq 'alioss'
-            exit 1
-          else
+          echo "$DIFF" | grep 'alioss' > check.log
+          if [ $(wc -l < check.log> -eq 0)]; then
             echo "No alioss found in changed content."
+          else
+            echo "alioss found in the changes. Please use upload to src/.vuepress/public/img."
+            cat check.log
+            exit 1
           fi
