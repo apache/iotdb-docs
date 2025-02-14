@@ -25,6 +25,10 @@ jobs:
           # Get the diff of the changes
           DIFF=$(git diff origin/$GITHUB_BASE_REF check_branch -- . ':(exclude).github/workflows/alioss-check.yml')
           
+          if [ -z "$DIFF" ]; then
+            echo "No changes detected."
+            exit 0
+          fi
   
           # Check the diff for alioss
           echo "$DIFF" | grep 'alioss' > check.log
