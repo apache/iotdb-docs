@@ -100,6 +100,7 @@ export const zhSidebar = {
       children: [
         { text: '命令行工具', link: 'CLI' },
         { text: '监控工具', link: 'Monitor-Tool_apache' },
+        { text: '集群管理工具', link: 'Maintenance-Tool_apache' },
       ],
     },
     {
