@@ -23,7 +23,7 @@ jobs:
           git switch -c check_branch
           
           # Get the diff of the changes
-          DIFF=$(git diff origin/$GITHUB_BASE_REF check_branch)
+          DIFF=$(git diff origin/$GITHUB_BASE_REF check_branch -- . ':(exclude).github/workflows/alioss-check.yml')
           
   
           # Check the diff for alioss
