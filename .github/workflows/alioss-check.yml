@@ -23,7 +23,8 @@ jobs:
           git switch -c check_branch
           
           # Get the diff of the changes
-          DIFF=$(git diff origin/$GITHUB_BASE_REF check_branch -- . ':(exclude).github/workflows/alioss-check.yml')
+          echo Get the diff of the changes
+          DIFF=$(git diff origin/$GITHUB_BASE_REF check_branch  -- . ':(exclude).github/workflows/alioss-check.yml')
           
           if [ -z "$DIFF" ]; then
             echo "No changes detected."
@@ -32,6 +33,7 @@ jobs:
   
           # Check the diff for alioss
           echo "$DIFF" | grep 'alioss' > check.log
+          cat check.log
           if [ $(wc -l < check.log> -eq 0)]; then
             echo "No alioss found in changed content."
           else
