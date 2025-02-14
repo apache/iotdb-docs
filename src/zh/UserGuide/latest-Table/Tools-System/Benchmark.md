@@ -27,13 +27,13 @@ IoT-benchmark 是基于 Java 和大数据环境开发的时序数据库基准测
 
 下图1-1囊括了测试基准流程及其他扩展功能。这些流程可以由IoT-benchmark 统一来完成。IoT Benchmark 支持多种工作负载，包括**纯写入、纯查询、写入查询混合**等，支持**软硬件系统监控、测试指标度量**等监控功能，还实现了**初始化数据库自动化、测试数据分析及系统参数优化**等功能。
 
-![](https://alioss.timecho.com/docs/img/bm1.PNG)
+![](/img/bm1.png)
 
 图1-1
 
 借鉴 YCSB 测试工具将工作负载生成、性能指标测量和数据库接口三个组件分离的设计思想，IoT-benchmark 的模块化设计如图1-2所示。与基于 YCSB 的测试工具系统不同的是，IoT-benchmark 增加了系统监控模块，支持测试数据和系统指标监控数据的持久化。此外也增加了一些特别针对时序数据场景的特殊负载测试功能，如支持物联网场景的批量写入和多种乱序数据写入模式。
 
-![](https://alioss.timecho.com/docs/img/bm2.PNG)
+![](/img/bm2.png)
 
 图1-2
 
@@ -112,7 +112,7 @@ drwxr-xr-x. 2 root root  4096 1月  10 01:38 lib
 
 测试的所有日志文件被存放于 logs 文件夹下，测试的结果在测试完成后被存放到 data/csvOutput 文件夹下，例如测试后我们得到了如下的结果矩阵：
 
-![](https://alioss.timecho.com/docs/img/bm4.png)
+![](/img/bm4.png)
 
 - Result Matrix
   - OkOperation：成功的对应操作次数
