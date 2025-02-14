@@ -33,9 +33,9 @@ jobs:
           # Check the diff for alioss
           echo Check the diff for alioss
           ALIOSS=$(echo "$DIFF" | grep -E '^\+.*(alioss)' | wc -l)
-          if [ $($ALIOSS -eq 0)]; then
+          if [ "$ALIOSS" -eq 0 ]; then
             echo "No alioss found in changed content.";
-            exit 0;
+            exit 0
           fi
           echo "alioss found in the changes. Please use upload to src/.vuepress/public/img."
           echo "$DIFF" | grep -E '^\+.*(alioss)' | tee -a output.log
