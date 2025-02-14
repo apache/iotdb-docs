@@ -25,7 +25,7 @@ AINode is the third internal node after ConfigNode and DataNode in Apache IoTDB,
 
 The system architecture is shown below:
 ::: center
-<img src="https://alioss.timecho.com/upload/AInode.png" style="zoom:50 percent" />
+<img src="/img/AInode.png" style="zoom:50 percent" />
 ::: 
 The responsibilities of the three nodes are as follows:
 
@@ -41,7 +41,7 @@ Compared with building a machine learning service alone, it has the following ad
 
 - **Avoid Data Migration**: With IoTDB native machine learning, data stored in IoTDB can be directly applied to the inference of machine learning models without having to move the data to a separate machine learning service platform, which accelerates data processing, improves security, and reduces costs.
 
-![](https://alioss.timecho.com/upload/AInode1.png)
+![](/img/AInode1.png)
 
 - **Built-in Advanced Algorithms**: supports industry-leading machine learning analytics algorithms covering typical timing analysis tasks, empowering the timing database with native data analysis capabilities. Such as:
   - **Time Series Forecasting**: learns patterns of change from past time series; thus outputs the most likely prediction of future series based on observations at a given past time.
@@ -58,7 +58,7 @@ Compared with building a machine learning service alone, it has the following ad
 - **Built-in capabilities**: AINode comes with machine learning algorithms or home-grown models for common timing analysis scenarios (e.g., prediction and anomaly detection).
 
 ::: center
-<img src="https://alioss.timecho.com/upload/AInode2.png" style="zoom:50%" />
+<img src="/img/AInode2.png" style="zoom:50%" />
 ::::
 
 ## Installation and Deployment
@@ -304,13 +304,13 @@ After completing the registration of the model, the inference function can be us
 - **sql**: sql query statement, the result of the query is used as input to the model for model inference. The dimensions of the rows and columns in the result of the query need to match the size specified in the specific model config. (It is not recommended to use the `SELECT *` clause for the sql here because in IoTDB, `*` does not sort the columns, so the order of the columns is undefined, you can use `SELECT s0,s1` to ensure that the columns order matches the expectations of the model input)
 - **window_function**: Window functions that can be used in the inference process, there are currently three types of window functions provided to assist in model inference:
   - **head(window_size)**: Get the top window_size points in the data for model inference, this window can be used for data cropping.
-  ![](https://alioss.timecho.com/docs/img/AINode-call1.png)
+  ![](/img/AINode-call1.png)
 
   - **tail(window_size)**: get the last window_size point in the data for model inference, this window can be used for data cropping.
-  ![](https://alioss.timecho.com/docs/img/AINode-call2.png)
+  ![](/img/AINode-call2.png)
 
   - **count(window_size, sliding_step)**: sliding window based on the number of points, the data in each window will be reasoned through the model respectively, as shown in the example below, window_size for 2 window function will be divided into three windows of the input dataset, and each window will perform reasoning operations to generate results respectively. The window can be used for continuous inference
-  ![](https://alioss.timecho.com/docs/img/AINode-call3.png)
+  ![](/img/AINode-call3.png)
 
 **Explanation 1**: window can be used to solve the problem of cropping rows when the results of the sql query and the input row requirements of the model do not match. Note that when the number of columns does not match or the number of rows is directly less than the model requirement, the inference cannot proceed and an error message will be returned. 
 
@@ -459,7 +459,7 @@ When using AINode related functions, the authentication of IoTDB itself can be u
 
 In some industrial scenarios, there is a need to predict power loads, which can be used to optimise power supply, conserve energy and resources, support planning and expansion, and enhance power system reliability.
 
-The data for the test set of ETTh1 that we use is [ETTh1](https://alioss.timecho.com/docs/img/ETTh1.csv).
+The data for the test set of ETTh1 that we use is [ETTh1](/img/ETTh1.csv).
 
 
 It contains power data collected at 1h intervals, and each data consists of load and oil temperature as High UseFul Load, High UseLess Load, Middle UseLess Load, Low UseFul Load, Low UseLess Load, Oil Temperature.
@@ -522,7 +522,7 @@ We compare the results of the prediction of the oil temperature with the real re
 
 The data before 10/24 00:00 represents the past data input to the model, the blue line after 10/24 00:00 is the oil temperature forecast result given by the model, and the red line is the actual oil temperature data from the dataset (used for comparison).
 
-![](https://alioss.timecho.com/docs/img/AINode-analysis1.png)
+![](/img/AINode-analysis1.png)
 
 As can be seen, we have used the relationship between the six load information and the corresponding time oil temperatures for the past 96 hours (4 days) to model the possible changes in this data for the oil temperature for the next 48 hours (2 days) based on the inter-relationships between the sequences learned previously, and it can be seen that the predicted curves maintain a high degree of consistency in trend with the actual results after visualisation.
 
@@ -532,7 +532,7 @@ Power monitoring of current, voltage and power data is required in substations f
 
 We have used the current, voltage and power data in a substation to form a dataset in a real scenario. The dataset consists of data such as A-phase voltage, B-phase voltage, and C-phase voltage collected every 5 - 6s for a time span of nearly four months in the substation.
 
-The test set data content is [data](https://alioss.timecho.com/docs/img/data.csv).
+The test set data content is [data](/img/data.csv).
 
 On this dataset, the model inference function of IoTDB-ML can predict the C-phase voltage in the future period through the previous values and corresponding timestamps of A-phase voltage, B-phase voltage and C-phase voltage, empowering the monitoring management of the substation.
 
@@ -588,7 +588,7 @@ Comparing the predicted results of the C-phase voltage with the real results, we
 
 The data before 02/14 20:48 represents the past data input to the model, the blue line after 02/14 20:48 is the predicted result of phase C voltage given by the model, while the red line is the actual phase C voltage data from the dataset (used for comparison).
 
-![](https://alioss.timecho.com/docs/img/AINode-analysis2.png)
+![](/img/AINode-analysis2.png)
 
 It can be seen that we used the voltage data from the past 10 minutes and, based on the previously learned inter-sequence relationships, modeled the possible changes in the phase C voltage data for the next 5 minutes. The visualized forecast curve shows a certain degree of synchronicity with the actual results in terms of trend.
 
@@ -596,7 +596,7 @@ It can be seen that we used the voltage data from the past 10 minutes and, based
 
 In the civil aviation and transport industry, there exists a need for anomaly detection of the number of passengers travelling on an aircraft. The results of anomaly detection can be used to guide the adjustment of flight scheduling to make the organisation more efficient.
 
-Airline Passengers is a time-series dataset that records the number of international air passengers between 1949 and 1960, sampled at one-month intervals. The dataset contains a total of one time series. The dataset is [airline](https://alioss.timecho.com/docs/img/airline.csv).
+Airline Passengers is a time-series dataset that records the number of international air passengers between 1949 and 1960, sampled at one-month intervals. The dataset contains a total of one time series. The dataset is [airline](/img/airline.csv).
 On this dataset, the model inference function of IoTDB-ML can empower the transport industry by capturing the changing patterns of the sequence in order to detect anomalies at the sequence time points.
 
 #### Step 1: Data Import
@@ -649,6 +649,6 @@ Total line number = 144
 
 We plot the results detected as anomalies to get the following image. Where the blue curve is the original time series and the time points specially marked with red dots are the time points that the algorithm detects as anomalies.
 
-![](https://alioss.timecho.com/docs/img/s6.png)
+![](/img/s6.png)
 
 It can be seen that the Stray model has modelled the input sequence changes and successfully detected the time points where anomalies occur.

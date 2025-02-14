@@ -30,7 +30,7 @@ OPC UA 是一种在自动化领域用于不同设备和系统之间进行通信�
 - **Client/Server 模式**：在这种模式下，IoTDB 的流处理引擎通过 OPC UA Sink 与 OPC UA 服务器（Server）建立连接。OPC UA 服务器在其地址空间(Address Space) 中维护数据，IoTDB可以请求并获取这些数据。同时，其他OPC UA客户端（Client）也能访问服务器上的数据。
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA01.png" alt="" style="width: 70%;"/>
+    <img src="/img/OPCUA01.png" alt="" style="width: 70%;"/>
 </div>
 
 
@@ -44,7 +44,7 @@ OPC UA 是一种在自动化领域用于不同设备和系统之间进行通信�
 - **Pub/Sub 模式**：在这种模式下，IoTDB的流处理引擎通过 OPC UA Sink 向OPC UA 服务器（Server）发送数据变更事件。这些事件被发布到服务器的消息队列中，并通过事件节点 (Event Node) 进行管理。其他OPC UA客户端（Client）可以订阅这些事件节点，以便在数据变更时接收通知。
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA02.png" alt="" style="width: 70%;"/>
+    <img src="/img/OPCUA02.png" alt="" style="width: 70%;"/>
 </div>
 
 - 特性：
@@ -146,27 +146,27 @@ insert into root.test.db(time, s2) values(now(), 2)
 3. 在 UAExpert 中配置 iotdb 的连接，其中 password 填写为上述参数配置中 sink.password 中设定的密码（此处以默认密码root为例）：
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA03.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA03.png" alt="" style="width: 60%;"/>
 </div>
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA04.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA04.png" alt="" style="width: 60%;"/>
 </div>
 
 4. 信任服务器的证书后，在左侧 Objects folder 即可看到写入的数据。
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA05.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA05.png" alt="" style="width: 60%;"/>
 </div>
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA06.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA06.png" alt="" style="width: 60%;"/>
 </div>
 
 5. 可以将左侧节点拖动到中间，并展示该节点的最新值：
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA07.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA07.png" alt="" style="width: 60%;"/>
 </div>
 
 ### Pub / Sub 模式
@@ -205,37 +205,37 @@ start pipe p1;
 ​     此时能看到服务器的 conf 目录下创建了 opc 证书相关的目录。
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA08.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA08.png" alt="" style="width: 60%;"/>
 </div>
 
 3. 直接运行 Client 连接，此时 Client 证书被服务器拒收。
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA09.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA09.png" alt="" style="width: 60%;"/>
 </div>
 
 4. 进入服务器的 sink.opcua.security.dir 目录下，进入 pki 的 rejected 目录，此时 Client 的证书应该已经在该目录下生成。
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA10.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA10.png" alt="" style="width: 60%;"/>
 </div>
 
 5. 将客户端的证书移入（不是复制） 同目录下 trusted 目录的 certs 文件夹中。
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA11.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA11.png" alt="" style="width: 60%;"/>
 </div>
 
 6. 再次打开 Client 连接，此时服务器的证书应该被 Client 拒收。
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA12.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA12.png" alt="" style="width: 60%;"/>
 </div>
 
 7. 进入客户端的 <java.io.tmpdir>/client/security 目录下，进入 pki 的 rejected 目录，将服务器的证书移入（不是复制）trusted 目录。
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA13.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA13.png" alt="" style="width: 60%;"/>
 </div>
 
 8. 打开 Client，此时建立双向信任成功， Client 能够连接到服务器。
@@ -243,7 +243,7 @@ start pipe p1;
 9. 向服务器中写入数据，此时 Client 中能够打印出收到的数据。
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/OPCUA14.png" alt="" style="width: 60%;"/>
+    <img src="/img/OPCUA14.png" alt="" style="width: 60%;"/>
 </div>
 
 

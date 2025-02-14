@@ -120,7 +120,7 @@ DataNode 配置
 
 当看到“ClusterActivationStatus”字段状态显示为ACTIVATED表示激活成功
 
-![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81.png)
+![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81.png)
 
 ## 3 常见问题
 

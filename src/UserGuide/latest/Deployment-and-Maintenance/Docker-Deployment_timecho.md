@@ -87,7 +87,7 @@ View image:
 docker images
 ```
 
-![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E6%9F%A5%E7%9C%8B%E9%95%9C%E5%83%8F.PNG)
+![](/img/%E5%8D%95%E6%9C%BA-%E6%9F%A5%E7%9C%8B%E9%95%9C%E5%83%8F.png)
 
 ### Create Docker Bridge Network
 
@@ -158,17 +158,17 @@ docker-compose -f docker-compose-standalone.yml up
 
 Due to lack of activation, it is normal to exit directly upon initial startup. The initial startup is to obtain the machine code file for the subsequent activation process.
 
-![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E6%BF%80%E6%B4%BB.png)
+![](/img/%E5%8D%95%E6%9C%BA-%E6%BF%80%E6%B4%BB.png)
 
 ### Apply For Activation
 
 - After the first startup, a system_info file will be generated in the physical machine directory `/docker-iotdb/iotdb/activation`, and this file will be copied to the Timecho staff.
 
-    ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB1.png)
+    ![](/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB1.png)
 
 - Received the license file returned by the staff, copy the license file to the `/docker iotdb/iotdb/activation` folder.
 
-    ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB2.png)
+    ![](/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB2.png)
 
 ### Restart IoTDB
 
@@ -176,7 +176,7 @@ Due to lack of activation, it is normal to exit directly upon initial startup. T
 docker-compose  -f docker-compose-standalone.yml   up  -d
 ```
 
-![](https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8iotdb.png)
+![](/img/%E5%90%AF%E5%8A%A8iotdb.png)
 
 ### Validate Deployment
 
@@ -187,7 +187,7 @@ docker-compose  -f docker-compose-standalone.yml   up  -d
     2024-07-19 12:02:32,608 [main] INFO  o.a.i.db.service.DataNode:231 - Congratulations, IoTDB DataNode is set up successfully. Now, enjoy yourself!
     ```
 
-    ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B21.png)
+    ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B21.png)
 
 - Enter the container to view the service running status and activation information
 
@@ -197,7 +197,7 @@ docker-compose  -f docker-compose-standalone.yml   up  -d
     docker ps
     ```
 
-    ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B22.png)
+    ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B22.png)
 
     Enter the container, log in to the database through CLI, and use the `show cluster` command to view the service status and activation status
 
@@ -209,7 +209,7 @@ docker-compose  -f docker-compose-standalone.yml   up  -d
 
     You can see that all services are running and the activation status shows as activated.
 
-    ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B23.png)
+    ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B23.png)
 
 ### Map/conf Directory (optional)
 
@@ -244,7 +244,7 @@ docker-compose  -f docker-compose-standalone.yml  up  -d
 This section describes how to manually deploy an instance that includes 3 Config Nodes and 3 Data Nodes, commonly known as a 3C3D cluster.
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/20240705141552.png" alt="" style="width: 60%;"/>
+    <img src="/img/20240705141552.png" alt="" style="width: 60%;"/>
 </div>
 
 **Note: The cluster version currently only supports host and overlay networks, and does not support bridge networks.**
@@ -285,7 +285,7 @@ View image:
 docker images
 ```
 
-![](https://alioss.timecho.com/docs/img/%E9%95%9C%E5%83%8F%E5%8A%A0%E8%BD%BD.png)
+![](/img/%E9%95%9C%E5%83%8F%E5%8A%A0%E8%BD%BD.png)
 
 ### Write The Yml File For Docker Compose
 
@@ -379,11 +379,11 @@ docker-compose -f confignode.yml up  -d #Background startup
 
 - After starting three confignodes for the first time, a system_info file will be generated in each physical machine directory `/docker-iotdb/iotdb/activation`, and the system_info files of the three servers will be copied to the Timecho staff;
 
-  ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB1.png)
+  ![](/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB1.png)
 
 - Put the three license files into the `/docker iotdb/iotdb/activation` folder of the corresponding Configurable Node node;
 
-  ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB2.png)
+  ![](/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB2.png)
 
 - After the license is placed in the corresponding activation folder, confignode will be automatically activated without restarting confignode
   
@@ -396,7 +396,7 @@ cd /docker-iotdb
 docker-compose  -f  datanode.yml  up -d #Background startup
 ```
 
-![](https://alioss.timecho.com/docs/img/%E9%9B%86%E7%BE%A4%E7%89%88-dn%E5%90%AF%E5%8A%A8.png)
+![](/img/%E9%9B%86%E7%BE%A4%E7%89%88-dn%E5%90%AF%E5%8A%A8.png)
 
 ### Validate Deployment
 
@@ -407,7 +407,7 @@ docker-compose  -f  datanode.yml  up -d #Background startup
     2024-07-20 16:50:48,937 [main] INFO  o.a.i.db.service.DataNode:231 - Congratulations, IoTDB DataNode is set up successfully. Now, enjoy yourself!
     ```
 
-    ![](https://alioss.timecho.com/docs/img/dn%E5%90%AF%E5%8A%A8.png)
+    ![](/img/dn%E5%90%AF%E5%8A%A8.png)
 
 - Enter any container to view the service running status and activation information
 
@@ -417,7 +417,7 @@ docker-compose  -f  datanode.yml  up -d #Background startup
     docker ps
     ```
 
-    ![](https://alioss.timecho.com/docs/img/%E6%9F%A5%E7%9C%8B%E5%AE%B9%E5%99%A8.png)
+    ![](/img/%E6%9F%A5%E7%9C%8B%E5%AE%B9%E5%99%A8.png)
 
     Enter the container, log in to the database through CLI, and use the `show cluster` command to view the service status and activation status
 
@@ -429,7 +429,7 @@ docker-compose  -f  datanode.yml  up -d #Background startup
 
     You can see that all services are running and the activation status shows as activated.
 
-    ![](https://alioss.timecho.com/docs/img/%E9%9B%86%E7%BE%A4-%E6%BF%80%E6%B4%BB.png)
+    ![](/img/%E9%9B%86%E7%BE%A4-%E6%BF%80%E6%B4%BB.png)
 
 ### Map/conf Directory (optional)
 

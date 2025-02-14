@@ -28,7 +28,7 @@
 - 双活部署方案允许在物理节点少于 3 的情况下实现高可用，在部署成本上具备一定优势。同时可以通过电力、网络的双环网，实现两套单机(或集群)的物理供应隔离，保障运行的稳定性。
 - 目前双活能力为企业版功能。
 
-![](https://alioss.timecho.com/docs/img/%E5%8F%8C%E6%B4%BB%E5%90%8C%E6%AD%A5.png)
+![](/img/%E5%8F%8C%E6%B4%BB%E5%90%8C%E6%AD%A5.png)
 
 ## 注意事项
 
@@ -116,11 +116,11 @@ show  cluster
 
 **机器A**:
 
-![](https://alioss.timecho.com/docs/img/%E5%8F%8C%E6%B4%BB-A.png)
+![](/img/%E5%8F%8C%E6%B4%BB-A.png)
 
 **机器B**:
 
-![](https://alioss.timecho.com/docs/img/%E5%8F%8C%E6%B4%BB-B.png)
+![](/img/%E5%8F%8C%E6%B4%BB-B.png)
 
 确保每一个 ConfigNode 和 DataNode 都处于 Running 状态。
 
@@ -132,7 +132,7 @@ show  cluster
 show pipes
 ```
 
-![](https://alioss.timecho.com/docs/img/show%20pipes-A.png)
+![](/img/show%20pipes-A.png)
 
 - 机器B上检查同步状态
 
@@ -140,7 +140,7 @@ show pipes
 show pipes
 ```
 
-![](https://alioss.timecho.com/docs/img/show%20pipes-B.png)
+![](/img/show%20pipes-B.png)
 
 确保每一个 pipe 都处于 RUNNING 状态。
 

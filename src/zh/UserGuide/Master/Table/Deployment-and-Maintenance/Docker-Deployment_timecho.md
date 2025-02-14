@@ -87,7 +87,7 @@ docker load -i iotdb-enterprise-1.3.2.3-standalone-docker.tar.gz
 docker images
 ```
 
-![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E6%9F%A5%E7%9C%8B%E9%95%9C%E5%83%8F.PNG)
+![](/img/%E5%8D%95%E6%9C%BA-%E6%9F%A5%E7%9C%8B%E9%95%9C%E5%83%8F.png)
 
 ### 2.2 创建docker bridge网络
 
@@ -158,17 +158,17 @@ docker-compose -f docker-compose-standalone.yml up
 
 由于没有激活，首次启动时会直接退出，属于正常现象，首次启动是为了获取机器码文件，用于后面的激活流程。
 
-![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E6%BF%80%E6%B4%BB.png)
+![](/img/%E5%8D%95%E6%9C%BA-%E6%BF%80%E6%B4%BB.png)
 
 ### 2.5 申请激活
 
 - 首次启动后，在物理机目录`/docker-iotdb/iotdb/activation`下会生成一个 `system_info`文件，将这个文件拷贝给天谋工作人员。
 
-    ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB1.png)
+    ![](/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB1.png)
 
 - 收到工作人员返回的license文件，将license文件拷贝到`/docker-iotdb/iotdb/activation`文件夹下。
 
-    ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB2.png)
+    ![](/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB2.png)
 
 ### 2.6 再次启动IoTDB
 
@@ -176,7 +176,7 @@ docker-compose -f docker-compose-standalone.yml up
 docker-compose -f docker-compose-standalone.yml up  -d
 ```
 
-![](https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8iotdb.png)
+![](/img/%E5%90%AF%E5%8A%A8iotdb.png)
 
 ### 2.7 验证部署
 
@@ -187,7 +187,7 @@ docker logs -f iotdb-datanode #查看日志命令
 2024-07-19 12:02:32,608 [main] INFO  o.a.i.db.service.DataNode:231 - Congratulations, IoTDB DataNode is set up successfully. Now, enjoy yourself!
 ```
 
-![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B21.png)
+![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B21.png)
 
 - 进入容器，查看服务运行状态及激活信息
 
@@ -197,7 +197,7 @@ docker logs -f iotdb-datanode #查看日志命令
     docker ps
     ```
 
-    ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B22.png)
+    ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B22.png)
 
     进入容器, 通过cli登录数据库, 使用show cluster命令查看服务状态及激活状态
 
@@ -209,7 +209,7 @@ docker logs -f iotdb-datanode #查看日志命令
 
     可以看到服务都是running,激活状态显示已激活。
 
-    ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B23.png)
+    ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B23.png)
 
 ### 2.8 映射/conf目录(可选)
 
@@ -244,7 +244,7 @@ docker-compose  -f docker-compose-standalone.yml  up  -d
 本小节描述如何手动部署包括3个ConfigNode和3个DataNode的实例，即通常所说的3C3D集群。
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.png" alt="" style="width: 60%;"/>
+    <img src="/img/%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.png" alt="" style="width: 60%;"/>
 </div>
 
 **注意：集群版目前只支持host网络和overlay 网络，不支持bridge网络。**
@@ -285,7 +285,7 @@ docker load -i iotdb-enterprise-1.3.2.3-standalone-docker.tar.gz
 docker images
 ```
 
-![](https://alioss.timecho.com/docs/img/%E9%95%9C%E5%83%8F%E5%8A%A0%E8%BD%BD.png)
+![](/img/%E9%95%9C%E5%83%8F%E5%8A%A0%E8%BD%BD.png)
 
 ### 3.3 编写docker-compose的yml文件
 
@@ -379,11 +379,11 @@ docker-compose -f confignode.yml up  -d #后台启动
 
 - 首次启动3个confignode后，在每个物理机目录`/docker-iotdb/iotdb/activation`下都会生成一个`system_info`文件，将3个服务器的`system_info`文件拷贝给天谋工作人员；
 
-  ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB1.png)
+  ![](/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB1.png)
 
 - 将3个license文件分别放入对应的ConfigNode节点的`/docker-iotdb/iotdb/activation`文件夹下；
 
-  ![](https://alioss.timecho.com/docs/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB2.png)
+  ![](/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB2.png)
 
 - license放入对应的activation文件夹后，confignode会自动激活，不用重启confignode
 
@@ -396,7 +396,7 @@ cd /docker-iotdb
 docker-compose  -f  datanode.yml  up -d #后台启动
 ```
 
-![](https://alioss.timecho.com/docs/img/%E9%9B%86%E7%BE%A4%E7%89%88-dn%E5%90%AF%E5%8A%A8.png)
+![](/img/%E9%9B%86%E7%BE%A4%E7%89%88-dn%E5%90%AF%E5%8A%A8.png)
 
 ### 3.7 验证部署
 
@@ -407,7 +407,7 @@ docker-compose  -f  datanode.yml  up -d #后台启动
     2024-07-20 16:50:48,937 [main] INFO  o.a.i.db.service.DataNode:231 - Congratulations, IoTDB DataNode is set up successfully. Now, enjoy yourself!
     ```
 
-    ![](https://alioss.timecho.com/docs/img/dn%E5%90%AF%E5%8A%A8.png)
+    ![](/img/dn%E5%90%AF%E5%8A%A8.png)
 
 - 进入任意一个容器，查看服务运行状态及激活信息
 
@@ -417,7 +417,7 @@ docker-compose  -f  datanode.yml  up -d #后台启动
     docker ps
     ```
 
-    ![](https://alioss.timecho.com/docs/img/%E6%9F%A5%E7%9C%8B%E5%AE%B9%E5%99%A8.png)
+    ![](/img/%E6%9F%A5%E7%9C%8B%E5%AE%B9%E5%99%A8.png)
 
     进入容器,通过cli登录数据库,使用`show cluster`命令查看服务状态及激活状态
 
@@ -429,7 +429,7 @@ docker-compose  -f  datanode.yml  up -d #后台启动
 
     可以看到服务都是running,激活状态显示已激活。
 
-    ![](https://alioss.timecho.com/docs/img/%E9%9B%86%E7%BE%A4-%E6%BF%80%E6%B4%BB.png)
+    ![](/img/%E9%9B%86%E7%BE%A4-%E6%BF%80%E6%B4%BB.png)
 
 ### 3.8 映射/conf目录(可选)
 

@@ -66,5 +66,5 @@ Decide which IP addresses can connect to IoTDB
 5. whether to enable the configuration of the white list function, can be hot loaded.
 6. Use the Java native interface to modify the whitelist, must be the root user to modify, reject non-root user to modify; modify the content must be legal, otherwise it will throw a StatementExecutionException.
 
-![](https://alioss.timecho.com/docs/img/%E7%99%BD%E5%90%8D%E5%8D%95.PNG)
+![](/img/%E7%99%BD%E5%90%8D%E5%8D%95.png)
 

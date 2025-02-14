@@ -35,7 +35,7 @@ Ignition 是一个基于WEB的监控和数据采集工具（SCADA）- 一个开�
 
   两个模块与Ignition的具体关系与内容如下图所示。
 
-  ![](https://alioss.timecho.com/docs/img/Ignition.png)
+  ![](/img/Ignition.png)
 
 ## 安装要求
 
@@ -58,23 +58,23 @@ Ignition-IoTDB连接器提供了将 Ignition 采集到的数据存入 IoTDB 的�
 
 步骤一：进入 `Config` - `System`- `Modules` 模块，点击最下方的`Install or Upgrade a Module...`
 
-![](https://alioss.timecho.com/docs/img/Ignition-IoTDB%E8%BF%9E%E6%8E%A5%E5%99%A8-1.PNG)
+![](/img/Ignition-IoTDB%E8%BF%9E%E6%8E%A5%E5%99%A8-1.png)
 
 步骤二：选择获取到的 `modl`，选择文件并上传，点击 `Install`，信任相关证书。
 
-![](https://alioss.timecho.com/docs/img/ignition-3.png)
+![](/img/ignition-3.png)
 
 步骤三：安装完成后可以看到如下内容
 
-![](https://alioss.timecho.com/docs/img/Ignition-IoTDB%E8%BF%9E%E6%8E%A5%E5%99%A8-3.PNG)
+![](/img/Ignition-IoTDB%E8%BF%9E%E6%8E%A5%E5%99%A8-3.png)
 
 步骤四：进入 `Config` - `Tags`- `History` 模块，点击下方的`Create new Historical Tag Provider...`
 
-![](https://alioss.timecho.com/docs/img/Ignition-IoTDB%E8%BF%9E%E6%8E%A5%E5%99%A8-4.png)
+![](/img/Ignition-IoTDB%E8%BF%9E%E6%8E%A5%E5%99%A8-4.png)
 
 步骤五：选择 `IoTDB`并填写配置信息
 
-![](https://alioss.timecho.com/docs/img/Ignition-IoTDB%E8%BF%9E%E6%8E%A5%E5%99%A8-5.PNG)
+![](/img/Ignition-IoTDB%E8%BF%9E%E6%8E%A5%E5%99%A8-5.png)
 
 配置内容如下：
 
@@ -161,21 +161,21 @@ Ignition-IoTDB连接器提供了将 Ignition 采集到的数据存入 IoTDB 的�
 
 - 配置好 `Provider` 后就可以在 `Designer` 中使用 `IoTDB Tag Historian` 了，就跟使用其他的 `Provider` 一样，右键点击对应 `Tag` 选择 `Edit tag(s)`，在 Tag Editor 中选择 History 分类
 
-  ![](https://alioss.timecho.com/docs/img/ignition-7.png)
+  ![](/img/ignition-7.png)
 
 - 设置 `History Enabled` 为 `true`，并选择 `Storage Provider` 为上一步创建的 `Provider`，按需要配置其它参数，并点击 `OK`，然后保存项目。此时数据将会按照设置的内容持续的存入 `IoTDB` 实例中。
 
-  ![](https://alioss.timecho.com/docs/img/ignition-8.png)
+  ![](/img/ignition-8.png)
 
 #### 读取数据
 
 - 也可以在 Report 的 Data 标签下面直接选择存入 IoTDB 的 Tags
 
-  ![](https://alioss.timecho.com/docs/img/ignition-9.png)
+  ![](/img/ignition-9.png)
 
 - 在 Components 中也可以直接浏览相关数据
 
-  ![](https://alioss.timecho.com/docs/img/ignition-10.png)
+  ![](/img/ignition-10.png)
 
 #### 脚本模块：该功能能够与 IoTDB 进行交互
 
@@ -242,15 +242,15 @@ system.iotdb.query("IoTDB", "select * from root.db.Sine where time > 17095634272
 
  步骤一：进入 `Config` - `Databases` -`Drivers` 模块，创建 `Translator`
 
-![](https://alioss.timecho.com/docs/img/Ignition-IoTDB%20With%20JDBC-1.png)
+![](/img/Ignition-IoTDBWithJDBC-1.png)
 
  步骤二：进入 `Config` - `Databases` -`Drivers` 模块，创建 `JDBC Driver`，选择上一步配置的 `Translator`并上传下载的 `IoTDB-JDBC`，Classname 配置为 `org.apache.iotdb.jdbc.IoTDBDriver`
 
-![](https://alioss.timecho.com/docs/img/Ignition-IoTDB%20With%20JDBC-2.png)
+![](/img/Ignition-IoTDBWithJDBC-2.png)
 
 步骤三：进入 `Config` - `Databases` -`Connections` 模块，创建新的 `Connections`，`JDBC Driver` 选择上一步创建的 `IoTDB Driver`，配置相关信息后保存即可使用
 
-![](https://alioss.timecho.com/docs/img/Ignition-IoTDB%20With%20JDBC-3.png)
+![](/img/Ignition-IoTDBWithJDBC-3.png)
 
 ### 使用说明
 
@@ -264,11 +264,11 @@ system.iotdb.query("IoTDB", "select * from root.db.Sine where time > 17095634272
 
 不选择其他项，设置好字段，并 `Enabled` 后 数据会安装设置存入对应的 IoTDB
 
-![](https://alioss.timecho.com/docs/img/%E6%95%B0%E6%8D%AE%E5%86%99%E5%85%A5-1.png)
+![](/img/%E6%95%B0%E6%8D%AE%E5%86%99%E5%85%A5-1.png)
 
 #### 数据查询
 
 - 在 `Database Query Browser` 中选择`Data Source`选择之前创建的 `Connection`，即可编写 SQL 语句查询 IoTDB 中的数据
 
-![](https://alioss.timecho.com/docs/img/%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2-ponz.png)
+![](/img/%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2-ponz.png)
 

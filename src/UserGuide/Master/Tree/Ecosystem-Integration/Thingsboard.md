@@ -26,7 +26,7 @@
 
   ThingsBoard is an open-source IoT platform that enables rapid development, management, and expansion of IoT projects. For more detailed information, please refer to [ThingsBoard Official Website](https://thingsboard.io/docs/getting-started-guides/what-is-thingsboard/).
 
-  ![](https://alioss.timecho.com/docs/img/ThingsBoard-en1.png)
+  ![](/img/ThingsBoard-en1.png)
 
 1. Introduction to ThingsBoard-IoTDB
 
@@ -34,7 +34,7 @@
 
 ### Relationship Diagram
 
-  ![](https://alioss.timecho.com/docs/img/Thingsboard-2.png)
+  ![](/img/Thingsboard-2.png)
 
 ## Installation Requirements
 
@@ -77,23 +77,23 @@ export IoTDB_DATABASE=root.thingsboard  ## Thingsboard data is written to the da
 
 1. Set up devices and connect datasource: Add a new device under "Entities" - "Devices" in Thingsboard and send data to the specified devices through gateway.
 
-  ![](https://alioss.timecho.com/docs/img/Thingsboard-en2.png)
+  ![](/img/Thingsboard-en2.png)
 
 2. Set rule chain: Set alarm rules for "SD-032F pump" in the rule chain library and set the rule chain as the root chain
 
   <div style="display: flex;justify-content: space-between;">           
-    <img src="https://alioss.timecho.com/docs/img/thingsboard-en3.png" alt=" " style="width: 50%;"/>
-    <img src="https://alioss.timecho.com/docs/img/thingsborad-en4.png" alt=" " style="width: 50%;"/>     
+    <img src="/img/thingsboard-en3.png" alt=" " style="width: 50%;"/>
+    <img src="/img/thingsborad-en4.png" alt=" " style="width: 50%;"/>     
   </div>
 
 
 3. View alarm records: The generated alarm records can be found under "Devices" - "Alarms
 
-  ![](https://alioss.timecho.com/docs/img/Thingsboard-en5.png)
+  ![](/img/Thingsboard-en5.png)
 
 4. Data Visualization: Configure datasource and parameters for data visualization.
 
  <div style="display: flex;justify-content: space-between;">           
-    <img src="https://alioss.timecho.com/upload/thingsboard-en1.png" alt=" " style="width: 50%;"/>
-    <img src="https://alioss.timecho.com/docs/img/thingsboard-en7.png" alt=" " style="width: 50%;"/>     
+    <img src="/img/thingsboard-en1.png" alt=" " style="width: 50%;"/>
+    <img src="/img/thingsboard-en7.png" alt=" " style="width: 50%;"/>     
  </div>

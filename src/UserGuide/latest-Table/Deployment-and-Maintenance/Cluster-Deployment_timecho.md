@@ -23,7 +23,7 @@
 This section describes how to manually deploy an instance that includes 3 ConfigNodes and 3 DataNodes, commonly known as a 3C3D cluster.
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/cluster02.png" alt="" style="width: 60%;"/>
+    <img src="/img/cluster02.png" alt="" style="width: 60%;"/>
 </div>
 
 
@@ -222,7 +222,7 @@ cd sbin
 
 When the status of the 'Result' field is displayed as' success', it indicates successful activation
 
-![](https://alioss.timecho.com/docs/img/%E9%9B%86%E7%BE%A4-%E9%AA%8C%E8%AF%81.png)
+![](/img/%E9%9B%86%E7%BE%A4-%E9%AA%8C%E8%AF%81.png)
 
 ## Node Maintenance Steps
 

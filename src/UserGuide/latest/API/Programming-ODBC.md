@@ -39,7 +39,7 @@ Then, you can see the output `iotdb-jdbc-1.3.2-SNAPSHOT-jar-with-dependencies.ja
 1.  **Download Zappy-Sys ODBC-JDBC Bridge**:
     Enter the https://zappysys.com/products/odbc-powerpack/odbc-jdbc-bridge-driver/ website, and click "download".
 
-    ![ZappySys_website.jpg](https://alioss.timecho.com/upload/ZappySys_website.jpg)
+    ![ZappySys_website.jpg](/img/ZappySys_website.jpg)
 
 2. **Prepare IoTDB**: Set up IoTDB cluster, and write a row of data arbitrarily.
     ```sql
@@ -49,11 +49,11 @@ Then, you can see the output `iotdb-jdbc-1.3.2-SNAPSHOT-jar-with-dependencies.ja
 3. **Deploy and Test the Bridge**:
     1. Open ODBC Data Sources(32/64 bit), depending on the bits of Windows. One possible position is `C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools`.
 
-       ![ODBC_ADD_EN.jpg](https://alioss.timecho.com/upload/ODBC_ADD_EN.jpg)
+       ![ODBC_ADD_EN.jpg](/img/ODBC_ADD_EN.jpg)
 
     2. Click on "add" and select ZappySys JDBC Bridge.
 
-       ![ODBC_CREATE_EN.jpg](https://alioss.timecho.com/upload/ODBC_CREATE_EN.jpg)
+       ![ODBC_CREATE_EN.jpg](/img/ODBC_CREATE_EN.jpg)
 
     3. Fill in the following settings:
 
@@ -65,15 +65,15 @@ Then, you can see the output `iotdb-jdbc-1.3.2-SNAPSHOT-jar-with-dependencies.ja
        | User name           | IoTDB's user name                                         | root                                                                                                               |
        | User password       | IoTDB's password                                          | root                                                                                                               |
 
-       ![ODBC_CONNECTION.png](https://alioss.timecho.com/upload/ODBC_CONNECTION.png)
+       ![ODBC_CONNECTION.png](/img/ODBC_CONNECTION.png)
 
     4. Click on "Test Connection" button, and a "Test Connection: SUCCESSFUL" should appear.
 
-       ![ODBC_CONFIG_EN.jpg](https://alioss.timecho.com/upload/ODBC_CONFIG_EN.jpg)
+       ![ODBC_CONFIG_EN.jpg](/img/ODBC_CONFIG_EN.jpg)
 
     5. Click the "Preview" button above, and replace the original query text with `select * from root.**`, then click "Preview Data", and the query result should correctly.
 
-       ![ODBC_TEST.jpg](https://alioss.timecho.com/upload/ODBC_TEST.jpg)
+       ![ODBC_TEST.jpg](/img/ODBC_TEST.jpg)
 
 4. **Operate IoTDB's data with ODBC**: After correct deployment, you can use Microsoft's ODBC library to operate IoTDB's data. Here's an example written in C#:
     ```C#

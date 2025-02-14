@@ -145,7 +145,7 @@ IoTDB 目前支持将 CSV、SQL、及TsFile（IoTDB底层开放式时间序列�
 
 TsFile 主动监听&加载功能能够主动监听指定目标路径（用户配置）下TsFile的文件变化，并将目标路径下的TsFile文件自动同步至指定接收路径（用户配置）。通过此功能，IoTDB 能自动检测并加载这些文件，无需手动执行任何额外的加载操作。这种自动化流程不仅简化了用户的操作步骤，还减少了操作过程中可能出现的错误，有效降低了用户在使用过程中的复杂性。
 
-![](https://alioss.timecho.com/docs/img/Data-import1.png)
+![](/img/Data-import1.png)
 
 
 ### 4.1 配置参数

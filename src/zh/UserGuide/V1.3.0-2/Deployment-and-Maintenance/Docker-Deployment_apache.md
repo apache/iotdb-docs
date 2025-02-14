@@ -73,7 +73,7 @@ docker pull apache/iotdb:1.3.2-standalone
 docker images
 ```
 
-![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F.PNG)
+![](/img/%E5%BC%80%E6%BA%90-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F.png)
 
 ### 创建docker bridge网络
 
@@ -148,7 +148,7 @@ docker-compose -f docker-compose-standalone.yml up  -d  #后台启动
     2024-07-21 08:22:38,457 [main] INFO  o.a.i.db.service.DataNode:227 - Congratulations, IoTDB DataNode is set up successfully. Now, enjoy yourself!
     ```
 
-    ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B2.png)
+    ![](/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B2.png)
 
 - 进入容器，查看服务运行状态 
 
@@ -158,7 +158,7 @@ docker-compose -f docker-compose-standalone.yml up  -d  #后台启动
     docker ps
     ```
 
-    ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B22.png)
+    ![](/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B22.png)
 
     进入容器, 通过cli登录数据库, 使用show cluster命令查看服务状态 
 
@@ -170,7 +170,7 @@ docker-compose -f docker-compose-standalone.yml up  -d  #后台启动
 
     可以看到服务状态都是running, 说明IoTDB部署成功。
 
-    ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B23.png)
+    ![](/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B23.png)
 
 ### 映射/conf目录(可选)
 
@@ -202,7 +202,7 @@ docker-compose  -f docker-compose-standalone.yml  up  -d
 本小节描述如何手动部署包括3个ConfigNode和3个DataNode的实例，即通常所说的3C3D集群。
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.png" alt="" style="width: 60%;"/>
+    <img src="/img/%E9%9B%86%E7%BE%A4%E9%83%A8%E7%BD%B2.png" alt="" style="width: 60%;"/>
 </div>
 
 **注意：集群版目前只支持host网络和overlay 网络，不支持bridge网络。**
@@ -243,7 +243,7 @@ docker pull apache/iotdb:1.3.2-standalone
 docker images
 ```
 
-![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%881.png)
+![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%881.png)
 
 ### 编写docker-compose的yml文件
 
@@ -338,7 +338,7 @@ cd /docker-iotdb
 docker-compose  -f  datanode.yml  up -d #后台启动
 ```
 
-![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%882.png)
+![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%882.png)
 
 ### 验证部署
 
@@ -349,7 +349,7 @@ docker-compose  -f  datanode.yml  up -d #后台启动
     2024-07-21 09:40:58,120 [main] INFO  o.a.i.db.service.DataNode:227 - Congratulations, IoTDB DataNode is set up successfully. Now, enjoy yourself!
     ```
 
-    ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%883.png)
+    ![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%883.png)
 
 - 进入容器，查看服务运行状态 
 
@@ -359,7 +359,7 @@ docker-compose  -f  datanode.yml  up -d #后台启动
     docker ps
     ```
 
-    ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%884.png)
+    ![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%884.png)
 
     进入任意一个容器, 通过cli登录数据库, 使用show cluster命令查看服务状态 
 
@@ -371,7 +371,7 @@ docker-compose  -f  datanode.yml  up -d #后台启动
 
     可以看到服务状态都是running, 说明IoTDB部署成功。
 
-    ![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%885.png)
+    ![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%885.png)
 
 ### 映射/conf目录(可选)
 

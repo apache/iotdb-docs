@@ -63,7 +63,7 @@ IoTDB配套监控面板是IoTDB企业版配套工具之一。它旨在解决IoTD
 
 3. 重启后，通过客户端确认各节点的运行状态，若状态都为Running，则为配置成功：
 
-![](https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8.PNG)
+![](/img/%E5%90%AF%E5%8A%A8.png)
 
 ### 步骤二：安装、配置Prometheus
 
@@ -108,15 +108,15 @@ scrape_configs:
 5. 确认启动成功。在浏览器中输入 http://192.168.1.3:9090，进入Prometheus，点击进入Status下的Target界面，当看到State均为Up时表示配置成功并已经联通。
 
     <div style="display: flex;justify-content: space-between;">
-      <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
-      <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_2.png" alt="" style="width: 50%;"/>
+      <img src="/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
+      <img src="/img/%E5%90%AF%E5%8A%A8_2.png" alt="" style="width: 50%;"/>
     </div>
 
 
 
 6. 点击Targets中左侧链接可以跳转到网页监控，查看相应节点的监控信息：
 
-![](https://alioss.timecho.com/docs/img/%E8%8A%82%E7%82%B9%E7%9B%91%E6%8E%A7.png)
+![](/img/%E8%8A%82%E7%82%B9%E7%9B%91%E6%8E%A7.png)
 
 ### 步骤三：安装grafana并配置数据源
 
@@ -140,49 +140,49 @@ cd grafana-*
 
 5. 配置数据源。在Connections中找到Data sources，新增一个data source并配置Data Source为Prometheus
 
-![](https://alioss.timecho.com/docs/img/%E6%B7%BB%E5%8A%A0%E9%85%8D%E7%BD%AE.png)
+![](/img/%E6%B7%BB%E5%8A%A0%E9%85%8D%E7%BD%AE.png)
 
 在配置Data Source时注意Prometheus所在的URL，配置好后点击Save & Test 出现 Data source is working 提示则为配置成功
 
-![](https://alioss.timecho.com/docs/img/%E9%85%8D%E7%BD%AE%E6%88%90%E5%8A%9F.png)
+![](/img/%E9%85%8D%E7%BD%AE%E6%88%90%E5%8A%9F.png)
 
 ### 步骤四：导入IoTDB Grafana看板
 
 1. 进入Grafana，选择Dashboards：
 
-   ![](https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF%E9%80%89%E6%8B%A9.png)
+   ![](/img/%E9%9D%A2%E6%9D%BF%E9%80%89%E6%8B%A9.png)
 
 2. 点击右侧 Import 按钮
 
-      ![](https://alioss.timecho.com/docs/img/Import%E6%8C%89%E9%92%AE.png)
+      ![](/img/Import%E6%8C%89%E9%92%AE.png)
 
 3. 使用upload json file的方式导入Dashboard
 
-      ![](https://alioss.timecho.com/docs/img/%E5%AF%BC%E5%85%A5Dashboard.png)
+      ![](/img/%E5%AF%BC%E5%85%A5Dashboard.png)
 
 4. 选择IoTDB监控面板中其中一个面板的json文件，这里以选择 Apache IoTDB ConfigNode Dashboard为例（监控面板安装包获取参见本文【安装准备】）：
 
-      ![](https://alioss.timecho.com/docs/img/%E9%80%89%E6%8B%A9%E9%9D%A2%E6%9D%BF.png)
+      ![](/img/%E9%80%89%E6%8B%A9%E9%9D%A2%E6%9D%BF.png)
 
 5. 选择数据源为Prometheus，然后点击Import
 
-      ![](https://alioss.timecho.com/docs/img/%E9%80%89%E6%8B%A9%E6%95%B0%E6%8D%AE%E6%BA%90.png)
+      ![](/img/%E9%80%89%E6%8B%A9%E6%95%B0%E6%8D%AE%E6%BA%90.png)
 
 6. 之后就可以看到导入的Apache IoTDB ConfigNode Dashboard监控面板
 
-      ![](https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF.png)
+      ![](/img/%E9%9D%A2%E6%9D%BF.png)
 
 7. 同样地，我们可以导入Apache IoTDB DataNode Dashboard、Apache Performance Overview Dashboard、Apache System Overview Dashboard，可看到如下的监控面板：
 
       <div style="display: flex;justify-content: space-between;">
-      <img src="https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF1-eppf.png" alt="" style="width: 30%;" />
-      <img src="https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF2.png"  alt="" style="width: 30%;"/> 
-      <img src="https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF3.png"  alt="" style="width: 30%;"/>
+      <img src="/img/%E9%9D%A2%E6%9D%BF1-eppf.png" alt="" style="width: 30%;" />
+      <img src="/img/%E9%9D%A2%E6%9D%BF2.png"  alt="" style="width: 30%;"/> 
+      <img src="/img/%E9%9D%A2%E6%9D%BF3.png"  alt="" style="width: 30%;"/>
     </div>
 
 8. 至此，IoTDB监控面板就全部导入完成了，现在可以随时查看监控信息了。
 
-      ![](https://alioss.timecho.com/docs/img/%E9%9D%A2%E6%9D%BF%E6%B1%87%E6%80%BB.png)
+      ![](/img/%E9%9D%A2%E6%9D%BF%E6%B1%87%E6%80%BB.png)
 
 ## 3 附录、监控指标详解
 

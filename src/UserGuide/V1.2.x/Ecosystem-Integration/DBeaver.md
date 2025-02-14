@@ -45,21 +45,21 @@ DBeaver is a SQL client software application and a database administration tool.
 2. Start DBeaver
 3. Open Driver Manager
 
-   ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/01.png)
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/01.png)
 
 4. Create a new driver type for IoTDB
 
-   ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/02.png)
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/02.png)
 
 5. Download `iotdb-jdbc` ， from [source1](https://maven.proxy.ustclug.org/maven2/org/apache/iotdb/iotdb-jdbc/1.2.1/iotdb-jdbc-1.2.1-jar-with-dependencies.jar) or [source2](https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/1.2.1/iotdb-jdbc-1.2.1-jar-with-dependencies.jar).
   
 6. Add the downloaded jar file， then select `Find Class`.
 
-   ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/03.png)
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/03.png)
 
 7. Edit the driver Settings
 
-   ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/05.png)
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/05.png)
 
    ```
    Driver Name: IoTDB
@@ -71,7 +71,7 @@ DBeaver is a SQL client software application and a database administration tool.
 
 8. Open New DataBase Connection and select iotdb
 
-   ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/06.png) 
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/06.png) 
 
 9.  Edit JDBC Connection Settings
 
@@ -80,12 +80,12 @@ DBeaver is a SQL client software application and a database administration tool.
    Username: root
    Password: root
    ```
-   ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/07.png)
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/07.png)
 
 10. Test Connection
 
-   ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/08.png)
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/08.png)
 
 11. Enjoy IoTDB with DBeaver
 
-   ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/09.png)
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/09.png)

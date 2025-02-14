@@ -98,7 +98,7 @@ Where SELECT_STATEMENT corresponds to the query statement that needs to be analy
 In the EXPLAIN ANALYZE result set, the following information is included:
 
 
-![explain-analyze-1.png](https://alioss.timecho.com/upload/explain-analyze-1.png)
+![explain-analyze-1.png](/img/explain-analyze-1.png)
 
 
 - QueryStatistics contains statistical information at the query level, mainly including the time spent in the planning and parsing phase, Fragment metadata, and other information.
@@ -110,7 +110,7 @@ In the EXPLAIN ANALYZE result set, the following information is included:
 
 Since the Fragment will output all the node information executed in the current node, when a query involves too many series, each node is output, which will cause the result set returned by Explain Analyze to be too large. Therefore, when the same type of node exceeds 10, the system will automatically merge all the same types of nodes under the current Fragment, and the merged statistical information is also accumulated. Some custom information that cannot be merged will be directly discarded (as shown in the figure below).
 
-![explain-analyze-2.png](https://alioss.timecho.com/upload/explain-analyze-2.png)
+![explain-analyze-2.png](/img/explain-analyze-2.png)
 
 Users can also modify the configuration item `merge_threshold_of_explain_analyze` in `iotdb-system.properties` to set the threshold for triggering the merge of nodes. This parameter supports hot loading.
 
@@ -316,7 +316,7 @@ During the upgrade, only the lib package was replaced, and the conf/logback-data
 
 #### Case Study 1: The query involves too many files, and disk IO becomes a bottleneck, causing the query speed to slow down.
 
-![explain-analyze-3.png](https://alioss.timecho.com/upload/explain-analyze-3.png)
+![explain-analyze-3.png](/img/explain-analyze-3.png)
 
 The total query time is 938 ms, of which the time to read the index area and data area from the files accounts for 918 ms, involving a total of 289 files. Assuming the query involves N TsFiles, the theoretical time for the first query (not hitting the cache) is cost = N * (t_seek + t_index + t_seek + t_chunk). Based on experience, the time for a single seek on an HDD disk is about 5-10ms, so the more files involved in the query, the greater the query delay will be.
 
@@ -337,9 +337,9 @@ select count(s1) as total from root.db.d1 where s1 like '%XXXXXXXX%'
 
 When executing explain analyze verbose, even if the query times out, the intermediate collection results will be output to log_explain_analyze.log every 15 seconds. The last two outputs obtained from log_explain_analyze.log are as follows:
 
-![explain-analyze-4.png](https://alioss.timecho.com/upload/explain-analyze-4.png)
+![explain-analyze-4.png](/img/explain-analyze-4.png)
 
-![explain-analyze-5.png](https://alioss.timecho.com/upload/explain-analyze-5.png)
+![explain-analyze-5.png](/img/explain-analyze-5.png)
 
 
 Observing the results, we found that it is because the query did not add a time condition, involving too much data, and the time of constructAlignedChunkReadersDiskTime and pageReadersDecodeAlignedDiskTime has been increasing, which means that new chunks are being read all the time. However, the output information of AlignedSeriesScanNode has always been 0, because the operator only gives up the time slice and updates the information when at least one line of data that meets the condition is output. Looking at the total reading time (loadTimeSeriesMetadataAlignedDiskSeqTime + loadTimeSeriesMetadataAlignedDiskUnSeqTime + constructAlignedChunkReadersDiskTime + pageReadersDecodeAlignedDiskTime = about 13.4 seconds), the other time (60s - 13.4 = 46.6) should all be spent on executing the filtering condition (the execution of the like predicate is very time-consuming).

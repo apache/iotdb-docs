@@ -28,7 +28,7 @@ Dual active usually refers to two independent machines (or clusters) that perfor
 - The dual active deployment scheme allows for high availability with fewer than 3 physical nodes and has certain advantages in deployment costs. At the same time, the physical supply isolation of two sets of single machines (or clusters) can be achieved through the dual ring network of power and network, ensuring the stability of operation.
 - At present, the dual active capability is a feature of the enterprise version.
 
-![](https://alioss.timecho.com/docs/img/20240731104336.png)
+![](/img/20240731104336.png)
 
 ## Note
 
@@ -116,11 +116,11 @@ show  cluster
 
 **Machine A**:
 
-![](https://alioss.timecho.com/docs/img/%E5%8F%8C%E6%B4%BB-A.png)
+![](/img/%E5%8F%8C%E6%B4%BB-A.png)
 
 **Machine B**:
 
-![](https://alioss.timecho.com/docs/img/%E5%8F%8C%E6%B4%BB-B.png)
+![](/img/%E5%8F%8C%E6%B4%BB-B.png)
 
 Ensure that every Configurable Node and DataNode is in the Running state.
 
@@ -132,7 +132,7 @@ Ensure that every Configurable Node and DataNode is in the Running state.
 show pipes
 ```
 
-![](https://alioss.timecho.com/docs/img/show%20pipes-A.png)
+![](/img/show%20pipes-A.png)
 
 - Check the synchronization status on machine B
 
@@ -140,7 +140,7 @@ show pipes
 show pipes
 ```
 
-![](https://alioss.timecho.com/docs/img/show%20pipes-B.png)
+![](/img/show%20pipes-B.png)
 
 Ensure that every pipe is in the RUNNING state.
 

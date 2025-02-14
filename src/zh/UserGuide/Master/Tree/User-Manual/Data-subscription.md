@@ -14,7 +14,7 @@ IoTDB 数据订阅模块（又称 IoTDB 订阅客户端）是IoTDB V1.3.3 版本
 IoTDB 订阅客户端包含 3 个核心概念：Topic、Consumer、Consumer Group，具体关系如下图
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/Data-sub01.png" alt="" style="width: 60%;"/>
+    <img src="/img/Data-sub01.png" alt="" style="width: 60%;"/>
 </div>
 
 1. **Topic（主题）**: Topic 是 IoTDB 的数据空间，由路径和时间范围表示（如 root.** 的全时间范围）。消费者可以订阅这些主题的数据（当前已有的和未来写入的）。不同于 Kafka，IoTDB 可在数据入库后再创建 Topic，且输出格式可选择 Message 或 TsFile 两种。
@@ -36,7 +36,7 @@ IoTDB 订阅客户端包含 3 个核心概念：Topic、Consumer、Consumer Grou
 IoTDB 支持通过 SQL 语句对 Topic 进行创建、删除、查看操作。Topic状态变化如下图所示：
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/Data_sub_02.png" alt="" style="width: 60%;"/>
+    <img src="/img/Data_sub_02.png" alt="" style="width: 60%;"/>
 </div>
 
 #### 3.1.1 创建 Topic

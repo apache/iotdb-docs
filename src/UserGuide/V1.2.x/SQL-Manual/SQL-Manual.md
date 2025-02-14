@@ -110,7 +110,7 @@ IoTDB> SHOW TTL ON StorageGroupNames
 
 For more details, see document [Operate-Metadata](../User-Manual/Operate-Metadata.md).
 
-![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
+![img](/img/%E6%A8%A1%E6%9D%BF.png)
 
 
 
@@ -120,7 +120,7 @@ Create device root.sg.d1
 
 
 
-![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF%E6%B5%81%E7%A8%8B.png)
+![img](/img/%E6%A8%A1%E6%9D%BF%E6%B5%81%E7%A8%8B.png)
 
 ### Create Schema Template
 

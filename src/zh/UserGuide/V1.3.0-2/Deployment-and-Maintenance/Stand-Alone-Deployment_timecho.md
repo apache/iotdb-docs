@@ -169,13 +169,13 @@ cd sbin
 
 成功启动后，出现如下界面显示IOTDB安装成功。
 
-![](https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8%E6%88%90%E5%8A%9F.png)
+![](/img/%E5%90%AF%E5%8A%A8%E6%88%90%E5%8A%9F.png)
 
 出现安装成功界面后，继续看下是否激活成功，使用`show cluster`命令
 
 当看到最右侧显示ACTIVATED表示激活成功
 
-![](https://alioss.timecho.com/docs/img/show%20cluster.png)
+![](/img/show%20cluster.png)
 
 > 出现`ACTIVATED(W)`为被动激活，表示此ConfigNode没有license文件（或没有签发时间戳最新的license文件）。此时建议检查license文件是否已放入license文件夹，没有请放入license文件，若已存在license文件，可能是此节点license文件与其他节点信息不一致导致，请联系天谋工作人员重新申请.
 

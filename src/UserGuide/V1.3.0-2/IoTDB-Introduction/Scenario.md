@@ -36,7 +36,7 @@ In the original architecture, the HBase cluster was used as the storage database
 The data management architecture of the car company using IoTDB as the time-series data storage engine is shown in the figure below.
 
 
-![img](https://alioss.timecho.com/docs/img/architecture1.png)
+![img](/img/architecture1.png)
 
 The vehicle data is encoded based on TCP and industrial protocols and sent to the edge gateway, and the gateway sends the data to the message queue Kafka cluster, decoupling the two ends of production and consumption. Kafka sends data to Flink for real-time processing, and the processed data is written into IoTDB. Both historical data and latest data are queried in IoTDB, and finally the data flows into the visualization platform through API for application.
 
@@ -59,7 +59,7 @@ After selecting IoTDB as the storage database of the intelligent operation and m
 
 The figure below shows the architecture design of the intelligent operation and maintenance platform of the steel plant.           
 
-![img](https://alioss.timecho.com/docs/img/architecture2.jpg)
+![img](/img/architecture2.jpg)
 
 ## Application 3: Smart Factory
 
@@ -73,7 +73,7 @@ A cigarette factory hopes to upgrade from a "traditional factory" to a "high-end
 
 The figure below shows the factory's IoT system architecture. IoTDB runs through the three-level IoT platform of the company, factory, and workshop to realize unified joint debugging and joint control of equipment. The data at the workshop level is collected, processed and stored in real time through the IoTDB at the edge layer, and a series of analysis tasks are realized. The preprocessed data is sent to the IoTDB at the platform layer for data governance at the business level, such as device management, connection management, and service support. Eventually, the data will be integrated into the IoTDB at the group level for comprehensive analysis and decision-making across the organization.
 
-![img](https://alioss.timecho.com/docs/img/architecture3.jpg)
+![img](/img/architecture3.jpg)
 
 
 ## Application 4: Condition monitoring
@@ -90,5 +90,5 @@ After using IoTDB as the storage and analysis engine, combined with meteorologic
 
 The figure below shows the data management architecture of the power plant in the heating scene.
 
-![img](https://alioss.timecho.com/docs/img/architecture4.jpg)
+![img](/img/architecture4.jpg)
 

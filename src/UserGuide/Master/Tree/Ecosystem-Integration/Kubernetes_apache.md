@@ -102,7 +102,7 @@ kubectl apply -f pv-02.yaml
 ```Bash
 kubectl get pv
 ```
-<img src="https://alioss.timecho.com/docs/img/Kubernetes01.png" alt="" style="width: 70%;"/>
+<img src="/img/Kubernetes01.png" alt="" style="width: 70%;"/>
 
 ### 3.4 Manually Create Directories
 
@@ -400,7 +400,7 @@ start-cli.sh -h 172.20.31.87 -p 31895
 start-cli.sh -h 172.20.31.88 -p 31895
 ```
 
-<img src="https://alioss.timecho.com/docs/img/Kubernetes02.png" alt="" style="width: 70%;"/>
+<img src="/img/Kubernetes02.png" alt="" style="width: 70%;"/>
 
 ## 10. Scaling
 
@@ -408,7 +408,7 @@ start-cli.sh -h 172.20.31.88 -p 31895
 
 Add a new PV; scaling is only possible with available PVs.
 
-<img src="https://alioss.timecho.com/docs/img/Kubernetes03.png" alt="" style="width: 70%;"/>
+<img src="/img/Kubernetes03.png" alt="" style="width: 70%;"/>
 
 **Note: DataNode cannot join the cluster after restart**
 
@@ -425,7 +425,7 @@ Modify the values.yaml file in iotdb-cluster-k8s/helm to change the number of Co
 helm upgrade iotdb . -n iotdb-ns
 ```
 
-<img src="https://alioss.timecho.com/docs/img/Kubernetes04.png" alt="" style="width: 70%;"/>
+<img src="/img/Kubernetes04.png" alt="" style="width: 70%;"/>
 
 
 ### 10.3 Scale DataNode

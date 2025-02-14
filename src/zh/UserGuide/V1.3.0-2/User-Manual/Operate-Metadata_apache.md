@@ -304,9 +304,9 @@ It costs 0.058s
 IoTDB 支持设备模板功能，实现同类型不同实体的物理量元数据共享，减少元数据内存占用，同时简化同类型实体的管理。
 
 
-![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
+![img](/img/%E6%A8%A1%E6%9D%BF.png)
 
-![img](https://alioss.timecho.com/docs/img/template.jpg)
+![img](/img/template.jpg)
 
 ### 创建设备模板
 
@@ -733,7 +733,7 @@ It costs 0.004s
 
 那么 Metadata Tree 如下所示：
 
-<img style="width:100%; max-width:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/69792176-1718f400-1201-11ea-861a-1a83c07ca144.jpg">
+<img style="width:100%; max-width:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/69792176-1718f400-1201-11ea-861a-1a83c07ca144.jpg">
 
 可以看到，`root`被定义为`LEVEL=0`。那么当你输入如下语句时：
 

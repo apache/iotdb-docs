@@ -23,7 +23,7 @@
 本小节将以IoTDB经典集群部署架构3C3D（3个ConfigNode和3个DataNode）为例，介绍如何部署集群，即通常所说的3C3D集群。3C3D集群架构图如下：
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/cluster01.png" alt="" style="width: 60%;"/>
+    <img src="/img/cluster01.png" alt="" style="width: 60%;"/>
 </div>
 
 ## 注意事项
@@ -162,11 +162,11 @@ cd sbin
 
    成功启动后，出现如下界面显示IOTDB安装成功。
 
-![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90%E6%88%90%E5%8A%9F.png)
+![](/img/%E5%BC%80%E6%BA%90%E6%88%90%E5%8A%9F.png)
 
 ​	可以使用`show cluster` 命令查看集群信息：
 
-![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90%E7%89%88%20show%20cluter.png)
+![](/img/%E5%BC%80%E6%BA%90%E7%89%88%20show%20cluter.png)
 
 > 出现`ACTIVATED(W)`为被动激活，表示此ConfigNode没有license文件（或没有签发时间戳最新的license文件），其激活依赖于集群中其它Activate状态的ConfigNode。此时建议检查license文件是否已放入license文件夹，没有请放入license文件，若已存在license文件，可能是此节点license文件与其他节点信息不一致导致，请联系天谋工作人员重新申请.
 

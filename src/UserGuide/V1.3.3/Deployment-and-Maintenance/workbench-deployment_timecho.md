@@ -23,8 +23,8 @@
 The visualization console is one of the supporting tools for IoTDB (similar to Navicat for MySQL). It is an official application tool system used for database deployment implementation, operation and maintenance management, and application development stages, making the use, operation, and management of databases simpler and more efficient, truly achieving low-cost management and operation of databases. This document will assist you in installing Workbench.
 
  <div style="display: flex;justify-content: space-between;">                
-   <img src="https://alioss.timecho.com/docs/img/workbench-en-pklh.png" alt=" " style="width: 50%;"/>
-   <img src="https://alioss.timecho.com/docs/img/workbench-en-bxzk.png" alt=" " style="width: 50%;"/>     
+   <img src="/img/workbench-en-pklh.png" alt=" " style="width: 50%;"/>
+   <img src="/img/workbench-en-bxzk.png" alt=" " style="width: 50%;"/>     
 </div>
 
 The instructions for using the visualization console tool can be found in the [Instructions](../Tools-System/Monitor-Tool.md) section of the document.
@@ -109,7 +109,7 @@ The instructions for using the visualization console tool can be found in the [I
 
 3. After restarting, confirm the running status of each node through the client. If the status is Running, it indicates successful configuration:
 
-    ![](https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8.PNG)
+    ![](/img/%E5%90%AF%E5%8A%A8.png)
 
 ### Step 2: Install and configure Prometheus
 
@@ -152,8 +152,8 @@ The instructions for using the visualization console tool can be found in the [I
 5. Confirm successful startup. Enter in browser `http://IP:port` Go to Prometheus and click on the Target interface under Status. When you see that all States are Up, it indicates successful configuration and connectivity.
 
  <div style="display: flex;justify-content: space-between;">
-      <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
-      <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_2.png" alt="" style="width: 48%;"/>
+      <img src="/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
+      <img src="/img/%E5%90%AF%E5%8A%A8_2.png" alt="" style="width: 48%;"/>
     </div>
 
 
@@ -168,7 +168,7 @@ The instructions for using the visualization console tool can be found in the [I
    | ---------------- | ----------------------------------- | ----------------------------------------------- |
    | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<Workbench's IP address>` |
 
-    ![](https://alioss.timecho.com/docs/img/workbench-conf-1.png)
+    ![](/img/workbench-conf-1.png)
 
 3. Startup program: Please execute the startup command in the sbin folder of IoTDB Workbench -`<version>`
     Windows:
@@ -183,18 +183,18 @@ The instructions for using the visualization console tool can be found in the [I
     ```
 4. You can use the `jps` command to check if the startup was successful, as shown in the figure:
 
-    ![](https://alioss.timecho.com/docs/img/windows-jps.png)
+    ![](/img/windows-jps.png)
 
 5. Verification successful: Open "`http://Server IP: Port in configuration file`" in the browser to access, for example:"`http://127.0.0.1:9190`" When the login interface appears, it is considered successful
 
-    ![](https://alioss.timecho.com/docs/img/workbench-en.png)
+    ![](/img/workbench-en.png)
 
 
 ### Step 4: Configure Instance Information
 
 1. Configure instance information: You only need to fill in the following information to connect to the instance
 
-   ![](https://alioss.timecho.com/docs/img/workbench-en-1.jpeg)
+   ![](/img/workbench-en-1.jpeg)
 
 
     | Field Name      | Is It A Required Field | Field Meaning                                                | Default Value |
@@ -208,7 +208,7 @@ The instructions for using the visualization console tool can be found in the [I
 
 2. Test the accuracy of the information filled in: You can perform a connection test on the instance information by clicking the "Test" button
 
-    ![](https://alioss.timecho.com/docs/img/workbench-en-2.png)
+    ![](/img/workbench-en-2.png)
 
 ## Appendix: IoTDB and Workbench Version Comparison Table
 

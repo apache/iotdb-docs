@@ -25,7 +25,7 @@ AINode 是 IoTDB 在ConfigNode、DataNode后提供的第三种内生节点，该
 
 系统架构如下图所示：
 ::: center
-<img src="https://alioss.timecho.com/docs/img/h4.PNG" style="zoom:50%" />
+<img src="/img/h4.png" style="zoom:50%" />
 ::: 
 三种节点的职责如下：
 
@@ -41,7 +41,7 @@ AINode 是 IoTDB 在ConfigNode、DataNode后提供的第三种内生节点，该
 
 - **避免数据迁移**：使用 IoTDB 原生机器学习可以将存储在 IoTDB 中的数据直接应用于机器学习模型的推理，无需将数据移动到单独的机器学习服务平台，从而加速数据处理、提高安全性并降低成本。
 
-![](https://alioss.timecho.com/docs/img/h1.PNG)
+![](/img/h1.png)
 
 - **内置先进算法**：支持业内领先机器学习分析算法，覆盖典型时序分析任务，为时序数据库赋能原生数据分析能力。如：
   - **时间序列预测（Time Series Forecasting）**：从过去时间序列中学习变化模式；从而根据给定过去时间的观测值，输出未来序列最可能的预测。
@@ -57,7 +57,7 @@ AINode 是 IoTDB 在ConfigNode、DataNode后提供的第三种内生节点，该
 - **内置能力（Built-in）**：AINode 自带常见时序分析场景（例如预测与异常检测）的机器学习算法或自研模型。
 
 ::: center
-<img src="https://alioss.timecho.com/docs/img/h3.PNG" style="zoom:50%" />
+<img src="/img/h3.png" style="zoom:50%" />
 :::
 
 ## 安装部署
@@ -301,13 +301,13 @@ window_function:
 - **sql**：sql查询语句，查询的结果作为模型的输入进行模型推理。查询的结果中行列的维度需要与具体模型config中指定的大小相匹配。(这里的sql不建议使用`SELECT *`子句，因为在IoTDB中，`*`并不会对列进行排序，因此列的顺序是未定义的，可以使用`SELECT s0,s1`的方式确保列的顺序符合模型输入的预期)
 - **window_function**: 推理过程中可以使用的窗口函数，目前提供三种类型的窗口函数用于辅助模型推理：
   - **head(window_size)**: 获取数据中最前的window_size个点用于模型推理，该窗口可用于数据裁剪
-  ![](https://alioss.timecho.com/docs/img/AINode-call1.png)
+  ![](/img/AINode-call1.png)
 
   - **tail(window_size)**：获取数据中最后的window_size个点用于模型推，该窗口可用于数据裁剪
-  ![](https://alioss.timecho.com/docs/img/AINode-call2.png)
+  ![](/img/AINode-call2.png)
 
   - **count(window_size, sliding_step)**：基于点数的滑动窗口，每个窗口的数据会分别通过模型进行推理，如下图示例所示，window_size为2的窗口函数将输入数据集分为三个窗口，每个窗口分别进行推理运算生成结果。该窗口可用于连续推理
-  ![](https://alioss.timecho.com/docs/img/AINode-call3.png)
+  ![](/img/AINode-call3.png)
 
 **说明1: window可以用来解决sql查询结果和模型的输入行数要求不一致时的问题，对行进行裁剪。需要注意的是，当列数不匹配或是行数直接少于模型需求时，推理无法进行，会返回错误信息。**
 
@@ -456,7 +456,7 @@ Total line number = 4
 
 在部分工业场景下，会存在预测电力负载的需求，预测结果可用于优化电力供应、节约能源和资源、支持规划和扩展以及增强电力系统的可靠性。
 
-我们所使用的 ETTh1 的测试集的数据为[ETTh1](https://alioss.timecho.com/docs/img/ETTh1.csv)。
+我们所使用的 ETTh1 的测试集的数据为[ETTh1](/img/ETTh1.csv)。
 
 
 包含间隔1h采集一次的电力数据，每条数据由负载和油温构成，分别为：High UseFul Load, High UseLess Load, Middle UseLess Load, Low UseFul Load, Low UseLess Load, Oil Temperature。
@@ -519,7 +519,7 @@ Total line number = 48
 
 图中10/24 00:00之前的数据为输入模型的过去数据，10/24 00:00后的蓝色线条为模型给出的油温预测结果，而红色为数据集中实际的油温数据（用于进行对比）。
 
-![](https://alioss.timecho.com/docs/img/AINode-analysis1.png)
+![](/img/AINode-analysis1.png)
 
 可以看到，我们使用了过去96个小时（4天）的六个负载信息和对应时间油温的关系，基于之前学习到的序列间相互关系对未来48个小时（2天）的油温这一数据的可能变化进行了建模，可以看到可视化后预测曲线与实际结果在趋势上保持了较高程度的一致性。
 
@@ -529,7 +529,7 @@ Total line number = 48
 
 我们利用某变电站中的电流、电压和功率等数据构成了真实场景下的数据集。该数据集包括变电站近四个月时间跨度，每5 - 6s 采集一次的 A相电压、B相电压、C相电压等数据。
 
-测试集数据内容为[data](https://alioss.timecho.com/docs/img/data.csv)。
+测试集数据内容为[data](/img/data.csv)。
 
 在该数据集上，IoTDB-ML的模型推理功能可以通过以往A相电压，B相电压和C相电压的数值和对应时间戳，预测未来一段时间内的C相电压，赋能变电站的监视管理。
 
@@ -584,7 +584,7 @@ Total line number = 48
 
 图中 02/14 20:48 之前的数据为输入模型的过去数据， 02/14 20:48 后的蓝色线条为模型给出的C相电压预测结果，而红色为数据集中实际的C相电压数据（用于进行对比）。
 
-![](https://alioss.timecho.com/docs/img/AINode-analysis2.png)
+![](/img/AINode-analysis2.png)
 
 可以看到，我们使用了过去10分钟的电压的数据，基于之前学习到的序列间相互关系对未来5分钟的C相电压这一数据的可能变化进行了建模，可以看到可视化后预测曲线与实际结果在趋势上保持了一定的同步性。
 
@@ -592,7 +592,7 @@ Total line number = 48
 
 在民航交通运输业，存在着对乘机旅客数量进行异常检测的需求。异常检测的结果可用于指导调整航班的调度，以使得企业获得更大效益。
 
-Airline Passengers一个时间序列数据集，该数据集记录了1949年至1960年期间国际航空乘客数量，间隔一个月进行一次采样。该数据集共含一条时间序列。数据集为[airline](https://alioss.timecho.com/docs/img/airline.csv)。
+Airline Passengers一个时间序列数据集，该数据集记录了1949年至1960年期间国际航空乘客数量，间隔一个月进行一次采样。该数据集共含一条时间序列。数据集为[airline](/img/airline.csv)。
 在该数据集上，IoTDB-ML的模型推理功能可以通过捕捉序列的变化规律以对序列时间点进行异常检测，赋能交通运输业。
 
 #### 步骤一：数据导入
@@ -645,6 +645,6 @@ Total line number = 144
 
 我们将检测为异常的结果进行绘制，可以得到以下图像。其中蓝色曲线为原时间序列，用红色点特殊标注的时间点为算法检测为异常的时间点。
 
-![](https://alioss.timecho.com/docs/img/s6.png)
+![](/img/s6.png)
 
 可以看到，Stray模型对输入序列变化进行了建模，成功检测出出现异常的时间点。

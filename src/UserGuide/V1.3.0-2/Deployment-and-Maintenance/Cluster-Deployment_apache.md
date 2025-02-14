@@ -23,7 +23,7 @@
 This section will take the IoTDB classic cluster deployment architecture 3C3D (3 ConfigNodes and 3 DataNodes) as an example to introduce how to deploy a cluster, commonly known as the 3C3D cluster. The architecture diagram of the 3C3D cluster is as follows:
 
 <div align="center">
-    <img src="https://alioss.timecho.com/docs/img/20240705141552.png" alt="" style="width: 60%;"/>
+    <img src="/img/20240705141552.png" alt="" style="width: 60%;"/>
 </div>
 
 ## Note
@@ -163,11 +163,11 @@ Can be executed directly Cli startup script in `./sbin`  directory:
 
 After successful startup, the following interface will appear displaying successful installation of IOTDB.
 
-![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90%E6%88%90%E5%8A%9F.png)
+![](/img/%E5%BC%80%E6%BA%90%E6%88%90%E5%8A%9F.png)
 
 You can use the `show cluster` command to view cluster information:
 
-![](https://alioss.timecho.com/docs/img/%E5%BC%80%E6%BA%90%E7%89%88%20show%20cluter.png)
+![](/img/%E5%BC%80%E6%BA%90%E7%89%88%20show%20cluter.png)
 
 
 > The appearance of `ACTIVATED (W)` indicates passive activation, which means that this Configurable Node does not have a license file (or has not issued the latest license file with a timestamp), and its activation depends on other Activated Configurable Nodes in the cluster. At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Timecho staff to reapply.

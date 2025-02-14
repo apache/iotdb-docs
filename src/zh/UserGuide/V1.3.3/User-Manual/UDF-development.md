@@ -127,7 +127,7 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 
 开窗示意图:
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/UDF-User-Defined-Function/timeWindow.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/UserGuide/Process-Data/UDF-User-Defined-Function/timeWindow.png">
 
 `SlidingTimeWindowAccessStrategy`有多种构造方法，您可以向构造方法提供 3 类参数：
 
@@ -142,7 +142,7 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 
 3 类参数的关系可见下图。策略的构造方法详见 Javadoc。
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/99787878-47b51480-2b5b-11eb-8ed3-84088c5c30f7.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/99787878-47b51480-2b5b-11eb-8ed3-84088c5c30f7.png">
 
 > 注意，最后的一些时间窗口的实际时间间隔可能小于规定的时间间隔参数。另外，可能存在某些时间窗口内数据行数量为 0 的情况，这种情况框架也会为该窗口调用一次`transform`方法。
 
@@ -150,7 +150,7 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 
 开窗示意图:
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/UDF-User-Defined-Function/countWindow.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/UserGuide/Process-Data/UDF-User-Defined-Function/countWindow.png">
 
 `SlidingSizeWindowAccessStrategy`有多种构造方法，您可以向构造方法提供 2 个参数：
 
@@ -163,7 +163,7 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 
 开窗示意图：**时间间隔小于等于给定的最小时间间隔 sessionGap 则分为一组。**
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/UDF-User-Defined-Function/sessionWindow.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/UserGuide/Process-Data/UDF-User-Defined-Function/sessionWindow.png">
 
 
 `SessionTimeWindowAccessStrategy`有多种构造方法，您可以向构造方法提供 2 类参数：
@@ -175,7 +175,7 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 
 开窗示意图：**对于数值型数据，状态差值小于等于给定的阈值 delta 则分为一组。**
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/UDF-User-Defined-Function/stateWindow.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/UserGuide/Process-Data/UDF-User-Defined-Function/stateWindow.png">
 
 `StateWindowAccessStrategy`有四种构造方法：
 
