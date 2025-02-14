@@ -94,6 +94,6 @@ export IoTDB_DATABASE=root.thingsboard  ## Thingsboard data is written to the da
 4. Data Visualization: Configure datasource and parameters for data visualization.
 
  <div style="display: flex;justify-content: space-between;">           
-    <img src="/img/thingsboard-en1.png" alt=" " style="width: 50%;"/>
+    <img src="/img/ThingsBoard-en1.png" alt=" " style="width: 50%;"/>
     <img src="/img/thingsboard-en7.png" alt=" " style="width: 50%;"/>     
  </div>
