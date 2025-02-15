@@ -211,7 +211,7 @@ sbin/start-confignode.bat
 
 #### 移除ConfigNode节点
 
-首先通过CLI连接集群，通过`show confignodes`确认想要移除ConfigNode的内部地址与端口号：
+首先通过CLI连接集群，通过`show confignodes`确认想要移除ConfigNode的NodeId：
 
 ```Bash
 IoTDB> show confignodes
@@ -226,15 +226,10 @@ Total line number = 3
 It costs 0.030s
 ```
 
-然后使用脚本将DataNode移除。脚本命令：
+然后使用SQL将ConfigNode移除，SQL命令：
 
 ```Bash
-# Linux / MacOS 
-sbin/remove-confignode.sh [confignode_id]
-
-#Windows
-sbin/remove-confignode.bat [confignode_id]
-
+remove confignode [confignode_id]
 ```
 
 ### DataNode节点维护
@@ -280,7 +275,7 @@ sbin/start-datanode.bat
 
 #### 移除DataNode节点
 
-首先通过CLI连接集群，通过`show datanodes`确认想要移除的DataNode的RPC地址与端口号：
+首先通过CLI连接集群，通过`show datanodes`确认想要移除的DataNode的NodeID：
 
 ```Bash
 IoTDB> show datanodes
@@ -295,14 +290,10 @@ Total line number = 3
 It costs 0.110s
 ```
 
-然后使用脚本将DataNode移除。脚本命令：
+然后使用SQL将DataNode移除，SQL命令：
 
 ```Bash
-# Linux / MacOS 
-sbin/remove-datanode.sh [datanode_id]
-
-#Windows
-sbin/remove-datanode.bat [datanode_id]
+remove datanode [datanode_id]
 ```
 
 ## 常见问题
