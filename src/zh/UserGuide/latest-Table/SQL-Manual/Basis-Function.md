@@ -149,7 +149,7 @@ SELECT * FROM table1 WHERE region NOT IN ('北京', '上海');
 | MAX_BY      | MAX_BY(x, y) 求二元输入 x 和 y 在 y 最大时对应的 x 的值。MAX_BY(time, x) 返回 x 取最大值时对应的时间戳。 | x 和 y 可以是任意类型    | 与第一个输入 x 的数据类型一致 |
 | MIN_BY      | MIN_BY(x, y) 求二元输入 x 和 y 在 y 最小时对应的 x 的值。MIN_BY(time, x) 返回 x 取最小值时对应的时间戳。 | x 和 y 可以是任意类型    | 与第一个输入 x 的数据类型一致 |
 | FIRST_BY    | FIRST_BY(x, y) 求当 y 为第一个不为 NULL 的值时，同一行里对应的 x 值。 | x 和 y 可以是任意类型    | 与第一个输入 x 的数据类型一致 |
-| LAST_BY     | FIRST_BY(x, y) 求当 y 为最后一个不为 NULL 的值时，同一行里对应的 x 值。 | x 和 y 可以是任意类型    | 与第一个输入 x 的数据类型一致 |
+| LAST_BY     | LAST_BY(x, y) 求当 y 为最后一个不为 NULL 的值时，同一行里对应的 x 值。 | x 和 y 可以是任意类型    | 与第一个输入 x 的数据类型一致 |
 
 ### 3. 示例
 
