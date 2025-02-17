@@ -90,6 +90,14 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '数据同步', link: 'Data-Sync_apache' },
+        {
+          text: '系统运维',
+          collapsible: true,
+          children: [
+            { text: '查询性能分析', link: 'Query-Performance-Analysis' },
+            { text: '运维语句', link: 'Operations-statement' },
+          ],
+        },
       ],
     },
     {
