@@ -967,7 +967,7 @@ The environment configuration item is mainly used to configure Java environment 
 | ------------ | ------------------------------------------------ |
 | Description         | The maximum number of DataRegions expected to be managed by each DataNode. |
 | Type         | double                                           |
-| Default       | 5.0                                              |
+| Default       | Half of the CPU cores                                              |
 | Effective | After restarting system                                         |
 
 - enable_auto_leader_balance_for_ratis_consensus
