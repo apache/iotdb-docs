@@ -966,7 +966,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | ------------ | ------------------------------------------------ |
 | 描述         | 期望每个 DataNode 可管理的 DataRegion 的最大数量 |
 | 类型         | double                                           |
-| 默认值       | 5.0                                              |
+| 默认值       |  CPU 核心数的一半                                              |
 | 改后生效方式 | 重启服务生效                                         |
 
 - enable_auto_leader_balance_for_ratis_consensus

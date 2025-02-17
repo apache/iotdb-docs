@@ -155,7 +155,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |:------:|:-----------------------------|
 |   描述   | 期望每个 DataNode 可管理的 DataRegion 的最大数量 |
 |   类型   | double                       |
-|  默认值   | 1.0                          |
+|  默认值   | CPU 核心数的一半                         |
 | 改后生效方式 | 重启生效                       |
 
 * enable\_data\_partition\_inherit\_policy
