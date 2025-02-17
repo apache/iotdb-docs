@@ -55,14 +55,18 @@ When the written data type is inconsistent with the data type of time-series,
 
 The compatibility of each data type is shown in the following table:
 
-| Series Data Type | Supported Written Data Types |
-| ---------------- | ---------------------------- |
-| BOOLEAN          | BOOLEAN                      |
-| INT32            | INT32                        |
-| INT64            | INT32 INT64                  |
-| FLOAT            | INT32 FLOAT                  |
-| DOUBLE           | INT32 INT64 FLOAT DOUBLE     |
-| TEXT             | TEXT                         |
+| Series Data Type | Supported Written Data Types      |
+| ---------------- | ----------------------------------|
+| BOOLEAN          | BOOLEAN                           |
+| INT32            | INT32                             |
+| INT64            | INT32 INT64 TIMESTAMP             |
+| FLOAT            | INT32 FLOAT                       |
+| DOUBLE           | INT32 INT64 FLOAT DOUBLE TIMESTAMP|
+| TEXT             | TEXT STRING                       |
+| STRING           | TEXT STRING                       |
+| BLOB             | TEXT STRING BLOB                  |
+| TIMESTAMP        | INT32 INT64 TIMESTAMP             |
+| DATE             | DATE                              |
 
 ## Timestamp
 
