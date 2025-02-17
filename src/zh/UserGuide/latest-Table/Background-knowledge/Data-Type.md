@@ -57,14 +57,18 @@ CREATE TIMESERIES root.vehicle.d0.s0 WITH DATATYPE=FLOAT, ENCODING=RLE, 'MAX_POI
 
 各数据类型的兼容情况如下表所示：
 
-| 序列数据类型 | 支持的写入数据类型       |
-|--------------|--------------------------|
-| BOOLEAN      | BOOLEAN                  |
-| INT32        | INT32                    |
-| INT64        | INT32 INT64              |
-| FLOAT        | INT32 FLOAT              |
-| DOUBLE       | INT32 INT64 FLOAT DOUBLE |
-| TEXT         | TEXT                     |
+| 序列数据类型 | 支持的写入数据类型                     |
+|--------------|-----------------------------------|
+| BOOLEAN      | BOOLEAN                           |
+| INT32        | INT32                             |
+| INT64        | INT32 INT64 TIMESTAMP             |
+| FLOAT        | INT32 FLOAT                       |
+| DOUBLE       | INT32 INT64 FLOAT DOUBLE TIMESTAMP|
+| TEXT         | TEXT STRING                       |
+| STRING       | TEXT STRING                       |
+| BLOB         | TEXT STRING BLOB                  |
+| TIMESTAMP    | INT32 INT64 TIMESTAMP             |
+| DATE         | DATE                              |
 
 ## 时间戳类型
 
