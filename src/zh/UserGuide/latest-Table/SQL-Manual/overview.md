@@ -50,4 +50,4 @@ IoTDB 查询语法提供以下子句：
 ## 2 子句执行顺序
 
 
-![](/img/%E5%AD%90%E5%8F%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F.png)
+![](/img/%E5%AD%90%E5%8F%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F01.png)
