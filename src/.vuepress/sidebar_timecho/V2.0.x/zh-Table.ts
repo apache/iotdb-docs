@@ -93,6 +93,14 @@ export const zhSidebar = {
       children: [
         { text: '数据同步', link: 'Data-Sync_timecho' },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
+        {
+          text: '系统运维',
+          collapsible: true,
+          children: [
+            { text: '查询性能分析', link: 'Query-Performance-Analysis' },
+            { text: '运维语句', link: 'Maintenance-statement' },
+          ],
+        },
       ],
     },
     {
