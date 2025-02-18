@@ -45,7 +45,7 @@ INSERT INTO <TABLE_NAME> [(COLUMN_NAME[, COLUMN_NAME]*)]? VALUES (COLUMN_VALUE[,
 Since attributes generally do not change over time, it is recommended to update attribute values using the `UPDATE` statement described below，Please refer to the following [Data Update](#2-data-updates).
 
 <div style="text-align: center;">
-  <img src="/img/WriteData01.png" alt="" style="width: 70%;"/>
+  <img src="/img/%E6%95%B0%E6%8D%AE%E5%86%99%E5%85%A5%E8%8B%B1%E6%96%87.png" alt="" style="width: 70%;"/>
 </div>
 
 
