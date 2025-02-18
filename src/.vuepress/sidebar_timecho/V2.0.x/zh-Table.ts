@@ -98,7 +98,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '查询性能分析', link: 'Query-Performance-Analysis' },
-            { text: '运维语句', link: 'Operations-statement' },
+            { text: '运维语句', link: 'Maintenance-statement' },
           ],
         },
       ],
