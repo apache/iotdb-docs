@@ -65,7 +65,7 @@ ALTER TABLE tableB set properties TTL=DEFAULT
 
 ### 2.2 Set TTL for Databases
 
-Tables without explicit TTL settings inherit the TTL of their database. Refer to[Database-Management](../Basic-Concept/Database-Management.md)for details.
+Tables without explicit TTL settings inherit the TTL of their database. Refer to [Database-Management](../Basic-Concept/Database-Management.md)for details.
 
 Example 4: A database with TTL=3600000 creates tables inheriting this TTL:
 
