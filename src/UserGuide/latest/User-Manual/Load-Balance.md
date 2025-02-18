@@ -33,7 +33,7 @@ Under normal operation of the cluster, IoTDB will automatically perform load bal
 Here is a schematic diagram of the region migration process :
 
 
-![](https://alioss.timecho.com/docs/img/region%E8%BF%81%E7%A7%BB%E7%A4%BA%E6%84%8F%E5%9B%BE20241210.png)
+![](/img/region%E8%BF%81%E7%A7%BB%E7%A4%BA%E6%84%8F%E5%9B%BE20241210.png)
 
 ### Notes
 

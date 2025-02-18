@@ -1,4 +1,7 @@
 # WorkBench
+
+The deployment of the visualization console can refer to the document [Workbench Deployment](../Deployment-and-Maintenance/workbench-deployment_timecho.md) chapter.
+
 ## Product Introduction
 IoTDB Visualization Console is an extension component developed for industrial scenarios based on the IoTDB Enterprise Edition time series database. It integrates real-time data collection, storage, and analysis, aiming to provide users with efficient and reliable real-time data storage and query solutions. It features lightweight, high performance, and ease of use, seamlessly integrating with the Hadoop and Spark ecosystems. It is suitable for high-speed writing and complex analytical queries of massive time series data in industrial IoT applications.
 
@@ -21,10 +24,10 @@ IoTDB Visualization Console is an extension component developed for industrial s
 
 Main feature showcase
 * Home
-![首页.png](https://alioss.timecho.com/docs/img/%E9%A6%96%E9%A1%B5.png)
+![首页.png](/img/%E9%A6%96%E9%A1%B5.png)
 * Measurement Point List
-![测点列表.png](https://alioss.timecho.com/docs/img/workbench-en-bxzk.png)
+![测点列表.png](/img/workbench-en-bxzk.png)
 * Data Query
-![数据查询.png](https://alioss.timecho.com/docs/img/%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2.png)
+![数据查询.png](/img/%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2.png)
 * Trend
-![历史趋势.png](https://alioss.timecho.com/docs/img/%E5%8E%86%E5%8F%B2%E8%B6%8B%E5%8A%BF.png)
+![历史趋势.png](/img/%E5%8E%86%E5%8F%B2%E8%B6%8B%E5%8A%BF.png)

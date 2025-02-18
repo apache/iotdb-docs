@@ -92,6 +92,7 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '数据同步', link: 'Data-Sync_timecho' },
+        { text: '多级存储', link: 'Tiered-Storage_timecho' },
       ],
     },
     {
@@ -101,6 +102,9 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '命令行工具', link: 'CLI' },
+        { text: '监控工具', link: 'Monitor-Tool_timecho' },
+        { text: '测试工具', link: 'Benchmark' },
+        { text: '集群管理工具', link: 'Maintenance-Tool_timecho' },
       ],
     },
     {
@@ -135,6 +139,14 @@ export const zhSidebar = {
             { text: 'FILL子句', link: 'Fill-Clause' },
             { text: 'ORDER BY子句', link: 'OrderBy-Clause' },
             { text: 'LIMIT&OFFSET子句', link: 'Limit-Offset-Clause' },
+          ],
+        },
+        {
+          text: '函数与操作符',
+          collapsible: true,
+          children: [
+            { text: '基础函数', link: 'Basis-Function' },
+            { text: '特色函数', link: 'Featured-Functions' },
           ],
         },
       ],

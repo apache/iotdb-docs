@@ -35,7 +35,7 @@ Pipe Source is used to extract data, Pipe Processor is used to process data, Pip
 
 **The model of the Pipe task is as follows:**
 
-![pipe.png](https://alioss.timecho.com/docs/img/1706778988482.jpg)
+![pipe.png](/img/1706778988482.jpg)
 
 Describing a data flow processing task essentially describes the properties of Pipe Source, Pipe Processor and Pipe Sink plugins.
 Users can declaratively configure the specific attributes of the three subtasks through SQL statements, and achieve flexible data ETL capabilities by combining different attributes.
@@ -756,7 +756,7 @@ A stream processing pipe will pass through various states during its managed lif
 
 The following diagram shows all states and state transitions:
 
-![State migration diagram](https://alioss.timecho.com/docs/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
+![State migration diagram](/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
 
 ## authority management
 

@@ -27,13 +27,13 @@ IoT-benchmark 是基于 Java 和大数据环境开发的时序数据库基准测
 
 下图1-1囊括了测试基准流程及其他扩展功能。这些流程可以由IoT-benchmark 统一来完成。IoT Benchmark 支持多种工作负载，包括**纯写入、纯查询、写入查询混合**等，支持**软硬件系统监控、测试指标度量**等监控功能，还实现了**初始化数据库自动化、测试数据分析及系统参数优化**等功能。
 
-![](https://alioss.timecho.com/docs/img/bm1.PNG)
+![](/img/bm1.png)
 
 图1-1
 
 借鉴 YCSB 测试工具将工作负载生成、性能指标测量和数据库接口三个组件分离的设计思想，IoT-benchmark 的模块化设计如图1-2所示。与基于 YCSB 的测试工具系统不同的是，IoT-benchmark 增加了系统监控模块，支持测试数据和系统指标监控数据的持久化。此外也增加了一些特别针对时序数据场景的特殊负载测试功能，如支持物联网场景的批量写入和多种乱序数据写入模式。
 
-![](https://alioss.timecho.com/docs/img/bm2.PNG)
+![](/img/bm2.png)
 
 图1-2
 
@@ -77,7 +77,7 @@ IoT-benchmark 是基于 Java 和大数据环境开发的时序数据库基准测
 
 测试包的目录结构如下图1-3所示。其中测试配置文件为conf/config.properties，测试启动脚本为benchmark\.sh (Linux & MacOS) 和 benchmark.bat (Windows)，详细文件用途见表1-2所示。
 
-![](https://alioss.timecho.com/docs/img/bm3.png)
+![](/img/bm3.png)
 
 图1-3文件和文件夹列表
 
@@ -105,7 +105,7 @@ IoT-benchmark 是基于 Java 和大数据环境开发的时序数据库基准测
 
 测试的所有日志文件被存放于 logs 文件夹下，测试的结果在测试完成后被存放到 data/csvOutput 文件夹下，例如测试后我们得到了如下的结果矩阵：
 
-![](https://alioss.timecho.com/docs/img/bm4.png)
+![](/img/bm4.png)
 
 - Result Matrix
   - OkOperation：成功的对应操作次数
@@ -267,24 +267,24 @@ IoT-benchmark目前支持通过配置参数“TEST_DATA_PERSISTENCE”将测试�
 
 首先在172.21.4.3和172.21.4.4上分别启动被测时间序列数据库Apache-IoTDB和KairosDB，之后在172.21.4.2、172.21.4.3和172.21.4.4上通过ser-benchamrk.sh脚本启动服务器资源监控（图2-1）。然后按照表2-3在172.21.4.2分别修改iotdb-0.13-0.0.1和kairosdb-0.0.1文件夹内的conf/config.properties文件满足测试需求。先后使用benchmark.sh启动对Apache-IoTDB和KairosDB的写入测试。
 
-![img](https://alioss.timecho.com/docs/img/bm5.png)
+![img](/img/bm5.png)
 
 图2-1服务器监控任务
 
 ​    例如我们首先启动对KairosDB的测试，IoT-benchmark会在MySQL数据库中创建CONFIG数据表存放本次测试配置信息（图2-2），测试执行中会有日志输出当前测试进度（图2-3）。测试完成时会输出本次测试结果（图2-3），同时将结果写入FINAL_RESULT数据表中（图2-4）。
 
-![](https://alioss.timecho.com/docs/img/bm6.png)
+![](/img/bm6.png)
 
 图2-2测试配置信息表
 
-![](https://alioss.timecho.com/docs/img/bm7.png)
-![](https://alioss.timecho.com/docs/img/bm8.png)
-![](https://alioss.timecho.com/docs/img/bm9.png)
-![](https://alioss.timecho.com/docs/img/bm10.png)
+![](/img/bm7.png)
+![](/img/bm8.png)
+![](/img/bm9.png)
+![](/img/bm10.png)
 
 图2-3测试进度和结果
 
-![](https://alioss.timecho.com/docs/img/bm11.png)
+![](/img/bm11.png)
 
 图2-4测试结果表
 
@@ -292,14 +292,14 @@ IoT-benchmark目前支持通过配置参数“TEST_DATA_PERSISTENCE”将测试�
 
 依照测试结果信息我们知道同样的配置写入Apache-IoTDB和KairosDB写入延时时间分别为：55.98ms和1324.45ms；写入吞吐分别为：5,125,600.86点/秒和224,819.01点/秒；测试分别执行了585.30秒和11777.99秒。并且KairosDB有写入失败出现，排查后发现是数据磁盘使用率已达到100%，无磁盘空间继续接收数据。而Apache-IoTDB无写入失败现象，全部数据写入完毕后占用磁盘空间仅为4.7G（如图2-5所示）；从写入吞吐和磁盘占用情况上看Apache-IoTDB均优于KairosDB。当然后续还有其他测试来从多方面观察和对比，比如查询性能、文件压缩比、数据安全性等。
 
-![](https://alioss.timecho.com/docs/img/bm12.png)
+![](/img/bm12.png)
 
 图2-5磁盘使用情况
 
 那么测试过程中各个服务器资源使用情况如何呢？每个写操作具体的表现如何呢？这个时候我们就可以通过安装和使用Tableau来可视化服务器监控表和测试过程记录表内的数据了。Tableau的使用本文不展开介绍，通过它连接测试数据持久化的数据表后具体结果下如图（以Apache-IoTDB为例）：
 
-![](https://alioss.timecho.com/docs/img/bm13.png)
-![](https://alioss.timecho.com/docs/img/bm14.png)
+![](/img/bm13.png)
+![](/img/bm14.png)
 
 图2-6Tableau可视化测试过程
 
@@ -326,7 +326,7 @@ IoT-benchmark目前支持通过配置参数“TEST_DATA_PERSISTENCE”将测试�
 
 执行结果：
 
-![](https://alioss.timecho.com/docs/img/bm15.png)
+![](/img/bm15.png)
 
 图2-7查询测试结果
 

@@ -36,7 +36,7 @@
 
    The specific relationship and content between the two modules and ignition are shown in the following figure.
 
-    ![](https://alioss.timecho.com/docs/img/20240703114443.png)
+    ![](/img/20240703114443.png)
 
 ## Installation Requirements
 
@@ -59,23 +59,23 @@ The Ignition-IoTDB Connector provides the ability to store the data collected by
 
 Step 1: Enter the `Configuration` - `System` - `Modules` module and click on the `Install or Upgrade a Module` button at the bottom
 
-![](https://alioss.timecho.com/docs/img/Ignition-IoTDB%E8%BF%9E%E6%8E%A5%E5%99%A8-1.PNG)
+![](/img/Ignition-IoTDB%E8%BF%9E%E6%8E%A5%E5%99%A8-1.png)
 
 Step 2: Select the obtained `modl`, select the file and upload it, click `Install`, and trust the relevant certificate.
 
-![](https://alioss.timecho.com/docs/img/20240703-151030.png)
+![](/img/20240703-151030.png)
 
 Step 3: After installation is completed, you can see the following content
 
-![](https://alioss.timecho.com/docs/img/Ignition-IoTDB%E8%BF%9E%E6%8E%A5%E5%99%A8-3.PNG)
+![](/img/Ignition-IoTDB%E8%BF%9E%E6%8E%A5%E5%99%A8-3.png)
 
 Step 4: Enter the `Configuration` - `Tags` - `History` module and click on `Create new Historical Tag Provider`  below
 
-![](https://alioss.timecho.com/docs/img/Ignition-IoTDB%E8%BF%9E%E6%8E%A5%E5%99%A8-4.png)
+![](/img/Ignition-IoTDB%E8%BF%9E%E6%8E%A5%E5%99%A8-4.png)
 
 Step 5: Select `IoTDB`  and fill in the configuration information
 
-![](https://alioss.timecho.com/docs/img/Ignition-IoTDB%E8%BF%9E%E6%8E%A5%E5%99%A8-5.PNG)
+![](/img/Ignition-IoTDB%E8%BF%9E%E6%8E%A5%E5%99%A8-5.png)
 
 The configuration content is as follows:
 
@@ -163,21 +163,21 @@ The configuration content is as follows:
 
 - After configuring the `Provider`, you can use the `IoTDB Tag Historian` in the `Designer`, just like using other `Providers`. Right click on the corresponding `Tag`  and select `Edit Tag (s) `, then select the History category in the Tag Editor
 
-  ![](https://alioss.timecho.com/docs/img/ignition-7.png)
+  ![](/img/ignition-7.png)
 
 - Set `History Disabled` to `true`, select `Storage Provider` as the `Provider` created in the previous step, configure other parameters as needed, click `OK`, and then save the project. At this point, the data will be continuously stored in the 'IoTDB' instance according to the set content.
 
-  ![](https://alioss.timecho.com/docs/img/ignition-8.png)
+  ![](/img/ignition-8.png)
 
 #### Read Data
 
 - You can also directly select the tags stored in IoTDB under the Data tab of the Report
 
-  ![](https://alioss.timecho.com/docs/img/ignition-9.png)
+  ![](/img/ignition-9.png)
 
 - You can also directly browse relevant data in Components
 
-  ![](https://alioss.timecho.com/docs/img/ignition-10.png)
+  ![](/img/ignition-10.png)
 
 #### Script module: This function can interact with IoTDB
 
@@ -243,15 +243,15 @@ The configuration content is as follows:
 
 Step 1: Enter the `Configuration` - `Databases` -`Drivers` module and create the `Translator`
 
-![](https://alioss.timecho.com/docs/img/Ignition-IoTDB%20With%20JDBC-1.png)
+![](/img/Ignition-IoTDBWithJDBC-1.png)
 
 Step 2: Enter the `Configuration` - `Databases` - `Drivers` module, create a `JDBC Driver` , select the `Translator`  configured in the previous step, and upload the downloaded `IoTDB JDBC`. Set the Classname to `org. apache. iotdb. jdbc.IoTDBDriver`
 
-![](https://alioss.timecho.com/docs/img/Ignition-IoTDB%20With%20JDBC-2.png)
+![](/img/Ignition-IoTDBWithJDBC-2.png)
 
 Step 3: Enter the `Configuration` - `Databases` - `Connections` module, create a new `Connections` , select the`IoTDB Driver` created in the previous step for `JDBC Driver`, configure the relevant information, and save it to use
 
-![](https://alioss.timecho.com/docs/img/Ignition-IoTDB%20With%20JDBC-3.png)
+![](/img/Ignition-IoTDBWithJDBC-3.png)
 
 ### Instructions
 
@@ -265,11 +265,11 @@ Select the previously created `Connection` from the `Data Source` in the `Transa
 
 Do not select other options, set the fields, and after `enabled` , the data will be installed and stored in the corresponding IoTDB
 
-![](https://alioss.timecho.com/docs/img/%E6%95%B0%E6%8D%AE%E5%86%99%E5%85%A5-1.png)
+![](/img/%E6%95%B0%E6%8D%AE%E5%86%99%E5%85%A5-1.png)
 
 #### Query
 
 - Select `Data Source` in the `Database Query Browser` and select the previously created `Connection` to write an SQL statement to query the data in IoTDB
 
-![](https://alioss.timecho.com/docs/img/%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2-ponz.png)
+![](/img/%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2-ponz.png)
 

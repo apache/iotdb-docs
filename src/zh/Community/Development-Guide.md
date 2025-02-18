@@ -234,7 +234,7 @@
 #### 认领 issue
 
 - 在 JIRA 上认领 issue：分配给自己。建议添加一句评论：I'm doing this。避免与其他贡献者重复开发。
-  <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/upload/issue.png">
+  <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/issue.png">
   注：如果发现自己无法认领 issue，则是因为自己的账户权限不够。遇到此情况，请向 <dev@iotdb.apache.org> 邮件列表发送邮件，标题为： `[application] apply for permission to assign issues to XXX`， 其中 XXX 是自己的 JIRA 用户名。
 
 #### 提交 PR
@@ -442,11 +442,11 @@
   5. 尽量不夹带其他问题的代码修改，将不相关的修改拆分到其他 PR。
 - 审阅流程：
   - 第一步： 点击 PR 的 Files changed
-    <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/zh/development/howtocontributecode/01.png">
+    <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/zh/development/howtocontributecode/01.png">
   - 第二步：对于有问题的行，移动到左侧，会出现加号，点击加号，然后评论，点击 Start a review，此时，所有的 Review 意见都会暂存起来，别人看不到。
-    <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/zh/development/howtocontributecode/02.png">
+    <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/zh/development/howtocontributecode/02.png">
   - 第三步： 所有评论加完后，需要点击 Review changes，选择你的意见，已经可以合并的选择 Approve，有 Bug 需要改的选择 Request changes 或者 Comment，不确定的选择 Comment。最后 Submit review 提交审阅意见，提 PR 的人才能看见此意见。
-    <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/zh/development/howtocontributecode/03.png">
+    <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/zh/development/howtocontributecode/03.png">
 
 #### 合并 PR
 

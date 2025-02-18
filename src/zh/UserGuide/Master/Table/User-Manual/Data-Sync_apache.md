@@ -28,7 +28,7 @@
 
 一个数据同步任务包含 3 个阶段：
 
-![](https://alioss.timecho.com/docs/img/dataSync01.png)
+![](/img/dataSync01.png)
 
 - 抽取（Source）阶段：该部分用于从源 IoTDB 抽取数据，在 SQL 语句中的 source 部分定义
 - 处理（Process）阶段：该部分用于处理从源 IoTDB 抽取出的数据，在 SQL 语句中的 processor 部分定义
@@ -46,7 +46,7 @@
 
 数据同步任务有三种状态：RUNNING、STOPPED 和 DROPPED。任务状态转换如下图所示：
 
-![](https://alioss.timecho.com/docs/img/Data-Sync01.png)
+![](/img/Data-Sync01.png)
 
 创建后任务会直接启动，同时当任务发生异常停止后，系统会自动尝试重启任务。
 
@@ -210,7 +210,7 @@ IoTDB> SHOW PIPEPLUGINS
 
 本例子用来演示将一个 IoTDB 的所有数据同步至另一个 IoTDB，数据链路如下图所示：
 
-![](https://alioss.timecho.com/docs/img/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A51.png)
+![](/img/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A51.png)
 
 在这个例子中，我们可以创建一个名为 A2B 的同步任务，用来同步 A IoTDB 到 B IoTDB 间的全量数据，这里需要用到用到 sink 的 iotdb-thrift-sink 插件（内置插件），需通过 node-urls 配置目标端 IoTDB 中 DataNode 节点的数据服务端口的 url，如下面的示例语句：
 
@@ -226,7 +226,7 @@ with sink (
 
 本例子用来演示同步某个历史时间范围（ 2023 年 8 月 23 日 8 点到 2023 年 10 月 23 日 8 点）的数据至另一个 IoTDB，数据链路如下图所示：
 
-![](https://alioss.timecho.com/docs/img/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A51.png)
+![](/img/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A51.png)
 
 在这个例子中，我们可以创建一个名为 A2B 的同步任务。首先我们需要在 source 中定义传输数据的范围，由于传输的是历史数据（历史数据是指同步任务创建之前存在的数据），需要配置数据的起止时间 start-time 和 end-time 以及传输的模式 mode.streaming。通过 node-urls 配置目标端 IoTDB 中 DataNode 节点的数据服务端口的 url。
 
@@ -250,7 +250,7 @@ with SINK (
 
 本例子用来演示两个 IoTDB 之间互为双活的场景，数据链路如下图所示：
 
-![](https://alioss.timecho.com/docs/img/1706698592139.jpg)
+![](/img/1706698592139.jpg)
 
 在这个例子中，为了避免数据无限循环，需要将 A 和 B 上的参数`source.mode.double-living` 均设置为 `true`，表示不转发从另一 pipe 传输而来的数据。
 
@@ -285,7 +285,7 @@ with sink (
 
 本例子用来演示多个 IoTDB 之间边云传输数据的场景，数据由 B 、C、D 集群分别都同步至 A 集群，数据链路如下图所示：
 
-![](https://alioss.timecho.com/docs/img/dataSync03.png)
+![](/img/dataSync03.png)
 
 在这个例子中，为了将 B 、C、D 集群的数据同步至 A，在 BA 、CA、DA 之间的 pipe 需要配置database-name 和 table-name 限制范围，详细语句如下：
 
@@ -335,7 +335,7 @@ with sink (
 
 本例子用来演示多个 IoTDB 之间级联传输数据的场景，数据由 A 集群同步至 B 集群，再同步至 C 集群，数据链路如下图所示：
 
-![](https://alioss.timecho.com/docs/img/1706698610134.jpg)
+![](/img/1706698610134.jpg)
 
 在这个例子中，为了将 A 集群的数据同步至 C，在 BC 之间的 pipe 需要将 `source.mode.double-living` 配置为`true`，详细语句如下：
 

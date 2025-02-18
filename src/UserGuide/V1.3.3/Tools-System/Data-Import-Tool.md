@@ -154,7 +154,7 @@ IoTDB currently supports importing data in CSV, SQL, and TsFile (IoTDB's underly
 
 The TsFile Active Listening & Loading Feature can actively monitor TsFile file changes in the specified target path (configured by the user) and automatically synchronize TsFile files from the target path to the specified reception path (configured by the user). Through this feature, IoTDB can automatically detect and load these files without the need for any additional manual loading operations. This automated process not only simplifies the user's operational steps but also reduces potential errors that may occur during the operation, effectively reducing the complexity for users during the usage process.
 
-![](https://alioss.timecho.com/docs/img/Data-import2.png)
+![](/img/Data-import2.png)
 
 
 ### 4.1 Configuration Parameters

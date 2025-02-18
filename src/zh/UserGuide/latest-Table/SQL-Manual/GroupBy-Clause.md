@@ -29,7 +29,7 @@ GROUP BY expression (',' expression)*
 
 - GROUP BY 子句用于将 SELECT 语句的结果集按指定的列值进行分组计算。这些分组列的值在结果中保持原样，其他列中具备相同分组列值的所有记录通过指定的聚合函数（例如 COUNT、AVG）进行计算。
 
-![](https://alioss.timecho.com/docs/img/groupby01.png)
+![](/img/groupby01.png)
 
 
 ## 2 注意事项

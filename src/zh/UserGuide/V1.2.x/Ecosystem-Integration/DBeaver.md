@@ -46,24 +46,24 @@ DBeaver 是一个 SQL 客户端和数据库管理工具。DBeaver 可以使用 I
 
 3. 打开 Driver Manager
 
-   ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/01.png?raw=true)
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/01.png?raw=true)
 4. 为 IoTDB 新建一个驱动类型
 
-   ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/02.png)
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/02.png)
 
 5. 下载 jdbc 驱动， 可点击下载 [地址1](https://maven.proxy.ustclug.org/maven2/org/apache/iotdb/iotdb-jdbc/1.2.1/iotdb-jdbc-1.2.1-jar-with-dependencies.jar) 或 [地址2](https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/1.2.1/iotdb-jdbc-1.2.1-jar-with-dependencies.jar)。
    
 6. 添加刚刚下载的驱动包，点击 Find Class。
 
-   ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/03.png)
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/03.png)
 
 7. 编辑驱动设置
 
-   ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/05.png)
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/05.png)
   
 8. 新建 DataBase Connection， 选择 iotdb
 
-   ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/06.png) 
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/06.png) 
 
 9.  编辑 JDBC 连接设置
 
@@ -72,12 +72,12 @@ DBeaver 是一个 SQL 客户端和数据库管理工具。DBeaver 可以使用 I
    Username: root
    Password: root
    ```
-   ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/07.png)
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/07.png)
 
 10. 测试连接
 
-   ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/08.png)
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/08.png)
 
 11. 可以开始通过 DBeaver 使用 IoTDB
 
-   ![](https://alioss.timecho.com/docs/img/UserGuide/Ecosystem-Integration/DBeaver/09.png)
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/09.png)

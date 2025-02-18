@@ -254,8 +254,8 @@ IoTDB> count devices where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:
 ### 设备模板管理
 
 
-![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
-![img](https://alioss.timecho.com/docs/img/template.jpg)
+![img](/img/%E6%A8%A1%E6%9D%BF.png)
+![img](/img/template.jpg)
 
 
 

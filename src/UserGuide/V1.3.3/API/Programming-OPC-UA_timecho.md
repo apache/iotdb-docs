@@ -28,7 +28,7 @@ OPC UA is a technical specification used in the automation field for communicati
 
 ::: center
 
-<img src="https://alioss.timecho.com/docs/img/OPCUA15.png" alt="" style="width: 70%;"/>
+<img src="/img/OPCUA15.png" alt="" style="width: 70%;"/>
 
 :::
 
@@ -44,7 +44,7 @@ OPC UA is a technical specification used in the automation field for communicati
 
 ::: center
 
-<img src="https://alioss.timecho.com/docs/img/OPCUA16.png" alt="" style="width: 70%;"/>
+<img src="/img/OPCUA16.png" alt="" style="width: 70%;"/>
 
 :::
 
@@ -149,13 +149,13 @@ start pipe p1;
 
    ::: center
 
-   <img src="https://alioss.timecho.com/docs/img/OPCUA18.png" alt="" style="width: 60%;"/>
+   <img src="/img/OPCUA18.png" alt="" style="width: 60%;"/>
 
    :::
 
    ::: center
 
-   <img src="https://alioss.timecho.com/docs/img/OPCUA04.png" alt="" style="width: 60%;"/>
+   <img src="/img/OPCUA04.png" alt="" style="width: 60%;"/>
 
    :::
 
@@ -163,13 +163,13 @@ start pipe p1;
 
    ::: center
 
-   <img src="https://alioss.timecho.com/docs/img/OPCUA05.png" alt="" style="width: 60%;"/>
+   <img src="/img/OPCUA05.png" alt="" style="width: 60%;"/>
 
    :::
 
    ::: center
 
-   <img src="https://alioss.timecho.com/docs/img/OPCUA17.png" alt="" style="width: 60%;"/>
+   <img src="/img/OPCUA17.png" alt="" style="width: 60%;"/>
 
    :::
 
@@ -177,7 +177,7 @@ start pipe p1;
 
    ::: center
 
-   <img src="https://alioss.timecho.com/docs/img/OPCUA07.png" alt="" style="width: 60%;"/>
+   <img src="/img/OPCUA07.png" alt="" style="width: 60%;"/>
 
    :::
 
@@ -218,7 +218,7 @@ The steps are as follows:
 
    ::: center
 
-   <img src="https://alioss.timecho.com/docs/img/OPCUA08.png" alt="" style="width: 60%;"/>
+   <img src="/img/OPCUA08.png" alt="" style="width: 60%;"/>
 
    :::
 
@@ -226,7 +226,7 @@ The steps are as follows:
 
    ::: center
 
-   <img src="https://alioss.timecho.com/docs/img/OPCUA09.png" alt="" style="width: 60%;"/>
+   <img src="/img/OPCUA09.png" alt="" style="width: 60%;"/>
 
    :::
 
@@ -234,7 +234,7 @@ The steps are as follows:
 
    ::: center
 
-   <img src="https://alioss.timecho.com/docs/img/OPCUA10.png" alt="" style="width: 60%;"/>
+   <img src="/img/OPCUA10.png" alt="" style="width: 60%;"/>
 
    :::
 
@@ -242,7 +242,7 @@ The steps are as follows:
 
    ::: center
 
-   <img src="https://alioss.timecho.com/docs/img/OPCUA11.png" alt="" style="width: 60%;"/>
+   <img src="/img/OPCUA11.png" alt="" style="width: 60%;"/>
 
    :::
 
@@ -250,7 +250,7 @@ The steps are as follows:
 
    ::: center
 
-   <img src="https://alioss.timecho.com/docs/img/OPCUA12.png" alt="" style="width: 60%;"/>
+   <img src="/img/OPCUA12.png" alt="" style="width: 60%;"/>
 
    :::
 
@@ -258,7 +258,7 @@ The steps are as follows:
 
    ::: center
 
-   <img src="https://alioss.timecho.com/docs/img/OPCUA13.png" alt="" style="width: 60%;"/>
+   <img src="/img/OPCUA13.png" alt="" style="width: 60%;"/>
 
    :::
 
@@ -268,7 +268,7 @@ The steps are as follows:
 
    ::: center
 
-   <img src="https://alioss.timecho.com/docs/img/OPCUA14.png" alt="" style="width: 60%;"/>
+   <img src="/img/OPCUA14.png" alt="" style="width: 60%;"/>
 
    :::
 

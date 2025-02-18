@@ -102,7 +102,7 @@ kubectl apply -f pv-02.yaml
 ```Bash
 kubectl get pv
 ```
-<img src="https://alioss.timecho.com/docs/img/Kubernetes01.png" alt="" style="width: 70%;"/>
+<img src="/img/Kubernetes01.png" alt="" style="width: 70%;"/>
 
 ### 3.4 手动创建文件夹
 
@@ -398,7 +398,7 @@ start-cli.sh -h 172.20.31.87 -p 31895
 start-cli.sh -h 172.20.31.88 -p 31895
 ```
 
-<img src="https://alioss.timecho.com/docs/img/Kubernetes02.png" alt="" style="width: 70%;"/>
+<img src="/img/Kubernetes02.png" alt="" style="width: 70%;"/>
 
 ## 10. 扩容
 
@@ -406,7 +406,7 @@ start-cli.sh -h 172.20.31.88 -p 31895
 
 新增pv，必须有可用的pv才可以扩容。
 
-<img src="https://alioss.timecho.com/docs/img/Kubernetes03.png" alt="" style="width: 70%;"/>
+<img src="/img/Kubernetes03.png" alt="" style="width: 70%;"/>
 
 **注意：DataNode重启后无法加入集群**
 
@@ -424,7 +424,7 @@ start-cli.sh -h 172.20.31.88 -p 31895
 helm upgrade iotdb . -n iotdb-ns
 ```
 
-<img src="https://alioss.timecho.com/docs/img/Kubernetes04.png" alt="" style="width: 70%;"/>
+<img src="/img/Kubernetes04.png" alt="" style="width: 70%;"/>
 
 
 ### 10.3 扩容datanode

@@ -67,7 +67,7 @@ Among them:
 
 The figure below indicates a successful startup:
 
-![](https://alioss.timecho.com/docs/img/Cli-01.png)
+![](/img/Cli-01.png)
 
 
 ## 2 Execute statements in CLI
@@ -80,7 +80,7 @@ After entering the CLI, users can directly interact by entering SQL statements i
 create database test
 ```
 
-![](https://alioss.timecho.com/docs/img/Cli-02.png)
+![](/img/Cli-02.png)
 
 
 - Show Databases
@@ -89,7 +89,7 @@ create database test
 show databases
 ```
 
-![](https://alioss.timecho.com/docs/img/Cli-03.png)
+![](/img/Cli-03.png)
 
 
 ## 3 CLI Exit

@@ -32,7 +32,7 @@ TimechoDB 是一款低成本、高性能的物联网原生时序数据库，是�
 天谋产品体系由若干个组件构成，覆盖由【数据采集】到【数据管理】到【数据分析&应用】的全时序数据生命周期，做到“采-存-用”一体化时序数据解决方案，帮助用户高效地管理和分析物联网产生的海量时序数据。
 
 <div style="text-align: center;">        		
-    <img src="https://alioss.timecho.com/docs/img/Introduction-zh-timecho.png" alt="Introduction-zh-timecho.png" style="width: 70%;"/>
+    <img src="/img/Introduction-zh-timecho.png" alt="Introduction-zh-timecho.png" style="width: 70%;"/>
 </div>
 
 
@@ -225,9 +225,9 @@ TimechoDB 将为用户提供更简单、易用的工具体系，通过集群监�
   <p style="width: 30%; text-align: center;">IoTDB 性能监控</p>
 </div>
 <div style="display: flex; justify-content: space-between; width: 100%;">
-  <img src="https://alioss.timecho.com/docs/img/Introduction01.png" alt="" style="width: 30%; height: auto;">
-  <img src="https://alioss.timecho.com/docs/img/Introduction02.png" alt="" style="width: 30%; height: auto;">
-  <img src="https://alioss.timecho.com/docs/img/Introduction03.png" alt="" style="width: 30%; height: auto;">
+  <img src="/img/Introduction01.png" alt="" style="width: 30%; height: auto;">
+  <img src="/img/Introduction02.png" alt="" style="width: 30%; height: auto;">
+  <img src="/img/Introduction03.png" alt="" style="width: 30%; height: auto;">
 </div>
 <p></p>
 
@@ -240,9 +240,9 @@ TimechoDB 将为用户提供更简单、易用的工具体系，通过集群监�
   <p style="width: 30%; text-align: center;">SQL 查询</p>
 </div>
 <div style="display: flex; justify-content: space-between; width: 100%;">
-  <img src="https://alioss.timecho.com/docs/img/Introduction04.png" alt="" style="width: 30%; height: auto;">
-  <img src="https://alioss.timecho.com/docs/img/Introduction05.png" alt="" style="width: 30%; height: auto;">
-  <img src="https://alioss.timecho.com/docs/img/Introduction06.png" alt="" style="width: 30%; height: auto;">
+  <img src="/img/Introduction04.png" alt="" style="width: 30%; height: auto;">
+  <img src="/img/Introduction05.png" alt="" style="width: 30%; height: auto;">
+  <img src="/img/Introduction06.png" alt="" style="width: 30%; height: auto;">
 </div>
 <p></p>
 
@@ -251,7 +251,7 @@ TimechoDB 将为用户提供更简单、易用的工具体系，通过集群监�
 
 
 <div style="text-align: center;">        		
-    <img src="https://alioss.timecho.com/docs/img/Intoduction07.png" alt=" " style="width: 50%;"/>
+    <img src="/img/Intoduction07.png" alt=" " style="width: 50%;"/>
 </div>
 
 ### 更专业的企业技术服务

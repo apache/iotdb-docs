@@ -21,10 +21,10 @@ IoTDB Visualization Console is an extension component developed for industrial s
 
 Main feature showcase
 * Home
-![首页.png](https://alioss.timecho.com/docs/img/%E9%A6%96%E9%A1%B5.png)
+![首页.png](/img/%E9%A6%96%E9%A1%B5.png)
 * Measurement Point List
-![测点列表.png](https://alioss.timecho.com/docs/img/%E6%B5%8B%E7%82%B9%E5%88%97%E8%A1%A8.png)
+![测点列表.png](/img/%E6%B5%8B%E7%82%B9%E5%88%97%E8%A1%A8.png)
 * Data Query
-![数据查询.png](https://alioss.timecho.com/docs/img/%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2.png)
+![数据查询.png](/img/%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2.png)
 * Trend
-![历史趋势.png](https://alioss.timecho.com/docs/img/%E5%8E%86%E5%8F%B2%E8%B6%8B%E5%8A%BF.png)
+![历史趋势.png](/img/%E5%8E%86%E5%8F%B2%E8%B6%8B%E5%8A%BF.png)

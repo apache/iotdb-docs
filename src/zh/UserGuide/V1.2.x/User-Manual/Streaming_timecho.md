@@ -35,7 +35,7 @@ Pipe Extractor 用于抽取数据，Pipe Processor 用于处理数据，Pipe Con
 
 **Pipe 任务的模型如下：**
 
-![任务模型图](https://alioss.timecho.com/docs/img/%E5%90%8C%E6%AD%A5%E5%BC%95%E6%93%8E.jpeg)
+![任务模型图](/img/%E5%90%8C%E6%AD%A5%E5%BC%95%E6%93%8E.jpeg)
 
 描述一个数据流处理任务，本质就是描述 Pipe Extractor、Pipe Processor 和 Pipe Connector 插件的属性。
 用户可以通过 SQL 语句声明式地配置三个子任务的具体属性，通过组合不同的属性，实现灵活的数据 ETL 能力。
@@ -763,7 +763,7 @@ WHERE CONNECTOR USED BY <PipeId>
 
 下图表明了所有状态以及状态的迁移：
 
-![状态迁移图](https://alioss.timecho.com/docs/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
+![状态迁移图](/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
 
 ## 权限管理
 

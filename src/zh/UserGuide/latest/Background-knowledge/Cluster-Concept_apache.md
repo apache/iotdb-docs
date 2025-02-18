@@ -53,7 +53,7 @@ IoTDB 在数据编码后，使用压缩技术进一步压缩二进制数据，�
 
 下图展示了一个常见的 IoTDB 3C3D（3 个 ConfigNode、3 个 DataNode）的集群部署模式：                 
 
-<img src="https://alioss.timecho.com/docs/img/Cluster-Concept01.png" alt="" style="width: 60%;"/>
+<img src="/img/Cluster-Concept01.png" alt="" style="width: 60%;"/>
 
 IoTDB 的集群包括如下常见概念：
 

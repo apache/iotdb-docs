@@ -43,7 +43,7 @@ INSERT INTO <TABLE_NAME> [(COLUMN_NAME[, COLUMN_NAME]*)]? VALUES (COLUMN_VALUE[,
 由于属性一般并不随时间的变化而变化，因此推荐以 update 的方式单独更新属性值，参见下文 [数据更新](#数据更新)。
 
 <div style="text-align: center;">
-  <img src="https://alioss.timecho.com/docs/img/WriteData01.png" alt="" style="width: 70%;"/>
+  <img src="/img/WriteData01.png" alt="" style="width: 70%;"/>
 </div>
 
 

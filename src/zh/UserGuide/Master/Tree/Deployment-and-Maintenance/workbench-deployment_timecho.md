@@ -23,9 +23,11 @@
 可视化控制台是IoTDB配套工具之一（类似 Navicat for MySQL）。它用于数据库部署实施、运维管理、应用开发各阶段的官方应用工具体系，让数据库的使用、运维和管理更加简单、高效，真正实现数据库低成本的管理和运维。本文档将帮助您安装Workbench。
 
   <div style="display: flex;justify-content: space-between;">        		
-    <img src="https://alioss.timecho.com/docs/img/%E9%A6%96%E9%A1%B5.PNG" alt=" " style="width: 50%;"/>
-    <img src="https://alioss.timecho.com/docs/img/workbench-1.png" alt=" " style="width: 50%;"/>     
+    <img src="/img/%E9%A6%96%E9%A1%B5.png" alt=" " style="width: 50%;"/>
+    <img src="/img/workbench-1.png" alt=" " style="width: 50%;"/>     
   </div>
+
+可视化控制台工具的使用说明可参考文档 [使用说明](../Tools-System/Workbench_timecho.md) 章节。
 
 ## 安装准备
 
@@ -106,7 +108,7 @@
 
 3. 重启后，通过客户端确认各节点的运行状态，若状态都为Running，则为配置成功：
 
-   ![](https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8.PNG)
+   ![](/img/%E5%90%AF%E5%8A%A8.png)
 
 ### 步骤二：安装、配置Prometheus监控
 
@@ -149,8 +151,8 @@
 5. 确认启动成功。在浏览器中输入 `http://IP:port`，进入Prometheus，点击进入Status下的Target界面，当看到State均为Up时表示配置成功并已经联通。
 
     <div style="display: flex;justify-content: space-between;">
-      <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
-      <img src="https://alioss.timecho.com/docs/img/%E5%90%AF%E5%8A%A8_2.png" alt="" style="width: 48%;"/>
+      <img src="/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
+      <img src="/img/%E5%90%AF%E5%8A%A8_2.png" alt="" style="width: 48%;"/>
     </div>
 
 ### 步骤三：安装Workbench
@@ -164,7 +166,7 @@
       | ---------------- | --------------------------------- | -------------------------------------- |
       | pipe.callbackUrl | pipe.callbackUrl=`http://127.0.0.1` | pipe.callbackUrl=`http://<部署Workbench的IP地址>` |
 
-    ![](https://alioss.timecho.com/docs/img/workbench-conf-1.png)
+    ![](/img/workbench-conf-1.png)
 
 3. 启动程序：请在IoTDB-Workbench-`<version>`的sbin文件夹下执行启动命令
 
@@ -182,11 +184,11 @@
 
 4. 可以通过`jps`命令进行启动是否成功，如图所示即为启动成功：
 
-   ![](https://alioss.timecho.com/docs/img/windows-jps.png)
+   ![](/img/windows-jps.png)
 
 5. 验证是否成功：浏览器中打开:"`http://服务器ip:配置文件中端口`"进行访问，例如:"`http://127.0.0.1:9190`"，当出现登录界面时即为成功
 
-    ![](https://alioss.timecho.com/docs/img/workbench.png)
+    ![](/img/workbench.png)
 
 
 ## 附录：IoTDB与控制台版本对照表

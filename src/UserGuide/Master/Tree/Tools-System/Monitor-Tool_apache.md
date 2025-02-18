@@ -21,6 +21,8 @@
 
 # Monitor Tool
 
+The deployment of monitoring tools can refer to the document [Monitoring Panel Deployment](../Deployment-and-Maintenance/Monitoring-panel-deployment.md) section.
+
 ## Prometheus
 
 ### The mapping from metric type to prometheus format
@@ -69,7 +71,7 @@ can be used to collect and store monitoring indicators, and Grafana can be used 
 
 The following picture describes the relationships among IoTDB, Prometheus and Grafana
 
-![iotdb_prometheus_grafana](https://alioss.timecho.com/docs/img/UserGuide/System-Tools/Metrics/iotdb_prometheus_grafana.png)
+![iotdb_prometheus_grafana](/img/UserGuide/System-Tools/Metrics/iotdb_prometheus_grafana.png)
 
 1. Along with running, IoTDB will collect its metrics continuously.
 2. Prometheus scrapes metrics from IoTDB at a constant interval (can be configured).
@@ -110,9 +112,9 @@ The following documents may help you have a good journey with Prometheus and Gra
 `Apache IoTDB Dashboard` is available as a supplement to IoTDB Enterprise Edition, designed for unified centralized operations and management. With it, multiple clusters can be monitored through a single panel. You can access the Dashboard's Json file by contacting Commerce.
 
 
-![Apache IoTDB Dashboard](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20default%20cluster.png)
+![Apache IoTDB Dashboard](/img/%E7%9B%91%E6%8E%A7%20default%20cluster.png)
 
-![Apache IoTDB Dashboard](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20cluster2.png)
+![Apache IoTDB Dashboard](/img/%E7%9B%91%E6%8E%A7%20cluster2.png)
 
 
 
@@ -127,7 +129,7 @@ Including but not limited to:
 - Current CPU, memory, and disk usage across all nodes in the cluster.
 - Information on individual nodes.
 
-![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E6%A6%82%E8%A7%88.png)
+![](/img/%E7%9B%91%E6%8E%A7%20%E6%A6%82%E8%A7%88.png)
 
 
 ### Data Writing
@@ -138,7 +140,7 @@ Including but not limited to:
 - Number and size of WAL files.
 - Node WAL flush SyncBuffer latency.
 
-![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E5%86%99%E5%85%A5.png)
+![](/img/%E7%9B%91%E6%8E%A7%20%E5%86%99%E5%85%A5.png)
 
 ### Data Querying
 
@@ -152,7 +154,7 @@ Including but not limited to:
 - Node filtering duration based on Chunk metadata.
 - Average time to construct a Chunk Reader.
 
-![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E6%9F%A5%E8%AF%A2.png)
+![](/img/%E7%9B%91%E6%8E%A7%20%E6%9F%A5%E8%AF%A2.png)
 
 ### Storage Engine
 
@@ -162,7 +164,7 @@ Including but not limited to:
 - The count and size of TsFiles at various stages.
 - Number and duration of various tasks.
 
-![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E.png)
+![](/img/%E7%9B%91%E6%8E%A7%20%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E.png)
 
 ### System Monitoring
 
@@ -173,8 +175,8 @@ Including but not limited to:
 - JVM GC time percentage, GC occurrences by type, GC volume, and heap memory usage across generations.
 - Network transmission rate, packet sending rate
 
-![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9F%20%E5%86%85%E5%AD%98%E4%B8%8E%E7%A1%AC%E7%9B%98.png)
+![](/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9F%20%E5%86%85%E5%AD%98%E4%B8%8E%E7%A1%AC%E7%9B%98.png)
 
-![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9Fjvm.png)
+![](/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9Fjvm.png)
 
-![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9F%20%E7%BD%91%E7%BB%9C.png)
+![](/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9F%20%E7%BD%91%E7%BB%9C.png)
