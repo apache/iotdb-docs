@@ -19,13 +19,13 @@
 
 -->
 
-# 数据删除
+# Data Deletion
 
-## 1. 数据删除：
+## 1. Data Deletion
 
-数据删除可以通过 delete 语句来完成，其中可以通过指定标签和时间的过滤条件来删除部分数据。
+Data deletion in IoTDB can be achieved using the DELETE statement. You can specify filters based on tags and time to delete specific subsets of data.
 
-### 1.1 语法概览：
+### 1.1 Syntax Overview
 
 ```SQL
 DELETE FROM <TABLE_NAME> [WHERE_CLAUSE]?
@@ -51,60 +51,65 @@ ID_CONDITION:
     identifier = STRING_LITERAL
 ```
 
-- 当前仅支持时间条件和标签条件，条件之间仅可使用 AND 和 OR 运算符连接。
-- 对于时间条件，支持 >、<、=、<=、>= 五种运算符。
-- 对于标签条件，目前仅支持 = 运算符。
+**Note:**
 
-### 1.2 示例：
+- The `DELETE_CONDITION` can include single conditions or be a combination of conditions (logical operators like `AND` and `OR` are used). Currently, only **time conditions** and **tag conditions** are supported.
+- For **time conditions**, operators include standard comparison symbols (`<`, `>`, etc.).
+- For **tag conditions**, only equality (=) is allowed.
 
-可以在[示例数据页面](../Reference/Sample-Data.md)中导入示例数据。可以使用这些数据来测试和执行示例中的SQL语句。
+### 1.2 Examples
 
-#### 1.2.1 删除全表数据
+The [Example Data page](../Reference/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.
+
+#### 1.2.1 Delet  All Data from a Table
 
 ```SQL
-# 全表删除
+# Whole table deletion
 DELETE FROM table1
 ```
 
-#### 1.2.2 删除一段时间范围
+#### 1.2.2 Delete Data within a Specific Time Range
 
 ```SQL
-# 单时间段删除
+# Single time interval deletion
 DELETE FROM table1 WHERE time <= 2024-11-29 00:00:00
 
-# 多时间段删除
+# Multi time interval deletion
 DELETE FROM table1  WHERE time >= 2024-11-27 00:00:00  and time <= 2024-11-29 00:00:00
 ```
 
-#### 1.2.3 删除指定设备
+#### 1.2.3 Deleting Data for a Specific Device
 
 ```SQL
-# 删除指定设备
-# 标识条件只支持 = 运算符
+# Device-specific deletion
+# Identifier conditions only support the '=' operator
 DELETE FROM table1 WHERE device_id='101' and model_id = 'B'
 
-# 删除指定设备的时间段
+# Device-specific deletion with time interval
 DELETE FROM table1 
     WHERE time >= 2024-11-27 16:39:00  and time <= 2024-11-29 16:42:00 
     AND device_id='101' and model_id = 'B'
 
-# 删除指定类型的设备
+# Device-type-specific deletion
 DELETE FROM table1 WHERE model_id = 'B'
 ```
 
-## 2. 设备删除：
+## 2. Device Deletion
 
-当一个设备写入后，在 IoTDB 中即保留了其元数据，数据删除语句无法删除设备的元数据，可以使用设备删除语句删除设备的所有数据和元数据。
+When a device is written to IoTDB, its metadata is retained even if data is deleted. To remove both the data and metadata of a device, you can use the `DELETE DEVICES` statement.
 
-### 2.1 语法概览：
+### 2.1 Syntax Overview
 
 ```SQL
 DELETE DEVICES FROM tableName=qualifiedName (WHERE booleanExpression)?
 ```
 
-- WHERE 仅支持对标签的等值过滤，条件之间仅可使用 AND 和 OR 运算符连接，不支持时间条件。
+**Notes:**
 
-### 2.2 示例：
+- The `WHERE` clause supports only equality filters on tags. Conditions can be combined using `AND` and `OR` operators.
+- Time conditions are **not** supported in the `DELETE DEVICES` statement.
+
+### 2.2 Example
 
 ```SQL
 DELETE DEVICES FROM table1 WHERE device_id = '101'

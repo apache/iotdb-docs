@@ -35,26 +35,18 @@ SELECT ⟨select_list⟩
     [LIMIT ⟨n⟩];
 ```
 
-IoTDB query syntax provides the following clauses:
+The IoTDB table model query syntax supports the following clauses:
 
-- SELECT Clause: The columns to include in the query results. For detailed syntax, see: [SELECTClauses](../SQL-Manual/Select-Clause.md)
-- FROM Clause: Specifies the data source of the query, which can be a single table, multiple tables joined using the JOIN clause, or a subquery. For detailed syntax, see: [FROM & JOIN Clauses](../SQL-Manual/From-Join-Clause.md)
-- WHERE Clause: Used to filter data, selecting only rows that meet specific conditions. This clause is logically executed immediately after the FROM clause. For detailed syntax, see:[WHERE Clauses](../SQL-Manual/Where-Clause.md)
-- GROUP BY Clause: Used when data aggregation is needed, specifying the columns used for grouping. For detailed syntax, see: [GROUP BY Clauses](../SQL-Manual/GroupBy-Clause.md)
-- HAVING Clause: Used after the GROUP BY clause to filter data that has already been grouped. Similar to the WHERE clause, but the HAVING clause is executed after grouping. For detailed syntax, see: [HAVING Clauses](../SQL-Manual/Having-Clause.md)
-- FILL Clause: Used to handle null values in the query results. Users can specify filling modes (such as the previous non-null value or linear interpolation) to fill null values with the FILL clause, facilitating data visualization and analysis. For detailed syntax, see: [FILL Clauses](../SQL-Manual/Fill-Clause.md)
-- ORDER BY Clause: Sorts the query results, specifying ascending (ASC) or descending (DESC) order, as well as handling of NULL values (NULLS FIRST or NULLS LAST). For detailed syntax, see: [ORDER BY Clauses](../SQL-Manual/OrderBy-Clause.md)
-- OFFSET Clause: Used to specify the starting position of the query results, that is, skipping the first OFFSET rows. Used in conjunction with the LIMIT clause. For detailed syntax, see: [LIMIT and OFFSET Clauses](../SQL-Manual/Limit-Offset-Clause.md)
-- LIMIT Clause: Limits the number of rows in the query results, often used with the OFFSET clause to implement pagination. For detailed syntax, see: [LIMIT and OFFSET Clauses](../SQL-Manual/Limit-Offset-Clause.md)
+- **SELECT Clause**: Specifies the columns to be included in the result. Details: [SELECT Clause](../SQL-Manual/Select-Clause.md)
+- **FROM Clause**: Indicates the data source for the query, which can be a single table, multiple tables joined using the `JOIN` clause, or a subquery. Details: [FROM & JOIN Clause](../SQL-Manual/From-Join-Clause.md)
+- **WHERE Clause**: Filters rows based on specific conditions. Logically executed immediately after the `FROM` clause. Details: [WHERE Clause](../SQL-Manual/Where-Clause.md)
+- **GROUP BY Clause**: Used for aggregating data, specifying the columns for grouping. Details: [GROUP BY Clause](../SQL-Manual/GroupBy-Clause.md)
+- **HAVING Clause**: Applied after the `GROUP BY` clause to filter grouped data, similar to `WHERE` but operates after grouping. Details:[HAVING Clause](../SQL-Manual/Having-Clause.md)
+- **FILL Clause**: Handles missing values in query results by specifying fill methods (e.g., previous non-null value or linear interpolation) for better visualization and analysis. Details:[FILL Clause](../SQL-Manual/Fill-Clause.md)
+- **ORDER BY Clause**: Sorts query results in ascending (`ASC`) or descending (`DESC`) order, with optional handling for null values (`NULLS FIRST` or `NULLS LAST`). Details: [ORDER BY Clause](../SQL-Manual/OrderBy-Clause.md)
+- **OFFSET Clause**: Specifies the starting position for the query result, skipping the first `OFFSET` rows. Often used with the `LIMIT` clause. Details: [LIMIT and OFFSET Clause](../SQL-Manual/Limit-Offset-Clause.md)
+- **LIMIT Clause**: Limits the number of rows in the query result. Typically used in conjunction with the `OFFSET` clause for pagination. Details: [LIMIT and OFFSET Clause](../SQL-Manual/Limit-Offset-Clause.md)
 
-## 2 Clause Execution Order
+## 2. Clause Execution Order
 
-1. FROM (table name)
-2. WHERE (condition filtering)
-3. SELECT (column names/expressions)
-4. GROUP BY (grouping)
-5. HAVING (condition filtering after grouping)
-6. FILL(null value filling)
-7. ORDER BY (sorting)
-8. OFFSET (offset amount)
-9. LIMIT (limit amount)
+![](/img/%E5%AD%90%E5%8F%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F01.png)

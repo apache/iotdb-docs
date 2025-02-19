@@ -21,6 +21,8 @@
 
 # SELECT Clauses
 
+**SELECT Clause** specifies the columns included in the query results. 
+
 ## 1 Syntax Overview
 
 ```sql
@@ -33,36 +35,36 @@ selectItem
     ;
 ```
 
-- __SELECT Clause__: SELECT Clause: Specifies the columns to be included in the query results, including aggregate functions (such as SUM, AVG, COUNT, etc.) and window functions, which are logically executed last.
+- It supports aggregate functions (e.g., `SUM`, `AVG`, `COUNT`) and window functions, logically executed last in the query process.
 
 ## 2 Detailed Syntax:
 
-Each `selectItem` can be one of the following forms:
+Each `selectItem` can take one of the following forms:
 
-- __Expression__: `expression [ [ AS ] column_alias ]` defines a single output column, and a column alias can be specified.
-- __Selecting all columns of a relation__: `relation.*` selects all columns of a certain relation, and column aliases are not allowed.
-- __Selecting all columns in the result set__: `*` selects all columns of the query, and column aliases are not allowed.
+1. **Expression**: `expression [[AS] column_alias]` defines a single output column and optionally assigns an alias.
+2. **All Columns from a Relation**: `relation.*` selects all columns from a specified relation. Column aliases are not allowed in this case.
+3. **All Columns in the Result Set**: `*` selects all columns returned by the query. Column aliases are not allowed.
 
 
 ## 3 Example Data
 
 
-In the [Example Data page](../Basic-Concept/Sample-Data.md), there are SQL statements for building the table structure and inserting data. By downloading and executing these statements in the IoTDB CLI, you can import data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
+The [Example Data page](../Reference/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.
 
-### 3.1 Select List
+### 3.1 Selection List
 
 #### 3.1.1 Star Expression
 
-The asterisk (*) can be used to select all columns from a table. __Note__, the star expression cannot be transformed by most functions, except in the case of `count(*)`.
+The asterisk (`*`) selects all columns in a table. Note that it cannot be used with most functions, except for cases like `COUNT(*)`.
 
-Example: Select all columns from a table
+**Example**: Selecting all columns from a table.
 
 
 ```sql
 SELECT * FROM table1;
 ```
 
-The execution result is as follows:
+Results:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -93,15 +95,15 @@ It costs 0.653s
 
 #### 3.1.2 Aggregate Functions
 
-Aggregate functions summarize multiple rows of data into a single value. When the SELECT clause contains aggregate functions, the query is considered an aggregate query. In aggregate queries, all expressions must be part of an aggregate function or specified by the [GROUP BY clause](../SQL-Manual/GroupBy-Clause.md) for grouping.
+Aggregate functions summarize multiple rows into a single value. When aggregate functions are present in the `SELECT` clause, the query is treated as an **aggregate query**. All expressions in the query must either be part of an aggregate function or specified in the [GROUP BY clause](../SQL-Manual/GroupBy-Clause.md).
 
-Example 1: Return the total number of rows in the address table:
+**Example 1**: Total number of rows in a table.
 
 ```sql
 SELECT count(*) FROM table1;
 ```
 
-The execution result is as follows:
+Results:
 
 ```sql
 +-----+
@@ -113,8 +115,7 @@ Total line number = 1
 It costs 0.091s
 ```
 
-Example 2: Return the total number of rows in the address table grouped by city:
-
+**Example 2**: Total rows grouped by region.
 
 ```sql
 SELECT region, count(*) 
@@ -122,7 +123,7 @@ SELECT region, count(*)
   GROUP BY region;
 ```
 
-The execution result is as follows:
+Results:
 
 ```sql
 +------+-----+
@@ -137,16 +138,16 @@ It costs 0.071s
 
 #### 3.1.3 Aliases
 
-The keyword `AS` is used to specify an alias for the selected column, which overrides the existing column name to improve the readability of the query results.
+The `AS` keyword assigns an alias to selected columns, improving readability by overriding existing column names.
 
-Example 1: Original Table:
+**Example 1**: Original table.
 
 
 ```sql
 IoTDB> SELECT * FROM table1;
 ```
 
-The execution result is as follows:
+Results:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -175,7 +176,7 @@ Total line number = 18
 It costs 0.653s
 ```
 
-Example 2: Single column alias setting:
+**Example 2**: Assigning an alias to a single column.
 
 ```sql
 IoTDB> SELECT device_id 
@@ -183,7 +184,7 @@ IoTDB> SELECT device_id
          FROM table1;
 ```
 
-The execution result is as follows:
+Results:
 
 ```sql
 +------+
@@ -212,7 +213,7 @@ Total line number = 18
 It costs 0.053s
 ```
 
-Example 3: Aliases for all columns:
+**Example 3:** Assigning aliases to all columns.
 
 ```sql
 IoTDB> SELECT table1.* 
@@ -220,7 +221,7 @@ IoTDB> SELECT table1.*
          FROM table1;
 ```
 
-The execution result is as follows:
+Results:
 
 ```sql
 +-----------------------------+----+----+-----+---+---+----+----+-----+-----------------------------+
@@ -249,7 +250,7 @@ Total line number = 18
 It costs 0.189s
 ```
 
-## 4 Result Set Column Order
+## 4 Column Order in the Result Set
 
-- __Column order__: The column order in the result set is the same as the order specified in the SELECT clause.
-- __Multi column sorting__: If an expression is selected to return multiple columns, their sorting method is the same as the sorting method in the source relationship.
+- **Column Order**: The order of columns in the result set matches the order specified in the `SELECT` clause.
+- **Multi-column Expressions**: If a selection expression produces multiple columns, their order follows the order in the source relation.p.

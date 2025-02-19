@@ -81,9 +81,7 @@ In the current version of IoTDB, the following joins are supported:
 
 #### 3.1.1 Explicit Join (Recommended)
 
-Explicit joins use the syntax `JOIN + ON` or `JOIN + USING` to specify join conditions.
-
-The SQL syntax is as follows:
+Explicit joins use the syntax JOIN + ON or JOIN + USING to specify join conditions:
 
 ```sql
 // Explicit join: Specify the join condition after the ON keyword or the join column(s) after the USING keyword.
@@ -107,8 +105,6 @@ joinCriteria
 
 Implicit joins do not use `JOIN`, `ON`, or `USING` keywords. Instead, conditions are specified in the `WHERE` clause:
 
-The SQL syntax is as follows:
-
 ```sql
 // Implicit join: Specify the join condition in the WHERE clause.
 SELECT selectExpr [, selectExpr] ... FROM <TABLE_NAME> [, <TABLE_NAME>] ... [WHERE whereCondition] 
@@ -126,7 +122,7 @@ IoTDB currently supports only `FULL [OUTER] JOIN`. This type returns all records
 
 ## 4 Example Queries
 
-The [Example Data page](../Basic-Concept/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.corresponding results.
+The [Example Data page](../Reference/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.
 
 ### 4.1 FROM Examples
 
@@ -218,7 +214,9 @@ It costs 0.072s
 
 #### 4.2.1 Inner Join
 
-**Example 1: Explicit Join using** **`ON`** This query retrieves records where `table1` and `table2` share the same `time` values.
+**Example 1: Explicit Join using `ON`** 
+
+This query retrieves records where `table1` and `table2` share the same `time` values.
 
 ```sql
 SELECT 
@@ -246,7 +244,9 @@ Total line number = 3
 It costs 0.076s
 ```
 
-**Example 2: Explicit Join using** **`USING`** This query retrieves records from `table1` and `table2`, joining on the `time` column.
+**Example 2: Explicit Join using `USING`** 
+
+This query retrieves records from `table1` and `table2`, joining on the `time` column.
 
 ```sql
 SELECT time,
@@ -273,7 +273,9 @@ Total line number = 3
 It costs 0.081s
 ```
 
-**Example 3: Implicit Join using** **`WHERE`** This query joins `table1` and `table2` by specifying the condition in the `WHERE` clause.
+**Example 3: Implicit Join using `WHERE`** 
+
+This query joins `table1` and `table2` by specifying the condition in the `WHERE` clause.
 
 ```sql
 SELECT t1.time, 
@@ -303,7 +305,9 @@ It costs 0.082s
 
 #### 4.2.2 Outer Join
 
-**Example 1: Full Outer Join using** **`ON`** This query retrieves all records from `table1` and `table2`, including unmatched rows with `NULL` values.
+**Example 1: Full Outer Join using `ON`** 
+
+This query retrieves all records from `table1` and `table2`, including unmatched rows with `NULL` values.
 
 ```sql
 SELECT 
@@ -349,7 +353,7 @@ Total line number = 21
 It costs 0.071s
 ```
 
-**Example 2: Explicit Join using** **`USING`**
+**Example 2: Explicit Join using `USING`**
 
 This query retrieves all records from `table1` and `table2`, combining them based on the `time` column. Rows with no matches in one of the tables will include `NULL` values for the missing fields.
 

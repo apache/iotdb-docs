@@ -24,9 +24,10 @@
 
 ## 1 Function Introduction
 
-When performing data queries, you may encounter situations where certain columns lack data in some rows, resulting in NULL values in the result set. These NULL values are not conducive to data visualization and analysis, so IoTDB provides the FILL clause to fill in these NULL values.
+During data queries, you may encounter scenarios where certain columns have missing data in some rows, resulting in NULL values in the result set. These NULL values can hinder data visualization and analysis. To address this, IoTDB provides the FILL clause to populate these NULL values.
 
-When the query includes an ORDER BY clause, the FILL clause will be executed before the ORDER BY. If there is a GAPFILL (date_bin_gapfill function) operation, the FILL clause will be executed after the GAPFILL.
+- If the query includes an `ORDER BY` clause, the FILL clause is executed before `ORDER BY`.
+- If a `GAPFILL` (e.g., `date_bin_gapfill` function) operation exists, the FILL clause is executed after `GAPFILL`.
 
 ## 2 Syntax Overview
 
@@ -62,18 +63,18 @@ intervalField
     ;
 ```
 
-### 2.1 Filling Methods
+### 2.1 ### Filling Methods
 
-IoTDB supports the following three methods for filling null values:
+IoTDB supports the following three methods to fill NULL values:
 
-1. __`PREVIOUS` Filling__：Fills with the previous non-null value of the column.
-2. __`LINEAR` Filling__：Fills with the linear interpolation between the previous and next non-null values of the column.
-3. __`Constant` Filling__：Fills with a specified constant value.
+1. **PREVIOUS Fill:** Uses the most recent non-NULL value from the same column to fill NULL values.
+2. **LINEAR Fill:** Applies linear interpolation using the nearest previous and next non-NULL values in the same column.
+3. **CONSTANT Fill:** Fills NULL values with a specified constant.
 
-Only one filling method can be specified, and this method will be applied to all columns in the result set.
+Only one filling method can be specified, and it applies to all columns in the result set.
 
-### 2.2 Data Types and Supported Filling Methods
 
+### 2.2 Supported Data Types for Filling Methods
 
 | Data Type | Previous | Linear | Constant |
 | :-------- | :------- | :----- | :------- |
@@ -88,26 +89,26 @@ Only one filling method can be specified, and this method will be applied to all
 | timestamp | √        | √      | √        |
 | date      | √        | √      | √        |
 
-Note: For columns whose data types do not support the specified filling method, neither filling is performed nor exceptions are thrown; the original state is simply maintained.
+**Note:** Columns with data types not supporting the specified filling method will remain unchanged without errors.
 
-## 3 Example Data
+## 3 Sample Dataset
 
 
-In the [Example Data page](../Basic-Concept/Sample-Data.md), there are SQL statements for building the table structure and inserting data. By downloading and executing these statements in the IoTDB CLI, you can import data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
+The [Example Data page](../Reference/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.
 
-### 3.1 PREVIOUS Filling：
+### 3.1 PREVIOUS Fill
 
-For null values in the query result set, fill with the previous non-null value of the column.
+`PREVIOUS FILL` fills NULL values with the most recent non-NULL value in the same column.
 
-#### 3.1.1 Parameter Introduction：
+#### 3.1.1 Parameters
 
-- TIME_BOUND（optional）：The time threshold to look forward. If the time interval between the current null value's timestamp and the previous non-null value's timestamp exceeds this threshold, filling will not be performed. By default, the first TIMESTAMP type column in the query result is used to determine whether the time threshold has been exceeded.
-  - The format of the time threshold parameter is a time interval, where the numerical part must be an integer, and the unit part y represents years, mo represents months, w represents weeks, d represents days, h represents hours, m represents minutes, s represents seconds, ms represents milliseconds, µs represents microseconds, and ns represents nanoseconds, such as 1d1h.
-- TIME_COLUMN（optional）：If you need to manually specify the TIMESTAMP column used to judge the time threshold, you can determine the order of the column by specifying a number (starting from 1) after the `TIME_COLUMN`parameter. This number represents the specific position of the TIMESTAMP column in the original table.
+- **TIME_BOUND (optional):** Defines a forward-looking time threshold. If the time difference between the current NULL value and the previous non-NULL value exceeds this threshold, the value will not be filled. By default, the system uses the first `TIMESTAMP` column in the query result to determine the threshold.
+  - Format: A time interval specified with integer values and units, e.g., `1d1h` (1 day and 1 hour).
+- **TIME_COLUMN (optional):** Allows specifying the `TIMESTAMP` column used to determine the time threshold. The column is specified using its positional index (starting from 1) in the original table.
 
-#### 3.1.2 Example
+#### 3.1.2 Examples
 
-Without using any filling method:
+- Without FILL Clause:
 
 ```sql
 SELECT time, temperature, status 
@@ -116,7 +117,7 @@ SELECT time, temperature, status
     AND plant_id='1001' and device_id='101';
 ```
 
-Query results:
+Results:
 
 ```sql
 +-----------------------------+-----------+------+
@@ -134,7 +135,7 @@ Total line number = 7
 It costs 0.088s
 ```
 
-Use the PREVIOUS padding method (the result will be filled with the previous non null value to fill the NULL value):
+- Using `PREVIOUS Fill`:
 
 ```sql
 SELECT time, temperature, status 
@@ -144,7 +145,7 @@ SELECT time, temperature, status
   FILL METHOD PREVIOUS;
 ```
 
-Query results:
+Results:
 
 ```sql
 +-----------------------------+-----------+------+
@@ -162,7 +163,7 @@ Total line number = 7
 It costs 0.091s
 ```
 
-Use the PREVIOUS padding method (specify time threshold):
+- Using `PREVIOUS Fill` with a Specified Time Threshold:
 
 ```sql
 # Do not specify a time column
@@ -180,7 +181,7 @@ SELECT time, temperature, status
   FILL METHOD PREVIOUS        1m TIME_COLUMN 1;
 ```
 
-Query results:
+Results:
 
 ```sql
 +-----------------------------+-----------+------+
@@ -198,24 +199,23 @@ Total line number = 7
 It costs 0.075s
 ```
 
-### 3.2 LINEAR Filling
+### 3.2 LINEAR Fill
 
-For null values in the query result set, fill with the linear interpolation between the previous and next non-null values of the column.
+`LINEAR Fill` fills NULL values using linear interpolation based on the nearest previous and next non-NULL values in the same column.
 
-#### 3.2.1 Linear Filling Rules:
+#### 3.2.1 Linear Fill Rules
 
-- If all previous values are null, or all subsequent values are null, no filling is performed.
-- If the column's data type is boolean/string/blob/text, no filling is performed, and no exceptions are thrown.
-- If no time column is specified, the system defaults to selecting the first column with a data type of TIMESTAMP in the SELECT clause as the auxiliary time column for linear interpolation. If no column with a TIMESTAMP data type exists, the system will throw an exception.
+1. If all previous or all subsequent values are NULL, no filling is performed.
+2. Columns with data types such as `boolean`, `string`, `blob`, or `text` are not filled, and no error is returned.
+3. If no auxiliary time column is specified, the first `TIMESTAMP`-type column in the `SELECT` clause is used by default for interpolation. If no `TIMESTAMP` column exists, an error will be returned.
 
-#### 3.2.2 Parameter Introduction:
+#### 3.2.2 Parameters
 
-- TIME_COLUMN（optional）：You can manually specify the `TIMESTAMP` column used to determine the time threshold as an auxiliary column for linear interpolation by specifying a number (starting from 1) after the `TIME_COLUMN` parameter. This number represents the specific position of the `TIMESTAMP` column in the original table.
+- **TIME_COLUMN (optional):** Specifies the `TIMESTAMP` column to be used as an auxiliary column for linear interpolation. The column is identified by its positional index (starting from 1) in the original table.
 
-Note: It is not mandatory that the auxiliary column for linear interpolation must be a time column; any expression with a TIMESTAMP type is acceptable. However, since linear interpolation only makes sense when the auxiliary column is in ascending or descending order, users need to ensure that the result set is ordered by that column in ascending or descending order if they specify other columns.
+**Note:** The auxiliary column used for linear interpolation is not required to be the `time` column. However, the auxiliary column must be sorted in ascending or descending order for meaningful interpolation. If another column is specified, the user must ensure the result set is ordered correctly.
 
-
-#### 3.2.3 Example
+#### 3.2.3 Examples
 
 
 ```sql
@@ -226,7 +226,7 @@ SELECT time, temperature, status
   FILL METHOD LINEAR;
 ```
 
-Query results:
+Result:
 
 ```sql
 +-----------------------------+-----------+------+
@@ -244,19 +244,19 @@ Total line number = 7
 It costs 0.053s
 ```
 
-### 3.3 Constant Filling:
+### 3.3 ### CONSTANT Fill
 
-For null values in the query result set, fill with a specified constant.
+`CONSTANT Fill` fills NULL values with a specified constant value.
 
-#### 3.3.1 Constant Filling Rules:
+#### 3.3.1 Constant Fill Rules
 
-- If the data type does not match the input constant, IoTDB will not fill the query result and will not throw an exception.
-- If the inserted constant value exceeds the maximum value that its data type can represent, IoTDB will not fill the query result and will not throw an exception.
+1. If the data type of the constant does not match the column's data type, IoTDB does not fill the result set and no error is returned.
+2. If the constant value exceeds the column's allowable range, IoTDB does not fill the result set and no error is returned.
 
 
-#### 3.3.2 Example
+#### 3.3.2 Examples
 
-When using a `FLOAT` constant for filling, the SQL statement is as follows:
+- Using a `FLOAT` constant:
 
 
 ```sql
@@ -267,7 +267,7 @@ SELECT time, temperature, status
   FILL METHOD CONSTANT 80.0;
 ```
 
-Query results:
+Results:
 
 ```sql
 +-----------------------------+-----------+------+
@@ -285,8 +285,7 @@ Total line number = 7
 It costs 0.242s
 ```
 
-When using the constant `BOOLEAN` to fill in, the SQL statement is as follows:
-
+W- Using a `BOOLEAN` constant:
 
 ```sql
 SELECT time, temperature, status 
@@ -296,7 +295,7 @@ SELECT time, temperature, status
   FILL METHOD CONSTANT true;
 ```
 
-Query results:
+Results:
 
 ```sql
 +-----------------------------+-----------+------+
@@ -316,12 +315,13 @@ It costs 0.073s
 
 ## 4 Advanced Usage
 
-When using `PREVIOUS` and `LINEAR` FILL, an additional `FILL_GROUP` parameter is also supported for filling within groups.
+When using the `PREVIOUS` or `LINEAR` FILL methods, the `FILL_GROUP` parameter allows filling within specific groups without being influenced by other groups.
 
-When using a group by clause with fill, you may want to fill within groups without being affected by other groups.
+#### Examples
 
-For example: Fill the null values within each `device_id` without using values from other devices:
+- **Filling Missing Values Within `device_id`**
 
+The following query demonstrates how to fill missing values for each `device_id` group independently, without using values from other devices:
 ```sql
 SELECT date_bin(1h, time) AS hour_time,  plant_id, device_id, avg(temperature) AS avg_temp
   FROM table1
@@ -329,7 +329,7 @@ SELECT date_bin(1h, time) AS hour_time,  plant_id, device_id, avg(temperature) A
   group by 1, plant_id, device_id;
 ```
 
-Query results:
+Results：
 
 ```sql
 +-----------------------------+--------+---------+--------+
@@ -348,7 +348,9 @@ Total line number = 8
 It costs 0.110s
 ```
 
-If the FILL_GROUP parameter is not specified, the null value for `100` will be filled with the value of `101`:
+- **Without Specifying `FILL_GROUP`**
+
+If the `FILL_GROUP` parameter is not specified, missing values in `device_id = 100` will be filled using values from `device_id = 101`:
 
 ```sql
 SELECT date_bin(1h, time) AS hour_time,  plant_id, device_id, avg(temperature) AS avg_temp
@@ -358,7 +360,7 @@ SELECT date_bin(1h, time) AS hour_time,  plant_id, device_id, avg(temperature) A
   FILL METHOD PREVIOUS;
 ```
 
-Query results:
+Results：
 
 ```sql
 +-----------------------------+--------+---------+--------+
@@ -377,7 +379,9 @@ Total line number = 8
 It costs 0.066s
 ```
 
-After specifying FILL_GROUP as the second column, the filling will only occur within the group that uses the second column `device_id` as the group key. The null value for `100` will not be filled with the value of `101` because they belong to different groups.
+- **Specifying `FILL_GROUP` for Grouped Filling**
+
+By specifying `FILL_GROUP 2`, the filling is restricted to groups based on the second column (`device_id`). As a result, missing values in `device_id = 100` will not be filled using values from `device_id = 101`:
 
 ```sql
 SELECT date_bin(1h, time) AS hour_time,  plant_id, device_id, avg(temperature) AS avg_temp
@@ -387,7 +391,7 @@ SELECT date_bin(1h, time) AS hour_time,  plant_id, device_id, avg(temperature) A
   FILL METHOD PREVIOUS FILL_GROUP 2;
 ```
 
-Query results:
+Results:
 
 ```sql
 +-----------------------------+--------+---------+--------+
@@ -408,12 +412,14 @@ It costs 0.089s
 
 ## 5 Special Notes
 
-When using  `LINEAR FILL` or `PREVIOUS FILL`, if there are NULL values in the auxiliary time column (the column used to determine the filling logic), IoTDB will follow these rules:
+When using `LINEAR` or `PREVIOUS` FILL methods, if the auxiliary time column (used to determine filling logic) contains NULL values, IoTDB follows these rules:
 
-- Do not fill rows where the auxiliary time column is NULL.
-- These rows will also not participate in the filling logic calculation.
+- Rows with NULL values in the auxiliary column will not be filled.
+- These rows are also excluded from the filling logic calculations.
 
-Taking  `PREVIOUS FILL` as an example, the original data is as follows:
+**Example of `PREVIOUS Fill`**
+
+- Query original data:
 
 
 
@@ -424,7 +430,7 @@ SELECT time, plant_id, device_id, humidity, arrival_time
       AND plant_id='1001' and device_id='101';
 ```
 
-Query results:
+Results:
 
 ```sql
 +-----------------------------+--------+---------+--------+-----------------------------+
@@ -442,7 +448,7 @@ Total line number = 7
 It costs 0.119s
 ```
 
-Use the arrival_time column as the auxiliary time column and set the time interval (TIME_SOUND) to 2 ms (if the previous value is more than 2ms away from the current value, it will not be filled in):
+- Using `arrival_time` as the auxiliary column with a time interval (`TIME_BOUND`) of 2 seconds
 
 ```sql
 SELECT time, plant_id, device_id, humidity, arrival_time
@@ -452,7 +458,7 @@ SELECT time, plant_id, device_id, humidity, arrival_time
   FILL METHOD PREVIOUS TIME_BOUND 2s TIME_COLUMN 5;
 ```
 
-Query results:
+Results:
 
 ```sql
 +-----------------------------+--------+---------+--------+-----------------------------+
@@ -469,9 +475,15 @@ Query results:
 Total line number = 7
 It costs 0.049s
 ```
+**Filling Details**
 
-Filling results details:
-
-- For the humidity column at 16:39, 16:42, and 16:43, filling is not performed because the auxiliary column arrival_time is NULL.
-- For the humidity column at 16:40, since the auxiliary column arrival_time is not NULL and is `1970-01-01T08:00:00.003+08:00`, which is within a 2ms time difference from the previous non-NULL value `1970-01-01T08:00:00.001+08:00`, it is filled with the value 1 from the first row (s1).
-- For the humidity column at 16:41, although arrival_time is not NULL, the time difference from the previous non-NULL value exceeds 2ms, so no filling is performed. The same applies to the seventh row.
+1. For `humidity` at `16:39`, `16:42`, and `16:43`:
+   1. Since the auxiliary column `arrival_time` is NULL, no filling is performed.
+2. For `humidity` at `16:40`:
+   1. The auxiliary column `arrival_time` is not NULL and has a value of `1970-01-01T08:00:00.003+08:00`.
+   2. The time difference from the previous non-NULL value (`1970-01-01T08:00:00.001+08:00`) is less than 2 seconds (`TIME_BOUND`)
+   3. So the value `35.1` from the first row is used for filling.
+3. For `humidity` at `16:41`:
+   1. Although the auxiliary column `arrival_time` is not NULL, the time difference from the previous non-NULL value exceeds 2 seconds, so no filling is performed.
+4. For `humidity` at `16:44`:
+   1. Similarly, the time difference exceeds 2 seconds, so no filling is performed.
