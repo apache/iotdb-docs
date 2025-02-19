@@ -27,20 +27,20 @@
 WHERE booleanExpression
 ```
 
-__WHERE clause __: Used to specify filtering conditions in SQL queries, the WHERE clause is executed immediately after the FROM clause.
+The `WHERE` clause is used to specify filter conditions in an SQL query. It is executed immediately after the `FROM` clause.
 
 ## 2 Example Data
 
+The [Example Data page](../Reference/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.
 
-In the [Example Data page](../Basic-Concept/Sample-Data.md), there are SQL statements for building the table structure and inserting data. By downloading and executing these statements in the IoTDB CLI, you can import data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
 
-####  Example 1: Select a row with a specific ID
+####  Example 1: Selecting Rows with a Specific ID
 
 ```sql
 SELECT * FROM table1 WHERE plant_id = '1001';
 ```
 
-The execution result is as follows:
+Results:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -60,13 +60,13 @@ Total line number = 9
 It costs 0.091s
 ```
 
-#### Example 2: Choose to use LIKE expression for matching
+#### Example 2: Using the `LIKE` Expression for Matching
 
 ```sql
 SELECT * FROM table1 WHERE plant_id LIKE '300%';
 ```
 
-The execution result is as follows:
+Results:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -86,13 +86,13 @@ Total line number = 9
 It costs 0.261s
 ```
 
-#### Example 3: Choose to use composite expression filtering
+#### Example 3: Filtering with a Compound Expression
 
 ```sql
 SELECT * FROM table1 WHERE time >= 2024-11-28 00:00:00 and (plant_id = '3001' OR plant_id = '3002');
 ```
 
-The execution result is as follows:
+Results:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+

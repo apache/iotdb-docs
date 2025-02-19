@@ -21,6 +21,8 @@
 
 # ORDER BY Clauses
 
+The `ORDER BY` clause is used to sort the result set of a query at its final stage based on specified sorting conditions.
+
 ## 1 Syntax Overview
 
 ```sql
@@ -33,17 +35,17 @@ sortItem
 
 ### 1.1 ORDER BY Clauses
 
-- The ORDER BY clause is used in the final stage of a query to sort the result set. It arranges the rows in the query result in ascending (ASC) or descending (DESC) order based on the specified sorting conditions.
-- It provides control over the position of NULL values in the排序, allowing users to specify whether NULL values should be placed at the beginning (NULLS FIRST) or the end (NULLS LAST) of the sorted results.
-- By default, ASC NULLS LAST sorting is used, meaning values are sorted in ascending order with NULLs placed at the end. You can change the default sorting order by manually specifying other parameters.
-- The execution order of the ORDER BY clause is before the LIMIT or OFFSET clauses.
+- Allows sorting query result rows based on specified conditions in ascending order (`ASC`) or descending order (`DESC`).
+- Provides control over the position of `NULL` values, enabling users to specify whether `NULL` values appear at the beginning (`NULLS FIRST`) or the end (`NULLS LAST`).
+- By default, sorting is applied as `ASC NULLS LAST`, meaning values are sorted in ascending order and `NULL` values are placed at the end. Users can manually specify other parameters to override the default behavior.
+- The `ORDER BY` clause is executed before the `LIMIT` or `OFFSET` clauses.
 
 ## 2 Example Data
 
 
-In the [Example Data page](../Basic-Concept/Sample-Data.md), there are SQL statements for building the table structure and inserting data. By downloading and executing these statements in the IoTDB CLI, you can import data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
+The [Example Data page](../Reference/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.
 
-#### Example 1: Retrieve data from the past hour in descending order of time
+#### Example 1: Query data from the past hour in descending order of time
 
 ```sql
 SELECT *
@@ -52,7 +54,7 @@ SELECT *
   ORDER BY time DESC;
 ```
 
-The execution results are as follows:：
+Results:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -74,7 +76,7 @@ Total line number = 11
 It costs 0.148s
 ```
 
-#### Example 2: Query the data of all devices in the past hour in ascending order and descending order of time based on ' `device_id`', with `temperature` being prioritized for display
+#### Example 2: Query data sorted by device_id in ascending order and time in descending order, with NULL temperatures displayed first
 
 ```sql
 SELECT *
@@ -83,7 +85,7 @@ SELECT *
   ORDER BY temperature NULLS FIRST, time DESC;
 ```
 
-The execution results are as follows:：
+Results:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -105,7 +107,7 @@ Total line number = 11
 It costs 0.060s
 ```
 
-#### Example 3: Querying the top 10 rows of data with the highest temperature
+#### Example 3: Query the top 10 rows with the highest temperature values
 
 ```sql
 SELECT *
@@ -114,7 +116,7 @@ SELECT *
   LIMIT 10;
 ```
 
-The execution results are as follows:：
+Results:
 
 ```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+

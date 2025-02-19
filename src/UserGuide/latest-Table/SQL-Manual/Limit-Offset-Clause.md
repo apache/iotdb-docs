@@ -34,7 +34,7 @@ The `LIMIT` clause is applied in the final stage of a query to restrict the numb
 #### Notes
 
 - When `LIMIT` is used without an `ORDER BY` clause, the result order may not be deterministic.
-- The `LIMIT` clause requires a non-negative integer.。
+- The `LIMIT` clause requires a non-negative integer.
 
 ### 1.2 OFFSET Clause
 
@@ -48,7 +48,7 @@ The `OFFSET` clause works in conjunction with the `LIMIT` clause to skip a speci
 
 ## 2 Sample Data and Usage Examples
 
-The [Example Data page](../Basic-Concept/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.corresponding results.
+The [Example Data page](../Reference/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.
 
 #### Example 1: Retrieve the Latest Row for a Device
 
