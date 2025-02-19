@@ -40,7 +40,7 @@ export const zhSidebar = {
       children: [
         { text: '常见概念', link: 'Cluster-Concept_apache' },
         { text: '时序数据模型', link: 'Navigating_Time_Series_Data' },
-        { text: '建模方案设计', link: 'Data-Model-and-Terminology' },
+        { text: '建模方案设计', link: 'Data-Model-and-Terminology_apache' },
         { text: '数据类型', link: 'Data-Type' },
       ],
     },
@@ -54,7 +54,7 @@ export const zhSidebar = {
       prefix: 'Deployment-and-Maintenance/',
       // children: 'structure',
       children: [
-        { text: '部署形态', link: 'Deployment-form' },
+        { text: '部署形态', link: 'Deployment-form_apache' },
         { text: '安装包获取', link: 'IoTDB-Package_apache' },
         { text: '资源规划', link: 'Database-Resources' },
         { text: '环境配置', link: 'Environment-Requirements' },
@@ -90,6 +90,14 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '数据同步', link: 'Data-Sync_apache' },
+        {
+          text: '系统运维',
+          collapsible: true,
+          children: [
+            { text: '查询性能分析', link: 'Query-Performance-Analysis' },
+            { text: '运维语句', link: 'Maintenance-statement' },
+          ],
+        },
       ],
     },
     {
