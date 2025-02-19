@@ -52,9 +52,9 @@ Use the hostname for `cn_internal_address` and `dn_internal_address` in IoTDB co
 
 Unzip the installation package and navigate to the directory:
 
-```Bash
-unzip timechodb-{version}-bin.zip
-cd timechodb-{version}-bin
+```Plain
+unzip  apache-iotdb-{version}-all-bin.zip
+cd  apache-iotdb-{version}-all-bin
 ```
 
 ### 2.2 Parameters Configuration
@@ -73,6 +73,7 @@ Edit the following files for memory allocation:
 #### 2.2.2 General Configuration
 
 Set the following parameters in `conf/iotdb-system.properties`. Refer to `conf/iotdb-system.properties.template` for a complete list.
+
 
 **Cluster-Level Parameters**:
 
@@ -124,74 +125,15 @@ Navigate to the `sbin` directory of IoTDB and start the DataNode:
 ./sbin/start-datanode.sh -d    # The "-d" flag starts the process in the background.
 ```
 
-### 2.5 Activate the Database
-
-#### Option 1: File-Based Activation
-
-- Start both the ConfigNode and DataNode.
-- Navigate to the `activation` folder and copy the `system_info` file.
-- Send the `system_info` file to the Timecho team.
-- Place the license file provided by the Timecho team into the corresponding `activation` folder for each node.
-
-#### Option 2: Command-Based Activation
-
-1. Enter the IoTDB CLI.
-   - **For Table Model**:
-   - ```SQL
-      # For Linux or macOS
-      ./start-cli.sh -sql_dialect table
-      
-      # For Windows
-      ./start-cli.bat -sql_dialect table
-      ```
-
-   - **For Tree Model**:
-   - ```SQL
-      # For Linux or macOS
-      ./start-cli.sh
-      
-      # For Windows
-      ./start-cli.bat
-      ```
-2. Run the following command to retrieve the machine code required for activation:
-
-```Bash
-show system info
-```
-
-**Note**: Activation is currently supported only in the Tree Model.
-
-3. Copy the returned machine code (displayed as a green string) and send it to the Timecho team:
-
-```Bash
-+--------------------------------------------------------------+
-|                                                    SystemInfo|
-+--------------------------------------------------------------+
-|                                          01-TE5NLES4-UDDWCMYE|
-+--------------------------------------------------------------+
-Total line number = 1
-It costs 0.030s
-```
-
-4. Enter the activation code provided by the Timecho team in the CLI using the following format. Wrap the activation code in single quotes ('):
-
-```Bash
-IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
-```
-
-### 2.6 Verify Activation
+### 2.5 Verify Activation
 
 Check the `ClusterActivationStatus` field. If it shows `ACTIVATED`, the database has been successfully activated.
 
 ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81.png)
 
 ## 3 Common Issues
-1. Activation Fails Repeatedly
 
-   1. Use the `ls -al` command to verify that the ownership of the installation directory matches the current user.
-   2. Check the ownership of all files in the `./activation` directory to ensure they belong to the current user.
-
-2. ConfigNode Fails to Start
+1. ConfigNode Fails to Start
 
    1. Review the startup logs to check if any parameters, which cannot be modified after the first startup, were changed.
    2. Check the logs for any other errors. If unresolved, contact technical support for assistance.

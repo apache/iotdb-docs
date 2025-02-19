@@ -18,25 +18,30 @@
     under the License.
 
 -->
-# Package Acquisition
+# Obtain TimechoDB
 
-## How to obtain installation packages
+## 1 How to obtain TimechoDB
+
 The installation package can be directly obtained from the Apache IoTDB official website:https://iotdb.apache.org/Download/
 
-## Installation Package Structure
+
+## 2 Installation Package Structure
+
+
 Install the package after decompression（`apache-iotdb-<version>-all-bin.zip`）,After decompressing the installation package, the directory structure is as follows:
-|  **catalogue**   | **Type** |                       **Explanation**                        |
-| :--------------: | :------: | :----------------------------------------------------------: |
-|       conf       |  folder  | Configuration file directory, including configuration files such as ConfigNode, DataNode, JMX, and logback |
-|       data       |  folder  | The default data file directory contains data files for ConfigNode and DataNode. (The directory will only be generated after starting the program) |
-|       lib        |  folder  |           IoTDB executable library file directory            |
-|     licenses     |  folder  |       Open source community certificate file directory       |
-|       logs       |  folder  | The default log file directory, which includes log files for ConfigNode and DataNode (this directory will only be generated after starting the program) |
-|       sbin       |  folder  | Main script directory, including start, stop, and other scripts |
-|      tools       |  folder  |             Directory of System Peripheral Tools             |
-|       ext        |  folder  | Related files for pipe, trigger, and UDF plugins (created by the user when needed) |
-|     LICENSE      |   file   |                         certificate                          |
-|      NOTICE      |   file   |                             Tip                              |
-|   README_ZH\.md   |   file   |    Explanation of the Chinese version in Markdown format     |
-|    README\.md     |   file   |                     Instructions for use                     |
-| RELEASE_NOTES\.md |   file   |                     Version Description                      |
+
+| **Catologue**    | **Type** | **Description**                                              |
+| :--------------- | :------- | :----------------------------------------------------------- |
+| conf             | Folder   | Configuration files directory, containing ConfigNode, DataNode, JMX, and logback configuration files. |
+| data             | Folder   | Default data file directory, containing data files for ConfigNode and DataNode. *(This directory is generated after starting the program.)* |
+| lib              | Folder   | Library files directory.                                     |
+| licenses         | Folder   | Directory for open-source license certificates.              |
+| logs             | Folder   | Default log file directory, containing log files for ConfigNode and DataNode. *(This directory is generated after starting the program.)* |
+| sbin             | Folder   | Main scripts directory, containing scripts for starting, stopping, and managing the database. |
+| tools            | Folder   | Tools directory.                                             |
+| ext              | Folder   | Directory for pipe, trigger, and UDF plugin-related files.   |
+| LICENSE          | File     | Open-source license file.                                    |
+| NOTICE           | File     | Open-source notice file.                                     |
+| README_ZH.md     | File     | User manual (Chinese version).                               |
+| README.md        | File     | User manual (English version).                               |
+| RELEASE_NOTES.md | File     | Release notes.                                               |

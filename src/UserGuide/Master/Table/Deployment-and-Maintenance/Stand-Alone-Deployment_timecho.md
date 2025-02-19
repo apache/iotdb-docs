@@ -20,158 +20,148 @@
 -->
 # Stand-Alone Deployment
 
-This chapter will introduce how to start an IoTDB standalone instance, which includes 1 ConfigNode and 1 DataNode (commonly known as 1C1D).
+This guide introduces how to set up a standalone TimechoDB instance, which includes one ConfigNode and one DataNode (commonly referred to as 1C1D).
 
-## Note
+## 1 Prerequisites
 
-1. Before installation, ensure that the system is complete by referring to [System Requirements](./Environment-Requirements.md).
+1. **System Preparation**: Ensure the system has been configured according to the  [System Requirements](../Deployment-and-Maintenance/Environment-Requirements.md).
 
-   2. It is recommended to prioritize using 'hostname' for IP configuration during deployment, which can avoid the problem of modifying the host IP in the later stage and causing the database to fail to start. To set the host name, you need to configure/etc/hosts on the target server. For example, if the local IP is 192.168.1.3 and the host name is iotdb-1, you can use the following command to set the server's host name and configure IoTDB's' cn_internal-address' using the host name dn_internal_address、dn_rpc_address。
+2. **IP Configuration**: It is recommended to use hostnames for IP configuration to prevent issues caused by IP address changes. Set the hostname by editing the `/etc/hosts` file. For example, if the local IP is `192.168.1.3` and the hostname is `iotdb-1`, run:
 
-      ```shell
-      echo "192.168.1.3  iotdb-1" >> /etc/hosts 
+```Bash
+echo "192.168.1.3  iotdb-1" >> /etc/hosts
+```
+
+Use the hostname for `cn_internal_address` and `dn_internal_address` in IoTDB configuration.
+
+3. **Unmodifiable Parameters**: Some parameters cannot be changed after the first startup. Refer to the [Parameter Configuration](#22-parameters-configuration) section.
+
+4. **Installation Path**: Ensure the installation path contains no spaces or non-ASCII characters to prevent runtime issues.
+
+5. **User Permissions**: Choose one of the following permissions during installation and deployment:
+   - **Root User (Recommended)**: This avoids permission-related issues.
+   - **Non-Root User**:
+      - Use the same user for all operations, including starting, activating, and stopping services.
+      - Avoid using `sudo`, which can cause permission conflicts.
+
+6. **Monitoring Panel**: Deploy a monitoring panel to track key performance metrics. Contact the Timecho team for access and refer to the [Monitoring Board Install and Deploy](../Deployment-and-Maintenance/Monitoring-panel-deployment.md).
+
+## 2 Installation Steps
+
+### 2.1 Extract Installation Package
+
+Unzip the installation package and navigate to the directory:
+
+```Bash
+unzip timechodb-{version}-bin.zip
+cd timechodb-{version}-bin
+```
+
+### 2.2 Parameters Configuration
+
+#### 2.2.1 Memory Configuration
+
+Edit the following files for memory allocation:
+
+- **ConfigNode**: `conf/confignode-env.sh` (or `.bat` for Windows)
+- **DataNode**: `conf/datanode-env.sh` (or `.bat` for Windows)
+
+| **Parameter** | **Description**                     | **Default** | **Recommended** | **Notes**               |
+| :------------ | :---------------------------------- | :---------- | :-------------- | :---------------------- |
+| MEMORY_SIZE   | Total memory allocated for the node | Empty       | As needed       | Effective after restart |
+
+#### 2.2.2 General Configuration
+
+Set the following parameters in `conf/iotdb-system.properties`. Refer to `conf/iotdb-system.properties.template` for a complete list.
+
+**Cluster-Level Parameters**:
+
+| **Parameter**             | **Description**             | **Default**    | **Recommended** | **Notes**                                                    |
+| :------------------------ | :-------------------------- | :------------- | :-------------- | :----------------------------------------------------------- |
+| cluster_name              | Name of the cluster         | defaultCluster | Customizable    | If there is no specific requirement, keep the default value. |
+| schema_replication_factor | Number of metadata replicas | 1              | 1               | In standalone mode, set this to 1. This value cannot be modified after the first startup. |
+| data_replication_factor   | Number of data replicas     | 1              | 1               | In standalone mode, set this to 1. This value cannot be modified after the first startup. |
+
+**ConfigNode Parameters**:
+
+| **Parameter**       | **Description**                                              | **Default**     | **Recommended**                                              | **Notes**                                                  |
+| :------------------ | :----------------------------------------------------------- | :-------------- | :----------------------------------------------------------- | :--------------------------------------------------------- |
+| cn_internal_address | Address used for internal communication within the cluster   | 127.0.0.1       | Server's IPv4 address or hostname. Use hostname to avoid issues when the IP changes. | This parameter cannot be modified after the first startup. |
+| cn_internal_port    | Port used for internal communication within the cluster      | 10710           | 10710                                                        | This parameter cannot be modified after the first startup. |
+| cn_consensus_port   | Port used for consensus protocol communication among ConfigNode replicas | 10720           | 10720                                                        | This parameter cannot be modified after the first startup. |
+| cn_seed_config_node | Address of the ConfigNode for registering and joining the cluster. (e.g.,`cn_internal_address:cn_internal_port`) | 127.0.0.1:10710 | Use `cn_internal_address:cn_internal_port`                   | This parameter cannot be modified after the first startup. |
+
+**DataNode Parameters**:
+
+| **Parameter**                   | **Description**                                              | **Default**     | **Recommended**                                              | **Notes**                                                  |
+| :------------------------------ | :----------------------------------------------------------- | :-------------- | :----------------------------------------------------------- | :--------------------------------------------------------- |
+| dn_rpc_address                  | Address for the client RPC service                           | 0.0.0.0         | 0.0.0.0                                                      | Effective after restarting the service.                    |
+| dn_rpc_port                     | Port for the client RPC service                              | 6667            | 6667                                                         | Effective after restarting the service.                    |
+| dn_internal_address             | Address used for internal communication within the cluster   | 127.0.0.1       | Server's IPv4 address or hostname. Use hostname to avoid issues when the IP changes. | This parameter cannot be modified after the first startup. |
+| dn_internal_port                | Port used for internal communication within the cluster      | 10730           | 10730                                                        | This parameter cannot be modified after the first startup. |
+| dn_mpp_data_exchange_port       | Port used for receiving data streams                         | 10740           | 10740                                                        | This parameter cannot be modified after the first startup. |
+| dn_data_region_consensus_port   | Port used for data replica consensus protocol communication  | 10750           | 10750                                                        | This parameter cannot be modified after the first startup. |
+| dn_schema_region_consensus_port | Port used for metadata replica consensus protocol communication | 10760           | 10760                                                        | This parameter cannot be modified after the first startup. |
+| dn_seed_config_node             | Address of the ConfigNode for registering and joining the cluster. (e.g.,`cn_internal_address:cn_internal_port`) | 127.0.0.1:10710 | Use `cn_internal_address:cn_internal_port`                   | This parameter cannot be modified after the first startup. |
+
+### 2.3 Start ConfigNode
+
+Navigate to the `sbin` directory and start ConfigNode:
+
+```Bash
+./sbin/start-confignode.sh -d   # The "-d" flag starts the process in the background.
+```
+
+If the startup fails, refer to the [Common Issues](#3-common-issues)。 section below for troubleshooting.
+
+
+
+### 2.4 Start DataNode
+
+Navigate to the `sbin` directory of IoTDB and start the DataNode:
+
+```Bash
+./sbin/start-datanode.sh -d    # The "-d" flag starts the process in the background.
+```
+
+### 2.5 Activate the Database
+
+#### Option 1: File-Based Activation
+
+- Start both the ConfigNode and DataNode.
+- Navigate to the `activation` folder and copy the `system_info` file.
+- Send the `system_info` file to the Timecho team.
+- Place the license file provided by the Timecho team into the corresponding `activation` folder for each node.
+
+#### Option 2: Command-Based Activation
+
+1. Enter the IoTDB CLI.
+   - **For Table Model**:
+   - ```SQL
+      # For Linux or macOS
+      ./start-cli.sh -sql_dialect table
+      
+      # For Windows
+      ./start-cli.bat -sql_dialect table
       ```
 
-   3. Some parameters cannot be modified after the first startup. Please refer to the "Parameter Configuration" section below for settings.
+   - **For Tree Model**:
+   - ```SQL
+      # For Linux or macOS
+      ./start-cli.sh
+      
+      # For Windows
+      ./start-cli.bat
+      ```
+2. Run the following command to retrieve the machine code required for activation:
 
-   4. Whether in linux or windows, ensure that the IoTDB installation path does not contain Spaces and Chinese characters to avoid software exceptions.
-
-   5. Please note that when installing and deploying IoTDB (including activating and using software), it is necessary to use the same user for operations. You can:
-
-   - Using root user (recommended): Using root user can avoid issues such as permissions.
-   - Using a fixed non root user:
-     - Using the same user operation: Ensure that the same user is used for start, activation, stop, and other operations, and do not switch users.
-     - Avoid using sudo: Try to avoid using sudo commands as they execute commands with root privileges, which may cause confusion or security issues.
-
-   6. It is recommended to deploy a monitoring panel, which can monitor important operational indicators and keep track of database operation status at any time. The monitoring panel can be obtained by contacting the business department, and the steps for deploying the monitoring panel can be referred to：[Monitoring Board Install and Deploy](./Monitoring-panel-deployment.md).
-
-## Installation Steps
-
-### 1、Unzip the installation package and enter the installation directory
-
-```Plain
-unzip  timechodb-{version}-bin.zip
-cd  timechodb-{version}-bin
+```Bash
+show system info
 ```
 
-### 2、Parameter Configuration
+**Note**: Activation is currently supported only in the Tree Model.
 
-#### Memory Configuration
-
-- conf/confignode-env.sh（or .bat）
-
-  | **Configuration** |                       **Description**                        | **Default** |                    **Recommended value**                     |                Note                 |
-  | :---------------: | :----------------------------------------------------------: | :---------: | :----------------------------------------------------------: | :---------------------------------: |
-  |    MEMORY_SIZE    | The total amount of memory that IoTDB ConfigNode nodes can use |    empty    | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
-
-- conf/datanode-env.sh（or .bat）
-
-  | **Configuration** |                       **Description**                        | **Default** |                    **Recommended value**                     |              **Note**               |
-  | :---------------: | :----------------------------------------------------------: | :---------: | :----------------------------------------------------------: | :---------------------------------: |
-  |    MEMORY_SIZE    | The total amount of memory that IoTDB DataNode nodes can use |    empty    | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
-
-#### Function Configuration
-
-The parameters that actually take effect in the system are in the file conf/iotdb-system.exe. To start, the following parameters need to be set, which can be viewed in the conf/iotdb-system.exe file for all parameters
-
-Cluster function configuration
-
-|     **Configuration**     |                       **Description**                        |  **Default**   |                    **Recommended value**                     |                         Note                          |
-| :-----------------------: | :----------------------------------------------------------: | :------------: | :----------------------------------------------------------: | :---------------------------------------------------: |
-|       cluster_name        |                         Cluster Name                         | defaultCluster | The cluster name can be set as needed, and if there are no special needs, the default can be kept |       Cannot be modified after initial startup        |
-| schema_replication_factor | Number of metadata replicas, set to 1 for the standalone version here |       1        |                              1                               | Default 1, cannot be modified after the first startup |
-|  data_replication_factor  | Number of data replicas, set to 1 for the standalone version here |       1        |                              1                               | Default 1, cannot be modified after the first startup |
-
-ConfigNode Configuration
-
-|  **Configuration**  |                       **Description**                        |   **Default**   |                    **Recommended value**                     |                   Note                   |
-| :-----------------: | :----------------------------------------------------------: | :-------------: | :----------------------------------------------------------: | :--------------------------------------: |
-| cn_internal_address | The address used by ConfigNode for communication within the cluster |    127.0.0.1    | The IPV4 address or host name of the server where it is located, and it is recommended to use host name | Cannot be modified after initial startup |
-|  cn_internal_port   | The port used by ConfigNode for communication within the cluster |      10710      |                            10710                             | Cannot be modified after initial startup |
-|  cn_consensus_port  | The port used for ConfigNode replica group consensus protocol communication |      10720      |                            10720                             | Cannot be modified after initial startup |
-| cn_seed_config_node | The address of the ConfigNode that the node connects to when registering to join the cluster, cn_internal_address:cn_internal_port | 127.0.0.1:10710 |             cn_internal_address:cn_internal_port             | Cannot be modified after initial startup |
-
-DataNode Configuration
-
-| **Configuration**               | **Description**                                              | **Default**     | **Recommended value**                                        | **Note**                                 |
-| :------------------------------ | :----------------------------------------------------------- | :-------------- | :----------------------------------------------------------- | :--------------------------------------- |
-| dn_rpc_address                  | The address of the client RPC service                        | 0.0.0.0         | The IPV4 address or host name of the server where it is located, and it is recommended to use host name | Restarting the service takes effect      |
-| dn_rpc_port                     | The port of the client RPC service                           | 6667            | 6667                                                         | Restarting the service takes effect      |
-| dn_internal_address             | The address used by DataNode for communication within the cluster | 127.0.0.1       | The IPV4 address or host name of the server where it is located, and it is recommended to use host name | Cannot be modified after initial startup |
-| dn_internal_port                | The port used by DataNode for communication within the cluster | 10730           | 10730                                                        | Cannot be modified after initial startup |
-| dn_mpp_data_exchange_port       | The port used by DataNode to receive data streams            | 10740           | 10740                                                        | Cannot be modified after initial startup |
-| dn_data_region_consensus_port   | The port used by DataNode for data replica consensus protocol communication | 10750           | 10750                                                        | Cannot be modified after initial startup |
-| dn_schema_region_consensus_port | The port used by DataNode for metadata replica consensus protocol communication | 10760           | 10760                                                        | Cannot be modified after initial startup |
-| dn_seed_config_node             | The ConfigNode address that the node connects to when registering to join the cluster, i.e. cn_internal-address: cn_internal_port | 127.0.0.1:10710 | cn_internal_address:cn_internal_port                         | Cannot be modified after initial startup |
-
-### 3、Start ConfigNode
-
-Enter the sbin directory of iotdb and start confignode
-
-```shell
-
-./start-confignode.sh    -d      #The "- d" parameter will start in the background 
-
-```
-
-If the startup fails, please refer to [Common Problem](#common-problem).
-
-### 4、Start DataNode
-
- Enter the sbin directory of iotdb and start datanode:
-
-```shell
-
-cd sbin
-
-./start-datanode.sh   -d   # The "- d" parameter will start in the background
-
-```
-
-### 5、Activate Database
-
-#### Method 1: Activate file copy activation
-
-- After starting the confignode datanode node, enter the activation folder and copy the systeminfo file to the Timecho staff
-
-- Received the license file returned by the staff
-
-- Place the license file in the activation folder of the corresponding node;
-
-#### Method 2: Activate Script Activation
-
-- Retrieve the machine codes of 3 machines in sequence and enter IoTDB CLI
-
-  - Table Model CLI Enter Command：
-
-  ```SQL
-  # Linux or MACOS
-  ./start-cli.sh -sql_dialect table
-  
-  # windows
-  ./start-cli.bat -sql_dialect table
-  ```
-
-  - Enter the tree model CLI command:
-
-  ```SQL
-  # Linux or MACOS
-  ./start-cli.sh
-  
-  # windows
-  ./start-cli.bat
-  ```
-
--   Execute the following to obtain the machine code required for activation:
-    - : Currently, activation is only supported in tree models
-
-    ```Bash
-
-    show system info
-
-    ```
-
--  The following information is displayed, which shows the machine code of one machine:
+3. Copy the returned machine code (displayed as a green string) and send it to the Timecho team:
 
 ```Bash
 +--------------------------------------------------------------+
@@ -183,84 +173,78 @@ Total line number = 1
 It costs 0.030s
 ```
 
-- Enter the activation code returned by the staff into the CLI and enter the following content
-  - Note: The activation code needs to be marked with a `'`symbol before and after, as shown in
+4. Enter the activation code provided by the Timecho team in the CLI using the following format. Wrap the activation code in single quotes ('):
 
 ```Bash
 IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
 ```
 
-### 6、Verify Activation
+### 2.6 Verify Activation
 
-When the "ClusterActivation Status" field is displayed as Activated, it indicates successful activation
+Check the `ClusterActivationStatus` field. If it shows `ACTIVATED`, the database has been successfully activated.
 
 ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81.png)
 
-## Common Problem
+## 3 Common Issues
+1. Activation Fails Repeatedly
 
-1. Multiple prompts indicating activation failure during deployment process
+   1. Use the `ls -al` command to verify that the ownership of the installation directory matches the current user.
+   2. Check the ownership of all files in the `./activation` directory to ensure they belong to the current user.
 
-​    - Use the `ls -al` command: Use the `ls -al` command to check if the owner information of the installation package root directory is the current user.
+2. ConfigNode Fails to Start
 
-​    - Check activation directory: Check all files in the `./activation` directory and whether the owner information is the current user.
+   1. Review the startup logs to check if any parameters, which cannot be modified after the first startup, were changed.
+   2. Check the logs for any other errors. If unresolved, contact technical support for assistance.
+   3. If the deployment is fresh or data can be discarded, clean the environment and redeploy using the following steps:
 
-2. Confignode failed to start
+  **Clean the Environment**
 
-   Step 1: Please check the startup log to see if any parameters that cannot be changed after the first startup have been modified.
+   1. Stop all ConfigNode and DataNode processes:
+       ```Bash
+      sbin/stop-standalone.sh
+      ```
 
-   Step 2: Please check the startup log for any other abnormalities. If there are any abnormal phenomena in the log, please contact Timecho Technical Support personnel for consultation on solutions.
+   2. Check for any remaining processes:
+       ```Bash
+      jps 
+      # or 
+      ps -ef | grep iotdb
+      ```
 
-   Step 3: If it is the first deployment or data can be deleted, you can also clean up the environment according to the following steps, redeploy, and restart.
+   3. If processes remain, terminate them manually:
+       ```Bash
+       kill -9 <pid>
+       
+       #For systems with a single IoTDB instance, you can clean up residual processes with:
+       ps -ef | grep iotdb | grep -v grep | tr -s ' ' ' ' | cut -d ' ' -f2 | xargs kill -9
+       ```
 
-   Step 4: Clean up the environment:
+   4. Delete the `data` and `logs` directories:
+       ```Bash
+       cd /data/iotdb 
+       rm -rf data logs
+       ```
 
-   a. Terminate all ConfigNode Node and DataNode processes.
+## 4 Appendix
 
-   ```Bash
-     # 1. Stop the ConfigNode and DataNode services
-     sbin/stop-standalone.sh
-   
-     # 2. Check for any remaining processes
-     jps
-     # Or
-     ps -ef|gerp iotdb
-   
-     # 3. If there are any remaining processes, manually kill the
-     kill -9 <pid>
-     # If you are sure there is only one iotdb on the machine, you can use the following command to clean up residual processes
-     ps -ef|grep iotdb|grep -v grep|tr -s '  ' ' ' |cut -d ' ' -f2|xargs kill -9
-   ```
+### 4.1 ConfigNode Parameters
 
-   b.  Delete the data and logs directories.
+| Parameter | Description                                                 | Required |
+| :-------- | :---------------------------------------------------------- | :------- |
+| -d        | Starts the process in daemon mode (runs in the background). | No       |
 
-   Explanation: Deleting the data directory is necessary, deleting the logs directory is for clean logs and is not mandatory.
+### 4.2 DataNode Parameters
 
-   ```Bash
-     cd /data/iotdb
-     rm -rf data logs
-   ```
-
-## Appendix
-
-### Introduction to Configuration Node Parameters
-
-| Parameter | Description                                     | Is it required |
-| :-------- | :---------------------------------------------- | :----------------- |
-| -d        | Start in daemon mode, running in the background | No                 |
-
-### Introduction to Datanode Node Parameters
-
-| Abbreviation | Description                                                  | Is it required |
-| :----------- | :----------------------------------------------------------- | :------------- |
-| -v           | Show version information                                     | No             |
-| -f           | Run the script in the foreground, do not put it in the background | No             |
-| -d           | Start in daemon mode, i.e. run in the background             | No             |
-| -p           | Specify a file to store the process ID for process management | No             |
-| -c           | Specify the path to the configuration file folder, the script will load the configuration file from here | No             |
-| -g           | Print detailed garbage collection (GC) information           | No             |
-| -H           | Specify the path of the Java heap dump file, used when JVM memory overflows | No             |
-| -E           | Specify the path of the JVM error log file                   | No             |
-| -D           | Define system properties, in the format key=value            | No             |
-| -X           | Pass -XX parameters directly to the JVM                      | No             |
-| -h           | Help instruction                                             | No             |
-
+| Parameter | Description                                                  | Required |
+| :-------- | :----------------------------------------------------------- | :------- |
+| -v        | Displays version information.                                | No       |
+| -f        | Runs the script in the foreground without backgrounding it.  | No       |
+| -d        | Starts the process in daemon mode (runs in the background).  | No       |
+| -p        | Specifies a file to store the process ID for process management. | No       |
+| -c        | Specifies the path to the configuration folder; the script loads configuration files from this location. | No       |
+| -g        | Prints detailed garbage collection (GC) information.         | No       |
+| -H        | Specifies the path for the Java heap dump file, used during JVM memory overflow. | No       |
+| -E        | Specifies the file for JVM error logs.                       | No       |
+| -D        | Defines system properties in the format `key=value`.         | No       |
+| -X        | Passes `-XX` options directly to the JVM.                    | No       |
+| -h        | Displays the help instructions.                              | No       |
