@@ -359,9 +359,7 @@ NULL OR true -- true
 
 #### 2.3 NOT 运算符
 
-```
-NULL` 的逻辑否定仍然是 `NULL
-```
+NULL 的逻辑否定仍然是 NULL
 
 示例：
 
@@ -767,25 +765,25 @@ SELECT *
 
 #### 1.2 LIKE 语句
 
-`LIKE` 语句用于模式匹配，具体用法在[模式匹配：LIKE](https://timechor.feishu.cn/docx/VEXud5aNFoSSzCxpaGYce9ibn5c) 中有详细文档。
+`LIKE` 语句用于模式匹配，具体用法在[模式匹配：LIKE](#1-like-运算符) 中有详细文档。
 
 ### 2. 字符串函数
 
-| 函数名                                                       | 描述                                                         | 输入                                                         | 输出                                                         | 用法                                                         |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| length                                                       | 返回字符串的字符长度，而不是字符数组的长度。                 | 支持一个参数，类型可以是字符串或文本。**string**：要计算长度的字符串。 | INT32                                                        | length(string)                                               |
-| upper                                                        | 将字符串中的字母转换为大写。                                 | 支持一个参数，类型可以是字符串或文本。**string**：要计算长度的字符串。 | String                                                       | upper(string)                                                |
-| lower                                                        | 将字符串中的字母转换为小写。                                 | 支持一个参数，类型可以是字符串或文本。**string**：要计算长度的字符串。 | String                                                       | lower(string)                                                |
-| trim                                                         | 从源字符串中删除指定的开头和/或结尾字符。                    | 支持三个参数**specification（可选）**：指定从哪边去掉字符，可以是：`BOTH`：两边都去掉（默认）。`LEADING`：只去掉开头的字符。`TRAILING`：只去掉结尾的字符。**trimcharacter（可选）**：要去掉的字符，如果没指定，默认去掉空格。**string**：要处理的字符串。 | String                                                       | trim([ [ specification ] [ trimcharacter ] FROM ] string) 示例：`trim('!' FROM '!foo!');` —— `'foo'` |
-| strpos                                                       | 返回子字符串在字符串中第一次出现的起始位置。位置从 1 开始计数。如果未找到，返回 0。注意：起始位置是基于字符而不是字节数组确定的。 | 仅支持两个参数，类型可以是字符串或文本。**sourceStr**：要搜索的字符串。**subStr**：要找的子字符串。 | INT32                                                        | strpos(sourceStr, subStr)                                    |
-| starts_with                                                  | 测试子字符串是否是字符串的前缀。                             | 支持两个参数，类型可以是字符串或文本。**sourceStr**：要检查的字符串，类型可以是字符串或文本。**prefix**：前缀子字符串，类型可以是字符串或文本。 | Boolean                                                      | starts_with(sourceStr, prefix)                               |
-| ends_with                                                    | 测试字符串是否以指定的后缀结束。                             | 支持两个参数，类型可以是字符串或文本。**sourceStr**：要检查的字符串。**suffix**：后缀子字符串。 | Boolean                                                      | ends_with(sourceStr, suffix)                                 |
-| concat                                                       | 返回字符串 `string1`、`string2`、...、`stringN` 的连接结果。功能与连接操作符 `||` 相同。 | 至少两个参数，所有参数类型必须是字符串或文本。               | String                                                       | concat(str1, str2, ...) 或 str1 \|\| str2 ...                |
-| strcmp                                                       | 比较两个字符串的字母序。                                     | 支持两个参数，两个参数类型必须是字符串或文本。**string1**：第一个要比较的字符串。**string2**：第二个要比较的字符串。 | 返回一个整数值INT32如果 `str1 < str2`，返回 `-1`如果 `str1 = str2`，返回 `0`如果 `str1 > str2`，返回 `1`如果 `str1` 或 `str2` 为 `NULL`，返回 `NULL` | strcmp(str1, str2)                                           |
-| replace                                                      | 从字符串中删除所有 `search` 的实例。                         | 支持两个参数，可以是字符串或文本类型。**string**：原始字符串，要从中删除内容的字符串。**search**：要删除的子字符串。 | String                                                       | replace(string, string)                                      |
-| 将字符串中所有 `search` 的实例替换为 `replace`。             | 支持三个参数，可以是字符串或文本类型。**string**：原始字符串，要从中替换内容的字符串。**search**：要替换掉的子字符串。**replace**：用来替换的新字符串。 | String                                                       | replace(string, string, string)                              |                                                              |
-| substring                                                    | 从指定位置提取字符到字符串末尾。需要注意的是，起始位置是基于字符而不是字节数组确定的。`start_index` 从 1 开始计数，长度从 `start_index` 位置计算。 | 支持两个参数**string**：要提取子字符串的源字符串，可以是字符串或文本类型。**start_index**：从哪个索引开始提取子字符串，索引从 1 开始计数。 | String：返回一个字符串，从 `start_index` 位置开始到字符串末尾的所有字符。**注意事项**：`start_index` 从 1 开始，即数组的第 0 个位置是 1参数为 null时，返回 `null`start_index 大于字符串长度时，结果报错。 | substring(string from start_index)或 substring(string, start_index) |
-| 从一个字符串中提取从指定位置开始、指定长度的子字符串注意：起始位置和长度是基于字符而不是字节数组确定的。`start_index` 从 1 开始计数，长度从 `start_index` 位置计算。 | 支持三个参数**string**：要提取子字符串的源字符串，可以是字符串或文本类型。**start_index**：从哪个索引开始提取子字符串，索引从 1 开始计数。**length**：要提取的子字符串的长度。 | String：返回一个字符串，从 `start_index` 位置开始，提取 `length` 个字符。**注意事项**：参数为 null时，返回 `null`如果 `start_index` 大于字符串的长度，结果报错。如果 `length` 小于 0，结果报错。极端情况，`start_index + length` 超过 `int.MAX` 并变成负数，将导致异常结果。 | substring(string from start_index for length)  或 substring(string, start_index, length) |                                                              |
+| 函数名      | 描述                                                         | 输入                                                         | 输出                                                         | 用法                                                         |
+| ----------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| length      | 返回字符串的字符长度，而不是字符数组的长度。                 | 支持一个参数，类型可以是字符串或文本。**string**：要计算长度的字符串。 | INT32                                                        | length(string)                                               |
+| upper       | 将字符串中的字母转换为大写。                                 | 支持一个参数，类型可以是字符串或文本。**string**：要计算长度的字符串。 | String                                                       | upper(string)                                                |
+| lower       | 将字符串中的字母转换为小写。                                 | 支持一个参数，类型可以是字符串或文本。**string**：要计算长度的字符串。 | String                                                       | lower(string)                                                |
+| trim        | 从源字符串中删除指定的开头和/或结尾字符。                    | 支持三个参数**specification（可选）**：指定从哪边去掉字符，可以是：`BOTH`：两边都去掉（默认）。`LEADING`：只去掉开头的字符。`TRAILING`：只去掉结尾的字符。**trimcharacter（可选）**：要去掉的字符，如果没指定，默认去掉空格。**string**：要处理的字符串。 | String                                                       | trim([ [ specification ] [ trimcharacter ] FROM ] string) 示例：`trim('!' FROM '!foo!');` —— `'foo'` |
+| strpos      | 返回子字符串在字符串中第一次出现的起始位置。位置从 1 开始计数。如果未找到，返回 0。注意：起始位置是基于字符而不是字节数组确定的。 | 仅支持两个参数，类型可以是字符串或文本。**sourceStr**：要搜索的字符串。**subStr**：要找的子字符串。 | INT32                                                        | strpos(sourceStr, subStr)                                    |
+| starts_with | 测试子字符串是否是字符串的前缀。                             | 支持两个参数，类型可以是字符串或文本。**sourceStr**：要检查的字符串，类型可以是字符串或文本。**prefix**：前缀子字符串，类型可以是字符串或文本。 | Boolean                                                      | starts_with(sourceStr, prefix)                               |
+| ends_with   | 测试字符串是否以指定的后缀结束。                             | 支持两个参数，类型可以是字符串或文本。**sourceStr**：要检查的字符串。**suffix**：后缀子字符串。 | Boolean                                                      | ends_with(sourceStr, suffix)                                 |
+| concat      | 返回字符串 `string1`、`string2`、...、`stringN` 的连接结果。功能与连接操作符 `||` 相同。 | 至少两个参数，所有参数类型必须是字符串或文本。               | String                                                       | concat(str1, str2, ...) 或 str1 \|\| str2 ...                |
+| strcmp      | 比较两个字符串的字母序。                                     | 支持两个参数，两个参数类型必须是字符串或文本。**string1**：第一个要比较的字符串。**string2**：第二个要比较的字符串。 | 返回一个整数值INT32如果 `str1 < str2`，返回 `-1`如果 `str1 = str2`，返回 `0`如果 `str1 > str2`，返回 `1`如果 `str1` 或 `str2` 为 `NULL`，返回 `NULL` | strcmp(str1, str2)                                           |
+| replace     | 从字符串中删除所有 `search` 的实例。                         | 支持两个参数，可以是字符串或文本类型。**string**：原始字符串，要从中删除内容的字符串。**search**：要删除的子字符串。 | String                                                       | replace(string, string)                                      |
+| replace     | 将字符串中所有 `search` 的实例替换为 `replace`。             | 支持三个参数，可以是字符串或文本类型。**string**：原始字符串，要从中替换内容的字符串。**search**：要替换掉的子字符串。**replace**：用来替换的新字符串。 | String                                                       | replace(string, string, string)                              |
+| substring   | 从指定位置提取字符到字符串末尾。需要注意的是，起始位置是基于字符而不是字节数组确定的。`start_index` 从 1 开始计数，长度从 `start_index` 位置计算。 | 支持两个参数**string**：要提取子字符串的源字符串，可以是字符串或文本类型。**start_index**：从哪个索引开始提取子字符串，索引从 1 开始计数。 | String：返回一个字符串，从 `start_index` 位置开始到字符串末尾的所有字符。**注意事项**：`start_index` 从 1 开始，即数组的第 0 个位置是 1参数为 null时，返回 `null`start_index 大于字符串长度时，结果报错。 | substring(string from start_index)或 substring(string, start_index) |
+| substring   | 从一个字符串中提取从指定位置开始、指定长度的子字符串注意：起始位置和长度是基于字符而不是字节数组确定的。`start_index` 从 1 开始计数，长度从 `start_index` 位置计算。 | 支持三个参数**string**：要提取子字符串的源字符串，可以是字符串或文本类型。**start_index**：从哪个索引开始提取子字符串，索引从 1 开始计数。**length**：要提取的子字符串的长度。 | String：返回一个字符串，从 `start_index` 位置开始，提取 `length` 个字符。**注意事项**：参数为 null时，返回 `null`如果 `start_index` 大于字符串的长度，结果报错。如果 `length` 小于 0，结果报错。极端情况，`start_index + length` 超过 `int.MAX` 并变成负数，将导致异常结果。 | substring(string from start_index for length)  或 substring(string, start_index, length) |
 
 ## 模式匹配函数
 
