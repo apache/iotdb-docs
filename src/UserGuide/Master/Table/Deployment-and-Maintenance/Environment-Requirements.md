@@ -20,175 +20,182 @@
 -->
 # System Requirements
 
-## Disk Array
+## 1 Disk Array
 
-### Configuration Suggestions
+### 1.1 Configuration Suggestions
 
-IoTDB has no strict operation requirements on disk array configuration. It is recommended to use multiple disk arrays to store IoTDB data to achieve the goal of concurrent writing to multiple disk arrays. For configuration, refer to the following suggestions:
+IoTDB does not have strict operational requirements for disk array configurations. It is recommended to use multiple disk arrays to store IoTDB data to achieve concurrent writing across multiple disk arrays. The following configuration suggestions can be referenced:
 
-1. Physical environment
-    System disk: You are advised to use two disks as Raid1, considering only the space occupied by the operating system itself, and do not reserve system disk space for the IoTDB
-    Data disk：
-    Raid is recommended to protect data on disks
-    It is recommended to provide multiple disks (1-6 disks) or disk groups for the IoTDB. (It is not recommended to create a disk array for all disks, as this will affect the maximum performance of the IoTDB.)
-2. Virtual environment
-    You are advised to mount multiple hard disks (1-6 disks).
-3. When deploying IoTDB, it is recommended to avoid using network storage devices such as NAS.
+1. Physical Environment
+   - System Disk: It is recommended to use 2 disks for RAID1, considering only the space occupied by the operating system itself. No additional space needs to be reserved for IoTDB on the system disk.
+   - Data Disk:
+      - It is recommended to use RAID for data protection at the disk level.
+      - It is recommended to provide multiple disks (around 1-6) or disk groups for IoTDB (avoiding creating a single disk array with all disks, as it may affect IoTDB's performance ceiling).
+2. Virtual Environment
+   - It is recommended to mount multiple hard drives (around 1-6).
 
-### Configuration Example
+### 1.2 Configuration Examples
 
-- Example 1: Four 3.5-inch hard disks
+- Example 1: 4 x 3.5-inch Hard Drives
 
-Only a few hard disks are installed on the server. Configure Raid5 directly.
-The recommended configurations are as follows:
-| **Use classification** | **Raid type**  | **Disk number** | **Redundancy** | **Available capacity** |
-| ----------- | -------- | -------- | --------- | -------- |
-| system/data disk | RAID5 | 4 | 1 | 3 | is allowed to fail|
+  - Since the server has fewer installed hard drives, RAID5 can be directly configured without additional settings.
 
-- Example 2: Twelve 3.5-inch hard disks
+  - Recommended configuration:
 
-The server is configured with twelve 3.5-inch disks.
-Two disks are recommended as Raid1 system disks. The two data disks can be divided into two Raid5 groups. Each group of five disks can be used as four disks.
-The recommended configurations are as follows:
-| **Use classification** | **Raid type**  | **Disk number** | **Redundancy** | **Available capacity** |
-| -------- | -------- | -------- | --------- | -------- |
-| system disk   | RAID1    | 2        | 1 | 1        |
-| data disk   | RAID5    | 5        | 1 | 4        |
-| data disk   | RAID5    | 5        | 1 | 4        |
-- Example 3:24 2.5-inch disks
+     | Classification   | RAID Type | Number of Hard Drives | Redundancy             | Usable Drives |
+      | :--------------- | :-------- | :-------------------- | :--------------------- | :------------ |
+      | System/Data Disk | RAID5     | 4                     | 1 disk failure allowed | 3             |
 
-The server is configured with 24 2.5-inch disks.
-Two disks are recommended as Raid1 system disks. The last two disks can be divided into three Raid5 groups. Each group of seven disks can be used as six disks. The remaining block can be idle or used to store pre-write logs.
-The recommended configurations are as follows:
-| **Use classification** | **Raid type**  | **Disk number** | **Redundancy** | **Available capacity** |
-| -------- | -------- | -------- | --------- | -------- |
-| system disk   | RAID1    | 2        | 1 | 1        |
-| data disk   | RAID5    | 7        | 1 | 6        |
-| data disk   | RAID5    | 7        | 1 | 6        |
-| data disk   | RAID5    | 7        | 1 | 6        |
-| data disk   | NoRaid   | 1        | 0 | 1        |
+- Example 2: 12 x 3.5-inch Hard Drives
 
-## Operating System
+  - The server is configured with 12 x 3.5-inch hard drives.
 
-### Version Requirements
+  - The first 2 disks are recommended for RAID1 as the system disk. The data disks can be divided into 2 groups of RAID5, with 5 disks in each group (4 usable).
 
-IoTDB supports operating systems such as Linux, Windows, and MacOS, while the enterprise version supports domestic CPUs such as Loongson, Phytium, and Kunpeng. It also supports domestic server operating systems such as Neokylin, KylinOS, UOS, and Linx.
+  - Recommended configuration:
 
-### Disk Partition
+    | Classification | RAID Type | Number of Hard Drives | Redundancy             | Usable Drives |
+      | :------------- | :-------- | :-------------------- | :--------------------- | :------------ |
+      | System Disk    | RAID1     | 2                     | 1 disk failure allowed | 1             |
+      | Data Disk      | RAID5     | 5                     | 1 disk failure allowed | 4             |
+      | Data Disk      | RAID5     | 5                     | 1 disk failure allowed | 4             |
 
-- The default standard partition mode is recommended. LVM extension and hard disk encryption are not recommended.
-- The system disk needs only the space used by the operating system, and does not need to reserve space for the IoTDB.
-- Each disk group corresponds to only one partition. Data disks (with multiple disk groups, corresponding to raid) do not need additional partitions. All space is used by the IoTDB.
-The following table lists the recommended disk partitioning methods.
+- Example 3: 24 x 2.5-inch Hard Drives
+
+  - The server is configured with 24 x 2.5-inch hard drives.
+
+  - The first 2 disks are recommended for RAID1 as the system disk. The remaining disks can be divided into 3 groups of RAID5, with 7 disks in each group (6 usable). The last disk can be left idle or used for storing write-ahead logs.
+
+  - Recommended configuration:
+
+     | Usage Classification | RAID Type | Number of Hard Drives | Redundancy             | Usable Drives |
+      | :------------------- | :-------- | :-------------------- | :--------------------- | :------------ |
+      | System Disk          | RAID1     | 2                     | 1 disk failure allowed | 1             |
+      | Data Disk            | RAID5     | 7                     | 1 disk failure allowed | 6             |
+      | Data Disk            | RAID5     | 7                     | 1 disk failure allowed | 6             |
+      | Data Disk            | RAID5     | 7                     | 1 disk failure allowed | 6             |
+      | Data Disk            | No RAID   | 1                     | Data loss if damaged   | 1             |
+
+## 2 Operating System
+
+### 2.1 Version Requirements
+
+IoTDB supports operating systems such as Linux, Windows, and MacOS. TimechoDB also supports Chinese CPUs like Loongson, Phytium, and Kunpeng, as well as Chinese operating systems like Kylin, UOS, and NingSi.
+
+### 2.2 Hard Disk Partitioning
+
+- It is recommended to use the default standard partitioning method. LVM expansion and hard disk encryption are not recommended.
+- The system disk only needs to meet the space requirements of the operating system. No additional space needs to be reserved for IoTDB.
+- Each disk group should correspond to a single partition. Data disks (with multiple disk groups corresponding to RAID) do not need additional partitioning, and all space should be allocated to IoTDB.
+
+Recommended disk partitioning is as follows:
+
 <table>
 <tbody>
 <tr>
-            <th>Disk classification</th>
-            <th>Disk set</th>        
-            <th>Drive</th>
-            <th>Capacity</th>
-            <th>File system type</th>
-      </tr>
+        <th>Hard Disk Classification</th>
+        <th>Disk Group</th>        
+        <th>Corresponding Drive Letter</th>
+        <th>Size</th>
+        <th>File System Type</th>
+    </tr>
     <tr>
-            <td rowspan="2">System disk</td>
-            <td rowspan="2">Disk group0</td> 
-            <td>/boot</td>  
-            <td>1GB</td> 
-            <td>Acquiesce</td> 
-      </tr>
-      <tr>
-            <td>/</td>  
-            <td>Remaining space of the disk group</td> 
-            <td>Acquiesce</td> 
-      </tr>
-      <tr>
-            <td rowspan="3">Data disk</td>
-            <td>Disk set1</td> 
-            <td>/data1</td>  
-            <td>Full space of disk group1</td> 
-            <td>Acquiesce</td> 
-      </tr>
-      <tr>
-            <td>Disk set2</td> 
-            <td>/data2</td>  
-            <td>Full space of disk group2</td> 
-            <td>Acquiesce</td> 
-      </tr>
-      <tr>
-            <td colspan="4">......</td>   
-      </tr>
+        <td rowspan="2">System Disk</td>
+        <td rowspan="2">Disk Group 0</td> 
+        <td>/boot</td>  
+        <td>1GB</td> 
+        <td>Default</td> 
+    </tr>
+    <tr>
+        <td>/</td>  
+        <td>Remaining space of disk group</td> 
+        <td>Default</td> 
+    </tr>
+    <tr>
+        <td rowspan="3">Data Disk</td>
+        <td>Disk Group 1</td> 
+        <td>/data1</td>  
+        <td>Entire space of disk group 1</td> 
+        <td>Default</td> 
+    </tr>
+    <tr>
+        <td>Disk Group 2</td> 
+        <td>/data2</td>  
+        <td>Entire space of disk group 2</td> 
+        <td>Default</td> 
+    </tr>
+    <tr>
+        <td colspan="4">......</td>   
+    </tr>
 </tbody>
 </table>
-### Network Configuration
 
-1. Disable the firewall
+### 2.3 Network Configuration
 
-```Bash
-# View firewall
-systemctl status firewalld
-# Disable firewall
-systemctl stop firewalld
-# Disable firewall permanently
-systemctl disable firewalld
-```
-2. Ensure that the required port is not occupied
+1. **Disable Firewall**
+      ```Bash
+      # Check firewall status
+      systemctl status firewalld
+      # Stop firewall
+      systemctl stop firewalld
+      # Permanently disable firewall
+      systemctl disable firewalld
+      ```
+2. **Ensure Required Ports Are Not Occupied**
+   - Cluster Ports: By default, ConfigNode uses ports 10710 and 10720, while DataNode uses ports 6667, 10730, 10740, 10750, 10760, 9090, 9190, and 3000. Ensure these ports are not occupied. Check as follows:
+        ```Bash
+        lsof -i:6667   or  netstat -tunp | grep 6667
+        lsof -i:10710   or  netstat -tunp | grep 10710
+        lsof -i:10720   or  netstat -tunp | grep 10720
+        # If the command outputs anything, the port is occupied.
+        ```
+   - Cluster Deployment Tool Ports: When using the cluster management tool `opskit` for installation and deployment, ensure the SSH remote connection service is configured and port 22 is open.
+        ```Bash
+        yum install openssh-server            # Install SSH service
+        systemctl start sshd                  # Enable port 22
+        ```
+3. Ensure Network Connectivity Between Servers
 
-(1) Check the ports occupied by the cluster: In the default cluster configuration, ConfigNode occupies ports 10710 and 10720, and DataNode occupies ports 6667, 10730, 10740, 10750, 10760, 9090, 9190, and 3000. Ensure that these ports are not occupied. Check methods are as follows:
+### 2.4 Other Configurations
 
-```Bash
-lsof -i:6667 or netstat -tunp | grep 6667
-lsof -i:10710 or netstat -tunp | grep 10710
-lsof -i:10720 or netstat -tunp | grep 10720
-# If the command outputs, the port is occupied.
-```
+1. Disable System Swap Memory
+      ```Bash
+      echo "vm.swappiness = 0" >> /etc/sysctl.conf
+      # Execute both swapoff -a and swapon -a to transfer data from swap back to memory and clear swap data.
+      # Do not omit the swappiness setting and only execute swapoff -a; otherwise, swap will automatically reopen after reboot, rendering the operation ineffective.
+      swapoff -a && swapon -a
+      # Apply the configuration without rebooting.
+      sysctl -p
+      # Check memory allocation; swap should be 0.
+      free -m
+      ```
+2. Set System Maximum Open Files to 65535 to avoid "too many open files" errors.
+      ```Bash
+      # Check current limit
+      ulimit -n
+      # Temporarily modify
+      ulimit -n 65535
+      # Permanently modify
+      echo "* soft nofile 65535" >> /etc/security/limits.conf
+      echo "* hard nofile 65535" >> /etc/security/limits.conf
+      # After exiting the current terminal session, check; it should display 65535.
+      ulimit -n
+      ```
 
-(2) Checking the port occupied by the cluster deployment tool: When using the cluster management tool opskit to install and deploy the cluster, enable the SSH remote connection service configuration and open port 22.
 
-```Bash
-yum install openssh-server # Install the ssh service
-systemctl start sshd # Enable port 22
-```
 
-3. Ensure that servers are connected to each other
+## 3 Software Dependencies
 
-### Other Configuration
+Install Java Runtime Environment, Java version >= 1.8. Ensure JDK environment variables are set. (For versions V1.3.2.2 and later, it is recommended to directly deploy JDK17. Older JDK versions may have performance issues in some scenarios, and DataNode may fail to stop.)
 
-1. Disable the system swap memory
-
-```Bash
-echo "vm.swappiness = 0">> /etc/sysctl.conf
-# The swapoff -a and swapon -a commands are executed together to dump the data in swap back to memory and to empty the data in swap.
-# Do not omit the swappiness setting and just execute swapoff -a; Otherwise, swap automatically opens again after the restart, making the operation invalid.
-swapoff -a && swapon -a
-# Make the configuration take effect without restarting.
-sysctl -p
-# Check memory allocation, expecting swap to be 0
-free -m
-```
-2. Set the maximum number of open files to 65535 to avoid the error of "too many open files".
-
-```Bash
-# View current restrictions
-ulimit -n
-# Temporary changes
-ulimit -n 65535
-# Permanent modification
-echo "* soft nofile 65535" >>  /etc/security/limits.conf
-echo "* hard nofile 65535" >>  /etc/security/limits.conf
-# View after exiting the current terminal session, expect to display 65535
-ulimit -n
-```
-## Software Dependence
-
-Install the Java runtime environment (Java version >= 1.8). Ensure that jdk environment variables are set. (It is recommended to deploy JDK17 for V1.3.2.2 or later. In some scenarios, the performance of JDK of earlier versions is compromised, and Datanodes cannot be stopped.)
-
-```Bash
-# The following is an example of installing in centos7 using JDK-17:
-tar -zxvf JDk-17_linux-x64_bin.tar # Decompress the JDK file
-Vim ~/.bashrc # Configure the JDK environment
-{   export JAVA_HOME=/usr/lib/jvm/jdk-17.0.9
-    export PATH=$JAVA_HOME/bin:$PATH
-} # Add JDK environment variables
-source ~/.bashrc # The configuration takes effect
-java -version # Check the JDK environment
-```
+  ```Bash
+   # Example of installing JDK-17 on CentOS7:
+   tar -zxvf jdk-17_linux-x64_bin.tar     # Extract JDK files
+   vim ~/.bashrc                          # Configure JDK environment
+   {
+     export JAVA_HOME=/usr/lib/jvm/jdk-17.0.9
+     export PATH=$JAVA_HOME/bin:$PATH
+   }  # Add JDK environment variables
+   source ~/.bashrc                       # Apply environment configuration
+   java -version                          # Check JDK environment
+   ```

@@ -53,9 +53,10 @@ Use the hostname for `cn_internal_address` and `dn_internal_address` in IoTDB co
 
 ## 2 Preparation
 
-1. Obtain the TimechoDB installation package: `timechodb-{version}-bin.zip` following [IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_timecho.md)）
+1. Prepare the IoTDB database installation package:：apache-iotdb-{version}-all-bin.zip（Please refer to the installation package for details：[IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_apache.md)）
 
-2. Configure the operating system environment according to [Environment Requirement](../Deployment-and-Maintenance/Environment-Requirements.md)）
+2. Configure the operating system environment according to environmental requirements (system environment configuration can be found in:[Environment Requirement](../Deployment-and-Maintenance/Environment-Requirements.md)）
+
 
 ## 3 Installation Steps
 
@@ -82,10 +83,9 @@ echo "11.101.17.226  iotdb-3"  >> /etc/hosts
 Unzip the installation package and navigate to the directory:
 
 ```Plain
-unzip timechodb-{version}-bin.zip
-cd timechodb-{version}-bin
+unzip  apache-iotdb-{version}-all-bin.zip 
+cd  apache-iotdb-{version}-all-bin
 ```
-
 ### 3.3 Parameters Configuration
 
 #### 3.3.1 Memory Configuration
@@ -157,65 +157,9 @@ On each server, navigate to the `sbin` directory and start the DataNode:
   ./start-datanode.sh -d    # The "-d" flag starts the process in the background.
   ```
 
-### 3.6 Activate the Database
-
-#### Option 1: File-Based Activation
-
-1. Start all ConfigNodes and DataNodes.
-2. Copy the `system_info` file from the `activation` directory on each server and send them to the Timecho team.
-3. Place the license files provided by the Timecho team into the corresponding `activation` folder for each node.
-
-#### Option 2: Command-Based Activation
-
-1. Enter the IoTDB CLI for each node:
-   - **For Table Model**:
-    ```SQL
-      # For Linux or macOS
-      ./start-cli.sh -sql_dialect table
-      
-      # For Windows
-      ./start-cli.bat -sql_dialect table
-      ```
-
-   - **For Tree Model**:
-   ```SQL
-      # For Linux or macOS
-      ./start-cli.sh
-      
-      # For Windows
-      ./start-cli.bat
-      ```
-2. Run the following command to retrieve the machine code required for activation:
-
-    ```Bash
-    show system info
-    ``` 
-
-**Note**: Activation is currently supported only in the Tree Model.
-
-3. Copy the returned machine code of each server (displayed as a green string) and send it to the Timecho team:
-
-```Bash
-+--------------------------------------------------------------+
-|                                                    SystemInfo|
-+--------------------------------------------------------------+
-|01-TE5NLES4-UDDWCMYE,01-GG5NLES4-XXDWCMYE,01-FF5NLES4-WWWWCMYE|
-+--------------------------------------------------------------+
-Total line number = 1
-It costs 0.030s
-```
-
-4. Enter the activation codes provided by the Timecho team in the CLI in sequence using the following format. Wrap the activation code in single quotes ('):
-
-```Bash
-IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
-```
-
-### 3.7 Verify Activation
+### 3.6 Verify Activation
 
 Check the `ClusterActivationStatus` field. If it shows `ACTIVATED`, the database has been successfully activated.
-
-![](/img/%E9%9B%86%E7%BE%A4-%E9%AA%8C%E8%AF%81.png)
 
 ## 4 Maintenance
 
@@ -347,11 +291,7 @@ sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 
 ## 5 Common Issues
 
-1. Activation Fails Repeatedly
-   - Use the `ls -al` command to verify that the ownership of the installation directory matches the current user.
-   - Check the ownership of all files in the `./activation` directory to ensure they belong to the current user.
-
-2. ConfigNode Fails to Start
+1.  ConfigNode Fails to Start
    1. Review the startup logs to check if any parameters, which cannot be modified after the first startup, were changed.
    2. Check the logs for any other errors. If unresolved, contact technical support for assistance.
    3. If the deployment is fresh or data can be discarded, clean the environment and redeploy using the following steps:
