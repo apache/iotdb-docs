@@ -19,70 +19,81 @@
 
 -->
 
-# 数据类型
+# Data Types
 
-## 1 基本数据类型
+## 1 Basic Data Types
 
-IoTDB 支持以下十种数据类型：
+IoTDB supports the following ten data types:
 
-* BOOLEAN（布尔值）
-* INT32（整型）
-* INT64（长整型）
-* FLOAT（单精度浮点数）
-* DOUBLE（双精度浮点数）
-* TEXT（长字符串）
-* STRING（字符串）
-* BLOB（大二进制对象）
-* TIMESTAMP（时间戳）
-* DATE（日期）
+- **BOOLEAN** (Boolean value)
+- **INT32** (32-bit integer)
+- **INT64** (64-bit integer)
+- **FLOAT** (Single-precision floating-point number)
+- **DOUBLE** (Double-precision floating-point number)
+- **TEXT** (Text data, suitable for long strings)
+- **STRING** (String data with additional statistical information for optimized queries)
+- **BLOB** (Large binary object)
+- **TIMESTAMP** (Timestamp, representing precise moments in time)
+- **DATE** (Date, storing only calendar date information)
 
-其中，STRING 和 TEXT 类型的区别在于，STRING 类型具有更多的统计信息，能够用于优化值过滤查询。TEXT 类型适合用于存储长字符串。
+The difference between **STRING** and **TEXT**:
 
-### 1.1 浮点数精度配置
+- **STRING** stores text data and includes additional statistical information to optimize value-filtering queries.
+- **TEXT** is suitable for storing long text strings without additional query optimization.
 
-对于 **FLOAT** 与 **DOUBLE** 类型的序列，如果编码方式采用 `RLE`或 `TS_2DIFF`，可以在创建序列时通过 `MAX_POINT_NUMBER` 属性指定浮点数的小数点后位数。
+### 1.1 Floating-Point Precision Configuration
 
-例如，
-```sql
+For **FLOAT** and **DOUBLE** series using **RLE** or **TS_2DIFF** encoding, the number of decimal places can be set via the **MAX_POINT_NUMBER** attribute during series creation.
+
+For example:  
+
+```SQL
 CREATE TIMESERIES root.vehicle.d0.s0 WITH DATATYPE=FLOAT, ENCODING=RLE, 'MAX_POINT_NUMBER'='2';
 ```
 
-若不指定，系统会按照配置文件 `iotdb-system.properties` 中的 [float_precision](../Reference/System-Config-Manual.md) 项配置（默认为 2 位）。
+If not specified, the system will use the configuration in the `iotdb-system.properties` file under the `float_precision` item (default is 2 decimal places).  
 
-### 1.2 数据类型兼容性
+### 1.2 Data Type Compatibility
 
-当写入数据的类型与序列注册的数据类型不一致时，
-- 如果序列数据类型不兼容写入数据类型，系统会给出错误提示。
-- 如果序列数据类型兼容写入数据类型，系统会进行数据类型的自动转换，将写入的数据类型更正为注册序列的类型。
+If the written data type does not match the registered data type of a series:  
 
-各数据类型的兼容情况如下表所示：
+- **Incompatible types** → The system will issue an error.
+- **Compatible types** → The system will automatically convert the written data type to match the registered type.
 
-| 序列数据类型 | 支持的写入数据类型                     |
-|--------------|-----------------------------------|
-| BOOLEAN      | BOOLEAN                           |
-| INT32        | INT32                             |
-| INT64        | INT32 INT64 TIMESTAMP             |
-| FLOAT        | INT32 FLOAT                       |
-| DOUBLE       | INT32 INT64 FLOAT DOUBLE TIMESTAMP|
-| TEXT         | TEXT STRING                       |
-| STRING       | TEXT STRING                       |
-| BLOB         | TEXT STRING BLOB                  |
-| TIMESTAMP    | INT32 INT64 TIMESTAMP             |
-| DATE         | DATE                              |
+The compatibility of data types is shown in the table below:  
 
-## 2 时间戳类型
+| Registered Data Type | Compatible Write Data Types            |
+| :------------------- | :------------------------------------- |
+| BOOLEAN              | BOOLEAN                                |
+| INT32                | INT32                                  |
+| INT64                | INT32, INT64, TIMESTAMP                |
+| FLOAT                | INT32, FLOAT                           |
+| DOUBLE               | INT32, INT64, FLOAT, DOUBLE, TIMESTAMP |
+| TEXT                 | TEXT, STRING                           |
+| STRING               | TEXT, STRING                           |
+| BLOB                 | TEXT, STRING, BLOB                     |
+| TIMESTAMP            | INT32, INT64, TIMESTAMP                |
+| DATE                 | DATE                                   |
 
-时间戳是一个数据到来的时间点，其中包括绝对时间戳和相对时间戳。
+## 2 Timestamp Types
 
-### 2.1 绝对时间戳
+A timestamp represents the moment when data is recorded. IoTDB supports two types:
 
-IOTDB 中绝对时间戳分为二种，一种为 LONG 类型，一种为 DATETIME 类型（包含 DATETIME-INPUT, DATETIME-DISPLAY 两个小类）。
+- **Absolute timestamps**: Directly specify a point in time.
+- **Relative timestamps**: Define time offsets from a reference point (e.g., `now()`).
 
-在用户在输入时间戳时，可以使用 LONG 类型的时间戳或 DATETIME-INPUT 类型的时间戳，其中 DATETIME-INPUT 类型的时间戳支持格式如表所示：
+### 2.1 Absolute Timestamp
+
+IoTDB supports timestamps in two formats:
+
+1. **LONG**: Milliseconds since the Unix epoch (1970-01-01 00:00:00 UTC).
+2. **DATETIME**: Human-readable date-time strings. (including **DATETIME-INPUT** and **DATETIME-DISPLAY** subcategories).  
+
+When entering a timestamp, users can use either a LONG value or a DATETIME string. Supported input formats include:
 
 <div style="text-align: center;">
 
-**DATETIME-INPUT 类型支持格式**
+**DATETIME-INPUT Type Supports Format**
 
 
 | format                       |
@@ -104,12 +115,13 @@ IOTDB 中绝对时间戳分为二种，一种为 LONG 类型，一种为 DATETIM
 
 </div>
 
+> **Note:** `ZZ` represents a time zone offset (e.g., `+0800` for Beijing Time, `-0500` for Eastern Standard Time).
 
-IoTDB 在显示时间戳时可以支持 LONG 类型以及 DATETIME-DISPLAY 类型，其中 DATETIME-DISPLAY 类型可以支持用户自定义时间格式。自定义时间格式的语法如表所示：
+IoTDB supports timestamp display in **LONG** format or **DATETIME-DISPLAY** format, allowing users to customize time output. 
 
 <div style="text-align: center;">
 
-**DATETIME-DISPLAY 自定义时间格式的语法**
+**Syntax for Custom Time Formats in DATETIME-DISPLAY**
 
 
 | Symbol |           Meaning           | Presentation |              Examples              |
@@ -146,15 +158,16 @@ IoTDB 在显示时间戳时可以支持 LONG 类型以及 DATETIME-DISPLAY 类�
 
 </div>
 
-### 2.2 相对时间戳
+### 2.2 Relative Timestamp
 
-  相对时间是指与服务器时间```now()```和```DATETIME```类型时间相差一定时间间隔的时间。
-  形式化定义为：
+Relative timestamps allow specifying time offsets from **now()** or a **DATETIME** reference.
 
-  ```
-  Duration = (Digit+ ('Y'|'MO'|'W'|'D'|'H'|'M'|'S'|'MS'|'US'|'NS'))+
-  RelativeTime = (now() | DATETIME) ((+|-) Duration)+
-  ```
+The formal definition is:  
+
+```Plain
+Duration = (Digit+ ('Y'|'MO'|'W'|'D'|'H'|'M'|'S'|'MS'|'US'|'NS'))+  
+RelativeTime = (now() | DATETIME) ((+|-) Duration)+  
+```
 
   <div style="text-align: center;">
 
@@ -178,11 +191,11 @@ IoTDB 在显示时间戳时可以支持 LONG 类型以及 DATETIME-DISPLAY 类�
 
   </div>
 
-  例子：
+**Examples:**  
 
-  ```
-  now() - 1d2h //比服务器时间早 1 天 2 小时的时间
-  now() - 1w //比服务器时间早 1 周的时间
-  ```
+```Plain
+now() - 1d2h // A time 1 day and 2 hours earlier than the server time  
+now() - 1w   // A time 1 week earlier than the server time  
+```
 
-  > 注意：'+'和'-'的左右两边必须有空格
+> **Note:** There must be spaces on both sides of `+` and `-` operators.  
