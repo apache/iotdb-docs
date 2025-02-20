@@ -45,8 +45,8 @@
 ### 2.1 解压安装包并进入安装目录
 
 ```Plain
-unzip  timechodb-{version}-bin.zip
-cd  timechodb-{version}-bin
+unzip  apache-iotdb-{version}-all-bin.zip
+cd  apache-iotdb-{version}-all-bin
 ```
 
 ### 2.2 参数配置
@@ -124,10 +124,7 @@ DataNode 配置
 
 ## 3 常见问题
 
-1. 部署过程中多次提示激活失败
-   - 使用 `ls -al` 命令：使用 `ls -al` 命令检查安装包根目录的所有者信息是否为当前用户。
-   - 检查激活目录：检查 `./activation` 目录下的所有文件，所有者信息是否为当前用户。
-2. Confignode节点启动失败
+1. Confignode节点启动失败
    - 步骤 1: 请查看启动日志，检查是否修改了某些首次启动后不可改的参数。
    - 步骤 2: 请查看启动日志，检查是否出现其他异常。日志中若存在异常现象，请联系天谋技术支持人员咨询解决方案。
    -  步骤 3: 如果是首次部署或者数据可删除，也可按下述步骤清理环境，重新部署后，再次启动。

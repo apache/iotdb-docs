@@ -63,7 +63,6 @@ ID_CONDITION:
 
 ```SQL
 # 全表删除
-# Whole table deletion
 DELETE FROM table1
 ```
 
@@ -71,11 +70,9 @@ DELETE FROM table1
 
 ```SQL
 # 单时间段删除
-# Single time interval deletion
 DELETE FROM table1 WHERE time <= 2024-11-29 00:00:00
 
 # 多时间段删除
-# Multi time interval deletion
 DELETE FROM table1  WHERE time >= 2024-11-27 00:00:00  and time <= 2024-11-29 00:00:00
 ```
 
@@ -84,17 +81,14 @@ DELETE FROM table1  WHERE time >= 2024-11-27 00:00:00  and time <= 2024-11-29 00
 ```SQL
 # 删除指定设备
 # 标识条件只支持 = 运算符
-# Device-specific deletion
 DELETE FROM table1 WHERE device_id='101' and model_id = 'B'
 
 # 删除指定设备的时间段
-# Device-specific deletion with time interval
 DELETE FROM table1 
     WHERE time >= 2024-11-27 16:39:00  and time <= 2024-11-29 16:42:00 
     AND device_id='101' and model_id = 'B'
 
 # 删除指定类型的设备
-# Device-type-specific deletion
 DELETE FROM table1 WHERE model_id = 'B'
 ```
 

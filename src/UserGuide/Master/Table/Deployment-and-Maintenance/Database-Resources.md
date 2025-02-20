@@ -19,50 +19,50 @@
 
 -->
 # Database Resources
-## CPU
+## 1 CPU
 <table style="text-align: center;">
    <tbody>
       <tr>
-            <th rowspan="2">Number of timeseries (frequency<=1HZ)</th>
+            <th rowspan="2">Number of timeseries (frequency&lt;=1HZ)</th>
             <th rowspan="2">CPU</th>        
             <th colspan="3">Number of nodes</th>
       </tr>
       <tr>
-      <th>standalone mode</th>   
-      <th>Double active</th> 
+      <th>standalone</th>   
+      <th>Dual-Active</th> 
       <th>Distributed</th> 
       </tr>
       <tr>
             <td>Within 100000</td>
-            <td>2core-4core</td>
+            <td>2-4 cores</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>Within 300000</td>
-            <td>4core-8core</td>
+            <td>4-8 cores</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>Within 500000</td>
-            <td>8core-26core</td>
+            <td>8-16 cores</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>Within 1000000</td>
-            <td>16core-32core</td>
+            <td>16-32 cores</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>Within 2000000</td>
-            <td>32core-48core</td>
+            <td>32-48 cores</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
@@ -81,50 +81,50 @@
 </tbody>
 </table>
 
-## Memory 
+## 2 Memory 
 <table style="text-align: center;">
    <tbody>
       <tr>
-            <th rowspan="2">Number of timeseries (frequency<=1HZ)</th>
+            <th rowspan="2">Number of timeseries (frequency&lt;=1HZ)</th>
             <th rowspan="2">Memory</th>        
             <th colspan="3">Number of nodes</th>
       </tr>
       <tr>
-      <th>standalone mode</th>   
-      <th>Double active</th> 
+      <th>standalone</th>   
+      <th>Dual-Active</th> 
       <th>Distributed</th> 
       </tr>
       <tr>
             <td>Within 100000</td>
-            <td>4G-8G</td>
+            <td>4-8G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>Within 300000</td>
-            <td>12G-32G</td>
+            <td>12-32G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>Within 500000</td>
-            <td>24G-48G</td>
+            <td>24-48G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>Within 1000000</td>
-            <td>32G-96G</td>
+            <td>32-96G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>Within 2000000</td>
-            <td>64G-128G</td>
+            <td>64-128G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
@@ -143,19 +143,23 @@
 </tbody>
 </table>
 
-## Storage (Disk)
-### Storage space
-Calculation formula: Number of measurement points * Sampling frequency (Hz) * Size of each data point (Byte, different data types may vary, see table below) * Storage time (seconds) * Number of copies (usually 1 copy for a single node and 2 copies for a cluster) ÷ Compression ratio (can be estimated at 5-10 times, but may be higher in actual situations)
+## 3 Storage (Disk)
+### 3.1 Storage space
+Calculation Formula:
+
+```Plain
+Storage Space = Number of Measurement Points * Sampling Frequency (Hz) * Size of Each Data Point (Bytes, see the table below) * Storage Duration * Replication Factor / Compression Ratio
+```
+
+Data Point Size Calculation Table:
+
 <table style="text-align: center;">
    <tbody>
       <tr>
-            <th colspan="4">Data point size calculation</th>
-      </tr>
-      <tr>
-            <th>data type</th>   
+            <th>Data Type</th>   
             <th>Timestamp (Bytes)</th> 
             <th> Value (Bytes)</th> 
-            <th> Total size of data points (in bytes) 
+            <th> Total Data Point Size (Bytes) 
       </th> 
       </tr>
       <tr>
@@ -165,36 +169,48 @@ Calculation formula: Number of measurement points * Sampling frequency (Hz) * Si
             <td>9</td>
       </tr>
       <tr>
-            <td> INT32/FLOAT</td>
+            <td> INT32 / FLOAT (Single Precision)</td>
             <td>8</td>
             <td>4</td>
             <td>12</td>
       </tr>
       <tr>
-            <td>INT64/DOUBLE</td>
+            <td>INT64 / DOUBLE (Double Precision)</td>
             <td>8</td>
             <td>8</td>
             <td>16</td>
       </tr>
       <tr>
-            <td>TEXT</td>
+            <td>TEXT (String)</td>
             <td>8</td>
-            <td>The average is a</td>
+            <td>Average = a</td>
             <td>8+a</td>
       </tr>
 </tbody>
 </table>
+Example:
 
-Example: 1000 devices, each with 100 measurement points, a total of 100000 sequences, INT32 type. Sampling frequency 1Hz (once per second), storage for 1 year, 3 copies.
-- Complete calculation formula: 1000 devices * 100 measurement points * 12 bytes per data point * 86400 seconds per day * 365 days per year * 3 copies / 10 compression ratio / 1024 / 1024 / 1024 / 1024 =11T
-- Simplified calculation formula: 1000 * 100 * 12 * 86400 * 365 * 3 / 10 / 1024 / 1024 / 1024 / 1024 =11T
-### Storage Configuration
-If the number of nodes is over 10000000 or the query load is high, it is recommended to configure SSD
-## Network (Network card)
-If the write throughput does not exceed 10 million points/second, configure 1Gbps network card. When the write throughput exceeds 10 million points per second, a 10Gbps network card needs to be configured.
-| **Write throughput (data points per second)** | **NIC rate** |
-| ------------------- | ------------- |
-| <10 million | 1Gbps |
-| >=10 million | 10Gbps |
-## Other instructions
-IoTDB has the ability to scale up clusters in seconds, and expanding node data does not require migration. Therefore, you do not need to worry about the limited cluster capacity estimated based on existing data. In the future, you can add new nodes to the cluster when you need to scale up.
+- Scenario: 1,000 devices, 100 measurement points per device, i.e. 100,000 sequences in total. Data type is INT32. Sampling frequency is 1Hz (once per second). Storage duration is 1 year. Replication factor is 3.
+- Full Calculation:
+    ```Plain
+    1,000 devices * 100 measurement points * 12 bytes per data point * 86,400 seconds per day * 365 days per year * 3 replicas / 10 compression ratio = 11 TB
+    ```
+- Simplified Calculation:
+   ```Plain
+    1,000 * 100 * 12 * 86,400 * 365 * 3 / 10 = 11 TB
+    ```
+### 3.2 Storage Configuration
+
+- For systems with > 10 million measurement points or high query loads, SSD is recommended.
+
+## 4 Network (NIC) 
+When the write throughput does not exceed 10 million points per second, a gigabit network card is required. When the write throughput exceeds 10 million points per second, a 10-gigabit network card is required.
+
+| **Write** **Throughput** **(Data Points/Second)** | **NIC** **Speed**    |
+| ------------------------------------------------- | -------------------- |
+| < 10 million                                      | 1 Gbps (Gigabit)     |
+| ≥ 10 million                                      | 10 Gbps (10 Gigabit) |
+
+## 5 Additional Notes
+
+- IoTDB supports second-level cluster scaling . Data migration is not required when adding new nodes, so there is no need to worry about limited cluster capacity based on current data estimates. You can add new nodes to the cluster when scaling is needed in the future.

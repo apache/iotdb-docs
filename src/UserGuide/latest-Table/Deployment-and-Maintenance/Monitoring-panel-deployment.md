@@ -20,66 +20,72 @@
 -->
 # Monitoring Panel Deployment
 
-The IoTDB monitoring panel is one of the supporting tools for the IoTDB Enterprise Edition. It aims to solve the monitoring problems of IoTDB and its operating system, mainly including operating system resource monitoring, IoTDB performance monitoring, and hundreds of kernel monitoring indicators, in order to help users monitor the health status of the cluster, and perform cluster optimization and operation. This article will take common 3C3D clusters (3 Confignodes and 3 Datanodes) as examples to introduce how to enable the system monitoring module in an IoTDB instance and use Prometheus+Grafana to visualize the system monitoring indicators.
+The monitoring panel is one of the supporting tools for TimechoDB. It aims to solve the monitoring problems of TimechoDB and its operating system, mainly including operating system resource monitoring, TimechoDB performance monitoring, and hundreds of kernel monitoring metrics, in order to help users monitor cluster health, optimize performance, and perform maintenance. This guide demonstrates how to enable the system monitoring module in a TimechoDB instance and visualize monitoring metrics using Prometheus + Grafana, using a typical 3C3D cluster (3 ConfigNodes and 3 DataNodes) as an example.
 
 ## Installation Preparation
 
 1. Installing IoTDB: You need to first install IoTDB V1.0 or above Enterprise Edition. You can contact business or technical support to obtain
 2. Obtain the IoTDB monitoring panel installation package: Based on the enterprise version of IoTDB database monitoring panel, you can contact business or technical support to obtain
 
-## Installation Steps
+## 1 Installation Preparation
 
-### Step 1: IoTDB enables monitoring indicator collection
+1. Installing TimechoDB: Install TimechoDB V1.0 or above. Contact sales or technical support to obtain the installation package.
 
-1. Open the monitoring configuration item. The configuration items related to monitoring in IoTDB are disabled by default. Before deploying the monitoring panel, you need to open the relevant configuration items (note that the service needs to be restarted after enabling monitoring configuration).
+2. Obtain the monitoring panel installation package: The monitoring panel is exclusive to the enterprise-grade TimechoDB. Contact sales or technical support to obtain it.
 
-| **Configuration**                  | Located in the configuration file | **Description**                                              |
-| :--------------------------------- | :-------------------------------- | :----------------------------------------------------------- |
-| cn_metric_reporter_list            | conf/iotdb-system.properties  | Uncomment the configuration item and set the value to PROMETHEUS |
-| cn_metric_level                    | conf/iotdb-system.properties  | Uncomment the configuration item and set the value to IMPORTANT |
-| cn_metric_prometheus_reporter_port | conf/iotdb-system.properties  | Uncomment the configuration item to maintain the default setting of 9091. If other ports are set, they will not conflict with each other |
-| dn_metric_reporter_list            | conf/iotdb-system.properties    | Uncomment the configuration item and set the value to PROMETHEUS |
-| dn_metric_level                    | conf/iotdb-system.properties    | Uncomment the configuration item and set the value to IMPORTANT |
-| dn_metric_prometheus_reporter_port | conf/iotdb-system.properties    | Uncomment the configuration item and set it to 9092 by default. If other ports are set, they will not conflict with each other |
+## 2 Installation Steps
+
+### Step 1: Enable Monitoring Metrics Collection in TimechoDB
+
+1. Enable related configuration options. The configuration options related to monitoring in TimechoDB are disabled by default. Before deploying the monitoring panel, you need to enable certain configuration options (note that the service needs to be restarted after enabling monitoring configuration).
+
+| **Configuration**                  | **Configuration File**           | **Description**                                              |
+| :--------------------------------- | :------------------------------- | :----------------------------------------------------------- |
+| cn_metric_reporter_list            | conf/iotdb-confignode.properties | Uncomment the configuration option and set the value to PROMETHEUS |
+| cn_metric_level                    | conf/iotdb-confignode.properties | Uncomment the configuration option and set the value to IMPORTANT |
+| cn_metric_prometheus_reporter_port | conf/iotdb-confignode.properties | Uncomment the configuration option and keep the default port `9091` or set another port (ensure no conflict) |
+| dn_metric_reporter_list            | conf/iotdb-datanode.properties   | Uncomment the configuration option and set the value to PROMETHEUS |
+| dn_metric_level                    | conf/iotdb-datanode.properties   | Uncomment the configuration option and set the value to IMPORTANT |
+| dn_metric_prometheus_reporter_port | conf/iotdb-datanode.properties   | Uncomment the configuration option and keep the default port `9092` or set another port (ensure no conflict) |
 
 Taking the 3C3D cluster as an example, the monitoring configuration that needs to be modified is as follows:
 
-| Node IP     | Host Name | Cluster Role | Configuration File Path          | Configuration                                                |
-| ----------- | --------- | ------------ | -------------------------------- | ------------------------------------------------------------ |
+| Node IP     | Host Name | Cluster Role | Configuration File Path      | Configuration                                                |
+| ----------- | --------- | ------------ | ---------------------------- | ------------------------------------------------------------ |
 | 192.168.1.3 | iotdb-1   | confignode   | conf/iotdb-system.properties | cn_metric_reporter_list=PROMETHEUS cn_metric_level=IMPORTANT cn_metric_prometheus_reporter_port=9091 |
 | 192.168.1.4 | iotdb-2   | confignode   | conf/iotdb-system.properties | cn_metric_reporter_list=PROMETHEUS cn_metric_level=IMPORTANT cn_metric_prometheus_reporter_port=9091 |
 | 192.168.1.5 | iotdb-3   | confignode   | conf/iotdb-system.properties | cn_metric_reporter_list=PROMETHEUS cn_metric_level=IMPORTANT cn_metric_prometheus_reporter_port=9091 |
-| 192.168.1.3 | iotdb-1   | datanode     | conf/iotdb-system.properties   | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 |
-| 192.168.1.4 | iotdb-2   | datanode     | conf/iotdb-system.properties   | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 |
-| 192.168.1.5 | iotdb-3   | datanode     | conf/iotdb-system.properties   | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 |
+| 192.168.1.3 | iotdb-1   | datanode     | conf/iotdb-system.properties | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 |
+| 192.168.1.4 | iotdb-2   | datanode     | conf/iotdb-system.properties | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 |
+| 192.168.1.5 | iotdb-3   | datanode     | conf/iotdb-system.properties | dn_metric_reporter_list=PROMETHEUS dn_metric_level=IMPORTANT dn_metric_prometheus_reporter_port=9092 |
 
-2. Restart all nodes. After modifying the monitoring indicator configuration of three nodes, the confignode and datanode services of all nodes can be restarted:
+2. Restart all nodes. After modifying the monitoring configurations on all 3 nodes, restart the ConfigNode and DataNode services:
 
 ```Bash
-./sbin/stop-standalone.sh      #Stop confignode and datanode first
-./sbin/start-confignode.sh  -d #Start confignode
-./sbin/start-datanode.sh  -d   #Start datanode 
-```
+  ./sbin/stop-standalone.sh      #Stop confignode and datanode first
+  ./sbin/start-confignode.sh  -d #Start confignode
+  ./sbin/start-datanode.sh  -d   #Start datanode 
+  ```
 
-3. After restarting, confirm the running status of each node through the client. If the status is Running, it indicates successful configuration:
+3. After restarting, confirm the running status of each node through the client. If all nodes are running, the configuration is successful.
 
 ![](/img/%E5%90%AF%E5%8A%A8.png)
 
-### Step 2: Install and configure Prometheus
+### Step 2: Install and Configure Prometheus
 
-> Taking Prometheus installed on server 192.168.1.3 as an example.
+> In this example, Prometheus is installed on server 192.168.1.3.
 
-1. Download the Prometheus installation package, which requires installation of V2.30.3 and above. You can go to the Prometheus official website to download it(https://prometheus.io/docs/introduction/first_steps/)
-2. Unzip the installation package and enter the unzipped folder:
+1. Download Prometheus (version 2.30.3 or later). You can download it on Prometheus homepage (https://prometheus.io/docs/introduction/first_steps/)
+2. Unzip the installation package and enter the folder:
 
 ```Shell
-tar xvfz prometheus-*.tar.gz
-cd prometheus-*
-```
+  tar xvfz prometheus-*.tar.gz
+  cd prometheus-*
+  ```
 
-3. Modify the configuration. Modify the configuration file prometheus.yml as follows
-   1. Add configNode task to collect monitoring data for ConfigNode
-   2. Add a datanode task to collect monitoring data for DataNodes
+3. Modify the configuration. Modify the configuration file `prometheus.yml` as follows
+   - Add a confignode job to collect monitoring data for ConfigNode
+   - Add a datanode job to collect monitoring data for DataNodes
 
 ```YAML
 global:
@@ -102,45 +108,46 @@ scrape_configs:
 4. Start Prometheus. The default expiration time for Prometheus monitoring data is 15 days. In production environments, it is recommended to adjust it to 180 days or more to track historical monitoring data for a longer period of time. The startup command is as follows:
 
 ```Shell
-./prometheus --config.file=prometheus.yml --storage.tsdb.retention.time=180d
-```
+  ./prometheus --config.file=prometheus.yml --storage.tsdb.retention.time=180d
+  ```
 
-5. Confirm successful startup. Enter in browser http://192.168.1.3:9090 Go to Prometheus and click on the Target interface under Status. When you see that all States are Up, it indicates successful configuration and connectivity.
+5. Confirm successful startup. Open a browser and navigate to http://192.168.1.3:9090 . Navitage to "Status" -> "Targets". If the states of all targets were up, the configuration is successful.
 
     <div style="display: flex;justify-content: space-between;">
       <img src="/img/%E5%90%AF%E5%8A%A8_1.png" alt=""  style="width: 50%;"  /> 
       <img src="/img/%E5%90%AF%E5%8A%A8_2.png" alt="" style="width: 48%;"/>
     </div>
 
-6. Clicking on the left link in Targets will redirect you to web monitoring and view the monitoring information of the corresponding node:
+6. Click the links in the `Targets` page to view monitoring information for the respective nodes.
 
 ![](/img/%E8%8A%82%E7%82%B9%E7%9B%91%E6%8E%A7.png)
 
-### Step 3: Install Grafana and configure the data source
+### Step 3: Install Grafana and Configure the Data Source
 
-> Taking Grafana installed on server 192.168.1.3 as an example.
+> n this example, Grafana is installed on server 192.168.1.3.
 
-1. Download the Grafana installation package, which requires installing version 8.4.2 or higher. You can go to the Grafana official website to download it(https://grafana.com/grafana/download)
-2. Unzip and enter the corresponding folder
+1. Download Grafana (version 8.4.2 or later). You can download it on Grafana homepage (https://grafana.com/grafana/download)
+
+2. 2. Unzip the installation package and enter the folder:
 
 ```Shell
-tar -zxvf grafana-*.tar.gz
-cd grafana-*
-```
+  tar -zxvf grafana-*.tar.gz
+  cd grafana-*
+  ```
 
 3. Start Grafana:
 
 ```Shell
-./bin/grafana-server web 
-```
+  ./bin/grafana-server web 
+  ```
 
-4. Log in to Grafana. Enter in browser http://192.168.1.3:3000 (or the modified port), enter Grafana, and the default initial username and password are both admin.
+4. Log in to Grafana. Open a browser and navigate to `http://192.168.1.3:3000` (or the modified port). The default initial username and password are both `admin`.
 
-5. Configure data sources. Find Data sources in Connections, add a new data source, and configure the Data Source to Prometheus
+5. Configure data sources. Navigate to "Connections" -> "Data sources", add a new data source, and add`Prometheus`as data source.
 
 ![](/img/%E6%B7%BB%E5%8A%A0%E9%85%8D%E7%BD%AE.png)
 
-When configuring the Data Source, pay attention to the URL where Prometheus is located. After configuring it, click on Save&Test and a Data Source is working prompt will appear, indicating successful configuration
+Ensure the URL for Prometheus is correct. Click "Save & Test". If the message "Data source is working" appears, the configuration is successful.
 
 ![](/img/%E9%85%8D%E7%BD%AE%E6%88%90%E5%8A%9F.png)
 
@@ -158,19 +165,19 @@ When configuring the Data Source, pay attention to the URL where Prometheus is l
 
       ![](/img/%E5%AF%BC%E5%85%A5Dashboard.png)
 
-4. Select the JSON file of one of the panels in the IoTDB monitoring panel, using the Apache IoTDB ConfigNode Dashboard as an example (refer to the installation preparation section in this article for the monitoring panel installation package):
+4. Choose one of the JSON files (e.g., `Apache IoTDB ConfigNode Dashboard`). 
 
       ![](/img/%E9%80%89%E6%8B%A9%E9%9D%A2%E6%9D%BF.png)
 
-5. Select Prometheus as the data source and click Import
+5. Choose Prometheus as the data source and click "Import"
 
       ![](/img/%E9%80%89%E6%8B%A9%E6%95%B0%E6%8D%AE%E6%BA%90.png)
 
-6. Afterwards, you can see the imported Apache IoTDB ConfigNode Dashboard monitoring panel
+6. The imported `Apache IoTDB ConfigNode Dashboard` will now be displayed.
 
       ![](/img/%E9%9D%A2%E6%9D%BF.png)
 
-7. Similarly, we can import the Apache IoTDB DataNode Dashboard Apache Performance Overview Dashboard、Apache System Overview Dashboard， You can see the following monitoring panel:
+7. Similarly, import other dashboards such as `Apache IoTDB DataNode Dashboard`, `Apache Performance Overview Dashboard`, and `Apache System Overview Dashboard`.
 
       <div style="display: flex;justify-content: space-between;">
       <img src="/img/%E9%9D%A2%E6%9D%BF1-eppf.png" alt="" style="width: 30%;" />
@@ -178,503 +185,502 @@ When configuring the Data Source, pay attention to the URL where Prometheus is l
       <img src="/img/%E9%9D%A2%E6%9D%BF3.png"  alt="" style="width: 30%;"/>
     </div>
 
-8. At this point, all IoTDB monitoring panels have been imported and monitoring information can now be viewed at any time.
+8. The IoTDB monitoring panel is now fully imported, and you can view monitoring information at any time.
 
       ![](/img/%E9%9D%A2%E6%9D%BF%E6%B1%87%E6%80%BB.png)
 
-## Appendix, Detailed Explanation of Monitoring Indicators
+## 3 Appendix, Detailed Monitoring Metrics
 
-### System Dashboard
+### 3.1 System Dashboard
 
-This panel displays the current usage of system CPU, memory, disk, and network resources, as well as partial status of the JVM.
+This dashboard displays the current system's **CPU****, memory, disk, and network resource****s**, as well as some **JVM****-related metrics**.  
 
-#### CPU
+#### 3.1.1 CPU
 
-- CPU Core：CPU cores
-- CPU Load：
-  - System CPU Load：The average CPU load and busyness of the entire system during the sampling time
-  - Process CPU Load：The proportion of CPU occupied by the IoTDB process during sampling time
-- CPU Time Per Minute：The total CPU time of all processes in the system per minute
+- **CPU Core:** Number of CPU cores.  
+- **CPU Load:**  
+  - **System CPU Load:** The average CPU load and utilization of the entire system during the sampling period.  
+  - **Process CPU Load:** The percentage of CPU resources occupied by the IoTDB process during the sampling period.  
+- **CPU Time Per Minute:** The total CPU time consumed by all processes in the system per minute. 
 
-#### Memory
+#### 3.1.2 Memory
 
-- System Memory：The current usage of system memory.
-  - Commited vm size： The size of virtual memory allocated by the operating system to running processes.
-  - Total physical memory：The total amount of available physical memory in the system.
-  - Used physical memory：The total amount of memory already used by the system. Contains the actual amount of memory used by the process and the memory occupied by the operating system buffers/cache.
-- System Swap Memory：Swap Space memory usage.
-- Process Memory：The usage of memory by the IoTDB process.
-  - Max Memory：The maximum amount of memory that an IoTDB process can request from the operating system. (Configure the allocated memory size in the datanode env/configure env configuration file)
-  - Total Memory：The total amount of memory that the IoTDB process has currently requested from the operating system.
-  - Used Memory：The total amount of memory currently used by the IoTDB process.
+- **System Memory:** Current system memory usage.  
+  - **Committed VM Size:** Virtual memory size allocated by the operating system to running processes.  
+  - **Total Physical Memory****:** Total available physical memory in the system.  
+  - **Used Physical Memory****:** The total amount of memory currently in use, including memory actively used by processes and memory occupied by the operating system for buffers and caching.
+- **System Swap Memory:** The amount of swap space memory in use. 
+- **Process Memory:** Memory usage of the IoTDB process.  
+  - **Max Memory:** The maximum amount of memory that the IoTDB process can request from the OS (configured in the `datanode-env`/`confignode-env` configuration files).  
+  - **Total Memory:** The total amount of memory currently allocated by the IoTDB process from the OS.  
+  - **Used Memory:** The total amount of memory currently in use by the IoTDB process.  
 
-#### Disk
+#### 3.1.3 Disk
 
-- Disk Space：
-  - Total disk space：The maximum disk space that IoTDB can use.
-  - Used disk space：The disk space already used by IoTDB.
-- Log Number Per Minute：The average number of logs at each level of IoTDB per minute during the sampling time.
-- File Count：Number of IoTDB related files
-  - all：All file quantities
-  - TsFile：Number of TsFiles
-  - seq：Number of sequential TsFiles
-  - unseq：Number of unsequence TsFiles
-  - wal：Number of WAL files
-  - cross-temp：Number of cross space merge temp files
-  - inner-seq-temp：Number of merged temp files in sequential space
-  - innser-unseq-temp：Number of merged temp files in unsequential space
-  - mods：Number of tombstone files
-- Open File Count：Number of file handles opened by the system
-- File Size：The size of IoTDB related files. Each sub item corresponds to the size of the corresponding file.
-- Disk I/O Busy Rate：Equivalent to the% util indicator in iostat, it to some extent reflects the level of disk busyness. Each sub item is an indicator corresponding to the disk.
-- Disk I/O Throughput：The average I/O throughput of each disk in the system over a period of time. Each sub item is an indicator corresponding to the disk.
-- Disk I/O Ops：Equivalent to the four indicators of r/s, w/s, rrqm/s, and wrqm/s in iostat, it refers to the number of times a disk performs I/O per second. Read and write refer to the number of times a disk performs a single I/O. Due to the corresponding scheduling algorithm of block devices, in some cases, multiple adjacent I/Os can be merged into one. Merge read and merge write refer to the number of times multiple I/Os are merged into one I/O.
-- Disk I/O Avg Time：Equivalent to the await of iostat, which is the average latency of each I/O request. Separate recording of read and write requests.
-- Disk I/O Avg Size：Equivalent to the avgrq sz of iostat, it reflects the size of each I/O request. Separate recording of read and write requests.
-- Disk I/O Avg Queue Size：Equivalent to avgqu sz in iostat, which is the average length of the I/O request queue.
-- I/O System Call Rate：The frequency of process calls to read and write system calls, similar to IOPS.
-- I/O Throughput：The throughput of process I/O can be divided into two categories: actual-read/write and attemppt-read/write. Actual read and actual write refer to the number of bytes that a process actually causes block devices to perform I/O, excluding the parts processed by Page Cache.
+- **Disk Space:**  
+  - **Total Disk Space:** Maximum disk space available for IoTDB.  
+  - **Used Disk Space:** Disk space currently occupied by IoTDB.  
+- **Log Number Per Minute:** Average number of IoTDB logs generated per minute, categorized by log levels.
+- **File Count:** The number of files related to IoTDB.
+  - **All:** Total number of files.  
+  - **TsFile:** Number of TsFiles.  
+  - **Seq:** Number of sequential TsFiles.  
+  - **Unseq:** Number of unordered TsFiles.  
+  - **WAL:** Number of WAL (Write-Ahead Log) files. 
+  - **Cross-Temp:** Number of temporary files generated during cross-space merge operations.  
+  - **Inner-Seq-Temp:** Number of temporary files generated during sequential-space merge operations.
+  - **Inner-Unseq-Temp:** Number of temporary files generated during unordered-space merge operations. 
+  - **Mods:** Number of tombstone files.  
+- **Open File Count:** Number of open file handles in the system.  
+- **File Size:** The size of IoTDB-related files, with each sub-item representing the size of a specific file type.
+- **Disk I/O Busy Rate:** Equivalent to the `%util` metric in `iostat`, indicating the level of disk utilization. Each sub-item corresponds to a specific disk.
+- **Disk I/O Throughput****:** Average I/O throughput of system disks over a given period. Each sub-item corresponds to a specific disk.  
+- **Disk I/O Ops:** Equivalent to `r/s`, `w/s`, `rrqm/s`, and `wrqm/s` in `iostat`, representing the number of I/O operations per second.  
+- **Disk I/O Avg Time:** Equivalent to the `await` metric in `iostat`, representing the average latency of each I/O request, recorded separately for read and write operations. 
+- **Disk I/O Avg Size:** Equivalent to the `avgrq-sz` metric in `iostat`, indicating the average size of each I/O request, recorded separately for read and write operations.
+- **Disk I/O Avg Queue Size:** Equivalent to `avgqu-sz` in `iostat`, representing the average length of the I/O request queue.  
+- **I/O System Call Rate:** Frequency of read/write system calls invoked by the process, similar to IOPS.  
+- **I/O Throughput****:** I/O throughput of the process, divided into `actual_read/write` and `attempt_read/write`. `Actual read` and `actual write` refer to the number of bytes actually written to or read from the storage device, excluding those handled by the Page Cache.
 
-#### JVM
+#### 3.1.4 JVM
 
-- GC Time Percentage：The proportion of GC time spent by the node JVM in the past minute's time window
-- GC Allocated/Promoted Size Detail： The average size of objects promoted to the old era per minute by the node JVM, as well as the size of objects newly applied for by the new generation/old era and non generational new applications
-- GC Data Size Detail：The long-term surviving object size of the node JVM and the maximum intergenerational allowed value
-- Heap Memory：JVM heap memory usage.
-  - Maximum heap memory：The maximum available heap memory size for the JVM.
-  - Committed heap memory：The size of heap memory that has been committed by the JVM.
-  - Used heap memory：The size of heap memory already used by the JVM.
-  - PS Eden Space：The size of the PS Young area.
-  - PS Old Space：The size of the PS Old area.
-  - PS Survivor Space：The size of the PS survivor area.
-  - ...（CMS/G1/ZGC, etc）
-- Off Heap Memory：Out of heap memory usage.
-  - direct memory：Out of heap direct memory.
-  - mapped memory：Out of heap mapped memory.
-- GC Number Per Minute：The average number of garbage collection attempts per minute by the node JVM, including YGC and FGC
-- GC Time Per Minute：The average time it takes for node JVM to perform garbage collection per minute, including YGC and FGC
-- GC Number Per Minute Detail：The average number of garbage collections per minute by node JVM due to different reasons, including YGC and FGC
-- GC Time Per Minute Detail：The average time spent by node JVM on garbage collection per minute due to different reasons, including YGC and FGC
-- Time Consumed Of Compilation Per Minute：The total time JVM spends compiling per minute
-- The Number of Class：
-  - loaded：The number of classes currently loaded by the JVM
-  - unloaded：The number of classes uninstalled by the JVM since system startup
-- The Number of Java Thread：The current number of surviving threads in IoTDB. Each sub item represents the number of threads in each state.
+- **GC Time Percentage:** Percentage of time spent on garbage collection (GC) by the JVM in the past minute.  
+- **GC Allocated/Promoted Size Detail:** The average size of objects promoted to the old generation per minute, as well as newly allocated objects in the young/old generation and non-generational areas.
+- **GC Data Size Detail:** Size of long-lived objects in the JVM and the maximum allowed size for each generation.  
+- **Heap Memory:** JVM heap memory usage.  
+  - **Maximum Heap Memory:** Maximum available heap memory for the JVM.  
+  - **Committed Heap Memory:** Committed heap memory size for the JVM.  
+  - **Used Heap Memory:** The amount of heap memory currently in use.  
+  - **PS Eden Space:** Size of the PS Young generation's Eden space.  
+  - **PS Old Space:** Size of the PS Old generation.  
+  - **PS Survivor Space:** Size of the PS Survivor space.  
+- **O****ff Heap Memory:** Off-heap memory usage.  
+  - **Direct Memory:** The amount of direct memory used.
+  - **Mapped Memory:** The amount of memory used for mapped files.  
+- **GC Number Per Minute:** Average number of garbage collections (YGC and FGC) performed per minute.
+- **GC Time Per Minute:** Average time spent on garbage collection (YGC and FGC) per minute.  
+- **GC Number Per Minute Detail:** Average number of garbage collections performed per minute due to different causes.  
+- **GC Time Per Minute Detail:** Average time spent on garbage collection per minute due to different causes.  
+- **Time Consumed of Compilation Per Minute:** Total time spent on JVM compilation per minute.  
+- **The Number of Class:**  
+  - **Loaded:** Number of classes currently loaded by the JVM.  
+  - **Unloaded:** Number of classes unloaded by the JVM since system startup.  
+- **The Number of Java Thread:** The number of currently active threads in IoTDB. Each sub-item represents the number of threads in different states.  
 
-#### Network
+#### 3.1.5 Network
 
-Eno refers to the network card connected to the public network, while lo refers to the virtual network card.
+- **Net Speed:** Data transmission and reception speed by the network interface.
+- **Receive/Transmit Data Size:** The total size of data packets sent and received by the network interface since system startup.
+- **Packet Speed:** The rate of data packets sent and received by the network interface. A single RPC request may correspond to one or more packets.
+- **Connection Num:** Number of socket connections for the current process (IoTDB only uses TCP).  
 
-- Net Speed：The speed of network card sending and receiving data
-- Receive/Transmit Data Size：The size of data packets sent or received by the network card, calculated from system restart
-- Packet Speed：The speed at which the network card sends and receives packets, and one RPC request can correspond to one or more packets
-- Connection Num：The current number of socket connections for the selected process (IoTDB only has TCP)
+### 3.2 Performance Overview Dashboard
 
-### Performance Overview Dashboard
+This dashboard provides an overview of the system's overall performance.  
 
-#### Cluster Overview
+#### 3.2.1 Cluster Overview
 
-- Total CPU Core:Total CPU cores of cluster machines
-- DataNode CPU Load:CPU usage of each DataNode node in the cluster
-- Disk
-  - Total Disk Space: Total disk size of cluster machines
-  - DataNode Disk Usage: The disk usage rate of each DataNode in the cluster
-- Total Timeseries: The total number of time series managed by the cluster (including replicas), the actual number of time series needs to be calculated in conjunction with the number of metadata replicas
-- Cluster: Number of ConfigNode and DataNode nodes in the cluster
-- Up Time: The duration of cluster startup until now
-- Total Write Point Per Second: The total number of writes per second in the cluster (including replicas), and the actual total number of writes needs to be analyzed in conjunction with the number of data replicas
-- Memory
-  - Total System Memory: Total memory size of cluster machine system
-  - Total Swap Memory: Total size of cluster machine swap memory
-  - DataNode Process Memory Usage: Memory usage of each DataNode in the cluster
-- Total File Number:Total number of cluster management files
-- Cluster System Overview:Overview of cluster machines, including average DataNode node memory usage and average machine disk usage
-- Total DataBase: The total number of databases managed by the cluster (including replicas)
-- Total DataRegion: The total number of DataRegions managed by the cluster
-- Total SchemaRegion: The total number of SchemeRegions managed by the cluster
+- **Total CPU Core:** Total number of CPU cores in the cluster.
+- **DataNode CPU Load:** CPU utilization of each DataNode in the cluster.
+- Disk:
+  - **Total Disk Space:** Total disk space across all cluster nodes.
+  - **DataNode Disk Usage:** Disk usage of each DataNode in the cluster.
+- **Total Timeseries:** The total number of time series managed by the cluster (including replicas). The actual number of time series should be calculated considering metadata replicas.
+- **Cluster:** The number of ConfigNode and DataNode instances in the cluster.
+- **Up Time:** The duration since the cluster started.
+- **Total Write Point Per Second:** The total number of data points written per second in the cluster (including replicas). The actual number of writes should be analyzed in conjunction with the data replication factor.
+- Memory:
+  - **Total System Memory:** The total system memory available in the cluster.
+  - **Total Swap Memory:** The total swap memory available in the cluster.
+  - **DataNode Process Memory Usage:** The memory usage of each DataNode in the cluster.
+- **Total File Number:** The total number of files managed by the cluster.
+- **Cluster System Overview:** An overview of cluster-wide system resources, including average DataNode memory usage and average disk usage.
+- **Total Database:** The total number of databases managed by the cluster (including replicas).
+- **Total DataRegion:** The total number of DataRegions in the cluster.
+- **Total SchemaRegion:** The total number of SchemaRegions in the cluster.
 
-#### Node Overview
+#### 3.2.2 Node Overview
 
-- CPU Core: The number of CPU cores in the machine where the node is located
-- Disk Space: The disk size of the machine where the node is located
-- Timeseries: Number of time series managed by the machine where the node is located (including replicas)
-- System Overview: System overview of the machine where the node is located, including CPU load, process memory usage ratio, and disk usage ratio
-- Write Point Per Second: The write speed per second of the machine where the node is located (including replicas)
-- System Memory: The system memory size of the machine where the node is located
-- Swap Memory:The swap memory size of the machine where the node is located
-- File Number: Number of files managed by nodes
+- **CPU Core:** Number of CPU cores on the node’s machine.
+- **Disk Space:** Total disk space available on the node’s machine.
+- **Timeseries:** The number of time series managed by the node (including replicas).
+- **System Overview:** Overview of the node’s system resources, including CPU load, process memory usage, and disk usage.
+- **Write Point Per Second:** The write speed of the node, including replicated data.
+- **System Memory:** The total system memory available on the node’s machine.
+- **Swap Memory:** The total swap memory available on the node’s machine.
+- **File Number:** The number of files managed by the node.
 
-#### Performance
+#### 3.2.3 Performance 
 
-- Session Idle Time:The total idle time and total busy time of the session connection of the node
-- Client Connection: The client connection status of the node, including the total number of connections and the number of active connections
-- Time Consumed Of Operation: The time consumption of various types of node operations, including average and P99
-- Average Time Consumed Of Interface: The average time consumption of each thrust interface of a node
-- P99 Time Consumed Of Interface: P99 time consumption of various thrust interfaces of nodes
-- Task Number: The number of system tasks for each node
-- Average Time Consumed of Task: The average time spent on various system tasks of a node
-- P99 Time Consumed of Task: P99 time consumption for various system tasks of nodes
-- Operation Per Second: The number of operations per second for a node
-- Mainstream Process
-  - Operation Per Second Of Stage: The number of operations per second for each stage of the node's main process
-  - Average Time Consumed Of Stage: The average time consumption of each stage in the main process of a node
-  - P99 Time Consumed Of Stage: P99 time consumption for each stage of the node's main process
-- Schedule Stage
-  - OPS Of Schedule: The number of operations per second in each sub stage of the node schedule stage
-  - Average Time Consumed Of Schedule Stage:The average time consumption of each sub stage in the node schedule stage
-  - P99 Time Consumed Of Schedule Stage: P99 time consumption for each sub stage of the schedule stage of the node
-- Local Schedule Sub Stages
-  - OPS Of Local Schedule Stage: The number of operations per second in each sub stage of the local schedule node
-  - Average Time Consumed Of Local Schedule Stage: The average time consumption of each sub stage in the local schedule stage of the node
-  - P99 Time Consumed Of Local Schedule Stage: P99 time consumption for each sub stage of the local schedule stage of the node
-- Storage Stage
-  - OPS Of Storage Stage: The number of operations per second in each sub stage of the node storage stage
-  - Average Time Consumed Of Storage Stage: Average time consumption of each sub stage in the node storage stage
-  - P99 Time Consumed Of Storage Stage: P99 time consumption for each sub stage of node storage stage
-- Engine Stage
-  - OPS Of Engine Stage: The number of operations per second in each sub stage of the node engine stage
-  - Average Time Consumed Of Engine Stage: The average time consumption of each sub stage in the engine stage of a node
-  - P99 Time Consumed Of Engine Stage: P99 time consumption of each sub stage in the node engine stage
+- **Session Idle Time:** The total idle time of session connections on the node.
+- **Client Connection:** The status of client connections on the node, including the total number of connections and the number of active connections.
+- **Time Consumed Of Operation:** The latency of various operations on the node, including the average value and P99 percentile.
+- **Average Time Consumed Of Interface:** The average latency of each **Thrift interface** on the node.
+- **P99 Time Consumed Of Interface:** The P99 latency of each Thrift interface on the node.
+- **Task Number:** The number of system tasks running on the node.
+- **Average Time Consumed Of Task:** The average execution time of system tasks on the node.
+- **P99 Time Consumed Of Task:** The P99 execution time of system tasks on the node.
+- **Operation Per Second:** The number of operations executed per second on the node.
+- Main Process:  
+  - **Operation Per Second of Stage:** The number of operations executed per second in different stages of the main process.
+  - **Average Time Consumed of Stage:** The average execution time of different stages in the main process.
+  - **P99 Time Consumed of Stage:** The P99 execution time of different stages in the main process.
+- Scheduling Stage:  
+  - **OPS Of Schedule:** The number of operations executed per second in different sub-stages of the scheduling stage.
+  - **Average Time Consumed Of Schedule Stage:** The average execution time in different sub-stages of the scheduling stage.
+  - **P99 Time Consumed Of Schedule Stage:** The P99 execution time in different sub-stages of the scheduling stage.
+- Local Scheduling Stage:  
+  - **OPS of Local Schedule Stage:** Number of operations per second at each sub-stage of the local schedule stage.  
+  - **Average Time Consumed of Local Schedule Stage:** Average time consumed at each sub-stage of the local schedule stage.  
+  - **P99 Time Consumed of Local Schedule Stage:** P99 time consumed at each sub-stage of the local schedule stage.  
+- Storage Stage:  
+  - **OPS of Storage Stage:** Number of operations per second at each sub-stage of the storage stage.  
+  - **Average Time Consumed of Storage Stage:** Average time consumed at each sub-stage of the storage stage.  
+  - **P99 Time Consumed of Storage Stage:** P99 time consumed at each sub-stage of the storage stage.  
+- Engine Stage:  
+  - **OPS Of Engine Stage:** The number of operations executed per second in different sub-stages of the engine stage.
+  - **Average Time Consumed Of Engine Stage:** The average execution time in different sub-stages of the engine stage.
+  - **P99 Time Consumed Of Engine Stage:** The P99 execution time in different sub-stages of the engine stage.
 
-#### System
+#### 3.2.4 System
 
-- CPU Load: CPU load of nodes
-- CPU Time Per Minute: The CPU time per minute of a node, with the maximum value related to the number of CPU cores
-- GC Time Per Minute:The average GC time per minute for nodes, including YGC and FGC
-- Heap Memory: Node's heap memory usage
-- Off Heap Memory: Non heap memory usage of nodes
-- The Number Of Java Thread: Number of Java threads on nodes
-- File Count:Number of files managed by nodes
-- File Size: Node management file size situation
-- Log Number Per Minute: Different types of logs per minute for nodes
+- **CPU Load:** The CPU load of the node.
+- **CPU Time Per Minute:** The total CPU time per minute on the node, which is influenced by the number of CPU cores.
+- **GC Time Per Minute:** The average time spent on Garbage Collection (GC) per minute on the node, including Young GC (YGC) and Full GC (FGC).
+- **Heap Memory:** The heap memory usage of the node.
+- **Off-Heap Memory:** The off-heap memory usage of the node.
+- **The Number Of Java Thread:** The number of Java threads on the node.
+- **File Count:** The number of files managed by the node.
+- **File Size:** The total size of files managed by the node.
+- **Log Number Per Minute:** The number of logs generated per minute on the node, categorized by log type.
 
-### ConfigNode Dashboard
+### 3.3 ConfigNode Dashboard
 
-This panel displays the performance of all management nodes in the cluster, including partitioning, node information, and client connection statistics.
+This dashboard displays the performance metrics of all management nodes in the cluster, including **partition information, node status, and client connection statistics**.
 
-#### Node Overview
+#### 3.3.1 Node Overview
 
-- Database Count: Number of databases for nodes
-- Region
-  - DataRegion Count:Number of DataRegions for nodes
-  - DataRegion Current Status: The state of the DataRegion of the node
-  - SchemaRegion Count: Number of SchemeRegions for nodes
-  - SchemaRegion Current Status: The state of the SchemeRegion of the node
-- System Memory: The system memory size of the node
-- Swap Memory: Node's swap memory size
-- ConfigNodes: The running status of the ConfigNode in the cluster where the node is located
-- DataNodes:The DataNode situation of the cluster where the node is located
-- System Overview: System overview of nodes, including system memory, disk usage, process memory, and CPU load
+- **Database Count:** Number of databases on the node.  
+- Region:  
+  - **DataRegion Count:** Number of DataRegions on the node.  
+  - **DataRegion Current Status:** Current status of DataRegions on the node.  
+  - **SchemaRegion Count:** Number of SchemaRegions on the node. 
+  - **SchemaRegion Current Status:** Current status of SchemaRegions on the node.  
+- **System Memory:** System memory on the node's machine.  
+- **Swap Memory:** Swap memory on the node's machine.  
+- **ConfigNodes:** Status of ConfigNodes in the cluster.  
+- **DataNodes:** Status of DataNodes in the cluster.  
+- **System Overview:** Overview of the node's system resources, including system memory, disk usage, process memory, and CPU load.  
 
-#### NodeInfo
+#### 3.3.2 NodeInfo
 
-- Node Count: The number of nodes in the cluster where the node is located, including ConfigNode and DataNode
-- ConfigNode Status: The status of the ConfigNode node in the cluster where the node is located
-- DataNode Status: The status of the DataNode node in the cluster where the node is located
-- SchemaRegion Distribution: The distribution of SchemaRegions in the cluster where the node is located
-- SchemaRegionGroup Leader Distribution: The distribution of leaders in the SchemaRegionGroup of the cluster where the node is located
-- DataRegion Distribution: The distribution of DataRegions in the cluster where the node is located
-- DataRegionGroup Leader Distribution:The distribution of leaders in the DataRegionGroup of the cluster where the node is located
+- **Node Count:** The total number of nodes in the cluster, including ConfigNodes and DataNodes.
+- **ConfigNode Status:** The status of ConfigNodes in the cluster.
+- **DataNode Status:** The status of DataNodes in the cluster.
+- **SchemaRegion Distribution:** The distribution of SchemaRegions in the cluster.
+- **SchemaRegionGroup Leader Distribution:** The leader distribution of SchemaRegionGroups in the cluster.
+- **DataRegion Distribution:** The distribution of DataRegions in the cluster.
+- **DataRegionGroup Leader Distribution:** The leader distribution of DataRegionGroups in the cluster.
 
-#### Protocol
+#### 3.3.3 Protocol
 
-- Client Count
-  - Active Client Num: The number of active clients in each thread pool of a node
-  - Idle Client Num: The number of idle clients in each thread pool of a node
-  - Borrowed Client Count: Number of borrowed clients in each thread pool of the node
-  - Created Client Count: Number of created clients for each thread pool of the node
-  - Destroyed Client Count: The number of destroyed clients in each thread pool of the node
-- Client time situation
-  - Client Mean Active Time: The average active time of clients in each thread pool of a node
-  - Client Mean Borrow Wait Time: The average borrowing waiting time of clients in each thread pool of a node
-  - Client Mean Idle Time: The average idle time of clients in each thread pool of a node
+- Client Count Statistics:  
+  - **Active Client Num:** The number of active clients in each thread pool on the node.
+  - **Idle Client Num:** The number of idle clients in each thread pool on the node.
+  - **Borrowed Client Count:** The number of borrowed clients in each thread pool on the node.
+  - **Created Client Count:** The number of clients created in each thread pool on the node.
+  - **Destroyed Client Count:** The number of clients destroyed in each thread pool on the node.
+- Client Time Statistics:  
+  - **Client Mean Active Time:** The average active time of clients in each thread pool on the node.
+  - **Client Mean Borrow Wait Time:** The average time clients spend waiting for borrowed resources in each thread pool.
+  - **Client Mean Idle Time:** The average idle time of clients in each thread pool.
 
-#### Partition Table
+#### 3.3.4 Partition Table
 
-- SchemaRegionGroup Count: The number of SchemaRegionGroups in the Database of the cluster where the node is located
-- DataRegionGroup Count: The number of DataRegionGroups in the Database of the cluster where the node is located
-- SeriesSlot Count: The number of SeriesSlots in the Database of the cluster where the node is located
-- TimeSlot Count: The number of TimeSlots in the Database of the cluster where the node is located
-- DataRegion Status: The DataRegion status of the cluster where the node is located
-- SchemaRegion Status: The status of the SchemeRegion of the cluster where the node is located
+- **SchemaRegionGroup Count:** The number of **SchemaRegionGroups** in the cluster’s databases.
+- **DataRegionGroup Count:** The number of DataRegionGroups in the cluster’s databases.
+- **SeriesSlot Count:** The number of SeriesSlots in the cluster’s databases.
+- **TimeSlot Count:** The number of TimeSlots in the cluster’s databases.
+- **DataRegion Status:** The status of DataRegions in the cluster.
+- **SchemaRegion Status:** The status of SchemaRegions in the cluster.
 
-#### Consensus
+#### 3.3.5 Consensus 
 
-- Ratis Stage Time: The time consumption of each stage of the node's Ratis
-- Write Log Entry: The time required to write a log for the Ratis of a node
-- Remote / Local Write Time: The time consumption of remote and local writes for the Ratis of nodes
-- Remote / Local Write QPS: Remote and local QPS written to node Ratis
-- RatisConsensus Memory: Memory usage of Node Ratis consensus protocol
+- **Ratis Stage Time:** The execution time of different stages in the Ratis consensus protocol.
+- **Write Log Entry:** The execution time for writing log entries in Ratis.
+- **Remote / Local Write Time:** The time taken for remote and local writes in Ratis.
+- **Remote / Local Write QPS:** The **queries per second (QPS)** for remote and local writes in Ratis.
+- **RatisConsensus Memory:** The memory usage of the Ratis consensus protocol on the node.
 
-### DataNode Dashboard
+### 3.4 DataNode Dashboard
 
-This panel displays the monitoring status of all data nodes in the cluster, including write time, query time, number of stored files, etc.
+This dashboard displays the monitoring status of all **DataNodes** in the cluster, including **write latency, query latency, and storage file counts**. 
 
-#### Node Overview
+#### 3.4.1 Node Overview 
 
-- The Number Of Entity: Entity situation of node management
-- Write Point Per Second: The write speed per second of the node
-- Memory Usage: The memory usage of the node, including the memory usage of various parts of IoT Consensus, the total memory usage of SchemaRegion, and the memory usage of various databases.
+- **The Number of Entity:** The number of entities managed by the node.
+- **Write Point Per Second:** The write speed of the node (points per second).
+- **Memory Usage:** The memory usage of the node, including IoT Consensus memory usage, SchemaRegion memory usage, and per-database memory usage.
 
-#### Protocol
+#### 3.4.2 Protocol 
 
-- Node Operation Time Consumption
-  - The Time Consumed Of Operation (avg): The average time spent on various operations of a node
-  - The Time Consumed Of Operation (50%): The median time spent on various operations of a node
-  - The Time Consumed Of Operation (99%): P99 time consumption for various operations of nodes
-- Thrift Statistics
-  - The QPS Of Interface: QPS of various Thrift interfaces of nodes
-  - The Avg Time Consumed Of Interface: The average time consumption of each Thrift interface of a node
-  - Thrift Connection: The number of Thrfit connections of each type of node
-  - Thrift Active Thread: The number of active Thrift connections for each type of node
-- Client Statistics
-  - Active Client Num: The number of active clients in each thread pool of a node
-  - Idle Client Num: The number of idle clients in each thread pool of a node
-  - Borrowed Client Count:Number of borrowed clients for each thread pool of a node
-  - Created Client Count: Number of created clients for each thread pool of the node
-  - Destroyed Client Count: The number of destroyed clients in each thread pool of the node
-  - Client Mean Active Time: The average active time of clients in each thread pool of a node
-  - Client Mean Borrow Wait Time: The average borrowing waiting time of clients in each thread pool of a node
-  - Client Mean Idle Time: The average idle time of clients in each thread pool of a node
+- Operation Latency:  
+  - **The Time Consumed of Operation (avg):** The average latency of operations on the node.
+  - **The Time Consumed of Operation (50%):** The median latency of operations on the node.
+  - **The Time Consumed of Operation (99%):** The P99 latency of operations on the node.
+- Thrift Statistics:  
+  - **The QPS of Interface:** The queries per second (QPS) for each Thrift interface on the node.
+  - **The Avg Time Consumed of Interface:** The average execution time for each Thrift interface on the node.
+  - **Thrift Connection:** The number of active Thrift connections on the node.
+  - **Thrift Active Thread:** The number of active Thrift threads on the node.
+- Client Statistics:  
+  - **Active Client Num:** The number of active clients in each thread pool.
+  - **Idle Client Num:** The number of idle clients in each thread pool.
+  - **Borrowed Client Count:** The number of borrowed clients in each thread pool.
+  - **Created Client Count:** The number of clients created in each thread pool.
+  - **Destroyed Client Count:** The number of clients destroyed in each thread pool.
+  - **Client Mean Active Time:** The average active time of clients in each thread pool.
+  - **Client Mean Borrow Wait Time:** The average time clients spend waiting for borrowed resources in each thread pool.
+  - **Client Mean Idle Time:** The average idle time of clients in each thread pool.
 
-#### Storage Engine
+#### 3.4.3 Storage Engine 
 
-- File Count: Number of files of various types managed by nodes
-- File Size: Node management of various types of file sizes
-- TsFile
-  - TsFile Total Size In Each Level: The total size of TsFile files at each level of node management
-  - TsFile Count In Each Level: Number of TsFile files at each level of node management
-  - Avg TsFile Size In Each Level: The average size of TsFile files at each level of node management
-- Task Number: Number of Tasks for Nodes
-- The Time Consumed of Task: The time consumption of tasks for nodes
-- Compaction
-  - Compaction Read And Write Per Second: The merge read and write speed of nodes per second
-  - Compaction Number Per Minute: The number of merged nodes per minute
-  - Compaction Process Chunk Status: The number of Chunks in different states merged by nodes
-  - Compacted Point Num Per Minute: The number of merged nodes per minute
+- **File Count:** The number of files managed by the node.
+- **File Size:** The total size of files managed by the node.
+- TsFile:  
+  - **TsFile Total Size In Each Level:** The total size of TsFiles at each level.
+  - **TsFile Count In Each Level:** The number of TsFiles at each level.
+  - **Avg TsFile Size In Each Level:** The average size of TsFiles at each level.
+- **Task Number:** The number of tasks on the node.
+- **The Time Consumed of Task:** The total execution time of tasks on the node.
+- Compaction:  
+  - **Compaction Read And Write Per Second:** The read/write speed of compaction operations.
+  - **Compaction Number Per Minute:** The number of **compaction** operations per minute.
+  - **Compaction Process Chunk Status:** The number of **chunks** in different states during compaction.
+  - **Compacted Point Num Per Minute:** The number of data points compacted per minute.
 
-#### Write Performance
+#### 3.4.4 Write Performance
 
-- Write Cost(avg): Average node write time, including writing wal and memtable
-- Write Cost(50%): Median node write time, including writing wal and memtable
-- Write Cost(99%): P99 for node write time, including writing wal and memtable
-- WAL
-  - WAL File Size: Total size of WAL files managed by nodes
-  - WAL File Num:Number of WAL files managed by nodes
-  - WAL Nodes Num: Number of WAL nodes managed by nodes
-  - Make Checkpoint Costs: The time required to create various types of CheckPoints for nodes
-  - WAL Serialize Total Cost: Total time spent on node WAL serialization
-  - Data Region Mem Cost: Memory usage of different DataRegions of nodes, total memory usage of DataRegions of the current instance, and total memory usage of DataRegions of the current cluster
-  - Serialize One WAL Info Entry Cost: Node serialization time for a WAL Info Entry
-  - Oldest MemTable Ram Cost When Cause Snapshot: MemTable size when node WAL triggers oldest MemTable snapshot
-  - Oldest MemTable Ram Cost When Cause Flush: MemTable size when node WAL triggers oldest MemTable flush
-  - Effective Info Ratio Of WALNode: The effective information ratio of different WALNodes of nodes
+- **Write Cost (avg):** The average **write latency**, including WAL and **memtable** writes.
+- **Write Cost (50%):** The **median write latency**, including WAL and **memtable** writes.
+- **Write Cost (99%):** The **P99 write latency**, including WAL and **memtable** writes.
+- WAL (Write-Ahead Logging)
+  - **WAL File Size:** The total size of WAL files managed by the node.
+  - **WAL File Num:** The total number of WAL files managed by the node.
+  - **WAL Nodes Num:** The total number of WAL Nodes managed by the node.
+  - **Make Checkpoint Costs:** The time required to create different types of Checkpoints.
+  - **WAL Serialize Total Cost:** The total serialization time for WAL.
+  - **Data Region Mem Cost:** The memory usage of different DataRegions, including total memory usage of DataRegions on the current instance and total memory usage of DataRegions across the entire cluster.
+  - **Serialize One WAL Info Entry Cost:** The time taken to serialize a single WAL Info Entry.
+  - **Oldest MemTable Ram Cost When Cause Snapshot:** The memory size of the oldest MemTable when a snapshot is triggered by WAL.
+  - **Oldest MemTable Ram Cost When Cause Flush:** The memory size of the oldest MemTable when a flush is triggered by WAL.
+  - **Effective Info Ratio of WALNode:** The ratio of effective information in different WALNodes.
   - WAL Buffer
-    - WAL Buffer Cost: Node WAL flush SyncBuffer takes time, including both synchronous and asynchronous options
-    - WAL Buffer Used Ratio: The usage rate of the WAL Buffer of the node
-    - WAL Buffer Entries Count: The number of entries in the WAL Buffer of a node
+    - **WAL Buffer Cost:** The time taken to flush the SyncBuffer of WAL, including both synchronous and asynchronous flushes.
+    - **WAL Buffer Used Ratio:** The utilization ratio of the WAL Buffer.
+    - **WAL Buffer Entries Count:** The number of entries in the WAL Buffer.
 - Flush Statistics
-  - Flush MemTable Cost(avg): The total time spent on node Flush and the average time spent on each sub stage
-  - Flush MemTable Cost(50%): The total time spent on node Flush and the median time spent on each sub stage
-  - Flush MemTable Cost(99%): The total time spent on node Flush and the P99 time spent on each sub stage
-  - Flush Sub Task Cost(avg): The average time consumption of each node's Flush subtask, including sorting, encoding, and IO stages
-  - Flush Sub Task Cost(50%): The median time consumption of each subtask of the Flush node, including sorting, encoding, and IO stages
-  - Flush Sub Task Cost(99%): The average subtask time P99 for Flush of nodes, including sorting, encoding, and IO stages
-- Pending Flush Task Num: The number of Flush tasks in a blocked state for a node
-- Pending Flush Sub Task Num: Number of Flush subtasks blocked by nodes
-- Tsfile Compression Ratio Of Flushing MemTable: The compression rate of TsFile corresponding to node flashing Memtable
-- Flush TsFile Size Of DataRegions: The corresponding TsFile size for each disk flush of nodes in different DataRegions
-- Size Of Flushing MemTable: The size of the Memtable for node disk flushing
-- Points Num Of Flushing MemTable: The number of points when flashing data in different DataRegions of a node
-- Series Num Of Flushing MemTable: The number of time series when flashing Memtables in different DataRegions of a node
-- Average Point Num Of Flushing MemChunk: The average number of disk flushing points for node MemChunk
+  - **Flush MemTable Cost (avg):** The average total flush time, including time spent in different sub-stages.
+  - **Flush MemTable Cost (50%):** The median total flush time, including time spent in different sub-stages.
+  - **Flush MemTable Cost (99%):** The P99 total flush time, including time spent in different sub-stages.
+  - **Flush Sub Task Cost (avg):** The average execution time of flush sub-tasks, including sorting, encoding, and I/O stages.
+  - **Flush Sub Task Cost (50%):** The median execution time of flush sub-tasks, including sorting, encoding, and I/O stages.
+  - **Flush Sub Task Cost (99%):** The P99 execution time of flush sub-tasks, including sorting, encoding, and I/O stages.
+- **Pending Flush Task Num:** The number of Flush tasks currently in a blocked state.
+- **Pending Flush Sub Task Num:** The number of blocked Flush sub-tasks.
+- **TsFile Compression Ratio of Flushing MemTable:** The compression ratio of TsFiles generated from flushed MemTables.
+- **Flush TsFile Size of DataRegions:** The size of TsFiles generated from flushed MemTables in different DataRegions.
+- **Size of Flushing MemTable:** The size of the MemTable currently being flushed.
+- **Points Num of Flushing MemTable:** The number of data points being flushed from MemTables in different DataRegions.
+- S**eries Num of Flushing MemTable:** The number of time series being flushed from MemTables in different DataRegions.
+- **Average Point Num of Flushing MemChunk:** The average number of points in MemChunks being flushed.
 
-#### Schema Engine
+#### 3.4.5 Schema Engine
 
-- Schema Engine Mode: The metadata engine pattern of nodes
-- Schema Consensus Protocol: Node metadata consensus protocol
-- Schema Region Number:Number of SchemeRegions managed by nodes
-- Schema Region Memory Overview: The amount of memory in the SchemeRegion of a node
-- Memory Usgae per SchemaRegion:The average memory usage size of node SchemaRegion
-- Cache MNode per SchemaRegion: The number of cache nodes in each SchemeRegion of a node
-- MLog Length and Checkpoint: The total length and checkpoint position of the current mlog for each SchemeRegion of the node (valid only for SimpleConsense)
-- Buffer MNode per SchemaRegion: The number of buffer nodes in each SchemeRegion of a node
-- Activated Template Count per SchemaRegion: The number of activated templates in each SchemeRegion of a node
-- Time Series statistics
-  - Timeseries Count per SchemaRegion: The average number of time series for node SchemaRegion
-  - Series Type: Number of time series of different types of nodes
-  - Time Series Number: The total number of time series nodes
-  - Template Series Number: The total number of template time series for nodes
-  - Template Series Count per SchemaRegion: The number of sequences created through templates in each SchemeRegion of a node
+- **Schema Engine Mode:** The metadata engine mode used by the node.
+- **Schema Consensus Protocol:** The metadata consensus protocol used by the node.
+- **Schema Region Number:** The number of SchemaRegions managed by the node.
+- **Schema Region Memory Overview:** The total memory used by SchemaRegions on the node.
+- **Memory Usage per SchemaRegion:** The average memory usage per SchemaRegion.
+- **Cache MNode per SchemaRegion:** The number of cached MNodes per SchemaRegion.
+- **MLog Length and Checkpoint****:** The current MLog size and checkpoint position for each SchemaRegion (valid only for SimpleConsensus).
+- **Buffer MNode per SchemaRegion:** The number of buffered MNodes per SchemaRegion.
+- **Activated Template Count per SchemaRegion:** The number of activated templates per SchemaRegion.
+- Time Series Statistics
+  - **Timeseries Count per SchemaRegion:** The average number of time series per SchemaRegion.
+  - **Series Type:** The number of time series of different types.
+  - **Time Series Number:** The total number of time series on the node.
+  - **Template Series Number:** The total number of template-based time series on the node.
+  - **Template Series Count per SchemaRegion:** The number of time series created via templates per SchemaRegion.
 - IMNode Statistics
-  - Pinned MNode per SchemaRegion: Number of IMNode nodes with Pinned nodes in each SchemeRegion
-  - Pinned Memory per SchemaRegion: The memory usage size of the IMNode node for Pinned nodes in each SchemeRegion of the node
-  - Unpinned MNode per SchemaRegion: The number of unpinned IMNode nodes in each SchemeRegion of a node
-  - Unpinned Memory per SchemaRegion: Memory usage size of unpinned IMNode nodes in each SchemeRegion of the node
-  - Schema File Memory MNode Number: Number of IMNode nodes with global pinned and unpinned nodes
-  - Release and Flush MNode Rate: The number of IMNodes that release and flush nodes per second
-- Cache Hit Rate: Cache hit rate of nodes
-- Release and Flush Thread Number: The current number of active Release and Flush threads on the node
-- Time Consumed of Relead and Flush (avg): The average time taken for node triggered cache release and buffer flushing
-- Time Consumed of Relead and Flush (99%): P99 time consumption for node triggered cache release and buffer flushing
+  - **Pinned MNode per SchemaRegion:** The number of pinned IMNodes per SchemaRegion.
+  - **Pinned Memory per SchemaRegion:** The memory usage of pinned IMNodes per SchemaRegion.
+  - **Unpinned MNode per SchemaRegion:** The number of unpinned IMNodes per SchemaRegion.
+  - **Unpinned Memory per SchemaRegion:** The memory usage of unpinned IMNodes per SchemaRegion.
+  - **Schema File Memory MNode Number:** The total number of pinned and unpinned IMNodes on the node.
+  - **Release and Flush MNode Rate:** The number of IMNodes released and flushed per second.
+- **Cache Hit Rate:** The cache hit ratio of the node.
+- **Release and Flush Thread Number:** The number of active threads for releasing and flushing memory.
+- **Time Consumed of Release and Flush (avg):** The average execution time for cache release and buffer flush.
+- **Time Consumed of Release and Flush (99%):** The P99 execution time for cache release and buffer flush.
 
-#### Query Engine
+#### 3.4.6 Query Engine
 
-- Time Consumption In Each Stage
-  - The time consumed of query plan stages(avg): The average time spent on node queries at each stage
-  - The time consumed of query plan stages(50%): Median time spent on node queries at each stage
-  - The time consumed of query plan stages(99%): P99 time consumption for node query at each stage
-- Execution Plan Distribution Time
-  - The time consumed of plan dispatch stages(avg): The average time spent on node query execution plan distribution
-  - The time consumed of plan dispatch stages(50%): Median time spent on node query execution plan distribution
-  - The time consumed of plan dispatch stages(99%): P99 of node query execution plan distribution time
-- Execution Plan Execution Time
-  - The time consumed of query execution stages(avg): The average execution time of node query execution plan
-  - The time consumed of query execution stages(50%):Median execution time of node query execution plan
-  - The time consumed of query execution stages(99%): P99 of node query execution plan execution time
+- Time Consumed at Each Stage
+  - **The time consumed of query plan stages (avg):** The average time consumed in different query plan stages on the node.
+  - **The time consumed of query plan stages (50%):** The median time consumed in different query plan stages on the node.
+  - **The time consumed of query plan stages (99%):** The P99 time consumed in different query plan stages on the node.
+- Plan Dispatch Time
+  - **The time consumed of plan dispatch stages (avg):** The average time consumed in query execution plan dispatch.
+  - **The time consumed of plan dispatch stages (50%):** The median time consumed in query execution plan dispatch.
+  - **The time consumed of plan dispatch stages (99%):** The P99 time consumed in query execution plan dispatch.
+- Query Execution Time
+  - **The time consumed of query execution stages (avg):** The average time consumed in query execution on the node.
+  - **The time consumed of query execution stages (50%):** The median time consumed in query execution on the node.
+  - **The time consumed of query execution stages (99%):** The P99 time consumed in query execution on the node.
 - Operator Execution Time
-  - The time consumed of operator execution stages(avg): The average execution time of node query operators
-  - The time consumed of operator execution(50%): Median execution time of node query operator
-  - The time consumed of operator execution(99%): P99 of node query operator execution time
+  - **The time consumed of operator execution stages (avg):** The average time consumed in query operator execution.
+  - **The time consumed of operator execution (50%):** The median time consumed in query operator execution.
+  - **The time consumed of operator execution (99%):** The P99 time consumed in query operator execution
 - Aggregation Query Computation Time
-  - The time consumed of query aggregation(avg): The average computation time for node aggregation queries
-  - The time consumed of query aggregation(50%): Median computation time for node aggregation queries
-  - The time consumed of query aggregation(99%): P99 of node aggregation query computation time
-- File/Memory Interface Time Consumption
-  - The time consumed of query scan(avg): The average time spent querying file/memory interfaces for nodes
-  - The time consumed of query scan(50%): Median time spent querying file/memory interfaces for nodes
-  - The time consumed of query scan(99%): P99 time consumption for node query file/memory interface
-- Number Of Resource Visits
-  - The usage of query resource(avg): The average number of resource visits for node queries
-  - The usage of query resource(50%): Median number of resource visits for node queries
-  - The usage of query resource(99%): P99 for node query resource access quantity
+  - **The time consumed of query aggregation (avg):** The average time consumed in aggregation query computation.
+  - **The time consumed of query aggregation (50%):** The median time consumed in aggregation query computation.
+  - **The time consumed of query aggregation (99%):** The P99 time consumed in aggregation query computation.
+- File/Memory Interface Time
+  - **The time consumed of query scan (avg):** The average time consumed in file/memory interface query scans.
+  - **The time consumed of query scan (50%):** The median time consumed in file/memory interface query scans.
+  - **The time consumed of query scan (99%):** The P99 time consumed in file/memory interface query scans.
+- Resource Access Count
+  - **The usage of query resource (avg):** The average number of resource accesses during query execution.
+  - **The usage of query resource (50%):** The median number of resource accesses during query execution.
+  - **The usage of query resource (99%):** The P99 number of resource accesses during query execution.
 - Data Transmission Time
-  - The time consumed of query data exchange(avg): The average time spent on node query data transmission
-  - The time consumed of query data exchange(50%): Median query data transmission time for nodes
-  - The time consumed of query data exchange(99%): P99 for node query data transmission time
-- Number Of Data Transfers
-  - The count of Data Exchange(avg): The average number of data transfers queried by nodes
-  - The count of Data Exchange: The quantile of the number of data transfers queried by nodes, including the median and P99
-- Task Scheduling Quantity And Time Consumption
-  - The number of query queue: Node query task scheduling quantity
-  - The time consumed of query schedule time(avg): The average time spent on scheduling node query tasks
-  - The time consumed of query schedule time(50%): Median time spent on node query task scheduling
-  - The time consumed of query schedule time(99%): P99 of node query task scheduling time
+  - **The time consumed of query data exchange (avg):** The average time consumed in query data exchange.
+  - **The time consumed of query data exchange (50%):** The median time consumed in query data exchange.
+  - **The time consumed of query data exchange (99%):** The P99 time consumed in query data exchange.
+- Data Transmission Count
+  - **The count of Data Exchange (avg):** The average number of data exchanges during queries.
+  - **The count of Data Exchange:** The quantiles (median, P99) of data exchanges during queries.
+- Task Scheduling Count and Time
+  - **The number of query queue:** The number of query tasks scheduled.
+  - **The time consumed of query schedule time (avg):** The average time consumed for query scheduling.
+  - **The time consumed of query schedule time (50%):** The median time consumed for query scheduling.
+  - **The time consumed of query schedule time (99%):** The P99 time consumed for query scheduling.
 
-#### Query Interface
+#### 3.4.7 Query Interface
 
 - Load Time Series Metadata
-  - The time consumed of load timeseries metadata(avg): The average time taken for node queries to load time series metadata
-  - The time consumed of load timeseries metadata(50%): Median time spent on loading time series metadata for node queries
-  - The time consumed of load timeseries metadata(99%): P99 time consumption for node query loading time series metadata
+  - **The time consumed of load timeseries metadata (avg):** The average time consumed for loading time series metadata.
+  - **The time consumed of load timeseries metadata (50%):** The median time consumed for loading time series metadata.
+  - **The time consumed of load timeseries metadata (99%):** The P99 time consumed for loading time series metadata.
 - Read Time Series
-  - The time consumed of read timeseries metadata(avg): The average time taken for node queries to read time series
-  - The time consumed of read timeseries metadata(50%): The median time taken for node queries to read time series
-  - The time consumed of read timeseries metadata(99%): P99 time consumption for node query reading time series
+  - **The time consumed of read timeseries metadata (avg):** The average time consumed for reading time series.
+  - **The time consumed of read timeseries metadata (50%):** The median time consumed for reading time series.
+  - **The time consumed of read timeseries metadata (99%):** The P99 time consumed for reading time series.
 - Modify Time Series Metadata
-  - The time consumed of timeseries metadata modification(avg):The average time taken for node queries to modify time series metadata
-  - The time consumed of timeseries metadata modification(50%): Median time spent on querying and modifying time series metadata for nodes
-  - The time consumed of timeseries metadata modification(99%): P99 time consumption for node query and modification of time series metadata
+  - **The time consumed of timeseries metadata modification (avg):** The average time consumed for modifying time series metadata.
+  - **The time consumed of timeseries metadata modification (50%):** The median time consumed for modifying time series metadata.
+  - **The time consumed of timeseries metadata modification (99%):** The P99 time consumed for modifying time series metadata.
 - Load Chunk Metadata List
-  - The time consumed of load chunk metadata list(avg): The average time it takes for node queries to load Chunk metadata lists
-  - The time consumed of load chunk metadata list(50%): Median time spent on node query loading Chunk metadata list
-  - The time consumed of load chunk metadata list(99%): P99 time consumption for node query loading Chunk metadata list
+  - The time consumed of load chunk metadata list(avg): Average time consumed of loading chunk metadata list by the node
+  - The time consumed of load chunk metadata list(50%): Median time consumed of loading chunk metadata list by the node
+  - The time consumed of load chunk metadata list(99%): P99 time consumed of loading chunk metadata list by the node
 - Modify Chunk Metadata
-  - The time consumed of chunk metadata modification(avg): The average time it takes for node queries to modify Chunk metadata
-  - The time consumed of chunk metadata modification(50%): The total number of bits spent on modifying Chunk metadata for node queries
-  - The time consumed of chunk metadata modification(99%): P99 time consumption for node query and modification of Chunk metadata
-- Filter According To Chunk Metadata
-  - The time consumed of chunk metadata filter(avg): The average time spent on node queries filtering by Chunk metadata
-  - The time consumed of chunk metadata filter(50%): Median filtering time for node queries based on Chunk metadata
-  - The time consumed of chunk metadata filter(99%): P99 time consumption for node query filtering based on Chunk metadata
-- Constructing Chunk Reader
-  - The time consumed of construct chunk reader(avg): The average time spent on constructing Chunk Reader for node queries
-  - The time consumed of construct chunk reader(50%): Median time spent on constructing Chunk Reader for node queries
-  - The time consumed of construct chunk reader(99%): P99 time consumption for constructing Chunk Reader for node queries
+  - The time consumed of chunk metadata modification(avg): Average time consumed of modifying chunk metadata by the node
+  - The time consumed of chunk metadata modification(50%): Median time consumed of modifying chunk metadata by the node
+  - The time consumed of chunk metadata modification(99%): P99 time consumed of modifying chunk metadata by the node
+- Filter by Chunk Metadata
+  - **The time consumed of chunk metadata filter (avg):** The average time consumed for filtering by chunk metadata.
+  - **The time consumed of chunk metadata filter (50%):** The median time consumed for filtering by chunk metadata.
+  - **The time consumed of chunk metadata filter (99%):** The P99 time consumed for filtering by chunk metadata.
+- Construct Chunk Reader
+  - **The time consumed of construct chunk reader (avg):** The average time consumed for constructing a Chunk Reader.
+  - **The time consumed of construct chunk reader (50%):** The median time consumed for constructing a Chunk Reader.
+  - **The time consumed of construct chunk reader (99%):** The P99 time consumed for constructing a Chunk Reader.
 - Read Chunk
-  - The time consumed of read chunk(avg): The average time taken for node queries to read Chunks
-  - The time consumed of read chunk(50%): Median time spent querying nodes to read Chunks
-  - The time consumed of read chunk(99%): P99 time spent on querying and reading Chunks for nodes
+  - **The time consumed of read chunk (avg):** The average time consumed for reading a Chunk.
+  - **The time consumed of read chunk (50%):** The median time consumed for reading a Chunk.
+  - **The time consumed of read chunk (99%):** The P99 time consumed for reading a Chunk.
 - Initialize Chunk Reader
-  - The time consumed of init chunk reader(avg): The average time spent initializing Chunk Reader for node queries
-  - The time consumed of init chunk reader(50%): Median time spent initializing Chunk Reader for node queries
-  - The time consumed of init chunk reader(99%):P99 time spent initializing Chunk Reader for node queries
-- Constructing TsBlock Through Page Reader
-  - The time consumed of build tsblock from page reader(avg): The average time it takes for node queries to construct TsBlock through Page Reader
-  - The time consumed of build tsblock from page reader(50%): The median time spent on constructing TsBlock through Page Reader for node queries
-  - The time consumed of build tsblock from page reader(99%):Node query using Page Reader to construct TsBlock time-consuming P99
-- Query the construction of TsBlock through Merge Reader
-  - The time consumed of build tsblock from merge reader(avg): The average time taken for node queries to construct TsBlock through Merge Reader
-  - The time consumed of build tsblock from merge reader(50%): The median time spent on constructing TsBlock through Merge Reader for node queries
-  - The time consumed of build tsblock from merge reader(99%): Node query using Merge Reader to construct TsBlock time-consuming P99
+  - **The time consumed of init chunk reader (avg):** The average time consumed for initializing a Chunk Reader.
+  - **The time consumed of init chunk reader (50%):** The median time consumed for initializing a Chunk Reader.
+  - **The time consumed of init chunk reader (99%):** The P99 time consumed for initializing a Chunk Reader.
+- Build TsBlock from Page Reader
+  - **The time consumed of build tsblock from page reader (avg):** The average time consumed for building a TsBlock using a Page Reader.
+  - **The time consumed of build tsblock from page reader (50%):** The median time consumed for building a TsBlock using a Page Reader.
+  - **The time consumed of build tsblock from page reader (99%):** The P99 time consumed for building a TsBlock using a Page Reader.
+- Build TsBlock from Merge Reader
+  - **The time consumed of build tsblock from merge reader (avg):** The average time consumed for building a TsBlock using a Merge Reader.
+  - **The time consumed of build tsblock from merge reader (50%):** The median time consumed for building a TsBlock using a Merge Reader.
+  - **The time consumed of build tsblock from merge reader (99%):** The P99 time consumed for building a TsBlock using a Merge Reader.
 
-#### Query Data Exchange
+#### 3.4.8 Query Data Exchange
 
-The data exchange for the query is time-consuming.
+Time consumed of data exchange in queries.
 
-- Obtain TsBlock through source handle
-  - The time consumed of source handle get tsblock(avg): The average time taken for node queries to obtain TsBlock through source handle
-  - The time consumed of source handle get tsblock(50%):Node query obtains the median time spent on TsBlock through source handle
-  - The time consumed of source handle get tsblock(99%): Node query obtains TsBlock time P99 through source handle
-- Deserialize TsBlock through source handle
-  - The time consumed of source handle deserialize tsblock(avg): The average time taken for node queries to deserialize TsBlock through source handle
-  - The time consumed of source handle deserialize tsblock(50%): The median time taken for node queries to deserialize TsBlock through source handle
-  - The time consumed of source handle deserialize tsblock(99%): P99 time spent on deserializing TsBlock through source handle for node query
-- Send TsBlock through sink handle 
-  - The time consumed of sink handle send tsblock(avg): The average time taken for node queries to send TsBlock through sink handle
-  - The time consumed of sink handle send tsblock(50%): Node query median time spent sending TsBlock through sink handle
-  - The time consumed of sink handle send tsblock(99%): Node query sends TsBlock through sink handle with a time consumption of P99
-- Callback data block event
-  - The time consumed of on acknowledge data block event task(avg): The average time taken for node query callback data block event
-  - The time consumed of on acknowledge data block event task(50%): Median time spent on node query callback data block event
-  - The time consumed of on acknowledge data block event task(99%): P99 time consumption for node query callback data block event
-- Get Data Block Tasks 
-  - The time consumed of get data block task(avg): The average time taken for node queries to obtain data block tasks
-  - The time consumed of get data block task(50%): The median time taken for node queries to obtain data block tasks
-  - The time consumed of get data block task(99%): P99 time consumption for node query to obtain data block task
+- Get TsBlock via Source Handle
+  - **The time consumed of source handle get tsblock (avg):** The average time consumed for retrieving a TsBlock using the source handle.
+  - **The time consumed of source handle get tsblock (50%):** The median time consumed for retrieving a TsBlock using the source handle.
+  - **The time consumed of source handle get tsblock (99%):** The P99 time consumed for retrieving a TsBlock using the source handle.
+- Deserialize TsBlock via Source Handle
+  - **The time consumed of source handle deserialize tsblock (avg):** The average time consumed for deserializing a TsBlock via the source handle.
+  - **The time consumed of source handle deserialize tsblock (50%):** The median time consumed for deserializing a TsBlock via the source handle.
+  - **The time consumed of source handle deserialize tsblock (99%):** The P99 time consumed for deserializing a TsBlock via the source handle.
+- Send TsBlock via Sink Handle
+  - **The time consumed of sink handle send tsblock (avg):** The average time consumed for sending a TsBlock via the sink handle.
+  - **The time consumed of sink handle send tsblock (50%):** The median time consumed for sending a TsBlock via the sink handle.
+  - **The time consumed of sink handle send tsblock (99%):** The P99 time consumed for sending a TsBlock via the sink handle.
+- Handle Data Block Event Callback
+  - **The time consumed of handling data block event callback (avg):** The average time consumed for handling the callback of a data block event during query execution.
+  - **The time consumed of handling data block event callback (50%):** The median time consumed for handling the callback of a data block event during query execution.
+  - **The time consumed of handling data block event callback (99%):** The P99 time consumed for handling the callback of a data block event during query execution.
+- Get Data Block Task
+  - **The time consumed of get data block task (avg):** The average time consumed for retrieving a data block task.
+  - **The time consumed of get data block task (50%):** The median time consumed for retrieving a data block task.
+  - **The time consumed of get data block task (99%):** The P99 time consumed for retrieving a data block task.
 
-#### Query Related Resource
+#### 3.4.9 Query Related Resource
 
-- MppDataExchangeManager:The number of shuffle sink handles and source handles during node queries
-- LocalExecutionPlanner: The remaining memory that nodes can allocate to query shards
-- FragmentInstanceManager: The query sharding context information and the number of query shards that the node is running
-- Coordinator: The number of queries recorded on the node
-- MemoryPool Size: Node query related memory pool situation
-- MemoryPool Capacity: The size of memory pools related to node queries, including maximum and remaining available values
-- DriverScheduler: Number of queue tasks related to node queries
+- **MppDataExchangeManager:** The number of shuffle sink handles and source handles during queries.
+- **LocalExecutionPlanner:** The remaining memory available for query fragments.
+- **FragmentInstanceManager:** The context information and count of running query fragments.
+- **Coordinator:** The number of queries recorded on the node.
+- **MemoryPool Size:** The status of the memory pool related to queries.
+- **MemoryPool Capacity:** The size of the query-related memory pool, including the maximum and remaining available capacity.
+- **DriverScheduler:** The number of queued query tasks.
 
-#### Consensus - IoT Consensus
+#### 3.4.10 Consensus - IoT Consensus
 
 - Memory Usage
-  - IoTConsensus Used Memory: The memory usage of IoT Consumes for nodes, including total memory usage, queue usage, and synchronization usage
-- Synchronization Status Between Nodes
-  - IoTConsensus Sync Index: SyncIndex size for different DataRegions of IoT Consumption nodes
-  - IoTConsensus Overview:The total synchronization gap and cached request count of IoT consumption for nodes
-  - IoTConsensus Search Index Rate: The growth rate of writing SearchIndex for different DataRegions of IoT Consumer nodes
-  - IoTConsensus Safe Index Rate: The growth rate of synchronous SafeIndex for different DataRegions of IoT Consumer nodes
-  - IoTConsensus LogDispatcher Request Size: The request size for node IoT Consusus to synchronize different DataRegions to other nodes
-  - Sync Lag: The size of synchronization gap between different DataRegions in IoT Consumption node
-  - Min Peer Sync Lag: The minimum synchronization gap between different DataRegions and different replicas of node IoT Consumption
-  - Sync Speed Diff Of Peers: The maximum difference in synchronization from different DataRegions to different replicas for node IoT Consumption
-  - IoTConsensus LogEntriesFromWAL Rate: The rate at which nodes IoT Consumus obtain logs from WAL for different DataRegions
-  - IoTConsensus LogEntriesFromQueue Rate: The rate at which nodes IoT Consumes different DataRegions retrieve logs from the queue
-- Different Execution Stages Take Time
-  - The Time Consumed Of Different Stages (avg): The average time spent on different execution stages of node IoT Consumus
-  - The Time Consumed Of Different Stages (50%): The median time spent on different execution stages of node IoT Consusus
-  - The Time Consumed Of Different Stages (99%):P99 of the time consumption for different execution stages of node IoT Consusus
+  - **IoTConsensus Used Memory:** The memory usage of IoT Consensus, including total used memory, queue memory usage, and synchronization memory usage.
+- Synchronization between Nodes
+  - **IoTConsensus Sync Index:** The sync index size of different DataRegions.
+  - **IoTConsensus Overview:** The total synchronization lag and cached request count of IoT Consensus.
+  - **IoTConsensus Search Index Rate:** The growth rate of SearchIndex writes for different DataRegions.
+  - **IoTConsensus Safe Index Rate:** The growth rate of SafeIndex synchronization for different DataRegions.
+  - **IoTConsensus LogDispatcher Request Size:** The size of synchronization requests sent to other nodes for different DataRegions.
+  - **Sync Lag:** The synchronization lag size of different DataRegions.
+  - **Min Peer Sync Lag:** The minimum synchronization lag to different replicas for different DataRegions.
+  - **Sync Speed Diff of Peers:** The maximum synchronization lag to different replicas for different DataRegions.
+  - **IoTConsensus LogEntriesFromWAL Rate:** The rate of retrieving log entries from WAL for different DataRegions.
+  - **IoTConsensus LogEntriesFromQueue Rate:** The rate of retrieving log entries from the queue for different DataRegions.
+- Execution Time of Different Stages
+  - **The Time Consumed of Different Stages (avg):** The average execution time of different stages in IoT Consensus.
+  - **The Time Consumed of Different Stages (50%):** The median execution time of different stages in IoT Consensus.
+  - **The Time Consumed of Different Stages (99%):** The P99 execution time of different stages in IoT Consensus.
 
-#### Consensus - DataRegion Ratis Consensus
+#### 3.4.11 Consensus - DataRegion Ratis Consensus
 
-- Ratis Stage Time: The time consumption of different stages of node Ratis
-- Write Log Entry: The time consumption of writing logs at different stages of node Ratis
-- Remote / Local Write Time: The time it takes for node Ratis to write locally or remotely
-- Remote / Local Write QPS: QPS written by node Ratis locally or remotely
-- RatisConsensus Memory:Memory usage of node Ratis
+- **Ratis Stage Time:** The execution time of different stages in Ratis.
+- **Write Log Entry:** The execution time for writing logs in Ratis.
+- **Remote / Local Write Time:** The time taken for remote and local writes in Ratis.
+- **Remote / Local Write QPS****:** The QPS for remote and local writes in Ratis.
+- **RatisConsensus Memory:** The memory usage of Ratis consensus.
 
-#### Consensus - SchemaRegion Ratis Consensus
+#### 3.4.12 Consensus - SchemaRegion Ratis Consensus
 
-- Ratis Stage Time: The time consumption of different stages of node Ratis
-- Write Log Entry: The time consumption for writing logs at each stage of node Ratis
-- Remote / Local Write Time: The time it takes for node Ratis to write locally or remotelyThe time it takes for node Ratis to write locally or remotely
-- Remote / Local Write QPS: QPS written by node Ratis locally or remotely
-- RatisConsensus Memory: Node Ratis Memory Usage
+- **Ratis Stage Time:** The execution time of different stages in Ratis.
+- **Write Log Entry:** The execution time for writing logs in Ratis.
+- **Remote / Local Write Time:** The time taken for remote and local writes in Ratis.
+- **Remote / Local Write QPS****:** The QPS for remote and local writes in Ratis.
+- **RatisConsensus Memory:** The memory usage of Ratis consensus.

@@ -21,18 +21,18 @@
 
 # Identifiers
 
-In IoTDB, identifiers are used to identify database, table, column, function, or other object names.
+In IoTDB, identifiers are used to represent the names of databases, tables, columns, functions, and other objects.
 
 ## 1 Naming Rules
 
-- __First Character__：Identifiers must begin with a letter.
-- __Subsequent Characters__：Can include letters, numbers, and underscores.
-- __Special Characters__：If an identifier contains characters other than letters, numbers, and underscores, it must be enclosed in double quotes (`"`).
-- __Escape Character__：Within double-quoted identifiers, two consecutive double quotes (`""`) are used to represent a single double quote character.
+1. **Starting Character**: An identifier must begin with a letter.
+2. **Subsequent Characters**: Identifiers can include letters, digits, and underscores.
+3. **Special Characters**: If an identifier contains characters other than letters, digits, and underscores, it must be enclosed in double quotes (`"`).
+4. **Escape Characters**: In double-quoted identifiers, a double quote character can be represented using two consecutive double quotes (`""`).
 
 ### 1.1 Examples
 
-Here are some valid identifier examples:
+Here are some examples of valid identifiers:
 
 ```sql
 test
@@ -42,7 +42,7 @@ test
 "quotes"
 ```
 
-Invalid identifier examples that must be quoted with double quotes:
+The following are examples of invalid identifiers that must be enclosed in double quotes to be used:
 
 ```sql
 table-name // contains a hyphen
@@ -52,13 +52,13 @@ colum$name@field  // contains special characters and is not enclosed in double q
 
 ## 2 Case Sensitivity
 
-Identifiers are not case-sensitive, and the system does not retain the original case when storing identifiers. The column names in the query results will be displayed based on the case specified by the user in the SELECT clause.
+Identifiers in IoTDB are case-insensitive. The system does not preserve the original case of identifiers during storage, but query results display column names in the same case as specified in the SELECT clause of the query.
 
-> Identifiers enclosed in double quotes are also not case-sensitive.
+> Identifiers enclosed in double quotes are also case-insensitive.
 
 ### 2.1 Example
 
-When a column named `Device_id` is created, it is seen as `device_id` when viewing the table, but the returned result column matches the format specified by the user in the query as `Device_ID`:
+Suppose a column named `Device_id` is created. When inspecting the table schema, it appears as `device_id`, but query results reflect the column name in the format specified by the user during the query (e.g., `Device_ID`).
 
 ```sql
 IoTDB> create table table1(Device_id STRING TAG, Model STRING ATTRIBUTE, TemPerature FLOAT FIELD, Humidity DOUBLE FIELD)
