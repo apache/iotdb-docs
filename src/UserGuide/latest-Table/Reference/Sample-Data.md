@@ -19,20 +19,16 @@
 
 -->
 
-# Sample Data
+This section introduces a simple time-series data application scenario, along with the modeling and sample data for this scenario. All example SQL statements in the IoTDB Table Model User Guide can be executed using this modeling and sample data.
 
-This chapter mainly introduces a simple temporal data application scenario and the modeling and example data in this scenario. All the example SQL statements in the IoTDB table model user manual can be executed under this modeling and example data.
+## Data Structure
 
-## 1 Data Structure
+The structures of `table1` and `table2` are as follows:
+![](/img/sample-dataset-en-01.png)
 
+## Import Statements
 
-Table 1 and Table 2 both have the following table structure:
-
-![](/img/Sample_data02.png)
-
-## 2 Import Statement
-
-The following is the SQL statement used to construct the above table structure and data. You can click here（[sample_data.sql](/img/sample_data.sql)）to download all the SQL statements and execute them in CLI to import the data into your IoTDB.
+Below are the SQL statements to create the above table structures and insert data. You can download the complete SQL script ([sample_data.sql](/img/sample_data.sql)) to execute these statements in the CLI to import the data into IoTDB.
 
 ```SQL
 -- Create a table with table names that are close to business semantics. Here, we use table1 instead
