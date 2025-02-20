@@ -68,6 +68,7 @@ This function is used to calculate the completeness of time series. The input se
 
 + `window`: The size of each window. It is a positive integer or a positive number with an unit. The former is the number of data points in each window. The number of data points in the last window may be less than it. The latter is the time of the window. The unit is 'ms' for millisecond, 's' for second, 'm' for minute, 'h' for hour and 'd' for day. By default, all input data belongs to the same window.
 + `downtime`: Whether the downtime exception is considered in the calculation of completeness. It is 'true' or 'false' (default). When considering the downtime exception, long-term missing data will be considered as downtime exception without any influence on completeness.
++ `Segment`: Whether the sequence segmentation is considered in the completeness calculation. It is 'true' or 'false' (default). When segmentation is considered, the sequence will first be divided according to the distribution of timestamps, and completeness will then be calculated for each segment.
 
 **Output Series:** Output a single series. The type is DOUBLE. The range of each value is [0,1].
 
@@ -198,6 +199,7 @@ This function is used to calculate the consistency of time series. The input ser
 **Parameters:**
 
 + `window`: The size of each window. It is a positive integer or a positive number with an unit. The former is the number of data points in each window. The number of data points in the last window may be less than it. The latter is the time of the window. The unit is 'ms' for millisecond, 's' for second, 'm' for minute, 'h' for hour and 'd' for day. By default, all input data belongs to the same window.
++ `Segment`: Whether the sequence segmentation is considered in the consistency calculation. It is 'true' or 'false' (default). When segmentation is considered, the sequence will first be divided according to the distribution of timestamps, and consistency will then be calculated for each segment.
 
 **Output Series:** Output a single series. The type is DOUBLE. The range of each value is [0,1].
 
@@ -328,6 +330,7 @@ This function is used to calculate the timeliness of time series. The input seri
 **Parameters:**
 
 + `window`: The size of each window. It is a positive integer or a positive number with an unit. The former is the number of data points in each window. The number of data points in the last window may be less than it. The latter is the time of the window. The unit is 'ms' for millisecond, 's' for second, 'm' for minute, 'h' for hour and 'd' for day. By default, all input data belongs to the same window.
++ `Segment`: Whether the sequence segmentation is considered in the timeliness calculation. It is 'true' or 'false' (default). When segmentation is considered, the sequence will first be divided according to the distribution of timestamps, and timeliness will then be calculated for each segment.
 
 **Output Series:** Output a single series. The type is DOUBLE. The range of each value is [0,1].
 
@@ -4340,6 +4343,7 @@ According to the given standard time interval,
 the method of minimizing the repair cost is adopted.
 By fine-tuning the timestamps,
 the original data with unstable timestamp interval is repaired to strictly equispaced data.
+This function applicable to both segmented and non-segmented scenarios.
 If no standard time interval is given,
 this function will use the **median**, **mode** or **cluster** of the time interval to estimate the standard time interval.
 
@@ -4351,6 +4355,8 @@ this function will use the **median**, **mode** or **cluster** of the time inter
 
 + `interval`: The standard time interval whose unit is millisecond. It is a positive integer. By default, it will be estimated according to the given method.
 + `method`: The method to estimate the standard time interval, which is 'median', 'mode' or 'cluster'. This parameter is only valid when `interval` is not given. By default, median will be used.
++ `Segment`: Whether the timestamp repair considers sequence segmentation. It can be 'true' or 'false', with the default value being 'false'. When segmentation is considered, the time series is repaired into a sequence composed of multiple concatenated subsequences with regular intervals.
++ `num_interval`: Represents the number of time intervals considered during the repair of the sequence. It is only valid when the `method` is set to 'mode', indicating the number of time intervals considered after sorting by the frequency of intervals.
 
 **Output Series:** Output a single series. The type is the same as the input. This series is the input after repairing.
 
@@ -4431,6 +4437,53 @@ Output series:
 |2021-07-01T12:01:10.000+08:00|                             8.0|
 |2021-07-01T12:01:20.000+08:00|                             9.0|
 |2021-07-01T12:01:30.000+08:00|                            10.0|
++-----------------------------+--------------------------------+
+```
+#### Segmented Timestamp Repair
+
+If the `Segment` value is set to 'true', this function will repair the timestamps according to the segmented repair algorithm.
+
+Input series:
+
+```
++-----------------------------+---------------+
+|                         Time|root.test.d2.s1|
++-----------------------------+---------------+
+|2021-07-01T12:00:00.000+08:00|            1.0|
+|2021-07-01T12:00:10.000+08:00|            2.0|
+|2021-07-01T12:00:19.000+08:00|            3.0|
+|2021-07-01T12:00:30.000+08:00|            4.0|
+|2021-07-01T12:00:40.000+08:00|            5.0|
+|2021-07-01T12:00:50.000+08:00|            6.0|
+|2021-07-01T12:10:01.000+08:00|            1.0|
+|2021-07-01T12:10:11.000+08:00|            2.0|
+|2021-07-01T12:10:21.000+08:00|            3.0|
+|2021-07-01T12:10:31.000+08:00|            4.0|
++-----------------------------+---------------+
+```
+
+SQL for query:
+
+```sql
+select timestamprepair(s1,'Segment'='true') from root.test.d2
+```
+
+Output series:
+
+```
++-----------------------------+--------------------------------+
+|                         Time|timestamprepair(root.test.d2.s1, "Segment"="true")|
++-----------------------------+--------------------------------+
+|2021-07-01T12:00:00.000+08:00|                             1.0|
+|2021-07-01T12:00:10.000+08:00|                             2.0|
+|2021-07-01T12:00:20.000+08:00|                             3.0|
+|2021-07-01T12:00:30.000+08:00|                             4.0|
+|2021-07-01T12:00:40.000+08:00|                             5.0|
+|2021-07-01T12:00:50.000+08:00|                             6.0|
+|2021-07-01T12:10:00.000+08:00|                             1.0|
+|2021-07-01T12:10:10.000+08:00|                             2.0|
+|2021-07-01T12:10:20.000+08:00|                             3.0|
+|2021-07-01T12:10:30.000+08:00|                             4.0|
 +-----------------------------+--------------------------------+
 ```
 
