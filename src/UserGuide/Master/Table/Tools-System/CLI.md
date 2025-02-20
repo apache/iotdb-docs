@@ -19,43 +19,35 @@
 
 -->
 
-# CLI Tool
-
 The IoTDB Command Line Interface (CLI) tool allows users to interact with the IoTDB server. Before using the CLI tool to connect to IoTDB, ensure that the IoTDB service is running correctly. This document explains how to launch the CLI and its related parameters.
 
-> In this manual, `$IOTDB_HOME` represents the installation directory of IoTDB.
+In this manual, `$IOTDB_HOME` represents the installation directory of IoTDB.
 
-## 1 CLI Launch
+### CLI Launch
 
 The CLI client script is located in the `$IOTDB_HOME/sbin` directory. The common commands to start the CLI tool are as follows:
 
-- Linux/MacOS:
+#### **Linux** **MacOS**
 
-```Shell
+```Bash
 Shell> bash sbin/start-cli.sh -sql_dialect table
 #or
 Shell> bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect table
 ```
 
-- Windows:
+#### **Windows**
 
-```Shell
+```Bash
 Shell> sbin\start-cli.bat -sql_dialect table
 #or
 Shell> sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect table
 ```
 
-Among them:
-
--The -h and -p items are the IP and RPC port numbers where IoTDB is located (default IP and RPC port numbers are 127.0.0.1 and 6667 if not modified locally)
-- -u and -pw are the username and password for logging into IoTDB (after installation, IoTDB has a default user, and both username and password are 'root')
-- -sql-dialect is the logged in data model (table model or tree model), where table is specified to represent entering table model mode
-
 **Parameter Explanation**
 
 | **Parameter**              | **Type** | **Required** | **Description**                                              | **Example**         |
 | -------------------------- | -------- | ------------ | ------------------------------------------------------------ | ------------------- |
-| -h `<host>`                 | string   | No           | The IP address of the IoTDB server. (Default: 127.0.0.1)     | -h 127.0.0.1        |
+| -h `<host>`                  | string   | No           | The IP address of the IoTDB server. (Default: 127.0.0.1)     | -h 127.0.0.1        |
 | -p `<rpcPort>`               | int      | No           | The RPC port of the IoTDB server. (Default: 6667)            | -p 6667             |
 | -u `<username>`              | string   | No           | The username to connect to the IoTDB server. (Default: root) | -u root             |
 | -pw `<password>`             | string   | No           | The password to connect to the IoTDB server. (Default: root) | -pw root            |
@@ -70,11 +62,9 @@ The figure below indicates a successful startup:
 ![](/img/Cli-01.png)
 
 
-## 2 Execute statements in CLI
+### Example Commands
 
-After entering the CLI, users can directly interact by entering SQL statements in the conversation. For example:
-
-- Create Database
+#### **Create a Database**
 
 ```Java
 create database test
@@ -83,8 +73,7 @@ create database test
 ![](/img/Cli-02.png)
 
 
-- Show Databases
-
+#### **Show Databases**
 ```Java
 show databases
 ```
@@ -92,13 +81,11 @@ show databases
 ![](/img/Cli-03.png)
 
 
-## 3 CLI Exit
+### CLI Exit
 
 To exit the CLI and terminate the session, type`quit`or`exit`.
 
-## 4 Additional Notes
-
-CLI Command Usage Tips：
+### Additional Notes and Shortcuts
 
 1. **Navigate Command History:** Use the up and down arrow keys.
 2. **Auto-Complete Commands:** Use the right arrow key.
