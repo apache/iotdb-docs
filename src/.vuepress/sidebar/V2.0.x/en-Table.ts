@@ -23,6 +23,17 @@ export const enSidebar = {
       children: [],
     },
     {
+      text: 'Background knowledge',
+      collapsible: true,
+      prefix: 'Background-knowledge/',
+      children: [
+        { text: 'Common Concepts', link: 'Cluster-Concept_apache' },
+        { text: 'Timeseries Data Model', link: 'Navigating_Time_Series_Data' },
+        { text: 'Modeling Scheme Design', link: 'Data-Model-and-Terminology_apache' },
+        { text: 'Data Type', link: 'Data-Type' },
+      ],
+    },
+    {
       text: 'Quick Start',
       link: 'QuickStart/QuickStart_apache',
     },
@@ -74,16 +85,23 @@ export const enSidebar = {
                 { text: 'TTL Delete Data', link: 'TTL-Delete-Data' },
               ],
             },
+          ],
+        },
       ],
     },
-    
+    {
+      text: 'Advanced Features',
+      collapsible: true,
+      prefix: 'User-Manual/',
+      // children: 'structure',
+      children: [
+        { text: 'Data Sync', link: 'Data-Sync_apache' },
         {
-          text: 'Maintenance SQL',
+          text: 'System Maintenance',
           collapsible: true,
           children: [
             { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis' },
-            { text: 'Load Balance', link: 'Load-Balance' },
-            { text: 'Data Recovery', link: 'Data-Recovery' },
+            { text: 'Maintenance statement', link: 'Maintenance-statement' },
           ],
         },
       ],
@@ -120,6 +138,24 @@ export const enSidebar = {
             { text: 'LIMIT&OFFSET Clause', link: 'Limit-Offset-Clause' },
           ],
         },
+        {
+          text: 'Functions and Operators',
+          collapsible: true,
+          children: [
+            { text: 'Basis Functions', link: 'Basis-Function' },
+            { text: 'Featured Functions', link: 'Featured-Functions' },
+          ],
+        },
+      ],
+    },
+    {
+      text: 'Technical Insider',
+      collapsible: true,
+      prefix: 'Technical-Insider/',
+      // children: 'structure',
+      children: [
+        { text: 'Compression & Encoding', link: 'Encoding-and-Compression' },
+        { text: 'Data Partitioning & Load Balancing', link: 'Cluster-data-partitioning' },
       ],
     },
     {
@@ -128,8 +164,9 @@ export const enSidebar = {
       prefix: 'Reference/',
       // children: 'structure',
       children: [
-        { text: 'Config Manual', link: 'System-Config-Manual' },
         { text: 'Sample Data', link: 'Sample-Data' },
+        { text: 'Config Manual', link: 'System-Config-Manual' },
+        { text: 'Status Codes', link: 'Status-Codes' },
       ],
     },
   ],
