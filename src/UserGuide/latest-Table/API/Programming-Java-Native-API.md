@@ -19,7 +19,7 @@
 
 -->
 
-IoTDB provides a Java native client driver and and a session pool management mechanism. These tools enable developers to interact with IoTDB using object-oriented APIs, allowing time-series objects to be directly assembled and inserted into the database without constructing SQL statements. It is recommended to use the  `ITableSessionPool` for multi-threaded database operations to maximize efficiency.
+IoTDB provides a Java native client driver and a session pool management mechanism. These tools enable developers to interact with IoTDB using object-oriented APIs, allowing time-series objects to be directly assembled and inserted into the database without constructing SQL statements. It is recommended to use the  `ITableSessionPool` for multi-threaded database operations to maximize efficiency.
 
 ## Prerequisites
 
@@ -130,36 +130,36 @@ The `TableSessionBuilder` class is a builder for configuring and creating instan
 
 #### Parameter Configuration
 
-| **Parameter**                                        | **Description**                                              | **Default Value**                             |
-| ---------------------------------------------------- | ------------------------------------------------------------ |-----------------------------------------------|
-| nodeUrls(List<String> nodeUrls)                      | Sets the list of IoTDB cluster node URLs.                    | `Collections.singletonList("localhost:6667")` |
-| username(String username)                            | Sets the username for the connection.                        | `"root"`                                      |
-| password(String password)                            | Sets the password for the connection.                        | `"root"`                                      |
-| database(String database)                            | Sets the target database name.                               | `null`                                        |
-| queryTimeoutInMs(long queryTimeoutInMs)              | Sets the query timeout in milliseconds.                      | `60000` (1 minute)                            |
-| fetchSize(int fetchSize)                             | Sets the fetch size for query results.                       | `5000`                                        |
-| zoneId(ZoneId zoneId)                                | Sets the timezone-related `ZoneId`.                          | `ZoneId.systemDefault()`                      |
-| thriftDefaultBufferSize(int thriftDefaultBufferSize) | Sets the default buffer size for the Thrift client (in bytes). | `1024`(1KB)                                   |
-| thriftMaxFrameSize(int thriftMaxFrameSize)           | Sets the maximum frame size for the Thrift client (in bytes). | `64 * 1024 * 1024`(64MB)                      |
-| enableRedirection(boolean enableRedirection)         | Enables or disables redirection for cluster nodes.           | `true`                                        |
-| enableAutoFetch(boolean enableAutoFetch)             | Enables or disables automatic fetching of available DataNodes. | `true`                                        |
-| maxRetryCount(int maxRetryCount)                     | Sets the maximum number of connection retry attempts.        | `60`                                          |
-| retryIntervalInMs(long retryIntervalInMs)            | Sets the interval between retry attempts (in milliseconds).  | `500`(500 millisesonds)                       |
-| useSSL(boolean useSSL)                               | Enables or disables SSL for secure connections.              | `false`                                       |
-| trustStore(String keyStore)                          | Sets the path to the trust store for SSL connections.        | `null`                                        |
-| trustStorePwd(String keyStorePwd)                    | Sets the password for the SSL trust store.                   | `null`                                        |
-| enableCompression(boolean enableCompression)         | Enables or disables RPC compression for the connection.      | `false`                                       |
-| connectionTimeoutInMs(int connectionTimeoutInMs)     | Sets the connection timeout in milliseconds.                 | `0` (no timeout)                              |
+| **Parameter**                                       | **Description**                                              | **Default Value**                                 |
+|-----------------------------------------------------| ------------------------------------------------------------ | ------------------------------------------------- |
+| nodeUrls(List\<String> nodeUrls)                    | Sets the list of IoTDB cluster node URLs.                    | `Collections.singletonList("``localhost:6667``")` |
+| username(String username)                           | Sets the username for the connection.                        | `"root"`                                          |
+| password(String password)                           | Sets the password for the connection.                        | `"root"`                                          |
+| database(String database)                           | Sets the target database name.                               | `null`                                            |
+| queryTimeoutInMs(long queryTimeoutInMs)             | Sets the query timeout in milliseconds.                      | `60000` (1 minute)                                |
+| fetchSize(int fetchSize)                            | Sets the fetch size for query results.                       | `5000`                                            |
+| zoneId(ZoneId zoneId)                               | Sets the timezone-related `ZoneId`.                          | `ZoneId.systemDefault()`                          |
+| thriftDefaultBufferSize(int thriftDefaultBufferSize) | Sets the default buffer size for the Thrift client (in bytes). | `1024`(1KB)                                       |
+| thriftMaxFrameSize(int thriftMaxFrameSize)          | Sets the maximum frame size for the Thrift client (in bytes). | `64 * 1024 * 1024`(64MB)                          |
+| enableRedirection(boolean enableRedirection)        | Enables or disables redirection for cluster nodes.           | `true`                                            |
+| enableAutoFetch(boolean enableAutoFetch)            | Enables or disables automatic fetching of available DataNodes. | `true`                                            |
+| maxRetryCount(int maxRetryCount)                    | Sets the maximum number of connection retry attempts.        | `60`                                              |
+| retryIntervalInMs(long retryIntervalInMs)           | Sets the interval between retry attempts (in milliseconds).  | `500`(500 millisesonds)                           |
+| useSSL(boolean useSSL)                              | Enables or disables SSL for secure connections.              | `false`                                           |
+| trustStore(String keyStore)                         | Sets the path to the trust store for SSL connections.        | `null`                                            |
+| trustStorePwd(String keyStorePwd)                   | Sets the password for the SSL trust store.                   | `null`                                            |
+| enableCompression(boolean enableCompression)        | Enables or disables RPC compression for the connection.      | `false`                                           |
+| connectionTimeoutInMs(int connectionTimeoutInMs)    | Sets the connection timeout in milliseconds.                 | `0` (no timeout)                                  |
 
 #### Sample Code
 
 ```Java
 /**
  * A builder class for constructing instances of {@link ITableSession}.
- * 
+ *
  * <p>This builder provides a fluent API for configuring various options such as connection 
  * settings, query parameters, and security features.
- * 
+ *
  * <p>All configurations have reasonable default values, which can be overridden as needed.
  */
 public class TableSessionBuilder {
@@ -355,7 +355,7 @@ The `ITableSessionPool` interface manages a pool of `ITableSession` instances, e
 /**
  * This interface defines a pool for managing {@link ITableSession} instances.
  * It provides methods to acquire a session from the pool and to close the pool.
- * 
+ *
  * <p>The implementation should handle the lifecycle of sessions, ensuring efficient
  * reuse and proper cleanup of resources.
  */
@@ -384,38 +384,38 @@ The `TableSessionPoolBuilder` class is a builder for configuring and creating `I
 
 #### Parameter Configuration
 
-| **Parameter**                                                | **Description**                                              | **Default Value**                             |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | --------------------------------------------- |
-| nodeUrls(List<String> nodeUrls)                              | Sets the list of IoTDB cluster node URLs.                    | `Collections.singletonList("localhost:6667")` |
-| maxSize(int maxSize)                                         | Sets the maximum size of the session pool, i.e., the maximum number of sessions allowed in the pool. | `5`                                           |
-| user(String user)                                            | Sets the username for the connection.                        | `"root"`                                      |
-| password(String password)                                    | Sets the password for the connection.                        | `"root"`                                      |
-| database(String database)                                    | Sets the target database name.                               | `"root"`                                      |
-| queryTimeoutInMs(long queryTimeoutInMs)                      | Sets the query timeout in milliseconds.                      | `60000`(1 minute)                             |
-| fetchSize(int fetchSize)                                     | Sets the fetch size for query results.                       | `5000`                                        |
-| zoneId(ZoneId zoneId)                                        | Sets the timezone-related `ZoneId`.                          | `ZoneId.systemDefault()`                      |
+| **Parameter**                                                 | **Description**                                              | **Default Value**                             |
+|---------------------------------------------------------------| ------------------------------------------------------------ | --------------------------------------------- |
+| nodeUrls(List\<String> nodeUrls)                              | Sets the list of IoTDB cluster node URLs.                    | `Collections.singletonList("localhost:6667")` |
+| maxSize(int maxSize)                                          | Sets the maximum size of the session pool, i.e., the maximum number of sessions allowed in the pool. | `5`                                           |
+| user(String user)                                             | Sets the username for the connection.                        | `"root"`                                      |
+| password(String password)                                     | Sets the password for the connection.                        | `"root"`                                      |
+| database(String database)                                     | Sets the target database name.                               | `"root"`                                      |
+| queryTimeoutInMs(long queryTimeoutInMs)                       | Sets the query timeout in milliseconds.                      | `60000`(1 minute)                             |
+| fetchSize(int fetchSize)                                      | Sets the fetch size for query results.                       | `5000`                                        |
+| zoneId(ZoneId zoneId)                                         | Sets the timezone-related `ZoneId`.                          | `ZoneId.systemDefault()`                      |
 | waitToGetSessionTimeoutInMs(long waitToGetSessionTimeoutInMs) | Sets the timeout duration (in milliseconds) for acquiring a session from the pool. | `30000`(30 seconds)                           |
-| thriftDefaultBufferSize(int thriftDefaultBufferSize)         | Sets the default buffer size for the Thrift client (in bytes). | `1024`(1KB)                                   |
-| thriftMaxFrameSize(int thriftMaxFrameSize)                   | Sets the maximum frame size for the Thrift client (in bytes). | `64 * 1024 * 1024`(64MB)                      |
-| enableCompression(boolean enableCompression)                 | Enables or disables compression for the connection.          | `false`                                       |
-| enableRedirection(boolean enableRedirection)                 | Enables or disables redirection for cluster nodes.           | `true`                                        |
-| connectionTimeoutInMs(int connectionTimeoutInMs)             | Sets the connection timeout in milliseconds.                 | `10000` (10 seconds)                          |
-| enableAutoFetch(boolean enableAutoFetch)                     | Enables or disables automatic fetching of available DataNodes. | `true`                                        |
-| maxRetryCount(int maxRetryCount)                             | Sets the maximum number of connection retry attempts.        | `60`                                          |
-| retryIntervalInMs(long retryIntervalInMs)                    | Sets the interval between retry attempts (in milliseconds).  | `500` (500 milliseconds)                      |
-| useSSL(boolean useSSL)                                       | Enables or disables SSL for secure connections.              | `false`                                       |
-| trustStore(String keyStore)                                  | Sets the path to the trust store for SSL connections.        | `null`                                        |
-| trustStorePwd(String keyStorePwd)                            | Sets the password for the SSL trust store.                   | `null`                                        |
+| thriftDefaultBufferSize(int thriftDefaultBufferSize)          | Sets the default buffer size for the Thrift client (in bytes). | `1024`(1KB)                                   |
+| thriftMaxFrameSize(int thriftMaxFrameSize)                    | Sets the maximum frame size for the Thrift client (in bytes). | `64 * 1024 * 1024`(64MB)                      |
+| enableCompression(boolean enableCompression)                  | Enables or disables compression for the connection.          | `false`                                       |
+| enableRedirection(boolean enableRedirection)                  | Enables or disables redirection for cluster nodes.           | `true`                                        |
+| connectionTimeoutInMs(int connectionTimeoutInMs)              | Sets the connection timeout in milliseconds.                 | `10000` (10 seconds)                          |
+| enableAutoFetch(boolean enableAutoFetch)                      | Enables or disables automatic fetching of available DataNodes. | `true`                                        |
+| maxRetryCount(int maxRetryCount)                              | Sets the maximum number of connection retry attempts.        | `60`                                          |
+| retryIntervalInMs(long retryIntervalInMs)                     | Sets the interval between retry attempts (in milliseconds).  | `500` (500 milliseconds)                      |
+| useSSL(boolean useSSL)                                        | Enables or disables SSL for secure connections.              | `false`                                       |
+| trustStore(String keyStore)                                   | Sets the path to the trust store for SSL connections.        | `null`                                        |
+| trustStorePwd(String keyStorePwd)                             | Sets the password for the SSL trust store.                   | `null`                                        |
 
 #### Sample Code
 
 ```Java
 /**
  * A builder class for constructing instances of {@link ITableSessionPool}.
- * 
+ *
  * <p>This builder provides a fluent API for configuring a session pool, including
  * connection settings, session parameters, and pool behavior.
- * 
+ *
  * <p>All configurations have reasonable default values, which can be overridden as needed.
  */
 public class TableSessionPoolBuilder {
