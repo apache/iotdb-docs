@@ -23,6 +23,28 @@ export const enSidebar = {
       children: [],
     },
     {
+      text: 'About IoTDB',
+      collapsible: true,
+      prefix: 'IoTDB-Introduction/',
+      // children: 'structure', 使用该方式自动获取文件夹下的文件
+      children: [
+        { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_timecho' },
+        { text: 'Scenario', link: 'Scenario' },
+        { text: 'Release history', link: 'Release-history_timecho' },
+      ],
+    },
+    {
+      text: 'Background knowledge',
+      collapsible: true,
+      prefix: 'Background-knowledge/',
+      children: [
+        { text: 'Common Concepts', link: 'Cluster-Concept_timecho' },
+        { text: 'Timeseries Data Model', link: 'Navigating_Time_Series_Data' },
+        { text: 'Modeling Scheme Design', link: 'Data-Model-and-Terminology_timecho' },
+        { text: 'Data Type', link: 'Data-Type' },
+      ],
+    },
+    {
       text: 'Quick Start',
       link: 'QuickStart/QuickStart_timecho',
     },
@@ -74,16 +96,24 @@ export const enSidebar = {
                 { text: 'TTL Delete Data', link: 'TTL-Delete-Data' },
               ],
             },
+          ],
+        },
       ],
     },
-    
+    {
+      text: 'Advanced Features',
+      collapsible: true,
+      prefix: 'User-Manual/',
+      // children: 'structure',
+      children: [
+        { text: 'Data Sync', link: 'Data-Sync_timecho' },
+        { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
         {
-          text: 'Maintenance SQL',
+          text: 'System Maintenance',
           collapsible: true,
           children: [
             { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis' },
-            { text: 'Load Balance', link: 'Load-Balance' },
-            { text: 'Data Recovery', link: 'Data-Recovery' },
+            { text: 'Maintenance statement', link: 'Maintenance-statement' },
           ],
         },
       ],
@@ -95,6 +125,21 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'CLI', link: 'CLI' },
+        { text: 'Monitor Tool', link: 'Monitor-Tool_timecho' },
+        { text: 'Benchmark Tool', link: 'Benchmark' },
+        { text: 'Cluster Management Tool', link: 'Maintenance-Tool_timecho' },
+      ],
+    },
+    {
+      text: 'API',
+      collapsible: true,
+      prefix: 'API/',
+      // children: 'structure',
+      children: [
+        { text: 'Java Native API', link: 'Programming-Java-Native-API' },
+        { text: 'Python Native API', link: 'Programming-Python-Native-API' },
+        { text: 'JDBC', link: 'Programming-JDBC' },
+        { text: 'RESTAPI V1 ', link: 'RestServiceV1' },
       ],
     },
     {
@@ -120,6 +165,24 @@ export const enSidebar = {
             { text: 'LIMIT&OFFSET Clause', link: 'Limit-Offset-Clause' },
           ],
         },
+        {
+          text: 'Functions and Operators',
+          collapsible: true,
+          children: [
+            { text: 'Basis Functions', link: 'Basis-Function' },
+            { text: 'Featured Functions', link: 'Featured-Functions' },
+          ],
+        },
+      ],
+    },
+    {
+      text: 'Technical Insider',
+      collapsible: true,
+      prefix: 'Technical-Insider/',
+      // children: 'structure',
+      children: [
+        { text: 'Compression & Encoding', link: 'Encoding-and-Compression' },
+        { text: 'Data Partitioning & Load Balancing', link: 'Cluster-data-partitioning' },
       ],
     },
     {
@@ -128,8 +191,9 @@ export const enSidebar = {
       prefix: 'Reference/',
       // children: 'structure',
       children: [
-        { text: 'Config Manual', link: 'System-Config-Manual' },
         { text: 'Sample Data', link: 'Sample-Data' },
+        { text: 'Config Manual', link: 'System-Config-Manual' },
+        { text: 'Status Codes', link: 'Status-Codes' },
       ],
     },
   ],
