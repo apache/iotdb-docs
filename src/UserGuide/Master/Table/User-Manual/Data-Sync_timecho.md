@@ -18,12 +18,13 @@
     under the License.
 
 -->
+# Data Synchronization
 
 Data synchronization is a typical requirement in the Industrial Internet of Things (IIoT). Through data synchronization mechanisms, data sharing between IoTDB instances can be achieved, enabling the establishment of a complete data pipeline to meet needs such as internal and external network data exchange, edge-to-cloud synchronization, data migration, and data backup.
 
-# Functional Overview
+## 1 Functional Overview
 
-## Data Synchronization
+### 1.1 Data Synchronization
 
 A data synchronization task consists of three stages:
 
@@ -35,13 +36,13 @@ A data synchronization task consists of three stages:
 
 By declaratively configuring these three parts in an SQL statement, flexible data synchronization capabilities can be achieved.
 
-## Functional Limitations and Notes
+### 1.2 Functional Limitations and Notes
 
 - Supports data synchronization from IoTDB version 1.x series to version 2.x and later.
 - Does not support data synchronization from IoTDB version 2.x series to version 1.x series.
 - When performing data synchronization tasks, avoid executing any deletion operations to prevent inconsistencies between the two ends.
 
-# Usage Instructions
+## 2 Usage Instructions
 
 A data synchronization task can be in one of three states: RUNNING, STOPPED, and DROPPED. The state transitions of the task are illustrated in the diagram below:
 
@@ -51,7 +52,7 @@ After creation, the task will start directly. Additionally, if the task stops du
 
 We provide the following SQL statements for managing the state of synchronization tasks.
 
-## Create a Task
+### 2.1 Create a Task
 
 Use the `CREATE PIPE` statement to create a data synchronization task. Among the following attributes, `PipeId` and `sink` are required, while `source` and `processor` are optional. Note that the order of the `SOURCE` and `SINK` plugins cannot be swapped when writing the SQL.
 
@@ -75,7 +76,7 @@ WITH SINK (
 
 **IF NOT EXISTS Semantics**: Ensures that the creation command is executed only if the specified Pipe does not exist, preventing errors caused by attempting to create an already existing Pipe.
 
-## Start a Task
+### 2.2 Start a Task
 
 After creation, the task directly enters the RUNNING state and does not require manual startup. However, if the task is stopped using the `STOP PIPE` statement, you need to manually start it using the `START PIPE` statement. If the task stops due to an exception, it will automatically restart to resume data processing:
 
@@ -83,7 +84,7 @@ After creation, the task directly enters the RUNNING state and does not require 
 START PIPE<PipeId>
 ```
 
-## Stop a Task
+### 2.3 Stop a Task
 
 To stop data processing:
 
@@ -91,7 +92,7 @@ To stop data processing:
 STOP PIPE <PipeId>
 ```
 
-## Delete a Task
+### 2.4 Delete a Task
 
 To delete a specified task:
 
@@ -99,9 +100,11 @@ To delete a specified task:
 DROP PIPE [IF EXISTS] <PipeId>
 ```
 
-**IF EXISTS Semantics**: Ensures that the deletion command is executed only if the specified Pipe exists, preventing errors caused by attempting to delete a non-existent Pipe. **Note**: Deleting a task does not require stopping the synchronization task first.
+**IF EXISTS Semantics**: Ensures that the deletion command is executed only if the specified Pipe exists, preventing errors caused by attempting to delete a non-existent Pipe. 
 
-## View Tasks
+**Note**: Deleting a task does not require stopping the synchronization task first.
+
+### 2.5 View Tasks
 
 To view all tasks:
 
@@ -137,7 +140,7 @@ Example Output of `SHOW PIPES`:
 - **RemainingEventCount** (statistics may have delays): Number of remaining events, including data and metadata synchronization events, as well as system and user-defined events.
 - **EstimatedRemainingSeconds** (statistics may have delays): Estimated remaining time to complete the transmission based on the current event count and pipe processing rate.
 
-## Synchronization Plugins
+### 2.6 Synchronization Plugins
 
 To make the architecture more flexible and adaptable to different synchronization scenarios, IoTDB supports plugin assembly in the synchronization task framework. The system provides some common pre-installed plugins, and you can also customize `processor` and `sink` plugins and load them into the IoTDB system.
 
@@ -163,20 +166,52 @@ IoTDB> SHOW PIPEPLUGINS
 +------------------------------+----------+--------------------------------------------------------------------------------------------------+----------------------------------------------------+
 ```
 
-Detailed introduction of pre-installed plugins is as follows (for detailed parameters of each plugin, please refer to the [Parameter Description](../Reference/System-Config-Manual.md) section):
+Detailed introduction of pre-installed plugins is as follows (for detailed parameters of each plugin, please refer to the [Parameter Description](#reference-parameter-description):
 
-| **Type**                | **Custom Plugin**                                            | **Plugin Name**        | **Description**                                              |
-| :---------------------- | :----------------------------------------------------------- | :--------------------- | :----------------------------------------------------------- |
-| Source Plugin           | Not Supported                                                | `iotdb-source`         | Default extractor plugin for extracting historical or real-time data from IoTDB. |
-| Processor Plugin        | Supported                                                    | `do-nothing-processor` | Default processor plugin that does not process incoming data. |
-| Sink Plugin             | Supported                                                    | `do-nothing-sink`      | Does not process outgoing data.                              |
-| `iotdb-thrift-sink`     | Default sink plugin for data transmission between IoTDB instances (V2.0.0+). Uses Thrift RPC framework with a multi-threaded async non-blocking IO model, ideal for distributed target scenarios. |                        |                                                              |
-| `iotdb-air-gap-sink`    | Used for cross-unidirectional data gate synchronization between IoTDB instances (V2.0.0+). Supports gate models like NARI Syskeeper 2000. |                        |                                                              |
-| `iotdb-thrift-ssl-sink` | Used for data transmission between IoTDB instances (V2.0.0+). Uses Thrift RPC framework with a multi-threaded sync blocking IO model, suitable for high-security scenarios. |                        |                                                              |
+<table style="text-align: left;">
+  <tbody>
+     <tr>          
+            <th>Type</th>
+            <th>Custom Plugin</th>        
+            <th>Plugin Name</th>
+            <th>Description</th>
+      </tr>
+      <tr> 
+            <td>Source Plugin</td>
+            <td>Not Supported</td>
+            <td>iotdb-source</td>
+            <td>Default extractor plugin for extracting historical or real-time data from IoTDB. </td>
+      </tr>
+      <tr>
+            <td>processor Plugin</td>
+            <td>Supported</td>
+            <td>do-nothing-processor</td>
+            <td>Default processor plugin that does not process incoming data.</td>
+      </tr>
+      <tr>
+            <td rowspan="4">sink Plugin</td>
+            <td rowspan="4">Supported</td>
+            <td>do-nothing-sink</td>
+            <td>Does not process outgoing data.</td>
+      </tr>
+      <tr>
+            <td>iotdb-thrift-sink</td>
+            <td>Default sink plugin for data transmission between IoTDB instances (V2.0.0+). Uses Thrift RPC framework with a multi-threaded async non-blocking IO model, ideal for distributed target scenarios.</td>
+      </tr>
+      <tr>
+            <td>iotdb-air-gap-sink</td>
+            <td>Used for cross-unidirectional data gate synchronization between IoTDB instances (V2.0.0+). Supports gate models like NARI Syskeeper 2000.</td>
+      </tr>
+      <tr>
+            <td>iotdb-thrift-ssl-sink</td>
+            <td>Used for data transmission between IoTDB instances (V2.0.0+). Uses Thrift RPC framework with a multi-threaded sync blocking IO model, suitable for high-security scenarios.</td>
+      </tr>
+  </tbody>
+</table>
 
-# Usage Examples
+## 3 Usage Examples
 
-## Full Data Synchronization
+### 3.1 Full Data Synchronization
 
 This example demonstrates synchronizing all data from one IoTDB to another. The data pipeline is shown below:
 
@@ -194,7 +229,7 @@ WITH SINK (
 )
 ```
 
-## Partial Data Synchronization
+### 3.2 Partial Data Synchronization
 
 This example demonstrates synchronizing data within a specific historical time range (from August 23, 2023, 8:00 to October 23, 2023, 8:00) to another IoTDB. The data pipeline is shown below:
 
@@ -219,7 +254,7 @@ WITH SINK (
 )
 ```
 
-## Bidirectional Data Transmission
+### 3.3 Bidirectional Data Transmission
 
 This example demonstrates a scenario where two IoTDB instances act as dual-active systems. The data pipeline is shown below:
 
@@ -253,7 +288,7 @@ WITH SINK (
 )
 ```
 
-## Edge-to-Cloud Data Transmission
+### 3.4 Edge-to-Cloud Data Transmission
 
 This example demonstrates synchronizing data from multiple IoTDB clusters (B, C, D) to a central IoTDB cluster (A). The data pipeline is shown below:
 
@@ -303,7 +338,7 @@ WITH SINK (
 )
 ```
 
-## Cascaded Data Transmission
+### 3.5 Cascaded Data Transmission
 
 This example demonstrates cascading data transmission from IoTDB A to IoTDB B and then to IoTDB C. The data pipeline is shown below:
 
@@ -334,7 +369,7 @@ WITH SINK (
 )
 ```
 
-## Air-Gapped Data Transmission
+### 3.6 Air-Gapped Data Transmission
 
 This example demonstrates synchronizing data from one IoTDB to another through a unidirectional air gap. The data pipeline is shown below:
 
@@ -352,7 +387,7 @@ WITH SINK (
 )
 ```
 
-## Compressed Synchronization
+### 3.7 Compressed Synchronization
 
 IoTDB supports specifying data compression methods during synchronization. The `compressor` parameter can be configured to enable real-time data compression and transmission. Supported algorithms include `snappy`, `gzip`, `lz4`, `zstd`, and `lzma2`. Multiple algorithms can be combined and applied in the configured order. The `rate-limit-bytes-per-second` parameter (supported in V1.3.3 and later) limits the maximum number of bytes transmitted per second (calculated after compression). If set to a value less than 0, there is no limit.
 
@@ -367,7 +402,7 @@ WITH SINK (
 )
 ```
 
-## Encrypted Synchronization
+### 3.8 Encrypted Synchronization
 
 IoTDB supports SSL encryption during synchronization to securely transmit data between IoTDB instances. By configuring SSL-related parameters such as the certificate path (`ssl.trust-store-path`) and password (`ssl.trust-store-pwd`), data can be protected by SSL encryption during synchronization.
 
@@ -383,7 +418,7 @@ WITH SINK (
 )
 ```
 
-# Reference: Notes
+## 4 Reference: Notes
 
 You can adjust the parameters for data synchronization by modifying the IoTDB configuration file (`iotdb-system.properties`), such as the directory for storing synchronized data. The complete configuration is as follows:
 
@@ -456,9 +491,9 @@ pipe_air_gap_receiver_port=9780
 pipe_all_sinks_rate_limit_bytes_per_second=-1
 ```
 
-# Reference: Parameter Description
+## 5 Reference: Parameter Description
 
-## S**ource**  **p****arameter****s**
+### 5.1 source  parameter
 
 | **Parameter**            | **Description**                                              | **Value Range**                                              | **Required** | **Default Value**                                           |
 | :----------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :----------- | :---------------------------------------------------------- |
@@ -477,9 +512,9 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 > - True (recommended): Under this value, the task will process and send the data in real-time. Its characteristics are high timeliness and low throughput.
 > -  False: Under this value, the task will process and send the data in batches (according to the underlying data files). Its characteristics are low timeliness and high throughput.
 
-## Sink **p****arameter****s**
+### 5.2 sink parameter
 
-#### iotdb-thrift-sink
+#### 5.2.1 iotdb-thrift-sink
 
 | **Parameter**               | **Description**                                              | Value Range                                                  | Required | Default Value |
 | :-------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- | :------------ |
@@ -494,7 +529,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | compressor.zstd.level       | When the selected RPC compression algorithm is zstd, this parameter can be used to additionally configure the compression level of the zstd algorithm. | Int: [-131072, 22]                                           | No       | 3             |
 | rate-limit-bytes-per-second | The maximum number of bytes allowed to be transmitted per second. The compressed bytes (such as after compression) are calculated. If it is less than 0, there is no limit. | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                | No       | -1            |
 
-#### iotdb-air-gap-sink
+#### 5.2.2 iotdb-air-gap-sink
 
 | **Parameter**                | **Description**                                              | Value Range                                                  | Required | Default Value |
 | :--------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- | :------------ |
@@ -507,7 +542,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | rate-limit-bytes-per-second  | The maximum number of bytes allowed to be transmitted per second. The compressed bytes (such as after compression) are calculated. If it is less than 0, there is no limit. | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                | No       | -1            |
 | air-gap.handshake-timeout-ms | The timeout duration for the handshake requests when the sender and receiver attempt to establish a connection for the first time, in milliseconds. | Integer                                                      | No       | 5000          |
 
-#### iotdb-thrift-ssl-sink
+#### 5.2.3 iotdb-thrift-ssl-sink
 
 | **Parameter**               | **Description**                                              | Value Range                                                  | Required | Default Value |
 | :-------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- | :------------ |
