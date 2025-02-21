@@ -57,6 +57,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
       children: [
+        { text: 'Deployment form', link: 'Deployment-form_apache' },
         { text: 'Obtain IoTDB', link: 'IoTDB-Package_apache' },
         { text: 'Database Resources', link: 'Database-Resources' },
         { text: 'Environment Requirements', link: 'Environment-Requirements' },

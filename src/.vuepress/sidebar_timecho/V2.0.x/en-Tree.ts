@@ -57,6 +57,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
       children: [
+        { text: 'Deployment form', link: 'Deployment-form_timecho' },
         { text: 'Obtain TimechoDB', link: 'IoTDB-Package_timecho' },
         { text: 'Database Resources', link: 'Database-Resources' },
         { text: 'Environment Requirements', link: 'Environment-Requirements' },
