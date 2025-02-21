@@ -57,6 +57,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
       children: [
+        { text: 'Deployment form', link: 'Deployment-form_apache' },
         { text: 'Obtain IoTDB', link: 'IoTDB-Package_apache' },
         { text: 'Database Resources', link: 'Database-Resources' },
         { text: 'Environment Requirements', link: 'Environment-Requirements' },
@@ -76,13 +77,7 @@ export const enSidebar = {
       children: [
         {
           text: 'Data Modeling',
-          collapsible: true,
-          children: [
-            {
-              text: 'Measurement Point Management',
-              link: 'Operate-Metadata_apache',
-            },
-          ],
+          link: 'Operate-Metadata_apache',
         },
         { text: 'Write & Delete', link: 'Write-Delete-Data' },
         { text: 'Query Data', link: 'Query-Data' },

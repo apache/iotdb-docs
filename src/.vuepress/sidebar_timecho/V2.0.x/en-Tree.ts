@@ -57,6 +57,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
       children: [
+        { text: 'Deployment form', link: 'Deployment-form_timecho' },
         { text: 'Obtain TimechoDB', link: 'IoTDB-Package_timecho' },
         { text: 'Database Resources', link: 'Database-Resources' },
         { text: 'Environment Requirements', link: 'Environment-Requirements' },
@@ -85,13 +86,7 @@ export const enSidebar = {
       children: [
         {
           text: 'Data Modeling',
-          collapsible: true,
-          children: [
-            {
-              text: 'Measurement Point Management',
-              link: 'Operate-Metadata_timecho',
-            },
-          ],
+          link: 'Operate-Metadata_timecho',
         },
         { text: 'Write & Delete', link: 'Write-Delete-Data' },
         { text: 'Query Data', link: 'Query-Data' },

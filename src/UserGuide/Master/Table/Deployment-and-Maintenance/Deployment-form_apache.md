@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Deployment-Mode_apache
+# Deployment form
 
 IoTDB has two operation modes: standalone mode and cluster mode.
 
