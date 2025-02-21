@@ -295,7 +295,7 @@ It costs 0.110s
 Then use the SQL to remove the DataNode. SQL command:
 
 ```Bash
-remove datanode [confignode_id]
+remove datanode [datanode_id]
 ```
 ## Common Questions
 
