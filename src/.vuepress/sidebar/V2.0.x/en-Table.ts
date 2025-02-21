@@ -23,6 +23,17 @@ export const enSidebar = {
       children: [],
     },
     {
+      text: 'About IoTDB',
+      collapsible: true,
+      prefix: 'IoTDB-Introduction/',
+      // children: 'structure', 使用该方式自动获取文件夹下的文件
+      children: [
+        { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_apache' },
+        { text: 'Scenario', link: 'Scenario' },
+        { text: 'Release history', link: 'Release-history_apache' },
+      ],
+    },
+    {
       text: 'Background knowledge',
       collapsible: true,
       prefix: 'Background-knowledge/',
@@ -113,6 +124,21 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'CLI', link: 'CLI' },
+        { text: 'Monitor Tool', link: 'Monitor-Tool_apache' },
+        { text: 'Benchmark Tool', link: 'Benchmark' },
+        { text: 'Cluster Management Tool', link: 'Maintenance-Tool_apache' },
+      ],
+    },
+    {
+      text: 'API',
+      collapsible: true,
+      prefix: 'API/',
+      // children: 'structure',
+      children: [
+        { text: 'Java Native API', link: 'Programming-Java-Native-API' },
+        { text: 'Python Native API', link: 'Programming-Python-Native-API' },
+        { text: 'JDBC', link: 'Programming-JDBC' },
+        { text: 'RESTAPI V1 ', link: 'RestServiceV1' },
       ],
     },
     {
