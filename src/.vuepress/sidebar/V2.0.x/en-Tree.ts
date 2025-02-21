@@ -19,7 +19,7 @@
 export const enSidebar = {
   '/UserGuide/latest/': [  
     {
-      text: 'IoTDB User Guide (V1.3.3)',
+      text: 'IoTDB User Guide (V2.0.x)',
       children: [],
     },
     {
