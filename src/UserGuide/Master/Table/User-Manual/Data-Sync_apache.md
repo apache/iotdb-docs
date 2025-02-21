@@ -18,6 +18,7 @@
     under the License.
 
 -->
+
 # Data Synchronization
 
 Data synchronization is a typical requirement in the Industrial Internet of Things (IIoT). Through data synchronization mechanisms, data sharing between IoTDB instances can be achieved, enabling the establishment of a complete data pipeline to meet needs such as internal and external network data exchange, edge-to-cloud synchronization, data migration, and data backup.
@@ -75,6 +76,7 @@ WITH SINK (
 ```
 
 **IF NOT EXISTS Semantics**: Ensures that the creation command is executed only if the specified Pipe does not exist, preventing errors caused by attempting to create an already existing Pipe.
+
 
 ### 2.2 Start a Task
 
@@ -159,11 +161,11 @@ IoTDB> SHOW PIPEPLUGINS
 +------------------------------+----------+--------------------------------------------------------------------------------------------------+----------------------------------------------------+
 |          DO-NOTHING-PROCESSOR|   Builtin|               org.apache.iotdb.commons.pipe.plugin.builtin.processor.donothing.DoNothingProcessor|                                                    |
 |               DO-NOTHING-SINK|   Builtin|               org.apache.iotdb.commons.pipe.plugin.builtin.connector.donothing.DoNothingConnector|                                                    |
-|            IOTDB-AIR-GAP-SINK|   Builtin|          org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.airgap.IoTDBAirGapConnector|                                                    |
 |                  IOTDB-SOURCE|   Builtin|                       org.apache.iotdb.commons.pipe.plugin.builtin.extractor.iotdb.IoTDBExtractor|                                                    |
 |             IOTDB-THRIFT-SINK|   Builtin|          org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftConnector|                                                    |
 |         IOTDB-THRIFT-SSL-SINK|   Builtin|       org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftSslConnector|                                                    |
 +------------------------------+----------+--------------------------------------------------------------------------------------------------+----------------------------------------------------+
+
 ```
 
 Detailed introduction of pre-installed plugins is as follows (for detailed parameters of each plugin, please refer to the [Parameter Description](#reference-parameter-description):
@@ -189,8 +191,8 @@ Detailed introduction of pre-installed plugins is as follows (for detailed param
             <td>Default processor plugin that does not process incoming data.</td>
       </tr>
       <tr>
-            <td rowspan="4">sink Plugin</td>
-            <td rowspan="4">Supported</td>
+            <td rowspan="3">sink Plugin</td>
+            <td rowspan="3">Supported</td>
             <td>do-nothing-sink</td>
             <td>Does not process outgoing data.</td>
       </tr>
@@ -199,15 +201,12 @@ Detailed introduction of pre-installed plugins is as follows (for detailed param
             <td>Default sink plugin for data transmission between IoTDB instances (V2.0.0+). Uses Thrift RPC framework with a multi-threaded async non-blocking IO model, ideal for distributed target scenarios.</td>
       </tr>
       <tr>
-            <td>iotdb-air-gap-sink</td>
-            <td>Used for cross-unidirectional data gate synchronization between IoTDB instances (V2.0.0+). Supports gate models like NARI Syskeeper 2000.</td>
-      </tr>
-      <tr>
             <td>iotdb-thrift-ssl-sink</td>
             <td>Used for data transmission between IoTDB instances (V2.0.0+). Uses Thrift RPC framework with a multi-threaded sync blocking IO model, suitable for high-security scenarios.</td>
       </tr>
   </tbody>
 </table>
+
 
 ## 3 Usage Examples
 
@@ -253,7 +252,6 @@ WITH SINK (
   'node-urls' = '127.0.0.1:6668'  -- The URL of the DataNode's data service port in the target IoTDB instance.
 )
 ```
-
 ### 3.3 Bidirectional Data Transmission
 
 This example demonstrates a scenario where two IoTDB instances act as dual-active systems. The data pipeline is shown below:
@@ -369,25 +367,8 @@ WITH SINK (
 )
 ```
 
-### 3.6 Air-Gapped Data Transmission
 
-This example demonstrates synchronizing data from one IoTDB to another through a unidirectional air gap. The data pipeline is shown below:
-
-![](/img/e5.png)
-
-In this example, the `iotdb-air-gap-sink` plugin is used (currently supports specific air gap models; contact Timecho team for details). After configuring the air gap, execute the following statement on IoTDB A, where `node-urls` is the URL of the DataNode service port on the target IoTDB.
-
-SQL Example:
-
-```SQL
-CREATE PIPE A2B
-WITH SINK (
-  'sink' = 'iotdb-air-gap-sink',
-  'node-urls' = '10.53.53.53:9780' -- URL of the DataNode service port on the target IoTDB
-)
-```
-
-### 3.7 Compressed Synchronization
+### 3.6 Compressed Synchronization
 
 IoTDB supports specifying data compression methods during synchronization. The `compressor` parameter can be configured to enable real-time data compression and transmission. Supported algorithms include `snappy`, `gzip`, `lz4`, `zstd`, and `lzma2`. Multiple algorithms can be combined and applied in the configured order. The `rate-limit-bytes-per-second` parameter (supported in V1.3.3 and later) limits the maximum number of bytes transmitted per second (calculated after compression). If set to a value less than 0, there is no limit.
 
@@ -402,7 +383,8 @@ WITH SINK (
 )
 ```
 
-### 3.8 Encrypted Synchronization
+
+### 3.7 Encrypted Synchronization
 
 IoTDB supports SSL encryption during synchronization to securely transmit data between IoTDB instances. By configuring SSL-related parameters such as the certificate path (`ssl.trust-store-path`) and password (`ssl.trust-store-pwd`), data can be protected by SSL encryption during synchronization.
 
@@ -418,9 +400,11 @@ WITH SINK (
 )
 ```
 
+
 ## 4 Reference: Notes
 
 You can adjust the parameters for data synchronization by modifying the IoTDB configuration file (`iotdb-system.properties`), such as the directory for storing synchronized data. The complete configuration is as follows:
+
 
 ```Properties
 # pipe_receiver_file_dir
@@ -472,17 +456,6 @@ pipe_sink_selector_number=4
 # Datatype: int
 pipe_sink_max_client_number=16
 
-# Whether to enable receiving pipe data through air gap.
-# The receiver can only return 0 or 1 in tcp mode to indicate whether the data is received successfully.
-# effectiveMode: restart
-# Datatype: Boolean
-pipe_air_gap_receiver_enabled=false
-
-# The port for the server to receive pipe data through air gap.
-# Datatype: int
-# effectiveMode: restart
-pipe_air_gap_receiver_port=9780
-
 # The total bytes that all pipe sinks can transfer per second.
 # When given a value less than or equal to 0, it means no limit.
 # default value is -1, which means no limit.
@@ -529,20 +502,8 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | compressor.zstd.level       | When the selected RPC compression algorithm is zstd, this parameter can be used to additionally configure the compression level of the zstd algorithm. | Int: [-131072, 22]                                           | No       | 3             |
 | rate-limit-bytes-per-second | The maximum number of bytes allowed to be transmitted per second. The compressed bytes (such as after compression) are calculated. If it is less than 0, there is no limit. | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                | No       | -1            |
 
-#### 5.2.2 iotdb-air-gap-sink
+#### 5.2.2 iotdb-thrift-ssl-sink
 
-| **Parameter**                | **Description**                                              | Value Range                                                  | Required | Default Value |
-| :--------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- | :------------ |
-| sink                         | iotdb-air-gap-sink                                           | String: iotdb-air-gap-sink                                   | Yes      | -             |
-| node-urls                    | URLs of the DataNode service ports on the target IoTDB. (please note that the synchronization task does not support forwarding to its own service). | String. Example：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | Yes      | -             |
-| user/usename                 | Usename for connecting to the target IoTDB. Must have appropriate permissions. | String                                                       | No       | root          |
-| password                     | Password for the username.                                   | String                                                       | No       | root          |
-| compressor                   | The selected RPC compression algorithm. Multiple algorithms can be configured and will be adopted in sequence for each request. | String: snappy / gzip / lz4 / zstd / lzma2                   | No       | ""            |
-| compressor.zstd.level        | When the selected RPC compression algorithm is zstd, this parameter can be used to additionally configure the compression level of the zstd algorithm. | Int: [-131072, 22]                                           | No       | 3             |
-| rate-limit-bytes-per-second  | The maximum number of bytes allowed to be transmitted per second. The compressed bytes (such as after compression) are calculated. If it is less than 0, there is no limit. | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                | No       | -1            |
-| air-gap.handshake-timeout-ms | The timeout duration for the handshake requests when the sender and receiver attempt to establish a connection for the first time, in milliseconds. | Integer                                                      | No       | 5000          |
-
-#### 5.2.3 iotdb-thrift-ssl-sink
 
 | **Parameter**               | **Description**                                              | Value Range                                                  | Required | Default Value |
 | :-------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- | :------------ |
