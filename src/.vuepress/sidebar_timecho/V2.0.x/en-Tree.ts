@@ -26,7 +26,6 @@ export const enSidebar = {
       text: 'About IoTDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
-      // children: 'structure', 使用该方式自动获取文件夹下的文件
       children: [
         { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_timecho' },
         { text: 'Scenario', link: 'Scenario' },
@@ -57,7 +56,6 @@ export const enSidebar = {
       text: 'Deployment & Maintenance',
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
-      // children: 'structure',
       children: [
         { text: 'Obtain TimechoDB', link: 'IoTDB-Package_timecho' },
         { text: 'Database Resources', link: 'Database-Resources' },
@@ -84,7 +82,6 @@ export const enSidebar = {
       text: 'Basic Functions',
       collapsible: true,
       prefix: 'Basic-Concept/',
-      // children: 'structure',
       children: [
         {
           text: 'Data Modeling',
@@ -104,7 +101,6 @@ export const enSidebar = {
       text: 'Advanced Features',
       collapsible: true,
       prefix: 'User-Manual/',
-      // children: 'structure',
       children: [
         { text: 'Data Sync', link: 'Data-Sync_timecho' },
         { text: 'Data Subscription', link: 'Data-subscription' },
@@ -146,7 +142,6 @@ export const enSidebar = {
       text: 'Tools System',
       collapsible: true,
       prefix: 'Tools-System/',
-      // children: 'structure',
       children: [
         { text: 'CLI', link: 'CLI' },
         { text: 'Workbench', link: 'Workbench_timecho' },
@@ -161,7 +156,6 @@ export const enSidebar = {
       text: 'API',
       collapsible: true,
       prefix: 'API/',
-      // children: 'structure',
       children: [
         { text: 'Java Native Interface', collapsible: true,
           children: [
@@ -193,7 +187,6 @@ export const enSidebar = {
       text: 'Ecosystem Integration',
       collapsible: true,
       prefix: 'Ecosystem-Integration/',
-      // children: 'structure',
       children: [
         { text: 'Apache Flink(IoTDB)', link: 'Flink-IoTDB' },
         { text: 'Apache Flink(TsFile)', link: 'Flink-TsFile' },
@@ -216,7 +209,6 @@ export const enSidebar = {
       text: 'SQL Manual',
       collapsible: true,
       prefix: 'SQL-Manual/',
-      // children: 'structure',
       children: [
         { text: 'SQL Manual', link: 'SQL-Manual' },
         {
@@ -240,7 +232,6 @@ export const enSidebar = {
       text: 'Technical Insider',
       collapsible: true,
       prefix: 'Technical-Insider/',
-      // children: 'structure',
       children: [
         { text: 'Research Paper ', link: 'Publication' },
         { text: 'Compression & Encoding', link: 'Encoding-and-Compression' },
@@ -254,7 +245,6 @@ export const enSidebar = {
       text: 'Reference',
       collapsible: true,
       prefix: 'Reference/',
-      // children: 'structure',
       children: [
         {
           text: 'Config Manual',
@@ -283,7 +273,6 @@ export const enSidebar = {
       text: 'FAQ',
       collapsible: true,
       prefix: 'FAQ/',
-      // children: 'structure',
       children: [
         {
           text: 'Frequently Asked Questions',
