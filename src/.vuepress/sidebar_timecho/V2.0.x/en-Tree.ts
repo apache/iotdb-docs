@@ -38,6 +38,14 @@ export const enSidebar = {
       prefix: 'Background-knowledge/',
       children: [
         { text: 'Common Concepts', link: 'Cluster-Concept_timecho' },
+        {
+          text: 'Timeseries Data Model',
+          link: 'Navigating_Time_Series_Data',
+        },
+        {
+          text: 'Modeling Scheme Design',
+          link: 'Data-Model-and-Terminology',
+        },
         { text: 'Data Type', link: 'Data-Type' },
       ],
     },
@@ -82,14 +90,6 @@ export const enSidebar = {
           text: 'Data Modeling',
           collapsible: true,
           children: [
-            {
-              text: 'Timeseries Data Model',
-              link: 'Navigating_Time_Series_Data',
-            },
-            {
-              text: 'Modeling Scheme Design',
-              link: 'Data-Model-and-Terminology',
-            },
             {
               text: 'Measurement Point Management',
               link: 'Operate-Metadata_timecho',
