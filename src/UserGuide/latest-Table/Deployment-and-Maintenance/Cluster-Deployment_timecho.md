@@ -244,7 +244,7 @@ sbin/start-confignode.bat
 
 #### 4.1.2 Removing a ConfigNode
 
-1. Connect to the cluster using the CLI and confirm the internal address and port of the ConfigNode to be removed:
+First connect to the cluster through the CLI and confirm the NodeID of the ConfigNode you want to remove by using `show confignodes`:
 
 ```Plain
 show confignodes;
@@ -298,7 +298,7 @@ sbin/start-datanode.bat
 
 #### 4.2.2 Removing a DataNode
 
-1. Connect to the cluster using the CLI and confirm the RPC address and port of the DataNode to be removed:
+First connect to the cluster through the CLI and confirm the NodeID of the DataNode you want to remove with `show datanodes`:
 
 ```Plain
 show datanodes;
