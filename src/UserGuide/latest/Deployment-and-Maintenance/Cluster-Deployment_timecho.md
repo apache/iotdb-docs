@@ -249,7 +249,7 @@ sbin/start-confignode.bat
 
 #### Removing a ConfigNode
 
-1. Connect to the cluster using the CLI and confirm the internal address and port of the ConfigNode to be removed:
+1. Connect to the cluster using the CLI and confirm the NodeID of the ConfigNode to be removed:
 
     ```Plain
     show confignodes;
@@ -270,22 +270,12 @@ Total line number = 3
 It costs 0.030s
 ```
 
-2. Remove the ConfigNode using the script:
+2. Remove the ConfigNode using the SQL:
 
 **Linux /** **MacOS**:
 
 ```Bash
-sbin/remove-confignode.sh [confignode_id]
-# Or:
-sbin/remove-confignode.sh [cn_internal_address:cn_internal_port]
-```
-
-**Windows:**
-
-```Bash
-sbin/remove-confignode.bat [confignode_id]
-# Or:
-sbin/remove-confignode.bat [cn_internal_address:cn_internal_port]
+remove confignode [confignode_id]
 ```
 
 ### DataNode Maintenance
@@ -315,7 +305,7 @@ sbin/start-datanode.bat
 
 #### Removing a DataNode
 
-1. Connect to the cluster using the CLI and confirm the RPC address and port of the DataNode to be removed:
+1. Connect to the cluster using the CLI and confirm the NodeID of the DataNode to be removed:
 
 ```Plain
 show datanodes;
@@ -336,18 +326,12 @@ Total line number = 3
 It costs 0.110s
 ```
 
-2. Remove the DataNode using the script:
+2. Remove the DataNode using the SQL:
 
 **Linux / MacOS:**
 
 ```Bash
-sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
-```
-
-**Windows:**
-
-```Bash
-sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
+remove datanode [datanode_id]
 ```
 
 ## Common Questions
