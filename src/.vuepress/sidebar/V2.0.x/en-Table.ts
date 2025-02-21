@@ -26,7 +26,6 @@ export const enSidebar = {
       text: 'About IoTDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
-      // children: 'structure', 使用该方式自动获取文件夹下的文件
       children: [
         { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_apache' },
         { text: 'Scenario', link: 'Scenario' },
@@ -52,7 +51,6 @@ export const enSidebar = {
       text: 'Deployment & Maintenance',
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
-      // children: 'structure',
       children: [
         { text: 'Deployment form', link: 'Deployment-form_apache' },
         { text: 'Obtain TimechoDB', link: 'IoTDB-Package_apache' },
@@ -78,7 +76,6 @@ export const enSidebar = {
       text: 'Basic Functions',
       collapsible: true,
       prefix: 'Basic-Concept/',
-      // children: 'structure',
       children: [
         {
           text: 'Data Modeling',
@@ -104,7 +101,6 @@ export const enSidebar = {
       text: 'Advanced Features',
       collapsible: true,
       prefix: 'User-Manual/',
-      // children: 'structure',
       children: [
         { text: 'Data Sync', link: 'Data-Sync_apache' },
         {
@@ -121,7 +117,6 @@ export const enSidebar = {
       text: 'Tools System',
       collapsible: true,
       prefix: 'Tools-System/',
-      // children: 'structure',
       children: [
         { text: 'CLI', link: 'CLI' },
         { text: 'Monitor Tool', link: 'Monitor-Tool_apache' },
@@ -133,7 +128,6 @@ export const enSidebar = {
       text: 'API',
       collapsible: true,
       prefix: 'API/',
-      // children: 'structure',
       children: [
         { text: 'Java Native API', link: 'Programming-Java-Native-API' },
         { text: 'Python Native API', link: 'Programming-Python-Native-API' },
@@ -145,7 +139,6 @@ export const enSidebar = {
       text: 'SQL Manual',
       collapsible: true,
       prefix: 'SQL-Manual/',
-      // children: 'structure',
       children: [
         { text: 'Identifier', link: 'Identifier' },
         { text: 'Keywords', link: 'Keywords' },
@@ -178,7 +171,6 @@ export const enSidebar = {
       text: 'Technical Insider',
       collapsible: true,
       prefix: 'Technical-Insider/',
-      // children: 'structure',
       children: [
         { text: 'Compression & Encoding', link: 'Encoding-and-Compression' },
         { text: 'Data Partitioning & Load Balancing', link: 'Cluster-data-partitioning' },
@@ -188,7 +180,6 @@ export const enSidebar = {
       text: 'Reference',
       collapsible: true,
       prefix: 'Reference/',
-      // children: 'structure',
       children: [
         { text: 'Sample Data', link: 'Sample-Data' },
         { text: 'Config Manual', link: 'System-Config-Manual' },
