@@ -213,7 +213,7 @@ Parameter introduction:
 
 #### Removing ConfigNode Nodes
 
-First connect to the cluster through the CLI and confirm the internal address and port number of the ConfigNode you want to remove by using `show confignodes`:
+First connect to the cluster through the CLI and confirm the NodeID of the ConfigNode you want to remove by using `show confignodes`:
 
 ```Bash
 IoTDB> show confignodes
@@ -228,15 +228,10 @@ Total line number = 3
 It costs 0.030s
 ```
 
-Then use the script to remove the DataNode. Script command:
+Then use the SQL to remove the ConfigNode. SQL command:
 
 ```Bash
-# Linux / MacOS 
-sbin/remove-confignode.sh [confignode_id]
-
-#Windows
-sbin/remove-confignode.bat [confignode_id]
-
+remove confignode [confignode_id]
 ```
 
 ### DataNode Node Maintenance
@@ -282,7 +277,7 @@ Note: After adding a DataNode, as new writes arrive (and old data expires, if TT
 
 #### Removing DataNode Nodes
 
-First connect to the cluster through the CLI and confirm the RPC address and port number of the DataNode you want to remove with `show datanodes`:
+First connect to the cluster through the CLI and confirm the NodeID of the DataNode you want to remove with `show datanodes`:
 
 ```Bash
 IoTDB> show datanodes
@@ -297,14 +292,10 @@ Total line number = 3
 It costs 0.110s
 ```
 
-Then use the script to remove the DataNode. Script command:
+Then use the SQL to remove the DataNode. SQL command:
 
 ```Bash
-# Linux / MacOS 
-sbin/remove-datanode.sh [datanode_id]
-
-#Windows
-sbin/remove-datanode.bat [datanode_id]
+remove datanode [datanode_id]
 ```
 ## Common Questions
 
