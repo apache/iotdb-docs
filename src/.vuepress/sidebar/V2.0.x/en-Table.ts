@@ -77,22 +77,16 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Basic-Concept/',
       children: [
+        { text: 'Database Management', link: 'Database-Management' },
+        { text: 'Table Management', link: 'Table-Management' },
+        { text: 'Write&Updata Data', link: 'Write-Updata-Data' },
+        { text: 'Query Data', link: 'Query-Data' },
         {
-          text: 'Data Modeling',
+          text: 'Delete Data',
           collapsible: true,
           children: [
-            { text: 'Database Management', link: 'Database-Management' },
-            { text: 'Table Management', link: 'Table-Management' },
-            { text: 'Write&Updata Data', link: 'Write-Updata-Data' },
-            { text: 'Query Data', link: 'Query-Data' },
-            {
-              text: 'Delete Data',
-              collapsible: true,
-              children: [
-                { text: 'Delete Data', link: 'Delete-Data' },
-                { text: 'TTL Delete Data', link: 'TTL-Delete-Data' },
-              ],
-            },
+            { text: 'Delete Data', link: 'Delete-Data' },
+            { text: 'TTL Delete Data', link: 'TTL-Delete-Data' },
           ],
         },
       ],

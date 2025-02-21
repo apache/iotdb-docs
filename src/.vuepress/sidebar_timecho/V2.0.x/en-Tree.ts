@@ -85,13 +85,7 @@ export const enSidebar = {
       children: [
         {
           text: 'Data Modeling',
-          collapsible: true,
-          children: [
-            {
-              text: 'Measurement Point Management',
-              link: 'Operate-Metadata_timecho',
-            },
-          ],
+          link: 'Operate-Metadata_timecho',
         },
         { text: 'Write & Delete', link: 'Write-Delete-Data' },
         { text: 'Query Data', link: 'Query-Data' },
