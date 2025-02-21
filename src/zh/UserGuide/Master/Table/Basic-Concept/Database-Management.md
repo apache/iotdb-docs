@@ -123,7 +123,7 @@ SHOW DATABASES (DETAILS)?
 | 列名                    | 含义                                                         |
 | ----------------------- | ------------------------------------------------------------ |
 | database                | database名称。                                               |
-| TTL                     | 数据保留周期。如果在创建数据库的时候指定TTL，则TTL对该数据库下所有表的TTL生效。也可以再通过 [create table](#创建表) 、[alter table](#修改表) 来设置或更新表的TTL时间。 |
+| TTL                     | 数据保留周期。如果在创建数据库的时候指定TTL，则TTL对该数据库下所有表的TTL生效。也可以再通过 [create table](../Basic-Concept/Table-Management.md#11-创建表) 、[alter table](../Basic-Concept/Table-Management.md#14-修改表) 来设置或更新表的TTL时间。 |
 | SchemaReplicationFactor | 元数据副本数，用于确保元数据的高可用性。可以在`iotdb-system.properties`中修改`schema_replication_factor`配置项。 |
 | DataReplicationFactor   | 数据副本数，用于确保数据的高可用性。可以在`iotdb-system.properties`中修改`data_replication_factor`配置项。 |
 | TimePartitionInterval   | 时间分区间隔，决定了数据在磁盘上按多长时间进行目录分组，通常采用默认1周即可。 |

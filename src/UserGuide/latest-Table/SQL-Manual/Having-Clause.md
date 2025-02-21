@@ -34,11 +34,11 @@ The `HAVING` clause is used to filter aggregated results after a `GROUP BY` oper
 
 #### Notes
 
-- 就语法而言，`HAVING`子句与`WHERE`子句相同，WHERE子句在分组聚合之前对数据进行过滤，HAVING子句是对分组聚合后的结果进行过滤。
+In terms of syntax, the `HAVING` clause is similar to the `WHERE` clause. However, while `WHERE` filters rows before grouping and aggregation, `HAVING` filters the results after grouping and aggregation.
 
 ## 2 Sample Data and Usage Examples
 
-The [Example Data page](../Basic-Concept/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.corresponding results.
+The [Example Data page](../Reference/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.
 
 #### Example 1: Filtering Devices with Entry Counts Below a Certain Threshold
 

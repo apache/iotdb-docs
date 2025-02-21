@@ -20,68 +20,66 @@
 -->
 # Docker Deployment
 
-## Environmental Preparation
+## 1 Environment Preparation
 
-### Docker Installation
+### 1.1  Install Docker
 
 ```Bash
-#Taking Ubuntu as an example, other operating systems can search for installation methods themselves
-#step1: Install some necessary system tools
+#Taking Ubuntu as an example. For other operating systems, you can search for installation methods on your own.
+#step1: Install necessary system tools
 sudo apt-get update
 sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common
 #step2: Install GPG certificate
 curl -fsSL https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
-#step3: Write software source information
+#step3: Add the software source
 sudo add-apt-repository "deb [arch=amd64] https://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable"
 #step4: Update and install Docker CE
 sudo apt-get -y update
 sudo apt-get -y install docker-ce
-#step5: Set Docker to start automatically upon startup
+#step5: Set Docker to start automatically on boot
 sudo systemctl enable docker
-#step6： Verify if Docker installation is successful
-docker --version  #Display version information, indicating successful installation
+#step6: Verify if Docker is installed successfully
+docker --version  #Display version information, indicating successful installation.
 ```
 
-### Docker-compose Installation
+### 1.2 Install Docker Compose
 
 ```Bash
 #Installation command
 curl -L "https://github.com/docker/compose/releases/download/v2.20.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
 ln -s  /usr/local/bin/docker-compose  /usr/bin/docker-compose
-#Verify if the installation was successful
-docker-compose --version  #Displaying version information indicates successful installation
+#Verify the installation
+docker-compose --version  #Display version information, indicating successful installation.
 ```
 
-### Install The Dmidecode Plugin
+### 1.3 Install dmidecode
 
-By default, Linux servers should already be installed. If not, you can use the following command to install them.
+By default, Linux servers should already have dmidecode. If not, you can use the following command to install it.
 
 ```Bash
 sudo apt-get install dmidecode 
 ```
 
-After installing dmidecode, search for the installation path: `wherever dmidecode`. Assuming the result is `/usr/sbin/dmidecode`, remember this path as it will be used in the later docker compose yml file.
+After installing `dmidecode`, you can locate its installation path by running:`whereis dmidecode`. Assuming the result is `/usr/sbin/dmidecode`, please remember this path as it will be used in the YML file of Docker Compose later.
 
-### Get Container Image Of IoTDB
+### 1.4 Obtain the Container Image
 
-You can contact business or technical support to obtain container images for IoTDB Enterprise Edition.
+For the TimechoDB container image, you can contact the Timecho team to acquire it.
 
-## Stand-Alone Deployment
+## 2 Stand-Alone Deployment
 
 This section demonstrates how to deploy a standalone Docker version of 1C1D.
 
-### Load Image File
+### 2.1 Load the Image File
 
-For example, the container image file name of IoTDB obtained here is: `iotdb-enterprise-1.3.2-3-standalone-docker.tar.gz`
-
-Load image:
+For example, if the IoTDB container image file you obtained is named: `iotdb-enterprise-1.3.2.3-standalone-docker.tar.gz`, use the following command to load the image：
 
 ```Bash
 docker load -i iotdb-enterprise-1.3.2.3-standalone-docker.tar.gz
 ```
 
-View image:
+To view the loaded image, use the following command:
 
 ```Bash
 docker images
@@ -89,17 +87,15 @@ docker images
 
 ![](/img/%E5%8D%95%E6%9C%BA-%E6%9F%A5%E7%9C%8B%E9%95%9C%E5%83%8F.png)
 
-### Create Docker Bridge Network
+### 2.2 Create a Docker Bridge Network
 
 ```Bash
 docker network create --driver=bridge --subnet=172.18.0.0/16 --gateway=172.18.0.1  iotdb
 ```
 
-### Write The Yml File For docker-compose
+### 2.3 Write the Docker-Compose YML File
 
-Here we take the example of consolidating the IoTDB installation directory and yml files in the/docker iotdb folder:
-
-The file directory structure is:`/docker-iotdb/iotdb`, `/docker-iotdb/docker-compose-standalone.yml `
+Assume the IoTDB installation directory and the YML file are placed under the `/docker-iotdb` folder. The directory structure is as follows:`docker-iotdb/iotdb`, `/docker-iotdb/docker-compose-standalone.yml`
 
 ```Bash
 docker-iotdb：
@@ -107,7 +103,7 @@ docker-iotdb：
 │── docker-compose-standalone.yml #YML file for standalone Docker Composer
 ```
 
-The complete docker-compose-standalone.yml content is as follows:
+The complete content of `docker-compose-standalone.yml` is as follows:
 
 ```Bash
 version: "3"
@@ -147,7 +143,7 @@ networks:
     external: true
 ```
 
-### First Launch
+### 2.4 First Startup
 
 Use the following command to start:
 
@@ -156,21 +152,21 @@ cd　/docker-iotdb
 docker-compose -f docker-compose-standalone.yml up
 ```
 
-Due to lack of activation, it is normal to exit directly upon initial startup. The initial startup is to obtain the machine code file for the subsequent activation process.
+Since the system is not activated yet, it will exit immediately after the first startup, which is normal. The purpose of the first startup is to generate the machine code file for the activation process.
 
 ![](/img/%E5%8D%95%E6%9C%BA-%E6%BF%80%E6%B4%BB.png)
 
-### Apply For Activation
+### 2.5 Apply for Activation
 
-- After the first startup, a system_info file will be generated in the physical machine directory `/docker-iotdb/iotdb/activation`, and this file will be copied to the Timecho staff.
+- After the first startup, a `system_info` file will be generated in the physical machine directory `/docker-iotdb/iotdb/activation`. Copy this file and send it to the Timecho team.
 
     ![](/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB1.png)
 
-- Received the license file returned by the staff, copy the license file to the `/docker iotdb/iotdb/activation` folder.
+- Once you receive the `license` file, copy it to the `/docker-iotdb/iotdb/activation` folder.
 
     ![](/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB2.png)
 
-### Restart IoTDB
+### 2.6 Start IoTDB Again
 
 ```Bash
 docker-compose  -f docker-compose-standalone.yml   up  -d
@@ -178,9 +174,9 @@ docker-compose  -f docker-compose-standalone.yml   up  -d
 
 ![](/img/%E5%90%AF%E5%8A%A8iotdb.png)
 
-### Validate Deployment
+### 2.7 Verify the Deployment
 
-- Viewing the log, the following words indicate successful startup
+- Check the logs: If you see the following message, the startup is successful.
 
     ```Bash
     docker logs -f iotdb-datanode #View log command
@@ -189,7 +185,7 @@ docker-compose  -f docker-compose-standalone.yml   up  -d
 
     ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B21.png)
 
-- Enter the container to view the service running status and activation information
+- Enter the container and check the service status:
 
     View the launched container
 
@@ -199,69 +195,67 @@ docker-compose  -f docker-compose-standalone.yml   up  -d
 
     ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B22.png)
 
-    Enter the container, log in to the database through CLI, and use the `show cluster` command to view the service status and activation status
+    Enter the container, log in to the database through CLI, and use the show cluster command to view the service status and activation status
 
     ```Bash
-    docker exec -it iotdb   /bin/bash        #Entering the container
+    docker exec -it iotdb  /bin/bash         #Enter the container
     ./start-cli.sh -h iotdb                  #Log in to the database
-    IoTDB> show cluster                      #View status
+    IoTDB> show cluster                      #Check the service status
     ```
 
-    You can see that all services are running and the activation status shows as activated.
+    If all services are in the `running` state, the IoTDB deployment is successful.
 
     ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B23.png)
 
-### Map/conf Directory (optional)
+### 2.8 Map the `/conf` Directory (Optional)
 
-If you want to directly modify the configuration file in the physical machine in the future, you can map the/conf folder in the container in three steps:
+If you want to modify configuration files directly on the physical machine, you can map the `/conf` folder from the container. Follow these steps:
 
-Step 1: Copy the/conf directory from the container to/docker-iotdb/iotdb/conf
+**Step 1**: Copy the `/conf` directory from the container to `/docker-iotdb/iotdb/conf`:
 
 ```Bash
 docker cp iotdb:/iotdb/conf /docker-iotdb/iotdb/conf
 ```
 
-Step 2: Add mappings in docker-compose-standalone.yml
+**Step 2**: Add the mapping in `docker-compose-standalone.yml`:
 
 ```Bash
     volumes:
-        - ./iotdb/conf:/iotdb/conf   #Add mapping for this/conf folder
-        - ./iotdb/activation:/iotdb/activation
+        - ./iotdb/conf:/iotdb/conf   # Add this mapping for the /conf folder
         - ./iotdb/data:/iotdb/data
         - ./iotdb/logs:/iotdb/logs
-        - /usr/sbin/dmidecode:/usr/sbin/dmidecode:ro
         - /dev/mem:/dev/mem:ro
 ```
 
-Step 3: Restart IoTDB
+**Step 3**: Restart IoTDB:
 
 ```Bash
 docker-compose  -f docker-compose-standalone.yml  up  -d
 ```
 
-## Cluster Deployment
+## 3 Cluster Deployment
 
-This section describes how to manually deploy an instance that includes 3 Config Nodes and 3 Data Nodes, commonly known as a 3C3D cluster.
+This section describes how to manually deploy a cluster consisting of 3 ConfigNodes and 3 DataNodes, commonly referred to as a 3C3D cluster.
 
 <div align="center">
     <img src="/img/20240705141552.png" alt="" style="width: 60%;"/>
 </div>
 
-**Note: The cluster version currently only supports host and overlay networks, and does not support bridge networks.**
+**Note: The cluster version currently only supports host and overlay networks, and does not support bridge networks.** 
 
-Taking the host network as an example, we will demonstrate how to deploy a 3C3D cluster.
+Below, we demonstrate how to deploy a 3C3D cluster using the host network as an example.
 
-### Set Host Name
+### 3.1 Set Hostnames
 
-Assuming there are currently three Linux servers, the IP addresses and service role assignments are as follows:
+Assume there are 3 Linux servers with the following IP addresses and service roles: 
 
-| Node IP     | Host Name | Service              |
-| ----------- | --------- | -------------------- |
-| 192.168.1.3 | iotdb-1   | ConfigNode、DataNode |
-| 192.168.1.4 | iotdb-2   | ConfigNode、DataNode |
-| 192.168.1.5 | iotdb-3   | ConfigNode、DataNode |
+| Node IP     | Hostname | Services             |
+| :---------- | :------- | :------------------- |
+| 192.168.1.3 | iotdb-1  | ConfigNode, DataNode |
+| 192.168.1.4 | iotdb-2  | ConfigNode, DataNode |
+| 192.168.1.5 | iotdb-3  | ConfigNode, DataNode |
 
-Configure the host names on three machines separately. To set the host names, configure `/etc/hosts` on the target server using the following command:
+On each of the 3 machines, configure the hostnames by editing the `/etc/hosts` file. Use the following commands:
 
 ```Bash
 echo "192.168.1.3  iotdb-1"  >> /etc/hosts
@@ -269,17 +263,15 @@ echo "192.168.1.4  iotdb-2"  >> /etc/hosts
 echo "192.168.1.5  iotdb-3"  >> /etc/hosts 
 ```
 
-### Load Image File
+### 3.2 Load the Image File
 
-For example, the container image file name obtained for IoTDB is: `iotdb-enterprise-1.3.23-standalone-docker.tar.gz`
-
-Execute the load image command on three servers separately:
+For example, if the IoTDB container image file is named `iotdb-enterprise-1.3.2.3-standalone-docker.tar.gz`, execute the following command on all 3 servers to load the image:
 
 ```Bash
 docker load -i iotdb-enterprise-1.3.2.3-standalone-docker.tar.gz
 ```
 
-View image:
+To view the loaded images, run:
 
 ```Bash
 docker images
@@ -287,20 +279,18 @@ docker images
 
 ![](/img/%E9%95%9C%E5%83%8F%E5%8A%A0%E8%BD%BD.png)
 
-### Write The Yml File For Docker Compose
+### 3.3. Write the Docker-Compose YML Files
 
-Here we take the example of consolidating the IoTDB installation directory and yml files in the /docker-iotdb folder:
-
-The file directory structure is:/docker-iotdb/iotdb,  /docker-iotdb/confignode.yml，/docker-iotdb/datanode.yml
+Here, we assume the IoTDB installation directory and YML files are placed under the `/docker-iotdb` folder. The directory structure is as follows:
 
 ```Bash
 docker-iotdb：
-├── confignode.yml #Yml file of confignode
-├── datanode.yml   #Yml file of datanode
-└── iotdb          #IoTDB installation directory
+├── confignode.yml #ConfigNode YML file 
+├── datanode.yml   #DataNode YML file  
+└── iotdb          #IoTDB installation directory 
 ```
 
-On each server, two yml files need to be written, namely confignnode. yml and datanode. yml. The example of yml is as follows:
+On each server, create two YML files: `confignode.yml` and `datanode.yml`. Examples are provided below:
 
 **confignode.yml：**
 
@@ -366,30 +356,32 @@ services:
     network_mode: "host"   #Using the host network
 ```
 
-### Starting Confignode For The First Time
+### 3.4 Start ConfigNode for the First Time
 
-First, start configNodes on each of the three servers to obtain the machine code. Pay attention to the startup order, start the first iotdb-1 first, then start iotdb-2 and iotdb-3.
+Start the ConfigNode on all 3 servers. **Note the startup order**: Start `iotdb-1` first, followed by `iotdb-2` and `iotdb-3`.
+
+Run the following command on each server:
 
 ```Bash
 cd　/docker-iotdb
 docker-compose -f confignode.yml up  -d #Background startup
 ```
 
-### Apply For Activation
+### 3.5 Apply for Activation
 
-- After starting three confignodes for the first time, a system_info file will be generated in each physical machine directory `/docker-iotdb/iotdb/activation`, and the system_info files of the three servers will be copied to the Timecho staff;
+- After starting the 3 ConfigNodes for the first time, a `system_info` file will be generated in the `/docker-iotdb/iotdb/activation` directory on each physical machine. Copy the `system_info` files from all 3 servers and send them to the Timecho team.
 
   ![](/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB1.png)
 
-- Put the three license files into the `/docker iotdb/iotdb/activation` folder of the corresponding Configurable Node node;
+- Place the 3 `license` files into the corresponding `/docker-iotdb/iotdb/activation` folders on each ConfigNode server.
 
   ![](/img/%E5%8D%95%E6%9C%BA-%E7%94%B3%E8%AF%B7%E6%BF%80%E6%B4%BB2.png)
 
-- After the license is placed in the corresponding activation folder, confignode will be automatically activated without restarting confignode
+- Once the `license` files are placed in the `activation` folders, the ConfigNodes will automatically activate. **No restart is required for the ConfigNodes.**
   
-### Start Datanode
+### 3.6 Start DataNode
 
-Start datanodes on 3 servers separately
+Start the DataNode on all 3 servers: 
 
 ```Bash
 cd /docker-iotdb
@@ -398,9 +390,9 @@ docker-compose  -f  datanode.yml  up -d #Background startup
 
 ![](/img/%E9%9B%86%E7%BE%A4%E7%89%88-dn%E5%90%AF%E5%8A%A8.png)
 
-### Validate Deployment
+### 3.7  Verify Deployment
 
-- Viewing the logs, the following words indicate that the datanode has successfully started
+- Check the logs: If you see the following message, the DataNode has started successfully.
 
     ```Bash
     docker logs -f iotdb-datanode #View log command
@@ -409,7 +401,7 @@ docker-compose  -f  datanode.yml  up -d #Background startup
 
     ![](/img/dn%E5%90%AF%E5%8A%A8.png)
 
-- Enter any container to view the service running status and activation information
+- Enter the container and check the service status:
 
     View the launched container
 
@@ -419,23 +411,23 @@ docker-compose  -f  datanode.yml  up -d #Background startup
 
     ![](/img/%E6%9F%A5%E7%9C%8B%E5%AE%B9%E5%99%A8.png)
 
-    Enter the container, log in to the database through CLI, and use the `show cluster` command to view the service status and activation status
+   Enter any container, log in to the database via CLI, and use the `show cluster` command to check the service status:
 
-    ```Bash
-    docker exec -it iotdb-datanode /bin/bash #Entering the container
-    ./start-cli.sh -h iotdb-1                #Log in to the database
-    IoTDB> show cluster                      #View status
-    ```
+```Bash
+docker exec -it iotdb-datanode /bin/bash #Entering the container
+./start-cli.sh -h iotdb-1                #Log in to the database
+IoTDB> show cluster                      #View status
+```
 
-    You can see that all services are running and the activation status shows as activated.
+If all services are in the `running` state, the IoTDB deployment is successful.
 
     ![](/img/%E9%9B%86%E7%BE%A4-%E6%BF%80%E6%B4%BB.png)
 
-### Map/conf Directory (optional)
+### 3.8 Map the `/conf` Directory (Optional)
 
-If you want to directly modify the configuration file in the physical machine in the future, you can map the/conf folder in the container in three steps:
+If you want to modify configuration files directly on the physical machine, you can map the `/conf` folder from the container. Follow these steps:
 
-Step 1: Copy the `/conf` directory from the container to `/docker-iotdb/iotdb/conf` on each of the three servers
+**Step 1**: Copy the `/conf` directory from the container to `/docker-iotdb/iotdb/conf` on all 3 servers:
 
 ```Bash
 docker cp iotdb-confignode:/iotdb/conf /docker-iotdb/iotdb/conf
@@ -443,7 +435,7 @@ or
 docker cp iotdb-datanode:/iotdb/conf   /docker-iotdb/iotdb/conf 
 ```
 
-Step 2: Add `/conf` directory mapping in `confignode.yml` and `datanode. yml` on 3 servers
+**Step 2**: Add the `/conf` directory mapping in both `confignode.yml` and `datanode.yml` on all 3 servers:
 
 ```Bash
 #confignode.yml
@@ -465,11 +457,10 @@ Step 2: Add `/conf` directory mapping in `confignode.yml` and `datanode. yml` on
       - /dev/mem:/dev/mem:ro
 ```
 
-Step 3: Restart IoTDB on 3 servers
+**Step 3**: Restart IoTDB on all 3 servers:
 
 ```Bash
 cd /docker-iotdb
 docker-compose  -f confignode.yml  up  -d
 docker-compose  -f datanode.yml    up  -d
 ```
-

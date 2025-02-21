@@ -49,12 +49,4 @@ IoTDB 查询语法提供以下子句：
 
 ## 2 子句执行顺序
 
-1. FROM(表名)
-2. WHERE(条件过滤)
-3. SELECT(列名/表达式)
-4. GROUP BY (分组)
-5. HAVING(分组后的条件过滤)
-6. FILL(空值填充)
-7. ORDER BY(排序)
-8. OFFSET(偏移量)
-9. LIMIT(限制数量)
+![](/img/%E5%AD%90%E5%8F%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F01.png)

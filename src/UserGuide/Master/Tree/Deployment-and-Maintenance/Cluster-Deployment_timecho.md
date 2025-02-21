@@ -55,8 +55,9 @@ This guide describes how to manually deploy a cluster instance consisting of 3 C
 
 ## Preparation
 
-1. Obtain the TimechoDB installation package: `timechodb-{version}-bin.zip` following[IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_timecho.md)
-2. Configure the operating system environment according to [Environment Requirement](./Environment-Requirements.md)
+1. Obtain the TimechoDB installation package: `timechodb-{version}-bin.zip` following [IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_timecho.md)）
+
+2. Configure the operating system environment according to [Environment Requirement](../Deployment-and-Maintenance/Environment-Requirements.md)）
 
 ## Installation Steps
 

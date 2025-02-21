@@ -153,7 +153,7 @@ Different configuration parameters take effect in the following three ways:
 |:-----------:|:--------------------------------------------------------------------------|
 | Description | The maximum number of DataRegion expected to be managed by each DataNode  |
 |    Type     | double                                                                    |
-|   Default   | 1.0                                                                       |
+|   Default   | Half of the CPU cores                                                                       |
 |  Effective  | After restarting system                                                   |
 
 * enable\_data\_partition\_inherit\_policy

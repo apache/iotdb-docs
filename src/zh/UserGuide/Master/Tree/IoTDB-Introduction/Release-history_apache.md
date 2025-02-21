@@ -20,6 +20,29 @@
 -->
 # 发版历史
 
+## V2.0.1-beta
+> 发版时间：2025.02.18
+>
+
+V2.0.1-beta 主要新增了树表双模型配置，并配合表模型支持标准 SQL 查询语法、多种函数和运算符、流处理、Benchmark 等功能。除此之外，该版本更新包括：Python 客户端支持四种新数据类型，支持只读模式下的数据库删除操作，脚本工具同时兼容 TsFile、CSV 和 SQL 数据的导入导出，对 Kubernetes Operator 的生态集成等功能。具体发布内容如下：
+
+- 表模型： IoTDB 支持了表模型，标准 SQL 的查询语法包括 SELECT、WHERE、JOIN、GROUP BY、ORDER BY、LIMIT 子句和子查询
+- 查询模块：表模型支持多种函数和运算符，包括逻辑运算符、数学函数以及时序特色函数 DIFF 等
+- 查询模块：用户可通过配置项控制 UDF、PipePlugin、Trigger 和 AINode 通过 URI 加载 jar 包
+- 存储模块：表模型支持通过 Session 接口进行数据写入，Session 接口支持元数据自动创建
+- 存储模块：Python 客户端新增支持四种新数据类型：String、Blob、Date 和 Timestamp
+- 存储模块：优化同种类合并任务优先级的比较规则
+- 流处理模块：支持在发送端指定接收端鉴权信息
+- 流处理模块：TsFile Load 支持表模型
+- 流处理模块：流处理插件适配表模型
+- 系统模块：增强了 DataNode 缩容的稳定性
+- 系统模块：在 readonly 状态下，支持用户进行 drop database 操作
+- 脚本与工具：Benchmark 工具适配表模型
+- 脚本与工具： Benchmark 工具支持四种新数据类型：String、Blob、Date 和 Timestamp
+- 脚本与工具：data/export-data 脚本扩展，支持新数据类型（字符串、大二进制对象、日期、时间戳）
+- 脚本与工具：import-data/export-data 脚本迭代，同时兼容 TsFile、CSV 和 SQL 三种类型数据的导入导出
+- 生态集成：支持 Kubernetes Operator
+
 ## V1.3.3
 
 > 发版时间：2024.11.20

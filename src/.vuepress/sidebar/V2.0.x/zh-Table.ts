@@ -26,7 +26,6 @@ export const zhSidebar = {
       text: '关于IoTDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
-      // children: 'structure', 使用该方式自动获取文件夹下的文件
       children: [
         { text: '产品介绍', link: 'IoTDB-Introduction_apache' },
         { text: '应用场景', link: 'Scenario' },
@@ -40,7 +39,7 @@ export const zhSidebar = {
       children: [
         { text: '常见概念', link: 'Cluster-Concept_apache' },
         { text: '时序数据模型', link: 'Navigating_Time_Series_Data' },
-        { text: '建模方案设计', link: 'Data-Model-and-Terminology' },
+        { text: '建模方案设计', link: 'Data-Model-and-Terminology_apache' },
         { text: '数据类型', link: 'Data-Type' },
       ],
     },
@@ -52,9 +51,8 @@ export const zhSidebar = {
       text: '部署与运维',
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
-      // children: 'structure',
       children: [
-        { text: '部署形态', link: 'Deployment-form' },
+        { text: '部署形态', link: 'Deployment-form_apache' },
         { text: '安装包获取', link: 'IoTDB-Package_apache' },
         { text: '资源规划', link: 'Database-Resources' },
         { text: '环境配置', link: 'Environment-Requirements' },
@@ -67,7 +65,6 @@ export const zhSidebar = {
       text: '基础功能',
       collapsible: true,
       prefix: 'Basic-Concept/',
-      // children: 'structure',
       children: [
         { text: '数据库管理', link: 'Database-Management' },
         { text: '表管理', link: 'Table-Management' },
@@ -87,16 +84,22 @@ export const zhSidebar = {
       text: '高级功能',
       collapsible: true,
       prefix: 'User-Manual/',
-      // children: 'structure',
       children: [
         { text: '数据同步', link: 'Data-Sync_apache' },
+        {
+          text: '系统运维',
+          collapsible: true,
+          children: [
+            { text: '查询性能分析', link: 'Query-Performance-Analysis' },
+            { text: '运维语句', link: 'Maintenance-statement' },
+          ],
+        },
       ],
     },
     {
       text: '工具体系',
       collapsible: true,
       prefix: 'Tools-System/',
-      // children: 'structure',
       children: [
         { text: '命令行工具', link: 'CLI' },
         { text: '监控工具', link: 'Monitor-Tool_apache' },
@@ -107,18 +110,17 @@ export const zhSidebar = {
       text: '应用编程接口',
       collapsible: true,
       prefix: 'API/',
-      // children: 'structure',
       children: [
         { text: 'Java原生接口', link: 'Programming-Java-Native-API' },
         { text: 'Python原生接口', link: 'Programming-Python-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC' },
+        { text: 'RESTAPI V1 ', link: 'RestServiceV1' },
       ],
     },
     {
       text: 'SQL手册',
       collapsible: true,
       prefix: 'SQL-Manual/',
-      // children: 'structure',
       children: [
         { text: '标识符', link: 'Identifier' },
         { text: '保留字&关键字', link: 'Keywords' },
@@ -151,7 +153,6 @@ export const zhSidebar = {
       text: '技术内幕',
       collapsible: true,
       prefix: 'Technical-Insider/',
-      // children: 'structure',
       children: [
         { text: '压缩&编码', link: 'Encoding-and-Compression' },
         { text: '数据分区和负载均衡', link: 'Cluster-data-partitioning' },
@@ -161,7 +162,6 @@ export const zhSidebar = {
       text: '附录',
       collapsible: true,
       prefix: 'Reference/',
-      // children: 'structure',
       children: [
         { text: '示例数据', link: 'Sample-Data' },
         { text: '配置参数', link: 'System-Config-Manual' },

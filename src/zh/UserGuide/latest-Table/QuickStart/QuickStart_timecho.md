@@ -54,7 +54,7 @@
    
    - 时序概念介绍：[时序数据模型](../Background-knowledge/Navigating_Time_Series_Data.md)
 
-   - 建模设计介绍：[建模方案设计](../Background-knowledge/Data-Model-and-Terminology.md)
+   - 建模设计介绍：[建模方案设计](../Background-knowledge/Data-Model-and-Terminology_timecho.md)
 
    - 数据库介绍：[数据库管理](../Basic-Concept/Database-Management.md)
    
@@ -79,7 +79,7 @@
 
 IoTDB 除了自身拥有丰富的功能外，其周边的工具体系包含的种类十分齐全。本篇文档将帮助您快速使用周边工具体系：
 
-   - 监控面板：是一个对 IoTDB 及其所在操作系统进行细致监控的工具，涵盖数据库性能、系统资源等上百个数据库监控指标，助力系统优化与瓶颈识别等，具体使用介绍请查看 [监控面板部署](../Deployment-and-Maintenance/Monitoring-panel-deployment.md)
+   - 监控面板：是一个对 IoTDB 及其所在操作系统进行细致监控的工具，涵盖数据库性能、系统资源等上百个数据库监控指标，助力系统优化与瓶颈识别等，具体使用介绍请查看 [监控面板部署](../Tools-System/Monitor-Tool_timecho.md)
 
 
 ## 想了解更多技术细节？

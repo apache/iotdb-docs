@@ -92,7 +92,7 @@ START PIPE<PipeId>
 STOP PIPE <PipeId>
 ```
 
-###  2.4 删除任务
+### 2.4 删除任务
 
 删除指定任务：
 
@@ -140,7 +140,7 @@ SHOW PIPE <PipeId>
 - **RemainingEventCount（统计存在延迟）**：剩余 event 数，当前数据同步任务中的所有 event 总数，包括数据同步的 event，以及系统和用户自定义的 event。
 - **EstimatedRemainingSeconds（统计存在延迟）**：剩余时间，基于当前 event 个数和 pipe 处速率，预估完成传输的剩余时间。
 
-### 同步插件
+### 2.6 同步插件
 
 为了使得整体架构更加灵活以匹配不同的同步场景需求，我们支持在同步任务框架中进行插件组装。系统为您预置了一些常用插件可直接使用，同时您也可以自定义 processor 插件 和 Sink 插件，并加载至 IoTDB 系统进行使用。查看系统中的插件（含自定义与内置插件）可以用以下语句：
 

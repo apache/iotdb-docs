@@ -26,7 +26,6 @@ export const zhSidebar = {
       text: '关于IoTDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
-      // children: 'structure', 使用该方式自动获取文件夹下的文件
       children: [
         { text: '产品介绍', link: 'IoTDB-Introduction_apache' },
         { text: '应用场景', link: 'Scenario' },
@@ -52,7 +51,6 @@ export const zhSidebar = {
       text: '部署与运维',
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
-      // children: 'structure',
       children: [
         { text: '部署形态', link: 'Deployment-form' },
         { text: '安装包获取', link: 'IoTDB-Package_apache' },
@@ -68,7 +66,6 @@ export const zhSidebar = {
       text: '基础功能',
       collapsible: true,
       prefix: 'Basic-Concept/',
-      // children: 'structure',
       children: [
         { text: '测点管理', link: 'Operate-Metadata_apache' },
         { text: '写入&删除', link: 'Write-Delete-Data' },
@@ -79,7 +76,6 @@ export const zhSidebar = {
       text: '高级功能',
       collapsible: true,
       prefix: 'User-Manual/',
-      // children: 'structure',
       children: [
         { text: '数据同步', link: 'Data-Sync_apache' },
         { text: '数据订阅', link: 'Data-subscription' },
@@ -115,7 +111,6 @@ export const zhSidebar = {
       text: '工具体系',
       collapsible: true,
       prefix: 'Tools-System/',
-      // children: 'structure',
       children: [
         { text: '命令行工具', link: 'CLI' },
         { text: '监控工具', link: 'Monitor-Tool_apache' },
@@ -129,7 +124,6 @@ export const zhSidebar = {
       text: '应用编程接口',
       collapsible: true,
       prefix: 'API/',
-      // children: 'structure',
       children: [
         { text: 'Java原生接口', collapsible: true,
           children: [
@@ -160,7 +154,6 @@ export const zhSidebar = {
       text: '系统集成',
       collapsible: true,
       prefix: 'Ecosystem-Integration/',
-      // children: 'structure',
       children: [
         { text: 'Apache Flink(IoTDB)', link: 'Flink-IoTDB' },
         { text: 'Apache Flink(TsFile)', link: 'Flink-TsFile' },
@@ -181,7 +174,6 @@ export const zhSidebar = {
       text: 'SQL手册',
       collapsible: true,
       prefix: 'SQL-Manual/',
-      // children: 'structure',
       children: [
         { text: '标识符', link: 'Syntax-Rule' },
         { text: '关键字', link: 'Keywords' },
@@ -201,7 +193,6 @@ export const zhSidebar = {
       text: '技术内幕',
       collapsible: true,
       prefix: 'Technical-Insider/',
-      // children: 'structure',
       children: [
         { text: '研究论文', link: 'Publication' },
         { text: '压缩&编码', link: 'Encoding-and-Compression' },
@@ -212,7 +203,6 @@ export const zhSidebar = {
       text: '附录',
       collapsible: true,
       prefix: 'Reference/',
-      // children: 'structure',
       children: [
         {
           text: '配置参数',
@@ -230,7 +220,6 @@ export const zhSidebar = {
       text: 'FAQ',
       collapsible: true,
       prefix: 'FAQ/',
-      // children: 'structure',
       children: [{ text: '常见问题', link: 'Frequently-asked-questions' }],
     },
   ],

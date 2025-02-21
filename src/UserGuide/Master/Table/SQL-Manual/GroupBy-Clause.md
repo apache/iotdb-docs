@@ -34,7 +34,9 @@ GROUP BY expression (',' expression)*
 
 ## 2 Notes
 
--  Items in the `SELECT` clause must either include aggregate functions or consist of columns specified in the `GROUP BY` clause.
+#### 2.1 Items in the `SELECT` Clause 
+
+Items in the `SELECT` clause must either include aggregate functions or consist of columns specified in the `GROUP BY` clause.
 
 Valid Example:
 
@@ -91,13 +93,15 @@ Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701:
   Column 'model' cannot be resolved
 ```
 
-- If there is no `GROUP BY` clause, all items in the `SELECT` clause must either include aggregate functions or exclude them entirely.
+#### 2.2 Without a `GROUP BY` Clause
+
+If there is no `GROUP BY` clause, all items in the `SELECT` clause must either include aggregate functions or exclude them entirely.
 
 Valid Example:
 
 ```sql
 SELECT COUNT(*), avg(temperature) 
-  FROM table1; -- 合法
+  FROM table1; -- valid
 ```
 
 Result:
@@ -125,9 +129,11 @@ Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701:
   'humidity' must be an aggregate expression or appear in GROUP BY clause
 ```
 
-- The `GROUP BY` clause supports referencing `SELECT` items using constant integers starting from 1. If the constant is less than 1 or exceeds the size of the `SELECT` item list, an error will occur.
+#### 2.3 Using Constant Integers in `GROUP BY` Clause
 
- **Example:**
+The `GROUP BY` clause supports referencing `SELECT` items using constant integers starting from 1. If the constant is less than 1 or exceeds the size of the `SELECT` item list, an error will occur.
+
+Example:
 
 ```sql
 SELECT date_bin(1h, time), device_id, avg(temperature)
@@ -152,9 +158,11 @@ Total line number = 5
 It costs 0.092s
 ```
 
--  Aliases from `SELECT` items cannot be used in the `GROUP BY` clause. Use the original expression instead.
+#### 2.4 Alias Restrictions in `GROUP BY` Clause 
 
- **Example:**
+Aliases from `SELECT` items cannot be used in the `GROUP BY` clause. Use the original expression instead.
+
+Example:
 
 ```sql
 SELECT date_bin(1h, time) AS hour_time, device_id, avg(temperature)
@@ -179,9 +187,11 @@ Total line number = 5
 It costs 0.092s
 ```
 
-- Only the `COUNT` function can be used with `*` to calculate the total number of rows. Using `*` with other aggregate functions will result in an error.
+#### 2.5 Using Aggregate Functions with `\*` 
 
- **Example:**
+Only the `COUNT` function can be used with `*` to calculate the total number of rows. Using `*` with other aggregate functions will result in an error.
+
+Example:
 
 ```sql
 SELECT count(*) FROM table1;
@@ -201,7 +211,7 @@ It costs 0.047s
 
 ## 3 Sample Data and Usage Examples
 
-The [Example Data page](../Basic-Concept/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.corresponding results.
+The [Example Data page](../Reference/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.
 
 #### Example 1: Downsampling Time-Series Data
 
@@ -256,8 +266,8 @@ Total line number = 8
 It costs 0.081s
 ```
 
-有关date_bin函数的更多详细信息可以参见 date_bin （时间分桶规整）函数功能定义
- For more details on the `date_bin` function, refer to the **Definition of Date Bin** **(Time Bucketing)** feature documentation.
+
+For more details on the `date_bin` function, refer to the **Definition of Date Bin (Time Bucketing)** feature documentation.
 
 #### Example 2: Query the Latest Data Point for Each Device
 
