@@ -278,7 +278,7 @@ eg: ALTER USER tempuser SET PASSWORD 'newpwd';
 Users can use authorization statements to grant permissions to other users. The syntax is as follows:
 
 ```sql
-GRANT <PRIVILEGES> ON <PATHS> TO ROLE/USER <NAME> [WITH GRANT OPTION]；
+GRANT <PRIVILEGES> ON <PATHS> TO ROLE/USER <NAME> [WITH GRANT OPTION];
 eg: GRANT READ ON root.** TO ROLE role1;
 eg: GRANT READ_DATA, WRITE_DATA ON root.t1.** TO USER user1;
 eg: GRANT READ_DATA, WRITE_DATA ON root.t1.**,root.t2.** TO USER user1;

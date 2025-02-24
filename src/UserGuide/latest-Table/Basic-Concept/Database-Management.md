@@ -57,7 +57,7 @@ CREATE DATABASE database1;
 CREATE DATABASE IF NOT EXISTS database1;
 
 // Sets TTL to 1 year.
-CREATE DATABASE IF NOT EXISTS database1 with(TTL=31536000000)；
+CREATE DATABASE IF NOT EXISTS database1 with(TTL=31536000000);
 ```
 
 ### 1.2 Use a Database
