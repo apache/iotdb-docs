@@ -22,7 +22,7 @@
 
 本章将介绍如何启动IoTDB单机实例，IoTDB单机实例包括 1 个ConfigNode 和1个DataNode（即通常所说的1C1D）。
 
-## 注意事项
+## 1 注意事项
 
 1. 安装前请确认系统已参照[系统配置](./Environment-Requirements.md)准备完成。
 
@@ -44,16 +44,16 @@
 
 6. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，部署监控面板步骤可以参考：[监控面板部署](./Monitoring-panel-deployment.md)。
 
-## 安装步骤
+## 2 安装步骤
 
-### 解压安装包并进入安装目录
+### 2.1 解压安装包并进入安装目录
 
 ```shell
 unzip  iotdb-enterprise-{version}-bin.zip
 cd  iotdb-enterprise-{version}-bin
 ```
 
-### 参数配置
+### 2.2 参数配置
 
 #### 环境脚本配置
 
@@ -107,7 +107,7 @@ cd  iotdb-enterprise-{version}-bin
 
 > ❗️注意：VSCode Remote等编辑器无自动保存配置功能，请确保修改的文件被持久化保存，否则配置项无法生效
 
-### 启动 ConfigNode 节点
+### 2.3 启动 ConfigNode 节点
 
 进入iotdb的sbin目录下，启动confignode
 
@@ -116,7 +116,7 @@ cd  iotdb-enterprise-{version}-bin
 ```
 如果启动失败，请参考[常见问题](#常见问题)。
 
-### 激活数据库
+### 2.4 激活数据库
 
 #### 方式一：激活文件拷贝激活
 
@@ -150,7 +150,7 @@ License has been stored to sbin/../activation/license
 Import completed. Please start cluster and excute 'show cluster' to verify activation status
 ```
 
-### 启动DataNode 节点
+### 2.5 启动DataNode 节点
 
 进入iotdb的sbin目录下，启动datanode：
 
@@ -159,7 +159,7 @@ cd sbin
 ./start-datanode.sh   -d   #-d参数将在后台进行启动 
 ```
 
-### 验证部署
+### 2.6 验证部署
 
 可直接执行 ./sbin 目录下的 Cli 启动脚本：
 
@@ -180,7 +180,7 @@ cd sbin
 > 出现`ACTIVATED(W)`为被动激活，表示此ConfigNode没有license文件（或没有签发时间戳最新的license文件）。此时建议检查license文件是否已放入license文件夹，没有请放入license文件，若已存在license文件，可能是此节点license文件与其他节点信息不一致导致，请联系天谋工作人员重新申请.
 
 
-## 常见问题
+## 3 常见问题
 
 1. 部署过程中多次提示激活失败
     - 使用 `ls -al` 命令：使用 `ls -al` 命令检查安装包根目录的所有者信息是否为当前用户。

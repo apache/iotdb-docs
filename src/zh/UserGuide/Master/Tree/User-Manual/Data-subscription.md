@@ -1,6 +1,6 @@
 # 数据订阅
 
-## 1. 功能介绍
+## 1 功能介绍
 
 IoTDB 数据订阅模块（又称 IoTDB 订阅客户端）是IoTDB V1.3.3 版本后支持的功能，它为用户提供了一种区别于数据查询的流式数据消费方式。它参考了 Kafka 等消息队列产品的基本概念和逻辑，**提供数据订阅和消费接口**，但并不是为了完全替代这些消费队列的产品，更多的是在简单流式获取数据的场景为用户提供更加便捷的数据订阅服务。
 
@@ -9,7 +9,7 @@ IoTDB 数据订阅模块（又称 IoTDB 订阅客户端）是IoTDB V1.3.3 版本
 1. **持续获取最新数据**：使用订阅的方式，比定时查询更实时、应用编程更简单、系统负担更小；
 2. **简化数据推送至第三方系统**：无需在 IoTDB 内部开发不同系统的数据推送组件，可以在第三方系统内实现数据的流式获取，更方便将数据发送至 Flink、Kafka、DataX、Camel、MySQL、PG 等系统。
 
-## 2. 主要概念
+## 2 主要概念
 
 IoTDB 订阅客户端包含 3 个核心概念：Topic、Consumer、Consumer Group，具体关系如下图
 
@@ -29,7 +29,7 @@ IoTDB 订阅客户端包含 3 个核心概念：Topic、Consumer、Consumer Grou
   - 一个 topic 不需要被一个 consumer group 中的所有 consumer 订阅
   - 当同一个 Consumer Group 中不同的 Consumers 订阅了相同的 Topic 时，该 Topic 下的每条数据只会被组内的一个 Consumer 处理，确保数据不会被重复处理
 
-## 3. SQL 语句
+## 3 SQL 语句
 
 ### 3.1 Topic 管理
 
@@ -125,11 +125,11 @@ SHOW SUBSCRIPTIONS ON <topicName>
 - ConsumerGroupName：用户代码中指定的消费者组 ID
 - SubscribedConsumers：该消费者组中订阅了该主题的所有客户端 ID
 
-## 4. API 接口
+## 4 API 接口
 
 除 SQL 语句外，IoTDB 还支持通过 Java 原生接口使用数据订阅功能。详细语法参见页面：Java 原生接口（[链接](../API/Programming-Java-Native-API.md)）。
 
-## 5. 常见问题
+## 5 常见问题
 
 ### 5.1 IoTDB 数据订阅与 Kafka 的区别是什么？
 
