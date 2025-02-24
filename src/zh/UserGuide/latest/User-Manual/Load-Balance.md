@@ -19,11 +19,11 @@
 
 -->
 
-## 负载均衡
+# 负载均衡
 
 Region 迁移属于高级运维功能，具有一定操作成本，建议完整阅读后再使用该功能。如有疑问请联系 IoTDB 团队寻求技术支持。
 
-### 功能介绍
+## 1 功能介绍
 
 IoTDB 是一个分布式数据库，数据的均衡分布对集群的磁盘空间、写入压力的负载均衡有着重要作用，region 是数据在 IoTDB 集群中进行分布式存储的基本单元，具体概念可见[region](../Background-knowledge/Cluster-Concept.md)。
 
@@ -34,14 +34,14 @@ IoTDB 是一个分布式数据库，数据的均衡分布对集群的磁盘空�
 
 ![](/img/region%E8%BF%81%E7%A7%BB%E7%A4%BA%E6%84%8F%E5%9B%BE20241210.png)
 
-### 注意事项
+## 2 注意事项
 
 1. 推荐仅在 IoTDB 1.3.3 以及更高版本使用 Region 迁移功能。
 2. 仅在共识协议为 IoTConsensus、Ratis 时支持 Region 迁移（iotdb-system.properties中的`schema_region_consensus_protocol_class` 和 `data_region_consensus_protocol_class`）。
 3. Region 迁移会占用硬盘和网络带宽等系统资源，推荐在低业务负载时进行。
 4. 在理想情况下，Region 迁移不影响用户侧读写。特殊情况下，Region 迁移可能阻塞写入，这种情况的具体鉴别与处理方式见使用说明。
 
-### 使用说明
+## 3 使用说明
 
 - **语法定义**：
 
