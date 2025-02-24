@@ -40,7 +40,7 @@ The difference between STRING and TEXT types is that STRING type has more statis
 
 ### Float Precision
 
-The time series of **FLOAT** and **DOUBLE** type can specify (MAX\_POINT\_NUMBER, see [this page](../SQL-Manual/SQL-Manual.md) for more information on how to specify), which is the number of digits after the decimal point of the floating point number, if the encoding method is [RLE](Encoding-and-Compression.md) or [TS\_2DIFF](Encoding-and-Compression.md). If MAX\_POINT\_NUMBER is not specified, the system will use [float\_precision](../Reference/DataNode-Config-Manual.md) in the configuration file `iotdb-system.properties`.
+The time series of **FLOAT** and **DOUBLE** type can specify (MAX\_POINT\_NUMBER, see [this page](../SQL-Manual/SQL-Manual.md) for more information on how to specify), which is the number of digits after the decimal point of the floating point number, if the encoding method is [RLE](../Technical-Insider/Encoding-and-Compression.md) or [TS\_2DIFF](../Technical-Insider/Encoding-and-Compression.md). If MAX\_POINT\_NUMBER is not specified, the system will use [float\_precision](../Reference/DataNode-Config-Manual.md) in the configuration file `iotdb-system.properties`.
 
 ```sql
 CREATE TIMESERIES root.vehicle.d0.s0 WITH DATATYPE=FLOAT, ENCODING=RLE, 'MAX_POINT_NUMBER'='2';

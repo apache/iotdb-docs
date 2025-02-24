@@ -39,7 +39,7 @@ export const zhSidebar = {
       children: [
         { text: '常见概念', link: 'Cluster-Concept_timecho' },
         { text: '时序数据模型', link: 'Navigating_Time_Series_Data' },
-        { text: '建模方案设计', link: 'Data-Model-and-Terminology' },
+        { text: '建模方案设计', link: 'Data-Model-and-Terminology_timecho' },
         { text: '数据类型', link: 'Data-Type' },
       ],
     },

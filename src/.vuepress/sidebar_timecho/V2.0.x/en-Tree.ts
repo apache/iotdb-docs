@@ -43,7 +43,7 @@ export const enSidebar = {
         },
         {
           text: 'Modeling Scheme Design',
-          link: 'Data-Model-and-Terminology',
+          link: 'Data-Model-and-Terminology_timecho',
         },
         { text: 'Data Type', link: 'Data-Type' },
       ],
