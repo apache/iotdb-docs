@@ -20,19 +20,13 @@ import { sidebar } from 'vuepress-theme-hope';
 import { enSidebar as V201xTableSidebar } from './V2.0.x/en-Table.js';
 import { enSidebar as V201xTreeSidebar } from './V2.0.x/en-Tree.js';
 import { enSidebar as V103xSidebar } from './V1.3.x/en.js';
-import { enSidebar as V1030Sidebar } from './V1.3.0-2/en.js';
 import { enSidebar as V102xSidebar } from './V1.2.x/en.js';
-import { enSidebar as V101xSidebar } from './V1.1.x/en.js';
-import { enSidebar as V100xSidebar } from './V1.0.x/en.js';
 import { enSidebar as V013xSidebar } from './V0.13.x/en.js';
 
 export const enSidebar = sidebar({
   ...V201xTableSidebar,
   ...V201xTreeSidebar,
   ...V103xSidebar,
-  ...V1030Sidebar,
   ...V102xSidebar,
-  ...V101xSidebar,
-  ...V100xSidebar,
   ...V013xSidebar,
 });

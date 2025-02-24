@@ -20,7 +20,6 @@ import { sidebar } from 'vuepress-theme-hope';
 import { zhSidebar as V201xTableSidebar } from './V2.0.x/zh-Table.js';
 import { zhSidebar as V201xTreeSidebar } from './V2.0.x/zh-Tree.js';
 import { zhSidebar as V103xSidebar } from './V1.3.x/zh.js';
-import { zhSidebar as V1030Sidebar } from './V1.3.0-2/zh.js';
 import { zhSidebar as V102xSidebar } from './V1.2.x/zh.js';
 import { zhSidebar as V013xSidebar } from './V0.13.x/zh.js';
 
@@ -28,7 +27,6 @@ export const zhSidebar = sidebar({
   ...V201xTableSidebar,
   ...V201xTreeSidebar,
   ...V103xSidebar,
-  ...V1030Sidebar,
   ...V102xSidebar,
   ...V013xSidebar,
 });
