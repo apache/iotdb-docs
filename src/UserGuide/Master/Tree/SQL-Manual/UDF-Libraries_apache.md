@@ -37,7 +37,7 @@ Based on the ability of user-defined functions, IoTDB provides a series of funct
     | apache-UDF-1.3.2.zip | V1.0.0～V1.3.2  | Please contact Timecho for assistance|
     
 2. Place the library-udf.jar file in the compressed file obtained in the directory `/ext/udf ` of all nodes in the IoTDB cluster
-3. In the SQL operation interface of IoTDB's SQL command line terminal (CLI), execute the corresponding function registration statement as follows.
+3.  In the SQL operation interface of IoTDB's SQL command line terminal (CLI), execute the corresponding function registration statement as follows.
 4.  Batch registration: Two registration methods: registration script or SQL full statement
 - Register Script 
     - Copy the registration script (register-UDF.sh or register-UDF.bat) from the compressed package to the `tools` directory of IoTDB as needed, and modify the parameters in the script (default is host=127.0.0.1, rpcPort=6667, user=root, pass=root);
@@ -45,7 +45,6 @@ Based on the ability of user-defined functions, IoTDB provides a series of funct
 
 - All SQL statements
     - Open the SQl file in the compressed package, copy all SQL statements, and in the SQL operation interface of IoTDB's SQL command line terminal (CLI), execute all SQl statements to batch register UDFs
-
 
 ## Data Quality
 

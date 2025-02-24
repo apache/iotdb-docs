@@ -612,7 +612,7 @@ IoTDB > create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODI
 error: encoding TS_2DIFF does not support BOOLEAN
 ```
 
-Please refer to [Encoding](../Basic-Concept/Encoding-and-Compression.md) for correspondence between data type and encoding.
+Please refer to [Encoding](../Technical-Insider/Encoding-and-Compression.md) for correspondence between data type and encoding.
 
 ### Create Aligned Timeseries
 

@@ -435,6 +435,7 @@ This example is used to demonstrate the scenario where data from one IoTDB is sy
 
 ![](/img/pipe5.jpg)
 
+
 In this example, the iotdb-air-gap-sink plugin in the sink task needs to be used . After configuring the gateway, execute the following statement on A IoTDB. Fill in the node-urls with the URL of the data service port of the DataNode node on the target IoTDB configured by the gateway, as detailed below:
 
 ```SQL

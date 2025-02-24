@@ -43,7 +43,7 @@ export const enSidebar = {
         },
         {
           text: 'Modeling Scheme Design',
-          link: 'Data-Model-and-Terminology',
+          link: 'Data-Model-and-Terminology_apache',
         },
         { text: 'Data Type', link: 'Data-Type' },
       ],

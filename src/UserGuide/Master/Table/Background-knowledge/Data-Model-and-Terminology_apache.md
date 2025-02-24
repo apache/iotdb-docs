@@ -113,7 +113,7 @@ The application scenarios mainly include two categories:
 - If different types of devices in the scenario have different hierarchical paths and data point sets, create branches under the database node by device type. Each device type can have a different data point structure.
 
 <div style="text-align: center;">
-      <img src="/img/Data-model-en01.png" alt="" style="width: 70%;"/>
+      <img src="/img/Data-model-en-11.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.1.3.2 How to model when there are no devices, only data points?

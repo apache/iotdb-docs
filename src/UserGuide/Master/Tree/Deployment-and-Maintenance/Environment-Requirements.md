@@ -165,7 +165,6 @@ sysctl -p
 # Swap's used memory has become 0
 free -m
 ```
-
 2. Set the maximum number of open files to 65535 to avoid the error of "too many open files".
 
 ```Bash
