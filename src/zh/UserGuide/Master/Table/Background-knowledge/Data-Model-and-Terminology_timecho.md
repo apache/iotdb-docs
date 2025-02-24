@@ -115,7 +115,7 @@ IoTDB 提供了两种数据建模方式——树模型和表模型，其特点�
 - 如场景中不同类型的设备具备不同的层级路径和测点集合，可以在数据库节点下按设备类型创建分支。每种设备下可以有不同的测点结构。
 
 <div style="text-align: center;">
-      <img src="/img/Modeling-scheme04.png" alt="" style="width: 70%;"/>
+      <img src="/img/Data-model-02.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.1.3.2 如果场景中没有设备，只有测点，如何建模？
@@ -207,7 +207,7 @@ IoTDB 提供了两种数据建模方式——树模型和表模型，其特点�
 - 表视图：为每种类型的设备建立一张表视图，每个表视图具有不同的标签和测点集合。
 
 <div style="text-align: center;">
-      <img src="/img/Modeling-scheme01.png" alt="" style="width: 70%;"/>
+      <img src="/img/Data-model-01.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.3.2.2 如果没有设备标识列和属性列，如何建模？
