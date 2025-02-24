@@ -28,12 +28,8 @@ export const zhNavbar = navbar([
         link: '/zh/UserGuide/latest/QuickStart/QuickStart_apache',
       },
       {
-        text: 'v1.3.3',
-        link: '/zh/UserGuide/V1.3.3/QuickStart/QuickStart_apache',
-      },
-      {
-        text: 'v1.3.0/1/2',
-        link: '/zh/UserGuide/V1.3.0-2/QuickStart/QuickStart_apache',
+        text: 'v1.3.x',
+        link: '/zh/UserGuide/V1.3.x/QuickStart/QuickStart_apache',
       },
       { text: 'v1.2.x', link: '/zh/UserGuide/V1.2.x/QuickStart/QuickStart' },
       { text: 'v0.13.x', link: '/zh/UserGuide/V0.13.x/QuickStart/QuickStart' },
