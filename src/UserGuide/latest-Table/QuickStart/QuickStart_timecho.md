@@ -76,7 +76,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
 6. Application Programming Interfaces (APIs): IoTDB provides various application programming interfaces (APIs) to facilitate developers' interaction with IoTDB in applications. Currently supported interfaces include [Java Native API](../API/Programming-Java-Native-API.md)、[Python Native API](../API/Programming-Python-Native-API.md)、[JDBC](../API/Programming-JDBC.md), and more. For more programming interfaces, please refer to the [Application Programming Interfaces] section on the official website.
 
-## What other convenient peripheral tools are available?
+## What other convenient tools are available?
 
 In addition to its own rich features, IoTDB is complemented by a comprehensive suite of peripheral tools. This guide will help you quickly understand and use these tools:
 
