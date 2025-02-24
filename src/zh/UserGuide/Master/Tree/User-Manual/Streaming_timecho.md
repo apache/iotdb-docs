@@ -42,9 +42,9 @@ Pipe Source 用于抽取数据，Pipe Processor 用于处理数据，Pipe Sink �
 
 利用流处理框架，可以搭建完整的数据链路来满足端*边云同步、异地灾备、读写负载分库*等需求。
 
-## 自定义流处理插件开发
+## 1 自定义流处理插件开发
 
-### 编程开发依赖
+### 1.1 编程开发依赖
 
 推荐采用 maven 构建项目，在`pom.xml`中添加以下依赖。请注意选择和 IoTDB 服务器版本相同的依赖版本。
 
@@ -57,7 +57,7 @@ Pipe Source 用于抽取数据，Pipe Processor 用于处理数据，Pipe Sink �
 </dependency>
 ```
 
-### 事件驱动编程模型
+### 1.2 事件驱动编程模型
 
 流处理插件的用户编程接口设计，参考了事件驱动编程模型的通用设计理念。事件（Event）是用户编程接口中的数据抽象，而编程接口与具体的执行方式解耦，只需要专注于描述事件（数据）到达系统后，系统期望的处理方式即可。
 
@@ -127,7 +127,7 @@ public interface TsFileInsertionEvent extends Event {
 }
 ```
 
-### 自定义流处理插件编程接口定义
+### 1.3 自定义流处理插件编程接口定义
 
 基于自定义流处理插件编程接口，用户可以轻松编写数据抽取插件、数据处理插件和数据发送插件，从而使得流处理功能灵活适配各种工业场景。
 
@@ -438,12 +438,12 @@ public interface PipeSink extends PipePlugin {
 }
 ```
 
-## 自定义流处理插件管理
+## 2 自定义流处理插件管理
 
 为了保证用户自定义插件在实际生产中的灵活性和易用性，系统还需要提供对插件进行动态统一管理的能力。
 本章节介绍的流处理插件管理语句提供了对插件进行动态统一管理的入口。
 
-### 加载插件语句
+### 2.1 加载插件语句
 
 在 IoTDB 中，若要在系统中动态载入一个用户自定义插件，则首先需要基于 PipeSource、 PipeProcessor 或者 PipeSink 实现一个具体的插件类，
 然后需要将插件类编译打包成 jar 可执行文件，最后使用加载插件的管理语句将插件载入 IoTDB。
@@ -484,7 +484,7 @@ AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor'
 USING URI <file:/iotdb安装路径/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar>
 ```
 
-### 删除插件语句
+### 2.2 删除插件语句
 
 当用户不再想使用一个插件，需要将插件从系统中卸载时，可以使用如图所示的删除插件语句。
 
@@ -494,7 +494,7 @@ DROP PIPEPLUGIN [IF EXISTS] <别名>
 
 **IF EXISTS 语义**：用于删除操作中，确保当指定 Pipe Plugin 存在时，执行删除命令，防止因尝试删除不存在的 Pipe Plugin 而导致报错。
 
-### 查看插件语句
+### 2.3 查看插件语句
 
 用户也可以按需查看系统中的插件。查看插件的语句如图所示。
 
@@ -502,9 +502,9 @@ DROP PIPEPLUGIN [IF EXISTS] <别名>
 SHOW PIPEPLUGINS
 ```
 
-## 系统预置的流处理插件
+## 3 系统预置的流处理插件
 
-### 预置 source 插件
+### 3.1 预置 source 插件
 
 #### iotdb-source
 
@@ -568,7 +568,7 @@ SHOW PIPEPLUGINS
 > * 如果要使用 pipe 构建 A -> B -> C 的数据同步，那么 B -> C 的 pipe 需要将该参数为 true 后，A -> B 中 A 通过 pipe 写入 B 的数据才能被正确转发到 C
 > * 如果要使用 pipe 构建 A \<-> B 的双向数据同步（双活），那么 A -> B 和 B -> A 的 pipe 都需要将该参数设置为 false，否则将会造成数据无休止的集群间循环转发
 
-### 预置 processor 插件
+### 3.2 预置 processor 插件
 
 #### do-nothing-processor
 
@@ -579,7 +579,7 @@ SHOW PIPEPLUGINS
 |-----------|----------------------|------------------------------|-----------------------------------|
 | processor | do-nothing-processor | String: do-nothing-processor | required                          |
 
-### 预置 sink 插件
+### 3.3 预置 sink 插件
 
 #### do-nothing-sink
 
@@ -590,9 +590,9 @@ SHOW PIPEPLUGINS
 |------|-----------------|-------------------------|-----------------------------------|
 | sink | do-nothing-sink | String: do-nothing-sink | required                          |
 
-## 流处理任务管理
+## 4 流处理任务管理
 
-### 创建流处理任务
+### 4.1 创建流处理任务
 
 使用 `CREATE PIPE` 语句来创建流处理任务。以数据同步流处理任务的创建为例，示例 SQL 语句如下：
 
@@ -686,7 +686,7 @@ WITH SINK (
     - IoTDB A -> IoTDB B -> IoTDB A
     - IoTDB A -> IoTDB A
 
-### 启动流处理任务
+### 4.2 启动流处理任务
 
 CREATE PIPE 语句成功执行后，流处理任务相关实例会被创建，但整个流处理任务的运行状态会被置为 STOPPED，即流处理任务不会立刻处理数据（V1.3.0）。在 1.3.1 及以上的版本，流处理任务的运行状态在创建后将被立即置为 RUNNING。
 
@@ -696,7 +696,7 @@ CREATE PIPE 语句成功执行后，流处理任务相关实例会被创建，�
 START PIPE <PipeId>
 ```
 
-### 停止流处理任务
+### 4.3 停止流处理任务
 
 使用 STOP PIPE 语句使流处理任务停止处理数据：
 
@@ -704,7 +704,7 @@ START PIPE <PipeId>
 STOP PIPE <PipeId>
 ```
 
-### 删除流处理任务
+### 4.4 删除流处理任务
 
 使用 DROP PIPE 语句使流处理任务停止处理数据（当流处理任务状态为 RUNNING 时），然后删除整个流处理任务流处理任务：
 
@@ -714,7 +714,7 @@ DROP PIPE <PipeId>
 
 用户在删除流处理任务前，不需要执行 STOP 操作。
 
-### 展示流处理任务
+### 4.5 展示流处理任务
 
 使用 SHOW PIPES 语句查看所有流处理任务：
 
@@ -747,7 +747,7 @@ SHOW PIPES
 WHERE SINK USED BY <PipeId>
 ```
 
-### 流处理任务运行状态迁移
+### 4.6 流处理任务运行状态迁移
 
 一个流处理 pipe 在其的生命周期中会经过多种状态：
 
@@ -763,9 +763,9 @@ WHERE SINK USED BY <PipeId>
 
 ![状态迁移图](/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
 
-## 权限管理
+## 5 权限管理
 
-### 流处理任务
+### 5.1 流处理任务
 
 
 | 权限名称     | 描述            |
@@ -776,7 +776,7 @@ WHERE SINK USED BY <PipeId>
 | USE_PIPE | 卸载流处理任务。路径无关。 |
 | USE_PIPE | 查询流处理任务。路径无关。 |
 
-### 流处理任务插件
+### 5.2 流处理任务插件
 
 
 | 权限名称     | 描述              |
@@ -785,7 +785,7 @@ WHERE SINK USED BY <PipeId>
 | USE_PIPE | 卸载流处理任务插件。路径无关。 |
 | USE_PIPE | 查询流处理任务插件。路径无关。 |
 
-## 配置参数
+## 6 配置参数
 
 在 iotdb-system.properties 中：
 

@@ -19,11 +19,11 @@
 
 -->
 
-## 数据修复
+# 数据修复
 
 用于修复数据中存在的问题，如顺序空间内的数据未按时间递增顺序排列。
 
-### START REPAIR DATA
+## 1 START REPAIR DATA
 
 启动一个数据修复任务，扫描创建修复任务的时间之前产生的 tsfile 文件并修复有乱序错误的文件。
 
@@ -33,7 +33,7 @@ IoTDB> START REPAIR DATA ON LOCAL
 IoTDB> START REPAIR DATA ON CLUSTER
 ```
 
-### STOP REPAIR DATA
+## 2 STOP REPAIR DATA
 
 停止一个进行中的修复任务。如果需要再次恢复一个已停止的数据修复任务的进度，可以重新执行 `START REPAIR DATA`.
 

@@ -24,14 +24,14 @@ IoTDB配套监控面板是IoTDB企业版配套工具之一。它旨在解决IoTD
 
 监控面板工具的使用说明可参考文档 [使用说明](../Tools-System/Monitor-Tool.md) 章节。
 
-## 安装准备
+## 1 安装准备
 
 1. 安装 IoTDB：需先安装IoTDB V1.0 版本及以上企业版，您可联系商务或技术支持获取
 2. 获取 IoTDB 监控面板安装包：基于企业版 IoTDB 的数据库监控面板，您可联系商务或技术支持获取
 
-## 安装步骤
+## 2 安装步骤
 
-### 步骤一：IoTDB开启监控指标采集
+### 2.1 步骤一：IoTDB开启监控指标采集
 
 1. 打开监控配置项。IoTDB中监控有关的配置项默认是关闭的，在部署监控面板前，您需要打开相关配置项（注意开启监控配置后需要重启服务）。
 
@@ -67,7 +67,7 @@ IoTDB配套监控面板是IoTDB企业版配套工具之一。它旨在解决IoTD
 
 ![](/img/%E5%90%AF%E5%8A%A8.png)
 
-### 步骤二：安装、配置Prometheus
+### 2.2 步骤二：安装、配置Prometheus
 
 > 此处以prometheus安装在服务器192.168.1.3为例。
 
@@ -120,7 +120,7 @@ scrape_configs:
 
 ![](/img/%E8%8A%82%E7%82%B9%E7%9B%91%E6%8E%A7.png)
 
-### 步骤三：安装grafana并配置数据源
+### 2.3 步骤三：安装grafana并配置数据源
 
 > 此处以Grafana安装在服务器192.168.1.3为例。
 
@@ -148,7 +148,7 @@ cd grafana-*
 
 ![](/img/%E9%85%8D%E7%BD%AE%E6%88%90%E5%8A%9F.png)
 
-### 步骤四：导入IoTDB Grafana看板
+### 2.4 步骤四：导入IoTDB Grafana看板
 
 1. 进入Grafana，选择Dashboards：
 
@@ -186,9 +186,9 @@ cd grafana-*
 
       ![](/img/%E9%9D%A2%E6%9D%BF%E6%B1%87%E6%80%BB.png)
 
-## 附录、监控指标详解
+## 3 附录、监控指标详解
 
-### 系统面板（System Dashboard）
+### 3.1 系统面板（System Dashboard）
 
 该面板展示了当前系统CPU、内存、磁盘、网络资源的使用情况已经JVM的部分状况。
 
@@ -274,7 +274,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
 - Packet Speed：网卡发送和接收数据包的速度，一次 RPC 请求可以对应一个或者多个数据包
 - Connection Num：当前选定进程的 socket 连接数（IoTDB只有 TCP）
 
-### 整体性能面板（Performance Overview Dashboard）
+### 3.2 整体性能面板（Performance Overview Dashboard）
 
 #### Cluster Overview
 
@@ -352,7 +352,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
 - File Size: 节点管理文件大小情况
 - Log Number Per Minute: 节点的每分钟不同类型日志情况
 
-### ConfigNode 面板（ConfigNode Dashboard）
+### 3.3 ConfigNode 面板（ConfigNode Dashboard）
 
 该面板展示了集群中所有管理节点的表现情况，包括分区、节点信息、客户端连接情况统计等。
 
@@ -410,7 +410,7 @@ eno 指的是到公网的网卡，lo 是虚拟网卡。
 - Remote / Local Write QPS: 节点 Ratis 的远程和本地写入的 QPS
 - RatisConsensus Memory: 节点 Ratis 共识协议的内存使用
 
-### DataNode 面板（DataNode Dashboard）
+### 3.4 DataNode 面板（DataNode Dashboard）
 
 该面板展示了集群中所有数据节点的监控情况，包含写入耗时、查询耗时、存储文件数等。
 
