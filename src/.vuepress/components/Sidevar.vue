@@ -43,7 +43,6 @@ const ModelName = computed(() => {
 });
 
 const sidebarItems = useSidebarItems();
-Window.sidebarItems = sidebarItems;
 
 function handleChangeDialect(val: string) {
   const oldPath = 'latest';
