@@ -21,11 +21,11 @@
 
 # 集群管理工具
 
-## 数据文件夹概览工具
+## 1 数据文件夹概览工具
 
 IoTDB数据文件夹概览工具用于打印出数据文件夹的结构概览信息，工具位置为 tools/tsfile/print-iotdb-data-dir。
 
-### 用法
+### 1.1 用法
 
 -   Windows:
 
@@ -41,7 +41,7 @@ IoTDB数据文件夹概览工具用于打印出数据文件夹的结构概览信
 
 注意：如果没有设置输出结果的存储路径, 将使用相对路径"IoTDB_data_dir_overview.txt"作为默认值。
 
-### 示例
+### 1.2 示例
 
 以Windows系统为例：
 
@@ -82,11 +82,11 @@ data dir num:1
 |==============================================================
 `````````````````````````
 
-## TsFile概览工具
+## 2 TsFile概览工具
 
 TsFile概览工具用于以概要模式打印出一个TsFile的内容，工具位置为 tools/tsfile/print-tsfile。
 
-### 用法
+### 2.1 用法
 
 -   Windows:
 
@@ -102,7 +102,7 @@ TsFile概览工具用于以概要模式打印出一个TsFile的内容，工具�
 
 注意：如果没有设置输出结果的存储路径, 将使用相对路径"TsFile_sketch_view.txt"作为默认值。
 
-### 示例
+### 2.2 示例
 
 以Windows系统为例：
 
@@ -170,11 +170,11 @@ file length: 2974
 -   "|||||||||||||||||||||"是为增强可读性而添加的导引信息，不是TsFile中实际存储的数据。
 -   最后打印的"IndexOfTimerseriesIndex Tree"是对TsFile文件末尾的元数据索引树的重新整理打印，便于直观理解，不是TsFile中存储的实际数据。
 
-## TsFile Resource概览工具
+## 3 TsFile Resource概览工具
 
 TsFile resource概览工具用于打印出TsFile resource文件的内容，工具位置为 tools/tsfile/print-tsfile-resource-files。
 
-### 用法
+### 3.1 用法
 
 -   Windows:
 
@@ -188,7 +188,7 @@ TsFile resource概览工具用于打印出TsFile resource文件的内容，工�
 ./print-tsfile-resource-files.sh <TsFile resource文件所在的文件夹路径，或者单个TsFile resource文件路径> 
 ```
 
-### 示例
+### 3.2 示例
 
 以Windows系统为例：
 

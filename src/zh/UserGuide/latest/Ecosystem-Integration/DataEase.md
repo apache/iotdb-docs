@@ -20,7 +20,7 @@
 -->
 # DataEase
 
-## 产品概述
+## 1 产品概述
 
 1. DataEase 简介
 
@@ -38,7 +38,7 @@
       <img src="/img/DataEase3.png" alt="" style="width: 70%;"/>
     </div>
 
-## 安装要求
+## 2 安装要求
 
 | **准备内容**              | **版本要求**                                                     |
 | :-------------------- | :----------------------------------------------------------- |
@@ -47,7 +47,7 @@
 | DataEase              | 要求 v1 系列 v1.18 版本，安装请参考 DataEase 官网[安装指导](https://dataease.io/docs/v2/installation/offline_INSTL_and_UPG/)（暂不支持 v2.x，其他版本适配请联系天谋商务） |
 | DataEase-IoTDB 连接器 | 请联系天谋商务获取                                           |
 
-## 安装步骤
+## 3 安装步骤
 
 步骤一：请联系商务获取压缩包，解压缩安装包（ iotdb-api-source-1.0.0.zip ）
 
@@ -89,16 +89,16 @@ iotdb.password=root
  lsof -i:8097  // config 里启动 IoTDB API Source 监听的端口
 ```
 
-## 使用说明
+## 4 使用说明
 
-### 登录 DataEase
+### 4.1 登录 DataEase
 
 1. 登录 DataEase，访问地址 : `http://目标服务器IP地址:80`
 <div style="text-align: center;">
   <img src="/img/DataEase4.png" alt="" style="width: 70%;"/>
 </div>
 
-### 配置数据源
+### 4.2 配置数据源
 
 1. 在导航条中跳转【数据源】界面
 <div style="text-align: center;">
@@ -154,7 +154,7 @@ iotdb.password=root
   <img src="/img/DataEase13.png" alt="" style="width: 70%;"/>
 </div>
 
-### 配置数据集
+### 4.3 配置数据集
 
 1. 创建 API 数据集：在导航条中跳转至数据集页面，点击页面左上角的 【 + 】 符号，选择【API 数据集】类型，选择此数据集所在的目录，即可进入新建 API 数据集页面。
 <div style="text-align: center;">
@@ -190,7 +190,7 @@ iotdb.password=root
   <img src="/img/DataEase20.png" alt="" style="width: 70%;"/>
 </div>
 
-### 配置仪表板
+### 4.4 配置仪表板
 
 1. 在导航条中跳转至仪表板页面，可以点击【 + 】符号新建目录，并且在对应目录，点击【 + 】符号，然后从弹出的菜单中选择【新建仪表板】
 <div style="text-align: center;">

@@ -25,7 +25,7 @@
 IoTDB 使用 Thrift 作为跨语言的 RPC 框架，因此可以通过 Thrift 提供的接口来实现对 IoTDB 的访问。本文档将介绍如何生成可访问 IoTDB 的原生 Node.js 接口。
 
 
-## 依赖
+## 1 依赖
 
  * JDK >= 1.8
  * Node.js >= 16.0.0
@@ -40,7 +40,7 @@ http://thrift.apache.org/docs/install/
 ```
 
 
-## 编译 thrift 库，生成 Node.js 原生接口
+## 2 编译 thrift 库，生成 Node.js 原生接口
 
 1. 在 IoTDB 源代码文件夹的根目录中找到 pom.xml 文件。
 2. 打开 pom.xml 文件，找到以下内容：
@@ -86,12 +86,12 @@ http://thrift.apache.org/docs/install/
 
 **注意**不要将`iotdb/iotdb-protocol/thrift/target` 和 `iotdb/iotdb-protocol/thrift-commons/target`上传到 git 仓库中 ！
 
-## 使用 Node.js 原生接口
+## 3 使用 Node.js 原生接口
 
 将 `iotdb/iotdb-protocol/thrift/target/generated-sources-nodejs/` 和 `iotdb/iotdb-protocol/thrift-commons/target/generated-sources-nodejs/` 中的文件复制到您的项目中，即可使用。
 
 
-## 支持的 rpc 接口
+## 4 支持的 rpc 接口
 
 ```
 // 打开一个 session
