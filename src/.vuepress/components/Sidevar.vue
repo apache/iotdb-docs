@@ -75,7 +75,7 @@ watch(
 </script>
 
 <style lang="scss">
-.vp-sidebar-links li:first-child {
+.vp-sidebar > ul > li:nth-child(1){
     display: none;
 }
 .vp-sidebar > .vp-sidebar-links {
