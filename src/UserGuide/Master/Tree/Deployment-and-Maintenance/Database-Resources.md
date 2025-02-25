@@ -23,7 +23,7 @@
 <table style="text-align: center;">
    <tbody>
       <tr>
-            <th rowspan="2">Number of timeseries (frequency<=1HZ)</th>
+            <th rowspan="2">Number of timeseries (frequency&lt;=1HZ)</th>
             <th rowspan="2">CPU</th>        
             <th colspan="3">Number of nodes</th>
       </tr>
@@ -85,7 +85,7 @@
 <table style="text-align: center;">
    <tbody>
       <tr>
-            <th rowspan="2">Number of timeseries (frequency<=1HZ)</th>
+            <th rowspan="2">Number of timeseries (frequency&lt;=1HZ)</th>
             <th rowspan="2">Memory</th>        
             <th colspan="3">Number of nodes</th>
       </tr>
@@ -188,6 +188,7 @@ Calculation formula: Number of measurement points * Sampling frequency (Hz) * Si
 Example: 1000 devices, each with 100 measurement points, a total of 100000 sequences, INT32 type. Sampling frequency 1Hz (once per second), storage for 1 year, 3 copies.
 - Complete calculation formula: 1000 devices * 100 measurement points * 12 bytes per data point * 86400 seconds per day * 365 days per year * 3 copies / 10 compression ratio / 1024 / 1024 / 1024 / 1024 =11T
 - Simplified calculation formula: 1000 * 100 * 12 * 86400 * 365 * 3 / 10 / 1024 / 1024 / 1024 / 1024 =11T
+
 ### Storage Configuration
 If the number of nodes is over 10000000 or the query load is high, it is recommended to configure SSD
 ## Network (Network card)

@@ -56,7 +56,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
    
    - Introduction to Time Series Concepts: [Navigating Time Series Data](../Background-knowledge/Navigating_Time_Series_Data.md)
 
-   - Introduction to Modeling Design:[Data Model and Terminology](../Background-knowledge/Data-Model-and-Terminology.md)
+   - Introduction to Modeling Design:[Data Model and Terminology](../Background-knowledge/Data-Model-and-Terminology_timecho.md)
 
       - Introduction to SQL syntax[SQL syntax](../Basic-Concept/Operate-Metadata_timecho.md)
 

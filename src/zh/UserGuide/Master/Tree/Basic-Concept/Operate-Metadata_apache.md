@@ -986,7 +986,57 @@ IoTDB> show timeseries where TAGS(tag1)='v1'
 
 ## 4 路径查询
 
-### 4.1 查看路径的所有子路径
+### 路径（Path）
+
+路径（path）是用于表示时间序列的层级结构的表达式，其语法定义如下：
+```SQL
+  path       
+      : nodeName ('.' nodeName)*
+      ;
+      
+  nodeName
+      : wildcard? identifier wildcard?
+      | wildcard
+      ;
+      
+  wildcard 
+      : '*' 
+      | '**'
+      ;
+```
+### 路径结点名（NodeName）
+
+- 路径中由 `.` 分割的部分称为路径结点名（nodeName）。
+- 例如，`root.a.b.c` 是一个层级为 4 的路径，其中 root、a、b 和 c 都是路径结点名。
+
+#### 约束条件
+- 保留字符 root：root 是一个保留字符，仅允许出现在路径的开头。如果在其他层级出现 root，系统将无法解析并提示报错。
+
+- 字符支持：除 root 外的其他层级支持以下字符：
+  - 字母（a-z、A-Z）
+  - 数字（0-9）
+  - 下划线（_）
+  - UNICODE 中文字符（\u2E80 到 \u9FFF）
+- 大小写敏感性：在 Windows 系统上，数据库路径结点名是大小写不敏感的。例如，root.ln 和 root.LN 会被视为相同的路径。
+
+### 特殊字符（反引号）
+
+如果`路径结点名（NodeName）`中需要使用特殊字符（如空格、标点符号等），可以使用反引号（`）将结点名引用起来。更多关于反引号的使用方法，请参考[反引号](../SQL-Manual/Syntax-Rule.md#反引号)。
+
+### 路径模式（Path Pattern）
+
+为了使得在表达多个时间序列的时候更加方便快捷，IoTDB 为用户提供带通配符`*`或`**`的路径。通配符可以出现在路径中的任何层。
+
+- 单层通配符（*）：在路径中表示一层。
+  - 例如，`root.vehicle.*.sensor1` 表示以 `root.vehicle` 为前缀，以 `sensor1` 为后缀，且层级等于 4 的路径。
+  
+- 多层通配符（**）：在路径中表示(`*`)+，即为一层或多层`*`.
+  - 例如：`root.vehicle.device1.**` 表示所有以 `root.vehicle.device1` 为前缀且层级大于等于 4 的路径。
+  - `root.vehicle.**.sensor1` 表示以 `root.vehicle` 为前缀，以 `sensor1` 为后缀，且层级大于等于 4 的路径。
+
+**注意**：* 和 ** 不能放在路径的开头。
+
+### 查看路径的所有子路径
 
 ```
 SHOW CHILD PATHS pathPattern
