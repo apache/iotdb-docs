@@ -52,7 +52,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
       children: [
-        { text: '部署形态', link: 'Deployment-form' },
+        { text: '部署形态', link: 'Deployment-form_apache' },
         { text: '安装包获取', link: 'IoTDB-Package_apache' },
         { text: '资源规划', link: 'Database-Resources' },
         { text: '环境配置', link: 'Environment-Requirements' },
