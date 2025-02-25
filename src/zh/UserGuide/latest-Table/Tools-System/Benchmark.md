@@ -55,7 +55,7 @@ IoT-benchmark 是基于 Java 和大数据环境开发的时序数据库基准测
 
 ## 2 安装运行
 
-### 前置条件
+### 2.1 前置条件
 
 1. Java 8
 2. Maven 3.6+
@@ -63,7 +63,7 @@ IoT-benchmark 是基于 Java 和大数据环境开发的时序数据库基准测
 
 
 
-### 获取方式
+### 2.2 获取方式
 
 - 获取二进制包：进入[这里](https://github.com/thulab/iot-benchmark/releases) 下载需要的安装包。下载下来为一个压缩文件，选择文件夹解压即可使用。
 - 源代码编译（可用户 Apache IoTDB 2.0 的测试）：
@@ -71,7 +71,7 @@ IoT-benchmark 是基于 Java 和大数据环境开发的时序数据库基准测
   - 第二步（编译 IoTDB Benchmark 测试包）：进入[官网](https://github.com/thulab/iot-benchmark)下载源码，在根目录下运行 mvn clean package install -pl iotdb-2.0 -am -DskipTests 编译测试 Apache IoTDB 2.0版本的测试包，测试包位置与根目录的相对路径为 ./iotdb-2.0/target/iotdb-2.0-0.0.1/iotdb-2.0-0.0.1
 
 
-### 测试包结构
+### 2.3 测试包结构
 
 测试包的目录结构如下所示。其中测试配置文件为conf/config.properties，测试启动脚本为benchmark\.sh (Linux & MacOS) 和 benchmark.bat (Windows)，详细文件用途见下表所示。
 
@@ -101,14 +101,14 @@ drwxr-xr-x. 2 root root  4096 1月  10 01:38 lib
 
 表1-2文件和文件夹列表用途
 
-### 执行测试
+### 2.4 执行测试
 
 1. 按照测试需求修改配置文件，主要参数介绍见 1.2 节，对应配置文件为conf/config.properties，**比如测试Apache IoTDB 1.0，则需要修改 DB_SWITCH=IoTDB-100-SESSION_BY_TABLET**
 2. 启动被测时间序列数据库
 3. 通过运行
 4. 启动IoT-benchmark执行测试。执行中观测被测时间序列数据库和IoT-benchmark状态，执行完毕后查看结果和分析测试过程。
 
-### 结果说明
+### 2.5 结果说明
 
 测试的所有日志文件被存放于 logs 文件夹下，测试的结果在测试完成后被存放到 data/csvOutput 文件夹下，例如测试后我们得到了如下的结果矩阵：
 
@@ -126,10 +126,10 @@ drwxr-xr-x. 2 root root  4096 1月  10 01:38 lib
 
 
 
-## 主要参数
+## 3 主要参数
 
 
-### IoTDB服务模型
+### 3.1 IoTDB服务模型
 
 参数`IoTDB_DIALECT_MODE`支持tree、table,默认值为tree。
 
@@ -145,7 +145,7 @@ drwxr-xr-x. 2 root root  4096 1月  10 01:38 lib
 | SENSOR_NUMBER           | 整数     | 10       | IoTDB 表模型下(IoTDB_DIALECT_MODE=table)，则控制属性列数量   |
 | IoTDB_TABLE_NUMBER      | 整数     | 1        | IoTDB 表模型下(IoTDB_DIALECT_MODE=table)，表的数量           |
 
-### 工作模式
+### 3.2 工作模式
 
 工作模式参数“`BENCHMARK_WORK_MODE`”可选项有如下四种模式：
 
@@ -161,7 +161,7 @@ drwxr-xr-x. 2 root root  4096 1月  10 01:38 lib
 | 单数据库正确性写入模式 | verificationWriteMode   | 需要配置 FILE_PATH 以及 DATA_SET |
 | 单数据库正确性查询模式 | verificationQueryMode   | 需要配置 FILE_PATH 以及 DATA_SET |
 
-### 服务器连接信息
+### 3.3 服务器连接信息
 
 工作模式指定后，被测时序数据库的信息会通过如下参数告知IoT-benchmark
 
@@ -175,7 +175,7 @@ drwxr-xr-x. 2 root root  4096 1月  10 01:38 lib
 | DB_NAME      | 字符串   | test                        | 被测时序数据库名称                              |
 | TOKEN        | 字符串   |                             | 被测时序数据库连接认证Token（InfluxDB 2.0使用） |
 
-### 写入场景
+### 3.4 写入场景
 
 | **参数名称**               | **类型** | **示例**                  | **系统描述**                                                 |
 | :------------------------- | :------- | :------------------------ | :----------------------------------------------------------- |
@@ -194,7 +194,7 @@ drwxr-xr-x. 2 root root  4096 1月  10 01:38 lib
 | OPERATION_PROPORTION       | 字符     | 1:0:0:0:0:0:0:0:0:0:0     | # 各操作的比例,按照顺序为 写入:Q1:Q2:Q3:Q4:Q5:Q6:Q7:Q8:Q9:Q10, 请注意使用英文冒号。比例中的每一项是整数。 |
 
 
-### 查询场景
+### 3.5 查询场景
 
 | 参数名称             | 类型 | 示例                  | 系统描述                                                     |
 | :------------------- | :--- | :-------------------- | :----------------------------------------------------------- |
@@ -209,7 +209,7 @@ drwxr-xr-x. 2 root root  4096 1月  10 01:38 lib
 | OPERATION_PROPORTION | 字符 | 0:0:0:0:0:0:0:0:0:0:1 | 写入:Q1:Q2:Q3:Q4:Q5:Q6:Q7:Q8:Q9:Q10                          |
 
 
-### 操作比例
+### 3.6 操作比例
 
 | 编号 | 查询类型                     | IoTDB 示例 SQL                                               |
 | :--- | :--------------------------- | :----------------------------------------------------------- |
@@ -224,7 +224,7 @@ drwxr-xr-x. 2 root root  4096 1月  10 01:38 lib
 | Q9   | 倒序范围查询                 | select v1 from root.sg.d1 where time > ? and time < ? order by time desc |
 | Q10  | 倒序带值过滤的范围查询       | select v1 from root.sg.d1 where time > ? and time < ? and v1 > ? order by time desc |
 
-###  测试过程和测试结果持久化
+###  3.7 测试过程和测试结果持久化
 
 IoT-benchmark目前支持通过配置参数将测试过程和测试结果持久化:
 
@@ -242,7 +242,7 @@ IoT-benchmark目前支持通过配置参数将测试过程和测试结果持久�
 - 如果我们设置“`TEST_DATA_PERSISTENCE=CSV`”，测试执行时和执行完毕后我们可以在IoT-benchmark根目录下看到新生成的`data`文件夹，其下包含`csv`文件夹记录测试过程；`csvOutput`文件夹记录测试结果。
 - 如果我们设置“`TEST_DATA_PERSISTENCE=MySQL`”，它会在测试开始前在指定的MySQL数据库中创建命名如“testWithDefaultPath_被测数据库名称_备注_测试启动时间”的数据表记录测试过程；会在名为“CONFIG”的数据表（如果不存在则创建该表），写入本次测试的配置信息；当测试完成时会在名为“FINAL_RESULT”的数据表（如果不存在则创建该表）中写入本次测试结果。
 
-### 自动化脚本
+### 3.8 自动化脚本
 
 #### 一键化启动脚本
 
@@ -305,7 +305,7 @@ LOOP=50 DEVICE_NUMBER=20 TEST
 > tail -f log_info.log
 ```
 
-## 测试示例
+## 4 测试示例
 
 以IoTDB 2.0为例，使用IoT-Benchemark测试表模型写入及查询，修改IoT-Benchemark配置文件如下：
 
