@@ -47,7 +47,7 @@
 
    - 时序概念介绍：[走进时序数据](../Background-knowledge/Navigating_Time_Series_Data.md)
 
-   - 建模设计介绍：[数据模型介绍](../Background-knowledge/Data-Model-and-Terminology.md)
+   - 建模设计介绍：[数据模型介绍](../Background-knowledge/Data-Model-and-Terminology_apache.md)
 
    - SQL 语法介绍：[SQL 语法介绍](../Basic-Concept/Operate-Metadata_apache.md)
 
