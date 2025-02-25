@@ -43,7 +43,7 @@ export const enSidebar = {
         },
         {
           text: 'Modeling Scheme Design',
-          link: 'Data-Model-and-Terminology',
+          link: 'Data-Model-and-Terminology_timecho',
         },
         { text: 'Data Type', link: 'Data-Type' },
       ],
@@ -189,7 +189,7 @@ export const enSidebar = {
         { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
         { text: 'Apache Spark(TsFile)', link: 'Spark-TsFile' },
         { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
-        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_timecho' },
+        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB' },
         { text: 'DataEase', link: 'DataEase' },
         { text: 'DBeaver', link: 'DBeaver' },
         { text: 'Ignition', link: 'Ignition-IoTDB-plugin_timecho' },

@@ -1,15 +1,18 @@
 <template>
   <Sidebar>
     <template #top>
+      <p class="vp-sidebar-header" style="margin-top: 1rem;">
+        <span class="vp-sidebar-title">{{(sidebarItems && sidebarItems.length>0) ? sidebarItems[0]?.text: ''}}</span>
+      </p>
       <div class="sidebar-top-wrapper">
         <ul class="switch-list" v-if="currentDialect">
           <li
             :class="['switch-type', { 'switch-active': currentDialect === 'Tree' }]"
-            @click="handleChangeDialect('Tree')">Tree
+            @click="handleChangeDialect('Tree')">{{ ModelName.Tree }}
           </li>
           <li
             :class="['switch-type', { 'switch-active': currentDialect === 'Table' }]"
-            @click="handleChangeDialect('Table')">Table
+            @click="handleChangeDialect('Table')">{{ ModelName.Table }}
           </li>
         </ul>
       </div>
@@ -18,8 +21,9 @@
 </template>
 
 <script setup lang="ts">
+import { useSidebarItems } from "vuepress-theme-hope/modules/sidebar/composables/index.js";
 import Sidebar from 'vuepress-theme-hope/modules/sidebar/components/Sidebar.js';
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useRoute } from 'vuepress/client';
 import { getDialect, getDocVersion } from '../utils/index.js';
 
@@ -27,6 +31,18 @@ const route = useRoute();
 const currentLang = ref('zh');
 const currentVersion = ref('');
 const currentDialect = ref('');
+
+const ModelName = computed(() => {
+  return currentLang.value === 'zh' ? {
+    'Tree': '树模型',
+    'Table': '表模型',
+  } : {
+    'Tree': 'Tree',
+    'Table': 'Table',
+  };
+});
+
+const sidebarItems = useSidebarItems();
 
 function handleChangeDialect(val: string) {
   const oldPath = 'latest';
@@ -59,30 +75,32 @@ watch(
 </script>
 
 <style lang="scss">
+.vp-sidebar > ul > li:nth-child(1){
+    display: none;
+}
 .vp-sidebar > .vp-sidebar-links {
-  padding: 1rem 0;
+  padding: 0.25rem 0;
 }
 .switch-list {
   display: flex;
   text-align: center;
-  width: 120px;
+  width: 150px;
   margin-right: 12px;
-  border-radius: 14px;
+  border-radius: 16px;
   background-color: #f0f1fa;
   list-style-type: none;
   padding: 4px;
   margin: 0;
   margin-left: 16px;
-  margin-top: 1rem;
 
   .switch-type {
-    padding: 3px 9px;
+    padding: 1px 9px;
     flex: 1;
     cursor: pointer;
-    border-radius: 14px;
+    border-radius: 16px;
     background-color: transparent;
-    font-size: 14px;
-    line-height: 18px;
+    font-size: 1.1em;
+    line-height: 1.5;
     color: #656a85;
   }
 

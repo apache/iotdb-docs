@@ -59,7 +59,7 @@ CREATE DATABASE database1;
 CREATE DATABASE IF NOT EXISTS database1;
 
 // 创建一个名为 database1 的数据库，并将数据库的TTL时间设置为1年。
-CREATE DATABASE IF NOT EXISTS database1 with(TTL=31536000000)；
+CREATE DATABASE IF NOT EXISTS database1 with(TTL=31536000000);
 ```
 
 ### 1.2 使用数据库

@@ -1052,7 +1052,59 @@ IoTDB> show timeseries where TAGS(tag1)='v1'
 
 The above operations are supported for timeseries tag, attribute updates, etc.
 
-## Node Management
+## Path query
+
+### Path
+
+A `path` is an expression that conforms to the following constraints:
+
+```sql
+path       
+    : nodeName ('.' nodeName)*
+    ;
+    
+nodeName
+    : wildcard? identifier wildcard?
+    | wildcard
+    ;
+    
+wildcard 
+    : '*' 
+    | '**'
+    ;
+```
+
+###  NodeName
+
+- The parts of a path separated by `.` are called node names (`nodeName`).
+- For example, `root.a.b.c` is a path with a depth of 4 levels, where `root`, `a`, `b`, and `c` are all node names.
+
+#### Constraints
+
+- **Reserved keyword `root`**: `root` is a reserved keyword that is only allowed at the beginning of a path. If `root` appears in any other level, the system will fail to parse it and report an error.
+- **Character support**: Except for the first level (`root`), other levels support the following characters:
+  - Letters (`a-z`, `A-Z`)
+  - Digits (`0-9`)
+  - Underscores (`_`)
+  - UNICODE Chinese characters (`\u2E80` to `\u9FFF`)
+- **Case sensitivity**: On Windows systems, path node names in the database are case-insensitive. For example, `root.ln` and `root.LN` are considered the same path.
+
+### Special Characters (Backquote)
+
+If special characters (such as spaces or punctuation marks) are needed in a `nodeName`, you can enclose the node name in Backquote (`). For more information on the use of backticks, please refer to [Backquote](../SQL-Manual/Syntax-Rule.md#reverse-quotation-marks).
+
+### Path Pattern
+
+To make it more convenient and efficient to express multiple time series, IoTDB provides paths with wildcards `*` and `**`. Wildcards can appear in any level of a path.
+
+- **Single-level wildcard (`\*`)**: Represents one level in a path.
+  - For example, `root.vehicle.*.sensor1` represents paths with a depth of 4 levels, prefixed by `root.vehicle` and suffixed by `sensor1`.
+- **Multi-level wildcard (`\**`)**: Represents one or more levels (`*`+).
+  - For example:
+    - `root.vehicle.device1.**` represents all paths with a depth of 4 or more levels, prefixed by `root.vehicle.device1`.
+    - `root.vehicle.**.sensor1` represents paths with a depth of 4 or more levels, prefixed by `root.vehicle` and suffixed by `sensor1`.
+
+**Note**: `*` and `**` cannot be placed at the beginning of a path.
 
 ### Show Child Paths
 

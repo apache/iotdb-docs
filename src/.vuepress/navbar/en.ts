@@ -50,7 +50,7 @@ export const enNavbar = navbar([
         link: '/Community/Communication-Channels',
       },
       { text: 'Events and Reports', link: '/Community/Events-and-Reports' },
-      { text: 'Commiters', link: '/Community/Commiters' },
+      { text: 'Committers', link: '/Community/Committers' },
     ],
   },
   {

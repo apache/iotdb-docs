@@ -22,7 +22,7 @@
 
 The IoTDB monitoring panel is one of the supporting tools for the IoTDB Enterprise Edition. It aims to solve the monitoring problems of IoTDB and its operating system, mainly including operating system resource monitoring, IoTDB performance monitoring, and hundreds of kernel monitoring indicators, in order to help users monitor the health status of the cluster, and perform cluster optimization and operation. This article will take common 3C3D clusters (3 Confignodes and 3 Datanodes) as examples to introduce how to enable the system monitoring module in an IoTDB instance and use Prometheus+Grafana to visualize the system monitoring indicators.
 
-The instructions for using the monitoring panel tool can be found in the [Instructions](../Tools-System/Monitor-Tool.md) section of the document..
+The instructions for using the monitoring panel tool can be found in the [Instructions](../Tools-System/Monitor-Tool.md) section of the document.
 
 ## Installation Preparation
 

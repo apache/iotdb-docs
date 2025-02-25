@@ -49,7 +49,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
    
    - Introduction to Time Series Concepts: [Navigating Time Series Data](../Background-knowledge/Navigating_Time_Series_Data.md)
 
-   - Introduction to Modeling Design:[Data Model and Terminology](../Background-knowledge/Data-Model-and-Terminology.md)
+   - Introduction to Modeling Design:[Data Model and Terminology](../Background-knowledge/Data-Model-and-Terminology_apache.md)
 
    - Introduction to SQL syntax[SQL syntax](../Basic-Concept/Operate-Metadata_apache.md)
 
@@ -67,7 +67,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
 5. API: IoTDB provides multiple application programming interfaces (API) for developers to interact with IoTDB in their applications, and currently supports [Java Native API](../API/Programming-Java-Native-API.md)、[Python Native API](../API/Programming-Python-Native-API.md)、[C++ Native API](../API/Programming-Cpp-Native-API.md) ,For more API, please refer to the official website 【API】 and other chapters
 
-## What other convenient peripheral tools are available?
+## What other convenient tools are available?
 
 In addition to its rich features, IoTDB also has a comprehensive range of tools in its surrounding system. This document will help you quickly use the peripheral tool system : 
 

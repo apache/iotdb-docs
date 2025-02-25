@@ -20,24 +20,24 @@
 -->
 # AINode 部署
 
-## AINode介绍
+## 1 AINode介绍
 
-### 能力介绍
+### 1.1 能力介绍
 
 AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，该节点通过与 IoTDB 集群的 DataNode、ConfigNode 的交互，扩展了对时间序列进行机器学习分析的能力，支持从外部引入已有机器学习模型进行注册，并使用注册的模型在指定时序数据上通过简单 SQL 语句完成时序分析任务的过程，将模型的创建、管理及推理融合在数据库引擎中。目前已提供常见时序分析场景（例如预测与异常检测）的机器学习算法或自研模型。
 
-### 交付方式
+### 1.2 交付方式
  是 IoTDB 集群外的额外套件，独立安装包，独立激活（如需试用或使用，请联系天谋科技商务或技术支持）。
 
-### 部署模式
+### 1.3 部署模式
 <div >
     <img src="/img/AINode%E9%83%A8%E7%BD%B21.png" alt="" style="width: 45%;"/>
     <img src="/img/AINode%E9%83%A8%E7%BD%B22.png" alt="" style="width: 45%;"/>
 </div>
 
-## 安装准备
+## 2 安装准备
 
-### 安装包获取
+### 2.1 安装包获取
 
  用户可以下载AINode的软件安装包，下载并解压后即完成AINode的安装。
 
@@ -52,7 +52,7 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
 | README_ZH.md | 文件     | markdown格式的中文版说明                         |
 | `README.md`    | 文件     | 使用说明                                         |
 
-### 环境准备  
+### 2.2 环境准备  
 - 建议操作环境: Ubuntu, CentOS, MacOS  
 
 - 运行环境   
@@ -67,9 +67,9 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
       # 安装3.8.0版本的venv，创建虚拟环境，文件夹名为 `venv`
       ../Python-3.8.0/python -m venv `venv`
       ```
-## 安装部署及使用
+## 3 安装部署及使用
 
-### 安装 AINode
+### 3.1 安装 AINode
 
 1. 检查Linux的内核架构
 ```shell
@@ -137,7 +137,7 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
   ```
 > 回到系统默认环境：conda deactivate
   
-### 配置项修改
+### 3.2 配置项修改
 AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properties` 文件中找到下列参数并进行持久化的修改：
 
 | **名称**                           | **描述**                                                         | **类型**    | **默认值**             | **改后生效方式**                 |
@@ -150,7 +150,7 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
 | ain_models_dir                 | AINode 存储模型文件的路径，相对路径的起始目录与操作系统相关，建议使用绝对路径 | String  | data/AINode/models | 仅允许在第一次启动服务前修改   |
 | ain_logs_dir                   | AINode 存储日志的路径，相对路径的起始目录与操作系统相关，建议使用绝对路径 | String  | logs/AINode        | 重启后生效                   |
 | ain_thrift_compression_enabled | AINode 是否启用 thrift 的压缩机制，0-不启动、1-启动          | Boolean | 0                  | 重启后生效                   |
-### 启动 AINode
+### 3.3 启动 AINode
 
  在完成 Seed-ConfigNode 的部署后，可以通过添加 AINode 节点来支持模型的注册和推理功能。在配置项中指定 IoTDB 集群的信息后，可以执行相应的指令来启动 AINode，加入 IoTDB 集群。  
 
@@ -302,7 +302,7 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
   nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
   ```
 
-### 检测 AINode 节点状态 
+### 3.4 检测 AINode 节点状态 
 
 AINode 启动过程中会自动将新的 AINode 加入 IoTDB 集群。启动 AINode 后可以在 命令行中输入 SQL 来查询，集群中看到 AINode 节点，其运行状态为 Running（如下展示）表示加入成功。
 
@@ -317,7 +317,7 @@ IoTDB> show cluster
 +------+----------+-------+---------------+------------+-------+-----------+
 ```
 
-### 停止 AINode
+### 3.5 停止 AINode
 
 如果需要停止正在运行的 AINode 节点，则执行相应的关闭脚本。
 
@@ -369,7 +369,7 @@ IoTDB> show cluster
 ```
 如果需要重新启动该节点，需重新执行启动脚本。
 
-### 移除 AINode
+### 3.6 移除 AINode
 
 当需要把一个 AINode 节点移出集群时，可以执行移除脚本。移除和停止脚本的差别是：停止是在集群中保留 AINode 节点但停止 AINode 服务，移除则是把 AINode 节点从集群中移除出去。
 
@@ -451,9 +451,9 @@ IoTDB> show cluster
   sbin\remove-ainode.bat -t <AINode-id>/<ip>:<rpc-port>
   ```
 
-## 常见问题
+## 4 常见问题
 
-### 启动AINode时出现找不到venv模块的报错
+### 4.1 启动AINode时出现找不到venv模块的报错
 
  当使用默认方式启动 AINode 时，会在安装包目录下创建一个 python 虚拟环境并安装依赖，因此要求安装 venv 模块。通常来说 python3.8 及以上的版本会自带 venv，但对于一些系统自带的 python 环境可能并不满足这一要求。出现该报错时有两种解决方案（二选一）：
 
@@ -469,7 +469,7 @@ apt-get install python3.8-venv
 ```
  在运行启动脚本时通过 `-i` 指定已有的 python 解释器路径作为 AINode 的运行环境，这样就不再需要创建一个新的虚拟环境。
 
- ### python中的SSL模块没有被正确安装和配置，无法处理HTTPS资源
+ ### 4.2 python中的SSL模块没有被正确安装和配置，无法处理HTTPS资源
 WARNING: pip is configured with locations that require TLS/SSL, however the ssl module in Python is not available.      
 可以安装 OpenSSLS 后，再重新构建 python 来解决这个问题
 > Currently Python versions 3.6 to 3.9 are compatible with OpenSSL 1.0.2, 1.1.0, and 1.1.1.
@@ -483,7 +483,7 @@ make
 sudo make install
 ```
 
- ### pip版本较低
+ ### 4.3 pip版本较低
 
  windows下出现类似“error：Microsoft Visual C++ 14.0 or greater is required...”的编译问题
 
@@ -495,7 +495,7 @@ sudo make install
 ```
 
 
- ### 安装编译python
+ ### 4.4 安装编译python
 
  使用以下指定从官网下载安装包并解压:
   ```shell

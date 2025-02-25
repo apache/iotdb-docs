@@ -26,7 +26,7 @@
     <img src="/img/cluster01.png" alt="" style="width: 60%;"/>
 </div>
 
-## 注意事项
+## 1 注意事项
 
 1. 安装前请确认系统已参照[系统配置](./Environment-Requirements.md)准备完成。
 
@@ -48,12 +48,12 @@
 
 6. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，部署监控面板步骤可以参考：[监控面板部署](./Monitoring-panel-deployment.md)
 
-## 准备步骤
+## 2 准备步骤
 
 1. 准备IoTDB数据库安装包 ：iotdb-enterprise-{version}-bin.zip（安装包获取见：[链接](../Deployment-and-Maintenance/IoTDB-Package_timecho.md)）
 2. 按环境要求配置好操作系统环境（系统环境配置见：[链接](../Deployment-and-Maintenance/Environment-Requirements.md)）
 
-## 安装步骤
+## 3 安装步骤
 
 假设现在有3台linux服务器，IP地址和服务角色分配如下：
 
@@ -63,7 +63,7 @@
 | 192.168.1.4 | iotdb-2 | ConfigNode、DataNode |
 | 192.168.1.5 | iotdb-3 | ConfigNode、DataNode |
 
-### 设置主机名
+### 3.1 设置主机名
 
 在3台机器上分别配置主机名，设置主机名需要在目标服务器上配置`/etc/hosts`，使用如下命令：
 
@@ -73,7 +73,7 @@ echo "192.168.1.4  iotdb-2"  >> /etc/hosts
 echo "192.168.1.5  iotdb-3"  >> /etc/hosts 
 ```
 
-### 参数配置
+### 3.2 参数配置
 
 解压安装包并进入安装目录
 
@@ -134,7 +134,7 @@ cd  iotdb-enterprise-{version}-bin
 
 > ❗️注意：VSCode Remote等编辑器无自动保存配置功能，请确保修改的文件被持久化保存，否则配置项无法生效
 
-### 启动ConfigNode节点
+### 3.3 启动ConfigNode节点
 
 先启动第一个iotdb-1的confignode, 保证种子confignode节点先启动，然后依次启动第2和第3个confignode节点
 
@@ -144,7 +144,7 @@ cd sbin
 ```
 如果启动失败，请参考[常见问题](#常见问题)。
 
-### 激活数据库
+### 3.4 激活数据库
 
 #### **方式一：激活文件拷贝激活**
 
@@ -179,7 +179,7 @@ cd sbin
     Import completed. Please start cluster and excute 'show cluster' to verify activation status
     ```
 
-### 启动DataNode 节点
+### 3.5 启动DataNode 节点
 
  分别进入iotdb的`sbin`目录下，依次启动3个datanode节点：
 
@@ -188,7 +188,7 @@ cd sbin
 ./start-datanode.sh   -d   #-d参数将在后台进行启动 
 ```
 
-### 验证部署
+### 3.6 验证部署
 
 可直接执行`./sbin`目录下的Cli启动脚本：
 
@@ -208,9 +208,9 @@ cd sbin
 
 > 出现`ACTIVATED(W)`为被动激活，表示此ConfigNode没有license文件（或没有签发时间戳最新的license文件），其激活依赖于集群中其它Activate状态的ConfigNode。此时建议检查license文件是否已放入license文件夹，没有请放入license文件，若已存在license文件，可能是此节点license文件与其他节点信息不一致导致，请联系天谋工作人员重新申请.
 
-## 节点维护步骤
+## 4 节点维护步骤
 
-### ConfigNode节点维护
+### 4.1 ConfigNode节点维护
 
 ConfigNode节点维护分为ConfigNode添加和移除两种操作，有两个常见使用场景：
 - 集群扩展：如集群中只有1个ConfigNode时，希望增加ConfigNode以提升ConfigNode节点高可用性，则可以添加2个ConfigNode，使得集群中有3个ConfigNode。
@@ -275,7 +275,7 @@ sbin/remove-confignode.bat [confignode_id]
 
 ```
 
-### DataNode节点维护
+### 4.2 DataNode节点维护
 
 DataNode节点维护有两个常见场景：
 
@@ -343,7 +343,7 @@ sbin/remove-datanode.sh [datanode_id]
 sbin/remove-datanode.bat [datanode_id]
 ```
 
-## 常见问题
+## 5 常见问题
 
 1. 部署过程中多次提示激活失败
     - 使用 `ls -al` 命令：使用 `ls -al` 命令检查安装包根目录的所有者信息是否为当前用户。

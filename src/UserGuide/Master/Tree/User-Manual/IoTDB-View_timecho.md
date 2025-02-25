@@ -434,7 +434,6 @@ DELETE VIEW root.view.device.avg_temperatue
 
 ### View Synchronisation
 
-
 #### If the dependent original sequence is deleted
 
 When the sequence view is queried (when the sequence is parsed), **the empty result set** is returned if the dependent time series does not exist.

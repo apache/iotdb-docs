@@ -68,7 +68,7 @@ import org.apache.iotdb.session.subscription.model.Topic;
 public class DataConsumerExample {
 
     public static void main(String[] args) throws IoTDBConnectionException, StatementExecutionException {
-        try (SubscriptionSession session = new SubscriptionSession("127.0.0.1", 6667)) {
+        try (SubscriptionSession session = new SubscriptionSession("127.0.0.1", 6667, "root", "root", 67108864)) {
             // 1. open session
             session.open();
 
@@ -114,7 +114,8 @@ public class DataConsumerExample {
         Properties consumerConfig = new Properties();
         consumerConfig.put(ConsumerConstant.CONSUMER_ID_KEY, "c1");
         consumerConfig.put(ConsumerConstant.CONSUMER_GROUP_ID_KEY, "cg1");
-        consumerConfig.put(ConsumerConstant.CONSUME_LISTENER_KEY, TopicConstant.FORMAT_SESSION_DATA_SETS_HANDLER_VALUE);
+        consumerConfig.put(ConsumerConstant.USERNAME_KEY, "root");
+        consumerConfig.put(ConsumerConstant.PASSWORD_KEY, "root");
         try (SubscriptionPullConsumer pullConsumer = new SubscriptionPullConsumer(consumerConfig)) {
             pullConsumer.open();
             pullConsumer.subscribe("topic_all");
@@ -160,8 +161,8 @@ public class DataConsumerExample {
         Properties consumerConfig = new Properties();
         consumerConfig.put(ConsumerConstant.CONSUMER_ID_KEY, "c1");
         consumerConfig.put(ConsumerConstant.CONSUMER_GROUP_ID_KEY, "cg1");
-        // 2. Specify the consumption type as the tsfile type
-        consumerConfig.put(TopicConstant.FORMAT_KEY, TopicConstant.FORMAT_TS_FILE_HANDLER_VALUE);
+        consumerConfig.put(ConsumerConstant.USERNAME_KEY, "root");
+        consumerConfig.put(ConsumerConstant.PASSWORD_KEY, "root");
         consumerConfig.put(ConsumerConstant.FILE_SAVE_DIR_KEY, "/Users/iotdb/Downloads");
         try (SubscriptionPullConsumer pullConsumer = new SubscriptionPullConsumer(consumerConfig)) {
             pullConsumer.open();

@@ -21,33 +21,33 @@
 
 # 触发器
 
-## 使用说明
+## 1 使用说明
 
 触发器提供了一种侦听序列数据变动的机制。配合用户自定义逻辑，可完成告警、数据转发等功能。
 
 触发器基于 Java 反射机制实现。用户通过简单实现 Java 接口，即可实现数据侦听。IoTDB 允许用户动态注册、卸载触发器，在注册、卸载期间，无需启停服务器。
 
-### 侦听模式
+### 1.1 侦听模式
 
 IoTDB 的单个触发器可用于侦听符合特定模式的时间序列的数据变动，如时间序列 root.sg.a 上的数据变动，或者符合路径模式 root.**.a 的时间序列上的数据变动。您在注册触发器时可以通过 SQL 语句指定触发器侦听的路径模式。
 
-### 触发器类型
+### 1.2 触发器类型
 
 目前触发器分为两类，您在注册触发器时可以通过 SQL 语句指定类型：
 
 - 有状态的触发器。该类触发器的执行逻辑可能依赖前后的多条数据，框架会将不同节点写入的数据汇总到同一个触发器实例进行计算，来保留上下文信息，通常用于采样或者统计一段时间的数据聚合信息。集群中只有一个节点持有有状态触发器的实例。
 - 无状态的触发器。触发器的执行逻辑只和当前输入的数据有关，框架无需将不同节点的数据汇总到同一个触发器实例中，通常用于单行数据的计算和异常检测等。集群中每个节点均持有无状态触发器的实例。
 
-### 触发时机
+### 1.3 触发时机
 
 触发器的触发时机目前有两种，后续会拓展其它触发时机。您在注册触发器时可以通过 SQL 语句指定触发时机：
 
 - BEFORE INSERT，即在数据持久化之前触发。请注意，目前触发器并不支持数据清洗，不会对要持久化的数据本身进行变动。
 - AFTER INSERT，即在数据持久化之后触发。
 
-## 编写触发器
+## 2 编写触发器
 
-### 触发器依赖
+### 2.1 触发器依赖
 
 触发器的逻辑需要您编写 Java 类进行实现。
 在编写触发器逻辑时，需要使用到下面展示的依赖。如果您使用 [Maven](http://search.maven.org/)，则可以直接从 [Maven 库](http://search.maven.org/)中搜索到它们。请注意选择和目标服务器版本相同的依赖版本。
@@ -61,7 +61,7 @@ IoTDB 的单个触发器可用于侦听符合特定模式的时间序列的数�
 </dependency>
 ```
 
-### 接口说明
+### 2.2 接口说明
 
 编写一个触发器需要实现 `org.apache.iotdb.trigger.api.Trigger` 类。
 
@@ -212,7 +212,7 @@ insert into root.sg(time, a, b) values (1, 1, 1);
 <img src="/img/UserGuide/Process-Data/Triggers/Trigger_Process_Strategy.jpg?raw=true">
 
 
-### 示例
+### 2.3 示例
 
 如果您使用 [Maven](http://search.maven.org/)，可以参考我们编写的示例项目 trigger-example。您可以在 [这里](https://github.com/apache/iotdb/tree/master/example/trigger) 找到它。后续我们会加入更多的示例项目供您参考。
 
@@ -319,13 +319,13 @@ public class ClusterAlertingExample implements Trigger {
   }
 }
 ```
-## 管理触发器
+## 3 管理触发器
 
 您可以通过 SQL 语句注册和卸载一个触发器实例，您也可以通过 SQL 语句查询到所有已经注册的触发器。
 
 **我们建议您在注册触发器时停止写入。**
 
-### 注册触发器
+### 3.1 注册触发器
 
 触发器可以注册在任意路径模式上。被注册有触发器的序列将会被触发器侦听，当序列上有数据变动时，触发器中对应的触发方法将会被调用。
 
@@ -401,7 +401,7 @@ WITH (
 - JAR 包的 URI 为 http://jar/ClusterAlertingExample.jar
 - 创建该触发器实例时会传入 name 和 limit 两个参数。
 
-### 卸载触发器
+### 3.2 卸载触发器
 
 可以通过指定触发器 ID 的方式卸载触发器，卸载触发器的过程中会且仅会调用一次触发器的 `onDrop` 接口。
 
@@ -422,7 +422,7 @@ DROP TRIGGER triggerTest1
 
 上述语句将会卸载 ID 为 triggerTest1 的触发器。
 
-### 查询触发器
+### 3.3 查询触发器
 
 可以通过 SQL 语句查询集群中存在的触发器的信息。SQL 语法如下：
 
@@ -437,7 +437,7 @@ SHOW TRIGGERS
 | triggerTest1 | BEFORE_INSERT / AFTER_INSERT | STATELESS / STATEFUL | INACTIVE / ACTIVE / DROPPING / TRANSFFERING | root.**     | org.apache.iotdb.trigger.TriggerExample | ALL(STATELESS) / DATA_NODE_ID(STATEFUL) |
 
 
-### 触发器状态说明
+### 3.4 触发器状态说明
 
 在集群中注册以及卸载触发器的过程中，我们维护了触发器的状态，下面是对这些状态的说明：
 
@@ -448,7 +448,7 @@ SHOW TRIGGERS
 | DROPPING     | 执行 `DROP TRIGGER` 的中间状态，集群正处在卸载该触发器的过程中 | 否               |
 | TRANSFERRING | 集群正在进行该触发器实例位置的迁移                           | 否               |
 
-## 重要注意事项
+## 4 重要注意事项
 
 - 触发器从注册时开始生效，不对已有的历史数据进行处理。**即只有成功注册触发器之后发生的写入请求才会被触发器侦听到。**
 - 触发器目前采用**同步触发**，所以编写时需要保证触发器效率，否则可能会大幅影响写入性能。**您需要自己保证触发器内部的并发安全性**。
@@ -459,7 +459,7 @@ SHOW TRIGGERS
 - 触发器 JAR 包有大小限制，必须小于 min(`config_node_ratis_log_appender_buffer_size_max`, 2G)，其中 `config_node_ratis_log_appender_buffer_size_max` 是一个配置项，具体含义可以参考 IOTDB 配置项说明。
 - **不同的 JAR 包中最好不要有全类名相同但功能实现不一样的类**。例如：触发器 trigger1、trigger2 分别对应资源 trigger1.jar、trigger2.jar。如果两个 JAR 包里都包含一个 `org.apache.iotdb.trigger.example.AlertListener` 类，当 `CREATE TRIGGER` 使用到这个类时，系统会随机加载其中一个 JAR 包中的类，最终导致触发器执行行为不一致以及其他的问题。
 
-## 配置参数
+## 5 配置参数
 
 | 配置项                                            | 含义                                           |
 | ------------------------------------------------- | ---------------------------------------------- |

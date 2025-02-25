@@ -23,7 +23,7 @@
 
 本篇文档将帮助您了解快速入门 IoTDB 的方法。
 
-## 如何安装部署？
+## 1 如何安装部署？
 
 本篇文档将帮助您快速安装部署 IoTDB，您可以通过以下文档的链接快速定位到所需要查看的内容：
 
@@ -49,14 +49,14 @@
 
    - 可视化控制台：是 IoTDB 的可视化界面，支持通过界面交互的形式提供元数据管理、数据查询、数据可视化等功能的操作，帮助用户简单、高效的使用数据库，安装步骤可查看 [可视化控制台部署](../Deployment-and-Maintenance/workbench-deployment_timecho.md)
 
-## 如何使用？
+## 2 如何使用？
 
 1. 数据库建模设计：数据库建模是创建数据库系统的重要步骤，它涉及到设计数据的结构和关系，以确保数据的组织方式能够满足特定应用的需求，下面的文档将会帮助您快速了解 IoTDB 的建模设计：
    
    - 时序概念介绍：[走进时序数据](../Background-knowledge/Navigating_Time_Series_Data.md)
 
-   - 建模设计介绍：[数据模型介绍](../Background-knowledge/Data-Model-and-Terminology.md)
-
+   - 建模设计介绍：[数据模型介绍](../Background-knowledge/Data-Model-and-Terminology_timecho.md)
+   
    - SQL 语法介绍：[SQL 语法介绍](../Basic-Concept/Operate-Metadata_timecho.md)
 
 2. 数据写入：在数据写入方面，IoTDB 提供了多种方式来插入实时数据，基本的数据写入操作请查看 [数据写入](../Basic-Concept/Write-Delete-Data.md)
@@ -77,7 +77,7 @@
 
 5. 应用编程接口： IoTDB 提供了多种应用编程接口（API），以便于开发者在应用程序中与 IoTDB 进行交互，目前支持[ Java 原生接口](../API/Programming-Java-Native-API.md)、[Python 原生接口](../API/Programming-Python-Native-API.md)、[C++原生接口](../API/Programming-Cpp-Native-API.md)、[Go 原生接口](../API/Programming-Go-Native-API.md)等，更多编程接口可参见官网【应用编程接口】其他章节
 
-## 还有哪些便捷的周边工具？
+## 3 还有哪些便捷的周边工具？
 
 IoTDB 除了自身拥有丰富的功能外，其周边的工具体系包含的种类十分齐全。本篇文档将帮助您快速使用周边工具体系：
 
@@ -93,7 +93,7 @@ IoTDB 除了自身拥有丰富的功能外，其周边的工具体系包含的�
    - 数据导出脚本：针对于不同场景，IoTDB 为用户提供多种批量导出数据的操作方式，具体使用介绍请查看：[数据导出](../Tools-System/Data-Export-Tool.md)
 
 
-## 想了解更多技术细节？
+## 4 想了解更多技术细节？
 
 如果您想了解 IoTDB 的更多技术内幕，可以移步至下面的文档：
 
@@ -104,6 +104,6 @@ IoTDB 除了自身拥有丰富的功能外，其周边的工具体系包含的�
    - 数据分区和负载均衡：IoTDB 基于时序数据特性，精心设计了数据分区策略和负载均衡算法，提升了集群的可用性和性能，想了解更多请查看 [数据分区和负载均衡](../Technical-Insider/Cluster-data-partitioning.md)
 
 
-## 使用过程中遇到问题？
+## 5 使用过程中遇到问题？
 
 如果您在安装或使用过程中遇到困难，可以移步至 [常见问题](../FAQ/Frequently-asked-questions.md) 中进行查看

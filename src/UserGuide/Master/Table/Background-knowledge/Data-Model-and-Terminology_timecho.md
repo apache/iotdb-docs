@@ -115,7 +115,7 @@ The application scenarios mainly include three categories:
 - If different types of devices in the scenario have different hierarchical paths and data point sets, create branches under the database node by device type. Each device type can have a different data point structure.
 
 <div style="text-align: center;">
-      <img src="/img/Data-model-en01.png" alt="" style="width: 70%;"/>
+      <img src="/img/Data-model-en-11.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.1.3.2 How to model when there are no devices, only data points?
@@ -207,7 +207,7 @@ The application scenarios mainly include three categories:
 - **Table View**T: Create a table view for each type of device, with each table view having different tags and data point sets.
 
 <div style="text-align: center;">
-      <img src="/img/Data-model-en07.png" alt="" style="width: 70%;"/>
+      <img src="/img/Data-model-en-10.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.3.2.2 How to model when there are no device identifier columns or attribute columns?

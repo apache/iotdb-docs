@@ -20,7 +20,7 @@
 -->
 # 双活版部署
 
-## 什么是双活版？
+## 1 什么是双活版？
 
 双活通常是指两个独立的单机(或集群)，实时进行镜像同步，它们的配置完全独立，可以同时接收外界的写入，每一个独立的单机(或集群)都可以将写入到自己的数据同步到另一个单机(或集群)中，两个单机(或集群)的数据可达到最终一致。
 
@@ -30,7 +30,7 @@
 
 ![](/img/%E5%8F%8C%E6%B4%BB%E5%90%8C%E6%AD%A5.png)
 
-## 注意事项
+## 2 注意事项
 
 1. 部署时推荐优先使用`hostname`进行IP配置，可避免后期修改主机ip导致数据库无法启动的问题。设置hostname需要在目标服务器上配置`/etc/hosts`，如本机ip是192.168.1.3，hostname是iotdb-1，则可以使用以下命令设置服务器的 hostname，并使用hostname配置IoTDB的`cn_internal_address`、`dn_internal_address`。
 
@@ -42,7 +42,7 @@
 
 3. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，部署监控面板步骤可以参考[文档](https://www.timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/Monitoring-panel-deployment.html)
 
-## 安装步骤
+## 3 安装步骤
 
 我们以两台单机A和B构建的双活版IoTDB为例，A和B的ip分别是192.168.1.3 和 192.168.1.4 ，这里用hostname来表示不同的主机，规划如下：
 

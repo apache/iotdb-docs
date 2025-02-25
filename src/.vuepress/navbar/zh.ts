@@ -51,7 +51,7 @@ export const zhNavbar = navbar([
       { text: '社区伙伴', link: '/zh/Community/Community-Partners' },
       { text: '交流与反馈', link: '/zh/Community/Feedback' },
       { text: '活动与报告', link: 'zh/Community/Events-and-Reports' },
-      { text: 'Commiters', link: '/zh/Community/Committers' },
+      { text: 'Committers', link: '/zh/Community/Committers' },
     ],
   },
   {

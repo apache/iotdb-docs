@@ -43,7 +43,7 @@ export const enSidebar = {
         },
         {
           text: 'Modeling Scheme Design',
-          link: 'Data-Model-and-Terminology',
+          link: 'Data-Model-and-Terminology_apache',
         },
         { text: 'Data Type', link: 'Data-Type' },
       ],
@@ -174,7 +174,7 @@ export const enSidebar = {
         { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
         { text: 'Apache Spark(TsFile)', link: 'Spark-TsFile' },
         { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
-        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_apache' },
+        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB' },
         { text: 'DBeaver', link: 'DBeaver' },
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana Plugin', link: 'Grafana-Plugin' },
@@ -188,6 +188,8 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
+        { text: 'Identifiers', link: 'Syntax-Rule' },
+        { text: 'Keywords', link: 'Keywords' },
         { text: 'SQL Manual', link: 'SQL-Manual' },
         {
           text: 'Functions and Operators',
@@ -234,14 +236,6 @@ export const enSidebar = {
               link: 'ConfigNode-Config-Manual',
             },
             { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual_apache' },
-          ],
-        },
-        {
-          text: 'Syntax-Rule',
-          collapsible: true,
-          children: [
-            { text: 'Identifiers', link: 'Syntax-Rule' },
-            { text: 'Keywords', link: 'Keywords' },
           ],
         },
         { text: 'Status Codes', link: 'Status-Codes' },

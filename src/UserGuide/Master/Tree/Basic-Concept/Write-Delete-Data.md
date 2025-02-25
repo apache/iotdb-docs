@@ -31,7 +31,7 @@ Writing a repeat timestamp covers the original timestamp data, which can be rega
 
 ### Use of INSERT Statements
 
-The [INSERT SQL statement](../SQL-Manual/SQL-Manual.md#insert-data) statement is used to insert data into one or more specified timeseries created. For each point of data inserted, it consists of a [timestamp](../Basic-Concept/Data-Model-and-Terminology.md) and a sensor acquisition value (see [Data Type](../Basic-Concept/Data-Type.md)).
+The [INSERT SQL statement](../SQL-Manual/SQL-Manual.md#insert-data) statement is used to insert data into one or more specified timeseries created. For each point of data inserted, it consists of a [timestamp](../Basic-Concept/Operate-Metadata.md) and a sensor acquisition value (see [Data Type](../Background-knowledge/Data-Type.md)).
 
 **Schema-less writing**: When metadata is not defined, data can be directly written through an insert statement, and the required metadata will be automatically recognized and registered in the database, achieving automatic modeling.
 
@@ -244,7 +244,7 @@ delete from root.ln.wf02.wt02.status
 
 ### Delete Multiple Timeseries
 
-If both the power supply status and hardware version of the ln group wf02 plant wt02 device before 2017-11-01 16:26:00 need to be deleted, [the prefix path with broader meaning or the path with star](../Basic-Concept/Data-Model-and-Terminology.md) can be used to delete the data. The SQL statement for this operation is:
+If both the power supply status and hardware version of the ln group wf02 plant wt02 device before 2017-11-01 16:26:00 need to be deleted, [the prefix path with broader meaning or the path with star](../Basic-Concept/Operate-Metadata.md) can be used to delete the data. The SQL statement for this operation is:
 
 ```sql
 delete from root.ln.wf02.wt02 where time <= 2017-11-01T16:26:00;

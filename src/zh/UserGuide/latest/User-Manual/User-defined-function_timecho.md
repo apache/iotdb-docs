@@ -1,6 +1,6 @@
 #  用户自定义函数
 
-## 1. UDF 介绍
+## 1 UDF 介绍
 
 UDF（User Defined Function）即用户自定义函数，IoTDB 提供多种内建的面向时序处理的函数，也支持扩展自定义函数来满足更多的计算需求。
 
@@ -78,11 +78,11 @@ SELECT s1, s2, s1 + example(s1, s2), s1 - example(s1 + example(s1, s2) / s2) FRO
 ```
 
 
-## 2. UDF 开发
+## 2 UDF 开发
 
 可以参考 UDF函数开发：[开发指导](./UDF-development.md)
 
-## 3. UDF 管理
+## 3 UDF 管理
 
 ###  3.1 UDF 注册
 
@@ -191,13 +191,13 @@ udf_reader_transformer_collector_memory_proportion=1:1:1
 更多用户权限相关的内容，请参考 [权限管理语句](../User-Manual/Authority-Management.md##权限管理)。
 
 
-## 4. UDF 函数库
+## 4 UDF 函数库
 
 基于用户自定义函数能力，IoTDB 提供了一系列关于时序数据处理的函数，包括数据质量、数据画像、异常检测、 频域分析、数据匹配、数据修复、序列发现、机器学习等，能够满足工业领域对时序数据处理的需求。
 
 可以参考 [UDF 函数库](../SQL-Manual/UDF-Libraries_timecho.md)文档，查找安装步骤及每个函数对应的注册语句，以确保正确注册所有需要的函数。
 
-##  5. 常见问题：
+##  5 常见问题
 
 1. 如何修改已经注册的 UDF？
 
