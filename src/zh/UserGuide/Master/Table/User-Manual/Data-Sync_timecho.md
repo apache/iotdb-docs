@@ -519,7 +519,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 > - **false**：该取值下，任务将对数据进行批量（按底层数据文件）处理、发送，其特点是低时效、高吞吐
 
 
-## sink 参数
+### sink 参数
 
 #### iotdb-thrift-sink
 

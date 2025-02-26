@@ -21,7 +21,7 @@
 
 # 数据查询
 
-## 1. 语法概览
+## 1 语法概览
 
 ```SQL
 SELECT ⟨select_list⟩
@@ -47,12 +47,13 @@ IoTDB 查询语法提供以下子句：
 - OFFSET 子句：用于指定查询结果的起始位置，即跳过前 OFFSET 行。与 LIMIT 子句配合使用。详细语法见：[LIMIT 和 OFFSET 子句](../SQL-Manual/Limit-Offset-Clause.md)
 - LIMIT 子句：限制查询结果的行数，通常与 OFFSET 子句一起使用以实现分页功能。详细语法见：[LIMIT 和 OFFSET 子句](../SQL-Manual/Limit-Offset-Clause.md)
 
-## 2. 子句执行顺序
+## 2 子句执行顺序
 
 ![](/img/%E5%AD%90%E5%8F%A5%E6%89%A7%E8%A1%8C%E9%A1%BA%E5%BA%8F01.png)
 
 
-## 3. 常见查询示例
+
+## 3 常见查询示例
 
 ### 3.1 示例数据
 
