@@ -1,7 +1,7 @@
 <template>
-  <Sidebar>
+  <Sidebar class="iotdb-sidebar">
     <template #top>
-      <p class="vp-sidebar-header" style="margin-top: 1rem;">
+      <p class="vp-sidebar-header iotdb-sidebar-header">
         <span class="vp-sidebar-title">{{(sidebarItems && sidebarItems.length>0) ? sidebarItems[0]?.text: ''}}</span>
       </p>
       <div class="sidebar-top-wrapper">
@@ -73,40 +73,3 @@ watch(
   { immediate: true },
 );
 </script>
-
-<style lang="scss">
-.vp-sidebar > ul > li:nth-child(1){
-    display: none;
-}
-.vp-sidebar > .vp-sidebar-links {
-  padding: 0.25rem 0;
-}
-.switch-list {
-  display: flex;
-  text-align: center;
-  width: 150px;
-  margin-right: 12px;
-  border-radius: 16px;
-  background-color: #f0f1fa;
-  list-style-type: none;
-  padding: 4px;
-  margin: 0;
-  margin-left: 16px;
-
-  .switch-type {
-    padding: 1px 9px;
-    flex: 1;
-    cursor: pointer;
-    border-radius: 16px;
-    background-color: transparent;
-    font-size: 1.1em;
-    line-height: 1.5;
-    color: #656a85;
-  }
-
-  .switch-active {
-    background-color: #495ad4;
-    color: #fff;
-  }
-}
-</style>

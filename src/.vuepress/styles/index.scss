@@ -94,6 +94,51 @@ div[class*='language-'] pre code {
   color: var(--code-c-text);
 }
 
+.iotdb-sidebar {
+  .iotdb-sidebar-header {
+    margin-top: 1rem;
+    margin-bottom: 0.25rem;
+    font-size: 1.35rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  &.vp-sidebar > ul > li:nth-child(1){
+      display: none;
+  }
+  &.vp-sidebar > .vp-sidebar-links {
+    padding: 0.25rem 0;
+  }
+  .switch-list {
+    display: flex;
+    text-align: center;
+    width: 150px;
+    margin-right: 12px;
+    border-radius: 16px;
+    background-color: #f0f1fa;
+    list-style-type: none;
+    padding: 4px;
+    margin: 0 0 0 16px;
+
+    .switch-type {
+      padding: 1px 9px;
+      flex: 1;
+      cursor: pointer;
+      border-radius: 16px;
+      background-color: transparent;
+      font-size: 1.1em;
+      line-height: 1.5;
+      color: #656a85;
+      font-weight: 400;
+      white-space: nowrap;
+    }
+
+    .switch-active {
+      background-color: #495ad4;
+      color: #fff;
+    }
+  }
+}
+
 .home {
   .vp-hero-title {
     background: linear-gradient(90deg, rgb(158, 40, 120) 0%, rgb(103, 56, 189) 100%);
