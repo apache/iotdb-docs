@@ -22,10 +22,10 @@
 # 负载均衡
 本文档介绍 IoTDB 中的分区策略和负载均衡策略。根据时序数据的特性，IoTDB 按序列和时间维度对其进行分区。结合序列分区与时间分区创建一个分区，作为划分的基本单元。为了提高吞吐量并降低管理成本，这些分区被均匀分配到分片（Region）中，分片是复制的基本单元。分片的副本决定了数据的存储位置，主副本负责主要负载的管理。在此过程中，副本放置算法决定哪些节点将持有分片副本，而主副本选择算法则指定哪个副本将成为主副本。
 
-## 分区策略和分区分配
+## 1 分区策略和分区分配
 IoTDB 为时间序列数据实现了量身定制的分区算法。在此基础上，缓存于配置节点和数据节点上的分区信息不仅易于管理，而且能够清晰区分冷热数据。随后，平衡的分区被均匀分配到集群的分片中，以实现存储均衡。
 
-### 分区策略
+### 1.1 分区策略
 IoTDB 将生产环境中的每个传感器映射为一个时间序列。然后，使用序列分区算法对时间序列进行分区以管理其元数据，再结合时间分区算法来管理其数据。下图展示了 IoTDB 如何对时序数据进行分区。
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/partition_table_cn.png?raw=true">
@@ -53,7 +53,7 @@ $$\left\lfloor\frac{\text{Timestamp}-\text{StartTimestamp}}{\text{TimePartitionI
 #### 数据分区
 结合序列分区与时间分区创建数据分区。由于序列分区算法对时间序列进行了均匀分区，特定时间分区内的数据分区负载保持均衡。这些数据分区随后被均匀分配到数据分片中，以实现数据的均衡分布。
 
-### 分区分配
+### 1.2 分区分配
 IoTDB 使用分片来实现时间序列的弹性存储，集群中分片的数量由所有数据节点的总资源决定。由于分片的数量是动态的，IoTDB 可以轻松扩展。元数据分片和数据分片都遵循相同的分区分配算法，即均匀划分所有序列分区。下图展示了分区分配过程，其中动态扩展的分片匹配不断扩展的时间序列和集群。
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/partition_allocation_cn.png?raw=true">
@@ -70,10 +70,10 @@ $$\text{RegionGroupNumber}=\left\lfloor\frac{\sum_{i=1}^{DataNodeNumber}\text{Re
 
 值得注意的是，IoTDB 有效利用了时序数据的特性。当配置了 TTL（生存时间）时，IoTDB 可实现无需迁移的时序数据弹性存储，该功能在集群扩展时最小化了对在线操作的影响。上图展示了该功能的一个实例：新生成的数据分区被均匀分配到每个数据分片，过期数据会自动归档。因此，集群的存储最终将保持平衡。
 
-## 均衡策略
+## 2 均衡策略
 为了提高集群的可用性和性能，IoTDB 采用了精心设计的存储均衡和计算均衡算法。
 
-### 存储均衡
+### 2.1 存储均衡
 数据节点持有的副本数量反映了它的存储负载。如果数据节点之间的副本数量差异较大，拥有更多副本的数据节点可能成为存储瓶颈。尽管简单的轮询（Round Robin）放置算法可以通过确保每个数据节点持有等量副本来实现存储均衡，但它会降低集群的容错能力，如下所示：
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/placement_cn.png?raw=true">
@@ -88,7 +88,7 @@ $$\text{RegionGroupNumber}=\left\lfloor\frac{\sum_{i=1}^{DataNodeNumber}\text{Re
 
 为了解决这个问题，IoTDB 采用了一种副本放置算法，该算法不仅将副本均匀放置到所有数据节点上，还确保每个 数据节点在发生故障时，能够将其负载转移到足够多的其他数据节点。因此，集群实现了存储分布的均衡，并具备较高的容错能力，从而确保其可用性。
 
-### 计算均衡
+### 2.2 计算均衡
 数据节点持有的主副本数量反映了它的计算负载。如果数据节点之间持有主副本数量差异较大，拥有更多主副本的数据节点可能成为计算瓶颈。如果主副本选择过程使用直观的贪心算法，当副本以容错算法放置时，可能会导致主副本分布不均，如下所示：
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/selection_cn.png?raw=true">
@@ -103,7 +103,7 @@ $$\text{RegionGroupNumber}=\left\lfloor\frac{\sum_{i=1}^{DataNodeNumber}\text{Re
 
 为了解决这个问题，IoTDB 采用了一种主副本选择算法，能够持续平衡集群中的主副本分布。因此，集群实现了计算负载的均衡分布，确保了其性能。
 
-## Source Code
+## 3 Source Code
 + [数据分区](https://github.com/apache/iotdb/tree/master/iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/partition)
 + [分区分配](https://github.com/apache/iotdb/tree/master/iotdb-core/confignode/src/main/java/org/apache/iotdb/confignode/manager/load/balancer/partition)
 + [副本放置](https://github.com/apache/iotdb/tree/master/iotdb-core/confignode/src/main/java/org/apache/iotdb/confignode/manager/load/balancer/副本)

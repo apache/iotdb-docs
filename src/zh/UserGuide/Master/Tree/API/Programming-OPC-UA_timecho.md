@@ -21,11 +21,11 @@
 
 # OPC UA 协议
 
-## OPC UA
+## 1 OPC UA
 
 OPC UA 是一种在自动化领域用于不同设备和系统之间进行通信的技术规范，用于实现跨平台、跨语言和跨网络的操作，为工业物联网提供一个可靠和安全的数据交换基础。IoTDB 中支持 OPC UA协议， IoTDB OPC Server  支持 Client/Server 和 Pub/Sub 两种通信模式。
 
-### OPC UA Client/Server 模式
+### 1.1 PC UA Client/Server 模式
 
 - **Client/Server 模式**：在这种模式下，IoTDB 的流处理引擎通过 OPC UA Sink 与 OPC UA 服务器（Server）建立连接。OPC UA 服务器在其地址空间(Address Space) 中维护数据，IoTDB可以请求并获取这些数据。同时，其他OPC UA客户端（Client）也能访问服务器上的数据。
 
@@ -39,7 +39,7 @@ OPC UA 是一种在自动化领域用于不同设备和系统之间进行通信�
     - OPC UA 将从 Sink 收到的设备信息，按照树形模型整理到 Objects folder 下的文件夹中。
     - 每个测点都被记录为一个变量节点，并记录当前数据库中的最新值。
 
-### OPC UA Pub/Sub 模式
+### 1.2 OPC UA Pub/Sub 模式
 
 - **Pub/Sub 模式**：在这种模式下，IoTDB的流处理引擎通过 OPC UA Sink 向OPC UA 服务器（Server）发送数据变更事件。这些事件被发布到服务器的消息队列中，并通过事件节点 (Event Node) 进行管理。其他OPC UA客户端（Client）可以订阅这些事件节点，以便在数据变更时接收通知。
 
@@ -62,9 +62,9 @@ OPC UA 是一种在自动化领域用于不同设备和系统之间进行通信�
 
   - Event 仅会发送给所有已经监听的客户端，客户端未连接则会忽略该 Event。
 
-## IoTDB OPC Server 启动方式
+## 2 IoTDB OPC Server 启动方式
 
-### 语法
+### 2.1 语法
 
 创建该 Sink 的语法如下：
 
@@ -81,7 +81,7 @@ create pipe p1
               )
 ```
 
-### 参数
+### 2.2 参数
 
 | **参数**                           | **描述**                       | **取值范围**                     | **是否必填** | **默认值**                                                   |
 | ---------------------------------- | ------------------------------ | -------------------------------- | ------------ | ------------------------------------------------------------ |
@@ -94,7 +94,7 @@ create pipe p1
 | sink.user                          | 用户，这里指 OPC UA 的允许用户 | String                           | 选填         | root                                                         |
 | sink.password                      | 密码，这里指 OPC UA 的允许密码 | String                           | 选填         | root                                                         |
 
-### 示例
+### 2.3 示例
 
 ```Bash
 create pipe p1 
@@ -104,7 +104,7 @@ create pipe p1
 start pipe p1;
 ```
 
-### 使用限制
+### 2.4 使用限制
 
 1. **必须存在 DataRegion**：在 IoTDB 有 dataRegion 时，OPC UA 的服务器才会启动。因此，对于一个空的 IoTDB，需要写入一条数据，OPC UA 的服务器才有效。
 2. **需连接才有数据**：每一个订阅该服务器的客户端，不会收到 OPC Server 在连接之前写入IoTDB的数据。
@@ -117,9 +117,9 @@ start pipe p1;
 
 4. **不支持删除数据和修改测点类型：**在Client Server模式下，OPC UA无法删除数据或者改变数据类型的设置。而在Pub Sub模式下，如果数据被删除了，信息是无法推送给客户端的。
 
-## IoTDB OPC Server 示例
+## 3 IoTDB OPC Server 示例
 
-### Client / Server 模式
+### 3.1 Client / Server 模式
 
 #### 准备工作
 
@@ -169,7 +169,7 @@ insert into root.test.db(time, s2) values(now(), 2)
     <img src="/img/OPCUA07.png" alt="" style="width: 60%;"/>
 </div>
 
-### Pub / Sub 模式
+### 3.2 Pub / Sub 模式
 
 #### 准备工作
 
@@ -182,7 +182,7 @@ insert into root.test.db(time, s2) values(now(), 2)
 - Client 的配置及启动逻辑（ClientExampleRunner）
 - ClientTest 的父类（ClientExample）
 
-### 快速开始
+### 3.3 快速开始
 
 使用步骤为：
 
@@ -247,7 +247,7 @@ start pipe p1;
 </div>
 
 
-### 注意事项
+### 3.4 注意事项
 
 1. **单机与集群**：建议使用1C1D单机版，如果集群中有多个 DataNode，可能数据会分散发送在各个 DataNode 上，无法收听到全量数据。
 

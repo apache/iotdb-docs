@@ -24,19 +24,19 @@
 *注意: 目前的JDBC实现仅是为与第三方工具连接使用的。使用JDBC（执行插入语句时）无法提供高性能写入。
 对于Java应用，我们推荐使用[Java 原生接口](./Programming-Java-Native-API.md)*
 
-## 依赖
+## 1 依赖
 
 * JDK >= 1.8
 * Maven >= 3.6
 
-## 安装方法
+## 2 安装方法
 
 在根目录下执行下面的命令：
 ```shell
 mvn clean install -pl iotdb-client/jdbc -am -DskipTests
 ```
 
-### 在 MAVEN 中使用 IoTDB JDBC
+### 2.1 在 MAVEN 中使用 IoTDB JDBC
 
 ```xml
 <dependencies>
@@ -48,7 +48,7 @@ mvn clean install -pl iotdb-client/jdbc -am -DskipTests
 </dependencies>
 ```
 
-### 示例代码
+### 2.2 示例代码
 
 本章提供了如何建立数据库连接、执行 SQL 和显示查询结果的示例。
 

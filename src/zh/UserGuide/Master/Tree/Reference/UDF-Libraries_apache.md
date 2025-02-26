@@ -24,7 +24,7 @@
 
 > 注意：当前UDF函数库中的函数仅支持毫秒级的时间戳精度。
 
-## 安装步骤
+## 1 安装步骤
 1. 请获取与 IoTDB 版本兼容的 UDF 函数库 JAR 包的压缩包。
 
     | UDF 安装包     | 支持的 IoTDB 版本 | 下载链接                                                     |
@@ -42,9 +42,9 @@
 - SQL汇总语句
     - 打开压缩包中的SQl文件，复制全部 SQL 语句，在 IoTDB 的 SQL 命令行终端（CLI）的 SQL 操作界面中，执行全部 SQl 语句批量注册 UDF
 
-## 数据质量
+## 2 数据质量
                           
-### Completeness
+### 2.1 Completeness
 
 #### 注册语句
 
@@ -176,7 +176,7 @@ select completeness(s1,"window"="15") from root.test.d1 where time <= 2020-01-01
 +-----------------------------+--------------------------------------------+
 ```
 
-### Consistency
+### 2.2 Consistency
 
 #### 注册语句
 
@@ -307,7 +307,7 @@ select consistency(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 
 +-----------------------------+-------------------------------------------+
 ```
 
-### Timeliness
+### 2.3 Timeliness
 
 #### 注册语句
 
@@ -438,7 +438,7 @@ select timeliness(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 0
 +-----------------------------+------------------------------------------+
 ```
 
-### Validity
+### 2.4 Validity
 
 #### 注册语句
 
@@ -592,9 +592,9 @@ select validity(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:
 
 -->
 
-## 数据画像
+## 3 数据画像
 
-### ACF
+### 3.1 ACF
 
 #### 注册语句
 
@@ -657,7 +657,7 @@ select acf(s1) from root.test.d1 where time <= 2020-01-01 00:00:05
 +-----------------------------+--------------------+
 ```
 
-### Distinct
+### 3.2 Distinct
 
 #### 注册语句
 
@@ -716,7 +716,7 @@ select distinct(s2) from root.test.d2
 +-----------------------------+-------------------------+
 ```
 
-### Histogram
+### 3.3 Histogram
 
 #### 注册语句
 
@@ -802,7 +802,7 @@ select histogram(s1,"min"="1","max"="20","count"="10") from root.test.d1
 +-----------------------------+---------------------------------------------------------------+
 ```
 
-### Integral
+### 3.4 Integral
 
 #### 注册语句
 
@@ -899,7 +899,7 @@ select integral(s1, "unit"="1m") from root.test.d1 where time <= 2020-01-01 00:0
 其计算公式为：
 $$\frac{1}{2\times 60}[(1+2) \times 1 + (2+3) \times 1 + (5+6) \times 1 + (6+7) \times 1 + (7+8) \times 3 + (8+10) \times 2] = 0.958$$
 
-### IntegralAvg
+### 3.5 IntegralAvg
 
 #### 注册语句
 
@@ -965,7 +965,7 @@ select integralavg(s1) from root.test.d1 where time <= 2020-01-01 00:00:10
 其计算公式为：
 $$\frac{1}{2}[(1+2)\times 1 + (2+5) \times 1 + (5+6) \times 1 + (6+7) \times 1 + (7+8) \times 3 + (8+10) \times 2] / 10 = 5.75$$
 
-### Mad
+### 3.6 Mad
 
 #### 注册语句
 
@@ -1065,7 +1065,7 @@ select mad(s1, "error"="0.01") from root.test
 +-----------------------------+---------------------------------+
 ```
 
-### Median
+### 3.7 Median
 
 #### 注册语句
 
@@ -1135,7 +1135,7 @@ select median(s1, "error"="0.01") from root.test
 +-----------------------------+------------------------------------+
 ```
 
-### MinMax
+### 3.8 MinMax
 
 #### 注册语句
 
@@ -1229,7 +1229,7 @@ select minmax(s1) from root.test
 
 
 
-### MvAvg
+### 3.9 MvAvg
 
 #### 注册语句
 
@@ -1317,7 +1317,7 @@ select mvavg(s1, "window"="3") from root.test
 +-----------------------------+---------------------------------+
 ```
 
-### PACF
+### 3.10 PACF
 
 #### 注册语句
 
@@ -1377,7 +1377,7 @@ select pacf(s1, "lag"="5") from root.test.d1
 +-----------------------------+--------------------------------+
 ```
 
-### Percentile
+### 3.11 Percentile
 
 #### 注册语句
 
@@ -1502,7 +1502,7 @@ select percentile(s1, "rank"="0.2", "error"="0.01") from root.test
 ```
 
 
-### Quantile
+### 3.12 Quantile
 
 #### 注册语句
 
@@ -1565,7 +1565,7 @@ select quantile(s1, "rank"="0.2", "K"="800") from root.test1
 +-----------------------------+------------------------------------------------+
 ```
 
-### Period
+### 3.13 Period
 
 #### 注册语句
 
@@ -1619,7 +1619,7 @@ select period(s1) from root.test.d3
 +-----------------------------+-----------------------+
 ```
 
-### QLB
+### 3.14 QLB
 
 #### 注册语句
 
@@ -1710,7 +1710,7 @@ select QLB(s1) from root.test.d1
 +-----------------------------+--------------------+
 ```
 
-### Resample
+### 3.15 Resample
 
 #### 注册语句
 
@@ -1834,7 +1834,7 @@ select resample(s1,'every'='30m','start'='2021-03-06 15:00:00') from root.test.d
 +-----------------------------+-----------------------------------------------------------------------+
 ```
 
-### Sample
+### 3.16 Sample
 
 #### 注册语句
 
@@ -1931,7 +1931,7 @@ select sample(s1,'method'='isometric','k'='5') from root.test.d1
 +-----------------------------+------------------------------------------------------+
 ```
 
-### Segment
+### 3.17 Segment
 
 #### 注册语句
 
@@ -2029,7 +2029,7 @@ select segment(s1,"error"="0.1") from root.test
 +-----------------------------+------------------------------------+
 ```
 
-### Skew
+### 3.18 Skew
 
 #### 注册语句
 
@@ -2096,7 +2096,7 @@ select skew(s1) from root.test.d1
 +-----------------------------+-----------------------+
 ```
 
-### Spline
+### 3.19 Spline
 
 #### 注册语句
 
@@ -2309,7 +2309,7 @@ select spline(s1, "points"="151") from root.test
 +-----------------------------+------------------------------------+
 ```
 
-### Spread
+### 3.20 Spread
 
 #### 注册语句
 
@@ -2373,7 +2373,7 @@ select spread(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
 
 
 
-### ZScore
+### 3.21 ZScore
 
 #### 注册语句
 
@@ -2486,9 +2486,9 @@ select zscore(s1) from root.test
 
 -->
 
-## 异常检测
+## 4 异常检测
 
-### IQR
+### 4.1 IQR
 
 #### 注册语句
 
@@ -2563,7 +2563,7 @@ select iqr(s1) from root.test
 +-----------------------------+-----------------+
 ```
 
-### KSigma
+### 4.2 KSigma
 
 #### 注册语句
 
@@ -2636,7 +2636,7 @@ select ksigma(s1,"k"="1.0") from root.test.d1 where time <= 2020-01-01 00:00:30
 +-----------------------------+---------------------------------+
 ```
 
-### LOF
+### 4.3 LOF
 
 #### 注册语句
 
@@ -2771,7 +2771,7 @@ select lof(s1, "method"="series") from root.test.d1 where time<1000
 +-----------------------------+--------------------+
 ```
 
-### MissDetect
+### 4.4 MissDetect
 
 #### 注册语句
 
@@ -2864,7 +2864,7 @@ select missdetect(s2,'minlen'='10') from root.test.d2
 +-----------------------------+------------------------------------------+
 ```
 
-### Range
+### 4.5 Range
 
 #### 注册语句
 
@@ -2936,7 +2936,7 @@ select range(s1,"lower_bound"="101.0","upper_bound"="125.0") from root.test.d1 w
 +-----------------------------+------------------------------------------------------------------+
 ```
 
-### TwoSidedFilter
+### 4.6 TwoSidedFilter
 
 #### 注册语句
 
@@ -3034,7 +3034,7 @@ select TwoSidedFilter(s0, 'len'='5', 'threshold'='0.3') from root.test
 +-----------------------------+------------+
 ```
 
-### Outlier
+### 4.7 Outlier
 
 #### 注册语句
 
@@ -3110,7 +3110,7 @@ select outlier(s1,"r"="5.0","k"="4","w"="10","s"="5") from root.test
 +-----------------------------+--------------------------------------------------------+
 ```
 
-### MasterTrain
+### 4.8 MasterTrain
 
 #### 函数简介
 
@@ -3195,7 +3195,7 @@ select MasterTrain(lo,la,m_lo,m_la,'p'='3','eta'='1.0') from root.test
 
 ```
 
-### MasterDetect
+### 4.9 MasterDetect
 
 #### 函数简介
 
@@ -3366,9 +3366,9 @@ select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='anomaly','p'='3','k'='3
 
 -->
 
-## 频域分析
+## 5 频域分析
 
-### Conv
+### 5.1 Conv
 
 #### 注册语句
 
@@ -3422,7 +3422,7 @@ select conv(s1,s2) from root.test.d2
 +-----------------------------+--------------------------------------+
 ```
 
-### Deconv
+### 5.2 Deconv
 
 #### 注册语句
 
@@ -3505,7 +3505,7 @@ select deconv(s3,s2,'result'='remainder') from root.test.d2
 +-----------------------------+--------------------------------------------------------------+
 ```
 
-### DWT
+### 5.3 DWT
 
 #### 注册语句
 
@@ -3592,7 +3592,7 @@ select dwt(s1,"method"="haar") from root.test.d1
 +-----------------------------+-------------------------------------+
 ```
 
-### FFT
+### 5.4 FFT
 
 #### 注册语句
 
@@ -3718,7 +3718,7 @@ select fft(s1, 'result'='real', 'compress'='0.99'), fft(s1, 'result'='imag','com
 
 注：基于傅里叶变换结果的共轭性质，压缩结果只保留前一半；根据给定的压缩参数，从低频到高频保留数据点，直到保留的能量比例超过该值；保留最后一个数据点以表示序列长度。
 
-### HighPass
+### 5.5 HighPass
 
 #### 注册语句
 
@@ -3812,7 +3812,7 @@ select highpass(s1,'wpass'='0.45') from root.test.d1
 
 注：输入序列服从$y=sin(2\pi t/4)+2sin(2\pi t/5)$，长度为20，因此高通滤波之后的输出序列服从$y=sin(2\pi t/4)$。
 
-### IFFT
+### 5.6 IFFT
 
 #### 注册语句
 
@@ -3893,7 +3893,7 @@ select ifft(re, im, 'interval'='1m', 'start'='2021-01-01 00:00:00') from root.te
 +-----------------------------+-------------------------------------------------------+
 ```
 
-### LowPass
+### 5.7 LowPass
 
 #### 注册语句
 
@@ -3983,9 +3983,9 @@ select lowpass(s1,'wpass'='0.45') from root.test.d1
 |1970-01-01T08:00:19.000+08:00|                  -2.664535259100376E-16|
 +-----------------------------+----------------------------------------+
 ```
-## Envelope
+### 5.8 Envelope
 
-### 函数简介
+#### 函数简介
 
 本函数通过输入一维浮点数数组和用户指定的调制频率，实现对信号的解调和包络提取。解调的目标是从复杂的信号中提取感兴趣的部分，使其更易理解。比如通过解调可以找到信号的包络，即振幅的变化趋势。
 
@@ -4005,7 +4005,7 @@ select lowpass(s1,'wpass'='0.45') from root.test.d1
 
 **提示：** 当解调的原始序列的值不连续时，本函数会视为连续处理，建议被分析的时间序列是一段值完整的时间序列。同时建议指定开始时间与结束时间。
 
-### 使用示例
+#### 使用示例
 
 输入序列：
 
@@ -4073,9 +4073,9 @@ select envelope(s1),envelope(s1,'frequency'='1000'),envelope(s1,'amplification'=
 
 -->
 
-## 数据匹配
+## 6 数据匹配
 
-### Cov
+### 6.1 Cov
 
 #### 注册语句
 
@@ -4142,7 +4142,7 @@ select cov(s1,s2) from root.test.d2
 +-----------------------------+-------------------------------------+
 ```
 
-### Dtw
+### 6.2 Dtw
 
 #### 注册语句
 
@@ -4213,7 +4213,7 @@ select dtw(s1,s2) from root.test.d2
 +-----------------------------+-------------------------------------+
 ```
 
-### Pearson
+### 6.3 Pearson
 
 #### 注册语句
 
@@ -4279,7 +4279,7 @@ select pearson(s1,s2) from root.test.d2
 +-----------------------------+-----------------------------------------+
 ```
 
-### PtnSym
+### 6.4 PtnSym
 
 #### 注册语句
 
@@ -4343,7 +4343,7 @@ select ptnsym(s4, 'window'='5', 'threshold'='0') from root.test.d1
 +-----------------------------+------------------------------------------------------+
 ```
 
-### XCorr
+### 6.5 XCorr
 
 #### 注册语句
 
@@ -4437,9 +4437,9 @@ select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
 
 -->
 
-## 数据修复
+## 7 数据修复
 
-### TimestampRepair
+### 7.1 TimestampRepair
 
 #### 注册语句
 
@@ -4447,7 +4447,7 @@ select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
 create function timestamprepair as 'org.apache.iotdb.library.drepair.UDTFTimestampRepair'
 ```
 
-### 函数简介
+### 7.2 函数简介
 
 本函数用于时间戳修复。根据给定的标准时间间隔，采用最小化修复代价的方法，通过对数据时间戳的微调，将原本时间戳间隔不稳定的数据修复为严格等间隔的数据。在未给定标准时间间隔的情况下，本函数将使用时间间隔的中位数 (median)、众数 (mode) 或聚类中心 (cluster) 来推算标准时间间隔。
 
@@ -4463,7 +4463,7 @@ create function timestamprepair as 'org.apache.iotdb.library.drepair.UDTFTimesta
 
 **输出序列：** 输出单个序列，类型与输入序列相同。该序列是修复后的输入序列。
 
-### 使用示例
+### 7.3 使用示例
 
 #### 指定标准时间间隔
 
@@ -4542,7 +4542,7 @@ select timestamprepair(s1) from root.test.d2
 +-----------------------------+--------------------------------+
 ```
 
-### ValueFill
+### 7.4 ValueFill
 
 #### 注册语句
 
@@ -4659,7 +4659,7 @@ select valuefill(s1,"method"="previous") from root.test.d2
 +-----------------------------+-------------------------------------------+
 ```
 
-### ValueRepair
+### 7.5 ValueRepair
 
 #### 注册语句
 
@@ -4781,7 +4781,7 @@ select valuerepair(s1,'method'='LsGreedy') from root.test.d2
 +-----------------------------+-------------------------------------------------+
 ```
 
-### MasterRepair
+### 7.6 MasterRepair
 
 #### 函数简介
 
@@ -4843,7 +4843,7 @@ select MasterRepair(t1,t2,t3,m1,m2,m3) from root.test
 +-----------------------------+-------------------------------------------------------------------------------------------+
 ```
 
-### SeasonalRepair
+### 7.7 SeasonalRepair
 
 #### 函数简介
 本函数用于对周期性时间序列的数值进行基于分解的修复。目前，本函数支持两种方法：**Classical**使用经典分解方法得到的残差项检测数值的异常波动，并使用滑动平均修复序列；**Improved**使用改进的分解方法得到的残差项检测数值的异常波动，并使用滑动中值修复序列。
@@ -4966,9 +4966,9 @@ select seasonalrepair(s1,'method'='improved','period'=3) from root.test.d2
 
 -->
 
-## 序列发现
+## 8 序列发现
 
-### ConsecutiveSequences
+### 8.1 ConsecutiveSequences
 
 #### 注册语句
 
@@ -5062,7 +5062,7 @@ select consecutivesequences(s1,s2) from root.test.d1
 +-----------------------------+------------------------------------------------------+
 ```
 
-### ConsecutiveWindows
+### 8.2 ConsecutiveWindows
 
 #### 注册语句
 
@@ -5152,9 +5152,9 @@ select consecutivewindows(s1,s2,'length'='10m') from root.test.d1
 
 -->
 
-## 机器学习
+## 9 机器学习
 
-### AR
+### 9.1 AR
 
 #### 注册语句
 
@@ -5221,7 +5221,7 @@ select ar(s0,"p"="2") from root.test.d0
 +-----------------------------+---------------------------+
 ```
 
-### Representation
+### 9.2 Representation
 
 #### 函数简介
 
@@ -5285,7 +5285,7 @@ select representation(s0,"tb"="3","vb"="2") from root.test.d0
 +-----------------------------+-------------------------------------------------+
 ```
 
-### RM
+### 9.3 RM
 
 #### 函数简介
 

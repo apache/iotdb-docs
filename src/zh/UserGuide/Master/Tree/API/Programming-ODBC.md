@@ -22,19 +22,19 @@
 # ODBC
 在 JDBC 插件的基础上，IoTDB 可以通过 ODBC-JDBC 桥来支持通过 ODBC 对数据库的操作。
 
-## 依赖
+## 1 依赖
 * 带依赖打包的 IoTDB JDBC 插件包
 * ODBC-JDBC 桥（如 Zappy-Sys）
 
-## 部署方法
-### 准备 JDBC 插件包
+## 2 部署方法
+### 2.1 准备 JDBC 插件包
 下载 IoTDB 源码，在根目录下执行下面的命令：
 ```shell
 mvn clean package -pl iotdb-client/jdbc -am -DskipTests -P get-jar-with-dependencies
 ```
 之后，就可以在`iotdb-client/jdbc/target`目录下看到`iotdb-jdbc-1.3.2-SNAPSHOT-jar-with-dependencies.jar`文件。
 
-### 准备 ODBC-JDBC 桥
+### 2.2 准备 ODBC-JDBC 桥
 *注意: 这里给出的仅仅是一种 ODBC-JDBC 桥，仅作示例。读者可以自行寻找其他的 ODBC-JDBC 桥来对接 IoTDB 的 JDBC 插件。*
 1.  **下载 Zappy-Sys ODBC-JDBC 桥插件**：
     进入 https://zappysys.com/products/odbc-powerpack/odbc-jdbc-bridge-driver/ 网站，点击下载按钮并直接安装。

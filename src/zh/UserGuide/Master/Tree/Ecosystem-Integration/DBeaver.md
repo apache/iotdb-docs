@@ -23,11 +23,11 @@
 
 DBeaver 是一个 SQL 客户端和数据库管理工具。DBeaver 可以使用 IoTDB 的 JDBC 驱动与 IoTDB 进行交互。
 
-## DBeaver 安装
+## 1 DBeaver 安装
 
 * DBeaver 下载地址：https://dbeaver.io/download/
 
-## IoTDB 安装
+## 2 IoTDB 安装
 
 * 下载 IoTDB 二进制版本
   * IoTDB 下载地址：https://iotdb.apache.org/Download/
@@ -35,7 +35,7 @@ DBeaver 是一个 SQL 客户端和数据库管理工具。DBeaver 可以使用 I
 * 或者从源代码中编译
   * 参考 https://github.com/apache/iotdb
 
-## 连接 IoTDB 与 DBeaver
+## 3 连接 IoTDB 与 DBeaver
 
 1. 启动 IoTDB 服务
 

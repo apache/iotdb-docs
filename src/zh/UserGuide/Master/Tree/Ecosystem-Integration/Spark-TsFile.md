@@ -21,7 +21,7 @@
 
 # Apache Spark(TsFile)
 
-## About TsFile-Spark-Connector
+## 1 About TsFile-Spark-Connector
 
 TsFile-Spark-Connector 对 Tsfile 类型的外部数据源实现 Spark 的支持。 这使用户可以通过 Spark 读取，写入和查询 Tsfile。
 
@@ -31,7 +31,7 @@ TsFile-Spark-Connector 对 Tsfile 类型的外部数据源实现 Spark 的支持
 - 将本地文件系统或 hdfs 中特定目录中的所有文件加载到 Spark 中
 - 将数据从 Spark 写入 TsFile
 
-## System Requirements
+## 2 System Requirements
 
 | Spark Version | Scala Version | Java Version | TsFile   |
 | ------------- | ------------- | ------------ | -------- |
@@ -40,9 +40,9 @@ TsFile-Spark-Connector 对 Tsfile 类型的外部数据源实现 Spark 的支持
 > 注意：有关如何下载和使用 TsFile 的更多信息，请参见以下链接：https://github.com/apache/iotdb/tree/master/tsfile
 > 注意：spark 版本目前仅支持 2.4.3, 其他版本可能存在不适配的问题，目前已知 2.4.7 的版本存在不适配的问题
 
-## 快速开始
+## 3 快速开始
 
-### 本地模式
+### 3.1 本地模式
 
 在本地模式下使用 TsFile-Spark-Connector 启动 Spark：
 
@@ -55,7 +55,7 @@ TsFile-Spark-Connector 对 Tsfile 类型的外部数据源实现 Spark 的支持
 - 有关如何获取 TsFile 的信息，请参见 https://github.com/apache/iotdb/tree/master/tsfile。
 - 获取到 dependency 包：```mvn clean package -DskipTests -P get-jar-with-dependencies```
 
-### 分布式模式
+### 3.2 分布式模式
 
 在分布式模式下使用 TsFile-Spark-Connector 启动 Spark（即，Spark 集群通过 spark-shell 连接）：
 
@@ -69,7 +69,7 @@ TsFile-Spark-Connector 对 Tsfile 类型的外部数据源实现 Spark 的支持
 - 多个 jar 包用逗号分隔，没有任何空格。
 - 有关如何获取 TsFile 的信息，请参见 https://github.com/apache/iotdb/tree/master/tsfile。
 
-## 数据类型对应
+## 4 数据类型对应
 
 | TsFile 数据类型 | SparkSQL 数据类型 |
 | -------------- | ---------------- |
@@ -80,7 +80,7 @@ TsFile-Spark-Connector 对 Tsfile 类型的外部数据源实现 Spark 的支持
 | DOUBLE         | DoubleType       |
 | TEXT           | StringType       |
 
-## 模式推断
+## 5 模式推断
 
 显示 TsFile 的方式取决于架构。 以以下 TsFile 结构为例：TsFile 模式中有三个度量：状态，温度和硬件。 这三种测量的基本信息如下：
 
@@ -125,7 +125,7 @@ TsFile 中的现有数据如下：
 | 5    | root.ln.wf02.wt01 | false  | null     | null        |
 | 6    | root.ln.wf02.wt02 | null   | ccc      | null        |
 
-## Scala API
+## 6 Scala API
 
 注意：请记住预先分配必要的读写权限。
 

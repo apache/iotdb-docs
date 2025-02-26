@@ -27,14 +27,14 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 
 * `iotdb-system.properties`：IoTDB 的配置文件。
 
-## 热修改配置项
+## 1 热修改配置项
 
 为方便用户使用，IoTDB 为用户提供了热修改功能，即在系统运行过程中修改 `iotdb-system.properties` 中部分配置参数并即时应用到系统中。下面介绍的参数中，改后 生效方式为`热加载`
 的均为支持热修改的配置参数。
 
 通过 Session 或 Cli 发送 ```load configuration``` 或 `set configuration` 命令（SQL）至 IoTDB 可触发配置热加载。
 
-## 环境配置项（datanode-env.sh/bat）
+## 2 环境配置项（datanode-env.sh/bat）
 
 环境配置项主要用于对 DataNode 运行的 Java 环境相关参数进行配置，如 JVM 相关配置。DataNode/Standalone 启动时，此部分配置会被传给 JVM，详细配置项说明如下：
 
@@ -83,11 +83,11 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |默认值|31999|
 |改后生效方式|重启服务生效|
 
-## 系统配置项（iotdb-system.properties）
+## 3 系统配置项（iotdb-system.properties）
 
 系统配置项是 IoTDB DataNode/Standalone 运行的核心配置，它主要用于设置 DataNode/Standalone 数据库引擎的参数。
 
-### Data Node RPC 服务配置
+### 3.1 Data Node RPC 服务配置
 
 * dn\_rpc\_address
 
@@ -162,7 +162,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |改后生效方式| 重启服务生效                                 |
 
 
-### SSL 配置
+### 3.2 SSL 配置
 
 * enable\_thrift\_ssl
 
@@ -201,7 +201,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |改后生效方式| 重启服务生效          |
 
 
-### SeedConfigNode 配置
+### 3.3 SeedConfigNode 配置
 
 * dn\_seed\_config\_node
 
@@ -212,7 +212,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |默认值| 127.0.0.1:10710                     |
 |改后生效方式| 仅允许在第一次启动服务前修改                              |
 
-### 连接配置
+### 3.4 连接配置
 
 * dn\_session\_timeout\_threshold
 
@@ -314,7 +314,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |  默认值   | 300                                                          |
 | 改后生效方式 | 重启服务生效                                                       |
 
-### 目录配置
+### 3.5 目录配置
 
 * dn\_system\_dir
 
@@ -379,9 +379,9 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |  默认值   | data/datanode/sync                                                    |
 | 改后生效方式 | 重启服务生效                                                                      |
 
-### Metric 配置
+### 3.6 Metric 配置
 
-## 开启 GC 日志
+## 4 开启 GC 日志
 
 GC 日志默认是关闭的。为了性能调优，用户可能会需要收集 GC 信息。
 若要打开 GC 日志，则需要在启动 IoTDB Server 的时候加上"printgc"参数：

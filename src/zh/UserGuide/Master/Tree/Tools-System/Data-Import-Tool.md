@@ -1,6 +1,6 @@
 # 数据导入
 
-## 1. IoTDB 数据导入
+## 1 IoTDB 数据导入
 
 IoTDB 目前支持将 CSV、SQL、及TsFile（IoTDB底层开放式时间序列文件格式）格式的数据导入数据库。具体功能如下：
 
@@ -32,7 +32,7 @@ IoTDB 目前支持将 CSV、SQL、及TsFile（IoTDB底层开放式时间序列�
 </tbody>
 </table>
 
-## 2. import-data 脚本
+## 2 import-data 脚本
 
 - 支持格式：CSV、SQL
 
@@ -100,7 +100,7 @@ IoTDB 目前支持将 CSV、SQL、及TsFile（IoTDB底层开放式时间序列�
 >tools/import-data.bat -h 192.168.100.1 -p 6667 -u root -pw root -s ./data/dump0_0.csv -fd ./failed/ -aligned true -batch 100000 -tp ms -typeInfer boolean=text,float=double -lpf 1000
 ```
 
-## 3. load-tsfile 脚本
+## 3 load-tsfile 脚本
 
 - 支持格式：TsFile
 
@@ -141,7 +141,7 @@ IoTDB 目前支持将 CSV、SQL、及TsFile（IoTDB底层开放式时间序列�
 > tools/load_data.bat -h 127.0.0.1 -p 6667 -u root -pw root -s /path/sql -os delete -of delete -tn 8 
 ```
 
-## 4. TsFile 主动监听&加载功能
+## 4 TsFile 主动监听&加载功能
 
 TsFile 主动监听&加载功能能够主动监听指定目标路径（用户配置）下TsFile的文件变化，并将目标路径下的TsFile文件自动同步至指定接收路径（用户配置）。通过此功能，IoTDB 能自动检测并加载这些文件，无需手动执行任何额外的加载操作。这种自动化流程不仅简化了用户的操作步骤，还减少了操作过程中可能出现的错误，有效降低了用户在使用过程中的复杂性。
 

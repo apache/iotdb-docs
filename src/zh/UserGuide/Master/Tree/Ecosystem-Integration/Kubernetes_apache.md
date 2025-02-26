@@ -21,7 +21,7 @@
 
 # Kubernetes
 
-## 1. 环境准备
+## 1 环境准备
 
 ### 1.1 准备 Kubernetes 集群
 
@@ -31,7 +31,7 @@ Kubernetes 版本要求：建议版本为 Kubernetes 1.24及以上
 
 IoTDB版本要求：不能低于v1.3.3.2
 
-## 2. 创建命名空间
+## 2 创建命名空间
 
 ### 2.1 创建命名空间
 
@@ -47,7 +47,7 @@ kubectl create ns iotdb-ns
 kubectl get ns
 ```
 
-## 3. 创建 PersistentVolume (PV)
+## 3 创建 PersistentVolume (PV)
 
 ### 3.1 创建 PV 配置文件
 
@@ -116,11 +116,11 @@ mkdir -p /data/k8s-data/iotdb-pv-02
 ...
 ```
 
-## 4. 安装 Helm
+## 4 安装 Helm
 
 安装Helm步骤请参考[Helm官网](https://helm.sh/zh/docs/intro/install/)
 
-## 5. 配置IoTDB的Helm Chart
+## 5 配置IoTDB的Helm Chart
 
 ### 5.1 克隆 IoTDB Kubernetes 部署代码
 
@@ -184,7 +184,7 @@ confignode:
   dataRegionConsensusProtocolClass: org.apache.iotdb.consensus.iot.IoTConsensus
 ```
 
-## 6. 配置私库信息或预先使用ctr拉取镜像
+## 6 配置私库信息或预先使用ctr拉取镜像
 
 在k8s上配置私有仓库的信息，为下一步helm install的前置步骤。
 
@@ -258,7 +258,7 @@ ctr -n k8s.io images import iotdb-enterprise:1.3.3.2-standalone.tar
 ctr --namespace k8s.io images list | grep 1.3.3.2
 ```
 
-## 7. 安装 IoTDB
+## 7 安装 IoTDB
 
 ### 7.1 安装 IoTDB
 
@@ -301,7 +301,7 @@ kubectl describe pod datanode-0 -n iotdb-ns
 kubectl logs -n iotdb-ns confignode-0 -f
 ```
 
-## 8. 激活 IoTDB
+## 8 激活 IoTDB
 
 ### 8.1 方案1：直接在 Pod 中激活（最快捷）
 
@@ -357,7 +357,7 @@ kubectl describe pv iotdb-pv-04 | grep "Path:"
 
 4. 从对应节点的对应目录下找到 system-info 文件，使用该 system-info 作为机器码生成激活码，并在同级目录新建文件 license，将激活码写入到该文件。
 
-## 9. 验证 IoTDB
+## 9 验证 IoTDB
 
 ### 9.1 查看命名空间内的 Pods 状态
 
@@ -400,7 +400,7 @@ start-cli.sh -h 172.20.31.88 -p 31895
 
 <img src="/img/Kubernetes02.png" alt="" style="width: 70%;"/>
 
-## 10. 扩容
+## 10 扩容
 
 ### 10.1 新增pv
 

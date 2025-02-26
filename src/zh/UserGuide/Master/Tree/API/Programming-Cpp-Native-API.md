@@ -21,7 +21,7 @@
 
 # C++ 原生接口
 
-## 依赖
+## 1 依赖
 
 - Java 8+
 - Flex
@@ -31,9 +31,9 @@
 - GCC 5.5.0+
 
 
-## 安装
+## 2 安装
 
-### 安装相关依赖
+### 2.1 安装相关依赖
 
 - **MAC**
  1. 安装 Bison ：
@@ -94,7 +94,7 @@
    - 添加 OpenSSL 下的 include 目录到 PATH 环境变量中
 
 
-### 执行编译
+### 2.2 执行编译
 
 从 git 克隆源代码:
 ```shell
@@ -136,7 +136,7 @@ git checkout rc/1.3.2
 
 编译成功后，打包好的库文件位于 `iotdb-client/client-cpp/target` 中，同时可以在 `example/client-cpp-example/target` 下找到编译好的示例程序。
 
-### 编译 Q&A
+### 2.3 编译 Q&A
 
 Q：Linux 上的环境有哪些要求呢？
 
@@ -163,11 +163,11 @@ A:
     - 执行 `.\mvnw.cmd clean install`
     - 回到 iotdb 代码目录执行 `.\mvnw.cmd clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp -Dcmake.generator="Visual Studio 15 2017"`
 
-## 基本接口说明
+## 3 基本接口说明
 
 下面将给出 Session 接口的简要介绍和原型定义：
 
-### 初始化
+### 3.1 初始化
 
 - 开启 Session
 ```cpp
@@ -185,7 +185,7 @@ void open(bool enableRPCCompression);
 void close(); 
 ```
 
-### 数据定义接口（DDL）
+### 3.2 数据定义接口（DDL）
 
 #### Database 管理
 
@@ -309,7 +309,7 @@ std::vector<std::string> showMeasurementsInTemplate(const std::string &template_
 ```
 
 
-### 数据操作接口（DML）
+### 3.3 数据操作接口（DML）
 
 #### 数据写入
 
@@ -391,7 +391,7 @@ void deleteData(const std::vector<std::string> &paths, int64_t endTime);
 void deleteData(const std::vector<std::string> &paths, int64_t startTime, int64_t endTime);
 ```
 
-### IoTDB-SQL 接口
+### 3.4 IoTDB-SQL 接口
 
 - 执行查询语句
 ```cpp
@@ -404,7 +404,7 @@ void executeNonQueryStatement(const std::string &sql);
 ```
 
 
-## 示例代码
+## 4 示例代码
 
 示例工程源代码：
 
@@ -413,9 +413,9 @@ void executeNonQueryStatement(const std::string &sql);
 
 编译成功后，示例代码工程位于 `example/client-cpp-example/target`
 
-## FAQ
+## 5 FAQ
 
-### Thrift 编译相关问题
+### 5.1 Thrift 编译相关问题
 
 1. MAC：本地 Maven 编译 Thrift 时如出现以下链接的问题，可以尝试将 xcode-commandline 版本从 12 降低到 11.5
    https://stackoverflow.com/questions/63592445/ld-unsupported-tapi-file-type-tapi-tbd-in-yaml-file/65518087#65518087

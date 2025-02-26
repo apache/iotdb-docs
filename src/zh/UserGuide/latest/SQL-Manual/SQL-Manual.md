@@ -1,8 +1,8 @@
 # SQL手册
 
-## 元数据操作
+## 1 元数据操作
 
-### 数据库管理
+### 1.1 数据库管理
 
 #### 创建数据库
 
@@ -35,7 +35,7 @@ count databases root.sgcc.*
 count databases root.sgcc
 ```
 
-### 时间序列管理
+### 1.2 时间序列管理
 
 #### 创建时间序列
 
@@ -197,7 +197,7 @@ create aligned timeseries root.sg1.d1(s1 INT32 tags(tag1=v1, tag2=v2) attributes
 show timeseries where TAGS(tag1)='v1'
 ```
 
-### 时间序列路径管理
+### 1.3 时间序列路径管理
 
 #### 查看路径的所有子路径
 
@@ -251,7 +251,7 @@ IoTDB> count devices root.ln.**
 
 IoTDB> count devices where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
 ```
-### 设备模板管理
+### 1.4 设备模板管理
 
 
 ![img](/img/%E6%A8%A1%E6%9D%BF.png)
@@ -327,7 +327,7 @@ IoTDB> unset device template t1 from root.sg1.d1
 ```sql
 IoTDB> drop device template t1
 ```
-### 数据存活时间管理
+### 1.5 数据存活时间管理
 
 #### 设置 TTL
 ```sql
@@ -360,27 +360,27 @@ IoTDB> SHOW TTL ON pathPattern
 ```sql
 IoTDB> show DEVICES
 ```
-## 写入数据
+## 2 写入数据
 
-### 写入单列数据
+### 2.1 写入单列数据
 ```sql
 IoTDB > insert into root.ln.wf02.wt02(timestamp,status) values(1,true)
 ```
 ```sql
 IoTDB > insert into root.ln.wf02.wt02(timestamp,hardware) values(1, 'v1'),(2, 'v1')
 ```
-### 写入多列数据
+### 2.2 写入多列数据
 ```sql
 IoTDB > insert into root.ln.wf02.wt02(timestamp, status, hardware) values (2, false, 'v2')
 ```
 ```sql
 IoTDB > insert into root.ln.wf02.wt02(timestamp, status, hardware) VALUES (3, false, 'v3'),(4, true, 'v4')
 ```
-### 使用服务器时间戳
+### 2.3 使用服务器时间戳
 ```sql
 IoTDB > insert into root.ln.wf02.wt02(status, hardware) values (false, 'v2')
 ```
-### 写入对齐时间序列数据
+### 2.4 写入对齐时间序列数据
 ```sql
 IoTDB > create aligned timeseries root.sg1.d1(s1 INT32, s2 DOUBLE)
 ```
@@ -393,7 +393,7 @@ IoTDB > insert into root.sg1.d1(timestamp, s1, s2) aligned values(2, 2, 2), (3, 
 ```sql
 IoTDB > select * from root.sg1.d1
 ```
-### 加载 TsFile 文件数据
+### 2.5 加载 TsFile 文件数据
 
 load '<path/dir>' [sglevel=int][onSuccess=delete/none]
 
@@ -412,9 +412,9 @@ load '<path/dir>' [sglevel=int][onSuccess=delete/none]
 - `load '/Users/Desktop/data' onSuccess=delete`
 - `load '/Users/Desktop/data' sglevel=1 onSuccess=delete`
 
-## 删除数据
+## 3 删除数据
 
-### 删除单列数据
+### 3.1 删除单列数据
 ```sql
 delete from root.ln.wf02.wt02.status where time<=2017-11-01T16:26:00;
 ```
@@ -455,7 +455,7 @@ expressions like : time > XXX, time <= XXX, or two atomic expressions connected 
 ```sql
 delete from root.ln.wf02.wt02.status
 ```
-### 删除多列数据
+### 3.2 删除多列数据
 ```sql
 delete from root.ln.wf02.wt02.* where time <= 2017-11-01T16:26:00;
 ```
@@ -465,9 +465,9 @@ IoTDB> delete from root.ln.wf03.wt02.status where time < now()
 
 Msg: The statement is executed successfully.
 ```
-## 数据查询
+## 4 数据查询
 
-### 基础查询
+### 4.1 基础查询
 
 #### 时间过滤查询
 ```sql
@@ -489,7 +489,7 @@ select wf01.wt01.status, wf02.wt02.hardware from root.ln where (time > 2017-11-0
 ```sql
 select * from root.ln.** where time > 1 order by time desc limit 10;
 ```
-### 选择表达式
+### 4.2 选择表达式
 
 #### 使用别名
 ```sql
@@ -595,7 +595,7 @@ IoTDB> select last status, temperature from root.ln.wf01.wt01 where time >= 2017
 ```sql
 IoTDB> select last * from root.ln.wf01.wt01 order by timeseries desc;
 ```
-### 查询过滤条件
+### 4.3 查询过滤条件
 
 #### 时间过滤条件
 
@@ -664,7 +664,7 @@ IoTDB> select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
 IoTDB> select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
 ```
 
-### 分段分组聚合
+### 4.4 分段分组聚合
 
 #### 未指定滑动步长的时间区间分组聚合查询
 ```sql
@@ -786,7 +786,7 @@ select count(charging_stauts), first_value(soc) from root.sg group by count(char
 ```sql
 select count(charging_stauts), first_value(soc) from root.sg group by count(charging_status,5,ignoreNull=false) 
 ```
-### 聚合结果过滤
+### 4.5 聚合结果过滤
 
 不正确的：
 ```sql
@@ -804,7 +804,7 @@ SQL 示例：
 
  select count(s1), count(s2) from root.** group by ([1,11),2ms) having count(s2) > 1 align by device;
 ```
-### 结果集补空值
+### 4.6 结果集补空值
 ```sql
 FILL '(' PREVIOUS | LINEAR | constant (, interval=DURATION_LITERAL)? ')'
 ```
@@ -828,7 +828,7 @@ select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:
 ```sql
 select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(true);
 ```
-### 查询结果分页
+### 4.7 查询结果分页
 
 #### 按行分页
 
@@ -866,7 +866,7 @@ select max_value(*) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-
 ```sql
 select * from root.ln.wf01.wt01 limit 10 offset 100 slimit 2 soffset 0
 ```
-### 排序
+### 4.8 排序
 
 时间对齐模式下的排序
 ```sql
@@ -888,13 +888,13 @@ select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
 ```sql
 select count(*) from root.ln.** group by ((2017-11-01T00:00:00.000+08:00,2017-11-01T00:03:00.000+08:00],1m) order by device asc,time asc align by device
 ```
-### 查询对齐模式
+### 4.9 查询对齐模式
 
 #### 按设备对齐
 ```sql
 select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
 ```
-### 查询写回（SELECT INTO）
+### 4.10 查询写回（SELECT INTO）
 
 #### 整体描述
 ```sql
@@ -1021,7 +1021,7 @@ select * into ::(backup_${4}) from root.sg.** align by device;
 
 select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
 ```
-## 运维语句
+## 5 运维语句
 生成对应的查询计划
 ```
 explain select s1,s2 from root.sg.d1
@@ -1030,11 +1030,11 @@ explain select s1,s2 from root.sg.d1
 ```
 explain analyze select s1,s2 from root.sg.d1 order by s1
 ```
-## 运算符
+## 6 运算符
 
 更多见文档[Operator-and-Expression](./Operator-and-Expression.md)
 
-### 算数运算符
+### 6.1 算数运算符
 
 更多见文档 [Arithmetic Operators and Functions](./Operator-and-Expression.md#算数运算符)
 
@@ -1042,7 +1042,7 @@ explain analyze select s1,s2 from root.sg.d1 order by s1
 select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root.sg.d1
 ```
 
-### 比较运算符
+### 6.2 比较运算符
 
 更多见文档[Comparison Operators and Functions](./Operator-and-Expression.md#比较运算符)
 
@@ -1073,7 +1073,7 @@ select code from root.sg1.d1 where code not in ('200', '300', '400', '500');
 select a, a in (1, 2) from root.test;
 ```
 
-### 逻辑运算符
+### 6.3 逻辑运算符
 
 更多见文档[Logical Operators](./Operator-and-Expression.md#逻辑运算符)
 
@@ -1081,11 +1081,11 @@ select a, a in (1, 2) from root.test;
 select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
 ```
 
-## 内置函数
+## 7 内置函数
 
 更多见文档[Operator-and-Expression](./Operator-and-Expression.md#聚合函数)
 
-### Aggregate Functions
+### 7.1 Aggregate Functions
 
 更多见文档[Aggregate Functions](./Operator-and-Expression.md#聚合函数)
 
@@ -1098,7 +1098,7 @@ select count_if(s1=0 & s2=0, 3, 'ignoreNull'='false'), count_if(s1=1 & s2=0, 3, 
 select time_duration(s1) from root.db.d1;
 ```
 
-### 算数函数
+### 7.2 算数函数
 
 更多见文档[Arithmetic Operators and Functions](./Operator-and-Expression.md#数学函数)
 
@@ -1107,7 +1107,7 @@ select s1, sin(s1), cos(s1), tan(s1) from root.sg1.d1 limit 5 offset 1000;
 select s4,round(s4),round(s4,2),round(s4,-1) from root.sg1.d1;
 ```
 
-### 比较函数
+### 7.3 比较函数
 
 更多见文档[Comparison Operators and Functions](./Operator-and-Expression.md#比较函数)
 
@@ -1116,7 +1116,7 @@ select ts, on_off(ts, 'threshold'='2') from root.test;
 select ts, in_range(ts, 'lower'='2', 'upper'='3.1') from root.test;
 ```
 
-### 字符串处理函数
+### 7.4 字符串处理函数
 
 更多见文档[String Processing](./Operator-and-Expression.md#字符串函数)
 
@@ -1144,7 +1144,7 @@ select regexsplit(s1, "regex"=",", "index"="-1") from root.test.d1
 select regexsplit(s1, "regex"=",", "index"="3") from root.test.d1
 ```
 
-### 数据类型转换函数
+### 7.5 数据类型转换函数
 
 更多见文档[Data Type Conversion Function](./Operator-and-Expression.md#数据类型转换函数)
 
@@ -1152,7 +1152,7 @@ select regexsplit(s1, "regex"=",", "index"="3") from root.test.d1
 SELECT cast(s1 as INT32) from root.sg
 ```
 
-### 常序列生成函数
+### 7.6 常序列生成函数
 
 更多见文档[Constant Timeseries Generating Functions](./Operator-and-Expression.md#常序列生成函数)
 
@@ -1160,7 +1160,7 @@ SELECT cast(s1 as INT32) from root.sg
 select s1, s2, const(s1, 'value'='1024', 'type'='INT64'), pi(s2), e(s1, s2) from root.sg1.d1; 
 ```
 
-### 选择函数
+### 7.7 选择函数
 
 更多见文档[Selector Functions](./Operator-and-Expression.md#选择函数)
 
@@ -1168,7 +1168,7 @@ select s1, s2, const(s1, 'value'='1024', 'type'='INT64'), pi(s2), e(s1, s2) from
 select s1, top_k(s1, 'k'='2'), bottom_k(s1, 'k'='2') from root.sg1.d2 where time > 2020-12-10T20:36:15.530+08:00;
 ```
 
-### 区间查询函数
+### 7.8 区间查询函数
 
 更多见文档[Continuous Interval Functions](./Operator-and-Expression.md#区间查询函数)
 
@@ -1176,7 +1176,7 @@ select s1, top_k(s1, 'k'='2'), bottom_k(s1, 'k'='2') from root.sg1.d2 where time
 select s1, zero_count(s1), non_zero_count(s2), zero_duration(s3), non_zero_duration(s4) from root.sg.d2;
 ```
 
-### 趋势计算函数
+### 7.9 趋势计算函数
 
 更多见文档[Variation Trend Calculation Functions](./Operator-and-Expression.md#趋势计算函数)
 
@@ -1187,10 +1187,10 @@ SELECT DIFF(s1), DIFF(s2) from root.test;
 SELECT DIFF(s1, 'ignoreNull'='false'), DIFF(s2, 'ignoreNull'='false') from root.test;
 ```
 
-### 采样函数
+### 7.10 采样函数
 
 更多见文档[Sample Functions](./Operator-and-Expression.md#采样函数)。
-### 时间序列处理函数
+### 7.11 时间序列处理函数
 
 更多见文档[Sample Functions](./Operator-and-Expression.md#时间序列处理函数)。
 
@@ -1204,7 +1204,7 @@ select M4(s1,'timeInterval'='25','displayWindowBegin'='0','displayWindowEnd'='10
 select M4(s1,'windowSize'='10') from root.vehicle.d1
 ```
 
-### 时间序列处理函数
+### 7.12 时间序列处理函数
 
 更多见文档[Time-Series](./Operator-and-Expression.md#时间序列处理函数)
 
@@ -1212,11 +1212,11 @@ select M4(s1,'windowSize'='10') from root.vehicle.d1
 select change_points(s1), change_points(s2), change_points(s3), change_points(s4), change_points(s5), change_points(s6) from root.testChangePoints.d1
 ```
 
-## 数据质量函数库
+## 8 数据质量函数库
 
 更多见文档[UDF-Libraries](../SQL-Manual/UDF-Libraries.md)
 
-### 数据质量
+### 8.1 数据质量
 
 更多见文档[Data-Quality](../SQL-Manual/UDF-Libraries.md#数据质量)
 
@@ -1241,7 +1241,7 @@ select Validity(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:
 select Accuracy(t1,t2,t3,m1,m2,m3) from root.test
 ```
 
-### 数据画像
+### 8.2 数据画像
 
 更多见文档[Data-Profiling](../SQL-Manual/UDF-Libraries.md#数据画像)
 
@@ -1321,7 +1321,7 @@ select stddev(s1) from root.test.d1
 select zscore(s1) from root.test
 ```
 
-### 异常检测
+### 8.3 异常检测
 
 更多见文档[Anomaly-Detection](../SQL-Manual/UDF-Libraries.md#异常检测)
 
@@ -1356,7 +1356,7 @@ select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='repair','p'='3','k'='3'
 select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='anomaly','p'='3','k'='3','eta'='1.0') from root.test
 ```
 
-### 频域分析
+### 8.4 频域分析
 
 更多见文档[Frequency-Domain](../SQL-Manual/UDF-Libraries.md#频域分析)
 
@@ -1388,7 +1388,7 @@ select lowpass(s1,'wpass'='0.45') from root.test.d1
 select envelope(s1) from root.test.d1
 ```
 
-### 数据匹配
+### 8.5 数据匹配
 
 更多见文档[Data-Matching](../SQL-Manual/UDF-Libraries.md#数据匹配)
 
@@ -1409,7 +1409,7 @@ select ptnsym(s4, 'window'='5', 'threshold'='0') from root.test.d1
 select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
 ```
 
-### 数据修复
+### 8.6 数据修复
 
 更多见文档[Data-Repairing](../SQL-Manual/UDF-Libraries.md#数据修复)
 
@@ -1434,7 +1434,7 @@ select seasonalrepair(s1,'period'=3,'k'=2) from root.test.d2
 select seasonalrepair(s1,'method'='improved','period'=3) from root.test.d2
 ```
 
-### 序列发现
+### 8.7 序列发现
 
 更多见文档[Series-Discovery](../SQL-Manual/UDF-Libraries.md#序列发现)
 
@@ -1447,7 +1447,7 @@ select consecutivesequences(s1,s2) from root.test.d1
 select consecutivewindows(s1,s2,'length'='10m') from root.test.d1
 ```
 
-### 机器学习
+### 8.8 机器学习
 
 更多见文档[Machine-Learning](../SQL-Manual/UDF-Libraries.md#机器学习)
 
@@ -1462,7 +1462,7 @@ select representation(s0,"tb"="3","vb"="2") from root.test.d0
 select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0
 ```
 
-## Lambda 表达式
+## 9 Lambda 表达式
 
 更多见文档[Lambda](./Operator-and-Expression.md#lambda-表达式)
 
@@ -1470,7 +1470,7 @@ select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0
 select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'expr'='x -> {x * 3}') as jexl2, jexl(temperature, 'expr'='x -> {x * x}') as jexl3, jexl(temperature, 'expr'='x -> {multiply(x, 100)}') as jexl4, jexl(temperature, st, 'expr'='(x, y) -> {x + y}') as jexl5, jexl(temperature, st, str, 'expr'='(x, y, z) -> {x + y + z}') as jexl6 from root.ln.wf01.wt01;```
 ```
 
-## 条件表达式
+## 10 条件表达式
 
 更多见文档[Conditional Expressions](./Operator-and-Expression.md#条件表达式)
 
@@ -1508,9 +1508,9 @@ end as `result`
 from root.test4
 ```
 
-## 触发器
+## 11 触发器
 
-### 使用 SQL 语句注册该触发器
+### 11.1 使用 SQL 语句注册该触发器
 ```sql
 // Create Trigger
 
@@ -1588,7 +1588,7 @@ WITH (
 
 )
 ```
-### 卸载触发器
+### 11.2 卸载触发器
 
 #### 卸载触发器的 SQL 语法如下：
 ```sql
@@ -1604,13 +1604,13 @@ dropTrigger
 ```sql
 DROP TRIGGER triggerTest1
 ```
-### 查询触发器
+### 11.3 查询触发器
 ```sql
 SHOW TRIGGERS
 ```
-## 连续查询（Continuous Query, CQ）
+## 12 连续查询（Continuous Query, CQ）
 
-### 语法
+### 12.1 语法
 
 ```Go
 CREATE (CONTINUOUS QUERY | CQ) <cq_id> 
@@ -1746,7 +1746,7 @@ END
 
 \> SELECT temperature from root.precalculated_sg.*.* align by device;
 ```
-### 连续查询的管理
+### 11.2 连续查询的管理
 
 #### 查询系统已有的连续查询
 
@@ -1789,13 +1789,13 @@ END
 ```sql
 SELECT avg(count_s1) from root.sg_count.d;
 ```
-## 用户自定义函数
+## 12 用户自定义函数
 
-### UDFParameters
+### 12.1 UDFParameters
 ```sql
 SELECT UDF(s1, s2, 'key1'='iotdb', 'key2'='123.45') FROM root.sg.d;
 ```
-### UDF 注册
+### 12.2 UDF 注册
 
 ```sql
 CREATE FUNCTION <UDF-NAME> AS <UDF-CLASS-FULL-PATHNAME> (USING URI URI-STRING)?
@@ -1809,7 +1809,7 @@ CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample'
 ```sql
 CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample' USING URI 'http://jar/example.jar'
 ```
-### UDF 卸载
+### 12.3 UDF 卸载
 
 ```sql
 DROP FUNCTION <UDF-NAME>
@@ -1817,7 +1817,7 @@ DROP FUNCTION <UDF-NAME>
 ```sql
 DROP FUNCTION example
 ```
-### UDF 查询
+### 12.4 UDF 查询
 
 #### 带自定义输入参数的查询
 ```sql
@@ -1836,13 +1836,13 @@ SELECT s1 * example(* / s1 + s2) FROM root.sg.d1;
 
 SELECT s1, s2, s1 + example(s1, s2), s1 - example(s1 + example(s1, s2) / s2) FROM root.sg.d1;
 ```
-### 查看所有注册的 UDF
+### 12.5 查看所有注册的 UDF
 ```sql
 SHOW FUNCTIONS
 ```
-## 权限管理
+## 13 权限管理
 
-### 用户与角色相关
+### 13.1 用户与角色相关
 
 - 创建用户（需 MANAGE_USER 权限)
 
@@ -1947,7 +1947,7 @@ ALTER USER <username> SET PASSWORD <password>;
 eg: ALTER USER tempuser SET PASSWORD 'newpwd';
 ```
 
-### 授权与取消授权
+### 13.2 授权与取消授权
 
 用户使用授权语句对赋予其他用户权限，语法如下：
 

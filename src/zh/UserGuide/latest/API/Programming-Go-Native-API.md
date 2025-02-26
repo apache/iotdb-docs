@@ -21,7 +21,7 @@
 
 # Go 原生接口
 
-## 依赖
+## 1 依赖
 
  * golang >= 1.13
  * make   >= 3.0
@@ -30,7 +30,7 @@
  * Linux、Macos 或其他类 unix 系统
  * Windows+bash (下载 IoTDB Go client 需要 git ，通过 WSL、cygwin、Git Bash 任意一种方式均可)
 
-## 安装方法
+## 2 安装方法
 
  * 通过 go mod
 

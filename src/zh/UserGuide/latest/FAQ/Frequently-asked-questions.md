@@ -23,9 +23,9 @@
 
 # 常见问题
 
-## 一般问题
+## 1 一般问题
 
-### 如何查询我的IoTDB版本？
+### 1.1 如何查询我的IoTDB版本？
 
 有几种方法可以识别您使用的 IoTDB 版本：
 
@@ -67,7 +67,7 @@ Total line number = 1
 It costs 0.241s
 ```
 
-### 在哪里可以找到IoTDB的日志？
+### 1.2 在哪里可以找到IoTDB的日志？
 
 假设您的根目录是：
 
@@ -89,11 +89,11 @@ Readme.md
 
 在默认的设置里，logs 文件夹会被存储在```IOTDB_HOME/logs```。您可以在```IOTDB_HOME/conf```目录下的```logback.xml```文件中修改日志的级别和日志的存储路径。
 
-### 在哪里可以找到IoTDB的数据文件？
+### 1.3 在哪里可以找到IoTDB的数据文件？
 
 在默认的设置里，数据文件（包含 TsFile，metadata，WAL）被存储在```IOTDB_HOME/data/datanode```文件夹。
 
-### 如何知道IoTDB中存储了多少时间序列？
+### 1.4 如何知道IoTDB中存储了多少时间序列？
 
 使用 IoTDB 的命令行接口：
 
@@ -116,15 +116,15 @@ IoTDB> count timeseries
 >   6
 ```
 
-### 可以使用Hadoop和Spark读取IoTDB中的TsFile吗？
+### 1.5 可以使用Hadoop和Spark读取IoTDB中的TsFile吗？
 
 是的。IoTDB 与开源生态紧密结合。IoTDB 支持 [Hadoop](https://github.com/apache/iotdb-extras/tree/master/connectors/iotdb-connector/hadoop), [Spark](https://github.com/apache/iotdb-extras/tree/master/connectors/spark-iotdb-connector) 和 [Grafana](https://github.com/apache/iotdb-extras/tree/master/connectors/grafana-connector) 可视化工具。
 
-### IoTDB如何处理重复的数据点？
+### 1.6 IoTDB如何处理重复的数据点？
 
 一个数据点是由一个完整的时间序列路径（例如：```root.vehicle.d0.s0```) 和时间戳唯一标识的。如果您使用与现有点相同的路径和时间戳提交一个新点，那么 IoTDB 将更新这个点的值，而不是插入一个新点。
 
-### 我如何知道具体的timeseries的类型？
+### 1.7 我如何知道具体的timeseries的类型？
 
 在 IoTDB 的命令行接口中使用 SQL ```SHOW TIMESERIES <timeseries path>```:
 
@@ -146,7 +146,7 @@ IoTDB> show timeseries root.fit.d1.s1
 IoTDB> show timeseries root.fit.d1.*
 ```
 
-### 如何更改IoTDB的客户端时间显示格式？
+### 1.8 如何更改IoTDB的客户端时间显示格式？
 
 IoTDB 客户端默认显示的时间是人类可读的（比如：```1970-01-01T08:00:00.001```)，如果您想显示是时间戳或者其他可读格式，请在启动命令上添加参数```-disableISO8601```:
 
@@ -154,12 +154,12 @@ IoTDB 客户端默认显示的时间是人类可读的（比如：```1970-01-01T
 > $IOTDB_CLI_HOME/sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root -disableISO8601
 ```
 
-### 怎么处理来自`org.apache.ratis.grpc.server.GrpcLogAppender`的`IndexOutOfBoundsException`？
+### 1.9 怎么处理来自`org.apache.ratis.grpc.server.GrpcLogAppender`的`IndexOutOfBoundsException`？
 
 这是我们的依赖Ratis 2.4.1的一个内部错误日志，不会对数据写入和读取造成任何影响。
 已经报告给Ratis社区，并会在未来的版本中修复。
 
-### 预估内存不足报错如何处理？
+### 1.10 预估内存不足报错如何处理？
 
 报错信息：
 ```
@@ -179,9 +179,9 @@ datanode_memory_proportion参数控制分给查询的内存，chunk_timeseriesme
 - 添加 align by device，会按照device顺序进行输出，内存占用会降低至单device级别。
 
 
-## 分布式部署 FAQ
+## 2 分布式部署 FAQ
 
-### 集群启停
+### 2.1 集群启停
 
 #### ConfigNode初次启动失败，如何排查原因？
 
@@ -217,7 +217,7 @@ datanode_memory_proportion参数控制分给查询的内存，chunk_timeseriesme
 - 0.13版本的默认RPC地址是0.0.0.0，1.0版本的默认RPC地址是127.0.0.1
 
 
-### 集群重启
+### 2.2 集群重启
 
 #### 如何重启集群中的某个ConfigNode？
 
@@ -243,7 +243,7 @@ datanode_memory_proportion参数控制分给查询的内存，chunk_timeseriesme
 
 - 无法启动成功，会报错端口已被占用
 
-### 集群运维
+### 2.3 集群运维
 
 #### Show cluster执行失败，显示“please check server status”，如何排查?
 

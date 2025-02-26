@@ -21,11 +21,11 @@
 
 # 集群管理工具
 
-## 集群管理工具
+## 1 集群管理工具
 
 IoTDB 集群管理工具是一款易用的运维工具（企业版工具）。旨在解决 IoTDB 分布式系统多节点的运维难题，主要包括集群部署、集群启停、弹性扩容、配置更新、数据导出等功能，从而实现对复杂数据库集群的一键式指令下发，极大降低管理难度。本文档将说明如何用集群管理工具远程部署、配置、启动和停止 IoTDB 集群实例。
 
-### 环境准备
+### 1.1 环境准备
 
 本工具为 TimechoDB（基于IoTDB的企业版数据库）配套工具，您可以联系您的销售获取工具下载方式。
 
@@ -33,7 +33,7 @@ IoTDB 要部署的机器需要依赖jdk 8及以上版本、lsof、netstat、unzi
 
 提示:IoTDB集群管理工具需要使用有root权限的账号
 
-### 部署方法
+### 1.2 部署方法
 
 #### 下载安装
 
@@ -59,7 +59,7 @@ iotdbctl cluster check example
 <iotdbctl absolute path>/sbin/iotdbctl cluster check example
 ```
 
-### 系统结构
+### 1.3 系统结构
 
 IoTDB集群管理工具主要由config、logs、doc、sbin目录组成。
 
@@ -69,7 +69,7 @@ IoTDB集群管理工具主要由config、logs、doc、sbin目录组成。
 * `doc` 存放用户手册、开发手册和推荐部署手册。
 
 
-### 集群配置文件介绍
+### 1.4 集群配置文件介绍
 
 * 在`iotdbctl/config` 目录下有集群配置的yaml文件，yaml文件名字就是集群名字yaml 文件可以有多个，为了方便用户配置yaml文件在iotd/config目录下面提供了`default_cluster.yaml`示例。
 * yaml 文件配置由`global`、`confignode_servers`、`datanode_servers`、`grafana_server`、`prometheus_server`四大部分组成
@@ -176,7 +176,7 @@ IOTDB_JMX_OPTS="$IOTDB_JMX_OPTS -XX:MaxGCPauseMillis=200"
 
 注意:如何配置yaml key对应的值包含特殊字符如:等建议整个value使用双引号，对应的文件路径中不要使用包含空格的路径，防止出现识别出现异常问题。
 
-### 使用场景
+### 1.5 使用场景
 
 #### 清理数据场景
 
@@ -269,7 +269,7 @@ iotdbctl cluster start default_cluster
 更加详细参数请参考上方的 集群配置文件介绍
 
 
-### 命令格式
+### 1.6 命令格式
 
 本工具的基本用法为：
 ```bash
@@ -318,7 +318,7 @@ iotdbctl cluster deploy default_cluster
 | exportschema         | 元数据导出                         | 集群名字,-N,节点名称(必填) -param 参数                                                                                                                   |
 
 
-### 详细命令执行过程
+### 1.7 细命令执行过程
 
 下面的命令都是以default_cluster.yaml 为示例执行的，用户可以修改成自己的集群文件来执行
 
@@ -701,7 +701,7 @@ iotdbctl cluster activate default_cluster -op license_path
 * 读取里面的机器码
 * 等待输入激活码
 
-### 集群plugin分发
+### 1.8 集群plugin分发
 ```bash
 #分发udf
 iotdbctl cluster dist-plugin default_cluster -type U -file /xxxx/udf.jar
@@ -716,7 +716,7 @@ iotdbctl cluster dist-plugin default_cluster -type P -file /xxxx/pipe.jar
 
 上传完成后需要手动执行创建udf/trigger/pipe命令
 
-### 集群滚动升级
+### 1.9 集群滚动升级
 ```bash
 iotdbctl cluster upgrade default_cluster
 ```
@@ -727,7 +727,7 @@ iotdbctl cluster upgrade default_cluster
 
 
 
-### 集群健康检查
+### 1.10 集群健康检查
 ```bash
 iotdbctl cluster health_check default_cluster
 ```
@@ -742,7 +742,7 @@ iotdbctl cluster health_check default_cluster -N datanode_1
 * datanode1 执行health_check.sh
 
 
-### 集群停机备份
+### 1.11 集群停机备份
 ```bash
 iotdbctl cluster backup default_cluster
 ```
@@ -758,7 +758,7 @@ iotdbctl cluster backup default_cluster -N datanode_1
 
 说明：多个节点部署到单台机器，只支持 quick 模式
 
-### 集群元数据导入
+### 1.12 集群元数据导入
 
 ```bash
 iotdbctl cluster importschema default_cluster -N datanode1 -param "-s ./dump0.csv -fd ./failed/ -lpf 10000"
@@ -776,7 +776,7 @@ iotdbctl cluster importschema default_cluster -N datanode1 -param "-s ./dump0.cs
 
 
 
-### 集群元数据导出
+### 1.13 集群元数据导出
 
 ```bash
 iotdbctl cluster exportschema default_cluster -N datanode1 -param "-t ./ -pf ./pattern.txt -lpf 10 -t 10000"
@@ -796,7 +796,7 @@ iotdbctl cluster exportschema default_cluster -N datanode1 -param "-t ./ -pf ./p
 
 
 
-### 集群部署工具样例介绍
+### 1.14 集群部署工具样例介绍
 在集群部署工具安装目录中config/example 下面有3个yaml样例，如果需要可以复制到config 中进行修改即可
 
 | 名称                          | 说明                                             |
@@ -805,11 +805,11 @@ iotdbctl cluster exportschema default_cluster -N datanode1 -param "-t ./ -pf ./p
 | default\_3c3d.yaml          | 3个confignode和3个datanode 配置样例                   |
 | default\_3c3d\_grafa\_prome | 3个confignode和3个datanode、Grafana、Prometheus配置样例 |
 
-## 数据文件夹概览工具
+## 2 数据文件夹概览工具
 
 IoTDB数据文件夹概览工具用于打印出数据文件夹的结构概览信息，工具位置为 tools/tsfile/print-iotdb-data-dir。
 
-### 用法
+### 2.1 用法
 
 -   Windows:
 
@@ -825,7 +825,7 @@ IoTDB数据文件夹概览工具用于打印出数据文件夹的结构概览信
 
 注意：如果没有设置输出结果的存储路径, 将使用相对路径"IoTDB_data_dir_overview.txt"作为默认值。
 
-### 示例
+### 2.2 示例
 
 以Windows系统为例：
 
@@ -866,11 +866,11 @@ data dir num:1
 |==============================================================
 `````````````````````````
 
-## TsFile概览工具
+## 3 TsFile概览工具
 
 TsFile概览工具用于以概要模式打印出一个TsFile的内容，工具位置为 tools/tsfile/print-tsfile。
 
-### 用法
+### 3.1 用法
 
 -   Windows:
 
@@ -886,7 +886,7 @@ TsFile概览工具用于以概要模式打印出一个TsFile的内容，工具�
 
 注意：如果没有设置输出结果的存储路径, 将使用相对路径"TsFile_sketch_view.txt"作为默认值。
 
-### 示例
+### 3.2 示例
 
 以Windows系统为例：
 
@@ -954,11 +954,11 @@ file length: 2974
 -   "|||||||||||||||||||||"是为增强可读性而添加的导引信息，不是TsFile中实际存储的数据。
 -   最后打印的"IndexOfTimerseriesIndex Tree"是对TsFile文件末尾的元数据索引树的重新整理打印，便于直观理解，不是TsFile中存储的实际数据。
 
-## TsFile Resource概览工具
+## 4 TsFile Resource概览工具
 
 TsFile resource概览工具用于打印出TsFile resource文件的内容，工具位置为 tools/tsfile/print-tsfile-resource-files。
 
-### 用法
+### 4.1 用法
 
 -   Windows:
 
@@ -972,7 +972,7 @@ TsFile resource概览工具用于打印出TsFile resource文件的内容，工�
 ./print-tsfile-resource-files.sh <TsFile resource文件所在的文件夹路径，或者单个TsFile resource文件路径> 
 ```
 
-### 示例
+### 4.2 示例
 
 以Windows系统为例：
 

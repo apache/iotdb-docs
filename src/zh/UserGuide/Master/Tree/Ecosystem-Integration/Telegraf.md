@@ -20,7 +20,7 @@
 -->
 # Telegraf
 
-## 1、产品概述
+## 1 产品概述
 
 ### 1.1 Telegraf
 
@@ -40,17 +40,17 @@ Telegraf-IoTDB 插件可以将保存在 Telegraf 中的监控信息输出存储�
 
 ![](/img/Telegraf.png)
 
-## 2、安装要求
+## 2 安装要求
 
 Telegraf支持多种操作系统，包括Linux、Windows、macOS，Telegraf 的安装推荐使用`root`管理员权限才能成功完成，具体安装要求请查看 [安装要求](https://docs.influxdata.com/telegraf/v1/install/)
 
-## 3、安装步骤
+## 3 安装步骤
 
 具体安装步骤请查看 [安装步骤](https://docs.influxdata.com/telegraf/v1/install/)
 
 - 注：此插件为Telegraf内置插件，无需进行二次安装
 
-## 4、使用说明
+## 4 使用说明
 
 ### 4.1 设置输入源
 
@@ -62,7 +62,7 @@ Telegraf支持多种操作系统，包括Linux、Windows、macOS，Telegraf 的�
 | interval          | 收集此指标的频率。普通插件使用单个全局间隔，但如果某个特定输入的运行频率应更低或更高，您可以在此处进行配置。`interval`可以增加间隔以减少数据输入速率限制。 |                                                              |
 | precision         | 覆盖`precision`代理的设置。收集的指标四舍五入到指定的精度`interval`。当在服务输入上设置此值（例如`statsd`：）时，输出数据库可能会合并在同一时间戳发生的多个事件。 |                                                              |
 | collection_jitter | 覆盖`collection_jitter`代理的设置。Collection jitter 用于通过随机的`interval` |                                                              |
-| name_override     | 输出到 IoTDB 时使用的自定义时间序列路径名                    | 输出的路径名称需满足“[语法要求](../Reference/Syntax-Rule.md)”要求 |
+| name_override     | 输出到 IoTDB 时使用的自定义时间序列路径名                    | 输出的路径名称需满足“[语法要求](../SQL-Manual/Syntax-Rule.md)”要求 |
 | name_prefix       | 指定附加到测量名称的前缀                                     |                                                              |
 | name_suffix       | 指定附加到测量名称的后缀                                     |                                                              |
 
@@ -89,7 +89,7 @@ Telegraf支持多种操作系统，包括Linux、Windows、macOS，Telegraf 的�
 telegraf -config /path/to/telegraf.conf
 ```
 
-## 5、使用示例
+## 5 使用示例
 
 以下是一个使用 Telegraf 收集 CPU 数据并使用 Telegraf-IoTDB 输出到 IoTDB 的示例。使用 telegraf 命令生成配置文件
 
