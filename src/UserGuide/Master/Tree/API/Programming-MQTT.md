@@ -112,7 +112,7 @@ Steps:
         <dependency>
             <groupId>org.apache.iotdb</groupId>
             <artifactId>iotdb-server</artifactId>
-            <version>1.1.0-SNAPSHOT</version>
+            <version>2.0.0</version>
         </dependency>
 ```
 2. Define your implementation which implements `org.apache.iotdb.db.protocol.mqtt.PayloadFormatter`
@@ -121,9 +121,9 @@ e.g.,
 ```java
 package org.apache.iotdb.mqtt.server;
 
-import io.netty.buffer.ByteBuf;
 import org.apache.iotdb.db.protocol.mqtt.Message;
 import org.apache.iotdb.db.protocol.mqtt.PayloadFormatter;
+import org.apache.iotdb.db.protocol.mqtt.TreeMessage;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -145,7 +145,7 @@ public class CustomizedJsonPayloadFormatter implements PayloadFormatter {
         // this is just an example, so we just generate some Messages directly
         for (int i = 0; i < 2; i++) {
             long ts = i;
-            Message message = new Message();
+            TreeMessage message = new TreeMessage();
             message.setDevice("d" + i);
             message.setTimestamp(ts);
             message.setMeasurements(Arrays.asList("s1", "s2"));
@@ -159,6 +159,11 @@ public class CustomizedJsonPayloadFormatter implements PayloadFormatter {
     public String getName() {
         // set the value of mqtt_payload_formatter in iotdb-system.properties as the following string:
         return "CustomizedJson";
+    }
+
+    @Override
+    public String getType() {
+        return PayloadFormatter.TREE_TYPE;
     }
 }
 ```
