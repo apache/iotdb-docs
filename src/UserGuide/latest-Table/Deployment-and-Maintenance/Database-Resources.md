@@ -19,7 +19,7 @@
 
 -->
 # Database Resources
-## 1 CPU
+## 1. CPU
 <table style="text-align: center;">
    <tbody>
       <tr>
@@ -81,7 +81,7 @@
 </tbody>
 </table>
 
-## 2 Memory 
+## 2. Memory 
 <table style="text-align: center;">
    <tbody>
       <tr>
@@ -143,7 +143,7 @@
 </tbody>
 </table>
 
-## 3 Storage (Disk)
+## 3. Storage (Disk)
 ### 3.1 Storage space
 Calculation Formula:
 
@@ -203,7 +203,7 @@ Example:
 
 - For systems with > 10 million measurement points or high query loads, SSD is recommended.
 
-## 4 Network (NIC) 
+## 4. Network (NIC) 
 When the write throughput does not exceed 10 million points per second, a gigabit network card is required. When the write throughput exceeds 10 million points per second, a 10-gigabit network card is required.
 
 | **Write** **Throughput** **(Data Points/Second)** | **NIC** **Speed**    |
@@ -211,6 +211,6 @@ When the write throughput does not exceed 10 million points per second, a gigabi
 | < 10 million                                      | 1 Gbps (Gigabit)     |
 | ≥ 10 million                                      | 10 Gbps (10 Gigabit) |
 
-## 5 Additional Notes
+## 5. Additional Notes
 
 - IoTDB supports second-level cluster scaling . Data migration is not required when adding new nodes, so there is no need to worry about limited cluster capacity based on current data estimates. You can add new nodes to the cluster when scaling is needed in the future.

@@ -21,7 +21,7 @@
 
 # LIMIT & OFFSET Clause
 
-## 1 Syntax Overview
+## 1. Syntax Overview
 
 ```sql
 OFFSET INTEGER_VALUE LIMIT INTEGER_VALUE
@@ -46,7 +46,7 @@ The `OFFSET` clause works in conjunction with the `LIMIT` clause to skip a speci
 - If the total number of rows (`n`) is greater than or equal to the sum of `OFFSET` and `LIMIT`, the query returns `LIMIT` rows.
 - If the total number of rows (`n`) is less than the sum of `OFFSET` and `LIMIT`, the query returns rows from `OFFSET` to the end of the dataset, up to a maximum of `n - OFFSET`.
 
-## 2 Sample Data and Usage Examples
+## 2. Sample Data and Usage Examples
 
 The [Example Data page](../Reference/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.
 

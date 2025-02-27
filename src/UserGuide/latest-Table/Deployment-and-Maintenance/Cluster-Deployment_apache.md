@@ -27,7 +27,7 @@ This guide describes how to manually deploy a cluster instance consisting of 3 C
 </div>
 
 
-## 1 Prerequisites
+## 1. Prerequisites
 
 1. **System Preparation**: Ensure the system has been configured according to the  [System Requirements](../Deployment-and-Maintenance/Environment-Requirements.md).
 
@@ -51,14 +51,14 @@ Use the hostname for `cn_internal_address` and `dn_internal_address` in IoTDB co
 
 6. **Monitoring Panel**: Deploy a monitoring panel to track key performance metrics. Contact the Timecho team for access and refer to the [Monitoring Board Install and Deploy](../Deployment-and-Maintenance/Monitoring-panel-deployment.md).
 
-## 2 Preparation
+## 2. Preparation
 
 1. Prepare the IoTDB database installation package:：apache-iotdb-{version}-all-bin.zip（Please refer to the installation package for details：[IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_apache.md)）
 
 2. Configure the operating system environment according to environmental requirements (system environment configuration can be found in:[Environment Requirement](../Deployment-and-Maintenance/Environment-Requirements.md)）
 
 
-## 3 Installation Steps
+## 3. Installation Steps
 
 Taking a cluster with three Linux servers with the following information as example:
 
@@ -161,7 +161,7 @@ On each server, navigate to the `sbin` directory and start the DataNode:
 
 Check the `ClusterActivationStatus` field. If it shows `ACTIVATED`, the database has been successfully activated.
 
-## 4 Maintenance
+## 4. Maintenance
 
 ### 4.1 ConfigNode Maintenance
 
@@ -289,7 +289,7 @@ sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
 sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 ```
 
-## 5 Common Issues
+## 5. Common Issues
 
 1.  ConfigNode Fails to Start
    1. Review the startup logs to check if any parameters, which cannot be modified after the first startup, were changed.
@@ -324,7 +324,7 @@ sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
       rm -rf data logs
       ```
 
-## 6 Appendix
+## 6. Appendix
 
 ### 6.1 ConfigNode Parameters
 

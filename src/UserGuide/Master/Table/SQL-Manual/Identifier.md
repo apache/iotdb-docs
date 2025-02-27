@@ -23,7 +23,7 @@
 
 In IoTDB, identifiers are used to represent the names of databases, tables, columns, functions, and other objects.
 
-## 1 Naming Rules
+## 1. Naming Rules
 
 1. **Starting Character**: An identifier must begin with a letter.
 2. **Subsequent Characters**: Identifiers can include letters, digits, and underscores.
@@ -50,7 +50,7 @@ table-name // contains a hyphen
 colum$name@field  // contains special characters and is not enclosed in double quotes
 ```
 
-## 2 Case Sensitivity
+## 2. Case Sensitivity
 
 Identifiers in IoTDB are case-insensitive. The system does not preserve the original case of identifiers during storage, but query results display column names in the same case as specified in the SELECT clause of the query.
 

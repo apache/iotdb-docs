@@ -20,7 +20,7 @@
 -->
 # Docker Deployment
 
-## 1 Environment Preparation
+## 1. Environment Preparation
 
 ### 1.1  Install Docker
 
@@ -67,7 +67,7 @@ After installing `dmidecode`, you can locate its installation path by running:`w
 
 For the TimechoDB container image, you can contact the Timecho team to acquire it.
 
-## 2 Stand-Alone Deployment
+## 2. Stand-Alone Deployment
 
 This section demonstrates how to deploy a standalone Docker version of 1C1D.
 
@@ -233,7 +233,7 @@ docker cp iotdb:/iotdb/conf /docker-iotdb/iotdb/conf
 docker-compose  -f docker-compose-standalone.yml  up  -d
 ```
 
-## 3 Cluster Deployment
+## 3. Cluster Deployment
 
 This section describes how to manually deploy a cluster consisting of 3 ConfigNodes and 3 DataNodes, commonly referred to as a 3C3D cluster.
 

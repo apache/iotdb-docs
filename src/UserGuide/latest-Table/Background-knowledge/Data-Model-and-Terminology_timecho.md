@@ -23,11 +23,11 @@
 
 This section introduces how to transform time series data application scenarios into IoTDB time series modeling.   
 
-## 1 Time Series Data Model
+## 1. Time Series Data Model
 
 Before designing an IoTDB data model, it's essential to understand time series data and its underlying structure. For more details, refer to: [Time Series Data Model](../Background-knowledge/Navigating_Time_Series_Data.md)
 
-## 2 Two Time Series Model in IoTDB
+## 2. Two Time Series Model in IoTDB
 
 IoTDB offers two data modeling syntaxes—tree model and table model, each with its distinct characteristics as follows:
 
@@ -80,7 +80,7 @@ The following table compares the tree model and the table model from various dim
 - When establishing a database connection via client tools (Cli) or SDKs, specify the model syntax using the `sql_dialect` parameter (Tree syntax is used by default).
 
 
-## 3 Application Scenarios
+## 3. Application Scenarios
 
 The application scenarios mainly include three categories:
 

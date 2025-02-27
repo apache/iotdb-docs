@@ -18,6 +18,7 @@
     under the License.
 
 -->
+# Query Performance Analysis
 
 Query analysis helps users understand query execution mechanisms and identify performance bottlenecks, facilitating optimization and improving efficiency. This directly enhances user experience and resource utilization. IoTDB provides two query analysis statements: **`EXPLAIN`** and **`EXPLAIN ANALYZE`**.
 
@@ -34,9 +35,9 @@ Query analysis helps users understand query execution mechanisms and identify pe
 
 
 
-## EXPLAIN Statement
+## 1. EXPLAIN Statement
 
-### Syntax
+### 1.1 Syntax
 
 The `EXPLAIN` command allows users to view the execution plan of an SQL query. It presents the plan as a series of operators, illustrating how IoTDB processes the query. The syntax is as follows, where `<SELECT_STATEMENT>` represents the target query:
 
@@ -44,7 +45,7 @@ The `EXPLAIN` command allows users to view the execution plan of an SQL query. I
 EXPLAIN <SELECT_STATEMENT>  
 ```
 
-### Description
+### 1.2 Description
 
 The result of `EXPLAIN` includes information such as data access strategies, whether filtering conditions are pushed down, and the distribution of the query plan across different nodes. This provides users with a means to visualize the internal execution logic of the query.
 
@@ -102,9 +103,9 @@ The result shows that IoTDB retrieves data from different data partitions throug
 +-----------------------------------------------------------------------------------------------+  
 ```
 
-## EXPLAIN ANALYZE Statement
+## 2. EXPLAIN ANALYZE Statement
 
-### Syntax
+### 2.1 Syntax
 
 The `EXPLAIN ANALYZE` statement provides detailed performance metrics by executing the query and analyzing its runtime behavior. The syntax is as follows:
 
@@ -115,7 +116,7 @@ EXPLAIN ANALYZE [VERBOSE] <SELECT_STATEMENT>
 - `SELECT_STATEMENT` corresponds to the query statement to be analyzed.
 - `VERBOSE` (optional): Prints detailed analysis results. Without this option, some metrics are omitted.
 
-### Description
+### 2.2 Description
 
 `Explain Analyze` is a performance analysis SQL built into the IoTDB query engine. Unlike `Explain`, it runs the query and collects execution metrics, enabling users to trace performance bottlenecks, observe resource usage, and conduct precise performance tuning.
 
@@ -123,7 +124,7 @@ The output includes detailed statistics such as query planning time, execution t
 
 ![](/img/explain-analyze-1.png)
 
-### Detailed Breakdown of EXPLAIN ANALYZE Results
+### 2.3 Detailed Breakdown of EXPLAIN ANALYZE Results
 
 #### QueryStatistics
 
@@ -190,7 +191,7 @@ Chunks are the fundamental units of data storage in TsFiles.
 - loadChunkFromDiskCount: Number of times Chunks were read from disk.
 - loadChunkActualIOSize: Disk I/O used when reading Chunks (in bytes).
 
-### Special Notes
+### 2.4 Special Notes
 
 **Query** **Timeout Scenario with EXPLAIN ANALYZE**
 
@@ -199,7 +200,7 @@ Since `EXPLAIN ANALYZE` runs as a special query type, it cannot return results i
 - The logging interval is dynamically calculated based on the query's timeout duration, ensuring at least two log entries before the timeout occurs.
 - Users can examine the log file to identify potential causes of the timeout.
 
-### Example
+### 2.5 Example
 
 The following example demonstrates how to use `EXPLAIN ANALYZE`:
 
@@ -324,7 +325,7 @@ EXPLAIN ANALYZE VERBOSE SELECT * FROM t1;
 +-----------------------------------------------------------------------------------------------+
 ```
 
-### FAQs
+### 2.6 FAQs
 
 #### Differences Between WALL TIME and CPU TIME
 

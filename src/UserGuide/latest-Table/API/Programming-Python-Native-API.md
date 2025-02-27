@@ -18,10 +18,11 @@
     under the License.
 
 -->
+# Python Native API
 
 IoTDB provides a Python native client driver and a session pool management mechanism. These tools allow developers to interact with IoTDB in a programmatic and efficient manner. Using the Python API, developers can encapsulate time-series data into objects (e.g., `Tablet`, `NumpyTablet`) and insert them into the database directly, without the need to manually construct SQL statements. For multi-threaded operations, the `TableSessionPool` is recommended to optimize resource utilization and enhance performance.
 
-## Prerequisites
+## 1. Prerequisites
 
 To use the IoTDB Python API, install the required package using pip:
 
@@ -29,9 +30,9 @@ To use the IoTDB Python API, install the required package using pip:
 pip3 install apache-iotdb
 ```
 
-## Read and Write Operations
+## 2. Read and Write Operations
 
-### TableSession
+### 2.1 TableSession
 
 `TableSession` is a core class in IoTDB, enabling users to interact with the IoTDB database. It provides methods to execute SQL statements, insert data, and manage database sessions.
 
@@ -101,7 +102,7 @@ def close(self):
     pass
 ```
 
-### TableSessionConfig
+### 2.2 TableSessionConfig
 
 `TableSessionConfig` is a configuration class that sets parameters for creating a `TableSession` instance, defining essential settings for connecting to the IoTDB database.
 
@@ -159,9 +160,9 @@ class TableSessionConfig(object):
 
 **Note:** After using a `TableSession`, make sure to call the `close` method to release resources.
 
-## Session Pool
+## 3. Session Pool
 
-### TableSessionPool
+### 3.1 TableSessionPool
 
 `TableSessionPool` is a session pool management class designed for creating and managing `TableSession` instances. It provides functionality to retrieve sessions from the pool and close the pool when it is no longer needed.
 
@@ -200,7 +201,7 @@ def close(self):
     """
 ```
 
-### TableSessionPoolConfig
+### 3.2 TableSessionPoolConfig
 
 `TableSessionPoolConfig` is a configuration class used to define parameters for initializing and managing a `TableSessionPool` instance. It specifies the settings needed for efficient session pool management in IoTDB.
 
@@ -276,7 +277,7 @@ class TableSessionPoolConfig(object):
 - Ensure that `TableSession` instances retrieved from the `TableSessionPool` are properly closed after use.
 - After closing the `TableSessionPool`, it will no longer be possible to retrieve new sessions.
 
-## Sample Code
+## 4. Sample Code
 
 **Session** Example: You can find the full example code at [GitHub Repository](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/table_model_session_example.py).
 

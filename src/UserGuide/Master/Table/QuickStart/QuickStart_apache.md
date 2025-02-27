@@ -23,7 +23,7 @@
 
 This document will guide you through methods to get started quickly with IoTDB.
 
-## How to Install and Deploy?
+## 1. How to Install and Deploy?
 
 This guide will assist you in quickly installing and deploying IoTDB. You can quickly navigate to the content you need to review through the following document links:
 
@@ -41,7 +41,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
 > ❗️Note: We currently still recommend direct installation and deployment on physical/virtual machines. For Docker deployment, please refer to [Docker Deployment](../Deployment-and-Maintenance/Docker-Deployment_apache.md)
 
-## How to Use IoTDB?
+## 2. How to Use IoTDB?
 
 1. Database Modeling Design: Database modeling is a crucial step in creating a database system, involving the design of data structures and relationships to ensure that the organization of data meets the needs of specific applications. The following documents will help you quickly understand IoTDB's modeling design:
    
@@ -69,7 +69,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
 6. Application Programming Interfaces (APIs): IoTDB provides various application programming interfaces (APIs) to facilitate developers' interaction with IoTDB in applications. Currently supported interfaces include [Java Native API](../API/Programming-Java-Native-API_apache.md)、[Python Native API](../API/Programming-Python-Native-API.md)、[JDBC](../API/Programming-JDBC_apache.md), and more. For more programming interfaces, please refer to the [Application Programming Interfaces] section on the official website.
 
-## Want to learn more technical details?
+## 3. Want to learn more technical details?
 
 If you want to explore IoTDB’s internal mechanisms further, refer to the following documents:
 

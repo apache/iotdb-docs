@@ -22,20 +22,15 @@
 
 The monitoring panel is one of the supporting tools for TimechoDB. It aims to solve the monitoring problems of TimechoDB and its operating system, mainly including operating system resource monitoring, TimechoDB performance monitoring, and hundreds of kernel monitoring metrics, in order to help users monitor cluster health, optimize performance, and perform maintenance. This guide demonstrates how to enable the system monitoring module in a TimechoDB instance and visualize monitoring metrics using Prometheus + Grafana, using a typical 3C3D cluster (3 ConfigNodes and 3 DataNodes) as an example.
 
-## Installation Preparation
-
-1. Installing IoTDB: You need to first install IoTDB V1.0 or above Enterprise Edition. You can contact business or technical support to obtain
-2. Obtain the IoTDB monitoring panel installation package: Based on the enterprise version of IoTDB database monitoring panel, you can contact business or technical support to obtain
-
-## 1 Installation Preparation
+## 1. Installation Preparation
 
 1. Installing TimechoDB: Install TimechoDB V1.0 or above. Contact sales or technical support to obtain the installation package.
 
 2. Obtain the monitoring panel installation package: The monitoring panel is exclusive to the enterprise-grade TimechoDB. Contact sales or technical support to obtain it.
 
-## 2 Installation Steps
+## 2. Installation Steps
 
-### Step 1: Enable Monitoring Metrics Collection in TimechoDB
+### 2.1 Enable Monitoring Metrics Collection in TimechoDB
 
 1. Enable related configuration options. The configuration options related to monitoring in TimechoDB are disabled by default. Before deploying the monitoring panel, you need to enable certain configuration options (note that the service needs to be restarted after enabling monitoring configuration).
 
@@ -71,7 +66,7 @@ Taking the 3C3D cluster as an example, the monitoring configuration that needs t
 
 ![](/img/%E5%90%AF%E5%8A%A8.png)
 
-### Step 2: Install and Configure Prometheus
+### 2.2 Install and Configure Prometheus
 
 > In this example, Prometheus is installed on server 192.168.1.3.
 
@@ -122,7 +117,7 @@ scrape_configs:
 
 ![](/img/%E8%8A%82%E7%82%B9%E7%9B%91%E6%8E%A7.png)
 
-### Step 3: Install Grafana and Configure the Data Source
+### 2.3 Install Grafana and Configure the Data Source
 
 > n this example, Grafana is installed on server 192.168.1.3.
 
@@ -151,7 +146,7 @@ Ensure the URL for Prometheus is correct. Click "Save & Test". If the message "D
 
 ![](/img/%E9%85%8D%E7%BD%AE%E6%88%90%E5%8A%9F.png)
 
-### Step 4: Import IoTDB Grafana Dashboards
+### 2.4 Import IoTDB Grafana Dashboards
 
 1. Enter Grafana and select Dashboards:
 
@@ -189,7 +184,7 @@ Ensure the URL for Prometheus is correct. Click "Save & Test". If the message "D
 
       ![](/img/%E9%9D%A2%E6%9D%BF%E6%B1%87%E6%80%BB.png)
 
-## 3 Appendix, Detailed Monitoring Metrics
+## 3. Appendix, Detailed Monitoring Metrics
 
 ### 3.1 System Dashboard
 

@@ -20,7 +20,7 @@
 -->
 # Docker Deployment
 
-## 1 Environment Preparation
+## 1. Environment Preparation
 
 ### 1.1  Install Docker
 
@@ -53,12 +53,12 @@ ln -s  /usr/local/bin/docker-compose  /usr/bin/docker-compose
 docker-compose --version  #Display version information, indicating successful installation.
 ```
 
-## 2 Stand-Alone Deployment
+## 2. Stand-Alone Deployment
 
 This section demonstrates how to deploy a standalone Docker version of 1C1D.
 
 
-### Pull Image File
+### 2.1 Pull Image File
 
 The Docker image of Apache IoTDB has been uploaded tohttps://hub.docker.com/r/apache/iotdb。
 
@@ -201,7 +201,7 @@ docker cp iotdb:/iotdb/conf /docker-iotdb/iotdb/conf
 docker-compose  -f docker-compose-standalone.yml  up  -d
 ```
 
-## 3 Cluster Deployment
+## 3. Cluster Deployment
 
 This section describes how to manually deploy a cluster consisting of 3 ConfigNodes and 3 DataNodes, commonly referred to as a 3C3D cluster.
 
