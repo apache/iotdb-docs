@@ -123,9 +123,9 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'API/',
       children: [
-        { text: 'Java Native API', link: 'Programming-Java-Native-API' },
+        { text: 'Java Native API', link: 'Programming-Java-Native-API_apache' },
         { text: 'Python Native API', link: 'Programming-Python-Native-API' },
-        { text: 'JDBC', link: 'Programming-JDBC' },
+        { text: 'JDBC', link: 'Programming-JDBC_apache' },
         { text: 'RESTAPI V1 ', link: 'RestServiceV1' },
       ],
     },
