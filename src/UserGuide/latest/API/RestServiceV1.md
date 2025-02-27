@@ -22,7 +22,7 @@
 # RESTful API V1(Not Recommend)  
 IoTDB's RESTful services can be used for query, write, and management operations, using the OpenAPI standard to define interfaces and generate frameworks.
 
-## Enable RESTful Services
+## 1. Enable RESTful Services
 
 RESTful services are disabled by default.
 
@@ -32,7 +32,7 @@ RESTful services are disabled by default.
   enable_rest_service=true
   ```
 
-## Authentication
+## 2. Authentication
 Except the liveness probe API `/ping`, RESTful services use the basic authentication. Each URL request needs to carry `'Authorization': 'Basic ' + base64.encode(username + ':' + password)`.
 
 The username used in the following examples is: `root`, and password is: `root`.
@@ -67,9 +67,9 @@ Authorization: Basic cm9vdDpyb290
     }
     ```
 
-## Interface
+## 3. Interface
 
-### ping
+### 3.1 ping
 
 The `/ping` API can be used for service liveness probing.
 
@@ -119,7 +119,7 @@ Sample response:
 
 > `/ping` can be accessed without authorization.
 
-### query
+### 3.2 query
 
 The query interface can be used to handle data queries and metadata queries.
 
@@ -762,7 +762,7 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 }
 ```
 
-### nonQuery
+### 3.3 nonQuery
 
 Request method: `POST`
 
@@ -798,7 +798,7 @@ Sample response:
 
 
 
-### insertTablet
+### 3.4 insertTablet
 
 Request method: `POST`
 
@@ -837,7 +837,7 @@ Sample response:
 }
 ```
 
-## Configuration
+## 4. Configuration
 
 The configuration is located in 'iotdb-system.properties'.
 

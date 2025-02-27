@@ -24,7 +24,7 @@
 
 This document will guide you through methods to get started quickly with IoTDB.
 
-## How to Install and Deploy?
+## 1. How to Install and Deploy?
 
 This guide will assist you in quickly installing and deploying IoTDB. You can quickly navigate to the content you need to review through the following document links:
 
@@ -43,7 +43,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
 > ❗️Note: We currently still recommend direct installation and deployment on physical/virtual machines. For Docker deployment, please refer to [Docker Deployment](../Deployment-and-Maintenance/Docker-Deployment_apache.md)
 
-## How to Use IoTDB?
+## 2. How to Use IoTDB?
 
 1. Database Modeling Design: Database modeling is a crucial step in creating a database system, involving the design of data structures and relationships to ensure that the organization of data meets the needs of specific applications. The following documents will help you quickly understand IoTDB's modeling design:
    
@@ -67,7 +67,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
 5. API: IoTDB provides multiple application programming interfaces (API) for developers to interact with IoTDB in their applications, and currently supports [Java Native API](../API/Programming-Java-Native-API.md)、[Python Native API](../API/Programming-Python-Native-API.md)、[C++ Native API](../API/Programming-Cpp-Native-API.md) ,For more API, please refer to the official website 【API】 and other chapters
 
-## What other convenient tools are available?
+## 3. What other convenient tools are available?
 
 In addition to its rich features, IoTDB also has a comprehensive range of tools in its surrounding system. This document will help you quickly use the peripheral tool system : 
 
@@ -77,7 +77,7 @@ In addition to its rich features, IoTDB also has a comprehensive range of tools 
 
    - Data Export Script: For different scenarios, IoTDB provides users with multiple ways to batch export data. For specific usage instructions, please refer to: [Data Export](../Tools-System/Data-Export-Tool.md)
 
-## Want to Learn More About the Technical Details?
+## 4. Want to Learn More About the Technical Details?
 
 If you are interested in delving deeper into the technical aspects of IoTDB, you can refer to the following documents:
 
@@ -87,6 +87,6 @@ If you are interested in delving deeper into the technical aspects of IoTDB, you
  
    - Data Partitioning and Load Balancing:  IoTDB has meticulously designed data partitioning strategies and load balancing algorithms based on the characteristics of time series data, enhancing the availability and performance of the cluster. For more information,  please refer to: [Data Partitioning and Load Balancing](../Technical-Insider/Cluster-data-partitioning.md)
 
-## Encountering problems during use?
+## 5. Encountering problems during use?
 
 If you encounter difficulties during installation or use, you can move to [Frequently Asked Questions](../FAQ/Frequently-asked-questions.md) View in the middle

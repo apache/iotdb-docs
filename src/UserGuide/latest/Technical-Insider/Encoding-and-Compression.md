@@ -22,7 +22,7 @@
 # Encoding and Compression
 
 
-## Encoding Methods
+## 1. Encoding Methods
 
 To improve the efficiency of data storage, it is necessary to encode data during data writing, thereby reducing the amount of disk space used. In the process of writing and reading data, the amount of data involved in the I/O operations can be reduced to improve performance. IoTDB supports the following encoding methods for different data types:
 
@@ -72,7 +72,7 @@ To improve the efficiency of data storage, it is necessary to encode data during
     RLBE is a lossless encoding that combines the ideas of differential encoding, bit-packing encoding, run-length encoding, Fibonacci encoding and concatenation. RLBE encoding is suitable for time series data with increasing and small increment value, and is not suitable for time series data with large fluctuation.
 
 
-### Correspondence between data type and encoding
+### 1.1 Correspondence between data type and encoding
 
 The five encodings described in the previous sections are applicable to different data types. If the correspondence is wrong, the time series cannot be created correctly. 
 
@@ -99,11 +99,11 @@ As shown below, the second-order difference encoding does not support the Boolea
 IoTDB> create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODING=TS_2DIFF
 Msg: 507: encoding TS_2DIFF does not support BOOLEAN
 ```
-## Compression
+## 2. Compression
 
 When the time series is written and encoded as binary data according to the specified type, IoTDB compresses the data using compression technology to further improve space storage efficiency. Although both encoding and compression are designed to improve storage efficiency, encoding techniques are usually available only for specific data types (e.g., second-order differential encoding is only suitable for INT32 or INT64 data type, and storing floating-point numbers requires multiplying them by 10m to convert to integers), after which the data is converted to a binary stream. The compression method (SNAPPY) compresses the binary stream, so the use of the compression method is no longer limited by the data type.
 
-### Basic Compression Methods
+### 2.1 Basic Compression Methods
 
 IoTDB allows you to specify the compression method of the column when creating a time series, and supports the following compression methods:
 
@@ -121,7 +121,7 @@ IoTDB allows you to specify the compression method of the column when creating a
 
 The specified syntax for compression is detailed in [Create Timeseries Statement](../SQL-Manual/SQL-Manual.md).
 
-### Compression Ratio Statistics
+### 2.2 Compression Ratio Statistics
 
 Compression ratio statistics file: data/datanode/system/compression_ratio
 

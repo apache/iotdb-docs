@@ -20,7 +20,7 @@
 -->
 # Stand-Alone Deployment
 
-## Matters Needing Attention
+## 1. Matters Needing Attention
 
 1. Before installation, ensure that the system is complete by referring to [System configuration](./Environment-Requirements.md).
 
@@ -40,16 +40,16 @@
   - Using the same user operation: Ensure that the same user is used for start, stop and other operations, and do not switch users.
   - Avoid using sudo: Try to avoid using sudo commands as they execute commands with root privileges, which may cause confusion or security issues.
   
-## Installation Steps
+## 2. Installation Steps
 
-### 1、Unzip the installation package and enter the installation directory
+### 2.1 Unzip the installation package and enter the installation directory
 
 ```Shell
 unzip  apache-iotdb-{version}-all-bin.zip
 cd  apache-iotdb-{version}-all-bin
 ```
 
-### 2、Parameter Configuration
+### 2.2 Parameter Configuration
 
 #### Environment Script Configuration
 
@@ -103,7 +103,7 @@ Open the DataNode configuration file (./conf/iotdb-system. properties file) and 
 
 > ❗️Attention: Editors such as VSCode Remote do not have automatic configuration saving function. Please ensure that the modified files are saved persistently, otherwise the configuration items will not take effect
 
-### 3、Start ConfigNode
+### 2.3 Start ConfigNode
 
 Enter the sbin directory of iotdb and start confignode
 
@@ -112,7 +112,7 @@ Enter the sbin directory of iotdb and start confignode
 ```
 If the startup fails, please refer to [Common Questions](#common-questions).
 
-### 4、Start DataNode
+### 2.4 Start DataNode
 
 Enter the sbin directory of iotdb and start datanode:
 
@@ -121,7 +121,7 @@ cd sbin
 ./start-datanode.sh   -d   #The "- d" parameter will start in the background 
 ```
 
-### 5、Verify Deployment
+### 2.5 Verify Deployment
 
 Can be executed directly/ Cli startup script in sbin directory:
 
@@ -141,7 +141,7 @@ When the status is all running, it indicates that the service has started succes
 
 > The appearance of 'Activated (W)' indicates passive activation, indicating that this Config Node does not have a license file (or has not issued the latest license file with a timestamp). At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Timecho staff to reapply.
 
-## Common Questions
+## 3. Common Questions
 
 1. Confignode failed to start
 

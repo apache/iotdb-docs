@@ -29,7 +29,7 @@ The visualization console is one of the supporting tools for IoTDB (similar to N
 
 The instructions for using the visualization console tool can be found in the [Instructions](../Tools-System/Monitor-Tool.md) section of the document.
 
-## Installation Preparation
+## 1. Installation Preparation
 
 |   Preparation Content    |            Name             |                     Version Requirements                     |                             Link                             |
 | :----------------------: | :-------------------------: | :----------------------------------------------------------: | :----------------------------------------------------------: |
@@ -39,9 +39,9 @@ The instructions for using the visualization console tool can be found in the [I
 |         Database         |            IoTDB            |         Requires V1.2.0 Enterprise Edition and above         |   You can contact business or technical support to obtain    |
 |         Console          | IoTDB-Workbench-`<version>` |                              -                               | You can choose according to the appendix version comparison table and contact business or technical support to obtain it |
 
-## Installation Steps
+## 2. Installation Steps
 
-### Step 1: IoTDB enables monitoring indicator collection
+### 2.1 IoTDB enables monitoring indicator collection
 
 1. Open the monitoring configuration item. The configuration items related to monitoring in IoTDB are disabled by default. Before deploying the monitoring panel, you need to open the relevant configuration items (note that the service needs to be restarted after enabling monitoring configuration).
 
@@ -111,7 +111,7 @@ The instructions for using the visualization console tool can be found in the [I
 
     ![](/img/%E5%90%AF%E5%8A%A8.png)
 
-### Step 2: Install and configure Prometheus
+### 2.2 Install and configure Prometheus
 
 1. Download the Prometheus installation package, which requires installation of V2.30.3 and above. You can go to the Prometheus official website to download it (https://prometheus.io/docs/introduction/first_steps/)
 2. Unzip the installation package and enter the unzipped folder:
@@ -157,7 +157,7 @@ The instructions for using the visualization console tool can be found in the [I
     </div>
 
 
-### Step 3: Install Workbench
+### 2.3 Install Workbench
 
 1. Enter the config directory of iotdb Workbench -`<version>`
 
@@ -190,7 +190,7 @@ The instructions for using the visualization console tool can be found in the [I
     ![](/img/workbench-en.png)
 
 
-### Step 4: Configure Instance Information
+### 2.4 Configure Instance Information
 
 1. Configure instance information: You only need to fill in the following information to connect to the instance
 
@@ -210,7 +210,7 @@ The instructions for using the visualization console tool can be found in the [I
 
     ![](/img/workbench-en-2.png)
 
-## Appendix: IoTDB and Workbench Version Comparison Table
+## 3. Appendix: IoTDB and Workbench Version Comparison Table
 
 | Workbench Version Number | Release Note                                                 | Supports IoTDB Versions   |
 | :------------------------: | :------------------------------------------------------------: | :-------------------------: |

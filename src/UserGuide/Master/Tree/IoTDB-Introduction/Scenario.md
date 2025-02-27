@@ -21,9 +21,9 @@
 
 # Scenario
 
-## Application 1: Internet of Vehicles
+## 1. Internet of Vehicles
 
-### Background
+### 1.1 Background
 
 > - Challenge: a large number of vehicles and time series
 
@@ -31,7 +31,7 @@ A car company has a huge business volume and needs to deal with a large number o
 
 In the original architecture, the HBase cluster was used as the storage database. The query delay was high, and the system maintenance was difficult and costly. The HBase cluster cannot meet the demand. On the contrary, IoTDB supports high-frequency data writing with millions of measurement points and millisecond-level query response speed. The efficient data processing capability allows users to obtain the required data quickly and accurately. Therefore, IoTDB is chosen as the data storage layer, which has a lightweight architecture, reduces operation and maintenance costs, and supports elastic expansion and contraction and high availability to ensure system stability and availability.
 
-### Architecture
+### 1.2 Architecture
 
 The data management architecture of the car company using IoTDB as the time-series data storage engine is shown in the figure below.
 
@@ -40,9 +40,9 @@ The data management architecture of the car company using IoTDB as the time-seri
 
 The vehicle data is encoded based on TCP and industrial protocols and sent to the edge gateway, and the gateway sends the data to the message queue Kafka cluster, decoupling the two ends of production and consumption. Kafka sends data to Flink for real-time processing, and the processed data is written into IoTDB. Both historical data and latest data are queried in IoTDB, and finally the data flows into the visualization platform through API for application.
 
-## Application 2: Intelligent Operation and Maintenance
+## 2. Intelligent Operation and Maintenance
 
-### Background
+### 2.1 Background
 
 A steel factory aims to build a low-cost, large-scale access-capable remote intelligent operation and maintenance software and hardware platform, access hundreds of production lines, more than one million devices, and tens of millions of time series, to achieve remote coverage of intelligent operation and maintenance.
 
@@ -55,30 +55,30 @@ There are many challenges in this process:
 
 After selecting IoTDB as the storage database of the intelligent operation and maintenance platform, it can stably write multi-frequency and high-frequency acquisition data, covering the entire steel process, and use a composite compression algorithm to reduce the data size by more than 10 times, saving costs. IoTDB also effectively supports downsampling query of historical data of more than 10 years, helping enterprises to mine data trends and assist enterprises in long-term strategic analysis.
 
-### Architecture
+### 2.2 Architecture
 
 The figure below shows the architecture design of the intelligent operation and maintenance platform of the steel plant.           
 
 ![img](/img/architecture2.jpg)
 
-## Application 3: Smart Factory
+## 3. Smart Factory
 
-### Background
+### 3.1 Background
 
 > - Challenge：Cloud-edge collaboration
 
 A cigarette factory hopes to upgrade from a "traditional factory" to a "high-end factory". It uses the Internet of Things and equipment monitoring technology to strengthen information management and services to realize the free flow of data within the enterprise and to help improve productivity and lower operating costs.
 
-### Architecture
+### 3.2 Architecture
 
 The figure below shows the factory's IoT system architecture. IoTDB runs through the three-level IoT platform of the company, factory, and workshop to realize unified joint debugging and joint control of equipment. The data at the workshop level is collected, processed and stored in real time through the IoTDB at the edge layer, and a series of analysis tasks are realized. The preprocessed data is sent to the IoTDB at the platform layer for data governance at the business level, such as device management, connection management, and service support. Eventually, the data will be integrated into the IoTDB at the group level for comprehensive analysis and decision-making across the organization.
 
 ![img](/img/architecture3.jpg)
 
 
-## Application 4: Condition monitoring
+## 4. Condition monitoring
 
-### Background
+### 4.1 Background
 
 > - Challenge: Smart heating, cost reduction and efficiency increase
 
@@ -86,7 +86,7 @@ A power plant needs to monitor tens of thousands of measuring points of main and
 
 After using IoTDB as the storage and analysis engine, combined with meteorological data, building control data, household control data, heat exchange station data, official website data, heat source side data, etc., all data are time-aligned in IoTDB to provide reliable data basis to realize smart heating. At the same time, it also solves the problem of monitoring the working conditions of various important components in the relevant heating process, such as on-demand billing and pipe network, heating station, etc., to reduce manpower input.
 
-### Architecture
+### 4.2 Architecture
 
 The figure below shows the data management architecture of the power plant in the heating scene.
 

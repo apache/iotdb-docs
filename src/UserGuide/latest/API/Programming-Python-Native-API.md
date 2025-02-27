@@ -21,13 +21,13 @@
 
 # Python Native API
 
-## Requirements
+## 1. Requirements
 
 You have to install thrift (>=0.13) before using the package.
 
 
 
-## How to use (Example)
+## 2. How to use (Example)
 
 First, download the package: `pip3 install apache-iotdb`
 
@@ -52,7 +52,7 @@ zone = session.get_time_zone()
 session.close()
 ```
 
-## Initialization
+## 3. Initialization
 
 * Initialize a Session
 
@@ -94,11 +94,11 @@ Notice: this RPC compression status of client must comply with that of IoTDB ser
 ```python
 session.close()
 ```
-## Managing Session through SessionPool
+## 4. Managing Session through SessionPool
 
 Utilizing SessionPool to manage sessions eliminates the need to worry about session reuse. When the number of session connections reaches the maximum capacity of the pool, requests for acquiring a session will be blocked, and you can set the blocking wait time through parameters. After using a session, it should be returned to the SessionPool using the `putBack` method for proper management.
 
-### Create SessionPool
+### 4.1 Create SessionPool
 
 ```python
 pool_config = PoolConfig(host=ip,port=port, user_name=username,
@@ -110,7 +110,7 @@ wait_timeout_in_ms = 3000
 # # Create the connection pool
 session_pool = SessionPool(pool_config, max_pool_size, wait_timeout_in_ms)
 ```
-### Create a SessionPool using distributed nodes.
+### 4.2 Create a SessionPool using distributed nodes.
 ```python
 pool_config = PoolConfig(node_urls=node_urls=["127.0.0.1:6667", "127.0.0.1:6668", "127.0.0.1:6669"], user_name=username,
                          password=password, fetch_size=1024,
@@ -118,7 +118,7 @@ pool_config = PoolConfig(node_urls=node_urls=["127.0.0.1:6667", "127.0.0.1:6668"
 max_pool_size = 5
 wait_timeout_in_ms = 3000
 ```
-### Acquiring a session through SessionPool and manually calling PutBack after use
+### 4.3 Acquiring a session through SessionPool and manually calling PutBack after use
 
 ```python
 session = session_pool.get_session()
@@ -132,9 +132,9 @@ session_pool.put_back(session)
 session_pool.close()
 ```
 
-## Data Definition Interface (DDL Interface)
+## 5. Data Definition Interface (DDL Interface)
 
-### Database Management
+### 5.1 Database Management
 
 * CREATE DATABASE
 
@@ -148,7 +148,7 @@ session.set_storage_group(group_name)
 session.delete_storage_group(group_name)
 session.delete_storage_groups(group_name_lst)
 ```
-### Timeseries Management
+### 5.2 Timeseries Management
 
 * Create one or multiple timeseries
 
@@ -184,9 +184,9 @@ session.delete_time_series(paths_list)
 session.check_time_series_exists(path)
 ```
 
-## Data Manipulation Interface (DML Interface)
+## 6. Data Manipulation Interface (DML Interface)
 
-### Insert
+### 6.1 Insert
 
 It is recommended to use insertTablet to help improve write efficiency.
 
@@ -310,7 +310,7 @@ session.insert_records(
 session.insert_records_of_one_device(device_id, time_list, measurements_list, data_types_list, values_list)
 ```
 
-### Insert with type inference
+### 6.2 Insert with type inference
 
 When the data is of String type, we can use the following interface to perform type inference based on the value of the value itself. For example, if value is "true" , it can be automatically inferred to be a boolean type. If value is "3.2" , it can be automatically inferred as a flout type. Without type information, server has to do type inference, which may cost some time.
 
@@ -320,7 +320,7 @@ When the data is of String type, we can use the following interface to perform t
 session.insert_str_record(device_id, timestamp, measurements, string_values)
 ```
 
-### Insert of Aligned Timeseries
+### 6.3 Insert of Aligned Timeseries
 
 The Insert of aligned timeseries uses interfaces like insert_aligned_XXX, and others are similar to the above interfaces:
 
@@ -331,7 +331,7 @@ The Insert of aligned timeseries uses interfaces like insert_aligned_XXX, and ot
 * insert_aligned_tablets
 
 
-## IoTDB-SQL Interface
+## 7. IoTDB-SQL Interface
 
 * Execute query statement
 
@@ -351,8 +351,8 @@ session.execute_non_query_statement(sql)
 session.execute_statement(sql)
 ```
 
-## Schema Template
-### Create Schema Template
+## 8. Schema Template
+### 8.1 Create Schema Template
 The step for creating a metadata template is as follows
 1. Create the template class
 2. Adding MeasurementNode
@@ -371,7 +371,7 @@ template.add_template(m_node_z)
 
 session.create_schema_template(template)
 ```
-### Modify Schema Template measurements
+### 8.2 Modify Schema Template measurements
 Modify measurements in a template, the template must be already created. These are functions that add or delete some measurement nodes.
 * add node in template
 ```python
@@ -383,17 +383,17 @@ session.add_measurements_in_template(template_name, measurements_path, data_type
 session.delete_node_in_template(template_name, path)
 ```
 
-### Set Schema Template
+### 8.3 Set Schema Template
 ```python
 session.set_schema_template(template_name, prefix_path)
 ```
 
-### Uset Schema Template
+### 8.4 Uset Schema Template
 ```python
 session.unset_schema_template(template_name, prefix_path)
 ```
 
-### Show Schema Template
+### 8.5 Show Schema Template
 * Show all schema templates
 ```python
 session.show_all_templates()
@@ -428,14 +428,14 @@ session.show_paths_template_set_on(template_name)
 session.show_paths_template_using_on(template_name)
 ```
 
-### Drop Schema Template
+### 8.6 Drop Schema Template
 Delete an existing metadata template，dropping an already set template is not supported
 ```python
 session.drop_schema_template("template_python")
 ```
 
 
-## Pandas Support
+## 9. Pandas Support
 
 To easily transform a query result to a [Pandas Dataframe](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html)
 the SessionDataSet has a method `.todf()` which consumes the dataset and transforms it to a pandas dataframe.
@@ -463,7 +463,7 @@ df = ...
 ```
 
 
-## IoTDB Testcontainer
+## 10. IoTDB Testcontainer
 
 The Test Support is based on the lib `testcontainers` (https://testcontainers-python.readthedocs.io/en/latest/index.html) which you need to install in your project if you want to use the feature.
 
@@ -482,12 +482,12 @@ class MyTestCase(unittest.TestCase):
 
 by default it will load the image `apache/iotdb:latest`, if you want a specific version just pass it like e.g. `IoTDBContainer("apache/iotdb:0.12.0")` to get version `0.12.0` running.
 
-## IoTDB DBAPI
+## 11. IoTDB DBAPI
 
 IoTDB DBAPI implements the Python DB API 2.0 specification (https://peps.python.org/pep-0249/), which defines a common
 interface for accessing databases in Python.
 
-### Examples
+### 11.1 Examples
 + Initialization
 
 The initialized parameters are consistent with the session part (except for the sqlalchemy_mode).
@@ -536,11 +536,11 @@ cursor.close()
 conn.close()
 ```
 
-## IoTDB SQLAlchemy Dialect (Experimental)
+## 12. IoTDB SQLAlchemy Dialect (Experimental)
 The SQLAlchemy dialect of IoTDB is written to adapt to Apache Superset.
 This part is still being improved.
 Please do not use it in the production environment!
-### Mapping of the metadata
+### 12.1 Mapping of the metadata
 The data model used by SQLAlchemy is a relational data model, which describes the relationships between different entities through tables.
 While the data model of IoTDB is a hierarchical data model, which organizes the data through a tree structure.
 In order to adapt IoTDB to the dialect of SQLAlchemy, the original data model in IoTDB needs to be reorganized.
@@ -570,7 +570,7 @@ The following figure shows the relationship between the two more intuitively:
 
 ![sqlalchemy-to-iotdb](/img/UserGuide/API/IoTDB-SQLAlchemy/sqlalchemy-to-iotdb.png?raw=true)
 
-### Data type mapping
+### 12.2 Data type mapping
 | data type in IoTDB | data type in SQLAlchemy |
 |--------------------|-------------------------|
 | BOOLEAN            | Boolean                 |
@@ -581,7 +581,7 @@ The following figure shows the relationship between the two more intuitively:
 | TEXT               | Text                    |
 | LONG               | BigInteger              |
 
-### Example
+### 12.3 Example
 
 + execute statement
 
@@ -627,15 +627,15 @@ for row in res:
 ```
 
 
-## Developers
+## 13. Developers
 
-### Introduction
+### 13.1 Introduction
 
 This is an example of how to connect to IoTDB with python, using the thrift rpc interfaces. Things are almost the same on Windows or Linux, but pay attention to the difference like path separator.
 
 
 
-### Prerequisites
+### 13.2 Prerequisites
 
 Python3.7 or later is preferred.
 
@@ -652,7 +652,7 @@ pip install -r requirements_dev.txt
 
 
 
-### Compile the thrift library and Debug
+### 13.3 Compile the thrift library and Debug
 
 In the root of IoTDB's source code folder,  run `mvn clean generate-sources -pl iotdb-client/client-py -am`.
 
@@ -664,7 +664,7 @@ This folder is ignored from git and should **never be pushed to git!**
 
 
 
-### Session Client & Example
+### 13.4 Session Client & Example
 
 We packed up the Thrift interface in `client-py/src/iotdb/Session.py` (similar with its Java counterpart), also provided an example file `client-py/src/SessionExample.py` of how to use the session module. please read it carefully.
 
@@ -686,7 +686,7 @@ session.close()
 
 
 
-### Tests
+### 13.5 Tests
 
 Please add your custom tests in `tests` folder.
 
@@ -696,14 +696,14 @@ To run all defined tests just type `pytest .` in the root folder.
 
 
 
-### Futher Tools
+### 13.6 Futher Tools
 
 [black](https://pypi.org/project/black/) and [flake8](https://pypi.org/project/flake8/) are installed for autoformatting and linting.
 Both can be run by `black .` or `flake8 .` respectively.
 
 
 
-## Releasing
+## 14. Releasing
 
 To do a release just ensure that you have the right set of generated thrift files.
 Then run linting and auto-formatting.
@@ -712,13 +712,13 @@ Then you are good to go to do a release!
 
 
 
-### Preparing your environment
+### 14.1 Preparing your environment
 
 First, install all necessary dev dependencies via `pip install -r requirements_dev.txt`.
 
 
 
-### Doing the Release
+### 14.2 Doing the Release
 
 There is a convenient script `release.sh` to do all steps for a release.
 Namely, these are

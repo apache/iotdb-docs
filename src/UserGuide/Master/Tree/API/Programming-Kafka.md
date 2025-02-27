@@ -23,9 +23,9 @@
 
 [Apache Kafka](https://kafka.apache.org/) is an open-source distributed event streaming platform used by thousands of companies for high-performance data pipelines, streaming analytics, data integration, and mission-critical applications.
 
-## Coding Example
+## 1. Coding Example
 
-### kafka Producer Producing Data Java Code Example
+### 1.1 kafka Producer Producing Data Java Code Example
 
 ```java
     Properties props = new Properties();
@@ -39,7 +39,7 @@
     producer.close();
 ```
 
-### kafka Consumer Receiving Data Java Code Example
+### 1.2 kafka Consumer Receiving Data Java Code Example
 
 ```java
     Properties props = new Properties();
@@ -53,7 +53,7 @@
     ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofSeconds(1));
  ```
 
-### Example of Java Code Stored in IoTDB Server
+### 1.3 Example of Java Code Stored in IoTDB Server
 
 ```java
     SessionPool pool =

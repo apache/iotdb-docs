@@ -25,12 +25,12 @@
 IT CAN NOT PROVIDE HIGH THROUGHPUT FOR WRITE OPERATIONS. 
 PLEASE USE [Java Native API](./Programming-Java-Native-API.md) INSTEAD*
 
-## Dependencies
+## 1. Dependencies
 
 * JDK >= 1.8+
 * Maven >= 3.9+
 
-## Installation
+## 2. Installation
 
 In root directory:
 
@@ -38,7 +38,7 @@ In root directory:
 mvn clean install -pl iotdb-client/jdbc -am -DskipTests
 ```
 
-## Use IoTDB JDBC with Maven
+## 3. Use IoTDB JDBC with Maven
 
 ```xml
 <dependencies>
@@ -50,7 +50,7 @@ mvn clean install -pl iotdb-client/jdbc -am -DskipTests
 </dependencies>
 ```
 
-## Coding Examples
+## 4. Coding Examples
 
 This chapter provides an example of how to open a database connection, execute an SQL query, and display the results.
 

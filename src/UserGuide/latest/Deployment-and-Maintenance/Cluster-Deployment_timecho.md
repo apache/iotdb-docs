@@ -28,7 +28,7 @@ This guide describes how to manually deploy a cluster instance consisting of 3 C
 
 
 
-## Prerequisites
+## 1. Prerequisites
 
 1. [System configuration](./Environment-Requirements.md):Ensure the system has been configured according to the preparation guidelines.
 
@@ -53,13 +53,13 @@ This guide describes how to manually deploy a cluster instance consisting of 3 C
 
 6. **Monitoring Panel**: Deploy a monitoring panel to track key performance metrics. Contact the Timecho team for access and refer to the "[Monitoring Panel Deployment](./Monitoring-panel-deployment.md)" guide.
 
-## Preparation
+## 2. Preparation
 
 1. Obtain the TimechoDB installation package: `timechodb-{version}-bin.zip` following [IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_timecho.md)）
 
 2. Configure the operating system environment according to [Environment Requirement](../Deployment-and-Maintenance/Environment-Requirements.md)）
 
-## Installation Steps
+## 3. Installation Steps
 
 Taking a cluster with three Linux servers with the following information as example:
 
@@ -69,7 +69,7 @@ Taking a cluster with three Linux servers with the following information as exam
 | 11.101.17.225 | iotdb-2   | ConfigNode、DataNode |
 | 11.101.17.226 | iotdb-3   | ConfigNode、DataNode |
 
-### 1.Configure Hostnames
+### 3.1 Configure Hostnames
 
 On all three servers, configure the hostnames by editing the `/etc/hosts` file. Use the following commands:
 
@@ -79,7 +79,7 @@ echo "11.101.17.225  iotdb-2"  >> /etc/hosts
 echo "11.101.17.226  iotdb-3"  >> /etc/hosts 
 ```
 
-### 2. Extract Installation Package
+### 3.2 Extract Installation Package
 
 Unzip the installation package and enter the installation directory:
 
@@ -88,7 +88,7 @@ unzip  timechodb-{version}-bin.zip
 cd  timechodb-{version}-bin
 ```
 
-### 3. Parameters Configuration
+### 3.3 Parameters Configuration
 
 - #### Memory Configuration
 
@@ -137,7 +137,7 @@ Set the following parameters in `./conf/iotdb-system.properties`. Refer to `./co
 
 **Note:** Ensure files are saved after editing. Tools like VSCode Remote do not save changes automatically.
 
-### 4. Start ConfigNode Instances
+### 3.4 Start ConfigNode Instances
 
 1. Start the first ConfigNode (`iotdb-1`) as the seed node
 
@@ -150,7 +150,7 @@ cd sbin
 
     If the startup fails, refer to the [Common Questions](#common-questions) section below for troubleshooting.
 
-### 5.Start DataNode Instances
+### 3.5 Start DataNode Instances
 
 On each server, navigate to the `sbin` directory and start the DataNode:
 
@@ -159,7 +159,7 @@ cd sbin
 ./start-datanode.sh   -d   #"- d" parameter will start in the background
 ```
 
-### 6.Activate Database
+### 3.6 Activate Database
 
 #### Option 1: File-Based Activation
 
@@ -217,15 +217,15 @@ cd sbin
     IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
     ```
 
-### 7.Verify Activation
+### 3.7 Verify Activation
 
 Check the `ClusterActivationStatus` field. If it shows `ACTIVATED`, the database has been successfully activated.
 
 ![](/img/%E9%9B%86%E7%BE%A4-%E9%AA%8C%E8%AF%81.png)
 
-## Maintenance
+## 4. Maintenance
 
-### ConfigNode Maintenance
+### 4.1 ConfigNode Maintenance
 
 ConfigNode maintenance includes adding and removing ConfigNodes. Common use cases include:
 
@@ -289,7 +289,7 @@ sbin/remove-confignode.bat [confignode_id]
 sbin/remove-confignode.bat [cn_internal_address:cn_internal_port]
 ```
 
-### DataNode Maintenance
+### 4.2 DataNode Maintenance
 
 DataNode maintenance includes adding and removing DataNodes. Common use cases include:
 
@@ -351,7 +351,7 @@ sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
 sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 ```
 
-## Common Questions
+## 5. Common Questions
 
 1. Activation Fails Repeatedly
    - Use the `ls -al` command to verify that the ownership of the installation directory matches the current user.
@@ -388,15 +388,15 @@ sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
        rm -rf data logs
        ```
 
-## Appendix
+## 6. Appendix
 
-### ConfigNode Parameters
+### 6.1 ConfigNode Parameters
 
 | Parameter | Description                                                 | Is it required |
 | :-------- | :---------------------------------------------------------- | :------------- |
 | -d        | Starts the process in daemon mode (runs in the background). | No             |
 
-### DataNode Parameters
+### 6.2 DataNode Parameters
 
 | Parameter | Description                                                  | Required |
 | :-------- | :----------------------------------------------------------- | :------- |

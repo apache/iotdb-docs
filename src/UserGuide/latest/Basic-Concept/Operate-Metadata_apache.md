@@ -21,9 +21,9 @@
 
 # Timeseries Management
 
-## Database Management
+## 1. Database Management
 
-### Create Database
+### 1.1 Create Database
 
 According to the storage model we can set up the corresponding database. Two SQL statements are supported for creating databases, as follows:
 
@@ -49,7 +49,7 @@ The LayerName of database can only be chinese or english characters, numbers, un
 
 Besides, if deploy on Windows system, the LayerName is case-insensitive, which means it's not allowed to create databases `root.ln` and `root.LN` at the same time.
 
-### Show Databases
+### 1.2 Show Databases
 
 After creating the database, we can use the [SHOW DATABASES](../SQL-Manual/SQL-Manual.md) statement and [SHOW DATABASES \<PathPattern>](../SQL-Manual/SQL-Manual.md) to view the databases. The SQL statements are as follows:
 
@@ -71,7 +71,7 @@ Total line number = 2
 It costs 0.060s
 ```
 
-### Delete Database
+### 1.3 Delete Database
 
 User can use the `DELETE DATABASE <PathPattern>` statement to delete all databases matching the pathPattern. Please note the data in the database will also be deleted. 
 
@@ -82,7 +82,7 @@ IoTDB > DELETE DATABASE root.sgcc
 IoTDB > DELETE DATABASE root.**
 ```
 
-### Count Databases
+### 1.4 Count Databases
 
 User can use the `COUNT DATABASE <PathPattern>` statement to count the number of databases. It is allowed to specify `PathPattern` to count the number of databases matching the `PathPattern`.
 
@@ -141,7 +141,7 @@ Total line number = 1
 It costs 0.002s
 ```
 
-### Setting up heterogeneous databases (Advanced operations)
+### 1.5 Setting up heterogeneous databases (Advanced operations)
 
 Under the premise of familiar with IoTDB metadata modeling, 
 users can set up heterogeneous databases in IoTDB to cope with different production needs.
@@ -236,7 +236,7 @@ The query results in each column are as follows:
 + The required minimum DataRegionGroup number of the Database
 + The permitted maximum DataRegionGroup number of the Database
 
-### TTL
+### 1.6 TTL
 
 IoTDB supports device-level TTL settings, which means it is able to delete old data automatically and periodically. The benefit of using TTL is that hopefully you can control the total disk space usage and prevent the machine from running out of disks. Moreover, the query performance may downgrade as the total number of files goes up and the memory usage also increases as there are more files. Timely removing such files helps to keep at a high query performance level and reduce memory usage.
 
@@ -348,7 +348,7 @@ IoTDB> show devices
 ```
 All devices will definitely have a TTL, meaning it cannot be null. INF represents infinity.
 
-## Device Template
+## 2. Device Template
 
 IoTDB supports the device template function, enabling different entities of the same type to share metadata, reduce the memory usage of metadata, and simplify the management of numerous entities and measurements.
 
@@ -356,7 +356,7 @@ IoTDB supports the device template function, enabling different entities of the 
 
 ![img](/img/templateEN.jpg)
 
-### Create Device Template
+### 2.1 Create Device Template
 
 The SQL syntax for creating a metadata template is as follows:
 
@@ -379,7 +379,7 @@ IoTDB> create device template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT 
 The` lat` and `lon` measurements are aligned.
 
 
-### Set Device Template
+### 2.2 Set Device Template
 
 After a device template is created, it should be set to specific path before creating related timeseries or insert data.
 
@@ -395,7 +395,7 @@ The SQL Statement for setting device template is as follow:
 IoTDB> set device template t1 to root.sg1.d1
 ```
 
-### Activate Device Template
+### 2.3 Activate Device Template
 
 After setting the device template, with the system enabled to auto create schema, you can insert data into the timeseries. For example, suppose there's a database root.sg1 and t1 has been set to root.sg1.d1, then timeseries like root.sg1.d1.temperature and root.sg1.d1.status are available and data points can be inserted.
 
@@ -447,7 +447,7 @@ show devices root.sg1.**
 +---------------+---------+
 ````
 
-### Show Device Template
+### 2.4 Show Device Template
 
 - Show all device templates
 
@@ -519,7 +519,7 @@ The execution result is as follows:
 +-----------+
 ```
 
-### Deactivate device Template
+### 2.5 Deactivate device Template
 
 To delete a group of timeseries represented by device template, namely deactivate the device template, use the following SQL statement:
 
@@ -547,7 +547,7 @@ IoTDB> deactivate device template t1 from root.sg1.*, root.sg2.*
 
 If the template name is not provided in sql, all template activation on paths matched by given path pattern will be removed.
 
-### Unset Device Template
+### 2.6 Unset Device Template
 
 The SQL Statement for unsetting device template is as follow:
 
@@ -557,7 +557,7 @@ IoTDB> unset device template t1 from root.sg1.d1
 
 **Attention**: It should be guaranteed that none of the timeseries represented by the target device template exists, before unset it. It can be achieved by deactivation operation.
 
-### Drop Device Template
+### 2.7 Drop Device Template
 
 The SQL Statement for dropping device template is as follow:
 
@@ -567,7 +567,7 @@ IoTDB> drop device template t1
 
 **Attention**: Dropping an already set template is not supported.
 
-### Alter Device Template
+### 2.8 Alter Device Template
 
 In a scenario where measurements need to be added, you can modify the  template to add measurements to all devicesdevice using the device template.
 
@@ -579,9 +579,9 @@ IoTDB> alter device template t1 add (speed FLOAT encoding=RLE, FLOAT TEXT encodi
 
 **When executing data insertion to devices with device template set on related prefix path and there are measurements not present in this device template, the measurements will be auto added to this device template.**
 
-## Timeseries Management
+## 3. Timeseries Management
 
-### Create Timeseries
+### 3.1 Create Timeseries
 
 According to the storage model selected before, we can create corresponding timeseries in the two databases respectively. The SQL statements for creating timeseries are as follows:
 
@@ -614,7 +614,7 @@ error: encoding TS_2DIFF does not support BOOLEAN
 
 Please refer to [Encoding](../Technical-Insider/Encoding-and-Compression.md) for correspondence between data type and encoding.
 
-### Create Aligned Timeseries
+### 3.2 Create Aligned Timeseries
 
 The SQL statement for creating a group of timeseries are as follows:
 
@@ -626,7 +626,7 @@ You can set different datatype, encoding, and compression for the timeseries in 
 
 It is also supported to set an alias, tag, and attribute for aligned timeseries.
 
-### Delete Timeseries
+### 3.3 Delete Timeseries
 
 To delete the timeseries we created before, we are able to use `(DELETE | DROP) TimeSeries <PathPattern>` statement.
 
@@ -639,7 +639,7 @@ IoTDB> delete timeseries root.ln.wf02.*
 IoTDB> drop timeseries root.ln.wf02.*
 ```
 
-### Show Timeseries
+### 3.4 Show Timeseries
 
 * SHOW LATEST? TIMESERIES pathPattern? whereClause? limitClause?
 
@@ -751,7 +751,7 @@ It costs 0.016s
 It is worth noting that when the queried path does not exist, the system will return no timeseries.  
 
 
-### Count Timeseries
+### 3.5 Count Timeseries
 
 IoTDB is able to use `COUNT TIMESERIES <Path>` to count the number of timeseries matching the path. SQL statements are as follows:
 
@@ -836,7 +836,7 @@ It costs 0.002s
 
 > Note: The path of timeseries is just a filter condition, which has no relationship with the definition of level.
 
-### Tag and Attribute Management
+### 3.6 Tag and Attribute Management
 
 We can also add an alias, extra tag and attribute information while creating one timeseries.
 
@@ -1011,9 +1011,9 @@ IoTDB> show timeseries where TAGS(tag1)='v1'
 
 The above operations are supported for timeseries tag, attribute updates, etc.
 
-## Path query
+## 4. Path query
 
-### Path
+### 4.1 Path
 
 A `path` is an expression that conforms to the following constraints:
 
@@ -1033,7 +1033,7 @@ wildcard
     ;
 ```
 
-###  NodeName
+### 4.2 NodeName
 
 - The parts of a path separated by `.` are called node names (`nodeName`).
 - For example, `root.a.b.c` is a path with a depth of 4 levels, where `root`, `a`, `b`, and `c` are all node names.
@@ -1048,11 +1048,11 @@ wildcard
   - UNICODE Chinese characters (`\u2E80` to `\u9FFF`)
 - **Case sensitivity**: On Windows systems, path node names in the database are case-insensitive. For example, `root.ln` and `root.LN` are considered the same path.
 
-### Special Characters (Backquote)
+### 4.3 Special Characters (Backquote)
 
 If special characters (such as spaces or punctuation marks) are needed in a `nodeName`, you can enclose the node name in Backquote (`). For more information on the use of backticks, please refer to [Backquote](../SQL-Manual/Syntax-Rule.md#reverse-quotation-marks).
 
-### Path Pattern
+### 4.4 Path Pattern
 
 To make it more convenient and efficient to express multiple time series, IoTDB provides paths with wildcards `*` and `**`. Wildcards can appear in any level of a path.
 
@@ -1065,7 +1065,7 @@ To make it more convenient and efficient to express multiple time series, IoTDB 
 
 **Note**: `*` and `**` cannot be placed at the beginning of a path.
 
-### Show Child Paths
+### 4.5 Show Child Paths
 
 ```
 SHOW CHILD PATHS pathPattern
@@ -1093,7 +1093,7 @@ It costs 0.002s
 
 > get all paths in form of root.xx.xx.xx：show child paths root.xx.xx
 
-### Show Child Nodes
+### 4.6 Show Child Nodes
 
 ```
 SHOW CHILD NODES pathPattern
@@ -1124,7 +1124,7 @@ Example：
 +------------+
 ```
 
-### Count Nodes
+### 4.7 Count Nodes
 
 IoTDB is able to use `COUNT NODES <PathPattern> LEVEL=<INTEGER>` to count the number of nodes at
  the given level in current Metadata Tree considering a given pattern. IoTDB will find paths that
@@ -1177,7 +1177,7 @@ It costs 0.002s
 
 > Note: The path of timeseries is just a filter condition, which has no relationship with the definition of level.
 
-### Show Devices
+### 4.8 Show Devices
 
 * SHOW DEVICES pathPattern? (WITH DATABASE)? devicesWhereClause? limitClause?
 
@@ -1258,7 +1258,7 @@ Total line number = 2
 It costs 0.001s
 ```
 
-### Count Devices
+### 4.9 Count Devices
 
 * COUNT DEVICES /<PathPattern/>
 

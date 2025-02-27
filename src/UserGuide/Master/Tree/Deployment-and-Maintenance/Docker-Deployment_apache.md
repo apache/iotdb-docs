@@ -20,9 +20,9 @@
 -->
 # Docker Deployment
 
-## Environmental Preparation
+## 1. Environmental Preparation
 
-### Docker Installation
+### 1.1 Docker Installation
 
 ```SQL
 #Taking Ubuntu as an example, other operating systems can search for installation methods themselves
@@ -42,7 +42,7 @@ sudo systemctl enable docker
 docker --version  #Display version information, indicating successful installation
 ```
 
-### Docker-compose Installation
+### 1.2 Docker-compose Installation
 
 ```SQL
 #Installation command
@@ -53,11 +53,11 @@ ln -s  /usr/local/bin/docker-compose  /usr/bin/docker-compose
 docker-compose --version  #Displaying version information indicates successful installation
 ```
 
-## Stand-Alone Deployment
+## 2. Stand-Alone Deployment
 
 This section demonstrates how to deploy a standalone Docker version of 1C1D.
 
-### Pull Image File
+### 2.1 Pull Image File
 
 The Docker image of Apache IoTDB has been uploaded tohttps://hub.docker.com/r/apache/iotdb。
 
@@ -75,13 +75,13 @@ docker images
 
 ![](/img/%E5%BC%80%E6%BA%90-%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F.png)
 
-### Create Docker Bridge Network
+### 2.2 Create Docker Bridge Network
 
 ```Bash
 docker network create --driver=bridge --subnet=172.18.0.0/16 --gateway=172.18.0.1  iotdb
 ```
 
-### Write The Yml File For Docker-Compose
+### 2.3 Write The Yml File For Docker-Compose
 
 Here we take the example of consolidating the IoTDB installation directory and yml files in the/docker iotdb folder:
 
@@ -130,7 +130,7 @@ networks:
     external: true
 ```
 
-### Start IoTDB
+### 2.4 Start IoTDB
 
 Use the following command to start:
 
@@ -139,7 +139,7 @@ cd　/docker-iotdb
 docker-compose -f docker-compose-standalone.yml up  -d  #Background startup
 ```
 
-### Validate Deployment
+### 2.5 alidate Deployment
 
 - Viewing the log, the following words indicate successful startup
 
@@ -172,7 +172,7 @@ You can see that all services are running and the activation status shows as act
 
 ![](/img/%E5%BC%80%E6%BA%90-%E9%AA%8C%E8%AF%81%E9%83%A8%E7%BD%B23.png)
 
-### Map/conf Directory (optional)
+### 2.6 Map/conf Directory (optional)
 
 If you want to directly modify the configuration file in the physical machine in the future, you can map the/conf folder in the container in three steps:
 
@@ -197,7 +197,7 @@ Step 3: Restart IoTDB
 docker-compose  -f docker-compose-standalone.yml  up  -d
 ```
 
-## Cluster Deployment
+## 3. Cluster Deployment
 
 This section describes how to manually deploy an instance that includes 3 Config Nodes and 3 Data Nodes, commonly known as a 3C3D cluster.
 
@@ -209,7 +209,7 @@ This section describes how to manually deploy an instance that includes 3 Config
 
 Taking the host network as an example, we will demonstrate how to deploy a 3C3D cluster.
 
-### Set Host Name
+### 3.1 Set Host Name
 
 Assuming there are currently three Linux servers, the IP addresses and service role assignments are as follows:
 
@@ -227,7 +227,7 @@ echo "192.168.1.4  iotdb-2"  >> /etc/hosts
 echo "192.168.1.5  iotdb-3"  >> /etc/hosts 
 ```
 
-### Pull Image File
+### 3.2 Pull Image File
 
 The Docker image of Apache IoTDB has been uploaded tohttps://hub.docker.com/r/apache/iotdb。
 
@@ -245,7 +245,7 @@ docker images
 
 ![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%881.png)
 
-### Write The Yml File For Docker Compose
+### 3.3 Write The Yml File For Docker Compose
 
 Here we take the example of consolidating the IoTDB installation directory and yml files in the `/docker-iotdb` folder:
 
@@ -324,7 +324,7 @@ services:
     network_mode: "host"   #Using the host network
 ```
 
-### Starting Confignode For The First Time
+### 3.4 Starting Confignode For The First Time
 
 First, start configNodes on each of the three servers to obtain the machine code. Pay attention to the startup order, start the first iotdb-1 first, then start iotdb-2 and iotdb-3.
 
@@ -333,7 +333,7 @@ cd　/docker-iotdb
 docker-compose -f confignode.yml up  -d #Background startup
 ```
 
-### Start Datanode
+### 3.5 Start Datanode
 
 Start datanodes on 3 servers separately
 
@@ -344,7 +344,7 @@ docker-compose  -f  datanode.yml  up -d #Background startup
 
 ![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%882.png)
 
-### Validate Deployment
+### 3.6 Validate Deployment
 
 - Viewing the logs, the following words indicate that the datanode has successfully started
 
@@ -377,7 +377,7 @@ docker-compose  -f  datanode.yml  up -d #Background startup
 
     ![](/img/%E5%BC%80%E6%BA%90-%E9%9B%86%E7%BE%A4%E7%89%885.png)
 
-### Map/conf Directory (optional)
+### 3.7 Map/conf Directory (optional)
 
 If you want to directly modify the configuration file in the physical machine in the future, you can map the/conf folder in the container in three steps:
 

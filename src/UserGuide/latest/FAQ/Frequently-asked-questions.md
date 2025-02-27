@@ -21,9 +21,9 @@
 
 # Frequently Asked Questions
 
-## General FAQ
+## 1. General FAQ
 
-### How can I identify my version of IoTDB?
+### 1.1 How can I identify my version of IoTDB?
 
 There are several ways to identify the version of IoTDB that you are using:
 
@@ -65,7 +65,7 @@ Total line number = 1
 It costs 0.241s
 ```
 
-### Where can I find IoTDB logs?
+### 1.2 Where can I find IoTDB logs?
 
 Suppose your root directory is:
 
@@ -87,11 +87,11 @@ Let `$IOTDB_CLI_HOME = /workspace/iotdb/cli/target/iotdb-cli-{project.version}`
 
 By default settings, the logs are stored under ```IOTDB_HOME/logs```. You can change log level and storage path by configuring ```logback.xml``` under ```IOTDB_HOME/conf```.
 
-### Where can I find IoTDB data files?
+### 1.3 Where can I find IoTDB data files?
 
 By default settings, the data files (including tsfile, metadata, and WAL files) are stored under ```IOTDB_HOME/data/datanode```.
 
-### How do I know how many time series are stored in IoTDB?
+### 1.4 How do I know how many time series are stored in IoTDB?
 
 Use IoTDB's Command Line Interface:
 
@@ -114,15 +114,15 @@ If you are using Linux, you can use the following shell command:
 >   6
 ```
 
-### Can I use Hadoop and Spark to read TsFile in IoTDB?
+### 1.5 Can I use Hadoop and Spark to read TsFile in IoTDB?
 
 Yes. IoTDB has intense integration with Open Source Ecosystem. IoTDB supports [Hadoop](https://github.com/apache/iotdb-extras/tree/master/connectors/hadoop), [Spark](https://github.com/apache/iotdb-extras/tree/master/connectors/spark-iotdb-connector) and [Grafana](https://github.com/apache/iotdb-extras/tree/master/connectors/grafana-connector) visualization tool.
 
-### How does IoTDB handle duplicate points?
+### 1.6 How does IoTDB handle duplicate points?
 
 A data point is uniquely identified by a full time series path (e.g. ```root.vehicle.d0.s0```) and timestamp. If you submit a new point with the same path and timestamp as an existing point, IoTDB updates the value of this point instead of inserting a new point.
 
-### How can I tell what type of the specific timeseries?
+### 1.7 How can I tell what type of the specific timeseries?
 
 Use ```SHOW TIMESERIES <timeseries path>``` SQL in IoTDB's Command Line Interface:
 
@@ -144,7 +144,7 @@ Otherwise, you can also use wildcard in timeseries path:
 IoTDB> show timeseries root.fit.d1.*
 ```
 
-### How can I change IoTDB's Cli time display format?
+### 1.8 How can I change IoTDB's Cli time display format?
 
 The default IoTDB's Cli time display format is readable (e.g. ```1970-01-01T08:00:00.001```), if you want to display time in timestamp type or other readable format, add parameter ```-disableISO8601``` in start command:
 
@@ -152,12 +152,12 @@ The default IoTDB's Cli time display format is readable (e.g. ```1970-01-01T08:0
 > $IOTDB_CLI_HOME/sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root -disableISO8601
 ```
 
-### How to handle error `IndexOutOfBoundsException` from `org.apache.ratis.grpc.server.GrpcLogAppender`?
+### 1.9 How to handle error `IndexOutOfBoundsException` from `org.apache.ratis.grpc.server.GrpcLogAppender`?
 
 This is an internal error log from Ratis 2.4.1, our dependency, and no impact on data writes or reads is expected.
 It has been reported to the Ratis community and will be fixed in the future releases.
 
-### How to deal with estimated out of memory errors?
+### 1.10 How to deal with estimated out of memory errors?
 
 Report an error message:
 ```
@@ -179,9 +179,9 @@ Some possible improvement items:
 It is an internal error introduced by Ratis 2.4.1 dependency, and we can safely ignore this exception as it will
 not affect normal operations. We will fix this message in the incoming releases.
 
-## FAQ for Cluster Setup
+## 2. FAQ for Cluster Setup
 
-### Cluster StartUp and Stop
+### 2.1 Cluster StartUp and Stop
 
 #### Failed to start ConfigNode for the first time, how to find the reason?
 
@@ -222,7 +222,7 @@ not affect normal operations. We will fix this message in the incoming releases.
 - The default RPC address of 0.13 is `0.0.0.0`, but the default RPC address of 1.0 is `127.0.0.1`.
 
 
-### Cluster Restart
+### 2.2 Cluster Restart
 
 #### How to restart any ConfigNode in the cluster?
 
@@ -246,7 +246,7 @@ not affect normal operations. We will fix this message in the incoming releases.
 
 - Can't. The running result will be "The port is already occupied".
 
-### Cluster Maintenance
+### 2.3 Cluster Maintenance
 
 #### How to find the reason when Show cluster failed, and error logs like "please check server status" are shown?
 

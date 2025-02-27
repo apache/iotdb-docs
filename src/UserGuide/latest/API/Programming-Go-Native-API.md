@@ -23,7 +23,7 @@
 
 The Git repository for the Go Native API client is located [here](https://github.com/apache/iotdb-client-go/)
 
-## Dependencies
+## 1. Dependencies
 
  * golang >= 1.13
  * make   >= 3.0
@@ -32,7 +32,7 @@ The Git repository for the Go Native API client is located [here](https://github
  * Linux、Macos or other unix-like systems
  * Windows+bash (WSL、cygwin、Git Bash)
 
-## Installation
+## 2. Installation
 
  * go mod
 

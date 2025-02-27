@@ -21,7 +21,7 @@
 
 # C++ Native API
 
-## Dependencies
+## 1. Dependencies
 
 - Java 8+
 - Flex
@@ -30,9 +30,9 @@
 - OpenSSL 1.0+
 - GCC 5.5.0+
 
-## Installation
+## 2. Installation
 
-### Install Required Dependencies
+### 2.1 Install Required Dependencies
 
 - **MAC**
     1. Install Bison:
@@ -89,7 +89,7 @@
         - Download and install [OpenSSL](http://slproweb.com/products/Win32OpenSSL.html).
         - Add the include directory under the installation directory to the PATH environment variable.
 
-### Compilation
+### 2.2 Compilation
 
 Clone the source code from git:
 ```shell
@@ -131,7 +131,7 @@ Run Maven to compile in the IoTDB root directory:
 
 After successful compilation, the packaged library files will be located in `iotdb-client/client-cpp/target`, and you can find the compiled example program under `example/client-cpp-example/target`.
 
-### Compilation Q&A
+### 2.3 Compilation Q&A
 
 Q: What are the requirements for the environment on Linux?
 
@@ -158,11 +158,11 @@ A:
     - Go back to the IoTDB code directory and run `.\mvnw.cmd clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp -Dcmake.generator="Visual Studio 15 2017"`.
 
 
-## Native APIs
+## 3. Native APIs
 
 Here we show the commonly used interfaces and their parameters in the Native API:
 
-### Initialization
+### 3.1 Initialization
 
 - Open a Session
 ```cpp
@@ -180,7 +180,7 @@ Notice: this RPC compression status of client must comply with that of IoTDB ser
 void close(); 
 ```
 
-### Data Definition Interface (DDL)
+### 3.2 Data Definition Interface (DDL)
 
 #### Database Management
 
@@ -302,7 +302,7 @@ std::vector<std::string> showMeasurementsInTemplate(const std::string &template_
 ```
 
 
-### Data Manipulation Interface (DML)
+### 3.3 Data Manipulation Interface (DML)
 
 #### Insert
 
@@ -384,7 +384,7 @@ void deleteData(const std::vector<std::string> &paths, int64_t endTime);
 void deleteData(const std::vector<std::string> &paths, int64_t startTime, int64_t endTime);
 ```
 
-### IoTDB-SQL Interface
+### 3.4 IoTDB-SQL Interface
 
 - Execute query statement
 ```cpp
@@ -397,7 +397,7 @@ void executeNonQueryStatement(const std::string &sql);
 ```
 
 
-## Examples
+## 4. Examples
 
 The sample code of using these interfaces is in:
 
@@ -406,16 +406,16 @@ The sample code of using these interfaces is in:
 
 If the compilation finishes successfully, the example project will be placed under `example/client-cpp-example/target`
 
-## FAQ
+## 5. FAQ
 
-### on Mac
+### 5.1 on Mac
 
 If errors occur when compiling thrift source code, try to downgrade your xcode-commandline from 12 to 11.5
 
 see https://stackoverflow.com/questions/63592445/ld-unsupported-tapi-file-type-tapi-tbd-in-yaml-file/65518087#65518087
 
 
-### on Windows
+### 5.2 on Windows
 
 When Building Thrift and downloading packages via "wget", a possible annoying issue may occur with
 error message looks like:

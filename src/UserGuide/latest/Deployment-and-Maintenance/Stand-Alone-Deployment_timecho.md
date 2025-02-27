@@ -22,7 +22,7 @@
 
 This guide introduces how to set up a standalone TimechoDB instance, which includes one ConfigNode and one DataNode (commonly referred to as 1C1D).
 
-## Prerequisites
+## 1. Prerequisites
 
 1. [System configuration](./Environment-Requirements.md)： Ensure the system has been configured according to the preparation guidelines.
 
@@ -46,9 +46,9 @@ This guide introduces how to set up a standalone TimechoDB instance, which inclu
 
 6. **Monitoring Panel**: Deploy a monitoring panel to track key performance metrics. Contact the Timecho team for access and refer to the "[Monitoring Board Install and Deploy](./Monitoring-panel-deployment.md)" guide.
 
-## Installation Steps
+## 2. Installation Steps
 
-### 1、Extract Installation Package
+### 2.1Extract Installation Package
 
 Unzip the installation package and navigate to the directory:
 
@@ -57,7 +57,7 @@ unzip  timechodb-{version}-bin.zip
 cd  timechodb-{version}-bin
 ```
 
-### 2、Parameter Configuration
+### 2.2 Parameter Configuration
 
 #### Memory Configuration
 
@@ -104,7 +104,7 @@ Set the following parameters in `conf/iotdb-system.properties`. Refer to `conf/i
 | dn_schema_region_consensus_port | Port used for metadata replica consensus protocol communication | 10760           | 10760                                                        | This parameter cannot be modified after the first startup. |
 | dn_seed_config_node             | Address of the ConfigNode for registering and joining the cluster. (e.g.,`cn_internal_address:cn_internal_port`) | 127.0.0.1:10710 | Use `cn_internal_address:cn_internal_port`                   | This parameter cannot be modified after the first startup. |
 
-### 3、Start ConfigNode
+### 2.3 Start ConfigNode
 
 Navigate to the `sbin` directory and start ConfigNode:
 
@@ -114,7 +114,7 @@ Navigate to the `sbin` directory and start ConfigNode:
 
  If the startup fails, refer to the  [**Common Problem**](#Common Problem) section below for troubleshooting.
 
-### 4、Start DataNode
+### 2.4 Start DataNode
 
 Navigate to the `sbin` directory of IoTDB and start the DataNode:
 
@@ -122,7 +122,7 @@ Navigate to the `sbin` directory of IoTDB and start the DataNode:
 ./sbin/start-datanode.sh -d    # The "-d" flag starts the process in the background.
 ````
 
-### 5、Activate Database
+### 2.5 Activate Database
 
 #### Option 1: File-Based Activation
 
@@ -181,13 +181,13 @@ It costs 0.030s
 IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
 ```
 
-### 6、Verify Activation
+### 2.6 Verify Activation
 
 Check the `ClusterActivationStatus` field. If it shows `ACTIVATED`, the database has been successfully activated.
 
 ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81.png)
 
-## Common Problem
+## 3. Common Problem
 
 1. Activation Fails Repeatedly
    1. Use the `ls -al` command to verify that the ownership of the installation directory matches the current user.
@@ -229,15 +229,15 @@ cd /data/iotdb
 rm -rf data logs
 ```
 
-## Appendix
+## 4. Appendix
 
-### ConfigNode Parameters
+### 4.1 ConfigNode Parameters
 
 | Parameter | Description                                                 | **Is it required** |
 | :-------- | :---------------------------------------------------------- | :----------------- |
 | -d        | Starts the process in daemon mode (runs in the background). | No                 |
 
-### DataNode Parameters
+### 4.2 DataNode Parameters
 
 | Parameter | Description                                                  | Required |
 | :-------- | :----------------------------------------------------------- | :------- |
