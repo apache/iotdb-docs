@@ -86,7 +86,7 @@ create pipe p1
 | **参数**                           | **描述**                       | **取值范围**                     | **是否必填** | **默认值**                                                   |
 | ---------------------------------- | ------------------------------ | -------------------------------- | ------------ | ------------------------------------------------------------ |
 | sink                               | OPC UA SINK                    | String: opc-ua-sink              | 必填         |                                                              |
-| sink.opcua.model                   | OPC UA 使用的模式              | String: client-server / pub-sub  | 选填         | client-server                                                |
+| sink.opcua.model                   | OPC UA 使用的模式              | String: client-server / pub-sub  | 选填         | pub-sub                                                |
 | sink.opcua.tcp.port                | OPC UA 的 TCP 端口             | Integer: [0, 65536]              | 选填         | 12686                                                        |
 | sink.opcua.https.port              | OPC UA 的 HTTPS 端口           | Integer: [0, 65536]              | 选填         | 8443                                                         |
 | sink.opcua.security.dir            | OPC UA 的密钥及证书目录        | String: Path，支持绝对及相对目录 | 选填         | iotdb 相关 DataNode 的 conf 目录下的 opc_security 文件夹 /<httpsPort:tcpPort>。<br>如无 iotdb 的 conf 目录（例如 IDEA 中启动 DataNode），则为用户主目录下的 iotdb_opc_security 文件夹 /<httpsPort:tcpPort> |
