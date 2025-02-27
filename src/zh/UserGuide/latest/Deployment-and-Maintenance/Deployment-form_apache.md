@@ -18,7 +18,6 @@
     under the License.
 
 -->
-
 # 部署形态
 
 IoTDB 有两种运行模式：单机模式、集群模式。
