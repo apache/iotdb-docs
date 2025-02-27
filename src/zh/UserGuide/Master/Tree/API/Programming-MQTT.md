@@ -112,7 +112,7 @@ connection.disconnect();
         <dependency>
             <groupId>org.apache.iotdb</groupId>
             <artifactId>iotdb-server</artifactId>
-            <version>1.3.0-SNAPSHOT</version>
+            <version>2.0.0</version>
         </dependency>
 ```
 2. 创建一个实现类，实现接口 `org.apache.iotdb.db.mqtt.protocol.PayloadFormatter`
@@ -120,9 +120,9 @@ connection.disconnect();
 ```java
 package org.apache.iotdb.mqtt.server;
 
-import io.netty.buffer.ByteBuf;
 import org.apache.iotdb.db.protocol.mqtt.Message;
 import org.apache.iotdb.db.protocol.mqtt.PayloadFormatter;
+import org.apache.iotdb.db.protocol.mqtt.TreeMessage;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -144,7 +144,7 @@ public class CustomizedJsonPayloadFormatter implements PayloadFormatter {
         // this is just an example, so we just generate some Messages directly
         for (int i = 0; i < 2; i++) {
             long ts = i;
-            Message message = new Message();
+            TreeMessage message = new TreeMessage();
             message.setDevice("d" + i);
             message.setTimestamp(ts);
             message.setMeasurements(Arrays.asList("s1", "s2"));
@@ -159,7 +159,13 @@ public class CustomizedJsonPayloadFormatter implements PayloadFormatter {
         // set the value of mqtt_payload_formatter in iotdb-system.properties as the following string:
         return "CustomizedJson";
     }
+
+    @Override
+    public String getType() {
+        return PayloadFormatter.TREE_TYPE;
+    }
 }
+
 ```
 3. 修改项目中的 `src/main/resources/META-INF/services/org.apache.iotdb.db.protocol.mqtt.PayloadFormatter` 文件:
   将示例中的文件内容清除，并将刚才的实现类的全名（包名.类名）写入文件中。注意，这个文件中只有一行。
