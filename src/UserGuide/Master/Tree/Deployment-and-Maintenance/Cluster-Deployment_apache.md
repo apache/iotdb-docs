@@ -26,7 +26,7 @@ This section will take the IoTDB classic cluster deployment architecture 3C3D (3
     <img src="/img/cluster02.png" alt="" style="width: 60%;"/>
 </div>
 
-## Note
+## 1. Note
 
 1. Before installation, ensure that the system is complete by referring to [System configuration](./Environment-Requirements.md)
 
@@ -46,13 +46,13 @@ This section will take the IoTDB classic cluster deployment architecture 3C3D (3
   - Using the same user operation: Ensure that the same user is used for start, stop and other operations, and do not switch users.
   - Avoid using sudo: Try to avoid using sudo commands as they execute commands with root privileges, which may cause confusion or security issues.
   
-## Preparation Steps
+## 2. Preparation Steps
 
 1. Prepare the IoTDB database installation package:：apache-iotdb-{version}-all-bin.zip（Please refer to the installation package for details：[IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_apache.md)）
 
 2. Configure the operating system environment according to environmental requirements (system environment configuration can be found in:[Environment Requirement](../Deployment-and-Maintenance/Environment-Requirements.md)）
 
-## Installation Steps
+## 3. Installation Steps
 
 Assuming there are three Linux servers now, the IP addresses and service roles are assigned as follows:
 
@@ -62,7 +62,7 @@ Assuming there are three Linux servers now, the IP addresses and service roles a
 | 192.168.1.4 | iotdb-2   | ConfigNode、DataNode |
 | 192.168.1.5 | iotdb-3   | ConfigNode、DataNode |
 
-### Set Host Name
+### 3.1 Set Host Name
 
 On three machines, configure the host names separately. To set the host names, configure `/etc/hosts` on the target server. Use the following command:
 
@@ -72,7 +72,7 @@ echo "192.168.1.4  iotdb-2"  >> /etc/hosts
 echo "192.168.1.5  iotdb-3"  >> /etc/hosts 
 ```
 
-### Configuration
+### 3.2 Configuration
 
 Unzip the installation package and enter the installation directory
 
@@ -133,7 +133,7 @@ Open DataNode Configuration File `./conf/iotdb-system.properties`,Set the follow
 
 > ❗️Attention: Editors such as VSCode Remote do not have automatic configuration saving function. Please ensure that the modified files are saved persistently, otherwise the configuration items will not take effect
 
-### Start ConfigNode
+### 3.3 Start ConfigNode
 
 Start the first confignode of IoTDB-1 first, ensuring that the seed confignode node starts first, and then start the second and third confignode nodes in sequence
 
@@ -145,7 +145,7 @@ cd sbin
 If the startup fails, please refer to [Common Questions](#common-questions).
 
 
-### Start DataNode
+### 3.4 Start DataNode
 
  Enter the `sbin` directory of iotdb and start three datanode nodes in sequence:
 
@@ -154,7 +154,7 @@ cd sbin
 ./start-datanode.sh   -d   #"- d" parameter will start in the background
 ```
 
-### Verify Deployment
+### 3.5 Verify Deployment
 
 Can be executed directly Cli startup script in `./sbin`  directory:
 
@@ -172,9 +172,9 @@ You can use the `show cluster` command to view cluster information:
 
 > The appearance of `ACTIVATED (W)` indicates passive activation, which means that this Configurable Node does not have a license file (or has not issued the latest license file with a timestamp), and its activation depends on other Activated Configurable Nodes in the cluster. At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Timecho staff to reapply.
 
-## Node Maintenance Steps
+## 4. Node Maintenance Steps
 
-### ConfigNode Node Maintenance
+### 4.1 ConfigNode Node Maintenance
 
 ConfigNode node maintenance is divided into two types of operations: adding and removing ConfigNodes, with two common use cases:
 - Cluster expansion: For example, when there is only one ConfigNode in the cluster, and you want to increase the high availability of ConfigNode nodes, you can add two ConfigNodes, making a total of three ConfigNodes in the cluster.
@@ -239,7 +239,7 @@ sbin/remove-confignode.bat [confignode_id]
 
 ```
 
-### DataNode Node Maintenance
+### 4.2 DataNode Node Maintenance
 
 There are two common scenarios for DataNode node maintenance:
 
@@ -306,7 +306,7 @@ sbin/remove-datanode.sh [datanode_id]
 #Windows
 sbin/remove-datanode.bat [datanode_id]
 ```
-## Common Questions
+## 5.  Questions
 
 1. Confignode failed to start
 

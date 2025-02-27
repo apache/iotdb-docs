@@ -23,14 +23,14 @@ In the native API of IoTDB, the `Session` is the core interface for interacting 
 
 `SessionPool` is a connection pool for `Session`, and it is recommended to use `SessionPool` for programming. In scenarios with multi-threaded concurrency, `SessionPool` can manage and allocate connection resources effectively, thereby improving system performance and resource utilization efficiency.
 
-## 1 Overview of Steps
+## 1. Overview of Steps
 
 1. Create a Connection Pool Instance: Initialize a SessionPool object to manage multiple Session instances.
 2. Perform Operations: Directly obtain a Session instance from the SessionPool and execute database operations, without the need to open and close connections each time.
 3. Close Connection Pool Resources: When database operations are no longer needed, close the SessionPool to release all related resources.
 
 
-## 2 Detailed Steps
+## 2. Detailed Steps
 
 This section provides an overview of the core development process and does not demonstrate all parameters and interfaces. For a complete list of functionalities and parameters, please refer to:[Java Native API](./Programming-Java-Native-API.md#3-native-interface-description) or check the: [Source Code](https://github.com/apache/iotdb/tree/master/example/session/src/main/java/org/apache/iotdb)
 
@@ -343,7 +343,7 @@ public class SessionPoolExample {
 }
 ```
 
-### 3 Native Interface Description
+### 3. Native Interface Description
 
 #### 3.1 Parameter List
 

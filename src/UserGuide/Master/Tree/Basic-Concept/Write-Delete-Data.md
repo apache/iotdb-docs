@@ -21,7 +21,7 @@
 
 
 # Write & Delete Data
-## CLI INSERT
+## 1. CLI INSERT
 
 IoTDB provides users with a variety of ways to insert real-time data, such as directly inputting [INSERT SQL statement](../SQL-Manual/SQL-Manual.md#insert-data) in [Client/Shell tools](../Tools-System/CLI.md), or using [Java JDBC](../API/Programming-JDBC.md) to perform single or batch execution of [INSERT SQL statement](../SQL-Manual/SQL-Manual.md).
 
@@ -29,7 +29,7 @@ NOTE： This section mainly introduces the use of [INSERT SQL statement](../SQL-
 
 Writing a repeat timestamp covers the original timestamp data, which can be regarded as updated data.
 
-### Use of INSERT Statements
+### 1.1 Use of INSERT Statements
 
 The [INSERT SQL statement](../SQL-Manual/SQL-Manual.md#insert-data) statement is used to insert data into one or more specified timeseries created. For each point of data inserted, it consists of a [timestamp](../Basic-Concept/Operate-Metadata.md) and a sensor acquisition value (see [Data Type](../Background-knowledge/Data-Type.md)).
 
@@ -89,7 +89,7 @@ IoTDB > insert into root.ln.wf02.wt02(status, hardware) values (false, 'v2')
 
 **Note:** Timestamps must be specified when inserting multiple rows of data in a SQL.
 
-### Insert Data Into Aligned Timeseries
+### 1.2 Insert Data Into Aligned Timeseries
 
 To insert data into a group of aligned time series, we only need to add the `ALIGNED` keyword in SQL, and others are similar.
 
@@ -116,11 +116,11 @@ Total line number = 3
 It costs 0.004s
 ```
 
-## NATIVE API WRITE
+## 2. NATIVE API WRITE
 
 The Native API ( Session ) is the most widely used series of APIs of IoTDB, including multiple APIs, adapted to different data collection scenarios, with high performance and multi-language support.
 
-### Multi-language API write
+### 2.1 Multi-language API write
 
 #### Java
 
@@ -139,7 +139,7 @@ Refer to [ C++ Data Manipulation Interface (DML) ](../API/Programming-Cpp-Native
 
 Refer to [Go Native API](../API/Programming-Go-Native-API.md)
 
-## REST API WRITE
+## 3. REST API WRITE
 
 Refer to [insertTablet (v1)](../API/RestServiceV1.md#inserttablet) or [insertTablet (v2)](../API/RestServiceV2.md#inserttablet)
 
@@ -177,29 +177,29 @@ Example：
 }
 ```
 
-## MQTT WRITE
+## 4. MQTT WRITE
 
 Refer to [Built-in MQTT Service](../API/Programming-MQTT.md#built-in-mqtt-service)
 
-## BATCH DATA LOAD
+## 5. BATCH DATA LOAD
 
 In different scenarios, the IoTDB provides a variety of methods for importing data in batches. This section describes the two most common methods for importing data in CSV format and TsFile format.
 
-### TsFile Batch Load
+### 5.1 TsFile Batch Load
 
 TsFile is the file format of time series used in IoTDB. You can directly import one or more TsFile files with time series into another running IoTDB instance through tools such as CLI. For details, see [Data Import](../Tools-System/Data-Import-Tool.md).
 
-### CSV Batch Load
+### 5.2 CSV Batch Load
 
 CSV stores table data in plain text. You can write multiple formatted data into a CSV file and import the data into the IoTDB in batches. Before importing data, you are advised to create the corresponding metadata in the IoTDB. Don't worry if you forget to create one, the IoTDB can automatically infer the data in the CSV to its corresponding data type, as long as you have a unique data type for each column. In addition to a single file, the tool supports importing multiple CSV files as folders and setting optimization parameters such as time precision. For details, see [Data Import](../Tools-System/Data-Import-Tool.md).
 
-## DELETE
+## 6. DELETE
 
 Users can delete data that meet the deletion condition in the specified timeseries by using the [DELETE statement](../SQL-Manual/SQL-Manual.md#delete-data). When deleting data, users can select one or more timeseries paths, prefix paths, or paths with star  to delete data within a certain time interval.
 
 In a JAVA programming environment, you can use the [Java JDBC](../API/Programming-JDBC.md) to execute single or batch UPDATE statements.
 
-### Delete Single Timeseries
+### 6.1 Delete Single Timeseries
 
 Taking ln Group as an example, there exists such a usage scenario:
 
@@ -242,7 +242,7 @@ delete from root.ln.wf02.wt02.status
 ```
 
 
-### Delete Multiple Timeseries
+### 6.2 Delete Multiple Timeseries
 
 If both the power supply status and hardware version of the ln group wf02 plant wt02 device before 2017-11-01 16:26:00 need to be deleted, [the prefix path with broader meaning or the path with star](../Basic-Concept/Operate-Metadata.md) can be used to delete the data. The SQL statement for this operation is:
 
@@ -263,7 +263,7 @@ IoTDB> delete from root.ln.wf03.wt02.status where time < now()
 Msg: The statement is executed successfully.
 ```
 
-### Delete Time Partition (experimental)
+### 6.3 Delete Time Partition (experimental)
 
 You may delete all data in a time partition of a database using the following grammar:
 

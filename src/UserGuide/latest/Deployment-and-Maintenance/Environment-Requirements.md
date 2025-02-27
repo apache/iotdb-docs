@@ -20,9 +20,9 @@
 -->
 # System Requirements
 
-## Disk Array
+## 1. Disk Array
 
-### Configuration Suggestions
+### 1.1 Configuration Suggestions
 
 IoTDB has no strict operation requirements on disk array configuration. It is recommended to use multiple disk arrays to store IoTDB data to achieve the goal of concurrent writing to multiple disk arrays. For configuration, refer to the following suggestions:
 
@@ -35,7 +35,7 @@ IoTDB has no strict operation requirements on disk array configuration. It is re
     You are advised to mount multiple hard disks (1-6 disks).
 3. When deploying IoTDB, it is recommended to avoid using network storage devices such as NAS.
 
-### Configuration Example
+### 1.2 Configuration Example
 
 - Example 1: Four 3.5-inch hard disks
 
@@ -68,13 +68,13 @@ The recommended configurations are as follows:
 | data disk   | RAID5    | 7        | 1 | 6        |
 | data disk   | NoRaid   | 1        | 0 | 1        |
 
-## Operating System
+## 2. Operating System
 
-### Version Requirements
+### 2.1 Version Requirements
 
 IoTDB supports operating systems such as Linux, Windows, and MacOS, while the enterprise version supports domestic CPUs such as Loongson, Phytium, and Kunpeng. It also supports domestic server operating systems such as Neokylin, KylinOS, UOS, and Linx.
 
-### Disk Partition
+### 2.2 Disk Partition
 
 - The default standard partition mode is recommended. LVM extension and hard disk encryption are not recommended.
 - The system disk needs only the space used by the operating system, and does not need to reserve space for the IoTDB.
@@ -151,7 +151,7 @@ systemctl start sshd # Enable port 22
 
 3. Ensure that servers are connected to each other
 
-### Other Configuration
+### 2.3 Other Configuration
 
 1. Reduce the system swap priority to the lowest level
 
@@ -178,7 +178,7 @@ echo "* hard nofile 65535" >>  /etc/security/limits.conf
 # View after exiting the current terminal session, expect to display 65535
 ulimit -n
 ```
-## Software Dependence
+## 3. Software Dependence
 
 Install the Java runtime environment (Java version >= 1.8). Ensure that jdk environment variables are set. (It is recommended to deploy JDK17 for V1.3.2.2 or later. In some scenarios, the performance of JDK of earlier versions is compromised, and Datanodes cannot be stopped.)
 

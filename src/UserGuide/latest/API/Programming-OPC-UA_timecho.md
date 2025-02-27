@@ -21,11 +21,11 @@
 
 # OPC UA Protocol
 
-## OPC UA
+## 1. OPC UA
 
 OPC UA is a technical specification used in the automation field for communication between different devices and systems, enabling cross platform, cross language, and cross network operations, providing a reliable and secure data exchange foundation for the Industrial Internet of Things. IoTDB supports OPC UA protocol, and IoTDB OPC Server supports both Client/Server and Pub/Sub communication modes.
 
-### OPC UA Client/Server Mode
+### 1.1 OPC UA Client/Server Mode
 
 - **Client/Server Mode**：In this mode, IoTDB's stream processing engine establishes a connection with the OPC UA Server via an OPC UA Sink. The OPC UA Server maintains data within its Address Space, from which IoTDB can request and retrieve data. Additionally, other OPC UA Clients can access the data on the server.
 
@@ -40,7 +40,7 @@ OPC UA is a technical specification used in the automation field for communicati
 
     - Each measurement point is recorded as a variable node and the latest value in the current database is recorded.
 
-### OPC UA Pub/Sub Mode
+### 1.2 OPC UA Pub/Sub Mode
 
 - **Pub/Sub Mode**： In this mode, IoTDB's stream processing engine sends data change events to the OPC UA Server through an OPC UA Sink. These events are published to the server's message queue and managed through Event Nodes. Other OPC UA Clients can subscribe to these Event Nodes to receive notifications upon data changes.
 
@@ -65,9 +65,9 @@ OPC UA is a technical specification used in the automation field for communicati
   - Events are only sent to clients that are already listening; if a client is not connected, the Event will be ignored.
 
 
-## IoTDB OPC Server Startup method
+## 2. IoTDB OPC Server Startup method
 
-### Syntax
+### 2.1 Syntax
 
 The syntax for creating the Sink is as follows:
 
@@ -85,7 +85,7 @@ create pipe p1
               )
 ```
 
-### Parameters
+### 2.2 Parameters
 
 | key                            | value                                                         | value range                         | required or not	 | default value       |
 | :------------------------------ | :----------------------------------------------------------- | :------------------------------------- | :------- | :------------- |
@@ -98,7 +98,7 @@ create pipe p1
 | sink.user                          | User for OPC UA, specified in the configuration	 | String                           | Optional         | root                                                         |
 | sink.password                      | Password for OPC UA, specified in the configuration	 | String                           | Optional         | root                                                         |
 
-### 示例
+### 2.3 Example
 
 ```Bash
 create pipe p1 
@@ -108,7 +108,7 @@ create pipe p1
 start pipe p1;
 ```
 
-### Usage Limitations
+### 2.4 Usage Limitations
 
 1. **DataRegion Requirement**: The OPC UA server will only start if there is a DataRegion in IoTDB. For an empty IoTDB, a data entry is necessary for the OPC UA server to become effective.
 
@@ -122,9 +122,9 @@ start pipe p1;
 
 4. **Does not support deleting data and modifying measurement point types:** In Client Server mode, OPC UA cannot delete data or change data type settings. In Pub Sub mode, if data is deleted, information cannot be pushed to the client.
 
-## IoTDB OPC Server Example
+## 3. IoTDB OPC Server Example
 
-### Client / Server Mode
+### 3.1 Client / Server Mode
 
 #### Preparation Work
 
@@ -174,7 +174,7 @@ insert into root.test.db(time, s2) values(now(), 2)
     <img src="/img/OPCUA07.png" alt="" style="width: 60%;"/>
 </div>
 
-### Pub / Sub Mode
+### 3.2 Pub / Sub Mode
 
 #### Preparation Work
 
@@ -187,7 +187,7 @@ The code includes:
 - Client configuration and startup logic（ClientExampleRunner）
 - The parent class of ClientTest（ClientExample）
 
-### Quick Start
+### 3.3 Quick Start
 
 The steps are as follows:
 
@@ -252,9 +252,9 @@ start pipe p1;
 </div>
 
 
-### Notes
+### 3.4 Notes
 
-1. **stand alone and cluster:**It is recommended to use a 1C1D (one coordinator and one data node) single machine version. If there are multiple DataNodes in the cluster, data may be sent in a scattered manner across various DataNodes, and it may not be possible to listen to all the data.
+1. **stand alone and cluster:** It is recommended to use a 1C1D (one coordinator and one data node) single machine version. If there are multiple DataNodes in the cluster, data may be sent in a scattered manner across various DataNodes, and it may not be possible to listen to all the data.
 
 2. **No Need to Operate Root Directory Certificates:** During the certificate operation process, there is no need to operate the `iotdb-server.pfx` certificate under the IoTDB security root directory and the `example-client.pfx` directory under the client security directory. When the Client and Server connect bidirectionally, they will send the root directory certificate to each other. If it is the first time the other party sees this certificate, it will be placed in the reject dir. If the certificate is in the trusted/certs, then the other party can trust it.
 

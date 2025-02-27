@@ -24,7 +24,7 @@
 IoTDB uses Thrift as a cross language RPC framework, so access to IoTDB can be achieved through the interface provided by Thrift. 
 This document will introduce how to generate a native Rust interface that can access IoTDB.
 
-## Dependents
+## 1. Dependents
 
  * JDK >= 1.8
  * Rust >= 1.0.0
@@ -38,7 +38,7 @@ Thrift (0.14.1 or higher) must be installed to compile Thrift files into Rust co
 http://thrift.apache.org/docs/install/
 ```
 
-## Compile the Thrift library and generate the Rust native interface
+## 2. Compile the Thrift library and generate the Rust native interface
 
 1. Find the `pom.xml` file in the root directory of the IoTDB source code folder.
 2. Open the `pom.xml` file and find the following content:
@@ -74,11 +74,11 @@ http://thrift.apache.org/docs/install/
 This command will automatically delete the files in `iotdb/iotdb-protocol/thrift/target` and `iotdb/iotdb-protocol/thrift-commons/target`, and repopulate the folder with the newly generated files.
 The newly generated Rust sources will be located in `iotdb/iotdb-protocol/thrift/target/generated-sources-rust` in the various modules of the `iotdb-protocol` module.
 
-## Using the Rust native interface
+## 3. Using the Rust native interface
 
 Copy `iotdb/iotdb-protocol/thrift/target/generated-sources-rust/` and `iotdb/iotdb-protocol/thrift-commons/target/generated-sources-rust/` into your project。
 
-## RPC interface
+## 4. RPC interface
 
 ```
 // open a session

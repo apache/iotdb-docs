@@ -19,9 +19,9 @@
 
 -->
 # Query Data
-## OVERVIEW
+## 1. OVERVIEW
 
-### Syntax Definition
+### 1.1 Syntax Definition
 
 In IoTDB, `SELECT` statement is used to retrieve data from one or more selected time series. Here is the syntax definition of `SELECT` statement:
 
@@ -47,7 +47,7 @@ SELECT [LAST] selectExpr [, selectExpr] ...
     [ALIGN BY {TIME | DEVICE}]
 ```
 
-### Syntax Description
+### 1.2 Syntax Description
 
 #### `SELECT` clause
 
@@ -107,7 +107,7 @@ SELECT [LAST] selectExpr [, selectExpr] ...
 - The query result set is **ALIGN BY TIME** by default, including a time column and several value columns, and the timestamps of each column of data in each row are the same.
 - It also supports  **ALIGN BY DEVICE**. The query result set contains a time column, a device column, and several value columns.
 
-### Basic Examples
+### 1.3 Basic Examples
 
 #### Select a Column of Data Based on a Time Interval
 
@@ -264,7 +264,7 @@ Total line number = 10
 It costs 0.016s
 ```
 
-### Execution Interface
+### 1.4 Execution Interface
 
 In IoTDB, there are two ways to execute data query:
 
@@ -331,7 +331,7 @@ SessionDataSet executeAggregationQuery(
     long slidingStep);
 ```
 
-## `SELECT` CLAUSE
+## 2. `SELECT` CLAUSE
 The `SELECT` clause specifies the output of the query, consisting of several `selectExpr`. Each `selectExpr` defines one or more columns in the query result. For select expression details, see document [Operator-and-Expression](../SQL-Manual/Operator-and-Expression.md).
 
 -   Example 1:
@@ -346,7 +346,7 @@ select temperature from root.ln.wf01.wt01
 select status, temperature from root.ln.wf01.wt01
 ```
 
-### Last Query
+### 2.1 Last Query
 
 The last query is a special type of query in Apache IoTDB. It returns the data point with the largest timestamp of the specified time series. In other word, it returns the latest state of a time series. This feature is especially important in IoT data analysis scenarios. To meet the performance requirement of real-time device monitoring systems, Apache IoTDB caches the latest values of all time series to achieve microsecond read latency.
 
@@ -427,7 +427,7 @@ Total line number = 2
 It costs 0.002s
 ```
 
-## `WHERE` CLAUSE
+## 3. `WHERE` CLAUSE
 
 In IoTDB query statements, two filter conditions, **time filter** and **value filter**, are supported.
 
@@ -438,7 +438,7 @@ The supported operators are as follows:
 - Range contains operator: contains ( `IN` ).
 - String matches operator: `LIKE`, `REGEXP`.
 
-### Time Filter
+### 3.1 Time Filter
 
 Use time filters to filter data for a specific time range. For supported formats of timestamps, please refer to [Timestamp](../Background-knowledge/Data-Type.md) .
 
@@ -464,7 +464,7 @@ An example is as follows:
 
 Note: In the above example, `time` can also be written as `timestamp`.
 
-### Value Filter
+### 3.2 Value Filter
 
 Use value filters to filter data whose data values meet certain criteria. **Allow** to use a time series not selected in the select clause as a value filter.
 
@@ -516,7 +516,7 @@ An example is as follows:
     select code from root.sg1.d1 where temperature is not null;
     ````
 
-### Fuzzy Query
+### 3.3 Fuzzy Query
 
 Fuzzy query is divided into Like statement and Regexp statement, both of which can support fuzzy matching of TEXT type data.
 
@@ -599,7 +599,7 @@ Total line number = 2
 It costs 0.002s
 ```
 
-## `GROUP BY` CLAUSE
+## 4. `GROUP BY` CLAUSE
 
 IoTDB supports using `GROUP BY` clause to aggregate the time series by segment and group.
 
@@ -607,7 +607,7 @@ Segmented aggregation refers to segmenting data in the row direction according t
 
 Group aggregation refers to grouping the potential business attributes of time series for different time series. Each group contains several time series, and each group gets an aggregated value. Support **group by path level** and **group by tag** two grouping methods.
 
-### Aggregate By Segment
+### 4.1 Aggregate By Segment
 
 #### Aggregate By Time
 
@@ -1252,7 +1252,7 @@ Get the results:
 +-----------------------------+-----------------------------+--------------------------------------+
 ```
 
-### Aggregate By Group
+### 4.2 Aggregate By Group
 
 #### Aggregation By Level
 
@@ -1582,7 +1582,7 @@ As this feature is still under development, some queries have not been completed
 > 5. Temporarily not support expressions as aggregation function parameter，e.g. `count(s+1)`.
 > 6. Not support the value filter, which stands the same with the `GROUP BY LEVEL` query.
 
-## `HAVING` CLAUSE
+## 5. `HAVING` CLAUSE
 
 If you want to filter the results of aggregate queries, 
 you can use the `HAVING` clause after the `GROUP BY` clause.
@@ -1679,15 +1679,15 @@ Filtering result 2：
 +-----------------------------+-------------+---------+---------+
 ```
 
-## `FILL` CLAUSE
+## 6. `FILL` CLAUSE
 
-### Introduction
+### 6.1 Introduction
 
 When executing some queries, there may be no data for some columns in some rows, and data in these locations will be null, but this kind of null value is not conducive to data visualization and analysis, and the null value needs to be filled.
 
 In IoTDB, users can use the FILL clause to specify the fill mode when data is missing. Fill null value allows the user to fill any query result with null values according to a specific method, such as taking the previous value that is not null, or linear interpolation. The query result after filling the null value can better reflect the data distribution, which is beneficial for users to perform data analysis.
 
-### Syntax Definition
+### 6.2 Syntax Definition
 
 **The following is the syntax definition of the `FILL` clause:**
 
@@ -1700,7 +1700,7 @@ FILL '(' PREVIOUS | LINEAR | constant ')'
 - We can specify only one fill method in the `FILL` clause, and this method applies to all columns of the result set.
 - Null value fill is not compatible with version 0.13 and previous syntax (`FILL((<data_type>[<fill_method>(, <before_range>, <after_range>)?])+)`) is not supported anymore.
 
-### Fill Methods
+### 6.3 Fill Methods
 
 **IoTDB supports the following three fill methods:**
 
@@ -1994,14 +1994,14 @@ result will be like:
 Total line number = 4
 ```
 
-## `LIMIT` and `SLIMIT` CLAUSES (PAGINATION)
+## 7. `LIMIT` and `SLIMIT` CLAUSES (PAGINATION)
 
 When the query result set has a large amount of data, it is not conducive to display on one page. You can use the `LIMIT/SLIMIT` clause and the `OFFSET/SOFFSET` clause to control paging.
 
 - The `LIMIT` and `SLIMIT` clauses are used to control the number of rows and columns of query results.
 - The `OFFSET` and `SOFFSET` clauses are used to control the starting position of the result display.
 
-### Row Control over Query Results
+### 7.1 Row Control over Query Results
 
 By using LIMIT and OFFSET clauses, users control the query results in a row-related manner. We demonstrate how to use LIMIT and OFFSET clauses through the following examples.
 
@@ -2121,7 +2121,7 @@ Total line number = 4
 It costs 0.016s
 ```
 
-### Column Control over Query Results
+### 7.2 Column Control over Query Results
 
 By using SLIMIT and SOFFSET clauses, users can control the query results in a column-related manner. We will demonstrate how to use SLIMIT and SOFFSET clauses through the following examples.
 
@@ -2209,7 +2209,7 @@ Total line number = 7
 It costs 0.000s
 ```
 
-### Row and Column Control over Query Results
+### 7.3 Row and Column Control over Query Results
 
 In addition to row or column control over query results, IoTDB allows users to control both rows and columns of query results. Here is a complete example with both LIMIT clauses and SLIMIT clauses.
 
@@ -2244,7 +2244,7 @@ Total line number = 10
 It costs 0.009s
 ```
 
-### Error Handling
+### 7.4 Error Handling
 
 If the parameter N/SN of LIMIT/SLIMIT exceeds the size of the result set, IoTDB returns all the results as expected. For example, the query result of the original SQL statement consists of six rows, and we select the first 100 rows through the LIMIT clause:
 
@@ -2322,9 +2322,9 @@ The SQL statement will not be executed and the corresponding error prompt is giv
 Msg: 411: Meet error in query process: The value of SOFFSET (2) is equal to or exceeds the number of sequences (2) that can actually be returned.
 ```
 
-## `ORDER BY` CLAUSE
+## 8. `ORDER BY` CLAUSE
 
-### Order by in ALIGN BY TIME mode
+### 8.1 Order by in ALIGN BY TIME mode
 
 The result set of IoTDB is in ALIGN BY TIME mode by default and `ORDER BY TIME` clause can also be used to specify the ordering of timestamp. The SQL statement is:
 
@@ -2345,7 +2345,7 @@ Results：
 +-----------------------------+--------------------------+------------------------+-----------------------------+------------------------+
 ```
 
-### Order by in ALIGN BY DEVICE mode
+### 8.2 Order by in ALIGN BY DEVICE mode
 
 When querying in ALIGN BY DEVICE mode, `ORDER BY` clause can be used to specify the ordering of result set.
 
@@ -2447,7 +2447,7 @@ The result shows below:
 +-----------------------------+-----------------+---------------+-------------+------------------+
 ```
 
-### Order by arbitrary expressions
+### 8.3 Order by arbitrary expressions
 
 In addition to the predefined keywords "Time" and "Device" in IoTDB, `ORDER BY` can also be used to sort by any expressions.
 
@@ -2620,11 +2620,11 @@ This will give you the following results:
 +-----------------------------+---------+-----+
 ```
 
-## `ALIGN BY` CLAUSE
+## 9. `ALIGN BY` CLAUSE
 
 In addition, IoTDB supports another result set format: `ALIGN BY DEVICE`.
 
-### Align by Device
+### 9.1 Align by Device
 
 The `ALIGN BY DEVICE` indicates that the deviceId is considered as a column. Therefore, there are totally limited columns in the dataset. 
 
@@ -2657,11 +2657,11 @@ Total line number = 6
 It costs 0.012s
 ```
 
-### Ordering in ALIGN BY DEVICE
+### 9.2 Ordering in ALIGN BY DEVICE
 
 ALIGN BY DEVICE mode arranges according to the device first, and sort each device in ascending order according to the timestamp. The ordering and priority can be adjusted through `ORDER BY` clause.
 
-## `INTO` CLAUSE (QUERY WRITE-BACK)
+## 10. `INTO` CLAUSE (QUERY WRITE-BACK)
 
 The `SELECT INTO` statement copies data from query result set into target time series.
 
@@ -2671,7 +2671,7 @@ The application scenarios are as follows:
 - **Query result storage**: Persistently store the query results, which acts like a materialized view.
 - **Non-aligned time series to aligned time series**:  Rewrite non-aligned time series into another aligned time series.
 
-### SQL Syntax
+### 10.1 SQL Syntax
 
 #### Syntax Definition
 
@@ -2938,7 +2938,7 @@ This statement specifies that `root.sg_copy.d1` is an unaligned device and `root
 - When the target time series does not exist, the system automatically creates it (including the database).
 - When the queried time series does not exist, or the queried sequence does not have data, the target time series will not be created automatically.
 
-### Application examples
+### 10.2 Application examples
 
 #### Implement IoTDB internal ETL
 
@@ -2995,7 +2995,7 @@ Total line number = 2
 It costs 0.375s
 ```
 
-### User Permission Management
+### 10.3 User Permission Management
 
 The user must have the following permissions to execute a query write-back statement:
 
@@ -3004,6 +3004,6 @@ The user must have the following permissions to execute a query write-back state
 
 For more user permissions related content, please refer to [Account Management Statements](../User-Manual/Authority-Management.md).
 
-### Configurable Properties
+### 10.4 Configurable Properties
 
 * `select_into_insert_tablet_plan_row_limit`: The maximum number of rows can be processed in one insert-tablet-plan when executing select-into statements. 10000 by default.

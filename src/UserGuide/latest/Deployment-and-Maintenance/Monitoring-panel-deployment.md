@@ -24,14 +24,14 @@ The IoTDB monitoring panel is one of the supporting tools for the IoTDB Enterpri
 
 The instructions for using the monitoring panel tool can be found in the [Instructions](../Tools-System/Monitor-Tool.md) section of the document.
 
-## Installation Preparation
+## 1. Installation Preparation
 
 1. Installing IoTDB: You need to first install IoTDB V1.0 or above Enterprise Edition. You can contact business or technical support to obtain
 2. Obtain the IoTDB monitoring panel installation package: Based on the enterprise version of IoTDB database monitoring panel, you can contact business or technical support to obtain
 
-## Installation Steps
+## 2. Installation Steps
 
-### Step 1: IoTDB enables monitoring indicator collection
+### 2.1 IoTDB enables monitoring indicator collection
 
 1. Open the monitoring configuration item. The configuration items related to monitoring in IoTDB are disabled by default. Before deploying the monitoring panel, you need to open the relevant configuration items (note that the service needs to be restarted after enabling monitoring configuration).
 
@@ -67,7 +67,7 @@ Taking the 3C3D cluster as an example, the monitoring configuration that needs t
 
 ![](/img/%E5%90%AF%E5%8A%A8.png)
 
-### Step 2: Install and configure Prometheus
+### 2.2 Install and configure Prometheus
 
 > Taking Prometheus installed on server 192.168.1.3 as an example.
 
@@ -118,7 +118,7 @@ scrape_configs:
 
 ![](/img/%E8%8A%82%E7%82%B9%E7%9B%91%E6%8E%A7.png)
 
-### Step 3: Install Grafana and configure the data source
+### 2.3 Install Grafana and configure the data source
 
 > Taking Grafana installed on server 192.168.1.3 as an example.
 
@@ -146,7 +146,7 @@ When configuring the Data Source, pay attention to the URL where Prometheus is l
 
 ![](/img/%E9%85%8D%E7%BD%AE%E6%88%90%E5%8A%9F.png)
 
-### Step 4: Import IoTDB Grafana Dashboards
+### 2.4 Import IoTDB Grafana Dashboards
 
 1. Enter Grafana and select Dashboards:
 
@@ -184,9 +184,9 @@ When configuring the Data Source, pay attention to the URL where Prometheus is l
 
       ![](/img/%E9%9D%A2%E6%9D%BF%E6%B1%87%E6%80%BB.png)
 
-## Appendix, Detailed Explanation of Monitoring Indicators
+## 3. Appendix, Detailed Explanation of Monitoring Indicators
 
-### System Dashboard
+### 3.1 System Dashboard
 
 This panel displays the current usage of system CPU, memory, disk, and network resources, as well as partial status of the JVM.
 
@@ -272,7 +272,7 @@ Eno refers to the network card connected to the public network, while lo refers 
 - Packet Speed：The speed at which the network card sends and receives packets, and one RPC request can correspond to one or more packets
 - Connection Num：The current number of socket connections for the selected process (IoTDB only has TCP)
 
-### Performance Overview Dashboard
+### 3.2 Performance Overview Dashboard
 
 #### Cluster Overview
 
@@ -350,7 +350,7 @@ Eno refers to the network card connected to the public network, while lo refers 
 - File Size: Node management file size situation
 - Log Number Per Minute: Different types of logs per minute for nodes
 
-### ConfigNode Dashboard
+### 3.3 ConfigNode Dashboard
 
 This panel displays the performance of all management nodes in the cluster, including partitioning, node information, and client connection statistics.
 
@@ -408,7 +408,7 @@ This panel displays the performance of all management nodes in the cluster, incl
 - Remote / Local Write QPS: Remote and local QPS written to node Ratis
 - RatisConsensus Memory: Memory usage of Node Ratis consensus protocol
 
-### DataNode Dashboard
+### 3.4 DataNode Dashboard
 
 This panel displays the monitoring status of all data nodes in the cluster, including write time, query time, number of stored files, etc.
 

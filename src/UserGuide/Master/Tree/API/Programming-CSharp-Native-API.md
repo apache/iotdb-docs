@@ -21,9 +21,9 @@
 
 # C# Native API
 
-## Installation
+## 1. Installation
 
-### Install from NuGet Package
+### 1.1 Install from NuGet Package
 
 We have prepared Nuget Package for C# users. Users can directly install the client through .NET CLI. [The link of our NuGet Package is here](https://www.nuget.org/packages/Apache.IoTDB/). Run the following command in the command line to complete installation
 
@@ -33,18 +33,18 @@ dotnet add package Apache.IoTDB
 
 Note that the `Apache.IoTDB` package only supports versions greater than `.net framework 4.6.1`.
 
-## Prerequisites
+## 2. Prerequisites
 
     .NET SDK Version >= 5.0 
     .NET Framework >= 4.6.1
 
-## How to Use the Client (Quick Start)
+## 3. How to Use the Client (Quick Start)
 
 Users can quickly get started by referring to the use cases under the Apache-IoTDB-Client-CSharp-UserCase directory. These use cases serve as a useful resource for getting familiar with the client's functionality and capabilities.
 
 For those who wish to delve deeper into the client's usage and explore more advanced features, the samples directory contains additional code samples. 
 
-## Developer environment requirements for iotdb-client-csharp
+## 4. Developer environment requirements for iotdb-client-csharp
 
 ```
 .NET SDK Version >= 5.0
@@ -53,17 +53,17 @@ ApacheThrift >= 0.14.1
 NLog >= 4.7.9
 ```
 
-### OS
+### 4.1 OS
 
 * Linux, Macos or other unix-like OS
 * Windows+bash(WSL, cygwin, Git Bash)
 
-### Command Line Tools
+### 4.2 Command Line Tools
 
 * dotnet CLI
 * Thrift
 
-## Basic interface description
+## 5. Basic interface description
 
 The Session interface is semantically identical to other language clients
 
@@ -101,7 +101,7 @@ await session_pool.InsertTabletAsync(tablet);
 await session_pool.Close();
 ```
 
-## **Row Record**
+## 6. **Row Record**
 
 - Encapsulate and abstract the `record` data in **IoTDB**
 - e.g.
@@ -117,7 +117,7 @@ var rowRecord =
   new RowRecord(long timestamps, List<object> values, List<string> measurements);
 ```
 
-### **Tablet**
+### 6.1 **Tablet**
 
 - A data structure similar to a table, containing several non empty data blocks of a device's rows。
 - e.g.
@@ -137,9 +137,9 @@ var tablet =
 
 
 
-## **API**
+## 7. **API**
 
-### **Basic API**
+### 7.1 **Basic API**
 
 | api name       | parameters                | notes                    | use example                   |
 | -------------- | ------------------------- | ------------------------ | ----------------------------- |
@@ -151,7 +151,7 @@ var tablet =
 | SetTimeZone    | string                    | set time zone            | session_pool.GetTimeZone()    |
 | GetTimeZone    | null                      | get time zone            | session_pool.GetTimeZone()    |
 
-### **Record API**
+### 7.2 **Record API**
 
 | api name                            | parameters                    | notes                               | use example                                                  |
 | ----------------------------------- | ----------------------------- | ----------------------------------- | ------------------------------------------------------------ |
@@ -162,7 +162,7 @@ var tablet =
 | TestInsertRecordAsync               | string, RowRecord             | test insert record                  | session_pool.TestInsertRecordAsync("root.97209_TEST_CSHARP_CLIENT_GROUP.TEST_CSHARP_CLIENT_DEVICE", rowRecord) |
 | TestInsertRecordsAsync              | List\<string\>, List\<RowRecord\> | test insert record                  | session_pool.TestInsertRecordsAsync(device_id, rowRecords)   |
 
-### **Tablet API**
+### 7.3 **Tablet API**
 
 | api name               | parameters   | notes                | use example                                  |
 | ---------------------- | ------------ | -------------------- | -------------------------------------------- |
@@ -171,14 +171,14 @@ var tablet =
 | TestInsertTabletAsync  | Tablet       | test insert tablet   | session_pool.TestInsertTabletAsync(tablet)   |
 | TestInsertTabletsAsync | List\<Tablet\> | test insert tablets  | session_pool.TestInsertTabletsAsync(tablets) |
 
-### **SQL API**
+### 7.4 **SQL API**
 
 | api name                      | parameters | notes                          | use example                                                  |
 | ----------------------------- | ---------- | ------------------------------ | ------------------------------------------------------------ |
 | ExecuteQueryStatementAsync    | string     | execute sql query statement    | session_pool.ExecuteQueryStatementAsync("select * from root.97209_TEST_CSHARP_CLIENT_GROUP.TEST_CSHARP_CLIENT_DEVICE where time<15"); |
 | ExecuteNonQueryStatementAsync | string     | execute sql nonquery statement | session_pool.ExecuteNonQueryStatementAsync( "create timeseries root.97209_TEST_CSHARP_CLIENT_GROUP.TEST_CSHARP_CLIENT_DEVICE.status with datatype=BOOLEAN,encoding=PLAIN") |
 
-### **Scheam API**
+### 7.5 **Scheam API**
 
 | api name                   | parameters                                                   | notes                       | use example                                                  |
 | -------------------------- | ------------------------------------------------------------ | --------------------------- | ------------------------------------------------------------ |
@@ -191,7 +191,7 @@ var tablet =
 | DeleteTimeSeriesAsync      | string                                                       | delete time series          |                                                              |
 | DeleteDataAsync            | List\<string\>, long, long                                     | delete data                 | session_pool.DeleteDataAsync(ts_path_lst, 2, 3)              |
 
-### **Other API**
+### 7.6 **Other API**
 
 | api name                   | parameters | notes                       | use example                                          |
 | -------------------------- | ---------- | --------------------------- | ---------------------------------------------------- |
@@ -201,7 +201,7 @@ var tablet =
 
 [e.g.](https://github.com/apache/iotdb-client-csharp/tree/main/samples/Apache.IoTDB.Samples)
 
-## SessionPool
+## 8. SessionPool
 
 To implement concurrent client requests, we provide a `SessionPool` for the native interface. Since `SessionPool` itself is a superset of `Session`, when `SessionPool` is a When the `pool_size` parameter is set to 1, it reverts to the original `Session`
 

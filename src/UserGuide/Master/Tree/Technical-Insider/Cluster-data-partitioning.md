@@ -22,10 +22,10 @@
 # Load Balance
 This document introduces the partitioning strategies and load balance strategies in IoTDB. According to the characteristics of time series data, IoTDB partitions them by series and time dimensions. Combining a series partition with a time partition creates a partition, the unit of division. To enhance throughput and reduce management costs, these partitions are evenly allocated to RegionGroups, which serve as the unit of replication. The RegionGroup's Regions then determine the storage location, with the leader Region managing the primary load. During this process, the Region placement strategy determines which nodes will host the replicas, while the leader selection strategy designates which Region will act as the leader.
 
-## Partitioning Strategy & Partition Allocation
+## 1. Partitioning Strategy & Partition Allocation
 IoTDB implements tailored partitioning algorithms for time series data. Building on this foundation, the partition information cached on both ConfigNodes and DataNodes is not only manageable in size but also clearly differentiated between hot and cold. Subsequently, balanced partitions are evenly allocated across the cluster's RegionGroups to achieve storage balance.
 
-### Partitioning Strategy
+### 1.1 Partitioning Strategy
 IoTDB maps each sensor in the production environment to a time series. The time series are then partitioned using the series partitioning algorithm to manage their schema, and combined with the time partitioning algorithm to manage their data. The following figure illustrates how IoTDB partitions time series data.
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/partition_table_en.png?raw=true">
@@ -53,7 +53,7 @@ Since the series partitioning algorithm evenly partitions the time series, each 
 #### Data Partitioning
 Combining a series partition with a time partition creates a data partition. Since the series partitioning algorithm evenly partitions the time series, the load of data partitions within a specified time partition remains balanced. These data partitions are then evenly allocated across the DataRegionGroups to achieve balanced data distribution.
 
-### Partition Allocation
+### 1.2 Partition Allocation
 IoTDB uses RegionGroups to enable elastic storage of time series, with the number of RegionGroups in the cluster determined by the total resources available across all DataNodes. Since the number of RegionGroups is dynamic, IoTDB can easily scale out. Both the SchemaRegionGroup and DataRegionGroup follow the same partition allocation algorithm, which evenly splits all series partitions. The following figure demonstrates the partition allocation process, where the dynamic RegionGroups match the variously expending time series and cluster.
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/partition_allocation_en.png?raw=true">
@@ -70,10 +70,10 @@ Both the SchemaRegionGroup and the DataRegionGroup follow the same allocation al
 
 Notably, IoTDB effectively leverages the characteristics of time series data. When the TTL (Time to Live) is configured, IoTDB enables migration-free elastic storage for time series data. This feature facilitates cluster expansion while minimizing the impact on online operations. The figures above illustrate an instance of this feature: newborn data partitions are evenly allocated to each DataRegion, and expired data are automatically archived. As a result, the cluster's storage will eventually remain balanced.
 
-## Balance Strategy
+## 2. Balance Strategy
 To enhance the cluster's availability and performance, IoTDB employs sophisticated storage load and computing load balance algorithms.
 
-### Storage Load Balance
+### 2.1 Storage Load Balance
 The number of Regions held by a DataNode reflects its storage load. If the difference in the number of Regions across DataNodes is relatively large, the DataNode with more Regions is likely to become a storage bottleneck. Although a straightforward Round Robin placement algorithm can achieve storage balance by ensuring that each DataNode hosts an equal number of Regions, it compromises the cluster's fault tolerance, as illustrated below:
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/placement_en.png?raw=true">
@@ -88,7 +88,7 @@ In this scenario, if DataNode $n_2$ fails, the load previously handled by DataNo
 
 To address this issue, IoTDB employs a Region placement algorithm that not only evenly distributes Regions across all DataNodes but also ensures that each DataNode can offload its storage to sufficient other DataNodes in the event of a failure. As a result, the cluster achieves balanced storage distribution and a high level of fault tolerance, ensuring its availability.
 
-### Computing Load Balance
+### 2.2 Computing Load Balance
 The number of leader Regions held by a DataNode reflects its Computing load. If the difference in the number of leaders across DataNodes is relatively large, the DataNode with more leaders is likely to become a Computing bottleneck. If the leader selection process is conducted using a transparent Greedy algorithm, the result may be an unbalanced leader distribution when the Regions are fault-tolerantly placed, as demonstrated below:
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/selection_en.png?raw=true">
@@ -103,7 +103,7 @@ Please note that all the above steps strictly follow the Greedy algorithm. Howev
 
 To address this issue, IoTDB employs a leader selection algorithm that can consistently balance the cluster's leader distribution. Consequently, the cluster achieves balanced Computing load distribution, ensuring its performance.
 
-## Source Code
+## 3. Source Code
 + [Data Partitioning](https://github.com/apache/iotdb/tree/master/iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/partition)
 + [Partition Allocation](https://github.com/apache/iotdb/tree/master/iotdb-core/confignode/src/main/java/org/apache/iotdb/confignode/manager/load/balancer/partition)
 + [Region Placement](https://github.com/apache/iotdb/tree/master/iotdb-core/confignode/src/main/java/org/apache/iotdb/confignode/manager/load/balancer/region)

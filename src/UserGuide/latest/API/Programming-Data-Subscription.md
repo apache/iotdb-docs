@@ -23,7 +23,7 @@
 
 IoTDB provides powerful data subscription functionality, allowing users to access newly added data from IoTDB in real-time through subscription APIs. For detailed functional definitions and introductions：[Data subscription](../User-Manual/Data-subscription.md)
 
-## 1 Core Steps
+## 1. Core Steps
 
 1. Create Topic: Create a Topic that includes the measurement points you wish to subscribe to.
 2. Subscribe to Topic: Before a consumer subscribes to a topic, the topic must have been created, otherwise the subscription will fail. Consumers under the same consumer group will evenly distribute the data.
@@ -31,7 +31,7 @@ IoTDB provides powerful data subscription functionality, allowing users to acces
 4. Unsubscribe: When a consumer is closed, it will exit the corresponding consumer group and cancel all existing subscriptions. 
 
 
-## 2 Detailed Steps
+## 2. Detailed Steps
 
 This section is used to illustrate the core development process and does not demonstrate all parameters and interfaces. For a comprehensive understanding of all features and parameters, please refer to: [Java Native API](../API/Programming-Java-Native-API.md#3-native-interface-description)
 
@@ -182,7 +182,7 @@ public class DataConsumerExample {
 
 
 
-## 3 Java Native API Description
+## 3. Java Native API Description
 
 ### 3.1 Parameter List
 

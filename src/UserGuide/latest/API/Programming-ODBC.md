@@ -22,19 +22,19 @@
 # ODBC
 With IoTDB JDBC, IoTDB can be accessed using the ODBC-JDBC bridge.
 
-## Dependencies
+## 1. Dependencies
 * IoTDB-JDBC's jar-with-dependency package
 * ODBC-JDBC bridge (e.g. ZappySys JDBC Bridge)
 
-## Deployment
-### Preparing JDBC package
+## 2. Deployment
+### 2.1 Preparing JDBC package
 Download the source code of IoTDB, and execute the following command in root directory:
 ```shell
 mvn clean package -pl iotdb-client/jdbc -am -DskipTests -P get-jar-with-dependencies
 ```
 Then, you can see the output `iotdb-jdbc-1.3.2-SNAPSHOT-jar-with-dependencies.jar` under `iotdb-client/jdbc/target` directory.
 
-### Preparing ODBC-JDBC Bridge
+### 2.2 Preparing ODBC-JDBC Bridge
 *Note: Here we only provide one kind of ODBC-JDBC bridge as the instance. Readers can use other ODBC-JDBC bridges to access IoTDB with the IOTDB-JDBC.*
 1.  **Download Zappy-Sys ODBC-JDBC Bridge**:
     Enter the https://zappysys.com/products/odbc-powerpack/odbc-jdbc-bridge-driver/ website, and click "download".

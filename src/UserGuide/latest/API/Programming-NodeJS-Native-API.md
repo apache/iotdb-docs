@@ -24,14 +24,14 @@
 Apache IoTDB uses Thrift as a cross-language RPC-framework so access to IoTDB can be achieved through the interfaces provided by Thrift. 
 This document will introduce how to generate a native Node.js interface that can be used to access IoTDB.
 
-## Dependents
+## 1. Dependents
 
  * JDK >= 1.8
  * Node.js >= 16.0.0
  * Linux、Macos or like unix
  * Windows+bash
 
-## Generate the Node.js native interface
+## 2. Generate the Node.js native interface
 
 1. Find the `pom.xml` file in the root directory of the IoTDB source code folder.
 2. Open the `pom.xml` file and find the following content:
@@ -67,11 +67,11 @@ This document will introduce how to generate a native Node.js interface that can
 This command will automatically delete the files in `iotdb/iotdb-protocol/thrift/target` and `iotdb/iotdb-protocol/thrift-commons/target`, and repopulate the folder with the newly generated files.
 The newly generated JavaScript sources will be located in `iotdb/iotdb-protocol/thrift/target/generated-sources-nodejs` in the various modules of the `iotdb-protocol` module.
 
-## Using the Node.js native interface
+## 3. Using the Node.js native interface
 
 Simply copy the files in `iotdb/iotdb-protocol/thrift/target/generated-sources-nodejs/` and `iotdb/iotdb-protocol/thrift-commons/target/generated-sources-nodejs/` into your project.
 
-## rpc interface
+## 4. rpc interface
 
 ```
 // open a session
