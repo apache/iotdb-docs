@@ -27,7 +27,7 @@ This guide describes how to manually deploy a cluster instance consisting of 3 C
 </div>
 
 
-## 1 Prerequisites
+## 1. Prerequisites
 
 1. **System Preparation**: Ensure the system has been configured according to the  [System Requirements](../Deployment-and-Maintenance/Environment-Requirements.md).
 
@@ -51,13 +51,13 @@ Use the hostname for `cn_internal_address` and `dn_internal_address` in IoTDB co
 
 6. **Monitoring Panel**: Deploy a monitoring panel to track key performance metrics. Contact the Timecho team for access and refer to the [Monitoring Board Install and Deploy](../Deployment-and-Maintenance/Monitoring-panel-deployment.md).
 
-## 2 Preparation
+## 2. Preparation
 
 1. Obtain the TimechoDB installation package: `timechodb-{version}-bin.zip` following [IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_timecho.md)）
 
 2. Configure the operating system environment according to [Environment Requirement](../Deployment-and-Maintenance/Environment-Requirements.md)）
 
-## 3 Installation Steps
+## 3. Installation Steps
 
 Taking a cluster with three Linux servers with the following information as example:
 
@@ -217,7 +217,7 @@ Check the `ClusterActivationStatus` field. If it shows `ACTIVATED`, the database
 
 ![](/img/%E9%9B%86%E7%BE%A4-%E9%AA%8C%E8%AF%81.png)
 
-## 4 Maintenance
+## 4. Maintenance
 
 ### 4.1 ConfigNode Maintenance
 
@@ -345,7 +345,7 @@ sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
 sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 ```
 
-## 5 Common Issues
+## 5. Common Issues
 
 1. Activation Fails Repeatedly
    - Use the `ls -al` command to verify that the ownership of the installation directory matches the current user.
@@ -384,7 +384,7 @@ sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
       rm -rf data logs
       ```
 
-## 6 Appendix
+## 6. Appendix
 
 ### 6.1 ConfigNode Parameters
 

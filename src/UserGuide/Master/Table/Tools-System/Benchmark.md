@@ -18,8 +18,9 @@
     under the License.
 
 -->
+# Benchmark
 
-## **Basic Overview**
+## 1. **Basic Overview**
 
 IoT-benchmark is a time-series database benchmarking tool developed in Java for big data environments. It was developed and open-sourced by the School of Software, Tsinghua University. The tool is user-friendly, supports various write and query methods, allows storing test information and results for further queries or analysis, and integrates with Tableau for visualizing test results.
 
@@ -50,7 +51,7 @@ Currently, IoT-benchmark supports the following time series databases, versions 
 | KairosDB        | --              | HTTP Request                                             |
 | IoTDB           | v2.0 v1.x v0.13 | JDBC, SessionByTablet, SessionByRecord, SessionByRecords |
 
-## **Installation and Operation**
+## 2. **Installation and Operation**
 
 #### **Prerequisites**
 
@@ -144,7 +145,7 @@ All test log files are stored in the `logs` folder, while test results are saved
     - MIN: Minimum operation latency.
     - Pn: Quantile values of the overall operation distribution (e.g., P25 represents the 25th percentile, or lower quartile).
 
-## **Main** **Parameters**
+## 3. **Main** **Parameters**
 
 #### IoTDB Service Model
 
@@ -352,7 +353,7 @@ Then the test process with 3 LOOP parameters of 10, 20, and 50 is executed in se
     > tail -f log_info.log
     ```
 
-## Test Example
+## 4. Test Example
 
 This example demonstrates how to configure and run an IoT-benchmark test with IoTDB 2.0 using the table model for writing and querying.
 

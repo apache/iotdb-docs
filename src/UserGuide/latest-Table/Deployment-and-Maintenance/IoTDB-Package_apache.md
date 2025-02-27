@@ -20,12 +20,12 @@
 -->
 # Obtain IoTDB
 
-## 1 How to obtain IoTDB
+## 1. How to obtain IoTDB
 
 The installation package can be directly obtained from the Apache IoTDB official website:https://iotdb.apache.org/Download/
 
 
-## 2 Installation Package Structure
+## 2. Installation Package Structure
 
 
 Install the package after decompression（`apache-iotdb-<version>-all-bin.zip`）,After decompressing the installation package, the directory structure is as follows:

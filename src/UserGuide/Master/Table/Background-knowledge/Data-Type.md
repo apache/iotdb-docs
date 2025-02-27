@@ -21,7 +21,7 @@
 
 # Data Types
 
-## 1 Basic Data Types
+## 1. Basic Data Types
 
 IoTDB supports the following ten data types:
 
@@ -75,7 +75,7 @@ The compatibility of data types is shown in the table below:
 | TIMESTAMP            | INT32, INT64, TIMESTAMP                |
 | DATE                 | DATE                                   |
 
-## 2 Timestamp Types
+## 2. Timestamp Types
 
 A timestamp represents the moment when data is recorded. IoTDB supports two types:
 

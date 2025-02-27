@@ -22,7 +22,7 @@
 
 Data synchronization is a typical requirement in the Industrial Internet of Things (IIoT). Through data synchronization mechanisms, data sharing between IoTDB instances can be achieved, enabling the establishment of a complete data pipeline to meet needs such as internal and external network data exchange, edge-to-cloud synchronization, data migration, and data backup.
 
-## 1 Functional Overview
+## 1. Functional Overview
 
 ### 1.1 Data Synchronization
 
@@ -42,7 +42,7 @@ By declaratively configuring these three parts in an SQL statement, flexible dat
 - Does not support data synchronization from IoTDB version 2.x series to version 1.x series.
 - When performing data synchronization tasks, avoid executing any deletion operations to prevent inconsistencies between the two ends.
 
-## 2 Usage Instructions
+## 2. Usage Instructions
 
 A data synchronization task can be in one of three states: RUNNING, STOPPED, and DROPPED. The state transitions of the task are illustrated in the diagram below:
 
@@ -209,7 +209,7 @@ Detailed introduction of pre-installed plugins is as follows (for detailed param
   </tbody>
 </table>
 
-## 3 Usage Examples
+## 3. Usage Examples
 
 ### 3.1 Full Data Synchronization
 
@@ -418,7 +418,7 @@ WITH SINK (
 )
 ```
 
-## 4 Reference: Notes
+## 4. Reference: Notes
 
 You can adjust the parameters for data synchronization by modifying the IoTDB configuration file (`iotdb-system.properties`), such as the directory for storing synchronized data. The complete configuration is as follows:
 
@@ -491,7 +491,7 @@ pipe_air_gap_receiver_port=9780
 pipe_all_sinks_rate_limit_bytes_per_second=-1
 ```
 
-## 5 Reference: Parameter Description
+## 5. Reference: Parameter Description
 
 ### 5.1 source  parameter
 

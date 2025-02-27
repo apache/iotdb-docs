@@ -20,11 +20,11 @@
 -->
 # Obtain TimechoDB
 
-## 1 How to obtain TimechoDB
+## 1. How to obtain TimechoDB
 
 The TimechoDB installation package can be obtained through product trial application or by directly contacting the Timecho team.
 
-## 2 Installation Package Structure
+## 2. Installation Package Structure
 
 After unpacking the installation package（`iotdb-enterprise-{version}-bin.zip`），you will see the directory structure is as follows：
 
