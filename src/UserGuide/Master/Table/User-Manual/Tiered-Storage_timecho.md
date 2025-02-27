@@ -18,14 +18,15 @@
     under the License.
 
 -->
+# Tiered Storage
 
-## Overview
+## 1. Overview
 
 The **tiered storage** feature enables users to manage multiple types of storage media efficiently. Users can configure different storage media types within IoTDB and classify them into distinct storage tiers. In IoTDB, tiered storage is implemented by managing multiple directories. Users can group multiple storage directories into the same category and designate them as a **storage tier**. Additionally, data can be classified based on its "hotness" or "coldness" and stored accordingly in designated tiers.
 
 Currently, IoTDB supports hot and cold data classification based on the **Time-To-Live (****TTL****)** parameter. When data in a tier no longer meets the defined TTL rules, it is automatically migrated to the next tier.
 
-## **Parameter Definitions**
+## 2. **Parameter Definitions**
 
 To enable multi-level storage in IoTDB, the following configurations are required:
 
@@ -49,7 +50,7 @@ The specific parameter definitions and their descriptions are as follows.
 | `remote_tsfile_cache_page_size_in_kb`      | `20480`                    | Page size (in KB) for cloud storage local cache.                                                                                                                                                                    | Required only if cloud storage is used.                                                                                                                                                                                                        |
 | `remote_tsfile_cache_max_disk_usage_in_mb` | `51200`                    | Maximum disk space (in MB) allocated for cloud storage local cache.                                                                                                                                                 | Required only if cloud storage is used.                                                                                                                                                                                                        |
 
-## Local Tiered Storage Example
+## 3. Local Tiered Storage Example
 
 The following is an example of a **two-tier local storage configuration**:
 
@@ -67,7 +68,7 @@ dn_default_space_usage_thresholds=0.2;0.1
 | Tier 1   | `/data1/data`                | Last 1 day of data    | 20%                           |
 | Tier 2   | `/data2/data`, `/data3/data` | Data older than 1 day | 10%                           |
 
-## Cloud-based Tiered Storage Example
+## 4. Cloud-based Tiered Storage Example
 
 The following is an example of a **three-tier configuration with cloud storage**:
 

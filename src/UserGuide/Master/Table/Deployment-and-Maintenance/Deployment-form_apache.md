@@ -22,7 +22,7 @@
 
 IoTDB has two operation modes: standalone mode and cluster mode.
 
-## 1 Standalone Mode
+## 1. Standalone Mode
 
 An IoTDB standalone instance includes 1 ConfigNode and 1 DataNode, referred to as 1C1D.
 
@@ -31,7 +31,7 @@ An IoTDB standalone instance includes 1 ConfigNode and 1 DataNode, referred to a
 - **Deployment method**:[Stand-Alone Deployment](../Deployment-and-Maintenance/Stand-Alone-Deployment_apache.md)
  
 
-## 2 Cluster Mode
+## 2. Cluster Mode
 
 An IoTDB cluster instance consists of 3 ConfigNodes and no fewer than 3 DataNodes, typically 3 DataNodes, referred to as 3C3D. In the event of partial node failures, the remaining nodes can still provide services, ensuring high availability of the database service, and the database performance can be improved with the addition of nodes.
 
@@ -39,7 +39,7 @@ An IoTDB cluster instance consists of 3 ConfigNodes and no fewer than 3 DataNode
 - **Applicable scenarios**: Enterprise-level application scenarios that require high availability and reliability.
 - **Deployment method**: [Cluster Deployment](../Deployment-and-Maintenance/Cluster-Deployment_apache.md)
 
-## 3 Summary of Features
+## 3. Summary of Features
 
 | **Dimension**               | **Stand-Alone Mode**                                       | **Cluster Mode**                                                 |
 | :-------------------------- | :----------------------------------------------------- | :----------------------------------------------------------- |

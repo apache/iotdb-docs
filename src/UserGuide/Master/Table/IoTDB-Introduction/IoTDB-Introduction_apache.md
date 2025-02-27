@@ -28,7 +28,7 @@ Apache IoTDB is a low-cost, high-performance IoT-native time-series database. It
 - Installation, Deployment, and Usage Documentation: [Quick Start](../QuickStart/QuickStart_apache.md)
 
 
-## Product Ecosystem
+## 1. Product Ecosystem
 
 The IoTDB ecosystem consists of multiple components designed to efficiently manage and analyze massive IoT-generated time-series data.
 
@@ -44,14 +44,14 @@ Key components include:
 3. **Time-Series Model Training-Inference Engine (IoTDB AINode)**: A unified engine for intelligent analysis, supporting model training, data management, and integration with machine/deep learning frameworks.
 
 
-## TimechoDB Architecture
+## 2. TimechoDB Architecture
 
 The diagram below illustrates a typical IoTDB cluster deployment (3 ConfigNodes and 3 DataNodes):
 
 <img src="/img/Cluster-Concept03.png" alt="" style="width: 60%;"/>  
 
 
-## Key Features
+## 3. Key Features
 
 Apache IoTDB offers the following advantages:
 
@@ -92,7 +92,7 @@ Apache IoTDB offers the following advantages:
     - Hadoop, Spark, Grafana, ThingsBoard, DataEase, etc.
 
 
-## TimechoDB
+## 4. TimechoDB
 
 Timecho Technology has developed **TimechoDB**, a commercial product built on the open-source version of Apache IoTDB, to provide enterprise-grade solutions and services for businesses and commercial clients. TimechoDB addresses the multifaceted challenges enterprises face when building IoT big data platforms for managing time-series data, including complex application scenarios, massive data volumes, high sampling frequencies, frequent out-of-order data, time-consuming data processing, diverse analytical requirements, and high storage and maintenance costs.
 

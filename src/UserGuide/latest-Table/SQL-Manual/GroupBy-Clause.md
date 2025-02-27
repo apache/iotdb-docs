@@ -21,7 +21,7 @@
 
 # GROUP BY Clause
 
-## 1 Syntax Overview
+## 1. Syntax Overview
 
 ```sql
 GROUP BY expression (',' expression)*
@@ -32,7 +32,7 @@ GROUP BY expression (',' expression)*
 ![](/img/groupby01.png)
 
 
-## 2 Notes
+## 2. Notes
 
 #### 2.1 Items in the `SELECT` Clause 
 
@@ -209,7 +209,7 @@ Total line number = 1
 It costs 0.047s
 ```
 
-## 3 Sample Data and Usage Examples
+## 3. Sample Data and Usage Examples
 
 The [Example Data page](../Reference/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.
 

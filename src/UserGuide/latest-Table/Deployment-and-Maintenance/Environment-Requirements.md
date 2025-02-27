@@ -20,7 +20,7 @@
 -->
 # System Requirements
 
-## 1 Disk Array
+## 1. Disk Array
 
 ### 1.1 Configuration Suggestions
 
@@ -76,7 +76,7 @@ IoTDB does not have strict operational requirements for disk array configuration
       | Data Disk            | RAID5     | 7                     | 1 disk failure allowed | 6             |
       | Data Disk            | No RAID   | 1                     | Data loss if damaged   | 1             |
 
-## 2 Operating System
+## 2. Operating System
 
 ### 2.1 Version Requirements
 
@@ -184,7 +184,7 @@ Recommended disk partitioning is as follows:
 
 
 
-## 3 Software Dependencies
+## 3. Software Dependencies
 
 Install Java Runtime Environment, Java version >= 1.8. Ensure JDK environment variables are set. (For versions V1.3.2.2 and later, it is recommended to directly deploy JDK17. Older JDK versions may have performance issues in some scenarios, and DataNode may fail to stop.)
 

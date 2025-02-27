@@ -21,7 +21,7 @@
 
 # FROM & JOIN Clause
 
-## 1 Syntax Overview
+## 1. Syntax Overview
 
 ```sql
 FROM relation (',' relation)*
@@ -60,11 +60,11 @@ qualifiedName
     ;
 ```
 
-## 2 FROM Clause Syntax
+## 2. FROM Clause Syntax
 
 The `FROM` clause specifies the data sources for the query. Logically, query execution begins with the `FROM` clause. It can include a single table, a combination of multiple tables joined using `JOIN` clauses, or a subquery containing another `SELECT` query.
 
-## 3 JOIN Clause
+## 3. JOIN Clause
 
 The `JOIN` clause combines two tables based on specific conditions, typically predicates, but other implicit rules can also apply.
 
@@ -120,7 +120,7 @@ An **outer join** returns rows even when no matching records exist in the other 
 
 IoTDB currently supports only `FULL [OUTER] JOIN`. This type returns all records from both tables. If a record in one table has no match in the other, `NULL` values are returned for the unmatched fields. `FULL JOIN` **must use explicit join conditions**.
 
-## 4 Example Queries
+## 4. Example Queries
 
 The [Example Data page](../Reference/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.
 

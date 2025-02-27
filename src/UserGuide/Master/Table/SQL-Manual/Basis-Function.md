@@ -21,9 +21,9 @@
 
 # Basic Functions
 
-## Comparison Functions and Operators
+## 1. Comparison Functions and Operators
 
-### 1. Basic Comparison Operators
+### 1.1 Basic Comparison Operators
 
 Comparison operators are used to compare two values and return the comparison result (`true` or `false`).
 
@@ -37,14 +37,14 @@ Comparison operators are used to compare two values and return the comparison re
 | <>        | Not equal to             |
 | !=        | Not equal to             |
 
-#### 1.1 Comparison rules:
+#### 1.1.1 Comparison rules:
 
 1. All types can be compared with themselves.
 2. Numeric types (INT32, INT64, FLOAT, DOUBLE, TIMESTAMP) can be compared with each other.
 3. Character types (STRING, TEXT) can also be compared with each other.
 4. Comparisons between types other than those mentioned above will result in an error.
 
-### 2. BETWEEN Operator
+### 1.2 BETWEEN Operator
 
 1. The `BETWEEN `operator is used to determine whether a value falls within a specified range.
 2. The `NOT BETWEEN` operator is used to determine whether a value does not fall within a specified range.
@@ -72,7 +72,7 @@ Example 2 :  NOT BETWEEN
 SELECT * FROM table1 WHERE humidity NOT BETWEEN 35.0 AND 40.0;
 ```
 
-### 3. IS NULL Operator
+### 1.3 IS NULL Operator
 
 1. These operators apply to all data types.
 
@@ -88,7 +88,7 @@ Example 2: Query records where humidity is not NULL
 SELECT * FROM table1 WHERE humidity IS NOT NULL;
 ```
 
-### 4. IN Operator
+### 1.4 IN Operator
 
 1. The `IN` operator can be used in the `WHERE `clause to compare a column with a list of values.
 2. These values can be provided by a static array or scalar expressions.
@@ -119,15 +119,15 @@ Example 3: Query records where region is not 'Beijing' or 'Shanghai'
 SELECT * FROM table1 WHERE region NOT IN ('Beijing', 'Shanghai');
 ```
 
-## Aggregate functions
+## 2. Aggregate functions
 
-### 1. Overview
+### 2.1 Overview
 
 1. Aggregate functions are many-to-one functions. They perform aggregate calculations on a set of values to obtain a single aggregate result.
 
 2. Except for `COUNT()`, all other aggregate functions ignore null values and return null when there are no input rows or all values are null. For example, `SUM()` returns null instead of zero, and `AVG()` does not include null values in the count.
 
-### 2. Supported Aggregate Functions                            
+### 2.2 Supported Aggregate Functions                            
 
 | Function Name | Description                                                  | Allowed Input Types        | Output Type                                |
 | :------------ | :----------------------------------------------------------- | :------------------------- | :----------------------------------------- |
@@ -151,13 +151,13 @@ SELECT * FROM table1 WHERE region NOT IN ('Beijing', 'Shanghai');
 | FIRST_BY      | FIRST_BY(x, y) finds the value of x in the same row when y is the first non-null value. | x and y can be of any type | Same as the data type of the first input x |
 | LAST_BY       | LAST_BY(x, y) finds the value of x in the same row when y is the last non-null value. | x and y can be of any type | Same as the data type of the first input x |
 
-### 3. Examples
+### 2.3 Examples
 
-#### 3.1 Example Data
+#### 2.3.1 Example Data
 
 The [Example Data page](../Reference/Sample-Data.md) contains SQL statements for building table structures and inserting data. Download and execute these statements in the IoTDB CLI to import the data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
 
-#### 3.2 Count
+#### 2.3.2 Count
 
 Counts the number of rows in the entire table and the number of non-null values in the `temperature` column.
 
@@ -179,7 +179,7 @@ Total line number = 1
 It costs 0.834s
 ```
 
-#### 3.3 First
+#### 2.3.3 First
 
 Finds the values with the smallest timestamp that are not NULL in the `temperature` and `humidity` columns.
 
@@ -199,7 +199,7 @@ Total line number = 1
 It costs 0.170s
 ```
 
-#### 3.4 Last
+#### 2.3.4 Last
 
 Finds the values with the largest timestamp that are not NULL in the `temperature` and `humidity` columns.
 
@@ -219,7 +219,7 @@ Total line number = 1
 It costs 0.211s
 ```
 
-#### 3.5 First_by
+#### 2.3.5 First_by
 
 Finds the `time` value of the row with the smallest timestamp that is not NULL in the `temperature` column, and the `humidity` value of the row with the smallest timestamp that is not NULL in the `temperature` column.
 
@@ -239,7 +239,7 @@ Total line number = 1
 It costs 0.269s
 ```
 
-#### 3.6 Last_by
+#### 2.3.6 Last_by
 
 Queries the `time` value of the row with the largest timestamp that is not NULL in the `temperature` column, and the `humidity` value of the row with the largest timestamp that is not NULL in the `temperature` column.
 
@@ -259,7 +259,7 @@ Total line number = 1
 It costs 0.070s
 ```
 
-#### 3.7 Max_by
+#### 2.3.7 Max_by
 
 Queries the `time` value of the row where the `temperature` column is at its maximum, and the `humidity` value of the row where the `temperature` column is at its maximum.
 
@@ -279,7 +279,7 @@ Total line number = 1
 It costs 0.172s
 ```
 
-#### 3.8 Min_by
+#### 2.3.8 Min_by
 
 Queries the `time` value of the row where the `temperature` column is at its minimum, and the `humidity` value of the row where the `temperature` column is at its minimum.
 
@@ -299,9 +299,9 @@ Total line number = 1
 It costs 0.244s
 ```
 
-## Logical operators
+## 3. Logical operators
 
-### 1. Overview
+### 3.1 Overview
 
 Logical operators are used to combine conditions or negate conditions, returning a Boolean result (`true` or `false`).
 
@@ -313,9 +313,9 @@ Below are the commonly used logical operators along with their descriptions:
 | OR       | True if either value is true      | a OR b  |
 | NOT      | True when the value is false      | NOT a   |
 
-### 2. Impact of NULL on Logical Operators
+### 3.2 Impact of NULL on Logical Operators
 
-#### 2.1 AND Operator
+#### 3.2.1 AND Operator
 
 - If one or both sides of the expression are `NULL`, the result may be `NULL`.
 - If one side of the `AND` operator is `FALSE`, the expression result is `FALSE`.
@@ -328,7 +328,7 @@ NULL AND false -- false
 NULL AND NULL -- null
 ```
 
-#### 2.2 OR Operator
+#### 3.2.2 OR Operator
 
 - If one or both sides of the expression are `NULL`, the result may be `NULL`.
 - If one side of the `OR` operator is `TRUE`, the expression result is `TRUE`.
@@ -341,7 +341,7 @@ NULL OR false -- null
 NULL OR true -- true
 ```
 
-##### 2.2.1 Truth Table
+##### 3.2.2.1 Truth Table
 
 The following truth table illustrates how `NULL` is handled in `AND` and `OR` operators: 
 
@@ -357,7 +357,7 @@ The following truth table illustrates how `NULL` is handled in `AND` and `OR` op
 | NULL  | FALSE | FALSE   | NULL   |
 | NULL  | NULL  | NULL    | NULL   |
 
-#### 2.3 NOT Operator
+#### 3.2.3 NOT Operator
 
 The logical negation of `NULL` remains `NULL`.
 
@@ -367,7 +367,7 @@ Example:
 NOT NULL -- null
 ```
 
-##### 2.3.1 Truth Table
+##### 3.2.3.1 Truth Table
 
 The following truth table illustrates how `NULL` is handled in the `NOT` operator:
 
@@ -377,17 +377,17 @@ The following truth table illustrates how `NULL` is handled in the `NOT` operato
 | FALSE | TRUE  |
 | NULL  | NULL  |
 
-## Date and Time Functions and Operators
+## 4. Date and Time Functions and Operators
 
-### 1. now() -> Timestamp
+### 4.1 now() -> Timestamp
 
 Returns the current timestamp.
 
-### 2. date_bin(interval, Timestamp[, Timestamp]) -> Timestamp
+### 4.2 date_bin(interval, Timestamp[, Timestamp]) -> Timestamp
 
 The `date_bin` function is used for handling time data by rounding a timestamp (`Timestamp`) to the boundary of a specified time interval (`interval`).
 
-## **Syntax:**
+#### **Syntax:**
 
 ```SQL
 -- Calculates the time interval starting from timestamp 0 and returns the nearest interval boundary to the specified timestamp.
@@ -401,7 +401,7 @@ date_bin(interval,source,origin)
 --source: Must be of timestamp type.
 ```
 
-### **Parameters**：
+#### **Parameters**：
 
 | Parameter | Description                                                  |
 | :-------- | :----------------------------------------------------------- |
@@ -409,7 +409,7 @@ date_bin(interval,source,origin)
 | source    | 1. The timestamp column or expression to be calculated. 2. Must be of timestamp type. |
 | origin    | The reference timestamp.                                     |
 
-### 2.1Syntax Rules ：
+#### 4.2.1Syntax Rules ：
 
 1. If `origin` is not specified, the default reference timestamp is `1970-01-01T00:00:00Z` (Beijing time: `1970-01-01 08:00:00`).
 2. `interval` must be a non-negative number with a time unit. If `interval` is `0ms`, the function returns `source` directly without calculation.
@@ -419,13 +419,13 @@ date_bin(interval,source,origin)
 
 > For example, if the starting point is **April 30, 2000**, calculating `1 DAY` first and then `1 MONTH` results in **June 1, 2000**, whereas calculating `1 MONTH` first and then `1 DAY` results in **May 31, 2000**. The resulting dates are different.                             
 
-#### 2.2 Examples
+#### 4.2.2 Examples
 
 ##### Example Data
 
 The [Example Data page](../Reference/Sample-Data.md) contains SQL statements for building table structures and inserting data. Download and execute these statements in the IoTDB CLI to import the data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
 
-### Example 1: Without Specifying the Origin Timestamp
+#### Example 1: Without Specifying the Origin Timestamp
 
 ```SQL
 SELECT 
@@ -464,7 +464,7 @@ Total line number = 18
 It costs 0.683s
 ```
 
-### Example 2: Specifying the Origin Timestamp
+#### Example 2: Specifying the Origin Timestamp
 
 ```SQL
 SELECT 
@@ -503,7 +503,7 @@ Total line number = 18
 It costs 0.056s
 ```
 
-### Example 3: Negative Origin
+#### Example 3: Negative Origin
 
 ```SQL
 SELECT 
@@ -542,7 +542,7 @@ Total line number = 18
 It costs 0.203s
 ```
 
-### Example 4: Interval of 0
+#### Example 4: Interval of 0
 
 ```SQL
 SELECT 
@@ -581,7 +581,7 @@ Total line number = 18
 It costs 0.107s
 ```
 
-### Example 5: Source is NULL
+#### Example 5: Source is NULL
 
 ```SQL
 SELECT
@@ -620,9 +620,9 @@ Total line number = 18
 It costs 0.319s
 ```
 
-## Mathematical Functions and Operators
+## 5. Mathematical Functions and Operators
 
-### 1. Mathematical Operators
+### 5.1 Mathematical Operators
 
 | **Operator** | **Description**                                 |
 | :----------- | :---------------------------------------------- |
@@ -633,7 +633,7 @@ It costs 0.319s
 | %            | Modulus (remainder)                             |
 | -            | Negation                                        |
 
-### 2. Mathematical functions
+### 5.2 Mathematical functions
 
 | Function Name                    | Description                                                  | Input                       | Output             | Usage      |
 | :------------------------------- | :----------------------------------------------------------- | :-------------------------- | :----------------- | :--------- |
@@ -662,13 +662,13 @@ It costs 0.319s
 | pi                               | Pi (π)                                                       |                             | double             | pi()       |
 
 
-## Conditional Expressions
+## 6. Conditional Expressions
 
-### 1.CASE
+### 6.1 CASE
 
 CASE expressions come in two forms: **Simple CASE** and **Searched CASE**.
 
-#### 1.1 Simple CASE
+#### 6.1.1 Simple CASE
 
 The simple form evaluates each value expression from left to right until it finds a match with the given expression:
 
@@ -693,7 +693,7 @@ SELECT a,
        END
 ```
 
-#### 1.2 Searched CASE
+#### 6.1.2 Searched CASE
 
 The searched form evaluates each Boolean condition from left to right until a `TRUE` condition is found, then returns the corresponding result:
 
@@ -718,7 +718,7 @@ SELECT a, b,
        END
 ```
 
-### 2. COALESCE
+### 6.2 COALESCE
 
 Returns the first non-null value from the given list of parameters.
 
@@ -726,11 +726,11 @@ Returns the first non-null value from the given list of parameters.
 coalesce(value1, value2[, ...])
 ```
 
-## Conversion Functions
+## 7. Conversion Functions
 
-### 1. Conversion Functions
+### 7.1 Conversion Functions
 
-#### 1.1 cast(value AS type) → type
+#### 7.1.1 cast(value AS type) → type
 
 Explicitly converts a value to the specified type. This can be used to convert strings (`VARCHAR`) to numeric types or numeric values to string types.
 
@@ -745,7 +745,7 @@ SELECT *
   IN (CAST('2024-11-27' AS DATE), CAST('2024-11-28' AS DATE));
 ```
 
-#### 1.2 try_cast(value AS type) → type
+#### 7.1.2 try_cast(value AS type) → type
 
 Similar to `CAST()`. If the conversion fails, returns `NULL` instead of throwing an error.
 
@@ -758,19 +758,19 @@ SELECT *
   IN (try_cast('2024-11-27' AS DATE), try_cast('2024-11-28' AS DATE));
 ```
 
-## String Functions and Operators
+## 8. String Functions and Operators
 
-### 1. String operators
+### 8.1 String operators
 
-#### 1.1 || Operator
+#### 8.1.1 || Operator
 
 The `||` operator is used for string concatenation and functions the same as the `concat` function.
 
-#### 1.2 LIKE Statement
+#### 8.1.2 LIKE Statement
 
  The `LIKE` statement is used for pattern matching. For detailed usage, refer to Pattern Matching:[LIKE](#1-like-运算符).
 
-### 2. String Functions
+### 8.2 String Functions
 
 | Function Name | Description                                                  | Input                                                        | Output  | Usage                                                        |
 | :------------ | :----------------------------------------------------------- | :----------------------------------------------------------- | :------ | :----------------------------------------------------------- |
@@ -788,33 +788,33 @@ The `||` operator is used for string concatenation and functions the same as the
 | `substring`   | Extracts a substring from `start_index` to the end of the string. **Notes:**  - `start_index` starts at `1`.  - Returns `NULL` if input is `NULL`.  - Throws an error if `start_index` is greater than string length. | `string`, `start_index`                                      | String  | substring(string from start_index)or substring(string, start_index) |
 | `substring`   | Extracts a substring of `length` characters starting from `start_index`. **Notes:**  - `start_index` starts at `1`.  - Returns `NULL` if input is `NULL`.  - Throws an error if `start_index` is greater than string length.  - Throws an error if `length` is negative.  - If `start_index + length` exceeds `int.MAX`, an overflow error may occur. | `string`, `start_index`, `length`                            | String  | substring(string from start_index for length)  or substring(string, start_index, length) |
 
-## Pattern Matching Functions
+## 9. Pattern Matching Functions
 
-### 1. LIKE
+### 9.1 LIKE
 
-#### 1.1 Usage
+#### 9.1.1 Usage
 
 The `LIKE `operator is used to compare a value with a pattern. It is commonly used in the `WHERE `clause to match specific patterns within strings.
 
-#### 1.2 Syntax
+#### 9.1.2 Syntax
 
 ```SQL
 ... column [NOT] LIKE 'pattern' ESCAPE 'character';
 ```
 
-#### 1.3 Match rules
+#### 9.1.3 Match rules
 
 - Matching characters is case-sensitive
 - The pattern supports two wildcard characters:
   - `_` matches any single character
   - `%` matches zero or more characters
 
-#### 1.4 Notes
+#### 9.1.4 Notes
 
 - `LIKE` pattern matching applies to the entire string by default. Therefore, if it's desired to match a sequence anywhere within a string, the pattern must start and end with a percent sign.
 - To match the escape character itself, double it (e.g., `\\` to match `\`). For example, you can use `\\` to match for `\`.
 
-#### 1.5 Examples
+#### 9.1.5 Examples
 
 #### **Example 1: Match Strings Starting with a Specific Character**
 
@@ -856,19 +856,19 @@ SELECT * FROM table1 WHERE continent LIKE 'South\_%' ESCAPE '\';
 SELECT * FROM table1 WHERE continent LIKE 'South\\%' ESCAPE '\';
 ```
 
-### 2. regexp_like
+### 9.2 regexp_like
 
-#### 2.1 Usage
+#### 9.2.1 Usage
 
 Evaluates whether the regular expression pattern is present within the given string.
 
-#### 2.2 Syntax
+#### 9.2.2 Syntax
 
 ```SQL
 regexp_like(string, pattern);
 ```
 
-#### 2.3 Notes
+#### 9.2.3 Notes
 
 - The pattern for `regexp_like` only needs to be contained within the string, and does not need to match the entire string.
 - To match the entire string, use the `^` and `$` anchors.
@@ -891,7 +891,7 @@ regexp_like(string, pattern);
     4. Categories: Specify directly, without the need for `Is`, `general_category=`, or `gc=` prefixes (e.g., `\p{L}`).
     5. Binary properties: Specify directly, without `Is` (e.g., `\p{NoncharacterCodePoint}`).
 
-#### 2.4 Examples
+#### 9.2.4 Examples
 
 #### Example 1: **Matching strings containing a specific pattern**
 

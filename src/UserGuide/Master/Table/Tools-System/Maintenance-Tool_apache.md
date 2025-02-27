@@ -21,11 +21,11 @@
 
 # Cluster Management Tools
 
-## Data Directory Overview Tool
+## 1. Data Directory Overview Tool
 
 The IoTDB data directory overview tool is designed to print out the structural overview information of the data directory. The tool is located at `tools/tsfile/print-iotdb-data-dir`.
 
-### Usage
+### 1.1 Usage
 
 - **Windows:**
 
@@ -41,7 +41,7 @@ The IoTDB data directory overview tool is designed to print out the structural o
 
 **Note:** If the output result storage path is not set, the relative path `"IoTDB_data_dir_overview.txt"` will be used as the default.
 
-### Example
+### 1.2 Example
 
 Taking Windows system as an example:
 
@@ -82,11 +82,11 @@ data dir num: 1
 |==============================================================
 `````````````````````````
 
-## TsFile Overview Tool
+## 2. TsFile Overview Tool
 
 The TsFile overview tool is used to print the content of a TsFile in a sketch mode. The tool is located at `tools/tsfile/print-tsfile`.
 
-### Usage
+### 2.1 Usage
 
 - **Windows:**
 
@@ -102,7 +102,7 @@ The TsFile overview tool is used to print the content of a TsFile in a sketch mo
 
 **Note:** If the output result storage path is not set, the relative path `"TsFile_sketch_view.txt"` will be used as the default.
 
-### Example
+### 2.2 Example
 
 Taking Windows system as an example:
 
@@ -170,11 +170,11 @@ file length: 2974
 - The "|||||||||||||||||||||" is added for enhanced readability and is not actual data stored in the TsFile.
 - The final printed "IndexOfTimerseriesIndex Tree" is a reorganized print of the metadata index tree at the end of the TsFile for intuitive understanding and is not the actual data stored in the TsFile.
 
-## TsFile Resource Overview Tool
+## 3. TsFile Resource Overview Tool
 
 The TsFile resource overview tool is used to print out the content of TsFile resource files. The tool is located at `tools/tsfile/print-tsfile-resource-files`.
 
-### Usage
+### 3.1 Usage
 
 - **Windows:**
 
@@ -188,7 +188,7 @@ The TsFile resource overview tool is used to print out the content of TsFile res
 ./print-tsfile-resource-files.sh <TsFile resource file directory path, or a single TsFile resource file path>
 ```
 
-### Example
+### 3.2 Example
 
 Taking Windows system as an example:
 

@@ -22,7 +22,7 @@
 
 IoTDB has two operation modes: standalone mode and cluster mode.
 
-## 1 Standalone Mode
+## 1. Standalone Mode
 
 An IoTDB standalone instance includes 1 ConfigNode and 1 DataNode, i.e., 1C1D.
 
@@ -30,7 +30,7 @@ An IoTDB standalone instance includes 1 ConfigNode and 1 DataNode, i.e., 1C1D.
 - **Use Cases**: Scenarios with limited resources or low high-availability requirements, such as edge servers. 
 - **Deployment Method**: [Stand-Alone Deployment](../Deployment-and-Maintenance/Stand-Alone-Deployment_timecho.md)
  
-## 2 Dual-Active Mode  
+## 2. Dual-Active Mode  
 
 Dual-Active Deployment is a feature of TimechoDB, where two independent instances synchronize bidirectionally and can provide services simultaneously. If one instance stops and restarts, the other instance will resume data transfer from the breakpoint.  
 
@@ -40,7 +40,7 @@ Dual-Active Deployment is a feature of TimechoDB, where two independent instance
 - **Use Cases**: Scenarios with limited resources (only two servers) but requiring high availability.  
 - **Deployment Method**: [Dual-Active Deployment](../Deployment-and-Maintenance/Dual-Active-Deployment_timecho.md)
 
-## 3 Cluster Mode
+## 3. Cluster Mode
 
 An IoTDB cluster instance consists of 3 ConfigNodes and no fewer than 3 DataNodes, typically 3 DataNodes, i.e., 3C3D. If some nodes fail, the remaining nodes can still provide services, ensuring high availability of the database. Performance can be improved by adding DataNodes.  
 
@@ -50,7 +50,7 @@ An IoTDB cluster instance consists of 3 ConfigNodes and no fewer than 3 DataNode
 
 
 
-## 4 Feature Summary
+## 4. Feature Summary
 
 | **Dimension**                   | **Stand-Alone Mode**                                         | **Dual-Active Mode**                                        | **Cluster Mode**                                            |
 | :-------------------------- | :------------------------------------------------------- | :------------------------------------------------------ | :------------------------------------------------------ |

@@ -22,7 +22,7 @@
 
 This guide introduces how to set up a standalone TimechoDB instance, which includes one ConfigNode and one DataNode (commonly referred to as 1C1D).
 
-## 1 Prerequisites
+## 1. Prerequisites
 
 1. **System Preparation**: Ensure the system has been configured according to the  [System Requirements](../Deployment-and-Maintenance/Environment-Requirements.md).
 
@@ -46,7 +46,7 @@ Use the hostname for `cn_internal_address` and `dn_internal_address` in IoTDB co
 
 6. **Monitoring Panel**: Deploy a monitoring panel to track key performance metrics. Contact the Timecho team for access and refer to the [Monitoring Board Install and Deploy](../Deployment-and-Maintenance/Monitoring-panel-deployment.md).
 
-## 2 Installation Steps
+## 2. Installation Steps
 
 ### 2.1 Extract Installation Package
 
@@ -131,7 +131,7 @@ Check the `ClusterActivationStatus` field. If it shows `ACTIVATED`, the database
 
 ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81.png)
 
-## 3 Common Issues
+## 3. Common Issues
 
 1. ConfigNode Fails to Start
 
@@ -167,7 +167,7 @@ Check the `ClusterActivationStatus` field. If it shows `ACTIVATED`, the database
        rm -rf data logs
        ```
 
-## 4 Appendix
+## 4. Appendix
 
 ### 4.1 ConfigNode Parameters
 

@@ -18,19 +18,20 @@
     under the License.
 
 -->
+# JDBC
 
 The IoTDB JDBC provides a standardized way to interact with the IoTDB database, allowing users to execute SQL statements from Java programs for managing databases and time-series data. It supports operations such as connecting to the database, creating, querying, updating, and deleting data, as well as batch insertion and querying of time-series data.
 
 **Note:** The current JDBC implementation is designed primarily for integration with third-party tools. High-performance writing **may not be achieved** when using JDBC for insert operations. For Java applications, it is recommended to use the **JAVA Native API** for optimal performance.
 
-## Prerequisites
+## 1. Prerequisites
 
-### **Environment Requirements**
+### 1.1 **Environment Requirements**
 
 - **JDK:** Version 1.8 or higher
 - **Maven:** Version 3.6 or higher
 
-### **Adding Maven Dependencies**
+### 1.2 **Adding Maven Dependencies**
 
 Add the following dependency to your Maven `pom.xml` file:
 
@@ -44,13 +45,13 @@ Add the following dependency to your Maven `pom.xml` file:
 </dependencies>
 ```
 
-## Read and Write Operations
+## 2. Read and Write Operations
 
 **Write Operations:** Perform database operations such as inserting data, creating databases, and creating time-series using the `execute` method.
 
 **Read Operations:** Execute queries using the `executeQuery` method and retrieve results via the `ResultSet` object.
 
-### Method Overview
+### 2.1 Method Overview
 
 | **Method Name**                                              | **Description**                                             | **Parameters**                                               | **Return Value**                                  |
 | ------------------------------------------------------------ | ----------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------- |
@@ -63,7 +64,7 @@ Add the following dependency to your Maven `pom.xml` file:
 | ResultSet.next()                                             | Moves to the next row in the result set                     | None                                                         | `boolean`: Whether the move was successful        |
 | ResultSet.getString(int columnIndex)                         | Retrieves the string value of a specified column            | `columnIndex`: Column index (starting from 1)                | `String`: Column value                            |
 
-## Sample Code
+## 3. Sample Code
 
 **Note:** When using the Table Model, you must specify the `sql_dialect` parameter as `table` in the URL. Example:
 

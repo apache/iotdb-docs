@@ -23,7 +23,7 @@
 
 The deployment of monitoring tools can be referenced in the document [Monitoring Panel Deployment](../Deployment-and-Maintenance/Monitoring-panel-deployment.md) chapter.
 
-## Prometheus Mapping Relationship for Monitoring Metrics
+## 1. Prometheus Mapping Relationship for Monitoring Metrics
 
 > For a monitoring metric with Metric Name as `name`, Tags as `K1=V1, ..., Kn=Vn`, the following mapping applies, where `value` is the specific value.
 
@@ -35,7 +35,7 @@ The deployment of monitoring tools can be referenced in the document [Monitoring
 | Rate                   | `name_total{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn"} value` <br> `name_total{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn", rate="m1"} value` <br> `name_total{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn", rate="m5"} value` <br> `name_total{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn", rate="m15"} value` <br> `name_total{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn", rate="mean"} value` |
 | Timer                  | `name_seconds_max{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn"} value` <br> `name_seconds_sum{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn"} value` <br> `name_seconds_count{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn"} value` <br> `name_seconds{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn", quantile="0.5"} value` <br> `name_seconds{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn", quantile="0.99"} value` |
 
-## Modifying Configuration Files
+## 2. Modifying Configuration Files
 
 1) Taking DataNode as an example, modify the `iotdb-system.properties` configuration file as follows:
 
@@ -59,7 +59,7 @@ file_count{name="seq",} 2.0
 ...
 ```
 
-## Prometheus + Grafana
+## 3. Prometheus + Grafana
 
 As shown above, IoTDB exposes monitoring metrics in the standard Prometheus format. You can use Prometheus to collect and store these metrics and Grafana to visualize them.
 
@@ -97,7 +97,7 @@ For more details, refer to the following documents:
 - [Grafana Installation and Usage Documentation](https://grafana.com/docs/grafana/latest/getting-started/getting-started/)
 - [Grafana Querying Data from Prometheus and Plotting Documentation](https://prometheus.io/docs/visualization/grafana/#grafana-support-for-prometheus)
 
-## Apache IoTDB Dashboard
+## 4. Apache IoTDB Dashboard
 
 The `Apache IoTDB Dashboard` is a companion product of IoTDB Enterprise Edition, supporting unified centralized operation and maintenance management. It allows monitoring multiple clusters through a single monitoring panel. You can contact the business team to obtain the Dashboard's JSON file.
 
@@ -105,7 +105,7 @@ The `Apache IoTDB Dashboard` is a companion product of IoTDB Enterprise Edition,
 
 ![Apache IoTDB Dashboard](/img/%E7%9B%91%E6%8E%A7%20cluster2.png)
 
-### Cluster Overview
+### 4.1 Cluster Overview
 
 You can monitor, but not limited to:
 
@@ -118,7 +118,7 @@ You can monitor, but not limited to:
 
 ![](/img/%E7%9B%91%E6%8E%A7%20%E6%A6%82%E8%A7%88.png)
 
-### Data Writing
+### 4.2 Data Writing
 
 You can monitor, but not limited to:
 
@@ -128,7 +128,7 @@ You can monitor, but not limited to:
 
 ![](/img/%E7%9B%91%E6%8E%A7%20%E5%86%99%E5%85%A5.png)
 
-### Data Query
+### 4.3 Data Query
 
 You can monitor, but not limited to:
 
@@ -142,7 +142,7 @@ You can monitor, but not limited to:
 
 ![](/img/%E7%9B%91%E6%8E%A7%20%E6%9F%A5%E8%AF%A2.png)
 
-### Storage Engine
+### 4.4 Storage Engine
 
 You can monitor, but not limited to:
 
@@ -152,7 +152,7 @@ You can monitor, but not limited to:
 
 ![](/img/%E7%9B%91%E6%8E%A7%20%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E.png)
 
-### System Monitoring
+### 4.5 System Monitoring
 
 You can monitor, but not limited to:
 

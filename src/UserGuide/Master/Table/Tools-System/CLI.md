@@ -18,12 +18,13 @@
     under the License.
 
 -->
+# CLI
 
 The IoTDB Command Line Interface (CLI) tool allows users to interact with the IoTDB server. Before using the CLI tool to connect to IoTDB, ensure that the IoTDB service is running correctly. This document explains how to launch the CLI and its related parameters.
 
 In this manual, `$IOTDB_HOME` represents the installation directory of IoTDB.
 
-### CLI Launch
+## 1. CLI Launch
 
 The CLI client script is located in the `$IOTDB_HOME/sbin` directory. The common commands to start the CLI tool are as follows:
 
@@ -62,9 +63,9 @@ The figure below indicates a successful startup:
 ![](/img/Cli-01.png)
 
 
-### Example Commands
+## 2. Example Commands
 
-#### **Create a Database**
+### 2.1 **Create a Database**
 
 ```Java
 create database test
@@ -73,7 +74,7 @@ create database test
 ![](/img/Cli-02.png)
 
 
-#### **Show Databases**
+### 2.2 **Show Databases**
 ```Java
 show databases
 ```
@@ -81,11 +82,11 @@ show databases
 ![](/img/Cli-03.png)
 
 
-### CLI Exit
+## 3. CLI Exit
 
 To exit the CLI and terminate the session, type`quit`or`exit`.
 
-### Additional Notes and Shortcuts
+### 3.1 Additional Notes and Shortcuts
 
 1. **Navigate Command History:** Use the up and down arrow keys.
 2. **Auto-Complete Commands:** Use the right arrow key.
