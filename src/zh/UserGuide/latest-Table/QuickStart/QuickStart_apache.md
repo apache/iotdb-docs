@@ -23,7 +23,7 @@
 
 本篇文档将帮助您了解快速入门 IoTDB 的方法。
 
-## 如何安装部署？
+## 1 如何安装部署？
 
 本篇文档将帮助您快速安装部署 IoTDB，您可以通过以下文档的链接快速定位到所需要查看的内容：
 
@@ -41,7 +41,7 @@
 
 > ❗️注意：目前我们仍然推荐直接在物理机/虚拟机上安装部署，如需要 docker 部署，可参考：[Docker 部署](../Deployment-and-Maintenance/Docker-Deployment_apache.md)
 
-## 如何使用？
+## 2 如何使用？
 
 1. 数据库建模设计：数据库建模是创建数据库系统的重要步骤，它涉及到设计数据的结构和关系，以确保数据的组织方式能够满足特定应用的需求，下面的文档将会帮助您快速了解 IoTDB 的建模设计：
 
@@ -68,7 +68,7 @@
 
 6. 应用编程接口： IoTDB 提供了多种应用编程接口（API），以便于开发者在应用程序中与 IoTDB 进行交互，目前支持[ Java 原生接口](../API/Programming-Java-Native-API_apache.md)、[Python 原生接口](../API/Programming-Python-Native-API.md)、[JDBC](../API/Programming-JDBC_apache.md)等，更多编程接口可参见官网【应用编程接口】其他章节
 
-## 想了解更多技术细节？
+## 3 想了解更多技术细节？
 
 如果您想了解 IoTDB 的更多技术内幕，可以移步至下面的文档：
 

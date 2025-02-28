@@ -21,9 +21,9 @@
 
 # 基础函数
 
-## 比较函数和运算符
+## 1 比较函数和运算符
 
-### 1. 基本比较运算符
+### 1.1 基本比较运算符
 
 比较运算符用于比较两个值，并返回比较结果（true或false）。
 
@@ -37,14 +37,14 @@
 | <>     | 不等于     |
 | !=     | 不等于     |
 
-#### 1.1 比较规则：
+#### 1.1.1 比较规则：
 
 1. 所有类型都可以与自身进行比较
 2. 数值类型（INT32, INT64, FLOAT, DOUBLE, TIMESTAMP）之间可以相互比较
 3. 字符类型（STRING, TEXT）之间也可以相互比较
 4. 除上述规则外的类型进行比较时，均会报错。
 
-### 2. BETWEEN 运算符
+### 1.2 BETWEEN 运算符
 
 1. `BETWEEN` 操作符用于判断一个值是否在指定的范围内。
 2. `NOT BETWEEN`操作符用于判断一个值是否不在指定范围内。
@@ -72,7 +72,7 @@ SELECT * FROM table1 WHERE temperature BETWEEN 85.0 AND 90.0;
 SELECT * FROM table1 WHERE humidity NOT BETWEEN 35.0 AND 40.0;
 ```
 
-### 3. IS NULL 运算符
+### 1.3 IS NULL 运算符
 
 1. `IS NULL` 和 `IS NOT NULL` 运算符用于判断一个值是否为 NULL。
 2. 这两个运算符适用于所有数据类型。
@@ -89,7 +89,7 @@ SELECT * FROM table1 WHERE temperature IS NULL;
 SELECT * FROM table1 WHERE humidity IS NOT NULL;
 ```
 
-### 4. IN 运算符
+### 1.4 IN 运算符
 
 1. `IN` 操作符可用于 `WHERE` 子句中，比较一列中的一些值。
 2. 这些值可以由静态数组、标量表达式。
@@ -120,14 +120,14 @@ SELECT * FROM table1 WHERE temperature IN (85.0, 90.0);
 SELECT * FROM table1 WHERE region NOT IN ('北京', '上海');
 ```
 
-## 聚合函数
+## 2 聚合函数
 
-### 1. 概述
+### 2.1 概述
 
 1. 聚合函数是多对一函数。它们对一组值进行聚合计算，得到单个聚合结果。
 2. 除了 `COUNT()`之外，其他所有聚合函数都忽略空值，并在没有输入行或所有值为空时返回空值。 例如，`SUM()` 返回 null 而不是零，而 `AVG()` 在计数中不包括 null 值。
 
-### 2. 支持的聚合函数                          
+### 2.2 支持的聚合函数                          
 
 | 函数名      | 功能描述                                                     | 允许的输入类型           | 输出类型                      |
 | ----------- | ------------------------------------------------------------ | ------------------------ | ----------------------------- |
@@ -151,13 +151,13 @@ SELECT * FROM table1 WHERE region NOT IN ('北京', '上海');
 | FIRST_BY    | FIRST_BY(x, y) 求当 y 为第一个不为 NULL 的值时，同一行里对应的 x 值。 | x 和 y 可以是任意类型    | 与第一个输入 x 的数据类型一致 |
 | LAST_BY     | LAST_BY(x, y) 求当 y 为最后一个不为 NULL 的值时，同一行里对应的 x 值。 | x 和 y 可以是任意类型    | 与第一个输入 x 的数据类型一致 |
 
-### 3. 示例
+### 2.3 示例
 
-#### 3.1 示例数据
+#### 2.3.1 示例数据
 
 在[示例数据页面](https://www.timecho.com/docs/zh/UserGuide/V2.0.1/Table/Basic-Concept/Sample-Data.html)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
 
-#### 3.2 Count
+#### 2.3.2 Count
 
 统计的是整张表的行数和 `temperature` 列非 NULL 值的数量。
 
@@ -179,7 +179,7 @@ Total line number = 1
 It costs 0.834s
 ```
 
-#### 3.3 First
+#### 2.3.3 First
 
 查询`temperature`列、`humidity`列时间戳最小且不为 NULL 的值。
 
@@ -199,7 +199,7 @@ Total line number = 1
 It costs 0.170s
 ```
 
-#### 3.4 Last
+#### 2.3.4 Last
 
 查询`temperature`列、`humidity`列时间戳最大且不为 NULL 的值。
 
@@ -219,7 +219,7 @@ Total line number = 1
 It costs 0.211s
 ```
 
-#### 3.5 First_by
+#### 2.3.5 First_by
 
 查询 `temperature` 列中非 NULL 且时间戳最小的行的 `time` 值，以及 `temperature` 列中非 NULL 且时间戳最小的行的 `humidity` 值。
 
@@ -239,7 +239,7 @@ Total line number = 1
 It costs 0.269s
 ```
 
-#### 3.6 Last_by
+#### 2.3.6 Last_by
 
 查询`temperature` 列中非 NULL 且时间戳最大的行的 `time` 值，以及 `temperature` 列中非 NULL 且时间戳最大的行的 `humidity` 值。
 
@@ -259,7 +259,7 @@ Total line number = 1
 It costs 0.070s
 ```
 
-#### 3.7 Max_by
+#### 2.3.7 Max_by
 
 查询`temperature` 列中最大值所在行的 `time` 值，以及`temperature` 列中最大值所在行的 `humidity` 值。
 
@@ -279,7 +279,7 @@ Total line number = 1
 It costs 0.172s
 ```
 
-#### 3.8 Min_by
+#### 2.3.8 Min_by
 
 查询`temperature` 列中最小值所在行的 `time` 值，以及`temperature` 列中最小值所在行的 `humidity` 值。
 
@@ -299,9 +299,9 @@ Total line number = 1
 It costs 0.244s
 ```
 
-## 逻辑运算符
+## 3 逻辑运算符
 
-### 1. 概述
+### 3.1 概述
 
 逻辑运算符用于组合条件或否定条件，返回布尔结果（`true` 或 `false`）。
 
@@ -313,9 +313,9 @@ It costs 0.244s
 | OR     | 任一值为 true 时为 true       | a OR b  |
 | NOT    | 当值为 false 时为 true        | NOT a   |
 
-### 2. NULL 对逻辑运算符的影响
+### 3.2 NULL 对逻辑运算符的影响
 
-#### 2.1 AND 运算符
+#### 3.2.1 AND 运算符
 
 - 如果表达式的一侧或两侧为 `NULL`，结果可能为 `NULL`。
 - 如果 `AND` 运算符的一侧为 `FALSE`，则表达式结果为 `FALSE`。
@@ -328,7 +328,7 @@ NULL AND false -- false
 NULL AND NULL -- null
 ```
 
-#### 2.2 OR 运算符
+#### 3.2.2 OR 运算符
 
 - 如果表达式的一侧或两侧为 `NULL`，结果可能为 `NULL`。
 - 如果 `OR` 运算符的一侧为 `TRUE`，则表达式结果为 `TRUE`。
@@ -341,7 +341,7 @@ NULL OR false -- null
 NULL OR true -- true
 ```
 
-##### 2.2.1 真值表
+##### 3.2.2.1 真值表
 
 以下真值表展示了 `NULL` 在 `AND` 和 `OR` 运算符中的处理方式：
 
@@ -357,7 +357,7 @@ NULL OR true -- true
 | NULL  | FALSE | FALSE   | NULL   |
 | NULL  | NULL  | NULL    | NULL   |
 
-#### 2.3 NOT 运算符
+#### 3.2.3 NOT 运算符
 
 NULL 的逻辑否定仍然是 NULL
 
@@ -367,7 +367,7 @@ NULL 的逻辑否定仍然是 NULL
 NOT NULL -- null
 ```
 
-##### 2.3.1真值表
+##### 3.2.3.1真值表
 
 以下真值表展示了 `NULL` 在 `NOT` 运算符中的处理方式：
 
@@ -378,13 +378,13 @@ NOT NULL -- null
 | NULL  | NULL  |
 
 
-## 日期和时间函数和运算符
+## 4 日期和时间函数和运算符
 
-### 1. now() -> Timestamp
+### 4.1 now() -> Timestamp
 
 返回当前时间的时间戳。
 
-### 2. date_bin(interval, Timestamp[, Timestamp]) -> Timestamp
+### 4.2 date_bin(interval, Timestamp[, Timestamp]) -> Timestamp
 
 `date_bin` 函数是一种用于处理时间数据的函数，作用是将一个时间戳（Timestamp）舍入到指定的时间间隔（interval）的边界上。
 
@@ -410,7 +410,7 @@ date_bin(interval,source,origin)
 | source   | 待计算时间列，也可以是表达式。必须为时间戳类型。             |
 | origin   | 起始时间戳                                                   |
 
-#### 2.1 语法约定：
+#### 4.2.1 语法约定：
 
 1. 不传入 `origin` 时，起始时间戳从 1970-01-01T00:00:00Z 开始计算（北京时间为 1970-01-01 08:00:00）。
 2. `interval` 为一个非负数，且必须带上时间单位。`interval` 为 0ms 时，不进行计算，直接返回 `source`。
@@ -420,7 +420,7 @@ date_bin(interval,source,origin)
 
 > 假设是起始时间是 2000 年 4 月 30 日进行计算，那么在一个时间间隔后，如果是先算 DAY再算MONTH，则会得到 2000 年 6 月 1 日，如果先算 MONTH 再算 DAY 则会得到 2000 年 5 月 31 日，二者得出的时间日期不同。
 
-#### 2.2 示例
+#### 4.2.2 示例
 
 ##### 示例数据
 
@@ -621,9 +621,9 @@ Total line number = 18
 It costs 0.319s
 ```
 
-## 数学函数和运算符
+## 5 数学函数和运算符
 
-### 1. 数学运算符
+### 5.1 数学运算符
 
 | **运算符** | **描述**                 |
 | ---------- | ------------------------ |
@@ -634,7 +634,7 @@ It costs 0.319s
 | %          | 模（余数）               |
 | -          | 取反                     |
 
-### 2. 数学函数
+### 5.2 数学函数
 
 | 函数名                       | 描述                                                         | 输入                        | 输出                   | 用法       |
 | ---------------------------- | ------------------------------------------------------------ | --------------------------- | ---------------------- | ---------- |
@@ -662,13 +662,13 @@ It costs 0.319s
 | e                            | 自然指数                                                     |                             | double                 | e()        |
 | pi                           | π                                                            |                             | double                 | pi()       |
 
-## 条件表达式
+## 6 条件表达式
 
-### 1.CASE 表达式
+### 6.1 CASE 表达式
 
 CASE 表达式有两种形式：简单形式、搜索形式
 
-#### 1.1 简单形式
+#### 6.1.1 简单形式
 
 简单形式从左到右搜索每个值表达式，直到找到一个与表达式相等的值：
 
@@ -691,7 +691,7 @@ SELECT a,
        END
 ```
 
-#### 1.2 搜索形式
+#### 6.1.2 搜索形式
 
 搜索形式从左到右评估每个布尔条件，直到找到一个为真的条件，并返回相应的结果：
 
@@ -714,7 +714,7 @@ SELECT a, b,
        END
 ```
 
-### 2. COALESCE 函数
+### 6.2. COALESCE 函数
 
 返回参数列表中的第一个非空值。
 
@@ -722,11 +722,11 @@ SELECT a, b,
 coalesce(value1, value2[, ...])
 ```
 
-## 转换函数
+## 7 转换函数
 
-### 1. 转换函数
+### 7.1 转换函数
 
-#### 1.1 cast(value AS type) → type
+#### 7.1.1 cast(value AS type) → type
 
 1. 显式地将一个值转换为指定类型。
 2. 可以用于将字符串（varchar）转换为数值类型，或数值转换为字符串类型。
@@ -741,7 +741,7 @@ SELECT *
   IN (CAST('2024-11-27' AS DATE), CAST('2024-11-28' AS DATE));
 ```
 
-#### 1.2 try_cast(value AS type) → type
+#### 7.1.2 try_cast(value AS type) → type
 
 1. 与 `cast()` 类似。
 2. 如果转换失败，则返回 `null`。
@@ -755,19 +755,19 @@ SELECT *
   IN (try_cast('2024-11-27' AS DATE), try_cast('2024-11-28' AS DATE));
 ```
 
-## 字符串函数和操作符
+## 8 字符串函数和操作符
 
-### 1. 字符串操作符
+### 8.1 字符串操作符
 
-#### 1.1 || 操作符
+#### 8.1.1 || 操作符
 
 `||` 操作符用于字符串连接，功能与 `concat` 函数相同。
 
-#### 1.2 LIKE 语句
+#### 8.1.2 LIKE 语句
 
 `LIKE` 语句用于模式匹配，具体用法在[模式匹配：LIKE](#1-like-运算符) 中有详细文档。
 
-### 2. 字符串函数
+### 8.2 字符串函数
 
 | 函数名      | 描述                                                         | 输入                                                         | 输出                                                         | 用法                                                         |
 | ----------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -785,33 +785,33 @@ SELECT *
 | substring   | 从指定位置提取字符到字符串末尾。需要注意的是，起始位置是基于字符而不是字节数组确定的。`start_index` 从 1 开始计数，长度从 `start_index` 位置计算。 | 支持两个参数**string**：要提取子字符串的源字符串，可以是字符串或文本类型。**start_index**：从哪个索引开始提取子字符串，索引从 1 开始计数。 | String：返回一个字符串，从 `start_index` 位置开始到字符串末尾的所有字符。**注意事项**：`start_index` 从 1 开始，即数组的第 0 个位置是 1参数为 null时，返回 `null`start_index 大于字符串长度时，结果报错。 | substring(string from start_index)或 substring(string, start_index) |
 | substring   | 从一个字符串中提取从指定位置开始、指定长度的子字符串注意：起始位置和长度是基于字符而不是字节数组确定的。`start_index` 从 1 开始计数，长度从 `start_index` 位置计算。 | 支持三个参数**string**：要提取子字符串的源字符串，可以是字符串或文本类型。**start_index**：从哪个索引开始提取子字符串，索引从 1 开始计数。**length**：要提取的子字符串的长度。 | String：返回一个字符串，从 `start_index` 位置开始，提取 `length` 个字符。**注意事项**：参数为 null时，返回 `null`如果 `start_index` 大于字符串的长度，结果报错。如果 `length` 小于 0，结果报错。极端情况，`start_index + length` 超过 `int.MAX` 并变成负数，将导致异常结果。 | substring(string from start_index for length)  或 substring(string, start_index, length) |
 
-## 模式匹配函数
+## 9 模式匹配函数
 
-### 1. LIKE 运算符
+### 9.1 LIKE 运算符
 
-#### 1.1 用途
+#### 9.1.1 用途
 
 `LIKE` 运算符用于将值与模式进行比较。它通常用于 `WHERE` 子句中，用于匹配字符串中的特定模式。
 
-#### 1.2 语法
+#### 9.1.2 语法
 
 ```SQL
 ... column [NOT] LIKE 'pattern' ESCAPE 'character';
 ```
 
-#### 1.3 匹配规则
+#### 9.1.3 匹配规则
 
 - 匹配字符是区分大小写的。
 - 模式支持两个匹配符号：
   - `_`：匹配任意单个字符。
   - `%`：匹配0个或多个字符。
 
-#### 1.4 注意事项
+#### 9.1.4 注意事项
 
 - `LIKE` 模式匹配总是覆盖整个字符串。如果需要匹配字符串中的任意位置，模式必须以 `%` 开头和结尾。
 - 如果需要匹配 `%` 或 `_` 作为普通字符，必须使用转义字符。
 
-#### 1.5 示例
+#### 9.1.5 示例
 
 示例 1：匹配以特定字符开头的字符串
 
@@ -853,19 +853,19 @@ SELECT * FROM table1 WHERE continent LIKE 'South\_%' ESCAPE '\';
 SELECT * FROM table1 WHERE continent LIKE 'South\\%' ESCAPE '\';
 ```
 
-### 2. regexp_like 函数
+### 9.2 regexp_like 函数
 
-#### 2.1 用途
+#### 9.2.1 用途
 
 `regexp_like` 函数用于评估正则表达式模式，并确定该模式是否包含在字符串中。
 
-#### 2.2 语法
+#### 9.2.2 语法
 
 ```SQL
 regexp_like(string, pattern);
 ```
 
-#### 2.3 注意事项
+#### 9.2.3 注意事项
 
 - `regexp_like` 的模式只需包含在字符串中，而不需要匹配整个字符串。
 - 如果需要匹配整个字符串，可以使用正则表达式的锚点 `^` 和 `$`。
@@ -888,7 +888,7 @@ regexp_like(string, pattern);
     4. **类别（Categories）**：直接指定，无需`Is`、`general_category=`或`gc=`前缀（如`\p{L}`）。
     5. **二元属性（Binary Properties）**：直接指定，无需`Is`（如`\p{NoncharacterCodePoint}`）。
 
-#### 2.4 示例
+#### 9.2.4 示例
 
 示例 1：匹配包含特定模式的字符串
 
