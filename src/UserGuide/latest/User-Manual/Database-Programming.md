@@ -22,13 +22,13 @@
 # CONTINUOUS QUERY(CQ)
 
 
-## Introduction
+## 1. Introduction
 
 Continuous queries(CQ) are queries that run automatically and periodically on realtime data and store query results in other specified time series.
 
 Users can implement sliding window streaming computing through continuous query, such as calculating the hourly average temperature of a sequence and writing it into a new sequence. Users can customize the `RESAMPLE` clause to create different sliding windows, which can achieve a certain degree of tolerance for out-of-order data.
 
-## Syntax
+## 2. Syntax
 
 ```sql
 CREATE (CONTINUOUS QUERY | CQ) <cq_id> 
@@ -57,7 +57,7 @@ END
 > 2. GROUP BY TIME CLAUSE is different, it doesn't contain its original first display window parameter which is [start_time, end_time). It's still because IoTDB will automatically generate a time range for the query each time it's executed.
 > 3. If there is no group by time clause in query, EVERY clause is required, otherwise IoTDB will throw an error.
 
-### Descriptions of parameters in CQ syntax
+### 2.1 Descriptions of parameters in CQ syntax
 
 - `<cq_id>` specifies the globally unique id of CQ.
 - `<every_interval>` specifies the query execution time interval. We currently support the units of ns, us, ms, s, m, h, d, w, and its value should not be lower than the minimum threshold configured by the user, which is `continuous_query_min_every_interval`. It's an optional parameter, default value is set to `group_by_interval` in group by clause.
@@ -101,7 +101,7 @@ END
     - `DISCARD` means that we just discard the current cq execution task and wait for the next execution time and do the next time interval cq task. If using `DISCARD` policy, some time intervals won't be executed when the execution time of one cq task is longer than the `<every_interval>`. However, once a cq task is executed, it will use the latest time interval, so it can catch up at the sacrifice of some time intervals being discarded.
 
 
-## Examples of CQ
+## 3. Examples of CQ
 
 The examples below use the following sample data. It's a real time data stream and we can assume that the data arrives on time.
 
@@ -121,7 +121,7 @@ The examples below use the following sample data. It's a real time data stream a
 +-----------------------------+-----------------------------+-----------------------------+-----------------------------+-----------------------------+
 ````
 
-### Configuring execution intervals
+### 3.1 Configuring execution intervals
 
 Use an `EVERY` interval in the `RESAMPLE` clause to specify the CQ’s execution interval, if not specific, default value is equal to `group_by_interval`.
 
@@ -179,7 +179,7 @@ At **2021-05-11T22:19:00.000+08:00**, `cq1` executes a query within the time ran
 +-----------------------------+---------------------------------+---------------------------------+---------------------------------+---------------------------------+
 ````
 
-### Configuring time range for resampling
+### 3.2 Configuring time range for resampling
 
 Use `start_time_offset` in the `RANGE` clause to specify the start time of the CQ’s time range, if not specific, default value is equal to `EVERY` interval.
 
@@ -254,7 +254,7 @@ At **2021-05-11T22:19:00.000+08:00**, `cq2` executes a query within the time ran
 +-----------------------------+---------------------------------+---------------------------------+---------------------------------+---------------------------------+
 ````
 
-### Configuring execution intervals and CQ time ranges
+### 3.3 Configuring execution intervals and CQ time ranges
 
 Use an `EVERY` interval and `RANGE` interval in the `RESAMPLE` clause to specify the CQ’s execution interval and the length of the CQ’s time range. And use `fill()` to change the value reported for time intervals with no data.
 
@@ -319,7 +319,7 @@ Notice that `cq3` will calculate the results for some time interval many times, 
 +-----------------------------+---------------------------------+---------------------------------+---------------------------------+---------------------------------+
 ````
 
-### Configuring end_time_offset for CQ time range
+### 3.4 Configuring end_time_offset for CQ time range
 
 Use an `EVERY` interval and `RANGE` interval in the RESAMPLE clause to specify the CQ’s execution interval and the length of the CQ’s time range. And use `fill()` to change the value reported for time intervals with no data.
 
@@ -378,7 +378,7 @@ Notice that `cq4` will calculate the results for all time intervals only once af
 +-----------------------------+---------------------------------+---------------------------------+---------------------------------+---------------------------------+
 ````
 
-### CQ without group by clause
+### 3.5 CQ without group by clause
 
 Use an `EVERY` interval in the `RESAMPLE` clause to specify the CQ’s execution interval and the length of the CQ’s time range.
 
@@ -484,9 +484,9 @@ At **2021-05-11T22:19:00.000+08:00**, `cq5` executes a query within the time ran
 +-----------------------------+-------------------------------+-----------+
 ````
 
-## CQ Management
+## 4. CQ Management
 
-### Listing continuous queries
+### 4.1 Listing continuous queries
 
 List every CQ on the IoTDB Cluster with:
 
@@ -509,7 +509,7 @@ we will get:
 | s1_count_cq | CREATE CQ s1_count_cq<br/>BEGIN<br/>SELECT count(s1)<br/>INTO root.sg_count.d.count_s1<br/>FROM root.sg.d<br/>GROUP BY(30m)<br/>END | active |
 
 
-### Dropping continuous queries
+### 4.2 Dropping continuous queries
 
 Drop a CQ with a specific `cq_id`:
 
@@ -527,24 +527,24 @@ Drop the CQ named `s1_count_cq`:
 DROP CONTINUOUS QUERY s1_count_cq;
 ```
 
-### Altering continuous queries
+### 4.3 Altering continuous queries
 
 CQs can't be altered once they're created. To change a CQ, you must `DROP` and re`CREATE` it with the updated settings.
 
 
-## CQ Use Cases
+## 5. CQ Use Cases
 
-### Downsampling and Data Retention
+### 5.1 Downsampling and Data Retention
 
 Use CQs with `TTL` set on database in IoTDB to mitigate storage concerns. Combine CQs and `TTL` to automatically downsample high precision data to a lower precision and remove the dispensable, high precision data from the database.
 
-### Recalculating expensive queries
+### 5.2 Recalculating expensive queries
 
 Shorten query runtimes by pre-calculating expensive queries with CQs. Use a CQ to automatically downsample commonly-queried, high precision data to a lower precision. Queries on lower precision data require fewer resources and return faster.
 
 > Pre-calculate queries for your preferred graphing tool to accelerate the population of graphs and dashboards.
 
-### Substituting for sub-query
+### 5.3 Substituting for sub-query
 
 IoTDB does not support sub queries. We can get the same functionality by creating a CQ as a sub query and store its result into other time series and then querying from those time series again will be like doing nested sub query.
 
@@ -583,7 +583,7 @@ SELECT avg(count_s1) from root.sg_count.d;
 ```
 
 
-## System Parameter Configuration
+## 6. System Parameter Configuration
 
 | Name                                        | Description                                                  | Data Type | Default Value |
 | :------------------------------------------ | ------------------------------------------------------------ | --------- | ------------- |

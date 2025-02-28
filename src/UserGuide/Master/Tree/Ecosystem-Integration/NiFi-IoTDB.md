@@ -20,7 +20,7 @@
 -->
 # Apache NiFi
 
-## Apache NiFi Introduction
+## 1. Apache NiFi Introduction
 
 Apache NiFi is an easy to use, powerful, and reliable system to process and distribute data.
 
@@ -46,11 +46,11 @@ Apache NiFi includes the following capabilities:
     * Multi-tenant authorization and policy management
     * Standard protocols for encrypted communication including TLS and SSH
 
-## PutIoTDBRecord
+## 2. PutIoTDBRecord
 
 This is a processor that reads the content of the incoming FlowFile as individual records using the configured 'Record Reader' and writes them to Apache IoTDB using native interface.
 
-### Properties of PutIoTDBRecord
+### 2.1 Properties of PutIoTDBRecord
 
 | property      | description                                                                                                                                                                                                                                                                                                   | default value | necessary |
 |---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------- | --------- |
@@ -65,7 +65,7 @@ This is a processor that reads the content of the incoming FlowFile as individua
 | Aligned       | Whether using aligned interface?  It can be updated by expression language.                                                                                                                                                                                                                                   | false         | false     |
 | MaxRowNumber  | Specifies the max row number of each tablet.  It can be updated by expression language.                                                                                                                                                                                                                       | 1024          | false     |
 
-### Inferred Schema of Flowfile
+### 2.2 Inferred Schema of Flowfile
 
 There are a couple of rules about flowfile:
 
@@ -75,7 +75,7 @@ There are a couple of rules about flowfile:
 4. Fields excepted time must start with `root.`.
 5. The supported data types are `INT`, `LONG`, `FLOAT`, `DOUBLE`, `BOOLEAN`, `TEXT`.
 
-### Convert Schema by property
+### 2.3 Convert Schema by property
 
 As mentioned above, converting schema by property which is more flexible and stronger than inferred schema. 
 
@@ -108,7 +108,7 @@ The structure of property `Schema`:
 6. The supported `encoding` are `PLAIN`, `DICTIONARY`, `RLE`, `DIFF`, `TS_2DIFF`, `BITMAP`, `GORILLA_V1`, `REGULAR`, `GORILLA`, `CHIMP`, `SPRINTZ`, `RLBE`.
 7. The supported `compressionType` are `UNCOMPRESSED`, `SNAPPY`, `GZIP`, `LZO`, `SDT`, `PAA`, `PLA`, `LZ4`, `ZSTD`, `LZMA2`.
 
-## Relationships
+## 3. Relationships
 
 | relationship | description                                          |
 | ------------ | ---------------------------------------------------- |
@@ -116,11 +116,11 @@ The structure of property `Schema`:
 | failure      | The shema or flow file is abnormal.                  |
 
 
-## QueryIoTDBRecord
+## 4. QueryIoTDBRecord
 
 This is a processor that reads the sql query from the incoming FlowFile and using it to query the result from IoTDB using native interface. Then it use the configured 'Record Writer' to generate the flowfile
 
-### Properties of QueryIoTDBRecord
+### 4.1 Properties of QueryIoTDBRecord
 
 | property      | description                                                                                                                                                                                                                                                                                                | default value | necessary |
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------| --------- |
@@ -133,7 +133,7 @@ This is a processor that reads the sql query from the incoming FlowFile and usin
 | iotdb-query-chunk-size  | Chunking can be used to return results in a stream of smaller batches (each has a partial results up to a chunk size) rather than as a single response. Chunking queries can return an unlimited number of rows. Note: Chunking is enable when result chunk size is greater than 0                         | 0         | false     |
 
 
-## Relationships
+## 5. Relationships
 
 | relationship | description                                          |
 | ------------ | ---------------------------------------------------- |

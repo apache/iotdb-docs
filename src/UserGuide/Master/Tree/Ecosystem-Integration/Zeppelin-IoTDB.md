@@ -21,7 +21,7 @@
 
 # Apache Zeppelin
 
-## About Zeppelin
+## 1. About Zeppelin
 
 Zeppelin is a web-based notebook that enables interactive data analytics. You can connect to data sources and perform interactive operations with SQL, Scala, etc. The operations can be saved as documents, just like Jupyter. Zeppelin has already supported many data sources, including Spark, ElasticSearch, Cassandra, and InfluxDB. Now, we have enabled Zeppelin to operate IoTDB via SQL. 
 
@@ -29,9 +29,9 @@ Zeppelin is a web-based notebook that enables interactive data analytics. You ca
 
 
 
-## Zeppelin-IoTDB Interpreter
+## 2. Zeppelin-IoTDB Interpreter
 
-### System Requirements
+### 2.1 System Requirements
 
 | IoTDB Version | Java Version  | Zeppelin Version |
 | :-----------: | :-----------: | :--------------: |
@@ -46,7 +46,7 @@ Install Zeppelin:
 
 Suppose Zeppelin is placed at `$Zeppelin_HOME`.
 
-### Build Interpreter
+### 2.2 Build Interpreter
 
 ```
  cd $IoTDB_HOME
@@ -61,7 +61,7 @@ The interpreter will be in the folder:
 
 
 
-### Install Interpreter
+### 2.3 Install Interpreter
 
 Once you have built your interpreter, create a new folder under the Zeppelin interpreter directory and put the built interpreter into it. 
 
@@ -71,7 +71,7 @@ Once you have built your interpreter, create a new folder under the Zeppelin int
  cp $IoTDB_HOME/zeppelin-interpreter/target/zeppelin-{version}-SNAPSHOT-jar-with-dependencies.jar $Zeppelin_HOME/interpreter/iotdb
 ```
 
-### Modify Configuration
+### 2.4 Modify Configuration
 
 Enter `$Zeppelin_HOME/conf` and use template to create Zeppelin configuration file:
 
@@ -82,7 +82,7 @@ cp zeppelin-site.xml.template zeppelin-site.xml
 Open the zeppelin-site.xml file and change the `zeppelin.server.addr` item to `0.0.0.0`
 
 
-### Running Zeppelin and IoTDB
+### 2.5 Running Zeppelin and IoTDB
 
 Go to `$Zeppelin_HOME` and start Zeppelin by running: 
 
@@ -110,7 +110,7 @@ Go to `$IoTDB_HOME` and start IoTDB server:
 
 
 
-## Use Zeppelin-IoTDB
+## 3. Use Zeppelin-IoTDB
 
 Wait for Zeppelin server to start, then visit http://127.0.0.1:8080/
 
@@ -164,7 +164,7 @@ The above demo notebook can be found at  `$IoTDB_HOME/zeppelin-interpreter/Zeppe
 
 
 
-## Configuration
+## 4. Configuration
 
 You can configure the connection parameters in http://127.0.0.1:8080/#/interpreter :
 

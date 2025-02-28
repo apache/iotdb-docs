@@ -26,7 +26,7 @@ IoTDB provides Cli/shell tools for users to interact with IoTDB server in comman
 
 > Note: In this document, \$IOTDB\_HOME represents the path of the IoTDB installation directory.
 
-## Installation
+## 1. Installation
 
 If you use the source code version of IoTDB, then under the root path of IoTDB, execute:
 
@@ -38,9 +38,9 @@ After build, the IoTDB Cli will be in the folder "cli/target/iotdb-cli-{project.
 
 If you download the binary version, then the Cli can be used directly in sbin folder.
 
-## Running 
+## 2. Running 
 
-### Running Cli
+### 2.1 Running Cli
 
 After installation, there is a default user in IoTDB: `root`, and the
 default password is `root`. Users can use this username to try IoTDB Cli/Shell tool. The cli startup script is the `start-cli` file under the \$IOTDB\_HOME/bin folder. When starting the script, you need to specify the IP and PORT. (Make sure the IoTDB cluster is running properly when you use Cli/Shell tool to connect to it.)
@@ -80,7 +80,7 @@ IoTDB>
 
 Enter ```quit``` or `exit` can exit Cli.
 
-### Cli Parameters
+### 2.2 Cli Parameters
 
 | Parameter name               | Parameter type             | Required | Description                                                  | Example             |
 | :--------------------------- | :------------------------- | :------- | :----------------------------------------------------------- | :------------------ |
@@ -109,7 +109,7 @@ The Windows system startup commands are as follows:
 Shell > sbin\start-cli.bat -h 10.129.187.21 -p 6667 -u root -pw root -disableISO8601 -maxPRC 10
 ```
 
-### CLI Special Command
+### 2.3 CLI Special Command
 
 Special commands of Cli are below.
 
@@ -125,7 +125,7 @@ Special commands of Cli are below.
 | `help`                      | Get hints for CLI special commands                      |
 | `exit/quit`                 | Exit CLI                                                |
 
-### Note on using the CLI with OpenID Connect Auth enabled on Server side
+### 2.4 Note on using the CLI with OpenID Connect Auth enabled on Server side
 
 Openid connect (oidc) uses keycloack as the authority authentication service of oidc service
 
@@ -235,7 +235,7 @@ The response looks something like
 The interesting part here is the access token with the key `access_token`.
 This has to be passed as username (with parameter `-u`) and empty password to the CLI.
 
-### Batch Operation of Cli
+### 2.5 Batch Operation of Cli
 
 -e parameter is designed for the Cli/shell tool in the situation where you would like to manipulate IoTDB in batches through scripts. By using the -e parameter, you can operate IoTDB without entering the cli's input mode.
 

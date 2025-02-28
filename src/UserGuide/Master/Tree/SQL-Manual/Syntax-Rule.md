@@ -21,11 +21,11 @@
 
 # Identifiers
 
-## Literal Values
+## 1. Literal Values
 
 This section describes how to write literal values in IoTDB. These include strings, numbers, timestamp values, boolean values, and NULL.
 
-### String Literals
+### 1.1 String Literals
 
 in IoTDB, **A string is a sequence of bytes or characters, enclosed within either single quote (`'`) or double quote (`"`) characters.** Examples：
 
@@ -130,7 +130,7 @@ The following examples demonstrate how quoting and escaping work:
 """string"  // "string
 ```
 
-### Numeric Literals
+### 1.2 Numeric Literals
 
 Number literals include integer (exact-value) literals and floating-point (approximate-value) literals.
 
@@ -144,27 +144,27 @@ The `FLOAT` and `DOUBLE` data types are floating-point types and calculations ar
 
 An integer may be used in floating-point context; it is interpreted as the equivalent floating-point number.
 
-### Timestamp Literals
+### 1.3 Timestamp Literals
 
 The timestamp is the time point at which data is produced. It includes absolute timestamps and relative timestamps in IoTDB. For information about timestamp support in IoTDB, see [Data Type Doc](../Background-knowledge/Data-Type.md).
 
 Specially, `NOW()` represents a constant timestamp that indicates the system time at which the statement began to execute.
 
-### Boolean Literals
+### 1.4 Boolean Literals
 
 The constants `TRUE` and `FALSE` evaluate to 1 and 0, respectively. The constant names can be written in any lettercase.
 
-### NULL Values
+### 1.5 NULL Values
 
 The `NULL` value means “no data.” `NULL` can be written in any lettercase.
 
-## Identifier
+## 2. Identifier
 
-### Usage scenarios
+### 2.1 Usage scenarios
 
 Certain objects within IoTDB, including `TRIGGER`, `FUNCTION`(UDF), `CONTINUOUS QUERY`, `SCHEMA TEMPLATE`, `USER`, `ROLE`,`Pipe`,`PipeSink`,`alias` and other object names are known as identifiers.
 
-### Constraints
+### 2.2 Constraints
 
 Below are basic constraints of identifiers, specific identifiers may have other constraints, for example, `user` should consists of more than 4 characters. 
 
@@ -172,7 +172,7 @@ Below are basic constraints of identifiers, specific identifiers may have other 
     - [0-9 a-z A-Z _ ] (letters, digits and underscore)
     - ['\u2E80'..'\u9FFF'] (UNICODE Chinese characters)
 
-### Reverse quotation marks
+### 2.3 Reverse quotation marks
 
 **If the following situations occur, the identifier needs to be quoted using reverse quotes:**
 

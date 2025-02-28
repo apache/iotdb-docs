@@ -21,9 +21,9 @@
 
 # View
 
-## Sequence View Application Background
+## 1. Sequence View Application Background
 
-## Application Scenario 1 Time Series Renaming (PI Asset Management)
+## 2. Application Scenario 1 Time Series Renaming (PI Asset Management)
 
 In practice, the equipment collecting data may be named with identification numbers that are difficult to be understood by human beings, which brings difficulties in querying to the business layer.
 
@@ -33,19 +33,19 @@ The Sequence View, on the other hand, is able to re-organise the management of t
 
 It is difficult for the user to understand. However, at this point, the user is able to rename it using the sequence view feature, map it to a sequence view, and use `root.view.device001.temperature` to access the captured data.
 
-### Application Scenario 2 Simplifying business layer query logic
+### 2.1 Application Scenario 2 Simplifying business layer query logic
 
 Sometimes users have a large number of devices that manage a large number of time series. When conducting a certain business, the user wants to deal with only some of these sequences. At this time, the focus of attention can be picked out by the sequence view function, which is convenient for repeated querying and writing.
 
 **For example**: Users manage a product assembly line with a large number of time series for each segment of the equipment. The temperature inspector only needs to focus on the temperature of the equipment, so he can extract the temperature-related sequences and compose the sequence view.
 
-### Application Scenario 3 Auxiliary Rights Management
+### 2.2 Application Scenario 3 Auxiliary Rights Management
 
 In the production process, different operations are generally responsible for different scopes. For security reasons, it is often necessary to restrict the access scope of the operations staff through permission management.
 
 **For example**: The safety management department now only needs to monitor the temperature of each device in a production line, but these data are stored in the same database with other confidential data. At this point, it is possible to create a number of new views that contain only temperature-related time series on the production line, and then to give the security officer access to only these sequence views, thus achieving the purpose of permission restriction.
 
-### Motivation for designing sequence view functionality
+### 2.3 Motivation for designing sequence view functionality
 
 Combining the above two types of usage scenarios, the motivations for designing sequence view functionality, are:
 
@@ -53,13 +53,13 @@ Combining the above two types of usage scenarios, the motivations for designing 
 2. to simplify the query logic at the business level.
 3. Auxiliary rights management, open data to specific users through the view.
 
-## Sequence View Concepts
+## 3. Sequence View Concepts
 
-### Terminology Concepts
+### 3.1 Terminology Concepts
 
 Concept: If not specified, the views specified in this document are **Sequence Views**, and new features such as device views may be introduced in the future.
 
-### Sequence view
+### 3.2 Sequence view
 
 A sequence view is a way of organising the management of time series.
 
@@ -69,7 +69,7 @@ A sequence view is a virtual time series, and each virtual time series is like a
 
 Users can create views using complex SQL queries, where the sequence view acts as a stored query statement, and when data is read from the view, the stored query statement is used as the source of the data in the FROM clause.
 
-### Alias Sequences
+### 3.3 Alias Sequences
 
 There is a special class of beings in a sequence view that satisfy all of the following conditions:
 
@@ -81,13 +81,13 @@ Such a sequence view is called an **alias sequence**, or alias sequence view. A 
 
 ** All sequence views, including aliased sequences, do not currently support Trigger functionality. **
 
-### Nested Views
+### 3.4 Nested Views
 
 A user may want to select a number of sequences from an existing sequence view to form a new sequence view, called a nested view.
 
 **The current version does not support the nested view feature**.
 
-### Some constraints on sequence views in IoTDB
+### 3.5 Some constraints on sequence views in IoTDB
 
 #### Constraint 1 A sequence view must depend on one or several time series
 
@@ -130,9 +130,9 @@ However, their metadata such as tags and attributes are not shared.
 
 This is because the business query, view-oriented users are concerned about the structure of the current view, and if you use group by tag and other ways to do the query, obviously want to get the view contains the corresponding tag grouping effect, rather than the time series of the tag grouping effect (the user is not even aware of those time series).
 
-## Sequence view functionality
+## 4. Sequence view functionality
 
-### Creating a view
+### 4.1 Creating a view
 
 Creating a sequence view is similar to creating a time series, the difference is that you need to specify the data source, i.e., the original sequence, through the AS keyword.
 
@@ -340,7 +340,7 @@ The SELECT clause used when creating a serial view is subject to certain restric
 
 Simply put, after `AS` you can only use `SELECT ... FROM ... ` and the results of this query must form a time series.
 
-### View Data Queries
+### 4.2 View Data Queries
 
 For the data query functions that can be supported, the sequence view and time series can be used indiscriminately with identical behaviour when performing time series data queries.
 
@@ -361,7 +361,7 @@ However, if the user wants to query the metadata of the sequence, such as tag, a
 
 In addition, for aliased sequences, if the user wants to get information about the time series such as tags, attributes, etc., the user needs to query the mapping of the view columns to find the corresponding time series, and then query the time series for the tags, attributes, etc. The method of querying the mapping of the view columns will be explained in section 3.5.
 
-### Modify Views
+### 4.3 Modify Views
 
 The modification operations supported by the view include: modifying its calculation logic,modifying tag/attributes, and deleting.
 
@@ -432,7 +432,7 @@ Since a view is a sequence, a view can be deleted as if it were a time series.
 DELETE VIEW root.view.device.avg_temperatue
 ```
 
-### View Synchronisation
+### 4.4 View Synchronisation
 
 #### If the dependent original sequence is deleted
 
@@ -452,7 +452,7 @@ Please refer to the previous section 2.1.6 Restrictions2 for more details.
 
 Please refer to the previous section 2.1.6 Restriction 5 for details.
 
-### View Metadata Queries
+### 4.5 View Metadata Queries
 
 View metadata query specifically refers to querying the metadata of the view itself (e.g., how many columns the view has), as well as information about the views in the database (e.g., what views are available).
 
@@ -518,7 +518,7 @@ The last column, `SOURCE`, shows the data source for the sequence view, listing 
 
 Both of the above queries involve the data type of the view. The data type of a view is inferred from the original time series type of the query statement or alias sequence that defines the view. This data type is computed in real time based on the current state of the system, so the data type queried at different moments may be changing.
 
-## FAQ
+## 5. FAQ
 
 #### Q1: I want the view to implement the function of type conversion. For example, a time series of type int32 was originally placed in the same view as other series of type int64. I now want all the data queried through the view to be automatically converted to int64 type.
 

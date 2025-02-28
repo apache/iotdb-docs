@@ -23,12 +23,12 @@
 
 IoTDB integration for [Apache Flink](https://flink.apache.org/). This module includes the IoTDB sink that allows a flink job to write events into timeseries, and the IoTDB source allowing reading data from IoTDB.
 
-## IoTDBSink
+## 1. IoTDBSink
 
 To use the `IoTDBSink`,  you need construct an instance of it by specifying `IoTDBSinkOptions` and `IoTSerializationSchema` instances.
 The `IoTDBSink` send only one event after another by default, but you can change to batch by invoking `withBatchSize(int)`. 
 
-### Example
+### 1.1 Example
 
 This example shows a case that sends data to a IoTDB server from a Flink job:
 
@@ -115,17 +115,17 @@ public class FlinkIoTDBSink {
 
 ```
 
-### Usage
+### 1.2 Usage
 
 * Launch the IoTDB server.
 * Run `org.apache.iotdb.flink.FlinkIoTDBSink.java` to run the flink job on local mini cluster.
 
-## IoTDBSource
+## 2. IoTDBSource
 To use the `IoTDBSource`, you need to construct an instance of `IoTDBSource` by specifying `IoTDBSourceOptions`
 and implementing the abstract method `convert()` in `IoTDBSource`. The `convert` methods defines how 
 you want the row data to be transformed.
 
-### Example
+### 2.1 Example
 This example shows a case where data are read from IoTDB.
 ```java
 import org.apache.iotdb.flink.options.IoTDBSourceOptions;
@@ -209,7 +209,7 @@ public class FlinkIoTDBSource {
 }
 ```
 
-### Usage
+### 2.2 Usage
 Launch the IoTDB server.
 Run org.apache.iotdb.flink.FlinkIoTDBSource.java to run the flink job on local mini cluster.
 

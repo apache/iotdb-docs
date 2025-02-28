@@ -27,14 +27,14 @@ We use the same configuration files for IoTDB DataNode and Standalone version, a
 
 * `iotdb-system.properties`：IoTDB system configurations.
 
-## Hot Modification Configuration
+## 1. Hot Modification Configuration
 
 For the convenience of users, IoTDB provides users with hot modification function, that is, modifying some configuration parameters in `iotdb-system.properties` during the system operation and applying them to the system immediately. 
 In the parameters described below, these parameters whose way of `Effective` is `hot-load` support hot modification.
 
 Trigger way: The client sends the command(sql) `load configuration` or `set configuration` to the IoTDB server.
 
-## Environment Configuration File（datanode-env.sh/bat）
+## 2. Environment Configuration File（datanode-env.sh/bat）
 
 The environment configuration file is mainly used to configure the Java environment related parameters when DataNode is running, such as JVM related configuration. This part of the configuration is passed to the JVM when the DataNode starts.
 
@@ -94,7 +94,7 @@ The details of each parameter are as follows:
 |Default|127.0.0.1|
 |Effective|After restarting system|
 
-## JMX Authorization
+## 3. JMX Authorization
 
 We **STRONGLY RECOMMENDED** you CHANGE the PASSWORD for the JMX remote connection.
 
@@ -102,9 +102,9 @@ The user and passwords are in ${IOTDB\_CONF}/conf/jmx.password.
 
 The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 
-## DataNode/Standalone Configuration File (iotdb-system.properties)
+## 4. DataNode/Standalone Configuration File (iotdb-system.properties)
 
-### Data Node RPC Configuration
+### 4.1 Data Node RPC Configuration
 
 * dn\_rpc\_address
 
@@ -178,7 +178,7 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |Default| 5000                                                                      |
 |Effective| After restarting system                                                   |
 
-### SSL Configuration
+### 4.2 SSL Configuration
 
 * enable\_thrift\_ssl
 
@@ -216,7 +216,7 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |Default| ""              |
 |Effective| After restarting system        |
 
-### SeedConfigNode
+### 4.3 SeedConfigNode
 
 * dn\_seed\_config\_node
 
@@ -227,7 +227,7 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |Default| 127.0.0.1:10710                                 |
 |Effective| Only allowed to be modified in first start up                         |
 
-### Connection Configuration
+### 4.4 Connection Configuration
 
 * dn\_rpc\_thrift\_compression\_enable
 
@@ -320,7 +320,7 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |    Default     | 300                                                          |
 |   Effective    | After restarting system                                      |
 
-### Dictionary Configuration
+### 4.5 Dictionary Configuration
 
 * dn\_system\_dir
 
@@ -385,9 +385,9 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |   Default   | data/datanode/sync                                                        |
 |  Effective  | After restarting system                                                   |
 
-### Metric Configuration
+### 4.6 Metric Configuration
 
-## Enable GC log
+## 5. Enable GC log
 
 GC log is off by default.
 For performance tuning, you may want to collect the GC info. 
@@ -405,7 +405,7 @@ sbin\start-datanode.bat printgc
 GC log is stored at `IOTDB_HOME/logs/gc.log`.
 There will be at most 10 gc.log.* files and each one can reach to 10MB.
 
-### REST Service Configuration
+### 5.1 REST Service Configuration
 
 * enable\_rest\_service
 

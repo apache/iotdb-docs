@@ -20,11 +20,11 @@
 -->
 # Cluster management tool
 
-## IoTDB Data Directory Overview Tool
+## 1. IoTDB Data Directory Overview Tool
 
 IoTDB data directory overview tool is used to print an overview of the IoTDB data directory structure. The location is tools/tsfile/print-iotdb-data-dir.
 
-### Usage
+### 1.1 Usage
 
 -   For Windows:
 
@@ -40,7 +40,7 @@ IoTDB data directory overview tool is used to print an overview of the IoTDB dat
 
 Note: if the storage path of the output overview file is not set, the default relative path "IoTDB_data_dir_overview.txt" will be used.
 
-### Example
+### 1.2 Example
 
 Use Windows in this example:
 
@@ -81,11 +81,11 @@ data dir num:1
 |==============================================================
 `````````````````````````
 
-## TsFile Sketch Tool
+## 2. TsFile Sketch Tool
 
 TsFile sketch tool is used to print the content of a TsFile in sketch mode. The location is tools/tsfile/print-tsfile.
 
-### Usage
+### 2.1 Usage
 
 -   For Windows:
 
@@ -101,7 +101,7 @@ TsFile sketch tool is used to print the content of a TsFile in sketch mode. The 
 
 Note: if the storage path of the output sketch file is not set, the default relative path "TsFile_sketch_view.txt" will be used.
 
-### Example
+### 2.2 Example
 
 Use Windows in this example:
 
@@ -169,11 +169,11 @@ Explanations:
 -   "||||||||||||||||||||" is the guide information added to enhance readability, not the actual data stored in TsFile.
 -   The last printed "IndexOfTimerseriesIndex Tree" is a reorganization of the metadata index tree at the end of the TsFile, which is convenient for intuitive understanding, and again not the actual data stored in TsFile.
 
-## TsFile Resource Sketch Tool
+## 3. TsFile Resource Sketch Tool
 
 TsFile resource sketch tool is used to print the content of a TsFile resource file. The location is tools/tsfile/print-tsfile-resource-files.
 
-### Usage
+### 3.1 Usage
 
 -   For Windows:
 
@@ -187,7 +187,7 @@ TsFile resource sketch tool is used to print the content of a TsFile resource fi
 ./print-tsfile-resource-files.sh <path of the parent directory of the TsFile resource files, or path of a TsFile resource file> 
 ```
 
-### Example
+### 3.2 Example
 
 Use Windows in this example:
 

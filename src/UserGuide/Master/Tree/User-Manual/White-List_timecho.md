@@ -21,17 +21,17 @@
 
 # White List 
 
-**function description**
+## 1. **Function Description**
 
 Allow which client addresses can connect to IoTDB
 
-**configuration file**
+## 2. **Configuration File**
 
 conf/iotdb-system.properties
 
 conf/white.list
 
-**configuration item**
+## 3. **Configuration Item**
 
 iotdb-system.properties:
 
@@ -57,7 +57,7 @@ Decide which IP addresses can connect to IoTDB
 10.100.0.*
 ```
 
-**note**
+## 4. **Note**
 
 1. If the white list itself is cancelled via the session client, the current connection is not immediately disconnected. It is rejected the next time the connection is created.
 2. If white.list is modified directly, it takes effect within one minute. If modified via the session client, it takes effect immediately, updating the values in memory and the white.list disk file.

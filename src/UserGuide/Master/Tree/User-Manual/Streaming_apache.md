@@ -43,9 +43,9 @@ Users can configure the specific attributes of these three subtasks declarativel
 
 Using the stream processing framework, it is possible to build a complete data pipeline to fulfill various requirements such as *edge-to-cloud synchronization, remote disaster recovery, and read/write load balancing across multiple databases*.
 
-## Custom Stream Processing Plugin Development
+## 1. Custom Stream Processing Plugin Development
 
-### Programming development dependencies
+### 1.1 Programming development dependencies
 
 It is recommended to use Maven to build the project. Add the following dependencies in the `pom.xml` file. Please make sure to choose dependencies with the same version as the IoTDB server version.
 
@@ -58,7 +58,7 @@ It is recommended to use Maven to build the project. Add the following dependenc
 </dependency>
 ```
 
-### Event-Driven Programming Model
+### 1.2 Event-Driven Programming Model
 
 The design of user programming interfaces for stream processing plugins follows the principles of the event-driven programming model. In this model, events serve as the abstraction of data in the user programming interface. The programming interface is decoupled from the specific execution method, allowing the focus to be on describing how the system expects events (data) to be processed upon arrival.
 
@@ -128,7 +128,7 @@ public interface TsFileInsertionEvent extends Event {
 }
 ```
 
-### Custom Stream Processing Plugin Programming Interface Definition
+### 1.3 Custom Stream Processing Plugin Programming Interface Definition
 
 Based on the custom stream processing plugin programming interface, users can easily write data extraction plugins, data processing plugins, and data sending plugins, allowing the stream processing functionality to adapt flexibly to various industrial scenarios.
 #### Data Extraction Plugin Interface
@@ -434,11 +434,11 @@ public interface PipeSink extends PipePlugin {
 }
 ```
 
-## Custom Stream Processing Plugin Management
+## 2. Custom Stream Processing Plugin Management
 
 To ensure the flexibility and usability of user-defined plugins in production environments, the system needs to provide the capability to dynamically manage plugins. This section introduces the management statements for stream processing plugins, which enable the dynamic and unified management of plugins.
 
-### Load Plugin Statement
+### 2.1 Load Plugin Statement
 
 In IoTDB, to dynamically load a user-defined plugin into the system, you first need to implement a specific plugin class based on PipeSource, PipeProcessor, or PipeSink. Then, you need to compile and package the plugin class into an executable jar file. Finally, you can use the loading plugin management statement to load the plugin into IoTDB.
 
@@ -460,7 +460,7 @@ AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor'
 USING URI <https://example.com:8080/iotdb/pipe-plugin.jar>
 ```
 
-### Delete Plugin Statement
+### 2.2 Delete Plugin Statement
 
 When user no longer wants to use a plugin and needs to uninstall the plugin from the system, you can use the Remove plugin statement as shown below.
 ```sql
@@ -469,16 +469,16 @@ DROP PIPEPLUGIN [IF EXISTS] <alias>
 
 **IF EXISTS semantics**: Used in deletion operations to ensure that when a specified Pipe Plugin exists, the delete command is executed to prevent errors caused by attempting to delete a non-existent Pipe Plugin.
 
-### Show Plugin Statement
+### 2.3 Show Plugin Statement
 
 User can also view the plugin in the system on need. The statement to view plugin is as follows.
 ```sql
 SHOW PIPEPLUGINS
 ```
 
-## System Pre-installed Stream Processing Plugin
+## 3. System Pre-installed Stream Processing Plugin
 
-### Pre-built Source Plugin
+### 3.1 Pre-built Source Plugin
 
 #### iotdb-source
 
@@ -528,7 +528,7 @@ Function: Extract historical or realtime data inside IoTDB into pipe.
 >
 > The historical data transmission phase and the realtime data transmission phase are executed serially. Only when the historical data transmission phase is completed, the realtime data transmission phase is executed.**
 
-### Pre-built Processor Plugin
+### 3.2 Pre-built Processor Plugin
 
 #### do-nothing-processor
 
@@ -538,7 +538,7 @@ Function: Do not do anything with the events passed in by the source.
 | key       | value                | value range                  | required or optional with default |
 |-----------|----------------------|------------------------------|-----------------------------------|
 | processor | do-nothing-processor | String: do-nothing-processor | required                          |
-### Pre-built Sink Plugin
+### 3.3 Pre-built Sink Plugin
 
 #### do-nothing-sink
 
@@ -549,9 +549,9 @@ Function: Does not do anything with the events passed in by the processor.
 |------|-----------------|-------------------------|-----------------------------------|
 | sink | do-nothing-sink | String: do-nothing-sink | required                          |
 
-## Stream Processing Task Management
+## 4. Stream Processing Task Management
 
-### Create Stream Processing Task
+### 4.1 Create Stream Processing Task
 
 A stream processing task can be created using the `CREATE PIPE` statement, a sample SQL statement is shown below:
 
@@ -643,7 +643,7 @@ The expressed semantics are: synchronise the full amount of historical data and 
 - IoTDB A -> IoTDB B -> IoTDB A
 - IoTDB A -> IoTDB A
 
-### Start Stream Processing Task
+### 4.2 Start Stream Processing Task
 
 After the successful execution of the CREATE PIPE statement, task-related instances will be created. However, the overall task's running status will be set to STOPPED(V1.3.0), meaning the task will not immediately process data. In version 1.3.1 and later, the status of the task will be set to RUNNING after CREATE.
 
@@ -652,7 +652,7 @@ You can use the START PIPE statement to make the stream processing task start pr
 START PIPE <PipeId>
 ```
 
-### Stop Stream Processing Task
+### 4.3 Stop Stream Processing Task
 
 Use the STOP PIPE statement to stop the stream processing task from processing data:
 
@@ -660,7 +660,7 @@ Use the STOP PIPE statement to stop the stream processing task from processing d
 STOP PIPE <PipeId>
 ```
 
-### Delete Stream Processing Task
+### 4.4 Delete Stream Processing Task
 
 If a stream processing task is in the RUNNING state, you can use the DROP PIPE statement to stop it and delete the entire task:
 
@@ -670,7 +670,7 @@ DROP PIPE <PipeId>
 
 Before deleting a stream processing task, there is no need to execute the STOP operation.
 
-### Show Stream Processing Task
+### 4.5 Show Stream Processing Task
 
 Use the SHOW PIPES statement to view all stream processing tasks:
 ```sql
@@ -701,7 +701,7 @@ SHOW PIPES
 WHERE SINK USED BY <PipeId>
 ```
 
-### Stream Processing Task Running Status Migration
+### 4.6 Stream Processing Task Running Status Migration
 
 A stream processing task status can transition through several states during the lifecycle of a data synchronization pipe:
 
@@ -717,9 +717,9 @@ The following diagram illustrates the different states and their transitions:
 
 ![state migration diagram](/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
 
-## Authority Management
+## 5. Authority Management
 
-### Stream Processing Task
+### 5.1 Stream Processing Task
 
 | Authority Name | Description                     |
 |----------------|---------------------------------|
@@ -728,7 +728,7 @@ The following diagram illustrates the different states and their transitions:
 | USE_PIPE       | Stop task,path-independent      |
 | USE_PIPE       | Uninstall task,path-independent |
 | USE_PIPE       | Query task,path-independent     |
-### Stream Processing Task Plugin
+### 5.2 Stream Processing Task Plugin
 
 
 | Authority Name | Description                                             |
@@ -737,7 +737,7 @@ The following diagram illustrates the different states and their transitions:
 | USE_PIPE       | Delete stream processing task plugin,path-independent   |
 | USE_PIPE       | Query stream processing task plugin,path-independent    |
 
-## Configure Parameters
+## 6. Configure Parameters
 
 In iotdb-system.properties ：
 

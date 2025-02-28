@@ -25,41 +25,41 @@ IoTDB provides permission management operations, offering users the ability to m
 
 This article introduces the basic concepts of the permission module in IoTDB, including user definition, permission management, authentication logic, and use cases. In the JAVA programming environment, you can use the [JDBC API](https://chat.openai.com/API/Programming-JDBC.md) to execute permission management statements individually or in batches. 
 
-## Basic Concepts
+## 1. Basic Concepts
 
-### User
+### 1.1 User
 
 A user is a legitimate user of the database. Each user corresponds to a unique username and has a password as a means of authentication. Before using the database, a person must provide a valid (i.e., stored in the database) username and password for a successful login.
 
-### Permission
+### 1.2 Permission
 
 The database provides various operations, but not all users can perform all operations. If a user can perform a certain operation, they are said to have permission to execute that operation. Permissions are typically limited in scope by a path, and [path patterns](https://chat.openai.com/Basic-Concept/Data-Model-and-Terminology.md) can be used to manage permissions flexibly.
 
-### Role
+### 1.3 Role
 
 A role is a collection of multiple permissions and has a unique role name as an identifier. Roles often correspond to real-world identities (e.g., a traffic dispatcher), and a real-world identity may correspond to multiple users. Users with the same real-world identity often have the same permissions, and roles are abstractions for unified management of such permissions.
 
-### Default Users and Roles
+### 1.4 Default Users and Roles
 
 After installation and initialization, IoTDB includes a default user: root, with the default password root. This user is an administrator with fixed permissions, which cannot be granted or revoked and cannot be deleted. There is only one administrator user in the database.
 
 A newly created user or role does not have any permissions initially.
 
-##  User Definition
+## 2. User Definition
 
 Users with MANAGE_USER and MANAGE_ROLE permissions or administrators can create users or roles. Creating a user must meet the following constraints.
 
-### Username Constraints
+### 2.1 Username Constraints
 
 4 to 32 characters, supports the use of uppercase and lowercase English letters, numbers, and special characters (`!@#$%^&*()_+-=`).
 
 Users cannot create users with the same name as the administrator.
 
-### Password Constraints
+### 2.2 Password Constraints
 
 4 to 32 characters, can use uppercase and lowercase letters, numbers, and special characters (`!@#$%^&*()_+-=`). Passwords are encrypted by default using MD5.
 
-### Role Name Constraints
+### 2.3 Role Name Constraints
 
 4 to 32 characters, supports the use of uppercase and lowercase English letters, numbers, and special characters (`!@#$%^&*()_+-=`).
 
@@ -67,11 +67,11 @@ Users cannot create roles with the same name as the administrator.
 
 
 
-##  Permission Management
+## 3. Permission Management
 
 IoTDB primarily has two types of permissions: series permissions and global permissions.
 
-### Series Permissions
+### 3.1 Series Permissions
 
 Series permissions constrain the scope and manner in which users access data. IOTDB support authorization for both absolute paths and prefix-matching paths, and can be effective at the timeseries granularity.
 
@@ -87,7 +87,7 @@ The table below describes the types and scope of these permissions:
 | WRITE_SCHEMA    | Allows obtaining detailed information about the metadata tree under the authorized path.<br/>Allows creating, deleting, and modifying time series, templates, views, etc. under the authorized path. When creating or modifying views, it checks the WRITE_SCHEMA permission for the view path and READ_SCHEMA permission for the data source. When querying and inserting data into views, it checks the READ_DATA and WRITE_DATA permissions for the view path.<br/> Allows setting, unsetting, and viewing TTL under the authorized path. <br/> Allows attaching or detaching templates under the authorized path. |
 
 
-### Global Permissions
+### 3.2 Global Permissions
 
 Global permissions constrain the database functions that users can use and restrict commands that change the system and task state. Once a user obtains global authorization, they can manage the database. 
 The table below describes the types of system permissions: 
@@ -115,7 +115,7 @@ Regarding template permissions:
 
 
 
-###  Granting and Revoking Permissions
+### 3.3 Granting and Revoking Permissions
 
 In IoTDB, users can obtain permissions through three methods:
 
@@ -135,7 +135,7 @@ Revoking a user's permissions can be done through the following methods:
 
 
 
-##  Authentication
+## 4. Authentication
 
 User permissions mainly consist of three parts: permission scope (path), permission type, and the "with grant option" flag:
 
@@ -160,7 +160,7 @@ Please note that the following operations require checking multiple permissions:
 3. View permissions and data source permissions are independent. Performing read and write operations on a view will only check the permissions of the view itself and will not perform permission validation on the source path.
 
 
-## Function Syntax and Examples
+## 5. Function Syntax and Examples
 
 IoTDB provides composite permissions for user authorization:
 
@@ -174,7 +174,7 @@ Composite permissions are not specific permissions themselves but a shorthand wa
 
 The following series of specific use cases will demonstrate the usage of permission statements. Non-administrator users executing the following statements require obtaining the necessary permissions, which are indicated after the operation description.
 
-### User and Role Related
+### 5.1 User and Role Related
 
 - Create user (Requires MANAGE_USER permission)
 
@@ -273,7 +273,7 @@ ALTER USER <username> SET PASSWORD <password>;
 eg: ALTER USER tempuser SET PASSWORD 'newpwd';
 ```
 
-### Authorization and Deauthorization
+### 5.2 Authorization and Deauthorization
 
 Users can use authorization statements to grant permissions to other users. The syntax is as follows:
 
@@ -337,7 +337,7 @@ eg: REVOKE ALL ON ROOT.** FROM USER user1;
   
   
   
-## Examples
+## 6. Examples
 
    Based on the described [sample data](https://github.com/thulab/iotdb/files/4438687/OtherMaterial-Sample.Data.txt), IoTDB's sample data may belong to different power generation groups such as ln, sgcc, and so on. Different power generation groups do not want other groups to access their database data, so we need to implement data isolation at the group level. 
 
@@ -439,7 +439,7 @@ IoTDB> INSERT INTO root.ln.wf01.wt01(timestamp, status) values(1509465600000, tr
 Msg: 803: No permissions for this operation, please add privilege WRITE_DATA on [root.ln.wf01.wt01.status]
 ```
 
-## Other Explanations
+## 7. Other Explanations
 
 Roles are collections of permissions, and both permissions and roles are attributes of users. In other words, a role can have multiple permissions, and a user can have multiple roles and permissions (referred to as the user's self-permissions).
 
@@ -451,7 +451,7 @@ At the same time, changes to roles will be immediately reflected in all users wh
 
 
 
-## Upgrading from a previous version
+## 8. Upgrading from a previous version
 
 Before version 1.3, there were many different permission types. In 1.3 version's implementation, we have streamlined the permission types.
 

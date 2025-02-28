@@ -19,11 +19,11 @@
     specific language governing permissions and limitations
     under the License.
 
--->
+--> 
 
-## Arithmetic Operators and Functions
+## 1. Arithmetic Operators and Functions
 
-### Arithmetic Operators
+### 1.1 Arithmetic Operators
 
 #### Unary Arithmetic Operators
 
@@ -65,7 +65,7 @@ Total line number = 5
 It costs 0.014s
 ```
 
-### Arithmetic Functions
+### 1.2 Arithmetic Functions
 
 Currently, IoTDB supports the following mathematical functions. The behavior of these mathematical functions is consistent with the behavior of these functions in the Java Math standard library.
 
@@ -156,9 +156,9 @@ It costs 0.059s
 
 -->
 
-## Comparison Operators and Functions
+## 2. Comparison Operators and Functions
 
-### Basic comparison operators
+### 2.1 Basic comparison operators
 
 Supported operators `>`, `>=`, `<`, `<=`, `==`, `!=` (or  `<>` )
 
@@ -188,7 +188,7 @@ IoTDB> select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
 +-----------------------------+-----------+-----------+----------------+--------------------------+---------------------------+------------------------------------------------+
 ```
 
-### `BETWEEN ... AND ...` operator
+### 2.2 `BETWEEN ... AND ...` operator
 
 |operator |meaning|
 |-----------------------------|-----------|
@@ -205,7 +205,7 @@ select temperature from root.sg1.d1 where temperature between 36.5 and 40;
 select temperature from root.sg1.d1 where temperature not between 36.5 and 40;
 ```
 
-### Fuzzy matching operator
+### 2.3 Fuzzy matching operator
 
 For TEXT type data, support fuzzy matching of data using `Like` and `Regexp` operators.
 
@@ -311,7 +311,7 @@ operation result
 +-----------------------------+-----------+------- ------------------+--------------------------+
 ```
 
-### `IS NULL` operator
+### 2.4 `IS NULL` operator
 
 |operator |meaning|
 |-----------------------------|-----------|
@@ -330,7 +330,7 @@ select code from root.sg1.d1 where temperature is null;
 select code from root.sg1.d1 where temperature is not null;
 ```
 
-### `IN` operator
+### 2.5 `IN` operator
 
 |operator |meaning|
 |-----------------------------|-----------|
@@ -377,7 +377,7 @@ Output 2:
 +-----------------------------+-----------+------- -------------+
 ```
 
-### Condition Functions
+### 2.6 Condition Functions
 
 Condition functions are used to check whether timeseries data points satisfy some specific condition. 
 
@@ -462,9 +462,9 @@ IoTDB> select ts, in_range(ts,'lower'='2', 'upper'='3.1') from root.test;
 
 -->
 
-## Logical Operators
+## 3. Logical Operators
 
-### Unary Logical Operators
+### 3.1 Unary Logical Operators
 
 Supported operator `!`
 
@@ -474,7 +474,7 @@ Output data type: `BOOLEAN`
 
 Hint: the priority of `!` is the same as `-`. Remember to use brackets to modify priority.
 
-### Binary Logical Operators
+### 3.2 Binary Logical Operators
 
 Supported operators AND:`and`,`&`, `&&`; OR:`or`,`|`,`||`
 
@@ -526,7 +526,7 @@ IoTDB> select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
 
 -->
 
-## Aggregate Functions
+## 4. Aggregate Functions
 
 Aggregate functions are many-to-one functions. They perform aggregate calculations on a set of values, resulting in a single aggregated result.
 
@@ -553,7 +553,7 @@ The aggregate functions supported by IoTDB are as follows:
 | COUNT_TIME    | The number of timestamps in the query data set. When used with `align by device`, the result is the number of timestamps in the data set per device.                                                                                                                                       | All data Types, the input parameter can only be `*` | /                                                                                                                                                                                                                                                                                                                                                                                                                           | INT64                                        |
 
 
-### COUNT
+### 4.1 COUNT
 
 #### example
 
@@ -572,7 +572,7 @@ Total line number = 1
 It costs 0.016s
 ```
 
-### COUNT_IF
+### 4.2 COUNT_IF
 
 #### Grammar
 ```sql
@@ -637,7 +637,7 @@ Result:
 +------------------------------------------------------------------------+------------------------------------------------------------------------+
 ```
 
-### TIME_DURATION
+### 4.3 TIME_DURATION
 #### Grammar
 ```sql
     time_duration(Path)
@@ -691,7 +691,7 @@ Result:
 ```
 > Note: Returns 0 if there is only one data point, or null if the data point is null.
 
-### COUNT_TIME
+### 4.4 COUNT_TIME
 #### Grammar
 ```sql
     count_time(*)
@@ -821,9 +821,9 @@ Result
 
 -->
 
-## String Processing
+## 5. String Processing
 
-### STRING_CONTAINS
+### 5.1 STRING_CONTAINS
 
 #### Function introduction
 
@@ -856,7 +856,7 @@ Total line number = 3
 It costs 0.007s
 ```
 
-### STRING_MATCHES
+### 5.2 STRING_MATCHES
 
 #### Function introduction
 
@@ -889,7 +889,7 @@ Total line number = 3
 It costs 0.007s
 ```
 
-### Length
+### 5.3 Length
 
 #### Usage
 
@@ -933,7 +933,7 @@ Output series:
 +-----------------------------+--------------+----------------------+
 ```
 
-### Locate
+### 5.4 Locate
 
 #### Usage
 
@@ -999,7 +999,7 @@ Output series:
 +-----------------------------+--------------+------------------------------------------------------+
 ```
 
-### StartsWith
+### 5.5 StartsWith
 
 #### Usage
 
@@ -1046,7 +1046,7 @@ Output series:
 +-----------------------------+--------------+----------------------------------------+
 ```
 
-### EndsWith
+### 5.6 EndsWith
 
 #### Usage
 
@@ -1093,7 +1093,7 @@ Output series:
 +-----------------------------+--------------+--------------------------------------+
 ```
 
-### Concat
+### 5.7 Concat
 
 #### Usage
 
@@ -1161,7 +1161,7 @@ Output series:
 +-----------------------------+--------------+--------------+-----------------------------------------------------------------------------------------------+
 ```
 
-### substring
+### 5.8 substring
 
 #### Usage
 
@@ -1209,7 +1209,7 @@ Output series:
 +-----------------------------+--------------+--------------------------------------+
 ```
 
-### replace
+### 5.9 replace
 
 #### Usage
 
@@ -1257,7 +1257,7 @@ Output series:
 +-----------------------------+--------------+-----------------------------------+
 ```
 
-### Upper
+### 5.10 Upper
 
 #### Usage
 
@@ -1301,7 +1301,7 @@ Output series:
 +-----------------------------+--------------+---------------------+
 ```
 
-### Lower
+### 5.11 Lower
 
 #### Usage
 
@@ -1345,7 +1345,7 @@ Output series:
 +-----------------------------+--------------+---------------------+
 ```
 
-### Trim
+### 5.12 Trim
 
 #### Usage
 
@@ -1389,7 +1389,7 @@ Output series:
 +-----------------------------+--------------+--------------------+
 ```
 
-### StrCmp
+### 5.13 StrCmp
 
 #### Usage
 
@@ -1435,7 +1435,7 @@ Output series:
 ```
 
 
-### StrReplace
+### 5.14 StrReplace
 
 #### Usage
 
@@ -1514,7 +1514,7 @@ Output series:
 +-----------------------------+-----------------------------------------------------+
 ```
 
-### RegexMatch
+### 5.15 RegexMatch
 
 #### Usage
 
@@ -1573,7 +1573,7 @@ Output series:
 +-----------------------------+----------------------------------------------------------------------+
 ```
 
-### RegexReplace
+### 5.16 RegexReplace
 
 #### Usage
 
@@ -1632,7 +1632,7 @@ Output series:
 +-----------------------------+-----------------------------------------------------------+
 ```
 
-### RegexSplit
+### 5.17 RegexSplit
 
 #### Usage
 
@@ -1733,7 +1733,7 @@ Output series:
 
 -->
 
-## Data Type Conversion Function
+## 6. Data Type Conversion Function
 
 The IoTDB currently supports 6 data types, including INT32, INT64 ,FLOAT, DOUBLE, BOOLEAN, TEXT. When we query or evaluate data, we may need to convert data types, such as TEXT to INT32, or FLOAT to DOUBLE. IoTDB supports cast function to convert data types.
 
@@ -1754,7 +1754,7 @@ The syntax of the cast function is consistent with that of PostgreSQL. The data 
 | **BOOLEAN** | true: 1<br />false: 0                                        | true: 1L<br />false: 0                                       | true: 1.0f<br />false: 0                                     | true: 1.0<br />false: 0 | No need to cast                                              | true: "true"<br />false: "false" |
 | **TEXT**    | Integer.parseInt()                                           | Long.parseLong()                                             | Float.parseFloat()                                           | Double.parseDouble()    | text.toLowerCase =="true" : true<br />text.toLowerCase =="false" : false<br />Otherwise: throw Exception | No need to cast                  |
 
-### Examples
+### 6.1 Examples
 
 ```
 // timeseries
@@ -1833,7 +1833,7 @@ IoTDB> select cast(s6 as BOOLEAN) from root.sg.d1 where time >= 2
 
 -->
 
-## Constant Timeseries Generating Functions
+## 7. Constant Timeseries Generating Functions
 
 The constant timeseries generating function is used to generate a timeseries in which the values of all data points are the same.
 
@@ -1891,7 +1891,7 @@ It costs 0.005s
 
 -->
 
-## Selector Functions
+## 8. Selector Functions
 
 Currently, IoTDB supports the following selector functions:
 
@@ -1943,7 +1943,7 @@ It costs 0.006s
 
 -->
 
-## Continuous Interval Functions
+## 9. Continuous Interval Functions
 
 The continuous interval functions are used to query all continuous intervals that meet specified conditions.
 They can be divided into two categories according to return value:
@@ -1957,7 +1957,7 @@ They can be divided into two categories according to return value:
 | ZERO_COUNT        | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:Optional with default value `1L`<br>`max`:Optional with default value `Long.MAX_VALUE` | Long                    | Return intervals' start times and the number of data points in the interval in which the value is always 0(false). Data points number `n` satisfy `n >= min && n <= max` |
 | NON_ZERO_COUNT    | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:Optional with default value `1L`<br>`max`:Optional with default value `Long.MAX_VALUE` | Long                    | Return intervals' start times and the number of data points in the interval in which the value is always not 0(false). Data points number `n` satisfy `n >= min && n <= max` |
 
-### Demonstrate
+### 9.1 Demonstrate
 Example data:
 ```
 IoTDB> select s1,s2,s3,s4,s5 from root.sg.d2;
@@ -2017,7 +2017,7 @@ Result:
 
 -->
 
-## Variation Trend Calculation Functions
+## 10. Variation Trend Calculation Functions
 
 Currently, IoTDB supports the following variation trend calculation functions:
 
@@ -2052,7 +2052,7 @@ Total line number = 5
 It costs 0.014s
 ```
 
-### Example
+### 10.1 Example
 
 #### RawData
 
@@ -2132,9 +2132,9 @@ Result:
 
 -->
 
-## Sample Functions
+## 11. Sample Functions
 
-### Equal Size Bucket Sample Function
+### 11.1 Equal Size Bucket Sample Function
 
 This function samples the input sequence in equal size buckets, that is, according to the downsampling ratio and downsampling method given by the user, the input sequence is equally divided into several buckets according to a fixed number of points. Sampling by the given sampling method within each bucket.
 - `proportion`: sample ratio, the value range is `(0, 1]`.
@@ -2360,7 +2360,7 @@ Total line number = 10
 It costs 0.041s
 ```
 
-### M4 Function
+### 11.2 M4 Function
 
 M4 is used to sample the `first, last, bottom, top` points for each sliding window:
 
@@ -2533,9 +2533,9 @@ It is worth noting that both functions sort and deduplicate the aggregated point
 
 -->
 
-## Time Series Processing
+## 12. Time Series Processing
 
-### CHANGE_POINTS
+### 12.1 CHANGE_POINTS
 
 #### Usage
 
@@ -2604,9 +2604,9 @@ Output series：
 
 -->
 
-## Lambda Expression
+## 13. Lambda Expression
 
-### JEXL Function
+### 13.1 JEXL Function
 
 Java Expression Language (JEXL) is an expression language engine. We use JEXL to extend UDFs, which are implemented on the command line with simple lambda expressions. See the link for [operators supported in jexl lambda expressions](https://commons.apache.org/proper/commons-jexl/apidocs/org/apache/commons/jexl3/package-summary.html#customization).
 
@@ -2683,9 +2683,9 @@ It costs 0.118s
 
 -->
 
-## Conditional Expressions
+## 14. Conditional Expressions
 
-### CASE
+### 14.1 CASE
 
 The CASE expression is a kind of conditional expression that can be used to return different values based on specific conditions, similar to the if-else statements in other languages.
 

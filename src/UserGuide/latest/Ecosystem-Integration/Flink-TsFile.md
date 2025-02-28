@@ -21,7 +21,7 @@
 
 # Apache Flink(TsFile)
 
-## About Flink-TsFile-Connector
+## 1. About Flink-TsFile-Connector
 
 Flink-TsFile-Connector implements the support of Flink for external data sources of Tsfile type. 
 This enables users to read and write  Tsfile by Flink via DataStream/DataSet API.
@@ -31,9 +31,9 @@ With this connector, you can
 * load a single TsFile or multiple TsFiles(only for DataSet), from either the local file system or hdfs, into Flink
 * load all files in a specific directory, from either the local file system or hdfs, into Flink
 
-## Quick Start
+## 2. Quick Start
 
-### TsFileInputFormat Example
+### 2.1 TsFileInputFormat Example
 
 1. create TsFileInputFormat with default RowRowRecordParser.
 
@@ -93,7 +93,7 @@ for (String s : result) {
 }
 ```
 
-### Example of TSRecordOutputFormat 
+### 2.2 Example of TSRecordOutputFormat 
 
 1. create TSRecordOutputFormat with default RowTSRecordConverter.
 

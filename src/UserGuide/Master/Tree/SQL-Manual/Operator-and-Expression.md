@@ -27,9 +27,9 @@ A list of all available functions, both built-in and custom, can be displayed wi
 
 See the documentation [Select-Expression](../SQL-Manual/Function-and-Expression.md#selector-functions) for the behavior of operators and functions in SQL.
 
-## OPERATORS
+## 1. OPERATORS
 
-### Arithmetic Operators
+### 1.1 Arithmetic Operators
 
 | Operator | Meaning                   |
 | -------- | ------------------------- |
@@ -43,7 +43,7 @@ See the documentation [Select-Expression](../SQL-Manual/Function-and-Expression.
 
 For details and examples, see the document [Arithmetic Operators and Functions](../SQL-Manual/Function-and-Expression.md#arithmetic-functions).
 
-### Comparison Operators
+### 1.2 Comparison Operators
 
 | Operator                  | Meaning                              |
 | ------------------------- | ------------------------------------ |
@@ -66,7 +66,7 @@ For details and examples, see the document [Arithmetic Operators and Functions](
 
 For details and examples, see the document [Comparison Operators and Functions](../SQL-Manual/Function-and-Expression.md#comparison-operators-and-functions).
 
-### Logical Operators
+### 1.3 Logical Operators
 
 | Operator                    | Meaning                           |
 | --------------------------- | --------------------------------- |
@@ -76,7 +76,7 @@ For details and examples, see the document [Comparison Operators and Functions](
 
 For details and examples, see the document [Logical Operators](../SQL-Manual/Function-and-Expression.md#logical-operators).
 
-### Operator Precedence
+### 1.4 Operator Precedence
 
 The precedence of operators is arranged as shown below from high to low, and operators on the same row have the same precedence.
 
@@ -93,11 +93,11 @@ AND, &, &&
 OR, |, ||
 ```
 
-## BUILT-IN FUNCTIONS
+## 2. BUILT-IN FUNCTIONS
 
 The built-in functions can be used in IoTDB without registration, and the functions in the data quality function library need to be registered by referring to the registration steps in the next chapter before they can be used.
 
-### Aggregate Functions
+### 2.1 Aggregate Functions
 
 | Function Name | Description                                                                                                                                                                                                                                                                              | Allowed Input Series Data Types                                                                                                       | Required Attributes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Output Series Data Type                             |
 |---------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------|
@@ -125,7 +125,7 @@ The built-in functions can be used in IoTDB without registration, and the functi
 
 For details and examples, see the document [Aggregate Functions](../SQL-Manual/Function-and-Expression.md#aggregate-functions).
 
-### Arithmetic Functions
+### 2.2 Arithmetic Functions
 
 | Function Name | Allowed Input Series Data Types | Output Series Data Type       | Required Attributes                                          | Corresponding Implementation in the Java Standard Library    |
 | ------------- | ------------------------------- | ----------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -152,7 +152,7 @@ For details and examples, see the document [Aggregate Functions](../SQL-Manual/F
 
 For details and examples, see the document [Arithmetic Operators and Functions](../SQL-Manual/Function-and-Expression.md#arithmetic-operators-and-functions).
 
-### Comparison Functions
+### 2.3 Comparison Functions
 
 | Function Name | Allowed Input Series Data Types | Required Attributes                       | Output Series Data Type | Description                                   |
 | ------------- | ------------------------------- | ----------------------------------------- | ----------------------- | --------------------------------------------- |
@@ -161,7 +161,7 @@ For details and examples, see the document [Arithmetic Operators and Functions](
 
 For details and examples, see the document [Comparison Operators and Functions](../SQL-Manual/Function-and-Expression.md#comparison-operators-and-functions).
 
-### String Processing Functions
+### 2.4 String Processing Functions
 
 | Function Name   | Allowed Input Series Data Types | Required Attributes                                          | Output Series Data Type | Description                                                  |
 | --------------- |---------------------------------| ------------------------------------------------------------ | ----------------------- | ------------------------------------------------------------ |
@@ -181,7 +181,7 @@ For details and examples, see the document [Comparison Operators and Functions](
 
 For details and examples, see the document [String Processing](../SQL-Manual/Function-and-Expression.md#string-processing).
 
-### Data Type Conversion Function
+### 2.5 Data Type Conversion Function
 
 | Function Name | Required Attributes                                          | Output Series Data Type | Description                                                  |
 | ------------- | ------------------------------------------------------------ | ----------------------- | ------------------------------------------------------------ |
@@ -189,7 +189,7 @@ For details and examples, see the document [String Processing](../SQL-Manual/Fun
 
 For details and examples, see the document [Data Type Conversion Function](../SQL-Manual/Function-and-Expression.md#data-type-conversion-function).
 
-### Constant Timeseries Generating Functions
+### 2.6 Constant Timeseries Generating Functions
 
 | Function Name | Required Attributes                                          | Output Series Data Type                      | Description                                                  |
 | ------------- | ------------------------------------------------------------ | -------------------------------------------- | ------------------------------------------------------------ |
@@ -199,7 +199,7 @@ For details and examples, see the document [Data Type Conversion Function](../SQ
 
 For details and examples, see the document [Constant Timeseries Generating Functions](../SQL-Manual/Function-and-Expression.md#constant-timeseries-generating-functions).
 
-### Selector Functions
+### 2.7 Selector Functions
 
 | Function Name | Allowed Input Series Data Types                                   | Required Attributes                                          | Output Series Data Type       | Description                                                  |
 | ------------- |-------------------------------------------------------------------| ------------------------------------------------------------ | ----------------------------- | ------------------------------------------------------------ |
@@ -208,7 +208,7 @@ For details and examples, see the document [Constant Timeseries Generating Funct
 
 For details and examples, see the document [Selector Functions](../SQL-Manual/Function-and-Expression.md#selector-functions).
 
-### Continuous Interval Functions
+### 2.8 Continuous Interval Functions
 
 | Function Name     | Allowed Input Series Data Types      | Required Attributes                                          | Output Series Data Type | Description                                                  |
 | ----------------- | ------------------------------------ | ------------------------------------------------------------ | ----------------------- | ------------------------------------------------------------ |
@@ -219,7 +219,7 @@ For details and examples, see the document [Selector Functions](../SQL-Manual/Fu
 
 For details and examples, see the document [Continuous Interval Functions](../SQL-Manual/Function-and-Expression.md#continuous-interval-functions).
 
-### Variation Trend Calculation Functions
+### 2.9 Variation Trend Calculation Functions
 
 | Function Name           | Allowed Input Series Data Types                 | Required Attributes                                          | Output Series Data Type       | Description                                                  |
 | ----------------------- | ----------------------------------------------- | ------------------------------------------------------------ | ----------------------------- | ------------------------------------------------------------ |
@@ -232,7 +232,7 @@ For details and examples, see the document [Continuous Interval Functions](../SQ
 
 For details and examples, see the document [Variation Trend Calculation Functions](../SQL-Manual/Function-and-Expression.md#variation-trend-calculation-functions).
 
-### Sample Functions
+### 2.10 Sample Functions
 
 | Function Name                    | Allowed Input Series Data Types | Required Attributes                                          | Output Series Data Type        | Description                                                  |
 | -------------------------------- | ------------------------------- | ------------------------------------------------------------ | ------------------------------ | ------------------------------------------------------------ |
@@ -244,7 +244,7 @@ For details and examples, see the document [Variation Trend Calculation Function
 
 For details and examples, see the document [Sample Functions](../SQL-Manual/Function-and-Expression.md#sample-functions).
 
-### Change Points Function
+### 2.11 Change Points Function
 
 | Function Name | Allowed Input Series Data Types | Required Attributes | Output Series Data Type       | Description                                                 |
 | ------------- | ------------------------------- | ------------------- | ----------------------------- | ----------------------------------------------------------- |
@@ -253,7 +253,7 @@ For details and examples, see the document [Sample Functions](../SQL-Manual/Func
 For details and examples, see the document [Time-Series](../SQL-Manual/Function-and-Expression.md#time-series-processing).
 
 
-## LAMBDA EXPRESSION
+## 3. LAMBDA EXPRESSION
 
 | Function Name | Allowed Input Series Data Types                 | Required Attributes                                          | Output Series Data Type                         | Series Data Type  Description                                |
 | ------------- | ----------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------- | ------------------------------------------------------------ |
@@ -261,7 +261,7 @@ For details and examples, see the document [Time-Series](../SQL-Manual/Function-
 
 For details and examples, see the document [Lambda](../SQL-Manual/Function-and-Expression.md#lambda-expression).
 
-## CONDITIONAL EXPRESSION
+## 4. CONDITIONAL EXPRESSION
 
 | Expression Name | Description          |
 | --------------- | -------------------- |
@@ -269,7 +269,7 @@ For details and examples, see the document [Lambda](../SQL-Manual/Function-and-E
 
 For details and examples, see the document [Conditional Expressions](../SQL-Manual/Function-and-Expression.md#conditional-expressions).
 
-## SELECT EXPRESSION
+## 5. SELECT EXPRESSION
 
 The `SELECT` clause specifies the output of the query, consisting of several `selectExpr`. Each `selectExpr` defines one or more columns in the query result.
 
@@ -285,7 +285,7 @@ The `SELECT` clause specifies the output of the query, consisting of several `se
     - Time series generation functions (including built-in functions and user-defined functions)
 - constant
 
-### Use Alias
+### 5.1 Use Alias
 
 Since the unique data model of IoTDB, lots of additional information like device will be carried before each sensor. Sometimes, we want to query just one specific device, then these prefix information show frequently will be redundant in this situation, influencing the analysis of result set. At this time, we can use `AS` function provided by IoTDB, assign an alias to time series selected in query.  
 
@@ -302,11 +302,11 @@ The result set is：
 | ...  | ...         | ...   |
 
 
-### Operator
+### 5.2 Operator
 
 See this documentation for a list of operators supported in IoTDB.
 
-### Function
+### 5.3 Function
 
 #### Aggregate Functions
 
@@ -339,7 +339,7 @@ See this documentation for a list of built-in functions supported in IoTDB.
 
 IoTDB supports function extension through User Defined Function (click for [User-Defined Function](../User-Manual/Database-Programming.md#udtfuser-defined-timeseries-generating-function)) capability.
 
-### Nested Expressions
+### 5.4 Nested Expressions
 
 IoTDB supports the calculation of arbitrary nested expressions. Since time series query and aggregation query can not be used in a query statement at the same time, we divide nested expressions into two types, which are nested expressions with time series query and nested expressions with aggregation query. 
 
