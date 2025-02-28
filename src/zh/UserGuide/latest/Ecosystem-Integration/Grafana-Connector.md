@@ -23,14 +23,14 @@
 
 Grafana 是开源的指标量监测和可视化工具，可用于展示时序数据和应用程序运行分析。Grafana 支持 Graphite，InfluxDB 等国际主流时序数据库作为数据源。在 IoTDB 项目中，我们开发了 Grafana 展现 IoTDB 中时序数据的连接器 IoTDB-Grafana-Connector，为您提供使用 Grafana 展示 IoTDB 数据库中的时序数据的可视化方法。
 
-## Grafana 的安装与部署
+## 1 Grafana 的安装与部署
 
-### 安装
+### 1.1 安装
 
 * Grafana 组件下载地址：https://grafana.com/grafana/download
 * 版本 >= 4.4.1
 
-### simple-json-datasource 数据源插件安装
+### 1.2 simple-json-datasource 数据源插件安装
 
 
 * 插件名称: simple-json-datasource
@@ -68,7 +68,7 @@ The following plugins are disabled and not shown in the list below:
 allow_loading_unsigned_plugins = "grafana-simple-json-datasource"
 ```
 
-### 启动 Grafana
+### 1.3 启动 Grafana
 
 进入 Grafana 的安装目录，使用以下命令启动 Grafana：
 * Windows 系统：
@@ -85,17 +85,17 @@ Shell > grafana-server --config=/usr/local/etc/grafana/grafana.ini --homepath /u
 ```
 更多安装详情，请点 [这里](https://grafana.com/docs/grafana/latest/installation/)
 
-## IoTDB 安装
+## 2 IoTDB 安装
 
 参见 [https://github.com/apache/iotdb](https://github.com/apache/iotdb)
 
-## Grafana-IoTDB-Connector 连接器安装
+## 3 Grafana-IoTDB-Connector 连接器安装
 
 ```shell
 git clone https://github.com/apache/iotdb.git
 ```
 
-## 启动 Grafana-IoTDB-Connector
+## 4 启动 Grafana-IoTDB-Connector
 
  * 方案一（适合开发者）
 
@@ -120,7 +120,7 @@ java -jar iotdb-grafana-connector-{version}.war
 
 如果您需要配置属性，将`grafana/src/main/resources/application.properties`移动到 war 包同级目录下（`grafana/target`）
 
-## 使用 Grafana
+## 5 使用 Grafana
 
 Grafana 以网页的 dashboard 形式为您展示数据，在使用时请您打开浏览器，访问 http://\<ip\>:\<port\>
 
@@ -128,7 +128,7 @@ Grafana 以网页的 dashboard 形式为您展示数据，在使用时请您打�
 
 注：IP 为您的 Grafana 所在的服务器 IP，Port 为 Grafana 的运行端口（默认 3000）。默认登录的用户名和密码都是“admin”。
 
-### 添加 IoTDB 数据源
+### 5.1 添加 IoTDB 数据源
 
 点击左上角的“Grafana”图标，选择`Data Source`选项，然后再点击`Add data source`。
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/51664777-2766ae00-1ff5-11e9-9d2f-7489f8ccbfc2.png">
@@ -136,13 +136,13 @@ Grafana 以网页的 dashboard 形式为您展示数据，在使用时请您打�
 在编辑数据源的时候，`Type`一栏选择`Simplejson`，`URL`一栏填写 http://\<ip\>:\<port\>，IP 为您的 IoTDB-Grafana-Connector 连接器所在的服务器 IP，Port 为运行端口（默认 8888）。之后确保 IoTDB 已经启动，点击“Save & Test”，出现“Data Source is working”提示表示配置成功。
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/51664842-554bf280-1ff5-11e9-97d2-54eebe0b2ca1.png">
 
-### 操作 Grafana
+### 5.2 操作 Grafana
 
 进入 Grafana 可视化页面后，可以选择添加时间序列，如下图。您也可以按照 Grafana 官方文档进行相应的操作，详情可参看 Grafana 官方文档：http://docs.grafana.org/guides/getting_started/。
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/51664878-6e54a380-1ff5-11e9-9718-4d0e24627fa8.png">
 
-## 配置 grafana
+## 6 配置 grafana
 
 ```
 # IoTDB 的 IP 和端口

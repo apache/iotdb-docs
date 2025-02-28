@@ -181,13 +181,13 @@ public class DataConsumerExample {
 
 
 
-## 2 全量接口说明
+## 3 全量接口说明
 
-### 2.1 参数列表
+### 3.1 参数列表
 
 可通过Properties参数对象设置消费者相关参数，具体参数如下。
 
-#### 2.1.1 SubscriptionConsumer
+#### 3.1.1 SubscriptionConsumer
 
 
 | 参数                    | 是否必填（默认值）                                           | 参数含义                                                     |
@@ -221,9 +221,9 @@ public class DataConsumerExample {
 | autoCommitInterval | optional: 5000 (min: 500) | Long: 自动提交消费进度的时间间隔，单位为**毫秒**仅当 autoCommit 参数为 true 的时候才会生效 |
 
 
-### 函数列表
+### 3.2 函数列表
 
-#### 数据订阅
+#### 3.2.1 数据订阅
 
 ##### SubscriptionPullConsumer
 

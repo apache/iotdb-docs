@@ -23,9 +23,9 @@
 
 [Apache Kafka](https://kafka.apache.org/)  是一个开源的分布式事件流平台，被数千家公司用于高性能数据管道、流分析、数据集成和关键任务应用。
 
-## 示例代码
+## 1 示例代码
 
-### kafka 生产者生产数据 Java 代码示例
+### 1.1 kafka 生产者生产数据 Java 代码示例
 
 ```java
     Properties props = new Properties();
@@ -39,7 +39,7 @@
     producer.close();
 ```
 
-### kafka 消费者接收数据 Java 代码示例
+### 1.2 kafka 消费者接收数据 Java 代码示例
 
 ```java
     Properties props = new Properties();
@@ -53,7 +53,7 @@
     ConsumerRecords<String, String> records = kafkaConsumer.poll(Duration.ofSeconds(1));
  ```
 
-### 存入 IoTDB 服务器的 Java 代码示例
+### 1.3 存入 IoTDB 服务器的 Java 代码示例
 
 ```java
     SessionPool pool =
