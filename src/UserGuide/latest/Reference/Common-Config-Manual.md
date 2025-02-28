@@ -26,16 +26,16 @@ IoTDB common files for ConfigNode and DataNode are under `conf`.
 * `iotdb-system.properties`：IoTDB system configurations.
 
 
-## Effective
+## 1. Effective
 Different configuration parameters take effect in the following three ways:
 
 + **Only allowed to be modified in first start up:** Can't be modified after first start, otherwise the ConfigNode/DataNode cannot start.
 + **After restarting system:** Can be modified after the ConfigNode/DataNode first start, but take effect after restart.
 + **hot-load:** Can be modified while the ConfigNode/DataNode is running, and trigger through sending the command(sql) `load configuration` or `set configuration` to the IoTDB server by client or session.
 
-## Configuration File
+## 2. Configuration File
 
-### Replication Configuration
+### 2.1 Replication Configuration
 
 * config\_node\_consensus\_protocol\_class
 
@@ -82,7 +82,7 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | org.apache.iotdb.consensus.simple.SimpleConsensus                                                                                                    |
 |  Effective  | Only allowed to be modified in first start up                                                                                                        |
 
-### Load balancing Configuration
+### 2.2 Load balancing Configuration
 
 * series\_partition\_slot\_num
 
@@ -192,7 +192,7 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | true                                                            |
 |  Effective  | After restarting system                                         |
 
-### Cluster Management
+### 2.3 Cluster Management
 
 * cluster\_name
 
@@ -233,7 +233,7 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | 0.05                            |
 |  Effective  | After restarting system         |
 
-### Memory Control Configuration
+### 2.4 Memory Control Configuration
 
 * datanode\_memory\_proportion
 
@@ -370,7 +370,7 @@ Different configuration parameters take effect in the following three ways:
 |Default| 1000 |
 |Effective|After restarting system|
 
-### Schema Engine Configuration
+### 2.5 Schema Engine Configuration
 
 * schema\_engine\_mode
 
@@ -435,7 +435,7 @@ Different configuration parameters take effect in the following three ways:
 |Default| 10000                          |
 |Effective|After restarting system|
 
-### Configurations for creating schema automatically
+### 2.6 Configurations for creating schema automatically
 
 * enable\_auto\_create\_schema
 
@@ -491,7 +491,7 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | FLOAT                                                     |
 |  Effective  | After restarting system                                   |
 
-### Query Configurations
+### 2.7 Query Configurations
 
 * read\_consistency\_level
 
@@ -636,7 +636,7 @@ Different configuration parameters take effect in the following three ways:
 |Default| 100000 |
 |Effective|After restarting system|
 
-### TTL Configuration
+### 2.8 TTL Configuration
 * ttl\_check\_interval
 
 |    Name     | ttl\_check\_interval                                                           |
@@ -665,7 +665,7 @@ Different configuration parameters take effect in the following three ways:
 | Effective | After restarting system                                                                                                                                 |
 
 
-### Storage Engine Configuration
+### 2.9 Storage Engine Configuration
 
 * timestamp\_precision
 
@@ -839,7 +839,7 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | 10                                                           |
 |  Effective  | After restarting system                                      |
 
-### Compaction Configurations
+### 2.10 Compaction Configurations
 
 * enable\_seq\_space\_compaction
 
@@ -1138,7 +1138,7 @@ Different configuration parameters take effect in the following three ways:
 |Default| 4                                                                         |
 |Effective| hot-load                                                                  |
 
-### Write Ahead Log Configuration
+### 2.11 Write Ahead Log Configuration
 
 * wal\_mode
 
@@ -1239,7 +1239,7 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | 20000                                                       |
 |  Effective  | hot-load                                                    |
 
-### TsFile Configurations
+### 2.12 TsFile Configurations
 
 * group\_size\_in\_byte
 
@@ -1332,7 +1332,7 @@ Different configuration parameters take effect in the following three ways:
 |  Effective  | After restarting system                                                                                                                                                                                                                                                                                                                                                                                          |
 
 
-### Authorization Configuration
+### 2.13 Authorization Configuration
 
 * authorizer\_provider\_class
 
@@ -1389,7 +1389,7 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | 30                                                |
 |  Effective  | After restarting system                           |
 
-### UDF Configuration
+### 2.14 UDF Configuration
 
 * udf\_initial\_byte\_array\_length\_for\_memory\_control
 
@@ -1436,7 +1436,7 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | ext/udf（Windows：ext\\udf） |
 |  Effective  | After restarting system      |
 
-### Trigger Configuration
+### 2.15 Trigger Configuration
 
 
 * trigger\_lib\_dir
@@ -1458,7 +1458,7 @@ Different configuration parameters take effect in the following three ways:
 |  Effective  | After restarting system                                                            |
 
 
-### SELECT-INTO
+### 2.16 SELECT-INTO
 
 * into\_operation\_buffer\_size\_in\_byte
 
@@ -1488,7 +1488,7 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | 2                                                             |
 |  Effective  | After restarting system                                       |
 
-### Continuous Query
+### 2.17 Continuous Query
 
 * continuous\_query\_execution\_thread
 
@@ -1508,7 +1508,7 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | 1s                                                  |
 |  Effective  | After restarting system                             |
 
-### PIPE Configuration
+### 2.18 PIPE Configuration
 
 * pipe_lib_dir
 
@@ -1582,7 +1582,7 @@ Different configuration parameters take effect in the following three ways:
 | Default Value       | -1                                                           |
 | Effective  | Can be hot-loaded                                                     |
 
-### IOTConsensus Configuration
+### 2.19 IOTConsensus Configuration
 
 * data_region_iot_max_log_entries_num_per_batch
 
@@ -1620,7 +1620,7 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | 0.6                                                |
 |  Effective  | After restarting system                            |
 
-### RatisConsensus Configuration
+### 2.20 RatisConsensus Configuration
 
 * config\_node\_ratis\_log\_appender\_buffer\_size\_max
 
@@ -2074,7 +2074,7 @@ Different configuration parameters take effect in the following three ways:
 |  Default   | 86400 (seconds)                                                             |
 | Effective | After restarting system                                         |
 
-### Procedure Configuration
+### 2.21 Procedure Configuration
 
 * procedure\_core\_worker\_thread\_count
 
@@ -2105,7 +2105,7 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | 800                            |
 |  Effective  | After restarting system        |
 
-### MQTT Broker Configuration
+### 2.22 MQTT Broker Configuration
 
 * enable\_mqtt\_service
 
@@ -2164,7 +2164,7 @@ Different configuration parameters take effect in the following three ways:
 
 
 
-#### TsFile Active Listening&Loading Function Configuration
+### 2.23 TsFile Active Listening&Loading Function Configuration
 
 * load\_active\_listening\_enable
 

@@ -21,7 +21,7 @@
 
 # Ignition
 
-## Product Overview
+## 1. Product Overview
 
 1. Introduction to Ignition
 
@@ -38,7 +38,7 @@
 
     ![](/img/20240703114443.png)
 
-## Installation Requirements
+## 2. Installation Requirements
 
 | **Preparation Content**         | Version Requirements                                         |
 | ------------------------------- | ------------------------------------------------------------ |
@@ -47,15 +47,15 @@
 | Ignition-IoTDB Connector module | Please contact Business to obtain                            |
 | Ignition-IoTDB With JDBC module | Download address：https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/ |
 
-## Instruction Manual For Ignition-IoTDB Connector
+## 3. Instruction Manual For Ignition-IoTDB Connector
 
-### Introduce
+### 3.1 Introduce
 
 The Ignition-IoTDB Connector module can store data in a database connection associated with the historical database provider. The data is directly stored in a table in the SQL database based on its data type, as well as a millisecond timestamp. Store data only when making changes based on the value pattern and dead zone settings on each label, thus avoiding duplicate and unnecessary data storage.
 
 The Ignition-IoTDB Connector provides the ability to store the data collected by Ignition into IoTDB.
 
-### Installation Steps
+### 3.2 Installation Steps
 
 Step 1: Enter the `Configuration` - `System` - `Modules` module and click on the `Install or Upgrade a Module` button at the bottom
 
@@ -157,7 +157,7 @@ The configuration content is as follows:
 
 
 
-### Instructions
+### 3.3 Instructions
 
 #### Configure Historical Data Storage
 
@@ -233,13 +233,13 @@ The configuration content is as follows:
   system.iotdb.query("IoTDB", "select * from root.db.Sine where time > 1709563427247")
   ```
 
-## Ignition-IoTDB With JDBC
+## 4. Ignition-IoTDB With JDBC
 
-### Introduce
+### 4.1 Introduce
 
  Ignition-IoTDB With JDBC provides a JDBC driver that allows users to connect and query the Ignition IoTDB database using standard JDBC APIs
 
-### Installation Steps
+### 4.2 Installation Steps
 
 Step 1: Enter the `Configuration` - `Databases` -`Drivers` module and create the `Translator`
 
@@ -253,7 +253,7 @@ Step 3: Enter the `Configuration` - `Databases` - `Connections` module, create a
 
 ![](/img/Ignition-IoTDBWithJDBC-3.png)
 
-### Instructions
+### 4.3 Instructions
 
 #### Data Writing
 

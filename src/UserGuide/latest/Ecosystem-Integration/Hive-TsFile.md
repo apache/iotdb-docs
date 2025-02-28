@@ -20,7 +20,7 @@
 -->
 # Apache Hive(TsFile)
 
-## About Hive-TsFile-Connector
+## 1. About Hive-TsFile-Connector
 
 Hive-TsFile-Connector implements the support of Hive for external data sources of Tsfile type. This enables users to operate TsFile by Hive.
 
@@ -31,7 +31,7 @@ With this connector, you can
 * Query the tsfile through HQL.
 * As of now, the write operation is not supported in hive-connector. So, insert operation in HQL is not allowed while operating tsfile through hive.
 
-## System Requirements
+## 2. System Requirements
 
 |Hadoop Version |Hive Version | Java Version | TsFile |
 |-------------  |------------ | ------------ |------------ |
@@ -39,7 +39,7 @@ With this connector, you can
 
 > Note: For more information about how to download and use TsFile, please see the following link: https://github.com/apache/iotdb/tree/master/tsfile.
 
-## Data Type Correspondence
+## 3. Data Type Correspondence
 
 | TsFile data type | Hive field type |
 | ---------------- | --------------- |
@@ -51,7 +51,7 @@ With this connector, you can
 | TEXT      	   | STRING          |
 
 
-## Add Dependency For Hive
+## 4. Add Dependency For Hive
 
 To use hive-connector in hive, we should add the hive-connector jar into hive.
 
@@ -67,7 +67,7 @@ Added resources: [/Users/hive/iotdb/hive-connector/target/hive-connector-1.0.0-j
 ```
 
 
-## Create Tsfile-backed Hive tables
+## 5. Create Tsfile-backed Hive tables
 
 To create a Tsfile-backed table, specify the `serde` as `org.apache.iotdb.hive.TsFileSerDe`, 
 specify the `inputformat` as `org.apache.iotdb.hive.TSFHiveInputFormat`, 
@@ -110,7 +110,7 @@ Time taken: 0.053 seconds, Fetched: 2 row(s)
 ```
 At this point, the Tsfile-backed table can be worked with in Hive like any other table.
 
-## Query from TsFile-backed Hive tables
+## 6. Query from TsFile-backed Hive tables
 
 Before we do any queries, we should set the `hive.input.format` in hive by executing the following command.
 
@@ -123,7 +123,7 @@ We can use any query operations through HQL to analyse it.
 
 For example:
 
-### Select Clause Example
+### 6.1 Select Clause Example
 
 ```
 hive> select * from only_sensor_1 limit 10;
@@ -141,7 +141,7 @@ OK
 Time taken: 1.464 seconds, Fetched: 10 row(s)
 ```
 
-### Aggregate Clause Example
+### 6.2 Aggregate Clause Example
 
 ```
 hive> select count(*) from only_sensor_1;

@@ -19,11 +19,11 @@
 
 -->
 
-## Data Recovery
+# Data Recovery
 
 Used to fix issues in data, such as data in sequential space not being arranged in chronological order.
 
-### START REPAIR DATA
+## 1. START REPAIR DATA
 
 Start a repair task to scan all files created before current time.
 The repair task will scan all tsfiles and repair some bad files.
@@ -34,7 +34,7 @@ IoTDB> START REPAIR DATA ON LOCAL
 IoTDB> START REPAIR DATA ON CLUSTER
 ```
 
-### STOP REPAIR DATA
+## 2. STOP REPAIR DATA
 
 Stop the running repair task. To restart the stopped task.
 If there is a stopped repair task, it can be restart and recover the repair progress by executing SQL `START REPAIR DATA`.

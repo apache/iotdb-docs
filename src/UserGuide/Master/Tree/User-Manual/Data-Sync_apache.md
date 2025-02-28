@@ -23,9 +23,9 @@
 
 Data synchronization is a typical requirement in industrial Internet of Things (IoT). Through data synchronization mechanisms, it is possible to achieve data sharing between IoTDB, and to establish a complete data link to meet the needs for internal and external network data interconnectivity, edge-cloud synchronization, data migration, and data backup.
 
-## Function Overview
+## 1. Function Overview
 
-### Data Synchronization
+### 1.1 Data Synchronization
 
 A data synchronization task consists of three stages:
 
@@ -77,7 +77,7 @@ By declaratively configuring the specific content of the three parts through SQL
 </tbody>
 </table>
 
-### Functional limitations and instructions
+### 1.2 Functional limitations and instructions
 
 The schema and auth synchronization functions have the following limitations:
 
@@ -89,7 +89,7 @@ The schema and auth synchronization functions have the following limitations:
 
 - During data synchronization tasks, please avoid performing any deletion operations to prevent inconsistent states between the two ends.
 
-## Usage Instructions
+## 2. Usage Instructions
 
 Data synchronization tasks have three states: RUNNING, STOPPED, and DROPPED. The task state transitions are shown in the following diagram:
 
@@ -99,7 +99,7 @@ After creation, the task will start directly, and when the task stops abnormally
 
 Provide the following SQL statements for state management of synchronization tasks.
 
-### Create Task
+### 2.1 Create Task
 
 Use the `CREATE PIPE` statement to create a data synchronization task. The `PipeId` and `sink` attributes are required, while `source` and `processor` are optional. When entering the SQL, note that the order of the `SOURCE` and `SINK` plugins cannot be swapped.
 
@@ -123,7 +123,7 @@ WITH SINK (
 
 **IF NOT EXISTS semantics**: Used in creation operations to ensure that the create command is executed when the specified Pipe does not exist, preventing errors caused by attempting to create an existing Pipe.
 
-### Start Task
+### 2.2 Start Task
 
 Start processing data:
 
@@ -131,7 +131,7 @@ Start processing data:
 START PIPE<PipeId>
 ```
 
-### Stop Task
+### 2.3 Stop Task
 
 Stop processing data:
 
@@ -139,7 +139,7 @@ Stop processing data:
 STOP PIPE <PipeId>
 ```
 
-###  Delete Task
+### 2.4 Delete Task
 
 Deletes the specified task:
 
@@ -150,7 +150,7 @@ DROP PIPE [IF EXISTS] <PipeId>
 
 Deleting a task does not require stopping the synchronization task first.
 
-### View Task
+### 2.5 View Task
 
 View all tasks:
 
@@ -186,7 +186,7 @@ The meanings of each column are as follows:
 - **RemainingEventCount (Statistics with Delay)**: The number of remaining events, which is the total count of all events in the current data synchronization task, including data and schema synchronization events, as well as system and user-defined events.
 - **EstimatedRemainingSeconds (Statistics with Delay)**: The estimated remaining time, based on the current number of events and the rate at the pipe, to complete the transfer.
 
-### Synchronization Plugins
+### 2.6 Synchronization Plugins
 
 To make the overall architecture more flexible to match different synchronization scenario requirements, we support plugin assembly within the synchronization task framework. The system comes with some pre-installed common plugins that you can use directly. At the same time, you can also customize processor plugins and Sink plugins, and load them into the IoTDB system for use. You can view the plugins in the system (including custom and built-in plugins) with the following statement:
 
@@ -257,9 +257,9 @@ Detailed introduction of pre-installed plugins is as follows (for detailed param
 
 For importing custom plugins, please refer to the [Stream Processing](./Streaming_apache.md#custom-stream-processing-plugin-management) section.
 
-## Use examples
+## 3. Use examples
 
-### Full data synchronisation
+### 3.1 Full data synchronisation
 
 This example is used to demonstrate the synchronisation of all data from one IoTDB to another IoTDB with the data link as shown below:
 
@@ -274,7 +274,7 @@ with sink (
   'node-urls' = '127.0.0.1:6668',  -- The URL of the data service port of the DataNode node on the target IoTDB
 ```
 
-### Partial data synchronization
+### 3.2 Partial data synchronization
 
 This example is used to demonstrate the synchronisation of data from a certain historical time range (8:00pm 23 August 2023 to 8:00pm 23 October 2023) to another IoTDB, the data link is shown below:
 
@@ -298,7 +298,7 @@ with SINK (
 )
 ```
 
-### Edge-cloud data transfer
+### 3.3 Edge-cloud data transfer
 
 This example is used to demonstrate the scenario where data from multiple IoTDB is transferred to the cloud, with data from clusters B, C, and D all synchronized to cluster A, as shown in the figure below:
 
@@ -350,7 +350,7 @@ with sink (
 )
 ```
 
-### Cascading data transfer
+### 3.4 Cascading data transfer
 
 This example is used to demonstrate the scenario where data is transferred in a cascading manner between multiple IoTDB, with data from cluster A synchronized to cluster B, and then to cluster C, as shown in the figure below:
 
@@ -384,7 +384,7 @@ with sink (
 ```
 
 
-### Compression Synchronization (V1.3.3+)
+### 3.5 Compression Synchronization (V1.3.3+)
 
 IoTDB supports specifying data compression methods during synchronization. Real time compression and transmission of data can be achieved by configuring the `compressor` parameter. `Compressor` currently supports 5 optional algorithms: snappy/gzip/lz4/zstd/lzma2, and can choose multiple compression algorithm combinations to compress in the order of configuration `rate-limit-bytes-per-second`(supported in V1.3.3 and later versions) is the maximum number of bytes allowed to be transmitted per second, calculated as compressed bytes. If it is less than 0, there is no limit.
 
@@ -398,7 +398,7 @@ with sink (
 )
 ```
 
-### Encrypted Synchronization (V1.3.1+)
+### 3.6 Encrypted Synchronization (V1.3.1+)
 
 IoTDB supports the use of SSL encryption during the synchronization process, ensuring the secure transfer of data between different IoTDB instances. By configuring SSL-related parameters, such as the certificate address and password （`ssl.trust-store-path`）、（`ssl.trust-store-pwd`）, data can be protected by SSL encryption during the synchronization process.
 
@@ -414,7 +414,7 @@ with sink (
 )
 ```
 
-## Reference: Notes
+## 4. Reference: Notes
 
 You can adjust the parameters for data synchronization by modifying the IoTDB configuration file （`iotdb-system.properties`）, such as the directory for storing synchronized data. The complete configuration is as follows:
 
@@ -478,9 +478,9 @@ pipe_sink_max_client_number=16
 pipe_all_sinks_rate_limit_bytes_per_second=-1
 ```
 
-## Reference: parameter description
+## 5. Reference: parameter description
 
-### source  parameter（V1.3.3）
+### 5.1 source  parameter（V1.3.3）
 
 | key                            | value                                                         | value range                         | required or not	 | default value       |
 | :------------------------------ | :----------------------------------------------------------- | :------------------------------------- | :------- | :------------- |
@@ -504,7 +504,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 > - **batch**: In this mode, tasks process and send data in batches (according to the underlying data files). It is characterized by low timeliness and high throughput.
 
 
-## sink parameter
+### 5.2 sink parameter
 
 > In versions 1.3.3 and above, when only the sink is included, the additional "with sink" prefix is no longer required.
 

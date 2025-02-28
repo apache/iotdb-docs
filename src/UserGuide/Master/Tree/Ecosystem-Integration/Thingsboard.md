@@ -20,7 +20,7 @@
 -->
 # ThingsBoard
 
-## Product Overview
+## 1. Product Overview
 
 1. Introduction to ThingsBoard
 
@@ -32,11 +32,11 @@
 
   ThingsBoard IoTDB provides the ability to store data from ThingsBoard to IoTDB, and also supports reading data information from the `root.thingsboard` database in ThingsBoard. The detailed architecture diagram is shown in yellow in the following figure.
 
-### Relationship Diagram
+### 1.1 Relationship Diagram
 
   ![](/img/Thingsboard-2.png)
 
-## Installation Requirements
+## 2. Installation Requirements
 
 | **Preparation Content**                   | **Version Requirements**                                     |
 | :---------------------------------------- | :----------------------------------------------------------- |
@@ -44,7 +44,7 @@
 | IoTDB                                     |IoTDB v1.3.0 or above. Please refer to the [Deployment guidance](../Deployment-and-Maintenance/IoTDB-Package.md) |
 | ThingsBoard<br /> (IoTDB adapted version) | Please contact Timecho staff to obtain the installation package. Detailed installation steps are provided below. |
 
-## Installation Steps
+## 3. Installation Steps
 
 Please refer to the installation steps on [ThingsBoard Official Website](https://thingsboard.io/docs/user-guide/install/ubuntu/),wherein:
 
@@ -73,7 +73,7 @@ export IoTDB_MAX_SIZE=200      ## The maximum number of sessions in the session 
 export IoTDB_DATABASE=root.thingsboard  ## Thingsboard data is written to the database stored in IoTDB, supporting customization
 ```
 
-## Instructions
+## 4. Instructions
 
 1. Set up devices and connect datasource: Add a new device under "Entities" - "Devices" in Thingsboard and send data to the specified devices through gateway.
 

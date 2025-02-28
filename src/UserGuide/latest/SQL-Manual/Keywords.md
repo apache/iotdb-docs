@@ -21,13 +21,13 @@
 
 # Keywords 
 
-Reserved words（Can not be used as identifier）:
+## 1. Reserved words（Can not be used as identifier）:
 
 - ROOT
 - TIME
 - TIMESTAMP
 
-Common Keywords:
+## 2. Common Keywords:
 
 - ADD
 - AFTER

@@ -52,22 +52,22 @@ Currently IoT-benchmark supports the following time series databases, versions a
 
 Table 1-1 Comparison of big data test benchmarks
 
-## Software Installation and Environment Setup
+## 1. Software Installation and Environment Setup
 
-### Prerequisites
+### 1.1 Prerequisites
 
 1. Java 8
 2. Maven 3.6+
 3. The corresponding appropriate version of the database, such as Apache IoTDB 1.0
 
-### How to Get IoT Benchmark
+### 1.2 How to Get IoT Benchmark
 
 - **Get the binary package**: Enter https://github.com/thulab/iot-benchmark/releases to download the required installation package. Download it as a compressed file, select a folder to decompress and use it.
 - Compiled from source (can be tested with Apache IoTDB 1.0):
   - The first step (compile the latest IoTDB Session package): Enter the official website https://github.com/apache/iotdb/tree/rel/1.0 to download the IoTDB source code, and run the command `mvn clean package install -pl session -am -DskipTests` in the root directory to compiles the latest package for IoTDB Session.
   - The second step (compile the IoTDB Benchmark test package): Enter the official website https://github.com/thulab/iot-benchmark to download the source code, run `mvn clean package install -pl iotdb-1.0 -am -DskipTests` in the root directory to compile Apache IoTDB version 1.0 test package. The relative path between the test package and the root directory is `./iotdb-1.0/target/iotdb-1.0-0.0.1/iotdb-1.0-0.0.1`.
 
-### IoT Benchmark's Test Package Structure
+### 1.3 IoT Benchmark's Test Package Structure
 
 The directory structure of the test package is shown in Figure 1-3 below. The test configuration file is conf/config.properties, and the test startup scripts are benchmark\.sh (Linux & MacOS) and benchmark.bat (Windows). The detailed usage of the files is shown in Table 1-2.
 
@@ -89,14 +89,14 @@ Figure 1-3 List of files and folders
 
 Table 1-2 Usage list of files and folders
 
-### IoT Benchmark Execution Test
+### 1.4 IoT Benchmark Execution Test
 
 1. Modify the configuration file according to the test requirements. For the main parameters, see next chapter. The corresponding configuration file is conf/config.properties. For example, to test Apache IoTDB 1.0, you need to modify DB_SWITCH=IoTDB-100-SESSION_BY_TABLET.
 2. Start the time series database under test.
 3. Running.
 4. Start IoT-benchmark to execute the test. Observe the status of the time series database and IoT-benchmark under test during execution, and view the results and analyze the test process after execution.
 
-### IoT Benchmark Results Interpretation
+### 1.5 IoT Benchmark Results Interpretation
 
 All the log files of the test are stored in the logs folder, and the test results are stored in the data/csvOutput folder after the test is completed. For example, after the test, we get the following result matrix:
 
@@ -113,11 +113,11 @@ All the log files of the test are stored in the logs folder, and the test result
   - MIN: minimum operation time
   - Pn: the quantile value of the overall distribution of operations, for example, P25 is the lower quartile.
 
-## Main Parameters
+## 2. Main Parameters
 
 This chapter mainly explains the purpose and configuration method of the main parameters.
 
-### Working Mode and Operation Proportion
+### 2.1 Working Mode and Operation Proportion
 
 - The working mode parameter "BENCHMARK_WORK_MODE" can be selected as "default mode" and "server monitoring"; the "server monitoring" mode can be started directly by executing the ser-benchmark\.sh script, and the script will automatically modify this parameter. "Default mode" is a commonly used test mode, combined with the configuration of the OPERATION_PROPORTION parameter to achieve the definition of test operation proportions of "pure write", "pure query" and "read-write mix".
 
@@ -130,11 +130,11 @@ Table 1-3 Test mode
 | default mode | testWithDefaultPath | Supports mixed workloads with multiple read and write operations |
 | server mode  | serverMODE          | Server resource usage monitoring mode (running in this mode is started by the ser-benchmark\.sh script, no need to manually configure this parameter) |
 
-### Server Connection Information
+### 2.2 Server Connection Information
 
 After the working mode is specified, how to inform IoT-benchmark of the information of the time series database under test? Currently, the type of the time-series database under test is informed through "DB_SWITCH"; the network address of the time-series database under test is informed through "HOST"; the network port of the time-series database under test is informed through "PORT"; the login user name of the time-series database under test is informed through "USERNAME"; "PASSWORD" informs the password of the login user of the time series database under test; informs the name of the time series database under test through "DB_NAME"; informs the connection authentication token of the time series database under test through "TOKEN" (used by InfluxDB 2.0).
 
-### Write Scene Setup Parameters
+### 2.3 Write Scene Setup Parameters
 
 Table 1-4 Write scene setup parameters
 
@@ -156,7 +156,7 @@ Table 1-4 Write scene setup parameters
 
 According to the configuration parameters in Table 1-4, the test scenario can be described as follows: write 30,000 (100 devices, 300 sensors for each device) time series sequential data for a day on October 30, 2022 to the time series database under test, in total 2.592 billion data points. The 300 sensor data types of each device are 50 Booleans, 50 integers, 50 long integers, 50 floats, 50 doubles, and 50 characters. If we change the value of IS_OUT_OF_ORDER in the table to true, then the scenario is: write 30,000 time series data on October 30, 2022 to the measured time series database, and there are 30% out of order data ( arrives in the time series database later than other data points whose generation time is later than itself).
 
-### Query Scene Setup Parameters
+### 2.4 Query Scene Setup Parameters
 
 Table 1-5 Query scene setup parameters
 
@@ -189,13 +189,13 @@ Table 1-6 Query types and example SQL
 
 According to the configuration parameters in Table 1-5, the test scenario can be described as follows: Execute 10 reverse order time range queries with value filtering for 2 devices and 2 sensors from the time series database under test. The SQL statement is: `select s_0,s_31from data where time >2022-10-30T00:00:00+08:00 and time < 2022-10-30T00:04:10+08:00 and s_0 > -5 and device in d_21,d_46 order by time desc`.
 
-### Persistence of Test Process and Test Results
+### 2.5 Persistence of Test Process and Test Results
 
 IoT-benchmark currently supports persisting the test process and test results to IoTDB, MySQL, and CSV through the configuration parameter "TEST_DATA_PERSISTENCE"; writing to MySQL and CSV can define the upper limit of the number of rows in the sub-database and sub-table, such as "RECORD_SPLIT=true, RECORD_SPLIT_MAX_LINE=10000000" means that each database table or CSV file is divided and stored according to the total number of 10 million rows; if the records are recorded to MySQL or IoTDB, database link information needs to be provided, including "TEST_DATA_STORE_IP" the IP address of the database, "TEST_DATA_STORE_PORT" the port number of the database, "TEST_DATA_STORE_DB" the name of the database, "TEST_DATA_STORE_USER" the database user name, and "TEST_DATA_STORE_PW" the database user password.
 
 If we set "TEST_DATA_PERSISTENCE=CSV", we can see the newly generated data folder under the IoT-benchmark root directory during and after the test execution, which contains the csv folder to record the test process; the csvOutput folder to record the test results . If we set "TEST_DATA_PERSISTENCE=MySQL", it will create a data table named "testWithDefaultPath_tested database name_remarks_test start time" in the specified MySQL database before the test starts to record the test process; it will record the test process in the "CONFIG" data table (create the table if it does not exist), write the configuration information of this test; when the test is completed, the result of this test will be written in the data table named "FINAL_RESULT" (create the table if it does not exist).
 
-## Use Case
+## 3. Use Case
 
 We take the application of CRRC Qingdao Sifang Vehicle Research Institute Co., Ltd. as an example, and refer to the scene described in "Apache IoTDB in Intelligent Operation and Maintenance Platform Storage" for practical operation instructions.
 
@@ -222,7 +222,7 @@ Table 2-2 Virtual machine usage
 | 172.21.4.4 | KaiosDB       |
 | 172.21.4.5 | MySQL         |
 
-###  Write Test
+### 3.1 Write Test
 
 Scenario description: Create 100 clients to simulate 100 trains, each train has 3000 sensors, the data type is DOUBLE, the data time interval is 500ms (2Hz), and they are sent sequentially. Referring to the above requirements, we need to modify the IoT-benchmark configuration parameters as listed in Table 2-3.
 
@@ -297,7 +297,7 @@ So what is the resource usage of each server during the test? What is the specif
 
 Figure 2-6 Visualization of testing process in Tableau
 
-### Query Test
+### 3.2 Query Test
 
 Scenario description: In the writing test scenario, 10 clients are simulated to perform all types of query tasks on the data stored in the time series database Apache-IoTDB. The configuration is as follows.
 
@@ -322,7 +322,7 @@ Results:
 
 Figure 2-7 Query test results
 
-### Description of Other Parameters
+### 3.3 Description of Other Parameters
 
 In the previous chapters, the write performance comparison between Apache-IoTDB and KairosDB was performed, but if the user wants to perform a simulated real write rate test, how to configure it? How to control if the test time is too long? Are there any regularities in the generated simulated data? If the IoT-Benchmark server configuration is low, can multiple machines be used to simulate pressure output?
 

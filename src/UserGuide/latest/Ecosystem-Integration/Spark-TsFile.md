@@ -21,7 +21,7 @@
 
 # Apache Spark(TsFile)
 
-## About Spark-TsFile-Connector
+## 1. About Spark-TsFile-Connector
 
 Spark-TsFile-Connector implements the support of Spark for external data sources of Tsfile type. This enables users to read, write and query Tsfile by Spark.
 
@@ -31,7 +31,7 @@ With this connector, you can
 * load all files in a specific directory, from either the local file system or hdfs, into Spark
 * write data from Spark into TsFile
 
-## System Requirements
+## 2. System Requirements
 
 |Spark Version | Scala Version | Java Version | TsFile |
 |:-------------: | :-------------: | :------------: |:------------: |
@@ -40,8 +40,8 @@ With this connector, you can
 > Note: For more information about how to download and use TsFile, please see the following link: https://github.com/apache/iotdb/tree/master/tsfile.
 > Currently we only support spark version 2.4.3 and there are some known issue on 2.4.7, do no use it
 
-## Quick Start
-### Local Mode
+## 3. Quick Start
+### 3.1 Local Mode
 
 Start Spark with TsFile-Spark-Connector in local mode: 
 
@@ -56,7 +56,7 @@ Note:
 * See https://github.com/apache/iotdb/tree/master/tsfile for how to get TsFile.
 
 
-### Distributed Mode
+### 3.2 Distributed Mode
 
 Start Spark with TsFile-Spark-Connector in distributed mode (That is, the spark cluster is connected by spark-shell): 
 
@@ -70,7 +70,7 @@ Note:
 * Multiple jar packages are separated by commas without any spaces.
 * See https://github.com/apache/iotdb/tree/master/tsfile for how to get TsFile.
 
-## Data Type Correspondence
+## 4. Data Type Correspondence
 
 | TsFile data type | SparkSQL data type|
 | --------------| -------------- |
@@ -81,7 +81,7 @@ Note:
 | DOUBLE      		   | DoubleType     |
 | TEXT      				| StringType     |
 
-## Schema Inference
+## 5. Schema Inference
 
 The way to display TsFile is dependent on the schema. Take the following TsFile structure as an example: There are three measurements in the TsFile schema: status, temperature, and hardware. The basic information of these three measurements is listed:
 
@@ -122,7 +122,7 @@ You can also use narrow table form which as follows: (You can see part 6 about h
 
 
 
-## Scala API
+## 6. Scala API
 
 NOTE: Remember to assign necessary read and write permissions in advance.
 

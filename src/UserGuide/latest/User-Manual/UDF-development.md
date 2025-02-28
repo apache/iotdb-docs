@@ -15,7 +15,7 @@ If you use [Maven](http://search.maven.org/), you can search for the development
 </dependency>
 ```
 
-## 1.2 UDTF（User Defined Timeseries Generating Function）
+### 1.2 UDTF（User Defined Timeseries Generating Function）
 
 To write a UDTF,  you need to inherit the `org.apache.iotdb.udf.api.UDTF` class, and at least implement the `beforeStart` method and a `transform` method.
 
@@ -698,7 +698,7 @@ If you use Maven, you can build your own UDF project referring to our **udf-exam
 
 This part mainly introduces how external users can contribute their own UDFs to the IoTDB community.
 
-####  2.1 Prerequisites
+###  2.1 Prerequisites
 
 1. UDFs must be universal.
 
@@ -709,7 +709,7 @@ This part mainly introduces how external users can contribute their own UDFs to 
 2. The UDF you are going to contribute has been well tested and can run normally in the production environment.
 
 
-####  2.2 What you need to prepare
+###  2.2 What you need to prepare
 
 1. UDF source code
 2. Test cases

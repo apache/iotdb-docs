@@ -21,7 +21,7 @@
 
 # Apache Spark(IoTDB)
 
-## Supported Versions
+## 1. Supported Versions
 
 Supported versions of Spark and Scala are as follows:
 
@@ -29,16 +29,16 @@ Supported versions of Spark and Scala are as follows:
 |----------------|---------------|
 | `2.4.0-latest` | `2.11, 2.12`  |
 
-## Precautions
+## 2. Precautions
 
 1. The current version of `spark-iotdb-connector` supports Scala `2.11` and `2.12`, but not `2.13`.
 2. `spark-iotdb-connector` supports usage in Spark for both Java, Scala, and PySpark.
 
-## Deployment
+## 3. Deployment
 
 `spark-iotdb-connector` has two use cases: IDE development and `spark-shell` debugging.
 
-### IDE Development
+### 3.1 IDE Development
 
 For IDE development, simply add the following dependency to the `pom.xml` file:
 
@@ -51,7 +51,7 @@ For IDE development, simply add the following dependency to the `pom.xml` file:
     </dependency>
 ```
 
-### `spark-shell` Debugging
+### 3.2 `spark-shell` Debugging
 
 To use `spark-iotdb-connector` in `spark-shell`, you need to download the `with-dependencies` version of the jar package
 from the official website. After that, copy the jar package to the `${SPARK_HOME}/jars` directory.
@@ -81,9 +81,9 @@ At last, copy the jar package to the ${SPARK_HOME}/jars directory. Simply execut
 cp iotdb-jdbc-{version}-SNAPSHOT-jar-with-dependencies.jar $SPARK_HOME/jars/
 ```
 
-## Usage
+## 4. Usage
 
-### Parameters
+### 4.1Parameters
 
 | Parameter    | Description                                                                                                  | Default Value | Scope       | Can be Empty |
 |--------------|--------------------------------------------------------------------------------------------------------------|---------------|-------------|--------------|
@@ -95,7 +95,7 @@ cp iotdb-jdbc-{version}-SNAPSHOT-jar-with-dependencies.jar $SPARK_HOME/jars/
 | lowerBound   | The start timestamp of the query (inclusive)                                                                 | 0             | read        | true         |
 | upperBound   | The end timestamp of the query (inclusive)                                                                   | 0             | read        | true         |
 
-### Reading Data from IoTDB
+### 4.2 Reading Data from IoTDB
 
 Here is an example that demonstrates how to read data from IoTDB into a DataFrame:
 
@@ -117,7 +117,7 @@ df.printSchema()
 df.show()
 ```
 
-### Writing Data to IoTDB
+### 4.3 Writing Data to IoTDB
 
 Here is an example that demonstrates how to write data to IoTDB:
 
@@ -163,7 +163,7 @@ dfWithColumn.write.format("org.apache.iotdb.spark.db")
   .save
 ```
 
-### Wide and Narrow Table Conversion
+### 4.4 Wide and Narrow Table Conversion
 
 Here are examples of how to convert between wide and narrow tables:
 
@@ -184,7 +184,7 @@ import org.apache.iotdb.spark.db._
 val wide_df = Transformer.toWideForm(spark, narrow_df)
 ```
 
-## Wide and Narrow Tables
+## 5. Wide and Narrow Tables
 
 Using the TsFile structure as an example: there are three measurements in the TsFile pattern,
 namely `Status`, `Temperature`, and `Hardware`. The basic information for each of these three measurements is as

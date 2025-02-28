@@ -18,17 +18,18 @@
     under the License.
 
 -->
+# Java Native API
 
 IoTDB provides a Java native client driver and a session pool management mechanism. These tools enable developers to interact with IoTDB using object-oriented APIs, allowing time-series objects to be directly assembled and inserted into the database without constructing SQL statements. It is recommended to use the  `ITableSessionPool` for multi-threaded database operations to maximize efficiency.
 
-## Prerequisites
+## 1. Prerequisites
 
-### Environment Requirements
+### 1.1 Environment Requirements
 
 - **JDK**: Version 1.8 or higher
 - **Maven**: Version 3.6 or higher
 
-### Adding Maven Dependencies
+### 1.2 Adding Maven Dependencies
 
 ```XML
 <dependencies>
@@ -40,9 +41,9 @@ IoTDB provides a Java native client driver and a session pool management mechani
 </dependencies>
 ```
 
-## Read and Write Operations
+## 2. Read and Write Operations
 
-### ITableSession Interface
+### 2.1 ITableSession Interface
 
 The `ITableSession` interface defines basic operations for interacting with IoTDB, including data insertion, query execution, and session closure. Note that this interface is **not thread-safe**.
 
@@ -124,7 +125,7 @@ public interface ITableSession extends AutoCloseable {
 }
 ```
 
-### TableSessionBuilder Class
+### 2.2 TableSessionBuilder Class
 
 The `TableSessionBuilder` class is a builder for configuring and creating instances of the `ITableSession` interface. It allows developers to set connection parameters, query parameters, and security features.
 
@@ -336,9 +337,9 @@ public class TableSessionBuilder {
 }
 ```
 
-## Session Pool
+## 3. Session Pool
 
-### ITableSessionPool Interface
+### 3.1 ITableSessionPool Interface
 
 The `ITableSessionPool` interface manages a pool of `ITableSession` instances, enabling efficient reuse of connections and proper cleanup of resources.
 
@@ -378,7 +379,7 @@ public interface ITableSessionPool {
 }
 ```
 
-### TableSessionPoolBuilder Class
+### 3.2 TableSessionPoolBuilder Class
 
 The `TableSessionPoolBuilder` class is a builder for configuring and creating `ITableSessionPool` instances, supporting options like connection settings and pooling behavior.
 

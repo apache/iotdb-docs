@@ -21,25 +21,25 @@
 
 # SQL Manual
 
-## DATABASE MANAGEMENT
+## 1. DATABASE MANAGEMENT
 
 For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metadata.md).
 
-### Create Database
+### 1.1 Create Database
 
 ```sql
 IoTDB > create database root.ln
 IoTDB > create database root.sgcc
 ```
 
-### Show Databases
+### 1.2 Show Databases
 
 ```sql
 IoTDB> SHOW DATABASES
 IoTDB> SHOW DATABASES root.**
 ```
 
-### Delete Database
+### 1.3 Delete Database
 
 ```sql
 IoTDB > DELETE DATABASE root.ln
@@ -48,7 +48,7 @@ IoTDB > DELETE DATABASE root.sgcc
 IoTDB > DELETE DATABASE root.**
 ```
 
-### Count Databases
+### 1.4 Count Databases
 
 ```sql
 IoTDB> count databases
@@ -57,7 +57,7 @@ IoTDB> count databases root.sgcc.*
 IoTDB> count databases root.sgcc
 ```
 
-### Setting up heterogeneous databases (Advanced operations)
+### 1.5 Setting up heterogeneous databases (Advanced operations)
 
 #### Set heterogeneous parameters when creating a Database
 
@@ -77,7 +77,7 @@ ALTER DATABASE root.db WITH SCHEMA_REGION_GROUP_NUM=1, DATA_REGION_GROUP_NUM=2;
 SHOW DATABASES DETAILS
 ```
 
-### TTL
+### 1.6 TTL
 
 #### Set TTL
 
@@ -103,7 +103,7 @@ IoTDB> SHOW TTL ON StorageGroupNames
 IoTDB> SHOW DEVICES
 ```
 
-## DEVICE TEMPLATE
+## 2. DEVICE TEMPLATE
 
 For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metadata.md).
 
@@ -115,7 +115,7 @@ For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metad
 
 ![img](/img/templateEN.jpg)
 
-### Create Device Template
+### 2.1 Create Device Template
 
 **Example 1:** Create a template containing two non-aligned timeseires
 
@@ -131,13 +131,13 @@ IoTDB> create device template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT 
 
 The` lat` and `lon` measurements are aligned.
 
-### Set Device Template
+### 2.2 Set Device Template
 
 ```sql
 IoTDB> set device template t1 to root.sg1.d1
 ```
 
-### Activate Device Template
+### 2.3 Activate Device Template
 
 ```sql
 IoTDB> set device template t1 to root.sg1.d1
@@ -146,7 +146,7 @@ IoTDB> create timeseries using device template on root.sg1.d1
 IoTDB> create timeseries using device template on root.sg1.d2
 ```
 
-### Show Device Template
+### 2.4 Show Device Template
 
 ```sql
 IoTDB> show device templates
@@ -155,7 +155,7 @@ IoTDB> show paths set device template t1
 IoTDB> show paths using device template t1
 ```
 
-### Deactivate Device Template
+### 2.5 Deactivate Device Template
 
 ```sql
 IoTDB> delete timeseries of device template t1 from root.sg1.d1
@@ -164,29 +164,29 @@ IoTDB> delete timeseries of device template t1 from root.sg1.*, root.sg2.*
 IoTDB> deactivate device template t1 from root.sg1.*, root.sg2.*
 ```
 
-### Unset Device Template
+### 2.6 Unset Device Template
 
 ```sql
 IoTDB> unset device template t1 from root.sg1.d1
 ```
 
-### Drop Device Template
+### 2.7 Drop Device Template
 
 ```sql
 IoTDB> drop device template t1
 ```
 
-### Alter Device Template
+### 2.8 Alter Device Template
 
 ```sql
 IoTDB> alter device template t1 add (speed FLOAT encoding=RLE, FLOAT TEXT encoding=PLAIN compression=SNAPPY)
 ```
 
-## TIMESERIES MANAGEMENT
+## 3. TIMESERIES MANAGEMENT
 
 For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metadata.md).
 
-### Create Timeseries
+### 3.1 Create Timeseries
 
 ```sql
 IoTDB > create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN,encoding=PLAIN
@@ -215,13 +215,13 @@ IoTDB > create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODI
 error: encoding TS_2DIFF does not support BOOLEAN
 ```
 
-### Create Aligned Timeseries
+### 3.2 Create Aligned Timeseries
 
 ```sql
 IoTDB> CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT encoding=PLAIN compressor=SNAPPY, longitude FLOAT encoding=PLAIN compressor=SNAPPY)
 ```
 
-### Delete Timeseries
+### 3.3 Delete Timeseries
 
 ```sql
 IoTDB> delete timeseries root.ln.wf01.wt01.status
@@ -230,7 +230,7 @@ IoTDB> delete timeseries root.ln.wf02.*
 IoTDB> drop timeseries root.ln.wf02.*
 ```
 
-### Show Timeseries
+### 3.4 Show Timeseries
 
 ```sql
 IoTDB> show timeseries root.**
@@ -240,7 +240,7 @@ IoTDB> show timeseries root.ln.** where timeseries contains 'wf01.wt'
 IoTDB> show timeseries root.ln.** where dataType=FLOAT
 ```
 
-### Count Timeseries
+### 3.5 Count Timeseries
 
 ```sql
 IoTDB > COUNT TIMESERIES root.**
@@ -257,7 +257,7 @@ IoTDB > COUNT TIMESERIES root.ln.** GROUP BY LEVEL=2
 IoTDB > COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2
 ```
 
-### Tag and Attribute Management
+### 3.6 Tag and Attribute Management
 
 ```sql
 create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT, encoding=RLE, compression=SNAPPY tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2)
@@ -362,23 +362,23 @@ IoTDB> show timeseries where TAGS(tag1)='v1'
 
 The above operations are supported for timeseries tag, attribute updates, etc.
 
-## NODE MANAGEMENT
+## 4. NODE MANAGEMENT
 
 For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metadata.md).
 
-### Show Child Paths
+### 4.1 Show Child Paths
 
 ```SQL
 SHOW CHILD PATHS pathPattern
 ```
 
-### Show Child Nodes
+### 4.2 Show Child Nodes
 
 ```SQL
 SHOW CHILD NODES pathPattern
 ```
 
-### Count Nodes
+### 4.3 Count Nodes
 
 ```SQL
 IoTDB > COUNT NODES root.** LEVEL=2
@@ -387,7 +387,7 @@ IoTDB > COUNT NODES root.ln.wf01.** LEVEL=3
 IoTDB > COUNT NODES root.**.temperature LEVEL=3
 ```
 
-### Show Devices
+### 4.4 Show Devices
 
 ```SQL
 IoTDB> show devices
@@ -397,7 +397,7 @@ IoTDB> show devices with database
 IoTDB> show devices root.ln.** with database
 ```
 
-### Count Devices
+### 4.5 Count Devices
 
 ```SQL
 IoTDB> show devices
@@ -405,9 +405,9 @@ IoTDB> count devices
 IoTDB> count devices root.ln.**
 ```
 
-## INSERT & LOAD DATA
+## 5. INSERT & LOAD DATA
 
-### Insert Data
+### 5.1 Insert Data
 
 For more details, see document [Write-Delete-Data](../Basic-Concept/Write-Delete-Data.md).
 
@@ -442,7 +442,7 @@ IoTDB > insert into root.sg1.d1(time, s1, s2) aligned values(2, 2, 2), (3, 3, 3)
 IoTDB > select * from root.sg1.d1
 ```
 
-### Load External TsFile Tool
+### 5.2 Load External TsFile Tool
 
 For more details, see document [Data Import](../Tools-System/Data-Import-Tool.md).
 
@@ -469,11 +469,11 @@ For more details, see document [Data Import](../Tools-System/Data-Import-Tool.md
 ./load-rewrite.bat -f D:\IoTDB\data -h 192.168.0.101 -p 6667 -u root -pw root
 ```
 
-## DELETE DATA
+## 6. DELETE DATA
 
 For more details, see document [Write-Delete-Data](../Basic-Concept/Write-Delete-Data.md).
 
-### Delete Single Timeseries
+### 6.1 Delete Single Timeseries
 
 ```sql
 IoTDB > delete from root.ln.wf02.wt02.status where time<=2017-11-01T16:26:00;
@@ -491,7 +491,7 @@ expressions like : time > XXX, time <= XXX, or two atomic expressions connected 
 IoTDB > delete from root.ln.wf02.wt02.status
 ```
 
-### Delete Multiple Timeseries
+### 6.2 Delete Multiple Timeseries
 
 ```sql
 IoTDB > delete from root.ln.wf02.wt02 where time <= 2017-11-01T16:26:00;
@@ -500,13 +500,13 @@ IoTDB> delete from root.ln.wf03.wt02.status where time < now()
 Msg: The statement is executed successfully.
 ```
 
-### Delete Time Partition (experimental)
+### 6.3 Delete Time Partition (experimental)
 
 ```sql
 IoTDB > DELETE PARTITION root.ln 0,1,2
 ```
 
-## QUERY DATA
+## 7. QUERY DATA
 
 For more details, see document [Query-Data](../Basic-Concept/Query-Data.md).
 
@@ -532,7 +532,7 @@ SELECT [LAST] selectExpr [, selectExpr] ...
     [ALIGN BY {TIME | DEVICE}]
 ```
 
-### Basic Examples
+### 7.1 Basic Examples
 
 #### Select a Column of Data Based on a Time Interval
 
@@ -564,7 +564,7 @@ IoTDB > select wf01.wt01.status,wf02.wt02.hardware from root.ln where (time > 20
 IoTDB > select * from root.ln.** where time > 1 order by time desc limit 10;
 ```
 
-### `SELECT` CLAUSE
+### 7.2 `SELECT` CLAUSE
 
 #### Use Alias
 
@@ -623,7 +623,7 @@ IoTDB > select last * from root.ln.wf01.wt01 order by timeseries desc;
 IoTDB > select last * from root.ln.wf01.wt01 order by dataType desc;
 ```
 
-### `WHERE` CLAUSE
+### 7.3 `WHERE` CLAUSE
 
 #### Time Filter
 
@@ -662,7 +662,7 @@ IoTDB > select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
 IoTDB > select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
 ```
 
-### `GROUP BY` CLAUSE
+### 7.4 `GROUP BY` CLAUSE
 
 -   Aggregate By Time without Specifying the Sliding Step Length
 
@@ -754,7 +754,7 @@ IoTDB > SELECT avg(temperature) FROM root.factory1.** GROUP BY TAGS(city, worksh
 IoTDB > SELECT avg(temperature) FROM root.factory1.** GROUP BY ([1000, 10000), 5s), TAGS(city, workshop);
 ```
 
-### `HAVING` CLAUSE
+### 7.5 `HAVING` CLAUSE
 
 Correct:
 
@@ -772,7 +772,7 @@ IoTDB > select count(s1) from root.** group by ([1,3),1ms), level=1 having sum(d
 IoTDB > select count(d1.s1) from root.** group by ([1,3),1ms), level=1 having sum(s1) > 1
 ```
 
-### `FILL` CLAUSE
+### 7.6 `FILL` CLAUSE
 
 #### `PREVIOUS` Fill
 
@@ -798,7 +798,7 @@ IoTDB > select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-1
 IoTDB > select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(true);
 ```
 
-### `LIMIT` and `SLIMIT` CLAUSES (PAGINATION)
+### 7.7 `LIMIT` and `SLIMIT` CLAUSES (PAGINATION)
 
 #### Row Control over Query Results
 
@@ -823,7 +823,7 @@ IoTDB > select max_value(*) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:0
 IoTDB > select * from root.ln.wf01.wt01 limit 10 offset 100 slimit 2 soffset 0
 ```
 
-### `ORDER BY` CLAUSE
+### 7.8 `ORDER BY` CLAUSE
 
 #### Order by in ALIGN BY TIME mode
 
@@ -855,7 +855,7 @@ IoTDB > select min_value(total),max_value(base) from root.** order by max_value(
 IoTDB > select score from root.** order by device asc, score desc, time asc align by device
 ```
 
-### `ALIGN BY` CLAUSE
+### 7.9 `ALIGN BY` CLAUSE
 
 #### Align by Device
 
@@ -863,7 +863,7 @@ IoTDB > select score from root.** order by device asc, score desc, time asc alig
 IoTDB > select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
 ```
 
-### `INTO` CLAUSE (QUERY WRITE-BACK)
+### 7.10 `INTO` CLAUSE (QUERY WRITE-BACK)
 
 ```sql
 IoTDB > select s1, s2 into root.sg_copy.d1(t1), root.sg_copy.d2(t1, t2), root.sg_copy.d1(t2) from root.sg.d1, root.sg.d2;
@@ -900,7 +900,7 @@ IoTDB > select * into ::(backup_${4}) from root.sg.** align by device;
 IoTDB > select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
 ```
 
-## Maintennance
+## 8. Maintennance
 Generate the corresponding query plan:
 ```
 explain select s1,s2 from root.sg.d1
@@ -909,11 +909,11 @@ Execute the corresponding SQL, analyze the execution and output:
 ```
 explain analyze select s1,s2 from root.sg.d1 order by s1
 ``` 
-## OPERATOR
+## 9. OPERATOR
 
 For more details, see document [Operator-and-Expression](./Operator-and-Expression.md).
 
-### Arithmetic Operators
+### 9.1 Arithmetic Operators
 
 For details and examples, see the document [Arithmetic Operators and Functions](./Operator-and-Expression.md#arithmetic-operators).
 
@@ -921,7 +921,7 @@ For details and examples, see the document [Arithmetic Operators and Functions](
 select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root.sg.d1
 ```
 
-### Comparison Operators
+### 9.2 Comparison Operators
 
 For details and examples, see the document [Comparison Operators and Functions](./Operator-and-Expression.md#comparison-operators).
 
@@ -952,7 +952,7 @@ select code from root.sg1.d1 where code not in ('200', '300', '400', '500');
 select a, a in (1, 2) from root.test;
 ```
 
-### Logical Operators
+### 9.3 Logical Operators
 
 For details and examples, see the document [Logical Operators](./Operator-and-Expression.md#logical-operators).
 
@@ -960,11 +960,11 @@ For details and examples, see the document [Logical Operators](./Operator-and-Ex
 select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
 ```
 
-## BUILT-IN FUNCTIONS
+## 10. BUILT-IN FUNCTIONS
 
 For more details, see document [Operator-and-Expression](./Operator-and-Expression.md#built-in-functions).
 
-### Aggregate Functions
+### 10.1 Aggregate Functions
 
 For details and examples, see the document [Aggregate Functions](./Operator-and-Expression.md#aggregate-functions).
 
@@ -977,7 +977,7 @@ select count_if(s1=0 & s2=0, 3, 'ignoreNull'='false'), count_if(s1=1 & s2=0, 3, 
 select time_duration(s1) from root.db.d1;
 ```
 
-### Arithmetic Functions
+### 10.2 Arithmetic Functions
 
 For details and examples, see the document [Arithmetic Operators and Functions](./Operator-and-Expression.md#arithmetic-functions).
 
@@ -986,7 +986,7 @@ select s1, sin(s1), cos(s1), tan(s1) from root.sg1.d1 limit 5 offset 1000;
 select s4,round(s4),round(s4,2),round(s4,-1) from root.sg1.d1;
 ```
 
-### Comparison Functions
+### 10.3 Comparison Functions
 
 For details and examples, see the document [Comparison Operators and Functions](./Operator-and-Expression.md#comparison-functions).
 
@@ -995,7 +995,7 @@ select ts, on_off(ts, 'threshold'='2') from root.test;
 select ts, in_range(ts, 'lower'='2', 'upper'='3.1') from root.test;
 ```
 
-### String Processing Functions
+### 10.4 String Processing Functions
 
 For details and examples, see the document [String Processing](./Operator-and-Expression.md#string-processing-functions).
 
@@ -1023,7 +1023,7 @@ select regexsplit(s1, "regex"=",", "index"="-1") from root.test.d1
 select regexsplit(s1, "regex"=",", "index"="3") from root.test.d1
 ```
 
-### Data Type Conversion Function
+### 10.5 Data Type Conversion Function
 
 For details and examples, see the document [Data Type Conversion Function](./Operator-and-Expression.md#data-type-conversion-function).
 
@@ -1031,7 +1031,7 @@ For details and examples, see the document [Data Type Conversion Function](./Ope
 SELECT cast(s1 as INT32) from root.sg
 ```
 
-### Constant Timeseries Generating Functions
+### 10.6 Constant Timeseries Generating Functions
 
 For details and examples, see the document [Constant Timeseries Generating Functions](./Operator-and-Expression.md#constant-timeseries-generating-functions).
 
@@ -1039,7 +1039,7 @@ For details and examples, see the document [Constant Timeseries Generating Funct
 select s1, s2, const(s1, 'value'='1024', 'type'='INT64'), pi(s2), e(s1, s2) from root.sg1.d1; 
 ```
 
-### Selector Functions
+### 10.7 Selector Functions
 
 For details and examples, see the document [Selector Functions](./Operator-and-Expression.md#selector-functions).
 
@@ -1047,7 +1047,7 @@ For details and examples, see the document [Selector Functions](./Operator-and-E
 select s1, top_k(s1, 'k'='2'), bottom_k(s1, 'k'='2') from root.sg1.d2 where time > 2020-12-10T20:36:15.530+08:00;
 ```
 
-### Continuous Interval Functions
+### 10.8 Continuous Interval Functions
 
 For details and examples, see the document [Continuous Interval Functions](./Operator-and-Expression.md#continuous-interval-functions).
 
@@ -1055,7 +1055,7 @@ For details and examples, see the document [Continuous Interval Functions](./Ope
 select s1, zero_count(s1), non_zero_count(s2), zero_duration(s3), non_zero_duration(s4) from root.sg.d2;
 ```
 
-### Variation Trend Calculation Functions
+### 10.9 Variation Trend Calculation Functions
 
 For details and examples, see the document [Variation Trend Calculation Functions](./Operator-and-Expression.md#variation-trend-calculation-functions).
 
@@ -1066,7 +1066,7 @@ SELECT DIFF(s1), DIFF(s2) from root.test;
 SELECT DIFF(s1, 'ignoreNull'='false'), DIFF(s2, 'ignoreNull'='false') from root.test;
 ```
 
-### Sample Functions
+### 10.10 Sample Functions
 
 For details and examples, see the document [Sample Functions](./Operator-and-Expression.md#sample-functions).
 
@@ -1080,7 +1080,7 @@ select M4(s1,'timeInterval'='25','displayWindowBegin'='0','displayWindowEnd'='10
 select M4(s1,'windowSize'='10') from root.vehicle.d1
 ```
 
-### Change Points Function
+### 10.11 Change Points Function
 
 For details and examples, see the document [Time-Series](./Operator-and-Expression.md#change-points-function).
 
@@ -1088,11 +1088,11 @@ For details and examples, see the document [Time-Series](./Operator-and-Expressi
 select change_points(s1), change_points(s2), change_points(s3), change_points(s4), change_points(s5), change_points(s6) from root.testChangePoints.d1
 ```
 
-## DATA QUALITY FUNCTION LIBRARY
+## 11. DATA QUALITY FUNCTION LIBRARY
 
 For more details, see document [Operator-and-Expression](../SQL-Manual/UDF-Libraries.md).
 
-### Data Quality
+### 11.1 Data Quality
 
 For details and examples, see the document [Data-Quality](../SQL-Manual/UDF-Libraries.md#data-quality).
 
@@ -1117,7 +1117,7 @@ select Validity(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:
 select Accuracy(t1,t2,t3,m1,m2,m3) from root.test
 ```
 
-### Data Profiling
+### 11.2 Data Profiling
 
 For details and examples, see the document [Data-Profiling](../SQL-Manual/UDF-Libraries.md#data-profiling).
 
@@ -1197,7 +1197,7 @@ select stddev(s1) from root.test.d1
 select zscore(s1) from root.test
 ```
 
-### Anomaly Detection
+### 11.3 Anomaly Detection
 
 For details and examples, see the document [Anomaly-Detection](../SQL-Manual/UDF-Libraries.md#anomaly-detection).
 
@@ -1232,7 +1232,7 @@ select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='repair','p'='3','k'='3'
 select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='anomaly','p'='3','k'='3','eta'='1.0') from root.test
 ```
 
-### Frequency Domain
+### 11.4 Frequency Domain
 
 For details and examples, see the document [Frequency-Domain](../SQL-Manual/UDF-Libraries.md#frequency-domain-analysis).
 
@@ -1264,7 +1264,7 @@ select lowpass(s1,'wpass'='0.45') from root.test.d1
 select envelope(s1) from root.test.d1
 ```
 
-### Data Matching
+### 11.5 Data Matching
 
 For details and examples, see the document [Data-Matching](../SQL-Manual/UDF-Libraries.md#data-matching).
 
@@ -1285,7 +1285,7 @@ select ptnsym(s4, 'window'='5', 'threshold'='0') from root.test.d1
 select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
 ```
 
-### Data Repairing
+### 11.6 Data Repairing
 
 For details and examples, see the document [Data-Repairing](../SQL-Manual/UDF-Libraries.md#data-repairing).
 
@@ -1310,7 +1310,7 @@ select seasonalrepair(s1,'period'=3,'k'=2) from root.test.d2
 select seasonalrepair(s1,'method'='improved','period'=3) from root.test.d2
 ```
 
-### Series Discovery
+### 11.7 Series Discovery
 
 For details and examples, see the document [Series-Discovery](../SQL-Manual/UDF-Libraries.md#series-discovery).
 
@@ -1323,7 +1323,7 @@ select consecutivesequences(s1,s2) from root.test.d1
 select consecutivewindows(s1,s2,'length'='10m') from root.test.d1
 ```
 
-### Machine Learning
+### 11.8 Machine Learning
 
 For details and examples, see the document [Machine-Learning](../SQL-Manual/UDF-Libraries.md#machine-learning).
 
@@ -1338,7 +1338,7 @@ select representation(s0,"tb"="3","vb"="2") from root.test.d0
 select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0
 ```
 
-## LAMBDA EXPRESSION
+## 12. LAMBDA EXPRESSION
 
 For details and examples, see the document [Lambda](../SQL-Manual/UDF-Libraries.md#lambda-expression).
 
@@ -1346,7 +1346,7 @@ For details and examples, see the document [Lambda](../SQL-Manual/UDF-Libraries.
 select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'expr'='x -> {x * 3}') as jexl2, jexl(temperature, 'expr'='x -> {x * x}') as jexl3, jexl(temperature, 'expr'='x -> {multiply(x, 100)}') as jexl4, jexl(temperature, st, 'expr'='(x, y) -> {x + y}') as jexl5, jexl(temperature, st, str, 'expr'='(x, y, z) -> {x + y + z}') as jexl6 from root.ln.wf01.wt01;```
 ```
 
-## CONDITIONAL EXPRESSION
+## 13. CONDITIONAL EXPRESSION
 
 For details and examples, see the document [Conditional Expressions](../SQL-Manual/UDF-Libraries.md#conditional-expressions).
 
@@ -1384,11 +1384,11 @@ end as `result`
 from root.test4
 ```
 
-## TRIGGER
+## 14. TRIGGER
 
 For more details, see document [Database-Programming](../User-Manual/Database-Programming.md).
 
-### Create Trigger
+### 14.1 Create Trigger
 
 ```sql
 // Create Trigger
@@ -1421,7 +1421,7 @@ triggerAttribute
     ;
 ```
 
-### Drop Trigger
+### 14.2 Drop Trigger
 
 ```sql
 // Drop Trigger
@@ -1430,13 +1430,13 @@ dropTrigger
 ;
 ```
 
-### Show Trigger
+### 14.3 Show Trigger
 
 ```sql
 SHOW TRIGGERS
 ```
 
-## CONTINUOUS QUERY (CQ)
+## 15. CONTINUOUS QUERY (CQ)
 
 For more details, see document [Operator-and-Expression](./Operator-and-Expression.md).
 
@@ -1461,7 +1461,7 @@ BEGIN
 END
 ```
 
-### Configuring execution intervals
+### 15.1 Configuring execution intervals
 
 ```sql
 CREATE CONTINUOUS QUERY cq1
@@ -1474,7 +1474,7 @@ SELECT max_value(temperature)
 END
 ```
 
-### Configuring time range for resampling
+### 15.2 Configuring time range for resampling
 
 ```sql
 CREATE CONTINUOUS QUERY cq2
@@ -1487,7 +1487,7 @@ BEGIN
 END
 ```
 
-### Configuring execution intervals and CQ time ranges
+### 15.3 Configuring execution intervals and CQ time ranges
 
 ```sql
 CREATE CONTINUOUS QUERY cq3
@@ -1501,7 +1501,7 @@ BEGIN
 END
 ```
 
-### Configuring end_time_offset for CQ time range
+### 15.4 Configuring end_time_offset for CQ time range
 
 ```sql
 CREATE CONTINUOUS QUERY cq4
@@ -1515,7 +1515,7 @@ BEGIN
 END
 ```
 
-### CQ without group by clause
+### 15.5 CQ without group by clause
 
 ```sql
 CREATE CONTINUOUS QUERY cq5
@@ -1528,7 +1528,7 @@ BEGIN
 END
 ```
 
-### CQ Management
+### 15.6 CQ Management
 
 #### Listing continuous queries
 
@@ -1546,23 +1546,23 @@ DROP (CONTINUOUS QUERY | CQ) <cq_id>
 
 CQs can't be altered once they're created. To change a CQ, you must `DROP` and re`CREATE` it with the updated settings.
 
-## USER-DEFINED FUNCTION (UDF)
+## 16. USER-DEFINED FUNCTION (UDF)
 
 For more details, see document [Operator-and-Expression](../SQL-Manual/UDF-Libraries.md).
 
-### UDF Registration
+### 16.1 UDF Registration
 
 ```sql
 CREATE FUNCTION <UDF-NAME> AS <UDF-CLASS-FULL-PATHNAME> (USING URI URI-STRING)?
 ```
 
-### UDF Deregistration
+### 16.2 UDF Deregistration
 
 ```sql
 DROP FUNCTION <UDF-NAME>
 ```
 
-### UDF Queries
+### 16.3 UDF Queries
 
 ```sql
 SELECT example(*) from root.sg.d1
@@ -1578,17 +1578,17 @@ SELECT s1 * example(* / s1 + s2) FROM root.sg.d1;
 SELECT s1, s2, s1 + example(s1, s2), s1 - example(s1 + example(s1, s2) / s2) FROM root.sg.d1;
 ```
 
-### Show All Registered UDFs
+### 16.4 Show All Registered UDFs
 
 ```sql
 SHOW FUNCTIONS
 ```
 
-## ADMINISTRATION MANAGEMENT
+## 17. ADMINISTRATION MANAGEMENT
 
 For more details, see document [Operator-and-Expression](./Operator-and-Expression.md).
 
-### SQL Statements
+### 17.1 SQL Statements
 
 - Create user (Requires MANAGE_USER permission)
 
@@ -1679,7 +1679,7 @@ ALTER USER <username> SET PASSWORD <password>;
 eg: ALTER USER tempuser SET PASSWORD 'newpwd';
 ```
 
-### Authorization and Deauthorization
+### 17.2 Authorization and Deauthorization
 
 
 ```sql

@@ -21,7 +21,7 @@
 
 # TRIGGER
 
-## Instructions
+## 1. Instructions
 
 The trigger provides a mechanism for listening to changes in time series data. With user-defined logic, tasks such as alerting and data forwarding can be conducted.
 
@@ -29,29 +29,29 @@ The trigger is implemented based on the reflection mechanism. Users can monitor 
 
 The document will help you learn to define and manage triggers.
 
-### Pattern for Listening
+### 1.1 Pattern for Listening
 
 A single trigger can be used to listen for data changes in a time series that match a specific pattern. For example, a trigger can listen for the data changes of time series `root.sg.a`, or time series that match the pattern `root.sg.*`. When you register a trigger, you can specify the path pattern that the trigger listens on through an SQL statement.
 
-### Trigger Type
+### 1.2 Trigger Type
 
 There are currently two types of triggers, and you can specify the type through an SQL statement when registering a trigger:
 
 - Stateful triggers: The execution logic of this type of trigger may depend on data from multiple insertion statement . The framework will aggregate the data written by different nodes into the same trigger instance for calculation to retain context information. This type of trigger is usually used for sampling or statistical data aggregation for a period of time. information. Only one node in the cluster holds an instance of a stateful trigger.
 - Stateless triggers: The execution logic of the trigger is only related to the current input data. The framework does not need to aggregate the data of different nodes into the same trigger instance. This type of trigger is usually used for calculation of single row data and abnormal detection. Each node in the cluster holds an instance of a stateless trigger.
 
-### Trigger Event
+### 1.3 Trigger Event
 
 There are currently two trigger events for the trigger, and other trigger events will be expanded in the future. When you register a trigger, you can specify the trigger event through an SQL statement:
 
 - BEFORE INSERT: Fires before the data is persisted. **Please note that currently the trigger does not support data cleaning and will not change the data to be persisted itself.**
 - AFTER INSERT: Fires after the data is persisted.
 
-## How to Implement a Trigger
+## 2. How to Implement a Trigger
 
 You need to implement the trigger by writing a Java class, where the dependency shown below is required. If you use [Maven](http://search.maven.org/), you can search for them directly from the [Maven repository](http://search.maven.org/).
 
-### Dependency
+### 2.1 Dependency
 
 ```xml
 <dependency>
@@ -64,7 +64,7 @@ You need to implement the trigger by writing a Java class, where the dependency 
 
 Note that the dependency version should be correspondent to the target server version.
 
-### Interface Description
+### 2.2 Interface Description
 
 To implement a trigger, you need to implement the `org.apache.iotdb.trigger.api.Trigger` class.
 
@@ -208,7 +208,7 @@ When the trigger fails to fire, we will take corresponding actions according to 
   }
 ```
 
-### Example
+### 2.3 Example
 
 If you use [Maven](http://search.maven.org/), you can refer to our sample project **trigger-example**.
 
@@ -318,13 +318,13 @@ public class ClusterAlertingExample implements Trigger {
 }
 ```
 
-## Trigger Management
+## 3. Trigger Management
 
 You can create and drop a trigger through an SQL statement, and you can also query all registered triggers through an SQL statement.
 
 **We recommend that you stop insertion while creating triggers.**
 
-### Create Trigger
+### 3.1 Create Trigger
 
 Triggers can be registered on arbitrary path patterns. The time series registered with the trigger will be listened to by the trigger. When there is data change on the series, the corresponding fire method in the trigger will be called.
 
@@ -400,7 +400,7 @@ The above SQL statement creates a trigger named triggerTest:
 - The JAR package URI is http://jar/ClusterAlertingExample.jar
 - When creating the trigger instance, two parameters, name and limit, are passed in.
 
-### Drop Trigger
+### 3.2 Drop Trigger
 
 The trigger can be dropped by specifying the trigger ID. During the process of dropping the trigger, the `onDrop` interface of the trigger will be called only once.
 
@@ -421,7 +421,7 @@ DROP TRIGGER triggerTest1
 
 The above statement will drop the trigger with ID triggerTest1.
 
-### Show Trigger
+### 3.3 Show Trigger
 
 You can query information about triggers that exist in the cluster through an SQL statement.
 
@@ -437,7 +437,7 @@ The result set format of this statement is as follows:
 | ------------ | ---------------------------- | -------------------- | ------------------------------------------- | ----------- | --------------------------------------- | --------------------------------------- |
 | triggerTest1 | BEFORE_INSERT / AFTER_INSERT | STATELESS / STATEFUL | INACTIVE / ACTIVE / DROPPING / TRANSFFERING | root.**     | org.apache.iotdb.trigger.TriggerExample | ALL(STATELESS) / DATA_NODE_ID(STATEFUL) |
 
-### Trigger State
+### 3.4 Trigger State
 
 During the process of creating and dropping triggers in the cluster, we maintain the states of the triggers. The following is a description of these states:
 
@@ -448,7 +448,7 @@ During the process of creating and dropping triggers in the cluster, we maintain
 | DROPPING     | Intermediate state of executing `DROP TRIGGER`, the cluster is in the process of dropping the trigger. | NO                                |
 | TRANSFERRING | The cluster is migrating the location of this trigger instance. | NO                                |
 
-## Notes
+## 4. Notes
 
 - The trigger takes effect from the time of registration, and does not process the existing historical data. **That is, only insertion requests that occur after the trigger is successfully registered will be listened to by the trigger. **
 - The fire process of trigger is synchronous currently, so you need to ensure the efficiency of the trigger, otherwise the writing performance may be greatly affected. **You need to guarantee concurrency safety of triggers yourself**.
@@ -458,7 +458,7 @@ During the process of creating and dropping triggers in the cluster, we maintain
 - The trigger JAR package has a size limit, which must be less than min(`config_node_ratis_log_appender_buffer_size_max`, 2G), where `config_node_ratis_log_appender_buffer_size_max` is a configuration item. For the specific meaning, please refer to the IOTDB configuration item description.
 - **It is better not to have classes with the same full class name but different function implementations in different JAR packages.** For example, trigger1 and trigger2 correspond to resources trigger1.jar and trigger2.jar respectively. If two JAR packages contain a `org.apache.iotdb.trigger.example.AlertListener` class, when `CREATE TRIGGER` uses this class, the system will randomly load the class in one of the JAR packages, which will eventually leads the inconsistent behavior of trigger and other issues.
 
-## Configuration Parameters
+## 5. Configuration Parameters
 
 | Parameter                                         | Meaning                                                      |
 | ------------------------------------------------- | ------------------------------------------------------------ |

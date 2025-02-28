@@ -27,7 +27,7 @@ IoTDB ConfigNode files are under `conf`.
 
 * `iotdb-system.properties`：IoTDB system configurations.
 
-## Environment Configuration File（confignode-env.sh/bat）
+## 1. Environment Configuration File（confignode-env.sh/bat）
 
 The environment configuration file is mainly used to configure the Java environment related parameters when ConfigNode is running, such as JVM related configuration. This part of the configuration is passed to the JVM when the ConfigNode starts.
 
@@ -61,11 +61,11 @@ The details of each parameter are as follows:
 |Effective|After restarting system|
 
 
-## ConfigNode Configuration File (iotdb-system.properties)
+## 2. ConfigNode Configuration File (iotdb-system.properties)
 
 The global configuration of cluster is in ConfigNode.
 
-### Config Node RPC Configuration
+### 2.1 Config Node RPC Configuration
 
 * cn\_internal\_address
 
@@ -85,7 +85,7 @@ The global configuration of cluster is in ConfigNode.
 |Default| 10710 |
 |Effective|Only allowed to be modified in first start up|
 
-### Consensus
+### 2.2 Consensus
 
 * cn\_consensus\_port
 
@@ -96,7 +96,7 @@ The global configuration of cluster is in ConfigNode.
 |Default| 10720 |
 |Effective|Only allowed to be modified in first start up|
 
-### SeedConfigNode
+### 2.3 SeedConfigNode
 
 * cn\_seed\_config\_node
 
@@ -107,7 +107,7 @@ The global configuration of cluster is in ConfigNode.
 |Default| 127.0.0.1:10710                                                       |
 |Effective| Only allowed to be modified in first start up                                               |
 
-### Directory configuration
+### 2.4 Directory configuration
 
 * cn\_system\_dir
 
@@ -127,7 +127,7 @@ The global configuration of cluster is in ConfigNode.
 |Default| data/confignode/consensus（Windows：data\\confignode\\consensus） |
 |Effective| After restarting system                                        |
 
-### Thrift RPC configuration
+### 2.5 Thrift RPC configuration
 
 * cn\_rpc\_thrift\_compression\_enable
 
@@ -220,4 +220,4 @@ The global configuration of cluster is in ConfigNode.
 |    Default     | 300                                                          |
 |   Effective    | After restarting system                                      |
 
-### Metric Configuration
+### 2.6 Metric Configuration

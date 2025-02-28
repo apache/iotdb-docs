@@ -27,23 +27,23 @@ Grafana is an open source volume metrics monitoring and visualization tool, whic
 We developed the Grafana-Plugin for IoTDB, using the IoTDB REST service to present time series data and providing many visualization methods for time series data.
 Compared with previous IoTDB-Grafana-Connector, current Grafana-Plugin performs more efficiently and supports more query types. So, **we recommend using Grafana-Plugin instead of IoTDB-Grafana-Connector**.
 
-## Installation and deployment
+## 1. Installation and deployment
 
-### Install Grafana 
+### 1.1 Install Grafana 
 
 * Download url: https://grafana.com/grafana/download
 * Version >= 9.3.0
 
 
-### Acquisition method of grafana plugin
+### 1.2 Acquisition method of grafana plugin
 
 #### Download apache-iotdb-datasource from Grafana's official website
 
 Download url：https://grafana.com/api/plugins/apache-iotdb-datasource/versions/1.0.0/download
 
-### Install Grafana-Plugin
+### 1.3 Install Grafana-Plugin
 
-### Method 1: Install using the grafana cli tool (recommended)
+#### Method 1: Install using the grafana cli tool (recommended)
 
 * Use the grafana cli tool to install apache-iotdb-datasource from the command line. The command content is as follows:
 
@@ -51,11 +51,11 @@ Download url：https://grafana.com/api/plugins/apache-iotdb-datasource/versions/
 grafana-cli plugins install apache-iotdb-datasource
 ```
 
-### Method 2: Install using the Grafana interface (recommended)
+#### Method 2: Install using the Grafana interface (recommended)
 
 * Click on Configuration ->Plugins ->Search IoTDB from local Grafana to install the plugin
 
-### Method 3: Manually install the grafana-plugin plugin (not recommended)
+#### Method 3: Manually install the grafana-plugin plugin (not recommended)
 
 
 * Copy the front-end project target folder generated above to Grafana's plugin directory `${Grafana directory}\data\plugins\`。If there is no such directory, you can manually create it or start grafana and it will be created automatically. Of course, you can also modify the location of plugins. For details, please refer to the following instructions for modifying the location of Grafana's plugin directory.
@@ -64,7 +64,7 @@ grafana-cli plugins install apache-iotdb-datasource
 
 For more details，please click [here](https://grafana.com/docs/grafana/latest/plugins/installation/)
 
-### Start Grafana
+### 1.4 Start Grafana
 
 Start Grafana with the following command in the Grafana directory:
 
@@ -89,7 +89,7 @@ For more details，please click [here](https://grafana.com/docs/grafana/latest/i
 
 
 
-### Configure IoTDB REST Service
+### 1.5 Configure IoTDB REST Service
 
 * Modify `{iotdb directory}/conf/iotdb-system.properties` as following:
 
@@ -104,9 +104,9 @@ rest_service_port=18080
 Start IoTDB (restart if the IoTDB service is already started)
 
 
-## How to use Grafana-Plugin
+## 2. How to use Grafana-Plugin
 
-### Access Grafana dashboard
+### 2.1 Access Grafana dashboard
 
 Grafana displays data in a web page dashboard. Please open your browser and visit `http://<ip>:<port>` when using it.
 
@@ -115,7 +115,7 @@ Grafana displays data in a web page dashboard. Please open your browser and visi
 * The default login username and password are both `admin`.
 
 
-### Add IoTDB as Data Source
+### 2.2 Add IoTDB as Data Source
 
 Click the `Settings` icon on the left, select the `Data Source` option, and then click `Add data source`.
 
@@ -135,7 +135,7 @@ Click `Save & Test`, and `Data source is working` will appear.
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/grafana9_datasource.png?raw=true">
 
 
-### Create a new Panel
+### 2.3 Create a new Panel
 
 Click the `Dashboards` icon on the left, and select `Manage` option.
 
@@ -195,7 +195,7 @@ Select a time series in the TIME-SERIES selection box, select a function in the 
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/UserGuide/Ecosystem-Integration/Grafana-plugin/grafana_input2.png?raw=true">
 
-### Support for variables and template functions
+### 2.4 Support for variables and template functions
 
 Both SQL: Full Customized and SQL: Drop-down List input methods support the variable and template functions of grafana. In the following example, raw input method is used, and aggregation is similar.
 
@@ -246,7 +246,7 @@ In addition to the examples above, the following statements are supported:
 
 Tip: If the query field contains Boolean data, the result value will be converted to 1 by true and 0 by false.
 
-### Grafana alert function
+### 2.5 Grafana alert function
 
 This plugin supports Grafana alert function.
 
@@ -293,6 +293,6 @@ For example, we have 3 conditions in the following order: Condition: B (Evaluate
 
 10. We can also configure `Contact points` for alarms to receive alarm notifications. For more detailed operations, please refer to the official document (https://grafana.com/docs/grafana/latest/alerting/manage-notifications/create-contact-point/).
 
-## More Details about Grafana
+## 3. More Details about Grafana
 
 For more details about Grafana operation, please refer to the official Grafana documentation: http://docs.grafana.org/guides/getting_started/.

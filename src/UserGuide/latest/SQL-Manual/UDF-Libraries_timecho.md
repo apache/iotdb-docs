@@ -21,13 +21,11 @@
 
 # UDF Libraries
 
-# UDF Libraries
-
 Based on the ability of user-defined functions, IoTDB provides a series of functions for temporal data processing, including data quality, data profiling, anomaly detection, frequency domain analysis, data matching, data repairing, sequence discovery, machine learning, etc., which can meet the needs of industrial fields for temporal data processing.
 
 > Note: The functions in the current UDF library only support millisecond level timestamp accuracy.
 
-## Installation steps
+## 1. Installation steps
 
 1. Please obtain the compressed file of the UDF library JAR package that is compatible with the IoTDB version.
 
@@ -46,9 +44,9 @@ Based on the ability of user-defined functions, IoTDB provides a series of funct
 - All SQL statements
     - Open the SQl file in the compressed package, copy all SQL statements, and execute all SQl statements in the SQL command line terminal (CLI) of IoTDB or the SQL operation interface of the visualization console (Workbench) to batch register UDF
 
-## Data Quality
+## 2. Data Quality
 
-### Completeness
+### 2.1 Completeness
 
 #### Registration statement
 
@@ -179,7 +177,7 @@ Output series:
 +-----------------------------+--------------------------------------------+
 ```
 
-### Consistency
+### 2.2 Consistency
 
 #### Registration statement
 
@@ -309,7 +307,7 @@ Output series:
 +-----------------------------+-------------------------------------------+
 ```
 
-### Timeliness
+### 2.3 Timeliness
 
 #### Registration statement
 
@@ -439,7 +437,7 @@ Output series:
 +-----------------------------+------------------------------------------+
 ```
 
-### Validity
+### 2.4 Validity
 
 #### Registration statement
 
@@ -592,9 +590,9 @@ Output series:
 -->
 
 
-## Data Profiling
+## 3. Data Profiling
 
-### ACF
+### 3.1 ACF
 
 #### Registration statement
 
@@ -659,7 +657,7 @@ Output series:
 +-----------------------------+--------------------+
 ```
 
-### Distinct
+### 3.2 Distinct
 
 #### Registration statement
 
@@ -718,7 +716,7 @@ Output series:
 +-----------------------------+-------------------------+
 ```
 
-### Histogram
+### 3.3 Histogram
 
 #### Registration statement
 
@@ -803,7 +801,7 @@ Output series:
 +-----------------------------+---------------------------------------------------------------+
 ```
 
-### Integral
+### 3.4 Integral
 
 #### Registration statement
 
@@ -900,7 +898,7 @@ Output series:
 Calculation expression:
 $$\frac{1}{2\times 60}[(1+2) \times 1 + (2+5) \times 1 + (5+6) \times 1 + (6+7) \times 1 + (7+8) \times 3 + (8+10) \times 2] = 0.958$$
 
-### IntegralAvg
+### 3.5 IntegralAvg
 
 #### Registration statement
 
@@ -967,7 +965,7 @@ Output series:
 Calculation expression:
 $$\frac{1}{2}[(1+2) \times 1 + (2+5) \times 1 + (5+6) \times 1 + (6+7) \times 1 + (7+8) \times 3 + (8+10) \times 2] / 10 = 5.75$$
 
-### Mad
+### 3.6 Mad
 
 #### Registration statement
 
@@ -1066,7 +1064,7 @@ Output series:
 +-----------------------------+---------------------------------+
 ```
 
-### Median
+### 3.7 Median
 
 #### Registration statement
 
@@ -1136,7 +1134,7 @@ Output series:
 +-----------------------------+------------------------------------+
 ```
 
-### MinMax
+### 3.8 MinMax
 
 #### Registration statement
 
@@ -1227,7 +1225,7 @@ Output series:
 ```
 
 
-### MvAvg
+### 3.9 MvAvg
 
 #### Registration statement
 
@@ -1313,7 +1311,7 @@ Output series:
 +-----------------------------+---------------------------------+
 ```
 
-### PACF
+### 3.10 PACF
 
 #### Registration statement
 
@@ -1371,7 +1369,7 @@ Output series:
 +-----------------------------+--------------------------------+
 ```
 
-### Percentile
+### 3.11 Percentile
 
 #### Registration statement
 
@@ -1444,7 +1442,7 @@ Output series:
 +-----------------------------+-------------------------------------------------------+
 ```
 
-### Quantile
+### 3.12 Quantile
 
 #### Registration statement
 
@@ -1506,7 +1504,7 @@ Output series:
 +-----------------------------+------------------------------------------------+
 ```
 
-### Period
+### 3.13 Period
 
 #### Registration statement
 
@@ -1561,7 +1559,7 @@ Output series:
 +-----------------------------+-----------------------+
 ```
 
-### QLB
+### 3.14 QLB
 
 #### Registration statement
 
@@ -1651,7 +1649,7 @@ Output series:
 +-----------------------------+--------------------+
 ```
 
-### Resample
+### 3.15 Resample
 
 #### Registration statement
 
@@ -1786,7 +1784,7 @@ Output series:
 +-----------------------------+-----------------------------------------------------------------------+
 ```
 
-### Sample
+### 3.16 Sample
 
 #### Registration statement
 
@@ -1890,7 +1888,7 @@ Output series:
 +-----------------------------+------------------------------------------------------+
 ```
 
-### Segment
+### 3.17 Segment
 
 #### Registration statement
 
@@ -1988,7 +1986,7 @@ Output series:
 +-----------------------------+------------------------------------+
 ```
 
-### Skew
+### 3.18 Skew
 
 #### Registration statement
 
@@ -2055,7 +2053,7 @@ Output series:
 +-----------------------------+-----------------------+
 ```
 
-### Spline
+### 3.19 Spline
 
 #### Registration statement
 
@@ -2266,7 +2264,7 @@ Output series:
 +-----------------------------+------------------------------------+
 ```
 
-### Spread
+### 3.20 Spread
 
 #### Registration statement
 
@@ -2330,7 +2328,7 @@ Output series:
 
 
 
-### ZScore
+### 3.21 ZScore
 
 #### Registration statement
 
@@ -2440,9 +2438,9 @@ Output series:
 
 -->
 
-## Anomaly Detection
+## 4. Anomaly Detection
 
-### IQR
+### 4.1 IQR
 
 #### Registration statement
 
@@ -2515,7 +2513,7 @@ Output series:
 +-----------------------------+-----------------+
 ```
 
-### KSigma
+### 4.2 KSigma
 
 #### Registration statement
 
@@ -2586,7 +2584,7 @@ Output series:
 +-----------------------------+---------------------------------+
 ```
 
-### LOF
+### 4.3 LOF
 
 #### Registration statement
 
@@ -2718,7 +2716,7 @@ Output series:
 +-----------------------------+--------------------+
 ```
 
-### MissDetect
+### 4.4 MissDetect
 
 #### Registration statement
 
@@ -2812,7 +2810,7 @@ Output series:
 +-----------------------------+------------------------------------------+
 ```
 
-### Range
+### 4.5 Range
 
 #### Registration statement
 
@@ -2883,7 +2881,7 @@ Output series:
 +-----------------------------+------------------------------------------------------------------+
 ```
 
-### TwoSidedFilter
+### 4.6 TwoSidedFilter
 
 #### Registration statement
 
@@ -2982,7 +2980,7 @@ Output series:
 +-----------------------------+------------+
 ```
 
-### Outlier
+### 4.7 Outlier
 
 #### Registration statement
 
@@ -3057,7 +3055,7 @@ Output series:
 ```
 
 
-### MasterTrain
+### 4.8 MasterTrain
 
 #### Usage
 
@@ -3140,7 +3138,7 @@ Output series:
 +-----------------------------+---------------------------------------------------------------------------------------------+
 ```
 
-### MasterDetect
+### 4.9 MasterDetect
 
 #### Usage
 
@@ -3309,9 +3307,9 @@ Output series:
 
 -->
 
-## Frequency Domain Analysis
+## 5. Frequency Domain Analysis
 
-### Conv
+### 5.1 Conv
 
 #### Registration statement
 
@@ -3364,7 +3362,7 @@ Output series:
 +-----------------------------+--------------------------------------+
 ```
 
-### Deconv
+### 5.2 Deconv
 
 #### Registration statement
 
@@ -3450,7 +3448,7 @@ Output series:
 +-----------------------------+--------------------------------------------------------------+
 ```
 
-### DWT
+### 5.3 DWT
 
 #### Registration statement
 
@@ -3537,7 +3535,7 @@ Output series:
 +-----------------------------+-------------------------------------+
 ```
 
-### FFT
+### 5.4 FFT
 
 #### Registration statement
 
@@ -3667,7 +3665,7 @@ Note: Based on the conjugation of the Fourier transform result, only the first h
 According to the given parameter, data points are reserved from low frequency to high frequency until the reserved energy ratio exceeds it.
 The last data point is reserved to indicate the length of the series.
 
-### HighPass
+### 5.5 HighPass
 
 #### Registration statement
 
@@ -3760,7 +3758,7 @@ Output series:
 
 Note: The input is $y=sin(2\pi t/4)+2sin(2\pi t/5)$ with a length of 20. Thus, the output is $y=sin(2\pi t/4)$ after high-pass filtering.
 
-### IFFT
+### 5.6 IFFT
 
 #### Registration statement
 
@@ -3843,7 +3841,7 @@ Output series:
 +-----------------------------+-------------------------------------------------------+
 ```
 
-### LowPass
+### 5.7 LowPass
 
 #### Registration statement
 
@@ -3937,7 +3935,7 @@ Output series:
 Note: The input is $y=sin(2\pi t/4)+2sin(2\pi t/5)$ with a length of 20. Thus, the output is $y=2sin(2\pi t/5)$ after low-pass filtering.
 
 
-### Envelope
+### 5.8 Envelope
 
 #### Registration statement
 
@@ -4017,9 +4015,9 @@ Output series:
 ```
 
 
-## Data Matching
+## 6. Data Matching
 
-### Cov
+### 6.1 Cov
 
 #### Registration statement
 
@@ -4086,7 +4084,7 @@ Output series:
 +-----------------------------+-------------------------------------+
 ```
 
-### DTW
+### 6.2 DTW
 
 #### Registration statement
 
@@ -4157,7 +4155,7 @@ Output series:
 +-----------------------------+-------------------------------------+
 ```
 
-### Pearson
+### 6.3 Pearson
 
 #### Registration statement
 
@@ -4224,7 +4222,7 @@ Output series:
 +-----------------------------+-----------------------------------------+
 ```
 
-### PtnSym
+### 6.4 PtnSym
 
 #### Registration statement
 
@@ -4290,7 +4288,7 @@ Output series:
 +-----------------------------+------------------------------------------------------+
 ```
 
-### XCorr
+### 6.5 XCorr
 
 #### Registration statement
 
@@ -4383,9 +4381,9 @@ Output series:
 
 -->
 
-## Data Repairing
+## 7. Data Repairing
 
-### TimestampRepair
+### 7.1 TimestampRepair
 
 #### Registration statement
 
@@ -4494,7 +4492,7 @@ Output series:
 +-----------------------------+--------------------------------+
 ```
 
-### ValueFill
+### 7.2 ValueFill
 
 #### Registration statement
 
@@ -4612,7 +4610,7 @@ Output series:
 +-----------------------------+-------------------------------------------+
 ```
 
-### ValueRepair
+### 7.3 ValueRepair
 
 #### Registration statement
 
@@ -4738,7 +4736,7 @@ Output series:
 +-----------------------------+-------------------------------------------------+
 ```
 
-### MasterRepair
+### 7.4 MasterRepair
 
 #### Usage
 
@@ -4799,7 +4797,7 @@ Output series:
 +-----------------------------+-------------------------------------------------------------------------------------------+
 ```
 
-### SeasonalRepair
+### 7.5 SeasonalRepair
 
 #### Usage
 This function is used to repair the value of the seasonal time series via decomposition. Currently, two methods are supported: **Classical** - detect irregular fluctuations through residual component decomposed by classical decomposition, and repair them through moving average;  **Improved** - detect irregular fluctuations through residual component decomposed by improved decomposition, and repair them through moving median.
@@ -4924,9 +4922,9 @@ Output series:
 
 -->
 
-## Series Discovery
+## 8. Series Discovery
 
-### ConsecutiveSequences
+### 8.1 ConsecutiveSequences
 
 #### Registration statement
 
@@ -5020,7 +5018,7 @@ Output series:
 +-----------------------------+------------------------------------------------------+
 ```
 
-### ConsecutiveWindows
+### 8.2 ConsecutiveWindows
 
 #### Registration statement
 
@@ -5110,9 +5108,9 @@ Output series:
 
 -->
 
-## Machine Learning
+## 9. Machine Learning
 
-### AR
+### 9.1 AR
 
 #### Registration statement
 
@@ -5179,7 +5177,7 @@ Output Series:
 +-----------------------------+---------------------------+
 ```
 
-### Representation
+### 9.2 Representation
 
 #### Usage
 
@@ -5243,7 +5241,7 @@ Output Series:
 +-----------------------------+-------------------------------------------------+
 ```
 
-### RM
+### 9.3 RM
 
 #### Usage
 

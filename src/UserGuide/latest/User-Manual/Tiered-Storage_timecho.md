@@ -20,11 +20,11 @@
 -->
 
 # Tiered Storage 
-## Overview
+## 1. Overview
 
 The Tiered storage functionality allows users to define multiple layers of storage, spanning across multiple types of storage media (Memory mapped directory, SSD, rotational hard discs or cloud storage). While memory and cloud storage is usually singular, the local file system storages can consist of multiple directories joined together into one tier. Meanwhile, users can classify data based on its hot or cold nature and store data of different categories in specified "tier". Currently, IoTDB supports the classification of hot and cold data through TTL (Time to live / age) of data.  When the data in one tier does not meet the TTL rules defined in the current tier, the data will be automatically migrated to the next tier.
 
-## Parameter Definition
+## 2. Parameter Definition
 
 To enable tiered storage in IoTDB, you need to configure the following aspects:
 
@@ -48,7 +48,7 @@ The specific parameter definitions and their descriptions are as follows.
 | remote_tsfile_cache_page_size_in_kb      | 20480                    |Block size of locally cached files stored in the cloud                               | If remote storage is not used, no configuration required                                 |
 | remote_tsfile_cache_max_disk_usage_in_mb | 51200                    | Maximum Disk Occupancy Size for Cloud Storage Local Cache                           | If remote storage is not used, no configuration required                                 |
 
-## local tiered storag configuration example
+## 3. local tiered storag configuration example
 
 The following is an example of a local two-level storage configuration.
 
@@ -66,7 +66,7 @@ In this example, two levels of storage are configured, specifically:
 | tier 1   | path 1：/data1/data                    | data for last 1 day | 20%                      |
 | tier 2   | path 2：/data2/data path 2：/data3/data | data from 1 day ago  | 10%                      |
 
-## remote tiered storag configuration example
+## 4. remote tiered storag configuration example
 
 The following takes three-level storage as an example:
 

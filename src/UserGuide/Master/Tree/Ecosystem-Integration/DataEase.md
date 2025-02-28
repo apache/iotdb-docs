@@ -20,7 +20,7 @@
 -->
 # DataEase
 
-## Product Overview
+## 1. Product Overview
 
 1. Introduction to DataEase
 
@@ -37,7 +37,7 @@
       <img src="/img/DataEase-English2.png" alt="" style="width: 70%;"/>
     </div>
 
-## Installation Requirements
+## 2. Installation Requirements
 
 | **Preparation Content**              | **Version Requirements**                                                     |
 | :-------------------- | :----------------------------------------------------------- |
@@ -46,7 +46,7 @@
 | DataEase              | Requires v1 series v1.18 version, please refer to the official [DataEase Installation Guide](https://dataease.io/docs/v2/installation/offline_INSTL_and_UPG/)(V2.x is currently not supported. For integration with other versions, please contact Timecho) |
 | DataEase-IoTDB Connector | Please contact Timecho for assistance                                           |
 
-## Installation Steps
+## 3. Installation Steps
 
 Step 1: Please contact Timecho to obtain the file and unzip the installation package `iotdb-api-source-1.0.0.zip`
 
@@ -88,16 +88,16 @@ Step 4: After startup, you can check whether the startup was successful through 
  lsof -i:8097  // The port configured in the file where the IoTDB API Source listens
 ```
 
-## Instructions
+## 4. Instructions
 
-### Sign in DataEase
+### 4.1 Sign in DataEase
 
 1. Sign in DataEase，access address: `http://[target server IP address]:80`
 <div style="text-align: center;">
   <img src="/img/DataEase-English3.png" alt="" style="width: 70%;"/>
 </div>
 
-### Configure data source
+### 4.2 Configure data source
 
 1. Navigate to "Data Source".
 <div style="text-align: center;">
@@ -153,7 +153,7 @@ Step 4: After startup, you can check whether the startup was successful through 
   <img src="/img/DataEase-English13.png" alt="" style="width: 70%;"/>
 </div>
 
-### Configure the Dataset
+### 4.3 Configure the Dataset
 
 1. Create API dataset: Navigate to "Data Set"，click on the "+" on the top left corner, select "API dataset" and choose the directory where this dataset is located to enter the New API Dataset interface.
 <div style="text-align: center;">
@@ -189,7 +189,7 @@ Step 4: After startup, you can check whether the startup was successful through 
   <img src="/img/DataEase-English20.png" alt="" style="width: 70%;"/>
 </div>
 
-### Configure Dashboard
+### 4.4 Configure Dashboard
 
 1. Navigate to "Dashboard", click on "+" to create a directory, then click on "+" of the directory and select "Create Dashboard".
 <div style="text-align: center;">

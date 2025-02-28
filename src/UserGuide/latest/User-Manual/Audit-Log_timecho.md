@@ -21,14 +21,14 @@
 
 # Audit log
 
-## Background of the function
+## 1. Background of the function
 
 Audit log is the record credentials of a database, which can be queried by the audit log function to ensure information security by various operations such as user add, delete, change and check in the database. With the audit log function of IoTDB, the following scenarios can be achieved:
 
 - We can decide whether to record audit logs according to the source of the link ( human operation or not), such as: non-human operation such as hardware collector write data no need to record audit logs, human operation such as ordinary users through cli, workbench and other tools to operate the data need to record audit logs.
 - Filter out system-level write operations, such as those recorded by the IoTDB monitoring system itself.
 
-### Scene Description
+### 1.1 Scene Description
 
 #### Logging all operations (add, delete, change, check) of all users
 
@@ -43,7 +43,7 @@ Client Sources：
 
 No audit logs are required for data written by the hardware collector via Session/JDBC/MQTT if it is a non-human action.
 
-## Function Definition
+## 2. Function Definition
 
 It is available through through configurations:
 
@@ -57,7 +57,7 @@ It is available through through configurations:
     2. data and metadata query operations
     3. metadata class adding, modifying, and deleting operations.
 
-### configuration item
+### 2.1 configuration item
 
 In iotdb-system.properties, change the following configurations:
 
