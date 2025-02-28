@@ -31,7 +31,7 @@ IoTDB server includes a built-in MQTT service that allows remote devices send me
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/78357432-0c71cf80-75e4-11ea-98aa-c43a54d469ce.png">
 
 ## Built-in MQTT Service
-The Built-in MQTT Service provide the ability of direct connection to IoTDB through MQTT. It listens for publish messages from MQTT clients and immediately writes data to storage if the database already exists.
+The built-in MQTT service provides the ability to connect directly to the IoTDB via MQTT. It listens for publish messages from the MQTT client and immediately writes data to storage if the database already exists. Note: If the database does not exist, it will not be created, so it needs to be created in advance.
 
 The portion of the MQTT topic before / is defined as the name of the database into which the IoTDB is stored, or if / is not present, the topic is defined directly as the name of the database into which the IoTDB is stored.
 
@@ -53,6 +53,13 @@ The following is an example of an MQTT message payload:
 
 ## MQTT Configurations
 The IoTDB MQTT service load configurations from `${IOTDB_HOME}/${IOTDB_CONF}/iotdb-system.properties` by default.
+Writing to the IoTDB table model using MQTT requires configuring `mqtt_payload_formatter` to `line` in `${IOTDB_HOME}/${IOTDB_CONF}/iotdb-system.properties`.
+
+Example
+``` properties
+enable_mqtt_service=true
+mqtt_payload_formatter=line
+```
 
 Configurations are as follows:
 
