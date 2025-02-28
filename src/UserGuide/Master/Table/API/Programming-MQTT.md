@@ -62,7 +62,7 @@ Configurations are as follows:
 | mqtt_host      | the mqtt service binding host | 127.0.0.1 |
 | mqtt_port      | the mqtt service binding port    |   1883    |
 | mqtt_handler_pool_size | the handler pool size for handing the mqtt messages      |     1     |
-| mqtt_payload_formatter | the mqtt message payload formatter     |   line    |
+| mqtt_payload_formatter | the mqtt message payload formatter     |   json    |
 | mqtt_max_message_size | the max mqtt message size in byte|  1048576  |
 
 

@@ -64,7 +64,7 @@ MQTT 主题中 / 之前的部分会被定义为存入 IoTDB 的数据库名字�
 | mqtt_host      | mqtt 服务绑定主机 | 127.0.0.1 |
 | mqtt_port      | mqtt 服务绑定端口 |   1883    |
 | mqtt_handler_pool_size | 处理 mqtt 消息的处理程序池大小 |     1     |
-| mqtt_payload_formatter | mqtt 消息有效负载格式化程序 |   line    |
+| mqtt_payload_formatter | mqtt 消息有效负载格式化程序 |   json    |
 | mqtt_max_message_size | mqtt 消息最大长度（字节）|  1048576  |
 
 ## 示例代码
