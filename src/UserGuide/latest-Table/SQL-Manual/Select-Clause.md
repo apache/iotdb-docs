@@ -23,7 +23,7 @@
 
 **SELECT Clause** specifies the columns included in the query results. 
 
-## 1 Syntax Overview
+## 1. Syntax Overview
 
 ```sql
 SELECT selectItem (',' selectItem)*
@@ -37,7 +37,7 @@ selectItem
 
 - It supports aggregate functions (e.g., `SUM`, `AVG`, `COUNT`) and window functions, logically executed last in the query process.
 
-## 2 Detailed Syntax:
+## 2. Detailed Syntax:
 
 Each `selectItem` can take one of the following forms:
 
@@ -46,7 +46,7 @@ Each `selectItem` can take one of the following forms:
 3. **All Columns in the Result Set**: `*` selects all columns returned by the query. Column aliases are not allowed.
 
 
-## 3 Example Data
+## 3. Example Data
 
 
 The [Example Data page](../Reference/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.
@@ -250,7 +250,7 @@ Total line number = 18
 It costs 0.189s
 ```
 
-## 4 Column Order in the Result Set
+## 4. Column Order in the Result Set
 
 - **Column Order**: The order of columns in the result set matches the order specified in the `SELECT` clause.
 - **Multi-column Expressions**: If a selection expression produces multiple columns, their order follows the order in the source relation.p.

@@ -21,7 +21,7 @@
 
 # Overview
 
-## 1 Syntax Overview
+## 1. Syntax Overview
 
 ```SQL
 SELECT ⟨select_list⟩

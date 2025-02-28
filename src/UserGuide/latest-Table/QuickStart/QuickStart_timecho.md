@@ -23,7 +23,7 @@
 
 This document will guide you through methods to get started quickly with IoTDB.
 
-## How to Install and Deploy?
+## 1. How to Install and Deploy?
 
 This guide will assist you in quickly installing and deploying IoTDB. You can quickly navigate to the content you need to review through the following document links:
 
@@ -48,7 +48,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
    - Monitoring Panel: Provides hundreds of database monitoring metrics for fine-grained monitoring of IoTDB and its operating system, assisting in system optimization, performance tuning, and bottleneck detection. For installation steps, please see [Monitoring-panel Deployment ](../Deployment-and-Maintenance/Monitoring-panel-deployment.md)
 
 
-## How to Use IoTDB?
+## 2. How to Use IoTDB?
 
 1. Database Modeling Design: Database modeling is a crucial step in creating a database system, involving the design of data structures and relationships to ensure that the organization of data meets the needs of specific applications. The following documents will help you quickly understand IoTDB's modeling design:
    
@@ -76,14 +76,14 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
 6. Application Programming Interfaces (APIs): IoTDB provides various application programming interfaces (APIs) to facilitate developers' interaction with IoTDB in applications. Currently supported interfaces include [Java Native API](../API/Programming-Java-Native-API_timecho.md)、[Python Native API](../API/Programming-Python-Native-API.md)、[JDBC](../API/Programming-JDBC_timecho.md), and more. For more programming interfaces, please refer to the [Application Programming Interfaces] section on the official website.
 
-## What other convenient tools are available?
+## 3. What other convenient tools are available?
 
 In addition to its own rich features, IoTDB is complemented by a comprehensive suite of peripheral tools. This guide will help you quickly understand and use these tools:
 
    - Monitoring Panel: A tool for detailed monitoring of IoTDB and its operating system, covering hundreds of database monitoring indicators such as database performance and system resources, helping system optimization and bottleneck identification. For a detailed usage introduction, please refer to [Monitor Tool](../Tools-System/Monitor-Tool_timecho.md)
 
 
-## Want to learn more technical details?
+## 4. Want to learn more technical details?
 
 If you want to explore IoTDB’s internal mechanisms further, refer to the following documents:
 

@@ -18,10 +18,11 @@
     under the License.
 
 -->
+# Encoding and Compression
 
 IoTDB employs various encoding and compression techniques to enhance storage efficiency and reduce I/O operations during data writing and reading. Below is a detailed explanation of the supported encoding and compression methods.
 
-## **Encoding Methods**
+## 1. **Encoding Methods**
 
 IoTDB supports multiple encoding methods tailored for different data types to optimize storage and performance.
 
@@ -77,7 +78,7 @@ A lossless encoding method combining prediction, ZigZag encoding, bit packing, a
 
 A lossless encoding method combining differential encoding, bit packing, run-length encoding, Fibonacci encoding, and concatenation. It is suitable for time-series data with a small and steadily increasing trend but is not effective for highly fluctuating data.
 
-### **Data Types and Supported Encoding Methods**
+#### **Data Types and Supported Encoding Methods**
 
 The following table summarizes the recommended and supported encoding methods for each data type:
 
@@ -101,11 +102,11 @@ IoTDB> create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODIN
 Msg: 507: encoding TS_2DIFF does not support BOOLEAN
 ```
 
-## **Compression Methods**
+## 2. **Compression Methods**
 
 When the time series is written and encoded as binary data according to the specified type, IoTDB applies compression techniques to further enhance storage efficiency. While both encoding and compression aim to optimize storage, encoding techniques are typically designed for specific data types (e.g., second-order differential encoding is only suitable for INT32 or INT64, and storing floating-point numbers requires multiplying them by 10ⁿ to convert them into integers) before converting the data into a binary stream. Compression methods like SNAPPY operate on the binary stream, making them independent of the data type.
 
-### **Supported Compression Methods**
+### 2.1 **Supported Compression Methods**
 
 IoTDB allows specifying the compression method of a column when creating a time series. Currently, IoTDB supports the following compression methods:
 
@@ -116,7 +117,7 @@ IoTDB allows specifying the compression method of a column when creating a time 
 - ZSTD
 - LZMA2
 
-### **Compression Ratio Statistics**
+### 2.2 **Compression Ratio Statistics**
 
 IoTDB provides compression ratio statistics to monitor the effectiveness of compression. The statistics are stored in：`data/datanode/system/compression_ratio`
 

@@ -18,14 +18,15 @@
     under the License.
 
 -->
+# Maintenance Tool
 
-## IoTDB-OpsKit
+## 1. IoTDB-OpsKit
 
 The IoTDB OpsKit is an easy-to-use operation and maintenance tool designed for TimechoDB (Enterprise-grade product based on Apache IoTDB). It helps address the operational and maintenance challenges of multi-node distributed IoTDB deployments by providing functionalities such as cluster deployment, start/stop management, elastic scaling, configuration updates, and data export. With one-click command execution, it simplifies the management of complex database clusters and significantly reduces operational complexity.
 
 This document provides guidance on remotely deploying, configuring, starting, and stopping IoTDB cluster instances using the cluster management tool.
 
-### Prerequisites
+### 1.1 Prerequisites
 
 The IoTDB OpsKit requires GLIBC 2.17 or later, which means the minimum supported operating system version is CentOS 7. The target machines for IoTDB deployment must have the following dependencies installed:
 
@@ -38,7 +39,7 @@ If any of these dependencies are missing, please install them manually. The last
 
 > **Note:** The IoTDB cluster management tool requires **root privileges** to execute.
 
-### Deployment
+### 1.2 Deployment
 
 #### Download and Installation
 
@@ -64,7 +65,7 @@ iotdbctl cluster check example
 <iotdbctl absolute path>/sbin/iotdbctl cluster check example
 ```
 
-### Cluster Configuration Files
+### 1.3 Cluster Configuration Files
 
 The cluster configuration files are stored in the `iotdbctl/config` directory as YAML files.
 
@@ -192,7 +193,7 @@ If metrics are enabled in `iotdb-system.properties` (in `config/xxx.yaml`), the 
 - **Handling Special Characters in YAML Keys**: If a YAML key value contains special characters (such as `:`), it is recommended to enclose the entire value in double quotes (`""`).
 - **Avoid Spaces in File Paths**: Paths containing spaces may cause parsing errors in some configurations.
 
-### Usage Scenarios
+### 1.4 Usage Scenarios
 
 #### Data Cleanup
 
@@ -346,7 +347,7 @@ iotdbctl cluster start default_cluster
 
 For detailed parameters, refer to the **Cluster Configuration Files** section above.
 
-### Command Reference
+### 1.5 Command Reference
 
 The basic command structure is:
 
@@ -392,7 +393,7 @@ iotdbctl cluster deploy default_cluster
 | importschema | Import metadata.                   | Cluster name,-N nodename  -param   paramters         |
 | exportschema | Export metadata.                   | Cluster name,-N nodename  -param   paramters         |
 
-### Detailed Command Execution Process
+### 1.6 Detailed Command Execution Process
 
 The following examples use `default_cluster.yaml` as a reference. Users can modify the commands according to their specific cluster configuration files.
 
@@ -935,7 +936,7 @@ iotdbctl cluster exportschema default_cluster -N datanode1 -param "-t ./ -pf ./p
 | -lpf        | Specify the maximum number of lines per exported file (Default: 10,000). | NO            |
 | -timeout    | Specify the session query timeout in milliseconds.           | NO            |
 
-### Introduction to Cluster Deployment Tool Samples
+### 1.7 Introduction to Cluster Deployment Tool Samples
 
 In the cluster deployment tool installation directory (config/example), there are three YAML configuration examples. If needed, you can copy and modify them for your deployment.
 
@@ -945,11 +946,11 @@ In the cluster deployment tool installation directory (config/example), there ar
 | default_3c3d.yaml    | Example configuration for 3 ConfigNodes and 3 DataNodes. |
 | default_3c3d_grafa_prome | Example configuration for 3 ConfigNodes, 3 DataNodes, Grafana, and Prometheus. |
 
-## IoTDB Data Directory Overview Tool
+## 2. IoTDB Data Directory Overview Tool
 
 The IoTDB Data Directory Overview Tool provides an overview of the IoTDB data directory structure. It is located at `tools/tsfile/print-iotdb-data-dir`.
 
-### Usage
+### 2.1 Usage
 
 - For Windows:
 
@@ -965,7 +966,7 @@ The IoTDB Data Directory Overview Tool provides an overview of the IoTDB data di
 
 **Note:** If the output path is not specified, the default relative path `IoTDB_data_dir_overview.txt` will be used.
 
-### Example
+### 2.2 Example
 
 Use Windows in this example:
 
@@ -1006,11 +1007,11 @@ data dir num:1
 |==============================================================
 ~~~
 
-## TsFile Sketch Tool
+## 3. TsFile Sketch Tool
 
 The TsFile Sketch Tool provides a summarized view of the content within a TsFile. It is located at `tools/tsfile/print-tsfile`.
 
-### Usage
+### 3.1 Usage
 
 - For Windows:
 
@@ -1026,7 +1027,7 @@ The TsFile Sketch Tool provides a summarized view of the content within a TsFile
 
 **Note:** If the output path is not specified, the default relative path `TsFile_sketch_view.txt` will be used.
 
-### Example
+### 3.2 Example
 
 Use Windows in this example:
 
@@ -1094,11 +1095,11 @@ Explanations:
 - The `"||||||||||||||||||||"` lines are added for readability and are not part of the actual TsFile data.
 - The final `"IndexOfTimerseriesIndex Tree"` section reorganizes the metadata index tree at the end of the TsFile. This view aids understanding but does not represent actual stored data.
 
-## TsFile Resource Sketch Tool
+## 4. TsFile Resource Sketch Tool
 
 The TsFile Resource Sketch Tool displays details about TsFile resource files. It is located at `tools/tsfile/print-tsfile-resource-files`.
 
-### Usage
+### 4.1 Usage
 
 - For Windows:
 
@@ -1112,7 +1113,7 @@ The TsFile Resource Sketch Tool displays details about TsFile resource files. It
 ./print-tsfile-resource-files.sh <path of the parent directory of the TsFile resource files, or path of a TsFile resource file> 
 ```
 
-### Example
+### 4.2 Example
 
 Use Windows in this example:
 

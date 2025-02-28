@@ -22,14 +22,14 @@
 # FILL Clause
 
 
-## 1 Function Introduction
+## 1. Function Introduction
 
 During data queries, you may encounter scenarios where certain columns have missing data in some rows, resulting in NULL values in the result set. These NULL values can hinder data visualization and analysis. To address this, IoTDB provides the FILL clause to populate these NULL values.
 
 - If the query includes an `ORDER BY` clause, the FILL clause is executed before `ORDER BY`.
 - If a `GAPFILL` (e.g., `date_bin_gapfill` function) operation exists, the FILL clause is executed after `GAPFILL`.
 
-## 2 Syntax Overview
+## 2. Syntax Overview
 
 
 ```sql
@@ -91,7 +91,7 @@ Only one filling method can be specified, and it applies to all columns in the r
 
 **Note:** Columns with data types not supporting the specified filling method will remain unchanged without errors.
 
-## 3 Sample Dataset
+## 3. Sample Dataset
 
 
 The [Example Data page](../Reference/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.
@@ -313,7 +313,7 @@ Total line number = 7
 It costs 0.073s
 ```
 
-## 4 Advanced Usage
+## 4. Advanced Usage
 
 When using the `PREVIOUS` or `LINEAR` FILL methods, the `FILL_GROUP` parameter allows filling within specific groups without being influenced by other groups.
 
@@ -410,7 +410,7 @@ Total line number = 8
 It costs 0.089s
 ```
 
-## 5 Special Notes
+## 5. Special Notes
 
 When using `LINEAR` or `PREVIOUS` FILL methods, if the auxiliary time column (used to determine filling logic) contains NULL values, IoTDB follows these rules:
 

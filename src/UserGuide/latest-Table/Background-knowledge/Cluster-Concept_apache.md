@@ -21,9 +21,9 @@
 
 # Common Concept
 
-## SQL Dialect Related Concepts
+## 1. SQL Dialect Related Concepts
 
-### sql_dialect
+### 1.1 sql_dialect
 
 IoTDB supports two time-series data models (SQL dialects), both managing devices and measurement points:  
 
@@ -32,34 +32,34 @@ IoTDB supports two time-series data models (SQL dialects), both managing devices
 
 Each dialect comes with its own SQL syntax and query patterns tailored to its data model.
 
-### Schema  
+### 1.2 Schema  
 
 Schema refers to the metadata structure of the database, which can follow either a tree or table format. It includes definitions such as measurement point names, data types, and storage configurations.
 
-###  Device 
+###  1.3 Device 
 
 A device corresponds to a physical device in a real-world scenario, typically associated with multiple measurement points.
 
-### Timeseries 
+### 1.4 Timeseries 
 
 Also referred to as: physical quantity, time series, timeline, point, signal, metric, measurement value, etc.
 A measurement point is a time series consisting of multiple data points arranged in ascending timestamp order. It typically represents a collection point that periodically gathers physical quantities from its environment. 
 
-### Encoding        
+### 1.5 Encoding        
 
 Encoding is a compression technique that represents data in binary form, improving storage efficiency. IoTDB supports multiple encoding methods for different types of data. For details, refer to: [Compression and Encoding ](../Technical-Insider/Encoding-and-Compression.md)。
 
-### Compression 
+### 1.6 Compression 
 
  After encoding, IoTDB applies additional compression techniques to further reduce data size and improve storage efficiency. Various compression algorithms are supported. For details, refer to: [ Compression and Encoding](../Technical-Insider/Encoding-and-Compression.md)。
 
-## Distributed System Related Concepts
+## 2. Distributed System Related Concepts
 
 IoTDB supports distributed deployments, typically in a 3C3D cluster model (3 ConfigNodes, 3 DataNodes), as illustrated below:          
 
 <img src="/img/Cluster-Concept03.png" alt="" style="width: 60%;"/>
 
-### Key Concepts 
+### 2.1 Key Concepts 
 
 - **Nodes** (*ConfigNode,* *DataNode**, AINode*)
 - **Regions** (*SchemaRegion, DataRegion*)
@@ -67,7 +67,7 @@ IoTDB supports distributed deployments, typically in a 3C3D cluster model (3 Con
 
 Below is an introduction to these concepts.
 
-### Nodes   
+### 2.2 Nodes   
 
 An IoTDB cluster consists of three types of nodes, each with distinct responsibilities:
 
@@ -75,7 +75,7 @@ An IoTDB cluster consists of three types of nodes, each with distinct responsibi
 - **DataNode (Storage and Computation Node)** Handles client requests, stores data, and executes computations.
 - **AINode (Analytics Node)** Provides machine learning capabilities, allowing users to register pre-trained models and perform inference via SQL. It includes built-in time-series models and common ML algorithms for tasks like prediction and anomaly detection.
 
-### Data Partitioning  
+### 2.3 Data Partitioning  
 
 IoTDB divides schema and data into **Regions**, which are managed by DataNodes.
 
@@ -84,7 +84,7 @@ IoTDB divides schema and data into **Regions**, which are managed by DataNodes.
 
 For more details, see [Cluster Data Partitioning](../Technical-Insider/Cluster-data-partitioning.md)
 
-### Replica Groups
+### 2.4 Replica Groups
 
 Replica groups ensure high availability by maintaining multiple copies of schema and data. The recommended replication configurations are: 
 
@@ -94,11 +94,11 @@ Replica groups ensure high availability by maintaining multiple copies of schema
 | Data         | data_replication_factor   | 1                          | 2                       |
 
 
-## Deployment Related Concepts
+## 3. Deployment Related Concepts
 
 IoTDB has two operation modes: standalone mode and cluster mode.
 
-### Standalone Mode
+### 3.1 Standalone Mode
 
 An IoTDB standalone instance includes 1 ConfigNode and 1 DataNode, referred to as 1C1D.
 
@@ -107,7 +107,7 @@ An IoTDB standalone instance includes 1 ConfigNode and 1 DataNode, referred to a
 - **Deployment method**:[Stand-Alone Deployment](../Deployment-and-Maintenance/Stand-Alone-Deployment_apache.md)
  
 
-### Cluster Mode
+### 3.2 Cluster Mode
 
 An IoTDB cluster instance consists of 3 ConfigNodes and no fewer than 3 DataNodes, typically 3 DataNodes, referred to as 3C3D. In the event of partial node failures, the remaining nodes can still provide services, ensuring high availability of the database service, and the database performance can be improved with the addition of nodes.
 
@@ -115,7 +115,7 @@ An IoTDB cluster instance consists of 3 ConfigNodes and no fewer than 3 DataNode
 - **Applicable scenarios**: Enterprise-level application scenarios that require high availability and reliability.
 - **Deployment method**: [Cluster Deployment](../Deployment-and-Maintenance/Cluster-Deployment_apache.md)
 
-### Summary of Features
+### 3.3 Summary of Features
 
 | **Dimension**               | **Stand-Alone Mode**                                       | **Cluster Mode**                                                 |
 | :-------------------------- | :----------------------------------------------------- | :----------------------------------------------------------- |

@@ -18,6 +18,7 @@
     under the License.
 
 -->
+# Product Introduction
 
 TimechoDB is a high-performance, cost-efficient, and IoT-native time-series database developed by Timecho. As an enterprise-grade extension of Apache IoTDB, it is designed to tackle the complexities of managing large-scale time-series data in IoT environments. These challenges include high-frequency data sampling, massive data volumes, out-of-order data, extended processing times, diverse analytical demands, and high storage and maintenance costs.
 
@@ -25,7 +26,7 @@ TimechoDB enhances Apache IoTDB with superior functionality, optimized performan
 
 - [Quick Start](../QuickStart/QuickStart_timecho.md): Download, Deploy, and Use
 
-## TimechoDB Data Management Solution
+## 1. TimechoDB Data Management Solution
 
 The Timecho ecosystem provides an integrated **collect-store-use** solution, covering the complete lifecycle of time-series data, from acquisition to analysis.
 
@@ -48,13 +49,13 @@ Key components include:
     1. Supports **various industrial protocols, resumable transfers, and network barrier penetration**.
     2. Facilitates **reliable data acquisition in challenging industrial environments**.
 
-## TimechoDB Architecture
+## 2. TimechoDB Architecture
 
 The diagram below illustrates a common cluster deployment (3 ConfigNodes, 3 DataNodes) of TimechoDB:
 
 ![](/img/Cluster-Concept03.png)
 
-### Key Features
+## 3. Key Features
 
 TimechoDB offers the following advantages:
 
@@ -100,7 +101,7 @@ TimechoDB offers the following advantages:
 - Seamlessly integrates with big data frameworks (Hadoop, Spark) and visualization tools (Grafana, ThingsBoard, DataEase).
 - Supports device management for industrial IoT environments.
 
-### Enterprise-level Enhancements
+## 4. Enterprise-level Enhancements
 
 TimechoDB extends the open-source version with advanced industrial-grade capabilities, including tiered storage, cloud-edge collaboration, visualization tools, and security upgrades.
 
@@ -258,11 +259,11 @@ TimechoDB extends the open-source version with advanced industrial-grade capabil
 </tbody>
 </table>
 
-#### Higher Efficiency and Stability
+### 4.1 Higher Efficiency and Stability
 
 TimechoDB achieves up to 10x performance improvements over Apache IoTDB in mission-critical workloads, and provides rapid fault recovery for industrial environments.
 
-#### Comprehensive Management Tools
+### 4.2 Comprehensive Management Tools
 
 TimechoDB simplifies deployment, monitoring, and maintenance through an intuitive toolset:
 
@@ -281,7 +282,7 @@ TimechoDB simplifies deployment, monitoring, and maintenance through an intuitiv
 - **Cluster Management Tool** **:**
     - Provides **one-click operations** for cluster deployment, scaling, start/stop, and configuration updates.
 
-#### Professional Enterprise Technical Services
+### 4.3 Professional Enterprise Technical Services
 
 TimechoDB offers **vendor-backed enterprise services** to support industrial-scale deployments:
 
@@ -292,6 +293,6 @@ TimechoDB offers **vendor-backed enterprise services** to support industrial-sca
 
 Compared to the open-source version’s 2-3 month release cycle, TimechoDB delivers faster updates and same-day critical issue resolutions, ensuring production stability.
 
-#### Ecosystem Compatibility & Compliance
+### 4.4 Ecosystem Compatibility & Compliance
 
 imechoDB is self-developed, supports mainstream CPUs & operating systems, and meets industry compliance standards, making it a reliable choice for enterprise IoT deployments.  

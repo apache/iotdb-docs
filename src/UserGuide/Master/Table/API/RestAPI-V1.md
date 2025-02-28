@@ -18,10 +18,11 @@
     under the License.
 
 -->
+# RestAPI V1
 
 IoTDB's RESTful service can be used for querying, writing, and management operations. It uses the OpenAPI standard to define interfaces and generate frameworks.
 
-### Enabling RESTful Service
+## 1. Enabling RESTful Service
 
 The RESTful service is disabled by default. To enable it, locate the `conf/iotdb-system.properties` file in the IoTDB installation directory, set `enable_rest_service` to `true`, and then restart the datanode process.
 
@@ -29,7 +30,7 @@ The RESTful service is disabled by default. To enable it, locate the `conf/iotdb
 enable_rest_service=true
 ```
 
-### Authentication
+## 2. Authentication
 
 Except for the health check endpoint `/ping`, the RESTful service uses basic authentication. Each URL request must include the header `'Authorization':'Basic' + base64.encode(username + ':' + password)`.
 
@@ -59,9 +60,9 @@ Authorization : Basic cm9vdDpyb290
       {"code":800,"message":"INIT_AUTH_ERROR"}
       ```
 
-### Interface Definitions
+## 3. Interface Definitions
 
-#### Ping
+### 3.1 Ping
 
 The `/ping` endpoint can be used for online service health checks.
 
@@ -71,9 +72,9 @@ The `/ping` endpoint can be used for online service health checks.
 
 - Example Request:
 
-  ```Shell
+  ```Bash
     curl http://127.0.0.1:18080/ping
-    ```
+  ```
 
 - HTTP Status Codes:
 
@@ -102,7 +103,7 @@ The `/ping` endpoint can be used for online service health checks.
 
 **Note**: The `/ping` endpoint does not require authentication.
 
-#### Query Interface
+### 3.2 Query Interface
 
 - Request Path: `/rest/table/v1/query`
 
@@ -130,9 +131,9 @@ The `/ping` endpoint can be used for online service health checks.
 
 - Example Request:
 
-  ```JSON
+  ```Bash
     curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"database":"test","sql":"select s1,s2,s3 from test_table"}' http://127.0.0.1:18080/rest/table/v1/query
-    ```
+  ```
 
 - Example Response:
 
@@ -161,9 +162,9 @@ The `/ping` endpoint can be used for online service health checks.
             ]
         ]
     }
-    ```
+  ```
 
-#### Non-Query Interface
+### 3.3 Non-Query Interface
 
 - Request Path: `/rest/table/v1/nonQuery`
 
@@ -208,9 +209,9 @@ The `/ping` endpoint can be used for online service health checks.
       "code": 200,
       "message": "SUCCESS_STATUS"
     }
-    ```
+  ```
 
-#### Batch Write Interface
+### 3.4 Batch Write Interface
 
 - Request Path: `/rest/table/v1/insertTablet`
 
@@ -241,9 +242,9 @@ The `/ping` endpoint can be used for online service health checks.
 
 - Example Request:
 
-  ```JSON
+  ```Bash
     curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"database":"test","column_catogories":["TAG","FIELD","FIELD"],"timestamps":[1739702535000,1739789055000],"column_names":["s1","s2","s3"],"data_types":["STRING","BOOLEAN","INT32"],"values":[["a11",true,2024],["a11",false,2025]],"table":"test_table"}' http://127.0.0.1:18080/rest/table/v1/insertTablet
-    ```
+  ```
 
 - Example Response:
 
@@ -252,86 +253,86 @@ The `/ping` endpoint can be used for online service health checks.
       "code": 200,
       "message": "SUCCESS_STATUS"
     }
-    ```
+  ```
 
-### Configuration
+## 4. Configuration
 
 The configuration file is located in `iotdb-system.properties`.
 
 - Set `enable_rest_service` to `true` to enable the module, or `false` to disable it. The default value is `false`.
 
-  ```Plain
+  ```Properties
     enable_rest_service=true
-    ```
+  ```
 
 - Only effective when `enable_rest_service=true`. Set `rest_service_port` to a number (1025~65535) to customize the REST service socket port. The default value is `18080`.
 
-  ```Plain
+  ```Properties
     rest_service_port=18080
-    ```
+  ```
 
 - Set `enable_swagger` to `true` to enable Swagger for displaying REST interface information, or `false` to disable it. The default value is `false`.
 
-  ```Plain
+  ```Properties
     enable_swagger=false
-    ```
+  ```
 
 - The maximum number of rows that can be returned in a single query. If the result set exceeds this limit, only the rows within the limit will be returned, and status code `411` will be returned.
 
-  ```Plain
+  ```Properties
     rest_query_default_row_size_limit=10000
-    ```
+  ```
 
 - Expiration time for caching client login information (used to speed up user authentication, in seconds, default is 8 hours).
 
-  ```Plain
+  ```Properties
     cache_expire_in_seconds=28800
-    ```
+  ```
 
 - Maximum number of users stored in the cache (default is 100).
 
-  ```Plain
+  ```Properties
     cache_max_num=100
-    ```
+  ```
 
 - Initial cache capacity (default is 10).
 
-  ```Plain
+  ```Properties
     cache_init_num=10
-    ```
+  ```
 
 - Whether to enable SSL configuration for the REST service. Set `enable_https` to `true` to enable it, or `false` to disable it. The default value is `false`.
 
-  ```Plain
+  ```Properties
     enable_https=false
-    ```
+  ```
 
 - Path to the `keyStore` (optional).
 
-  ```Plain
+  ```Properties
     key_store_path=
-    ```
+  ```
 
 - Password for the `keyStore` (optional).
 
-  ```Plain
+  ```Properties
     key_store_pwd=
-    ```
+  ```
 
 - Path to the `trustStore` (optional).
 
-  ```Plain
+  ```Properties
     trust_store_path=""
-    ```
+  ```
 
 - Password for the `trustStore` (optional).
 
-  ```Plain
+  ```Properties
     trust_store_pwd=""
-    ```
+  ```
 
 - SSL timeout time, in seconds.
 
-  ```Plain
+  ```Properties
     idle_timeout_in_seconds=5000
-    ```
+  ```

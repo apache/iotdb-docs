@@ -27,7 +27,7 @@ This guide describes how to manually deploy a cluster instance consisting of 3 C
 </div>
 
 
-## 1 Prerequisites
+## 1. Prerequisites
 
 1. **System Preparation**: Ensure the system has been configured according to the  [System Requirements](../Deployment-and-Maintenance/Environment-Requirements.md).
 
@@ -51,13 +51,13 @@ Use the hostname for `cn_internal_address` and `dn_internal_address` in IoTDB co
 
 6. **Monitoring Panel**: Deploy a monitoring panel to track key performance metrics. Contact the Timecho team for access and refer to the [Monitoring Board Install and Deploy](../Deployment-and-Maintenance/Monitoring-panel-deployment.md).
 
-## 2 Preparation
+## 2. Preparation
 
 1. Obtain the TimechoDB installation package: `timechodb-{version}-bin.zip` following [IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_timecho.md)）
 
 2. Configure the operating system environment according to [Environment Requirement](../Deployment-and-Maintenance/Environment-Requirements.md)）
 
-## 3 Installation Steps
+## 3. Installation Steps
 
 Taking a cluster with three Linux servers with the following information as example:
 
@@ -217,7 +217,7 @@ Check the `ClusterActivationStatus` field. If it shows `ACTIVATED`, the database
 
 ![](/img/%E9%9B%86%E7%BE%A4-%E9%AA%8C%E8%AF%81.png)
 
-## 4 Maintenance
+## 4. Maintenance
 
 ### 4.1 ConfigNode Maintenance
 
@@ -244,7 +244,7 @@ sbin/start-confignode.bat
 
 #### 4.1.2 Removing a ConfigNode
 
-1. Connect to the cluster using the CLI and confirm the NodeID of the ConfigNode to be removed:
+1. Connect to the cluster using the CLI and confirm the internal address and port of the ConfigNode to be removed:
 
 ```Plain
 show confignodes;
@@ -265,11 +265,22 @@ Total line number = 3
 It costs 0.030s
 ```
 
-2. Remove the ConfigNode using the SQL:
+2. Remove the ConfigNode using the script:
 
+**Linux / MacOS:**
 
 ```Bash
-remove confignode [confignode_id]
+sbin/remove-confignode.sh [confignode_id]
+# Or:
+sbin/remove-confignode.sh [cn_internal_address:cn_internal_port]
+```
+
+**Windows:**
+
+```Bash
+sbin/remove-confignode.bat [confignode_id]
+# Or:
+sbin/remove-confignode.bat [cn_internal_address:cn_internal_port]
 ```
 
 ### 4.2 DataNode Maintenance
@@ -299,7 +310,7 @@ sbin/start-datanode.bat
 
 #### 4.2.2 Removing a DataNode
 
-1. Connect to the cluster using the CLI and confirm the NodeID of the DataNode to be removed:
+1. Connect to the cluster using the CLI and confirm the RPC address and port of the DataNode to be removed:
 
 ```Plain
 show datanodes;
@@ -320,13 +331,21 @@ Total line number = 3
 It costs 0.110s
 ```
 
-2. Remove the DataNode using the SQL:
+2. Remove the DataNode using the script:
+
+**Linux / MacOS:**
 
 ```Bash
-remove datanode [datanode_id]
+sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
 ```
 
-## 5 Common Issues
+**Windows:**
+
+```Bash
+sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
+```
+
+## 5. Common Issues
 
 1. Activation Fails Repeatedly
    - Use the `ls -al` command to verify that the ownership of the installation directory matches the current user.
@@ -365,7 +384,7 @@ remove datanode [datanode_id]
       rm -rf data logs
       ```
 
-## 6 Appendix
+## 6. Appendix
 
 ### 6.1 ConfigNode Parameters
 

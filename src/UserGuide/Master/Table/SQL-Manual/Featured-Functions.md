@@ -18,31 +18,24 @@
     under the License.
 
 -->
-
 # Featured Functions
 
-## Time-Series Specific Functions
+## 1. Downsampling Functions
 
-### 1. Downsampling Functions
+### 1.1 `date_bin` Function
 
-#### 1.1 `date_bin` Function
-
-##### Description:
+#### **Description:**
 
 The `date_bin` function is a scalar function that aligns timestamps to the start of specified time intervals. It is commonly used with the `GROUP BY` clause for downsampling.
 
 - **Partial Intervals May Be Empty:** Only timestamps that meet the conditions are aligned; missing intervals are not filled.
 - **All Intervals Return Empty:** If no data exists within the query range, the downsampling result is an empty set.
 
-##### Usage Examples
+#### **Usage** **Examples****:**
 
-###### Example Data
+**Sample Dataset****:** The example data page contains SQL statements for building table structures and inserting data. Download and execute these statements in the IoTDB CLI to import the data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
 
-
-The [Example Data page](../Reference/Sample-Data.md) contains SQL statements for building table structures and inserting data. Download and execute these statements in the IoTDB CLI to import the data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
-
-
-Example 1: Hourly Average Temperature for Device 100
+**Example 1: Hourly Average Temperature for Device 100**
 
 ```SQL
 SELECT date_bin(1h, time) AS hour_time, avg(temperature) AS avg_temp
@@ -52,7 +45,7 @@ WHERE (time >= 2024-11-27 00:00:00  AND time <= 2024-11-30 00:00:00)
 GROUP BY 1;
 ```
 
-Result:
+**Result****:**
 
 ```Plain
 +-----------------------------+--------+
@@ -67,7 +60,7 @@ Result:
 +-----------------------------+--------+
 ```
 
-Example 2: Hourly Average Temperature for Each Device
+**Example 2: Hourly Average Temperature for Each Device**
 
 ```SQL
 SELECT date_bin(1h, time) AS hour_time, device_id, avg(temperature) AS avg_temp
@@ -76,7 +69,7 @@ WHERE time >= 2024-11-27 00:00:00  AND time <= 2024-11-30 00:00:00
 GROUP BY 1, device_id;
 ```
 
-Result:
+**Result:**
 
 ```Plain
 +-----------------------------+---------+--------+
@@ -119,30 +112,30 @@ SELECT date_bin(1h, time) AS hour_time, avg(temperature) AS avg_temp
 +-----------------------------+--------+
 ```
 
-#### 1.2 `date_bin_gapfill` Function
+### 1.2 `date_bin_gapfill` Function
 
-##### Description:
+#### **Description:**
 
 The `date_bin_gapfill` function is an extension of `date_bin` that fills in missing time intervals, returning a complete time series.
 
 - **Partial Intervals May Be Empty**: Aligns timestamps for data that meets the conditions and fills in missing intervals.
 - **All Intervals Return Empty**: If no data exists within the query range, the result is an empty set.
 
-##### Limitations:
+#### **Limitations:**
 
-- The function must always be used with the `GROUP BY` clause. If used elsewhere, it behaves like `date_bin` without gap-filling.
-- A `GROUP BY` clause can contain only one instance of date_bin_gapfill. Multiple calls will result in an error.
-- The `GAPFILL` operation occurs after the `HAVING` clause and before the `FILL` clause.
-- The `WHERE` clause must include time filters in one of the following forms:
-   - `time >= XXX AND time <= XXX`
-   - `time > XXX AND time < XXX`
-   - `time BETWEEN XXX AND XXX`
-- If additional time filters or conditions are used, an error is raised. Time conditions and other value filters must be connected using the `AND` operator.
-- If `startTime` and `endTime` cannot be inferred from the `WHERE` clause, an error is raised.
+1. The function must always be used with the `GROUP BY` clause. If used elsewhere, it behaves like `date_bin` without gap-filling.
+2. A `GROUP BY` clause can contain only one instance of date_bin_gapfill. Multiple calls will result in an error.
+3. The `GAPFILL` operation occurs after the `HAVING` clause and before the `FILL` clause.
+4. The `WHERE` clause must include time filters in one of the following forms:
+  1. `time >= XXX AND time <= XXX`
+  2. `time > XXX AND time < XXX`
+  3. `time BETWEEN XXX AND XXX`
+5. If additional time filters or conditions are used, an error is raised. Time conditions and other value filters must be connected using the `AND` operator.
+6. If `startTime` and `endTime` cannot be inferred from the `WHERE` clause, an error is raised.
 
-##### Usage Examples
+**Usage** **Examples****:**
 
-Example 1: Fill Missing Intervals
+**Example 1: Fill Missing Intervals**
 
 ```SQL
 SELECT date_bin_gapfill(1h, time) AS hour_time, avg(temperature) AS avg_temp
@@ -152,7 +145,7 @@ WHERE (time >= 2024-11-28 07:00:00  AND time <= 2024-11-28 16:00:00)
 GROUP BY 1;
 ```
 
-Result:
+**Result:**
 
 ```Plain
 +-----------------------------+--------+
@@ -171,7 +164,7 @@ Result:
 +-----------------------------+--------+
 ```
 
-Example 2: Fill Missing Intervals with Device Grouping
+**Example 2: Fill Missing Intervals with Device Grouping**
 
 ```SQL
 SELECT date_bin_gapfill(1h, time) AS hour_time, device_id, avg(temperature) AS avg_temp
@@ -180,7 +173,7 @@ WHERE time >= 2024-11-28 07:00:00  AND time <= 2024-11-28 16:00:00
 GROUP BY 1, device_id;
 ```
 
-Result:
+**Result:**
 
 ```Plain
 +-----------------------------+---------+--------+
@@ -199,7 +192,7 @@ Result:
 +-----------------------------+---------+--------+
 ```
 
-Example 3: Empty Result Set for No Data in Range
+**Example 3: Empty Result Set for No Data in Range**
 
 ```SQL
 SELECT date_bin_gapfill(1h, time) AS hour_time, device_id, avg(temperature) AS avg_temp
@@ -208,7 +201,7 @@ WHERE time >= 2024-11-27 09:00:00  AND time <= 2024-11-27 14:00:00
 GROUP BY 1, device_id;
 ```
 
-Result:
+**Result:**
 
 ```Plain
 +---------+---------+--------+
@@ -217,41 +210,41 @@ Result:
 +---------+---------+--------+
 ```
 
-### 2. DIFF Function
+## 2. `DIFF` Function
 
-##### Description:
+### 2.1 **Description:**
 
-The `DIFF` function calculates the difference between the current row and the previous row. For the first row, it returns `NULL` since there is no previous row.
+- The `DIFF` function calculates the difference between the current row and the previous row. For the first row, it returns `NULL` since there is no previous row.
 
-##### Function Definition:  
+### 2.2 **Function Definition:**
 
 ```
 DIFF(numberic[, boolean]) -> Double
 ```
 
-##### Parameters
+### 2.3 **Parameters:**
 
-- First Parameter (numeric):
+#### **First Parameter (numeric):**
 
-  - **Type**: Must be numeric (`INT32`, `INT64`, `FLOAT`, `DOUBLE`).
-  - **Purpose**: Specifies the column for which to calculate the difference.
+- **Type**: Must be numeric (`INT32`, `INT64`, `FLOAT`, `DOUBLE`).
+- **Purpose**: Specifies the column for which to calculate the difference.
 
-- Second Parameter (boolean, optional):
+#### **Second Parameter (boolean, optional):**
 
-  - **Type**: Boolean (`true` or `false`).
-  - **Default**: `true`.
-  - **Purpose**:
-    - `true`: Ignores `NULL` values and uses the first non-`NULL` value for calculation. If no non-`NULL` value exists, returns `NULL`.
-    - `false`: Does not ignore `NULL` values. If the previous row is `NULL`, the result is `NULL`.
+- **Type**: Boolean (`true` or `false`).
+- **Default**: `true`.
+- **Purpose**:
+  - `true`: Ignores `NULL` values and uses the first non-`NULL` value for calculation. If no non-`NULL` value exists, returns `NULL`.
+  - `false`: Does not ignore `NULL` values. If the previous row is `NULL`, the result is `NULL`.
 
-##### Notes:
+### 2.4 **Notes:**
 
 - In **tree models**, the second parameter must be specified as `'ignoreNull'='true'` or `'ignoreNull'='false'`.
 - In **table models**, simply use `true` or `false`. Using `'ignoreNull'='true'` or `'ignoreNull'='false'` in table models results in a string comparison and always evaluates to `false`.
 
-##### Usage Examples
+### 2.5 **Usage** **Examples****:**
 
-**Example 1: Ignore NULL Values**
+#### **Example 1: Ignore NULL Values**
 
 ```SQL
 SELECT time, DIFF(temperature) AS diff_temp
@@ -259,7 +252,7 @@ FROM table1
 WHERE device_id = '100';
 ```
 
-Result:
+**Result:**
 
 ```Plain
 +-----------------------------+---------+
@@ -276,7 +269,7 @@ Result:
 +-----------------------------+---------+
 ```
 
-Example 2: Do Not Ignore NULL Values
+#### **Example 2: Do Not Ignore NULL Values**
 
 ```SQL
 SELECT time, DIFF(temperature, false) AS diff_temp
@@ -284,7 +277,7 @@ FROM table1
 WHERE device_id = '100';
 ```
 
-Result:
+**Result:**
 
 ```Plain
 +-----------------------------+---------+
@@ -301,7 +294,7 @@ Result:
 +-----------------------------+---------+
 ```
 
-Example 3: Full Example
+#### **Example 3: Full Example**
 
 ```SQL
 SELECT time, temperature, 
@@ -311,7 +304,7 @@ FROM table1
 WHERE device_id = '100';
 ```
 
-Result:
+**Result:**
 
 ```Plain
 +-----------------------------+-----------+-----------+-----------+

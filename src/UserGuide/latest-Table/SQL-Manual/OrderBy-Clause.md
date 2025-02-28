@@ -23,7 +23,7 @@
 
 The `ORDER BY` clause is used to sort the result set of a query at its final stage based on specified sorting conditions.
 
-## 1 Syntax Overview
+## 1. Syntax Overview
 
 ```sql
 ORDER BY sortItem (',' sortItem)*
@@ -40,7 +40,7 @@ sortItem
 - By default, sorting is applied as `ASC NULLS LAST`, meaning values are sorted in ascending order and `NULL` values are placed at the end. Users can manually specify other parameters to override the default behavior.
 - The `ORDER BY` clause is executed before the `LIMIT` or `OFFSET` clauses.
 
-## 2 Example Data
+## 2. Example Data
 
 
 The [Example Data page](../Reference/Sample-Data.md)page provides SQL statements to construct table schemas and insert data. By downloading and executing these statements in the IoTDB CLI, you can import the data into IoTDB. This data can be used to test and run the example SQL queries included in this documentation, allowing you to reproduce the described results.
