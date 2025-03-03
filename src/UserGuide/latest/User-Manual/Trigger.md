@@ -19,7 +19,7 @@
 
 -->
 
-# TRIGGER
+# Trigger
 
 ## 1. Instructions
 

@@ -19,7 +19,7 @@
 
 -->
 
-# Data Insertion & Update
+# Write & Update Data
 
 ## 1. Data Insertion
 

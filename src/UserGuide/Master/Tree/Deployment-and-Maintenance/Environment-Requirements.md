@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# System Requirements
+# Environment Requirements
 
 ## 1. Disk Array
 

@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Benchmark
+# Benchmark Tool
 
 ## 1. **Basic Overview**
 

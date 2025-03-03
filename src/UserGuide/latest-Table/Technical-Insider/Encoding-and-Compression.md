@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Encoding and Compression
+# Compression & Encoding
 
 IoTDB employs various encoding and compression techniques to enhance storage efficiency and reduce I/O operations during data writing and reading. Below is a detailed explanation of the supported encoding and compression methods.
 

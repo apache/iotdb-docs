@@ -19,7 +19,7 @@
 
 -->
 
-# Database Administration
+# Authority Management
 
 IoTDB provides permission management operations, offering users the ability to manage permissions for data and cluster systems, ensuring data and system security. 
 
