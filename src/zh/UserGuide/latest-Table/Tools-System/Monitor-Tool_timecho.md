@@ -24,7 +24,7 @@
 
 监控工具的部署可参考文档 [监控面板部署](../Deployment-and-Maintenance/Monitoring-panel-deployment.md) 章节。
 
-## 1 监控指标的 Prometheus 映射关系
+## 1. 监控指标的 Prometheus 映射关系
 
 > 对于 Metric Name 为 name, Tags 为 K1=V1, ..., Kn=Vn 的监控指标有如下映射，其中 value 为具体值
 
@@ -36,7 +36,7 @@
 | Rate             | name_total{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn"} value <br> name_total{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn", rate="m1"} value <br> name_total{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn", rate="m5"} value <br> name_total{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn", rate="m15"} value <br> name_total{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn", rate="mean"} value |
 | Timer            | name_seconds_max{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn"} value <br> name_seconds_sum{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn"} value <br> name_seconds_count{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn"} value <br> name_seconds{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn", quantile="0.5"} value value <br> name_seconds{cluster="clusterName", nodeType="nodeType", nodeId="nodeId",k1="V1" , ..., Kn="Vn", quantile="0.99"} value |
 
-## 2 修改配置文件
+## 2. 修改配置文件
 
 1) 以 DataNode 为例，修改 iotdb-system.properties 配置文件如下：
 
@@ -60,7 +60,7 @@ file_count{name="seq",} 2.0
 ...
 ```
 
-## 3 Prometheus + Grafana
+## 3. Prometheus + Grafana
 
 如上所示，IoTDB 对外暴露出标准的 Prometheus 格式的监控指标数据，可以使用 Prometheus 采集并存储监控指标，使用 Grafana
 可视化监控指标。
@@ -102,7 +102,7 @@ static_configs:
 
 [Grafana从Prometheus查询数据并绘图的文档](https://prometheus.io/docs/visualization/grafana/#grafana-support-for-prometheus)
 
-## 4 Apache IoTDB Dashboard
+## 4. Apache IoTDB Dashboard
 
 我们提供了Apache IoTDB Dashboard，支持统一集中式运维管理，可通过一个监控面板监控多个集群。
 

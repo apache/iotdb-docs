@@ -21,7 +21,7 @@
 
 # 基础函数
 
-## 1 比较函数和运算符
+## 1. 比较函数和运算符
 
 ### 1.1 基本比较运算符
 
@@ -120,7 +120,7 @@ SELECT * FROM table1 WHERE temperature IN (85.0, 90.0);
 SELECT * FROM table1 WHERE region NOT IN ('北京', '上海');
 ```
 
-## 2 聚合函数
+## 2. 聚合函数
 
 ### 2.1 概述
 
@@ -299,7 +299,7 @@ Total line number = 1
 It costs 0.244s
 ```
 
-## 3 逻辑运算符
+## 3. 逻辑运算符
 
 ### 3.1 概述
 
@@ -378,7 +378,7 @@ NOT NULL -- null
 | NULL  | NULL  |
 
 
-## 4 日期和时间函数和运算符
+## 4. 日期和时间函数和运算符
 
 ### 4.1 now() -> Timestamp
 
@@ -621,7 +621,7 @@ Total line number = 18
 It costs 0.319s
 ```
 
-## 5 数学函数和运算符
+## 5. 数学函数和运算符
 
 ### 5.1 数学运算符
 
@@ -662,7 +662,7 @@ It costs 0.319s
 | e                            | 自然指数                                                     |                             | double                 | e()        |
 | pi                           | π                                                            |                             | double                 | pi()       |
 
-## 6 条件表达式
+## 6. 条件表达式
 
 ### 6.1 CASE 表达式
 
@@ -722,7 +722,7 @@ SELECT a, b,
 coalesce(value1, value2[, ...])
 ```
 
-## 7 转换函数
+## 7. 转换函数
 
 ### 7.1 转换函数
 
@@ -755,7 +755,7 @@ SELECT *
   IN (try_cast('2024-11-27' AS DATE), try_cast('2024-11-28' AS DATE));
 ```
 
-## 8 字符串函数和操作符
+## 8. 字符串函数和操作符
 
 ### 8.1 字符串操作符
 
@@ -785,7 +785,7 @@ SELECT *
 | substring   | 从指定位置提取字符到字符串末尾。需要注意的是，起始位置是基于字符而不是字节数组确定的。`start_index` 从 1 开始计数，长度从 `start_index` 位置计算。 | 支持两个参数**string**：要提取子字符串的源字符串，可以是字符串或文本类型。**start_index**：从哪个索引开始提取子字符串，索引从 1 开始计数。 | String：返回一个字符串，从 `start_index` 位置开始到字符串末尾的所有字符。**注意事项**：`start_index` 从 1 开始，即数组的第 0 个位置是 1参数为 null时，返回 `null`start_index 大于字符串长度时，结果报错。 | substring(string from start_index)或 substring(string, start_index) |
 | substring   | 从一个字符串中提取从指定位置开始、指定长度的子字符串注意：起始位置和长度是基于字符而不是字节数组确定的。`start_index` 从 1 开始计数，长度从 `start_index` 位置计算。 | 支持三个参数**string**：要提取子字符串的源字符串，可以是字符串或文本类型。**start_index**：从哪个索引开始提取子字符串，索引从 1 开始计数。**length**：要提取的子字符串的长度。 | String：返回一个字符串，从 `start_index` 位置开始，提取 `length` 个字符。**注意事项**：参数为 null时，返回 `null`如果 `start_index` 大于字符串的长度，结果报错。如果 `length` 小于 0，结果报错。极端情况，`start_index + length` 超过 `int.MAX` 并变成负数，将导致异常结果。 | substring(string from start_index for length)  或 substring(string, start_index, length) |
 
-## 9 模式匹配函数
+## 9. 模式匹配函数
 
 ### 9.1 LIKE 运算符
 

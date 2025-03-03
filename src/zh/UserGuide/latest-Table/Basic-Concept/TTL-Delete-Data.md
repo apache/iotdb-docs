@@ -21,7 +21,7 @@
 
 # 过期自动删除（TTL）
 
-## 1 概览
+## 1. 概览
 
 IoTDB支持表级的数据自动过期删除（TTL）设置，允许系统自动定期删除旧数据，以有效控制磁盘空间并维护高性能查询和低内存占用。TTL默认以毫秒为单位，数据过期后不可查询且禁止写入，但物理删除会延迟至压缩时。需注意，TTL变更可能导致短暂数据可查询性变化。
 
@@ -31,7 +31,7 @@ IoTDB支持表级的数据自动过期删除（TTL）设置，允许系统自动
 2. TTL变更可能影响数据的可查询性。
 3. 系统最终会移除过期数据，但存在延迟。
 
-## 2 设置 TTL
+## 2. 设置 TTL
 
 在表模型中，IoTDB 的 TTL 是按照表的粒度生效的。可以直接在表上设置 TTL，或者在数据库级别设置 TTL。当在数据库级别设置了TTL时，在创建新表的过程中，系统会自动采用这个TTL值作为新表的默认设置，但每个表仍然可以独立地被设置或覆盖该值。
 
@@ -89,7 +89,7 @@ use db
 CREATE TABLE test3 ("场站" string id, "温度" int32) with (ttl='INF')
 ```
 
-## 3 取消 TTL
+## 3. 取消 TTL
 
 取消 TTL 设置，可以修改表的 TTL 设置为 'INF'。目前，IoTDB 不支持修改数据库的 TTL。
 
@@ -97,7 +97,7 @@ CREATE TABLE test3 ("场站" string id, "温度" int32) with (ttl='INF')
 ALTER TABLE tableB set properties TTL='INF'
 ```
 
-## 4 查看 TTL 信息
+## 4. 查看 TTL 信息
 
 使用 "SHOW DATABASES" 和 "SHOW TABLES" 命令可以直接显示数据库和表的 TTL 详情。数据库和表管理语句详情可见：[数据库管理](../Basic-Concept/Database-Management.md)、[表管理](../Basic-Concept/Table-Management.md)
 

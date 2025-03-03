@@ -21,7 +21,7 @@
 
 # Python 原生接口
 
-## 1 使用方式
+## 1. 使用方式
 
 安装依赖包:
 
@@ -29,7 +29,7 @@
 pip3 install apache-iotdb
 ```
 
-## 2 读写操作
+## 2. 读写操作
 
 ### 2.1 TableSession
 
@@ -168,7 +168,7 @@ class TableSessionConfig(object):
 
 在使用完 TableSession 后，务必调用 close 方法来释放资源。
 
-## 3 客户端连接池
+## 3. 客户端连接池
 
 ### 3.1 TableSessionPool
 
@@ -287,7 +287,7 @@ class TableSessionPoolConfig(object):
     """
 ```
 
-## 4 示例代码
+## 4. 示例代码
 
 Session示例代码:[iotdb/blob/master/iotdb-client/client-py/table_model_session_example.py](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/table_model_session_example.py)
 

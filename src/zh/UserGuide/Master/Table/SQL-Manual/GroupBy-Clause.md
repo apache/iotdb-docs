@@ -21,7 +21,7 @@
 
 # GROUP BY 子句
 
-## 1 语法概览
+## 1. 语法概览
 
 ```sql
 GROUP BY expression (',' expression)*
@@ -32,7 +32,7 @@ GROUP BY expression (',' expression)*
 ![](/img/groupby01.png)
 
 
-## 2 注意事项
+## 2. 注意事项
 
 - 在 SELECT 子句中的项必须包含聚合函数或由出现在 GROUP BY 子句中的列组成。
 
@@ -193,7 +193,7 @@ Total line number = 1
 It costs 0.047s
 ```
 
-## 3 示例数据
+## 3. 示例数据
 
 在[示例数据页面](../Reference/Sample-Data.md)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
 
