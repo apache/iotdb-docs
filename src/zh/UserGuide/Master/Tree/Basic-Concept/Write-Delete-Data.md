@@ -20,7 +20,7 @@
 -->
 
 
-# 数据写入与删除
+# 写入&删除
 ## 1 CLI写入数据
 
 IoTDB 为用户提供多种插入实时数据的方式，例如在 [Cli/Shell 工具](../Tools-System/CLI.md) 中直接输入插入数据的 INSERT 语句，或使用 Java API（标准 [Java JDBC](../API/Programming-JDBC.md) 接口）单条或批量执行插入数据的 INSERT 语句。
@@ -230,7 +230,7 @@ delete from root.ln.wf02.wt02.status
 
 ### 6.2 多传感器时间序列值删除    
 
-当 ln 集团 wf02 子站的 wt02 设备在 2017-11-01 16:26:00 之前的供电状态和设备硬件版本都需要删除，此时可以使用含义更广的 [路径模式（Path Pattern）](../Background-knowledge/Data-Model-and-Terminology.md) 进行删除操作，进行此操作的 SQL 语句为：
+当 ln 集团 wf02 子站的 wt02 设备在 2017-11-01 16:26:00 之前的供电状态和设备硬件版本都需要删除，此时可以使用含义更广的 [路径模式（Path Pattern）](../Basic-Concept/Operate-Metadata.md) 进行删除操作，进行此操作的 SQL 语句为：
 
 
 ```sql

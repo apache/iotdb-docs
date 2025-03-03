@@ -20,7 +20,7 @@
 -->
 
 
-# Rust 原生接口
+# Rust
 
 IoTDB 使用 Thrift 作为跨语言的 RPC 框架，因此可以通过 Thrift 提供的接口来实现对 IoTDB 的访问。本文档将介绍如何生成可访问 IoTDB 的原生 Rust 接口。
 

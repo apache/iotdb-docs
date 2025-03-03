@@ -20,7 +20,7 @@
 -->
 
 
-# Prometheus
+# 监控工具
 
 监控工具的部署可参考文档 [监控面板部署](../Deployment-and-Maintenance/Monitoring-panel-deployment.md) 章节。
 

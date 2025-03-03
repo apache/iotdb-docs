@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# 发版历史
+# 发布历史
 
 ## 1 TimechoDB（数据库内核）
 ### V1.3.4.1

@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# 集群版部署
+# 集群版部署指导
 
 本小节将以IoTDB经典集群部署架构3C3D（3个ConfigNode和3个DataNode）为例，介绍如何部署集群，即通常所说的3C3D集群。3C3D集群架构图如下：
 
