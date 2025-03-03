@@ -19,7 +19,7 @@
 * limitations under the License.
   -->
 
-# Data subscription API
+# Data Subscription API
 
 IoTDB provides powerful data subscription functionality, allowing users to access newly added data from IoTDB in real-time through subscription APIs. For detailed functional definitions and introductions：[Data subscription](../User-Manual/Data-subscription.md)
 

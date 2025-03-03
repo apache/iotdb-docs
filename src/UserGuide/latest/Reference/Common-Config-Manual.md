@@ -19,7 +19,7 @@
 
 -->
 
-# Common Configuration
+# Common Config Manual
 
 IoTDB common files for ConfigNode and DataNode are under `conf`.
 

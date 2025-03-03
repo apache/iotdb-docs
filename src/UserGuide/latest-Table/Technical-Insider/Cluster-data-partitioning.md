@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Partitioning and Load Balance
+# Data Partitioning and Load Balancing
 
 This document introduces the partitioning strategies and load balance strategies in IoTDB. According to the characteristics of time series data, IoTDB partitions them by series and time dimensions. Combining a series partition with a time partition creates a partition, the unit of division. To enhance throughput and reduce management costs, these partitions are evenly allocated to RegionGroups, which serve as the unit of replication. The RegionGroup's Regions then determine the storage location, with the leader Region managing the primary load. During this process, the Region placement strategy determines which nodes will host the replicas, while the leader selection strategy designates which Region will act as the leader.
 

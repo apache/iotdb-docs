@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Cluster management tool
+# Cluster Management Tool
 
 ## 1. IoTDB Data Directory Overview Tool
 

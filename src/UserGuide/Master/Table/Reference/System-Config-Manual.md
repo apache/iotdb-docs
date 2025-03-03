@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Configuration and Parameters
+# Config Manual
 
 ## 1. IoTDB Configuration Files
 

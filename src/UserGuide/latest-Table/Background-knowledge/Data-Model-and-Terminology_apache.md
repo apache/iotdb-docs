@@ -19,7 +19,7 @@
 
 -->
 
-# Time Series Modeling
+# Modeling Scheme Design
 
 This section introduces how to transform time series data application scenarios into IoTDB time series modeling.   
 

@@ -19,7 +19,7 @@
 
 -->
 
-# Encoding and Compression
+# Compression & Encoding
 
 
 ## 1. Encoding Methods

@@ -19,7 +19,7 @@
 
 -->
 
-# Data Query
+# Query Data
 
 ## 1. Syntax Overview
 

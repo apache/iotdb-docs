@@ -19,7 +19,7 @@
 
 -->
 
-# Common Concept
+# Common Concepts
 
 ## 1. SQL Dialect Related Concepts
 

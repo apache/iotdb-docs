@@ -19,7 +19,7 @@
 
 -->
 
-# DataNode Configuration Parameters
+# DataNode Config Manual
 
 We use the same configuration files for IoTDB DataNode and Standalone version, all under the `conf`.
 

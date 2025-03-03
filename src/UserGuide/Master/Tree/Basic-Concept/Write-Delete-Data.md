@@ -20,7 +20,7 @@
 -->
 
 
-# Write & Delete Data
+# Write & Delete
 ## 1. CLI INSERT
 
 IoTDB provides users with a variety of ways to insert real-time data, such as directly inputting [INSERT SQL statement](../SQL-Manual/SQL-Manual.md#insert-data) in [Client/Shell tools](../Tools-System/CLI.md), or using [Java JDBC](../API/Programming-JDBC.md) to perform single or batch execution of [INSERT SQL statement](../SQL-Manual/SQL-Manual.md).

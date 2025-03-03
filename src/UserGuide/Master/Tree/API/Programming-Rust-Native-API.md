@@ -19,7 +19,7 @@
 
 -->
 
-# Rust Native API Native API
+# Rust Native API
 
 IoTDB uses Thrift as a cross language RPC framework, so access to IoTDB can be achieved through the interface provided by Thrift. 
 This document will introduce how to generate a native Rust interface that can access IoTDB.

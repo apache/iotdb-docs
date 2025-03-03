@@ -53,7 +53,7 @@ export const enSidebar = {
       prefix: 'Deployment-and-Maintenance/',
       children: [
         { text: 'Deployment form', link: 'Deployment-form_apache' },
-        { text: 'Obtain TimechoDB', link: 'IoTDB-Package_apache' },
+        { text: 'Obtain IoTDB', link: 'IoTDB-Package_apache' },
         { text: 'Database Resources', link: 'Database-Resources' },
         { text: 'Environment Requirements', link: 'Environment-Requirements' },
         {
@@ -61,10 +61,6 @@ export const enSidebar = {
           link: 'Stand-Alone-Deployment_apache',
         },
         { text: 'Cluster Deployment', link: 'Cluster-Deployment_apache' },
-        {
-          text: 'Dual Active Deployment',
-          link: 'Dual-Active-Deployment_apache',
-        },
         { text: 'Docker Deployment', link: 'Docker-Deployment_apache' },
         {
           text: 'Monitoring Panel Deployment',

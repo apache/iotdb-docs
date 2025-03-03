@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Entering Time Series Data
+# Timeseries Data Model
 
 ## 1. What Is Time Series Data？
 
