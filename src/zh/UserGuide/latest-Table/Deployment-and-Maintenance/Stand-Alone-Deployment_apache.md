@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# 单机版安装部署
+# 单机版部署指导
 
 本章将介绍如何启动IoTDB单机实例，IoTDB单机实例包括 1 个ConfigNode 和1个DataNode（即通常所说的1C1D）。
 
