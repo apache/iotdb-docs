@@ -33,7 +33,7 @@ AINode 是 IoTDB 在ConfigNode、DataNode后提供的第三种内生节点，该
 - **DataNode**：负责接收并解析用户的 SQL请求；负责存储时间序列数据；负责数据的预处理计算。
 - **AINode**：负责模型文件的导入创建以及模型推理。
 
-## 1 优势特点
+## 1. 优势特点
 
 与单独构建机器学习服务相比，具有以下优势：
 
@@ -49,7 +49,7 @@ AINode 是 IoTDB 在ConfigNode、DataNode后提供的第三种内生节点，该
   - **时间序列标注（Time Series Annotation）**：为每个数据点或特定时间段添加额外的信息或标记，例如事件发生、异常点、趋势变化等，以便更好地理解和分析数据。
 
 
-## 2 基本概念
+## 2. 基本概念
 
 - **模型（Model）**：机器学习模型，以时序数据作为输入，输出分析任务的结果或决策。模型是AINode 的基本管理单元，支持模型的增（注册）、删、查、用（推理）。
 - **创建（Create）**: 将外部设计或训练好的模型文件或算法加载到MLNode中，由IoTDB统一管理与使用。
@@ -60,11 +60,11 @@ AINode 是 IoTDB 在ConfigNode、DataNode后提供的第三种内生节点，该
 <img src="/img/h3.png" style="zoom:50%" />
 :::
 
-## 3 安装部署
+## 3. 安装部署
 
 AINode 的部署可参考文档 [部署指导](../Deployment-and-Maintenance/AINode_Deployment_apache.md#ainode-部署) 章节。
 
-## 4 使用指导
+## 4. 使用指导
 
 AINode 对时序数据相关的深度学习模型提供了模型创建及删除的流程，内置模型无需创建及删除，可直接使用，并且在完成推理后创建的内置模型实例将自动销毁。
 
@@ -441,7 +441,7 @@ Total line number = 4
 
 其中结果集中每行的标签对应每24行数据为一组，输入该异常检测模型后的输出。
 
-## 5 权限管理
+## 5. 权限管理
 
 使用AINode相关的功能时，可以使用IoTDB本身的鉴权去做一个权限管理，用户只有在具备 USE_MODEL 权限时，才可以使用模型管理的相关功能。当使用推理功能时，用户需要有访问输入模型的SQL对应的源序列的权限。
 
@@ -450,7 +450,7 @@ Total line number = 4
 | USE_MODEL | create model / show models / drop model | √                | √        | x        |
 | READ_DATA | call inference                          |  √               | √        |   √      |
 
-## 6 实际案例
+## 6. 实际案例
 
 ### 6.1 电力负载预测
 

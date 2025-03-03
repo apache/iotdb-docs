@@ -23,7 +23,7 @@
 
 IoTDB 提供了强大的数据订阅功能，允许用户通过订阅 API 实时获取 IoTDB 新增的数据。详细的功能定义及介绍：[数据订阅](../User-Manual/Data-subscription.md)
 
-## 1 核心步骤
+## 1. 核心步骤
 
 1. 创建Topic：创建一个Topic，Topic中包含希望订阅的测点。
 2. 订阅Topic：在 consumer 订阅 topic 前，topic 必须已经被创建，否则订阅会失败。同一个 consumer group 下的 consumers 会均分数据。
@@ -31,7 +31,7 @@ IoTDB 提供了强大的数据订阅功能，允许用户通过订阅 API 实时
 4. 取消订阅： consumer close 时会退出对应的 consumer group，同时取消现存的所有订阅。 
 
 
-## 2 详细步骤
+## 2. 详细步骤
 
 本章节用于说明开发的核心流程，并未演示所有的参数和接口，如需了解全部功能及参数请参见: [全量接口说明](./Programming-Java-Native-API.md#3-全量接口说明)
 
@@ -181,7 +181,7 @@ public class DataConsumerExample {
 
 
 
-## 3 全量接口说明
+## 3. 全量接口说明
 
 ### 3.1 参数列表
 

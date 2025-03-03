@@ -21,7 +21,7 @@
 
 # 常见概念
 
-## 1 数据模型相关概念 
+## 1. 数据模型相关概念 
 
 ### 1.1 数据模型（sql_dialect）
 
@@ -49,7 +49,7 @@ IoTDB 支持两种时序数据模型（SQL语法），管理的对象均为设�
 IoTDB 在数据编码后，使用压缩技术进一步压缩二进制数据，提升存储效率。IoTDB 支持多种压缩方法，详细信息请查看：[压缩和编码](../Technical-Insider/Encoding-and-Compression.md)。
 
 
-## 2 分布式相关概念
+## 2. 分布式相关概念
 
 下图展示了一个常见的 IoTDB 3C3D（3 个 ConfigNode、3 个 DataNode）的集群部署模式：                 
 
@@ -90,7 +90,7 @@ IoTDB 集群包括三种节点（进程）：ConfigNode（管理节点），Data
 | 数据   | data_replication_factor   | 1            | 2            |
 
 
-## 3 部署相关概念
+## 3. 部署相关概念
 
 IoTDB 有两种运行模式：单机模式、集群模式。
 

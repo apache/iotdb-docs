@@ -42,7 +42,7 @@ Pipe Source 用于抽取数据，Pipe Processor 用于处理数据，Pipe Sink �
 
 利用流处理框架，可以搭建完整的数据链路来满足端*边云同步、异地灾备、读写负载分库*等需求。
 
-## 1 自定义流处理插件开发
+## 1. 自定义流处理插件开发
 
 ### 1.1 编程开发依赖
 
@@ -438,7 +438,7 @@ public interface PipeSink extends PipePlugin {
 }
 ```
 
-## 2 自定义流处理插件管理
+## 2. 自定义流处理插件管理
 
 为了保证用户自定义插件在实际生产中的灵活性和易用性，系统还需要提供对插件进行动态统一管理的能力。
 本章节介绍的流处理插件管理语句提供了对插件进行动态统一管理的入口。
@@ -486,7 +486,7 @@ DROP PIPEPLUGIN [IF EXISTS] <别名>
 SHOW PIPEPLUGINS
 ```
 
-## 3 系统预置的流处理插件
+## 3. 系统预置的流处理插件
 
 ### 3.1 预置 source 插件
 
@@ -561,7 +561,7 @@ SHOW PIPEPLUGINS
 |------|-----------------|-------------------------|-----------------------------------|
 | sink | do-nothing-sink | String: do-nothing-sink | required                          |
 
-## 4 流处理任务管理
+## 4. 流处理任务管理
 
 ### 4.1 创建流处理任务
 
@@ -728,7 +728,7 @@ WHERE SINK USED BY <PipeId>
 
 ![状态迁移图](/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
 
-## 5 权限管理
+## 5. 权限管理
 
 ### 5.1 流处理任务
 
@@ -750,7 +750,7 @@ WHERE SINK USED BY <PipeId>
 | USE_PIPE | 卸载流处理任务插件。路径无关。 |
 | USE_PIPE | 查询流处理任务插件。路径无关。 |
 
-## 6 配置参数
+## 6. 配置参数
 
 在 iotdb-system.properties 中：
 

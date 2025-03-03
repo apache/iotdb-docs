@@ -22,7 +22,7 @@
 # RESTful API V2
 IoTDB 的 RESTful 服务可用于查询、写入和管理操作，它使用 OpenAPI 标准来定义接口并生成框架。
 
-## 1 开启RESTful 服务
+## 1. 开启RESTful 服务
 RESTful 服务默认情况是关闭的
 
    找到IoTDB安装目录下面的`conf/iotdb-system.properties`文件，将 `enable_rest_service` 设置为 `true` 以启用该模块。
@@ -31,7 +31,7 @@ RESTful 服务默认情况是关闭的
     enable_rest_service=true
    ```
 
-## 2 鉴权
+## 2. 鉴权
 除了检活接口 `/ping`，RESTful 服务使用了基础（basic）鉴权，每次 URL 请求都需要在 header 中携带 `'Authorization': 'Basic ' + base64.encode(username + ':' + password)`。
 
 示例中使用的用户名为：`root`，密码为：`root`，对应的 Basic 鉴权 Header 格式为
@@ -64,7 +64,7 @@ Authorization: Basic cm9vdDpyb290
     }
     ```
 
-## 3 接口
+## 3. 接口
 
 ### 3.1 ping
 
@@ -892,7 +892,7 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 ```
 
 
-## 4 配置
+## 4. 配置
 
 配置位于 `iotdb-system.properties` 中。
 

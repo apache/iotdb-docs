@@ -20,7 +20,7 @@
 -->
 # ThingsBoard
 
-## 1 产品概述
+## 1. 产品概述
 
 1. ThingsBoard 简介
 
@@ -36,7 +36,7 @@
 
 ![](/img/Thingsboard-2.png)
 
-## 2 安装要求
+## 2. 安装要求
 
 | 准备内容                    | 版本要求                                                     |
 | :-------------------------- | :----------------------------------------------------------- |
@@ -44,7 +44,7 @@
 | IoTDB                       | 要求已安装 V1.3.0 及以上版本，具体安装过程请参考[ 部署指导](https://www.timecho.com/docs/zh/UserGuide/latest/Deployment-and-Maintenance/IoTDB-Package_timecho.html) |
 | ThingsBoard（IoTDB 适配版） | 安装包请联系商务获取，具体安装步骤参见下文                   |
 
-## 3 安装步骤
+## 3. 安装步骤
 
 具体安装步骤请参考 [ThingsBoard 官网](https://thingsboard.io/docs/user-guide/install/ubuntu/)。其中：
 
@@ -73,7 +73,7 @@ export IoTDB_MAX_SIZE=200      ##sessionpool内的最大数量，推荐设置为
 export IoTDB_DATABASE=root.thingsboard  ##thingsboard数据写入iotdb所存储的数据库，支持自定义
 ```
 
-## 4 使用说明
+## 4. 使用说明
 
 1. 创建设备并接入数据：在 Thingsboard 的实体-设备中创建设备并通过工业网关将数据发送到 ThingsBoard 指定设备中
 

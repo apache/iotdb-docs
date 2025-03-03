@@ -21,7 +21,7 @@
 
 
 # 数据写入与删除
-## 1 CLI写入数据
+## 1. CLI写入数据
 
 IoTDB 为用户提供多种插入实时数据的方式，例如在 [Cli/Shell 工具](../Tools-System/CLI.md) 中直接输入插入数据的 INSERT 语句，或使用 Java API（标准 [Java JDBC](../API/Programming-JDBC.md) 接口）单条或批量执行插入数据的 INSERT 语句。
 
@@ -114,7 +114,7 @@ Total line number = 3
 It costs 0.004s
 ```
 
-## 2 原生接口写入
+## 2. 原生接口写入
 原生接口 （Session） 是目前IoTDB使用最广泛的系列接口，包含多种写入接口，适配不同的数据采集场景，性能高效且支持多语言。
 
 ### 2.1 多语言接口写入
@@ -131,7 +131,7 @@ It costs 0.004s
 * ### Go
     参考 [Go 原生接口](../API/Programming-Go-Native-API.md)
 
-## 3 REST API写入
+## 3. REST API写入
 
 参考 [insertTablet (v1)](../API/RestServiceV1.md#inserttablet) or [insertTablet (v2)](../API/RestServiceV2.md#inserttablet)
 
@@ -168,11 +168,11 @@ It costs 0.004s
 }
 ```
 
-## 4 MQTT写入
+## 4. MQTT写入
 
 参考 [内置 MQTT 服务](../API/Programming-MQTT.md#内置-mqtt-服务)
 
-## 5 批量数据导入
+## 5. 批量数据导入
 
 针对于不同场景，IoTDB 为用户提供多种批量导入数据的操作方式，本章节向大家介绍最为常用的两种方式为 CSV文本形式的导入 和 TsFile文件形式的导入。
 
@@ -184,7 +184,7 @@ TsFile 是在 IoTDB 中使用的时间序列的文件格式，您可以通过CLI
 
 CSV 是以纯文本形式存储表格数据，您可以在CSV文件中写入多条格式化的数据，并批量的将这些数据导入到 IoTDB 中，在导入数据之前，建议在IoTDB中创建好对应的元数据信息。如果忘记创建元数据也不要担心，IoTDB 可以自动将CSV中数据推断为其对应的数据类型，前提是你每一列的数据类型必须唯一。除单个文件外，此工具还支持以文件夹的形式导入多个 CSV 文件，并且支持设置如时间精度等优化参数。具体操作方式请参考[数据导入](../Tools-System/Data-Import-Tool.md)。
 
-## 6 删除数据
+## 6. 删除数据
 
 用户使用 [DELETE 语句](../SQL-Manual/SQL-Manual.md#删除数据) 可以删除指定的时间序列中符合时间删除条件的数据。在删除数据时，用户可以选择需要删除的一个或多个时间序列、时间序列的前缀、时间序列带、*路径对某一个时间区间内的数据进行删除。
 

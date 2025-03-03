@@ -20,7 +20,7 @@
 -->
 # Apache NiFi
 
-## 1 Apache NiFi简介
+## 1. Apache NiFi简介
 
 Apache NiFi 是一个易用的、功能强大的、可靠的数据处理和分发系统。
 
@@ -46,7 +46,7 @@ Apache NiFi 包含以下功能：
     * 多租户授权和策略管理
     * 包括TLS和SSH的加密通信的标准协议
 
-## 2 PutIoTDBRecord
+## 2. PutIoTDBRecord
 
 这是一个用于数据写入的处理器。它使用配置的 Record Reader 将传入 FlowFile 的内容读取为单独的记录，并使用本机接口将它们写入 Apache IoTDB。
 
@@ -108,14 +108,14 @@ Apache NiFi 包含以下功能：
 6. 支持的 `encoding` 有： `PLAIN`， `DICTIONARY`， `RLE`， `DIFF`， `TS_2DIFF`， `BITMAP`， `GORILLA_V1`， `REGULAR`， `GORILLA`，`ZIGZAG`，`CHIMP`， `SPRINTZ`， `RLBE`。
 7. 支持的 `compressionType` 有： `UNCOMPRESSED`， `SNAPPY`， `GZIP`， `LZO`， `SDT`， `PAA`， `PLA`， `LZ4`， `ZSTD`， `LZMA2`。
 
-## 3 Relationships
+## 3. Relationships
 
 | relationship | 描述                    |
 | ------------ | ----------------------- |
 | success      | 数据能被正确的写入。    |
 | failure      | schema 或者数据有异常。 |
 
-## 4 QueryIoTDBRecord
+## 4. QueryIoTDBRecord
 
 这是一个用于数据读取的处理器。它通过读取 FlowFile 的内容中的SQL 查询来对IoTDB的原生接口进行访问，并将查询结果用Record Writer写入 flowfile。
 
@@ -132,7 +132,7 @@ Apache NiFi 包含以下功能：
 | iotdb-query-chunk-size  | 返回的结果可以进行分块，数据流中会返回一批按设置大小切分的数据，而不是一个单一的响应. 分块查询可以返回无限量的行。 注意: 数据分块只有在设置不为0时启用 | 0         | false     |
 
 
-## 5 Relationships
+## 5. Relationships
 
 | relationship | 描述                    |
 | ------------ | ----------------------- |

@@ -21,13 +21,13 @@
 
 # C# 原生接口
 
-## 1 依赖
+## 1. 依赖
 
 - .NET SDK >= 5.0 或 .NET Framework 4.x
 - Thrift >= 0.14.1
 - NLog >= 4.7.9
 
-## 2 安装
+## 2. 安装
 
 您可以使用 NuGet Package Manager, .NET CLI等工具来安装，以 .NET CLI为例
 
@@ -50,7 +50,7 @@ dotnet add package Apache.IoTDB.framework
 dotnet add package Apache.IoTDB --version 0.12.1.2
 ```
 
-## 3 基本接口说明
+## 3. 基本接口说明
 
 Session接口在语义上和其他语言客户端相同
 
@@ -88,7 +88,7 @@ await session_pool.InsertTabletAsync(tablet);
 await session_pool.Close();
 ```
 
-## 4 **Row Record**
+## 4. **Row Record**
 
 - 对**IoTDB**中的`record`数据进行封装和抽象。
 - 示例：
@@ -124,7 +124,7 @@ var tablet =
 
 
 
-## 5 **API**
+## 5. **API**
 
 ### 5.1 **基础接口**
 
@@ -188,7 +188,7 @@ var tablet =
 
 用法可以参考[用户示例](https://github.com/apache/iotdb-client-csharp/tree/main/samples/Apache.IoTDB.Samples)
 
-## 6 连接池
+## 6. 连接池
 
 为了实现并发客户端请求，我们提供了针对原生接口的连接池(`SessionPool`)，由于`SessionPool`本身为`Session`的超集，当`SessionPool`的`pool_size`参数设置为1时，退化为原来的`Session`
 
@@ -198,7 +198,7 @@ var tablet =
 
 当一个连接被用完后，他会自动返回池中等待下次被使用
 
-## 7 ByteBuffer
+## 7. ByteBuffer
 
 在传入RPC接口参数时，需要对Record和Tablet两种数据结构进行序列化，我们主要通过封装的ByteBuffer类实现
 
@@ -266,7 +266,7 @@ private void extend_buffer(int space_need){
 
 通过上述的策略，我们在一个有`20000`行的Tablet上进行测试时，序列化速度相比Naive数组长度动态生长实现算法具有约35倍的性能加速。
 
-## 8 异常重连
+## 8. 异常重连
 
 当服务端发生异常或者宕机重启时，客户端中原来通过`Open()`产生的的session会失效，抛出`TException`异常
 

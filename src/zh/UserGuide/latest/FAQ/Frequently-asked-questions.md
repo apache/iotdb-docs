@@ -23,7 +23,7 @@
 
 # 常见问题
 
-## 1 一般问题
+## 1. 一般问题
 
 ### 1.1 如何查询我的IoTDB版本？
 
@@ -179,7 +179,7 @@ datanode_memory_proportion参数控制分给查询的内存，chunk_timeseriesme
 - 添加 align by device，会按照device顺序进行输出，内存占用会降低至单device级别。
 
 
-## 2 分布式部署 FAQ
+## 2. 分布式部署 FAQ
 
 ### 2.1 集群启停
 

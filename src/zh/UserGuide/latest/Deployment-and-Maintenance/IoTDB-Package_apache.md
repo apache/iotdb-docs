@@ -19,11 +19,11 @@
 
 -->
 # 安装包获取
-## 1 安装包获取方式
+## 1. 安装包获取方式
 
 安装包可直接在Apache IoTDB官网获取：https://iotdb.apache.org/zh/Download/
 
-## 2 安装包结构
+## 2. 安装包结构
 
 解压后安装包（`apache-iotdb-<version>-all-bin.zip`），安装包解压后目录结构如下：
 

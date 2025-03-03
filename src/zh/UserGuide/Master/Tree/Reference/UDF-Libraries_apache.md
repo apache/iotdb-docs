@@ -24,7 +24,7 @@
 
 > 注意：当前UDF函数库中的函数仅支持毫秒级的时间戳精度。
 
-## 1 安装步骤
+## 1. 安装步骤
 1. 请获取与 IoTDB 版本兼容的 UDF 函数库 JAR 包的压缩包。
 
     | UDF 安装包     | 支持的 IoTDB 版本 | 下载链接                                                     |
@@ -42,7 +42,7 @@
 - SQL汇总语句
     - 打开压缩包中的SQl文件，复制全部 SQL 语句，在 IoTDB 的 SQL 命令行终端（CLI）的 SQL 操作界面中，执行全部 SQl 语句批量注册 UDF
 
-## 2 数据质量
+## 2. 数据质量
                           
 ### 2.1 Completeness
 
@@ -592,7 +592,7 @@ select validity(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:
 
 -->
 
-## 3 数据画像
+## 3. 数据画像
 
 ### 3.1 ACF
 

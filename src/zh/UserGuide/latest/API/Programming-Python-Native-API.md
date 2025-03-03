@@ -21,11 +21,11 @@
 
 # Python 原生接口
 
-## 1 依赖
+## 1. 依赖
 
 在使用 Python 原生接口包前，您需要安装 thrift (>=0.13) 依赖。
 
-## 2 如何使用 （示例）
+## 2. 如何使用 （示例）
 
 首先下载包：`pip3 install apache-iotdb`
 
@@ -49,7 +49,7 @@ session.open(False)
 zone = session.get_time_zone()
 session.close()
 ```
-## 3 基本接口说明
+## 3. 基本接口说明
 
 下面将给出 Session 对应的接口的简要介绍和对应参数：
 
@@ -134,7 +134,7 @@ session_pool.put_back(session)
 session_pool.close()
 ```
 
-## 4 数据定义接口 DDL
+## 4. 数据定义接口 DDL
 
 ### 4.1 Database 管理
 
@@ -186,7 +186,7 @@ session.delete_time_series(paths_list)
 session.check_time_series_exists(path)
 ```
 
-## 5 数据操作接口 DML
+## 5. 数据操作接口 DML
 
 ### 5.1 数据写入
 
@@ -327,7 +327,7 @@ session.insert_str_record(device_id, timestamp, measurements, string_values)
 * insert_aligned_tablets
 
 
-## 6 IoTDB-SQL 接口
+## 6. IoTDB-SQL 接口
 
 * 执行查询语句
 
@@ -348,7 +348,7 @@ session.execute_statement(sql)
 ```
 
 
-## 7 元数据模版接口
+## 7. 元数据模版接口
 ### 7.1 构建元数据模版
 1. 首先构建 Template 类
 2. 添加子节点 MeasurementNode
@@ -431,7 +431,7 @@ session.drop_schema_template("template_python")
 ```
 
 
-## 8 对 Pandas 的支持
+## 8. 对 Pandas 的支持
 
 我们支持将查询结果轻松地转换为 [Pandas Dataframe](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.html)。
 
@@ -459,7 +459,7 @@ session.close()
 df = ...
 ```
 
-## 9 IoTDB Testcontainer
+## 9. IoTDB Testcontainer
 
 Python 客户端对测试的支持是基于`testcontainers`库 (https://testcontainers-python.readthedocs.io/en/latest/index.html) 的，如果您想使用该特性，就需要将其安装到您的项目中。
 
@@ -479,7 +479,7 @@ class MyTestCase(unittest.TestCase):
 
 默认情况下，它会拉取最新的 IoTDB 镜像 `apache/iotdb:latest`进行测试，如果您想指定待测 IoTDB 的版本，您只需要将版本信息像这样声明：`IoTDBContainer("apache/iotdb:0.12.0")`，此时，您就会得到一个`0.12.0`版本的 IoTDB 实例。
 
-## 10 IoTDB DBAPI
+## 10. IoTDB DBAPI
 
 IoTDB DBAPI 遵循 Python DB API 2.0 规范 (https://peps.python.org/pep-0249/)，实现了通过Python语言访问数据库的通用接口。
 
@@ -532,7 +532,7 @@ cursor.close()
 conn.close()
 ```
 
-## 11 IoTDB SQLAlchemy Dialect（实验性）
+## 11. IoTDB SQLAlchemy Dialect（实验性）
 IoTDB的SQLAlchemy方言主要是为了适配Apache superset而编写的，该部分仍在完善中，请勿在生产环境中使用！
 ### 11.1 元数据模型映射
 SQLAlchemy 所使用的数据模型为关系数据模型，这种数据模型通过表格来描述不同实体之间的关系。
@@ -619,7 +619,7 @@ for row in res:
     print(row)
 ```
 
-## 12 给开发人员
+## 12. 给开发人员
 
 ### 12.1 介绍
 
@@ -682,7 +682,7 @@ session.close()
 [black](https://pypi.org/project/black/) 和 [flake8](https://pypi.org/project/flake8/) 分别用于自动格式化和 linting。
 它们可以通过 `black .` 或 `flake8 .` 分别运行。
 
-## 13 发版
+## 13. 发版
 
 要进行发版，
 

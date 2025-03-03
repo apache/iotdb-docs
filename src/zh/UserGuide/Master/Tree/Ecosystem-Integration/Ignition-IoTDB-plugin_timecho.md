@@ -20,7 +20,7 @@
 -->
 # Ignition
 
-## 1 产品概述
+## 1. 产品概述
 
 1. Ignition简介
 
@@ -37,7 +37,7 @@ Ignition 是一个基于WEB的监控和数据采集工具（SCADA）- 一个开�
 
   ![](/img/Ignition.png)
 
-## 2 安装要求
+## 2. 安装要求
 
 | **准备内容**             | **版本要求**                                                 |
 | :------------------------: | :------------------------------------------------------------: |
@@ -46,7 +46,7 @@ Ignition 是一个基于WEB的监控和数据采集工具（SCADA）- 一个开�
 | Ignition-IoTDB连接器模块 | 请联系商务获取                                               |
 | Ignition-IoTDB With JDBC模块 | 下载地址：https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/ |
 
-## 3 Ignition-IoTDB连接器使用说明
+## 3. Ignition-IoTDB连接器使用说明
 
 ### 3.1 简介
 
@@ -232,7 +232,7 @@ Ignition-IoTDB连接器提供了将 Ignition 采集到的数据存入 IoTDB 的�
 system.iotdb.query("IoTDB", "select * from root.db.Sine where time > 1709563427247")
 ```
 
-## 4 Ignition-IoTDB With JDBC
+## 4. Ignition-IoTDB With JDBC
 
 ### 4.1 简介
 

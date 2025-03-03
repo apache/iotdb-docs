@@ -21,7 +21,7 @@
 
 # Apache Hive(TsFile)
 
-## 1 什么是 TsFile 的 Hive 连接器
+## 1. 什么是 TsFile 的 Hive 连接器
 
 TsFile 的 Hive 连接器实现了对 Hive 读取外部 Tsfile 类型的文件格式的支持，
 使用户能够通过 Hive 操作 Tsfile。
@@ -32,13 +32,13 @@ TsFile 的 Hive 连接器实现了对 Hive 读取外部 Tsfile 类型的文件�
 * 使用 HQL 查询 tsfile
 * 到现在为止，写操作在 hive-connector 中还没有被支持。所以，HQL 中的 insert 操作是不被允许的
 
-## 2 系统环境要求
+## 2. 系统环境要求
 
 |Hadoop Version |Hive Version | Java Version | TsFile |
 |-------------  |------------ | ------------ |------------ |
 | `2.7.3` or `3.2.1`       |    `2.3.6` or `3.1.2`  | `1.8`        | `1.0.0+`|
 
-## 3 数据类型对应关系
+## 3. 数据类型对应关系
 
 | TsFile 数据类型   | Hive 数据类型 |
 | ---------------- | --------------- |
@@ -49,7 +49,7 @@ TsFile 的 Hive 连接器实现了对 Hive 读取外部 Tsfile 类型的文件�
 | DOUBLE      	   | Double          |
 | TEXT      	   | STRING          |
 
-## 4 为 Hive 添加依赖 jar 包
+## 4. 为 Hive 添加依赖 jar 包
 
 为了在 Hive 中使用 Tsfile 的 hive 连接器，我们需要把 hive 连接器的 jar 导入进 hive。
 
@@ -64,7 +64,7 @@ Added [/Users/hive/iotdb/hive-connector/target/hive-connector-1.0.0-jar-with-dep
 Added resources: [/Users/hive/iotdb/hive-connector/target/hive-connector-1.0.0-jar-with-dependencies.jar]
 ```
 
-## 5 创建 Tsfile-backed 的 Hive 表
+## 5. 创建 Tsfile-backed 的 Hive 表
 
 为了创建一个 Tsfile-backed 的表，需要将`serde`指定为`org.apache.iotdb.hive.TsFileSerDe`，
 将`inputformat`指定为`org.apache.iotdb.hive.TSFHiveInputFormat`，
@@ -108,7 +108,7 @@ Time taken: 0.053 seconds, Fetched: 2 row(s)
 
 到目前为止，Tsfile-backed 的表已经可以像 hive 中其他表一样被操作了。
 
-## 6 从 Tsfile-backed 的 Hive 表中查询
+## 6. 从 Tsfile-backed 的 Hive 表中查询
 
 在做任何查询之前，我们需要通过如下命令，在 hive 中设置`hive.input.format`：
 

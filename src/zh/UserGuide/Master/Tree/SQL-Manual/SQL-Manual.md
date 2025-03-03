@@ -1,6 +1,6 @@
 # SQL手册
 
-## 1 元数据操作
+## 1. 元数据操作
 
 ### 1.1 数据库管理
 
@@ -360,7 +360,7 @@ IoTDB> SHOW TTL ON pathPattern
 ```sql
 IoTDB> show DEVICES
 ```
-## 2 写入数据
+## 2. 写入数据
 
 ### 2.1 写入单列数据
 ```sql
@@ -412,7 +412,7 @@ load '<path/dir>' [sglevel=int][onSuccess=delete/none]
 - `load '/Users/Desktop/data' onSuccess=delete`
 - `load '/Users/Desktop/data' sglevel=1 onSuccess=delete`
 
-## 3 删除数据
+## 3. 删除数据
 
 ### 3.1 删除单列数据
 ```sql
@@ -465,7 +465,7 @@ IoTDB> delete from root.ln.wf03.wt02.status where time < now()
 
 Msg: The statement is executed successfully.
 ```
-## 4 数据查询
+## 4. 数据查询
 
 ### 4.1 基础查询
 
@@ -1021,7 +1021,7 @@ select * into ::(backup_${4}) from root.sg.** align by device;
 
 select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
 ```
-## 5 运维语句
+## 5. 运维语句
 生成对应的查询计划
 ```
 explain select s1,s2 from root.sg.d1
@@ -1030,7 +1030,7 @@ explain select s1,s2 from root.sg.d1
 ```
 explain analyze select s1,s2 from root.sg.d1 order by s1
 ```
-## 6 运算符
+## 6. 运算符
 
 更多见文档[Operator-and-Expression](./Operator-and-Expression.md)
 
@@ -1081,7 +1081,7 @@ select a, a in (1, 2) from root.test;
 select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
 ```
 
-## 7 内置函数
+## 7. 内置函数
 
 更多见文档[Operator-and-Expression](./Operator-and-Expression.md#聚合函数)
 
@@ -1212,7 +1212,7 @@ select M4(s1,'windowSize'='10') from root.vehicle.d1
 select change_points(s1), change_points(s2), change_points(s3), change_points(s4), change_points(s5), change_points(s6) from root.testChangePoints.d1
 ```
 
-## 8 数据质量函数库
+## 8. 数据质量函数库
 
 更多见文档[UDF-Libraries](../SQL-Manual/UDF-Libraries.md)
 
@@ -1462,7 +1462,7 @@ select representation(s0,"tb"="3","vb"="2") from root.test.d0
 select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0
 ```
 
-## 9 Lambda 表达式
+## 9. Lambda 表达式
 
 更多见文档[Lambda](./Operator-and-Expression.md#lambda-表达式)
 
@@ -1470,7 +1470,7 @@ select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0
 select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'expr'='x -> {x * 3}') as jexl2, jexl(temperature, 'expr'='x -> {x * x}') as jexl3, jexl(temperature, 'expr'='x -> {multiply(x, 100)}') as jexl4, jexl(temperature, st, 'expr'='(x, y) -> {x + y}') as jexl5, jexl(temperature, st, str, 'expr'='(x, y, z) -> {x + y + z}') as jexl6 from root.ln.wf01.wt01;```
 ```
 
-## 10 条件表达式
+## 10. 条件表达式
 
 更多见文档[Conditional Expressions](./Operator-and-Expression.md#条件表达式)
 
@@ -1508,7 +1508,7 @@ end as `result`
 from root.test4
 ```
 
-## 11 触发器
+## 11. 触发器
 
 ### 11.1 使用 SQL 语句注册该触发器
 ```sql
@@ -1608,7 +1608,7 @@ DROP TRIGGER triggerTest1
 ```sql
 SHOW TRIGGERS
 ```
-## 12 连续查询（Continuous Query, CQ）
+## 12. 连续查询（Continuous Query, CQ）
 
 ### 12.1 语法
 
@@ -1789,7 +1789,7 @@ END
 ```sql
 SELECT avg(count_s1) from root.sg_count.d;
 ```
-## 12 用户自定义函数
+## 12. 用户自定义函数
 
 ### 12.1 UDFParameters
 ```sql
@@ -1840,7 +1840,7 @@ SELECT s1, s2, s1 + example(s1, s2), s1 - example(s1 + example(s1, s2) / s2) FRO
 ```sql
 SHOW FUNCTIONS
 ```
-## 13 权限管理
+## 13. 权限管理
 
 ### 13.1 用户与角色相关
 
