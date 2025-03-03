@@ -25,7 +25,7 @@ IoTDB 为用户提供 CLI 工具用于和服务端程序进行交互操作。在
 
 > 本文中 $IoTDB_HOME 表示 IoTDB 的安装目录所在路径。
 
-## 1 CLI 启动
+## 1. CLI 启动
 
 CLI 客户端脚本是 $IoTDB_HOME/sbin 文件夹下的`start-cli`脚本。启动命令为：
 
@@ -70,7 +70,7 @@ Shell> sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect tab
 ![](/img/Cli-01.png)
 
 
-## 2 在 CLI 中执行语句
+## 2. 在 CLI 中执行语句
 
 进入 CLI 后，用户可以直接在对话中输入 SQL 语句进行交互。如：
 
@@ -92,11 +92,11 @@ show databases
 ![](/img/Cli-03.png)
 
 
-## 3 CLI 退出
+## 3. CLI 退出
 
 在 CLI 中输入`quit`或`exit`可退出 CLI 结束本次会话。
 
-## 4 其他说明
+## 4. 其他说明
 
 CLI中使用命令小技巧：
 

@@ -21,7 +21,7 @@
 
 # FROM & JOIN 子句
 
-## 1 语法概览
+## 1. 语法概览
 
 ```sql
 FROM relation (',' relation)*
@@ -60,11 +60,11 @@ qualifiedName
     ;
 ```
 
-## 2 FROM 子句
+## 2. FROM 子句
 
 FROM 子句指定了查询操作的数据源。在逻辑上，查询的执行从 FROM 子句开始。FROM 子句可以包含单个表、使用 JOIN 子句连接的多个表的组合，或者子查询中的另一个 SELECT 查询。
 
-## 3 JOIN 子句
+## 3. JOIN 子句
 
 JOIN 用于将两个表基于某些条件连接起来，通常，连接条件是一个谓词，但也可以指定其他隐含的规则。
 
@@ -115,7 +115,7 @@ SELECT selectExpr [, selectExpr] ... FROM <TABLE_NAME> [, <TABLE_NAME>] ... [WHE
 
 在当前版本的 IoTDB 中，只支持 FULL [OUTER] JOIN，即全外连接，返回左表和右表连接后的所有记录。如果某个表中的记录没有与另一个表中的记录匹配，则会返回 NULL 值。__FULL JOIN 只能使用显式连接方式。__
 
-## 4 示例数据
+## 4. 示例数据
 
 在[示例数据页面](../Reference/Sample-Data.md)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
 

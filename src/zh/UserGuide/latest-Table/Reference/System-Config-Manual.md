@@ -28,7 +28,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 - `iotdb-system.properties`：IoTDB 的配置文件。
 - `iotdb-system.properties.template`：IoTDB 的配置文件模版。
 
-## 1 修改配置：
+## 1. 修改配置：
 
 在 `iotdb-system.properties` 文件中已存在的参数可以直接进行修改。对于那些在 `iotdb-system.properties` 中未列出的参数，可以从 `iotdb-system.properties.template` 配置文件模板中找到相应的参数，然后将其复制到 `iotdb-system.properties` 文件中进行修改。
 
@@ -40,7 +40,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 - 重启服务生效： ConfigNode/DataNode 启动后仍可修改，但需要重启 ConfigNode/DataNode 后才生效。
 - 热加载： 可在 ConfigNode/DataNode 运行时修改，修改后通过 Session 或 Cli 发送 `load configuration` 或 `set configuration` 命令（SQL）至 IoTDB 使配置生效。
 
-## 2 环境配置项
+## 2. 环境配置项
 
 ### 2.1 confignode-env.sh/bat
 
@@ -105,7 +105,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 改后生效方式 | 重启服务生效                                                 |
 
 
-## 3 系统配置项（iotdb-system.properties.template）
+## 3. 系统配置项（iotdb-system.properties.template）
 
 ### 3.1 集群管理
 

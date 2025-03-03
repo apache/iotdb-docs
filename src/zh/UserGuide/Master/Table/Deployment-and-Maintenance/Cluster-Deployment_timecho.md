@@ -26,7 +26,7 @@
     <img src="/img/cluster01.png" alt="" style="width: 60%;"/>
 </div>
 
-## 1 注意事项
+## 1. 注意事项
 
 1. 安装前请确认系统已参照[系统配置](../Deployment-and-Maintenance/Environment-Requirements.md)准备完成。
    
@@ -52,12 +52,12 @@
 
 6. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，部署监控面板步骤可以参考：[监控面板部署](./Monitoring-panel-deployment.md)
 
-## 2 准备步骤
+## 2. 准备步骤
 
 1. 准备IoTDB数据库安装包 ：timechodb-{version}-bin.zip（安装包获取见：[链接](./IoTDB-Package_timecho.md)）
 2. 按环境要求配置好操作系统环境（系统环境配置见：[链接](./Environment-Requirements.md)）
 
-## 3 安装步骤
+## 3. 安装步骤
 
 假设现在有3台linux服务器，IP地址和服务角色分配如下：
 
@@ -220,7 +220,7 @@ cd sbin
 
 ![](/img/%E9%9B%86%E7%BE%A4-%E9%AA%8C%E8%AF%81.png)
 
-## 4 节点维护步骤
+## 4. 节点维护步骤
 
 ### 4.1 ConfigNode节点维护
 
@@ -247,7 +247,7 @@ sbin/start-confignode.bat
 
 #### 4.1.2 移除ConfigNode节点
 
-首先通过CLI连接集群，通过`show confignodes`确认想要移除ConfigNode的NodeID：
+首先通过CLI连接集群，通过`show confignodes`确认想要移除ConfigNode的内部地址与端口号：
 
 ```shell
 IoTDB> show confignodes
@@ -262,9 +262,18 @@ Total line number = 3
 It costs 0.030s
 ```
 
-然后使用SQL将ConfigNode移除，SQL命令：
+然后使用脚本将DataNode移除。脚本命令：
+
 ```Bash
-remove confignode [confignode_id]
+# Linux / MacOS 
+sbin/remove-confignode.sh [confignode_id]
+或
+./sbin/remove-confignode.sh [cn_internal_address:cn_internal_port]
+
+#Windows
+sbin/remove-confignode.bat [confignode_id]
+或
+./sbin/remove-confignode.bat [cn_internal_address:cn_internal_port]
 ```
 
 ### 4.2 DataNode节点维护
@@ -294,7 +303,7 @@ sbin/start-datanode.bat
 
 #### 4.2.2 移除DataNode节点
 
-首先通过CLI连接集群，通过`show datanodes`确认想要移除的DataNode的NodeID：
+首先通过CLI连接集群，通过`show datanodes`确认想要移除的DataNode的RPC地址与端口号：
 
 ```Bash
 IoTDB> show datanodes
@@ -309,12 +318,17 @@ Total line number = 3
 It costs 0.110s
 ```
 
-然后使用SQL将DataNode移除，SQL命令：
+然后使用脚本将DataNode移除。脚本命令：
+
 ```Bash
-remove datanode [datanode_id]
+# Linux / MacOS 
+sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
+
+#Windows
+sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 ```
 
-## 5 常见问题
+## 5. 常见问题
 
 1. 部署过程中多次提示激活失败
    - 使用 `ls -al` 命令：使用 `ls -al` 命令检查安装包根目录的所有者信息是否为当前用户。
@@ -346,7 +360,7 @@ remove datanode [datanode_id]
         ```shell
             cd /data/iotdb rm -rf data logs
         ```
-## 6 附录
+## 6. 附录
 
 ### 6.1 Confignode节点参数介绍
 

@@ -21,11 +21,11 @@
 
 # Java Session原生接口 
 
-## 1 功能介绍
+## 1. 功能介绍
 
 IoTDB具备Java原生客户端驱动和对应的连接池，提供对象化接口，可以直接组装时序对象进行写入，无需拼装 SQL。推荐使用连接池，多线程并行操作数据库。
 
-## 2 使用方式
+## 2. 使用方式
 
 **环境要求:**
 
@@ -44,7 +44,7 @@ IoTDB具备Java原生客户端驱动和对应的连接池，提供对象化接�
 </dependencies>
 ```
 
-## 3 读写操作
+## 3. 读写操作
 
 ### 3.1 ITableSession接口
 
@@ -348,7 +348,7 @@ public class TableSessionBuilder {
 }
 ```
 
-## 4 客户端连接池
+## 4. 客户端连接池
 
 ### 4.1 ITableSessionPool 接口
 
@@ -627,7 +627,7 @@ public class TableSessionPoolBuilder {
 }
 ```
 
-## 5 示例代码
+## 5. 示例代码
 
 Session 示例代码：[src/main/java/org/apache/iotdb/TableModelSessionExample.java](https://github.com/apache/iotdb/blob/master/example/session/src/main/java/org/apache/iotdb/TableModelSessionExample.java)
 

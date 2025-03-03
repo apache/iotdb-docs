@@ -22,7 +22,7 @@
 
 本章将介绍如何启动IoTDB单机实例，IoTDB单机实例包括 1 个ConfigNode 和1个DataNode（即通常所说的1C1D）。
 
-## 1 注意事项
+## 1. 注意事项
 
 1. 安装前请确认系统已参照[系统配置](../Deployment-and-Maintenance/Environment-Requirements.md)准备完成。
 2. 推荐使用`hostname`进行IP配置，可避免后期修改主机ip导致数据库无法启动的问题。设置hostname需要在服务器上配置`/etc/hosts`，如本机ip是192.168.1.3，hostname是iotdb-1，则可以使用以下命令设置服务器的 hostname，并使用hostname配置IoTDB的 `cn_internal_address`、`dn_internal_address`。
@@ -40,7 +40,7 @@
       - 避免使用 sudo：使用 sudo 命令会以 root 用户权限执行命令，可能会引起权限混淆或安全问题。
 6. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系工作人员获取，部署监控面板步骤可以参考：[监控面板部署](../Deployment-and-Maintenance/Monitoring-panel-deployment.md)
 
-## 2 安装步骤
+## 2. 安装步骤
 
 ### 2.1 解压安装包并进入安装目录
 
@@ -176,7 +176,7 @@ IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOM
 
 ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81.png)
 
-## 3 常见问题
+## 3. 常见问题
 
 1. 部署过程中多次提示激活失败
    - 使用 `ls -al` 命令：使用 `ls -al` 命令检查安装包根目录的所有者信息是否为当前用户。
@@ -208,7 +208,7 @@ IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOM
             cd /data/iotdb rm -rf data logs
         ```
 
-## 4 附录
+## 4. 附录
 
 ### 4.1 Confignode节点参数介绍
 

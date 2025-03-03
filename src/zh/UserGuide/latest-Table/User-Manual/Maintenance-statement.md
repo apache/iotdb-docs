@@ -20,7 +20,7 @@
 -->
 # 运维语句
 
-## 1  状态查看
+## 1.  状态查看
 
 ### 1.1 查看连接的模型
 
@@ -304,7 +304,7 @@ IoTDB> SHOW QUERIES WHERE elapsed_time > 30
 +-----------------------+-----------------------------+-----------+------------+------------+----+
 ```
 
-## 2 状态设置
+## 2. 状态设置
 
 ### 2.1 设置连接的模型
 
@@ -444,7 +444,7 @@ IoTDB> SET SYSTEM TO READONLY ON CLUSTER;
 ```
 
 
-## 3 数据管理
+## 3. 数据管理
 
 ### 3.1 刷写内存表中的数据到磁盘
 
@@ -535,7 +535,7 @@ localOrClusterMode
 IoTDB> CLEAR ALL CACHE ON LOCAL;
 ```
 
-## 4 数据修复
+## 4. 数据修复
 
 ### 4.1 启动后台扫描并修复 tsfile 任务
 
@@ -599,7 +599,7 @@ localOrClusterMode
 IoTDB> STOP REPAIR DATA ON CLUSTER;
 ```
 
-## 5 终止查询
+## 5. 终止查询
 
 ### 5.1 主动终止查询
 

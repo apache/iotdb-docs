@@ -20,7 +20,7 @@
 -->
 # Docker部署
 
-## 1 环境准备
+## 1. 环境准备
 
 ### 1.1 Docker安装
 
@@ -67,7 +67,7 @@ dmidecode 安装后，查找安装路径：`whereis dmidecode`，这里假设结
 
 关于IoTDB企业版的容器镜像您可联系商务或技术支持获取。
 
-## 2 单机版部署
+## 2. 单机版部署
 
 本节演示如何部署1C1D的docker单机版。
 
@@ -239,7 +239,7 @@ docker cp iotdb:/iotdb/conf /docker-iotdb/iotdb/conf
 docker-compose  -f docker-compose-standalone.yml  up  -d
 ```
 
-## 3 集群版部署
+## 3. 集群版部署
 
 本小节描述如何手动部署包括3个ConfigNode和3个DataNode的实例，即通常所说的3C3D集群。
 
