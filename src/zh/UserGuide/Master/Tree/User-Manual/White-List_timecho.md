@@ -22,17 +22,17 @@
 
 # 白名单
 
-## 1 功能描述
+## 1. 功能描述
 
 允许哪些客户端地址能连接 IoTDB
 
-## 2 配置文件
+## 2. 配置文件
 
 conf/iotdb-system.properties
 
 conf/white.list
 
-## 3 配置项
+## 3. 配置项
 
 iotdb-system.properties:
 

@@ -21,7 +21,7 @@
 
 # C++ 原生接口
 
-## 1 依赖
+## 1. 依赖
 
 - Java 8+
 - Flex
@@ -31,7 +31,7 @@
 - GCC 5.5.0+
 
 
-## 2 安装
+## 2. 安装
 
 ### 2.1 安装相关依赖
 
@@ -163,7 +163,7 @@ A:
     - 执行 `.\mvnw.cmd clean install`
     - 回到 iotdb 代码目录执行 `.\mvnw.cmd clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp -Dcmake.generator="Visual Studio 15 2017"`
 
-## 3 基本接口说明
+## 3. 基本接口说明
 
 下面将给出 Session 接口的简要介绍和原型定义：
 
@@ -404,7 +404,7 @@ void executeNonQueryStatement(const std::string &sql);
 ```
 
 
-## 4 示例代码
+## 4. 示例代码
 
 示例工程源代码：
 
@@ -413,7 +413,7 @@ void executeNonQueryStatement(const std::string &sql);
 
 编译成功后，示例代码工程位于 `example/client-cpp-example/target`
 
-## 5 FAQ
+## 5. FAQ
 
 ### 5.1 Thrift 编译相关问题
 

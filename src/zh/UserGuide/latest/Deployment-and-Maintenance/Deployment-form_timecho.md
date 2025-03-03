@@ -22,7 +22,7 @@
 
 IoTDB 有三种运行模式：单机模式、集群模式和双活模式。
 
-## 1 单机模式 
+## 1. 单机模式 
 
 IoTDB单机实例包括 1 个ConfigNode、1个DataNode，即1C1D；
 
@@ -30,7 +30,7 @@ IoTDB单机实例包括 1 个ConfigNode、1个DataNode，即1C1D；
 - **适用场景**：资源有限或对高可用要求不高的场景，例如边缘端服务器。
 - **部署方法**：[单机版部署](../Deployment-and-Maintenance/Stand-Alone-Deployment_timecho.md)
 
-## 2 双活模式 
+## 2. 双活模式 
 
 双活版部署为 TimechoDB 企业版功能，是指两个独立的实例进行双向同步，能同时对外提供服务。当一台停机重启后，另一个实例会将缺失数据断点续传。
 
@@ -40,7 +40,7 @@ IoTDB单机实例包括 1 个ConfigNode、1个DataNode，即1C1D；
 - **适用场景**：资源有限（仅有两台服务器），但希望获得高可用能力。
 - **部署方法**：[双活版部署](../Deployment-and-Maintenance/Dual-Active-Deployment_timecho.md)
 
-## 3 集群模式
+## 3. 集群模式
 
 IoTDB 集群实例为 3 个ConfigNode 和不少于 3 个 DataNode，通常为 3 个 DataNode，即3C3D；当部分节点出现故障时，剩余节点仍然能对外提供服务，保证数据库服务的高可用性，且可随节点增加提升数据库性能。
 
@@ -48,7 +48,7 @@ IoTDB 集群实例为 3 个ConfigNode 和不少于 3 个 DataNode，通常为 3 
 - **适用场景**：需要提供高可用和可靠性的企业级应用场景。
 - **部署方法**：[集群版部署](../Deployment-and-Maintenance/Cluster-Deployment_timecho.md)
 
-## 4 特点总结
+## 4. 特点总结
 
 | 维度         | 单机模式                     | 双活模式                 | 集群模式                 |
 | ------------ | ---------------------------- | ------------------------ | ------------------------ |

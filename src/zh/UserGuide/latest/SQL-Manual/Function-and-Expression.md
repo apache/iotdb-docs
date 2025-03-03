@@ -21,7 +21,7 @@
 
 # 内置函数与表达式
 
-## 1 聚合函数
+## 1. 聚合函数
 
 聚合函数是多对一函数。它们对一组值进行聚合计算，得到单个聚合结果。
 
@@ -502,7 +502,7 @@ IoTDB> select min_by(b, a) from root.test group by ([0,7),4ms) order by time des
 
 -->
 
-## 2 算数运算符和函数
+## 2. 算数运算符和函数
 
 ### 2.1 算数运算符
 
@@ -639,7 +639,7 @@ It costs 0.059s
 
 -->
 
-## 3 比较运算符和函数
+## 3. 比较运算符和函数
 
 ### 3.1 基本比较运算符
 
@@ -949,7 +949,7 @@ IoTDB> select ts, in_range(ts, 'lower'='2', 'upper'='3.1') from root.test;
 
 -->
 
-## 4 逻辑运算符
+## 4. 逻辑运算符
 
 ### 4.1 一元逻辑运算符
 
@@ -1012,7 +1012,7 @@ IoTDB> select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
 
 -->
 
-##  5 字符串处理
+##  5. 字符串处理
 
 ###  5.1 STRING_CONTAINS
 
@@ -1917,7 +1917,7 @@ select regexsplit(s1, "regex"=",", "index"="3") from root.test.d1
 
 -->
 
-## 6 数据类型转换
+## 6. 数据类型转换
 
 ### 6.1 CAST
 
@@ -2020,7 +2020,7 @@ IoTDB> select cast(s6 as BOOLEAN) from root.sg.d1 where time >= 2
 
 -->
 
-## 7 常序列生成函数
+## 7. 常序列生成函数
 
 常序列生成函数用于生成所有数据点的值都相同的时间序列。
 
@@ -2078,7 +2078,7 @@ It costs 0.005s
 
 -->
 
-## 8 选择函数
+## 8. 选择函数
 
 目前 IoTDB 支持如下选择函数：
 
@@ -2130,7 +2130,7 @@ It costs 0.006s
 
 -->
 
-## 9 区间查询函数
+## 9. 区间查询函数
 
 ### 9.1 连续满足区间函数
 
@@ -2206,7 +2206,7 @@ select s1, zero_count(s1), non_zero_count(s2), zero_duration(s3), non_zero_durat
 
 -->
 
-## 10 趋势计算函数
+## 10. 趋势计算函数
 
 目前 IoTDB 支持如下趋势计算函数：
 
@@ -2321,7 +2321,7 @@ SELECT DIFF(s1, 'ignoreNull'='false'), DIFF(s2, 'ignoreNull'='false') from root.
 
 -->
 
-##  11 采样函数
+##  11. 采样函数
 
 ###  11.1 等数量分桶降采样函数
 
@@ -2724,7 +2724,7 @@ select M4(s1,'timeInterval'='$__interval_ms') from root.sg1.d1
 
 -->
 
-## 12 时间序列处理
+## 12. 时间序列处理
 
 ### 12.1 CHANGE_POINTS
 
@@ -2794,7 +2794,7 @@ select change_points(s1), change_points(s2), change_points(s3), change_points(s4
 
 -->
 
-## 13 Lambda 表达式
+## 13. Lambda 表达式
 
 ### 13.1 JEXL 自定义函数
 
@@ -2877,7 +2877,7 @@ It costs 0.118s
 
 -->
 
-## 14 条件表达式
+## 14. 条件表达式
 
 ### 14.1 CASE
 

@@ -26,7 +26,7 @@
     <img src="/img/cluster01.png" alt="" style="width: 60%;"/>
 </div>
 
-## 1 注意事项
+## 1. 注意事项
 
 1. 安装前请确认系统已参照[系统配置](./Environment-Requirements.md)准备完成。
 
@@ -46,13 +46,13 @@
   - 使用同一用户操作：确保在启动、停止等操作均保持使用同一用户，不要切换用户。
   - 避免使用 sudo：尽量避免使用 sudo 命令，因为它会以 root 用户权限执行命令，可能会引起权限混淆或安全问题。 
 
-## 2 准备步骤
+## 2. 准备步骤
 
 1. 准备IoTDB数据库安装包 ：apache-iotdb-{version}-all-bin.zip（安装包获取见：[链接](../Deployment-and-Maintenance/IoTDB-Package_apache.md)）
 
 2. 按环境要求配置好操作系统环境（系统环境配置见：[链接](../Deployment-and-Maintenance/Environment-Requirements.md)）
 
-## 3 安装步骤
+## 3. 安装步骤
 
 假设现在有3台linux服务器，IP地址和服务角色分配如下：
 
@@ -170,7 +170,7 @@ cd sbin
 
 > 出现`ACTIVATED(W)`为被动激活，表示此ConfigNode没有license文件（或没有签发时间戳最新的license文件），其激活依赖于集群中其它Activate状态的ConfigNode。此时建议检查license文件是否已放入license文件夹，没有请放入license文件，若已存在license文件，可能是此节点license文件与其他节点信息不一致导致，请联系天谋工作人员重新申请.
 
-## 4 节点维护步骤
+## 4. 节点维护步骤
 
 ### 4.1 ConfigNode节点维护
 
@@ -305,7 +305,7 @@ sbin/remove-datanode.sh [datanode_id]
 sbin/remove-datanode.bat [datanode_id]
 ```
 
-## 5 常见问题
+## 5. 常见问题
 
 1.  Confignode节点启动失败
 

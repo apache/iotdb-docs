@@ -1,6 +1,6 @@
 # UDF 开发
 
-## 1 UDF 开发
+## 1. UDF 开发
 
 ###  1.1 UDF 依赖
 
@@ -675,7 +675,7 @@ UDAF 的结束方法，您可以在此方法中进行一些资源释放等的操
 如果您使用 [Maven](http://search.maven.org/)，可以参考我们编写的示例项目**udf-example**。您可以在 [这里](https://github.com/apache/iotdb/tree/master/example/udf) 找到它。
 
 
-## 2 为iotdb贡献通用的内置UDF函数
+## 2. 为iotdb贡献通用的内置UDF函数
 
 该部分主要讲述了外部用户如何将自己编写的 UDF 贡献给 IoTDB 社区。
 

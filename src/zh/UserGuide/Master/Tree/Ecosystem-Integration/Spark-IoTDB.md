@@ -21,7 +21,7 @@
 
 # Apache Spark(IoTDB)
 
-## 1 版本支持
+## 1. 版本支持
 
 支持的 Spark 与 Scala 版本如下：
 
@@ -29,12 +29,12 @@
 |----------------|--------------|
 | `2.4.0-latest` | `2.11, 2.12` |
 
-## 2 注意事项
+## 2. 注意事项
 
 1. 当前版本的 `spark-iotdb-connector` 支持 `2.11` 与 `2.12` 两个版本的 Scala，暂不支持 `2.13` 版本。
 2. `spark-iotdb-connector` 支持在 Java、Scala 版本的 Spark 与 PySpark 中使用。
 
-## 3 部署
+## 3. 部署
 
 `spark-iotdb-connector` 总共有两个使用场景，分别为 IDE 开发与 spark-shell 调试。
 
@@ -80,7 +80,7 @@ $IoTDB_HOME/iotdb-client/jdbc/target/iotdb-jdbc-{version}-SNAPSHOT-jar-with-depe
 cp iotdb-jdbc-{version}-SNAPSHOT-jar-with-dependencies.jar $SPARK_HOME/jars/
 ```
 
-## 4 使用
+## 4. 使用
 
 ### 4.1 参数
 
@@ -183,7 +183,7 @@ import org.apache.iotdb.spark.db._
 val wide_df = Transformer.toWideForm(spark, narrow_df)
 ```
 
-## 5 宽表与窄表
+## 5. 宽表与窄表
 
 以下 TsFile 结构为例：TsFile 模式中有三个度量：状态，温度和硬件。 这三种测量的基本信息如下：
 

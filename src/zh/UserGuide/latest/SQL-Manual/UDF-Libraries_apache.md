@@ -24,7 +24,7 @@
 
 > 注意：当前UDF函数库中的函数仅支持毫秒级的时间戳精度。
 
-## 1 安装步骤
+## 1. 安装步骤
 1. 请获取与 IoTDB 版本兼容的 UDF 函数库 JAR 包的压缩包。
 
     | UDF 安装包     | 支持的 IoTDB 版本 | 下载链接                                                     |
@@ -42,7 +42,7 @@
 - SQL汇总语句
     - 打开压缩包中的SQl文件，复制全部 SQL 语句，在 IoTDB 的 SQL 命令行终端（CLI）的 SQL 操作界面中，执行全部 SQl 语句批量注册 UDF
 
-## 2 数据质量
+## 2. 数据质量
                           
 ### 2.1 Completeness
 
@@ -592,7 +592,7 @@ select validity(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:
 
 -->
 
-## 3 数据画像
+## 3. 数据画像
 
 ### 3.1 ACF
 
@@ -2486,7 +2486,7 @@ select zscore(s1) from root.test
 
 -->
 
-## 4 异常检测
+## 4. 异常检测
 
 ### 4.1 IQR
 
@@ -3366,7 +3366,7 @@ select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='anomaly','p'='3','k'='3
 
 -->
 
-## 5 频域分析
+## 5. 频域分析
 
 ### 5.1 Conv
 
@@ -4073,7 +4073,7 @@ select envelope(s1),envelope(s1,'frequency'='1000'),envelope(s1,'amplification'=
 
 -->
 
-## 6 数据匹配
+## 6. 数据匹配
 
 ### 6.1 Cov
 
@@ -4437,7 +4437,7 @@ select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
 
 -->
 
-## 7 数据修复
+## 7. 数据修复
 
 ### 7.1 TimestampRepair
 
@@ -4966,7 +4966,7 @@ select seasonalrepair(s1,'method'='improved','period'=3) from root.test.d2
 
 -->
 
-## 8 序列发现
+## 8. 序列发现
 
 ### 8.1 ConsecutiveSequences
 
@@ -5152,7 +5152,7 @@ select consecutivewindows(s1,s2,'length'='10m') from root.test.d1
 
 -->
 
-## 9 机器学习
+## 9. 机器学习
 
 ### 9.1 AR
 

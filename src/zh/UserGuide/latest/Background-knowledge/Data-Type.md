@@ -21,7 +21,7 @@
 
 # 数据类型
 
-## 1 基本数据类型
+## 1. 基本数据类型
 
 IoTDB 支持以下十种数据类型：
 
@@ -70,7 +70,7 @@ CREATE TIMESERIES root.vehicle.d0.s0 WITH DATATYPE=FLOAT, ENCODING=RLE, 'MAX_POI
 | TIMESTAMP    | INT32 INT64 TIMESTAMP             |
 | DATE         | DATE                              |
 
-## 2 时间戳类型
+## 2. 时间戳类型
 
 时间戳是一个数据到来的时间点，其中包括绝对时间戳和相对时间戳。
 

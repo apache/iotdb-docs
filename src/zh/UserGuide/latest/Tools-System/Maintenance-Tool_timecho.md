@@ -21,7 +21,7 @@
 
 # 集群管理工具
 
-## 1 集群管理工具
+## 1. 集群管理工具
 
 IoTDB 集群管理工具是一款易用的运维工具（企业版工具）。旨在解决 IoTDB 分布式系统多节点的运维难题，主要包括集群部署、集群启停、弹性扩容、配置更新、数据导出等功能，从而实现对复杂数据库集群的一键式指令下发，极大降低管理难度。本文档将说明如何用集群管理工具远程部署、配置、启动和停止 IoTDB 集群实例。
 
@@ -805,7 +805,7 @@ iotdbctl cluster exportschema default_cluster -N datanode1 -param "-t ./ -pf ./p
 | default\_3c3d.yaml          | 3个confignode和3个datanode 配置样例                   |
 | default\_3c3d\_grafa\_prome | 3个confignode和3个datanode、Grafana、Prometheus配置样例 |
 
-## 2 数据文件夹概览工具
+## 2. 数据文件夹概览工具
 
 IoTDB数据文件夹概览工具用于打印出数据文件夹的结构概览信息，工具位置为 tools/tsfile/print-iotdb-data-dir。
 
@@ -866,7 +866,7 @@ data dir num:1
 |==============================================================
 `````````````````````````
 
-## 3 TsFile概览工具
+## 3. TsFile概览工具
 
 TsFile概览工具用于以概要模式打印出一个TsFile的内容，工具位置为 tools/tsfile/print-tsfile。
 
@@ -954,7 +954,7 @@ file length: 2974
 -   "|||||||||||||||||||||"是为增强可读性而添加的导引信息，不是TsFile中实际存储的数据。
 -   最后打印的"IndexOfTimerseriesIndex Tree"是对TsFile文件末尾的元数据索引树的重新整理打印，便于直观理解，不是TsFile中存储的实际数据。
 
-## 4 TsFile Resource概览工具
+## 4. TsFile Resource概览工具
 
 TsFile resource概览工具用于打印出TsFile resource文件的内容，工具位置为 tools/tsfile/print-tsfile-resource-files。
 

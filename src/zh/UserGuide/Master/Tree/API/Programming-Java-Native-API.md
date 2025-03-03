@@ -23,13 +23,13 @@ IoTDB 原生 API 中的 Session 是实现与数据库交互的核心接口，它
 
 SessionPool 是 Session 的连接池，推荐使用SessionPool编程。在多线程并发的情形下，SessionPool 能够合理地管理和分配连接资源，以提升系统性能与资源利用效率。
 
-## 1 步骤概览
+## 1. 步骤概览
 
 1. 创建连接池实例：初始化一个SessionPool对象，用于管理多个Session实例。
 2. 执行操作：直接从SessionPool中获取Session实例，并执行数据库操作，无需每次都打开和关闭连接。
 3. 关闭连接池资源：在不再需要进行数据库操作时，关闭SessionPool，释放所有相关资源。
 
-## 2 详细步骤
+## 2. 详细步骤
 
 本章节用于说明开发的核心流程，并未演示所有的参数和接口，如需了解全部功能及参数请参见: [全量接口说明](./Programming-Java-Native-API.md#3-全量接口说明) 或 查阅: [源码](https://github.com/apache/iotdb/tree/master/example/session/src/main/java/org/apache/iotdb)
 
@@ -341,7 +341,7 @@ public class SessionPoolExample {
 }
 ```
 
-## 3 全量接口说明
+## 3. 全量接口说明
 
 ### 3.1 参数列表
 

@@ -27,7 +27,7 @@ IoTDB ConfigNode 配置文件均位于 IoTDB 安装目录：`conf`文件夹下�
 
 * `iotdb-system.properties`：IoTDB 的配置文件。
 
-## 1 环境配置项（confignode-env.sh/bat）
+## 1. 环境配置项（confignode-env.sh/bat）
 
 环境配置项主要用于对 ConfigNode 运行的 Java 环境相关参数进行配置，如 JVM 相关配置。ConfigNode 启动时，此部分配置会被传给 JVM，详细配置项说明如下：
 
@@ -58,7 +58,7 @@ IoTDB ConfigNode 配置文件均位于 IoTDB 安装目录：`conf`文件夹下�
 |默认值|取决于MEMORY\_SIZE的配置。|
 |改后生效方式|重启服务生效|
 
-## 2 系统配置项（iotdb-system.properties）
+## 2. 系统配置项（iotdb-system.properties）
 
 IoTDB 集群的全局配置通过 ConfigNode 配置。
 

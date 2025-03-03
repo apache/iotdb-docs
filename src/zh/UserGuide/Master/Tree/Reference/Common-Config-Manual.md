@@ -21,7 +21,7 @@
 
 # 配置参数
 
-## 1 公共配置参数
+## 1. 公共配置参数
 
 IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
