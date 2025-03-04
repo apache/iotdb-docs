@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# 集群版安装部署
+# 集群版部署指导
 
 本小节描述如何手动部署包括3个ConfigNode和3个DataNode的实例，即通常所说的3C3D集群。
 
@@ -247,7 +247,7 @@ sbin/start-confignode.bat
 
 #### 4.1.2 移除ConfigNode节点
 
-首先通过CLI连接集群，通过`show confignodes`确认想要移除ConfigNode的内部地址与端口号：
+首先通过CLI连接集群，通过`show confignodes`确认想要移除ConfigNode的NodeID：
 
 ```shell
 IoTDB> show confignodes
@@ -262,18 +262,10 @@ Total line number = 3
 It costs 0.030s
 ```
 
-然后使用脚本将DataNode移除。脚本命令：
+然后使用SQL将ConfigNode移除，SQL命令：
 
 ```Bash
-# Linux / MacOS 
-sbin/remove-confignode.sh [confignode_id]
-或
-./sbin/remove-confignode.sh [cn_internal_address:cn_internal_port]
-
-#Windows
-sbin/remove-confignode.bat [confignode_id]
-或
-./sbin/remove-confignode.bat [cn_internal_address:cn_internal_port]
+remove confignode [confignode_id]
 ```
 
 ### 4.2 DataNode节点维护
@@ -290,20 +282,14 @@ DataNode节点维护有两个常见场景：
 脚本命令：
 
 ```Bash
-# Linux / MacOS 
-# 首先切换到IoTDB根目录
-sbin/start-datanode.sh
-
-#Windows
-# 首先切换到IoTDB根目录
-sbin/start-datanode.bat
+remove confignode [confignode_id]
 ```
 
 说明：在添加DataNode后，随着新的写入到来（以及旧数据过期，如果设置了TTL），集群负载会逐渐向新的DataNode均衡，最终在所有节点上达到存算资源的均衡。
 
 #### 4.2.2 移除DataNode节点
 
-首先通过CLI连接集群，通过`show datanodes`确认想要移除的DataNode的RPC地址与端口号：
+首先通过CLI连接集群，通过`show datanodes`确认想要移除的DataNode的NodeID：
 
 ```Bash
 IoTDB> show datanodes
@@ -318,14 +304,10 @@ Total line number = 3
 It costs 0.110s
 ```
 
-然后使用脚本将DataNode移除。脚本命令：
+然后使用SQL将DataNode移除，SQL命令：
 
 ```Bash
-# Linux / MacOS 
-sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
-
-#Windows
-sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
+remove datanode [datanode_id]
 ```
 
 ## 5. 常见问题
