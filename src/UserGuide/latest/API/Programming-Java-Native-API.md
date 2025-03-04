@@ -17,7 +17,7 @@
 * limitations under the License.
   -->
 
-# Session Native API
+# Java Native API
 
 In the native API of IoTDB, the `Session` is the core interface for interacting with the database. It integrates a rich set of methods that support data writing, querying, and metadata operations. By instantiating a `Session`, you can establish a connection to the IoTDB server and perform various database operations within the environment constructed by this connection. The `Session` is not thread-safe and should not be called simultaneously by multiple threads.
 

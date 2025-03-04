@@ -19,7 +19,7 @@
 
 -->
 
-# ConfigNode Configuration
+# ConfigNode Config Manual
 
 IoTDB ConfigNode files are under `conf`.
 

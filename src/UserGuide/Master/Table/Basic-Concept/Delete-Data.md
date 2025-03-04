@@ -19,7 +19,7 @@
 
 -->
 
-# Data Deletion
+# Delete Data
 
 ## 1. Data Deletion
 

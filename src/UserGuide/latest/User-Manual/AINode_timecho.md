@@ -19,7 +19,7 @@
 
 -->
 
-# AI Capability（AINode）
+# AI Capability
 
 AINode is the third internal node after ConfigNode and DataNode in Apache IoTDB, which extends the capability of machine learning analysis of time series by interacting with DataNode and ConfigNode of IoTDB cluster, supports the introduction of pre-existing machine learning models from the outside to be registered, and uses the registered models in the It supports the process of introducing existing machine learning models from outside for registration, and using the registered models to complete the time series analysis tasks on the specified time series data through simple SQL statements, which integrates the model creation, management and inference in the database engine. At present, we have provided machine learning algorithms or self-developed models for common timing analysis scenarios (e.g. prediction and anomaly detection).
 

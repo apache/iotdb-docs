@@ -19,7 +19,7 @@
 
 -->
 
-# Timeseries Management
+# Data Modeling
 
 ## 1. Database Management
 

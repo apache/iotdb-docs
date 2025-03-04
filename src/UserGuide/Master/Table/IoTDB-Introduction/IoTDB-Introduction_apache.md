@@ -19,7 +19,7 @@
 
 -->
 
-# Product Introduction
+# IoTDB Introduction
 
 Apache IoTDB is a low-cost, high-performance IoT-native time-series database. It addresses challenges faced by enterprises in managing time-series data for IoT big data platforms, including complex application scenarios, massive data volumes, high sampling frequencies, frequent out-of-order data, time-consuming data processing, diverse analytical requirements, and high storage and maintenance costs.
 

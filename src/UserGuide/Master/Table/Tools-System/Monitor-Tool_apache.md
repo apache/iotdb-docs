@@ -19,7 +19,7 @@
 
 -->
 
-# Prometheus
+# Monitor Tool
 
 The deployment of monitoring tools can be referenced in the document [Monitoring Panel Deployment](../Deployment-and-Maintenance/Monitoring-panel-deployment.md) chapter.
 

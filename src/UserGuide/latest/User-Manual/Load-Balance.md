@@ -19,12 +19,12 @@
 
 -->
 
-## Load Balance
+# Load Balance
 
 Region migration belongs to advanced operations and maintenance functions, which have certain operational costs. It is recommended to read the entire document before using this function. If you have any questions about the solution design, please contact the IoTDB team for technical support.
 
 
-### Feature introduction
+## 1. Feature introduction
 
 IoTDB is a distributed database, and the balanced distribution of data plays an important role in load balancing the disk space and write pressure of the cluster. Region is the basic unit for distributed storage of data in IoTDB cluster, and the specific concept can be seen in [region](../Background-knowledge/Cluster-Concept.md)。
 
@@ -35,14 +35,14 @@ Here is a schematic diagram of the region migration process :
 
 ![](/img/region%E8%BF%81%E7%A7%BB%E7%A4%BA%E6%84%8F%E5%9B%BE20241210.png)
 
-### Notes
+## 2. Notes
 
 1. It is recommended to only use the Region Migration feature on IoTDB 1.3.3 and higher versions.
 2. Region migration is only supported when the consensus protocol is IoTConsus or Ratis (in iotdb system. properties, the `schema_region_consensus_protocol_class` and`data_region_consensus_protocol_class`).
 3. Region migration consumes system resources such as disk space and network bandwidth. It is recommended to perform the migration during periods of low business load.
 4. Under ideal circumstances, Region migration does not affect user-side read or write operations. In special cases, Region migration may block writes. For detailed identification and handling of such situations, please refer to the user guide.
 
-### Instructions for use
+## 3. Instructions for use
 
 - **Grammar definition** :
 

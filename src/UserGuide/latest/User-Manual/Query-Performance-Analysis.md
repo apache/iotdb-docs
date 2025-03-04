@@ -20,9 +20,7 @@
 -->
 
 
-# Maintennance
-
-## Query Performance Analysis
+# Query Performance Analysis
 
 The purpose of query analysis is to assist users in understanding the execution mechanism and performance bottlenecks of queries, thereby facilitating query optimization and performance enhancement. This is crucial not only for the efficiency of query execution but also for the user experience of applications and the efficient utilization of resources. For effective query analysis, IoTDB versions V1.3.2 and above offer the query analysis statements: Explain and Explain Analyze.
 
@@ -38,7 +36,7 @@ The comparison of various methods is as follows:
 | Monitoring Panel            | Medium. Requires the installation of the IoTDB monitoring panel tool (an enterprise version tool) and the activation of the IoTDB monitoring service. | Medium. The IoTDB monitoring service's recording of metrics will introduce additional latency. | Supports distributed systems, but only analyzes the overall query load and time consumption of the database. |
 | Arthas Sampling          | Medium. Requires the installation of the Java Arthas tool (Arthas cannot be directly installed in some intranets, and sometimes a restart of the application is needed after installation). | High. CPU sampling may affect the response speed of online business. | Does not support distributed systems and only analyzes the overall query load and time consumption of the database. |
 
-### Explain Statement
+## 1. Explain Statement
 
 #### Syntax
 
@@ -83,7 +81,7 @@ Executing the above SQL will yield the following results. It is evident that IoT
 +-----------------------------------------------------------------------+
 ```
 
-### Explain Analyze Statement
+## 2. Explain Analyze Statement
 
 #### Syntax
 
@@ -268,7 +266,7 @@ FRAGMENT-INSTANCE[Id: 20240311_041502_00001_1.3.0][IP: 192.168.130.9][DataRegion
 ```
 
 
-### Common Issues
+## 3.Common Issues
 
 #### What is the difference between WALL TIME and CPU TIME?
 
@@ -312,7 +310,7 @@ Because even if this part of the unaligned data is entered into the sequence, IO
 During the upgrade, only the lib package was replaced, and the conf/logback-datanode.xml was not replaced. It needs to be replaced, and there is no need to restart (the content of this file can be hot loaded). After waiting for about 1 minute, re-execute explain analyze verbose.
 
 
-### Practical Case Studies
+## 4. Practical Case Studies
 
 #### Case Study 1: The query involves too many files, and disk IO becomes a bottleneck, causing the query speed to slow down.
 

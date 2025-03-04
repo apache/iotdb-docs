@@ -19,7 +19,7 @@
 
 -->
 
-# Cluster Management Tools
+# Cluster Management Tool
 
 ## 1. Data Directory Overview Tool
 

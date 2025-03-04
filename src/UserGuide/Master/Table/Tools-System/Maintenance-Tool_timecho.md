@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Maintenance Tool
+# Cluster Management Tool
 
 ## 1. IoTDB-OpsKit
 

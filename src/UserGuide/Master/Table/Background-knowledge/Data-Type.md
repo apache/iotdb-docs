@@ -19,7 +19,7 @@
 
 -->
 
-# Data Types
+# Data Type
 
 ## 1. Basic Data Types
 
