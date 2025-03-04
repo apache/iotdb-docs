@@ -205,6 +205,8 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
+        { text: 'Identifiers', link: 'Syntax-Rule' },
+        { text: 'Keywords', link: 'Keywords' },
         { text: 'SQL Manual', link: 'SQL-Manual' },
         {
           text: 'Functions and Operators',
@@ -251,14 +253,6 @@ export const enSidebar = {
               link: 'ConfigNode-Config-Manual',
             },
             { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual_timecho' },
-          ],
-        },
-        {
-          text: 'Syntax-Rule',
-          collapsible: true,
-          children: [
-            { text: 'Identifiers', link: 'Syntax-Rule' },
-            { text: 'Keywords', link: 'Keywords' },
           ],
         },
         { text: 'Status Codes', link: 'Status-Codes' },
