@@ -239,7 +239,7 @@ Different configuration parameters take effect in the following three ways:
 
 |Name| datanode\_memory\_proportion                                                  |
 |:---:|:-------------------------------------------------------------------------------------------------------------|
-|Description| Memory Allocation Ratio: StorageEngine, QueryEngine, SchemaEngine, StreamingEngine, Consensus and Free Memory                 |
+|Description| Memory Allocation Ratio: StorageEngine, QueryEngine, SchemaEngine, Consensus, StreamingEngine,  and Free Memory          |
 |Type| Ratio                                                                                                        |
 |Default| 3:3:1:1:1:1                                                                                                    |
 |Effective| After restarting system                                                                                      |
