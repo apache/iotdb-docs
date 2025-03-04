@@ -26,7 +26,7 @@
     <img src="/img/cluster01.png" alt="" style="width: 60%;"/>
 </div>
 
-## 1 注意事项
+## 1. 注意事项
 
 1. 安装前请确认系统已参照[系统配置](../Deployment-and-Maintenance/Environment-Requirements.md)准备完成。
    
@@ -52,12 +52,12 @@
 
 6. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，部署监控面板步骤可以参考：[监控面板部署](./Monitoring-panel-deployment.md)
 
-## 2 准备步骤
+## 2. 准备步骤
 
 1. 准备IoTDB数据库安装包 ：timechodb-{version}-bin.zip（安装包获取见：[链接](./IoTDB-Package_timecho.md)）
 2. 按环境要求配置好操作系统环境（系统环境配置见：[链接](./Environment-Requirements.md)）
 
-## 3 安装步骤
+## 3. 安装步骤
 
 假设现在有3台linux服务器，IP地址和服务角色分配如下：
 
@@ -220,7 +220,7 @@ cd sbin
 
 ![](/img/%E9%9B%86%E7%BE%A4-%E9%AA%8C%E8%AF%81.png)
 
-## 4 节点维护步骤
+## 4. 节点维护步骤
 
 ### 4.1 ConfigNode节点维护
 
@@ -328,7 +328,7 @@ sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
 sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 ```
 
-## 5 常见问题
+## 5. 常见问题
 
 1. 部署过程中多次提示激活失败
    - 使用 `ls -al` 命令：使用 `ls -al` 命令检查安装包根目录的所有者信息是否为当前用户。
@@ -360,7 +360,7 @@ sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
         ```shell
             cd /data/iotdb rm -rf data logs
         ```
-## 6 附录
+## 6. 附录
 
 ### 6.1 Confignode节点参数介绍
 

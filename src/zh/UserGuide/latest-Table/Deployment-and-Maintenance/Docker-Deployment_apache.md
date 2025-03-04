@@ -20,7 +20,7 @@
 -->
 # Docker部署
 
-## 1 环境准备
+## 1. 环境准备
 
 ### 1.1 Docker安装
 
@@ -53,7 +53,7 @@ ln -s  /usr/local/bin/docker-compose  /usr/bin/docker-compose
 docker-compose --version  #显示版本信息即安装成功
 ```
 
-## 2 单机版
+## 2. 单机版
 
 本节演示如何部署1C1D的docker单机版。
 
@@ -197,7 +197,7 @@ docker cp iotdb:/iotdb/conf /docker-iotdb/iotdb/conf
 docker-compose  -f docker-compose-standalone.yml  up  -d
 ```
 
-## 3 集群版
+## 3. 集群版
 
 本小节描述如何手动部署包括3个ConfigNode和3个DataNode的实例，即通常所说的3C3D集群。
 

@@ -23,7 +23,7 @@
 
 本文档介绍 IoTDB 中的分区策略和负载均衡策略。根据时序数据的特性，IoTDB 按序列和时间维度对其进行分区。结合序列分区与时间分区创建一个分区，作为划分的基本单元。为了提高吞吐量并降低管理成本，这些分区被均匀分配到分片（Region）中，分片是复制的基本单元。分片的副本决定了数据的存储位置，主副本负责主要负载的管理。在此过程中，副本放置算法决定哪些节点将持有分片副本，而主副本选择算法则指定哪个副本将成为主副本。
 
-## 1 分区策略和分区分配
+## 1. 分区策略和分区分配
 IoTDB 为时间序列数据实现了量身定制的分区算法。在此基础上，缓存于配置节点和数据节点上的分区信息不仅易于管理，而且能够清晰区分冷热数据。随后，平衡的分区被均匀分配到集群的分片中，以实现存储均衡。
 
 ### 1.1 分区策略
@@ -71,7 +71,7 @@ $$\text{RegionGroupNumber}=\left\lfloor\frac{\sum_{i=1}^{DataNodeNumber}\text{Re
 
 值得注意的是，IoTDB 有效利用了时序数据的特性。当配置了 TTL（生存时间）时，IoTDB 可实现无需迁移的时序数据弹性存储，该功能在集群扩展时最小化了对在线操作的影响。上图展示了该功能的一个实例：新生成的数据分区被均匀分配到每个数据分片，过期数据会自动归档。因此，集群的存储最终将保持平衡。
 
-## 2 均衡策略
+## 2. 均衡策略
 为了提高集群的可用性和性能，IoTDB 采用了精心设计的存储均衡和计算均衡算法。
 
 ### 2.1 存储均衡
@@ -104,7 +104,7 @@ $$\text{RegionGroupNumber}=\left\lfloor\frac{\sum_{i=1}^{DataNodeNumber}\text{Re
 
 为了解决这个问题，IoTDB 采用了一种主副本选择算法，能够持续平衡集群中的主副本分布。因此，集群实现了计算负载的均衡分布，确保了其性能。
 
-## 3 Source Code
+## 3. Source Code
 + [数据分区](https://github.com/apache/iotdb/tree/master/iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/partition)
 + [分区分配](https://github.com/apache/iotdb/tree/master/iotdb-core/confignode/src/main/java/org/apache/iotdb/confignode/manager/load/balancer/partition)
 + [副本放置](https://github.com/apache/iotdb/tree/master/iotdb-core/confignode/src/main/java/org/apache/iotdb/confignode/manager/load/balancer/副本)

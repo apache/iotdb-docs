@@ -21,13 +21,13 @@
 
 # FILL 子句
 
-## 1 功能介绍
+## 1. 功能介绍
 
 在执行数据查询时，可能会遇到某些列在某些行中没有数据，导致结果集中出现 NULL 值。这些 NULL 值不利于数据的可视化展示和分析，因此 IoTDB 提供了 FILL 子句来填充这些 NULL 值。
 
 当查询中包含 ORDER BY 子句时，FILL 子句会在 ORDER BY 之前执行。而如果存在 GAPFILL（ date_bin_gapfill 函数）操作，则 FILL 子句会在 GAPFILL 之后执行。
 
-## 2 语法概览
+## 2. 语法概览
 
 ```sql
 fillClause
@@ -87,7 +87,7 @@ IoTDB 支持以下三种空值填充方式：
 
 注意：对于数据类型不支持指定填充方法的列，既不进行填充，也不抛出异常，只是保持原样。
 
-## 3 示例数据
+## 3. 示例数据
 
 在[示例数据页面](../Reference/Sample-Data.md)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
 
@@ -305,7 +305,7 @@ Total line number = 7
 It costs 0.073s
 ```
 
-## 4 高阶用法
+## 4. 高阶用法
 
 使用 `PREVIOUS` 和 `LINEAR` FILL 时，还支持额外的 `FILL_GROUP` 参数，来进行分组内填充。
 
@@ -397,7 +397,7 @@ Total line number = 8
 It costs 0.089s
 ```
 
-## 5 特别说明
+## 5. 特别说明
 
 在使用 `LINEAR FILL` 或 `PREVIOUS FILL` 时，如果辅助时间列（用于确定填充逻辑的时间列）中存在 NULL 值，IoTDB 将遵循以下规则：
 
