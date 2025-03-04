@@ -20,7 +20,7 @@
 -->
 # DataEase
 
-## 1 产品概述
+## 1. 产品概述
 
 1. DataEase 简介
 
@@ -38,7 +38,7 @@
       <img src="/img/DataEase3.png" alt="" style="width: 70%;"/>
     </div>
 
-## 2 安装要求
+## 2. 安装要求
 
 | **准备内容**              | **版本要求**                                                     |
 | :-------------------- | :----------------------------------------------------------- |
@@ -47,7 +47,7 @@
 | DataEase              | 要求 v1 系列 v1.18 版本，安装请参考 DataEase 官网[安装指导](https://dataease.io/docs/v2/installation/offline_INSTL_and_UPG/)（暂不支持 v2.x，其他版本适配请联系天谋商务） |
 | DataEase-IoTDB 连接器 | 请联系天谋商务获取                                           |
 
-## 3 安装步骤
+## 3. 安装步骤
 
 步骤一：请联系商务获取压缩包，解压缩安装包（ iotdb-api-source-1.0.0.zip ）
 
@@ -89,7 +89,7 @@ iotdb.password=root
  lsof -i:8097  // config 里启动 IoTDB API Source 监听的端口
 ```
 
-## 4 使用说明
+## 4. 使用说明
 
 ### 4.1 登录 DataEase
 

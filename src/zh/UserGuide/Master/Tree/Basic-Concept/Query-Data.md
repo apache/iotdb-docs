@@ -20,7 +20,7 @@
 -->
 
 # 数据查询
-## 1 概述
+## 1. 概述
 
 在 IoTDB 中，使用 `SELECT` 语句从一条或多条时间序列中查询数据，IoTDB 不区分历史数据和实时数据，用户可以用统一的sql语法进行查询，通过 `WHERE` 子句中的时间过滤谓词决定查询的时间范围。
 
@@ -333,7 +333,7 @@ SessionDataSet executeAggregationQuery(
     long slidingStep);
 ```
 
-## 2 选择表达式（SELECT FROM 子句）
+## 2. 选择表达式（SELECT FROM 子句）
 
 `SELECT` 子句指定查询的输出，由若干个 `selectExpr` 组成。 每个 `selectExpr` 定义了查询结果中的一列或多列。
 
@@ -680,7 +680,7 @@ Total line number = 2
 It costs 0.002s
 ```
 
-## 3 查询过滤条件（WHERE 子句）
+## 3. 查询过滤条件（WHERE 子句）
 
 `WHERE` 子句指定了对数据行的筛选条件，由一个 `whereCondition` 组成。
 
@@ -845,7 +845,7 @@ Total line number = 2
 It costs 0.002s
 ```
 
-## 4 分段分组聚合（GROUP BY 子句）
+## 4. 分段分组聚合（GROUP BY 子句）
 IoTDB支持通过`GROUP BY`子句对序列进行分段或者分组聚合。 
 
 分段聚合是指按照时间维度，针对同时间序列中不同数据点之间的时间关系，对数据在行的方向进行分段，每个段得到一个聚合值。目前支持**时间区间分段**、**差值分段**、**条件分段**、**会话分段**和**点数分段**，未来将支持更多分段方式。
@@ -1738,7 +1738,7 @@ SELECT AVG(temperature) FROM root.factory1.** GROUP BY ([1000, 10000), 5s), TAGS
 > 5. 暂不支持聚合函数内部包含表达式，例如 `count(s+1)`。
 > 6. 不支持值过滤条件聚合，和分层聚合查询行为保持一致。
 
-## 5 聚合结果过滤（HAVING 子句）
+## 5. 聚合结果过滤（HAVING 子句）
 
 如果想对聚合查询的结果进行过滤，可以在 `GROUP BY` 子句之后使用 `HAVING` 子句。
 
@@ -1834,7 +1834,7 @@ SELECT AVG(temperature) FROM root.factory1.** GROUP BY ([1000, 10000), 5s), TAGS
     ```
 
 
-## 6 结果集补空值（FILL 子句）
+## 6. 结果集补空值（FILL 子句）
 
 ### 6.1 功能介绍
 
@@ -2145,7 +2145,7 @@ Total line number = 4
 ```
 
 
-## 7 查询结果分页（LIMIT/SLIMIT 子句）
+## 7. 查询结果分页（LIMIT/SLIMIT 子句）
 
 当查询结果集数据量很大，放在一个页面不利于显示，可以使用  `LIMIT/SLIMIT` 子句和 `OFFSET/SOFFSET `子句进行分页控制。
 
@@ -2408,7 +2408,7 @@ Total line number = 10
 It costs 0.009s
 ```
 
-## 8 结果集排序（ORDER BY 子句）
+## 8. 结果集排序（ORDER BY 子句）
 
 ### 8.1 时间对齐模式下的排序
 IoTDB的查询结果集默认按照时间对齐，可以使用`ORDER BY TIME`的子句指定时间戳的排列顺序。示例代码如下：
@@ -2665,7 +2665,7 @@ select score from root.** order by device asc, score desc, time asc align by dev
 +-----------------------------+---------+-----+
 ```
 
-## 9 查询对齐模式（ALIGN BY DEVICE 子句）
+## 9. 查询对齐模式（ALIGN BY DEVICE 子句）
 
 在 IoTDB 中，查询结果集**默认按照时间对齐**，包含一列时间列和若干个值列，每一行数据各列的时间戳相同。
 
@@ -2710,7 +2710,7 @@ It costs 0.012s
 
 详细说明及示例见文档 [结果集排序](../SQL-Manual/Operator-and-Expression.md)。 
 
-## 10 查询写回（INTO 子句）
+## 10. 查询写回（INTO 子句）
 
 `SELECT INTO` 语句用于将查询结果写入一系列指定的时间序列中。
 

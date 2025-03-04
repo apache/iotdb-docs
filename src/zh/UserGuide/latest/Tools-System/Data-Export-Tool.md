@@ -1,10 +1,10 @@
 # 数据导出
 
-## 1 导出工具介绍
+## 1. 导出工具介绍
 
 导出工具可以将 SQL 查询的数据导出为指定的格式，包含用于导出 TsFile 文件的 `export-tsfile.sh/bat` 脚本和支持 CSV 和 SQL 格式的导出的 `export-data.sh/bat` 脚本。
 
-## 2 支持的数据类型
+## 2. 支持的数据类型
 
 - CSV：纯文本格式，存储格式化数据，需按照下文指定 CSV 格式进行构造
 
@@ -12,7 +12,7 @@
 
 - TsFile： IoTDB 中使用的时间序列的文件格式
 
-## 3 export-tsfile 脚本
+## 3. export-tsfile 脚本
 
 支持 TsFile： IoTDB 中使用的时间序列的文件格式
 
@@ -68,7 +68,7 @@ tools/export-tsfile.bat -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s ./sql.tx
 tools/export-tsfile.sh -h 127.0.0.1 -p 6667 -u root -pw root -td ./ -s ./sql.txt -f myTsFile -t 10000
 ```
 
-## 4 export-data 脚本
+## 4. export-data 脚本
 
 支持 CSV：纯文本格式，存储格式化数据，需按照下文指定 CSV 格式进行构造
 

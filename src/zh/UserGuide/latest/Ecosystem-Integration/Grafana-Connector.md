@@ -23,7 +23,7 @@
 
 Grafana 是开源的指标量监测和可视化工具，可用于展示时序数据和应用程序运行分析。Grafana 支持 Graphite，InfluxDB 等国际主流时序数据库作为数据源。在 IoTDB 项目中，我们开发了 Grafana 展现 IoTDB 中时序数据的连接器 IoTDB-Grafana-Connector，为您提供使用 Grafana 展示 IoTDB 数据库中的时序数据的可视化方法。
 
-## 1 Grafana 的安装与部署
+## 1. Grafana 的安装与部署
 
 ### 1.1 安装
 
@@ -85,17 +85,17 @@ Shell > grafana-server --config=/usr/local/etc/grafana/grafana.ini --homepath /u
 ```
 更多安装详情，请点 [这里](https://grafana.com/docs/grafana/latest/installation/)
 
-## 2 IoTDB 安装
+## 2. IoTDB 安装
 
 参见 [https://github.com/apache/iotdb](https://github.com/apache/iotdb)
 
-## 3 Grafana-IoTDB-Connector 连接器安装
+## 3. Grafana-IoTDB-Connector 连接器安装
 
 ```shell
 git clone https://github.com/apache/iotdb.git
 ```
 
-## 4 启动 Grafana-IoTDB-Connector
+## 4. 启动 Grafana-IoTDB-Connector
 
  * 方案一（适合开发者）
 
@@ -120,7 +120,7 @@ java -jar iotdb-grafana-connector-{version}.war
 
 如果您需要配置属性，将`grafana/src/main/resources/application.properties`移动到 war 包同级目录下（`grafana/target`）
 
-## 5 使用 Grafana
+## 5. 使用 Grafana
 
 Grafana 以网页的 dashboard 形式为您展示数据，在使用时请您打开浏览器，访问 http://\<ip\>:\<port\>
 
@@ -142,7 +142,7 @@ Grafana 以网页的 dashboard 形式为您展示数据，在使用时请您打�
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/51664878-6e54a380-1ff5-11e9-9718-4d0e24627fa8.png">
 
-## 6 配置 grafana
+## 6. 配置 grafana
 
 ```
 # IoTDB 的 IP 和端口

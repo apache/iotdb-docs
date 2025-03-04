@@ -25,7 +25,7 @@ Grafana 是开源的指标量监测和可视化工具，可用于展示时序数
 
 在 IoTDB 项目中，我们开发了 Grafana 插件，该插件通过调用 IoTDB REST 服务来展现 IoTDB 中时序数据 ，提供了众多时序数据的可视化方法。Grafana 插件相较于 IoTDB-Grafana-Connector 连接器执行效率更高、支持的查询种类更多。只要在您部署环境允许的情况下，*我们都推荐直接使用 Grafana 插件而不使用 IoTDB-Grafana-Connector 连接器*。
 
-## 1 部署 Grafana 插件
+## 1. 部署 Grafana 插件
 
 ### 1.1 安装 Grafana 
 
@@ -97,7 +97,7 @@ rest_service_port=18080
 
 
 
-## 2 使用 Grafana 插件
+## 2. 使用 Grafana 插件
 
 ### 2.1 访问 Grafana dashboard
 
@@ -282,7 +282,7 @@ Type下拉中有Query、Custom、Text box、Constant、DataSource、Interval、A
 
 想了解alert更多详细的操作可以查看官方文档https://grafana.com/docs/grafana/latest/alerting/
 
-## 6 更多
+## 3. 更多
 
 更多关于 Grafana 操作详情可参看 Grafana 官方文档：http://docs.grafana.org/guides/getting_started/。
 

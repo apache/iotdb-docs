@@ -21,7 +21,7 @@
 
 # OPC UA 协议
 
-## 1 OPC UA
+## 1. OPC UA
 
 OPC UA 是一种在自动化领域用于不同设备和系统之间进行通信的技术规范，用于实现跨平台、跨语言和跨网络的操作，为工业物联网提供一个可靠和安全的数据交换基础。IoTDB 中支持 OPC UA协议， IoTDB OPC Server  支持 Client/Server 和 Pub/Sub 两种通信模式。
 
@@ -62,7 +62,7 @@ OPC UA 是一种在自动化领域用于不同设备和系统之间进行通信�
 
   - Event 仅会发送给所有已经监听的客户端，客户端未连接则会忽略该 Event。
 
-## 2 IoTDB OPC Server 启动方式
+## 2. IoTDB OPC Server 启动方式
 
 ### 2.1 语法
 
@@ -117,7 +117,7 @@ start pipe p1;
 
 4. **不支持删除数据和修改测点类型：**在Client Server模式下，OPC UA无法删除数据或者改变数据类型的设置。而在Pub Sub模式下，如果数据被删除了，信息是无法推送给客户端的。
 
-## 3 IoTDB OPC Server 示例
+## 3. IoTDB OPC Server 示例
 
 ### 3.1 Client / Server 模式
 

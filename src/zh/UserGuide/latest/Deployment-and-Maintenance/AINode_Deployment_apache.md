@@ -20,7 +20,7 @@
 -->
 # AINode 部署
 
-## 1 AINode介绍
+## 1. AINode介绍
 
 ### 1.1 能力介绍
 
@@ -35,7 +35,7 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
     <img src="/img/AINode%E9%83%A8%E7%BD%B22.png" alt="" style="width: 45%;"/>
 </div>
 
-## 2 安装准备
+## 2. 安装准备
 
 ### 2.1 安装包获取
 
@@ -67,7 +67,7 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
       # 安装3.8.0版本的venv，创建虚拟环境，文件夹名为 `venv`
       ../Python-3.8.0/python -m venv `venv`
       ```
-## 3 安装部署及使用
+## 3. 安装部署及使用
 
 ### 3.1 安装 AINode
 
@@ -451,7 +451,7 @@ IoTDB> show cluster
   sbin\remove-ainode.bat -t <AINode-id>/<ip>:<rpc-port>
   ```
 
-## 4 常见问题
+## 4. 常见问题
 
 ### 4.1 启动AINode时出现找不到venv模块的报错
 

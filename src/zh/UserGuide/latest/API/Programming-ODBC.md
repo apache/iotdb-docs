@@ -22,11 +22,11 @@
 # ODBC
 在 JDBC 插件的基础上，IoTDB 可以通过 ODBC-JDBC 桥来支持通过 ODBC 对数据库的操作。
 
-## 1 依赖
+## 1. 依赖
 * 带依赖打包的 IoTDB JDBC 插件包
 * ODBC-JDBC 桥（如 Zappy-Sys）
 
-## 2 部署方法
+## 2. 部署方法
 ### 2.1 准备 JDBC 插件包
 下载 IoTDB 源码，在根目录下执行下面的命令：
 ```shell
