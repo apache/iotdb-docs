@@ -123,7 +123,6 @@ services:
         - ./iotdb/data:/iotdb/data
         - ./iotdb/logs:/iotdb/logs
         - /usr/sbin/dmidecode:/usr/sbin/dmidecode:ro
-        - /dev/mem:/dev/mem:ro
     networks:
       iotdb:
         ipv4_address: 172.18.0.6
@@ -287,7 +286,6 @@ services:
       - ./iotdb/data:/iotdb/data
       - ./iotdb/logs:/iotdb/logs
       - /usr/sbin/dmidecode:/usr/sbin/dmidecode:ro
-      - /dev/mem:/dev/mem:ro
     network_mode: "host"    #Using the host network
 ```
 
@@ -322,7 +320,6 @@ services:
       - ./iotdb/data:/iotdb/data
       - ./iotdb/logs:/iotdb/logs
       - /usr/sbin/dmidecode:/usr/sbin/dmidecode:ro
-      - /dev/mem:/dev/mem:ro
     network_mode: "host"   #Using the host network
 ```
 
@@ -401,14 +398,12 @@ docker cp iotdb-datanode:/iotdb/conf   /docker-iotdb/iotdb/conf
       - ./iotdb/conf:/iotdb/conf  #Add mapping for this /conf folder
       - ./iotdb/data:/iotdb/data
       - ./iotdb/logs:/iotdb/logs
-      - /dev/mem:/dev/mem:ro
 
 #datanode.yml
     volumes:
       - ./iotdb/conf:/iotdb/conf   #Add mapping for this /conf folder
       - ./iotdb/data:/iotdb/data
       - ./iotdb/logs:/iotdb/logs
-      - /dev/mem:/dev/mem:ro
 ```
 
 **Step 3**: Restart IoTDB on all 3 servers:
