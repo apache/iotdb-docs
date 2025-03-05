@@ -289,9 +289,9 @@ class TableSessionPoolConfig(object):
 
 ## 4. 示例代码
 
-Session示例代码:[iotdb/blob/master/iotdb-client/client-py/table_model_session_example.py](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/table_model_session_example.py)
+Session示例代码:[Session Example](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/table_model_session_example.py)
 
-SessionPool示例代码:[iotdb/blob/master/iotdb-client/client-py/table_model_session_pool_example.py](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/table_model_session_pool_example.py)
+SessionPool示例代码:[SessionPool Example](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/table_model_session_pool_example.py)
 
 ```Java
 # Licensed to the Apache Software Foundation (ASF) under one
