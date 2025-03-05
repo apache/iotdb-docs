@@ -104,7 +104,7 @@ connection.disconnect();
 ## 自定义 MQTT 消息格式
 
 事实上可以通过简单编程来实现 MQTT 消息的格式自定义。
-可以在源码的 `example/mqtt-customize` 项目中找到一个简单示例。
+可以在源码的  [example/mqtt-customize](https://github.com/apache/iotdb/tree/rc/1.3.3/example/mqtt-customize) 项目中找到一个简单示例。
 
 步骤:
 1. 创建一个 Java 项目，增加如下依赖

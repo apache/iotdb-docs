@@ -104,7 +104,7 @@ connection.disconnect();
 ## 4. Customize your MQTT Message Format
 
 If you do not like the above Json format, you can customize your MQTT Message format by just writing several lines 
-of codes. An example can be found in `example/mqtt-customize` project.
+of codes. An example can be found in  [example/mqtt-customize](https://github.com/apache/iotdb/tree/rc/2.0.1/example/mqtt-customize)  project.
 
 Steps:
 1. Create a java project, and add dependency:

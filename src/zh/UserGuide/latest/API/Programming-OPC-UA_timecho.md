@@ -173,7 +173,7 @@ insert into root.test.db(time, s2) values(now(), 2)
 
 #### 准备工作
 
-该代码位于 iotdb-example 包下的 [opc-ua-sink 文件夹](https://github.com/apache/iotdb/tree/master/example/pipe-opc-ua-sink/src/main/java/org/apache/iotdb/opcua)中
+该代码位于 iotdb-example 包下的 [opc-ua-sink 文件夹](https://github.com/apache/iotdb/tree/rc/2.0.1/example/pipe-opc-ua-sink/src/main/java/org/apache/iotdb/opcua)中
 
 代码中包含：
 
