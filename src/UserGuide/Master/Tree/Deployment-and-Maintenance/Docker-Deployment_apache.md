@@ -285,7 +285,6 @@ services:
       - ./iotdb/data:/iotdb/data
       - ./iotdb/logs:/iotdb/logs
       - /usr/sbin/dmidecode:/usr/sbin/dmidecode:ro
-      - /dev/mem:/dev/mem:ro
     network_mode: "host"    #Using the host network
 ```
 
@@ -320,7 +319,6 @@ services:
       - ./iotdb/data:/iotdb/data
       - ./iotdb/logs:/iotdb/logs
       - /usr/sbin/dmidecode:/usr/sbin/dmidecode:ro
-      - /dev/mem:/dev/mem:ro
     network_mode: "host"   #Using the host network
 ```
 
@@ -397,14 +395,12 @@ Step 2: Add `/conf` directory mapping in `confignode.yml` and `datanode. yml` on
       - ./iotdb/conf:/iotdb/conf  #Add mapping for this /conf folder
       - ./iotdb/data:/iotdb/data
       - ./iotdb/logs:/iotdb/logs
-      - /dev/mem:/dev/mem:ro
 
 #datanode.yml
     volumes:
       - ./iotdb/conf:/iotdb/conf   #Add mapping for this /conf folder
       - ./iotdb/data:/iotdb/data
       - ./iotdb/logs:/iotdb/logs
-      - /dev/mem:/dev/mem:ro
 ```
 
 Step 3: Restart IoTDB on 3 servers

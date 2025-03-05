@@ -283,7 +283,6 @@ services:
     volumes:
       - ./iotdb/data:/iotdb/data
       - ./iotdb/logs:/iotdb/logs
-      - /dev/mem:/dev/mem:ro
     network_mode: "host"    #使用host网络
 ```
 
@@ -316,7 +315,6 @@ services:
     volumes:
       - ./iotdb/data:/iotdb/data
       - ./iotdb/logs:/iotdb/logs
-      - /dev/mem:/dev/mem:ro
     network_mode: "host"      #使用host网络
 ```
 
@@ -393,14 +391,12 @@ docker cp iotdb-datanode:/iotdb/conf   /docker-iotdb/iotdb/conf
       - ./iotdb/conf:/iotdb/conf  #增加这个/conf文件夹的映射
       - ./iotdb/data:/iotdb/data
       - ./iotdb/logs:/iotdb/logs
-      - /dev/mem:/dev/mem:ro
 
 #datanode.yml
     volumes:
       - ./iotdb/conf:/iotdb/conf   #增加这个/conf文件夹的映射
       - ./iotdb/data:/iotdb/data
       - ./iotdb/logs:/iotdb/logs
-      - /dev/mem:/dev/mem:ro
 ```
 
 步骤三：在3台服务器上重新启动IoTDB
