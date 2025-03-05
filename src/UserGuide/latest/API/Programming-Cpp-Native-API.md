@@ -401,8 +401,8 @@ void executeNonQueryStatement(const std::string &sql);
 
 The sample code of using these interfaces is in:
 
-- `example/client-cpp-example/src/SessionExample.cpp`
-- `example/client-cpp-example/src/AlignedTimeseriesSessionExample.cpp` (Aligned Timeseries)
+- `example/client-cpp-example/src/SessionExample.cpp`: [SessionExample](https://github.com/apache/iotdb/tree/rc/2.0.1/example/client-cpp-example/src/SessionExample.cpp)
+- `example/client-cpp-example/src/AlignedTimeseriesSessionExample.cpp` (Aligned Timeseries) : [AlignedTimeseriesSessionExample](https://github.com/apache/iotdb/tree/rc/2.0.1/example/client-cpp-example/src/AlignedTimeseriesSessionExample.cpp)
 
 If the compilation finishes successfully, the example project will be placed under `example/client-cpp-example/target`
 

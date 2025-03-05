@@ -408,10 +408,10 @@ void executeNonQueryStatement(const std::string &sql);
 
 示例工程源代码：
 
-- `example/client-cpp-example/src/SessionExample.cpp`
-- `example/client-cpp-example/src/AlignedTimeseriesSessionExample.cpp` （使用对齐时间序列）
+- `example/client-cpp-example/src/SessionExample.cpp` : [SessionExample](https://github.com/apache/iotdb/tree/rc/2.0.1/example/client-cpp-example/src/SessionExample.cpp)
+- `example/client-cpp-example/src/AlignedTimeseriesSessionExample.cpp` （使用对齐时间序列） : [AlignedTimeseriesSessionExample](https://github.com/apache/iotdb/tree/rc/2.0.1/example/client-cpp-example/src/AlignedTimeseriesSessionExample.cpp)
 
-编译成功后，示例代码工程位于 `example/client-cpp-example/target`
+编译成功后，示例代码工程位于 `example/client-cpp-example/target` 
 
 ## 5. FAQ
 
