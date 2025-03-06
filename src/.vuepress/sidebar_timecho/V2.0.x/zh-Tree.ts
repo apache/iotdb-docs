@@ -71,8 +71,16 @@ export const zhSidebar = {
       prefix: 'Basic-Concept/',
       children: [
         { text: '测点管理', link: 'Operate-Metadata_timecho' },
-        { text: '写入&删除', link: 'Write-Delete-Data' },
+        { text: '数据写入', link: 'Write-Data' },
         { text: '数据查询', link: 'Query-Data' },
+        {
+          text: '数据删除',
+          collapsible: true,
+          children: [
+            { text: '数据删除', link: 'Delete-Data' },
+            { text: '自动过期删除', link: 'TTL-Delete' },
+          ],
+        },
       ],
     },
     {
