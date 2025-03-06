@@ -70,6 +70,7 @@ export const enSidebar = {
           link: 'Monitoring-panel-deployment',
         },
         { text: 'Workbench Deployment', link: 'workbench-deployment_timecho' },
+        { text: 'Kubernetes Deployment', link: 'Kubernetes_timecho' },
       ],
     },
     {
@@ -224,7 +225,6 @@ export const enSidebar = {
         { text: 'Ignition', link: 'Ignition-IoTDB-plugin_timecho' },
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana Plugin', link: 'Grafana-Plugin' },
-        { text: 'Kubernetes', link: 'Kubernetes_timecho' },
         { text: 'Telegraf Plugin', link: 'Telegraf' },
         { text: 'ThingsBoard', link: 'Thingsboard' },
       ],
