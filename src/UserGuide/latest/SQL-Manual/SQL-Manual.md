@@ -409,7 +409,7 @@ IoTDB> count devices root.ln.**
 
 ### 5.1 Insert Data
 
-For more details, see document [Write-Delete-Data](../Basic-Concept/Write-Delete-Data.md).
+For more details, see document [Write-Data](../Basic-Concept/Write-Data).
 
 #### Use of INSERT Statements
 
@@ -471,7 +471,7 @@ For more details, see document [Data Import](../Tools-System/Data-Import-Tool.md
 
 ## 6. DELETE DATA
 
-For more details, see document [Write-Delete-Data](../Basic-Concept/Write-Delete-Data.md).
+For more details, see document [Write-Delete-Data](../Basic-Concept/Write-Data).
 
 ### 6.1 Delete Single Timeseries
 

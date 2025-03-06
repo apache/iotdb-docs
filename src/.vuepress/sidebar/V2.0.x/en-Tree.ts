@@ -79,8 +79,16 @@ export const enSidebar = {
           text: 'Data Modeling',
           link: 'Operate-Metadata_apache',
         },
-        { text: 'Write & Delete', link: 'Write-Delete-Data' },
+        { text: 'Write Data', link: 'Write-Data' },
         { text: 'Query Data', link: 'Query-Data' },
+        {
+          text: 'Delete Data',
+          collapsible: true,
+          children: [
+            { text: 'Delete Data', link: 'Delete-Data' },
+            { text: 'TTL Delete Data', link: 'TTL-Delete' },
+          ],
+        },
       ],
     },
     {
