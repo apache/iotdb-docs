@@ -53,7 +53,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
    - Introduction to SQL syntax[SQL syntax](../Basic-Concept/Operate-Metadata_apache.md)
 
-2. Write Data: In terms of data writing, IoTDB provides multiple ways to insert real-time data. Please refer to the basic data writing operations for details [Write Data](../Basic-Concept/Write-Delete-Data.md)
+2. Write Data: In terms of data writing, IoTDB provides multiple ways to insert real-time data. Please refer to the basic data writing operations for details [Write Data](../Basic-Concept/Write-Data)
 
 3. Query Data: IoTDB provides rich data query functions. Please refer to the basic introduction of data query [Query Data](../Basic-Concept/Query-Data.md)
 
