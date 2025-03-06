@@ -166,7 +166,7 @@ Enter the container, log in to the database through CLI, and use the `show clust
 
 ```SQL
 docker exec -it iotdb   /bin/bash        #Entering the container
-./start-cli.sh -h iotdb                  #Log in to the database
+./start-cli.sh -sql_dialect table -h iotdb                  #Log in to the database
 IoTDB> show cluster                      #View status
 ```
 
@@ -370,7 +370,7 @@ docker-compose  -f  datanode.yml  up -d #Background startup
 
     ```SQL
     docker exec -it iotdb-datanode /bin/bash #Entering the container
-    ./start-cli.sh -h iotdb-1                #Log in to the database
+    ./start-cli.sh -sql_dialect table -h iotdb-1                #Log in to the database
     IoTDB> show cluster                      #View status
     ```
 

@@ -164,7 +164,7 @@ docker-compose -f docker-compose-standalone.yml up  -d  #后台启动
 
     ```SQL
     docker exec -it iotdb  /bin/bash         #进入容器
-    ./start-cli.sh -h iotdb                  #登录数据库
+    ./start-cli.sh -sql_dialect table -h iotdb                  #登录数据库
     IoTDB> show cluster                      #查看服务状态
     ```
 
@@ -363,7 +363,7 @@ docker-compose  -f  datanode.yml  up -d #后台启动
 
     ```SQL
     docker exec -it iotdb-datanode /bin/bash     #进入容器
-    ./start-cli.sh -h iotdb-1                    #登录数据库
+    ./start-cli.sh -sql_dialect table -h iotdb-1                    #登录数据库
     IoTDB> show cluster                          #查看服务状态
     ```
 

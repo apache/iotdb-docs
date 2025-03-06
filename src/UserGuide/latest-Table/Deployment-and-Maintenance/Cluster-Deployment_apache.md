@@ -157,9 +157,17 @@ On each server, navigate to the `sbin` directory and start the DataNode:
   ./start-datanode.sh -d    # The "-d" flag starts the process in the background.
   ```
 
-### 3.6 Verify Activation
+### 3.6 Start CLI
 
-Check the `ClusterActivationStatus` field. If it shows `ACTIVATED`, the database has been successfully activated.
+ Enter the IoTDB CLI.
+
+```SQL
+# For Linux or macOS
+./start-cli.sh -sql_dialect table
+
+# For Windows
+./start-cli.bat -sql_dialect table
+```
 
 ## 4. Maintenance
 
