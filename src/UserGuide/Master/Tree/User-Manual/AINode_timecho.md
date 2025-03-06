@@ -444,6 +444,29 @@ Total line number = 4
 
 In the result set, each row's label corresponds to the output of the anomaly detection model after inputting each group of 24 rows of data.
 
+### 4.6 AINode-Timer Model Import Steps
+1. Ensure all IoTDB nodes are successfully started.
+
+2. Ensure the AINode service is successfully started.
+
+3. Open the IoTDB CLI console.
+
+4. Use the show cluster statement to verify that the AINode status is Running.
+
+![](/img/ainode-timer-1.png)
+
+5. Recommended: Place the model files under the same directory as the AINode installation package. You may create a dedicated folder (e.g., models) to store the model files.
+6. Register the model using the SQL statement:create model <model_name> using uri <uri>
+   Example：create model Timer using uri <uri>
+
+![](/img/ainode-timer-2.png)
+
+7. Use the show models statement to confirm successful model registration.
+
+![](/img/ainode-timer-3.png)
+
+Note: Do not rename the Timer model. The model name must be Timer; renaming it will cause the Workbench to fail to recognize the model.
+
 ## 5. Privilege Management
 
 When using AINode related functions, the authentication of IoTDB itself can be used to do a permission management, users can only use the model management related functions when they have the USE_MODEL permission. When using the inference function, the user needs to have the permission to access the source sequence corresponding to the SQL of the input model.
