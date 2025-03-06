@@ -61,6 +61,7 @@ export const enSidebar = {
         { text: 'Cluster Deployment', link: 'Cluster-Deployment_apache' },
         { text: 'Docker Deployment', link: 'Docker-Deployment_apache' },
         { text: 'AINode Deployment', link: 'AINode_Deployment_apache' },
+        { text: 'Kubernetes Deployment', link: 'Kubernetes_apache' },
       ],
     },
     {
@@ -199,7 +200,6 @@ export const enSidebar = {
         { text: 'DBeaver', link: 'DBeaver' },
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana Plugin', link: 'Grafana-Plugin' },
-        { text: 'Kubernetes', link: 'Kubernetes_apache' },
         { text: 'Telegraf Plugin', link: 'Telegraf' },
         { text: 'ThingsBoard', link: 'Thingsboard' },
       ],
