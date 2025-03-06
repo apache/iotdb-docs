@@ -116,11 +116,18 @@ DataNode 配置
 ```shell
 ./sbin/start-datanode.sh -d    #“-d”参数将在后台进行启动
 ```
-### 2.5 验证激活
 
-当看到“ClusterActivationStatus”字段状态显示为ACTIVATED表示激活成功
+### 3.5 启动 CLI
 
-![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81.png)
+表模型 CLI 进入命令：
+
+```SQL
+# Linux或MACOS系统
+./start-cli.sh -sql_dialect table
+
+# windows系统
+./start-cli.bat -sql_dialect table
+```
 
 ## 3. 常见问题
 

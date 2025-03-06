@@ -154,11 +154,17 @@ cd sbin
 ./start-datanode.sh   -d   #-d参数将在后台进行启动 
 ```
 
-### 3.5 验证激活
+### 3.5 启动 CLI
 
-当看到“Result”字段状态显示为success表示激活成功
+表模型 CLI 进入命令：
 
-![](/img/%E9%9B%86%E7%BE%A4-%E9%AA%8C%E8%AF%81.png)
+```SQL
+# Linux或MACOS系统
+./start-cli.sh -sql_dialect table
+
+# windows系统
+./start-cli.bat -sql_dialect table
+```
 
 ## 4. 节点维护步骤
 
