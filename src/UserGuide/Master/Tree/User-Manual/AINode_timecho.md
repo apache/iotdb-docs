@@ -465,7 +465,7 @@ In the result set, each row's label corresponds to the output of the anomaly det
 
 ![](/img/ainode-timer-3.png)
 
-Note: Do not rename the Timer model. The model name must be Timer; renaming it will cause the Workbench to fail to recognize the model.
+Note: When importing the Timer model, the name must be set to "Timer"; otherwise, it will not be recognized by the visualization console.
 
 ## 5. Privilege Management
 

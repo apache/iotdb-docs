@@ -460,7 +460,7 @@ Total line number = 4
 
 ![](/img/ainode-timer-3.png)
 
-注意：操作Timer模型导入不要改名，模型名称就叫Timer，改名会导致workbench上识别不到
+注意：导入 Timer 模型时名称需命名为“Timer”，否则无法被可视化控制台识别。
 
 ## 5. 权限管理
 
