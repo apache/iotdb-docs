@@ -155,6 +155,7 @@ export const zhSidebar = {
         { text: 'TsFile导入导出(V1.3.0/1/2)', link: 'TsFile-Import-Export-Tool' },
         { text: '数据导入(V1.3.3)', link: 'Data-Import-Tool' },
         { text: '数据导出(V1.3.3)', link: 'Data-Export-Tool' },
+        { text: '健康检查工具(V1.3.2)', link: 'Health-Check-Tool' },
       ],
     },
     {
