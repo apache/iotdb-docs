@@ -4434,7 +4434,7 @@ select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
 create function timestamprepair as 'org.apache.iotdb.library.drepair.UDTFTimestampRepair'
 ```
 
-### 7.2 函数简介
+#### 函数简介
 
 本函数用于时间戳修复。根据给定的标准时间间隔，采用最小化修复代价的方法，通过对数据时间戳的微调，将原本时间戳间隔不稳定的数据修复为严格等间隔的数据。在未给定标准时间间隔的情况下，本函数将使用时间间隔的中位数 (median)、众数 (mode) 或聚类中心 (cluster) 来推算标准时间间隔。
 
@@ -4450,7 +4450,7 @@ create function timestamprepair as 'org.apache.iotdb.library.drepair.UDTFTimesta
 
 **输出序列：** 输出单个序列，类型与输入序列相同。该序列是修复后的输入序列。
 
-### 7.3 使用示例
+#### 使用示例
 
 #### 指定标准时间间隔
 
@@ -4529,7 +4529,7 @@ select timestamprepair(s1) from root.test.d2
 +-----------------------------+--------------------------------+
 ```
 
-### 7.4 ValueFill
+### 7.2ValueFill
 
 #### 注册语句
 
@@ -4646,7 +4646,7 @@ select valuefill(s1,"method"="previous") from root.test.d2
 +-----------------------------+-------------------------------------------+
 ```
 
-### 7.5 ValueRepair
+### 7.3 ValueRepair
 
 #### 注册语句
 
@@ -4768,7 +4768,7 @@ select valuerepair(s1,'method'='LsGreedy') from root.test.d2
 +-----------------------------+-------------------------------------------------+
 ```
 
-### 7.6 MasterRepair
+### 7.4 MasterRepair
 
 #### 函数简介
 
@@ -4830,7 +4830,7 @@ select MasterRepair(t1,t2,t3,m1,m2,m3) from root.test
 +-----------------------------+-------------------------------------------------------------------------------------------+
 ```
 
-### 7.7 SeasonalRepair
+### 7.5 SeasonalRepair
 
 #### 函数简介
 本函数用于对周期性时间序列的数值进行基于分解的修复。目前，本函数支持两种方法：**Classical**使用经典分解方法得到的残差项检测数值的异常波动，并使用滑动平均修复序列；**Improved**使用改进的分解方法得到的残差项检测数值的异常波动，并使用滑动中值修复序列。
