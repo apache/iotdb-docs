@@ -136,6 +136,7 @@ export const zhSidebar = {
         { text: '集群管理工具', link: 'Maintenance-Tool_timecho' },
         { text: '数据导入', link: 'Data-Import-Tool' },
         { text: '数据导出', link: 'Data-Export-Tool' },
+        { text: '全量备份工具', link: 'Backup-Tool' },
       ],
     },
     {
