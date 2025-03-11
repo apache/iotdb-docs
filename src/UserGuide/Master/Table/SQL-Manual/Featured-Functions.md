@@ -24,16 +24,16 @@
 
 ### 1.1 `date_bin` Function
 
-#### **Description:**
+#### **Description**
 
 The `date_bin` function is a scalar function that aligns timestamps to the start of specified time intervals. It is commonly used with the `GROUP BY` clause for downsampling.
 
 - **Partial Intervals May Be Empty:** Only timestamps that meet the conditions are aligned; missing intervals are not filled.
 - **All Intervals Return Empty:** If no data exists within the query range, the downsampling result is an empty set.
 
-#### **Usage** **Examples****:**
+#### **Usage Examples**
 
-**Sample Dataset****:** The example data page contains SQL statements for building table structures and inserting data. Download and execute these statements in the IoTDB CLI to import the data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
+[Sample Dataset](../Reference/Sample-Data.md): The example data page contains SQL statements for building table structures and inserting data. Download and execute these statements in the IoTDB CLI to import the data into IoTDB. You can use this data to test and execute the SQL statements in the examples and obtain the corresponding results.
 
 **Example 1: Hourly Average Temperature for Device 100**
 
@@ -45,7 +45,7 @@ WHERE (time >= 2024-11-27 00:00:00  AND time <= 2024-11-30 00:00:00)
 GROUP BY 1;
 ```
 
-**Result****:**
+**Result**
 
 ```Plain
 +-----------------------------+--------+
@@ -69,7 +69,7 @@ WHERE time >= 2024-11-27 00:00:00  AND time <= 2024-11-30 00:00:00
 GROUP BY 1, device_id;
 ```
 
-**Result:**
+**Result**
 
 ```Plain
 +-----------------------------+---------+--------+
@@ -95,7 +95,7 @@ SELECT date_bin(1h, time) AS hour_time, avg(temperature) AS avg_temp
   group by 1;  
 ```
 
-**Result:**
+**Result**
 
 ```Plain
 +-----------------------------+--------+
@@ -127,13 +127,13 @@ The `date_bin_gapfill` function is an extension of `date_bin` that fills in miss
 2. A `GROUP BY` clause can contain only one instance of date_bin_gapfill. Multiple calls will result in an error.
 3. The `GAPFILL` operation occurs after the `HAVING` clause and before the `FILL` clause.
 4. The `WHERE` clause must include time filters in one of the following forms:
-  1. `time >= XXX AND time <= XXX`
-  2. `time > XXX AND time < XXX`
-  3. `time BETWEEN XXX AND XXX`
+   1. `time >= XXX AND time <= XXX`
+   2. `time > XXX AND time < XXX`
+   3. `time BETWEEN XXX AND XXX`
 5. If additional time filters or conditions are used, an error is raised. Time conditions and other value filters must be connected using the `AND` operator.
 6. If `startTime` and `endTime` cannot be inferred from the `WHERE` clause, an error is raised.
 
-**Usage** **Examples****:**
+**Usage Examples**
 
 **Example 1: Fill Missing Intervals**
 
@@ -145,7 +145,7 @@ WHERE (time >= 2024-11-28 07:00:00  AND time <= 2024-11-28 16:00:00)
 GROUP BY 1;
 ```
 
-**Result:**
+**Result**
 
 ```Plain
 +-----------------------------+--------+
@@ -173,7 +173,7 @@ WHERE time >= 2024-11-28 07:00:00  AND time <= 2024-11-28 16:00:00
 GROUP BY 1, device_id;
 ```
 
-**Result:**
+**Result**
 
 ```Plain
 +-----------------------------+---------+--------+
@@ -201,7 +201,7 @@ WHERE time >= 2024-11-27 09:00:00  AND time <= 2024-11-27 14:00:00
 GROUP BY 1, device_id;
 ```
 
-**Result:**
+**Result**
 
 ```Plain
 +---------+---------+--------+
@@ -242,7 +242,7 @@ DIFF(numberic[, boolean]) -> Double
 - In **tree models**, the second parameter must be specified as `'ignoreNull'='true'` or `'ignoreNull'='false'`.
 - In **table models**, simply use `true` or `false`. Using `'ignoreNull'='true'` or `'ignoreNull'='false'` in table models results in a string comparison and always evaluates to `false`.
 
-### 2.5 **Usage** **Examples****:**
+### 2.5 **Usage Examples**
 
 #### **Example 1: Ignore NULL Values**
 
@@ -252,7 +252,7 @@ FROM table1
 WHERE device_id = '100';
 ```
 
-**Result:**
+**Result**
 
 ```Plain
 +-----------------------------+---------+
@@ -277,7 +277,7 @@ FROM table1
 WHERE device_id = '100';
 ```
 
-**Result:**
+**Result**
 
 ```Plain
 +-----------------------------+---------+
@@ -304,7 +304,7 @@ FROM table1
 WHERE device_id = '100';
 ```
 
-**Result:**
+**Result**
 
 ```Plain
 +-----------------------------+-----------+-----------+-----------+
