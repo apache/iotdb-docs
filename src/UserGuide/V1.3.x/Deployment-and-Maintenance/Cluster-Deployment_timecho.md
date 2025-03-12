@@ -209,6 +209,81 @@ When you see the display of `Activated` on the far right, it indicates successfu
 
 > The appearance of `ACTIVATED (W)` indicates passive activation, which means that this Configurable Node does not have a license file (or has not issued the latest license file with a timestamp), and its activation depends on other Activated Configurable Nodes in the cluster. At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Timecho staff to reapply.
 
+
+### One-click Cluster Start and Stop
+
+#### Overview
+
+Within the root directory of IoTDB, the `sbin `subdirectory houses the `start-all.sh` and `stop-all.sh` scripts, which work in concert with the `iotdb-cluster.properties` configuration file located in the `conf` subdirectory. This synergy enables the one-click initiation or termination of all nodes within the cluster from a single node. This approach facilitates efficient management of the IoTDB cluster's lifecycle, streamlining the deployment and operational maintenance processes.
+
+This following section will introduce the specific configuration items in the `iotdb-cluster.properties` file.
+
+#### Configuration Items
+
+> Note:
+> 
+> * When the cluster changes, this configuration file needs to be manually updated.
+> * If the `iotdb-cluster.properties` configuration file is not set up and the `start-all.sh` or `stop-all.sh` scripts are executed, the scripts will, by default, start or stop the ConfigNode and DataNode nodes located in the IOTDB\_HOME directory where the scripts reside.
+> * It is recommended to configure SSH passwordless login: If not configured, the script will prompt for the server password after execution to facilitate subsequent start, stop, or destroy operations. If already configured, there is no need to enter the server password during script execution.
+
+* confignode\_address\_list
+
+| **Name** | **confignode\_address\_list**                                                                                                                     |
+| :----------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Description    | A list of IP addresses of the hosts where the ConfigNodes to be started/stopped are located. If there are multiple, they should be separated by commas. |
+| Type           | String                                                                                                                                                  |
+| Default        | None                                                                                                                                                    |
+| Effective      | After restarting the system                                                                                                                             |
+
+* datanode\_address\_list
+
+| **Name** | **datanode\_address\_list**                                                                                                                     |
+| :----------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Description    | A list of IP addresses of the hosts where the DataNodes to be started/stopped are located. If there are multiple, they should be separated by commas. |
+| Type           | String                                                                                                                                                |
+| Default        | None                                                                                                                                                  |
+| Effective      | After restarting the system                                                                                                                           |
+
+* ssh\_account
+
+| **Name** | **ssh\_account**                                                                          |
+| :----------------: | :------------------------------------------------------------------------------------------------- |
+| Description    | The username used to log in to the target hosts via SSH. All hosts must have the same username. |
+| Type           | String                                                                                          |
+| Default        | root                                                                                            |
+| Effective      | After restarting the system                                                                     |
+
+* ssh\_port
+
+| **Name** | **ssh\_port**                                                              |
+| :----------------: | :---------------------------------------------------------------------------------- |
+| Description    | The SSH port exposed by the target hosts. All hosts must have the same SSH port. |
+| Type           | int                                                                              |
+| Default        | 22                                                                               |
+| Effective      | After restarting the system                                                      |
+
+* confignode\_deploy\_path
+
+| **Name** | **confignode\_deploy\_path**                                                                                                                             |
+| :----------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Description    | The path on the target hosts where all ConfigNodes to be started/stopped are located. All ConfigNodes must be in the same directory on their respective hosts. |
+| Type           | String                                                                                                                                                         |
+| Default        | None                                                                                                                                                           |
+| Effective      | After restarting the system                                                                                                                                    |
+
+* datanode\_deploy\_path
+
+| **Name** | **datanode\_deploy\_path**                                                                                                                           |
+| :----------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Description    | The path on the target hosts where all DataNodes to be started/stopped are located. All DataNodes must be in the same directory on their respective hosts. |
+| Type           | String                                                                                                                                                     |
+| Default        | None                                                                                                                                                       |
+| Effective      | After restarting the system                                                                                                                                |
+
+
+
+
+
 ## Node Maintenance Steps
 
 ### ConfigNode Node Maintenance
