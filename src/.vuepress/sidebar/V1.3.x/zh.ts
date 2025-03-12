@@ -144,8 +144,8 @@ export const zhSidebar = {
         { text: '集群管理工具', link: 'Maintenance-Tool_apache' },
         { text: '数据导入导出(V1.3.0/1/2)', link: 'Data-Import-Export-Tool' },
         { text: 'TsFile导入导出(V1.3.0/1/2)', link: 'TsFile-Import-Export-Tool' },
-        { text: '数据导入(V1.3.3)', link: 'Data-Import-Tool' },
-        { text: '数据导出(V1.3.3)', link: 'Data-Export-Tool' },
+        { text: '数据导入(V1.3.4)', link: 'Data-Import-Tool' },
+        { text: '数据导出(V1.3.4)', link: 'Data-Export-Tool' },
       ],
     },
     {
