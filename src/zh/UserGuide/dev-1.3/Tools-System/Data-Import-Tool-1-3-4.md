@@ -1,0 +1,209 @@
+# 数据导入
+
+## 1. 功能概述
+
+IoTDB 支持两种方式进行数据导入
+
+* 数据导入工具：tools 目录下的手动数据导入工具 import-data.sh/bat，可以将 CSV、SQL、及TsFile（开源时序文件格式）的数据导入 IoTDB。
+* TsFile 自动加载功能
+
+<table style="text-align: left;">
+  <tbody>
+     <tr>   <th>文件格式</th>
+            <th>IoTDB工具</th>        
+            <th>具体介绍</th>
+      </tr>
+      <tr>
+            <td>CSV</td>  
+            <td rowspan="3">import-data.sh/bat</td> 
+            <td>可用于单个或一个目录的 CSV 文件批量导入 IoTDB</td> 
+      </tr>
+      <tr>
+            <td>SQL</td>  
+            <td>可用于单个或一个目录的 SQL 文件批量导入 IoTDB</td> 
+      </tr>
+       <tr>
+            <td rowspan="2">TsFile</td>
+            <td>可用于单个或一个目录的 TsFile 文件批量导入 IoTDB</td>
+      </tr>
+      <tr>
+            <td>TsFile 自动加载功能</td>
+            <td> 可以监听指定路径下新产生的TsFile文件，并将其加载进IoTDB</td>       
+      </tr>
+</tbody>
+</table>
+
+## 2. 数据导入工具
+
+### 2.1 公共参数
+
+| 参数缩写 | 参数全称      | 参数含义                                                                                                                                     | 是否为必填项 | 默认值                              |
+| ---------- | --------------- |------------------------------------------------------------------------------------------------------------------------------------------| -------------- |----------------------------------|
+| -ft      | --file\_type  | 导入文件的类型，可以选择：csv、sql、tsfile                                                                                                              | √           |
+|
+| -h       | -- host       | 主机名                                                                                                                                      | 否           | 127.0.0.1                        |
+| -p       | --port        | 端口号                                                                                                                                      | 否           | 6667                             |
+| -u       | --username    | 用户名                                                                                                                                      | 否           | root                             |
+| -pw      | --password    | 密码                                                                                                                                       | 否           | root                             |
+| -s       | --source      | 待加载的脚本文件(夹)的本地目录路径<br>如果为csv sql tsfile这三个支持的格式，直接导入<br>不支持的格式，报错提示呗"The file name must end with \\"csv\\" or \\"sql\\"or \\"tsfile\\"!" | √           |
+|
+| -tn      | --thread\_num | 最大并行线程数                                                                                                                                  | 否           | 8<br>范围：0～Integer.Max=2147483647 |
+| -tz      | --timezone    | 时区设置，例如`+08:00`或`-01:00`                                                                                                                 | 否           | 本机系统时间                           |
+| -help    | --help        | 显示帮助信息,支持分开展示和全部展示`-help`或`-help csv`                                                                                                    | 否           |
+|
+
+### 2.2 Csv 格式
+
+#### 2.2.1 运行命令
+
+```Shell
+# Unix/OS X
+> tools/import-data.sh -ft<format>  [-h <host>] [-p <port>] [-u <username>] [-pw <password>]
+       -s <source> [-fd <fail_dir>] [-lpf <lines_per_failed_file>] [-aligned <use the aligned interface>] 
+      [-ti <type_infer>] [-tp <timestamp precision (ms/us/ns)>] [-tz <timezone>] [-batch <batch_size>] 
+      [-tn <thread_num>]
+      
+# Windows
+> tools\import-data.bat -ft<format>  [-h <host>] [-p <port>] [-u <username>] [-pw <password>]
+       -s <source> [-fd <fail_dir>] [-lpf <lines_per_failed_file>] [-aligned <use the aligned interface>] 
+      [-ti <type_infer>] [-tp <timestamp precision (ms/us/ns)>] [-tz <timezone>] [-batch <batch_size>] 
+      [-tn <thread_num>]
+```
+
+#### 2.2.2 私有参数
+
+| 参数缩写 | 参数全称                   | 参数含义                                                                          | 是否为必填项                                    | 默认值                                   |
+| ---------- | ---------------------------- | ----------------------------------------------------------------------------------- |-------------------------------------------|---------------------------------------|
+| -fd      | --fail\_dir                | 指定保存失败文件的目录                                                            | 否                                         | YOUR\_CSV\_FILE\_PATH                 |
+| -lpf     | --lines\_per\_failed\_file | 指定失败文件最大写入数据的行数                                                    | 否                                         | 100000<br>范围：0～Integer.Max=2147483647 |
+| -aligned | --use\_aligned             | 是否导入为对齐序列                                                                | 否                                         | false                                 |
+| -batch   | --batch\_size              | 指定每调用一次接口处理的数据行数（最小值为1，最大值为Integer.​*MAX\_VALUE*​） | 否                                         | 100000<br>范围：0～Integer.Max=2147483647 |
+| -ti      | --type\_infer              | 通过选项定义类型信息，例如`"boolean=text,int=long, ..."`                      | 否                                         | 无                                     |
+| -tp      | --timestamp\_precision     | 时间戳精度                                                                        | 否：<br>1. ms（毫秒）<br>2. us（纳秒）<br>3. ns（微秒） | ms                                    
+|
+
+#### 2.2.3 运行示例
+
+```Shell
+# 正确示例
+> tools/import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/sql 
+      -fd /path/failure/dir -lpf 100  -aligned true -ti "BOOLEAN=text,INT=long,FLOAT=double" 
+      -tp ms -tz +08:00 -batch 5000  -tn 4
+      
+# 异常示例
+> tools/import-data.sh -ft csv -s /non_path
+error: Source file or directory /non_path does not exist
+
+> tools/import-data.sh -ft csv -s /path/sql -tn 0
+error: Invalid thread number '0'. Please set a positive integer.
+```
+
+### 2.3 Sql 格式
+
+#### 2.2.1 运行命令
+
+```Shell
+# Unix/OS X
+> tools/import-data.sh -ft<format>  [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
+        -s<source> [-fd <fail_dir>] [-lpf <lines_per_failed_file>] [-tz <timezone>] 
+        [-batch <batch_size>] [-tn <thread_num>]
+      
+# Windows
+> tools\import-data.bat -ft<format>  [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
+        -s<source> [-fd <fail_dir>] [-lpf <lines_per_failed_file>] [-tz <timezone>] 
+        [-batch <batch_size>] [-tn <thread_num>]
+```
+
+#### 2.2.2 私有参数
+
+| 参数缩写 | 参数全称                   | 参数含义                                                                          | 是否为必填项 | 默认值                                   |
+| ---------- | ---------------------------- | ----------------------------------------------------------------------------------- | -------------- |---------------------------------------|
+| -fd      | --fail\_dir                | 指定保存失败文件的目录                                                            | 否           | YOUR\_CSV\_FILE\_PATH                 |
+| -lpf     | --lines\_per\_failed\_file | 指定失败文件最大写入数据的行数                                                    | 否           | 100000<br>范围：0～Integer.Max=2147483647 |
+| -batch   | --batch\_size              | 指定每调用一次接口处理的数据行数（最小值为1，最大值为Integer.​*MAX\_VALUE*​） | 否           | 100000<br>范围：0～Integer.Max=2147483647 |
+
+#### 2.2.3 运行示例
+
+```Shell
+# 正确示例
+> tools/import-data.sh -ft sql -h 127.0.0.1 -p 6667 -u root -pw root -s /path/sql 
+        -fd /path/failure/dir -lpf 500  -tz +08:00 
+        -batch 100000  -tn 4
+      
+# 异常示例
+> tools/import-data.sh -ft sql -s /path/sql -fd /non_path
+error: Source file or directory /path/sql does not exist
+
+
+> tools/import-data.sh -ft sql -s /path/sql -tn 0
+error: Invalid thread number '0'. Please set a positive integer.
+```
+
+### 2.4 TsFile 格式
+
+#### 2.4.1 运行命令
+
+```Shell
+# Unix/OS X
+> tools/import-data.sh -ft <format> [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
+        -s <source> -os <on_success> [-sd <success_dir>] -of <on_fail> [-fd <fail_dir>]
+        [-tn <thread_num> ] [-tz <timezone>] [-tp <timestamp precision (ms/us/ns)>]
+      
+# Windows
+> tools\import-data.bat -ft <format> [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
+        -s <source> -os <on_success> [-sd <success_dir>] -of <on_fail> [-fd <fail_dir>]
+        [-tn <thread_num> ] [-tz <timezone>] [-tp <timestamp precision (ms/us/ns)>]
+```
+
+#### 2.4.2 私有参数
+
+| 参数缩写 | 参数全称               | 参数含义                                                                                                                             | 是否为必填项                                    | 默认值                |
+| ---------- | ------------------------ |----------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------| ----------------------- |
+| -os| --on\_succcess| 1. none：不删除 <br> 2. mv：移动成功的文件到目标文件夹 <br>3. cp：硬连接（拷贝）成功的文件到目标文件夹 <br>4. delete：删除                                               | √                                         ||
+| -sd      | --success\_dir         | 当--on\_succcess为mv或cp时，mv或cp的目标文件夹。文件的文件名变为文件夹打平后拼接原有文件名                                                                         | 当--on\_succcess为mv或cp时需要填写                | \${EXEC\_DIR}/success |
+| -of| --on\_fail| 1. none：跳过 <br>2. mv：移动失败的文件到目标文件夹 <br>3. cp：硬连接（拷贝）失败的文件到目标文件夹 <br>4. delete：删除                                                 | √                                         ||
+| -fd      | --fail\_dir            | 当--on\_fail指定为mv或cp时，mv或cp的目标文件夹。文件的文件名变为文件夹打平后拼接原有文件名                                                                           | 当--on\_fail指定为mv或cp时需要填写                  | \${EXEC\_DIR}/fail    |
+| -tp      | --timestamp\_precision | 时间戳精度<br>tsfile非远程导入：-tp 指定tsfile文件的时间精度 手动校验和服务器的时间戳是否一致 不一致返回报错信息 <br>远程导入：-tp 指定tsfile文件的时间精度 pipe自动校验时间戳精度是否一致 不一致返回pipe报错信息 | 否：<br>1. ms（毫秒）<br>2. us（纳秒）<br>3. ns（微秒） | ms|
+
+
+#### 2.4.3 运行示例
+
+```Shell
+# 正确示例
+> tools/import-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw root 
+      -s /path/sql -os mv -of cp -sd /path/success/dir -fd /path/failure/dir 
+      -tn 8 -tz +08:00 -tp ms
+      
+# 异常示例
+> tools/import-data.sh -ft tsfile -s /path/sql -os mv -of cp 
+           -fd /path/failure/dir  -tn 8 
+error: Missing option --success_dir (or -sd) when --on_success is 'mv' or 'cp'
+
+> tools/import-data.sh -ft tsfile -s /path/sql -os mv -of cp 
+          -sd /path/success/dir -fd /path/failure/dir  -tn 0 
+error: Invalid thread number '0'. Please set a positive integer.
+```
+## 3. TsFile 自动加载功能
+
+本功能允许 IoTDB 主动监听指定目录下的新增 TsFile，并将 TsFile 自动加载至 IoTDB 中。通过此功能，IoTDB 能自动检测并加载 TsFile，无需手动执行任何额外的加载操作。
+
+![](/img/Data-import1.png)
+
+### 3.1 配置参数
+
+可通过从配置文件模版 `iotdb-system.properties.template` 中找到下列参数，添加到 IoTDB 配置文件 `iotdb-system.properties` 中开启 TsFile 自动加载功能。完整配置如下：
+
+| **配置参数**                                | **参数说明**                                                                                                                                                                                                                                                                     | **value 取值范围**   | **是否必填** | **默认值**       | **加载方式** |
+| --------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- | -------------------- | ------------------------ | -------------------- |
+| load\_active\_listening\_enable                   | 是否开启 DataNode 主动监听并且加载 tsfile 的功能（默认开启）。                                                                                                                                                                                                                         | Boolean: true，false       | 选填               | true                   | 热加载             |
+| load\_active\_listening\_dirs                     | 需要监听的目录（自动包括目录中的子目录），如有多个使用 “，“ 隔开默认的目录为 ext/load/pending（支持热装载）                                                                                                                                                                          | String: 一个或多个文件目录 | 选填               | ext/load/pending       | 热加载             |
+| load\_active\_listening\_fail\_dir                | 执行加载 tsfile 文件失败后将文件转存的目录，只能配置一个                                                                                                                                                                                                                               | String: 一个文件目录       | 选填               | ext/load/failed        | 热加载             |
+| load\_active\_listening\_max\_thread\_num         | 同时执行加载 tsfile 任务的最大线程数，参数被注释掉时的默值为 max(1, CPU 核心数 / 2)，当用户设置的值不在这个区间[1, CPU核心数 /2]内时，会设置为默认值 (1, CPU 核心数 / 2)                                                                                                               | Long: [1, Long.MAX\_VALUE] | 选填               | max(1, CPU 核心数 / 2) | 重启后生效         |
+| load\_active\_listening\_check\_interval\_seconds | 主动监听轮询间隔，单位秒。主动监听 tsfile 的功能是通过轮询检查文件夹实现的。该配置指定了两次检查 load\_active\_listening\_dirs 的时间间隔，每次检查完成 load\_active\_listening\_check\_interval\_seconds 秒后，会执行下一次检查。当用户设置的轮询间隔小于 1 时，会被设置为默认值 5 秒 | Long: [1, Long.MAX\_VALUE] | 选填               | 5                      | 重启后生效         |
+
+### 3.2 注意事项
+
+1. 如果待加载的文件中，存在 mods 文件，应优先将 mods 文件移动到监听目录下面，然后再移动 tsfile 文件，且 mods 文件应和对应的 tsfile 文件处于同一目录。防止加载到 tsfile 文件时，加载不到对应的 mods 文件
+2. 禁止设置 Pipe 的 receiver 目录、存放数据的 data 目录等作为监听目录
+3. 禁止 `load_active_listening_fail_dir` 与 `load_active_listening_dirs` 存在相同的目录，或者互相嵌套
+4. 保证 `load_active_listening_dirs` 目录有足够的权限，在加载成功之后，文件将会被删除，如果没有删除权限，则会重复加载
