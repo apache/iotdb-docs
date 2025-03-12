@@ -4402,27 +4402,173 @@ select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
 |1970-01-01T08:00:00.009+08:00|                                    6.0|
 +-----------------------------+---------------------------------------+
 ```
+### 6.6 Pattern\_match
 
-<!--
+#### 注册语句
 
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-    
-        http://www.apache.org/licenses/LICENSE-2.0
-    
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-    KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
+```SQL
+create function pattern_match as 'org.apache.iotdb.library.match.UDAFPatternMatch'
+```
 
--->
+#### 函数简介
+
+本函数用于对输入的某一条时间序列与预设的`pattern`进行模式匹配，当相似度小于等于某个预设阈值时判定为匹配成功，并将最终匹配结果以`json`列表的方式输出。
+
+**函数名：** PATTERN\_MATCH
+
+**输入序列：** 仅支持一个输入序列，类型为INT32，INT64，FLOAT，DOUBLE，BOOLEAN。
+
+**参数：**
+
+* `timePattern` ：以时间戳组成的字符串，以逗号分隔。长度必须大于1。必填项。
+* `valuePattern `：以数字组成的字符串，以逗号分隔。数量与 `timePattern `相同，长度必须大于1。必填项。
+
+> 提示：布尔类型的`valuePattern `，需要用1,0来表示`true`和`false`。
+
+* `threshold` ：阈值。Float类型。必填项。
+
+**输出序列**：输出结果为包含所有成功匹配段落的起始时间戳`startTime`、终止时间戳`endTime`及相似度值`distance`的`json`列表。
+
+#### 使用示例
+1. 线性数据
+
+输入序列：
+
+```SQL
+IoTDB> select s0 from root.**
++-----------------------------+-------------+
+|                         Time|root.db.d0.s0|
++-----------------------------+-------------+
+|1970-01-01T08:00:00.001+08:00|          0.0|
+|1970-01-01T08:00:00.002+08:00|          1.1|
+|1970-01-01T08:00:00.003+08:00|          1.2|
+|1970-01-01T08:00:00.004+08:00|          1.3|
+|1970-01-01T08:00:00.005+08:00|          0.0|
++-----------------------------+-------------+
+```
+
+用于查询的SQL语句：
+
+```SQL
+select pattern_match (s0, "timePattern"="1,2,3", "valuePattern"="1.1,1.2,1.3", "threshold"="0.5") as match_result from root.db.d0
+```
+
+输出序列：
+
+```SQL
++--------------------------------------------------------------------------------------------------+
+|                                                                                      match_result|
++--------------------------------------------------------------------------------------------------+
+|[{"distance":0.200000,"startTime":1,"endTime":3}, {"distance":0.000000,"startTime":2,"endTime":4}]|
++--------------------------------------------------------------------------------------------------+
+```
+
+2. 布尔类型数据
+
+输入序列：
+
+```SQL
+IoTDB> select s1 from root.**
++-----------------------------+-------------+
+|                         Time|root.db.d0.s1|
++-----------------------------+-------------+
+|1970-01-01T08:00:00.001+08:00|         true|
+|1970-01-01T08:00:00.002+08:00|         true|
+|1970-01-01T08:00:00.003+08:00|         true|
+|1970-01-01T08:00:00.004+08:00|        false|
+|1970-01-01T08:00:00.005+08:00|        false|
++-----------------------------+-------------+
+```
+
+用于查询的SQL语句：
+
+```SQL
+select pattern_match (s1, "timePattern"="1,2,3", "valuePattern"="1,1,1", "threshold"="0.5") as match_result from root.db.d0
+```
+
+输出序列：
+
+```SQL
++-------------------------------------------------+
+|                                     match_result|
++-------------------------------------------------+
+|[{"distance":0.000000,"startTime":1,"endTime":3}]|
++-------------------------------------------------+
+```
+
+3. V型数据
+
+输入序列：
+
+```SQL
+IoTDB> select s2 from root.**
++-----------------------------+-------------+
+|                         Time|root.db.d0.s2|
++-----------------------------+-------------+
+|1970-01-01T08:00:00.001+08:00|          0.0|
+|1970-01-01T08:00:00.002+08:00|         -1.0|
+|1970-01-01T08:00:00.003+08:00|         -2.0|
+|1970-01-01T08:00:00.004+08:00|         -3.0|
+|1970-01-01T08:00:00.005+08:00|         -2.0|
+|1970-01-01T08:00:00.006+08:00|         -1.0|
+|1970-01-01T08:00:00.007+08:00|         -0.0|
+|1970-01-01T08:00:00.008+08:00|         -0.0|
+|1970-01-01T08:00:00.009+08:00|         -0.0|
+|1970-01-01T08:00:00.010+08:00|         -0.0|
++-----------------------------+-------------+
+```
+
+用于查询的SQL语句：
+
+```SQL
+select pattern_match (s2, "timePattern"="1,2,3,4,5,6,7", "valuePattern"="0.0,-1.0,-2.0,-3.0,-2.0,-1.0,-0.0", "threshold"="10") as match_result from root.db.d0
+```
+
+输出序列：
+
+```SQL
++----------------------------------------------+
+|                                  match_result|
++----------------------------------------------+
+|[{"distance":0.53,"startTime":1,"endTime":10}]|
++----------------------------------------------+
+```
+
+4. 多个匹配模式
+
+输入序列：
+
+```SQL
+IoTDB> select s0,s1 from root.**
++-----------------------------+-------------+-------------+
+|                         Time|root.db.d0.s0|root.db.d0.s1|
++-----------------------------+-------------+-------------+
+|1970-01-01T08:00:00.001+08:00|          0.0|         true|
+|1970-01-01T08:00:00.002+08:00|          1.1|         true|
+|1970-01-01T08:00:00.003+08:00|          1.2|         true|
+|1970-01-01T08:00:00.004+08:00|          1.3|        false|
+|1970-01-01T08:00:00.005+08:00|          0.0|        false|
++-----------------------------+-------------+-------------+
+```
+
+用于查询的SQL语句：
+
+```SQL
+select pattern_match (s0, "timePattern"="1,2,3", "valuePattern"="1.1,1.2,1.3", "threshold"="0.5") as match_result1, pattern_match (s1, "timePattern"="1,2,3", "valuePattern"="1,1,1",
+ "threshold"="0.5") as match_result2 from root.db.d0
+```
+
+输出序列：
+
+```SQL
++--------------------------------------------------------------------------------------------------+-------------------------------------------------+
+|                                                                                     match_result1|                                    match_result2|
++--------------------------------------------------------------------------------------------------+-------------------------------------------------+
+|[{"distance":0.200000,"startTime":1,"endTime":3}, {"distance":0.000000,"startTime":2,"endTime":4}]|[{"distance":0.000000,"startTime":1,"endTime":3}]|
++--------------------------------------------------------------------------------------------------+-------------------------------------------------+
+```
+
+
 
 ## 数据修复
 
