@@ -64,6 +64,10 @@ backup.sh/backup.bat -quick -node datanode
 **Process Details**:
 
 1. Check if the `_backup` folder already exists in the current IoTDB directory or paths specified in the configuration file. If it exists, the tool exits with the error: `The backup folder already exists`.
+> When the backup folder already exists, you can try the following solutions:
+> * Delete the existing _backup folder and retry the backup.
+> * Modify the backup path to avoid conflicts.
+
 2. Create hard links from the original `dn_data_dirs` paths to the corresponding `_backup` paths.
     * Example: If `dn_data_dirs=/data/iotdb/data/datanode/data`, the backup data will be stored in `/data/iotdb/data/datanode/data_backup`.
 3. Copy other files from the IoTDB directory (e.g., `/data/iotdb`) to the `_backup` path (e.g., `/data/iotdb_backup`).

@@ -63,6 +63,10 @@ backup.sh/backup.bat -quick -node datanode
 说明:
 
 1. 校验当前 `IoTDB` 文件夹及根据配置文件列出所有配置路径是否已经存在`_backup`文件夹，如果存在则退出，信息为 `The backup folder already exists`（备份文件夹已经存在）。
+> 当备份文件夹已存在时，可以尝试通过如下方式解决：
+> * 删除已有的 _backup 文件夹后重新执行备份。
+> * 修改备份路径避免冲突。
+
 2. 给原 `dn_data_dirs` 配置路径新建硬连接到对应的 `_backup` 路径 例如：`dn_data_dirs=/data/iotdb/data/datanode/data` 则备份完后数据在 `/data/iotdb/data/datanode/data_backup`
 3. 拷贝出`dn_data_dirs` 其他文件到原 `IoTDB`文件夹到对应的 `_backup` 路径中 例如：`/data/iotdb `备份后 `/data/iotdb_backup`
 
