@@ -355,7 +355,13 @@ DataNode节点维护有两个常见场景：
 脚本命令：
 
 ```Bash
-remove confignode [confignode_id]
+# Linux / MacOS 
+# 首先切换到IoTDB根目录
+sbin/start-datanode.sh
+
+#Windows
+# 首先切换到IoTDB根目录
+sbin/start-datanode.bat
 ```
 
 说明：在添加DataNode后，随着新的写入到来（以及旧数据过期，如果设置了TTL），集群负载会逐渐向新的DataNode均衡，最终在所有节点上达到存算资源的均衡。
