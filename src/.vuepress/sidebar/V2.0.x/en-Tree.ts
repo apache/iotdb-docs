@@ -140,6 +140,8 @@ export const enSidebar = {
         { text: 'Cluster Management Tool', link: 'Maintenance-Tool_apache' },
         { text: 'Data Import', link: 'Data-Import-Tool' },
         { text: 'Data Export', link: 'Data-Export-Tool' },
+        { text: 'Full Backup Tool', link: 'Backup-Tool' },
+        { text: 'Health Check Tool', link: 'Health-Check-Tool' },
       ],
     },
     {

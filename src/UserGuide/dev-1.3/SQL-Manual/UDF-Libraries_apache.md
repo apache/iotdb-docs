@@ -4302,27 +4302,173 @@ Output series:
 |1970-01-01T08:00:00.009+08:00|                                    6.0|
 +-----------------------------+---------------------------------------+
 ```
+### Pattern\_match
 
-<!--
+#### Registration statement
 
-​    Licensed to the Apache Software Foundation (ASF) under one
-​    or more contributor license agreements.  See the NOTICE file
-​    distributed with this work for additional information
-​    regarding copyright ownership.  The ASF licenses this file
-​    to you under the Apache License, Version 2.0 (the
-​    "License"); you may not use this file except in compliance
-​    with the License.  You may obtain a copy of the License at
-​    
-​        http://www.apache.org/licenses/LICENSE-2.0
-​    
-​    Unless required by applicable law or agreed to in writing,
-​    software distributed under the License is distributed on an
-​    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-​    KIND, either express or implied.  See the License for the
-​    specific language governing permissions and limitations
-​    under the License.
+```SQL
+create function pattern_match as 'org.apache.iotdb.library.match.UDAFPatternMatch'
+```
 
--->
+#### Usage
+
+This function performs pattern matching between an input time series and a predefined pattern. A match is considered successful if the similarity measure (distance) is less than or equal to a specified threshold. The results are output as a JSON list.
+
+​**Name**​: PATTERN\_MATCH
+
+**Input**​​**​ Series**​: Only support a single input series. The type is INT32 / INT64 / FLOAT / DOUBLE/ BOOLEAN
+
+​**Parameter**​:
+
+* `timePattern` : A comma-separated string of timestamps (e.g., `"t1,t2,t3"`). Length must be ​**greater than 1**​. Required.
+* `valuePattern `: A comma-separated string of numerical values corresponding to `timePattern`. Length must **match ​**`timePattern` and be greater than 1.  Required.
+
+> For boolean values: Use `1` for `true` and `0` for `false`.
+
+* `theshold`: Float-type similarity threshold.  Required.
+
+**Output**​​**​ Series**​: A JSON list containing all successfully matched segments. Each entry includes: start timestamp `startTime`, end timestamp `endTime`, calculated similarity value `distance`.
+
+#### Example
+
+1. Linear Data
+
+Input series:
+
+```SQL
+IoTDB> select s0 from root.**
++-----------------------------+-------------+
+|                         Time|root.db.d0.s0|
++-----------------------------+-------------+
+|1970-01-01T08:00:00.001+08:00|          0.0|
+|1970-01-01T08:00:00.002+08:00|          1.1|
+|1970-01-01T08:00:00.003+08:00|          1.2|
+|1970-01-01T08:00:00.004+08:00|          1.3|
+|1970-01-01T08:00:00.005+08:00|          0.0|
++-----------------------------+-------------+
+```
+
+SQL for query:
+
+```SQL
+select pattern_match (s0, "timePattern"="1,2,3", "valuePattern"="1.1,1.2,1.3", "threshold"="0.5") as match_result from root.db.d0
+```
+
+Output series:
+
+```SQL
++--------------------------------------------------------------------------------------------------+
+|                                                                                      match_result|
++--------------------------------------------------------------------------------------------------+
+|[{"distance":0.200000,"startTime":1,"endTime":3}, {"distance":0.000000,"startTime":2,"endTime":4}]|
++--------------------------------------------------------------------------------------------------+
+```
+
+2. Boolean Data
+
+Input series:
+
+```SQL
+IoTDB> select s1 from root.**
++-----------------------------+-------------+
+|                         Time|root.db.d0.s1|
++-----------------------------+-------------+
+|1970-01-01T08:00:00.001+08:00|         true|
+|1970-01-01T08:00:00.002+08:00|         true|
+|1970-01-01T08:00:00.003+08:00|         true|
+|1970-01-01T08:00:00.004+08:00|        false|
+|1970-01-01T08:00:00.005+08:00|        false|
++-----------------------------+-------------+
+```
+
+SQL for query:
+
+```SQL
+select pattern_match (s1, "timePattern"="1,2,3", "valuePattern"="1,1,1", "threshold"="0.5") as match_result from root.db.d0
+```
+
+Output series:
+
+```SQL
++-------------------------------------------------+
+|                                     match_result|
++-------------------------------------------------+
+|[{"distance":0.000000,"startTime":1,"endTime":3}]|
++-------------------------------------------------+
+```
+
+3. V-shaped Data
+
+Input series:
+
+```SQL
+IoTDB> select s2 from root.**
++-----------------------------+-------------+
+|                         Time|root.db.d0.s2|
++-----------------------------+-------------+
+|1970-01-01T08:00:00.001+08:00|          0.0|
+|1970-01-01T08:00:00.002+08:00|         -1.0|
+|1970-01-01T08:00:00.003+08:00|         -2.0|
+|1970-01-01T08:00:00.004+08:00|         -3.0|
+|1970-01-01T08:00:00.005+08:00|         -2.0|
+|1970-01-01T08:00:00.006+08:00|         -1.0|
+|1970-01-01T08:00:00.007+08:00|         -0.0|
+|1970-01-01T08:00:00.008+08:00|         -0.0|
+|1970-01-01T08:00:00.009+08:00|         -0.0|
+|1970-01-01T08:00:00.010+08:00|         -0.0|
++-----------------------------+-------------+
+```
+
+SQL for query:
+
+```SQL
+select pattern_match (s2, "timePattern"="1,2,3,4,5,6,7", "valuePattern"="0.0,-1.0,-2.0,-3.0,-2.0,-1.0,-0.0", "threshold"="10") as match_result from root.db.d0
+```
+
+Output series:
+
+```SQL
++----------------------------------------------+
+|                                  match_result|
++----------------------------------------------+
+|[{"distance":0.53,"startTime":1,"endTime":10}]|
++----------------------------------------------+
+```
+
+4. Multiple Matching Pattern
+
+Input series:
+
+```SQL
+IoTDB> select s0,s1 from root.**
++-----------------------------+-------------+-------------+
+|                         Time|root.db.d0.s0|root.db.d0.s1|
++-----------------------------+-------------+-------------+
+|1970-01-01T08:00:00.001+08:00|          0.0|         true|
+|1970-01-01T08:00:00.002+08:00|          1.1|         true|
+|1970-01-01T08:00:00.003+08:00|          1.2|         true|
+|1970-01-01T08:00:00.004+08:00|          1.3|        false|
+|1970-01-01T08:00:00.005+08:00|          0.0|        false|
++-----------------------------+-------------+-------------+
+```
+
+SQL for query:
+
+```SQL
+select pattern_match (s0, "timePattern"="1,2,3", "valuePattern"="1.1,1.2,1.3", "threshold"="0.5") as match_result1, pattern_match (s1, "timePattern"="1,2,3", "valuePattern"="1,1,1",
+ "threshold"="0.5") as match_result2 from root.db.d0
+```
+
+Output series:
+
+```SQL
++--------------------------------------------------------------------------------------------------+-------------------------------------------------+
+|                                                                                     match_result1|                                    match_result2|
++--------------------------------------------------------------------------------------------------+-------------------------------------------------+
+|[{"distance":0.200000,"startTime":1,"endTime":3}, {"distance":0.000000,"startTime":2,"endTime":4}]|[{"distance":0.000000,"startTime":1,"endTime":3}]|
++--------------------------------------------------------------------------------------------------+-------------------------------------------------+
+```
+
 
 ## Data Repairing
 

@@ -159,8 +159,10 @@ export const enSidebar = {
         { text: 'TsFile Import Export(V1.3.0/1/2)', link: 'TsFile-Import-Export-Tool' },
         { text: 'Data Import(V1.3.3)', link: 'Data-Import-Tool' },
         { text: 'Data Import(V1.3.4)', link: 'Data-Import-Tool-1-3-4' },
-        { text: 'Data Export(V1.3.3)', link: 'Data-Export-Tool' },
-        { text: 'Data Export(V1.3.4)', link: 'Data-Export-Tool-1-3-4' },
+        { text: 'Data Export(V1.3.3)', link: 'Data-Export-Tool' }, 
+        { text: 'Data Export(V1.3.4)', link: 'Data-Export-Tool-1-3-4' }, 
+        { text: 'Full Backup Tool(V1.3.2)', link: 'Backup-Tool' },
+        { text: 'Health Check Tool(V1.3.2)', link: 'Health-Check-Tool' }, 
       ],
     },
     {
