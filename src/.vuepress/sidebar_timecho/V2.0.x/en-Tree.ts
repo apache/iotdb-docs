@@ -77,6 +77,7 @@ export const enSidebar = {
           link: 'Monitoring-panel-deployment',
         },
         { text: 'Workbench Deployment', link: 'workbench-deployment_timecho' },
+        { text: 'Kubernetes Deployment', link: 'Kubernetes_timecho' },
       ],
     },
     {
@@ -154,6 +155,7 @@ export const enSidebar = {
         { text: 'Data Import', link: 'Data-Import-Tool' },
         { text: 'Data Export', link: 'Data-Export-Tool' },
         { text: 'Full Backup Tool', link: 'Backup-Tool' },
+        { text: 'Health Check Tool', link: 'Health-Check-Tool' },
       ],
     },
     {
@@ -204,7 +206,6 @@ export const enSidebar = {
         { text: 'Ignition', link: 'Ignition-IoTDB-plugin_timecho' },
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana Plugin', link: 'Grafana-Plugin' },
-        { text: 'Kubernetes', link: 'Kubernetes_timecho' },
         { text: 'Telegraf Plugin', link: 'Telegraf' },
         { text: 'ThingsBoard', link: 'Thingsboard' },
       ],

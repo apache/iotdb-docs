@@ -62,6 +62,7 @@ export const zhSidebar = {
         { text: 'AINode部署', link: 'AINode_Deployment_timecho' },
         { text: '监控面板部署', link: 'Monitoring-panel-deployment' },
         { text: '可视化控制台部署', link: 'workbench-deployment_timecho' },
+        { text: 'Kubernetes部署', link: 'Kubernetes_timecho' },
       ],
     },
     {
@@ -156,6 +157,7 @@ export const zhSidebar = {
         { text: '数据导入(V1.3.3)', link: 'Data-Import-Tool' },
         { text: '数据导出(V1.3.3)', link: 'Data-Export-Tool' },
         { text: '全量备份工具(V1.3.2)', link: 'Backup-Tool' },
+        { text: '健康检查工具(V1.3.2)', link: 'Health-Check-Tool' },
       ],
     },
     {
@@ -208,7 +210,6 @@ export const zhSidebar = {
         { text: 'Ignition', link: 'Ignition-IoTDB-plugin_timecho' },
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana插件', link: 'Grafana-Plugin' },
-        { text: 'Kubernetes', link: 'Kubernetes_timecho' },
         { text: 'Telegraf插件', link: 'Telegraf' },
         { text: 'ThingsBoard', link: 'Thingsboard' },
       ],

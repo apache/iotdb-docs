@@ -60,6 +60,7 @@ export const zhSidebar = {
         { text: '集群版部署指导', link: 'Cluster-Deployment_apache' },
         { text: 'Docker部署指导', link: 'Docker-Deployment_apache' },
         { text: 'AINode部署', link: 'AINode_Deployment_apache' },
+        { text: 'Kubernetes部署', link: 'Kubernetes_apache' },
       ],
     },
     {
@@ -127,6 +128,7 @@ export const zhSidebar = {
         { text: '数据导入', link: 'Data-Import-Tool' },
         { text: '数据导出', link: 'Data-Export-Tool' },
         { text: '全量备份工具', link: 'Backup-Tool' },
+        { text: '健康检查工具', link: 'Health-Check-Tool' },
       ],
     },
     {
@@ -174,7 +176,6 @@ export const zhSidebar = {
         { text: 'DBeaver', link: 'DBeaver' },
         { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
         { text: 'Grafana插件', link: 'Grafana-Plugin' },
-        { text: 'Kubernetes', link: 'Kubernetes_apache' },
         { text: 'Telegraf插件', link: 'Telegraf' },
         { text: 'ThingsBoard', link: 'Thingsboard' },
       ],
