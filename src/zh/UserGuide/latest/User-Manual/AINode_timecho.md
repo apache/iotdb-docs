@@ -441,6 +441,44 @@ Total line number = 4
 
 其中结果集中每行的标签对应每24行数据为一组，输入该异常检测模型后的输出。
 
+### 4.6 AINode-Timer模型导入操作步骤
+
+1. 打开 IoTDB cli 控制台，检查 ConfigNode、DataNode、AINode 节点确保均为 Running。
+
+检查命令：
+```sql
+show cluster
+```
+
+![](/img/ainode-timer-1.png)
+
+2. 模型文件存放路径：推荐放在 AINode 安装包相同文件夹下，可新建模型文件夹存放模型文件
+3. 注册模型语句
+
+```sql
+create model <model_name> using uri <uri>
+```
+
+示例：
+
+```sql
+create model Timer using uri <uri>
+```
+
+注意：导入 Timer 模型时名称需命名为“Timer”，否则无法被可视化控制台识别。
+
+![](/img/ainode-timer-2.png)
+
+4. 检查模型是否注册成功
+
+检查命令：
+
+```sql
+show models
+```
+
+![](/img/ainode-timer-3.png)
+
 ## 5. 权限管理
 
 使用AINode相关的功能时，可以使用IoTDB本身的鉴权去做一个权限管理，用户只有在具备 USE_MODEL 权限时，才可以使用模型管理的相关功能。当使用推理功能时，用户需要有访问输入模型的SQL对应的源序列的权限。
