@@ -26,7 +26,7 @@
 安装依赖包:
 
 ```Java
-pip3 install apache-iotdb
+pip3 install apache-iotdb==2.0.1b0
 ```
 
 ## 2. 读写操作

@@ -27,7 +27,7 @@ IoTDB provides a Python native client driver and a session pool management mecha
 To use the IoTDB Python API, install the required package using pip:
 
 ```Java
-pip3 install apache-iotdb
+pip3 install apache-iotdb==2.0.1b0
 ```
 
 ## 2. Read and Write Operations
