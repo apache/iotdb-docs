@@ -33,6 +33,8 @@ IoTDB offers two data modeling syntaxes—tree model and table model, each with 
 
 **Tree Model**: It manages data points as objects, with each data point corresponding to a time series. The data point names, segmented by dots, form a tree-like directory structure that corresponds one-to-one with the physical world, making the read and write operations on data points straightforward and intuitive.
 
+> When constructing tree model [paths](../Basic-Concept/Operate-Metadata_timecho.md#4-path-query), if node naming may include non-standard characters or special symbols, it is recommended to implement a backtick encapsulation strategy for all hierarchical nodes. This approach effectively mitigates issues such as probe registration failures and data write interruptions caused by character parsing errors, ensuring the accuracy of path identifiers in syntax parsing.
+
 **Table Model**: It is recommended to create a table for each type of device. The collection of physical quantities from devices of the same type shares certain commonalities (such as the collection of temperature and humidity physical quantities), allowing for flexible and rich data analysis.
 
 ### 2.1 Model Characteristics
