@@ -725,6 +725,38 @@ It costs 0.016s
 ```
 
 
+* SHOW TIMESERIES WHERE TAGS(KEY) = VALUE
+* SHOW TIMESERIES WHERE TAGS(KEY) CONTAINS VALUE
+
+  对查询结果集根据标签进行过滤。例如：
+
+```
+show timeseries root.ln.** where TAGS(unit)='c'
+show timeseries root.ln.** where TAGS(description) contains 'test1'
+```
+
+执行结果分别为：
+
+```
++--------------------------+-----+-------------+--------+--------+-----------+------------+----------+--------+-------------------+
+|                timeseries|alias|     database|dataType|encoding|compression|        tags|attributes|deadband|deadband parameters|
++--------------------------+-----+-------------+--------+--------+-----------+------------+----------+--------+-------------------+
+|root.ln.wf02.wt02.hardware| null|      root.ln|    TEXT|   PLAIN|     SNAPPY|{"unit":"c"}|      null|    null|               null|
++--------------------------+-----+-------------+--------+--------+-----------+------------+----------+--------+-------------------+
+Total line number = 1
+It costs 0.005s
+
++------------------------+-----+-------------+--------+--------+-----------+-----------------------+----------+--------+-------------------+
+|              timeseries|alias|     database|dataType|encoding|compression|                   tags|attributes|deadband|deadband parameters|
++------------------------+-----+-------------+--------+--------+-----------+-----------------------+----------+--------+-------------------+
+|root.ln.wf02.wt02.status| null|      root.ln| BOOLEAN|   PLAIN|     SNAPPY|{"description":"test1"}|      null|    null|               null|
++------------------------+-----+-------------+--------+--------+-----------+-----------------------+----------+--------+-------------------+
+Total line number = 1
+It costs 0.004s
+
+```
+
+
 * SHOW LATEST TIMESERIES
 
   表示查询出的时间序列需要按照最近插入时间戳降序排列

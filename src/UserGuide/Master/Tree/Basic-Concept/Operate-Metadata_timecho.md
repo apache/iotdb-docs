@@ -745,6 +745,38 @@ It costs 0.016s
 ```
 
 
+* SHOW TIMESERIES WHERE TAGS(KEY) = VALUE
+* SHOW TIMESERIES WHERE TAGS(KEY) CONTAINS VALUE
+
+  The query result set is filtered by tags. For example:
+
+```
+show timeseries root.ln.** where TAGS(unit)='c'
+show timeseries root.ln.** where TAGS(description) contains 'test1'
+```
+
+The query results are as follows:
+
+```
++--------------------------+-----+-------------+--------+--------+-----------+------------+----------+--------+-------------------+
+|                timeseries|alias|     database|dataType|encoding|compression|        tags|attributes|deadband|deadband parameters|
++--------------------------+-----+-------------+--------+--------+-----------+------------+----------+--------+-------------------+
+|root.ln.wf02.wt02.hardware| null|      root.ln|    TEXT|   PLAIN|     SNAPPY|{"unit":"c"}|      null|    null|               null|
++--------------------------+-----+-------------+--------+--------+-----------+------------+----------+--------+-------------------+
+Total line number = 1
+It costs 0.005s
+
++------------------------+-----+-------------+--------+--------+-----------+-----------------------+----------+--------+-------------------+
+|              timeseries|alias|     database|dataType|encoding|compression|                   tags|attributes|deadband|deadband parameters|
++------------------------+-----+-------------+--------+--------+-----------+-----------------------+----------+--------+-------------------+
+|root.ln.wf02.wt02.status| null|      root.ln| BOOLEAN|   PLAIN|     SNAPPY|{"description":"test1"}|      null|    null|               null|
++------------------------+-----+-------------+--------+--------+-----------+-----------------------+----------+--------+-------------------+
+Total line number = 1
+It costs 0.004s
+
+```
+
+
 * SHOW LATEST TIMESERIES
 
     all the returned timeseries information should be sorted in descending order of the last timestamp of timeseries

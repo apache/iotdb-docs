@@ -725,6 +725,37 @@ It costs 0.016s
 ```
 
 
+* SHOW TIMESERIES WHERE TAGS(KEY) = VALUE
+* SHOW TIMESERIES WHERE TAGS(KEY) CONTAINS VALUE
+
+  对查询结果集根据标签进行过滤。例如：
+
+```
+show timeseries root.ln.** where TAGS(unit)='c'
+show timeseries root.ln.** where TAGS(description) contains 'test1'
+```
+
+执行结果分别为：
+
+```
++--------------------------+-----+-------------+--------+--------+-----------+------------+----------+--------+-------------------+
+|                timeseries|alias|     database|dataType|encoding|compression|        tags|attributes|deadband|deadband parameters|
++--------------------------+-----+-------------+--------+--------+-----------+------------+----------+--------+-------------------+
+|root.ln.wf02.wt02.hardware| null|      root.ln|    TEXT|   PLAIN|     SNAPPY|{"unit":"c"}|      null|    null|               null|
++--------------------------+-----+-------------+--------+--------+-----------+------------+----------+--------+-------------------+
+Total line number = 1
+It costs 0.005s
+
++------------------------+-----+-------------+--------+--------+-----------+-----------------------+----------+--------+-------------------+
+|              timeseries|alias|     database|dataType|encoding|compression|                   tags|attributes|deadband|deadband parameters|
++------------------------+-----+-------------+--------+--------+-----------+-----------------------+----------+--------+-------------------+
+|root.ln.wf02.wt02.status| null|      root.ln| BOOLEAN|   PLAIN|     SNAPPY|{"description":"test1"}|      null|    null|               null|
++------------------------+-----+-------------+--------+--------+-----------+-----------------------+----------+--------+-------------------+
+Total line number = 1
+It costs 0.004s
+
+```
+
 * SHOW LATEST TIMESERIES
 
   表示查询出的时间序列需要按照最近插入时间戳降序排列
@@ -984,7 +1015,7 @@ IoTDB> show timeseries where TAGS(tag1)='v1'
 
 ## 4. 路径查询
 
-### 路径（Path）
+### 4.1 路径（Path）
 
 路径（path）是用于表示时间序列的层级结构的表达式，其语法定义如下：
 ```SQL
@@ -1002,7 +1033,7 @@ IoTDB> show timeseries where TAGS(tag1)='v1'
       | '**'
       ;
 ```
-### 路径结点名（NodeName）
+### 4.2 路径结点名（NodeName）
 
 - 路径中由 `.` 分割的部分称为路径结点名（nodeName）。
 - 例如，`root.a.b.c` 是一个层级为 4 的路径，其中 root、a、b 和 c 都是路径结点名。
@@ -1017,11 +1048,11 @@ IoTDB> show timeseries where TAGS(tag1)='v1'
   - UNICODE 中文字符（\u2E80 到 \u9FFF）
 - 大小写敏感性：在 Windows 系统上，数据库路径结点名是大小写不敏感的。例如，root.ln 和 root.LN 会被视为相同的路径。
 
-### 特殊字符（反引号）
+### 4.3 特殊字符（反引号）
 
 如果`路径结点名（NodeName）`中需要使用特殊字符（如空格、标点符号等），可以使用反引号（`）将结点名引用起来。更多关于反引号的使用方法，请参考[反引号](../SQL-Manual/Syntax-Rule.md#反引号)。
 
-### 路径模式（Path Pattern）
+### 4.4 路径模式（Path Pattern）
 
 为了使得在表达多个时间序列的时候更加方便快捷，IoTDB 为用户提供带通配符`*`或`**`的路径。通配符可以出现在路径中的任何层。
 
@@ -1034,7 +1065,7 @@ IoTDB> show timeseries where TAGS(tag1)='v1'
 
 **注意**：* 和 ** 不能放在路径的开头。
 
-### 查看路径的所有子路径
+### 4.5 查看路径的所有子路径
 
 ```
 SHOW CHILD PATHS pathPattern
@@ -1070,7 +1101,7 @@ It costs 0.002s
 +---------------+
 ```
 
-### 4.2 查看路径的下一级节点
+### 4.6 查看路径的下一级节点
 
 ```
 SHOW CHILD NODES pathPattern
@@ -1101,7 +1132,7 @@ SHOW CHILD NODES pathPattern
 +------------+
 ```
 
-### 4.3 统计节点数
+### 4.7 统计节点数
 
 IoTDB 支持使用`COUNT NODES <PathPattern> LEVEL=<INTEGER>`来统计当前 Metadata
  树下满足某路径模式的路径中指定层级的节点个数。这条语句可以用来统计带有特定采样点的设备数。例如：
@@ -1151,7 +1182,7 @@ It costs 0.002s
 
 > 注意：时间序列的路径只是过滤条件，与 level 的定义无关。
 
-### 4.4 查看设备
+### 4.8 查看设备
 
 * SHOW DEVICES pathPattern? (WITH DATABASE)? devicesWhereClause? limitClause? 
 
@@ -1263,7 +1294,7 @@ Total line number = 2
 It costs 0.001s
 ```
 
-### 4.5 统计设备数量
+### 4.9 统计设备数量
 
 * COUNT DEVICES \<PathPattern\>
 
