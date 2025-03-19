@@ -629,9 +629,9 @@ public class TableSessionPoolBuilder {
 
 ## 5. 示例代码
 
-Session 示例代码：[src/main/java/org/apache/iotdb/TableModelSessionExample.java](https://github.com/apache/iotdb/blob/rc/2.0.1/example/session/src/main/java/org/apache/iotdb/TableModelSessionExample.java)
+Session 示例代码：[src/main/java/org/apache/iotdb/TableModelSessionExample.java](https://github.com/apache/iotdb/blob/master/example/session/src/main/java/org/apache/iotdb/TableModelSessionExample.java)
 
-SessionPool 示例代码：[src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java](https://github.com/apache/iotdb/blob/rc/2.0.1/example/session/src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java)
+SessionPool 示例代码：[src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java](https://github.com/apache/iotdb/blob/master/example/session/src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java)
 
 ```Java
 /*
