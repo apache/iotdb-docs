@@ -64,7 +64,7 @@ ITableSession接口定义了与IoTDB交互的基本操作，可以执行数据�
 | executeQueryStatement(String sql, long timeoutInMs) | 执行查询SQL语句，并设置查询超时时间（以毫秒为单位）          | sql: 要执行的查询SQL语句。timeoutInMs: 查询超时时间（毫秒） | SessionDataSet | StatementExecutionException                         |
 | close()                                             | 关闭会话，释放所持有的资源                                   | 无                                                          | 无             | IoTDBConnectionException                            |
 
-#### 3.1.2 接口展示
+#### 3.1.3 接口展示
 
 ``` java
 /**
@@ -629,9 +629,9 @@ public class TableSessionPoolBuilder {
 
 ## 5. 示例代码
 
-Session 示例代码：[src/main/java/org/apache/iotdb/TableModelSessionExample.java](https://github.com/apache/iotdb/blob/master/example/session/src/main/java/org/apache/iotdb/TableModelSessionExample.java)
+Session 示例代码：[src/main/java/org/apache/iotdb/TableModelSessionExample.java](https://github.com/apache/iotdb/blob/rc/2.0.1/example/session/src/main/java/org/apache/iotdb/TableModelSessionExample.java)
 
-SessionPool 示例代码：[src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java](https://github.com/apache/iotdb/blob/master/example/session/src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java)
+SessionPool 示例代码：[src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java](https://github.com/apache/iotdb/blob/rc/2.0.1/example/session/src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java)
 
 ```Java
 /*
