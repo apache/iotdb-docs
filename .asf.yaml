@@ -36,10 +36,10 @@ github:
     # disable rebase button:
     rebase: true
   collaborators:
-    - CritasWang
     - krystal-xiao
     - mal117
     - W1y1r
+    - leto-b
 
 staging:
   profile: ~
