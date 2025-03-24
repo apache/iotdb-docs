@@ -43,7 +43,7 @@
 
 2. WITH properties 子句可配置如下属性：
 
-> 注：属性的大小写不敏感，且暂不支持修改，有关详细信息[大小写敏感规则](../SQL-Manual/Identifier.md#大小写敏感性)。
+> 注：属性的大小写不敏感，有关详细信息[大小写敏感规则](../SQL-Manual/Identifier.md#大小写敏感性)。
 
 | 属性                      | 含义                                     | 默认值    |
 | ------------------------- | ---------------------------------------- | --------- |
@@ -151,7 +151,23 @@ IoTDB> show databases details
 
 ### 1.5 修改数据库
 
-暂不支持，V2.0.2.1后支持
+用于修改数据库中的部分属性。
+
+**语法：**
+
+```SQL
+ALTER DATABASE (IF EXISTS)? databaseName=qualifiedName (WITH properties)?
+```
+
+**说明：**
+
+1. `ALTER DATABASE`操作目前仅支持对数据库的`SCHEMA_REGION_GROUP_NUM`、`DATA_REGION_GROUP_NUM`以及`TTL`属性进行修改。
+
+**示例:** 
+
+```SQL
+ALTER TABLE database1 with(TTL=31536000000);
+```
 
 ### 1.6 删除数据库
 
