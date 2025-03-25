@@ -35,42 +35,66 @@ const title = useLocaleConfig({
 const slidesData = useLocaleConfig({
   '/': [
     {
-      src: '/img/home-Slide1.png',
-      title: 'High-end equipment',
+      src: '/img/apache-home-scenarios-energy-en.png',
+      title: 'Energy & Power',
       detail:
-        ' In high-end manufacturing, there are many devices equipped with sensors collecting working status data.Meteorological stations, wind turbines are common high-end devices.These devices, if supports Java or Go (in development), can run TsFile to store data locally.In this way, TsFile can provide the ability to save data with high throughput, high compression ratio, and millisecond query.Together with TsFile-Sync tool, TsFiles can be transmitted to the data center.',
+        'The global energy transition accelerates power sector digitization. Enterprises deploy IoT and time-series databases to build smart energy systems, using real-time analytics for efficiency and security. IoTDB provides high-availability, low-bandwidth solutions to streamline data integration and energy transition.',
     },
     {
-      src: '/img/home-Slide2.png',
-      title: 'Local Controller',
+      src: '/img/scenario-aerospace-en.png',
+      title: 'AeroSpace',
       detail:
-        'In the scene of factories, there are tens of devices under LAN network. IoTDB can be installed on a local controller server in the factory to receive data from those devices. The local controller server (normal PC or workstation) with IoTDB can provide the ability to persist data and query data with SQL-like interface. In addition, with TsFile-Sync tool, TsFiles on the local controller can be transmitted to the data center equipped with IoTDB instance in the cloud.',
+        'Tech advances propel the digital-intelligent shift in aerospace. Enterprises integrate real-time telemetry and test data through lifecycle data management, ensuring precise monitoring and optimized designs. IoTDB delivers low-bandwidth sync and flexible deployment, delivering reliable data foundations for innovation and sustainable energy integration.',
     },
     {
-      src: '/img/home-Slide3.png',
-      title: 'Cloud Data Management',
+      src: '/img/apache-home-scenarios-transportation-en.png',
+      title: 'Transportation',
       detail:
-        "In the scene of high-speed networks (Internet of Vehicles, etc.), a car installed of sensors, can collect monitoring information (driving status, etc.) of itself at a certain frequency. Usually, these automotive devices have limited hardware configurations and are difficult to carry complex applications. Here, lightweight IoTDB(IoTDB Client) came into being. IoTDB's JDBC API can make data that can be sent through narrow-band IoT networks or 4G whichever is possible. In this way, devices and cloud are connected together.",
+        "Transportation leverages real-time vehicle data to drive smart scheduling and maintenance in railways/metro systems, ensuring real-time and reliable management for efficiency and cost reduction. IoTDB's time-series data processing with low-latency queries handles data surges and multi-source data flow, building a robust foundation for intelligent transport systems and enabling smarter automation.",
+    },
+    {
+      src: '/img/apache-home-scenarios-steel-en.png',
+      title: 'Steel & Metallurgy',
+      detail:
+        'The steel industry accelerates digital transformation using industrial IoT platforms for real-time production data analytics, boosting output, quality, and energy efficiency. IoTDB, a high-efficiency time-series database, enables cross-platform deployment with low resource use and seamless system integration via APIs, driving smart factories and industrial productivity growth.',
+    },
+    {
+      src: '/img/apache-home-scenarios-iot-en.png',
+      title: 'IoT',
+      detail:
+        "IoT enables smart industry operations via mass device connectivity and data analytics, driving efficient real-time scalable data management for monitoring and diagnostics. IoTDB, a native time-series database, supports edge-cloud sync and high-concurrency processing, empowering enterprises to unlock data value and advance IoT solutions.",
     },
   ],
   '/zh/': [
     {
-      src: '/img/home-Slide1.png',
-      title: '高端设备',
+      src: '/img/apache-home-scenarios-energy.png',
+      title: '能源电力',
       detail:
-        '在高端制造业中，有很多设备配备有传感器来收集工作状态数据，例如气象站，风力涡轮机是常见的高端设备。这些设备如果支持Java或Go（正在开发中），则可以运行TsFile在本地存储数据。通过这种方式，TsFile可以提供具有高吞吐、高压缩率和毫秒级查询延迟的数据管理功能。结合TsFile-Sync工具，可以将TsFiles同步到数据中心。',
+        '全球能源变革驱动电力行业数字化转型，企业依托物联网与时序数据库技术升级智慧能源系统，通过全环节数据实时采集分析提升能效、保障电网安全。IoTDB以高可用集群、低流量同步、跨网闸支持及高性能优势，提供自主可控的时序数据管理方案，支撑企业应对海量数据挑战，推动传统能源与可再生能源高效整合。',
     },
     {
-      src: '/img/home-Slide2.png',
-      title: '本地控制器',
+      src: '/img/apache-home-scenarios-areo.png',
+      title: '航空航天',
       detail:
-        '在工厂现场，LAN网络下有数十台设备。 IoTDB可以安装在工厂的本地控制器服务器上，以从这些设备接收数据。 安装有IoTDB的本地服务器（普通PC或工作站）可以使用类SQL存储和查询数据。 此外，使用TsFile-Sync工具，可以将本地控制器上的TsFile文件传输到云上安装有IoTDB实例的数据中心。',
+        '科技进步驱动航空航天数字化智能化转型，企业通过全周期数据管理整合实时遥测与试飞数据，实现关键系统精准监测，推动设计优化与安全管控。IoTDB以国产自研技术优势，通过高效低流量同步、离线迁移、灵活部署及低资源占用特性，为行业构建可靠数据底座，支撑技术创新与可持续发展。',
     },
     {
-      src: '/img/home-Slide3.png',
-      title: '云数据管理',
+      src: '/img/apache-home-scenarios-transportation.png',
+      title: '交通运输',
       detail:
-        '在高速网络（车联网等）的场景中，安装有传感器的汽车可以以一定频率收集自身的监视信息（行驶状态等）。 通常，这些汽车设备的硬件配置有限，并且难以进行复杂的应用。 轻量级的IoTDB（IoTDB客户端）应运而生。 借助JDBC API（或MQTT），它可以使用窄带IoT或4G/5G发送数据，从而将设备和云连接在一起。',
+        "交通运输行业依托实时车辆数据采集分析，驱动铁路、地铁等核心场景的智能调度与高效运维，满足高实时、高可靠管理需求，实现提效降本。IoTDB凭借高效时序数据处理及低延迟查询能力，应对数据爆发增长，支撑多源异构数据流转，为构建稳定可靠的智能交通系统提供技术底座，助力行业智能化与自动化升级。",
+    },
+    {
+      src: '/img/apache-home-scenarios-steel.png',
+      title: '钢铁冶炼',
+      detail:
+        '钢铁冶炼行业加速数字化转型，依托工业物联网平台实现生产全流程实时数据采集与分析，助力产能提升、质量优化与能耗降低。IoTDB凭借高效数据存储、计算能力及灵活部署特性，提供跨平台支持与低资源占用的解决方案，并通过丰富接口实现系统高效集成，推动智慧工厂建设，赋能传统工业新质生产力发展。',
+    },
+    {
+      src: '/img/apache-home-scenarios-iot.png',
+      title: '物联网通用',
+      detail:
+        "物联网通过海量设备互联与智能数据分析重构行业运营，驱动高效实时、稳定可扩展的数据管理系统，支撑设备监测与故障诊断等核心应用。IoTDB作为原生时序数据库，提供边缘到云端的全链路数据同步及分析能力，高并发处理特性适配大规模设备接入，为企业挖掘数据价值、提升运营效率提供灵活解决方案，推动物联网业务全面发展",
     },
   ],
 });
