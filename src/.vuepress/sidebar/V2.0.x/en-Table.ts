@@ -121,6 +121,7 @@ export const enSidebar = {
       children: [
         { text: 'Java Native API', link: 'Programming-Java-Native-API_apache' },
         { text: 'Python Native API', link: 'Programming-Python-Native-API' },
+        { text: 'C# Native API', link: 'Programming-CSharp-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC_apache' },
         { text: 'RESTAPI V1 ', link: 'RestAPI-V1' },
       ],
