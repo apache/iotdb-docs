@@ -26,16 +26,21 @@
 ## 1. Syntax Overview
 
 ```sql
-SELECT selectItem (',' selectItem)*
+SELECT setQuantifier? selectItem (',' selectItem)*
 
 selectItem
     : expression (AS? identifier)?                          #selectSingle
     | tableName '.' ASTERISK (AS columnAliases)?            #selectAll
     | ASTERISK                                              #selectAll
     ;
+setQuantifier
+    : DISTINCT
+    | ALL
+    ; 
 ```
 
 - It supports aggregate functions (e.g., `SUM`, `AVG`, `COUNT`) and window functions, logically executed last in the query process.
+- DISTINCT Keyword: `SELECT DISTINCT column_name` ensures that the values in the query results are unique, removing duplicates.
 
 ## 2. Detailed Syntax:
 
@@ -45,6 +50,13 @@ Each `selectItem` can take one of the following forms:
 2. **All Columns from a Relation**: `relation.*` selects all columns from a specified relation. Column aliases are not allowed in this case.
 3. **All Columns in the Result Set**: `*` selects all columns returned by the query. Column aliases are not allowed.
 
+Usage scenarios for DISTINCT:
+
+1. **SELECT Statement**: Use DISTINCT in the SELECT statement to remove duplicate items from the query results.
+
+2. **Aggregate Functions**: When used with aggregate functions, DISTINCT only processes non-duplicate rows in the input dataset.
+
+3. **AGROUP BY Clause**: Use ALL and DISTINCT quantifiers in the GROUP BY clause to determine whether each duplicate grouping set produces distinct output rows.
 
 ## 3. Example Data
 
