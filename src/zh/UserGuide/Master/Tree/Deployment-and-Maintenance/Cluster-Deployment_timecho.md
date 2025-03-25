@@ -208,7 +208,6 @@ cd sbin
 
 > 出现`ACTIVATED(W)`为被动激活，表示此ConfigNode没有license文件（或没有签发时间戳最新的license文件），其激活依赖于集群中其它Activate状态的ConfigNode。此时建议检查license文件是否已放入license文件夹，没有请放入license文件，若已存在license文件，可能是此节点license文件与其他节点信息不一致导致，请联系天谋工作人员重新申请.
 
-
 ### 3.7 一键启停集群
 
 #### 3.7.1 概述
@@ -321,7 +320,7 @@ sbin/start-confignode.bat
 
 #### 移除ConfigNode节点
 
-首先通过CLI连接集群，通过`show confignodes`确认想要移除ConfigNode的内部地址与端口号：
+首先通过CLI连接集群，通过`show confignodes`确认想要移除ConfigNode的NodeID：
 
 ```Bash
 IoTDB> show confignodes
@@ -336,14 +335,11 @@ Total line number = 3
 It costs 0.030s
 ```
 
-然后使用脚本将DataNode移除。脚本命令：
+然后使用SQL将ConfigNode移除，SQL命令：
+
 
 ```Bash
-# Linux / MacOS 
-sbin/remove-confignode.sh [confignode_id]
-
-#Windows
-sbin/remove-confignode.bat [confignode_id]
+remove confignode [confignode_id]
 
 ```
 
@@ -390,7 +386,7 @@ sbin/start-datanode.bat
 
 #### 移除DataNode节点
 
-首先通过CLI连接集群，通过`show datanodes`确认想要移除的DataNode的RPC地址与端口号：
+首先通过CLI连接集群，通过`show datanodes`确认想要移除的DataNode的NodeID：
 
 ```Bash
 IoTDB> show datanodes
@@ -405,14 +401,11 @@ Total line number = 3
 It costs 0.110s
 ```
 
-然后使用脚本将DataNode移除。脚本命令：
+然后使用SQL将DataNode移除，SQL命令：
 
 ```Bash
-# Linux / MacOS 
-sbin/remove-datanode.sh [datanode_id]
+remove datanode [datanode_id]
 
-#Windows
-sbin/remove-datanode.bat [datanode_id]
 ```
 
 ## 5. 常见问题
