@@ -41,7 +41,7 @@ This command is used to create a database.
   - Maximum length is 64 characters.
   - Names with special characters or Chinese characters must be enclosed in double quotes (`""`).
 
-2. `WITH properties`: Property names are case-insensitive and currently cannot be modified. For more details, refer to the case sensitivity rules [case-sensitivity](../SQL-Manual/Identifier.md#2-case-sensitivity)。Configurable properties include:
+2. `WITH properties`: Property names are case-insensitive. For more details, refer to the case sensitivity rules [case-sensitivity](../SQL-Manual/Identifier.md#2-case-sensitivity)。Configurable properties include:
 
 | Property                | Description                                                  | Default Value        |
 | ----------------------- | ------------------------------------------------------------ | -------------------- |
@@ -149,7 +149,23 @@ IoTDB> show databases details
 
 ### 1.5 Update a Database
 
-Currently not supported; will be available after version 2.0.2.1.
+Used to modify some attributes in the database.
+
+**Syntax:**
+
+```SQL
+ALTER DATABASE (IF EXISTS)? databaseName=qualifiedName (WITH properties)?
+```
+
+**Note:**
+
+1. The `ALTER DATABASE` operation currently only supports modifications to the database's `SCHEMA_REGION_GROUP_NUM`, `DATA_REGION_GROUP_NUM`, and `TTL` attributes.
+
+**Example:**
+
+```SQL
+ALTER TABLE database1 with(TTL=31536000000);
+```
 
 ### 1.6 Delete a Database
 
