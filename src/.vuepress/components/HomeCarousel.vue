@@ -44,7 +44,7 @@ const slidesData = useLocaleConfig({
       src: '/img/scenario-aerospace-en.png',
       title: 'AeroSpace',
       detail:
-        'Tech advances propel aerospace's digital-intelligent shift. Enterprises integrate real-time telemetry and test data through lifecycle data management, ensuring precise monitoring and optimized designs. IoTDB delivers low-bandwidth sync and flexible deployment, delivering reliable data foundations for innovation and sustainable energy integration.',
+        'Tech advances propel the digital-intelligent shift in aerospace. Enterprises integrate real-time telemetry and test data through lifecycle data management, ensuring precise monitoring and optimized designs. IoTDB delivers low-bandwidth sync and flexible deployment, delivering reliable data foundations for innovation and sustainable energy integration.',
     },
     {
       src: '/img/apache-home-scenarios-transportation-en.png',
