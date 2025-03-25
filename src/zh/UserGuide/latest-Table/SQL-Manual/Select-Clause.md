@@ -24,24 +24,35 @@
 ## 1. 语法概览
 
 ```sql
-SELECT selectItem (',' selectItem)*
+SELECT setQuantifier? selectItem (',' selectItem)*
 
 selectItem
     : expression (AS? identifier)?                          #selectSingle
     | tableName '.' ASTERISK (AS columnAliases)?            #selectAll
     | ASTERISK                                              #selectAll
     ;
+setQuantifier
+    : DISTINCT
+    | ALL
+    ;
 ```
 
-- __SELECT 子句__: 指定了查询结果应包含的列，包含聚合函数（如 SUM、AVG、COUNT 等）以及窗口函数，在逻辑上最后执行。
+- **SELECT 子句**: 指定了查询结果应包含的列，包含聚合函数（如 SUM、AVG、COUNT 等）以及窗口函数，在逻辑上最后执行。
+- **DISTINCT 关键字**: `SELECT DISTINCT column_name` 确保查询结果中的值是唯一的，去除重复项。
 
 ## 2. 语法详释：
 
 每个 `selectItem` 可以是以下形式之一：
 
-- __表达式__: `expression [ [ AS ] column_alias ]` 定义单个输出列，可以指定列别名。
-- __选择某个关系的所有列__: `relation.*` 选择某个关系的所有列，不允许使用列别名。
-- __选择结果集中的所有列__: `*` 选择查询的所有列，不允许使用列别名。
+- **表达式**: `expression [ [ AS ] column_alias ]` 定义单个输出列，可以指定列别名。
+- **选择某个关系的所有列**: `relation.*` 选择某个关系的所有列，不允许使用列别名。
+- **选择结果集中的所有列**: `*` 选择查询的所有列，不允许使用列别名。
+
+`DISTINCT` 的使用场景：
+
+- **SELECT 语句**：在 SELECT 语句中使用 DISTINCT，查询结果去除重复项。
+- **聚合函数**：与聚合函数一起使用时，DISTINCT 只处理输入数据集中的非重复行。
+- **GROUP BY 子句**：在 GROUP BY 子句中使用 ALL 和 DISTINCT 量词，决定是否每个重复的分组集产生不同的输出行。
 
 ## 3. 示例数据
 
@@ -51,7 +62,7 @@ selectItem
 
 #### 3.1.1 星表达式
 
-使用星号(*)可以选取表中的所有列，__注意__，星号表达式不能被大多数函数转换，除了`count(*)`的情况。
+使用星号(*)可以选取表中的所有列，**注意**，星号表达式不能被大多数函数转换，除了`count(*)`的情况。
 
 示例：从表中选择所有列
 
@@ -246,5 +257,5 @@ It costs 0.189s
 
 ## 4. 结果集列顺序
 
-- __列顺序__: 结果集中的列顺序与 SELECT 子句中指定的顺序相同。
-- __多列排序__: 如果选择表达式返回多个列，它们的排序方式与源关系中的排序方式相同
+- **列顺序**: 结果集中的列顺序与 SELECT 子句中指定的顺序相同。
+- **多列排序**: 如果选择表达式返回多个列，它们的排序方式与源关系中的排序方式相同
