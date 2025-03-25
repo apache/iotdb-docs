@@ -56,6 +56,10 @@ Shell> sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect tab
 | -e `<execute>`               | string   | No           | Batch operations in non-interactive mode.                    | -e "show databases" |
 | -c                         | Flag     | No           | Required if rpc_thrift_compression_enable=true on the server. | -c                  |
 | -disableISO8601            | Flag     | No           | If set, timestamps will be displayed as numeric values instead of ISO8601 format. | -disableISO8601     |
+| -usessl `<use_ssl>`          | Boolean | No           | Enable SSL connection                            | -usessl true         |
+| -ts `<trust_store>`          | string  | No           | SSL certificate store path             | -ts /path/to/truststore  |
+| -tpw `<trust_store_pwd>`      | string  | No           | SSL certificate store password                   | -tpw myTrustPassword |
+| -timeout `<queryTimeout>`    | int    | No           | Query timeout (seconds). If not set, the server's configuration will be used.           | -timeout 30          |
 | -help                      | Flag     | No           | Displays help information for the CLI tool.                  | -help               |
 
 The figure below indicates a successful startup:
