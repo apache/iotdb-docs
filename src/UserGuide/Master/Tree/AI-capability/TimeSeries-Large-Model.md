@@ -33,7 +33,7 @@ The team's related technologies of time series large models have been published 
 - **Data Imputation**: For missing segments in time series, perform context imputation to enhance the continuity and completeness of the dataset.
 - **Anomaly Detection**: Utilizing regression analysis technology, monitor time series data in real-time and provide timely warnings for potential anomalies.
 
-![](/img/LargeModel08.png)
+![](/img/LargeModel10.png)
 
 ## Timer Model
 
