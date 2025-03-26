@@ -19,7 +19,7 @@
 
 -->
 
-# AI Capability
+# AINode
 
 AINode is the third internal node after ConfigNode and DataNode in Apache IoTDB, which extends the capability of machine learning analysis of time series by interacting with DataNode and ConfigNode of IoTDB cluster, supports the introduction of pre-existing machine learning models from the outside to be registered, and uses the registered models in the It supports the process of introducing existing machine learning models from outside for registration, and using the registered models to complete the time series analysis tasks on the specified time series data through simple SQL statements, which integrates the model creation, management and inference in the database engine. At present, we have provided machine learning algorithms or self-developed models for common timing analysis scenarios (e.g. prediction and anomaly detection).
 
@@ -63,7 +63,7 @@ Compared with building a machine learning service alone, it has the following ad
 
 ## 3. Installation and Deployment
 
-The deployment of AINode can be found in the document [Deployment Guidelines](../Deployment-and-Maintenance/AINode_Deployment_apache.md#ainode-deployment) .
+The deployment of AINode can be found in the document [Deployment Guidelines](../Deployment-and-Maintenance/AINode_Deployment_timecho.md#AINode-部署) .
 
 
 ## 4. Usage Guidelines
@@ -443,6 +443,12 @@ Total line number = 4
 ```
 
 In the result set, each row's label corresponds to the output of the anomaly detection model after inputting each group of 24 rows of data.
+
+
+### 4.6 TimeSeries Large Models Import Steps
+
+AINode currently supports a variety of time series large models. For deployment and usage, please refer to [TimeSeries Large Models](../AI-capability/TimeSeries-Large-Model)
+
 
 ## 5. Privilege Management
 
