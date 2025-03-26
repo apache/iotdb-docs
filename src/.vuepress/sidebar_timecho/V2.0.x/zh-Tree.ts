@@ -91,7 +91,6 @@ export const zhSidebar = {
       children: [
         { text: '数据同步', link: 'Data-Sync_timecho' },
         { text: '数据订阅', link: 'Data-subscription' },
-        { text: 'AI能力', link: 'AINode_timecho' },
         {
           text: '安全管理',
           collapsible: true,
@@ -123,6 +122,15 @@ export const zhSidebar = {
             { text: '数据修复', link: 'Data-Recovery' },
           ],
         },
+      ],
+    },
+    {
+      text: 'AI 能力',
+      collapsible: true,
+      prefix: 'AI-capability/',
+      children: [
+        { text: 'AINode', link: 'AINode_timecho' },
+        { text: '时序大模型', link: 'TimeSeries-Large-Model' },
       ],
     },
     {

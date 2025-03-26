@@ -99,7 +99,6 @@ export const enSidebar = {
       children: [
         { text: 'Data Sync', link: 'Data-Sync_apache' },
         { text: 'Data Subscription', link: 'Data-subscription' },
-        { text: 'AI Capability', link: 'AINode_apache' },
         {
           text: 'Security Management',
           collapsible: true,
@@ -127,6 +126,15 @@ export const enSidebar = {
             { text: 'Data Recovery', link: 'Data-Recovery' },
           ],
         },
+      ],
+    },
+    {
+      text: 'AI capability',
+      collapsible: true,
+      prefix: 'AI-capability/',
+      children: [
+        { text: 'AINode', link: 'AINode_apache' },
+        { text: 'TimeSeries Large Model', link: 'TimeSeries-Large-Model' },
       ],
     },
     {

@@ -19,7 +19,7 @@
 
 -->
 
-# AI能力
+# AINode
 
 AINode 是 IoTDB 在ConfigNode、DataNode后提供的第三种内生节点，该节点通过与 IoTDB 集群的 DataNode、ConfigNode 的交互，扩展了对时间序列进行机器学习分析的能力，支持从外部引入已有机器学习模型进行注册，并使用注册的模型在指定时序数据上通过简单 SQL 语句完成时序分析任务的过程，将模型的创建、管理及推理融合在数据库引擎中。目前已提供常见时序分析场景（例如预测与异常检测）的机器学习算法或自研模型。
 
@@ -62,7 +62,7 @@ AINode 是 IoTDB 在ConfigNode、DataNode后提供的第三种内生节点，该
 
 ## 3. 安装部署
 
-AINode 的部署可参考文档 [部署指导](../Deployment-and-Maintenance/AINode_Deployment_timecho.md#AINode-部署) 章节。
+AINode 的部署可参考文档 [部署指导](../Deployment-and-Maintenance/AINode_Deployment_apache.md#ainode-部署) 章节。
 
 ## 4. 使用指导
 
@@ -440,44 +440,6 @@ Total line number = 4
 ```
 
 其中结果集中每行的标签对应每24行数据为一组，输入该异常检测模型后的输出。
-
-### 4.6 AINode-Timer模型导入操作步骤
-
-1. 打开 IoTDB cli 控制台，检查 ConfigNode、DataNode、AINode 节点确保均为 Running。
-
-检查命令：
-```sql
-show cluster
-```
-
-![](/img/ainode-timer-1.png)
-
-2. 模型文件存放路径：推荐放在 AINode 安装包相同文件夹下，可新建模型文件夹存放模型文件
-3. 注册模型语句
-
-```sql
-create model <model_name> using uri <uri>
-```
-
-示例：
-
-```sql
-create model Timer using uri <uri>
-```
-
-注意：导入 Timer 模型时名称需命名为“Timer”，否则无法被可视化控制台识别。
-
-![](/img/ainode-timer-2.png)
-
-4. 检查模型是否注册成功
-
-检查命令：
-
-```sql
-show models
-```
-
-![](/img/ainode-timer-3.png)
 
 ## 5. 权限管理
 
