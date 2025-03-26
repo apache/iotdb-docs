@@ -9,7 +9,7 @@ bgImageDark: bg.svg
 bgImageStyle:
   background-attachment: fixed
 heroFullScreen: true
-tagline: Apache IoTDB (Database for Internet of Things) is an IoT native database with high performance for data management and analysis, deployable on the edge and the cloud. Due to its light-weight architecture, high performance and rich feature set together with its deep integration with Apache Hadoop, Spark and Flink, Apache IoTDB can meet the requirements of massive data storage, high-speed data ingestion and complex data analysis in the IoT industrial fields.
+tagline: Apache IoTDB is an industrial IoT time-series database management system that adopts a lightweight architecture with edge-cloud collaboration, supporting integrated collection, storage, management, and analysis of IoT time-series data. It features multi-protocol compatibility, ultra-high compression ratio, high-throughput read/write capabilities, industrial-grade stability, and minimal maintenance requirements‌.
 
 actions:
   - text: Download
