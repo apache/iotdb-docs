@@ -373,7 +373,7 @@ WITH SINK (
 
 This example demonstrates synchronizing data from one IoTDB to another through a unidirectional air gap. The data pipeline is shown below:
 
-![](/img/e5.png)
+![](/img/cross-network-gateway.png)
 
 In this example, the `iotdb-air-gap-sink` plugin is used (currently supports specific air gap models; contact Timecho team for details). After configuring the air gap, execute the following statement on IoTDB A, where `node-urls` is the URL of the DataNode service port on the target IoTDB.
 
@@ -384,21 +384,6 @@ CREATE PIPE A2B
 WITH SINK (
   'sink' = 'iotdb-air-gap-sink',
   'node-urls' = '10.53.53.53:9780' -- URL of the DataNode service port on the target IoTDB
-)
-```
-
-### 3.7 Compressed Synchronization
-
-IoTDB supports specifying data compression methods during synchronization. The `compressor` parameter can be configured to enable real-time data compression and transmission. Supported algorithms include `snappy`, `gzip`, `lz4`, `zstd`, and `lzma2`. Multiple algorithms can be combined and applied in the configured order. The `rate-limit-bytes-per-second` parameter (supported in V1.3.3 and later) limits the maximum number of bytes transmitted per second (calculated after compression). If set to a value less than 0, there is no limit.
-
-**SQL Example**:
-
-```SQL
-CREATE PIPE A2B
-WITH SINK (
-  'node-urls' = '127.0.0.1:6668', -- URL of the DataNode service port on the target IoTDB
-  'compressor' = 'snappy,lz4',    -- Compression algorithms
-  'rate-limit-bytes-per-second' = '1048576'  -- Maximum bytes allowed per second
 )
 ```
 **Notes: Currently supported gateway models**
@@ -414,6 +399,22 @@ WITH SINK (
 | Unknown     | DPtech ISG5000                                      | No Limit            | No Limit               |
 | Unknown     | GAP‌‌
  XL—GAP    | No Limit            | No Limit               |
+
+### 3.7 Compressed Synchronization
+
+IoTDB supports specifying data compression methods during synchronization. The `compressor` parameter can be configured to enable real-time data compression and transmission. Supported algorithms include `snappy`, `gzip`, `lz4`, `zstd`, and `lzma2`. Multiple algorithms can be combined and applied in the configured order. The `rate-limit-bytes-per-second` parameter (supported in V1.3.3 and later) limits the maximum number of bytes transmitted per second (calculated after compression). If set to a value less than 0, there is no limit.
+
+**SQL Example**:
+
+```SQL
+CREATE PIPE A2B
+WITH SINK (
+  'node-urls' = '127.0.0.1:6668', -- URL of the DataNode service port on the target IoTDB
+  'compressor' = 'snappy,lz4',    -- Compression algorithms
+  'rate-limit-bytes-per-second' = '1048576'  -- Maximum bytes allowed per second
+)
+```
+
  
 ### 3.8 Encrypted Synchronization
 
