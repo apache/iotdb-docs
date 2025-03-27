@@ -513,6 +513,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | start-time               | 此参数决定时序数据的捕获范围，影响`inclusion`中的`data`数据。当数据的 event time 大于等于该参数时，数据会被筛选出来进入流处理 pipe。 | Long: [Long.MIN_VALUE， Long.MAX_VALUE] （unix 裸时间戳）或 String：IoTDB 支持的 ISO 格式时间戳 | 否           | Long.MIN_VALUE（unix 裸时间戳） |
 | end-time                 | 此参数决定时序数据的捕获范围，影响`inclusion`中的`data`数据。当数据的 event time 小于等于该参数时，数据会被筛选出来进入流处理 pipe。 | Long: [Long.MIN_VALUE, Long.MAX_VALUE]（unix 裸时间戳）或String：IoTDB 支持的 ISO 格式时间戳 | 否           | Long.MAX_VALUE（unix 裸时间戳） |
 | forwarding-pipe-requests | 是否转发由 pipe 数据同步而来的集群外的数据。一般供搭建双活集群时使用，双活集群模式下该参数为 false，以此避免无限的环形同步。 | Boolean: true / false                                        | 否           | true                            |
+| mode.double-living       | 是否开启全量双活模式，开启后将忽略`-sql_dialect`连接方式，树表模型数据均会被捕获，且不会转发由另一pipe同步而来的数据。                                                                                                                                                                                                                                                                        | Boolean: true / false                                           | 否        | false                     |
 
 > 💎  **说明：数据抽取模式 mode.streaming 取值 true 和 false 的差异**
 > - **true（推荐）**：该取值下，任务将对数据进行实时处理、发送，其特点是高时效、低吞吐
