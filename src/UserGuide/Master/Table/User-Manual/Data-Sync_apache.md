@@ -191,8 +191,8 @@ Detailed introduction of pre-installed plugins is as follows (for detailed param
             <td>Default processor plugin that does not process incoming data.</td>
       </tr>
       <tr>
-            <td rowspan="4">sink Plugin</td>
-            <td rowspan="4">Supported</td>
+            <td rowspan="3">sink Plugin</td>
+            <td rowspan="3">Supported</td>
             <td>do-nothing-sink</td>
             <td>Does not process outgoing data.</td>
       </tr>
@@ -203,10 +203,6 @@ Detailed introduction of pre-installed plugins is as follows (for detailed param
       <tr>
             <td>iotdb-thrift-ssl-sink</td>
             <td>Used for data transmission between IoTDB instances (V2.0.0+). Uses Thrift RPC framework with a multi-threaded sync blocking IO model, suitable for high-security scenarios.</td>
-      </tr>
-      <tr>
-            <td>write-back-sink</td>
-            <td>A data write-back plugin for IoTDB (V2.0.2 and above) to achieve the effect of materialized views.</td>
       </tr>
   </tbody>
 </table>
@@ -523,10 +519,3 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | rate-limit-bytes-per-second | Maximum bytes allowed per second for transmission (calculated after compression). Set to a value less than 0 for no limit. | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                | No       | -1            |
 | ssl.trust-store-path        | Path to the trust store certificate for SSL connection.      | String.Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | Yes      | -             |
 | ssl.trust-store-pwd         | Password for the trust store certificate.                    | Integer                                                      | Yes      | -             |
-
-#### write-back-sink
-
-| **Parameter**                 | **Description**                                                     | **value Range**                                           | **Required** | **Default Value** |
-| ---------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- |--------------|
-| sink                         | write-back-sink                                           | String: write-back-sink                                   | Yes     | -            |
-

@@ -189,8 +189,8 @@ Detailed introduction of pre-installed plugins is as follows (for detailed param
             <td>Default processor plugin that does not process incoming data.</td>
       </tr>
       <tr>
-            <td rowspan="5">sink Plugin</td>
-            <td rowspan="5">Supported</td>
+            <td rowspan="6">sink Plugin</td>
+            <td rowspan="6">Supported</td>
             <td>do-nothing-sink</td>
             <td>Does not process outgoing data.</td>
       </tr>
@@ -209,6 +209,10 @@ Detailed introduction of pre-installed plugins is as follows (for detailed param
       <tr>
             <td>write-back-sink</td>
             <td>A data write-back plugin for IoTDB (V2.0.2 and above) to achieve the effect of materialized views.</td>
+      </tr>
+     <tr>
+            <td>opc-ua-sink</td>
+            <td>An OPC UA protocol data transfer plugin for IoTDB (V2.0.2 and above), supporting both Client/Server and Pub/Sub communication modes. </td>
       </tr>
   </tbody>
 </table>
@@ -569,3 +573,16 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | ---------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- |--------------|
 | sink                         | write-back-sink                                           | String: write-back-sink                                   | Yes     | -            |
 
+#### opc-ua-sink
+
+| **Parameter**                        | **Description**                                                                                          |Value Range                         | Required	    | Default Value                                                                                                                                                                                                                                                                 |
+|:-------------------------------------|:-------------------------------------------------------------------------------------------------------| :------------------------------------- |:-------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| sink                                 | opc-ua-sink                                                                                          | String: opc-ua-sink              | Yes	         | -                                                                                                                                                                                                                                                                             |
+| sink.opcua.model                     | OPC UA model used	                                                                                     | String: client-server / pub-sub  | No           | pub-sub                                                                                                                                                                                                                                                                       |
+| sink.opcua.tcp.port                  | OPC UA's TCP port	                                                                                     | Integer: [0, 65536]              | No           | 12686                                                                                                                                                                                                                                                                         |
+| sink.opcua.https.port                | OPC UA's HTTPS port	                                                                                   | Integer: [0, 65536]              | No           | 8443                                                                                                                                                                                                                                                                          |
+| sink.opcua.security.dir              | Directory for OPC UA's keys and certificates	                                                          | String: Path, supports absolute and relative directories | No           | Opc_security folder`<httpsPort: tcpPort>`in the conf directory of the DataNode related to iotdb <br> If there is no conf directory for iotdb (such as launching DataNode in IDEA), it will be the iotdb_opc_Security folder`<httpsPort: tcpPort>`in the user's home directory |
+| sink.opcua.enable-anonymous-access   | Whether OPC UA allows anonymous access	                                                                | Boolean                          | No           | true                                                                                                                                                                                                                                                                          |
+| sink.user                            | User for OPC UA, specified in the configuration	                                                       | String                           | No           | root                                                                                                                                                                                                                                                                          |
+| sink.password                        | Password for OPC UA, specified in the configuration	                                                   | String                           | No           | root                                                                                                                                                                                                                                                                          |
+| sink.opcua.placeholder               | A placeholder string used to substitute for null mapping paths when the value of the ID column is null | String               | Optional     | "null"                                                                                                                                                                                                                                                                        |
