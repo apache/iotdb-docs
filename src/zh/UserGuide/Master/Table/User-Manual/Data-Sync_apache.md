@@ -187,8 +187,8 @@ IoTDB> SHOW PIPEPLUGINS
             <td>默认的 processor 插件，不对传入的数据做任何的处理</td>
       </tr>
       <tr>
-            <td rowspan="3">sink 插件</td>
-            <td rowspan="3">支持</td>
+            <td rowspan="4">sink 插件</td>
+            <td rowspan="4">支持</td>
             <td>do-nothing-sink</td>
             <td>不对发送出的数据做任何的处理</td>
       </tr>
@@ -199,6 +199,10 @@ IoTDB> SHOW PIPEPLUGINS
       <tr>
             <td>iotdb-thrift-ssl-sink</td>
             <td>用于 IoTDB 与 IoTDB（V2.0.0 及以上）之间的数据传输。使用 Thrift RPC 框架传输数据，多线程 sync blocking IO 模型，适用于安全需求较高的场景 </td>
+      </tr>
+      <tr>
+            <td>write-back-sink</td>
+            <td>用于 IoTDB （V2.0.2 及以上）的数据回写插件，实现物化视图的作用。</td>
       </tr>
   </tbody>
 </table>
@@ -510,3 +514,10 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | rate-limit-bytes-per-second | 每秒最大允许传输的 byte 数，计算压缩后的 byte（如压缩），若小于 0 则不限制 | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                | 选填     | -1           |
 | ssl.trust-store-path        | 连接目标端 DataNode 所需的 trust store 证书路径              | String.Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | 必填     | -            |
 | ssl.trust-store-pwd         | 连接目标端 DataNode 所需的 trust store 证书密码              | Integer                                                      | 必填     | -            |
+
+#### write-back-sink
+
+| **参数**                 | **描述**                                                     | **value 取值范围**                                           | **是否必填** | **默认取值** |
+| ---------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- | -------- |
+| sink                         | write-back-sink                                           | String: write-back-sink                                   | 必填     | -        |
+
