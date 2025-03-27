@@ -188,8 +188,8 @@ IoTDB> SHOW PIPEPLUGINS
             <td>默认的 processor 插件，不对传入的数据做任何的处理</td>
       </tr>
       <tr>
-            <td rowspan="4">sink 插件</td>
-            <td rowspan="4">支持</td>
+            <td rowspan="5">sink 插件</td>
+            <td rowspan="5">支持</td>
             <td>do-nothing-sink</td>
             <td>不对发送出的数据做任何的处理</td>
       </tr>
@@ -205,6 +205,11 @@ IoTDB> SHOW PIPEPLUGINS
             <td>iotdb-thrift-ssl-sink</td>
             <td>用于 IoTDB 与 IoTDB（V2.0.0 及以上）之间的数据传输。使用 Thrift RPC 框架传输数据，多线程 sync blocking IO 模型，适用于安全需求较高的场景 </td>
       </tr>
+     <tr>
+            <td>opc-ua-sink</td>
+            <td>用于 IoTDB （V2.0.2 及以上）支持OPC UA协议的数据传输插件，支持Client/Server 和 Pub/Sub 两种通信模式。 </td>
+      </tr>
+
   </tbody>
 </table>
 
@@ -566,3 +571,17 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | rate-limit-bytes-per-second | 每秒最大允许传输的 byte 数，计算压缩后的 byte（如压缩），若小于 0 则不限制 | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                | 选填     | -1           |
 | ssl.trust-store-path        | 连接目标端 DataNode 所需的 trust store 证书路径              | String.Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | 必填     | -            |
 | ssl.trust-store-pwd         | 连接目标端 DataNode 所需的 trust store 证书密码              | Integer                                                      | 必填     | -            |
+
+#### opc-ua-sink
+
+| **参数**                             | **描述**                           | **value 取值范围**              | **是否必填** | **默认值**                                                                                                                                                               |
+|------------------------------------|----------------------------------|-----------------------------| ---------- |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| sink                               | OPC UA SINK                      | String: opc-ua-sink         | 必填         |                                                                                                                                                                       |
+| sink.opcua.model                   | OPC UA 使用的模式                     | String: client-server / pub-sub | 选填         | pub-sub                                                                                                                                                               |
+| sink.opcua.tcp.port                | OPC UA 的 TCP 端口                  | Integer: [0, 65536]         | 选填         | 12686                                                                                                                                                                 |
+| sink.opcua.https.port              | OPC UA 的 HTTPS 端口                | Integer: [0, 65536]         | 选填         | 8443                                                                                                                                                                  |
+| sink.opcua.security.dir            | OPC UA 的密钥及证书目录                  | String: Path，支持绝对及相对目录      | 选填         | iotdb 相关 DataNode 的 conf 目录下的 opc_security 文件夹 /<httpsPort:tcpPort>。<br>如无 iotdb 的 conf 目录（例如 IDEA 中启动 DataNode），则为用户主目录下的 iotdb_opc_security 文件夹 /<httpsPort:tcpPort> |
+| sink.opcua.enable-anonymous-access | OPC UA 是否允许匿名访问                  | Boolean                     | 选填         | true                                                                                                                                                                  |
+| sink.user                          | 用户，这里指 OPC UA 的允许用户              | String                      | 选填         | root                                                                                                                                                                  |
+| sink.password                      | 密码，这里指 OPC UA 的允许密码              | String                      | 选填         | root                                                                                                                                                                  |
+| sink.opcua.placeholder             | 当ID列的值出现null时，用于替代null映射路径的占位字符串 | String               | 选填         | "null"                                                                                                                                                                 |
