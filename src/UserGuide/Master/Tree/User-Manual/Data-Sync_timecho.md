@@ -445,6 +445,7 @@ with sink (
   'node-urls' = '10.53.53.53:9780', -- The URL of the data service port of the DataNode node on the target IoTDB
 ```
 **Notes: Currently supported gateway models**
+> For other models of network gateway devices, Please contact timechodb staff to confirm compatibility.
 
 | Gateway Type           | Model                                                        | Return Packet Limit | Send Limit             |
 | ---------------------- | ------------------------------------------------------------ | ------------------- | ---------------------- |
