@@ -34,7 +34,34 @@ A data synchronization task consists of three stages:
 - Process Stage: This stage is used to process the data extracted from the source IoTDB, defined in the `processor` section of the SQL statement.
 - Sink Stage: This stage is used to send data to the target IoTDB, defined in the `sink` section of the SQL statement.
 
-By declaratively configuring these three parts in an SQL statement, flexible data synchronization capabilities can be achieved.
+By declaratively configuring these three parts in an SQL statement, flexible data synchronization capabilities can be achieved.Currently, data synchronization supports the synchronization of the following information, and you can select the synchronization scope when creating a synchronization task (the default is data.insert, which means synchronizing newly written data):
+
+<table style="text-align: left;">
+  <tbody>
+     <tr>            <th>Synchronization Scope</th>
+            <th>Synchronization Content	</th>        
+            <th>Description</th>
+      </tr>
+      <tr>
+            <td colspan="2">all</td>  
+            <td>All scopes</td> 
+      </tr>
+      <tr>
+            <td rowspan="2">data（Data）</td>
+            <td>insert</td>
+            <td>Synchronize newly written data</td>
+      </tr>
+      <tr>
+            <td>delete</td>
+            <td>Synchronize deleted data</td>
+      </tr>
+      <tr>
+            <td>auth</td>
+            <td>-</td>       
+            <td>Synchronize user permissions and access control</td>
+      </tr>
+</tbody>
+</table>
 
 ### 1.2 Functional Limitations and Notes
 
@@ -498,6 +525,8 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | **Parameter**            | **Description**                                              | **Value Range**                                              | **Required** | **Default Value**                                           |
 | :----------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :----------- | :---------------------------------------------------------- |
 | source                   | iotdb-source                                                 | String: iotdb-source                                         | Yes          | -                                                           |
+| inclusion                | Used to specify the range of data to be synchronized in the data synchronization task, including data, and auth   | String:all, data(insert,delete), auth | Optional     | data.insert    |
+| inclusion.exclusion      | Used to exclude specific operations from the range specified by inclusion, reducing the amount of data synchronized | String:all, data(insert,delete), auth | Optional     | -              |
 | mode.streaming           | This parameter specifies the source of time-series data capture. It applies to scenarios where `mode.streaming` is set to `false`, determining the capture source for `data.insert` in `inclusion`. Two capture strategies are available:  - **true**: Dynamically selects the capture type. The system adapts to downstream processing speed, choosing between capturing each write request or only capturing TsFile file sealing requests. When downstream processing is fast, write requests are prioritized to reduce latency; when processing is slow, only file sealing requests are captured to prevent processing backlogs. This mode suits most scenarios, optimizing the balance between processing latency and throughput.  - **false**: Uses a fixed batch capture approach, capturing only TsFile file sealing requests. This mode is suitable for resource-constrained applications, reducing system load.  **Note**: Snapshot data captured when the pipe starts will only be provided for downstream processing as files. | Boolean: true / false                                        | No           | true                                                        |
 | mode.strict              | Determines whether to strictly filter data when using the `time`, `path`, `database-name`, or `table-name` parameters:  - **true**: Strict filtering. The system will strictly filter captured data according to the specified conditions, ensuring that only matching data is selected.  - **false**: Non-strict filtering. Some extra data may be included during the selection process to optimize performance and reduce CPU and I/O consumption. | Boolean: true / false                                        | No           | true                                                        |
 | mode.snapshot            | This parameter determines the data capture mode, affecting the `data` in `inclusion`. Two modes are available:  - **true**: Static data capture. A one-time data snapshot is taken when the pipe starts. Once the snapshot data is fully consumed, the pipe automatically terminates (executing `DROP PIPE` SQL automatically).  - **false**: Dynamic data capture. In addition to capturing snapshot data when the pipe starts, it continuously captures subsequent data changes. The pipe remains active to process the dynamic data stream. | Boolean: true / false                                        | No           | false                                                       |
