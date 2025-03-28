@@ -26,7 +26,7 @@ IoTDB provides a Python native client driver and a session pool management mecha
 
 To use the IoTDB Python API, install the required package using pip:
 
-```Java
+```sh
 pip3 install apache-iotdb==2.0.1b0
 ```
 
@@ -175,7 +175,7 @@ class TableSessionConfig(object):
 
 #### Sample Code
 
-```Java
+```python
 def get_session(self) -> TableSession:
     """
     Retrieve a new TableSession instance.
@@ -223,7 +223,7 @@ def close(self):
 
 #### Sample Code
 
-```Java
+```python
 class TableSessionPoolConfig(object):
     """
     Configuration class for a TableSessionPool.
@@ -285,7 +285,7 @@ class TableSessionPoolConfig(object):
 
 Here is an excerpt of the sample code:
 
-```Java
+```python
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information

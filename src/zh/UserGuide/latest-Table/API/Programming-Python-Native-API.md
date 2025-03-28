@@ -25,7 +25,7 @@
 
 安装依赖包:
 
-```Java
+```sh
 pip3 install apache-iotdb==2.0.1b0
 ```
 
@@ -51,7 +51,7 @@ TableSession是IoTDB的一个核心类，用于与IoTDB数据库进行交互。�
 **TableSession:**
 
 
-```Java
+```python
 class TableSession(object):
 def insert(self, tablet: Union[Tablet, NumpyTablet]):
     """
@@ -126,7 +126,7 @@ TableSessionConfig是一个配置类，用于设置和创建TableSession 实例�
 
 #### 2.2.3 接口展示
 
-```Java
+```python
 class TableSessionConfig(object):
     """
     Configuration class for a TableSession. 
@@ -187,7 +187,7 @@ TableSessionPool 是一个会话池管理类，用于管理 TableSession 实例�
 
 **TableSessionPool:**
 
-```Java
+```python
 def get_session(self) -> TableSession:
     """
     Retrieve a new TableSession instance.
@@ -238,7 +238,7 @@ TableSessionPoolConfig是一个配置类，用于设置和创建 TableSessionPoo
 #### 3.2.3 接口展示
 
 
-```Java
+```python
 class TableSessionPoolConfig(object):
     """
     Configuration class for a TableSessionPool.
@@ -293,7 +293,7 @@ Session示例代码:[Session Example](https://github.com/apache/iotdb/blob/rc/2.
 
 SessionPool示例代码:[SessionPool Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/table_model_session_pool_example.py)
 
-```Java
+```python
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
