@@ -81,6 +81,7 @@ By declaratively configuring these three parts in an SQL statement, flexible dat
 - Supports data synchronization from IoTDB version 1.x series to version 2.x and later.
 - Does not support data synchronization from IoTDB version 2.x series to version 1.x series.
 - When performing data synchronization tasks, avoid executing any deletion operations to prevent inconsistencies between the two ends.
+- The `pipe` and `pipe plugins` for tree models and table models are designed to be isolated from each other. Before creating a `pipe`, it is recommended to first use the `show` command to query the built-in plugins available under the current `-sql_dialect` parameter configuration to ensure syntax compatibility and functional support.
 
 ## 2. Usage Instructions
 
@@ -434,6 +435,7 @@ WITH SINK (
   'node-urls' = '10.53.53.53:9780' -- URL of the DataNode service port on the target IoTDB
 )
 ```
+
 **Notes: Currently supported gateway models**
 > For other models of network gateway devices, Please contact timechodb staff to confirm compatibility.
 
@@ -447,7 +449,7 @@ WITH SINK (
 | Unknown     | DPtech ISG5000                                      | No Limit            | No Limit               |
 | Unknown     | GAP‌‌
  XL—GAP    | No Limit            | No Limit               |
-
+ 
 ### 3.7 Compressed Synchronization
 
 IoTDB supports specifying data compression methods during synchronization. The `compressor` parameter can be configured to enable real-time data compression and transmission. Supported algorithms include `snappy`, `gzip`, `lz4`, `zstd`, and `lzma2`. Multiple algorithms can be combined and applied in the configured order. The `rate-limit-bytes-per-second` parameter (supported in V1.3.3 and later) limits the maximum number of bytes transmitted per second (calculated after compression). If set to a value less than 0, there is no limit.
@@ -463,7 +465,6 @@ WITH SINK (
 )
 ```
 
- 
 ### 3.8 Encrypted Synchronization
 
 IoTDB supports SSL encryption during synchronization to securely transmit data between IoTDB instances. By configuring SSL-related parameters such as the certificate path (`ssl.trust-store-path`) and password (`ssl.trust-store-pwd`), data can be protected by SSL encryption during synchronization.
