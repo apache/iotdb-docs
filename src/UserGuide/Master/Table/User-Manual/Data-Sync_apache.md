@@ -401,7 +401,7 @@ WITH SINK (
 ```
 
 
-## 4. Reference: Notes
+## Reference: Notes
 
 You can adjust the parameters for data synchronization by modifying the IoTDB configuration file (`iotdb-system.properties`), such as the directory for storing synchronized data. The complete configuration is as follows:
 
@@ -464,9 +464,9 @@ pipe_sink_max_client_number=16
 pipe_all_sinks_rate_limit_bytes_per_second=-1
 ```
 
-## 5. Reference: Parameter Description
+## Reference: Parameter Description
 
-### 5.1 source  parameter
+### source  parameter
 
 | **Parameter**            | **Description**                                              | **Value Range**                                              | **Required** | **Default Value**                                           |
 | :----------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :----------- | :---------------------------------------------------------- |
@@ -485,9 +485,9 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 > - True (recommended): Under this value, the task will process and send the data in real-time. Its characteristics are high timeliness and low throughput.
 > -  False: Under this value, the task will process and send the data in batches (according to the underlying data files). Its characteristics are low timeliness and high throughput.
 
-### 5.2 sink parameter
+### sink parameter
 
-#### 5.2.1 iotdb-thrift-sink
+#### iotdb-thrift-sink
 
 | **Parameter**               | **Description**                                              | Value Range                                                  | Required | Default Value |
 | :-------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- | :------------ |
@@ -502,7 +502,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | compressor.zstd.level       | When the selected RPC compression algorithm is zstd, this parameter can be used to additionally configure the compression level of the zstd algorithm. | Int: [-131072, 22]                                           | No       | 3             |
 | rate-limit-bytes-per-second | The maximum number of bytes allowed to be transmitted per second. The compressed bytes (such as after compression) are calculated. If it is less than 0, there is no limit. | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                | No       | -1            |
 
-#### 5.2.2 iotdb-thrift-ssl-sink
+#### iotdb-thrift-ssl-sink
 
 
 | **Parameter**               | **Description**                                              | Value Range                                                  | Required | Default Value |

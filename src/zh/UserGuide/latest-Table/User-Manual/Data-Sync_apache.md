@@ -199,7 +199,7 @@ IoTDB> SHOW PIPEPLUGINS
       <tr>
             <td>iotdb-thrift-ssl-sink</td>
             <td>用于 IoTDB 与 IoTDB（V2.0.0 及以上）之间的数据传输。使用 Thrift RPC 框架传输数据，多线程 sync blocking IO 模型，适用于安全需求较高的场景 </td>
-      </tr>
+      </tr> 
   </tbody>
 </table>
 
