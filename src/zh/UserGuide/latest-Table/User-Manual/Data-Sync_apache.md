@@ -34,7 +34,47 @@
 - 处理（Process）阶段：该部分用于处理从源 IoTDB 抽取出的数据，在 SQL 语句中的 processor 部分定义
 - 发送（Sink）阶段：该部分用于向目标 IoTDB 发送数据，在 SQL 语句中的 sink 部分定义
 
-通过 SQL 语句声明式地配置 3 个部分的具体内容，可实现灵活的数据同步能力。
+通过 SQL 语句声明式地配置 3 个部分的具体内容，可实现灵活的数据同步能力。目前数据同步支持以下信息的同步，您可以在创建同步任务时对同步范围进行选择（默认选择 data.insert，即同步新写入的数据）：
+
+<table style="text-align: left;">
+  <tbody>
+     <tr>            <th>同步范围</th>
+            <th>同步内容</th>        
+            <th>说明</th>
+      </tr>
+      <tr>
+            <td colspan="2">all</td>  
+            <td>所有范围</td> 
+      </tr>
+      <tr>
+            <td rowspan="2">data（数据）</td>
+            <td>insert（增量）</td>
+            <td>同步新写入的数据</td>
+      </tr>
+      <tr>
+            <td>delete（删除）</td>
+            <td>同步被删除的数据</td>
+      </tr>
+     <tr>
+            <td rowspan="3">schema（元数据）</td>
+            <td>database（数据库）</td>
+            <td>同步数据库的创建、修改或删除操作</td>
+      </tr>
+      <tr>
+            <td>table（表）</td>
+            <td>同步表的创建、修改或删除操作</td>       
+      </tr>
+      <tr>
+            <td>TTL（数据到期时间）</td>
+            <td>同步数据的存活时间</td>       
+      </tr>
+      <tr>
+            <td>auth（权限）</td>
+            <td>-</td>       
+            <td>同步用户权限和访问控制</td>
+      </tr>
+  </tbody>
+</table>
 
 ### 1.2 功能限制及说明
 
@@ -199,7 +239,7 @@ IoTDB> SHOW PIPEPLUGINS
       <tr>
             <td>iotdb-thrift-ssl-sink</td>
             <td>用于 IoTDB 与 IoTDB（V2.0.0 及以上）之间的数据传输。使用 Thrift RPC 框架传输数据，多线程 sync blocking IO 模型，适用于安全需求较高的场景 </td>
-      </tr>
+      </tr> 
   </tbody>
 </table>
 
@@ -460,17 +500,19 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 
 ### source  参数
 
-| **参数**                 | **描述**                                                     | **value 取值范围**                                           | **是否必填** | **默认取值**                    |
-| ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------ | ------------------------------- |
-| source                   | iotdb-source                                                 | String: iotdb-source                                         | 必填         | -                               |
-| mode.streaming           | 此参数指定时序数据写入的捕获来源。适用于 `mode.streaming`为 `false` 模式下的场景，决定`inclusion`中`data.insert`数据的捕获来源。提供两种捕获策略：true： 动态选择捕获的类型。系统将根据下游处理速度，自适应地选择是捕获每个写入请求还是仅捕获 TsFile 文件的封口请求。当下游处理速度快时，优先捕获写入请求以减少延迟；当处理速度慢时，仅捕获文件封口请求以避免处理堆积。这种模式适用于大多数场景，能够实现处理延迟和吞吐量的最优平衡。false：固定按批捕获方式。仅捕获 TsFile 文件的封口请求，适用于资源受限的应用场景，以降低系统负载。注意，pipe 启动时捕获的快照数据只会以文件的方式供下游处理。 | Boolean: true / false                                        | 否           | true                            |
-| mode.strict              | 在使用 time / path / database-name / table-name 参数过滤数据时，是否需要严格按照条件筛选：`true`： 严格筛选。系统将完全按照给定条件过滤筛选被捕获的数据，确保只有符合条件的数据被选中。`false`：非严格筛选。系统在筛选被捕获的数据时可能会包含一些额外的数据，适用于性能敏感的场景，可降低 CPU 和 IO 消耗。 | Boolean: true / false                                        | 否           | true                            |
-| mode.snapshot            | 此参数决定时序数据的捕获方式，影响`inclusion`中的`data`数据。提供两种模式：`true`：静态数据捕获。启动 pipe 时，会进行一次性的数据快照捕获。当快照数据被完全消费后，**pipe 将自动终止（DROP PIPE SQL 会自动执行）**。`false`：动态数据捕获。除了在 pipe 启动时捕获快照数据外，还会持续捕获后续的数据变更。pipe 将持续运行以处理动态数据流。 | Boolean: true / false                                        | 否           | false                           |
-| database-name            | 当用户连接指定的 sql_dialect 为 table 时可以指定。此参数决定时序数据的捕获范围，影响`inclusion`中的`data`数据。表示要过滤的数据库的名称。它可以是具体的数据库名，也可以是 Java 风格正则表达式来匹配多个数据库。默认情况下，匹配所有的库。 | String：数据库名或数据库正则模式串，可以匹配未创建的、不存在的库 | 否           | ".*"                            |
-| table-name               | 当用户连接指定的 sql_dialect 为 table 时可以指定。此参数决定时序数据的捕获范围，影响`inclusion`中的`data`数据。表示要过滤的表的名称。它可以是具体的表名，也可以是 Java 风格正则表达式来匹配多个表。默认情况下，匹配所有的表。 | String：数据表名或数据表正则模式串，可以是未创建的、不存在的表 | 否           | ".*"                            |
-| start-time               | 此参数决定时序数据的捕获范围，影响`inclusion`中的`data`数据。当数据的 event time 大于等于该参数时，数据会被筛选出来进入流处理 pipe。 | Long: [Long.MIN_VALUE， Long.MAX_VALUE] （unix 裸时间戳）或 String：IoTDB 支持的 ISO 格式时间戳 | 否           | Long.MIN_VALUE（unix 裸时间戳） |
-| end-time                 | 此参数决定时序数据的捕获范围，影响`inclusion`中的`data`数据。当数据的 event time 小于等于该参数时，数据会被筛选出来进入流处理 pipe。 | Long: [Long.MIN_VALUE, Long.MAX_VALUE]（unix 裸时间戳）或String：IoTDB 支持的 ISO 格式时间戳 | 否           | Long.MAX_VALUE（unix 裸时间戳） |
-| forwarding-pipe-requests | 是否转发由 pipe 数据同步而来的集群外的数据。一般供搭建双活集群时使用，双活集群模式下该参数为 false，以此避免无限的环形同步。 | Boolean: true / false                                        | 否           | true                            |
+| **参数**                 | **描述**                                                                                                                                                                                                                                                                                                                                    | **value 取值范围**                                                                 | **是否必填** | **默认取值**                    |
+| ------------------------ |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------| ------------ | ------------------------------- |
+| source                   | iotdb-source                                                                                                                                                                                                                                                                                                                              | String: iotdb-source                                                           | 必填         | -                               |
+| inclusion                | 用于指定数据同步任务中需要同步范围，分为数据，元数据和权限                                                                                                                                                                                                                                                                                                             | String:all, data(insert,delete),  schema(database,table,ttl), auth             | 选填     | data.insert    |
+| inclusion.exclusion      | 用于从 inclusion 指定的同步范围内排除特定的操作，减少同步的数据量                                                                                                                                                                                                                                                                                                    | String:all, data(insert,delete), schema(database,table,ttl), auth         | 选填     | 空字符串       |
+| mode.streaming           | 此参数指定时序数据写入的捕获来源。适用于 `mode.streaming`为 `false` 模式下的场景，决定`inclusion`中`data.insert`数据的捕获来源。提供两种捕获策略：true： 动态选择捕获的类型。系统将根据下游处理速度，自适应地选择是捕获每个写入请求还是仅捕获 TsFile 文件的封口请求。当下游处理速度快时，优先捕获写入请求以减少延迟；当处理速度慢时，仅捕获文件封口请求以避免处理堆积。这种模式适用于大多数场景，能够实现处理延迟和吞吐量的最优平衡。false：固定按批捕获方式。仅捕获 TsFile 文件的封口请求，适用于资源受限的应用场景，以降低系统负载。注意，pipe 启动时捕获的快照数据只会以文件的方式供下游处理。 | Boolean: true / false                                                          | 否           | true                            |
+| mode.strict              | 在使用 time / path / database-name / table-name 参数过滤数据时，是否需要严格按照条件筛选：`true`： 严格筛选。系统将完全按照给定条件过滤筛选被捕获的数据，确保只有符合条件的数据被选中。`false`：非严格筛选。系统在筛选被捕获的数据时可能会包含一些额外的数据，适用于性能敏感的场景，可降低 CPU 和 IO 消耗。                                                                                                                                                    | Boolean: true / false                                                          | 否           | true                            |
+| mode.snapshot            | 此参数决定时序数据的捕获方式，影响`inclusion`中的`data`数据。提供两种模式：`true`：静态数据捕获。启动 pipe 时，会进行一次性的数据快照捕获。当快照数据被完全消费后，**pipe 将自动终止（DROP PIPE SQL 会自动执行）**。`false`：动态数据捕获。除了在 pipe 启动时捕获快照数据外，还会持续捕获后续的数据变更。pipe 将持续运行以处理动态数据流。                                                                                                                                  | Boolean: true / false                                                          | 否           | false                           |
+| database-name            | 当用户连接指定的 sql_dialect 为 table 时可以指定。此参数决定时序数据的捕获范围，影响`inclusion`中的`data`数据。表示要过滤的数据库的名称。它可以是具体的数据库名，也可以是 Java 风格正则表达式来匹配多个数据库。默认情况下，匹配所有的库。                                                                                                                                                                                                | String：数据库名或数据库正则模式串，可以匹配未创建的、不存在的库                                            | 否           | ".*"                            |
+| table-name               | 当用户连接指定的 sql_dialect 为 table 时可以指定。此参数决定时序数据的捕获范围，影响`inclusion`中的`data`数据。表示要过滤的表的名称。它可以是具体的表名，也可以是 Java 风格正则表达式来匹配多个表。默认情况下，匹配所有的表。                                                                                                                                                                                                      | String：数据表名或数据表正则模式串，可以是未创建的、不存在的表                                             | 否           | ".*"                            |
+| start-time               | 此参数决定时序数据的捕获范围，影响`inclusion`中的`data`数据。当数据的 event time 大于等于该参数时，数据会被筛选出来进入流处理 pipe。                                                                                                                                                                                                                                                       | Long: [Long.MIN_VALUE， Long.MAX_VALUE] （unix 裸时间戳）或 String：IoTDB 支持的 ISO 格式时间戳 | 否           | Long.MIN_VALUE（unix 裸时间戳） |
+| end-time                 | 此参数决定时序数据的捕获范围，影响`inclusion`中的`data`数据。当数据的 event time 小于等于该参数时，数据会被筛选出来进入流处理 pipe。                                                                                                                                                                                                                                                       | Long: [Long.MIN_VALUE, Long.MAX_VALUE]（unix 裸时间戳）或String：IoTDB 支持的 ISO 格式时间戳   | 否           | Long.MAX_VALUE（unix 裸时间戳） |
+| mode.double-living       | 是否开启全量双活模式，开启后将忽略`-sql_dialect`连接方式，树表模型数据均会被捕获，且不会转发由另一pipe同步而来的数据。                                                                                                                                                                                                                                                                        | Boolean: true / false                                           | 否        | false                     |
 
 > 💎  **说明：数据抽取模式 mode.streaming 取值 true 和 false 的差异**
 > - **true（推荐）**：该取值下，任务将对数据进行实时处理、发送，其特点是高时效、低吞吐

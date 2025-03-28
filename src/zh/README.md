@@ -9,7 +9,7 @@ bgImageDark: bg.svg
 bgImageStyle:
   background-attachment: fixed
 heroFullScreen: true
-tagline: Apache IoTDB（物联网数据库）是一体化收集、存储、管理与分析物联网时序数据的软件系统。Apache IoTDB 采用轻量式架构，具有高性能和丰富的功能，并与 Apache Hadoop、Spark 和 Flink 等进行了深度集成，可以满足工业物联网领域的海量数据存储、高速数据读取和复杂数据分析需求。
+tagline: Apache IoTDB 是一款工业物联网时序数据库管理系统，采用端边云协同的轻量化架构，支持一体化的物联网时序数据收集、存储、管理与分析 ，具有多协议兼容、超高压缩比、高通量读写、工业级稳定、极简运维等特点。
 
 actions:
   - text: 下载

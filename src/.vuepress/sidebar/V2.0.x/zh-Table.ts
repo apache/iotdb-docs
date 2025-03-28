@@ -114,6 +114,7 @@ export const zhSidebar = {
         { text: 'Java原生接口', link: 'Programming-Java-Native-API_apache' },
         { text: 'Python原生接口', link: 'Programming-Python-Native-API' },
         { text: 'C++原生接口', link: 'Programming-Cpp-Native-API' },
+        { text: 'C#原生接口', link: 'Programming-CSharp-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC_apache' },
         { text: 'RESTAPI V1 ', link: 'RestServiceV1' },
       ],
