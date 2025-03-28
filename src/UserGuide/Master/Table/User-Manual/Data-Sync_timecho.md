@@ -421,7 +421,7 @@ WITH SINK (
 
 This example demonstrates synchronizing data from one IoTDB to another through a unidirectional air gap. The data pipeline is shown below:
 
-![](/img/e5.png)
+![](/img/cross-network-gateway.png)
 
 In this example, the `iotdb-air-gap-sink` plugin is used (currently supports specific air gap models; contact Timecho team for details). After configuring the air gap, execute the following statement on IoTDB A, where `node-urls` is the URL of the DataNode service port on the target IoTDB.
 
@@ -434,6 +434,19 @@ WITH SINK (
   'node-urls' = '10.53.53.53:9780' -- URL of the DataNode service port on the target IoTDB
 )
 ```
+**Notes: Currently supported gateway models**
+> For other models of network gateway devices, Please contact timechodb staff to confirm compatibility.
+
+| Gateway Type           | Model                                                        | Return Packet Limit | Send Limit             |
+| ---------------------- | ------------------------------------------------------------ | ------------------- | ---------------------- |
+| Forward Gate         | NARI Syskeeper-2000 Forward Gate                         | All 0 / All 1 bytes | No Limit               |
+| Forward Gate         | XJ Self-developed Diaphragm                                  | All 0 / All 1 bytes | No Limit               |
+| Unknown     | WISGAP         | No Limit            | No Limit               |
+| Forward Gate         | KEDONG StoneWall-2000 Network Security Isolation Device | No Limit            | No Limit               |
+| Reverse Gate      | NARI Syskeeper-2000 Reverse Direction                      | All 0 / All 1 bytes | Meet E Language Format |
+| Unknown     | DPtech ISG5000                                      | No Limit            | No Limit               |
+| Unknown     | GAP‌‌
+ XL—GAP    | No Limit            | No Limit               |
 
 ### 3.7 Compressed Synchronization
 
@@ -450,6 +463,7 @@ WITH SINK (
 )
 ```
 
+ 
 ### 3.8 Encrypted Synchronization
 
 IoTDB supports SSL encryption during synchronization to securely transmit data between IoTDB instances. By configuring SSL-related parameters such as the certificate path (`ssl.trust-store-path`) and password (`ssl.trust-store-pwd`), data can be protected by SSL encryption during synchronization.

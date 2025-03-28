@@ -279,7 +279,7 @@ with connector (
 
 本例子用来演示将一个 IoTDB 的数据，经过单向网闸，同步至另一个IoTDB的场景，数据链路如下图所示：
 
-![](/img/%E6%95%B0%E6%8D%AE%E4%BC%A0%E8%BE%931.png)
+![](/img/cross-network-gateway.png)
 
 在这个例子中，需要使用 connector 任务中的iotdb-air-gap-connector 插件（目前支持部分型号网闸，具体型号请联系天谋科技工作人员确认），配置网闸后，在 A IoTDB 上执行下列语句，其中ip和port填写网闸信息，详细语句如下：
 
