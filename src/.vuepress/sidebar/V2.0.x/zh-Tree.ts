@@ -99,7 +99,6 @@ export const zhSidebar = {
           text: '数据库编程',
           collapsible: true,
           children: [
-            { text: 'UDF开发', link: 'UDF-development' },
             { text: '触发器', link: 'Trigger' },
             { text: '流处理框架', link: 'Streaming_apache' },
           ],
