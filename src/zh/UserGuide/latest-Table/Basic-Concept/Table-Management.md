@@ -34,7 +34,7 @@
 ```SQL
 CREATE TABLE (IF NOT EXISTS)? <TABLE_NAME>
     '(' (columnDefinition (',' columnDefinition)*)? ')'
-    (WITH properties)?
+    (COMMENT 'TABLE_COMMENT')? (WITH properties)?
     
 columnDefinition
     : identifier columnCategory=(TAG | ATTRIBUTE)
@@ -69,6 +69,7 @@ property
       """""" --> ""
       ```
 5. columnDefinition 列名称与表名称具有相同特性，并且可包含特殊字符`.`。
+6. COMMENT 给表添加注释。
 
 **示例:** 
 
@@ -84,7 +85,7 @@ CREATE TABLE table1 (
   humidity FLOAT FIELD,
   status Boolean FIELD,
   arrival_time TIMESTAMP FIELD
-) WITH (TTL=31536000000);
+) COMMENT 'table1' WITH (TTL=31536000000);
 
 CREATE TABLE if not exists table2 ();
 
@@ -157,17 +158,17 @@ try (ITableSession session =
 
 ```SQL
 IoTDB> desc table1
-+-----------+---------+-----------+
-| ColumnName| DataType|   Category|
-+-----------+---------+-----------+
-|       time|TIMESTAMP|       TIME|
-|  region_id|   STRING|        TAG|
-|   plant_id|   STRING|        TAG|
-|  device_id|   STRING|        TAG|
-|      model|   STRING|  ATTRIBUTE|
-|temperature|    FLOAT|      FIELD|
-|   humidity|   DOUBLE|      FIELD|
-+-----------+---------+-----------+
++-----------+---------+-----------+-------+
+| ColumnName| DataType|   Category|Comment|
++-----------+---------+-----------+-------+
+|       time|TIMESTAMP|       TIME|   null|
+|  region_id|   STRING|        TAG|   null|
+|   plant_id|   STRING|        TAG|   null|
+|  device_id|   STRING|        TAG|   null|
+|      model|   STRING|  ATTRIBUTE|   null|
+|temperature|    FLOAT|      FIELD|   null|
+|   humidity|   DOUBLE|      FIELD|   null|
++-----------+---------+-----------+-------+
 ```
 
 ### 1.2 查看表
@@ -193,20 +194,20 @@ SHOW TABLES (DETAILS)? ((FROM | IN) database_name)?
 
 ```SQL
 IoTDB> show tables from test_db
-+---------+-------+
-|TableName|TTL(ms)|
-+---------+-------+
-|     test|    INF|
-+---------+-------+
++---------+-------+-------+
+|TableName|TTL(ms)|Comment|
++---------+-------+-------+
+|     test|    INF|   TEST|
++---------+-------+-------+
 
 IoTDB> show tables details from test_db
-+---------+-------+----------+
-|TableName|TTL(ms)|    Status|
-+---------+-------+----------+
-|     test|    INF|     USING|
-|  turbine|    INF|PRE_CREATE|
-|      car|   1000|PRE_DELETE|
-+---------+-------+----------+
++---------+-------+----------+-------+
+|TableName|TTL(ms)|    Status|Comment|
++---------+-------+----------+-------+
+|     test|    INF|     USING|   TEST|
+|  turbine|    INF|PRE_CREATE|   null|
+|      car|   1000|PRE_DELETE|   null|
++---------+-------+----------+-------+
 ```
 
 ### 1.3 查看表的列
@@ -229,25 +230,25 @@ IoTDB> show tables details from test_db
 
 ```SQL
 IoTDB> desc tableB
-+----------+---------+-----------+
-|ColumnName| DataType|   Category|
-+----------+---------+-----------+
-|      time|TIMESTAMP|       TIME|
-|         a|   STRING|        TAG|
-|         b|   STRING|  ATTRIBUTE|
-|         c|    INT32|      FIELD|
-+----------+---------+-----------+
++----------+---------+-----------+-------+
+|ColumnName| DataType|   Category|Comment|
++----------+---------+-----------+-------+
+|      time|TIMESTAMP|       TIME|   null|
+|         a|   STRING|        TAG|      a|
+|         b|   STRING|  ATTRIBUTE|      b|
+|         c|    INT32|      FIELD|      c|
++----------+---------+-----------+-------+
 
 IoTDB> desc tableB details
-+----------+---------+-----------+----------+
-|ColumnName| DataType|   Category|    Status|
-+----------+---------+-----------+----------+
-|      time|TIMESTAMP|       TIME|     USING|
-|         a|   STRING|        TAG|     USING|
-|         b|   STRING|  ATTRIBUTE|     USING|
-|         c|    INT32|      FIELD|     USING|
-|         d|    INT32|      FIELD|PRE_DELETE|
-+----------+---------+-----------+----------+
++----------+---------+-----------+----------+-------+
+|ColumnName| DataType|   Category|    Status|Comment|
++----------+---------+-----------+----------+-------+
+|      time|TIMESTAMP|       TIME|     USING|   null|
+|         a|   STRING|        TAG|     USING|      a|
+|         b|   STRING|  ATTRIBUTE|     USING|      b|
+|         c|    INT32|      FIELD|     USING|      c|
+|         d|    INT32|      FIELD|PRE_DELETE|      d|
++----------+---------+-----------+----------+-------+
 ```
 
 ### 1.4 修改表
@@ -257,22 +258,27 @@ IoTDB> desc tableB details
 **语法：**
 
 ```SQL
-ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? column=columnDefinition                #addColumn
-| ALTER TABLE (IF EXISTS)? tableName=qualifiedName DROP COLUMN (IF EXISTS)? column=identifier                     #dropColumn
+ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? column=columnDefinition COMMENT 'column_comment'               #addColumn
+| ALTER TABLE (IF EXISTS)? tableName=qualifiedName DROP COLUMN (IF EXISTS)? column=identifier                    #dropColumn
 // set TTL can use this
 | ALTER TABLE (IF EXISTS)? tableName=qualifiedName SET PROPERTIES propertyAssignments                #setTableProperties
+| COMMENT ON TABLE tableName=qualifiedName IS 'table_comment'
+| COMMENT ON COLUMN tableName.column IS 'column_comment'
 ```
 
 **说明：**
 
 1. `SET PROPERTIES`操作目前仅支持对表的 TTL 属性进行配置。
 2. 删除列功能，仅支持删除属性列(ATTRIBUTE)和物理量列(FIELD)，标识列(TAG)不支持删除。
+3. 修改后的 comment 会覆盖原有注释，如果指定为 null，则会擦除之前的 comment。
 
 **示例:** 
 
 ```SQL
-ALTER TABLE tableB ADD COLUMN IF NOT EXISTS a TAG
+ALTER TABLE tableB ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a'
 ALTER TABLE tableB set properties TTL=3600
+COMMENT ON TABLE table1 IS 'table1'
+COMMENT ON COLUMN table1.a IS null
 ```
 
 ### 1.5 删除表
