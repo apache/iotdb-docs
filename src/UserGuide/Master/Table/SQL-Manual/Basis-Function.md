@@ -758,6 +758,192 @@ SELECT *
   IN (try_cast('2024-11-27' AS DATE), try_cast('2024-11-28' AS DATE));
 ```
 
+### 7.2 Format Function
+
+This function generates and returns a formatted string based on a specified format string and input arguments. Similar to Java’s `String.format` or C’s `printf`, it allows developers to construct dynamic string templates using placeholder syntax. Predefined format specifiers in the template are replaced precisely with corresponding argument values, producing a complete string that adheres to specific formatting requirements.
+
+#### 7.2.1 Syntax
+
+```SQL
+format(pattern, ...args) -> STRING
+```
+
+**Parameters**
+
+* `pattern`: A format string containing static text and one or more format specifiers (e.g., `%s`, `%d`), or any expression returning a `STRING`/`TEXT` type.
+* `args`: Input arguments to replace format specifiers. Constraints:
+  * Number of arguments ≥ 1.
+  * Multiple arguments must be comma-separated (e.g., `arg1, arg2`).
+  * Total arguments can exceed the number of specifiers in `pattern` but cannot be fewer, otherwise an exception is triggered.
+
+**Return Value**
+
+* Formatted result string of type `STRING`.
+
+#### 7.2.2 Usage Examples
+
+1. Format Floating-Point Numbers
+   ```SQL
+   IoTDB:database1> SELECT format('%.5f', humidity) FROM table1 WHERE humidity = 35.4;
+   +--------+
+   |   _col0|
+   +--------+
+   |35.40000|
+   +--------+
+   ```
+2. Format Integers
+   ```SQL
+   IoTDB:database1> SELECT format('%03d', 8) FROM table1 LIMIT 1;
+   +-----+
+   |_col0|
+   +-----+
+   |  008|
+   +-----+
+   ```
+3. Format Dates and Timestamps
+
+> Locale-Specific Date
+
+```SQL
+IoTDB:database1> SELECT format('%1$tA, %1$tB %1$te, %1$tY', 2024-01-01) FROM table1 LIMIT 1;
++--------------------+
+|               _col0|
++--------------------+
+|Monday, January 1, 2024|
++--------------------+
+```
+
+> Remove Timezone Information
+
+```SQL
+IoTDB:database1> SELECT format('%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS.%1$tL', 2024-01-01T00:00:00.000+08:00) FROM table1 LIMIT 1;
++-----------------------+
+|                  _col0|
++-----------------------+
+|2024-01-01 00:00:00.000|
++-----------------------+
+```
+
+> Second-Level Timestamp Precision
+
+```SQL
+IoTDB:database1> SELECT format('%1$tF %1$tT', 2024-01-01T00:00:00.000+08:00) FROM table1 LIMIT 1;
++-------------------+
+|              _col0|
++-------------------+
+|2024-01-01 00:00:00|
++-------------------+
+```
+
+> Date/Time Format Symbols
+
+| **Symbol** | **​ Description**                                                                                                                                                |
+| ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 'H'              | 24-hour format (two digits, zero-padded), i.e. 00 - 23                                                                                                                  |
+| 'I'              | 12-hour format (two digits, zero-padded), i.e. 01 - 12                                                                                                                  |
+| 'k'              | 24-hour format (no padding), i.e. 0 - 23                                                                                                                                |
+| 'l'              | 12-hour format (no padding), i.e. 1 - 12                                                                                                                                |
+| 'M'              | Minute (two digits, zero-padded), i.e. 00 - 59                                                                                                                          |
+| 'S'              | Second (two digits, zero-padded; supports leap seconds), i.e. 00 - 60                                                                                                   |
+| 'L'              | Millisecond (three digits, zero-padded), i.e. 000 - 999                                                                                                                 |
+| 'N'              | Nanosecond (nine digits, zero-padded), i.e. 000000000 - 999999999。                                                                                                     |
+| 'p'              | Locale-specific lowercase AM/PM marker (e.g., "am", "pm"). Prefix with`T`to force uppercase (e.g., "AM").                                                           |
+| 'z'              | RFC 822 timezone offset from GMT (e.g.,`-0800`). Adjusts for daylight saving. Uses the JVM's default timezone for`long`/`Long`/`Date`.                  |
+| 'Z'              | Timezone abbreviation (e.g., "PST"). Adjusts for daylight saving. Uses the JVM's default timezone; Formatter's timezone overrides the argument's timezone if specified. |
+| 's'              | Seconds since Unix epoch (1970-01-01 00:00:00 UTC), i.e. Long.MIN\_VALUE/1000 to Long.MAX\_VALUE/1000。                                                                 |
+| 'Q'              | Milliseconds since Unix epoch, i.e. Long.MIN\_VALUE 至 Long.MAX\_VALUE。                                                                                                |
+
+> Common Date/Time Conversion Characters
+
+| **Symbol** | **​ Description**                                                   |
+| ---------------- | -------------------------------------------------------------------- |
+| 'B'            | Locale-specific full month name, for example "January", "February" |
+| 'b'            | Locale-specific abbreviated month name,  for example "Jan", "Feb"  |
+| 'h'            | Same as`b`                                                     |
+| 'A'            | Locale-specific full weekday name,  for example "Sunday", "Monday" |
+| 'a'            | Locale-specific short weekday name,  for example "Sun", "Mon"      |
+| 'C'            | Year divided by 100 (two digits, zero-padded)                      |
+| 'Y'            | Year (minimum 4 digits, zero-padded)                               |
+| 'y'            | Last two digits of year (zero-padded)                              |
+| 'j'            | Day of year (three digits, zero-padded)                            |
+| 'm'            | Month (two digits, zero-padded)                                    |
+| 'd'            | Day of month (two digits, zero-padded)                             |
+| 'e'            | Day of month (no padding)                                          |
+
+4. Format Strings
+   ```SQL
+   IoTDB:database1> SELECT format('The measurement status is: %s', status) FROM table2 LIMIT 1;
+   +-------------------------------+
+   |                          _col0|
+   +-------------------------------+
+   |The measurement status is: true|
+   +-------------------------------+
+   ```
+5. Format Percentage Sign
+   ```SQL
+   IoTDB:database1> SELECT format('%s%%', 99.9) FROM table1 LIMIT 1;
+   +-----+
+   |_col0|
+   +-----+
+   |99.9%|
+   +-----+
+   ```
+
+#### 7.2.3 Format Conversion Failure Scenarios
+
+1. Type Mismatch Errors
+
+* Timestamp Type Conflict
+
+  If the format specifier includes time-related tokens (e.g., `%Y-%m-%d`) but the argument:
+
+  * Is a non-`DATE`/`TIMESTAMP` type value.  ◦
+  * Requires sub-day precision (e.g., `%H`, `%M`) but the argument is not `TIMESTAMP`.
+
+```SQL
+-- Example 1
+IoTDB:database1> SELECT format('%1$tA, %1$tB %1$te, %1$tY', humidity) from table2 limit 1
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Invalid format string: %1$tA, %1$tB %1$te, %1$tY (IllegalFormatConversion: A != java.lang.Float)
+
+-- Example 2
+IoTDB:database1> SELECT format('%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS.%1$tL', humidity) from table1 limit 1
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Invalid format string: %1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS.%1$tL (IllegalFormatConversion: Y != java.lang.Float)
+```
+
+* Floating-Point Type Conflict
+
+  Using `%f` with non-numeric arguments (e.g., strings or booleans):
+
+```SQL
+IoTDB:database1> select format('%.5f',status) from table1 where humidity = 35.4
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Invalid format string: %.5f (IllegalFormatConversion: f != java.lang.Boolean)
+```
+
+2. Argument Count Mismatch
+   The number of arguments must equal or exceed the number of format specifiers.
+
+   ```SQL
+   IoTDB:database1> SELECT format('%.5f %03d', humidity) FROM table1 WHERE humidity = 35.4;
+   Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Invalid format string: %.5f %03d (MissingFormatArgument: Format specifier '%03d')
+   ```
+3. Invalid Invocation Errors
+
+  Triggered if:
+
+  * Total arguments < 2 (must include `pattern` and at least one argument).•
+  * `pattern` is not of type `STRING`/`TEXT`.
+
+```SQL
+-- Example 1
+IoTDB:database1> select format('%s') from table1 limit 1
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Scalar function format must have at least two arguments, and first argument pattern must be TEXT or STRING type.
+
+--Example 2
+IoTDB:database1> select format(123, humidity) from table1 limit 1
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Scalar function format must have at least two arguments, and first argument pattern must be TEXT or STRING type.
+```
+
+
 ## 8. String Functions and Operators
 
 ### 8.1 String operators
