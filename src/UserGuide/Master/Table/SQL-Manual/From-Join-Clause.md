@@ -70,11 +70,9 @@ The `JOIN` clause combines two tables based on specific conditions, typically pr
 
 In the current version of IoTDB, the following joins are supported:
 
-1. **Inner Join**: Combines rows that meet the join condition, effectively returning the intersection of the two tables.
-2. **Full Outer Join**: Returns all records from both tables, inserting `NULL` values for unmatched rows.
+1. **Inner Join**: Combines rows that meet the join condition, effectively returning the intersection of the two tables. The join condition must be an equality condition on the `time` column.
+2. **Full Outer Join**: Returns all records from both tables, inserting `NULL` values for unmatched rows. The join condition can be any equality expression.
 3. **Cross Join**: Represents the Cartesian product of two tables.
-
-**Note:** The join condition in IoTDB must be an equality condition on the `time` column. This restriction ensures that rows are joined based on the equality of their timestamps.
 
 ### 3.1 Inner Join
 
@@ -413,6 +411,42 @@ Query Results:
 +-----------------------------+-------+------------+-------+------------+
 Total line number = 21
 It costs 0.073s
+```
+
+Example 3: The join condition is based on a non-time column.
+
+```sql
+SELECT 
+  region,
+  t1.time as time1,
+  t1.temperature as temperature1, 
+  t2.time as time2, 
+  t2.temperature as temperature2 
+FROM 
+  table1 t1 FULL JOIN table2 t2 
+USING(region)
+LIMIT 10
+```
+
+Query Results:
+
+```sql
++------+-----------------------------+------------+-----------------------------+------------+
+|region|                        time1|temperature1|                        time2|temperature2|
++------+-----------------------------+------------+-----------------------------+------------+
+|  上海|2024-11-29T11:00:00.000+08:00|        null|2024-11-29T11:00:00.000+08:00|        null|
+|  上海|2024-11-29T11:00:00.000+08:00|        null|2024-11-28T08:00:00.000+08:00|        85.0|
+|  上海|2024-11-29T11:00:00.000+08:00|        null|2024-11-30T00:00:00.000+08:00|        90.0|
+|  上海|2024-11-29T11:00:00.000+08:00|        null|2024-11-29T00:00:00.000+08:00|        85.0|
+|  上海|2024-11-30T09:30:00.000+08:00|        90.0|2024-11-29T11:00:00.000+08:00|        null|
+|  上海|2024-11-30T09:30:00.000+08:00|        90.0|2024-11-28T08:00:00.000+08:00|        85.0|
+|  上海|2024-11-30T09:30:00.000+08:00|        90.0|2024-11-30T00:00:00.000+08:00|        90.0|
+|  上海|2024-11-30T09:30:00.000+08:00|        90.0|2024-11-29T00:00:00.000+08:00|        85.0|
+|  上海|2024-11-29T18:30:00.000+08:00|        90.0|2024-11-29T11:00:00.000+08:00|        null|
+|  上海|2024-11-29T18:30:00.000+08:00|        90.0|2024-11-28T08:00:00.000+08:00|        85.0|
++------+-----------------------------+------------+-----------------------------+------------+
+Total line number = 10
+It costs 0.040s
 ```
 
 #### 4.2.3 Cross Join
