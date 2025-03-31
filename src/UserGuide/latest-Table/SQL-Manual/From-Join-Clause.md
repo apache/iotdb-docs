@@ -72,6 +72,7 @@ In the current version of IoTDB, the following joins are supported:
 
 1. **Inner Join**: Combines rows that meet the join condition, effectively returning the intersection of the two tables.
 2. **Full Outer Join**: Returns all records from both tables, inserting `NULL` values for unmatched rows.
+3. **Cross Join**: Represents the Cartesian product of two tables.
 
 **Note:** The join condition in IoTDB must be an equality condition on the `time` column. This restriction ensures that rows are joined based on the equality of their timestamps.
 
@@ -119,6 +120,19 @@ An **outer join** returns rows even when no matching records exist in the other 
 - **FULL OUTER JOIN**: Returns all rows from both tables.
 
 IoTDB currently supports only `FULL [OUTER] JOIN`. This type returns all records from both tables. If a record in one table has no match in the other, `NULL` values are returned for the unmatched fields. `FULL JOIN` **must use explicit join conditions**.
+
+```sql
+//Specify the join condition after the ON keyword or specify the join columns after the USING keyword.
+SELECT selectExpr [, selectExpr] ... FROM <TABLE_NAME> FULL [OUTER] JOIN <TABLE_NAME> joinCriteria [WHERE whereCondition]
+
+joinCriteria
+    : ON booleanExpression
+    | USING '(' identifier (',' identifier)* ')'
+    ;
+```
+
+### 3.3 Cross Join
+A cross join represents the Cartesian product of two tables, returning all possible combinations of the N rows from the left table and the M rows from the right table, resulting in N*M rows. This type of join is the least commonly used in practice.
 
 ## 4. Example Queries
 
@@ -399,4 +413,56 @@ Query Results:
 +-----------------------------+-------+------------+-------+------------+
 Total line number = 21
 It costs 0.073s
+```
+
+#### 4.2.3 Cross Join
+
+**Example 1: Explicit Join**
+
+```sql
+SELECT table1.*, table2.* FROM table1 CROSS JOIN table2 LIMIT 8;
+```
+
+Query Results:
+
+```sql
++-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
+|                         time|region|plant_id|device_id|model_id|maintenance|temperature|humidity|status|                 arrival_time|                         time|region|plant_id|device_id|model_id|maintenance|temperature|humidity|status|                 arrival_time|
++-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
+|2024-11-30T09:30:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    35.2|  true|                         null|2024-11-30T00:00:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    35.2|  true|                         null|
+|2024-11-30T09:30:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    35.2|  true|                         null|2024-11-29T00:00:00.000+08:00|  上海|    3001|      101|       D|        360|       85.0|    35.1|  null|2024-11-29T10:00:13.000+08:00|
+|2024-11-30T09:30:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    35.2|  true|                         null|2024-11-27T00:00:00.000+08:00|  北京|    1001|      101|       B|        180|       85.0|    35.1|  true|2024-11-27T16:37:01.000+08:00|
+|2024-11-30T09:30:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    35.2|  true|                         null|2024-11-29T11:00:00.000+08:00|  上海|    3002|      100|       E|        180|       null|    45.1|  true|                         null|
+|2024-11-30T09:30:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    35.2|  true|                         null|2024-11-28T08:00:00.000+08:00|  上海|    3001|      100|       C|         90|       85.0|    35.2| false|2024-11-28T08:00:09.000+08:00|
+|2024-11-30T09:30:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    35.2|  true|                         null|2024-11-26T13:37:00.000+08:00|  北京|    1001|      100|       A|        180|       90.0|    35.1|  true|2024-11-26T13:37:34.000+08:00|
+|2024-11-30T14:30:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    34.8|  true|2024-11-30T14:30:17.000+08:00|2024-11-30T00:00:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    35.2|  true|                         null|
+|2024-11-30T14:30:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    34.8|  true|2024-11-30T14:30:17.000+08:00|2024-11-29T00:00:00.000+08:00|  上海|    3001|      101|       D|        360|       85.0|    35.1|  null|2024-11-29T10:00:13.000+08:00|
++-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
+Total line number = 8
+It costs 0.282s
+```
+
+**Example 2: Implicit Join**
+
+```sql
+SELECT table1.*, table2.* FROM table1, table2 LIMIT 8;
+```
+
+Query Results:
+
+```sql
++-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
+|                         time|region|plant_id|device_id|model_id|maintenance|temperature|humidity|status|                 arrival_time|                         time|region|plant_id|device_id|model_id|maintenance|temperature|humidity|status|                 arrival_time|
++-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
+|2024-11-30T09:30:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    35.2|  true|                         null|2024-11-30T00:00:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    35.2|  true|                         null|
+|2024-11-30T09:30:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    35.2|  true|                         null|2024-11-29T00:00:00.000+08:00|  上海|    3001|      101|       D|        360|       85.0|    35.1|  null|2024-11-29T10:00:13.000+08:00|
+|2024-11-30T09:30:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    35.2|  true|                         null|2024-11-27T00:00:00.000+08:00|  北京|    1001|      101|       B|        180|       85.0|    35.1|  true|2024-11-27T16:37:01.000+08:00|
+|2024-11-30T09:30:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    35.2|  true|                         null|2024-11-29T11:00:00.000+08:00|  上海|    3002|      100|       E|        180|       null|    45.1|  true|                         null|
+|2024-11-30T09:30:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    35.2|  true|                         null|2024-11-28T08:00:00.000+08:00|  上海|    3001|      100|       C|         90|       85.0|    35.2| false|2024-11-28T08:00:09.000+08:00|
+|2024-11-30T09:30:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    35.2|  true|                         null|2024-11-26T13:37:00.000+08:00|  北京|    1001|      100|       A|        180|       90.0|    35.1|  true|2024-11-26T13:37:34.000+08:00|
+|2024-11-30T14:30:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    34.8|  true|2024-11-30T14:30:17.000+08:00|2024-11-30T00:00:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    35.2|  true|                         null|
+|2024-11-30T14:30:00.000+08:00|  上海|    3002|      101|       F|        360|       90.0|    34.8|  true|2024-11-30T14:30:17.000+08:00|2024-11-29T00:00:00.000+08:00|  上海|    3001|      101|       D|        360|       85.0|    35.1|  null|2024-11-29T10:00:13.000+08:00|
++-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
+Total line number = 8
+It costs 0.047s
 ```
