@@ -277,6 +277,100 @@ class TableSessionPoolConfig(object):
 - Ensure that `TableSession` instances retrieved from the `TableSessionPool` are properly closed after use.
 - After closing the `TableSessionPool`, it will no longer be possible to retrieve new sessions.
 
+### 3.3 SSL Connection
+
+#### 3.3.1 Server Certificate Configuration
+
+In the `conf/iotdb-system.properties` configuration file, locate or add the following configuration items:
+
+```Java
+enable_thrift_ssl=true
+key_store_path=/path/to/your/server_keystore.jks
+key_store_pwd=your_keystore_password
+```
+
+#### 3.3.2 Configure Python Client Certificate
+
+- Set `use_ssl` to True to enable SSL.
+- Specify the client certificate path using the `ca_certs` parameter.
+
+```Java
+use_ssl = True
+ca_certs = "/path/to/your/server.crt"  # 或 ca_certs = "/path/to/your//ca_cert.pem"
+```
+**Example Code: Using SSL to Connect to IoTDB**
+
+```Java
+# Licensed to the Apache Software Foundation (ASF) under one
+# or more contributor license agreements.  See the NOTICE file
+# distributed with this work for additional information
+# regarding copyright ownership.  The ASF licenses this file
+# to you under the Apache License, Version 2.0 (the
+# "License"); you may not use this file except in compliance
+# with the License.  You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing,
+# software distributed under the License is distributed on an
+# "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+# KIND, either express or implied.  See the License for the
+# specific language governing permissions and limitations
+# under the License.
+#
+
+from iotdb.SessionPool import PoolConfig, SessionPool
+from iotdb.Session import Session
+
+ip = "127.0.0.1"
+port_ = "6667"
+username_ = "root"
+password_ = "root"
+# Configure SSL enabled
+use_ssl = True
+# Configure certificate path
+ca_certs = "/path/server.crt"
+
+
+def get_data():
+    session = Session(
+        ip, port_, username_, password_, use_ssl=use_ssl, ca_certs=ca_certs
+    )
+    session.open(False)
+    result = session.execute_query_statement("select * from root.eg.etth")
+    df = result.todf()
+    df.rename(columns={"Time": "date"}, inplace=True)
+    session.close()
+    return df
+
+
+def get_data2():
+    pool_config = PoolConfig(
+        host=ip,
+        port=port_,
+        user_name=username_,
+        password=password_,
+        fetch_size=1024,
+        time_zone="UTC+8",
+        max_retry=3,
+        use_ssl=use_ssl,
+        ca_certs=ca_certs,
+    )
+    max_pool_size = 5
+    wait_timeout_in_ms = 3000
+    session_pool = SessionPool(pool_config, max_pool_size, wait_timeout_in_ms)
+    session = session_pool.get_session()
+    result = session.execute_query_statement("select * from root.eg.etth")
+    df = result.todf()
+    df.rename(columns={"Time": "date"}, inplace=True)
+    session_pool.put_back(session)
+    session_pool.close()
+
+
+if __name__ == "__main__":
+    df = get_data()
+```
+
 ## 4. Sample Code
 
 **Session** Example: You can find the full example code at [Session Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/table_model_session_example.py).
