@@ -77,13 +77,10 @@ SELECT s1 * example(* / s1 + s2) FROM root.sg.d1;
 SELECT s1, s2, s1 + example(s1, s2), s1 - example(s1 + example(s1, s2) / s2) FROM root.sg.d1;
 ```
 
-## 2. UDF Development 
 
-You can refer to UDF development：[Development Guide](./UDF-development.md)
+## 2. UDF management
 
-## 3. UDF management
-
-###  3.1 UDF Registration
+###  2.1 UDF Registration
 
 The process of registering a UDF in IoTDB is as follows:
 
@@ -132,7 +129,7 @@ IoTDB will download JAR packages and synchronize them to the entire cluster.
 
 4. We recommend that you do not use classes that have the same class name but different function logic in different JAR packages. For example, in `UDF(UDAF/UDTF): udf1, udf2`, the JAR package of udf1 is `udf1.jar` and the JAR package of udf2 is `udf2.jar`. Assume that both JAR packages contain the `org.apache.iotdb.udf.ExampleUDTF` class. If you use two UDFs in the same SQL statement at the same time, the system will randomly load either of them and may cause inconsistency in UDF execution behavior.
 
-###  3.2 UDF Deregistration
+###  2.2 UDF Deregistration
 
 The SQL syntax is as follows:
 
@@ -148,13 +145,13 @@ DROP FUNCTION example
 
 
 
-###  3.3 Show All Registered UDFs
+###  2.3 Show All Registered UDFs
 
 ``` sql
 SHOW FUNCTIONS
 ```
 
-### 3.4 UDF configuration
+### 2.4 UDF configuration
 
 - UDF configuration allows configuring the storage directory of UDF in `iotdb-system.properties`
  ``` Properties
@@ -185,7 +182,7 @@ udf_memory_budget_in_mb=30.0
 udf_reader_transformer_collector_memory_proportion=1:1:1
 ```
 
-###  3.5 UDF User Permissions
+###  2.5 UDF User Permissions
 
 
 When users use UDF, they will be involved in the `USE_UDF` permission, and only users with this permission are allowed to perform UDF registration, uninstallation, and query operations.
@@ -193,7 +190,7 @@ When users use UDF, they will be involved in the `USE_UDF` permission, and only 
 For more user permissions related content, please refer to [Account Management Statements](../User-Manual/Authority-Management.md).
 
 
-## 4. UDF Libraries
+## 3. UDF Libraries
 
 Based on the ability of user-defined functions, IoTDB provides a series of functions for temporal data processing, including data quality, data profiling, anomaly detection, frequency domain analysis, data matching, data repairing, sequence discovery, machine learning, etc., which can meet the needs of industrial fields for temporal data processing.
 
@@ -201,9 +198,9 @@ You can refer to the [UDF Libraries](../SQL-Manual/UDF-Libraries_apache.md)docum
 
 
 
-## 5. UDF development
+## 4. UDF development
 
-### 5.1 UDF Development Dependencies
+### 4.1 UDF Development Dependencies
 
 If you use [Maven](http://search.maven.org/), you can search for the development dependencies listed below from the [Maven repository](http://search.maven.org/) . Please note that you must select the same dependency version as the target IoTDB server version for development.
 
@@ -216,7 +213,7 @@ If you use [Maven](http://search.maven.org/), you can search for the development
 </dependency>
 ```
 
-### 5.2 UDTF（User Defined Timeseries Generating Function）
+### 4.2 UDTF（User Defined Timeseries Generating Function）
 
 To write a UDTF,  you need to inherit the `org.apache.iotdb.udf.api.UDTF` class, and at least implement the `beforeStart` method and a `transform` method.
 
@@ -460,7 +457,7 @@ public class Adder implements UDTF {
 
   @Override
   public Object transform(Row row) throws Exception {
-		return row.getLong(0) + row.getLong(1);
+            return row.getLong(0) + row.getLong(1);
   }
 }
 ```
@@ -653,7 +650,7 @@ This method is called by the framework. For a UDF instance, `beforeDestroy` will
 
 
 
-### 5.3 UDAF (User Defined Aggregation Function)
+### 4.3 UDAF (User Defined Aggregation Function)
 
 A complete definition of UDAF involves two classes, `State` and `UDAF`.
 
@@ -890,16 +887,16 @@ The method for terminating a UDF.
 This method is called by the framework. For a UDF instance, `beforeDestroy` will be called after the last record is processed. In the entire life cycle of the instance, `beforeDestroy` will only be called once.
 
 
-### 5.4 Maven Project Example
+### 4.4 Maven Project Example
 
 If you use Maven, you can build your own UDF project referring to our **udf-example** module. You can find the project [here](https://github.com/apache/iotdb/tree/master/example/udf).
 
 
-## 6. Contribute universal built-in UDF functions to iotdb
+## 5. Contribute universal built-in UDF functions to iotdb
 
 This part mainly introduces how external users can contribute their own UDFs to the IoTDB community.
 
-###  6.1 Prerequisites
+###  5.1 Prerequisites
 
 1. UDFs must be universal.
 
@@ -910,40 +907,40 @@ This part mainly introduces how external users can contribute their own UDFs to 
 2. The UDF you are going to contribute has been well tested and can run normally in the production environment.
 
 
-###  6.2 What you need to prepare
+###  5.2 What you need to prepare
 
 1. UDF source code
 2. Test cases
 3. Instructions
 
-###  6.3 Contribution Content
+###  5.3 Contribution Content
 
-####  6.3.1 UDF Source Code
+####  5.3.1 UDF Source Code
 
 1. Create the UDF main class and related classes in `iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/udf/builtin` or in its subfolders.
 2. Register your UDF in `iotdb-core/node-commons/src/main/java/org/apache/iotdb/commons/udf/builtin/BuiltinTimeSeriesGeneratingFunction.java`.
 
-#### 6.3.2 Test Cases
+#### 5.3.2 Test Cases
 
 At a minimum, you need to write integration tests for the UDF.
 
 You can add a test class in `integration-test/src/test/java/org/apache/iotdb/db/it/udf`. 
 
 
-####  6.3.3 Instructions
+####  5.3.3 Instructions
 
 The instructions need to include: the name and the function of the UDF, the attribute parameters that must be provided when the UDF is executed, the applicable scenarios, and the usage examples, etc.
 
 The instructions for use should include both Chinese and English versions. Instructions for use should be added separately in `docs/zh/UserGuide/Operation Manual/DML Data Manipulation Language.md` and `docs/UserGuide/Operation Manual/DML Data Manipulation Language.md`.
 
-####  6.3.4 Submit a PR
+####  5.3.4 Submit a PR
 
 When you have prepared the UDF source code, test cases, and instructions, you are ready to submit a Pull Request (PR) on [Github](https://github.com/apache/iotdb). You can refer to our code contribution guide to submit a PR: [Development Guide](https://iotdb.apache.org/Community/Development-Guide.html).
 
 
 After the PR review is approved and merged, your UDF has already contributed to the IoTDB community!
 
-##  7. Common problem
+## 6. Common problem
 
 Q1: How to modify the registered UDF? 
 
