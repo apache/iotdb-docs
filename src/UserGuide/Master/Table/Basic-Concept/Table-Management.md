@@ -34,7 +34,7 @@ Manually create a table within the current or specified database.The format is "
 ```SQL
 CREATE TABLE (IF NOT EXISTS)? <TABLE_NAME>
     '(' (columnDefinition (',' columnDefinition)*)? ')'
-    (WITH properties)?
+    (COMMENT 'TABLE_COMMENT')? (WITH properties)?
     
 columnDefinition
     : identifier columnCategory=(TAG | ATTRIBUTE)
@@ -65,6 +65,7 @@ property
    3. Names with special or Chinese characters must be enclosed in double quotes (`""`).
    4. Outer double quotes are not retained in the final table name. For example: `"a""b"` becomes `a"b`.
 5. **`columnDefinition`**: Column names share the same characteristics as table names and can include special characters such as `.`.
+6. COMMENT adds comments to the table.
 
 **Examples:** 
 
@@ -80,7 +81,7 @@ CREATE TABLE table1 (
   humidity FLOAT FIELD,
   status Boolean FIELD,
   arrival_time TIMESTAMP FIELD
-) WITH (TTL=31536000000);
+) COMMENT 'table1' WITH (TTL=31536000000);
 
 CREATE TABLE if not exists table2 ();
 
@@ -153,17 +154,17 @@ After the code execution is complete, you can use the following statement to ver
 
 ```SQL
 IoTDB> desc table1
-+-----------+---------+-----------+
-| ColumnName| DataType|   Category|
-+-----------+---------+-----------+
-|       time|TIMESTAMP|       TIME|
-|  region_id|   STRING|        TAG|
-|   plant_id|   STRING|        TAG|
-|  device_id|   STRING|        TAG|
-|      model|   STRING|  ATTRIBUTE|
-|temperature|    FLOAT|      FIELD|
-|   humidity|   DOUBLE|      FIELD|
-+-----------+---------+-----------+
++-----------+---------+-----------+-------+
+| ColumnName| DataType|   Category|Comment|
++-----------+---------+-----------+-------+
+|       time|TIMESTAMP|       TIME|   null|
+|  region_id|   STRING|        TAG|   null|
+|   plant_id|   STRING|        TAG|   null|
+|  device_id|   STRING|        TAG|   null|
+|      model|   STRING|  ATTRIBUTE|   null|
+|temperature|    FLOAT|      FIELD|   null|
+|   humidity|   DOUBLE|      FIELD|   null|
++-----------+---------+-----------+-------+
 ```
 
 ### 1.2 View Tables
@@ -189,20 +190,20 @@ SHOW TABLES (DETAILS)? ((FROM | IN) database_name)?
 
 ```SQL
 IoTDB> show tables from test_db
-+---------+-------+
-|TableName|TTL(ms)|
-+---------+-------+
-|     test|    INF|
-+---------+-------+
++---------+-------+-------+
+|TableName|TTL(ms)|Comment|
++---------+-------+-------+
+|     test|    INF|   TEST|
++---------+-------+-------+
 
 IoTDB> show tables details from test_db
-+---------+-------+----------+
-|TableName|TTL(ms)|    Status|
-+---------+-------+----------+
-|     test|    INF|     USING|
-|  turbine|    INF|PRE_CREATE|
-|      car|   1000|PRE_DELETE|
-+---------+-------+----------+
++---------+-------+----------+-------+
+|TableName|TTL(ms)|    Status|Comment|
++---------+-------+----------+-------+
+|     test|    INF|     USING|   TEST|
+|  turbine|    INF|PRE_CREATE|   null|
+|      car|   1000|PRE_DELETE|   null|
++---------+-------+----------+-------+
 ```
 
 ### 1.3 View Table Columns
@@ -226,24 +227,25 @@ Used to view column names, data types, categories, and states of a table.
 
 ```SQL
 IoTDB> desc tableB
-+----------+---------+-----------+
-|ColumnName| DataType|   Category|d
-|      time|TIMESTAMP|       TIME|
-|         a|   STRING|        TAG|
-|         b|   STRING|  ATTRIBUTE|
-|         c|    INT32|      FIELD|
-+----------+---------+-----------+
++----------+---------+-----------+-------+
+|ColumnName| DataType|   Category|Comment|
++----------+---------+-----------+-------+
+|      time|TIMESTAMP|       TIME|   null|
+|         a|   STRING|        TAG|      a|
+|         b|   STRING|  ATTRIBUTE|      b|
+|         c|    INT32|      FIELD|      c|
++----------+---------+-----------+-------+
 
 IoTDB> desc tableB details
-+----------+---------+-----------+----------+
-|ColumnName| DataType|   Category|    Status|
-+----------+---------+-----------+----------+
-|      time|TIMESTAMP|       TIME|     USING|
-|         a|   STRING|        TAG|     USING|
-|         b|   STRING|  ATTRIBUTE|     USING|
-|         c|    INT32|      FIELD|     USING|
-|         d|    INT32|      FIELD|PRE_DELETE|
-+----------+---------+-----------+----------+
++----------+---------+-----------+----------+-------+
+|ColumnName| DataType|   Category|    Status|Comment|
++----------+---------+-----------+----------+-------+
+|      time|TIMESTAMP|       TIME|     USING|   null|
+|         a|   STRING|        TAG|     USING|      a|
+|         b|   STRING|  ATTRIBUTE|     USING|      b|
+|         c|    INT32|      FIELD|     USING|      c|
+|         d|    INT32|      FIELD|PRE_DELETE|      d|
++----------+---------+-----------+----------+-------+
 ```
 
 ### 1.4 Update Tables
@@ -257,18 +259,23 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? col
 | ALTER TABLE (IF EXISTS)? tableName=qualifiedName DROP COLUMN (IF EXISTS)? column=identifier                     #dropColumn
 // set TTL can use this
 | ALTER TABLE (IF EXISTS)? tableName=qualifiedName SET PROPERTIES propertyAssignments                #setTableProperties
+| COMMENT ON TABLE tableName=qualifiedName IS 'table_comment'
+| COMMENT ON COLUMN tableName.column IS 'column_comment'
 ```
 
 **Note:：**
 
 1. The `SET PROPERTIES` operation currently only supports configuring the `TTL` property of a table
 2. The delete column function only supports deleting the ATTRIBUTE and FILD columns, and the TAG column does not support deletion.
+3. The modified comment will overwrite the original comment. If null is specified, the previous comment will be erased.
 
 **Example:** 
 
 ```SQL
 ALTER TABLE tableB ADD COLUMN IF NOT EXISTS a TAG
 ALTER TABLE tableB set properties TTL=3600
+COMMENT ON TABLE table1 IS 'table1'
+COMMENT ON COLUMN table1.a IS null
 ```
 
 ### 1.5 Delete Tables
