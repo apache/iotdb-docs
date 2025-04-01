@@ -88,6 +88,7 @@ export const zhSidebar = {
       prefix: 'User-Manual/',
       children: [
         { text: '数据同步', link: 'Data-Sync_timecho' },
+        { text: '用户自定义函数(V2.0.2)', link: 'User-defined-function' },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
         {
           text: '系统运维',
