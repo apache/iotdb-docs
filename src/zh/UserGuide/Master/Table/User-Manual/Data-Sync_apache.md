@@ -81,6 +81,7 @@
 - 支持 1.x 系列版本 IoTDB 数据同步到 2.x 以及以上系列版本版本的 IoTDB。
 - 不支持 2.x 系列版本 IoTDB 数据同步到 1.x 系列版本版本的 IoTDB。
 - 在进行数据同步任务时，请避免执行任何删除操作，防止两端状态不一致。
+- 树模型与表模型的`pipe`及`pipe plugins`在设计上相互隔离，建议在创建`pipe`前先通过`show`命令查询当前`-sql_dialect`参数配置下可用的内置插件，以确保语法兼容性和功能支持。
 
 ## 2. 使用说明
 
@@ -554,4 +555,3 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | ssl.trust-store-path        | 连接目标端 DataNode 所需的 trust store 证书路径                                                                                                                                                          | String.Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | 必填     | -            |
 | ssl.trust-store-pwd         | 连接目标端 DataNode 所需的 trust store 证书密码                                                                                                                                                          | Integer                                                                          | 必填     | -            |
 | format                      | 数据传输的payload格式， 可选项包括：<br>  - hybrid： 取决于 processor 传递过来的格式（tsfile或tablet），sink不做任何转换。<br> - tsfile：强制转换成tsfile发送，可用于数据文件备份等场景。<br> - tablet：强制转换成tsfile发送，可用于发送端/接收端数据类型不完全兼容时的数据同步（以减少报错）。 | String: hybrid / tsfile / tablet    | 选填    | hybrid |
-
