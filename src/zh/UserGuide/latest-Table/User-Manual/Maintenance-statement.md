@@ -308,7 +308,7 @@ IoTDB> SHOW QUERIES WHERE elapsed_time > 30
 
 ### 2.1 设置连接的模型
 
-**含义**：将当前连接的 sql_dialect 置为树模型/表模型。
+**含义**：将当前连接的 sql_dialect 置为树模型/表模型，在树模型和表模型中均可使用该命令。
 
 #### 语法：
 
@@ -398,8 +398,8 @@ localOrClusterMode
    - **含义**：指定配置热加载的范围。
    - **可选性**：可选。默认值为 `CLUSTER`。
    - **取值**：
-      - `ON LOCAL`：只对客户端直连的 DataNode 进行配置热加载。
-      - `ON CLUSTER`：对集群中所有 DataNode 进行配置热加载。
+      - `LOCAL`：只对客户端直连的 DataNode 进行配置热加载。
+      - `CLUSTER`：对集群中所有 DataNode 进行配置热加载。
 
 #### 示例：
 
@@ -434,8 +434,8 @@ localOrClusterMode
    - **含义**：指定状态变更的范围。
    - **可选性**：可选。默认值为 `CLUSTER`。
    - **取值**：
-      - `ON LOCAL`：仅对客户端直连的 DataNode 生效。
-      - `ON CLUSTER`：对集群中所有 DataNode 生效。
+      - `LOCAL`：仅对客户端直连的 DataNode 生效。
+      - `CLUSTER`：对集群中所有 DataNode 生效。
 
 #### 示例：
 
