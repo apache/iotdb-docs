@@ -308,7 +308,7 @@ IoTDB> SHOW QUERIES WHERE elapsed_time > 30;
 
 #### 2.1 Setting the Connected Model
 
-**Description**: Sets the current SQL dialect model to `Tree` or `Table`.
+**Description**: Sets the current SQL dialect model to `Tree` or `Table` which can be used in both tree and table models.
 
 **Syntax**:
 
@@ -396,8 +396,8 @@ localOrClusterMode
     1. Specifies the scope of configuration loading.
     2. Default: `CLUSTER`.
     3. Values:
-        - `ON LOCAL`: Loads configuration only on the DataNode directly connected to the client.
-        - `ON CLUSTER`: Loads configuration on all DataNodes in the cluster.
+        - `LOCAL`: Loads configuration only on the DataNode directly connected to the client.
+        - `CLUSTER`: Loads configuration on all DataNodes in the cluster.
 
 **Example**:
 
@@ -427,9 +427,9 @@ localOrClusterMode
     1. **RUNNING**: Sets the system to running mode, allowing both read and write operations.
     2. **READONLY**: Sets the system to read-only mode, allowing only read operations and prohibiting writes.
 2. **localOrClusterMode** **(Optional):**
-    1. **ON LOCAL**: Applies the status change only to the DataNode directly connected to the client.
-    2. **ON CLUSTER**: Applies the status change to all DataNodes in the cluster.
-    3. **Default**: `ON ``CLUSTER`.
+    1. **LOCAL**: Applies the status change only to the DataNode directly connected to the client.
+    2. **CLUSTER**: Applies the status change to all DataNodes in the cluster.
+    3. **Default**: `ON CLUSTER`.
 
 **Example**:
 
