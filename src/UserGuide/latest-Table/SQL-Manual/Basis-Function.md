@@ -802,7 +802,7 @@ format(pattern, ...args) -> STRING
    ```
 3. Format Dates and Timestamps
 
-> Locale-Specific Date
+* Locale-Specific Date
 
 ```SQL
 IoTDB:database1> SELECT format('%1$tA, %1$tB %1$te, %1$tY', 2024-01-01) FROM table1 LIMIT 1;
@@ -813,7 +813,7 @@ IoTDB:database1> SELECT format('%1$tA, %1$tB %1$te, %1$tY', 2024-01-01) FROM tab
 +--------------------+
 ```
 
-> Remove Timezone Information
+* Remove Timezone Information
 
 ```SQL
 IoTDB:database1> SELECT format('%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS.%1$tL', 2024-01-01T00:00:00.000+08:00) FROM table1 LIMIT 1;
@@ -824,7 +824,7 @@ IoTDB:database1> SELECT format('%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS.%1$tL', 2024
 +-----------------------+
 ```
 
-> Second-Level Timestamp Precision
+* Second-Level Timestamp Precision
 
 ```SQL
 IoTDB:database1> SELECT format('%1$tF %1$tT', 2024-01-01T00:00:00.000+08:00) FROM table1 LIMIT 1;
@@ -835,7 +835,7 @@ IoTDB:database1> SELECT format('%1$tF %1$tT', 2024-01-01T00:00:00.000+08:00) FRO
 +-------------------+
 ```
 
-> Date/Time Format Symbols
+* Date/Time Format Symbols
 
 | **Symbol** | **​ Description**                                                                                                                                                |
 | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -853,7 +853,7 @@ IoTDB:database1> SELECT format('%1$tF %1$tT', 2024-01-01T00:00:00.000+08:00) FRO
 | 's'              | Seconds since Unix epoch (1970-01-01 00:00:00 UTC), i.e. Long.MIN\_VALUE/1000 to Long.MAX\_VALUE/1000。                                                                 |
 | 'Q'              | Milliseconds since Unix epoch, i.e. Long.MIN\_VALUE 至 Long.MAX\_VALUE。                                                                                                |
 
-> Common Date/Time Conversion Characters
+* Common Date/Time Conversion Characters
 
 | **Symbol** | **​ Description**                                                   |
 | ---------------- | -------------------------------------------------------------------- |
