@@ -755,6 +755,196 @@ SELECT *
   IN (try_cast('2024-11-27' AS DATE), try_cast('2024-11-28' AS DATE));
 ```
 
+### 7.2 Format 函数
+该函数基于指定的格式字符串与输入参数，生成并返回格式化后的字符串输出。其功能与 Java 语言中的`String.format` 方法及 C 语言中的`printf`函数相类似，支持开发者通过占位符语法构建动态字符串模板，其中预设的格式标识符将被传入的对应参数值精准替换，最终形成符合特定格式要求的完整字符串。
+
+#### 7.2.1 语法介绍
+
+```SQL
+format(pattern,...args) -> String
+```
+
+**参数定义**
+
+* `pattern`: 格式字符串，可包含静态文本及一个或多个格式说明符（如 `%s`, `%d` 等），或任意返回类型为 `STRING/TEXT` 的表达式。
+* `args`: 用于替换格式说明符的输入参数。需满足以下条件：
+  * 参数数量 ≥ 1
+  * 若存在多个参数，以逗号`,`分隔（如 `arg1,arg2`）
+  * 参数总数可多于 `pattern` 中的占位符数量，但不可少于，否则触发异常
+
+**返回值**
+
+* 类型为 `STRING` 的格式化结果字符串
+
+#### 7.2.2 使用示例
+
+1. 格式化浮点数
+
+```SQL
+IoTDB:database1> select format('%.5f',humidity) from table1 where humidity = 35.4
++--------+
+|   _col0|
++--------+
+|35.40000|
++--------+
+```
+
+2. 格式化整数
+
+```SQL
+IoTDB:database1> select format('%03d',8) from table1 limit 1
++-----+
+|_col0|
++-----+
+|  008|
++-----+
+```
+
+3. 格式化日期和时间戳
+
+* Locale-specific日期
+
+```SQL
+IoTDB:database1> SELECT format('%1$tA, %1$tB %1$te, %1$tY', 2024-01-01) from table1 limit 1
++--------------------+
+|               _col0|
++--------------------+
+|星期一, 一月 1, 2024|
++--------------------+
+```
+
+* 去除时区信息
+
+```SQL
+IoTDB:database1> SELECT format('%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS.%1$tL', 2024-01-01T00:00:00.000+08:00) from table1 limit 1
++-----------------------+
+|                  _col0|
++-----------------------+
+|2024-01-01 00:00:00.000|
++-----------------------+
+```
+
+* 获取秒级时间戳精度
+
+```SQL
+IoTDB:database1> SELECT format('%1$tF %1$tT', 2024-01-01T00:00:00.000+08:00) from table1 limit 1
++-------------------+
+|              _col0|
++-------------------+
+|2024-01-01 00:00:00|
++-------------------+
+```
+
+* 日期符号说明如下
+
+| **符号** | **​ 描述**                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 'H'            | 24 小时制的小时数，格式为两位数，必要时加上前导零，i.e. 00 - 23。                                                                                                                                                                                                                                                                                                                                                                                                |
+| 'I'            | 12 小时制的小时数，格式为两位数，必要时加上前导零，i.e. 01 - 12。                                                                                                                                                                                                                                                                                                                                                                                                |
+| 'k'            | 24 小时制的小时数，i.e. 0 - 23。                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 'l'            | 12 小时制的小时数，i.e. 1 - 12。                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| 'M'            | 小时内的分钟，格式为两位数，必要时加上前导零，i.e. 00 - 59。                                                                                                                                                                                                                                                                                                                                                                                                     |
+| 'S'            | 分钟内的秒数，格式为两位数，必要时加上前导零，i.e. 00 - 60（“60 ”是支持闰秒所需的特殊值）。                                                                                                                                                                                                                                                                                                                                                                    |
+| 'L'            | 秒内毫秒，格式为三位数，必要时加前导零，i.e. 000 - 999。                                                                                                                                                                                                                                                                                                                                                                                                         |
+| 'N'            | 秒内的纳秒，格式为九位数，必要时加前导零，i.e. 000000000 - 999999999。                                                                                                                                                                                                                                                                                                                                                                                           |
+| 'p'            | 当地特定的[上午或下午](https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/text/DateFormatSymbols.html#getAmPmStrings())标记，小写，如 “am ”或 “pm”。使用转换前缀 “T ”会强制输出为大写。                                                                                                                                                                                                                                                        |
+| 'z'            | 从格林尼治标准时间偏移的[RFC 822](http://www.ietf.org/rfc/rfc0822.txt)式数字时区，例如 -0800。该值将根据夏令时的需要进行调整。对于 long、[Long](https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Long.html)和[Date](https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Date.html)，使用的时区是 Java 虚拟机此实例的[默认时区](https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/TimeZone.html#getDefault())。 |
+| 'Z'            | 表示时区缩写的字符串。该值将根据夏令时的需要进行调整。对于 long、[Long](https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/lang/Long.html)和[Date](https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/Date.html)，使用的时区是此 Java 虚拟机实例的[默认时区](https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/util/TimeZone.html#getDefault())。Formatter 的时区将取代参数的时区（如果有）。                          |
+| 's'            | 自 1970 年 1 月 1 日 00:00:00 UTC 开始的纪元起的秒数，i.e. Long.MIN\_VALUE/1000 至 Long.MAX\_VALUE/1000。                                                                                                                                                                                                                                                                                                                                                        |
+| 'Q'            | 自 1970 年 1 月 1 日 00:00:00 UTC 开始的纪元起的毫秒数，i.e. Long.MIN\_VALUE 至 Long.MAX\_VALUE。                                                                                                                                                                                                                                                                                                                                                                |
+
+* 用于格式化常见的日期/时间组成的转换字符说明如下
+
+| **符号** | **描述**                                                                                                                                                           |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 'B'            | 特定于区域设置[的完整月份名称](https://docs.oracle.com/en/java/javase/23/docs/api/java.base/java/text/DateFormatSymbols.html#getMonths())，例如 “January”、“February”。 |
+| 'b'            | 当地特定月份的缩写名称，如"1 月"、"2 月"。                                                                                                                               |
+| 'h'            | 与"b "相同。                                                                                                                                                             |
+| 'A'            | 一周中某一天在当地的全称，如"星期日"、"星期一"。                                                                                                                         |
+| 'a'            | 当地特有的星期简短名称，例如"星期日"、"星期一                                                                                                                            |
+| 'C'            | 四位数年份除以100，格式为两位数，必要时加上前导零，即00 - 99                                                                                                             |
+| 'Y'            | 年份，格式为至少四位数，必要时加上前导零，例如0092相当于公历92年。                                                                                                       |
+| 'y'            | 年份的最后两位数，格式为必要的前导零，即00 - 99。                                                                                                                        |
+| 'j'            | 年号，格式为三位数，必要时加前导零，例如公历为001 - 366。                                                                                                                |
+| 'm'            | 月份，格式为两位数，必要时加前导零，即01 - 13。                                                                                                                          |
+| 'd'            | 月日，格式为两位数，必要时加前导零，即01 - 31                                                                                                                            |
+| 'e'            | 月日，格式为两位数，即1 - 31。                                                                                                                                           |
+
+4. 格式化字符串
+
+```SQL
+IoTDB:database1> SELECT format('The measurement status is :%s',status) FROM table2 limit 1
++-------------------------------+
+|                          _col0|
++-------------------------------+
+|The measurement status is :true|
++-------------------------------+
+```
+
+5. 格式化百分号
+
+```SQL
+IoTDB:database1> SELECT format('%s%%', 99.9) from table1 limit 1
++-----+
+|_col0|
++-----+
+|99.9%|
++-----+
+```
+
+#### 7.2.3 **格式转换失败场景说明**
+
+1. 类型不匹配错误
+
+* 时间戳类型冲突 若格式说明符中包含时间相关标记（如 `%Y-%m-%d`），但参数提供：
+  * 非 `DATE`/`TIMESTAMP` 类型值
+  * 或涉及日期细粒度单位（如 `%H` 小时、`%M` 分钟）时，参数仅支持 `TIMESTAMP` 类型，否则将抛出类型异常
+
+```SQL
+-- 示例1
+IoTDB:database1> SELECT format('%1$tA, %1$tB %1$te, %1$tY', humidity) from table2 limit 1
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Invalid format string: %1$tA, %1$tB %1$te, %1$tY (IllegalFormatConversion: A != java.lang.Float)
+
+-- 示例2
+IoTDB:database1> SELECT format('%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS.%1$tL', humidity) from table1 limit 1
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Invalid format string: %1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS.%1$tL (IllegalFormatConversion: Y != java.lang.Float)
+```
+
+* 浮点数类型冲突 若使用 `%f` 等浮点格式说明符，但参数提供非数值类型（如字符串、布尔值），将触发类型转换错误
+
+```SQL
+IoTDB:database1> select format('%.5f',status) from table1 where humidity = 35.4
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Invalid format string: %.5f (IllegalFormatConversion: f != java.lang.Boolean)
+```
+
+2. 参数数量不匹配错误
+
+* 实际提供的参数数量 必须等于或大于 格式字符串中格式说明符的数量
+* 若参数数量少于格式说明符数量，将抛出 `ArgumentCountMismatch` 异常
+
+```SQL
+IoTDB:database1> select format('%.5f %03d', humidity) from table1 where humidity = 35.4
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Invalid format string: %.5f %03d (MissingFormatArgument: Format specifier '%03d')
+```
+
+3. 无效调用错误
+
+* 当函数参数满足以下任一条件时，视为非法调用：
+  * 参数总数 小于 2（必须包含格式字符串及至少一个参数）
+  * 格式字符串（`pattern`）类型非 `STRING/TEXT`
+
+```SQL
+-- 示例1
+IoTDB:database1> select format('%s') from table1 limit 1
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Scalar function format must have at least two arguments, and first argument pattern must be TEXT or STRING type.
+
+--示例2
+IoTDB:database1> select format(123, humidity) from table1 limit 1
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Scalar function format must have at least two arguments, and first argument pattern must be TEXT or STRING type.
+```
+
+
+
 ## 8. 字符串函数和操作符
 
 ### 8.1 字符串操作符
