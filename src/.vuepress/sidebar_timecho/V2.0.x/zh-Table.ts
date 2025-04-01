@@ -124,6 +124,14 @@ export const zhSidebar = {
       ],
     },
     {
+      text: '系统集成',
+      collapsible: true,
+      prefix: 'Ecosystem-Integration/',
+      children: [
+        { text: 'DBeaver', link: 'DBeaver' },
+      ],
+    },
+    {
       text: 'SQL手册',
       collapsible: true,
       prefix: 'SQL-Manual/',

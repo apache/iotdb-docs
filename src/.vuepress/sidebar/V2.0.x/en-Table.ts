@@ -128,6 +128,14 @@ export const enSidebar = {
       ],
     },
     {
+      text: 'Ecosystem Integration',
+      collapsible: true,
+      prefix: 'Ecosystem-Integration/',
+      children: [
+        { text: 'DBeaver', link: 'DBeaver' },
+      ],
+    },
+    {
       text: 'SQL Manual',
       collapsible: true,
       prefix: 'SQL-Manual/',
