@@ -142,7 +142,6 @@ export const enSidebar = {
           text: 'Database Programming',
           collapsible: true,
           children: [
-            { text: 'UDF Development', link: 'UDF-development' },
             { text: 'Trigger', link: 'Trigger' },
             { text: 'Stream Processing', link: 'Streaming_timecho' },
           ],
