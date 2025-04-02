@@ -403,11 +403,11 @@ REVOKE ALL ON TABLE TESTDB FROM USER TESTUSER
 - `WITH GRANT OPTION` 列：如果为 TRUE，表示用户可以将自己的权限授予他人。
 - 用户或者角色可以同时具有树模型和表模型的权限，但系统会根据当前连接的模型来显示相应的权限，另一种模型下的权限则不会显示。
 
-## 5. 5. 示例
+## 5. 示例
 
 以 [示例数据](../Reference/Sample-Data.md) 内容为例，两个表的数据可能分别属于 bj、sh 两个数据中心，彼此间不希望对方获取自己的数据库数据，因此我们需要将不同的数据在数据中心层进行权限隔离。
 
-### 5.1 5.1 创建用户
+### 5.1 创建用户
 
 使用 `CREATE USER <USERNAME> <PASSWORD>` 创建用户。例如，可以使用具有所有权限的root用户为 ln 和 sgcc 集团创建两个用户角色，名为 `bj_write_user`, `sh_write_user`，密码均为 `write_pwd`。SQL 语句为：
 
@@ -434,7 +434,7 @@ LIST USER
 +-------------+
 ```
 
-### 5.2 5.2 赋予用户权限
+### 5.2 赋予用户权限
 
 虽然两个用户已经创建，但是不具有任何权限，因此并不能对数据库进行操作，例如使用 `bj_write_user` 用户对 table1 中的数据进行写入，SQL 语句为：
 
@@ -466,7 +466,7 @@ IoTDB:database1> INSERT INTO table1(region, plant_id, device_id, model_id, maint
 Msg: The statement is executed successfully.
 ```
 
-### 5.3 5.3 撤销用户权限
+### 5.3 撤销用户权限
 
 授予用户权限后，可以使用 `REVOKE <PRIVILEGES> ON <DATABASE.TABLE> FROM USER <USERNAME>`来撤销已经授予用户的权限。例如，用root用户撤销`bj_write_user`和`sh_write_user`的权限：
 
