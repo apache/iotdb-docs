@@ -94,6 +94,13 @@ export const enSidebar = {
       children: [
         { text: 'Data Sync', link: 'Data-Sync_apache' },
         {
+          text: 'Security Management',
+          collapsible: true,
+          children: [
+            { text: 'Authority Management(V2.0.2)', link: 'Authority-Management' },
+          ],
+        },
+        {
           text: 'System Maintenance',
           collapsible: true,
           children: [

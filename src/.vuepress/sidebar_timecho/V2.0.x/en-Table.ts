@@ -97,6 +97,13 @@ export const enSidebar = {
       prefix: 'User-Manual/',
       children: [
         { text: 'Data Sync', link: 'Data-Sync_timecho' },
+        {
+          text: 'Security Management',
+          collapsible: true,
+          children: [
+            { text: 'Authority Management(V2.0.2)', link: 'Authority-Management' },
+          ],
+        },
         { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
         {
           text: 'System Maintenance',
