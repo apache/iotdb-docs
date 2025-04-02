@@ -129,7 +129,7 @@ Parse error: Missing required option: t
         -t <target_directory> [-pfn <prefix_file_name>] [-q <query_command>] [-timeout <query_timeout>]
       
 # Windows
-> tools\export-data.sh -ft<format>  [-h <host>] [-p <port>] [-u <username>] [-pw <password>]
+> tools\export-data.bat -ft<format>  [-h <host>] [-p <port>] [-u <username>] [-pw <password>]
         -t <target_directory> [-pfn <prefix_file_name>] [-q <query_command>] [-timeout <query_timeout>]
 ```
 
