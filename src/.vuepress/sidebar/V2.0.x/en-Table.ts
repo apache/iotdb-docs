@@ -165,6 +165,7 @@ export const enSidebar = {
             { text: 'Featured Functions', link: 'Featured-Functions' },
           ],
         },
+        { text: 'System Tables(V2.0.2)', link: 'System-Tables' },
       ],
     },
     {
