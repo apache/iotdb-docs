@@ -86,6 +86,7 @@ export const zhSidebar = {
       prefix: 'User-Manual/',
       children: [
         { text: '数据同步', link: 'Data-Sync_apache' },
+        { text: '用户自定义函数', link: 'User-defined-function' },
         {
           text: '安全权限',
           collapsible: true,

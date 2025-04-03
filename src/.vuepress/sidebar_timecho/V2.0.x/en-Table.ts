@@ -97,6 +97,7 @@ export const enSidebar = {
       prefix: 'User-Manual/',
       children: [
         { text: 'Data Sync', link: 'Data-Sync_timecho' },
+        { text: 'UDF', link: 'User-defined-function' },
         {
           text: 'Security Permissions',
           collapsible: true,
