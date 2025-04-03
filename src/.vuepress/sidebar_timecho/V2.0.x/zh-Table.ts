@@ -161,6 +161,7 @@ export const zhSidebar = {
             { text: '特色函数', link: 'Featured-Functions' },
           ],
         },
+        { text: '嵌套查询', link: 'Nested-Queries' },
       ],
     },
     {

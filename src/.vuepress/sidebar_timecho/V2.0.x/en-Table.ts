@@ -170,6 +170,7 @@ export const enSidebar = {
             { text: 'Featured Functions', link: 'Featured-Functions' },
           ],
         },
+        { text: 'Nested Queries', link: 'Nested-Queries' },
       ],
     },
     {
