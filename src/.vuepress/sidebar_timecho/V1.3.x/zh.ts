@@ -96,37 +96,29 @@ export const zhSidebar = {
       text: '高级功能',
       collapsible: true,
       prefix: 'User-Manual/',
-      // children: 'structure',
       children: [
+        { text: '数据同步(V1.3.0/1/2)', link: 'Data-Sync-old_timecho' },
+        { text: '数据同步(V1.3.3)', link: 'Data-Sync_timecho' },
+        { text: '数据订阅', link: 'Data-subscription' },
         {
-          text: '数据同步',
+          text: '流计算',
           collapsible: true,
           children: [
-            { text: '数据同步(V1.3.0/1/2)', link: 'Data-Sync-old_timecho' },
-            { text: '数据同步(V1.3.3)', link: 'Data-Sync_timecho' },
-          ],
-        },
-        { text: '数据订阅(V1.3.4)', link: 'Data-subscription' },
-        { text: 'AI能力', link: 'AINode_timecho' },
-        {
-          text: '安全管理',
-          collapsible: true,
-          children: [
-            { text: '白名单', link: 'White-List_timecho' },
-            { text: '审计日志', link: 'Audit-Log_timecho' },
-            { text: '权限管理', link: 'Authority-Management' },
-          ],
-        },
-        { text: '用户自定义函数', link: 'User-defined-function_timecho' },
-        { text: '视图', link: 'IoTDB-View_timecho' },
-        { text: '多级存储', link: 'Tiered-Storage_timecho' },
-        { text: '连续查询', link: 'Database-Programming' },
-        {
-          text: '数据库编程',
-          collapsible: true,
-          children: [
+            { text: '流计算框架', link: 'Streaming_timecho' },
+            { text: '连续查询', link: 'Database-Programming' },
             { text: '触发器', link: 'Trigger' },
-            { text: '流处理框架', link: 'Streaming_timecho' },
+          ],
+        },
+        { text: '多级存储', link: 'Tiered-Storage_timecho' },
+        { text: 'UDF', link: 'User-defined-function_timecho' },
+        { text: '视图', link: 'IoTDB-View_timecho' },
+        {
+          text: '安全权限',
+          collapsible: true,
+          children: [
+            { text: '权限管理', link: 'Authority-Management' },
+            { text: '白名单', link: 'White-List_timecho' },
+            { text: '安全审计', link: 'Audit-Log_timecho' },
           ],
         },
         {
@@ -138,6 +130,15 @@ export const zhSidebar = {
             { text: '数据修复', link: 'Data-Recovery' },
           ],
         },
+      ],
+    },
+    {
+      text: 'AI 能力',
+      collapsible: true,
+      prefix: 'AI-capability/',
+      children: [
+        { text: 'AINode', link: 'AINode_timecho' },
+        { text: '时序大模型', link: 'TimeSeries-Large-Model' },
       ],
     },
     {

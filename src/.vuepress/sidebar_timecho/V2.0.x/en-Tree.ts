@@ -109,24 +109,24 @@ export const enSidebar = {
         { text: 'Data Sync', link: 'Data-Sync_timecho' },
         { text: 'Data Subscription', link: 'Data-subscription' },
         {
-          text: 'Security Management',
+          text: 'Stream Computing',
           collapsible: true,
           children: [
-            { text: 'White List', link: 'White-List_timecho' },
-            { text: 'Audit Log', link: 'Audit-Log_timecho' },
-            { text: 'Authority Management', link: 'Authority-Management' },
+            { text: 'Stream Computing Framework', link: 'Streaming_timecho' },
+            { text: 'Continuous Query', link: 'Database-Programming' },
+            { text: 'Trigger', link: 'Trigger' },
           ],
         },
+        { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
         { text: 'UDF', link: 'User-defined-function_timecho' },
         { text: 'View', link: 'IoTDB-View_timecho' },
-        { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
-        { text: 'Continuous Query', link: 'Database-Programming' },
         {
-          text: 'Database Programming',
+          text: 'Security Permissions',
           collapsible: true,
           children: [
-            { text: 'Trigger', link: 'Trigger' },
-            { text: 'Stream Processing', link: 'Streaming_timecho' },
+            { text: 'Permission Management', link: 'Authority-Management' },
+            { text: 'White List', link: 'White-List_timecho' },
+            { text: 'Security Audit', link: 'Audit-Log_timecho' },
           ],
         },
         {

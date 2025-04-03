@@ -113,37 +113,29 @@ export const enSidebar = {
       text: 'Advanced Features',
       collapsible: true,
       prefix: 'User-Manual/',
-      // children: 'structure',
       children: [
+        { text: 'Data Sync(V1.3.0/1/2)', link: 'Data-Sync-old_timecho' },
+        { text: 'Data Sync(V1.3.3)', link: 'Data-Sync_timecho' },
+        { text: 'Data Subscription', link: 'Data-subscription' },
         {
-          text: 'Data Sync',
+          text: 'Stream Computing',
           collapsible: true,
           children: [
-            { text: 'Data Sync(V1.3.0/1/2)', link: 'Data-Sync-old_timecho' },
-            { text: 'Data Sync(V1.3.3)', link: 'Data-Sync_timecho' },
+            { text: 'Stream Computing Framework', link: 'Streaming_timecho' },
+            { text: 'Continuous Query', link: 'Database-Programming' },
+            { text: 'Trigger', link: 'Trigger' },
           ],
         },
-        { text: 'Data Subscription(V1.3.4)', link: 'Data-subscription' },
-        { text: 'AI Capability', link: 'AINode_timecho' },
-        {
-          text: 'Security Management',
-          collapsible: true,
-          children: [
-            { text: 'White List', link: 'White-List_timecho' },
-            { text: 'Audit Log', link: 'Audit-Log_timecho' },
-            { text: 'Authority Management', link: 'Authority-Management' },
-          ],
-        },
+        { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
         { text: 'UDF', link: 'User-defined-function_timecho' },
         { text: 'View', link: 'IoTDB-View_timecho' },
-        { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
-        { text: 'Continuous Query', link: 'Database-Programming' },
         {
-          text: 'Database Programming',
+          text: 'Security Permissions',
           collapsible: true,
           children: [
-            { text: 'Trigger', link: 'Trigger' },
-            { text: 'Stream Processing', link: 'Streaming_timecho' },
+            { text: 'Permission Management', link: 'Authority-Management' },
+            { text: 'White List', link: 'White-List_timecho' },
+            { text: 'Security Audit', link: 'Audit-Log_timecho' },
           ],
         },
         {
@@ -155,6 +147,15 @@ export const enSidebar = {
             { text: 'Data Recovery', link: 'Data-Recovery' },
           ],
         },
+      ],
+    },
+    {
+      text: 'AI capability',
+      collapsible: true,
+      prefix: 'AI-capability/',
+      children: [
+        { text: 'AINode', link: 'AINode_timecho' },
+        { text: 'TimeSeries Large Model', link: 'TimeSeries-Large-Model' },
       ],
     },
     {

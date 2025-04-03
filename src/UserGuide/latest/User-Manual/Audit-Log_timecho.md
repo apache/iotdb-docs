@@ -19,7 +19,7 @@
 
 -->
 
-# Audit log
+# Security Audit
 
 ## 1. Background of the function
 
