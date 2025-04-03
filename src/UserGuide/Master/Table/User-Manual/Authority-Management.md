@@ -52,7 +52,7 @@ In IoTDB's table model, there are two main types of permissions: Global Permissi
 
 ### 2.1 Global Permissions
 
-Global permissions restrict a user's ability to administer the database system, including user management and role management.
+Global permissions include user management and role management.
 
 The following table describes the types of global permissions:
 
