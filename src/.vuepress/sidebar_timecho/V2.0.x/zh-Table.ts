@@ -187,6 +187,7 @@ export const zhSidebar = {
         { text: '示例数据', link: 'Sample-Data' },
         { text: '配置参数', link: 'System-Config-Manual' },
         { text: '状态码', link: 'Status-Codes' },
+        { text: '系统表', link: 'System-Tables' },
       ],
     },
   ],

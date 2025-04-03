@@ -198,6 +198,7 @@ export const enSidebar = {
         { text: 'Sample Data', link: 'Sample-Data' },
         { text: 'Config Manual', link: 'System-Config-Manual' },
         { text: 'Status Codes', link: 'Status-Codes' },
+        { text: 'System Tables', link: 'System-Tables' },
       ],
     },
   ],
