@@ -112,6 +112,8 @@ export const enSidebar = {
         { text: 'Monitor Tool', link: 'Monitor-Tool_apache' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
         { text: 'Cluster Management Tool', link: 'Maintenance-Tool_apache' },
+        { text: 'Data Import', link: 'Data-Import-Tool' },
+        { text: 'Data Export', link: 'Data-Export-Tool' },
       ],
     },
     {
