@@ -88,6 +88,11 @@ export const zhSidebar = {
         { text: '数据同步', link: 'Data-Sync_apache' },
         { text: '用户自定义函数', link: 'User-defined-function' },
         {
+          text: '安全权限',
+          collapsible: true,
+          children: [{ text: '权限管理', link: 'Authority-Management' }],
+        },
+        {
           text: '系统运维',
           collapsible: true,
           children: [
@@ -105,6 +110,8 @@ export const zhSidebar = {
         { text: '命令行工具', link: 'CLI' },
         { text: '监控工具', link: 'Monitor-Tool_apache' },
         { text: '集群管理工具', link: 'Maintenance-Tool_apache' },
+        { text: '数据导入', link: 'Data-Import-Tool' },
+        { text: '数据导出', link: 'Data-Export-Tool' },
       ],
     },
     {
@@ -177,6 +184,7 @@ export const zhSidebar = {
         { text: '示例数据', link: 'Sample-Data' },
         { text: '配置参数', link: 'System-Config-Manual' },
         { text: '状态码', link: 'Status-Codes' },
+        { text: '系统表', link: 'System-Tables' },
       ],
     },
   ],

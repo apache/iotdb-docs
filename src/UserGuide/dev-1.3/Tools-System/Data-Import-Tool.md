@@ -104,6 +104,49 @@ IoTDB currently supports importing data in CSV, SQL, and TsFile (IoTDB's underly
 >tools/import-data.bat -h 192.168.100.1 -p 6667 -u root -pw root -s ./data/dump0_0.csv -fd ./failed/ -aligned true -batch 100000 -tp ms -typeInfer boolean=text,float=double -lpf 1000
 ```
 
+### 2.4 Import Notes
+
+1. CSV Import Specifications
+
+- Special Character Escaping Rules: If a text-type field contains special characters (e.g., commas ,), they must be escaped using a backslash (\).
+- Supported Time Formats: yyyy-MM-dd'T'HH:mm:ss, yyyy-MM-dd HH:mm:ss, or yyyy-MM-dd'T'HH:mm:ss.SSSZ.
+- Timestamp Column Requirement: The timestamp column must be the first column in the data file.
+
+2. CSV File Example
+
+- Time Alignment
+
+```sql
+-- Headers without data types
+Time,root.test.t1.str,root.test.t2.str,root.test.t2.var
+1970-01-01T08:00:00.001+08:00,"123hello world","123\,abc",100
+1970-01-01T08:00:00.002+08:00,"123",,
+
+-- Headers with data types (Text-type data supports both quoted and unquoted formats)
+Time,root.test.t1.str(TEXT),root.test.t2.str(TEXT),root.test.t2.var(INT32)
+1970-01-01T08:00:00.001+08:00,"123hello world","123\,abc",100
+1970-01-01T08:00:00.002+08:00,123,hello world,123
+1970-01-01T08:00:00.003+08:00,"123",,
+1970-01-01T08:00:00.004+08:00,123,,12
+```
+
+- Device Alignment
+
+```sql
+-- Headers without data types
+Time,Device,str,var
+1970-01-01T08:00:00.001+08:00,root.test.t1,"123hello world",
+1970-01-01T08:00:00.002+08:00,root.test.t1,"123",
+1970-01-01T08:00:00.001+08:00,root.test.t2,"123\,abc",100
+
+-- Headers with data types (Text-type data supports both quoted and unquoted formats)
+Time,Device,str(TEXT),var(INT32)
+1970-01-01T08:00:00.001+08:00,root.test.t1,"123hello world",
+1970-01-01T08:00:00.002+08:00,root.test.t1,"123",
+1970-01-01T08:00:00.001+08:00,root.test.t2,"123\,abc",100
+1970-01-01T08:00:00.002+08:00,root.test.t1,hello world,123
+```
+
 
 ## 3. load-tsfile Script
 

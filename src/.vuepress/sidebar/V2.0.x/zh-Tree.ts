@@ -89,19 +89,19 @@ export const zhSidebar = {
         { text: '数据同步', link: 'Data-Sync_apache' },
         { text: '数据订阅', link: 'Data-subscription' },
         {
-          text: '安全管理',
-          collapsible: true,
-          children: [{ text: '权限管理', link: 'Authority-Management' }],
-        },
-        { text: '用户自定义函数', link: 'User-defined-function_apache' },
-        { text: '连续查询', link: 'Database-Programming' },
-        {
-          text: '数据库编程',
+          text: '流计算',
           collapsible: true,
           children: [
+            { text: '流计算框架', link: 'Streaming_apache' },
+            { text: '连续查询', link: 'Database-Programming' },
             { text: '触发器', link: 'Trigger' },
-            { text: '流处理框架', link: 'Streaming_apache' },
           ],
+        },
+        { text: 'UDF', link: 'User-defined-function_apache' },
+        {
+          text: '安全权限',
+          collapsible: true,
+          children: [{ text: '权限管理', link: 'Authority-Management' }],
         },
         {
           text: '运维语句',

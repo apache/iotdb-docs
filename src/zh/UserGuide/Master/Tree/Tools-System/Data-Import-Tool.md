@@ -52,7 +52,7 @@ IoTDB 支持两种方式进行数据导入
 | -help    | --help        | 显示帮助信息,支持分开展示和全部展示`-help`或`-help csv`                                                                                                   | 否           |
 |
 
-### 2.2 Csv 格式
+### 2.2 CSV 格式
 
 #### 2.2.1 运行命令
 
@@ -98,7 +98,50 @@ error: Source file or directory /non_path does not exist
 error: Invalid thread number '0'. Please set a positive integer.
 ```
 
-### 2.3 Sql 格式
+#### 2.3.4 导入说明
+
+1. CSV 导入规范
+
+- 特殊字符转义规则：若Text类型的字段中包含特殊字符（例如逗号,），需使用反斜杠（\）​进行转义处理。
+- 支持的时间格式：yyyy-MM-dd'T'HH:mm:ss， yyy-MM-dd HH:mm:ss， 或者 yyyy-MM-dd'T'HH:mm:ss.SSSZ。
+- 时间戳列​必须作为数据文件的首列存在。
+
+2. CSV 文件示例
+
+- 时间对齐
+
+```sql
+-- header 中不包含数据类型
+  Time,root.test.t1.str,root.test.t2.str,root.test.t2.var
+  1970-01-01T08:00:00.001+08:00,"123hello world","123\,abc",100
+  1970-01-01T08:00:00.002+08:00,"123",,
+
+-- header 中包含数据类型（Text 类型数据支持加双引号和不加双引号）
+Time,root.test.t1.str(TEXT),root.test.t2.str(TEXT),root.test.t2.var(INT32)
+1970-01-01T08:00:00.001+08:00,"123hello world","123\,abc",100
+1970-01-01T08:00:00.002+08:00,123,hello world,123
+1970-01-01T08:00:00.003+08:00,"123",,
+1970-01-01T08:00:00.004+08:00,123,,12
+```
+
+- 设备对齐
+
+```sql
+-- header 中不包含数据类型
+  Time,Device,str,var
+  1970-01-01T08:00:00.001+08:00,root.test.t1,"123hello world",
+  1970-01-01T08:00:00.002+08:00,root.test.t1,"123",
+  1970-01-01T08:00:00.001+08:00,root.test.t2,"123\,abc",100
+
+-- header 中包含数据类型（Text 类型数据支持加双引号和不加双引号）
+Time,Device,str(TEXT),var(INT32)
+1970-01-01T08:00:00.001+08:00,root.test.t1,"123hello world",
+1970-01-01T08:00:00.002+08:00,root.test.t1,"123",
+1970-01-01T08:00:00.001+08:00,root.test.t2,"123\,abc",100
+1970-01-01T08:00:00.002+08:00,root.test.t1,hello world,123
+```
+
+### 2.3 SQL 格式
 
 #### 2.2.1 运行命令
 

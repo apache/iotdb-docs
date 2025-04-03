@@ -19,7 +19,7 @@
 
 -->
 
-# AI Capability（AINode）
+# AINode
 
 AINode is the third internal node after ConfigNode and DataNode in Apache IoTDB, which extends the capability of machine learning analysis of time series by interacting with DataNode and ConfigNode of IoTDB cluster, supports the introduction of pre-existing machine learning models from the outside to be registered, and uses the registered models in the It supports the process of introducing existing machine learning models from outside for registration, and using the registered models to complete the time series analysis tasks on the specified time series data through simple SQL statements, which integrates the model creation, management and inference in the database engine. At present, we have provided machine learning algorithms or self-developed models for common timing analysis scenarios (e.g. prediction and anomaly detection).
 
@@ -33,7 +33,7 @@ The responsibilities of the three nodes are as follows:
 - **DataNode**: responsible for receiving and parsing SQL requests from users; responsible for storing time-series data; responsible for preprocessing computation of data.
 - **AINode**: responsible for model file import creation and model inference.
 
-## Advantageous features
+## 1. Advantageous features
 
 Compared with building a machine learning service alone, it has the following advantages:
 
@@ -50,7 +50,7 @@ Compared with building a machine learning service alone, it has the following ad
 
 
 
-## Basic Concepts
+## 2. Basic Concepts
 
 - **Model**: a machine learning model that takes time-series data as input and outputs the results or decisions of an analysis task. Model is the basic management unit of AINode, which supports adding (registration), deleting, checking, and using (inference) of models.
 - **Create**: Load externally designed or trained model files or algorithms into MLNode for unified management and use by IoTDB.
@@ -61,16 +61,16 @@ Compared with building a machine learning service alone, it has the following ad
 <img src="/img/AInode2.png" style="zoom:50%" />
 ::::
 
-## Installation and Deployment
+## 3. Installation and Deployment
 
-The deployment of AINode can be found in the document [Deployment Guidelines](../Deployment-and-Maintenance/AINode_Deployment_timecho.md#AINode-部署) .
+The deployment of AINode can be found in the document [Deployment Guidelines](../Deployment-and-Maintenance/AINode_Deployment_apache.md#ainode-deployment) .
 
 
-## Usage Guidelines
+## 4. Usage Guidelines
 
 AINode provides model creation and deletion process for deep learning models related to timing data. Built-in models do not need to be created and deleted, they can be used directly, and the built-in model instances created after inference is completed will be destroyed automatically.
 
-### Registering Models
+### 4.1 Registering Models
 
 A trained deep learning model can be registered by specifying the vector dimensions of the model's inputs and outputs, which can be used for model inference. 
 
@@ -156,7 +156,7 @@ After the SQL is executed, the registration process will be carried out asynchro
 
 Once the model registration is complete, you can call specific functions and perform model inference by using normal queries.
 
-### Viewing Models
+### 4.2 Viewing Models
 
 Successfully registered models can be queried for model-specific information through the show models command. The SQL definition is as follows:
 
@@ -204,7 +204,7 @@ IoTDB> show models
 
 We have registered the corresponding model earlier, you can view the model status through the corresponding designation, active indicates that the model is successfully registered and can be used for inference.
 
-### Delete Model
+### 4.3 Delete Model
 
 For a successfully registered model, the user can delete it via SQL. In addition to deleting the meta information on the configNode, this operation also deletes all the related model files under the AINode. The SQL is as follows:
 
@@ -214,7 +214,7 @@ drop model <model_name>
 
 You need to specify the model model_name that has been successfully registered to delete the corresponding model. Since model deletion involves the deletion of data on multiple nodes, the operation will not be completed immediately, and the state of the model at this time is DROPPING, and the model in this state cannot be used for model inference.
 
-### Using Built-in Model Reasoning
+### 4.4 Using Built-in Model Reasoning
 
 The SQL syntax is as follows:
 
@@ -284,7 +284,7 @@ IoTDB> call inference(_Stray, "select s0 from root.eg.airline", k=2)
 Total line number = 144
 ```
 
-### Reasoning with Deep Learning Models
+### 4.5 Reasoning with Deep Learning Models
 
 The SQL syntax is as follows:
 
@@ -444,7 +444,7 @@ Total line number = 4
 
 In the result set, each row's label corresponds to the output of the anomaly detection model after inputting each group of 24 rows of data.
 
-## Privilege Management
+## 5. Privilege Management
 
 When using AINode related functions, the authentication of IoTDB itself can be used to do a permission management, users can only use the model management related functions when they have the USE_MODEL permission. When using the inference function, the user needs to have the permission to access the source sequence corresponding to the SQL of the input model.
 
@@ -453,9 +453,9 @@ When using AINode related functions, the authentication of IoTDB itself can be u
 | USE_MODEL | create model/show models/drop model | √ | √  | x |
 | READ_DATA| call inference | √ | √|√ |
 
-## Practical Examples
+## 6. Practical Examples
 
-### Power Load Prediction
+### 6.1 Power Load Prediction
 
 In some industrial scenarios, there is a need to predict power loads, which can be used to optimise power supply, conserve energy and resources, support planning and expansion, and enhance power system reliability.
 
@@ -526,7 +526,7 @@ The data before 10/24 00:00 represents the past data input to the model, the blu
 
 As can be seen, we have used the relationship between the six load information and the corresponding time oil temperatures for the past 96 hours (4 days) to model the possible changes in this data for the oil temperature for the next 48 hours (2 days) based on the inter-relationships between the sequences learned previously, and it can be seen that the predicted curves maintain a high degree of consistency in trend with the actual results after visualisation.
 
-### Power Prediction
+### 6.2 Power Prediction
 
 Power monitoring of current, voltage and power data is required in substations for detecting potential grid problems, identifying faults in the power system, effectively managing grid loads and analysing power system performance and trends.
 
@@ -592,7 +592,7 @@ The data before 02/14 20:48 represents the past data input to the model, the blu
 
 It can be seen that we used the voltage data from the past 10 minutes and, based on the previously learned inter-sequence relationships, modeled the possible changes in the phase C voltage data for the next 5 minutes. The visualized forecast curve shows a certain degree of synchronicity with the actual results in terms of trend.
 
-### Anomaly Detection
+### 6.3 Anomaly Detection
 
 In the civil aviation and transport industry, there exists a need for anomaly detection of the number of passengers travelling on an aircraft. The results of anomaly detection can be used to guide the adjustment of flight scheduling to make the organisation more efficient.
 

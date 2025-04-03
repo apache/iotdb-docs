@@ -261,6 +261,8 @@ IoTDB> SHOW CURRENT_TIMESTAMP;
 
 **Description**: Displays information about all currently executing queries.
 
+> For more details on how to use system tables, please refer to [System Tables](../Reference/System-Tables.md)
+
 **Syntax**:
 
 ```SQL

@@ -98,6 +98,13 @@ export const enSidebar = {
       children: [
         { text: 'Data Sync', link: 'Data-Sync_timecho' },
         { text: 'UDF', link: 'User-defined-function' },
+        {
+          text: 'Security Permissions',
+          collapsible: true,
+          children: [
+            { text: 'Authority Management', link: 'Authority-Management' },
+          ],
+        },
         { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
         {
           text: 'System Maintenance',
@@ -118,6 +125,8 @@ export const enSidebar = {
         { text: 'Monitor Tool', link: 'Monitor-Tool_timecho' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
         { text: 'Cluster Management Tool', link: 'Maintenance-Tool_timecho' },
+        { text: 'Data Import', link: 'Data-Import-Tool' },
+        { text: 'Data Export', link: 'Data-Export-Tool' },
       ],
     },
     {
@@ -190,6 +199,7 @@ export const enSidebar = {
         { text: 'Sample Data', link: 'Sample-Data' },
         { text: 'Config Manual', link: 'System-Config-Manual' },
         { text: 'Status Codes', link: 'Status-Codes' },
+        { text: 'System Tables', link: 'System-Tables' },
       ],
     },
   ],
