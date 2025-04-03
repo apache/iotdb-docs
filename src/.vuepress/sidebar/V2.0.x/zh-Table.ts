@@ -155,6 +155,7 @@ export const zhSidebar = {
             { text: 'FILL子句', link: 'Fill-Clause' },
             { text: 'ORDER BY子句', link: 'OrderBy-Clause' },
             { text: 'LIMIT&OFFSET子句', link: 'Limit-Offset-Clause' },
+            { text: '嵌套查询', link: 'Nested-Queries' },
           ],
         },
         {
@@ -165,6 +166,7 @@ export const zhSidebar = {
             { text: '特色函数', link: 'Featured-Functions' },
           ],
         },
+
       ],
     },
     {

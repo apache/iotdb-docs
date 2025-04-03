@@ -165,6 +165,7 @@ export const enSidebar = {
             { text: 'FILL Clause', link: 'Fill-Clause' },
             { text: 'ORDER BY Clause', link: 'OrderBy-Clause' },
             { text: 'LIMIT&OFFSET Clause', link: 'Limit-Offset-Clause' },
+            { text: 'Nested Queries', link: 'Nested-Queries' },
           ],
         },
         {
@@ -175,6 +176,7 @@ export const enSidebar = {
             { text: 'Featured Functions', link: 'Featured-Functions' },
           ],
         },
+
       ],
     },
     {
