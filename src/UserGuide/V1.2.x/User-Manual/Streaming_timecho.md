@@ -19,7 +19,7 @@
 
 -->
 
-# Stream Processing
+# Stream Computing Framework
 
 The IoTDB stream processing framework allows users to implement customized stream processing logic, which can monitor and capture storage engine changes, transform changed data, and push transformed data outward.
 

@@ -100,21 +100,19 @@ export const enSidebar = {
         { text: 'Data Sync', link: 'Data-Sync_apache' },
         { text: 'Data Subscription', link: 'Data-subscription' },
         {
-          text: 'Security Management',
+          text: 'Stream Computing',
           collapsible: true,
           children: [
-            { text: 'Authority Management', link: 'Authority-Management' },
+            { text: 'Stream Computing Framework', link: 'Streaming_apache' },
+            { text: 'Continuous Query', link: 'Database-Programming' },
+            { text: 'Trigger', link: 'Trigger' },
           ],
         },
         { text: 'UDF', link: 'User-defined-function_apache' },
-        { text: 'Continuous Query', link: 'Database-Programming' },
         {
-          text: 'Database Programming',
+          text: 'Security Permissions',
           collapsible: true,
-          children: [
-            { text: 'Trigger', link: 'Trigger' },
-            { text: 'Stream Processing', link: 'Streaming_apache' },
-          ],
+          children: [{ text: 'Permission Management', link: 'Authority-Management' }],
         },
         {
           text: 'Maintenance SQL',

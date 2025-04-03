@@ -1,4 +1,4 @@
-#  USER-DEFINED FUNCTION (UDF)
+#  UDF
 
 ## 1. UDF Introduction
 
