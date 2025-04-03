@@ -89,7 +89,7 @@ export const zhSidebar = {
         {
           text: '安全权限',
           collapsible: true,
-          children: [{ text: '权限管理(v2.0.2)', link: 'Authority-Management' }],
+          children: [{ text: '权限管理', link: 'Authority-Management' }],
         },
         {
           text: '系统运维',

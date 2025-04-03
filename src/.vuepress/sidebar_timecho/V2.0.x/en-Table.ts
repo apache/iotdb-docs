@@ -101,7 +101,7 @@ export const enSidebar = {
           text: 'Security Permissions',
           collapsible: true,
           children: [
-            { text: 'Authority Management(V2.0.2)', link: 'Authority-Management' },
+            { text: 'Authority Management', link: 'Authority-Management' },
           ],
         },
         { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
