@@ -165,7 +165,6 @@ export const enSidebar = {
             { text: 'Featured Functions', link: 'Featured-Functions' },
           ],
         },
-        { text: 'System Tables(V2.0.2)', link: 'System-Tables' },
       ],
     },
     {
@@ -185,6 +184,7 @@ export const enSidebar = {
         { text: 'Sample Data', link: 'Sample-Data' },
         { text: 'Config Manual', link: 'System-Config-Manual' },
         { text: 'Status Codes', link: 'Status-Codes' },
+        { text: 'System Tables(V2.0.2)', link: 'System-Tables' },
       ],
     },
   ],

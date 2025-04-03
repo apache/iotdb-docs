@@ -157,7 +157,6 @@ export const zhSidebar = {
             { text: '特色函数', link: 'Featured-Functions' },
           ],
         },
-        { text: '系统表(V2.0.2)', link: 'System-Tables' },
       ],
     },
     {
@@ -177,6 +176,7 @@ export const zhSidebar = {
         { text: '示例数据', link: 'Sample-Data' },
         { text: '配置参数', link: 'System-Config-Manual' },
         { text: '状态码', link: 'Status-Codes' },
+        { text: '系统表(V2.0.2)', link: 'System-Tables' },
       ],
     },
   ],
