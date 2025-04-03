@@ -97,7 +97,7 @@ export const enSidebar = {
       prefix: 'User-Manual/',
       children: [
         { text: 'Data Sync', link: 'Data-Sync_timecho' },
-        { text: 'UDF(V2.0.2)', link: 'User-defined-function' },
+        { text: 'UDF', link: 'User-defined-function' },
         { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
         {
           text: 'System Maintenance',

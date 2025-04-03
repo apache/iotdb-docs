@@ -93,7 +93,7 @@ export const enSidebar = {
       prefix: 'User-Manual/',
       children: [
         { text: 'Data Sync', link: 'Data-Sync_apache' },
-        { text: 'UDF(V2.0.2)', link: 'User-defined-function' },
+        { text: 'UDF', link: 'User-defined-function' },
         {
           text: 'System Maintenance',
           collapsible: true,
