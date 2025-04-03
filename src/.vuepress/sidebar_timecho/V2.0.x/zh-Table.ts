@@ -88,6 +88,11 @@ export const zhSidebar = {
       prefix: 'User-Manual/',
       children: [
         { text: '数据同步', link: 'Data-Sync_timecho' },
+        {
+          text: '安全权限',
+          collapsible: true,
+          children: [{ text: '权限管理', link: 'Authority-Management' }],
+        },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
         {
           text: '系统运维',

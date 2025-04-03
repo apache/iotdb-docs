@@ -87,6 +87,11 @@ export const zhSidebar = {
       children: [
         { text: '数据同步', link: 'Data-Sync_apache' },
         {
+          text: '安全权限',
+          collapsible: true,
+          children: [{ text: '权限管理', link: 'Authority-Management' }],
+        },
+        {
           text: '系统运维',
           collapsible: true,
           children: [
