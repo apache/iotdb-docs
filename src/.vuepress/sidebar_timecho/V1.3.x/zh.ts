@@ -122,7 +122,7 @@ export const zhSidebar = {
           ],
         },
         {
-          text: '运维语句',
+          text: '系统运维',
           collapsible: true,
           children: [
             { text: '查询性能分析', link: 'Query-Performance-Analysis' },

@@ -113,7 +113,7 @@ export const zhSidebar = {
           children: [{ text: '权限管理', link: 'Authority-Management' }],
         },
         {
-          text: '运维语句',
+          text: '系统运维',
           collapsible: true,
           children: [
             { text: '查询性能分析', link: 'Query-Performance-Analysis' },
