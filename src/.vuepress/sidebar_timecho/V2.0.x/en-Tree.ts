@@ -130,7 +130,7 @@ export const enSidebar = {
           ],
         },
         {
-          text: 'Maintenance SQL',
+          text: 'System Maintenance',
           collapsible: true,
           children: [
             { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis' },
