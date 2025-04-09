@@ -195,16 +195,17 @@ Example Output:
 
 ```SQL
 IoTDB> SHOW PIPEPLUGINS
-+------------------------------+----------+--------------------------------------------------------------------------------------------------+----------------------------------------------------+
-|                    PluginName|PluginType|                                                                                         ClassName|                                           PluginJar|
-+------------------------------+----------+--------------------------------------------------------------------------------------------------+----------------------------------------------------+
-|          DO-NOTHING-PROCESSOR|   Builtin|               org.apache.iotdb.commons.pipe.plugin.builtin.processor.donothing.DoNothingProcessor|                                                    |
-|               DO-NOTHING-SINK|   Builtin|               org.apache.iotdb.commons.pipe.plugin.builtin.connector.donothing.DoNothingConnector|                                                    |
-|            IOTDB-AIR-GAP-SINK|   Builtin|          org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.airgap.IoTDBAirGapConnector|                                                    |
-|                  IOTDB-SOURCE|   Builtin|                       org.apache.iotdb.commons.pipe.plugin.builtin.extractor.iotdb.IoTDBExtractor|                                                    |
-|             IOTDB-THRIFT-SINK|   Builtin|          org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftConnector|                                                    |
-|         IOTDB-THRIFT-SSL-SINK|   Builtin|       org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftSslConnector|                                                    |
-+------------------------------+----------+--------------------------------------------------------------------------------------------------+----------------------------------------------------+
++---------------------+----------+-------------------------------------------------------------------------------------------------+---------+
+|           PluginName|PluginType|                                                                                        ClassName|PluginJar|
++---------------------+----------+-------------------------------------------------------------------------------------------------+---------+
+| DO-NOTHING-PROCESSOR|   Builtin|        org.apache.iotdb.commons.pipe.agent.plugin.builtin.processor.donothing.DoNothingProcessor|         |
+|      DO-NOTHING-SINK|   Builtin|        org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.donothing.DoNothingConnector|         |
+|   IOTDB-AIR-GAP-SINK|   Builtin|   org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.iotdb.airgap.IoTDBAirGapConnector|         |
+|         IOTDB-SOURCE|   Builtin|                org.apache.iotdb.commons.pipe.agent.plugin.builtin.extractor.iotdb.IoTDBExtractor|         |
+|    IOTDB-THRIFT-SINK|   Builtin|   org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.iotdb.thrift.IoTDBThriftConnector|         |
+|IOTDB-THRIFT-SSL-SINK|   Builtin|org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.iotdb.thrift.IoTDBThriftSslConnector|         |
+|      WRITE-BACK-SINK|   Builtin|        org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.writeback.WriteBackConnector|         |
++---------------------+----------+-------------------------------------------------------------------------------------------------+---------+
 ```
 
 Detailed introduction of pre-installed plugins is as follows (for detailed parameters of each plugin, please refer to the [Parameter Description](#reference-parameter-description):
