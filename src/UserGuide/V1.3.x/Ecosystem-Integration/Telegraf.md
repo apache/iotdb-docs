@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Telegraf
+# Telegraf(IoTDB)
 
 ## 1、Product Overview
 

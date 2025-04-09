@@ -19,7 +19,7 @@
 
 -->
 
-# System Tables (V2.0.2)
+# System Tables
 
 IoTDB has a built-in system database called `INFORMATION_SCHEMA`, which contains a series of system tables for storing IoTDB runtime information (such as currently executing SQL statements, etc.). Currently, the `INFORMATION_SCHEMA` database only supports read operations.
 

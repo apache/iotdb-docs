@@ -19,7 +19,7 @@
 
 -->
 
-# Apache Zeppelin
+# Apache Zeppelin(IoTDB)
 
 ## 1. About Zeppelin
 
