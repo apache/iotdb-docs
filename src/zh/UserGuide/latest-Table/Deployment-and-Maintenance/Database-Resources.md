@@ -97,35 +97,35 @@
       </tr>
       <tr>
             <td>10W以内</td>
-            <td>4G-8G</td>
+            <td>2G-4G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>30W以内</td>
-            <td>12G-32G</td>
+            <td>6G-12G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>50W以内</td>
-            <td>24G-48G</td>
+            <td>12G-24G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>100W以内</td>
-            <td>32G-96G</td>
+            <td>24G-48G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>200w以内</td>
-            <td>64G-128G</td>
+            <td>24G-96G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
