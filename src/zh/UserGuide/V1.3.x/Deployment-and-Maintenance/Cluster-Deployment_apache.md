@@ -299,7 +299,7 @@ Total line number = 3
 It costs 0.030s
 ```
 
-然后使用脚本将DataNode移除。脚本命令：
+然后使用脚本将ConfigNode移除。脚本命令：
 
 ```Bash
 # Linux / MacOS 

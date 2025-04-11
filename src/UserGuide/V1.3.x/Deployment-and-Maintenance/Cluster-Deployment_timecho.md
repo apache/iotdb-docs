@@ -340,7 +340,7 @@ Total line number = 3
 It costs 0.030s
 ```
 
-Then use the script to remove the DataNode. Script command:
+Then use the script to remove the ConfigNode. Script command:
 
 ```Bash
 # Linux / MacOS 
