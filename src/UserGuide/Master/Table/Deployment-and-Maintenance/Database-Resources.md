@@ -96,35 +96,35 @@
       </tr>
       <tr>
             <td>Within 100000</td>
-            <td>4-8G</td>
+            <td>2-4G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>Within 300000</td>
-            <td>12-32G</td>
+            <td>6-12G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>Within 500000</td>
-            <td>24-48G</td>
+            <td>12-24G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>Within 1000000</td>
-            <td>32-96G</td>
+            <td>24-48G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>Within 2000000</td>
-            <td>64-128G</td>
+            <td>48-96G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
