@@ -189,18 +189,43 @@ export const zhSidebar = {
       prefix: 'Ecosystem-Integration/',
       // children: 'structure',
       children: [
-        { text: 'Apache Flink(IoTDB)', link: 'Flink-IoTDB' },
-        { text: 'Apache Flink(TsFile)', link: 'Flink-TsFile' },
-        { text: 'Apache Hive(TsFile)', link: 'Hive-TsFile' },
-        { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
-        { text: 'Apache Spark(TsFile)', link: 'Spark-TsFile' },
-        { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
-        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_apache' },
-        { text: 'DBeaver', link: 'DBeaver' },
-        { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
-        { text: 'Grafana插件', link: 'Grafana-Plugin' },
-        { text: 'Telegraf插件', link: 'Telegraf' },
-        { text: 'ThingsBoard', link: 'Thingsboard' },
+        {
+            text: '采集阶段',
+            collapsible: true,
+            children: [
+              { text: 'Telegraf插件(IoTDB)', link: 'Telegraf' },
+            ],
+          },
+          {
+            text: '处理阶段',
+            collapsible: true,
+            children: [
+              { text: 'Apache Flink(IoTDB)', link: 'Flink-IoTDB' },
+              { text: 'Apache Flink(TsFile)', link: 'Flink-TsFile' },
+              { text: 'Apache NiFi(IoTDB)', link: 'NiFi-IoTDB' },
+            ],
+          },
+          {
+            text: '分析阶段',
+            collapsible: true,
+            children: [
+              { text: 'Apache Hive(TsFile)', link: 'Hive-TsFile' },
+              { text: 'Apache Spark(TsFile)', link: 'Spark-TsFile' },
+              { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
+            ],
+          },
+          {
+            text: '应用阶段',
+            collapsible: true,
+            children: [
+              { text: 'Apache Zeppelin(IoTDB)', link: 'Zeppelin-IoTDB_apache' },
+              { text: 'DataEase(IoTDB)', link: 'DataEase' },
+              { text: 'DBeaver(IoTDB)', link: 'DBeaver' },
+              { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
+              { text: 'Grafana插件(IoTDB)', link: 'Grafana-Plugin' },
+              { text: 'ThingsBoard(IoTDB)', link: 'Thingsboard' },
+            ],
+          },
       ],
     },
     {

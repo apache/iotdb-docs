@@ -19,7 +19,7 @@
 
 -->
 
-# 系统表 (V2.0.2)
+# 系统表
 
 IoTDB 内置系统数据库 `INFORMATION_SCHEMA`，其中包含一系列系统表，用于存储 IoTDB 运行时信息（如当前正在执行的 SQL 语句等）。目前`INFORMATION_SCHEMA`数据库只支持读操作。
 

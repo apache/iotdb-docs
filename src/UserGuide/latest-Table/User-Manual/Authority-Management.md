@@ -19,7 +19,7 @@
 
 -->
 
-# Authority Management (V2.0.2)
+# Authority Management
 
 IoTDB provides permission management functionality to implement fine-grained access control for data and cluster systems, ensuring data and system security. This document introduces the basic concepts, user definitions, permission management, authentication logic, and functional use cases of the permission module in IoTDB's table model.
 

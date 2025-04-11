@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Ignition
+# Ignition(IoTDB)
 
 ## 1. 产品概述
 

@@ -136,7 +136,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Ecosystem-Integration/',
       children: [
-        { text: 'DBeaver', link: 'DBeaver' },
+        { text: 'DBeaver(IoTDB)', link: 'DBeaver' },
       ],
     },
     {
