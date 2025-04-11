@@ -193,16 +193,17 @@ SHOW PIPEPLUGINS
 
 ```SQL
 IoTDB> SHOW PIPEPLUGINS
-+------------------------------+----------+--------------------------------------------------------------------------------------------------+----------------------------------------------------+
-|                    PluginName|PluginType|                                                                                         ClassName|                                           PluginJar|
-+------------------------------+----------+--------------------------------------------------------------------------------------------------+----------------------------------------------------+
-|          DO-NOTHING-PROCESSOR|   Builtin|               org.apache.iotdb.commons.pipe.plugin.builtin.processor.donothing.DoNothingProcessor|                                                    |
-|               DO-NOTHING-SINK|   Builtin|               org.apache.iotdb.commons.pipe.plugin.builtin.connector.donothing.DoNothingConnector|                                                    |
-|            IOTDB-AIR-GAP-SINK|   Builtin|          org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.airgap.IoTDBAirGapConnector|                                                    |
-|                  IOTDB-SOURCE|   Builtin|                       org.apache.iotdb.commons.pipe.plugin.builtin.extractor.iotdb.IoTDBExtractor|                                                    |
-|             IOTDB-THRIFT-SINK|   Builtin|          org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftConnector|                                                    |
-|         IOTDB-THRIFT-SSL-SINK|   Builtin|       org.apache.iotdb.commons.pipe.plugin.builtin.connector.iotdb.thrift.IoTDBThriftSslConnector|                                                    |
-+------------------------------+----------+--------------------------------------------------------------------------------------------------+----------------------------------------------------+
++---------------------+----------+-------------------------------------------------------------------------------------------------+---------+
+|           PluginName|PluginType|                                                                                        ClassName|PluginJar|
++---------------------+----------+-------------------------------------------------------------------------------------------------+---------+
+| DO-NOTHING-PROCESSOR|   Builtin|        org.apache.iotdb.commons.pipe.agent.plugin.builtin.processor.donothing.DoNothingProcessor|         |
+|      DO-NOTHING-SINK|   Builtin|        org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.donothing.DoNothingConnector|         |
+|   IOTDB-AIR-GAP-SINK|   Builtin|   org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.iotdb.airgap.IoTDBAirGapConnector|         |
+|         IOTDB-SOURCE|   Builtin|                org.apache.iotdb.commons.pipe.agent.plugin.builtin.extractor.iotdb.IoTDBExtractor|         |
+|    IOTDB-THRIFT-SINK|   Builtin|   org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.iotdb.thrift.IoTDBThriftConnector|         |
+|IOTDB-THRIFT-SSL-SINK|   Builtin|org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.iotdb.thrift.IoTDBThriftSslConnector|         |
+|      WRITE-BACK-SINK|   Builtin|        org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.writeback.WriteBackConnector|         |
++---------------------+----------+-------------------------------------------------------------------------------------------------+---------+
 ```
 
 预置插件详细介绍如下(各插件的详细参数可参考本文[参数说明](#参考参数说明))：
