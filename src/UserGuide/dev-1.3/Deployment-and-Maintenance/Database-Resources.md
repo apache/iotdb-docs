@@ -96,35 +96,35 @@
       </tr>
       <tr>
             <td>Within 100000</td>
-            <td>4G-8G</td>
+            <td>2G-4G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>Within 300000</td>
-            <td>12G-32G</td>
+            <td>6G-12G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>Within 500000</td>
-            <td>24G-48G</td>
+            <td>12G-24G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>Within 1000000</td>
-            <td>32G-96G</td>
+            <td>24G-48G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
       </tr>
       <tr>
             <td>Within 2000000</td>
-            <td>64G-128G</td>
+            <td>48G-96G</td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
