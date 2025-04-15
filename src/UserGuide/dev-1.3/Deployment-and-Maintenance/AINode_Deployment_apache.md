@@ -27,7 +27,7 @@
  AINode is the third type of endogenous node provided by IoTDB after the Configurable Node and DataNode. This node extends its ability to perform machine learning analysis on time series by interacting with the DataNode and Configurable Node of the IoTDB cluster. It supports the introduction of existing machine learning models from external sources for registration and the use of registered models to complete time series analysis tasks on specified time series data through simple SQL statements. The creation, management, and inference of models are integrated into the database engine. Currently, machine learning algorithms or self-developed models are available for common time series analysis scenarios, such as prediction and anomaly detection.
 
 ### Delivery Method
- It is an additional package outside the IoTDB cluster, with independent installation and activation (if you need to try or use it, please contact Timecho Technology Business or Technical Support).
+ It is an additional package outside the IoTDB cluster, with independent installation and activation.
 
 ### Deployment mode
 <div >
@@ -42,7 +42,7 @@
  Users can download the software installation package for AINode, download and unzip it to complete the installation of AINode.
 
  Unzip and install the package
- `(iotdb-enterprise-ainode-<version>.zip)`， The directory structure after unpacking the installation package is as follows:
+ `(apache-iotdb-<version>-ainode-bin.zip)`， The directory structure after unpacking the installation package is as follows:
 | **Catalogue**     | **Type** | **Explain**                                         |
 | ------------ | -------- | ------------------------------------------------ |
 | lib          | folder   | AINode compiled binary executable files and related code dependencies |
@@ -57,12 +57,12 @@
 - Suggested operating environment：Ubuntu, CentOS, MacOS  
 
 - Runtime Environment   
-  - Python>=3.8 and Python <= 3.14 is sufficient in a networked environment, and comes with pip and venv tools; Python 3.8 version is required for non networked environments, and download the zip package for the corresponding operating system from [here](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) (Note that when downloading dependencies, you need to select the zip file in the libs folder, as shown in the following figure). Copy all files in the folder to the `lib` folder in the `iotdb-enterprise-ainode-<version>` folder, and follow the steps below to start AINode.
+  - Python>=3.8 and Python <= 3.14 is sufficient in a networked environment, and comes with pip and venv tools; Python 3.8 version is required for non networked environments, and download the zip package for the corresponding operating system from [here](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) (Note that when downloading dependencies, you need to select the zip file in the libs folder, as shown in the following figure). Copy all files in the folder to the `lib` folder in the `apache-iotdb-<version>-ainode-bin` folder, and follow the steps below to start AINode.
 
      <img src="/img/AINode%E9%83%A8%E7%BD%B2%E7%8E%AF%E5%A2%83.png" alt="" style="width: 80%;"/>
 
   - There must be a Python interpreter in the environment variables that can be directly called through the `python` instruction.
-  - It is recommended to create a Python interpreter venv virtual environment in the `iotdb-enterprise-ainode-<version>` folder. If installing version 3.8.0 virtual environment, the statement is as follows:
+  - It is recommended to create a Python interpreter venv virtual environment in the `apache-iotdb-<version>-ainode-bin` folder. If installing version 3.8.0 virtual environment, the statement is as follows:
     ```shell
       # Install version 3.8.0 of Venv , Create a virtual environment with the folder name `venv`.
       ../Python-3.8.0/python -m venv `venv`

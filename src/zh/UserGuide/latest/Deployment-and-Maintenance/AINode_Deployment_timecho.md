@@ -27,7 +27,7 @@
 AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，该节点通过与 IoTDB 集群的 DataNode、ConfigNode 的交互，扩展了对时间序列进行机器学习分析的能力，支持从外部引入已有机器学习模型进行注册，并使用注册的模型在指定时序数据上通过简单 SQL 语句完成时序分析任务的过程，将模型的创建、管理及推理融合在数据库引擎中。目前已提供常见时序分析场景（例如预测与异常检测）的机器学习算法或自研模型。
 
 ### 1.2 交付方式
- 是 IoTDB 集群外的额外套件，独立安装包，独立激活（如需试用或使用，请联系天谋科技商务或技术支持）。
+ 是 IoTDB 集群外的额外套件，独立安装包，独立激活。
 
 ### 1.3 部署模式
 <div >
@@ -41,7 +41,7 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
 
  用户可以下载AINode的软件安装包，下载并解压后即完成AINode的安装。
 
- 解压后安装包（`iotdb-enterprise-ainode-<version>.zip`），安装包解压后目录结构如下：
+ 解压后安装包（`apache-iotdb-<version>-ainode-bin.zip`），安装包解压后目录结构如下：
 | **目录**     | **类型** | **说明**                                         |
 | ------------ | -------- | ------------------------------------------------ |
 | lib          | 文件夹   | AINode编译后的二进制可执行文件以及相关的代码依赖 |
@@ -56,12 +56,12 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
 - 建议操作环境: Ubuntu, CentOS, MacOS  
 
 - 运行环境   
-    - 联网环境下 Python >= 3.8即可，且带有 pip 和 venv 工具；非联网环境下需要使用 Python 3.8版本，并从 [此处](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) 下载对应操作系统的zip压缩包（注意下载依赖需选择libs文件夹中的zip压缩包，如下图），并将文件夹下的所有文件拷贝到 `iotdb-enterprise-ainode-<version>` 文件夹中 `lib` 文件夹下，并按下文步骤启动AINode。 
+    - 联网环境下 Python >= 3.8即可，且带有 pip 和 venv 工具；非联网环境下需要使用 Python 3.8版本，并从 [此处](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) 下载对应操作系统的zip压缩包（注意下载依赖需选择libs文件夹中的zip压缩包，如下图），并将文件夹下的所有文件拷贝到 `apache-iotdb-<version>-ainode-bin` 文件夹中 `lib` 文件夹下，并按下文步骤启动AINode。 
 
       <img src="/img/AINode%E9%83%A8%E7%BD%B23.png" alt="" style="width: 80%;"/>
     
     - 环境变量中需存在 Python 解释器且可以通过 `python` 指令直接调用
-    - 建议在 `iotdb-enterprise-ainode-<version>` 文件夹下，新建 Python 解释器 venv 虚拟环境。如安装 3.8.0 版本虚拟环境，语句如下：
+    - 建议在 `apache-iotdb-<version>-ainode-bin` 文件夹下，新建 Python 解释器 venv 虚拟环境。如安装 3.8.0 版本虚拟环境，语句如下：
     
       ```shell
       # 安装3.8.0版本的venv，创建虚拟环境，文件夹名为 `venv`
@@ -73,7 +73,7 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
 
 1. AINode 激活
 
- 要求 IoTDB 处于正常运行状态，且 license 中有 AINode 模块授权（通常 license 中不具有 AINode 授权，可联系天谋商务或技术支持人员获取 AINode 模块授权）。
+ 要求 IoTDB 处于正常运行状态，且 license 中有 AINode 模块授权。
 
  激活 AINode 模块授权方式如下：
  - 方式一：激活文件拷贝激活
