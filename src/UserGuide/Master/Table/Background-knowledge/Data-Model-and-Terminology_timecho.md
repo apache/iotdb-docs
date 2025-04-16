@@ -64,8 +64,8 @@ The following table compares the tree model and the table model from various dim
         </tr>
         <tr>
             <td>Syntax Characteristics</td>
-            <td>Concise</td>
-            <td>Standardized</td>
+            <td>Concise and flexible</td>
+            <td>Rich analysis</td>
         </tr>
         <tr>
             <td>Performance Comparison</td>
