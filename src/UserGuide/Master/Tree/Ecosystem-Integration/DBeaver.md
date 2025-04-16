@@ -90,3 +90,7 @@ DBeaver is a SQL client software application and a database administration tool.
 11. Enjoy IoTDB with DBeaver
 
    ![](/img/UserGuide/Ecosystem-Integration/DBeaver/09.png)
+
+12. DBeaver tree structure display
+
+   ![](/img/dbeaver01.png)

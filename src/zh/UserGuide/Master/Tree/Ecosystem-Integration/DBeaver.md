@@ -81,3 +81,8 @@ DBeaver 是一个 SQL 客户端和数据库管理工具。DBeaver 可以使用 I
 11. 可以开始通过 DBeaver 使用 IoTDB
 
    ![](/img/UserGuide/Ecosystem-Integration/DBeaver/09.png)
+
+12. DBeaver 树型结构展示
+
+   ![](/img/dbeaver01.png)
+
