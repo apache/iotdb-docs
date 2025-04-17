@@ -78,8 +78,7 @@ By declaratively configuring these three parts in an SQL statement, flexible dat
 
 ### 1.2 Functional Limitations and Notes
 
-- Supports data synchronization from IoTDB version 1.x series to version 2.x and later.
-- Does not support data synchronization from IoTDB version 2.x series to version 1.x series.
+- Data synchronization between IoTDB of 1. x series version and IoTDB of 2. x and above series versions is not supported.
 - When performing data synchronization tasks, avoid executing any deletion operations to prevent inconsistencies between the two ends.
 - The `pipe` and `pipe plugins` for tree models and table models are designed to be isolated from each other. Before creating a `pipe`, it is recommended to first use the `show` command to query the built-in plugins available under the current `-sql_dialect` parameter configuration to ensure syntax compatibility and functional support.
 
