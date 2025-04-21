@@ -128,6 +128,7 @@ export const zhSidebar = {
         { text: 'C++原生接口', link: 'Programming-Cpp-Native-API' },
         { text: 'C#原生接口', link: 'Programming-CSharp-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
+        { text: 'MQTT协议', link: 'Programming-MQTT' },
         { text: 'RESTAPI V1 ', link: 'RestServiceV1' },
       ],
     },
