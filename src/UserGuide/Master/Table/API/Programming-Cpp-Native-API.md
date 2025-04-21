@@ -171,7 +171,7 @@ All operations in the C++ client are performed through the TableSession class. B
 4. `open(bool enableRPCCompression = false)`: Opens the connection and determines whether to enable RPC compression (client state must match server state, disabled by default).
 5. `close()`: Closes the connection.
 
-### 3.1.2 Interface Display
+#### 3.1.2 Interface Display
 
 ```cpp
 class TableSession {
