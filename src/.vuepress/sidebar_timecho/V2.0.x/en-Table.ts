@@ -137,6 +137,7 @@ export const enSidebar = {
         { text: 'Java Native API', link: 'Programming-Java-Native-API_timecho' },
         { text: 'Python Native API', link: 'Programming-Python-Native-API' },
         { text: 'C++ Native API', link: 'Programming-Cpp-Native-API' },
+        { text: 'GO Native API', link: 'Programming-Go-Native-API' },
         { text: 'C# Native API', link: 'Programming-CSharp-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
         { text: 'RESTAPI V1 ', link: 'RestAPI-V1' },
