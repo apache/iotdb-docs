@@ -16,15 +16,11 @@
 * limitations under the License.
 -->
 
-# JDBC (Not Recommend)
+# JDBC
 
-::: warning
-
-NOTICE: CURRENTLY, JDBC IS USED FOR CONNECTING SOME THIRD-PART TOOLS.
-IT CAN NOT PROVIDE HIGH THROUGHPUT FOR WRITE OPERATIONS.
+**Note**: The current JDBC implementation is only for connecting with third-party tools. We do not recommend using JDBC (when executing insert statements) as it cannot provide high-performance writing. For queries, we recommend using JDBC.
 PLEASE USE [Java Native API](./Programming-Java-Native-API.md) INSTEAD
 
-:::
 
 ## Dependencies
 

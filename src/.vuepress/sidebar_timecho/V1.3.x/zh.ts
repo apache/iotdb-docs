@@ -180,7 +180,7 @@ export const zhSidebar = {
         { text: 'C#原生接口', link: 'Programming-CSharp-Native-API' },
         { text: 'Node.js原生接口', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust', link: 'Programming-Rust-Native-API' },
-        { text: 'JDBC (不推荐)', link: 'Programming-JDBC' },
+        { text: 'JDBC', link: 'Programming-JDBC' },
         { text: 'MQTT协议', link: 'Programming-MQTT' },
         { text: 'OPC UA协议', link: 'Programming-OPC-UA_timecho' },
         { text: 'Kafka', link: 'Programming-Kafka' },
