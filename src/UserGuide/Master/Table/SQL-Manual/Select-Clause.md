@@ -61,14 +61,14 @@ Usage scenarios for DISTINCT:
 
 `COLUMNS` Function:
 
-- **`COLUMNS(*)`**: Matches all columns and supports combining with expressions.
-- **`COLUMNS(regexStr) ? AS identifier`**: Regular expression matching
-  - Selects columns whose names match the specified regular expression `(regexStr)` and supports combining with expressions.
-  - Allows renaming columns by referencing groups captured by the regular expression. If `AS` is omitted, the original column name is displayed in the format `_coln_original_name` (where `n` is the column’s position in the result table).
-  - Renaming Syntax:
-    - Use parentheses () in regexStr to define capture groups.
-    - Reference captured groups in identifier using `'$index'`.
-    - Note: The identifier must be enclosed in double quotes if it contains special characters like `$`.
+1. **`COLUMNS(*)`**: Matches all columns and supports combining with expressions.
+2. **`COLUMNS(regexStr) ? AS identifier`**: Regular expression matching
+   - Selects columns whose names match the specified regular expression `(regexStr)` and supports combining with expressions.
+   - Allows renaming columns by referencing groups captured by the regular expression. If `AS` is omitted, the original column name is displayed in the format `_coln_original_name` (where `n` is the column’s position in the result table).
+   - Renaming Syntax:
+     - Use parentheses () in regexStr to define capture groups.
+     - Reference captured groups in identifier using `'$index'`.
+     - Note: The identifier must be enclosed in double quotes if it contains special characters like `$`.
 
 ## 3. Example Data
 
