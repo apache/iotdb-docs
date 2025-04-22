@@ -184,7 +184,7 @@ C++ 客户端的操作均通过 TableSession 类进行，下面将给出 TableSe
 4. `open(bool enableRPCCompression = false)`，开启连接，并决定是否启用RPC压缩(客户端状态须与服务端一致，默认不开启)。
 5. `close()`，关闭连接。
 
-### 3.1.2 接口展示
+#### 3.1.2 接口展示
 
 ```cpp
 class TableSession {
