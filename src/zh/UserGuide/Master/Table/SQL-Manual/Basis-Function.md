@@ -120,6 +120,32 @@ SELECT * FROM table1 WHERE temperature IN (85.0, 90.0);
 SELECT * FROM table1 WHERE region NOT IN ('北京', '上海');
 ```
 
+### 1.5 GREATEST 和 LEAST
+
+`Greatest` 函数用于返回参数列表中的最大值，`Least` 函数用于返回参数列表中的最小值，返回数据类型与输入类型相同。
+1. 空值处理：若所有参数均为 NULL，则返回 NULL。
+2. 参数要求：必须提供 至少 2 个参数。
+3. 类型约束：仅支持 相同数据类型 的参数比较。
+4. 支持类型： `BOOLEAN`、`FLOAT`、`DOUBLE`、`INT32`、`INT64`、`STRING`、`TEXT`、`TIMESTAMP`、`DATE`
+
+**语法：**
+
+```sql
+  greatest(value1, value2, ..., valueN)
+  least(value1, value2, ..., valueN)
+```
+
+**示例：**
+
+```sql
+-- 查询 table2 中 temperature 和 humidity 的最大记录
+SELECT GREATEST(temperature,humidity) FROM table2;
+
+-- 查询 table2 中 temperature 和 humidity 的最小记录
+SELECT LEAST(temperature,humidity) FROM table2;
+```
+
+
 ## 2. 聚合函数
 
 ### 2.1 概述
@@ -127,29 +153,30 @@ SELECT * FROM table1 WHERE region NOT IN ('北京', '上海');
 1. 聚合函数是多对一函数。它们对一组值进行聚合计算，得到单个聚合结果。
 2. 除了 `COUNT()`之外，其他所有聚合函数都忽略空值，并在没有输入行或所有值为空时返回空值。 例如，`SUM()` 返回 null 而不是零，而 `AVG()` 在计数中不包括 null 值。
 
-### 2.2 支持的聚合函数                          
+### 2.2 支持的聚合函数
 
-| 函数名      | 功能描述                                                     | 允许的输入类型           | 输出类型                      |
-| ----------- | ------------------------------------------------------------ | ------------------------ | ----------------------------- |
-| COUNT       | 计算数据点数。                                               | 所有类型                 | INT64                         |
-| SUM         | 求和。                                                       | INT32 INT64 FLOAT DOUBLE | DOUBLE                        |
-| AVG         | 求平均值。                                                   | INT32 INT64 FLOAT DOUBLE | DOUBLE                        |
-| MAX         | 求最大值。                                                   | 所有类型                 | 与输入类型一致                |
-| MIN         | 求最小值。                                                   | 所有类型                 | 与输入类型一致                |
-| FIRST       | 求时间戳最小且不为 NULL 的值。                               | 所有类型                 | 与输入类型一致                |
-| LAST        | 求时间戳最大且不为 NULL 的值。                               | 所有类型                 | 与输入类型一致                |
-| STDDEV      | STDDEV_SAMP 的别名，求样本标准差。                           | INT32 INT64 FLOAT DOUBLE | DOUBLE                        |
-| STDDEV_POP  | 求总体标准差。                                               | INT32 INT64 FLOAT DOUBLE | DOUBLE                        |
-| STDDEV_SAMP | 求样本标准差。                                               | INT32 INT64 FLOAT DOUBLE | DOUBLE                        |
-| VARIANCE    | VAR_SAMP 的别名，求样本方差。                                | INT32 INT64 FLOAT DOUBLE | DOUBLE                        |
-| VAR_POP     | 求总体方差。                                                 | INT32 INT64 FLOAT DOUBLE | DOUBLE                        |
-| VAR_SAMP    | 求样本方差。                                                 | INT32 INT64 FLOAT DOUBLE | DOUBLE                        |
-| EXTREME     | 求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。 | INT32 INT64 FLOAT DOUBLE | 与输入类型一致                |
-| MODE        | 求众数。注意： 1.输入序列的不同值个数过多时会有内存异常风险; 2.如果所有元素出现的频次相同，即没有众数，则随机返回一个元素; 3.如果有多个众数，则随机返回一个众数； 4. NULL 值也会被统计频次，所以即使输入序列的值不全为 NULL，最终结果也可能为 NULL。 | 所有类型                 | 与输入类型一致                |
-| MAX_BY      | MAX_BY(x, y) 求二元输入 x 和 y 在 y 最大时对应的 x 的值。MAX_BY(time, x) 返回 x 取最大值时对应的时间戳。 | x 和 y 可以是任意类型    | 与第一个输入 x 的数据类型一致 |
-| MIN_BY      | MIN_BY(x, y) 求二元输入 x 和 y 在 y 最小时对应的 x 的值。MIN_BY(time, x) 返回 x 取最小值时对应的时间戳。 | x 和 y 可以是任意类型    | 与第一个输入 x 的数据类型一致 |
-| FIRST_BY    | FIRST_BY(x, y) 求当 y 为第一个不为 NULL 的值时，同一行里对应的 x 值。 | x 和 y 可以是任意类型    | 与第一个输入 x 的数据类型一致 |
-| LAST_BY     | LAST_BY(x, y) 求当 y 为最后一个不为 NULL 的值时，同一行里对应的 x 值。 | x 和 y 可以是任意类型    | 与第一个输入 x 的数据类型一致 |
+| 函数名      | 功能描述                                                     | 允许的输入类型                                       | 输出类型             |
+| ----------- | ------------------------------------------------------------ |-----------------------------------------------|------------------|
+| COUNT       | 计算数据点数。                                               | 所有类型                                          | INT64            |
+| SUM         | 求和。                                                       | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
+| AVG         | 求平均值。                                                   | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
+| MAX         | 求最大值。                                                   | 所有类型                                          | 与输入类型一致          |
+| MIN         | 求最小值。                                                   | 所有类型                                          | 与输入类型一致          |
+| FIRST       | 求时间戳最小且不为 NULL 的值。                               | 所有类型                                          | 与输入类型一致          |
+| LAST        | 求时间戳最大且不为 NULL 的值。                               | 所有类型                                          | 与输入类型一致          |
+| STDDEV      | STDDEV_SAMP 的别名，求样本标准差。                           | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
+| STDDEV_POP  | 求总体标准差。                                               | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
+| STDDEV_SAMP | 求样本标准差。                                               | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
+| VARIANCE    | VAR_SAMP 的别名，求样本方差。                                | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
+| VAR_POP     | 求总体方差。                                                 | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
+| VAR_SAMP    | 求样本方差。                                                 | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
+| EXTREME     | 求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。 | INT32 INT64 FLOAT DOUBLE                      | 与输入类型一致          |
+| MODE        | 求众数。注意： 1.输入序列的不同值个数过多时会有内存异常风险; 2.如果所有元素出现的频次相同，即没有众数，则随机返回一个元素; 3.如果有多个众数，则随机返回一个众数； 4. NULL 值也会被统计频次，所以即使输入序列的值不全为 NULL，最终结果也可能为 NULL。 | 所有类型                                          | 与输入类型一致          |
+| MAX_BY      | MAX_BY(x, y) 求二元输入 x 和 y 在 y 最大时对应的 x 的值。MAX_BY(time, x) 返回 x 取最大值时对应的时间戳。 | x 和 y 可以是任意类型                                 | 与第一个输入 x 的数据类型一致 |
+| MIN_BY      | MIN_BY(x, y) 求二元输入 x 和 y 在 y 最小时对应的 x 的值。MIN_BY(time, x) 返回 x 取最小值时对应的时间戳。 | x 和 y 可以是任意类型                                 | 与第一个输入 x 的数据类型一致 |
+| FIRST_BY    | FIRST_BY(x, y) 求当 y 为第一个不为 NULL 的值时，同一行里对应的 x 值。 | x 和 y 可以是任意类型                                 | 与第一个输入 x 的数据类型一致 |
+| LAST_BY     | LAST_BY(x, y) 求当 y 为最后一个不为 NULL 的值时，同一行里对应的 x 值。 | x 和 y 可以是任意类型                                 | 与第一个输入 x 的数据类型一致 |
+| COUNT_IF    | COUNT_IF(exp) 用于统计满足指定布尔表达式的记录行数  | exp 必须是一个布尔类型的表达式，例如 count_if(temperature>20) | INT64            |
 
 ### 2.3 示例
 
@@ -298,6 +325,27 @@ select min_by(time, temperature), min_by(humidity, temperature) from table1;
 Total line number = 1
 It costs 0.244s
 ```
+
+### 2.3.9 Count_if
+
+统计 `table2` 中 到达时间 `arrival_time` 不是 `null` 的记录行数。
+
+```sql
+select count_if(arrival_time is not null) from table2;
+```
+
+执行结果如下：
+
+```sql
++-----+
+|_col0|
++-----+
+|    4|
++-----+
+Total line number = 1
+It costs 0.047s
+```
+
 
 ## 3. 逻辑运算符
 
@@ -636,31 +684,31 @@ It costs 0.319s
 
 ### 5.2 数学函数
 
-| 函数名       | 描述                                                                                                                                                         | 输入                        | 输出                   | 用法       |
-|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------| --------------------------- | ---------------------- | ---------- |
-| sin       | 正弦函数                                                                                                                                                       | double、float、INT64、INT32 | double                 | sin(x)     |
-| cos       | 余弦函数                                                                                                                                                       | double、float、INT64、INT32 | double                 | cos(x)     |
-| tan       | 正切函数                                                                                                                                                       | double、float、INT64、INT32 | double                 | tan(x)     |
-| asin      | 反正弦函数                                                                                                                                                      | double、float、INT64、INT32 | double                 | asin(x)    |
-| acos      | 反余弦函数                                                                                                                                                      | double、float、INT64、INT32 | double                 | acos(x)    |
-| atan      | 反正切函数                                                                                                                                                      | double、float、INT64、INT32 | double                 | atan(x)    |
-| sinh      | 双曲正弦函数                                                                                                                                                     | double、float、INT64、INT32 | double                 | sinh(x)    |
-| cosh      | 双曲余弦函数                                                                                                                                                     | double、float、INT64、INT32 | double                 | cosh(x)    |
-| tanh      | 双曲正切函数                                                                                                                                                     | double、float、INT64、INT32 | double                 | tanh(x)    |
-| degrees   | 将弧度角 x 转换为度                                                                                                                                                | double、float、INT64、INT32 | double                 | degrees(x) |
-| radians   | 将度转换为弧度                                                                                                                                                    | double、float、INT64、INT32 | double                 | radians(x) |
-| abs       | 绝对值                                                                                                                                                        | double、float、INT64、INT32 | 返回与输入类型相同的值 | abs(x)     |
-| sign      | 返回 x 的符号函数，即：如果参数为 0，则返回 0，如果参数大于 0，则返回 1，如果参数小于 0，则返回 -1。对于 double/float 类型的参数，函数还会返回：如果参数为 NaN，则返回 NaN，如果参数为 +Infinity，则返回 1.0，如果参数为 -Infinity，则返回 -1.0。 | double、float、INT64、INT32 | 返回与输入类型相同的值 | sign(x)    |
-| ceil      | 返回 x 向上取整到最近的整数。                                                                                                                                           | double、float、INT64、INT32 | double                 | ceil(x)    |
-| floor     | 返回 x 向下取整到最近的整数。                                                                                                                                           | double、float、INT64、INT32 | double                 | floor(x)   |
-| exp       | 返回欧拉数 e 的 x 次幂。                                                                                                                                            | double、float、INT64、INT32 | double                 | exp(x)     |
-| ln        | 返回 x 的自然对数。                                                                                                                                                | double、float、INT64、INT32 | double                 | ln(x)      |
-| log10     | 返回 x 的以 10 为底的对数。                                                                                                                                          | double、float、INT64、INT32 | double                 | log10(x)   |
-| round     | 返回 x 四舍五入到最近的整数。                                                                                                                                           | double、float、INT64、INT32 | double                 | round(x)   |
-| round     | 返回 x 四舍五入到 d 位小数。                                                                                                                                          | double、float、INT64、INT32                                  | double                      | round(x, d)     |
-| sqrt      | 返回 x 的平方根。                                                                                                                                                 | double、float、INT64、INT32 | double                 | sqrt(x)    |
-| e         | 自然指数                                                                                                                                                       |                             | double                 | e()        |
-| pi        | π                                                                                                                                                          |                             | double                 | pi()       |
+| 函数名               | 描述                                                                                                                                                         | 输入                               | 输出                   | 用法       |
+|-------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------| ---------------------- | ---------- |
+| sin               | 正弦函数                                                                                                                                                       | double、float、INT64、INT32         | double                 | sin(x)     |
+| cos               | 余弦函数                                                                                                                                                       | double、float、INT64、INT32         | double                 | cos(x)     |
+| tan               | 正切函数                                                                                                                                                       | double、float、INT64、INT32         | double                 | tan(x)     |
+| asin              | 反正弦函数                                                                                                                                                      | double、float、INT64、INT32         | double                 | asin(x)    |
+| acos              | 反余弦函数                                                                                                                                                      | double、float、INT64、INT32         | double                 | acos(x)    |
+| atan              | 反正切函数                                                                                                                                                      | double、float、INT64、INT32         | double                 | atan(x)    |
+| sinh              | 双曲正弦函数                                                                                                                                                     | double、float、INT64、INT32         | double                 | sinh(x)    |
+| cosh              | 双曲余弦函数                                                                                                                                                     | double、float、INT64、INT32         | double                 | cosh(x)    |
+| tanh              | 双曲正切函数                                                                                                                                                     | double、float、INT64、INT32         | double                 | tanh(x)    |
+| degrees           | 将弧度角 x 转换为度                                                                                                                                                | double、float、INT64、INT32         | double                 | degrees(x) |
+| radians           | 将度转换为弧度                                                                                                                                                    | double、float、INT64、INT32         | double                 | radians(x) |
+| abs               | 绝对值                                                                                                                                                        | double、float、INT64、INT32         | 返回与输入类型相同的值 | abs(x)     |
+| sign              | 返回 x 的符号函数，即：如果参数为 0，则返回 0，如果参数大于 0，则返回 1，如果参数小于 0，则返回 -1。对于 double/float 类型的参数，函数还会返回：如果参数为 NaN，则返回 NaN，如果参数为 +Infinity，则返回 1.0，如果参数为 -Infinity，则返回 -1.0。 | double、float、INT64、INT32         | 返回与输入类型相同的值 | sign(x)    |
+| ceil              | 返回 x 向上取整到最近的整数。                                                                                                                                           | double、float、INT64、INT32         | double                 | ceil(x)    |
+| floor             | 返回 x 向下取整到最近的整数。                                                                                                                                           | double、float、INT64、INT32         | double                 | floor(x)   |
+| exp               | 返回欧拉数 e 的 x 次幂。                                                                                                                                            | double、float、INT64、INT32         | double                 | exp(x)     |
+| ln                | 返回 x 的自然对数。                                                                                                                                                | double、float、INT64、INT32         | double                 | ln(x)      |
+| log10             | 返回 x 的以 10 为底的对数。                                                                                                                                          | double、float、INT64、INT32         | double                 | log10(x)   |
+| round             | 返回 x 四舍五入到最近的整数。                                                                                                                                           | double、float、INT64、INT32         | double                 | round(x)   |
+| round             | 返回 x 四舍五入到 d 位小数。                                                                                                                                          | double、float、INT64、INT32         | double                      | round(x, d)             |
+| sqrt              | 返回 x 的平方根。                                                                                                                                                 | double、float、INT64、INT32         | double                 | sqrt(x)    |
+| e                 | 自然指数                                                                                                                                                       |                                  | double                 | e()        |
+| pi                | π                                                                                                                                                          |                                  | double                 | pi()       |
 
 ## 6. 条件表达式
 

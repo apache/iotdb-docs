@@ -119,6 +119,33 @@ Example 3: Query records where region is not 'Beijing' or 'Shanghai'
 SELECT * FROM table1 WHERE region NOT IN ('Beijing', 'Shanghai');
 ```
 
+### 1.5 GREATEST and LEAST
+
+The `GREATEST` function returns the maximum value from a list of arguments, while the `LEAST` function returns the minimum value. The return type matches the input data type.
+
+Key Behaviors:
+1. NULL Handling: Returns NULL if all arguments are NULL.
+2. Parameter Requirements: Requires at least 2 arguments.
+3. Type Constraints: All arguments must have the same data type.
+4. Supported Types: `BOOLEAN`、`FLOAT`、`DOUBLE`、`INT32`、`INT64`、`STRING`、`TEXT`、`TIMESTAMP`、`DATE`
+
+**Syntax:**
+
+```sql
+  greatest(value1, value2, ..., valueN)
+  least(value1, value2, ..., valueN)
+```
+
+**Examples:**
+
+```sql
+-- Retrieve the maximum value between `temperature` and `humidity` in `table2`  
+SELECT GREATEST(temperature,humidity) FROM table2;
+
+-- Retrieve the minimum value between `temperature` and `humidity` in `table2`  
+SELECT LEAST(temperature,humidity) FROM table2;
+```
+
 ## 2. Aggregate functions
 
 ### 2.1 Overview
@@ -129,27 +156,28 @@ SELECT * FROM table1 WHERE region NOT IN ('Beijing', 'Shanghai');
 
 ### 2.2 Supported Aggregate Functions                            
 
-| Function Name | Description                                                  | Allowed Input Types        | Output Type                                |
-| :------------ | :----------------------------------------------------------- | :------------------------- | :----------------------------------------- |
-| COUNT         | Counts the number of data points.                            | All types                  | INT64                                      |
-| SUM           | Calculates the sum.                                          | INT32 INT64 FLOAT DOUBLE   | DOUBLE                                     |
-| AVG           | Calculates the average.                                      | INT32 INT64 FLOAT DOUBLE   | DOUBLE                                     |
-| MAX           | Finds the maximum value.                                     | All types                  | Same as input type                         |
-| MIN           | Finds the minimum value.                                     | All types                  | Same as input type                         |
-| FIRST         | Finds the value with the smallest timestamp that is not NULL. | All types                  | Same as input type                         |
-| LAST          | Finds the value with the largest timestamp that is not NULL. | All types                  | Same as input type                         |
-| STDDEV        | Alias for STDDEV_SAMP,  calculates the sample standard deviation. | INT32 INT64 FLOAT DOUBLE   | DOUBLE                                     |
-| STDDEV_POP    | Calculates the population standard deviation.                | INT32 INT64 FLOAT DOUBLE   | DOUBLE                                     |
-| STDDEV_SAMP   | Calculates the sample standard deviation.                    | INT32 INT64 FLOAT DOUBLE   | DOUBLE                                     |
-| VARIANCE      | Alias for VAR_SAMP,  calculates the sample variance.         | INT32 INT64 FLOAT DOUBLE   | DOUBLE                                     |
-| VAR_POP       | Calculates the population variance.                          | INT32 INT64 FLOAT DOUBLE   | DOUBLE                                     |
-| VAR_SAMP      | Calculates the sample variance.                              | INT32 INT64 FLOAT DOUBLE   | DOUBLE                                     |
-| EXTREME       | Finds the value with the largest absolute value. If the largest absolute values of positive and negative values are equal, returns the positive value. | INT32 INT64 FLOAT DOUBLE   | Same as input type                         |
-| MODE          | Finds the mode. Note: 1. There is a risk of memory exception when the number of distinct values in the input sequence is too large; 2. If all elements have the same frequency, i.e., there is no mode, a random element is returned; 3. If there are multiple modes, a random mode is returned; 4. NULL values are also counted in frequency, so even if not all values in the input sequence are NULL, the final result may still be NULL. | All types                  | Same as input type                         |
-| MAX_BY        | MAX_BY(x, y) finds the value of x corresponding to the maximum y in the binary input x and y. MAX_BY(time, x) returns the timestamp when x is at its maximum. | x and y can be of any type | Same as the data type of the first input x |
-| MIN_BY        | MIN_BY(x, y) finds the value of x corresponding to the minimum y in the binary input x and y. MIN_BY(time, x) returns the timestamp when x is at its minimum. | x and y can be of any type | Same as the data type of the first input x |
-| FIRST_BY      | FIRST_BY(x, y) finds the value of x in the same row when y is the first non-null value. | x and y can be of any type | Same as the data type of the first input x |
-| LAST_BY       | LAST_BY(x, y) finds the value of x in the same row when y is the last non-null value. | x and y can be of any type | Same as the data type of the first input x |
+| Function Name | Description                                                                                                                                                                                                                                                                                                                                                                                                                                  | Allowed Input Types                                                | Output Type                                |
+|:--------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------| :----------------------------------------- |
+| COUNT         | Counts the number of data points.                                                                                                                                                                                                                                                                                                                                                                                                            | All types                                                          | INT64                                      |
+| SUM           | Calculates the sum.                                                                                                                                                                                                                                                                                                                                                                                                                          | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
+| AVG           | Calculates the average.                                                                                                                                                                                                                                                                                                                                                                                                                      | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
+| MAX           | Finds the maximum value.                                                                                                                                                                                                                                                                                                                                                                                                                     | All types                                                          | Same as input type                         |
+| MIN           | Finds the minimum value.                                                                                                                                                                                                                                                                                                                                                                                                                     | All types                                                          | Same as input type                         |
+| FIRST         | Finds the value with the smallest timestamp that is not NULL.                                                                                                                                                                                                                                                                                                                                                                                | All types                                                          | Same as input type                         |
+| LAST          | Finds the value with the largest timestamp that is not NULL.                                                                                                                                                                                                                                                                                                                                                                                 | All types                                                          | Same as input type                         |
+| STDDEV        | Alias for STDDEV_SAMP,  calculates the sample standard deviation.                                                                                                                                                                                                                                                                                                                                                                            | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
+| STDDEV_POP    | Calculates the population standard deviation.                                                                                                                                                                                                                                                                                                                                                                                                | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
+| STDDEV_SAMP   | Calculates the sample standard deviation.                                                                                                                                                                                                                                                                                                                                                                                                    | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
+| VARIANCE      | Alias for VAR_SAMP,  calculates the sample variance.                                                                                                                                                                                                                                                                                                                                                                                         | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
+| VAR_POP       | Calculates the population variance.                                                                                                                                                                                                                                                                                                                                                                                                          | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
+| VAR_SAMP      | Calculates the sample variance.                                                                                                                                                                                                                                                                                                                                                                                                              | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
+| EXTREME       | Finds the value with the largest absolute value. If the largest absolute values of positive and negative values are equal, returns the positive value.                                                                                                                                                                                                                                                                                       | INT32 INT64 FLOAT DOUBLE                                           | Same as input type                         |
+| MODE          | Finds the mode. Note: 1. There is a risk of memory exception when the number of distinct values in the input sequence is too large; 2. If all elements have the same frequency, i.e., there is no mode, a random element is returned; 3. If there are multiple modes, a random mode is returned; 4. NULL values are also counted in frequency, so even if not all values in the input sequence are NULL, the final result may still be NULL. | All types                                                          | Same as input type                         |
+| MAX_BY        | MAX_BY(x, y) finds the value of x corresponding to the maximum y in the binary input x and y. MAX_BY(time, x) returns the timestamp when x is at its maximum.                                                                                                                                                                                                                                                                                | x and y can be of any type                                         | Same as the data type of the first input x |
+| MIN_BY        | MIN_BY(x, y) finds the value of x corresponding to the minimum y in the binary input x and y. MIN_BY(time, x) returns the timestamp when x is at its minimum.                                                                                                                                                                                                                                                                                | x and y can be of any type                                         | Same as the data type of the first input x |
+| FIRST_BY      | FIRST_BY(x, y) finds the value of x in the same row when y is the first non-null value.                                                                                                                                                                                                                                                                                                                                                      | x and y can be of any type                                         | Same as the data type of the first input x |
+| LAST_BY       | LAST_BY(x, y) finds the value of x in the same row when y is the last non-null value.                                                                                                                                                                                                                                                                                                                                                        | x and y can be of any type                                         | Same as the data type of the first input x |
+| COUNT_IF      | COUNT_IF(exp) counts the number of rows that satisfy a specified boolean expression.                                                                                                                                                                                                                                                                                                                                                         | `exp` must be a boolean expression,(e.g. `count_if(temperature>20)`) | INT64            |
 
 ### 2.3 Examples
 
@@ -298,6 +326,28 @@ The execution result is as follows:
 Total line number = 1
 It costs 0.244s
 ```
+
+
+### 2.3.9 Count_if
+
+Count `Non-Null` `arrival_time` Records in `table2`
+
+```sql
+select count_if(arrival_time is not null) from table2;
+```
+
+The execution result is as follows:
+
+```sql
++-----+
+|_col0|
++-----+
+|    4|
++-----+
+Total line number = 1
+It costs 0.047s
+```
+
 
 ## 3. Logical operators
 
@@ -1089,7 +1139,7 @@ SELECT regexp_like('1a 2b 14m', '\\d+b'); -- true
   - `\d+` means "one or more digits".
   - `b` represents the letter b.
   - In `'1a 2b 14m'`, the substring `'2b'` matches this pattern, so it returns `true`.
-  - 
+
 
 #### **Example 2: Matching the entire string**
 

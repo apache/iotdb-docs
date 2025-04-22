@@ -120,6 +120,32 @@ SELECT * FROM table1 WHERE temperature IN (85.0, 90.0);
 SELECT * FROM table1 WHERE region NOT IN ('北京', '上海');
 ```
 
+### 1.5 GREATEST 和 LEAST
+
+`Greatest` 函数用于返回参数列表中的最大值，`Least` 函数用于返回参数列表中的最小值，返回数据类型与输入类型相同。
+1. 空值处理：若所有参数均为 NULL，则返回 NULL。
+2. 参数要求：必须提供 至少 2 个参数。
+3. 类型约束：仅支持 相同数据类型 的参数比较。
+4. 支持类型： `BOOLEAN`、`FLOAT`、`DOUBLE`、`INT32`、`INT64`、`STRING`、`TEXT`、`TIMESTAMP`、`DATE`
+
+**语法：**
+
+```sql
+  greatest(value1, value2, ..., valueN)
+  least(value1, value2, ..., valueN)
+```
+
+**示例：**
+
+```sql
+-- 查询 table2 中 temperature 和 humidity 的最大记录
+SELECT GREATEST(temperature,humidity) FROM table2;
+
+-- 查询 table2 中 temperature 和 humidity 的最小记录
+SELECT LEAST(temperature,humidity) FROM table2;
+```
+  
+
 ## 2. 聚合函数
 
 ### 2.1 概述
@@ -129,27 +155,28 @@ SELECT * FROM table1 WHERE region NOT IN ('北京', '上海');
 
 ### 2.2 支持的聚合函数                          
 
-| 函数名      | 功能描述                                                     | 允许的输入类型           | 输出类型                      |
-| ----------- | ------------------------------------------------------------ | ------------------------ | ----------------------------- |
-| COUNT       | 计算数据点数。                                               | 所有类型                 | INT64                         |
-| SUM         | 求和。                                                       | INT32 INT64 FLOAT DOUBLE | DOUBLE                        |
-| AVG         | 求平均值。                                                   | INT32 INT64 FLOAT DOUBLE | DOUBLE                        |
-| MAX         | 求最大值。                                                   | 所有类型                 | 与输入类型一致                |
-| MIN         | 求最小值。                                                   | 所有类型                 | 与输入类型一致                |
-| FIRST       | 求时间戳最小且不为 NULL 的值。                               | 所有类型                 | 与输入类型一致                |
-| LAST        | 求时间戳最大且不为 NULL 的值。                               | 所有类型                 | 与输入类型一致                |
-| STDDEV      | STDDEV_SAMP 的别名，求样本标准差。                           | INT32 INT64 FLOAT DOUBLE | DOUBLE                        |
-| STDDEV_POP  | 求总体标准差。                                               | INT32 INT64 FLOAT DOUBLE | DOUBLE                        |
-| STDDEV_SAMP | 求样本标准差。                                               | INT32 INT64 FLOAT DOUBLE | DOUBLE                        |
-| VARIANCE    | VAR_SAMP 的别名，求样本方差。                                | INT32 INT64 FLOAT DOUBLE | DOUBLE                        |
-| VAR_POP     | 求总体方差。                                                 | INT32 INT64 FLOAT DOUBLE | DOUBLE                        |
-| VAR_SAMP    | 求样本方差。                                                 | INT32 INT64 FLOAT DOUBLE | DOUBLE                        |
-| EXTREME     | 求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。 | INT32 INT64 FLOAT DOUBLE | 与输入类型一致                |
-| MODE        | 求众数。注意： 1.输入序列的不同值个数过多时会有内存异常风险; 2.如果所有元素出现的频次相同，即没有众数，则随机返回一个元素; 3.如果有多个众数，则随机返回一个众数； 4. NULL 值也会被统计频次，所以即使输入序列的值不全为 NULL，最终结果也可能为 NULL。 | 所有类型                 | 与输入类型一致                |
-| MAX_BY      | MAX_BY(x, y) 求二元输入 x 和 y 在 y 最大时对应的 x 的值。MAX_BY(time, x) 返回 x 取最大值时对应的时间戳。 | x 和 y 可以是任意类型    | 与第一个输入 x 的数据类型一致 |
-| MIN_BY      | MIN_BY(x, y) 求二元输入 x 和 y 在 y 最小时对应的 x 的值。MIN_BY(time, x) 返回 x 取最小值时对应的时间戳。 | x 和 y 可以是任意类型    | 与第一个输入 x 的数据类型一致 |
-| FIRST_BY    | FIRST_BY(x, y) 求当 y 为第一个不为 NULL 的值时，同一行里对应的 x 值。 | x 和 y 可以是任意类型    | 与第一个输入 x 的数据类型一致 |
-| LAST_BY     | LAST_BY(x, y) 求当 y 为最后一个不为 NULL 的值时，同一行里对应的 x 值。 | x 和 y 可以是任意类型    | 与第一个输入 x 的数据类型一致 |
+| 函数名      | 功能描述                                                     | 允许的输入类型                                       | 输出类型             |
+| ----------- | ------------------------------------------------------------ |-----------------------------------------------|------------------|
+| COUNT       | 计算数据点数。                                               | 所有类型                                          | INT64            |
+| SUM         | 求和。                                                       | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
+| AVG         | 求平均值。                                                   | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
+| MAX         | 求最大值。                                                   | 所有类型                                          | 与输入类型一致          |
+| MIN         | 求最小值。                                                   | 所有类型                                          | 与输入类型一致          |
+| FIRST       | 求时间戳最小且不为 NULL 的值。                               | 所有类型                                          | 与输入类型一致          |
+| LAST        | 求时间戳最大且不为 NULL 的值。                               | 所有类型                                          | 与输入类型一致          |
+| STDDEV      | STDDEV_SAMP 的别名，求样本标准差。                           | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
+| STDDEV_POP  | 求总体标准差。                                               | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
+| STDDEV_SAMP | 求样本标准差。                                               | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
+| VARIANCE    | VAR_SAMP 的别名，求样本方差。                                | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
+| VAR_POP     | 求总体方差。                                                 | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
+| VAR_SAMP    | 求样本方差。                                                 | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
+| EXTREME     | 求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。 | INT32 INT64 FLOAT DOUBLE                      | 与输入类型一致          |
+| MODE        | 求众数。注意： 1.输入序列的不同值个数过多时会有内存异常风险; 2.如果所有元素出现的频次相同，即没有众数，则随机返回一个元素; 3.如果有多个众数，则随机返回一个众数； 4. NULL 值也会被统计频次，所以即使输入序列的值不全为 NULL，最终结果也可能为 NULL。 | 所有类型                                          | 与输入类型一致          |
+| MAX_BY      | MAX_BY(x, y) 求二元输入 x 和 y 在 y 最大时对应的 x 的值。MAX_BY(time, x) 返回 x 取最大值时对应的时间戳。 | x 和 y 可以是任意类型                                 | 与第一个输入 x 的数据类型一致 |
+| MIN_BY      | MIN_BY(x, y) 求二元输入 x 和 y 在 y 最小时对应的 x 的值。MIN_BY(time, x) 返回 x 取最小值时对应的时间戳。 | x 和 y 可以是任意类型                                 | 与第一个输入 x 的数据类型一致 |
+| FIRST_BY    | FIRST_BY(x, y) 求当 y 为第一个不为 NULL 的值时，同一行里对应的 x 值。 | x 和 y 可以是任意类型                                 | 与第一个输入 x 的数据类型一致 |
+| LAST_BY     | LAST_BY(x, y) 求当 y 为最后一个不为 NULL 的值时，同一行里对应的 x 值。 | x 和 y 可以是任意类型                                 | 与第一个输入 x 的数据类型一致 |
+| COUNT_IF    | COUNT_IF(exp) 用于统计满足指定布尔表达式的记录行数  | exp 必须是一个布尔类型的表达式，例如 count_if(temperature>20) | INT64            |
 
 ### 2.3 示例
 
@@ -298,6 +325,27 @@ select min_by(time, temperature), min_by(humidity, temperature) from table1;
 Total line number = 1
 It costs 0.244s
 ```
+
+### 2.3.9 Count_if
+
+统计 `table2` 中 到达时间 `arrival_time` 不是 `null` 的记录行数。
+
+```sql
+select count_if(arrival_time is not null) from table2;
+```
+
+执行结果如下：
+
+```sql
++-----+
+|_col0|
++-----+
+|    4|
++-----+
+Total line number = 1
+It costs 0.047s
+```
+
 
 ## 3. 逻辑运算符
 
