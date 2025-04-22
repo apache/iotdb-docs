@@ -32,7 +32,7 @@ In the native API of IoTDB, the `Session` is the core interface for interacting 
 
 ## 2 Detailed Steps
 
-This section provides an overview of the core development process and does not demonstrate all parameters and interfaces. For a complete list of functionalities and parameters, please refer to:[Java Native API](./Programming-Java-Native-API.md#3-native-interface-description) or check the: [Source Code](https://github.com/apache/iotdb/tree/master/example/session/src/main/java/org/apache/iotdb)
+This section provides an overview of the core development process and does not demonstrate all parameters and interfaces. For a complete list of functionalities and parameters, please refer to:[Java Native API](./Programming-Java-Native-API.md#_3-native-interface-description) or check the: [Source Code](https://github.com/apache/iotdb/tree/master/example/session/src/main/java/org/apache/iotdb)
 
 ### 2.1 Create a Maven Project
 

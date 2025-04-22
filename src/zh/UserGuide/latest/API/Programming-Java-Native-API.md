@@ -31,7 +31,7 @@ SessionPool 是 Session 的连接池，推荐使用SessionPool编程。在多线
 
 ## 2. 详细步骤
 
-本章节用于说明开发的核心流程，并未演示所有的参数和接口，如需了解全部功能及参数请参见: [全量接口说明](./Programming-Java-Native-API.md#3-全量接口说明) 或 查阅: [源码](https://github.com/apache/iotdb/tree/rc/2.0.1/example/session/src/main/java/org/apache/iotdb)
+本章节用于说明开发的核心流程，并未演示所有的参数和接口，如需了解全部功能及参数请参见: [全量接口说明](./Programming-Java-Native-API.md#_3-全量接口说明) 或 查阅: [源码](https://github.com/apache/iotdb/tree/rc/2.0.1/example/session/src/main/java/org/apache/iotdb)
 
 ### 2.1 创建maven项目
 
