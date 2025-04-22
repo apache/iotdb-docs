@@ -33,7 +33,7 @@ IoTDB provides powerful data subscription functionality, allowing users to acces
 
 ## 2. Detailed Steps
 
-This section is used to illustrate the core development process and does not demonstrate all parameters and interfaces. For a comprehensive understanding of all features and parameters, please refer to: [Java Native API](../API/Programming-Java-Native-API.md#3-native-interface-description)
+This section is used to illustrate the core development process and does not demonstrate all parameters and interfaces. For a comprehensive understanding of all features and parameters, please refer to: [Java Native API](../API/Programming-Java-Native-API.md#_3-native-interface-description)
 
 
 ### 2.1  Create a Maven project
