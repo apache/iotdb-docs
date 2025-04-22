@@ -636,31 +636,31 @@ It costs 0.319s
 
 ### 5.2 数学函数
 
-| 函数名                       | 描述                                                         | 输入                        | 输出                   | 用法       |
-| ---------------------------- | ------------------------------------------------------------ | --------------------------- | ---------------------- | ---------- |
-| sin                          | 正弦函数                                                     | double、float、INT64、INT32 | double                 | sin(x)     |
-| cos                          | 余弦函数                                                     | double、float、INT64、INT32 | double                 | cos(x)     |
-| tan                          | 正切函数                                                     | double、float、INT64、INT32 | double                 | tan(x)     |
-| asin                         | 反正弦函数                                                   | double、float、INT64、INT32 | double                 | asin(x)    |
-| acos                         | 反余弦函数                                                   | double、float、INT64、INT32 | double                 | acos(x)    |
-| atan                         | 反正切函数                                                   | double、float、INT64、INT32 | double                 | atan(x)    |
-| sinh                         | 双曲正弦函数                                                 | double、float、INT64、INT32 | double                 | sinh(x)    |
-| cosh                         | 双曲余弦函数                                                 | double、float、INT64、INT32 | double                 | cosh(x)    |
-| tanh                         | 双曲正切函数                                                 | double、float、INT64、INT32 | double                 | tanh(x)    |
-| degrees                      | 将弧度角 x 转换为度                                          | double、float、INT64、INT32 | double                 | degrees(x) |
-| radians                      | 将度转换为弧度                                               | double、float、INT64、INT32 | double                 | radians(x) |
-| abs                          | 绝对值                                                       | double、float、INT64、INT32 | 返回与输入类型相同的值 | abs(x)     |
-| sign                         | 返回 x 的符号函数，即：如果参数为 0，则返回 0，如果参数大于 0，则返回 1，如果参数小于 0，则返回 -1。对于 double/float 类型的参数，函数还会返回：如果参数为 NaN，则返回 NaN，如果参数为 +Infinity，则返回 1.0，如果参数为 -Infinity，则返回 -1.0。 | double、float、INT64、INT32 | 返回与输入类型相同的值 | sign(x)    |
-| ceil                         | 返回 x 向上取整到最近的整数。                                | double、float、INT64、INT32 | double                 | ceil(x)    |
-| floor                        | 返回 x 向下取整到最近的整数。                                | double、float、INT64、INT32 | double                 | floor(x)   |
-| exp                          | 返回欧拉数 e 的 x 次幂。                                     | double、float、INT64、INT32 | double                 | exp(x)     |
-| ln                           | 返回 x 的自然对数。                                          | double、float、INT64、INT32 | double                 | ln(x)      |
-| log10                        | 返回 x 的以 10 为底的对数。                                  | double、float、INT64、INT32 | double                 | log10(x)   |
-| round                        | 返回 x 四舍五入到最近的整数。                                | double、float、INT64、INT32 | double                 | round(x)   |
-| 返回 x 四舍五入到 d 位小数。 | double、float、INT64、INT32                                  | double                      | round(x, d)            |            |
-| sqrt                         | 返回 x 的平方根。                                            | double、float、INT64、INT32 | double                 | sqrt(x)    |
-| e                            | 自然指数                                                     |                             | double                 | e()        |
-| pi                           | π                                                            |                             | double                 | pi()       |
+| 函数名       | 描述                                                                                                                                                         | 输入                        | 输出                   | 用法       |
+|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------| --------------------------- | ---------------------- | ---------- |
+| sin       | 正弦函数                                                                                                                                                       | double、float、INT64、INT32 | double                 | sin(x)     |
+| cos       | 余弦函数                                                                                                                                                       | double、float、INT64、INT32 | double                 | cos(x)     |
+| tan       | 正切函数                                                                                                                                                       | double、float、INT64、INT32 | double                 | tan(x)     |
+| asin      | 反正弦函数                                                                                                                                                      | double、float、INT64、INT32 | double                 | asin(x)    |
+| acos      | 反余弦函数                                                                                                                                                      | double、float、INT64、INT32 | double                 | acos(x)    |
+| atan      | 反正切函数                                                                                                                                                      | double、float、INT64、INT32 | double                 | atan(x)    |
+| sinh      | 双曲正弦函数                                                                                                                                                     | double、float、INT64、INT32 | double                 | sinh(x)    |
+| cosh      | 双曲余弦函数                                                                                                                                                     | double、float、INT64、INT32 | double                 | cosh(x)    |
+| tanh      | 双曲正切函数                                                                                                                                                     | double、float、INT64、INT32 | double                 | tanh(x)    |
+| degrees   | 将弧度角 x 转换为度                                                                                                                                                | double、float、INT64、INT32 | double                 | degrees(x) |
+| radians   | 将度转换为弧度                                                                                                                                                    | double、float、INT64、INT32 | double                 | radians(x) |
+| abs       | 绝对值                                                                                                                                                        | double、float、INT64、INT32 | 返回与输入类型相同的值 | abs(x)     |
+| sign      | 返回 x 的符号函数，即：如果参数为 0，则返回 0，如果参数大于 0，则返回 1，如果参数小于 0，则返回 -1。对于 double/float 类型的参数，函数还会返回：如果参数为 NaN，则返回 NaN，如果参数为 +Infinity，则返回 1.0，如果参数为 -Infinity，则返回 -1.0。 | double、float、INT64、INT32 | 返回与输入类型相同的值 | sign(x)    |
+| ceil      | 返回 x 向上取整到最近的整数。                                                                                                                                           | double、float、INT64、INT32 | double                 | ceil(x)    |
+| floor     | 返回 x 向下取整到最近的整数。                                                                                                                                           | double、float、INT64、INT32 | double                 | floor(x)   |
+| exp       | 返回欧拉数 e 的 x 次幂。                                                                                                                                            | double、float、INT64、INT32 | double                 | exp(x)     |
+| ln        | 返回 x 的自然对数。                                                                                                                                                | double、float、INT64、INT32 | double                 | ln(x)      |
+| log10     | 返回 x 的以 10 为底的对数。                                                                                                                                          | double、float、INT64、INT32 | double                 | log10(x)   |
+| round     | 返回 x 四舍五入到最近的整数。                                                                                                                                           | double、float、INT64、INT32 | double                 | round(x)   |
+| round     | 返回 x 四舍五入到 d 位小数。                                                                                                                                          | double、float、INT64、INT32                                  | double                      | round(x, d)     |
+| sqrt      | 返回 x 的平方根。                                                                                                                                                 | double、float、INT64、INT32 | double                 | sqrt(x)    |
+| e         | 自然指数                                                                                                                                                       |                             | double                 | e()        |
+| pi        | π                                                                                                                                                          |                             | double                 | pi()       |
 
 ## 6. 条件表达式
 
