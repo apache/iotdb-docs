@@ -115,7 +115,7 @@ export const zhSidebar = {
         { text: 'C#原生接口', link: 'Programming-CSharp-Native-API' },
         { text: 'Node.js原生接口', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust原生接口', link: 'Programming-Rust-Native-API' },
-        { text: 'JDBC (不推荐)', link: 'Programming-JDBC' },
+        { text: 'JDBC', link: 'Programming-JDBC' },
         { text: 'MQTT', link: 'Programming-MQTT' },
         { text: 'Kafka', link: 'Programming-Kafka' },
         { text: 'REST API V1 (不推荐)', link: 'RestServiceV1' },
