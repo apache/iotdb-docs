@@ -45,32 +45,43 @@ DBeaver 是一个 SQL 客户端和数据库管理工具。DBeaver 可以使用 I
    ```
 2. 启动 DBeaver
 
-3. 新建 Database Connection
+3. 打开 Driver Manager
 
-   1. 点击 DBeaver > Database > New Database Connection，或者直接点击左上角图标
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/01.png?raw=true)
+4. 为 IoTDB 新建一个驱动类型
 
-   ![](/img/table-dbeaver-1.png)
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/02.png)
 
-   ![](/img/table-dbeaver-2.png)
-   
-   2. 选择 IoTDB 驱动（可在 All 或 Timeseries 分类中找到）
+5. 下载 jdbc 驱动， 点击下列网址 [地址1](https://maven.proxy.ustclug.org/maven2/org/apache/iotdb/iotdb-jdbc/) 或 [地址2](https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/)，选择对应版本的 jar 包，下载后缀 jar-with-dependencies.jar 的包
 
-   ![](/img/table-dbeaver-3.png)
+    ![](/img/table-dbeaver-8.png)
 
-   3. 根据要连接的IoTDB是树模型或表模型，选择不同的连接方式（Username = Password = root）
+6. 添加刚刚下载的驱动包，点击 Find Class
 
-       1. 欲连接树模型IoTDB，使用默认的Host方法进行连接即可，如下图所示
+   ![](/img/table-dbeaver-9.png)
 
-       ![](/img/table-dbeaver-4.png)
+7. 编辑驱动设置
 
-       2. 欲连接表模型IoTDB，使用URL方法连接，需在URL后面添加 ?sql_dialect=table 启用表模式
+   ![](/img/table-dbeaver-10.png)
 
-      ![](/img/table-dbeaver-5.png)
+8. 新建 DataBase Connection， 选择 iotdb
 
-   4. 通过 Test Connection 测试连接，能够显示对应的IoTDB版本号即连接成功
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/06.png)
 
-   ![](/img/table-dbeaver-6.png)
+9.  编辑 JDBC 连接设置
 
-4. 可以开始通过 DBeaver 使用 IoTDB
+```
+JDBC URL: jdbc:iotdb://127.0.0.1:6667/?sql_dialect=table
+Username: root
+Password: root
+```
+    
+   ![](/img/table-dbeaver-11.png)
+
+10. 测试连接
+
+    ![](/img/table-dbeaver-12.png)
+
+11. 可以开始通过 DBeaver 使用 IoTDB
 
 ![](/img/table-dbeaver-7.png)
