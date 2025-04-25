@@ -154,7 +154,7 @@ Used to modify some attributes in the database.
 **Syntax:**
 
 ```SQL
-ALTER DATABASE (IF EXISTS)? databaseName=qualifiedName (WITH properties)?
+ALTER DATABASE (IF EXISTS)? database=identifier SET PROPERTIES propertyAssignments
 ```
 
 **Note:**
@@ -164,7 +164,7 @@ ALTER DATABASE (IF EXISTS)? databaseName=qualifiedName (WITH properties)?
 **Example:**
 
 ```SQL
-ALTER TABLE database1 with(TTL=31536000000);
+ALTER DATABASE database1 SET PROPERTIES TTL=31536000000;
 ```
 
 ### 1.6 Delete a Database
