@@ -46,31 +46,43 @@ DBeaver is an SQL client and database management tool. It can interact with IoTD
    ```
 2. Launch DBeaver.
 
-3. Create a new database connection:
+3. Open Driver Manager
 
-   1. Go to `DBeaver > Database > New Database Connection`, or click the `"+"` icon in the top-left corner.
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/01.png?raw=true)
 
-      ![](/img/table-dbeaver-1.png)
+4. Create a new driver type for IoTDB
 
-      ![](/img/table-dbeaver-2.png)
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/02.png)
 
-   2. Select the IoTDB driver (under `"All"` or `"Timeseries"` categories).
+5. Download `iotdb-jdbc`， from [source1](https://maven.proxy.ustclug.org/maven2/org/apache/iotdb/iotdb-jdbc/) or [source2](https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/)，choose the corresponding jar file，download the suffix `jar-with-dependencies.jar` file.
 
-      ![](/img/table-dbeaver-3.png)
+   ![](/img/table-dbeaver-8.png)
 
-   3. Configure the connection based on your IoTDB model:(Username = Password = root)
+6. Add the downloaded jar file， then select `Find Class`.
 
-      1. For Tree Model: Use the default Host method
+   ![](/img/table-dbeaver-9.png)
 
-         ![](/img/table-dbeaver-4.png)
+7. Edit the driver Settings
 
-      2. For Table Model: Use the URL method and append `?sql_dialect=table` to enable table mode.
+   ![](/img/table-dbeaver-10.png)
 
-         ![](/img/table-dbeaver-5.png)
+8. Open New DataBase Connection and select iotdb
 
-   4. Click `Test` Connection – if successful, the IoTDB version will be displayed.
+   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/06.png)
 
-      ![](/img/table-dbeaver-6.png)
+9.  Edit JDBC Connection Settings
+
+```
+JDBC URL: jdbc:iotdb://127.0.0.1:6667/?sql_dialect=table
+Username: root
+Password: root
+```
+
+![](/img/table-dbeaver-11.png)
+
+10. Test Connection
+
+    ![](/img/table-dbeaver-12.png)
 
 4. You can now use IoTDB via DBeaver.
 
