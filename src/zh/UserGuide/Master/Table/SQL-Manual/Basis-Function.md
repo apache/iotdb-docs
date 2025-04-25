@@ -158,6 +158,7 @@ SELECT LEAST(temperature,humidity) FROM table2;
 | 函数名      | 功能描述                                                     | 允许的输入类型                                       | 输出类型             |
 | ----------- | ------------------------------------------------------------ |-----------------------------------------------|------------------|
 | COUNT       | 计算数据点数。                                               | 所有类型                                          | INT64            |
+| COUNT_IF    | COUNT_IF(exp) 用于统计满足指定布尔表达式的记录行数  | exp 必须是一个布尔类型的表达式，例如 count_if(temperature>20) | INT64            |
 | SUM         | 求和。                                                       | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
 | AVG         | 求平均值。                                                   | INT32 INT64 FLOAT DOUBLE                      | DOUBLE           |
 | MAX         | 求最大值。                                                   | 所有类型                                          | 与输入类型一致          |
@@ -176,7 +177,7 @@ SELECT LEAST(temperature,humidity) FROM table2;
 | MIN_BY      | MIN_BY(x, y) 求二元输入 x 和 y 在 y 最小时对应的 x 的值。MIN_BY(time, x) 返回 x 取最小值时对应的时间戳。 | x 和 y 可以是任意类型                                 | 与第一个输入 x 的数据类型一致 |
 | FIRST_BY    | FIRST_BY(x, y) 求当 y 为第一个不为 NULL 的值时，同一行里对应的 x 值。 | x 和 y 可以是任意类型                                 | 与第一个输入 x 的数据类型一致 |
 | LAST_BY     | LAST_BY(x, y) 求当 y 为最后一个不为 NULL 的值时，同一行里对应的 x 值。 | x 和 y 可以是任意类型                                 | 与第一个输入 x 的数据类型一致 |
-| COUNT_IF    | COUNT_IF(exp) 用于统计满足指定布尔表达式的记录行数  | exp 必须是一个布尔类型的表达式，例如 count_if(temperature>20) | INT64            |
+
 
 ### 2.3 示例
 
@@ -206,7 +207,29 @@ Total line number = 1
 It costs 0.834s
 ```
 
-#### 2.3.3 First
+
+#### 2.3.3 Count_if
+
+统计 `table2` 中 到达时间 `arrival_time` 不是 `null` 的记录行数。
+
+```sql
+select count_if(arrival_time is not null) from table2;
+```
+
+执行结果如下：
+
+```sql
++-----+
+|_col0|
++-----+
+|    4|
++-----+
+Total line number = 1
+It costs 0.047s
+```
+
+
+#### 2.3.4 First
 
 查询`temperature`列、`humidity`列时间戳最小且不为 NULL 的值。
 
@@ -226,7 +249,7 @@ Total line number = 1
 It costs 0.170s
 ```
 
-#### 2.3.4 Last
+#### 2.3.5 Last
 
 查询`temperature`列、`humidity`列时间戳最大且不为 NULL 的值。
 
@@ -246,7 +269,7 @@ Total line number = 1
 It costs 0.211s
 ```
 
-#### 2.3.5 First_by
+#### 2.3.6 First_by
 
 查询 `temperature` 列中非 NULL 且时间戳最小的行的 `time` 值，以及 `temperature` 列中非 NULL 且时间戳最小的行的 `humidity` 值。
 
@@ -266,7 +289,7 @@ Total line number = 1
 It costs 0.269s
 ```
 
-#### 2.3.6 Last_by
+#### 2.3.7 Last_by
 
 查询`temperature` 列中非 NULL 且时间戳最大的行的 `time` 值，以及 `temperature` 列中非 NULL 且时间戳最大的行的 `humidity` 值。
 
@@ -286,7 +309,7 @@ Total line number = 1
 It costs 0.070s
 ```
 
-#### 2.3.7 Max_by
+#### 2.3.8 Max_by
 
 查询`temperature` 列中最大值所在行的 `time` 值，以及`temperature` 列中最大值所在行的 `humidity` 值。
 
@@ -306,7 +329,7 @@ Total line number = 1
 It costs 0.172s
 ```
 
-#### 2.3.8 Min_by
+#### 2.3.9 Min_by
 
 查询`temperature` 列中最小值所在行的 `time` 值，以及`temperature` 列中最小值所在行的 `humidity` 值。
 
@@ -326,25 +349,6 @@ Total line number = 1
 It costs 0.244s
 ```
 
-### 2.3.9 Count_if
-
-统计 `table2` 中 到达时间 `arrival_time` 不是 `null` 的记录行数。
-
-```sql
-select count_if(arrival_time is not null) from table2;
-```
-
-执行结果如下：
-
-```sql
-+-----+
-|_col0|
-+-----+
-|    4|
-+-----+
-Total line number = 1
-It costs 0.047s
-```
 
 
 ## 3. 逻辑运算符

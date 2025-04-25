@@ -157,8 +157,9 @@ SELECT LEAST(temperature,humidity) FROM table2;
 ### 2.2 Supported Aggregate Functions
 
 | Function Name | Description                                                                                                                                                                                                                                                                                                                                                                                                                                  | Allowed Input Types                                                | Output Type                                |
-|:--------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------| :----------------------------------------- |
+|:--------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------|:-------------------------------------------|
 | COUNT         | Counts the number of data points.                                                                                                                                                                                                                                                                                                                                                                                                            | All types                                                          | INT64                                      |
+| COUNT_IF      | COUNT_IF(exp) counts the number of rows that satisfy a specified boolean expression.                                                                                                                                                                                                                                                                                                                                                         | `exp` must be a boolean expression,(e.g. `count_if(temperature>20)`) | INT64                                    |
 | SUM           | Calculates the sum.                                                                                                                                                                                                                                                                                                                                                                                                                          | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
 | AVG           | Calculates the average.                                                                                                                                                                                                                                                                                                                                                                                                                      | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
 | MAX           | Finds the maximum value.                                                                                                                                                                                                                                                                                                                                                                                                                     | All types                                                          | Same as input type                         |
@@ -177,7 +178,7 @@ SELECT LEAST(temperature,humidity) FROM table2;
 | MIN_BY        | MIN_BY(x, y) finds the value of x corresponding to the minimum y in the binary input x and y. MIN_BY(time, x) returns the timestamp when x is at its minimum.                                                                                                                                                                                                                                                                                | x and y can be of any type                                         | Same as the data type of the first input x |
 | FIRST_BY      | FIRST_BY(x, y) finds the value of x in the same row when y is the first non-null value.                                                                                                                                                                                                                                                                                                                                                      | x and y can be of any type                                         | Same as the data type of the first input x |
 | LAST_BY       | LAST_BY(x, y) finds the value of x in the same row when y is the last non-null value.                                                                                                                                                                                                                                                                                                                                                        | x and y can be of any type                                         | Same as the data type of the first input x |
-| COUNT_IF      | COUNT_IF(exp) counts the number of rows that satisfy a specified boolean expression.                                                                                                                                                                                                                                                                                                                                                         | `exp` must be a boolean expression,(e.g. `count_if(temperature>20)`) | INT64            |
+
 
 ### 2.3 Examples
 
@@ -207,7 +208,29 @@ Total line number = 1
 It costs 0.834s
 ```
 
-#### 2.3.3 First
+
+#### 2.3.3 Count_if
+
+Count `Non-Null` `arrival_time` Records in `table2`
+
+```sql
+select count_if(arrival_time is not null) from table2;
+```
+
+The execution result is as follows:
+
+```sql
++-----+
+|_col0|
++-----+
+|    4|
++-----+
+Total line number = 1
+It costs 0.047s
+```
+
+
+#### 2.3.4 First
 
 Finds the values with the smallest timestamp that are not NULL in the `temperature` and `humidity` columns.
 
@@ -227,7 +250,7 @@ Total line number = 1
 It costs 0.170s
 ```
 
-#### 2.3.4 Last
+#### 2.3.5 Last
 
 Finds the values with the largest timestamp that are not NULL in the `temperature` and `humidity` columns.
 
@@ -247,7 +270,7 @@ Total line number = 1
 It costs 0.211s
 ```
 
-#### 2.3.5 First_by
+#### 2.3.6 First_by
 
 Finds the `time` value of the row with the smallest timestamp that is not NULL in the `temperature` column, and the `humidity` value of the row with the smallest timestamp that is not NULL in the `temperature` column.
 
@@ -267,7 +290,7 @@ Total line number = 1
 It costs 0.269s
 ```
 
-#### 2.3.6 Last_by
+#### 2.3.7 Last_by
 
 Queries the `time` value of the row with the largest timestamp that is not NULL in the `temperature` column, and the `humidity` value of the row with the largest timestamp that is not NULL in the `temperature` column.
 
@@ -287,7 +310,7 @@ Total line number = 1
 It costs 0.070s
 ```
 
-#### 2.3.7 Max_by
+#### 2.3.8 Max_by
 
 Queries the `time` value of the row where the `temperature` column is at its maximum, and the `humidity` value of the row where the `temperature` column is at its maximum.
 
@@ -307,7 +330,7 @@ Total line number = 1
 It costs 0.172s
 ```
 
-#### 2.3.8 Min_by
+#### 2.3.9 Min_by
 
 Queries the `time` value of the row where the `temperature` column is at its minimum, and the `humidity` value of the row where the `temperature` column is at its minimum.
 
@@ -325,27 +348,6 @@ The execution result is as follows:
 +-----------------------------+-----+
 Total line number = 1
 It costs 0.244s
-```
-
-
-### 2.3.9 Count_if
-
-Count `Non-Null` `arrival_time` Records in `table2`
-
-```sql
-select count_if(arrival_time is not null) from table2;
-```
-
-The execution result is as follows:
-
-```sql
-+-----+
-|_col0|
-+-----+
-|    4|
-+-----+
-Total line number = 1
-It costs 0.047s
 ```
 
 
