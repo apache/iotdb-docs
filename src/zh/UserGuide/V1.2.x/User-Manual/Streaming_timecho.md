@@ -19,7 +19,7 @@
 
 -->
 
-# IoTDB 流处理框架
+# 流计算框架
 
 IoTDB 流处理框架允许用户实现自定义的流处理逻辑，可以实现对存储引擎变更的监听和捕获、实现对变更数据的变形、实现对变形后数据的向外推送等逻辑。
 
@@ -35,7 +35,7 @@ Pipe Extractor 用于抽取数据，Pipe Processor 用于处理数据，Pipe Con
 
 **Pipe 任务的模型如下：**
 
-![任务模型图](https://alioss.timecho.com/docs/img/%E5%90%8C%E6%AD%A5%E5%BC%95%E6%93%8E.jpeg)
+![任务模型图](/img/%E5%90%8C%E6%AD%A5%E5%BC%95%E6%93%8E.jpeg)
 
 描述一个数据流处理任务，本质就是描述 Pipe Extractor、Pipe Processor 和 Pipe Connector 插件的属性。
 用户可以通过 SQL 语句声明式地配置三个子任务的具体属性，通过组合不同的属性，实现灵活的数据 ETL 能力。
@@ -464,9 +464,9 @@ USING <JAR 包的 URI>
 创建语句：
 
 ```sql
-SQL CREATE PIPEPLUGIN example 
+CREATE PIPEPLUGIN example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
-USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
+USING URI <https://example.com:8080/iotdb/pipe-plugin.jar>
 ```
 
 【方式二】上传到集群本地目录
@@ -476,9 +476,9 @@ USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
 创建语句：
 
 ```sql
-SQL CREATE PIPEPLUGIN example 
+CREATE PIPEPLUGIN example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
-USING URI '<file:/iotdb安装路径/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar>'
+USING URI <file:/iotdb安装路径/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar>
 ```
 
 ### 删除插件语句
@@ -763,15 +763,15 @@ WHERE CONNECTOR USED BY <PipeId>
 
 下图表明了所有状态以及状态的迁移：
 
-![状态迁移图](https://alioss.timecho.com/docs/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
+![状态迁移图](/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
 
 ## 权限管理
 
 ### 流处理任务
 
 
-| 权限名称    | 描述                       |
-| ----------- | -------------------------- |
+| 权限名称        | 描述            |
+|-------------|---------------|
 | CREATE_PIPE | 注册流处理任务。路径无关。 |
 | START_PIPE  | 开启流处理任务。路径无关。 |
 | STOP_PIPE   | 停止流处理任务。路径无关。 |
@@ -781,8 +781,8 @@ WHERE CONNECTOR USED BY <PipeId>
 ### 流处理任务插件
 
 
-| 权限名称          | 描述                           |
-| ----------------- | ------------------------------ |
+| 权限名称              | 描述              |
+|-------------------|-----------------|
 | CREATE_PIPEPLUGIN | 注册流处理任务插件。路径无关。 |
 | DROP_PIPEPLUGIN   | 卸载流处理任务插件。路径无关。 |
 | SHOW_PIPEPLUGINS  | 查询流处理任务插件。路径无关。 |

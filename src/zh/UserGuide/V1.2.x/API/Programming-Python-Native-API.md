@@ -29,9 +29,9 @@
 
 首先下载包：`pip3 install apache-iotdb`
 
-您可以从这里得到一个使用该包进行数据读写的例子：[Session Example](https://github.com/apache/iotdb/blob/master/client-py/SessionExample.py)
+您可以从这里得到一个使用该包进行数据读写的例子：[Session Example](https://github.com/apache/iotdb/blob/rel/1.2/iotdb-client/client-py/SessionExample.py)
 
-关于对齐时间序列读写的例子：[Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/master/client-py/SessionAlignedTimeseriesExample.py)
+关于对齐时间序列读写的例子：[Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/rel/1.2/iotdb-client/client-py/SessionAlignedTimeseriesExample.py)
 
 （您需要在文件的头部添加`import iotdb`）
 
@@ -562,7 +562,7 @@ SQLAlchemy 中的元数据有：
 
 下图更加清晰的展示了二者的映射关系：
 
-![sqlalchemy-to-iotdb](https://alioss.timecho.com/docs/img/UserGuide/API/IoTDB-SQLAlchemy/sqlalchemy-to-iotdb.png?raw=true)
+![sqlalchemy-to-iotdb](/img/UserGuide/API/IoTDB-SQLAlchemy/sqlalchemy-to-iotdb.png?raw=true)
 
 ### 数据类型映射
 | IoTDB 中的数据类型 | SQLAlchemy 中的数据类型 |

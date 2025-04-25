@@ -866,7 +866,7 @@ IoTDB支持通过`GROUP BY`子句对序列进行分段或者分组聚合。
 
 下图中指出了这三个参数的含义：
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/69109512-f808bc80-0ab2-11ea-9e4d-b2b2f58fb474.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/69109512-f808bc80-0ab2-11ea-9e4d-b2b2f58fb474.png">
 
 接下来，我们给出几个典型例子：
 
@@ -1115,7 +1115,7 @@ group by variation(controlExpression[,delta][,ignoreNull=true/false])
 
 下图为差值分段的一个分段方式示意图，与组中第一个数据的控制列值的差值在delta内的控制列对应的点属于相同的分组。
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/GroupBy/groupByVariation.jpeg" alt="groupByVariation">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/UserGuide/Process-Data/GroupBy/groupByVariation.jpeg" alt="groupByVariation">
 
 ##### 使用注意事项
 1. `controlExpression`的结果应该为唯一值，如果使用通配符拼接后出现多列，则报错。
@@ -1288,7 +1288,7 @@ group by session(timeInterval)
 
 下图为`group by session`下的一个分组示意图
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/GroupBy/groupBySession.jpeg">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/UserGuide/Process-Data/GroupBy/groupBySession.jpeg">
 
 ##### 使用注意事项
 1. 对于一个分组，默认Time列输出分组的开始时间，查询时可以使用select `__endTime`的方式来使得结果输出分组的结束时间。
@@ -2904,7 +2904,7 @@ It costs 0.375s
 * 所有 `SELECT` 子句中源序列的 `READ_TIMESERIES` 权限。
 * 所有 `INTO` 子句中目标序列 `INSERT_TIMESERIES` 权限。
 
-更多用户权限相关的内容，请参考[权限管理语句](../User-Manual/Security-Management_timecho.md#权限管理)。
+更多用户权限相关的内容，请参考[权限管理语句](../User-Manual/Authority-Management.md#权限管理)。
 
 ### 相关配置参数
 

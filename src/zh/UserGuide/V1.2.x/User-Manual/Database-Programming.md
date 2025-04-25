@@ -207,9 +207,9 @@ insert into root.sg(time, a, b) values (1, 1, 1);
 
 您可以参考下图辅助理解，其中 Trigger1 配置采用乐观策略，Trigger2 配置采用悲观策略。Trigger1 和 Trigger2 的触发时机是 BEFORE INSERT，Trigger3 和 Trigger4 的触发时机是 AFTER INSERT。 正常执行流程如下：
 
-<img src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/Triggers/Trigger_Process_Flow.jpg?raw=true">
+<img src="/img/UserGuide/Process-Data/Triggers/Trigger_Process_Flow.jpg?raw=true">
 
-<img src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/Triggers/Trigger_Process_Strategy.jpg?raw=true">
+<img src="/img/UserGuide/Process-Data/Triggers/Trigger_Process_Strategy.jpg?raw=true">
 
 
 #### 示例
@@ -525,19 +525,19 @@ END
 
 ##### `<start_time_offset>`等于`<every_interval>`
 
-![1](https://alioss.timecho.com/docs/img/UserGuide/Process-Data/Continuous-Query/pic1.png?raw=true)
+![1](/img/UserGuide/Process-Data/Continuous-Query/pic1.png?raw=true)
 
 ##### `<start_time_offset>`大于`<every_interval>`
 
-![2](https://alioss.timecho.com/docs/img/UserGuide/Process-Data/Continuous-Query/pic2.png?raw=true)
+![2](/img/UserGuide/Process-Data/Continuous-Query/pic2.png?raw=true)
 
 ##### `<start_time_offset>`小于`<every_interval>`
 
-![3](https://alioss.timecho.com/docs/img/UserGuide/Process-Data/Continuous-Query/pic3.png?raw=true)
+![3](/img/UserGuide/Process-Data/Continuous-Query/pic3.png?raw=true)
 
 ##### `<every_interval>`不为0
 
-![4](https://alioss.timecho.com/docs/img/UserGuide/Process-Data/Continuous-Query/pic4.png?raw=true)
+![4](/img/UserGuide/Process-Data/Continuous-Query/pic4.png?raw=true)
 
 - `TIMEOUT POLICY` 指定了我们如何处理“前一个时间窗口还未执行完时，下一个窗口的执行时间已经到达的场景，默认值是`BLOCKED`.
     - `BLOCKED`意味着即使下一个窗口的执行时间已经到达，我们依旧需要阻塞等待前一个时间窗口的查询执行完再开始执行下一个窗口。如果使用`BLOCKED`策略，所有的时间窗口都将会被依此执行，但是如果遇到执行查询的时间长于周期性间隔时，连续查询的结果会迟于最新的时间窗口范围。
@@ -1029,7 +1029,7 @@ SELECT avg(count_s1) from root.sg_count.d;
 ### 连续查询相关的配置参数
 | 参数名 | 描述                   | 类型 | 默认值 |
 | :---------------------------------- |----------------------|----------|---------------|
-| `continuous_query_submit_thread` | 用于周期性提交连续查询执行任务的线程数  | int32    | 2             |
+| `continuous_query_submit_thread_count` | 用于周期性提交连续查询执行任务的线程数  | int32    | 2             |
 | `continuous_query_min_every_interval_in_ms` | 系统允许的连续查询最小的周期性时间间隔  | duration | 1000          |
 
 ##  用户自定义函数
@@ -1165,7 +1165,7 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 `RowByRowAccessStrategy`的构造不需要任何参数。
 
 如图是`SlidingTimeWindowAccessStrategy`的开窗示意图。
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/UDF-User-Defined-Function/timeWindow.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/UserGuide/Process-Data/UDF-User-Defined-Function/timeWindow.png">
 
 `SlidingTimeWindowAccessStrategy`有多种构造方法，您可以向构造方法提供 3 类参数：
 
@@ -1179,12 +1179,12 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 
 3 类参数的关系可见下图。策略的构造方法详见 Javadoc。
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/99787878-47b51480-2b5b-11eb-8ed3-84088c5c30f7.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/99787878-47b51480-2b5b-11eb-8ed3-84088c5c30f7.png">
 
 注意，最后的一些时间窗口的实际时间间隔可能小于规定的时间间隔参数。另外，可能存在某些时间窗口内数据行数量为 0 的情况，这种情况框架也会为该窗口调用一次`transform`方法。
 
 如图是`SlidingSizeWindowAccessStrategy`的开窗示意图。
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/UDF-User-Defined-Function/countWindow.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/UserGuide/Process-Data/UDF-User-Defined-Function/countWindow.png">
 
 `SlidingSizeWindowAccessStrategy`有多种构造方法，您可以向构造方法提供 2 个参数：
 
@@ -1194,7 +1194,7 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 滑动步长参数不是必须的。当您不提供滑动步长参数时，滑动步长会被设定为窗口大小。
 
 如图是`SessionTimeWindowAccessStrategy`的开窗示意图。**时间间隔小于等于给定的最小时间间隔 sessionGap 则分为一组。**
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/UDF-User-Defined-Function/sessionWindow.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/UserGuide/Process-Data/UDF-User-Defined-Function/sessionWindow.png">
 
 `SessionTimeWindowAccessStrategy`有多种构造方法，您可以向构造方法提供 2 类参数：
 
@@ -1202,7 +1202,7 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 2. 会话窗口之间的最小时间间隔。
 
 如图是`StateWindowAccessStrategy`的开窗示意图。**对于数值型数据，状态差值小于等于给定的阈值 delta 则分为一组。**
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/UDF-User-Defined-Function/stateWindow.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/UserGuide/Process-Data/UDF-User-Defined-Function/stateWindow.png">
 
 `StateWindowAccessStrategy`有四种构造方法。
 
@@ -1503,7 +1503,7 @@ SHOW FUNCTIONS
 * `DROP_FUNCTION`：具备该权限的用户才被允许执行 UDF 卸载操作
 * `READ_TIMESERIES`：具备该权限的用户才被允许使用 UDF 进行查询
 
-更多用户权限相关的内容，请参考 [权限管理语句](./Security-Management_timecho.md##权限管理)。
+更多用户权限相关的内容，请参考 [权限管理语句](./Authority-Management.md##权限管理)。
 
 ###  配置项
 
@@ -1551,7 +1551,7 @@ SHOW FUNCTIONS
 
 ####  提交 PR
 
-当您准备好源代码、测试用例和使用说明后，就可以将 UDF 贡献到 IoTDB 社区了。在 [Github](https://github.com/apache/iotdb) 上面提交 Pull Request (PR) 即可。具体提交方式见：[Pull Request Guide](https://iotdb.apache.org/Development/HowToCommit.html)。
+当您准备好源代码、测试用例和使用说明后，就可以将 UDF 贡献到 IoTDB 社区了。在 [Github](https://github.com/apache/iotdb) 上面提交 Pull Request (PR) 即可。具体提交方式见：[贡献指南](https://iotdb.apache.org/zh/Community/Development-Guide.html)。
 
 当 PR 评审通过并被合并后，您的 UDF 就已经贡献给 IoTDB 社区了！
 
@@ -1598,8 +1598,8 @@ SHOW FUNCTIONS
       mvn clean package -pl library-udf -am -DskipTests -Pget-jar-with-dependencies
    ```
 2. 将在 target 下生成的带依赖的 jar 包复制到 IoTDB 程序目录的 `ext\udf` 目录下(若您使用的是集群，请将jar包复制到所有DataNode的该目录下),如下图所示；
-![](https://alioss.timecho.com/docs/img/20230814-191908.jpg)
-3. 下载注册脚本:[linux](https://alioss.timecho.com/docs/img/register-UDF.sh), [windows](https://alioss.timecho.com/docs/img/register-UDF.bat);
+![](/img/20230814-191908.jpg)
+3. 下载注册脚本:[linux](/img/register-UDF.sh), [windows](/img/register-UDF.bat);
 4. 将注册脚本复制到 IoTDB 的`sbin`目录下，修改脚本中的参数（默认为host=127.0.0.1，rpcPort=6667，user=root，pass=root）；
 5. 启动 IoTDB 服务；
 6. 运行注册脚本`register-UDF.sh`以注册 UDF。

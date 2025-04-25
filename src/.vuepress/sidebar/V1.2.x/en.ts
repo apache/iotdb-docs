@@ -1,20 +1,19 @@
 /*
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 export const enSidebar = {
@@ -31,10 +30,10 @@ export const enSidebar = {
       children: [
         { text: 'What is IoTDB', link: 'What-is-IoTDB' },
         { text: 'Features', link: 'Features' },
-        { text: 'Architecture', link: 'Architecture' },
+        { text: 'System Architecture', link: 'Architecture' },
         { text: 'Performance', link: 'Performance' },
         { text: 'Scenario', link: 'Scenario' },
-        { text: 'Publication', link: 'Publication' },
+        { text: 'Academic Achievement', link: 'Publication' },
       ],
     },
     {
@@ -54,10 +53,13 @@ export const enSidebar = {
       prefix: 'Basic-Concept/',
       // children: 'structure',
       children: [
-        { text: 'Data Model and Terminology', link: 'Data-Model-and-Terminology' },
+        { text: 'Data Model', link: 'Data-Model-and-Terminology' },
         { text: 'Data Type', link: 'Data-Type' },
         { text: 'Encoding and Compression', link: 'Encoding-and-Compression' },
-        { text: 'Data Partitioning & Load Balancing', link: 'Cluster-data-partitioning' },
+        {
+          text: 'Data Partitioning & Load Balancing',
+          link: 'Cluster-data-partitioning',
+        },
       ],
     },
     {
@@ -66,11 +68,17 @@ export const enSidebar = {
       prefix: 'Deployment-and-Maintenance/',
       // children: 'structure',
       children: [
-        { text: 'Environmental Requirement', link: 'Environmental-Requirement' },
+        {
+          text: 'Environmental Requirement',
+          link: 'Environmental-Requirement',
+        },
         { text: 'Resource Recommendation', link: 'Deployment-Recommendation' },
         { text: 'Deployment Guide', link: 'Deployment-Guide' },
         { text: 'Docker Install', link: 'Docker-Install' },
-        { text: 'Monitoring-Board-Install-and-Deploy', link: 'Monitoring-Board-Install-and-Deploy' },
+        {
+          text: 'Monitoring Board Install and Deploy',
+          link: 'Monitoring-Board-Install-and-Deploy',
+        },
       ],
     },
 
@@ -82,13 +90,13 @@ export const enSidebar = {
       children: [
         { text: 'Syntax Rule', link: 'Syntax-Rule' },
         { text: 'Operate Metadata', link: 'Operate-Metadata' },
-        { text: 'Write Delete Data', link: 'Write-Delete-Data' },
+        { text: 'Write & Delete Data', link: 'Write-Delete-Data' },
         { text: 'Query Data', link: 'Query-Data' },
         { text: 'Operator and Expression', link: 'Operator-and-Expression' },
-        { text: 'Streaming', link: 'Streaming' },
+        { text: 'Stream Processing', link: 'Streaming' },
         { text: 'Data Sync', link: 'Data-Sync' },
         { text: 'Database Programming', link: 'Database-Programming' },
-        { text: 'Authority Management', link: 'Authority-Management' },
+        { text: 'Database Administration', link: 'Authority-Management' },
       ],
     },
     {
@@ -97,9 +105,9 @@ export const enSidebar = {
       prefix: 'Tools-System/',
       // children: 'structure',
       children: [
-        { text: 'CLI', link: 'CLI' },
+        { text: 'Command Line Interface (CLI)', link: 'CLI' },
         { text: 'Monitor Tool', link: 'Monitor-Tool' },
-        { text: 'Benchmark', link: 'Benchmark' },
+        { text: 'Benchmark Tool', link: 'Benchmark' },
         { text: 'Maintenance Tool', link: 'Maintenance-Tool' },
         { text: 'Import Export Tool', link: 'Import-Export-Tool' },
       ],
@@ -117,8 +125,8 @@ export const enSidebar = {
         { text: 'C# Native API', link: 'Programming-CSharp-Native-API' },
         { text: 'Node.js Native API', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust Native API', link: 'Programming-Rust-Native-API' },
-        { text: 'JDBC (Not Recommend)', link: 'Programming-JDBC' },
-        { text: 'MQTT', link: 'Programming-MQTT' },
+        { text: 'JDBC', link: 'Programming-JDBC' },
+        { text: 'MQTT Protocol', link: 'Programming-MQTT' },
         { text: 'Kafka', link: 'Programming-Kafka' },
         { text: 'REST API V1 (Not Recommend)', link: 'RestServiceV1' },
         { text: 'REST API V2', link: 'RestServiceV2' },
@@ -132,17 +140,17 @@ export const enSidebar = {
       // children: 'structure',
       children: [
         { text: 'Grafana Plugin', link: 'Grafana-Plugin' },
-        { text: 'Grafana IoTDB Connector', link: 'Grafana-Connector' },
-        { text: 'Zeppelin IoTDB Connector', link: 'Zeppelin-IoTDB' },
-        { text: 'Spark TsFile Connector', link: 'Spark-TsFile' },
-        { text: 'Spark IoTDB Connector', link: 'Spark-IoTDB' },
-        { text: 'Hive TsFile Connector', link: 'Hive-TsFile' },
-        { text: 'Flink IoTDB Connector', link: 'Flink-IoTDB' },
-        { text: 'Flink SQL IoTDB Connector', link: 'Flink-SQL-IoTDB' },
-        { text: 'Flink TsFile Connector', link: 'Flink-TsFile' },
-        { text: 'NiFi IoTDB Connector', link: 'NiFi-IoTDB' },
-        { text: 'DBeaver-IoTDB', link: 'DBeaver' },
-        { text: 'Telegraf-IoTDB Output Plugin', link: 'Telegraf-IoTDB' },
+        { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
+        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB' },
+        { text: 'Apache Spark(TsFile)', link: 'Spark-TsFile' },
+        { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
+        { text: 'Apache Hive(TsFile)', link: 'Hive-TsFile' },
+        { text: 'Apache Flink(IoTDB)', link: 'Flink-IoTDB' },
+        { text: 'Apache Flink(SQL)', link: 'Flink-SQL-IoTDB' },
+        { text: 'Apache Flink(TsFile)', link: 'Flink-TsFile' },
+        { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
+        { text: 'DBeaver', link: 'DBeaver' },
+        { text: 'Telegraf', link: 'Telegraf-IoTDB' },
       ],
     },
     {
@@ -150,9 +158,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       // children: 'structure',
-      children: [
-        { text: 'SQL Manual', link: 'SQL-Manual' },
-      ],
+      children: [{ text: 'SQL Manual', link: 'SQL-Manual' }],
     },
     {
       text: 'FAQ',
@@ -160,7 +166,11 @@ export const enSidebar = {
       prefix: 'FAQ/',
       // children: 'structure',
       children: [
-        { text: 'Frequently Asked Questions', link: 'Frequently-asked-questions' }],
+        {
+          text: 'Frequently Asked Questions',
+          link: 'Frequently-asked-questions',
+        },
+      ],
     },
     {
       text: 'Reference',

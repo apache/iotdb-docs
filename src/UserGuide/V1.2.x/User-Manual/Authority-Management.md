@@ -19,8 +19,7 @@
 
 -->
 
-# Administration Management
-
+# Database Administration
 IoTDB provides users with account privilege management operations, so as to ensure data security.
 
 We will show you basic user privilege management operations through the following specific examples. Detailed SQL syntax and usage details can be found in [SQL Documentation](../SQL-Manual/SQL-Manual.md).

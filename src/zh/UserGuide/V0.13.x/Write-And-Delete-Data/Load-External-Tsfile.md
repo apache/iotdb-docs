@@ -29,19 +29,18 @@
 
 #### 加载 tsfile 文件
 
-加载 tsfile 文件的指令为：`load '<path/dir>' [autoregister=true/false][,sglevel=int][,verify=true/false]`
+加载 tsfile 文件的指令为：`load '<path/dir>' [autoregister=true/false][,sglevel=int]`
+
 
 该指令有两种用法：
 
 1. 通过指定文件路径(绝对路径)加载单 tsfile 文件。
 
-第二个参数表示待加载的 tsfile 文件的路径，其中文件名称需要符合 tsfile 的命名规范，即`{systemTime}-{versionNum}-{in_space_compaction_num}-{cross_space_compaction_num}.tsfile`。load 命令有三个可选项，分别是 autoregister，值域为 true/false，sglevel，值域为整数，verify，值域为 true/false。不同选项之间用逗号连接，选项之间无顺序要求。
+第二个参数表示待加载的 tsfile 文件的路径，其中文件名称需要符合 tsfile 的命名规范，即`{systemTime}-{versionNum}-{in_space_compaction_num}-{cross_space_compaction_num}.tsfile`。load 命令有 2 个可选项，分别是 autoregister，值域为 true/false，sglevel，值域为整数。选项之间无顺序要求。
 
 AUTOREGISTER 选项表示当待加载的 tsfile 文件中时间序列对应的元数据不存在时，用户可以选择是否自动创建 schema ，参数为 true 表示自动创建 schema，相反 false 表示不创建，缺省时默认创建 schema。
 
 SGLEVEL 选项，当 tsfile 对应的存储组不存在时，用户可以通过 sglevel 参数的值来制定存储组的级别，默认为`iotdb-engine.properties`中设置的级别。例如当设置 level 参数为1时表明此 tsfile 中所有时间序列中层级为1的前缀路径是存储组，即若存在设备 root.sg.d1.s1，此时 root.sg 被指定为存储组。
-
-VERIFY 选项表示是否对载入的 tsfile 中的所有时间序列进行元数据检查，默认为 true。开启时，若载入的 tsfile 中的时间序列在当前 iotdb 中也存在，则会比较该时间序列的所有 Measurement 的数据类型是否一致，如果出现不一致将会导致载入失败，关闭该选项会跳过检查，载入更快。
 
 若待加载的 tsfile 文件对应的`.resource`文件存在，会被一并加载至 Apache IoTDB 数据文件的目录和引擎中，否则将通过 tsfile 文件重新生成对应的`.resource`文件，即加载的 tsfile 文件所对应的`.resource`文件不是必要的。
 
@@ -51,11 +50,10 @@ VERIFY 选项表示是否对载入的 tsfile 中的所有时间序列进行元�
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false`
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=true`
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile' sglevel=1`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=true`
 * `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=true,sglevel=1`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=false,sglevel=1`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false,verify=true`
-* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false,sglevel=1,verify=true`
+* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false`
+* `load '/Users/Desktop/data/1575028885956-101-0.tsfile' autoregister=false,sglevel=1`
+
 
 
 2. 通过指定文件夹路径(绝对路径)批量加载文件。
@@ -68,7 +66,6 @@ VERIFY 选项表示是否对载入的 tsfile 中的所有时间序列进行元�
 * `load '/Users/Desktop/data' autoregister=false`
 * `load '/Users/Desktop/data' autoregister=true`
 * `load '/Users/Desktop/data' autoregister=true,sglevel=1`
-* `load '/Users/Desktop/data' autoregister=false,sglevel=1,verify=true`
 
 #### 远程加载
 

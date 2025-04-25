@@ -31,9 +31,9 @@
 
 *注意：如果您想要安装 0.13.0 版本的 Python API，不要使用 `pip install apache-iotdb==0.13.0`，请使用 `pip install apache-iotdb==0.13.0.post1` 作为替代！*
 
-您可以从这里得到一个使用该包进行数据读写的例子：[Session Example](https://github.com/apache/iotdb/blob/master/client-py/SessionExample.py)
+您可以从这里得到一个使用该包进行数据读写的例子：[Session Example](https://github.com/apache/iotdb/blob/rel/0.13/client-py/SessionExample.py)
 
-关于对齐时间序列读写的例子：[Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/master/client-py/SessionAlignedTimeseriesExample.py)
+关于对齐时间序列读写的例子：[Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/rel/0.13/client-py/SessionAlignedTimeseriesExample.py)
 
 （您需要在文件的头部添加`import iotdb`）
 

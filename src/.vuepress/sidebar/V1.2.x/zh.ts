@@ -1,20 +1,19 @@
 /*
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 export const zhSidebar = {
@@ -34,7 +33,7 @@ export const zhSidebar = {
         { text: '系统架构', link: 'Architecture' },
         { text: '性能特点', link: 'Performance' },
         { text: '应用场景', link: 'Scenario' },
-        { text: '研究论文', link: 'Publication' },
+        { text: '学术成果', link: 'Publication' },
       ],
     },
     {
@@ -81,10 +80,10 @@ export const zhSidebar = {
       children: [
         { text: '语法约定', link: 'Syntax-Rule' },
         { text: '元数据管理', link: 'Operate-Metadata' },
-        { text: '数据增删', link: 'Write-Delete-Data' },
+        { text: '数据写入与删除', link: 'Write-Delete-Data' },
         { text: '数据查询', link: 'Query-Data' },
         { text: '运算符和表达式', link: 'Operator-and-Expression' },
-        { text: '流处理', link: 'Streaming' },
+        { text: '流处理框架', link: 'Streaming' },
         { text: '数据同步', link: 'Data-Sync' },
         { text: '数据库编程', link: 'Database-Programming' },
         { text: '权限管理', link: 'Authority-Management' },
@@ -96,7 +95,7 @@ export const zhSidebar = {
       prefix: 'Tools-System/',
       // children: 'structure',
       children: [
-        { text: '命令行工具', link: 'CLI' },
+        { text: 'SQL命令行终端 (CLI)', link: 'CLI' },
         { text: '监控工具', link: 'Monitor-Tool' },
         { text: '测试工具', link: 'Benchmark' },
         { text: '运维工具', link: 'Maintenance-Tool' },
@@ -109,17 +108,17 @@ export const zhSidebar = {
       prefix: 'API/',
       // children: 'structure',
       children: [
-        { text: 'Java 原生接口', link: 'Programming-Java-Native-API' },
-        { text: 'Python', link: 'Programming-Python-Native-API' },
-        { text: 'C++', link: 'Programming-Cpp-Native-API' },
-        { text: 'Go', link: 'Programming-Go-Native-API' },
-        { text: 'C#', link: 'Programming-CSharp-Native-API' },
-        { text: 'Node.js', link: 'Programming-NodeJS-Native-API' },
-        { text: 'Rust', link: 'Programming-Rust-Native-API' },
-        { text: 'JDBC (不推荐)', link: 'Programming-JDBC' },
+        { text: 'Java原生接口', link: 'Programming-Java-Native-API' },
+        { text: 'Python原生接口', link: 'Programming-Python-Native-API' },
+        { text: 'C++原生接口', link: 'Programming-Cpp-Native-API' },
+        { text: 'Go原生接口', link: 'Programming-Go-Native-API' },
+        { text: 'C#原生接口', link: 'Programming-CSharp-Native-API' },
+        { text: 'Node.js原生接口', link: 'Programming-NodeJS-Native-API' },
+        { text: 'Rust原生接口', link: 'Programming-Rust-Native-API' },
+        { text: 'JDBC', link: 'Programming-JDBC' },
         { text: 'MQTT', link: 'Programming-MQTT' },
         { text: 'Kafka', link: 'Programming-Kafka' },
-        { text: 'REST API V1', link: 'RestServiceV1' },
+        { text: 'REST API V1 (不推荐)', link: 'RestServiceV1' },
         { text: 'REST API V2', link: 'RestServiceV2' },
         { text: 'TsFile API', link: 'Programming-TsFile-API' },
       ],
@@ -130,18 +129,18 @@ export const zhSidebar = {
       prefix: 'Ecosystem-Integration/',
       // children: 'structure',
       children: [
-        { text: 'Grafana-Plugin', link: 'Grafana-Plugin' },
-        { text: 'Grafana-IoTDB-Connector', link: 'Grafana-Connector' },
-        { text: 'Zeppelin-IoTDB-Connector', link: 'Zeppelin-IoTDB' },
-        { text: 'Spark-TsFile-Connector', link: 'Spark-TsFile' },
-        { text: 'Spark-IoTDB-Connector', link: 'Spark-IoTDB' },
-        { text: 'Hive-TsFile-Connector', link: 'Hive-TsFile' },
-        { text: 'Flink-IoTDB-Connector', link: 'Flink-IoTDB' },
-        { text: 'Flink-SQL-IoTDB-Connector', link: 'Flink-SQL-IoTDB' },
-        { text: 'Flink-TsFile-Connector', link: 'Flink-TsFile' },
-        { text: 'NiFi-IoTDB-Connector', link: 'NiFi-IoTDB' },
-        { text: 'DBeaver-IoTDB 集成方案', link: 'DBeaver' },
-        { text: 'Telegraf-IoTDB Output 插件', link: 'Telegraf-IoTDB' },
+        { text: 'Grafana插件', link: 'Grafana-Plugin' },
+        { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
+        { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB' },
+        { text: 'Apache Spark(TsFile)', link: 'Spark-TsFile' },
+        { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
+        { text: 'Apache Hive(TsFile)', link: 'Hive-TsFile' },
+        { text: 'Apache Flink(IoTDB)', link: 'Flink-IoTDB' },
+        { text: 'Apache Flink(SQL)', link: 'Flink-SQL-IoTDB' },
+        { text: 'Apache Flink(TsFile)', link: 'Flink-TsFile' },
+        { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
+        { text: 'DBeaver', link: 'DBeaver' },
+        { text: 'Telegraf', link: 'Telegraf-IoTDB' },
       ],
     },
     {
@@ -149,25 +148,22 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       // children: 'structure',
-      children: [
-        { text: 'SQL手册', link: 'SQL-Manual' },
-      ],
+      children: [{ text: 'SQL手册', link: 'SQL-Manual' }],
     },
     {
       text: 'FAQ',
       collapsible: true,
       prefix: 'FAQ/',
       // children: 'structure',
-      children: [
-        { text: '常见问题', link: 'Frequently-asked-questions' }],
+      children: [{ text: '常见问题', link: 'Frequently-asked-questions' }],
     },
     {
-      text: '参考',
+      text: '附录',
       collapsible: true,
       prefix: 'Reference/',
       // children: 'structure',
       children: [
-        { text: 'UDF 函数库', link: 'UDF-Libraries' },
+        { text: 'UDF函数库', link: 'UDF-Libraries' },
         { text: '配置参数', link: 'Common-Config-Manual' },
         { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
         { text: 'DataNode配置参数', link: 'DataNode-Config-Manual' },

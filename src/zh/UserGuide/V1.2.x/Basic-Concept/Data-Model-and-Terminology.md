@@ -25,7 +25,7 @@
 
 根据企业组织结构和设备实体层次结构，我们将其物联网数据模型表示为如下图所示的属性层级组织结构，即电力集团层-风电场层-实体层-物理量层。其中 ROOT 为根节点，物理量层的每一个节点为叶子节点。IoTDB 采用树形结构定义数据模式，以从 ROOT 节点到叶子节点的路径来命名一个时间序列，层次间以“.”连接。例如，下图最左侧路径对应的时间序列名称为`ROOT.ln.wf01.wt01.status`。
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/123542457-5f511d00-d77c-11eb-8006-562d83069baa.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/123542457-5f511d00-d77c-11eb-8006-562d83069baa.png">
 
 在上图所描述的实际场景中，有许多实体所采集的物理量相同，即具有相同的工况名称和类型，因此，可以声明一个**元数据模板**来定义可采集的物理量集合。在实践中，元数据模板的使用可帮助减少元数据的资源占用，详细内容参见 [元数据模板](../User-Manual/Operate-Metadata.md#元数据模板管理)。
 
@@ -33,7 +33,7 @@ IoTDB 模型结构涉及的基本概念在下文将做详细叙述。
 
 ## 数据库（Database）
 
-用户可以将任意前缀路径设置成数据库。如有 4 条时间序列`root.ln.wf01.wt01.status`, `root.ln.wf01.wt01.temperature`, `root.ln.wf02.wt02.hardware`, `root.ln.wf02.wt02.status`，路径`root.ln`下的两个实体 `wt01`, `wt02`可能属于同一个业主，或者同一个制造商，这时候就可以将前缀路径`root.ln`指定为一个数据库。未来`root.ln`下增加了新的实体，也将属于该数据库。
+用户可以将任意前缀路径设置成数据库。如有 4 条时间序列`root.ln.wf01.wt01.status`, `root.ln.wf01.wt01.temperature`, `root.ln.wf02.wt02.hardware`, `root.ln.wf02.wt02.status`，路径`root.ln`下的两个实体 `wf01`, `wf02`可能属于同一个业主，或者同一个制造商，这时候就可以将前缀路径`root.ln`指定为一个数据库。未来`root.ln`下增加了新的实体，也将属于该数据库。
 
 一个 database 中的所有数据会存储在同一批文件夹下，不同 database 的数据会存储在磁盘的不同文件夹下，从而实现物理隔离。
 
@@ -51,9 +51,11 @@ Database 节点名只支持中英文字符、数字和下划线的组合。例�
 
 > 注意 ：Database 节点名不支持将*用反引号括起来，如root.\` * \`,其余层级则无此限制。
 
+**无模式写入**：可以在未定义元数据时， 通过 insert 语句直接写入数据，数据库中将自动识别并注册所需的元数据，实现自动建模。
+
 ## 设备（Device）
 
-**一个物理设备**，也称实体（Entity），是在实际场景中拥有物理量的设备或装置。在 IoTDB 当中，所有的物理量都有其对应的归属实体。实体是管理的一组时间序列的组合，可以是一个物理设备、测量装置、传感器集合等。
+**一个物理设备**，也称实体（Entity），是在实际场景中拥有物理量的设备或装置。在 IoTDB 当中，所有的物理量都有其对应的归属实体。实体无需手动创建，默认为倒数第二层。实体是管理的一组时间序列的组合，可以是一个物理设备、测量装置、传感器集合等。
 
 
 ## 物理量（Measurement）
@@ -94,7 +96,7 @@ Database 节点名只支持中英文字符、数字和下划线的组合。例�
 
 插入数据时，对齐的时间序列中某列的某些行允许有空值。
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/114125919-f4850800-9929-11eb-8211-81d4c04af1ec.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/114125919-f4850800-9929-11eb-8211-81d4c04af1ec.png">
 
 在后续数据定义语言、数据操作语言和 Java 原生接口章节，将对涉及到对齐时间序列的各种操作进行逐一介绍。
 

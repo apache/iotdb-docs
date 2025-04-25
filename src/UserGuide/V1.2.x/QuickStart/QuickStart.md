@@ -51,7 +51,7 @@ Configuration files are located in the `conf` folder
   * system config module (`iotdb-datanode.properties`)
   * log config module (`logback.xml`). 
 
-For more information, please go to [Config](../stage/DataNode-Config-Manual.md).
+For more information, please go to [Config](../Reference/DataNode-Config-Manual.md).
 
 ## Start
 
@@ -76,7 +76,6 @@ Users can start IoTDB in standalone mode by using the `start-standalone` script 
 
 Note: In order to run IoTDB in standalone mode, you need to ensure that all addresses are set to 127.0.0.1.
 If you need to access the IoTDB from a different machine, please change the configuration item `dn_rpc_address` to the public IP of the machine where IoTDB is running and be sure to set `replication factors` to 1, which is currently the default setting.
-It is recommended to use `SimpleConsensus` in this mode, as this has performance advantages in this mode of operation.
 
 ### Using the Command Line Interfave (CLI)
 
@@ -245,7 +244,7 @@ The server can be stopped using `ctrl-C` or by running the following script:
 ```
 Note: In Linux, please add the `sudo` as far as possible, or else the stopping process may fail. <!-- TODO: Actually running things as `root` is considered a bad practice from security perspective. Is there a reson for requiring root? I don't think we're using any privileged ports or resources. -->
 
-More explanations on running IoTDB in a clustered environment are available at [Cluster-Setup](../stage/Cluster/Cluster-Setup.md).
+More explanations on running IoTDB in a clustered environment are available at [Cluster-Setup](../Deployment-and-Maintenance/Deployment-Guide.md).
 
 ### Administration
 
@@ -261,7 +260,7 @@ ALTER USER <username> SET PASSWORD <password>;
 Example: IoTDB > ALTER USER root SET PASSWORD 'newpwd';
 ```
 
-More about administration options：[Administration Management](../User-Manual/Security-Management.md)
+More about administration options：[Administration Management](../User-Manual/Authority-Management.md)
 
 ## Basic configuration
 

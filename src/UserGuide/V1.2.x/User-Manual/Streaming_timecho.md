@@ -19,7 +19,7 @@
 
 -->
 
-# IoTDB stream processing framework
+# Stream Computing Framework
 
 The IoTDB stream processing framework allows users to implement customized stream processing logic, which can monitor and capture storage engine changes, transform changed data, and push transformed data outward.
 
@@ -35,7 +35,7 @@ Pipe Extractor is used to extract data, Pipe Processor is used to process data, 
 
 **The model of the Pipe task is as follows:**
 
-![pipe.png](https://alioss.timecho.com/upload/pipe.png)
+![pipe.png](/img/pipe.png)
 
 Describing a data flow processing task essentially describes the properties of Pipe Extractor, Pipe Processor and Pipe Connector plugins.
 Users can declaratively configure the specific attributes of the three subtasks through SQL statements, and achieve flexible data ETL capabilities by combining different attributes.
@@ -455,7 +455,7 @@ AS <full class name>
 USING <URI of JAR package>
 ```
 
-Example: If you implement a data processing plugin named edu.tsinghua.iotdb.pipe.ExampleProcessor, and the packaged jar package is pipe-plugin.jar, you want to use this plugin in the stream processing engine, and mark the plugin as example. There are two ways to use the plug-in package, one is to upload to the URI server, and the other is to upload to the local directory of the cluster.
+Example: If you implement a data processing plugin named edu.tsinghua.iotdb.pipe.ExampleProcessor, and the packaged jar package is pipe-plugin.jar, you want to use this plugin in the stream processing engine, and mark the plugin as example. There are two ways to use the plugin package, one is to upload to the URI server, and the other is to upload to the local directory of the cluster.
 
 Method 1: Upload to the URI server
 
@@ -464,9 +464,9 @@ Preparation: To register in this way, you need to upload the JAR package to the 
 SQL：
 
 ```sql
-SQL CREATE PIPEPLUGIN example 
+CREATE PIPEPLUGIN example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
-USING URI '<https://example.com:8080/iotdb/pipe-plugin.jar>'
+USING URI <https://example.com:8080/iotdb/pipe-plugin.jar>
 ```
 
 Method 2: Upload the data to the local directory of the cluster
@@ -476,9 +476,9 @@ Preparation: To register in this way, you need to place the JAR package in any p
 SQL：
 
 ```sql
-SQL CREATE PIPEPLUGIN example 
+CREATE PIPEPLUGIN example 
 AS 'edu.tsinghua.iotdb.pipe.ExampleProcessor' 
-USING URI '<file:/IoTDB installation path/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar>'
+USING URI <file:/IoTDB installation path/iotdb-1.x.x-bin/ext/pipe/pipe-plugin.jar>
 ```
 
 ### Delete plugin statement
@@ -760,7 +760,7 @@ A stream processing pipe will pass through various states during its managed lif
 
 The following diagram shows all states and state transitions:
 
-![State migration diagram](https://alioss.timecho.com/docs/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
+![State migration diagram](/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
 
 ## authority management
 

@@ -59,7 +59,7 @@ Different configuration parameters take effect in the following three ways:
 
 |    Name     |                                                  schema\_region\_consensus\_protocol\_class                                                  |
 |:-----------:|:--------------------------------------------------------------------------------------------------------------------------------------------:|
-| Description | Consensus protocol of schema replicas, SimpleConsensus could only be used in 1 replica，larger than 1 replicas could only use RatisConsensus  |
+| Description | Consensus protocol of schema replicas，larger than 1 replicas could only use RatisConsensus  |
 |    Type     |                                                                    String                                                                    |
 |   Default   |                                               org.apache.iotdb.consensus.ratis.RatisConsensus                                                |
 |  Effective  |                                                Only allowed to be modified in first start up                                                 |
@@ -77,7 +77,7 @@ Different configuration parameters take effect in the following three ways:
 
 |    Name     | data\_region\_consensus\_protocol\_class                                                                                                             |
 |:-----------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------|
-| Description | Consensus protocol of data replicas, SimpleConsensus could only be used in 1 replica，larger than 1 replicas could use IoTConsensus or RatisConsensus |
+| Description | Consensus protocol of data replicasa，larger than 1 replicas could use IoTConsensus or RatisConsensus |
 |    Type     | String                                                                                                                                               |
 |   Default   | org.apache.iotdb.consensus.simple.SimpleConsensus                                                                                                    |
 |  Effective  | Only allowed to be modified in first start up                                                                                                        |
@@ -649,11 +649,11 @@ Different configuration parameters take effect in the following three ways:
 * default\_ttl\_in\_ms
 
 |    Name     | default\_ttl\_in\_ms                   |
-| :---------: | :------------------------------------- |
-| Description | Default ttl when each database created |
-|    Type     | Long                                   |
-|   Default   | Infinity                               |
-|  Effective  | After restarting system                |
+|:---:|:--------------|
+|Description| Define the maximum age of data for which each tier is responsible		 |
+|Type| long         |
+|Default| -1          |
+|Effective| After restarting system          |
 
 * max\_waiting\_time\_when\_insert\_blocked
 
@@ -844,8 +844,8 @@ Different configuration parameters take effect in the following three ways:
 | :---------: |:-----------------------------------------------|
 | Description | enable the compaction between unsequence files |
 |    Type     | Boolean                                        |
-|   Default   | false                                          |
-|  Effective  | hot-load                                          |
+|   Default   | true                                           |
+|  Effective  | hot-load                                       |
 
 * enable\_cross\_space\_compaction
 

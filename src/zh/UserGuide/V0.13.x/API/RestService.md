@@ -24,12 +24,7 @@ IoTDB 的 RESTful 服务可用于查询、写入和管理操作，它使用 Open
 
 ### 开启RESTful 服务
 RESTful 服务默认情况是关闭的
- * 开发者  
-   
-   找到sever模块中`org.apache.iotdb.db.conf.rest` 下面的`IoTDBRestServiceConfig`类，修改`enableRestService=true`即可。
- 
- * 使用者  
-   
+
    找到IoTDB安装目录下面的`conf/iotdb.properties`文件，将 `enable_rest_service` 设置为 `true` 以启用该模块。
     
    ```properties
@@ -42,7 +37,7 @@ RESTful 服务默认情况是关闭的
 示例中使用的用户名为：`root`，密码为：`root`，对应的 Basic 鉴权 Header 格式为
 
 ```
-Authorization: Basic cm9vdDpyb2901
+Authorization: Basic cm9vdDpyb290
 ```
 
 - 若用户名密码认证失败，则返回如下信息：

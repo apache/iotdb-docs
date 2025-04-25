@@ -1,4 +1,4 @@
-/*
+<!-- 
 * Licensed to the Apache Software Foundation (ASF) under one
 * or more contributor license agreements.  See the NOTICE file
 * distributed with this work for additional information
@@ -14,39 +14,78 @@
 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 * See the License for the specific language governing permissions and
 * limitations under the License.
-*/
+-->
 
-<template>
-  <footer style="padding-bottom: 2rem;">
-    <span id="doc-version" style="display: none;">{{ docVersion }}</span>
-    <p style="text-align: center; color: #909399; font-size: 12px; margin: 0 30px;">Copyright © {{year}} The Apache Software Foundation.<br>
-      Apache and the Apache feather logo are trademarks of The Apache Software Foundation</p>
-    <p style="text-align: center; margin-top: 10px; color: #909399; font-size: 12px; margin: 0 30px;">
-      <strong>Have a question?</strong> Connect with us on QQ, WeChat, or Slack. <a href="https://github.com/apache/iotdb/issues/1995">Join the community</a> now.</p>
-    <p style="text-align: center; margin-top: 10px; color: #909399; font-size: 12px; margin: 0 30px;">
-      We use <a href="https://analytics.google.com">Google Analytics</a> to collect anonymous, aggregated usage information.
-    </p>
-  </footer>
-</template>
 <script setup lang="ts">
+import { useLocaleConfig } from '@vuepress/helper/client';
 import { computed } from 'vue';
-import { usePageData } from '@vuepress/client';
+import { usePageData } from 'vuepress/client';
+import { getDocVersion } from '../utils/index.js';
 
 const pageData = usePageData();
 
-const year = computed(() => new Date().getFullYear());
+const docVersion = computed(() => getDocVersion(pageData.value.path));
 
-const getDocVersion = (branch = 'latest', path = '') => {
-  if (path.indexOf('UserGuide/Master') > -1 || path.indexOf('UserGuide') === -1) {
-    return branch;
-  }
-  const branchRex = /UserGuide\/V(\d+\.\d+\.x)/;
-  if (branchRex.test(path)) {
-    const tag = branchRex.exec(path)![1];
-    return `rel/${tag.replace('.x', '')}`;
-  }
-  return branch;
-};
+const locale = useLocaleConfig({
+  '/': {
+    copyright:
+      'Copyright © :year: The Apache Software Foundation.\nApache IoTDB, IoTDB, Apache, the Apache feather logo, and the Apache IoTDB project logo are either registered trademarks or trademarks of The Apache Software Foundation in all countries',
+    question: 'Having questions?',
+    join: 'Connect with us on QQ, WeChat, or Slack.',
+    joinLink: 'Join the community',
+  },
+  '/zh/': {
+    copyright:
+      '版权所有 © :year: Apache软件基金会。\nApache IoTDB，IoTDB，Apache，Apache 羽毛标志和 Apache IoTDB 项目标志是 Apache 软件基金会在所有国家的注册商标或商标',
+    question: '有问题吗？',
+    join: '在 QQ、微信或 Slack 上联系我们。',
+    joinLink: '立即加入社区',
+  },
+});
 
-const docVersion = computed(() => getDocVersion('latest', pageData.value.path));
+const copyrightText = computed(() =>
+  locale.value.copyright.replace(
+    /:year:/g,
+    new Date().getFullYear().toString(),
+  ),
+);
 </script>
+
+<template>
+  <footer class="site-footer">
+    <span
+      id="doc-version"
+      style="display: none"
+    >{{ docVersion }}</span>
+    <p class="copyright-text">
+      {{ copyrightText }}
+    </p>
+    <p
+      style="
+        text-align: center;
+        margin-top: 10px;
+        color: #909399;
+        font-size: 12px;
+        margin: 0 30px;
+      "
+    >
+      <strong>{{ locale.question }}</strong> {{ locale.join }}
+      <a href="https://github.com/apache/iotdb/issues/1995">{{
+        locale.joinLink
+      }}</a>
+    </p>
+  </footer>
+</template>
+
+<style lang="scss">
+.site-footer {
+  padding-bottom: 2rem;
+
+  .copyright-text {
+    text-align: center;
+    color: #909399;
+    font-size: 12px;
+    margin: 0 30px;
+  }
+}
+</style>

@@ -323,13 +323,13 @@ The SQL syntax for creating a schema template is as follows:
 CREATE SCHEMA TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
 ```
 
-**Example 1:** Create a template containing two non-aligned timeseires
+**Example 1:** Create a template containing two non-aligned timeseries
 
 ```shell
 IoTDB> create schema template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 ```
 
-**Example 2:** Create a template containing a group of aligned timeseires
+**Example 2:** Create a template containing a group of aligned timeseries
 
 ```shell
 IoTDB> create schema template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)
@@ -751,7 +751,7 @@ It costs 0.004s
 
 Then the Metadata Tree will be as below:
 
-<center><img style="width:100%; max-width:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/69792176-1718f400-1201-11ea-861a-1a83c07ca144.jpg"></center>
+<center><img style="width:100%; max-width:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/69792176-1718f400-1201-11ea-861a-1a83c07ca144.jpg"></center>
 
 As can be seen, `root` is considered as `LEVEL=0`. So when you enter statements such as:
 

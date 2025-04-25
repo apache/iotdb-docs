@@ -250,7 +250,7 @@ IoTDB> count devices root.ln.**
 
 ### 4、设备模板管理
 
-![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF.png)
+![img](/img/%E6%A8%A1%E6%9D%BF.png)
 
 
 
@@ -260,7 +260,7 @@ Create device root.sg.d1
 
 
 
-![img](https://alioss.timecho.com/docs/img/%E6%A8%A1%E6%9D%BF%E6%B5%81%E7%A8%8B.png)
+![img](/img/%E6%A8%A1%E6%9D%BF%E6%B5%81%E7%A8%8B.png)
 
 #### 创建元数据模板
 
@@ -385,27 +385,22 @@ IoTDB > select * from root.sg1.d1
 ```
 ### 5、加载 TsFile 文件数据
 ```
-load '<path/dir>' [sglevel=int][verify=true/false][onSuccess=delete/none]
+load '<path/dir>' [sglevel=int][onSuccess=delete/none]
 ```
 #### 通过指定文件路径(绝对路径)加载单 tsfile 文件
 
 - `load '/Users/Desktop/data/1575028885956-101-0.tsfile'`
-- `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=true`
-- `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=false`
 - `load '/Users/Desktop/data/1575028885956-101-0.tsfile' sglevel=1`
 - `load '/Users/Desktop/data/1575028885956-101-0.tsfile' onSuccess=delete`
-- `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=true sglevel=1`
-- `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=false sglevel=1`
-- `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=true onSuccess=none`
-- `load '/Users/Desktop/data/1575028885956-101-0.tsfile' verify=false sglevel=1 onSuccess=delete`
+- `load '/Users/Desktop/data/1575028885956-101-0.tsfile' sglevel=1 onSuccess=delete`
+
 
 #### 通过指定文件夹路径(绝对路径)批量加载文件
 
 - `load '/Users/Desktop/data'`
-- `load '/Users/Desktop/data' verify=false`
-- `load '/Users/Desktop/data' verify=true`
-- `load '/Users/Desktop/data' verify=true sglevel=1`
-- `load '/Users/Desktop/data' verify=false sglevel=1 onSuccess=delete`
+- `load '/Users/Desktop/data' sglevel=1`
+- `load '/Users/Desktop/data' onSuccess=delete`
+- `load '/Users/Desktop/data' sglevel=1 onSuccess=delete`
 
 ## 删除数据
 

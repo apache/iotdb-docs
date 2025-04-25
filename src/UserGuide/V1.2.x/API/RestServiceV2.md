@@ -19,18 +19,12 @@
 
 -->
 
-# RESTful Services  
+# RESTful API V2
 IoTDB's RESTful services can be used for query, write, and management operations, using the OpenAPI standard to define interfaces and generate frameworks.
 
 ## Enable RESTful Services
 
 RESTful services are disabled by default.
-
-* Developer
-
-  Find the `IoTDBrestServiceConfig` class under `org.apache.iotdb.db.conf.rest` in the sever module, and modify `enableRestService=true`.
-
-* User
 
   Find the `conf/iotdb.rest.properties` file under the IoTDB installation directory and set `enable_rest_service` to `true` to enable the module.
 
@@ -46,7 +40,7 @@ The username used in the following examples is: `root`, and password is: `root`.
 And the authorization header is
 
 ```
-Authorization: Basic cm9vdDpyb2901
+Authorization: Basic cm9vdDpyb290
 ```
 
 - If a user authorized with incorrect username or password, the following error is returned:

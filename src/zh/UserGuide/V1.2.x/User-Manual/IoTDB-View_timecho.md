@@ -364,7 +364,7 @@ WHERE temperature01 < temperature02
 
 ### 3.3 视图修改
 
-对视图的修改，例如改名、修改计算逻辑、删除等操作，都和创建新的视图类似，需要重新指定整个视图的全部列相关的描述。
+视图支持的修改操作包括：修改计算逻辑，修改标签/属性/别名，以及删除。
 
 #### 3.3.1 修改视图数据来源
 
@@ -428,7 +428,6 @@ ALTER view root.turbine.d1.s1 UPSERT TAGS(tag2=newV2, tag3=v3) ATTRIBUTES(attr3=
 
 因为一个视图就是一条序列，因此可以像删除时间序列一样删除一个视图。
 
-扩充原有删除时间序列的方法，不新增`DELETE VIEW`的语句。
 
 ```SQL
 DELETE VIEW root.view.device.avg_temperatue
@@ -436,7 +435,6 @@ DELETE VIEW root.view.device.avg_temperatue
 
 ### 3.4 视图同步
 
-序列视图的数据总是经由实时的查询获得，因此天然支持数据同步。
 
 #### 如果依赖的原序列被删除了
 

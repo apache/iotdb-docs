@@ -771,12 +771,12 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 
 * enable\_unseq\_space\_compaction
 
-|Name| enable\_unseq\_space\_compaction |
-|:---:|:---|
+|Name| enable\_unseq\_space\_compaction               |
+|:---:|:-----------------------------------------------|
 |Description| enable the compaction between unsequence files |
-|Type| Boolean |
-|Default| false |
-|Effective|After restart system|
+|Type| Boolean                                        |
+|Default| true                                           |
+|Effective| After restart system                           |
 
 * enable\_cross\_space\_compaction
 

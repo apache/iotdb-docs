@@ -1,24 +1,23 @@
 /*
-  Licensed to the Apache Software Foundation (ASF) under one
-  or more contributor license agreements.  See the NOTICE file
-  distributed with this work for additional information
-  regarding copyright ownership.  The ASF licenses this file
-  to you under the Apache License, Version 2.0 (the
-  "License"); you may not use this file except in compliance
-  with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing,
-  software distributed under the License is distributed on an
-  "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-  KIND, either express or implied.  See the License for the
-  specific language governing permissions and limitations
-  under the License.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 export const zhSidebar = {
-  '/zh/UserGuide/latest/': [
+  '/zh/UserGuide/V1.3.x/': [
     {
       text: 'IoTDB用户手册 (V1.3.x)',
       children: [],
@@ -29,36 +28,23 @@ export const zhSidebar = {
       prefix: 'IoTDB-Introduction/',
       // children: 'structure', 使用该方式自动获取文件夹下的文件
       children: [
-        { text: 'IoTDB简介', link: 'What-is-IoTDB' },
-        { text: '主要功能特点', link: 'Features' },
-        { text: '系统架构', link: 'Architecture' },
-        { text: '性能特点', link: 'Performance' },
+        { text: '产品介绍', link: 'IoTDB-Introduction_apache' },
         { text: '应用场景', link: 'Scenario' },
-        { text: '研究论文', link: 'Publication' },
+        { text: '发布历史', link: 'Release-history_apache' },
+      ],
+    },
+    {
+      text: '预备知识',
+      collapsible: true,
+      prefix: 'Background-knowledge/',
+      children: [
+        { text: '常见概念', link: 'Cluster-Concept_apache' },
+        { text: '数据类型', link: 'Data-Type' },
       ],
     },
     {
       text: '快速上手',
-      collapsible: true,
-      prefix: 'QuickStart/',
-      // children: 'structure',
-      children: [
-        { text: '单机版', link: 'QuickStart' },
-        { text: '集群版', link: 'ClusterQuickStart' },
-        { text: '常用SQL语句', link: 'General-SQL-Statements' },
-      ],
-    },
-    {
-      text: '基础概念',
-      collapsible: true,
-      prefix: 'Basic-Concept/',
-      // children: 'structure',
-      children: [
-        { text: '数据模型', link: 'Data-Model-and-Terminology' },
-        { text: '数据类型', link: 'Data-Type' },
-        { text: '编码和压缩', link: 'Encoding-and-Compression' },
-        { text: '数据分区与负载均衡', link: 'Cluster-data-partitioning' },
-      ],
+      link: 'QuickStart/QuickStart_apache',
     },
     {
       text: '部署与运维',
@@ -66,28 +52,84 @@ export const zhSidebar = {
       prefix: 'Deployment-and-Maintenance/',
       // children: 'structure',
       children: [
-        { text: '部署准备', link: 'Deployment-Preparation' },
-        { text: '资源推荐', link: 'Deployment-Recommendation' },
-        { text: '部署指导', link: 'Deployment-Guide' },
-        { text: 'docker部署', link: 'Docker-Install' },
+        { text: '安装包获取', link: 'IoTDB-Package_apache' },
+        { text: '资源规划', link: 'Database-Resources' },
+        { text: '环境配置', link: 'Environment-Requirements' },
+        { text: '单机版部署指导', link: 'Stand-Alone-Deployment_apache' },
+        { text: '集群版部署指导', link: 'Cluster-Deployment_apache' },
+        { text: 'Docker部署指导', link: 'Docker-Deployment_apache' },
+        { text: 'AINode部署', link: 'AINode_Deployment_apache' },
+        { text: 'Kubernetes部署', link: 'Kubernetes_apache' },
       ],
     },
-
     {
-      text: '使用手册',
+      text: '基础功能',
       collapsible: true,
-      prefix: 'User-Manual/',
+      prefix: 'Basic-Concept/',
       // children: 'structure',
       children: [
-        { text: '语法约定', link: 'Syntax-Rule' },
-        { text: '元数据管理', link: 'Operate-Metadata' },
-        { text: '数据增删', link: 'Write-Delete-Data' },
+        {
+          text: '数据建模',
+          collapsible: true,
+          children: [
+            { text: '时序数据模型', link: 'Navigating_Time_Series_Data' },
+            { text: '建模方案设计', link: 'Data-Model-and-Terminology' },
+            { text: '测点管理', link: 'Operate-Metadata_apache' },
+          ],
+        },
+        { text: '数据写入', link: 'Write-Data' },
         { text: '数据查询', link: 'Query-Data' },
-        { text: '运算符和表达式', link: 'Operator-and-Expression' },
-        { text: '流处理', link: 'Streaming' },
-        { text: '数据同步', link: 'Data-Sync' },
-        { text: '数据库编程', link: 'Database-Programming' },
-        { text: '权限管理', link: 'Authority-Management' },
+        {
+          text: '数据删除',
+          collapsible: true,
+          children: [
+            { text: '数据删除', link: 'Delete-Data' },
+            { text: '自动过期删除', link: 'TTL-Delete' },
+          ],
+        },
+      ],
+    },
+    {
+      text: '高级功能',
+      collapsible: true,
+      prefix: 'User-Manual/',
+      children: [
+        { text: '数据同步(V1.3.0/1/2)', link: 'Data-Sync-old_apache' },
+        { text: '数据同步(V1.3.3)', link: 'Data-Sync_apache' },
+        { text: '数据订阅', link: 'Data-subscription' },
+        {
+          text: '流计算',
+          collapsible: true,
+          children: [
+            { text: '流计算框架', link: 'Streaming_apache' },
+            { text: '连续查询', link: 'Database-Programming' },
+            { text: '触发器', link: 'Trigger' },
+          ],
+        },
+        { text: 'UDF', link: 'User-defined-function_apache' },
+        {
+          text: '安全权限',
+          collapsible: true,
+          children: [{ text: '权限管理', link: 'Authority-Management' }],
+        },
+        {
+          text: '系统运维',
+          collapsible: true,
+          children: [
+            { text: '查询性能分析', link: 'Query-Performance-Analysis' },
+            { text: '负载均衡', link: 'Load-Balance' },
+            { text: '数据修复', link: 'Data-Recovery' },
+          ],
+        },
+      ],
+    },
+    {
+      text: 'AI 能力',
+      collapsible: true,
+      prefix: 'AI-capability/',
+      children: [
+        { text: 'AINode', link: 'AINode_apache' },
+        { text: '时序大模型', link: 'TimeSeries-Large-Model' },
       ],
     },
     {
@@ -97,10 +139,17 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: '命令行工具', link: 'CLI' },
-        { text: '监控工具', link: 'Monitor-Tool' },
+        { text: '监控工具', link: 'Monitor-Tool_apache' },
         { text: '测试工具', link: 'Benchmark' },
-        { text: '运维工具', link: 'Maintenance-Tool' },
-        { text: '导入导出工具', link: 'Import-Export-Tool' },
+        { text: '集群管理工具', link: 'Maintenance-Tool_apache' },
+        { text: '数据导入导出(V1.3.0/1/2)', link: 'Data-Import-Export-Tool' },
+        { text: 'TsFile导入导出(V1.3.0/1/2)', link: 'TsFile-Import-Export-Tool' },
+        { text: '数据导入(V1.3.3)', link: 'Data-Import-Tool' },
+        { text: '数据导入(V1.3.4)', link: 'Data-Import-Tool-1-3-4' },
+        { text: '数据导出(V1.3.3)', link: 'Data-Export-Tool' }, 
+        { text: '数据导出(V1.3.4)', link: 'Data-Export-Tool-1-3-4' }, 
+        { text: '全量备份工具(V1.3.2)', link: 'Backup-Tool' },
+        { text: '健康检查工具(V1.3.2)', link: 'Health-Check-Tool' }, 
       ],
     },
     {
@@ -109,18 +158,29 @@ export const zhSidebar = {
       prefix: 'API/',
       // children: 'structure',
       children: [
-        { text: 'Java 原生接口', link: 'Programming-Java-Native-API' },
-        { text: 'Python', link: 'Programming-Python-Native-API' },
-        { text: 'C++', link: 'Programming-Cpp-Native-API' },
-        { text: 'Go', link: 'Programming-Go-Native-API' },
-        { text: 'C#', link: 'Programming-CSharp-Native-API' },
-        { text: 'Node.js', link: 'Programming-NodeJS-Native-API' },
-        { text: 'Rust', link: 'Programming-Rust-Native-API' },
-        { text: 'JDBC (不推荐)', link: 'Programming-JDBC' },
-        { text: 'MQTT', link: 'Programming-MQTT' },
+        { text: 'Java原生接口', collapsible: true,
+          children: [
+            { text: 'Java原生API', link: 'Programming-Java-Native-API' },
+            { text: '数据订阅API', link: 'Programming-Data-Subscription' },
+          ],
+        },
+        { text: 'Python原生接口', link: 'Programming-Python-Native-API' },
+        { text: 'C++原生接口', link: 'Programming-Cpp-Native-API' },
+        { text: 'Go原生接口', link: 'Programming-Go-Native-API' },
+        { text: 'C#原生接口', link: 'Programming-CSharp-Native-API' },
+        { text: 'Node.js原生接口', link: 'Programming-NodeJS-Native-API' },
+        { text: 'Rust原生接口', link: 'Programming-Rust-Native-API' },
+        { text: 'JDBC', link: 'Programming-JDBC' },
+        { text: 'MQTT协议', link: 'Programming-MQTT' },
         { text: 'Kafka', link: 'Programming-Kafka' },
-        { text: 'REST API V1', link: 'RestServiceV1' },
-        { text: 'REST API V2', link: 'RestServiceV2' },
+        {
+          text: 'REST API',
+          collapsible: true,
+          children: [
+            { text: 'V1 (不推荐)', link: 'RestServiceV1' },
+            { text: 'V2', link: 'RestServiceV2' },
+          ],
+        },
       ],
     },
     {
@@ -129,17 +189,43 @@ export const zhSidebar = {
       prefix: 'Ecosystem-Integration/',
       // children: 'structure',
       children: [
-        { text: 'Grafana-Plugin', link: 'Grafana-Plugin' },
-        { text: 'Grafana-IoTDB-Connector', link: 'Grafana-Connector' },
-        { text: 'Zeppelin-IoTDB-Connector', link: 'Zeppelin-IoTDB' },
-        { text: 'Spark-TsFile-Connector', link: 'Spark-TsFile' },
-        { text: 'Spark-IoTDB-Connector', link: 'Spark-IoTDB' },
-        { text: 'Hive-TsFile-Connector', link: 'Hive-TsFile' },
-        { text: 'Flink-IoTDB-Connector', link: 'Flink-IoTDB' },
-        { text: 'Flink-SQL-IoTDB-Connector', link: 'Flink-SQL-IoTDB' },
-        { text: 'Flink-TsFile-Connector', link: 'Flink-TsFile' },
-        { text: 'NiFi-IoTDB-Connector', link: 'NiFi-IoTDB' },
-        { text: 'DBeaver-IoTDB 集成方案', link: 'DBeaver' },
+        {
+            text: '采集阶段',
+            collapsible: true,
+            children: [
+              { text: 'Telegraf插件(IoTDB)', link: 'Telegraf' },
+            ],
+          },
+          {
+            text: '处理阶段',
+            collapsible: true,
+            children: [
+              { text: 'Apache Flink(IoTDB)', link: 'Flink-IoTDB' },
+              { text: 'Apache Flink(TsFile)', link: 'Flink-TsFile' },
+              { text: 'Apache NiFi(IoTDB)', link: 'NiFi-IoTDB' },
+            ],
+          },
+          {
+            text: '分析阶段',
+            collapsible: true,
+            children: [
+              { text: 'Apache Hive(TsFile)', link: 'Hive-TsFile' },
+              { text: 'Apache Spark(TsFile)', link: 'Spark-TsFile' },
+              { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
+            ],
+          },
+          {
+            text: '应用阶段',
+            collapsible: true,
+            children: [
+              { text: 'Apache Zeppelin(IoTDB)', link: 'Zeppelin-IoTDB_apache' },
+              { text: 'DataEase(IoTDB)', link: 'DataEase' },
+              { text: 'DBeaver(IoTDB)', link: 'DBeaver' },
+              { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
+              { text: 'Grafana插件(IoTDB)', link: 'Grafana-Plugin' },
+              { text: 'ThingsBoard(IoTDB)', link: 'Thingsboard' },
+            ],
+          },
       ],
     },
     {
@@ -149,6 +235,61 @@ export const zhSidebar = {
       // children: 'structure',
       children: [
         { text: 'SQL手册', link: 'SQL-Manual' },
+        {
+          text: '函数与运算符',
+          collapsible: true,
+          children: [
+            { text: 'UDF函数库', link: 'UDF-Libraries_apache' },
+            { text: '函数与运算符', link: 'Operator-and-Expression' },
+            { text: '内置函数与表达式', link: 'Function-and-Expression' },
+          ],
+        },
+      ],
+    },
+    {
+      text: '技术内幕',
+      collapsible: true,
+      prefix: 'Technical-Insider/',
+      // children: 'structure',
+      children: [
+        { text: '研究论文', link: 'Publication' },
+        { text: '压缩&编码', link: 'Encoding-and-Compression' },
+        { text: '数据分区和负载均衡', link: 'Cluster-data-partitioning' },
+      ],
+    },
+    {
+      text: '附录',
+      collapsible: true,
+      prefix: 'Reference/',
+      // children: 'structure',
+      children: [
+        {
+          text: '配置参数(V1.3.0/1/2)',
+          collapsible: true,
+          children: [
+            { text: '配置参数', link: 'Common-Config-Manual-old' },
+            { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual-old' },
+            { text: 'DataNode配置参数', link: 'DataNode-Config-Manual-old_apache' },
+          ],
+        },
+        {
+          text: '配置参数(V1.3.3)',
+          collapsible: true,
+          children: [
+            { text: '配置参数', link: 'Common-Config-Manual' },
+            { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
+            { text: 'DataNode配置参数', link: 'DataNode-Config-Manual_apache' },
+          ],
+        },
+        {
+          text: '语法约定',
+          collapsible: true,
+          children: [
+            { text: '标识符', link: 'Syntax-Rule' },
+            { text: '关键字', link: 'Keywords' },
+          ],
+        },
+        { text: '状态码', link: 'Status-Codes' },
       ],
     },
     {
@@ -156,23 +297,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'FAQ/',
       // children: 'structure',
-      children: [
-        { text: '常见问题', link: 'Frequently-asked-questions' }],
-    },
-    {
-      text: '参考',
-      collapsible: true,
-      prefix: 'Reference/',
-      // children: 'structure',
-      children: [
-        { text: 'UDF 函数库', link: 'UDF-Libraries' },
-        { text: '内置函数与表达式', link: 'Function-and-Expression' },
-        { text: '配置参数', link: 'Common-Config-Manual' },
-        { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
-        { text: 'DataNode配置参数', link: 'DataNode-Config-Manual' },
-        { text: '状态码', link: 'Status-Codes' },
-        { text: '关键字', link: 'Keywords' },
-      ],
+      children: [{ text: '常见问题', link: 'Frequently-asked-questions' }],
     },
   ],
 };

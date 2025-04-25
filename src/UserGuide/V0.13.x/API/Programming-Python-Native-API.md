@@ -33,9 +33,9 @@ First, download the latest package: `pip3 install apache-iotdb`
 
 *Notice: If you are installing Python API v0.13.0, DO NOT install by `pip install apache-iotdb==0.13.0`, use `pip install apache-iotdb==0.13.0.post1` instead!* 
 
-You can get an example of using the package to read and write data at here: [Example](https://github.com/apache/iotdb/blob/master/client-py/SessionExample.py)
+You can get an example of using the package to read and write data at here: [Session Example](https://github.com/apache/iotdb/blob/rel/0.13/client-py/SessionExample.py)
 
-An example of aligned timeseries: [Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/master/client-py/SessionAlignedTimeseriesExample.py)
+An example of aligned timeseries: [Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/rel/0.13/client-py/SessionAlignedTimeseriesExample.py)
 
 (you need to add `import iotdb` in the head of the file)
 

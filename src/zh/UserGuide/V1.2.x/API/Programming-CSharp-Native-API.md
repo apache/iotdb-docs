@@ -31,13 +31,13 @@
 
 您可以使用 NuGet Package Manager, .NET CLI等工具来安装，以 .NET CLI为例
 
-如果您使用的是.NET 5.0 或者更高版本的SDK，输入如下命令即可安装最新的NuGet包
+如果您使用的是\.NET 5.0 或者更高版本的SDK，输入如下命令即可安装最新的NuGet包
 
 ```
 dotnet add package Apache.IoTDB
 ```
 
-为了适配 .NET Framework 4.x，我们单独构建了一个NuGet包，如果您使用的是.NET Framework 4.x，输入如下命令即可安装最新的包
+为了适配 .NET Framework 4.x，我们单独构建了一个NuGet包，如果您使用的是\.NET Framework 4.x，输入如下命令即可安装最新的包
 
 ```bash
 dotnet add package Apache.IoTDB.framework
@@ -81,7 +81,7 @@ await session_pool.InsertRecordAsync("root.test_group.test_device", rowRecord);
 // 插入Tablet
 var timestamp_lst = new List<long>{ timestamp + 1 };
 var value_lst = new List<object> {"iotdb", true, (int) 12};
-var tablet = new Tablet("root.test_group.test_device", measures, value_lst, timestamp_ls);
+var tablet = new Tablet("root.test_group.test_device", measures, value_lst, timestamp_lst);
 await session_pool.InsertTabletAsync(tablet);
 
 // 关闭Session

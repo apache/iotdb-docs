@@ -19,7 +19,7 @@
 
 -->
 
-# 快速上手
+# 快速上手（单机版）
 
 本文将介绍关于 IoTDB 使用的基本流程，如果需要更多信息，请浏览我们官网的 [指引](../IoTDB-Introduction/What-is-IoTDB.md).
 
@@ -67,7 +67,8 @@ Windows 系统启动命令如下：
 > sbin\start-standalone.bat
 ```
 
-注意：目前，要使用单机模式，你需要保证所有的地址设置为 127.0.0.1，如果需要从非 IoTDB 所在的机器访问此IoTDB，请将配置项 `dn_rpc_address` 修改为 IoTDB 所在的机器 IP。副本数设置为1。并且，推荐使用 SimpleConsensus，因为这会带来额外的效率。这些现在都是默认配置。
+注意：目前，要使用单机模式，你需要保证所有的地址设置为 127.0.0.1，如果需要从非 IoTDB 所在的机器访问此IoTDB，请将配置项 `dn_rpc_address` 修改为 IoTDB 所在的机器 IP。副本数设置为1。这些现在都是默认配置。
+
 
 ### 使用 Cli 工具
 
@@ -262,7 +263,7 @@ ALTER USER <username> SET PASSWORD <password>;
 Example: IoTDB > ALTER USER root SET PASSWORD 'newpwd';
 ```
 
-权限管理的具体内容可以参考：[权限管理](../User-Manual/Security-Management_timecho.md#权限管理)
+权限管理的具体内容可以参考：[权限管理](../User-Manual/Authority-Management.md#权限管理)
 
 ## 基础配置
 

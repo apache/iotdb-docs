@@ -21,11 +21,11 @@
 
 # Data Model
 
-A wind power IoT scenario is taken as an example to illustrate how to creat a correct data model in IoTDB.
+A wind power IoT scenario is taken as an example to illustrate how to create a correct data model in IoTDB.
 
 According to the enterprise organization structure and equipment entity hierarchy, it is expressed as an attribute hierarchy structure, as shown below. The hierarchical from top to bottom is: power group layer - power plant layer - entity layer - measurement layer. ROOT is the root node, and each node of measurement layer is a leaf node. In the process of using IoTDB, the attributes on the path from ROOT node is directly connected to each leaf node with ".", thus forming the name of a timeseries in IoTDB. For example, The left-most path in Figure 2.1 can generate a timeseries named `root.ln.wf01.wt01.status`.
 
-<center><img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/122668849-b1c69280-d1ec-11eb-83cb-3b73c40bdf72.png"></center>
+<center><img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/122668849-b1c69280-d1ec-11eb-83cb-3b73c40bdf72.png"></center>
 
 Here are the basic concepts of the model involved in IoTDB. 
 
@@ -37,11 +37,11 @@ It is information measured by detection equipment in an actual scene and can tra
 
 ### Entity (Also called device)
 
-**An entity** is an equipped with measurements in real scenarios. In IoTDB, all measurements should have their corresponding entities.
+**An entity** is an equipped with measurements in real scenarios. In IoTDB, all measurements should have their corresponding entities. Entities do not need to be created manually, the default is the second last layer.
 
 ### Database
 
-**A group of entities.** Users can create any prefix path as a database. Provided that there are four timeseries `root.ln.wf01.wt01.status`, `root.ln.wf01.wt01.temperature`, `root.ln.wf02.wt02.hardware`, `root.ln.wf02.wt02.status`, two devices `wt01`, `wt02` under the path `root.ln` may belong to the same owner or the same manufacturer, so d1 and d2 are closely related. At this point, the prefix path root.vehicle can be designated as a database, which will enable IoTDB to store all devices under it in the same folder. Newly added devices under `root.ln` will also belong to this database.
+**A group of entities.** Users can create any prefix path as a database. Provided that there are four timeseries `root.ln.wf01.wt01.status`, `root.ln.wf01.wt01.temperature`, `root.ln.wf02.wt02.hardware`, `root.ln.wf02.wt02.status`, two devices `wf01`, `wf02` under the path `root.ln` may belong to the same owner or the same manufacturer, so d1 and d2 are closely related. At this point, the prefix path root.vehicle can be designated as a database, which will enable IoTDB to store all devices under it in the same folder. Newly added devices under `root.ln` will also belong to this database.
 
 > Note1: A full path (`root.ln.wf01.wt01.status` as in the above example) is not allowed to be set as a database.
 >
@@ -56,6 +56,8 @@ After a database is set, the ancestral layers, children and descendant layers of
 The Layer Name of database can only consist of characters, numbers, and underscores, like `root.storagegroup_1`.
 
 > Note ：Database name do not support enclosing * in back quotes, e.g., root.\ ` * \ `, but the rest of the level is free of this restriction.
+
+**Schema-less writing**: When metadata is not defined, data can be directly written through an insert statement, and the required metadata will be automatically recognized and registered in the database, achieving automatic modeling.
 
 ### Path
 
@@ -136,7 +138,7 @@ When querying, you can query each timeseries separately.
 
 When inserting data, it is allowed to insert null value in the aligned timeseries.
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/114125919-f4850800-9929-11eb-8211-81d4c04af1ec.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/114125919-f4850800-9929-11eb-8211-81d4c04af1ec.png">
 
 In the following chapters of data definition language, data operation language and Java Native Interface, various operations related to aligned timeseries will be introduced one by one.
 

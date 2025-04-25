@@ -20,8 +20,8 @@
 -->
 
 ## JDBC
+**注意**: 目前的JDBC实现仅是为与第三方工具连接使用的。不推荐使用 JDBC （执行插入语句时），因无法提供高性能写入，查询推荐使用 JDBC。
 
-*注意: 目前的JDBC实现仅是为与第三方工具连接使用的。使用JDBC（尤其是执行插入语句时）无法提供高性能吞吐。
 对于Java应用，我们推荐使用[JAVA NATIVE API](https://iotdb.apache.org/zh/UserGuide/Master/API/Programming-Java-Native-API.html)*
 
 ### 依赖
@@ -43,7 +43,7 @@ mvn clean install -pl jdbc -am -Dmaven.test.skip=true
     <dependency>
       <groupId>org.apache.iotdb</groupId>
       <artifactId>iotdb-jdbc</artifactId>
-      <version>0.13.0-SNAPSHOT</version>
+      <version>0.13.4</version>
     </dependency>
 </dependencies>
 ```

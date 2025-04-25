@@ -46,6 +46,7 @@ CREATE PIPE <PipeId> -- PipeId 是能够唯一标定任务任务的名字
 -- 数据抽取插件，必填插件
 WITH EXTRACTOR (
   [<parameter> = <value>,],
+)
 -- 数据连接插件，必填插件
 WITH CONNECTOR (
   [<parameter> = <value>,],
@@ -59,7 +60,7 @@ WITH CONNECTOR (
 
 数据同步任务有三种状态：RUNNING、STOPPED和DROPPED。任务状态转换如下图所示：
 
-![状态迁移图](https://alioss.timecho.com/docs/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
+![状态迁移图](/img/%E7%8A%B6%E6%80%81%E8%BF%81%E7%A7%BB%E5%9B%BE.png)
 
 一个数据同步任务在生命周期中会经过多种状态：
 
@@ -163,7 +164,7 @@ IoTDB> SHOW PIPEPLUGINS
 
 本例子用来演示将一个 IoTDB 的所有数据同步至另一个IoTDB，数据链路如下图所示：
 
-![](https://alioss.timecho.com/docs/img/w1.png)
+![](/img/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A51.png)
 
 在这个例子中，我们可以创建一个名为 A2B 的同步任务，用来同步 A IoTDB 到 B IoTDB 间的全量数据，这里需要用到用到 connector 的 iotdb-thrift-connector 插件（内置插件），需指定接收端地址，这个例子中指定了'connector.ip'和'connector.port'，也可指定'connector.node-urls'，如下面的示例语句：
 
@@ -181,7 +182,7 @@ with connector (
 
 本例子用来演示同步某个历史时间范围（2023年8月23日8点到2023年10月23日8点）的数据至另一个IoTDB，数据链路如下图所示：
 
-![](https://alioss.timecho.com/docs/img/w2.png)
+![](/img/%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A51.png)
 
 在这个例子中，我们可以创建一个名为 A2B 的同步任务。首先我们需要在 extractor 中定义传输数据的范围，由于传输的是历史数据（历史数据是指同步任务创建之前存在的数据），所以需要将extractor.realtime.enable参数配置为false；同时需要配置数据的起止时间start-time和end-time以及传输的模式mode，此处推荐mode设置为 hybrid 模式（hybrid模式为混合传输，在无数据积压时采用实时传输方式，有数据积压时采用批量传输方式，并根据系统内部情况自动切换）。
 
@@ -206,7 +207,7 @@ with connector (
 
 本例子用来演示两个 IoTDB 之间互为双活的场景，数据链路如下图所示：
 
-![](https://alioss.timecho.com/docs/img/w3.png)
+![](/img/1706698592139.jpg)
 
 在这个例子中，为了避免数据无限循环，需要将A和B上的参数`extractor.forwarding-pipe-requests` 均设置为 `false`，表示不转发从另一pipe传输而来的数据。同时将`'extractor.history.enable'` 设置为 `false`，表示不传输历史数据，即不同步创建该任务前的数据。
  
@@ -246,7 +247,7 @@ with connector (
 
 本例子用来演示多个 IoTDB 之间级联传输数据的场景，数据由A集群同步至B集群，再同步至C集群，数据链路如下图所示：
 
-![](https://alioss.timecho.com/docs/img/w4.png)
+![](/img/1706698610134.jpg)
 
 在这个例子中，为了将A集群的数据同步至C，在BC之间的pipe需要将 `extractor.forwarding-pipe-requests` 配置为`true`，详细语句如下：
 
@@ -278,7 +279,7 @@ with connector (
 
 本例子用来演示将一个 IoTDB 的数据，经过单向网闸，同步至另一个IoTDB的场景，数据链路如下图所示：
 
-![](https://alioss.timecho.com/docs/img/w5.png)
+![](/img/cross-network-gateway.png)
 
 在这个例子中，需要使用 connector 任务中的iotdb-air-gap-connector 插件（目前支持部分型号网闸，具体型号请联系天谋科技工作人员确认），配置网闸后，在 A IoTDB 上执行下列语句，其中ip和port填写网闸信息，详细语句如下：
 

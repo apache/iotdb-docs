@@ -19,7 +19,7 @@
 
 -->
 
-# 集群版
+# 快速上手（集群版）
 本文将简单介绍 IoTDB 集群的安装配置、扩容和缩容等常规操作。
 遇到问题可以看: 
 [FAQ](../FAQ/Frequently-asked-questions.md)
@@ -145,7 +145,7 @@ sbin/stop-standalone.sh
 # 2. 检查是否还有进程残留
 jps
 # 或者
-ps -ef|gerp iotdb
+ps -ef|grep iotdb
 
 # 3. 如果有进程残留，则手动kill
 kill -9 <pid>

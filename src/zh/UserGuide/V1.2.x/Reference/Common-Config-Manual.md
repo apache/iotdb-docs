@@ -19,7 +19,7 @@
 
 -->
 
-# 参考
+# 配置参数
 
 ## 公共配置参数
 
@@ -61,7 +61,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 |   名字   | schema\_region\_consensus\_protocol\_class                      |
 |:------:|:----------------------------------------------------------------|
-|   描述   | 元数据副本的共识协议，1 副本时可以使用 SimpleConsensus 协议，多副本时只能使用 RatisConsensus |
+|   描述   | 元数据副本的共识协议，多副本时只能使用 RatisConsensus |
 |   类型   | String                                                          |
 |  默认值   | org.apache.iotdb.consensus.ratis.RatisConsensus                 |
 | 改后生效方式 | 仅允许在第一次启动服务前修改                                                  |
@@ -79,7 +79,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 |   名字   | data\_region\_consensus\_protocol\_class                                      |
 |:------:|:------------------------------------------------------------------------------|
-|   描述   | 数据副本的共识协议，1 副本时可以使用 SimpleConsensus 协议，多副本时可以使用 IoTConsensus 或 RatisConsensus |
+|   描述   | 数据副本的共识协议，多副本时可以使用 IoTConsensus 或 RatisConsensus |
 |   类型   | String                                                                        |
 |  默认值   | org.apache.iotdb.consensus.iot.IoTConsensus                                   |
 | 改后生效方式 | 仅允许在第一次启动服务前修改                                                                |
@@ -696,12 +696,12 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * default\_ttl\_in\_ms
 
-|     名字     | default\_ttl\_in\_ms                                        |
-| :----------: | :---------------------------------------------------------- |
-|     描述     | 数据保留时间，会丢弃 now()-default\_ttl 之前的数据，单位 ms |
-|     类型     | long                                                        |
-|    默认值    | 36000000                                                    |
-| 改后生效方式 | 重启服务生效                                                |
+|名字| default\_ttl\_in\_ms  |
+|:---:|:--------------|
+|描述| 定义每个层级负责的数据范围，通过 TTL 表示	 |
+|类型| long         |
+|默认值| -1          |
+|改后生效方式| 重启生效          |
 
 * max\_waiting\_time\_when\_insert\_blocked
 
@@ -878,12 +878,12 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * enable\_unseq\_space\_compaction
 
-|     名字     | enable\_unseq\_space\_compaction       |
-| :----------: | :------------------------------------- |
-|     描述     | 乱序空间内合并，开启乱序文件之间的合并 |
-|     类型     | Boolean                                |
-|    默认值    | false                                  |
-| 改后生效方式 | 热加载                           |
+|     名字     | enable\_unseq\_space\_compaction |
+| :----------: |:---------------------------------|
+|     描述     | 乱序空间内合并，开启乱序文件之间的合并              |
+|     类型     | Boolean                          |
+|    默认值    | true                             |
+| 改后生效方式 | 热加载                              |
 
 * enable\_cross\_space\_compaction
 

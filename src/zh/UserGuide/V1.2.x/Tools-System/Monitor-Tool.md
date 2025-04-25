@@ -65,7 +65,7 @@ file_count{name="seq",} 2.0
 
 IoTDB、Prometheus、Grafana三者的关系如下图所示:
 
-![iotdb_prometheus_grafana](https://alioss.timecho.com/docs/img/UserGuide/System-Tools/Metrics/iotdb_prometheus_grafana.png)
+![iotdb_prometheus_grafana](/img/UserGuide/System-Tools/Metrics/iotdb_prometheus_grafana.png)
 
 1. IoTDB在运行过程中持续收集监控指标数据。
 2. Prometheus以固定的间隔（可配置）从IoTDB的HTTP接口拉取监控指标数据。
@@ -102,13 +102,12 @@ static_configs:
 
 ### Apache IoTDB Dashboard
 
-我们提供了Apache IoTDB Dashboard，支持统一集中式运维管理，可通过一个监控面板监控多个集群。
+`Apache IoTDB Dashboard`是 IoTDB 企业版的配套产品，支持统一集中式运维管理，可通过一个监控面板监控多个集群。你可以联系商务获取到 Dashboard 的 Json文件。
 
-![Apache IoTDB Dashboard](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20default%20cluster.png)
+![Apache IoTDB Dashboard](/img/%E7%9B%91%E6%8E%A7%20default%20cluster.png)
 
-![Apache IoTDB Dashboard](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20cluster2.png)
+![Apache IoTDB Dashboard](/img/%E7%9B%91%E6%8E%A7%20cluster2.png)
 
-你可以在企业版中获取到 Dashboard 的 Json文件。
 
 #### 集群概览
 
@@ -120,7 +119,7 @@ static_configs:
 - 集群各节点当前CPU、内存、磁盘使用率
 - 分节点的信息
 
-![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E6%A6%82%E8%A7%88.png)
+![](/img/%E7%9B%91%E6%8E%A7%20%E6%A6%82%E8%A7%88.png)
 
 #### 数据写入
 
@@ -129,7 +128,7 @@ static_configs:
 - WAL文件数量与尺寸
 - 节点 WAL flush SyncBuffer 耗时
 
-![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E5%86%99%E5%85%A5.png)
+![](/img/%E7%9B%91%E6%8E%A7%20%E5%86%99%E5%85%A5.png)
 
 #### 数据查询
 
@@ -142,7 +141,7 @@ static_configs:
 - 节点查询按照Chunk元数据过滤耗时
 - 节点查询构造Chunk Reader耗时的平均值
 
-![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E6%9F%A5%E8%AF%A2.png)
+![](/img/%E7%9B%91%E6%8E%A7%20%E6%9F%A5%E8%AF%A2.png)
 
 #### 存储引擎
 
@@ -151,7 +150,7 @@ static_configs:
 - 处于各阶段的TsFile数量、大小
 - 各类任务的数量与耗时
 
-![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E.png)
+![](/img/%E7%9B%91%E6%8E%A7%20%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E.png)
 
 #### 系统监控
 
@@ -161,9 +160,9 @@ static_configs:
 - JVM GC时间占比、分类型的GC次数、GC数据量、各年代的堆内存占用
 - 网络传输速率、包发送速率
 
-![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9F%20%E5%86%85%E5%AD%98%E4%B8%8E%E7%A1%AC%E7%9B%98.png)
+![](/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9F%20%E5%86%85%E5%AD%98%E4%B8%8E%E7%A1%AC%E7%9B%98.png)
 
-![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9Fjvm.png)
+![](/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9Fjvm.png)
 
-![](https://alioss.timecho.com/docs/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9F%20%E7%BD%91%E7%BB%9C.png)
+![](/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9F%20%E7%BD%91%E7%BB%9C.png)
 

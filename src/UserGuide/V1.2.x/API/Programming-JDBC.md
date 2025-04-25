@@ -21,8 +21,7 @@
 
 # JDBC
 
-*NOTICE: CURRENTLY, JDBC IS USED FOR CONNECTING SOME THIRD-PART TOOLS. 
-IT CAN NOT PROVIDE HIGH THROUGHPUT FOR WRITE OPERATIONS. 
+**Note**: The current JDBC implementation is only for connecting with third-party tools. We do not recommend using JDBC (when executing insert statements) as it cannot provide high-performance writing. For queries, we recommend using JDBC.
 PLEASE USE [JAVA NATIVE API](https://iotdb.apache.org/UserGuide/Master/API/Programming-Java-Native-API.html) INSTEAD*
 
 ## Dependencies
@@ -35,7 +34,7 @@ PLEASE USE [JAVA NATIVE API](https://iotdb.apache.org/UserGuide/Master/API/Progr
 In root directory:
 
 ```shell
-mvn clean install -pl iotdb-client/jdbc -am -Dmaven.test.skip=true
+mvn clean install -pl iotdb-client/jdbc -am -DskipTests
 ```
 
 ## Use IoTDB JDBC with Maven
@@ -45,7 +44,7 @@ mvn clean install -pl iotdb-client/jdbc -am -Dmaven.test.skip=true
     <dependency>
       <groupId>org.apache.iotdb</groupId>
       <artifactId>iotdb-jdbc</artifactId>
-      <version>0.12.0</version>
+      <version>1.2.2</version>
     </dependency>
 </dependencies>
 ```

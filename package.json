@@ -4,38 +4,46 @@
   "description": "Apache IoTDB Website",
   "license": "Apache Licence 2.0",
   "type": "module",
-  "scripts": {
-    "build": "node --max_old_space_size=6000  ./node_modules/vuepress/bin/vuepress.js build src",
-    "docs:clean-dev": "vuepress dev src --clean-cache",
-    "dev": "vuepress dev src",
-    "docs:update-package": "npx vp-update",
-    "deploy": "node --max_old_space_size=6000 deploy.cjs",
-    "deploy:staging": "node --max_old_space_size=6000 deploy_staging.cjs",
-    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix"
-  },
-  "devDependencies": {
-    "@rushstack/eslint-patch": "^1.6.0",
-    "@vue/eslint-config-airbnb-with-typescript": "^7.0.1",
-    "@vuepress/client": "2.0.0-rc.0",
-    "@vuepress/plugin-docsearch": "2.0.0-rc.0",
-    "@vuepress/plugin-google-analytics": "2.0.0-rc.0",
-    "@vuepress/utils": "2.0.0-rc.0",
-    "element-plus": "^2.4.3",
-    "eslint": "^8.55.0",
-    "eslint-plugin-vue": "^9.19.2",
-    "gh-pages": "^6.1.0",
-    "vue": "^3.3.10",
-    "vuepress": "2.0.0-rc.0",
-    "vuepress-plugin-redirect": "2.0.0-rc.2",
-    "vuepress-theme-hope": "2.0.0-rc.2"
-  },
   "licenses": [
     {
       "type": "Apache-2.0",
       "url": "https://www.apache.org/licenses/LICENSE-2.0"
     }
   ],
+  "scripts": {
+    "build": "node --max_old_space_size=8192  ./node_modules/vuepress/bin/vuepress.js build src",
+    "check-links": "node --max_old_space_size=8192  ./node_modules/vuepress/bin/vuepress.js build src",
+    "clean-dev": "vuepress dev src --clean-cache",
+    "dev": "vuepress dev src",
+    "update-package": "npx vp-update",
+    "deploy": "node --max_old_space_size=8192 deploy.cjs",
+    "deploy:staging": "node --max_old_space_size=8192 deploy_staging.cjs",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix"
+  },
   "dependencies": {
-    "@vue/repl": "^3.0.0"
-  }
+    "@vuepress/bundler-vite": "2.0.0-rc.19",
+    "@vuepress/helper": "2.0.0-rc.66",
+    "@vuepress/plugin-docsearch": "2.0.0-rc.76",
+    "@vuepress/plugin-links-check": "2.0.0-rc.74",
+    "mathjax-full": "3.2.2",
+    "sass-embedded": "1.83.0",
+    "vue": "^3.5.13",
+    "vue3-carousel": "0.9.0",
+    "vuepress": "2.0.0-rc.19",
+    "vuepress-theme-hope": "2.0.0-rc.71"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.17.0",
+    "eslint": "9.17.0",
+    "eslint-plugin-vue": "9.32.0",
+    "gh-pages": "6.2.0",
+    "globals": "15.13.0",
+    "typescript": "5.5.4",
+    "typescript-eslint": "8.18.0"
+  },
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
+  "packageManager": "pnpm@9.15.1"
 }

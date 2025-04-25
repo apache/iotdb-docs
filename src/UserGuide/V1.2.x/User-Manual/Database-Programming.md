@@ -397,7 +397,7 @@ The above SQL statement creates a trigger named triggerTest:
 
 - The trigger is stateless.
 - Fires before insertion.
-- Listens on path pattern root.sg.**
+- Listens on path pattern root\.sg.**
 - The implemented trigger class is named `org.apache.iotdb.trigger.ClusterAlertingExample`
 - The JAR package URI is http://jar/ClusterAlertingExample.jar
 - When creating the trigger instance, two parameters, name and limit, are passed in.
@@ -528,19 +528,19 @@ END
 
 ##### `<start_time_offset>` == `<every_interval>`
 
-![1](https://alioss.timecho.com/docs/img/UserGuide/Process-Data/Continuous-Query/pic1.png?raw=true)
+![1](/img/UserGuide/Process-Data/Continuous-Query/pic1.png?raw=true)
 
 ##### `<start_time_offset>` > `<every_interval>`
 
-![2](https://alioss.timecho.com/docs/img/UserGuide/Process-Data/Continuous-Query/pic2.png?raw=true)
+![2](/img/UserGuide/Process-Data/Continuous-Query/pic2.png?raw=true)
 
 ##### `<start_time_offset>` < `<every_interval>`
 
-![3](https://alioss.timecho.com/docs/img/UserGuide/Process-Data/Continuous-Query/pic3.png?raw=true)
+![3](/img/UserGuide/Process-Data/Continuous-Query/pic3.png?raw=true)
 
 ##### `<every_interval>`  is not zero
 
-![4](https://alioss.timecho.com/docs/img/UserGuide/Process-Data/Continuous-Query/pic4.png?raw=true)
+![4](/img/UserGuide/Process-Data/Continuous-Query/pic4.png?raw=true)
 
 
 - `TIMEOUT POLICY` specify how we deal with the cq task whose previous time interval execution is not finished while the next execution time has reached. The default value is `BLOCKED`.
@@ -1034,7 +1034,7 @@ SELECT avg(count_s1) from root.sg_count.d;
 
 | Name                                        | Description                                                  | Data Type | Default Value |
 | :------------------------------------------ | ------------------------------------------------------------ | --------- | ------------- |
-| `continuous_query_submit_thread`            | The number of threads in the scheduled thread pool that submit continuous query tasks periodically | int32     | 2             |
+| `continuous_query_submit_thread_count`            | The number of threads in the scheduled thread pool that submit continuous query tasks periodically | int32     | 2             |
 | `continuous_query_min_every_interval_in_ms` | The minimum value of the continuous query execution time interval | duration  | 1000          |
 
 ## USER-DEFINED FUNCTION (UDF)
@@ -1184,7 +1184,7 @@ The following are the strategies you can set:
 `RowByRowAccessStrategy`: The construction of `RowByRowAccessStrategy` does not require any parameters.
 
 The `SlidingTimeWindowAccessStrategy` is shown schematically below.
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/UDF-User-Defined-Function/timeWindow.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/UserGuide/Process-Data/UDF-User-Defined-Function/timeWindow.png">
 
 `SlidingTimeWindowAccessStrategy`: `SlidingTimeWindowAccessStrategy` has many constructors, you can pass 3 types of parameters to them:
 
@@ -1198,12 +1198,12 @@ The sliding step parameter is also optional. If the parameter is not provided, t
 
 The relationship between the three types of parameters can be seen in the figure below. Please see the Javadoc for more details. 
 
-<div style="text-align: center;"><img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/github/99787878-47b51480-2b5b-11eb-8ed3-84088c5c30f7.png"></div>
+<div style="text-align: center;"><img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/99787878-47b51480-2b5b-11eb-8ed3-84088c5c30f7.png"></div>
 
 Note that the actual time interval of some of the last time windows may be less than the specified time interval parameter. In addition, there may be cases where the number of data rows in some time windows is 0. In these cases, the framework will also call the `transform` method for the empty windows.
 
 The `SlidingSizeWindowAccessStrategy` is shown schematically below.
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/UDF-User-Defined-Function/countWindow.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/UserGuide/Process-Data/UDF-User-Defined-Function/countWindow.png">
 
 `SlidingSizeWindowAccessStrategy`:  `SlidingSizeWindowAccessStrategy` has many constructors, you can pass 2 types of parameters to them:
 
@@ -1213,7 +1213,7 @@ The `SlidingSizeWindowAccessStrategy` is shown schematically below.
 The sliding step parameter is optional. If the parameter is not provided, the sliding step will be set to the same as the window size.
 
 The `SessionTimeWindowAccessStrategy` is shown schematically below. **Time intervals less than or equal to the given minimum time interval `sessionGap` are assigned in one group**
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/UDF-User-Defined-Function/sessionWindow.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/UserGuide/Process-Data/UDF-User-Defined-Function/sessionWindow.png">
 
 `SessionTimeWindowAccessStrategy`: `SessionTimeWindowAccessStrategy` has many constructors, you can pass 2 types of parameters to them:
 
@@ -1222,7 +1222,7 @@ The `SessionTimeWindowAccessStrategy` is shown schematically below. **Time inter
 
 
 The `StateWindowAccessStrategy` is shown schematically below. **For numerical data, if the state difference is less than or equal to the given threshold `delta`, it will be assigned in one group. **
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="https://alioss.timecho.com/docs/img/UserGuide/Process-Data/UDF-User-Defined-Function/stateWindow.png">
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/UserGuide/Process-Data/UDF-User-Defined-Function/stateWindow.png">
 
 `StateWindowAccessStrategy` has four constructors.
 
@@ -1615,7 +1615,7 @@ The instructions should be added in `docs/UserGuide/Operation Manual/DML Data Ma
 
 #### Submit a PR
 
-When you have prepared the UDF source code, test cases, and instructions, you are ready to submit a Pull Request (PR) on [Github](https://github.com/apache/iotdb). You can refer to our code contribution guide to submit a PR: [Pull Request Guide](https://iotdb.apache.org/Development/HowToCommit.html).
+When you have prepared the UDF source code, test cases, and instructions, you are ready to submit a Pull Request (PR) on [Github](https://github.com/apache/iotdb). You can refer to our code contribution guide to submit a PR: [Development Guide](https://iotdb.apache.org/Community/Development-Guide.html).
 
 ### Known Implementations
 
