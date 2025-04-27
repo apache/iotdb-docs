@@ -193,47 +193,47 @@ export const zhSidebar = {
           text: '数据采集',
           collapsible: true,
           children: [
-            { text: 'Telegraf插件(IoTDB)', link: 'Telegraf' },
+            { text: 'Telegraf插件', link: 'Telegraf' },
           ],
         },
         {
           text: '数据集成',
           collapsible: true,
           children: [
-            { text: 'Apache NiFi(IoTDB)', link: 'NiFi-IoTDB' },
+            { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
           ],
         },
         {
           text: '计算引擎',
           collapsible: true,
           children: [
-            { text: 'Apache Flink(IoTDB)', link: 'Flink-IoTDB' },
-            { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
+            { text: 'Apache Flink', link: 'Flink-IoTDB' },
+            { text: 'Apache Spark', link: 'Spark-IoTDB' },
           ],
         },
         {
           text: '可视化分析',
           collapsible: true,
           children: [
-            { text: 'Apache Zeppelin(IoTDB)', link: 'Zeppelin-IoTDB_timecho' },
-            { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
-            { text: 'Grafana插件(IoTDB)', link: 'Grafana-Plugin' },
-            { text: 'DataEase(IoTDB)', link: 'DataEase' },
+            { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_timecho' },
+            { text: 'Grafana', link: 'Grafana-Connector' },
+            { text: 'Grafana插件', link: 'Grafana-Plugin' },
+            { text: 'DataEase', link: 'DataEase' },
           ],
         },
         {
           text: 'SQL 开发',
           collapsible: true,
           children: [
-            { text: 'DBeaver(IoTDB)', link: 'DBeaver' },
+            { text: 'DBeaver', link: 'DBeaver' },
           ],
         },
         {
           text: '物联网平台',
           collapsible: true,
           children: [
-            { text: 'Ignition(IoTDB)', link: 'Ignition-IoTDB-plugin_timecho' },
-            { text: 'ThingsBoard(IoTDB)', link: 'Thingsboard' },
+            { text: 'Ignition', link: 'Ignition-IoTDB-plugin_timecho' },
+            { text: 'ThingsBoard', link: 'Thingsboard' },
           ],
         },
       ],
