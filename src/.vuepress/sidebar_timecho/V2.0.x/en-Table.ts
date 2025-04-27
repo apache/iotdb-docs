@@ -149,7 +149,20 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Ecosystem-Integration/',
       children: [
-        { text: 'DBeaver(IoTDB)', link: 'DBeaver' },
+        {
+          text: 'Analysis Phase ',
+          collapsible: true,
+          children: [
+            { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
+          ],
+        },
+        {
+          text: 'Application Phase',
+          collapsible: true,
+          children: [
+            { text: 'DBeaver(IoTDB)', link: 'DBeaver' },
+          ],
+        },
       ],
     },
     {
