@@ -267,7 +267,7 @@ docker-iotdb：
 version: "3"
 services:
   iotdb-confignode:
-    image: apache/iotdb:1.3.2-standalone #使用的镜像
+    image: apache/iotdb:latest #使用的镜像
     hostname: iotdb-1|iotdb-2|iotdb-3    #根据实际情况选择，三选一
     container_name: iotdb-confignode
     command: ["bash", "-c", "entrypoint.sh confignode"]

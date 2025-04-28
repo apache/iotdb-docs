@@ -99,7 +99,7 @@ The complete docker-compose-standalone.yml content is as follows:
 version: "3"
 services:
   iotdb-service:
-    image: apache/iotdb:1.3.2-standalone #The image used
+    image: apache/iotdb:latest #The image used
     hostname: iotdb
     container_name: iotdb
     restart: always       
