@@ -202,41 +202,50 @@ export const enSidebar = {
       prefix: 'Ecosystem-Integration/',
       children: [
         {
-          text: 'Collection Phase',
+          text: '‌Data Acquisition',
           collapsible: true,
           children: [
-            { text: 'Telegraf Plugin(IoTDB)', link: 'Telegraf' },
+            { text: 'Telegraf Plugin', link: 'Telegraf' },
           ],
         },
         {
-          text: 'Processing Phase',
+          text: 'Data Integration',
           collapsible: true,
           children: [
-            { text: 'Apache Flink(IoTDB)', link: 'Flink-IoTDB' },
-            { text: 'Apache Flink(TsFile)', link: 'Flink-TsFile' },
-            { text: 'Apache NiFi(IoTDB)', link: 'NiFi-IoTDB' },
+            { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
           ],
         },
         {
-          text: 'Analysis Phase ',
+          text: '‌Computing Engine',
           collapsible: true,
           children: [
-            { text: 'Apache Hive(TsFile)', link: 'Hive-TsFile' },
-            { text: 'Apache Spark(TsFile)', link: 'Spark-TsFile' },
-            { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
+            { text: 'Apache Flink', link: 'Flink-IoTDB' },
+            { text: 'Apache Spark', link: 'Spark-IoTDB' },
           ],
         },
         {
-          text: 'Application Phase',
+          text: '‌Visual Analytics',
           collapsible: true,
           children: [
-            { text: 'Apache Zeppelin(IoTDB)', link: 'Zeppelin-IoTDB_timecho' },
-            { text: 'DataEase(IoTDB)', link: 'DataEase' },
-            { text: 'DBeaver(IoTDB)', link: 'DBeaver' },
-            { text: 'Ignition(IoTDB)', link: 'Ignition-IoTDB-plugin_timecho' },
-            { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
-            { text: 'Grafana Plugin(IoTDB)', link: 'Grafana-Plugin' },
-            { text: 'ThingsBoard(IoTDB)', link: 'Thingsboard' },
+            { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_timecho' },
+            { text: 'Grafana', link: 'Grafana-Connector' },
+            { text: 'Grafana Plugin', link: 'Grafana-Plugin' },
+            { text: 'DataEase', link: 'DataEase' },
+          ],
+        },
+        {
+          text: '‌SQL Development',
+          collapsible: true,
+          children: [
+            { text: 'DBeaver', link: 'DBeaver' },
+          ],
+        },
+        {
+          text: '‌IoT Platform',
+          collapsible: true,
+          children: [
+            { text: 'Ignition', link: 'Ignition-IoTDB-plugin_timecho' },
+            { text: 'ThingsBoard', link: 'Thingsboard' },
           ],
         },
       ],

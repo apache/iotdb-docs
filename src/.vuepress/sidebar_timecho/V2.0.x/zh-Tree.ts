@@ -180,46 +180,55 @@ export const zhSidebar = {
       ],
     },
     {
-      text: '系统集成',
+      text: '生态集成',
       collapsible: true,
       prefix: 'Ecosystem-Integration/',
       children: [
         {
-          text: '采集阶段',
+          text: '数据采集',
           collapsible: true,
           children: [
-            { text: 'Telegraf插件(IoTDB)', link: 'Telegraf' },
+            { text: 'Telegraf插件', link: 'Telegraf' },
           ],
         },
         {
-          text: '处理阶段',
+          text: '数据集成',
           collapsible: true,
           children: [
-            { text: 'Apache Flink(IoTDB)', link: 'Flink-IoTDB' },
-            { text: 'Apache Flink(TsFile)', link: 'Flink-TsFile' },
-            { text: 'Apache NiFi(IoTDB)', link: 'NiFi-IoTDB' },
+            { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
           ],
         },
         {
-          text: '分析阶段',
+          text: '计算引擎',
           collapsible: true,
           children: [
-            { text: 'Apache Hive(TsFile)', link: 'Hive-TsFile' },
-            { text: 'Apache Spark(TsFile)', link: 'Spark-TsFile' },
-            { text: 'Apache Spark(IoTDB)', link: 'Spark-IoTDB' },
+            { text: 'Apache Flink', link: 'Flink-IoTDB' },
+            { text: 'Apache Spark', link: 'Spark-IoTDB' },
           ],
         },
         {
-          text: '应用阶段',
+          text: '可视化分析',
           collapsible: true,
           children: [
-            { text: 'Apache Zeppelin(IoTDB)', link: 'Zeppelin-IoTDB_timecho' },
-            { text: 'DataEase(IoTDB)', link: 'DataEase' },
-            { text: 'DBeaver(IoTDB)', link: 'DBeaver' },
-            { text: 'Ignition(IoTDB)', link: 'Ignition-IoTDB-plugin_timecho' },
-            { text: 'Grafana(IoTDB)', link: 'Grafana-Connector' },
-            { text: 'Grafana插件(IoTDB)', link: 'Grafana-Plugin' },
-            { text: 'ThingsBoard(IoTDB)', link: 'Thingsboard' },
+            { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_timecho' },
+            { text: 'Grafana', link: 'Grafana-Connector' },
+            { text: 'Grafana插件', link: 'Grafana-Plugin' },
+            { text: 'DataEase', link: 'DataEase' },
+          ],
+        },
+        {
+          text: 'SQL 开发',
+          collapsible: true,
+          children: [
+            { text: 'DBeaver', link: 'DBeaver' },
+          ],
+        },
+        {
+          text: '物联网平台',
+          collapsible: true,
+          children: [
+            { text: 'Ignition', link: 'Ignition-IoTDB-plugin_timecho' },
+            { text: 'ThingsBoard', link: 'Thingsboard' },
           ],
         },
       ],
