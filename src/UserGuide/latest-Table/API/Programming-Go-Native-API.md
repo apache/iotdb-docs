@@ -221,7 +221,7 @@ func main() {
 
    checkError(session.ExecuteNonQueryStatement("create database test_db"))
    checkError(session.ExecuteNonQueryStatement("use test_db"))
-   checkError(session.ExecuteNonQueryStatement("create table t1 (id1 string id, id2 string id, s1 text measurement, s2 text measurement)"))
+   checkError(session.ExecuteNonQueryStatement("create table t1 (id1 string tag, id2 string tag, s1 text field, s2 text field)"))
    insertRelationalTablet(session)
    showTables(session)
    query(session)
@@ -253,7 +253,7 @@ func insertRelationalTablet(session client.ITableSession) {
          Measurement: "s2",
          DataType:    client.TEXT,
       },
-   }, []client.ColumnCategory{client.ID, client.ID, client.MEASUREMENT, client.MEASUREMENT}, 1024)
+   }, []client.ColumnCategory{client.TAG, client.TAG, client.FIELD, client.FIELD}, 1024)
    if err != nil {
       log.Fatal("Failed to create relational tablet {}", err)
    }
@@ -462,7 +462,7 @@ func putBackToSessionPoolExample() {
          }()
          checkError(session.ExecuteNonQueryStatement("create database " + dbName))
          checkError(session.ExecuteNonQueryStatement("use " + dbName))
-         checkError(session.ExecuteNonQueryStatement("create table table_of_" + dbName + " (id1 string id, id2 string id, s1 text measurement, s2 text measurement)"))
+         checkError(session.ExecuteNonQueryStatement("create table table_of_" + dbName + " (id1 string tag, id2 string tag, s1 text field, s2 text field)"))
       }()
    }
    wg.Wait()
@@ -520,7 +520,7 @@ func sessionPoolWithSpecificDatabaseExample() {
             return
          }
          defer session.Close()
-         checkError(session.ExecuteNonQueryStatement("create table " + tableName + " (id1 string id, id2 string id, s1 text measurement, s2 text measurement)"))
+         checkError(session.ExecuteNonQueryStatement("create table " + tableName + " (id1 string tag, id2 string tag, s1 text field, s2 text field)"))
       }()
    }
    wg.Wait()
@@ -550,7 +550,7 @@ func sessionPoolWithoutSpecificDatabaseExample() {
          defer session.Close()
          checkError(session.ExecuteNonQueryStatement("create database " + dbName))
          checkError(session.ExecuteNonQueryStatement("use " + dbName))
-         checkError(session.ExecuteNonQueryStatement("create table t1 (id1 string id, id2 string id, s1 text measurement, s2 text measurement)"))
+         checkError(session.ExecuteNonQueryStatement("create table t1 (id1 string tag, id2 string tag, s1 text field, s2 text field)"))
       }()
    }
    wg.Wait()

@@ -25,7 +25,7 @@
 
 安装依赖包:
 
-```Java
+```shell
 pip3 install apache-iotdb>=2.0
 ```
 
@@ -51,7 +51,7 @@ TableSession是IoTDB的一个核心类，用于与IoTDB数据库进行交互。�
 **TableSession:**
 
 
-```Java
+```Python
 class TableSession(object):
 def insert(self, tablet: Union[Tablet, NumpyTablet]):
     """
@@ -126,7 +126,7 @@ TableSessionConfig是一个配置类，用于设置和创建TableSession 实例�
 
 #### 2.2.3 接口展示
 
-```Java
+```Python
 class TableSessionConfig(object):
     """
     Configuration class for a TableSession. 
@@ -187,7 +187,7 @@ TableSessionPool 是一个会话池管理类，用于管理 TableSession 实例�
 
 **TableSessionPool:**
 
-```Java
+```Python
 def get_session(self) -> TableSession:
     """
     Retrieve a new TableSession instance.
@@ -238,7 +238,7 @@ TableSessionPoolConfig是一个配置类，用于设置和创建 TableSessionPoo
 #### 3.2.3 接口展示
 
 
-```Java
+```Python
 class TableSessionPoolConfig(object):
     """
     Configuration class for a TableSessionPool.
@@ -292,7 +292,7 @@ class TableSessionPoolConfig(object):
 
 `conf/iotdb-system.properties` 配置文件中查找或添加以下配置项：
 
-```Java
+```
 enable_thrift_ssl=true
 key_store_path=/path/to/your/server_keystore.jks
 key_store_pwd=your_keystore_password
@@ -303,13 +303,13 @@ key_store_pwd=your_keystore_password
 - 设置 use_ssl 为 True 以启用 SSL。
 - 指定客户端证书路径，使用 ca_certs 参数。
 
-```Java
+```
 use_ssl = True
 ca_certs = "/path/to/your/server.crt"  # 或 ca_certs = "/path/to/your//ca_cert.pem"
 ```
 **示例代码：使用 SSL 连接 IoTDB**
 
-```Java
+```Python
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -386,7 +386,7 @@ Session示例代码:[Session Example](https://github.com/apache/iotdb/blob/rc/2.
 
 SessionPool示例代码:[SessionPool Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/table_model_session_pool_example.py)
 
-```Java
+```Python
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -421,14 +421,14 @@ def prepare_data():
     session.execute_non_query_statement("CREATE DATABASE IF NOT EXISTS db1")
     session.execute_non_query_statement('USE "db1"')
     session.execute_non_query_statement(
-        "CREATE TABLE table0 (id1 string id, attr1 string attribute, "
+        "CREATE TABLE table0 (id1 string tag, attr1 string attribute, "
         + "m1 double "
-        + "measurement)"
+        + "field)"
     )
     session.execute_non_query_statement(
-        "CREATE TABLE table1 (id1 string id, attr1 string attribute, "
+        "CREATE TABLE table1 (id1 string tag, attr1 string attribute, "
         + "m1 double "
-        + "measurement)"
+        + "field)"
     )
 
     print("now the tables are:")
@@ -454,7 +454,7 @@ def insert_data(num: int):
         TSDataType.STRING,
         TSDataType.DOUBLE,
     ]
-    column_types = [ColumnType.ID, ColumnType.ATTRIBUTE, ColumnType.MEASUREMENT]
+    column_types = [ColumnType.TAG, ColumnType.ATTRIBUTE, ColumnType.FIELD]
     timestamps = []
     values = []
     for row in range(15):
