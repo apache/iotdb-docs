@@ -252,13 +252,13 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |默认值| 3:3:1:1:1:1                                                             |
 |改后生效方式| 重启生效                                                                |
 
-* schema\_memory\_allocate\_proportion
+* schema\_memory\_proportion
 
-|名字| schema\_memory\_allocate\_proportion                        |
+|名字| schema\_memory\_proportion                        |
 |:---:|:------------------------------------------------------------|
-|描述| SchemaRegion， SchemaCache，PartitionCache，LastCache 占元数据内存比例 |
+|描述| 模式内存分配比率：SchemaRegion、SchemaCache和PartitionCache。|
 |类型| Ratio                                                       |
-|默认值| 5:3:1:1                                                     |
+|默认值| 5:4:1                                                    |
 |改后生效方式| 重启生效                                                      |
 
 * storage\_engine\_memory\_proportion
