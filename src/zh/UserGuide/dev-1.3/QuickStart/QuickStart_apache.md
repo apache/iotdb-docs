@@ -37,7 +37,7 @@
 
    -  单机版：[单机版](../Deployment-and-Maintenance/Stand-Alone-Deployment_apache.md)
 
-   -  集群版：[集群版](../Deployment-and-Maintenance/Cluster-Deployment_apache.md)
+   -  分布式（集群）版：[分布式（集群）版](../Deployment-and-Maintenance/Cluster-Deployment_apache.md)
 
 > ❗️注意：目前我们仍然推荐直接在物理机/虚拟机上安装部署，如需要 docker 部署，可参考：[Docker 部署](../Deployment-and-Maintenance/Docker-Deployment_apache.md)
 

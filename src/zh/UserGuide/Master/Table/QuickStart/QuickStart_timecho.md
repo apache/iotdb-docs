@@ -37,7 +37,7 @@
 
    - 单机版：[单机版](../Deployment-and-Maintenance/Stand-Alone-Deployment_timecho.md)
 
-   - 集群版：[集群版](../Deployment-and-Maintenance/Cluster-Deployment_timecho.md)
+   - 分布式（集群）版：[分布式（集群）版](../Deployment-and-Maintenance/Cluster-Deployment_timecho.md)
 
    - 双活版：[双活版](../Deployment-and-Maintenance/Dual-Active-Deployment_timecho.md)
 

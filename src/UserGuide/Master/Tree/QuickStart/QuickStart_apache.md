@@ -39,7 +39,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
    - Stand-Alone Deployment: [Stand-Alone Deployment ](../Deployment-and-Maintenance/Stand-Alone-Deployment_apache.md)
 
-   - Cluster Deployment:[Cluster Deployment](../Deployment-and-Maintenance/Cluster-Deployment_apache.md)
+   - Distributed(Cluster) Deployment:[Distributed(Cluster) Deployment](../Deployment-and-Maintenance/Cluster-Deployment_apache.md)
 
 > ❗️Note: We currently still recommend direct installation and deployment on physical/virtual machines. For Docker deployment, please refer to [Docker Deployment](../Deployment-and-Maintenance/Docker-Deployment_apache.md)
 

@@ -38,7 +38,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
    - Stand-Alone Deployment: [Stand-Alone Deployment ](../Deployment-and-Maintenance/Stand-Alone-Deployment_timecho.md)
 
-   - Cluster Deployment:[Cluster Deployment](../Deployment-and-Maintenance/Cluster-Deployment_timecho.md)
+   - Distributed(Cluster) Deployment:[Distributed(Cluster) Deployment](../Deployment-and-Maintenance/Cluster-Deployment_timecho.md)
 
    - Dual-Active Deployment:[Dual-Active Deployment](../Deployment-and-Maintenance/Dual-Active-Deployment_timecho.md)
 
