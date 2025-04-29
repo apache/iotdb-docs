@@ -244,13 +244,13 @@ Different configuration parameters take effect in the following three ways:
 |Default| 3:3:1:1:1:1                                                                                                    |
 |Effective| After restarting system                                                                                      |
 
-* schema\_memory\_allocate\_proportion
+* schema\_memory\_proportion
 
-|Name| schema\_memory\_allocate\_proportion                                                    |
+|Name| schema\_memory\_proportion                                                    |
 |:---:|:----------------------------------------------------------------------------------------|
-|Description| Schema Memory Allocation Ratio: SchemaRegion, SchemaCache, PartitionCache and LastCache |
+|Description| Schema Memory Allocation Ratio: SchemaRegion, SchemaCache, and PartitionCache. |
 |Type| Ratio                                                                                   |
-|Default| 5:3:1:1                                                                                 |
+|Default| 5:4:1                                                                              |
 |Effective| After restarting system                                                                 |
 
 * storage\_engine\_memory\_proportion
