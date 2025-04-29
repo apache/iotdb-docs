@@ -20,16 +20,18 @@
 -->
 # Java Native API
 
+## 1. Function Introduction
+
 IoTDB provides a Java native client driver and a session pool management mechanism. These tools enable developers to interact with IoTDB using object-oriented APIs, allowing time-series objects to be directly assembled and inserted into the database without constructing SQL statements. It is recommended to use the  `ITableSessionPool` for multi-threaded database operations to maximize efficiency.
 
-## 1. Prerequisites
+## 2. Usage Instructions
 
-### 1.1 Environment Requirements
+**Environment Requirements**
 
 - **JDK**: Version 1.8 or higher
 - **Maven**: Version 3.6 or higher
 
-### 1.2 Adding Maven Dependencies
+**Adding Maven Dependencies**
 
 ```XML
 <dependencies>
@@ -41,13 +43,15 @@ IoTDB provides a Java native client driver and a session pool management mechani
 </dependencies>
 ```
 
-## 2. Read and Write Operations
+## 3. Read and Write Operations
 
-### 2.1 ITableSession Interface
+### 3.1 ITableSession Interface
+
+#### 3.1.1 Feature Description
 
 The `ITableSession` interface defines basic operations for interacting with IoTDB, including data insertion, query execution, and session closure. Note that this interface is **not thread-safe**.
 
-#### Method Overview
+#### 3.1.2 Method Overview
 
 | **Method Name**                                     | **Description**                                              | **Parameters**                                               | **Return Value** | **Exceptions**                                            |
 | --------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ---------------- | --------------------------------------------------------- |
@@ -57,7 +61,7 @@ The `ITableSession` interface defines basic operations for interacting with IoTD
 | executeQueryStatement(String sql, long timeoutInMs) | Executes a query SQL statement with a specified timeout in milliseconds. | `sql`: The SQL query statement. `timeoutInMs`: Query timeout in milliseconds. | `SessionDataSet` | `StatementExecutionException`                             |
 | close()                                             | Closes the session and releases resources.                   | None                                                         | None             | IoTDBConnectionException                                  |
 
-#### Sample Code
+#### 3.1.3 Sample Code
 
 ```Java
 /**
@@ -125,11 +129,13 @@ public interface ITableSession extends AutoCloseable {
 }
 ```
 
-### 2.2 TableSessionBuilder Class
+### 3.2 TableSessionBuilder Class
+
+#### 3.2.1 Feature Description
 
 The `TableSessionBuilder` class is a builder for configuring and creating instances of the `ITableSession` interface. It allows developers to set connection parameters, query parameters, and security features.
 
-#### Parameter Configuration
+#### 3.2.2 Parameter Configuration
 
 | **Parameter**                                       | **Description**                                              | **Default Value**                                 |
 |-----------------------------------------------------| ------------------------------------------------------------ | ------------------------------------------------- |
@@ -152,7 +158,7 @@ The `TableSessionBuilder` class is a builder for configuring and creating instan
 | enableCompression(boolean enableCompression)        | Enables or disables RPC compression for the connection.      | `false`                                           |
 | connectionTimeoutInMs(int connectionTimeoutInMs)    | Sets the connection timeout in milliseconds.                 | `0` (no timeout)                                  |
 
-#### Sample Code
+#### 3.2.3 Sample Code
 
 ```Java
 /**
@@ -337,20 +343,22 @@ public class TableSessionBuilder {
 }
 ```
 
-## 3. Session Pool
+## 4. Session Pool
 
-### 3.1 ITableSessionPool Interface
+### 4.1 ITableSessionPool Interface
+
+#### 4.1.1 Feature Description
 
 The `ITableSessionPool` interface manages a pool of `ITableSession` instances, enabling efficient reuse of connections and proper cleanup of resources.
 
-#### Method Overview
+#### 4.1.2 Method Overview
 
 | **Method Name** | **Description**                                            | **Return Value** | **Exceptions**             |
 | --------------- | ---------------------------------------------------------- | ---------------- | -------------------------- |
 | getSession()    | Acquires a session from the pool for database interaction. | `ITableSession`  | `IoTDBConnectionException` |
 | close()         | Closes the session pool and releases resources.。          | None             | None                       |
 
-#### Sample Code
+#### 4.1.3 Sample Code
 
 ```Java
 /**
@@ -379,11 +387,13 @@ public interface ITableSessionPool {
 }
 ```
 
-### 3.2 TableSessionPoolBuilder Class
+### 4.2 TableSessionPoolBuilder Class
+
+#### 4.2.1 Feature Description
 
 The `TableSessionPoolBuilder` class is a builder for configuring and creating `ITableSessionPool` instances, supporting options like connection settings and pooling behavior.
 
-#### Parameter Configuration
+#### 4.2.2 Parameter Configuration
 
 | **Parameter**                                                 | **Description**                                              | **Default Value**                             |
 |---------------------------------------------------------------| ------------------------------------------------------------ | --------------------------------------------- |
@@ -408,7 +418,7 @@ The `TableSessionPoolBuilder` class is a builder for configuring and creating `I
 | trustStore(String keyStore)                                   | Sets the path to the trust store for SSL connections.        | `null`                                        |
 | trustStorePwd(String keyStorePwd)                             | Sets the password for the SSL trust store.                   | `null`                                        |
 
-#### Sample Code
+#### 4.2.3 Sample Code
 
 ```Java
 /**
@@ -607,5 +617,237 @@ public class TableSessionPoolBuilder {
      * @defaultValue null
      */
     public TableSessionPoolBuilder trustStorePwd(String keyStorePwd);
+}
+```
+
+## 5. Example Code
+
+Session: [src/main/java/org/apache/iotdb/TableModelSessionExample.java](https://github.com/apache/iotdb/blob/rc/2.0.1/example/session/src/main/java/org/apache/iotdb/TableModelSessionExample.java)
+
+SessionPool: [src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java](https://github.com/apache/iotdb/blob/rc/2.0.1/example/session/src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java)
+
+```Java
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+package org.apache.iotdb;
+
+import org.apache.iotdb.isession.ITableSession;
+import org.apache.iotdb.isession.SessionDataSet;
+import org.apache.iotdb.isession.pool.ITableSessionPool;
+import org.apache.iotdb.rpc.IoTDBConnectionException;
+import org.apache.iotdb.rpc.StatementExecutionException;
+import org.apache.iotdb.session.pool.TableSessionPoolBuilder;
+
+import org.apache.tsfile.enums.TSDataType;
+import org.apache.tsfile.write.record.Tablet;
+import org.apache.tsfile.write.record.Tablet.ColumnCategory;
+import org.apache.tsfile.write.schema.IMeasurementSchema;
+import org.apache.tsfile.write.schema.MeasurementSchema;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+public class TableModelSessionPoolExample {
+
+  private static final String LOCAL_URL = "127.0.0.1:6667";
+
+  public static void main(String[] args) {
+
+    // don't specify database in constructor
+    ITableSessionPool tableSessionPool =
+        new TableSessionPoolBuilder()
+            .nodeUrls(Collections.singletonList(LOCAL_URL))
+            .user("root")
+            .password("root")
+            .maxSize(1)
+            .build();
+
+    try (ITableSession session = tableSessionPool.getSession()) {
+
+      session.executeNonQueryStatement("CREATE DATABASE test1");
+      session.executeNonQueryStatement("CREATE DATABASE test2");
+
+      session.executeNonQueryStatement("use test2");
+
+      // or use full qualified table name
+      session.executeNonQueryStatement(
+          "create table test1.table1("
+              + "region_id STRING TAG, "
+              + "plant_id STRING TAG, "
+              + "device_id STRING TAG, "
+              + "model STRING ATTRIBUTE, "
+              + "temperature FLOAT FIELD, "
+              + "humidity DOUBLE FIELD) with (TTL=3600000)");
+
+      session.executeNonQueryStatement(
+          "create table table2("
+              + "region_id STRING TAG, "
+              + "plant_id STRING TAG, "
+              + "color STRING ATTRIBUTE, "
+              + "temperature FLOAT FIELD, "
+              + "speed DOUBLE FIELD) with (TTL=6600000)");
+
+      // show tables from current database
+      try (SessionDataSet dataSet = session.executeQueryStatement("SHOW TABLES")) {
+        System.out.println(dataSet.getColumnNames());
+        System.out.println(dataSet.getColumnTypes());
+        while (dataSet.hasNext()) {
+          System.out.println(dataSet.next());
+        }
+      }
+
+      // show tables by specifying another database
+      // using SHOW tables FROM
+      try (SessionDataSet dataSet = session.executeQueryStatement("SHOW TABLES FROM test1")) {
+        System.out.println(dataSet.getColumnNames());
+        System.out.println(dataSet.getColumnTypes());
+        while (dataSet.hasNext()) {
+          System.out.println(dataSet.next());
+        }
+      }
+
+      // insert table data by tablet
+      List<IMeasurementSchema> measurementSchemaList =
+          new ArrayList<>(
+              Arrays.asList(
+                  new MeasurementSchema("region_id", TSDataType.STRING),
+                  new MeasurementSchema("plant_id", TSDataType.STRING),
+                  new MeasurementSchema("device_id", TSDataType.STRING),
+                  new MeasurementSchema("model", TSDataType.STRING),
+                  new MeasurementSchema("temperature", TSDataType.FLOAT),
+                  new MeasurementSchema("humidity", TSDataType.DOUBLE)));
+      List<ColumnCategory> columnTypeList =
+          new ArrayList<>(
+              Arrays.asList(
+                  ColumnCategory.TAG,
+                  ColumnCategory.TAG,
+                  ColumnCategory.TAG,
+                  ColumnCategory.ATTRIBUTE,
+                  ColumnCategory.FIELD,
+                  ColumnCategory.FIELD));
+      Tablet tablet =
+          new Tablet(
+              "test1",
+              IMeasurementSchema.getMeasurementNameList(measurementSchemaList),
+              IMeasurementSchema.getDataTypeList(measurementSchemaList),
+              columnTypeList,
+              100);
+      for (long timestamp = 0; timestamp < 100; timestamp++) {
+        int rowIndex = tablet.getRowSize();
+        tablet.addTimestamp(rowIndex, timestamp);
+        tablet.addValue("region_id", rowIndex, "1");
+        tablet.addValue("plant_id", rowIndex, "5");
+        tablet.addValue("device_id", rowIndex, "3");
+        tablet.addValue("model", rowIndex, "A");
+        tablet.addValue("temperature", rowIndex, 37.6F);
+        tablet.addValue("humidity", rowIndex, 111.1);
+        if (tablet.getRowSize() == tablet.getMaxRowNumber()) {
+          session.insert(tablet);
+          tablet.reset();
+        }
+      }
+      if (tablet.getRowSize() != 0) {
+        session.insert(tablet);
+        tablet.reset();
+      }
+
+      // query table data
+      try (SessionDataSet dataSet =
+          session.executeQueryStatement(
+              "select * from test1 "
+                  + "where region_id = '1' and plant_id in ('3', '5') and device_id = '3'")) {
+        System.out.println(dataSet.getColumnNames());
+        System.out.println(dataSet.getColumnTypes());
+        while (dataSet.hasNext()) {
+          System.out.println(dataSet.next());
+        }
+      }
+
+    } catch (IoTDBConnectionException e) {
+      e.printStackTrace();
+    } catch (StatementExecutionException e) {
+      e.printStackTrace();
+    } finally {
+      tableSessionPool.close();
+    }
+
+    // specify database in constructor
+    tableSessionPool =
+        new TableSessionPoolBuilder()
+            .nodeUrls(Collections.singletonList(LOCAL_URL))
+            .user("root")
+            .password("root")
+            .maxSize(1)
+            .database("test1")
+            .build();
+
+    try (ITableSession session = tableSessionPool.getSession()) {
+
+      // show tables from current database
+      try (SessionDataSet dataSet = session.executeQueryStatement("SHOW TABLES")) {
+        System.out.println(dataSet.getColumnNames());
+        System.out.println(dataSet.getColumnTypes());
+        while (dataSet.hasNext()) {
+          System.out.println(dataSet.next());
+        }
+      }
+
+      // change database to test2
+      session.executeNonQueryStatement("use test2");
+
+      // show tables by specifying another database
+      // using SHOW tables FROM
+      try (SessionDataSet dataSet = session.executeQueryStatement("SHOW TABLES")) {
+        System.out.println(dataSet.getColumnNames());
+        System.out.println(dataSet.getColumnTypes());
+        while (dataSet.hasNext()) {
+          System.out.println(dataSet.next());
+        }
+      }
+
+    } catch (IoTDBConnectionException e) {
+      e.printStackTrace();
+    } catch (StatementExecutionException e) {
+      e.printStackTrace();
+    }
+
+    try (ITableSession session = tableSessionPool.getSession()) {
+
+      // show tables from default database test1
+      try (SessionDataSet dataSet = session.executeQueryStatement("SHOW TABLES")) {
+        System.out.println(dataSet.getColumnNames());
+        System.out.println(dataSet.getColumnTypes());
+        while (dataSet.hasNext()) {
+          System.out.println(dataSet.next());
+        }
+      }
+
+    } catch (IoTDBConnectionException e) {
+      e.printStackTrace();
+    } catch (StatementExecutionException e) {
+      e.printStackTrace();
+    } finally {
+      tableSessionPool.close();
+    }
+  }
 }
 ```

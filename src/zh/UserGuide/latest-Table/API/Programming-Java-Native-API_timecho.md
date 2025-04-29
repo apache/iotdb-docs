@@ -425,7 +425,7 @@ TableSessionPool 的构造器，用于配置和创建 ITableSessionPool 的实�
 | trustStore(String keyStore)                                  | 设置SSL连接的信任库路径                      | null                                        |
 | trustStorePwd(String keyStorePwd)                            | 设置SSL连接的信任库密码                      | null                                        |
 
-#### 4.1.3 接口展示
+#### 4.2.3 接口展示
 
 ```Java
 /**
