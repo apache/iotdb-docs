@@ -26,7 +26,7 @@ IoTDB provides a Python native client driver and a session pool management mecha
 
 To use the IoTDB Python API, install the required package using pip:
 
-```Java
+```shell
 pip3 install apache-iotdb>=2.0
 ```
 
@@ -175,7 +175,7 @@ class TableSessionConfig(object):
 
 #### Sample Code
 
-```Java
+```Python
 def get_session(self) -> TableSession:
     """
     Retrieve a new TableSession instance.
@@ -223,7 +223,7 @@ def close(self):
 
 #### Sample Code
 
-```Java
+```Python
 class TableSessionPoolConfig(object):
     """
     Configuration class for a TableSessionPool.
@@ -283,7 +283,7 @@ class TableSessionPoolConfig(object):
 
 In the `conf/iotdb-system.properties` configuration file, locate or add the following configuration items:
 
-```Java
+```
 enable_thrift_ssl=true
 key_store_path=/path/to/your/server_keystore.jks
 key_store_pwd=your_keystore_password
@@ -294,13 +294,13 @@ key_store_pwd=your_keystore_password
 - Set `use_ssl` to True to enable SSL.
 - Specify the client certificate path using the `ca_certs` parameter.
 
-```Java
+```
 use_ssl = True
 ca_certs = "/path/to/your/server.crt"  # 或 ca_certs = "/path/to/your//ca_cert.pem"
 ```
 **Example Code: Using SSL to Connect to IoTDB**
 
-```Java
+```Python
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -379,7 +379,7 @@ if __name__ == "__main__":
 
 Here is an excerpt of the sample code:
 
-```Java
+```Python
 # Licensed to the Apache Software Foundation (ASF) under one
 # or more contributor license agreements.  See the NOTICE file
 # distributed with this work for additional information
@@ -416,12 +416,12 @@ def prepare_data():
     session.execute_non_query_statement(
         "CREATE TABLE table0 (id1 string id, attr1 string attribute, "
         + "m1 double "
-        + "measurement)"
+        + "field)"
     )
     session.execute_non_query_statement(
-        "CREATE TABLE table1 (id1 string id, attr1 string attribute, "
+        "CREATE TABLE table1 (id1 string tag, attr1 string attribute, "
         + "m1 double "
-        + "measurement)"
+        + "field)"
     )
 
     print("now the tables are:")
@@ -447,7 +447,7 @@ def insert_data(num: int):
         TSDataType.STRING,
         TSDataType.DOUBLE,
     ]
-    column_types = [ColumnType.ID, ColumnType.ATTRIBUTE, ColumnType.MEASUREMENT]
+    column_types = [ColumnType.TAG, ColumnType.ATTRIBUTE, ColumnType.FIELD]
     timestamps = []
     values = []
     for row in range(15):
