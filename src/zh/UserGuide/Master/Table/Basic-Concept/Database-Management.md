@@ -156,7 +156,7 @@ IoTDB> show databases details
 **语法：**
 
 ```SQL
-ALTER DATABASE (IF EXISTS)? databaseName=qualifiedName (WITH properties)?
+ALTER DATABASE (IF EXISTS)? database=identifier SET PROPERTIES propertyAssignments
 ```
 
 **说明：**
@@ -166,7 +166,7 @@ ALTER DATABASE (IF EXISTS)? databaseName=qualifiedName (WITH properties)?
 **示例:** 
 
 ```SQL
-ALTER TABLE database1 with(TTL=31536000000);
+ALTER DATABASE database1 SET PROPERTIES TTL=31536000000;
 ```
 
 ### 1.6 删除数据库
