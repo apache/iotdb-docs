@@ -24,7 +24,7 @@ You have to install thrift (>=0.13) before using the package.
 
 ## How to use (Example)
 
-First, download the package: `pip3 install apache-iotdb`
+First, download the package: `pip3 install "apache-iotdb<2.0"`
 
 You can get an example of using the package to read and write data at here: [Session Example](https://github.com/apache/iotdb/blob/rc/1.3.3/iotdb-client/client-py/SessionExample.py)
 

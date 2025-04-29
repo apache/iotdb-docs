@@ -27,7 +27,7 @@
 
 ## 2. 如何使用 （示例）
 
-首先下载包：`pip3 install apache-iotdb`
+首先下载包：`pip3 install apache-iotdb>=2.0`
 
 您可以从这里得到一个使用该包进行数据读写的例子：[Session Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/session_example.py)
 
