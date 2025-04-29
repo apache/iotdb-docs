@@ -113,7 +113,7 @@ docker-iotdb：
 version: "3"
 services:
   iotdb-service:
-    image: iotdb-enterprise:1.3.2.3-standalone #使用的镜像
+    image: timecho/timechodb:2.0.2.1-standalone #使用的镜像
     hostname: iotdb
     container_name: iotdb
     restart: always       

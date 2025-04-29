@@ -99,7 +99,7 @@ docker-iotdb：
 version: "3"
 services:
   iotdb-service:
-    image: apache/iotdb:1.3.2-standalone #使用的镜像
+    image: apache/iotdb:latest #使用的镜像
     hostname: iotdb
     container_name: iotdb
     restart: always       

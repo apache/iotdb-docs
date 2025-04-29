@@ -109,7 +109,7 @@ The complete content of `docker-compose-standalone.yml` is as follows:
 version: "3"
 services:
   iotdb-service:
-    image: iotdb-enterprise:1.3.2.3-standalone #The image used
+    image: timecho/timechodb:2.0.2.1-standalone #The image used
     hostname: iotdb
     container_name: iotdb
     restart: always       
