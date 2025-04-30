@@ -39,13 +39,13 @@ DataFrame 是 Spark 编程中不同算子之间传递数据的常用数据结构
 
 ## 2. 兼容性要求
 
-| 软件                              | 版本    |
-| ----------------------------------- | --------- |
-| `Spark-IoTDB-Table-Connector` | `2.0.2`   |
+| 软件                              | 版本        |
+| ----------------------------------- |-----------|
+| `Spark-IoTDB-Table-Connector` | `2.0.4`   |
 | `Spark`                       | `3.3-3.5` |
 | `IoTDB`                       | `2.0.1+`  |
 | `Scala`                       | `2.12 `   |
-| `JDK`                         | `8、11`   |
+| `JDK`                         | `8、11`    |
 
 ## 3. 部署方式
 
@@ -57,7 +57,7 @@ DataFrame 是 Spark 编程中不同算子之间传递数据的常用数据结构
 <dependency>
     <groupId>org.apache.iotdb</groupId>
     <artifactId>spark-iotdb-table-connector-3.5</artifactId>
-    <version>2.0.2-SNAPSHOT</version>
+    <version>2.0.4</version>
 </dependency>
 ```
 

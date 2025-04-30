@@ -43,13 +43,13 @@ Spark clusters can be accessed via the `Spark-SQL Shell` for interactive SQL exe
 
 ## 2. Compatibility Requirements
 
-| Software                          | Version |
-| ----------------------------------- | --------- |
-| `Spark-IoTDB-Table-Connector` | `2.0.2`   |
+| Software                          | Version   |
+| ----------------------------------- |-----------|
+| `Spark-IoTDB-Table-Connector` | `2.0.4`   |
 | `Spark`                       | `3.3-3.5` |
 | `IoTDB`                       | `2.0.1+`  |
 | `Scala`                       | `2.12`    |
-| `JDK`                         | `8,11`   |
+| `JDK`                         | `8,11`    |
 
 ## 3. Deployment Methods
 
@@ -61,7 +61,7 @@ Add the following dependency to your project’s `pom.xml`:
 <dependency>  
     <groupId>org.apache.iotdb</groupId>  
     <artifactId>spark-iotdb-table-connector-3.5</artifactId>  
-    <version>2.0.2-SNAPSHOT</version>  
+    <version>2.0.4</version>  
 </dependency>
 ```
 
