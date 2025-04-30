@@ -19,7 +19,7 @@
 
 -->
 
-# DBeaver(IoTDB)
+# DBeaver
 
 DBeaver is an SQL client and database management tool. It can interact with IoTDB using IoTDB's JDBC driver.
 
