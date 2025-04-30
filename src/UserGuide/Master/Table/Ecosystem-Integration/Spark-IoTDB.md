@@ -19,7 +19,7 @@
 
 -->
 
-# Apache Spark(IoTDB)
+# Apache Spark
 
 ## 1. Functional Overview
 
@@ -45,7 +45,7 @@ Spark clusters can be accessed via the `Spark-SQL Shell` for interactive SQL exe
 
 | Software                          | Version   |
 | ----------------------------------- |-----------|
-| `Spark-IoTDB-Table-Connector` | `2.0.4`   |
+| `Spark-IoTDB-Table-Connector` | `2.0.3`   |
 | `Spark`                       | `3.3-3.5` |
 | `IoTDB`                       | `2.0.1+`  |
 | `Scala`                       | `2.12`    |
@@ -61,7 +61,7 @@ Add the following dependency to your project’s `pom.xml`:
 <dependency>  
     <groupId>org.apache.iotdb</groupId>  
     <artifactId>spark-iotdb-table-connector-3.5</artifactId>  
-    <version>2.0.4</version>  
+    <version>2.0.3</version>  
 </dependency>
 ```
 

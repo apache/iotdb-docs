@@ -19,7 +19,7 @@
 
 -->
 
-# Apache Spark(IoTDB)
+# Apache Spark
 
 ## 1. 功能概述
 
@@ -41,7 +41,7 @@ DataFrame 是 Spark 编程中不同算子之间传递数据的常用数据结构
 
 | 软件                              | 版本        |
 | ----------------------------------- |-----------|
-| `Spark-IoTDB-Table-Connector` | `2.0.4`   |
+| `Spark-IoTDB-Table-Connector` | `2.0.3`   |
 | `Spark`                       | `3.3-3.5` |
 | `IoTDB`                       | `2.0.1+`  |
 | `Scala`                       | `2.12 `   |
@@ -57,7 +57,7 @@ DataFrame 是 Spark 编程中不同算子之间传递数据的常用数据结构
 <dependency>
     <groupId>org.apache.iotdb</groupId>
     <artifactId>spark-iotdb-table-connector-3.5</artifactId>
-    <version>2.0.4</version>
+    <version>2.0.3</version>
 </dependency>
 ```
 
