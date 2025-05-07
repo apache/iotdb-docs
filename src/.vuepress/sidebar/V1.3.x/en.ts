@@ -183,7 +183,6 @@ export const enSidebar = {
         { text: 'Rust Native API', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC' },
         { text: 'MQTT Protocol', link: 'Programming-MQTT' },
-        { text: 'Kafka', link: 'Programming-Kafka' },
         {
           text: 'REST API',
           collapsible: true,
@@ -212,6 +211,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
+            { text: 'Kafka', link: 'Programming-Kafka' },
           ],
         },
         {

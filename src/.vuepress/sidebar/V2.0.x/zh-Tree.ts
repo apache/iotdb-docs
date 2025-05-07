@@ -157,7 +157,6 @@ export const zhSidebar = {
         { text: 'Rust原生接口', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC' },
         { text: 'MQTT协议', link: 'Programming-MQTT' },
-        { text: 'Kafka', link: 'Programming-Kafka' },
         {
           text: 'REST API',
           collapsible: true,
@@ -185,6 +184,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
+            { text: 'Kafka', link: 'Programming-Kafka' },
           ],
         },
         {
