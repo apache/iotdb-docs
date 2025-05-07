@@ -185,7 +185,6 @@ export const enSidebar = {
         { text: 'JDBC', link: 'Programming-JDBC' },
         { text: 'MQTT Protocol', link: 'Programming-MQTT' },
         { text: 'OPC UA Protocol', link: 'Programming-OPC-UA_timecho' },
-        { text: 'Kafka', link: 'Programming-Kafka' },
         {
           text: 'REST API',
           collapsible: true,
@@ -213,6 +212,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'Apache NiFi', link: 'NiFi-IoTDB' },
+            { text: 'Kafka', link: 'Programming-Kafka' },
           ],
         },
         {
