@@ -199,7 +199,7 @@ export const zhSidebar = {
           text: '可视化分析',
           collapsible: true,
           children: [
-            { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_timecho' },
+            { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB' },
             { text: 'Grafana', link: 'Grafana-Connector' },
             { text: 'Grafana插件', link: 'Grafana-Plugin' },
             { text: 'DataEase', link: 'DataEase' },
@@ -216,7 +216,6 @@ export const zhSidebar = {
           text: '物联网平台',
           collapsible: true,
           children: [
-            { text: 'Ignition', link: 'Ignition-IoTDB-plugin_timecho' },
             { text: 'ThingsBoard', link: 'Thingsboard' },
           ],
         },
