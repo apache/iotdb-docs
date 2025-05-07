@@ -44,7 +44,7 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 
 ### 2.1 confignode-env.sh/bat
 
-环境配置项主要用于对 ConfigNode 运行的 Java 环境相关参数进行配置，如 JVM 相关配置。ConfigNode 启动时，此部分配置会被传给 JVM，详细配置项说明如下：CONFIGNODE_JMX_OPTS
+环境配置项主要用于对 ConfigNode 运行的 Java 环境相关参数进行配置，如 JVM 相关配置。ConfigNode 启动时，此部分配置会被传给 JVM，详细配置项说明如下：
 
 - MEMORY_SIZE
 
