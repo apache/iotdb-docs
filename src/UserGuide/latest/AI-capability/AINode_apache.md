@@ -233,16 +233,15 @@ Built-in model inference does not require a registration process, the inference 
 
 The following machine learning models are currently built-in, please refer to the following links for detailed parameter descriptions.
 
-| Model                 | built_in_model_name   | Task type | Parameter description                                                     |
-| -------------------- | --------------------- | -------- | ------------------------------------------------------------ |
-| Arima                | _Arima                | Forecast     | [Arima Parameter description](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.forecasting.arima.ARIMA.html?highlight=Arima) |
+| Model                 | built_in_model_name   | Task type | Parameter description                                                                                                                                                                   |
+| -------------------- | --------------------- | -------- |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Arima                | _Arima                | Forecast     | [Arima Parameter description](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.forecasting.arima.ARIMA.html?highlight=Arima)                                        |
 | STLForecaster        | _STLForecaster        | Forecast     | [STLForecaster Parameter description](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.forecasting.trend.STLForecaster.html#sktime.forecasting.trend.STLForecaster) |
-| NaiveForecaster      | _NaiveForecaster      | Forecast     | [NaiveForecaster Parameter description](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.forecasting.naive.NaiveForecaster.html#naiveforecaster) |
-| ExponentialSmoothing | _ExponentialSmoothing | Forecast     | [ExponentialSmoothing 参Parameter description](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.forecasting.exp_smoothing.ExponentialSmoothing.html) |
-| GaussianHMM          | _GaussianHMM          | Annotation     | [GaussianHMMParameter description](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.annotation.hmm_learn.gaussian.GaussianHMM.html) |
-| GMMHMM               | _GMMHMM               | Annotation     | [GMMHMM参数说明](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.annotation.hmm_learn.gmm.GMMHMM.html) |
-| Stray                | _Stray                | Anomaly detection | [Stray Parameter description](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.annotation.stray.STRAY.html) |
-
+| NaiveForecaster      | _NaiveForecaster      | Forecast     | [NaiveForecaster Parameter description](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.forecasting.naive.NaiveForecaster.html#naiveforecaster)                    |
+| ExponentialSmoothing | _ExponentialSmoothing | Forecast     | [ExponentialSmoothing Parameter description](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.forecasting.exp_smoothing.ExponentialSmoothing.html)                  |
+| GaussianHMM          | _GaussianHMM          | Annotation     | [GaussianHMMParameter description](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.detection.hmm_learn.gaussian.GaussianHMM.html)                                 |
+| GMMHMM               | _GMMHMM               | Annotation     | [GMMHMM Parameter description](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.detection.hmm_learn.gmm.GMMHMM.html)                                                                    |
+| Stray                | _Stray                | Anomaly detection | [Stray Parameter description](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.detection.stray.STRAY.html)                                                         |
 
 #### Example
 
@@ -265,22 +264,22 @@ IoTDB> select * from root.eg.airline
 +-----------------------------+------------------+
 Total line number = 144
 
-IoTDB> call inference(_Stray, "select s0 from root.eg.airline", k=2)
-+-------+
-|output0|
-+-------+
-|      0|
-|      0|
-|      0|
-|      0|
+IoTDB> call inference(_Stray, "select s0 from root.eg.airline", generateTime=True, k=2)
++-----------------------------+-------+
+|                         Time|output0|
++-----------------------------+-------+
+|1960-12-31T00:00:00.000+08:00|      0|
+|1961-01-31T08:00:00.000+08:00|      1|
+|1961-02-28T08:00:00.000+08:00|      0|
+|1961-03-31T08:00:00.000+08:00|      0|
 ......
-|      1|
-|      1|
-|      0|
-|      0|
-|      0|
-|      0|
-+-------+
+|1972-06-30T08:00:00.000+08:00|      0|
+|1972-07-31T08:00:00.000+08:00|      1|
+|1972-08-31T08:00:00.000+08:00|      0|
+|1972-09-30T08:00:00.000+08:00|      0|
+|1972-10-31T08:00:00.000+08:00|      0|
+|1972-11-30T08:00:00.000+08:00|      0|
++-----------------------------+-------+
 Total line number = 144
 ```
 
@@ -344,18 +343,18 @@ IoTDB> select s1,s2 from root.**
 +-----------------------------+-------------------+-------------------+
 Total line number = 96
 
-IoTDB> call inference(dlinear_example,"select s0,s1 from root.**")
-+--------------------------------------------+-----------------------------+
-|                                   _result_0|                    _result_1|
-+--------------------------------------------+-----------------------------+
-|                           0.726302981376648|           1.6549958229064941|
-|                          0.7354921698570251|           1.6482787370681763|
-|                          0.7238251566886902|           1.6278168201446533|
+IoTDB> call inference(dlinear_example,"select s0,s1 from root.**", generateTime=True)
++-----------------------------+--------------------------------------------+-----------------------------+
+|                         Time|                                   _result_0|                    _result_1|
++-----------------------------+--------------------------------------------+-----------------------------+
+|1990-04-06T00:00:00.000+08:00|                           0.726302981376648|           1.6549958229064941|
+|1990-04-08T00:00:00.000+08:00|                          0.7354921698570251|           1.6482787370681763|
+|1990-04-10T00:00:00.000+08:00|                          0.7238251566886902|           1.6278168201446533|
 ......
-|                          0.7692174911499023|            1.654654049873352|
-|                          0.7685555815696716|           1.6625318765640259|
-|                          0.7856493592262268|           1.6508299350738525|
-+--------------------------------------------+-----------------------------+
+|1990-07-07T00:00:00.000+08:00|                          0.7692174911499023|            1.654654049873352|
+|1990-07-09T00:00:00.000+08:00|                          0.7685555815696716|           1.6625318765640259|
+|1990-07-11T00:00:00.000+08:00|                          0.7856493592262268|           1.6508299350738525|
++-----------------------------+--------------------------------------------+-----------------------------+
 Total line number = 48
 ```
 
@@ -388,18 +387,18 @@ IoTDB> select s1,s2 from root.**
 +-----------------------------+-------------------+-------------------+
 Total line number = 996
 
-IoTDB> call inference(dlinear_example,"select s0,s1 from root.**",window=tail(96))
-+--------------------------------------------+-----------------------------+
-|                                   _result_0|                    _result_1|
-+--------------------------------------------+-----------------------------+
-|                           0.726302981376648|           1.6549958229064941|
-|                          0.7354921698570251|           1.6482787370681763|
-|                          0.7238251566886902|           1.6278168201446533|
+IoTDB> call inference(dlinear_example,"select s0,s1 from root.**", generateTime=True, window=tail(96))
++-----------------------------+--------------------------------------------+-----------------------------+
+|                         Time|                                   _result_0|                    _result_1|
++-----------------------------+--------------------------------------------+-----------------------------+
+|1990-04-06T00:00:00.000+08:00|                           0.726302981376648|           1.6549958229064941|
+|1990-04-08T00:00:00.000+08:00|                          0.7354921698570251|           1.6482787370681763|
+|1990-04-10T00:00:00.000+08:00|                          0.7238251566886902|           1.6278168201446533|
 ......
-|                          0.7692174911499023|            1.654654049873352|
-|                          0.7685555815696716|           1.6625318765640259|
-|                          0.7856493592262268|           1.6508299350738525|
-+--------------------------------------------+-----------------------------+
+|1990-07-07T00:00:00.000+08:00|                          0.7692174911499023|            1.654654049873352|
+|1990-07-09T00:00:00.000+08:00|                          0.7685555815696716|           1.6625318765640259|
+|1990-07-11T00:00:00.000+08:00|                          0.7856493592262268|           1.6508299350738525|
++-----------------------------+--------------------------------------------+-----------------------------+
 Total line number = 48
 ```
 
@@ -430,15 +429,15 @@ IoTDB> select s1,s2 from root.**
 +-----------------------------+-------------------+-------------------+
 Total line number = 96
 
-IoTDB> call inference(anomaly_example,"select s0,s1 from root.**",window=count(24,24))
-+-------------------------+
-|                _result_0|
-+-------------------------+
-|                        0|
-|                        1|
-|                        1|
-|                        0|
-+-------------------------+
+IoTDB> call inference(anomaly_example,"select s0,s1 from root.**", generateTime=True, window=count(24,24))
++-----------------------------+-------------------------+
+|                         Time|                _result_0|
++-----------------------------+-------------------------+
+|1990-04-06T00:00:00.000+08:00|                        0|
+|1990-04-30T00:00:00.000+08:00|                        1|
+|1990-05-24T00:00:00.000+08:00|                        1|
+|1990-06-17T00:00:00.000+08:00|                        0|
++-----------------------------+-------------------------+
 Total line number = 4
 ```
 
@@ -503,18 +502,18 @@ IoTDB> select s0,s1,s2,s3,s4,s5,s6 from root.eg.etth LIMIT 96
 +-----------------------------+---------------+---------------+---------------+---------------+---------------+---------------+---------------+
 Total line number = 96
 
-IoTDB> call inference(dlinear_example, "select s0,s1,s2,s3,s4,s5,s6 from root.eg.etth", window=head(96))
-+-----------+----------+----------+------------+---------+----------+----------+
-|    output0|   output1|   output2|     output3|  output4|   output5|   output6|
-+-----------+----------+----------+------------+---------+----------+----------+
-|  10.319546| 3.1450553|  7.877341|   1.5723765|2.7303758| 1.1362307|  8.867775|
-|  10.443649| 3.3286757| 7.8593454|   1.7675098| 2.560634| 1.1177158|  8.920919|
-|  10.883752| 3.2341104|   8.47036|   1.6116762|2.4874182| 1.1760603|  8.798939| 
+IoTDB> call inference(dlinear_example, "select s0,s1,s2,s3,s4,s5,s6 from root.eg.etth", generateTime=True, window=head(96))
++-----------------------------+-----------+----------+----------+------------+---------+----------+----------+
+|                         Time|    output0|   output1|   output2|     output3|  output4|   output5|   output6|
++-----------------------------+-----------+----------+----------+------------+---------+----------+----------+
+|2017-10-23T23:00:00.000+08:00|  10.319546| 3.1450553|  7.877341|   1.5723765|2.7303758| 1.1362307|  8.867775|
+|2017-10-24T01:00:00.000+08:00|  10.443649| 3.3286757| 7.8593454|   1.7675098| 2.560634| 1.1177158|  8.920919|
+|2017-10-24T03:00:00.000+08:00|  10.883752| 3.2341104|   8.47036|   1.6116762|2.4874182| 1.1760603|  8.798939| 
 ......
-|  8.0115595| 1.2995274| 6.9900327|-0.098746896|  3.04923|  1.176214|  9.548782|
-|   8.612427| 2.5036244| 5.6790237|  0.66474205|2.8870275| 1.2051733|  9.330128|
-|  10.096699|  3.399722|    6.9909|   1.7478468|2.7642853| 1.1119363|  9.541455|
-+-----------+----------+----------+------------+---------+----------+----------+
+|2017-10-26T19:00:00.000+08:00|  8.0115595| 1.2995274| 6.9900327|-0.098746896|  3.04923|  1.176214|  9.548782|
+|2017-10-26T21:00:00.000+08:00|   8.612427| 2.5036244| 5.6790237|  0.66474205|2.8870275| 1.2051733|  9.330128|
+|2017-10-26T22:00:00.000+08:00|  10.096699|  3.399722|    6.9909|   1.7478468|2.7642853| 1.1119363|  9.541455|
++-----------------------------+-----------+----------+----------+------------+---------+----------+----------+
 Total line number = 48
 ```
 
@@ -567,20 +566,20 @@ IoTDB> select * from root.eg.voltage limit 96
 +-----------------------------+------------------+------------------+------------------+
 Total line number = 96
 
-IoTDB> call inference(_STLForecaster, "select s0,s1,s2 from root.eg.voltage", window=head(96),predict_length=48)
-+---------+---------+---------+
-|  output0|  output1|  output2|
-+---------+---------+---------+
-|2026.3601|2018.2953|2029.4257|
-|2019.1538|2011.4361|2022.0888|
-|2025.5074|2017.4522|2028.5199|
+IoTDB> call inference(_STLForecaster, "select s0,s1,s2 from root.eg.voltage", generateTime=True, window=head(96),predict_length=48)
++-----------------------------+---------+---------+---------+
+|                         Time|  output0|  output1|  output2|
++-----------------------------+---------+---------+---------+
+|2023-02-14T20:48:03.000+08:00|2026.3601|2018.2953|2029.4257|
+|2023-02-14T20:48:09.000+08:00|2019.1538|2011.4361|2022.0888|
+|2023-02-14T20:48:15.000+08:00|2025.5074|2017.4522|2028.5199|
 ......
 
-|2022.2336|2015.0290|2025.1023|
-|2015.7241|2008.8975|2018.5085|
-|2022.0777|2014.9136|2024.9396|
-|2015.5682|2008.7821|2018.3458|
-+---------+---------+---------+
+|2023-02-14T20:52:15.000+08:00|2022.2336|2015.0290|2025.1023|
+|2023-02-14T20:52:21.000+08:00|2015.7241|2008.8975|2018.5085|
+|2023-02-14T20:52:27.000+08:00|2022.0777|2014.9136|2024.9396|
+|2023-02-14T20:52:33.000+08:00|2015.5682|2008.7821|2018.3458|
++-----------------------------+---------+---------+---------+
 Total line number = 48
 ```
 
@@ -628,22 +627,22 @@ IoTDB> select * from root.eg.airline
 +-----------------------------+------------------+
 Total line number = 144
 
-IoTDB> call inference(_Stray, "select s0 from root.eg.airline", k=2)
-+-------+
-|output0|
-+-------+
-|      0|
-|      0|
-|      0|
-|      0|
+IoTDB> call inference(_Stray, "select s0 from root.eg.airline", generateTime=True, k=2)
++-----------------------------+-------+
+|                         Time|output0|
++-----------------------------+-------+
+|1960-12-31T00:00:00.000+08:00|      0|
+|1961-01-31T08:00:00.000+08:00|      0|
+|1961-02-28T08:00:00.000+08:00|      0|
+|1961-03-31T08:00:00.000+08:00|      0|
 ......
-|      1|
-|      1|
-|      0|
-|      0|
-|      0|
-|      0|
-+-------+
+|1972-06-30T08:00:00.000+08:00|      1|
+|1972-07-31T08:00:00.000+08:00|      1|
+|1972-08-31T08:00:00.000+08:00|      0|
+|1972-09-30T08:00:00.000+08:00|      0|
+|1972-10-31T08:00:00.000+08:00|      0|
+|1972-11-30T08:00:00.000+08:00|      0|
++-----------------------------+-------+
 Total line number = 144
 ```
 
