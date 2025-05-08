@@ -2,10 +2,10 @@
 
 ## 1. 功能概述
 
-IoTDB 支持两种方式进行数据导入
-
-* 数据导入工具：tools 目录下的手动数据导入工具 `import-data.sh/bat`，可以将 CSV、SQL、及TsFile（开源时序文件格式）的数据导入 IoTDB。
-* TsFile 自动加载功能
+IoTDB 支持三种方式进行数据导入：
+- 数据导入工具 ：`import-data.sh/bat` 位于 `tools` 目录下，可以将 `CSV`、`SQL`、及`TsFile`（开源时序文件格式）的数据导入 `IoTDB`。
+- `TsFile` 自动加载功能。
+- `Load SQL` 导入 `TsFile` 。
 
 <table style="text-align: left;">
   <tbody>
@@ -23,12 +23,16 @@ IoTDB 支持两种方式进行数据导入
             <td>可用于单个或一个目录的 SQL 文件批量导入 IoTDB</td> 
       </tr>
        <tr>
-            <td rowspan="2">TsFile</td>
+            <td rowspan="3">TsFile</td>
             <td>可用于单个或一个目录的 TsFile 文件批量导入 IoTDB</td>
       </tr>
       <tr>
-            <td>TsFile 自动加载功能</td>
-            <td> 可以监听指定路径下新产生的TsFile文件，并将其加载进IoTDB</td>       
+            <td>TsFile 自动加载</td>  
+            <td>可以监听指定路径下新产生的 TsFile 文件，并将其加载进 IoTDB</td> 
+      </tr>
+      <tr>
+            <td>Load SQL</td>  
+            <td>可用于单个或一个目录的 TsFile 文件批量导入 IoTDB</td> 
       </tr>
 </tbody>
 </table>
@@ -250,3 +254,54 @@ error: Invalid thread number '0'. Please set a positive integer.
 2. 禁止设置 Pipe 的 receiver 目录、存放数据的 data 目录等作为监听目录
 3. 禁止 `load_active_listening_fail_dir` 与 `load_active_listening_dirs` 存在相同的目录，或者互相嵌套
 4. 保证 `load_active_listening_dirs` 目录有足够的权限，在加载成功之后，文件将会被删除，如果没有删除权限，则会重复加载
+
+## 4. Load SQL
+
+IoTDB 支持通过 CLI 执行 SQL 直接将存有时间序列的一个或多个 TsFile 文件导入到另外一个正在运行的 IoTDB 实例中。
+
+### 4.1 运行命令
+
+```SQL
+load '<path/dir>' with (
+    'attribute-key1'='attribute-value1',
+    'attribute-key2'='attribute-value2',
+)
+```
+
+* `<path/dir>` ：文件本身，或是包含若干文件的文件夹路径
+* `<attributes>`：可选参数，具体如下表所示
+
+| Key                                   | Key 描述                                                                                                                                                                 | Value 类型 | Value 取值范围                          | Value 是否必填 | Value 默认值             |
+| --------------------------------------- |------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------ | ----------------------------------------- | ---------------- | -------------------------- |
+| `database-level`                  | 当 tsfile 对应的 database 不存在时，可以通过` database-level`参数的值来制定 database 的级别，默认为`iotdb-common.properties`中设置的级别。<br>例如当设置 level 参数为 1 时表明此 tsfile 中所有时间序列中层级为1的前缀路径是 database。 | Integer   | `[1: Integer.MAX_VALUE]`            | 否             | 1                        |
+| `on-success`                      | 表示对于成功载入的 tsfile 的处置方式:默认为`delete`，即tsfile 成功加载后将被删除;`none `表明 tsfile 成功加载之后依然被保留在源文件夹,                                                                                | String     | `delete / none`                     | 否             | delete                  |
+| `model`                           | 指定写入的 tsfile 是表模型还是树模型                                                                                                                                                 | String     | `tree / table`                      | 否             | 与`-sql_dialect`一致 |
+| `database-name`                   | **仅限表模型有效**: 文件导入的目标 database，不存在时会自动创建，`database-name`中不允许包括"`root.`"前缀，如果包含，将会报错。                                                                                    | String     | `-`                                 | 否             | null                     |
+| `convert-on-type-mismatch`    | 加载 tsfile 时，如果数据类型不一致，是否进行转换                                                                                                                                           | Boolean    | `true / false`                      | 否             | true                     |
+| `verify`                          | 加载 tsfile 前是否校验 schema                                                                                                                                                 | Boolean    | `true / false`                      | 否             | true                     |
+| `tablet-conversion-threshold` | 转换为 tablet 形式的 tsfile 大小阈值，针对小文件 tsfile 加载，采用将其转换为 tablet 形式进行写入:默认值为 -1，即任意大小 tsfile 都不进行转换                                                                           | Integer    | `[-1,0 :`​`Integer.MAX_VALUE]` | 否             | -1                       |
+| `async`                           | 是否开启异步加载 tsfile，将文件移到 active load 目录下面，所有的 tsfile 都 load 到`database-name`下.                                                                                            | Boolean    | `true / false`                      | 否             | false                    |
+
+### 4.2 运行示例
+
+```SQL
+-- 准备待导入环境
+IoTDB> show databases
++-------------+-----------------------+---------------------+-------------------+---------------------+
+|     Database|SchemaReplicationFactor|DataReplicationFactor|TimePartitionOrigin|TimePartitionInterval|
++-------------+-----------------------+---------------------+-------------------+---------------------+
+|root.__system|                      1|                    1|                  0|            604800000|
++-------------+-----------------------+---------------------+-------------------+---------------------+
+
+-- 通过load sql 导入 tsfile
+IoTDB> load '/home/dump1.tsfile' with ( 'on-success'='none')
+Msg: The statement is executed successfully.
+
+-- 验证数据导入成功
+IoTDB> select * from root.testdb.**
++-----------------------------+------------------------------------+---------------------------------+-------------------------------+
+|                         Time|root.testdb.device.model.temperature|root.testdb.device.model.humidity|root.testdb.device.model.status|
++-----------------------------+------------------------------------+---------------------------------+-------------------------------+
+|2025-04-17T10:35:47.218+08:00|                                22.3|                             19.4|                           true|
++-----------------------------+------------------------------------+---------------------------------+-------------------------------+
+```

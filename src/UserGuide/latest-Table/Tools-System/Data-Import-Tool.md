@@ -1,7 +1,11 @@
 # Data Import
 
 ## 1. Functional Overview
-The data import tool `import-data.sh/bat` is located in the `tools` directory and can import data in ​CSV, ​SQL, and ​TsFile (an open-source time-series file format) into ​IoTDB. Its specific functionalities are as follows:
+
+IoTDB supports three methods for data import:
+- Data Import Tool: Use the `import-data.sh/bat` script in the `tools` directory to manually import CSV, SQL, or TsFile (open-source time-series file format) data into IoTDB.
+- `TsFile` Auto-Loading Feature
+- Load `TsFile` SQL 
 
 <table style="text-align: left;">
   <tbody>
@@ -19,13 +23,21 @@ The data import tool `import-data.sh/bat` is located in the `tools` directory an
             <td>Can be used for single or batch import of SQL files into IoTDB</td> 
       </tr>
        <tr>
-            <td>TsFile</td> 
+            <td rowspan="3">TsFile</td> 
             <td>Can be used for single or batch import of TsFile files into IoTDB</td>
-      </tr> 
+      </tr>
+      <tr>
+            <td>TsFile Auto-Loading Feature</td>  
+            <td>Can automatically monitor a specified directory for newly generated TsFiles and load them into IoTDB</td> 
+      </tr>
+      <tr>
+            <td>Load SQL</td>  
+            <td>Can be used for single or batch import of TsFile files into IoTDB</td> 
+      </tr>
 </tbody>
 </table>
 
-## 2. Detailed Features
+## 2. Data Import Tool
 ### 2.1 Common Parameters
 
 | Short       | Full Parameter     | Description                                                                                                                                                                                      | Required        | Default                                       |
@@ -182,4 +194,106 @@ Fail to insert measurements '[column.name]' caused by [data type is not consiste
 # Error Example
 > tools/import-data.sh -ft tsfile -sql_dialect table -s ./tsfile -db database1 
 Parse error: Missing required options: os, of
+```
+
+## 3. TsFile Auto-Loading
+
+This feature enables IoTDB to automatically monitor a specified directory for new TsFiles and load them into the database without manual intervention.
+
+![](/img/Data-import2.png)
+
+### 3.1 Configuration
+
+Add the following parameters to `iotdb-system.properties` (template: `iotdb-system.properties.template`):
+
+| Parameter                                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Value Range              | Required | Default                     | Hot-Load?             |
+| ---------------------------------------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------| ---------- | ----------------------------- | ----------------------- |
+| `load_active_listening_enable`                 | Enable auto-loading.                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | `true`/`false`           | Optional | `true`                  | Yes                   |
+| `load_active_listening_dirs`                   | Directories to monitor (subdirectories included). Multiple paths separated by commas. <br>Note: In the table model, the directory name where the file is located will be used as the database.                                                                                                                                                                                                                                                                                               | String                   | Optional | `ext/load/pending`      | Yes                   |
+| `load_active_listening_fail_dir`               | Directory to store failed TsFiles.  Only can set one.                                                                                                                                                                                                                                                                                                                                                                                                                                        | String                   | Optional | `ext/load/failed`       | Yes                   |
+| `load_active_listening_max_thread_num`         | Maximum Threads for TsFile Loading Tasks:The default value for this parameter, when commented out, is max(1, CPU cores / 2). If the value set by the user falls outside the range [1, CPU cores / 2], it will be reset to the default value of max(1, CPU cores / 2).                                                                                                                                                                                                                        | `1` to `Long.MAX_VALUE`  | Optional | `max(1, CPU_CORES / 2)` | No (restart required) |
+| `load_active_listening_check_interval_seconds` | Active Listening Polling Interval (in seconds):The active listening feature for TsFiles is implemented through polling the target directory. This configuration specifies the time interval between two consecutive checks of the `load_active_listening_dirs`. After each check, the next check will be performed after `load_active_listening_check_interval_seconds` seconds. If the polling interval set by the user is less than 1, it will be reset to the default value of 5 seconds. | `1` to `Long.MAX_VALUE`  | Optional | `5`                     | No (restart required) |
+
+### 3.2 Examples
+
+```bash
+load_active_listening_dir/
+├─sensors/
+│  ├─temperature/
+│  │   └─temperature-table.TSFILE
+
+```
+
+- Table model TsFile
+  - `temperature-table.TSFILE`: will be imported into the `temperature` database (because it is located in the `sensors/temperature/` directory)
+
+
+### 3.3 Notes
+
+1. ​​**Mods Files**​: If TsFiles have associated `.mods` files, move `.mods` files to the monitored directory ​**before** their corresponding TsFiles. Ensure `.mods` and TsFiles are in the same directory.
+2. ​​**Restricted Directories**​: Do NOT set Pipe receiver directories, data directories, or other system paths as monitored directories.
+3. ​​**Directory Conflicts**​: Ensure `load_active_listening_fail_dir` does not overlap with `load_active_listening_dirs` or its subdirectories.
+4. ​​**Permissions**​: The monitored directory must have write permissions. Files are deleted after successful loading; insufficient permissions may cause duplicate loading.
+
+
+## 4. Load SQL
+
+IoTDB supports importing one or multiple TsFile files containing time series into another running IoTDB instance directly via SQL execution through the CLI.
+
+### 4.1 Command
+
+```SQL
+load '<path/dir>' with (
+    'attribute-key1'='attribute-value1',
+    'attribute-key2'='attribute-value2',
+)
+```
+
+* `<path/dir>` : The path to a TsFile or a folder containing multiple TsFiles.
+* `<attributes>`: Optional parameters, as described below.
+
+| Key                            | Key Description                                                                                                                                                                                                                                                                                                                          | Value Type  | Value Range                    | Value is Required | Default Value              |
+|--------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|--------------------------------|-------------------|----------------------------|
+| `database-level`               | When the database corresponding to the TsFile does not exist, the database hierarchy level can be specified via the ` database-level` parameter. The default is the level set in `iotdb-common.properties`. For example, setting level=1 means the prefix path of level 1 in all time series in the TsFile will be used as the database. | Integer     | `[1: Integer.MAX_VALUE]`       | No                | 1                          |
+| `on-success`                   | Action for successfully loaded TsFiles: `delete` (delete the TsFile after successful import) or `none` (retain the TsFile in the source folder).                                                                                                                                                                                         | String      | `delete / none`                | No                 | delete                     |
+| `model`                        | Specifies whether the TsFile uses the `table` model or `tree` model.                                                                                                                                                                                                                                                                     | String      | `tree / table`                 | No                  | Aligns with `-sql_dialect` |
+| `database-name`                | Table model only: Target database for import. Automatically created if it does not exist. The database-name must not include the `root.` prefix (an error will occur if included).                                                                                                                                                       | String      | `-`                            | No                  | null                       |
+| `convert-on-type-mismatch`     | Whether to perform type conversion during loading if data types in the TsFile mismatch the target schema.                                                                                                                                                                                                                                | Boolean     | `true / false`                 | No                  | true                       |
+| `verify`                       | Whether to validate the schema before loading the TsFile.                                                                                                                                                                                                                                                                                | Boolean     | `true / false`                 | No                  | true                       |
+| `tablet-conversion-threshold`  | Size threshold (in bytes) for converting TsFiles into tablet format during loading. Default: `-1` (no conversion for any TsFile).                                                                                                                                                                                                        | Integer     | `[-1,0 :`​`Integer.MAX_VALUE]` | No                 | -1                         |
+| `async`                        | Whether to enable asynchronous loading. If enabled, TsFiles are moved to an active-load directory and loaded into the `database-name` asynchronously.                                                                                                                                                                                    | Boolean     | `true / false`                 | No                 | false                      |
+
+### 4.2 Example
+
+```SQL
+-- Create target database: database2
+IoTDB> create database database2
+Msg: The statement is executed successfully.
+
+IoTDB> use database2
+Msg: The statement is executed successfully.
+
+IoTDB:database2> show tables details
++---------+-------+------+-------+
+|TableName|TTL(ms)|Status|Comment|
++---------+-------+------+-------+
++---------+-------+------+-------+
+Empty set.
+
+-- Import tsfile by excuting load sql 
+IoTDB:database2> load '/home/dump0.tsfile' with ( 'on-success'='none', 'database-name'='database2')
+Msg: The statement is executed successfully.
+
+-- Verify whether the import was successful
+IoTDB:database2> select * from table2
++-----------------------------+------+--------+---------+-----------+--------+------+-----------------------------+
+|                         time|region|plant_id|device_id|temperature|humidity|status|                 arrival_time|
++-----------------------------+------+--------+---------+-----------+--------+------+-----------------------------+
+|2024-11-30T00:00:00.000+08:00|  上海|    3002|      101|       90.0|    35.2|  true|                         null|
+|2024-11-29T00:00:00.000+08:00|  上海|    3001|      101|       85.0|    35.1|  null|2024-11-29T10:00:13.000+08:00|
+|2024-11-27T00:00:00.000+08:00|  北京|    1001|      101|       85.0|    35.1|  true|2024-11-27T16:37:01.000+08:00|
+|2024-11-29T11:00:00.000+08:00|  上海|    3002|      100|       null|    45.1|  true|                         null|
+|2024-11-28T08:00:00.000+08:00|  上海|    3001|      100|       85.0|    35.2| false|2024-11-28T08:00:09.000+08:00|
+|2024-11-26T13:37:00.000+08:00|  北京|    1001|      100|       90.0|    35.1|  true|2024-11-26T13:37:34.000+08:00|
++-----------------------------+------+--------+---------+-----------+--------+------+-----------------------------+
 ```
