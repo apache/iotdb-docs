@@ -120,8 +120,18 @@ export const enSidebar = {
         { text: 'Monitor Tool', link: 'Monitor-Tool_apache' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
         { text: 'Cluster Management Tool', link: 'Maintenance-Tool_apache' },
-        { text: 'Data Import', link: 'Data-Import-Tool' },
-        { text: 'Data Export', link: 'Data-Export-Tool' },
+        { text: 'Data Import & Export', collapsible: true,
+          children: [
+            { text: 'Data Import', link: 'Data-Import-Tool' },
+            { text: 'Data Export', link: 'Data-Export-Tool' },
+          ],
+        },
+        { text: 'Schema Import & Export', collapsible: true,
+          children: [
+            { text: 'Schema Import', link: 'Schema-Import-Tool' },
+            { text: 'Schema Export', link: 'Schema-Export-Tool' },
+          ],
+        },
       ],
     },
     {
