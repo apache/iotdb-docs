@@ -119,6 +119,33 @@ Example 3: Query records where region is not 'Beijing' or 'Shanghai'
 SELECT * FROM table1 WHERE region NOT IN ('Beijing', 'Shanghai');
 ```
 
+### 1.5 GREATEST and LEAST
+
+The `GREATEST` function returns the maximum value from a list of arguments, while the `LEAST` function returns the minimum value. The return type matches the input data type.
+
+Key Behaviors:
+1. NULL Handling: Returns NULL if all arguments are NULL.
+2. Parameter Requirements: Requires at least 2 arguments.
+3. Type Constraints: All arguments must have the same data type.
+4. Supported Types: `BOOLEAN`、`FLOAT`、`DOUBLE`、`INT32`、`INT64`、`STRING`、`TEXT`、`TIMESTAMP`、`DATE`
+
+**Syntax:**
+
+```sql
+  greatest(value1, value2, ..., valueN)
+  least(value1, value2, ..., valueN)
+```
+
+**Examples:**
+
+```sql
+-- Retrieve the maximum value between `temperature` and `humidity` in `table2`  
+SELECT GREATEST(temperature,humidity) FROM table2;
+
+-- Retrieve the minimum value between `temperature` and `humidity` in `table2`  
+SELECT LEAST(temperature,humidity) FROM table2;
+```
+
 ## 2. Aggregate functions
 
 ### 2.1 Overview
@@ -127,29 +154,31 @@ SELECT * FROM table1 WHERE region NOT IN ('Beijing', 'Shanghai');
 
 2. Except for `COUNT()`, all other aggregate functions ignore null values and return null when there are no input rows or all values are null. For example, `SUM()` returns null instead of zero, and `AVG()` does not include null values in the count.
 
-### 2.2 Supported Aggregate Functions                            
+### 2.2 Supported Aggregate Functions
 
-| Function Name | Description                                                  | Allowed Input Types        | Output Type                                |
-| :------------ | :----------------------------------------------------------- | :------------------------- | :----------------------------------------- |
-| COUNT         | Counts the number of data points.                            | All types                  | INT64                                      |
-| SUM           | Calculates the sum.                                          | INT32 INT64 FLOAT DOUBLE   | DOUBLE                                     |
-| AVG           | Calculates the average.                                      | INT32 INT64 FLOAT DOUBLE   | DOUBLE                                     |
-| MAX           | Finds the maximum value.                                     | All types                  | Same as input type                         |
-| MIN           | Finds the minimum value.                                     | All types                  | Same as input type                         |
-| FIRST         | Finds the value with the smallest timestamp that is not NULL. | All types                  | Same as input type                         |
-| LAST          | Finds the value with the largest timestamp that is not NULL. | All types                  | Same as input type                         |
-| STDDEV        | Alias for STDDEV_SAMP,  calculates the sample standard deviation. | INT32 INT64 FLOAT DOUBLE   | DOUBLE                                     |
-| STDDEV_POP    | Calculates the population standard deviation.                | INT32 INT64 FLOAT DOUBLE   | DOUBLE                                     |
-| STDDEV_SAMP   | Calculates the sample standard deviation.                    | INT32 INT64 FLOAT DOUBLE   | DOUBLE                                     |
-| VARIANCE      | Alias for VAR_SAMP,  calculates the sample variance.         | INT32 INT64 FLOAT DOUBLE   | DOUBLE                                     |
-| VAR_POP       | Calculates the population variance.                          | INT32 INT64 FLOAT DOUBLE   | DOUBLE                                     |
-| VAR_SAMP      | Calculates the sample variance.                              | INT32 INT64 FLOAT DOUBLE   | DOUBLE                                     |
-| EXTREME       | Finds the value with the largest absolute value. If the largest absolute values of positive and negative values are equal, returns the positive value. | INT32 INT64 FLOAT DOUBLE   | Same as input type                         |
-| MODE          | Finds the mode. Note: 1. There is a risk of memory exception when the number of distinct values in the input sequence is too large; 2. If all elements have the same frequency, i.e., there is no mode, a random element is returned; 3. If there are multiple modes, a random mode is returned; 4. NULL values are also counted in frequency, so even if not all values in the input sequence are NULL, the final result may still be NULL. | All types                  | Same as input type                         |
-| MAX_BY        | MAX_BY(x, y) finds the value of x corresponding to the maximum y in the binary input x and y. MAX_BY(time, x) returns the timestamp when x is at its maximum. | x and y can be of any type | Same as the data type of the first input x |
-| MIN_BY        | MIN_BY(x, y) finds the value of x corresponding to the minimum y in the binary input x and y. MIN_BY(time, x) returns the timestamp when x is at its minimum. | x and y can be of any type | Same as the data type of the first input x |
-| FIRST_BY      | FIRST_BY(x, y) finds the value of x in the same row when y is the first non-null value. | x and y can be of any type | Same as the data type of the first input x |
-| LAST_BY       | LAST_BY(x, y) finds the value of x in the same row when y is the last non-null value. | x and y can be of any type | Same as the data type of the first input x |
+| Function Name | Description                                                                                                                                                                                                                                                                                                                                                                                                                                  | Allowed Input Types                                                | Output Type                                |
+|:--------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------|:-------------------------------------------|
+| COUNT         | Counts the number of data points.                                                                                                                                                                                                                                                                                                                                                                                                            | All types                                                          | INT64                                      |
+| COUNT_IF      | COUNT_IF(exp) counts the number of rows that satisfy a specified boolean expression.                                                                                                                                                                                                                                                                                                                                                         | `exp` must be a boolean expression,(e.g. `count_if(temperature>20)`) | INT64                                    |
+| SUM           | Calculates the sum.                                                                                                                                                                                                                                                                                                                                                                                                                          | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
+| AVG           | Calculates the average.                                                                                                                                                                                                                                                                                                                                                                                                                      | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
+| MAX           | Finds the maximum value.                                                                                                                                                                                                                                                                                                                                                                                                                     | All types                                                          | Same as input type                         |
+| MIN           | Finds the minimum value.                                                                                                                                                                                                                                                                                                                                                                                                                     | All types                                                          | Same as input type                         |
+| FIRST         | Finds the value with the smallest timestamp that is not NULL.                                                                                                                                                                                                                                                                                                                                                                                | All types                                                          | Same as input type                         |
+| LAST          | Finds the value with the largest timestamp that is not NULL.                                                                                                                                                                                                                                                                                                                                                                                 | All types                                                          | Same as input type                         |
+| STDDEV        | Alias for STDDEV_SAMP,  calculates the sample standard deviation.                                                                                                                                                                                                                                                                                                                                                                            | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
+| STDDEV_POP    | Calculates the population standard deviation.                                                                                                                                                                                                                                                                                                                                                                                                | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
+| STDDEV_SAMP   | Calculates the sample standard deviation.                                                                                                                                                                                                                                                                                                                                                                                                    | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
+| VARIANCE      | Alias for VAR_SAMP,  calculates the sample variance.                                                                                                                                                                                                                                                                                                                                                                                         | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
+| VAR_POP       | Calculates the population variance.                                                                                                                                                                                                                                                                                                                                                                                                          | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
+| VAR_SAMP      | Calculates the sample variance.                                                                                                                                                                                                                                                                                                                                                                                                              | INT32 INT64 FLOAT DOUBLE                                           | DOUBLE                                     |
+| EXTREME       | Finds the value with the largest absolute value. If the largest absolute values of positive and negative values are equal, returns the positive value.                                                                                                                                                                                                                                                                                       | INT32 INT64 FLOAT DOUBLE                                           | Same as input type                         |
+| MODE          | Finds the mode. Note: 1. There is a risk of memory exception when the number of distinct values in the input sequence is too large; 2. If all elements have the same frequency, i.e., there is no mode, a random element is returned; 3. If there are multiple modes, a random mode is returned; 4. NULL values are also counted in frequency, so even if not all values in the input sequence are NULL, the final result may still be NULL. | All types                                                          | Same as input type                         |
+| MAX_BY        | MAX_BY(x, y) finds the value of x corresponding to the maximum y in the binary input x and y. MAX_BY(time, x) returns the timestamp when x is at its maximum.                                                                                                                                                                                                                                                                                | x and y can be of any type                                         | Same as the data type of the first input x |
+| MIN_BY        | MIN_BY(x, y) finds the value of x corresponding to the minimum y in the binary input x and y. MIN_BY(time, x) returns the timestamp when x is at its minimum.                                                                                                                                                                                                                                                                                | x and y can be of any type                                         | Same as the data type of the first input x |
+| FIRST_BY      | FIRST_BY(x, y) finds the value of x in the same row when y is the first non-null value.                                                                                                                                                                                                                                                                                                                                                      | x and y can be of any type                                         | Same as the data type of the first input x |
+| LAST_BY       | LAST_BY(x, y) finds the value of x in the same row when y is the last non-null value.                                                                                                                                                                                                                                                                                                                                                        | x and y can be of any type                                         | Same as the data type of the first input x |
+
 
 ### 2.3 Examples
 
@@ -179,7 +208,29 @@ Total line number = 1
 It costs 0.834s
 ```
 
-#### 2.3.3 First
+
+#### 2.3.3 Count_if
+
+Count `Non-Null` `arrival_time` Records in `table2`
+
+```sql
+select count_if(arrival_time is not null) from table2;
+```
+
+The execution result is as follows:
+
+```sql
++-----+
+|_col0|
++-----+
+|    4|
++-----+
+Total line number = 1
+It costs 0.047s
+```
+
+
+#### 2.3.4 First
 
 Finds the values with the smallest timestamp that are not NULL in the `temperature` and `humidity` columns.
 
@@ -199,7 +250,7 @@ Total line number = 1
 It costs 0.170s
 ```
 
-#### 2.3.4 Last
+#### 2.3.5 Last
 
 Finds the values with the largest timestamp that are not NULL in the `temperature` and `humidity` columns.
 
@@ -219,7 +270,7 @@ Total line number = 1
 It costs 0.211s
 ```
 
-#### 2.3.5 First_by
+#### 2.3.6 First_by
 
 Finds the `time` value of the row with the smallest timestamp that is not NULL in the `temperature` column, and the `humidity` value of the row with the smallest timestamp that is not NULL in the `temperature` column.
 
@@ -239,7 +290,7 @@ Total line number = 1
 It costs 0.269s
 ```
 
-#### 2.3.6 Last_by
+#### 2.3.7 Last_by
 
 Queries the `time` value of the row with the largest timestamp that is not NULL in the `temperature` column, and the `humidity` value of the row with the largest timestamp that is not NULL in the `temperature` column.
 
@@ -259,7 +310,7 @@ Total line number = 1
 It costs 0.070s
 ```
 
-#### 2.3.7 Max_by
+#### 2.3.8 Max_by
 
 Queries the `time` value of the row where the `temperature` column is at its maximum, and the `humidity` value of the row where the `temperature` column is at its maximum.
 
@@ -279,7 +330,7 @@ Total line number = 1
 It costs 0.172s
 ```
 
-#### 2.3.8 Min_by
+#### 2.3.9 Min_by
 
 Queries the `time` value of the row where the `temperature` column is at its minimum, and the `humidity` value of the row where the `temperature` column is at its minimum.
 
@@ -298,6 +349,7 @@ The execution result is as follows:
 Total line number = 1
 It costs 0.244s
 ```
+
 
 ## 3. Logical operators
 
@@ -343,7 +395,7 @@ NULL OR true -- true
 
 ##### 3.2.2.1 Truth Table
 
-The following truth table illustrates how `NULL` is handled in `AND` and `OR` operators: 
+The following truth table illustrates how `NULL` is handled in `AND` and `OR` operators:
 
 | a     | b     | a AND b | a OR b |
 | :---- | :---- | :------ | :----- |
@@ -417,7 +469,7 @@ date_bin(interval,source,origin)
 4. If `source` is `null`, the function returns `null`.
 5. Mixing months and non-month time units (e.g., `1 MONTH 1 DAY`) is not supported due to ambiguity.
 
-> For example, if the starting point is **April 30, 2000**, calculating `1 DAY` first and then `1 MONTH` results in **June 1, 2000**, whereas calculating `1 MONTH` first and then `1 DAY` results in **May 31, 2000**. The resulting dates are different.                             
+> For example, if the starting point is **April 30, 2000**, calculating `1 DAY` first and then `1 MONTH` results in **June 1, 2000**, whereas calculating `1 MONTH` first and then `1 DAY` results in **May 31, 2000**. The resulting dates are different.
 
 #### 4.2.2 Examples
 
@@ -635,31 +687,31 @@ It costs 0.319s
 
 ### 5.2 Mathematical functions
 
-| Function Name | Description                                                                                                                                                                                                                                      | Input                       | Output              | Usage      |
-|:--------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------|:--------------------| :--------- |
-| sin           | Sine                                                                                                                                                                                                                                             | double, float, INT64, INT32 | double              | sin(x)     |
-| cos           | Cosine                                                                                                                                                                                                                                           | double, float, INT64, INT32 | double              | cos(x)     |
-| tan           | Tangent                                                                                                                                                                                                                                          | double, float, INT64, INT32 | double              | tan(x)     |
-| asin          | Inverse Sine                                                                                                                                                                                                                                     | double, float, INT64, INT32 | double              | asin(x)    |
-| acos          | Inverse Cosine                                                                                                                                                                                                                                   | double, float, INT64, INT32 | double              | acos(x)    |
-| atan          | Inverse Tangent                                                                                                                                                                                                                                  | double, float, INT64, INT32 | double              | atan(x)    |
-| sinh          | Hyperbolic Sine                                                                                                                                                                                                                                  | double, float, INT64, INT32 | double              | sinh(x)    |
-| cosh          | Hyperbolic Cosine                                                                                                                                                                                                                                | double, float, INT64, INT32 | double              | cosh(x)    |
-| tanh          | Hyperbolic Tangent                                                                                                                                                                                                                               | double, float, INT64, INT32 | double              | tanh(x)    |
-| degrees       | Converts angle `x` in radians to degrees                                                                                                                                                                                                         | double, float, INT64, INT32 | double              | degrees(x) |
-| radians       | Radian Conversion from Degrees                                                                                                                                                                                                                   | double, float, INT64, INT32 | double              | radians(x) |
-| abs           | Absolute Value                                                                                                                                                                                                                                   | double, float, INT64, INT32 | Same as input type  | abs(x)     |
-| sign          | Returns the sign of `x`:  - If `x = 0`, returns `0`  - If `x > 0`, returns `1`  - If `x < 0`, returns `-1`  For `double/float` inputs:  - If `x = NaN`, returns `NaN`  - If `x = +Infinity`, returns `1.0`  - If `x = -Infinity`, returns `-1.0` | double, float, INT64, INT32 | Same as input type  | sign(x)    |
-| ceil          | Rounds `x` up to the nearest integer                                                                                                                                                                                                             | double, float, INT64, INT32 | double              | ceil(x)    |
-| floor         | Rounds `x` down to the nearest integer                                                                                                                                                                                                           | double, float, INT64, INT32 | double              | floor(x)   |
-| exp           | Returns `e^x` (Euler's number raised to the power of `x`)                                                                                                                                                                                        | double, float, INT64, INT32 | double              | exp(x)     |
-| ln            | Returns the natural logarithm of `x`                                                                                                                                                                                                             | double, float, INT64, INT32 | double              | ln(x)      |
-| log10         | Returns the base 10 logarithm of `x`                                                                                                                                                                                                             | double, float, INT64, INT32 | double              | log10(x)   |
-| round         | Rounds `x` to the nearest integer                                                                                                                                                                                                                | double, float, INT64, INT32 | double              | round(x)   |
-| round         | Rounds `x` to `d` decimal places                                                                                                                                                                                                                 | double, float, INT64, INT32 | double              | round(x, d)|
-| sqrt          | Returns the square root of `x`.                                                                                                                                                                                                                  | double, float, INT64, INT32 | double              | sqrt(x)    |
-| e             | Returns Euler’s number `e`.                                                                                                                                                                                                                      |                             | double              | e()        |
-| pi            | Pi (π)                                                                                                                                                                                                                                           |                             | double              | pi()       |
+| Function Name | Description                                                                                                                                                                                                                                      | Input                       | Output             | Usage      |
+|:--------------|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:----------------------------|:-------------------| :--------- |
+| sin           | Sine                                                                                                                                                                                                                                             | double, float, INT64, INT32 | double             | sin(x)     |
+| cos           | Cosine                                                                                                                                                                                                                                           | double, float, INT64, INT32 | double             | cos(x)     |
+| tan           | Tangent                                                                                                                                                                                                                                          | double, float, INT64, INT32 | double             | tan(x)     |
+| asin          | Inverse Sine                                                                                                                                                                                                                                     | double, float, INT64, INT32 | double             | asin(x)    |
+| acos          | Inverse Cosine                                                                                                                                                                                                                                   | double, float, INT64, INT32 | double             | acos(x)    |
+| atan          | Inverse Tangent                                                                                                                                                                                                                                  | double, float, INT64, INT32 | double             | atan(x)    |
+| sinh          | Hyperbolic Sine                                                                                                                                                                                                                                  | double, float, INT64, INT32 | double             | sinh(x)    |
+| cosh          | Hyperbolic Cosine                                                                                                                                                                                                                                | double, float, INT64, INT32 | double             | cosh(x)    |
+| tanh          | Hyperbolic Tangent                                                                                                                                                                                                                               | double, float, INT64, INT32 | double             | tanh(x)    |
+| degrees       | Converts angle `x` in radians to degrees                                                                                                                                                                                                         | double, float, INT64, INT32 | double             | degrees(x) |
+| radians       | Radian Conversion from Degrees                                                                                                                                                                                                                   | double, float, INT64, INT32 | double             | radians(x) |
+| abs           | Absolute Value                                                                                                                                                                                                                                   | double, float, INT64, INT32 | Same as input type | abs(x)     |
+| sign          | Returns the sign of `x`:  - If `x = 0`, returns `0`  - If `x > 0`, returns `1`  - If `x < 0`, returns `-1`  For `double/float` inputs:  - If `x = NaN`, returns `NaN`  - If `x = +Infinity`, returns `1.0`  - If `x = -Infinity`, returns `-1.0` | double, float, INT64, INT32 | Same as input type | sign(x)    |
+| ceil          | Rounds `x` up to the nearest integer                                                                                                                                                                                                             | double, float, INT64, INT32 | double             | ceil(x)    |
+| floor         | Rounds `x` down to the nearest integer                                                                                                                                                                                                           | double, float, INT64, INT32 | double             | floor(x)   |
+| exp           | Returns `e^x` (Euler's number raised to the power of `x`)                                                                                                                                                                                        | double, float, INT64, INT32 | double             | exp(x)     |
+| ln            | Returns the natural logarithm of `x`                                                                                                                                                                                                             | double, float, INT64, INT32 | double             | ln(x)      |
+| log10         | Returns the base 10 logarithm of `x`                                                                                                                                                                                                             | double, float, INT64, INT32 | double             | log10(x)   |
+| round         | Rounds `x` to the nearest integer                                                                                                                                                                                                                | double, float, INT64, INT32 | double             | round(x)   |
+| round         | Rounds `x` to `d` decimal places                                                                                                                                                                                                                 | double, float, INT64, INT32 | double             | round(x, d) |
+| sqrt          | Returns the square root of `x`.                                                                                                                                                                                                                  | double, float, INT64, INT32 | double             | sqrt(x)    |
+| e             | Returns Euler’s number `e`.                                                                                                                                                                                                                      |                             | double             | e()        |
+| pi            | Pi (π)                                                                                                                                                                                                                                           |                             | double             | pi()       |
 
 
 ## 6. Conditional Expressions
@@ -928,10 +980,10 @@ Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Invalid format string: %.5f (
    ```
 3. Invalid Invocation Errors
 
-  Triggered if:
+Triggered if:
 
-  * Total arguments < 2 (must include `pattern` and at least one argument).•
-  * `pattern` is not of type `STRING`/`TEXT`.
+* Total arguments < 2 (must include `pattern` and at least one argument).•
+* `pattern` is not of type `STRING`/`TEXT`.
 
 ```SQL
 -- Example 1
@@ -954,7 +1006,7 @@ The `||` operator is used for string concatenation and functions the same as the
 
 #### 8.1.2 LIKE Statement
 
- The `LIKE` statement is used for pattern matching. For detailed usage, refer to Pattern Matching:[LIKE](#1-like-运算符).
+The `LIKE` statement is used for pattern matching. For detailed usage, refer to Pattern Matching:[LIKE](#1-like-运算符).
 
 ### 8.2 String Functions
 
@@ -1089,7 +1141,7 @@ SELECT regexp_like('1a 2b 14m', '\\d+b'); -- true
   - `\d+` means "one or more digits".
   - `b` represents the letter b.
   - In `'1a 2b 14m'`, the substring `'2b'` matches this pattern, so it returns `true`.
-  - 
+
 
 #### **Example 2: Matching the entire string**
 
