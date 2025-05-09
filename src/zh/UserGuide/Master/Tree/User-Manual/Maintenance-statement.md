@@ -46,7 +46,7 @@ IoTDB> SHOW CURRENT_SQL_DIALECT
 +-----------------+
 |CurrentSqlDialect|
 +-----------------+
-|            TABLE|
+|             TREE|
 +-----------------+
 ```
 
