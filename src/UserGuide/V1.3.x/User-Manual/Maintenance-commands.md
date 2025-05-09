@@ -22,98 +22,7 @@
 
 ## 1. Status Checking
 
-### 1.1 Viewing the Connected Model
-
-**Description**: Returns the current SQL dialect model (`Tree` or `Table`).
-
-**Syntax**:
-
-```SQL
-showCurrentSqlDialectStatement
-    : SHOW CURRENT_SQL_DIALECT
-    ;
-```
-
-**Example**:
-
-```SQL
-IoTDB> SHOW CURRENT_SQL_DIALECT;
-```
-
-**Result：**
-
-```SQL
-+-----------------+
-|CurrentSqlDialect|
-+-----------------+
-|            TABLE|
-+-----------------+
-```
-
-### 1.2 Viewing the Logged-in Username
-
-**Description**: Returns the currently logged-in username.
-
-**Syntax**:
-
-```SQL
-showCurrentUserStatement
-    : SHOW CURRENT_USER
-    ;
-```
-
-**Example**:
-
-```SQL
-IoTDB> SHOW CURRENT_USER;
-```
-
-**Result**:
-
-```Plain
-+-----------+
-|CurrentUser|
-+-----------+
-|       root|
-+-----------+
-```
-
-### 1.3 Viewing the Connected Database Name
-
-**Description**: Returns the name of the currently connected database. If no `USE` statement has been executed, it returns `null`.
-
-**Syntax**:
-
-```SQL
-showCurrentDatabaseStatement
-    : SHOW CURRENT_DATABASE
-    ;
-```
-
-**Example**:
-
-```SQL
-IoTDB> SHOW CURRENT_DATABASE;
-IoTDB> USE test;
-IoTDB> SHOW CURRENT_DATABASE;
-```
-
-**Result**:
-
-```Plain
-+---------------+
-|CurrentDatabase|
-+---------------+
-|           null|
-+---------------+
-+---------------+
-|CurrentDatabase|
-+---------------+
-|           test|
-+---------------+
-```
-
-### 1.4 Viewing the Cluster Version
+### 1.1 Viewing the Cluster Version
 
 **Description**: Returns the current cluster version.
 
@@ -134,14 +43,14 @@ IoTDB> SHOW VERSION;
 **Result**:
 
 ```Plain
-+-------+---------+
-|Version|BuildInfo|
-+-------+---------+
-|2.0.1.2|  1ca4008|
-+-------+---------+
++-------+-----------+
+|Version|  BuildInfo|
++-------+-----------+
+|1.3.4.1|e5334cf-dev|
++-------+-----------+
 ```
 
-### 1.5 Viewing Cluster Key Parameters
+### 1.2 Viewing Cluster Key Parameters
 
 **Description**: Returns key parameters of the current cluster.
 
@@ -201,37 +110,9 @@ IoTDB> SHOW VARIABLES;
 +----------------------------------+-----------------------------------------------------------------+
 ```
 
-### 1.6 Viewing the Cluster ID
+### 1.3 Viewing the Current Timestamp of Database
 
-**Description**: Returns the ID of the current cluster.
-
-**Syntax**:
-
-```SQL
-showClusterIdStatement
-    : SHOW (CLUSTERID | CLUSTER_ID)
-    ;
-```
-
-**Example**:
-
-```SQL
-IoTDB> SHOW CLUSTER_ID;
-```
-
-**Result**:
-
-```Plain
-+------------------------------------+
-|                           ClusterId|
-+------------------------------------+
-|40163007-9ec1-4455-aa36-8055d740fcda|
-+------------------------------------+
-```
-
-### 1.7 Viewing the Timestamp of the Connected DataNode
-
-**Description**: Returns the current timestamp of the DataNode process directly connected to the client.
+**Description**: Returns the current timestamp of the database.
 
 **Syntax**:
 
@@ -257,11 +138,9 @@ IoTDB> SHOW CURRENT_TIMESTAMP;
 +-----------------------------+
 ```
 
-### 1.8 Viewing Executing Queries
+### 1.4 Viewing Executing Queries
 
 **Description**: Displays information about all currently executing queries.
-
-> For more details on how to use system tables, please refer to [System Tables](../Reference/System-Tables.md)
 
 **Syntax**:
 
@@ -283,59 +162,32 @@ showQueriesStatement
 
 **Columns in QUERIES Table**:
 
-- **query_id**: Unique ID of the query.
-- **start_time**: Timestamp when the query started.
-- **datanode_id**: ID of the DataNode executing the query.
-- **elapsed_time**: Time elapsed since the query started (in seconds).
+- **time**: Timestamp when the query started.
+- **queryid**: Unique ID of the query.
+- **datanodeid**: ID of the DataNode executing the query.
+- **elapsedtime**: Time elapsed since the query started (in seconds).
 - **statement**: The SQL statement being executed.
-- **user**: The user who initiated the query.
 
 **Example**:
 
 ```SQL
-IoTDB> SHOW QUERIES WHERE elapsed_time > 30;
+IoTDB> SHOW QUERIES WHERE elapsedtime > 0.003 
 ```
 
 **Result**:
 
-```Plain
-+-----------------------+-----------------------------+-----------+------------+------------+----+
-|               query_id|                   start_time|datanode_id|elapsed_time|   statement|user|
-+-----------------------+-----------------------------+-----------+------------+------------+----+
-|20250108_101015_00000_1|2025-01-08T18:10:15.935+08:00|          1|      32.283|show queries|root|
-+-----------------------+-----------------------------+-----------+------------+------------+----+
+```SQL
++-----------------------------+-----------------------+----------+-----------+--------------------------------------+
+|                         Time|                QueryId|DataNodeId|ElapsedTime|                             Statement|
++-----------------------------+-----------------------+----------+-----------+--------------------------------------+
+|2025-05-09T15:16:01.293+08:00|20250509_071601_00015_1|         1|      0.006|SHOW QUERIES WHERE elapsedtime > 0.003|
++-----------------------------+-----------------------+----------+-----------+--------------------------------------+
 ```
+
 
 ## 2. Status Setting
 
-### 2.1 Setting the Connected Model
-
-**Description**: Sets the current SQL dialect model to `Tree` or `Table` which can be used in both tree and table models.
-
-**Syntax**:
-
-```SQL
-SET SQL_DIALECT = (TABLE | TREE);
-```
-
-**Example**:
-
-```SQL
-IoTDB> SET SQL_DIALECT=TABLE;
-IoTDB> SHOW CURRENT_SQL_DIALECT;
-```
-
-**Result**:
-
-```SQL
-+-----------------+
-|CurrentSqlDialect|
-+-----------------+
-|            TABLE|
-+-----------------+
-```
-
-### 2.2 Updating Configuration Items
+### 2.1 Updating Configuration Items
 
 **Description**: Updates configuration items. Changes take effect immediately without restarting if the items support hot modification.
 
@@ -376,7 +228,7 @@ propertyValue
 IoTDB> SET CONFIGURATION "a"='1',b='1' ON 1;
 ```
 
-### 2.3 Loading Manually Modified Configuration Files
+### 2.2 Loading Manually Modified Configuration Files
 
 **Description**: Loads manually modified configuration files and hot-loads the changes. Configuration items that support hot modification take effect immediately.
 
@@ -407,7 +259,7 @@ localOrClusterMode
 IoTDB> LOAD CONFIGURATION ON LOCAL;
 ```
 
-### 2.4 Setting the System Status
+### 2.3 Setting the System Status
 
 **Description**: Sets the system status to either `READONLY` or `RUNNING`.
 
@@ -464,9 +316,9 @@ localOrClusterMode
 **Parameters**:
 
 1. **identifier** **(Optional):**
-    1. Specifies the name of the database to flush.
-    2. If not specified, all databases are flushed.
-    3. **Multiple Databases**: Multiple database names can be specified, separated by commas (e.g., `FLUSH test_db1, test_db2`).
+    1. Specifies the name of the path to flush.
+    2. If not specified, all path are flushed.
+    3. **Multiple Paths**: Multiple path names can be specified, separated by commas (e.g., `FLUSH root.ln, root.lnm.**`).
 2. **booleanValue** **(****Optional****)**:
     1. Specifies the type of data to flush.
     2. **TRUE**: Flushes only the sequential memory table.
@@ -480,48 +332,7 @@ localOrClusterMode
 **Example**:
 
 ```SQL
-IoTDB> FLUSH test_db TRUE ON LOCAL;
-```
-
-### 3.2 Clearing Cache on DataNode
-
-**Description**: Clears a specific type of cache on DataNode.
-
-**Syntax**:
-
-```SQL
-clearCacheStatement
-    : CLEAR clearCacheOptions? CACHE localOrClusterMode?
-    ;
-
-clearCacheOptions
-    : ATTRIBUTE
-    | QUERY
-    | ALL
-    ;
-
-localOrClusterMode
-    : (ON (LOCAL | CLUSTER))
-    ;
-```
-
-**Parameters**:
-
-1. **clearCacheOptions（Optional）**:
-    1. Specifies the type of cache to clear.
-    2. **ATTRIBUTE**: Clears device attribute cache.
-    3. **QUERY**: Clears query cache in the storage engine.
-    4. **ALL**: Clears all caches, including device attribute cache, query cache, and schema cache in the tree model.
-    5. **Default**: `QUERY`.
-2. **localOrClusterMode（Optional）**:
-    1. **ON LOCAL**: Clears cache only on the DataNode directly connected to the client.
-    2. **ON CLUSTER**: Clears cache on all DataNodes in the cluster.
-    3. **Default:** `ON CLUSTER`.
-
-**Example**:
-
-```SQL
-IoTDB> CLEAR ALL CACHE ON LOCAL;
+IoTDB> FLUSH root.ln TRUE ON LOCAL;
 ```
 
 ## 4. Data Repair

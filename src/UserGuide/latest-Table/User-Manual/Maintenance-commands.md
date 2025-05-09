@@ -22,7 +22,7 @@
 
 ## 1. Status Checking
 
-#### 1.1 Viewing the Connected Model
+### 1.1 Viewing the Connected Model
 
 **Description**: Returns the current SQL dialect model (`Tree` or `Table`).
 
@@ -50,7 +50,7 @@ IoTDB> SHOW CURRENT_SQL_DIALECT;
 +-----------------+
 ```
 
-#### 1.2 Viewing the Logged-in Username
+### 1.2 Viewing the Logged-in Username
 
 **Description**: Returns the currently logged-in username.
 
@@ -78,7 +78,7 @@ IoTDB> SHOW CURRENT_USER;
 +-----------+
 ```
 
-#### 1.3 Viewing the Connected Database Name
+### 1.3 Viewing the Connected Database Name
 
 **Description**: Returns the name of the currently connected database. If no `USE` statement has been executed, it returns `null`.
 
@@ -113,7 +113,7 @@ IoTDB> SHOW CURRENT_DATABASE;
 +---------------+
 ```
 
-#### 1.4 Viewing the Cluster Version
+### 1.4 Viewing the Cluster Version
 
 **Description**: Returns the current cluster version.
 
@@ -141,7 +141,7 @@ IoTDB> SHOW VERSION;
 +-------+---------+
 ```
 
-#### 1.5 Viewing Cluster Key Parameters
+### 1.5 Viewing Cluster Key Parameters
 
 **Description**: Returns key parameters of the current cluster.
 
@@ -201,7 +201,7 @@ IoTDB> SHOW VARIABLES;
 +----------------------------------+-----------------------------------------------------------------+
 ```
 
-#### 1.6 Viewing the Cluster ID
+### 1.6 Viewing the Cluster ID
 
 **Description**: Returns the ID of the current cluster.
 
@@ -229,7 +229,7 @@ IoTDB> SHOW CLUSTER_ID;
 +------------------------------------+
 ```
 
-#### 1.7 Viewing the Timestamp of the Connected DataNode
+### 1.7 Viewing the Timestamp of the Connected DataNode
 
 **Description**: Returns the current timestamp of the DataNode process directly connected to the client.
 
@@ -257,7 +257,7 @@ IoTDB> SHOW CURRENT_TIMESTAMP;
 +-----------------------------+
 ```
 
-#### 1.8 Viewing Executing Queries
+### 1.8 Viewing Executing Queries
 
 **Description**: Displays information about all currently executing queries.
 
@@ -306,9 +306,10 @@ IoTDB> SHOW QUERIES WHERE elapsed_time > 30;
 +-----------------------+-----------------------------+-----------+------------+------------+----+
 ```
 
+
 ## 2. Status Setting
 
-#### 2.1 Setting the Connected Model
+### 2.1 Setting the Connected Model
 
 **Description**: Sets the current SQL dialect model to `Tree` or `Table` which can be used in both tree and table models.
 
@@ -335,7 +336,7 @@ IoTDB> SHOW CURRENT_SQL_DIALECT;
 +-----------------+
 ```
 
-#### 2.2 Updating Configuration Items
+### 2.2 Updating Configuration Items
 
 **Description**: Updates configuration items. Changes take effect immediately without restarting if the items support hot modification.
 
@@ -376,7 +377,7 @@ propertyValue
 IoTDB> SET CONFIGURATION "a"='1',b='1' ON 1;
 ```
 
-#### 2.3 Loading Manually Modified Configuration Files
+### 2.3 Loading Manually Modified Configuration Files
 
 **Description**: Loads manually modified configuration files and hot-loads the changes. Configuration items that support hot modification take effect immediately.
 
@@ -407,7 +408,7 @@ localOrClusterMode
 IoTDB> LOAD CONFIGURATION ON LOCAL;
 ```
 
-#### 2.4 Setting the System Status
+### 2.4 Setting the System Status
 
 **Description**: Sets the system status to either `READONLY` or `RUNNING`.
 
@@ -441,7 +442,7 @@ IoTDB> SET SYSTEM TO READONLY ON CLUSTER;
 
 ## 3. Data Management
 
-#### 3.1 Flushing Data from Memory to Disk
+### 3.1 Flushing Data from Memory to Disk
 
 **Description**: Flushes data from the memory table to disk.
 
@@ -483,7 +484,7 @@ localOrClusterMode
 IoTDB> FLUSH test_db TRUE ON LOCAL;
 ```
 
-#### 3.2 Clearing Cache on DataNode
+### 3.2 Clearing Cache on DataNode
 
 **Description**: Clears a specific type of cache on DataNode.
 
@@ -526,7 +527,7 @@ IoTDB> CLEAR ALL CACHE ON LOCAL;
 
 ## 4. Data Repair
 
-#### 4.1 Starting Background Scan and Repair of TsFiles
+### 4.1 Starting Background Scan and Repair of TsFiles
 
 **Description**: Starts a background task to scan and repair TsFiles, fixing issues such as timestamp disorder within data files.
 
@@ -555,7 +556,7 @@ localOrClusterMode
 IoTDB> START REPAIR DATA ON CLUSTER;
 ```
 
-#### 4.2 Pausing Background TsFile Repair Task
+### 4.2 Pausing Background TsFile Repair Task
 
 **Description**: Pauses the background repair task. The paused task can be resumed by executing the `START REPAIR DATA` command again.
 
@@ -586,7 +587,7 @@ IoTDB> STOP REPAIR DATA ON CLUSTER;
 
 ## 5. Query Termination
 
-#### 5.1 Terminating Queries
+### 5.1 Terminating Queries
 
 **Description**: Terminates one or more running queries.
 
