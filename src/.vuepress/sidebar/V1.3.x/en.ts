@@ -129,7 +129,7 @@ export const enSidebar = {
           children: [
             { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis' },
             { text: 'Load Balance', link: 'Load-Balance' },
-            { text: 'Data Recovery', link: 'Data-Recovery' },
+            { text: 'Maintenance statement', link: 'Maintenance-commands' },
           ],
         },
       ],
