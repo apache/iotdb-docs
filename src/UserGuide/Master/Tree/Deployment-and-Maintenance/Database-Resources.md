@@ -81,6 +81,9 @@
 </tbody>
 </table>
 
+> Supported CPU models: Kunpeng, Phytium, Sunway, Hygon, Zhaoxin, Loongson
+
+
 ## 2. Memory 
 <table style="text-align: center;">
    <tbody>
@@ -142,6 +145,9 @@
       </tr>
 </tbody>
 </table>
+
+> Flexible memory configuration options are provided. Users can adjust them in the datanode-env file. For details and configuration guidelines, please refer to [datanode-env](../Reference/DataNode-Config-Manual.md#_2-environment-configuration-file-datanode-env-sh-bat)
+
 
 ## 3. Storage (Disk)
 ### 3.1 Storage space
