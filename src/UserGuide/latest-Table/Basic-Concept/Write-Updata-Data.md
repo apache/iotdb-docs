@@ -38,9 +38,7 @@ INSERT INTO <TABLE_NAME> [(COLUMN_NAME[, COLUMN_NAME]*)]? VALUES (COLUMN_VALUE[,
 3. If no timestamp is provided, the system will use the current time (`now()`).
 4. If a column value does not exist for the identified device, the insertion will overwrite any existing `null` values with the new data.
 5. If a column value already exists for the identified device, a new insertion will update the column with the new value.
-6. For duplicate timestamps:
-   1. Columns with `null` values at the original timestamp will be updated.
-   2. Columns with non-`null` values at the original timestamp will retain their original values.
+6. Writing duplicate timestamps will update the values in the columns corresponding to the original timestamps.
 
 Since attributes generally do not change over time, it is recommended to update attribute values using the `UPDATE` statement described below，Please refer to the following [Data Update](#2-data-updates).
 
