@@ -3,7 +3,7 @@
     <template #top>
       <p class="vp-sidebar-header iotdb-sidebar-header">
         <span class="vp-sidebar-title">{{ (sidebarItems && sidebarItems.length > 0) ? sidebarItems[0]?.text : ''
-        }}</span>
+          }}</span>
       </p>
       <div class="sidebar-top-wrapper">
         <ul class="switch-list" v-if="currentDialect">
@@ -110,15 +110,15 @@ watch(
 }
 
 .help-icon {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   background-color: #e0e0e0;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 12px;
+  font-size: 1.1rem;
   font-weight: bold;
   color: #555;
   transition: background-color 0.3s;
