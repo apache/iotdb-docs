@@ -425,7 +425,7 @@ TableSessionPool 的构造器，用于配置和创建 ITableSessionPool 的实�
 | trustStore(String keyStore)                                  | 设置SSL连接的信任库路径                      | null                                        |
 | trustStorePwd(String keyStorePwd)                            | 设置SSL连接的信任库密码                      | null                                        |
 
-#### 4.1.3 接口展示
+#### 4.2.3 接口展示
 
 ```Java
 /**
@@ -629,9 +629,9 @@ public class TableSessionPoolBuilder {
 
 ## 5. 示例代码
 
-Session 示例代码：[src/main/java/org/apache/iotdb/TableModelSessionExample.java](https://github.com/apache/iotdb/blob/master/example/session/src/main/java/org/apache/iotdb/TableModelSessionExample.java)
+Session 示例代码：[src/main/java/org/apache/iotdb/TableModelSessionExample.java](https://github.com/apache/iotdb/blob/rc/2.0.1/example/session/src/main/java/org/apache/iotdb/TableModelSessionExample.java)
 
-SessionPool 示例代码：[src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java](https://github.com/apache/iotdb/blob/master/example/session/src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java)
+SessionPool 示例代码：[src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java](https://github.com/apache/iotdb/blob/rc/2.0.1/example/session/src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java)
 
 ```Java
 /*
