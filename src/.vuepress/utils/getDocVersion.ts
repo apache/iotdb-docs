@@ -55,3 +55,5 @@ export const getDialect = (path = '', defaultValue = '') => {
   }
   return defaultValue;
 };
+
+export const URL_SUFFIX = '_apache';
