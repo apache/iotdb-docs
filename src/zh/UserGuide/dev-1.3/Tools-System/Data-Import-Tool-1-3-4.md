@@ -79,7 +79,7 @@ IoTDB 支持两种方式进行数据导入
 | -aligned | --use\_aligned             | 是否导入为对齐序列                                                                | 否                                         | false                                 |
 | -batch   | --batch\_size              | 指定每调用一次接口处理的数据行数（最小值为1，最大值为Integer.​*MAX\_VALUE*​） | 否                                         | 100000<br>范围：0～Integer.Max=2147483647 |
 | -ti      | --type\_infer              | 通过选项定义类型信息，例如`"boolean=text,int=long, ..."`                      | 否                                         | 无                                     |
-| -tp      | --timestamp\_precision     | 时间戳精度                                                                        | 否：<br>1. ms（毫秒）<br>2. us（纳秒）<br>3. ns（微秒） | ms                                    
+| -tp      | --timestamp\_precision     | 时间戳精度                                                                        | 否：<br>1. ms（毫秒）<br>2. us（微秒）<br>3. ns（纳秒） | ms                                    
 |
 
 #### 2.2.3 运行示例
@@ -205,7 +205,7 @@ error: Invalid thread number '0'. Please set a positive integer.
 | -sd      | --success\_dir         | 当`--on_succcess`为mv或cp时，mv或cp的目标文件夹。文件的文件名变为文件夹打平后拼接原有文件名                                                                         | 当`--on_succcess`为mv或cp时需要填写                | `${EXEC_DIR}/success`|
 | -of| --on\_fail| 1. none：跳过 <br>2. mv：移动失败的文件到目标文件夹 <br>3. cp：硬连接（拷贝）失败的文件到目标文件夹 <br>4. delete：删除                                                 | √                                         ||
 | -fd      | --fail\_dir            | 当`--on_fail`指定为mv或cp时，mv或cp的目标文件夹。文件的文件名变为文件夹打平后拼接原有文件名                                                                           | 当`--on_fail`指定为mv或cp时需要填写                  | `${EXEC_DIR}/fail`   |
-| -tp      | --timestamp\_precision | 时间戳精度<br>tsfile非远程导入：-tp 指定tsfile文件的时间精度 手动校验和服务器的时间戳是否一致 不一致返回报错信息 <br>远程导入：-tp 指定tsfile文件的时间精度 pipe自动校验时间戳精度是否一致 不一致返回pipe报错信息 | 否：<br>1. ms（毫秒）<br>2. us（纳秒）<br>3. ns（微秒） | ms|
+| -tp      | --timestamp\_precision | 时间戳精度<br>tsfile非远程导入：-tp 指定tsfile文件的时间精度 手动校验和服务器的时间戳是否一致 不一致返回报错信息 <br>远程导入：-tp 指定tsfile文件的时间精度 pipe自动校验时间戳精度是否一致 不一致返回pipe报错信息 | 否：<br>1. ms（毫秒）<br>2. us（微秒）<br>3. ns（纳秒） | ms|
 
 
 #### 2.4.3 运行示例
