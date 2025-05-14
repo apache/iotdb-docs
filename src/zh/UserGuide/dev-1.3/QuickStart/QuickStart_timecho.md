@@ -59,7 +59,7 @@
 
    - SQL 语法介绍：[SQL 语法介绍](../Basic-Concept/Operate-Metadata_timecho.md)
 
-2. 数据写入：在数据写入方面，IoTDB 提供了多种方式来插入实时数据，基本的数据写入操作请查看 [数据写入](../Basic-Concept/Write-Delete-Data.md)
+2. 数据写入：在数据写入方面，IoTDB 提供了多种方式来插入实时数据，基本的数据写入操作请查看 [数据写入](../Basic-Concept/Write-Data)
 
 3. 数据查询：IoTDB 提供了丰富的数据查询功能，数据查询的基本介绍请查看 [数据查询](../Basic-Concept/Query-Data.md)
 
