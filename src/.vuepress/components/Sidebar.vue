@@ -16,9 +16,8 @@
         </ul>
         <div class="help-icon-wrapper">
           <div class="help-icon" @click="handleHelpClick">
-            <span>?</span>
+            <span>{{ ModelName.Tip }}</span>
           </div>
-          <div class="tooltip">{{ ModelName.Tip }}</div>
         </div>
       </div>
     </template>
@@ -42,11 +41,11 @@ const ModelName = computed(() => {
   return currentLang.value === 'zh' ? {
     'Tree': '树模型',
     'Table': '表模型',
-    'Tip': '模型选择说明',
+    'Tip': '模型说明',
   } : {
     'Tree': 'Tree',
     'Table': 'Table',
-    'Tip': 'Model Choice Description',
+    'Tip': 'Description',
   };
 });
 
@@ -102,64 +101,21 @@ watch(
   position: relative;
   margin-left: 8px;
   overflow: visible;
-
-  &:hover .tooltip {
-    visibility: visible;
-    opacity: 1;
-  }
 }
 
 .help-icon {
-  width: 24px;
   height: 24px;
-  border-radius: 50%;
-  background-color: #e0e0e0;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #555;
+  font-size: 0.875rem;
+  font-weight: 300;
+  color: var(--vp-c-accent, #299764);
   transition: background-color 0.3s;
 
   &:hover {
-    background-color: #495ad4;
-    color: white;
+    text-decoration: underline;
   }
-}
-
-.tooltip {
-  position: absolute;
-  top: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #333;
-  color: white;
-  padding: 5px 10px;
-  border-radius: 4px;
-  font-size: 12px;
-  white-space: nowrap;
-  pointer-events: none;
-  z-index: 1000; // 提高 z-index 确保不被遮挡
-  filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.3));
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.3s;
-
-  &:after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 5px 5px 0;
-    border-style: solid;
-    border-color: #333 transparent transparent;
-  }
-}
-
-.iotdb-sidebar {
-  overflow: visible !important;
 }
 </style>
