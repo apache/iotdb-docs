@@ -73,7 +73,7 @@
 
    - 权限管理：[权限管理](../User-Manual/Authority-Management.md)
 
-   - AI 分析：[AI 能力](../User-Manual/AINode_timecho.md)
+   - AI 分析：[AI 能力](../AI-capability/AINode_timecho.md)
 
 5. 应用编程接口： IoTDB 提供了多种应用编程接口（API），以便于开发者在应用程序中与 IoTDB 进行交互，目前支持[ Java 原生接口](../API/Programming-Java-Native-API.md)、[Python 原生接口](../API/Programming-Python-Native-API.md)、[C++原生接口](../API/Programming-Cpp-Native-API.md)、[Go 原生接口](../API/Programming-Go-Native-API.md)等，更多编程接口可参见官网【应用编程接口】其他章节
 
