@@ -21,7 +21,7 @@
 
 # SELECT Clauses
 
-**SELECT Clause** specifies the columns included in the query results. 
+**SELECT Clause** specifies the columns included in the query results.
 
 ## 1. Syntax Overview
 
@@ -41,6 +41,7 @@ setQuantifier
 
 - It supports aggregate functions (e.g., `SUM`, `AVG`, `COUNT`) and window functions, logically executed last in the query process.
 - DISTINCT Keyword: `SELECT DISTINCT column_name` ensures that the values in the query results are unique, removing duplicates.
+- COLUMNS Function: The COLUMNS function is supported in the SELECT clause for column filtering. It can be combined with expressions, allowing the expression's logic to apply to all columns selected by the function.
 
 ## 2. Detailed Syntax:
 
@@ -57,6 +58,17 @@ Usage scenarios for DISTINCT:
 2. **Aggregate Functions**: When used with aggregate functions, DISTINCT only processes non-duplicate rows in the input dataset.
 
 3. **AGROUP BY Clause**: Use ALL and DISTINCT quantifiers in the GROUP BY clause to determine whether each duplicate grouping set produces distinct output rows.
+
+`COLUMNS` Function:
+
+1. **`COLUMNS(*)`**: Matches all columns and supports combining with expressions.
+2. **`COLUMNS(regexStr) ? AS identifier`**: Regular expression matching
+    - Selects columns whose names match the specified regular expression `(regexStr)` and supports combining with expressions.
+    - Allows renaming columns by referencing groups captured by the regular expression. If `AS` is omitted, the original column name is displayed in the format `_coln_original_name` (where `n` is the column’s position in the result table).
+    - Renaming Syntax:
+        - Use parentheses () in regexStr to define capture groups.
+        - Reference captured groups in identifier using `'$index'`.
+        - Note: The identifier must be enclosed in double quotes if it contains special characters like `$`.
 
 ## 3. Example Data
 
@@ -260,6 +272,116 @@ Results:
 +-----------------------------+----+----+-----+---+---+----+----+-----+-----------------------------+
 Total line number = 18
 It costs 0.189s
+```
+
+### 3.2 Colums Function
+
+1. Without combining expressions
+```sql
+-- Query data from columns whose names start with 'm'
+IoTDB:database1> select columns('^m.*') from table1 limit 5
++--------+-----------+
+|model_id|maintenance|
++--------+-----------+
+|       E|        180|
+|       E|        180|
+|       C|         90|
+|       C|         90|
+|       C|         90|
++--------+-----------+
+
+
+-- Query columns whose names start with 'o' - throw an exception if no columns match
+IoTDB:database1> select columns('^o.*') from table1 limit 5
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: No matching columns found that match regex '^o.*'
+
+
+-- Query data from columns whose names start with 'm' and rename them with 'series_' prefix
+IoTDB:database1> select columns('^m(.*)') AS "series_$0" from table1 limit 5
++---------------+------------------+
+|series_model_id|series_maintenance|
++---------------+------------------+
+|              E|               180|
+|              E|               180|
+|              C|                90|
+|              C|                90|
+|              C|                90|
++---------------+------------------+
+```
+
+2. With Expression Combination
+
+- Single COLUMNS Function
+```sql
+-- Query the minimum value of all columns
+IoTDB:database1> select min(columns(*)) from table1
++-----------------------------+------------+--------------+---------------+--------------+-----------------+-----------------+--------------+------------+-----------------------------+
+|                   _col0_time|_col1_region|_col2_plant_id|_col3_device_id|_col4_model_id|_col5_maintenance|_col6_temperature|_col7_humidity|_col8_status|           _col9_arrival_time|
++-----------------------------+------------+--------------+---------------+--------------+-----------------+-----------------+--------------+------------+-----------------------------+
+|2024-11-26T13:37:00.000+08:00|        上海|          1001|            100|             A|              180|             85.0|          34.8|       false|2024-11-26T13:37:34.000+08:00|
++-----------------------------+------------+--------------+---------------+--------------+-----------------+-----------------+--------------+------------+-----------------------------+
+```
+
+- Multiple COLUMNS Functions in Same Expression
+
+> Usage Restriction: When multiple COLUMNS functions appear in the same expression, their parameters must be identical.
+
+```sql
+-- Query the sum of minimum and maximum values for columns starting with 'h'
+IoTDB:database1> select min(columns('^h.*')) + max(columns('^h.*')) from table1
++--------------+
+|_col0_humidity|
++--------------+
+|     79.899994|
++--------------+
+
+-- Error Case: Non-Identical COLUMNS Functions
+IoTDB:database1> select min(columns('^h.*')) + max(columns('^t.*')) from table1
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Multiple different COLUMNS in the same expression are not supported
+```
+
+- Multiple COLUMNS Functions in Different Expressions
+
+```sql
+-- Query minimum of 'h'-columns and maximum of 'h'-columns separately
+IoTDB:database1> select min(columns('^h.*')) , max(columns('^h.*')) from table1
++--------------+--------------+
+|_col0_humidity|_col1_humidity|
++--------------+--------------+
+|          34.8|          45.1|
++--------------+--------------+
+
+-- Query minimum of 'h'-columns and maximum of 'te'-columns
+IoTDB:database1> select min(columns('^h.*')) , max(columns('^te.*')) from table1
++--------------+-----------------+
+|_col0_humidity|_col1_temperature|
++--------------+-----------------+
+|          34.8|             90.0|
++--------------+-----------------+
+```
+
+3. In Where Clause
+
+```sql
+-- Query data where all 'h'-columns must be > 40 (equivalent to)
+IoTDB:database1> select * from table1 where columns('^h.*') > 40
++-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
+|                         time|region|plant_id|device_id|model_id|maintenance|temperature|humidity|status|                 arrival_time|
++-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
+|2024-11-29T11:00:00.000+08:00|  上海|    3002|      100|       E|        180|       null|    45.1|  true|                         null|
+|2024-11-28T09:00:00.000+08:00|  上海|    3001|      100|       C|         90|       null|    40.9|  true|                         null|
+|2024-11-28T11:00:00.000+08:00|  上海|    3001|      100|       C|         90|       88.0|    45.1|  true|2024-11-28T11:00:12.000+08:00|
++-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
+
+--Alternative syntax
+IoTDB:database1> select * from table1 where humidity > 40
++-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
+|                         time|region|plant_id|device_id|model_id|maintenance|temperature|humidity|status|                 arrival_time|
++-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
+|2024-11-29T11:00:00.000+08:00|  上海|    3002|      100|       E|        180|       null|    45.1|  true|                         null|
+|2024-11-28T09:00:00.000+08:00|  上海|    3001|      100|       C|         90|       null|    40.9|  true|                         null|
+|2024-11-28T11:00:00.000+08:00|  上海|    3001|      100|       C|         90|       88.0|    45.1|  true|2024-11-28T11:00:12.000+08:00|
++-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
 ```
 
 ## 4. Column Order in the Result Set
