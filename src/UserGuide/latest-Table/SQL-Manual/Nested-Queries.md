@@ -874,3 +874,8 @@ Note:
 * For 50, 60, and 70, since `ANY` requires at least one comparison result to be `true` for the overall result to be `true`, and the comparison results with `null` are `null`, these results are `null`.
 * In the second query, because we have excluded null values, for 50, 60, and 70, there are no larger non-null values in `table3`, so the comparison results are `false`.
 
+### 4.4 Non-Correlated Subqueries
+
+**Example:**
+
+* Downsampling queries for multiple sequences with misaligned timestamps. For detailed examples, see: [Example](../Basic-Concept/Query-Data.md#36-multi-sequence-downsampling-query-with-misaligned-timestamps)

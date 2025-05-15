@@ -29,7 +29,7 @@ The structures of `table1` and `table2` are as follows:
 
 ## 2. Import Statements
 
-Below are the SQL statements to create the above table structures and insert data. You can download the complete SQL script ([sample_data.sql](/img/sample_data.sql)) to execute these statements in the CLI to import the data into IoTDB.
+Below are the SQL statements to create the above table structures and insert data. You can download the complete SQL script ([sample-data.sql](/img/sample-data.sql)) to execute these statements in the CLI to import the data into IoTDB.
 
 ```SQL
 -- Create a table with table names that are close to business semantics. Here, we use table1 instead

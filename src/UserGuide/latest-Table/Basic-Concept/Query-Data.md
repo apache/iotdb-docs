@@ -192,28 +192,313 @@ It costs 0.090s
 **Example**: Group data by day and calculate the average temperature using `date_bin_gapfill` function.
 
 ```SQL
-IoTDB> SELECT date_bin(1d ,time) as day_time, AVG(temperature) as avg_temp
+IoTDB> SELECT device_id,date_bin(1d ,time) as day_time, AVG(temperature) as avg_temp
          FROM table1
          WHERE time >= 2024-11-26 00:00:00 AND time <= 2024-11-30 00:00:00
-         GROUP BY date_bin(1d ,time);
+         GROUP BY device_id,date_bin(1d ,time);
 ```
 
 **Result**:
 
 ```SQL
-+-----------------------------+--------+
-|                     day_time|avg_temp|
-+-----------------------------+--------+
-|2024-11-29T08:00:00.000+08:00|    87.5|
-|2024-11-28T08:00:00.000+08:00|    86.0|
-|2024-11-26T08:00:00.000+08:00|    90.0|
-|2024-11-27T08:00:00.000+08:00|    85.0|
-+-----------------------------+--------+
-Total line number = 4
-It costs 0.110s
++---------+-----------------------------+--------+
+|device_id|                     day_time|avg_temp|
++---------+-----------------------------+--------+
+|      100|2024-11-29T08:00:00.000+08:00|    90.0|
+|      100|2024-11-28T08:00:00.000+08:00|    86.0|
+|      100|2024-11-26T08:00:00.000+08:00|    90.0|
+|      101|2024-11-29T08:00:00.000+08:00|    85.0|
+|      101|2024-11-27T08:00:00.000+08:00|    85.0|
++---------+-----------------------------+--------+
+Total line number = 5
+It costs 0.066s
+```
+###  3.6 Multi sequence downsampling query with misaligned timestamps
+
+#### 3.6.1 Sampling Frequency is the Same, but Time is Different
+
+**Table 1: Sampling Frequency: 1s**                                                           
+
+| Time         | device_id | temperature |
+| ------------ | --------- | ----------- |
+| 00:00:00.001 | d1        | 90.0        |
+| 00:00:01.002 | d1        | 85.0        |
+| 00:00:02.101 | d1        | 85.0        |
+| 00:00:03.201 | d1        | null        |
+| 00:00:04.105 | d1        | 90.0        |
+| 00:00:05.023 | d1        | 85.0        |
+| 00:00:06.129 | d1        | 90.0        |
+
+**Table 2: Sampling Frequency: 1s** 
+
+| Time         | device_id | humidity |
+| ------------ | --------- | -------- |
+| 00:00:00.003 | d1        | 35.1     |
+| 00:00:01.012 | d1        | 37.2     |
+| 00:00:02.031 | d1        | null     |
+| 00:00:03.134 | d1        | 35.2     |
+| 00:00:04.201 | d1        | 38.2     |
+| 00:00:05.091 | d1        | 35.4     |
+| 00:00:06.231 | d1        | 35.1     |
+
+**Example: Querying the downsampled data of table1:**
+
+```SQL
+IoTDB> SELECT date_bin_gapfill(1s, TIME) AS a_time,
+              first(temperature) AS a_value
+       FROM table1
+       WHERE device_id = 'd1'
+         AND TIME >= 2025-05-13 00:00:00.000
+         AND TIME <= 2025-05-13 00:00:07.000
+       GROUP BY 1 FILL METHOD PREVIOUS
 ```
 
-### 3.6 Missing Data Filling
+**Result:**
+
+```SQL
++-----------------------------+-------+
+|                       a_time|a_value|
++-----------------------------+-------+
+|2025-05-13T00:00:00.000+08:00|   90.0|
+|2025-05-13T00:00:01.000+08:00|   85.0|
+|2025-05-13T00:00:02.000+08:00|   85.0|
+|2025-05-13T00:00:03.000+08:00|   85.0|
+|2025-05-13T00:00:04.000+08:00|   90.0|
+|2025-05-13T00:00:05.000+08:00|   85.0|
+|2025-05-13T00:00:06.000+08:00|   90.0|
++-----------------------------+-------+
+```
+
+**Example: Querying the downsampled data of table2:**
+
+```SQL
+IoTDB> SELECT date_bin_gapfill(1s, TIME) AS b_time,
+              first(humidity) AS b_value
+       FROM table2
+       WHERE device_id = 'd1'
+         AND TIME >= 2025-05-13 00:00:00.000
+         AND TIME <= 2025-05-13 00:00:07.000
+       GROUP BY 1 FILL METHOD PREVIOUS
+```
+
+**Result:**
+
+```SQL
++-----------------------------+-------+
+|                       b_time|b_value|
++-----------------------------+-------+
+|2025-05-13T00:00:00.000+08:00|   35.1|
+|2025-05-13T00:00:01.000+08:00|   37.2|
+|2025-05-13T00:00:02.000+08:00|   37.2|
+|2025-05-13T00:00:03.000+08:00|   35.2|
+|2025-05-13T00:00:04.000+08:00|   38.2|
+|2025-05-13T00:00:05.000+08:00|   35.4|
+|2025-05-13T00:00:06.000+08:00|   35.1|
++-----------------------------+-------+
+```
+
+**Example: Aligning multiple sequences by integer time:**
+
+```SQL
+IoTDB> SELECT A.a_time AS TIME,
+              a_value,
+              b_value
+       FROM
+         (SELECT date_bin_gapfill(1s, TIME) AS a_time,
+                 first(temperature) AS a_value
+          FROM table1
+          WHERE device_id = 'd1'
+            AND TIME >= 2025-05-13 00:00:00.000
+            AND TIME <= 2025-05-13 00:00:07.000
+          GROUP BY 1 FILL METHOD PREVIOUS) A
+       JOIN
+         (SELECT date_bin_gapfill(1s, TIME) AS b_time,
+                 first(humidity) AS b_value
+          FROM table2
+          WHERE device_id = 'd1'
+            AND TIME >= 2025-05-13 00:00:00.000
+            AND TIME <= 2025-05-13 00:00:07.000
+          GROUP BY 1 FILL METHOD PREVIOUS) B 
+       ON A.a_time=B.b_time
+```
+
+**Result:**
+
+```SQL
++-----------------------------+-------+-------+
+|                         time|a_value|b_value|
++-----------------------------+-------+-------+
+|2025-05-13T00:00:00.000+08:00|   90.0|   35.1|
+|2025-05-13T00:00:01.000+08:00|   85.0|   37.2|
+|2025-05-13T00:00:02.000+08:00|   85.0|   37.2|
+|2025-05-13T00:00:03.000+08:00|   85.0|   35.2|
+|2025-05-13T00:00:04.000+08:00|   90.0|   38.2|
+|2025-05-13T00:00:05.000+08:00|   85.0|   35.4|
+|2025-05-13T00:00:06.000+08:00|   90.0|   35.1|
++-----------------------------+-------+-------+
+```
+
+- **Retaining NULL Values**: When NULL values have special significance or when you wish to preserve the null values in the data, you can choose to omit FILL METHOD PREVIOUS to avoid filling in the gaps.
+**Example:**
+
+```SQL
+IoTDB> SELECT A.a_time AS TIME,
+              a_value,
+              b_value
+       FROM
+         (SELECT date_bin_gapfill(1s, TIME) AS a_time,
+                 first(temperature) AS a_value
+          FROM table1
+          WHERE device_id = 'd1'
+            AND TIME >= 2025-05-13 00:00:00.000
+            AND TIME <= 2025-05-13 00:00:07.000
+          GROUP BY 1) A
+       JOIN
+         (SELECT date_bin_gapfill(1s, TIME) AS b_time,
+                 first(humidity) AS b_value
+          FROM table2
+          WHERE device_id = 'd1'
+            AND TIME >= 2025-05-13 00:00:00.000
+            AND TIME <= 2025-05-13 00:00:07.000
+          GROUP BY 1) B 
+       ON A.a_time=B.b_time
+```
+
+**Result:**
+
+```SQL
++-----------------------------+-------+-------+
+|                         time|a_value|b_value|
++-----------------------------+-------+-------+
+|2025-05-13T00:00:00.000+08:00|   90.0|   35.1|
+|2025-05-13T00:00:01.000+08:00|   85.0|   37.2|
+|2025-05-13T00:00:02.000+08:00|   85.0|   null|
+|2025-05-13T00:00:03.000+08:00|   null|   35.2|
+|2025-05-13T00:00:04.000+08:00|   90.0|   38.2|
+|2025-05-13T00:00:05.000+08:00|   85.0|   35.4|
+|2025-05-13T00:00:06.000+08:00|   90.0|   35.1|
++-----------------------------+-------+-------+
+```
+#### 3.6.2 Different Sampling Frequencies, Different Times
+
+**Table 1: Sampling Frequency: 1s**                                                            
+
+| Time         | device_id | temperature |
+| ------------ | --------- | ----------- |
+| 00:00:00.001 | d1        | 90.0        |
+| 00:00:01.002 | d1        | 85.0        |
+| 00:00:02.101 | d1        | 85.0        |
+| 00:00:03.201 | d1        | null        |
+| 00:00:04.105 | d1        | 90.0        |
+| 00:00:05.023 | d1        | 85.0        |
+| 00:00:06.129 | d1        | 90.0        |
+
+**Table 3: Sampling Frequency: 2s**   
+
+| Time         | device_id | humidity |
+| ------------ | --------- | -------- |
+| 00:00:00.005 | d1        | 35.1     |
+| 00:00:02.106 | d1        | 37.2     |
+| 00:00:04.187 | d1        | null     |
+| 00:00:06.156 | d1        | 35.1     |
+
+**Example: Querying the downsampled data of table1:**
+
+```SQL
+IoTDB> SELECT date_bin_gapfill(1s, TIME) AS a_time,
+              first(temperature) AS a_value
+       FROM table1
+       WHERE device_id = 'd1'
+         AND TIME >= 2025-05-13 00:00:00.000
+         AND TIME <= 2025-05-13 00:00:07.000
+       GROUP BY 1 FILL METHOD PREVIOUS
+```
+
+**Result:**
+
+```SQL
++-----------------------------+-------+
+|                       a_time|a_value|
++-----------------------------+-------+
+|2025-05-13T00:00:00.000+08:00|   90.0|
+|2025-05-13T00:00:01.000+08:00|   85.0|
+|2025-05-13T00:00:02.000+08:00|   85.0|
+|2025-05-13T00:00:03.000+08:00|   85.0|
+|2025-05-13T00:00:04.000+08:00|   90.0|
+|2025-05-13T00:00:05.000+08:00|   85.0|
+|2025-05-13T00:00:06.000+08:00|   90.0|
++-----------------------------+-------+
+```
+**Example: Querying the downsampled data of table3:**
+
+```SQL
+IoTDB> SELECT date_bin_gapfill(1s, TIME) AS c_time,
+              first(humidity) AS c_value
+       FROM table3
+       WHERE device_id = 'd1'
+         AND TIME >= 2025-05-13 00:00:00.000
+         AND TIME <= 2025-05-13 00:00:07.000
+       GROUP BY 1 FILL METHOD PREVIOUS
+```
+
+**Result:**
+
+```SQL
++-----------------------------+-------+
+|                       c_time|c_value|
++-----------------------------+-------+
+|2025-05-13T00:00:00.000+08:00|   35.1|
+|2025-05-13T00:00:01.000+08:00|   35.1|
+|2025-05-13T00:00:02.000+08:00|   37.2|
+|2025-05-13T00:00:03.000+08:00|   37.2|
+|2025-05-13T00:00:04.000+08:00|   37.2|
+|2025-05-13T00:00:05.000+08:00|   37.2|
+|2025-05-13T00:00:06.000+08:00|   35.1|
++-----------------------------+-------+
+```
+
+**Example: Aligning multiple sequences by the higher sampling frequency:**
+
+```SQL
+IoTDB> SELECT A.a_time AS TIME,
+              a_value,
+              c_value
+       FROM
+         (SELECT date_bin_gapfill(1s, TIME) AS a_time,
+                 first(temperature) AS a_value
+          FROM table1
+          WHERE device_id = 'd1'
+            AND TIME >= 2025-05-13 00:00:00.000
+            AND TIME <= 2025-05-13 00:00:07.000
+          GROUP BY 1 FILL METHOD PREVIOUS) A
+       JOIN
+         (SELECT date_bin_gapfill(1s, TIME) AS c_time,
+                 first(humidity) AS c_value
+          FROM table3
+          WHERE device_id = 'd1'
+            AND TIME >= 2025-05-13 00:00:00.000
+            AND TIME <= 2025-05-13 00:00:07.000
+          GROUP BY 1 FILL METHOD PREVIOUS) C 
+       ON A.a_time=C.c_time
+```
+
+**Result:**
+
+```SQL
++-----------------------------+-------+-------+
+|                         time|a_value|c_value|
++-----------------------------+-------+-------+
+|2025-05-13T00:00:00.000+08:00|   90.0|   35.1|
+|2025-05-13T00:00:01.000+08:00|   85.0|   35.1|
+|2025-05-13T00:00:02.000+08:00|   85.0|   37.2|
+|2025-05-13T00:00:03.000+08:00|   85.0|   37.2|
+|2025-05-13T00:00:04.000+08:00|   90.0|   37.2|
+|2025-05-13T00:00:05.000+08:00|   85.0|   37.2|
+|2025-05-13T00:00:06.000+08:00|   90.0|   35.1|
++-----------------------------+-------+-------+
+```
+
+### 3.7 Missing Data Filling
 
 **Example**: Query the records within a specified time range where `device_id` is '100'. If there are missing data points, fill them using the previous non-null value.
 
@@ -243,7 +528,7 @@ Total line number = 7
 It costs 0.101s
 ```
 
-### 3.7 Sorting & Pagination
+### 3.8 Sorting & Pagination
 
 **Example**: Query records from the table, sorting by `humidity` in descending order and placing null values (NULL) at the end. Skip the first 2 rows and return the next 8 rows.
 
