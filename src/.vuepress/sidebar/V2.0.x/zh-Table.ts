@@ -140,11 +140,24 @@ export const zhSidebar = {
       ],
     },
     {
-      text: '系统集成',
+      text: '生态集成',
       collapsible: true,
       prefix: 'Ecosystem-Integration/',
       children: [
-        { text: 'DBeaver(IoTDB)', link: 'DBeaver' },
+        {
+          text: '计算引擎',
+          collapsible: true,
+          children: [
+            { text: 'Apache Spark', link: 'Spark-IoTDB' },
+          ],
+        },
+        {
+          text: 'SQL 开发',
+          collapsible: true,
+          children: [
+            { text: 'DBeaver', link: 'DBeaver' },
+          ],
+        },
       ],
     },
     {
