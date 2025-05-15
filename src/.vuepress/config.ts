@@ -94,7 +94,7 @@ _paq.push(['enableLinkTracking']);
     ),
     '@theme-hope/modules/sidebar/components/Sidebar': path.resolve(
       dirname,
-      './components/Sidevar.vue',
+      './components/Sidebar.vue',
     ),
   },
   bundler: viteBundler({
