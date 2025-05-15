@@ -31,7 +31,7 @@ table1和table2均为如下表结构：
 
 ## 2. 导入语句
 
-以下为构建上述表结构及数据的SQL语句，您可以点此（[sample_data.sql](/img/sample_data.sql)）下载全部SQL并在CLI中执行，从而将数据导入您的IoTDB。
+以下为构建上述表结构及数据的SQL语句，您可以点此（[sample-data.sql](/img/sample-data.sql)）下载全部SQL并在CLI中执行，从而将数据导入您的IoTDB。
 
 ```SQL
 -- 创建表，表名可以贴近业务语义，这里我们以 table1 来代替
