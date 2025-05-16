@@ -68,7 +68,7 @@ Utilizing the predictive capabilities of the time series large model, it can acc
 
 Using the time series large model to perform predictive imputation for missing data segments.
 
-![](/img/LargeModel04.png)
+![](/img/timeseries-large-model-data-imputation.png)
 
 
 **Anomaly Detection:**：
