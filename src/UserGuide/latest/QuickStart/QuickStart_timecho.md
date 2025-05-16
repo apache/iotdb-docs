@@ -74,7 +74,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
    - Database Administration: [Database Administration](../User-Manual/Authority-Management.md)
 
-   - AI Capability :[AI Capability](../User-Manual/AINode_timecho.md)
+   - AI Capability :[AI Capability](../AI-capability/AINode_timecho.md)
 
 5. API: IoTDB provides multiple application programming interfaces (API) for developers to interact with IoTDB in their applications, and currently supports[ Java Native API](../API/Programming-Java-Native-API.md)、[Python Native API](../API/Programming-Python-Native-API.md)、[C++ Native API](../API/Programming-Cpp-Native-API.md)、[Go Native API](../API/Programming-Go-Native-API.md), For more API, please refer to the official website 【API】 and other chapters
 
