@@ -3,10 +3,10 @@
     <template #top>
       <p class="vp-sidebar-header iotdb-sidebar-header">
         <span class="vp-sidebar-title">{{ (sidebarItems && sidebarItems.length > 0) ? sidebarItems[0]?.text : ''
-          }}</span>
+        }}</span>
       </p>
-      <div class="sidebar-top-wrapper">
-        <ul class="switch-list" v-if="currentDialect">
+      <div class="sidebar-top-wrapper" v-if="currentDialect">
+        <ul class="switch-list">
           <li :class="['switch-type', { 'switch-active': currentDialect === 'Tree' }]"
             @click="handleChangeDialect('Tree')">{{ ModelName.Tree }}
           </li>
