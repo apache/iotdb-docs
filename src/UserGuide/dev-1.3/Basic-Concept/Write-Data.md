@@ -20,7 +20,7 @@
 -->
 
 
-# Write & Delete Data
+# Write Data 
 ## CLI INSERT
 
 IoTDB provides users with a variety of ways to insert real-time data, such as directly inputting [INSERT SQL statement](../SQL-Manual/SQL-Manual.md#insert-data) in [Client/Shell tools](../Tools-System/CLI.md), or using [Java JDBC](../API/Programming-JDBC.md) to perform single or batch execution of [INSERT SQL statement](../SQL-Manual/SQL-Manual.md).
@@ -32,8 +32,6 @@ Writing a repeat timestamp covers the original timestamp data, which can be rega
 ### Use of INSERT Statements
 
 The [INSERT SQL statement](../SQL-Manual/SQL-Manual.md#insert-data) statement is used to insert data into one or more specified timeseries created. For each point of data inserted, it consists of a [timestamp](../Basic-Concept/Data-Model-and-Terminology.md) and a sensor acquisition value (see [Data Type](../Background-knowledge/Data-Type.md)).
-
-**Schema-less writing**: When metadata is not defined, data can be directly written through an insert statement, and the required metadata will be automatically recognized and registered in the database, achieving automatic modeling.
 
 In the scenario of this section, take two timeseries `root.ln.wf02.wt02.status` and `root.ln.wf02.wt02.hardware` as an example, and their data types are BOOLEAN and TEXT, respectively.
 
@@ -193,88 +191,10 @@ TsFile is the file format of time series used in IoTDB. You can directly import 
 
 CSV stores table data in plain text. You can write multiple formatted data into a CSV file and import the data into the IoTDB in batches. Before importing data, you are advised to create the corresponding metadata in the IoTDB. Don't worry if you forget to create one, the IoTDB can automatically infer the data in the CSV to its corresponding data type, as long as you have a unique data type for each column. In addition to a single file, the tool supports importing multiple CSV files as folders and setting optimization parameters such as time precision. For details, see [Data Import](../Tools-System/Data-Import-Tool.md).
 
-## DELETE
+## SCHEMALESS WRITING
+In IoT scenarios, the types and quantities of devices may dynamically increase or decrease over time, and different devices may generate data with varying fields (e.g., temperature, humidity, status codes). Additionally, businesses often require rapid deployment and flexible integration of new devices without cumbersome predefined processes. Therefore, unlike traditional time-series databases that typically require predefining data models, IoTDB supports schema-less writing, where the database automatically identifies and registers the necessary metadata during data writing, enabling automatic modeling. 
 
-Users can delete data that meet the deletion condition in the specified timeseries by using the [DELETE statement](../SQL-Manual/SQL-Manual.md#delete-data). When deleting data, users can select one or more timeseries paths, prefix paths, or paths with star  to delete data within a certain time interval.
-
-In a JAVA programming environment, you can use the [Java JDBC](../API/Programming-JDBC.md) to execute single or batch UPDATE statements.
-
-### Delete Single Timeseries
-
-Taking ln Group as an example, there exists such a usage scenario:
-
-The wf02 plant's wt02 device has many segments of errors in its power supply status before 2017-11-01 16:26:00, and the data cannot be analyzed correctly. The erroneous data affected the correlation analysis with other devices. At this point, the data before this time point needs to be deleted. The SQL statement for this operation is
-
-```sql
-delete from root.ln.wf02.wt02.status where time<=2017-11-01T16:26:00;
-```
-
-In case we hope to merely delete the data before 2017-11-01 16:26:00 in the year of 2017, The SQL statement is:
-
-```sql
-delete from root.ln.wf02.wt02.status where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
-```
-
-IoTDB supports to delete a range of timeseries points. Users can write SQL expressions as follows to specify the delete interval:
-
-```sql
-delete from root.ln.wf02.wt02.status where time < 10
-delete from root.ln.wf02.wt02.status where time <= 10
-delete from root.ln.wf02.wt02.status where time < 20 and time > 10
-delete from root.ln.wf02.wt02.status where time <= 20 and time >= 10
-delete from root.ln.wf02.wt02.status where time > 20
-delete from root.ln.wf02.wt02.status where time >= 20
-delete from root.ln.wf02.wt02.status where time = 20
-```
-
-Please pay attention that multiple intervals connected by "OR" expression are not supported in delete statement:
-
-```
-delete from root.ln.wf02.wt02.status where time > 4 or time < 0
-Msg: 303: Check metadata error: For delete statement, where clause can only contain atomic
-expressions like : time > XXX, time <= XXX, or two atomic expressions connected by 'AND'
-```
-
-If no "where" clause specified in a delete statement, all the data in a timeseries will be deleted.
-
-```sql
-delete from root.ln.wf02.wt02.status
-```
+Users can either use CLI `INSERT` statements or native APIs to write data in real-time, either in batches or row-by-row, for single or multiple devices. Alternatively, they can import historical data in formats such as CSV or TsFile using import tools, during which metadata like time series, data types, and compression encoding methods are automatically created.
 
 
-### Delete Multiple Timeseries
-
-If both the power supply status and hardware version of the ln group wf02 plant wt02 device before 2017-11-01 16:26:00 need to be deleted, [the prefix path with broader meaning or the path with star](../Basic-Concept/Data-Model-and-Terminology.md) can be used to delete the data. The SQL statement for this operation is:
-
-```sql
-delete from root.ln.wf02.wt02 where time <= 2017-11-01T16:26:00;
-```
-
-or
-
-```sql
-delete from root.ln.wf02.wt02.* where time <= 2017-11-01T16:26:00;
-```
-
-It should be noted that when the deleted path does not exist, IoTDB will not prompt that the path does not exist, but that the execution is successful, because SQL is a declarative programming method. Unless it is a syntax error, insufficient permissions and so on, it is not considered an error, as shown below:
-
-```
-IoTDB> delete from root.ln.wf03.wt02.status where time < now()
-Msg: The statement is executed successfully.
-```
-
-### Delete Time Partition (experimental)
-
-You may delete all data in a time partition of a database using the following grammar:
-
-```sql
-DELETE PARTITION root.ln 0,1,2
-```
-
-The `0,1,2` above is the id of the partition that is to be deleted, you can find it from the IoTDB
-data folders or convert a timestamp manually to an id using `timestamp / partitionInterval
-` (flooring), and the `partitionInterval` should be in your config (if time-partitioning is
-supported in your version).
-
-Please notice that this function is experimental and mainly for development, please use it with care.
 
