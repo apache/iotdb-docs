@@ -30,42 +30,42 @@
       <td rowspan="2">2.0.1-beta</td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.1-beta/apache-iotdb-2.0.1-beta-all-bin.zip"
+          href="https://archive.apache.org/dist/iotdb/2.0.1-beta/apache-iotdb-2.0.1-beta-all-bin.zip"
           >All-in-one</a
         >
       </td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.1-beta/apache-iotdb-2.0.1-beta-all-bin.zip.sha512"
+          href="https://archive.apache.org/dist/iotdb/2.0.1-beta/apache-iotdb-2.0.1-beta-all-bin.zip.sha512"
           >SHA512</a
         >
       </td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.1-beta/apache-iotdb-2.0.1-beta-all-bin.zip.asc"
+          href="https://archive.apache.org/dist/iotdb/2.0.1-beta/apache-iotdb-2.0.1-beta-all-bin.zip.asc"
           >ASC</a
         >
       </td>
       <td rowspan="2">
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.1-beta/apache-iotdb-2.0.1-beta-source-release.zip"
+          href="https://archive.apache.org/dist/iotdb/2.0.1-beta/apache-iotdb-2.0.1-beta-source-release.zip"
           >源代码</a
         >
       </td>
       <td rowspan="2">
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.1-beta/apache-iotdb-2.0.1-beta-source-release.zip.sha512"
+          href="https://archive.apache.org/dist/iotdb/2.0.1-beta/apache-iotdb-2.0.1-beta-source-release.zip.sha512"
           >SHA512</a
         >
       </td>
       <td rowspan="2">
         <a
-          href="https://www.apache.org/dyn/closer.cgi/2.0.1-beta/apache-iotdb-2.0.1-beta-source-release.zip.asc"
+          href="https://archive.apache.org/dist/iotdb/2.0.1-beta/apache-iotdb-2.0.1-beta-source-release.zip.asc"
           >ASC</a
         >
       </td>
       <td rowspan="2">
-        <a href="https://dlcdn.apache.org/iotdb/2.0.1-beta/RELEASE_NOTES.md"
+        <a href="https://archive.apache.org/dist/iotdb/2.0.1-beta/RELEASE_NOTES.md"
           >release notes</a
         >
       </td>
@@ -73,19 +73,19 @@
     <tr>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/2.0.1-beta/apache-iotdb-2.0.1-beta-ainode-bin.zip"
+          href="https://archive.apache.org/dist/iotdb/2.0.1-beta/apache-iotdb-2.0.1-beta-ainode-bin.zip"
           >AINode</a
         >
       </td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.1-beta/apache-iotdb-2.0.1-beta-ainode-bin.zip.sha512"
+          href="https://archive.apache.org/dist/iotdb/2.0.1-beta/apache-iotdb-2.0.1-beta-ainode-bin.zip.sha512"
           >SHA512</a
         >
       </td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.1-beta/apache-iotdb-2.0.1-beta-ainode-bin.zip.asc"
+          href="https://archive.apache.org/dist/iotdb/2.0.1-beta/apache-iotdb-2.0.1-beta-ainode-bin.zip.asc"
           >ASC</a
         >
       </td>
@@ -94,42 +94,42 @@
       <td rowspan="2">1.3.3</td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-all-bin.zip"
+          href="https://archive.apache.org/dist/iotdb/1.3.3/apache-iotdb-1.3.3-all-bin.zip"
           >All-in-one</a
         >
       </td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-all-bin.zip.sha512"
+          href="https://archive.apache.org/dist/iotdb/1.3.3/apache-iotdb-1.3.3-all-bin.zip.sha512"
           >SHA512</a
         >
       </td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-all-bin.zip.asc"
+          href="https://archive.apache.org/dist/iotdb/1.3.3/apache-iotdb-1.3.3-all-bin.zip.asc"
           >ASC</a
         >
       </td>
       <td rowspan="2">
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-source-release.zip"
+          href="https://archive.apache.org/dist/iotdb/1.3.3/apache-iotdb-1.3.3-source-release.zip"
           >源代码</a
         >
       </td>
       <td rowspan="2">
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-source-release.zip.sha512"
+          href="https://archive.apache.org/dist/iotdb/1.3.3/apache-iotdb-1.3.3-source-release.zip.sha512"
           >SHA512</a
         >
       </td>
       <td rowspan="2">
         <a
-          href="https://www.apache.org/dyn/closer.cgi/1.3.3/apache-iotdb-1.3.3-source-release.zip.asc"
+          href="https://archive.apache.org/dist/iotdb/1.3.3/apache-iotdb-1.3.3-source-release.zip.asc"
           >ASC</a
         >
       </td>
       <td rowspan="2">
-        <a href="https://dlcdn.apache.org/iotdb/1.3.3/RELEASE_NOTES.md"
+        <a href="https://archive.apache.org/dist/iotdb/1.3.3/RELEASE_NOTES.md"
           >release notes</a
         >
       </td>
@@ -137,19 +137,19 @@
     <tr>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip"
+          href="https://archive.apache.org/dist/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip"
           >AINode</a
         >
       </td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip.sha512"
+          href="https://archive.apache.org/dist/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip.sha512"
           >SHA512</a
         >
       </td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip.asc"
+          href="https://archive.apache.org/dist/iotdb/1.3.3/apache-iotdb-1.3.3-ainode-bin.zip.asc"
           >ASC</a
         >
       </td>
