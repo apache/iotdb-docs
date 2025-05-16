@@ -31,13 +31,13 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
 2. Complete system configuration preparations: IoTDB's system configuration involves multiple aspects. For an introduction to key system configurations, please see [System Requirements](../Deployment-and-Maintenance/Environment-Requirements.md)
 
-3. Obtain the installation package: You can obtain the IoTDB installation package on the [Apache IoTDB official website](https://iotdb.apache.org/zh/Download/).For the specific structure of the installation package, please refer to[Obtain TimechoDB](../Deployment-and-Maintenance/IoTDB-Package_apache.md)
+3. Obtain the installation package: You can obtain the IoTDB installation package on the [Apache IoTDB official website](https://iotdb.apache.org/zh/Download/).For the specific structure of the installation package, please refer to [Obtain TimechoDB](../Deployment-and-Maintenance/IoTDB-Package_apache.md)
 
 4. Install the database and activate it: Depending on your actual deployment architecture, you can choose from the following tutorials for installation and deployment:
 
    - Stand-Alone Deployment: [Stand-Alone Deployment ](../Deployment-and-Maintenance/Stand-Alone-Deployment_apache.md)
 
-   - Distributed(Cluster) Deployment:[Distributed(Cluster) Deployment](../Deployment-and-Maintenance/Cluster-Deployment_apache.md)
+   - Distributed(Cluster) Deployment: [Distributed(Cluster) Deployment](../Deployment-and-Maintenance/Cluster-Deployment_apache.md)
 
 > ❗️Note: We currently still recommend direct installation and deployment on physical/virtual machines. For Docker deployment, please refer to [Docker Deployment](../Deployment-and-Maintenance/Docker-Deployment_apache.md)
 
@@ -47,9 +47,9 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
    
    - Introduction to Time Series Concepts: [Navigating Time Series Data](../Background-knowledge/Navigating_Time_Series_Data.md)
 
-   - Introduction to Modeling Design:[Data Model and Terminology](../Background-knowledge/Data-Model-and-Terminology_apache.md)
+   - Introduction to Modeling Design: [Data Model and Terminology](../Background-knowledge/Data-Model-and-Terminology_apache.md)
 
-   - Introduction to Database:[Database Management](../Basic-Concept/Database-Management.md)
+   - Introduction to Database: [Database Management](../Basic-Concept/Database-Management.md)
    
    - Introduction to Tables: [Table Management](../Basic-Concept/Table-Management.md)
 
@@ -67,7 +67,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
    - Data Synchronization: [Data Sync](../User-Manual/Data-Sync_apache.md)
 
-6. Application Programming Interfaces (APIs): IoTDB provides various application programming interfaces (APIs) to facilitate developers' interaction with IoTDB in applications. Currently supported interfaces include [Java Native API](../API/Programming-Java-Native-API_apache.md)、[Python Native API](../API/Programming-Python-Native-API.md)、[JDBC](../API/Programming-JDBC_apache.md), and more. For more programming interfaces, please refer to the [Application Programming Interfaces] section on the official website.
+6. Application Programming Interfaces (APIs): IoTDB provides various application programming interfaces (APIs) to facilitate developers' interaction with IoTDB in applications. Currently supported interfaces include [Java Native API](../API/Programming-Java-Native-API_apache.md), [Python Native API](../API/Programming-Python-Native-API.md), [JDBC](../API/Programming-JDBC_apache.md), and more. For more programming interfaces, please refer to the [Application Programming Interfaces] section on the official website.
 
 ## 3. Want to learn more technical details?
 
