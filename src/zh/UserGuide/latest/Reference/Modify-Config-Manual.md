@@ -38,21 +38,21 @@ load configuration
 # 配置项操作语句
 设置配置项
 ```
-set configuration "key1"="value1" "key2"="value2"... (on nodeId)
+set configuration key1 = 'value1' key2 = 'value2'... (on nodeId)
 ```
 ### 示例1
 ```
-set configuration "enable_cross_space_compaction"="false"
+set configuration enable_cross_space_compaction = 'false'
 ```
 对集群所有节点永久生效，设置 enable_cross_space_compaction 为 false，并写入到 iotdb-system.properties 中。
 ### 示例2
 ```
-set configuration "enable_cross_space_compaction"="false" "enable_seq_space_compaction"="false" on 1
+set configuration enable_cross_space_compaction ='false' enable_seq_space_compaction = 'false' on 1
 ```
 对 nodeId 为 1 的节点永久生效，设置 enable_cross_space_compaction 为 false，设置 enable_seq_space_compaction 为 false，并写入到 iotdb-system.properties 中。
 ### 示例3
 ```
-set configuration "enable_cross_space_compaction"="false" "timestamp_precision"="ns"
+set configuration  enable_cross_space_compaction = 'false'  timestamp_precision = 'ns'
 ```
 对集群所有节点永久生效，设置 enable_cross_space_compaction 为 false，timestamp_precision 为 ns，并写入到 iotdb-system.properties 中。但是，timestamp_precision 是第一次启动后就无法修改的配置项，因此会忽略这个配置项的更新，返回如下。
 ```
@@ -63,7 +63,7 @@ Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 301: ignored config items: [timest
 示例
 ```
 # Used for indicate cluster name and distinguish different cluster.
-# If you need to modify the cluster name, it's recommended to use 'set configuration "cluster_name=xxx"' sql.
+# If you need to modify the cluster name, it's recommended to use [set configuration cluster_name='xxx'] sql.
 # Manually modifying configuration file is not recommended, which may cause node restart fail.
 # effectiveMode: hot_reload
 # Datatype: string
