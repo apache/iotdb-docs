@@ -145,7 +145,15 @@
         <a
           href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.4-1/apache-iotdb-1.3.4-1-ainode-bin.zip.sha512"
           >SHA512</a
-
+        >
+      </td>
+      <td>
+        <a
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.4-1/apache-iotdb-1.3.4-1-ainode-bin.zip.asc"
+          >ASC</a
+        >
+      </td>
+    </tr>
     <tr>
       <td rowspan="3">0.13.4</td>
       <td>
