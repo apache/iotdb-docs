@@ -878,4 +878,4 @@ Note:
 
 **Example:**
 
-* Downsampling queries for multiple sequences with misaligned timestamps. For detailed examples, see: [Example](../Basic-Concept/Query-Data.md#36-multi-sequence-downsampling-query-with-misaligned-timestamps)
+* Multi device downsampling alignment query. For detailed examples, see: [Example](../Basic-Concept/Query-Data.md#36-multi-device-downsampling-alignment-query)

@@ -140,6 +140,33 @@ Total line number = 7
 It costs 0.106s
 ```
 
+**Example 3:Multi device time aligned query**
+
+```SQL
+IoTDB> SELECT date_bin_gapfill(1d, TIME) AS a_time,
+              device_id,
+              AVG(temperature) AS avg_temp
+       FROM table1
+       WHERE TIME >= 2024-11-26 13:00:00
+         AND TIME <= 2024-11-27 17:00:00
+       GROUP BY 1, device_id FILL METHOD PREVIOUS; 
+```
+
+**Result**:
+
+```SQL
++-----------------------------+---------+--------+
+|                       a_time|device_id|avg_temp|
++-----------------------------+---------+--------+
+|2024-11-26T08:00:00.000+08:00|      100|    90.0|
+|2024-11-27T08:00:00.000+08:00|      100|    90.0|
+|2024-11-26T08:00:00.000+08:00|      101|    90.0|
+|2024-11-27T08:00:00.000+08:00|      101|    85.0|
++-----------------------------+---------+--------+
+Total line number = 4
+It costs 0.048s
+```
+
 ### 3.3 Aggregation Query
 
 **Example**: Calculate the average, maximum, and minimum temperature for each `device_id` within a specific time range.
@@ -213,7 +240,7 @@ IoTDB> SELECT device_id,date_bin(1d ,time) as day_time, AVG(temperature) as avg_
 Total line number = 5
 It costs 0.066s
 ```
-###  3.6 Multi sequence downsampling query with misaligned timestamps
+###  3.6 Multi device downsampling alignment query
 
 #### 3.6.1 Sampling Frequency is the Same, but Time is Different
 
