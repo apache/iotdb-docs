@@ -60,6 +60,13 @@
 table {
   word-wrap: break-word;
   word-break: keep-all;
+  
+}
+
+table {
+  a::after {
+    display: none !important;
+  }
 }
 
 td a span {
