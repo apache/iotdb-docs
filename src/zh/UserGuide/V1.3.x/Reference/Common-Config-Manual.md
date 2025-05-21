@@ -32,7 +32,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 + **仅允许在第一次启动服务前修改：** 在第一次启动 ConfigNode/DataNode 后即禁止修改，修改会导致 ConfigNode/DataNode 无法启动。
 + **重启服务生效：** ConfigNode/DataNode 启动后仍可修改，但需要重启 ConfigNode/DataNode 后才生效。
-+ **热加载：** 可在 ConfigNode/DataNode 运行时修改，修改后通过 Session 或 Cli 发送 ```load configuration``` 或 `set configuration` 命令（SQL）至 IoTDB 使配置生效。
++ **热加载：** 可在 ConfigNode/DataNode 运行时修改，修改后通过 Session 或 Cli 发送 ```load configuration``` 或 `set configuration key1 = 'value1'` 命令（SQL）至 IoTDB 使配置生效。
 
 ### 系统配置项
 
@@ -198,12 +198,12 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 * cluster\_name
 
-|  名字  | cluster\_name                                                                                                                                                        |
-|:----:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|  描述  | 集群名称                                                                                                                                                                 |
-|  类型  | String                                                                                                                                                               |
-| 默认值  | default_cluster                                                                                                                                                      |
-| 修改方式 | CLI 中执行语句 ```set configuration "cluster_name"="xxx"``` （xxx为希望修改成的集群名称）                                                                                              |
+|  名字  | cluster\_name                                                                                                                                                          |
+|:----:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|  描述  | 集群名称                                                                                                                                                                   |
+|  类型  | String                                                                                                                                                                 |
+| 默认值  | default_cluster                                                                                                                                                        |
+| 修改方式 | CLI 中执行语句 ```set configuration cluster_name='xxx'``` （xxx为希望修改成的集群名称）                                                                                                   |
 | 注意 | 此修改通过网络分发至每个节点。在网络波动或者有节点宕机的情况下，不保证能够在全部节点修改成功。未修改成功的节点重启时无法加入集群，此时需要手动修改该节点的配置文件中的cluster_name项，再重启。正常情况下，不建议通过手动修改配置文件的方式修改集群名称，不建议通过```load configuration```的方式热加载。 |
 
 * time\_partition\_interval

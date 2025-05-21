@@ -37,21 +37,21 @@ load configuration
 ```
 # SetConfiguration statement
 ```
-set configuration "key1"="value1" "key2"="value2"... (on nodeId)
+set configuration key1 = 'value1' key2 = 'value2'... (on nodeId)
 ```
 ### Example 1
 ```
-set configuration "enable_cross_space_compaction"="false"
+set configuration enable_cross_space_compaction='false'
 ```
 To take effect permanently on all nodes in the cluster, set enable_cross_space_compaction to false and write it to iotdb-system.properties.
 ### Example 2
 ```
-set configuration "enable_cross_space_compaction"="false" "enable_seq_space_compaction"="false" on 1
+set configuration enable_cross_space_compaction='false' enable_seq_space_compaction='false' on 1
 ```
 To take effect permanently on the node with nodeId 1, set enable_cross_space_compaction to false, set enable_seq_space_compaction to false, and write it to iotdb-system.properties.
 ### Example 3
 ```
-set configuration "enable_cross_space_compaction"="false" "timestamp_precision"="ns"
+set configuration enable_cross_space_compaction='false' timestamp_precision='ns'
 ```
 To take effect permanently on all nodes in the cluster, set enable_cross_space_compaction to false, timestamp_precision to ns, and write it to iotdb-system.properties. However, timestamp_precision is a configuration item that cannot be modified after the first startup, so the update of this configuration item will be ignored and the return is as follows.
 ```
@@ -63,7 +63,7 @@ Configuration items that support hot reloading and take effect immediately are m
 Example
 ```
 # Used for indicate cluster name and distinguish different cluster.
-# If you need to modify the cluster name, it's recommended to use 'set configuration "cluster_name=xxx"' sql.
+# If you need to modify the cluster name, it's recommended to use [set configuration cluster_name='xxx'] sql.
 # Manually modifying configuration file is not recommended, which may cause node restart fail.
 # effectiveMode: hot_reload
 # Datatype: string

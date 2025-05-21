@@ -373,7 +373,7 @@ propertyValue
 **Example**:
 
 ```SQL
-IoTDB> SET CONFIGURATION "a"='1',b='1' ON 1;
+IoTDB> SET CONFIGURATION a='1',b='1' ON 1;
 ```
 
 ### 2.3 Loading Manually Modified Configuration Files
