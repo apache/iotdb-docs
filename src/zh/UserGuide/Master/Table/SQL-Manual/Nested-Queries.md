@@ -877,4 +877,4 @@ IoTDB> SELECT s1 <=
 
 **示例：**
 
-* 时间戳不对齐的多序列降采样查询，详细示例可见：[示例](../Basic-Concept/Query-Data.md#36-时间戳不对齐的多序列降采样查询)
+* 多设备降采样对齐查询，详细示例可见：[示例](../Basic-Concept/Query-Data.md#36-多设备降采样对齐查询)
