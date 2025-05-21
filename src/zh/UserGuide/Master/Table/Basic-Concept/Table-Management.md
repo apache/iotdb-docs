@@ -32,25 +32,31 @@
 **语法：**
 
 ```SQL
-CREATE TABLE (IF NOT EXISTS)? <TABLE_NAME>
-    '(' (columnDefinition (',' columnDefinition)*)? ')'
-    (COMMENT 'TABLE_COMMENT')? (WITH properties)?
-    
+createTableStatement
+    : CREATE TABLE (IF NOT EXISTS)? qualifiedName
+        '(' (columnDefinition (',' columnDefinition)*)? ')'
+        charsetDesc?
+        comment?
+        (WITH properties)?
+     ;
+
+charsetDesc
+    : DEFAULT? (CHAR SET | CHARSET | CHARACTER SET) EQ? identifierOrString
+    ;
+
 columnDefinition
-    : identifier columnCategory=(TAG | ATTRIBUTE)
-    | identifier type (columnCategory=(TAG | ATTRIBUTE | TIME | FIELD))?
-    ;
-    
-properties
-    : '(' propertyAssignments ')'
+    : identifier columnCategory=(TAG | ATTRIBUTE | TIME) charsetName? comment?
+    | identifier type (columnCategory=(TAG | ATTRIBUTE | TIME | FIELD))? charsetName? comment?
     ;
 
-propertyAssignments
-    : property (',' property)*
+charsetName
+    : CHAR SET identifier
+    | CHARSET identifier
+    | CHARACTER SET identifier
     ;
 
-property
-    : identifier EQ propertyValue
+comment
+    : COMMENT string
     ;
 ```
 
@@ -80,18 +86,18 @@ CREATE TABLE table1 (
   plant_id STRING TAG,
   device_id STRING TAG,
   model_id STRING ATTRIBUTE,
-  maintenance STRING ATTRIBUTE,
-  temperature FLOAT FIELD,
-  humidity FLOAT FIELD,
-  status Boolean FIELD,
-  arrival_time TIMESTAMP FIELD
+  maintenance STRING ATTRIBUTE COMMENT 'maintenance',
+  temperature FLOAT FIELD COMMENT 'temperature',
+  humidity FLOAT FIELD COMMENT 'humidity',
+  status Boolean FIELD COMMENT 'status',
+  arrival_time TIMESTAMP FIELD COMMENT 'arrival_time'
 ) COMMENT 'table1' WITH (TTL=31536000000);
 
 CREATE TABLE if not exists table2 ();
 
 CREATE TABLE tableC (
   "场站" STRING TAG,
-  "温度" int32 FIELD
+  "温度" int32 FIELD COMMENT 'temperature'
  ) with (TTL=DEFAULT);
 ```
 
