@@ -260,7 +260,11 @@ sbin/start-confignode.sh
 
 # Windows
 # 首先切换到IoTDB根目录
-sbin/start-confignode.bat
+# V2.0.4.x 版本之前
+sbin\start-confignode.bat
+
+# V2.0.4.x 版本及之后 
+sbin\windows\start-confignode.bat
 ```
 
 #### 4.1.2 移除ConfigNode节点
@@ -306,7 +310,11 @@ sbin/start-datanode.sh
 
 #Windows
 # 首先切换到IoTDB根目录
-sbin/start-datanode.bat
+# V2.0.4.x 版本之前
+sbin\start-datanode.bat
+
+# V2.0.4.x 版本及之后     
+tools\windows\start-datanode.bat
 ```
 
 说明：在添加DataNode后，随着新的写入到来（以及旧数据过期，如果设置了TTL），集群负载会逐渐向新的DataNode均衡，最终在所有节点上达到存算资源的均衡。

@@ -49,7 +49,7 @@ Here is an example where the cluster is started locally and the user has not cha
 6667 <br>
 If you need to connect to the remote DataNode or changes
 the rpc port number of the DataNode running, set the specific IP and RPC PORT at -h and -p.<br>
-You also can set your own environment variable at the front of the start script ("/sbin/start-cli.sh" for linux and "/sbin/start-cli.bat" for windows)
+You also can set your own environment variable at the front of the start script 
 
 The Linux and MacOS system startup commands are as follows:
 
@@ -60,7 +60,11 @@ Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root
 The Windows system startup commands are as follows:
 
 ```shell
+# Before version V2.0.4.x
 Shell > sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.4.x and later versions
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
 ```
 
 After operating these commands, the cli can be started successfully. The successful status will be as follows:
@@ -106,7 +110,11 @@ Shell > bash sbin/start-cli.sh -h 10.129.187.21 -p 6667 -u root -pw root -disabl
 The Windows system startup commands are as follows:
 
 ```shell
+# Before version V2.0.4.x
 Shell > sbin\start-cli.bat -h 10.129.187.21 -p 6667 -u root -pw root -disableISO8601 -maxPRC 10
+
+# # V2.0.4.x and later versions
+Shell > sbin\windows\start-cli.bat -h 10.129.187.21 -p 6667 -u root -pw root -disableISO8601 -maxPRC 10
 ```
 
 ### 2.3 CLI Special Command
@@ -252,7 +260,11 @@ Shell > bash sbin/start-cli.sh -h {host} -p {rpcPort} -u {user} -pw {password} -
 The Windows system commands:
 
 ```shell
+# Before version V2.0.4.x 
 Shell > sbin\start-cli.bat -h {host} -p {rpcPort} -u {user} -pw {password} -e {sql for iotdb}
+
+# V2.0.4.x and later versions
+Shell > sbin\windows\start-cli.bat -h {host} -p {rpcPort} -u {user} -pw {password} -e {sql for iotdb}
 ```
 
 In the Windows environment, the SQL statement of the -e parameter needs to use ` `` ` to replace `" "`

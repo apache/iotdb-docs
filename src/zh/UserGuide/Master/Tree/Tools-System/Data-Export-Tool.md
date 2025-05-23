@@ -54,7 +54,13 @@
                [-pfn <prefix_file_name>] [-dt <datatype>] [-lpf <lines_per_file>] [-tf <time_format>] 
                [-tz <timezone>] [-q <query_command>] [-timeout <query_timeout>]
 # Windows
+# V2.0.4.x 版本之前
 > tools\export-data.bat -ft<format>  [-h <host>] [-p <port>] [-u <username>] [-pw <password>] -t <target_directory> 
+               [-pfn <prefix_file_name>] [-dt <datatype>] [-lpf <lines_per_file>] [-tf <time_format>] 
+               [-tz <timezone>] [-q <query_command>] [-timeout <query_timeout>]
+               
+# V2.0.4.x 版本及之后
+> tools\windows\export-data.bat -ft<format>  [-h <host>] [-p <port>] [-u <username>] [-pw <password>] -t <target_directory> 
                [-pfn <prefix_file_name>] [-dt <datatype>] [-lpf <lines_per_file>] [-tf <time_format>] 
                [-tz <timezone>] [-q <query_command>] [-timeout <query_timeout>]
 ```
@@ -92,7 +98,13 @@ Parse error: Missing required option: t
           -lpf <lines_per_file> - [-tf <time_format>] [-tz <timezone>] [-q <query_command>] [-timeout <query_timeout>]
       
 # Windows
+# V2.0.4.x 版本之前
 > tools\export-data.bat -ft<format> [-h <host> -p <port> -u <username> -pw <password>] 
+          -t <target_directory> [-pfn <prefix_file_name>  -aligned <export aligned insert sql>  
+          -lpf <lines_per_file> -tf <time_format> -tz <timezone> -q <query_command> -timeout <query_timeout>]
+          
+# V2.0.4.x 版本及之后
+> tools\windows\export-data.bat -ft<format> [-h <host> -p <port> -u <username> -pw <password>] 
           -t <target_directory> [-pfn <prefix_file_name>  -aligned <export aligned insert sql>  
           -lpf <lines_per_file> -tf <time_format> -tz <timezone> -q <query_command> -timeout <query_timeout>]
 ```
@@ -129,8 +141,13 @@ Parse error: Missing required option: t
         -t <target_directory> [-pfn <prefix_file_name>] [-q <query_command>] [-timeout <query_timeout>]
       
 # Windows
+# V2.0.4.x 版本之前
 > tools\export-data.bat -ft<format>  [-h <host>] [-p <port>] [-u <username>] [-pw <password>]
         -t <target_directory> [-pfn <prefix_file_name>] [-q <query_command>] [-timeout <query_timeout>]
+        
+# V2.0.4.x 版本及之后        
+> tools\windows\export-data.bat -ft<format>  [-h <host>] [-p <port>] [-u <username>] [-pw <password>]
+        -t <target_directory> [-pfn <prefix_file_name>] [-q <query_command>] [-timeout <query_timeout>]       
 ```
 
 #### 2.4.2 私有参数

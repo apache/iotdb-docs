@@ -39,9 +39,15 @@ Shell> bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect
 #### **Windows**
 
 ```Bash
+# Before version V2.0.4.x  
 Shell> sbin\start-cli.bat -sql_dialect table
 #or
 Shell> sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect table
+
+# V2.0.4.x and later versions
+Shell> sbin\windows\start-cli.bat -sql_dialect table
+#or
+Shell> sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect table
 ```
 
 **Parameter Explanation**

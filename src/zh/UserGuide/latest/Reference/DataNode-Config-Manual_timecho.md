@@ -393,7 +393,11 @@ nohup sbin/start-datanode.sh printgc >/dev/null 2>&1 &
 或者
 
 ```bash
+# V2.0.4.x 版本之前
 sbin\start-datanode.bat printgc
+
+# V2.0.4.x 版本及之后     
+tools\windows\start-datanode.bat printgc
 ```
 
 GC 日志会被存储在`IOTDB_HOME/logs/gc.log`. 至多会存储 10 个 gc.log 文件，每个文件最多 10MB。

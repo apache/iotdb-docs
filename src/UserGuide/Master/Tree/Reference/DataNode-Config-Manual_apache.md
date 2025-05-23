@@ -398,8 +398,12 @@ To enable GC log, just add a parameter "printgc" when you start the DataNode.
 nohup sbin/start-datanode.sh printgc >/dev/null 2>&1 &
 ```
 Or
-```cmd
+```bash
+# Before version V2.0.4.x
 sbin\start-datanode.bat printgc
+
+# V2.0.4.x and later versions
+sbin\windows\start-datanode.bat printgc
 ```
 
 GC log is stored at `IOTDB_HOME/logs/gc.log`.
