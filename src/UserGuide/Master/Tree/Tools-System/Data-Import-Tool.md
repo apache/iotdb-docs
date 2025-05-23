@@ -51,9 +51,9 @@ IoTDB supports three methods for data import:
 | `-tz`   | `--timezone`   | Timezone (e.g., `+08:00`, `-01:00`).                                                                                                                                                     | No              | System default                                |
 | `-help` | `--help`       | Display help (general or format-specific: `-help csv`).                                                                                                                                      | No              | -                                             |
 
-###  2.2 CSV Format
+###  2.2 CSV Format 
 
-#### 2.2.1 Command
+#### 2.2.1 Command 
 ```Shell
 # Unix/OS X
 > tools/import-data.sh -ft<format>  [-h <host>] [-p <port>] [-u <username>] [-pw <password>]
@@ -62,13 +62,20 @@ IoTDB supports three methods for data import:
       [-tn <thread_num>]
       
 # Windows
+# Before version V2.0.4.x  
 > tools\import-data.bat -ft<format>  [-h <host>] [-p <port>] [-u <username>] [-pw <password>]
+       -s <source> [-fd <fail_dir>] [-lpf <lines_per_failed_file>] [-aligned <use the aligned interface>] 
+      [-ti <type_infer>] [-tp <timestamp precision (ms/us/ns)>] [-tz <timezone>] [-batch <batch_size>] 
+      [-tn <thread_num>]
+      
+# V2.0.4.x and later versions      
+> tools\windows\import-data.bat -ft<format>  [-h <host>] [-p <port>] [-u <username>] [-pw <password>]
        -s <source> [-fd <fail_dir>] [-lpf <lines_per_failed_file>] [-aligned <use the aligned interface>] 
       [-ti <type_infer>] [-tp <timestamp precision (ms/us/ns)>] [-tz <timezone>] [-batch <batch_size>] 
       [-tn <thread_num>]
 ```
 
-#### 2.2.2 CSV-Specific Parameters
+#### 2.2.2 CSV-Specific Parameters 
 
 | Short          | Full Parameter                | Description                                              | Required | Default         |
 | ---------------- | ------------------------------- |----------------------------------------------------------| ---------- |-----------------|
@@ -79,7 +86,7 @@ IoTDB supports three methods for data import:
 | `-ti`      | `--type_infer`            | Type mapping (e.g., `BOOLEAN=text,INT=long`).            | No       | -               |
 | `-tp`      | `--timestamp_precision`   | Timestamp precision: `ms`, `us`, `ns`.                   | No       | `ms`            |
 
-#### 2.2.3 Examples
+#### 2.2.3 Examples 
 
 ```Shell
 # Valid Example
@@ -139,9 +146,9 @@ Time,Device,str(TEXT),var(INT32)
 ```
 
 
-###  2.3 SQL Format
+###  2.3 SQL Format 
 
-####  2.3.1 Command
+####  2.3.1 Command 
 
 ```Shell
 # Unix/OS X
@@ -150,12 +157,18 @@ Time,Device,str(TEXT),var(INT32)
         [-batch <batch_size>] [-tn <thread_num>]
       
 # Windows
+# Before version V2.0.4.x  
 > tools\import-data.bat -ft<format>  [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
+        -s<source> [-fd <fail_dir>] [-lpf <lines_per_failed_file>] [-tz <timezone>] 
+        [-batch <batch_size>] [-tn <thread_num>]
+        
+# V2.0.4.x and later versions        
+> tools\windows\import-data.bat -ft<format>  [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
         -s<source> [-fd <fail_dir>] [-lpf <lines_per_failed_file>] [-tz <timezone>] 
         [-batch <batch_size>] [-tn <thread_num>]
 ```
 
-####  2.3.2 SQL-Specific Parameters
+####  2.3.2 SQL-Specific Parameters 
 
 | Short        | Full Parameter                | Description                                                        | Required | Default          |
 | -------------- | ------------------------------- | -------------------------------------------------------------------- | ---------- | ------------------ |
@@ -163,7 +176,7 @@ Time,Device,str(TEXT),var(INT32)
 | `-lpf`   | `--lines_per_failed_file` | Max lines per failed file.    | No       | `100000` <br> Range: 0 to Integer.Max(2147483647).    |
 | `-batch` | `--batch_size`            | Rows processed per API call. | No       | `100000`  <br> Range: 0 to Integer.Max(2147483647).   |
 
-####  2.3.3 Examples
+####  2.3.3 Examples 
 
 ```Shell
 # Valid Example
@@ -179,9 +192,9 @@ error: Source file or directory /path/sql does not exist
 > tools/import-data.sh -ft sql -s /path/sql -tn 0
 error: Invalid thread number '0'. Please set a positive integer.
 ```
-###  2.4 TsFile Format
+###  2.4 TsFile Format 
 
-#### 2.4.1 Command
+#### 2.4.1 Command 
 
 ```Shell
 # Unix/OS X
@@ -190,11 +203,17 @@ error: Invalid thread number '0'. Please set a positive integer.
         [-tn <thread_num> ] [-tz <timezone>] [-tp <timestamp precision (ms/us/ns)>]
       
 # Windows
+# Before version V2.0.4.x
 > tools\import-data.bat -ft <format> [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
         -s <source> -os <on_success> [-sd <success_dir>] -of <on_fail> [-fd <fail_dir>]
         [-tn <thread_num> ] [-tz <timezone>] [-tp <timestamp precision (ms/us/ns)>]
+        
+# V2.0.4.x and later versions
+> tools\windows\import-data.bat -ft <format> [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
+        -s <source> -os <on_success> [-sd <success_dir>] -of <on_fail> [-fd <fail_dir>]
+        [-tn <thread_num> ] [-tz <timezone>] [-tp <timestamp precision (ms/us/ns)>]
 ```
-####  2.4.2 TsFile-Specific Parameters
+####  2.4.2 TsFile-Specific Parameters 
 
 | Short     | Full Parameter              | Description                                                                                                                                                                                                                                                                       | Required        | Default                   |
 | ----------- | ----------------------------- |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ----------------- | --------------------------- |
@@ -204,7 +223,7 @@ error: Invalid thread number '0'. Please set a positive integer.
 | `-fd` | `--fail_dir`            | Target directory for `mv`/`cp` actions on failure. Required if `-of` is `mv`/`cp`.  The file name will be flattened and concatenated with the original file name.                                                                                                                 | Conditional     | `${EXEC_DIR}/fail`    |
 | `-tp` | `--timestamp_precision` | TsFile timestamp precision: `ms`, `us`, `ns`. <br> For non-remote TsFile imports: Use -tp to specify the timestamp precision of the TsFile. The system will manually verify if the timestamp precision matches the server. If it does not match, an error will be returned. <br> ​For remote TsFile imports: Use -tp to specify the timestamp precision of the TsFile. The Pipe system will automatically verify if the timestamp precision matches. If it does not match, a Pipe error will be returned. | No              | `ms`                  |
 
-#### 2.4.3 Examples
+#### 2.4.3 Examples 
 
 ```Shell
 # Valid Example

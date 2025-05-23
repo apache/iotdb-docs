@@ -40,9 +40,15 @@ Shell> bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect
 - Windows 系统常用启动命令为：
 
 ```Shell
+# V2.0.4.x 版本之前
 Shell> sbin\start-cli.bat -sql_dialect table
 或
 Shell> sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect table
+
+# V2.0.4.x 版本及之后
+Shell> sbin\windows\start-cli.bat -sql_dialect table
+或
+Shell> sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect table
 ```
 
 其中：

@@ -55,7 +55,14 @@ Shell
                 -t <target_directory> [-path <exportPathPattern>] [-pfn <prefix_file_name>] 
                 [-lpf <lines_per_file>] [-timeout <query_timeout>]
 # Windows
+# V2.0.4.x 版本之前
 > tools\export-schema.bat [-sql_dialect<sql_dialect>] -db<database> -table<table>  
+                [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
+                -t <target_directory> [-path <exportPathPattern>] [-pfn <prefix_file_name>] 
+                [-lpf <lines_per_file>] [-timeout <query_timeout>]
+                
+# V2.0.4.x 版本及之后                  
+> tools\windows\schema\export-schema.bat [-sql_dialect<sql_dialect>] -db<database> -table<table>  
                 [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
                 -t <target_directory> [-path <exportPathPattern>] [-pfn <prefix_file_name>] 
                 [-lpf <lines_per_file>] [-timeout <query_timeout>]
