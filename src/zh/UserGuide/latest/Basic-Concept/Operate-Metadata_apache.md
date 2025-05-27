@@ -370,7 +370,7 @@ IoTDB> create device template t2 aligned (lat FLOAT, lon FLOAT)
 
 其中，物理量 `lat` 和 `lon` 是对齐的。
 
-创建模板无需显式指定编码压缩方式，如需指定，可参考如下示例：
+创建模板时，系统会默认指定编码压缩方式，无需手动指定，若业务场景需要手动调整，可参考如下示例：
 ```shell
 IoTDB> create device template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
 ```
@@ -595,12 +595,12 @@ IoTDB > create timeseries root.sgcc.wf03.wt01.status BOOLEAN
 IoTDB > create timeseries root.sgcc.wf03.wt01.temperature
 ```
 
-创建时间序列无需显式指定编码压缩方式，如需指定，可参考如下示例：
+创建时间序列时，系统会默认指定编码压缩方式，无需手动指定，若业务场景需要手动调整，可参考如下示例：
 ```
 IoTDB > create timeseries root.sgcc.wf03.wt01.temperature FLOAT encoding=PLAIN compressor=SNAPPY
 ```
 
-需要注意的是，如果指定了编码方式，但与数据类型不对应时，系统会给出相应的错误提示，如下所示：
+需要注意的是，如果手动指定了编码方式，但与数据类型不对应时，系统会给出相应的错误提示，如下所示：
 ```
 IoTDB> create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODING=TS_2DIFF
 error: encoding TS_2DIFF does not support BOOLEAN
