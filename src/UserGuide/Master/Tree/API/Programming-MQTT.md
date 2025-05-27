@@ -20,17 +20,16 @@
 -->
 # MQTT Protocol
 
-[MQTT](http://mqtt.org/) is a machine-to-machine (M2M)/"Internet of Things" connectivity protocol.
-It was designed as an extremely lightweight publish/subscribe messaging transport.
-It is useful for connections with remote locations where a small code footprint is required and/or network bandwidth is at a premium.
+## 1. Overview
 
-IoTDB supports the MQTT v3.1(an OASIS Standard) protocol.
-IoTDB server includes a built-in MQTT service that allows remote devices send messages into IoTDB server directly.
+[MQTT](Message Queuing Telemetry Transport)(http://mqtt.org/) is a lightweight messaging protocol designed for IoT and low-bandwidth environments. It operates on a Publish/Subscribe (Pub/Sub) model, enabling efficient and reliable bidirectional communication between devices. Its core objectives are low power consumption, minimal bandwidth usage, and high real-time performance, making it ideal for unstable networks or resource-constrained scenarios (e.g., sensors, mobile devices).
+
+IoTDB provides deep integration with the MQTT protocol, fully compliant with MQTT v3.1 (OASIS International Standard). The IoTDB server includes a built-in high-performance MQTT Broker module, eliminating the need for third-party middleware. Devices can directly write time-series data into the IoTDB storage engine via MQTT messages.
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/78357432-0c71cf80-75e4-11ea-98aa-c43a54d469ce.png">
 
-
-## 1. Built-in MQTT Service
+[Programming-MQTT.md](Programming-MQTT.md)
+## 2. Built-in MQTT Service
 The Built-in MQTT Service provide the ability of direct connection to IoTDB through MQTT. It listen the publish messages from MQTT clients
  and then write the data into storage immediately. 
 The MQTT topic corresponds to IoTDB timeseries. 
@@ -58,22 +57,22 @@ or json array of the above two.
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/78357469-1bf11880-75e4-11ea-978f-a53996667a0d.png">
 
-## 2. MQTT Configurations
+## 3. MQTT Configurations
 The IoTDB MQTT service load configurations from `${IOTDB_HOME}/${IOTDB_CONF}/iotdb-system.properties` by default.
 
 Configurations are as follows:
 
-| NAME        | DESCRIPTION           | DEFAULT  |
+| **Property**         | DESCRIPTION           | DEFAULT  |
 | ------------- |:-------------:|:------:|
-| enable_mqtt_service      | whether to enable the mqtt service | false |
-| mqtt_host      | the mqtt service binding host | 127.0.0.1 |
-| mqtt_port      | the mqtt service binding port    |   1883 |
-| mqtt_handler_pool_size | the handler pool size for handing the mqtt messages      |    1 |
-| mqtt_payload_formatter | the mqtt message payload formatter     |    json |
-| mqtt_max_message_size | the max mqtt message size in byte|   1048576 |
+| `enable_mqtt_service`       | whether to enable the mqtt service | false |
+| `mqtt_host`       | the mqtt service binding host | 127.0.0.1 |
+| `mqtt_port`      | the mqtt service binding port    |   1883 |
+| `mqtt_handler_pool_size` | the handler pool size for handing the mqtt messages      |    1 |
+| **`mqtt_payload_formatter`** | **Formatting method for MQTT message payloads. ​**​**Options: `json` (tree model), `line` (table model).**     |    **json** |
+| `mqtt_max_message_size` | the max mqtt message size in byte|   1048576 |
 
 
-## 3. Coding Examples
+## 4. Coding Examples
 The following is an example which a mqtt client send messages to IoTDB server.
 
 ```java
@@ -101,7 +100,7 @@ connection.disconnect();
 
 ```
 
-## 4. Customize your MQTT Message Format
+## 5. Customize your MQTT Message Format
 
 If you do not like the above Json format, you can customize your MQTT Message format by just writing several lines 
 of codes. An example can be found in  [example/mqtt-customize](https://github.com/apache/iotdb/tree/master/example/mqtt-customize)  project.
@@ -112,7 +111,7 @@ Steps:
         <dependency>
             <groupId>org.apache.iotdb</groupId>
             <artifactId>iotdb-server</artifactId>
-            <version>1.1.0-SNAPSHOT</version>
+            <version>2.0.4-SNAPSHOT</version>
         </dependency>
 ```
 2. Define your implementation which implements `org.apache.iotdb.db.protocol.mqtt.PayloadFormatter`
@@ -133,7 +132,7 @@ import java.util.List;
 public class CustomizedJsonPayloadFormatter implements PayloadFormatter {
 
     @Override
-    public List<Message> format(ByteBuf payload) {
+    public List<Message> format(String topic, ByteBuf payload) {
         // Suppose the payload is a json format
         if (payload == null) {
             return null;

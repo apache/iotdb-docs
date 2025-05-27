@@ -26,7 +26,7 @@ MQTT 是一种专为物联网（IoT）和低带宽环境设计的轻量级消息
 
 IoTDB 深度集成了 MQTT 协议能力，完整兼容 MQTT v3.1（OASIS 国际标准协议）。IoTDB 服务器内置高性能 MQTT Broker 服务模块，无需第三方中间件，支持设备通过 MQTT 报文将时序数据直接写入 IoTDB 存储引擎。
 
-![](/img/mqtt-table-1.png)
+<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/78357432-0c71cf80-75e4-11ea-98aa-c43a54d469ce.png">
 
 ## 2. 配置方式
 
@@ -91,3 +91,144 @@ databaseName:stock
 | `"xxx"`                                                      | TEXT           |
 | `t`,`T`,`true`,`True`,`TRUE` <br>`f`,`F`,`false`,`False`,`FALSE` | BOOLEAN        |
 
+
+
+## 5. 代码示例
+以下是 mqtt 客户端将消息发送到 IoTDB 服务器的示例。
+
+ ```java
+MQTT mqtt = new MQTT();
+mqtt.setHost("127.0.0.1", 1883);
+mqtt.setUserName("root");
+mqtt.setPassword("root");
+
+BlockingConnection connection = mqtt.blockingConnection();
+connection.connect();
+
+Random random = new Random();
+for (int i = 0; i < 10; i++) {
+    String payload = String.format("{\n" +
+            "\"device\":\"root.sg.d1\",\n" +
+            "\"timestamp\":%d,\n" +
+            "\"measurements\":[\"s1\"],\n" +
+            "\"values\":[%f]\n" +
+            "}", System.currentTimeMillis(), random.nextDouble());
+
+    connection.publish("root.sg.d1.s1", payload.getBytes(), QoS.AT_LEAST_ONCE, false);
+}
+
+connection.disconnect();
+ ```
+
+
+## 6. 自定义 MQTT 消息格式
+
+事实上可以通过简单编程来实现 MQTT 消息的格式自定义。
+可以在源码的 [example/mqtt-customize](https://github.com/apache/iotdb/tree/master/example/mqtt-customize) 项目中找到一个简单示例。
+
+步骤:
+1. 创建一个 Java 项目，增加如下依赖
+```xml
+        <dependency>
+            <groupId>org.apache.iotdb</groupId>
+            <artifactId>iotdb-server</artifactId>
+            <version>2.0.4-SNAPSHOT</version>
+        </dependency>
+```
+2. 创建一个实现类，实现接口 `org.apache.iotdb.db.mqtt.protocol.PayloadFormatter`
+
+```java
+package org.apache.iotdb.mqtt.server;
+
+import io.netty.buffer.ByteBuf;
+import org.apache.iotdb.db.protocol.mqtt.Message;
+import org.apache.iotdb.db.protocol.mqtt.PayloadFormatter;
+
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class CustomizedLinePayloadFormatter implements PayloadFormatter {
+
+    @Override
+    public List<Message> format(String topic, ByteBuf payload) {
+        // Suppose the payload is a line format
+        if (payload == null) {
+            return null;
+        }
+
+        String line = payload.toString(StandardCharsets.UTF_8);
+        // parse data from the line and generate Messages and put them into List<Meesage> ret
+        List<Message> ret = new ArrayList<>();
+        // this is just an example, so we just generate some Messages directly
+        for (int i = 0; i < 3; i++) {
+            long ts = i;
+            TableMessage message = new TableMessage();
+            
+            // Parsing Database Name
+            message.setDatabase("db" + i);
+            
+            //Parsing Table Names
+            message.setTable("t" + i);
+
+            // Parsing Tags
+            List<String> tagKeys = new ArrayList<>();
+            tagKeys.add("tag1" + i);
+            tagKeys.add("tag2" + i);
+            List<Object> tagValues = new ArrayList<>();
+            tagValues.add("t_value1" + i);
+            tagValues.add("t_value2" + i);
+            message.setTagKeys(tagKeys);
+            message.setTagValues(tagValues);
+
+            // Parsing Attributes
+            List<String> attributeKeys = new ArrayList<>();
+            List<Object> attributeValues = new ArrayList<>();
+            attributeKeys.add("attr1" + i);
+            attributeKeys.add("attr2" + i);
+            attributeValues.add("a_value1" + i);
+            attributeValues.add("a_value2" + i);
+            message.setAttributeKeys(attributeKeys);
+            message.setAttributeValues(attributeValues);
+
+           // Parsing Fields
+           List<String> fields = Arrays.asList("field1" + i, "field2" + i);
+           List<TSDataType> dataTypes = Arrays.asList(TSDataType.FLOAT, TSDataType.FLOAT);
+           List<Object> values = Arrays.asList("4.0" + i, "5.0" + i);
+           message.setFields(fields);
+           message.setDataTypes(dataTypes);
+           message.setValues(values);
+           
+           //// Parsing timestamp
+           message.setTimestamp(ts);
+           ret.add(message);
+        }
+        return ret;
+    }
+
+    @Override
+    public String getName() {
+        // set the value of mqtt_payload_formatter in iotdb-system.properties as the following string:
+        return "CustomizedLine";
+    }
+}
+```
+
+
+3. 修改项目中的 `src/main/resources/META-INF/services/org.apache.iotdb.db.protocol.mqtt.PayloadFormatter` 文件:
+   将示例中的文件内容清除，并将刚才的实现类的全名（包名.类名）写入文件中。注意，这个文件中只有一行。
+   在本例中，文件内容为: `org.apache.iotdb.mqtt.server.CustomizedLinePayloadFormatter`
+4. 编译项目生成一个 jar 包: `mvn package -DskipTests`
+
+
+在 IoTDB 服务端:
+1. 创建 ${IOTDB_HOME}/ext/mqtt/ 文件夹, 将刚才的 jar 包放入此文件夹。
+2. 打开 MQTT 服务参数. (`enable_mqtt_service=true` in `conf/iotdb-system.properties`)
+3. 用刚才的实现类中的 getName() 方法的返回值 设置为 `conf/iotdb-system.properties` 中 `mqtt_payload_formatter` 的值，
+   , 在本例中，为 `CustomizedLine`
+4. 启动 IoTDB
+5. 搞定
+
+More: MQTT 协议的消息不限于 line，你还可以用任意二进制。通过如下函数获得：
+`payload.forEachByte()` or `payload.array`。 
