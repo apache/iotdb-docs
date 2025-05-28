@@ -21,18 +21,15 @@
 
 # MQTT 协议
 
-[MQTT](http://mqtt.org/) 是机器对机器（M2M）/“物联网”连接协议。
+## 1. 概述
 
-它被设计为一种非常轻量级的发布/订阅消息传递。
+[MQTT](http://mqtt.org/) 是一种专为物联网（IoT）和低带宽环境设计的轻量级消息传输协议，基于发布/订阅（Pub/Sub）模型，支持设备间高效、可靠的双向通信。其核心目标是低功耗、低带宽消耗和高实时性，尤其适合网络不稳定或资源受限的场景（如传感器、移动设备）。
 
-对于与需要较小代码占用和/或网络带宽非常宝贵的远程位置的连接很有用。
-
-IoTDB 支持 MQTT v3.1（OASIS 标准）协议。
-IoTDB 服务器包括内置的 MQTT 服务，该服务允许远程设备将消息直接发送到 IoTDB 服务器。
+IoTDB 深度集成了 MQTT 协议能力，完整兼容 MQTT v3.1（OASIS 国际标准协议）。IoTDB 服务器内置高性能 MQTT Broker 服务模块，无需第三方中间件，支持设备通过 MQTT 报文将时序数据直接写入 IoTDB 存储引擎。
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/78357432-0c71cf80-75e4-11ea-98aa-c43a54d469ce.png">
 
-## 1. 内置 MQTT 服务
+## 2. 内置 MQTT 服务
 内置的 MQTT 服务提供了通过 MQTT 直接连接到 IoTDB 的能力。 它侦听来自 MQTT 客户端的发布消息，然后立即将数据写入存储。
 MQTT 主题与 IoTDB 时间序列相对应。
 消息有效载荷可以由 Java SPI 加载的`PayloadFormatter`格式化为事件，默认实现为`JSONPayloadFormatter` 
@@ -59,21 +56,23 @@ MQTT 主题与 IoTDB 时间序列相对应。
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/78357469-1bf11880-75e4-11ea-978f-a53996667a0d.png">
 
-## 2. MQTT 配置
+## 3. MQTT 配置
 默认情况下，IoTDB MQTT 服务从`${IOTDB_HOME}/${IOTDB_CONF}/iotdb-system.properties`加载配置。
 
-配置如下：
+具体配置项如下：
 
-| 名称      | 描述         | 默认 |
-| ------------- |:-------------:|:------:|
-| enable_mqtt_service      | 是否启用 mqtt 服务 | false |
-| mqtt_host      | mqtt 服务绑定主机 | 127.0.0.1 |
-| mqtt_port      | mqtt 服务绑定端口 |   1883 |
-| mqtt_handler_pool_size | 处理 mqtt 消息的处理程序池大小 |    1 |
-| mqtt_payload_formatter | mqtt 消息有效负载格式化程序 |    json |
-| mqtt_max_message_size | mqtt 消息最大长度（字节）|   1048576 |
+| **名称**                    | **描述**                                                                                                                                                                        | **默认** |
+|---------------------------| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- |
+| `enable_mqtt_service`       | 是否启用 mqtt 服务                                                                                                                                                                    | FALSE          |
+| `mqtt_host`                 | mqtt 服务绑定主机                                                                                                                                                                     | 127.0.0.1      |
+| `mqtt_port`                 | mqtt 服务绑定端口                                                                                                                                                                     | 1883           |
+| `mqtt_handler_pool_size`    | 处理 mqtt 消息的处理程序池大小                                                                                                                                                        | 1              |
+| **`mqtt_payload_formatter`** | **mqtt**​**​ 消息有效负载格式化程序。**​**可选项：**​​**`json`**​**：仅适用于树模型。**​​**`line`**​**：仅适用于表模型。** | **json** |
+| `mqtt_max_message_size`     | mqtt 消息最大长度（字节）                                                                                                                                                             | 1048576        |
 
-## 示例代码
+
+
+## 4. 代码示例
 以下是 mqtt 客户端将消息发送到 IoTDB 服务器的示例。
 
  ```java
@@ -101,7 +100,7 @@ connection.disconnect();
  ```
 
 
-## 3. 自定义 MQTT 消息格式
+## 5. 自定义 MQTT 消息格式
 
 事实上可以通过简单编程来实现 MQTT 消息的格式自定义。
 可以在源码的 [example/mqtt-customize](https://github.com/apache/iotdb/tree/master/example/mqtt-customize) 项目中找到一个简单示例。
@@ -112,7 +111,7 @@ connection.disconnect();
         <dependency>
             <groupId>org.apache.iotdb</groupId>
             <artifactId>iotdb-server</artifactId>
-            <version>1.3.0-SNAPSHOT</version>
+            <version>2.0.4-SNAPSHOT</version>
         </dependency>
 ```
 2. 创建一个实现类，实现接口 `org.apache.iotdb.db.mqtt.protocol.PayloadFormatter`
@@ -132,7 +131,7 @@ import java.util.List;
 public class CustomizedJsonPayloadFormatter implements PayloadFormatter {
 
     @Override
-    public List<Message> format(ByteBuf payload) {
+    public List<Message> format(String topic, ByteBuf payload) {
         // Suppose the payload is a json format
         if (payload == null) {
             return null;
