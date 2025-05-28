@@ -182,5 +182,5 @@ IoTDB 提供了两种数据建模方式——树模型和表模型，其特点�
 - 每个设备有多个子设备及测点信息，推荐为每类设备建一个表进行管理。
 
 <div style="text-align: center;">
-      <img src="/img/Mdata-model-new-3.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-model-new-3.png" alt="" style="width: 70%;"/>
 </div>
