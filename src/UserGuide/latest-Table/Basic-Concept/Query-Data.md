@@ -195,7 +195,7 @@ It costs 0.278s
 **Example**: Retrieve the latest record for each `device_id`, including the temperature value and the timestamp of the last record.
 
 ```SQL
-IoTDB> SELECT device_id,last(temperature),last_by(time,temperature) 
+IoTDB> SELECT device_id,last(time),last_by(temperature,time) 
          FROM table1 
          GROUP BY device_id;
 ```
@@ -203,12 +203,12 @@ IoTDB> SELECT device_id,last(temperature),last_by(time,temperature)
 **Result**:
 
 ```SQL
-+---------+-----+-----------------------------+
-|device_id|_col1|                        _col2|
-+---------+-----+-----------------------------+
-|      100| 90.0|2024-11-29T18:30:00.000+08:00|
-|      101| 90.0|2024-11-30T14:30:00.000+08:00|
-+---------+-----+-----------------------------+
++---------+-----------------------------+-----+
+|device_id|                        _col1|_col2|
++---------+-----------------------------+-----+
+|      100|2024-11-29T18:30:00.000+08:00| 90.0|
+|      101|2024-11-30T14:30:00.000+08:00| 90.0|
++---------+-----------------------------+-----+
 Total line number = 2
 It costs 0.090s
 ```
