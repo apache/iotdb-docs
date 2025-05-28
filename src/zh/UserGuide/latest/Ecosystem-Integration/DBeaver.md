@@ -19,7 +19,7 @@
 
 -->
 
-# DBeaver(IoTDB)
+# DBeaver
 
 ## 1. 功能简介
 
