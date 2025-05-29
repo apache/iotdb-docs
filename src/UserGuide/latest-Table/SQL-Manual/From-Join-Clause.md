@@ -34,6 +34,8 @@ relation
 joinType
     : INNER?
     | FULL OUTER?
+    | CROSS?
+    | ASOF?
     ;
 
 joinCriteria
@@ -73,6 +75,7 @@ In the current version of IoTDB, the following joins are supported:
 1. **Inner Join**: Combines rows that meet the join condition, effectively returning the intersection of the two tables. The join condition must be an equality condition on the `time` column.
 2. **Full Outer Join**: Returns all records from both tables, inserting `NULL` values for unmatched rows. The join condition can be any equality expression.
 3. **Cross Join**: Represents the Cartesian product of two tables.
+4. ​**​ASOF JOIN​​** (AS OF a specific point in time) is a specialized join operation based on temporal or approximate matching conditions, designed for scenarios where timestamps between two datasets are not perfectly aligned. It matches each row from the left table with the closest corresponding row in the right table that meets the specified conditions (typically the nearest preceding or succeeding timestamp). This operation is widely used for time-series data analysis (e.g., sensor data, financial market feeds).
 
 ### 3.1 Inner Join
 
@@ -131,6 +134,43 @@ joinCriteria
 
 ### 3.3 Cross Join
 A cross join represents the Cartesian product of two tables, returning all possible combinations of the N rows from the left table and the M rows from the right table, resulting in N*M rows. This type of join is the least commonly used in practice.
+
+### 3.4 ​Asof Join
+
+IoTDB ASOF JOIN is an approximate point join method that allows users to perform matching based on the closest timestamp according to specified rules. ​​The current version only supports ASOF INNER JOIN for Time columns.​​
+
+The SQL syntax is as follows:
+
+```SQL
+SELECT selectExpr [, selectExpr] ... FROM 
+<TABLE_NAME1> ASOF[(tolerance theta)] [INNER] JOIN <TABLE_NAME2> joinCriteria 
+[WHERE whereCondition]
+WHERE a.time = tolerance(b.time, 1s)
+
+joinCriteria
+    : ON <TABLE_NAME1>.time comparisonOperator <TABLE_NAME2>.time 
+    ;
+
+comparisonOperator
+    : < | <= | > | >=
+    ;
+```
+
+**​Notes:​​**
+
+* ASOF JOIN defaults to ASOF INNER JOIN implementation.
+* When using the ON keyword for joining, the join condition must include an inequality join condition for the Time column. Only four operators are supported: `">", ">=", "<", "<="`. The corresponding join matching rules are as follows (where lt represents the left table and rt represents the right table):
+
+| Operator                   | Join Method                                   |
+| -------------------------- | ---------------------------------------------- |
+| `lt.time >= rt.time` | The closest timestamp in the left table that is greater than or equal to the right table's timestamp. |
+| `lt.time > rt.time`  | The closest timestamp in the left table that is greater than the right table's timestamp.     |
+| `lt.time <= rt.time` | The closest timestamp in the left table that is less than or equal to the right table's timestamp. |
+| `lt.time < rt.time`  | The closest timestamp in the left table that is less than the right table's timestamp.     |
+
+* `Tolerance parameter​`​: The maximum allowed time difference for searching data in the right table (expressed as a TimeDuration, e.g., 1d for one day). If the Tolerance parameter is not specified, the search time range defaults to ​​infinity​​. ​​Note​​: Currently, this parameter is only supported in ASOF ​​INNER​​ JOIN.
+
+
 
 ## 4. Example Queries
 
@@ -499,4 +539,57 @@ Query Results:
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
 Total line number = 8
 It costs 0.047s
+```
+
+#### 4.2.4 Asof join
+
+​​Example 1​​: Without specifying the tolerance parameter, where the timestamp in table1 is greater than or equal to and closest to the timestamp in table2.
+
+```SQL
+SELECT t1.time as time1, t1.device_id as device1, t1.temperature as temperature1, t2.time as time2, t2.device_id as device2, t2.temperature as temperature2 FROM  table1 t1 ASOF JOIN table2 t2 ON t1.time>=t2.time;
+```
+
+Query Results:
+
+```SQL
++-----------------------------+-------+------------+-----------------------------+-------+------------+
+|                        time1|device1|temperature1|                        time2|device2|temperature2|
++-----------------------------+-------+------------+-----------------------------+-------+------------+
+|2024-11-30T14:30:00.000+08:00|    101|        90.0|2024-11-30T00:00:00.000+08:00|    101|        90.0|
+|2024-11-30T09:30:00.000+08:00|    101|        90.0|2024-11-30T00:00:00.000+08:00|    101|        90.0|
+|2024-11-29T18:30:00.000+08:00|    100|        90.0|2024-11-29T11:00:00.000+08:00|    100|        null|
+|2024-11-29T11:00:00.000+08:00|    100|        null|2024-11-29T11:00:00.000+08:00|    100|        null|
+|2024-11-29T10:00:00.000+08:00|    101|        85.0|2024-11-29T00:00:00.000+08:00|    101|        85.0|
+|2024-11-28T11:00:00.000+08:00|    100|        88.0|2024-11-28T08:00:00.000+08:00|    100|        85.0|
+|2024-11-28T10:00:00.000+08:00|    100|        85.0|2024-11-28T08:00:00.000+08:00|    100|        85.0|
+|2024-11-28T09:00:00.000+08:00|    100|        null|2024-11-28T08:00:00.000+08:00|    100|        85.0|
+|2024-11-28T08:00:00.000+08:00|    100|        85.0|2024-11-28T08:00:00.000+08:00|    100|        85.0|
+|2024-11-27T16:44:00.000+08:00|    101|        null|2024-11-27T00:00:00.000+08:00|    101|        85.0|
+|2024-11-27T16:43:00.000+08:00|    101|        null|2024-11-27T00:00:00.000+08:00|    101|        85.0|
+|2024-11-27T16:42:00.000+08:00|    101|        null|2024-11-27T00:00:00.000+08:00|    101|        85.0|
+|2024-11-27T16:41:00.000+08:00|    101|        85.0|2024-11-27T00:00:00.000+08:00|    101|        85.0|
+|2024-11-27T16:40:00.000+08:00|    101|        85.0|2024-11-27T00:00:00.000+08:00|    101|        85.0|
+|2024-11-27T16:39:00.000+08:00|    101|        85.0|2024-11-27T00:00:00.000+08:00|    101|        85.0|
+|2024-11-27T16:38:00.000+08:00|    101|        null|2024-11-27T00:00:00.000+08:00|    101|        85.0|
+|2024-11-26T13:38:00.000+08:00|    100|        90.0|2024-11-26T13:37:00.000+08:00|    100|        90.0|
+|2024-11-26T13:37:00.000+08:00|    100|        90.0|2024-11-26T13:37:00.000+08:00|    100|        90.0|
++-----------------------------+-------+------------+-----------------------------+-------+------------+
+```
+
+Example 2​​: With the tolerance parameter specified, where the timestamp in table1 is greater than or equal to and closest to the timestamp in table2.
+
+```SQL
+SELECT t1.time as time1, t1.device_id as device1, t1.temperature as temperature1, t2.time as time2, t2.device_id as device2, t2.temperature as temperature2 FROM table1 t1 ASOF(tolerance 2s) JOIN table2 t2 ON t1.time>=t2.time;
+```
+
+Query Results:
+
+```SQL
++-----------------------------+-------+------------+-----------------------------+-------+------------+
+|                        time1|device1|temperature1|                        time2|device2|temperature2|
++-----------------------------+-------+------------+-----------------------------+-------+------------+
+|2024-11-29T11:00:00.000+08:00|    100|        null|2024-11-29T11:00:00.000+08:00|    100|        null|
+|2024-11-28T08:00:00.000+08:00|    100|        85.0|2024-11-28T08:00:00.000+08:00|    100|        85.0|
+|2024-11-26T13:37:00.000+08:00|    100|        90.0|2024-11-26T13:37:00.000+08:00|    100|        90.0|
++-----------------------------+-------+------------+-----------------------------+-------+------------+
 ```
