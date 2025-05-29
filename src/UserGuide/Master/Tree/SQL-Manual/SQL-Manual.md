@@ -120,13 +120,13 @@ For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metad
 **Example 1:** Create a template containing two non-aligned timeseires
 
 ```shell
-IoTDB> create device template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
+IoTDB> create device template t1 (temperature FLOAT, status BOOLEAN)
 ```
 
 **Example 2:** Create a template containing a group of aligned timeseires
 
 ```shell
-IoTDB> create device template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)
+IoTDB> create device template t2 aligned (lat FLOAT, lon FLOAT)
 ```
 
 The` lat` and `lon` measurements are aligned.
@@ -179,7 +179,7 @@ IoTDB> drop device template t1
 ### 2.8 Alter Device Template
 
 ```sql
-IoTDB> alter device template t1 add (speed FLOAT encoding=RLE, FLOAT TEXT encoding=PLAIN compression=SNAPPY)
+IoTDB> alter device template t1 add (speed FLOAT, FLOAT TEXT)
 ```
 
 ## 3. TIMESERIES MANAGEMENT
@@ -189,36 +189,36 @@ For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metad
 ### 3.1 Create Timeseries
 
 ```sql
-IoTDB > create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN,encoding=PLAIN
-IoTDB > create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT,encoding=RLE
-IoTDB > create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT,encoding=PLAIN
-IoTDB > create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN,encoding=PLAIN
-IoTDB > create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN,encoding=PLAIN
-IoTDB > create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT,encoding=RLE
+IoTDB > create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN
+IoTDB > create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT
+IoTDB > create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT
+IoTDB > create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN
+IoTDB > create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN
+IoTDB > create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT
 ```
 
 - From v0.13, you can use a simplified version of the SQL statements to create timeseries:
 
 ```sql
-IoTDB > create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN,encoding=PLAIN
-IoTDB > create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT,encoding=RLE
-IoTDB > create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT,encoding=PLAIN
-IoTDB > create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN,encoding=PLAIN
-IoTDB > create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN,encoding=PLAIN
-IoTDB > create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT,encoding=RLE
+IoTDB > create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN
+IoTDB > create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT
+IoTDB > create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT
+IoTDB > create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN
+IoTDB > create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN
+IoTDB > create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT
 ```
 
 - Notice that when in the CREATE TIMESERIES statement the encoding method conflicts with the data type, the system gives the corresponding error prompt as shown below:
 
 ```sql
-IoTDB > create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODING=TS_2DIFF
+IoTDB > create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN
 error: encoding TS_2DIFF does not support BOOLEAN
 ```
 
 ### 3.2 Create Aligned Timeseries
 
 ```sql
-IoTDB> CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT encoding=PLAIN compressor=SNAPPY, longitude FLOAT encoding=PLAIN compressor=SNAPPY)
+IoTDB> CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT , longitude FLOAT)
 ```
 
 ### 3.3 Delete Timeseries
@@ -260,7 +260,7 @@ IoTDB > COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2
 ### 3.6 Tag and Attribute Management
 
 ```sql
-create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT, encoding=RLE, compression=SNAPPY tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2)
+create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2)
 ```
 
 * Rename the tag/attribute key

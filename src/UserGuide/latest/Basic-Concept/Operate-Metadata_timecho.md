@@ -365,20 +365,27 @@ CREATE DEVICE TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeCla
 **Example 1:** Create a template containing two non-aligned timeseries
 
 ```shell
-IoTDB> create device template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
+IoTDB> create device template t1 (temperature FLOAT, status BOOLEAN)
 ```
 
 **Example 2:** Create a template containing a group of aligned timeseries
 
 ```shell
-IoTDB> create device template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)
+IoTDB> create device template t2 aligned (lat FLOAT, lon FLOAT)
 ```
 
 The` lat` and `lon` measurements are aligned.
 
-![img](/img/%E6%A8%A1%E6%9D%BF.png)
+When creating a template, the system will automatically assign default encoding and compression methods, requiring no manual specification. If your business scenario requires custom adjustments, you may refer to the following example:
 
-![img](/img/templateEN.jpg)
+```shell
+IoTDB> create device template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
+```
+For a full list of supported data types and corresponding encoding methods, please refer to [Compression & Encoding](../Technical-Insider/Encoding-and-Compression.md)。
+
+![](/img/%E6%A8%A1%E6%9D%BF.png)
+
+![](/img/templateEN.jpg)
 
 ### 2.2 Set Device Template
 
@@ -575,7 +582,7 @@ In a scenario where measurements need to be added, you can modify the  template 
 The SQL Statement for altering device template is as follow:
 
 ```shell
-IoTDB> alter device template t1 add (speed FLOAT encoding=RLE, FLOAT TEXT encoding=PLAIN compression=SNAPPY)
+IoTDB> alter device template t1 add (speed FLOAT, FLOAT TEXT)
 ```
 
 **When executing data insertion to devices with device template set on related prefix path and there are measurements not present in this device template, the measurements will be auto added to this device template.**
@@ -587,40 +594,47 @@ IoTDB> alter device template t1 add (speed FLOAT encoding=RLE, FLOAT TEXT encodi
 According to the storage model selected before, we can create corresponding timeseries in the two databases respectively. The SQL statements for creating timeseries are as follows:
 
 ```
-IoTDB > create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN,encoding=PLAIN
-IoTDB > create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT,encoding=RLE
-IoTDB > create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT,encoding=PLAIN
-IoTDB > create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN,encoding=PLAIN
-IoTDB > create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN,encoding=PLAIN
-IoTDB > create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT,encoding=RLE
+IoTDB > create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN
+IoTDB > create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT
+IoTDB > create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT
+IoTDB > create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN
+IoTDB > create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN
+IoTDB > create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT
 ```
 
 From v0.13, you can use a simplified version of the SQL statements to create timeseries:
 
 ```
-IoTDB > create timeseries root.ln.wf01.wt01.status BOOLEAN encoding=PLAIN
-IoTDB > create timeseries root.ln.wf01.wt01.temperature FLOAT encoding=RLE
-IoTDB > create timeseries root.ln.wf02.wt02.hardware TEXT encoding=PLAIN
-IoTDB > create timeseries root.ln.wf02.wt02.status BOOLEAN encoding=PLAIN
-IoTDB > create timeseries root.sgcc.wf03.wt01.status BOOLEAN encoding=PLAIN
-IoTDB > create timeseries root.sgcc.wf03.wt01.temperature FLOAT encoding=RLE
+IoTDB > create timeseries root.ln.wf01.wt01.status BOOLEAN
+IoTDB > create timeseries root.ln.wf01.wt01.temperature FLOAT
+IoTDB > create timeseries root.ln.wf02.wt02.hardware TEXT
+IoTDB > create timeseries root.ln.wf02.wt02.status BOOLEAN
+IoTDB > create timeseries root.sgcc.wf03.wt01.status BOOLEAN
+IoTDB > create timeseries root.sgcc.wf03.wt01.temperature FLOAT
 ```
 
-Notice that when in the CREATE TIMESERIES statement the encoding method conflicts with the data type, the system gives the corresponding error prompt as shown below:
+When creating a timeseries, the system will automatically assign default encoding and compression methods, requiring no manual specification. If your business scenario requires custom adjustments, you may refer to the following example:
+
+```shell
+IoTDB > create timeseries root.sgcc.wf03.wt01.temperature FLOAT encoding=PLAIN compressor=SNAPPY
+```
+
+Note that if you manually specify an encoding method that is incompatible with the data type, the system will return an error message, as shown below:
 
 ```
 IoTDB > create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODING=TS_2DIFF
 error: encoding TS_2DIFF does not support BOOLEAN
 ```
 
-Please refer to [Encoding](../Technical-Insider/Encoding-and-Compression.md) for correspondence between data type and encoding.
+For a full list of supported data types and corresponding encoding methods, please refer to [Compression & Encoding](../Technical-Insider/Encoding-and-Compression.md)。
+
 
 ### 3.2 Create Aligned Timeseries
 
 The SQL statement for creating a group of timeseries are as follows:
 
 ```
-IoTDB> CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT encoding=PLAIN compressor=SNAPPY, longitude FLOAT encoding=PLAIN compressor=SNAPPY)
+IoTDB> CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT, longitude FLOAT)
 ```
 
 You can set different datatype, encoding, and compression for the timeseries in a group of aligned timeseries
@@ -921,7 +935,7 @@ The differences between tag and attribute are:
 The SQL statements for creating timeseries with extra tag and attribute information are extended as follows:
 
 ```
-create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT, encoding=RLE, compression=SNAPPY tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2)
+create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2)
 ```
 
 The `temprature` in the brackets is an alias for the sensor `s1`. So we can use `temprature` to replace `s1` anywhere.

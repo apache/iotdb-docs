@@ -662,7 +662,7 @@ Result:
 ##### Insert sql
 ```sql
 "CREATE DATABASE root.db",
-"CREATE TIMESERIES root.db.d1.s1 WITH DATATYPE=INT32, ENCODING=PLAIN tags(city=Beijing)",
+"CREATE TIMESERIES root.db.d1.s1 WITH DATATYPE=INT32 tags(city=Beijing)",
 "INSERT INTO root.db.d1(timestamp,s1,s2,s3) values(1, 2, 10, true)",
 "INSERT INTO root.db.d1(timestamp,s1,s2,s3) values(2, null, 20, true)",
 "INSERT INTO root.db.d1(timestamp,s1,s2,s3) values(3, 10, 0, null)",
@@ -715,10 +715,10 @@ Result:
 ##### Insert sql
 ```sql
 CREATE DATABASE root.db;
-CREATE TIMESERIES root.db.d1.s1 WITH DATATYPE=INT32, ENCODING=PLAIN;
-CREATE TIMESERIES root.db.d1.s2 WITH DATATYPE=INT32, ENCODING=PLAIN;
-CREATE TIMESERIES root.db.d2.s1 WITH DATATYPE=INT32, ENCODING=PLAIN;
-CREATE TIMESERIES root.db.d2.s2 WITH DATATYPE=INT32, ENCODING=PLAIN;
+CREATE TIMESERIES root.db.d1.s1 WITH DATATYPE=INT32;
+CREATE TIMESERIES root.db.d1.s2 WITH DATATYPE=INT32;
+CREATE TIMESERIES root.db.d2.s1 WITH DATATYPE=INT32;
+CREATE TIMESERIES root.db.d2.s2 WITH DATATYPE=INT32;
 INSERT INTO root.db.d1(time, s1) VALUES(0, 0), (4,4), (5,5), (8,8);
 INSERT INTO root.db.d1(time, s2) VALUES(1, 1), (2,2), (5,5), (7,7), (8,8), (9,9);
 INSERT INTO root.db.d2(time, s1) VALUES(1, 1), (2,2), (5,5), (7,7), (8,8);

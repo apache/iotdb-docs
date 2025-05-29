@@ -40,36 +40,36 @@ count databases root.sgcc
 #### 创建时间序列
 
 ```sql
-create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN,encoding=PLAIN
-create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT,encoding=RLE
-create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT,encoding=PLAIN
-create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN,encoding=PLAIN
-create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN,encoding=PLAIN
-create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT,encoding=RLE
+create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN
+create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT
+create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT
+create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN
+create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN
+create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT
 ```
 
 - 简化版
 
 ```sql
-create timeseries root.ln.wf01.wt01.status BOOLEAN encoding=PLAIN
-create timeseries root.ln.wf01.wt01.temperature FLOAT encoding=RLE
-create timeseries root.ln.wf02.wt02.hardware TEXT encoding=PLAIN
-create timeseries root.ln.wf02.wt02.status BOOLEAN encoding=PLAIN
-create timeseries root.sgcc.wf03.wt01.status BOOLEAN encoding=PLAIN
-create timeseries root.sgcc.wf03.wt01.temperature FLOAT encoding=RLE
+create timeseries root.ln.wf01.wt01.status BOOLEAN
+create timeseries root.ln.wf01.wt01.temperature FLOAT
+create timeseries root.ln.wf02.wt02.hardware TEXT
+create timeseries root.ln.wf02.wt02.status BOOLEAN
+create timeseries root.sgcc.wf03.wt01.status BOOLEAN
+create timeseries root.sgcc.wf03.wt01.temperature FLOAT
 ```
 
 - 错误提示
 
 ```sql
-create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODING=TS_2DIFF
+create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN
 > error: encoding TS_2DIFF does not support BOOLEAN
 ```
 
 #### 创建对齐时间序列
 
 ```sql
-CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT encoding=PLAIN compressor=SNAPPY, longitude FLOAT encoding=PLAIN compressor=SNAPPY) 
+CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT, longitude FLOAT) 
 ```
 
 #### 删除时间序列
@@ -116,7 +116,7 @@ COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2
 #### 标签点管理
 
 ```sql
-create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT, encoding=RLE, compression=SNAPPY tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2)
+create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2)
 ```
 
 - 重命名标签或属性
@@ -267,11 +267,11 @@ CREATE DEVICE TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeCla
 
 创建包含两个非对齐序列的设备模板
 ```sql
-IoTDB> create device template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
+IoTDB> create device template t1 (temperature FLOAT, status BOOLEAN)
 ```
 创建包含一组对齐序列的设备模板
 ```sql
-IoTDB> create device template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)
+IoTDB> create device template t2 aligned (lat FLOAT, lon FLOAT)
 ```
 #### 挂载设备模板
 ```sql

@@ -359,16 +359,22 @@ CREATE DEVICE TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeCla
 **示例1：** 创建包含两个非对齐序列的元数据模板
 
 ```shell
-IoTDB> create device template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
+IoTDB> create device template t1 (temperature FLOAT, status BOOLEAN )
 ```
 
 **示例2：** 创建包含一组对齐序列的元数据模板
 
 ```shell
-IoTDB> create device template t2 aligned (lat FLOAT encoding=Gorilla, lon FLOAT encoding=Gorilla)
+IoTDB> create device template t2 aligned (lat FLOAT, lon FLOAT)
 ```
 
 其中，物理量 `lat` 和 `lon` 是对齐的。
+
+创建模板时，系统会默认指定编码压缩方式，无需手动指定，若业务场景需要手动调整，可参考如下示例：
+```shell
+IoTDB> create device template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
+```
+更多详细的数据类型与编码方式的对应列表请参见 [压缩&编码](../Technical-Insider/Encoding-and-Compression.md)。
 
 ### 2.2 挂载设备模板
 
@@ -557,7 +563,7 @@ IoTDB> drop device template t1
 修改设备模板的 SQL 语句如下所示：
 
 ```shell
-IoTDB> alter device template t1 add (speed FLOAT encoding=RLE, FLOAT TEXT encoding=PLAIN compression=SNAPPY)
+IoTDB> alter device template t1 add (speed FLOAT, FLOAT TEXT)
 ```
 
 **向已挂载模板的路径下的设备中写入数据，若写入请求中的物理量不在模板中，将自动扩展模板。**
@@ -570,39 +576,45 @@ IoTDB> alter device template t1 add (speed FLOAT encoding=RLE, FLOAT TEXT encodi
 根据建立的数据模型，我们可以分别在两个数据库中创建相应的时间序列。创建时间序列的 SQL 语句如下所示：
 
 ```
-IoTDB > create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN,encoding=PLAIN
-IoTDB > create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT,encoding=RLE
-IoTDB > create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT,encoding=PLAIN
-IoTDB > create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN,encoding=PLAIN
-IoTDB > create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN,encoding=PLAIN
-IoTDB > create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT,encoding=RLE
+IoTDB > create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN
+IoTDB > create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT
+IoTDB > create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT
+IoTDB > create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN
+IoTDB > create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN
+IoTDB > create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT
 ```
 
 从 v0.13 起，可以使用简化版的 SQL 语句创建时间序列：
 
 ```
-IoTDB > create timeseries root.ln.wf01.wt01.status BOOLEAN encoding=PLAIN
-IoTDB > create timeseries root.ln.wf01.wt01.temperature FLOAT encoding=RLE
-IoTDB > create timeseries root.ln.wf02.wt02.hardware TEXT encoding=PLAIN
-IoTDB > create timeseries root.ln.wf02.wt02.status BOOLEAN encoding=PLAIN
-IoTDB > create timeseries root.sgcc.wf03.wt01.status BOOLEAN encoding=PLAIN
-IoTDB > create timeseries root.sgcc.wf03.wt01.temperature FLOAT encoding=RLE
+IoTDB > create timeseries root.ln.wf01.wt01.status BOOLEAN
+IoTDB > create timeseries root.ln.wf01.wt01.temperature FLOAT
+IoTDB > create timeseries root.ln.wf02.wt02.hardware TEXT
+IoTDB > create timeseries root.ln.wf02.wt02.status BOOLEAN
+IoTDB > create timeseries root.sgcc.wf03.wt01.status BOOLEAN
+IoTDB > create timeseries root.sgcc.wf03.wt01.temperature FLOAT
 ```
 
-需要注意的是，当创建时间序列时指定的编码方式与数据类型不对应时，系统会给出相应的错误提示，如下所示：
+创建时间序列时，系统会默认指定编码压缩方式，无需手动指定，若业务场景需要手动调整，可参考如下示例：
+```
+IoTDB > create timeseries root.sgcc.wf03.wt01.temperature FLOAT encoding=PLAIN compressor=SNAPPY
+```
+
+需要注意的是，如果手动指定了编码方式，但与数据类型不对应时，系统会给出相应的错误提示，如下所示：
 ```
 IoTDB> create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODING=TS_2DIFF
 error: encoding TS_2DIFF does not support BOOLEAN
 ```
 
-详细的数据类型与编码方式的对应列表请参见 [编码方式](../Technical-Insider/Encoding-and-Compression.md)。
+更多详细的数据类型与编码压缩方式的对应列表请参见 [压缩&编码](../Technical-Insider/Encoding-and-Compression.md)。
+
 
 ### 3.2 创建对齐时间序列
 
 创建一组对齐时间序列的SQL语句如下所示：
 
 ```
-IoTDB> CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT encoding=PLAIN compressor=SNAPPY, longitude FLOAT encoding=PLAIN compressor=SNAPPY) 
+IoTDB> CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT, longitude FLOAT) 
 ```
 
 一组对齐序列中的序列可以有不同的数据类型、编码方式以及压缩方式。
