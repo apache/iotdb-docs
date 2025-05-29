@@ -139,6 +139,7 @@ IoTDB> SELECT time, temperature, humidity
 Total line number = 7
 It costs 0.106s
 ```
+
 **Example 3:Multi device time aligned query**
 
 ```SQL
@@ -326,11 +327,11 @@ IoTDB> SELECT date_bin_gapfill(1s, TIME) AS b_time,
 **Example: Aligning multiple sequences by integer time:**
 
 ```SQL
-IoTDB> SELECT A.a_time AS TIME,
+IoTDB> SELECT time,
               a_value,
               b_value
        FROM
-         (SELECT date_bin_gapfill(1s, TIME) AS a_time,
+         (SELECT date_bin_gapfill(1s, TIME) AS time,
                  first(temperature) AS a_value
           FROM table1
           WHERE device_id = 'd1'
@@ -338,14 +339,14 @@ IoTDB> SELECT A.a_time AS TIME,
             AND TIME <= 2025-05-13 00:00:07.000
           GROUP BY 1 FILL METHOD PREVIOUS) A
        JOIN
-         (SELECT date_bin_gapfill(1s, TIME) AS b_time,
+         (SELECT date_bin_gapfill(1s, TIME) AS time,
                  first(humidity) AS b_value
           FROM table2
           WHERE device_id = 'd1'
             AND TIME >= 2025-05-13 00:00:00.000
             AND TIME <= 2025-05-13 00:00:07.000
           GROUP BY 1 FILL METHOD PREVIOUS) B 
-       ON A.a_time=B.b_time
+       USING (time)
 ```
 
 **Result:**
@@ -368,11 +369,11 @@ IoTDB> SELECT A.a_time AS TIME,
 **Example:**
 
 ```SQL
-IoTDB> SELECT A.a_time AS TIME,
+IoTDB> SELECT time,
               a_value,
               b_value
        FROM
-         (SELECT date_bin_gapfill(1s, TIME) AS a_time,
+         (SELECT date_bin_gapfill(1s, TIME) AS time,
                  first(temperature) AS a_value
           FROM table1
           WHERE device_id = 'd1'
@@ -380,14 +381,14 @@ IoTDB> SELECT A.a_time AS TIME,
             AND TIME <= 2025-05-13 00:00:07.000
           GROUP BY 1) A
        JOIN
-         (SELECT date_bin_gapfill(1s, TIME) AS b_time,
+         (SELECT date_bin_gapfill(1s, TIME) AS time,
                  first(humidity) AS b_value
           FROM table2
           WHERE device_id = 'd1'
             AND TIME >= 2025-05-13 00:00:00.000
             AND TIME <= 2025-05-13 00:00:07.000
           GROUP BY 1) B 
-       ON A.a_time=B.b_time
+       USING (time)
 ```
 
 **Result:**
@@ -486,11 +487,11 @@ IoTDB> SELECT date_bin_gapfill(1s, TIME) AS c_time,
 **Example: Aligning multiple sequences by the higher sampling frequency:**
 
 ```SQL
-IoTDB> SELECT A.a_time AS TIME,
+IoTDB> SELECT time,
               a_value,
               c_value
        FROM
-         (SELECT date_bin_gapfill(1s, TIME) AS a_time,
+         (SELECT date_bin_gapfill(1s, TIME) AS time,
                  first(temperature) AS a_value
           FROM table1
           WHERE device_id = 'd1'
@@ -498,14 +499,14 @@ IoTDB> SELECT A.a_time AS TIME,
             AND TIME <= 2025-05-13 00:00:07.000
           GROUP BY 1 FILL METHOD PREVIOUS) A
        JOIN
-         (SELECT date_bin_gapfill(1s, TIME) AS c_time,
+         (SELECT date_bin_gapfill(1s, TIME) AS time,
                  first(humidity) AS c_value
           FROM table3
           WHERE device_id = 'd1'
             AND TIME >= 2025-05-13 00:00:00.000
             AND TIME <= 2025-05-13 00:00:07.000
           GROUP BY 1 FILL METHOD PREVIOUS) C 
-       ON A.a_time=C.c_time
+       USING (time)
 ```
 
 **Result:**
