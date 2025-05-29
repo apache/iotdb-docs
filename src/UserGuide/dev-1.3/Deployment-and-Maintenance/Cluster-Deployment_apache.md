@@ -388,7 +388,7 @@ remove datanode [datanode_id]
       # 2. Check for any remaining processes
       jps
       # Or
-      ps -ef|gerp iotdb
+      ps -ef|grep iotdb
 
       # 3. If there are any remaining processes, manually kill the
       kill -9 <pid>
