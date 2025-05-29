@@ -1,7 +1,10 @@
 # Data Export
 
 ## 1. Overview
-The data export tool, export-data.sh (Unix/OS X) or export-data.bat (Windows), located in the tools directory, allows users to export query results from specified SQL statements into CSV, SQL, or TsFile (open-source time-series file format) formats. The specific functionalities are as follows:
+IoTDB supports three methods for data export:
+
+* The data export tool: `export-data.sh/bat` is located in the tools directory, allows users to export query results from specified SQL statements into CSV, SQL, or TsFile (open-source time-series file format) formats. The specific functionalities are as follows:
+* ExportTsFile based on data subscription: `export_tsfile.sh/bat` is located in the tools directory and can export specified data files to TsFile format using data subscription.
 
 <table style="text-align: left;">
   <tbody>
@@ -19,14 +22,18 @@ The data export tool, export-data.sh (Unix/OS X) or export-data.bat (Windows), l
             <td>File containing custom SQL statements.</td> 
       </tr>
        <tr>
-            <td >TsFile</td> 
+            <td rowspan="2">TsFile</td> 
             <td>Open-source time-series file format.</td>
       </tr> 
+      <tr>
+            <td>export_tsfile.sh/bat</td>  
+            <td>Open-source time-series file format.</td> 
+      </tr>
 </tbody>
 </table>
 
 
-## 2. Detailed Functionality
+## 2. Data Export Tool
 ### 2.1 Common Parameters
 | Short          | Full Parameter           | Description                                                                                                                 | Required        | Default                                       |
 | ---------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------------- |-----------------------------------------------|
@@ -75,7 +82,7 @@ The data export tool, export-data.sh (Unix/OS X) or export-data.bat (Windows), l
 > tools/export-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root
 Parse error: Missing required option: t
 ```
-## 2.3 SQL Format
+### 2.3 SQL Format
 #### 2.3.1 Command
 ```Shell
 # Unix/OS X
@@ -137,4 +144,52 @@ Parse error: Missing required option: t
 # Error Example
 > tools/export-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw root
 Parse error: Missing required option: t
+```
+
+## 3. ExportTsFile Based on Data Subscription
+
+The `export-tsfile.sh/bat` script supported in IoTDB V2.0.4.x can automatically create a data subscription with TsFile as the PayLoad, exporting specified data files into TsFile format.
+
+### 3.1 Command
+
+```Shell
+# Unix/OS X
+> tools/export-tsfile.sh [-sql_dialect <sql_dialect>] [-h <host>] [-p <port>]
+       [-u <username>] [-pw <password>] [-path <path>]  [-start_time <start_time>] [-end_time <end_time>] [-t
+       <target_directory>] [-tn <thread_num>] [-help]
+      
+# Windows
+> tools\windows>export-tsfile.bat [-sql_dialect <sql_dialect>] [-h <host>] [-p <port>]
+       [-u <username>] [-pw <password>] [-path <path>] [-start_time <start_time>] [-end_time <end_time>] [-t
+       <target_directory>] [-tn <thread_num>] [-help]
+```
+
+### 3.2 Parameters
+
+| Short          | Full Parameter                | Description                                                            | Required | Default                    |
+| -------------------- |-----------------|------------------------------------------------------------------------|----------|----------------------------|
+| `-sql_dialect` | `--sql_dialect` | Choose between tree or table model for the source data.                | No       | `tree`                     |
+| `-h`           | `--host`        | IP address of the server node where the source data resides.           | No       | `127.0.0.1`                |
+| `-p`           | `--port`        | Port number of the source data server.                                 | No       | `6667`                     |
+| `-u`           | `--user`        | username                                                               | No       | `root`                     |
+| `-pw`          | `--password`    | password                                                               | No       | `root`                     |
+| `-t`           | `-target`       | Directory path to save the exported files.                             | No       | `$IOTDB_HOME/tools/target` |
+| `-path`        | `--path`        | Sequence path prefix for tree model exports. Windows: wrap paths in "" | No       | `root.**`                  |
+| `-start_time`  | `--start_time`  | Beginning timestamp of the data to export                              | No       | -                          |
+| `-end_time`    | `--end_time`    | Ending timestamp of the data to export                                 | No       | -                          |
+| `-tn`          | `--thread_num`  | Number of parallel threads for export.                                 | No       | -                          |
+| `-help`        | `--help`        | Display usage instructions and parameter details.                      |          | -                          |
+
+### 3.3 Examples
+
+```Bash
+> tools\windows>export-tsfile.bat -sql_dialect tree -path "root.**"
+
+Starting IoTDB Client Export Script
+
+sequence-root.db-10-2887-1746520919075-1-1-0.tsfile
+sequence-root.db-9-2887-1746520891051-1-1-0.tsfile
+sequence-root.db-10-2889-1747361763179-1-0-0.tsfile
+Export TsFile Count: 3
+
 ```
