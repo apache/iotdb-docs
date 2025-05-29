@@ -19,78 +19,109 @@
 
 -->
 
-# DBeaver(IoTDB)
+# DBeaver
 
-DBeaver is a SQL client software application and a database administration tool. It can use the JDBC application programming interface (API) to interact with IoTDB via the JDBC driver. 
+## 1. Feature Overview
 
-## 1. DBeaver Installation
+DBeaver is an open-source universal database management tool that supports core functionalities including data query and visualization, metadata management, data import/export, and driver extensions. It provides a cross-platform graphical interface for various databases (e.g., MySQL, PostgreSQL, Oracle).
 
-* From DBeaver site: https://dbeaver.io/download/
+![](/img/dbeaver-new-1-en.png)
 
-## 2. IoTDB Installation
+## 2. Prerequisites
 
-* Download binary version
-  * From IoTDB site: https://iotdb.apache.org/Download/
-  * Version >= 0.13.0
-* Or compile from source code
-  * See https://github.com/apache/iotdb
+Ensure DBeaver and IoTDB are installed:
 
-## 3. Connect IoTDB and DBeaver
+- DBeaver download: https://dbeaver.io/download/
 
-1. Start IoTDB server
+- IoTDB download: https://iotdb.apache.org/Download/
 
-   ```shell
-   ./sbin/start-server.sh
-   ```
-2. Start DBeaver
-3. Open Driver Manager
+## 3. Configuration Guide
 
-   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/01.png)
+### 3.1 Download Driver
 
-4. Create a new driver type for IoTDB
+Select the appropriate version of the JAR package (choose the `jar-with-dependencies.jar` variant):
 
-   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/02.png)
+- Option 1: https://repo1.maven.org/maven2/com/timecho/iotdb/iotdb-jdbc/2.0.3.3/iotdb-jdbc-2.0.3.3-jar-with-dependencies.jar
 
-5. Download `iotdb-jdbc`， from [source1](https://maven.proxy.ustclug.org/maven2/org/apache/iotdb/iotdb-jdbc/) or [source2](https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/)，choose the corresponding jar file，download the suffix `jar-with-dependencies.jar` file.
-   ![](/img/20230920-192746.jpg)
-   
-6. Add the downloaded jar file， then select `Find Class`.
+- Option 2: https://repo1.maven.org/maven2/com/timecho/iotdb/iotdb-jdbc/2.0.3.3/
 
-   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/03.png)
+![](/img/dbeaver-new-2.png)
 
-7. Edit the driver Settings
+### 3.2 Configure Driver
 
-   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/05.png)
+#### Step 1: Open Driver Manager and Create New Driver
 
-   ```
-   Driver Name: IoTDB
-   Driver Type: Generic
-   URL Template: jdbc:iotdb://{host}:{port}/
-   Default Port: 6667
-   Default User: root
-   ```
+1. Navigate to `Database` → `Driver Manager` in the toolbar.
 
-8. Open New DataBase Connection and select iotdb
+![](/img/dbeaver-new-3-en.png)
 
-   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/06.png) 
+2. Click `New` to create a new driver configuration.
 
-9.  Edit JDBC Connection Settings
+![](/img/dbeaver-new-4-en.png)
 
-   ```
-   JDBC URL: jdbc:iotdb://127.0.0.1:6667/
-   Username: root
-   Password: root
-   ```
-   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/07.png)
+#### Step 2: Configure Driver Details
 
-10. Test Connection
+1. Under the `Libraries` tab, click `Add` File.
 
-   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/08.png)
+2. Select the downloaded IoTDB JDBC driver (e.g., `iotdb-jdbc-2.0.3-jar-with-dependencies.jar`).
 
-11. Enjoy IoTDB with DBeaver
+3. Click `Find Class` to auto-detect the driver class.
 
-   ![](/img/UserGuide/Ecosystem-Integration/DBeaver/09.png)
+![](/img/dbeaver-new-5-en.png)
 
-12. DBeaver tree structure display
+4. Configure the following driver settings:
 
-   ![](/img/dbeaver01.png)
+* ​Driver Name​​: IoTDB
+* ​Class Name​​: org.apache.iotdb.jdbc.IoTDBDriver
+* ​URL Template​​: jdbc:iotdb://{host}:{port}/
+* ​Default Port​​: 6667
+* ​​Default User​​: root
+
+  ![](/img/dbeaver-new-6-en.png)
+
+#### Step 3: Create and Test Connection
+
+1. Click the `Create Connection` icon.
+
+2. Search for IoTDB, select it, and click Next. Choose the `URL` connection method.
+
+ ![](/img/dbeaver-new-7-en.png)
+
+3. Complete the `JDBC URL` and enter the IoTDB database password. For tree model, select the `Host` connection method.
+
+ ![](/img/dbeaver-new-8-tree-en.png)
+
+4. Click `Test Connection`. A successful connection will display Connected with server and driver versions.
+
+ ![](/img/dbeaver-new-9-en.png)
+
+
+## 4. Usage Guide
+
+1. ​​Database Overview​​
+
+Navigate to the left-side `Database Navigator` to view database details, including database name, device names, measurement names, and data types.
+
+ ![](/img/dbeaver-new-tree-1-en.png)
+
+ 2. ​​Devices and Measurements​​
+
+Double-click a device in the database list to display its properties. The `Columns` tab shows detailed measurement information.
+
+ ![](/img/dbeaver-new-tree-2-en.png)
+
+ 3. ​​Data View​​
+
+Switch to the `Data` tab to explore all stored data for the selected measurement.
+
+ ![](/img/dbeaver-new-tree-3-en.png)
+
+ 4. ​​Functions and Data Types​​
+
+Under `Database Navigator` → `Procedures`, view all supported functions.
+
+ ![](/img/dbeaver-new-tree-4-en.png)
+
+The `Data Types` tab lists all currently supported data types.
+
+ ![](/img/dbeaver-new-tree-5-en.png) 
