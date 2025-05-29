@@ -117,7 +117,7 @@ The application scenarios mainly include three categories:
 - If different types of devices in the scenario have different hierarchical paths and data point sets, create branches under the database node by device type. Each device type can have a different data point structure.
 
 <div style="text-align: center;">
-      <img src="/img/Data-model-en-11.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-model-new-1-en.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.1.3.2 How to model when there are no devices, only data points?
@@ -169,7 +169,7 @@ The application scenarios mainly include three categories:
 - Even if devices are related or have hierarchical relationships, it is recommended to create a table for each type of device.
 
 <div style="text-align: center;">
-      <img src="/img/Data-model-en04.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-model-new-2-en.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.2.3.2 How to model when there are no device identifier columns or attribute columns?
@@ -185,7 +185,7 @@ The application scenarios mainly include three categories:
 - Each device has multiple sub-devices and data point information. It is recommended to create a table for each type of device for management.
 
 <div style="text-align: center;">
-      <img src="/img/Data-model-en06.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-model-new-3-en.png" alt="" style="width: 70%;"/>
 </div>
 
 ### 3.3 Scenario 3: Dual-Model Integration
@@ -209,7 +209,7 @@ The application scenarios mainly include three categories:
 - **Table View**T: Create a table view for each type of device, with each table view having different tags and data point sets.
 
 <div style="text-align: center;">
-      <img src="/img/Data-model-en-10.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-model-new-4-en.png" alt="" style="width: 70%;"/>
 </div>
 
 ##### 3.3.2.2 How to model when there are no device identifier columns or attribute columns?
@@ -227,5 +227,5 @@ The application scenarios mainly include three categories:
 - **Table View**: Create multiple tables to manage each layer of structural information according to device classification.
 
 <div style="text-align: center;">
-      <img src="/img/Data-model-en09.png" alt="" style="width: 70%;"/>
+      <img src="/img/data-model-new-5-en.png" alt="" style="width: 70%;"/>
 </div>
