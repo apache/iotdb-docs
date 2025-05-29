@@ -52,7 +52,13 @@ tools/import-schema.sh [-sql_dialect<sql_dialect>] -db<database> -table<table>
        -s <source> [-fd <fail_dir>] [-lpf <lines_per_failed_file>]
       
 # Windows
+# Before version V2.0.4.x  
 tools\import-schema.bat [-sql_dialect<sql_dialect>] -db<database> -table<table>  
+      [-h <host>] [-p <port>] [-u <username>] [-pw <password>]
+       -s <source> [-fd <fail_dir>] [-lpf <lines_per_failed_file>] 
+       
+# V2.0.4.x and later versions       
+tools\windows\schema\import-schema.bat [-sql_dialect<sql_dialect>] -db<database> -table<table>  
       [-h <host>] [-p <port>] [-u <username>] [-pw <password>]
        -s <source> [-fd <fail_dir>] [-lpf <lines_per_failed_file>] 
 ```

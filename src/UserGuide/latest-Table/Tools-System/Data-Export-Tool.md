@@ -56,7 +56,14 @@ The data export tool `export-data.sh/bat` is located in the `tools` directory an
                 -t <target_directory> [-pfn <prefix_file_name>] [-dt <datatype>] [-lpf <lines_per_file>] [-tf <time_format>] 
                [-tz <timezone>] [-q <query_command>] [-timeout <query_timeout>]
 # Windows
+# Before version V2.0.4.x
 > tools\export-data.bat -ft<format> [-sql_dialect<sql_dialect>] -db<database> -table<table>  
+                [-start_time<start_time>] [-end_time<end_time>] [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
+                -t <target_directory> [-pfn <prefix_file_name>] [-dt <datatype>] [-lpf <lines_per_file>] [-tf <time_format>] 
+               [-tz <timezone>] [-q <query_command>] [-timeout <query_timeout>]
+               
+# V2.0.4.x and later versions
+> tools\windows\export-data.bat -ft<format> [-sql_dialect<sql_dialect>] -db<database> -table<table>  
                 [-start_time<start_time>] [-end_time<end_time>] [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
                 -t <target_directory> [-pfn <prefix_file_name>] [-dt <datatype>] [-lpf <lines_per_file>] [-tf <time_format>] 
                [-tz <timezone>] [-q <query_command>] [-timeout <query_timeout>]
@@ -90,7 +97,14 @@ Parse error: Missing required option: db
           -lpf <lines_per_file> - [-tf <time_format>] [-tz <timezone>] [-q <query_command>] [-timeout <query_timeout>]
       
 # Windows
+# Before version V2.0.4.x 
 > tools\export-data.bat -ft<format> [-sql_dialect<sql_dialect>] -db<database> -table<table>  
+                [-start_time<start_time>] [-end_time<end_time>] [-h <host> -p <port> -u <username> -pw <password>] 
+          -t <target_directory> [-pfn <prefix_file_name>  -aligned <export aligned insert sql>  
+          -lpf <lines_per_file> -tf <time_format> -tz <timezone> -q <query_command> -timeout <query_timeout>]
+          
+# V2.0.4.x and later versions
+> tools\windows\export-data.bat -ft<format> [-sql_dialect<sql_dialect>] -db<database> -table<table>  
                 [-start_time<start_time>] [-end_time<end_time>] [-h <host> -p <port> -u <username> -pw <password>] 
           -t <target_directory> [-pfn <prefix_file_name>  -aligned <export aligned insert sql>  
           -lpf <lines_per_file> -tf <time_format> -tz <timezone> -q <query_command> -timeout <query_timeout>]
@@ -125,7 +139,13 @@ Parse error: Missing required option: db
         -t <target_directory> [-pfn <prefix_file_name>] [-q <query_command>] [-timeout <query_timeout>]
       
 # Windows
+# Before version V2.0.4.x 
 > tools\export-data.bat -ft<format> [-sql_dialect<sql_dialect>] -db<database> -table<table>  
+                [-start_time<start_time>] [-end_time<end_time>] [-h <host>] [-p <port>] [-u <username>] [-pw <password>]
+        -t <target_directory> [-pfn <prefix_file_name>] [-q <query_command>] [-timeout <query_timeout>]
+        
+# V2.0.4.x and later versions
+> tools\windows\export-data.bat -ft<format> [-sql_dialect<sql_dialect>] -db<database> -table<table>  
                 [-start_time<start_time>] [-end_time<end_time>] [-h <host>] [-p <port>] [-u <username>] [-pw <password>]
         -t <target_directory> [-pfn <prefix_file_name>] [-q <query_command>] [-timeout <query_timeout>]
 ```
