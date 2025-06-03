@@ -242,7 +242,7 @@ udf_reader_transformer_collector_memory_proportion=1:1:1
 
  您可以在该方法中限制输入序列的数量和类型，检查用户输入的属性或者进行自定义逻辑的验证。
 
- `UDFParameterValidator`的使用方法请见 Javadoc。
+ `UDFParameterValidator`的使用方法请见 [Javadoc](https://github.com/apache/iotdb/blob/rc/1.3.4-1/iotdb-api/udf-api/src/main/java/org/apache/iotdb/udf/api/customizer/parameter/UDFParameterValidator.java)。
 
 2. **void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) throws Exception**
 
@@ -332,7 +332,7 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 
 滑动步长参数也不是必须的。当您不提供滑动步长参数时，滑动步长会被设定为划分时间轴的时间间隔。
 
-3 类参数的关系可见下图。策略的构造方法详见 Javadoc。
+3 类参数的关系可见下图。策略的构造方法详见 [Javadoc](https://github.com/apache/iotdb/blob/rc/1.3.4-1/iotdb-api/udf-api/src/main/java/org/apache/iotdb/udf/api/customizer/strategy/SlidingTimeWindowAccessStrategy.java)。
 
 <img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/99787878-47b51480-2b5b-11eb-8ed3-84088c5c30f7.png">
 
@@ -376,7 +376,7 @@ void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) th
 3. 针对数值型数据，可以只提供单个窗口内部允许变化的阈值delta，时间轴显示时间窗开始时间会被定义为整个查询结果集中最小的时间戳，时间轴显示时间窗结束时间会被定义为整个查询结果集中最大的时间戳。
 4. 针对文本数据以及布尔数据，可以不提供任何参数，开始与结束时间戳见3中解释。
 
-StateWindowAccessStrategy 目前只能接收一列输入。策略的构造方法详见 Javadoc。
+StateWindowAccessStrategy 目前只能接收一列输入。策略的构造方法详见 [Javadoc](https://github.com/apache/iotdb/blob/rc/1.3.4-1/iotdb-api/udf-api/src/main/java/org/apache/iotdb/udf/api/customizer/strategy/StateWindowAccessStrategy.java)。
 
  2.2.2  **setOutputDataType**
 
@@ -444,7 +444,7 @@ public class Adder implements UDTF {
 
   @Override
   public Object transform(Row row) throws Exception {
-		return row.getLong(0) + row.getLong(1);
+            return row.getLong(0) + row.getLong(1);
   }
 }
 ```

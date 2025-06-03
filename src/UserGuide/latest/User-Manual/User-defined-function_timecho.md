@@ -247,7 +247,7 @@ The `validate` method is used to validate the parameters entered by the user.
 
 In this method, you can limit the number and types of input time series, check the attributes of user input, or perform any custom verification.
 
-Please refer to the Javadoc for the usage of `UDFParameterValidator`.
+Please refer to the [Javadoc](https://github.com/apache/iotdb/blob/rc/2.0.4/iotdb-api/udf-api/src/main/java/org/apache/iotdb/udf/api/customizer/parameter/UDFParameterValidator.java) for the usage of `UDFParameterValidator`.
 
 
 2. **void beforeStart(UDFParameters parameters, UDTFConfigurations configurations) throws Exception**
@@ -344,7 +344,7 @@ The first type of parameters are optional. If the parameters are not provided, t
 
 The sliding step parameter is also optional. If the parameter is not provided, the sliding step will be set to the same as the time interval for dividing the time axis.
 
-The relationship between the three types of parameters can be seen in the figure below. Please see the Javadoc for more details. 
+The relationship between the three types of parameters can be seen in the figure below. Please see the [Javadoc](https://github.com/apache/iotdb/blob/rc/2.0.4/iotdb-api/udf-api/src/main/java/org/apache/iotdb/udf/api/customizer/strategy/SlidingTimeWindowAccessStrategy.java) for more details. 
 
 <div style="text-align: center;"><img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/99787878-47b51480-2b5b-11eb-8ed3-84088c5c30f7.png"></div>
 
@@ -389,7 +389,7 @@ Window opening diagram: **For numerical data, if the state difference is less th
 
 StateWindowAccessStrategy can only take one column as input for now.
 
-Please see the Javadoc for more details. 
+Please see the [Javadoc](https://github.com/apache/iotdb/blob/rc/2.0.4/iotdb-api/udf-api/src/main/java/org/apache/iotdb/udf/api/customizer/strategy/StateWindowAccessStrategy.java) for more details. 
 
  2.2.2  **setOutputDataType**
 
