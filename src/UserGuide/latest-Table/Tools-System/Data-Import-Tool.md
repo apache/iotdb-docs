@@ -69,7 +69,15 @@ IoTDB supports three methods for data import:
       [-tn <thread_num>]
       
 # Windows
+# Before version V2.0.4.x 
 > tools\import-data.bat -ft<format> [-sql_dialect<sql_dialect>] -db<database> -table<table>  
+        [-h <host>] [-p <port>] [-u <username>] [-pw <password>]
+       -s <source> [-fd <fail_dir>] [-lpf <lines_per_failed_file>] [-aligned <use the aligned interface>] 
+      [-ti <type_infer>] [-tp <timestamp precision (ms/us/ns)>] [-tz <timezone>] [-batch <batch_size>] 
+      [-tn <thread_num>]
+      
+# V2.0.4.x and later versions
+> tools\windows\import-data.bat -ft<format> [-sql_dialect<sql_dialect>] -db<database> -table<table>  
         [-h <host>] [-p <port>] [-u <username>] [-pw <password>]
        -s <source> [-fd <fail_dir>] [-lpf <lines_per_failed_file>] [-aligned <use the aligned interface>] 
       [-ti <type_infer>] [-tp <timestamp precision (ms/us/ns)>] [-tz <timezone>] [-batch <batch_size>] 
@@ -130,7 +138,14 @@ time,region,device,model,temperature,humidity
         [-batch <batch_size>] [-tn <thread_num>]
       
 # Windows
+# Before version V2.0.4.x
 > tools\import-data.bat -ft<format> [-sql_dialect<sql_dialect>] -db<database> -table<table>  
+        [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
+        -s<source> [-fd <fail_dir>] [-lpf <lines_per_failed_file>] [-tz <timezone>] 
+        [-batch <batch_size>] [-tn <thread_num>]
+        
+# V2.0.4.x and later versions
+> tools\windows\import-data.bat -ft<format> [-sql_dialect<sql_dialect>] -db<database> -table<table>  
         [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
         -s<source> [-fd <fail_dir>] [-lpf <lines_per_failed_file>] [-tz <timezone>] 
         [-batch <batch_size>] [-tn <thread_num>]
@@ -170,7 +185,14 @@ Fail to insert measurements '[column.name]' caused by [data type is not consiste
         [-tn <thread_num> ] [-tz <timezone>] [-tp <timestamp precision (ms/us/ns)>]
       
 # Windows
+# Before version V2.0.4.x
 > tools\import-data.bat -ft <format> [-sql_dialect<sql_dialect>] -db<database> -table<table> 
+         [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
+        -s <source> -os <on_success> [-sd <success_dir>] -of <on_fail> [-fd <fail_dir>]
+        [-tn <thread_num> ] [-tz <timezone>] [-tp <timestamp precision (ms/us/ns)>]
+        
+# V2.0.4.x and later versions        
+> tools\windows\import-data.bat -ft <format> [-sql_dialect<sql_dialect>] -db<database> -table<table> 
          [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
         -s <source> -os <on_success> [-sd <success_dir>] -of <on_fail> [-fd <fail_dir>]
         [-tn <thread_num> ] [-tz <timezone>] [-tp <timestamp precision (ms/us/ns)>]

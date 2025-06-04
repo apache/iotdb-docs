@@ -262,7 +262,11 @@ sbin/start-confignode.sh
 
 # Windows
 # 首先切换到IoTDB根目录
-sbin/start-confignode.bat
+# V2.0.4.x 版本之前
+sbin\start-confignode.bat
+
+# V2.0.4.x 版本及之后 
+sbin\windows\start-confignode.bat
 ```
 
 参数介绍：
@@ -325,7 +329,11 @@ sbin/start-datanode.sh
 
 # Windows
 # 首先切换到IoTDB根目录
-sbin/start-datanode.bat
+# V2.0.4.x 版本之前
+sbin\start-datanode.bat
+
+# V2.0.4.x 版本及之后     
+tools\windows\start-datanode.bat
 ```
 
 参数介绍：

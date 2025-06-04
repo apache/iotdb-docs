@@ -263,7 +263,11 @@ sbin/start-confignode.sh
 
 # Windows
 # First switch to the IoTDB root directory
-sbin/start-confignode.bat
+# Before version V2.0.4.x
+sbin\start-confignode.bat
+
+# V2.0.4.x and later versions
+sbin\windows\start-confignode.bat
 ```
 
 Parameter introduction:
@@ -306,8 +310,11 @@ Then use the script to remove the ConfigNode. Script command:
 sbin/remove-confignode.sh [confignode_id]
 
 #Windows
-sbin/remove-confignode.bat [confignode_id]
+# Before version V2.0.4.x
+sbin\remove-confignode.bat [confignode_id]
 
+# V2.0.4.x and later versions
+sbin\windows\remove-confignode.bat [confignode_id]
 ```
 
 ### 4.2 DataNode Node Maintenance
@@ -330,7 +337,11 @@ sbin/start-datanode.sh
 
 # Windows
 # First switch to the IoTDB root directory
-sbin/start-datanode.bat
+# Before version V2.0.4.x
+sbin\start-datanode.bat
+
+# V2.0.4.x and later versions 
+sbin\windows\start-datanode.bat
 ```
 
 Parameter introduction:
@@ -375,7 +386,11 @@ Then use the script to remove the DataNode. Script command:
 sbin/remove-datanode.sh [datanode_id]
 
 #Windows
-sbin/remove-datanode.bat [datanode_id]
+# Before version V2.0.4.x
+sbin\remove-datanode.bat [datanode_id]
+
+# V2.0.4.x and later versions
+sbin\windows\remove-datanode.bat [datanode_id]
 ```
 ## 5.  Questions
 

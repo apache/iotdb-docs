@@ -303,14 +303,18 @@ ConfigNode maintenance includes adding and removing ConfigNodes. Common use case
 
 **Linux / MacOS :**
 
-```Plain
+```Bash
 sbin/start-confignode.sh
 ```
 
 **Windows:**
 
-```Plain
-sbin/start-confignode.bat
+```Bash
+# Before version V2.0.4.x 
+sbin\start-confignode.bat
+
+# V2.0.4.x and later versions
+sbin\windows\start-confignode.bat
 ```
 
 #### 4.1.2 Removing a ConfigNode
@@ -349,9 +353,15 @@ sbin/remove-confignode.sh [cn_internal_address:cn_internal_port]
 **Windows:**
 
 ```Bash
-sbin/remove-confignode.bat [confignode_id]
+# Before version V2.0.4.x 
+sbin\remove-confignode.bat [confignode_id]
 # Or:
-sbin/remove-confignode.bat [cn_internal_address:cn_internal_port]
+sbin\remove-confignode.bat [cn_internal_address:cn_internal_port]
+
+# V2.0.4.x and later versions
+sbin\windows\remove-confignode.bat [confignode_id]
+# Or:
+sbin\windows\remove-confignode.bat [cn_internal_address:cn_internal_port]
 ```
 
 ### 4.2 DataNode Maintenance
@@ -367,14 +377,18 @@ DataNode maintenance includes adding and removing DataNodes. Common use cases in
 
 **Linux / MacOS:**
 
-```Plain
+```Bash
 sbin/start-datanode.sh
 ```
 
 **Windows:**
 
-```Plain
-sbin/start-datanode.bat
+```Bash
+# Before version V2.0.4.x
+sbin\start-datanode.bat
+
+# V2.0.4.x and later versions
+sbin\windows\start-datanode.bat
 ```
 
 **Note:** After adding a DataNode, the cluster load will gradually balance across all nodes as new writes arrive and old data expires (if TTL is set).
@@ -383,13 +397,13 @@ sbin/start-datanode.bat
 
 1. Connect to the cluster using the CLI and confirm the RPC address and port of the DataNode to be removed:
 
-```Plain
+```sql
 show datanodes;
 ```
 
 Example output:
 
-```Plain
+```sql
 IoTDB> show datanodes
 +------+-------+----------+-------+-------------+---------------+
 |NodeID| Status|RpcAddress|RpcPort|DataRegionNum|SchemaRegionNum|
@@ -413,7 +427,11 @@ sbin/remove-datanode.sh [dn_rpc_address:dn_rpc_port]
 **Windows:**
 
 ```Bash
-sbin/remove-datanode.bat [dn_rpc_address:dn_rpc_port]
+# Before version V2.0.4.x
+sbin\remove-datanode.bat [dn_rpc_address:dn_rpc_port]
+
+# V2.0.4.x and later versions
+sbin\windows\remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 ```
 
 ## 5. Common Issues
