@@ -138,75 +138,87 @@ cd  iotdb-enterprise-{version}-bin
 
 先启动第一个iotdb-1的confignode, 保证种子confignode节点先启动，然后依次启动第2和第3个confignode节点
 
-```Bash
+```shell
 cd sbin
-./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
+./start-confignode.sh -d      #“-d”参数将在后台进行启动 
 ```
-如果启动失败，请参考[常见问题](#常见问题)。
 
-### 3.4 激活数据库
+如果启动失败，请参考下[常见问题](#常见问题)
 
-#### **方式一：激活文件拷贝激活**
+### 3.4 启动DataNode 节点
 
-- 依次启动3个confignode节点后，每台机器各自的`activation`文件夹, 分别拷贝每台机器的`system_info`文件给天谋工作人员;
-- 工作人员将返回每个ConfigNode节点的license文件，这里会返回3个license文件；
-- 将3个license文件分别放入对应的ConfigNode节点的`activation`文件夹下；
+分别进入iotdb的sbin目录下，依次启动3个datanode节点：
 
-#### 方式二：激活脚本激活
-
-- 依次获取3台机器的机器码，分别进入安装目录的`sbin`目录，执行激活脚本`start-activate.sh`:
-
-    ```Bash
-    cd sbin
-    ./start-activate.sh
-    ```
-
-- 显示如下信息，这里显示的是1台机器的机器码 ：
-
-    ```Bash
-    Please copy the system_info's content and send it to Timecho:
-    01-KU5LDFFN-PNBEHDRH
-    Please enter license:
-    ```
-
-- 其他2个节点依次执行激活脚本`start-activate.sh`，然后将获取的3台机器的机器码都复制给天谋工作人员
-- 工作人员会返回3段激活码，正常是与提供的3个机器码的顺序对应的，请分别将各自的激活码粘贴到上一步的命令行提示处 `Please enter license:`，如下提示：
-
-    ```Bash
-    Please enter license:
-    Jw+MmF+Atxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx5bAOXNeob5l+HO5fEMgzrW8OJPh26Vl6ljKUpCvpTiw==
-    License has been stored to sbin/../activation/license
-    Import completed. Please start cluster and excute 'show cluster' to verify activation status
-    ```
-
-### 3.5 启动DataNode 节点
-
- 分别进入iotdb的`sbin`目录下，依次启动3个datanode节点：
-
-```Go
+```shell
 cd sbin
 ./start-datanode.sh   -d   #-d参数将在后台进行启动 
 ```
 
-### 3.6 验证部署
+### 3.5 激活数据库
 
-可直接执行`./sbin`目录下的Cli启动脚本：
+#### 方式一：激活文件拷贝激活
 
-```Plain
-./start-cli.sh  -h  ip(本机ip或域名)  -p  端口号(6667)
-```
+- 依次启动3个Confignode、Datanode节点后，每台机器各自的activation文件夹, 分别拷贝每台机器的system_info文件给天谋工作人员;
+- 工作人员将返回每个ConfigNode、Datanode节点的license文件，这里会返回3个license文件；
+- 将3个license文件分别放入对应的ConfigNode节点的activation文件夹下；
 
-   成功启动后，出现如下界面显示IOTDB安装成功。
+#### 方式二：激活脚本激活
+- 依次获取3台机器的机器码，进入 IoTDB CLI
 
-![](/img/%E4%BC%81%E4%B8%9A%E7%89%88%E6%88%90%E5%8A%9F.png)
+    - 表模型 CLI 进入命令：
 
-出现安装成功界面后，继续看下是否激活成功，使用 `show cluster`命令
+  ```SQL
+  # Linux或MACOS系统
+  ./start-cli.sh -sql_dialect table
+  
+  # windows系统
+  ./start-cli.bat -sql_dialect table
+  ```
 
-当看到最右侧显示`ACTIVATED`表示激活成功
+    - 树模型 CLI 进入命令：
 
-![](/img/%E4%BC%81%E4%B8%9A%E7%89%88%E6%BF%80%E6%B4%BB.png)
+  ```SQL
+  # Linux或MACOS系统
+  ./start-cli.sh
+  
+  # windows系统
+  ./start-cli.bat
+  ```
 
-> 出现`ACTIVATED(W)`为被动激活，表示此ConfigNode没有license文件（或没有签发时间戳最新的license文件），其激活依赖于集群中其它Activate状态的ConfigNode。此时建议检查license文件是否已放入license文件夹，没有请放入license文件，若已存在license文件，可能是此节点license文件与其他节点信息不一致导致，请联系天谋工作人员重新申请.
+    - 执行以下内容获取激活所需机器码：
+
+  ```Bash
+  show system info
+  ```
+
+    - 显示如下信息，这里显示的是1台机器的机器码 ：
+
+      ```Bash
+      +--------------------------------------------------------------+
+      |                                                    SystemInfo|
+      +--------------------------------------------------------------+
+      |01-TE5NLES4-UDDWCMYE,01-GG5NLES4-XXDWCMYE,01-FF5NLES4-WWWWCMYE|
+      +--------------------------------------------------------------+
+      Total line number = 1
+      It costs 0.030s
+      ```
+
+- 其他2个节点依次进入到IoTDB树模型的CLI中，执行语句后将获取的3台机器的机器码都复制给天谋工作人员
+
+- 工作人员会返回3段激活码，正常是与提供的3个机器码的顺序对应的，请分别将各自的激活码粘贴到CLI中，如下提示：
+
+    - 注：激活码前后需要用`'`符号进行标注，如所示
+
+   ```Bash
+    IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
+    ```
+
+### 3.6 验证激活
+
+当看到“Result”字段状态显示为success表示激活成功
+
+![](/img/%E9%9B%86%E7%BE%A4-%E9%AA%8C%E8%AF%81.png)
+
 
 ### 3.7 一键启停集群
 

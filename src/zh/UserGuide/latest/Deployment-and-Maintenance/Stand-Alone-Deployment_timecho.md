@@ -112,73 +112,76 @@ cd  iotdb-enterprise-{version}-bin
 进入iotdb的sbin目录下，启动confignode
 
 ```shell
-./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
-```
-如果启动失败，请参考[常见问题](#常见问题)。
-
-### 2.4 激活数据库
-
-#### 方式一：激活文件拷贝激活
-
-- 启动confignode节点后，进入activation文件夹, 将 system_info文件复制给天谋工作人员
-- 收到工作人员返回的 license文件
-- 将license文件放入对应节点的activation文件夹下；
-
-#### 方式二：激活脚本激活
-
-- 获取激活所需机器码，进入安装目录的sbin目录，执行激活脚本:
-
-```shell
- cd sbin
-./start-activate.sh
+./sbin/start-confignode.sh -d      #“-d”参数将在后台进行启动 
 ```
 
-- 显示如下信息，请将机器码（即该串字符）复制给天谋工作人员：
+如果启动失败，请参考下方[常见问题](#常见问题)。
 
-```shell
-Please copy the system_info's content and send it to Timecho:
-01-KU5LDFFN-PNBEHDRH
-Please enter license:
-```
-
-- 将工作人员返回的激活码输入上一步的命令行提示处 `Please enter license:`，如下提示：
-
-```shell
-Please enter license:
-Jw+MmF+AtexsfgNGOFgTm83BgXbq0zT1+fOfPvQsLlj6ZsooHFU6HycUSEGC78eT1g67KPvkcLCUIsz2QpbyVmPLr9x1+kVjBubZPYlVpsGYLqLFc8kgpb5vIrPLd3hGLbJ5Ks8fV1WOVrDDVQq89YF2atQa2EaB9EAeTWd0bRMZ+s9ffjc/1Zmh9NSP/T3VCfJcJQyi7YpXWy5nMtcW0gSV+S6fS5r7a96PjbtE0zXNjnEhqgRzdU+mfO8gVuUNaIy9l375cp1GLpeCh6m6pF+APW1CiXLTSijK9Qh3nsL5bAOXNeob5l+HO5fEMgzrW8OJPh26Vl6ljKUpCvpTiw==
-License has been stored to sbin/../activation/license
-Import completed. Please start cluster and excute 'show cluster' to verify activation status
-```
-
-### 2.5 启动DataNode 节点
+### 2.4 启动 DataNode 节点
 
 进入iotdb的sbin目录下，启动datanode：
 
 ```shell
-cd sbin
-./start-datanode.sh   -d   #-d参数将在后台进行启动 
+./sbin/start-datanode.sh -d    #“-d”参数将在后台进行启动
 ```
 
-### 2.6 验证部署
+### 2.5 激活数据库
 
-可直接执行 ./sbin 目录下的 Cli 启动脚本：
+#### 方式一：文件激活
 
-```shell
-./start-cli.sh  -h  ip(本机ip或域名)  -p  端口号(6667)
+- 启动Confignode、Datanode节点后，进入activation文件夹, 将 system_info文件复制给天谋工作人员
+- 收到工作人员返回的 license文件
+- 将license文件放入对应节点的activation文件夹下；
+
+#### 方式二：命令激活
+- 进入 IoTDB CLI
+   - 表模型 CLI 进入命令：
+  ```SQL
+    # Linux或MACOS系统
+    ./start-cli.sh -sql_dialect table
+    
+    # windows系统
+    ./start-cli.bat -sql_dialect table
+    ```
+
+   - 树模型 CLI 进入命令：
+  ```SQL
+    # Linux或MACOS系统
+    ./start-cli.sh
+    
+    # windows系统
+    ./start-cli.bat
+    ```
+- 执行以下内容获取激活所需机器码：
+
+```Bash
+show system info
 ```
 
-成功启动后，出现如下界面显示IOTDB安装成功。
+- 将返回机器码（即绿色字符串）复制给天谋工作人员：
 
-![](/img/%E5%90%AF%E5%8A%A8%E6%88%90%E5%8A%9F.png)
+```Bash
++--------------------------------------------------------------+
+|                                                    SystemInfo|
++--------------------------------------------------------------+
+|                                          01-TE5NLES4-UDDWCMYE|
++--------------------------------------------------------------+
+Total line number = 1
+It costs 0.030s
+```
 
-出现安装成功界面后，继续看下是否激活成功，使用`show cluster`命令
+- 将工作人员返回的激活码输入到CLI中，输入以下内容
+   - 注：激活码前后需要用`'`符号进行标注，如所示
 
-当看到最右侧显示ACTIVATED表示激活成功
+```Bash
+IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
+```
 
-![](/img/show%20cluster.png)
+### 2.6 验证激活
 
-> 出现`ACTIVATED(W)`为被动激活，表示此ConfigNode没有license文件（或没有签发时间戳最新的license文件）。此时建议检查license文件是否已放入license文件夹，没有请放入license文件，若已存在license文件，可能是此节点license文件与其他节点信息不一致导致，请联系天谋工作人员重新申请.
+当看到“ClusterActivationStatus”字段状态显示为ACTIVATED表示激活成功
 
+![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81.png)
 
 ## 3. 常见问题
 

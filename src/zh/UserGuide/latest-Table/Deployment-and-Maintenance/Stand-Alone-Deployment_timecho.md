@@ -145,7 +145,6 @@ DataNode 配置
     ./start-cli.bat
     ```
 - 执行以下内容获取激活所需机器码：
-    - 注：当前仅支持在树模型中进行激活
 
 ```Bash
 show system info
