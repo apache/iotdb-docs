@@ -27,7 +27,7 @@
  AINode is the third type of endogenous node provided by IoTDB after the Configurable Node and DataNode. This node extends its ability to perform machine learning analysis on time series by interacting with the DataNode and Configurable Node of the IoTDB cluster. It supports the introduction of existing machine learning models from external sources for registration and the use of registered models to complete time series analysis tasks on specified time series data through simple SQL statements. The creation, management, and inference of models are integrated into the database engine. Currently, machine learning algorithms or self-developed models are available for common time series analysis scenarios, such as prediction and anomaly detection.
 
 ### Delivery Method
- It is an additional package outside the IoTDB cluster, with independent installation and activation.
+ It is an additional package outside the IoTDB cluster, with independent installation.
 
 ### Deployment mode
 <div >
