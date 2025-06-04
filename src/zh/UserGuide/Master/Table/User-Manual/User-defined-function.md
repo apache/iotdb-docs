@@ -25,17 +25,20 @@
 
 UDF（User Defined Function）即用户自定义函数，IoTDB 提供多种内置的时序处理函数，也支持扩展自定义函数来满足更多的计算需求。
 
-IoTDB 表模型中支持两种类型的 UDF ，如下表所示。
+IoTDB 表模型中支持三种类型的 UDF ，如下表所示。
 
-| UDF 类型                                | 函数类型 | 描述                                              |
-| ----------------------------------------- | ---------- | --------------------------------------------------- |
+| UDF 类型                                  | 函数类型 | 描述                             |
+|-----------------------------------------|------|--------------------------------|
 | `UDSF（User-defined Scalar Function）`    | 标量函数 | 输入 k 列 1 行数据，输出1 列 1 行数据（一对一）。 |
 | `UDAF（User-defined Aggregate Function）` | 聚合函数 | 输入k 列 m 行数据，输出1 列 1 行数据（多对一）。  |
+| `UDTF（User-defined Table Function）`     | 表函数  | 根据输入的动态参数生成“表”形式的结果集。          |
 
 * `UDSF` 可用于标量函数出现的任何子句和表达式中，如select子句、where子句等。
     * `select udsf1(s1) from table1 where udsf2(s1)>0`
 * `UDAF` 可用于聚合函数出现的任何子句和表达式中，如select子句、having子句等；
     * `select udaf1(s1), device_id from table1 group by device_id having udaf2(s1)>0 `
+* `UDTF` 可以像关系表一样在from子句中使用；
+    * `select * from udtf('t1', bid);`
 
 ## 2. UDF 管理
 
@@ -329,6 +332,104 @@ public interface AggregateFunction extends SQLFunction {
 
 示例：[UDAF 的实现示例](https://github.com/apache/iotdb/blob/master/example/udf/src/main/java/org/apache/iotdb/udf/AggregateFunctionExample.java)，计算不为 NULL 的行数。
 
-### 3.4 完整Maven项目示例
+### 3.4 表函数（UDTF）
+
+#### 3.4.1 定义
+
+表函数，也被称为表值函数（Table-Valued Function，TVF），不同于标量函数、聚合函数和窗口函数的返回值是一个“标量值”，表函数的返回值是一个“表”（结果集）。
+
+#### 3.4.2 使用
+
+表函数可以像关系表一样，以`tableFunctionCall`的形式在 SQL 查询的 `FROM` 子句中使用，支持传递参数，并根据参数动态生成结果集。
+
+#### 3.4.3 语法
+
+`tableFunctionCall` 的具体定义如下所示：
+
+```sql
+tableFunctionCall
+    : qualifiedName '(' (tableFunctionArgument (',' tableFunctionArgument)*)?')'
+    ;
+
+tableFunctionArgument
+    : (identifier '=>')? (tableArgument | scalarArgument)
+​    ​;
+
+tableArgument
+    : tableArgumentRelation
+        (PARTITION BY ('(' (expression (',' expression)*)? ')' | expression))?
+        (ORDER BY ('(' sortItem (',' sortItem)* ')' | sortItem))?
+    ;
+
+tableArgumentRelation
+    : qualifiedName  (AS? identifier columnAliases?)?         #tableArgumentTable
+    | '(' query ')' (AS? identifier columnAliases?)?          #tableArgumentQuery
+    ;
+
+scalarArgument
+    : expression
+    | timeDuration
+    ;
+```
+
+例如：
+
+```SQL
+// 这是从表函数中进行查询，传入一个字符串“t1”参数。
+select * from tvf('t1'); 
+
+// 这是从表函数中进行查询，传入一个字符串“t1”参数，一个 bid 表参数。
+select * from tvf('t1', bid);
+```
+
+#### 3.4.4 函数参数
+
+IoTDB 中的表函数为多态表值函数，支持参数类型如下所示：
+
+| 参数类型                     | 定义                                                                 | 示例                                                                                                          |
+| ------------------------------ | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| 标量参数（Scalar Argument）| 必须是常量表达式，可以是任何的 SQL 数据类型，需要和声明的类型兼容。| `SIZE => 42`，`SIZE => '42'`，`SIZE => 42.2`，`SIZE => 12h`，`SIZE => 60m`                |
+| 表参数（Table Argument）     | 可以是一个表名或一条查询语句。                                       | `input => orders`，`data => (SELECT * FROM region, nation WHERE region.regionkey = nation.regionkey)` |
+
+表参数具有如下属性：
+
+1. 组语义与行语义
+   * 被声明为组语义（Set Semantic）的表参数意味着需要根据整个完整的分区才能得到结果集。
+        * 允许在调用时指定 PARTITION 或 ORDER，执行引擎会 partition-by-partition 地进行处理。
+
+       ```SQL
+       input => orders PARTITION BY device_id ORDER BY time
+       ```
+
+        * 如果没有指定 PARTITION，则认为所有的数据都在同一个数据组中。
+   * 被声明为行语义（Row Semantics）的表参数意味着行与行之间没有依赖关系。不允许在调用时指定  PARTITION 或 ORDER，执行引擎会 row-by-row 地进行处理。
+
+2. 列穿透（Pass-through Columns）
+    * 表参数如果被声明为列穿透，则表函数的结果列会包含该表参数输入的所有列。
+    * 例如，窗口分析函数，通过为表参数设置列穿透属性，可实现输出结果为“所有输入列（包含原始列和聚合结果）+窗口ID”，即“原始数据+分析结果”。
+
+#### 3.4.5 传递方式
+
+| 传递方式   | 描述                                                        | 示例                                                                                                                                                                                            |
+| ------------ |-----------------------------------------------------------| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 按名传递   | 1. 可以通过任意的顺序传递参数。<br>2. 被声明有默认值的参数可以被省略。<br>3. 参数名大小写不敏感。 | `SELECT * FROM my_function(row_count => 100, column_count => 1);` `SELECT * FROM my_function(column_count => 1, row_count => 100);` `SELECT * FROM my_function(column_count => 1);` |
+| 按位置传递 | 1. 必须按照声明的顺序进行传递参数。<br>2. 如果余下的参数都有默认值，可以只传一部分参数。         | `SELECT * FROM my_function(1, 100);` `SELECT * FROM my_function(1);`                                                                                                                    |
+
+> 注意：
+> 以上两种方式不允许混用，否则在语义解析时候会抛出“​**All arguments must be passed by name or all must be passed positionally**​”异常。
+
+#### 3.4.6 返回结果
+
+表函数的结果集由以下两部分组成。
+
+1. 由表函数创建的生成列（Proper Columns）。
+2. 根据表参数自动构建的映射列（Pass-through Columns）。
+   * 如果指定了表参数的属性为列穿透，则会包括输入关系的所有列；
+   * 如果没有指定为列穿透但指定了 PartitionBy，则是 PartitionBy 的列；
+   * 如果均未指定，则不根据表参数自动构建列。
+
+
+
+### 3.5 完整Maven项目示例
 
 如果使用 [Maven](http://search.maven.org/)，可以参考示例项目[udf-example](https://github.com/apache/iotdb/tree/master/example/udf)。

@@ -25,12 +25,13 @@
 
 UDF refers to user-defined functions. IoTDB offers a variety of built-in time-series processing functions while supporting custom function extensions to fulfill advanced computational needs.
 
-IoTDB's table model supports two types of UDFs, as detailed below:
+IoTDB's table model supports three types of UDFs, as detailed below:
 
 | UDF Type                                | Function Type | Description                    |
 |-----------------------------------------|---------------|--------------------------------|
 | `UDSF（User-defined Scalar Function）`    | Scalar Function         | Processes ​1 row of k-column data, outputs ​1 row of 1-column data (one-to-one mapping). |
 | `UDAF（User-defined Aggregate Function）` | Aggregate Function       | Processes ​m rows of k-column data, outputs ​1 row of 1-column data (many-to-one reduction). |
+| `UDTF（User-defined Table Function）`     | Table-Valued Function  | Generates a result set in "table" format based on dynamic input parameters.          |
 
 * `UDSF` can be used in any clause or expression where scalar functions are allowed, such as: SELECT clauses, WHERE conditions, etc.
 
@@ -40,6 +41,8 @@ IoTDB's table model supports two types of UDFs, as detailed below:
 
     * `select udaf1(s1), device_id from table1 group by device_id having udaf2(s1)>0 `
 
+* `UDTF` Can be used in the FROM clause like a relational table.
+    * `select * from udtf('t1', bid);`
 
 ## 2. UDF Management
 
@@ -345,6 +348,104 @@ Current Fields in `AggregateFunctionAnalysis`:
  
 [UDAF Example](https://github.com/apache/iotdb/blob/master/example/udf/src/main/java/org/apache/iotdb/udf/AggregateFunctionExample.java): Counts non-NULL rows.
 
-### 3.4 Complete Maven Project Example
+
+### 3.4 UDTF
+
+#### 3.4.1 Definition
+
+A table function, also known as a table-valued function (TVF), differs from scalar functions, aggregate functions, and window functions in that its return value is not a single "scalar value" but rather a "table" (result set).
+
+#### 3.4.2 Usage
+
+Table functions can be used in the `FROM` clause of SQL queries in the form of `tableFunctionCall`, supporting parameter passing and dynamically generating result sets based on the provided arguments.
+
+#### 3.4.3 Syntax
+
+The formal definition of `tableFunctionCall` is as follows: 
+
+```sql
+tableFunctionCall
+    : qualifiedName '(' (tableFunctionArgument (',' tableFunctionArgument)*)?')'
+    ;
+
+tableFunctionArgument
+    : (identifier '=>')? (tableArgument | scalarArgument)
+​    ​;
+
+tableArgument
+    : tableArgumentRelation
+        (PARTITION BY ('(' (expression (',' expression)*)? ')' | expression))?
+        (ORDER BY ('(' sortItem (',' sortItem)* ')' | sortItem))?
+    ;
+
+tableArgumentRelation
+    : qualifiedName  (AS? identifier columnAliases?)?         #tableArgumentTable
+    | '(' query ')' (AS? identifier columnAliases?)?          #tableArgumentQuery
+    ;
+
+scalarArgument
+    : expression
+    | timeDuration
+    ;
+```
+
+Examples:
+
+```SQL
+-- Querying from a table function with a string parameter "t1"
+SELECT * FROM tvf('t1');  
+
+-- Querying from a table function with a string parameter "t1" and a table parameter "bid"
+SELECT * FROM tvf('t1', bid);  
+```
+
+#### 3.4.4 Function Arguments
+
+IoTDB supports polymorphic table-valued functions with the following argument types:
+
+| Argument Type    | Definition                                                                | Example                                                                                                          |
+|------------------|---------------------------------------------------------------------------| --------------------------------------------------------------------------------------------------------------- |
+| Scalar Argument  | Must be a constant expression compatible with the declared SQL data type. | `SIZE => 42`，`SIZE => '42'`，`SIZE => 42.2`，`SIZE => 12h`，`SIZE => 60m`                |
+| Table Argument   | Can be a table name or a query statement.                                 | `input => orders`，`data => (SELECT * FROM region, nation WHERE region.regionkey = nation.regionkey)` |
+
+Properties of Table Arguments:
+ 
+1. Set Semantics vs. Row Semantics
+    * Set Semantic: Requires processing an entire partition to produce results.
+        * Allows specifying PARTITION BY or ORDER BY for partition-wise processing.
+
+        ```SQL
+        input => orders PARTITION BY device_id ORDER BY time
+        ```
+
+        * If no PARTITION BY is specified, all data is treated as a single group.
+    * Row Semantics: Rows are processed independently.Does not allow PARTITION BY or ORDER BY—execution is row-by-row.
+
+2. Pass-through Columns
+    * If a table argument is declared with pass-through columns, the function’s result set includes all columns from the input relation.
+    * Example: Window analysis functions can output "original columns + aggregated results + window ID" by enabling pass-through.
+
+#### 3.4.5 Argument Passing Methods
+
+| Method   | Description                                                                                     | Example                                                                                                                                                                                            |
+| ------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ByName   | 1. Arguments can be passed in any order.<br>2. Parameters with default values may be omitted.<br>3. Case-insensitive parameter names. | `SELECT * FROM my_function(row_count => 100, column_count => 1);` `SELECT * FROM my_function(column_count => 1, row_count => 100);` `SELECT * FROM my_function(column_count => 1);` |
+| ByPosition | 1. Arguments must follow the declared order.<br>2. Trailing parameters with defaults can be omitted.     | `SELECT * FROM my_function(1, 100);` `SELECT * FROM my_function(1);`                                                                                                                    |
+
+> Note:
+> Mixing named and positional arguments is ​​not allowed​​ and will trigger the error:
+> ​​"All arguments must be passed by name or all must be passed positionally."​
+
+#### 3.4.6 Returned Results
+
+The result set of a table function consists of two parts:
+
+1. Proper Columns: Generated by the table function itself.
+2. Pass-through Columns: Automatically included based on table arguments:
+   * If pass-through is enabled: All input relation columns are retained.
+   * If no pass-through but PARTITION BY is specified: Only partition columns are included.
+   * If neither is specified: No additional columns are added.
+
+### 3.5 Complete Maven Project Example
 
 For Maven-based implementations, refer to the sample project: [udf-example](https://github.com/apache/iotdb/tree/master/example/udf).

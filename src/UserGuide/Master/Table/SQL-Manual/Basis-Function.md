@@ -154,7 +154,7 @@ SELECT LEAST(temperature,humidity) FROM table2;
 
 2. Except for `COUNT()`, all other aggregate functions ignore null values and return null when there are no input rows or all values are null. For example, `SUM()` returns null instead of zero, and `AVG()` does not include null values in the count.
 
-### 2.2 Supported Aggregate Functions
+### 2.2 Supported Aggregate Functions                            
 
 | Function Name | Description                                                                                                                                                                                                                                                                                                                                                                                                                                  | Allowed Input Types                                                | Output Type                                |
 |:--------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------------------------------|:-------------------------------------------|
@@ -395,7 +395,7 @@ NULL OR true -- true
 
 ##### 3.2.2.1 Truth Table
 
-The following truth table illustrates how `NULL` is handled in `AND` and `OR` operators:
+The following truth table illustrates how `NULL` is handled in `AND` and `OR` operators: 
 
 | a     | b     | a AND b | a OR b |
 | :---- | :---- | :------ | :----- |
@@ -469,7 +469,7 @@ date_bin(interval,source,origin)
 4. If `source` is `null`, the function returns `null`.
 5. Mixing months and non-month time units (e.g., `1 MONTH 1 DAY`) is not supported due to ambiguity.
 
-> For example, if the starting point is **April 30, 2000**, calculating `1 DAY` first and then `1 MONTH` results in **June 1, 2000**, whereas calculating `1 MONTH` first and then `1 DAY` results in **May 31, 2000**. The resulting dates are different.
+> For example, if the starting point is **April 30, 2000**, calculating `1 DAY` first and then `1 MONTH` results in **June 1, 2000**, whereas calculating `1 MONTH` first and then `1 DAY` results in **May 31, 2000**. The resulting dates are different.                             
 
 #### 4.2.2 Examples
 
@@ -980,10 +980,10 @@ Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Invalid format string: %.5f (
    ```
 3. Invalid Invocation Errors
 
-Triggered if:
+  Triggered if:
 
-* Total arguments < 2 (must include `pattern` and at least one argument).•
-* `pattern` is not of type `STRING`/`TEXT`.
+  * Total arguments < 2 (must include `pattern` and at least one argument).•
+  * `pattern` is not of type `STRING`/`TEXT`.
 
 ```SQL
 -- Example 1
@@ -1006,7 +1006,7 @@ The `||` operator is used for string concatenation and functions the same as the
 
 #### 8.1.2 LIKE Statement
 
-The `LIKE` statement is used for pattern matching. For detailed usage, refer to Pattern Matching:[LIKE](#1-like-运算符).
+ The `LIKE` statement is used for pattern matching. For detailed usage, refer to Pattern Matching:[LIKE](#1-like-运算符).
 
 ### 8.2 String Functions
 
@@ -1153,3 +1153,376 @@ SELECT regexp_like('1a 2b 14m', '^\\d+b$'); -- false
   - `\d+` means "one or more digits".
   - `b` represents the letter b.
   - `'1a 2b 14m'` does not match this pattern because it does not start with digits and does not end with `b`, so it returns `false`.
+
+## 10. Table-Valued Functions
+
+The sample data is as follows:
+
+```SQL
+IoTDB> SELECT * FROM bid;
++-----------------------------+--------+-----+
+|                         time|stock_id|price|
++-----------------------------+--------+-----+
+|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
+|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
+|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
+|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
+|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
+|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
++-----------------------------+--------+-----+
+
+-- Create table statement
+CREATE TABLE bid(time TIMESTAMP TIME, stock_id STRING TAG, price FLOAT FIELD);
+-- Insert data
+INSERT INTO bid(time, stock_id, price) VALUES('2021-01-01T09:05:00','AAPL',100.0),('2021-01-01T09:06:00','TESL',200.0),('2021-01-01T09:07:00','AAPL',103.0),('2021-01-01T09:07:00','TESL',202.0),('2021-01-01T09:09:00','AAPL',102.0),('2021-01-01T09:15:00','TESL',195.0);
+```
+
+### 10.1 HOP
+
+#### 10.1.1 Function Description
+
+The HOP function segments data into overlapping time windows for analysis, assigning each row to all windows that overlap with its timestamp. If windows overlap (when SLIDE < SIZE), data will be duplicated across multiple windows.
+
+#### 10.1.2 Function Definition
+
+```SQL
+HOP(data, timecol, size, slide[, origin])
+```
+
+#### 10.1.3 Parameter Description
+
+| Parameter | Type   | Attributes                      | Description             |
+| ----------- | -------- | --------------------------------- | ------------------------- |
+| DATA      | Table  | ROW SEMANTIC, PASS THROUGH      | Input table             |
+| TIMECOL   | Scalar | String (default: 'time')        | Time column             |
+| SIZE      | Scalar | Long integer                    | Window size             |
+| SLIDE     | Scalar | Long integer                    | Sliding step            |
+| ORIGIN    | Scalar | Timestamp (default: Unix epoch) | First window start time |
+
+
+#### 10.1.4 Returned Results
+
+The HOP function returns:
+
+* `window_start`: Window start time (inclusive)
+* `window_end`: Window end time (exclusive)
+* Pass-through columns: All input columns from DATA
+
+#### 10.1.5 Usage Example
+
+```SQL
+IoTDB> SELECT * FROM HOP(DATA => bid,TIMECOL => 'time',SLIDE => 5m,SIZE => 10m);
++-----------------------------+-----------------------------+-----------------------------+--------+-----+
+|                 window_start|                   window_end|                         time|stock_id|price|
++-----------------------------+-----------------------------+-----------------------------+--------+-----+
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
+|2021-01-01T09:05:00.000+08:00|2021-01-01T09:15:00.000+08:00|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
+|2021-01-01T09:05:00.000+08:00|2021-01-01T09:15:00.000+08:00|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
+|2021-01-01T09:05:00.000+08:00|2021-01-01T09:15:00.000+08:00|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
+|2021-01-01T09:05:00.000+08:00|2021-01-01T09:15:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
+|2021-01-01T09:05:00.000+08:00|2021-01-01T09:15:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
+|2021-01-01T09:10:00.000+08:00|2021-01-01T09:20:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
+|2021-01-01T09:15:00.000+08:00|2021-01-01T09:25:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
++-----------------------------+-----------------------------+-----------------------------+--------+-----+
+
+-- Equivalent to tree model's GROUP BY TIME when combined with GROUP BY
+IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM HOP(DATA => bid,TIMECOL => 'time',SLIDE => 5m,SIZE => 10m) GROUP BY window_start, window_end, stock_id;
++-----------------------------+-----------------------------+--------+------------------+
+|                 window_start|                   window_end|stock_id|               avg|
++-----------------------------+-----------------------------+--------+------------------+
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|    TESL|             201.0|
+|2021-01-01T09:05:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|             201.0|
+|2021-01-01T09:10:00.000+08:00|2021-01-01T09:20:00.000+08:00|    TESL|             195.0|
+|2021-01-01T09:15:00.000+08:00|2021-01-01T09:25:00.000+08:00|    TESL|             195.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|    AAPL|101.66666666666667|
+|2021-01-01T09:05:00.000+08:00|2021-01-01T09:15:00.000+08:00|    AAPL|101.66666666666667|
++-----------------------------+-----------------------------+--------+------------------+
+```
+
+### 10.2 SESSION
+
+#### 10.2.1 Function Description
+
+The SESSION function groups data into sessions based on time intervals. It checks the time gap between consecutive rows—rows with gaps smaller than the threshold (GAP) are grouped into the current window, while larger gaps trigger a new window.
+
+#### 10.2.2 Function Definition
+
+```SQL
+SESSION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], timecol, gap)
+```
+#### 10.2.3 Parameter Description
+
+| Parameter | Type   | Attributes                 | Description                          |
+| ----------- | -------- | ---------------------------- | -------------------------------------- |
+| DATA      | Table  | SET SEMANTIC, PASS THROUGH | Input table with partition/sort keys |
+| TIMECOL   | Scalar | String (default: 'time')   | Time column name                     |
+| GAP       | Scalar | Long integer               | Session gap threshold                |
+
+#### 10.2.4 Returned Results
+
+The SESSION function returns:
+
+* `window_start`: Time of the first row in the session
+* `window_end`: Time of the last row in the session
+* Pass-through columns: All input columns from DATA
+
+#### 10.2.5 Usage Example
+
+```SQL
+IoTDB> SELECT * FROM SESSION(DATA => bid PARTITION BY stock_id ORDER BY time,TIMECOL => 'time',GAP => 2m);
++-----------------------------+-----------------------------+-----------------------------+--------+-----+
+|                 window_start|                   window_end|                         time|stock_id|price|
++-----------------------------+-----------------------------+-----------------------------+--------+-----+
+|2021-01-01T09:06:00.000+08:00|2021-01-01T09:07:00.000+08:00|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
+|2021-01-01T09:06:00.000+08:00|2021-01-01T09:07:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
+|2021-01-01T09:15:00.000+08:00|2021-01-01T09:15:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
+|2021-01-01T09:05:00.000+08:00|2021-01-01T09:09:00.000+08:00|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
+|2021-01-01T09:05:00.000+08:00|2021-01-01T09:09:00.000+08:00|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
+|2021-01-01T09:05:00.000+08:00|2021-01-01T09:09:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
++-----------------------------+-----------------------------+-----------------------------+--------+-----+
+
+-- Equivalent to tree model's GROUP BY SESSION when combined with GROUP BY
+IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM SESSION(DATA => bid PARTITION BY stock_id ORDER BY time,TIMECOL => 'time',GAP => 2m) GROUP BY window_start, window_end, stock_id;
++-----------------------------+-----------------------------+--------+------------------+
+|                 window_start|                   window_end|stock_id|               avg|
++-----------------------------+-----------------------------+--------+------------------+
+|2021-01-01T09:06:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|             201.0|
+|2021-01-01T09:15:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|             195.0|
+|2021-01-01T09:05:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|101.66666666666667|
++-----------------------------+-----------------------------+--------+------------------+
+```
+
+### 10.3 VARIATION
+
+#### 10.3.1 Function Description
+
+The VARIATION function groups data based on value differences. The first row becomes the baseline for the first window. Subsequent rows are compared to the baseline—if the difference is within the threshold (DELTA), they join the current window; otherwise, a new window starts with that row as the new baseline.
+
+#### 10.3.2 Function Definition
+
+```sql
+VARIATION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], col, delta)
+```
+
+#### 10.3.3 Parameter Description
+
+| Parameter | Type   | Attributes                 | Description                          |
+| ----------- | -------- | ---------------------------- | -------------------------------------- |
+| DATA      | Table  | SET SEMANTIC, PASS THROUGH | Input table with partition/sort keys |
+| COL       | Scalar | String                     | Column for difference calculation    |
+| DELTA     | Scalar | Float                      | Difference threshold                 |
+
+#### 10.3.4 Returned Results
+
+The VARIATION function returns:
+
+* `window_index`: Window identifier
+* Pass-through columns: All input columns from DATA
+
+#### 10.3.5 Usage Example
+
+```sql
+IoTDB> SELECT * FROM VARIATION(DATA => bid PARTITION BY stock_id ORDER BY time,COL => 'price',DELTA => 2.0);
++------------+-----------------------------+--------+-----+
+|window_index|                         time|stock_id|price|
++------------+-----------------------------+--------+-----+
+|           0|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
+|           0|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
+|           1|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
+|           0|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
+|           1|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
+|           1|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
++------------+-----------------------------+--------+-----+
+
+-- Equivalent to tree model's GROUP BY VARIATION when combined with GROUP BY
+IoTDB> SELECT first(time) as window_start, last(time) as window_end, stock_id, avg(price) as avg FROM VARIATION(DATA => bid PARTITION BY stock_id ORDER BY time,COL => 'price', DELTA => 2.0) GROUP BY window_index, stock_id;
++-----------------------------+-----------------------------+--------+-----+
+|                 window_start|                   window_end|stock_id|  avg|
++-----------------------------+-----------------------------+--------+-----+
+|2021-01-01T09:06:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|201.0|
+|2021-01-01T09:15:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
+|2021-01-01T09:05:00.000+08:00|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
+|2021-01-01T09:07:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|102.5|
++-----------------------------+-----------------------------+--------+-----+
+```
+
+### 10.4 CAPACITY
+
+#### 10.4.1 Function Description
+
+The CAPACITY function groups data into fixed-size windows, where each window contains up to SIZE rows.
+
+#### 10.4.2 Function Definition
+
+```sql
+CAPACITY(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], size)
+```
+
+#### 10.4.3 Parameter Description
+
+| Parameter | Type   | Attributes                 | Description                          |
+| ----------- | -------- | ---------------------------- | -------------------------------------- |
+| DATA      | Table  | SET SEMANTIC, PASS THROUGH | Input table with partition/sort keys |
+| SIZE      | Scalar | Long integer               | Window size (row count)              |
+
+#### 10.4.4 Returned Results
+
+The CAPACITY function returns:
+
+* `window_index`: Window identifier
+* Pass-through columns: All input columns from DATA
+
+#### 10.4.5 Usage Example
+
+```sql
+IoTDB> SELECT * FROM CAPACITY(DATA => bid PARTITION BY stock_id ORDER BY time, SIZE => 2);
++------------+-----------------------------+--------+-----+
+|window_index|                         time|stock_id|price|
++------------+-----------------------------+--------+-----+
+|           0|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
+|           0|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
+|           1|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
+|           0|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
+|           0|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
+|           1|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
++------------+-----------------------------+--------+-----+
+
+-- Equivalent to tree model's GROUP BY COUNT when combined with GROUP BY
+IoTDB> SELECT first(time) as start_time, last(time) as end_time, stock_id, avg(price) as avg FROM CAPACITY(DATA => bid PARTITION BY stock_id ORDER BY time, SIZE => 2) GROUP BY window_index, stock_id;
++-----------------------------+-----------------------------+--------+-----+
+|                   start_time|                     end_time|stock_id|  avg|
++-----------------------------+-----------------------------+--------+-----+
+|2021-01-01T09:06:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|201.0|
+|2021-01-01T09:15:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
+|2021-01-01T09:05:00.000+08:00|2021-01-01T09:07:00.000+08:00|    AAPL|101.5|
+|2021-01-01T09:09:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
++-----------------------------+-----------------------------+--------+-----+
+```
+
+### 10.5 TUMBLE
+
+#### 10.5.1 Function Description
+
+The TUMBLE function assigns each row to a non-overlapping, fixed-size time window based on a timestamp attribute.
+
+#### 10.5.2 Function Definition
+
+```sql
+TUMBLE(data, timecol, size[, origin])
+```
+#### 10.5.3 Parameter Description
+
+| Parameter | Type   | Attributes                      | Description             |
+| ----------- | -------- | --------------------------------- | ------------------------- |
+| DATA      | Table  | ROW SEMANTIC, PASS THROUGH      | Input table             |
+| TIMECOL   | Scalar | String (default: 'time')        | Time column             |
+| SIZE      | Scalar | Long integer (positive)         | Window size             |
+| ORIGIN    | Scalar | Timestamp (default: Unix epoch) | First window start time |
+
+#### 10.5.4 Returned Results
+
+The TUMBLE function returns:
+
+* `window_start`: Window start time (inclusive)
+* `window_end`: Window end time (exclusive)
+* Pass-through columns: All input columns from DATA
+
+#### 10.5.5 Usage Example
+
+```SQL
+IoTDB> SELECT * FROM TUMBLE( DATA => bid, TIMECOL => 'time', SIZE => 10m);
++-----------------------------+-----------------------------+-----------------------------+--------+-----+
+|                 window_start|                   window_end|                         time|stock_id|price|
++-----------------------------+-----------------------------+-----------------------------+--------+-----+
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
+|2021-01-01T09:10:00.000+08:00|2021-01-01T09:20:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
++-----------------------------+-----------------------------+-----------------------------+--------+-----+
+
+-- Equivalent to tree model's GROUP BY TIME when combined with GROUP BY
+IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM TUMBLE(DATA => bid, TIMECOL => 'time', SIZE => 10m) GROUP BY window_start, window_end, stock_id;
++-----------------------------+-----------------------------+--------+------------------+
+|                 window_start|                   window_end|stock_id|               avg|
++-----------------------------+-----------------------------+--------+------------------+
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|    TESL|             201.0|
+|2021-01-01T09:10:00.000+08:00|2021-01-01T09:20:00.000+08:00|    TESL|             195.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|    AAPL|101.66666666666667|
++-----------------------------+-----------------------------+--------+------------------+
+```
+
+### 10.6 CUMULATE
+
+#### 10.6.1 Function Description
+
+The CUMULATE function creates expanding windows from an initial window, maintaining the same start time while incrementally extending the end time by STEP until reaching SIZE. Each window contains all elements within its range. For example, with a 1-hour STEP and 24-hour SIZE, daily windows would be: `[00:00, 01:00)`, `[00:00, 02:00)`, ..., `[00:00, 24:00)`.
+
+#### 10.6.2 Function Definition
+
+```sql
+CUMULATE(data, timecol, size, step[, origin])
+```
+
+#### 10.6.3 Parameter Description
+
+| Parameter | Type   | Attributes                      | Description                                       |
+| ----------- | -------- | --------------------------------- | --------------------------------------------------- |
+| DATA      | Table  | ROW SEMANTIC, PASS THROUGH      | Input table                                       |
+| TIMECOL   | Scalar | String (default: 'time')        | Time column                                       |
+| SIZE      | Scalar | Long integer (positive)         | Window size (must be an integer multiple of STEP) |
+| STEP      | Scalar | Long integer (positive)         | Expansion step                                    |
+| ORIGIN    | Scalar | Timestamp (default: Unix epoch) | First window start time                           |
+
+> Note: An error `Cumulative table function requires size must be an integral multiple of step` occurs if SIZE is not divisible by STEP.
+
+#### 10.6.4 Returned Results
+
+The CUMULATE function returns:
+
+* `window_start`: Window start time (inclusive)
+* `window_end`: Window end time (exclusive)
+* Pass-through columns: All input columns from DATA
+
+#### 10.6.5 Usage Example
+
+```sql
+IoTDB> SELECT * FROM CUMULATE(DATA => bid,TIMECOL => 'time',STEP => 2m,SIZE => 10m);
++-----------------------------+-----------------------------+-----------------------------+--------+-----+
+|                 window_start|                   window_end|                         time|stock_id|price|
++-----------------------------+-----------------------------+-----------------------------+--------+-----+
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:08:00.000+08:00|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:06:00.000+08:00|    TESL|200.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:08:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:07:00.000+08:00|    TESL|202.0|
+|2021-01-01T09:10:00.000+08:00|2021-01-01T09:16:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
+|2021-01-01T09:10:00.000+08:00|2021-01-01T09:18:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
+|2021-01-01T09:10:00.000+08:00|2021-01-01T09:20:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:06:00.000+08:00|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:08:00.000+08:00|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:05:00.000+08:00|    AAPL|100.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:08:00.000+08:00|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:07:00.000+08:00|    AAPL|103.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
++-----------------------------+-----------------------------+-----------------------------+--------+-----+
+
+-- Equivalent to tree model's GROUP BY TIME when combined with GROUP BY
+IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM CUMULATE(DATA => bid,TIMECOL => 'time',STEP => 2m, SIZE => 10m) GROUP BY window_start, window_end, stock_id;
++-----------------------------+-----------------------------+--------+------------------+
+|                 window_start|                   window_end|stock_id|               avg|
++-----------------------------+-----------------------------+--------+------------------+
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:08:00.000+08:00|    TESL|             201.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|    TESL|             201.0|
+|2021-01-01T09:10:00.000+08:00|2021-01-01T09:16:00.000+08:00|    TESL|             195.0|
+|2021-01-01T09:10:00.000+08:00|2021-01-01T09:18:00.000+08:00|    TESL|             195.0|
+|2021-01-01T09:10:00.000+08:00|2021-01-01T09:20:00.000+08:00|    TESL|             195.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:06:00.000+08:00|    AAPL|             100.0|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:08:00.000+08:00|    AAPL|             101.5|
+|2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|    AAPL|101.66666666666667|
++-----------------------------+-----------------------------+--------+------------------+
+```
