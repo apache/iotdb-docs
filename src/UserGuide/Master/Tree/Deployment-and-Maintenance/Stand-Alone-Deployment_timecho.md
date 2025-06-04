@@ -161,8 +161,6 @@ Navigate to the `sbin` directory of IoTDB and start the DataNode:
    show system info
    ```
 
-  **Note**: Activation is currently supported only in the Tree Model.
-
 3. Copy the returned machine code (displayed as a green string) and send it to the Timecho team:
 
 ```Bash

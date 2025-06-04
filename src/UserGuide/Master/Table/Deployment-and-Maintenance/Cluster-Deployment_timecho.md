@@ -190,8 +190,7 @@ On each server, navigate to the `sbin` directory and start the DataNode:
     ```Bash
     show system info
     ``` 
-
-**Note**: Activation is currently supported only in the Tree Model.
+ 
 
 3. Copy the returned machine code of each server (displayed as a green string) and send it to the Timecho team:
 
