@@ -105,70 +105,59 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
     ./start-datanode.sh   -d   #-d参数将在后台进行启动 
     ```
 
-    2. 检查Linux的内核架构
+2. 检查Linux的内核架构
   ```shell
     uname -m
-    ```
+  ```
 
-    3. 导入Python环境[下载](https://repo.anaconda.com/miniconda/)
+3. 导入Python环境[下载](https://repo.anaconda.com/miniconda/)
     
     推荐下载py311版本应用，导入至用户根目录下 iotdb专用文件夹 中
 
-    4. 切换至iotdb专用文件夹安装Python环境
-
-    以 Miniconda3-py311_24.5.0-0-Linux-x86_64 为例：
+4. 验证Python版本
 
   ```shell
-    bash ./Miniconda3-py311_24.5.0-0-Linux-x86_64.sh
-    ```
-  > 根据提示键入“回车”、“长按空格”、“回车”、“yes”、“yes” <br>
-  > 关闭当前SSH窗口重新连接
+   python --version
+   ```
 
-   5. 创建专用环境
+5. 创建虚拟环境（在 ainode 目录下执行）：
 
   ```shell
-    conda create -n ainode_py python=3.11.9
-    ```
+   python -m venv venv
+   ```
 
-    根据提示键入“y”
-
-   6. 激活专用环境
+6. 激活虚拟环境：
 
   ```shell
-    conda activate ainode_py
-    ```
+   source venv/bin/activate
+   ```
 
-   7. 验证Python版本
-
-  ```shell
-    python --version
-    ```
-   8. 下载导入AINode到专用文件夹，切换到专用文件夹并解压安装包
+7. 下载导入AINode到专用文件夹，切换到专用文件夹并解压安装包
 
   ```shell
     unzip iotdb-enterprise-ainode-1.3.3.2.zip
-    ```
+  ```
 
-   9. 配置项修改
+8. 配置项修改
 
   ```shell
     vi iotdb-enterprise-ainode-1.3.3.2/conf/iotdb-ainode.properties
-    ```
+  ```
    配置项修改：[详细信息](#配置项修改)
   > ain_seed_config_node=iotdb-1:10710（集群通讯节点IP:通讯节点端口）<br>
   > ain_inference_rpc_address=iotdb-3（运行AINode的服务器IP）
 
-   10. 更换Python源
+9. 更换Python源
 
   ```shell
     pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
-    ```
+  ```
 
-   11. 启动AINode节点
+10. 启动AINode节点
 
   ```shell
     nohup bash iotdb-enterprise-ainode-1.3.3.2/sbin/start-ainode.sh  > myout.file 2>& 1 &
-    ```
+  ```
   > 回到系统默认环境：conda deactivate
   
 ### 配置项修改
