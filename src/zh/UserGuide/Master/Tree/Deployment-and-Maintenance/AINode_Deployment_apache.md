@@ -27,7 +27,7 @@
 AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，该节点通过与 IoTDB 集群的 DataNode、ConfigNode 的交互，扩展了对时间序列进行机器学习分析的能力，支持从外部引入已有机器学习模型进行注册，并使用注册的模型在指定时序数据上通过简单 SQL 语句完成时序分析任务的过程，将模型的创建、管理及推理融合在数据库引擎中。目前已提供常见时序分析场景（例如预测与异常检测）的机器学习算法或自研模型。
 
 ### 1.2 交付方式
- 是 IoTDB 集群外的额外套件，独立安装包，独立激活。
+ 是 IoTDB 集群外的额外套件，独立安装包。
 
 ### 1.3 部署模式
 <div >
@@ -80,42 +80,32 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
 
 推荐下载py311版本应用，导入至用户根目录下 iotdb专用文件夹 中
 
-3. 切换至iotdb专用文件夹安装Python环境
 
-以 Miniconda3-py311_24.5.0-0-Linux-x86_64 为例：
-
-```shell
-  bash ./Miniconda3-py311_24.5.0-0-Linux-x86_64.sh
-  ```
-> 根据提示键入“回车”、“长按空格”、“回车”、“yes”、“yes” <br>
-> 关闭当前SSH窗口重新连接
-
-  4. 创建专用环境
-
-```shell
-  conda create -n ainode_py python=3.11.9
-  ```
-
-  根据提示键入“y”
-
-  5. 激活专用环境
-
-```shell
-  conda activate ainode_py
-  ```
-
-  6. 验证Python版本
+3. 验证Python版本
 
 ```shell
   python --version
   ```
-  7. 下载导入AINode到专用文件夹，切换到专用文件夹并解压安装包
+
+4. 创建虚拟环境（在 ainode 目录下执行）：
+
+  ```shell
+   python -m venv venv
+   ```
+
+5. 激活虚拟环境：
+
+  ```shell
+   source venv/bin/activate
+   ```
+
+6. 下载导入AINode到专用文件夹，切换到专用文件夹并解压安装包
 
 ```shell
   unzip iotdb-enterprise-ainode-1.3.3.2.zip
   ```
 
-  8. 配置项修改
+7. 配置项修改
 
 ```shell
   vi iotdb-enterprise-ainode-1.3.3.2/conf/iotdb-ainode.properties
@@ -124,13 +114,13 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
 > ain_seed_config_node=iotdb-1:10710（集群通讯节点IP:通讯节点端口）<br>
 > ain_inference_rpc_address=iotdb-3（运行AINode的服务器IP）
 
-  9. 更换Python源
+8. 更换Python源
 
 ```shell
   pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
   ```
 
-  10. 启动AINode节点
+9. 启动AINode节点
 
 ```shell
   nohup bash iotdb-enterprise-ainode-1.3.3.2/sbin/start-ainode.sh  > myout.file 2>& 1 &

@@ -27,7 +27,7 @@
  AINode is the third type of endogenous node provided by IoTDB after the Configurable Node and DataNode. This node extends its ability to perform machine learning analysis on time series by interacting with the DataNode and Configurable Node of the IoTDB cluster. It supports the introduction of existing machine learning models from external sources for registration and the use of registered models to complete time series analysis tasks on specified time series data through simple SQL statements. The creation, management, and inference of models are integrated into the database engine. Currently, machine learning algorithms or self-developed models are available for common time series analysis scenarios, such as prediction and anomaly detection.
 
 ### Delivery Method
- It is an additional package outside the IoTDB cluster, with independent installation and activation.
+ It is an additional package outside the IoTDB cluster, with independent installation.
 
 ### Deployment mode
 <div >
@@ -82,42 +82,31 @@
   
   Recommend downloading the py311 version application and importing it into the iotdb dedicated folder in the user's root directory
 
-  3. Switch to the iotdb dedicated folder to install the Python environment
-
-  Taking Miniconda 3-py311_24.5.0-0-Lux-x86_64 as an example:
-
-```shell
-  bash ./Miniconda3-py311_24.5.0-0-Linux-x86_64.sh
-  ```
-> Type "Enter", "Long press space", "Enter", "Yes", "Yes" according to the prompt <br>
-> Close the current SSH window and reconnect
-
-   4. Create a dedicated environment
-
-```shell
-  conda create -n ainode_py python=3.11.9
-  ```
-
-  Type 'y' according to the prompt
-
-   5. Activate dedicated environment
-
-```shell
-  conda activate ainode_py
-  ```
-
-   6. Verify Python version
+  3. Verify Python version
 
 ```shell
   python --version
   ```
-   7. Download and import AINode to a dedicated folder, switch to the dedicated folder and extract the installation package
+4. Create a virtual environment (execute in the ainode directory)
+
+  ```shell
+   python -m venv venv
+   ```
+
+5. Activate the virtual environment
+
+  ```shell
+   source venv/bin/activate
+   ```
+
+
+6. Download and import AINode to a dedicated folder, switch to the dedicated folder and extract the installation package
 
 ```shell
   unzip iotdb-enterprise-ainode-1.3.3.2.zip
   ```
 
-   8. Configuration item modification
+ 7. Configuration item modification
 
 ```shell
   vi iotdb-enterprise-ainode-1.3.3.2/conf/iotdb-ainode.properties
@@ -127,13 +116,13 @@
 > ain_seed_config_node=iotdb-1:10710 (Cluster communication node IP: communication node port)<br>
 > ain_inference_rpc_address=iotdb-3 (IP address of the server running AINode)
 
-   9. Replace Python source
+8. Replace Python source
 
 ```shell
   pip config set global.index-url https://mirrors.aliyun.com/pypi/simple/
   ```
 
-   10. Start the AINode node
+9. Start the AINode node
 
 ```shell
   nohup bash iotdb-enterprise-ainode-1.3.3.2/sbin/start-ainode.sh  > myout.file 2>& 1 &
