@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Apache NiFi(IoTDB)
+# Apache NiFi
 
 ## 1. Apache NiFi简介
 

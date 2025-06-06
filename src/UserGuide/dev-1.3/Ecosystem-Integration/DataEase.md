@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# DataEase(IoTDB)
+# DataEase
 
 ## Product Overview
 

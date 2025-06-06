@@ -19,7 +19,7 @@
 
 -->
 
-# Apache Flink(IoTDB) 
+# Apache Flink
 
 IoTDB integration for [Apache Flink](https://flink.apache.org/). This module includes the IoTDB sink that allows a flink job to write events into timeseries, and the IoTDB source allowing reading data from IoTDB.
 

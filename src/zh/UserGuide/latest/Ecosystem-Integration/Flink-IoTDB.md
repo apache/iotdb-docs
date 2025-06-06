@@ -19,7 +19,7 @@
 
 -->
 
-# Apache Flink(IoTDB)
+# Apache Flink
 
 IoTDB 与 [Apache Flink](https://flink.apache.org/) 的集成。此模块包含了 iotdb sink，允许 flink job 将时序数据写入 IoTDB。
 

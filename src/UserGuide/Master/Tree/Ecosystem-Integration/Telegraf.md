@@ -1,4 +1,4 @@
-# Telegraf Plugin(IoTDB)
+# Telegraf Plugin
 
 ## 1. Product Overview
 

@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# ThingsBoard(IoTDB)
+# ThingsBoard
 
 ## Product Overview
 

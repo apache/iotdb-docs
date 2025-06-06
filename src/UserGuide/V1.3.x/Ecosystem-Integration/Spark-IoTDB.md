@@ -19,7 +19,7 @@
 
 -->
 
-# Apache Spark(IoTDB)
+# Apache Spark
 
 ## Supported Versions
 
