@@ -19,7 +19,7 @@
 
 -->
 
-# Ignition(IoTDB)
+# Ignition
 
 ## Product Overview
 
