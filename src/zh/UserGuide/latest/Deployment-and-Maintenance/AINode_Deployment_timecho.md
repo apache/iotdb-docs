@@ -56,16 +56,16 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
 - 建议操作环境: Ubuntu, CentOS, MacOS  
 
 - 运行环境   
-    - 联网环境下 Python >= 3.8即可，且带有 pip 和 venv 工具；非联网环境下需要使用 Python 3.8版本，并从 [此处](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) 下载对应操作系统的zip压缩包（注意下载依赖需选择libs文件夹中的zip压缩包，如下图），并将文件夹下的所有文件拷贝到 `apache-iotdb-<version>-ainode-bin` 文件夹中 `lib` 文件夹下，并按下文步骤启动AINode。 
+    - Python 版本在 3.10~3.12 即可，且带有 pip 和 venv 工具；非联网环境下需要从 [此处](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) 下载对应操作系统的zip压缩包（注意下载依赖需选择libs文件夹中的zip压缩包，如下图），并将文件夹下的所有文件拷贝到 `apache-iotdb-<version>-ainode-bin` 文件夹中 `lib` 文件夹下，并按下文步骤启动AINode。 
 
       <img src="/img/AINode%E9%83%A8%E7%BD%B23.png" alt="" style="width: 80%;"/>
     
     - 环境变量中需存在 Python 解释器且可以通过 `python` 指令直接调用
-    - 建议在 `apache-iotdb-<version>-ainode-bin` 文件夹下，新建 Python 解释器 venv 虚拟环境。如安装 3.8.0 版本虚拟环境，语句如下：
+    - 建议在 `apache-iotdb-<version>-ainode-bin` 文件夹下，新建 Python 解释器 venv 虚拟环境。如安装 3.10.0 版本虚拟环境，语句如下：
     
       ```shell
-      # 安装3.8.0版本的venv，创建虚拟环境，文件夹名为 `venv`
-      ../Python-3.8.0/python -m venv `venv`
+      # 安装3.10.0版本的venv，创建虚拟环境，文件夹名为 `venv`
+      ../Python-3.10.0/python -m venv `venv`
       ```
 ## 3. 安装部署及使用
 
@@ -305,7 +305,7 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
 | ain_interpreter_dir | -i   | AINode 所安装在的虚拟环境的解释器路径，需要使用绝对路径      | 否       | String | 默认读取环境变量 | 调用时输入或持久化修改 |
 | ain_force_reinstall | -r   | 该脚本在检查 AINode 安装情况的时候是否检查版本，如果检查则在版本不对的情况下会强制安装 lib 里的 whl 安装包 | 否       | Bool   | false            | 调用时输入               |
 
-> 注意：非联网环境下安装失败时，首先检查是否选择了平台对应的安装包，其次确认python版本为3.8（由于下载的安装包限制了python版本，3.7、3.9等其他都不行）
+> 注意：非联网环境下安装失败时，首先检查是否选择了平台对应的安装包，其次确认python版本（由于下载的安装包限制了python版本，3.7、3.9等其他都不行）
 
 #### 示例  
 
@@ -479,17 +479,17 @@ IoTDB> show cluster
 
 ### 4.1 启动AINode时出现找不到venv模块的报错
 
- 当使用默认方式启动 AINode 时，会在安装包目录下创建一个 python 虚拟环境并安装依赖，因此要求安装 venv 模块。通常来说 python3.8 及以上的版本会自带 venv，但对于一些系统自带的 python 环境可能并不满足这一要求。出现该报错时有两种解决方案（二选一）：
+ 当使用默认方式启动 AINode 时，会在安装包目录下创建一个 python 虚拟环境并安装依赖，因此要求安装 venv 模块。通常来说 python3.10 及以上的版本会自带 venv，但对于一些系统自带的 python 环境可能并不满足这一要求。出现该报错时有两种解决方案（二选一）：
 
  在本地安装 venv 模块，以 ubuntu 为例，可以通过运行以下命令来安装 python 自带的 venv 模块。或者从 python 官网安装一个自带 venv 的 python 版本。
 
  ```shell
-apt-get install python3.8-venv 
+apt-get install python3.10-venv 
 ```
- 安装 3.8.0 版本的 venv 到 AINode 里面 在 AINode 路径下
+ 安装 3.10.0 版本的 venv 到 AINode 里面 在 AINode 路径下
 
  ```shell
-../Python-3.8.0/python -m venv venv(文件夹名）
+../Python-3.10.0/python -m venv venv(文件夹名）
 ```
  在运行启动脚本时通过 `-i` 指定已有的 python 解释器路径作为 AINode 的运行环境，这样就不再需要创建一个新的虚拟环境。
 
@@ -523,12 +523,12 @@ sudo make install
 
  使用以下指定从官网下载安装包并解压:
   ```shell
-.wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tar.xz
-tar Jxf Python-3.8.0.tar.xz 
+.wget https://www.python.org/ftp/python/3.10.0/Python-3.10.0.tar.xz
+tar Jxf Python-3.10.0.tar.xz 
 ```
  编译安装对应的 python 包:
  ```shell
-cd Python-3.8.0
+cd Python-3.10.0
 ./configure prefix=/usr/local/python3
 make
 sudo make install
