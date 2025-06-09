@@ -31,7 +31,7 @@ IoTDB's table model supports three types of UDFs, as detailed below:
 |-----------------------------------------|---------------|--------------------------------|
 | `UDSF（User-defined Scalar Function）`    | Scalar Function         | Processes ​1 row of k-column data, outputs ​1 row of 1-column data (one-to-one mapping). |
 | `UDAF（User-defined Aggregate Function）` | Aggregate Function       | Processes ​m rows of k-column data, outputs ​1 row of 1-column data (many-to-one reduction). |
-| `UDTF（User-defined Table Function）`     | Table-Valued Function  | Generates a result set in "table" format based on dynamic input parameters.          |
+| `UDTF（User-defined Table Function）`     | Table-Valued Function  | Processes ​​0 or 1 table (m rows × k columns)​​, outputs ​​1 table (x rows × y columns)​​.         |
 
 * `UDSF` can be used in any clause or expression where scalar functions are allowed, such as: SELECT clauses, WHERE conditions, etc.
 
