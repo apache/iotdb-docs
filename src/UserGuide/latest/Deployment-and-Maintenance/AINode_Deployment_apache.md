@@ -103,13 +103,13 @@
   6. Download and import AINode to a dedicated folder, switch to the dedicated folder and extract the installation package
 
 ```shell
-  unzip iotdb-enterprise-ainode-1.3.3.2.zip
+  unzip apache-iotdb-1.3.3-ainode-bin.zip
   ```
 
  7. Configuration item modification
 
 ```shell
-  vi iotdb-enterprise-ainode-1.3.3.2/conf/iotdb-ainode.properties
+  vi apache-iotdb-1.3.3-ainode-bin/conf/iotdb-ainode.properties
   ```
   Configuration item modification：[detailed information](#configuration-item-modification)
 
@@ -125,7 +125,7 @@
   9. Start the AINode node
 
 ```shell
-  nohup bash iotdb-enterprise-ainode-1.3.3.2/sbin/start-ainode.sh  > myout.file 2>& 1 &
+  nohup bash apache-iotdb-1.3.3-ainode-bin/sbin/start-ainode.sh  > myout.file 2>& 1 &
   ```
 > Return to the default environment of the system: conda deactivate
 

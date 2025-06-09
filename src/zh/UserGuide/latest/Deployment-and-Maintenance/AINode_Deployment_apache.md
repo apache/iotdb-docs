@@ -102,13 +102,13 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
 6. 下载导入AINode到专用文件夹，切换到专用文件夹并解压安装包
 
 ```shell
-  unzip iotdb-enterprise-ainode-1.3.3.2.zip
+  unzip apache-iotdb-1.3.3-ainode-bin.zip
   ```
 
 7. 配置项修改
 
 ```shell
-  vi iotdb-enterprise-ainode-1.3.3.2/conf/iotdb-ainode.properties
+  vi apache-iotdb-1.3.3-ainode-bin/conf/iotdb-ainode.properties
   ```
   配置项修改：[详细信息](#配置项修改)
 > ain_seed_config_node=iotdb-1:10710（集群通讯节点IP:通讯节点端口）<br>
@@ -123,7 +123,7 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
 9. 启动AINode节点
 
 ```shell
-  nohup bash iotdb-enterprise-ainode-1.3.3.2/sbin/start-ainode.sh  > myout.file 2>& 1 &
+  nohup bash apache-iotdb-1.3.3-ainode-bin/sbin/start-ainode.sh  > myout.file 2>& 1 &
   ```
 > 回到系统默认环境：conda deactivate
   
