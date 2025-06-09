@@ -57,15 +57,15 @@
 - Suggested operating environment：Ubuntu, CentOS, MacOS  
 
 - Runtime Environment   
-  - Python>=3.8 and Python <= 3.14 is sufficient in a networked environment, and comes with pip and venv tools; Python 3.8 version is required for non networked environments, and download the zip package for the corresponding operating system from [here](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) (Note that when downloading dependencies, you need to select the zip file in the libs folder, as shown in the following figure). Copy all files in the folder to the `lib` folder in the `apache-iotdb-<version>-ainode-bin` folder, and follow the steps below to start AINode.
+  - Python >= 3.10 and Python <= 3.12 is sufficient, and comes with pip and venv tools; For non networked environments, and download the zip package for the corresponding operating system from [here](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) (Note that when downloading dependencies, you need to select the zip file in the libs folder, as shown in the following figure). Copy all files in the folder to the `lib` folder in the `apache-iotdb-<version>-ainode-bin` folder, and follow the steps below to start AINode.
 
      <img src="/img/AINode%E9%83%A8%E7%BD%B2%E7%8E%AF%E5%A2%83.png" alt="" style="width: 80%;"/>
 
   - There must be a Python interpreter in the environment variables that can be directly called through the `python` instruction.
-  - It is recommended to create a Python interpreter venv virtual environment in the `apache-iotdb-<version>-ainode-bin` folder. If installing version 3.8.0 virtual environment, the statement is as follows:
+  - It is recommended to create a Python interpreter venv virtual environment in the `apache-iotdb-<version>-ainode-bin` folder. If installing version 3.10.0 virtual environment, the statement is as follows:
     ```shell
-      # Install version 3.8.0 of Venv , Create a virtual environment with the folder name `venv`.
-      ../Python-3.8.0/python -m venv `venv`
+      # Install version 3.10.0 of Venv , Create a virtual environment with the folder name `venv`.
+      ../Python-3.10.0/python -m venv `venv`
     ```
 
 ## Installation steps
@@ -278,7 +278,7 @@ If the version of AINode has been updated (such as updating the `lib` folder), t
 | ain_interpreter_dir | -i   | The interpreter path of the virtual environment where AINode is installed requires the use of an absolute path      | no       | String | Default reading of environment variables | Input or persist modifications during invocation |
 | ain_force_reinstall | -r   | Does this script check the version when checking the installation status of AINode. If it does, it will force the installation of the whl package in lib if the version is incorrect | no       | Bool   | false            | Input when calling               |
 
-> Attention: When installation fails in a non networked environment, first check if the installation package corresponding to the platform is selected, and then confirm that the Python version is 3.8 (due to the limitations of the downloaded installation package on Python versions, 3.7, 3.9, and others are not allowed)
+> Attention: When installation fails in a non networked environment, first check if the installation package corresponding to the platform is selected, and then confirm the Python version (due to the limitations of the downloaded installation package on Python versions, 3.7, 3.9, and others are not allowed)
 
 #### Example  
 
@@ -454,17 +454,17 @@ If the user loses files in the data folder, AINode may not be able to actively r
 
 ### An error occurs when starting AINode stating that the venv module cannot be found
 
- When starting AINode using the default method, a Python virtual environment will be created in the installation package directory and dependencies will be installed, so it is required to install the venv module. Generally speaking, Python 3.8 and above versions come with built-in VenV, but for some systems with built-in Python environments, this requirement may not be met. There are two solutions when this error occurs (choose one or the other):
+ When starting AINode using the default method, a Python virtual environment will be created in the installation package directory and dependencies will be installed, so it is required to install the venv module. Generally speaking, Python 3.10 and above versions come with built-in VenV, but for some systems with built-in Python environments, this requirement may not be met. There are two solutions when this error occurs (choose one or the other):
 
  To install the Venv module locally, taking Ubuntu as an example, you can run the following command to install the built-in Venv module in Python. Or install a Python version with built-in Venv from the Python official website.
 
  ```shell
-apt-get install python3.8-venv 
+apt-get install python3.10-venv 
 ```
-Install version 3.8.0 of venv into AINode in the AINode path.
+Install version 3.10.0 of venv into AINode in the AINode path.
 
  ```shell
-../Python-3.8.0/python -m venv venv(Folder Name）
+../Python-3.10.0/python -m venv venv(Folder Name）
 ```
  When running the startup script, use ` -i ` to specify an existing Python interpreter path as the running environment for AINode, eliminating the need to create a new virtual environment.
 
@@ -498,12 +498,12 @@ The corresponding error occurs during installation and compilation, usually due 
 
  Use the following instructions to download the installation package from the official website and extract it:
   ```shell
-.wget https://www.python.org/ftp/python/3.8.0/Python-3.8.0.tar.xz
-tar Jxf Python-3.8.0.tar.xz 
+.wget https://www.python.org/ftp/python/3.10.0/Python-3.10.0.tar.xz
+tar Jxf Python-3.10.0.tar.xz 
 ```
  Compile and install the corresponding Python package:
  ```shell
-cd Python-3.8.0
+cd Python-3.10.0
 ./configure prefix=/usr/local/python3
 make
 sudo make install
