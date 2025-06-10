@@ -298,6 +298,7 @@ create pipe A2B
 WITH SOURCE (
   'source'= 'iotdb-source',
   'realtime.mode' = 'stream'  -- 新插入数据（pipe创建后）的抽取模式
+  'path' = 'root.vehicle.**',  -- 同步数据的范围
   'start-time' = '2023.08.23T08:00:00+00:00',  -- 同步所有数据的开始 event time，包含 start-time
   'end-time' = '2023.10.23T08:00:00+00:00'  -- 同步所有数据的结束 event time，包含 end-time
 ) 
