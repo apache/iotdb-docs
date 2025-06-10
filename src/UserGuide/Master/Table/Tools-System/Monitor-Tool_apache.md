@@ -99,7 +99,7 @@ For more details, refer to the following documents:
 
 ## 4. Apache IoTDB Dashboard
 
-The `Apache IoTDB Dashboard` is a companion product of IoTDB Enterprise Edition, supporting unified centralized operation and maintenance management. It allows monitoring multiple clusters through a single monitoring panel. You can contact the business team to obtain the Dashboard's JSON file.
+The `Apache IoTDB Dashboard` is a companion product of TimechoDB, supporting unified centralized operation and maintenance management. It allows monitoring multiple clusters through a single monitoring panel. You can contact the business team to obtain the Dashboard's JSON file.
 
 ![Apache IoTDB Dashboard](/img/%E7%9B%91%E6%8E%A7%20default%20cluster.png)
 
