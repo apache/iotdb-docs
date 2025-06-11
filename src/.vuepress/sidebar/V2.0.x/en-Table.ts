@@ -29,7 +29,7 @@ export const enSidebar = {
       children: [
         { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_apache' },
         { text: 'Scenario', link: 'Scenario' },
-        { text: 'Release history', link: 'Release-history_apache' },
+        { text: 'Release History', link: 'Release-history_apache' },
       ],
     },
     {
