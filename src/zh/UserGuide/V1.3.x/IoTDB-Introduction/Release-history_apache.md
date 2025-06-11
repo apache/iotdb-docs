@@ -20,6 +20,25 @@
 -->
 # 发版历史
 
+## V1.3.4
+
+> 发版时间：2025.04.18
+
+V1.3.4主要新增模式匹配函数、持续优化数据订阅机制，提升稳定性、数据导入导出脚本合并以及扩展支持新数据类型，同时对数据库监控、性能、稳定性进行了全方位提升。具体发布内容如下：
+
+* 查询模块：用户可通过配置项控制 UDF、PipePlugin、Trigger 和 AINode 通过 URI 加载 jar 包
+* 查询模块：对合并过程中缓存的 TimeIndex 增加监控
+* 系统模块：UDF 函数拓展，新增 pattern\_match 模式匹配函数
+* 系统模块：python session sdk 新增连接超时的参数
+* 系统模块：新增集群管理相关操作鉴权
+* 系统模块：ConfigNode/DataNode 支持使用 SQL 进行缩容
+* 系统模块：ConfigNode 自动清理超过 TTL 的分区信息（2 小时清理一次）
+* 数据同步：支持在发送端指定接收端鉴权信息
+* 生态集成：支持 Kubernetes Operator
+* 脚本与工具：import-data/export-data 脚本扩展，支持新数据类型（字符串、大二进制对象、日期、时间戳）
+* 脚本与工具：import-data/export-data 脚本迭代，同时兼容 TsFile、CSV 和 SQL 三种类型数据的导入导出
+
+
 ## V1.3.3
 
 > 发版时间：2024.11.20
