@@ -57,7 +57,7 @@ Users cannot create users with the same name as the administrator.
 
 ### Password Constraints
 
-4 to 32 characters, can use uppercase and lowercase letters, numbers, and special characters (`!@#$%^&*()_+-=`). Passwords are encrypted by default using MD5.
+4 to 32 characters, can use uppercase and lowercase letters, numbers, and special characters (`!@#$%^&*()_+-=`). Passwords are encrypted by default using SHA-256.
 
 ### Role Name Constraints
 
