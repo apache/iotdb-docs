@@ -102,10 +102,42 @@ connection.disconnect();
 
 ## 5. 自定义 MQTT 消息格式
 
-事实上可以通过简单编程来实现 MQTT 消息的格式自定义。
+在生产环境中，每个设备通常都配备了自己的 MQTT 客户端，且这些客户端的消息格式已经预先设定。如果按照 IoTDB 所支持的 MQTT 消息格式进行通信，就需要对现有的所有客户端进行全面的升级改造，这无疑会带来较高的成本。然而，我们可以通过简单的编程手段，轻松实现 MQTT 消息格式的自定义，而无需改造客户端。
 可以在源码的 [example/mqtt-customize](https://github.com/apache/iotdb/tree/master/example/mqtt-customize) 项目中找到一个简单示例。
 
-步骤:
+假定mqtt客户端传过来的是以下消息格式：
+```json
+ {
+    "time":1586076045523,
+    "deviceID":"car_1",
+    "deviceType":"油车",
+    "point":"油量",
+    "value":10.0
+}
+```
+或者JSON的数组形式：
+```java
+[
+    {        
+        "time":1586076045523,        
+        "deviceID":"car_1",        
+        "deviceType":"油车",        
+        "point":"油量",        
+        "value":10.0
+    },
+    {       
+        "time":1586076045524,       
+        "deviceID":"car_2",
+        "deviceType":"新能源车",       
+        "point":"速度",       
+        "value":80.0
+    }
+]
+```
+
+
+则可以通过以下步骤设置设置自定义MQTT消息格式：
+
 1. 创建一个 Java 项目，增加如下依赖
 ```xml
         <dependency>
@@ -117,48 +149,121 @@ connection.disconnect();
 2. 创建一个实现类，实现接口 `org.apache.iotdb.db.mqtt.protocol.PayloadFormatter`
 
 ```java
+
 package org.apache.iotdb.mqtt.server;
 
-import io.netty.buffer.ByteBuf;
 import org.apache.iotdb.db.protocol.mqtt.Message;
 import org.apache.iotdb.db.protocol.mqtt.PayloadFormatter;
+import org.apache.iotdb.db.protocol.mqtt.TableMessage;
+
+import com.google.common.collect.Lists;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import io.netty.buffer.ByteBuf;
+import org.apache.commons.lang3.NotImplementedException;
+import org.apache.tsfile.enums.TSDataType;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The Customized JSON payload formatter. one json format supported: { "time":1586076045523,
+ * "deviceID":"car_1", "deviceType":"新能源车", "point":"速度", "value":80.0 }
+ */
 public class CustomizedJsonPayloadFormatter implements PayloadFormatter {
+    private static final String JSON_KEY_TIME = "time";
+    private static final String JSON_KEY_DEVICEID = "deviceID";
+    private static final String JSON_KEY_DEVICETYPE = "deviceType";
+    private static final String JSON_KEY_POINT = "point";
+    private static final String JSON_KEY_VALUE = "value";
+    private static final Gson GSON = new GsonBuilder().create();
 
     @Override
     public List<Message> format(String topic, ByteBuf payload) {
-        // Suppose the payload is a json format
         if (payload == null) {
-            return null;
+            return new ArrayList<>();
         }
+        String txt = payload.toString(StandardCharsets.UTF_8);
+        JsonElement jsonElement = GSON.fromJson(txt, JsonElement.class);
+        if (jsonElement.isJsonObject()) {
+            JsonObject jsonObject = jsonElement.getAsJsonObject();
+            return formatTableRow(topic, jsonObject);
+        } else if (jsonElement.isJsonArray()) {
+            JsonArray jsonArray = jsonElement.getAsJsonArray();
+            List<Message> messages = new ArrayList<>();
+            for (JsonElement element : jsonArray) {
+                JsonObject jsonObject = element.getAsJsonObject();
+                messages.addAll(formatTableRow(topic, jsonObject));
+            }
+            return messages;
+        }
+        throw new JsonParseException("payload is invalidate");
+    }
 
-        String json = payload.toString(StandardCharsets.UTF_8);
-        // parse data from the json and generate Messages and put them into List<Meesage> ret
-        List<Message> ret = new ArrayList<>();
-        // this is just an example, so we just generate some Messages directly
-        for (int i = 0; i < 2; i++) {
-            long ts = i;
-            Message message = new Message();
-            message.setDevice("d" + i);
-            message.setTimestamp(ts);
-            message.setMeasurements(Arrays.asList("s1", "s2"));
-            message.setValues(Arrays.asList("4.0" + i, "5.0" + i));
-            ret.add(message);
-        }
-        return ret;
+    @Override
+    @Deprecated
+    public List<Message> format(ByteBuf payload) {
+        throw new NotImplementedException();
+    }
+
+    private List<Message> formatTableRow(String topic, JsonObject jsonObject) {
+        TableMessage message = new TableMessage();
+        String database = !topic.contains("/") ? topic : topic.substring(0, topic.indexOf("/"));
+        String table = "test_table";
+
+        // Parsing Database Name
+        message.setDatabase((database));
+
+        // Parsing Table Name
+        message.setTable(table);
+
+        // Parsing Tags
+        List<String> tagKeys = new ArrayList<>();
+        tagKeys.add(JSON_KEY_DEVICEID);
+        List<Object> tagValues = new ArrayList<>();
+        tagValues.add(jsonObject.get(JSON_KEY_DEVICEID).getAsString());
+        message.setTagKeys(tagKeys);
+        message.setTagValues(tagValues);
+
+        // Parsing Attributes
+        List<String> attributeKeys = new ArrayList<>();
+        List<Object> attributeValues = new ArrayList<>();
+        attributeKeys.add(JSON_KEY_DEVICETYPE);
+        attributeValues.add(jsonObject.get(JSON_KEY_DEVICETYPE).getAsString());
+        message.setAttributeKeys(attributeKeys);
+        message.setAttributeValues(attributeValues);
+
+        // Parsing Fields
+        List<String> fields = Arrays.asList(JSON_KEY_POINT);
+        List<TSDataType> dataTypes = Arrays.asList(TSDataType.FLOAT);
+        List<Object> values = Arrays.asList(jsonObject.get(JSON_KEY_VALUE).getAsFloat());
+        message.setFields(fields);
+        message.setDataTypes(dataTypes);
+        message.setValues(values);
+
+        // Parsing timestamp
+        message.setTimestamp(jsonObject.get(JSON_KEY_TIME).getAsLong());
+        return Lists.newArrayList(message);
     }
 
     @Override
     public String getName() {
-        // set the value of mqtt_payload_formatter in iotdb-system.properties as the following string:
-        return "CustomizedJson";
+        // set the value of mqtt_payload_formatter in iotdb-common.properties as the following string:
+        return "CustomizedJson2Table";
+    }
+
+    @Override
+    public String getType() {
+        return PayloadFormatter.TABLE_TYPE;
     }
 }
+
 ```
 3. 修改项目中的 `src/main/resources/META-INF/services/org.apache.iotdb.db.protocol.mqtt.PayloadFormatter` 文件:
   将示例中的文件内容清除，并将刚才的实现类的全名（包名.类名）写入文件中。注意，这个文件中只有一行。
@@ -170,7 +275,7 @@ public class CustomizedJsonPayloadFormatter implements PayloadFormatter {
 1. 创建 ${IOTDB_HOME}/ext/mqtt/ 文件夹, 将刚才的 jar 包放入此文件夹。
 2. 打开 MQTT 服务参数. (`enable_mqtt_service=true` in `conf/iotdb-system.properties`)
 3. 用刚才的实现类中的 getName() 方法的返回值 设置为 `conf/iotdb-system.properties` 中 `mqtt_payload_formatter` 的值， 
-  , 在本例中，为 `CustomizedJson`
+  , 在本例中，为 `CustomizedJson2Table`
 4. 启动 IoTDB
 5. 搞定
 

@@ -102,9 +102,40 @@ connection.disconnect();
 
 ## 5. Customize your MQTT Message Format
 
-If you do not like the above Json format, you can customize your MQTT Message format by just writing several lines 
-of codes. An example can be found in  [example/mqtt-customize](https://github.com/apache/iotdb/tree/master/example/mqtt-customize)  project.
+In a production environment, each device typically has its own MQTT client, and the message formats of these clients have been pre-defined. If communication is to be carried out in accordance with the MQTT message format supported by IoTDB, a comprehensive upgrade and transformation of all existing clients would be required, which would undoubtedly incur significant costs. However, we can easily achieve customization of the MQTT message format through simple programming means, without the need to modify the clients.
+An example can be found in  [example/mqtt-customize](https://github.com/apache/iotdb/tree/master/example/mqtt-customize)  project.
 
+Assuming the MQTT client sends the following message format:
+```json
+ {
+    "time":1586076045523,
+    "deviceID":"car_1",
+    "deviceType":"油车",
+    "point":"油量",
+    "value":10.0
+}
+```
+或者JSON的数组形式：
+```java
+[
+    {        
+        "time":1586076045523,        
+        "deviceID":"car_1",        
+        "deviceType":"油车",        
+        "point":"油量",        
+        "value":10.0
+    },
+    {       
+        "time":1586076045524,       
+        "deviceID":"car_2",
+        "deviceType":"新能源车",       
+        "point":"速度",       
+        "value":80.0
+    }
+]
+```
+
+Then you can set up the custom MQTT message format through the following steps:
 Steps:
 1. Create a java project, and add dependency:
 ```xml
@@ -171,7 +202,7 @@ Then, in your server:
 1. Create ${IOTDB_HOME}/ext/mqtt/ folder, and put the jar into this folder.
 2. Update configuration to enable MQTT service. (`enable_mqtt_service=true` in `conf/iotdb-system.properties`)
 3. Set the value of `mqtt_payload_formatter` in `conf/iotdb-system.properties` as the value of getName() in your implementation
-  , in this example, the value is `CustomizedJson`
+  , in this example, the value is `CustomizedJson2Table`
 4. Launch the IoTDB server.
 5. Now IoTDB will use your implementation to parse the MQTT message.
 

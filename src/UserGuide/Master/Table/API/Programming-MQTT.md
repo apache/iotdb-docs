@@ -102,7 +102,7 @@ The table name is derived from the `<measurement>` in the line protocol.
 ## 5. Coding Examples
 The following is an example which a mqtt client send messages to IoTDB server.
 
-```java
+ ```java
 MQTT mqtt = new MQTT();
 mqtt.setHost("127.0.0.1", 1883);
 mqtt.setUserName("root");
@@ -115,30 +115,34 @@ connection.connect();
 String payload =
         "test1,tag1=t1,tag2=t2 attr3=a5,attr4=a4 field1=\"fieldValue1\",field2=1i,field3=1u 1";
 connection.publish(DATABASE + "/myTopic", payload.getBytes(), QoS.AT_LEAST_ONCE, false);
-        Thread.sleep(10);
+Thread.sleep(10);
 
 payload = "test1,tag1=t1,tag2=t2  field4=2,field5=2i32,field6=2f 2";
-        connection.publish(DATABASE, payload.getBytes(), QoS.AT_LEAST_ONCE, false);
-        Thread.sleep(10);
-
-payload =
-        "test1,tag1=t1,tag2=t2  field7=t,field8=T,field9=true 3 \n "
-        + "test1,tag1=t1,tag2=t2  field7=f,field8=F,field9=FALSE 4";
-        connection.publish(DATABASE + "/myTopic", payload.getBytes(), QoS.AT_LEAST_ONCE, false);
-        Thread.sleep(10);
-
-payload =
-        "test1,tag1=t1,tag2=t2 attr1=a1,attr2=a2 field1=\"fieldValue1\",field2=1i,field3=1u 4 \n "
-        + "test1,tag1=t1,tag2=t2 field4=2,field5=2i32,field6=2f 5";
-        connection.publish(DATABASE + "/myTopic", payload.getBytes(), QoS.AT_LEAST_ONCE, false);
-        Thread.sleep(10);
+connection.publish(DATABASE, payload.getBytes(), QoS.AT_LEAST_ONCE, false);
+Thread.sleep(10);
 
 payload = "# It's a remark\n " + "test1,tag1=t1,tag2=t2 field4=2,field5=2i32,field6=2f 6";
         connection.publish(DATABASE + "/myTopic", payload.getBytes(), QoS.AT_LEAST_ONCE, false);
         Thread.sleep(10);
 
+//batch write example       
+payload =
+        "test1,tag1=t1,tag2=t2  field7=t,field8=T,field9=true 3 \n "
+        + "test1,tag1=t1,tag2=t2  field7=f,field8=F,field9=FALSE 4";
+connection.publish(DATABASE + "/myTopic", payload.getBytes(), QoS.AT_LEAST_ONCE, false);
+Thread.sleep(10);
+
+//batch write example
+payload =
+        "test1,tag1=t1,tag2=t2 attr1=a1,attr2=a2 field1=\"fieldValue1\",field2=1i,field3=1u 4 \n "
+        + "test1,tag1=t1,tag2=t2 field4=2,field5=2i32,field6=2f 5";
+connection.publish(DATABASE + "/myTopic", payload.getBytes(), QoS.AT_LEAST_ONCE, false);
+Thread.sleep(10);
+
 connection.disconnect();
  ```
+
+
 
 ## 6. Customize your MQTT Message Format
 
