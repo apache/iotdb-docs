@@ -109,7 +109,7 @@ The following documents may help you have a good journey with Prometheus and Gra
 
 ## 2. Apache IoTDB Dashboard
 
-`Apache IoTDB Dashboard` is available as a supplement to TimechoDB, designed for unified centralized operations and management. With it, multiple clusters can be monitored through a single panel. You can access the Dashboard's Json file by contacting Commerce.
+`Apache IoTDB Dashboard` is available as a supplement to IoTDB Enterprise Edition, designed for unified centralized operations and management. With it, multiple clusters can be monitored through a single panel. You can access the Dashboard's Json file by contacting Commerce.
 
 
 ![Apache IoTDB Dashboard](/img/%E7%9B%91%E6%8E%A7%20default%20cluster.png)
