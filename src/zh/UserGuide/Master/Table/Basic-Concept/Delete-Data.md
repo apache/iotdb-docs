@@ -21,11 +21,11 @@
 
 # 数据删除
 
-## 1. 数据删除：
+## 1. 数据删除
 
 数据删除可以通过 delete 语句来完成，其中可以通过指定标签和时间的过滤条件来删除部分数据。
 
-### 1.1 语法概览：
+### 1.1 语法概览
 
 ```SQL
 DELETE FROM <TABLE_NAME> [WHERE_CLAUSE]?
@@ -55,7 +55,7 @@ ID_CONDITION:
 - 对于时间条件，支持 >、<、=、<=、>= 五种运算符。
 - 对于标签条件，目前仅支持 = 运算符。
 
-### 1.2 示例：
+### 1.2 示例
 
 可以在[示例数据页面](../Reference/Sample-Data.md)中导入示例数据。可以使用这些数据来测试和执行示例中的SQL语句。
 
@@ -92,11 +92,11 @@ DELETE FROM table1
 DELETE FROM table1 WHERE model_id = 'B'
 ```
 
-## 2. 设备删除：
+## 2. 设备删除
 
-当一个设备写入后，在 IoTDB 中即保留了其元数据，数据删除语句无法删除设备的元数据，可以使用设备删除语句删除设备的所有数据和元数据。
+设备删除语句支持删除表里所有设备及相关数据。
 
-### 2.1 语法概览：
+### 2.1 语法概览
 
 ```SQL
 DELETE DEVICES FROM tableName=qualifiedName (WHERE booleanExpression)?
@@ -104,7 +104,7 @@ DELETE DEVICES FROM tableName=qualifiedName (WHERE booleanExpression)?
 
 - WHERE 仅支持对标签的等值过滤，条件之间仅可使用 AND 和 OR 运算符连接，不支持时间条件。
 
-### 2.2 示例：
+### 2.2 示例
 
 ```SQL
 DELETE DEVICES FROM table1 WHERE device_id = '101'

@@ -96,7 +96,7 @@ DELETE FROM table1 WHERE model_id = 'B'
 
 ## 2. Device Deletion
 
-When a device is written to IoTDB, its metadata is retained even if data is deleted. To remove both the data and metadata of a device, you can use the `DELETE DEVICES` statement.
+The device deletion statement supports deleting all devices and their related data in the table.
 
 ### 2.1 Syntax Overview
 
