@@ -26,7 +26,7 @@ MQTT 是一种专为物联网（IoT）和低带宽环境设计的轻量级消息
 
 IoTDB 深度集成了 MQTT 协议能力，完整兼容 MQTT v3.1（OASIS 国际标准协议）。IoTDB 服务器内置高性能 MQTT Broker 服务模块，无需第三方中间件，支持设备通过 MQTT 报文将时序数据直接写入 IoTDB 存储引擎。
 
-<img style="width:100%; max-width:800px; max-height:600px; margin-left:auto; margin-right:auto; display:block;" src="/img/github/78357432-0c71cf80-75e4-11ea-98aa-c43a54d469ce.png">
+![](/img/mqtt-table-1.png)
 
 ## 2. 配置方式
 
@@ -92,7 +92,6 @@ databaseName:stock
 | `t`,`T`,`true`,`True`,`TRUE` <br>`f`,`F`,`false`,`False`,`FALSE` | BOOLEAN        |
 
 
-
 ## 5. 代码示例
 以下是 mqtt 客户端将消息发送到 IoTDB 服务器的示例。
 
@@ -103,19 +102,35 @@ mqtt.setUserName("root");
 mqtt.setPassword("root");
 
 BlockingConnection connection = mqtt.blockingConnection();
+String DATABASE = "myMqttTest";
 connection.connect();
 
-Random random = new Random();
-for (int i = 0; i < 10; i++) {
-    String payload = String.format("{\n" +
-            "\"device\":\"root.sg.d1\",\n" +
-            "\"timestamp\":%d,\n" +
-            "\"measurements\":[\"s1\"],\n" +
-            "\"values\":[%f]\n" +
-            "}", System.currentTimeMillis(), random.nextDouble());
+String payload =
+        "test1,tag1=t1,tag2=t2 attr3=a5,attr4=a4 field1=\"fieldValue1\",field2=1i,field3=1u 1";
+connection.publish(DATABASE + "/myTopic", payload.getBytes(), QoS.AT_LEAST_ONCE, false);
+Thread.sleep(10);
 
-    connection.publish("root.sg.d1.s1", payload.getBytes(), QoS.AT_LEAST_ONCE, false);
-}
+payload = "test1,tag1=t1,tag2=t2  field4=2,field5=2i32,field6=2f 2";
+connection.publish(DATABASE, payload.getBytes(), QoS.AT_LEAST_ONCE, false);
+Thread.sleep(10);
+
+payload = "# It's a remark\n " + "test1,tag1=t1,tag2=t2 field4=2,field5=2i32,field6=2f 6";
+        connection.publish(DATABASE + "/myTopic", payload.getBytes(), QoS.AT_LEAST_ONCE, false);
+        Thread.sleep(10);
+
+//批量写入示例        
+payload =
+        "test1,tag1=t1,tag2=t2  field7=t,field8=T,field9=true 3 \n "
+        + "test1,tag1=t1,tag2=t2  field7=f,field8=F,field9=FALSE 4";
+connection.publish(DATABASE + "/myTopic", payload.getBytes(), QoS.AT_LEAST_ONCE, false);
+Thread.sleep(10);
+
+//批量写入示例
+payload =
+        "test1,tag1=t1,tag2=t2 attr1=a1,attr2=a2 field1=\"fieldValue1\",field2=1i,field3=1u 4 \n "
+        + "test1,tag1=t1,tag2=t2 field4=2,field5=2i32,field6=2f 5";
+connection.publish(DATABASE + "/myTopic", payload.getBytes(), QoS.AT_LEAST_ONCE, false);
+Thread.sleep(10);
 
 connection.disconnect();
  ```
@@ -165,10 +180,10 @@ public class CustomizedLinePayloadFormatter implements PayloadFormatter {
         for (int i = 0; i < 3; i++) {
             long ts = i;
             TableMessage message = new TableMessage();
-            
+
             // Parsing Database Name
             message.setDatabase("db" + i);
-            
+
             //Parsing Table Names
             message.setTable("t" + i);
 
@@ -199,7 +214,7 @@ public class CustomizedLinePayloadFormatter implements PayloadFormatter {
            message.setFields(fields);
            message.setDataTypes(dataTypes);
            message.setValues(values);
-           
+
            //// Parsing timestamp
            message.setTimestamp(ts);
            ret.add(message);
@@ -232,3 +247,5 @@ public class CustomizedLinePayloadFormatter implements PayloadFormatter {
 
 More: MQTT 协议的消息不限于 line，你还可以用任意二进制。通过如下函数获得：
 `payload.forEachByte()` or `payload.array`。 
+
+
