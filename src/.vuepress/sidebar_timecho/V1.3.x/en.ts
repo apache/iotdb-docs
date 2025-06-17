@@ -164,7 +164,7 @@ export const enSidebar = {
       prefix: 'Tools-System/',
       // children: 'structure',
       children: [
-        { text: 'CLI', link: 'CLI' },
+        { text: 'CLI', link: 'CLI_timecho' },
         { text: 'Workbench', link: 'Workbench_timecho' },
         { text: 'Monitor Tool', link: 'Monitor-Tool_timecho' },
         { text: 'Benchmark Tool', link: 'Benchmark' },

@@ -139,7 +139,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Tools-System/',
       children: [
-        { text: 'Command Line Interface (CLI)', link: 'CLI' },
+        { text: 'Command Line Interface (CLI)', link: 'CLI_apache' },
         { text: 'Monitor Tool', link: 'Monitor-Tool_apache' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
         { text: 'Cluster Management Tool', link: 'Maintenance-Tool_apache' },

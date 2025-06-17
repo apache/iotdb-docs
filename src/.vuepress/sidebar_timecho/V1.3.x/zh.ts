@@ -147,7 +147,7 @@ export const zhSidebar = {
       prefix: 'Tools-System/',
       // children: 'structure',
       children: [
-        { text: '命令行工具', link: 'CLI' },
+        { text: '命令行工具', link: 'CLI_timecho' },
         { text: '可视化控制台', link: 'Workbench_timecho' },
         { text: '监控工具', link: 'Monitor-Tool_timecho' },
         { text: '测试工具', link: 'Benchmark' },
