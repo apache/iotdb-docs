@@ -130,7 +130,7 @@ authorizer_provider_class=org.apache.iotdb.commons.auth.authorizer.OpenIdAuthori
 ```
 openID_url=http://127.0.0.1:8080/realms/iotdb/
 ```
-####keycloack 配置
+#### keycloack 配置
 
 1、下载 keycloack 程序（此教程为21.1.0版本），在 keycloack/bin 中启动 keycloack
 

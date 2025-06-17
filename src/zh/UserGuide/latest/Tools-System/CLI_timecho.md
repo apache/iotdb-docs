@@ -106,7 +106,7 @@ Shell > sbin\windows\start-cli.bat -h 10.129.187.21 -p 6667 -u root -pw root -di
 
 OpenID Connect (OIDC) 使用 keycloack 作为 OIDC 服务权限认证服务。
 
-#### 配置
+### 配置
 配置位于 iotdb-system.properties，设定 authorizer_provider_class 为 org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer 则开启了 openID 服务，默认情况下值为 org.apache.iotdb.commons.auth.authorizer.LocalFileAuthorizer 表示没有开启 openID 服务。
 
 ```
@@ -117,7 +117,7 @@ authorizer_provider_class=org.apache.iotdb.commons.auth.authorizer.OpenIdAuthori
 ```
 openID_url=http://127.0.0.1:8080/realms/iotdb/
 ```
-####keycloack 配置
+### keycloack 配置
 
 1、下载 keycloack 程序（此教程为21.1.0版本），在 keycloack/bin 中启动 keycloack
 
