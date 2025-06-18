@@ -150,6 +150,41 @@ License has been stored to sbin/../activation/license
 Import completed. Please start cluster and excute 'show cluster' to verify activation status
 ```
 
+#### Method 3: Activation via CLI (Version 1.3.4)
+
+- First start the Datanode, then enter the CLI
+
+ ```SQL
+  ./sbin/start-datanode.sh
+  ./sbin/start-cli.sh
+```
+
+- Execute the following command to obtain the machine code required for activation:
+
+  ```Bash
+  show system info
+  ```
+
+- Copy the returned machine code (the green string) and provide it to the Timecho team:
+
+```Bash
++--------------------------------------------------------------+
+|                                                    SystemInfo|
++--------------------------------------------------------------+
+|                                          01-TE5NLES4-UDDWCMYE|
++--------------------------------------------------------------+
+Total line number = 1
+It costs 0.030s
+```
+
+- Input the activation code returned by the Timecho team into the CLI using the following command:
+  - Note: The activation code must be enclosed in ' symbols, as shown:
+
+```Bash
+IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
+```
+
+
 ### 5、Start DataNode
 
 Enter the sbin directory of iotdb and start datanode:

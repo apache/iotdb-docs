@@ -167,7 +167,7 @@ On each server, navigate to the `sbin` directory and start the DataNode:
 
 #### Option 2: Command-Based Activation
 
-1. Enter the IoTDB CLI for each node:
+1. Enter the IoTDB CLI on any node of the cluster:
    - **For Table Model**:
     ```SQL
       # For Linux or macOS
@@ -191,7 +191,7 @@ On each server, navigate to the `sbin` directory and start the DataNode:
     show system info
     ```  
 
-3. Copy the returned machine code of each server (displayed as a green string) and send it to the Timecho team:
+3. Copy the returned machine codes of all 3 nodes in the cluster (displayed as a green string) and send it to the Timecho team:
 
 ```Bash
 +--------------------------------------------------------------+

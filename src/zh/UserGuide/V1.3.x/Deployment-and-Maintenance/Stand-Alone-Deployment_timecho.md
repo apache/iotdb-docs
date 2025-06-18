@@ -150,6 +150,41 @@ License has been stored to sbin/../activation/license
 Import completed. Please start cluster and excute 'show cluster' to verify activation status
 ```
 
+#### 方式三：通过 CLI 激活（V1.3.4 版本）
+
+- 先启动 Datanode 节点，然后进入 CLI
+
+ ```SQL
+  ./sbin/start-datanode.sh
+  ./sbin/start-cli.sh
+```
+
+- 执行以下内容获取激活所需机器码：
+
+  ```Bash
+  show system info
+  ```
+
+- 将返回机器码（即绿色字符串）复制给天谋工作人员：
+
+```Bash
++--------------------------------------------------------------+
+|                                                    SystemInfo|
++--------------------------------------------------------------+
+|                                          01-TE5NLES4-UDDWCMYE|
++--------------------------------------------------------------+
+Total line number = 1
+It costs 0.030s
+```
+
+- 将工作人员返回的激活码输入到CLI中，输入以下内容
+  - 注：激活码前后需要用`'`符号进行标注，如所示
+
+```Bash
+IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
+```
+
+
 ### 启动DataNode 节点
 
 进入iotdb的sbin目录下，启动datanode：
