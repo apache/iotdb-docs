@@ -166,6 +166,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'DBeaver', link: 'DBeaver' },
+            { text: 'DataGrip', link: 'DataGrip' },
           ],
         },
       ],
