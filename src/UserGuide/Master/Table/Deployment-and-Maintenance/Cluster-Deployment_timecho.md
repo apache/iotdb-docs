@@ -159,15 +159,9 @@ On each server, navigate to the `sbin` directory and start the DataNode:
 
 ### 3.6 Activate the Database
 
-#### Option 1: File-Based Activation
+#### Option 1: Command-Based Activation
 
-1. Start all ConfigNodes and DataNodes.
-2. Copy the `system_info` file from the `activation` directory on each server and send them to the Timecho team.
-3. Place the license files provided by the Timecho team into the corresponding `activation` folder for each node.
-
-#### Option 2: Command-Based Activation
-
-1. Enter the IoTDB CLI for each node:
+1. Enter the IoTDB CLI on any node of the cluster:
    - **For Table Model**:
     ```SQL
       # For Linux or macOS
@@ -177,14 +171,6 @@ On each server, navigate to the `sbin` directory and start the DataNode:
       ./start-cli.bat -sql_dialect table
       ```
 
-   - **For Tree Model**:
-   ```SQL
-      # For Linux or macOS
-      ./start-cli.sh
-      
-      # For Windows
-      ./start-cli.bat
-      ```
 2. Run the following command to retrieve the machine code required for activation:
 
     ```Bash
@@ -192,7 +178,7 @@ On each server, navigate to the `sbin` directory and start the DataNode:
     ``` 
  
 
-3. Copy the returned machine code of each server (displayed as a green string) and send it to the Timecho team:
+3. Copy the returned machine codes of all nodes in the cluster (displayed as a green string) and send it to the Timecho team:
 
 ```Bash
 +--------------------------------------------------------------+
@@ -209,6 +195,14 @@ It costs 0.030s
 ```Bash
 IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
 ```
+
+
+#### Option 2: File-Based Activation
+
+1. Start all ConfigNodes and DataNodes.
+2. Copy the `system_info` file from the `activation` directory on each server and send them to the Timecho team.
+3. Place the license files provided by the Timecho team into the corresponding `activation` folder for each node.
+
 
 ### 3.7 Verify Activation
 
