@@ -147,13 +147,53 @@ If the startup fails, please refer to [Common Questions](#common-questions).
 
 ### Activate Database
 
-#### Method 1: Activate file copy activation
+#### Method 1: Activation via CLI (Version 1.3.4)
+
+- First start the Datanode nodes, then enter the CLI of any node in the cluster
+
+ ```SQL
+  ./sbin/start-datanode.sh
+  ./sbin/start-cli.sh
+```
+
+- Obtain the machine codes of all nodes in the cluster:
+
+     - Execute the following command to get the machine codes required for activation:
+
+  ```Bash
+  show system info
+  ```
+
+    - The machine codes of all nodes in the cluster will be displayed:
+
+      ```Bash
+      +--------------------------------------------------------------+
+      |                                                    SystemInfo|
+      +--------------------------------------------------------------+
+      |01-TE5NLES4-UDDWCMYE,01-GG5NLES4-XXDWCMYE,01-FF5NLES4-WWWWCMYE|
+      +--------------------------------------------------------------+
+      Total line number = 1
+      It costs 0.030s
+      ```
+
+- Copy the obtained machine codes and provide them to the Timecho team
+
+- The Timecho team will return an activation code, which normally corresponds to the order of the provided machine codes. Paste the complete activation code into the CLI for activation
+
+    - Note: The activation code must be enclosed in ' symbols, as shown below:
+
+   ```Bash
+    IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
+    ```
+
+
+#### Method 2: Activate file copy activation
 
 - After starting three confignode nodes in sequence, copy the `activation` folder of each machine and the `system_info` file of each machine to the Timecho staff;
 - The staff will return the license files for each ConfigNode node, where 3 license files will be returned;
 - Put the three license files into the `activation` folder of the corresponding ConfigNode node;
 
-#### Method 2: Activate Script Activation
+#### Method 3: Activate Script Activation
 
 - Obtain the machine codes of three machines in sequence, enter the `sbin` directory of the installation directory, and execute the activation script `start activate.sh`:
 
@@ -180,44 +220,6 @@ If the startup fails, please refer to [Common Questions](#common-questions).
     Import completed. Please start cluster and excute 'show cluster' to verify activation status
     ```
 
-#### Method 3: Activation via CLI (Version 1.3.4)
-
-- First start the Datanode nodes, then enter the CLI of any node in the cluster
-
- ```SQL
-  ./sbin/start-datanode.sh
-  ./sbin/start-cli.sh
-```
-
-- Obtain the machine codes of all 3 machines:
-
-     - Execute the following command to get the machine codes required for activation:
-
-  ```Bash
-  show system info
-  ```
-
-    - The following information will be displayed (machine codes of all 3 nodes in the cluster):
-
-      ```Bash
-      +--------------------------------------------------------------+
-      |                                                    SystemInfo|
-      +--------------------------------------------------------------+
-      |01-TE5NLES4-UDDWCMYE,01-GG5NLES4-XXDWCMYE,01-FF5NLES4-WWWWCMYE|
-      +--------------------------------------------------------------+
-      Total line number = 1
-      It costs 0.030s
-      ```
-
-- Copy the obtained machine codes from all 3 machines and provide them to the Timecho team
-
-- The Timecho team will return an activation code, which normally corresponds to the order of the 3 provided machine codes. Paste the complete activation code into the CLI for activation
-
-    - Note: The activation code must be enclosed in ' symbols, as shown below:
-
-   ```Bash
-    IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
-    ```
 
 
 ### Start DataNode

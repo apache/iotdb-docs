@@ -118,39 +118,7 @@ If the startup fails, please refer to [Common Questions](#common-questions).
 
 ### 4、Activate Database
 
-#### Method 1: Activate file copy activation
-
-- After starting the confignode node, enter the activation folder and copy the systeminfo file to the Timecho staff
-- Received the license file returned by the staff
-- Place the license file in the activation folder of the corresponding node;
-
-#### Method 2: Activate Script Activation
-
-- Obtain the required machine code for activation, enter the sbin directory of the installation directory, and execute the activation script:
-
-```shell
- cd sbin
-./start-activate.sh
-```
-
-- The following information is displayed. Please copy the machine code (i.e. the string of characters) to the Timecho staff:
-
-```shell
-Please copy the system_info's content and send it to Timecho:
-01-KU5LDFFN-PNBEHDRH
-Please enter license:
-```
-
-- Enter the activation code returned by the staff into the previous command line prompt 'Please enter license:', as shown below:
-
-```shell
-Please enter license:
-JJw+MmF+AtexsfgNGOFgTm83Bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxm6pF+APW1CiXLTSijK9Qh3nsLgzrW8OJPh26Vl6ljKUpCvpTiw==
-License has been stored to sbin/../activation/license
-Import completed. Please start cluster and excute 'show cluster' to verify activation status
-```
-
-#### Method 3: Activation via CLI (Version 1.3.4)
+#### Method 1: Activation via CLI (Version 1.3.4)
 
 - First start the Datanode, then enter the CLI
 
@@ -183,6 +151,40 @@ It costs 0.030s
 ```Bash
 IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
 ```
+
+
+#### Method 2: Activate file copy activation
+
+- After starting the confignode node, enter the activation folder and copy the systeminfo file to the Timecho staff
+- Received the license file returned by the staff
+- Place the license file in the activation folder of the corresponding node;
+
+#### Method 3: Activate Script Activation
+
+- Obtain the required machine code for activation, enter the sbin directory of the installation directory, and execute the activation script:
+
+```shell
+ cd sbin
+./start-activate.sh
+```
+
+- The following information is displayed. Please copy the machine code (i.e. the string of characters) to the Timecho staff:
+
+```shell
+Please copy the system_info's content and send it to Timecho:
+01-KU5LDFFN-PNBEHDRH
+Please enter license:
+```
+
+- Enter the activation code returned by the staff into the previous command line prompt 'Please enter license:', as shown below:
+
+```shell
+Please enter license:
+JJw+MmF+AtexsfgNGOFgTm83Bxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxm6pF+APW1CiXLTSijK9Qh3nsLgzrW8OJPh26Vl6ljKUpCvpTiw==
+License has been stored to sbin/../activation/license
+Import completed. Please start cluster and excute 'show cluster' to verify activation status
+```
+
 
 
 ### 5、Start DataNode

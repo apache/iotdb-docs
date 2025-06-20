@@ -146,13 +146,49 @@ cd sbin
 
 ### 激活数据库
 
-#### **方式一：激活文件拷贝激活**
+#### 方式一：通过 CLI 激活（V1.3.4 版本）
+
+- 先启动集群所有 Datanode 节点，然后进入集群任一节点 CLI，执行获取机器码的语句
+
+ ```SQL
+  -- 启动 DN 节点
+  ./sbin/start-datanode.sh
+  -- 连接CLI
+  ./sbin/start-cli.sh
+  -- 获取激活所需机器码
+  IoTDB> show system info
+```
+
+- 系统将自动返回集群所有节点的机器码 
+
+```Bash
++--------------------------------------------------------------+
+|                                                    SystemInfo|
++--------------------------------------------------------------+
+|01-TE5NLES4-UDDWCMYE,01-GG5NLES4-XXDWCMYE,01-FF5NLES4-WWWWCMYE|
++--------------------------------------------------------------+
+Total line number = 1
+It costs 0.030s
+```
+
+- 将获取的机器码复制给天谋工作人员
+
+- 工作人员会返回激活码，正常是与提供的机器码的顺序对应的，请将整串激活码粘贴到CLI中进行激活
+
+    - 注：激活码前后需要用`'`符号进行标注，如下所示
+
+   ```Bash
+    IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
+    ```
+
+
+#### 方式二：激活文件拷贝激活
 
 - 依次启动3个confignode节点后，每台机器各自的`activation`文件夹, 分别拷贝每台机器的`system_info`文件给天谋工作人员;
 - 工作人员将返回每个ConfigNode节点的license文件，这里会返回3个license文件；
 - 将3个license文件分别放入对应的ConfigNode节点的`activation`文件夹下；
 
-#### 方式二：激活脚本激活
+#### 方式三：激活脚本激活
 
 - 依次获取3台机器的机器码，分别进入安装目录的`sbin`目录，执行激活脚本`start-activate.sh`:
 
@@ -177,45 +213,6 @@ cd sbin
     Jw+MmF+Atxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx5bAOXNeob5l+HO5fEMgzrW8OJPh26Vl6ljKUpCvpTiw==
     License has been stored to sbin/../activation/license
     Import completed. Please start cluster and excute 'show cluster' to verify activation status
-    ```
-
-#### 方式三：通过 CLI 激活（V1.3.4 版本）
-
-- 先启动 Datanode 节点，然后进入集群任一节点 CLI
-
- ```SQL
-  ./sbin/start-datanode.sh
-  ./sbin/start-cli.sh
-```
-
-- 获取3台机器的机器码
-
-     - 执行以下内容获取激活所需机器码：
-
-  ```Bash
-  show system info
-  ```
-
-    - 显示如下信息（集群3个节点机器的机器码） ：
-
-      ```Bash
-      +--------------------------------------------------------------+
-      |                                                    SystemInfo|
-      +--------------------------------------------------------------+
-      |01-TE5NLES4-UDDWCMYE,01-GG5NLES4-XXDWCMYE,01-FF5NLES4-WWWWCMYE|
-      +--------------------------------------------------------------+
-      Total line number = 1
-      It costs 0.030s
-      ```
-
-- 将获取的3台机器的机器码复制给天谋工作人员
-
-- 工作人员会返回激活码，正常是与提供的3个机器码的顺序对应的，请将整串激活码粘贴到CLI中进行激活
-
-    - 注：激活码前后需要用`'`符号进行标注，如下所示
-
-   ```Bash
-    IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
     ```
 
 
