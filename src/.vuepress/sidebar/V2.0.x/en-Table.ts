@@ -168,6 +168,13 @@ export const enSidebar = {
             { text: 'DBeaver', link: 'DBeaver' },
           ],
         },
+        {
+          text: 'Programming Framework',
+          collapsible: true,
+          children: [
+            { text: 'Mybatis Generator', link: 'Mybatis-Generator' },
+          ],
+        },
       ],
     },
     {
