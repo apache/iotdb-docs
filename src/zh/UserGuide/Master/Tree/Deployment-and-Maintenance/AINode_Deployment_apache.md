@@ -56,12 +56,15 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
 - 建议操作环境: Ubuntu, CentOS, MacOS  
 
 - 运行环境   
-    - 联网环境下 Python >= 3.8即可，且带有 pip 和 venv 工具；非联网环境下需要使用 Python 3.8版本，并从 [此处](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) 下载对应操作系统的zip压缩包（注意下载依赖需选择libs文件夹中的zip压缩包，如下图），并将文件夹下的所有文件拷贝到 `apache-iotdb-<version>-ainode-bin` 文件夹中 `lib` 文件夹下，并按下文步骤启动AINode。 
+    - 联网环境
+    联网环境下 Python >= 3.8即可，且带有 pip 和 venv 工具；
+    - 非联网环境
+    非联网环境下需要使用 Python 3.8版本，并从 [此处](https://cloud.tsinghua.edu.cn/d/4c1342f6c272439aa96c/?p=%2Flibs&mode=list) 下载对应操作系统的zip压缩包（注意下载依赖需选择libs文件夹中的zip压缩包，如下图），并将文件夹下的所有文件拷贝到 `apache-iotdb-<version>-ainode-bin` 文件夹中 `lib` 文件夹下，并按下文步骤启动AINode。 
 
       <img src="/img/AINode%E9%83%A8%E7%BD%B23.png" alt="" style="width: 80%;"/>
     
-    - 环境变量中需存在 Python 解释器且可以通过 `python` 指令直接调用
-    - 建议在 `apache-iotdb-<version>-ainode-bin` 文件夹下，新建 Python 解释器 venv 虚拟环境。如安装 3.8.0 版本虚拟环境，语句如下：
+    - 要求：环境变量中需存在 Python 解释器且可以通过 `python` 指令直接调用
+    - 建议：在 `apache-iotdb-<version>-ainode-bin` 文件夹下，新建 Python 解释器 venv 虚拟环境。如安装 3.8.0 版本虚拟环境，语句如下：
     
       ```shell
       # 安装3.8.0版本的venv，创建虚拟环境，文件夹名为 `venv`
