@@ -99,7 +99,7 @@ cd  timechodb-{version}-bin
 
   | **Parameter** | **Description**                    | **Default** | **Recommended** | **Notes**                               |
   | :------------ | :--------------------------------- | :---------- | :-------------- | :-------------------------------------- |
-  | MEMORY_SIZE   | Total memory allocated to the node | Empty       | As needed       | Effective after restarting the service. |
+  | MEMORY_SIZE   | Total memory allocated to the node | Empty       | As needed       | Save changes without immediate execution; modifications take effect after service restart. |
 
 **General Configuration**
 

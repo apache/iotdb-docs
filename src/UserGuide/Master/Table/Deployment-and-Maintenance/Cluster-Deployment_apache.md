@@ -97,7 +97,7 @@ Edit the following files for memory allocation:
 
 | **Parameter** | **Description**                    | **Default** | **Recommended** | **Notes**                               |
 | :------------ | :--------------------------------- | :---------- | :-------------- | :-------------------------------------- |
-| MEMORY_SIZE   | Total memory allocated to the node | Empty       | As needed       | Effective after restarting the service. |
+| MEMORY_SIZE   | Total memory allocated to the node | Empty       | As needed       | Save changes without immediate execution; modifications take effect after service restart. |
 
 #### 3.3.2 General Configuration
 
