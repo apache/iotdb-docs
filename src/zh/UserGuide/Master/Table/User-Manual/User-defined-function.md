@@ -31,7 +31,7 @@ IoTDB 表模型中支持三种类型的 UDF ，如下表所示。
 |-----------------------------------------|------|--------------------------------|
 | `UDSF（User-defined Scalar Function）`    | 标量函数 | 输入 k 列 1 行数据，输出1 列 1 行数据（一对一）。 |
 | `UDAF（User-defined Aggregate Function）` | 聚合函数 | 输入k 列 m 行数据，输出1 列 1 行数据（多对一）。  |
-| `UDTF（User-defined Table Function）`     | 表函数  | 根据输入的动态参数生成“表”形式的结果集。          |
+| `UDTF（User-defined Table Function）`     | 表函数  | 输入0或1张表（k 列 m 行），输出1张表（x 行 y 列）。          |
 
 * `UDSF` 可用于标量函数出现的任何子句和表达式中，如select子句、where子句等。
     * `select udsf1(s1) from table1 where udsf2(s1)>0`
