@@ -59,7 +59,7 @@ docker-compose --version  #显示版本信息即安装成功
 
 ### 2.1 拉取镜像文件
 
-Apache IoTDB的Docker镜像已经上传至https://hub.docker.com/r/apache/iotdb。
+Apache IoTDB的Docker镜像已经上传至 https://hub.docker.com/r/apache/iotdb 。
 
 以获取1.3.2版本为例，拉取镜像命令：
 
