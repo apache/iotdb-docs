@@ -156,6 +156,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: 'DBeaver', link: 'DBeaver' },
+            { text: 'DataGrip', link: 'DataGrip' },
           ],
         },
       ],
