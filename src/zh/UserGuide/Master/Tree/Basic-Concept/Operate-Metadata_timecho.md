@@ -339,239 +339,10 @@ It costs 0.058s
 + 数据库允许拥有的最大 DataRegionGroup 数量
 
 
-## 2. 设备模板管理
 
-IoTDB 支持设备模板功能，实现同类型不同实体的物理量元数据共享，减少元数据内存占用，同时简化同类型实体的管理。
+## 2. 时间序列管理
 
-
-![img](/img/%E6%A8%A1%E6%9D%BF.png)
-
-![img](/img/template.jpg)
-
-### 2.1 创建设备模板
-
-创建设备模板的 SQL 语法如下：
-
-```sql
-CREATE DEVICE TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
-```
-
-**示例1：** 创建包含两个非对齐序列的元数据模板
-
-```shell
-IoTDB> create device template t1 (temperature FLOAT, status BOOLEAN )
-```
-
-**示例2：** 创建包含一组对齐序列的元数据模板
-
-```shell
-IoTDB> create device template t2 aligned (lat FLOAT, lon FLOAT)
-```
-
-其中，物理量 `lat` 和 `lon` 是对齐的。
-
-创建模板时，系统会默认指定编码压缩方式，无需手动指定，若业务场景需要手动调整，可参考如下示例：
-```shell
-IoTDB> create device template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
-```
-更多详细的数据类型与编码方式的对应列表请参见 [压缩&编码](../Technical-Insider/Encoding-and-Compression.md)。
-
-### 2.2 挂载设备模板
-
-元数据模板在创建后，需执行挂载操作，方可用于相应路径下的序列创建与数据写入。
-
-**挂载模板前，需确保相关数据库已经创建。**
-
-**推荐将模板挂载在 database 节点上，不建议将模板挂载到 database 上层的节点上。**
-
-**模板挂载路径下禁止创建普通序列，已创建了普通序列的前缀路径上不允许挂载模板。**
-
-挂载元数据模板的 SQL 语句如下所示：
-
-```shell
-IoTDB> set device template t1 to root.sg1.d1
-```
-
-### 2.3 激活设备模板
-
-挂载好设备模板后，且系统开启自动注册序列功能的情况下，即可直接进行数据的写入。例如 database 为 root.sg1，模板 t1 被挂载到了节点 root.sg1.d1，那么可直接向时间序列（如 root.sg1.d1.temperature 和 root.sg1.d1.status）写入时间序列数据，该时间序列已可被当作正常创建的序列使用。
-
-**注意**：在插入数据之前或系统未开启自动注册序列功能，模板定义的时间序列不会被创建。可以使用如下SQL语句在插入数据前创建时间序列即激活模板：
-
-```shell
-IoTDB> create timeseries using device template on root.sg1.d1
-```
-
-**示例：** 执行以下语句
-```shell
-IoTDB> set device template t1 to root.sg1.d1
-IoTDB> set device template t2 to root.sg1.d2
-IoTDB> create timeseries using device template on root.sg1.d1
-IoTDB> create timeseries using device template on root.sg1.d2
-```
-
-查看此时的时间序列：
-```sql
-show timeseries root.sg1.**
-```
-
-```shell
-+-----------------------+-----+-------------+--------+--------+-----------+----+----------+--------+-------------------+
-|             timeseries|alias|     database|dataType|encoding|compression|tags|attributes|deadband|deadband parameters|
-+-----------------------+-----+-------------+--------+--------+-----------+----+----------+--------+-------------------+
-|root.sg1.d1.temperature| null|     root.sg1|   FLOAT|     RLE|     SNAPPY|null|      null|    null|               null|
-|     root.sg1.d1.status| null|     root.sg1| BOOLEAN|   PLAIN|     SNAPPY|null|      null|    null|               null|
-|        root.sg1.d2.lon| null|     root.sg1|   FLOAT| GORILLA|     SNAPPY|null|      null|    null|               null|
-|        root.sg1.d2.lat| null|     root.sg1|   FLOAT| GORILLA|     SNAPPY|null|      null|    null|               null|
-+-----------------------+-----+-------------+--------+--------+-----------+----+----------+--------+-------------------+
-```
-
-查看此时的设备：
-```sql
-show devices root.sg1.**
-```
-
-```shell
-+---------------+---------+---------+
-|        devices|isAligned| Template|
-+---------------+---------+---------+
-|    root.sg1.d1|    false|     null|
-|    root.sg1.d2|     true|     null|
-+---------------+---------+---------+
-```
-
-### 2.4 查看设备模板
-
-- 查看所有设备模板
-
-SQL 语句如下所示：
-
-```shell
-IoTDB> show device templates
-```
-
-执行结果如下：
-```shell
-+-------------+
-|template name|
-+-------------+
-|           t2|
-|           t1|
-+-------------+
-```
-
-- 查看某个设备模板下的物理量
-
-SQL 语句如下所示：
-
-```shell
-IoTDB> show nodes in device template t1
-```
-
-执行结果如下：
-```shell
-+-----------+--------+--------+-----------+
-|child nodes|dataType|encoding|compression|
-+-----------+--------+--------+-----------+
-|temperature|   FLOAT|     RLE|     SNAPPY|
-|     status| BOOLEAN|   PLAIN|     SNAPPY|
-+-----------+--------+--------+-----------+
-```
-
-- 查看挂载了某个设备模板的路径
-
-```shell
-IoTDB> show paths set device template t1
-```
-
-执行结果如下：
-```shell
-+-----------+
-|child paths|
-+-----------+
-|root.sg1.d1|
-+-----------+
-```
-
-- 查看使用了某个设备模板的路径（即模板在该路径上已激活，序列已创建）
-
-```shell
-IoTDB> show paths using device template t1
-```
-
-执行结果如下：
-```shell
-+-----------+
-|child paths|
-+-----------+
-|root.sg1.d1|
-+-----------+
-```
-
-### 2.5 解除设备模板
-
-若需删除模板表示的某一组时间序列，可采用解除模板操作，SQL语句如下所示：
-
-```shell
-IoTDB> delete timeseries of device template t1 from root.sg1.d1
-```
-
-或
-
-```shell
-IoTDB> deactivate device template t1 from root.sg1.d1
-```
-
-解除操作支持批量处理，SQL语句如下所示：
-
-```shell
-IoTDB> delete timeseries of device template t1 from root.sg1.*, root.sg2.*
-```
-
-或
-
-```shell
-IoTDB> deactivate device template t1 from root.sg1.*, root.sg2.*
-```
-
-若解除命令不指定模板名称，则会将给定路径涉及的所有模板使用情况均解除。
-
-### 2.6 卸载设备模板
-
-卸载设备模板的 SQL 语句如下所示：
-
-```shell
-IoTDB> unset device template t1 from root.sg1.d1
-```
-
-**注意**：不支持卸载仍处于激活状态的模板，需保证执行卸载操作前解除对该模板的所有使用，即删除所有该模板表示的序列。
-
-### 2.7 删除设备模板
-
-删除设备模板的 SQL 语句如下所示：
-
-```shell
-IoTDB> drop device template t1
-```
-
-**注意**：不支持删除已经挂载的模板，需在删除操作前保证该模板卸载成功。
-
-### 2.8 修改设备模板
-
-在需要新增物理量的场景中，可以通过修改设备模板来给所有已激活该模板的设备新增物理量。
-
-修改设备模板的 SQL 语句如下所示：
-
-```shell
-IoTDB> alter device template t1 add (speed FLOAT, FLOAT TEXT)
-```
-
-**向已挂载模板的路径下的设备中写入数据，若写入请求中的物理量不在模板中，将自动扩展模板。**
-
-
-## 3. 时间序列管理
-
-### 3.1 创建时间序列
+### 2.1 创建时间序列
 
 根据建立的数据模型，我们可以分别在两个数据库中创建相应的时间序列。创建时间序列的 SQL 语句如下所示：
 
@@ -609,7 +380,7 @@ error: encoding TS_2DIFF does not support BOOLEAN
 更多详细的数据类型与编码压缩方式的对应列表请参见 [压缩&编码](../Technical-Insider/Encoding-and-Compression.md)。
 
 
-### 3.2 创建对齐时间序列
+### 2.2 创建对齐时间序列
 
 创建一组对齐时间序列的SQL语句如下所示：
 
@@ -621,7 +392,7 @@ IoTDB> CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT, longitude FLOA
 
 对齐的时间序列也支持设置别名、标签、属性。
 
-### 3.3 删除时间序列
+### 2.3 删除时间序列
 
 我们可以使用`(DELETE | DROP) TimeSeries <PathPattern>`语句来删除我们之前创建的时间序列。SQL 语句如下所示：
 
@@ -632,7 +403,7 @@ IoTDB> delete timeseries root.ln.wf02.*
 IoTDB> drop timeseries root.ln.wf02.*
 ```
 
-### 3.4 查看时间序列
+### 2.4 查看时间序列
 
 * SHOW LATEST? TIMESERIES pathPattern? timeseriesWhereClause? limitClause?
 
@@ -776,7 +547,7 @@ It costs 0.004s
 
 需要注意的是，当查询路径不存在时，系统会返回 0 条时间序列。
 
-### 3.5 统计时间序列总数
+### 2.5 统计时间序列总数
 
 IoTDB 支持使用`COUNT TIMESERIES<Path>`来统计一条路径中的时间序列个数。SQL 语句如下所示：
 
@@ -863,7 +634,7 @@ It costs 0.002s
 
 > 注意：时间序列的路径只是过滤条件，与 level 的定义无关。
 
-### 3.6 活跃时间序列查询
+### 2.6 活跃时间序列查询
 我们在原有的时间序列查询和统计上添加新的WHERE时间过滤条件，可以得到在指定时间范围中存在数据的时间序列。
 
 需要注意的是， 在带有时间过滤的元数据查询中并不考虑视图的存在，只考虑TsFile中实际存储的时间序列。
@@ -904,7 +675,7 @@ IoTDB> count timeseries where time >= 15000 and time < 16000;
 ```
 关于活跃时间序列的定义，能通过正常查询查出来的数据就是活跃数据，也就是说插入但被删除的时间序列不在考虑范围内。
 
-### 3.7 标签点管理
+### 2.7 标签点管理
 
 我们可以在创建时间序列的时候，为它添加别名和额外的标签和属性信息。
 
@@ -1067,9 +838,9 @@ IoTDB> show timeseries where TAGS(tag1)='v1'
 上述对时间序列标签、属性的更新等操作都支持。
 
 
-## 4. 路径查询
+## 3. 路径查询
 
-### 4.1 路径（Path）
+### 3.1 路径（Path）
 
 路径（path）是用于表示时间序列的层级结构的表达式，其语法定义如下：
 ```SQL
@@ -1087,7 +858,7 @@ IoTDB> show timeseries where TAGS(tag1)='v1'
       | '**'
       ;
 ```
-### 4.2 路径结点名（NodeName）
+### 3.2 路径结点名（NodeName）
 
 - 路径中由 `.` 分割的部分称为路径结点名（nodeName）。
 - 例如，`root.a.b.c` 是一个层级为 4 的路径，其中 root、a、b 和 c 都是路径结点名。
@@ -1102,11 +873,11 @@ IoTDB> show timeseries where TAGS(tag1)='v1'
   - UNICODE 中文字符（\u2E80 到 \u9FFF）
 - 大小写敏感性：在 Windows 系统上，数据库路径结点名是大小写不敏感的。例如，root.ln 和 root.LN 会被视为相同的路径。
 
-### 4.3 特殊字符（反引号）
+### 3.3 特殊字符（反引号）
 
 如果`路径结点名（NodeName）`中需要使用特殊字符（如空格、标点符号等），可以使用反引号（`）将结点名引用起来。更多关于反引号的使用方法，请参考[反引号](../SQL-Manual/Syntax-Rule.md#反引号)。
 
-### 4.4 路径模式（Path Pattern）
+### 3.4 路径模式（Path Pattern）
 
 为了使得在表达多个时间序列的时候更加方便快捷，IoTDB 为用户提供带通配符`*`或`**`的路径。通配符可以出现在路径中的任何层。
 
@@ -1119,7 +890,7 @@ IoTDB> show timeseries where TAGS(tag1)='v1'
 
 **注意**：* 和 ** 不能放在路径的开头。
 
-### 4.5 查看路径的所有子路径
+### 3.5 查看路径的所有子路径
 
 ```
 SHOW CHILD PATHS pathPattern
@@ -1155,7 +926,7 @@ It costs 0.002s
 +---------------+
 ```
 
-### 4.6 查看路径的下一级节点
+### 3.6 查看路径的下一级节点
 
 ```
 SHOW CHILD NODES pathPattern
@@ -1186,7 +957,7 @@ SHOW CHILD NODES pathPattern
 +------------+
 ```
 
-### 4.7 统计节点数
+### 3.7 统计节点数
 
 IoTDB 支持使用`COUNT NODES <PathPattern> LEVEL=<INTEGER>`来统计当前 Metadata
  树下满足某路径模式的路径中指定层级的节点个数。这条语句可以用来统计带有特定采样点的设备数。例如：
@@ -1236,7 +1007,7 @@ It costs 0.002s
 
 > 注意：时间序列的路径只是过滤条件，与 level 的定义无关。
 
-### 4.8 查看设备
+### 3.8 查看设备
 
 * SHOW DEVICES pathPattern? (WITH DATABASE)? devicesWhereClause? limitClause? 
 
@@ -1348,7 +1119,7 @@ Total line number = 2
 It costs 0.001s
 ```
 
-### 4.9 统计设备数量
+### 3.9 统计设备数量
 
 * COUNT DEVICES \<PathPattern\>
 
@@ -1393,7 +1164,7 @@ Total line number = 1
 It costs 0.004s
 ```
 
-### 4.10 活跃设备查询
+### 3.10 活跃设备查询
 和活跃时间序列一样，我们可以在查看和统计设备的基础上添加时间过滤条件来查询在某段时间内存在数据的活跃设备。这里活跃的定义与活跃时间序列相同，使用样例如下：
 ```
 IoTDB> insert into root.sg.data(timestamp, s1,s2) values(15000, 1, 2);
