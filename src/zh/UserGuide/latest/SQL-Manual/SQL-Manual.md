@@ -251,83 +251,8 @@ IoTDB> count devices root.ln.**
 
 IoTDB> count devices where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
 ```
-### 1.4 设备模板管理
 
-
-![img](/img/%E6%A8%A1%E6%9D%BF.png)
-![img](/img/template.jpg)
-
-
-
-#### 创建设备模板
-
-```Go
-CREATE DEVICE TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
-```
-
-创建包含两个非对齐序列的设备模板
-```sql
-IoTDB> create device template t1 (temperature FLOAT, status BOOLEAN)
-```
-创建包含一组对齐序列的设备模板
-```sql
-IoTDB> create device template t2 aligned (lat FLOAT, lon FLOAT)
-```
-#### 挂载设备模板
-```sql
-IoTDB> set DEVICE TEMPLATE t1 to root.sg1
-```
-#### 激活设备模板
-```sql
-IoTDB> create timeseries using DEVICE TEMPLATE on root.sg1.d1
-
-IoTDB> set DEVICE TEMPLATE t1 to root.sg1.d1
-
-IoTDB> set DEVICE TEMPLATE t2 to root.sg1.d2
-
-IoTDB> create timeseries using device template on root.sg1.d1
-
-IoTDB> create timeseries using device template on root.sg1.d2
-```
-#### 查看设备模板
-```sql
-IoTDB> show device templates
-```
-- 查看某个设备模板下的物理量
-```sql
-IoTDB> show nodes in device template t1
-```
-- 查看挂载了某个设备模板的路径
-```sql
-IoTDB> show paths set device template t1
-```
-- 查看使用了某个设备模板的路径（即模板在该路径上已激活，序列已创建）
-```sql
-IoTDB> show paths using device template t1
-```
-#### 解除设备模板
-```sql
-IoTDB> delete timeseries of device template t1 from root.sg1.d1
-```
-```sql
-IoTDB> deactivate device template t1 from root.sg1.d1
-```
-批量处理
-```sql
-IoTDB> delete timeseries of device template t1 from root.sg1.*, root.sg2.*
-```
-```sql
-IoTDB> deactivate device template t1 from root.sg1.*, root.sg2.*
-```
-#### 卸载设备模板
-```sql
-IoTDB> unset device template t1 from root.sg1.d1
-```
-#### 删除设备模板
-```sql
-IoTDB> drop device template t1
-```
-### 1.5 数据存活时间管理
+### 1.4 数据存活时间管理
 
 #### 设置 TTL
 ```sql
