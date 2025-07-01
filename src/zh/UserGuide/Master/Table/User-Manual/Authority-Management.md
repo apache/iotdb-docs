@@ -173,7 +173,7 @@ eg: CREATE USER user1 'passwd'
 
 2. 更新密码
 
-用户可以更新自己的密码，但更新其他用户密码需要具备 MANAGE_USER 权限。
+用户可以修改自己的密码，但修改其他用户密码需要具备 MANAGE_USER 权限。
 
 ```SQL
 ALTER USER <USERNAME> SET PASSWORD <password>
