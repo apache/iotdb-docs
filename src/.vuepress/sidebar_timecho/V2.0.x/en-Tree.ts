@@ -267,7 +267,7 @@ export const enSidebar = {
       children: [
         { text: 'Identifiers', link: 'Syntax-Rule' },
         { text: 'Keywords', link: 'Keywords' },
-        { text: 'SQL Manual', link: 'SQL-Manual' },
+        { text: 'SQL Manual', link: 'SQL-Manual_timecho' },
         {
           text: 'Functions and Operators',
           collapsible: true,
