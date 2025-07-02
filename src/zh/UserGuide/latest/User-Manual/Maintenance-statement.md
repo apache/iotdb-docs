@@ -281,7 +281,7 @@ propertyValue
 #### 示例：
 
 ```SQL
-IoTDB> SET CONFIGURATION a='1',b='1' ON 1;
+IoTDB> SET CONFIGURATION 'a'='1','b'='1' ON 1;
 ```
 
 ### 2.3 读取手动修改的配置文件
