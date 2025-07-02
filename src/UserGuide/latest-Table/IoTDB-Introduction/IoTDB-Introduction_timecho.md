@@ -281,6 +281,7 @@ TimechoDB simplifies deployment, monitoring, and maintenance through an intuitiv
     - Simplifies interaction with an intuitive GUI for metadata management, SQL execution, user permissions, and system configuration.
 - **Cluster Management Tool** **:**
     - Provides **one-click operations** for cluster deployment, scaling, start/stop, and configuration updates.
+    - ![](/img/introduction-opskit-en.png)
 
 ### 4.3 Professional Enterprise Technical Services
 

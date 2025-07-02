@@ -18,7 +18,7 @@
     under the License.
 
 -->
-# Telegraf 插件(IoTDB)
+# Telegraf 插件
 
 ## 1. 产品概述
 

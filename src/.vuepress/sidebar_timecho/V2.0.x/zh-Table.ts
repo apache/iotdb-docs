@@ -77,7 +77,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '数据删除', link: 'Delete-Data' },
-            { text: '自动过期删除', link: 'TTL-Delete-Data' },
+            { text: '数据保留时间', link: 'TTL-Delete-Data' },
           ],
         },
       ],

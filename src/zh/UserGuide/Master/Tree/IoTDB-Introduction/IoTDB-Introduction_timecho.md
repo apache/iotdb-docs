@@ -256,7 +256,7 @@ TimechoDB 将为用户提供更简单、易用的工具体系，通过集群监�
 
 
 <div style="text-align: center;">        		
-    <img src="/img/Intoduction07.png" alt=" " style="width: 50%;"/>
+    <img src="/img/introduction-opskit.png" alt=" " style="width: 50%;"/>
 </div>
 
 ### 4.4 更专业的企业技术服务

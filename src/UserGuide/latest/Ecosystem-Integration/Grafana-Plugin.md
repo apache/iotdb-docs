@@ -19,7 +19,7 @@
 
 -->
 
-# Grafana Plugin(IoTDB)
+# Grafana Plugin
 
 
 Grafana is an open source volume metrics monitoring and visualization tool, which can be used to present time series data and analyze application runtime status.

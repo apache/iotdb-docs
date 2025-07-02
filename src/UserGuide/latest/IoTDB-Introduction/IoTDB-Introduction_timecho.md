@@ -253,7 +253,7 @@ TimechoDB will provide users with a simpler and more user-friendly tool system. 
 
 
 <div style="text-align: center;">        		
-    <img src="/img/Intoduction07.png" alt=" " style="width: 50%;"/>
+    <img src="/img/introduction-opskit-en.png" alt=" " style="width: 50%;"/>
 </div>
 
 ### 3.4 More professional enterprise technical services

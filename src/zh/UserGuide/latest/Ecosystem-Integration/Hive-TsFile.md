@@ -19,7 +19,7 @@
 
 -->
 
-# Apache Hive(TsFile)
+# Apache Hive
 
 ## 1. 什么是 TsFile 的 Hive 连接器
 

@@ -84,7 +84,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '数据删除', link: 'Delete-Data' },
-            { text: '自动过期删除', link: 'TTL-Delete' },
+            { text: '数据保留时间', link: 'TTL-Delete' },
           ],
         },
       ],
@@ -138,7 +138,7 @@ export const zhSidebar = {
       prefix: 'Tools-System/',
       // children: 'structure',
       children: [
-        { text: '命令行工具', link: 'CLI' },
+        { text: '命令行工具', link: 'CLI_apache' },
         { text: '监控工具', link: 'Monitor-Tool_apache' },
         { text: '测试工具', link: 'Benchmark' },
         { text: '集群管理工具', link: 'Maintenance-Tool_apache' },
