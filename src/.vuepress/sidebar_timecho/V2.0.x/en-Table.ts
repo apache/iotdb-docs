@@ -173,6 +173,13 @@ export const enSidebar = {
             { text: 'DBeaver', link: 'DBeaver' },
           ],
         },
+       {
+          text: 'Programming Framework',
+          collapsible: true,
+          children: [
+            { text: 'Spring Boot Starter', link: 'Spring-Boot-Starter' },
+          ],
+       },
       ],
     },
     {
