@@ -98,7 +98,7 @@ CREATE FUNCTION <UDF-NAME> AS <UDF-CLASS-FULL-PATHNAME> (USING URI URI-STRING)
 ####  Method 1: Manually place the jar package
 
 Prepare:   
-When registering using this method, it is necessary to place the JAR package in advance in the `ext/udf` directory of all nodes in the cluster (which can be configured).
+When registering using this method, it is necessary to place the JAR package in advance in the `ext/udf` directory of **all nodes in the cluster** (which can be configured).
 
 Registration statement:
 
