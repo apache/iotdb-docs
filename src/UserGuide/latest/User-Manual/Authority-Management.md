@@ -264,9 +264,9 @@ LIST PRIVILEGES OF ROLE <roleName>;
 eg: LIST PRIVILEGES OF ROLE actor;
 ```
 
-- Update password
+- Modify password
 
-Users can update their own password, but updating passwords of other users requires the MANAGE_USER permission.
+Users can modify their own password, but modifying passwords of other users requires the MANAGE_USER permission.
 
 ```sql
 ALTER USER <username> SET PASSWORD <password>;

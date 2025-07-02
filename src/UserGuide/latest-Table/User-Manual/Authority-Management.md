@@ -183,9 +183,9 @@ Constraints:
 * Username: 4-32 characters (letters, numbers, special chars: `!@#$%^&*()_+-=`). Cannot duplicate the admin (`root`) username.
 * Password: 4-32 characters (letters, numbers, special chars). Stored as SHA-256 hash by default.
 
-2.  Update Password
+2.  Modify Password
 
-Users can update their own passwords. Updating others' passwords requires `MANAGE_USER`.
+Users can modify their own passwords. Modifying others' passwords requires `MANAGE_USER`.
 
 ```SQL
 ALTER USER <USERNAME> SET PASSWORD <password>
