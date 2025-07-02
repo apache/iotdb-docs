@@ -349,247 +349,10 @@ IoTDB> show devices
 All devices will definitely have a TTL, meaning it cannot be null. INF represents infinity.
 
 
-## 2. Device Template
 
-IoTDB supports the device template function, enabling different entities of the same type to share metadata, reduce the memory usage of metadata, and simplify the management of numerous entities and measurements.
+## 2. Timeseries Management
 
-
-### 2.1 Create Device Template
-
-The SQL syntax for creating a metadata template is as follows:
-
-```sql
-CREATE DEVICE TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
-```
-
-**Example 1:** Create a template containing two non-aligned timeseries
-
-```shell
-IoTDB> create device template t1 (temperature FLOAT, status BOOLEAN)
-```
-
-**Example 2:** Create a template containing a group of aligned timeseries
-
-```shell
-IoTDB> create device template t2 aligned (lat FLOAT, lon FLOAT)
-```
-
-The` lat` and `lon` measurements are aligned.
-
-When creating a template, the system will automatically assign default encoding and compression methods, requiring no manual specification. If your business scenario requires custom adjustments, you may refer to the following example:
-
-```shell
-IoTDB> create device template t1 (temperature FLOAT encoding=RLE, status BOOLEAN encoding=PLAIN compression=SNAPPY)
-```
-For a full list of supported data types and corresponding encoding methods, please refer to [Compression & Encoding](../Technical-Insider/Encoding-and-Compression.md)。
-
-![](/img/%E6%A8%A1%E6%9D%BF.png)
-
-![](/img/templateEN.jpg)
-
-### 2.2 Set Device Template
-
-After a device template is created, it should be set to specific path before creating related timeseries or insert data.
-
-**It should be ensured that the related database has been set before setting template.**
-
-**It is recommended to set device template to database path. It is not suggested to set device template to some path above database**
-
-**It is forbidden to create timeseries under a path setting s tedeviceplate. Device template shall not be set on a prefix path of an existing timeseries.**
-
-The SQL Statement for setting device template is as follow:
-
-```shell
-IoTDB> set device template t1 to root.sg1.d1
-```
-
-### 2.3 Activate Device Template
-
-After setting the device template, with the system enabled to auto create schema, you can insert data into the timeseries. For example, suppose there's a database root.sg1 and t1 has been set to root.sg1.d1, then timeseries like root.sg1.d1.temperature and root.sg1.d1.status are available and data points can be inserted.
-
-
-**Attention**: Before inserting data or the system not enabled to auto create schema, timeseries defined by the device template will not be created. You can use the following SQL statement to create the timeseries or activate the  templdeviceate, act before inserting data:
-
-```shell
-IoTDB> create timeseries using device template on root.sg1.d1
-```
-
-**Example:** Execute the following statement
-
-```shell
-IoTDB> set device template t1 to root.sg1.d1
-IoTDB> set device template t2 to root.sg1.d2
-IoTDB> create timeseries using device template on root.sg1.d1
-IoTDB> create timeseries using device template on root.sg1.d2
-```
-
-Show the time series:
-
-```sql
-show timeseries root.sg1.**
-````
-
-```shell
-+-----------------------+-----+-------------+--------+--------+-----------+----+----------+--------+-------------------+
-|             timeseries|alias|     database|dataType|encoding|compression|tags|attributes|deadband|deadband parameters|
-+-----------------------+-----+-------------+--------+--------+-----------+----+----------+--------+-------------------+
-|root.sg1.d1.temperature| null|     root.sg1|   FLOAT|     RLE|     SNAPPY|null|      null|    null|               null|
-|     root.sg1.d1.status| null|     root.sg1| BOOLEAN|   PLAIN|     SNAPPY|null|      null|    null|               null|
-|        root.sg1.d2.lon| null|     root.sg1|   FLOAT| GORILLA|     SNAPPY|null|      null|    null|               null|
-|        root.sg1.d2.lat| null|     root.sg1|   FLOAT| GORILLA|     SNAPPY|null|      null|    null|               null|
-+-----------------------+-----+-------------+--------+--------+-----------+----+----------+--------+-------------------+
-```
-
-Show the devices:
-
-```sql
-show devices root.sg1.**
-````
-
-```shell
-+---------------+---------+
-|        devices|isAligned|
-+---------------+---------+
-|    root.sg1.d1|    false|
-|    root.sg1.d2|     true|
-+---------------+---------+
-````
-
-### 2.4 Show Device Template
-
-- Show all device templates
-
-The SQL statement looks like this:
-
-```shell
-IoTDB> show device templates
-```
-
-The execution result is as follows:
-
-```shell
-+-------------+
-|template name|
-+-------------+
-|           t2|
-|           t1|
-+-------------+
-```
-
-- Show nodes under in device template
-
-The SQL statement looks like this:
-
-```shell
-IoTDB> show nodes in device template t1
-```
-
-The execution result is as follows:
-
-```shell
-+-----------+--------+--------+-----------+
-|child nodes|dataType|encoding|compression|
-+-----------+--------+--------+-----------+
-|temperature|   FLOAT|     RLE|     SNAPPY|
-|     status| BOOLEAN|   PLAIN|     SNAPPY|
-+-----------+--------+--------+-----------+
-```
-
-- Show the path prefix where a device template is set
-
-```shell
-IoTDB> show paths set device template t1
-```
-
-The execution result is as follows:
-
-```shell
-+-----------+
-|child paths|
-+-----------+
-|root.sg1.d1|
-+-----------+
-```
-
-- Show the path prefix where a device template is used (i.e. the time series has been created)
-
-```shell
-IoTDB> show paths using device template t1
-```
-
-The execution result is as follows:
-
-```shell
-+-----------+
-|child paths|
-+-----------+
-|root.sg1.d1|
-+-----------+
-```
-
-### 2.5 Deactivate device Template
-
-To delete a group of timeseries represented by device template, namely deactivate the device template, use the following SQL statement:
-
-```shell
-IoTDB> delete timeseries of device template t1 from root.sg1.d1
-```
-
-or
-
-```shell
-IoTDB> deactivate device template t1 from root.sg1.d1
-```
-
-The deactivation supports batch process. 
-
-```shell
-IoTDB> delete timeseries of device template t1 from root.sg1.*, root.sg2.*
-```
-
-or
-
-```shell
-IoTDB> deactivate device template t1 from root.sg1.*, root.sg2.*
-```
-
-If the template name is not provided in sql, all template activation on paths matched by given path pattern will be removed.
-
-### 2.6 Unset Device Template
-
-The SQL Statement for unsetting device template is as follow:
-
-```shell
-IoTDB> unset device template t1 from root.sg1.d1
-```
-
-**Attention**: It should be guaranteed that none of the timeseries represented by the target device template exists, before unset it. It can be achieved by deactivation operation.
-
-### 2.7 Drop Device Template
-
-The SQL Statement for dropping device template is as follow:
-
-```shell
-IoTDB> drop device template t1
-```
-
-**Attention**: Dropping an already set template is not supported.
-
-### 2.8 Alter Device Template
-
-In a scenario where measurements need to be added, you can modify the  template to add measurements to all devicesdevice using the device template.
-
-The SQL Statement for altering device template is as follow:
-
-```shell
-IoTDB> alter device template t1 add (speed FLOAT, FLOAT TEXT)
-```
-
-**When executing data insertion to devices with device template set on related prefix path and there are measurements not present in this device template, the measurements will be auto added to this device template.**
-
-## 3. Timeseries Management
-
-### 3.1 Create Timeseries
+### 2.1 Create Timeseries
 
 According to the storage model selected before, we can create corresponding timeseries in the two databases respectively. The SQL statements for creating timeseries are as follows:
 
@@ -629,7 +392,7 @@ error: encoding TS_2DIFF does not support BOOLEAN
 For a full list of supported data types and corresponding encoding methods, please refer to [Compression & Encoding](../Technical-Insider/Encoding-and-Compression.md)。
 
 
-### 3.2 Create Aligned Timeseries
+### 2.2 Create Aligned Timeseries
 
 The SQL statement for creating a group of timeseries are as follows:
 
@@ -641,7 +404,7 @@ You can set different datatype, encoding, and compression for the timeseries in 
 
 It is also supported to set an alias, tag, and attribute for aligned timeseries.
 
-### 3.3 Delete Timeseries
+### 2.3 Delete Timeseries
 
 To delete the timeseries we created before, we are able to use `(DELETE | DROP) TimeSeries <PathPattern>` statement.
 
@@ -654,7 +417,7 @@ IoTDB> delete timeseries root.ln.wf02.*
 IoTDB> drop timeseries root.ln.wf02.*
 ```
 
-### 3.4 Show Timeseries
+### 2.4 Show Timeseries
 
 * SHOW LATEST? TIMESERIES pathPattern? whereClause? limitClause?
 
@@ -798,7 +561,7 @@ It costs 0.004s
 It is worth noting that when the queried path does not exist, the system will return no timeseries.  
 
 
-### 3.5 Count Timeseries
+### 2.5 Count Timeseries
 
 IoTDB is able to use `COUNT TIMESERIES <Path>` to count the number of timeseries matching the path. SQL statements are as follows:
 
@@ -883,7 +646,7 @@ It costs 0.002s
 
 > Note: The path of timeseries is just a filter condition, which has no relationship with the definition of level.
 
-### 3.6 Active Timeseries Query
+### 2.6 Active Timeseries Query
 By adding WHERE time filter conditions to the existing SHOW/COUNT TIMESERIES, we can obtain time series with data within the specified time range.
 
 It is important to note that in metadata queries with time filters, views are not considered; only the time series actually stored in the TsFile are taken into account.
@@ -923,7 +686,7 @@ IoTDB> count timeseries where time >= 15000 and time < 16000;
 +-----------------+
 ```
 Regarding the definition of active time series, data that can be queried normally is considered active, meaning time series that have been inserted but deleted are not included.
-### 3.7 Tag and Attribute Management
+### 2.7 Tag and Attribute Management
 
 We can also add an alias, extra tag and attribute information while creating one timeseries.
 
@@ -1098,9 +861,9 @@ IoTDB> show timeseries where TAGS(tag1)='v1'
 
 The above operations are supported for timeseries tag, attribute updates, etc.
 
-## 4. Path query
+## 3. Path query
 
-### 4.1 Path
+### 3.1 Path
 
 A `path` is an expression that conforms to the following constraints:
 
@@ -1120,7 +883,7 @@ wildcard
     ;
 ```
 
-### 4.2 NodeName
+### 3.2 NodeName
 
 - The parts of a path separated by `.` are called node names (`nodeName`).
 - For example, `root.a.b.c` is a path with a depth of 4 levels, where `root`, `a`, `b`, and `c` are all node names.
@@ -1135,11 +898,11 @@ wildcard
   - UNICODE Chinese characters (`\u2E80` to `\u9FFF`)
 - **Case sensitivity**: On Windows systems, path node names in the database are case-insensitive. For example, `root.ln` and `root.LN` are considered the same path.
 
-### 4.3 Special Characters (Backquote)
+### 3.3 Special Characters (Backquote)
 
 If special characters (such as spaces or punctuation marks) are needed in a `nodeName`, you can enclose the node name in Backquote (`). For more information on the use of backticks, please refer to [Backquote](../SQL-Manual/Syntax-Rule.md#reverse-quotation-marks).
 
-### 4.4 Path Pattern
+### 3.4 Path Pattern
 
 To make it more convenient and efficient to express multiple time series, IoTDB provides paths with wildcards `*` and `**`. Wildcards can appear in any level of a path.
 
@@ -1152,7 +915,7 @@ To make it more convenient and efficient to express multiple time series, IoTDB 
 
 **Note**: `*` and `**` cannot be placed at the beginning of a path.
 
-### 4.5 Show Child Paths
+### 3.5 Show Child Paths
 
 ```
 SHOW CHILD PATHS pathPattern
@@ -1180,7 +943,7 @@ It costs 0.002s
 
 > get all paths in form of root.xx.xx.xx：show child paths root.xx.xx
 
-### 4.6 Show Child Nodes
+### 3.6 Show Child Nodes
 
 ```
 SHOW CHILD NODES pathPattern
@@ -1211,7 +974,7 @@ Example：
 +------------+
 ```
 
-### 4.7 Count Nodes
+### 3.7 Count Nodes
 
 IoTDB is able to use `COUNT NODES <PathPattern> LEVEL=<INTEGER>` to count the number of nodes at
  the given level in current Metadata Tree considering a given pattern. IoTDB will find paths that
@@ -1264,7 +1027,7 @@ It costs 0.002s
 
 > Note: The path of timeseries is just a filter condition, which has no relationship with the definition of level.
 
-### 4.8 Show Devices
+### 3.8 Show Devices
 
 * SHOW DEVICES pathPattern? (WITH DATABASE)? devicesWhereClause? limitClause?
 
@@ -1345,7 +1108,7 @@ Total line number = 2
 It costs 0.001s
 ```
 
-### 4.9 Count Devices
+### 3.9 Count Devices
 
 * COUNT DEVICES /<PathPattern/>
 
@@ -1390,7 +1153,7 @@ Total line number = 1
 It costs 0.004s
 ```
 
-### 4.10 Active Device Query
+### 3.10 Active Device Query
 Similar to active timeseries query, we can add time filter conditions to device viewing and statistics to query active devices that have data within a certain time range. The definition of active here is the same as for active time series. An example usage is as follows:
 ```
 IoTDB> insert into root.sg.data(timestamp, s1,s2) values(15000, 1, 2);
