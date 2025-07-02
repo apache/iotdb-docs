@@ -158,6 +158,13 @@ export const zhSidebar = {
             { text: 'DBeaver', link: 'DBeaver' },
           ],
         },
+        {
+          text: '编程框架',
+          collapsible: true,
+          children: [
+            { text: 'Spring Boot Starter', link: 'Spring-Boot-Starter' },
+          ],
+       },
       ],
     },
     {
