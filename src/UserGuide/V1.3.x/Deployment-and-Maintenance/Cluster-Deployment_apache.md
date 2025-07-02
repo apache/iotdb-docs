@@ -87,13 +87,13 @@ cd  apache-iotdb-{version}-all-bin
 
 | **配置项**  | **Description**                                              | **Default** | **Recommended value**                                        | **Note**                            |
 | :---------- | :----------------------------------------------------------- | :---------- | :----------------------------------------------------------- | :---------------------------------- |
-| MEMORY_SIZE | The total amount of memory that IoTDB ConfigNode nodes can use | -           | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
+| MEMORY_SIZE | The total amount of memory that IoTDB ConfigNode nodes can use | -           | Can be filled in as needed, and the system will allocate memory based on the filled in values | Save changes without immediate execution; modifications take effect after service restart. |
 
 - `./conf/datanode-env.sh` configuration
 
 | **Configuration** | **Description**                                              | **Default** | **Recommended value**                                        | **Note**                            |
 | :---------------- | :----------------------------------------------------------- | :---------- | :----------------------------------------------------------- | :---------------------------------- |
-| MEMORY_SIZE       | The total amount of memory that IoTDB DataNode nodes can use | -           | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
+| MEMORY_SIZE       | The total amount of memory that IoTDB DataNode nodes can use | -           | Can be filled in as needed, and the system will allocate memory based on the filled in values | Save changes without immediate execution; modifications take effect after service restart. |
 
 #### General Configuration
 
