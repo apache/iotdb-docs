@@ -457,7 +457,7 @@ The Session class has the following fields, which can be set through the constru
 | **Method Name**                                              | **Function Description**                                 | **Parameter Explanation**                                    |
 | ------------------------------------------------------------ | -------------------------------------------------------- | ------------------------------------------------------------ |
 | `executeQueryStatement(String sql)`                          | Execute a query statement                                | `sql`: The query SQL statement                               |
-| `executeQueryStatement(String sql, long timeoutInMs)`        | Execute a query statement with timeout                   | `sql`: The query SQL statement, `timeoutInMs`: The query timeout (in milliseconds) |
+| `executeQueryStatement(String sql, long timeoutInMs)`        | Execute a query statement with timeout                   | `sql`: The query SQL statement, `timeoutInMs`: The query timeout (in milliseconds), default to the server configuration, which is 60s. |
 | `executeRawDataQuery(List<String> paths, long startTime, long endTime)` | Query raw data for specified paths                       | paths: A list of query paths, `startTime`: The start timestamp, `endTime`: The end timestamp |
 | `executeRawDataQuery(List<String> paths, long startTime, long endTime, long timeOut)` | Query raw data for specified paths (with timeout)        | Same as above, plus `timeOut`: The timeout time              |
 | `executeLastDataQuery(List<String> paths)`                   | Query the latest data                                    | `paths`: A list of query paths                               |
