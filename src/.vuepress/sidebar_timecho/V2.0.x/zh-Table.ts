@@ -60,6 +60,7 @@ export const zhSidebar = {
         { text: '集群版部署指导', link: 'Cluster-Deployment_timecho' },
         { text: '双活版部署指导', link: 'Dual-Active-Deployment_timecho' },
         { text: 'Docker部署指导', link: 'Docker-Deployment_timecho' },
+        { text: 'AINode部署', link: 'AINode_Deployment_timecho' },
         { text: '监控面板部署', link: 'Monitoring-panel-deployment' },
       ],
     },
@@ -103,6 +104,15 @@ export const zhSidebar = {
             { text: '运维语句', link: 'Maintenance-statement' },
           ],
         },
+      ],
+    },
+    {
+      text: 'AI 能力',
+      collapsible: true,
+      prefix: 'AI-capability/',
+      children: [
+        { text: 'AINode', link: 'AINode_timecho' },
+        { text: '时序大模型', link: 'TimeSeries-Large-Model' },
       ],
     },
     {

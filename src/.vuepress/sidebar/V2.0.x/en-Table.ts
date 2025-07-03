@@ -62,6 +62,7 @@ export const enSidebar = {
         },
         { text: 'Cluster Deployment', link: 'Cluster-Deployment_apache' },
         { text: 'Docker Deployment', link: 'Docker-Deployment_apache' },
+        { text: 'AINode Deployment', link: 'AINode_Deployment_apache' },
         {
           text: 'Monitoring Panel Deployment',
           link: 'Monitoring-panel-deployment',
@@ -109,6 +110,15 @@ export const enSidebar = {
             { text: 'Maintenance statement', link: 'Maintenance-commands' },
           ],
         },
+      ],
+    },
+    {
+      text: 'AI capability',
+      collapsible: true,
+      prefix: 'AI-capability/',
+      children: [
+        { text: 'AINode', link: 'AINode_apache' },
+        { text: 'TimeSeries Large Model', link: 'TimeSeries-Large-Model' },
       ],
     },
     {
