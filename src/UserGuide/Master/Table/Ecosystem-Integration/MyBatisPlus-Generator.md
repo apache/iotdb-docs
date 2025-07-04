@@ -277,7 +277,7 @@ org/apache/iotdb/service/impl/Table2ServiceImpl.java
 org/apache/iotdb/xml/Table1Mapper.xml
 org/apache/iotdb/xml/Table2Mapper.xml
 ```
-![](/img/MyBatisPlus-Generator.png.png)
+![](/img/MyBatisPlus-Generator.png)
 
 #### 2.2.5 Modify Annotations
 
