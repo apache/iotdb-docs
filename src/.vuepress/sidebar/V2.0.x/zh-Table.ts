@@ -159,6 +159,15 @@ export const zhSidebar = {
             { text: 'DataGrip', link: 'DataGrip' },
           ],
         },
+        {
+          text: '编程框架',
+          collapsible: true,
+          children: [
+            { text: 'Spring Boot Starter', link: 'Spring-Boot-Starter' },
+            { text: 'Mybatis Generator', link: 'Mybatis-Generator' },
+            { text: 'MyBatisPlus Generator', link: 'MyBatisPlus-Generator' },
+          ],
+        },
       ],
     },
     {
