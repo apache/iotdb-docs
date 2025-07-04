@@ -238,5 +238,11 @@ export const zhSidebar = {
         { text: '系统表', link: 'System-Tables' },
       ],
     },
+    {
+      text: 'FAQ',
+      collapsible: true,
+      prefix: 'FAQ/',
+      children: [{ text: '常见问题', link: 'Frequently-asked-questions' }],
+    },
   ],
 };

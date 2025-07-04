@@ -249,5 +249,16 @@ export const enSidebar = {
         { text: 'System Tables', link: 'System-Tables' },
       ],
     },
+    {
+      text: 'FAQ',
+      collapsible: true,
+      prefix: 'FAQ/',
+      children: [
+        {
+          text: 'Frequently Asked Questions',
+          link: 'Frequently-asked-questions',
+        },
+      ],
+    },
   ],
 };
