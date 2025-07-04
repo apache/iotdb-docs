@@ -66,6 +66,7 @@ export const enSidebar = {
           text: 'Monitoring Panel Deployment',
           link: 'Monitoring-panel-deployment',
         },
+        { text: 'AINode Deployment', link: 'AINode_Deployment_apache' },
       ],
     },
     {
@@ -109,6 +110,15 @@ export const enSidebar = {
             { text: 'Maintenance statement', link: 'Maintenance-commands' },
           ],
         },
+      ],
+    },
+    {
+      text: 'AI capability',
+      collapsible: true,
+      prefix: 'AI-capability/',
+      children: [
+        { text: 'AINode', link: 'AINode_apache' },
+        { text: 'TimeSeries Large Model', link: 'TimeSeries-Large-Model' },
       ],
     },
     {
