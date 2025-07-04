@@ -173,6 +173,15 @@ export const enSidebar = {
             { text: 'DBeaver', link: 'DBeaver' },
           ],
         },
+        {
+          text: 'Programming Framework',
+          collapsible: true,
+          children: [
+            { text: 'Spring Boot Starter', link: 'Spring-Boot-Starter' },
+            { text: 'Mybatis Generator', link: 'Mybatis-Generator' },
+            { text: 'MyBatisPlus Generator', link: 'MyBatisPlus-Generator' },
+          ],
+        },
       ],
     },
     {
