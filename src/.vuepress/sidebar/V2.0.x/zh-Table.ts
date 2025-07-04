@@ -59,6 +59,7 @@ export const zhSidebar = {
         { text: '单机版部署指导', link: 'Stand-Alone-Deployment_apache' },
         { text: '集群版部署指导', link: 'Cluster-Deployment_apache' },
         { text: 'Docker部署指导', link: 'Docker-Deployment_apache' },
+        { text: 'AINode部署', link: 'AINode_Deployment_apache' },
       ],
     },
     {
@@ -100,6 +101,15 @@ export const zhSidebar = {
             { text: '运维语句', link: 'Maintenance-statement' },
           ],
         },
+      ],
+    },
+    {
+      text: 'AI 能力',
+      collapsible: true,
+      prefix: 'AI-capability/',
+      children: [
+        { text: 'AINode', link: 'AINode_apache' },
+        { text: '时序大模型', link: 'TimeSeries-Large-Model' },
       ],
     },
     {

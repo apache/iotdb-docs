@@ -66,6 +66,7 @@ export const enSidebar = {
           link: 'Dual-Active-Deployment_timecho',
         },
         { text: 'Docker Deployment', link: 'Docker-Deployment_timecho' },
+        { text: 'AINode Deployment', link: 'AINode_Deployment_timecho' },
         {
           text: 'Monitoring Panel Deployment',
           link: 'Monitoring-panel-deployment',
@@ -114,6 +115,15 @@ export const enSidebar = {
             { text: 'Maintenance statement', link: 'Maintenance-commands' },
           ],
         },
+      ],
+    },
+    {
+      text: 'AI capability',
+      collapsible: true,
+      prefix: 'AI-capability/',
+      children: [
+        { text: 'AINode', link: 'AINode_timecho' },
+        { text: 'TimeSeries Large Model', link: 'TimeSeries-Large-Model' },
       ],
     },
     {
