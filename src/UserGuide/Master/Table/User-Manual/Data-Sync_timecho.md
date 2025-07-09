@@ -409,6 +409,8 @@ On IoTDB B:
 
 ```SQL
 CREATE PIPE BC
+WITH SOURCE (
+)
 WITH SINK (
   'sink' = 'iotdb-thrift-sink',
   'node-urls' = '127.0.0.1:6669' -- URL of the DataNode service port on the target IoTDB
