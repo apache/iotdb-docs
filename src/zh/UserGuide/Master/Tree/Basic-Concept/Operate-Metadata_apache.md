@@ -592,7 +592,7 @@ IoTDB > create timeseries root.ln.wf01.wt01.temperature FLOAT
 IoTDB > create timeseries root.ln.wf02.wt02.hardware TEXT 
 IoTDB > create timeseries root.ln.wf02.wt02.status BOOLEAN 
 IoTDB > create timeseries root.sgcc.wf03.wt01.status BOOLEAN 
-IoTDB > create timeseries root.sgcc.wf03.wt01.temperature
+IoTDB > create timeseries root.sgcc.wf03.wt01.temperature FLOAT
 ```
 
 创建时间序列时，系统会默认指定编码压缩方式，无需手动指定，若业务场景需要手动调整，可参考如下示例：
