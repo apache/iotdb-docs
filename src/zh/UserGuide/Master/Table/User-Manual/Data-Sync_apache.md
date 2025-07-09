@@ -394,7 +394,6 @@ with sink (
 ```SQL
 create pipe BC
 with source (
-  'source.mode.double-living' ='true'   --不转发由其他 Pipe 写入的数据
 )
 with sink (
   'sink'='iotdb-thrift-sink',
