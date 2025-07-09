@@ -407,9 +407,6 @@ with sink (
 
 ```SQL
 create pipe BC
-with source (
-  'source.mode.double-living' ='true'   --不转发由其他 Pipe 写入的数据
-)
 with sink (
   'sink'='iotdb-thrift-sink',
   'node-urls' = '127.0.0.1:6669', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
