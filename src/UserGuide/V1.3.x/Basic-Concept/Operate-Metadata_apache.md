@@ -45,7 +45,13 @@ IoTDB> create database root.ln.wf01
 Msg: 300: root.ln has already been created as database.
 ```
 
-The LayerName of database can only be chinese or english characters, numbers, underscores, dots and backticks. If you want to set it to pure numbers or contain backticks or dots, you need to enclose the database name with backticks (` `` `). In ` `` `，2 backticks represents one, i.e. ` ```` ` represents `` ` ``.
+Database Node Naming Rules:
+1. Node names may contain: **Chinese/English letters, Digits (0-9), Underscore(\_)、Period (.)、Backtick(\`)**
+2. The entire name must be enclosed in **backticks (\`)** if:
+    - It consists solely of digits (e.g., 12345)
+    - It contains special characters (. or \_) that may cause ambiguity (e.g., db.01, \_temp)
+3. Escaping Backticks:
+   If the node name itself contains a backtick (\`), use **two consecutive backticks(\`\`)** to represent a single backtick. Example: To name a node as \`db123\`\` (containing one backtick), write it as \`db123\`\`\`.
 
 Besides, if deploy on Windows system, the LayerName is case-insensitive, which means it's not allowed to create databases `root.ln` and `root.LN` at the same time.
 
