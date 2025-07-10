@@ -210,6 +210,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Ecosystem-Integration/',
       children: [
+        { text: 'Overview', link: 'Ecosystem-Overview_timecho' },
         {
           text: '‌Data Acquisition',
           collapsible: true,
