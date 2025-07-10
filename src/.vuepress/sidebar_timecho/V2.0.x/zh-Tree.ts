@@ -193,6 +193,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Ecosystem-Integration/',
       children: [
+        { text: '概览', link: 'Ecosystem-Overview_timecho' },
         {
           text: '数据采集',
           collapsible: true,
