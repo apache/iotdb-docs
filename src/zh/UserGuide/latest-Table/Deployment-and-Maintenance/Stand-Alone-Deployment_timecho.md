@@ -119,14 +119,10 @@ DataNode 配置
 
 ### 2.5 激活数据库
 
-#### 方式一：文件激活
+#### 方式一：命令激活
 
-- 启动Confignode、Datanode节点后，进入activation文件夹, 将 system_info文件复制给天谋工作人员
-- 收到工作人员返回的 license文件
-- 将license文件放入对应节点的activation文件夹下；
-
-#### 方式二：命令激活
 - 进入 IoTDB CLI
+
   - 表模型 CLI 进入命令：
   ```SQL
     # Linux或MACOS系统
@@ -136,14 +132,6 @@ DataNode 配置
     ./start-cli.bat -sql_dialect table
     ```
 
-  - 树模型 CLI 进入命令：
-  ```SQL
-    # Linux或MACOS系统
-    ./start-cli.sh
-    
-    # windows系统
-    ./start-cli.bat
-    ```
 - 执行以下内容获取激活所需机器码：
 
 ```Bash
@@ -168,6 +156,14 @@ It costs 0.030s
 ```Bash
 IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
 ```
+
+
+#### 方式二：文件激活
+
+- 启动Confignode、Datanode节点后，进入activation文件夹, 将 system_info文件复制给天谋工作人员
+- 收到工作人员返回的 license文件
+- 将license文件放入对应节点的activation文件夹下；
+
 
 ### 2.6 验证激活
 
