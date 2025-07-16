@@ -21,17 +21,17 @@
 
 # AINode
 
-AINode 是支持时序大模型注册、管理、调用的 IoTDB 原生节点，内置业界领先的自研时序大模型，如 Timer、Sundial 等，可通过标准 SQL 语句进行调用，实现时序数据的毫秒级实时推理，可支持时序趋势预测、缺失值填补、异常值检测等应用场景。
+AINode 是支持时序相关模型注册、管理、调用的 IoTDB 原生节点，内置业界领先的自研时序大模型，如清华自研时序模型 Timer 系列，可通过标准 SQL 语句进行调用，实现时序数据的毫秒级实时推理，可支持时序趋势预测、缺失值填补、异常值检测等应用场景。
 
 系统架构如下图所示：
 
-![](/img/h4.png)
+![](/img/AINode-0.png)
 
 三种节点的职责如下：
 
-- **ConfigNode**：负责保存和管理模型的元信息；负责分布式节点管理。
+- **ConfigNode**：负责分布式节点管理和负载均衡。
 - **DataNode**：负责接收并解析用户的 SQL请求；负责存储时间序列数据；负责数据的预处理计算。
-- **AINode**：负责模型文件的导入创建以及模型推理。
+- **AINode**：负责时序模型的管理和使用。
 
 ## 1. 优势特点
 
@@ -56,11 +56,11 @@ AINode 是支持时序大模型注册、管理、调用的 IoTDB 原生节点，
 - **推理（Inference）**：使用创建的模型在指定时序数据上完成该模型适用的时序分析任务。
 - **内置能力（Built-in）**：AINode 自带常见时序分析场景（例如预测与异常检测）的机器学习算法或自研模型。
 
-![](/img/h3.png)
+![](/img/AINode-new.png)
 
 ## 3. 安装部署
 
-AINode 的部署可参考文档 [部署指导](../Deployment-and-Maintenance/AINode_Deployment_apache.md#ainode-部署) 章节。
+AINode 的部署可参考文档 [AINode 部署](../Deployment-and-Maintenance/AINode_Deployment_apache.md)。
 
 ## 4. 使用指导
 
@@ -79,12 +79,12 @@ AINode 对时序模型提供了模型创建及删除功能，内置模型无需�
 下方为模型注册的SQL语法定义。
 
 ```SQL
-create model <model_name> using uri <uri>
+create model <model_id> using uri <uri>
 ```
 
 SQL中参数的具体含义如下：
 
-- model_name：模型的全局唯一标识，不可重复。模型名称具备以下约束：
+- model_id：模型的全局唯一标识，不可重复。模型名称具备以下约束：
 
   - 允许出现标识符 [ 0-9 a-z A-Z _ ] （字母，数字，下划线）
   - 长度限制为2-64字符
@@ -96,19 +96,19 @@ SQL中参数的具体含义如下：
 
   - 模型配置文件：模型注册时需要提供的与模型结构有关的参数，其中必须包含模型的输入输出维度用于模型推理：
 
-    - | **参数名**   | **参数描述**                 | **示例** |
-      | ------------ | ---------------------------- | -------- |
-      | input_shape  | 模型输入的行列，用于模型推理 | [96,2]   |
-      | output_shape | 模型输出的行列，用于模型推理 | [48,2]   |
+  - | **参数名**   | **参数描述**                 | **示例** |
+    | ------------ | ---------------------------- | -------- |
+    | input_shape  | 模型输入的行列，用于模型推理 | [96,2]   |
+    | output_shape | 模型输出的行列，用于模型推理 | [48,2]   |
 
-    - ​    除了模型推理外，还可以指定模型输入输出的数据类型：
+  除了模型推理外，还可以指定模型输入输出的数据类型：
 
     - | **参数名**  | **参数描述**       | **示例**              |
       | ----------- | ------------------ | --------------------- |
       | input_type  | 模型输入的数据类型 | ['float32','float32'] |
       | output_type | 模型输出的数据类型 | ['float32','float32'] |
 
-    - ​    除此之外，可以额外指定备注信息用于在模型管理时进行展示
+   除此之外，可以额外指定备注信息用于在模型管理时进行展示
 
     - | **参数名** | **参数描述**                                   | **示例**                                    |
       | ---------- | ---------------------------------------------- | ------------------------------------------- |
@@ -119,7 +119,7 @@ SQL中参数的具体含义如下：
 
 #### 示例
 
-在当前的example文件夹下，包含model.pt和config.yaml文件，model.pt为训练得到，config.yaml的内容如下：
+在 [example 文件夹](https://github.com/apache/iotdb/tree/master/integration-test/src/test/resources/ainode-example)下，包含model.pt和config.yaml文件，model.pt为训练得到，config.yaml的内容如下：
 
 ```YAML
 configs:                
@@ -142,12 +142,6 @@ attributes:           # 可选项 为用户自定义的备注信息
 IoTDB> create model dlinear_example using uri "file://./example"
 ```
 
-也可以从huggingFace上下载对应的模型文件进行注册
-
-```SQL
-IoTDB> create model dlinear_example using uri "https://huggingface.co/google/timesfm-2.0-500m-pytorch"
-```
-
 SQL执行后会异步进行注册的流程，可以通过模型展示查看模型的注册状态（见模型展示章节），注册成功的耗时主要受到模型文件大小的影响。
 
 模型注册完成后，就可以通过使用正常查询的方式调用具体函数，进行模型推理。
@@ -159,41 +153,44 @@ SQL执行后会异步进行注册的流程，可以通过模型展示查看模�
 ```SQL
 show models
 
-show models <model_name>
+show models <model_id>
 ```
 
 除了直接展示所有模型的信息外，可以指定model id来查看某一具体模型的信息。模型展示的结果中包含如下信息：
 
-| **ModelId**  | **State**                             | **Configs**                                    | **Attributes** |
-| ------------ | ------------------------------------- | ---------------------------------------------- | -------------- |
-| 模型唯一标识 | 模型注册状态(INACTIVE,LOADING,ACTIVE,DROPPING) | InputShape, outputShapeInputTypes, outputTypes | 模型备注信息   |
+| **ModelId** | **ModelType** | **Category**  | **State** |
+|-------------|-----------|--------------|----------------|
+| 模型ID        | 模型类型      | 模型种类 | 模型状态           |
 
-其中，State用于展示当前模型注册的状态，包含以下三个阶段
+- 模型状态机流转示意图如下
 
-- **INACTIVE**：模型处于不可用状态
-- **LOADING**：模型加载中状态
-- **ACTIVE**：模型处于可用状态
-- **DROPPING**:模型删除中状态
+![](/img/AINode-State.png)
 
-#### 示例
+**说明：**
+
+1. 启动 AINode，show models 只能看到 BUILT-IN 模型
+2. 用户可导入自己的模型，来源为 USER-DEFINED，可尝试从配置文件解析 ModelType，解析不到则为空
+3. 时序大模型权重不随 AINode 打包，AINode 启动时自动下载，下载过程中为 LOADING
+4. 下载成功转变为 ACTIVE，失败则变成 INACTIVE
+5. 用户启动微调，正在训练的模型状态为 TRAINING，训练成功变为 ACTIVE，失败则是 FAILED
+
+**示例**
 
 ```SQL
 IoTDB> show models
-
-+---------------------+--------------------+--------+--------+
-|              ModelId|           ModelType|Category|   State|
-+---------------------+--------------------+--------+--------+
-|                arima|               Arima|BUILT-IN|  ACTIVE|
-|          holtwinters|         HoltWinters|BUILT-IN|  ACTIVE|
-|exponential_smoothing|ExponentialSmoothing|BUILT-IN|  ACTIVE|
-|     naive_forecaster|     NaiveForecaster|BUILT-IN|  ACTIVE|
-|       stl_forecaster|       StlForecaster|BUILT-IN|  ACTIVE|
-|         gaussian_hmm|         GaussianHmm|BUILT-IN|  ACTIVE|
-|              gmm_hmm|              GmmHmm|BUILT-IN|  ACTIVE|
-|                stray|               Stray|BUILT-IN|  ACTIVE|
-|             timer_xl|            Timer-XL|BUILT-IN|  ACTIVE|
-|              sundial|       Timer-Sundial|BUILT-IN|  ACTIVE|
-+---------------------+--------------------+--------+--------+
++---------------------+--------------------+--------------+---------+
+|              ModelId|           ModelType|      Category|    State|
++---------------------+--------------------+--------------+---------+
+|                arima|               arima|      BUILT-IN|   ACTIVE|
+|               custom|                    |  USER-DEFINED|   ACTIVE|
+|              timerxl|            timer-xl|      BUILT-IN|  LOADING|
+|              sundial|       timer-sundial|      BUILT-IN|   ACTIVE|
+|           sundialx_1|       timer-sundial|    FINE-TUNED|   ACTIVE|
+|           sundialx_2|       timer-sundial|    FINE-TUNED|   ACTIVE|
+|             sundialx|       timer-sundial|    FINE-TUNED|   ACTIVE|
+|           sundialx_4|       timer-sundial|    FINE-TUNED| TRAINING|
+|           sundialx_5|       timer-sundial|    FINE-TUNED|   FAILED|
++---------------------+--------------------+--------------+---------+
 ```
 
 ### 4.3 删除模型
@@ -245,8 +242,8 @@ SELECT * FROM forecast(
 
 1. forecast 函数默认对输入表中所有列进行预测（不包含time列和partition by 的列）。
 2. forecast 函数对于输入数据无顺序性要求，默认对输入数据按照时间戳（由 TIMECOL 参数指定时间戳的列名）做升序排序后，再调用模型进行预测。
-3. 不同模型对于输入数据的行数要求不同，输入数据少于最低行数要求时，则报错；输入数据高于最大行数要求时，则自动截取最后的满足要求的行数。
-   - 在当前的 AINdoe 内置模型中，仅_sundial对输入行数有限制。_sundial 目前支持的最大输入行数为 2880，超过 2880 时，会自动截取输入数据的最后 2880 行。
+3. 不同模型对于输入数据的行数要求不同，输入数据少于最低行数要求时会报错。
+   - 在当前的 AINdoe 内置模型中，Timer-XL 模型至少需要输入 96 行数据，Timer-Sundial 模型至少需要输入 16 行数据。
 4. forecast 函数的返回结果列包含 input 表的所有输入列，列的数据类型与原表列的数据类型一致。若 preserve_input= true，则还包含 is_input 列（表征当前行是否为输入行）
    - 目前只支持对 INT32、INT64、FLOAT、DOUBLE 进行预测，否则报错：The type of the column [%s] is [%s], only INT32, INT64, FLOAT, DOUBLE is allowed
 5. output_start_time 和 output_interval 只会影响输出结果集的时间戳列生成，均为可选参数。
@@ -254,7 +251,12 @@ SELECT * FROM forecast(
    - output_interval = (输入数据的最后一个时间戳 - 输入数据的第一个时间戳) / n - 1， 默认为输入数据的采样间隔
    - 第 N 个输出行的时间为 output_start_time + (N - 1) * output_interval
 
-#### 示例
+**示例：需要提前创建数据库及表**
+
+```sql
+create database etth
+create table eg (hufl FLOAT FIELD, hull FLOAT FIELD, mufl FLOAT FIELD, mull FLOAT FIELD, lufl FLOAT FIELD, lull FLOAT FIELD, ot FLOAT FIELD)
+```
 
 我们所使用的的测试集的数据为[ETTh1-tab](/img/ETTh1-tab.csv)。
 
@@ -314,7 +316,7 @@ It costs 1.615s
 
 ### 4.5 时序大模型导入步骤
 
-AINode 目前支持多种时序大模型，部署使用请参考[时序大模型](https://timecho.com/docs/zh/UserGuide/latest/AI-capability/TimeSeries-Large-Model.html)
+AINode 目前支持多种时序大模型，部署使用请参考[时序大模型](../AI-capability/TimeSeries-Large-Model.md)
 
 ## 5 权限管理
 
