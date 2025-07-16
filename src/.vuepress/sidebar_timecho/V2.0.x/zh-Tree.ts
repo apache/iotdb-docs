@@ -19,11 +19,11 @@
 export const zhSidebar = {
   '/zh/UserGuide/latest/': [
     {
-      text: 'IoTDB用户手册(V2.0.x)',
+      text: 'TimechoDB用户手册(V2.0.x)',
       children: [],
     },
     {
-      text: '关于IoTDB',
+      text: '关于TimechoDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
       children: [

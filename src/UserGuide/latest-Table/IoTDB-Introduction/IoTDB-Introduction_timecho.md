@@ -103,7 +103,7 @@ TimechoDB offers the following advantages:
 
 ## 4. Enterprise-level Enhancements
 
-TimechoDB extends the open-source version with advanced industrial-grade capabilities, including tiered storage, cloud-edge collaboration, visualization tools, and security upgrades.
+TimechoDB extends Apache IoTDB with advanced industrial-grade capabilities, including tiered storage, cloud-edge collaboration, visualization tools, and security upgrades.
 
 **Dual-Active Deployment:**
 
@@ -292,7 +292,7 @@ TimechoDB offers **vendor-backed enterprise services** to support industrial-sca
 - **Emergency Support & Remote Assistance**: Minimized downtime for mission-critical operations.
 - **Custom Development & Optimization**: Tailored solutions for unique industrial use cases.
 
-Compared to the open-source version’s 2-3 month release cycle, TimechoDB delivers faster updates and same-day critical issue resolutions, ensuring production stability.
+Compared to Apache IoTDB’s 2-3 month release cycle, TimechoDB delivers faster updates and same-day critical issue resolutions, ensuring production stability.
 
 ### 4.4 Ecosystem Compatibility & Compliance
 
