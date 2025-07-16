@@ -176,3 +176,16 @@ public class CustomizedJsonPayloadFormatter implements PayloadFormatter {
 
 More: MQTT 协议的消息不限于 json，你还可以用任意二进制。通过如下函数获得：
 `payload.forEachByte()` or `payload.array`。 
+
+
+## 6. 注意事项
+
+为避免因缺省client_id引发的兼容性问题，强烈建议在所有MQTT客户端中始终显式地提供唯一且非空的 client_id。
+不同客户端在client_id缺失或为空时的表现并不一致，常见示例如下：
+1. 显式传入空字符串
+   • MQTTX：client_id=""时，IoTDB会直接丢弃消息；
+   • mosquitto_pub：client_id=""时，IoTDB能正常接收消息。
+2. 完全不传client_id
+   • MQTTX：消息可被IoTDB正常接收；
+   • mosquitto_pub：IoTDB拒绝连接。
+   由此可见，显式指定唯一且非空的client_id是消除上述差异、确保消息可靠投递的最简单做法。
