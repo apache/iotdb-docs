@@ -19,11 +19,11 @@
 export const enSidebar = {
   '/UserGuide/V1.2.x/': [
     {
-      text: 'IoTDB User Guide (V1.2.x)',
+      text: 'TimechoDB User Guide (V1.2.x)',
       children: [],
     },
     {
-      text: 'About IoTDB',
+      text: 'About TimechoDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
       // children: 'structure',

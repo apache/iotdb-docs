@@ -69,7 +69,7 @@ TimechoDB has the following advantages and characteristics:
 
 ### 3.1 Higher level product features
 
-Building on the open-source version, TimechoDB offers a range of advanced product features, with native upgrades and optimizations at the kernel level for industrial production scenarios. These include multi-level storage, cloud-edge collaboration, visualization tools, and security enhancements, allowing users to focus more on business development without worrying too much about underlying logic. This simplifies and enhances industrial production, bringing more economic benefits to enterprises. For example:
+Based on Apache IoTDB, TimechoDB offers a range of advanced product features, with native upgrades and optimizations at the kernel level for industrial production scenarios. These include multi-level storage, cloud-edge collaboration, visualization tools, and security enhancements, allowing users to focus more on business development without worrying too much about underlying logic. This simplifies and enhances industrial production, bringing more economic benefits to enterprises. For example:
 
 
 - Dual Active Deployment：Dual active usually refers to two independent single machines (or clusters) that perform real-time mirror synchronization. Their configurations are completely independent and can simultaneously receive external writes. Each independent single machine (or clusters) can synchronize the data written to itself to another single machine (or clusters), and the data of the two single machines (or clusters) can achieve final consistency.
