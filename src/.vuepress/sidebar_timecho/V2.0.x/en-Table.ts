@@ -66,6 +66,7 @@ export const enSidebar = {
           link: 'Dual-Active-Deployment_timecho',
         },
         { text: 'Docker Deployment', link: 'Docker-Deployment_timecho' },
+        { text: 'AINode Deployment', link: 'AINode_Deployment_timecho' },
         {
           text: 'Monitoring Panel Deployment',
           link: 'Monitoring-panel-deployment',
@@ -114,6 +115,15 @@ export const enSidebar = {
             { text: 'Maintenance statement', link: 'Maintenance-commands' },
           ],
         },
+      ],
+    },
+    {
+      text: 'AI capability',
+      collapsible: true,
+      prefix: 'AI-capability/',
+      children: [
+        { text: 'AINode', link: 'AINode_timecho' },
+        { text: 'TimeSeries Large Model', link: 'TimeSeries-Large-Model' },
       ],
     },
     {
@@ -171,6 +181,16 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'DBeaver', link: 'DBeaver' },
+            { text: 'DataGrip', link: 'DataGrip' },
+          ],
+        },
+        {
+          text: 'Programming Framework',
+          collapsible: true,
+          children: [
+            { text: 'Spring Boot Starter', link: 'Spring-Boot-Starter' },
+            { text: 'Mybatis Generator', link: 'Mybatis-Generator' },
+            { text: 'MyBatisPlus Generator', link: 'MyBatisPlus-Generator' },
           ],
         },
       ],
@@ -227,6 +247,17 @@ export const enSidebar = {
         { text: 'Config Manual', link: 'System-Config-Manual' },
         { text: 'Status Codes', link: 'Status-Codes' },
         { text: 'System Tables', link: 'System-Tables' },
+      ],
+    },
+    {
+      text: 'FAQ',
+      collapsible: true,
+      prefix: 'FAQ/',
+      children: [
+        {
+          text: 'Frequently Asked Questions',
+          link: 'Frequently-asked-questions',
+        },
       ],
     },
   ],

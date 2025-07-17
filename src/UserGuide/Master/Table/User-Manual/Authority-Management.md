@@ -181,7 +181,7 @@ eg: CREATE USER user1 'passwd'
 Constraints:
 
 * Username: 4-32 characters (letters, numbers, special chars: `!@#$%^&*()_+-=`). Cannot duplicate the admin (`root`) username.
-* Password: 4-32 characters (letters, numbers, special chars). Stored as MD5 hash by default.
+* Password: 4-32 characters (letters, numbers, special chars). Stored as SHA-256 hash by default.
 
 2.  Update Password
 

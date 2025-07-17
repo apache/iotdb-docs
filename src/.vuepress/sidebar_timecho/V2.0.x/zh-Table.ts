@@ -19,11 +19,11 @@
 export const zhSidebar = {
   '/zh/UserGuide/latest-Table/': [
     {
-      text: 'IoTDB用户手册(V2.0.x)',
+      text: 'TimechoDB用户手册(V2.0.x)',
       children: [],
     },
     {
-      text: '关于IoTDB',
+      text: '关于TimechoDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
       children: [
@@ -60,6 +60,7 @@ export const zhSidebar = {
         { text: '集群版部署指导', link: 'Cluster-Deployment_timecho' },
         { text: '双活版部署指导', link: 'Dual-Active-Deployment_timecho' },
         { text: 'Docker部署指导', link: 'Docker-Deployment_timecho' },
+        { text: 'AINode部署', link: 'AINode_Deployment_timecho' },
         { text: '监控面板部署', link: 'Monitoring-panel-deployment' },
       ],
     },
@@ -77,7 +78,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '数据删除', link: 'Delete-Data' },
-            { text: '自动过期删除', link: 'TTL-Delete-Data' },
+            { text: '数据保留时间', link: 'TTL-Delete-Data' },
           ],
         },
       ],
@@ -103,6 +104,15 @@ export const zhSidebar = {
             { text: '运维语句', link: 'Maintenance-statement' },
           ],
         },
+      ],
+    },
+    {
+      text: 'AI 能力',
+      collapsible: true,
+      prefix: 'AI-capability/',
+      children: [
+        { text: 'AINode', link: 'AINode_timecho' },
+        { text: '时序大模型', link: 'TimeSeries-Large-Model' },
       ],
     },
     {
@@ -160,7 +170,17 @@ export const zhSidebar = {
              collapsible: true,
              children: [
                { text: 'DBeaver', link: 'DBeaver' },
+               { text: 'DataGrip', link: 'DataGrip' },
              ],
+           },
+           {
+              text: '编程框架',
+              collapsible: true,
+              children: [
+                { text: 'Spring Boot Starter', link: 'Spring-Boot-Starter' },
+                { text: 'Mybatis Generator', link: 'Mybatis-Generator' },
+                { text: 'MyBatisPlus Generator', link: 'MyBatisPlus-Generator' },
+              ],
            },
          ],
        },
@@ -217,6 +237,12 @@ export const zhSidebar = {
         { text: '状态码', link: 'Status-Codes' },
         { text: '系统表', link: 'System-Tables' },
       ],
+    },
+    {
+      text: 'FAQ',
+      collapsible: true,
+      prefix: 'FAQ/',
+      children: [{ text: '常见问题', link: 'Frequently-asked-questions' }],
     },
   ],
 };

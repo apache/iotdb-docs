@@ -59,7 +59,7 @@ This section demonstrates how to deploy a standalone Docker version of 1C1D.
 
 ### 2.1 Pull Image File
 
-The Docker image of Apache IoTDB has been uploaded tohttps://hub.docker.com/r/apache/iotdb。
+The Docker image of Apache IoTDB has been uploaded to https://hub.docker.com/r/apache/iotdb.
 
 Taking obtaining version 1.3.2 as an example, pull the image command:
 

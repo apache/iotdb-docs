@@ -19,11 +19,11 @@
 export const enSidebar = {
   '/UserGuide/V1.3.x/': [
     {
-      text: 'IoTDB User Guide (V1.3.x)',
+      text: 'TimechoDB User Guide (V1.3.x)',
       children: [],
     },
     {
-      text: 'About IoTDB',
+      text: 'About TimechoDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
       // children: 'structure', 使用该方式自动获取文件夹下的文件
@@ -164,7 +164,7 @@ export const enSidebar = {
       prefix: 'Tools-System/',
       // children: 'structure',
       children: [
-        { text: 'CLI', link: 'CLI' },
+        { text: 'CLI', link: 'CLI_timecho' },
         { text: 'Workbench', link: 'Workbench_timecho' },
         { text: 'Monitor Tool', link: 'Monitor-Tool_timecho' },
         { text: 'Benchmark Tool', link: 'Benchmark' },

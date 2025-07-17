@@ -455,7 +455,7 @@ Session具有如下的字段，可以通过构造函数或Session.Builder方式�
 | 方法名                                                       | 功能描述                         | 参数解释                                                     |
 | ------------------------------------------------------------ | -------------------------------- | ------------------------------------------------------------ |
 | `executeQueryStatement(String sql)`                          | 执行查询语句                     | `sql`: 查询SQL语句                                           |
-| `executeQueryStatement(String sql, long timeoutInMs)`        | 执行带超时的查询语句             | `sql`: 查询SQL语句，`timeoutInMs`: 查询超时时间（毫秒）      |
+| `executeQueryStatement(String sql, long timeoutInMs)`        | 执行带超时的查询语句             | `sql`: 查询SQL语句，`timeoutInMs`: 查询超时时间（毫秒），默认取服务器配置即60s      |
 | `executeRawDataQuery(List<String> paths, long startTime, long endTime)` | 查询指定路径的原始数据           | `paths`: 查询路径列表，`startTime`: 起始时间戳，`endTime`: 结束时间戳 |
 | `executeRawDataQuery(List<String> paths, long startTime, long endTime, long timeOut)` | 查询指定路径的原始数据（带超时） | 同上，增加 `timeOut`: 超时时间                               |
 | `executeLastDataQuery(List<String> paths)`                   | 查询最新数据                     | `paths`: 查询路径列表                                        |

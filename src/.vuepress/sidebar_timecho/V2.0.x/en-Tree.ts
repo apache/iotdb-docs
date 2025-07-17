@@ -19,11 +19,11 @@
 export const enSidebar = {
   '/UserGuide/latest/': [
     {
-      text: 'IoTDB User Guide (V2.0.x)',
+      text: 'TimechoDB User Guide (V2.0.x)',
       children: [],
     },
     {
-      text: 'About IoTDB',
+      text: 'About TimechoDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
       children: [
@@ -154,7 +154,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Tools-System/',
       children: [
-        { text: 'CLI', link: 'CLI' },
+        { text: 'CLI', link: 'CLI_timecho' },
         { text: 'Workbench', link: 'Workbench_timecho' },
         { text: 'Monitor Tool', link: 'Monitor-Tool_timecho' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
