@@ -245,3 +245,16 @@ Then, in your server:
 
 More: the message format can be anything you want. For example, if it is a binary format,
 just use `payload.forEachByte()` or `payload.array` to get bytes content. 
+
+
+## 7. Caution
+
+To avoid compatibility issues caused by a default client_id, always explicitly supply a unique, non-empty client_id in every MQTT client.
+Behavior varies when the client_id is missing or empty. Common examples:
+1. Explicitly sending an empty string
+• MQTTX: When client_id="", IoTDB silently discards the message.
+• mosquitto_pub: When client_id="", IoTDB receives the message normally.
+2. Omitting client_id entirely
+• MQTTX: IoTDB accepts the message.
+• mosquitto_pub: IoTDB rejects the connection.
+Therefore, explicitly assigning a unique, non-empty client_id is the simplest way to eliminate these discrepancies and ensure reliable message delivery.
