@@ -27,7 +27,7 @@
  AINode is the third type of endogenous node provided by IoTDB after the Configurable Node and DataNode. This node extends its ability to perform machine learning analysis on time series by interacting with the DataNode and Configurable Node of the IoTDB cluster. It supports the introduction of existing machine learning models from external sources for registration and the use of registered models to complete time series analysis tasks on specified time series data through simple SQL statements. The creation, management, and inference of models are integrated into the database engine. Currently, machine learning algorithms or self-developed models are available for common time series analysis scenarios, such as prediction and anomaly detection.
 
 ### 1.2 Delivery Method
- It is an additional package outside the IoTDB cluster, with independent installation.
+ AINode is an additional package outside the IoTDB cluster, with independent installation.
 
 ### 1.3 Deployment mode
 <div >
@@ -41,19 +41,20 @@
 
  Unzip and install the package
  `(apache-iotdb-<version>-ainode-bin.zip)`， The directory structure after unpacking the installation package is as follows:
-| **Catalogue**     | **Type** | **Explain**                                         |
-| ------------ | -------- | ------------------------------------------------ |
-| lib          | folder   | AINode compiled binary executable files and related code dependencies |
-| sbin         | folder   | The running script of AINode can start, remove, and stop AINode     |
-| conf         | folder   | Contains configuration items for AINode, specifically including the following configuration items           |
-| LICENSE      | file     | Certificate                                             |
-| NOTICE       | file     | Tips                                             |
-| README_ZH.md | file     | Explanation of the Chinese version of the markdown format                         |
-| `README.md`    | file     | Instructions                                         |
+
+| **Catalogue**   | **Type** | **Explain**                                                           |
+| ------------ | -------- |-----------------------------------------------------------------------|
+| lib          | folder   | Python package files for AINode                                       |
+| sbin         | folder   | The running script of AINode can start, remove, and stop AINode       |
+| conf         | folder   | Configuration files for AINode, and runtime environment setup scripts |
+| LICENSE      | file     | Certificate                                                           |
+| NOTICE       | file     | Tips                                                                  |
+| README_ZH.md | file     | Explanation of the Chinese version of the markdown format             |
+| README.md    | file     | Instructions                                                          |
 
 ### 2.2 Environmental Preparation
 
-1. Recommended operating systems: Ubuntu, CentOS, MacOS
+1. Recommended operating systems: Ubuntu, MacOS
 2. IoTDB version: >= V 2.0.5.1
 3. Runtime environment
    - Python version between 3.9 and 3.12, with pip and venv tools installed;
@@ -65,36 +66,20 @@
 
   1. Ensure Python version is between 3.9 and 3.12:
 ```shell
-  python --version
+python --version
 # or
 python3 --version
 ```
 
   2. Download and import AINode into a dedicated folder, switch to the folder, and unzip the package:
 ```shell
-  unzip timechodb-2.0.5.1-ainode-bin.zip
-  ```
-3. Create a virtual environment (execute in the ainode directory):
-
-  ```shell
-   python3 -m venv venv
-   ```
-
-4. Activate the virtual environment:
-
-  ```shell
-   source venv/bin/activate
-   ```
-5. Update pip and install AINode dependencies:
-  ```shell
-    python -m pip install --upgrade pip
-    poetry lock
-    poetry install
-   ```
+  unzip apache-iotdb-<version>-ainode-bin.zip
+```
 
 ### 3.2 Configuration item modification
 
 AINode supports modifying some necessary parameters. You can find the following parameters in the `conf/iotdb-ainode.properties` file and make persistent modifications to them:
+
 | **Name**                       | **Description**                                              | **Type** | **Default Value**  |
 | ------------------------------ | ------------------------------------------------------------ | -------- | ------------------ |
 | cluster_name                   | Identifier of the cluster AINode joins                       | string   | defaultCluster     |
@@ -110,13 +95,19 @@ AINode supports modifying some necessary parameters. You can find the following 
 | ain_models_dir                 | Path to store model files for AINode (relative path starts from OS-dependent directory; absolute path is recommended) | String   | data/AINode/models |
 | ain_thrift_compression_enabled | Whether to enable Thrift compression for AINode (0=disabled, 1=enabled) | Boolean  | 0                  |
 
-### 3.3 Start AINode
+### 3.3 Importing Weight Files
+
+> Offline environment only (Online environments can skip this step)
+>
+ Contact Timecho team to obtain the model weight files, then place them in the /IOTDB_AINODE_HOME/data/ainode/models/weights/ directory.
+
+### 3.4 Start AINode
 
  After completing the deployment of Seed Config Node, the registration and inference functions of the model can be supported by adding AINode nodes. After specifying the information of the IoTDB cluster in the configuration file, the corresponding instruction can be executed to start AINode and join the IoTDB cluster。  
 
-#### Networking environment startup
+- Networking environment startup
 
-##### Start command
+Start command
 
 ```shell
   # Start command
@@ -134,25 +125,7 @@ AINode supports modifying some necessary parameters. You can find the following 
   nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
   ```
 
-
-#### Example
- 
-```shell
-  # Start command
-  # Linux and MacOS systems
-  bash sbin/start-ainode.sh
-  # Windows systems
-  sbin\start-ainode.bat 
-
-
-  # Backend startup command (recommended for long-term running)
-  # Linux and MacOS systems
-  nohup bash sbin/start-ainode.sh  > myout.file 2>& 1 &
-  # Windows systems
-  nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
-  ```
-
-### 3.4 Detecting the status of AINode nodes 
+### 3.5 Detecting the status of AINode nodes 
 
 During the startup process of AINode, the new AINode will be automatically added to the IoTDB cluster. After starting AINode, you can enter SQL in the command line to query. If you see an AINode node in the cluster and its running status is Running (as shown below), it indicates successful joining.
 
@@ -168,11 +141,11 @@ IoTDB> show cluster
 +------+----------+-------+---------------+------------+-------+-----------+
 ```
 
-### 3.5 Stop AINode
+### 3.6 Stop AINode
 
 If you need to stop a running AINode node, execute the corresponding shutdown script.
 
-#### Stop command
+Stop command
 
 ```shell
   # Linux / MacOS 
@@ -182,15 +155,6 @@ If you need to stop a running AINode node, execute the corresponding shutdown sc
   sbin\stop-ainode.bat 
   ```
 
-#### Example
-
-```shell
-  # Linux / MacOS 
-  bash sbin/stop-ainode.sh
-
-  # Windows
-  sbin\stop-ainode.bat
-  ```
 After stopping AINode, you can still see AINode nodes in the cluster, whose running status is UNKNOWN (as shown below), and the AINode function cannot be used at this time.
 
  ```shell

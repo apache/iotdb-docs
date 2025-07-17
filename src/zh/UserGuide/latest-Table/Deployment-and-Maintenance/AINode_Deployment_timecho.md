@@ -27,7 +27,7 @@
 AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，该节点通过与 IoTDB 集群的 DataNode、ConfigNode 的交互，扩展了对时间序列进行机器学习分析的能力，支持从外部引入已有机器学习模型进行注册，并使用注册的模型在指定时序数据上通过简单 SQL 语句完成时序分析任务的过程，将模型的创建、管理及推理融合在数据库引擎中。目前已提供常见时序分析场景（例如预测与异常检测）的机器学习算法或自研模型。
 
 ### 1.2 交付方式
- 是 IoTDB 集群外的额外套件，独立安装包。
+AINode 是 IoTDB 集群外的额外套件，独立安装包。
 
 ### 1.3 部署模式
 <div >
@@ -39,20 +39,21 @@ AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，�
 
 ### 2.1 安装包获取
 
-AINode 安装包（`apache-iotdb-<version>-ainode-bin.zip`），安装包解压后目录结构如下：
+AINode 安装包（`timechodb-<version>-ainode-bin.zip`），安装包解压后目录结构如下：
+
 | **目录**     | **类型** | **说明**                                         |
 | ------------ | -------- | ------------------------------------------------ |
-| lib          | 文件夹   | AINode编译后的二进制可执行文件以及相关的代码依赖 |
+| lib          | 文件夹   | AINode 的 python 包文件  |
 | sbin         | 文件夹   | AINode的运行脚本，可以启动，移除和停止AINode     |
-| conf         | 文件夹   | 包含AINode的配置项，具体包含以下配置项           |
+| conf         | 文件夹   | AINode 的配置文件和运行环境设置脚本           |
 | LICENSE      | 文件     | 证书                                             |
 | NOTICE       | 文件     | 提示                                             |
 | README_ZH.md | 文件     | markdown格式的中文版说明                         |
-| `README.md`    | 文件     | 使用说明                                         |
+| README.md   | 文件     | 使用说明                                         |
 
 ### 2.2 环境准备  
 
-1. 建议操作环境: Ubuntu, CentOS, MacOS  
+1. 建议操作环境: Ubuntu, MacOS  
 2. IoTDB 版本：>= V 2.0.5.1
 3. 运行环境   
    - Python 版本在 3.9 ~3.12，且带有 pip 和 venv 工具；
@@ -65,35 +66,78 @@ AINode 安装包（`apache-iotdb-<version>-ainode-bin.zip`），安装包解压�
 1. 保证 Python 版本介于 3.9 ~3.12
 
 ```shell
-  python --version
+python --version
 # 或
 python3 --version
 ```
 2. 下载导入 AINode 到专用文件夹，切换到专用文件夹并解压安装包
 
 ```shell
-  unzip timechodb-2.0.5.1-ainode-bin.zip
+  unzip timechodb-<version>-ainode-bin.zip
 ```
 
-3. 创建虚拟环境（在 ainode 目录下执行）：
+3. 激活 AINode：
 
-  ```shell
-   python3 -m venv venv
-   ```
+- 进入 IoTDB CLI
 
-4. 激活虚拟环境：
-
-  ```shell
-   source venv/bin/activate
-   ```
-
-5. 更新 pip 并安装 AINode 依赖
-  ```shell
-    python -m pip install --upgrade pip
-    poetry lock
-    poetry install
-   ```
+```sql
+  # Linux或MACOS系统  
+  ./start-cli.sh -sql_dialect table    
   
+  # windows系统  
+  ./start-cli.bat -sql_dialect table
+```
+
+- 执行以下内容获取激活所需机器码：
+
+```sql
+show system info
+```
+
+- 将返回的机器码复制给天谋工作人员：
+
+```sql
++--------------------------------------------------------------+
+|                                                    SystemInfo|
++--------------------------------------------------------------+
+|                                          01-TE5NLES4-UDDWCMYE|
++--------------------------------------------------------------+
+```
+
+- 将工作人员返回的激活码输入到CLI中，输入以下内容
+   - 注：激活码前后需要用'符号进行标注，如所示
+
+```sql
+IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZK'
+```
+
+- 可通过如下方式验证激活，当看到状态显示为 ACTIVATED 表示激活成功
+
+```sql
+IoTDB> show cluster
++------+----------+-------+---------------+------------+--------------+-----------+--------------+
+|NodeID|  NodeType| Status|InternalAddress|InternalPort|       Version|  BuildInfo|ActivateStatus|
++------+----------+-------+---------------+------------+--------------+-----------+--------------+
+|     0|ConfigNode|Running|      127.0.0.1|       10710|     <version>|    xxxxxxx|     ACTIVATED|
+|     1|  DataNode|Running|      127.0.0.1|       10730|     <version>|    xxxxxxx|     ACTIVATED|
+|     2|    AINode|Running|      127.0.0.1|       10810|     <version>|    xxxxxxx|     ACTIVATED|
++------+----------+-------+---------------+------------+--------------+-----------+--------------+
+
+IoTDB> show activation
++---------------+---------+-----------------------------+
+|    LicenseInfo|    Usage|                        Limit|
++---------------+---------+-----------------------------+
+|         Status|ACTIVATED|                            -|
+|    ExpiredTime|        -|2025-07-16T00:00:00.000+08:00|
+|  DataNodeLimit|        1|                    Unlimited|
+|    AiNodeLimit|        1|                            1|
+|       CpuLimit|       11|                    Unlimited|
+|    DeviceLimit|        0|                    Unlimited|
+|TimeSeriesLimit|        0|                        9,999|
++---------------+---------+-----------------------------+
+
+```
+
 ### 3.2 配置项修改
 AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properties` 文件中找到下列参数并进行持久化的修改：
 
@@ -112,13 +156,19 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
 | ain_models_dir                 | AINode 存储模型文件的路径，相对路径的起始目录与操作系统相关，建议使用绝对路径 | String   | data/AINode/models |
 | ain_thrift_compression_enabled | AINode 是否启用 thrift 的压缩机制，0-不启动、1-启动          | Boolean  | 0                  |
 
-### 3.3 启动 AINode
+### 3.3 导入权重文件
+
+> 仅离线环境，在线环境可忽略本步骤
+> 
+ 联系天谋工作人员获取模型权重文件，并放置到/IOTDB_AINODE_HOME/data/ainode/models/weights/目录下。
+
+### 3.4 启动 AINode
 
  在完成 Seed-ConfigNode 的部署后，可以通过添加 AINode 节点来支持模型的注册和推理功能。在配置项中指定 IoTDB 集群的信息后，可以执行相应的指令来启动 AINode，加入 IoTDB 集群。  
 
-#### 联网环境启动
+- 联网环境启动
 
-##### 启动命令
+启动命令
 
 ```shell
   # 启动命令
@@ -136,24 +186,7 @@ AINode 支持修改一些必要的参数。可以在 `conf/iotdb-ainode.properti
   nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
   ```
 
-#### 示例  
- 
-```shell
-  # 启动命令
-  # Linux 和 MacOS 系统
-  bash sbin/start-ainode.sh
-  # Windows 系统
-  sbin\start-ainode.bat 
-
-
-  # 后台启动命令（长期运行推荐）
-  # Linux 和 MacOS 系统
-  nohup bash sbin/start-ainode.sh  > myout.file 2>& 1 &
-  # Windows 系统
-  nohup bash sbin\start-ainode.bat  > myout.file 2>& 1 &
-  ```
-
-### 3.4 检测 AINode 节点状态 
+### 3.5 检测 AINode 节点状态 
 
 AINode 启动过程中会自动将新的 AINode 加入 IoTDB 集群。启动 AINode 后可以在 命令行中输入 SQL 来查询，集群中看到 AINode 节点，其运行状态为 Running（如下展示）表示加入成功。
 
@@ -168,11 +201,31 @@ IoTDB> show cluster
 +------+----------+-------+---------------+------------+-------+-----------+
 ```
 
-### 3.5 停止 AINode
+除此之外，还可以通过 show models 命令来查看模型状态。如果模型状态不对，请检查权重文件路径是否正确。
+
+```sql
+IoTDB:etth> show models
++---------------------+--------------------+--------+------+
+|              ModelId|           ModelType|Category| State|
++---------------------+--------------------+--------+------+
+|                arima|               Arima|BUILT-IN|ACTIVE|
+|          holtwinters|         HoltWinters|BUILT-IN|ACTIVE|
+|exponential_smoothing|ExponentialSmoothing|BUILT-IN|ACTIVE|
+|     naive_forecaster|     NaiveForecaster|BUILT-IN|ACTIVE|
+|       stl_forecaster|       StlForecaster|BUILT-IN|ACTIVE|
+|         gaussian_hmm|         GaussianHmm|BUILT-IN|ACTIVE|
+|              gmm_hmm|              GmmHmm|BUILT-IN|ACTIVE|
+|                stray|               Stray|BUILT-IN|ACTIVE|
+|              sundial|       Timer-Sundial|BUILT-IN|ACTIVE|
+|             timer_xl|            Timer-XL|BUILT-IN|ACTIVE|
++---------------------+--------------------+--------+------+
+```
+
+### 3.6 停止 AINode
 
 如果需要停止正在运行的 AINode 节点，则执行相应的关闭脚本。
 
-#### 停止命令
+- 停止命令
 
 ```shell
   # Linux / MacOS 
@@ -182,14 +235,6 @@ IoTDB> show cluster
   sbin\stop-ainode.bat  
   ```
 
-#### 示例
-```shell
-  # Linux / MacOS 
-  bash sbin/stop-ainode.sh
-
-  # Windows
-  sbin\stop-ainode.bat
-  ```
 停止 AINode 后，还可以在集群中看到 AINode 节点，其运行状态为 UNKNOWN（如下展示），此时无法使用 AINode 功能。
 
  ```shell
@@ -203,7 +248,6 @@ IoTDB> show cluster
 +------+----------+-------+---------------+------------+-------+-----------+
 ```
 如果需要重新启动该节点，需重新执行启动脚本。
-
 
 
 ## 4. 常见问题
