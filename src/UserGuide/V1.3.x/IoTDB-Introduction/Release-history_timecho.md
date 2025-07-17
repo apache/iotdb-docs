@@ -20,99 +20,7 @@
 -->
 # Release History
 
-## 1. TimechoDB (Database Core)
-
-### V2.0.4.1
-
-> Release Date: 2025.06.03
->
-> Download: Please contact Timecho staff for download
-
-V2.0.4.1 introduces user-defined table functions (UDTF) and multiple built-in table functions for the table model, adds the approx\_count\_distinct aggregate function, supports ASOF INNER JOIN for time columns, and reorganizes script tools by separating Windows-specific scripts. Comprehensive improvements have been made to monitoring, performance, and stability. Key updates:
-
-* ​**​Query Module​**​:
-    * New UDTF and built-in table functions for table model
-    * ASOF INNER JOIN support for time columns
-    * New approx\_count\_distinct aggregate function
-* ​**​Stream Processing​**​:
-    * Supports asynchronous TsFile loading via SQL
-* ​**​System Module​**​:
-    * Disaster recovery load balancing strategy for replica selection during scaling down
-    * Compatibility with Windows Server 2025
-* ​**​Scripts & Tools​**​:
-    * Reorganized script tools with Windows-specific scripts separated
-
-### V2.0.3.3
-
-> Release Date: 2025.05.16
->
-> Download: Please contact Timecho staff for download
-
-V2.0.3.3 introduces metadata import/export script adaptation for table model, Spark ecosystem integration, timestamps in AINode results, and new aggregate/scalar functions for table model. Comprehensive improvements include:
-
-* ​**​Query Module​**​:
-    * New count\_if aggregate function and greatest/least scalar functions
-    * Significant performance improvement for full-table count(\*) queries
-* ​**​AI Module​**​:
-    * Timestamps added to AINode results
-* ​**​System Module​**​:
-    * Optimized metadata module performance
-    * Proactive TsFile monitoring and loading
-    * New metrics for TsFile parsing/conversion time and TsFile-to-Tablet conversion count
-* ​**​Ecosystem Integration​**​:
-    * Spark integration for table model
-* ​**​Scripts & Tools​**​:
-    * import-schema/export-schema scripts support table model metadata operations
-
-### V2.0.2.1
-
-> Release Date: 2025.04.07
->
-> Download: Please contact Timecho staff for download
-
-V2.0.2.1 introduces table model permission management, user management, authentication, UDFs, system tables, and nested queries. Continued optimization of data subscription mechanism with comprehensive improvements:
-
-* ​**​Query Module​**​:
-    * UDF management (UDSF/UDAF)
-    * URI-based JAR loading configuration for UDFs/PipePlugins/Triggers/AINodes
-    * Permission/user management and authentication
-    * New system tables and administrative statements
-* ​**​System Module​**​:
-    * C# client supports table model
-    * New C++ Session write interface
-    * S3-compatible non-AWS object storage support
-    * New pattern\_match UDF function
-* ​**​Data Sync​**​:
-    * Metadata synchronization and sync-delete operations
-
-### V2.0.1.2
-
-> Release Date: 2025.01.25
->
-> Download: Please contact Timecho staff for download
-
-V2.0.1.2 officially implements dual tree-table model configuration, supporting standard SQL syntax, various functions/operators, stream processing, and Benchmark capabilities. Additional features include:
-
-* ​**​Time-Series Table Model​**​:
-    * Standard SQL syntax (SELECT/WHERE/JOIN/GROUP BY/ORDER BY/LIMIT/subqueries)
-* ​**​Query Module​**​:
-    * Logical/mathematical functions and time-series functions like DIFF
-    * URI-based component loading configuration
-* ​**​Storage Module​**​:
-    * Python client adds String/Blob/Date/Timestamp support
-    * Optimized merge task priorities
-* ​**​Stream Processing​**​:
-    * Sender-specified authentication
-    * TsFile Load and plugin adaptation
-* ​**​System Module​**​:
-    * Improved DataNode scaling stability
-    * DROP DATABASE in readonly mode
-* ​**​Scripts & Tools​**​:
-    * Benchmark tool adaptation
-    * Extended import/export for new data types
-    * Unified TsFile/CSV/SQL support
-* ​**​Ecosystem Integration​**​:
-    * Kubernetes Operator support
+## TimechoDB (Database Core)
 
 ### V1.3.5.1
 
@@ -121,7 +29,6 @@ V2.0.1.2 officially implements dual tree-table model configuration, supporting s
 > Download: Please contact Timecho staff for download
 
 V1.3.5.1 version has fixed some product defects while also delivering comprehensive improvements to database monitoring, performance, and stability.
-
 
 ### V1.3.4.1
 
@@ -314,7 +221,7 @@ Major features:
 * Query: MPP framework for distributed I/O
 * Stream Processing: Framework and cross-cluster sync
 
-## 2. Workbench (Console Tool)
+## Workbench (Console Tool)
 
 | Version | Description                                                | Supported IoTDB Versions |
 | --------- | ------------------------------------------------------------ | -------------------------- |
