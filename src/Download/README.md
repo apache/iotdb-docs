@@ -60,7 +60,7 @@
       </td>
       <td rowspan="2">
         <a
-          href="https://www.apache.org/dyn/closer.cgi/2.0.4/apache-iotdb-2.0.4-source-release.zip.asc"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.4/apache-iotdb-2.0.4-source-release.zip.asc"
           >ASC</a
         >
       </td>
@@ -124,7 +124,7 @@
       </td>
       <td rowspan="2">
         <a
-          href="https://www.apache.org/dyn/closer.cgi/1.3.4-1/apache-iotdb-1.3.4-1-source-release.zip.asc"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.4-1/apache-iotdb-1.3.4-1-source-release.zip.asc"
           >ASC</a
         >
       </td>
