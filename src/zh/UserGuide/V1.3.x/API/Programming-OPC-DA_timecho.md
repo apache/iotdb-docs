@@ -35,7 +35,7 @@ OPC DA (OPC Data Access) 是工业自动化领域的一种通信协议标准，�
 
 ## 2. OPC DA Sink
 
-IoTDB （V1.3.5.2及以后的V1.x版本，V2.5.0.1及以后的V2.x版本支持） 提供的 OPC DA Sink 支持将树模型数据推送到本地 COM 服务器的插件，它封装了 OPC DA 接口规范及其固有复杂性，显著简化了集成流程。OPC DA Sink 推送数据流图如下所示。
+IoTDB （V1.3.5.2及以后的V1.x版本支持） 提供的 OPC DA Sink 支持将树模型数据推送到本地 COM 服务器的插件，它封装了 OPC DA 接口规范及其固有复杂性，显著简化了集成流程。OPC DA Sink 推送数据流图如下所示。
 
 ![](/img/opc-da-2-1.png)
 

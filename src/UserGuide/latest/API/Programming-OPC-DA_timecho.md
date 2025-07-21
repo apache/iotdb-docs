@@ -35,7 +35,7 @@ OPC DA (OPC Data Access) is a communication protocol standard in the field of in
 
 ## 2. OPC DA Sink
 
-IoTDB (versions V1.3.5.2 and later for V1.x, and V2.5.0.1 and later for V2.x) provides an OPC DA Sink that supports pushing tree-model data to a local COM server plugin. It encapsulates the OPC DA interface specifications and their inherent complexity, significantly simplifying the integration process. The data flow diagram for the OPC DA Sink is shown below.
+IoTDB (available since V2.0.5.1  for V2.x) provides an OPC DA Sink that supports pushing tree-model data to a local COM server plugin. It encapsulates the OPC DA interface specifications and their inherent complexity, significantly simplifying the integration process. The data flow diagram for the OPC DA Sink is shown below.
 
 ![](/img/opc-da-2-1-en.png)
 
