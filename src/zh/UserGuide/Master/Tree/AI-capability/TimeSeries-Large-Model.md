@@ -37,7 +37,7 @@
 
 ## Timer-1 模型
 
-Timer<sup><a href="#appendix1" id="ref1" style="text-decoration: none;">[1]</a></sup> 模型不仅展现了出色的少样本泛化和多任务适配能力，还通过预训练获得了丰富的知识库，赋予了它处理多样化下游任务的通用能力，拥有以下特点：
+Timer<sup><a href="#appendix1" id="ref1" style="text-decoration: none;">[1]</a></sup> 模型（非内置）不仅展现了出色的少样本泛化和多任务适配能力，还通过预训练获得了丰富的知识库，赋予了它处理多样化下游任务的通用能力，拥有以下特点：
 
 - **泛化性**：模型能够通过使用少量样本进行微调，达到行业内领先的深度模型预测效果。
 - **通用性**：模型设计灵活，能够适配多种不同的任务需求，并且支持变化的输入和输出长度，使其在各种应用场景中都能发挥作用。
@@ -47,7 +47,7 @@ Timer<sup><a href="#appendix1" id="ref1" style="text-decoration: none;">[1]</a><
 
 ## Timer-XL 模型
 
-Timer-XL<sup><a href="#appendix2" id="ref2" style="text-decoration: none;">[2]</a></sup> 基于 Timer 进一步扩展升级了网络结构，在多个维度全面突破：
+Timer-XL<sup><a href="#appendix2" id="ref2" style="text-decoration: none;">[2]</a></sup> 基于 Timer 进一步扩展升级了网络结构，在多个维度全面突破（V2.0.5.1及以后版本支持）：
 
 - **超长上下文支持**：该模型突破了传统时序预测模型的限制，支持处理数千个 Token（相当于数万个时间点）的输入，有效解决了上下文长度瓶颈问题。
 - **多变量预测场景覆盖**：支持多种预测场景，包括非平稳时间序列的预测、涉及多个变量的预测任务以及包含协变量的预测，满足多样化的业务需求。
@@ -57,7 +57,7 @@ Timer-XL<sup><a href="#appendix2" id="ref2" style="text-decoration: none;">[2]</
 
 ## Timer-Sundial 模型
 
-Timer-Sundial<sup><a href="#appendix3" id="ref3" style="text-decoration: none;">[3]</a></sup> 是一个专注于时间序列预测的生成式基础模型系列，其基础版本拥有 1.28 亿参数，并在 1 万亿个时间点上进行了大规模预训练，其核心特性包括：
+Timer-Sundial<sup><a href="#appendix3" id="ref3" style="text-decoration: none;">[3]</a></sup> 是一个专注于时间序列预测的生成式基础模型系列（V2.0.5.1及以后版本支持），其基础版本拥有 1.28 亿参数，并在 1 万亿个时间点上进行了大规模预训练，其核心特性包括：
 
 - **强大的泛化性能**：具备零样本预测能力，可同时支持点预测和概率预测。
 - **灵活预测分布分析**：不仅能预测均值或分位数，还可通过模型生成的原始样本评估预测分布的任意统计特性。
@@ -97,9 +97,9 @@ IoTDB> show cluster
 +------+----------+-------+---------------+------------+--------------+-----------+
 |NodeID|  NodeType| Status|InternalAddress|InternalPort|       Version|  BuildInfo|
 +------+----------+-------+---------------+------------+--------------+-----------+
-|     0|ConfigNode|Running|      127.0.0.1|       10710|2.0.4-SNAPSHOT|    069354f|
-|     1|  DataNode|Running|      127.0.0.1|       10730|2.0.4-SNAPSHOT|    069354f|
-|     2|    AINode|Running|      127.0.0.1|       10810|2.0.4-SNAPSHOT|069354f-dev|
+|     0|ConfigNode|Running|      127.0.0.1|       10710|       2.0.5.1|    069354f|
+|     1|  DataNode|Running|      127.0.0.1|       10730|       2.0.5.1|    069354f|
+|     2|    AINode|Running|      127.0.0.1|       10810|       2.0.5.1|069354f-dev|
 +------+----------+-------+---------------+------------+--------------+-----------+
 Total line number = 3
 It costs 0.140s
