@@ -250,7 +250,7 @@ Total line number = 8
 It costs 0.081s
 ```
 
-有关date_bin函数的更多详细信息可以参见 date_bin （时间分桶规整）函数功能定义
+有关date_bin函数的更多详细信息可以参见 [date_bin （时间分桶规整）函数](../SQL-Manual/Featured-Functions.md#_1-1-降采样函数)功能定义
 
 #### 示例 2：查询每个设备的最新数据点
 
