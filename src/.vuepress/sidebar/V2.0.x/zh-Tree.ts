@@ -238,7 +238,7 @@ export const zhSidebar = {
       children: [
         { text: '标识符', link: 'Syntax-Rule' },
         { text: '关键字', link: 'Keywords' },
-        { text: 'SQL手册', link: 'SQL-Manual' },
+        { text: 'SQL手册', link: 'SQL-Manual_apache' },
         {
           text: '函数与运算符',
           collapsible: true,
