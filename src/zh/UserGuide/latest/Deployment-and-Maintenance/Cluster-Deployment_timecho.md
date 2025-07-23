@@ -156,24 +156,9 @@ cd sbin
 
 ### 3.5 激活数据库
 
-#### 方式一：激活文件拷贝激活
+#### 方式一：通过 CLI 激活
 
-- 依次启动3个Confignode、Datanode节点后，每台机器各自的activation文件夹, 分别拷贝每台机器的system_info文件给天谋工作人员;
-- 工作人员将返回每个ConfigNode、Datanode节点的license文件，这里会返回3个license文件；
-- 将3个license文件分别放入对应的ConfigNode节点的activation文件夹下；
-
-#### 方式二：激活脚本激活
-- 依次获取3台机器的机器码，进入 IoTDB CLI
-
-    - 表模型 CLI 进入命令：
-
-  ```SQL
-  # Linux或MACOS系统
-  ./start-cli.sh -sql_dialect table
-  
-  # windows系统
-  ./start-cli.bat -sql_dialect table
-  ```
+- 进入集群任一节点 CLI，执行获取机器码的语句
 
     - 树模型 CLI 进入命令：
 
@@ -191,7 +176,7 @@ cd sbin
   show system info
   ```
 
-    - 显示如下信息，这里显示的是1台机器的机器码 ：
+    - 系统将自动返回集群所有节点的机器码
 
       ```Bash
       +--------------------------------------------------------------+
@@ -203,15 +188,23 @@ cd sbin
       It costs 0.030s
       ```
 
-- 其他2个节点依次进入到IoTDB树模型的CLI中，执行语句后将获取的3台机器的机器码都复制给天谋工作人员
+- 将获取的机器码复制给天谋工作人员
 
-- 工作人员会返回3段激活码，正常是与提供的3个机器码的顺序对应的，请分别将各自的激活码粘贴到CLI中，如下提示：
+- 工作人员会返回激活码，正常是与提供的机器码的顺序对应的，请将整串激活码粘贴到CLI中进行激活
 
-    - 注：激活码前后需要用`'`符号进行标注，如所示
+    - 注：激活码前后需要用`'`符号进行标注，如下所示
 
    ```Bash
     IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
     ```
+
+
+#### 方式二：激活文件拷贝激活
+
+- 依次启动3个Confignode、Datanode节点后，每台机器各自的activation文件夹, 分别拷贝每台机器的system_info文件给天谋工作人员;
+- 工作人员将返回每个ConfigNode、Datanode节点的license文件，这里会返回3个license文件；
+- 将3个license文件分别放入对应的ConfigNode节点的activation文件夹下；
+
 
 ### 3.6 验证激活
 

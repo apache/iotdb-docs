@@ -124,26 +124,9 @@ Navigate to the `sbin` directory of IoTDB and start the DataNode:
 
 ### 2.5 Activate Database
 
-#### Option 1: File-Based Activation
-
-1. Start both the ConfigNode and DataNode.
-2. Navigate to the `activation` folder and copy the `system_info` file.
-3. Send the `system_info` file to the Timecho team.
-4. Place the license file provided by the Timecho team into the corresponding `activation` folder for each node.
-
-#### Option 2: Command-Based Activation
+#### Option 1: Command-Based Activation
 
 1. Enter the IoTDB CLI.
-
-- **For Table Model**:
-
-```SQL
-# For Linux or macOS
-./start-cli.sh -sql_dialect table
-
-# For Windows
-./start-cli.bat -sql_dialect table
-```
 
 - **For Tree Model**:
 
@@ -178,6 +161,15 @@ It costs 0.030s
 ```Bash
 IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
 ```
+
+
+#### Option 2: File-Based Activation
+
+1. Start both the ConfigNode and DataNode.
+2. Navigate to the `activation` folder and copy the `system_info` file.
+3. Send the `system_info` file to the Timecho team.
+4. Place the license file provided by the Timecho team into the corresponding `activation` folder for each node.
+
 
 ### 2.6 Verify Activation
 
