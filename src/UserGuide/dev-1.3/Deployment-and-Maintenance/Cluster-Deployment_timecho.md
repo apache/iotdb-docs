@@ -133,30 +133,37 @@ Open DataNode Configuration File `./conf/iotdb-system.properties`,Set the follow
 
 > ❗️Attention: Editors such as VSCode Remote do not have automatic configuration saving function. Please ensure that the modified files are saved persistently, otherwise the configuration items will not take effect
 
-### Start ConfigNode
+### Start and Activate Database (Available since V1.3.4)
+
+#### Start ConfigNode
 
 Start the first confignode of IoTDB-1 first, ensuring that the seed confignode node starts first, and then start the second and third confignode nodes in sequence
 
 ```Bash
-cd sbin
 ./start-confignode.sh    -d      #"- d" parameter will start in the background
 ```
 
 If the startup fails, please refer to [Common Questions](#common-questions).
 
+#### Start DataNode
 
-### Activate Database
+Enter the `sbin` directory of iotdb and start three datanode nodes in sequence:
 
-#### Method 1: Activation via CLI (Version 1.3.4)
+```Bash
+./start-datanode.sh   -d   #"- d" parameter will start in the background
+```
 
-- First start the Datanode nodes, then enter the CLI of any node in the cluster
+#### Activate Database
+
+##### Activation via CLI
+
+- Enter the CLI of any node in the cluster
 
  ```SQL
-  ./sbin/start-datanode.sh
   ./sbin/start-cli.sh
 ```
 
-- Obtain the machine codes of all nodes in the cluster:
+- Obtain the machine codes of all nodes:
 
      - Execute the following command to get the machine codes required for activation:
 
@@ -186,14 +193,27 @@ If the startup fails, please refer to [Common Questions](#common-questions).
     IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
     ```
 
+### Start and Activate Database (Available before V1.3.4)
 
-#### Method 2: Activate file copy activation
+#### Start ConfigNode
+
+Start the first confignode of IoTDB-1 first, ensuring that the seed confignode node starts first, and then start the second and third confignode nodes in sequence
+
+```Bash
+./start-confignode.sh    -d      #"- d" parameter will start in the background
+```
+
+If the startup fails, please refer to [Common Questions](#common-questions).
+
+#### Activate Database
+
+##### Method 1: Activate file copy activation
 
 - After starting three confignode nodes in sequence, copy the `activation` folder of each machine and the `system_info` file of each machine to the Timecho staff;
 - The staff will return the license files for each ConfigNode node, where 3 license files will be returned;
 - Put the three license files into the `activation` folder of the corresponding ConfigNode node;
 
-#### Method 3: Activate Script Activation
+##### Method 2: Activate Script Activation
 
 - Obtain the machine codes of three machines in sequence, enter the `sbin` directory of the installation directory, and execute the activation script `start activate.sh`:
 
@@ -220,14 +240,11 @@ If the startup fails, please refer to [Common Questions](#common-questions).
     Import completed. Please start cluster and excute 'show cluster' to verify activation status
     ```
 
-
-
-### Start DataNode
+#### Start DataNode
 
  Enter the `sbin` directory of iotdb and start three datanode nodes in sequence:
 
 ```Bash
-cd sbin
 ./start-datanode.sh   -d   #"- d" parameter will start in the background
 ```
 
@@ -250,6 +267,7 @@ When you see the display of `Activated` on the far right, it indicates successfu
 ![](/img/%E4%BC%81%E4%B8%9A%E7%89%88%E6%BF%80%E6%B4%BB.png)
 
 > The appearance of `ACTIVATED (W)` indicates passive activation, which means that this Configurable Node does not have a license file (or has not issued the latest license file with a timestamp), and its activation depends on other Activated Configurable Nodes in the cluster. At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Timecho staff to reapply.
+
 
 ### One-click Cluster Start and Stop
 
@@ -322,6 +340,9 @@ This following section will introduce the specific configuration items in the `i
 | Effective      | After restarting the system                                                                                                                                |
 
 
+
+
+
 ## Node Maintenance Steps
 
 ### ConfigNode Node Maintenance
@@ -363,7 +384,7 @@ Parameter introduction:
 
 #### Removing ConfigNode Nodes
 
-First connect to the cluster through the CLI and confirm the NodeID of the ConfigNode you want to remove by using `show confignodes`:
+First connect to the cluster through the CLI and confirm the internal address and port number of the ConfigNode you want to remove by using `show confignodes`:
 
 ```Bash
 IoTDB> show confignodes
@@ -378,10 +399,15 @@ Total line number = 3
 It costs 0.030s
 ```
 
-Then use the SQL to remove the ConfigNode. SQL command:
+Then use the script to remove the ConfigNode. Script command:
 
 ```Bash
-remove confignode [confignode_id]
+# Linux / MacOS 
+sbin/remove-confignode.sh [confignode_id]
+
+#Windows
+sbin/remove-confignode.bat [confignode_id]
+
 ```
 
 ### DataNode Node Maintenance
@@ -427,7 +453,7 @@ Note: After adding a DataNode, as new writes arrive (and old data expires, if TT
 
 #### Removing DataNode Nodes
 
-First connect to the cluster through the CLI and confirm the NodeID of the DataNode you want to remove with `show datanodes`:
+First connect to the cluster through the CLI and confirm the RPC address and port number of the DataNode you want to remove with `show datanodes`:
 
 ```Bash
 IoTDB> show datanodes
@@ -442,10 +468,14 @@ Total line number = 3
 It costs 0.110s
 ```
 
-Then use the SQL to remove the DataNode. SQL command:
+Then use the script to remove the DataNode. Script command:
 
 ```Bash
-remove datanode [datanode_id]
+# Linux / MacOS 
+sbin/remove-datanode.sh [datanode_id]
+
+#Windows
+sbin/remove-datanode.bat [datanode_id]
 ```
 
 ## Common Questions

@@ -134,25 +134,32 @@ cd  iotdb-enterprise-{version}-bin
 
 > ❗️注意：VSCode Remote等编辑器无自动保存配置功能，请确保修改的文件被持久化保存，否则配置项无法生效
 
-### 启动ConfigNode节点
+### 启动及激活数据库 （V 1.3.4 及以后的 1.x 版本）
+
+#### 启动 ConfigNode 节点
 
 先启动第一个iotdb-1的confignode, 保证种子confignode节点先启动，然后依次启动第2和第3个confignode节点
 
 ```Bash
-cd sbin
 ./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
 ```
 如果启动失败，请参考[常见问题](#常见问题)。
 
-### 激活数据库
+#### 启动 DataNode 节点
 
-#### 方式一：通过 CLI 激活（V1.3.4 版本）
+分别进入iotdb的`sbin`目录下，依次启动3个datanode节点：
 
-- 先启动集群所有 Datanode 节点，然后进入集群任一节点 CLI，执行获取机器码的语句
+```Bash
+./start-datanode.sh   -d   #-d参数将在后台进行启动 
+```
+
+#### 激活数据库
+
+##### 通过 CLI 激活
+
+- 进入集群任一节点 CLI，执行获取机器码的语句
 
  ```SQL
-  -- 启动 DN 节点
-  ./sbin/start-datanode.sh
   -- 连接CLI
   ./sbin/start-cli.sh
   -- 获取激活所需机器码
@@ -181,19 +188,30 @@ It costs 0.030s
     IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
     ```
 
+### 启动及激活数据库 （V 1.3.4 之前版本）
 
-#### 方式二：激活文件拷贝激活
+#### 启动 ConfigNode 节点
+
+先启动第一个iotdb-1的confignode, 保证种子confignode节点先启动，然后依次启动第2和第3个confignode节点
+
+```Bash
+./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
+```
+如果启动失败，请参考[常见问题](#常见问题)。
+
+#### 激活数据库
+
+##### 方式一：激活文件拷贝激活
 
 - 依次启动3个confignode节点后，每台机器各自的`activation`文件夹, 分别拷贝每台机器的`system_info`文件给天谋工作人员;
 - 工作人员将返回每个ConfigNode节点的license文件，这里会返回3个license文件；
 - 将3个license文件分别放入对应的ConfigNode节点的`activation`文件夹下；
 
-#### 方式三：激活脚本激活
+##### 方式二：激活脚本激活
 
 - 依次获取3台机器的机器码，分别进入安装目录的`sbin`目录，执行激活脚本`start-activate.sh`:
 
     ```Bash
-    cd sbin
     ./start-activate.sh
     ```
 
@@ -215,14 +233,11 @@ It costs 0.030s
     Import completed. Please start cluster and excute 'show cluster' to verify activation status
     ```
 
-
-
-### 启动DataNode 节点
+#### 启动 DataNode 节点
 
  分别进入iotdb的`sbin`目录下，依次启动3个datanode节点：
 
-```Go
-cd sbin
+```Bash
 ./start-datanode.sh   -d   #-d参数将在后台进行启动 
 ```
 

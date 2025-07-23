@@ -107,7 +107,9 @@ Open the DataNode configuration file (./conf/iotdb-system. properties file) and 
 
 > ❗️Attention: Editors such as VSCode Remote do not have automatic configuration saving function. Please ensure that the modified files are saved persistently, otherwise the configuration items will not take effect
 
-### 3、Start ConfigNode
+### 3. Start and Activate Database (Available since V1.3.4)
+
+#### 3.1 Start ConfigNode
 
 Enter the sbin directory of iotdb and start confignode
 
@@ -116,14 +118,21 @@ Enter the sbin directory of iotdb and start confignode
 ```
 If the startup fails, please refer to [Common Questions](#common-questions).
 
-### 4、Activate Database
+#### 3.2 Start DataNode
 
-#### Method 1: Activation via CLI (Version 1.3.4)
+Enter the sbin directory of iotdb and start datanode:
 
-- First start the Datanode, then enter the CLI
+```shell
+./start-datanode.sh   -d   # The "- d" parameter will start in the background
+```
 
- ```SQL
-  ./sbin/start-datanode.sh
+#### 3.3 Activate Database
+
+##### Activation via CLI
+
+- Enter the CLI
+
+ ```SQL 
   ./sbin/start-cli.sh
 ```
 
@@ -152,14 +161,26 @@ It costs 0.030s
 IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
 ```
 
+### 4. Start and Activate Database (Available before V1.3.4)
 
-#### Method 2: Activate file copy activation
+#### 4.1 Start ConfigNode
+
+Enter the sbin directory of iotdb and start confignode
+
+```shell
+./start-confignode.sh    -d      #The "- d" parameter will start in the background 
+```
+If the startup fails, please refer to [Common Questions](#common-questions).
+
+#### 4.2 Activate Database
+
+##### Method 1: Activate file copy activation
 
 - After starting the confignode node, enter the activation folder and copy the systeminfo file to the Timecho staff
 - Received the license file returned by the staff
 - Place the license file in the activation folder of the corresponding node;
 
-#### Method 3: Activate Script Activation
+##### Method 2: Activate Script Activation
 
 - Obtain the required machine code for activation, enter the sbin directory of the installation directory, and execute the activation script:
 
@@ -185,18 +206,15 @@ License has been stored to sbin/../activation/license
 Import completed. Please start cluster and excute 'show cluster' to verify activation status
 ```
 
-
-
-### 5、Start DataNode
+#### 4.3 Start DataNode
 
 Enter the sbin directory of iotdb and start datanode:
 
 ```shell
-cd sbin
 ./start-datanode.sh   -d   # The "- d" parameter will start in the background
 ```
 
-### 6、Verify Deployment
+### 5、Verify Deployment
 
 Can be executed directly/ Cli startup script in sbin directory:
 

@@ -107,7 +107,9 @@ cd  iotdb-enterprise-{version}-bin
 
 > ❗️注意：VSCode Remote等编辑器无自动保存配置功能，请确保修改的文件被持久化保存，否则配置项无法生效
 
-### 启动 ConfigNode 节点
+### 启动及激活数据库 （V 1.3.4 及以后的 1.x 版本）
+
+#### 启动 ConfigNode 节点
 
 进入iotdb的sbin目录下，启动confignode
 
@@ -116,14 +118,21 @@ cd  iotdb-enterprise-{version}-bin
 ```
 如果启动失败，请参考[常见问题](#常见问题)。
 
-### 激活数据库
+#### 启动 DataNode 节点
 
-#### 方式一：通过 CLI 激活（V1.3.4 版本）
+进入iotdb的sbin目录下，启动datanode：
 
-- 先启动 Datanode 节点，然后进入 CLI
+```shell
+./start-datanode.sh   -d   #-d参数将在后台进行启动 
+```
+
+#### 激活数据库
+
+##### 通过 CLI 激活
+
+- 进入 CLI
 
  ```SQL
-  ./sbin/start-datanode.sh
   ./sbin/start-cli.sh
 ```
 
@@ -151,14 +160,26 @@ It costs 0.030s
 ```Bash
 IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
 ```
+### 启动及激活数据库 （V 1.3.4 之前版本）
 
-#### 方式二：激活文件拷贝激活
+#### 启动 ConfigNode 节点
+
+进入iotdb的sbin目录下，启动confignode
+
+```shell
+./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
+```
+如果启动失败，请参考[常见问题](#常见问题)。
+
+#### 激活数据库
+
+##### 方式一：激活文件拷贝激活
 
 - 启动confignode节点后，进入activation文件夹, 将 system_info文件复制给天谋工作人员
 - 收到工作人员返回的 license文件
 - 将license文件放入对应节点的activation文件夹下；
 
-#### 方式三：激活脚本激活
+##### 方式二：激活脚本激活
 
 - 获取激活所需机器码，进入安装目录的sbin目录，执行激活脚本:
 
@@ -184,15 +205,14 @@ License has been stored to sbin/../activation/license
 Import completed. Please start cluster and excute 'show cluster' to verify activation status
 ```
 
-
-### 启动DataNode 节点
+#### 启动 DataNode 节点
 
 进入iotdb的sbin目录下，启动datanode：
 
 ```shell
-cd sbin
 ./start-datanode.sh   -d   #-d参数将在后台进行启动 
 ```
+
 
 ### 验证部署
 
