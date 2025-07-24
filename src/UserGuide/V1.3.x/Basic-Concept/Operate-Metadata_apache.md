@@ -248,7 +248,7 @@ IoTDB supports device-level TTL settings, which means it is able to delete old d
 
 The default unit of TTL is milliseconds. If the time precision in the configuration file changes to another, the TTL is still set to milliseconds.
 
-When setting TTL, the system will look for all devices included in the set path and set TTL for these devices. The system will delete expired data at the device granularity.
+When setting TTL, the system will look for all devices included in the set path and set TTL for these devices. The system will delete expired data at the device granularity. The expiration check here is based on the data point timestamp, not the write time.
 After the device data expires, it will not be queryable. The data in the disk file cannot be guaranteed to be deleted immediately, but it can be guaranteed to be deleted eventually.
 However, due to operational costs, the expired data will not be physically deleted right after expiring. The physical deletion is delayed until compaction.
 Therefore, before the data is physically deleted, if the TTL is reduced or lifted, it may cause data that was previously invisible due to TTL to reappear.
