@@ -680,6 +680,20 @@ Total line number = 2
 It costs 0.002s
 ```
 
+**注意：** 可以通过函数组合方式实现其他过滤条件查询最新点的需求，例如
+
+```
+IoTDB> select max_time(*), last_value(*) from root.ln.wf01.wt01 where time >= 2017-11-07T23:50:00 and status = false align by device
++-----------------+---------------------+----------------+-----------------------+------------------+
+|           Device|max_time(temperature)|max_time(status)|last_value(temperature)|last_value(status)|
++-----------------+---------------------+----------------+-----------------------+------------------+
+|root.ln.wf01.wt01|        1510077540000|   1510077540000|              21.067368|             false|
++-----------------+---------------------+----------------+-----------------------+------------------+
+Total line number = 1
+It costs 0.021s
+```
+
+
 ## 查询过滤条件（WHERE 子句）
 
 `WHERE` 子句指定了对数据行的筛选条件，由一个 `whereCondition` 组成。
