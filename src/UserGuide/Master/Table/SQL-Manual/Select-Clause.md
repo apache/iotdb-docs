@@ -274,7 +274,7 @@ Total line number = 18
 It costs 0.189s
 ```
 
-### 3.2 Colums Function
+### 3.2 Columns Function
 
 1. Without combining expressions
 ```sql

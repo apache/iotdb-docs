@@ -267,7 +267,7 @@ It costs 0.081s
 ```
 
 
-For more details on the `date_bin` function, refer to the **Definition of Date Bin (Time Bucketing)** feature documentation.
+For more details on the `date_bin` function, refer to the **[Definition of Date Bin (Time Bucketing)](../SQL-Manual/Featured-Functions.md#_1-1-date-bin-function)** feature documentation.
 
 #### Example 2: Query the Latest Data Point for Each Device
 
