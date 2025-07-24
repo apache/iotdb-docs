@@ -61,13 +61,13 @@ cd  iotdb-enterprise-{version}-bin
 
 | **Configuration** |                       **Description**                        | **Default** |                    **Recommended value**                     |                Note                 |
 | :---------------: | :----------------------------------------------------------: | :---------: | :----------------------------------------------------------: | :---------------------------------: |
-|    MEMORY_SIZE    | The total amount of memory that IoTDB ConfigNode nodes can use |    empty    | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
+|    MEMORY_SIZE    | The total amount of memory that IoTDB ConfigNode nodes can use |    empty    | Can be filled in as needed, and the system will allocate memory based on the filled in values | Save changes without immediate execution; modifications take effect after service restart. |
 
 - ./conf/datanode-env.sh (./conf/datanode-env.bat) configuration
 
 | **Configuration**  |               **Description**               | **Default** |                    **Recommended value**                    |      **Note**      |
 | :---------: | :----------------------------------: | :--------: | :----------------------------------------------: | :----------: |
-| MEMORY_SIZE | The total amount of memory that IoTDB DataNode nodes can use |     empty     | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
+| MEMORY_SIZE | The total amount of memory that IoTDB DataNode nodes can use |     empty     | Can be filled in as needed, and the system will allocate memory based on the filled in values | Save changes without immediate execution; modifications take effect after service restart. |
 
 #### System General Configuration
 
