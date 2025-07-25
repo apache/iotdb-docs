@@ -22,279 +22,354 @@
 
 ## 1. TimechoDB (Database Core)
 
-### **V1.3.4.1**
+### V2.0.5.1
 
-> **Release Date**: January 8, 2025
+> Release Date: 2025.07.14
 >
-> **Download**: Please contact the Timecho team for download.
+> Download Link: Please contact Timecho team for download details.
 
-Version V1.3.4.1 introduces a pattern-matching function and further optimizes the data subscription mechanism for improved stability. The `import-data` and `export-data` scripts have been enhanced to support additional data types. The `import-data` and `export-data` scripts have been unified, now supporting the import and export of `TsFile`, `CSV`, and `SQL` formats. Meanwhile, comprehensive improvements have been made to database monitoring, performance, and stability. The specific release contents are as follows:
+V2.0.5.1 introduces ​**​tree-to-table view​**​, ​**​window functions​**​ and the ​**​approx\_most\_frequent​**​ aggregate function for the table model, along with support for ​**​LEFT & RIGHT JOIN​**​ and ​**​ASOF LEFT JOIN​**​. AINode adds two built-in models: ​**​Timer-XL​**​ and ​**​Timer-Sundial​**​, supporting inference and fine-tuning for tree and table models. Comprehensive enhancements to database monitoring, performance, and stability are also included. Key updates:
 
-- **Query** **Module**: Users can configure UDF, PipePlugin, Trigger, and AINode settings and load JAR packages via a URI.
-- **System Module**:
-    - Expansion of UDF,
-    - Added `pattern_match` function for pattern matching.
-- **Data Synchronization**: Supports specifying authentication information on the sender side.
-- **Ecosystem Integration**: Kubernetes Operator compatibility.
-- **Scripts & Tools**:
-    - `import-data`/`export-data` scripts now support new data types (strings, large binary objects, dates, timestamps).
-    - Unified import/export compatibility for TsFile, CSV, and SQL formats.
+* ​**​Query Module:​**​
+  * Supports manually creating tree-to-table views
+  * Adds window functions for table model
+  * Adds approx\_most\_frequent aggregate function
+  * Extends JOIN support: LEFT/RIGHT JOIN, ASOF LEFT JOIN
+  * Enables row pattern recognition (captures continuous data for analysis)
+  * New system tables: VIEWS (view metadata), MODELS (model info), etc.
+* ​**​System Module:​**​
+  * Adds TsFile data encryption
+* ​**​AI Module:​**​
+  * New built-in models: Timer-XL and Timer-Sundial
+  * Supports inference/fine-tuning for tree and table models
+* ​**​Others:​**​
+  * Enables data publishing via OPC DA protocol
+
+### V2.0.4.2
+
+> Release Date: 2025.06.21
+
+V2.0.4.2 adds support for passing TOPIC to custom MQTT plugins. Includes comprehensive improvements to monitoring, performance, and stability.
+
+### V2.0.4.1
+
+> Release Date: 2025.06.03
+
+V2.0.4.1 introduces ​**​User-Defined Table Functions (UDTF)​**​ and multiple built-in table functions for the table model, adds the ​**​approx\_count\_distinct​**​ aggregate function, and enables ​**​ASOF INNER JOIN on timestamp columns​**​. Script tools are categorized, with Windows-specific scripts separated out. Key updates:
+
+* ​**​Query Module:​**​
+  * Adds UDTFs and built-in table functions
+  * Supports ASOF INNER JOIN on timestamps
+  * Adds approx\_count\_distinct aggregate function
+* ​**​Stream Processing:​**​
+  * Supports asynchronous TsFile loading via SQL
+* ​**​System Module:​**​
+  * Disaster-aware load balancing strategy for replica selection during downsizing
+  * Compatibility with Windows Server 2025
+* ​**​Scripts & Tools:​**​
+  * Categorized scripts; isolated Windows-specific tools
 
-### **V1.3.3.3**
+### V2.0.3.4
 
-> **Release Date**: October 31, 2024
->
-> **Download**: Please contact the Timecho team for download.
+> Release Date: 2025.06.13
 
-Version V1.3.3.3 adds the following features: optimization of restart and recovery performance to reduce startup time; the `DataNode `actively listens for and loads `TsFile` data; addition of observability indicators; once the sender transfers files to a specified directory, the receiver automatically loads them into IoTDB.; the `Alter Pipe` supports the `Alter Source` capability. At the same time, comprehensive improvements have been made to database monitoring, performance, and stability. The specific release contents are as follows:
+V2.0.3.4 upgrades the user password encryption algorithm to ​**​SHA-256​**​. Includes comprehensive monitoring, performance, and stability improvements.
 
-- **Data Synchronization**:
-    - Automatic data type conversion on the receiver side.
-    - Enhanced observability with ops/latency metrics for internal interfaces.
-    - OPC-UA-SINK plugin now supports CS mode and non-anonymous access.
-- **Data Subscription**: SDK supports `CREATE IF NOT EXISTS` and `DROP IF EXISTS` interfaces.
-- **Stream Processing**: `ALTER PIPE` supports `ALTER SOURCE` capability.
-- **System Module**: Added latency monitoring for REST modules.
-- **Scripts & Tools**:
-    - Auto-loading `TsFile` from specified directories.
-    - `import-tsfile` script supports remote server execution.
-    - Added Kubernetes Helm support.
-    - Python client now supports new data types (strings, large binary objects, dates, timestamps).
+### V2.0.3.3
 
-### **V1.3.3.2**
+> Release Date: 2025.05.16
 
-> **Release Date**: August 15, 2024
->
-> **Download**: Please contact the Timecho team for download.
+V2.0.3.3 introduces ​**​metadata import/export scripts for table models​**​, ​**​Spark ecosystem integration​**​, and adds ​**​timestamps to AINode results​**​. New aggregate/scalar functions are added. Key updates:
 
-Version V1.3.3.2 supports outputting the time consumption of reading `mods `files, the memory for maximum sequential disorder merge-sort during input, and the dispatch time consumption. It also enables adjustment of the time partition origin through parameter configuration, and supports automatic termination of subscriptions based on the end-marker of historical pipe data processing. Meanwhile, it combines the performance improvement of module memory control. The specific release contents are as follows:
+* ​**​Query Module:​**​
+  * New aggregate function: count\_if; scalar functions: greatest/least
+  * Significant optimization for full-table count(\*) queries
+* ​**​AI Module:​**​
+  * Timestamps added to AINode results
+* ​**​System Module:​**​
+  * Optimized metadata performance for table model
+  * Active monitoring & loading of TsFiles
+  * New metrics: TsFile parsing time, Tablet conversion count
+* ​**​Ecosystem Integration:​**​
+  * Spark integration for table model
+* ​**​Scripts & Tools:​**​
+  * import-schema/export-schema scripts support table model metadata
 
-- **Query** **Module**:
-    - `EXPLAIN ANALYZE` now reports time spent reading mods files.
-    - Metrics for merge-sort memory usage and dispatch latency.
-- **Storage Module**: Added configurable time partition origin adjustment.
-- **Stream Processing**: Auto-terminate subscriptions based on pipe history markers.
-- **Data Synchronization**: RPC compression now supports configurable levels.
-- **Scripts & Tools**: Metadata export excludes only `root.__system`, not similar prefixes.
+### V2.0.3.2
 
-### **V1.3.3.1**
+> Release Date: 2025.05.15
 
-> **Release Date**: July 12, 2024
->
-> **Download**: Please contact the Timecho team for download.
+V2.0.3.2 resolves product defects, optimizes node removal, and enhances monitoring, performance, and stability.
 
-In version V1.3.3.1, a throttling mechanism is added to multi-tier storage. Data synchronization supports specifying username and password authentication for the receiver at the sender's sink. Some unclear WARN logs on the data synchronization receiver side are optimized, the restart-recovery performance is enhanced, and the startup time is reduced. Meanwhile, the script contents are merged. The specific release contents are as follows:
+### V2.0.2.1
 
-- **Storage Module**: Rate-limiting added to multi-tier storage.
-- **Data Synchronization**: Sender-side username/password authentication for receivers.
-- **System Module**:
-    - Merged configuration files into `iotdb-system.properties`.
-    - Optimized restart recovery time.
-- **Query** **Module**:
-    - Improved filter performance for aggregation and WHERE clauses.
-    - Java Session client distributes SQL query requests evenly to all nodes.
+> Release Date: 2025.04.07
 
-### **V1.3.2.2**
+V2.0.2.1 adds ​**​table model permission management​**​, ​**​user management​**​, and ​**​operation authentication​**​, alongside UDFs, system tables, and nested queries. Data subscription mechanisms are optimized. Key updates:
 
-> **Release Date**: June 4, 2024
->
-> **Download**: Please contact the Timecho team for download.
+* ​**​Query Module:​**​
+  * Added UDF management: User-Defined Scalar Functions (UDSF) & Aggregate Functions (UDAF)
+  * Configurable URI-based loading for UDF/PipePlugin/Trigger/AINode JARs
+  * Permission/user management with operation authentication
+  * New system tables and maintenance statements
+* ​**​System Module:​**​
+  * CSharp client supports table model
+  * New C++ Session write APIs for table model
+  * Multi-tier storage supports S3-compliant non-AWS object storage
+  * New pattern\_match function
+* ​**​Data Sync:​**​
+  * Table model metadata sync and delete propagation
 
-The V1.3.2.2 version introduces the Explain Analyze statement for analyzing the execution time of a single `SQL `query, a User-Defined Aggregate Function (`UDAF`) framework, automatic data deletion when disk space reaches a set threshold, schema synchronization, counting data points in specified paths, and `SQL `script import/export functionality. The cluster management tool now supports rolling upgrades and plugin deployment across the entire cluster. Comprehensive improvements have also been made to database monitoring, performance, and stability. The specific release content is as follows:
+### V2.0.1.2
 
-**Storage Module:**
+> Release Date: 2025.01.25
 
-- Improved write performance of the `insertRecords `interface.
-- Added `SpaceTL `functionality to automatically delete data when disk space reaches a set threshold.
+V2.0.1.2 officially implements ​**​dual-model configuration (tree + table)​**​. The table model supports ​**​standard SQL queries​**​, diverse functions/operators, stream processing, and Benchmarking. Python client adds four new data types, and script tools support TsFile/CSV/SQL import/export. Key updates:
 
-**Query** **Module:**
+* ​**​Time-Series Table Model:​**​
+  * Standard SQL: SELECT, WHERE, JOIN, GROUP BY, ORDER BY, LIMIT, nested queries
+* ​**​Query Module:​**​
+  * Logical operators, math functions, time-series functions (e.g., DIFF)
+  * Configurable URI-based JAR loading
+* ​**​Storage Module:​**​
+  * Session API writes with auto-metadata creation
+  * Python client supports: String, Blob, Date, Timestamp
+  * Optimized compaction task priority
+* ​**​Stream Processing:​**​
+  * Auth info specification on sender side
+  * TsFile Load for table model
+  * Plugin adaptation for table model
+* ​**​System Module:​**​
+  * Enhanced DataNode downsizing stability
+  * Supports DROP DATABASE in read-only mode
+* ​**​Scripts & Tools:​**​
+  * Benchmark adapted for table model
+  * Support for String/Blob/Date/Timestamp in Benchmark
+  * import-data/export-data: Universal support for TsFile/CSV/SQL
+* ​**​Ecosystem Integration:​**​
+  * Kubernetes Operator support
 
-- Added the `Explain Analyze` statement to monitor the execution time of each stage of a single SQL query.
-- Introduced a User-Defined Aggregate Function (UDAF) framework.
-- Added envelope demodulation analysis in UDF.
-- Added `MaxBy/MinBy` functions to return the corresponding timestamp while obtaining the maximum/minimum value.
-- Improved performance of value filter queries.
+### V1.3.5.6
 
-**Data Synchronization:**
+> Release Date: 2025.07.16
 
-- Path matching now supports wildcards.
-- Schema synchronization is now supported, including time series and related attributes, permissions, and other settings.
+V1.3.5.6 introduces a new configuration switch to disable the data subscription feature. It optimizes the C++ high-availability client and addresses PIPE synchronization latency issues in normal operation, restart, and deletion scenarios, along with query performance for large TEXT objects. Comprehensive enhancements to database monitoring, performance, and stability are also included.
 
-**Stream Processing:**
+### V1.3.5.4
 
-- Added the `Alter Pipe` statement to support hot updates of Pipe task plugins.
+> Release Date: 2025.06.19
 
-**System Module:**
+V1.3.5.4 fixes several product defects and optimizes the node removal functionality. It also delivers comprehensive improvements to database monitoring, performance, and stability.
 
-- Enhanced system data point counting to include statistics for `load TsFile`.
+### V1.3.5.3
 
-**Scripts and Tools:**
+> Release Date: 2025.06.13
 
-- Added a local upgrade backup tool that uses hard links to back up existing data.
-- Introduced `export-data/import-data` scripts to support data export in `CSV`, `TsFile `, or as `SQL `statements.
-- The Windows environment now supports distinguishing `ConfigNode`, `DataNode`, and `Cli `by window name.
+V1.3.5.3 focuses on optimizing data synchronization capabilities, including persisting PIPE transmission progress and adding monitoring metrics for PIPE event transfer time. Related defects have been resolved. Additionally, the encryption algorithm for user passwords has been upgraded to SHA-256. Comprehensive enhancements to database monitoring, performance, and stability are included.
 
-### **V1.3.1.4**
+### V1.3.5.2
 
-> **Release Date**: April 23, 2024
->
-> **Download**: Please contact the Timecho team for download.
+> Release Date: 2015.06.10
 
-The V1.3.1 release introduces several new features and enhancements, including the ability to view system activation status, built-in variance and standard deviation aggregate functions, timeout settings for the built-in `Fill `statement, and a `TsFile `repair command. Additionally, one-click scripts for collecting instance information and starting/stopping the cluster have been added. The usability and performance of views and stream processing have also been optimized. The specific release content is as follows:
+V1.3.5.2 primarily optimizes data synchronization features, adding support for cascading configurations via parameters and ensuring fully consistent ordering between synchronized and real-time writes. It also enables partitioned sending of historical and real-time data after system restarts. Comprehensive enhancements to database monitoring, performance, and stability are included.
 
-**Query** **Module:**
+### V1.3.5.1
 
-- The `Fill `clause now supports setting a fill timeout threshold; no fill will occur if the time threshold is exceeded.
-- The `REST API` (V2 version) now returns column types.
+> Release Date: 2025.05.15
 
-**Data Synchronization:**
+V1.3.5.1 resolves several product defects and delivers comprehensive improvements to database monitoring, performance, and stability.
 
-- Simplified the way to specify time ranges for data synchronization by directly setting start and end times.
-- Data synchronization now supports the `SSL `transport protocol (via the` iotdb-thrift-ssl-sink` plugin).
+### V1.3.4.2
 
-**System Module:**
+> Release Date: 2025.04.14
 
-- Added the ability to query cluster activation information using SQL.
-- Added transmission rate control during data migration in multi-tier storage.
-- Enhanced system observability (added divergence monitoring for cluster nodes and observability for the distributed task scheduling framework).
-- Optimized the default log output strategy.
+V1.3.4.2 enhances the data synchronization function by supporting bi-directional active-active synchronization of data forwarded through external PIPE sources.
 
-**Scripts and Tools:**
+### V1.3.4.1
 
-- Added one-click scripts to start and stop the cluster (`start-all/stop-all.sh & start-all/stop-all.bat`).
-- Added one-click scripts to collect instance information (`collect-info.sh & collect-info.bat`).
+> Release Date: 2025.01.08
 
-### **V1.3.0.4**
+V1.3.4.1 introduces pattern matching functions, continuously optimizes the data subscription mechanism, improves stability, and extends import-data/export-data scripts to support new data types while unifying TsFile, CSV and SQL import/export formats. Comprehensive improvements have been made to database monitoring, performance and stability. Key updates:
 
-> **Release Date**: January 3, 2024
->
-> **Download**: Please contact the Timecho team for download.
+* Query Module: Configurable URI-based JAR loading for UDFs, PipePlugins, Triggers and AINodes
+* System Module: Extended UDF functionality with new pattern\_match function
+* Data Sync: Supports specifying authentication info at sender
+* Ecosystem: Kubernetes Operator support
+* Scripts: import-data/export-data now supports strings, BLOBs, dates and timestamps
+* Scripts: Unified import/export support for TsFile, CSV and SQL formats
 
+### V1.3.3.3
 
+> Release Date: 2024.10.31
 
-The V1.3.0.4 release introduces a new inborn machine learning framework `AINode`, a comprehensive upgrade of the permission module to support sequence-granularity permissions, and numerous detail optimizations for views and stream processing. These enhancements further improve usability, version stability, and overall performance. The specific release content is as follows:
+V1.3.3.3 improves restart recovery performance, enables DataNodes to actively monitor/load TsFiles with observability metrics, supports automatic loading at receivers when senders transfer files to specified directories, and adds Alter Source capability for Pipes. Comprehensive improvements to monitoring, performance and stability include:
 
-**Query** **Module:**
+* Data Sync: Automatic type conversion for inconsistent data at receivers
+* Data Sync: Enhanced observability with ops/latency metrics for internal APIs
+* Data Sync: OPC-UA sink plugin supports CS mode and non-anonymous access
+* Subscription: SDK supports create\_if\_not\_exists and drop\_if\_exists APIs
+* Stream Processing: Alter Pipe supports Alter Source
+* System: Added latency monitoring for REST module
+* Scripts: Auto-loading TsFiles from specified directories
+* Scripts: import-tsfile supports remote server execution
+* Scripts: Kubernetes Helm support
+* Scripts: Python client supports new data types (string, BLOB, date, timestamp)
 
-- Added the `AINode `inborn machine learning module.
-- Optimized the performance of the `show path` statement to reduce response time.
+### V1.3.3.2
 
-**Security Module:**
+> Release Date: 2024.08.15
 
-- Upgraded the permission module to support permission settings at the time-series granularity.
-- Added `SSL `communication encryption between clients and servers.
+V1.3.3.2 adds metrics for mods file reading time, merge sort memory usage and dispatch latency, supports configurable time partition origin adjustment, enables automatic subscription termination based on pipe completion markers, and improves merge memory control. Key updates:
 
-**Stream Processing:**
+* Query: Explain Analyze shows mods file read time
+* Query: Explain Analyze shows merge sort memory and dispatch latency
+* Storage: Added configurable file splitting during compaction
+* System: Configurable time partition origin
+* Stream Processing: Auto-terminate subscriptions on pipe completion markers
+* Data Sync: Configurable RPC compression levels
+* Scripts: Export filters only root.\_\_system paths
 
-- Added multiple new metrics for monitoring in the stream processing module.
+### V1.3.3.1
 
-**Query** **Module:**
+> Release Date: 2024.07.12
 
-- Non-writable view sequences now support `LAST` queries.
-- Optimized the accuracy of data point monitoring statistics.
+V1.3.3.1 adds tiered storage throttling, supports username/password auth specification at sync senders, optimizes ambiguous WARN logs at receivers, improves restart performance, and merges configuration files. Key updates:
 
-### **V1.2.0.1**
+* Query: Optimized Filter performance for faster aggregation/WHERE queries
+* Query: Java Session evenly distributes SQL requests across nodes
+* System: Merged config files into iotdb-system.properties
+* Storage: Added tiered storage throttling
+* Data Sync: Username/password auth specification at senders
+* System: Optimized restart recovery time
 
-> **Release Date**: June 30, 2023
->
-> **Download**: Please contact the Timecho team for download.
+### V1.3.2.2
 
-The V1.2.0.1 release introduces several new features, including a new stream processing framework, dynamic templates, and built-in query functions such as `substring`, `replace`, and `round`. It also enhances the functionality of built-in statements like `show region`, `show timeseries`, and `show variable`, as well as the Session interface. Additionally, it optimizes built-in monitoring items and their implementation, and fixes several product bugs and performance issues. The specific release content is as follows:
+> Release Date: 2024.06.04
 
-**Stream Processing:**
+V1.3.2.2 introduces EXPLAIN ANALYZE for SQL profiling, UDAF framework, automatic data deletion at disk thresholds, metadata sync, path-specific data point counting, and SQL import/export scripts. Supports rolling cluster upgrades and cluster-wide plugin distribution with comprehensive monitoring/performance improvements. Key updates:
 
-- Added a new stream processing framework.
+* Storage: Improved insertRecords performance
+* Storage: SpaceTL feature for auto-deletion at disk thresholds
+* Query: EXPLAIN ANALYZE for SQL stage-level profiling
+* Query: New UDAF framework
+* Query: New envelope demodulation analysis in UDFs
+* Query: MaxBy/MinBy functions returning timestamps with values
+* Query: Faster value-filtered queries
+* Data Sync: Wildcard path matching
+* Data Sync: Metadata synchronization (including attributes/permissions)
+* Stream Processing: ALTER PIPE for hot plugin updates
+* System: TsFile load statistics in data point counting
+* Scripts: Local upgrade/backup via hard links
+* Scripts: New export-data/import-data for CSV/TsFile/SQL formats
+* Scripts: Windows window title differentiation for ConfigNode/DataNode/Cli
 
-**Schema Module:**
+### V1.3.1.4
 
-- Added dynamic template expansion functionality.
+> Release Date: 2024.04.23
 
-**Storage Module:**
+V1.3.1.4 adds cluster activation status viewing, variance/stddev aggregation functions, FILL timeout settings, TsFile repair command, one-click info collection scripts, and cluster control scripts while optimizing views and stream processing. Key updates:
 
-- Added SPRINTZ and RLBE encoding, as well as the LZMA2 compression algorithm.
+* Query: FILL clause timeout threshold
+* Query: REST V2 returns column types
+* Data Sync: Simplified time range specification
+* Data Sync: SSL support (iotdb-thrift-ssl-sink)
+* System: SQL query for cluster activation status
+* System: Tiered storage transfer rate control
+* System: Enhanced observability (node divergence, task scheduling)
+* System: Optimized default logging
+* Scripts: One-click cluster control scripts (start-all/stop-all)
+* Scripts: One-click info collection scripts (collect-info)
 
-**Query** **Module:**
+### V1.3.0.4
 
-- Added built-in scalar functions: `cast`, `round`, `substr`, `replace`.
-- Added built-in aggregate functions: `time_duration`, `mode`.
-- SQL statements now support `CASE WHEN` syntax.
-- SQL statements now support `ORDER BY` expressions.
+> Release Date: 2024.01.03
 
-**Interface Module:**
+V1.3.0.4 introduces the AINode machine learning framework, upgrades permission granularity to time-series level, and optimizes views/stream processing for better usability and stability. Key updates:
 
-- Python API now supports connecting to multiple distributed nodes.
-- Python client now supports write redirection.
-- Session API added an interface for creating sequences in batches using templates.
+* Query: New AINode ML framework
+* Query: Fixed slow SHOW PATH responses
+* Security: Time-series granular permissions
+* Security: SSL client-server encryption
+* Stream Processing: New metrics monitoring
+* Query: LAST queries on non-writable views
+* System: Improved data point counting accuracy
 
-### **V1.1.0.1**
+### V1.2.0.1
 
-> **Release Date**: April 3, 2023
->
-> **Download**: Please contact the Timecho team for download.
+> Release Date: 2023.06.30
 
+V1.2.0.1 introduces stream processing framework, dynamic templates, substring/replace/round functions, enhances SHOW REGION/TIMESERIES/VARIABLE statements and Session APIs while optimizing monitoring metrics. Key updates:
 
+* Stream Processing: New framework
+* Metadata: Dynamic template expansion
+* Storage: New SPRINTZ/RLBE encoding and LZMA2 compression
+* Query: New CAST, ROUND, SUBSTR, REPLACE functions
+* Query: New TIME\_DURATION, MODE aggregation
+* Query: CASE WHEN syntax support
+* Query: ORDER BY expression support
+* Interface: Python API multi-node connection
+* Interface: Python client write redirection
+* Interface: Batch sequence creation via templates
 
-The V1.1.0.1 release introduces several new features, including support for `GROUP BY VARIATION`, `GROUP BY CONDITION`, and useful functions like `DIFF` and `COUNT_IF`. It also introduces the pipeline execution engine to further improve query speed. Additionally, it fixes several issues related to last query alignment, `LIMIT` and `OFFSET` functionality, metadata template errors after restart, and sequence creation errors after deleting all databases. The specific release content is as follows:
+### V1.1.0.1
 
-**Query** **Module:**
+> Release Date: 2023.04.03
 
-- `ALIGN BY DEVICE` statements now support `ORDER BY TIME`.
-- Added support for the `SHOW QUERIES` command.
-- Added support for the `KILL QUERY` command.
+V1.1.0.1 introduces GROUP BY VARIATION/CONDITION, DIFF/COUNT\_IF functions, and pipeline execution engine while fixing issues including:
 
-**System Module:**
+* Aligned sequence LAST queries with ORDER BY TIMESERIES
+* LIMIT & OFFSET failures
+* Post-restart metadata template errors
+* Sequence creation after database deletion
 
-- `SHOW REGIONS` now supports specifying a particular database.
-- Added the `SHOW VARIABLES` SQL command to display current cluster parameters.
-- Aggregation queries now support `GROUP BY VARIATION`.
-- `SELECT INTO` now supports explicit data type conversion.
-- Implemented the built-in scalar function `DIFF`.
-- `SHOW REGIONS` now displays creation time.
-- Implemented the built-in aggregate function `COUNT_IF`.
-- Aggregation queries now support `GROUP BY CONDITION`.
-- Added support for modifying `dn_rpc_port` and `dn_rpc_address`.
+Key updates:
 
-### **V1.0.0.1**
+* Query: ALIGN BY DEVICE supports ORDER BY TIME
+* Query: SHOW QUERIES/KILL QUERY commands
+* System: SHOW REGIONS per database
+* System: SHOW VARIABLES for cluster parameters
+* Query: GROUP BY VARIATION/CONDITION
+* Query: SELECT INTO type casting
+* Query: New DIFF (scalar), COUNT\_IF (aggregate)
+* System: SHOW REGIONS creation time
+* System: Configurable dn\_rpc\_port/address
 
-> **Release Date**: December 3, 2022
->
-> **Download**: Please contact the Timecho team for download.
+### V1.0.0.1
 
+> Release Date: 2022.12.03
 
+V1.0.0.1 stabilizes distributed architecture while fixing:
 
-The V1.0.0.1 release focuses on fixing issues related to partition computation and query execution, undeleted historical snapshots, data query problems, and SessionPool memory usage. It also introduces several new features, such as support for `SHOW VARIABLES`, `EXPLAIN ALIGN BY DEVICE`, and enhanced functionality for ExportCSV/ExportTsFile/MQTT. Additionally, it improves the cluster startup/shutdown process, changes the default internal ports of the IoTDB cluster, and adds the `cluster_name` attribute to distinguish clusters. The specific release content is as follows:
+* Partition calculation issues
+* Undeleted historical snapshots
+* Query/SessionPool memory problems
 
-**System Module:**
+Major features:
 
-- Added support for distributed high-availability architecture.
-- Added support for multi-replica storage.
-- If a port is already in use, the node startup process will be terminated.
-- Added cluster management SQL.
-- Added functional management for starting, stopping, and removing ConfigNodes and DataNodes.
-- Configurable consensus protocol framework and multiple consensus protocols: Simple, IoTConsensus, Ratis.
-- Added multi-replica management for data, schema, and ConfigNodes.
-
-**Query** **Module:**
-
-- Added support for the large-scale parallel processing framework MPP, providing distributed read/write capabilities.
-
-**Stream Processing Module:**
-
-- Added support for the stream processing framework.
-- Added support for data synchronization between clusters.
+* System: Distributed HA architecture
+* System: Multi-replica storage
+* System: Port conflict detection
+* System: Cluster management SQL
+* System: ConfigNode/DataNode lifecycle control
+* System: Configurable consensus (Simple/IoTConsensus/Ratis)
+* System: Multi-replica data/metadata/ConfigNodes
+* Query: MPP framework for distributed I/O
+* Stream Processing: Framework and cross-cluster sync
 
 ## 2. Workbench (Console Tool)
 
-| Version | Key New Features                         | Supported IoTDB Versions |
-| :------ | :--------------------------------------- | :----------------------- |
-| V1.5.1  | AI analysis, pattern matching            | V1.3.2+                  |
-| V1.4.0  | Tree model visualization, English UI     | V1.3.2+                  |
-| V1.3.1  | Enhanced analysis templates              | V1.3.2+                  |
-| V1.3.0  | Database configuration tools             | V1.3.2+                  |
-| V1.2.6  | Improved permission controls             | V1.3.1+                  |
-| V1.2.5  | Template caching, UI optimizations       | V1.3.0+                  |
-| V1.2.4  | Data import/export, time alignment       | V1.2.2+                  |
-| V1.2.3  | Activation details, analysis tools       | V1.2.2+                  |
-| V1.2.2  | Enhanced measurement point descriptions  | V1.2.2+                  |
-| V1.2.1  | Sync monitoring panel, Prometheus alerts | V1.2.2+                  |
-| V1.2.0  | Major Workbench upgrade                  | V1.2.0+                  |
+| Version | Description                                                                                        | Supported IoTDB Versions |
+|---------|----------------------------------------------------------------------------------------------------|-------------------------|
+| V1.5.5  | Added server clock functionality and support for activating Enterprise Edition license databases   | V1.3.4+                 |
+| V1.5.4  | Added authentication for Prometheus settings in Instance Management                                | V1.3.4+                 |
+| V1.5.1  | Added AI analysis and pattern matching                                                             | V1.3.2+                 |
+| V1.4.0  | Added tree model display and English UI                                                            | V1.3.2+                 |
+| V1.3.1  | Enhanced analysis methods and import templates                                                     | V1.3.2+                 |
+| V1.3.0  | Added DB configuration and UI refinements                                                          | V1.3.2+                 |
+| V1.2.6  | Optimized permission controls                                                                      | V1.3.1+                 |
+| V1.2.5  | Added "Common Templates" and caching                                                               | V1.3.0+                 |
+| V1.2.4  | Added import/export for calculations, time alignment field                                         | V1.2.2+                 |
+| V1.2.3  | Added activation details and analysis features                                                     | V1.2.2+                 |
+| V1.2.2  | Optimized point description display                                                                | V1.2.2+                 |
+| V1.2.1  | Added sync monitoring panel, Prometheus hints                                                      | V1.2.2+                 |
+| V1.2.0  | Major Workbench upgrade                                                                            | V1.2.0+                 |

@@ -20,138 +20,13 @@
 -->
 # Release History
 
-## 1. TimechoDB (Database Core)
-
-### V2.0.5.1
-
-> Release Date: 2025.07.14
->
-> Download Link: Please contact Timecho team for download details.
-
-V2.0.5.1 introduces ​**​tree-to-table view​**​, ​**​window functions​**​ and the ​**​approx\_most\_frequent​**​ aggregate function for the table model, along with support for ​**​LEFT & RIGHT JOIN​**​ and ​**​ASOF LEFT JOIN​**​. AINode adds two built-in models: ​**​Timer-XL​**​ and ​**​Timer-Sundial​**​, supporting inference and fine-tuning for tree and table models. Comprehensive enhancements to database monitoring, performance, and stability are also included. Key updates:
-
-* ​**​Query Module:​**​
-  * Supports manually creating tree-to-table views
-  * Adds window functions for table model
-  * Adds approx\_most\_frequent aggregate function
-  * Extends JOIN support: LEFT/RIGHT JOIN, ASOF LEFT JOIN
-  * Enables row pattern recognition (captures continuous data for analysis)
-  * New system tables: VIEWS (view metadata), MODELS (model info), etc.
-* ​**​System Module:​**​
-  * Adds TsFile data encryption
-* ​**​AI Module:​**​
-  * New built-in models: Timer-XL and Timer-Sundial
-  * Supports inference/fine-tuning for tree and table models
-* ​**​Others:​**​
-  * Enables data publishing via OPC DA protocol
-
-### V2.0.4.2
-
-> Release Date: 2025.06.21
-
-V2.0.4.2 adds support for passing TOPIC to custom MQTT plugins. Includes comprehensive improvements to monitoring, performance, and stability.
-
-### V2.0.4.1
-
-> Release Date: 2025.06.03
-
-V2.0.4.1 introduces ​**​User-Defined Table Functions (UDTF)​**​ and multiple built-in table functions for the table model, adds the ​**​approx\_count\_distinct​**​ aggregate function, and enables ​**​ASOF INNER JOIN on timestamp columns​**​. Script tools are categorized, with Windows-specific scripts separated out. Key updates:
-
-* ​**​Query Module:​**​
-  * Adds UDTFs and built-in table functions
-  * Supports ASOF INNER JOIN on timestamps
-  * Adds approx\_count\_distinct aggregate function
-* ​**​Stream Processing:​**​
-  * Supports asynchronous TsFile loading via SQL
-* ​**​System Module:​**​
-  * Disaster-aware load balancing strategy for replica selection during downsizing
-  * Compatibility with Windows Server 2025
-* ​**​Scripts & Tools:​**​
-  * Categorized scripts; isolated Windows-specific tools
-
-### V2.0.3.4
-
-> Release Date: 2025.06.13
-
-V2.0.3.4 upgrades the user password encryption algorithm to ​**​SHA-256​**​. Includes comprehensive monitoring, performance, and stability improvements.
-
-### V2.0.3.3
-
-> Release Date: 2025.05.16
-
-V2.0.3.3 introduces ​**​metadata import/export scripts for table models​**​, ​**​Spark ecosystem integration​**​, and adds ​**​timestamps to AINode results​**​. New aggregate/scalar functions are added. Key updates:
-
-* ​**​Query Module:​**​
-  * New aggregate function: count\_if; scalar functions: greatest/least
-  * Significant optimization for full-table count(\*) queries
-* ​**​AI Module:​**​
-  * Timestamps added to AINode results
-* ​**​System Module:​**​
-  * Optimized metadata performance for table model
-  * Active monitoring & loading of TsFiles
-  * New metrics: TsFile parsing time, Tablet conversion count
-* ​**​Ecosystem Integration:​**​
-  * Spark integration for table model
-* ​**​Scripts & Tools:​**​
-  * import-schema/export-schema scripts support table model metadata
-
-### V2.0.3.2
-
-> Release Date: 2025.05.15
-
-V2.0.3.2 resolves product defects, optimizes node removal, and enhances monitoring, performance, and stability.
-
-### V2.0.2.1
-
-> Release Date: 2025.04.07
-
-V2.0.2.1 adds ​**​table model permission management​**​, ​**​user management​**​, and ​**​operation authentication​**​, alongside UDFs, system tables, and nested queries. Data subscription mechanisms are optimized. Key updates:
-
-* ​**​Query Module:​**​
-  * Added UDF management: User-Defined Scalar Functions (UDSF) & Aggregate Functions (UDAF)
-  * Configurable URI-based loading for UDF/PipePlugin/Trigger/AINode JARs
-  * Permission/user management with operation authentication
-  * New system tables and maintenance statements
-* ​**​System Module:​**​
-  * CSharp client supports table model
-  * New C++ Session write APIs for table model
-  * Multi-tier storage supports S3-compliant non-AWS object storage
-  * New pattern\_match function
-* ​**​Data Sync:​**​
-  * Table model metadata sync and delete propagation
-
-### V2.0.1.2
-
-> Release Date: 2025.01.25
-
-V2.0.1.2 officially implements ​**​dual-model configuration (tree + table)​**​. The table model supports ​**​standard SQL queries​**​, diverse functions/operators, stream processing, and Benchmarking. Python client adds four new data types, and script tools support TsFile/CSV/SQL import/export. Key updates:
-
-* ​**​Time-Series Table Model:​**​
-  * Standard SQL: SELECT, WHERE, JOIN, GROUP BY, ORDER BY, LIMIT, nested queries
-* ​**​Query Module:​**​
-  * Logical operators, math functions, time-series functions (e.g., DIFF)
-  * Configurable URI-based JAR loading
-* ​**​Storage Module:​**​
-  * Session API writes with auto-metadata creation
-  * Python client supports: String, Blob, Date, Timestamp
-  * Optimized compaction task priority
-* ​**​Stream Processing:​**​
-  * Auth info specification on sender side
-  * TsFile Load for table model
-  * Plugin adaptation for table model
-* ​**​System Module:​**​
-  * Enhanced DataNode downsizing stability
-  * Supports DROP DATABASE in read-only mode
-* ​**​Scripts & Tools:​**​
-  * Benchmark adapted for table model
-  * Support for String/Blob/Date/Timestamp in Benchmark
-  * import-data/export-data: Universal support for TsFile/CSV/SQL
-* ​**​Ecosystem Integration:​**​
-  * Kubernetes Operator support
+## TimechoDB (Database Core)
 
 ### V1.3.5.6
 
 > Release Date: 2025.07.16
+>
+> Download Link: Please contact Timecho team for download details.
 
 V1.3.5.6 introduces a new configuration switch to disable the data subscription feature. It optimizes the C++ high-availability client and addresses PIPE synchronization latency issues in normal operation, restart, and deletion scenarios, along with query performance for large TEXT objects. Comprehensive enhancements to database monitoring, performance, and stability are also included.
 
@@ -356,7 +231,7 @@ Major features:
 * Query: MPP framework for distributed I/O
 * Stream Processing: Framework and cross-cluster sync
 
-## 2. Workbench (Console Tool)
+## Workbench (Console Tool)
 
 | Version | Description                                                                                        | Supported IoTDB Versions |
 |---------|----------------------------------------------------------------------------------------------------|-------------------------|

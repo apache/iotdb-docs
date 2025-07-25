@@ -18,165 +18,281 @@
     under the License.
 
 -->
-
 # Release History
+
+## V2.0.4
+
+> Release Time: 2025.07.09
+
+V2.0.4 serves as the official release of the dual-model system for tree and table structures. The table model primarily introduces user-defined table functions (UDTF) and multiple built-in table functions, adds the aggregate function approx_count_distinct, and supports ASOF INNER JOIN for time columns. Additionally, script tools have been categorized and reorganized, with Windows-specific scripts separated. The release also includes comprehensive improvements in database monitoring, performance, and stability. The detailed updates are as follows:
+
+* **Query Module**: The table model introduces user-defined table functions (UDTF) and multiple built-in table functions.
+
+* **Query Module**: The table model supports ASOF INNER JOIN for time columns.
+
+* **Query Module**: The table model adds the aggregate function approx_count_distinct.
+
+* **Stream Processing**: Supports asynchronous loading of TsFile via SQL.
+
+* **System Module**: During capacity reduction, replica selection now supports disaster recovery load balancing strategies.
+
+* **System Module**: Compatibility with Windows Server 2025 has been added.
+
+* **Scripts & Tools**: Script tools have been categorized and reorganized, with Windows-specific scripts separated.
+
+## V2.0.3
+
+> Release Date: 2025.05.30
+
+As the official release of the dual tree-table model, V2.0.3 primarily introduces metadata import/export script adaptation for the table model, Spark ecosystem integration (table model), timestamp addition to AINode results, and new aggregate/scalar functions for the table model. Comprehensive improvements have been made to database monitoring, performance, and stability. Key updates include:
+
+* ​**​Query Module​**​:
+    * New aggregate function `count_if` and scalar functions `greatest/least` for table model
+    * Significant performance improvement for full-table `count(*)` queries in table model
+* ​**​AI Module​**​:
+    * AINode results now include timestamps
+* ​**​System Module​**​:
+    * Optimized metadata module performance for table model
+    * Added proactive TsFile monitoring and loading for table model
+    * Python/Go client query interfaces now support TsBlock deserialization
+* ​**​Ecosystem Integration​**​:
+    * Spark integration for table model
+* ​**​Scripts & Tools​**​:
+    * `import-schema/export-schema` scripts now support table model metadata import/export
+
+## V2.0.2
+
+> Release Date: 2025.04.18
+
+As the official release of the dual tree-table model, V2.0.2 introduces table model permission management, user management, and related authentication, along with UDFs, system tables, and nested queries for the table model. Comprehensive improvements to monitoring, performance, and stability include:
+
+* ​**​Query Module​**​:
+    * Added UDF management, user-defined scalar functions (UDSF), and aggregate functions (UDAF) for table model
+    * Permission/user management and operation authentication for table model
+    * New system tables and administrative statements
+* ​**​System Module​**​:
+    * Full isolation between tree and table models at database level
+    * Built-in MQTT Service adapted for table model
+    * C# and Go clients now support table model
+    * New C++ Session write interface for table model
+* ​**​Data Sync​**​:
+    * Metadata synchronization and sync-delete operations for table model
+* ​**​Scripts & Tools​**​:
+    * `import-data/export-data` scripts now support table model and local TsFile load
 
 ## V2.0.1-beta
 
 > Release Date: 2025.02.18
 
-V2.0.1-beta introduces dual model configuration for tree and table models, along with table model support for standard SQL query syntax, multiple functions and operators, stream processing, Benchmark, and more. Additional updates include: Python client support for four new data types, database deletion in read-only mode, script tools compatible with TsFile, CSV, and SQL data import/export, Kubernetes Operator integration, and other enhancements. Key updates include:
+V2.0.1-beta introduces dual tree-table model configuration, supporting standard SQL query syntax, various functions/operators, stream processing, and Benchmark capabilities for the table model. Additional updates include:
 
-- **Table Model**: IoTDB now supports table models, including standard SQL query syntax (SELECT, WHERE, JOIN, GROUP BY, ORDER BY, LIMIT clauses, and subqueries).
-- **Query Module**: Table model supports multiple functions and operators (logical operators, mathematical functions, and time-series-specific functions like DIFF).
-- **Query Module**: Users can control UDF, PipePlugin, Trigger, and AINode to load JAR packages via URI through configuration items.
-- **Storage Module**: Table model supports data writing via the Session interface, with automatic metadata creation.
-- **Storage Module**: Python client adds support for four new data types: String, Blob, Date, and Timestamp.
-- **Storage Module**: Optimized priority comparison rules for merge tasks of the same type.
-- **Stream Processing**: Supports specifying authentication information at the receiver end.
-- **Stream Processing**: TsFile Load now supports table models.
-- **Stream Processing**: Stream processing plugins are adapted to table models.
-- **System Module**: Improved stability of DataNode scaling down.
-- **System Module**: Users can perform `DROP DATABASE` operations in read-only mode.
-- **Scripts & Tools**: Benchmark tool adapted to table models.
-- **Scripts & Tools**: Benchmark tool supports four new data types: String, Blob, Date, and Timestamp.
-- **Scripts & Tools**: Extended `data/export-data` script to support new data types (String, Blob, Date, Timestamp).
-- **Scripts & Tools**: `import-data/export-data` scripts now support TsFile, CSV, and SQL data import/export.
-- **Ecosystem Integration**: Kubernetes Operator support.
+* ​**​Table Model​**​:
+    * Supports standard SQL syntax (SELECT/WHERE/JOIN/GROUP BY/ORDER BY/LIMIT/subqueries)
+    * Various functions including logical operators, mathematical functions, and time-series functions like DIFF
+* ​**​Storage Module​**​:
+    * Python client adds support for four new data types: String, Blob, Date, Timestamp
+    * Optimized merge task priority rules
+* ​**​Stream Processing​**​:
+    * Supports specifying authentication info at sender
+    * TsFile Load supports table model
+    * Stream processing plugins adapted for table model
+* ​**​System Module​**​:
+    * Enhanced DataNode scaling stability
+    * Supports DROP DATABASE in readonly mode
+* ​**​Scripts & Tools​**​:
+    * Benchmark tool adapted for table model
+    * Supports four new data types: String, Blob, Date, Timestamp
+    * Unified import/export support for TsFile, CSV and SQL formats
+* ​**​Ecosystem Integration​**​:
+    * Kubernetes Operator support
 
----
+
+## V1.3.4
+
+> Release Date: 2025.04.18
+
+V1.3.4 primarily introduces pattern matching functions, continuously optimizes the data subscription mechanism, improves stability, merges data import/export scripts, and extends support for new data types. It also delivers comprehensive enhancements in database monitoring, performance, and stability. Key updates include:
+
+* ​**​Query Module​**​:
+    * Users can now configure UDFs, PipePlugins, Triggers, and AINodes to load JARs via URI.
+    * Added monitoring for cached TimeIndex during merge operations.
+* ​**​System Module​**​:
+    * Extended UDF functionality with the new `pattern_match` pattern-matching function.
+    * Python Session SDK now supports connection timeout parameters.
+    * Added authentication for cluster management operations.
+    * ConfigNode/DataNode now supports scaling down via SQL.
+    * ConfigNode automatically cleans up partition information exceeding TTL (every 2 hours).
+* ​**​Data Synchronization​**​:
+    * Supports specifying authentication information at the sender.
+* ​**​Ecosystem Integration​**​:
+    * Added Kubernetes Operator support.
+* ​**​Scripts & Tools​**​:
+    * Extended `import-data/export-data` scripts to support new data types (strings, BLOBs, dates, timestamps).
+    * Unified script support for importing/exporting TsFile, CSV, and SQL data formats.
 
 ## V1.3.3
 
 > Release Date: 2024.11.20
 
-V1.3.3 introduces String, Blob, Date, and Timestamp data types, data subscription, DataNode auto-monitoring and TsFile loading, observability metrics, sender-to-receiver file transfer automation, configuration file consolidation, client query load balancing, and stability improvements. Key updates include:
+V1.3.3 introduces support for ​**​String, Blob, Date, and Timestamp​**​ data types, enhances data subscription capabilities, enables DataNodes to actively monitor and load TsFiles, and adds observability metrics. It also optimizes configuration file integration, client query load balancing, and more, while addressing bugs and performance issues. Key updates:
 
-- **Storage Module**: Added String, Blob, Date, and Timestamp data types.
-- **Storage Module**: Optimized memory control for merge operations.
-- **Query Module**: Client query load balancing enhancements.
-- **Query Module**: Added active metadata statistics queries.
-- **Query Module**: Filter performance optimization for faster aggregation and WHERE queries.
-- **Data Sync**: Sender supports transferring files to a specified directory, after which the receiver automatically loads them into IoTDB.
-- **Data Sync**: Receiver adds automatic data type conversion.
-- **Data Subscription**: Added subscription capabilities (data points or TsFile-based).
-- **Data Loading**: DataNode actively monitors and loads TsFiles, with observability metrics.
-- **Stream Processing**: `ALTER PIPE` supports `ALTER SOURCE`.
-- **System Module**: Simplified configuration files (merged three into one).
-- **System Module**: Added configuration item APIs.
-- **System Module**: Improved restart recovery performance.
-- **Scripts & Tools**: Metadata import/export scripts.
-- **Scripts & Tools**: Kubernetes Helm support.
-
----
+* ​**​Storage Module​**​:
+    * New data types: String, Blob, Date, Timestamp.
+    * Improved memory control during merge operations.
+* ​**​Query Module​**​:
+    * Optimized client query request load balancing.
+    * Added active metadata statistics queries.
+    * Enhanced Filter performance for faster aggregation and WHERE queries.
+* ​**​Data Synchronization​**​:
+    * Senders can now transfer files to a specified directory, with receivers automatically loading them into IoTDB.
+    * Added automatic data type conversion at the receiver.
+* ​**​Data Subscription​**​:
+    * New subscription capability for data points or TsFile-based updates.
+* ​**​Data Loading​**​:
+    * DataNodes actively monitor and load TsFiles with added observability metrics.
+* ​**​Stream Processing​**​:
+    * `ALTER PIPE` now supports `ALTER SOURCE`.
+* ​**​System Module​**​:
+    * Simplified configuration files (merged into one).
+    * Added configuration interface settings.
+    * Improved restart recovery performance.
+* ​**​Scripts & Tools​**​:
+    * New metadata import/export scripts.
+    * Added Kubernetes Helm support.
 
 ## V1.3.2
 
 > Release Date: 2024.07.01
 
-V1.3.2 introduces `EXPLAIN ANALYZE` for SQL query profiling, UDAF framework, metadata sync, data point counting, SQL import/export scripts, rolling upgrades, and stability improvements. Key updates include:
+V1.3.2 introduces ​**​`EXPLAIN ANALYZE`​**​ for SQL query profiling, a ​**​UDAF framework​**​, metadata synchronization, and tools for counting data points under specified paths. It also supports rolling cluster upgrades and plugin distribution. Key updates:
 
-- **Storage Module**: Optimized `insertRecords` write performance.
-- **Query Module**: Added `EXPLAIN ANALYZE` for query stage time analysis.
-- **Query Module**: Added UDAF (User-Defined Aggregation Function) framework.
-- **Query Module**: Added `MAX_BY`/`MIN_BY` functions to return timestamps with max/min values.
-- **Query Module**: Value-filter query performance improvements.
-- **Data Sync**: Wildcard support for path matching.
-- **Data Sync**: Metadata synchronization (time series, attributes, permissions).
-- **Stream Processing**: Added `ALTER PIPE` for hot-updating plugins.
-- **System Module**: TsFile load data included in data point statistics.
-- **Scripts & Tools**: Local upgrade backup tool (hard-link-based backups).
-- **Scripts & Tools**: `export-data`/`import-data` scripts for CSV, TsFile, and SQL formats.
-- **Scripts & Tools**: Windows support for ConfigNode/DataNode/Cli window naming.
+* ​**​Query Module​**​:
+    * `EXPLAIN ANALYZE` to profile SQL execution stages.
+    * New UDAF (User-Defined Aggregation Function) framework.
+    * `MaxBy/MinBy` functions to retrieve timestamps with max/min values.
+* ​**​Data Sync​**​:
+    * Wildcard support for path matching.
+    * Metadata synchronization (including time series attributes and permissions).
+* ​**​System Module​**​:
+    * TsFile load operations now contribute to data point statistics.
+* ​**​Scripts & Tools​**​:
+    * Local upgrade/backup tools (via hard links).
+    * `export-data/import-data` scripts for CSV/TsFile/SQL formats.
+    * Windows support for distinguishing ConfigNode/DataNode/Cli via window titles.
 
----
 
 ## V1.3.1
 
 > Release Date: 2024.04.22
 
-V1.3.1 adds one-click cluster start/stop scripts, info collection scripts, built-in functions, sync/log/query optimizations, and observability improvements. Key updates include:
+V1.3.1 introduces several new features including one-click cluster control scripts, instance information collection scripts, and multiple built-in functions. It also optimizes existing data synchronization, log output strategies, and query execution processes, while enhancing system observability and addressing various product bugs and performance issues. Key updates include:
 
-- Added one-click cluster start/stop scripts (`start-all/stop-all.sh` and `.bat`).
-- Added instance info collection scripts (`collect-info.sh` and `.bat`).
-- Added `STDDEV`, `VARIANCE` aggregation functions.
-- Added TsFile repair command.
-- `FILL` clause supports timeout thresholds.
-- Simplified data sync time range configuration.
-- Enhanced observability (cluster node divergence monitoring, task scheduling metrics).
-- Optimized default logging strategy.
-- Improved memory control for TsFile loading.
-- REST API (v2) returns column types.
-- Optimized query execution.
-- Client auto-fetches available DataNode lists.
-
----
+* Added one-click cluster start/stop scripts (start-all/stop-all.sh & start-all/stop-all.bat)
+* Added one-click instance information collection scripts (collect-info.sh & collect-info.bat)
+* New built-in aggregate functions: standard deviation and variance
+* Added TsFile repair command
+* FILL clause now supports timeout threshold setting (no filling when exceeding time limit)
+* Simplified time range specification for data synchronization (direct start/end time setting)
+* Enhanced system observability (added cluster node divergence monitoring and distributed task scheduling observability)
+* Optimized default log output strategy
+* Improved memory control for Load TsFile operations (full-process coverage)
+* REST interface (V2) now returns column types
+* Optimized query execution process
+* Clients now automatically fetch available DataNode lists
 
 ## V1.3.0
 
 > Release Date: 2024.01.01
 
-V1.3.0 adds SSL encryption, sync monitoring, permission syntax optimizations, metrics performance improvements, and query optimizations. Key updates include:
+V1.3.0 introduces new features including SSL communication encryption and data synchronization monitoring statistics. It optimizes the syntax and logic of the permission module, metrics algorithm library performance, Python client write performance, and query efficiency in specific scenarios, while fixing various product bugs and performance issues. Key updates include:
 
-- **Security**: Time-series-level permission control.
-- **Security**: SSL support for client-server communication.
-- **Query Module**: Calculation views support `LAST` queries.
-- **Stream Processing**: Added Pipe monitoring metrics.
-- **Storage Module**: Support for negative timestamps.
-- **Scripts & Tools**: `LOAD` script data included in monitoring.
-- **Client**: Optimized Python client performance.
-- **Query Module**: Fixed slow `SHOW PATH` responses.
-- **Query Module**: Improved `EXPLAIN` result formatting.
-- **System Module**: Added `MEMORY_SIZE` configuration.
-- **System Module**: Renamed config items (e.g., `target_config_node_list` → `seed_config_node`).
-
----
+* Security Module:
+    * Enhanced permission module with time-series granular permission control
+    * Added SSL communication encryption for client-server connections
+* Query Module:
+    * Calculation-type views now support LAST queries
+* Stream Processing:
+    * Added pipe-related monitoring metrics
+* Storage Module:
+    * Support for negative timestamp writing
+* Scripts & Tools:
+    * Load script imported data now included in data point monitoring statistics
+* Client Module:
+    * Optimized Python client performance
+* Query Module Improvements:
+    * Resolved long response time for SHOW PATH commands
+    * Improved EXPLAIN statement display alignment
+* System Module:
+    * Added unified memory configuration item MEMORY\_SIZE to environment configuration scripts
+    * Renamed configuration item target\_config\_node\_list to seed\_config\_node
+    * Renamed configuration item storage\_query\_schema\_consensus\_free\_memory\_proportion to datanode\_memory\_proportion
 
 ## V1.2.0
 
 > Release Date: 2023.06.30
 
-V1.2.0 introduces stream processing, dynamic templates, `SUBSTRING`/`REPLACE`/`ROUND` functions, and optimizations. Key updates include:
+V1.2.0 introduces major new features including a stream processing framework, dynamic templates, and built-in query functions (substring/replace/round). It enhances built-in statements like SHOW REGION/SHOW TIMESERIES/SHOW VARIABLE and Session interfaces, while optimizing built-in monitoring metrics and fixing various bugs and performance issues.
 
-- **Stream Processing**: Framework added.
-- **Metadata**: Dynamic template expansion.
-- **Storage**: Added SPRINTZ/RLBE encodings and LZMA2 compression.
-- **Query Module**: `CAST`, `ROUND`, `SUBSTR`, `REPLACE` functions.
-- **Query Module**: `TIME_DURATION`, `MODE` aggregation functions.
-- **Query Module**: `CASE WHEN` and `ORDER BY` expression support.
-- **Client**: Python API supports multi-node distributed connections.
-- **Client**: Python write redirection.
-- **Session API**: Batch time-series creation via templates.
-
----
+* ​**​Stream Processing​**​: New stream processing framework
+* ​**​Metadata Module​**​: Added dynamic template expansion
+* ​**​Storage Module​**​: New SPRINTZ and RLBE encoding schemes with LZMA2 compression
+* ​**​Query Module​**​:
+    * New built-in scalar functions: CAST, ROUND, SUBSTR, REPLACE
+    * New aggregate functions: TIME\_DURATION, MODE
+    * SQL now supports CASE WHEN syntax
+    * SQL now supports ORDER BY expressions
+* ​**​Interface Module​**​:
+    * Python API supports connecting to multiple distributed nodes
+    * Python client supports write redirection
+    * Session API adds batch time series creation via templates
 
 ## V1.1.0
 
 > Release Date: 2023.04.03
 
-V1.1.0 adds `GROUP BY VARIATION/CONDITION`, `DIFF`, `COUNT_IF`, and pipeline engine optimizations. Key fixes include metadata template errors and query issues. Key updates:
+V1.1.0 introduces new segmentation methods (GROUP BY VARIATION/CONDITION) and utility functions (DIFF, COUNT\_IF), along with a pipeline execution engine for faster queries. It also fixes issues including:
 
-- **Query Module**: `ALIGN BY DEVICE` supports `ORDER BY TIME`.
-- **Query Module**: `SHOW QUERIES` and `KILL QUERY` commands.
-- **System Module**: `SHOW REGIONS` with database filtering.
-- **System Module**: `SHOW VARIABLES` for cluster parameters.
-- **Query Module**: `GROUP BY VARIATION` and `GROUP BY CONDITION`.
-- **Query Module**: `DIFF` scalar function and `COUNT_IF` aggregation.
-- **System Module**: `dn_rpc_port` and `dn_rpc_address` configurability.
+* Aligned sequence LAST queries with ORDER BY TIMESERIES
+* LIMIT & OFFSET failures
+* Metadata template errors after restart
+* Sequence creation errors after deleting all databases
 
----
+Key updates:
+
+* ​**​Query Module​**​:
+    * ALIGN BY DEVICE now supports ORDER BY TIME
+    * New SHOW QUERIES command
+    * New KILL QUERY command
+    * Aggregate queries support GROUP BY VARIATION/CONDITION
+    * SELECT INTO supports type casting
+    * New built-in functions: DIFF (scalar), COUNT\_IF (aggregate)
+* ​**​System Module​**​:
+    * SHOW REGIONS supports database specification
+    * New SHOW VARIABLES for cluster parameters
+    * SHOW REGIONS displays creation time
+    * Supports modifying dn\_rpc\_port and dn\_rpc\_address
 
 ## V1.0.0
 
 > Release Date: 2022.12.03
 
-V1.0.0 fixes partition calculation, query execution, and memory issues. Adds HA architecture, multi-replica storage, cluster management SQL, and MPP framework. Key updates:
+V1.0.0 stabilizes the distributed architecture while fixing:
 
-- **System Module**: Distributed high-availability architecture.
-- **System Module**: Multi-replica storage.
-- **System Module**: Port conflict detection during startup.
-- **System Module**: Cluster management SQL (start/stop/remove nodes).
-- **System Module**: Configurable consensus protocols (Simple, IoTConsensus, Ratis).
-- **Query Module**: MPP framework for distributed read/write.
-- **Stream Processing**: Framework and cross-cluster sync.
+* Partition calculation issues
+* Undeleted historical snapshots
+* Query execution and SessionPool memory problems
 
+Major features:
+
+* ​**​System Module​**​:
+    * Distributed high-availability architecture
+    * Multi-replica storage
+    * Port conflict detection during node startup
+    * Cluster management SQL
+    * ConfigNode/DataNode lifecycle control (start/stop/remove)
+    * Configurable consensus protocols: Simple, IoTConsensus, Ratis
+    * Multi-replica support for data/metadata/ConfigNodes
+* ​**​Query Module​**​: MPP framework for distributed read/write
+* ​**​Stream Processing​**​:
+    * Stream processing framework
+    * Cross-cluster data synchronization
