@@ -22,19 +22,47 @@
 
 ## TimechoDB (Database Core)
 
+### V1.3.5.6
+
+> Release Date: 2025.07.16
+>
+> Download Link: Please contact Timecho team for download details.
+
+V1.3.5.6 introduces a new configuration switch to disable the data subscription feature. It optimizes the C++ high-availability client and addresses PIPE synchronization latency issues in normal operation, restart, and deletion scenarios, along with query performance for large TEXT objects. Comprehensive enhancements to database monitoring, performance, and stability are also included.
+
+### V1.3.5.4
+
+> Release Date: 2025.06.19
+
+V1.3.5.4 fixes several product defects and optimizes the node removal functionality. It also delivers comprehensive improvements to database monitoring, performance, and stability.
+
+### V1.3.5.3
+
+> Release Date: 2025.06.13
+
+V1.3.5.3 focuses on optimizing data synchronization capabilities, including persisting PIPE transmission progress and adding monitoring metrics for PIPE event transfer time. Related defects have been resolved. Additionally, the encryption algorithm for user passwords has been upgraded to SHA-256. Comprehensive enhancements to database monitoring, performance, and stability are included.
+
+### V1.3.5.2
+
+> Release Date: 2015.06.10
+
+V1.3.5.2 primarily optimizes data synchronization features, adding support for cascading configurations via parameters and ensuring fully consistent ordering between synchronized and real-time writes. It also enables partitioned sending of historical and real-time data after system restarts. Comprehensive enhancements to database monitoring, performance, and stability are included.
+
 ### V1.3.5.1
 
 > Release Date: 2025.05.15
->
-> Download: Please contact Timecho staff for download
 
-V1.3.5.1 version has fixed some product defects while also delivering comprehensive improvements to database monitoring, performance, and stability.
+V1.3.5.1 resolves several product defects and delivers comprehensive improvements to database monitoring, performance, and stability.
+
+### V1.3.4.2
+
+> Release Date: 2025.04.14
+
+V1.3.4.2 enhances the data synchronization function by supporting bi-directional active-active synchronization of data forwarded through external PIPE sources.
 
 ### V1.3.4.1
 
 > Release Date: 2025.01.08
->
-> Download: Please contact Timecho staff for download
 
 V1.3.4.1 introduces pattern matching functions, continuously optimizes the data subscription mechanism, improves stability, and extends import-data/export-data scripts to support new data types while unifying TsFile, CSV and SQL import/export formats. Comprehensive improvements have been made to database monitoring, performance and stability. Key updates:
 
@@ -48,8 +76,6 @@ V1.3.4.1 introduces pattern matching functions, continuously optimizes the data 
 ### V1.3.3.3
 
 > Release Date: 2024.10.31
->
-> Download: Please contact Timecho staff for download
 
 V1.3.3.3 improves restart recovery performance, enables DataNodes to actively monitor/load TsFiles with observability metrics, supports automatic loading at receivers when senders transfer files to specified directories, and adds Alter Source capability for Pipes. Comprehensive improvements to monitoring, performance and stability include:
 
@@ -67,8 +93,6 @@ V1.3.3.3 improves restart recovery performance, enables DataNodes to actively mo
 ### V1.3.3.2
 
 > Release Date: 2024.08.15
->
-> Download: Please contact Timecho staff for download
 
 V1.3.3.2 adds metrics for mods file reading time, merge sort memory usage and dispatch latency, supports configurable time partition origin adjustment, enables automatic subscription termination based on pipe completion markers, and improves merge memory control. Key updates:
 
@@ -83,8 +107,6 @@ V1.3.3.2 adds metrics for mods file reading time, merge sort memory usage and di
 ### V1.3.3.1
 
 > Release Date: 2024.07.12
->
-> Download: Please contact Timecho staff for download
 
 V1.3.3.1 adds tiered storage throttling, supports username/password auth specification at sync senders, optimizes ambiguous WARN logs at receivers, improves restart performance, and merges configuration files. Key updates:
 
@@ -98,8 +120,6 @@ V1.3.3.1 adds tiered storage throttling, supports username/password auth specifi
 ### V1.3.2.2
 
 > Release Date: 2024.06.04
->
-> Download: Please contact Timecho staff for download
 
 V1.3.2.2 introduces EXPLAIN ANALYZE for SQL profiling, UDAF framework, automatic data deletion at disk thresholds, metadata sync, path-specific data point counting, and SQL import/export scripts. Supports rolling cluster upgrades and cluster-wide plugin distribution with comprehensive monitoring/performance improvements. Key updates:
 
@@ -121,8 +141,6 @@ V1.3.2.2 introduces EXPLAIN ANALYZE for SQL profiling, UDAF framework, automatic
 ### V1.3.1.4
 
 > Release Date: 2024.04.23
->
-> Download: Please contact Timecho staff for download
 
 V1.3.1.4 adds cluster activation status viewing, variance/stddev aggregation functions, FILL timeout settings, TsFile repair command, one-click info collection scripts, and cluster control scripts while optimizing views and stream processing. Key updates:
 
@@ -140,8 +158,6 @@ V1.3.1.4 adds cluster activation status viewing, variance/stddev aggregation fun
 ### V1.3.0.4
 
 > Release Date: 2024.01.03
->
-> Download: Please contact Timecho staff for download
 
 V1.3.0.4 introduces the AINode machine learning framework, upgrades permission granularity to time-series level, and optimizes views/stream processing for better usability and stability. Key updates:
 
@@ -156,8 +172,6 @@ V1.3.0.4 introduces the AINode machine learning framework, upgrades permission g
 ### V1.2.0.1
 
 > Release Date: 2023.06.30
->
-> Download: Please contact Timecho staff for download
 
 V1.2.0.1 introduces stream processing framework, dynamic templates, substring/replace/round functions, enhances SHOW REGION/TIMESERIES/VARIABLE statements and Session APIs while optimizing monitoring metrics. Key updates:
 
@@ -175,8 +189,6 @@ V1.2.0.1 introduces stream processing framework, dynamic templates, substring/re
 ### V1.1.0.1
 
 > Release Date: 2023.04.03
->
-> Download: Please contact Timecho staff for download
 
 V1.1.0.1 introduces GROUP BY VARIATION/CONDITION, DIFF/COUNT\_IF functions, and pipeline execution engine while fixing issues including:
 
@@ -200,8 +212,6 @@ Key updates:
 ### V1.0.0.1
 
 > Release Date: 2022.12.03
->
-> Download: Please contact Timecho staff for download
 
 V1.0.0.1 stabilizes distributed architecture while fixing:
 
@@ -223,16 +233,18 @@ Major features:
 
 ## Workbench (Console Tool)
 
-| Version | Description                                                | Supported IoTDB Versions |
-| --------- | ------------------------------------------------------------ | -------------------------- |
-| V1.5.1  | Added AI analysis and pattern matching                     | V1.3.2+                  |
-| V1.4.0  | Added tree model display and English UI                    | V1.3.2+                  |
-| V1.3.1  | Enhanced analysis methods and import templates             | V1.3.2+                  |
-| V1.3.0  | Added DB configuration and UI refinements                  | V1.3.2+                  |
-| V1.2.6  | Optimized permission controls                              | V1.3.1+                  |
-| V1.2.5  | Added "Common Templates" and caching                       | V1.3.0+                  |
-| V1.2.4  | Added import/export for calculations, time alignment field | V1.2.2+                  |
-| V1.2.3  | Added activation details and analysis features             | V1.2.2+                  |
-| V1.2.2  | Optimized point description display                        | V1.2.2+                  |
-| V1.2.1  | Added sync monitoring panel, Prometheus hints              | V1.2.2+                  |
-| V1.2.0  | Major Workbench upgrade                                    | V1.2.0+                  |
+| Version | Description                                                                                        | Supported IoTDB Versions |
+|---------|----------------------------------------------------------------------------------------------------|-------------------------|
+| V1.5.5  | Added server clock functionality and support for activating Enterprise Edition license databases   | V1.3.4+                 |
+| V1.5.4  | Added authentication for Prometheus settings in Instance Management                                | V1.3.4+                 |
+| V1.5.1  | Added AI analysis and pattern matching                                                             | V1.3.2+                 |
+| V1.4.0  | Added tree model display and English UI                                                            | V1.3.2+                 |
+| V1.3.1  | Enhanced analysis methods and import templates                                                     | V1.3.2+                 |
+| V1.3.0  | Added DB configuration and UI refinements                                                          | V1.3.2+                 |
+| V1.2.6  | Optimized permission controls                                                                      | V1.3.1+                 |
+| V1.2.5  | Added "Common Templates" and caching                                                               | V1.3.0+                 |
+| V1.2.4  | Added import/export for calculations, time alignment field                                         | V1.2.2+                 |
+| V1.2.3  | Added activation details and analysis features                                                     | V1.2.2+                 |
+| V1.2.2  | Optimized point description display                                                                | V1.2.2+                 |
+| V1.2.1  | Added sync monitoring panel, Prometheus hints                                                      | V1.2.2+                 |
+| V1.2.0  | Major Workbench upgrade                                                                            | V1.2.0+                 |
