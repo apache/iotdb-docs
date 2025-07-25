@@ -202,24 +202,25 @@ import org.apache.iotdb.rpc.StatementExecutionException;
 import org.apache.iotdb.session.pool.SessionPool;
 import org.apache.tsfile.enums.TSDataType;
 import org.apache.tsfile.write.record.Tablet;
+import org.apache.tsfile.write.schema.IMeasurementSchema;
 import org.apache.tsfile.write.schema.MeasurementSchema;
 
 public class SessionPoolExample {
-      private static SessionPool sessionPool;
-      public static void main(String[] args) throws IoTDBConnectionException, StatementExecutionException {
+    private static SessionPool sessionPool;
+    public static void main(String[] args) throws IoTDBConnectionException, StatementExecutionException {
         // 1. init SessionPool
         constructSessionPool();
         // 2. execute insert data
         insertTabletExample();
         // 3. close SessionPool
         closeSessionPool();
-          }
+    }
 
-        private static void constructSessionPool() {
+    private static void constructSessionPool() {
         // Using nodeUrls ensures that when one node goes down, other nodes are automatically connected to retry
         List<String> nodeUrls = new ArrayList<>();
         nodeUrls.add("127.0.0.1:6667");
-        nodeUrls.add("127.0.0.1:6668");
+        //nodeUrls.add("127.0.0.1:6668");
         sessionPool =
                 new SessionPool.Builder()
                         .nodeUrls(nodeUrls)
@@ -240,31 +241,31 @@ public class SessionPoolExample {
          */
         // The schema of measurements of one device
         // only measurementId and data type in MeasurementSchema take effects in Tablet
-        List<MeasurementSchema> schemaList = new ArrayList<>();
+        List<IMeasurementSchema> schemaList = new ArrayList<>();
         schemaList.add(new MeasurementSchema("s1", TSDataType.INT64));
         schemaList.add(new MeasurementSchema("s2", TSDataType.INT64));
         schemaList.add(new MeasurementSchema("s3", TSDataType.INT64));
 
-        Tablet tablet = new Tablet("root.sg.d1", schemaList, 100);
+        Tablet tablet = new Tablet("root.sg.d1",schemaList,100);
 
         // Method 1 to add tablet data
         long timestamp = System.currentTimeMillis();
 
         Random random = new Random();
         for (long row = 0; row < 100; row++) {
-            int rowIndex = tablet.rowSize++;
+            int rowIndex = tablet.getRowSize();
             tablet.addTimestamp(rowIndex, timestamp);
             for (int s = 0; s < 3; s++) {
                 long value = random.nextLong();
-                tablet.addValue(schemaList.get(s).getMeasurementId(), rowIndex, value);
+                tablet.addValue(schemaList.get(s).getMeasurementName(), rowIndex, value);
             }
-            if (tablet.rowSize == tablet.getMaxRowNumber()) {
+            if (tablet.getRowSize() == tablet.getMaxRowNumber()) {
                 sessionPool.insertTablet(tablet);
                 tablet.reset();
             }
             timestamp++;
         }
-        if (tablet.rowSize != 0) {
+        if (tablet.getRowSize() != 0) {
             sessionPool.insertTablet(tablet);
             tablet.reset();
         }
