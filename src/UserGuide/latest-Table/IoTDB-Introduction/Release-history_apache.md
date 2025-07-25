@@ -20,6 +20,26 @@
 -->
 # Release History
 
+## V2.0.4
+
+> Release Time: 2025.07.09
+
+V2.0.4 serves as the official release of the dual-model system for tree and table structures. The table model primarily introduces user-defined table functions (UDTF) and multiple built-in table functions, adds the aggregate function approx_count_distinct, and supports ASOF INNER JOIN for time columns. Additionally, script tools have been categorized and reorganized, with Windows-specific scripts separated. The release also includes comprehensive improvements in database monitoring, performance, and stability. The detailed updates are as follows:
+
+* **Query Module**: The table model introduces user-defined table functions (UDTF) and multiple built-in table functions.
+
+* **Query Module**: The table model supports ASOF INNER JOIN for time columns.
+
+* **Query Module**: The table model adds the aggregate function approx_count_distinct.
+
+* **Stream Processing**: Supports asynchronous loading of TsFile via SQL.
+
+* **System Module**: During capacity reduction, replica selection now supports disaster recovery load balancing strategies.
+
+* **System Module**: Compatibility with Windows Server 2025 has been added.
+
+* **Scripts & Tools**: Script tools have been categorized and reorganized, with Windows-specific scripts separated.
+
 ## V2.0.3
 
 > Release Date: 2025.05.30
