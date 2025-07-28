@@ -101,7 +101,7 @@ The detailed functional comparison is as follows：
       </tr>
       <tr>
             <td>Dual Active Deployment</td> 
-            <td>/</td> 
+            <td>-</td> 
             <td>√</td> 
       </tr>
        <tr>
@@ -157,55 +157,55 @@ The detailed functional comparison is as follows：
       </tr>
       <tr>
             <td>Tiered Storage</td> 
-            <td>/</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>View</td> 
-            <td>/</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>White List</td> 
-            <td>/</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>Audit Log</td> 
-            <td>/</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td rowspan="3">Supporting Tools</td>  
             <td>Workbench</td> 
-            <td>/</td> 
+            <td>-</td> 
             <td>√</td>       
       </tr>
       <tr>
             <td>Cluster Management Tool</td> 
-            <td>/</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>System Monitor Tool</td> 
-            <td>/</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>Localization</td>  
             <td>Localization Compatibility Certification</td> 
-            <td>/</td> 
+            <td>-</td> 
             <td>√</td>       
       </tr>
       <tr>
             <td rowspan="2">Technical Support</td>  
             <td>Best Practices</td> 
-            <td>/</td> 
+            <td>-</td> 
             <td>√</td>       
       </tr>
       <tr>
             <td>Use Training</td> 
-            <td>/</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
 </tbody>
