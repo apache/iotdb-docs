@@ -247,7 +247,7 @@ TimechoDB extends Apache IoTDB with advanced industrial-grade capabilities, incl
       </tr>
       <tr>
             <td rowspan="2">Technical Support</td>  
-            <td>Best Practices</td> 
+            <td>Expert Support</td> 
             <td>-</td> 
             <td>√</td>       
       </tr>
@@ -288,7 +288,7 @@ TimechoDB simplifies deployment, monitoring, and maintenance through an intuitiv
 TimechoDB offers **vendor-backed enterprise services** to support industrial-scale deployments:
 
 - **On-Site Installation & Training**: Hands-on guidance for fast adoption.
-- **Expert Consulting & Advisory**: Performance tuning and best practices.
+- **Expert Consulting & Advisory**: Performance tuning and expert support.
 - **Emergency Support & Remote Assistance**: Minimized downtime for mission-critical operations.
 - **Custom Development & Optimization**: Tailored solutions for unique industrial use cases.
 
