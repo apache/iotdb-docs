@@ -200,10 +200,10 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
-        { text: 'Identifier', link: 'Identifier' },
-        { text: 'Keywords', link: 'Keywords' },
+        { text: 'Metadata Operations', link: 'SQL-Metadata-Operations' },
+        { text: 'Data Addition&Deletion', link: 'SQL-Data-Addition-Deletion' },
         {
-          text: 'Query statement',
+          text: 'Data Query',
           collapsible: true,
           children: [
             { text: 'overview', link: 'overview' },
@@ -218,6 +218,9 @@ export const enSidebar = {
             { text: 'Nested Queries', link: 'Nested-Queries' },
           ],
         },
+        { text: 'Maintenance Statements', link: 'SQL-Maintenance-Statements' },
+        { text: 'Identifier', link: 'Identifier' },
+        { text: 'Keywords', link: 'Keywords' },
         {
           text: 'Functions and Operators',
           collapsible: true,

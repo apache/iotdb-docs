@@ -189,10 +189,10 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
-        { text: '标识符', link: 'Identifier' },
-        { text: '保留字&关键字', link: 'Keywords' },
+        { text: '元数据操作', link: 'SQL-Metadata-Operations' },
+        { text: '数据增删', link: 'SQL-Data-Addition-Deletion' },
         {
-          text: '查询语句',
+          text: '数据查询',
           collapsible: true,
           children: [
             { text: '概览', link: 'overview' },
@@ -207,6 +207,9 @@ export const zhSidebar = {
             { text: '嵌套查询', link: 'Nested-Queries' },
           ],
         },
+        { text: '运维语句', link: 'SQL-Maintenance-Statements' },
+        { text: '标识符', link: 'Identifier' },
+        { text: '保留字&关键字', link: 'Keywords' },
         {
           text: '函数与操作符',
           collapsible: true,
