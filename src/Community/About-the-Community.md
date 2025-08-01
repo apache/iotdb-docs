@@ -92,7 +92,7 @@ Referring to the Apache Software Foundation's community philosophy, our communit
     - are serious about trying to make IoTDB better through their code
     - are serious about trying to make the IoTDB better through code reviews
     - accept and integrate feedback about their code
-    - understand, adhere to, and continually optimize IoTDB best practices when reviewing/merging code (styles, documentation, tests, backward compatibility, etc.)
+    - understand, adhere to, and continually optimize IoTDB expert support when reviewing/merging code (styles, documentation, tests, backward compatibility, etc.)
 
 ### Contributor
 

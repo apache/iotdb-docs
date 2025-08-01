@@ -197,7 +197,7 @@ TimechoDB 在 Apache IoTDB 基础上提供了更多高阶产品功能，在内�
       </tr>
       <tr>
             <td rowspan="2">技术支持</td>  
-            <td>最佳实践</td> 
+            <td>专家服务</td> 
             <td>-</td> 
             <td>√</td>       
       </tr>

@@ -199,7 +199,7 @@ The detailed functional comparison is as follows：
       </tr>
       <tr>
             <td rowspan="2">Technical Support</td>  
-            <td>Best Practices</td> 
+            <td>Expert Support</td> 
             <td>-</td> 
             <td>√</td>       
       </tr>
