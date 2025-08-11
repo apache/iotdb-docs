@@ -62,7 +62,7 @@ Different configuration parameters have different update methods, categorized as
     1. These parameters can be modified while ConfigNode/DataNode is running.
     2. After modification, use the following SQL commands to apply the changes:
         - `load configuration`: Reloads the configuration.
-        - `set configuration key1 = 'value1'`: Updates specific configuration parameters.
+        - `set configuration 'key1' = 'value1'`: Updates specific configuration parameters.
 
 ## 3. Environment Parameters
 
@@ -139,7 +139,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Description | Name of the cluster.                                      |
 | Type        | String                                                    |
 | Default     | default_cluster                                           |
-| Effective   | Use CLI: `set configuration cluster_name='xxx'`.           |
+| Effective   | Use CLI: `set configuration 'cluster_name'='xxx'`.           |
 | Note        | Changes are distributed across nodes. Changes may not propagate to all nodes in case of network issues or node failures. Nodes that fail to update must manually modify `cluster_name` in their configuration files and restart. Under normal circumstances, it is not recommended to modify `cluster_name` by manually modifying configuration files or to perform hot-loading via `load configuration` method. |
 
 ### 4.2 Seed ConfigNode
