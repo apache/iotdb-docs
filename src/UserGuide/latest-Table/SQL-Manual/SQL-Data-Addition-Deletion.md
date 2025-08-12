@@ -56,8 +56,8 @@ VALUES ('Hunan', '3001', '3', NULL, NULL, 5, 90.0, NULL);
 
 ```SQL
 INSERT INTO table1 VALUES
-('Beijing', '3001', '3', '1', '10', 4, 90.0, 1200.0),
-('Beijing', '3001', '3', '1', '10', 5, 90.0, 1200.0);
+(4, 'Beijing', '3001', '3', '1', '10', 90.0, 1200.0),
+(5, 'Beijing', '3001', '3', '1', '10', 90.0, 1200.0);
 
 INSERT INTO table1("Region", "PlantID", "DeviceID", Time, "Temperature", "Displacement") 
 VALUES 
