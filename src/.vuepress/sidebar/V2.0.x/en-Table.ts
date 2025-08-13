@@ -164,7 +164,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Ecosystem-Integration/',
       children: [
-        { text: 'Overview', link: 'Ecosystem-Overview' },
+        { text: 'Overview', link: 'Ecosystem-Overview_apache' },
         {
           text: '‌Computing Engine',
           collapsible: true,

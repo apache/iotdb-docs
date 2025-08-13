@@ -154,7 +154,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Ecosystem-Integration/',
       children: [
-        { text: '概览', link: 'Ecosystem-Overview' },
+        { text: '概览', link: 'Ecosystem-Overview_apache' },
         {
           text: '计算引擎',
           collapsible: true,
