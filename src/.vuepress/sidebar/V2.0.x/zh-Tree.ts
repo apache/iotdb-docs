@@ -182,6 +182,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Ecosystem-Integration/',
       children: [
+        { text: '概览', link: 'Ecosystem-Overview_apache' },
         {
           text: '数据采集',
           collapsible: true,
