@@ -292,41 +292,7 @@ WITH SINK (
   'node-urls' = '127.0.0.1:6668'  -- The URL of the DataNode's data service port in the target IoTDB instance.
 )
 ```
-### 3.3 Bidirectional Data Transmission
-
-This example demonstrates a scenario where two IoTDB instances act as dual-active systems. The data pipeline is shown below:
-
-![](/img/e3.png)
-
-To avoid infinite data loops, the `source.mode.double-living` parameter must be set to `true` on both IoTDB A and B, indicating that data forwarded from another pipe will not be retransmitted.
-
-SQL Example: On IoTDB A:
-
-```SQL
-CREATE PIPE AB
-WITH SOURCE (
-  'source.mode.double-living' = 'true'  -- Do not forward data from other pipes
-)
-WITH SINK (
-  'sink' = 'iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6668' -- URL of the DataNode service port on the target IoTDB
-)
-```
-
-On IoTDB B:
-
-```SQL
-CREATE PIPE BA
-WITH SOURCE (
-  'source.mode.double-living' = 'true'  -- Do not forward data from other pipes
-)
-WITH SINK (
-  'sink' = 'iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6667' -- URL of the DataNode service port on the target IoTDB
-)
-```
-
-### 3.4 Edge-to-Cloud Data Transmission
+### 3.3 Edge-to-Cloud Data Transmission
 
 This example demonstrates synchronizing data from multiple IoTDB clusters (B, C, D) to a central IoTDB cluster (A). The data pipeline is shown below:
 
@@ -376,7 +342,7 @@ WITH SINK (
 )
 ```
 
-### 3.5 Cascaded Data Transmission
+### 3.4 Cascaded Data Transmission
 
 This example demonstrates cascading data transmission from IoTDB A to IoTDB B and then to IoTDB C. The data pipeline is shown below:
 
@@ -407,7 +373,7 @@ WITH SINK (
 ```
 
 
-### 3.6 Compressed Synchronization
+### 3.5 Compressed Synchronization
 
 IoTDB supports specifying data compression methods during synchronization. The `compressor` parameter can be configured to enable real-time data compression and transmission. Supported algorithms include `snappy`, `gzip`, `lz4`, `zstd`, and `lzma2`. Multiple algorithms can be combined and applied in the configured order. The `rate-limit-bytes-per-second` parameter (supported in V1.3.3 and later) limits the maximum number of bytes transmitted per second (calculated after compression). If set to a value less than 0, there is no limit.
 
@@ -423,7 +389,7 @@ WITH SINK (
 ```
 
 
-### 3.7 Encrypted Synchronization
+### 3.6 Encrypted Synchronization
 
 IoTDB supports SSL encryption during synchronization to securely transmit data between IoTDB instances. By configuring SSL-related parameters such as the certificate path (`ssl.trust-store-path`) and password (`ssl.trust-store-pwd`), data can be protected by SSL encryption during synchronization.
 
