@@ -195,6 +195,7 @@ export const enSidebar = {
         { text: 'JDBC', link: 'Programming-JDBC' },
         { text: 'MQTT Protocol', link: 'Programming-MQTT' },
         { text: 'OPC UA Protocol', link: 'Programming-OPC-UA_timecho' },
+        { text: 'OPC DA Protocol', link: 'Programming-OPC-DA_timecho' },
         {
           text: 'REST API',
           collapsible: true,
