@@ -211,6 +211,8 @@ String url = "jdbc:iotdb://127.0.0.1:6667?version=V_1_0";
 The parameter `version` represents the SQL semantic version used by the client, which is used in order to be compatible with the SQL semantics of `0.12` when upgrading to `0.13`. 
 The possible values are: `V_0_12`, `V_0_13`, `V_1_0`.
 
+When connecting to a cluster via JDBC, configuring the URL with any one node in the cluster is sufficient.
+
 In addition, IoTDB provides additional interfaces in JDBC for users to read and write the database using different character sets (e.g., GB18030) in the connection.
 The default character set for IoTDB is UTF-8. When users want to use a character set other than UTF-8, they need to specify the charset property in the JDBC connection. For example:
 1. Create a connection using the GB18030 charset:
