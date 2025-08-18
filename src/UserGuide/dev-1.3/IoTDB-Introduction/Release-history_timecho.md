@@ -233,19 +233,19 @@ Major features:
 
 ## Workbench (Console Tool)
 
-| Version | Description                                                                                                                 | Supported IoTDB Versions |
-|---------|-----------------------------------------------------------------------------------------------------------------------------|-------------------------|
-| V1.5.6   | Enhanced CSV import/export: optional tags/aliases on import; support for measurement descriptions with backtick-quoted quotes on export.   | V1.3.4+                  |
-| V1.5.5  | Added server clock functionality and support for activating Enterprise Edition license databases                            | V1.3.4+                 |
-| V1.5.4  | Added authentication for Prometheus settings in Instance Management                                                         | V1.3.4+                 |
-| V1.5.1  | Added AI analysis and pattern matching                                                                                      | V1.3.2+                 |
-| V1.4.0  | Added tree model display and English UI                                                                                     | V1.3.2+                 |
-| V1.3.1  | Enhanced analysis methods and import templates                                                                              | V1.3.2+                 |
-| V1.3.0  | Added DB configuration and UI refinements                                                                                   | V1.3.2+                 |
-| V1.2.6  | Optimized permission controls                                                                                               | V1.3.1+                 |
-| V1.2.5  | Added "Common Templates" and caching                                                                                        | V1.3.0+                 |
-| V1.2.4  | Added import/export for calculations, time alignment field                                                                  | V1.2.2+                 |
-| V1.2.3  | Added activation details and analysis features                                                                              | V1.2.2+                 |
-| V1.2.2  | Optimized point description display                                                                                         | V1.2.2+                 |
-| V1.2.1  | Added sync monitoring panel, Prometheus hints                                                                               | V1.2.2+                 |
-| V1.2.0  | Major Workbench upgrade                                                                                                     | V1.2.0+                 |
+| Version | Description                                                                                                                 | Supported IoTDB Versions            |
+|---------|-----------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
+| V1.5.6   | Enhanced CSV import/export: optional tags/aliases on import; support for measurement descriptions with backtick-quoted quotes on export.  | All 1.x versions from V1.3.4 onward |
+| V1.5.5  | Added server clock functionality and support for activating Enterprise Edition license databases                            | All 1.x versions from V1.3.4 onward |
+| V1.5.4  | Added authentication for Prometheus settings in Instance Management                                                         | All 1.x versions from V1.3.4 onward |
+| V1.5.1  | Added AI analysis and pattern matching                                                                                      | All 1.x versions from V1.3.2 onward |
+| V1.4.0  | Added tree model display and English UI                                                                                     | All 1.x versions from V1.3.2 onward |
+| V1.3.1  | Enhanced analysis methods and import templates                                                                              | All 1.x versions from V1.3.2 onward |
+| V1.3.0  | Added DB configuration and UI refinements                                                                                   | All 1.x versions from V1.3.2 onward |
+| V1.2.6  | Optimized permission controls                                                                                               | All 1.x versions from V1.3.1 onward |
+| V1.2.5  | Added "Common Templates" and caching                                                                                        | All 1.x versions from V1.3.0 onward |
+| V1.2.4  | Added import/export for calculations, time alignment field                                                                  | All 1.x versions from V1.2.2 onward |
+| V1.2.3  | Added activation details and analysis features                                                                              | All 1.x versions from V1.2.2 onward |
+| V1.2.2  | Optimized point description display                                                                                         | All 1.x versions from V1.2.2 onward |
+| V1.2.1  | Added sync monitoring panel, Prometheus hints                                                                               | All 1.x versions from V1.2.2 onward |
+| V1.2.0  | Major Workbench upgrade                                                                                                     | All 1.x versions from V1.2.0 onward |
