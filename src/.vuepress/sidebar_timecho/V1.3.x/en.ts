@@ -30,6 +30,7 @@ export const enSidebar = {
       children: [
         { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_timecho' },
         { text: 'Scenario', link: 'Scenario' },
+        { text: 'Release History', link: 'Release-history_timecho' },
       ],
     },
     {
