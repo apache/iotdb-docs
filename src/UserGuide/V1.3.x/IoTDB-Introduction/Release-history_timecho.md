@@ -235,7 +235,7 @@ Major features:
 
 | Version  | Description                                                                                                                | Supported IoTDB Versions |
 |----------|----------------------------------------------------------------------------------------------------------------------------|--------------------------|
-| V1.5.6   | Optimized export for long SQL queries; enhanced CSV export handling measurement descriptions with backtick-quoted quotes.  | V1.3.4+                  |
+| V1.5.6   | Enhanced CSV import/export: optional tags/aliases on import; support for measurement descriptions with backtick-quoted quotes on export.  | V1.3.4+                  |
 | V1.5.5   | Added server clock functionality and support for activating Enterprise Edition license databases                           | V1.3.4+                  |
 | V1.5.4   | Added authentication for Prometheus settings in Instance Management                                                        | V1.3.4+                  |
 | V1.5.1   | Added AI analysis and pattern matching                                                                                     | V1.3.2+                  |
