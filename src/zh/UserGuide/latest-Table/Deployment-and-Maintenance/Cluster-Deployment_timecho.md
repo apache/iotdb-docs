@@ -208,10 +208,25 @@ cd sbin
 
 ### 3.6 验证激活
 
-当看到“Result”字段状态显示为success表示激活成功
+当看到“Result”字段状态显示为 success 表示激活成功
 
 ![](/img/%E9%9B%86%E7%BE%A4-%E9%AA%8C%E8%AF%81.png)
 
+还可在 CLI 中通过执行 `show activation` 命令查看激活状态，示例如下，状态显示为 ACTIVATED 表示激活成功
+
+```sql
+IoTDB> show activation
++---------------+---------+-----------------------------+
+|    LicenseInfo|    Usage|                        Limit|
++---------------+---------+-----------------------------+
+|         Status|ACTIVATED|                            -|
+|    ExpiredTime|        -|2026-04-30T00:00:00.000+08:00|
+|  DataNodeLimit|        1|                    Unlimited|
+|       CpuLimit|       16|                    Unlimited|
+|    DeviceLimit|       30|                    Unlimited|
+|TimeSeriesLimit|       72|                1,000,000,000|
++---------------+---------+-----------------------------+
+```
 
 ### 3.7 一键启停集群
 
