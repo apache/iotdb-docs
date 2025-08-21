@@ -32,6 +32,7 @@ TTL values are specified in milliseconds, and once data exceeds its defined life
 1. TTL defines the expiration time of data in milliseconds, independent of the time precision configuration file.
 2. Modifying TTL settings can cause temporary variations in data accessibility.
 3. The system eventually removes expired data, though this process may involve some delay.。
+4. The TTL expiration check is based on the data point timestamp, not the write time.
 
 ## 2. Set TTL
 
