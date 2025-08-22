@@ -209,11 +209,7 @@ cd sbin
 
 ### 3.7 Verify Activation
 
-Check the `ClusterActivationStatus` field. If it shows `ACTIVATED`, the database has been successfully activated.
-
-![](/img/%E9%9B%86%E7%BE%A4-%E9%AA%8C%E8%AF%81.png)
-
-In the CLI, you can also check the activation status by running the `show activation` command; the example below shows a status of ACTIVATED, indicating successful activation.
+In the CLI, you can check the activation status by running the `show activation` command; the example below shows a status of ACTIVATED, indicating successful activation.
 
 ```sql
 IoTDB> show activation

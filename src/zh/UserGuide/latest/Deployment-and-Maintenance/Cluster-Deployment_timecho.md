@@ -208,11 +208,7 @@ cd sbin
 
 ### 3.6 验证激活
 
-当看到“Result”字段状态显示为 success 表示激活成功
-
-![](/img/%E9%9B%86%E7%BE%A4-%E9%AA%8C%E8%AF%81.png)
-
-还可在 CLI 中通过执行 `show activation` 命令查看激活状态，示例如下，状态显示为 ACTIVATED 表示激活成功
+可在 CLI 中通过执行 `show activation` 命令查看激活状态，示例如下，状态显示为 ACTIVATED 表示激活成功
 
 ```sql
 IoTDB> show activation
