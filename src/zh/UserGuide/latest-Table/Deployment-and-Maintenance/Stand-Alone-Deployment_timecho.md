@@ -167,7 +167,7 @@ IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOM
 
 ### 2.6 验证激活
 
-当看到“ClusterActivationStatus”字段状态显示为ACTIVATED表示激活成功
+可在 CLI 中通过执行 `show activation` 命令查看激活状态，当看到“ClusterActivationStatus”字段状态显示为 ACTIVATED 表示激活成功
 
 ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81.png)
 
