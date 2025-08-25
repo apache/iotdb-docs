@@ -66,7 +66,7 @@ comment
 2. Column categories default to `FIELD` if not specified. `TAG` and `ATTRIBUTE` columns must be of type `STRING`.
 3. Table `TTL` defaults to the database `TTL`. You can omit this property or set it to `default` if the default value is used.
 4. `<TABLE_NAME>`:
-   1. Case-insensitive.
+   1. Case-insensitive. After creation, it will be displayed uniformly in lowercase.
    2. Can include special characters such as `~!`"`%`, etc.
    3. Names with special or Chinese characters must be enclosed in double quotes (`""`).
    4. Outer double quotes are not retained in the final table name. For example: `"a""b"` becomes `a"b`.

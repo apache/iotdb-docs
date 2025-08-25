@@ -36,7 +36,7 @@ This command is used to create a database.
 **Note: **
 
 1. `<DATABASE_NAME>`: The name of the database, with the following characteristics:
-  - Case-insensitive.
+  - Case-insensitive. After creation, it will be displayed uniformly in lowercase.
   - Can include commas (`,`), underscores (`_`), numbers, letters, and Chinese characters.
   - Maximum length is 64 characters.
   - Names with special characters or Chinese characters must be enclosed in double quotes (`""`).
