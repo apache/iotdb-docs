@@ -142,7 +142,7 @@ Enter the sbin directory of iotdb and start datanode:
   show system info
   ```
 
-- Copy the returned machine code (the green string) and provide it to the Timecho team:
+- Copy the returned machine code and provide it to the Timecho team:
 
 ```Bash
 +--------------------------------------------------------------+
