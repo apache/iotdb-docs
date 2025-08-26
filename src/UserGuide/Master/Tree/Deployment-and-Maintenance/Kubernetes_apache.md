@@ -127,7 +127,7 @@ Clone Helm : [Source Code](https://github.com/apache/iotdb-extras/tree/master/he
 
 If encountering proxy issues, cancel proxy settings:
 
-> The git clone error is as follows, indicating that the proxy has been configured and needs to be turned off fatal: unable to access 'https://xxx': gnutls_handshake() failed: The TLS connection was non-properly terminated.
+> The git clone error is as follows, indicating that the proxy has been configured and needs to be turned off fatal: unable to access 'https://github.com/apache/iotdb-extras.git': gnutls_handshake() failed: The TLS connection was non-properly terminated.
 
 ```Bash
 unset HTTPS_PROXY

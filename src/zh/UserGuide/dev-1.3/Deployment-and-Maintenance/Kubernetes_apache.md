@@ -128,7 +128,7 @@ mkdir -p /data/k8s-data/iotdb-pv-02
 
 如果遇到代理问题，取消代理设置：
 
-> git clone报错如下，说明是配置了代理，需要把代理关掉 fatal: unable to access 'https://xxx': gnutls_handshake() failed: The TLS connection was non-properly terminated.
+> git clone报错如下，说明是配置了代理，需要把代理关掉 fatal: unable to access 'https://github.com/apache/iotdb-extras.git': gnutls_handshake() failed: The TLS connection was non-properly terminated.
 
 ```Bash
 unset HTTPS_PROXY
