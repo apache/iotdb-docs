@@ -126,14 +126,6 @@ mkdir -p /data/k8s-data/iotdb-pv-02
 
 请联系天谋工作人员获取IoTDB的Helm Chart
 
-如果遇到代理问题，取消代理设置：
-
-> git clone报错如下，说明是配置了代理，需要把代理关掉 fatal: unable to access 'https://gitlab.timecho.com/r-d/db/iotdb-cluster-k8s.git/': gnutls_handshake() failed: The TLS connection was non-properly terminated.
-
-```Bash
-unset HTTPS_PROXY
-```
-
 ### 5.2 修改 YAML 文件
 
 > 确保使用的是支持的版本 >=1.3.3.2
@@ -188,7 +180,7 @@ confignode:
 
 在k8s上配置私有仓库的信息，为下一步helm install的前置步骤。
 
-方案一即在helm insta时拉取可用的iotdb镜像，方案二则是提前将可用的iotdb镜像导入到containerd里。
+方案一即在 helm install 时拉取可用的iotdb镜像，方案二则是提前将可用的iotdb镜像导入到containerd里。
 
 ### 6.1 【方案一】从私有仓库拉取镜像
 
