@@ -1176,7 +1176,7 @@ SELECT regexp_like('1a 2b 14m', '^\\d+b$'); -- false
   - `b` represents the letter b.
   - `'1a 2b 14m'` does not match this pattern because it does not start with digits and does not end with `b`, so it returns `false`.
 
-## 10. Table-Valued Functions
+## 10. Timeseries Windowing Functions
 
 The sample data is as follows:
 

@@ -321,7 +321,7 @@ WHERE device_id = '100';
 +-----------------------------+-----------+-----------+-----------+
 ```
 
-## 3 Table-Valued Functions
+## 3 Timeseries Windowing Functions
 
 The sample data is as follows:
 
