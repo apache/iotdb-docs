@@ -106,6 +106,7 @@ export const enSidebar = {
           children: [
             { text: 'Delete Data', link: 'Delete-Data' },
             { text: 'TTL Delete Data', link: 'TTL-Delete' },
+            { text: 'SpaceTL Delete Data', link: 'SpaceTL-Delete' },
           ],
         },
       ],
