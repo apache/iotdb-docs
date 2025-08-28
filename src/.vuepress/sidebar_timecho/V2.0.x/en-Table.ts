@@ -29,7 +29,7 @@ export const enSidebar = {
       children: [
         { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_timecho' },
         { text: 'Scenario', link: 'Scenario' },
-        { text: 'Release history', link: 'Release-history_timecho' },
+        { text: 'Release History', link: 'Release-history_timecho' },
       ],
     },
     {
@@ -169,6 +169,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Ecosystem-Integration/',
       children: [
+        { text: 'Overview', link: 'Ecosystem-Overview_timecho' },
         {
           text: '‌Computing Engine',
           collapsible: true,
@@ -200,10 +201,10 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
-        { text: 'Identifier', link: 'Identifier' },
-        { text: 'Keywords', link: 'Keywords' },
+        { text: 'Metadata Operations', link: 'SQL-Metadata-Operations' },
+        { text: 'Data Addition&Deletion', link: 'SQL-Data-Addition-Deletion' },
         {
-          text: 'Query statement',
+          text: 'Data Query',
           collapsible: true,
           children: [
             { text: 'overview', link: 'overview' },
@@ -218,6 +219,9 @@ export const enSidebar = {
             { text: 'Nested Queries', link: 'Nested-Queries' },
           ],
         },
+        { text: 'Maintenance Statements', link: 'SQL-Maintenance-Statements' },
+        { text: 'Identifier', link: 'Identifier' },
+        { text: 'Keywords', link: 'Keywords' },
         {
           text: 'Functions and Operators',
           collapsible: true,

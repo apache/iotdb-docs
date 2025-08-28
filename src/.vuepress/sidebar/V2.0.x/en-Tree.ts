@@ -29,6 +29,7 @@ export const enSidebar = {
       children: [
         { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_apache' },
         { text: 'Scenario', link: 'Scenario' },
+        { text: 'Release History', link: 'Release-history_apache' },
       ],
     },
     {
@@ -193,6 +194,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Ecosystem-Integration/',
       children: [
+        { text: 'Overview', link: 'Ecosystem-Overview_apache' },
         {
           text: '‌Data Acquisition',
           collapsible: true,

@@ -662,12 +662,12 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 - dn_thrift_max_frame_size
 
-| Name        | dn_thrift_max_frame_size                        |
-| ----------- | ----------------------------------------------- |
-| Description | Maximum frame size for RPC requests/responses.  |
-| Type        | long                                            |
-| Default     | 536870912 （Default512MB，>= 512 * 1024 * 1024) |
-| Effective   | Restart required.                               |
+| Name        | dn_thrift_max_frame_size                       |
+| ----------- |------------------------------------------------|
+| Description | Maximum frame size for RPC requests/responses. |
+| Type        | long                                           |
+| Default     | 536870912 （Default 512MB)                      |
+| Effective   | Restart required.                              |
 
 - dn_thrift_init_buffer_size
 

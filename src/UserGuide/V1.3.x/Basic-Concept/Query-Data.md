@@ -427,6 +427,20 @@ Total line number = 2
 It costs 0.002s
 ```
 
+**Note:** The requirement to query the latest data point with other filtering conditions can be implemented through function composition. For example:
+
+```
+IoTDB> select max_time(*), last_value(*) from root.ln.wf01.wt01 where time >= 2017-11-07T23:50:00 and status = false align by device
++-----------------+---------------------+----------------+-----------------------+------------------+
+|           Device|max_time(temperature)|max_time(status)|last_value(temperature)|last_value(status)|
++-----------------+---------------------+----------------+-----------------------+------------------+
+|root.ln.wf01.wt01|        1510077540000|   1510077540000|              21.067368|             false|
++-----------------+---------------------+----------------+-----------------------+------------------+
+Total line number = 1
+It costs 0.021s
+```
+
+
 ## `WHERE` CLAUSE
 
 In IoTDB query statements, two filter conditions, **time filter** and **value filter**, are supported.

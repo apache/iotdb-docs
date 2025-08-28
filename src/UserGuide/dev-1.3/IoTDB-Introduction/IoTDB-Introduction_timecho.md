@@ -69,7 +69,7 @@ TimechoDB has the following advantages and characteristics:
 
 ### Higher level product features
 
-Building on the open-source version, TimechoDB offers a range of advanced product features, with native upgrades and optimizations at the kernel level for industrial production scenarios. These include multi-level storage, cloud-edge collaboration, visualization tools, and security enhancements, allowing users to focus more on business development without worrying too much about underlying logic. This simplifies and enhances industrial production, bringing more economic benefits to enterprises. For example:
+Based on Apache IoTDB, TimechoDB offers a range of advanced product features, with native upgrades and optimizations at the kernel level for industrial production scenarios. These include multi-level storage, cloud-edge collaboration, visualization tools, and security enhancements, allowing users to focus more on business development without worrying too much about underlying logic. This simplifies and enhances industrial production, bringing more economic benefits to enterprises. For example:
 
 
 - Dual Active Deployment：Dual active usually refers to two independent single machines (or clusters) that perform real-time mirror synchronization. Their configurations are completely independent and can simultaneously receive external writes. Each independent single machine (or clusters) can synchronize the data written to itself to another single machine (or clusters), and the data of the two single machines (or clusters) can achieve final consistency.
@@ -101,7 +101,7 @@ The detailed functional comparison is as follows：
       </tr>
       <tr>
             <td>Dual Active Deployment</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td> 
       </tr>
        <tr>
@@ -157,55 +157,55 @@ The detailed functional comparison is as follows：
       </tr>
       <tr>
             <td>Tiered Storage</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>View</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>White List</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>Audit Log</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td rowspan="3">Supporting Tools</td>  
             <td>Workbench</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>       
       </tr>
       <tr>
             <td>Cluster Management Tool</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>System Monitor Tool</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>Localization</td>  
             <td>Localization Compatibility Certification</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>       
       </tr>
       <tr>
             <td rowspan="2">Technical Support</td>  
-            <td>Best Practices</td> 
-            <td>×</td> 
+            <td>Expert Support</td> 
+            <td>-</td> 
             <td>√</td>       
       </tr>
       <tr>
             <td>Use Training</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
 </tbody>
