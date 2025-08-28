@@ -212,6 +212,37 @@ IoTDB> SHOW QUERIES WHERE elapsedtime > 0.003
 +-----------------------------+-----------------------+----------+-----------+--------------------------------------+
 ```
 
+### 1.6 Viewing Region Information
+
+**Description**: Displays regions' information of the current cluster.
+
+**Syntax**:
+
+```SQL
+showRegionsStatement
+    : SHOW REGIONS
+    ;
+```
+
+**Example**:
+
+```SQL
+IoTDB> SHOW REGIONS
+```
+
+**Result**:
+
+```SQL
++--------+------------+-------+-------------+-------------+-----------+----------+----------+-------+---------------+------+-----------------------+----------+
+|RegionId|        Type| Status|     Database|SeriesSlotNum|TimeSlotNum|DataNodeId|RpcAddress|RpcPort|InternalAddress|  Role|             CreateTime|TsFileSize|
++--------+------------+-------+-------------+-------------+-----------+----------+----------+-------+---------------+------+-----------------------+----------+
+|       9|SchemaRegion|Running|root.__system|           21|          0|         1|   0.0.0.0|   6667|      127.0.0.1|Leader|2025-08-01T17:37:01.555|          |
+|      10|  DataRegion|Running|root.__system|           21|         21|         1|   0.0.0.0|   6667|      127.0.0.1|Leader|2025-08-01T17:37:01.556|   8.27 KB|
+|      65|SchemaRegion|Running|      root.ln|            1|          0|         1|   0.0.0.0|   6667|      127.0.0.1|Leader|2025-08-25T14:46:50.113|          |
+|      66|  DataRegion|Running|      root.ln|            1|          1|         1|   0.0.0.0|   6667|      127.0.0.1|Leader|2025-08-25T14:46:50.425|     524 B|
++--------+------------+-------+-------------+-------------+-----------+----------+----------+-------+---------------+------+-----------------------+----------+
+```
+
 
 ## 2. Status Setting
 
