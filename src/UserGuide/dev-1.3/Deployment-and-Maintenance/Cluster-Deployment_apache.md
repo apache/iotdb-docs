@@ -121,8 +121,8 @@ Open the ConfigNode configuration file `./conf/iotdb-system.properties`， Set t
 Open DataNode Configuration File `./conf/iotdb-system.properties`,Set the following parameters:
 
 | **Configuration**               | **Description**                                              | **Default**     | **Recommended value**                                        | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | Note                                     |
-| ------------------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------------ | ------------- | ------------- | ------------- | ---------------------------------------- |
-| dn_rpc_address                  | The address of the client RPC service                                        | 127.0.0.1       |  Recommend using the **IPV4 address or hostname** of the server where it is located      |  iotdb-1       |iotdb-2       | iotdb-3       | Restarting the service takes effect       |
+| ------------------------------- | ------------------------------------------------------------ |-----------------| ------------------------------------------------------------ | ------------- | ------------- | ------------- | ---------------------------------------- |
+| dn_rpc_address                  | The address of the client RPC service                                        | 0.0.0.0         |  The IPV4 address or host name of the server where it is located, and it is recommended to use the IPV4 address      |  iotdb-1       |iotdb-2       | iotdb-3       | Restarting the service takes effect       |
 | dn_rpc_port                     | The port of the client RPC service                           | 6667            | 6667                                                         | 6667          | 6667          | 6667          | Restarting the service takes effect      |
 | dn_internal_address             | The address used by DataNode for communication within the cluster | 127.0.0.1       | The IPV4 address or host name of the server where it is located, and it is recommended to use host name | iotdb-1       | iotdb-2       | iotdb-3       | Cannot be modified after initial startup |
 | dn_internal_port                | The port used by DataNode for communication within the cluster | 10730           | 10730                                                        | 10730         | 10730         | 10730         | Cannot be modified after initial startup |
@@ -169,8 +169,6 @@ After successful startup, the following interface will appear displaying success
 You can use the `show cluster` command to view cluster information:
 
 ![](/img/%E5%BC%80%E6%BA%90%E7%89%88%20show%20cluter.png)
-
-> The appearance of `ACTIVATED (W)` indicates passive activation, which means that this Configurable Node does not have a license file (or has not issued the latest license file with a timestamp), and its activation depends on other Activated Configurable Nodes in the cluster. At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Timecho staff to reapply.
 
 ### One-click Cluster Start and Stop
 

@@ -539,6 +539,12 @@ The aggregate functions supported by IoTDB are as follows:
 | SUM           | Summation.                                                   | INT32 INT64 FLOAT DOUBLE                            | /                                                            | DOUBLE                              |
 | COUNT         | Counts the number of data points.                            | All data types                                      | /                                                            | INT                                 |
 | AVG           | Average.                                                     | INT32 INT64 FLOAT DOUBLE                            | /                                                            | DOUBLE                              |
+ STDDEV        | Alias for STDDEV_SAMP. Return the sample standard deviation. | INT32 INT64 FLOAT DOUBLE        | /                                                            | DOUBLE                              |
+| STDDEV_POP    | Return the population standard deviation.                    | INT32 INT64 FLOAT DOUBLE        | /                                                            | DOUBLE                              |
+| STDDEV_SAMP   | Return the sample standard deviation.                        | INT32 INT64 FLOAT DOUBLE        | /                                                            | DOUBLE                              |
+| VARIANCE      | Alias for VAR_SAMP. Return the sample variance.              | INT32 INT64 FLOAT DOUBLE        | /                                                            | DOUBLE                              |
+| VAR_POP       | Return the population variance.                              | INT32 INT64 FLOAT DOUBLE        | /                                                            | DOUBLE                              |
+| VAR_SAMP      | Return the sample variance.                                  | INT32 INT64 FLOAT DOUBLE        | /                                                            | DOUBLE                              |
 | EXTREME       | Finds the value with the largest absolute value. Returns a positive value if the maximum absolute value of positive and negative values is equal. | INT32 INT64 FLOAT DOUBLE                            | /                                                            | Consistent with the input data type |
 | MAX_VALUE     | Find the maximum value.                                      | INT32 INT64 FLOAT DOUBLE                            | /                                                            | Consistent with the input data type |
 | MIN_VALUE     | Find the minimum value.                                      | INT32 INT64 FLOAT DOUBLE                            | /                                                            | Consistent with the input data type |
@@ -549,28 +555,10 @@ The aggregate functions supported by IoTDB are as follows:
 | COUNT_IF      | Find the number of data points that continuously meet a given condition and the number of data points that meet the condition (represented by keep) meet the specified threshold. | BOOLEAN                                             | `[keep >=/>/=/!=/</<=]threshold`：The specified threshold or threshold condition, it is equivalent to `keep >= threshold` if `threshold` is used alone, type of `threshold` is `INT64` `ignoreNull`：Optional, default value is `true`；If the value is `true`, null values are ignored, it means that if there is a null value in the middle, the value is ignored without interrupting the continuity. If the value is `true`, null values are not ignored, it means that if there are null values in the middle, continuity will be broken | INT64                               |
 | TIME_DURATION | Find the difference between the timestamp of the largest non-null value and the timestamp of the smallest non-null value in a column | All data Types                                      | /                                                            | INT64                               |
 | MODE          | Find the mode. Note:  1.Having too many different values in the input series risks a memory exception;  2.If all the elements have the same number of occurrences, that is no Mode, return the value with earliest time;  3.If there are many Modes, return the Mode with earliest time. | All data Types                                      | /                                                            | Consistent with the input data type |
-| STDDEV          | Calculate the overall standard deviation of the data. Note:<br> Missing points, null points and `NaN` in the input series will be ignored.| INT32 INT64 FLOAT DOUBLE                  | /                                    | DOUBLE   |
 | COUNT_TIME    | The number of timestamps in the query data set. When used with `align by device`, the result is the number of timestamps in the data set per device.                                                                                                                                       | All data Types, the input parameter can only be `*` | /                                                                                                                                                                                                                                                                                                                                                                                                                           | INT64                                        |
+| MAX_BY        | MAX_BY(x, y) returns the value of x corresponding to the maximum value of the input y. MAX_BY(time, x) returns the timestamp when x is at its maximum value.  <br> Note: Supported from version V1.3.2                                                                                                                           | The first input x can be of any type, while the second input y must be of type INT32, INT64, FLOAT, DOUBLE, STRING, TIMESTAMP or DATE. | /                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Consistent with the data type of the first input x. |
+| MIN_BY        | MIN_BY(x, y) returns the value of x corresponding to the minimum value of the input y. MIN_BY(time, x) returns the timestamp when x is at its minimum value.   <br> Note: Supported from version V1.3.2                                                                                                                          | The first input x can be of any type, while the second input y must be of type INT32, INT64, FLOAT, DOUBLE, STRING, TIMESTAMP or DATE. | / | Consistent with the data type of the first input x. |
 
-
-### COUNT
-
-#### example
-
-```sql
-select count(status) from root.ln.wf01.wt01;
-```
-Result:
-
-```
-+-------------------------------+
-|count(root.ln.wf01.wt01.status)|
-+-------------------------------+
-|                          10080|
-+-------------------------------+
-Total line number = 1
-It costs 0.016s
-```
 
 ### COUNT_IF
 
@@ -799,6 +787,205 @@ Result
 > 2. Count_time aggregation cannot be used with other aggregation functions.
 > 3. Count_time aggregation used with having statement is not supported, and count_time aggregation can not appear in the having statement.
 > 4. Count_time does not support use with group by level, group by tag.
+
+
+
+
+### MAX_BY
+
+#### Function Definition
+`max_by(x, y)`: Returns the value of x at the timestamp where y reaches its maximum.
+
+- `max_by` must have two input parameters x and y.
+- The first input can be the time keyword. `max_by(time, x)` returns the timestamp when x reaches its maximum value.
+- Returns null if x is null at the timestamp where y is maximum.
+- If y achieves its maximum at multiple timestamps, returns the x value at the smallest timestamp among them.
+- Aligns with IoTDB's `max_value`: Only supports INT32, INT64, FLOAT, DOUBLE as y input. Supports all six data types as x input.
+- Inputs x and y cannot be literal values.
+
+#### Syntax
+```sql
+select max_by(x, y) from root.sg
+select max_by(time, x) from root.sg
+```
+
+#### Examples
+
+##### Raw Data
+```sql
+IoTDB> select * from root.test
++-----------------------------+-----------+-----------+
+|                         Time|root.test.a|root.test.b|
++-----------------------------+-----------+-----------+
+|1970-01-01T08:00:00.001+08:00|        1.0|       10.0|
+|1970-01-01T08:00:00.002+08:00|        2.0|       10.0|
+|1970-01-01T08:00:00.003+08:00|        3.0|        3.0|
+|1970-01-01T08:00:00.004+08:00|       10.0|       10.0|
+|1970-01-01T08:00:00.005+08:00|       10.0|       12.0|
+|1970-01-01T08:00:00.006+08:00|        6.0|        6.0|
++-----------------------------+-----------+-----------+
+```
+##### Query Examples
+Get timestamp corresponding to maximum value:
+```sql
+IoTDB> select max_by(time, a), max_value(a) from root.test
++-------------------------+------------------------+
+|max_by(Time, root.test.a)|  max_value(root.test.a)|
++-------------------------+------------------------+
+|                        4|                    10.0|
++-------------------------+------------------------+
+```
+
+Get b value when a is maximum:
+```sql
+IoTDB> select max_by(b, a) from root.test
++--------------------------------+
+|max_by(root.test.b, root.test.a)|
++--------------------------------+
+|                            10.0|
++--------------------------------+
+```
+
+With expressions:
+```sql
+IoTDB> select max_by(b + 1, a * 2) from root.test
++----------------------------------------+
+|max_by(root.test.b + 1, root.test.a * 2)|
++----------------------------------------+
+|                                    11.0|
++----------------------------------------+
+```
+
+With GROUP BY TIME clause:
+```sql
+IoTDB> select max_by(b, a) from root.test group by ([0,7),4ms)
++-----------------------------+--------------------------------+
+|                         Time|max_by(root.test.b, root.test.a)|
++-----------------------------+--------------------------------+
+|1970-01-01T08:00:00.000+08:00|                             3.0|
++-----------------------------+--------------------------------+
+|1970-01-01T08:00:00.004+08:00|                            10.0|
++-----------------------------+--------------------------------+
+```
+
+With HAVING clause:
+```sql
+IoTDB> select max_by(b, a) from root.test group by ([0,7),4ms) having max_by(b, a) > 4.0
++-----------------------------+--------------------------------+
+|                         Time|max_by(root.test.b, root.test.a)|
++-----------------------------+--------------------------------+
+|1970-01-01T08:00:00.004+08:00|                            10.0|
++-----------------------------+--------------------------------+
+```
+With ORDER BY clause:
+```sql
+IoTDB> select max_by(b, a) from root.test group by ([0,7),4ms) order by time desc
++-----------------------------+--------------------------------+
+|                         Time|max_by(root.test.b, root.test.a)|
++-----------------------------+--------------------------------+
+|1970-01-01T08:00:00.004+08:00|                            10.0|
++-----------------------------+--------------------------------+
+|1970-01-01T08:00:00.000+08:00|                             3.0|
++-----------------------------+--------------------------------+
+```
+
+### MIN_BY
+#### Function Definition
+`min_by(x, y)`: Returns the value of x at the timestamp where y reaches its minimum.
+
+- `min_by` must have two input parameters x and y.
+- The first input can be the time keyword. `min_by(time, x)` returns the timestamp when x reaches its minimum value.
+- Returns null if x is null at the timestamp where y is minimum.
+- If y achieves its minimum at multiple timestamps, returns the x value at the smallest timestamp among them.
+- Aligns with IoTDB's `min_value`: Only supports INT32, INT64, FLOAT, DOUBLE as y input. Supports all six data types as x input.
+- Inputs x and y cannot be literal values.
+
+#### Syntax
+```sql
+select min_by(x, y) from root.sg
+select min_by(time, x) from root.sg
+```
+
+#### Examples
+
+##### Raw Data
+```sql
+IoTDB> select * from root.test
++-----------------------------+-----------+-----------+
+|                         Time|root.test.a|root.test.b|
++-----------------------------+-----------+-----------+
+|1970-01-01T08:00:00.001+08:00|        4.0|       10.0|
+|1970-01-01T08:00:00.002+08:00|        3.0|       10.0|
+|1970-01-01T08:00:00.003+08:00|        2.0|        3.0|
+|1970-01-01T08:00:00.004+08:00|        1.0|       10.0|
+|1970-01-01T08:00:00.005+08:00|        1.0|       12.0|
+|1970-01-01T08:00:00.006+08:00|        6.0|        6.0|
++-----------------------------+-----------+-----------+
+```
+##### Query Examples
+Get timestamp corresponding to minimum value:
+```sql
+IoTDB> select min_by(time, a), min_value(a) from root.test
++-------------------------+------------------------+
+|min_by(Time, root.test.a)|  min_value(root.test.a)|
++-------------------------+------------------------+
+|                        4|                     1.0|
++-------------------------+------------------------+
+```
+
+Get b value when a is minimum:
+```sql
+IoTDB> select min_by(b, a) from root.test
++--------------------------------+
+|min_by(root.test.b, root.test.a)|
++--------------------------------+
+|                            10.0|
++--------------------------------+
+```
+
+With expressions:
+```sql
+IoTDB> select min_by(b + 1, a * 2) from root.test
++----------------------------------------+
+|min_by(root.test.b + 1, root.test.a * 2)|
++----------------------------------------+
+|                                    11.0|
++----------------------------------------+
+```
+
+With GROUP BY TIME clause:
+```sql
+IoTDB> select min_by(b, a) from root.test group by ([0,7),4ms)
++-----------------------------+--------------------------------+
+|                         Time|min_by(root.test.b, root.test.a)|
++-----------------------------+--------------------------------+
+|1970-01-01T08:00:00.000+08:00|                             3.0|
++-----------------------------+--------------------------------+
+|1970-01-01T08:00:00.004+08:00|                            10.0|
++-----------------------------+--------------------------------+
+```
+
+With HAVING clause:
+```sql
+IoTDB> select min_by(b, a) from root.test group by ([0,7),4ms) having max_by(b, a) > 4.0
++-----------------------------+--------------------------------+
+|                         Time|min_by(root.test.b, root.test.a)|
++-----------------------------+--------------------------------+
+|1970-01-01T08:00:00.004+08:00|                            10.0|
++-----------------------------+--------------------------------+
+```
+
+With ORDER BY clause:
+```sql
+IoTDB> select min_by(b, a) from root.test group by ([0,7),4ms) order by time desc
++-----------------------------+--------------------------------+
+|                         Time|min_by(root.test.b, root.test.a)|
++-----------------------------+--------------------------------+
+|1970-01-01T08:00:00.004+08:00|                            10.0|
++-----------------------------+--------------------------------+
+|1970-01-01T08:00:00.000+08:00|                             3.0|
++-----------------------------+--------------------------------+
+```
 
 <!--
 
