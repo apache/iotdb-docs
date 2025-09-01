@@ -65,7 +65,7 @@ It costs 0.063s
 
 ### 2.2 示例 2：计算每个设备的每小时平均温度并过滤
 
-查询将计算 `table1` 表中每个设备每小时的平均温度，并过滤掉那些平均温度低于 27.2 的设备。
+查询将计算 `table1` 表中每个设备每小时的平均温度，并过滤掉那些平均温度低于 85.0 的设备。
 
 ```sql
 SELECT date_bin(1h, time) as hour_time, device_id, AVG(temperature) as avg_temp
