@@ -25,75 +25,33 @@
 
 DBeaver is an open-source universal database management tool that supports core functionalities including data query and visualization, metadata management, data import/export, and driver extensions. It provides a cross-platform graphical interface for various databases (e.g., MySQL, PostgreSQL, Oracle).
 
-![](/img/dbeaver-new-1-en.png)
+![](/img/dbeaver-2520-1-en.png)
 
 ## 2. Prerequisites
 
 Ensure DBeaver and IoTDB are installed:
 
-- DBeaver download: https://dbeaver.io/download/
+- DBeaver(>= V25.2.0), download: https://dbeaver.io/download/
 
-- IoTDB download: https://iotdb.apache.org/Download/
+- IoTDB is running, download: https://iotdb.apache.org/Download/
 
-## 3. Configuration Guide
+## 3. Create Connection
 
-### 3.1 Download Driver
+1. Click ​​DBeaver > Database > New Database Connection​​, or directly click the icon in the upper-left corner.
 
-Select the appropriate version of the JAR package (choose the `jar-with-dependencies.jar` variant):
+![](/img/dbeaver-2520-2-en.png)
 
-- Option 1: https://repo1.maven.org/maven2/com/timecho/iotdb/iotdb-jdbc/2.0.3.3/iotdb-jdbc-2.0.3.3-jar-with-dependencies.jar
+2. Select the ​​IoTDB driver​​ (you can find it under the ​​All​​ or ​​Timeseries​​ category).
 
-- Option 2: https://repo1.maven.org/maven2/com/timecho/iotdb/iotdb-jdbc/2.0.3.3/
+![](/img/dbeaver-2520-3-en.png)
 
-![](/img/dbeaver-new-2.png)
+3. Complete the connection settings, and choose the appropriate sql dialect based on whether the target IoTDB uses a ​​Tree Model​​ or ​​Table Model​​.
 
-### 3.2 Configure Driver
+![](/img/dbeaver-2520-4-en.png)
 
-#### Step 1: Open Driver Manager and Create New Driver
+4. Test the connection (make sure to select the driver file compatible with your version). If the connection is successful, a prompt will appear showing "Connected," along with the server version and driver version.
 
-1. Navigate to `Database` → `Driver Manager` in the toolbar.
-
-![](/img/dbeaver-new-3-en.png)
-
-2. Click `New` to create a new driver configuration.
-
-![](/img/dbeaver-new-4-en.png)
-
-#### Step 2: Configure Driver Details
-
-1. Under the `Libraries` tab, click `Add` File.
-
-2. Select the downloaded IoTDB JDBC driver (e.g., `iotdb-jdbc-2.0.3-jar-with-dependencies.jar`).
-
-3. Click `Find Class` to auto-detect the driver class.
-
-![](/img/dbeaver-new-5-en.png)
-
-4. Configure the following driver settings:
-
-* ​Driver Name​​: IoTDB
-* ​Class Name​​: org.apache.iotdb.jdbc.IoTDBDriver
-* ​URL Template​​: jdbc:iotdb://{host}:{port}/
-* ​Default Port​​: 6667
-* ​​Default User​​: root
-
-  ![](/img/dbeaver-new-6-en.png)
-
-#### Step 3: Create and Test Connection
-
-1. Click the `Create Connection` icon.
-
-2. Search for IoTDB, select it, and click Next. Choose the `URL` connection method.
-
- ![](/img/dbeaver-new-7-en.png)
-
-3. Complete the `JDBC URL` and enter the IoTDB database password. For tree model, select the `Host` connection method.
-
- ![](/img/dbeaver-new-8-tree-en.png)
-
-4. Click `Test Connection`. A successful connection will display Connected with server and driver versions.
-
- ![](/img/dbeaver-new-9-en.png)
+![](/img/dbeaver-2520-5-en.png)
 
 
 ## 4. Usage Guide
