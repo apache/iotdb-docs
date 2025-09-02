@@ -44,7 +44,7 @@ Key components include:
 3. **Time-Series Model Training-Inference Engine (IoTDB AINode)**: A unified engine for intelligent analysis, supporting model training, data management, and integration with machine/deep learning frameworks.
 
 
-## 2. TimechoDB Architecture
+## 2. IoTDB Architecture
 
 The diagram below illustrates a typical IoTDB cluster deployment (3 ConfigNodes and 3 DataNodes):
 
