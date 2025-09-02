@@ -39,7 +39,7 @@ IoTDB 为用户提供多种插入实时数据的方式，例如在 [Cli/Shell �
 
 ```sql
 IoTDB > insert into root.ln.wf02.wt02(timestamp,status) values(1,true)
-IoTDB > insert into root.ln.wf02.wt02(timestamp,hardware) values(1, 'v1')
+IoTDB > insert into root.ln.wf02.wt02(timestamp,hardware) values(1, "v1")
 ```
 
 以上示例代码将长整型的 timestamp 以及值为 true 的数据插入到时间序列`root.ln.wf02.wt02.status`中和将长整型的 timestamp 以及值为”v1”的数据插入到时间序列`root.ln.wf02.wt02.hardware`中。执行成功后会返回执行时间，代表数据插入已完成。 
