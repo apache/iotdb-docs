@@ -44,7 +44,8 @@ Use the hostname for `cn_internal_address` and `dn_internal_address` in IoTDB co
       - Use the same user for all operations, including starting, activating, and stopping services.
       - Avoid using `sudo`, which can cause permission conflicts.
 
-6. **Monitoring Panel**: Deploy a monitoring panel to track key performance metrics. Contact the Timecho team for access and refer to the [Monitoring Board Install and Deploy](../Deployment-and-Maintenance/Monitoring-panel-deployment.md).
+6. **Health Check Tool**: Before installation, the health check tool can help inspect the operating environment of IoTDB nodes and obtain detailed inspection results. The usage method of the IoTDB health check tool can be found in:[Health Check Tool](../Tools-System/Health-Check-Tool.md).
+
 
 ## 2. Installation Steps
 

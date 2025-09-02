@@ -47,6 +47,8 @@ This section describes how to manually deploy an instance that includes 3 Config
 
 6. It is recommended to deploy a monitoring panel, which can monitor important operational indicators and keep track of database operation status at any time. The monitoring panel can be obtained by contacting the business department,The steps for deploying a monitoring panel can refer to:[Monitoring Panel Deployment](./Monitoring-panel-deployment.md)
 
+7. Before installation, the health check tool can help inspect the operating environment of IoTDB nodes and obtain detailed inspection results. The usage method of the IoTDB health check tool can be found in:[Health Check Tool](../Tools-System/Health-Check-Tool.md).
+
 ## Preparation Steps
 
 1. Prepare the IoTDB database installation package: iotdb enterprise- {version}-bin.zip（The installation package can be obtained from:[IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_timecho.md)）
