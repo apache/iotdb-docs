@@ -39,6 +39,7 @@ INSERT INTO <TABLE_NAME> [(COLUMN_NAME[, COLUMN_NAME]*)]? VALUES (COLUMN_VALUE[,
 4. If a column value does not exist for the identified device, the insertion will overwrite any existing `null` values with the new data.
 5. If a column value already exists for the identified device, a new insertion will update the column with the new value.
 6. Writing duplicate timestamps will update the values in the columns corresponding to the original timestamps.
+7. When an INSERT statement does not specify column names (e.g., INSERT INTO table VALUES (...)), the values in VALUES must strictly follow the physical order of columns in the table (this order can be checked via the DESC table command).
 
 Since attributes generally do not change over time, it is recommended to update attribute values using the `UPDATE` statement described below，Please refer to the following [Data Update](#2-data-updates).
 
@@ -75,15 +76,15 @@ try (ITableSession session =
           TSDataType.STRING,
           TSDataType.FLOAT,
           TSDataType.DOUBLE);
-  List<Tablet.ColumnCategory> columnTypeList =
+  List<ColumnCategory> columnTypeList =
       new ArrayList<>(
           Arrays.asList(
-              Tablet.ColumnCategory.TAG,
-              Tablet.ColumnCategory.TAG,
-              Tablet.ColumnCategory.TAG,
-              Tablet.ColumnCategory.ATTRIBUTE,
-              Tablet.ColumnCategory.FIELD,
-              Tablet.ColumnCategory.FIELD));
+              ColumnCategory.TAG,
+              ColumnCategory.TAG,
+              ColumnCategory.TAG,
+              ColumnCategory.ATTRIBUTE,
+              ColumnCategory.FIELD,
+              ColumnCategory.FIELD));
   Tablet tablet = new Tablet("table1", columnNameList, dataTypeList, columnTypeList, 100);
   for (long timestamp = 0; timestamp < 100; timestamp++) {
     int rowIndex = tablet.getRowSize();
@@ -164,8 +165,8 @@ IoTDB supports inserting multiple rows of data in a single statement to improve 
 ```SQL
 insert into table1
 values
-('Frankfurt', '3001', '3', '1', '10', 4, 90.0, 1200.0)
-('Frankfurt', '3001', '3', '1', '10', 5, 90.0, 1200.0)
+(4, 'Frankfurt', '3001', '3', '1', '10', 90.0, 1200.0)
+(5, 'Frankfurt', '3001', '3', '1', '10', 90.0, 1200.0)
 
 
 insert into table1

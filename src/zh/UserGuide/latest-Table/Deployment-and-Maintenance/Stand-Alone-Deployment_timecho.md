@@ -57,13 +57,13 @@ cd  timechodb-{version}-bin
 
 | **配置项**  | **说明**                               | **默认值** | **推荐值**                                       | 备注         |
 | :---------- | :------------------------------------- | :--------- | :----------------------------------------------- | :----------- |
-| MEMORY_SIZE | IoTDB ConfigNode节点可以使用的内存总量 | 空         | 可按需填写，填写后系统会根据填写的数值来分配内存 | 重启服务生效 |
+| MEMORY_SIZE | IoTDB ConfigNode节点可以使用的内存总量 | 空         | 可按需填写，填写后系统会根据填写的数值来分配内存 | 修改后保存即可，无需执行；重启服务后生效 |
 
 - conf/datanode-env.sh（或 .bat）
 
 | **配置项**  | **说明**                             | **默认值** | **推荐值**                                       | 备注         |
 | :---------- | :----------------------------------- | :--------- | :----------------------------------------------- | :----------- |
-| MEMORY_SIZE | IoTDB DataNode节点可以使用的内存总量 | 空         | 可按需填写，填写后系统会根据填写的数值来分配内存 | 重启服务生效 |
+| MEMORY_SIZE | IoTDB DataNode节点可以使用的内存总量 | 空         | 可按需填写，填写后系统会根据填写的数值来分配内存 | 修改后保存即可，无需执行；重启服务后生效 |
 
 #### 2.2.2 功能配置
 
@@ -88,16 +88,16 @@ ConfigNode 配置
 
 DataNode 配置
 
-| **配置项**                      | **说明**                                                     | **默认**        | 推荐值                                           | **备注**           |
-| :------------------------------ | :----------------------------------------------------------- | :-------------- | :----------------------------------------------- | :----------------- |
-| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 0.0.0.0         | 0.0.0.0                                          | 重启服务生效       |
-| dn_rpc_port                     | 客户端 RPC 服务的端口                                        | 6667            | 6667                                             | 重启服务生效       |
-| dn_internal_address             | DataNode在集群内部通讯使用的地址                             | 127.0.0.1       | 所在服务器的IPV4地址或hostname，推荐使用hostname | 首次启动后不能修改 |
-| dn_internal_port                | DataNode在集群内部通信使用的端口                             | 10730           | 10730                                            | 首次启动后不能修改 |
-| dn_mpp_data_exchange_port       | DataNode用于接收数据流使用的端口                             | 10740           | 10740                                            | 首次启动后不能修改 |
-| dn_data_region_consensus_port   | DataNode用于数据副本共识协议通信使用的端口                   | 10750           | 10750                                            | 首次启动后不能修改 |
-| dn_schema_region_consensus_port | DataNode用于元数据副本共识协议通信使用的端口                 | 10760           | 10760                                            | 首次启动后不能修改 |
-| dn_seed_config_node             | 节点注册加入集群时连接的ConfigNode地址,即cn_internal_address:cn_internal_port | 127.0.0.1:10710 | cn_internal_address:cn_internal_port             | 首次启动后不能修改 |
+| **配置项**                      | **说明**                                                     | **默认**        | 推荐值                                     | **备注**           |
+| :------------------------------ | :----------------------------------------------------------- | :-------------- |:----------------------------------------| :----------------- |
+| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 0.0.0.0         | 所在服务器的IPV4地址或hostname，推荐使用所在服务器的IPV4地址  | 重启服务生效       |
+| dn_rpc_port                     | 客户端 RPC 服务的端口                                        | 6667            | 6667                                    | 重启服务生效       |
+| dn_internal_address             | DataNode在集群内部通讯使用的地址                             | 127.0.0.1       | 所在服务器的IPV4地址或hostname，推荐使用hostname      | 首次启动后不能修改 |
+| dn_internal_port                | DataNode在集群内部通信使用的端口                             | 10730           | 10730                                   | 首次启动后不能修改 |
+| dn_mpp_data_exchange_port       | DataNode用于接收数据流使用的端口                             | 10740           | 10740                                   | 首次启动后不能修改 |
+| dn_data_region_consensus_port   | DataNode用于数据副本共识协议通信使用的端口                   | 10750           | 10750                                   | 首次启动后不能修改 |
+| dn_schema_region_consensus_port | DataNode用于元数据副本共识协议通信使用的端口                 | 10760           | 10760                                   | 首次启动后不能修改 |
+| dn_seed_config_node             | 节点注册加入集群时连接的ConfigNode地址,即cn_internal_address:cn_internal_port | 127.0.0.1:10710 | cn_internal_address:cn_internal_port    | 首次启动后不能修改 |
 
 ### 2.3 启动 ConfigNode 节点
 
@@ -119,14 +119,10 @@ DataNode 配置
 
 ### 2.5 激活数据库
 
-#### 方式一：文件激活
+#### 方式一：命令激活
 
-- 启动Confignode、Datanode节点后，进入activation文件夹, 将 system_info文件复制给天谋工作人员
-- 收到工作人员返回的 license文件
-- 将license文件放入对应节点的activation文件夹下；
-
-#### 方式二：命令激活
 - 进入 IoTDB CLI
+
   - 表模型 CLI 进入命令：
   ```SQL
     # Linux或MACOS系统
@@ -136,14 +132,6 @@ DataNode 配置
     ./start-cli.bat -sql_dialect table
     ```
 
-  - 树模型 CLI 进入命令：
-  ```SQL
-    # Linux或MACOS系统
-    ./start-cli.sh
-    
-    # windows系统
-    ./start-cli.bat
-    ```
 - 执行以下内容获取激活所需机器码：
 
 ```Bash
@@ -169,9 +157,17 @@ It costs 0.030s
 IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
 ```
 
+
+#### 方式二：文件激活
+
+- 启动Confignode、Datanode节点后，进入activation文件夹, 将 system_info文件复制给天谋工作人员
+- 收到工作人员返回的 license文件
+- 将license文件放入对应节点的activation文件夹下；
+
+
 ### 2.6 验证激活
 
-当看到“ClusterActivationStatus”字段状态显示为ACTIVATED表示激活成功
+可在 CLI 中通过执行 `show activation` 命令查看激活状态，当看到“ClusterActivationStatus”字段状态显示为 ACTIVATED 表示激活成功
 
 ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81.png)
 

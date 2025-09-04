@@ -200,24 +200,25 @@ import org.apache.iotdb.rpc.StatementExecutionException;
 import org.apache.iotdb.session.pool.SessionPool;
 import org.apache.tsfile.enums.TSDataType;
 import org.apache.tsfile.write.record.Tablet;
+import org.apache.tsfile.write.schema.IMeasurementSchema;
 import org.apache.tsfile.write.schema.MeasurementSchema;
 
 public class SessionPoolExample {
-      private static SessionPool sessionPool;
-      public static void main(String[] args) throws IoTDBConnectionException, StatementExecutionException {
+    private static SessionPool sessionPool;
+    public static void main(String[] args) throws IoTDBConnectionException, StatementExecutionException {
         // 1. init SessionPool
         constructSessionPool();
         // 2. execute insert data
         insertTabletExample();
         // 3. close SessionPool
         closeSessionPool();
-          }
+    }
 
-        private static void constructSessionPool() {
+    private static void constructSessionPool() {
         // Using nodeUrls ensures that when one node goes down, other nodes are automatically connected to retry
         List<String> nodeUrls = new ArrayList<>();
         nodeUrls.add("127.0.0.1:6667");
-        nodeUrls.add("127.0.0.1:6668");
+        //nodeUrls.add("127.0.0.1:6668");
         sessionPool =
                 new SessionPool.Builder()
                         .nodeUrls(nodeUrls)
@@ -238,31 +239,31 @@ public class SessionPoolExample {
          */
         // The schema of measurements of one device
         // only measurementId and data type in MeasurementSchema take effects in Tablet
-        List<MeasurementSchema> schemaList = new ArrayList<>();
+        List<IMeasurementSchema> schemaList = new ArrayList<>();
         schemaList.add(new MeasurementSchema("s1", TSDataType.INT64));
         schemaList.add(new MeasurementSchema("s2", TSDataType.INT64));
         schemaList.add(new MeasurementSchema("s3", TSDataType.INT64));
 
-        Tablet tablet = new Tablet("root.sg.d1", schemaList, 100);
+        Tablet tablet = new Tablet("root.sg.d1",schemaList,100);
 
         // Method 1 to add tablet data
         long timestamp = System.currentTimeMillis();
 
         Random random = new Random();
         for (long row = 0; row < 100; row++) {
-            int rowIndex = tablet.rowSize++;
+            int rowIndex = tablet.getRowSize();
             tablet.addTimestamp(rowIndex, timestamp);
             for (int s = 0; s < 3; s++) {
                 long value = random.nextLong();
-                tablet.addValue(schemaList.get(s).getMeasurementId(), rowIndex, value);
+                tablet.addValue(schemaList.get(s).getMeasurementName(), rowIndex, value);
             }
-            if (tablet.rowSize == tablet.getMaxRowNumber()) {
+            if (tablet.getRowSize() == tablet.getMaxRowNumber()) {
                 sessionPool.insertTablet(tablet);
                 tablet.reset();
             }
             timestamp++;
         }
-        if (tablet.rowSize != 0) {
+        if (tablet.getRowSize() != 0) {
             sessionPool.insertTablet(tablet);
             tablet.reset();
         }
@@ -306,33 +307,51 @@ public class SessionPoolExample {
         sessionPool.executeNonQueryStatement("set TTL to root.test.** 10000");
         // 3. delete time series
         sessionPool.executeNonQueryStatement("delete timeseries root.test.d1.s1");
-        private static void executeQueryExample() throws IoTDBConnectionException, StatementExecutionException {
+    }
+    
+    private static void executeQueryExample() throws IoTDBConnectionException, StatementExecutionException {
         // 1. execute normal query
         try(SessionDataSetWrapper wrapper = sessionPool.executeQueryStatement("select s1 from root.sg1.d1 limit 10")) {
-            while (wrapper.hasNext()) {
-                System.out.println(wrapper.next());
-            }
+            // get DataIterator like JDBC
+            DataIterator dataIterator = wrapper.iterator();
+            System.out.println(wrapper.getColumnNames());
+            System.out.println(wrapper.getColumnTypes());
+            while (dataIterator.next()) {
+                StringBuilder builder = new StringBuilder();
+                for (String columnName : wrapper.getColumnNames()) {
+                    builder.append(dataIterator.getString(columnName) + " ");
                 }
-        // 2. execute aggregate query
-        try(SessionDataSetWrapper wrapper = sessionPool.executeQueryStatement("select count(s1) from root.sg1.d1 group by ([0, 40), 5ms) ")) {
-            while (wrapper.hasNext()) {
-                System.out.println(wrapper.next());
+                System.out.println(builder);
             }
         }
-          }
+        // 2. execute aggregate query
+        try(SessionDataSetWrapper wrapper = sessionPool.executeQueryStatement("select count(s1) from root.sg1.d1 group by ([0, 40), 5ms) ")) {
+            // get DataIterator like JDBC
+            DataIterator dataIterator = wrapper.iterator();
+            System.out.println(wrapper.getColumnNames());
+            System.out.println(wrapper.getColumnTypes());
+            while (dataIterator.next()) {
+                StringBuilder builder = new StringBuilder();
+                for (String columnName : wrapper.getColumnNames()) {
+                    builder.append(dataIterator.getString(columnName) + " ");
+                }
+                System.out.println(builder);
+            }
+        }
+    }
 
-        private static void constructSessionPool() {
-        // Using nodeUrls ensures that when one node goes down, other nodes are automatically connected to retry
-        List<String> nodeUrls = new ArrayList<>();
-        nodeUrls.add("127.0.0.1:6667");
-        nodeUrls.add("127.0.0.1:6668");
-        sessionPool =
-                new SessionPool.Builder()
-                        .nodeUrls(nodeUrls)
-                        .user("root")
-                        .password("root")
-                        .maxSize(3)
-                        .build();
+    private static void constructSessionPool() {
+    // Using nodeUrls ensures that when one node goes down, other nodes are automatically connected to retry
+    List<String> nodeUrls = new ArrayList<>();
+    nodeUrls.add("127.0.0.1:6667");
+    nodeUrls.add("127.0.0.1:6668");
+    sessionPool =
+            new SessionPool.Builder()
+                    .nodeUrls(nodeUrls)
+                    .user("root")
+                    .password("root")
+                    .maxSize(3)
+                    .build();
     }
 
     public static void closeSessionPool(){

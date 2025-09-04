@@ -19,17 +19,18 @@
 export const enSidebar = {
   '/UserGuide/V1.3.x/': [
     {
-      text: 'IoTDB User Guide (V1.3.x)',
+      text: 'TimechoDB User Guide (V1.3.x)',
       children: [],
     },
     {
-      text: 'About IoTDB',
+      text: 'About TimechoDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
       // children: 'structure', 使用该方式自动获取文件夹下的文件
       children: [
         { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_timecho' },
         { text: 'Scenario', link: 'Scenario' },
+        { text: 'Release History', link: 'Release-history_timecho' },
       ],
     },
     {

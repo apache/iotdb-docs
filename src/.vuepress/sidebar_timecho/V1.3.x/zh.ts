@@ -19,11 +19,11 @@
 export const zhSidebar = {
   '/zh/UserGuide/V1.3.x/': [
     {
-      text: 'IoTDB用户手册 (V1.3.x)',
+      text: 'TimechoDB用户手册 (V1.3.x)',
       children: [],
     },
     {
-      text: '关于IoTDB',
+      text: '关于TimechoDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
       // children: 'structure', 使用该方式自动获取文件夹下的文件
@@ -226,7 +226,7 @@ export const zhSidebar = {
               text: '可视化分析',
               collapsible: true,
               children: [
-                { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB' },
+                { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_timecho' },
                 { text: 'Grafana', link: 'Grafana-Connector' },
                 { text: 'Grafana插件', link: 'Grafana-Plugin' },
                 { text: 'DataEase', link: 'DataEase' },

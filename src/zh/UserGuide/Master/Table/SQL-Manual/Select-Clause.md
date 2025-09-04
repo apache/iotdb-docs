@@ -267,7 +267,7 @@ Total line number = 18
 It costs 0.189s
 ```
 
-### 3.2 Colums 函数
+### 3.2 Columns 函数
 
 1. 不结合表达式
 ```sql

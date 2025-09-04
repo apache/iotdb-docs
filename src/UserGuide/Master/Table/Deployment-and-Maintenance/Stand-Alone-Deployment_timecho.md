@@ -68,7 +68,7 @@ Edit the following files for memory allocation:
 
 | **Parameter** | **Description**                     | **Default** | **Recommended** | **Notes**               |
 | :------------ | :---------------------------------- | :---------- | :-------------- | :---------------------- |
-| MEMORY_SIZE   | Total memory allocated for the node | Empty       | As needed       | Effective after restart |
+| MEMORY_SIZE   | Total memory allocated for the node | Empty       | As needed       | Save changes without immediate execution; modifications take effect after service restart. |
 
 #### 2.2.2 General Configuration
 
@@ -93,16 +93,16 @@ Set the following parameters in `conf/iotdb-system.properties`. Refer to `conf/i
 
 **DataNode Parameters**:
 
-| **Parameter**                   | **Description**                                              | **Default**     | **Recommended**                                              | **Notes**                                                  |
-| :------------------------------ | :----------------------------------------------------------- | :-------------- | :----------------------------------------------------------- | :--------------------------------------------------------- |
-| dn_rpc_address                  | Address for the client RPC service                           | 0.0.0.0         | 0.0.0.0                                                      | Effective after restarting the service.                    |
-| dn_rpc_port                     | Port for the client RPC service                              | 6667            | 6667                                                         | Effective after restarting the service.                    |
-| dn_internal_address             | Address used for internal communication within the cluster   | 127.0.0.1       | Server's IPv4 address or hostname. Use hostname to avoid issues when the IP changes. | This parameter cannot be modified after the first startup. |
-| dn_internal_port                | Port used for internal communication within the cluster      | 10730           | 10730                                                        | This parameter cannot be modified after the first startup. |
-| dn_mpp_data_exchange_port       | Port used for receiving data streams                         | 10740           | 10740                                                        | This parameter cannot be modified after the first startup. |
-| dn_data_region_consensus_port   | Port used for data replica consensus protocol communication  | 10750           | 10750                                                        | This parameter cannot be modified after the first startup. |
-| dn_schema_region_consensus_port | Port used for metadata replica consensus protocol communication | 10760           | 10760                                                        | This parameter cannot be modified after the first startup. |
-| dn_seed_config_node             | Address of the ConfigNode for registering and joining the cluster. (e.g.,`cn_internal_address:cn_internal_port`) | 127.0.0.1:10710 | Use `cn_internal_address:cn_internal_port`                   | This parameter cannot be modified after the first startup. |
+| **Parameter**                   | **Description**                                              | **Default**     | **Recommended**                                                                                                 | **Notes**                                                  |
+| :------------------------------ | :----------------------------------------------------------- | :-------------- |:----------------------------------------------------------------------------------------------------------------| :--------------------------------------------------------- |
+| dn_rpc_address                  | Address for the client RPC service                           | 0.0.0.0         | The IPV4 address or host name of the server where it is located, and it is recommended to use the IPV4 address  | Effective after restarting the service.                    |
+| dn_rpc_port                     | Port for the client RPC service                              | 6667            | 6667                                                                                                            | Effective after restarting the service.                    |
+| dn_internal_address             | Address used for internal communication within the cluster   | 127.0.0.1       | Server's IPv4 address or hostname. Use hostname to avoid issues when the IP changes.                            | This parameter cannot be modified after the first startup. |
+| dn_internal_port                | Port used for internal communication within the cluster      | 10730           | 10730                                                                                                           | This parameter cannot be modified after the first startup. |
+| dn_mpp_data_exchange_port       | Port used for receiving data streams                         | 10740           | 10740                                                                                                           | This parameter cannot be modified after the first startup. |
+| dn_data_region_consensus_port   | Port used for data replica consensus protocol communication  | 10750           | 10750                                                                                                           | This parameter cannot be modified after the first startup. |
+| dn_schema_region_consensus_port | Port used for metadata replica consensus protocol communication | 10760           | 10760                                                                                                           | This parameter cannot be modified after the first startup. |
+| dn_seed_config_node             | Address of the ConfigNode for registering and joining the cluster. (e.g.,`cn_internal_address:cn_internal_port`) | 127.0.0.1:10710 | Use `cn_internal_address:cn_internal_port`                                                                      | This parameter cannot be modified after the first startup. |
 
 ### 2.3 Start ConfigNode
 
@@ -126,14 +126,7 @@ Navigate to the `sbin` directory of IoTDB and start the DataNode:
 
 ### 2.5 Activate the Database
 
-#### Option 1: File-Based Activation
-
-- Start both the ConfigNode and DataNode.
-- Navigate to the `activation` folder and copy the `system_info` file.
-- Send the `system_info` file to the Timecho team.
-- Place the license file provided by the Timecho team into the corresponding `activation` folder for each node.
-
-#### Option 2: Command-Based Activation
+#### Option 1: Command-Based Activation
 
 1. Enter the IoTDB CLI.
    - **For Table Model**:
@@ -145,14 +138,6 @@ Navigate to the `sbin` directory of IoTDB and start the DataNode:
       ./start-cli.bat -sql_dialect table
       ```
 
-   - **For Tree Model**:
-   - ```SQL
-      # For Linux or macOS
-      ./start-cli.sh
-      
-      # For Windows
-      ./start-cli.bat
-      ```
 2. Run the following command to retrieve the machine code required for activation:
 
 ```Bash
@@ -177,9 +162,18 @@ It costs 0.030s
 IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
 ```
 
+
+#### Option 2: File-Based Activation
+
+- Start both the ConfigNode and DataNode.
+- Navigate to the `activation` folder and copy the `system_info` file.
+- Send the `system_info` file to the Timecho team.
+- Place the license file provided by the Timecho team into the corresponding `activation` folder for each node.
+
+
 ### 2.6 Verify Activation
 
-Check the `ClusterActivationStatus` field. If it shows `ACTIVATED`, the database has been successfully activated.
+In the CLI, you can check the activation status by running the `show activation` command. Check the `ClusterActivationStatus` field. If it shows `ACTIVATED`, the database has been successfully activated.
 
 ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81.png)
 

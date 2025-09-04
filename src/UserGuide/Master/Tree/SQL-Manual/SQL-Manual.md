@@ -1672,7 +1672,7 @@ LIST PRIVILEGES OF ROLE <roleName>;
 eg: LIST PRIVILEGES OF ROLE actor;
 ```
 
-- Update password
+- Modify password
 
 ```sql
 ALTER USER <username> SET PASSWORD <password>;
