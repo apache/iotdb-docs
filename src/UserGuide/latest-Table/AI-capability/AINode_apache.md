@@ -96,7 +96,7 @@ create model <model_id> using uri <uri>
 Detailed meanings of SQL parameters:
 
 - **model_id**: The global unique identifier for the model, non-repeating. Model names have the following constraints:
-  - Allowed characters: [0-9 a-z A-Z _] (letters, numbers, underscores)
+  - Allowed characters: [0-9 a-z A-Z _] (letters, digits (not at the beginning), underscores (not at the beginning))
   - Length: 2-64 characters
   - Case-sensitive
 - **uri**: The resource path of the model registration files, which should include the **model structure and weight file `model.pt` and the model configuration file `config.yaml`**
