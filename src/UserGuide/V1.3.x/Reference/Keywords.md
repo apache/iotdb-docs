@@ -23,6 +23,7 @@
 
 Reserved words（Can not be used as identifier）:
 
+- PATH
 - ROOT
 - TIME
 - TIMESTAMP
@@ -143,7 +144,6 @@ Common Keywords:
 - ONSUCCESS
 - PARTITION
 - PASSWORD
-- PATH
 - PATHS
 - PIPE
 - PIPES

@@ -23,6 +23,7 @@
 
 保留字（不能用于作为标识符）：
 
+- PATH
 - ROOT
 - TIME
 - TIMESTAMP
@@ -143,7 +144,6 @@
 - ONSUCCESS
 - PARTITION
 - PASSWORD
-- PATH
 - PATHS
 - PIPE
 - PIPES

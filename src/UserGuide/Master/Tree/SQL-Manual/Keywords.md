@@ -23,6 +23,7 @@
 
 ## 1. Reserved words（Can not be used as identifier）:
 
+- PATH
 - ROOT
 - TIME
 - TIMESTAMP
@@ -143,7 +144,6 @@
 - ONSUCCESS
 - PARTITION
 - PASSWORD
-- PATH
 - PATHS
 - PIPE
 - PIPES
