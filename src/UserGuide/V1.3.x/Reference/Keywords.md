@@ -143,6 +143,7 @@ Common Keywords:
 - ONSUCCESS
 - PARTITION
 - PASSWORD
+- PATH
 - PATHS
 - PIPE
 - PIPES
