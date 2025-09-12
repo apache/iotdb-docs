@@ -348,6 +348,8 @@ public class TableSessionBuilder {
 }
 ```
 
+> 注意： 原生API中创建表时，表名或列名中若含有特殊字符或中文字符，无需额外添加双引号括起，否则会包含引号字符。
+
 ## 4. 客户端连接池
 
 ### 4.1 ITableSessionPool 接口

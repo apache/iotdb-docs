@@ -343,6 +343,8 @@ public class TableSessionBuilder {
 }
 ```
 
+> Note: When creating tables using the native API, if table or column names contain special characters or Chinese characters, do not add extra double quotes around them. Otherwise, the quotation marks will become part of the name itself.
+
 ## 4. Session Pool
 
 ### 4.1 ITableSessionPool Interface
