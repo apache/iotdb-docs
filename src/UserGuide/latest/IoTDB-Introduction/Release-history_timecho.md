@@ -361,6 +361,7 @@ Major features:
 | Version | Description                                                                                                                 | Supported IoTDB Versions            |
 |---------|-----------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
 | V2.0.1-beta  | The first version of the V2.x series, supporting dual models of tree and table                                                     | V2.0 and above   |
+| V1.5.7  | Optimize the point list by splitting point names into device names and points, ensure the point selection area supports horizontal scrolling, and align the export file column order with the page display.   | All 1.x versions from V1.3.4 onward  |
 | V1.5.6   | Enhanced CSV import/export: optional tags/aliases on import; support for measurement descriptions with backtick-quoted quotes on export.  | All 1.x versions from V1.3.4 onward |
 | V1.5.5  | Added server clock functionality and support for activating Enterprise Edition license databases                            | All 1.x versions from V1.3.4 onward |
 | V1.5.4  | Added authentication for Prometheus settings in Instance Management                                                         | All 1.x versions from V1.3.4 onward |

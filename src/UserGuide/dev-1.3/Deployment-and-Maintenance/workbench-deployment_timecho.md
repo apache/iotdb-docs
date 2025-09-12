@@ -214,6 +214,7 @@ The instructions for using the visualization console tool can be found in the [I
 
 | Version | Description                                                                                                                 | Supported IoTDB Versions            |
 |---------|-----------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
+| V1.5.7  | Optimize the point list by splitting point names into device names and points, ensure the point selection area supports horizontal scrolling, and align the export file column order with the page display.   | All 1.x versions from V1.3.4 onward  |
 | V1.5.6   | Enhanced CSV import/export: optional tags/aliases on import; support for measurement descriptions with backtick-quoted quotes on export.  | All 1.x versions from V1.3.4 onward |
 | V1.5.5  | Added server clock functionality and support for activating Enterprise Edition license databases                            | All 1.x versions from V1.3.4 onward |
 | V1.5.4  | Added authentication for Prometheus settings in Instance Management                                                         | All 1.x versions from V1.3.4 onward |
