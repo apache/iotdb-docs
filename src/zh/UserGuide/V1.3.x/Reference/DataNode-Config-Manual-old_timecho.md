@@ -554,14 +554,14 @@ GC 日志会被存储在`IOTDB_HOME/logs/gc.log`. 至多会存储 10 个 gc.log 
 |默认值| iotdb_data	         |
 |改后生效方式| 重启生效          |
 
-* object\_storage\_endpoiont	
+* object\_storage\_endpoint	
 
-|名字| object\_storage\_endpoiont  |
-|:---:|:--------------|
-|描述| 云端存储的 endpoint				 |
-|类型| string         |
-|默认值| 无         |
-|改后生效方式| 重启生效          |
+|名字| object\_storage\_endpoint  |
+|:---:|:---------------------------|
+|描述| 云端存储的 endpoint				         |
+|类型| string                     |
+|默认值| 无                          |
+|改后生效方式| 重启生效                       |
 
 * object\_storage\_access\_key	
 
