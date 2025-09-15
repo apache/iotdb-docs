@@ -20,6 +20,13 @@
 -->
 # Release History
 
+## V1.3.5
+
+> Release Date: 2025.09.12
+
+V1.3.5, as a bugfix release based on the previous 1.3.x versions, primarily adjusts the user password encryption algorithm to further enhance data access security. It also optimizes kernel stability and addresses issues reported by the community.
+
+
 ## V1.3.4
 
 > Release Date: 2025.04.18

@@ -20,9 +20,24 @@
 -->
 # Release History
 
+## V2.0.5
+
+> Release Date: 2025.08.21
+
+V2.0.5, as the official release of the Dual-Model Tree-Table system, primarily introduces the tree-to-table view, window functions for the table model, the aggregate function approx_most_frequent, and supports LEFT & RIGHT JOIN as well as ASOF LEFT JOIN. The AINode now includes two new built-in models, Timer-XL and Timer-Sundial, and supports inference capabilities for both tree and table models. Additionally, this version brings comprehensive improvements to database monitoring, performance, and stability. The specific updates are as follows:
+
+* **Query Module**: Supports manual creation of tree-to-table views
+* **Query Module**: Adds window functions for the table model
+* **Query Module**: Adds the aggregate function approx_most_frequent for the table model
+* **Query Module**: Extends JOIN functionality for the table model, supporting LEFT & RIGHT JOIN and ASOF LEFT JOIN
+* **Query Module**: The table model now supports row pattern recognition, enabling the capture of continuous data for analysis and computation
+* **Storage Module**: Adds multiple system tables for the table model, such as VIEWS (table view information) and MODELS (model information)
+* **AI Module**: AINode adds two new built-in models, Timer-XL and Timer-Sundial
+* **AI Module**: AINode supports inference functions for both tree and table models
+
 ## V2.0.4
 
-> Release Time: 2025.07.09
+> Release Date: 2025.07.09
 
 V2.0.4 serves as the official release of the dual-model system for tree and table structures. The table model primarily introduces user-defined table functions (UDTF) and multiple built-in table functions, adds the aggregate function approx_count_distinct, and supports ASOF INNER JOIN for time columns. Additionally, script tools have been categorized and reorganized, with Windows-specific scripts separated. The release also includes comprehensive improvements in database monitoring, performance, and stability. The detailed updates are as follows:
 
@@ -105,6 +120,12 @@ V2.0.1-beta introduces dual tree-table model configuration, supporting standard 
     * Unified import/export support for TsFile, CSV and SQL formats
 * ​**​Ecosystem Integration​**​:
     * Kubernetes Operator support
+
+## V1.3.5
+
+> Release Date: 2025.09.12
+
+V1.3.5, as a bugfix release based on the previous 1.3.x versions, primarily adjusts the user password encryption algorithm to further enhance data access security. It also optimizes kernel stability and addresses issues reported by the community.
 
 
 ## V1.3.4
