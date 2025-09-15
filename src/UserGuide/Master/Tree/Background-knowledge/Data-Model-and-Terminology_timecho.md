@@ -110,6 +110,9 @@ The application scenarios mainly include three categories:
 | **Time Series (Data Point)** | **Definition**:<br>A path prefixed with the database path, segmented by `.`, and can contain any number of levels, such as `root.db.turbine.device1.metric1`.<br>Each time series can have different data types.<br>**Naming Recommendation**:<br>Only include unique identifiers (similar to a composite primary key) in the path, generally not exceeding 10 levels.<br>Typically, place tags with low cardinality (fewer distinct values) at the front to facilitate system compression of common prefixes.<br>**Quantity Recommendation**:<br>The total number of time series manageable by the cluster is related to total memory; refer to the resource recommendation section.<br>There is no limit to the number of child nodes at any level.<br>**Creation Method**: Can be created manually or automatically during data writing. |
 | **Device**                   | **Definition**: The second-to-last level is the device, such as `device1` in `root.db.turbine.device1.metric1`.<br>**Creation Method**: Cannot create a device alone; it exists as time series are created. |
 
+
+> When designing your data model, to ensure system performance and scalability, prioritize creating a large number of devices rather than accumulating an unlimited number of time series under a single device. Simultaneously, ensure that the cardinality of the penultimate node in the path reaches at least 1000 to provide sufficient concurrency granularity, and use suffixes such as .value at the end of the path to clearly identify data points—for example, it is recommended to adopt a high-concurrency model like root.db.device01.metric.value, rather than the inefficient structure of root.db.device01.metric.
+
 #### 3.1.3 Modeling Examples
 
 ##### 3.1.3.1 How to model when managing multiple types of devices?
