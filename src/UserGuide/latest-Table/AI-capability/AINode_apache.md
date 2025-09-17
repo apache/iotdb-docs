@@ -178,7 +178,7 @@ In addition to displaying all models, specifying a `model_id` shows details of a
 
 - Model State Transition Diagram
 
-![](/img/AINode-State-en.png)
+![](/img/AINode-State-apache-en.png)
 
 **Instructions:**
 
@@ -195,10 +195,6 @@ In addition to displaying all models, specifying a `model_id` shows details of a
 4. Download Outcomes:
    - Success → State changes to ACTIVE.
    - Failure → State changes to INACTIVE.
-5. Fine-Tuning Process:
-   - When fine-tuning starts: State becomes TRAINING.
-   - Successful training → State transitions to ACTIVE.
-   - Training failure → State changes to FAILED.
 
 **Example**
 
@@ -211,11 +207,6 @@ IoTDB> show models
 |               custom|                    |  USER-DEFINED|   ACTIVE|
 |              timerxl|            timer-xl|      BUILT-IN|  LOADING|
 |              sundial|       timer-sundial|      BUILT-IN|   ACTIVE|
-|           sundialx_1|       timer-sundial|    FINE-TUNED|   ACTIVE|
-|           sundialx_2|       timer-sundial|    FINE-TUNED|   ACTIVE|
-|             sundialx|       timer-sundial|    FINE-TUNED|   ACTIVE|
-|           sundialx_4|       timer-sundial|    FINE-TUNED| TRAINING|
-|           sundialx_5|       timer-sundial|    FINE-TUNED|   FAILED|
 +---------------------+--------------------+--------------+---------+
 ```
 

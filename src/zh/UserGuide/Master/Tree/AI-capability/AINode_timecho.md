@@ -476,10 +476,10 @@ AINode 目前支持多种时序大模型，部署使用请参考[时序大模型
 
 #### 步骤一：数据导入
 
-用户可以使用tools文件夹中的`import-csv.sh` 向 IoTDB 中导入 ETT 数据集
+用户可以使用tools文件夹中的`import-data.sh` 向 IoTDB 中导入 ETT 数据集
 
 ```Bash
-bash ./import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ../../ETTh1.csv
+bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/data.csv
 ```
 
 #### 步骤二：模型导入
@@ -546,10 +546,10 @@ Total line number = 48
 
 #### 步骤一：数据导入
 
-用户可以使用tools文件夹中的`import-csv.sh` 导入数据集
+用户可以使用tools文件夹中的`import-data.sh` 导入数据集
 
 ```Bash
-bash ./import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ../../data.csv
+bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/data.csv
 ```
 
 #### 步骤二：模型导入
@@ -608,10 +608,10 @@ Airline Passengers一个时间序列数据集，该数据集记录了1949年至1
 
 #### 步骤一：数据导入
 
-用户可以使用tools文件夹中的`import-csv.sh` 导入数据集
+用户可以使用tools文件夹中的`import-data.sh` 导入数据集
 
 ```Bash
-bash ./import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ../../data.csv
+bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/data.csv
 ```
 
 #### 步骤二：模型推理

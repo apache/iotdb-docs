@@ -175,7 +175,7 @@ In addition to displaying all models, specifying a `model_id` shows details of a
 
 - Model State Transition Diagram
 
-![](/img/AINode-State-en.png)
+![](/img/AINode-State-apache-en.png)
 
 **Instructions:**
 
@@ -191,11 +191,7 @@ In addition to displaying all models, specifying a `model_id` shows details of a
   - Download state: LOADING.
 4. Download Outcomes:
   - Success → State changes to ACTIVE.
-  - Failure → State changes to INACTIVE.
-5. Fine-Tuning Process:
-  - When fine-tuning starts: State becomes TRAINING.
-  - Successful training → State transitions to ACTIVE.
-  - Training failure → State changes to FAILED.
+  - Failure → State changes to INACTIVE. 
 
 **Example**
 
@@ -207,12 +203,7 @@ IoTDB> show models
 |                arima|               arima|      BUILT-IN|   ACTIVE|
 |               custom|                    |  USER-DEFINED|   ACTIVE|
 |              timerxl|            timer-xl|      BUILT-IN|  LOADING|
-|              sundial|       timer-sundial|      BUILT-IN|   ACTIVE|
-|           sundialx_1|       timer-sundial|    FINE-TUNED|   ACTIVE|
-|           sundialx_2|       timer-sundial|    FINE-TUNED|   ACTIVE|
-|             sundialx|       timer-sundial|    FINE-TUNED|   ACTIVE|
-|           sundialx_4|       timer-sundial|    FINE-TUNED| TRAINING|
-|           sundialx_5|       timer-sundial|    FINE-TUNED|   FAILED|
+|              sundial|       timer-sundial|      BUILT-IN|   ACTIVE| 
 +---------------------+--------------------+--------------+---------+
 ```
 
@@ -440,10 +431,10 @@ On this dataset, the model inference function of IoTDB-ML can predict the oil te
 
 #### Step 1: Data Import
 
-Users can import the ETT dataset into IoTDB using `import-csv.sh` in the tools folder
+Users can import the ETT dataset into IoTDB using `import-data.sh` in the tools folder
 
 ``Bash
-bash . /import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ... /... /ETTh1.csv
+bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/ETTh1.csv  
 ``
 
 #### Step 2: Model Import
@@ -510,10 +501,10 @@ On this dataset, the model inference function of IoTDB-ML can predict the C-phas
 
 #### Step 1: Data Import
 
-Users can import the dataset using `import-csv.sh` in the tools folder
+Users can import the dataset using `import-data.sh` in the tools folder
 
 ```Bash
-bash ./import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ... /... /data.csv
+bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/data.csv
 ```
 
 #### Step 2: Model Import
@@ -573,10 +564,10 @@ On this dataset, the model inference function of IoTDB-ML can empower the transp
 
 #### Step 1: Data Import
 
-Users can import the dataset using `import-csv.sh` in the tools folder
+Users can import the dataset using `import-data.sh` in the tools folder
 
 ``Bash
-bash . /import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ... /... /data.csv
+bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/data.csv
 ``
 
 #### Step 2: Model Inference

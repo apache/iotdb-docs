@@ -166,7 +166,7 @@ show models <model_id>
 
 - 模型状态机流转示意图如下
 
-![](/img/AINode-State.png)
+![](/img/AINode-State-apache.png)
 
 **说明：**
 
@@ -174,7 +174,6 @@ show models <model_id>
 2. 用户可导入自己的模型，来源为 USER-DEFINED，可尝试从配置文件解析 ModelType，解析不到则为空
 3. 时序大模型权重不随 AINode 打包，AINode 启动时自动下载，下载过程中为 LOADING
 4. 下载成功转变为 ACTIVE，失败则变成 INACTIVE
-5. 用户启动微调，正在训练的模型状态为 TRAINING，训练成功变为 ACTIVE，失败则是 FAILED
 
 **示例**
 
@@ -187,11 +186,6 @@ IoTDB> show models
 |               custom|                    |  USER-DEFINED|   ACTIVE|
 |              timerxl|            timer-xl|      BUILT-IN|  LOADING|
 |              sundial|       timer-sundial|      BUILT-IN|   ACTIVE|
-|           sundialx_1|       timer-sundial|    FINE-TUNED|   ACTIVE|
-|           sundialx_2|       timer-sundial|    FINE-TUNED|   ACTIVE|
-|             sundialx|       timer-sundial|    FINE-TUNED|   ACTIVE|
-|           sundialx_4|       timer-sundial|    FINE-TUNED| TRAINING|
-|           sundialx_5|       timer-sundial|    FINE-TUNED|   FAILED|
 +---------------------+--------------------+--------------+---------+
 ```
 
@@ -416,10 +410,10 @@ AINode 目前支持多种时序大模型，部署使用请参考[时序大模型
 
 #### 步骤一：数据导入
 
-用户可以使用tools文件夹中的`import-csv.sh` 向 IoTDB 中导入 ETT 数据集
+用户可以使用tools文件夹中的`import-data.sh` 向 IoTDB 中导入 ETT 数据集
 
 ```Bash
-bash ./import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ../../ETTh1.csv
+bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/ETTh1.csv
 ```
 
 #### 步骤二：模型导入
@@ -486,10 +480,10 @@ Total line number = 48
 
 #### 步骤一：数据导入
 
-用户可以使用tools文件夹中的`import-csv.sh` 导入数据集
+用户可以使用tools文件夹中的`import-data.sh` 导入数据集
 
 ```Bash
-bash ./import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ../../data.csv
+bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/data.csv
 ```
 
 #### 步骤二：模型导入
@@ -548,10 +542,10 @@ Airline Passengers一个时间序列数据集，该数据集记录了1949年至1
 
 #### 步骤一：数据导入
 
-用户可以使用tools文件夹中的`import-csv.sh` 导入数据集
+用户可以使用tools文件夹中的`import-data.sh` 导入数据集
 
 ```Bash
-bash ./import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ../../data.csv
+bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/data.csv  
 ```
 
 #### 步骤二：模型推理

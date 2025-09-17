@@ -500,10 +500,10 @@ On this dataset, the model inference function of IoTDB-ML can predict the oil te
 
 #### Step 1: Data Import
 
-Users can import the ETT dataset into IoTDB using `import-csv.sh` in the tools folder
+Users can import the ETT dataset into IoTDB using `import-data.sh` in the tools folder
 
 ``Bash
-bash . /import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ... /... /ETTh1.csv
+bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/ETTh1.csv
 ``
 
 #### Step 2: Model Import
@@ -570,10 +570,10 @@ On this dataset, the model inference function of IoTDB-ML can predict the C-phas
 
 #### Step 1: Data Import
 
-Users can import the dataset using `import-csv.sh` in the tools folder
+Users can import the dataset using `import-data.sh` in the tools folder
 
 ```Bash
-bash ./import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ... /... /data.csv
+bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/data.csv
 ```
 
 #### Step 2: Model Import
@@ -633,10 +633,10 @@ On this dataset, the model inference function of IoTDB-ML can empower the transp
 
 #### Step 1: Data Import
 
-Users can import the dataset using `import-csv.sh` in the tools folder
+Users can import the dataset using `import-data.sh` in the tools folder
 
 ``Bash
-bash . /import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ... /... /data.csv
+bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/data.csv
 ``
 
 #### Step 2: Model Inference

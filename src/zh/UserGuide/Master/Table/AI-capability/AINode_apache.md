@@ -166,15 +166,14 @@ show models <model_id>
 
 - 模型状态机流转示意图如下
 
-![](/img/AINode-State.png)
+![](/img/AINode-State-apache.png)
 
 **说明：**
 
 1. 启动 AINode，show models 只能看到 BUILT-IN 模型
 2. 用户可导入自己的模型，来源为 USER-DEFINED，可尝试从配置文件解析 ModelType，解析不到则为空
 3. 时序大模型权重不随 AINode 打包，AINode 启动时自动下载，下载过程中为 LOADING
-4. 下载成功转变为 ACTIVE，失败则变成 INACTIVE
-5. 用户启动微调，正在训练的模型状态为 TRAINING，训练成功变为 ACTIVE，失败则是 FAILED
+4. 下载成功转变为 ACTIVE，失败则变成 INACTIVE 
 
 **示例**
 
@@ -186,12 +185,7 @@ IoTDB> show models
 |                arima|               arima|      BUILT-IN|   ACTIVE|
 |               custom|                    |  USER-DEFINED|   ACTIVE|
 |              timerxl|            timer-xl|      BUILT-IN|  LOADING|
-|              sundial|       timer-sundial|      BUILT-IN|   ACTIVE|
-|           sundialx_1|       timer-sundial|    FINE-TUNED|   ACTIVE|
-|           sundialx_2|       timer-sundial|    FINE-TUNED|   ACTIVE|
-|             sundialx|       timer-sundial|    FINE-TUNED|   ACTIVE|
-|           sundialx_4|       timer-sundial|    FINE-TUNED| TRAINING|
-|           sundialx_5|       timer-sundial|    FINE-TUNED|   FAILED|
+|              sundial|       timer-sundial|      BUILT-IN|   ACTIVE| 
 +---------------------+--------------------+--------------+---------+
 ```
 
