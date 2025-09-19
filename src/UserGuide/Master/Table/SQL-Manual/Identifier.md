@@ -25,7 +25,7 @@ In IoTDB, identifiers are used to represent the names of databases, tables, colu
 
 ## 1. Naming Rules
 
-1. **Starting Character**: An identifier must begin with a letter.
+1. **Starting Character**: An identifier must begin with a letter or an underscore.
 2. **Subsequent Characters**: Identifiers can include letters, digits, and underscores.
 3. **Special Characters**: If an identifier contains characters other than letters, digits, and underscores, it must be enclosed in double quotes (`"`).
 4. **Escape Characters**: In double-quoted identifiers, a double quote character can be represented using two consecutive double quotes (`""`).
