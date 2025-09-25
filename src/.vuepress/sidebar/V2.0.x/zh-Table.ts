@@ -132,6 +132,8 @@ export const zhSidebar = {
             { text: '元数据导出', link: 'Schema-Export-Tool' },
           ],
         },
+        { text: '全量备份工具', link: 'Backup-Tool' },
+        { text: '健康检查工具', link: 'Health-Check-Tool' },
       ],
     },
     {
