@@ -286,42 +286,7 @@ with SINK (
 )
 ```
 
-### 3.3 双向数据传输
-
-本例子用来演示两个 IoTDB 之间互为双活的场景，数据链路如下图所示：
-
-![](/img/1706698592139.jpg)
-
-在这个例子中，为了避免数据无限循环，需要将 A 和 B 上的参数`source.mode.double-living` 均设置为 `true`，表示不转发从另一 pipe 传输而来的数据。
-
-详细语句如下：
-
-在 A IoTDB 上执行下列语句：
-
-```SQL
-create pipe AB
-with source (
-  'source.mode.double-living' ='true'   --不转发由其他 Pipe 写入的数据
-)
-with sink (
-  'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6668', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
-)
-```
-
-在 B IoTDB 上执行下列语句：
-
-```SQL
-create pipe BA
-with source (
-  'source.mode.double-living' ='true'   --不转发由其他 Pipe 写入的数据
-)
-with sink (
-  'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6667', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
-)
-```
-### 3.4 边云数据传输
+### 3.3 边云数据传输
 
 本例子用来演示多个 IoTDB 之间边云传输数据的场景，数据由 B 、C、D 集群分别都同步至 A 集群，数据链路如下图所示：
 
@@ -371,7 +336,7 @@ with sink (
 )
 ```
 
-### 3.5 级联数据传输
+### 3.4 级联数据传输
 
 本例子用来演示多个 IoTDB 之间级联传输数据的场景，数据由 A 集群同步至 B 集群，再同步至 C 集群，数据链路如下图所示：
 
@@ -401,7 +366,7 @@ with sink (
 )
 ```
 
-### 3.6 压缩同步
+### 3.5 压缩同步
 
 IoTDB 支持在同步过程中指定数据压缩方式。可通过配置 `compressor` 参数，实现数据的实时压缩和传输。`compressor`目前支持 snappy / gzip / lz4 / zstd / lzma2 5 种可选算法，且可以选择多种压缩算法组合，按配置的顺序进行压缩。`rate-limit-bytes-per-second`（V1.3.3 及以后版本支持）每秒最大允许传输的byte数,计算压缩后的byte，若小于0则不限制。
 
@@ -417,7 +382,7 @@ with sink (
 ```
 
 
-### 3.7 加密同步
+### 3.6 加密同步
 
 IoTDB 支持在同步过程中使用 SSL 加密，从而在不同的 IoTDB 实例之间安全地传输数据。通过配置 SSL 相关的参数，如证书地址和密码（`ssl.trust-store-path`）、（`ssl.trust-store-pwd`）可以确保数据在同步过程中被 SSL 加密所保护。
 
