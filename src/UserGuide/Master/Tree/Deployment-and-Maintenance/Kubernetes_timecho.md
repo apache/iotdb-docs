@@ -125,15 +125,6 @@ For installation steps, please refer to the[Helm Official Website.](https://helm
 
 Please contact timechodb staff to obtain the IoTDB Helm Chart. If you encounter proxy issues, disable the proxy settings:
 
-
-If encountering proxy issues, cancel proxy settings:
-
-> The git clone error is as follows, indicating that the proxy has been configured and needs to be turned off fatal: unable to access 'https://gitlab.timecho.com/r-d/db/iotdb-cluster-k8s.git/': gnutls_handshake() failed: The TLS connection was non-properly terminated.
-
-```Bash
-unset HTTPS_PROXY
-```
-
 ### 5.2 Modify YAML Files
 
 > Ensure that the version used is supported (>=1.3.3.2):
