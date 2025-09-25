@@ -42,7 +42,7 @@ http://thrift.apache.org/docs/install/
 
 ## 2. 编译 thrift 库，生成 Node.js 原生接口
 
-1. 在 IoTDB 源代码文件夹的根目录中找到 pom.xml 文件。
+1. 在 IoTDB [源代码](https://github.com/apache/iotdb) 文件夹的根目录中找到 pom.xml 文件。
 2. 打开 pom.xml 文件，找到以下内容：
 
 ```xml
@@ -78,7 +78,7 @@ http://thrift.apache.org/docs/install/
 </execution>
 ```
 
-4. 在 IoTDB 源代码文件夹的根目录下，运行`mvn clean generate-sources`，
+4. 在 IoTDB [源代码](https://github.com/apache/iotdb) 文件夹的根目录下，运行`mvn clean generate-sources`，
 
 这个指令将自动删除`iotdb/iotdb-protocol/thrift/target` 和 `iotdb/iotdb-protocol/thrift-commons/target`中的文件，并使用新生成的 thrift 文件重新填充该文件夹。
 
