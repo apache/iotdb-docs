@@ -99,7 +99,7 @@ CREATE FUNCTION <UDF-NAME> AS <UDF-CLASS-FULL-PATHNAME> (USING URI URI-STRING)
 ####  方式一：手动放置jar包
 
 准备工作：  
-使用该种方式注册时，需要提前将 JAR 包放置到集群所有节点的 `ext/udf`目录下（该目录可配置）。
+使用该种方式注册时，需要提前将 JAR 包放置到**集群所有节点**的 `ext/udf`目录下（该目录可配置）。
 
 注册语句：
 
