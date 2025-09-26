@@ -22,11 +22,27 @@
 
 ## 1. TimechoDB (Database Core)
 
-### V2.0.5.1
+### V2.0.6.1
 
-> Release Date: 2025.07.14
+> Release Date: 2025.09.19
 >
 > Download Link: Please contact Timecho team for download details.
+
+V2.0.6.1 introduces the table model query write-back feature, adds access control blacklist/whitelist functionality, includes bit operation functions (built-in scalar functions) and pushdown-capable time functions. It also delivers comprehensive enhancements to database monitoring, performance, and stability. Key updates are as follows:
+
+- **Query Module:**
+  - Supports table model query write-back
+  - Table model row pattern recognition now supports aggregate functions for capturing and analyzing continuous data
+  - Adds built-in scalar functions for bit operations in the table model
+  - Introduces pushdown-capable EXTRACT time function for the table model
+- **System Module:**
+  - Adds access control, supporting user-configurable blacklist/whitelist functionality
+- **Others:**
+  - Updates the default user password to the more secure "TimeChoDB@2021"
+
+### V2.0.5.1
+
+> Release Date: 2025.07.14 
 
 V2.0.5.1 introduces ​**​tree-to-table view​**​, ​**​window functions​**​ and the ​**​approx\_most\_frequent​**​ aggregate function for the table model, along with support for ​**​LEFT & RIGHT JOIN​**​ and ​**​ASOF LEFT JOIN​**​. AINode adds two built-in models: ​**​Timer-XL​**​ and ​**​Timer-Sundial​**​, supporting inference and fine-tuning for tree and table models. Comprehensive enhancements to database monitoring, performance, and stability are also included. Key updates:
 
