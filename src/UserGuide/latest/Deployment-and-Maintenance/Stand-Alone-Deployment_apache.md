@@ -42,14 +42,45 @@
   
 ## 2. Installation Steps
 
-### 2.1 Unzip the installation package and enter the installation directory
+### 2.1 Pre-installation Check
+
+To ensure the IoTDB installation package you obtained is complete and valid, we recommend performing an SHA512 verification before proceeding with the installation and deployment.
+
+#### Preparation:
+
+- Obtain the officially released SHA512 checksum: Visit the [Release Versions](https://iotdb.apache.org/zh/Download/) page on the IoTDB open-source official website to get it.
+
+#### Verification Steps (Linux as an Example):
+
+1. Open the terminal and navigate to the directory where the installation package is stored (e.g., /data/iotdb):
+   ```Bash
+      cd /data/iotdb
+      ```
+2. Execute the following command to calculate the hash value:
+   ```Bash
+      sha512sum apache-iotdb-{version}-all-bin.zip
+      ```
+3. The terminal will output a result (the left part is the SHA512 checksum, and the right part is the file name):
+
+
+![img](/img/sha512-07.png)
+
+4. Compare the output result with the official SHA512 checksum. Once confirmed that they match, you can proceed with the installation and deployment of IoTDB as per the procedures below.
+
+
+#### Notes:
+
+- If the verification results do not match, please re-obtain the installation package.
+- If a "file not found" prompt appears during verification, check whether the file path is correct or if the installation package has been fully downloaded.
+
+### 2.2 Unzip the installation package and enter the installation directory
 
 ```Shell
 unzip  apache-iotdb-{version}-all-bin.zip
 cd  apache-iotdb-{version}-all-bin
 ```
 
-### 2.2 Parameter Configuration
+### 2.3 Parameter Configuration
 
 #### Environment Script Configuration
 
@@ -103,7 +134,7 @@ Open the DataNode configuration file (./conf/iotdb-system. properties file) and 
 
 > ❗️Attention: Editors such as VSCode Remote do not have automatic configuration saving function. Please ensure that the modified files are saved persistently, otherwise the configuration items will not take effect
 
-### 2.3 Start ConfigNode
+### 2.4 Start ConfigNode
 
 Enter the sbin directory of iotdb and start confignode
 
@@ -112,7 +143,7 @@ Enter the sbin directory of iotdb and start confignode
 ```
 If the startup fails, please refer to [Common Questions](#common-questions).
 
-### 2.4 Start DataNode
+### 2.5 Start DataNode
 
 Enter the sbin directory of iotdb and start datanode:
 
@@ -121,7 +152,7 @@ cd sbin
 ./start-datanode.sh   -d   #The "- d" parameter will start in the background 
 ```
 
-### 2.5 Verify Deployment
+### 2.6 Verify Deployment
 
 Can be executed directly/ Cli startup script in sbin directory:
 
