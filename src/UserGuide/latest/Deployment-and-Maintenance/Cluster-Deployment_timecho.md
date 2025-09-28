@@ -79,7 +79,7 @@ To ensure the IoTDB Enterprise Edition installation package you obtained is comp
       ```
 3. The terminal will output a result (the left part is the SHA512 checksum, and the right part is the file name):
 
-![img](/img/sha512-01.png)
+![img](/img/sha512-02.png)
 
 4. Compare the output result with the official SHA512 checksum. Once confirmed that they match, you can proceed with the installation and deployment operations in accordance with the procedures below.
 
