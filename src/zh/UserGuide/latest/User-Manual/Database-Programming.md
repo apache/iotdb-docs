@@ -563,8 +563,8 @@ CREATE CQ s1_count_cq
 BEGIN 
     SELECT count(s1) 
     INTO root.sg_count.d(count_s1) 
-    FROM root.sg.d G
-    ROUP BY(30m) 
+    FROM root.sg.d 
+    GROUP BY(30m) 
 END
 ```
 
