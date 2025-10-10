@@ -342,7 +342,6 @@ with sink (
 
 ![](/img/1706698610134.jpg)
 
-在这个例子中，为了将 A 集群的数据同步至 C，在 BC 之间的 pipe 需要将 `source.mode.double-living` 配置为`true`，详细语句如下：
 
 在 A IoTDB 上执行下列语句，将 A 中数据同步至 B：
 
@@ -476,7 +475,6 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | table-name               | 当用户连接指定的 sql_dialect 为 table 时可以指定。此参数决定时序数据的捕获范围，影响`inclusion`中的`data`数据。表示要过滤的表的名称。它可以是具体的表名，也可以是 Java 风格正则表达式来匹配多个表。默认情况下，匹配所有的表。                                                                                                                                                                                                      | String：数据表名或数据表正则模式串，可以是未创建的、不存在的表                                             | 否           | ".*"                            |
 | start-time               | 此参数决定时序数据的捕获范围，影响`inclusion`中的`data`数据。当数据的 event time 大于等于该参数时，数据会被筛选出来进入流处理 pipe。                                                                                                                                                                                                                                                       | Long: [Long.MIN_VALUE， Long.MAX_VALUE] （unix 裸时间戳）或 String：IoTDB 支持的 ISO 格式时间戳 | 否           | Long.MIN_VALUE（unix 裸时间戳） |
 | end-time                 | 此参数决定时序数据的捕获范围，影响`inclusion`中的`data`数据。当数据的 event time 小于等于该参数时，数据会被筛选出来进入流处理 pipe。                                                                                                                                                                                                                                                       | Long: [Long.MIN_VALUE, Long.MAX_VALUE]（unix 裸时间戳）或String：IoTDB 支持的 ISO 格式时间戳   | 否           | Long.MAX_VALUE（unix 裸时间戳） |
-| mode.double-living       | 是否开启全量双活模式，开启后将忽略`-sql_dialect`连接方式，树表模型数据均会被捕获，且不会转发由另一pipe同步而来的数据。                                                                                                                                                                                                                                                                        | Boolean: true / false                                           | 否        | false                     |
 
 > 💎  **说明：数据抽取模式 mode.streaming 取值 true 和 false 的差异**
 > - **true（推荐）**：该取值下，任务将对数据进行实时处理、发送，其特点是高时效、低吞吐
