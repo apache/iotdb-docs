@@ -569,7 +569,7 @@ IoTDB> drop device template t1
 修改设备模板的 SQL 语句如下所示：
 
 ```shell
-IoTDB> alter device template t1 add (speed FLOAT, FLOAT TEXT)
+IoTDB> alter device template t1 add (speed FLOAT)
 ```
 
 **向已挂载模板的路径下的设备中写入数据，若写入请求中的物理量不在模板中，将自动扩展模板。**

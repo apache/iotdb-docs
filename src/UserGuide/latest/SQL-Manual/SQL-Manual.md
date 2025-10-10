@@ -179,7 +179,7 @@ IoTDB> drop device template t1
 ### 2.8 Alter Device Template
 
 ```sql
-IoTDB> alter device template t1 add (speed FLOAT, FLOAT TEXT)
+IoTDB> alter device template t1 add (speed FLOAT)
 ```
 
 ## 3. TIMESERIES MANAGEMENT

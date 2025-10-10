@@ -588,7 +588,7 @@ In a scenario where measurements need to be added, you can modify the  template 
 The SQL Statement for altering device template is as follow:
 
 ```shell
-IoTDB> alter device template t1 add (speed FLOAT, FLOAT TEXT)
+IoTDB> alter device template t1 add (speed FLOAT)
 ```
 
 **When executing data insertion to devices with device template set on related prefix path and there are measurements not present in this device template, the measurements will be auto added to this device template.**
