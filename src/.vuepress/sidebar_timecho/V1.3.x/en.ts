@@ -31,6 +31,7 @@ export const enSidebar = {
         { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_timecho' },
         { text: 'Scenario', link: 'Scenario' },
         { text: 'Release History', link: 'Release-history_timecho' },
+        { text: 'Vulnerability submission', link: 'Vulnerability-submission' },
       ],
     },
     {

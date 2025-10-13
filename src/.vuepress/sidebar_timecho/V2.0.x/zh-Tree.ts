@@ -30,6 +30,7 @@ export const zhSidebar = {
         { text: '产品介绍', link: 'IoTDB-Introduction_timecho' },
         { text: '应用场景', link: 'Scenario' },
         { text: '发布历史', link: 'Release-history_timecho' },
+        { text: '漏洞提报', link: 'Vulnerability-submission' },
       ],
     },
     {
