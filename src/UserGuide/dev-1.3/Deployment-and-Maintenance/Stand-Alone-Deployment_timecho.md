@@ -102,11 +102,11 @@ cd  iotdb-enterprise-{version}-bin
 
 Open the general configuration file (./conf/iotdb-system. properties file) and set the following parameters:
 
-|     **Configuration**     |                       **Description**                        |  **Default**   |                    **Recommended value**                     |                         Note                          |
-| :-----------------------: | :----------------------------------------------------------: | :------------: | :----------------------------------------------------------: | :---------------------------------------------------: |
-|       cluster_name        |                         Cluster Name                         | defaultCluster | The cluster name can be set as needed, and if there are no special needs, the default can be kept |       Cannot be modified after initial startup        |
-| schema_replication_factor | Number of metadata replicas, set to 1 for the standalone version here |       1        |                              1                               | Default 1, cannot be modified after the first startup |
-|  data_replication_factor  | Number of data replicas, set to 1 for the standalone version here |       1        |                              1                               | Default 1, cannot be modified after the first startup |
+|     **Configuration**     |                       **Description**                        |  **Default**   |                    **Recommended value**                     |                                                                Note                                                                |
+| :-----------------------: | :----------------------------------------------------------: | :------------: | :----------------------------------------------------------: |:----------------------------------------------------------------------------------------------------------------------------------:|
+|       cluster_name        |                         Cluster Name                         | defaultCluster | The cluster name can be set as needed, and if there are no special needs, the default can be kept | Support hot loading from V1.3.3, but it is not recommended to change the cluster name by manually modifying the configuration file |
+| schema_replication_factor | Number of metadata replicas, set to 1 for the standalone version here |       1        |                              1                               |                                       Default 1, cannot be modified after the first startup                                        |
+|  data_replication_factor  | Number of data replicas, set to 1 for the standalone version here |       1        |                              1                               |                                       Default 1, cannot be modified after the first startup                                        |
 
 #### ConfigNode Configuration
 
