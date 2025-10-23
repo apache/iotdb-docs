@@ -573,10 +573,10 @@ The `iotdb-system.properties` file contains various configurations for managing 
 - cn_rpc_max_concurrent_client_num
 
 | Name        | cn_rpc_max_concurrent_client_num          |
-| ----------- | ----------------------------------------- |
+| ----------- |-------------------------------------------|
 | Description | Maximum number of concurrent RPC clients. |
-| Type        | Short Int : [0,65535]                     |
-| Default     | 65535                                     |
+| Type        | int                                       |
+| Default     | 3000                                      |
 | Effective   | Restart required.                         |
 
 - cn_connection_timeout_ms
