@@ -1,7 +1,11 @@
 # Data Export
 
 ## 1. Function Overview
-The data export tool `export-data.sh/bat` is located in the `tools` directory and can export query results from specified SQL statements into CSV, SQL, or TsFile (open-source time-series file format) formats. Its specific functionalities are as follows:
+
+IoTDB supports three methods for data export:
+
+* The data export tool: `export-data.sh/bat` is located in the tools directory, allows users to export query results from specified SQL statements into CSV, SQL, or TsFile (open-source time-series file format) formats. The specific functionalities are as follows:
+* ExportTsFile based on data subscription: `export_tsfile.sh/bat` is located in the tools directory and can export specified data files to TsFile format using data subscription.
 
 <table style="text-align: left;">
   <tbody>
@@ -19,14 +23,19 @@ The data export tool `export-data.sh/bat` is located in the `tools` directory an
             <td>File containing custom SQL statements.</td> 
       </tr>
        <tr>
-            <td >TsFile</td> 
+            <td rowspan="2">TsFile</td> 
             <td>Open-source time-series file format.</td>
       </tr> 
+      <tr>
+            <td>export_tsfile.sh/bat</td>  
+            <td>Open-source time-series file format.</td> 
+      </tr>
 </tbody>
 </table>
 
 
-## 2. Detailed Features
+
+## 2. Data Export Tool
 ### 2.1 Common Parameters
 | Short          | Full Parameter           | Description                                                                                                                 | Required        | Default                                       |
 | ---------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------------- |-----------------------------------------------|
@@ -87,7 +96,7 @@ The data export tool `export-data.sh/bat` is located in the `tools` directory an
 > export-data.sh -ft csv -sql_dialect table -t /path/export/dir -q "select * from table1"
 Parse error: Missing required option: db
 ```
-## 2.3 SQL Format
+### 2.3 SQL Format
 #### 2.3.1 Command
 ```Shell
 # Unix/OS X
@@ -163,4 +172,58 @@ Parse error: Missing required option: db
 # Error Example
 > /tools/export-data.sh -ft tsfile -sql_dialect table -t /path/export/dir -start_time 0
 Parse error: Missing required option: db
+```
+
+## 3. ExportTsFile Based on Data Subscription
+
+The `export-tsfile.sh/bat` script supported in IoTDB V2.0.4.x can automatically create a data subscription with TsFile as the PayLoad, exporting specified data files into TsFile format.
+
+### 3.1 Command
+
+```Shell
+# Unix/OS X
+> tools/export-tsfile.sh [-sql_dialect <sql_dialect>] [-h <host>] [-p <port>]
+       [-u <username>] [-pw <password>]  [-db <db>] [-table <table>] [-start_time <start_time>] [-end_time <end_time>] [-t
+       <target_directory>] [-tn <thread_num>] [-help]
+      
+# Windows
+> tools\windows>export-tsfile.bat [-sql_dialect <sql_dialect>] [-h <host>] [-p <port>]
+       [-u <username>] [-pw <password>]  [-db <db>] [-table <table>] [-start_time <start_time>] [-end_time <end_time>] [-t
+       <target_directory>] [-tn <thread_num>] [-help]
+```
+
+### 3.2 Parameters
+
+| Short          | Full Parameter                | Description                                                                         | Required | Default                    |
+| -------------------- |-----------------|-------------------------------------------------------------------------------------|----------|----------------------------|
+| `-sql_dialect` | `--sql_dialect` | Choose between tree or table model for the source data.                             | No       | `tree`                     |
+| `-h`           | `--host`        | IP address of the server node where the source data resides.                        | No       | `127.0.0.1`                |
+| `-p`           | `--port`        | Port number of the source data server.                                              | No       | `6667`                     |
+| `-u`           | `--user`        | username                                                                            | No       | `root`                     |
+| `-pw`          | `--password`    | password                                                                            | No       | `root`                     |
+| `-t`           | `-target`       | Directory path to save the exported files.                                          | No       | `$IOTDB_HOME/tools/target` |
+| `-db`          | `-database`     | Database name for table model exports. Supports regex (use `.*` for all databases). | No       | `.*`                       |
+| `-table`       | `-table`        | Table name for table model exports. Supports regex (use `.*` for all databases).    | No       | `.*`                       |
+| `-start_time`  | `--start_time`  | Beginning timestamp of the data to export                                           | No       | -                          |
+| `-end_time`    | `--end_time`    | Ending timestamp of the data to export                                              | No       | -                          |
+| `-tn`          | `--thread_num`  | Number of parallel threads for export.                                              | No       | -                          |
+| `-help`        | `--help`        | Display usage instructions and parameter details.                                   |          | -                          |
+
+### 3.3 Examples
+
+```Bash
+> tools\windows>export-tsfile.bat -sql_dialect table -db database1
+
+Starting IoTDB Client Export Script
+
+sequence-database1-2-2864-1744786663074-1-0-0.tsfile
+sequence-database1-1-2864-1744786663116-1-0-0.tsfile
+sequence-database1-2-2865-1744786663085-1-0-0.tsfile
+sequence-database1-1-2661-1747641489473-1-0-0.tsfile
+sequence-database1-1-2865-1744786663118-1-0-0.tsfile
+sequence-database1-1-2882-1744855878285-3-0-0.tsfile
+sequence-database1-2-2882-1744855878319-3-0-0.tsfile
+sequence-database1-2-2661-1747639329126-1-1-0.tsfile
+Export TsFile Count: 8
+
 ```
