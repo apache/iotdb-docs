@@ -391,7 +391,6 @@ with sink (
 
 ![](/img/1706698610134.jpg)
 
-在这个例子中，为了将 A 集群的数据同步至 C，在 BC 之间的 pipe 需要将 `source.mode.double-living` 配置为`true`，详细语句如下：
 
 在 A IoTDB 上执行下列语句，将 A 中数据同步至 B：
 
