@@ -48,7 +48,7 @@ Github Issue 链接：<https://github.com/apache/iotdb/issues>
 ## 途径四：通过微信群、QQ 群等方式进行交流
 
 - 入群方式：
-  - 微信群——添加好友:qinchuqing
+  - 微信群——添加好友:apache_iotdb
   - QQ 群——659990460
   - 钉钉群：搜索群名称加入【Apache IoTDB 交流 1 群】
   - 微信公众号：IoTDB 漫游指南
