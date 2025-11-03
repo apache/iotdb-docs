@@ -96,6 +96,7 @@ export const zhSidebar = {
           children: [{ text: '权限管理', link: 'Authority-Management' }],
         },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
+        { text: '树转表视图', link: 'Tree-to-Table' },
         {
           text: '系统运维',
           collapsible: true,
