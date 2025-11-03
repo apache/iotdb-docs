@@ -203,6 +203,16 @@ docker cp iotdb:/iotdb/conf /docker-iotdb/iotdb/conf
 ```bash
 docker-compose  -f docker-compose-standalone.yml  up  -d
 ```
+### 2.7 使用环境变量配置内存
+功能：在docker-compose的配置文件中配置JVM启动内存。
+IoTDB版本大于等于2.0.4.1 或者大于等于1.3.5 以后才支持这种做法。
+```bash
+    environment:
+      # for datanode
+      - IOTDB_JMX_OPTS=-Xms4G -Xmx4G -XX:MaxDirectMemorySize=1G
+      # for confignode
+      - CONFIGNODE_JMX_OPTS=-Xms1G -Xmx1G -XX:MaxDirectMemorySize=256M
+```
 
 ## 3. 集群版
 
