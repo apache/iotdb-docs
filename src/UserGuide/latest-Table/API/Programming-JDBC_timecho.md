@@ -71,6 +71,7 @@ Add the following dependency to your Maven `pom.xml` file:
 ```Java
 String url = "jdbc:iotdb://127.0.0.1:6667?sql_dialect=table";
 ```
+When connecting to a cluster via JDBC, configuring the URL with any one node in the cluster is sufficient.
 
 You can find the full example code at [GitHub Repository](https://github.com/apache/iotdb/blob/rc/2.0.1/example/jdbc/src/main/java/org/apache/iotdb/TableModelJDBCExample.java).
 

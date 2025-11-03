@@ -75,6 +75,7 @@ IoTDB JDBC接口提供了一种标准的方式来与IoTDB数据库进行交互�
 ```Java
 String url = "jdbc:iotdb://127.0.0.1:6667?sql_dialect=table";
 ```
+JDBC 连接集群时，url 配置集群中任意一个节点即可。
 
 JDBC接口示例代码:[src/main/java/org/apache/iotdb/TableModelJDBCExample.java](https://github.com/apache/iotdb/blob/rc/2.0.1/example/jdbc/src/main/java/org/apache/iotdb/TableModelJDBCExample.java)
 
