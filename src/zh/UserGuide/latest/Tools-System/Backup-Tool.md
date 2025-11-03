@@ -114,13 +114,13 @@ backup.sh -node xxx -targetdir xxx -targetdatadir xxx -targetwaldir xxx
 #### 匹配规则总结
 
 * 当 `dn_data_dirs` 仅有 `;` 分割时：
-  **规则**：* `-targetdatadir` 可以只输入一个路径（路径中没有 `;` 和 `,`）。
-    * `-targetdatadir` 也可以按照 `;` 分割多个路径，但数量必须和 `dn_data_dirs` 中的路径数量相等，且路径中不能有 `,`。
+  * `-targetdatadir` 可以只输入一个路径（路径中没有 `;` 和 `,`）。
+  * `-targetdatadir` 也可以按照 `;` 分割多个路径，但数量必须和 `dn_data_dirs` 中的路径数量相等，且路径中不能有 `,`。
 * 当 `dn_data_dirs` 仅有 `,` 分割时：
-  **规则**：* `-targetdatadir` 可以只输入一个路径（路径中没有 `;` 和 `,`）。
-    * `-targetdatadir` 也可以按照 `,` 分割多个路径，但数量必须和 `dn_data_dirs` 中的路径数量相等，且路径中不能有 `;`。
+  * `-targetdatadir` 可以只输入一个路径（路径中没有 `;` 和 `,`）。
+  * `-targetdatadir` 也可以按照 `,` 分割多个路径，但数量必须和 `dn_data_dirs` 中的路径数量相等，且路径中不能有 `;`。
 * 当 `dn_data_dirs` 同时有 `;` 和 `,` 分割时：
-  **规则**：* `-targetdatadir` 可以只输入一个路径（路径中没有 `;` 和 `,`）。
-    * `-targetdatadir` 也可以优先按照 `;` 分割多个路径，数量必须和 `dn_data_dirs` 中的路径数量相等。每个 `;` 分割的路径中可以只输入一个路径，也可以按照 `,` 分割多个路径，但`,`分割的路径数量必须相等。
+  * `-targetdatadir` 可以只输入一个路径（路径中没有 `;` 和 `,`）。
+  * `-targetdatadir` 也可以优先按照 `;` 分割多个路径，数量必须和 `dn_data_dirs` 中的路径数量相等。每个 `;` 分割的路径中可以只输入一个路径，也可以按照 `,` 分割多个路径，但`,`分割的路径数量必须相等。
 
 > `wal` 路径通常通过 `dn_wal_dirs` 参数指定，规则同上
