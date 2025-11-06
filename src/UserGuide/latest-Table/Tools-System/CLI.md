@@ -33,7 +33,10 @@ The CLI client script is located in the `$IOTDB_HOME/sbin` directory. The common
 ```Bash
 Shell> bash sbin/start-cli.sh -sql_dialect table
 #or
+# Before version V2.0.6.x
 Shell> bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect table
+# V2.0.6.x and later versions
+Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -sql_dialect table
 ```
 
 #### **Windows**
@@ -47,26 +50,29 @@ Shell> sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect tab
 # V2.0.4.x and later versions
 Shell> sbin\windows\start-cli.bat -sql_dialect table
 #or
+# V2.0.4.x and later versions， before version V2.0.6.x
 Shell> sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect table
+# V2.0.6.x and later versions
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -sql_dialect table
 ```
 
 **Parameter Explanation**
 
-| **Parameter**              | **Type** | **Required** | **Description**                                              | **Example**         |
-| -------------------------- | -------- | ------------ | ------------------------------------------------------------ | ------------------- |
-| -h `<host>`                  | string   | No           | The IP address of the IoTDB server. (Default: 127.0.0.1)     | -h 127.0.0.1        |
-| -p `<rpcPort>`               | int      | No           | The RPC port of the IoTDB server. (Default: 6667)            | -p 6667             |
-| -u `<username>`              | string   | No           | The username to connect to the IoTDB server. (Default: root) | -u root             |
-| -pw `<password>`             | string   | No           | The password to connect to the IoTDB server. (Default: root) | -pw root            |
-| -sql_dialect `<sql_dialect>` | string   | No           | The data model type: tree or table. (Default: tree)          | -sql_dialect table  |
-| -e `<execute>`               | string   | No           | Batch operations in non-interactive mode.                    | -e "show databases" |
-| -c                         | Flag     | No           | Required if rpc_thrift_compression_enable=true on the server. | -c                  |
-| -disableISO8601            | Flag     | No           | If set, timestamps will be displayed as numeric values instead of ISO8601 format. | -disableISO8601     |
-| -usessl `<use_ssl>`          | Boolean | No           | Enable SSL connection                            | -usessl true         |
-| -ts `<trust_store>`          | string  | No           | SSL certificate store path             | -ts /path/to/truststore  |
-| -tpw `<trust_store_pwd>`      | string  | No           | SSL certificate store password                   | -tpw myTrustPassword |
-| -timeout `<queryTimeout>`    | int    | No           | Query timeout (seconds). If not set, the server's configuration will be used.           | -timeout 30          |
-| -help                      | Flag     | No           | Displays help information for the CLI tool.                  | -help               |
+| **Parameter**              | **Type** | **Required** | **Description**                                                                                   | **Example**         |
+| -------------------------- | -------- | ------------ |---------------------------------------------------------------------------------------------------| ------------------- |
+| -h `<host>`                  | string   | No           | The IP address of the IoTDB server. (Default: 127.0.0.1)                                          | -h 127.0.0.1        |
+| -p `<rpcPort>`               | int      | No           | The RPC port of the IoTDB server. (Default: 6667)                                                 | -p 6667             |
+| -u `<username>`              | string   | No           | The username to connect to the IoTDB server. (Default: root)                                      | -u root             |
+| -pw `<password>`             | string   | No           | The password to connect to the IoTDB server. (Default: `TimechoDB@2021`，before V2.0.6 it is root) | -pw root            |
+| -sql_dialect `<sql_dialect>` | string   | No           | The data model type: tree or table. (Default: tree)                                               | -sql_dialect table  |
+| -e `<execute>`               | string   | No           | Batch operations in non-interactive mode.                                                         | -e "show databases" |
+| -c                         | Flag     | No           | Required if rpc_thrift_compression_enable=true on the server.                                     | -c                  |
+| -disableISO8601            | Flag     | No           | If set, timestamps will be displayed as numeric values instead of ISO8601 format.                 | -disableISO8601     |
+| -usessl `<use_ssl>`          | Boolean | No           | Enable SSL connection                                                                             | -usessl true         |
+| -ts `<trust_store>`          | string  | No           | SSL certificate store path                                                                        | -ts /path/to/truststore  |
+| -tpw `<trust_store_pwd>`      | string  | No           | SSL certificate store password                                                                    | -tpw myTrustPassword |
+| -timeout `<queryTimeout>`    | int    | No           | Query timeout (seconds). If not set, the server's configuration will be used.                     | -timeout 30          |
+| -help                      | Flag     | No           | Displays help information for the CLI tool.                                                       | -help               |
 
 The figure below indicates a successful startup:
 

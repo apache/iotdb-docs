@@ -41,18 +41,18 @@ IoTDB 支持三种方式进行数据导入：
 
 ### 2.1 公共参数
 
-| 参数缩写 | 参数全称      | 参数含义                                                                                                                                    | 是否为必填项 | 默认值                              |
-| ---------- | --------------- |-----------------------------------------------------------------------------------------------------------------------------------------| -------------- |----------------------------------|
+| 参数缩写 | 参数全称      | 参数含义                                                                                                                                    | 是否为必填项 | 默认值                       |
+| ---------- | --------------- |-----------------------------------------------------------------------------------------------------------------------------------------| -------------- |---------------------------|
 | -ft      | --file\_type  | 导入文件的类型，可以选择：csv、sql、tsfile                                                                                                             | √           |
 |
-| -h       | -- host       | 主机名                                                                                                                                     | 否           | 127.0.0.1                        |
-| -p       | --port        | 端口号                                                                                                                                     | 否           | 6667                             |
-| -u       | --username    | 用户名                                                                                                                                     | 否           | root                             |
-| -pw      | --password    | 密码                                                                                                                                      | 否           | root                             |
+| -h       | -- host       | 主机名                                                                                                                                     | 否           | 127.0.0.1                 |
+| -p       | --port        | 端口号                                                                                                                                     | 否           | 6667                      |
+| -u       | --username    | 用户名                                                                                                                                     | 否           | root                      |
+| -pw      | --password    | 密码                                                                                                                                      | 否           | TimechoDB@2021 (V2.0.6 版本之前为 root)                          |
 | -s       | --source      | 待加载的脚本文件(夹)的本地目录路径<br>如果为csv sql tsfile这三个支持的格式，直接导入<br>不支持的格式，报错提示`The file name must end with "csv" or "sql"or "tsfile"!`  | √           |
 |
 | -tn      | --thread\_num | 最大并行线程数                                                                                                                                 | 否           | 8<br>范围：0～Integer.Max=2147483647 |
-| -tz      | --timezone    | 时区设置，例如`+08:00`或`-01:00`                                                                                                                | 否           | 本机系统时间                           |
+| -tz      | --timezone    | 时区设置，例如`+08:00`或`-01:00`                                                                                                                | 否           | 本机系统时间                    |
 | -help    | --help        | 显示帮助信息,支持分开展示和全部展示`-help`或`-help csv`                                                                                                   | 否           |
 |
 
@@ -97,7 +97,7 @@ IoTDB 支持三种方式进行数据导入：
 
 ```Shell
 # 正确示例
-> tools/import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/sql 
+> tools/import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -s /path/sql 
       -fd /path/failure/dir -lpf 100  -aligned true -ti "BOOLEAN=text,INT=long,FLOAT=double" 
       -tp ms -tz +08:00 -batch 5000  -tn 4
       
@@ -107,6 +107,8 @@ error: Source file or directory /non_path does not exist
 
 > tools/import-data.sh -ft csv -s /path/sql -tn 0
 error: Invalid thread number '0'. Please set a positive integer.
+
+# 注意：V2.0.6版本之前 -pw 参数值默认值为 root
 ```
 
 #### 2.3.4 导入说明
@@ -186,7 +188,7 @@ Time,Device,str(TEXT),var(INT32)
 
 ```Shell
 # 正确示例
-> tools/import-data.sh -ft sql -h 127.0.0.1 -p 6667 -u root -pw root -s /path/sql 
+> tools/import-data.sh -ft sql -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -s /path/sql 
         -fd /path/failure/dir -lpf 500  -tz +08:00 
         -batch 100000  -tn 4
       
@@ -197,6 +199,8 @@ error: Source file or directory /path/sql does not exist
 
 > tools/import-data.sh -ft sql -s /path/sql -tn 0
 error: Invalid thread number '0'. Please set a positive integer.
+
+# 注意：V2.0.6版本之前 -pw 参数值默认值为 root
 ```
 
 ### 2.4 TsFile 格式
@@ -236,7 +240,7 @@ error: Invalid thread number '0'. Please set a positive integer.
 
 ```Shell
 # 正确示例
-> tools/import-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw root 
+> tools/import-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 
       -s /path/sql -os mv -of cp -sd /path/success/dir -fd /path/failure/dir 
       -tn 8 -tz +08:00 -tp ms
       
@@ -248,6 +252,8 @@ error: Missing option --success_dir (or -sd) when --on_success is 'mv' or 'cp'
 > tools/import-data.sh -ft tsfile -s /path/sql -os mv -of cp 
           -sd /path/success/dir -fd /path/failure/dir  -tn 0 
 error: Invalid thread number '0'. Please set a positive integer.
+
+# 注意：V2.0.6版本之前 -pw 参数值默认值为 root
 ```
 ## 3. TsFile 自动加载功能
 

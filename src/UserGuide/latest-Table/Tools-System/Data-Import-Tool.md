@@ -46,11 +46,11 @@ IoTDB supports three methods for data import:
 | `-h`    | `--host`       | IoTDB server hostname.                                                                                                                                                                           | No              | `127.0.0.1`                                   |
 | `-p`    | `--port`       | IoTDB server port.                                                                                                                                                                               | No              | `6667`                                        |
 | `-u`    | `--username`   | Username.                                                                                                                                                                                        | No              | `root`                                        |
-| `-pw`   | `--password`   | Password.                                                                                                                                                                                        | No              | `root`                                        |
+| `-pw`   | `--password`   | Password.                                                                                                                                                                                        | No              | `TimechoDB@2021`(Before V2.0.6 it is root)    |
 |
-|`-sql_dialect`|`--sql_dialect`|Select server model : tree or table | No      | `tree` |
-|` -db `|`--database` |​Target database , applies only to `-sql_dialect=table` |Yes when `-sql_dialect = table`  | - |
-|`-table` |`--table `|Target table , required for CSV imports in table model | No  | - |
+|`-sql_dialect`|`--sql_dialect`|Select server model : tree or table | No      | `tree`                                        |
+|` -db `|`--database` |​Target database , applies only to `-sql_dialect=table` |Yes when `-sql_dialect = table`  | -                                             |
+|`-table` |`--table `|Target table , required for CSV imports in table model | No  | -                                             |
 |
 | `-s`    | `--source`     | Local path to the file/directory to import. ​​**Supported formats**​: CSV, SQL, TsFile. Unsupported formats trigger error: `The file name must end with "csv", "sql", or "tsfile"!` | ​**Yes** | -                                             |
 | `-tn`   | `--thread_num` | Maximum parallel threads                                                                                                                                   | No              | `8` <br> Range: 0 to Integer.Max(2147483647). |

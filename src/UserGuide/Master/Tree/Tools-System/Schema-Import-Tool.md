@@ -29,19 +29,19 @@ The schema import tool `import-schema.sh/bat` is located in `tools` directory.
 
 ### 2.1 Parameter
 
-| **Short Param** | **Full Param**          | **Description**                                                     | Required | Default                                        |
-| ----------------------- | ------------------------------- | --------------------------------------------------------------------------- | ---------- | ------------------------------------------------ |
-| `-h`              | `-- host`                 | Hostname                                                                  | No       | 127.0.0.1                                      |
-| `-p`              | `--port`                  | Port number                                                               | No       | 6667                                           |
-| `-u`              | `--username`              | Username                                                                  | No       | root                                           |
-| `-pw`             | `--password`              | Password                                                                  | No       | root                                           |
-| `-sql_dialect`   | `--sql_dialect`           | Specifies whether the server uses`tree `model or`table `model     | No      | tree                                           |
-| `-db`             | `--database`              | Target database for import                                                | Yes      | -                                              |
-| `-table`          | `--table`                 | Target table for import (only applies when`-sql_dialect=table`)       | No      | -                                              |
-| `-s`              | `--source`                | Local directory path containing script file(s) to import                  | Yes      |                                               |
-| `-fd`             | `--fail_dir`              | Directory to save failed import files                                     | No       |                                               |
+| **Short Param** | **Full Param**          | **Description**                                                     | Required | Default                                   |
+| ----------------------- | ------------------------------- | --------------------------------------------------------------------------- | ---------- |-------------------------------------------|
+| `-h`              | `-- host`                 | Hostname                                                                  | No       | 127.0.0.1                                 |
+| `-p`              | `--port`                  | Port number                                                               | No       | 6667                                      |
+| `-u`              | `--username`              | Username                                                                  | No       | root                                      |
+| `-pw`             | `--password`              | Password                                                                  | No       | TimechoDB@2021(Before V2.0.6 it is root)  |
+| `-sql_dialect`   | `--sql_dialect`           | Specifies whether the server uses`tree `model or`table `model     | No      | tree                                      |
+| `-db`             | `--database`              | Target database for import                                                | Yes      | -                                         |
+| `-table`          | `--table`                 | Target table for import (only applies when`-sql_dialect=table`)       | No      | -                                         |
+| `-s`              | `--source`                | Local directory path containing script file(s) to import                  | Yes      |                                           |
+| `-fd`             | `--fail_dir`              | Directory to save failed import files                                     | No       |                                           |
 | `-lpf`            | `--lines_per_failed_file` | Maximum lines per failed file (only applies when`-sql_dialect=table`) | No      | 100000Range：`0 to Integer.Max=2147483647` |
-| `-help`           | `--help`                  | Display help information                                                  | No       |                                               |
+| `-help`           | `--help`                  | Display help information                                                  | No       |                                           |
 
 ### 2.2 Command
 

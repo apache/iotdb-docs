@@ -28,18 +28,18 @@ The data export tool, export-data.sh (Unix/OS X) or export-data.bat (Windows), l
 
 ## 2. Detailed Functionality
 ### 2.1 Common Parameters
-| Short          | Full Parameter           | Description                                                                                                                 | Required        | Default                                       |
-| ---------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------------- |-----------------------------------------------|
-| `-ft`      | `--file_type`        | Export file type: `csv`, `sql`, `tsfile`.                                                                       | ​**Yes** | -                                             |
-| `-h`       | `--host`             | Hostname of the IoTDB server.                                                                                               | No              | `127.0.0.1`                                   |
-| `-p`       | `--port`             | Port number of the IoTDB server.                                                                                            | No              | `6667`                                        |
-| `-u`       | `--username`         | Username for authentication.                                                                                                | No              | `root`                                        |
-| `-pw`      | `--password`         | Password for authentication.                                                                                                | No              | `root`                                        |
-| `-t`       | `--target`           | Target directory for the output files. If the path does not exist, it will be created.                                      | ​**Yes** | -                                             |
-| `-pfn`     | `--prefix_file_name` | Prefix for the exported file names. For example, `abc` will generate files like `abc_0.tsfile`, `abc_1.tsfile`. | No              | `dump_0.tsfile`                               |
-| `-q`       | `--query`            | SQL query command to execute.                                                                                               | No              | -                                             |
-| `-timeout` | `--query_timeout`    | Query timeout in milliseconds (ms).                                                                                         | No              | `-1` (Range: -1~Long max=9223372036854775807) |
-| `-help`    | `--help`             | Display help information.                                                                                                   | No              | -                                             |
+| Short          | Full Parameter           | Description                                                                                                                 | Required        | Default                                        |
+| ---------------- | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------- | ----------------- |------------------------------------------------|
+| `-ft`      | `--file_type`        | Export file type: `csv`, `sql`, `tsfile`.                                                                       | ​**Yes** | -                                              |
+| `-h`       | `--host`             | Hostname of the IoTDB server.                                                                                               | No              | `127.0.0.1`                                    |
+| `-p`       | `--port`             | Port number of the IoTDB server.                                                                                            | No              | `6667`                                         |
+| `-u`       | `--username`         | Username for authentication.                                                                                                | No              | `root`                                         |
+| `-pw`      | `--password`         | Password for authentication.                                                                                                | No              | `TimechoDB@2021`(Before V2.0.6 it is `root` )  |
+| `-t`       | `--target`           | Target directory for the output files. If the path does not exist, it will be created.                                      | ​**Yes** | -                                              |
+| `-pfn`     | `--prefix_file_name` | Prefix for the exported file names. For example, `abc` will generate files like `abc_0.tsfile`, `abc_1.tsfile`. | No              | `dump_0.tsfile`                                |
+| `-q`       | `--query`            | SQL query command to execute.                                                                                               | No              | -                                              |
+| `-timeout` | `--query_timeout`    | Query timeout in milliseconds (ms).                                                                                         | No              | `-1` (Range: -1~Long max=9223372036854775807)  |
+| `-help`    | `--help`             | Display help information.                                                                                                   | No              | -                                              |
 
 ### 2.2 CSV Format
 #### 2.2.1 Command
@@ -73,13 +73,15 @@ The data export tool, export-data.sh (Unix/OS X) or export-data.bat (Windows), l
 
 ```Shell
 # Valid Example
-> tools/export-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -t /path/export/dir 
+> tools/export-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -t /path/export/dir 
               -pfn exported-data.csv -dt true -lpf 1000 -tf "yyyy-MM-dd HH:mm:ss"
               -tz +08:00 -q "SELECT * FROM root.ln" -timeout 20000    
                 
 # Error Example
-> tools/export-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root
+> tools/export-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
 Parse error: Missing required option: t
+
+# Note: Before version V2.0.6, the default value for the -pw parameter was root.
 ```
 ## 2.3 SQL Format
 #### 2.3.1 Command
@@ -112,13 +114,15 @@ Parse error: Missing required option: t
 #### 2.3.3 Examples
 ```Shell
 # Valid Example
-> tools/export-data.sh -ft sql -h 127.0.0.1 -p 6667 -u root -pw root -t /path/export/dir 
+> tools/export-data.sh -ft sql -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -t /path/export/dir 
               -pfn exported-data.csv -aligned true -lpf 1000 -tf "yyyy-MM-dd HH:mm:ss"
               -tz +08:00 -q "SELECT * FROM root.ln" -timeout 20000    
                 
 # Error Example
-> tools/export-data.sh -ft sql -h 127.0.0.1 -p 6667 -u root -pw root
+> tools/export-data.sh -ft sql -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
 Parse error: Missing required option: t
+
+# Note: Before version V2.0.6, the default value for the -pw parameter was root.
 ```
 
 ### 2.4 TsFile Format
@@ -148,10 +152,12 @@ Parse error: Missing required option: t
 
 ```Shell
 # Valid Example
-> tools/export-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw root -t /path/export/dir 
+> tools/export-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -t /path/export/dir 
               -pfn export-data.tsfile -q "SELECT * FROM root.ln"  -timeout 10000
    
 # Error Example
-> tools/export-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw root
+> tools/export-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
 Parse error: Missing required option: t
+
+# Note: Before version V2.0.6, the default value for the -pw parameter was root.
 ```

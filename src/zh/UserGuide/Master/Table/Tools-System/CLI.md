@@ -34,7 +34,10 @@ CLI 客户端脚本是 $IoTDB_HOME/sbin 文件夹下的`start-cli`脚本。启�
 ```Shell
 Shell> bash sbin/start-cli.sh -sql_dialect table
 或
+# V2.0.6.x 版本之前
 Shell> bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect table
+# V2.0.6.x 版本及之后
+Shell> bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -sql_dialect table
 ```
 
 - Windows 系统常用启动命令为：
@@ -48,32 +51,35 @@ Shell> sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect tab
 # V2.0.4.x 版本及之后
 Shell> sbin\windows\start-cli.bat -sql_dialect table
 或
+# V2.0.4.x 版本及之后,  V2.0.6.x 版本之前
 Shell> sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect table
+# V2.0.6.x 版本及之后
+Shell> sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -sql_dialect table
 ```
 
 其中：
 
 - -h 和-p 项是 IoTDB 所在的 IP 和 RPC 端口号（本机未修改 IP 和 RPC 端口号默认为 127.0.0.1、6667）
-- -u 和-pw 是 IoTDB 登录的用户名密码（安装后IoTDB有一个默认用户，用户名密码均为`root`）
+- -u 和-pw 是 IoTDB 登录的用户名密码（安装后IoTDB有一个默认用户，用户名为`root`,密码为`TimechoDB@2021`,V2.0.6版本之前密码为`root`）
 - -sql_dialect 是登录的数据模型（表模型或树模型），此处指定为 table 代表进入表模型模式
 
 更多参数见：
 
 | **参数名**                      | **参数类型**   | **是否为必需参数** | **说明**                                                     | **示例**               |
-|:-----------------------------|:-----------|:------------| :----------------------------------------------------------- |:---------------------|
-| -h `<host>`                  | string 类型  | 否           | IoTDB 客户端连接 IoTDB 服务器的 IP 地址， 默认使用：127.0.0.1。 | -h  127.0.0.1        |
-| -p `<rpcPort>`               | int 类型     | 否           | IoTDB 客户端连接服务器的端口号，IoTDB 默认使用 6667。        | -p 6667              |
-| -u `<username>`              | string 类型  | 否           | IoTDB 客户端连接服务器所使用的用户名，默认使用 root。        | -u root              |
-| -pw `<password>`             | string 类型  | 否           | IoTDB 客户端连接服务器所使用的密码，默认使用 root。          | -pw root             |
-| -sql_dialect `<sql_dialect>` | string 类型  | 否           | 目前可选 tree（树模型） 、table（表模型），默认 tree         | -sql_dialect  table  |
-| -e `<execute>`               | string 类型  | 否           | 在不进入客户端输入模式的情况下，批量操作 IoTDB。             | -e "show databases"  |
+|:-----------------------------|:-----------|:------------|:-----------------------------------------------------------|:---------------------|
+| -h `<host>`                  | string 类型  | 否           | IoTDB 客户端连接 IoTDB 服务器的 IP 地址， 默认使用：127.0.0.1。              | -h  127.0.0.1        |
+| -p `<rpcPort>`               | int 类型     | 否           | IoTDB 客户端连接服务器的端口号，IoTDB 默认使用 6667。                        | -p 6667              |
+| -u `<username>`              | string 类型  | 否           | IoTDB 客户端连接服务器所使用的用户名，默认使用 root。                           | -u root              |
+| -pw `<password>`             | string 类型  | 否           | IoTDB 客户端连接服务器所使用的密码，默认使用 TimechoDB@2021（V2.0.6版本之前为root）。 | -pw root             |
+| -sql_dialect `<sql_dialect>` | string 类型  | 否           | 目前可选 tree（树模型） 、table（表模型），默认 tree                         | -sql_dialect  table  |
+| -e `<execute>`               | string 类型  | 否           | 在不进入客户端输入模式的情况下，批量操作 IoTDB。                                | -e "show databases"  |
 | -c                           | 空          | 否           | 如果服务器设置了 rpc_thrift_compression_enable=true， 则 CLI 必须使用 -c | -c                   |
-| -disableISO8601              | 空          | 否           | 如果设置了这个参数，IoTDB 将以数字的形式打印时间戳 （timestamp）。 | -disableISO8601      |
-| -usessl `<use_ssl>`          | Boolean 类型 | 否           | 否开启 ssl 连接                             | -usessl true         |
-| -ts `<trust_store>`          | string 类型  | 否           |  ssl 证书存储路径                             | -ts /path/to/truststore  |
-| -tpw `<trust_store_pwd>`      | string 类型  | 否           | ssl 证书存储密码                             | -tpw myTrustPassword |
-| -timeout `<queryTimeout>`    | int 类型     | 否           | 查询超时时间（秒）。如果未设置，则使用服务器的配置。           | -timeout 30          |
-| -help                        | 空          | 否           | 打印 IoTDB 的帮助信息。                                      | -help                |
+| -disableISO8601              | 空          | 否           | 如果设置了这个参数，IoTDB 将以数字的形式打印时间戳 （timestamp）。                  | -disableISO8601      |
+| -usessl `<use_ssl>`          | Boolean 类型 | 否           | 否开启 ssl 连接                                                 | -usessl true         |
+| -ts `<trust_store>`          | string 类型  | 否           | ssl 证书存储路径                                                 | -ts /path/to/truststore  |
+| -tpw `<trust_store_pwd>`      | string 类型  | 否           | ssl 证书存储密码                                                 | -tpw myTrustPassword |
+| -timeout `<queryTimeout>`    | int 类型     | 否           | 查询超时时间（秒）。如果未设置，则使用服务器的配置。                                 | -timeout 30          |
+| -help                        | 空          | 否           | 打印 IoTDB 的帮助信息。                                            | -help                |
 
 启动后出现如图提示即为启动成功。
 

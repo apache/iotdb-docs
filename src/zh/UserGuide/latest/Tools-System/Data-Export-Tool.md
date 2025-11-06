@@ -31,18 +31,18 @@
 
 ### 2.1 公共参数
 
-| 参数缩写 | 参数全称             | 参数含义                                                             | 是否为必填项 | 默认值                                   |
-| ---------- | ---------------------- | ---------------------------------------------------------------------- | -------------- | ------------------------------------------ |
-| -ft      | --file\_type         | 导出文件的类型，可以选择：csv、sql、tsfile                           | √           |                                         |
+| 参数缩写 | 参数全称             | 参数含义                                                             | 是否为必填项 | 默认值                                      |
+| ---------- | ---------------------- | ---------------------------------------------------------------------- | -------------- |------------------------------------------|
+| -ft      | --file\_type         | 导出文件的类型，可以选择：csv、sql、tsfile                           | √           |                                          |
 | -h       | -- host              | 主机名                                                               | 否           | 127.0.0.1                                |
 | -p       | --port               | 端口号                                                               | 否           | 6667                                     |
 | -u       | --username           | 用户名                                                               | 否           | root                                     |
-| -pw      | --password           | 密码                                                                 | 否           | root                                     |
-| -t       | --target             | 指定输出文件的目标文件夹，如果路径不存在新建文件夹                   | √           |                                         |
-| -pfn     | --prefix\_file\_name | 指定导出文件的名称。例如：abc,生成的文件是abc\_0.tsfile、abc\_1.tsfile | 否           | dump\_0.tsfile                          |
-| -q       | --query              | 要执行的查询命令                                                     | 否           | 无                                       |
+| -pw      | --password           | 密码                                                                 | 否           | TimechoDB@2021 (V2.0.6 版本之前为 root)       |
+| -t       | --target             | 指定输出文件的目标文件夹，如果路径不存在新建文件夹                   | √           |                                          |
+| -pfn     | --prefix\_file\_name | 指定导出文件的名称。例如：abc,生成的文件是abc\_0.tsfile、abc\_1.tsfile | 否           | dump\_0.tsfile                           |
+| -q       | --query              | 要执行的查询命令                                                     | 否           | 无                                        |
 | -timeout | --query\_timeout     | 会话查询的超时时间(ms)                                               | 否           | -1<br>范围：-1～Long max=9223372036854775807 |
-| -help    | --help               | 显示帮助信息                                                         | 否           |                                         |
+| -help    | --help               | 显示帮助信息                                                         | 否           |                                          |
 
 ### 2.2 Csv 格式
 
@@ -78,13 +78,15 @@
 
 ```Shell
 # 正确示例
-> tools/export-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -t /path/export/dir 
+> tools/export-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -t /path/export/dir 
               -pfn exported-data.csv -dt true -lpf 1000 -tf "yyyy-MM-dd HH:mm:ss"
               -tz +08:00 -q "SELECT * FROM root.ln" -timeout 20000    
                 
 # 异常示例
-> tools/export-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root
+> tools/export-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
 Parse error: Missing required option: t
+
+# 注意：V2.0.6版本之前 -pw 参数值默认值为 root
 ```
 
 ### 2.3 Sql 格式
@@ -122,13 +124,15 @@ Parse error: Missing required option: t
 
 ```Shell
 # 正确示例
-> tools/export-data.sh -ft sql -h 127.0.0.1 -p 6667 -u root -pw root -t /path/export/dir 
+> tools/export-data.sh -ft sql -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -t /path/export/dir 
               -pfn exported-data.csv -aligned true -lpf 1000 -tf "yyyy-MM-dd HH:mm:ss"
               -tz +08:00 -q "SELECT * FROM root.ln" -timeout 20000    
                 
 # 异常示例
-> tools/export-data.sh -ft sql -h 127.0.0.1 -p 6667 -u root -pw root
+> tools/export-data.sh -ft sql -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
 Parse error: Missing required option: t
+
+# 注意：V2.0.6版本之前 -pw 参数值默认值为 root
 ```
 
 ### 2.4 TsFile 格式
@@ -158,10 +162,12 @@ Parse error: Missing required option: t
 
 ```Shell
 # 正确示例
-> tools/export-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw root -t /path/export/dir 
+> tools/export-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -t /path/export/dir 
               -pfn export-data.tsfile -q "SELECT * FROM root.ln"  -timeout 10000
    
 # 异常示例
-> tools/export-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw root
+> tools/export-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
 Parse error: Missing required option: t
+
+# 注意：V2.0.6版本之前 -pw 参数值默认值为 root
 ```

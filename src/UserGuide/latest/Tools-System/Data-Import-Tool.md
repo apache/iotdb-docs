@@ -45,7 +45,7 @@ IoTDB supports three methods for data import:
 | `-h`    | `--host`       | IoTDB server hostname.                                                                                                                                                                           | No              | `127.0.0.1`                                   |
 | `-p`    | `--port`       | IoTDB server port.                                                                                                                                                                               | No              | `6667`                                        |
 | `-u`    | `--username`   | Username.                                                                                                                                                                                        | No              | `root`                                        |
-| `-pw`   | `--password`   | Password.                                                                                                                                                                                        | No              | `root`                                        |
+| `-pw`   | `--password`   | Password.                                                                                                                                                                                        | No              | `TimechoDB@2021`(Before V2.0.6 it is `root` ) |
 | `-s`    | `--source`     | Local path to the file/directory to import. ​​**Supported formats**​: CSV, SQL, TsFile. Unsupported formats trigger error: `The file name must end with "csv", "sql", or "tsfile"!` | ​**Yes** | -                                             |
 | `-tn`   | `--thread_num` | Maximum parallel threads                                                                                                                                   | No              | `8` <br> Range: 0 to Integer.Max(2147483647). |
 | `-tz`   | `--timezone`   | Timezone (e.g., `+08:00`, `-01:00`).                                                                                                                                                     | No              | System default                                |
@@ -90,7 +90,7 @@ IoTDB supports three methods for data import:
 
 ```Shell
 # Valid Example
-> tools/import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/sql 
+> tools/import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -s /path/sql 
       -fd /path/failure/dir -lpf 100  -aligned true -ti "BOOLEAN=text,INT=long,FLOAT=double" 
       -tp ms -tz +08:00 -batch 5000  -tn 4
       
@@ -100,6 +100,8 @@ error: Source file or directory /non_path does not exist
 
 > tools/import-data.sh -ft csv -s /path/sql -tn 0
 error: Invalid thread number '0'. Please set a positive integer.
+
+# Note: Before version V2.0.6, the default value for the -pw parameter was root.
 ```
 
 #### 2.2.4 Import Notes
@@ -180,7 +182,7 @@ Time,Device,str(TEXT),var(INT32)
 
 ```Shell
 # Valid Example
-> tools/import-data.sh -ft sql -h 127.0.0.1 -p 6667 -u root -pw root -s /path/sql 
+> tools/import-data.sh -ft sql -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -s /path/sql 
         -fd /path/failure/dir -lpf 500  -tz +08:00 
         -batch 100000  -tn 4
       
@@ -191,6 +193,8 @@ error: Source file or directory /path/sql does not exist
 
 > tools/import-data.sh -ft sql -s /path/sql -tn 0
 error: Invalid thread number '0'. Please set a positive integer.
+
+# Note: Before version V2.0.6, the default value for the -pw parameter was root.
 ```
 ###  2.4 TsFile Format 
 
@@ -227,7 +231,7 @@ error: Invalid thread number '0'. Please set a positive integer.
 
 ```Shell
 # Valid Example
-> tools/import-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw root 
+> tools/import-data.sh -ft tsfile -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 
       -s /path/sql -os mv -of cp -sd /path/success/dir -fd /path/failure/dir 
       -tn 8 -tz +08:00 -tp ms
       
@@ -239,6 +243,8 @@ error: Missing option --success_dir (or -sd) when --on_success is 'mv' or 'cp'
 > tools/import-data.sh -ft tsfile -s /path/sql -os mv -of cp 
           -sd /path/success/dir -fd /path/failure/dir  -tn 0 
 error: Invalid thread number '0'. Please set a positive integer.
+
+# Note: Before version V2.0.6, the default value for the -pw parameter was root.
 ```
 
 
