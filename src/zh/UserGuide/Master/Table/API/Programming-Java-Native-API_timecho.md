@@ -44,6 +44,7 @@ IoTDB具备Java原生客户端驱动和对应的连接池，提供对象化接�
     </dependency>
 </dependencies>
 ```
+* 可从[此处](https://repo1.maven.org/maven2/com/timecho/iotdb/iotdb-session/)查看`iotdb-session`最新版本
 
 ## 3. 读写操作
 

@@ -43,6 +43,7 @@ IoTDB provides a Java native client driver and a session pool management mechani
     </dependency>
 </dependencies>
 ```
+* The latest version of `iotdb-session` can be viewed [here](https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-session/)
 
 ## 3. Read and Write Operations
 
