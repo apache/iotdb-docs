@@ -39,7 +39,8 @@ IoTDB具备Java原生客户端驱动和对应的连接池，提供对象化接�
     <dependency>
       <groupId>org.apache.iotdb</groupId>
       <artifactId>iotdb-session</artifactId>
-      <version>2.0.1-beta</version>
+        <!-- 版本号与数据库版本号相同 -->
+      <version>${project.version}</version>
     </dependency>
 </dependencies>
 ```

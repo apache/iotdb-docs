@@ -38,7 +38,8 @@ IoTDB provides a Java native client driver and a session pool management mechani
     <dependency>
       <groupId>org.apache.iotdb</groupId>
       <artifactId>iotdb-session</artifactId>
-      <version>2.0.1-beta</version>
+        <!-- The version number is the same as the database version number --> 
+      <version>${project.version}</version>
     </dependency>
 </dependencies>
 ```
