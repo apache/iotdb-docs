@@ -20,9 +20,9 @@
 -->
 # Delete Data
  
-Users can delete data that meet the deletion condition in the specified timeseries by using the [DELETE statement](../SQL-Manual/SQL-Manual.md#delete-data). When deleting data, users can select one or more timeseries paths, prefix paths, or paths with star  to delete data within a certain time interval.
+Users can delete data that meet the deletion condition in the specified timeseries by using the DELETE statement. When deleting data, users can select one or more timeseries paths, prefix paths, or paths with star  to delete data within a certain time interval.
 
-In a JAVA programming environment, you can use the [Java JDBC](../API/Programming-JDBC.md) to execute single or batch UPDATE statements.
+In a JAVA programming environment, you can use the Java JDBC to execute single or batch UPDATE statements.
 
 ## 1. Delete Single Timeseries
 

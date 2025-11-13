@@ -123,7 +123,7 @@ public class TableModelJDBCExample {
     // don't specify database in url
     try (Connection connection =
             DriverManager.getConnection(
-                "jdbc:iotdb://127.0.0.1:6667?sql_dialect=table", "root", "root");
+                "jdbc:iotdb://127.0.0.1:6667?sql_dialect=table", "root", "TimechoDB@2021"); //V2.0.6.x 之前默认密码是root 
         Statement statement = connection.createStatement()) {
 
       statement.execute("CREATE DATABASE test1");
@@ -164,7 +164,7 @@ public class TableModelJDBCExample {
     // specify database in url
     try (Connection connection =
             DriverManager.getConnection(
-                "jdbc:iotdb://127.0.0.1:6667/test1?sql_dialect=table", "root", "root");
+                "jdbc:iotdb://127.0.0.1:6667/test1?sql_dialect=table", "root", "TimechoDB@2021"); //V2.0.6.x 之前默认密码是root 
         Statement statement = connection.createStatement()) {
       // show tables from current database test1
       try (ResultSet resultSet = statement.executeQuery("SHOW TABLES")) {

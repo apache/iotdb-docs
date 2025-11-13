@@ -29,7 +29,7 @@ IoTDB provides Cli/shell tools for users to interact with IoTDB server in comman
 ## 1. Running Cli
 
 After installation, there is a default user in IoTDB: `root`, and the
-default password is `root`. Users can use this username to try IoTDB Cli/Shell tool. The cli startup script is the `start-cli` file under the \$IOTDB\_HOME/bin folder. When starting the script, you need to specify the IP and PORT. (Make sure the IoTDB cluster is running properly when you use Cli/Shell tool to connect to it.)
+default password is `TimechoDB@2021`(Before V2.0.6 it is `root`). Users can use this username to try IoTDB Cli/Shell tool. The cli startup script is the `start-cli` file under the \$IOTDB\_HOME/bin folder. When starting the script, you need to specify the IP and PORT. (Make sure the IoTDB cluster is running properly when you use Cli/Shell tool to connect to it.)
 
 Here is an example where the cluster is started locally and the user has not changed the running port. The default rpc port is
 6667 <br>
@@ -40,7 +40,11 @@ You also can set your own environment variable at the front of the start script
 The Linux and MacOS system startup commands are as follows:
 
 ```shell
+# Before version V2.0.6.x
 Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.6.x and later versions
+Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
 ```
 
 The Windows system startup commands are as follows:
@@ -49,8 +53,11 @@ The Windows system startup commands are as follows:
 # Before version V2.0.4.x
 Shell > sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
 
-# V2.0.4.x and later versions
+# V2.0.4.x and later versions, before version V2.0.6.x
 Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.6.x and later versions
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
 ```
 
 After operating these commands, the cli can be started successfully. The successful status will be as follows:

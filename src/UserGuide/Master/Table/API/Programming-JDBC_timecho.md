@@ -72,7 +72,7 @@ Add the following dependency to your Maven `pom.xml` file:
 String url = "jdbc:iotdb://127.0.0.1:6667?sql_dialect=table";
 ```
 
-You can find the full example code at [GitHub Repository](https://github.com/apache/iotdb/blob/master/example/jdbc/src/main/java/org/apache/iotdb/TableModelJDBCExample.java).
+You can find the full example code at [GitHub Repository](https://github.com/apache/iotdb/blob/rc/2.0.1/example/jdbc/src/main/java/org/apache/iotdb/TableModelJDBCExample.java).
 
 Here is an excerpt of the sample code:
 
@@ -120,7 +120,7 @@ public class TableModelJDBCExample {
     // don't specify database in url
     try (Connection connection =
             DriverManager.getConnection(
-                "jdbc:iotdb://127.0.0.1:6667?sql_dialect=table", "root", "root");
+                "jdbc:iotdb://127.0.0.1:6667?sql_dialect=table", "root", "TimechoDB@2021"); //before V2.0.6 it is root
         Statement statement = connection.createStatement()) {
 
       statement.execute("CREATE DATABASE test1");
@@ -161,7 +161,7 @@ public class TableModelJDBCExample {
     // specify database in url
     try (Connection connection =
             DriverManager.getConnection(
-                "jdbc:iotdb://127.0.0.1:6667/test1?sql_dialect=table", "root", "root");
+                "jdbc:iotdb://127.0.0.1:6667/test1?sql_dialect=table", "root", "TimechoDB@2021"); //before V2.0.6 it is root
         Statement statement = connection.createStatement()) {
       // show tables from current database test1
       try (ResultSet resultSet = statement.executeQuery("SHOW TABLES")) {
