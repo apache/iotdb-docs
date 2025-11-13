@@ -91,7 +91,7 @@ export const zhSidebar = {
         {
           text: '安全权限',
           collapsible: true,
-          children: [{ text: '权限管理', link: 'Authority-Management' }],
+          children: [{ text: '权限管理', link: 'Authority-Management_apache' }],
         },
         {
           text: '系统运维',
@@ -117,19 +117,19 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Tools-System/',
       children: [
-        { text: '命令行工具', link: 'CLI' },
+        { text: '命令行工具', link: 'CLI_apache' },
         { text: '监控工具', link: 'Monitor-Tool_apache' },
         { text: '集群管理工具', link: 'Maintenance-Tool_apache' },
         { text: '数据导入导出', collapsible: true,
           children: [
-            { text: '数据导入', link: 'Data-Import-Tool' },
-            { text: '数据导出', link: 'Data-Export-Tool' },
+            { text: '数据导入', link: 'Data-Import-Tool_apache' },
+            { text: '数据导出', link: 'Data-Export-Tool_apache' },
           ],
         },
         { text: '元数据导入导出', collapsible: true,
           children: [
-            { text: '元数据导入', link: 'Schema-Import-Tool' },
-            { text: '元数据导出', link: 'Schema-Export-Tool' },
+            { text: '元数据导入', link: 'Schema-Import-Tool_apache' },
+            { text: '元数据导出', link: 'Schema-Export-Tool_apache' },
           ],
         },
       ],
@@ -140,10 +140,10 @@ export const zhSidebar = {
       prefix: 'API/',
       children: [
         { text: 'Java原生接口', link: 'Programming-Java-Native-API_apache' },
-        { text: 'Python原生接口', link: 'Programming-Python-Native-API' },
-        { text: 'C++原生接口', link: 'Programming-Cpp-Native-API' },
-        { text: 'GO原生接口', link: 'Programming-Go-Native-API' },
-        { text: 'C#原生接口', link: 'Programming-CSharp-Native-API' },
+        { text: 'Python原生接口', link: 'Programming-Python-Native-API_apache' },
+        { text: 'C++原生接口', link: 'Programming-Cpp-Native-API_apache' },
+        { text: 'GO原生接口', link: 'Programming-Go-Native-API_apache' },
+        { text: 'C#原生接口', link: 'Programming-CSharp-Native-API_apache' },
         { text: 'JDBC', link: 'Programming-JDBC_apache' },
         { text: 'MQTT协议', link: 'Programming-MQTT' },
         { text: 'RESTAPI V1 ', link: 'RestServiceV1' },

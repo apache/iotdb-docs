@@ -57,7 +57,7 @@ Besides, if deploy on Windows system, the LayerName is case-insensitive, which m
 
 ### 1.2 Show Databases
 
-After creating the database, we can use the [SHOW DATABASES](../SQL-Manual/SQL-Manual.md) statement and [SHOW DATABASES \<PathPattern>](../SQL-Manual/SQL-Manual.md) to view the databases. The SQL statements are as follows:
+After creating the database, we can use the [SHOW DATABASES](../SQL-Manual/SQL-Manual_apache) statement and [SHOW DATABASES \<PathPattern>](../SQL-Manual/SQL-Manual_apache) to view the databases. The SQL statements are as follows:
 
 ```
 IoTDB> SHOW DATABASES

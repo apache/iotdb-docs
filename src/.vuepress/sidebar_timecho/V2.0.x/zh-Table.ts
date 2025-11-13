@@ -93,7 +93,7 @@ export const zhSidebar = {
         {
           text: '安全权限',
           collapsible: true,
-          children: [{ text: '权限管理', link: 'Authority-Management' }],
+          children: [{ text: '权限管理', link: 'Authority-Management_timecho' }],
         },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
         {
@@ -120,20 +120,20 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Tools-System/',
       children: [
-        { text: '命令行工具', link: 'CLI' },
+        { text: '命令行工具', link: 'CLI_timecho' },
         { text: '监控工具', link: 'Monitor-Tool_timecho' },
         { text: '测试工具', link: 'Benchmark' },
         { text: '集群管理工具', link: 'Maintenance-Tool_timecho' },
         { text: '数据导入导出', collapsible: true,
           children: [
-            { text: '数据导入', link: 'Data-Import-Tool' },
-            { text: '数据导出', link: 'Data-Export-Tool' },
+            { text: '数据导入', link: 'Data-Import-Tool_timecho' },
+            { text: '数据导出', link: 'Data-Export-Tool_timecho' },
           ],
         },
         { text: '元数据导入导出', collapsible: true,
           children: [
-            { text: '元数据导入', link: 'Schema-Import-Tool' },
-            { text: '元数据导出', link: 'Schema-Export-Tool' },
+            { text: '元数据导入', link: 'Schema-Import-Tool_timecho' },
+            { text: '元数据导出', link: 'Schema-Export-Tool_timecho' },
           ],
         },
       ],
@@ -144,10 +144,10 @@ export const zhSidebar = {
       prefix: 'API/',
       children: [
         { text: 'Java原生接口', link: 'Programming-Java-Native-API_timecho' },
-        { text: 'Python原生接口', link: 'Programming-Python-Native-API' },
-        { text: 'C++原生接口', link: 'Programming-Cpp-Native-API' },
-        { text: 'GO原生接口', link: 'Programming-Go-Native-API' },
-        { text: 'C#原生接口', link: 'Programming-CSharp-Native-API' },
+        { text: 'Python原生接口', link: 'Programming-Python-Native-API_timecho' },
+        { text: 'C++原生接口', link: 'Programming-Cpp-Native-API_timecho' },
+        { text: 'GO原生接口', link: 'Programming-Go-Native-API_timecho' },
+        { text: 'C#原生接口', link: 'Programming-CSharp-Native-API_timecho' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
         /* { text: 'MQTT协议', link: 'Programming-MQTT' }, */
         { text: 'RESTAPI V1 ', link: 'RestServiceV1' },

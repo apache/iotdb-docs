@@ -405,7 +405,7 @@ insert into root.sg(time, a) values(4, "\u96d5")
 
 - 如何从 v0.13.x 升级到 v1.0.x？
 
-  - 0.13 版本与 1.0 版本的文件目录结构不同，**<span style="color:red">不能将 0.13 的 data 目录直接拷贝到 1.0 集群使用</span>**。如果需要将 0.13 的数据导入至 1.0，可以使用 [LOAD](../UserGuide/latest/Tools-System/Data-Import-Tool.md) 功能;
+  - 0.13 版本与 1.0 版本的文件目录结构不同，**<span style="color:red">不能将 0.13 的 data 目录直接拷贝到 1.0 集群使用</span>**。如果需要将 0.13 的数据导入至 1.0，可以使用 [LOAD](../UserGuide/latest/Tools-System/Data-Import-Tool_apache) 功能;
   - **0.13 版本的默认 RPC 地址是 0.0.0.0，1.0 版本的默认 RPC 地址是 127.0.0.1**
 
 - 如何从 v1.0.0 升级到 v1.x.0？

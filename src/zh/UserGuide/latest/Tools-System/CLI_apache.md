@@ -38,17 +38,13 @@ IOTDB 为用户提供 cli/Shell 工具用于启动客户端和服务端程序。
 ## 2. 运行
 
 ### 2.1 Cli 运行方式
-安装后的 IoTDB 中有一个默认用户：`root`，默认密码为 `TimechoDB@2021`（V2.0.6 版本之前为`root`）。用户可以使用该用户尝试运行 IoTDB 客户端以测试服务器是否正常启动。客户端启动脚本为$IOTDB_HOME/sbin 文件夹下的`start-cli`脚本。启动脚本时需要指定运行 IP 和 RPC PORT。以下为服务器在本机启动，且用户未更改运行端口号的示例，默认端口为 6667。若用户尝试连接远程服务器或更改了服务器运行的端口号，请在-h 和-p 项处使用服务器的 IP 和 RPC PORT。<br>
+安装后的 IoTDB 中有一个默认用户：`root`，默认密码为 `root`。用户可以使用该用户尝试运行 IoTDB 客户端以测试服务器是否正常启动。客户端启动脚本为$IOTDB_HOME/sbin 文件夹下的`start-cli`脚本。启动脚本时需要指定运行 IP 和 RPC PORT。以下为服务器在本机启动，且用户未更改运行端口号的示例，默认端口为 6667。若用户尝试连接远程服务器或更改了服务器运行的端口号，请在-h 和-p 项处使用服务器的 IP 和 RPC PORT。<br>
 用户也可以在启动脚本的最前方设置自己的环境变量，如 JAVA_HOME 等。
 
 Linux 系统与 MacOS 系统启动命令如下：
 
 ```shell
-# V2.0.6 版本之前
 Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root
-
-# V2.0.6 版本及之后
-Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
 ```
 Windows 系统启动命令如下：
 
@@ -56,11 +52,8 @@ Windows 系统启动命令如下：
 # V2.0.4 版本之前
 Shell > sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
 
-# V2.0.4 版本及之后, V2.0.6 版本之前
+# V2.0.4 版本及之后,
 Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
-
-# V2.0.6 版本及之后
-Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
 ```
 回车后即可成功启动客户端。启动后出现如图提示即为启动成功。
 
