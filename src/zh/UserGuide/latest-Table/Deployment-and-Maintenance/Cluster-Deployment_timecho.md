@@ -189,15 +189,24 @@ cd sbin
 
 - 进入集群任一节点 CLI，执行获取机器码的语句
 
-  - 表模型 CLI 进入命令：
+```shell
+# Linux 系统与 MacOS 系统启动命令如下：
+# V2.0.6.x 版本之前
+Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect table
 
-  ```SQL
-  # Linux或MACOS系统
-  ./start-cli.sh -sql_dialect table
-  
-  # windows系统
-  ./start-cli.bat -sql_dialect table
-  ```
+# V2.0.6.x 版本及之后
+Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -sql_dialect table
+
+# Windows 系统启动命令如下：
+# V2.0.4.x 版本之前
+Shell > sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect table
+
+# V2.0.4.x 版本及之后, V2.0.6.x 版本之前
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect table
+
+# V2.0.6.x 版本及之后
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -sql_dialect table
+```
 
   - 执行以下内容获取激活所需机器码：
 
