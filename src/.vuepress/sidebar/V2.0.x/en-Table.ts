@@ -102,6 +102,7 @@ export const enSidebar = {
             { text: 'Authority Management', link: 'Authority-Management_apache' },
           ],
         },
+        { text: 'Tree-to-Table Mapping', link: 'Tree-to-Table' },
         {
           text: 'System Maintenance',
           collapsible: true,

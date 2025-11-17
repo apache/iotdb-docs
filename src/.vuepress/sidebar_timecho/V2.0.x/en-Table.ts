@@ -107,6 +107,7 @@ export const enSidebar = {
           ],
         },
         { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
+        { text: 'Tree-to-Table Mapping', link: 'Tree-to-Table' },
         {
           text: 'System Maintenance',
           collapsible: true,
