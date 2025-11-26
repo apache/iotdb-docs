@@ -19,15 +19,15 @@
 export const enSidebar = {
   '/UserGuide/latest-Table/': [
     {
-      text: 'IoTDB User Guide (V2.0.x)',
+      text: 'TimechoDB User Guide (V2.0.x)',
       children: [],
     },
     {
-      text: 'About IoTDB',
+      text: 'About TimechoDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
       children: [
-        { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_timecho' },
+        { text: 'Introduction', link: 'IoTDB-Introduction_timecho' },
         { text: 'Scenario', link: 'Scenario' },
         { text: 'Release History', link: 'Release-history_timecho' },
       ],

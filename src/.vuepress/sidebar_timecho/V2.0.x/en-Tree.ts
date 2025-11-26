@@ -27,7 +27,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
       children: [
-        { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_timecho' },
+        { text: 'Introduction', link: 'IoTDB-Introduction_timecho' },
         { text: 'Scenario', link: 'Scenario' },
         { text: 'Release History', link: 'Release-history_timecho' },
       ],
