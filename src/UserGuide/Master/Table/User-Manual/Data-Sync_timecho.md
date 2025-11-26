@@ -393,8 +393,7 @@ This example demonstrates cascading data transmission from IoTDB A to IoTDB B an
 
 ![](/img/sync_en_04.png)
 
-To synchronize data from cluster A to cluster C, the `source.mode.double-living` parameter is set to `true` in the pipe between B and C.
-
+ 
 SQL Example: On IoTDB A:
 
 ```SQL
