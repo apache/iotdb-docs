@@ -275,9 +275,9 @@ In IoTDB, there are two ways to execute data query:
 
 Data query statements can be used in SQL command-line terminals, JDBC, JAVA / C++ / Python / Go and other native APIs, and RESTful APIs.
 
-- Execute the query statement in the SQL command line terminal: start the SQL command line terminal, and directly enter the query statement to execute, see [SQL command line terminal](../Tools-System/CLI.md).
+- Execute the query statement in the SQL command line terminal: start the SQL command line terminal, and directly enter the query statement to execute, see [SQL command line terminal](../Tools-System/CLI_timecho.md).
 
-- Execute query statements in JDBC, see [JDBC](../API/Programming-JDBC_timecho) for details.
+- Execute query statements in JDBC, see [JDBC](../API/Programming-JDBC_timecho.md) for details.
 
 - Execute query statements in native APIs such as JAVA / C++ / Python / Go. For details, please refer to the relevant documentation in the Application Programming Interface chapter. The interface prototype is as follows:
 
@@ -285,7 +285,7 @@ Data query statements can be used in SQL command-line terminals, JDBC, JAVA / C+
     SessionDataSet executeQueryStatement(String sql)
     ````
 
-- Used in RESTful API, see [HTTP API V1](../API/RestServiceV1_timecho) or [HTTP API V2](../API/RestServiceV2_timecho) for details.
+- Used in RESTful API, see [HTTP API V1](../API/RestServiceV1_timecho.md) or [HTTP API V2](../API/RestServiceV2_timecho.md) for details.
 
 #### Efficient execution interfaces
 
@@ -3016,7 +3016,7 @@ The user must have the following permissions to execute a query write-back state
 * All `WRITE_SCHEMA` permissions for the source series in the `select` clause.
 * All `WRITE_DATA` permissions for the target series in the `into` clause.
 
-For more user permissions related content, please refer to [Account Management Statements](../User-Manual/Authority-Management_timecho).
+For more user permissions related content, please refer to [Account Management Statements](../User-Manual/Authority-Management_timecho.md).
 
 ### 10.4 Configurable Properties
 

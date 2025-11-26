@@ -277,7 +277,7 @@ Data query statements can be used in SQL command-line terminals, JDBC, JAVA / C+
 
 - Execute the query statement in the SQL command line terminal: start the SQL command line terminal, and directly enter the query statement to execute, see [SQL command line terminal](../Tools-System/CLI.md).
 
-- Execute query statements in JDBC, see [JDBC](../API/Programming-JDBC_apache) for details.
+- Execute query statements in JDBC, see [JDBC](../API/Programming-JDBC_apache.md) for details.
 
 - Execute query statements in native APIs such as JAVA / C++ / Python / Go. For details, please refer to the relevant documentation in the Application Programming Interface chapter. The interface prototype is as follows:
 
@@ -285,7 +285,7 @@ Data query statements can be used in SQL command-line terminals, JDBC, JAVA / C+
     SessionDataSet executeQueryStatement(String sql)
     ````
 
-- Used in RESTful API, see [HTTP API V1](../API/RestServiceV1_apache) or [HTTP API V2](../API/RestServiceV2_apache) for details.
+- Used in RESTful API, see [HTTP API V1](../API/RestServiceV1_apache.md) or [HTTP API V2](../API/RestServiceV2_apache.md) for details.
 
 #### Efficient execution interfaces
 
@@ -3016,7 +3016,7 @@ The user must have the following permissions to execute a query write-back state
 * All `WRITE_SCHEMA` permissions for the source series in the `select` clause.
 * All `WRITE_DATA` permissions for the target series in the `into` clause.
 
-For more user permissions related content, please refer to [Account Management Statements](../User-Manual/Authority-Management_apache).
+For more user permissions related content, please refer to [Account Management Statements](../User-Manual/Authority-Management_apache.md).
 
 ### 10.4 Configurable Properties
 
