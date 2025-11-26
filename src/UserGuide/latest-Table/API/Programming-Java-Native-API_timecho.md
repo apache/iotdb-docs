@@ -38,10 +38,12 @@ IoTDB provides a Java native client driver and a session pool management mechani
     <dependency>
       <groupId>com.timecho.iotdb</groupId>
       <artifactId>iotdb-session</artifactId>
-      <version>2.0.1.1</version>
+        <!-- The version number is the same as the database version number -->
+      <version>${project.version}</version>
     </dependency>
 </dependencies>
 ```
+* The latest version of `iotdb-session` can be viewed [here](https://repo1.maven.org/maven2/com/timecho/iotdb/iotdb-session/)
 
 ## 3. Read and Write Operations
 
