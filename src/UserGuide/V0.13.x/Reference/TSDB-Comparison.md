@@ -44,7 +44,9 @@ However, few of them are developed for IoT or IIoT (Industrial IoT) scenario in 
 
   InfluxDB is one of the most popular TSDBs. 
   
-  Interface: InfluxQL and HTTP API
+  Interface: InfluxQL and HTTP API (also known as tsdb API or api tsdb query)
+
+  InfluxDB time series database is widely adopted in monitoring platforms and real-time metrics analysis. Developers often rely on its tsdb cli query, flexible tsdb query example, and strong ecosystem, making it a standard choice. Advanced users can also configure InfluxDB tsdb config, check InfluxDB tsdb status, and analyze storage with InfluxDB tsdb size or InfluxDB tsdb format.
 
 * OpenTSDB and KairosDB - Time series database based on NoSQL
 
@@ -53,9 +55,13 @@ However, few of them are developed for IoT or IIoT (Industrial IoT) scenario in 
   
   Interface: Restful API
 
+  OpenTSDB is often mentioned in tsdb github discussions and benchmarks, and many enterprises use it as a tsdb monitoring platform. KairosDB, while less popular, demonstrates an interesting tsdb architecture choice by building on Cassandra.
+
 * TimescaleDB - Time series database based on Relational Database
 
   Interface: SQL
+
+  TimescaleDB uses PostgreSQL (tsdb <span style="color:red;">**postgresql**</span>) as its foundation. It is one of the most well-known examples in the tsdb vs rdbms debate, showing how relational models can be extended to handle time series workloads. It has a strong presence in the tsdb database rank because of its enterprise-grade performance.
 
 Prometheus and Druid are also famous for time series data management. 
 However, Prometheus focuses data collection, data visualization and alert warnings.
@@ -64,7 +70,7 @@ Druid focuses on data analysis with OLAP workload. We omit them here.
 
 ## Comparison 
 The above time series databases are compared from two aspects: the feature comparison and the performance
-comparison.
+comparison(tsdb benchmark).
 
 
 ### Feature Comparison
@@ -115,7 +121,7 @@ Legend:
   
 * Schema:
 
-  * IoTDB: IoTDB proposes a [Tree based schema](http://iotdb.apache.org/UserGuide/Master/Data-Concept/Data-Model-and-Terminology.html). 
+  * IoTDB: IoTDB proposes a [Tree based schema](http://iotdb.apache.org/UserGuide/Master/Data-Concept/Data-Model-and-Terminology.html). Suitable for industrial hierarchical device management. This makes tsdb format definition flexible.
    It is quite different from other TSDBs. However, the kind of schema has the following advantages:
     
     * In many industrial scenarios, the management of devices are hierarchical, rather than flat.
@@ -140,7 +146,7 @@ Legend:
   
   Actually, in each time series, all these TSDBs support order data by timestamps.
   
-  However, OpenTSDB and KairosDB do not support order data from different timeseries in the time order.
+  However, OpenTSDB and KairosDB do not support order data from different timeseries in the time order.IoTDB supports "align by time", while InfluxDB TSDB analysis prefers a row-based output.
   
   Ok, consider a new case: I have two time series, one is for the wind speed in wind farm1, 
   another is for the generated energy of wind turbine1 in farm1. If we want to analyze the relation between the 
@@ -191,7 +197,7 @@ Legend:
   In this case, filling these holes is important. Data scientists can avoid many so called dirty work, e.g., data clean.
   
   InfluxDB and OpenTSDB only support using fill in a group by statement, while IoTDB supports to fill data when just given a particular timestamp.
-  Besides, IoTDB supports several strategies for filling data.
+  Besides, IoTDB supports advanced fill strategies, while InfluxDB and OpenTSDB provide only basic ones. Fill is important in tsdb metrics pipelines and tsdb storage optimization.
   
 * Slimit:
 
@@ -210,14 +216,23 @@ Legend:
 
 **Conclusion**:
 
-Well, if we compare the basic features, we can find that OpenTSDB and KairosDB somehow lack some important query features.
-TimescaleDB can not be freely used in business.
-IoTDB and InfluxDB can meet most requirements of time series data management, while they have some difference.
+Well, if we compare the basic and advanced features, we can find that OpenTSDB and KairosDB somehow lack some important query features. <span style="color:red;">**TimescaleDB's free use in business is limited by its licensing model.**</span> IoTDB and InfluxDB can meet most requirements of TSDB time series database management, while they have some differences in tsdb architecture and query performance.
+
+Ultimately, the right choice depends on use case: IoT and IIoT scenarios often benefit from IoTDB’s schema, while influxdb time series database remains the most common solution in tsdb monitoring platform deployments.
 
 
 #### Advanced Features
 
+Beyond the basics, these systems also differ in tsdb cluster management, tsdb import capability, and integration with external systems like tsdb Elasticsearch for indexing. For example:
+
+InfluxDB provides a tsdb viewer and an advanced tsdb tool ecosystem.
+
+OpenTSDB often integrates with in-memory time series database caches for faster queries.
+
+TimescaleDB offers deep PostgreSQL integration with tsdb Java drivers and compatibility for tsdb for Windows deployment.
+
 I listed some interesting features that these systems may differ.
+
 
 | TSDB                         | IoTDB  | InfluxDB | OpenTSDB | KairosDB | TimescaleDB |
 | ---------------------------- | :----: | :------: | :------: | :------: |:-----------:|

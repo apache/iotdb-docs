@@ -30,6 +30,7 @@ export const enSidebar = {
       children: [
         { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_timecho' },
         { text: 'Scenario', link: 'Scenario' },
+        { text: 'Release History', link: 'Release-history_timecho' },
       ],
     },
     {
@@ -198,7 +199,7 @@ export const enSidebar = {
         { text: 'Node.js Native API', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust Native API', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC' },
-        { text: 'MQTT Protocol', link: 'Programming-MQTT' },
+        /* { text: 'MQTT Protocol', link: 'Programming-MQTT' }, */
         { text: 'OPC UA Protocol', link: 'Programming-OPC-UA_timecho' },
         {
           text: 'REST API',

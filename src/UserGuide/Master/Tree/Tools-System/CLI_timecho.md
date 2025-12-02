@@ -29,7 +29,7 @@ IoTDB provides Cli/shell tools for users to interact with IoTDB server in comman
 ## 1. Running Cli
 
 After installation, there is a default user in IoTDB: `root`, and the
-default password is `root`. Users can use this username to try IoTDB Cli/Shell tool. The cli startup script is the `start-cli` file under the \$IOTDB\_HOME/bin folder. When starting the script, you need to specify the IP and PORT. (Make sure the IoTDB cluster is running properly when you use Cli/Shell tool to connect to it.)
+default password is `TimechoDB@2021`(Before V2.0.6 it is `root`). Users can use this username to try IoTDB Cli/Shell tool. The cli startup script is the `start-cli` file under the \$IOTDB\_HOME/bin folder. When starting the script, you need to specify the IP and PORT. (Make sure the IoTDB cluster is running properly when you use Cli/Shell tool to connect to it.)
 
 Here is an example where the cluster is started locally and the user has not changed the running port. The default rpc port is
 6667 <br>
@@ -40,7 +40,11 @@ You also can set your own environment variable at the front of the start script
 The Linux and MacOS system startup commands are as follows:
 
 ```shell
+# Before version V2.0.6.x
 Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.6.x and later versions
+Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
 ```
 
 The Windows system startup commands are as follows:
@@ -49,8 +53,11 @@ The Windows system startup commands are as follows:
 # Before version V2.0.4.x
 Shell > sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
 
-# V2.0.4.x and later versions
+# V2.0.4.x and later versions, before version V2.0.6.x
 Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.6.x and later versions
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
 ```
 
 After operating these commands, the cli can be started successfully. The successful status will be as follows:
@@ -119,117 +126,8 @@ Special commands of Cli are below.
 | `help`                      | Get hints for CLI special commands                      |
 | `exit/quit`                 | Exit CLI                                                |
 
-## 4. Note on using the CLI with OpenID Connect Auth enabled on Server side
 
-Openid connect (oidc) uses keycloack as the authority authentication service of oidc service
-
-
-#### configuration
-
-The configuration is located in iotdb-system.properties , set the author_provider_class is org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer Openid service is enabled, and the default value is org.apache.iotdb.db.auth.authorizer.LocalFileAuthorizer Indicates that the openid service is not enabled.
-
-```
-authorizer_provider_class=org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer
-```
-
-If the openid service is turned on, openid_URL is required,openID_url value is http://ip:port/realms/{realmsName}
-
-```
-openID_url=http://127.0.0.1:8080/realms/iotdb/
-```
-
-#### keycloack configuration
-
-1、Download the keycloack file (This tutorial is version 21.1.0) and start keycloack in keycloack/bin
-
-```shell
-Shell >cd bin
-Shell >./kc.sh start-dev
-```
-
-2、use url(https://ip:port) login keycloack, the first login needs to create a user
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/login_keycloak.png?raw=true)
-
-3、Click administration console
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/AdministrationConsole.png?raw=true)
-
-4、In the master menu on the left, click Create realm and enter Realm name to create a new realm
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_Realm_1.jpg?raw=true)
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_Realm_2.jpg?raw=true)
-
-
-5、Click the menu clients on the left to create clients
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/client.jpg?raw=true)
-
-6、Click user on the left menu to create user
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/user.jpg?raw=true)
-
-7、Click the newly created user ID, click the credentials navigation, enter the password and close the temporary option. The configuration of keycloud is completed
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/pwd.jpg?raw=true)
-
-8、To create a role, click Roles on the left menu and then click the Create Role button to add a role
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_role1.jpg?raw=true)
-
-9、 Enter `iotdb_admin` in the Role Name and click the save button. Tip: `iotdb_admin` here cannot be any other name, otherwise even after successful login, you will not have permission to use iotdb's query, insert, create database, add users, roles and other functions
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_role2.jpg?raw=true)
-
-10、Click on the User menu on the left and then click on the user in the user list to add the `iotdb_admin` role we just created for that user
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_role3.jpg?raw=true)
-
-11、 Select Role Mappings, select the `iotdb_admin` role in Assign Role 
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_role4.jpg?raw=true)
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_role5.jpg?raw=true)
-
-
-Tip: If the user role is adjusted, you need to regenerate the token and log in to iotdb again to take effect
-
-The above steps provide a way for keycloak to log into iotdb. For more ways, please refer to keycloak configuration
-
-If OIDC is enabled on server side then no username / passwort is needed but a valid Access Token from the OIDC Provider.
-So as username you use the token and the password has to be empty, e.g.
-
-```shell
-Shell > bash sbin/start-cli.sh -h 10.129.187.21 -p 6667 -u {my-access-token} -pw ""
-```
-
-Among them, you need to replace {my access token} (note, including {}) with your token, that is, the value corresponding to access_token. The password is empty and needs to be confirmed again.
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/iotdbpw.jpeg?raw=true)
-
-
-How to get the token is dependent on your OpenID Connect setup and not covered here.
-In the simplest case you can get this via the command line with the `passwort-grant`.
-For example, if you use keycloack as OIDC and you have a realm with a client `iotdb` defined as public you could use
-the following `curl` command to fetch a token (replace all `{}` with appropriate values).
-
-```shell
-curl -X POST "https://{your-keycloack-server}/realms/{your-realm}/protocol/openid-connect/token" \                                                                                                                      
- -H "Content-Type: application/x-www-form-urlencoded" \
- -d "username={username}" \
- -d "password={password}" \
- -d 'grant_type=password' \
- -d "client_id=iotdb-client"
-```
-
-The response looks something like
-
-```json
-{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxMS1XbTBvelE1TzBtUUg4LVNKYXAyWmNONE1tdWNXd25RV0tZeFpKNG93In0.eyJleHAiOjE1OTAzOTgwNzEsImlhdCI6MTU5MDM5Nzc3MSwianRpIjoiNjA0ZmYxMDctN2NiNy00NTRmLWIwYmQtY2M2ZDQwMjFiNGU4IiwiaXNzIjoiaHR0cDovL2F1dGguZGVtby5wcmFnbWF0aWNpbmR1c3RyaWVzLmRlL2F1dGgvcmVhbG1zL0lvVERCIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImJhMzJlNDcxLWM3NzItNGIzMy04ZGE2LTZmZThhY2RhMDA3MyIsInR5cCI6IkJlYXJlciIsImF6cCI6ImlvdGRiIiwic2Vzc2lvbl9zdGF0ZSI6IjA2MGQyODYyLTE0ZWQtNDJmZS1iYWY3LThkMWY3ODQ2NTdmMSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsibG9jYWxob3N0OjgwODAiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iLCJpb3RkYl9hZG1pbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ1c2VyIn0.nwbrJkWdCNjzFrTDwKNuV5h9dDMg5ytRKGOXmFIajpfsbOutJytjWTCB2WpA8E1YI3KM6gU6Jx7cd7u0oPo5syHhfCz119n_wBiDnyTZkFOAPsx0M2z20kvBLN9k36_VfuCMFUeddJjO31MeLTmxB0UKg2VkxdczmzMH3pnalhxqpnWWk3GnrRrhAf2sZog0foH4Ae3Ks0lYtYzaWK_Yo7E4Px42-gJpohy3JevOC44aJ4auzJR1RBj9LUbgcRinkBy0JLi6XXiYznSC2V485CSBHW3sseXn7pSXQADhnmGQrLfFGO5ZljmPO18eFJaimdjvgSChsrlSEmTDDsoo5Q","expires_in":300,"refresh_expires_in":1800,"refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJhMzZlMGU0NC02MWNmLTQ5NmMtOGRlZi03NTkwNjQ5MzQzMjEifQ.eyJleHAiOjE1OTAzOTk1NzEsImlhdCI6MTU5MDM5Nzc3MSwianRpIjoiNmMxNTBiY2EtYmE5NC00NTgxLWEwODEtYjI2YzhhMmI5YmZmIiwiaXNzIjoiaHR0cDovL2F1dGguZGVtby5wcmFnbWF0aWNpbmR1c3RyaWVzLmRlL2F1dGgvcmVhbG1zL0lvVERCIiwiYXVkIjoiaHR0cDovL2F1dGguZGVtby5wcmFnbWF0aWNpbmR1c3RyaWVzLmRlL2F1dGgvcmVhbG1zL0lvVERCIiwic3ViIjoiYmEzMmU0NzEtYzc3Mi00YjMzLThkYTYtNmZlOGFjZGEwMDczIiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImlvdGRiIiwic2Vzc2lvbl9zdGF0ZSI6IjA2MGQyODYyLTE0ZWQtNDJmZS1iYWY3LThkMWY3ODQ2NTdmMSIsInNjb3BlIjoiZW1haWwgcHJvZmlsZSJ9.ayNpXdNX28qahodX1zowrMGiUCw2AodlHBQFqr8Ui7c","token_type":"bearer","not-before-policy":0,"session_state":"060d2862-14ed-42fe-baf7-8d1f784657f1","scope":"email profile"}
-```
-
-The interesting part here is the access token with the key `access_token`.
-This has to be passed as username (with parameter `-u`) and empty password to the CLI.
-
-## 5. Batch Operation of Cli
+## 4. Batch Operation of Cli
 
 -e parameter is designed for the Cli/shell tool in the situation where you would like to manipulate IoTDB in batches through scripts. By using the -e parameter, you can operate IoTDB without entering the cli's input mode.
 

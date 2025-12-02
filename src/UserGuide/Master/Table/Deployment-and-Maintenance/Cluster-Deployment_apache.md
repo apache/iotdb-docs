@@ -58,6 +58,38 @@ Use the hostname for `cn_internal_address` and `dn_internal_address` in IoTDB co
 2. Configure the operating system environment according to environmental requirements (system environment configuration can be found in:[Environment Requirement](../Deployment-and-Maintenance/Environment-Requirements.md)）
 
 
+### 2.1 Pre-installation Check
+
+To ensure the IoTDB installation package you obtained is complete and valid, we recommend performing an SHA512 verification before proceeding with the installation and deployment.
+
+#### Preparation:
+
+- Obtain the officially released SHA512 checksum: Visit the [Release Versions](https://iotdb.apache.org/zh/Download/) page on the IoTDB open-source official website to get it.
+
+#### Verification Steps (Linux as an Example):
+
+1. Open the terminal and navigate to the directory where the installation package is stored (e.g., /data/iotdb):
+   ```Bash
+      cd /data/iotdb
+      ```
+2. Execute the following command to calculate the hash value:
+   ```Bash
+      sha512sum apache-iotdb-{version}-all-bin.zip
+      ```
+3. The terminal will output a result (the left part is the SHA512 checksum, and the right part is the file name):
+
+
+![img](/img/sha512-07.png)
+
+4. Compare the output result with the official SHA512 checksum. Once confirmed that they match, you can proceed with the installation and deployment of IoTDB as per the procedures below.
+
+
+#### Notes:
+
+- If the verification results do not match, please re-obtain the installation package.
+- If a "file not found" prompt appears during verification, check whether the file path is correct or if the installation package has been fully downloaded.
+
+
 ## 3. Installation Steps
 
 Taking a cluster with three Linux servers with the following information as example:
@@ -122,16 +154,16 @@ Set the following parameters in `./conf/iotdb-system.properties`. Refer to `./co
 
 **DataNode Parameters**:
 
-| **Parameter**                   | **Description**                                              | **Default**     | **Recommended**                                              | **11.101.17.224** | **11.101.17.225** | **11.101.17.226** | **Notes**                                                  |
-| :------------------------------ | :----------------------------------------------------------- | :-------------- | :----------------------------------------------------------- | :---------------- | :---------------- | :---------------- | :--------------------------------------------------------- |
-| dn_rpc_address                  | Address for the client RPC service                           | 127.0.0.1       | Server's IPv4 address or hostname. Use hostname to avoid issues when the IP changes. | iotdb-1           | iotdb-2           | iotdb-3                 | Effective after restarting the service.                    |
-| dn_rpc_port                     | Port for the client RPC service                              | 6667            | 6667                                                         | 6667              | 6667              | 6667              | Effective after restarting the service.                    |
-| dn_internal_address             | Address used for internal communication within the cluster   | 127.0.0.1       | Server's IPv4 address or hostname. Use hostname to avoid issues when the IP changes. | iotdb-1           | iotdb-2           | iotdb-3           | This parameter cannot be modified after the first startup. |
-| dn_internal_port                | Port used for internal communication within the cluster      | 10730           | 10730                                                        | 10730             | 10730             | 10730             | This parameter cannot be modified after the first startup. |
-| dn_mpp_data_exchange_port       | Port used for receiving data streams                         | 10740           | 10740                                                        | 10740             | 10740             | 10740             | This parameter cannot be modified after the first startup. |
-| dn_data_region_consensus_port   | Port used for data replica consensus protocol communication  | 10750           | 10750                                                        | 10750             | 10750             | 10750             | This parameter cannot be modified after the first startup. |
-| dn_schema_region_consensus_port | Port used for metadata replica consensus protocol communication | 10760           | 10760                                                        | 10760             | 10760             | 10760             | This parameter cannot be modified after the first startup. |
-| dn_seed_config_node             | Address of the ConfigNode for registering and joining the cluster.(e.g.,`cn_internal_address:cn_internal_port`) | 127.0.0.1:10710 | Address of the first ConfigNode                              | iotdb-1:10710     | iotdb-1:10710     | iotdb-1:10710     | This parameter cannot be modified after the first startup. |
+| **Parameter**                   | **Description**                                              | **Default**     | **Recommended**                                                                                                 | **11.101.17.224** | **11.101.17.225** | **11.101.17.226** | **Notes**                                                  |
+| :------------------------------ | :----------------------------------------------------------- |:----------------|:----------------------------------------------------------------------------------------------------------------| :---------------- | :---------------- | :---------------- | :--------------------------------------------------------- |
+| dn_rpc_address                  | Address for the client RPC service                           | 0.0.0.0         | The IPV4 address or host name of the server where it is located, and it is recommended to use the IPV4 address  | iotdb-1           | iotdb-2           | iotdb-3                 | Effective after restarting the service.                    |
+| dn_rpc_port                     | Port for the client RPC service                              | 6667            | 6667                                                                                                            | 6667              | 6667              | 6667              | Effective after restarting the service.                    |
+| dn_internal_address             | Address used for internal communication within the cluster   | 127.0.0.1       | Server's IPv4 address or hostname. Use hostname to avoid issues when the IP changes.                            | iotdb-1           | iotdb-2           | iotdb-3           | This parameter cannot be modified after the first startup. |
+| dn_internal_port                | Port used for internal communication within the cluster      | 10730           | 10730                                                                                                           | 10730             | 10730             | 10730             | This parameter cannot be modified after the first startup. |
+| dn_mpp_data_exchange_port       | Port used for receiving data streams                         | 10740           | 10740                                                                                                           | 10740             | 10740             | 10740             | This parameter cannot be modified after the first startup. |
+| dn_data_region_consensus_port   | Port used for data replica consensus protocol communication  | 10750           | 10750                                                                                                           | 10750             | 10750             | 10750             | This parameter cannot be modified after the first startup. |
+| dn_schema_region_consensus_port | Port used for metadata replica consensus protocol communication | 10760           | 10760                                                                                                           | 10760             | 10760             | 10760             | This parameter cannot be modified after the first startup. |
+| dn_seed_config_node             | Address of the ConfigNode for registering and joining the cluster.(e.g.,`cn_internal_address:cn_internal_port`) | 127.0.0.1:10710 | Address of the first ConfigNode                                                                                 | iotdb-1:10710     | iotdb-1:10710     | iotdb-1:10710     | This parameter cannot be modified after the first startup. |
 
 **Note:** Ensure files are saved after editing. Tools like VSCode Remote do not save changes automatically.
 

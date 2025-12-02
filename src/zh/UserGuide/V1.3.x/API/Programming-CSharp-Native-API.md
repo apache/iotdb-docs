@@ -37,12 +37,6 @@
 dotnet add package Apache.IoTDB
 ```
 
-为了适配 .NET Framework 4.x，我们单独构建了一个NuGet包，如果您使用的是.NET Framework 4.x，输入如下命令即可安装最新的包
-
-```Bash
-dotnet add package Apache.IoTDB.framework
-```
-
 如果您想安装更早版本的客户端，只需要指定版本即可
 
 ```Bash

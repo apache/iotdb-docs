@@ -46,14 +46,43 @@
 
 ## 2. 安装步骤
 
-### 2.1 解压安装包并进入安装目录
+### 2.1 前置检查
+
+为确保您获取的IoTDB企业版安装包完整且正确，在执行安装部署前建议您进行SHA512校验。
+
+#### 准备工作：
+
+- 获取官方发布的 SHA512 校验码：[发布历史](../IoTDB-Introduction/Release-history_timecho.md)文档中各版本对应的"SHA512校验码"
+
+#### 校验步骤（以 linux 为例）：
+
+1. 打开终端，进入安装包所在目录（如`/data/iotdb`）：
+   ```Bash
+      cd /data/iotdb
+      ```
+2. 执行以下命令计算哈希值：
+   ```Bash
+      sha512sum timechodb-{version}-bin.zip
+      ```
+3. 终端输出结果（左侧为SHA512 校验码，右侧为文件名）：
+
+![img](/img/sha512-01.png)
+
+4. 对比输出结果与官方 SHA512 校验码，确认一致后，即可按照下方流程执行IoTDB企业版的安装部署操作。
+
+#### 注意事项：
+
+- 若校验结果不一致，请联系天谋工作人员重新获取安装包
+- 校验过程中若出现"文件不存在"提示，需检查文件路径是否正确或安装包是否完整下载
+
+### 2.2 解压安装包并进入安装目录
 
 ```shell
 unzip  iotdb-enterprise-{version}-bin.zip
 cd  iotdb-enterprise-{version}-bin
 ```
 
-### 2.2 参数配置
+### 2.3 参数配置
 
 #### 环境脚本配置
 
@@ -96,7 +125,7 @@ cd  iotdb-enterprise-{version}-bin
 
 | **配置项**                      | **说明**                                                     | **默认**        | 推荐值                                           | **备注**           |
 | :------------------------------ | :----------------------------------------------------------- | :-------------- | :----------------------------------------------- | :----------------- |
-| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 0.0.0.0         | 所在服务器的IPV4地址或hostname，推荐使用hostname | 重启服务生效       |
+| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 0.0.0.0         |  所在服务器的IPV4地址或hostname，推荐使用所在服务器的IPV4地址 | 重启服务生效       |
 | dn_rpc_port                     | 客户端 RPC 服务的端口                                        | 6667            | 6667                                             | 重启服务生效       |
 | dn_internal_address             | DataNode在集群内部通讯使用的地址                             | 127.0.0.1       | 所在服务器的IPV4地址或hostname，推荐使用hostname | 首次启动后不能修改 |
 | dn_internal_port                | DataNode在集群内部通信使用的端口                             | 10730           | 10730                                            | 首次启动后不能修改 |
@@ -107,7 +136,7 @@ cd  iotdb-enterprise-{version}-bin
 
 > ❗️注意：VSCode Remote等编辑器无自动保存配置功能，请确保修改的文件被持久化保存，否则配置项无法生效
 
-### 2.3 启动 ConfigNode 节点
+### 2.4 启动 ConfigNode 节点
 
 进入iotdb的sbin目录下，启动confignode
 
@@ -117,7 +146,7 @@ cd  iotdb-enterprise-{version}-bin
 
 如果启动失败，请参考下方[常见问题](#常见问题)。
 
-### 2.4 启动 DataNode 节点
+### 2.5 启动 DataNode 节点
 
 进入iotdb的sbin目录下，启动datanode：
 
@@ -125,11 +154,11 @@ cd  iotdb-enterprise-{version}-bin
 ./sbin/start-datanode.sh -d    #“-d”参数将在后台进行启动
 ```
 
-### 2.5 激活数据库
+### 2.6 激活数据库
 
 #### 方式一：命令激活
 - 进入 IoTDB CLI
- 
+
    - 树模型 CLI 进入命令：
   ```SQL
     # Linux或MACOS系统
@@ -144,7 +173,7 @@ cd  iotdb-enterprise-{version}-bin
 show system info
 ```
 
-- 将返回机器码（即绿色字符串）复制给天谋工作人员：
+- 将返回机器码复制给天谋工作人员：
 
 ```Bash
 +--------------------------------------------------------------+
@@ -163,6 +192,7 @@ It costs 0.030s
 IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
 ```
 
+
 #### 方式二：文件激活
 
 - 启动Confignode、Datanode节点后，进入activation文件夹, 将 system_info文件复制给天谋工作人员
@@ -170,10 +200,9 @@ IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOM
 - 将license文件放入对应节点的activation文件夹下；
 
 
+### 2.7 验证激活
 
-### 2.6 验证激活
-
-当看到“ClusterActivationStatus”字段状态显示为ACTIVATED表示激活成功
+可在 CLI 中通过执行 `show activation` 命令查看激活状态，当看到“ClusterActivationStatus”字段状态显示为 ACTIVATED 表示激活成功
 
 ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81.png)
 

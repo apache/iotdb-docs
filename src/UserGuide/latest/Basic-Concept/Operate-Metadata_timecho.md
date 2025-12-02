@@ -57,7 +57,7 @@ Besides, if deploy on Windows system, the LayerName is case-insensitive, which m
 
 ### 1.2 Show Databases
 
-After creating the database, we can use the [SHOW DATABASES](../SQL-Manual/SQL-Manual.md) statement and [SHOW DATABASES \<PathPattern>](../SQL-Manual/SQL-Manual.md) to view the databases. The SQL statements are as follows:
+After creating the database, we can use the [SHOW DATABASES](../SQL-Manual/SQL-Manual_timecho) statement and [SHOW DATABASES \<PathPattern>](../SQL-Manual/SQL-Manual_timecho) to view the databases. The SQL statements are as follows:
 
 ```
 IoTDB> SHOW DATABASES
@@ -248,7 +248,7 @@ IoTDB supports device-level TTL settings, which means it is able to delete old d
 
 The default unit of TTL is milliseconds. If the time precision in the configuration file changes to another, the TTL is still set to milliseconds.
 
-When setting TTL, the system will look for all devices included in the set path and set TTL for these devices. The system will delete expired data at the device granularity.
+When setting TTL, the system will look for all devices included in the set path and set TTL for these devices. The system will delete expired data at the device granularity. The expiration check here is based on the data point timestamp, not the write time.
 After the device data expires, it will not be queryable. The data in the disk file cannot be guaranteed to be deleted immediately, but it can be guaranteed to be deleted eventually.
 However, due to operational costs, the expired data will not be physically deleted right after expiring. The physical deletion is delayed until compaction.
 Therefore, before the data is physically deleted, if the TTL is reduced or lifted, it may cause data that was previously invisible due to TTL to reappear.
@@ -588,7 +588,7 @@ In a scenario where measurements need to be added, you can modify the  template 
 The SQL Statement for altering device template is as follow:
 
 ```shell
-IoTDB> alter device template t1 add (speed FLOAT, FLOAT TEXT)
+IoTDB> alter device template t1 add (speed FLOAT)
 ```
 
 **When executing data insertion to devices with device template set on related prefix path and there are measurements not present in this device template, the measurements will be auto added to this device template.**

@@ -25,13 +25,17 @@ IOTDB 为用户提供 cli/Shell 工具用于启动客户端和服务端程序。
 > \$IOTDB\_HOME 表示 IoTDB 的安装目录所在路径。
 
 ## 1. Cli 运行方式
-安装后的 IoTDB 中有一个默认用户：`root`，默认密码为`root`。用户可以使用该用户尝试运行 IoTDB 客户端以测试服务器是否正常启动。客户端启动脚本为$IOTDB_HOME/sbin 文件夹下的`start-cli`脚本。启动脚本时需要指定运行 IP 和 RPC PORT。以下为服务器在本机启动，且用户未更改运行端口号的示例，默认端口为 6667。若用户尝试连接远程服务器或更改了服务器运行的端口号，请在-h 和-p 项处使用服务器的 IP 和 RPC PORT。<br>
+安装后的 IoTDB 中有一个默认用户：`root`，默认密码为`TimechoDB@2021`（V2.0.6.x 版本之前为`root`）。用户可以使用该用户尝试运行 IoTDB 客户端以测试服务器是否正常启动。客户端启动脚本为$IOTDB_HOME/sbin 文件夹下的`start-cli`脚本。启动脚本时需要指定运行 IP 和 RPC PORT。以下为服务器在本机启动，且用户未更改运行端口号的示例，默认端口为 6667。若用户尝试连接远程服务器或更改了服务器运行的端口号，请在-h 和-p 项处使用服务器的 IP 和 RPC PORT。<br>
 用户也可以在启动脚本的最前方设置自己的环境变量，如 JAVA_HOME 等。
 
 Linux 系统与 MacOS 系统启动命令如下：
 
 ```shell
+# V2.0.6.x 版本之前
 Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.6.x 版本及之后
+Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
 ```
 Windows 系统启动命令如下：
 
@@ -39,8 +43,11 @@ Windows 系统启动命令如下：
 # V2.0.4.x 版本之前
 Shell > sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
 
-# V2.0.4.x 版本及之后
+# V2.0.4.x 版本及之后, V2.0.6.x 版本之前
 Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.6.x 版本及之后
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
 ```
 回车后即可成功启动客户端。启动后出现如图提示即为启动成功。
 
@@ -102,107 +109,8 @@ Shell > sbin\windows\start-cli.bat -h 10.129.187.21 -p 6667 -u root -pw root -di
 | `help` | 获取CLI特殊命令的提示 |
 | `exit/quit` | 退出CLI |
 
-## 4. 使用 OpenID 作为用户名认证登录
 
-OpenID Connect (OIDC) 使用 keycloack 作为 OIDC 服务权限认证服务。
-
-### 配置
-配置位于 iotdb-system.properties，设定 authorizer_provider_class 为 org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer 则开启了 openID 服务，默认情况下值为 org.apache.iotdb.commons.auth.authorizer.LocalFileAuthorizer 表示没有开启 openID 服务。
-
-```
-authorizer_provider_class=org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer
-```
-如果开启了 openID 服务则 openID_url 为必填项，openID_url 值为 http://ip:port/realms/{realmsName}
-
-```
-openID_url=http://127.0.0.1:8080/realms/iotdb/
-```
-### keycloack 配置
-
-1、下载 keycloack 程序（此教程为21.1.0版本），在 keycloack/bin 中启动 keycloack
-
-```shell
-Shell > cd bin
-Shell > ./kc.sh start-dev
-```
-2、使用 https://ip:port 登陆 keycloack, 首次登陆需要创建用户
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/login_keycloak.png?raw=true)
-
-3、点击 Administration Console 进入管理端
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/AdministrationConsole.png?raw=true)
-
-4、在左侧的 Master 菜单点击 Create Realm, 输入 Realm Name 创建一个新的 Realm
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_Realm_1.jpg?raw=true)
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_Realm_2.jpg?raw=true)
-
-5、点击左侧菜单 Clients，创建 client
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/client.jpg?raw=true)
-
-6、点击左侧菜单 User，创建 user
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/user.jpg?raw=true)
-
-7、点击新创建的用户 id，点击 Credentials 导航输入密码和关闭 Temporary 选项，至此 keyclork 配置完成
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/pwd.jpg?raw=true)
-
-8、创建角色，点击左侧菜单的 Roles然后点击Create Role 按钮添加角色
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_role1.jpg?raw=true)
-
-9、在Role Name 中输入`iotdb_admin`，点击save 按钮。提示：这里的`iotdb_admin`不能为其他名称否则即使登陆成功后也将无权限使用iotdb的查询、插入、创建 database、添加用户、角色等功能
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_role2.jpg?raw=true)
-
-10、点击左侧的User 菜单然后点击用户列表中的用户为该用户添加我们刚创建的`iotdb_admin`角色
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_role3.jpg?raw=true)
-
-11、选择Role Mappings ，在Assign role选择`iotdb_admin`增加角色
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_role4.jpg?raw=true)
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/add_role5.jpg?raw=true)
-
-提示：如果用户角色有调整需要重新生成token并且重新登陆iotdb才会生效
-
-以上步骤提供了一种 keycloak 登陆 iotdb 方式，更多方式请参考 keycloak 配置
-
-若对应的 IoTDB 服务器开启了使用 OpenID Connect (OIDC) 作为权限认证服务，那么就不再需要使用用户名密码进行登录。
-替而代之的是使用 Token，以及空密码。
-此时，登录命令如下：
-
-```shell
-Shell > bash sbin/start-cli.sh -h 10.129.187.21 -p 6667 -u {my-access-token} -pw ""
-```
-
-其中，需要将{my-access-token} （注意，包括{}）替换成你的 token，即 access_token 对应的值。密码为空需要再次确认。
-
-![avatar](/img/UserGuide/CLI/Command-Line-Interface/iotdbpw.jpeg?raw=true)
-
-如何获取 token 取决于你的 OIDC 设置。 最简单的一种情况是使用`password-grant`。例如，假设你在用 keycloack 作为你的 OIDC 服务，
-并且你在 keycloack 中有一个被定义成 public 的`iotdb`客户的 realm，那么你可以使用如下`curl`命令获得 token。
-（注意例子中的{}和里面的内容需要替换成具体的服务器地址和 realm 名字）：
-```shell
-curl -X POST "http://{your-keycloack-server}/realms/{your-realm}/protocol/openid-connect/token" \ -H "Content-Type: application/x-www-form-urlencoded" \
- -d "username={username}" \
- -d "password={password}" \
- -d 'grant_type=password' \
- -d "client_id=iotdb-client"
-```
-
-示例结果如下：
-
-```json
-{"access_token":"eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJxMS1XbTBvelE1TzBtUUg4LVNKYXAyWmNONE1tdWNXd25RV0tZeFpKNG93In0.eyJleHAiOjE1OTAzOTgwNzEsImlhdCI6MTU5MDM5Nzc3MSwianRpIjoiNjA0ZmYxMDctN2NiNy00NTRmLWIwYmQtY2M2ZDQwMjFiNGU4IiwiaXNzIjoiaHR0cDovL2F1dGguZGVtby5wcmFnbWF0aWNpbmR1c3RyaWVzLmRlL2F1dGgvcmVhbG1zL0lvVERCIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImJhMzJlNDcxLWM3NzItNGIzMy04ZGE2LTZmZThhY2RhMDA3MyIsInR5cCI6IkJlYXJlciIsImF6cCI6ImlvdGRiIiwic2Vzc2lvbl9zdGF0ZSI6IjA2MGQyODYyLTE0ZWQtNDJmZS1iYWY3LThkMWY3ODQ2NTdmMSIsImFjciI6IjEiLCJhbGxvd2VkLW9yaWdpbnMiOlsibG9jYWxob3N0OjgwODAiXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iLCJpb3RkYl9hZG1pbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ1c2VyIn0.nwbrJkWdCNjzFrTDwKNuV5h9dDMg5ytRKGOXmFIajpfsbOutJytjWTCB2WpA8E1YI3KM6gU6Jx7cd7u0oPo5syHhfCz119n_wBiDnyTZkFOAPsx0M2z20kvBLN9k36_VfuCMFUeddJjO31MeLTmxB0UKg2VkxdczmzMH3pnalhxqpnWWk3GnrRrhAf2sZog0foH4Ae3Ks0lYtYzaWK_Yo7E4Px42-gJpohy3JevOC44aJ4auzJR1RBj9LUbgcRinkBy0JLi6XXiYznSC2V485CSBHW3sseXn7pSXQADhnmGQrLfFGO5ZljmPO18eFJaimdjvgSChsrlSEmTDDsoo5Q","expires_in":300,"refresh_expires_in":1800,"refresh_token":"eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJhMzZlMGU0NC02MWNmLTQ5NmMtOGRlZi03NTkwNjQ5MzQzMjEifQ.eyJleHAiOjE1OTAzOTk1NzEsImlhdCI6MTU5MDM5Nzc3MSwianRpIjoiNmMxNTBiY2EtYmE5NC00NTgxLWEwODEtYjI2YzhhMmI5YmZmIiwiaXNzIjoiaHR0cDovL2F1dGguZGVtby5wcmFnbWF0aWNpbmR1c3RyaWVzLmRlL2F1dGgvcmVhbG1zL0lvVERCIiwiYXVkIjoiaHR0cDovL2F1dGguZGVtby5wcmFnbWF0aWNpbmR1c3RyaWVzLmRlL2F1dGgvcmVhbG1zL0lvVERCIiwic3ViIjoiYmEzMmU0NzEtYzc3Mi00YjMzLThkYTYtNmZlOGFjZGEwMDczIiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImlvdGRiIiwic2Vzc2lvbl9zdGF0ZSI6IjA2MGQyODYyLTE0ZWQtNDJmZS1iYWY3LThkMWY3ODQ2NTdmMSIsInNjb3BlIjoiZW1haWwgcHJvZmlsZSJ9.ayNpXdNX28qahodX1zowrMGiUCw2AodlHBQFqr8Ui7c","token_type":"bearer","not-before-policy":0,"session_state":"060d2862-14ed-42fe-baf7-8d1f784657f1","scope":"email profile"}
-```
-
-## 5. Cli 的批量操作
+## 4. Cli 的批量操作
 当您想要通过脚本的方式通过 Cli / Shell 对 IoTDB 进行批量操作时，可以使用-e 参数。通过使用该参数，您可以在不进入客户端输入模式的情况下操作 IoTDB。
 
 为了避免 SQL 语句和其他参数混淆，现在只支持-e 参数作为最后的参数使用。

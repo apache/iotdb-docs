@@ -29,7 +29,7 @@ export const enSidebar = {
       children: [
         { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_apache' },
         { text: 'Scenario', link: 'Scenario' },
-        { text: 'Release history', link: 'Release-history_apache' },
+        { text: 'Release History', link: 'Release-history_apache' },
       ],
     },
     {
@@ -99,7 +99,7 @@ export const enSidebar = {
           text: 'Security Permissions',
           collapsible: true,
           children: [
-            { text: 'Authority Management', link: 'Authority-Management' },
+            { text: 'Authority Management', link: 'Authority-Management_apache' },
           ],
         },
         {
@@ -126,20 +126,20 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Tools-System/',
       children: [
-        { text: 'CLI', link: 'CLI' },
+        { text: 'CLI', link: 'CLI_apache' },
         { text: 'Monitor Tool', link: 'Monitor-Tool_apache' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
         { text: 'Cluster Management Tool', link: 'Maintenance-Tool_apache' },
         { text: 'Data Import & Export', collapsible: true,
           children: [
-            { text: 'Data Import', link: 'Data-Import-Tool' },
-            { text: 'Data Export', link: 'Data-Export-Tool' },
+            { text: 'Data Import', link: 'Data-Import-Tool_apache' },
+            { text: 'Data Export', link: 'Data-Export-Tool_apache' },
           ],
         },
         { text: 'Schema Import & Export', collapsible: true,
           children: [
-            { text: 'Schema Import', link: 'Schema-Import-Tool' },
-            { text: 'Schema Export', link: 'Schema-Export-Tool' },
+            { text: 'Schema Import', link: 'Schema-Import-Tool_apache' },
+            { text: 'Schema Export', link: 'Schema-Export-Tool_apache' },
           ],
         },
       ],
@@ -150,10 +150,10 @@ export const enSidebar = {
       prefix: 'API/',
       children: [
         { text: 'Java Native API', link: 'Programming-Java-Native-API_apache' },
-        { text: 'Python Native API', link: 'Programming-Python-Native-API' },
-        { text: 'C++ Native API', link: 'Programming-Cpp-Native-API' },
-        { text: 'GO Native API', link: 'Programming-Go-Native-API' },
-        { text: 'C# Native API', link: 'Programming-CSharp-Native-API' },
+        { text: 'Python Native API', link: 'Programming-Python-Native-API_apache' },
+        { text: 'C++ Native API', link: 'Programming-Cpp-Native-API_apache' },
+        { text: 'GO Native API', link: 'Programming-Go-Native-API_apache' },
+        { text: 'C# Native API', link: 'Programming-CSharp-Native-API_apache' },
         { text: 'JDBC', link: 'Programming-JDBC_apache' },
         { text: 'MQTT Protocol', link: 'Programming-MQTT' },
         { text: 'RESTAPI V1 ', link: 'RestAPI-V1' },
@@ -164,6 +164,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Ecosystem-Integration/',
       children: [
+        { text: 'Overview', link: 'Ecosystem-Overview_apache' },
         {
           text: '‌Computing Engine',
           collapsible: true,
@@ -195,10 +196,10 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
-        { text: 'Identifier', link: 'Identifier' },
-        { text: 'Keywords', link: 'Keywords' },
+        { text: 'Metadata Operations', link: 'SQL-Metadata-Operations' },
+        { text: 'Data Addition&Deletion', link: 'SQL-Data-Addition-Deletion' },
         {
-          text: 'Query statement',
+          text: 'Data Query',
           collapsible: true,
           children: [
             { text: 'overview', link: 'overview' },
@@ -213,6 +214,9 @@ export const enSidebar = {
             { text: 'Nested Queries', link: 'Nested-Queries' },
           ],
         },
+        { text: 'Maintenance Statements', link: 'SQL-Maintenance-Statements' },
+        { text: 'Identifier', link: 'Identifier' },
+        { text: 'Keywords', link: 'Keywords' },
         {
           text: 'Functions and Operators',
           collapsible: true,

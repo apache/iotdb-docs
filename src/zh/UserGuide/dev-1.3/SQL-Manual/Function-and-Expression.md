@@ -51,8 +51,8 @@ IoTDB 支持的聚合函数如下：
 | TIME_DURATION | 求某一列最大一个不为NULL的值所在时间戳与最小一个不为NULL的值所在时间戳的时间戳差 | 所有类型                  | 无                                                           | INT64          |
 | MODE          | 求众数。注意：<br>1.输入序列的不同值个数过多时会有内存异常风险; <br>2.如果所有元素出现的频次相同，即没有众数，则返回对应时间戳最小的值; <br>3.如果有多个众数，则返回对应时间戳最小的众数。 | 所有类型                  | 无                                                           | 与输入类型一致 |
 | COUNT_TIME    | 查询结果集的时间戳的数量。与 align by device 搭配使用时，得到的结果是每个设备的结果集的时间戳的数量。 | 所有类型，输入参数只能为* | 无                                                           | INT64          |
-| MAX_BY        | MAX_BY(x, y) 求二元输入 x 和 y 在 y 最大时对应的 x 的值。MAX_BY(time, x) 返回 x 取最大值时对应的时间戳。                               | 第一个输入 x 可以是任意类型，第二个输入 y 只能是 INT32 INT64 FLOAT DOUBLE  |  无        | 与第一个输入 x 的数据类型一致 |
-| MIN_BY        | MIN_BY(x, y) 求二元输入 x 和 y 在 y 最小时对应的 x 的值。MIN_BY(time, x) 返回 x 取最小值时对应的时间戳。                               | 第一个输入 x 可以是任意类型，第二个输入 y 只能是 INT32 INT64 FLOAT DOUBLE  |  无        | 与第一个输入 x 的数据类型一致 |
+| MAX_BY        | MAX_BY(x, y) 求二元输入 x 和 y 在 y 最大时对应的 x 的值。MAX_BY(time, x) 返回 x 取最大值时对应的时间戳。 <br> 注：V1.3.2 版本开始支持                              | 第一个输入 x 可以是任意类型，第二个输入 y 只能是 INT32 INT64 FLOAT DOUBLE  |  无        | 与第一个输入 x 的数据类型一致 |
+| MIN_BY        | MIN_BY(x, y) 求二元输入 x 和 y 在 y 最小时对应的 x 的值。MIN_BY(time, x) 返回 x 取最小值时对应的时间戳。  <br> 注：V1.3.2 版本开始支持                             | 第一个输入 x 可以是任意类型，第二个输入 y 只能是 INT32 INT64 FLOAT DOUBLE  |  无        | 与第一个输入 x 的数据类型一致 |
 
 
 ### COUNT_IF
@@ -384,6 +384,7 @@ IoTDB> select max_by(b, a) from root.test group by ([0,7),4ms) order by time des
 +-----------------------------+--------------------------------+
 ```
 
+### MIN_BY
 #### 功能定义
 min_by(x, y)： 返回 y 最小时对应时间戳下的 x 值。
 - min_by 必须有两个输入参数 x 和 y。

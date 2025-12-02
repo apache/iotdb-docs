@@ -80,23 +80,23 @@ create pipe p1
                'sink.opcua.tcp.port' = '12686', 
                'sink.opcua.https.port' = '8443', 
                'sink.user' = 'root', 
-               'sink.password' = 'root', 
+               'sink.password' = 'TimechoDB@2021', //Before V2.0.6.x the default password is root 
                'sink.opcua.security.dir' = '...'
               )
 ```
 
 ### 2.2 Parameters
 
-| key                            | value                                                         | value range                         | required or not	 | default value       |
-| :------------------------------ | :----------------------------------------------------------- | :------------------------------------- | :------- | :------------- |
-| sink                               | OPC UA SINK                    | String: opc-ua-sink              | Required	         |                                                              |
-| sink.opcua.model                   | OPC UA model used	              | String: client-server / pub-sub  | Optional         | pub-sub                                                |
-| sink.opcua.tcp.port                | OPC UA's TCP port	             | Integer: [0, 65536]              | Optional         | 12686                                                        |
-| sink.opcua.https.port              | OPC UA's HTTPS port	           | Integer: [0, 65536]              | Optional         | 8443                                                         |
+| key                            | value                                                         | value range                         | required or not	 | default value                                                                                                                                                                                                                                                               |
+| :------------------------------ | :----------------------------------------------------------- | :------------------------------------- | :------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| sink                               | OPC UA SINK                    | String: opc-ua-sink              | Required	         |                                                                                                                                                                                                                                                                             |
+| sink.opcua.model                   | OPC UA model used	              | String: client-server / pub-sub  | Optional         | pub-sub                                                                                                                                                                                                                                                                     |
+| sink.opcua.tcp.port                | OPC UA's TCP port	             | Integer: [0, 65536]              | Optional         | 12686                                                                                                                                                                                                                                                                       |
+| sink.opcua.https.port              | OPC UA's HTTPS port	           | Integer: [0, 65536]              | Optional         | 8443                                                                                                                                                                                                                                                                        |
 | sink.opcua.security.dir            | Directory for OPC UA's keys and certificates	        | String: Path, supports absolute and relative directories | Optional         | Opc_security folder/<httpsPort: tcpPort>in the conf directory of the DataNode related to iotdb <br> If there is no conf directory for iotdb (such as launching DataNode in IDEA), it will be the iotdb_opc_Security folder/<httpsPort: tcpPort>in the user's home directory |
-| sink.opcua.enable-anonymous-access | Whether OPC UA allows anonymous access	        | Boolean                          | Optional         | true                                                         |
-| sink.user                          | User for OPC UA, specified in the configuration	 | String                           | Optional         | root                                                         |
-| sink.password                      | Password for OPC UA, specified in the configuration	 | String                           | Optional         | root                                                         |
+| sink.opcua.enable-anonymous-access | Whether OPC UA allows anonymous access	        | Boolean                          | Optional         | true                                                                                                                                                                                                                                                                        |
+| sink.user                          | User for OPC UA, specified in the configuration	 | String                           | Optional         | root                                                                                                                                                                                                                                                                        |
+| sink.password                      | Password for OPC UA, specified in the configuration	 | String                           | Optional         | TimechoDB@2021 //Before V2.0.6.x the default password is root                                                                                                                                                                                                               |
 
 ### 2.3 Example
 
@@ -104,7 +104,7 @@ create pipe p1
 create pipe p1 
     with sink ('sink' = 'opc-ua-sink'，
                'sink.user' = 'root', 
-               'sink.password' = 'root');
+               'sink.password' = 'TimechoDB@2021' //Before V2.0.6.x the default password is root 
 start pipe p1;
 ```
 
@@ -178,7 +178,7 @@ insert into root.test.db(time, s2) values(now(), 2)
 
 #### Preparation Work
 
-The code is located in the [opc-ua-sink package](https://github.com/apache/iotdb/tree/master/example/pipe-opc-ua-sink/src/main/java/org/apache/iotdb/opcua) under the iotdb-example package.
+The code is located in the [opc-ua-sink package](https://github.com/apache/iotdb/tree/rc/2.0.1/example/pipe-opc-ua-sink/src/main/java/org/apache/iotdb/opcua)under the iotdb-example package.
 
 The code includes:
 

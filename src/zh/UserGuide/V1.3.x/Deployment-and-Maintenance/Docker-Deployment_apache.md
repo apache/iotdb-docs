@@ -125,6 +125,13 @@ services:
     networks:
       iotdb:
         ipv4_address: 172.18.0.6
+    # Note: Some environments set an extremely high container nofile limit (~2^30 = 1073741824).
+    # This can make the startup step "Checking whether the ports are already occupied..." appear to hang (lsof slow).
+    # If you see that line for a long time, lower the nofile limit by uncommenting below:
+    # ulimits:
+    #   nofile:
+    #     soft: 1048576
+    #     hard: 1048576
 networks:
   iotdb:
     external: true
@@ -284,6 +291,13 @@ services:
       - ./iotdb/data:/iotdb/data
       - ./iotdb/logs:/iotdb/logs
     network_mode: "host"    #使用host网络
+    # Note: Some environments set an extremely high container nofile limit (~2^30 = 1073741824).
+    # This can make the startup step "Checking whether the ports are already occupied..." appear to hang (lsof slow).
+    # If you see that line for a long time, lower the nofile limit by uncommenting below:
+    # ulimits:
+    #   nofile:
+    #     soft: 1048576
+    #     hard: 1048576
 ```
 
 **datanode.yml：**
@@ -316,6 +330,13 @@ services:
       - ./iotdb/data:/iotdb/data
       - ./iotdb/logs:/iotdb/logs
     network_mode: "host"      #使用host网络
+    # Note: Some environments set an extremely high container nofile limit (~2^30 = 1073741824).
+    # This can make the startup step "Checking whether the ports are already occupied..." appear to hang (lsof slow).
+    # If you see that line for a long time, lower the nofile limit by uncommenting below:
+    # ulimits:
+    #   nofile:
+    #     soft: 1048576
+    #     hard: 1048576
 ```
 
 ### 首次启动confignode

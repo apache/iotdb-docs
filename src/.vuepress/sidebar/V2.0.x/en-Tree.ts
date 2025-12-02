@@ -29,6 +29,7 @@ export const enSidebar = {
       children: [
         { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_apache' },
         { text: 'Scenario', link: 'Scenario' },
+        { text: 'Release History', link: 'Release-history_apache' },
       ],
     },
     {
@@ -80,8 +81,8 @@ export const enSidebar = {
           text: 'Data Modeling',
           link: 'Operate-Metadata_apache',
         },
-        { text: 'Write Data', link: 'Write-Data' },
-        { text: 'Query Data', link: 'Query-Data' },
+        { text: 'Write Data', link: 'Write-Data_apache' },
+        { text: 'Query Data', link: 'Query-Data_apache' },
         {
           text: 'Delete Data',
           collapsible: true,
@@ -98,7 +99,7 @@ export const enSidebar = {
       prefix: 'User-Manual/',
       children: [
         { text: 'Data Sync', link: 'Data-Sync_apache' },
-        { text: 'Data Subscription', link: 'Data-subscription' },
+        { text: 'Data Subscription', link: 'Data-subscription_apache' },
         {
           text: 'Stream Computing',
           collapsible: true,
@@ -112,7 +113,7 @@ export const enSidebar = {
         {
           text: 'Security Permissions',
           collapsible: true,
-          children: [{ text: 'Permission Management', link: 'Authority-Management' }],
+          children: [{ text: 'Permission Management', link: 'Authority-Management_apache' }],
         },
         {
           text: 'System Maintenance',
@@ -145,14 +146,14 @@ export const enSidebar = {
         { text: 'Cluster Management Tool', link: 'Maintenance-Tool_apache' },
         { text: 'Data Import & Export', collapsible: true,
           children: [
-            { text: 'Data Import', link: 'Data-Import-Tool' },
-            { text: 'Data Export', link: 'Data-Export-Tool' },
+            { text: 'Data Import', link: 'Data-Import-Tool_apache' },
+            { text: 'Data Export', link: 'Data-Export-Tool_apache' },
           ],
         },
         { text: 'Schema Import & Export', collapsible: true,
           children: [
-            { text: 'Schema Import', link: 'Schema-Import-Tool' },
-            { text: 'Schema Export', link: 'Schema-Export-Tool' },
+            { text: 'Schema Import', link: 'Schema-Import-Tool_apache' },
+            { text: 'Schema Export', link: 'Schema-Export-Tool_apache' },
           ],
         },
         { text: 'Full Backup Tool', link: 'Backup-Tool' },
@@ -166,24 +167,24 @@ export const enSidebar = {
       children: [
         { text: 'Java Native Interface', collapsible: true,
           children: [
-            { text: 'Java Native API', link: 'Programming-Java-Native-API' },
-            { text: 'Data Subscription API', link: 'Programming-Data-Subscription' },
+            { text: 'Java Native API', link: 'Programming-Java-Native-API_apache' },
+            { text: 'Data Subscription API', link: 'Programming-Data-Subscription_apache' },
           ],
         },
-        { text: 'Python Native API', link: 'Programming-Python-Native-API' },
+        { text: 'Python Native API', link: 'Programming-Python-Native-API_apache' },
         { text: 'C++ Native API', link: 'Programming-Cpp-Native-API' },
         { text: 'Go Native API', link: 'Programming-Go-Native-API' },
         { text: 'C# Native API', link: 'Programming-CSharp-Native-API' },
         { text: 'Node.js Native API', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust Native API', link: 'Programming-Rust-Native-API' },
-        { text: 'JDBC', link: 'Programming-JDBC' },
+        { text: 'JDBC', link: 'Programming-JDBC_apache' },
         { text: 'MQTT Protocol', link: 'Programming-MQTT' },
         {
           text: 'REST API',
           collapsible: true,
           children: [
-            { text: 'V1 (Not Recommend)', link: 'RestServiceV1' },
-            { text: 'V2', link: 'RestServiceV2' },
+            { text: 'V1 (Not Recommend)', link: 'RestServiceV1_apache' },
+            { text: 'V2', link: 'RestServiceV2_apache' },
           ],
         },
       ],
@@ -193,6 +194,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Ecosystem-Integration/',
       children: [
+        { text: 'Overview', link: 'Ecosystem-Overview_apache' },
         {
           text: '‌Data Acquisition',
           collapsible: true,
@@ -249,7 +251,7 @@ export const enSidebar = {
       children: [
         { text: 'Identifiers', link: 'Syntax-Rule' },
         { text: 'Keywords', link: 'Keywords' },
-        { text: 'SQL Manual', link: 'SQL-Manual' },
+        { text: 'SQL Manual', link: 'SQL-Manual_apache' },
         {
           text: 'Functions and Operators',
           collapsible: true,

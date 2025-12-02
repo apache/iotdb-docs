@@ -286,42 +286,7 @@ with SINK (
 )
 ```
 
-### 3.3 双向数据传输
-
-本例子用来演示两个 IoTDB 之间互为双活的场景，数据链路如下图所示：
-
-![](/img/1706698592139.jpg)
-
-在这个例子中，为了避免数据无限循环，需要将 A 和 B 上的参数`source.mode.double-living` 均设置为 `true`，表示不转发从另一 pipe 传输而来的数据。
-
-详细语句如下：
-
-在 A IoTDB 上执行下列语句：
-
-```SQL
-create pipe AB
-with source (
-  'source.mode.double-living' ='true'   --不转发由其他 Pipe 写入的数据
-)
-with sink (
-  'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6668', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
-)
-```
-
-在 B IoTDB 上执行下列语句：
-
-```SQL
-create pipe BA
-with source (
-  'source.mode.double-living' ='true'   --不转发由其他 Pipe 写入的数据
-)
-with sink (
-  'sink'='iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6667', -- 目标端 IoTDB 中 DataNode 节点的数据服务端口的 url
-)
-```
-### 3.4 边云数据传输
+### 3.3 边云数据传输
 
 本例子用来演示多个 IoTDB 之间边云传输数据的场景，数据由 B 、C、D 集群分别都同步至 A 集群，数据链路如下图所示：
 
@@ -371,13 +336,12 @@ with sink (
 )
 ```
 
-### 3.5 级联数据传输
+### 3.4 级联数据传输
 
 本例子用来演示多个 IoTDB 之间级联传输数据的场景，数据由 A 集群同步至 B 集群，再同步至 C 集群，数据链路如下图所示：
 
 ![](/img/1706698610134.jpg)
 
-在这个例子中，为了将 A 集群的数据同步至 C，在 BC 之间的 pipe 需要将 `source.mode.double-living` 配置为`true`，详细语句如下：
 
 在 A IoTDB 上执行下列语句，将 A 中数据同步至 B：
 
@@ -401,7 +365,7 @@ with sink (
 )
 ```
 
-### 3.6 压缩同步
+### 3.5 压缩同步
 
 IoTDB 支持在同步过程中指定数据压缩方式。可通过配置 `compressor` 参数，实现数据的实时压缩和传输。`compressor`目前支持 snappy / gzip / lz4 / zstd / lzma2 5 种可选算法，且可以选择多种压缩算法组合，按配置的顺序进行压缩。`rate-limit-bytes-per-second`（V1.3.3 及以后版本支持）每秒最大允许传输的byte数,计算压缩后的byte，若小于0则不限制。
 
@@ -417,7 +381,7 @@ with sink (
 ```
 
 
-### 3.7 加密同步
+### 3.6 加密同步
 
 IoTDB 支持在同步过程中使用 SSL 加密，从而在不同的 IoTDB 实例之间安全地传输数据。通过配置 SSL 相关的参数，如证书地址和密码（`ssl.trust-store-path`）、（`ssl.trust-store-pwd`）可以确保数据在同步过程中被 SSL 加密所保护。
 
@@ -511,7 +475,6 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | table-name               | 当用户连接指定的 sql_dialect 为 table 时可以指定。此参数决定时序数据的捕获范围，影响`inclusion`中的`data`数据。表示要过滤的表的名称。它可以是具体的表名，也可以是 Java 风格正则表达式来匹配多个表。默认情况下，匹配所有的表。                                                                                                                                                                                                      | String：数据表名或数据表正则模式串，可以是未创建的、不存在的表                                             | 否           | ".*"                            |
 | start-time               | 此参数决定时序数据的捕获范围，影响`inclusion`中的`data`数据。当数据的 event time 大于等于该参数时，数据会被筛选出来进入流处理 pipe。                                                                                                                                                                                                                                                       | Long: [Long.MIN_VALUE， Long.MAX_VALUE] （unix 裸时间戳）或 String：IoTDB 支持的 ISO 格式时间戳 | 否           | Long.MIN_VALUE（unix 裸时间戳） |
 | end-time                 | 此参数决定时序数据的捕获范围，影响`inclusion`中的`data`数据。当数据的 event time 小于等于该参数时，数据会被筛选出来进入流处理 pipe。                                                                                                                                                                                                                                                       | Long: [Long.MIN_VALUE, Long.MAX_VALUE]（unix 裸时间戳）或String：IoTDB 支持的 ISO 格式时间戳   | 否           | Long.MAX_VALUE（unix 裸时间戳） |
-| mode.double-living       | 是否开启全量双活模式，开启后将忽略`-sql_dialect`连接方式，树表模型数据均会被捕获，且不会转发由另一pipe同步而来的数据。                                                                                                                                                                                                                                                                        | Boolean: true / false                                           | 否        | false                     |
 
 > 💎  **说明：数据抽取模式 mode.streaming 取值 true 和 false 的差异**
 > - **true（推荐）**：该取值下，任务将对数据进行实时处理、发送，其特点是高时效、低吞吐
@@ -525,7 +488,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 |-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------|----------|--------------|
 | sink                        | iotdb-thrift-sink 或 iotdb-thrift-async-sink                                                                                                                                                  | String: iotdb-thrift-sink 或 iotdb-thrift-async-sink                        | 必填       | -            |
 | node-urls                   | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发）                                                                                                                                  | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填       | -            |
-| user/usename                | 连接接收端使用的用户名，同步要求该用户具备相应的操作权限                                                                                                                                                                 | String                                                                     | 选填       | root         |
+| user/username               | 连接接收端使用的用户名，同步要求该用户具备相应的操作权限                                                                                                                                                                 | String                                                                     | 选填       | root         |
 | password                    | 连接接收端使用的用户名对应的密码，同步要求该用户具备相应的操作权限                                                                                                                                                            | String                                                                     | 选填       | root         |
 | batch.enable                | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS                                                                                                                                                                | Boolean: true, false                                                       | 选填       | true         |
 | batch.max-delay-seconds     | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s）                                                                                                                                                       | Integer                                                                    | 选填       | 1            |
@@ -543,7 +506,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 |-----------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------| -------- | ------------ |
 | sink                        | iotdb-thrift-ssl-sink                                                                                                                                                                        | String: iotdb-thrift-ssl-sink                                                    | 必填     | -            |
 | node-urls                   | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发）                                                                                                                                  | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667'       | 必填     | -            |
-| user/usename                | 连接接收端使用的用户名，同步要求该用户具备相应的操作权限                                                                                                                                                                 | String                                                                           | 选填     | root         |
+| user/username               | 连接接收端使用的用户名，同步要求该用户具备相应的操作权限                                                                                                                                                                 | String                                                                           | 选填     | root         |
 | password                    | 连接接收端使用的用户名对应的密码，同步要求该用户具备相应的操作权限                                                                                                                                                            | String                                                                           | 选填     | root         |
 | batch.enable                | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS                                                                                                                                                                | Boolean: true, false                                                             | 选填     | true         |
 | batch.max-delay-seconds     | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s）                                                                                                                                                       | Integer                                                                          | 选填     | 1            |

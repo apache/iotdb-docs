@@ -48,7 +48,36 @@ This guide introduces how to set up a standalone TimechoDB instance, which inclu
 
 ## 2. Installation Steps
 
-### 2.1Extract Installation Package
+### 2.1 Pre-installation Check
+
+To ensure the IoTDB Enterprise Edition installation package you obtained is complete and authentic, we recommend performing an SHA512 verification before proceeding with the installation and deployment.
+
+#### Preparation:
+
+- Obtain the officially released SHA512 checksum: Find the "SHA512 Checksum" corresponding to each version in the [Release History](../IoTDB-Introduction/Release-history_timecho.md) document.
+
+#### Verification Steps (Linux as an Example):
+
+1. Open the terminal and navigate to the directory where the installation package is stored (e.g., /data/iotdb):
+   ```Bash
+      cd /data/iotdb
+      ```
+2. Execute the following command to calculate the hash value:
+   ```Bash
+      sha512sum timechodb-{version}-bin.zip
+      ```
+3. The terminal will output a result (the left part is the SHA512 checksum, and the right part is the file name):
+
+![img](/img/sha512-02.png)
+
+4. Compare the output result with the official SHA512 checksum. Once confirmed that they match, you can proceed with the installation and deployment operations in accordance with the procedures below.
+
+#### Notes:
+
+- If the verification results do not match, please contact Timecho Team to re-obtain the installation package.
+- If a "file not found" prompt appears during verification, check whether the file path is correct or if the installation package has been fully downloaded.
+
+### 2.2 Extract Installation Package
 
 Unzip the installation package and navigate to the directory:
 
@@ -57,7 +86,7 @@ unzip  timechodb-{version}-bin.zip
 cd  timechodb-{version}-bin
 ```
 
-### 2.2 Parameter Configuration
+### 2.3 Parameter Configuration
 
 #### Memory Configuration
 
@@ -93,18 +122,18 @@ Set the following parameters in `conf/iotdb-system.properties`. Refer to `conf/i
 
 **DataNode** **Parameters**:
 
-| **Parameter**                   | **Description**                                              | **Default**     | **Recommended**                                              | **Notes**                                                  |
-| :------------------------------ | :----------------------------------------------------------- | :-------------- | :----------------------------------------------------------- | :--------------------------------------------------------- |
-| dn_rpc_address                  | Address for the client RPC service                           | 0.0.0.0         | 0.0.0.0                                                      | Effective after restarting the service.                    |
-| dn_rpc_port                     | Port for the client RPC service                              | 6667            | 6667                                                         | Effective after restarting the service.                    |
-| dn_internal_address             | Address used for internal communication within the cluster   | 127.0.0.1       | Server's IPv4 address or hostname. Use hostname to avoid issues when the IP changes. | This parameter cannot be modified after the first startup. |
-| dn_internal_port                | Port used for internal communication within the cluster      | 10730           | 10730                                                        | This parameter cannot be modified after the first startup. |
-| dn_mpp_data_exchange_port       | Port used for receiving data streams                         | 10740           | 10740                                                        | This parameter cannot be modified after the first startup. |
-| dn_data_region_consensus_port   | Port used for data replica consensus protocol communication  | 10750           | 10750                                                        | This parameter cannot be modified after the first startup. |
-| dn_schema_region_consensus_port | Port used for metadata replica consensus protocol communication | 10760           | 10760                                                        | This parameter cannot be modified after the first startup. |
-| dn_seed_config_node             | Address of the ConfigNode for registering and joining the cluster. (e.g.,`cn_internal_address:cn_internal_port`) | 127.0.0.1:10710 | Use `cn_internal_address:cn_internal_port`                   | This parameter cannot be modified after the first startup. |
+| **Parameter**                   | **Description**                                              | **Default**     | **Recommended**                                                                                                 | **Notes**                                                  |
+| :------------------------------ | :----------------------------------------------------------- | :-------------- |:----------------------------------------------------------------------------------------------------------------| :--------------------------------------------------------- |
+| dn_rpc_address                  | Address for the client RPC service                           | 0.0.0.0         | The IPV4 address or host name of the server where it is located, and it is recommended to use the IPV4 address  | Effective after restarting the service.                    |
+| dn_rpc_port                     | Port for the client RPC service                              | 6667            | 6667                                                                                                            | Effective after restarting the service.                    |
+| dn_internal_address             | Address used for internal communication within the cluster   | 127.0.0.1       | Server's IPv4 address or hostname. Use hostname to avoid issues when the IP changes.                            | This parameter cannot be modified after the first startup. |
+| dn_internal_port                | Port used for internal communication within the cluster      | 10730           | 10730                                                                                                           | This parameter cannot be modified after the first startup. |
+| dn_mpp_data_exchange_port       | Port used for receiving data streams                         | 10740           | 10740                                                                                                           | This parameter cannot be modified after the first startup. |
+| dn_data_region_consensus_port   | Port used for data replica consensus protocol communication  | 10750           | 10750                                                                                                           | This parameter cannot be modified after the first startup. |
+| dn_schema_region_consensus_port | Port used for metadata replica consensus protocol communication | 10760           | 10760                                                                                                           | This parameter cannot be modified after the first startup. |
+| dn_seed_config_node             | Address of the ConfigNode for registering and joining the cluster. (e.g.,`cn_internal_address:cn_internal_port`) | 127.0.0.1:10710 | Use `cn_internal_address:cn_internal_port`                                                                      | This parameter cannot be modified after the first startup. |
 
-### 2.3 Start ConfigNode
+### 2.4 Start ConfigNode
 
 Navigate to the `sbin` directory and start ConfigNode:
 
@@ -114,7 +143,7 @@ Navigate to the `sbin` directory and start ConfigNode:
 
  If the startup fails, refer to the  [**Common Problem**](#Common Problem) section below for troubleshooting.
 
-### 2.4 Start DataNode
+### 2.5 Start DataNode
 
 Navigate to the `sbin` directory of IoTDB and start the DataNode:
 
@@ -122,7 +151,7 @@ Navigate to the `sbin` directory of IoTDB and start the DataNode:
 ./sbin/start-datanode.sh -d    # The "-d" flag starts the process in the background.
 ````
 
-### 2.5 Activate Database
+### 2.6 Activate Database
 
 #### Option 1: Command-Based Activation
 
@@ -144,7 +173,7 @@ Navigate to the `sbin` directory of IoTDB and start the DataNode:
    show system info
    ```
 
-3. Copy the returned machine code (displayed as a green string) and send it to the Timecho team:
+3. Copy the returned machine code and send it to the Timecho team:
 
 ```Bash
 +--------------------------------------------------------------+
@@ -156,12 +185,6 @@ Total line number = 1
 It costs 0.030s
 ```
 
-4. Enter the activation code provided by the Timecho team in the CLI using the following format. Wrap the activation code in single quotes ('):
-
-```Bash
-IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
-```
-
 
 #### Option 2: File-Based Activation
 
@@ -171,9 +194,15 @@ IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOM
 4. Place the license file provided by the Timecho team into the corresponding `activation` folder for each node.
 
 
-### 2.6 Verify Activation
+4. Enter the activation code provided by the Timecho team in the CLI using the following format. Wrap the activation code in single quotes ('):
 
-Check the `ClusterActivationStatus` field. If it shows `ACTIVATED`, the database has been successfully activated.
+```Bash
+IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
+```
+
+### 2.7 Verify Activation
+
+In the CLI, you can check the activation status by running the `show activation` command. Check the `ClusterActivationStatus` field. If it shows `ACTIVATED`, the database has been successfully activated.
 
 ![](/img/%E5%8D%95%E6%9C%BA-%E9%AA%8C%E8%AF%81.png)
 
