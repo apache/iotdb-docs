@@ -695,9 +695,9 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM CUMULAT
 ```
 
 
-## 2. Window Functions
+## 4. Window Functions
 
-### 2.1 Function Overview
+### 4.1 Function Overview
 
 The Window Functions supported by IoTDB are special functions that perform calculations on each row based on a specific set of rows related to the current row (called a "window"). It combines grouping operations (`PARTITION BY`), sorting (`ORDER BY`), and definable calculation ranges (window frame `FRAME`), enabling complex cross-row calculations without collapsing the original data rows. It is commonly used in data analysis scenarios such as ranking, cumulative sums, moving averages, etc.
 
@@ -746,9 +746,9 @@ the expected results can be obtained:
 +-----------------------------+------+----+----+
 ```
 
-### 2.2 Function Definition
+### 4.2 Function Definition
 
-#### 2.2.1 SQL Definition
+#### 4.2.1 SQL Definition
 
 ```SQL
 windowDefinition
@@ -783,7 +783,7 @@ frameBound
     ;
 ```
 
-#### 2.2.2 Window Definition
+#### 4.2.2 Window Definition
 
 ##### Partition
 
@@ -1016,7 +1016,7 @@ Query result:
 +-----------------------------+------+----+-----+
 ```
 
-### 2.3 Built-in Window Functions
+### 4.3 Built-in Window Functions
 
 <table style="text-align: left;">
   <tbody>
@@ -1092,7 +1092,7 @@ Query result:
   </tbody>
 </table>
 
-#### 2.3.1 Aggregate Function
+#### 4.3.1 Aggregate Function
 
 All built-in aggregate functions such as `sum()`, `avg()`, `min()`, `max()` can be used as Window Functions.
 
@@ -1114,7 +1114,7 @@ IoTDB> SELECT *, sum(flow) OVER (PARTITION BY device ORDER BY flow) as sum FROM 
 +-----------------------------+------+----+----+
 ```
 
-#### 2.3.2 Value Function
+#### 4.3.2 Value Function
 
 1. `first_value`
 
@@ -1218,7 +1218,7 @@ IoTDB> SELECT *, lag(flow) OVER w as lag FROM device_flow WINDOW w AS(PARTITION 
 +-----------------------------+------+----+----+
 ```
 
-#### 2.3.3 Rank Function
+#### 4.3.3 Rank Function
 
 1. rank
 
@@ -1344,7 +1344,7 @@ IoTDB> SELECT *, ntile(2) OVER w as ntile FROM device_flow WINDOW w AS (PARTITIO
 +-----------------------------+------+----+-----+
 ```
 
-### 2.4 Scenario Examples
+### 4.4 Scenario Examples
 
 1. Multi-device diff function
 
