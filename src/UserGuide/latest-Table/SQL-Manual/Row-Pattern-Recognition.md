@@ -883,7 +883,7 @@ Total line number = 6
 
 ## 4. Scenario Examples
 
-Using [Sample Data](./Reference/Sample-Data.md) as the source data
+Using [Sample Data](../Reference/Sample-Data.md) as the source data
 
 ### 4.1 Time Segment Query
 
