@@ -112,7 +112,7 @@ PATTERN ( row_pattern )
   * When the value of the PATTERN clause is `A$`, the match must end at the end of the partition, and this row must satisfy the definition of `A`.
   * When the value of the PATTERN clause is `$A` or `$A$`, the output result is empty.
 
-For example illustrations, see[Section 3.3.1](./Row-Pattern-Recognition.md#_3-1-Patter Clause Partition Anchor)
+For example illustrations, see[Section 3.3.1](./Row-Pattern-Recognition.md#_3-1-Patter-Clause-Partition-Anchor)
 
 #### 2.4.3 Quantifiers
 
