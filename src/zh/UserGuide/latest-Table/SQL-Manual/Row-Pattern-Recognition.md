@@ -113,7 +113,7 @@ PATTERN ( row_pattern )
     * 当 PATTERN 子句的取值为 `A$` 时，要求必须在分区的结束位置匹配，并且这一行要满足 `A`的定义
     * 当 PATTERN 子句的取值为 `$A` 或 `$A$` 时，输出结果为空
 
-示例介绍可见 [3.3.1 小节](./Row-Pattern-Recognition.md#_3-1-Patter 子句分区锚点)
+示例介绍可见 [3.1 小节](./Row-Pattern-Recognition.md#_3-1-Patter-子句分区锚点)
 
 #### 2.4.3 量词（Quantifiers）
 
@@ -145,7 +145,7 @@ PATTERN ( row_pattern )
 
 * 在所有可能的配置中，仅当 `ALL ROWS PER MATCH WITH UNMATCHED ROWS` 与 `AFTER MATCH SKIP PAST LAST ROW` 联合使用时，系统才能确保对每个输入行恰好生成一条输出记录。
 
-示例介绍可见 [3.3.2 小节](./Row-Pattern-Recognition.md#_3-2-AFTER MATCH SKIP 子句)
+示例介绍可见 [3.2 小节](./Row-Pattern-Recognition.md#_3-2-AFTER-MATCH-SKIP-子句)
 
 ### 2.6 ROWS PER MATCH 子句
 
@@ -205,7 +205,7 @@ orderstatus
 | 嵌套函数             | `PREV/NEXT(CLASSIFIER())`                                                                                                                                                                                                                                                                            | 物理导航函数与 CLASSIFIER 函数嵌套。用于获取当前行的前一个和后一个匹配行所对应的模式变量 |
 | 嵌套函数             |`PREV/NEXT(RPR_FIRST/RPR_LAST(expr, k)`） | 物理函数内部**允许嵌套**逻辑函数，逻辑函数内部**不允许嵌套**物理函数。用于先进行逻辑偏移，再进行物理偏移。                                                                                                                                                                                   |
 
-示例介绍可见 [3.3.3 小节](./Row-Pattern-Recognition.md#_3-3-行模式表达式-扩展函数)
+示例介绍可见 [3.3 小节](./Row-Pattern-Recognition.md#_3-3-行模式表达式-扩展函数)
 
 #### 2.8.3 RUNNING 和 FINAL 语义
 1. 定义

@@ -112,7 +112,7 @@ PATTERN ( row_pattern )
   * When the value of the PATTERN clause is `A$`, the match must end at the end of the partition, and this row must satisfy the definition of `A`.
   * When the value of the PATTERN clause is `$A` or `$A$`, the output result is empty.
 
-For example illustrations, see[Section 3.3.1](./Row-Pattern-Recognition.md#_3-1-Patter-Clause-Partition-Anchor)
+For example illustrations, see[Section 3.1](./Row-Pattern-Recognition.md#_3-1-Patter-Clause-Partition-Anchor)
 
 #### 2.4.3 Quantifiers
 
@@ -144,7 +144,7 @@ Used to specify which row to start the next pattern match from after identifying
 
 * Among all possible configurations, only when `ALL ROWS PER MATCH WITH UNMATCHED ROWS` is used in combination with `AFTER MATCH SKIP PAST LAST ROW` can the system ensure that exactly one output record is generated for each input row.
 
-For example illustrations, see [Section 3.3.2](./Row-Pattern-Recognition.md#_3-2-AFTER-MATCH-SKIP-Clause)
+For example illustrations, see [Section 3.2](./Row-Pattern-Recognition.md#_3-2-AFTER-MATCH-SKIP-Clause)
 
 ### 2.6 ROWS PER MATCH Clause
 
@@ -208,7 +208,7 @@ orderstatus
 | Nested Functions              | `PREV/NEXT(CLASSIFIER())`                 | Nesting of physical navigation functions and the CLASSIFIER function. Used to obtain the pattern variables corresponding to the previous and next matching rows of the current row.                                                                                                                                                                                                                                                                                                                                                                        |
 | Nested Functions              | `PREV/NEXT(RPR_FIRST/RPR_LAST(expr, k)`） | **Logical functions are allowed to be nested** inside physical functions; **physical functions are not allowed to be nested** inside logical functions. Used to perform logical offset first, then physical offset.                                                                                                                                                                                                                                                                                                                            |
 
-For example illustrations, see [Section 3.3.3](./Row-Pattern-Recognition.md#_3-3-Row-Pattern-Expressions-Extended-Functions)
+For example illustrations, see [Section 3.3](./Row-Pattern-Recognition.md#_3-3-Row-Pattern-Expressions-Extended-Functions)
 
 #### 2.8.3 RUNNING and FINAL Semantics
 
