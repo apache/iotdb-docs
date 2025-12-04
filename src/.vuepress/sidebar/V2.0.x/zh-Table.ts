@@ -213,7 +213,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '基础函数', link: 'Basis-Function' },
-            { text: '特色函数', link: 'Featured-Functions' },
+            { text: '特色函数', link: 'Featured-Functions_apache' },
           ],
         },
 

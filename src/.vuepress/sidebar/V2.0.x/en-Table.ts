@@ -223,7 +223,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'Basis Functions', link: 'Basis-Function' },
-            { text: 'Featured Functions', link: 'Featured-Functions' },
+            { text: 'Featured Functions', link: 'Featured-Functions_apache' },
           ],
         },
 
