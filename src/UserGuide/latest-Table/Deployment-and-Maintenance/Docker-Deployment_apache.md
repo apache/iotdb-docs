@@ -60,7 +60,7 @@ This section demonstrates how to deploy a standalone Docker version of 1C1D.
 
 ### 2.1 Pull Image File
 
-The Docker image of Apache IoTDB has been uploaded tohttps://hub.docker.com/r/apache/iotdb。
+The Docker image of Apache IoTDB has been uploaded to https://hub.docker.com/r/apache/iotdb.
 
 Taking obtaining version 1.3.2 as an example, pull the image command:
 
@@ -126,6 +126,13 @@ services:
     networks:
       iotdb:
         ipv4_address: 172.18.0.6
+    # Note: Some environments set an extremely high container nofile limit (~2^30 = 1073741824).
+    # This can make the startup step "Checking whether the ports are already occupied..." appear to hang (lsof slow).
+    # If you see that line for a long time, lower the nofile limit by uncommenting below:
+    # ulimits:
+    #   nofile:
+    #     soft: 1048576
+    #     hard: 1048576
 networks:
   iotdb:
     external: true
@@ -287,6 +294,13 @@ services:
       - ./iotdb/logs:/iotdb/logs
       - /usr/sbin/dmidecode:/usr/sbin/dmidecode:ro
     network_mode: "host"    #Using the host network
+    # Note: Some environments set an extremely high container nofile limit (~2^30 = 1073741824).
+    # This can make the startup step "Checking whether the ports are already occupied..." appear to hang (lsof slow).
+    # If you see that line for a long time, lower the nofile limit by uncommenting below:
+    # ulimits:
+    #   nofile:
+    #     soft: 1048576
+    #     hard: 1048576
 ```
 
 **datanode.yml：**
@@ -321,6 +335,13 @@ services:
       - ./iotdb/logs:/iotdb/logs
       - /usr/sbin/dmidecode:/usr/sbin/dmidecode:ro
     network_mode: "host"   #Using the host network
+    # Note: Some environments set an extremely high container nofile limit (~2^30 = 1073741824).
+    # This can make the startup step "Checking whether the ports are already occupied..." appear to hang (lsof slow).
+    # If you see that line for a long time, lower the nofile limit by uncommenting below:
+    # ulimits:
+    #   nofile:
+    #     soft: 1048576
+    #     hard: 1048576
 ```
 
 ### 3.4 Start ConfigNode for the First Time

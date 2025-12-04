@@ -56,7 +56,7 @@ IoTDB 为用户提供了权限管理操作，为用户提供对数据与集群�
 
 ### 密码限制
 
-4~32个字符，可使用大写小写字母、数字、特殊字符（`!@#$%^&*()_+-=`），密码默认采用 MD5 进行加密。
+4~32个字符，可使用大写小写字母、数字、特殊字符（`!@#$%^&*()_+-=`），密码默认采用 SHA-256 进行加密。
 
 ### 角色名限制
 
@@ -261,9 +261,9 @@ LIST PRIVILEGES OF ROLE <roleName>;
 eg: LIST PRIVILEGES OF ROLE actor;
 ```
 
-- 更新密码
+- 修改密码
 
-用户可以更新自己的密码，但更新其他用户密码需要具备MANAGE_USER  权限。
+用户可以修改自己的密码，但修改其他用户密码需要具备MANAGE_USER  权限。
 
 ```SQL
 ALTER USER <username> SET PASSWORD <password>;

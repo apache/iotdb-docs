@@ -19,12 +19,12 @@
 export const zhSidebar = {
   '/zh/UserGuide/V0.13.x/': [
     {
-      text: 'IoTDB用户手册 (V0.13.x)',
+      text: 'TimechoDB用户手册 (V0.13.x)',
       collapsible: false,
       children: [],
     },
     {
-      text: 'IoTDB简介',
+      text: 'TimechoDB简介',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
       children: [
@@ -77,7 +77,7 @@ export const zhSidebar = {
         { text: 'C++ 原生接口', link: 'Programming-Cpp-Native-API' },
         { text: 'Go 原生接口', link: 'Programming-Go-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC' },
-        { text: 'MQTT', link: 'Programming-MQTT' },
+        /* { text: 'MQTT', link: 'Programming-MQTT' }, */
         { text: 'REST API', link: 'RestService' },
         { text: 'TsFile API', link: 'Programming-TsFile-API' },
         { text: '状态码', link: 'Status-Codes' },

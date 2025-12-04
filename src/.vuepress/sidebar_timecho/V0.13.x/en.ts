@@ -19,12 +19,12 @@
 export const enSidebar = {
   '/UserGuide/V0.13.x/': [
     {
-      text: 'IoTDB User Guide (V0.13.x)',
+      text: 'TimechoDB User Guide (V0.13.x)',
       collapsible: false,
       children: [],
     },
     {
-      text: 'IoTDB Introduction',
+      text: 'TimechoDB Introduction',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
       children: [
@@ -80,7 +80,7 @@ export const enSidebar = {
         { text: 'C++ Native API', link: 'Programming-Cpp-Native-API' },
         { text: 'Go Native API', link: 'Programming-Go-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC' },
-        { text: 'MQTT', link: 'Programming-MQTT' },
+        /* { text: 'MQTT', link: 'Programming-MQTT' }, */
         { text: 'REST API', link: 'RestService' },
         { text: 'TsFile API', link: 'Programming-TsFile-API' },
         { text: 'Status Codes', link: 'Status-Codes' },

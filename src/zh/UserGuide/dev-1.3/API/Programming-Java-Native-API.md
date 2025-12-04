@@ -306,33 +306,51 @@ public class SessionPoolExample {
         sessionPool.executeNonQueryStatement("set TTL to root.test.** 10000");
         // 3. delete time series
         sessionPool.executeNonQueryStatement("delete timeseries root.test.d1.s1");
-        private static void executeQueryExample() throws IoTDBConnectionException, StatementExecutionException {
+    }
+    
+    private static void executeQueryExample() throws IoTDBConnectionException, StatementExecutionException {
         // 1. execute normal query
         try(SessionDataSetWrapper wrapper = sessionPool.executeQueryStatement("select s1 from root.sg1.d1 limit 10")) {
-            while (wrapper.hasNext()) {
-                System.out.println(wrapper.next());
-            }
+            // get DataIterator like JDBC
+            DataIterator dataIterator = wrapper.iterator();
+            System.out.println(wrapper.getColumnNames());
+            System.out.println(wrapper.getColumnTypes());
+            while (dataIterator.next()) {
+                StringBuilder builder = new StringBuilder();
+                for (String columnName : wrapper.getColumnNames()) {
+                    builder.append(dataIterator.getString(columnName) + " ");
                 }
-        // 2. execute aggregate query
-        try(SessionDataSetWrapper wrapper = sessionPool.executeQueryStatement("select count(s1) from root.sg1.d1 group by ([0, 40), 5ms) ")) {
-            while (wrapper.hasNext()) {
-                System.out.println(wrapper.next());
+                System.out.println(builder);
             }
         }
-          }
-
-        private static void constructSessionPool() {
-        // Using nodeUrls ensures that when one node goes down, other nodes are automatically connected to retry
-        List<String> nodeUrls = new ArrayList<>();
-        nodeUrls.add("127.0.0.1:6667");
-        nodeUrls.add("127.0.0.1:6668");
-        sessionPool =
-                new SessionPool.Builder()
-                        .nodeUrls(nodeUrls)
-                        .user("root")
-                        .password("root")
-                        .maxSize(3)
-                        .build();
+        // 2. execute aggregate query
+        try(SessionDataSetWrapper wrapper = sessionPool.executeQueryStatement("select count(s1) from root.sg1.d1 group by ([0, 40), 5ms) ")) {
+            // get DataIterator like JDBC
+            DataIterator dataIterator = wrapper.iterator();
+            System.out.println(wrapper.getColumnNames());
+            System.out.println(wrapper.getColumnTypes());
+            while (dataIterator.next()) {
+                StringBuilder builder = new StringBuilder();
+                for (String columnName : wrapper.getColumnNames()) {
+                    builder.append(dataIterator.getString(columnName) + " ");
+                }
+                System.out.println(builder);
+            }
+        }
+    }
+    
+    private static void constructSessionPool() {
+    // Using nodeUrls ensures that when one node goes down, other nodes are automatically connected to retry
+    List<String> nodeUrls = new ArrayList<>();
+    nodeUrls.add("127.0.0.1:6667");
+    nodeUrls.add("127.0.0.1:6668");
+    sessionPool =
+            new SessionPool.Builder()
+                    .nodeUrls(nodeUrls)
+                    .user("root")
+                    .password("root")
+                    .maxSize(3)
+                    .build();
     }
 
     public static void closeSessionPool(){
@@ -455,7 +473,7 @@ Session具有如下的字段，可以通过构造函数或Session.Builder方式�
 | 方法名                                                       | 功能描述                         | 参数解释                                                     |
 | ------------------------------------------------------------ | -------------------------------- | ------------------------------------------------------------ |
 | `executeQueryStatement(String sql)`                          | 执行查询语句                     | `sql`: 查询SQL语句                                           |
-| `executeQueryStatement(String sql, long timeoutInMs)`        | 执行带超时的查询语句             | `sql`: 查询SQL语句，`timeoutInMs`: 查询超时时间（毫秒）      |
+| `executeQueryStatement(String sql, long timeoutInMs)`        | 执行带超时的查询语句             | `sql`: 查询SQL语句，`timeoutInMs`: 查询超时时间（毫秒），默认取服务器配置即60s      |
 | `executeRawDataQuery(List<String> paths, long startTime, long endTime)` | 查询指定路径的原始数据           | `paths`: 查询路径列表，`startTime`: 起始时间戳，`endTime`: 结束时间戳 |
 | `executeRawDataQuery(List<String> paths, long startTime, long endTime, long timeOut)` | 查询指定路径的原始数据（带超时） | 同上，增加 `timeOut`: 超时时间                               |
 | `executeLastDataQuery(List<String> paths)`                   | 查询最新数据                     | `paths`: 查询路径列表                                        |

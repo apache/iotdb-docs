@@ -1,0 +1,621 @@
+<!--
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+    
+        http://www.apache.org/licenses/LICENSE-2.0
+    
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
+
+# 运维语句
+
+## 1.  状态查看
+
+### 1.1 查看当前的树/表模型
+
+**语法：**
+
+```SQL
+showCurrentSqlDialectStatement
+    : SHOW CURRENT_SQL_DIALECT
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> SHOW CURRENT_SQL_DIALECT
++-----------------+
+|CurrentSqlDialect|
++-----------------+
+|            TABLE|
++-----------------+
+```
+
+### 1.2 查看登录的用户名
+
+**语法：**
+
+```SQL
+showCurrentUserStatement
+    : SHOW CURRENT_USER
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> SHOW CURRENT_USER
++-----------+
+|CurrentUser|
++-----------+
+|       root|
++-----------+
+```
+
+### 1.3 查看连接的数据库名
+
+**语法：**
+
+```SQL
+showCurrentDatabaseStatement
+    : SHOW CURRENT_DATABASE
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> SHOW CURRENT_DATABASE;
++---------------+
+|CurrentDatabase|
++---------------+
+|           null|
++---------------+
+
+IoTDB> USE test;
+
+IoTDB> SHOW CURRENT_DATABASE;
++---------------+
+|CurrentDatabase|
++---------------+
+|           test|
++---------------+
+```
+
+### 1.4 查看集群版本
+
+**语法：**
+
+```SQL
+showVersionStatement
+    : SHOW VERSION
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> SHOW VERSION
++-------+---------+
+|Version|BuildInfo|
++-------+---------+
+|2.0.1.2|  1ca4008|
++-------+---------+
+```
+
+### 1.5 查看集群关键参数
+
+**语法：**
+
+```SQL
+showVariablesStatement
+    : SHOW VARIABLES
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> SHOW VARIABLES
++----------------------------------+-----------------------------------------------------------------+
+|                          Variable|                                                            Value|
++----------------------------------+-----------------------------------------------------------------+
+|                       ClusterName|                                                   defaultCluster|
+|             DataReplicationFactor|                                                                1|
+|           SchemaReplicationFactor|                                                                1|
+|  DataRegionConsensusProtocolClass|                      org.apache.iotdb.consensus.iot.IoTConsensus|
+|SchemaRegionConsensusProtocolClass|                  org.apache.iotdb.consensus.ratis.RatisConsensus|
+|  ConfigNodeConsensusProtocolClass|                  org.apache.iotdb.consensus.ratis.RatisConsensus|
+|               TimePartitionOrigin|                                                                0|
+|             TimePartitionInterval|                                                        604800000|
+|              ReadConsistencyLevel|                                                           strong|
+|           SchemaRegionPerDataNode|                                                                1|
+|             DataRegionPerDataNode|                                                                0|
+|                     SeriesSlotNum|                                                             1000|
+|           SeriesSlotExecutorClass|org.apache.iotdb.commons.partition.executor.hash.BKDRHashExecutor|
+|         DiskSpaceWarningThreshold|                                                             0.05|
+|                TimestampPrecision|                                                               ms|
++----------------------------------+-----------------------------------------------------------------+
+```
+
+### 1.6 查看集群ID
+
+**语法：**
+
+```SQL
+showClusterIdStatement
+    : SHOW (CLUSTERID | CLUSTER_ID)
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> SHOW CLUSTER_ID
++------------------------------------+
+|                           ClusterId|
++------------------------------------+
+|40163007-9ec1-4455-aa36-8055d740fcda|
+```
+
+### 1.7 查看服务器的时间
+
+查看客户端直连的 DataNode 进程所在的服务器的时间
+
+**语法：**
+
+```SQL
+showCurrentTimestampStatement
+    : SHOW CURRENT_TIMESTAMP
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> SHOW CURRENT_TIMESTAMP
++-----------------------------+
+|             CurrentTimestamp|
++-----------------------------+
+|2025-02-17T11:11:52.987+08:00|
++-----------------------------+
+```
+
+### 1.8 查看分区信息
+
+**含义**：返回当前集群的分区信息。
+
+#### 语法：
+
+```SQL
+showRegionsStatement
+    : SHOW REGIONS
+    ;
+```
+
+#### 示例：
+
+```SQL
+IoTDB> SHOW REGIONS
+```
+
+执行结果如下：
+
+```SQL
++--------+------------+-------+----------+-------------+-----------+----------+----------+-------+---------------+------+-----------------------+----------+
+|RegionId|        Type| Status|  Database|SeriesSlotNum|TimeSlotNum|DataNodeId|RpcAddress|RpcPort|InternalAddress|  Role|             CreateTime|TsFileSize|
++--------+------------+-------+----------+-------------+-----------+----------+----------+-------+---------------+------+-----------------------+----------+
+|       6|SchemaRegion|Running|tcollector|          670|          0|         1|   0.0.0.0|   6667|      127.0.0.1|Leader|2025-08-01T17:37:01.194|          |
+|       7|  DataRegion|Running|tcollector|          335|        335|         1|   0.0.0.0|   6667|      127.0.0.1|Leader|2025-08-01T17:37:01.196| 169.85 KB|
+|       8|  DataRegion|Running|tcollector|          335|        335|         1|   0.0.0.0|   6667|      127.0.0.1|Leader|2025-08-01T17:37:01.198| 161.63 KB|
++--------+------------+-------+----------+-------------+-----------+----------+----------+-------+---------------+------+-----------------------+----------+
+```
+
+
+## 2. 状态设置
+
+### 2.1 设置连接的树/表模型
+
+**语法：**
+
+```SQL
+SET SQL_DIALECT EQ (TABLE | TREE)
+```
+
+**示例：**
+
+```SQL
+IoTDB> SET SQL_DIALECT=TABLE
+IoTDB> SHOW CURRENT_SQL_DIALECT
++-----------------+
+|CurrentSqlDialect|
++-----------------+
+|            TABLE|
++-----------------+
+```
+
+### 2.2 更新配置项
+
+**语法：**
+
+```SQL
+setConfigurationStatement
+    : SET CONFIGURATION propertyAssignments (ON INTEGER_VALUE)?
+    ;
+
+propertyAssignments
+    : property (',' property)*
+    ;
+    
+property
+    : identifier EQ propertyValue
+    ;
+
+propertyValue
+    : DEFAULT
+    | expression
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> SET CONFIGURATION disk_space_warning_threshold='0.05',heartbeat_interval_in_ms='1000' ON 1;
+```
+
+### 2.3 读取手动修改的配置文件
+
+**语法：**
+
+```SQL
+loadConfigurationStatement
+    : LOAD CONFIGURATION localOrClusterMode?
+    ;
+    
+localOrClusterMode
+    : (ON (LOCAL | CLUSTER))
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> LOAD CONFIGURATION ON LOCAL;
+```
+
+### 2.4 设置系统的状态
+
+**语法：**
+
+```SQL
+setSystemStatusStatement
+    : SET SYSTEM TO (READONLY | RUNNING) localOrClusterMode?
+    ;    
+    
+localOrClusterMode
+    : (ON (LOCAL | CLUSTER))
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> SET SYSTEM TO READONLY ON CLUSTER;
+```
+
+## 3. 数据管理
+
+### 3.1 将内存表中的数据刷到磁盘
+
+**语法：**
+
+```SQL
+flushStatement
+    : FLUSH identifier? (',' identifier)* booleanValue? localOrClusterMode?
+    ;
+
+booleanValue
+    : TRUE | FALSE
+    ;
+
+localOrClusterMode
+    : (ON (LOCAL | CLUSTER))
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> FLUSH test_db TRUE ON LOCAL;
+```
+
+### 3.2 清除 DataNode 上的缓存
+
+**语法：**
+
+```SQL
+clearCacheStatement
+    : CLEAR clearCacheOptions? CACHE localOrClusterMode?
+    ;
+
+clearCacheOptions
+    : ATTRIBUTE
+    | QUERY
+    | ALL
+    ;
+
+localOrClusterMode
+    : (ON (LOCAL | CLUSTER))
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> CLEAR ALL CACHE ON LOCAL;
+```
+
+## 4. 数据修复
+
+### 4.1 启动后台扫描并修复 tsfile 任务
+
+**语法：**
+
+```SQL
+startRepairDataStatement
+    : START REPAIR DATA localOrClusterMode?
+    ;
+    
+localOrClusterMode
+    : (ON (LOCAL | CLUSTER))
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> START REPAIR DATA ON CLUSTER;
+```
+
+### 4.2 暂停后台修复 tsfile 任务
+
+**语法：**
+
+```SQL
+stopRepairDataStatement
+    : STOP REPAIR DATA localOrClusterMode?
+    ;
+    
+localOrClusterMode
+    : (ON (LOCAL | CLUSTER))
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> STOP REPAIR DATA ON CLUSTER;
+```
+
+## 5. 查询相关
+
+### 5.1 查看正在执行的查询
+
+**语法：**
+
+```SQL
+showQueriesStatement
+    : SHOW (QUERIES | QUERY PROCESSLIST)
+        (WHERE where=booleanExpression)?
+        (ORDER BY sortItem (',' sortItem)*)?
+        limitOffsetClause
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> SHOW QUERIES WHERE elapsed_time > 30 
++-----------------------+-----------------------------+-----------+------------+------------+----+
+|               query_id|                   start_time|datanode_id|elapsed_time|   statement|user|
++-----------------------+-----------------------------+-----------+------------+------------+----+
+|20250108_101015_00000_1|2025-01-08T18:10:15.935+08:00|          1|      32.283|show queries|root|
++-----------------------+-----------------------------+-----------+------------+------------+----+
+```
+
+### 5.2 主动终止查询
+
+**语法：**
+
+```SQL
+killQueryStatement
+    : KILL (QUERY queryId=string | ALL QUERIES)
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> KILL QUERY 20250108_101015_00000_1; -- 终止指定query
+IoTDB> KILL ALL QUERIES; -- 终止所有query
+```
+
+### 5.3 查询性能分析
+
+#### 5.3.1 查看执行计划
+
+**语法：**
+
+```SQL
+EXPLAIN <SELECT_STATEMENT>
+```
+
+更多详细语法说明请参考：[EXPLAIN 语句](../User-Manual/Query-Performance-Analysis.md#_1-explain-语句)
+
+**示例：**
+
+```SQL
+IoTDB> explain select * from t1
++-----------------------------------------------------------------------------------------------+
+|                                                                              distribution plan|
++-----------------------------------------------------------------------------------------------+
+|                        ┌─────────────────────────────────────────────┐                        |
+|                        │OutputNode-4                                 │                        |
+|                        │OutputColumns-[time, device_id, type, speed] │                        |
+|                        │OutputSymbols: [time, device_id, type, speed]│                        |
+|                        └─────────────────────────────────────────────┘                        |
+|                                               │                                               |
+|                                               │                                               |
+|                        ┌─────────────────────────────────────────────┐                        |
+|                        │Collect-21                                   │                        |
+|                        │OutputSymbols: [time, device_id, type, speed]│                        |
+|                        └─────────────────────────────────────────────┘                        |
+|                       ┌───────────────────────┴───────────────────────┐                       |
+|                       │                                               │                       |
+|┌─────────────────────────────────────────────┐                  ┌───────────┐                 |
+|│TableScan-19                                 │                  │Exchange-28│                 |
+|│QualifiedTableName: test.t1                  │                  └───────────┘                 |
+|│OutputSymbols: [time, device_id, type, speed]│                        │                       |
+|│DeviceNumber: 1                              │                        │                       |
+|│ScanOrder: ASC                               │ ┌─────────────────────────────────────────────┐|
+|│PushDownOffset: 0                            │ │TableScan-20                                 │|
+|│PushDownLimit: 0                             │ │QualifiedTableName: test.t1                  │|
+|│PushDownLimitToEachDevice: false             │ │OutputSymbols: [time, device_id, type, speed]│|
+|│RegionId: 2                                  │ │DeviceNumber: 1                              │|
+|└─────────────────────────────────────────────┘ │ScanOrder: ASC                               │|
+|                                                │PushDownOffset: 0                            │|
+|                                                │PushDownLimit: 0                             │|
+|                                                │PushDownLimitToEachDevice: false             │|
+|                                                │RegionId: 1                                  │|
+|                                                └─────────────────────────────────────────────┘|
++-----------------------------------------------------------------------------------------------+
+```
+
+#### 5.3.2 查询性能分析
+
+**语法：**
+
+```SQL
+EXPLAIN ANALYZE [VERBOSE] <SELECT_STATEMENT>
+```
+
+更多详细语法说明请参考：[EXPLAIN ANALYZE 语句](../User-Manual/Query-Performance-Analysis.md#_2-explain-analyze-语句)
+
+**示例：**
+
+```SQL
+IoTDB> explain analyze verbose select * from t1
++-----------------------------------------------------------------------------------------------+
+|                                                                                Explain Analyze|
++-----------------------------------------------------------------------------------------------+
+|Analyze Cost: 38.860 ms                                                                        |
+|Fetch Partition Cost: 9.888 ms                                                                 |
+|Fetch Schema Cost: 54.046 ms                                                                   |
+|Logical Plan Cost: 10.102 ms                                                                   |
+|Logical Optimization Cost: 17.396 ms                                                           |
+|Distribution Plan Cost: 2.508 ms                                                               |
+|Dispatch Cost: 22.126 ms                                                                       |
+|Fragment Instances Count: 2                                                                    |
+|                                                                                               |
+|FRAGMENT-INSTANCE[Id: 20241127_090849_00009_1.2.0][IP: 0.0.0.0][DataRegion: 2][State: FINISHED]|
+|  Total Wall Time: 18 ms                                                                       |
+|  Cost of initDataQuerySource: 6.153 ms                                                        |
+|  Seq File(unclosed): 1, Seq File(closed): 0                                                   |
+|  UnSeq File(unclosed): 0, UnSeq File(closed): 0                                               |
+|  ready queued time: 0.164 ms, blocked queued time: 0.342 ms                                   |
+|  Query Statistics:                                                                            |
+|    loadBloomFilterFromCacheCount: 0                                                           |
+|    loadBloomFilterFromDiskCount: 0                                                            |
+|    loadBloomFilterActualIOSize: 0                                                             |
+|    loadBloomFilterTime: 0.000                                                                 |
+|    loadTimeSeriesMetadataAlignedMemSeqCount: 1                                                |
+|    loadTimeSeriesMetadataAlignedMemSeqTime: 0.246                                             |
+|    loadTimeSeriesMetadataFromCacheCount: 0                                                    |
+|    loadTimeSeriesMetadataFromDiskCount: 0                                                     |
+|    loadTimeSeriesMetadataActualIOSize: 0                                                      |
+|    constructAlignedChunkReadersMemCount: 1                                                    |
+|    constructAlignedChunkReadersMemTime: 0.294                                                 |
+|    loadChunkFromCacheCount: 0                                                                 |
+|    loadChunkFromDiskCount: 0                                                                  |
+|    loadChunkActualIOSize: 0                                                                   |
+|    pageReadersDecodeAlignedMemCount: 1                                                        |
+|    pageReadersDecodeAlignedMemTime: 0.047                                                     |
+|    [PlanNodeId 43]: IdentitySinkNode(IdentitySinkOperator)                                    |
+|        CPU Time: 5.523 ms                                                                     |
+|        output: 2 rows                                                                         |
+|        HasNext() Called Count: 6                                                              |
+|        Next() Called Count: 5                                                                 |
+|        Estimated Memory Size: : 327680                                                        |
+|      [PlanNodeId 31]: CollectNode(CollectOperator)                                            |
+|          CPU Time: 5.512 ms                                                                   |
+|          output: 2 rows                                                                       |
+|          HasNext() Called Count: 6                                                            |
+|          Next() Called Count: 5                                                               |
+|          Estimated Memory Size: : 327680                                                      |
+|        [PlanNodeId 29]: TableScanNode(TableScanOperator)                                      |
+|            CPU Time: 5.439 ms                                                                 |
+|            output: 1 rows                                                                     |
+|            HasNext() Called Count: 3
+|            Next() Called Count: 2                                                             |
+|            Estimated Memory Size: : 327680                                                    |
+|            DeviceNumber: 1                                                                    |
+|            CurrentDeviceIndex: 0                                                              |
+|        [PlanNodeId 40]: ExchangeNode(ExchangeOperator)                                        |
+|            CPU Time: 0.053 ms                                                                 |
+|            output: 1 rows                                                                     |
+|            HasNext() Called Count: 2                                                          |
+|            Next() Called Count: 1                                                             |
+|            Estimated Memory Size: : 131072                                                    |
+|                                                                                               |
+|FRAGMENT-INSTANCE[Id: 20241127_090849_00009_1.3.0][IP: 0.0.0.0][DataRegion: 1][State: FINISHED]|
+|  Total Wall Time: 13 ms                                                                       |
+|  Cost of initDataQuerySource: 5.725 ms                                                        |
+|  Seq File(unclosed): 1, Seq File(closed): 0                                                   |
+|  UnSeq File(unclosed): 0, UnSeq File(closed): 0                                               |
+|  ready queued time: 0.118 ms, blocked queued time: 5.844 ms                                   |
+|  Query Statistics:                                                                            |
+|    loadBloomFilterFromCacheCount: 0                                                           |
+|    loadBloomFilterFromDiskCount: 0                                                            |
+|    loadBloomFilterActualIOSize: 0                                                             |
+|    loadBloomFilterTime: 0.000                                                                 |
+|    loadTimeSeriesMetadataAlignedMemSeqCount: 1                                                |
+|    loadTimeSeriesMetadataAlignedMemSeqTime: 0.004                                             |
+|    loadTimeSeriesMetadataFromCacheCount: 0                                                    |
+|    loadTimeSeriesMetadataFromDiskCount: 0                                                     |
+|    loadTimeSeriesMetadataActualIOSize: 0                                                      |
+|    constructAlignedChunkReadersMemCount: 1                                                    |
+|    constructAlignedChunkReadersMemTime: 0.001                                                 |
+|    loadChunkFromCacheCount: 0                                                                 |
+|    loadChunkFromDiskCount: 0                                                                  |
+|    loadChunkActualIOSize: 0                                                                   |
+|    pageReadersDecodeAlignedMemCount: 1                                                        |
+|    pageReadersDecodeAlignedMemTime: 0.007                                                     |
+|    [PlanNodeId 42]: IdentitySinkNode(IdentitySinkOperator)                                    |
+|        CPU Time: 0.270 ms                                                                     |
+|        output: 1 rows                                                                         |
+|        HasNext() Called Count: 3                                                              |
+|        Next() Called Count: 2                                                                 |
+|        Estimated Memory Size: : 327680                                                        |
+|      [PlanNodeId 30]: TableScanNode(TableScanOperator)                                        |
+|          CPU Time: 0.250 ms                                                                   |
+|          output: 1 rows                                                                       |
+|          HasNext() Called Count: 3                                                            |
+|          Next() Called Count: 2                                                               |
+|          Estimated Memory Size: : 327680                                                      |
+|          DeviceNumber: 1                                                                      |
+|          CurrentDeviceIndex: 0                                                                |
++-----------------------------------------------------------------------------------------------+
+```

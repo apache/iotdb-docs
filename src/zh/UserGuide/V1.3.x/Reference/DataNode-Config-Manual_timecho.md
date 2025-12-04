@@ -275,7 +275,7 @@ IoTDB DataNode 与 Standalone 模式共用一套配置文件，均位于 IoTDB �
 |:---:|:---|
 |描述| RPC 请求/响应的最大字节数|
 |类型| long |
-|默认值| 536870912 （默认值512MB，应大于等于 512 * 1024 * 1024) |
+|默认值| 536870912 （默认值512MB) |
 |改后生效方式|重启服务生效|
 
 * dn\_thrift\_init\_buffer\_size
@@ -548,14 +548,14 @@ GC 日志会被存储在`IOTDB_HOME/logs/gc.log`. 至多会存储 10 个 gc.log 
 |默认值| iotdb_data	         |
 |改后生效方式| 重启生效          |
 
-* object\_storage\_endpoiont	
+* object\_storage\_endpoint	
 
-|名字| object\_storage\_endpoiont  |
-|:---:|:--------------|
-|描述| 云端存储的 endpoint				 |
-|类型| string         |
-|默认值| 无         |
-|改后生效方式| 重启生效          |
+|名字| object\_storage\_endpoint  |
+|:---:|:---------------------------|
+|描述| 云端存储的 endpoint				         |
+|类型| string                     |
+|默认值| 无                          |
+|改后生效方式| 重启生效                       |
 
 * object\_storage\_access\_key	
 

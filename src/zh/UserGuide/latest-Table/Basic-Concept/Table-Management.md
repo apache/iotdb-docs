@@ -66,13 +66,17 @@ comment
 2. 列的类别可以省略，默认为`FIELD`。当列的类别为`TAG`或`ATTRIBUTE`时，数据类型需为`STRING`（可省略）。
 3. 表的TTL默认为其所在数据库的TTL。如果使用默认值，可以省略此属性，或将其设置为`default`。
 4. <TABLE_NAME>表名称，具有以下特性：
-   - 大小写不敏感
+   - 大小写不敏感，创建成功后，统一显示为小写
    - 名称可包含特殊字符，如  `~!`"%` 等 
-   - 包含特殊字符如 or 中文字符的数据库名创建时必须用双引号 "" 括起来。
+   - 包含特殊字符或中文字符的表名创建时必须用双引号 "" 括起来。
+       - 注意：SQL中特殊字符或中文表名需加双引号。原生API中无需额外添加，否则表名会包含引号字符。
    - 当为表命名时，最外层的双引号（`""`）不会在实际创建的表名中出现。
    - ```SQL
+      -- SQL 中
       "a""b" --> a"b
       """""" --> ""
+      -- API 中
+      "a""b" --> "a""b"
       ```
 5. columnDefinition 列名称与表名称具有相同特性，并且可包含特殊字符`.`。
 6. COMMENT 给表添加注释。
@@ -129,15 +133,15 @@ try (ITableSession session =
           TSDataType.STRING,
           TSDataType.FLOAT,
           TSDataType.DOUBLE);
-  List<Tablet.ColumnCategory> columnTypeList =
+  List<ColumnCategory> columnTypeList =
       new ArrayList<>(
           Arrays.asList(
-              Tablet.ColumnCategory.TAG,
-              Tablet.ColumnCategory.TAG,
-              Tablet.ColumnCategory.TAG,
-              Tablet.ColumnCategory.ATTRIBUTE,
-              Tablet.ColumnCategory.FIELD,
-              Tablet.ColumnCategory.FIELD));
+              ColumnCategory.TAG,
+              ColumnCategory.TAG,
+              ColumnCategory.TAG,
+              ColumnCategory.ATTRIBUTE,
+              ColumnCategory.FIELD,
+              ColumnCategory.FIELD));
   Tablet tablet = new Tablet("table1", columnNameList, dataTypeList, columnTypeList, 100);
   for (long timestamp = 0; timestamp < 100; timestamp++) {
     int rowIndex = tablet.getRowSize();

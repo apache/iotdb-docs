@@ -573,10 +573,10 @@ The `iotdb-system.properties` file contains various configurations for managing 
 - cn_rpc_max_concurrent_client_num
 
 | Name        | cn_rpc_max_concurrent_client_num          |
-| ----------- | ----------------------------------------- |
+| ----------- |-------------------------------------------|
 | Description | Maximum number of concurrent RPC clients. |
-| Type        | Short Int : [0,65535]                     |
-| Default     | 65535                                     |
+| Type        | int                                       |
+| Default     | 3000                                      |
 | Effective   | Restart required.                         |
 
 - cn_connection_timeout_ms
@@ -662,12 +662,12 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 - dn_thrift_max_frame_size
 
-| Name        | dn_thrift_max_frame_size                        |
-| ----------- | ----------------------------------------------- |
-| Description | Maximum frame size for RPC requests/responses.  |
-| Type        | long                                            |
-| Default     | 536870912 （Default512MB，>= 512 * 1024 * 1024) |
-| Effective   | Restart required.                               |
+| Name        | dn_thrift_max_frame_size                       |
+| ----------- |------------------------------------------------|
+| Description | Maximum frame size for RPC requests/responses. |
+| Type        | long                                           |
+| Default     | 536870912 （Default 512MB)                      |
+| Effective   | Restart required.                              |
 
 - dn_thrift_init_buffer_size
 

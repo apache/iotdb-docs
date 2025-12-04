@@ -53,6 +53,36 @@
 1. 准备IoTDB数据库安装包 ：iotdb-enterprise-{version}-bin.zip（安装包获取见：[链接](../Deployment-and-Maintenance/IoTDB-Package_timecho.md)）
 2. 按环境要求配置好操作系统环境（系统环境配置见：[链接](../Deployment-and-Maintenance/Environment-Requirements.md)）
 
+### 前置检查
+
+为确保您获取的IoTDB企业版安装包完整且正确，在执行安装部署前建议您进行SHA512校验。
+
+#### 准备工作：
+
+- 获取官方发布的 SHA512 校验码：[发布历史](../IoTDB-Introduction/Release-history_timecho.md)文档中各版本对应的"SHA512校验码"
+
+#### 校验步骤（以 linux 为例）：
+
+1. 打开终端，进入安装包所在目录（如`/data/iotdb`）：
+   ```Bash
+      cd /data/iotdb
+      ```
+2. 执行以下命令计算哈希值：
+   ```Bash
+      sha512sum timechodb-{version}-bin.zip
+      ```
+3. 终端输出结果（左侧为SHA512 校验码，右侧为文件名）：
+
+![img](/img/sha512-02.png)
+
+4. 对比输出结果与官方 SHA512 校验码，确认一致后，即可按照下方流程执行IoTDB企业版的安装部署操作。
+
+#### 注意事项：
+
+- 若校验结果不一致，请联系天谋工作人员重新获取安装包
+- 校验过程中若出现"文件不存在"提示，需检查文件路径是否正确或安装包是否完整下载
+
+
 ## 安装步骤
 
 假设现在有3台linux服务器，IP地址和服务角色分配如下：
@@ -88,13 +118,13 @@ cd  iotdb-enterprise-{version}-bin
 
     | **配置项**  | **说明**                               | **默认值** | **推荐值**                                       | 备注         |
     | :---------- | :------------------------------------- | :--------- | :----------------------------------------------- | :----------- |
-    | MEMORY_SIZE | IoTDB ConfigNode节点可以使用的内存总量 | 空         | 可按需填写，填写后系统会根据填写的数值来分配内存 | 重启服务生效 |
+    | MEMORY_SIZE | IoTDB ConfigNode节点可以使用的内存总量 | 空         | 可按需填写，填写后系统会根据填写的数值来分配内存 | 修改后保存即可，无需执行；重启服务后生效 |
 
 - `./conf/datanode-env.sh`配置
 
     | **配置项**  | **说明**                             | **默认值** | **推荐值**                                       | 备注         |
     | :---------- | :----------------------------------- | :--------- | :----------------------------------------------- | :----------- |
-    | MEMORY_SIZE | IoTDB DataNode节点可以使用的内存总量 | 空         | 可按需填写，填写后系统会根据填写的数值来分配内存 | 重启服务生效 |
+    | MEMORY_SIZE | IoTDB DataNode节点可以使用的内存总量 | 空         | 可按需填写，填写后系统会根据填写的数值来分配内存 | 修改后保存即可，无需执行；重启服务后生效 |
 
 #### 通用配置
 
@@ -123,7 +153,7 @@ cd  iotdb-enterprise-{version}-bin
 
 | 配置项                          | 说明                                                         | 默认            | 推荐值                                                  | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | 备注               |
 | ------------------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------- | ------------- | ------------- | ------------- | ------------------ |
-| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 127.0.0.1       |  推荐使用所在服务器的**IPV4地址或hostname**       |  iotdb-1       |iotdb-2       | iotdb-3       | 重启服务生效       |
+| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 0.0.0.0         |  所在服务器的IPV4地址或hostname，推荐使用所在服务器的IPV4地址      |  iotdb-1       |iotdb-2       | iotdb-3       | 重启服务生效       |
 | dn_rpc_port                     | 客户端 RPC 服务的端口                                        | 6667            | 6667                                                    | 6667          | 6667          | 6667          | 重启服务生效       |
 | dn_internal_address             | DataNode在集群内部通讯使用的地址                             | 127.0.0.1       | 所在服务器的IPV4地址或hostname，推荐使用hostname        | iotdb-1       | iotdb-2       | iotdb-3       | 首次启动后不能修改 |
 | dn_internal_port                | DataNode在集群内部通信使用的端口                             | 10730           | 10730                                                   | 10730         | 10730         | 10730         | 首次启动后不能修改 |
@@ -134,30 +164,84 @@ cd  iotdb-enterprise-{version}-bin
 
 > ❗️注意：VSCode Remote等编辑器无自动保存配置功能，请确保修改的文件被持久化保存，否则配置项无法生效
 
-### 启动ConfigNode节点
+### 启动及激活数据库 （V 1.3.4 及以后的 1.x 版本）
+
+#### 启动 ConfigNode 节点
 
 先启动第一个iotdb-1的confignode, 保证种子confignode节点先启动，然后依次启动第2和第3个confignode节点
 
 ```Bash
-cd sbin
 ./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
 ```
 如果启动失败，请参考[常见问题](#常见问题)。
 
-### 激活数据库
+#### 启动 DataNode 节点
 
-#### **方式一：激活文件拷贝激活**
+分别进入iotdb的`sbin`目录下，依次启动3个datanode节点：
+
+```Bash
+./start-datanode.sh   -d   #-d参数将在后台进行启动 
+```
+
+#### 激活数据库
+
+##### 通过 CLI 激活
+
+- 进入集群任一节点 CLI，执行获取机器码的语句
+
+ ```SQL
+  -- 连接CLI
+  ./sbin/start-cli.sh
+  -- 获取激活所需机器码
+  IoTDB> show system info
+```
+
+- 系统将自动返回集群所有节点的机器码 
+
+```Bash
++--------------------------------------------------------------+
+|                                                    SystemInfo|
++--------------------------------------------------------------+
+|01-TE5NLES4-UDDWCMYE,01-GG5NLES4-XXDWCMYE,01-FF5NLES4-WWWWCMYE|
++--------------------------------------------------------------+
+Total line number = 1
+It costs 0.030s
+```
+
+- 将获取的机器码复制给天谋工作人员
+
+- 工作人员会返回激活码，正常是与提供的机器码的顺序对应的，请将整串激活码粘贴到CLI中进行激活
+
+    - 注：激活码前后需要用`'`符号进行标注，如下所示
+
+   ```Bash
+    IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
+    ```
+
+### 启动及激活数据库 （V 1.3.4 之前版本）
+
+#### 启动 ConfigNode 节点
+
+先启动第一个iotdb-1的confignode, 保证种子confignode节点先启动，然后依次启动第2和第3个confignode节点
+
+```Bash
+./start-confignode.sh    -d      #“-d”参数将在后台进行启动 
+```
+如果启动失败，请参考[常见问题](#常见问题)。
+
+#### 激活数据库
+
+##### 方式一：激活文件拷贝激活
 
 - 依次启动3个confignode节点后，每台机器各自的`activation`文件夹, 分别拷贝每台机器的`system_info`文件给天谋工作人员;
 - 工作人员将返回每个ConfigNode节点的license文件，这里会返回3个license文件；
 - 将3个license文件分别放入对应的ConfigNode节点的`activation`文件夹下；
 
-#### 方式二：激活脚本激活
+##### 方式二：激活脚本激活
 
 - 依次获取3台机器的机器码，分别进入安装目录的`sbin`目录，执行激活脚本`start-activate.sh`:
 
     ```Bash
-    cd sbin
     ./start-activate.sh
     ```
 
@@ -179,12 +263,11 @@ cd sbin
     Import completed. Please start cluster and excute 'show cluster' to verify activation status
     ```
 
-### 启动DataNode 节点
+#### 启动 DataNode 节点
 
  分别进入iotdb的`sbin`目录下，依次启动3个datanode节点：
 
-```Go
-cd sbin
+```Bash
 ./start-datanode.sh   -d   #-d参数将在后台进行启动 
 ```
 
@@ -205,6 +288,23 @@ cd sbin
 当看到最右侧显示`ACTIVATED`表示激活成功
 
 ![](/img/%E4%BC%81%E4%B8%9A%E7%89%88%E6%BF%80%E6%B4%BB.png)
+
+还可在 CLI 中通过执行 `show activation` 命令查看激活状态，示例如下，状态显示为ACTIVATED表示激活成功
+
+```sql
+IoTDB> show activation
++---------------+---------+-----------------------------+
+|    LicenseInfo|    Usage|                        Limit|
++---------------+---------+-----------------------------+
+|         Status|ACTIVATED|                            -|
+|    ExpiredTime|        -|2026-04-30T00:00:00.000+08:00|
+|  DataNodeLimit|        1|                    Unlimited|
+|       CpuLimit|       16|                    Unlimited|
+|    DeviceLimit|       30|                    Unlimited|
+|TimeSeriesLimit|       72|                1,000,000,000|
++---------------+---------+-----------------------------+
+```
+
 
 > 出现`ACTIVATED(W)`为被动激活，表示此ConfigNode没有license文件（或没有签发时间戳最新的license文件），其激活依赖于集群中其它Activate状态的ConfigNode。此时建议检查license文件是否已放入license文件夹，没有请放入license文件，若已存在license文件，可能是此节点license文件与其他节点信息不一致导致，请联系天谋工作人员重新申请.
 
@@ -322,7 +422,7 @@ sbin/start-confignode.bat
 
 #### 移除ConfigNode节点
 
-首先通过CLI连接集群，通过`show confignodes`确认想要移除ConfigNode的NodeID：
+首先通过CLI连接集群，通过`show confignodes`确认想要移除ConfigNode的内部地址与端口号：
 
 ```Bash
 IoTDB> show confignodes
@@ -337,9 +437,15 @@ Total line number = 3
 It costs 0.030s
 ```
 
-然后使用SQL将ConfigNode移除，SQL命令：
+然后使用脚本将ConfigNode移除。脚本命令：
+
 ```Bash
-remove confignode [confignode_id]
+# Linux / MacOS 
+sbin/remove-confignode.sh [confignode_id]
+
+#Windows
+sbin/remove-confignode.bat [confignode_id]
+
 ```
 
 ### DataNode节点维护
@@ -385,7 +491,7 @@ sbin/start-datanode.bat
 
 #### 移除DataNode节点
 
-首先通过CLI连接集群，通过`show datanodes`确认想要移除的DataNode的NodeID：
+首先通过CLI连接集群，通过`show datanodes`确认想要移除的DataNode的RPC地址与端口号：
 
 ```Bash
 IoTDB> show datanodes
@@ -400,9 +506,14 @@ Total line number = 3
 It costs 0.110s
 ```
 
-然后使用SQL将DataNode移除，SQL命令：
+然后使用脚本将DataNode移除。脚本命令：
+
 ```Bash
-remove datanode [datanode_id]
+# Linux / MacOS 
+sbin/remove-datanode.sh [datanode_id]
+
+#Windows
+sbin/remove-datanode.bat [datanode_id]
 ```
 
 ## 常见问题

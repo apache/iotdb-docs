@@ -19,17 +19,18 @@
 export const enSidebar = {
   '/UserGuide/V1.3.x/': [
     {
-      text: 'IoTDB User Guide (V1.3.x)',
+      text: 'TimechoDB User Guide (V1.3.x)',
       children: [],
     },
     {
-      text: 'About IoTDB',
+      text: 'About TimechoDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
       // children: 'structure', 使用该方式自动获取文件夹下的文件
       children: [
         { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_timecho' },
         { text: 'Scenario', link: 'Scenario' },
+        { text: 'Release History', link: 'Release-history_timecho' },
       ],
     },
     {
@@ -105,6 +106,7 @@ export const enSidebar = {
           children: [
             { text: 'Delete Data', link: 'Delete-Data' },
             { text: 'TTL Delete Data', link: 'TTL-Delete' },
+            { text: 'SpaceTL Delete Data', link: 'SpaceTL-Delete' },
           ],
         },
       ],
@@ -164,7 +166,7 @@ export const enSidebar = {
       prefix: 'Tools-System/',
       // children: 'structure',
       children: [
-        { text: 'CLI', link: 'CLI' },
+        { text: 'CLI', link: 'CLI_timecho' },
         { text: 'Workbench', link: 'Workbench_timecho' },
         { text: 'Monitor Tool', link: 'Monitor-Tool_timecho' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
@@ -198,7 +200,7 @@ export const enSidebar = {
         { text: 'Node.js Native API', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust Native API', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC' },
-        { text: 'MQTT Protocol', link: 'Programming-MQTT' },
+        /* { text: 'MQTT Protocol', link: 'Programming-MQTT' }, */
         { text: 'OPC UA Protocol', link: 'Programming-OPC-UA_timecho' },
         {
           text: 'REST API',

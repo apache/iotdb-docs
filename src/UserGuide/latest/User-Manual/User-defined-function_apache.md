@@ -186,7 +186,7 @@ udf_reader_transformer_collector_memory_proportion=1:1:1
 
 When users use UDF, they will be involved in the `USE_UDF` permission, and only users with this permission are allowed to perform UDF registration, uninstallation, and query operations.
 
-For more user permissions related content, please refer to [Account Management Statements](../User-Manual/Authority-Management.md).
+For more user permissions related content, please refer to [Account Management Statements](../User-Manual/Authority-Management_apache).
 
 
 ## 3. UDF Libraries

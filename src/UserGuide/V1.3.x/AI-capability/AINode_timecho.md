@@ -21,7 +21,7 @@
 
 # AINode
 
-AINode is an IoTDB native node designed to support the registration, management, and invocation of large-scale time series models. It comes with industry-leading proprietary time series models such as Timer and Sundial. These models can be invoked through standard SQL statements, enabling real-time inference of time series data at the millisecond level, and supporting application scenarios such as trend forecasting, missing value imputation, and anomaly detection for time series data.
+AINode is a native IoTDB node that supports the registration, management, and invocation of time-series-related models. It comes with built-in industry-leading self-developed time-series large models, such as the Timer series developed by Tsinghua University. These models can be invoked through standard SQL statements, enabling real-time inference of time series data at the millisecond level, and supporting application scenarios such as trend forecasting, missing value imputation, and anomaly detection for time series data.
 
 
 The system architecture is shown below:

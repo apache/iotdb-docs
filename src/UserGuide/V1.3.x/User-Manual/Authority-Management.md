@@ -57,7 +57,7 @@ Users cannot create users with the same name as the administrator.
 
 ### Password Constraints
 
-4 to 32 characters, can use uppercase and lowercase letters, numbers, and special characters (`!@#$%^&*()_+-=`). Passwords are encrypted by default using MD5.
+4 to 32 characters, can use uppercase and lowercase letters, numbers, and special characters (`!@#$%^&*()_+-=`). Passwords are encrypted by default using SHA-256.
 
 ### Role Name Constraints
 
@@ -264,9 +264,9 @@ LIST PRIVILEGES OF ROLE <roleName>;
 eg: LIST PRIVILEGES OF ROLE actor;
 ```
 
-- Update password
+- Modify password
 
-Users can update their own password, but updating passwords of other users requires the MANAGE_USER permission.
+Users can modify their own password, but modifying passwords of other users requires the MANAGE_USER permission.
 
 ```sql
 ALTER USER <username> SET PASSWORD <password>;

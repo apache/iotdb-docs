@@ -556,14 +556,14 @@ There will be at most 10 gc.log.* files and each one can reach to 10MB.
 |Default| iotdb_data	         |
 |Effective| After restarting system          |
 
-* object\_storage\_endpoiont	
+* object\_storage\_endpoint	
 
-|Name| object\_storage\_endpoiont  |
-|:---:|:--------------|
-|Description| endpoint of cloud storage					 |
-|Type| string         |
-|Default| None         |
-|Effective| After restarting system          |
+|Name| object\_storage\_endpoint       |
+|:---:|:--------------------------------|
+|Description| endpoint of cloud storage					  |
+|Type| string                          |
+|Default| None                            |
+|Effective| After restarting system         |
 
 * object\_storage\_access\_key	
 

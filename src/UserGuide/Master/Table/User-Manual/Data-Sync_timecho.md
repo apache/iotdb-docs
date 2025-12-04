@@ -294,6 +294,7 @@ WITH SOURCE (
   'source' = 'iotdb-source',
   'mode.streaming' = 'true'  -- Extraction mode for newly inserted data (after the pipe is created): 
                              -- Whether to extract data in streaming mode (if set to false, batch mode is used).
+  'database-name'='testdb.*', -- Scope of Data Synchronization
   'start-time' = '2023.08.23T08:00:00+00:00',  -- The event time at which data synchronization starts (inclusive).
   'end-time' = '2023.10.23T08:00:00+00:00'  -- The event time at which data synchronization ends (inclusive).
 ) 
@@ -393,8 +394,7 @@ This example demonstrates cascading data transmission from IoTDB A to IoTDB B an
 
 ![](/img/sync_en_04.png)
 
-To synchronize data from cluster A to cluster C, the `source.mode.double-living` parameter is set to `true` in the pipe between B and C.
-
+ 
 SQL Example: On IoTDB A:
 
 ```SQL
@@ -410,7 +410,6 @@ On IoTDB B:
 ```SQL
 CREATE PIPE BC
 WITH SOURCE (
-  'source.mode.double-living' = 'true'  -- Do not forward data from other pipes
 )
 WITH SINK (
   'sink' = 'iotdb-thrift-sink',
@@ -581,6 +580,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 
 #### iotdb-thrift-sink
 
+
 | **Parameter**               | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | Value Range                                                                      | Required | Default Value |
 |:----------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------| :------- | :------------ |
 | sink                        | iotdb-thrift-sink or iotdb-thrift-async-sink                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | String: iotdb-thrift-sink or iotdb-thrift-async-sink                             | Yes      | -             |
@@ -598,19 +598,20 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | format                      | The payload formats for data transmission include the following options:<br>  - hybrid: The format depends on what is passed from the processor (either tsfile or tablet), and the sink performs no conversion.<br> - tsfile: Data is forcibly converted to tsfile format before transmission. This is suitable for scenarios like data file backup.<br> - tablet: Data is forcibly converted to tsfile format before transmission. This is useful for data synchronization when the sender and receiver have incompatible data types (to minimize errors). | String: hybrid / tsfile / tablet   | No       | hybrid |
 | mark-as-general-write-request | This parameter controls whether data forwarded by external pipes can be synchronized between dual-active pipes (configured on the sender side of dual-active external pipes). | Boolean: true / false. True: can synchronize; False: cannot synchronize; | Optional | False |
 
+
 #### iotdb-air-gap-sink
 
-| **Parameter**                | **Description**                                              | Value Range                                                  | Required | Default Value |
-| :--------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- | :------------ |
-| sink                         | iotdb-air-gap-sink                                           | String: iotdb-air-gap-sink                                   | Yes      | -             |
-| node-urls                    | URLs of the DataNode service ports on the target IoTDB. (please note that the synchronization task does not support forwarding to its own service). | String. Example：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | Yes      | -             |
-| user/usename                 | Usename for connecting to the target IoTDB. Must have appropriate permissions. | String                                                       | No       | root          |
-| password                     | Password for the username.                                   | String                                                       | No       | root          |
-| compressor                   | The selected RPC compression algorithm. Multiple algorithms can be configured and will be adopted in sequence for each request. | String: snappy / gzip / lz4 / zstd / lzma2                   | No       | ""            |
-| compressor.zstd.level        | When the selected RPC compression algorithm is zstd, this parameter can be used to additionally configure the compression level of the zstd algorithm. | Int: [-131072, 22]                                           | No       | 3             |
-| rate-limit-bytes-per-second  | The maximum number of bytes allowed to be transmitted per second. The compressed bytes (such as after compression) are calculated. If it is less than 0, there is no limit. | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                | No       | -1            |
-| load-tsfile-strategy        | When synchronizing file data, ​​whether the receiver waits for the local load tsfile operation to complete before responding to the sender​​:<br>​​sync​​: Wait for the local load tsfile operation to complete before returning the response.<br>​​async​​: Do not wait for the local load tsfile operation to complete; return the response immediately.                                                                                                                                                               | String: sync / async                                                             | No       | sync           |
-| air-gap.handshake-timeout-ms | The timeout duration for the handshake requests when the sender and receiver attempt to establish a connection for the first time, in milliseconds. | Integer                                                      | No       | 5000          |
+| **Parameter**                | **Description**                                              | Value Range                                                  | Required | Default Value                                |
+| :--------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :------- |:---------------------------------------------|
+| sink                         | iotdb-air-gap-sink                                           | String: iotdb-air-gap-sink                                   | Yes      | -                                            |
+| node-urls                    | URLs of the DataNode service ports on the target IoTDB. (please note that the synchronization task does not support forwarding to its own service). | String. Example：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | Yes      | -                                            |
+| user/username                 | username for connecting to the target IoTDB. Must have appropriate permissions. | String                                                       | No       | root                                         |
+| password                     | Password for the username.                                   | String                                                       | No       | TimechoDB@2021 (Before V2.0.6.x it is root)  |
+| compressor                   | The selected RPC compression algorithm. Multiple algorithms can be configured and will be adopted in sequence for each request. | String: snappy / gzip / lz4 / zstd / lzma2                   | No       | ""                                           |
+| compressor.zstd.level        | When the selected RPC compression algorithm is zstd, this parameter can be used to additionally configure the compression level of the zstd algorithm. | Int: [-131072, 22]                                           | No       | 3                                            |
+| rate-limit-bytes-per-second  | The maximum number of bytes allowed to be transmitted per second. The compressed bytes (such as after compression) are calculated. If it is less than 0, there is no limit. | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                | No       | -1                                           |
+| load-tsfile-strategy        | When synchronizing file data, ​​whether the receiver waits for the local load tsfile operation to complete before responding to the sender​​:<br>​​sync​​: Wait for the local load tsfile operation to complete before returning the response.<br>​​async​​: Do not wait for the local load tsfile operation to complete; return the response immediately.                                                                                                                                                               | String: sync / async                                                             | No       | sync                                         |
+| air-gap.handshake-timeout-ms | The timeout duration for the handshake requests when the sender and receiver attempt to establish a connection for the first time, in milliseconds. | Integer                                                      | No       | 5000                                         |
 
 #### iotdb-thrift-ssl-sink
 
@@ -633,6 +634,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | format                      | The payload formats for data transmission include the following options:<br>  - hybrid: The format depends on what is passed from the processor (either tsfile or tablet), and the sink performs no conversion.<br> - tsfile: Data is forcibly converted to tsfile format before transmission. This is suitable for scenarios like data file backup.<br> - tablet: Data is forcibly converted to tsfile format before transmission. This is useful for data synchronization when the sender and receiver have incompatible data types (to minimize errors). | String: hybrid / tsfile / tablet                                                 | No       | hybrid |
 | mark-as-general-write-request | This parameter controls whether data forwarded by external pipes can be synchronized between dual-active pipes (configured on the sender side of dual-active external pipes). | Boolean: true / false. True: can synchronize; False: cannot synchronize; | Optional | False |
 
+
 #### write-back-sink
 
 | **Parameter**                 | **Description**                                                     | **value Range**                                           | **Required** | **Default Value** |
@@ -650,5 +652,5 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | sink.opcua.security.dir              | Directory for OPC UA's keys and certificates	                                                          | String: Path, supports absolute and relative directories | No           | Opc_security folder`<httpsPort: tcpPort>`in the conf directory of the DataNode related to iotdb <br> If there is no conf directory for iotdb (such as launching DataNode in IDEA), it will be the iotdb_opc_Security folder`<httpsPort: tcpPort>`in the user's home directory |
 | sink.opcua.enable-anonymous-access   | Whether OPC UA allows anonymous access	                                                                | Boolean                          | No           | true                                                                                                                                                                                                                                                                          |
 | sink.user                            | User for OPC UA, specified in the configuration	                                                       | String                           | No           | root                                                                                                                                                                                                                                                                          |
-| sink.password                        | Password for OPC UA, specified in the configuration	                                                   | String                           | No           | root                                                                                                                                                                                                                                                                          |
+| sink.password                        | Password for OPC UA, specified in the configuration	                                                   | String                           | No           | TimechoDB@2021 (Before V2.0.6.x it is root)                                                                                                                                                                                                                                   |
 | sink.opcua.placeholder               | A placeholder string used to substitute for null mapping paths when the value of the ID column is null | String               | Optional     | "null"                                                                                                                                                                                                                                                                        |

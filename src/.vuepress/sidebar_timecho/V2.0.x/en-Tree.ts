@@ -19,16 +19,17 @@
 export const enSidebar = {
   '/UserGuide/latest/': [
     {
-      text: 'IoTDB User Guide (V2.0.x)',
+      text: 'TimechoDB User Guide (V2.0.x)',
       children: [],
     },
     {
-      text: 'About IoTDB',
+      text: 'About TimechoDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
       children: [
-        { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_timecho' },
+        { text: 'Introduction', link: 'IoTDB-Introduction_timecho' },
         { text: 'Scenario', link: 'Scenario' },
+        { text: 'Release History', link: 'Release-history_timecho' },
       ],
     },
     {
@@ -89,14 +90,15 @@ export const enSidebar = {
           text: 'Data Modeling',
           link: 'Operate-Metadata_timecho',
         },
-        { text: 'Write Data', link: 'Write-Data' },
-        { text: 'Query Data', link: 'Query-Data' },
+        { text: 'Write Data', link: 'Write-Data_timecho' },
+        { text: 'Query Data', link: 'Query-Data_timecho' },
         {
           text: 'Delete Data',
           collapsible: true,
           children: [
             { text: 'Delete Data', link: 'Delete-Data' },
             { text: 'TTL Delete Data', link: 'TTL-Delete' },
+            { text: 'SpaceTL Delete Data', link: 'SpaceTL-Delete' },
           ],
         },
       ],
@@ -107,7 +109,7 @@ export const enSidebar = {
       prefix: 'User-Manual/',
       children: [
         { text: 'Data Sync', link: 'Data-Sync_timecho' },
-        { text: 'Data Subscription', link: 'Data-subscription' },
+        { text: 'Data Subscription', link: 'Data-subscription_timecho' },
         {
           text: 'Stream Computing',
           collapsible: true,
@@ -124,7 +126,7 @@ export const enSidebar = {
           text: 'Security Permissions',
           collapsible: true,
           children: [
-            { text: 'Permission Management', link: 'Authority-Management' },
+            { text: 'Permission Management', link: 'Authority-Management_timecho' },
             { text: 'White List', link: 'White-List_timecho' },
             { text: 'Security Audit', link: 'Audit-Log_timecho' },
           ],
@@ -154,21 +156,21 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Tools-System/',
       children: [
-        { text: 'CLI', link: 'CLI' },
+        { text: 'CLI', link: 'CLI_timecho' },
         { text: 'Workbench', link: 'Workbench_timecho' },
         { text: 'Monitor Tool', link: 'Monitor-Tool_timecho' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
         { text: 'Cluster Management Tool', link: 'Maintenance-Tool_timecho' },
         { text: 'Data Import & Export', collapsible: true,
           children: [
-            { text: 'Data Import', link: 'Data-Import-Tool' },
-            { text: 'Data Export', link: 'Data-Export-Tool' },
+            { text: 'Data Import', link: 'Data-Import-Tool_timecho' },
+            { text: 'Data Export', link: 'Data-Export-Tool_timecho' },
           ],
         },
         { text: 'Schema Import & Export', collapsible: true,
           children: [
-            { text: 'Schema Import', link: 'Schema-Import-Tool' },
-            { text: 'Schema Export', link: 'Schema-Export-Tool' },
+            { text: 'Schema Import', link: 'Schema-Import-Tool_timecho' },
+            { text: 'Schema Export', link: 'Schema-Export-Tool_timecho' },
           ],
         },
         { text: 'Full Backup Tool', link: 'Backup-Tool' },
@@ -182,25 +184,25 @@ export const enSidebar = {
       children: [
         { text: 'Java Native Interface', collapsible: true,
           children: [
-            { text: 'Java Native API', link: 'Programming-Java-Native-API' },
-            { text: 'Data Subscription API', link: 'Programming-Data-Subscription' },
+            { text: 'Java Native API', link: 'Programming-Java-Native-API_timecho' },
+            { text: 'Data Subscription API', link: 'Programming-Data-Subscription_timecho' },
           ],
         },
-        { text: 'Python Native API', link: 'Programming-Python-Native-API' },
+        { text: 'Python Native API', link: 'Programming-Python-Native-API_timecho' },
         { text: 'C++ Native API', link: 'Programming-Cpp-Native-API' },
         { text: 'Go Native API', link: 'Programming-Go-Native-API' },
         { text: 'C# Native API', link: 'Programming-CSharp-Native-API' },
         { text: 'Node.js Native API', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust Native API', link: 'Programming-Rust-Native-API' },
-        { text: 'JDBC', link: 'Programming-JDBC' },
+        { text: 'JDBC', link: 'Programming-JDBC_timecho' },
         { text: 'MQTT Protocol', link: 'Programming-MQTT' },
         { text: 'OPC UA Protocol', link: 'Programming-OPC-UA_timecho' },
         {
           text: 'REST API',
           collapsible: true,
           children: [
-            { text: 'V1 (Not Recommend)', link: 'RestServiceV1' },
-            { text: 'V2', link: 'RestServiceV2' },
+            { text: 'V1 (Not Recommend)', link: 'RestServiceV1_timecho' },
+            { text: 'V2', link: 'RestServiceV2_timecho' },
           ],
         },
       ],
@@ -210,6 +212,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Ecosystem-Integration/',
       children: [
+        { text: 'Overview', link: 'Ecosystem-Overview_timecho' },
         {
           text: '‌Data Acquisition',
           collapsible: true,
@@ -267,7 +270,7 @@ export const enSidebar = {
       children: [
         { text: 'Identifiers', link: 'Syntax-Rule' },
         { text: 'Keywords', link: 'Keywords' },
-        { text: 'SQL Manual', link: 'SQL-Manual' },
+        { text: 'SQL Manual', link: 'SQL-Manual_timecho' },
         {
           text: 'Functions and Operators',
           collapsible: true,

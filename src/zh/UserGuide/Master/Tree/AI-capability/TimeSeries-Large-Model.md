@@ -25,7 +25,7 @@
 
 时序大模型是一种专为时序数据分析设计的基础模型。IoTDB 团队长期自研时序大模型，基于变换器（Transformer）结构等技术在海量时序数据上预训练，能够理解并生成多种领域的时序数据，可被应用于时序预测、异常检测、时序填补等应用场景。不同于传统时序分析技术，时序大模型具备通用特征提取能力，基于零样本分析、微调等技术服务广泛的分析任务。
 
-团队所研时序大模型相关技术均发表在国际机器学习顶级会议。
+团队所研时序大模型相关技术均发表在国际机器学习顶级会议（见附录）。
 
 ## 应用场景
 
@@ -35,24 +35,35 @@
 
 ![](/img/LargeModel09.png)
 
-## Timer 模型
+## Timer-1 模型
 
-Timer模型不仅展现了出色的少样本泛化和多任务适配能力，还通过预训练获得了丰富的知识库，赋予了它处理多样化下游任务的通用能力，拥有以下特点：
+Timer<sup><a href="#appendix1" id="ref1" style="text-decoration: none;">[1]</a></sup> 模型（非内置）不仅展现了出色的少样本泛化和多任务适配能力，还通过预训练获得了丰富的知识库，赋予了它处理多样化下游任务的通用能力，拥有以下特点：
 
 - **泛化性**：模型能够通过使用少量样本进行微调，达到行业内领先的深度模型预测效果。
 - **通用性**：模型设计灵活，能够适配多种不同的任务需求，并且支持变化的输入和输出长度，使其在各种应用场景中都能发挥作用。
-- **可扩展性**：随着模型参数数量的增加或预训练数据规模的扩大，模型的性能会持续提升，确保模型能够随着时间和数据量的增长而不断优化其预测效果。
+- **可扩展性**：随着模型参数数量的增加或预训练数据规模的扩大，模型效果会持续提升，确保模型能够随着时间和数据量的增长而不断优化其预测效果。
 
-![](/img/LargeModel02.png)
+![](/img/model01.png)
 
 ## Timer-XL 模型
 
-Timer-XL 基于 Timer 进一步扩展升级了网络结构，在多个维度上进行全面突破：
+Timer-XL<sup><a href="#appendix2" id="ref2" style="text-decoration: none;">[2]</a></sup> 基于 Timer 进一步扩展升级了网络结构，在多个维度全面突破（V2.0.5.1及以后版本支持）：
 
-- **超长上下文支持**：该模型突破了传统时序预测模型的限制，支持处理数千个Token（相当于数万个时间点）的输入，有效解决了上下文长度的瓶颈问题。
+- **超长上下文支持**：该模型突破了传统时序预测模型的限制，支持处理数千个 Token（相当于数万个时间点）的输入，有效解决了上下文长度瓶颈问题。
 - **多变量预测场景覆盖**：支持多种预测场景，包括非平稳时间序列的预测、涉及多个变量的预测任务以及包含协变量的预测，满足多样化的业务需求。
 - **大规模工业时序数据集**：采用万亿大规模工业物联网领域的时序数据集进行预训练，数据集兼有庞大的体量、卓越的质量和丰富的领域等重要特质，覆盖能源、航空航天、钢铁、交通等多领域。
 
+![](/img/model02.png)
+
+## Timer-Sundial 模型
+
+Timer-Sundial<sup><a href="#appendix3" id="ref3" style="text-decoration: none;">[3]</a></sup> 是一个专注于时间序列预测的生成式基础模型系列（V2.0.5.1及以后版本支持），其基础版本拥有 1.28 亿参数，并在 1 万亿个时间点上进行了大规模预训练，其核心特性包括：
+
+- **强大的泛化性能**：具备零样本预测能力，可同时支持点预测和概率预测。
+- **灵活预测分布分析**：不仅能预测均值或分位数，还可通过模型生成的原始样本评估预测分布的任意统计特性。
+- **创新生成架构**：采用 “Transformer + TimeFlow” 协同架构——Transformer 学习时间片段的自回归表征，TimeFlow 模块基于流匹配框架 (Flow-Matching) 将随机噪声转化为多样化预测轨迹，实现高效的非确定性样本生成。
+
+![](/img/model03.png)
 
 ## 效果展示
 
@@ -81,32 +92,50 @@ Timer-XL 基于 Timer 进一步扩展升级了网络结构，在多个维度上�
 
 1. 打开 IoTDB cli 控制台，检查 ConfigNode、DataNode、AINode 节点确保均为 Running。
 
-检查命令：
 ```sql
-show cluster
+IoTDB> show cluster
++------+----------+-------+---------------+------------+--------------+-----------+
+|NodeID|  NodeType| Status|InternalAddress|InternalPort|       Version|  BuildInfo|
++------+----------+-------+---------------+------------+--------------+-----------+
+|     0|ConfigNode|Running|      127.0.0.1|       10710|       2.0.5.1|    069354f|
+|     1|  DataNode|Running|      127.0.0.1|       10730|       2.0.5.1|    069354f|
+|     2|    AINode|Running|      127.0.0.1|       10810|       2.0.5.1|069354f-dev|
++------+----------+-------+---------------+------------+--------------+-----------+
+Total line number = 3
+It costs 0.140s
 ```
 
-![](/img/ainode-timer-1.png)
+2. 联网环境下首次启动 AINode 节点会自动拉取 Timer-XL、Sundial 模型。
 
-2. 模型文件存放路径：推荐放在 AINode 安装包相同文件夹下，可新建模型文件夹存放模型文件
-3. 注册模型语句
-
-```sql
-create model <model_name> using uri <uri>
-```
-
-示例：
+3. 检查模型是否可用
 
 ```sql
-create model Timer-xl using uri <uri>
+IoTDB:etth> show models
++---------------------+--------------------+--------+------+
+|              ModelId|           ModelType|Category| State|
++---------------------+--------------------+--------+------+
+|                arima|               Arima|BUILT-IN|ACTIVE|
+|          holtwinters|         HoltWinters|BUILT-IN|ACTIVE|
+|exponential_smoothing|ExponentialSmoothing|BUILT-IN|ACTIVE|
+|     naive_forecaster|     NaiveForecaster|BUILT-IN|ACTIVE|
+|       stl_forecaster|       StlForecaster|BUILT-IN|ACTIVE|
+|         gaussian_hmm|         GaussianHmm|BUILT-IN|ACTIVE|
+|              gmm_hmm|              GmmHmm|BUILT-IN|ACTIVE|
+|                stray|               Stray|BUILT-IN|ACTIVE|
+|              sundial|       Timer-Sundial|BUILT-IN|ACTIVE|
+|             timer_xl|            Timer-XL|BUILT-IN|ACTIVE|
++---------------------+--------------------+--------+------+
+Total line number = 10
+It costs 0.004s
 ```
 
-4. 检查模型是否注册成功
+## 附录
 
-检查命令：
+<a id="appendix1"></a>[1] Timer- Generative Pre-trained Transformers Are Large Time Series Models, Yong Liu, Haoran Zhang, Chenyu Li, Xiangdong Huang, Jianmin Wang, Mingsheng Long.
+[↩ 返回](#ref1)
 
-```sql
-show models
-```
+<a id="appendix2"></a>[2] TIMER-XL- LONG-CONTEXT TRANSFORMERS FOR UNIFIED TIME SERIES FORECASTING ,Yong Liu, Guo Qin, Xiangdong Huang, Jianmin Wang, Mingsheng Long.
+[↩ 返回](#ref2)
 
-![](/img/LargeModel06.png)
+<a id="appendix3"></a>[3] Sundial- A Family of Highly Capable Time Series Foundation Models, Yong Liu, Guo Qin, Zhiyuan Shi, Zhi Chen, Caiyin Yang, Xiangdong Huang, Jianmin Wang, Mingsheng Long, ICML 2025 spotlight.
+[↩ 返回](#ref3)

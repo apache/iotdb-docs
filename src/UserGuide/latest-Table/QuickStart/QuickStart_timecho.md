@@ -62,7 +62,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
 2. Data Insertion & Updates: IoTDB provides multiple methods for inserting real-time data. For basic data insertion and updating operations, please see [Write&Updata Data](../Basic-Concept/Write-Updata-Data.md)
 
-3. Data Querying: IoTDB offers a rich set of data querying capabilities. For a basic introduction to data querying, please see [Query Data](../Basic-Concept/Query-Data.md)
+3. Data Querying: IoTDB offers a rich set of data querying capabilities. For a basic introduction to data querying, please see [Query Data](../Basic-Concept/Query-Data.md). It includes [Row Pattern Recognition](../SQL-Manual/Row-Pattern-Recognition.md) suitable for business scenarios such as identifying specific patterns in time-series data and detecting specific events, as well as [Window Functions](../SQL-Manual/Featured-Functions_timecho.md#_4-Window-Functions) and other featured functions often used in data analysis scenarios.
 
 4. Data Deletion: IoTDB supports two deletion methods: SQL-based deletion and automatic expiration deletion (TTL).
 
@@ -74,7 +74,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
    - Data Synchronization: [Data Sync](../User-Manual/Data-Sync_timecho.md)
 
-6. Application Programming Interfaces (APIs): IoTDB provides various application programming interfaces (APIs) to facilitate developers' interaction with IoTDB in applications. Currently supported interfaces include [Java Native API](../API/Programming-Java-Native-API_timecho.md)、[Python Native API](../API/Programming-Python-Native-API.md)、[JDBC](../API/Programming-JDBC_timecho.md), and more. For more programming interfaces, please refer to the [Application Programming Interfaces] section on the official website.
+6. Application Programming Interfaces (APIs): IoTDB provides various application programming interfaces (APIs) to facilitate developers' interaction with IoTDB in applications. Currently supported interfaces include [Java Native API](../API/Programming-Java-Native-API_timecho.md)、[Python Native API](../API/Programming-Python-Native-API_timecho)、[JDBC](../API/Programming-JDBC_timecho.md), and more. For more programming interfaces, please refer to the [Application Programming Interfaces] section on the official website.
 
 ## 3. What other convenient tools are available?
 

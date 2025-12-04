@@ -52,6 +52,35 @@ This section describes how to manually deploy an instance that includes 3 Config
 1. Prepare the IoTDB database installation package: iotdb enterprise- {version}-bin.zip（The installation package can be obtained from:[IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_timecho.md)）
 2. Configure the operating system environment according to environmental requirements（The system environment configuration can be found in:[Environment Requirement](https://www.timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/Environment-Requirements.html)）
 
+### Pre-installation Check
+
+To ensure the IoTDB Enterprise Edition installation package you obtained is complete and authentic, we recommend performing an SHA512 verification before proceeding with the installation and deployment.
+
+#### Preparation:
+
+- Obtain the officially released SHA512 checksum: Find the "SHA512 Checksum" corresponding to each version in the [Release History](../IoTDB-Introduction/Release-history_timecho.md) document.
+
+#### Verification Steps (Linux as an Example):
+
+1. Open the terminal and navigate to the directory where the installation package is stored (e.g., /data/iotdb):
+   ```Bash
+      cd /data/iotdb
+      ```
+2. Execute the following command to calculate the hash value:
+   ```Bash
+      sha512sum timechodb-{version}-bin.zip
+      ```
+3. The terminal will output a result (the left part is the SHA512 checksum, and the right part is the file name):
+
+![img](/img/sha512-02.png)
+
+4. Compare the output result with the official SHA512 checksum. Once confirmed that they match, you can proceed with the installation and deployment operations in accordance with the procedures below.
+
+#### Notes:
+
+- If the verification results do not match, please contact Timecho Team to re-obtain the installation package.
+- If a "file not found" prompt appears during verification, check whether the file path is correct or if the installation package has been fully downloaded.
+
 ## Installation Steps
 
 Assuming there are three Linux servers now, the IP addresses and service roles are assigned as follows:
@@ -87,13 +116,13 @@ cd  iotdb-enterprise-{version}-bin
 
     | **Configuration** | **Description**                                              | **Default** | **Recommended value**                                        | **Note**                            |
     | :---------------- | :----------------------------------------------------------- | :---------- | :----------------------------------------------------------- | :---------------------------------- |
-    | MEMORY_SIZE       | The total amount of memory that IoTDB ConfigNode nodes can use | -           | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
+    | MEMORY_SIZE       | The total amount of memory that IoTDB ConfigNode nodes can use | -           | Can be filled in as needed, and the system will allocate memory based on the filled in values | Save changes without immediate execution; modifications take effect after service restart. |
 
 - `./conf/datanode-env.sh`  configuration
 
     | **Configuration** | **Description**                                              | **Default** | **Recommended value**                                        | **Note**                            |
     | :---------------- | :----------------------------------------------------------- | :---------- | :----------------------------------------------------------- | :---------------------------------- |
-    | MEMORY_SIZE       | The total amount of memory that IoTDB DataNode nodes can use | -           | Can be filled in as needed, and the system will allocate memory based on the filled in values | Restarting the service takes effect |
+    | MEMORY_SIZE       | The total amount of memory that IoTDB DataNode nodes can use | -           | Can be filled in as needed, and the system will allocate memory based on the filled in values | Save changes without immediate execution; modifications take effect after service restart. |
 
 #### General Configuration
 
@@ -120,40 +149,100 @@ Open the ConfigNode configuration file `./conf/iotdb-system.properties`,Set the 
 
 Open DataNode Configuration File `./conf/iotdb-system.properties`,Set the following parameters:
 
-| **Configuration**               | **Description**                                              | **Default**     | **Recommended value**                                        | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | Note                                     |
-| ------------------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------------ | ------------- | ------------- | ------------- | ---------------------------------------- |
-| dn_rpc_address                  | The address of the client RPC service                                        | 127.0.0.1       |  Recommend using the **IPV4 address or hostname** of the server where it is located        |  iotdb-1       |iotdb-2       | iotdb-3       | Restarting the service takes effect       |
-| dn_rpc_port                     | The port of the client RPC service                           | 6667            | 6667                                                         | 6667          | 6667          | 6667          | Restarting the service takes effect      |
-| dn_internal_address             | The address used by DataNode for communication within the cluster | 127.0.0.1       | The IPV4 address or host name of the server where it is located, and it is recommended to use host name | iotdb-1       | iotdb-2       | iotdb-3       | Cannot be modified after initial startup |
-| dn_internal_port                | The port used by DataNode for communication within the cluster | 10730           | 10730                                                        | 10730         | 10730         | 10730         | Cannot be modified after initial startup |
-| dn_mpp_data_exchange_port       | The port used by DataNode to receive data streams            | 10740           | 10740                                                        | 10740         | 10740         | 10740         | Cannot be modified after initial startup |
-| dn_data_region_consensus_port   | The port used by DataNode for data replica consensus protocol communication | 10750           | 10750                                                        | 10750         | 10750         | 10750         | Cannot be modified after initial startup |
-| dn_schema_region_consensus_port | The port used by DataNode for metadata replica consensus protocol communication | 10760           | 10760                                                        | 10760         | 10760         | 10760         | Cannot be modified after initial startup |
-| dn_seed_config_node             | The address of the ConfigNode that the node connects to when registering to join the cluster, i.e. `cn_internal-address: cn_internal_port` | 127.0.0.1:10710 | The first CongfigNode's cn_internal-address: cn_internal_port | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | Cannot be modified after initial startup |
+| **Configuration**               | **Description**                                              | **Default**     | **Recommended value**                                                                                           | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | Note                                     |
+| ------------------------------- | ------------------------------------------------------------ |-----------------|-----------------------------------------------------------------------------------------------------------------| ------------- | ------------- | ------------- | ---------------------------------------- |
+| dn_rpc_address                  | The address of the client RPC service                                        | 0.0.0.0         | The IPV4 address or host name of the server where it is located, and it is recommended to use the IPV4 address  |  iotdb-1       |iotdb-2       | iotdb-3       | Restarting the service takes effect       |
+| dn_rpc_port                     | The port of the client RPC service                           | 6667            | 6667                                                                                                            | 6667          | 6667          | 6667          | Restarting the service takes effect      |
+| dn_internal_address             | The address used by DataNode for communication within the cluster | 127.0.0.1       | The IPV4 address or host name of the server where it is located, and it is recommended to use host name         | iotdb-1       | iotdb-2       | iotdb-3       | Cannot be modified after initial startup |
+| dn_internal_port                | The port used by DataNode for communication within the cluster | 10730           | 10730                                                                                                           | 10730         | 10730         | 10730         | Cannot be modified after initial startup |
+| dn_mpp_data_exchange_port       | The port used by DataNode to receive data streams            | 10740           | 10740                                                                                                           | 10740         | 10740         | 10740         | Cannot be modified after initial startup |
+| dn_data_region_consensus_port   | The port used by DataNode for data replica consensus protocol communication | 10750           | 10750                                                                                                           | 10750         | 10750         | 10750         | Cannot be modified after initial startup |
+| dn_schema_region_consensus_port | The port used by DataNode for metadata replica consensus protocol communication | 10760           | 10760                                                                                                           | 10760         | 10760         | 10760         | Cannot be modified after initial startup |
+| dn_seed_config_node             | The address of the ConfigNode that the node connects to when registering to join the cluster, i.e. `cn_internal-address: cn_internal_port` | 127.0.0.1:10710 | The first CongfigNode's cn_internal-address: cn_internal_port                                                   | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | Cannot be modified after initial startup |
 
 > ❗️Attention: Editors such as VSCode Remote do not have automatic configuration saving function. Please ensure that the modified files are saved persistently, otherwise the configuration items will not take effect
 
-### Start ConfigNode
+### Start and Activate Database (Available since V1.3.4)
+
+#### Start ConfigNode
 
 Start the first confignode of IoTDB-1 first, ensuring that the seed confignode node starts first, and then start the second and third confignode nodes in sequence
 
 ```Bash
-cd sbin
 ./start-confignode.sh    -d      #"- d" parameter will start in the background
 ```
 
 If the startup fails, please refer to [Common Questions](#common-questions).
 
+#### Start DataNode
 
-### Activate Database
+Enter the `sbin` directory of iotdb and start three datanode nodes in sequence:
 
-#### Method 1: Activate file copy activation
+```Bash
+./start-datanode.sh   -d   #"- d" parameter will start in the background
+```
+
+#### Activate Database
+
+##### Activation via CLI
+
+- Enter the CLI of any node in the cluster
+
+ ```SQL
+  ./sbin/start-cli.sh
+```
+
+- Obtain the machine codes of all nodes:
+
+     - Execute the following command to get the machine codes required for activation:
+
+  ```Bash
+  show system info
+  ```
+
+    - The machine codes of all nodes in the cluster will be displayed:
+
+      ```Bash
+      +--------------------------------------------------------------+
+      |                                                    SystemInfo|
+      +--------------------------------------------------------------+
+      |01-TE5NLES4-UDDWCMYE,01-GG5NLES4-XXDWCMYE,01-FF5NLES4-WWWWCMYE|
+      +--------------------------------------------------------------+
+      Total line number = 1
+      It costs 0.030s
+      ```
+
+- Copy the obtained machine codes and provide them to the Timecho team
+
+- The Timecho team will return an activation code, which normally corresponds to the order of the provided machine codes. Paste the complete activation code into the CLI for activation
+
+    - Note: The activation code must be enclosed in ' symbols, as shown below:
+
+   ```Bash
+    IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
+    ```
+
+### Start and Activate Database (Available before V1.3.4)
+
+#### Start ConfigNode
+
+Start the first confignode of IoTDB-1 first, ensuring that the seed confignode node starts first, and then start the second and third confignode nodes in sequence
+
+```Bash
+./start-confignode.sh    -d      #"- d" parameter will start in the background
+```
+
+If the startup fails, please refer to [Common Questions](#common-questions).
+
+#### Activate Database
+
+##### Method 1: Activate file copy activation
 
 - After starting three confignode nodes in sequence, copy the `activation` folder of each machine and the `system_info` file of each machine to the Timecho staff;
 - The staff will return the license files for each ConfigNode node, where 3 license files will be returned;
 - Put the three license files into the `activation` folder of the corresponding ConfigNode node;
 
-#### Method 2: Activate Script Activation
+##### Method 2: Activate Script Activation
 
 - Obtain the machine codes of three machines in sequence, enter the `sbin` directory of the installation directory, and execute the activation script `start activate.sh`:
 
@@ -180,12 +269,11 @@ If the startup fails, please refer to [Common Questions](#common-questions).
     Import completed. Please start cluster and excute 'show cluster' to verify activation status
     ```
 
-### Start DataNode
+#### Start DataNode
 
  Enter the `sbin` directory of iotdb and start three datanode nodes in sequence:
 
 ```Bash
-cd sbin
 ./start-datanode.sh   -d   #"- d" parameter will start in the background
 ```
 
@@ -207,7 +295,24 @@ When you see the display of `Activated` on the far right, it indicates successfu
 
 ![](/img/%E4%BC%81%E4%B8%9A%E7%89%88%E6%BF%80%E6%B4%BB.png)
 
+In the CLI, you can also check the activation status by running the `show activation` command; the example below shows a status of ACTIVATED, indicating successful activation.
+
+```sql
+IoTDB> show activation
++---------------+---------+-----------------------------+
+|    LicenseInfo|    Usage|                        Limit|
++---------------+---------+-----------------------------+
+|         Status|ACTIVATED|                            -|
+|    ExpiredTime|        -|2026-04-30T00:00:00.000+08:00|
+|  DataNodeLimit|        1|                    Unlimited|
+|       CpuLimit|       16|                    Unlimited|
+|    DeviceLimit|       30|                    Unlimited|
+|TimeSeriesLimit|       72|                1,000,000,000|
++---------------+---------+-----------------------------+
+```
+
 > The appearance of `ACTIVATED (W)` indicates passive activation, which means that this Configurable Node does not have a license file (or has not issued the latest license file with a timestamp), and its activation depends on other Activated Configurable Nodes in the cluster. At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Timecho staff to reapply.
+
 
 ### One-click Cluster Start and Stop
 
@@ -280,6 +385,9 @@ This following section will introduce the specific configuration items in the `i
 | Effective      | After restarting the system                                                                                                                                |
 
 
+
+
+
 ## Node Maintenance Steps
 
 ### ConfigNode Node Maintenance
@@ -321,7 +429,7 @@ Parameter introduction:
 
 #### Removing ConfigNode Nodes
 
-First connect to the cluster through the CLI and confirm the NodeID of the ConfigNode you want to remove by using `show confignodes`:
+First connect to the cluster through the CLI and confirm the internal address and port number of the ConfigNode you want to remove by using `show confignodes`:
 
 ```Bash
 IoTDB> show confignodes
@@ -336,10 +444,15 @@ Total line number = 3
 It costs 0.030s
 ```
 
-Then use the SQL to remove the ConfigNode. SQL command:
+Then use the script to remove the ConfigNode. Script command:
 
 ```Bash
-remove confignode [confignode_id]
+# Linux / MacOS 
+sbin/remove-confignode.sh [confignode_id]
+
+#Windows
+sbin/remove-confignode.bat [confignode_id]
+
 ```
 
 ### DataNode Node Maintenance
@@ -385,7 +498,7 @@ Note: After adding a DataNode, as new writes arrive (and old data expires, if TT
 
 #### Removing DataNode Nodes
 
-First connect to the cluster through the CLI and confirm the NodeID of the DataNode you want to remove with `show datanodes`:
+First connect to the cluster through the CLI and confirm the RPC address and port number of the DataNode you want to remove with `show datanodes`:
 
 ```Bash
 IoTDB> show datanodes
@@ -400,10 +513,14 @@ Total line number = 3
 It costs 0.110s
 ```
 
-Then use the SQL to remove the DataNode. SQL command:
+Then use the script to remove the DataNode. Script command:
 
 ```Bash
-remove datanode [datanode_id]
+# Linux / MacOS 
+sbin/remove-datanode.sh [datanode_id]
+
+#Windows
+sbin/remove-datanode.bat [datanode_id]
 ```
 
 ## Common Questions

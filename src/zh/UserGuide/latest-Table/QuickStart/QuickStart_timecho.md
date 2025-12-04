@@ -62,7 +62,7 @@
 
 2. 数据写入&更新：在数据写入&更新方面，IoTDB 提供了多种方式来插入实时数据，基本的数据写入&更新操作请查看 [数据写入&更新](../Basic-Concept/Write-Updata-Data.md)
 
-3. 数据查询：IoTDB 提供了丰富的数据查询功能，数据查询的基本介绍请查看 [数据查询](../Basic-Concept/Query-Data.md)
+3. 数据查询：IoTDB 提供了丰富的数据查询功能，数据查询的基本介绍请查看 [数据查询](../Basic-Concept/Query-Data.md)，其中包含了适用于识别时序数据中的特定模式、检测特定事件等业务场景的[行模式识别](../SQL-Manual/Row-Pattern-Recognition.md)，以及常用于数据分析场景的[窗口函数](../SQL-Manual/Featured-Functions_timecho.md#_2-窗口函数)等特色函数
 
 4. 数据删除：IoTDB 提供了两种删除方式，分别为SQL语句删除与过期自动删除(TTL)
 
@@ -73,7 +73,7 @@
 
    - 数据同步：[数据同步](../User-Manual/Data-Sync_timecho.md)
 
-6. 应用编程接口： IoTDB 提供了多种应用编程接口（API），以便于开发者在应用程序中与 IoTDB 进行交互，目前支持[ Java 原生接口](../API/Programming-Java-Native-API_timecho.md)、[Python 原生接口](../API/Programming-Python-Native-API.md)、[JDBC](../API/Programming-JDBC_timecho.md)等，更多编程接口可参见官网【应用编程接口】其他章节
+6. 应用编程接口： IoTDB 提供了多种应用编程接口（API），以便于开发者在应用程序中与 IoTDB 进行交互，目前支持[ Java 原生接口](../API/Programming-Java-Native-API_timecho.md)、[Python 原生接口](../API/Programming-Python-Native-API_timecho)、[JDBC](../API/Programming-JDBC_timecho.md)等，更多编程接口可参见官网【应用编程接口】其他章节
 
 ## 3. 还有哪些便捷的周边工具？
 

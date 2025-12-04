@@ -140,7 +140,7 @@ div[class*='language-'] pre code {
     }
 
     .switch-active {
-      background-color: #495ad4;
+      background-color: var(--vp-c-accent);
       color: #fff;
     }
   }
