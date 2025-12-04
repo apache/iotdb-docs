@@ -277,9 +277,9 @@ It costs 0.016s
 
 数据查询语句支持在 SQL 命令行终端、JDBC、JAVA / C++ / Python / Go 等编程语言 API、RESTful API 中使用。
 
-- 在 SQL 命令行终端中执行查询语句：启动 SQL 命令行终端，直接输入查询语句执行即可，详见 [SQL 命令行终端](../Tools-System/CLI.md)。
+- 在 SQL 命令行终端中执行查询语句：启动 SQL 命令行终端，直接输入查询语句执行即可，详见 [SQL 命令行终端](../Tools-System/CLI_timecho.md)。
 
-- 在 JDBC 中执行查询语句，详见 [JDBC](../API/Programming-JDBC_timecho) 。
+- 在 JDBC 中执行查询语句，详见 [JDBC](../API/Programming-JDBC_timecho.md) 。
   
 - 在 JAVA / C++ / Python / Go 等编程语言 API 中执行查询语句，详见应用编程接口一章相应文档。接口原型如下：
 
@@ -287,7 +287,7 @@ It costs 0.016s
   SessionDataSet executeQueryStatement(String sql);
   ```
 
-- 在 RESTful API 中使用，详见 [HTTP API V1](../API/RestServiceV1_timecho) 或者 [HTTP API V2](../API/RestServiceV2_timecho)。
+- 在 RESTful API 中使用，详见 [HTTP API V1](../API/RestServiceV1_timecho.md) 或者 [HTTP API V2](../API/RestServiceV2_timecho.md)。
 
 #### 常用查询的高效执行接口
 
@@ -3041,7 +3041,7 @@ It costs 0.375s
 * 所有 `SELECT` 子句中源序列的 `WRITE_SCHEMA` 权限。
 * 所有 `INTO` 子句中目标序列 `WRITE_DATA` 权限。
 
-更多用户权限相关的内容，请参考[权限管理语句](../User-Manual/Authority-Management_timecho)。
+更多用户权限相关的内容，请参考[权限管理语句](../User-Manual/Authority-Management_timecho.md)。
 
 ### 10.4 相关配置参数
 
