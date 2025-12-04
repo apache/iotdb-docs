@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "@vuepress/bundler-vite": "2.0.0-rc.19",
+    "element-plus": "^2.9.1",
     "@vuepress/helper": "2.0.0-rc.66",
     "@vuepress/plugin-docsearch": "2.0.0-rc.76",
     "@vuepress/plugin-links-check": "2.0.0-rc.74",
