@@ -161,7 +161,7 @@ export const enSidebar = {
         { text: 'GO Native API', link: 'Programming-Go-Native-API_timecho' },
         { text: 'C# Native API', link: 'Programming-CSharp-Native-API_timecho' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
-        /* { text: 'MQTT Protocol', link: 'Programming-MQTT' }, */
+        { text: 'MQTT Protocol', link: 'Programming-MQTT' },
         { text: 'RESTAPI V1 ', link: 'RestAPI-V1' },
       ],
     },

@@ -150,7 +150,7 @@ export const zhSidebar = {
         { text: 'GO原生接口', link: 'Programming-Go-Native-API_timecho' },
         { text: 'C#原生接口', link: 'Programming-CSharp-Native-API_timecho' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
-        /* { text: 'MQTT协议', link: 'Programming-MQTT' }, */
+        { text: 'MQTT协议', link: 'Programming-MQTT' },
         { text: 'RESTAPI V1 ', link: 'RestServiceV1' },
       ],
     },
