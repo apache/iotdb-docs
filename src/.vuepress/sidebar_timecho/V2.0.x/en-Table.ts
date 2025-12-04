@@ -81,7 +81,7 @@ export const enSidebar = {
         { text: 'Database Management', link: 'Database-Management' },
         { text: 'Table Management', link: 'Table-Management' },
         { text: 'Write&Updata Data', link: 'Write-Updata-Data' },
-        { text: 'Query Data', link: 'Query-Data' },
+        { text: 'Query Data', link: 'Query-Data_timecho' },
         {
           text: 'Delete Data',
           collapsible: true,
@@ -208,7 +208,7 @@ export const enSidebar = {
           text: 'Data Query',
           collapsible: true,
           children: [
-            { text: 'overview', link: 'overview' },
+            { text: 'overview', link: 'overview_timecho' },
             { text: 'SELECT Clause', link: 'Select-Clause' },
             { text: 'FROM&JOIN Clause', link: 'From-Join-Clause' },
             { text: 'WHERE Clause', link: 'Where-Clause' },

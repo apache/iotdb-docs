@@ -72,7 +72,7 @@ export const zhSidebar = {
         { text: '数据库管理', link: 'Database-Management' },
         { text: '表管理', link: 'Table-Management' },
         { text: '写入&更新', link: 'Write-Updata-Data' },
-        { text: '数据查询', link: 'Query-Data' },
+        { text: '数据查询', link: 'Query-Data_timecho' },
         {
           text: '数据删除',
           collapsible: true,
@@ -197,7 +197,7 @@ export const zhSidebar = {
           text: '数据查询',
           collapsible: true,
           children: [
-            { text: '概览', link: 'overview' },
+            { text: '概览', link: 'overview_timecho' },
             { text: 'SELECT子句', link: 'Select-Clause' },
             { text: 'FROM&JOIN子句', link: 'From-Join-Clause' },
             { text: 'WHERE子句', link: 'Where-Clause' },
