@@ -29,7 +29,7 @@ IoTDB Ecosystem Integration Bridges the Full Pipeline of Time-Series Data:
 - Through visualization and SQL development, it implements analytical strategies.
 - Finally, by interfacing with IoT platforms, it achieves edge-cloud synergy—building a complete intelligent closed loop from the physical world to digital decision-making.
 
-![](/img/eco-overview-en.png)
+![](/img/eco-overview-n-en.png)
 
 The following documentation will help you quickly and comprehensively understand the usage of various integration tools at each stage:
 
