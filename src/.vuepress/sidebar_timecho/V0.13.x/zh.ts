@@ -77,7 +77,7 @@ export const zhSidebar = {
         { text: 'C++ 原生接口', link: 'Programming-Cpp-Native-API' },
         { text: 'Go 原生接口', link: 'Programming-Go-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC' },
-        { text: 'MQTT', link: 'Programming-MQTT' },
+        /* { text: 'MQTT', link: 'Programming-MQTT' }, */
         { text: 'REST API', link: 'RestService' },
         { text: 'TsFile API', link: 'Programming-TsFile-API' },
         { text: '状态码', link: 'Status-Codes' },

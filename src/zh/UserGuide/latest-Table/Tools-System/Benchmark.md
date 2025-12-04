@@ -40,16 +40,17 @@ IoT-benchmark 是基于 Java 和大数据环境开发的时序数据库基准测
 
 目前 IoT-benchmark 支持如下时间序列数据库、版本和连接方式：
 
-| 数据库          | 版本            | 连接方式                                                 |
-| :-------------- | :-------------- | :------------------------------------------------------- |
-| InfluxDB        | v1.x  v2.0      | SDK                                                      |
-| TimescaleDB     | --              | jdbc                                                     |
-| OpenTSDB        | --              | Http Request                                             |
-| QuestDB         | v6.0.7          | jdbc                                                     |
-| TDengine        | v2.2.0.2        | jdbc                                                     |
-| VictoriaMetrics | v1.64.0         | Http Request                                             |
-| KairosDB        | --              | Http Request                                             |
-| IoTDB           | v2.0 v1.x v0.13 | jdbc、sessionByTablet、sessionByRecord、sessionByRecords |
+| 数据库          | 版本         | 连接方式                                                 |
+| :-------------- |:-----------| :------------------------------------------------------- |
+| IoTDB           | v1.x  v2.x | jdbc、sessionByTablet、sessionByRecord、sessionByRecords |
+| InfluxDB        | v1.x  v2.x | SDK                                                      |
+| TimescaleDB     | --         | jdbc                                                     |
+| OpenTSDB        | --         | Http Request                                             |
+| QuestDB         | v6.0.7     | jdbc                                                     |
+| TDengine        | v2.2.0.2   | jdbc                                                     |
+| VictoriaMetrics | v1.64.0    | Http Request                                             |
+| KairosDB        | --         | Http Request                                             |
+
 
 表1-1大数据测试基准对比
 
@@ -59,15 +60,15 @@ IoT-benchmark 是基于 Java 和大数据环境开发的时序数据库基准测
 
 1. Java 8
 2. Maven 3.6+
-3. 对应的合适版本的数据库，如 Apache IoTDB 1.0
+3. 对应的合适版本的数据库，如 Apache IoTDB 2.0
 
 
 
 ### 2.2 获取方式
 
 - 获取二进制包：进入[这里](https://github.com/thulab/iot-benchmark/releases) 下载需要的安装包。下载下来为一个压缩文件，选择文件夹解压即可使用。
-- 源代码编译（可用户 Apache IoTDB 2.0 的测试）：
-  - 第一步（编译 IoTDB Session 最新包）：进入[官网](https://github.com/apache/iotdb/tree/rc/2.0.1)下载 IoTDB 源码，在根目录下运行命令 mvn clean package install -pl session -am -DskipTests 编译 IoTDB Session 的最新包。
+- 源代码编译（可用 Apache IoTDB 2.0 的测试）：
+  - 第一步（编译 IoTDB Session 最新包）：进入[官网](https://github.com/apache/iotdb/tree/rc/2.0.5)下载 IoTDB 源码，在根目录下运行命令 mvn clean package install -pl session -am -DskipTests 编译 IoTDB Session 的最新包。
   - 第二步（编译 IoTDB Benchmark 测试包）：进入[官网](https://github.com/thulab/iot-benchmark)下载源码，在根目录下运行 mvn clean package install -pl iotdb-2.0 -am -DskipTests 编译测试 Apache IoTDB 2.0版本的测试包，测试包位置与根目录的相对路径为 ./iotdb-2.0/target/iotdb-2.0-0.0.1/iotdb-2.0-0.0.1
 
 
@@ -99,11 +100,11 @@ drwxr-xr-x. 2 root root  4096 1月  10 01:38 lib
 | routine          |                   | 多项测试配置文件          |
 | rep-benchmark.sh |                   | 多项测试启动脚本          |
 
-表1-2文件和文件夹列表用途
+表2-1文件和文件夹列表用途
 
 ### 2.4 执行测试
 
-1. 按照测试需求修改配置文件，主要参数介绍见 1.2 节，对应配置文件为conf/config.properties，**比如测试Apache IoTDB 1.0，则需要修改 DB_SWITCH=IoTDB-100-SESSION_BY_TABLET**
+1. 按照测试需求修改配置文件，主要参数介绍见第3节，对应配置文件为conf/config.properties，**比如测试Apache IoTDB 2.0，则需要修改 DB_SWITCH=IoTDB-200-SESSION_BY_TABLET**
 2. 启动被测时间序列数据库
 3. 通过运行
 4. 启动IoT-benchmark执行测试。执行中观测被测时间序列数据库和IoT-benchmark状态，执行完毕后查看结果和分析测试过程。
@@ -135,7 +136,6 @@ drwxr-xr-x. 2 root root  4096 1月  10 01:38 lib
 
 - 当被测数据库为IoTDB-2.0及以上版本时需指定sql_dialect, 并且一个IoTDB只能指定一种。
 - sql_dialect等于table时，要满足：device数为table数的整数倍，table数为database数的整数倍
-- sql_dialect等于tree时，要满足：device数量 >= database数量
 - 表模型模式下，调整参数如下：
 
 | **参数名称**            | **类型** | **示例** | **系统描述**                                                 |

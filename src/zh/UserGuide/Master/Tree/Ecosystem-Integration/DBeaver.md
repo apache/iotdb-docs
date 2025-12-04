@@ -25,77 +25,33 @@
 
 DBeaver 是一款开源的通用数据库管理工具，支持数据查询与可视化​、元数据管理​、数据导入导出、驱动扩展等核心特性，为多种数据库（如 MySQL、PostgreSQL、Oracle等）提供跨平台的图形化操作界面。
 
-![](/img/dbeaver-new-1.png)
+![](/img/dbeaver-2520-1.png)
 
 ## 2. 前置条件
 
 安装好 DBeaver、IoTDB：
 
-- DBeaver 下载地址：https://dbeaver.io/download/
+- DBeaver（>= V25.2.0），下载地址：https://dbeaver.io/download/
 
-- IoTDB 下载地址：https://iotdb.apache.org/Download/
+- IoTDB 已启动，下载地址：https://iotdb.apache.org/Download/
 
-## 3. 配置方式
+## 3. 创建连接
 
-### 3.1 下载驱动
+1. 点击 DBeaver > 数据库 > 新建数据库连接，或者直接点击左上角图标
 
-选择对应版本的 jar 包，下载后缀 `jar-with-dependencies.jar` 的包：
+![](/img/dbeaver-2520-2.png)
 
-- 链接 1：https://repo1.maven.org/maven2/com/timecho/iotdb/iotdb-jdbc/2.0.3.3/iotdb-jdbc-2.0.3.3-jar-with-dependencies.jar
+2. 选择 IoTDB 驱动（可在 All 或 Timeseries 分类中找到）
 
-- 链接 2：https://repo1.maven.org/maven2/com/timecho/iotdb/iotdb-jdbc/2.0.3.3/
+![](/img/dbeaver-2520-3.png)
 
-![](/img/dbeaver-new-2.png)
+3. 完善连接设置，并根据要连接的 IoTDB 是树模型或表模型，选择不同的连接方式
 
-### 3.2 配置驱动
+![](/img/dbeaver-2520-4.png)
 
-#### 步骤一：打开驱动管理器并新建驱动
+4. 测试连接（请选择适配版本的驱动文件）。如果连接成功，会提示已连接，并显示服务器版本和驱动版本。
 
-1. 打开数据库工具导航到`数据库` -> `驱动管理器`。
-
-![](/img/dbeaver-new-3.png)
-
-2. 点击`新建`按钮，开始创建新的驱动配置。
-
-![](/img/dbeaver-new-4.png)
-
-#### 步骤二：配置驱动信息
-
-1. 配置【库】信息，在创建新驱动窗口中，点击`添加文件`按钮。
-
-2. 选择下载好的 IoTDB JDBC 驱动文件（如 `iotdb-jdbc-2.0.3-jar-with-dependencies.jar`）。
-
-3. 点击`找到类`按钮，自动识别驱动类。
-
-![](/img/dbeaver-new-5.png)
-
-4. 填写以下驱动设置信息：
-
-  - 驱动名称：IoTDB
-  - 类名：org.apache.iotdb.jdbc.IoTDBDriver
-  - URL 模版：jdbc:iotdb://{host}:{port}/
-  - 默认端口：6667
-  - 默认用户：root
-
-  ![](/img/dbeaver-new-6.png)
-
-#### 步骤三：创建并测试连接
-
-1. 点击`创建连接`图标。
-
-2. 在搜索框中输入 `IoTDB`，并选择。点击`下一步`，选择 `URL` 的连接方式。
-
- ![](/img/dbeaver-new-7.png)
-
-3. 完善 `JDBC URL`，并填写 IoTDB 数据库的密码。树模型可以选择`主机`的连接方式。
-
- ![](/img/dbeaver-new-8-tree.png)
-
-4. 点击`测试连接`按钮，如果连接成功，会提示`已连接`，并显示服务器版本和驱动版本。
-
- ![](/img/dbeaver-new-9.png)
-
- ![](/img/dbeaver-new-10.png)
+![](/img/dbeaver-2520-5.png)
 
 ## 4. 使用方式
 

@@ -57,7 +57,7 @@ Besides, if deploy on Windows system, the LayerName is case-insensitive, which m
 
 ### 1.2 Show Databases
 
-After creating the database, we can use the [SHOW DATABASES](../SQL-Manual/SQL-Manual.md) statement and [SHOW DATABASES \<PathPattern>](../SQL-Manual/SQL-Manual.md) to view the databases. The SQL statements are as follows:
+After creating the database, we can use the [SHOW DATABASES](../SQL-Manual/SQL-Manual_timecho) statement and [SHOW DATABASES \<PathPattern>](../SQL-Manual/SQL-Manual_timecho) to view the databases. The SQL statements are as follows:
 
 ```
 IoTDB> SHOW DATABASES
@@ -588,7 +588,7 @@ In a scenario where measurements need to be added, you can modify the  template 
 The SQL Statement for altering device template is as follow:
 
 ```shell
-IoTDB> alter device template t1 add (speed FLOAT, FLOAT TEXT)
+IoTDB> alter device template t1 add (speed FLOAT)
 ```
 
 **When executing data insertion to devices with device template set on related prefix path and there are measurements not present in this device template, the measurements will be auto added to this device template.**

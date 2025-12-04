@@ -130,7 +130,7 @@ export const enSidebar = {
         { text: 'Node.js Native API', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust Native API', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC' },
-        { text: 'MQTT Protocol', link: 'Programming-MQTT' },
+        /* { text: 'MQTT Protocol', link: 'Programming-MQTT' }, */
         { text: 'Kafka', link: 'Programming-Kafka' },
         { text: 'REST API V1 (Not Recommend)', link: 'RestServiceV1' },
         { text: 'REST API V2', link: 'RestServiceV2' },

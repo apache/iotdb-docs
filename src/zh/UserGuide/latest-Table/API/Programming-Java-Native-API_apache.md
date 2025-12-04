@@ -39,10 +39,12 @@ IoTDB具备Java原生客户端驱动和对应的连接池，提供对象化接�
     <dependency>
       <groupId>org.apache.iotdb</groupId>
       <artifactId>iotdb-session</artifactId>
-      <version>2.0.1-beta</version>
+        <!-- 版本号与数据库版本号相同 -->
+      <version>${project.version}</version>
     </dependency>
 </dependencies>
 ```
+* 可从[此处](https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-session/)查看`iotdb-session`最新版本
 
 ## 3. 读写操作
 
@@ -347,6 +349,8 @@ public class TableSessionBuilder {
     public TableSessionBuilder connectionTimeoutInMs(int connectionTimeoutInMs);
 }
 ```
+
+> 注意： 原生API中创建表时，表名或列名中若含有特殊字符或中文字符，无需额外添加双引号括起，否则会包含引号字符。
 
 ## 4. 客户端连接池
 

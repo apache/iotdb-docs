@@ -23,6 +23,7 @@
 
 Reserved words（Can not be used as identifier）:
 
+- PATH
 - ROOT
 - TIME
 - TIMESTAMP

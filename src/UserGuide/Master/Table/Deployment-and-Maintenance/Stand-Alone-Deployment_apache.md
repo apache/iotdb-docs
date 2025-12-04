@@ -48,7 +48,39 @@ Use the hostname for `cn_internal_address` and `dn_internal_address` in IoTDB co
 
 ## 2. Installation Steps
 
-### 2.1 Extract Installation Package
+### 2.1 Pre-installation Check
+
+To ensure the IoTDB installation package you obtained is complete and valid, we recommend performing an SHA512 verification before proceeding with the installation and deployment.
+
+#### Preparation:
+
+- Obtain the officially released SHA512 checksum: Visit the [Release Versions](https://iotdb.apache.org/zh/Download/) page on the IoTDB open-source official website to get it.
+
+#### Verification Steps (Linux as an Example):
+
+1. Open the terminal and navigate to the directory where the installation package is stored (e.g., /data/iotdb):
+   ```Bash
+      cd /data/iotdb
+      ```
+2. Execute the following command to calculate the hash value:
+   ```Bash
+      sha512sum apache-iotdb-{version}-all-bin.zip
+      ```
+3. The terminal will output a result (the left part is the SHA512 checksum, and the right part is the file name):
+
+
+![img](/img/sha512-07.png)
+
+4. Compare the output result with the official SHA512 checksum. Once confirmed that they match, you can proceed with the installation and deployment of IoTDB as per the procedures below.
+
+
+#### Notes:
+
+- If the verification results do not match, please re-obtain the installation package.
+- If a "file not found" prompt appears during verification, check whether the file path is correct or if the installation package has been fully downloaded.
+
+
+### 2.2 Extract Installation Package
 
 Unzip the installation package and navigate to the directory:
 
@@ -57,9 +89,9 @@ unzip  apache-iotdb-{version}-all-bin.zip
 cd  apache-iotdb-{version}-all-bin
 ```
 
-### 2.2 Parameters Configuration
+### 2.3 Parameters Configuration
 
-#### 2.2.1 Memory Configuration
+#### 2.3.1 Memory Configuration
 
 Edit the following files for memory allocation:
 
@@ -70,7 +102,7 @@ Edit the following files for memory allocation:
 | :------------ | :---------------------------------- | :---------- | :-------------- | :---------------------- |
 | MEMORY_SIZE   | Total memory allocated for the node | Empty       | As needed       | Save changes without immediate execution; modifications take effect after service restart. |
 
-#### 2.2.2 General Configuration
+#### 2.3.2 General Configuration
 
 Set the following parameters in `conf/iotdb-system.properties`. Refer to `conf/iotdb-system.properties.template` for a complete list.
 
@@ -79,7 +111,7 @@ Set the following parameters in `conf/iotdb-system.properties`. Refer to `conf/i
 
 | **Parameter**             | **Description**             | **Default**    | **Recommended** | **Notes**                                                    |
 | :------------------------ | :-------------------------- | :------------- | :-------------- | :----------------------------------------------------------- |
-| cluster_name              | Name of the cluster         | defaultCluster | Customizable    | If there is no specific requirement, keep the default value. |
+| cluster_name              | Name of the cluster         | defaultCluster | Customizable    | Support hot loading, but it is not recommended to change the cluster name by manually modifying the configuration file. |
 | schema_replication_factor | Number of metadata replicas | 1              | 1               | In standalone mode, set this to 1. This value cannot be modified after the first startup. |
 | data_replication_factor   | Number of data replicas     | 1              | 1               | In standalone mode, set this to 1. This value cannot be modified after the first startup. |
 
@@ -105,7 +137,7 @@ Set the following parameters in `conf/iotdb-system.properties`. Refer to `conf/i
 | dn_schema_region_consensus_port | Port used for metadata replica consensus protocol communication | 10760           | 10760                                                                                                           | This parameter cannot be modified after the first startup. |
 | dn_seed_config_node             | Address of the ConfigNode for registering and joining the cluster. (e.g.,`cn_internal_address:cn_internal_port`) | 127.0.0.1:10710 | Use `cn_internal_address:cn_internal_port`                                                                      | This parameter cannot be modified after the first startup. |
 
-### 2.3 Start ConfigNode
+### 2.4 Start ConfigNode
 
 Navigate to the `sbin` directory and start ConfigNode:
 
@@ -117,7 +149,7 @@ If the startup fails, refer to the [Common Issues](#3-common-issues)。 section 
 
 
 
-### 2.4 Start DataNode
+### 2.5 Start DataNode
 
 Navigate to the `sbin` directory of IoTDB and start the DataNode:
 
@@ -125,7 +157,7 @@ Navigate to the `sbin` directory of IoTDB and start the DataNode:
 ./sbin/start-datanode.sh -d    # The "-d" flag starts the process in the background.
 ```
 
-### 3.5 Start CLI
+### 2.6 Start CLI
 
  Enter the IoTDB CLI.
 

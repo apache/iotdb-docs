@@ -38,10 +38,12 @@ IoTDB provides a Java native client driver and a session pool management mechani
     <dependency>
       <groupId>org.apache.iotdb</groupId>
       <artifactId>iotdb-session</artifactId>
-      <version>2.0.1-beta</version>
+        <!-- The version number is the same as the database version number --> 
+      <version>${project.version}</version>
     </dependency>
 </dependencies>
 ```
+* The latest version of `iotdb-session` can be viewed [here](https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-session/)
 
 ## 3. Read and Write Operations
 
@@ -342,6 +344,8 @@ public class TableSessionBuilder {
     public TableSessionBuilder connectionTimeoutInMs(int connectionTimeoutInMs);
 }
 ```
+
+> Note: When creating tables using the native API, if table or column names contain special characters or Chinese characters, do not add extra double quotes around them. Otherwise, the quotation marks will become part of the name itself.
 
 ## 4. Session Pool
 

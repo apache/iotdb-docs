@@ -76,23 +76,23 @@ create pipe p1
                'sink.opcua.tcp.port' = '12686', 
                'sink.opcua.https.port' = '8443', 
                'sink.user' = 'root', 
-               'sink.password' = 'root', 
+               'sink.password' = 'TimechoDB@2021',  //V2.0.6.x 之前默认密码为root
                'sink.opcua.security.dir' = '...'
               )
 ```
 
 ### 2.2 参数
 
-| **参数**                           | **描述**                       | **取值范围**                     | **是否必填** | **默认值**                                                   |
-| ---------------------------------- | ------------------------------ | -------------------------------- | ------------ | ------------------------------------------------------------ |
-| sink                               | OPC UA SINK                    | String: opc-ua-sink              | 必填         |                                                              |
-| sink.opcua.model                   | OPC UA 使用的模式              | String: client-server / pub-sub  | 选填         | pub-sub                                                |
-| sink.opcua.tcp.port                | OPC UA 的 TCP 端口             | Integer: [0, 65536]              | 选填         | 12686                                                        |
-| sink.opcua.https.port              | OPC UA 的 HTTPS 端口           | Integer: [0, 65536]              | 选填         | 8443                                                         |
+| **参数**                           | **描述**                       | **取值范围**                     | **是否必填** | **默认值**                                                                                                                                                                |
+| ---------------------------------- | ------------------------------ | -------------------------------- | ------------ |------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| sink                               | OPC UA SINK                    | String: opc-ua-sink              | 必填         |                                                                                                                                                                        |
+| sink.opcua.model                   | OPC UA 使用的模式              | String: client-server / pub-sub  | 选填         | pub-sub                                                                                                                                                                |
+| sink.opcua.tcp.port                | OPC UA 的 TCP 端口             | Integer: [0, 65536]              | 选填         | 12686                                                                                                                                                                  |
+| sink.opcua.https.port              | OPC UA 的 HTTPS 端口           | Integer: [0, 65536]              | 选填         | 8443                                                                                                                                                                   |
 | sink.opcua.security.dir            | OPC UA 的密钥及证书目录        | String: Path，支持绝对及相对目录 | 选填         | iotdb 相关 DataNode 的 conf 目录下的 opc_security 文件夹 /<httpsPort:tcpPort>。<br>如无 iotdb 的 conf 目录（例如 IDEA 中启动 DataNode），则为用户主目录下的 iotdb_opc_security 文件夹 /<httpsPort:tcpPort> |
-| sink.opcua.enable-anonymous-access | OPC UA 是否允许匿名访问        | Boolean                          | 选填         | true                                                         |
-| sink.user                          | 用户，这里指 OPC UA 的允许用户 | String                           | 选填         | root                                                         |
-| sink.password                      | 密码，这里指 OPC UA 的允许密码 | String                           | 选填         | root                                                         |
+| sink.opcua.enable-anonymous-access | OPC UA 是否允许匿名访问        | Boolean                          | 选填         | true                                                                                                                                                                   |
+| sink.user                          | 用户，这里指 OPC UA 的允许用户 | String                           | 选填         | root                                                                                                                                                                   |
+| sink.password                      | 密码，这里指 OPC UA 的允许密码 | String                           | 选填         | TimechoDB@2021 //V2.0.6.x 之前默认密码为root                                                                                                                                                        |
 
 ### 2.3 示例
 
@@ -100,7 +100,7 @@ create pipe p1
 create pipe p1 
     with sink ('sink' = 'opc-ua-sink'，
                'sink.user' = 'root', 
-               'sink.password' = 'root');
+               'sink.password' = 'TimechoDB@2021'); //V2.0.6.x 之前默认密码为root
 start pipe p1;
 ```
 
@@ -143,7 +143,7 @@ insert into root.test.db(time, s2) values(now(), 2)
 
 ​     此处自动创建元数据开启。
 
-3. 在 UAExpert 中配置 iotdb 的连接，其中 password 填写为上述参数配置中 sink.password 中设定的密码（此处以默认密码root为例）：
+3. 在 UAExpert 中配置 iotdb 的连接，其中 password 填写为上述参数配置中 sink.password 中设定的密码（此处以密码root为例）：
 
 <div align="center">
     <img src="/img/OPCUA03.png" alt="" style="width: 60%;"/>
@@ -173,7 +173,7 @@ insert into root.test.db(time, s2) values(now(), 2)
 
 #### 准备工作
 
-该代码位于 iotdb-example 包下的 [opc-ua-sink 文件夹](https://github.com/apache/iotdb/tree/master/example/pipe-opc-ua-sink/src/main/java/org/apache/iotdb/opcua)中
+该代码位于 iotdb-example 包下的 [opc-ua-sink 文件夹](https://github.com/apache/iotdb/tree/rc/2.0.1/example/pipe-opc-ua-sink/src/main/java/org/apache/iotdb/opcua)中
 
 代码中包含：
 

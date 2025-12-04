@@ -46,14 +46,43 @@ This chapter will introduce how to start an IoTDB standalone instance, which inc
 
 ## Installation Steps
 
-### 1、Unzip the installation package and enter the installation directory
+### 1. Pre-installation Check
+
+To ensure the IoTDB Enterprise Edition installation package you obtained is complete and authentic, we recommend performing an SHA512 verification before proceeding with the installation and deployment.
+
+#### Preparation:
+
+- Obtain the officially released SHA512 checksum: Find the "SHA512 Checksum" corresponding to each version in the [Release History](../IoTDB-Introduction/Release-history_timecho.md) document.
+
+#### Verification Steps (Linux as an Example):
+
+1. Open the terminal and navigate to the directory where the installation package is stored (e.g., /data/iotdb):
+   ```Bash
+      cd /data/iotdb
+      ```
+2. Execute the following command to calculate the hash value:
+   ```Bash
+      sha512sum timechodb-{version}-bin.zip
+      ```
+3. The terminal will output a result (the left part is the SHA512 checksum, and the right part is the file name):
+
+![img](/img/sha512-02.png)
+
+4. Compare the output result with the official SHA512 checksum. Once confirmed that they match, you can proceed with the installation and deployment operations in accordance with the procedures below.
+
+#### Notes:
+
+- If the verification results do not match, please contact Timecho Team to re-obtain the installation package.
+- If a "file not found" prompt appears during verification, check whether the file path is correct or if the installation package has been fully downloaded.
+
+### 2、Unzip the installation package and enter the installation directory
 
 ```shell
 unzip  iotdb-enterprise-{version}-bin.zip
 cd  iotdb-enterprise-{version}-bin
 ```
 
-### 2、Parameter Configuration
+### 2. Parameter Configuration
 
 #### Environment Script Configuration
 
@@ -75,7 +104,7 @@ Open the general configuration file (./conf/iotdb-system. properties file) and s
 
 |     **Configuration**     |                       **Description**                        |  **Default**   |                    **Recommended value**                     |                         Note                          |
 | :-----------------------: | :----------------------------------------------------------: | :------------: | :----------------------------------------------------------: | :---------------------------------------------------: |
-|       cluster_name        |                         Cluster Name                         | defaultCluster | The cluster name can be set as needed, and if there are no special needs, the default can be kept |       Cannot be modified after initial startup        |
+|       cluster_name        |                         Cluster Name                         | defaultCluster | The cluster name can be set as needed, and if there are no special needs, the default can be kept |       Support hot loading from V1.3.3, but it is not recommended to change the cluster name by manually modifying the configuration file        |
 | schema_replication_factor | Number of metadata replicas, set to 1 for the standalone version here |       1        |                              1                               | Default 1, cannot be modified after the first startup |
 |  data_replication_factor  | Number of data replicas, set to 1 for the standalone version here |       1        |                              1                               | Default 1, cannot be modified after the first startup |
 
@@ -142,7 +171,7 @@ Enter the sbin directory of iotdb and start datanode:
   show system info
   ```
 
-- Copy the returned machine code (the green string) and provide it to the Timecho team:
+- Copy the returned machine code and provide it to the Timecho team:
 
 ```Bash
 +--------------------------------------------------------------+
