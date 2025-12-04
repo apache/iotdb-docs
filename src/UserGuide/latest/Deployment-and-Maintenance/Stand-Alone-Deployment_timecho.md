@@ -107,7 +107,7 @@ Set the following parameters in `conf/iotdb-system.properties`. Refer to `conf/i
 
 | **Parameter**             | **Description**             | **Default**    | **Recommended** | **Notes**                                                    |
 | :------------------------ | :-------------------------- | :------------- | :-------------- | :----------------------------------------------------------- |
-| cluster_name              | Name of the cluster         | defaultCluster | Customizable    | If there is no specific requirement, keep the default value. |
+| cluster_name              | Name of the cluster         | defaultCluster | Customizable    | Support hot loading, but it is not recommended to change the cluster name by manually modifying the configuration file |
 | schema_replication_factor | Number of metadata replicas | 1              | 1               | In standalone mode, set this to 1. This value cannot be modified after the first startup. |
 | data_replication_factor   | Number of data replicas     | 1              | 1               | In standalone mode, set this to 1. This value cannot be modified after the first startup. |
 
