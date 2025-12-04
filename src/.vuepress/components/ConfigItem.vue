@@ -43,7 +43,7 @@ const need4columns = (dataType: string | null) => {
 
 <template>
   <div class="outer-box">
-    <div class="config-title">配置项 {{ index }}</div>
+    <div class="config-title">配置项 {{ props.index }}</div>
     <el-form :inline="true" class="config-row">
         <el-form-item label="测点数量：" label-width="85px">
             <el-input v-model="formData.measurementCount" placeholder="请输入测点数量" type="number" min="0" :style="{ width: need4columns(formData.dataType) ? '150px' : '205px'}"></el-input>
