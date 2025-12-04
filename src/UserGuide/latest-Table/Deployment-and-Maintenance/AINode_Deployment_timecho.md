@@ -52,7 +52,36 @@ Unzip and install the package
 | README_ZH.md | file     | Explanation of the Chinese version of the markdown format             |
 | README.md   | file     | Instructions                                                          |
 
-### 2.2 Environmental Preparation
+### 2.2 Pre-installation Check
+
+To ensure the AINode installation package you obtained is complete and valid, we recommend performing an SHA512 verification before proceeding with the installation and deployment.
+
+#### Preparation:
+
+- Obtain the officially released SHA512 checksum:please contact Timecho Team to re-obtain the installation package.
+
+#### Verification Steps (Linux as an Example):
+
+1. Open the terminal and navigate to the directory where the installation package is stored (e.g., /data/ainode):
+   ```Bash
+      cd /data/ainode
+      ```
+2. Execute the following command to calculate the hash value:
+   ```Bash
+      sha512sum timechodb-{version}-ainode-bin.zip
+      ```
+3. The terminal will output a result (the left part is the SHA512 checksum, and the right part is the file name):
+
+![img](/img/sha512-06.png)
+
+4. Compare the output result with the official SHA512 checksum. Once confirmed that they match, you can proceed with the installation and deployment of AINode as per the procedures below.
+
+#### Notes:
+
+- If the verification results do not match, please contact Timecho Team to re-obtain the installation package.
+- If a "file not found" prompt appears during verification, check whether the file path is correct or if the installation package has been fully downloaded.
+
+### 2.3 Environmental Preparation
 
 1. Recommended operating systems: Ubuntu, MacOS
 2. IoTDB version: >= V 2.0.5.1

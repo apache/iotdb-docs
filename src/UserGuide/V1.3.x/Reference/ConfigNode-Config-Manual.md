@@ -159,11 +159,11 @@ The global configuration of cluster is in ConfigNode.
 * cn\_rpc\_max\_concurrent\_client\_num
 
 |Name| cn\_rpc\_max\_concurrent\_client\_num |
-|:---:|:---|
-|Description| Max concurrent rpc connections|
-|Type| Short Int : [0,65535] |
-|Description| 65535 |
-|Effective|After restarting system|
+|:---:|:--------------------------------------|
+|Description| Max concurrent rpc connections        |
+|Type| int                                   |
+|Description| 3000                                  |
+|Effective| After restarting system               |
 
 * cn\_thrift\_max\_frame\_size
 

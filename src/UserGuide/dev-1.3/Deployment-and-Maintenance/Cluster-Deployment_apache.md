@@ -55,6 +55,39 @@ This section will take the IoTDB classic cluster deployment architecture 3C3D (3
 
 2. Configure the operating system environment according to environmental requirements (system environment configuration can be found in:[Environment Requirements](https://iotdb.apache.org/UserGuide/latest/Deployment-and-Maintenance/Environment-Requirements.html))
 
+
+### Pre-installation Check
+
+To ensure the IoTDB installation package you obtained is complete and valid, we recommend performing an SHA512 verification before proceeding with the installation and deployment.
+
+#### Preparation:
+
+- Obtain the officially released SHA512 checksum: Visit the [Release Versions](https://iotdb.apache.org/zh/Download/) page on the IoTDB open-source official website to get it.
+
+#### Verification Steps (Linux as an Example):
+
+1. Open the terminal and navigate to the directory where the installation package is stored (e.g., /data/iotdb):
+   ```Bash
+      cd /data/iotdb
+      ```
+2. Execute the following command to calculate the hash value:
+   ```Bash
+      sha512sum apache-iotdb-{version}-all-bin.zip
+      ```
+3. The terminal will output a result (the left part is the SHA512 checksum, and the right part is the file name):
+
+
+
+![img](/img/sha512-08.png)
+
+4. Compare the output result with the official SHA512 checksum. Once confirmed that they match, you can proceed with the installation and deployment of IoTDB as per the procedures below.
+
+
+#### Notes:
+
+- If the verification results do not match, please re-obtain the installation package.
+- If a "file not found" prompt appears during verification, check whether the file path is correct or if the installation package has been fully downloaded.
+
 ## Installation Steps
 
 Assuming there are three Linux servers now, the IP addresses and service roles are assigned as follows:
@@ -64,6 +97,7 @@ Assuming there are three Linux servers now, the IP addresses and service roles a
 | 192.168.1.3 | iotdb-1   | ConfigNode、DataNode |
 | 192.168.1.4 | iotdb-2   | ConfigNode、DataNode |
 | 192.168.1.5 | iotdb-3   | ConfigNode、DataNode |
+
 
 ### Set Host Name
 

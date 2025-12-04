@@ -35,19 +35,19 @@
 具体的参数定义及其描述如下。
 
 | 配置项                                   | 默认值                   | 说明                                                         | 约束                                                         |
-| ---------------------------------------- | ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| dn_data_dirs                             | data/datanode/data                       | 用来指定不同的存储目录，并将存储目录进行层级划分             | 每级存储使用分号分隔，单级内使用逗号分隔；云端配置只能作为最后一级存储且第一级不能作为云端存储；最多配置一个云端对象；远端存储目录使用 OBJECT_STORAGE 来表示 |
+| --------------------------------------- | ------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| dn_data_dirs                            | data/datanode/data                       | 用来指定不同的存储目录，并将存储目录进行层级划分             | 每级存储使用分号分隔，单级内使用逗号分隔；云端配置只能作为最后一级存储且第一级不能作为云端存储；最多配置一个云端对象；远端存储目录使用 OBJECT_STORAGE 来表示 |
 | tier_ttl_in_ms                        | -1                       | 定义每个层级负责的数据范围，通过 TTL 表示                    | 每级存储使用分号分隔；层级数量需与 dn_data_dirs 定义的层级数一致；"-1" 表示"无限制" |
-| dn_default_space_usage_thresholds         | 0.85                     | 定义每个层级数据目录的最大使用空间比例；当使用空间大于该比例时，数据会被自动迁移至下一个层级；当最后一个层级的使用存储空间大于此阈值时，会将系统置为 READ_ONLY  | 每级存储使用分号分隔；层级数量需与 dn_data_dirs 定义的层级数一致 |
-| object_storage_type                      | AWS_S3                   | 云端存储类型                                                 | IoTDB 支持 S3 协议作为远端存储类型   |
-| object_storage_bucket                    | iotdb_data                       | 云端存储 bucket 的名称                                       | AWS S3 中的 bucket 定义；如果未使用远端存储，无需配置        |
-| object_storage_region                    |                         | 云端存储的服务区域                                      | AWS S3 中的 region 定义；如果未使用远端存储，无需配置        |
-| object_storage_endpoiont                 |                          | 云端存储的 endpoint                                          | AWS S3 的 endpoint；如果未使用远端存储，无需配置             |
-| object_storage_access_key                |                          | 云端存储的验证信息 key                                       | AWS S3 的 credential key；如果未使用远端存储，无需配置       |
-| object_storage_access_secret             |                          | 云端存储的验证信息 secret                                    | AWS S3 的 credential secret；如果未使用远端存储，无需配置    |
+| dn_default_space_usage_thresholds        | 0.85                     | 定义每个层级数据目录的最大使用空间比例；当使用空间大于该比例时，数据会被自动迁移至下一个层级；当最后一个层级的使用存储空间大于此阈值时，会将系统置为 READ_ONLY  | 每级存储使用分号分隔；层级数量需与 dn_data_dirs 定义的层级数一致 |
+| object_storage_type                     | AWS_S3                   | 云端存储类型                                                 | IoTDB 支持 S3 协议作为远端存储类型   |
+| object_storage_bucket                   | iotdb_data                       | 云端存储 bucket 的名称                                       | AWS S3 中的 bucket 定义；如果未使用远端存储，无需配置        |
+| object_storage_region                   |                         | 云端存储的服务区域                                      | AWS S3 中的 region 定义；如果未使用远端存储，无需配置        |
+| object_storage_endpoint                 |                          | 云端存储的 endpoint                                          | AWS S3 的 endpoint；如果未使用远端存储，无需配置             |
+| object_storage_access_key               |                          | 云端存储的验证信息 key                                       | AWS S3 的 credential key；如果未使用远端存储，无需配置       |
+| object_storage_access_secret            |                          | 云端存储的验证信息 secret                                    | AWS S3 的 credential secret；如果未使用远端存储，无需配置    |
 | enable_path_style_access             |   false                     | 是否启用云端存储服务路径访问                                    | 如果未使用远端存储，无需配置    |
-| remote_tsfile_cache_dirs                 | data/datanode/data/cache | 云端存储在本地的缓存目录                                     | 如果未使用远端存储，无需配置                                 |
-| remote_tsfile_cache_page_size_in_kb      | 20480                    | 云端存储在本地缓存文件的块大小                               | 如果未使用远端存储，无需配置                                 |
+| remote_tsfile_cache_dirs                | data/datanode/data/cache | 云端存储在本地的缓存目录                                     | 如果未使用远端存储，无需配置                                 |
+| remote_tsfile_cache_page_size_in_kb     | 20480                    | 云端存储在本地缓存文件的块大小                               | 如果未使用远端存储，无需配置                                 |
 | remote_tsfile_cache_max_disk_usage_in_mb | 51200                    | 云端存储本地缓存的最大磁盘占用大小                           | 如果未使用远端存储，无需配置                                 |
 
 
@@ -81,7 +81,7 @@ dn_default_space_usage_thresholds=0.2;0.15;0.1
 object_storage_type=AWS_S3
 object_storage_bucket=iotdb
 object_storage_region=<your_region>
-object_storage_endpoiont=<your_endpoint>
+object_storage_endpoint=<your_endpoint>
 object_storage_access_key=<your_access_key>
 object_storage_access_secret=<your_access_secret>
 

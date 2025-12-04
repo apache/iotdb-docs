@@ -55,6 +55,35 @@
 1. 准备IoTDB数据库安装包 ：iotdb-enterprise-{version}-bin.zip（安装包获取见：[链接](../Deployment-and-Maintenance/IoTDB-Package_timecho.md)）
 2. 按环境要求配置好操作系统环境（系统环境配置见：[链接](../Deployment-and-Maintenance/Environment-Requirements.md)）
 
+### 2.1 前置检查
+
+为确保您获取的IoTDB企业版安装包完整且正确，在执行安装部署前建议您进行SHA512校验。
+
+#### 准备工作：
+
+- 获取官方发布的 SHA512 校验码：[发布历史](../IoTDB-Introduction/Release-history_timecho.md)文档中各版本对应的"SHA512校验码"
+
+#### 校验步骤（以 linux 为例）：
+
+1. 打开终端，进入安装包所在目录（如`/data/iotdb`）：
+   ```Bash
+      cd /data/iotdb
+      ```
+2. 执行以下命令计算哈希值：
+   ```Bash
+      sha512sum timechodb-{version}-bin.zip
+      ```
+3. 终端输出结果（左侧为SHA512 校验码，右侧为文件名）：
+
+![img](/img/sha512-01.png)
+
+4. 对比输出结果与官方 SHA512 校验码，确认一致后，即可按照下方流程执行IoTDB企业版的安装部署操作。
+
+#### 注意事项：
+
+- 若校验结果不一致，请联系天谋工作人员重新获取安装包
+- 校验过程中若出现"文件不存在"提示，需检查文件路径是否正确或安装包是否完整下载
+
 ## 3. 安装步骤
 
 假设现在有3台linux服务器，IP地址和服务角色分配如下：

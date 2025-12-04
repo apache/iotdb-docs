@@ -582,7 +582,7 @@ It costs 0.056s
 ```SQL
 SELECT 
     time,
-    date_bin(1h, time, '1969-12-31 00:00:00.000') as time_bin
+    date_bin(1h, time, 1969-12-31 00:00:00.000) as time_bin
 FROM 
     table1;
 ```
