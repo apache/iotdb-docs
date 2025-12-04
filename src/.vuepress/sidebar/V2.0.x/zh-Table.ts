@@ -93,6 +93,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [{ text: '权限管理', link: 'Authority-Management_apache' }],
         },
+        { text: '树转表视图', link: 'Tree-to-Table' },
         {
           text: '系统运维',
           collapsible: true,
