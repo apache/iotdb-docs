@@ -297,6 +297,7 @@ create pipe A2B
 WITH SOURCE (
   'source'= 'iotdb-source',
   'realtime.mode' = 'stream' -- The extraction mode for newly inserted data (after pipe creation)
+  'path' = 'root.vehicle.**',  -- Scope of Data Synchronization
   'start-time' = '2023.08.23T08:00:00+00:00',  -- The start event time for synchronizing all data, including start-time
   'end-time' = '2023.10.23T08:00:00+00:00'  -- The end event time for synchronizing all data, including end-time
 ) 

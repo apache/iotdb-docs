@@ -294,6 +294,7 @@ WITH SOURCE (
   'source' = 'iotdb-source',
   'mode.streaming' = 'true'  -- Extraction mode for newly inserted data (after the pipe is created): 
                              -- Whether to extract data in streaming mode (if set to false, batch mode is used).
+  'database-name'='testdb.*', -- Scope of Data Synchronization
   'start-time' = '2023.08.23T08:00:00+00:00',  -- The event time at which data synchronization starts (inclusive).
   'end-time' = '2023.10.23T08:00:00+00:00'  -- The event time at which data synchronization ends (inclusive).
 ) 
