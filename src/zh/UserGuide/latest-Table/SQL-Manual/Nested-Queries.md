@@ -47,7 +47,7 @@
       <tr>
             <td>关联子查询</td>
             <td>内层查询中使用到了外层查询的表中某些列，需要先执行外层查询，然后执行内层查询。</td>
-            <td>不支持</td>
+            <td>V2.0.5 及以后版本支持</td>
       </tr>
   </tbody>
 </table>
@@ -97,6 +97,11 @@
 2. 非关联子查询在内层查询中不支持引用外层查询中的列，若引用则会报错：
 
     `Msg: org.apache.iotdb.jdbc.IoTDBSQLException： 701: Given correlated subquery is not supported`
+
+3. 关联子查询中使用外层查询的列作为谓词的操作数时，谓词只能使用等值比较。
+4. 关联子查询中关联谓词，数据类型要一致。
+5. 有多层嵌套关联子查询时，子查询只能使用相邻一层的外层查询数据。
+6. 关联子查询目前不支持 limit 子句。
 
 ### 3.1 非关联标量子查询
 
@@ -194,6 +199,94 @@ comparisonQuantifier
 
 * ALL：主查询中的 `expression` 与子查询返回的每一个值进行比较，所有比较都必须为 `True`，结果才为 `True`。
 * ANY/SOME：主查询中的 `expression` 与子查询返回的每一个值进行比较，任意一个比较为 `True`，结果就是 `True`。
+
+### 3.3 关联标量子查询
+
+标量子查询返回的结果是一个标量值，可以用于替换表达式 expression 中的操作数。
+
+**语法**
+
+```SQL
+primaryExpression
+    : literalExpression                                                   #Literal
+    | dateExpression #dateTimeExpression                                  #dateTimeExpression
+    | '(' expression (',' expression)+ ')'                                #rowConstructor
+    | ROW '(' expression (',' expression)* ')'                            #rowConstructor
+    | qualifiedName '(' (label=identifier '.')? ASTERISK ')'              #functionCall
+    | qualifiedName '(' (setQuantifier? expression (',' expression)*)?')' #functionCall
+​    ​|​ ​'('​ query ​')'​                                                       #subqueryExpression
+```
+
+**说明**
+
+标量子查询可以作为任意表达式（expression）的操作数，前提是这些输入参数在定义中未被强制规定为常量。
+
+以下是一些不能使用标量子查询作为参数的例子：
+
+* `date_bin(interval,source,origin)` 的第一、三个参数。
+* `date_bin_gapfill(interval,source,origin)` 的第一、三个参数。
+    * `interval` ：时间间隔
+    * `origin`：起始时间戳
+* `Fill` 参数
+    * `fill previous`
+    * `fill linear`
+    * `fill constant`
+
+### 3.4 关联列子查询
+#### 3.4.1 关联 Exists Predicate
+
+`EXISTS` 是 SQL 中用于判断子查询是否返回至少一行结果的关键字，返回布尔值（`TRUE`/`FALSE`），只要子查询返回至少一行，`EXISTS` 即为 `TRUE`，否则为 `FALSE`。`Exists Predicate` 常用于关联子查询中，高效检测数据的存在性，尤其在处理复杂逻辑时比 `IN` 或 `JOIN` 更灵活。在其他的一些数据库中，EXISTS 关联子查询也被称为 SEMI JOIN（半连接），NOT EXISTS 关联子查询也被称为 ANTI-SEMI JOIN（反半连接）。
+
+**语法**
+
+```SQL
+SELECT ...
+    FROM table1
+    WHERE [NOT] EXISTS 
+        (SELECT ... FROM table2 WHERE [关联条件或过滤条件]);
+```
+
+#### 3.4.2 非关联 Quantified Comparison
+
+Quantified Comparison 允许将一个值与一组值进行比较，通常由以下部分组成：
+
+1. 比较运算符：<， >， =， <=， >=， !=
+2. 比较量词：
+
+* ALL：所有元素
+* ANY 或 SOME：任意一个元素（ANY 和 SOME 是等价的）
+
+3. 子查询：返回一个值的集合，用于与主查询中的值进行比较
+
+**语法**
+
+```SQL
+predicate[ParserRuleContext value]
+    : comparisonOperator right=valueExpression                           #comparison
+    |​ comparisonOperator comparisonQuantifier ​'('​ query ​')'​              #quantifiedComparison
+    | NOT? BETWEEN lower=valueExpression AND upper=valueExpression       #between
+    | NOT? IN '(' expression (',' expression)* ')'                       #inList
+    | NOT? IN '(' query ')'                                              #inSubquery
+    | NOT? LIKE pattern=valueExpression (ESCAPE escape=valueExpression)? #like
+    | IS NOT? NULL                                                       #nullPredicate
+    | IS NOT? DISTINCT FROM right=valueExpression                        #distinctFrom
+    ;
+comparisonQuantifier
+    : ALL | SOME | ANY
+    ;
+```
+
+**说明**
+
+使用形式：expression operator ALL/ANY/SOME (subquery)
+
+* ALL：主查询中的 expression 与子查询返回的每一个值进行比较，所有比较都必须为 True，结果才为 True。
+
+```SQL
+expression operator ALL (subquery)
+```
+* ANY/SOME：主查询中的 expression 与子查询返回的每一个值进行比较，任意一个比较为 True，结果就是 True。
+
 
 ## 4. 使用示例
 ### 4.1 示例数据
@@ -877,4 +970,322 @@ IoTDB> SELECT s1 <=
 
 **示例：**
 
-* 多设备降采样对齐查询，详细示例可见：[示例](../Basic-Concept/Query-Data.md#36-多设备降采样对齐查询)
+* 多设备降采样对齐查询，详细示例可见：[示例](../Basic-Concept/Query-Data.md#_3-6-多设备降采样对齐查询)
+
+### 4.5 关联标量子查询
+
+**Where 子句**
+
+从 `table1 `中选择 `device_id = 'd01'` 的记录，且这些记录的 `s1 `值必须大于等于 `table3 `中相同 `s1 `值的所有记录的平均值。
+
+SQL:
+
+```SQL
+IoTDB> SELECT s1 FROM table1 t1
+    WHERE device_id = 'd01' 
+        and s1 >= (SELECT avg(s1) from table3 t3 WHERE t3.s1 = t1.s1);
+```
+
+结果：
+
+```SQL
++--+
+|s1|
++--+
+|30|
+|40|
++--+
+Total line number = 2
+```
+
+**Having 子句**
+
+统计 `table1 `中每个 `device_id `的记录数量，但只保留那些满足「记录数加35等于该 `device_id `在 `table3 `中的最大 `s1 `值」的分组结果。
+
+SQL:
+
+```SQL
+IoTDB> SELECT device_id, count(*) from table1 t1 group by device_id 
+    having count(*) + 35 = 
+        (SELECT max(s1) from table3 t3 where t3.device_id = t1.device_id)
+```
+
+结果：
+
+```SQL
++---------+-----+
+|device_id|_col1|
++---------+-----+
+|      d01|    5|
++---------+-----+
+Total line number = 1
+```
+
+**Select 子句**
+
+对于 `table3 `中的每一行，找出 `table1 `中所有具有相同 `s1 `值的记录，并计算它们的 `s2 `字段的最大值，然后将这个最大值作为结果返回。
+
+SQL:
+
+```SQL
+IoTDB> select (select max(s2) from table1 t1 where t1.s1 = t3.s1) from table3 t3
+```
+
+结果：
+
+```SQL
+# 结果集行数和 table3 行数一致
++-----+
+|_col0|
++-----+
+|   30|
+|   30|
+|   40|
+| null|
++-----+
+Total line number = 4
+```
+
+### 4.6 关联列子查询
+#### 4.6.1 关联 Exists Predicate
+
+**Where 子句**
+
+从 `table1 `中选取 `device_id `为 `'d01'` 的记录，但只保留那些 `s1 `值在 `table3` 中也存在（同样 `device_id `为 `'d01'` 且 `s1 `相等）的记录。
+
+SQL:
+
+```SQL
+IoTDB> SELECT s1 FROM table1 t1 WHERE device_id = 'd01' and 
+    exists(SELECT s1 from table3 t3 WHERE device_id = 'd01' and t1.s1 = t3.s1);
+```
+
+结果：
+
+```SQL
++--+
+|s1|
++--+
+|30|
+|40|
++--+
+Total line number = 2
+```
+
+**Having 子句**
+
+统计 `table1 `中每个 `device_id `出现的次数，但只保留那些在 `table3` 中也存在相同 `device_id `的分组结果。
+
+SQL:
+
+```SQL
+IoTDB> SELECT device_id, count(*) from table1 t1 group by device_id having 
+    exists(SELECT 1 from table3 t3 where t3.device_id = t1.device_id)
+```
+
+结果：
+
+```SQL
++---------+-----+
+|device_id|_col1|
++---------+-----+
+|      d01|    5|
++---------+-----+
+Total line number = 1
+```
+
+**Select 子句**
+
+检查 `table3` 的每一行，判断其字段 `s1` 的值是否存在于 `table1` 的 `s1` 字段中，并返回对应的布尔结果（`true` 或 `false`）。
+
+SQL:
+
+```SQL
+IoTDB> select exists(select s1 from table1 t1 where t1.s1 = t3.s1) from table3 t3
+```
+
+结果：
+
+```SQL
++-----+
+|_col0|
++-----+
+| true|
+| true|
+| true|
+|false|
++-----+
+Total line number = 4
+```
+
+#### 4.6.2 关联 Quantified Comparison
+
+**Where 子句**
+
+* ALL
+
+从 `table1 `中选取 `device_id `为`'d01'`的记录，但只保留那些 `s1 `值大于等于 `table3 `中所有相同 `s1 `值的记录。
+
+SQL:
+
+```SQL
+IoTDB> SELECT s1 FROM table1 t1 WHERE device_id = 'd01' and 
+    s1 >= all(SELECT s1 from table3 t3 where t1.s1 = t3.s1)
+```
+
+结果：
+
+```SQL
++--+
+|s1|
++--+
+|30|
+|40|
+|50|
+|60|
+|70|
++--+
+Total line number = 5
+```
+
+* ANY/SOME
+
+从 `table1 `中选取 `device_id `为 `'d01'` 的记录，但只保留那些 `s1 `值至少大于等于 `table3 `中某个具有相同 `s1 `值的记录的 `s1 `值。
+
+SQL:
+
+```SQL
+IoTDB> SELECT s1 FROM table1 t1 WHERE device_id = 'd01' and 
+    s1 >= any(SELECT s1 from table3 t3 where t1.s1 = t3.s1)
+```
+
+结果：
+
+```SQL
++--+
+|s1|
++--+
+|30|
+|40|
++--+
+Total line number = 2
+```
+
+**Having 子句**
+
+* ALL
+
+统计每个 `device_id `在 `table1 `中的记录数量，但只保留那些满足「记录数加35后大于等于该 `device_id `在 `table3 `中所有 `s1` 值」的分组。
+
+SQL:
+
+```SQL
+IoTDB> SELECT device_id, count(*) from table1 t1
+          group by device_id 
+          having count(*) + 35 >= 
+          all(SELECT s1 from table3 t3 where t3.device_id = t1.device_id);
+```
+
+结果：
+
+```SQL
++---------+-----+
+|device_id|_col1|
++---------+-----+
+|      d01|    5|
+|      d02|    3|
+|      d03|    5|
+|      d04|    3|
+|      d05|    5|
+|      d06|    3|
+|      d07|    5|
+|      d08|    3|
+|      d09|    5|
+|      d10|    3|
+|      d11|    5|
+|      d12|    3|
+|      d13|    5|
+|      d14|    3|
+|      d15|    5|
+|      d16|    3|
++---------+-----+
+Total line number = 16
+```
+
+* ANY/SOME
+
+统计每个 `device_id `在 `table1 `中的记录数量，但只保留那些满足「记录数加35后大于等于该 `device_id `在 table3 中至少一个 `s1 `值」的分组。
+
+SQL:
+
+```SQL
+IoTDB> SELECT device_id, count(*) from table1 t1
+          group by device_id 
+          having count(*) + 35 >= 
+          any(SELECT s1 from table3 t3 where t3.device_id = t1.device_id);
+```
+
+结果：
+
+```SQL
++---------+-----+
+|device_id|_col1|
++---------+-----+
+|      d01|    5|
++---------+-----+
+Total line number = 1
+```
+
+**Select 子句中**
+
+* ALL
+
+对于` device_id='d01'` 的 `table1 `中的每条记录，检查其 `s1 `值是否大于等于 `table3 `中所有具有相同 `s1` 值且 `device_id='d01'` 的记录。
+
+SQL:
+
+```SQL
+IoTDB> SELECT s1 >= all(SELECT (s1) from table3 t3 WHERE device_id = 'd01' and t1.s1 = t3.s1) 
+    from table1 t1 where device_id = 'd01'
+```
+
+结果：
+
+```SQL
++-----+
+|_col0|
++-----+
+| true|
+| true|
+| true|
+| true|
+| true|
++-----+
+Total line number = 5
+```
+
+* ANY/SOME
+
+对于 `device_id='d01'` 的 `table1 `中的每条记录，检查其 `s1 `值是否大于等于 `table3 `中至少一个具有相同 `s1 `值且 `device_id='d01'` 的记录。
+
+SQL:
+
+```SQL
+IoTDB> SELECT s1 >= any(SELECT (s1) from table3 t3 WHERE device_id = 'd01' and t1.s1 = t3.s1) 
+    from table1 t1 where device_id = 'd01'
+```
+
+结果
+
+```SQL
++-----+
+|_col0|
++-----+
+| true|
+| true|
+|false|
+|false|
+|false|
++-----+
+Total line number = 5
+```

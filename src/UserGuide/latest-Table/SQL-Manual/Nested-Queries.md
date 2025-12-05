@@ -47,7 +47,7 @@ Nested queries can be classified based on two criteria: whether they reference t
       <tr>
             <td>Correlated Subquery</td>
             <td>The inner query references columns from the outer query's table, requiring the outer query to execute first, followed by the inner query.</td>
-            <td>Not Supported</td>
+            <td>Supports V2.0.5 and later versions</td>
       </tr>
   </tbody>
 </table>
@@ -97,6 +97,11 @@ Nested queries can be classified based on two criteria: whether they reference t
 2. Non-correlated subqueries cannot reference columns from the outer query. Attempting to do so will result in an error:
 
     `Msg: org.apache.iotdb.jdbc.IoTDBSQLException： 701: Given correlated subquery is not supported`
+
+3. In correlated subqueries, when using a column from the outer query as an operand of a predicate, only equality comparisons are allowed.
+4. In correlated subqueries, the data types of the columns involved in the correlation predicate must be identical.
+5. In multi-level nested correlated subqueries, a subquery can only reference data from its immediately enclosing outer query level.
+6. Correlated subqueries currently do not support the `LIMIT` clause.
 
 ### 3.1 Non-Correlated Scalar Subqueries
 
@@ -194,6 +199,90 @@ Usage: `expression operator ALL/ANY/SOME (subquery)`
 
 * ALL: The `expression` in the main query must satisfy the condition with every value returned by the subquery.
 * ANY/SOME: The `expression` in the main query must satisfy the condition with at least one value returned by the subquery.
+
+### 3.3 Correlated Scalar Subqueries
+
+A scalar subquery returns a single scalar value and can be used to replace an operand within any expression (`expression`).
+
+**Syntax**
+
+```antlr
+primaryExpression
+    : literalExpression                                                   #Literal
+    | dateExpression #dateTimeExpression                                  #dateTimeExpression
+    | '(' expression (',' expression)+ ')'                                #rowConstructor
+    | ROW '(' expression (',' expression)* ')'                            #rowConstructor
+    | qualifiedName '(' (label=identifier '.')? ASTERISK ')'              #functionCall
+    | qualifiedName '(' (setQuantifier? expression (',' expression)*)?')' #functionCall
+    | '(' query ')'                                                       #subqueryExpression
+```
+
+**Notes**
+A scalar subquery can serve as an operand in any expression, provided that the relevant input parameter is not explicitly required to be a constant in its definition.
+
+Examples where scalar subqueries **cannot** be used as arguments include:
+
+- The first and third parameters of `date_bin(interval, source, origin)`
+- The first and third parameters of `date_bin_gapfill(interval, source, origin)`
+  - `interval`: time interval
+  - `origin`: origin timestamp
+- `FILL` parameters:
+  - `fill previous`
+  - `fill linear`
+  - `fill constant`
+
+### 3.4 Correlated Column Subqueries
+
+#### 3.4.1 Correlated EXISTS Predicate
+
+`EXISTS` is an SQL keyword used to determine whether a subquery returns at least one row. It returns a Boolean value (`TRUE`/`FALSE`): `TRUE` if the subquery returns one or more rows; otherwise, `FALSE`. The `EXISTS` predicate is commonly used in correlated subqueries to efficiently check for data existence and offers greater flexibility than `IN` or `JOIN` for complex logic. In other database systems, a correlated `EXISTS` subquery is also known as a **SEMI JOIN**, while a correlated `NOT EXISTS` subquery is referred to as an **ANTI-SEMI JOIN**.
+
+**Syntax**
+
+```sql
+SELECT ...
+FROM table1
+WHERE [NOT] EXISTS 
+    (SELECT ... FROM table2 WHERE [correlation or filter condition]);
+```
+
+#### 3.4.2 Non-correlated Quantified Comparison
+
+Quantified comparison allows comparing a single value against a set of values, typically composed of:
+
+1. A comparison operator: `<`, `>`, `=`, `<=`, `>=`, `!=`
+2. A quantifier:
+  - `ALL`: all elements
+  - `ANY` or `SOME`: any one element (`ANY` and `SOME` are equivalent)
+3. A subquery: returns a set of values for comparison with the value from the main query
+
+**Syntax**
+
+```antlr
+predicate[ParserRuleContext value]
+    : comparisonOperator right=valueExpression                           #comparison
+    | comparisonOperator comparisonQuantifier '(' query ')'              #quantifiedComparison
+    | NOT? BETWEEN lower=valueExpression AND upper=valueExpression       #between
+    | NOT? IN '(' expression (',' expression)* ')'                       #inList
+    | NOT? IN '(' query ')'                                              #inSubquery
+    | NOT? LIKE pattern=valueExpression (ESCAPE escape=valueExpression)? #like
+    | IS NOT? NULL                                                       #nullPredicate
+    | IS NOT? DISTINCT FROM right=valueExpression                        #distinctFrom
+    ;
+
+comparisonQuantifier
+    : ALL | SOME | ANY
+    ;
+```
+
+**Explanation**
+Usage form: `expression operator ALL/ANY/SOME (subquery)`
+
+- `ALL`: The `expression` in the main query is compared with every value returned by the subquery; the result is `TRUE` only if **all** comparisons evaluate to `TRUE`.
+  ```sql
+  expression operator ALL (subquery)
+  ```
+- `ANY/SOME`: The `expression` in the main query is compared with every value returned by the subquery; the result is `TRUE` if **any** comparison evaluates to `TRUE`.
 
 ## 4. Usage Examples
 ### 4.1 Example Data
@@ -878,4 +967,317 @@ Note:
 
 **Example:**
 
-* Multi device downsampling alignment query. For detailed examples, see: [Example](../Basic-Concept/Query-Data.md#36-multi-device-downsampling-alignment-query)
+* Multi device downsampling alignment query. For detailed examples, see: [Example](../Basic-Concept/Query-Data.md#_3-6-multi-device-downsampling-alignment-query)
+
+### 4.5 Correlated Scalar Subqueries
+
+#### WHERE Clause
+
+Select records from `table1` where `device_id = 'd01'`, and the `s1` value must be greater than or equal to the average `s1` value of all records in `table3` having the same `s1` value.
+
+**SQL:**
+
+```sql
+IoTDB> SELECT s1 FROM table1 t1
+    WHERE device_id = 'd01' 
+        AND s1 >= (SELECT avg(s1) FROM table3 t3 WHERE t3.s1 = t1.s1);
+```
+
+**Result:**
+
+```
++--+
+|s1|
++--+
+|30|
+|40|
++--+
+Total line number = 2
+```
+
+#### HAVING Clause
+
+Count the number of records per `device_id` in `table1`, but retain only those groups where "record count + 35 equals the maximum `s1` value for that `device_id` in `table3`".
+
+**SQL:**
+
+```sql
+IoTDB> SELECT device_id, count(*) FROM table1 t1 GROUP BY device_id 
+    HAVING count(*) + 35 = 
+        (SELECT max(s1) FROM table3 t3 WHERE t3.device_id = t1.device_id);
+```
+
+**Result:**
+
+```
++---------+-----+
+|device_id|_col1|
++---------+-----+
+|      d01|    5|
++---------+-----+
+Total line number = 1
+```
+
+#### SELECT Clause
+
+For each row in `table3`, find all records in `table1` with the same `s1` value, compute the maximum `s2` among them, and return this maximum as the result.
+
+**SQL:**
+
+```sql
+IoTDB> SELECT (SELECT max(s2) FROM table1 t1 WHERE t1.s1 = t3.s1) FROM table3 t3;
+```
+
+**Result:**
+*(Number of result rows matches the number of rows in `table3`)*
+
+```
++-----+
+|_col0|
++-----+
+|   30|
+|   30|
+|   40|
+| null|
++-----+
+Total line number = 4
+```
+
+### 4.6 Correlated Column Subqueries
+
+#### 4.6.1 Correlated EXISTS Predicate
+
+##### WHERE Clause
+
+Select records from `table1` where `device_id = 'd01'`, retaining only those whose `s1` values also exist in `table3` (with `device_id = 'd01'` and matching `s1`).
+
+**SQL:**
+
+```sql
+IoTDB> SELECT s1 FROM table1 t1 WHERE device_id = 'd01' AND 
+    EXISTS (SELECT s1 FROM table3 t3 WHERE device_id = 'd01' AND t1.s1 = t3.s1);
+```
+
+**Result:**
+
+```
++--+
+|s1|
++--+
+|30|
+|40|
++--+
+Total line number = 2
+```
+
+##### HAVING Clause
+
+Count occurrences of each `device_id` in `table1`, but keep only those groups where the `device_id` also exists in `table3`.
+
+**SQL:**
+
+```sql
+IoTDB> SELECT device_id, count(*) FROM table1 t1 GROUP BY device_id HAVING 
+    EXISTS (SELECT 1 FROM table3 t3 WHERE t3.device_id = t1.device_id);
+```
+
+**Result:**
+
+```
++---------+-----+
+|device_id|_col1|
++---------+-----+
+|      d01|    5|
++---------+-----+
+Total line number = 1
+```
+
+##### SELECT Clause
+
+For each row in `table3`, check whether its `s1` value exists in `table1.s1`, and return the corresponding Boolean result (`true` or `false`).
+
+**SQL:**
+
+```sql
+IoTDB> SELECT EXISTS (SELECT s1 FROM table1 t1 WHERE t1.s1 = t3.s1) FROM table3 t3;
+```
+
+**Result:**
+
+```
++-----+
+|_col0|
++-----+
+| true|
+| true|
+| true|
+|false|
++-----+
+Total line number = 4
+```
+
+#### 4.6.2 Correlated Quantified Comparison
+
+##### WHERE Clause
+
+- **ALL**
+  Select records from `table1` where `device_id = 'd01'`, keeping only those whose `s1` values are greater than or equal to **all** matching `s1` values in `table3`.
+
+**SQL:**
+
+```sql
+IoTDB> SELECT s1 FROM table1 t1 WHERE device_id = 'd01' AND 
+    s1 >= ALL (SELECT s1 FROM table3 t3 WHERE t1.s1 = t3.s1);
+```
+
+**Result:**
+
+```
++--+
+|s1|
++--+
+|30|
+|40|
+|50|
+|60|
+|70|
++--+
+Total line number = 5
+```
+
+- **ANY/SOME**
+  Select records from `table1` where `device_id = 'd01'`, keeping only those whose `s1` values are greater than or equal to **at least one** matching `s1` value in `table3`.
+
+**SQL:**
+
+```sql
+IoTDB> SELECT s1 FROM table1 t1 WHERE device_id = 'd01' AND 
+    s1 >= ANY (SELECT s1 FROM table3 t3 WHERE t1.s1 = t3.s1);
+```
+
+**Result:**
+
+```
++--+
+|s1|
++--+
+|30|
+|40|
++--+
+Total line number = 2
+```
+
+##### HAVING Clause
+
+- **ALL**
+  Count records per `device_id` in `table1`, retaining only those groups where "record count + 35" is greater than or equal to **all** `s1` values for that `device_id` in `table3`.
+
+**SQL:**
+
+```sql
+IoTDB> SELECT device_id, count(*) FROM table1 t1
+          GROUP BY device_id 
+          HAVING count(*) + 35 >= 
+          ALL (SELECT s1 FROM table3 t3 WHERE t3.device_id = t1.device_id);
+```
+
+**Result:**
+
+```
++---------+-----+
+|device_id|_col1|
++---------+-----+
+|      d01|    5|
+|      d02|    3|
+|      d03|    5|
+|      d04|    3|
+|      d05|    5|
+|      d06|    3|
+|      d07|    5|
+|      d08|    3|
+|      d09|    5|
+|      d10|    3|
+|      d11|    5|
+|      d12|    3|
+|      d13|    5|
+|      d14|    3|
+|      d15|    5|
+|      d16|    3|
++---------+-----+
+Total line number = 16
+```
+
+- **ANY/SOME**
+  Count records per `device_id` in `table1`, retaining only those groups where "record count + 35" is greater than or equal to **at least one** `s1` value for that `device_id` in `table3`.
+
+**SQL:**
+
+```sql
+IoTDB> SELECT device_id, count(*) FROM table1 t1
+          GROUP BY device_id 
+          HAVING count(*) + 35 >= 
+          ANY (SELECT s1 FROM table3 t3 WHERE t3.device_id = t1.device_id);
+```
+
+**Result:**
+
+```
++---------+-----+
+|device_id|_col1|
++---------+-----+
+|      d01|    5|
++---------+-----+
+Total line number = 1
+```
+
+##### SELECT Clause
+
+- **ALL**
+  For each record in `table1` where `device_id = 'd01'`, check whether its `s1` value is greater than or equal to **all** records in `table3` with the same `s1` and `device_id = 'd01'`.
+
+**SQL:**
+
+```sql
+IoTDB> SELECT s1 >= ALL (SELECT s1 FROM table3 t3 WHERE device_id = 'd01' AND t1.s1 = t3.s1) 
+    FROM table1 t1 WHERE device_id = 'd01';
+```
+
+**Result:**
+
+```
++-----+
+|_col0|
++-----+
+| true|
+| true|
+| true|
+| true|
+| true|
++-----+
+Total line number = 5
+```
+
+- **ANY/SOME**
+  For each record in `table1` where `device_id = 'd01'`, check whether its `s1` value is greater than or equal to **at least one** record in `table3` with the same `s1` and `device_id = 'd01'`.
+
+**SQL:**
+
+```sql
+IoTDB> SELECT s1 >= ANY (SELECT s1 FROM table3 t3 WHERE device_id = 'd01' AND t1.s1 = t3.s1) 
+    FROM table1 t1 WHERE device_id = 'd01';
+```
+
+**Result:**
+
+```
++-----+
+|_col0|
++-----+
+| true|
+| true|
+|false|
+|false|
+|false|
++-----+
+Total line number = 5
+```
