@@ -39,24 +39,32 @@ IoTDB> show databases
 +------------------+-------+-----------------------+---------------------+---------------------+
 
 IoTDB> show tables from information_schema
-+-------------+-------+
-|    TableName|TTL(ms)|
-+-------------+-------+
-|    databases|    INF|
-|       tables|    INF|
-| pipe_plugins|    INF|
-|subscriptions|    INF|
-|      regions|    INF|
-|      columns|    INF|
-|       topics|    INF|
-|      queries|    INF|
-|        pipes|    INF|
-+-------------+-------+
++--------------+-------+
+|     TableName|TTL(ms)|
++--------------+-------+
+|       columns|    INF|
+|  config_nodes|    INF|
+|configurations|    INF|
+|    data_nodes|    INF|
+|     databases|    INF|
+|     functions|    INF|
+|      keywords|    INF|
+|        models|    INF|
+|         nodes|    INF|
+|  pipe_plugins|    INF|
+|         pipes|    INF|
+|       queries|    INF|
+|       regions|    INF|
+| subscriptions|    INF|
+|        tables|    INF|
+|        topics|    INF|
+|         views|    INF|
++--------------+-------+
 ```
 
 ## 2. System Tables
 
-* ​**Names**​: `DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS` (detailed descriptions in later sections)
+* ​**Names**​: `DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS`, `VIEWS`, `MODELS`, `FUNCTIONS`, `CONFIGURATIONS`, `KEYWORDS`, `NODES`, `CONFIG_NODES`, `DATA_NODES` (detailed descriptions in later sections)
 * ​**Operations**​: Read-only, only supports `SELECT`, `COUNT/SHOW DEVICES`, `DESC`. Any modifications to table structure or content are not allowed and will result in an error: `"The database 'information_schema' can only be queried."  `
 * ​**Column Names**​: System table column names are all lowercase by default and separated by underscores (`_`).
 
@@ -75,6 +83,7 @@ IoTDB> show tables from information_schema
 | `schema_region_group_num`   | INT32     | ATTRIBUTE   | Number of schema region groups |
 | `data_region_group_num`     | INT32     | ATTRIBUTE   | Number of data region groups   |
 
+* The query results only display the collection of databases for which you have any permission on the database itself or any table within the database.
 * Query Example:
 
 ```sql
@@ -101,24 +110,33 @@ IoTDB> select * from information_schema.databases
 | `comment`    | STRING    | ATTRIBUTE   | Description/comment |
 
 * Note:  Possible values for `status`: `USING`, `PRE_CREATE`, `PRE_DELETE`.  For details, refer to the [View Tables](../Basic-Concept/Table-Management.md#12-view-tables) in Table Management documentation
+* The query results only display the collection of tables for which you have any permission.
 * Query Example:
 
 ```sql
 IoTDB> select * from information_schema.tables
-+------------------+-------------+-----------+------+-------+
-|          database|   table_name|    ttl(ms)|status|comment|
-+------------------+-------------+-----------+------+-------+
-|information_schema|    databases|        INF| USING|   null|
-|information_schema|       tables|        INF| USING|   null|
-|information_schema| pipe_plugins|        INF| USING|   null|
-|information_schema|subscriptions|        INF| USING|   null|
-|information_schema|      regions|        INF| USING|   null|
-|information_schema|      columns|        INF| USING|   null|
-|information_schema|       topics|        INF| USING|   null|
-|information_schema|      queries|        INF| USING|   null|
-|information_schema|        pipes|        INF| USING|   null|
-|         database1|       table1|31536000000| USING|   null|
-+------------------+-------------+-----------+------+-------+
++------------------+--------------+-----------+------+-------+-----------+
+|          database|    table_name|    ttl(ms)|status|comment| table_type|
++------------------+--------------+-----------+------+-------+-----------+
+|information_schema|     databases|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|        models|        INF| USING|   null|SYSTEM VIEW|
+|information_schema| subscriptions|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|       regions|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|     functions|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|      keywords|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|       columns|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|        topics|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|configurations|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|       queries|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|        tables|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|  pipe_plugins|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|         nodes|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|    data_nodes|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|         pipes|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|         views|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|  config_nodes|        INF| USING|   null|SYSTEM VIEW|
+|         database1|        table1|31536000000| USING|   null| BASE TABLE|
++------------------+--------------+-----------+------+-------+-----------+
 ```
 
 ### 2.3 REGIONS
@@ -142,6 +160,7 @@ IoTDB> select * from information_schema.tables
 | `create_time`       | TIMESTAMP | ATTRIBUTE   | Creation time                                                                                                                                                     |
 | `tsfile_size_bytes` | INT64     | ATTRIBUTE   | - For​**DataRegion with statistics ​**​: Total file size of TsFiles. <br>- For**DataRegion without statistics**(Unknown):`-1`.<br>- For​**SchemaRegion**​:`null`. |
 
+* Only administrators are allowed to perform query operations.
 * Query Example:
 
 ```SQL
@@ -169,6 +188,7 @@ IoTDB> select * from information_schema.regions
 | `statement`    | STRING    | ATTRIBUTE   | SQL statement of the query                                 |
 | `user`         | STRING    | ATTRIBUTE   | User who initiated the query                               |
 
+* For regular users, the query results only display the queries executed by themselves; for administrators, all queries are displayed.
 * Query Example:
 
 ```SQL
@@ -195,8 +215,9 @@ IoTDB> select * from information_schema.queries
 | `status`      | STRING    | ATTRIBUTE   | Column status      |
 | `comment`     | STRING    | ATTRIBUTE   | Column description |
 
-Notes: Possible values for `status`: `USING`, `PRE_DELETE`. For details, refer to [Viewing Table Columns](../Basic-Concept/Table-Management.html#13-view-table-columns) in Table Management documentation.
-> Users can only query tables for which they have select permissions .
+Notes: 
+* Possible values for `status`: `USING`, `PRE_DELETE`. For details, refer to [Viewing Table Columns](../Basic-Concept/Table-Management.html#13-view-table-columns) in Table Management documentation.
+* The query results only display the column information of tables for which you have any permission.
 
 * Query Example:
 
@@ -235,6 +256,7 @@ IoTDB> select * from information_schema.columns where database = 'database1'
 | `remaining_event_count`       | INT64     | ATTRIBUTE   | Remaining event count (`-1`if Unknown)               |
 | `estimated_remaining_seconds` | DOUBLE    | ATTRIBUTE   | Estimated remaining time in seconds (`-1`if Unknown) |
 
+* Only administrators are allowed to perform operations.
 * Query Example:
 
 ```SQL
@@ -285,6 +307,7 @@ IoTDB> select * from information_schema.pipe_plugins
 | `consumer_group_name`  | STRING    | TAG         | Consumer group name     |
 | `subscribed_consumers` | STRING    | ATTRIBUTE   | Subscribed consumers    |
 
+* Only administrators are allowed to perform operations.
 * Query Example:
 
 ```SQL
@@ -306,6 +329,7 @@ IoTDB> select * from information_schema.subscriptions where topic_name = 'topic_
 | `topic_name`    | STRING    | TAG         | Subscription topic name        |
 | `topic_configs` | STRING    | ATTRIBUTE   | Topic configuration parameters |
 
+* Only administrators are allowed to perform operations.
 * Query Example:
 
 ```SQL
@@ -317,10 +341,260 @@ IoTDB> select * from information_schema.topics
 +----------+----------------------------------------------------------------+
 ```
 
+### 2.10 VIEWS Table
+
+> This system table is available starting from version V2.0.5.
+
+* Contains information about all table views in the database.
+* The table structure is as follows:
+
+| Column Name      | Data Type | Column Category | Description                     |
+| ------------------ | ----------- | ----------------- | --------------------------------- |
+| database         | STRING    | TAG             | Database name                   |
+| table\_name      | STRING    | TAG             | View name                       |
+| view\_definition | STRING    | ATTRIBUTE       | SQL statement for view creation |
+
+* The query results only display the collection of views for which you have any permission.
+* Query example:
+
+```SQL
+IoTDB> select * from information_schema.views
++---------+----------+---------------------------------------------------------------------------------------------------------------------------------------+
+| database|table_name|                                                                                                                        view_definition|
++---------+----------+---------------------------------------------------------------------------------------------------------------------------------------+
+|database1|        ln|CREATE VIEW "ln" ("device" STRING TAG,"model" STRING TAG,"status" BOOLEAN FIELD,"hardware" STRING FIELD) WITH (ttl='INF') AS root.ln.**|
++---------+----------+---------------------------------------------------------------------------------------------------------------------------------------+
+```
+
+
+### 2.11 MODELS Table
+
+> This system table is available starting from version V2.0.5.
+
+* Contains information about all models in the database.
+* The table structure is as follows:
+
+| Column Name | Data Type | Column Category | Description                                                                                    |
+| ------------- | ----------- | ----------------- | ------------------------------------------------------------------------------------------------ |
+| model\_id   | STRING    | TAG             | Model name                                                                                     |
+| model\_type | STRING    | ATTRIBUTE       | Model type (Forecast, Anomaly Detection, Custom)                                               |
+| state       | STRING    | ATTRIBUTE       | Model status (Available/Unavailable)                                                           |
+| configs     | STRING    | ATTRIBUTE       | String format of model hyperparameters, consistent with the output of the `show` command   |
+| notes       | STRING    | ATTRIBUTE       | Model description\* Built-in model: Built-in model in IoTDB\* User-defined model: Custom model |
+
+* Query example:
+
+```SQL
+-- Find all built-in forecast models
+IoTDB> select * from information_schema.models where model_type = 'BUILT_IN_FORECAST'
++---------------------+-----------------+------+-------+-----------------------+
+|             model_id|       model_type| state|configs|                  notes|
++---------------------+-----------------+------+-------+-----------------------+
+|       _STLForecaster|BUILT_IN_FORECAST|ACTIVE|   null|Built-in model in IoTDB|
+|     _NaiveForecaster|BUILT_IN_FORECAST|ACTIVE|   null|Built-in model in IoTDB|
+|               _ARIMA|BUILT_IN_FORECAST|ACTIVE|   null|Built-in model in IoTDB|
+|_ExponentialSmoothing|BUILT_IN_FORECAST|ACTIVE|   null|Built-in model in IoTDB|
+|         _HoltWinters|BUILT_IN_FORECAST|ACTIVE|   null|Built-in model in IoTDB|
+|             _sundial|BUILT_IN_FORECAST|ACTIVE|   null|Built-in model in IoTDB|
++---------------------+-----------------+------+-------+-----------------------+
+```
+
+
+### 2.12 FUNCTIONS Table
+
+> This system table is available starting from version V2.0.5.
+
+* Contains information about all functions in the database.
+* The table structure is as follows:
+
+| Column Name      | Data Type | Column Category | Description                                                              |
+| ------------------ | ----------- | ----------------- | -------------------------------------------------------------------------- |
+| function\_name   | STRING    | TAG             | Function name                                                            |
+| function\_type   | STRING    | ATTRIBUTE       | Function type (Built-in/User-defined, Scalar/Aggregation/Table Function) |
+| class\_name(udf) | STRING    | ATTRIBUTE       | Class name if it is a UDF, otherwise null (tentative)                    |
+| state            | STRING    | ATTRIBUTE       | Availability status                                                      |
+
+* Query example:
+
+```SQL
+IoTDB> select * from information_schema.functions where function_type='built-in table function'
++--------------+-----------------------+---------------+---------+
+|function_name |          function_type|class_name(udf)|    state|
++--------------+-----------------------+---------------+---------+
+|      CUMULATE|built-in table function|           null|AVAILABLE|
+|       SESSION|built-in table function|           null|AVAILABLE|
+|           HOP|built-in table function|           null|AVAILABLE|
+|        TUMBLE|built-in table function|           null|AVAILABLE|
+|      FORECAST|built-in table function|           null|AVAILABLE|
+|     VARIATION|built-in table function|           null|AVAILABLE|
+|      CAPACITY|built-in table function|           null|AVAILABLE|
++--------------+-----------------------+---------------+---------+
+```
+
+
+### 2.13 CONFIGURATIONS Table
+
+> This system table is available starting from version V2.0.5.
+
+* Contains all configuration properties of the database.
+* The table structure is as follows:
+
+| Column Name | Data Type | Column Category | Description                  |
+| ------------- | ----------- | ----------------- | ------------------------------ |
+| variable    | STRING    | TAG             | Configuration property name  |
+| value       | STRING    | ATTRIBUTE       | Configuration property value |
+
+* Only administrators are allowed to perform operations on this table.
+* Query example:
+
+```SQL
+IoTDB> select * from information_schema.configurations
++----------------------------------+-----------------------------------------------------------------+
+|                          variable|                                                            value|
++----------------------------------+-----------------------------------------------------------------+
+|                       ClusterName|                                                   defaultCluster|
+|             DataReplicationFactor|                                                                1|
+|           SchemaReplicationFactor|                                                                1|
+|  DataRegionConsensusProtocolClass|                      org.apache.iotdb.consensus.iot.IoTConsensus|
+|SchemaRegionConsensusProtocolClass|                  org.apache.iotdb.consensus.ratis.RatisConsensus|
+|  ConfigNodeConsensusProtocolClass|                  org.apache.iotdb.consensus.ratis.RatisConsensus|
+|               TimePartitionOrigin|                                                                0|
+|             TimePartitionInterval|                                                        604800000|
+|              ReadConsistencyLevel|                                                           strong|
+|           SchemaRegionPerDataNode|                                                                1|
+|             DataRegionPerDataNode|                                                                0|
+|                     SeriesSlotNum|                                                             1000|
+|           SeriesSlotExecutorClass|org.apache.iotdb.commons.partition.executor.hash.BKDRHashExecutor|
+|         DiskSpaceWarningThreshold|                                                             0.05|
+|                TimestampPrecision|                                                               ms|
++----------------------------------+-----------------------------------------------------------------+
+```
+
+
+### 2.14 KEYWORDS Table
+
+> This system table is available starting from version V2.0.5.
+
+* Contains all keywords in the database.
+* The table structure is as follows:
+
+| Column Name | Data Type | Column Category | Description                                     |
+| ------------- | ----------- | ----------------- | ------------------------------------------------- |
+| word        | STRING    | TAG             | Keyword                                         |
+| reserved    | INT32     | ATTRIBUTE       | Whether it is a reserved word (1 = Yes, 0 = No) |
+
+* Query example:
+
+```SQL
+IoTDB> select * from information_schema.keywords limit 10
++----------+--------+
+|      word|reserved|
++----------+--------+
+|    ABSENT|       0|
+|ACTIVATION|       1|
+|  ACTIVATE|       1|
+|       ADD|       0|
+|     ADMIN|       0|
+|     AFTER|       0|
+|   AINODES|       1|
+|       ALL|       0|
+|     ALTER|       1|
+|   ANALYZE|       0|
++----------+--------+
+```
+
+
+### 2.15 NODES Table
+
+> This system table is available starting from version V2.0.5.
+
+* Contains information about all nodes in the database cluster.
+* The table structure is as follows:
+
+| Column Name                                | Data Type | Column Category | Description          |
+| -------------------------------------------- | ----------- | ----------------- | ---------------------- |
+| node\_id                                   | INT32     | TAG             | Node ID              |
+| node\_type                                 | STRING    | ATTRIBUTE       | Node type            |
+| status                                     | STRING    | ATTRIBUTE       | Node status          |
+| internal\_address                          | STRING    | ATTRIBUTE       | Internal RPC address |
+| internal\_port                             | INT32     | ATTRIBUTE       | Internal port        |
+| version                                    | STRING    | ATTRIBUTE       | Version number       |
+| build\_info                                | STRING    | ATTRIBUTE       | Commit ID            |
+| activate\_status (Enterprise Edition only) | STRING    | ATTRIBUTE       | Activation status    |
+
+* Only administrators are allowed to perform operations on this table.
+* Query example:
+
+```SQL
+IoTDB> select * from information_schema.nodes 
++-------+----------+-------+----------------+-------------+-------+----------+
+|node_id| node_type| status|internal_address|internal_port|version|build_info|
++-------+----------+-------+----------------+-------------+-------+----------+
+|      0|ConfigNode|Running|       127.0.0.1|        10710|2.0.5.1|   58d685e|
+|      1|  DataNode|Running|       127.0.0.1|        10730|2.0.5.1|   58d685e|
++-------+----------+-------+----------------+-------------+-------+----------+
+```
+
+
+### 2.16 CONFIG\_NODES Table
+
+> This system table is available starting from version V2.0.5.
+
+* Contains information about all ConfigNodes in the cluster.
+* The table structure is as follows:
+
+| Column Name             | Data Type | Column Category | Description               |
+| ------------------------- | ----------- | ----------------- | --------------------------- |
+| node\_id                | INT32     | TAG             | Node ID                   |
+| config\_consensus\_port | INT32     | ATTRIBUTE       | ConfigNode consensus port |
+| role                    | STRING    | ATTRIBUTE       | ConfigNode role           |
+
+* Only administrators are allowed to perform operations on this table.
+* Query example:
+
+```SQL
+IoTDB> select * from information_schema.config_nodes 
++-------+---------------------+------+
+|node_id|config_consensus_port|  role|
++-------+---------------------+------+
+|      0|                10720|Leader|
++-------+---------------------+------+
+```
+
+
+### 2.17 DATA\_NODES Table
+
+> This system table is available starting from version V2.0.5.
+
+* Contains information about all DataNodes in the cluster.
+* The table structure is as follows:
+
+| Column Name             | Data Type | Column Category | Description                 |
+| ------------------------- | ----------- | ----------------- | ----------------------------- |
+| node\_id                | INT32     | TAG             | Node ID                     |
+| data\_region\_num       | INT32     | ATTRIBUTE       | Number of DataRegions       |
+| schema\_region\_num     | INT32     | ATTRIBUTE       | Number of SchemaRegions     |
+| rpc\_address            | STRING    | ATTRIBUTE       | RPC address                 |
+| rpc\_port               | INT32     | ATTRIBUTE       | RPC port                    |
+| mpp\_port               | INT32     | ATTRIBUTE       | MPP communication port      |
+| data\_consensus\_port   | INT32     | ATTRIBUTE       | DataRegion consensus port   |
+| schema\_consensus\_port | INT32     | ATTRIBUTE       | SchemaRegion consensus port |
+
+* Only administrators are allowed to perform operations on this table.
+* Query example:
+
+```SQL
+IoTDB> select * from information_schema.data_nodes 
++-------+---------------+-----------------+-----------+--------+--------+-------------------+---------------------+
+|node_id|data_region_num|schema_region_num|rpc_address|rpc_port|mpp_port|data_consensus_port|schema_consensus_port|
++-------+---------------+-----------------+-----------+--------+--------+-------------------+---------------------+
+|      1|              4|                4|    0.0.0.0|    6667|   10740|              10760|                10750|
++-------+---------------+-----------------+-----------+--------+--------+-------------------+---------------------+
+```
+
 ## 3. Permission Description
 
 * GRANT/REVOKE operations are not supported for the `information_schema` database or any of its tables.
 * All users can view `information_schema` database details via the `SHOW DATABASES` statement.
 * All users can list system tables via `SHOW TABLES FROM information_schema`.
 * All users can inspect system table structures using the `DESC` statement.
-* Currently, only the root user can query data from system tables via `SELECT`—other users will receive empty result sets.

@@ -39,24 +39,32 @@ IoTDB> show databases
 +------------------+-------+-----------------------+---------------------+---------------------+
 
 IoTDB> show tables from information_schema
-+-------------+-------+
-|    TableName|TTL(ms)|
-+-------------+-------+
-|    databases|    INF|
-|       tables|    INF|
-| pipe_plugins|    INF|
-|subscriptions|    INF|
-|      regions|    INF|
-|      columns|    INF|
-|       topics|    INF|
-|      queries|    INF|
-|        pipes|    INF|
-+-------------+-------+
++--------------+-------+
+|     TableName|TTL(ms)|
++--------------+-------+
+|       columns|    INF|
+|  config_nodes|    INF|
+|configurations|    INF|
+|    data_nodes|    INF|
+|     databases|    INF|
+|     functions|    INF|
+|      keywords|    INF|
+|        models|    INF|
+|         nodes|    INF|
+|  pipe_plugins|    INF|
+|         pipes|    INF|
+|       queries|    INF|
+|       regions|    INF|
+| subscriptions|    INF|
+|        tables|    INF|
+|        topics|    INF|
+|         views|    INF|
++--------------+-------+
 ```
 
 ## 2. 系统表
 
-* 名称：`DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS`（详细介绍见后面小节）
+* 名称：`DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS`，`VIEWS`，`MODELS`，`FUNCTIONS`，`CONFIGURATIONS`，`KEYWORDS`，`NODES`、`CONFIG_NODES`、`DATA_NODES`（详细介绍见后面小节）
 * 操作：只读，只支持`SELECT`, `COUNT/SHOW DEVICES`, `DESC`，不支持对于表结构 / 内容的任意修改，如果修改将会报错：`"The database 'information_schema' can only be queried"`
 * 列名：系统表的列名均默认为小写，且用`_`分隔
 
@@ -75,6 +83,7 @@ IoTDB> show tables from information_schema
 | schema\_region\_group\_num  | INT32    | ATTRIBUTE | 元数据分区数量 |
 | data\_region\_group\_num    | INT32    | ATTRIBUTE | 数据分区数量   |
 
+* 查询结果只展示自身对该数据库本身或库中任意表有任意权限的数据库集合
 * 查询示例：
 
 ```sql
@@ -101,24 +110,33 @@ IoTDB> select * from information_schema.databases
 | comment     | STRING   | ATTRIBUTE | 注释         |
 
 * 说明：status 可能为`USING`/`PRE_CREATE`/`PRE_DELETE`，具体见表管理中[查看表](../Basic-Concept/Table-Management.md#12-查看表)的相关描述
+* 查询结果只展示自身有任意权限的表集合
 * 查询示例：
 
 ```sql
 IoTDB> select * from information_schema.tables
-+------------------+-------------+-----------+------+-------+
-|          database|   table_name|    ttl(ms)|status|comment|
-+------------------+-------------+-----------+------+-------+
-|information_schema|    databases|        INF| USING|   null|
-|information_schema|       tables|        INF| USING|   null|
-|information_schema| pipe_plugins|        INF| USING|   null|
-|information_schema|subscriptions|        INF| USING|   null|
-|information_schema|      regions|        INF| USING|   null|
-|information_schema|      columns|        INF| USING|   null|
-|information_schema|       topics|        INF| USING|   null|
-|information_schema|      queries|        INF| USING|   null|
-|information_schema|        pipes|        INF| USING|   null|
-|         database1|       table1|31536000000| USING|   null|
-+------------------+-------------+-----------+------+-------+
++------------------+--------------+-----------+------+-------+-----------+
+|          database|    table_name|    ttl(ms)|status|comment| table_type|
++------------------+--------------+-----------+------+-------+-----------+
+|information_schema|     databases|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|        models|        INF| USING|   null|SYSTEM VIEW|
+|information_schema| subscriptions|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|       regions|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|     functions|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|      keywords|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|       columns|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|        topics|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|configurations|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|       queries|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|        tables|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|  pipe_plugins|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|         nodes|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|    data_nodes|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|         pipes|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|         views|        INF| USING|   null|SYSTEM VIEW|
+|information_schema|  config_nodes|        INF| USING|   null|SYSTEM VIEW|
+|         database1|        table1|31536000000| USING|   null| BASE TABLE|
++------------------+--------------+-----------+------+-------+-----------+
 ```
 
 ### 2.3 REGIONS 表
@@ -142,6 +160,7 @@ IoTDB> select * from information_schema.tables
 | create\_time        | TIMESTAMP | ATTRIBUTE | 创建时间                                                                                                  |
 | tsfile\_size\_bytes | INT64     | ATTRIBUTE | 可统计的 DataRegion：含有 TsFile 的总文件大小；不可统计的 DataRegion（Unknown）：-1；SchemaRegion：null； |
 
+* 仅管理员可执行查询操作
 * 查询示例：
 
 ```SQL
@@ -169,6 +188,7 @@ IoTDB> select * from information_schema.regions
 | statement     | STRING    | ATTRIBUTE | 查询sql                                        |
 | user          | STRING    | ATTRIBUTE | 发起查询的用户                                 |
 
+* 普通用户查询结果仅显示自身执行的查询；管理员显示全部。
 * 查询示例：
 
 ```SQL
@@ -195,10 +215,9 @@ IoTDB> select * from information_schema.queries
 | status       | STRING   | ATTRIBUTE | 列状态       |
 | comment      | STRING   | ATTRIBUTE | 列注释       |
 
-说明： status 可能为`USING`/`PRE_DELETE`，具体见表管理中[查看表的列](../Basic-Concept/Table-Management.html#13-查看表的列)的相关描述
-
-> 用户只能查出自己有展示权限的 table
-
+说明：
+* status 可能为`USING`/`PRE_DELETE`，具体见表管理中[查看表的列](../Basic-Concept/Table-Management.html#13-查看表的列)的相关描述
+* 查询结果只展示自身有任意权限的表的列信息
 * 查询示例：
 
 ```SQL
@@ -236,6 +255,7 @@ IoTDB> select * from information_schema.columns where database = 'database1'
 | remaining\_event\_count       | INT64     | ATTRIBUTE | 剩余 event 数量，如果 Unknown 则为 -1 |
 | estimated\_remaining\_seconds | DOUBLE    | ATTRIBUTE | 预估剩余时间，如果 Unknown 则为 -1    |
 
+* 仅管理员可执行操作
 * 查询示例：
 
 ```SQL
@@ -286,6 +306,7 @@ IoTDB> select * from information_schema.pipe_plugins
 | consumer\_group\_name | STRING   | TAG       | 消费者组名称 |
 | subscribed\_consumers | STRING   | ATTRIBUTE | 订阅的消费者 |
 
+* 仅管理员可执行操作
 * 查询示例：
 
 ```SQL
@@ -307,6 +328,7 @@ IoTDB> select * from information_schema.subscriptions where topic_name = 'topic_
 | topic\_name    | STRING   | TAG       | 订阅主题名称 |
 | topic\_configs | STRING   | ATTRIBUTE | 订阅主题配置 |
 
+* 仅管理员可执行操作
 * 查询示例：
 
 ```SQL
@@ -318,10 +340,254 @@ IoTDB> select * from information_schema.topics
 +----------+----------------------------------------------------------------+
 ```
 
+### 2.10 VIEWS 表
+
+> 该系统表从 V 2.0.5 版本开始提供
+
+* 包含数据库内所有的表视图信息
+* 表结构如下表所示：
+
+| 列名             | 数据类型 | 列类型    | 说明           |
+| ------------------ | ---------- | ----------- | ---------------- |
+| database         | STRING   | TAG       | 数据库名称     |
+| table\_name      | STRING   | TAG       | 视图名称       |
+| view\_definition | STRING   | ATTRIBUTE | 视图的创建语句 |
+
+* 查询结果只展示自身有任意权限的视图集合
+* 查询示例：
+
+```SQL
+IoTDB> select * from information_schema.views
++---------+----------+---------------------------------------------------------------------------------------------------------------------------------------+
+| database|table_name|                                                                                                                        view_definition|
++---------+----------+---------------------------------------------------------------------------------------------------------------------------------------+
+|database1|        ln|CREATE VIEW "ln" ("device" STRING TAG,"model" STRING TAG,"status" BOOLEAN FIELD,"hardware" STRING FIELD) WITH (ttl='INF') AS root.ln.**|
++---------+----------+---------------------------------------------------------------------------------------------------------------------------------------
+```
+
+### 2.11 MODELS 表
+
+> 该系统表从 V 2.0.5 版本开始提供
+
+* 包含数据库内所有的模型信息
+* 表结构如下表所示：
+
+| 列名        | 数据类型 | 列类型    | 说明                                                                  |
+| ------------- | ---------- | ----------- | ----------------------------------------------------------------------- |
+| model\_id   | STRING   | TAG       | 模型名称                                                              |
+| model\_type | STRING   | ATTRIBUTE | 模型类型（预测，异常检测，自定义）                                    |
+| state       | STRING   | ATTRIBUTE | 模型状态（是否可用）                                                  |
+| configs     | STRING   | ATTRIBUTE | 模型的超参数的 string 格式，与正常的 show 相同                        |
+| notes       | STRING   | ATTRIBUTE | 模型注释* 内置 model：Built-in model in IoTDB* 用户的 model：自定义 |
+
+* 查询示例：
+
+```SQL
+-- 找到类型为内置预测的所有模型
+IoTDB> select * from information_schema.models where model_type = 'BUILT_IN_FORECAST'
++---------------------+-----------------+------+-------+-----------------------+
+|             model_id|       model_type| state|configs|                  notes|
++---------------------+-----------------+------+-------+-----------------------+
+|       _STLForecaster|BUILT_IN_FORECAST|ACTIVE|   null|Built-in model in IoTDB|
+|     _NaiveForecaster|BUILT_IN_FORECAST|ACTIVE|   null|Built-in model in IoTDB|
+|               _ARIMA|BUILT_IN_FORECAST|ACTIVE|   null|Built-in model in IoTDB|
+|_ExponentialSmoothing|BUILT_IN_FORECAST|ACTIVE|   null|Built-in model in IoTDB|
+|         _HoltWinters|BUILT_IN_FORECAST|ACTIVE|   null|Built-in model in IoTDB|
+|             _sundial|BUILT_IN_FORECAST|ACTIVE|   null|Built-in model in IoTDB|
++---------------------+-----------------+------+-------+-----------------------+
+```
+
+### 2.12 FUNCTIONS 表
+
+> 该系统表从 V 2.0.5 版本开始提供
+
+* 包含数据库内所有的函数信息
+* 表结构如下表所示：
+
+| 列名             | 数据类型 | 列类型    | 说明                                    |
+| ------------------ | ---------- | ----------- | ----------------------------------------- |
+| function\_name   | STRING   | TAG       | 函数名称                                |
+| function\_type   | STRING   | ATTRIBUTE | 函数类型（内/外置数值/聚合/表函数）     |
+| class\_name(udf) | STRING   | ATTRIBUTE | 如为 UDF，则为类名，否则为 null（暂定） |
+| state            | STRING   | ATTRIBUTE | 是否可用                                |
+
+* 查询示例：
+
+```SQL
+IoTDB> select * from information_schema.functions where function_type='built-in table function'
++--------------+-----------------------+---------------+---------+
+|function_table|          function_type|class_name(udf)|    state|
++--------------+-----------------------+---------------+---------+
+|      CUMULATE|built-in table function|           null|AVAILABLE|
+|       SESSION|built-in table function|           null|AVAILABLE|
+|           HOP|built-in table function|           null|AVAILABLE|
+|        TUMBLE|built-in table function|           null|AVAILABLE|
+|      FORECAST|built-in table function|           null|AVAILABLE|
+|     VARIATION|built-in table function|           null|AVAILABLE|
+|      CAPACITY|built-in table function|           null|AVAILABLE|
++--------------+-----------------------+---------------+---------+
+```
+
+### 2.13 CONFIGURATIONS表
+
+> 该系统表从 V 2.0.5 版本开始提供
+
+* 包含数据库内所有的属性信息
+* 表结构如下表所示：
+
+| 列名     | 数据类型 | 列类型    | 说明   |
+| ---------- | ---------- | ----------- | -------- |
+| variable | STRING   | TAG       | 属性名 |
+| value    | STRING   | ATTRIBUTE | 属性值 |
+
+* 仅管理员可执行操作
+* 查询示例：
+
+```SQL
+IoTDB> select * from information_schema.configurations
++----------------------------------+-----------------------------------------------------------------+
+|                          variable|                                                            value|
++----------------------------------+-----------------------------------------------------------------+
+|                       ClusterName|                                                   defaultCluster|
+|             DataReplicationFactor|                                                                1|
+|           SchemaReplicationFactor|                                                                1|
+|  DataRegionConsensusProtocolClass|                      org.apache.iotdb.consensus.iot.IoTConsensus|
+|SchemaRegionConsensusProtocolClass|                  org.apache.iotdb.consensus.ratis.RatisConsensus|
+|  ConfigNodeConsensusProtocolClass|                  org.apache.iotdb.consensus.ratis.RatisConsensus|
+|               TimePartitionOrigin|                                                                0|
+|             TimePartitionInterval|                                                        604800000|
+|              ReadConsistencyLevel|                                                           strong|
+|           SchemaRegionPerDataNode|                                                                1|
+|             DataRegionPerDataNode|                                                                0|
+|                     SeriesSlotNum|                                                             1000|
+|           SeriesSlotExecutorClass|org.apache.iotdb.commons.partition.executor.hash.BKDRHashExecutor|
+|         DiskSpaceWarningThreshold|                                                             0.05|
+|                TimestampPrecision|                                                               ms|
++----------------------------------+-----------------------------------------------------------------+
+```
+
+### 2.14 KEYWORDS 表
+
+> 该系统表从 V 2.0.5 版本开始提供
+
+* 包含数据库内所有的关键字信息
+* 表结构如下表所示：
+
+| 列名     | 数据类型 | 列类型    | 说明                           |
+| ---------- | ---------- | ----------- | -------------------------------- |
+| word     | STRING   | TAG       | 关键字                         |
+| reserved | INT32    | ATTRIBUTE | 是否为保留字，1表示是，0表示否 |
+
+* 查询示例：
+
+```SQL
+IoTDB> select * from information_schema.keywords limit 10
++----------+--------+
+|      word|reserved|
++----------+--------+
+|    ABSENT|       0|
+|ACTIVATION|       1|
+|  ACTIVATE|       1|
+|       ADD|       0|
+|     ADMIN|       0|
+|     AFTER|       0|
+|   AINODES|       1|
+|       ALL|       0|
+|     ALTER|       1|
+|   ANALYZE|       0|
++----------+--------+
+```
+
+### 2.15 NODES 表
+
+> 该系统表从 V 2.0.5 版本开始提供
+
+* 包含数据库内所有的节点信息
+* 表结构如下表所示：
+
+| 列名                         | 数据类型 | 列类型    | 说明          |
+| ------------------------------ | ---------- | ----------- | --------------- |
+| node\_id                     | INT32    | TAG       | 节点 ID       |
+| node\_type                   | STRING   | ATTRIBUTE | 节点类型      |
+| status                       | STRING   | ATTRIBUTE | 节点状态      |
+| internal\_address            | STRING   | ATTRIBUTE | 内部 rpc 地址 |
+| internal\_port               | INT32    | ATTRIBUTE | 内部端口      |
+| version                      | STRING   | ATTRIBUTE | 版本号        |
+| build\_info                  | STRING   | ATTRIBUTE | CommitID      |
+| activate\_status（仅企业版） | STRING   | ATTRIBUTE | 激活状态      |
+
+* 仅管理员可执行操作
+* 查询示例：
+
+```SQL
+IoTDB> select * from information_schema.nodes 
++-------+----------+-------+----------------+-------------+-------+----------+
+|node_id| node_type| status|internal_address|internal_port|version|build_info|
++-------+----------+-------+----------------+-------------+-------+----------+
+|      0|ConfigNode|Running|       127.0.0.1|        10710|2.0.5.1|   58d685e|
+|      1|  DataNode|Running|       127.0.0.1|        10730|2.0.5.1|   58d685e|
++-------+----------+-------+----------------+-------------+-------+----------+
++----------+--------+
+```
+
+### 2.16 CONFIG\_NODES 表
+
+> 该系统表从 V 2.0.5 版本开始提供
+
+* 包含数据库内所有的配置节点信息
+* 表结构如下表所示：
+
+| 列名                    | 数据类型 | 列类型    | 说明                |
+| ------------------------- | ---------- | ----------- | --------------------- |
+| node\_id                | INT32    | TAG       | 节点 ID             |
+| config\_consensus\_port | INT32    | ATTRIBUTE | configNode 共识端口 |
+| role                    | STRING   | ATTRIBUTE | configNode 节点角色 |
+
+* 仅管理员可执行操作
+* 查询示例：
+
+```SQL
+IoTDB> select * from information_schema.config_nodes 
++-------+---------------------+------+
+|node_id|config_consensus_port|  role|
++-------+---------------------+------+
+|      0|                10720|Leader|
++-------+---------------------+------+
+```
+
+### 2.17 DATA\_NODES 表
+
+> 该系统表从 V 2.0.5 版本开始提供
+
+* 包含数据库内所有的数据节点信息
+* 表结构如下表所示：
+
+| 列名                   | 数据类型 | 列类型    | 说明                  |
+| ------------------------ | ---------- | ----------- | ----------------------- |
+| node\_id               | INT32    | TAG       | 节点 ID               |
+| data\_region\_num      | INT32    | ATTRIBUTE | DataRegion 数量       |
+| schema\_region\_num    | INT32    | ATTRIBUTE | SchemaRegion 数量     |
+| rpc\_address           | STRING   | ATTRIBUTE | Rpc 地址              |
+| rpc\_port              | INT32    | ATTRIBUTE | Rpc 端口              |
+| mpp\_port              | INT32    | ATTRIBUTE | MPP 通信端口          |
+| data\_consensus\_port  | INT32    | ATTRIBUTE | DataRegion 共识端口   |
+| scema\_consensus\_port | INT32    | ATTRIBUTE | SchemaRegion 共识端口 |
+
+* 仅管理员可执行操作
+* 查询示例：
+
+```SQL
+IoTDB> select * from information_schema.data_nodes 
++-------+---------------+-----------------+-----------+--------+--------+-------------------+---------------------+
+|node_id|data_region_num|schema_region_num|rpc_address|rpc_port|mpp_port|data_consensus_port|schema_consensus_port|
++-------+---------------+-----------------+-----------+--------+--------+-------------------+---------------------+
+|      1|              4|                4|    0.0.0.0|    6667|   10740|              10760|                10750|
++-------+---------------+-----------------+-----------+--------+--------+-------------------+---------------------+
+```
+
 ## 3. 权限说明
 
 * 不支持通过`GRANT/REVOKE`语句对 `information_schema` 数据库及其下任何表进行权限操作
 * 支持任意用户通过`show databases`语句查看`information_schema`数据库相关信息
 * 支持任意用户通过`show tables from information_schema` 语句查看所有系统表相关信息
-* 支持任意用户通过`desc`语句查看任意系统表
-* 目前只支持 `root `用户通过`select`语句从系统表中查询数据，其他用户查询时展示空结果集
+* 支持任意用户通过`desc`语句查看任意系统表 
