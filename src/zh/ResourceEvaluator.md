@@ -1,7 +1,8 @@
 ---
-home: true
-heroText: ''
+toc: false
+containerClass: 'calc-page'
 ---
+
 <!--
 
     Licensed to the Apache Software Foundation (ASF) under one
