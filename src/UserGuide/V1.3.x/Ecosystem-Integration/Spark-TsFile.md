@@ -19,7 +19,7 @@
 
 -->
 
-# Apache Spark(TsFile)
+# Apache Spark
 
 ## About Spark-TsFile-Connector
 

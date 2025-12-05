@@ -30,6 +30,7 @@ export const enSidebar = {
       children: [
         { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_apache' },
         { text: 'Scenario', link: 'Scenario' },
+        { text: 'Release History', link: 'Release-history_apache' },
       ],
     },
     {
@@ -96,6 +97,7 @@ export const enSidebar = {
           children: [
             { text: 'Delete Data', link: 'Delete-Data' },
             { text: 'TTL Delete Data', link: 'TTL-Delete' },
+            { text: 'SpaceTL Delete Data', link: 'SpaceTL-Delete' },
           ],
         },
       ],
@@ -149,7 +151,7 @@ export const enSidebar = {
       prefix: 'Tools-System/',
       // children: 'structure',
       children: [
-        { text: 'Command Line Interface (CLI)', link: 'CLI' },
+        { text: 'Command Line Interface (CLI)', link: 'CLI_apache' },
         { text: 'Monitor Tool', link: 'Monitor-Tool_apache' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
         { text: 'Cluster Management Tool', link: 'Maintenance-Tool_apache' },

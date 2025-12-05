@@ -21,7 +21,7 @@
 
 # AINode
 
-AINode is an IoTDB native node designed to support the registration, management, and invocation of large-scale time series models. It comes with industry-leading proprietary time series models such as Timer and Sundial. These models can be invoked through standard SQL statements, enabling real-time inference of time series data at the millisecond level, and supporting application scenarios such as trend forecasting, missing value imputation, and anomaly detection for time series data.
+AINode is a native IoTDB node that supports the registration, management, and invocation of time-series-related models. It comes with built-in industry-leading self-developed time-series large models, such as the Timer series developed by Tsinghua University. These models can be invoked through standard SQL statements, enabling real-time inference of time series data at the millisecond level, and supporting application scenarios such as trend forecasting, missing value imputation, and anomaly detection for time series data.
 
 
 The system architecture is shown below:
@@ -53,10 +53,10 @@ Compared with building a machine learning service alone, it has the following ad
 
 ## 2. Basic Concepts
 
-- **Model**: a machine learning model that takes time-series data as input and outputs the results or decisions of an analysis task. Model is the basic management unit of AINode, which supports adding (registration), deleting, checking, and using (inference) of models.
-- **Create**: Load externally designed or trained model files or algorithms into MLNode for unified management and use by IoTDB.
-- **Inference**: The process of using the created model to complete the timing analysis task applicable to the model on the specified timing data.
-- **Built-in capabilities**: AINode comes with machine learning algorithms or home-grown models for common timing analysis scenarios (e.g., prediction and anomaly detection).
+- **Model**: A machine learning model takes time series data as input and outputs analysis task results or decisions. Models are the basic management units of AINode, supporting model operations such as creation (registration), deletion, query, modification (fine-tuning), and usage (inference).
+- **Create**: Load externally designed or trained model files/algorithms into AINode for unified management and usage by IoTDB.
+- **Inference**: Use the created model to complete time series analysis tasks applicable to the model on specified time series data.
+- **Built-in Capabilities**: AINode comes with machine learning algorithms or self-developed models for common time series analysis scenarios (e.g., forecasting and anomaly detection).
 
 ::: center
 <img src="/img/AInode2.png" style="zoom:50%" />
@@ -64,102 +64,102 @@ Compared with building a machine learning service alone, it has the following ad
 
 ## 3. Installation and Deployment
 
-The deployment of AINode can be found in the document [Deployment Guidelines](../Deployment-and-Maintenance/AINode_Deployment_timecho.md#AINode-部署) .
-
+The deployment of AINode can be found in the document [Deployment Guidelines](../Deployment-and-Maintenance/AINode_Deployment_timecho.md#ainode-deployment) .
 
 ## 4. Usage Guidelines
 
-AINode provides model creation and deletion process for deep learning models related to timing data. Built-in models do not need to be created and deleted, they can be used directly, and the built-in model instances created after inference is completed will be destroyed automatically.
+AINode provides model creation and deletion functions for time series models. Built-in models do not require creation and can be used directly.
+
 
 ### 4.1 Registering Models
 
-A trained deep learning model can be registered by specifying the vector dimensions of the model's inputs and outputs, which can be used for model inference. 
 
-Models that meet the following criteria can be registered in AINode:
-1. Models trained on PyTorch 2.1.0 and 2.2.0 versions supported by AINode should avoid using features from versions 2.2.0 and above.
-2. AINode supports models stored using PyTorch JIT, and the model file needs to include the parameters and structure of the model.
-3. The input sequence of the model can contain one or more columns, and if there are multiple columns, they need to correspond to the model capability and model configuration file.
-4. The input and output dimensions of the model must be clearly defined in the `config.yaml` configuration file. When using the model, it is necessary to strictly follow the input-output dimensions defined in the `config.yaml` configuration file. If the number of input and output columns does not match the configuration file, it will result in errors.
+Trained deep learning models can be registered by specifying their input and output vector dimensions for inference.
 
-The following is the SQL syntax definition for model registration.
+Models that meet the following criteria can be registered with AINode:
+
+1. AINode currently supports models trained with PyTorch 2.4.0. Features above version 2.4.0 should be avoided.
+2. AINode supports models stored using PyTorch JIT (`model.pt`), which must include both the model structure and weights.
+3. The model input sequence can include single or multiple columns. If multi-column, it must match the model capabilities and configuration file.
+4. Model configuration parameters must be clearly defined in the `config.yaml` file. When using the model, the input and output dimensions defined in `config.yaml` must be strictly followed. Mismatches with the configuration file will cause errors.
+
+The SQL syntax for model registration is defined as follows:
 
 ```SQL
 create model <model_name> using uri <uri>
 ```
 
-The specific meanings of the parameters in the SQL are as follows:
+Detailed meanings of SQL parameters:
 
-- model_name: a globally unique identifier for the model, which cannot be repeated. The model name has the following constraints:
+- **model_name**: The global unique identifier for the model, non-repeating. Model names have the following constraints:
+  - Allowed characters: [0-9 a-z A-Z _] (letters, numbers, underscores)
+  - Length: 2-64 characters
+  - Case-sensitive
+- **uri**: The resource path of the model registration files, which should include the **model structure and weight file `model.pt` and the model configuration file `config.yaml`**
 
-  - Identifiers [ 0-9 a-z A-Z _ ] (letters, numbers, underscores) are allowed.
-  - Length is limited to 2-64 characters
-  - Case sensitive
+  - **Model structure and weight file**: The weight file generated after model training, currently supporting `.pt` files from PyTorch training.
 
-- uri: resource path to the model registration file, which should contain the **model weights model.pt file and the model's metadata description file config.yaml**.
+  - **Model configuration file**: Parameters related to the model structure provided during registration, which must include input and output dimensions for inference:
 
-  - Model weight file: the weight file obtained after the training of the deep learning model is completed, currently supporting pytorch training of the .pt file
+  | **Parameter Name** | **Description**           | **Example**            |
+    | ------------ | ---------------------------- | -------- |
+    | input_shape  | Rows and columns of model input | [96,2]   |
+    | output_shape | Rows and columns of model output | [48,2]   |  
+  
+  In addition to inference, data types of input and output can also be specified:
 
-  - yaml metadata description file: parameters related to the model structure that need to be provided when the model is registered, which must contain the input and output dimensions of the model for model inference:
+  | **Parameter Name** | **Description**           | **Example**            |
+  | ------------------ | ------------------------- | ---------------------- |
+  | input_type         | Data type of model input  | ['float32', 'float32'] |
+  | output_type        | Data type of model output | ['float32', 'float32'] |
 
-    - | **Parameter name** | **Parameter description** | **Example** |
-      | ------------ | ---------------------------- | -------- |
-      | input_shape | Rows and columns of model inputs for model inference | [96,2] |
-      | output_shape | rows and columns of model outputs, for model inference | [48,2] |
+  Additional notes can be specified for model management display:
 
-    - In addition to model inference, the data types of model input and output can be specified:
+  | **Parameter Name** | **Description**                               | **Example**                                  |
+  | ------------------ | --------------------------------------------- | -------------------------------------------- |
+  | attributes         | Optional notes set by users for model display | 'model_type': 'dlinear', 'kernel_size': '25' |
 
-    - | **Parameter name** | **Parameter description** | **Example** |
-      | ----------- | ------------------ | --------------------- |
-      | input_type | model input data type | ['float32','float32'] |
-      | output_type | data type of the model output | ['float32','float32'] |
+In addition to registering local model files, remote resource paths can be specified via URIs for registration, using open-source model repositories (e.g., HuggingFace).
 
-    - In addition to this, additional notes can be specified for display during model management
-
-    - | **Parameter name** | **Parameter description** | **Examples** |
-      | ---------- | ---------------------------------------------- | ------------------------------------------- |
-      | attributes | optional, user-defined model notes for model display | 'model_type': 'dlinear','kernel_size': '25' |
-
-
-In addition to registration of local model files, registration can also be done by specifying remote resource paths via URIs, using open source model repositories (e.g. HuggingFace).
 
 #### Example
 
-In the current example folder, it contains model.pt and config.yaml files, model.pt is the training get, and the content of config.yaml is as follows:
+The current example folder contains model.pt (trained model) and config.yaml with the following content:
 
 ```YAML
-configs.                
-    # Required options
-    input_shape: [96, 2] # The model receives data in 96 rows x 2 columns.
-    output_shape: [48, 2] # Indicates that the model outputs 48 rows x 2 columns.
+configs:                
+    # Required
+    input_shape: [96, 2]      # Model accepts 96 rows x 2 columns of data
+    output_shape: [48, 2]     # Model outputs 48 rows x 2 columns of data
     
-    # Optional Default is all float32 and the number of columns is the number of columns in the shape.
-    input_type: ["int64", "int64"] # Input data type, need to match the number of columns.
-    output_type: ["text", "int64"] #Output data type, need to match the number of columns.
+    # Optional (default to all float32, column count matches shape)
+    input_type: ["int64", "int64"]  # Data types of inputs, must match input column count
+    output_type: ["text", "int64"]  # Data types of outputs, must match output column count
 
-attributes: # Optional user-defined notes for the input.
+attributes:           # Optional user-defined notes
    'model_type': 'dlinear'
    'kernel_size': '25'
 ```
 
-Specify this folder as the load path to register the model.
+Register the model by specifying this folder as the loading path:
 
 ```SQL
-IoTDB> create model dlinear_example using uri "file://. /example"
+IoTDB> create model dlinear_example using uri "file://./example"
 ```
 
-Alternatively, you can download the corresponding model file from huggingFace and register it.
+Models can also be downloaded from HuggingFace for registration:
 
 ```SQL
-IoTDB> create model dlinear_example using uri "https://huggingface.com/IoTDBML/dlinear/"
+IoTDB> create model dlinear_example using uri "https://huggingface.co/google/timesfm-2.0-500m-pytorch"
 ```
 
-After the SQL is executed, the registration process will be carried out asynchronously, and you can view the registration status of the model through the model showcase (see the Model Showcase section), and the time consumed for successful registration is mainly affected by the size of the model file.
+After SQL execution, registration proceeds asynchronously. The registration status can be checked via model display (see Model Display section). The registration success time mainly depends on the model file size.
 
-Once the model registration is complete, you can call specific functions and perform model inference by using normal queries.
+Once registered, the model can be invoked for inference through normal query syntax.
 
 ### 4.2 Viewing Models
 
-Successfully registered models can be queried for model-specific information through the show models command. The SQL definition is as follows:
+Registered models can be queried using the `show models` command. The SQL definitions are:
 
 ```SQL
 show models
@@ -167,53 +167,51 @@ show models
 show models <model_name>
 ```
 
-In addition to displaying information about all models directly, you can specify a model id to view information about a specific model. The results of the model show contain the following information:
+In addition to displaying all models, specifying a `model_id` shows details of a specific model. The display includes:
 
-| **ModelId** | **State** | **Configs** | **Attributes** |
-| ------------ | ------------------------------------- | ---------------------------------------------- | -------------- |
-| Model Unique Identifier | Model Registration Status (LOADING, ACTIVE, DROPPING) | InputShape, outputShapeInputTypes, outputTypes | Model Notes |
+| **ModelId** | **State**                                                 | **Configs**                                      | **Attributes** |
+| ----------- | --------------------------------------------------------- | ------------------------------------------------ | -------------- |
+| Unique ID   | Registration status (INACTIVE, LOADING, ACTIVE,TRAINING,FAILED, DROPPING) | InputShape, outputShape, inputTypes, outputTypes | User notes     |
 
-State is used to show the current state of model registration, which consists of the following three stages
+**State descriptions:**
 
-- **LOADING**: The corresponding model meta information has been added to the configNode, and the model file is being transferred to the AINode node.
-- **ACTIVE**: The model has been set up and the model is in the available state
-- **DROPPING**: Model deletion is in progress, model related information is being deleted from configNode and AINode.
-- **UNAVAILABLE**: Model creation failed, you can delete the failed model_name by drop model.
+- **INACTIVE**: The model is in an unavailable state.
+- **LOADING**: The model is being loaded.
+- **ACTIVE**: The model is in an available state.
+- **TRAINING**: The model is in the fine-tuning state.
+- **FAILED**: The model fine-tuning failed.
+- **DROPPING**: The model is being deleted.
 
 #### Example
 
 ```SQL
 IoTDB> show models
 
-
-+---------------------+--------------------------+-----------+----------------------------+-----------------------+
-|              ModelId|                 ModelType|      State|                     Configs|                  Notes|
-+---------------------+--------------------------+-----------+----------------------------+-----------------------+
-|      dlinear_example|              USER_DEFINED|     ACTIVE|           inputShape:[96,2]|                       |
-|                     |                          |           |          outputShape:[48,2]|                       |
-|                     |                          |           | inputDataType:[float,float]|                       |
-|                     |                          |           |outputDataType:[float,float]|                       | 
-|       _STLForecaster|         BUILT_IN_FORECAST|     ACTIVE|                            |Built-in model in IoTDB|
-|     _NaiveForecaster|         BUILT_IN_FORECAST|     ACTIVE|                            |Built-in model in IoTDB|
-|               _ARIMA|         BUILT_IN_FORECAST|     ACTIVE|                            |Built-in model in IoTDB|
-|_ExponentialSmoothing|         BUILT_IN_FORECAST|     ACTIVE|                            |Built-in model in IoTDB|
-|         _GaussianHMM|BUILT_IN_ANOMALY_DETECTION|     ACTIVE|                            |Built-in model in IoTDB|
-|              _GMMHMM|BUILT_IN_ANOMALY_DETECTION|     ACTIVE|                            |Built-in model in IoTDB|
-|               _Stray|BUILT_IN_ANOMALY_DETECTION|     ACTIVE|                            |Built-in model in IoTDB|
-+---------------------+--------------------------+-----------+------------------------------------------------------------+-----------------------+
++---------------------+--------------------+--------+--------+
+|              ModelId|           ModelType|Category|   State|
++---------------------+--------------------+--------+--------+
+|                arima|               Arima|BUILT-IN|  ACTIVE|
+|          holtwinters|         HoltWinters|BUILT-IN|  ACTIVE|
+|exponential_smoothing|ExponentialSmoothing|BUILT-IN|  ACTIVE|
+|     naive_forecaster|     NaiveForecaster|BUILT-IN|  ACTIVE|
+|       stl_forecaster|       StlForecaster|BUILT-IN|  ACTIVE|
+|         gaussian_hmm|         GaussianHmm|BUILT-IN|  ACTIVE|
+|              gmm_hmm|              GmmHmm|BUILT-IN|  ACTIVE|
+|                stray|               Stray|BUILT-IN|  ACTIVE|
+|             timer_xl|            Timer-XL|BUILT-IN|  ACTIVE|
+|              sundial|       Timer-Sundial|BUILT-IN|  ACTIVE|
++---------------------+--------------------+--------+--------+
 ```
 
-We have registered the corresponding model earlier, you can view the model status through the corresponding designation, active indicates that the model is successfully registered and can be used for inference.
+### 4.3 Deleting Models
 
-### 4.3 Delete Model
-
-For a successfully registered model, the user can delete it via SQL. In addition to deleting the meta information on the configNode, this operation also deletes all the related model files under the AINode. The SQL is as follows:
+Registered models can be deleted via SQL, which removes all related files under AINode:
 
 ```SQL
-drop model <model_name>
+drop model <model_id>
 ```
 
-You need to specify the model model_name that has been successfully registered to delete the corresponding model. Since model deletion involves the deletion of data on multiple nodes, the operation will not be completed immediately, and the state of the model at this time is DROPPING, and the model in this state cannot be used for model inference.
+Specify the registered `model_id` to delete the model. Since deletion involves data cleanup, the operation is not immediate, and the model state becomes `DROPPING`, during which it cannot be used for inference. **Note:** Built-in models cannot be deleted.
 
 ### 4.4 Using Built-in Model Reasoning
 
@@ -221,7 +219,12 @@ The SQL syntax is as follows:
 
 
 ```SQL
-call inference(<built_in_model_name>,sql[,<parameterName>=<parameterValue>])
+call inference(<model_id>,inputSql,(<parameterName>=<parameterValue>)*)
+
+window_function:
+    head(window_size)
+    tail(window_size)
+    count(window_size,sliding_step)
 ```
 
 Built-in model inference does not require a registration process, the inference function can be used by calling the inference function through the call keyword, and its corresponding parameters are described as follows:
@@ -229,6 +232,8 @@ Built-in model inference does not require a registration process, the inference 
 - **built_in_model_name**: built-in model name
 - **parameterName**: parameter name
 - **parameterValue**: parameter value
+
+- **Note**: To use a built-in time series large model for inference, the corresponding model weights must be stored locally in the directory `/IOTDB_AINODE_HOME/data/ainode/models/weights/model_id/`. If the weights are not present locally, they will be automatically downloaded from HuggingFace. Ensure your environment has direct access to HuggingFace.
 
 #### Built-in Models and Parameter Descriptions
 
@@ -244,60 +249,6 @@ The following machine learning models are currently built-in, please refer to th
 | GMMHMM               | _GMMHMM               | Annotation     | [GMMHMM Parameter description](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.detection.hmm_learn.gmm.GMMHMM.html)                                                                    |
 | Stray                | _Stray                | Anomaly detection | [Stray Parameter description](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.detection.stray.STRAY.html)                                                         |
 
-
-#### Example
-
-The following is an example of an operation using built-in model inference. The built-in Stray model is used for anomaly detection algorithm. The input is `[144,1]` and the output is `[144,1]`. We use it for reasoning through SQL.
-
-```SQL
-IoTDB> select * from root.eg.airline
-+-----------------------------+------------------+
-|                         Time|root.eg.airline.s0|
-+-----------------------------+------------------+
-|1949-01-31T00:00:00.000+08:00|             224.0|
-|1949-02-28T00:00:00.000+08:00|             118.0|
-|1949-03-31T00:00:00.000+08:00|             132.0|
-|1949-04-30T00:00:00.000+08:00|             129.0|
-......
-|1960-09-30T00:00:00.000+08:00|             508.0|
-|1960-10-31T00:00:00.000+08:00|             461.0|
-|1960-11-30T00:00:00.000+08:00|             390.0|
-|1960-12-31T00:00:00.000+08:00|             432.0|
-+-----------------------------+------------------+
-Total line number = 144
-
-IoTDB> call inference(_Stray, "select s0 from root.eg.airline", generateTime=True, k=2)
-+-----------------------------+-------+
-|                         Time|output0|
-+-----------------------------+-------+
-|1960-12-31T00:00:00.000+08:00|      0|
-|1961-01-31T08:00:00.000+08:00|      1|
-|1961-02-28T08:00:00.000+08:00|      0|
-|1961-03-31T08:00:00.000+08:00|      0|
-......
-|1972-06-30T08:00:00.000+08:00|      0|
-|1972-07-31T08:00:00.000+08:00|      1|
-|1972-08-31T08:00:00.000+08:00|      0|
-|1972-09-30T08:00:00.000+08:00|      0|
-|1972-10-31T08:00:00.000+08:00|      0|
-|1972-11-30T08:00:00.000+08:00|      0|
-+-----------------------------+-------+
-Total line number = 144
-```
-
-### 4.5 Reasoning with Deep Learning Models
-
-The SQL syntax is as follows:
-
-```SQL
-call inference(<model_name>,sql[,window=<window_function>])
-
-
-window_function:
-    head(window_size)
-    tail(window_size)
-    count(window_size,sliding_step)
-```
 
 After completing the registration of the model, the inference function can be used by calling the inference function through the call keyword, and its corresponding parameters are described as follows:
 
@@ -445,6 +396,65 @@ Total line number = 4
 
 In the result set, each row's label corresponds to the output of the anomaly detection model after inputting each group of 24 rows of data.
 
+### 4.5 Fine-tuning Built-in Models
+> Only Timer-XL and Timer-Sundial support fine-tuning.
+
+
+The SQL syntax is as follows:
+
+
+```SQL
+create model <model_id> (with hyperparameters 
+(<parameterName>=<parameterValue>(, <parameterName>=<parameterValue>)*))?
+from model <existing_model_id>
+on dataset (PATH <prefixPath>([timeRange])?)
+```
+
+#### Examples
+
+1. Select the first 80% of data from the measurement point `root.db.etth.ot` as the fine-tuning dataset, and create the model `sundialv2` based on `sundial`.
+
+```SQL
+IoTDB> CREATE MODEL sundialv2 FROM MODEL sundial ON DATASET (PATH root.db.etth.OT([1467302400000, 1517468400001)))
+Msg: The statement is executed successfully.
+IoTDB> show models
++---------------------+--------------------+----------+--------+
+|              ModelId|           ModelType|  Category|   State|
++---------------------+--------------------+----------+--------+
+|                arima|               Arima|  BUILT-IN|  ACTIVE|
+|          holtwinters|         HoltWinters|  BUILT-IN|  ACTIVE|
+|exponential_smoothing|ExponentialSmoothing|  BUILT-IN|  ACTIVE|
+|     naive_forecaster|     NaiveForecaster|  BUILT-IN|  ACTIVE|
+|       stl_forecaster|       StlForecaster|  BUILT-IN|  ACTIVE|
+|         gaussian_hmm|         GaussianHmm|  BUILT-IN|  ACTIVE|
+|              gmm_hmm|              GmmHmm|  BUILT-IN|  ACTIVE|
+|                stray|               Stray|  BUILT-IN|  ACTIVE|
+|              sundial|       Timer-Sundial|  BUILT-IN|  ACTIVE|
+|             timer_xl|            Timer-XL|  BUILT-IN|  ACTIVE|
+|            sundialv2|       Timer-Sundial|FINE-TUNED|TRAINING|
++---------------------+--------------------+----------+--------+
+```
+
+2. The fine-tuning task starts asynchronously in the background, and logs can be viewed in the AINode process. After fine-tuning is complete, query and use the new model
+
+```SQL
+IoTDB> show models
++---------------------+--------------------+----------+------+
+|              ModelId|           ModelType|  Category| State|
++---------------------+--------------------+----------+------+
+|                arima|               Arima|  BUILT-IN|ACTIVE|
+|          holtwinters|         HoltWinters|  BUILT-IN|ACTIVE|
+|exponential_smoothing|ExponentialSmoothing|  BUILT-IN|ACTIVE|
+|     naive_forecaster|     NaiveForecaster|  BUILT-IN|ACTIVE|
+|       stl_forecaster|       StlForecaster|  BUILT-IN|ACTIVE|
+|         gaussian_hmm|         GaussianHmm|  BUILT-IN|ACTIVE|
+|              gmm_hmm|              GmmHmm|  BUILT-IN|ACTIVE|
+|                stray|               Stray|  BUILT-IN|ACTIVE|
+|              sundial|       Timer-Sundial|  BUILT-IN|ACTIVE|
+|             timer_xl|            Timer-XL|  BUILT-IN|ACTIVE|
+|            sundialv2|       Timer-Sundial|FINE-TUNED|ACTIVE|
++---------------------+--------------------+----------+------+
+```
 
 ### 4.6 TimeSeries Large Models Import Steps
 

@@ -184,7 +184,7 @@ SELECT LEAST(temperature,humidity) FROM table2;
 
 #### 2.3.1 示例数据
 
-在[示例数据页面](https://www.timecho.com/docs/zh/UserGuide/V2.0.1/Table/Basic-Concept/Sample-Data.html)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
+在[示例数据页面](../Reference/Sample-Data.md)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
 
 #### 2.3.2 Count
 
@@ -497,7 +497,7 @@ date_bin(interval,source,origin)
 
 ##### 示例数据
 
-在[示例数据页面](https://www.timecho.com/docs/zh/UserGuide/V2.0.1/Table/Basic-Concept/Sample-Data.html)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
+在[示例数据页面](../Reference/Sample-Data.md)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
 
 示例 1：不指定起始时间戳
 
@@ -582,7 +582,7 @@ It costs 0.056s
 ```SQL
 SELECT 
     time,
-    date_bin(1h, time, '1969-12-31 00:00:00.000') as time_bin
+    date_bin(1h, time, 1969-12-31 00:00:00.000) as time_bin
 FROM 
     table1;
 ```
@@ -1175,7 +1175,7 @@ SELECT regexp_like('1a 2b 14m', '^\\d+b$'); -- false
   - `b` 表示字母 `b`。
   - `'1a 2b 14m'` 并不符合这个模式，因为它不是从数字开始，也不是以 `b` 结束，所以返回 `false`。
 
-## 10. 表值函数
+## 10. 时序分窗函数
 
 原始示例数据如下：
 

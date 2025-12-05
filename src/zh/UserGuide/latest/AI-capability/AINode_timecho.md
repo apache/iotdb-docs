@@ -21,7 +21,7 @@
 
 # AINode
 
-AINode 是支持时序大模型注册、管理、调用的 IoTDB 原生节点，内置业界领先的自研时序大模型，如 Timer、Sundial 等，可通过标准 SQL 语句进行调用，实现时序数据的毫秒级实时推理，可支持时序趋势预测、缺失值填补、异常值检测等应用场景。
+AINode 是支持时序相关模型注册、管理、调用的 IoTDB 原生节点，内置业界领先的自研时序大模型，如清华自研时序模型 Timer 系列，可通过标准 SQL 语句进行调用，实现时序数据的毫秒级实时推理，可支持时序趋势预测、缺失值填补、异常值检测等应用场景。
 
 系统架构如下图所示：
 
@@ -51,9 +51,9 @@ AINode 是支持时序大模型注册、管理、调用的 IoTDB 原生节点，
 
 ## 2. 基本概念
 
-- **模型（Model）**：机器学习模型，以时序数据作为输入，输出分析任务的结果或决策。模型是AINode 的基本管理单元，支持模型的增（注册）、删、查、用（推理）。
-- **创建（Create）**: 将外部设计或训练好的模型文件或算法加载到MLNode中，由IoTDB统一管理与使用。
-- **推理（Inference）**：使用创建的模型在指定时序数据上完成该模型适用的时序分析任务的过程。
+- **模型（Model）**：机器学习模型，以时序数据作为输入，输出分析任务的结果或决策。模型是 AINode 的基本管理单元，支持模型的增（注册）、删、查、改（微调）、用（推理）。
+- **创建（Create）**: 将外部设计或训练好的模型文件或算法加载到 AINode 中，由 IoTDB 统一管理与使用。
+- **推理（Inference）**：使用创建的模型在指定时序数据上完成该模型适用的时序分析任务。
 - **内置能力（Built-in）**：AINode 自带常见时序分析场景（例如预测与异常检测）的机器学习算法或自研模型。
 
 ![](/img/h3.png)
@@ -64,37 +64,37 @@ AINode 的部署可参考文档 [部署指导](../Deployment-and-Maintenance/AIN
 
 ## 4. 使用指导
 
-AINode 对时序数据相关的深度学习模型提供了模型创建及删除的流程，内置模型无需创建及删除，可直接使用，并且在完成推理后创建的内置模型实例将自动销毁。
+AINode 对时序模型提供了模型创建及删除功能，内置模型无需创建，可直接使用。
 
 ### 4.1 注册模型
 
 通过指定模型输入输出的向量维度，可以注册训练好的深度学习模型，从而用于模型推理。
 
 符合以下内容的模型可以注册到AINode中：
-  1.  AINode 支持的PyTorch 2.1.0、 2.2.0版本训练的模型，需避免使用2.2.0版本以上的特性。
-  2.  AINode支持使用PyTorch JIT存储的模型，模型文件需要包含模型的参数和结构。
-  3.  模型输入序列可以包含一列或多列，若有多列，需要和模型能力、模型配置文件对应。
-  4.  模型的输入输出维度必须在`config.yaml`配置文件中明确定义。使用模型时，必须严格按照`config.yaml`配置文件中定义的输入输出维度。如果输入输出列数不匹配配置文件，将会导致错误。
+  1. AINode 目前支持基于 PyTorch 2.4.0 版本训练的模型，需避免使用 2.4.0 版本以上的特性。
+  2. AINode 支持使用 PyTorch JIT 存储的模型（`model.pt`），模型文件需要包含模型的结构和权重。
+  3. 模型输入序列可以包含一列或多列，若有多列，需要和模型能力、模型配置文件对应。
+  4. 模型的配置参数必须在`config.yaml`配置文件中明确定义。使用模型时，必须严格按照`config.yaml`配置文件中定义的输入输出维度。如果输入输出列数不匹配配置文件，将会导致错误。
 
 下方为模型注册的SQL语法定义。
 
 ```SQL
-create model <model_name> using uri <uri>
+create model <model_id> using uri <uri>
 ```
 
 SQL中参数的具体含义如下：
 
-- model_name：模型的全局唯一标识，不可重复。模型名称具备以下约束：
+- model_id：模型的全局唯一标识，不可重复。模型名称具备以下约束：
 
   - 允许出现标识符 [ 0-9 a-z A-Z _ ] （字母，数字，下划线）
   - 长度限制为2-64字符
   - 大小写敏感
 
-- uri：模型注册文件的资源路径，路径下应包含**模型权重model.pt文件和模型的元数据描述文件config.yaml**
+- uri：模型注册文件的资源路径，路径下应包含**模型结构及权重文件 model.pt 文件和模型配置文件 config.yaml**
 
-  - 模型权重文件：深度学习模型训练完成后得到的权重文件，目前支持pytorch训练得到的.pt文件
+  - 模型结构及权重文件：模型训练完成后得到的权重文件，目前支持 pytorch 训练得到的 .pt 文件
 
-  - yaml元数据描述文件：模型注册时需要提供的与模型结构有关的参数，其中必须包含模型的输入输出维度用于模型推理：
+  - 模型配置文件：模型注册时需要提供的与模型结构有关的参数，其中必须包含模型的输入输出维度用于模型推理：
 
     - | **参数名**   | **参数描述**                 | **示例** |
       | ------------ | ---------------------------- | -------- |
@@ -145,7 +145,7 @@ IoTDB> create model dlinear_example using uri "file://./example"
 也可以从huggingFace上下载对应的模型文件进行注册
 
 ```SQL
-IoTDB> create model dlinear_example using uri "https://huggingface.com/IoTDBML/dlinear/"
+IoTDB> create model dlinear_example using uri "https://huggingface.co/google/timesfm-2.0-500m-pytorch"
 ```
 
 SQL执行后会异步进行注册的流程，可以通过模型展示查看模型的注册状态（见模型展示章节），注册成功的耗时主要受到模型文件大小的影响。
@@ -159,56 +159,54 @@ SQL执行后会异步进行注册的流程，可以通过模型展示查看模�
 ```SQL
 show models
 
-show models <model_name>
+show models <model_id>
 ```
 
 除了直接展示所有模型的信息外，可以指定model id来查看某一具体模型的信息。模型展示的结果中包含如下信息：
 
 | **ModelId**  | **State**                             | **Configs**                                    | **Attributes** |
 | ------------ | ------------------------------------- | ---------------------------------------------- | -------------- |
-| 模型唯一标识 | 模型注册状态(LOADING,ACTIVE,DROPPING) | InputShape, outputShapeInputTypes, outputTypes | 模型备注信息   |
+| 模型唯一标识 | 模型注册状态(INACTIVE,LOADING,ACTIVE,TRAINING,FAILED,DROPPING) | InputShape, outputShapeInputTypes, outputTypes | 模型备注信息   |
 
 其中，State用于展示当前模型注册的状态，包含以下三个阶段
 
-- **LOADING**：已经在configNode中添加对应的模型元信息，正将模型文件传输到AINode节点上
-- **ACTIVE:** 模型已经设置完成，模型处于可用状态
-- **DROPPING**：模型删除中，正在从configNode以及AINode处删除模型相关信息
-- **UNAVAILABLE**: 模型创建失败，可以通过drop model删除创建失败的model_name。
+- **INACTIVE**：模型处于不可用状态
+- **LOADING**：模型加载中
+- **ACTIVE**：模型处于可用状态
+- **TRAINING**：模型处于微调中状态
+- **FAILED**：模型微调失败状态
+- **DROPPING**:模型删除中状态
 
 #### 示例
 
 ```SQL
 IoTDB> show models
 
-
-+---------------------+--------------------------+-----------+----------------------------+-----------------------+
-|              ModelId|                 ModelType|      State|                     Configs|                  Notes|
-+---------------------+--------------------------+-----------+----------------------------+-----------------------+
-|      dlinear_example|              USER_DEFINED|     ACTIVE|           inputShape:[96,2]|                       |
-|                     |                          |           |          outputShape:[48,2]|                       |
-|                     |                          |           | inputDataType:[float,float]|                       |
-|                     |                          |           |outputDataType:[float,float]|                       | 
-|       _STLForecaster|         BUILT_IN_FORECAST|     ACTIVE|                            |Built-in model in IoTDB|
-|     _NaiveForecaster|         BUILT_IN_FORECAST|     ACTIVE|                            |Built-in model in IoTDB|
-|               _ARIMA|         BUILT_IN_FORECAST|     ACTIVE|                            |Built-in model in IoTDB|
-|_ExponentialSmoothing|         BUILT_IN_FORECAST|     ACTIVE|                            |Built-in model in IoTDB|
-|         _GaussianHMM|BUILT_IN_ANOMALY_DETECTION|     ACTIVE|                            |Built-in model in IoTDB|
-|              _GMMHMM|BUILT_IN_ANOMALY_DETECTION|     ACTIVE|                            |Built-in model in IoTDB|
-|               _Stray|BUILT_IN_ANOMALY_DETECTION|     ACTIVE|                            |Built-in model in IoTDB|
-+---------------------+--------------------------+-----------+------------------------------------------------------------+-----------------------+
++---------------------+--------------------+--------+--------+
+|              ModelId|           ModelType|Category|   State|
++---------------------+--------------------+--------+--------+
+|                arima|               Arima|BUILT-IN|  ACTIVE|
+|          holtwinters|         HoltWinters|BUILT-IN|  ACTIVE|
+|exponential_smoothing|ExponentialSmoothing|BUILT-IN|  ACTIVE|
+|     naive_forecaster|     NaiveForecaster|BUILT-IN|  ACTIVE|
+|       stl_forecaster|       StlForecaster|BUILT-IN|  ACTIVE|
+|         gaussian_hmm|         GaussianHmm|BUILT-IN|  ACTIVE|
+|              gmm_hmm|              GmmHmm|BUILT-IN|  ACTIVE|
+|                stray|               Stray|BUILT-IN|  ACTIVE|
+|             timer_xl|            Timer-XL|BUILT-IN|  ACTIVE|
+|              sundial|       Timer-Sundial|BUILT-IN|  ACTIVE|
++---------------------+--------------------+--------+--------+
 ```
-
-我们前面已经注册了对应的模型，可以通过对应的指定查看模型状态，active表明模型注册成功，可用于推理。
 
 ### 4.3 删除模型
 
-对于注册成功的模型，用户可以通过SQL进行删除。该操作除了删除configNode上的元信息外，还会删除所有AINode下的相关模型文件。其SQL如下：
+对于注册成功的模型，用户可以通过SQL进行删除，该操作会删除所有 AINode 下的相关模型文件，其SQL如下：
 
 ```SQL
-drop model <model_name>
+drop model <model_id>
 ```
 
-需要指定已经成功注册的模型model_name来删除对应的模型。由于模型删除涉及多个节点上的数据删除，操作不会立即完成，此时模型的状态为DROPPING，该状态的模型不能用于模型推理。
+需要指定已经成功注册的模型 model_id 来删除对应的模型。由于模型删除涉及模型数据清理，操作不会立即完成，此时模型的状态为 DROPPING，该状态的模型不能用于模型推理。请注意，该功能不支持删除内置模型。
 
 ### 4.4 使用内置模型推理
 
@@ -216,20 +214,28 @@ SQL语法如下：
 
 
 ```SQL
-call inference(<built_in_model_name>,sql[,<parameterName>=<parameterValue>])
+call inference(<model_id>,inputSql,(<parameterName>=<parameterValue>)*)
+
+window_function:
+    head(window_size)
+    tail(window_size)
+    count(window_size,sliding_step)
 ```
 
 内置模型推理无需注册流程，通过call关键字，调用inference函数就可以使用模型的推理功能，其对应的参数介绍如下：
 
-- **built_in_model_name:** 内置模型名称
+- **model_id:** 模型名称
 - **parameterName**：参数名
 - **parameterValue**：参数值
+
+请注意，使用内置时序大模型进行推理的前提条件是本地存有对应模型权重，目录为 /IOTDB_AINODE_HOME/data/ainode/models/weights/model_id/。若本地没有模型权重，则会自动从 HuggingFace 拉取，请保证本地能直接访问 HuggingFace。
+
 
 #### 内置模型及参数说明
 
 目前已内置如下机器学习模型，具体参数说明请参考以下链接。
 
-| 模型                 | built_in_model_name   | 任务类型 | 参数说明                                                     |
+| 模型                 | built_in_model_id   | 任务类型 | 参数说明                                                     |
 | -------------------- | --------------------- | -------- | ------------------------------------------------------------ |
 | Arima                | _Arima                | 预测     | [Arima参数说明](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.forecasting.arima.ARIMA.html?highlight=Arima) |
 | STLForecaster        | _STLForecaster        | 预测     | [STLForecaster参数说明](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.forecasting.trend.STLForecaster.html#sktime.forecasting.trend.STLForecaster) |
@@ -239,63 +245,10 @@ call inference(<built_in_model_name>,sql[,<parameterName>=<parameterValue>])
 | GMMHMM               | _GMMHMM               | 标注     | [GMMHMM参数说明](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.detection.hmm_learn.gmm.GMMHMM.html) |
 | Stray                | _Stray                | 异常检测 | [Stray参数说明](https://www.sktime.net/en/latest/api_reference/auto_generated/sktime.detection.stray.STRAY.html) |
 
-#### 示例
-
-下面是使用内置模型推理的一个操作示例，使用内置的Stray模型进行异常检测算法，输入为`[144,1]`，输出为`[144,1]`，我们通过SQL使用其进行推理。
-
-```SQL
-IoTDB> select * from root.eg.airline
-+-----------------------------+------------------+
-|                         Time|root.eg.airline.s0|
-+-----------------------------+------------------+
-|1949-01-31T00:00:00.000+08:00|             224.0|
-|1949-02-28T00:00:00.000+08:00|             118.0|
-|1949-03-31T00:00:00.000+08:00|             132.0|
-|1949-04-30T00:00:00.000+08:00|             129.0|
-......
-|1960-09-30T00:00:00.000+08:00|             508.0|
-|1960-10-31T00:00:00.000+08:00|             461.0|
-|1960-11-30T00:00:00.000+08:00|             390.0|
-|1960-12-31T00:00:00.000+08:00|             432.0|
-+-----------------------------+------------------+
-Total line number = 144
-
-IoTDB> call inference(_Stray, "select s0 from root.eg.airline", generateTime=True, k=2)
-+-----------------------------+-------+
-|                         Time|output0|
-+-----------------------------+-------+
-|1960-12-31T00:00:00.000+08:00|      0|
-|1961-01-31T08:00:00.000+08:00|      1|
-|1961-02-28T08:00:00.000+08:00|      0|
-|1961-03-31T08:00:00.000+08:00|      0|
-......
-|1972-06-30T08:00:00.000+08:00|      0|
-|1972-07-31T08:00:00.000+08:00|      1|
-|1972-08-31T08:00:00.000+08:00|      0|
-|1972-09-30T08:00:00.000+08:00|      0|
-|1972-10-31T08:00:00.000+08:00|      0|
-|1972-11-30T08:00:00.000+08:00|      0|
-+-----------------------------+-------+
-Total line number = 144
-```
-
-### 4.5 使用深度学习模型推理
-
-SQL语法如下：
-
-```SQL
-call inference(<model_name>,sql[,window=<window_function>])
-
-
-window_function:
-    head(window_size)
-    tail(window_size)
-    count(window_size,sliding_step)
-```
 
 在完成模型的注册后，通过call关键字，调用inference函数就可以使用模型的推理功能，其对应的参数介绍如下：
 
-- **model_name**: 对应一个已经注册的模型
+- **model_id**: 对应一个已经注册的模型
 - **sql**：sql查询语句，查询的结果作为模型的输入进行模型推理。查询的结果中行列的维度需要与具体模型config中指定的大小相匹配。(这里的sql不建议使用`SELECT *`子句，因为在IoTDB中，`*`并不会对列进行排序，因此列的顺序是未定义的，可以使用`SELECT s0,s1`的方式确保列的顺序符合模型输入的预期)
 - **window_function**: 推理过程中可以使用的窗口函数，目前提供三种类型的窗口函数用于辅助模型推理：
   - **head(window_size)**: 获取数据中最前的window_size个点用于模型推理，该窗口可用于数据裁剪
@@ -439,6 +392,64 @@ Total line number = 4
 
 其中结果集中每行的标签对应每24行数据为一组，输入该异常检测模型后的输出。
 
+### 4.5 使用内置模型微调
+> 仅 Timer-XL、Timer-Sundial 可以进行微调操作。
+
+SQL语法如下：
+
+
+```SQL
+create model <model_id> (with hyperparameters 
+(<parameterName>=<parameterValue>(, <parameterName>=<parameterValue>)*))?
+from model <existing_model_id>
+on dataset (PATH <prefixPath>([timeRange])?)
+```
+
+#### 示例
+
+1. 选择测点 root.db.etth.ot 中前 80% 的数据作为微调数据集，基于 sundial 创建模型 sundialv2.
+
+```SQL
+IoTDB> CREATE MODEL sundialv2 FROM MODEL sundial ON DATASET (PATH root.db.etth.OT([1467302400000, 1517468400001)))
+Msg: The statement is executed successfully.
+IoTDB> show models
++---------------------+--------------------+----------+--------+
+|              ModelId|           ModelType|  Category|   State|
++---------------------+--------------------+----------+--------+
+|                arima|               Arima|  BUILT-IN|  ACTIVE|
+|          holtwinters|         HoltWinters|  BUILT-IN|  ACTIVE|
+|exponential_smoothing|ExponentialSmoothing|  BUILT-IN|  ACTIVE|
+|     naive_forecaster|     NaiveForecaster|  BUILT-IN|  ACTIVE|
+|       stl_forecaster|       StlForecaster|  BUILT-IN|  ACTIVE|
+|         gaussian_hmm|         GaussianHmm|  BUILT-IN|  ACTIVE|
+|              gmm_hmm|              GmmHmm|  BUILT-IN|  ACTIVE|
+|                stray|               Stray|  BUILT-IN|  ACTIVE|
+|              sundial|       Timer-Sundial|  BUILT-IN|  ACTIVE|
+|             timer_xl|            Timer-XL|  BUILT-IN|  ACTIVE|
+|            sundialv2|       Timer-Sundial|FINE-TUNED|TRAINING|
++---------------------+--------------------+----------+--------+
+```
+
+2. 微调任务后台异步启动，可在 AINode 进程看到 log；微调完成后，查询并使用新的模型
+
+```SQL
+IoTDB> show models
++---------------------+--------------------+----------+------+
+|              ModelId|           ModelType|  Category| State|
++---------------------+--------------------+----------+------+
+|                arima|               Arima|  BUILT-IN|ACTIVE|
+|          holtwinters|         HoltWinters|  BUILT-IN|ACTIVE|
+|exponential_smoothing|ExponentialSmoothing|  BUILT-IN|ACTIVE|
+|     naive_forecaster|     NaiveForecaster|  BUILT-IN|ACTIVE|
+|       stl_forecaster|       StlForecaster|  BUILT-IN|ACTIVE|
+|         gaussian_hmm|         GaussianHmm|  BUILT-IN|ACTIVE|
+|              gmm_hmm|              GmmHmm|  BUILT-IN|ACTIVE|
+|                stray|               Stray|  BUILT-IN|ACTIVE|
+|              sundial|       Timer-Sundial|  BUILT-IN|ACTIVE|
+|             timer_xl|            Timer-XL|  BUILT-IN|ACTIVE|
+|            sundialv2|       Timer-Sundial|FINE-TUNED|ACTIVE|
++---------------------+--------------------+----------+------+
+```
 
 ### 4.6 时序大模型导入步骤
 

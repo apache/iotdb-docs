@@ -57,6 +57,35 @@
 1. 准备IoTDB数据库安装包 ：timechodb-{version}-bin.zip（安装包获取见：[链接](./IoTDB-Package_timecho.md)）
 2. 按环境要求配置好操作系统环境（系统环境配置见：[链接](./Environment-Requirements.md)）
 
+### 2.1 前置检查
+
+为确保您获取的IoTDB企业版安装包完整且正确，在执行安装部署前建议您进行SHA512校验。
+
+#### 准备工作：
+
+- 获取官方发布的 SHA512 校验码：[发布历史](../IoTDB-Introduction/Release-history_timecho.md)文档中各版本对应的"SHA512校验码"
+
+#### 校验步骤（以 linux 为例）：
+
+1. 打开终端，进入安装包所在目录（如`/data/iotdb`）：
+   ```Bash
+      cd /data/iotdb
+      ```
+2. 执行以下命令计算哈希值：
+   ```Bash
+      sha512sum timechodb-{version}-bin.zip
+      ```
+3. 终端输出结果（左侧为SHA512 校验码，右侧为文件名）：
+
+![img](/img/sha512-01.png)
+
+4. 对比输出结果与官方 SHA512 校验码，确认一致后，即可按照下方流程执行IoTDB企业版的安装部署操作。
+
+#### 注意事项：
+
+- 若校验结果不一致，请联系天谋工作人员重新获取安装包
+- 校验过程中若出现"文件不存在"提示，需检查文件路径是否正确或安装包是否完整下载
+
 ## 3. 安装步骤
 
 假设现在有3台linux服务器，IP地址和服务角色分配如下：
@@ -92,13 +121,13 @@ cd  timechodb-{version}-bin
 
 | **配置项**  | **说明**                               | **默认值** | **推荐值**                                       | 备注         |
 | :---------- | :------------------------------------- | :--------- | :----------------------------------------------- | :----------- |
-| MEMORY_SIZE | IoTDB ConfigNode节点可以使用的内存总量 | 空         | 可按需填写，填写后系统会根据填写的数值来分配内存 | 重启服务生效 |
+| MEMORY_SIZE | IoTDB ConfigNode节点可以使用的内存总量 | 空         | 可按需填写，填写后系统会根据填写的数值来分配内存 | 修改后保存即可，无需执行；重启服务后生效 |
 
 - ./conf/datanode-env.sh配置
 
 | **配置项**  | **说明**                             | **默认值** | **推荐值**                                       | 备注         |
 | :---------- | :----------------------------------- | :--------- | :----------------------------------------------- | :----------- |
-| MEMORY_SIZE | IoTDB DataNode节点可以使用的内存总量 | 空         | 可按需填写，填写后系统会根据填写的数值来分配内存 | 重启服务生效 |
+| MEMORY_SIZE | IoTDB DataNode节点可以使用的内存总量 | 空         | 可按需填写，填写后系统会根据填写的数值来分配内存 | 修改后保存即可，无需执行；重启服务后生效 |
 
 #### 3.2.2 通用配置（./conf/iotdb-system.properties）
 
@@ -123,7 +152,7 @@ cd  timechodb-{version}-bin
 
 | 配置项                          | 说明                                                         | 默认            | 推荐值                                              | 11.101.17.224 | 11.101.17.225 | 11.101.17.226 | 备注               |
 | ------------------------------- | ------------------------------------------------------------ | --------------- | --------------------------------------------------- | ------------- | ------------- | ------------- | ------------------ |
-| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 127.0.0.1       |  推荐使用所在服务器的IPV4地址或hostname      |  iotdb-1       |iotdb-2       | iotdb-3        | 重启服务生效       |
+| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 0.0.0.0         |  所在服务器的IPV4地址或hostname，推荐使用所在服务器的IPV4地址     |  iotdb-1       |iotdb-2       | iotdb-3        | 重启服务生效       |
 | dn_rpc_port                     | 客户端 RPC 服务的端口                                        | 6667            | 6667                                                | 6667          | 6667          | 6667          | 重启服务生效       |
 | dn_internal_address             | DataNode在集群内部通讯使用的地址                             | 127.0.0.1       | 所在服务器的IPV4地址或hostname，推荐使用hostname    | iotdb-1       | iotdb-2       | iotdb-3       | 首次启动后不能修改 |
 | dn_internal_port                | DataNode在集群内部通信使用的端口                             | 10730           | 10730                                               | 10730         | 10730         | 10730         | 首次启动后不能修改 |
@@ -156,14 +185,9 @@ cd sbin
 
 ### 3.5 激活数据库
 
-#### 方式一：激活文件拷贝激活
+#### 方式一：通过 CLI 激活
 
-- 依次启动3个Confignode、Datanode节点后，每台机器各自的activation文件夹, 分别拷贝每台机器的system_info文件给天谋工作人员;
-- 工作人员将返回每个ConfigNode、Datanode节点的license文件，这里会返回3个license文件；
-- 将3个license文件分别放入对应的ConfigNode节点的activation文件夹下；
-
-#### 方式二：激活脚本激活
-- 依次获取3台机器的机器码，进入 IoTDB CLI
+- 进入集群任一节点 CLI，执行获取机器码的语句
 
   - 表模型 CLI 进入命令：
 
@@ -175,23 +199,13 @@ cd sbin
   ./start-cli.bat -sql_dialect table
   ```
 
-  - 树模型 CLI 进入命令：
-
-  ```SQL
-  # Linux或MACOS系统
-  ./start-cli.sh
-  
-  # windows系统
-  ./start-cli.bat
-  ```
-
   - 执行以下内容获取激活所需机器码：
 
   ```Bash
   show system info
   ```
 
-  - 显示如下信息，这里显示的是1台机器的机器码 ：
+  - 系统将自动返回集群所有节点的机器码
 
     ```Bash
     +--------------------------------------------------------------+
@@ -203,22 +217,41 @@ cd sbin
     It costs 0.030s
     ```
 
-- 其他2个节点依次进入到IoTDB树模型的CLI中，执行语句后将获取的3台机器的机器码都复制给天谋工作人员
+- 将获取的机器码复制给天谋工作人员
 
-- 工作人员会返回3段激活码，正常是与提供的3个机器码的顺序对应的，请分别将各自的激活码粘贴到CLI中，如下提示：
+- 工作人员会返回激活码，正常是与提供的机器码的顺序对应的，请将整串激活码粘贴到CLI中进行激活
 
-  - 注：激活码前后需要用`'`符号进行标注，如所示
+    - 注：激活码前后需要用`'`符号进行标注，如下所示
 
    ```Bash
     IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
     ```
 
+
+#### 方式二：激活文件拷贝激活
+
+- 依次启动3个Confignode、Datanode节点后，每台机器各自的activation文件夹, 分别拷贝每台机器的system_info文件给天谋工作人员;
+- 工作人员将返回每个ConfigNode、Datanode节点的license文件，这里会返回3个license文件；
+- 将3个license文件分别放入对应的ConfigNode节点的activation文件夹下；
+
+
 ### 3.6 验证激活
 
-当看到“Result”字段状态显示为success表示激活成功
+可在 CLI 中通过执行 `show activation` 命令查看激活状态，示例如下，状态显示为 ACTIVATED 表示激活成功
 
-![](/img/%E9%9B%86%E7%BE%A4-%E9%AA%8C%E8%AF%81.png)
-
+```sql
+IoTDB> show activation
++---------------+---------+-----------------------------+
+|    LicenseInfo|    Usage|                        Limit|
++---------------+---------+-----------------------------+
+|         Status|ACTIVATED|                            -|
+|    ExpiredTime|        -|2026-04-30T00:00:00.000+08:00|
+|  DataNodeLimit|        1|                    Unlimited|
+|       CpuLimit|       16|                    Unlimited|
+|    DeviceLimit|       30|                    Unlimited|
+|TimeSeriesLimit|       72|                1,000,000,000|
++---------------+---------+-----------------------------+
+```
 
 ### 3.7 一键启停集群
 

@@ -66,10 +66,11 @@ comment
 2. Column categories default to `FIELD` if not specified. `TAG` and `ATTRIBUTE` columns must be of type `STRING`.
 3. Table `TTL` defaults to the database `TTL`. You can omit this property or set it to `default` if the default value is used.
 4. `<TABLE_NAME>`:
-   1. Case-insensitive.
+   1. Case-insensitive. After creation, it will be displayed uniformly in lowercase.
    2. Can include special characters such as `~!`"`%`, etc.
    3. Names with special or Chinese characters must be enclosed in double quotes (`""`).
    4. Outer double quotes are not retained in the final table name. For example: `"a""b"` becomes `a"b`.
+   5. Note: In SQL, table or column names with special characters or Chinese characters must be wrapped in double quotes. However, in the native API, do not add extra quotes—otherwise, the quotation marks will become part of the name itself.
 5. **`columnDefinition`**: Column names share the same characteristics as table names and can include special characters such as `.`.
 6. COMMENT adds comments to the table.
 
@@ -126,15 +127,15 @@ try (ITableSession session =
           TSDataType.STRING,
           TSDataType.FLOAT,
           TSDataType.DOUBLE);
-  List<Tablet.ColumnCategory> columnTypeList =
+  List<ColumnCategory> columnTypeList =
       new ArrayList<>(
           Arrays.asList(
-              Tablet.ColumnCategory.TAG,
-              Tablet.ColumnCategory.TAG,
-              Tablet.ColumnCategory.TAG,
-              Tablet.ColumnCategory.ATTRIBUTE,
-              Tablet.ColumnCategory.FIELD,
-              Tablet.ColumnCategory.FIELD));
+              ColumnCategory.TAG,
+              ColumnCategory.TAG,
+              ColumnCategory.TAG,
+              ColumnCategory.ATTRIBUTE,
+              ColumnCategory.FIELD,
+              ColumnCategory.FIELD));
   Tablet tablet = new Tablet("table1", columnNameList, dataTypeList, columnTypeList, 100);
   for (long timestamp = 0; timestamp < 100; timestamp++) {
     int rowIndex = tablet.getRowSize();

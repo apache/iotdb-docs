@@ -284,6 +284,7 @@ WITH SOURCE (
   'source' = 'iotdb-source',
   'mode.streaming' = 'true'  -- Extraction mode for newly inserted data (after the pipe is created): 
                              -- Whether to extract data in streaming mode (if set to false, batch mode is used).
+  'database-name'='testdb.*', -- Scope of Data Synchronization
   'start-time' = '2023.08.23T08:00:00+00:00',  -- The event time at which data synchronization starts (inclusive).
   'end-time' = '2023.10.23T08:00:00+00:00'  -- The event time at which data synchronization ends (inclusive).
 ) 
@@ -292,41 +293,7 @@ WITH SINK (
   'node-urls' = '127.0.0.1:6668'  -- The URL of the DataNode's data service port in the target IoTDB instance.
 )
 ```
-### 3.3 Bidirectional Data Transmission
-
-This example demonstrates a scenario where two IoTDB instances act as dual-active systems. The data pipeline is shown below:
-
-![](/img/e3.png)
-
-To avoid infinite data loops, the `source.mode.double-living` parameter must be set to `true` on both IoTDB A and B, indicating that data forwarded from another pipe will not be retransmitted.
-
-SQL Example: On IoTDB A:
-
-```SQL
-CREATE PIPE AB
-WITH SOURCE (
-  'source.mode.double-living' = 'true'  -- Do not forward data from other pipes
-)
-WITH SINK (
-  'sink' = 'iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6668' -- URL of the DataNode service port on the target IoTDB
-)
-```
-
-On IoTDB B:
-
-```SQL
-CREATE PIPE BA
-WITH SOURCE (
-  'source.mode.double-living' = 'true'  -- Do not forward data from other pipes
-)
-WITH SINK (
-  'sink' = 'iotdb-thrift-sink',
-  'node-urls' = '127.0.0.1:6667' -- URL of the DataNode service port on the target IoTDB
-)
-```
-
-### 3.4 Edge-to-Cloud Data Transmission
+### 3.3 Edge-to-Cloud Data Transmission
 
 This example demonstrates synchronizing data from multiple IoTDB clusters (B, C, D) to a central IoTDB cluster (A). The data pipeline is shown below:
 
@@ -376,14 +343,13 @@ WITH SINK (
 )
 ```
 
-### 3.5 Cascaded Data Transmission
+### 3.4 Cascaded Data Transmission
 
 This example demonstrates cascading data transmission from IoTDB A to IoTDB B and then to IoTDB C. The data pipeline is shown below:
 
 ![](/img/sync_en_04.png)
 
-To synchronize data from cluster A to cluster C, the `source.mode.double-living` parameter is set to `true` in the pipe between B and C.
-
+ 
 SQL Example: On IoTDB A:
 
 ```SQL
@@ -399,7 +365,6 @@ On IoTDB B:
 ```SQL
 CREATE PIPE BC
 WITH SOURCE (
-  'source.mode.double-living' = 'true'  -- Do not forward data from other pipes
 )
 WITH SINK (
   'sink' = 'iotdb-thrift-sink',
@@ -408,7 +373,7 @@ WITH SINK (
 ```
 
 
-### 3.6 Compressed Synchronization
+### 3.5 Compressed Synchronization
 
 IoTDB supports specifying data compression methods during synchronization. The `compressor` parameter can be configured to enable real-time data compression and transmission. Supported algorithms include `snappy`, `gzip`, `lz4`, `zstd`, and `lzma2`. Multiple algorithms can be combined and applied in the configured order. The `rate-limit-bytes-per-second` parameter (supported in V1.3.3 and later) limits the maximum number of bytes transmitted per second (calculated after compression). If set to a value less than 0, there is no limit.
 
@@ -424,7 +389,7 @@ WITH SINK (
 ```
 
 
-### 3.7 Encrypted Synchronization
+### 3.6 Encrypted Synchronization
 
 IoTDB supports SSL encryption during synchronization to securely transmit data between IoTDB instances. By configuring SSL-related parameters such as the certificate path (`ssl.trust-store-path`) and password (`ssl.trust-store-pwd`), data can be protected by SSL encryption during synchronization.
 
@@ -520,7 +485,6 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | table-name               | When the user connects with `sql_dialect` set to `table`, this parameter can be specified.  Determines the scope of data capture, affecting the `data` in `inclusion`.  Specifies the table name to filter. It can be a specific table name or a Java-style regular expression to match multiple tables. By default, all tables are matched.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | String: Data table name or data table regular expression pattern string, which can be uncreated or non - existent tables.   | No           | ".*"                                                        |
 | start-time               | Determines the scope of data capture, affecting the `data` in `inclusion`. Data with an event time **greater than or equal to** this parameter will be selected for stream processing in the pipe.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Long: [Long.MIN_VALUE, Long.MAX_VALUE](Unix bare timestamp)orString: ISO format timestamp supported by IoTDB                | No           | Long: [Long.MIN_VALUE, Long.MAX_VALUE](Unix bare timestamp) |
 | end-time                 | Determines the scope of data capture, affecting the `data` in `inclusion`. Data with an event time **less than or equal to** this parameter will be selected for stream processing in the pipe.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | Long: [Long.MIN_VALUE, Long.MAX_VALUE](Unix bare timestamp)orString: ISO format timestamp supported by IoTDB                | No           | Long: [Long.MIN_VALUE, Long.MAX_VALUE](Unix bare timestamp) |
-| mode.double-living       | Whether to enable full dual-active mode. When enabled, the system will ignore the `-sql_dialect` connection method to capture all tree-table model data and not forward data synced from another pipe (to avoid circular synchronization).                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Boolean: true / false                                | No           | false                     |
 
 > 💎  **Note:** The difference between the values of true and false for the data extraction mode `mode.streaming`
 >
@@ -535,7 +499,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 |:----------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| :----------------------------------------------------------- | :------- | :------------ |
 | sink                        | iotdb-thrift-sink or iotdb-thrift-async-sink                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | String: iotdb-thrift-sink or iotdb-thrift-async-sink         | Yes      | -             |
 | node-urls                   | URLs of the DataNode service ports on the target IoTDB. (please note that the synchronization task does not support forwarding to its own service).                                                                                                                                                                                                                                                                                                                                                                                                         | String. Example：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | Yes      | -             |
-| user/usename                | Usename for connecting to the target IoTDB. Must have appropriate permissions.                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | String                                                       | No       | root          |
+| user/username                | username for connecting to the target IoTDB. Must have appropriate permissions.                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | String                                                       | No       | root          |
 | password                    | Password for the username.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | String                                                       | No       | root          |
 | batch.enable                | Enables batch mode for log transmission to improve throughput and reduce IOPS.                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Boolean: true, false                                         | No       | true          |
 | batch.max-delay-seconds     | Maximum delay (in seconds) for batch transmission.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Integer                                                      | No       | 1             |
@@ -554,7 +518,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 |:----------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------------------|:---------| :------------ |
 | sink                        | iotdb-thrift-ssl-sink                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | String: iotdb-thrift-ssl-sink                                                    | Yes      | -             |
 | node-urls                   | URLs of the DataNode service ports on the target IoTDB. (please note that the synchronization task does not support forwarding to its own service).                                                                                                                                                                                                                                                                                                                                                                                                         | String. Example：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | Yes      | -             |
-| user/usename                | Usename for connecting to the target IoTDB. Must have appropriate permissions.                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | String                                                                           | No       | root          |
+| user/username                | username for connecting to the target IoTDB. Must have appropriate permissions.                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | String                                                                           | No       | root          |
 | password                    | Password for the username.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | String                                                                           | No       | root          |
 | batch.enable                | Enables batch mode for log transmission to improve throughput and reduce IOPS.                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Boolean: true, false                                                             | No       | true          |
 | batch.max-delay-seconds     | Maximum delay (in seconds) for batch transmission.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Integer                                                                          | No       | 1             |

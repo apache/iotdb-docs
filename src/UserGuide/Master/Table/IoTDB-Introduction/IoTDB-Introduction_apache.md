@@ -44,7 +44,7 @@ Key components include:
 3. **Time-Series Model Training-Inference Engine (IoTDB AINode)**: A unified engine for intelligent analysis, supporting model training, data management, and integration with machine/deep learning frameworks.
 
 
-## 2. TimechoDB Architecture
+## 2. IoTDB Architecture
 
 The diagram below illustrates a typical IoTDB cluster deployment (3 ConfigNodes and 3 DataNodes):
 
@@ -94,7 +94,7 @@ Apache IoTDB offers the following advantages:
 
 ## 4. TimechoDB
 
-Timecho Technology has developed **TimechoDB**, a commercial product built on the open-source version of Apache IoTDB, to provide enterprise-grade solutions and services for businesses and commercial clients. TimechoDB addresses the multifaceted challenges enterprises face when building IoT big data platforms for managing time-series data, including complex application scenarios, massive data volumes, high sampling frequencies, frequent out-of-order data, time-consuming data processing, diverse analytical requirements, and high storage and maintenance costs.
+Timecho Technology has developed **TimechoDB**, a commercial product based on  Apache IoTDB, to provide enterprise-grade solutions and services for businesses and commercial clients. TimechoDB addresses the multifaceted challenges enterprises face when building IoT big data platforms for managing time-series data, including complex application scenarios, massive data volumes, high sampling frequencies, frequent out-of-order data, time-consuming data processing, diverse analytical requirements, and high storage and maintenance costs.
 
 Leveraging **TimechoDB**, Timecho Technology offers a broader range of product features, enhanced performance and stability, and a richer suite of efficiency tools. Additionally, it provides comprehensive enterprise services, delivering commercial clients with superior product capabilities and an optimized experience in development, operation, and usage.
 - **Timecho Technology Official Website**: [https://www.timecho.com/](https://www.timecho.com/)

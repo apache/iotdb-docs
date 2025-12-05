@@ -19,11 +19,11 @@
 export const zhSidebar = {
   '/zh/UserGuide/V1.2.x/': [
     {
-      text: 'IoTDB用户手册 (V1.2.x)',
+      text: 'TimechoDB用户手册 (V1.2.x)',
       children: [],
     },
     {
-      text: '关于IoTDB',
+      text: '关于TimechoDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
       // children: 'structure', 使用该方式自动获取文件夹下的文件
@@ -124,7 +124,7 @@ export const zhSidebar = {
         { text: 'Node.js原生接口', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust原生接口', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC' },
-        { text: 'MQTT协议', link: 'Programming-MQTT' },
+        /* { text: 'MQTT协议', link: 'Programming-MQTT' }, */
         { text: 'Kafka', link: 'Programming-Kafka' },
         { text: 'REST API V1 (不推荐)', link: 'RestServiceV1' },
         { text: 'REST API V2', link: 'RestServiceV2' },

@@ -103,7 +103,7 @@ TimechoDB offers the following advantages:
 
 ## 4. Enterprise-level Enhancements
 
-TimechoDB extends the open-source version with advanced industrial-grade capabilities, including tiered storage, cloud-edge collaboration, visualization tools, and security upgrades.
+TimechoDB extends Apache IoTDB with advanced industrial-grade capabilities, including tiered storage, cloud-edge collaboration, visualization tools, and security upgrades.
 
 **Dual-Active Deployment:**
 
@@ -149,7 +149,7 @@ TimechoDB extends the open-source version with advanced industrial-grade capabil
       </tr>
       <tr>
             <td>Dual Active Deployment</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td> 
       </tr>
        <tr>
@@ -205,55 +205,55 @@ TimechoDB extends the open-source version with advanced industrial-grade capabil
       </tr>
       <tr>
             <td>Tiered Storage</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>View</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>White List</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>Audit Log</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td rowspan="3">Supporting Tools</td>  
             <td>Workbench</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>       
       </tr>
       <tr>
             <td>Cluster Management Tool</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>System Monitor Tool</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>Localization</td>  
             <td>Localization Compatibility Certification</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>       
       </tr>
       <tr>
             <td rowspan="2">Technical Support</td>  
-            <td>Best Practices</td> 
-            <td>×</td> 
+            <td>Expert Support</td> 
+            <td>-</td> 
             <td>√</td>       
       </tr>
       <tr>
             <td>Use Training</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
 </tbody>
@@ -281,17 +281,18 @@ TimechoDB simplifies deployment, monitoring, and maintenance through an intuitiv
     - Simplifies interaction with an intuitive GUI for metadata management, SQL execution, user permissions, and system configuration.
 - **Cluster Management Tool** **:**
     - Provides **one-click operations** for cluster deployment, scaling, start/stop, and configuration updates.
+    - ![](/img/introduction-opskit-en.png)
 
 ### 4.3 Professional Enterprise Technical Services
 
 TimechoDB offers **vendor-backed enterprise services** to support industrial-scale deployments:
 
 - **On-Site Installation & Training**: Hands-on guidance for fast adoption.
-- **Expert Consulting & Advisory**: Performance tuning and best practices.
+- **Expert Consulting & Advisory**: Performance tuning and expert support.
 - **Emergency Support & Remote Assistance**: Minimized downtime for mission-critical operations.
 - **Custom Development & Optimization**: Tailored solutions for unique industrial use cases.
 
-Compared to the open-source version’s 2-3 month release cycle, TimechoDB delivers faster updates and same-day critical issue resolutions, ensuring production stability.
+Compared to Apache IoTDB’s 2-3 month release cycle, TimechoDB delivers faster updates and same-day critical issue resolutions, ensuring production stability.
 
 ### 4.4 Ecosystem Compatibility & Compliance
 

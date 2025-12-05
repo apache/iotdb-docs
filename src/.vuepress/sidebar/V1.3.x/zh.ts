@@ -84,7 +84,8 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '数据删除', link: 'Delete-Data' },
-            { text: '自动过期删除', link: 'TTL-Delete' },
+            { text: '数据保留时间', link: 'TTL-Delete' },
+            { text: 'SpaceTL 删除', link: 'SpaceTL-Delete' },
           ],
         },
       ],
@@ -138,7 +139,7 @@ export const zhSidebar = {
       prefix: 'Tools-System/',
       // children: 'structure',
       children: [
-        { text: '命令行工具', link: 'CLI' },
+        { text: '命令行工具', link: 'CLI_apache' },
         { text: '监控工具', link: 'Monitor-Tool_apache' },
         { text: '测试工具', link: 'Benchmark' },
         { text: '集群管理工具', link: 'Maintenance-Tool_apache' },
@@ -215,7 +216,7 @@ export const zhSidebar = {
           text: '可视化分析',
           collapsible: true,
           children: [
-            { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB' },
+            { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_apache' },
             { text: 'Grafana', link: 'Grafana-Connector' },
             { text: 'Grafana插件', link: 'Grafana-Plugin' },
             { text: 'DataEase', link: 'DataEase' },

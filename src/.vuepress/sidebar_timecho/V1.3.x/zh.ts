@@ -19,11 +19,11 @@
 export const zhSidebar = {
   '/zh/UserGuide/V1.3.x/': [
     {
-      text: 'IoTDB用户手册 (V1.3.x)',
+      text: 'TimechoDB用户手册 (V1.3.x)',
       children: [],
     },
     {
-      text: '关于IoTDB',
+      text: '关于TimechoDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
       // children: 'structure', 使用该方式自动获取文件夹下的文件
@@ -87,7 +87,8 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '数据删除', link: 'Delete-Data' },
-            { text: '自动过期删除', link: 'TTL-Delete' },
+            { text: '数据保留时间', link: 'TTL-Delete' },
+            { text: 'SpaceTL 删除', link: 'SpaceTL-Delete' },
           ],
         },
       ],
@@ -147,7 +148,7 @@ export const zhSidebar = {
       prefix: 'Tools-System/',
       // children: 'structure',
       children: [
-        { text: '命令行工具', link: 'CLI' },
+        { text: '命令行工具', link: 'CLI_timecho' },
         { text: '可视化控制台', link: 'Workbench_timecho' },
         { text: '监控工具', link: 'Monitor-Tool_timecho' },
         { text: '测试工具', link: 'Benchmark' },
@@ -181,7 +182,7 @@ export const zhSidebar = {
         { text: 'Node.js原生接口', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC' },
-        { text: 'MQTT协议', link: 'Programming-MQTT' },
+        /* { text: 'MQTT协议', link: 'Programming-MQTT' }, */
         { text: 'OPC UA协议', link: 'Programming-OPC-UA_timecho' },
         {
           text: 'REST API',
@@ -226,7 +227,7 @@ export const zhSidebar = {
               text: '可视化分析',
               collapsible: true,
               children: [
-                { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB' },
+                { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_timecho' },
                 { text: 'Grafana', link: 'Grafana-Connector' },
                 { text: 'Grafana插件', link: 'Grafana-Plugin' },
                 { text: 'DataEase', link: 'DataEase' },
