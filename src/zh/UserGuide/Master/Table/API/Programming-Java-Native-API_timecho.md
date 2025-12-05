@@ -39,10 +39,12 @@ IoTDB具备Java原生客户端驱动和对应的连接池，提供对象化接�
     <dependency>
       <groupId>com.timecho.iotdb</groupId>
       <artifactId>iotdb-session</artifactId>
-      <version>2.0.1.1</version>
+        <!-- 版本号与数据库版本号相同 -->
+      <version>${project.version}</version>
     </dependency>
 </dependencies>
 ```
+* 可从[此处](https://repo1.maven.org/maven2/com/timecho/iotdb/iotdb-session/)查看`iotdb-session`最新版本
 
 ## 3. 读写操作
 
@@ -142,17 +144,17 @@ TableSessionBuilder类是一个构建器，用于配置和创建ITableSession接
 
 以下是TableSessionBuilder类中可用的配置选项及其默认值：
 
-| **配置项**                                           | **描述**                                 | **默认值**                                  |
-| ---------------------------------------------------- | ---------------------------------------- | ------------------------------------------- |
+| **配置项**                                           | **描述**                                 | **默认值**                                     |
+| ---------------------------------------------------- | ---------------------------------------- |---------------------------------------------|
 | nodeUrls(List`<String>` nodeUrls)                      | 设置IoTDB集群的节点URL列表               | Collections.singletonList("localhost:6667") |
 | username(String username)                            | 设置连接的用户名                         | "root"                                      |
-| password(String password)                            | 设置连接的密码                           | "root"                                      |
+| password(String password)                            | 设置连接的密码                           | "TimechoDB@2021"  //V2.0.6.x 之前默认密码是root                           |
 | database(String database)                            | 设置目标数据库名称                       | null                                        |
-| queryTimeoutInMs(long queryTimeoutInMs)              | 设置查询超时时间（毫秒）                 | 60000（1分钟）                              |
+| queryTimeoutInMs(long queryTimeoutInMs)              | 设置查询超时时间（毫秒）                 | 60000（1分钟）                                  |
 | fetchSize(int fetchSize)                             | 设置查询结果的获取大小                   | 5000                                        |
 | zoneId(ZoneId zoneId)                                | 设置时区相关的ZoneId                     | ZoneId.systemDefault()                      |
-| thriftDefaultBufferSize(int thriftDefaultBufferSize) | 设置Thrift客户端的默认缓冲区大小（字节） | 1024（1KB）                                 |
-| thriftMaxFrameSize(int thriftMaxFrameSize)           | 设置Thrift客户端的最大帧大小（字节）     | 64 * 1024 * 1024（64MB）                    |
+| thriftDefaultBufferSize(int thriftDefaultBufferSize) | 设置Thrift客户端的默认缓冲区大小（字节） | 1024（1KB）                                   |
+| thriftMaxFrameSize(int thriftMaxFrameSize)           | 设置Thrift客户端的最大帧大小（字节）     | 64 * 1024 * 1024（64MB）                      |
 | enableRedirection(boolean enableRedirection)         | 是否启用集群节点的重定向                 | true                                        |
 | enableAutoFetch(boolean enableAutoFetch)             | 是否启用自动获取可用DataNodes            | true                                        |
 | maxRetryCount(int maxRetryCount)                     | 设置连接尝试的最大重试次数               | 60                                          |
@@ -161,7 +163,7 @@ TableSessionBuilder类是一个构建器，用于配置和创建ITableSession接
 | trustStore(String keyStore)                          | 设置SSL连接的信任库路径                  | null                                        |
 | trustStorePwd(String keyStorePwd)                    | 设置SSL连接的信任库密码                  | null                                        |
 | enableCompression(boolean enableCompression)         | 是否启用RPC压缩                          | false                                       |
-| connectionTimeoutInMs(int connectionTimeoutInMs)     | 设置连接超时时间（毫秒）                 | 0（无超时）                                 |
+| connectionTimeoutInMs(int connectionTimeoutInMs)     | 设置连接超时时间（毫秒）                 | 0（无超时）                                      |
 
 #### 3.2.3 接口展示
 
@@ -198,7 +200,7 @@ public class TableSessionBuilder {
      *
      * @param username the username.
      * @return the current {@link TableSessionBuilder} instance.
-     * @defaultValue "root"
+     * @defaultValue "root“
      */
     public TableSessionBuilder username(String username);
 
@@ -207,7 +209,7 @@ public class TableSessionBuilder {
      *
      * @param password the password.
      * @return the current {@link TableSessionBuilder} instance.
-     * @defaultValue "root"
+     * @defaultValue "TimechoDB@2021" //V2.0.6.x 之前默认密码是root 
      */
     public TableSessionBuilder password(String password);
 
@@ -404,22 +406,22 @@ TableSessionPool 的构造器，用于配置和创建 ITableSessionPool 的实�
 
 以下是 TableSessionPoolBuilder 类的可用配置选项及其默认值：
 
-| **配置项**                                                   | **描述**                                     | **默认值**                                  |
-| ------------------------------------------------------------ | -------------------------------------------- | ------------------------------------------- |
+| **配置项**                                                   | **描述**                                     | **默认值**                                     |
+| ------------------------------------------------------------ | -------------------------------------------- |---------------------------------------------|
 | nodeUrls(List`<String>` nodeUrls)                              | 设置IoTDB集群的节点URL列表                   | Collections.singletonList("localhost:6667") |
 | maxSize(int maxSize)                                         | 设置会话池的最大大小，即池中允许的最大会话数 | 5                                           |
 | user(String user)                                            | 设置连接的用户名                             | "root"                                      |
-| password(String password)                                    | 设置连接的密码                               | "root"                                      |
+| password(String password)                                    | 设置连接的密码                               | "TimechoDB@2021" //V2.0.6.x 之前默认密码是root     |
 | database(String database)                                    | 设置目标数据库名称                           | "root"                                      |
-| queryTimeoutInMs(long queryTimeoutInMs)                      | 设置查询超时时间（毫秒）                     | 60000（1分钟）                              |
+| queryTimeoutInMs(long queryTimeoutInMs)                      | 设置查询超时时间（毫秒）                     | 60000（1分钟）                                  |
 | fetchSize(int fetchSize)                                     | 设置查询结果的获取大小                       | 5000                                        |
 | zoneId(ZoneId zoneId)                                        | 设置时区相关的 ZoneId                        | ZoneId.systemDefault()                      |
-| waitToGetSessionTimeoutInMs(long waitToGetSessionTimeoutInMs) | 设置从池中获取会话的超时时间（毫秒）         | 30000（30秒）                               |
-| thriftDefaultBufferSize(int thriftDefaultBufferSize)         | 设置Thrift客户端的默认缓冲区大小（字节）     | 1024（1KB）                                 |
-| thriftMaxFrameSize(int thriftMaxFrameSize)                   | 设置Thrift客户端的最大帧大小（字节）         | 64 * 1024 * 1024（64MB）                    |
+| waitToGetSessionTimeoutInMs(long waitToGetSessionTimeoutInMs) | 设置从池中获取会话的超时时间（毫秒）         | 30000（30秒）                                  |
+| thriftDefaultBufferSize(int thriftDefaultBufferSize)         | 设置Thrift客户端的默认缓冲区大小（字节）     | 1024（1KB）                                   |
+| thriftMaxFrameSize(int thriftMaxFrameSize)                   | 设置Thrift客户端的最大帧大小（字节）         | 64 * 1024 * 1024（64MB）                      |
 | enableCompression(boolean enableCompression)                 | 是否启用连接的压缩                           | false                                       |
 | enableRedirection(boolean enableRedirection)                 | 是否启用集群节点的重定向                     | true                                        |
-| connectionTimeoutInMs(int connectionTimeoutInMs)             | 设置连接超时时间（毫秒）                     | 10000（10秒）                               |
+| connectionTimeoutInMs(int connectionTimeoutInMs)             | 设置连接超时时间（毫秒）                     | 10000（10秒）                                  |
 | enableAutoFetch(boolean enableAutoFetch)                     | 是否启用自动获取可用DataNodes                | true                                        |
 | maxRetryCount(int maxRetryCount)                             | 设置连接尝试的最大重试次数                   | 60                                          |
 | retryIntervalInMs(long retryIntervalInMs)                    | 设置重试间隔时间（毫秒）                     | 500                                         |
@@ -479,7 +481,7 @@ public class TableSessionPoolBuilder {
      *
      * @param password the password.
      * @return the current {@link TableSessionPoolBuilder} instance.
-     * @defaultValue "root"
+     * @defaultValue "TimechoDB@2021" //V2.0.6.x 之前默认密码是root 
      */
     public TableSessionPoolBuilder password(String password);
 
@@ -686,7 +688,7 @@ public class TableModelSessionPoolExample {
                 new TableSessionPoolBuilder()
                         .nodeUrls(Collections.singletonList(LOCAL_URL))
                         .user("root")
-                        .password("root")
+                        .password("TimechoDB@2021") //V2.0.6.x 之前默认密码是root 
                         .maxSize(1)
                         .build();
 
@@ -787,7 +789,7 @@ public class TableModelSessionPoolExample {
                 new TableSessionPoolBuilder()
                         .nodeUrls(Collections.singletonList(LOCAL_URL))
                         .user("root")
-                        .password("root")
+                        .password("TimechoDB@2021")//V2.0.6.x 之前默认密码是root 
                         .maxSize(1)
                         .database("test1")
                         .build();

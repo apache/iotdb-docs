@@ -54,7 +54,7 @@ export const zhSidebar = {
       children: [
         { text: '部署形态', link: 'Deployment-form_timecho' },
         { text: '安装包获取', link: 'IoTDB-Package_timecho' },
-        { text: '资源规划', link: 'Database-Resources' },
+        { text: '资源规划', link: 'Database-Resources_timecho' },
         { text: '环境配置', link: 'Environment-Requirements' },
         { text: '单机版部署指导', link: 'Stand-Alone-Deployment_timecho' },
         { text: '集群版部署指导', link: 'Cluster-Deployment_timecho' },
@@ -72,13 +72,14 @@ export const zhSidebar = {
         { text: '数据库管理', link: 'Database-Management' },
         { text: '表管理', link: 'Table-Management' },
         { text: '写入&更新', link: 'Write-Updata-Data' },
-        { text: '数据查询', link: 'Query-Data' },
+        { text: '数据查询', link: 'Query-Data_timecho' },
         {
           text: '数据删除',
           collapsible: true,
           children: [
             { text: '数据删除', link: 'Delete-Data' },
             { text: '数据保留时间', link: 'TTL-Delete-Data' },
+            { text: 'SpaceTL 删除', link: 'SpaceTL-Delete' },
           ],
         },
       ],
@@ -93,9 +94,10 @@ export const zhSidebar = {
         {
           text: '安全权限',
           collapsible: true,
-          children: [{ text: '权限管理', link: 'Authority-Management' }],
+          children: [{ text: '权限管理', link: 'Authority-Management_timecho' }],
         },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
+        { text: '树转表视图', link: 'Tree-to-Table' },
         {
           text: '系统运维',
           collapsible: true,
@@ -120,20 +122,20 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Tools-System/',
       children: [
-        { text: '命令行工具', link: 'CLI' },
+        { text: '命令行工具', link: 'CLI_timecho' },
         { text: '监控工具', link: 'Monitor-Tool_timecho' },
         { text: '测试工具', link: 'Benchmark' },
         { text: '集群管理工具', link: 'Maintenance-Tool_timecho' },
         { text: '数据导入导出', collapsible: true,
           children: [
-            { text: '数据导入', link: 'Data-Import-Tool' },
-            { text: '数据导出', link: 'Data-Export-Tool' },
+            { text: '数据导入', link: 'Data-Import-Tool_timecho' },
+            { text: '数据导出', link: 'Data-Export-Tool_timecho' },
           ],
         },
         { text: '元数据导入导出', collapsible: true,
           children: [
-            { text: '元数据导入', link: 'Schema-Import-Tool' },
-            { text: '元数据导出', link: 'Schema-Export-Tool' },
+            { text: '元数据导入', link: 'Schema-Import-Tool_timecho' },
+            { text: '元数据导出', link: 'Schema-Export-Tool_timecho' },
           ],
         },
       ],
@@ -144,12 +146,12 @@ export const zhSidebar = {
       prefix: 'API/',
       children: [
         { text: 'Java原生接口', link: 'Programming-Java-Native-API_timecho' },
-        { text: 'Python原生接口', link: 'Programming-Python-Native-API' },
-        { text: 'C++原生接口', link: 'Programming-Cpp-Native-API' },
-        { text: 'GO原生接口', link: 'Programming-Go-Native-API' },
-        { text: 'C#原生接口', link: 'Programming-CSharp-Native-API' },
+        { text: 'Python原生接口', link: 'Programming-Python-Native-API_timecho' },
+        { text: 'C++原生接口', link: 'Programming-Cpp-Native-API_timecho' },
+        { text: 'GO原生接口', link: 'Programming-Go-Native-API_timecho' },
+        { text: 'C#原生接口', link: 'Programming-CSharp-Native-API_timecho' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
-        /* { text: 'MQTT协议', link: 'Programming-MQTT' }, */
+        { text: 'MQTT协议', link: 'Programming-MQTT' },
         { text: 'RESTAPI V1 ', link: 'RestServiceV1' },
       ],
     },
@@ -196,7 +198,7 @@ export const zhSidebar = {
           text: '数据查询',
           collapsible: true,
           children: [
-            { text: '概览', link: 'overview' },
+            { text: '概览', link: 'overview_timecho' },
             { text: 'SELECT子句', link: 'Select-Clause' },
             { text: 'FROM&JOIN子句', link: 'From-Join-Clause' },
             { text: 'WHERE子句', link: 'Where-Clause' },
@@ -206,6 +208,7 @@ export const zhSidebar = {
             { text: 'ORDER BY子句', link: 'OrderBy-Clause' },
             { text: 'LIMIT&OFFSET子句', link: 'Limit-Offset-Clause' },
             { text: '嵌套查询', link: 'Nested-Queries' },
+            { text: '行模式识别', link: 'Row-Pattern-Recognition' },
           ],
         },
         { text: '运维语句', link: 'SQL-Maintenance-Statements' },
@@ -216,7 +219,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '基础函数', link: 'Basis-Function' },
-            { text: '特色函数', link: 'Featured-Functions' },
+            { text: '特色函数', link: 'Featured-Functions_timecho' },
           ],
         },
 

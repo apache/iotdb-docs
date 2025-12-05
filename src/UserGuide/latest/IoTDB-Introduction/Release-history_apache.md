@@ -20,6 +20,7 @@
 -->
 # Release History
 
+
 ## V2.0.5
 
 > Release Date: 2025.08.21
@@ -34,7 +35,6 @@ V2.0.5, as the official release of the Dual-Model Tree-Table system, primarily i
 * **Storage Module**: Adds multiple system tables for the table model, such as VIEWS (table view information) and MODELS (model information)
 * **AI Module**: AINode adds two new built-in models, Timer-XL and Timer-Sundial
 * **AI Module**: AINode supports inference functions for both tree and table models
-
 
 
 ## V2.0.4

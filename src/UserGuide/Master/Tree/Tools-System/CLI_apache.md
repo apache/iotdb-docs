@@ -60,10 +60,10 @@ Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root
 The Windows system startup commands are as follows:
 
 ```shell
-# Before version V2.0.4.x
+# Before version V2.0.4
 Shell > sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
 
-# V2.0.4.x and later versions
+# V2.0.4 and later versions
 Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
 ```
 

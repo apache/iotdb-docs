@@ -46,14 +46,43 @@
 
 ## 2. 安装步骤
 
-### 2.1 解压安装包并进入安装目录
+### 2.1 前置检查
+
+为确保您获取的IoTDB企业版安装包完整且正确，在执行安装部署前建议您进行SHA512校验。
+
+#### 准备工作：
+
+- 获取官方发布的 SHA512 校验码：[发布历史](../IoTDB-Introduction/Release-history_timecho.md)文档中各版本对应的"SHA512校验码"
+
+#### 校验步骤（以 linux 为例）：
+
+1. 打开终端，进入安装包所在目录（如`/data/iotdb`）：
+   ```Bash
+      cd /data/iotdb
+      ```
+2. 执行以下命令计算哈希值：
+   ```Bash
+      sha512sum timechodb-{version}-bin.zip
+      ```
+3. 终端输出结果（左侧为SHA512 校验码，右侧为文件名）：
+
+![img](/img/sha512-01.png)
+
+4. 对比输出结果与官方 SHA512 校验码，确认一致后，即可按照下方流程执行IoTDB企业版的安装部署操作。
+
+#### 注意事项：
+
+- 若校验结果不一致，请联系天谋工作人员重新获取安装包
+- 校验过程中若出现"文件不存在"提示，需检查文件路径是否正确或安装包是否完整下载
+
+### 2.2 解压安装包并进入安装目录
 
 ```shell
 unzip  iotdb-enterprise-{version}-bin.zip
 cd  iotdb-enterprise-{version}-bin
 ```
 
-### 2.2 参数配置
+### 2.3 参数配置
 
 #### 环境脚本配置
 
@@ -73,11 +102,11 @@ cd  iotdb-enterprise-{version}-bin
 
 打开通用配置文件（./conf/iotdb-system.properties 文件），设置以下参数：
 
-|        **配置项**         |             **说明**             |   **默认值**   |                    **推荐值**                    |           备注            |
-| :-----------------------: | :------------------------------: | :------------: | :----------------------------------------------: | :-----------------------: |
-|       cluster_name        |             集群名称             | defaultCluster | 可根据需要设置集群名称，如无特殊需要保持默认即可 |    首次启动后不可修改     |
-| schema_replication_factor | 元数据副本数，单机版此处设置为 1 |       1        |                        1                         | 默认1，首次启动后不可修改 |
-|  data_replication_factor  |  数据副本数，单机版此处设置为 1  |       1        |                        1                         | 默认1，首次启动后不可修改 |
+|        **配置项**         |             **说明**             |   **默认值**   |                    **推荐值**                    |            备注            |
+| :-----------------------: | :------------------------------: | :------------: | :----------------------------------------------: |:------------------------:|
+|       cluster_name        |             集群名称             | defaultCluster | 可根据需要设置集群名称，如无特殊需要保持默认即可 |    支持热加载，但不建议手动修改该参数     |
+| schema_replication_factor | 元数据副本数，单机版此处设置为 1 |       1        |                        1                         |      默认1，首次启动后不可修改       |
+|  data_replication_factor  |  数据副本数，单机版此处设置为 1  |       1        |                        1                         |      默认1，首次启动后不可修改       |
 
 #### ConfigNode配置
 
@@ -107,7 +136,7 @@ cd  iotdb-enterprise-{version}-bin
 
 > ❗️注意：VSCode Remote等编辑器无自动保存配置功能，请确保修改的文件被持久化保存，否则配置项无法生效
 
-### 2.3 启动 ConfigNode 节点
+### 2.4 启动 ConfigNode 节点
 
 进入iotdb的sbin目录下，启动confignode
 
@@ -117,7 +146,7 @@ cd  iotdb-enterprise-{version}-bin
 
 如果启动失败，请参考下方[常见问题](#常见问题)。
 
-### 2.4 启动 DataNode 节点
+### 2.5 启动 DataNode 节点
 
 进入iotdb的sbin目录下，启动datanode：
 
@@ -125,7 +154,7 @@ cd  iotdb-enterprise-{version}-bin
 ./sbin/start-datanode.sh -d    #“-d”参数将在后台进行启动
 ```
 
-### 2.5 激活数据库
+### 2.6 激活数据库
 
 #### 方式一：命令激活
 - 进入 IoTDB CLI
@@ -171,7 +200,7 @@ IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOM
 - 将license文件放入对应节点的activation文件夹下；
 
 
-### 2.6 验证激活
+### 2.7 验证激活
 
 可在 CLI 中通过执行 `show activation` 命令查看激活状态，当看到“ClusterActivationStatus”字段状态显示为 ACTIVATED 表示激活成功
 

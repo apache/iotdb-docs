@@ -39,6 +39,36 @@ The instructions for using the visualization console tool can be found in the [I
 |         Database         |            IoTDB            |         Requires V1.2.0 Enterprise Edition and above         |   You can contact business or technical support to obtain    |
 |         Console          | IoTDB-Workbench-`<version>` |                              -                               | You can choose according to the appendix version comparison table and contact business or technical support to obtain it |
 
+
+### Pre-installation Check
+
+To ensure the Workbench installation package you obtained is complete and valid, we recommend performing an SHA512 verification before proceeding with the installation and deployment.
+
+#### Preparation:
+
+- Obtain the officially released SHA512 checksum: Contact the Timecho Team to get it.
+
+#### Verification Steps (Linux as an Example):
+
+1. Open the terminal and navigate to the directory where the installation package is stored (e.g., /data/workbench):
+   ```Bash
+      cd /data/workbench
+      ```
+2. Execute the following command to calculate the hash value:
+   ```Bash
+      sha512sum IoTDB-Workbench-`<version>`.zip
+      ```
+3. The terminal will output a result (the left part is the SHA512 checksum, and the right part is the file name):
+
+![img](/img/sha512-03.png)
+
+4. Compare the output result with the official SHA512 checksum. Once confirmed that they match, you can proceed with the installation and deployment operations in accordance with the procedures below.
+
+#### Notes:
+
+- If the verification results do not match, please contact the Timecho Team to re-obtain the installation package.
+- If a "file not found" prompt appears during verification, check whether the file path is correct or if the installation package has been fully downloaded.
+
 ## Installation Steps
 
 ### Step 1: IoTDB enables monitoring indicator collection

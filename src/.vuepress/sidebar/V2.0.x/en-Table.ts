@@ -77,13 +77,14 @@ export const enSidebar = {
         { text: 'Database Management', link: 'Database-Management' },
         { text: 'Table Management', link: 'Table-Management' },
         { text: 'Write&Updata Data', link: 'Write-Updata-Data' },
-        { text: 'Query Data', link: 'Query-Data' },
+        { text: 'Query Data', link: 'Query-Data_apache' },
         {
           text: 'Delete Data',
           collapsible: true,
           children: [
             { text: 'Delete Data', link: 'Delete-Data' },
             { text: 'TTL Delete Data', link: 'TTL-Delete-Data' },
+            { text: 'SpaceTL Delete Data', link: 'SpaceTL-Delete' },
           ],
         },
       ],
@@ -99,9 +100,10 @@ export const enSidebar = {
           text: 'Security Permissions',
           collapsible: true,
           children: [
-            { text: 'Authority Management', link: 'Authority-Management' },
+            { text: 'Authority Management', link: 'Authority-Management_apache' },
           ],
         },
+        { text: 'Tree-to-Table Mapping', link: 'Tree-to-Table' },
         {
           text: 'System Maintenance',
           collapsible: true,
@@ -126,20 +128,20 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Tools-System/',
       children: [
-        { text: 'CLI', link: 'CLI' },
+        { text: 'CLI', link: 'CLI_apache' },
         { text: 'Monitor Tool', link: 'Monitor-Tool_apache' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
         { text: 'Cluster Management Tool', link: 'Maintenance-Tool_apache' },
         { text: 'Data Import & Export', collapsible: true,
           children: [
-            { text: 'Data Import', link: 'Data-Import-Tool' },
-            { text: 'Data Export', link: 'Data-Export-Tool' },
+            { text: 'Data Import', link: 'Data-Import-Tool_apache' },
+            { text: 'Data Export', link: 'Data-Export-Tool_apache' },
           ],
         },
         { text: 'Schema Import & Export', collapsible: true,
           children: [
-            { text: 'Schema Import', link: 'Schema-Import-Tool' },
-            { text: 'Schema Export', link: 'Schema-Export-Tool' },
+            { text: 'Schema Import', link: 'Schema-Import-Tool_apache' },
+            { text: 'Schema Export', link: 'Schema-Export-Tool_apache' },
           ],
         },
       ],
@@ -150,10 +152,10 @@ export const enSidebar = {
       prefix: 'API/',
       children: [
         { text: 'Java Native API', link: 'Programming-Java-Native-API_apache' },
-        { text: 'Python Native API', link: 'Programming-Python-Native-API' },
-        { text: 'C++ Native API', link: 'Programming-Cpp-Native-API' },
-        { text: 'GO Native API', link: 'Programming-Go-Native-API' },
-        { text: 'C# Native API', link: 'Programming-CSharp-Native-API' },
+        { text: 'Python Native API', link: 'Programming-Python-Native-API_apache' },
+        { text: 'C++ Native API', link: 'Programming-Cpp-Native-API_apache' },
+        { text: 'GO Native API', link: 'Programming-Go-Native-API_apache' },
+        { text: 'C# Native API', link: 'Programming-CSharp-Native-API_apache' },
         { text: 'JDBC', link: 'Programming-JDBC_apache' },
         { text: 'MQTT Protocol', link: 'Programming-MQTT' },
         { text: 'RESTAPI V1 ', link: 'RestAPI-V1' },
@@ -202,7 +204,7 @@ export const enSidebar = {
           text: 'Data Query',
           collapsible: true,
           children: [
-            { text: 'overview', link: 'overview' },
+            { text: 'overview', link: 'overview_apache' },
             { text: 'SELECT Clause', link: 'Select-Clause' },
             { text: 'FROM&JOIN Clause', link: 'From-Join-Clause' },
             { text: 'WHERE Clause', link: 'Where-Clause' },
@@ -222,7 +224,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'Basis Functions', link: 'Basis-Function' },
-            { text: 'Featured Functions', link: 'Featured-Functions' },
+            { text: 'Featured Functions', link: 'Featured-Functions_apache' },
           ],
         },
 
