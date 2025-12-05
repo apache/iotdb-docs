@@ -54,7 +54,7 @@ export const zhSidebar = {
       children: [
         { text: '部署形态', link: 'Deployment-form_apache' },
         { text: '安装包获取', link: 'IoTDB-Package_apache' },
-        { text: '资源规划', link: 'Database-Resources' },
+        { text: '资源规划', link: 'Database-Resources_apache' },
         { text: '环境配置', link: 'Environment-Requirements' },
         { text: '单机版部署指导', link: 'Stand-Alone-Deployment_apache' },
         { text: '集群版部署指导', link: 'Cluster-Deployment_apache' },
