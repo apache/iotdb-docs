@@ -53,6 +53,9 @@ This guide describes how to manually deploy a cluster instance consisting of 3 C
 
 6. **Monitoring Panel**: Deploy a monitoring panel to track key performance metrics. Contact the Timecho team for access and refer to the "[Monitoring Panel Deployment](./Monitoring-panel-deployment.md)" guide.
 
+7. **Health Check Tool**: Before installation, the health check tool can help inspect the operating environment of IoTDB nodes and obtain detailed inspection results. The usage method of the IoTDB health check tool can be found in:[Health Check Tool](../Tools-System/Health-Check-Tool.md).
+
+
 ## 2. Preparation
 
 1. Obtain the TimechoDB installation package: `timechodb-{version}-bin.zip` following [IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_timecho.md)）
