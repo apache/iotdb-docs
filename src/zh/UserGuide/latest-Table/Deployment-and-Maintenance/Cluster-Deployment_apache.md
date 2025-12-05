@@ -57,6 +57,36 @@
 1. 准备IoTDB数据库安装包 ：apache-iotdb-{version}-all-bin.zip（安装包获取见：[链接](../Deployment-and-Maintenance/IoTDB-Package_apache.md)）
 2. 按环境要求配置好操作系统环境（系统环境配置见：[链接](../Deployment-and-Maintenance/Environment-Requirements.md)）
 
+
+### 2.1 前置检查
+
+为确保您获取的 IoTDB 安装包完整且正确，在执行安装部署前建议您进行SHA512校验。
+
+#### 准备工作：
+
+- 获取官方发布的 SHA512 校验码：请到 IoTDB 开源官网[发行版本](https://iotdb.apache.org/zh/Download/)页面获取
+
+#### 校验步骤（以 linux 为例）：
+
+1. 打开终端，进入安装包所在目录（如`/data/iotdb`）：
+   ```Bash
+      cd /data/iotdb
+      ```
+2. 执行以下命令计算哈希值：
+   ```Bash
+      sha512sum apache-iotdb-{version}-all-bin.zip
+      ```
+3. 终端输出结果（左侧为SHA512 校验码，右侧为文件名）：
+
+![img](/img/sha512-07.png)
+
+4. 对比输出结果与官方 SHA512 校验码，确认一致后，即可按照下方流程执行 IoTDB 的安装部署操作。
+
+#### 注意事项：
+
+- 若校验结果不一致，请重新获取安装包
+- 校验过程中若出现"文件不存在"提示，需检查文件路径是否正确或安装包是否完整下载
+
 ## 3. 安装步骤
 
 假设现在有3台linux服务器，IP地址和服务角色分配如下：
@@ -123,7 +153,7 @@ cd  apache-iotdb-{version}-all-bin
 
 | 配置项                          | 说明                                                         | 默认            | 推荐值                                                  | 11.101.17.224 | 11.101.17.225 | 11.101.17.226 | 备注               |
 | ------------------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------- | ------------- | ------------- | ------------- | ------------------ |
-| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 127.0.0.1       |  推荐使用所在服务器的IPV4地址或hostname      |  iotdb-1       |iotdb-2       | iotdb-3         | 重启服务生效       |
+| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 0.0.0.0         |  所在服务器的IPV4地址或hostname，推荐使用所在服务器的IPV4地址      |  iotdb-1       |iotdb-2       | iotdb-3         | 重启服务生效       |
 | dn_rpc_port                     | 客户端 RPC 服务的端口                                        | 6667            | 6667                                                    | 6667          | 6667          | 6667          | 重启服务生效       |
 | dn_internal_address             | DataNode在集群内部通讯使用的地址                             | 127.0.0.1       | 所在服务器的IPV4地址或hostname，推荐使用hostname        | iotdb-1       | iotdb-2       | iotdb-3       | 首次启动后不能修改 |
 | dn_internal_port                | DataNode在集群内部通信使用的端口                             | 10730           | 10730                                                   | 10730         | 10730         | 10730         | 首次启动后不能修改 |

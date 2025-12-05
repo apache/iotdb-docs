@@ -52,6 +52,35 @@ This section describes how to manually deploy an instance that includes 3 Config
 1. Prepare the IoTDB database installation package: iotdb enterprise- {version}-bin.zip（The installation package can be obtained from:[IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_timecho.md)）
 2. Configure the operating system environment according to environmental requirements（The system environment configuration can be found in:[Environment Requirement](https://www.timecho.com/docs/UserGuide/latest/Deployment-and-Maintenance/Environment-Requirements.html)）
 
+### Pre-installation Check
+
+To ensure the IoTDB Enterprise Edition installation package you obtained is complete and authentic, we recommend performing an SHA512 verification before proceeding with the installation and deployment.
+
+#### Preparation:
+
+- Obtain the officially released SHA512 checksum: Find the "SHA512 Checksum" corresponding to each version in the [Release History](../IoTDB-Introduction/Release-history_timecho.md) document.
+
+#### Verification Steps (Linux as an Example):
+
+1. Open the terminal and navigate to the directory where the installation package is stored (e.g., /data/iotdb):
+   ```Bash
+      cd /data/iotdb
+      ```
+2. Execute the following command to calculate the hash value:
+   ```Bash
+      sha512sum timechodb-{version}-bin.zip
+      ```
+3. The terminal will output a result (the left part is the SHA512 checksum, and the right part is the file name):
+
+![img](/img/sha512-02.png)
+
+4. Compare the output result with the official SHA512 checksum. Once confirmed that they match, you can proceed with the installation and deployment operations in accordance with the procedures below.
+
+#### Notes:
+
+- If the verification results do not match, please contact Timecho Team to re-obtain the installation package.
+- If a "file not found" prompt appears during verification, check whether the file path is correct or if the installation package has been fully downloaded.
+
 ## Installation Steps
 
 Assuming there are three Linux servers now, the IP addresses and service roles are assigned as follows:
@@ -120,16 +149,16 @@ Open the ConfigNode configuration file `./conf/iotdb-system.properties`,Set the 
 
 Open DataNode Configuration File `./conf/iotdb-system.properties`,Set the following parameters:
 
-| **Configuration**               | **Description**                                              | **Default**     | **Recommended value**                                        | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | Note                                     |
-| ------------------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------------ | ------------- | ------------- | ------------- | ---------------------------------------- |
-| dn_rpc_address                  | The address of the client RPC service                                        | 127.0.0.1       |  Recommend using the **IPV4 address or hostname** of the server where it is located        |  iotdb-1       |iotdb-2       | iotdb-3       | Restarting the service takes effect       |
-| dn_rpc_port                     | The port of the client RPC service                           | 6667            | 6667                                                         | 6667          | 6667          | 6667          | Restarting the service takes effect      |
-| dn_internal_address             | The address used by DataNode for communication within the cluster | 127.0.0.1       | The IPV4 address or host name of the server where it is located, and it is recommended to use host name | iotdb-1       | iotdb-2       | iotdb-3       | Cannot be modified after initial startup |
-| dn_internal_port                | The port used by DataNode for communication within the cluster | 10730           | 10730                                                        | 10730         | 10730         | 10730         | Cannot be modified after initial startup |
-| dn_mpp_data_exchange_port       | The port used by DataNode to receive data streams            | 10740           | 10740                                                        | 10740         | 10740         | 10740         | Cannot be modified after initial startup |
-| dn_data_region_consensus_port   | The port used by DataNode for data replica consensus protocol communication | 10750           | 10750                                                        | 10750         | 10750         | 10750         | Cannot be modified after initial startup |
-| dn_schema_region_consensus_port | The port used by DataNode for metadata replica consensus protocol communication | 10760           | 10760                                                        | 10760         | 10760         | 10760         | Cannot be modified after initial startup |
-| dn_seed_config_node             | The address of the ConfigNode that the node connects to when registering to join the cluster, i.e. `cn_internal-address: cn_internal_port` | 127.0.0.1:10710 | The first CongfigNode's cn_internal-address: cn_internal_port | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | Cannot be modified after initial startup |
+| **Configuration**               | **Description**                                              | **Default**     | **Recommended value**                                                                                           | 192.168.1.3   | 192.168.1.4   | 192.168.1.5   | Note                                     |
+| ------------------------------- | ------------------------------------------------------------ |-----------------|-----------------------------------------------------------------------------------------------------------------| ------------- | ------------- | ------------- | ---------------------------------------- |
+| dn_rpc_address                  | The address of the client RPC service                                        | 0.0.0.0         | The IPV4 address or host name of the server where it is located, and it is recommended to use the IPV4 address  |  iotdb-1       |iotdb-2       | iotdb-3       | Restarting the service takes effect       |
+| dn_rpc_port                     | The port of the client RPC service                           | 6667            | 6667                                                                                                            | 6667          | 6667          | 6667          | Restarting the service takes effect      |
+| dn_internal_address             | The address used by DataNode for communication within the cluster | 127.0.0.1       | The IPV4 address or host name of the server where it is located, and it is recommended to use host name         | iotdb-1       | iotdb-2       | iotdb-3       | Cannot be modified after initial startup |
+| dn_internal_port                | The port used by DataNode for communication within the cluster | 10730           | 10730                                                                                                           | 10730         | 10730         | 10730         | Cannot be modified after initial startup |
+| dn_mpp_data_exchange_port       | The port used by DataNode to receive data streams            | 10740           | 10740                                                                                                           | 10740         | 10740         | 10740         | Cannot be modified after initial startup |
+| dn_data_region_consensus_port   | The port used by DataNode for data replica consensus protocol communication | 10750           | 10750                                                                                                           | 10750         | 10750         | 10750         | Cannot be modified after initial startup |
+| dn_schema_region_consensus_port | The port used by DataNode for metadata replica consensus protocol communication | 10760           | 10760                                                                                                           | 10760         | 10760         | 10760         | Cannot be modified after initial startup |
+| dn_seed_config_node             | The address of the ConfigNode that the node connects to when registering to join the cluster, i.e. `cn_internal-address: cn_internal_port` | 127.0.0.1:10710 | The first CongfigNode's cn_internal-address: cn_internal_port                                                   | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | Cannot be modified after initial startup |
 
 > ❗️Attention: Editors such as VSCode Remote do not have automatic configuration saving function. Please ensure that the modified files are saved persistently, otherwise the configuration items will not take effect
 
@@ -265,6 +294,22 @@ After the installation success interface appears, continue to check if the activ
 When you see the display of `Activated` on the far right, it indicates successful activation.
 
 ![](/img/%E4%BC%81%E4%B8%9A%E7%89%88%E6%BF%80%E6%B4%BB.png)
+
+In the CLI, you can also check the activation status by running the `show activation` command; the example below shows a status of ACTIVATED, indicating successful activation.
+
+```sql
+IoTDB> show activation
++---------------+---------+-----------------------------+
+|    LicenseInfo|    Usage|                        Limit|
++---------------+---------+-----------------------------+
+|         Status|ACTIVATED|                            -|
+|    ExpiredTime|        -|2026-04-30T00:00:00.000+08:00|
+|  DataNodeLimit|        1|                    Unlimited|
+|       CpuLimit|       16|                    Unlimited|
+|    DeviceLimit|       30|                    Unlimited|
+|TimeSeriesLimit|       72|                1,000,000,000|
++---------------+---------+-----------------------------+
+```
 
 > The appearance of `ACTIVATED (W)` indicates passive activation, which means that this Configurable Node does not have a license file (or has not issued the latest license file with a timestamp), and its activation depends on other Activated Configurable Nodes in the cluster. At this point, it is recommended to check if the license file has been placed in the license folder. If not, please place the license file. If a license file already exists, it may be due to inconsistency between the license file of this node and the information of other nodes. Please contact Timecho staff to reapply.
 

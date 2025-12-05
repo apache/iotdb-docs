@@ -111,6 +111,7 @@ export const zhSidebar = {
           children: [
             { text: '数据删除', link: 'Delete-Data' },
             { text: '数据保留时间', link: 'TTL-Delete' },
+            { text: 'SpaceTL 删除', link: 'SpaceTL-Delete' },
           ],
         },
       ],
@@ -204,7 +205,7 @@ export const zhSidebar = {
         { text: 'Node.js原生接口', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC' },
-        { text: 'MQTT协议', link: 'Programming-MQTT' },
+        /* { text: 'MQTT协议', link: 'Programming-MQTT' }, */
         { text: 'OPC UA协议', link: 'Programming-OPC-UA_timecho' },
         {
           text: 'REST API',
@@ -249,7 +250,7 @@ export const zhSidebar = {
               text: '可视化分析',
               collapsible: true,
               children: [
-                { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB' },
+                { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_timecho' },
                 { text: 'Grafana', link: 'Grafana-Connector' },
                 { text: 'Grafana插件', link: 'Grafana-Plugin' },
                 { text: 'DataEase', link: 'DataEase' },

@@ -58,7 +58,7 @@ export const zhSidebar = {
             children: [
               { text: '部署形态', link: 'Deployment-form_timecho' },
               { text: '安装包获取', link: 'IoTDB-Package_timecho' },
-              { text: '资源规划', link: 'Database-Resources' },
+              { text: '资源规划', link: 'Database-Resources_timecho' },
               { text: '环境配置', link: 'Environment-Requirements' },
             ],
           },
@@ -96,14 +96,15 @@ export const zhSidebar = {
       prefix: 'Basic-Concept/',
       children: [
         { text: '测点管理', link: 'Operate-Metadata_timecho' },
-        { text: '数据写入', link: 'Write-Data' },
-        { text: '数据查询', link: 'Query-Data' },
+        { text: '数据写入', link: 'Write-Data_timecho' },
+        { text: '数据查询', link: 'Query-Data_timecho' },
         {
           text: '数据删除',
           collapsible: true,
           children: [
             { text: '数据删除', link: 'Delete-Data' },
             { text: '数据保留时间', link: 'TTL-Delete' },
+            { text: 'SpaceTL 删除', link: 'SpaceTL-Delete' },
           ],
         },
       ],
@@ -114,7 +115,7 @@ export const zhSidebar = {
       prefix: 'User-Manual/',
       children: [
         { text: '数据同步', link: 'Data-Sync_timecho' },
-        { text: '数据订阅', link: 'Data-subscription' },
+        { text: '数据订阅', link: 'Data-subscription_timecho' },
         {
           text: '流计算',
           collapsible: true,
@@ -131,7 +132,7 @@ export const zhSidebar = {
           text: '安全权限',
           collapsible: true,
           children: [
-            { text: '权限管理', link: 'Authority-Management' },
+            { text: '权限管理', link: 'Authority-Management_timecho' },
             { text: '白名单', link: 'White-List_timecho' },
             { text: '安全审计', link: 'Audit-Log_timecho' },
           ],
@@ -168,14 +169,14 @@ export const zhSidebar = {
         { text: '集群管理工具', link: 'Maintenance-Tool_timecho' },
         { text: '数据导入导出', collapsible: true,
           children: [
-            { text: '数据导入', link: 'Data-Import-Tool' },
-            { text: '数据导出', link: 'Data-Export-Tool' },
+            { text: '数据导入', link: 'Data-Import-Tool_timecho' },
+            { text: '数据导出', link: 'Data-Export-Tool_timecho' },
           ],
         },
         { text: '元数据导入导出', collapsible: true,
           children: [
-            { text: '元数据导入', link: 'Schema-Import-Tool' },
-            { text: '元数据导出', link: 'Schema-Export-Tool' },
+            { text: '元数据导入', link: 'Schema-Import-Tool_timecho' },
+            { text: '元数据导出', link: 'Schema-Export-Tool_timecho' },
           ],
         },
         { text: '全量备份工具', link: 'Backup-Tool' },
@@ -189,25 +190,25 @@ export const zhSidebar = {
       children: [
         { text: 'Java原生接口', collapsible: true,
           children: [
-            { text: 'Java原生API', link: 'Programming-Java-Native-API' },
-            { text: '数据订阅API', link: 'Programming-Data-Subscription' },
+            { text: 'Java原生API', link: 'Programming-Java-Native-API_timecho' },
+            { text: '数据订阅API', link: 'Programming-Data-Subscription_timecho' },
           ],
         },
-        { text: 'Python原生接口', link: 'Programming-Python-Native-API' },
+        { text: 'Python原生接口', link: 'Programming-Python-Native-API_timecho' },
         { text: 'C++原生接口', link: 'Programming-Cpp-Native-API' },
         { text: 'Go原生接口', link: 'Programming-Go-Native-API' },
         { text: 'C#原生接口', link: 'Programming-CSharp-Native-API' },
         { text: 'Node.js原生接口', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust', link: 'Programming-Rust-Native-API' },
-        { text: 'JDBC', link: 'Programming-JDBC' },
+        { text: 'JDBC', link: 'Programming-JDBC_timecho' },
         { text: 'MQTT协议', link: 'Programming-MQTT' },
         { text: 'OPC UA协议', link: 'Programming-OPC-UA_timecho' },
         {
           text: 'REST API',
           collapsible: true,
           children: [
-            { text: 'V1 (不推荐)', link: 'RestServiceV1' },
-            { text: 'V2', link: 'RestServiceV2' },
+            { text: 'V1 (不推荐)', link: 'RestServiceV1_timecho' },
+            { text: 'V2', link: 'RestServiceV2_timecho' },
           ],
         },
       ],
@@ -217,6 +218,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Ecosystem-Integration/',
       children: [
+        { text: '概览', link: 'Ecosystem-Overview_timecho' },
         {
           text: '数据采集',
           collapsible: true,

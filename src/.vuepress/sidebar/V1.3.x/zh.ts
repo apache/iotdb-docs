@@ -102,6 +102,7 @@ export const zhSidebar = {
           children: [
             { text: '数据删除', link: 'Delete-Data' },
             { text: '数据保留时间', link: 'TTL-Delete' },
+            { text: 'SpaceTL 删除', link: 'SpaceTL-Delete' },
           ],
         },
       ],
@@ -232,7 +233,7 @@ export const zhSidebar = {
           text: '可视化分析',
           collapsible: true,
           children: [
-            { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB' },
+            { text: 'Apache Zeppelin', link: 'Zeppelin-IoTDB_apache' },
             { text: 'Grafana', link: 'Grafana-Connector' },
             { text: 'Grafana插件', link: 'Grafana-Plugin' },
             { text: 'DataEase', link: 'DataEase' },

@@ -57,6 +57,35 @@
 1. 准备IoTDB数据库安装包 ：timechodb-{version}-bin.zip（安装包获取见：[链接](./IoTDB-Package_timecho.md)）
 2. 按环境要求配置好操作系统环境（系统环境配置见：[链接](./Environment-Requirements.md)）
 
+### 2.1 前置检查
+
+为确保您获取的IoTDB企业版安装包完整且正确，在执行安装部署前建议您进行SHA512校验。
+
+#### 准备工作：
+
+- 获取官方发布的 SHA512 校验码：[发布历史](../IoTDB-Introduction/Release-history_timecho.md)文档中各版本对应的"SHA512校验码"
+
+#### 校验步骤（以 linux 为例）：
+
+1. 打开终端，进入安装包所在目录（如`/data/iotdb`）：
+   ```Bash
+      cd /data/iotdb
+      ```
+2. 执行以下命令计算哈希值：
+   ```Bash
+      sha512sum timechodb-{version}-bin.zip
+      ```
+3. 终端输出结果（左侧为SHA512 校验码，右侧为文件名）：
+
+![img](/img/sha512-01.png)
+
+4. 对比输出结果与官方 SHA512 校验码，确认一致后，即可按照下方流程执行IoTDB企业版的安装部署操作。
+
+#### 注意事项：
+
+- 若校验结果不一致，请联系天谋工作人员重新获取安装包
+- 校验过程中若出现"文件不存在"提示，需检查文件路径是否正确或安装包是否完整下载
+
 ## 3. 安装步骤
 
 假设现在有3台linux服务器，IP地址和服务角色分配如下：
@@ -121,15 +150,15 @@ cd  timechodb-{version}-bin
 
 #### 3.2.4 DataNode 配置
 
-| 配置项                          | 说明                                                         | 默认            | 推荐值                                                  | 11.101.17.224 | 11.101.17.225 | 11.101.17.226 | 备注               |
-| ------------------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------- | ------------- | ------------- | ------------- | ------------------ |
-| dn_rpc_address                  | 客户端 RPC 服务的地址                                        |127.0.0.1       |  推荐使用所在服务器的IPV4地址或hostname      |  iotdb-1       |iotdb-2       | iotdb-3         | 重启服务生效       |
-| dn_rpc_port                     | 客户端 RPC 服务的端口                                        | 6667            | 6667                                                    | 6667          | 6667          | 6667          | 重启服务生效       |
-| dn_internal_address             | DataNode在集群内部通讯使用的地址                             | 127.0.0.1       | 所在服务器的IPV4地址或hostname，推荐使用hostname        | iotdb-1       | iotdb-2       | iotdb-3       | 首次启动后不能修改 |
-| dn_internal_port                | DataNode在集群内部通信使用的端口                             | 10730           | 10730                                                   | 10730         | 10730         | 10730         | 首次启动后不能修改 |
-| dn_mpp_data_exchange_port       | DataNode用于接收数据流使用的端口                             | 10740           | 10740                                                   | 10740         | 10740         | 10740         | 首次启动后不能修改 |
-| dn_data_region_consensus_port   | DataNode用于数据副本共识协议通信使用的端口                   | 10750           | 10750                                                   | 10750         | 10750         | 10750         | 首次启动后不能修改 |
-| dn_schema_region_consensus_port | DataNode用于元数据副本共识协议通信使用的端口                 | 10760           | 10760                                                   | 10760         | 10760         | 10760         | 首次启动后不能修改 |
+| 配置项                          | 说明                                                         | 默认            | 推荐值                                              | 11.101.17.224 | 11.101.17.225 | 11.101.17.226 | 备注               |
+| ------------------------------- | ------------------------------------------------------------ | --------------- | --------------------------------------------------- | ------------- | ------------- | ------------- | ------------------ |
+| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 0.0.0.0         |  所在服务器的IPV4地址或hostname，推荐使用所在服务器的IPV4地址     |  iotdb-1       |iotdb-2       | iotdb-3        | 重启服务生效       |
+| dn_rpc_port                     | 客户端 RPC 服务的端口                                        | 6667            | 6667                                                | 6667          | 6667          | 6667          | 重启服务生效       |
+| dn_internal_address             | DataNode在集群内部通讯使用的地址                             | 127.0.0.1       | 所在服务器的IPV4地址或hostname，推荐使用hostname    | iotdb-1       | iotdb-2       | iotdb-3       | 首次启动后不能修改 |
+| dn_internal_port                | DataNode在集群内部通信使用的端口                             | 10730           | 10730                                               | 10730         | 10730         | 10730         | 首次启动后不能修改 |
+| dn_mpp_data_exchange_port       | DataNode用于接收数据流使用的端口                             | 10740           | 10740                                               | 10740         | 10740         | 10740         | 首次启动后不能修改 |
+| dn_data_region_consensus_port   | DataNode用于数据副本共识协议通信使用的端口                   | 10750           | 10750                                               | 10750         | 10750         | 10750         | 首次启动后不能修改 |
+| dn_schema_region_consensus_port | DataNode用于元数据副本共识协议通信使用的端口                 | 10760           | 10760                                               | 10760         | 10760         | 10760         | 首次启动后不能修改 |
 | dn_seed_config_node             | 节点注册加入集群时连接的ConfigNode地址,即cn_internal_address:cn_internal_port | 127.0.0.1:10710 | 第一个CongfigNode的cn_internal_address:cn_internal_port | iotdb-1:10710 | iotdb-1:10710 | iotdb-1:10710 | 首次启动后不能修改 |
 
 > ❗️注意：VSCode Remote等编辑器无自动保存配置功能，请确保修改的文件被持久化保存，否则配置项无法生效
@@ -170,7 +199,7 @@ cd sbin
   ./start-cli.bat -sql_dialect table
   ```
 
-  - 执行以下内容获取激活所需机器码： 
+  - 执行以下内容获取激活所需机器码：
 
   ```Bash
   show system info
@@ -208,10 +237,21 @@ cd sbin
 
 ### 3.6 验证激活
 
-当看到“Result”字段状态显示为success表示激活成功
+可在 CLI 中通过执行 `show activation` 命令查看激活状态，示例如下，状态显示为 ACTIVATED 表示激活成功
 
-![](/img/%E9%9B%86%E7%BE%A4-%E9%AA%8C%E8%AF%81.png)
-
+```sql
+IoTDB> show activation
++---------------+---------+-----------------------------+
+|    LicenseInfo|    Usage|                        Limit|
++---------------+---------+-----------------------------+
+|         Status|ACTIVATED|                            -|
+|    ExpiredTime|        -|2026-04-30T00:00:00.000+08:00|
+|  DataNodeLimit|        1|                    Unlimited|
+|       CpuLimit|       16|                    Unlimited|
+|    DeviceLimit|       30|                    Unlimited|
+|TimeSeriesLimit|       72|                1,000,000,000|
++---------------+---------+-----------------------------+
+```
 
 ### 3.7 一键启停集群
 

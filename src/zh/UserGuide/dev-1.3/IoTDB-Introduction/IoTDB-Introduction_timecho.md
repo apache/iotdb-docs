@@ -99,7 +99,7 @@ TimechoDB 在 Apache IoTDB 基础上提供了更多高阶产品功能，在内�
       </tr>
       <tr>
             <td>双活部署</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td> 
       </tr>
        <tr>
@@ -155,55 +155,55 @@ TimechoDB 在 Apache IoTDB 基础上提供了更多高阶产品功能，在内�
       </tr>
       <tr>
             <td>多级存储</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>视图</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>白名单</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>审计日志</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td rowspan="3">配套工具</td>  
             <td>可视化控制台</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>       
       </tr>
       <tr>
             <td>集群管理工具</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>系统监控工具</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
       <tr>
             <td>国产化</td>  
             <td>国产化兼容性认证</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>       
       </tr>
       <tr>
             <td rowspan="2">技术支持</td>  
-            <td>最佳实践</td> 
-            <td>×</td> 
+            <td>专家服务</td> 
+            <td>-</td> 
             <td>√</td>       
       </tr>
       <tr>
             <td>使用培训</td> 
-            <td>×</td> 
+            <td>-</td> 
             <td>√</td>
       </tr>
   </tbody>

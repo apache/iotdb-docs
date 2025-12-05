@@ -179,7 +179,7 @@ IoTDB> drop device template t1
 ### Alter Device Template
 
 ```sql
-IoTDB> alter device template t1 add (speed FLOAT encoding=RLE, FLOAT TEXT encoding=PLAIN compression=SNAPPY)
+IoTDB> alter device template t1 add (speed FLOAT encoding=RLE)
 ```
 
 ## TIMESERIES MANAGEMENT

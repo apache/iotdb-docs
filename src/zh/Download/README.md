@@ -27,45 +27,45 @@
       <th>发布说明</th>
     </tr>
         <tr>
-      <td rowspan="2">2.0.4</td>
+      <td rowspan="2">2.0.5</td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.4/apache-iotdb-2.0.4-all-bin.zip"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.5/apache-iotdb-2.0.5-all-bin.zip"
           >All-in-one</a
         >
       </td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.4/apache-iotdb-2.0.4-all-bin.zip.sha512"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.5/apache-iotdb-2.0.5-all-bin.zip.sha512"
           >SHA512</a
         >
       </td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.4/apache-iotdb-2.0.4-all-bin.zip.asc"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.5/apache-iotdb-2.0.5-all-bin.zip.asc"
           >ASC</a
         >
       </td>
       <td rowspan="2">
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.4/apache-iotdb-2.0.4-source-release.zip"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.5/apache-iotdb-2.0.5-source-release.zip"
           >源代码</a
         >
       </td>
       <td rowspan="2">
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.4/apache-iotdb-2.0.4-source-release.zip.sha512"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.5/apache-iotdb-2.0.5-source-release.zip.sha512"
           >SHA512</a
         >
       </td>
       <td rowspan="2">
         <a
-          href="https://www.apache.org/dyn/closer.cgi/2.0.4/apache-iotdb-2.0.4-source-release.zip.asc"
+          href="https://www.apache.org/dyn/closer.cgi/2.0.5/apache-iotdb-2.0.5-source-release.zip.asc"
           >ASC</a
         >
       </td>
       <td rowspan="2">
-        <a href="https://dlcdn.apache.org/iotdb/2.0.4/RELEASE_NOTES.md"
+        <a href="https://dlcdn.apache.org/iotdb/2.0.5/RELEASE_NOTES.md"
           >release notes</a
         >
       </td>
@@ -73,63 +73,63 @@
     <tr>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.4/apache-iotdb-2.0.4-ainode-bin.zip"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.5/apache-iotdb-2.0.5-ainode-bin.zip"
           >AINode</a
         >
       </td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.4/apache-iotdb-2.0.4-ainode-bin.zip.sha512"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.5/apache-iotdb-2.0.5-ainode-bin.zip.sha512"
           >SHA512</a
         >
       </td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.4/apache-iotdb-2.0.4-ainode-bin.zip.asc"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/2.0.5/apache-iotdb-2.0.5-ainode-bin.zip.asc"
           >ASC</a
         >
       </td>
     </tr>
     <tr>
-      <td rowspan="2">1.3.4-1</td>
+      <td rowspan="2">1.3.5</td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.4-1/apache-iotdb-1.3.4-1-all-bin.zip"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.5/apache-iotdb-1.3.5-all-bin.zip"
           >All-in-one</a
         >
       </td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.4-1/apache-iotdb-1.3.4-1-all-bin.zip.sha512"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.5/apache-iotdb-1.3.5-all-bin.zip.sha512"
           >SHA512</a
         >
       </td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.4-1/apache-iotdb-1.3.4-1-all-bin.zip.asc"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.5/apache-iotdb-1.3.5-all-bin.zip.asc"
           >ASC</a
         >
       </td>
       <td rowspan="2">
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.4-1/apache-iotdb-1.3.4-1-source-release.zip"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.5/apache-iotdb-1.3.5-source-release.zip"
           >源代码</a
         >
       </td>
       <td rowspan="2">
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.4-1/apache-iotdb-1.3.4-1-source-release.zip.sha512"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.5/apache-iotdb-1.3.5-source-release.zip.sha512"
           >SHA512</a
         >
       </td>
       <td rowspan="2">
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.4-1/apache-iotdb-1.3.4-1-source-release.zip.asc"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.5/apache-iotdb-1.3.5-source-release.zip.asc"
           >ASC</a
         >
       </td>
       <td rowspan="2">
-        <a href="https://dlcdn.apache.org/iotdb/1.3.4-1/RELEASE_NOTES.md"
+        <a href="https://dlcdn.apache.org/iotdb/1.3.5/RELEASE_NOTES.md"
           >release notes</a
         >
       </td>
@@ -137,19 +137,19 @@
     <tr>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.4-1/apache-iotdb-1.3.4-1-ainode-bin.zip"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.5/apache-iotdb-1.3.5-ainode-bin.zip"
           >AINode</a
         >
       </td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.4-1/apache-iotdb-1.3.4-1-ainode-bin.zip.sha512"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.5/apache-iotdb-1.3.5-ainode-bin.zip.sha512"
           >SHA512</a
         >
       </td>
       <td>
         <a
-          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.4-1/apache-iotdb-1.3.4-1-ainode-bin.zip.asc"
+          href="https://www.apache.org/dyn/closer.cgi/iotdb/1.3.5/apache-iotdb-1.3.5-ainode-bin.zip.asc"
           >ASC</a
         >
       </td>
@@ -405,7 +405,7 @@ insert into root.sg(time, a) values(4, "\u96d5")
 
 - 如何从 v0.13.x 升级到 v1.0.x？
 
-  - 0.13 版本与 1.0 版本的文件目录结构不同，**<span style="color:red">不能将 0.13 的 data 目录直接拷贝到 1.0 集群使用</span>**。如果需要将 0.13 的数据导入至 1.0，可以使用 [LOAD](../UserGuide/latest/Tools-System/Data-Import-Tool.md) 功能;
+  - 0.13 版本与 1.0 版本的文件目录结构不同，**<span style="color:red">不能将 0.13 的 data 目录直接拷贝到 1.0 集群使用</span>**。如果需要将 0.13 的数据导入至 1.0，可以使用 [LOAD](../UserGuide/latest/Tools-System/Data-Import-Tool_apache) 功能;
   - **0.13 版本的默认 RPC 地址是 0.0.0.0，1.0 版本的默认 RPC 地址是 127.0.0.1**
 
 - 如何从 v1.0.0 升级到 v1.x.0？

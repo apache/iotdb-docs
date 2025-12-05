@@ -30,6 +30,7 @@ export const enSidebar = {
       children: [
         { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_apache' },
         { text: 'Scenario', link: 'Scenario' },
+        { text: 'Release History', link: 'Release-history_apache' },
       ],
     },
     {
@@ -110,6 +111,7 @@ export const enSidebar = {
           children: [
             { text: 'Delete Data', link: 'Delete-Data' },
             { text: 'TTL Delete Data', link: 'TTL-Delete' },
+            { text: 'SpaceTL Delete Data', link: 'SpaceTL-Delete' },
           ],
         },
       ],

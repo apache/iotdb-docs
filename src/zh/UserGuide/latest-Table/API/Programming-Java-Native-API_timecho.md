@@ -39,10 +39,12 @@ IoTDB具备Java原生客户端驱动和对应的连接池，提供对象化接�
     <dependency>
       <groupId>com.timecho.iotdb</groupId>
       <artifactId>iotdb-session</artifactId>
-      <version>2.0.1.1</version>
+        <!-- 版本号与数据库版本号相同 -->
+      <version>${project.version}</version>
     </dependency>
 </dependencies>
 ```
+* 可从[此处](https://repo1.maven.org/maven2/com/timecho/iotdb/iotdb-session/)查看`iotdb-session`最新版本
 
 ## 3. 读写操作
 
@@ -142,17 +144,17 @@ TableSessionBuilder类是一个构建器，用于配置和创建ITableSession接
 
 以下是TableSessionBuilder类中可用的配置选项及其默认值：
 
-| **配置项**                                           | **描述**                                 | **默认值**                                  |
-| ---------------------------------------------------- | ---------------------------------------- | ------------------------------------------- |
+| **配置项**                                           | **描述**                                 | **默认值**                                     |
+| ---------------------------------------------------- | ---------------------------------------- |---------------------------------------------|
 | nodeUrls(List`<String>` nodeUrls)                      | 设置IoTDB集群的节点URL列表               | Collections.singletonList("localhost:6667") |
 | username(String username)                            | 设置连接的用户名                         | "root"                                      |
-| password(String password)                            | 设置连接的密码                           | "root"                                      |
+| password(String password)                            | 设置连接的密码                           | "TimechoDB@2021"  //V2.0.6.x 之前默认密码是root                           |
 | database(String database)                            | 设置目标数据库名称                       | null                                        |
-| queryTimeoutInMs(long queryTimeoutInMs)              | 设置查询超时时间（毫秒）                 | 60000（1分钟）                              |
+| queryTimeoutInMs(long queryTimeoutInMs)              | 设置查询超时时间（毫秒）                 | 60000（1分钟）                                  |
 | fetchSize(int fetchSize)                             | 设置查询结果的获取大小                   | 5000                                        |
 | zoneId(ZoneId zoneId)                                | 设置时区相关的ZoneId                     | ZoneId.systemDefault()                      |
-| thriftDefaultBufferSize(int thriftDefaultBufferSize) | 设置Thrift客户端的默认缓冲区大小（字节） | 1024（1KB）                                 |
-| thriftMaxFrameSize(int thriftMaxFrameSize)           | 设置Thrift客户端的最大帧大小（字节）     | 64 * 1024 * 1024（64MB）                    |
+| thriftDefaultBufferSize(int thriftDefaultBufferSize) | 设置Thrift客户端的默认缓冲区大小（字节） | 1024（1KB）                                   |
+| thriftMaxFrameSize(int thriftMaxFrameSize)           | 设置Thrift客户端的最大帧大小（字节）     | 64 * 1024 * 1024（64MB）                      |
 | enableRedirection(boolean enableRedirection)         | 是否启用集群节点的重定向                 | true                                        |
 | enableAutoFetch(boolean enableAutoFetch)             | 是否启用自动获取可用DataNodes            | true                                        |
 | maxRetryCount(int maxRetryCount)                     | 设置连接尝试的最大重试次数               | 60                                          |
@@ -161,7 +163,7 @@ TableSessionBuilder类是一个构建器，用于配置和创建ITableSession接
 | trustStore(String keyStore)                          | 设置SSL连接的信任库路径                  | null                                        |
 | trustStorePwd(String keyStorePwd)                    | 设置SSL连接的信任库密码                  | null                                        |
 | enableCompression(boolean enableCompression)         | 是否启用RPC压缩                          | false                                       |
-| connectionTimeoutInMs(int connectionTimeoutInMs)     | 设置连接超时时间（毫秒）                 | 0（无超时）                                 |
+| connectionTimeoutInMs(int connectionTimeoutInMs)     | 设置连接超时时间（毫秒）                 | 0（无超时）                                      |
 
 #### 3.2.3 接口展示
 
@@ -198,7 +200,7 @@ public class TableSessionBuilder {
      *
      * @param username the username.
      * @return the current {@link TableSessionBuilder} instance.
-     * @defaultValue "root"
+     * @defaultValue "root“
      */
     public TableSessionBuilder username(String username);
 
@@ -207,7 +209,7 @@ public class TableSessionBuilder {
      *
      * @param password the password.
      * @return the current {@link TableSessionBuilder} instance.
-     * @defaultValue "root"
+     * @defaultValue "TimechoDB@2021" //V2.0.6.x 之前默认密码是root 
      */
     public TableSessionBuilder password(String password);
 
@@ -348,6 +350,8 @@ public class TableSessionBuilder {
 }
 ```
 
+> 注意： 原生API中创建表时，表名或列名中若含有特殊字符或中文字符，无需额外添加双引号括起，否则会包含引号字符。
+
 ## 4. 客户端连接池
 
 ### 4.1 ITableSessionPool 接口
@@ -402,22 +406,22 @@ TableSessionPool 的构造器，用于配置和创建 ITableSessionPool 的实�
 
 以下是 TableSessionPoolBuilder 类的可用配置选项及其默认值：
 
-| **配置项**                                                   | **描述**                                     | **默认值**                                  |
-| ------------------------------------------------------------ | -------------------------------------------- | ------------------------------------------- |
+| **配置项**                                                   | **描述**                                     | **默认值**                                     |
+| ------------------------------------------------------------ | -------------------------------------------- |---------------------------------------------|
 | nodeUrls(List`<String>` nodeUrls)                              | 设置IoTDB集群的节点URL列表                   | Collections.singletonList("localhost:6667") |
 | maxSize(int maxSize)                                         | 设置会话池的最大大小，即池中允许的最大会话数 | 5                                           |
 | user(String user)                                            | 设置连接的用户名                             | "root"                                      |
-| password(String password)                                    | 设置连接的密码                               | "root"                                      |
+| password(String password)                                    | 设置连接的密码                               | "TimechoDB@2021" //V2.0.6.x 之前默认密码是root     |
 | database(String database)                                    | 设置目标数据库名称                           | "root"                                      |
-| queryTimeoutInMs(long queryTimeoutInMs)                      | 设置查询超时时间（毫秒）                     | 60000（1分钟）                              |
+| queryTimeoutInMs(long queryTimeoutInMs)                      | 设置查询超时时间（毫秒）                     | 60000（1分钟）                                  |
 | fetchSize(int fetchSize)                                     | 设置查询结果的获取大小                       | 5000                                        |
 | zoneId(ZoneId zoneId)                                        | 设置时区相关的 ZoneId                        | ZoneId.systemDefault()                      |
-| waitToGetSessionTimeoutInMs(long waitToGetSessionTimeoutInMs) | 设置从池中获取会话的超时时间（毫秒）         | 30000（30秒）                               |
-| thriftDefaultBufferSize(int thriftDefaultBufferSize)         | 设置Thrift客户端的默认缓冲区大小（字节）     | 1024（1KB）                                 |
-| thriftMaxFrameSize(int thriftMaxFrameSize)                   | 设置Thrift客户端的最大帧大小（字节）         | 64 * 1024 * 1024（64MB）                    |
+| waitToGetSessionTimeoutInMs(long waitToGetSessionTimeoutInMs) | 设置从池中获取会话的超时时间（毫秒）         | 30000（30秒）                                  |
+| thriftDefaultBufferSize(int thriftDefaultBufferSize)         | 设置Thrift客户端的默认缓冲区大小（字节）     | 1024（1KB）                                   |
+| thriftMaxFrameSize(int thriftMaxFrameSize)                   | 设置Thrift客户端的最大帧大小（字节）         | 64 * 1024 * 1024（64MB）                      |
 | enableCompression(boolean enableCompression)                 | 是否启用连接的压缩                           | false                                       |
 | enableRedirection(boolean enableRedirection)                 | 是否启用集群节点的重定向                     | true                                        |
-| connectionTimeoutInMs(int connectionTimeoutInMs)             | 设置连接超时时间（毫秒）                     | 10000（10秒）                               |
+| connectionTimeoutInMs(int connectionTimeoutInMs)             | 设置连接超时时间（毫秒）                     | 10000（10秒）                                  |
 | enableAutoFetch(boolean enableAutoFetch)                     | 是否启用自动获取可用DataNodes                | true                                        |
 | maxRetryCount(int maxRetryCount)                             | 设置连接尝试的最大重试次数                   | 60                                          |
 | retryIntervalInMs(long retryIntervalInMs)                    | 设置重试间隔时间（毫秒）                     | 500                                         |
@@ -477,7 +481,7 @@ public class TableSessionPoolBuilder {
      *
      * @param password the password.
      * @return the current {@link TableSessionPoolBuilder} instance.
-     * @defaultValue "root"
+     * @defaultValue "TimechoDB@2021" //V2.0.6.x 之前默认密码是root 
      */
     public TableSessionPoolBuilder password(String password);
 
@@ -629,9 +633,9 @@ public class TableSessionPoolBuilder {
 
 ## 5. 示例代码
 
-Session 示例代码：[src/main/java/org/apache/iotdb/TableModelSessionExample.java](https://github.com/apache/iotdb/blob/rc/2.0.1/example/session/src/main/java/org/apache/iotdb/TableModelSessionExample.java)
+Session 示例代码：[src/main/java/org/apache/iotdb/TableModelSessionExample.java](https://github.com/apache/iotdb/blob/master/example/session/src/main/java/org/apache/iotdb/TableModelSessionExample.java)
 
-SessionPool 示例代码：[src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java](https://github.com/apache/iotdb/blob/rc/2.0.1/example/session/src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java)
+SessionPool 示例代码：[src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java](https://github.com/apache/iotdb/blob/master/example/session/src/main/java/org/apache/iotdb/TableModelSessionPoolExample.java)
 
 ```Java
 /*
@@ -662,199 +666,170 @@ import org.apache.iotdb.rpc.IoTDBConnectionException;
 import org.apache.iotdb.rpc.StatementExecutionException;
 import org.apache.iotdb.session.pool.TableSessionPoolBuilder;
 
+import org.apache.tsfile.enums.ColumnCategory;
 import org.apache.tsfile.enums.TSDataType;
 import org.apache.tsfile.write.record.Tablet;
-import org.apache.tsfile.write.record.Tablet.ColumnCategory;
-import org.apache.tsfile.write.schema.IMeasurementSchema;
-import org.apache.tsfile.write.schema.MeasurementSchema;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.apache.iotdb.SessionExample.printDataSet;
+
 public class TableModelSessionPoolExample {
 
-  private static final String LOCAL_URL = "127.0.0.1:6667";
+    private static final String LOCAL_URL = "127.0.0.1:6667";
 
-  public static void main(String[] args) {
+    public static void main(String[] args) {
 
-    // don't specify database in constructor
-    ITableSessionPool tableSessionPool =
-        new TableSessionPoolBuilder()
-            .nodeUrls(Collections.singletonList(LOCAL_URL))
-            .user("root")
-            .password("root")
-            .maxSize(1)
-            .build();
+        // don't specify database in constructor
+        ITableSessionPool tableSessionPool =
+                new TableSessionPoolBuilder()
+                        .nodeUrls(Collections.singletonList(LOCAL_URL))
+                        .user("root")
+                        .password("TimechoDB@2021") //V2.0.6.x 之前默认密码是root 
+                        .maxSize(1)
+                        .build();
 
-    try (ITableSession session = tableSessionPool.getSession()) {
+        try (ITableSession session = tableSessionPool.getSession()) {
 
-      session.executeNonQueryStatement("CREATE DATABASE test1");
-      session.executeNonQueryStatement("CREATE DATABASE test2");
+            session.executeNonQueryStatement("CREATE DATABASE test1");
+            session.executeNonQueryStatement("CREATE DATABASE test2");
 
-      session.executeNonQueryStatement("use test2");
+            session.executeNonQueryStatement("use test2");
 
-      // or use full qualified table name
-      session.executeNonQueryStatement(
-          "create table test1.table1("
-              + "region_id STRING TAG, "
-              + "plant_id STRING TAG, "
-              + "device_id STRING TAG, "
-              + "model STRING ATTRIBUTE, "
-              + "temperature FLOAT FIELD, "
-              + "humidity DOUBLE FIELD) with (TTL=3600000)");
+            // or use full qualified table name
+            session.executeNonQueryStatement(
+                    "create table test1.table1("
+                            + "region_id STRING TAG, "
+                            + "plant_id STRING TAG, "
+                            + "device_id STRING TAG, "
+                            + "model STRING ATTRIBUTE, "
+                            + "temperature FLOAT FIELD, "
+                            + "humidity DOUBLE FIELD) with (TTL=3600000)");
 
-      session.executeNonQueryStatement(
-          "create table table2("
-              + "region_id STRING TAG, "
-              + "plant_id STRING TAG, "
-              + "color STRING ATTRIBUTE, "
-              + "temperature FLOAT FIELD, "
-              + "speed DOUBLE FIELD) with (TTL=6600000)");
+            session.executeNonQueryStatement(
+                    "create table table2("
+                            + "region_id STRING TAG, "
+                            + "plant_id STRING TAG, "
+                            + "color STRING ATTRIBUTE, "
+                            + "temperature FLOAT FIELD, "
+                            + "speed DOUBLE FIELD) with (TTL=6600000)");
 
-      // show tables from current database
-      try (SessionDataSet dataSet = session.executeQueryStatement("SHOW TABLES")) {
-        System.out.println(dataSet.getColumnNames());
-        System.out.println(dataSet.getColumnTypes());
-        while (dataSet.hasNext()) {
-          System.out.println(dataSet.next());
+            // show tables from current database
+            try (SessionDataSet dataSet = session.executeQueryStatement("SHOW TABLES")) {
+                printDataSet(dataSet);
+            }
+
+            // show tables by specifying another database
+            // using SHOW tables FROM
+            try (SessionDataSet dataSet = session.executeQueryStatement("SHOW TABLES FROM test1")) {
+                printDataSet(dataSet);
+            }
+
+            // insert table data by tablet
+            List<String> columnNameList =
+                    Arrays.asList("region_id", "plant_id", "device_id", "model", "temperature", "humidity");
+            List<TSDataType> dataTypeList =
+                    Arrays.asList(
+                            TSDataType.STRING,
+                            TSDataType.STRING,
+                            TSDataType.STRING,
+                            TSDataType.STRING,
+                            TSDataType.FLOAT,
+                            TSDataType.DOUBLE);
+            List<ColumnCategory> columnTypeList =
+                    new ArrayList<>(
+                            Arrays.asList(
+                                    ColumnCategory.TAG,
+                                    ColumnCategory.TAG,
+                                    ColumnCategory.TAG,
+                                    ColumnCategory.ATTRIBUTE,
+                                    ColumnCategory.FIELD,
+                                    ColumnCategory.FIELD));
+            Tablet tablet = new Tablet("test1", columnNameList, dataTypeList, columnTypeList, 100);
+            for (long timestamp = 0; timestamp < 100; timestamp++) {
+                int rowIndex = tablet.getRowSize();
+                tablet.addTimestamp(rowIndex, timestamp);
+                tablet.addValue("region_id", rowIndex, "1");
+                tablet.addValue("plant_id", rowIndex, "5");
+                tablet.addValue("device_id", rowIndex, "3");
+                tablet.addValue("model", rowIndex, "A");
+                tablet.addValue("temperature", rowIndex, 37.6F);
+                tablet.addValue("humidity", rowIndex, 111.1);
+                if (tablet.getRowSize() == tablet.getMaxRowNumber()) {
+                    session.insert(tablet);
+                    tablet.reset();
+                }
+            }
+            if (tablet.getRowSize() != 0) {
+                session.insert(tablet);
+                tablet.reset();
+            }
+
+            // query table data
+            try (SessionDataSet dataSet =
+                         session.executeQueryStatement(
+                                 "select * from test1 "
+                                         + "where region_id = '1' and plant_id in ('3', '5') and device_id = '3'")) {
+                printDataSet(dataSet);
+            }
+
+        } catch (IoTDBConnectionException e) {
+            e.printStackTrace();
+        } catch (StatementExecutionException e) {
+            e.printStackTrace();
+        } finally {
+            tableSessionPool.close();
         }
-      }
 
-      // show tables by specifying another database
-      // using SHOW tables FROM
-      try (SessionDataSet dataSet = session.executeQueryStatement("SHOW TABLES FROM test1")) {
-        System.out.println(dataSet.getColumnNames());
-        System.out.println(dataSet.getColumnTypes());
-        while (dataSet.hasNext()) {
-          System.out.println(dataSet.next());
+        // specify database in constructor
+        tableSessionPool =
+                new TableSessionPoolBuilder()
+                        .nodeUrls(Collections.singletonList(LOCAL_URL))
+                        .user("root")
+                        .password("TimechoDB@2021")//V2.0.6.x 之前默认密码是root 
+                        .maxSize(1)
+                        .database("test1")
+                        .build();
+
+        try (ITableSession session = tableSessionPool.getSession()) {
+
+            // show tables from current database
+            try (SessionDataSet dataSet = session.executeQueryStatement("SHOW TABLES")) {
+                printDataSet(dataSet);
+            }
+
+            // change database to test2
+            session.executeNonQueryStatement("use test2");
+
+            // show tables by specifying another database
+            // using SHOW tables FROM
+            try (SessionDataSet dataSet = session.executeQueryStatement("SHOW TABLES")) {
+                printDataSet(dataSet);
+            }
+
+        } catch (IoTDBConnectionException e) {
+            e.printStackTrace();
+        } catch (StatementExecutionException e) {
+            e.printStackTrace();
         }
-      }
 
-      // insert table data by tablet
-      List<IMeasurementSchema> measurementSchemaList =
-          new ArrayList<>(
-              Arrays.asList(
-                  new MeasurementSchema("region_id", TSDataType.STRING),
-                  new MeasurementSchema("plant_id", TSDataType.STRING),
-                  new MeasurementSchema("device_id", TSDataType.STRING),
-                  new MeasurementSchema("model", TSDataType.STRING),
-                  new MeasurementSchema("temperature", TSDataType.FLOAT),
-                  new MeasurementSchema("humidity", TSDataType.DOUBLE)));
-      List<ColumnCategory> columnTypeList =
-          new ArrayList<>(
-              Arrays.asList(
-                  ColumnCategory.TAG,
-                  ColumnCategory.TAG,
-                  ColumnCategory.TAG,
-                  ColumnCategory.ATTRIBUTE,
-                  ColumnCategory.FIELD,
-                  ColumnCategory.FIELD));
-      Tablet tablet =
-          new Tablet(
-              "test1",
-              IMeasurementSchema.getMeasurementNameList(measurementSchemaList),
-              IMeasurementSchema.getDataTypeList(measurementSchemaList),
-              columnTypeList,
-              100);
-      for (long timestamp = 0; timestamp < 100; timestamp++) {
-        int rowIndex = tablet.getRowSize();
-        tablet.addTimestamp(rowIndex, timestamp);
-        tablet.addValue("region_id", rowIndex, "1");
-        tablet.addValue("plant_id", rowIndex, "5");
-        tablet.addValue("device_id", rowIndex, "3");
-        tablet.addValue("model", rowIndex, "A");
-        tablet.addValue("temperature", rowIndex, 37.6F);
-        tablet.addValue("humidity", rowIndex, 111.1);
-        if (tablet.getRowSize() == tablet.getMaxRowNumber()) {
-          session.insert(tablet);
-          tablet.reset();
+        try (ITableSession session = tableSessionPool.getSession()) {
+
+            // show tables from default database test1
+            try (SessionDataSet dataSet = session.executeQueryStatement("SHOW TABLES")) {
+                printDataSet(dataSet);
+            }
+
+        } catch (IoTDBConnectionException e) {
+            e.printStackTrace();
+        } catch (StatementExecutionException e) {
+            e.printStackTrace();
+        } finally {
+            tableSessionPool.close();
         }
-      }
-      if (tablet.getRowSize() != 0) {
-        session.insert(tablet);
-        tablet.reset();
-      }
-
-      // query table data
-      try (SessionDataSet dataSet =
-          session.executeQueryStatement(
-              "select * from test1 "
-                  + "where region_id = '1' and plant_id in ('3', '5') and device_id = '3'")) {
-        System.out.println(dataSet.getColumnNames());
-        System.out.println(dataSet.getColumnTypes());
-        while (dataSet.hasNext()) {
-          System.out.println(dataSet.next());
-        }
-      }
-
-    } catch (IoTDBConnectionException e) {
-      e.printStackTrace();
-    } catch (StatementExecutionException e) {
-      e.printStackTrace();
-    } finally {
-      tableSessionPool.close();
     }
-
-    // specify database in constructor
-    tableSessionPool =
-        new TableSessionPoolBuilder()
-            .nodeUrls(Collections.singletonList(LOCAL_URL))
-            .user("root")
-            .password("root")
-            .maxSize(1)
-            .database("test1")
-            .build();
-
-    try (ITableSession session = tableSessionPool.getSession()) {
-
-      // show tables from current database
-      try (SessionDataSet dataSet = session.executeQueryStatement("SHOW TABLES")) {
-        System.out.println(dataSet.getColumnNames());
-        System.out.println(dataSet.getColumnTypes());
-        while (dataSet.hasNext()) {
-          System.out.println(dataSet.next());
-        }
-      }
-
-      // change database to test2
-      session.executeNonQueryStatement("use test2");
-
-      // show tables by specifying another database
-      // using SHOW tables FROM
-      try (SessionDataSet dataSet = session.executeQueryStatement("SHOW TABLES")) {
-        System.out.println(dataSet.getColumnNames());
-        System.out.println(dataSet.getColumnTypes());
-        while (dataSet.hasNext()) {
-          System.out.println(dataSet.next());
-        }
-      }
-
-    } catch (IoTDBConnectionException e) {
-      e.printStackTrace();
-    } catch (StatementExecutionException e) {
-      e.printStackTrace();
-    }
-
-    try (ITableSession session = tableSessionPool.getSession()) {
-
-      // show tables from default database test1
-      try (SessionDataSet dataSet = session.executeQueryStatement("SHOW TABLES")) {
-        System.out.println(dataSet.getColumnNames());
-        System.out.println(dataSet.getColumnTypes());
-        while (dataSet.hasNext()) {
-          System.out.println(dataSet.next());
-        }
-      }
-
-    } catch (IoTDBConnectionException e) {
-      e.printStackTrace();
-    } catch (StatementExecutionException e) {
-      e.printStackTrace();
-    } finally {
-      tableSessionPool.close();
-    }
-  }
 }
 ```
