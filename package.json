@@ -22,30 +22,32 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.2",
-    "@vuepress/bundler-vite": "2.0.0-rc.19",
-    "@vuepress/helper": "2.0.0-rc.66",
-    "@vuepress/plugin-docsearch": "2.0.0-rc.76",
-    "@vuepress/plugin-links-check": "2.0.0-rc.74",
-    "element-plus": "^2.9.1",
-    "mathjax-full": "3.2.2",
-    "sass-embedded": "1.83.0",
-    "vue": "^3.5.13",
-    "vue3-carousel": "0.9.0",
-    "vuepress": "2.0.0-rc.19",
-    "vuepress-theme-hope": "2.0.0-rc.71"
+    "@vuepress/bundler-vite": "2.0.0-rc.26",
+    "@vuepress/plugin-docsearch": "2.0.0-rc.120",
+    "@vuepress/plugin-links-check": "2.0.0-rc.120",
+    "element-plus": "^2.12.0",
+    "sass-embedded": "1.93.3",
+    "vue": "^3.5.25",
+    "vue3-carousel": "0.17.0",
+    "vuepress": "2.0.0-rc.26",
+    "vuepress-theme-hope": "2.0.0-rc.99"
   },
   "devDependencies": {
-    "@eslint/js": "9.17.0",
-    "eslint": "9.17.0",
-    "eslint-plugin-vue": "9.32.0",
-    "gh-pages": "6.2.0",
-    "globals": "15.13.0",
-    "typescript": "5.5.4",
-    "typescript-eslint": "8.18.0"
+    "@eslint/js": "9.39.1",
+    "@vuepress/helper": "2.0.0-rc.120",
+    "@vuepress/plugin-back-to-top": "2.0.0-rc.120",
+    "client": "link:@vuepress/helper/client",
+    "eslint": "9.39.1",
+    "eslint-plugin-vue": "10.6.2",
+    "gh-pages": "6.3.0",
+    "globals": "16.5.0",
+    "katex": "^0.16.25",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.48.1"
   },
   "prettier": {
     "singleQuote": true,
     "trailingComma": "all"
   },
-  "packageManager": "pnpm@9.15.1"
+  "packageManager": "pnpm@10.24.0"
 }

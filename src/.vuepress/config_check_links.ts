@@ -16,12 +16,12 @@
  * limitations under the License.
  */
 
-import { linksCheckPlugin } from '@vuepress/plugin-links-check'
+import { linksCheckPlugin } from '@vuepress/plugin-links-check';
 import { defineUserConfig } from 'vuepress';
 import config from './config.js';
 
-if(config.plugins === undefined) config.plugins = [];
+if (config.plugins === undefined) config.plugins = [];
 
-config.plugins = [...config.plugins,linksCheckPlugin({build: 'error'})];
+config.plugins = [...config.plugins, linksCheckPlugin({ build: 'error' })];
 
 export default defineUserConfig(config);
