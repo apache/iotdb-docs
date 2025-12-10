@@ -108,3 +108,6 @@ $$\text{RegionGroupNumber}=\left\lfloor\frac{\sum_{i=1}^{DataNodeNumber}\text{Re
 + [分区分配](https://github.com/apache/iotdb/tree/master/iotdb-core/confignode/src/main/java/org/apache/iotdb/confignode/manager/load/balancer/partition)
 + [副本放置](https://github.com/apache/iotdb/tree/master/iotdb-core/confignode/src/main/java/org/apache/iotdb/confignode/manager/load/balancer/副本)
 + [主副本选择](https://github.com/apache/iotdb/tree/master/iotdb-core/confignode/src/main/java/org/apache/iotdb/confignode/manager/load/balancer/router/主副本)
+
+## 4. 附录
++ [1] Chen R, Hu X, Huang X, et al. Migration-Free Elastic Storage of Time Series in Apache IoTDB[J]. Proceedings of the VLDB Endowment, 2025, 18(6): 1784-1797.

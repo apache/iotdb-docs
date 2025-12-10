@@ -108,3 +108,6 @@ To address this issue, IoTDB employs a leader selection algorithm that can consi
 + [Partition Allocation](https://github.com/apache/iotdb/tree/master/iotdb-core/confignode/src/main/java/org/apache/iotdb/confignode/manager/load/balancer/partition)
 + [Region Placement](https://github.com/apache/iotdb/tree/master/iotdb-core/confignode/src/main/java/org/apache/iotdb/confignode/manager/load/balancer/region)
 + [Leader Selection](https://github.com/apache/iotdb/tree/master/iotdb-core/confignode/src/main/java/org/apache/iotdb/confignode/manager/load/balancer/router/leader)
+
+## 4. Appendix
++ [1] Chen R, Hu X, Huang X, et al. Migration-Free Elastic Storage of Time Series in Apache IoTDB[J]. Proceedings of the VLDB Endowment, 2025, 18(6): 1784-1797.
