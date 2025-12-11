@@ -268,11 +268,11 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 * dn\_rpc\_max\_concurrent\_client\_num
 
 |Name| dn\_rpc\_max\_concurrent\_client\_num |
-|:---:|:---|
-|Description| Max concurrent rpc connections|
-|Type| Short Int : [0,65535] |
-|Description| 65535 |
-|Effective|After restarting system|
+|:---:|:--------------------------------------|
+|Description| Max concurrent rpc connections        |
+|Type| Short Int : [0,65535]                 |
+|Description| 1000                                  |
+|Effective| After restarting system               |
 
 * dn\_thrift\_max\_frame\_size
 
