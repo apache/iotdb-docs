@@ -48,29 +48,53 @@ export const enSidebar = {
       link: 'QuickStart/QuickStart_timecho',
     },
     {
-      text: 'Deployment & Maintenance',
+      text: 'Installation and Deployment',
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
       children: [
-        { text: 'Deployment form', link: 'Deployment-form_timecho' },
-        { text: 'Obtain TimechoDB', link: 'IoTDB-Package_timecho' },
-        { text: 'Database Resources', link: 'Database-Resources' },
-        { text: 'Environment Requirements', link: 'Environment-Requirements' },
-        {
-          text: 'Stand-Alone Deployment',
-          link: 'Stand-Alone-Deployment_timecho',
-        },
-        { text: 'Cluster Deployment', link: 'Cluster-Deployment_timecho' },
-        {
-          text: 'Dual Active Deployment',
-          link: 'Dual-Active-Deployment_timecho',
-        },
-        { text: 'Docker Deployment', link: 'Docker-Deployment_timecho' },
-        { text: 'AINode Deployment', link: 'AINode_Deployment_timecho' },
-        {
-          text: 'Monitoring Panel Deployment',
-          link: 'Monitoring-panel-deployment',
-        },
+          {
+            text: 'Deployment Preparation',
+            collapsible: true,
+            children: [
+              { text: 'Deployment form', link: 'Deployment-form_timecho' },
+              { text: 'Obtain TimechoDB', link: 'IoTDB-Package_timecho' },
+              { text: 'Database Resources', link: 'Database-Resources' },
+              { text: 'Environment Requirements', link: 'Environment-Requirements' },
+            ],
+          },
+          {
+            text: 'Database Deployment',
+            collapsible: true,
+            children: [
+              {
+                text: 'Stand-Alone Deployment',
+                link: 'Stand-Alone-Deployment_timecho',
+              },
+              { text: 'Cluster Deployment', link: 'Cluster-Deployment_timecho' },
+              {
+                text: 'Dual Active Deployment',
+                link: 'Dual-Active-Deployment_timecho',
+              },
+              { text: 'Docker Deployment', link: 'Docker-Deployment_timecho' },
+            ],
+          },
+          {
+            text: 'AI Deployment',
+            collapsible: true,
+            children: [
+                { text: 'AINode Deployment', link: 'AINode_Deployment_timecho' },
+            ],
+          },
+          {
+               text: 'Peripheral Tools',
+               collapsible: true,
+               children: [
+                 {
+                   text: 'Monitoring Panel Deployment',
+                   link: 'Monitoring-panel-deployment',
+                 },
+               ],
+          },
       ],
     },
     {
