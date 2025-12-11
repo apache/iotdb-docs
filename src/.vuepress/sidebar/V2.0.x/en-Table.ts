@@ -109,6 +109,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis' },
+            { text: 'Cluster Maintenance', link: 'Load-Balance' },
             { text: 'Maintenance statement', link: 'Maintenance-commands' },
           ],
         },

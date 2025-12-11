@@ -424,6 +424,11 @@ sbin\remove-datanode.bat [datanode_id]
 # V2.0.4.x and later versions
 sbin\windows\remove-datanode.bat [datanode_id]
 ```
+
+### 4.3 Cluster Maintenance
+
+For more details on cluster maintenance, please refer to: [Cluster Maintenance](../User-Manual/Load-Balance.md)
+
 ## 5.  Questions
 
 1. Confignode failed to start

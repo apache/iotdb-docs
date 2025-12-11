@@ -418,6 +418,10 @@ sbin\remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 sbin\windows\remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 ```
 
+### 4.3 Cluster Maintenance
+
+For more details on cluster maintenance, please refer to: [Cluster Maintenance](../User-Manual/Load-Balance.md)
+
 ## 5. Common Issues
 
 1.  ConfigNode Fails to Start
