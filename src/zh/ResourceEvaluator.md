@@ -1,5 +1,6 @@
 ---
 toc: false
+sidebar: false
 containerClass: 'calc-page'
 ---
 

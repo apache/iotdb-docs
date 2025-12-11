@@ -2,6 +2,7 @@
 containerClass: home
 home: true
 icon: home
+sidebar: false
 heroText: Apache IoTDB
 heroImage: /img/logo.svg
 bgImage: bg.svg

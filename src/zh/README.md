@@ -1,6 +1,7 @@
 ---
 containerClass: home
 home: true
+sidebar: false
 icon: home
 heroText: Apache IoTDB
 heroImage: /img/logo.svg
@@ -43,8 +44,6 @@ highlights:
 
       - title: 与开源生态系统的紧密集成
         details: Apache IoTDB 支持许多大数据软件生态系统，例如Hadoop、Spark、Flink和Grafana（可视化工具）
-
-
 ---
 
 <!--

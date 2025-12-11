@@ -385,12 +385,12 @@ const calculateSpacePrecise = () => {
   .vp-breadcrumb {
     display: none;
   }
-}
 
-.theme-hope-content {
-  width: 1230px;
-  max-width: 100% !important;
-  overflow: auto;
+  [vp-content] {
+    width: 1230px;
+    max-width: 100% !important;
+    overflow: auto;
+  }
 }
 
 .calc-content-area {

@@ -1,6 +1,6 @@
 <template>
-  <Sidebar class="iotdb-sidebar">
-    <template #top>
+  <Layout>
+    <template #sidebarTop>
       <p class="vp-sidebar-header iotdb-sidebar-header">
         <span class="vp-sidebar-title">{{ (sidebarItems && sidebarItems.length > 0) ? sidebarItems[0]?.text : ''
         }}</span>
@@ -21,12 +21,12 @@
         </div>
       </div>
     </template>
-  </Sidebar>
+  </Layout>
 </template>
 
 <script setup lang="ts">
-import { useSidebarItems } from "vuepress-theme-hope/modules/sidebar/composables/index.js";
-import Sidebar from 'vuepress-theme-hope/modules/sidebar/components/Sidebar.js';
+import { useSidebarItems } from "@theme-hope/composables/sidebar/useSidebarItems";
+import { Layout } from 'vuepress-theme-hope/client';
 import { ref, watch, computed } from 'vue';
 import { useRoute, withBase, useRouter } from 'vuepress/client';
 import { getDialect, getDocVersion, URL_SUFFIX } from '../utils/index.js';
