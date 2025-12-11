@@ -179,6 +179,7 @@ export const zhSidebar = {
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
         { text: 'MQTT协议', link: 'Programming-MQTT' },
         { text: 'OPC UA协议', link: 'Programming-OPC-UA_timecho' },
+        { text: 'OPC DA协议', link: 'Programming-OPC-DA_timecho' },
         {
           text: 'REST API',
           collapsible: true,
