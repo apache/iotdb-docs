@@ -145,6 +145,8 @@ export const enSidebar = {
             { text: 'Schema Export', link: 'Schema-Export-Tool_apache' },
           ],
         },
+        { text: 'Full Backup Tool', link: 'Backup-Tool' },
+        { text: 'Health Check Tool', link: 'Health-Check-Tool' },
       ],
     },
     {
