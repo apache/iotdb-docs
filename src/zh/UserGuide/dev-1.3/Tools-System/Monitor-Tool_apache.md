@@ -104,7 +104,7 @@ static_configs:
 
 ## Apache IoTDB Dashboard
 
-`Apache IoTDB Dashboard`是 IoTDB 企业版的配套产品，支持统一集中式运维管理，可通过一个监控面板监控多个集群。你可以联系商务获取到 Dashboard 的 Json文件。
+`Apache IoTDB Dashboard`是 TimechoDB 的配套产品，支持统一集中式运维管理，可通过一个监控面板监控多个集群。你可以联系商务获取到 Dashboard 的 Json文件。
 
 
 ![Apache IoTDB Dashboard](/img/%E7%9B%91%E6%8E%A7%20default%20cluster.png)
