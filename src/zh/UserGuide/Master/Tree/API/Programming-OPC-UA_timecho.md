@@ -21,52 +21,18 @@
 
 # OPC UA 协议
 
-## 1. OPC UA
+## 1. OPC UA 订阅数据
 
-OPC UA 是一种在自动化领域用于不同设备和系统之间进行通信的技术规范，用于实现跨平台、跨语言和跨网络的操作，为工业物联网提供一个可靠和安全的数据交换基础。IoTDB 中支持 OPC UA协议， IoTDB OPC Server  支持 Client/Server 和 Pub/Sub 两种通信模式。
+本功能支持用户以 OPC UA 协议从 IoTDB 中订阅数据，订阅数据的通信模式支持 Client/Server 和 Pub/Sub 两种。
 
-### 1.1 PC UA Client/Server 模式
+注意：本功能并非从外部 OPC Server 中采集数据写入 IoTDB
 
-- **Client/Server 模式**：在这种模式下，IoTDB 的流处理引擎通过 OPC UA Sink 与 OPC UA 服务器（Server）建立连接。OPC UA 服务器在其地址空间(Address Space) 中维护数据，IoTDB可以请求并获取这些数据。同时，其他OPC UA客户端（Client）也能访问服务器上的数据。
+![](/img/opc-ua-new-1.png)
 
-<div align="center">
-    <img src="/img/OPCUA01.png" alt="" style="width: 70%;"/>
-</div>
-
-
-- 特性：
-
-    - OPC UA 将从 Sink 收到的设备信息，按照树形模型整理到 Objects folder 下的文件夹中。
-    - 每个测点都被记录为一个变量节点，并记录当前数据库中的最新值。
-
-### 1.2 OPC UA Pub/Sub 模式
-
-- **Pub/Sub 模式**：在这种模式下，IoTDB的流处理引擎通过 OPC UA Sink 向OPC UA 服务器（Server）发送数据变更事件。这些事件被发布到服务器的消息队列中，并通过事件节点 (Event Node) 进行管理。其他OPC UA客户端（Client）可以订阅这些事件节点，以便在数据变更时接收通知。
-
-<div align="center">
-    <img src="/img/OPCUA02.png" alt="" style="width: 70%;"/>
-</div>
-
-- 特性：
- 
-  - 每个测点会被 OPC UA 包装成一个事件节点（EventNode）。
- 
-  - 相关字段及其对应含义如下：
-
-    | 字段       | 含义             | 类型（Milo）  | 示例                  |
-    | :--------- | :--------------- | :------------ | :-------------------- |
-    | Time       | 时间戳           | DateTime      | 1698907326198         |
-    | SourceName | 测点对应完整路径 | String        | root.test.opc.sensor0 |
-    | SourceNode | 测点数据类型     | NodeId        | Int32                 |
-    | Message    | 数据             | LocalizedText | 3.0                   |
-
-  - Event 仅会发送给所有已经监听的客户端，客户端未连接则会忽略该 Event。
-
-## 2. IoTDB OPC Server 启动方式
-
+## 2. OPC 服务启动方式
 ### 2.1 语法
 
-创建该 Sink 的语法如下：
+启动 OPC UA 协议的语法：
 
 ```SQL
 create pipe p1 
@@ -83,16 +49,16 @@ create pipe p1
 
 ### 2.2 参数
 
-| **参数**                           | **描述**                       | **取值范围**                     | **是否必填** | **默认值**                                                                                                                                                                |
-| ---------------------------------- | ------------------------------ | -------------------------------- | ------------ |------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| sink                               | OPC UA SINK                    | String: opc-ua-sink              | 必填         |                                                                                                                                                                        |
-| sink.opcua.model                   | OPC UA 使用的模式              | String: client-server / pub-sub  | 选填         | pub-sub                                                                                                                                                                |
-| sink.opcua.tcp.port                | OPC UA 的 TCP 端口             | Integer: [0, 65536]              | 选填         | 12686                                                                                                                                                                  |
-| sink.opcua.https.port              | OPC UA 的 HTTPS 端口           | Integer: [0, 65536]              | 选填         | 8443                                                                                                                                                                   |
-| sink.opcua.security.dir            | OPC UA 的密钥及证书目录        | String: Path，支持绝对及相对目录 | 选填         | iotdb 相关 DataNode 的 conf 目录下的 opc_security 文件夹 /<httpsPort:tcpPort>。<br>如无 iotdb 的 conf 目录（例如 IDEA 中启动 DataNode），则为用户主目录下的 iotdb_opc_security 文件夹 /<httpsPort:tcpPort> |
-| sink.opcua.enable-anonymous-access | OPC UA 是否允许匿名访问        | Boolean                          | 选填         | true                                                                                                                                                                   |
-| sink.user                          | 用户，这里指 OPC UA 的允许用户 | String                           | 选填         | root                                                                                                                                                                   |
-| sink.password                      | 密码，这里指 OPC UA 的允许密码 | String                           | 选填         | TimechoDB@2021 //V2.0.6.x 之前默认密码为root                                                                                                                                                        |
+| **参数**                     | **描述**                 | **​ 取值范围 ​**         | **是否必填** | **默认值**                                                                                                                                                   |
+| ------------------------------------ | -------------------------------- | ---------------------------------- | -------------------- |-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| sink                               | OPC UA SINK                    | String: opc-ua-sink              | 必填               |                                                                                                                                                           |
+| sink.opcua.model                   | OPC UA 使用的模式              | String: client-server / pub-sub  | 选填               | client-server                                                                                                                                             |
+| sink.opcua.tcp.port                | OPC UA 的 TCP 端口             | Integer: [0, 65536]              | 选填               | 12686                                                                                                                                                     |
+| sink.opcua.https.port              | OPC UA 的 HTTPS 端口           | Integer: [0, 65536]              | 选填               | 8443                                                                                                                                                      |
+| sink.opcua.security.dir            | OPC UA 的密钥及证书目录        | String: Path，支持绝对及相对目录 | 选填               | 1. iotdb 相关 DataNode 的 conf 目录下的 opc\_security 文件夹 / `<httpsPort:tcpPort>`。2. 如无 iotdb 的 conf 目录（例如 IDEA 中启动 DataNode），则为用户主目录下的 iotdb\_opc\_security 文件夹 /`<httpsPort:tcpPort>`|
+| sink.opcua.enable-anonymous-access | OPC UA 是否允许匿名访问        | Boolean                          | 选填               | true                                                                                                                                                      |
+| sink.user                          | 用户，这里指 OPC UA 的允许用户 | String                           | 选填               | root                                                                                                                                                      |
+| sink.password                      | 密码，这里指 OPC UA 的允许密码 | String                           | 选填               | TimechoDB@2021 （V2.0.6.x 之前默认密码为root ）                                                                                                                    |
 
 ### 2.3 示例
 
@@ -100,36 +66,30 @@ create pipe p1
 create pipe p1 
     with sink ('sink' = 'opc-ua-sink'，
                'sink.user' = 'root', 
-               'sink.password' = 'TimechoDB@2021'); //V2.0.6.x 之前默认密码为root
+               'sink.password' = 'TimechoDB@2021');//V2.0.6.x 之前默认密码为root
 start pipe p1;
 ```
 
 ### 2.4 使用限制
+1. 启动协议之后需要写入数据，才能建立连接，且仅能订阅建立连接之后的数据。
+2. 推荐在单机模式下使用。在分布式模式下，每一个 IoTDB DataNode 都作为一个独立的 OPC Server 提供数据，需要单独订阅。
 
-1. **必须存在 DataRegion**：在 IoTDB 有 dataRegion 时，OPC UA 的服务器才会启动。因此，对于一个空的 IoTDB，需要写入一条数据，OPC UA 的服务器才有效。
-2. **需连接才有数据**：每一个订阅该服务器的客户端，不会收到 OPC Server 在连接之前写入IoTDB的数据。
-
-3. **多 DataNode 会有分散发送 / 冲突问题**：
-
-  - 对于有多个 dataRegion，且分散在不同 DataNode ip上的 IoTDB 集群，数据会在 dataRegion 的 leader 上分散发送。客户端需要对 DataNode ip 的配置端口分别监听。
-
-  - 建议在 1C1D 下使用该 OPC UA 服务器。
-
-4. **不支持删除数据和修改测点类型：**在Client Server模式下，OPC UA无法删除数据或者改变数据类型的设置。而在Pub Sub模式下，如果数据被删除了，信息是无法推送给客户端的。
-
-## 3. IoTDB OPC Server 示例
-
+## 3. 两种通信模式示例
 ### 3.1 Client / Server 模式
 
-#### 准备工作
+在这种模式下，IoTDB 的流处理引擎通过 OPC UA Sink 与 OPC UA 服务器（Server）建立连接。OPC UA 服务器在其地址空间(Address Space) 中维护数据，IoTDB可以请求并获取这些数据。同时，其他OPC UA客户端（Client）也能访问服务器上的数据。
 
+* 特性：
+    * OPC UA 将从 Sink 收到的设备信息，按照树形模型整理到 Objects folder 下的文件夹中。
+    * 每个测点都被记录为一个变量节点，并记录当前数据库中的最新值。
+    * OPC UA 无法删除数据或者改变数据类型的设置
+
+#### 3.1.1 准备工作
 1. 此处以UAExpert客户端为例，下载 UAExpert 客户端：https://www.unified-automation.com/downloads/opc-ua-clients.html
-
 2. 安装 UAExpert，填写自身的证书等信息。
 
-#### 快速开始
-
-1. 使用如下 sql，创建并启动 client-server 模式的 OPC UA Sink。详细语法参见上文：[IoTDB OPC Server语法](#语法)
+#### 3.1.2 快速开始
+1. 使用如下 sql，启动 OPC UA 服务。详细语法参见上文：[IoTDB OPC Server语法](./Programming-OPC-UA_timecho.md#_2-1-语法)
 
 ```SQL
 create pipe p1 with sink ('sink'='opc-ua-sink');
@@ -141,9 +101,7 @@ create pipe p1 with sink ('sink'='opc-ua-sink');
 insert into root.test.db(time, s2) values(now(), 2)
 ```
 
-​     此处自动创建元数据开启。
-
-3. 在 UAExpert 中配置 iotdb 的连接，其中 password 填写为上述参数配置中 sink.password 中设定的密码（此处以密码root为例）：
+3. 在 UAExpert 中配置 iotdb 的连接，其中 password 填写为上述参数配置中 sink.password 中设定的密码（此处用户名、密码以2.3小节示例中配置的 root/root 为例）：
 
 <div align="center">
     <img src="/img/OPCUA03.png" alt="" style="width: 60%;"/>
@@ -171,9 +129,26 @@ insert into root.test.db(time, s2) values(now(), 2)
 
 ### 3.2 Pub / Sub 模式
 
-#### 准备工作
+在这种模式下，IoTDB的流处理引擎通过 OPC UA Sink 向OPC UA 服务器（Server）发送数据变更事件。这些事件被发布到服务器的消息队列中，并通过事件节点 (Event Node) 进行管理。其他OPC UA客户端（Client）可以订阅这些事件节点，以便在数据变更时接收通知。
 
-该代码位于 iotdb-example 包下的 [opc-ua-sink 文件夹](https://github.com/apache/iotdb/tree/rc/2.0.1/example/pipe-opc-ua-sink/src/main/java/org/apache/iotdb/opcua)中
+* 特性：
+    * 每个测点会被 OPC UA 包装成一个事件节点（EventNode）。
+    * 相关字段及其对应含义如下：
+
+      | 字段       | 含义             | 类型（Milo）  | 示例                  |
+      | ------------ | ------------------ | --------------- | ----------------------- |
+      | Time       | 时间戳           | DateTime      | 1698907326198         |
+      | SourceName | 测点对应完整路径 | String        | root.test.opc.sensor0 |
+      | SourceNode | 测点数据类型     | NodeId        | Int32                 |
+      | Message    | 数据             | LocalizedText | 3.0                   |
+
+    - Event 仅会发送给所有已经监听的客户端，客户端未连接则会忽略该 Event。
+    - 如果数据被删除，信息则无法推送给客户端。
+
+
+#### 3.2.1 准备工作
+
+该代码位于 iotdb-example 包下的 [opc-ua-sink 文件夹](https://github.com/apache/iotdb/tree/master/example/pipe-opc-ua-sink/src/main/java/org/apache/iotdb/opcua)中
 
 代码中包含：
 
@@ -182,7 +157,7 @@ insert into root.test.db(time, s2) values(now(), 2)
 - Client 的配置及启动逻辑（ClientExampleRunner）
 - ClientTest 的父类（ClientExample）
 
-### 3.3 快速开始
+#### 3.2.2 快速开始
 
 使用步骤为：
 
@@ -194,11 +169,10 @@ insert into root.a.b(time, c, d) values(now(), 1, 2);
 
 ​     此处自动创建元数据开启。
 
-2. 使用如下 sql，创建并启动 Pub-Sub 模式的 OPC UA Sink。详细语法参见上文：[IoTDB OPC Server语法](#语法)
+2. 使用如下 sql，创建并启动 Pub-Sub 模式的 OPC UA Sink。详细语法参见上文：[IoTDB OPC Server语法](./Programming-OPC-UA_timecho.md#_2-1-语法)
 
 ```SQL
-create pipe p1 with sink ('sink'='opc-ua-sink', 
-                          'sink.opcua.model'='pub-sub');
+create pipe p1 with sink ('sink'='opc-ua-sink', 'sink.opcua.model'='pub-sub');
 start pipe p1;
 ```
 

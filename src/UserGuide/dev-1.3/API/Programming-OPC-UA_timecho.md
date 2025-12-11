@@ -18,56 +18,19 @@
 
 # OPC UA Protocol
 
-## OPC UA
+## OPC UA Subscription Data
 
-OPC UA is a technical specification used in the automation field for communication between different devices and systems, enabling cross platform, cross language, and cross network operations, providing a reliable and secure data exchange foundation for the Industrial Internet of Things. IoTDB supports OPC UA protocol, and IoTDB OPC Server supports both Client/Server and Pub/Sub communication modes.
+This feature allows users to subscribe to data from IoTDB using the OPC UA protocol. The communication modes for subscription data support both Client/Server and Pub/Sub.
 
-### OPC UA Client/Server Mode
+Note: This feature is not about collecting data from external OPC Servers and writing it into IoTDB.
 
-- **Client/Server Mode**：In this mode, IoTDB's stream processing engine establishes a connection with the OPC UA Server via an OPC UA Sink. The OPC UA Server maintains data within its Address Space, from which IoTDB can request and retrieve data. Additionally, other OPC UA Clients can access the data on the server.
+![](/img/opc-ua-new-1-en.png)
 
-::: center
-
-<img src="/img/OPCUA15.png" alt="" style="width: 70%;"/>
-
-:::
-
-- Features：
-
-  - OPC UA will organize the device information received from Sink into folders under the Objects folder according to a tree model.
-
-  - Each measurement point is recorded as a variable node and the latest value in the current database is recorded.
-
-### OPC UA Pub/Sub Mode
-
-- **Pub/Sub Mode**： In this mode, IoTDB's stream processing engine sends data change events to the OPC UA Server through an OPC UA Sink. These events are published to the server's message queue and managed through Event Nodes. Other OPC UA Clients can subscribe to these Event Nodes to receive notifications upon data changes.
-
-::: center
-
-<img src="/img/OPCUA16.png" alt="" style="width: 70%;"/>
-
-:::
-
-- Features：
-
-  - Each measurement point is wrapped as an Event Node in OPC UA.
-
-  - The relevant fields and their meanings are as follows:
-
-    | Field      | Meaning                            | Type (Milo)   | Example               |
-    | :--------- | :--------------------------------- | :------------ | :-------------------- |
-    | Time       | Timestamp                          | DateTime      | 1698907326198         |
-    | SourceName | Full path of the measurement point | String        | root.test.opc.sensor0 |
-    | SourceNode | Data type of the measurement point | NodeId        | Int32                 |
-    | Message    | Data                               | LocalizedText | 3.0                   |
-
-  - Events are only sent to clients that are already listening; if a client is not connected, the Event will be ignored.
-
-## IoTDB OPC Server Startup method
+## OPC Service Startup Method 
 
 ### Syntax
 
-The syntax for creating the Sink is as follows:
+The syntax to start the OPC UA protocol:
 
 ```sql
 create pipe p1
@@ -95,7 +58,7 @@ create pipe p1
 | sink.user                          | User for OPC UA, specified in the configuration     | String                                                   | Optional        | root                                                                                                                                                                                                                                                                         |
 | sink.password                      | Password for OPC UA, specified in the configuration | String                                                   | Optional        | root                                                                                                                                                                                                                                                                         |
 
-### 示例
+### Example
 
 ```Bash
 create pipe p1
@@ -107,21 +70,20 @@ start pipe p1;
 
 ### Usage Limitations
 
-1. **DataRegion Requirement**: The OPC UA server will only start if there is a DataRegion in IoTDB. For an empty IoTDB, a data entry is necessary for the OPC UA server to become effective.
+1. After starting the protocol, data needs to be written to establish a connection. Only data after the connection is established can be subscribed to.
+2. Recommended for use in standalone mode. In distributed mode, each IoTDB DataNode acts as an independent OPC Server providing data and requires separate subscription.
 
-2. **Data Availability**: Clients subscribing to the server will not receive data written to IoTDB before their connection.
 
-3. **Multiple DataNodes may have scattered sending/conflict issues**：
-
-   - For IoTDB clusters with multiple dataRegions and scattered across different DataNode IPs, data will be sent in a dispersed manner on the leaders of the dataRegions. The client needs to listen to the configuration ports of the DataNode IP separately.。
-
-   - Suggest using this OPC UA server under 1C1D.
-
-4. **Does not support deleting data and modifying measurement point types:** In Client Server mode, OPC UA cannot delete data or change data type settings. In Pub Sub mode, if data is deleted, information cannot be pushed to the client.
-
-## IoTDB OPC Server Example
+## Examples of Two Communication Modes
 
 ### Client / Server Mode
+
+In this mode, IoTDB's stream processing engine establishes a connection with the OPC UA Server via an OPC UA Sink. The OPC UA Server maintains data within its Address Space, from which IoTDB can request and retrieve data. Additionally, other OPC UA Clients can access the data on the server.
+
+* Features:
+   * OPC UA organizes device information received from the Sink into folders under the Objects folder according to a tree model.
+   * Each measurement point is recorded as a variable node, storing the latest value from the current database.
+   * OPC UA cannot delete data or change data type settings.
 
 #### Preparation Work
 
@@ -181,11 +143,30 @@ start pipe p1;
 
    :::
 
-### Pub / Sub Mode
+### Pub / Sub Mode 
+
+In this mode, IoTDB's stream processing engine sends data change events to the OPC UA Server through an OPC UA Sink. These events are published to the server's message queue and managed through Event Nodes. Other OPC UA Clients can subscribe to these Event Nodes to receive notifications upon data changes.
+
+- Features：
+
+   - Each measurement point is wrapped as an Event Node in OPC UA.
+
+   - The relevant fields and their meanings are as follows:
+
+     | Field      | Meaning                            | Type (Milo)   | Example               |
+         | :--------- | :--------------------------------- | :------------ | :-------------------- |
+     | Time       | Timestamp                          | DateTime      | 1698907326198         |
+     | SourceName | Full path of the measurement point | String        | root.test.opc.sensor0 |
+     | SourceNode | Data type of the measurement point | NodeId        | Int32                 |
+     | Message    | Data                               | LocalizedText | 3.0                   |
+
+   - Events are only sent to clients that are already listening; if a client is not connected, the Event will be ignored.
+   - If data is deleted, the information cannot be pushed to clients.
+
 
 #### Preparation Work
 
-The code is located in the [opc-ua-sink 文件夹](https://github.com/apache/iotdb/tree/master/example/pipe-opc-ua-sink/src/main/java/org/apache/iotdb/opcua) under the iotdb-example package.
+The code is located in the [opc-ua-sink](https://github.com/apache/iotdb/tree/rc/1.3.5/example/pipe-opc-ua-sink/src/main/java/org/apache/iotdb/opcua) under the iotdb-example package.
 
 The code includes:
 
@@ -194,7 +175,7 @@ The code includes:
 - Client configuration and startup logic（ClientExampleRunner）
 - The parent class of ClientTest（ClientExample）
 
-### Quick Start
+#### Quick Start
 
 The steps are as follows:
 
