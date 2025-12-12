@@ -161,14 +161,25 @@ Navigate to the `sbin` directory of IoTDB and start the DataNode:
 #### Option 1: Command-Based Activation
 
 1. Enter the IoTDB CLI.
-   - **For Table Model**:
-   - ```SQL
-      # For Linux or macOS
-      ./start-cli.sh -sql_dialect table
-      
-      # For Windows
-      ./start-cli.bat -sql_dialect table
-      ```
+
+**Linux** or **MacOS**
+
+```Bash
+# Before version V2.0.6.x
+Shell> bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect table
+# V2.0.6.x and later versions
+Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -sql_dialect table
+```
+**Windows**
+
+```Bash
+# Before version V2.0.4.x  
+Shell> sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect table
+# V2.0.4.x and later versions， before version V2.0.6.x
+Shell> sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dialect table
+# V2.0.6.x and later versions
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -sql_dialect table
+```
 
 2. Run the following command to retrieve the machine code required for activation:
 
