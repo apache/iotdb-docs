@@ -52,7 +52,7 @@ V2.0.5.2 版本修复了部分产品缺陷，优化了数据同步功能，同�
 > 发版时间：2025.07.14</br>
 > 下载地址：请联系天谋工作人员进行下载</br>
 > 安装包名称：timechodb-2.0.5.1-bin.zip</br>
-> SHA512 校验码：aa724755b659bf89a60da6f2123dfa91fe469d2e330ed9bd029e8f36dd49212f3d83b1025e9da26cb69315e02f65c7e9a93922e40df4f2aa4c7f8da8da2a4cea
+> SHA512 校验码：aa724755b659bf89a60da6f2123dfa91fe469d2e330ed9bd029e8f36dd49212f3d83b1025e9da26cb69315e02f65c7e9a93922e40df4f2aa4c7f8da8da2a4cea 
 
 V2.0.5.1 版本新增树转表视图、表模型窗口函数、聚合函数 approx\_most\_frequent，并支持 LEFT & RIGHT JOIN、ASOF LEFT JOIN；AINode 新增 Timer-XL、Timer-Sundial 两种内置模型，支持树、表模型推理及微调功能，同时对数据库监控、性能、稳定性进行了全方位提升。具体发布内容如下：
 
