@@ -654,10 +654,10 @@ The `iotdb-system.properties` file contains various configurations for managing 
 - dn_rpc_max_concurrent_client_num
 
 | Name        | dn_rpc_max_concurrent_client_num                       |
-| ----------- | ------------------------------------------------------ |
+| ----------- |--------------------------------------------------------|
 | Description | Maximum number of concurrent RPC clients for DataNode. |
 | Type        | Short Int : [0,65535]                                  |
-| Default     | 65535                                                  |
+| Default     | 1000                                                   |
 | Effective   | Restart required.                                      |
 
 - dn_thrift_max_frame_size
