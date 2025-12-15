@@ -197,15 +197,28 @@ cd sbin
 
 1. Enter the IoTDB CLI on any node of the cluster:
 
-- **For Tree Model**:
+The Linux and MacOS system startup commands are as follows:
 
-   ```SQL
-   # For Linux or macOS
-   ./start-cli.sh
-   
-   # For Windows
-   ./start-cli.bat
-   ```
+```shell
+# Before version V2.0.6.x
+Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.6.x and later versions
+Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
+```
+
+The Windows system startup commands are as follows:
+
+```shell
+# Before version V2.0.4.x
+Shell > sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.4.x and later versions, before version V2.0.6.x
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.6.x and later versions
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
+```
 
 2. Run the following command to retrieve the machine code required for activation:
 

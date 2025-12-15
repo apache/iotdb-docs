@@ -161,14 +161,24 @@ cd  iotdb-enterprise-{version}-bin
 #### 方式一：命令激活
 - 进入 IoTDB CLI
 
-   - 树模型 CLI 进入命令：
-  ```SQL
-    # Linux或MACOS系统
-    ./start-cli.sh
-    
-    # windows系统
-    ./start-cli.bat
-    ```
+```shell
+# Linux 系统与 MacOS 系统启动命令如下：
+# V2.0.6.x 版本之前
+Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.6.x 版本及之后
+Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
+
+# Windows 系统启动命令如下：
+# V2.0.4.x 版本之前
+Shell > sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.4.x 版本及之后, V2.0.6.x 版本之前
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.6.x 版本及之后
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
+```
 - 执行以下内容获取激活所需机器码：
 
 ```Bash
