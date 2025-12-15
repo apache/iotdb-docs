@@ -21,22 +21,20 @@
 
 # 特色函数
 
-## 1. 时序特色函数
+## 1. 降采样函数
 
-### 1.1 降采样函数
+### 1.1 `date_bin` 函数
 
-#### 1.1.1 `date_bin` 函数
-
-##### 功能描述：
+#### 1.1.1 功能描述
 
 `date_bin` 是一个标量函数，用于将时间戳规整到指定的时间区间起点，并结合 `GROUP BY` 子句实现降采样。
 
 - 部分区间结果为空：只会对满足条件的数据进行时间戳规整，不会填充缺失的时间区间。
 - 全部区间结果为空：：满足条件的整个查询范围内没有数据时，降采样返回空结果集
 
-##### 使用示例：
+#### 1.1.2 使用示例
 
-###### 示例数据
+##### 示例数据
 
 在[示例数据页面](../Reference/Sample-Data.md)中，包含了用于构建表结构和插入数据的SQL语句，下载并在IoTDB CLI中执行这些语句，即可将数据导入IoTDB，您可以使用这些数据来测试和执行示例中的SQL语句，并获得相应的结果。
 
@@ -117,28 +115,28 @@ SELECT date_bin(1h, time) AS hour_time, avg(temperature) AS avg_temp
 +-----------------------------+--------+
 ```
 
-#### 1.1.2 `date_bin_gapfill` 函数
+### 1.2 `date_bin_gapfill` 函数
 
-##### 功能描述
+#### 1.2.1 功能描述
 
 `date_bin_gapfill` 是 `date_bin` 的扩展，能够填充缺失的时间区间，从而返回完整的时间序列。
 
 - 部分区间结果为空：对满足条件的数据进行时间戳规整，并填充缺失的时间区间。
 - 全部区间结果为空：：整个查询范围内没有数据时，`date_bin_gapfill`会返回空结果集
 
-##### 功能限制
+#### 1.2.2 功能限制
 
 - **`date_bin_gapfill`** **必须与** **`GROUP BY`** **子句搭配使用**，如果用在其他子句中，不会报错，但不会执行 gapfill 功能，效果与使用 `date_bin` 相同。
 - **每个** **`GROUP BY`** **子句中只能使用一个** **`date_bin_gapfill`**。如果出现多个 `date_bin_gapfill`，会报错：multiple date_bin_gapfill calls not allowed
 - **`date_bin_gapfill`** **的执行顺序**：GAPFILL 功能发生在 `HAVING` 子句执行之后，`FILL` 子句执行之前。
 - **使用** **`date_bin_gapfill`** **时，****`WHERE`** **子句中的时间过滤条件必须是以下形式之一：**
-    - `time >= XXX AND time <= XXX`
-    - `time > XXX AND time < XXX`
-    - `time BETWEEN XXX AND XXX`
+  - `time >= XXX AND time <= XXX`
+  - `time > XXX AND time < XXX`
+  - `time BETWEEN XXX AND XXX`
 - **使用** **`date_bin_gapfill`** **时，如果出现其他时间过滤条件**，会报错。时间过滤条件与其他值过滤条件只能通过 `AND` 连接。
 - **如果不能从 where 子句中推断出 startTime 和 endTime，则报错**：could not infer startTime or endTime from WHERE clause。
 
-##### 使用示例
+#### 1.2.3 使用示例
 
 示例 1：填充缺失时间区间
 
@@ -215,38 +213,38 @@ GROUP BY 1, device_id;
 +---------+---------+--------+
 ```
 
-### 1.2 DIFF函数
+## 2. DIFF函数
 
-##### 功能概述
+### 2.1 功能概述
 
 `DIFF` 函数用于计算当前行与上一行的差值。对于第一行，由于没有前一行数据，因此永远返回 `NULL`。
 
-##### 函数定义
+### 2.2 函数定义
 
 ```
 DIFF(numberic[, boolean]) -> Double
 ```
 
-##### 参数说明
+### 2.3 参数说明
 
 - 第一个参数：数值类型
 
-    - **类型**：必须是数值类型（`INT32`、`INT64`、`FLOAT`、`DOUBLE`）
-    - **作用**：指定要计算差值的列。
+  - **类型**：必须是数值类型（`INT32`、`INT64`、`FLOAT`、`DOUBLE`）
+  - **作用**：指定要计算差值的列。
 
 - 第二个参数：布尔类型（可选）
-    - **类型**：布尔类型（`true` 或 `false`）。
-    - **默认值**：`true`。
-    - **作用**：
-        - **`true`**：忽略 `NULL` 值，向前找到第一个非 `NULL` 值进行差值计算。如果前面没有非 `NULL` 值，则返回 `NULL`。
-        - **`false`**：不忽略 `NULL` 值，如果前一行为 `NULL`，则差值结果为 `NULL`。
+  - **类型**：布尔类型（`true` 或 `false`）。
+  - **默认值**：`true`。
+  - **作用**：
+    - **`true`**：忽略 `NULL` 值，向前找到第一个非 `NULL` 值进行差值计算。如果前面没有非 `NULL` 值，则返回 `NULL`。
+    - **`false`**：不忽略 `NULL` 值，如果前一行为 `NULL`，则差值结果为 `NULL`。
 
-##### 注意事项
+### 2.4 注意事项
 
 - 在树模型中，第二个参数需要指定为 `'ignoreNull'='true'` 或 `'ignoreNull'='false'`，但在表模型中，只需指定为 `true` 或 `false`。
 - 如果用户写成 `'ignoreNull'='true'` 或 `'ignoreNull'='false'`，表模型会将其视为对两个字符串常量进行等号比较，返回布尔值，但结果总是 `false`，等价于指定第二个参数为 `false`。
 
-##### 使用示例
+### 2.5 使用示例
 
 示例 1：忽略 `NULL` 值
 
@@ -325,7 +323,7 @@ WHERE device_id = '100';
 +-----------------------------+-----------+-----------+-----------+
 ```
 
-### 1.3 时序分窗函数
+## 3. 时序分窗函数
 
 原始示例数据如下：
 
@@ -348,19 +346,19 @@ CREATE TABLE bid(time TIMESTAMP TIME, stock_id STRING TAG, price FLOAT FIELD);
 INSERT INTO bid(time, stock_id, price) VALUES('2021-01-01T09:05:00','AAPL',100.0),('2021-01-01T09:06:00','TESL',200.0),('2021-01-01T09:07:00','AAPL',103.0),('2021-01-01T09:07:00','TESL',202.0),('2021-01-01T09:09:00','AAPL',102.0),('2021-01-01T09:15:00','TESL',195.0);
 ```
 
-#### 1.3.1 HOP
+### 3.1 HOP
 
-##### 功能描述
+#### 3.1.1 功能描述
 
 HOP 函数用于按时间分段分窗分析，识别每一行数据所属的时间窗口。该函数通过指定固定窗口大小（size）和窗口滑动步长（SLIDE），将数据按时间戳分配到所有与其时间戳重叠的窗口中。若窗口之间存在重叠（步长 < 窗口大小），数据会自动复制到多个窗口。
 
-##### 函数定义
+#### 3.1.2 函数定义
 
 ```SQL
 HOP(data, timecol, size, slide[, origin])
 ```
 
-##### 参数说明
+#### 3.1.3 参数说明
 
 | 参数名  | 参数类型 | 参数属性                        | 描述               |
 | --------- | ---------- | --------------------------------- | -------------------- |
@@ -370,7 +368,7 @@ HOP(data, timecol, size, slide[, origin])
 | SLIDE   | 标量参数 | 长整数类型                      | 窗口滑动步长       |
 | ORIGIN  | 标量参数 | 时间戳类型默认值：Unix 纪元时间 | 第一个窗口起始时间 |
 
-##### 返回结果
+#### 3.1.4 返回结果
 
 HOP 函数的返回结果列包含：
 
@@ -378,7 +376,7 @@ HOP 函数的返回结果列包含：
 * window\_end: 窗口结束时间（开区间）
 * 映射列：DATA 参数的所有输入列
 
-##### 使用示例
+#### 3.1.5 使用示例
 
 ```SQL
 IoTDB> SELECT * FROM HOP(DATA => bid,TIMECOL => 'time',SLIDE => 5m,SIZE => 10m);
@@ -413,18 +411,18 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM HOP(DAT
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-#### 1.3.2 SESSION
+### 3.2 SESSION
 
-##### 功能描述
+#### 3.2.1 功能描述
 
 SESSION 函数用于按会话间隔对数据进行分窗。系统逐行检查与前一行的时间间隔，小于阈值（GAP）则归入当前窗口，超过则归入下一个窗口。
 
-##### 函数定义
+#### 3.2.2 函数定义
 
 ```SQL
 SESSION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], timecol, gap)
 ```
-##### 参数说明
+#### 3.2.3 参数说明
 
 | 参数名  | 参数类型 | 参数属性                 | 描述                                   |
 | --------- | ---------- | -------------------------- | ---------------------------------------- |
@@ -433,7 +431,7 @@ SESSION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], timecol, gap)
 |
 | GAP     | 标量参数 | 长整数类型               | 会话间隔阈值                           |
 
-##### 返回结果
+#### 3.2.4 返回结果
 
 SESSION 函数的返回结果列包含：
 
@@ -441,7 +439,7 @@ SESSION 函数的返回结果列包含：
 * window\_end: 会话窗口内的最后一条数据的时间
 * 映射列：DATA 参数的所有输入列
 
-##### 使用示例
+#### 3.2.5 使用示例
 
 ```SQL
 IoTDB> SELECT * FROM SESSION(DATA => bid PARTITION BY stock_id ORDER BY time,TIMECOL => 'time',GAP => 2m);
@@ -467,19 +465,19 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM SESSION
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-#### 1.3.3 VARIATION
+### 3.3 VARIATION
 
-##### 功能描述
+#### 3.3.1 功能描述
 
 VARIATION 函数用于按数据差值分窗，将第一条数据作为首个窗口的基准值，每个数据点会与基准值进行差值运算，如果差值小于给定的阈值（delta）则加入当前窗口；如果超过阈值，则分为下一个窗口，将该值作为下一个窗口的基准值。
 
-##### 函数定义
+#### 3.3.2 函数定义
 
 ```sql
 VARIATION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], col, delta)
 ```
 
-##### 参数说明
+#### 3.3.3 参数说明
 
 | 参数名 | 参数类型 | 参数属性                 | 描述                                   |
 | -------- | ---------- | -------------------------- | ---------------------------------------- |
@@ -487,14 +485,14 @@ VARIATION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], col, delta)
 | COL    | 标量参数 | 字符串类型               | 标识对哪一列计算差值                   |
 | DELTA  | 标量参数 | 浮点数类型               | 差值阈值                               |
 
-##### 返回结果
+#### 3.3.4 返回结果
 
 VARIATION 函数的返回结果列包含：
 
 * window\_index: 窗口编号
 * 映射列：DATA 参数的所有输入列
 
-##### 使用示例
+#### 3.3.5 使用示例
 
 ```sql
 IoTDB> SELECT * FROM VARIATION(DATA => bid PARTITION BY stock_id ORDER BY time,COL => 'price',DELTA => 2.0);
@@ -521,33 +519,33 @@ IoTDB> SELECT first(time) as window_start, last(time) as window_end, stock_id, a
 +-----------------------------+-----------------------------+--------+-----+
 ```
 
-#### 1.3.4 CAPACITY
+### 3.4 CAPACITY
 
-##### 功能描述
+#### 3.4.1 功能描述
 
 CAPACITY 函数用于按数据点数（行数）分窗，每个窗口最多有 SIZE 行数据。
 
-##### 函数定义
+#### 3.4.2 函数定义
 
 ```sql
 CAPACITY(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], size)
 ```
 
-##### 参数说明
+#### 3.4.3 参数说明
 
 | 参数名 | 参数类型 | 参数属性                 | 描述                                   |
 | -------- | ---------- | -------------------------- | ---------------------------------------- |
 | DATA   | 表参数   | SET SEMANTICPASS THROUGH | 输入表通过 pkeys、okeys 指定分区和排序 |
 | SIZE   | 标量参数 | 长整数类型               | 窗口大小                               |
 
-##### 返回结果
+#### 3.4.4 返回结果
 
 CAPACITY 函数的返回结果列包含：
 
 * window\_index: 窗口编号
 * 映射列：DATA 参数的所有输入列
 
-##### 使用示例
+#### 3.4.5 使用示例
 
 ```sql
 IoTDB> SELECT * FROM CAPACITY(DATA => bid PARTITION BY stock_id ORDER BY time, SIZE => 2);
@@ -574,18 +572,18 @@ IoTDB> SELECT first(time) as start_time, last(time) as end_time, stock_id, avg(p
 +-----------------------------+-----------------------------+--------+-----+
 ```
 
-#### 1.3.5 TUMBLE
+### 3.5 TUMBLE
 
-##### 功能描述
+#### 3.5.1 功能描述
 
 TUMBLE 函数用于通过时间属性字段为每行数据分配一个窗口，滚动窗口的大小固定且不重复。
 
-##### 函数定义
+#### 3.5.2 函数定义
 
 ```sql
 TUMBLE(data, timecol, size[, origin])
 ```
-##### 参数说明
+#### 3.5.3 参数说明
 
 | 参数名  | 参数类型 | 参数属性                        | 描述               |
 | --------- | ---------- | --------------------------------- | -------------------- |
@@ -594,7 +592,7 @@ TUMBLE(data, timecol, size[, origin])
 | SIZE    | 标量参数 | 长整数类型                      | 窗口大小，需为正数 |
 | ORIGIN  | 标量参数 | 时间戳类型默认值：Unix 纪元时间 | 第一个窗口起始时间 |
 
-##### 返回结果
+#### 3.5.4 返回结果
 
 TUBMLE 函数的返回结果列包含：
 
@@ -602,7 +600,7 @@ TUBMLE 函数的返回结果列包含：
 * window\_end: 窗口结束时间（开区间）
 * 映射列：DATA 参数的所有输入列
 
-##### 使用示例
+#### 3.5.5 使用示例
 
 ```SQL
 IoTDB> SELECT * FROM TUMBLE( DATA => bid, TIMECOL => 'time', SIZE => 10m);
@@ -628,19 +626,19 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM TUMBLE(
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-#### 1.3.6 CUMULATE
+### 3.6 CUMULATE
 
-##### 功能描述
+#### 3.6.1 功能描述
 
 Cumulate 函数用于从初始的窗口开始，创建相同窗口开始但窗口结束步长不同的窗口，直到达到最大的窗口大小。每个窗口包含其区间内的元素。例如：1小时步长，24小时大小的累计窗口，每天可以获得如下这些窗口：`[00:00, 01:00)`，`[00:00, 02:00)`，`[00:00, 03:00)`， …， `[00:00, 24:00)`
 
-##### 函数定义
+#### 3.6.2 函数定义
 
 ```sql
 CUMULATE(data, timecol, size, step[, origin])
 ```
 
-##### 参数说明
+#### 3.6.3 参数说明
 
 | 参数名  | 参数类型 | 参数属性                        | 描述                                       |
 | --------- | ---------- | --------------------------------- | -------------------------------------------- |
@@ -652,7 +650,7 @@ CUMULATE(data, timecol, size, step[, origin])
 
 > 注意：size 如果不是 step 的整数倍，则会报错`Cumulative table function requires size must be an integral multiple of step`
 
-##### 返回结果
+#### 3.6.4 返回结果
 
 CUMULATE函数的返回结果列包含：
 
@@ -660,7 +658,7 @@ CUMULATE函数的返回结果列包含：
 * window\_end: 窗口结束时间（开区间）
 * 映射列：DATA 参数的所有输入列
 
-##### 使用示例
+#### 3.6.5 使用示例
 
 ```sql
 IoTDB> SELECT * FROM CUMULATE(DATA => bid,TIMECOL => 'time',STEP => 2m,SIZE => 10m);
@@ -698,9 +696,9 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM CUMULAT
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-## 2. 窗口函数
+## 4. 窗口函数
 
-### 2.1 功能介绍
+### 4.1 功能介绍
 
 IoTDB 支持的窗口函数（Window Function） 是一种基于与当前行相关的特定行集合（称为“窗口”） 对每一行进行计算的特殊函数。它将分组操作（`PARTITION BY`）、排序（`ORDER BY`）与可定义的计算范围（窗口框架 `FRAME`）结合，在不折叠原始数据行的前提下实现复杂的跨行计算。常用于数据分析场景，比如排名、累计和、移动平均等操作。
 
@@ -749,8 +747,8 @@ SELECT *, sum(flow) ​OVER(PARTITION​ ​BY​ device ​ORDER​ ​BY​ fl
 +-----------------------------+------+----+----+
 ```
 
-### 2.2 功能定义
-#### 2.2.1 SQL 定义
+### 4.2 功能定义
+#### 4.2.1 SQL 定义
 
 ```SQL
 windowDefinition
@@ -785,7 +783,7 @@ frameBound
     ;
 ```
 
-#### 2.2.2 窗口定义
+#### 4.2.2 窗口定义
 ##### Partition
 
 `PARTITION BY` 用于将数据分为多个独立、不相关的「组」，窗口函数只能访问并操作其所属分组内的数据，无法访问其它分组。该子句是可选的；如果未显式指定，则默认将所有数据分到同一组。值得注意的是，与 `GROUP BY` 通过聚合函数将一组数据规约成一行不同，`PARTITION BY` 的窗口函数**并不会影响组内的行数。**
@@ -933,8 +931,8 @@ IoTDB> SELECT *, count(flow) OVER(PARTITION BY device ROWS 1 PRECEDING) as count
 拆解步骤：
 
 * 取前一行和当前行作为 Frame
-    * 对于 partition 的第一行，由于没有前一行，所以整个 Frame 只有它一行，返回 1；
-    * 对于 partition 的其他行，整个 Frame 包含当前行和它的前一行，返回 2：
+  * 对于 partition 的第一行，由于没有前一行，所以整个 Frame 只有它一行，返回 1；
+  * 对于 partition 的其他行，整个 Frame 包含当前行和它的前一行，返回 2：
 
 ![](/img/window-function-4.png)
 
@@ -964,9 +962,9 @@ IoTDB> SELECT *, count(flow) OVER(PARTITION BY device ORDER BY flow GROUPS BETWE
 拆解步骤：
 
 * 取前一个 peer group 和当前 peer group 作为 Frame，那么以 device 为 d0 的 partition 为例（d1同理），对于 count 行数：
-    * 对于 flow 为 1 的 peer group，由于它也没比它小的 peer group 了，所以整个 Frame 就它一行，返回 1；
-    * 对于 flow 为 3 的 peer group，它本身包含 2 行，前一个 peer group 就是 flow 为 1 的，就一行，因此整个 Frame 三行，返回 3；
-    * 对于 flow 为 5 的 peer group，它本身包含 1 行，前一个 peer group 就是 flow 为 3 的，共两行，因此整个 Frame 三行，返回 3。
+  * 对于 flow 为 1 的 peer group，由于它也没比它小的 peer group 了，所以整个 Frame 就它一行，返回 1；
+  * 对于 flow 为 3 的 peer group，它本身包含 2 行，前一个 peer group 就是 flow 为 1 的，就一行，因此整个 Frame 三行，返回 3；
+  * 对于 flow 为 5 的 peer group，它本身包含 1 行，前一个 peer group 就是 flow 为 3 的，共两行，因此整个 Frame 三行，返回 3。
 
 ![](/img/window-function-5.png)
 
@@ -996,9 +994,9 @@ IoTDB> SELECT *,count(flow) OVER(PARTITION BY device ORDER BY flow RANGE BETWEEN
 拆解步骤：
 
 * 把比当前行数据**小于等于 2 ​**的分为同一个 Frame，那么以 device 为 d0 的 partition 为例（d1 同理），对于 count 行数：
-    * 对于 flow 为 1 的行，由于它是最小的行了，所以整个 Frame 就它一行，返回 1；
-    * 对于 flow 为 3 的行，注意 CURRENT ROW 是作为 frame\_end 存在，因此是整个 peer group 的最后一行，符合要求比它小的共 1 行，然后 peer group 有 2 行，所以整个 Frame 共 3 行，返回 3；
-    * 对于 flow 为 5 的行，它本身包含 1 行，符合要求的比它小的共 2 行，所以整个 Frame 共 3 行，返回 3。
+  * 对于 flow 为 1 的行，由于它是最小的行了，所以整个 Frame 就它一行，返回 1；
+  * 对于 flow 为 3 的行，注意 CURRENT ROW 是作为 frame\_end 存在，因此是整个 peer group 的最后一行，符合要求比它小的共 1 行，然后 peer group 有 2 行，所以整个 Frame 共 3 行，返回 3；
+  * 对于 flow 为 5 的行，它本身包含 1 行，符合要求的比它小的共 2 行，所以整个 Frame 共 3 行，返回 3。
 
 ![](/img/window-function-6.png)
 
@@ -1017,7 +1015,7 @@ IoTDB> SELECT *,count(flow) OVER(PARTITION BY device ORDER BY flow RANGE BETWEEN
 +-----------------------------+------+----+-----+
 ```
 
-### 2.3 内置的窗口函数
+### 4.3 内置的窗口函数
 
 <table style="text-align: left;">
   <tbody>
@@ -1093,7 +1091,7 @@ IoTDB> SELECT *,count(flow) OVER(PARTITION BY device ORDER BY flow RANGE BETWEEN
   </tbody>
 </table>
 
-#### 2.3.1 Aggregate Function
+#### 4.3.1 Aggregate Function
 
 所有内置聚合函数，如 `sum()`、`avg()`、`min()`、`max()` 都能当作 Window Function 使用。
 
@@ -1115,7 +1113,7 @@ IoTDB> SELECT *, sum(flow) OVER (PARTITION BY device ORDER BY flow) as sum FROM 
 +-----------------------------+------+----+----+
 ```
 
-#### 2.3.2 Value Function
+#### 4.3.2 Value Function
 1. `first_value`
 
 * 函数名：`first_value(value) [IGNORE NULLS]`
@@ -1218,7 +1216,7 @@ IoTDB> SELECT *, lag(flow) OVER w as lag FROM device_flow WINDOW w AS(PARTITION 
 +-----------------------------+------+----+----+
 ```
 
-#### 2.3.3 Rank Function
+#### 4.3.3 Rank Function
 1. rank
 
 * 函数名：`rank()`
@@ -1323,10 +1321,10 @@ IoTDB> SELECT *, cume_dist() OVER w as cume_dist FROM device_flow WINDOW w AS (P
 
 * 函数名：ntile
 * 定义：指定 n，给每一行进行 1～n 的编号。
-    * 整个 partition 行数比 n 小，那么编号就是行号 index；
-    * 整个 partition 行数比 n 大：
-        * 如果行数能除尽 n，那么比较完美，比如行数为 4，n 为 2，那么编号为 1、1、2、2、；
-        * 如果行数不能除尽 n，那么就分给开头几组，比如行数为 5，n 为 3，那么编号为 1、1、2、2、3；
+  * 整个 partition 行数比 n 小，那么编号就是行号 index；
+  * 整个 partition 行数比 n 大：
+    * 如果行数能除尽 n，那么比较完美，比如行数为 4，n 为 2，那么编号为 1、1、2、2、；
+    * 如果行数不能除尽 n，那么就分给开头几组，比如行数为 5，n 为 3，那么编号为 1、1、2、2、3；
 * 示例：
 
 ```SQL
@@ -1343,7 +1341,7 @@ IoTDB> SELECT *, ntile(2) OVER w as ntile FROM device_flow WINDOW w AS (PARTITIO
 +-----------------------------+------+----+-----+
 ```
 
-### 2.4 场景示例
+### 4.4 场景示例
 1. 多设备 diff 函数
 
 对于每个设备的每一行，与前一行求差值：

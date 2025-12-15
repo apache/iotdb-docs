@@ -47,31 +47,54 @@ export const enSidebar = {
       link: 'QuickStart/QuickStart_timecho',
     },
     {
-      text: 'Deployment & Maintenance',
+      text: 'Installation and Deployment',
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
-      // children: 'structure',
       children: [
-        { text: 'Obtain TimechoDB', link: 'IoTDB-Package_timecho' },
-        { text: 'Database Resources', link: 'Database-Resources' },
-        { text: 'Environment Requirements', link: 'Environment-Requirements' },
-        {
-          text: 'Stand-Alone Deployment',
-          link: 'Stand-Alone-Deployment_timecho',
-        },
-        { text: 'Cluster Deployment', link: 'Cluster-Deployment_timecho' },
-        {
-          text: 'Dual Active Deployment',
-          link: 'Dual-Active-Deployment_timecho',
-        },
-        { text: 'Docker Deployment', link: 'Docker-Deployment_timecho' },
-        { text: 'AINode Deployment', link: 'AINode_Deployment_timecho' },
-        {
-          text: 'Monitoring Panel Deployment',
-          link: 'Monitoring-panel-deployment',
-        },
-        { text: 'Workbench Deployment', link: 'workbench-deployment_timecho' },
-        { text: 'Kubernetes Deployment', link: 'Kubernetes_timecho' },
+          {
+            text: 'Deployment Preparation',
+            collapsible: true,
+            children: [
+              { text: 'Obtain TimechoDB', link: 'IoTDB-Package_timecho' },
+              { text: 'Database Resources', link: 'Database-Resources' },
+              { text: 'Environment Requirements', link: 'Environment-Requirements' },
+            ],
+          },
+          {
+            text: 'Database Deployment',
+            collapsible: true,
+            children: [
+              {
+                text: 'Stand-Alone Deployment',
+                link: 'Stand-Alone-Deployment_timecho',
+              },
+              { text: 'Cluster Deployment', link: 'Cluster-Deployment_timecho' },
+              {
+                text: 'Dual Active Deployment',
+                link: 'Dual-Active-Deployment_timecho',
+              },
+              { text: 'Docker Deployment', link: 'Docker-Deployment_timecho' },
+              { text: 'Kubernetes Deployment', link: 'Kubernetes_timecho' },
+            ],
+          },
+          {
+            text: 'AI Deployment',
+            collapsible: true,
+            children: [
+                { text: 'AINode Deployment', link: 'AINode_Deployment_timecho' },
+            ],
+          },
+          {
+               text: 'Peripheral Tools',
+               collapsible: true,
+               children: [
+                 {
+                   text: 'Monitoring Panel Deployment',
+                   link: 'Monitoring-panel-deployment',
+                 },
+                 { text: 'Workbench Deployment', link: 'workbench-deployment_timecho' },
+               ],
+          },
       ],
     },
     {
@@ -202,6 +225,7 @@ export const enSidebar = {
         { text: 'JDBC', link: 'Programming-JDBC' },
         /* { text: 'MQTT Protocol', link: 'Programming-MQTT' }, */
         { text: 'OPC UA Protocol', link: 'Programming-OPC-UA_timecho' },
+        { text: 'OPC DA Protocol', link: 'Programming-OPC-DA_timecho' },
         {
           text: 'REST API',
           collapsible: true,

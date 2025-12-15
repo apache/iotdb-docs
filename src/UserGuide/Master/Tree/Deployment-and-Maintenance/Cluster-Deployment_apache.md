@@ -45,7 +45,10 @@ This section will take the IoTDB classic cluster deployment architecture 3C3D (3
 - Using a fixed non root user:
   - Using the same user operation: Ensure that the same user is used for start, stop and other operations, and do not switch users.
   - Avoid using sudo: Try to avoid using sudo commands as they execute commands with root privileges, which may cause confusion or security issues.
-  
+
+6. Before installation, the health check tool can help inspect the operating environment of IoTDB nodes and obtain detailed inspection results. The usage method of the IoTDB health check tool can be found in:[Health Check Tool](../Tools-System/Health-Check-Tool.md).
+
+ 
 ## 2. Preparation Steps
 
 1. Prepare the IoTDB database installation package:：apache-iotdb-{version}-all-bin.zip（Please refer to the installation package for details：[IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_apache.md)）
@@ -422,6 +425,11 @@ sbin\remove-datanode.bat [datanode_id]
 # V2.0.4.x and later versions
 sbin\windows\remove-datanode.bat [datanode_id]
 ```
+
+### 4.3 Cluster Maintenance
+
+For more details on cluster maintenance, please refer to: [Cluster Maintenance](../User-Manual/Load-Balance.md)
+
 ## 5.  Questions
 
 1. Confignode failed to start

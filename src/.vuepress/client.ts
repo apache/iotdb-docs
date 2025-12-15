@@ -18,9 +18,15 @@
 
 import { defineDocSearchConfig } from '@vuepress/plugin-docsearch/client';
 import { computed } from 'vue';
-import { defineClientConfig, usePageData, useRouter, withBase } from 'vuepress/client';
-import useLegacyRoute from './composables/useLegacyRoute';
+import {
+  defineClientConfig,
+  usePageData,
+  useRouter,
+  withBase,
+} from 'vuepress/client';
+import useLegacyRoute from './composables/useLegacyRoute.js';
 import DocSearch from './components/DocSearch.vue';
+import Layout from './components/SidebarLayout.vue';
 import { getDocVersion } from './utils/index.js';
 
 export default defineClientConfig({
@@ -32,11 +38,11 @@ export default defineClientConfig({
     const pageData = usePageData();
     const router = useRouter();
 
-    let lastTo  = '';
-    
+    let lastTo = '';
+
     router.onError((error) => {
       console.warn(error);
-      if(!lastTo) return;
+      if (!lastTo) return;
       window.location.href = withBase(lastTo);
       lastTo = '';
     });
@@ -57,5 +63,8 @@ export default defineClientConfig({
     }));
 
     defineDocSearchConfig(docSearchConfig);
+  },
+  layouts: {
+    Layout: Layout,
   },
 });

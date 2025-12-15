@@ -48,6 +48,8 @@
 
 6. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，部署监控面板步骤可以参考：[监控面板部署](./Monitoring-panel-deployment.md)
 
+7. 在安装部署数据库前，可以使用健康检查工具检测 IoTDB 节点运行环境，并获取详细的检查结果。 IoTDB 健康检查工具使用方法可以参考：[健康检查工具](../Tools-System/Health-Check-Tool.md)。
+
 ## 2. 准备步骤
 
 1. 准备IoTDB数据库安装包 ：iotdb-enterprise-{version}-bin.zip（安装包获取见：[链接](../Deployment-and-Maintenance/IoTDB-Package_timecho.md)）
@@ -189,23 +191,32 @@ cd sbin
 
 - 进入集群任一节点 CLI，执行获取机器码的语句
 
-    - 树模型 CLI 进入命令：
+```shell
+# Linux 系统与 MacOS 系统启动命令如下：
+# V2.0.6.x 版本之前
+Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root
 
-  ```SQL
-  # Linux或MACOS系统
-  ./start-cli.sh
-  
-  # windows系统
-  ./start-cli.bat
-  ```
+# V2.0.6.x 版本及之后
+Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
 
-    - 执行以下内容获取激活所需机器码：
+# Windows 系统启动命令如下：
+# V2.0.4.x 版本之前
+Shell > sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.4.x 版本及之后, V2.0.6.x 版本之前
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.6.x 版本及之后
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
+```
+
+- 执行以下内容获取激活所需机器码：
 
   ```Bash
   show system info
   ```
 
-    - 系统将自动返回集群所有节点的机器码
+- 系统将自动返回集群所有节点的机器码
 
       ```Bash
       +--------------------------------------------------------------+
@@ -460,6 +471,11 @@ It costs 0.110s
 remove datanode [datanode_id]
 
 ```
+
+### 4.3 集群维护
+
+更多关于集群维护的介绍可参考：[集群维护](../User-Manual/Load-Balance.md)
+
 
 ## 5. 常见问题
 

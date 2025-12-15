@@ -53,6 +53,9 @@ This guide describes how to manually deploy a cluster instance consisting of 3 C
 
 6. **Monitoring Panel**: Deploy a monitoring panel to track key performance metrics. Contact the Timecho team for access and refer to the "[Monitoring Panel Deployment](./Monitoring-panel-deployment.md)" guide.
 
+7. **Health Check Tool**: Before installation, the health check tool can help inspect the operating environment of IoTDB nodes and obtain detailed inspection results. The usage method of the IoTDB health check tool can be found in:[Health Check Tool](../Tools-System/Health-Check-Tool.md).
+
+
 ## 2. Preparation
 
 1. Obtain the TimechoDB installation package: `timechodb-{version}-bin.zip` following [IoTDB-Package](../Deployment-and-Maintenance/IoTDB-Package_timecho.md)）
@@ -194,15 +197,28 @@ cd sbin
 
 1. Enter the IoTDB CLI on any node of the cluster:
 
-- **For Tree Model**:
+The Linux and MacOS system startup commands are as follows:
 
-   ```SQL
-   # For Linux or macOS
-   ./start-cli.sh
-   
-   # For Windows
-   ./start-cli.bat
-   ```
+```shell
+# Before version V2.0.6.x
+Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.6.x and later versions
+Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
+```
+
+The Windows system startup commands are as follows:
+
+```shell
+# Before version V2.0.4.x
+Shell > sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.4.x and later versions, before version V2.0.6.x
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.6.x and later versions
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
+```
 
 2. Run the following command to retrieve the machine code required for activation:
 
@@ -471,6 +487,10 @@ sbin\remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 # V2.0.4.x and later versions
 sbin\windows\remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 ```
+
+### 4.3 Cluster Maintenance
+
+For more details on cluster maintenance, please refer to: [Cluster Maintenance](../User-Manual/Load-Balance.md)
 
 ## 5. Common Questions
 

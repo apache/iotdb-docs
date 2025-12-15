@@ -123,12 +123,11 @@ For installation steps, please refer to the[Helm Official Website.](https://helm
 
 ### 5.1 Clone IoTDB Kubernetes Deployment Code
 
-Please contact timechodb staff to obtain the IoTDB Helm Chart. If you encounter proxy issues, disable the proxy settings:
-
+Clone Helm : [Source Code](https://github.com/apache/iotdb-extras/tree/master/helm)
 
 If encountering proxy issues, cancel proxy settings:
 
-> The git clone error is as follows, indicating that the proxy has been configured and needs to be turned off fatal: unable to access 'https://gitlab.timecho.com/r-d/db/iotdb-cluster-k8s.git/': gnutls_handshake() failed: The TLS connection was non-properly terminated.
+> The git clone error is as follows, indicating that the proxy has been configured and needs to be turned off fatal: unable to access 'https://github.com/apache/iotdb-extras.git': gnutls_handshake() failed: The TLS connection was non-properly terminated.
 
 ```Bash
 unset HTTPS_PROXY
@@ -145,9 +144,9 @@ nameOverride: "iotdb"
 fullnameOverride: "iotdb"   # Name after installation
 
 image:
-  repository: nexus.infra.timecho.com:8143/timecho/iotdb-enterprise
+  repository: apache/iotdb
   pullPolicy: IfNotPresent
-  tag: 1.3.3.2-standalone    # Repository and version used
+  tag: latest    # Repository and version used
 
 storage:
   # Storage class name, if using local static storage, do not configure; if using dynamic storage, this must be set
@@ -184,85 +183,9 @@ confignode:
   dataRegionConsensusProtocolClass: org.apache.iotdb.consensus.iot.IoTConsensus
 ```
 
-## 6. Configure Private Repository Information or Pre-Pull Images
+## 6. Install IoTDB
 
-Configure private repository information on k8s as a prerequisite for the next helm install step.
-
-Option one is to pull the available iotdb images during helm insta, while option two is to import the available iotdb images into containerd in advance.
-
-### 6.1 [Option 1] Pull Image from Private Repository
-
-#### 6.1.1 Create a Secret to Allow k8s to Access the IoTDB Helm Private Repository
-
-Replace xxxxxx with the IoTDB private repository account, password, and email.
-
-
-
-```Bash
-# Note the single quotes
-kubectl create secret docker-registry timecho-nexus \
-  --docker-server='nexus.infra.timecho.com:8143' \
-  --docker-username='xxxxxx' \
-  --docker-password='xxxxxx' \
-  --docker-email='xxxxxx' \
-  -n iotdb-ns
-  
-# View the secret
-kubectl get secret timecho-nexus -n iotdb-ns
-# View and output as YAML
-kubectl get secret timecho-nexus --output=yaml -n iotdb-ns
-# View and decrypt
-kubectl get secret timecho-nexus --output="jsonpath={.data.\.dockerconfigjson}" -n iotdb-ns | base64 --decode
-```
-
-#### 6.1.2 Load the Secret as a Patch to the Namespace iotdb-ns
-
-```Bash
-# Add a patch to include login information for nexus in this namespace
-kubectl patch serviceaccount default -n iotdb-ns -p '{"imagePullSecrets": [{"name": "timecho-nexus"}]}'
-
-# View the information in this namespace
-kubectl get serviceaccounts -n iotdb-ns -o yaml
-```
-
-### 6.2 [Option 2] Import Image
-
-This step is for scenarios where the customer cannot connect to the private repository and requires assistance from company implementation staff.
-
-#### 6.2.1  Pull and Export the Image:
-
-```Bash
-ctr images pull --user xxxxxxxx nexus.infra.timecho.com:8143/timecho/iotdb-enterprise:1.3.3.2-standalone
-```
-
-#### 6.2.2 View and Export the Image:
-
-```Bash
-# View
-ctr images ls 
-
-# Export
-ctr images export iotdb-enterprise:1.3.3.2-standalone.tar nexus.infra.timecho.com:8143/timecho/iotdb-enterprise:1.3.3.2-standalone
-```
-
-#### 6.2.3 Import into the k8s Namespace:
-
-> Note that k8s.io is the namespace for ctr in the example environment; importing to other namespaces will not work.
-
-```Bash
-# Import into the k8s namespace
-ctr -n k8s.io images import iotdb-enterprise:1.3.3.2-standalone.tar 
-```
-
-#### 6.2.4 View the Image:
-
-```Bash
-ctr --namespace k8s.io images list | grep 1.3.3.2
-```
-
-## 7. Install IoTDB
-
-### 7.1  Install IoTDB
+### 6.1  Install IoTDB
 
 ```Bash
 # Enter the directory
@@ -272,14 +195,14 @@ cd iotdb-cluster-k8s/helm
 helm install iotdb ./ -n iotdb-ns
 ```
 
-### 7.2 View Helm Installation List
+### 6.2 View Helm Installation List
 
 ```Bash
 # helm list
 helm list -n iotdb-ns
 ```
 
-### 7.3 View Pods
+### 6.3 View Pods
 
 ```Bash
 # View IoTDB pods
@@ -288,7 +211,7 @@ kubectl get pods -n iotdb-ns -o wide
 
 After executing the command, if the output shows 6 Pods with confignode and datanode labels (3 each), it indicates a successful installation. Note that not all Pods may be in the Running state initially; inactive datanode Pods may keep restarting but will normalize after activation.
 
-### 7.4 Troubleshooting
+### 6.4 Troubleshooting
 
 ```Bash
 # View k8s creation logs
@@ -303,65 +226,9 @@ kubectl describe pod datanode-0 -n iotdb-ns
 kubectl logs -n iotdb-ns confignode-0 -f
 ```
 
-## 8. Activate IoTDB
+## 7.  Verify IoTDB
 
-### 8.1 Option 1: Activate Directly in the Pod (Quickest)
-
-```Bash
-kubectl exec -it -n iotdb-ns confignode-0 -- /iotdb/sbin/start-activate.sh
-kubectl exec -it -n iotdb-ns confignode-1 -- /iotdb/sbin/start-activate.sh
-kubectl exec -it -n iotdb-ns confignode-2 -- /iotdb/sbin/start-activate.sh
-# Obtain the machine code and proceed with activation
-```
-
-### 8.2 Option 2: Activate Inside the ConfigNode Container
-
-```Bash
-kubectl exec -it -n iotdb-ns confignode-0 -- /bin/bash
-cd /iotdb/sbin
-/bin/bash start-activate.sh
-# Obtain the machine code and proceed with activation
-# Exit the container
-```
-
-### Option 3: Manual Activation
-
-1. View ConfigNode details to determine the node:
-
-```Bash
-kubectl describe pod confignode-0 -n iotdb-ns | grep -e "Node:" -e "Path:"
-
-# Example output:
-# Node:          a87/172.20.31.87
-# Path:          /data/k8s-data/env/confignode/.env
-```
-
-2. View PVC and find the corresponding Volume for ConfigNode to determine the path:
-
-```Bash
-kubectl get pvc -n iotdb-ns | grep "confignode-0"
-# Example output:
-# map-confignode-confignode-0   Bound    iotdb-pv-04   10Gi       RWO            local-storage   <unset>                 8h
-
-# To view multiple ConfigNodes, use the following:
-for i in {0..2}; do echo confignode-$i; kubectl describe pod confignode-${i} -n iotdb-ns | grep -e "Node:" -e "Path:"
-```
-
-3. View the Detailed Information of the Corresponding Volume to Determine the Physical Directory Location:
-
-
-```Bash
-kubectl describe pv iotdb-pv-04 | grep "Path:"
-
-# Example output:
-# Path:          /data/k8s-data/iotdb-pv-04
-```
-
-4. Locate the system-info file in the corresponding directory on the corresponding node, use this system-info as the machine code to generate an activation code, and create a new file named license in the same directory, writing the activation code into this file.
-
-## 9.  Verify IoTDB
-
-### 9.1 Check the Status of Pods within the Namespace
+### 7.1 Check the Status of Pods within the Namespace
 
 View the IP, status, and other information of the pods in the iotdb-ns namespace to ensure they are all running normally.
 
@@ -378,7 +245,7 @@ kubectl get pods -n iotdb-ns -o wide
 # datanode-2     1/1     Running   10 (5m55s ago)   75m   10.20.191.76   a88    <none>           <none>
 ```
 
-### 9.2 Check the Port Mapping within the Namespace
+### 7.2 Check the Port Mapping within the Namespace
 
 ```Bash
 kubectl get svc -n iotdb-ns
@@ -390,7 +257,7 @@ kubectl get svc -n iotdb-ns
 # jdbc-balancer    LoadBalancer   10.10.191.209   <pending>     6667:31895/TCP   7d8h
 ```
 
-### 9.3 Start the CLI Script on Any Server to Verify the IoTDB Cluster Status
+### 7.3 Start the CLI Script on Any Server to Verify the IoTDB Cluster Status
 
 Use the port of jdbc-balancer and the IP of any k8s node.
 
@@ -402,9 +269,9 @@ start-cli.sh -h 172.20.31.88 -p 31895
 
 <img src="/img/Kubernetes02.png" alt="" style="width: 70%;"/>
 
-## 10. Scaling
+## 8. Scaling
 
-### 10.1  Add New PV
+### 8.1  Add New PV
 
 Add a new PV; scaling is only possible with available PVs.
 
@@ -415,7 +282,7 @@ Add a new PV; scaling is only possible with available PVs.
 **Reason**：The static storage hostPath mode is configured, and the script modifies the `iotdb-system.properties` file to set `dn_data_dirs` to `/iotdb6/iotdb_data,/iotdb7/iotdb_data`. However, the default storage path  `/iotdb/data` is not mounted, leading to data loss upon restart.
 **Solution**：Mount the `/iotdb/data` directory as well, and ensure this setting is applied to both ConfigNode and DataNode to maintain data integrity and cluster stability.
 
-### 10.2 Scale ConfigNode
+### 8.2 Scale ConfigNode
 
 Example: Scale from 3 ConfigNodes to 4 ConfigNodes
 
@@ -428,7 +295,7 @@ helm upgrade iotdb . -n iotdb-ns
 <img src="/img/Kubernetes04.png" alt="" style="width: 70%;"/>
 
 
-### 10.3 Scale DataNode
+### 8.3 Scale DataNode
 
 Example: Scale from 3 DataNodes to 4 DataNodes
 
@@ -438,7 +305,7 @@ Modify the values.yaml file in iotdb-cluster-k8s/helm to change the number of Da
 helm upgrade iotdb . -n iotdb-ns
 ```
 
-### 10.4 Verify IoTDB Status
+### 8.4 Verify IoTDB Status
 
 ```Shell
 kubectl get pods -n iotdb-ns -o wide

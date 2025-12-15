@@ -44,6 +44,8 @@
 
 6. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，部署监控面板步骤可以参考：[监控面板部署](./Monitoring-panel-deployment.md)。
 
+7. 在安装部署数据库前，可以使用健康检查工具检测 IoTDB 节点运行环境，并获取详细的检查结果。 IoTDB 健康检查工具使用方法可以参考：[健康检查工具](../Tools-System/Health-Check-Tool.md)。
+
 ## 2. 安装步骤
 
 ### 2.1 前置检查
@@ -159,14 +161,24 @@ cd  iotdb-enterprise-{version}-bin
 #### 方式一：命令激活
 - 进入 IoTDB CLI
 
-   - 树模型 CLI 进入命令：
-  ```SQL
-    # Linux或MACOS系统
-    ./start-cli.sh
-    
-    # windows系统
-    ./start-cli.bat
-    ```
+```shell
+# Linux 系统与 MacOS 系统启动命令如下：
+# V2.0.6.x 版本之前
+Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.6.x 版本及之后
+Shell > bash sbin/start-cli.sh -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
+
+# Windows 系统启动命令如下：
+# V2.0.4.x 版本之前
+Shell > sbin\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.4.x 版本及之后, V2.0.6.x 版本之前
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root
+
+# V2.0.6.x 版本及之后
+Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021
+```
 - 执行以下内容获取激活所需机器码：
 
 ```Bash
