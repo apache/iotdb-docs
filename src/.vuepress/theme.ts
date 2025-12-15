@@ -85,7 +85,9 @@ export default hopeTheme(
       figure: true,
       gfm: true,
       imgLazyload: true,
-      math: true,
+      math: {
+        type: 'katex',
+      },
       linksCheck: {
         build: 'error',
       },

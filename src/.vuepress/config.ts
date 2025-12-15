@@ -88,13 +88,9 @@ _paq.push(['enableLinkTracking']);
 
   shouldPrefetch: false,
   alias: {
-    '@theme-hope/components/PageFooter': path.resolve(
+    '@theme-hope/components/base/PageFooter': path.resolve(
       dirname,
       './components/PageFooter.vue',
-    ),
-    '@theme-hope/modules/sidebar/components/Sidebar': path.resolve(
-      dirname,
-      './components/Sidebar.vue',
     ),
   },
   bundler: viteBundler({

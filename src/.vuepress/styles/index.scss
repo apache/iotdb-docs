@@ -101,7 +101,7 @@ div[class*='language-'] pre code {
   color: var(--code-c-text);
 }
 
-.iotdb-sidebar {
+.vp-sidebar {
   .iotdb-sidebar-header {
     margin-top: 1rem;
     margin-bottom: 0.25rem;
@@ -169,7 +169,8 @@ div[class*='language-'] pre code {
       background: var(--vp-c-bg-alt);
     }
   }
-  .theme-hope-content {
+  
+  [vp-content] {
     inset: 0;
     z-index: 0;
     position: relative;
@@ -180,4 +181,13 @@ div[class*='language-'] pre code {
     padding: 0;
     display: inline;
   }
+}
+.theme-container {
+  .vp-project-home {
+  padding-inline: 0 !important;
+  }
+}
+
+.vp-project-home .vp-hero-info-wrapper:not(.fullscreen) .vp-hero-info {
+  max-width: 100% !important;
 }
