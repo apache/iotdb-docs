@@ -52,6 +52,9 @@
 
 6. 推荐部署监控面板，可以对重要运行指标进行监控，随时掌握数据库运行状态，监控面板可以联系商务获取，部署监控面板步骤可以参考：[监控面板部署](./Monitoring-panel-deployment.md)
 
+7. 在安装部署数据库前，可以使用健康检查工具检测 IoTDB 节点运行环境，并获取详细的检查结果。 IoTDB 健康检查工具使用方法可以参考：[健康检查工具](../Tools-System/Health-Check-Tool.md)。
+
+
 ## 2. 准备步骤
 
 1. 准备IoTDB数据库安装包 ：timechodb-{version}-bin.zip（安装包获取见：[链接](./IoTDB-Package_timecho.md)）
@@ -428,6 +431,10 @@ It costs 0.110s
 ```Bash
 remove datanode [datanode_id]
 ```
+
+### 4.3 集群维护
+
+更多关于集群维护的介绍可参考：[集群维护](../User-Manual/Load-Balance.md)
 
 ## 5. 常见问题
 

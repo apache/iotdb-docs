@@ -54,22 +54,37 @@ export const enSidebar = {
       link: 'QuickStart/QuickStart_apache',
     },
     {
-      text: 'Deployment & Maintenance',
+      text: 'Installation and Deployment',
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
       children: [
-        { text: 'Deployment form', link: 'Deployment-form_apache' },
-        { text: 'Obtain IoTDB', link: 'IoTDB-Package_apache' },
-        { text: 'Database Resources', link: 'Database-Resources' },
-        { text: 'Environment Requirements', link: 'Environment-Requirements' },
-        {
-          text: 'Stand-Alone Deployment',
-          link: 'Stand-Alone-Deployment_apache',
-        },
-        { text: 'Cluster Deployment', link: 'Cluster-Deployment_apache' },
-        { text: 'Docker Deployment', link: 'Docker-Deployment_apache' },
-        { text: 'AINode Deployment', link: 'AINode_Deployment_apache' },
-        { text: 'Kubernetes Deployment', link: 'Kubernetes_apache' },
+          {
+            text: 'Deployment Preparation',
+            collapsible: true,
+            children: [
+              { text: 'Deployment form', link: 'Deployment-form_apache' },
+              { text: 'Obtain IoTDB', link: 'IoTDB-Package_apache' },
+              { text: 'Database Resources', link: 'Database-Resources' },
+              { text: 'Environment Requirements', link: 'Environment-Requirements' },
+            ],
+          },
+          {
+            text: 'Database Deployment',
+            collapsible: true,
+            children: [
+              { text: 'Stand-Alone Deployment', link: 'Stand-Alone-Deployment_apache'},
+              { text: 'Cluster Deployment', link: 'Cluster-Deployment_apache' },
+              { text: 'Docker Deployment', link: 'Docker-Deployment_apache' },
+              { text: 'Kubernetes Deployment', link: 'Kubernetes_apache' },
+            ],
+          },
+          {
+            text: 'AI Deployment',
+            collapsible: true,
+            children: [
+               { text: 'AINode Deployment', link: 'AINode_Deployment_apache' },
+            ],
+          },
       ],
     },
     {
@@ -121,7 +136,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis' },
-            { text: 'Load Balance', link: 'Load-Balance' },
+            { text: 'Cluster Maintenance', link: 'Load-Balance' },
             { text: 'Maintenance statement', link: 'Maintenance-commands' },
           ],
         },

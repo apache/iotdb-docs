@@ -48,18 +48,36 @@ export const zhSidebar = {
       link: 'QuickStart/QuickStart_apache',
     },
     {
-      text: '部署与运维',
+      text: '安装部署',
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
       children: [
-        { text: '部署形态', link: 'Deployment-form_apache' },
-        { text: '安装包获取', link: 'IoTDB-Package_apache' },
-        { text: '资源规划', link: 'Database-Resources_apache' },
-        { text: '环境配置', link: 'Environment-Requirements' },
-        { text: '单机版部署指导', link: 'Stand-Alone-Deployment_apache' },
-        { text: '集群版部署指导', link: 'Cluster-Deployment_apache' },
-        { text: 'Docker部署指导', link: 'Docker-Deployment_apache' },
-        { text: 'AINode部署', link: 'AINode_Deployment_apache' },
+          {
+            text: '部署准备',
+            collapsible: true,
+            children: [
+              { text: '部署形态', link: 'Deployment-form_apache' },
+              { text: '安装包获取', link: 'IoTDB-Package_apache' },
+              { text: '资源规划', link: 'Database-Resources_apache' },
+              { text: '环境配置', link: 'Environment-Requirements' },
+            ],
+          },
+          {
+            text: '数据库部署',
+            collapsible: true,
+            children: [
+              { text: '单机版部署', link: 'Stand-Alone-Deployment_apache' },
+              { text: '集群版部署', link: 'Cluster-Deployment_apache' },
+              { text: 'Docker 部署', link: 'Docker-Deployment_apache' },
+            ],
+          },
+          {
+            text: 'AI 部署',
+            collapsible: true,
+            children: [
+              { text: 'AINode 部署', link: 'AINode_Deployment_apache' },
+            ],
+          },
       ],
     },
     {
@@ -100,6 +118,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '查询性能分析', link: 'Query-Performance-Analysis' },
+            { text: '集群维护', link: 'Load-Balance' },
             { text: '运维语句', link: 'Maintenance-statement' },
           ],
         },
@@ -134,6 +153,8 @@ export const zhSidebar = {
             { text: '元数据导出', link: 'Schema-Export-Tool_apache' },
           ],
         },
+        { text: '全量备份工具', link: 'Backup-Tool' },
+        { text: '健康检查工具', link: 'Health-Check-Tool' },
       ],
     },
     {

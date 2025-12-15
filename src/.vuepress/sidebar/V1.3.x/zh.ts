@@ -47,19 +47,36 @@ export const zhSidebar = {
       link: 'QuickStart/QuickStart_apache',
     },
     {
-      text: '部署与运维',
+      text: '安装部署',
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
-      // children: 'structure',
       children: [
-        { text: '安装包获取', link: 'IoTDB-Package_apache' },
-        { text: '资源规划', link: 'Database-Resources' },
-        { text: '环境配置', link: 'Environment-Requirements' },
-        { text: '单机版部署指导', link: 'Stand-Alone-Deployment_apache' },
-        { text: '集群版部署指导', link: 'Cluster-Deployment_apache' },
-        { text: 'Docker部署指导', link: 'Docker-Deployment_apache' },
-        { text: 'AINode部署', link: 'AINode_Deployment_apache' },
-        { text: 'Kubernetes部署', link: 'Kubernetes_apache' },
+          {
+            text: '部署准备',
+            collapsible: true,
+            children: [
+              { text: '安装包获取', link: 'IoTDB-Package_apache' },
+              { text: '资源规划', link: 'Database-Resources' },
+              { text: '环境配置', link: 'Environment-Requirements' },
+            ],
+          },
+          {
+            text: '数据库部署',
+            collapsible: true,
+            children: [
+              { text: '单机版部署', link: 'Stand-Alone-Deployment_apache' },
+              { text: '集群版部署', link: 'Cluster-Deployment_apache' },
+              { text: 'Docker 部署', link: 'Docker-Deployment_apache' },
+              { text: 'Kubernetes 部署', link: 'Kubernetes_apache' },
+            ],
+          },
+          {
+            text: 'AI 部署',
+            collapsible: true,
+            children: [
+              { text: 'AINode 部署', link: 'AINode_Deployment_apache' },
+            ],
+          },
       ],
     },
     {

@@ -33,7 +33,7 @@ This document will introduce how to generate a native Node.js interface that can
 
 ## 2. Generate the Node.js native interface
 
-1. Find the `pom.xml` file in the root directory of the IoTDB source code folder.
+1. Find the `pom.xml` file in the root directory of the IoTDB [source code](https://github.com/apache/iotdb) folder.
 2. Open the `pom.xml` file and find the following content:
    ```xml
                             <execution>
@@ -62,7 +62,7 @@ This document will introduce how to generate a native Node.js interface that can
                                 </configuration>
                             </execution>
    ```
-4. In the root directory of the IoTDB source code folder，run `mvn clean generate-sources`.
+4. In the root directory of the IoTDB [source code](https://github.com/apache/iotdb) folder，run `mvn clean generate-sources`.
 
 This command will automatically delete the files in `iotdb/iotdb-protocol/thrift/target` and `iotdb/iotdb-protocol/thrift-commons/target`, and repopulate the folder with the newly generated files.
 The newly generated JavaScript sources will be located in `iotdb/iotdb-protocol/thrift/target/generated-sources-nodejs` in the various modules of the `iotdb-protocol` module.

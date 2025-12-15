@@ -42,14 +42,14 @@ Use the hostname for `cn_internal_address` and `dn_internal_address` in IoTDB co
 3. **Unmodifiable Parameters**: Some parameters cannot be changed after the first startup. Refer to the [Parameter Configuration](#22-parameters-configuration) section.
 
 
-1. **Installation Path**: Ensure the installation path contains no spaces or non-ASCII characters to prevent runtime issues.
-2. **User Permissions**: Choose one of the following permissions during installation and deployment:
+4. **Installation Path**: Ensure the installation path contains no spaces or non-ASCII characters to prevent runtime issues.
+5. **User Permissions**: Choose one of the following permissions during installation and deployment:
    - **Root User (Recommended)**: This avoids permission-related issues.
    - **Non-Root User**:
       - Use the same user for all operations, including starting, activating, and stopping services.
       - Avoid using `sudo`, which can cause permission conflicts.
 
-6. **Monitoring Panel**: Deploy a monitoring panel to track key performance metrics. Contact the Timecho team for access and refer to the [Monitoring Board Install and Deploy](../Deployment-and-Maintenance/Monitoring-panel-deployment.md).
+6. **Health Check Tool**: Before installation, the health check tool can help inspect the operating environment of IoTDB nodes and obtain detailed inspection results. The usage method of the IoTDB health check tool can be found in:[Health Check Tool](../Tools-System/Health-Check-Tool.md).
 
 ## 2. Preparation
 
@@ -417,6 +417,10 @@ sbin\remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 # V2.0.4.x and later versions
 sbin\windows\remove-datanode.bat [dn_rpc_address:dn_rpc_port]
 ```
+
+### 4.3 Cluster Maintenance
+
+For more details on cluster maintenance, please refer to: [Cluster Maintenance](../User-Manual/Load-Balance.md)
 
 ## 5. Common Issues
 

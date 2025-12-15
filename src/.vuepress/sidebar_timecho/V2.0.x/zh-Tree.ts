@@ -47,23 +47,47 @@ export const zhSidebar = {
       text: '快速上手',
       link: 'QuickStart/QuickStart_timecho',
     },
-    {
-      text: '部署与运维',
+   {
+      text: '安装部署',
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
       children: [
-        { text: '部署形态', link: 'Deployment-form_timecho' },
-        { text: '安装包获取', link: 'IoTDB-Package_timecho' },
-        { text: '资源规划', link: 'Database-Resources_timecho' },
-        { text: '环境配置', link: 'Environment-Requirements' },
-        { text: '单机版部署指导', link: 'Stand-Alone-Deployment_timecho' },
-        { text: '集群版部署指导', link: 'Cluster-Deployment_timecho' },
-        { text: '双活版部署指导', link: 'Dual-Active-Deployment_timecho' },
-        { text: 'Docker部署指导', link: 'Docker-Deployment_timecho' },
-        { text: 'AINode部署', link: 'AINode_Deployment_timecho' },
-        { text: '监控面板部署', link: 'Monitoring-panel-deployment' },
-        { text: '可视化控制台部署', link: 'workbench-deployment_timecho' },
-        { text: 'Kubernetes部署', link: 'Kubernetes_timecho' },
+          {
+            text: '部署准备',
+            collapsible: true,
+            children: [
+              { text: '部署形态', link: 'Deployment-form_timecho' },
+              { text: '安装包获取', link: 'IoTDB-Package_timecho' },
+              { text: '资源规划', link: 'Database-Resources_timecho' },
+              { text: '环境配置', link: 'Environment-Requirements' },
+            ],
+          },
+          {
+            text: '数据库部署',
+            collapsible: true,
+            children: [
+              { text: '单机版部署', link: 'Stand-Alone-Deployment_timecho' },
+              { text: '集群版部署', link: 'Cluster-Deployment_timecho' },
+              { text: '双活版部署', link: 'Dual-Active-Deployment_timecho' },
+              { text: 'Docker 部署', link: 'Docker-Deployment_timecho' },
+              { text: 'Kubernetes 部署', link: 'Kubernetes_timecho' },
+            ],
+          },
+          {
+            text: 'AI 部署',
+            collapsible: true,
+            children: [
+              { text: 'AINode 部署', link: 'AINode_Deployment_timecho' },
+            ],
+          },
+          {
+             text: '周边工具',
+             collapsible: true,
+             children: [
+               { text: '监控面板部署', link: 'Monitoring-panel-deployment' },
+               { text: '可视化控制台部署', link: 'workbench-deployment_timecho' },
+             ],
+           },
       ],
     },
     {
@@ -118,7 +142,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '查询性能分析', link: 'Query-Performance-Analysis' },
-            { text: '负载均衡', link: 'Load-Balance' },
+            { text: '集群维护', link: 'Load-Balance' },
             { text: '运维语句', link: 'Maintenance-statement' },
           ],
         },
@@ -179,6 +203,7 @@ export const zhSidebar = {
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
         { text: 'MQTT协议', link: 'Programming-MQTT' },
         { text: 'OPC UA协议', link: 'Programming-OPC-UA_timecho' },
+        { text: 'OPC DA协议', link: 'Programming-OPC-DA_timecho' },
         {
           text: 'REST API',
           collapsible: true,

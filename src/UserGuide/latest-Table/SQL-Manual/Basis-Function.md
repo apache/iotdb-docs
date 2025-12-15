@@ -161,6 +161,7 @@ SELECT LEAST(temperature,humidity) FROM table2;
 | COUNT                  | Counts the number of data points.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | All types                                                                                                                                                                                                                                         | INT64                                      |
 | COUNT_IF               | COUNT_IF(exp) counts the number of rows that satisfy a specified boolean expression.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | `exp` must be a boolean expression,(e.g. `count_if(temperature>20)`)                                                                                                                                                                              | INT64                                    |
 | APPROX_COUNT_DISTINCT  | The APPROX_COUNT_DISTINCT(x[, maxStandardError]) function provides an approximation of COUNT(DISTINCT x), returning the estimated number of distinct input values.                                                                                                                                                                                                                                                                                                                                                                                                                                             | `x`: The target column to be calculated, supports all data types.<br>`maxStandardError` (optional): Specifies the maximum standard error allowed for the function's result. Valid range is [0.0040625, 0.26]. Defaults to 0.023 if not specified. | INT64                                           |
+| APPROX_MOST_FREQUENT | The APPROX_MOST_FREQUENT(x, k, capacity) function is used to approximately calculate the top k most frequent elements in a dataset. It returns a JSON-formatted string where the keys are the element values and the values are their corresponding approximate frequencies. （Available since V2.0.5.1) | `x` : The column to be calculated, supporting all existing data types in IoTDB;<br> `k`: The number of top-k most frequent values to return;<br>`capacity`: The number of buckets used for computation, which relates to memory usage—a larger value reduces error but consumes more memory, while a smaller value increases error but uses less memory. | STRING |
 | SUM                    | Calculates the sum.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
 | AVG                    | Calculates the average.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
 | MAX                    | Finds the maximum value.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | All types                                                                                                                                                                                                                                         | Same as input type                         |
@@ -251,8 +252,28 @@ Total line number = 1
 It costs 0.022s
 ```
 
+#### 2.3.5 Approx_most_frequent
 
-#### 2.3.5 First
+Query the ​​top 2 most frequent values​​ in the `temperature` column of `table1`.
+
+```sql
+IoTDB> select approx_most_frequent(temperature,2,100) as topk from table1;
+```
+
+The execution result is as follows:
+
+```sql
++-------------------+
+|               topk|
++-------------------+
+|{"85.0":6,"90.0":5}|
++-------------------+
+Total line number = 1
+It costs 0.064s
+```
+
+
+#### 2.3.6 First
 
 Finds the values with the smallest timestamp that are not NULL in the `temperature` and `humidity` columns.
 
@@ -272,7 +293,7 @@ Total line number = 1
 It costs 0.170s
 ```
 
-#### 2.3.6 Last
+#### 2.3.7 Last
 
 Finds the values with the largest timestamp that are not NULL in the `temperature` and `humidity` columns.
 
@@ -292,7 +313,7 @@ Total line number = 1
 It costs 0.211s
 ```
 
-#### 2.3.7 First_by
+#### 2.3.8 First_by
 
 Finds the `time` value of the row with the smallest timestamp that is not NULL in the `temperature` column, and the `humidity` value of the row with the smallest timestamp that is not NULL in the `temperature` column.
 
@@ -312,7 +333,7 @@ Total line number = 1
 It costs 0.269s
 ```
 
-#### 2.3.8 Last_by
+#### 2.3.9 Last_by
 
 Queries the `time` value of the row with the largest timestamp that is not NULL in the `temperature` column, and the `humidity` value of the row with the largest timestamp that is not NULL in the `temperature` column.
 
@@ -332,7 +353,7 @@ Total line number = 1
 It costs 0.070s
 ```
 
-#### 2.3.9 Max_by
+#### 2.3.10 Max_by
 
 Queries the `time` value of the row where the `temperature` column is at its maximum, and the `humidity` value of the row where the `temperature` column is at its maximum.
 
@@ -352,7 +373,7 @@ Total line number = 1
 It costs 0.172s
 ```
 
-#### 2.3.10 Min_by
+#### 2.3.11 Min_by
 
 Queries the `time` value of the row where the `temperature` column is at its minimum, and the `humidity` value of the row where the `temperature` column is at its minimum.
 

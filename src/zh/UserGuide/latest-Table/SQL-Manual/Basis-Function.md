@@ -159,7 +159,8 @@ SELECT LEAST(temperature,humidity) FROM table2;
 |-----------------------|------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------|
 | COUNT                 | 计算数据点数。                                                                                                                                  | 所有类型                                                                                    | INT64            |
 | COUNT_IF              | COUNT_IF(exp) 用于统计满足指定布尔表达式的记录行数                                                                                                         | exp 必须是一个布尔类型的表达式，例如 count_if(temperature>20)                                           | INT64            |
-| APPROX_COUNT_DISTINCT | APPROX_COUNT_DISTINCT(x[,maxStandardError]) 函数提供 COUNT(DISTINCT x) 的近似值，返回不同输入值的近似个数。                                 | x：待计算列，支持所有类型；<br> maxStandardError：指定该函数应产生的最大标准误差，取值范围[0.0040625, 0.26]，未指定值时默认0.023。 | INT64            |
+| APPROX_COUNT_DISTINCT | APPROX_COUNT_DISTINCT(x[,maxStandardError]) 函数提供 COUNT(DISTINCT x) 的近似值，返回不同输入值的近似个数。                                 | `x`：待计算列，支持所有类型；<br> `maxStandardError`：指定该函数应产生的最大标准误差，取值范围[0.0040625, 0.26]，未指定值时默认0.023。 | INT64            |
+| APPROX_MOST_FREQUENT | APPROX_MOST_FREQUENT(x, k, capacity) 函数用于近似计算数据集中出现频率最高的前 k 个元素。它返回一个JSON 格式的字符串，其中键是该元素的值，值是该元素对应的近似频率。（V 2.0.5.1 及以后版本支持）  | `x`：待计算列，支持 IoTDB 现有所有的数据类型；<br> `k`：返回出现频率最高的 k 个值；<br> `capacity`: 用于计算的桶的数量，跟内存占用相关：其值越大误差越小，但占用内存更大，反之capacity值越小误差越大，但占用内存更小。 | STRING   |
 | SUM                   | 求和。                                                                                                                                      | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
 | AVG                   | 求平均值。                                                                                                                                    | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
 | MAX                   | 求最大值。                                                                                                                                    | 所有类型                                                                                    | 与输入类型一致          |
@@ -250,8 +251,28 @@ Total line number = 1
 It costs 0.022s
 ```
 
+#### 2.3.5 Approx_most_frequent
 
-#### 2.3.5 First
+查询 `table1` 中 `temperature` 列出现频次最高的2个值
+
+```sql
+IoTDB> select approx_most_frequent(temperature,2,100) as topk from table1;
+```
+
+执行结果如下：
+
+```sql
++-------------------+
+|               topk|
++-------------------+
+|{"85.0":6,"90.0":5}|
++-------------------+
+Total line number = 1
+It costs 0.064s
+```
+
+
+#### 2.3.6 First
 
 查询`temperature`列、`humidity`列时间戳最小且不为 NULL 的值。
 
@@ -271,7 +292,7 @@ Total line number = 1
 It costs 0.170s
 ```
 
-#### 2.3.6 Last
+#### 2.3.7 Last
 
 查询`temperature`列、`humidity`列时间戳最大且不为 NULL 的值。
 
@@ -291,7 +312,7 @@ Total line number = 1
 It costs 0.211s
 ```
 
-#### 2.3.7 First_by
+#### 2.3.8 First_by
 
 查询 `temperature` 列中非 NULL 且时间戳最小的行的 `time` 值，以及 `temperature` 列中非 NULL 且时间戳最小的行的 `humidity` 值。
 
@@ -311,7 +332,7 @@ Total line number = 1
 It costs 0.269s
 ```
 
-#### 2.3.8 Last_by
+#### 2.3.9 Last_by
 
 查询`temperature` 列中非 NULL 且时间戳最大的行的 `time` 值，以及 `temperature` 列中非 NULL 且时间戳最大的行的 `humidity` 值。
 
@@ -331,7 +352,7 @@ Total line number = 1
 It costs 0.070s
 ```
 
-#### 2.3.9 Max_by
+#### 2.3.10 Max_by
 
 查询`temperature` 列中最大值所在行的 `time` 值，以及`temperature` 列中最大值所在行的 `humidity` 值。
 
@@ -351,7 +372,7 @@ Total line number = 1
 It costs 0.172s
 ```
 
-#### 2.3.10 Min_by
+#### 2.3.11 Min_by
 
 查询`temperature` 列中最小值所在行的 `time` 值，以及`temperature` 列中最小值所在行的 `humidity` 值。
 

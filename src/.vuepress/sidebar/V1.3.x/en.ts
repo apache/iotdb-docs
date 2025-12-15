@@ -47,22 +47,36 @@ export const enSidebar = {
       link: 'QuickStart/QuickStart_apache',
     },
     {
-      text: 'Deployment & Maintenance',
+      text: 'Installation and Deployment',
       collapsible: true,
       prefix: 'Deployment-and-Maintenance/',
-      // children: 'structure',
       children: [
-        { text: 'Obtain IoTDB', link: 'IoTDB-Package_apache' },
-        { text: 'Database Resources', link: 'Database-Resources' },
-        { text: 'Environment Requirements', link: 'Environment-Requirements' },
-        {
-          text: 'Stand-Alone Deployment',
-          link: 'Stand-Alone-Deployment_apache',
-        },
-        { text: 'Cluster Deployment', link: 'Cluster-Deployment_apache' },
-        { text: 'Docker Deployment', link: 'Docker-Deployment_apache' },
-        { text: 'AINode Deployment', link: 'AINode_Deployment_apache' },
-        { text: 'Kubernetes Deployment', link: 'Kubernetes_apache' },
+          {
+            text: 'Deployment Preparation',
+            collapsible: true,
+            children: [
+              { text: 'Obtain IoTDB', link: 'IoTDB-Package_apache' },
+              { text: 'Database Resources', link: 'Database-Resources' },
+              { text: 'Environment Requirements', link: 'Environment-Requirements' },
+            ],
+          },
+          {
+            text: 'Database Deployment',
+            collapsible: true,
+            children: [
+              { text: 'Stand-Alone Deployment', link: 'Stand-Alone-Deployment_apache'},
+              { text: 'Cluster Deployment', link: 'Cluster-Deployment_apache' },
+              { text: 'Docker Deployment', link: 'Docker-Deployment_apache' },
+              { text: 'Kubernetes Deployment', link: 'Kubernetes_apache' },
+            ],
+          },
+          {
+            text: 'AI Deployment',
+            collapsible: true,
+            children: [
+               { text: 'AINode Deployment', link: 'AINode_Deployment_apache' },
+            ],
+          },
       ],
     },
     {
