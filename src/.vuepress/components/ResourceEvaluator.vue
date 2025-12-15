@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from "vue";
-import { ElButton, ElIcon, ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElTooltip } from "element-plus/es";
+import { ElButton, ElIcon, ElForm, ElFormItem, ElInput, ElSelect, ElOption, ElTooltip, ElRow } from "element-plus/es";
 import * as Icons from "@element-plus/icons-vue";
 import 'element-plus/theme-chalk/index.css';
 import ConfigItem from "./ConfigItem.vue";
@@ -228,7 +228,7 @@ const removeConfigItem = (index: number) => {
   if (configItems.value.length > 1) {
     configItems.value.splice(index, 1);
   } else {
-    alert('至少保留一个配置项');
+    alert('至少保留一个测点类型');
   }
 };
 
@@ -284,7 +284,7 @@ const calculateSpacePrecise = () => {
         return;
       }
     } else {
-      alert(`请完整填写配置项 ${index + 1} 的数据`);
+      alert(`请完整填写 测点类型-${index + 1} 的数据`);
       return;
     }
   });
@@ -341,33 +341,32 @@ const calculateSpacePrecise = () => {
         <el-button class="calculate-button" color="#4c59c7" @click="calculateSpacePrecise()">计算结果</el-button>
       </div>
       <div class="result-row">
-        <el-form :inline="true">
-          <el-form-item label-width="200px">
-            <template #label>
-              每节点共需磁盘空间：
-              <client-only>
-                <el-tooltip placement="top" effect="light">
-                  <template #content>
-                    <ul>
-                      <li>双活为两节点单副本（每台机器按单副本规划资源）</li>
-                      <li>三节点分布式集群推荐使用双副本（每台机器按双副本规划资源）</li>
-                    </ul>
-                  </template>
-                  <el-icon>
-                    <Icons.QuestionFilled />
-                  </el-icon>
-                </el-tooltip>
-              </client-only>
-            </template>
-          </el-form-item>
-
-          <el-form-item label="单副本空间：" label-width="150px">
-            <div class="result-text">{{ singleSpaceStorage }}</div>
-          </el-form-item>
-          <el-form-item label="双副本空间：" label-width="150px">
-            <div class="result-text">{{ doubleSpaceStorage }}</div>
-          </el-form-item>
-        </el-form>
+        <el-row class="result-title">
+          每节点共需磁盘空间&nbsp;&nbsp;
+          <client-only>
+            <el-tooltip placement="top" effect="light">
+              <template #content>
+                <ul>
+                  <li>双活为两节点单副本（每台机器按单副本规划资源）</li>
+                  <li>三节点分布式集群推荐使用双副本（每台机器按双副本规划资源）</li>
+                </ul>
+              </template>
+              <el-icon>
+                <Icons.QuestionFilled />
+              </el-icon>
+            </el-tooltip>
+          </client-only>
+        </el-row>
+        <el-row class="result-line">
+          <el-form :inline="true">
+            <el-form-item label="单机（单副本）：" style="margin-bottom:0" label-width="150px">
+              <div class="result-text">{{ singleSpaceStorage }}</div>
+            </el-form-item>
+            <el-form-item label="分布式（两副本）：" style="margin-bottom:0" label-width="150px">
+              <div class="result-text">{{ doubleSpaceStorage }}</div>
+            </el-form-item>
+          </el-form>
+        </el-row>
       </div>
     </div>
   </ClientOnly>
@@ -442,11 +441,25 @@ const calculateSpacePrecise = () => {
 
   .result-row {
     display: flex;
-    justify-content: space-evenly;
+    flex-direction: column;
+    justify-content: center;
     background-color: #f2f5fc;
     border-radius: 15px;
     padding: 30px;
     margin-bottom: 50px;
+  }
+
+  .result-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    color: #4c59c7;
+    font-weight: bold;
+    justify-content: center;
+  }
+
+  .result-line {
+    justify-content: center;
   }
 
   .result-text {
