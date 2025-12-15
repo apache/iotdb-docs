@@ -36,6 +36,7 @@ V2.0.5, as the official release of the Dual-Model Tree-Table system, primarily i
 * **AI Module**: AINode adds two new built-in models, Timer-XL and Timer-Sundial
 * **AI Module**: AINode supports inference functions for both tree and table models
 
+
 ## V2.0.4
 
 > Release Date: 2025.07.09
