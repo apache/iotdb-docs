@@ -597,7 +597,7 @@ Different configuration parameters take effect in the following three ways:
 |:---:|:----------------------------------------|
 |Description| Time cost(ms) threshold for slow query. |
 |Type| Int32                                   |
-|Default| 30000                                   |
+|Default| 10000                                   |
 |Effective| Trigger                                 |
 
 * query\_timeout\_threshold
