@@ -505,7 +505,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 > - **batch**: In this mode, tasks process and send data in batches (according to the underlying data files). It is characterized by low timeliness and high throughput.
 
 
-## sink parameter
+### sink parameter
 
 > In versions 1.3.3 and above, when only the sink is included, the additional "with sink" prefix is no longer required.
 
@@ -518,6 +518,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | node-urls               | The URL of the data service port of any DataNode nodes on the target IoTDB (please note that synchronization tasks do not support forwarding to its own service)	 | String. Example: '127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | Required     | -            |
 | batch.enable            | Whether to enable batched log transmission mode to improve transmission throughput and reduce IOPS        | Boolean: true, false                                         | Optional     | true         |
 | batch.max-delay-seconds | Effective when batched log transmission mode is enabled, it represents the maximum waiting time for a batch of data before sending (unit: s)  | Integer                                                      | Optional     | 1            |
+| batch.max-delay-ms      | Effective when batched log transmission mode is enabled, it represents the maximum waiting time for a batch of data before sending (unit: ms)  (Available since v1.3.6) | Integer                                                                           | Optional       | 1            |
 | batch.size-bytes             | Effective when batched log transmission mode is enabled, it represents the maximum batch size for a batch of data (unit: byte)	 | Long                                                         | Optional     | 16*1024*1024 |
 
 #### iotdb-thrift-ssl-sink
@@ -528,6 +529,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | node-urls               | The URL of the data service port of any DataNode nodes on the target IoTDB (please note that synchronization tasks do not support forwarding to its own service)	  | String. Example: '127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | Required     | -            |
 | batch.enable            | Whether to enable batched log transmission mode to improve transmission throughput and reduce IOPS	       | Boolean: true, false                                         | Optional     | true         |
 | batch.max-delay-seconds | Effective when batched log transmission mode is enabled, it represents the maximum waiting time for a batch of data before sending (unit: s)	  | Integer                                                      | Optional     | 1            |
+| batch.max-delay-ms      | Effective when batched log transmission mode is enabled, it represents the maximum waiting time for a batch of data before sending (unit: ms)  (Available since v1.3.6) | Integer                                                                           | Optional       | 1            |
 | batch.size-bytes        | Effective when batched log transmission mode is enabled, it represents the maximum batch size for a batch of data (unit: byte)	 | Long                                                         | Optional     | 16*1024*1024 |
 | ssl.trust-store-path    | The trust store certificate path required to connect to the target DataNode	              | String: certificate directory name, when configured as a relative directory, it is relative to the IoTDB root directory.  Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667'| Required     | -            |
 | ssl.trust-store-pwd     | The trust store certificate password required to connect to the target DataNode	              | Integer                                                      | Required     | -            |
