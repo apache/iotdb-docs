@@ -40,7 +40,9 @@ export default hopeTheme(
       center: [],
       end: ['DocSearch', 'Links', 'Language', 'Outlook', 'Repo'],
     },
-
+    toc: {
+      levels: [2, 3],
+    },
     locales: {
       '/': {
         // navbar
