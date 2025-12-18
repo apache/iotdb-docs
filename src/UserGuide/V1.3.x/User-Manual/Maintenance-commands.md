@@ -427,9 +427,52 @@ localOrClusterMode
 IoTDB> STOP REPAIR DATA ON CLUSTER;
 ```
 
-## 5. Query Termination
 
-### 5.1 Terminating Queries
+## 5. Replica Repair
+
+> This function has supported passing in a regionId list since V1.3.6, allowing multiple regions to be processed at one time.
+
+### 5.1 Manual Expansion
+
+**Description**: Expand the specified Region to the specified DataNode.
+
+**Syntax**:
+
+```SQL
+extendRegionStatement
+    : EXTEND REGION <region_id>(, <region_id>)* TO <data_node_id>
+    ;
+```
+
+**Example**:
+
+```SQL
+IoTDB> EXTEND REGION 1,2,3 TO 3;
+```
+
+### 5.2 Manual Capacity Reduction
+
+**Description**: Remove the specified Region from the specified DataNode.
+> Note: Manual capacity reduction can only reduce the number of replicas to 1 at most, and cannot be reduced to 0.
+
+**Syntax**:
+
+```SQL
+removeRegionStatement
+    : REMOVE REGION <region_id>(, <region_id>)* FROM <data_node_id>
+    ;
+```
+
+**Example**:
+
+```SQL
+IoTDB> REMOVE REGION 1,2,3 FROM 2;
+```
+
+
+## 6. Query Termination
+
+### 6.1 Terminating Queries
 
 **Description**: Terminates one or more running queries.
 
