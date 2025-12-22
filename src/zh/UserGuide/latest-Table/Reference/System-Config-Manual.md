@@ -3230,6 +3230,35 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 5                                                            |
 | 改后生效方式 | 重启服务生效                                                     |
 
+
+* last_cache_operation_on_load
+
+|名字| last_cache_operation_on_load                                                                                                                                                                           |
+|:---:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|描述| 当成功加载一个 TsFile 时，对 LastCache 执行的操作。`UPDATE`：使用 TsFile 中的数据更新 LastCache；`UPDATE_NO_BLOB`：与 UPDATE 类似，但会使 blob 序列的 LastCache 失效；`CLEAN_DEVICE`：使 TsFile 中包含的设备的 LastCache 失效；`CLEAN_ALL`：清空整个 LastCache。 |
+|类型| String                                                                                                                                                                                                 |
+|默认值| UPDATE_NO_BLOB                                                                                                                                                                                         |
+|改后生效方式| 重启后生效                                                                                                                                                                                                  |
+
+* cache_last_values_for_load
+
+|名字| cache_last_values_for_load                                                                                                                                                                                                  |
+|:---:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|描述| 在加载 TsFile 之前是否缓存最新值（last values）。仅在 `last_cache_operation_on_load=UPDATE_NO_BLOB` 或 `last_cache_operation_on_load=UPDATE` 时生效。当设置为 true 时，即使 `last_cache_operation_on_load=UPDATE`，也会忽略 blob 序列。启用此选项会在加载 TsFile 期间增加内存占用。 |
+|类型| Boolean                                                                                                                                                                                                                     |
+|默认值| true                                                                                                                                                                                                                        |
+|改后生效方式| 重启后生效                                                                                                                                                                                                                       |
+
+* cache_last_values_memory_budget_in_byte
+
+|名字| cache_last_values_memory_budget_in_byte                                                             |
+|:---:|:----------------------------------------------------------------------------------------------------|
+|描述| 当 `cache_last_values_for_load=true` 时，用于缓存最新值的最大内存大小（以字节为单位）。如果超过该值，缓存的值将被丢弃，并以流式方式直接从 TsFile 中读取最新值。 |
+|类型| int32                                                                                               |
+|默认值| 4194304                                                                                             |
+|改后生效方式| 重启后生效                                                                                               |
+
+
 ### 3.38 分发重试配置
 
 - enable_retry_for_unknown_error
