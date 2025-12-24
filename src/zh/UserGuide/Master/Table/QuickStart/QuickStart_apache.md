@@ -27,7 +27,7 @@
 
 本篇文档将帮助您快速安装部署 IoTDB，您可以通过以下文档的链接快速定位到所需要查看的内容：
 
-1. 准备所需机器资源：IoTDB 的部署和运行需要考虑多个方面的机器资源配置。具体资源配置可查看 [资源规划](../Deployment-and-Maintenance/Database-Resources.md)
+1. 准备所需机器资源：IoTDB 的部署和运行需要考虑多个方面的机器资源配置。具体资源配置可查看 [资源规划](../Deployment-and-Maintenance/Database-Resources_apache.md)
 
 2. 完成系统配置准备：IoTDB 的系统配置涉及多个方面，关键的系统配置介绍可查看 [系统配置](../Deployment-and-Maintenance/Environment-Requirements.md)
 
@@ -55,7 +55,7 @@
 
 2. 数据写入&更新：在数据写入&更新方面，IoTDB 提供了多种方式来插入实时数据，基本的数据写入&更新操作请查看 [数据写入&更新](../Basic-Concept/Write-Updata-Data.md)
 
-3. 数据查询：IoTDB 提供了丰富的数据查询功能，数据查询的基本介绍请查看 [数据查询](../Basic-Concept/Query-Data.md)
+3. 数据查询：IoTDB 提供了丰富的数据查询功能，数据查询的基本介绍请查看 [数据查询](../Basic-Concept/Query-Data_apache.md)
 
 4. 数据删除：IoTDB 提供了两种删除方式，分别为SQL语句删除与过期自动删除(TTL)
 
@@ -66,7 +66,7 @@
 
    - 数据同步：[数据同步](../User-Manual/Data-Sync_apache.md)
 
-6. 应用编程接口： IoTDB 提供了多种应用编程接口（API），以便于开发者在应用程序中与 IoTDB 进行交互，目前支持[ Java 原生接口](../API/Programming-Java-Native-API_apache.md)、[Python 原生接口](../API/Programming-Python-Native-API_apache)、[JDBC](../API/Programming-JDBC_apache.md)等，更多编程接口可参见官网【应用编程接口】其他章节
+6. 应用编程接口： IoTDB 提供了多种应用编程接口（API），以便于开发者在应用程序中与 IoTDB 进行交互，目前支持[ Java 原生接口](../API/Programming-Java-Native-API_apache.md)、[Python 原生接口](../API/Programming-Python-Native-API_apache.md)、[JDBC](../API/Programming-JDBC_apache.md)等，更多编程接口可参见官网【应用编程接口】其他章节
 
 ## 3. 想了解更多技术细节？
 
