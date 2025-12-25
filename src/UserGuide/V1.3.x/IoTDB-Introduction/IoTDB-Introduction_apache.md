@@ -48,7 +48,7 @@ IoTDB products consist of several components that help users efficiently manage 
 
 ##  Product Features
 
-TimechoDB has the following advantages and characteristics:
+Apache IoTDB has the following advantages and characteristics:
 
 - Flexible deployment methods: Support for one-click cloud deployment, out-of-the-box use after unzipping at the terminal, and seamless connection between terminal and cloud (data cloud synchronization tool).
 
