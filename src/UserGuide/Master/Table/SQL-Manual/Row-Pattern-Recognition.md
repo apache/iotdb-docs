@@ -47,7 +47,7 @@ MATCH_RECOGNIZE (
 * SUBSET: Optional. Used to merge rows matched by multiple basic pattern variables into a single logical set.
 * DEFINE: Used to define the basic pattern variables for the row pattern.
 
-For more detailed introductions to the features, please refer to:[Pattern Query](../User-Manual/Timeseries-Featured-Analysis_timecho.md)
+For more detailed introductions to the features, please refer to:[Pattern Query](../User-Manual/Timeseries-Featured-Analysis_timecho.md#_1-pattern-query)
 
 ## 2. Usage Examples
 
