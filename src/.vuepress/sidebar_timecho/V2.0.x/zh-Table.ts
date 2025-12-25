@@ -236,7 +236,7 @@ export const zhSidebar = {
             { text: 'ORDER BY子句', link: 'OrderBy-Clause' },
             { text: 'LIMIT&OFFSET子句', link: 'Limit-Offset-Clause' },
             { text: '嵌套查询', link: 'Nested-Queries' },
-            { text: '模式查询', link: 'Row-Pattern-Recognition' },
+            { text: '模式查询', link: 'Row-Pattern-Recognition_timecho' },
           ],
         },
         { text: '运维语句', link: 'SQL-Maintenance-Statements' },

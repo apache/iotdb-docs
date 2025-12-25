@@ -247,7 +247,7 @@ export const enSidebar = {
             { text: 'ORDER BY Clause', link: 'OrderBy-Clause' },
             { text: 'LIMIT&OFFSET Clause', link: 'Limit-Offset-Clause' },
             { text: 'Nested Queries', link: 'Nested-Queries' },
-            { text: 'Pattern Query', link: 'Row-Pattern-Recognition' },
+            { text: 'Pattern Query', link: 'Row-Pattern-Recognition_timecho' },
           ],
         },
         { text: 'Maintenance Statements', link: 'SQL-Maintenance-Statements' },
