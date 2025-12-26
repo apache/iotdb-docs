@@ -55,7 +55,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
 2. Data Insertion & Updates: IoTDB provides multiple methods for inserting real-time data. For basic data insertion and updating operations, please see [Write&Updata Data](../Basic-Concept/Write-Updata-Data.md)
 
-3. Data Querying: IoTDB offers a rich set of data querying capabilities. For a basic introduction to data querying, please see [Query Data](../Basic-Concept/Query-Data.md)
+3. Data Querying: IoTDB offers a rich set of data querying capabilities. For a basic introduction to data querying, please see [Query Data](../Basic-Concept/Query-Data_apache.md)
 
 4. Data Deletion: IoTDB supports two deletion methods: SQL-based deletion and automatic expiration deletion (TTL).
 
@@ -67,7 +67,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
    - Data Synchronization: [Data Sync](../User-Manual/Data-Sync_apache.md)
 
-6. Application Programming Interfaces (APIs): IoTDB provides various application programming interfaces (APIs) to facilitate developers' interaction with IoTDB in applications. Currently supported interfaces include [Java Native API](../API/Programming-Java-Native-API_apache.md)、[Python Native API](../API/Programming-Python-Native-API_apache)、[JDBC](../API/Programming-JDBC_apache.md), and more. For more programming interfaces, please refer to the [Application Programming Interfaces] section on the official website.
+6. Application Programming Interfaces (APIs): IoTDB provides various application programming interfaces (APIs) to facilitate developers' interaction with IoTDB in applications. Currently supported interfaces include [Java Native API](../API/Programming-Java-Native-API_apache.md)、[Python Native API](../API/Programming-Python-Native-API_apache.md)、[JDBC](../API/Programming-JDBC_apache.md), and more. For more programming interfaces, please refer to the [Application Programming Interfaces] section on the official website.
 
 ## 3. Want to learn more technical details?
 
