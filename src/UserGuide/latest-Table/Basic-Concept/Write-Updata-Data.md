@@ -50,7 +50,7 @@ Since attributes generally do not change over time, it is recommended to update 
 
 ### 1.2 Automatically Create Tables via Session Insertion
 
-When inserting data via the Session API, IoTDB can automatically create table structures based on the data insertion request, eliminating the need for manual table creation.
+When performing data writing through Session, IoTDB supports schema-less writing: there is no need to manually create tables beforehand. The system automatically constructs the table structure based on the information in the write request, and then directly executes the data writing operation.
 
 **Example:**
 
