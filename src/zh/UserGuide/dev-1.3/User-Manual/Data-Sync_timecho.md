@@ -632,6 +632,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | batch.max-delay-seconds | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                      | 选填     | 1            |
 | batch.max-delay-ms      | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：ms）(V1.3.6及以后的V1.x版本支持）  | Integer                                                                    | 选填       | 1            |
 | batch.size-bytes        | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte） | Long                                                         | 选填     | 16*1024*1024 |
+| load-tsfile-strategy    | 文件同步数据时，接收端请求返回发送端前，是否等待接收端本地的 load tsfile 执行结果返回。<br>sync：等待本地的 load tsfile 执行结果返回；<br>async：不等待本地的 load tsfile 执行结果返回。（V1.3.6及以后的V1.x版本支持）  | String: sync / async                        | 选填      | sync     |
 
 #### iotdb-air-gap-sink
 
@@ -640,6 +641,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | sink                         | iotdb-air-gap-sink                                           | String: iotdb-air-gap-sink                                   | 必填     | -        |
 | node-urls                    | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url      | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填     | -        |
 | air-gap.handshake-timeout-ms | 发送端与接收端在首次尝试建立连接时握手请求的超时时长，单位：毫秒 | Integer                                                      | 选填     | 5000     |
+| load-tsfile-strategy    | 文件同步数据时，接收端请求返回发送端前，是否等待接收端本地的 load tsfile 执行结果返回。<br>sync：等待本地的 load tsfile 执行结果返回；<br>async：不等待本地的 load tsfile 执行结果返回。（V1.3.6及以后的V1.x版本支持）  | String: sync / async                        | 选填      | sync     |
 
 #### iotdb-thrift-ssl-sink
 
@@ -651,5 +653,6 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | batch.max-delay-seconds | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                      | 选填     | 1            |
 | batch.max-delay-ms      | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：ms）(V1.3.6及以后的V1.x版本支持）  | Integer                                                                    | 选填       | 1            |
 | batch.size-bytes        | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte） | Long                                                         | 选填     | 16*1024*1024 |
+| load-tsfile-strategy    | 文件同步数据时，接收端请求返回发送端前，是否等待接收端本地的 load tsfile 执行结果返回。<br>sync：等待本地的 load tsfile 执行结果返回；<br>async：不等待本地的 load tsfile 执行结果返回。（V1.3.6及以后的V1.x版本支持）  | String: sync / async                        | 选填      | sync     |
 | ssl.trust-store-path    | 连接目标端 DataNode 所需的 trust store 证书路径              | String.Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | 必填     | -            |
 | ssl.trust-store-pwd     | 连接目标端 DataNode 所需的 trust store 证书密码              | Integer                                                      | 必填     | -            |
