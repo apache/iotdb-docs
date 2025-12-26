@@ -40,11 +40,9 @@ The IoTDB table model query syntax supports the following clauses:
 
 - **SELECT Clause**: Specifies the columns to be included in the result. Details: [SELECT Clause](../SQL-Manual/Select-Clause.md)
 - **FROM Clause**: Indicates the data source for the query, which can be a single table, multiple tables joined using the `JOIN` clause, or a subquery. Details: [FROM & JOIN Clause](../SQL-Manual/From-Join-Clause.md)
-- **patternRecognition**: Row Pattern Recognition, which supports capturing a segment of continuous data by defining recognition logic for pattern variables and regular expressions, and performs analysis and calculation on each captured data segment. Details:[Row Pattern Recognition](../SQL-Manual/Row-Pattern-Recognition.md)
 - **WHERE Clause**: Filters rows based on specific conditions. Logically executed immediately after the `FROM` clause. Details: [WHERE Clause](../SQL-Manual/Where-Clause.md)
 - **GROUP BY Clause**: Used for aggregating data, specifying the columns for grouping. Details: [GROUP BY Clause](../SQL-Manual/GroupBy-Clause.md)
 - **HAVING Clause**: Applied after the `GROUP BY` clause to filter grouped data, similar to `WHERE` but operates after grouping. Details:[HAVING Clause](../SQL-Manual/Having-Clause.md)
-- **WINDOW FUNCTION**: Window Function, a special function that performs calculations on each row based on a specific set of rows related to the current row (called a "window"). It combines grouping operations, sorting, and definable calculation ranges to implement complex cross-row calculations without collapsing the original data rows. Details: [Window Function](../SQL-Manual/Featured-Functions_timecho.md#_4-Window-Function)
 - **FILL Clause**: Handles missing values in query results by specifying fill methods (e.g., previous non-null value or linear interpolation) for better visualization and analysis. Details:[FILL Clause](../SQL-Manual/Fill-Clause.md)
 - **ORDER BY Clause**: Sorts query results in ascending (`ASC`) or descending (`DESC`) order, with optional handling for null values (`NULLS FIRST` or `NULLS LAST`). Details: [ORDER BY Clause](../SQL-Manual/OrderBy-Clause.md)
 - **OFFSET Clause**: Specifies the starting position for the query result, skipping the first `OFFSET` rows. Often used with the `LIMIT` clause. Details: [LIMIT and OFFSET Clause](../SQL-Manual/Limit-Offset-Clause.md)
