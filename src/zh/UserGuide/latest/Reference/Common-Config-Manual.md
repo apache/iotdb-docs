@@ -627,7 +627,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |:---:|:-----------------------|
 |描述| 慢查询的时间阈值。单位：毫秒。        |
 |类型| Int32                  |
-|默认值| 30000                  |
+|默认值| 10000                  |
 |改后生效方式| 热加载                    |
 
 * query\_timeout\_threshold
@@ -892,7 +892,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 |     名字     | enable\_auto\_repair\_compaction |
 | :----------: |:---------------------------------|
-|     描述     | 修复文件的合并任务                        |
+|     描述     | 启用通过合并操作自动修复未排序文件的功能             |
 |     类型     | Boolean                          |
 |    默认值    | true                             |
 | 改后生效方式 | 热加载                              |
@@ -902,131 +902,150 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 |名字| cross\_selector |
 |:---:|:----------------|
-|描述| 跨空间合并任务选择器的类型   |
+|描述| 跨空间合并任务的选择器     |
 |类型| String          |
 |默认值| rewrite         |
-|改后生效方式| 重启生效          |
+|改后生效方式| 重启生效            |
 
 * cross\_performer
 
-|名字| cross\_performer |
-|:---:|:-----------------|
-|描述| 跨空间合并任务执行器的类型，可选项是read_point和fast，默认是read_point，fast还在测试中   |
-|类型| String           |
-|默认值| read\_point      |
-|改后生效方式| 重启生效           |
+|名字| cross\_performer                           |
+|:---:|:-------------------------------------------|
+|描述| 跨空间合并任务的执行器，可选项：read_point 和 fast|
+|类型| String                                     |
+|默认值| fast                                       |
+|改后生效方式| 重启生效                                       |
 
 * inner\_seq\_selector
 
 
-|名字| inner\_seq\_selector                                                        |
-|:---:|:----------------------------------------------------------------------------|
-|描述| 顺序空间内合并任务选择器的类型,可选 size\_tiered\_single_\target,size\_tiered\_multi\_target |
-|类型| String                                                                      |
-|默认值| size\_tiered\_multi\_target                                                 |
-|改后生效方式| 热加载                                                                         |
+|名字| inner\_seq\_selector                                                         |
+|:---:|:-----------------------------------------------------------------------------|
+|描述| 顺序空间内合并任务的选择器,可选 size\_tiered\_single_\target,size\_tiered\_multi\_target |
+|类型| String                                                                       |
+|默认值| size\_tiered\_multi\_target                                                  |
+|改后生效方式| 热加载                                                                          |
 
 
 * inner\_seq\_performer
 
-|名字| inner\_seq\_performer                                       |
-|:---:|:------------------------------------------------------------|
-|描述| 顺序空间内合并任务执行器的类型，可选项是read_chunk和fast，默认是read_chunk，fast还在测试中 |
-|类型| String                                                      |
-|默认值| read\_chunk                                                 |
-|改后生效方式| 重启生效                                                      |
+|名字| inner\_seq\_performer                |
+|:---:|:-------------------------------------|
+|描述| 顺序空间内合并任务的执行器，可选项是 read_chunk 和 fast |
+|类型| String                               |
+|默认值| read\_chunk                          |
+|改后生效方式| 热加载                                  |
 
 * inner\_unseq\_selector
 
-|名字| inner\_unseq\_selector                                                      |
-|:---:|:----------------------------------------------------------------------------|
-|描述| 乱序空间内合并任务选择器的类型,可选 size\_tiered\_single_\target,size\_tiered\_multi\_target |
-|类型| String                                                                      |
-|默认值| size\_tiered\_multi\_target                                                 |
-|改后生效方式| 热加载                                                                         |
+|名字| inner\_unseq\_selector                                                       |
+|:---:|:-----------------------------------------------------------------------------|
+|描述| 乱序空间内合并任务的选择器,可选 size\_tiered\_single_\target,size\_tiered\_multi\_target |
+|类型| String                                                                       |
+|默认值| size\_tiered\_multi\_target                                                  |
+|改后生效方式| 热加载                                                                          |
 
 
 * inner\_unseq\_performer
 
-|名字| inner\_unseq\_performer                                     |
-|:---:|:------------------------------------------------------------|
-|描述| 乱序空间内合并任务执行器的类型，可选项是read_point和fast，默认是read_point，fast还在测试中 |
-|类型| String                                                      |
-|默认值| read\_point                                                 |
-|改后生效方式| 重启生效                                                      |
+|名字| inner\_unseq\_performer              |
+|:---:|:-------------------------------------|
+|描述| 乱序空间内合并任务的执行器，可选项是 read_point 和 fast |
+|类型| String                               |
+|默认值| fast                                 |
+|改后生效方式| 热加载                                  |
 
 * compaction\_priority
 
 |     名字     | compaction\_priority                                                                      |
 | :----------: |:------------------------------------------------------------------------------------------|
-|     描述     | 合并时的优先级，BALANCE 各种合并平等，INNER_CROSS 优先进行顺序文件和顺序文件或乱序文件和乱序文件的合并，CROSS_INNER 优先将乱序文件合并到顺序文件中 |
+|     描述     | 合并时的优先级。INNER_CROSS：优先执行空间内合并，优先减少文件数量；CROSS_INNER：优先执行跨空间合并，优先清理乱序文件；BALANCE：交替执行两种合并类型。 |
 |     类型     | String                                                                                    |
 |    默认值    | INNER_CROSS                                                                               |
 | 改后生效方式 | 重启服务生效                                                                                    |
 
 
+* candidate\_compaction\_task\_queue\_size
+
+| 名字         | candidate\_compaction\_task\_queue\_size |
+| ------------ |------------------------------------------|
+| 描述         | 待选合并任务队列容量                               |
+| 类型         | int32                                    |
+| 默认值       | 50                                       |
+| 改后生效方式 | 重启服务生效                                   |
+
 * target\_compaction\_file\_size
 
-|     名字     | target\_compaction\_file\_size |
-| :----------: |:-------------------------------|
-|     描述     | 合并后的目标文件大小                     |
-|     类型     | Int64                          |
-|    默认值    | 2147483648                     |
-| 改后生效方式 | 重启生效                         |
+|     名字     | target\_compaction\_file\_size                                                                                                               |
+| :----------: |:---------------------------------------------------------------------------------------------------------------------------------------------|
+|     描述     | 该参数作用于两个场景：1. 空间内合并的目标文件大小 2. 跨空间合并中待选序列文件的大小需小于 target_compaction_file_size * 1.5  多数情况下，跨空间合并的目标文件大小不会超过此阈值，即便超出，幅度也不会过大 。 默认值：2GB，单位：byte |
+|     类型     | Long                                                                                                                                         |
+|    默认值    | 2147483648                                                                                                                                   |
+| 改后生效方式 | 重启生效                                                                                                                                         |
+
+- inner\_compaction\_total\_file\_size\_threshold
+
+| 名字         | inner\_compaction\_total\_file\_size\_threshold |
+| ------------ |-------------------------------------------------|
+| 描述         | 空间内合并的文件总大小阈值，单位：byte                           |
+| 类型         | Long                                            |
+| 默认值       | 10737418240                                     |
+| 改后生效方式 | 热加载                                             |
+
+- inner\_compaction\_total\_file\_num\_threshold
+
+| 名字         | inner\_compaction\_total\_file\_num\_threshold |
+| ------------ |------------------------------------------------|
+| 描述         | 空间内合并的文件总数阈值                                   |
+| 类型         | int32                                          |
+| 默认值       | 100                                            |
+| 改后生效方式 | 热加载                                            |
+
+- max\_level\_gap\_in\_inner\_compaction
+
+| 名字         | max\_level\_gap\_in\_inner\_compaction |
+| ------------ |----------------------------------------|
+| 描述         | 空间内合并筛选的最大层级差                          |
+| 类型         | int32                                  |
+| 默认值       | 2                                      |
+| 改后生效方式 | 热加载                                    |
 
 * target\_chunk\_size
 
-|     名字     | target\_chunk\_size     |
-| :----------: | :---------------------- |
-|     描述     | 合并时 Chunk 的目标大小 |
-|     类型     | Int64                   |
-|    默认值    | 1048576                 |
-| 改后生效方式 | 重启生效            |
+|     名字     | target\_chunk\_size                              |
+| :----------: |:-------------------------------------------------|
+|     描述     | 刷盘与合并操作的目标数据块大小， 若内存表中某条时序数据的大小超过该值，数据会被刷盘至多个数据块 |
+|     类型     | Long                                             |
+|    默认值    | 1600000                                          |
+| 改后生效方式 | 重启生效                                             |
 
 * target\_chunk\_point\_num
 
-|名字| target\_chunk\_point\_num |
-|:---:|:---|
-|描述| 合并时 Chunk 的目标点数 |
-|类型| int32 |
-|默认值| 100000 |
-|改后生效方式|重启生效|
+|    名字    | target\_chunk\_point\_num                            |
+|:--------:|:-----------------------------------------------------|
+|    描述    | 刷盘与合并操作中单个数据块的目标点数， 若内存表中某条时序数据的点数超过该值，数据会被刷盘至多个数据块中 |
+|    类型    | Long                                                 |
+|   默认值    | 100000                                               |
+| 改后生效方式   | 重启服务生效                                               | 
 
 * chunk\_size\_lower\_bound\_in\_compaction
 
 |     名字     | chunk\_size\_lower\_bound\_in\_compaction |
 | :----------: |:------------------------------------------|
-|     描述     | 合并时源 Chunk 的大小小于这个值，将被解开成点进行合并            |
-|     类型     | Int64                                     |
-|    默认值    | 10240                                     |
-| 改后生效方式 | 重启生效                                    |
+| 描述         | 若数据块大小低于此阈值，则会被反序列化为数据点，默认值为128字节    |
+| 类型         | Long                                 |
+| 默认值       | 128                                  |
+| 改后生效方式 | 重启服务生效                               |
 
 * chunk\_point\_num\_lower\_bound\_in\_compaction
 
 |名字| chunk\_point\_num\_lower\_bound\_in\_compaction |
 |:---:|:------------------------------------------------|
-|描述| 合并时源 Chunk 的点数小于这个值，将被解开成点进行合并                  |
-|类型| int32                                           |
-|默认值| 1000                                            |
-|改后生效方式| 重启生效                                          |
+| 描述         | 若数据块内的数据点数低于此阈值，则会被反序列化为数据点              |
+| 类型         | Long                                     |
+| 默认值       | 100                                      |
+| 改后生效方式 | 重启服务生效                                   |
 
-* inner\_compaction\_total\_file\_num\_threshold
-
-|名字| inner\_compaction\_total\_file\_num\_threshold |
-|:---:|:---|
-|描述| 空间内合并中一次合并最多参与的文件数 |
-|类型| int32 |
-|默认值| 30|
-|改后生效方式|重启生效|
-
-* inner\_compaction\_total\_file\_size\_threshold
-
-|名字| inner\_compaction\_total\_file\_size\_threshold |
-|:---:|:------------------------------------------------|
-|描述| 空间内合并任务最大选中文件总大小，单位：byte                        |
-|类型| int64                                           |
-|默认值| 10737418240                                     |
-|改后生效方式| 热加载                                             |
 
 * compaction\_max\_aligned\_series\_num\_in\_one\_batch
 
@@ -1050,7 +1069,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 |名字| inner\_compaction\_candidate\_file\_num |
 |:---:|:----------------------------------------|
-|描述| 符合构成一个空间内合并任务的候选文件数量                    |
+|描述| 空间内合并待选文件筛选的文件数量要求                    |
 |类型| int32                                   |
 |默认值| 30                                      |
 |改后生效方式| 热加载                                     |
@@ -1059,7 +1078,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 |名字| max\_cross\_compaction\_candidate\_file\_num |
 |:---:|:---------------------------------------------|
-|描述| 跨空间合并中一次合并最多参与的文件数                           |
+|描述| 跨空间合并待选文件筛选的文件数量上限                           |
 |类型| int32                                        |
 |默认值| 500                                          |
 |改后生效方式| 热加载                                          |
@@ -1069,10 +1088,19 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 |名字| max\_cross\_compaction\_candidate\_file\_size |
 |:---:|:----------------------------------------------|
-|描述| 跨空间合并中一次合并最多参与的文件总大小                          |
-|类型| Int64                                         |
+|描述| 跨空间合并待选文件筛选的总大小上限                             |
+|类型| Long                                          |
 |默认值| 5368709120                                    |
 |改后生效方式| 热加载                                           |
+
+- min\_cross\_compaction\_unseq\_file\_level
+
+| 名字         | min\_cross\_compaction\_unseq\_file\_level |
+| ------------ |--------------------------------------------|
+| 描述         | 可被选为待选文件的乱序文件的最小空间内合并层级                    |
+| 类型         | int32                                      |
+| 默认值       | 1                                          |
+| 改后生效方式 | 热加载                                        |
 
 
 * compaction\_thread\_count
@@ -1087,35 +1115,35 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 * compaction\_schedule\_interval\_in\_ms
 
 |     名字     | compaction\_schedule\_interval\_in\_ms |
-| :----------: | :------------------------------------- |
-|     描述     | 合并调度的时间间隔                     |
-|     类型     | Int64                                  |
+| :----------: |:---------------------------------------|
+|     描述     | 合并调度的时间间隔，单位 ms                        |
+|     类型     | Long                                   |
 |    默认值    | 60000                                  |
-| 改后生效方式 | 重启生效                           |
+| 改后生效方式 | 重启生效                                   |
 
 * compaction\_submission\_interval\_in\_ms
 
 |     名字     | compaction\_submission\_interval\_in\_ms |
-| :----------: | :--------------------------------------- |
-|     描述     | 合并任务提交的间隔                       |
-|     类型     | Int64                                    |
+| :----------: |:-----------------------------------------|
+|     描述     | 合并任务提交的间隔                                |
+|     类型     | Long                                     |
 |    默认值    | 60000                                    |
-| 改后生效方式 | 重启生效                             |
+| 改后生效方式 | 重启生效                                     |
 
 * compaction\_write\_throughput\_mb\_per\_sec
 
 |名字| compaction\_write\_throughput\_mb\_per\_sec |
-|:---:|:---|
-|描述| 每秒可达到的写入吞吐量合并限制。|
-|类型| int32 |
-|默认值| 16 |
-|改后生效方式| 重启生效|
+|:---:|:--------------------------------------------|
+|描述| 合并操作每秒可达到的写入吞吐量上限， 小于或等于 0 的取值表示无限制。        |
+|类型| int32                                       |
+|默认值| 16                                          |
+|改后生效方式| 重启生效                                        |
 
 * compaction\_read\_throughput\_mb\_per\_sec
 
 |    名字     | compaction\_read\_throughput\_mb\_per\_sec |
 |:---------:|:-------------------------------------------|
-|    描述     | 合并每秒读吞吐限制，单位为 byte，设置为 0 代表不限制             |
+|    描述     | 合并每秒读吞吐限制，单位为 megabyte，小于或等于 0 的取值表示无限制             |
 |    类型     | int32                                      |
 |    默认值    | 0                                          |
 | Effective | 热加载                                        |
@@ -1124,7 +1152,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 
 |    名字     | compaction\_read\_operation\_per\_sec |
 |:---------:|:--------------------------------------|
-|    描述     | 合并每秒读操作数量限制，设置为 0 代表不限制               |
+|    描述     | 合并每秒读操作数量限制，小于或等于 0 的取值表示无限制               |
 |    类型     | int32                                 |
 |    默认值    | 0                                     |
 | Effective | 热加载                                   |
@@ -1138,23 +1166,24 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |默认值| 4                               |
 |改后生效方式| 热加载                             |
 
-* enable\_tsfile\_validation
+- inner\_compaction\_task\_selection\_disk\_redundancy
 
-|    名字     | enable\_tsfile\_validation    |
-|:---------:|:------------------------------|
-|    描述     | Flush, Load 或合并后验证 tsfile 正确性 |
-|    类型     | boolean                       |
-|    默认值    | false                         |
-| 改后生效方式 | 热加载                           |
+| 名字         | inner\_compaction\_task\_selection\_disk\_redundancy |
+| ------------ |------------------------------------------------------|
+| 描述         | 定义了磁盘可用空间的冗余值，仅用于内部压缩                                |
+| 类型         | double                                               |
+| 默认值       | 0.05                                                 |
+| 改后生效方式 | 热加载                                                  |
 
-* candidate\_compaction\_task\_queue\_size
+- inner\_compaction\_task\_selection\_mods\_file\_threshold
 
-|名字| candidate\_compaction\_task\_queue\_size |
-|:---:|:-----------------------------------------|
-|描述| 合并任务优先级队列的大小                             |
-|类型| int32                                    |
-|默认值| 50                                       |
-|改后生效方式| 重启生效                                   |
+| 名字         | inner\_compaction\_task\_selection\_mods\_file\_threshold |
+| ------------ |-----------------------------------------------------------|
+| 描述         | 定义了mods文件大小的阈值，仅用于内部压缩。                                   |
+| 类型         | long                                                      |
+| 默认值       | 131072                                                    |
+| 改后生效方式 | 热加载                                                       |
+
 
 * compaction\_schedule\_thread\_num
 
@@ -2218,3 +2247,31 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |类型| Long |
 |默认值| 5|
 |改后生效方式|重启后生效|
+
+* last\_cache\_operation\_on\_load
+
+|名字| last\_cache\_operation\_on\_load                                                                                                                                                                       |
+|:---:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|描述| 当成功加载一个 TsFile 时，对 LastCache 执行的操作。`UPDATE`：使用 TsFile 中的数据更新 LastCache；`UPDATE_NO_BLOB`：与 UPDATE 类似，但会使 blob 序列的 LastCache 失效；`CLEAN_DEVICE`：使 TsFile 中包含的设备的 LastCache 失效；`CLEAN_ALL`：清空整个 LastCache。 |
+|类型| String                                                                                                                                                                                                 |
+|默认值| UPDATE_NO_BLOB                                                                                                                                                                                         |
+|改后生效方式| 重启后生效                                                                                                                                                                                                  |
+
+* cache\_last\_values\_for\_load
+
+|名字| cache\_last\_values\_for\_load                                                                                                                                                                                              |
+|:---:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|描述| 在加载 TsFile 之前是否缓存最新值（last values）。仅在 `last_cache_operation_on_load=UPDATE_NO_BLOB` 或 `last_cache_operation_on_load=UPDATE` 时生效。当设置为 true 时，即使 `last_cache_operation_on_load=UPDATE`，也会忽略 blob 序列。启用此选项会在加载 TsFile 期间增加内存占用。 |
+|类型| Boolean                                                                                                                                                                                                                     |
+|默认值| true                                                                                                                                                                                                                        |
+|改后生效方式| 重启后生效                                                                                                                                                                                                                       |
+
+* cache\_last\_values\_memory\_budget\_in\_byte
+
+|名字| cache\_last\_values\_memory\_budget\_in\_byte                                                       |
+|:---:|:----------------------------------------------------------------------------------------------------|
+|描述| 当 `cache_last_values_for_load=true` 时，用于缓存最新值的最大内存大小（以字节为单位）。如果超过该值，缓存的值将被丢弃，并以流式方式直接从 TsFile 中读取最新值。 |
+|类型| int32                                                                                               |
+|默认值| 4194304                                                                                             |
+|改后生效方式| 重启后生效                                                                                               |
+

@@ -50,7 +50,7 @@ INSERT INTO <TABLE_NAME> [(COLUMN_NAME[, COLUMN_NAME]*)]? VALUES (COLUMN_VALUE[,
 
 ### 1.2 通过 Session 写入自动创建表
 
-在通过 Session 进行数据写入时，IoTDB 能够根据写入请求中的信息自动构建表结构，无需用户事先手动创建表即可直接执行数据写入操作。
+在通过 Session 进行数据写入时，IoTDB 支持无模式写入：无需事先手动创建表，系统会根据写入请求中的信息自动构建表结构，之后直接执行数据写入操作。
 
 **示例：**
 

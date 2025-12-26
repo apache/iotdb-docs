@@ -597,7 +597,7 @@ Different configuration parameters take effect in the following three ways:
 |:---:|:----------------------------------------|
 |Description| Time cost(ms) threshold for slow query. |
 |Type| Int32                                   |
-|Default| 30000                                   |
+|Default| 10000                                   |
 |Effective| Trigger                                 |
 
 * query\_timeout\_threshold
@@ -635,6 +635,16 @@ Different configuration parameters take effect in the following three ways:
 |Type| Int32 |
 |Default| 100000 |
 |Effective|After restarting system|
+
+* sort\_buffer\_size\_in\_bytes
+
+|Name| sort\_buffer\_size\_in\_bytes                                                                                                                                                                                                                                                     |
+|:---:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Description| Sort buffer size, in bytes.                                                                                                                                                                                                                                                                     |
+|Type| Long                                                                                                                                                                                                                                                                              |
+|Default| Before V1.3.6: 1048576 (equivalent to 1MB);<br> From V1.3.6 onwards (including all V1.x versions): 0.The memory rule for external sort in the sort operator is as follows: When the data size is smaller than the sort buffer size (sort_buffer_size_in_bytes, in bytes), the sort operator will use in-memory sort. If sort_buffer_size_in_bytes ≤ 0, the default value is used. The default value is calculated as the minimum of 32MB and (memory for query operators / query_thread_count / 2). If sort_buffer_size_in_bytes > 0, the specified value is used. |
+|Effective| Hot Reload                                                                                                                                                                                                                                                                               |
+
 
 ### TTL Configuration
 * ttl\_check\_interval

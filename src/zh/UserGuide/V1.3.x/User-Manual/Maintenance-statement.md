@@ -441,9 +441,51 @@ localOrClusterMode
 IoTDB> STOP REPAIR DATA ON CLUSTER;
 ```
 
-## 5. 终止查询
 
-### 5.1 主动终止查询
+## 5. 副本修复
+
+> 该功能从 V1.3.6 起支持传入 regionId list ，一次处理多个 region。
+
+### 5.1 手动扩容
+
+**含义**：将指定 Region 扩容到指定 DataNode 上。
+
+#### 语法：
+
+```SQL
+extendRegionStatement
+    : EXTEND REGION <region_id>(, <region_id>)* TO <data_node_id>
+    ;
+```
+
+#### 示例：
+
+```SQL
+IoTDB> EXTEND REGION 1,2,3 TO 3;
+```
+
+### 5.2 手动缩容
+
+**含义**：从指定 DataNode 上移除指定 Region。
+> 注意：手动缩容至多将副本数缩减至 1 ，不能缩减至 0 。
+
+#### 语法：
+
+```SQL
+removeRegionStatement
+    : REMOVE REGION <region_id>(, <region_id>)* FROM <data_node_id>
+    ;
+```
+
+#### 示例：
+
+```SQL
+IoTDB> REMOVE REGION 1,2,3 FROM 2;
+```
+
+## 6. 终止查询
+
+### 6.1 主动终止查询
 
 **含义**：使用该命令主动地终止查询。
 

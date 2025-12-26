@@ -588,6 +588,8 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | rate-limit-bytes-per-second | 每秒最大允许传输的 byte 数，计算压缩后的 byte（如压缩），若小于 0 则不限制                                                                                                                                                 | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                              | 选填     | -1           |
 | load-tsfile-strategy        | 文件同步数据时，接收端请求返回发送端前，是否等待接收端本地的 load tsfile 执行结果返回。<br>sync：等待本地的 load tsfile 执行结果返回；<br>async：不等待本地的 load tsfile 执行结果返回。                                                                     | String: sync / async                        | 选填      | sync     |
 | format                      | 数据传输的payload格式， 可选项包括：<br>  - hybrid： 取决于 processor 传递过来的格式（tsfile或tablet），sink不做任何转换。<br> - tsfile：强制转换成tsfile发送，可用于数据文件备份等场景。<br> - tablet：强制转换成tsfile发送，可用于发送端/接收端数据类型不完全兼容时的数据同步（以减少报错）。 | String: hybrid / tsfile / tablet    | 选填    | hybrid |
+| mark-as-general-write-request | 该参数可控制双活 pipe 之间能否同步外部 pipe 转发的数据（配置到双活外部 pipe 的发送端）(V2.0.5及以后版本支持） | Boolean: true / false。True：能同步；False：不能同步； | 选填       | False    |
+
 
 
 #### iotdb-air-gap-sink
@@ -623,6 +625,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | ssl.trust-store-path        | 连接目标端 DataNode 所需的 trust store 证书路径                                                                                                                                                          | String.Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | 必填     | -            |
 | ssl.trust-store-pwd         | 连接目标端 DataNode 所需的 trust store 证书密码                                                                                                                                                          | Integer                                                                          | 必填     | -            |
 | format                      | 数据传输的payload格式， 可选项包括：<br>  - hybrid： 取决于 processor 传递过来的格式（tsfile或tablet），sink不做任何转换。<br> - tsfile：强制转换成tsfile发送，可用于数据文件备份等场景。<br> - tablet：强制转换成tsfile发送，可用于发送端/接收端数据类型不完全兼容时的数据同步（以减少报错）。 | String: hybrid / tsfile / tablet       | 选填    | hybrid |
+| mark-as-general-write-request | 该参数可控制双活 pipe 之间能否同步外部 pipe 转发的数据（配置到双活外部 pipe 的发送端） | Boolean: true / false。True：能同步；False：不能同步； | 选填       | False    |
 
 #### write-back-sink
 
