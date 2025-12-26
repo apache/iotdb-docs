@@ -361,6 +361,130 @@ public class SessionPoolExample {
 }
 ```
 
+
+For more information on the use of result sets and their method `SessionDataSet.DataIterator`, please refer to the following example (note: the `getBlob` and `getDate` interfaces have been supported since version V1.3.6):
+
+```java
+import org.apache.iotdb.isession.SessionDataSet;
+import org.apache.iotdb.isession.pool.SessionDataSetWrapper;
+import org.apache.iotdb.rpc.IoTDBConnectionException;
+import org.apache.iotdb.rpc.StatementExecutionException;
+import org.apache.iotdb.session.pool.SessionPool;
+
+import org.apache.tsfile.enums.TSDataType;
+import org.apache.tsfile.utils.Binary;
+import org.apache.tsfile.utils.DateUtils;
+import org.apache.tsfile.write.record.Tablet;
+import org.apache.tsfile.write.schema.MeasurementSchema;
+import org.junit.Assert;
+
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+public class SessionExample {
+  private static SessionPool sessionPool;
+
+  public static void main(String[] args)
+      throws IoTDBConnectionException, StatementExecutionException {
+    // 1. init SessionPool
+    constructSessionPool();
+    // 2. executes a query SQL statement, such as a DDL or DML command.
+    executeQueryExample();
+    // 3. close SessionPool
+    closeSessionPool();
+  }
+
+  private static void executeQueryExample()
+      throws IoTDBConnectionException, StatementExecutionException {
+    Tablet tablet =
+        new Tablet(
+            "root.sg.d1",
+            Arrays.asList(
+                new MeasurementSchema("s1", TSDataType.INT32),
+                new MeasurementSchema("s2", TSDataType.INT64),
+                new MeasurementSchema("s3", TSDataType.FLOAT),
+                new MeasurementSchema("s4", TSDataType.DOUBLE),
+                new MeasurementSchema("s5", TSDataType.TEXT),
+                new MeasurementSchema("s6", TSDataType.BOOLEAN),
+                new MeasurementSchema("s7", TSDataType.TIMESTAMP),
+                new MeasurementSchema("s8", TSDataType.BLOB),
+                new MeasurementSchema("s9", TSDataType.STRING),
+                new MeasurementSchema("s10", TSDataType.DATE),
+                new MeasurementSchema("s11", TSDataType.TIMESTAMP)),
+            10);
+    tablet.addTimestamp(0, 0L);
+    tablet.addValue("s1", 0, 1);
+    tablet.addValue("s2", 0, 1L);
+    tablet.addValue("s3", 0, 0f);
+    tablet.addValue("s4", 0, 0d);
+    tablet.addValue("s5", 0, "text_value");
+    tablet.addValue("s6", 0, true);
+    tablet.addValue("s7", 0, 1L);
+    tablet.addValue("s8", 0, new Binary(new byte[] {1}));
+    tablet.addValue("s9", 0, "string_value");
+    tablet.addValue("s10", 0, DateUtils.parseIntToLocalDate(20250403));
+    tablet.initBitMaps();
+    tablet.bitMaps[10].mark(0);
+    tablet.rowSize = 1;
+    sessionPool.insertAlignedTablet(tablet);
+
+    try (SessionDataSetWrapper dataSet =
+        sessionPool.executeQueryStatement("select * from root.sg.d1")) {
+      SessionDataSet.DataIterator iterator = dataSet.iterator();
+      int count = 0;
+      while (iterator.next()) {
+        count++;
+        Assert.assertFalse(iterator.isNull("root.sg.d1.s1"));
+        Assert.assertEquals(1, iterator.getInt("root.sg.d1.s1"));
+        Assert.assertFalse(iterator.isNull("root.sg.d1.s2"));
+        Assert.assertEquals(1L, iterator.getLong("root.sg.d1.s2"));
+        Assert.assertFalse(iterator.isNull("root.sg.d1.s3"));
+        Assert.assertEquals(0, iterator.getFloat("root.sg.d1.s3"), 0.01);
+        Assert.assertFalse(iterator.isNull("root.sg.d1.s4"));
+        Assert.assertEquals(0, iterator.getDouble("root.sg.d1.s4"), 0.01);
+        Assert.assertFalse(iterator.isNull("root.sg.d1.s5"));
+        Assert.assertEquals("text_value", iterator.getString("root.sg.d1.s5"));
+        Assert.assertFalse(iterator.isNull("root.sg.d1.s6"));
+        Assert.assertTrue(iterator.getBoolean("root.sg.d1.s6"));
+        Assert.assertFalse(iterator.isNull("root.sg.d1.s7"));
+        Assert.assertEquals(new Timestamp(1), iterator.getTimestamp("root.sg.d1.s7"));
+        Assert.assertFalse(iterator.isNull("root.sg.d1.s8"));
+        Assert.assertEquals(new Binary(new byte[] {1}), iterator.getBlob("root.sg.d1.s8"));
+        Assert.assertFalse(iterator.isNull("root.sg.d1.s9"));
+        Assert.assertEquals("string_value", iterator.getString("root.sg.d1.s9"));
+        Assert.assertFalse(iterator.isNull("root.sg.d1.s10"));
+        Assert.assertEquals(
+            DateUtils.parseIntToLocalDate(20250403), iterator.getDate("root.sg.d1.s10"));
+        Assert.assertTrue(iterator.isNull("root.sg.d1.s11"));
+        Assert.assertNull(iterator.getTimestamp("root.sg.d1.s11"));
+
+        Assert.assertEquals(new Timestamp(0), iterator.getTimestamp("Time"));
+        Assert.assertFalse(iterator.isNull("Time"));
+      }
+      Assert.assertEquals(tablet.rowSize, count);
+    }
+  }
+
+  private static void constructSessionPool() {
+    List<String> nodeUrls = new ArrayList<>();
+    nodeUrls.add("127.0.0.1:6667");
+    sessionPool =
+        new SessionPool.Builder()
+            .nodeUrls(nodeUrls)
+            .user("root")
+            .password("root")
+            .maxSize(3)
+            .build();
+  }
+
+  public static void closeSessionPool() {
+    sessionPool.close();
+  }
+}
+```
+
 ### 3 Native Interface Description
 
 #### 3.1 Parameter List
