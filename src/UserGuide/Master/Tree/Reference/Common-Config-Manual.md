@@ -2211,3 +2211,32 @@ Different configuration parameters take effect in the following three ways:
 |Type| Long |
 |Default| 5|
 |Effective|Effective after restart|
+
+
+* last\_cache\_operation\_on\_load
+
+|Name| last\_cache\_operation\_on\_load                                                                                                                                                                       |
+|:---:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Description| The operation performed to LastCache when a TsFile is successfully loaded. `UPDATE`: use the data in the TsFile to update LastCache; `UPDATE_NO_BLOB`: similar to UPDATE, but will invalidate LastCache for blob series; `CLEAN_DEVICE`: invalidate LastCache of devices contained in the TsFile; `CLEAN_ALL`: clean the whole LastCache. |
+|Type| String                                                                                                                                                                                                 |
+|Default| UPDATE_NO_BLOB                                                                                                                                                                                         |
+|Effective| Effective after restart                                                                                                                                                                                                  |
+
+* cache\_last\_values\_for\_load
+
+|Name| cache\_last\_values\_for\_load                                                                                                                                                                                              |
+|:---:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Description| Whether to cache last values before loading a TsFile. Only effective when `last_cache_operation_on_load=UPDATE_NO_BLOB` or `last_cache_operation_on_load=UPDATE`. When set to true, blob series will be ignored even with `last_cache_operation_on_load=UPDATE`. Enabling this will increase the memory footprint during loading TsFiles. |
+|Type| Boolean                                                                                                                                                                                                                     |
+|Default| true                                                                                                                                                                                                                        |
+|Effective| Effective after restart                                                                                                                                                                                                                       |
+
+* cache\_last\_values\_memory\_budget\_in\_byte
+
+|Name| cache\_last\_values\_memory\_budget\_in\_byte                                                       |
+|:---:|:----------------------------------------------------------------------------------------------------|
+|Description| When `cache_last_values_for_load=true`, the maximum memory that can be used to cache last values. If this value is exceeded, the cached values will be abandoned and last values will be read from the TsFile in a streaming manner. |
+|Type| int32                                                                                               |
+|Default| 4194304                                                                                             |
+|Effective| Effective after restart                                                                                                |
+
