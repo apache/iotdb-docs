@@ -1796,48 +1796,48 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 - cross_performer
 
-| Name        | cross_performer                                         |
-| ----------- | ------------------------------------------------------- |
-| Description | the compaction performer of cross space compaction task |
-| Type        | String                                                  |
-| Default     | fast                                                    |
-| Effective   | Restart required.                                       |
+| Name        | cross_performer                                           |
+| ----------- |-----------------------------------------------------------|
+| Description | the compaction performer of cross space compaction task, Options: read_point, fast |
+| Type        | String                                                    |
+| Default     | fast                                                      |
+| Effective   | Hot reload .                                              |
 
 - inner_seq_selector
 
-| Name        | inner_seq_selector                                   |
-| ----------- | ---------------------------------------------------- |
-| Description | the selector of inner sequence space compaction task |
-| Type        | String                                               |
-| Default     | size_tiered_multi_target                             |
-| Effective   | Hot reload                                           |
-
-- inner_seq_performer
-
-| Name        | inner_seq_performer                                   |
-| ----------- | ----------------------------------------------------- |
-| Description | the performer of inner sequence space compaction task |
-| Type        | String                                                |
-| Default     | read_chunk                                            |
-| Effective   | Restart required.                                     |
-
-- inner_unseq_selector
-
-| Name        | inner_unseq_selector                                   |
-| ----------- | ------------------------------------------------------ |
-| Description | the selector of inner unsequence space compaction task |
+| Name        | inner_seq_selector                                     |
+| ----------- |--------------------------------------------------------|
+| Description | the selector of inner sequence space compaction task, Options: size_tiered_single_target,size_tiered_multi_target |
 | Type        | String                                                 |
 | Default     | size_tiered_multi_target                               |
 | Effective   | Hot reload                                             |
 
+- inner_seq_performer
+
+| Name        | inner_seq_performer                                     |
+| ----------- |---------------------------------------------------------|
+| Description | the performer of inner sequence space compaction task, Options: read_chunk, fast |
+| Type        | String                                                  |
+| Default     | read_chunk                                              |
+| Effective   | Hot reload                                       |
+
+- inner_unseq_selector
+
+| Name        | inner_unseq_selector                                     |
+| ----------- |----------------------------------------------------------|
+| Description | the selector of inner unsequence space compaction task, Options: size_tiered_single_target,size_tiered_multi_target |
+| Type        | String                                                   |
+| Default     | size_tiered_multi_target                                 |
+| Effective   | Hot reload                                               |
+
 - inner_unseq_performer
 
-| Name        | inner_unseq_performer                                   |
-| ----------- | ------------------------------------------------------- |
-| Description | the performer of inner unsequence space compaction task |
-| Type        | String                                                  |
-| Default     | fast                                                    |
-| Effective   | Restart required.                                       |
+| Name        | inner_unseq_performer                                     |
+| ----------- |-----------------------------------------------------------|
+| Description | the performer of inner unsequence space compaction task, Options: read_point, fast |
+| Type        | String                                                    |
+| Default     | fast                                                      |
+| Effective   | Hot reload                                         |
 
 - compaction_priority
 
@@ -1846,7 +1846,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Description | The priority of compaction executionINNER_CROSS: prioritize inner space compaction, reduce the number of files firstCROSS_INNER: prioritize cross space compaction, eliminate the unsequence files firstBALANCE: alternate two compaction types |
 | Type        | String                                                       |
 | Default     | INNER_CROSS                                                  |
-| Effective   | 重启服务生效                                                 |
+| Effective   | Restart required.                                                 |
 
 - candidate_compaction_task_queue_size
 
@@ -1897,19 +1897,19 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 | Name        | target_chunk_size                                            |
 | ----------- | ------------------------------------------------------------ |
-| Description | The target chunk size in compaction and when memtable reaches this threshold, flush the memtable to disk. |
+| Description | The target chunk size in flushing and compaction. If the size of a timeseries in memtable exceeds this, the data will be flushed to multiple chunks.|
 | Type        | Int64                                                        |
-| Default     | 1048576                                                      |
+| Default     | 1600000                                                      |
 | Effective   | Restart required.                                            |
 
 - target_chunk_point_num
 
-| Name        | target_chunk_point_num                           |
-| ----------- | ------------------------------------------------ |
-| Description | The target point nums in one chunk in compaction |
-| Type        | int32                                            |
-| Default     | 100000                                           |
-| Effective   | Restart required.                                |
+| Name        | target_chunk_point_num                                          |
+| ----------- |-----------------------------------------------------------------|
+| Description | The target point nums in one chunk in flushing and compaction. If the point number of a timeseries in memtable exceeds this, the data will be flushed to multiple chunks. |
+| Type        | Int64                                                           |
+| Default     | 100000                                                          |
+| Effective   | Restart required.                                               |
 
 - chunk_size_lower_bound_in_compaction
 
@@ -1922,12 +1922,12 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 - chunk_point_num_lower_bound_in_compaction
 
-| Name        | chunk_point_num_lower_bound_in_compaction                    |
-| ----------- | ------------------------------------------------------------ |
+| Name        | chunk_point_num_lower_bound_in_compaction                                                |
+| ----------- |------------------------------------------------------------------------------------------|
 | Description | If the chunk point num is lower than this threshold, it will be deserialized into points |
-| Type        | int32                                                        |
-| Default     | 100                                                          |
-| Effective   | Restart required.                                            |
+| Type        | Int64                                                                                    |
+| Default     | 100                                                                                      |
+| Effective   | Restart required.                                                                        |
 
 - inner_compaction_candidate_file_num
 
