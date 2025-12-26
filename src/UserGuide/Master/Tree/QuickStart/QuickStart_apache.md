@@ -53,9 +53,9 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
    - Introduction to SQL syntax[SQL syntax](../Basic-Concept/Operate-Metadata_apache.md)
 
-2. Write Data: In terms of data writing, IoTDB provides multiple ways to insert real-time data. Please refer to the basic data writing operations for details [Write Data](../Basic-Concept/Write-Data_apache)
+2. Write Data: In terms of data writing, IoTDB provides multiple ways to insert real-time data. Please refer to the basic data writing operations for details [Write Data](../Basic-Concept/Write-Data_apache.md)
 
-3. Query Data: IoTDB provides rich data query functions. Please refer to the basic introduction of data query [Query Data](../Basic-Concept/Query-Data_apache)
+3. Query Data: IoTDB provides rich data query functions. Please refer to the basic introduction of data query [Query Data](../Basic-Concept/Query-Data_apache.md)
 
 4. Other advanced features: In addition to common functions such as writing and querying in databases, IoTDB also supports "Data Synchronisation、Stream Framework、Database Administration " and other functions, specific usage methods can be found in the specific document:
 
@@ -63,9 +63,9 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
    - Stream Framework: [Stream Framework](../User-Manual/Streaming_apache.md)
 
-   - Authority Management:[Authority Management](../User-Manual/Authority-Management_apache)
+   - Authority Management:[Authority Management](../User-Manual/Authority-Management_apache.md)
 
-5. API: IoTDB provides multiple application programming interfaces (API) for developers to interact with IoTDB in their applications, and currently supports [Java Native API](../API/Programming-Java-Native-API_apache)、[Python Native API](../API/Programming-Python-Native-API_apache)、[C++ Native API](../API/Programming-Cpp-Native-API.md) ,For more API, please refer to the official website 【API】 and other chapters
+5. API: IoTDB provides multiple application programming interfaces (API) for developers to interact with IoTDB in their applications, and currently supports [Java Native API](../API/Programming-Java-Native-API_apache.md)、[Python Native API](../API/Programming-Python-Native-API_apache.md)、[C++ Native API](../API/Programming-Cpp-Native-API.md) ,For more API, please refer to the official website 【API】 and other chapters
 
 ## 3. What other convenient tools are available?
 
@@ -73,9 +73,9 @@ In addition to its rich features, IoTDB also has a comprehensive range of tools 
 
    - Benchmark Tool: IoT benchmark is a time series database benchmark testing tool developed based on Java and big data environments, developed and open sourced by the School of Software at Tsinghua University. It supports multiple writing and querying methods, can store test information and results for further query or analysis, and supports integration with Tableau to visualize test results. For specific usage instructions, please refer to: [Benchmark Tool](../Tools-System/Benchmark.md)
 
-   - Data Import Script: For different scenarios, IoTDB provides users with multiple ways to batch import data. For specific usage instructions, please refer to: [Data Import](../Tools-System/Data-Import-Tool_apache)
+   - Data Import Script: For different scenarios, IoTDB provides users with multiple ways to batch import data. For specific usage instructions, please refer to: [Data Import](../Tools-System/Data-Import-Tool_apache.md)
 
-   - Data Export Script: For different scenarios, IoTDB provides users with multiple ways to batch export data. For specific usage instructions, please refer to: [Data Export](../Tools-System/Data-Export-Tool_apache)
+   - Data Export Script: For different scenarios, IoTDB provides users with multiple ways to batch export data. For specific usage instructions, please refer to: [Data Export](../Tools-System/Data-Export-Tool_apache.md)
 
 ## 4. Want to Learn More About the Technical Details?
 

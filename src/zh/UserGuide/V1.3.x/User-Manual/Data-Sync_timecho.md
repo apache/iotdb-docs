@@ -124,6 +124,14 @@ WITH SINK (
 
 **IF NOT EXISTS 语义**：用于创建操作中，确保当指定 Pipe 不存在时，执行创建命令，防止因尝试创建已存在的 Pipe 而导致报错。
 
+**注意**：V1.3.6 起，创建一个全量数据同步 Pipe （例如 Pipeid : `alldatapipe`）时，系统会自动将其拆分为两个独立的 Pipe：
+
+* 历史 Pipe：PipeId 为原名称加 _history后缀（如 `alldatapipe_history`），source 参数默认携带 `'realtime.enable'='false', 'inclusion'='data.insert', 'inclusion.exclusion'=''`
+
+* 实时 Pipe：PipeId 为原名称加 _realtime后缀（如 `alldatapipe_realtime`），source 参数默认携带 `'history.enable'='false'` ，若配置了元数据同步，则由实时 Pipe 负责发送
+
+创建成功后，原 PipeId（如 `alldatapipe`）将不再作为有效标识符。在进行启动、停止、删除、查看等任务操作时，必须使用拆分后的独立 PipeId（即 `*_history`或 `*_realtime`）。操作示例见[查看任务](./Data-Sync_timecho.md#查看任务)小节
+
 ### 开始任务
 
 开始处理数据：
@@ -187,6 +195,29 @@ SHOW PIPE <PipeId>
 - **ExceptionMessage**：显示同步任务的异常信息
 - **RemainingEventCount（统计存在延迟）**：剩余 event 数，当前数据同步任务中的所有 event 总数，包括数据和元数据同步的 event，以及系统和用户自定义的 event。
 - **EstimatedRemainingSeconds（统计存在延迟）**：剩余时间，基于当前 event 个数和 pipe 处速率，预估完成传输的剩余时间。
+
+示例：
+
+在 V1.3.6 及之后的版本中，创建一个全量数据同步任务，并查看该任务详情
+
+```sql
+IoTDB> create pipe alldatapipe with source('inclusion'='all','exclusion'='auth') with sink('node-urls'='127.0.0.1:6668')
+
+IoTDB> show pipe alldatapipe_history
++-------------------+-----------------------+-------+---------------------------------------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+|                 ID|           CreationTime|  State|                                                                                               PipeSource|PipeProcessor|                  PipeSink|ExceptionMessage|RemainingEventCount|EstimatedRemainingSeconds|
++-------------------+-----------------------+-------+---------------------------------------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+|alldatapipe_history|2025-12-18T15:06:16.697|RUNNING|{exclusion=auth, history.enable=true, inclusion=data.insert, inclusion.exclusion=, realtime.enable=false}|           {}|{node-urls=127.0.0.1:6668}|                |                  0|                     0.00|
++-------------------+-----------------------+-------+---------------------------------------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+
+IoTDB> show pipe alldatapipe_realtime
++--------------------+-----------------------+-------+---------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+|                  ID|           CreationTime|  State|                                                                 PipeSource|PipeProcessor|                  PipeSink|ExceptionMessage|RemainingEventCount|EstimatedRemainingSeconds|
++--------------------+-----------------------+-------+---------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+|alldatapipe_realtime|2025-12-18T15:06:16.312|RUNNING|{exclusion=auth, history.enable=false, inclusion=all, realtime.enable=true}|           {}|{node-urls=127.0.0.1:6668}|                |                  0|                     0.00|
++--------------------+-----------------------+-------+---------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+
+```
 
 ### 同步插件
 
@@ -587,19 +618,20 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 > - **batch**：该模式下，任务将对数据进行批量（按底层数据文件）处理、发送，其特点是低时效、高吞吐
 
 
-## sink **参数**
+### sink **参数**
 
 > 在 1.3.3 及以上的版本中，只包含sink的情况下，不再需要额外增加with sink 前缀
 
 #### iotdb-thrift-sink
 
-| key                     | value                                                        | value 取值范围                                               | 是否必填 | 默认取值     |
-| ----------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- | ------------ |
-| sink                    | iotdb-thrift-sink 或 iotdb-thrift-async-sink                 | String: iotdb-thrift-sink 或 iotdb-thrift-async-sink         | 必填     | -            |
-| node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发） | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填     | -            |
-| batch.enable            | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS        | Boolean: true, false                                         | 选填     | true         |
-| batch.max-delay-seconds | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                      | 选填     | 1            |
-| batch.size-bytes        | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte） | Long                                                         | 选填     | 16*1024*1024 |
+| key                     | value                                                        | value 取值范围                                                                 | 是否必填 | 默认取值         |
+|-------------------------|--------------------------------------------------------------|----------------------------------------------------------------------------| -------- |--------------|
+| sink                    | iotdb-thrift-sink 或 iotdb-thrift-async-sink                  | String: iotdb-thrift-sink 或 iotdb-thrift-async-sink                        | 必填     | -            |
+| node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发）  | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填     | -            |
+| batch.enable            | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS                                | Boolean: true, false                                                       | 选填     | true         |
+| batch.max-delay-seconds | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s）                       | Integer                                                                    | 选填     | 1            |
+| batch.max-delay-ms      | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：ms）(V1.3.6及以后的V1.x版本支持）  | Integer                                                                    | 选填       | 1            |
+| batch.size-bytes        | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte）                        | Long                                                                       | 选填     | 16*1024*1024 |
 
 #### iotdb-air-gap-sink
 
@@ -617,6 +649,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | node-urls               | 目标端 IoTDB 任意多个 DataNode 节点的数据服务端口的 url（请注意同步任务不支持向自身服务进行转发） | String. 例：'127.0.0.1：6667，127.0.0.1：6668，127.0.0.1：6669'， '127.0.0.1：6667' | 必填     | -            |
 | batch.enable            | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS        | Boolean: true, false                                         | 选填     | true         |
 | batch.max-delay-seconds | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                      | 选填     | 1            |
+| batch.max-delay-ms      | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：ms）(V1.3.6及以后的V1.x版本支持）  | Integer                                                                    | 选填       | 1            |
 | batch.size-bytes        | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte） | Long                                                         | 选填     | 16*1024*1024 |
 | ssl.trust-store-path    | 连接目标端 DataNode 所需的 trust store 证书路径              | String.Example: '127.0.0.1:6667,127.0.0.1:6668,127.0.0.1:6669', '127.0.0.1:6667' | 必填     | -            |
 | ssl.trust-store-pwd     | 连接目标端 DataNode 所需的 trust store 证书密码              | Integer                                                      | 必填     | -            |

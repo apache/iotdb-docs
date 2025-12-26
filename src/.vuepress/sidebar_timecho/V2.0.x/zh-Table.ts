@@ -114,7 +114,7 @@ export const zhSidebar = {
       prefix: 'User-Manual/',
       children: [
         { text: '数据同步', link: 'Data-Sync_timecho' },
-        { text: '用户自定义函数', link: 'User-defined-function' },
+        { text: 'UDF', link: 'User-defined-function' },
         {
           text: '安全权限',
           collapsible: true,

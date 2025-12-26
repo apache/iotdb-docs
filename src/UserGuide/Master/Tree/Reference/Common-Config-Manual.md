@@ -239,7 +239,7 @@ Different configuration parameters take effect in the following three ways:
 
 |Name| datanode\_memory\_proportion                                                  |
 |:---:|:-------------------------------------------------------------------------------------------------------------|
-|Description| Memory Allocation Ratio: StorageEngine, QueryEngine, SchemaEngine, Consensus, StreamingEngine,  and Free Memory              |
+|Description| Memory Allocation Ratio: StorageEngine, QueryEngine, SchemaEngine, Consensus, StreamingEngine,  and Free Memory          |
 |Type| Ratio                                                                                                        |
 |Default| 3:3:1:1:1:1                                                                                                    |
 |Effective| After restarting system                                                                                      |
@@ -251,7 +251,7 @@ Different configuration parameters take effect in the following three ways:
 |Description| Schema Memory Allocation Ratio: SchemaRegion, SchemaCache, and PartitionCache. |
 |Type| Ratio                                                                                   |
 |Default| 5:4:1                                                                              |
-|Effective| After restarting system                                                                   |
+|Effective| After restarting system                                                                 |
 
 * storage\_engine\_memory\_proportion
 
@@ -597,7 +597,7 @@ Different configuration parameters take effect in the following three ways:
 |:---:|:----------------------------------------|
 |Description| Time cost(ms) threshold for slow query. |
 |Type| Int32                                   |
-|Default| 30000                                   |
+|Default| 10000                                   |
 |Effective| Trigger                                 |
 
 * query\_timeout\_threshold
@@ -881,55 +881,55 @@ Different configuration parameters take effect in the following three ways:
 
 |Name| cross\_selector                                  |
 |:---:|:-------------------------------------------------|
-|Description| the task selector type of cross space compaction |
+|Description| the selector of cross space compaction task |
 |Type| String                                           |
 |Default| rewrite                                          |
 |Effective| After restart system                             |
 
 * cross\_performer
 
-|Name| cross\_performer                                   |
-|:---:|:---------------------------------------------------|
-|Description| the task performer type of cross space compaction. The options are read_point and fast, read_point is the default and fast is still under test |
-|Type| String                                             |
-|Default| read\_point                                        |
-|Effective| After restart system                               |
+|Name| cross\_performer                                          |
+|:---:|:----------------------------------------------------------|
+|Description| the compaction performer of cross space compaction task, Options: read_point, fast |
+|Type| String                                                    |
+|Default| fast                                                      |
+|Effective| hot-load                                      |
 
 * inner\_seq\_selector
 
 |Name| inner\_seq\_selector                                                                                                         |
 |:---:|:-----------------------------------------------------------------------------------------------------------------------------|
-|Description| the task selector type of inner sequence space compaction. Options: size\_tiered\_single_\target,size\_tiered\_multi\_target |
+|Description| the task selector of inner sequence space compaction task. Options: size\_tiered\_single_\target,size\_tiered\_multi\_target |
 |Type| String                                                                                                                       |
-|Default| hot-load                                                                                                                     |
+|Default| size_tiered_multi_target                                                                                                                     |
 |Effective| hot-load                                                                                                                     |
 
 * inner\_seq\_performer
 
-|Name| inner\_seq\_peformer                                                                                                                                    |
-|:---:|:--------------------------------------------------------------------------------------------------------------------------------------------------------|
-|Description| the task performer type of inner sequence space compaction. The options are read_chunk and fast, read_chunk is the default and fast is still under test |
-|Type| String                                                                                                                                                  |
-|Default| read\_chunk                                                                                                                                             |
-|Effective| After restart system                                                                                                                                    |
+|Name| inner\_seq\_peformer                                                                            |
+|:---:|:------------------------------------------------------------------------------------------------|
+|Description| the task performer of inner sequence space compaction task. The options are read_chunk and fast |
+|Type| String                                                                                          |
+|Default| fast                                                                                            |
+|Effective| hot-load                                                                           |
 
 * inner\_unseq\_selector
 
-|Name| inner\_unseq\_selector                                      |
-|:---:|:------------------------------------------------------------|
-|Description| the task selector type of inner unsequence space compactionn. Options: size\_tiered\_single_\target,size\_tiered\_multi\_target |
-|Type| String                                                      |
-|Default| hot-load                                                |
-|Effective| hot-load                                         |
+|Name| inner\_unseq\_selector                                                                                                          |
+|:---:|:--------------------------------------------------------------------------------------------------------------------------------|
+|Description| the task selector of inner unsequence space compactionn task. Options: size\_tiered\_single_\target,size\_tiered\_multi\_target |
+|Type| String                                                                                                                          |
+|Default| size_tiered_multi_target                                                                                                        |
+|Effective| hot-load                                                                                                                        |
 
 * inner\_unseq\_performer
 
-|Name| inner\_unseq\_peformer                                        |
-|:---:|:--------------------------------------------------------------|
-|Description| the task performer type of inner unsequence space compaction. The options are read_point and fast, read_point is the default and fast is still under test |
-|Type| String                                                        |
-|Default| read\_point                                                   |
-|Effective| After restart system                                          |
+|Name| inner\_unseq\_peformer                                                                                                                                    |
+|:---:|:----------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Description| the task performer of inner unsequence space compaction task. The options are read_point and fast|
+|Type| String                                                                                                                                                    |
+|Default| fast                                                                                                                                               |
+|Effective| hot-load                                                                                                                                      |
 
 * compaction\_priority
 
@@ -944,52 +944,52 @@ Different configuration parameters take effect in the following three ways:
 
 |    Name     | target\_compaction\_file\_size                 |
 | :---------: |:-----------------------------------------------|
-| Description | The target file size in compaction |
+| Description | This parameter is used in two places: 1. The target tsfile size of inner space compaction. 2. The candidate size of seq tsfile in cross space compaction will be smaller than target_compaction_file_size * 1.5. In most cases, the target file size of cross compaction won't exceed this threshold, and if it does, it will not be much larger than it. |
 |    Type     | Int64                                          |
 |   Default   | 2147483648                                     |
-|  Effective  | After restart system                           |
+|  Effective  | hot_reload                         |
 
 * target\_chunk\_size
 
 |    Name     | target\_chunk\_size                |
 | :---------: | :--------------------------------- |
-| Description | The target size of compacted chunk |
+| Description | The target chunk size in flushing and compaction.If the size of a timeseries in memtable exceeds this, the data will be flushed to multiple chunks.|
 |    Type     | Int64                              |
-|   Default   | 1048576                            |
+|   Default   | 1600000                            |
 |  Effective  | After restart system               |
 
 * target\_chunk\_point\_num
 
-|Name| target\_chunk\_point\_num |
-|:---:|:---|
-|Description| The target point number of compacted chunk |
-|Type| int32 |
-|Default| 100000 |
-|Effective|After restart system|
+|Name| target\_chunk\_point\_num                                                                                                                                                  |
+|:---:|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Description| The target point nums in one chunk in flushing and compaction.  If the point number of a timeseries in memtable exceeds this, the data will be flushed to multiple chunks. |
+|Type| Int64                                                                                                                                                                      |
+|Default| 100000                                                                                                                                                                     |
+|Effective| After restart system                                                                                                                                                       |
 
 * chunk\_size\_lower\_bound\_in\_compaction
 
-|    Name     | chunk\_size\_lower\_bound\_in\_compaction                                               |
-| :---------: |:----------------------------------------------------------------------------------------|
-| Description | A source chunk will be deserialized in compaction when its size is less than this value |
-|    Type     | Int64                                                                                   |
-|   Default   | 10240                                                                                   |
-|  Effective  | After restart system                                                                    |
+|    Name     | chunk\_size\_lower\_bound\_in\_compaction                                                                |
+| :---------: |:---------------------------------------------------------------------------------------------------------|
+| Description | If the chunk size is lower than this threshold, it will be deserialized into points, default is 128 byte |
+|    Type     | Int64                                                                                                    |
+|   Default   | 128                                                                                                      |
+|  Effective  | After restart system                                                                                     |
 
 * chunk\_point\_num\_lower\_bound\_in\_compaction
 
-|Name| chunk\_point\_num\_lower\_bound\_in\_compaction                                              |
-|:---:|:---------------------------------------------------------------------------------------------|
-|Description| A source chunk will be deserialized in compaction when its point num is less than this value |
-|Type| int32                                                                                        |
-|Default| 1000                                                                                         |
-|Effective| After restart system                                                                         |
+|Name| chunk\_point\_num\_lower\_bound\_in\_compaction                                          |
+|:---:|:-----------------------------------------------------------------------------------------|
+|Description| If the chunk point num is lower than this threshold, it will be deserialized into points |
+|Type| Int64                                                                                     |
+|Default| 100                                                                                      |
+|Effective| After restart system                                                                     |
 
 * inner\_compaction\_total\_file\_num\_threshold
 
 |Name| inner\_compaction\_total\_file\_num\_threshold           |
 |:---:|:---------------------------------------------------------|
-|Description| The max num of files encounter in inner space compaction |
+|Description| The total file num limit in inner space compaction. |
 |Type| int32                                                    |
 |Default| 100                                                      |
 |Effective| hot-load                                                 |
@@ -1032,18 +1032,18 @@ Different configuration parameters take effect in the following three ways:
 
 * max\_cross\_compaction\_file\_num
 
-|Name| max\_cross\_compaction\_candidate\_file\_num             |
-|:---:|:---------------------------------------------------------|
-|Description| The max num of files encounter in cross space compaction |
-|Type| int32                                                    |
-|Default| 500                                                      |
-|Effective| hot-load                                                 |
+|Name| max\_cross\_compaction\_candidate\_file\_num                                                                                                                          |
+|:---:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Description| The max file when selecting cross space compaction candidate files. At least one unseq file with it's overlapped seq files will be selected even exceeded this number |
+|Type| int32                                                                                                                                                                 |
+|Default| 500                                                                                                                                                                   |
+|Effective| hot-load                                                                                                                                                              |
 
 * max\_cross\_compaction\_file\_size
 
 |Name| max\_cross\_compaction\_candidate\_file\_size             |
 |:---:|:----------------------------------------------------------|
-|Description| The max size of files encounter in cross space compaction |
+|Description| The max total size when selecting cross space compaction candidate files. At least one unseq file with it's overlapped seq files will be selected even exceeded this number |
 |Type| Int64                                                     |
 |Default| 5368709120                                                |
 |Effective| hot-load                                                  |
@@ -1066,29 +1066,20 @@ Different configuration parameters take effect in the following three ways:
 |   Default   | 60000                                  |
 |  Effective  | After restart system                   |
 
-* compaction\_submission\_interval\_in\_ms
-
-|    Name     | compaction\_submission\_interval\_in\_ms |
-| :---------: | :--------------------------------------- |
-| Description | interval of submitting compaction task   |
-|    Type     | Int64                                    |
-|   Default   | 60000                                    |
-|  Effective  | After restart system                     |
-
 * compaction\_write\_throughput\_mb\_per\_sec
 
-|Name| compaction\_write\_throughput\_mb\_per\_sec      |
-|:---:|:-------------------------------------------------|
-|Description| The write rate of all compaction tasks in MB/s, values less than or equal to 0 means no limit |
-|Type| int32                                            |
-|Default| 16                                               |
-|Effective| hot-load                                         |
+|Name| compaction\_write\_throughput\_mb\_per\_sec               |
+|:---:|:----------------------------------------------------------|
+|Description| The limit of write throughput merge can reach per second,values less than or equal to 0 means no limit |
+|Type| int32                                                     |
+|Default| 16                                                        |
+|Effective| hot-load                                                  |
 
 * compaction\_read\_throughput\_mb\_per\_sec
 
 |Name| compaction\_read\_throughput\_mb\_per\_sec     |
 |:---:|:------------------------------------------------|
-|Description| The read rate of all compaction tasks in MB/s, values less than or equal to 0 means no limit |
+|Description| The limit of read throughput merge can reach per second, values less than or equal to 0 means no limit |
 |Type| int32                                           |
 |Default| 0                                               |
 |Effective| hot-load                                        |
@@ -1097,7 +1088,7 @@ Different configuration parameters take effect in the following three ways:
 
 |Name| compaction\_read\_operation\_per\_sec                                                                          |
 |:---:|:---------------------------------------------------------------------------------------------------------------|
-|Description| The read operation of all compaction tasks can reach per second, values less than or equal to 0 means no limit |
+|Description| The limit of read operation merge can reach per second, values less than or equal to 0 means no limit |
 |Type| int32                                                                                                          |
 |Default| 0                                                                                                              |
 |Effective| hot-load                                                                                                       |
@@ -1106,7 +1097,7 @@ Different configuration parameters take effect in the following three ways:
 
 |Name| sub\_compaction\_thread\_count                                            |
 |:---:|:--------------------------------------------------------------------------|
-|Description| the number of sub-compaction threads to accelerate cross space compaction |
+|Description| The number of sub compaction threads to be set up to perform compaction. Currently only works for nonAligned data in cross space compaction and unseq inner space compaction. |
 |Type| Int32                                                                     |
 |Default| 4                                                                         |
 |Effective| hot-load                                                            |
@@ -2211,3 +2202,32 @@ Different configuration parameters take effect in the following three ways:
 |Type| Long |
 |Default| 5|
 |Effective|Effective after restart|
+
+
+* last\_cache\_operation\_on\_load
+
+|Name| last\_cache\_operation\_on\_load                                                                                                                                                                       |
+|:---:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Description| The operation performed to LastCache when a TsFile is successfully loaded. `UPDATE`: use the data in the TsFile to update LastCache; `UPDATE_NO_BLOB`: similar to UPDATE, but will invalidate LastCache for blob series; `CLEAN_DEVICE`: invalidate LastCache of devices contained in the TsFile; `CLEAN_ALL`: clean the whole LastCache. |
+|Type| String                                                                                                                                                                                                 |
+|Default| UPDATE_NO_BLOB                                                                                                                                                                                         |
+|Effective| Effective after restart                                                                                                                                                                                                  |
+
+* cache\_last\_values\_for\_load
+
+|Name| cache\_last\_values\_for\_load                                                                                                                                                                                              |
+|:---:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Description| Whether to cache last values before loading a TsFile. Only effective when `last_cache_operation_on_load=UPDATE_NO_BLOB` or `last_cache_operation_on_load=UPDATE`. When set to true, blob series will be ignored even with `last_cache_operation_on_load=UPDATE`. Enabling this will increase the memory footprint during loading TsFiles. |
+|Type| Boolean                                                                                                                                                                                                                     |
+|Default| true                                                                                                                                                                                                                        |
+|Effective| Effective after restart                                                                                                                                                                                                                       |
+
+* cache\_last\_values\_memory\_budget\_in\_byte
+
+|Name| cache\_last\_values\_memory\_budget\_in\_byte                                                       |
+|:---:|:----------------------------------------------------------------------------------------------------|
+|Description| When `cache_last_values_for_load=true`, the maximum memory that can be used to cache last values. If this value is exceeded, the cached values will be abandoned and last values will be read from the TsFile in a streaming manner. |
+|Type| int32                                                                                               |
+|Default| 4194304                                                                                             |
+|Effective| Effective after restart                                                                                                |
+

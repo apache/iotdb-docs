@@ -427,8 +427,7 @@ SESSION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], timecol, gap)
 | 参数名  | 参数类型 | 参数属性                 | 描述                                   |
 | --------- | ---------- | -------------------------- | ---------------------------------------- |
 | DATA    | 表参数   | SET SEMANTICPASS THROUGH | 输入表通过 pkeys、okeys 指定分区和排序 |
-| TIMECOL | 标量参数 | 字符串类型默认值：'time' | 时间列名
-|
+| TIMECOL | 标量参数 | 字符串类型默认值：'time' | 时间列名|
 | GAP     | 标量参数 | 长整数类型               | 会话间隔阈值                           |
 
 #### 3.2.4 返回结果

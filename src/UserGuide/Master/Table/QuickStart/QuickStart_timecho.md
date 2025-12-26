@@ -74,7 +74,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
    - Data Synchronization: [Data Sync](../User-Manual/Data-Sync_timecho.md)
 
-6. Application Programming Interfaces (APIs): IoTDB provides various application programming interfaces (APIs) to facilitate developers' interaction with IoTDB in applications. Currently supported interfaces include [Java Native API](../API/Programming-Java-Native-API_timecho.md)、[Python Native API](../API/Programming-Python-Native-API_timecho)、[JDBC](../API/Programming-JDBC_timecho.md), and more. For more programming interfaces, please refer to the [Application Programming Interfaces] section on the official website.
+6. Application Programming Interfaces (APIs): IoTDB provides various application programming interfaces (APIs) to facilitate developers' interaction with IoTDB in applications. Currently supported interfaces include [Java Native API](../API/Programming-Java-Native-API_timecho.md)、[Python Native API](../API/Programming-Python-Native-API_timecho.md)、[JDBC](../API/Programming-JDBC_timecho.md), and more. For more programming interfaces, please refer to the [Application Programming Interfaces] section on the official website.
 
 ## 3. What other convenient tools are available?
 

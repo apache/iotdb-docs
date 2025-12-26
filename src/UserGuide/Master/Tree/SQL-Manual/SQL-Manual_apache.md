@@ -23,7 +23,7 @@
 
 ## 1. DATABASE MANAGEMENT
 
-For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metadata.md).
+For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metadata_apache.md).
 
 ### 1.1 Create Database
 
@@ -105,7 +105,7 @@ IoTDB> SHOW DEVICES
 
 ## 2. DEVICE TEMPLATE
 
-For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metadata.md).
+For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metadata_apache.md).
 
 ![img](/img/%E6%A8%A1%E6%9D%BF.png)
 
@@ -184,7 +184,7 @@ IoTDB> alter device template t1 add (speed FLOAT)
 
 ## 3. TIMESERIES MANAGEMENT
 
-For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metadata.md).
+For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metadata_apache.md).
 
 ### 3.1 Create Timeseries
 
@@ -364,7 +364,7 @@ The above operations are supported for timeseries tag, attribute updates, etc.
 
 ## 4. NODE MANAGEMENT
 
-For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metadata.md).
+For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metadata_apache.md).
 
 ### 4.1 Show Child Paths
 

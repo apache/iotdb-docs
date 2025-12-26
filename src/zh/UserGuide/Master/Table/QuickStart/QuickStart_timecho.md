@@ -27,7 +27,7 @@
 
 本篇文档将帮助您快速安装部署 IoTDB，您可以通过以下文档的链接快速定位到所需要查看的内容：
 
-1.  准备所需机器资源：IoTDB 的部署和运行需要考虑多个方面的机器资源配置。具体资源配置可查看 [资源规划](../Deployment-and-Maintenance/Database-Resources.md)
+1.  准备所需机器资源：IoTDB 的部署和运行需要考虑多个方面的机器资源配置。具体资源配置可查看 [资源规划](../Deployment-and-Maintenance/Database-Resources_timecho.md)
 
 2. 完成系统配置准备：IoTDB 的系统配置涉及多个方面，关键的系统配置介绍可查看 [系统配置](../Deployment-and-Maintenance/Environment-Requirements.md)
 
@@ -73,7 +73,7 @@
 
    - 数据同步：[数据同步](../User-Manual/Data-Sync_timecho.md)
 
-6. 应用编程接口： IoTDB 提供了多种应用编程接口（API），以便于开发者在应用程序中与 IoTDB 进行交互，目前支持[ Java 原生接口](../API/Programming-Java-Native-API_timecho.md)、[Python 原生接口](../API/Programming-Python-Native-API_timecho)、[JDBC](../API/Programming-JDBC_timecho.md)等，更多编程接口可参见官网【应用编程接口】其他章节
+6. 应用编程接口： IoTDB 提供了多种应用编程接口（API），以便于开发者在应用程序中与 IoTDB 进行交互，目前支持[ Java 原生接口](../API/Programming-Java-Native-API_timecho.md)、[Python 原生接口](../API/Programming-Python-Native-API_timecho.md)、[JDBC](../API/Programming-JDBC_timecho.md)等，更多编程接口可参见官网【应用编程接口】其他章节
 
 ## 3. 还有哪些便捷的周边工具？
 
