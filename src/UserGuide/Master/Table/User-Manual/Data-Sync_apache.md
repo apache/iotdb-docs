@@ -29,7 +29,7 @@ Data synchronization is a typical requirement in the Industrial Internet of Thin
 
 A data synchronization task consists of three stages:
 
-![](/img/en_dataSync01.png)
+![](/img/data-sync-new.png)
 
 - Source Stage: This stage is used to extract data from the source IoTDB, defined in the `source` section of the SQL statement.
 - Process Stage: This stage is used to process the data extracted from the source IoTDB, defined in the `processor` section of the SQL statement.

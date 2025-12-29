@@ -28,7 +28,7 @@
 
 一个数据同步任务包含 3 个阶段：
 
-![](/img/dataSync01.png)
+![](/img/data-sync-new.png)
 
 - 抽取（Source）阶段：该部分用于从源 IoTDB 抽取数据，在 SQL 语句中的 source 部分定义
 - 处理（Process）阶段：该部分用于处理从源 IoTDB 抽取出的数据，在 SQL 语句中的 processor 部分定义
