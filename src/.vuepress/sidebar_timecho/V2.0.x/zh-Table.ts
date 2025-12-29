@@ -95,7 +95,7 @@ export const zhSidebar = {
       children: [
         { text: '数据库管理', link: 'Database-Management' },
         { text: '表管理', link: 'Table-Management' },
-        { text: '写入&更新', link: 'Write-Updata-Data' },
+        { text: '写入&更新', link: 'Write-Updata-Data_timecho' },
         { text: '数据查询', link: 'Query-Data_timecho' },
         {
           text: '数据删除',
@@ -220,7 +220,7 @@ export const zhSidebar = {
       prefix: 'SQL-Manual/',
       children: [
         { text: '元数据操作', link: 'SQL-Metadata-Operations' },
-        { text: '数据增删', link: 'SQL-Data-Addition-Deletion' },
+        { text: '数据增删', link: 'SQL-Data-Addition-Deletion_timecho' },
         {
           text: '数据查询',
           collapsible: true,

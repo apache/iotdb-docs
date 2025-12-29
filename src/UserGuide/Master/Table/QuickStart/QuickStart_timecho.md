@@ -60,7 +60,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
    
    - Introduction to Tables: [Table Management](../Basic-Concept/Table-Management.md)
 
-2. Data Insertion & Updates: IoTDB provides multiple methods for inserting real-time data. For basic data insertion and updating operations, please see [Write&Updata Data](../Basic-Concept/Write-Updata-Data.md)
+2. Data Insertion & Updates: IoTDB provides multiple methods for inserting real-time data, and supports data write-back. For basic data insertion and updating operations, please see [Write&Updata Data](../Basic-Concept/Write-Updata-Data_timecho.md)
 
 3. Data Querying: IoTDB offers a rich set of data querying capabilities. For a basic introduction to data querying, please see [Query Data](../Basic-Concept/Query-Data_timecho.md). It includes [Row Pattern Recognition](../SQL-Manual/Row-Pattern-Recognition.md) suitable for business scenarios such as identifying specific patterns in time-series data and detecting specific events, as well as [Window Functions](../SQL-Manual/Featured-Functions_timecho.md#_4-Window-Functions) and other featured functions often used in data analysis scenarios.
 

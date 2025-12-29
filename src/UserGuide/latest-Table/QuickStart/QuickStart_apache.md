@@ -53,7 +53,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
    
    - Introduction to Tables: [Table Management](../Basic-Concept/Table-Management.md)
 
-2. Data Insertion & Updates: IoTDB provides multiple methods for inserting real-time data. For basic data insertion and updating operations, please see [Write&Updata Data](../Basic-Concept/Write-Updata-Data.md)
+2. Data Insertion & Updates: IoTDB provides multiple methods for inserting real-time data, and supports data write-back. For basic data insertion and updating operations, please see [Write&Updata Data](../Basic-Concept/Write-Updata-Data_apache.md)
 
 3. Data Querying: IoTDB offers a rich set of data querying capabilities. For a basic introduction to data querying, please see [Query Data](../Basic-Concept/Query-Data_apache.md)
 

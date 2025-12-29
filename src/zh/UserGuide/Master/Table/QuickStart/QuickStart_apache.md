@@ -53,7 +53,7 @@
    
    - 表介绍：[表管理](../Basic-Concept/Table-Management.md)
 
-2. 数据写入&更新：在数据写入&更新方面，IoTDB 提供了多种方式来插入实时数据，基本的数据写入&更新操作请查看 [数据写入&更新](../Basic-Concept/Write-Updata-Data.md)
+2. 数据写入&更新：在数据写入&更新方面，IoTDB 提供了多种方式来插入实时数据，支持追加查询写回，基本介绍请查看 [数据写入&更新](../Basic-Concept/Write-Updata-Data_apache.md)
 
 3. 数据查询：IoTDB 提供了丰富的数据查询功能，数据查询的基本介绍请查看 [数据查询](../Basic-Concept/Query-Data_apache.md)
 
