@@ -296,7 +296,7 @@ It costs 0.014s
   * **TAG** columns are optional.
   * The number of specified columns can be less than that of the target table. Missing columns will be automatically filled with `NULL` values.
 * For Java applications, the `INSERT INTO QUERY` statement can be executed using the [executeNonQueryStatement](../API/Programming-Java-Native-API_timecho.md#_3-1-itablesession-interface) method.
-* For REST API access, the `INSERT INTO QUERY` statement can be executed via the [/rest/table/v1/nonQuery](../API/RestServiceV1.md#_3-3-non-query-interface) endpoint.
+* For REST API access, the `INSERT INTO QUERY` statement can be executed via the [/rest/table/v1/nonQuery](../API/RestAPI-V1.md#_3-3-non-query-interface) endpoint.
 * `INSERT INTO QUERY` does **not** support the `EXPLAIN` and `EXPLAIN ANALYZE` commands.
 * To execute the query write-back statement successfully, users must have the following permissions:
   * The `SELECT` permission on the source tables involved in the query.
