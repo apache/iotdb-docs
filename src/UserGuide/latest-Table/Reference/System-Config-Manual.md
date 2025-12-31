@@ -1293,93 +1293,149 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 - boolean_string_infer_type
 
-| Name        | boolean_string_infer_type                                    |
-| ----------- | ------------------------------------------------------------ |
+| Name        | boolean_string_infer_type                                                          |
+| ----------- |------------------------------------------------------------------------------------|
 | Description | register time series as which type when receiving boolean string "true" or "false" |
-| Value       | BOOLEAN or TEXT                                              |
-| Default     | BOOLEAN                                                      |
-| Effective   | Restart required.                                            |
+| Value       | BOOLEAN or TEXT                                                                    |
+| Default     | BOOLEAN                                                                            |
+| Effective   | Hot_reload                                                                         |
 
 - integer_string_infer_type
 
-| Name        | integer_string_infer_type                                    |
-| ----------- | ------------------------------------------------------------ |
+| Name        | integer_string_infer_type                                                                                        |
+| ----------- |------------------------------------------------------------------------------------------------------------------|
 | Description | register time series as which type when receiving an integer string and using float or double may lose precision |
-| Value       | INT32, INT64, FLOAT, DOUBLE, TEXT                            |
-| Default     | DOUBLE                                                       |
-| Effective   | Restart required.                                            |
+| Value       | INT32, INT64, FLOAT, DOUBLE, TEXT                                                                                |
+| Default     | DOUBLE                                                                                                           |
+| Effective   | Hot_reload                                                                                                       |
 
 - floating_string_infer_type
 
-| Name        | floating_string_infer_type                                   |
-| ----------- | ------------------------------------------------------------ |
+| Name        | floating_string_infer_type                                                       |
+| ----------- |----------------------------------------------------------------------------------|
 | Description | register time series as which type when receiving a floating number string "6.7" |
-| Value       | DOUBLE, FLOAT or TEXT                                        |
-| Default     | DOUBLE                                                       |
-| Effective   | Restart required.                                            |
+| Value       | DOUBLE, FLOAT or TEXT                                                            |
+| Default     | DOUBLE                                                                           |
+| Effective   | Hot_reload                                                                       |
 
 - nan_string_infer_type
 
-| Name        | nan_string_infer_type                                        |
-| ----------- | ------------------------------------------------------------ |
+| Name        | nan_string_infer_type                                              |
+| ----------- |--------------------------------------------------------------------|
 | Description | register time series as which type when receiving the Literal NaN. |
-| Value       | DOUBLE, FLOAT or TEXT                                        |
-| Default     | DOUBLE                                                       |
-| Effective   | Restart required.                                            |
+| Value       | DOUBLE, FLOAT or TEXT                                              |
+| Default     | DOUBLE                                                             |
+| Effective   | Hot_reload                                                         |
 
 - default_boolean_encoding
 
-| Name        | default_boolean_encoding                                     |
-| ----------- | ------------------------------------------------------------ |
+| Name        | default_boolean_encoding                                       |
+| ----------- |----------------------------------------------------------------|
 | Description | BOOLEAN encoding when creating schema automatically is enabled |
-| Value       | PLAIN, RLE                                                   |
-| Default     | RLE                                                          |
-| Effective   | Restart required.                                            |
+| Value       | PLAIN, RLE                                                     |
+| Default     | RLE                                                            |
+| Effective   | Hot_reload                                                     |
 
 - default_int32_encoding
 
 | Name        | default_int32_encoding                                       |
-| ----------- | ------------------------------------------------------------ |
+| ----------- |--------------------------------------------------------------|
 | Description | INT32 encoding when creating schema automatically is enabled |
 | Value       | PLAIN, RLE, TS_2DIFF, REGULAR, GORILLA                       |
 | Default     | TS_2DIFF                                                     |
-| Effective   | Restart required.                                            |
+| Effective   | Hot_reload                                                   |
 
 - default_int64_encoding
 
 | Name        | default_int64_encoding                                       |
-| ----------- | ------------------------------------------------------------ |
+| ----------- |--------------------------------------------------------------|
 | Description | INT64 encoding when creating schema automatically is enabled |
 | Value       | PLAIN, RLE, TS_2DIFF, REGULAR, GORILLA                       |
 | Default     | TS_2DIFF                                                     |
-| Effective   | Restart required.                                            |
+| Effective   | Hot_reload                                                   |
 
 - default_float_encoding
 
 | Name        | default_float_encoding                                       |
-| ----------- | ------------------------------------------------------------ |
+| ----------- |--------------------------------------------------------------|
 | Description | FLOAT encoding when creating schema automatically is enabled |
 | Value       | PLAIN, RLE, TS_2DIFF, GORILLA                                |
 | Default     | GORILLA                                                      |
-| Effective   | Restart required.                                            |
+| Effective   | Hot_reload                                                   |
 
 - default_double_encoding
 
-| Name        | default_double_encoding                                      |
-| ----------- | ------------------------------------------------------------ |
+| Name        | default_double_encoding                                       |
+| ----------- |---------------------------------------------------------------|
 | Description | DOUBLE encoding when creating schema automatically is enabled |
-| Value       | PLAIN, RLE, TS_2DIFF, GORILLA                                |
-| Default     | GORILLA                                                      |
-| Effective   | Restart required.                                            |
+| Value       | PLAIN, RLE, TS_2DIFF, GORILLA                                 |
+| Default     | GORILLA                                                       |
+| Effective   | Hot_reload                                                    |
 
 - default_text_encoding
 
 | Name        | default_text_encoding                                       |
-| ----------- | ----------------------------------------------------------- |
+| ----------- |-------------------------------------------------------------|
 | Description | TEXT encoding when creating schema automatically is enabled |
 | Value       | PLAIN                                                       |
 | Default     | PLAIN                                                       |
-| Effective   | Restart required.                                           |
+| Effective   | Hot_reload                                                  |
+
+
+* boolean_compressor
+
+| Name             | boolean_compressor                                                                      |
+|------------------|-----------------------------------------------------------------------------------------|
+| Description      | BOOLEAN compression when creating schema automatically is enabled (Supports from V2.0.6) |
+| Type             | String                                                                                  |
+| Default          | LZ4                                                                                     |
+| Effective        | Hot_reload                                                                              |
+
+* int32_compressor
+
+| Name                 | int32_compressor                                                                           |
+|----------------------|--------------------------------------------------------------------------------------------|
+| Description          | INT32/DATE compression when creating schema automatically is enabled(Supports from V2.0.6) |
+| Type                 | String                                                                                     |
+| Default              | LZ4                                                                                        |
+| Effective            | Hot_reload                                                                                 |
+
+* int64_compressor
+
+| Name               | int64_compressor                                                                                |
+|--------------------|-------------------------------------------------------------------------------------------------|
+| Description        | INT64/TIMESTAMP compression when creating schema automatically is enabled (Supports from V2.0.6) |
+| Type               | String                                                                                          |
+| Default            | LZ4                                                                                             |
+| Effective          | Hot_reload                                                                                      |
+
+* float_compressor
+
+| Name                  | float_compressor                                                                      |
+|-----------------------|---------------------------------------------------------------------------------------|
+| Description           | FLOAT compression when creating schema automatically is enabled (Supports from V2.0.6) |
+| Type                  | String                                                                                |
+| Default               | LZ4                                                                                   |
+| Effective             | Hot_reload                                                                            |
+
+* double_compressor
+
+| Name              | double_compressor                                                                      |
+|-------------------|----------------------------------------------------------------------------------------|
+| Description       | DOUBLE compression when creating schema automatically is enabled (Supports from V2.0.6) |
+| Type              | String                                                                                 |
+| Default           | LZ4                                                                                    |
+| Effective         | Hot_reload                                                                             |
+
+* text_compressor
+
+| Name               | text_compressor                                                                                  |
+|--------------------|--------------------------------------------------------------------------------------------------|
+| Description        | TEXT/BINARY/BLOB compression when creating schema automatically is enabled (Supports from V2.0.6) |
+| Type               | String                                                                                           |
+| Default            | LZ4                                                                                              |
+| Effective          | Hot_reload                                                                                       |
+
 
 ### 4.17 Query Configurations
 
@@ -1538,12 +1594,12 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 - sort_buffer_size_in_bytes
 
-| Name        | sort_buffer_size_in_bytes                                    |
-| ----------- | ------------------------------------------------------------ |
-| Description | The memory for external sort in sort operator, when the data size is smaller than sort_buffer_size_in_bytes, the sort operator will use in-memory sort. |
-| Type        | long                                                         |
-| Default     | 1048576                                                      |
-| Effective   | Restart required.                                            |
+| Name        | sort_buffer_size_in_bytes                                                                                                                                                                                                                                                      |
+| ----------- |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description | The memory for external sort in sort operator, when the data size is smaller than sort_buffer_size_in_bytes, the sort operator will use in-memory sort.                                                                                                                        |
+| Type        | long                                                                                                                                                                                                                                                                           |
+| Default     | 1048576(Before V2.0.6) <br> 0(Supports from V2.0.6), if `sort_buffer_size_in_bytes <= 0`, default value will be used, `default value = min(32MB, memory for query operators / query_thread_count / 2)`, if `sort_buffer_size_in_bytes > 0`, the specified value will be used.  |
+| Effective   | Hot_reload                                                                                                                                                                                                                                                                     |
 
 - merge_threshold_of_explain_analyze
 
@@ -2297,7 +2353,7 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 - encrypt_flag
 
-| Name        | compressor             |
+| Name        | encrypt_flag             |
 | ----------- | ---------------------- |
 | Description | Enable data encryption |
 | Type        | Boolean                |
@@ -2306,8 +2362,8 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 - encrypt_type
 
-| Name        | compressor                            |
-| ----------- | ------------------------------------- |
+| Name        | encrypt_type                          |
+| ----------- |---------------------------------------|
 | Description | The method of data encrytion          |
 | Type        | String                                |
 | Default     | org.apache.tsfile.encrypt.UNENCRYPTED |
