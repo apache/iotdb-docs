@@ -686,7 +686,7 @@ FROM
     table1;
 ```
 
-Result**：**
+Result:
 
 ```Plain
 +-----------------------------+-----------------------------+
@@ -714,6 +714,59 @@ Result**：**
 Total line number = 18
 It costs 0.319s
 ```
+
+### 4.3 Extract Function
+
+This function is used to extract the value of a specific part of a date. (Supported from version V2.0.6)
+
+#### 4.3.1 Syntax Definition
+
+```SQL
+EXTRACT (identifier FROM expression)
+```
+
+* Parameter Description
+  * **expression**: `TIMESTAMP` type or a time constant
+  * **identifier**: The valid ranges and corresponding return value types are shown in the table below.
+
+    | Valid Range          | Return Type   | 	     Return Range |
+    |----------------------|---------------|--------------------|
+    | `YEAR`               | `INT64`       | `/`                |
+    | `QUARTER`            | `INT64`       | `1-4`              |
+    | `MONTH`              | `INT64`       | `1-12`             |
+    | `WEEK`               | `INT64`       | `1-53`             |
+    | `DAY_OF_MONTH (DAY)` | `INT64`       | `1-31`             |
+    | `DAY_OF_WEEK (DOW)`  | `INT64`       | `1-7`              |
+    | `DAY_OF_YEAR (DOY)`  | `INT64`       | `1-366`            |
+    | `HOUR`               | `INT64`       | `0-23`             |
+    | `MINUTE`             | `INT64`       | `0-59`             |
+    | `SECOND`             | `INT64`       | `0-59`             |
+    | `MS`                 | `INT64`       | `0-999`            |
+    | `US`                 | `INT64`       | `0-999`            |
+    | `NS`                 | `INT64`       | `0-999`            |
+
+
+#### 4.3.2 Usage Example
+
+Using table1 from the [Sample Data](../Reference/Sample-Data.md) as the source data, query the average temperature for the first 12 hours of each day within a certain period.
+
+```SQL
+IoTDB:database1> select format('%1$tY-%1$tm-%1$td',date_bin(1d,time)) as fmtdate,avg(temperature) as avgtp from table1 where time >= 2024-11-26T00:00:00 and time <= 2024-11-30T23:59:59 and extract(hour from time) <= 12 group by date_bin(1d,time) order by date_bin(1d,time)
++----------+-----+
+|   fmtdate|avgtp|
++----------+-----+
+|2024-11-28| 86.0|
+|2024-11-29| 85.0|
+|2024-11-30| 90.0|
++----------+-----+
+Total line number = 3
+It costs 0.041s
+```
+
+Introduction to the `Format` function: [Format Function](../SQL-Manual/Basis-Function.md#_7-2-format-function)
+
+Introduction to the `Date_bin` function: [Date_bin Funtion](../SQL-Manual/Basis-Function.md#_4-2-date-bin-interval-timestamp-timestamp-timestamp)
+
 
 ## 5. Mathematical Functions and Operators
 
