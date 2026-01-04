@@ -504,7 +504,7 @@ GROUP BY([10, 90), 10ms);
 
 SQL 语法：
 
-```Go
+```sql
 select last <Path> [COMMA <Path>]* from < PrefixPath > [COMMA < PrefixPath >]* <whereClause> [ORDER BY TIMESERIES (DESC | ASC)?]
 ```
 
@@ -874,7 +874,7 @@ IoTDB> select s1 + s2 into root.expr.add(d1s1_d1s2), root.expr.add(d2s1_d2s2) fr
 ##### 按时间对齐（默认）
 
 ###### 目标设备不使用变量占位符 & 目标物理量列表使用变量占位符
-```
+```sql
 
 select s1, s2
 
@@ -884,7 +884,7 @@ from root.sg.d1, root.sg.d2;
 ```
 
 该语句等价于：
-```
+```sql
 
 select s1, s2
 
@@ -895,7 +895,7 @@ from root.sg.d1, root.sg.d2;
 
 ###### 目标设备使用变量占位符 & 目标物理量列表不使用变量占位符
 
-```
+```sql
 select d1.s1, d1.s2, d2.s3, d3.s4 
 
 into ::(s1_1, s2_2), root.sg.d2_2(s3_3), root.${2}_copy.::(s4)
@@ -905,14 +905,14 @@ from root.sg;
 
 ###### 目标设备使用变量占位符 & 目标物理量列表使用变量占位符
 
-```
+```sql
 select * into root.sg_bk.::(::) from root.sg.**;
 ```
 
 ##### 按设备对齐（使用 `ALIGN BY DEVICE`）
 
 ###### 目标设备不使用变量占位符 & 目标物理量列表使用变量占位符
-```
+```sql
 
 select s1, s2, s3, s4
 
@@ -924,7 +924,7 @@ align by device;
 ```
 
 ###### 目标设备使用变量占位符 & 目标物理量列表不使用变量占位符
-```
+```sql
 
 select avg(s1), sum(s2) + sum(s3), count(s4)
 
@@ -936,23 +936,23 @@ align by device;
 ```
 
 ###### 目标设备使用变量占位符 & 目标物理量列表使用变量占位符
-```
+```sql
 
 select * into ::(backup_${4}) from root.sg.** align by device;
 ```
 
 #### 指定目标序列为对齐序列
-```
+```sql
 
 select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
 ```
 ## 5. 运维语句
 生成对应的查询计划
-```
+```sql
 explain select s1,s2 from root.sg.d1
 ```
 执行对应的查询语句，并获取分析结果
-```
+```sql
 explain analyze select s1,s2 from root.sg.d1 order by s1
 ```
 ## 6. 运算符
@@ -1537,7 +1537,7 @@ SHOW TRIGGERS
 
 ### 12.1 语法
 
-```Go
+```sql
 CREATE (CONTINUOUS QUERY | CQ) <cq_id> 
 [RESAMPLE 
   [EVERY <every_interval>] 
@@ -1581,7 +1581,7 @@ END
 \> SELECT temperature_max from root.ln.*.*;
 ```
 #### 配置连续查询的时间窗口大小
-```
+```sql
 CREATE CONTINUOUS QUERY cq2
 
 RESAMPLE RANGE 40s

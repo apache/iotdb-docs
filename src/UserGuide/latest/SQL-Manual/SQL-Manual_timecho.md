@@ -386,7 +386,7 @@ For more details, see document [Data Import](../Tools-System/Data-Import-Tool_ti
 
 #### Load with Script
 
-```
+```sql
 ./load-rewrite.bat -f D:\IoTDB\data -h 192.168.0.101 -p 6667 -u root -pw root
 ```
 
@@ -823,11 +823,11 @@ IoTDB > select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, 
 
 ## 7. Maintennance
 Generate the corresponding query plan:
-```
+```sql
 explain select s1,s2 from root.sg.d1
 ```
 Execute the corresponding SQL, analyze the execution and output:
-```
+```sql
 explain analyze select s1,s2 from root.sg.d1 order by s1
 ``` 
 ## 8. OPERATOR
@@ -1624,13 +1624,13 @@ eg: REVOKE ALL ON ROOT.** FROM USER user1;
 
 #### Delete Time Partition (experimental)
 
-```
+```sql
 Eg: IoTDB > DELETE PARTITION root.ln 0,1,2
 ```
 
 #### Continuous Query,CQ
 
-```
+```sql
 Eg: IoTDB > CREATE CONTINUOUS QUERY cq1 BEGIN SELECT max_value(temperature) INTO temperature_max FROM root.ln.*.* GROUP BY time(10s) END
 ```
 
@@ -1638,13 +1638,13 @@ Eg: IoTDB > CREATE CONTINUOUS QUERY cq1 BEGIN SELECT max_value(temperature) INTO
 
 - FLUSH
 
-```
+```sql
 Eg: IoTDB > flush
 ```
 
 - MERGE
 
-```
+```sql
 Eg: IoTDB > MERGE
 Eg: IoTDB > FULL MERGE
 ```
@@ -1669,12 +1669,12 @@ Eg: IoTDB > STOP REPAIR DATA
 
 - SET SYSTEM TO READONLY / WRITABLE
 
-```
+```sql
 Eg: IoTDB > SET SYSTEM TO READONLY / WRITABLE
 ```
 
 - Query abort
 
-```
+```sql
 Eg: IoTDB > KILL QUERY 1
 ```
