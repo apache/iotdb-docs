@@ -108,7 +108,7 @@ export const enSidebar = {
         { text: 'Data Sync', link: 'Data-Sync_apache' },
         { text: 'UDF', link: 'User-defined-function' },
         {
-          text: 'Security Permissions',
+          text: 'Security Management',
           collapsible: true,
           children: [
             { text: 'Authority Management', link: 'Authority-Management_apache' },

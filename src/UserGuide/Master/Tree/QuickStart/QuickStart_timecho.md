@@ -70,7 +70,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
    - Stream Framework: [Stream Framework](../User-Manual/Streaming_timecho.md)
 
-   - Security Management: [Security Management](../User-Manual/White-List_timecho.md)
+   - Security Management: [Security Management](../User-Manual/Black-White-List_timecho.md)
 
    - Database Administration: [Database Administration](../User-Manual/Authority-Management_timecho.md)
 

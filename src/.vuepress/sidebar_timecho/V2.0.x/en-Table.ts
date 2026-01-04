@@ -125,10 +125,11 @@ export const enSidebar = {
         { text: 'Data Sync', link: 'Data-Sync_timecho' },
         { text: 'UDF', link: 'User-defined-function' },
         {
-          text: 'Security Permissions',
+          text: 'Security Management',
           collapsible: true,
           children: [
             { text: 'Authority Management', link: 'Authority-Management_timecho' },
+            { text: 'Black White List', link: 'Black-White-List_timecho' },
           ],
         },
         { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },

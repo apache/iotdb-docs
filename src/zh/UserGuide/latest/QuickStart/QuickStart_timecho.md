@@ -69,7 +69,7 @@
 
    - 流处理框架：[流处理框架](../User-Manual/Streaming_timecho.md)
 
-   - 安全控制：[安全控制](../User-Manual/White-List_timecho.md)
+   - 安全控制：[安全控制](../User-Manual/Black-White-List_timecho.md)
 
    - 权限管理：[权限管理](../User-Manual/Authority-Management_timecho.md)
 

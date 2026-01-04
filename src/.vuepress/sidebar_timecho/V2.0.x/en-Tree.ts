@@ -147,11 +147,11 @@ export const enSidebar = {
         { text: 'UDF', link: 'User-defined-function_timecho' },
         { text: 'View', link: 'IoTDB-View_timecho' },
         {
-          text: 'Security Permissions',
+          text: 'Security Management',
           collapsible: true,
           children: [
             { text: 'Permission Management', link: 'Authority-Management_timecho' },
-            { text: 'White List', link: 'White-List_timecho' },
+            { text: 'Black White List', link: 'Black-White-List_timecho' },
             { text: 'Security Audit', link: 'Audit-Log_timecho' },
           ],
         },
