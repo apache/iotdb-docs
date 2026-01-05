@@ -60,7 +60,7 @@
    
    - 表介绍：[表管理](../Basic-Concept/Table-Management.md)
 
-2. 数据写入&更新：在数据写入&更新方面，IoTDB 提供了多种方式来插入实时数据，基本的数据写入&更新操作请查看 [数据写入&更新](../Basic-Concept/Write-Updata-Data.md)
+2. 数据写入&更新：在数据写入&更新方面，IoTDB 提供了多种方式来插入实时数据，支持追加查询写回，基本介绍请查看 [数据写入&更新](../Basic-Concept/Write-Updata-Data_timecho.md)
 
 3. 数据查询：IoTDB 提供了丰富的数据查询功能，数据查询的基本介绍请查看 [数据查询](../Basic-Concept/Query-Data_timecho.md)，其中包含了适用于识别时序数据中的特定模式、检测特定事件等业务场景的[行模式识别](../SQL-Manual/Row-Pattern-Recognition.md)，以及常用于数据分析场景的[窗口函数](../SQL-Manual/Featured-Functions_timecho.md#_4-窗口函数)等特色函数
 

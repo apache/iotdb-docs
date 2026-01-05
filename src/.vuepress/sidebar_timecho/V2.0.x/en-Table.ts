@@ -104,7 +104,7 @@ export const enSidebar = {
       children: [
         { text: 'Database Management', link: 'Database-Management' },
         { text: 'Table Management', link: 'Table-Management' },
-        { text: 'Write&Updata Data', link: 'Write-Updata-Data' },
+        { text: 'Write&Updata Data', link: 'Write-Updata-Data_timecho' },
         { text: 'Query Data', link: 'Query-Data_timecho' },
         {
           text: 'Delete Data',
@@ -232,7 +232,7 @@ export const enSidebar = {
       prefix: 'SQL-Manual/',
       children: [
         { text: 'Metadata Operations', link: 'SQL-Metadata-Operations' },
-        { text: 'Data Addition&Deletion', link: 'SQL-Data-Addition-Deletion' },
+        { text: 'Data Addition&Deletion', link: 'SQL-Data-Addition-Deletion_timecho' },
         {
           text: 'Data Query',
           collapsible: true,
