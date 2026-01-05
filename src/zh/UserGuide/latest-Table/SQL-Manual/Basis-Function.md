@@ -808,13 +808,410 @@ It costs 0.041s
 | e                 | 自然指数                                                                                                                                                       |                                  | double                 | e()        |
 | pi                | π                                                                                                                                                          |                                  | double                 | pi()       |
 
-## 6. 条件表达式
 
-### 6.1 CASE 表达式
+## 6. 位运算函数
+
+> V 2.0.6 版本起支持
+
+示例原始数据如下：
+
+```SQL
+IoTDB:database1> select * from bit_table
++-----------------------------+---------+------+-----+
+|                         time|device_id|length|width|
++-----------------------------+---------+------+-----+
+|2025-10-29T15:59:42.957+08:00|       d1|    14|   12|
+|2025-10-29T15:58:59.399+08:00|       d3|    15|   10|
+|2025-10-29T15:59:32.769+08:00|       d2|    13|   12|
++-----------------------------+---------+------+-----+
+
+--建表语句
+CREATE TABLE bit_table(time TIMESTAMP TIME, device_id STRING TAG, length INT32 FIELD, width INT32 FIELD);
+
+--写入数据
+INSERT INTO bit_table values(2025-10-29 15:59:42.957, 'd1', 14, 12),(2025-10-29 15:58:59.399, 'd3', 15, 10),(2025-10-29 15:59:32.769, 'd2', 13, 12);
+```
+
+### 6.1 bit\_count(num, bits)
+
+`bit_count(num, bits)` 函数用于统计整数 `num`在指定位宽 `bits`下的二进制表示中 1 的个数。
+
+#### 6.1.1 语法定义
+
+```SQL
+bit_count(num, bits) -> INT64 --返回结果类型为 Int64
+```
+
+* 参数说明
+  * **​num：​**任意整型数值（int32 或者 int64）
+  * **​bits：​**整型数值，取值范围为2\~64
+
+注意：如果 bits 位数不够表示 num，会报错（此处是​**有符号补码**​）：`Argument exception, the scalar function num must be representable with the bits specified. [num] cannot be represented with [bits] bits.`
+
+* 调用方式
+  * 两个具体数值：`bit_count(9, 64)`
+  * 列与数值：`bit_count(column1, 64)`
+  * 两列之间：`bit_count(column1, column2)`
+
+#### 6.1.2 使用示例
+
+```SQL
+-- 两个具体数值
+IoTDB:database1> select distinct bit_count(2,8) from bit_table
++-----+
+|_col0|
++-----+
+|    1|
++-----+
+-- 两个具体数值
+IoTDB:database1> select distinct bit_count(-5,8) from bit_table
++-----+
+|_col0|
++-----+
+|    7|
++-----+
+--列与数值
+IoTDB:database1> select length,bit_count(length,8) from bit_table
++------+-----+
+|length|_col1|
++------+-----+
+|    14|    3|
+|    15|    4|
+|    13|    3|
++------+-----+
+--bits位数不够
+IoTDB:database1> select length,bit_count(length,2) from bit_table
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Argument exception, the scalar function num must be representable with the bits specified. 13 cannot be represented with 2 bits.
+```
+
+### 6.2 bitwise\_and(x, y)
+
+`bitwise_and(x, y)`函数基于二进制补码表示法，对两个整数 x 和 y 的每一位进行逻辑与操作，并返回其按位与（bitwise AND）的运算结果。
+
+#### 6.2.1 语法定义
+
+```SQL
+bitwise_and(x, y) -> INT64 --返回结果类型为 Int64
+```
+
+* 参数说明
+  * ​**x, y**​: 必须是 Int32 或 Int64 数据类型的整数值
+* 调用方式
+  * 两个具体数值：`bitwise_and(19, 25)`
+  * 列与数值：`bitwise_and(column1, 25)`
+  * 两列之间：`bitwise_and(column1, column2)`
+
+#### 6.2.2 使用示例
+
+```SQL
+--两个具体数值
+IoTDB:database1> select distinct bitwise_and(19,25) from bit_table
++-----+
+|_col0|
++-----+
+|   17|
++-----+
+--列与数值
+IoTDB:database1> select length, bitwise_and(length,25) from bit_table
++------+-----+
+|length|_col1|
++------+-----+
+|    14|    8|
+|    15|    9|
+|    13|    9|
++------+-----+
+--俩列之间
+IoTDB:database1> select length, width, bitwise_and(length, width) from bit_table
++------+-----+-----+
+|length|width|_col2|
++------+-----+-----+
+|    14|   12|   12|
+|    15|   10|   10|
+|    13|   12|   12|
++------+-----+-----+
+```
+
+### 6.3 bitwise\_not(x)
+
+`bitwise_not(x)` 函数基于二进制补码表示法，对整数 x 的每一位进行逻辑非操作，并返回其按位取反（bitwise NOT）的运算结果。
+
+#### 6.3.1 语法定义
+
+```SQL
+bitwise_not(x) -> INT64 --返回结果类型为 Int64
+```
+
+* 参数说明
+  * ​**x**​: 必须是 Int32 或 Int64 数据类型的整数值
+* 调用方式
+  * 具体数值：`bitwise_not(5)`
+  * 单列操作：`bitwise_not(column1)`
+
+#### 6.3.2 使用示例
+
+```SQL
+-- 具体数值
+IoTDB:database1> select distinct bitwise_not(5) from bit_table
++-----+
+|_col0|
++-----+
+|   -6|
++-----+
+-- 单列
+IoTDB:database1> select length, bitwise_not(length) from bit_table
++------+-----+
+|length|_col1|
++------+-----+
+|    14|  -15|
+|    15|  -16|
+|    13|  -14|
++------+-----+
+```
+
+### 6.4 bitwise\_or(x, y)
+
+`bitwise_or(x,y)` 函数基于二进制补码表示法，对两个整数 x 和 y 的每一位进行逻辑或操作，并返回其按位或（bitwise OR）的运算结果。
+
+#### 6.4.1 语法定义
+
+```SQL
+bitwise_or(x, y) -> INT64 --返回结果类型为 Int64
+```
+
+* 参数说明
+  * ​**x, y**​: 必须是 Int32 或 Int64 数据类型的整数值
+* 调用方式
+  * 两个具体数值：`bitwise_or(19, 25)`
+  * 列与数值：`bitwise_or(column1, 25)`
+  * 两列之间：`bitwise_or(column1, column2)`
+
+#### 6.4.2 使用示例
+
+```SQL
+-- 两个具体数值
+IoTDB:database1> select distinct bitwise_or(19,25) from bit_table
++-----+
+|_col0|
++-----+
+|   27|
++-----+
+-- 列与数值
+IoTDB:database1> select length,bitwise_or(length,25) from bit_table
++------+-----+
+|length|_col1|
++------+-----+
+|    14|   31|
+|    15|   31|
+|    13|   29|
++------+-----+
+-- 两列之间
+IoTDB:database1> select length, width, bitwise_or(length,width) from bit_table
++------+-----+-----+
+|length|width|_col2|
++------+-----+-----+
+|    14|   12|   14|
+|    15|   10|   15|
+|    13|   12|   13|
++------+-----+-----+
+```
+
+### 6.5 bitwise\_xor(x, y)
+
+bitwise\_xor(x,y) 函数基于二进制补码表示法，对两个整数 x 和 y 的每一位进行逻辑异或操作，并返回其按位异或（bitwise XOR）的运算结果。异或规则：相同为0，不同为1。
+
+#### 6.5.1 语法定义
+
+```SQL
+bitwise_xor(x, y) -> INT64 --返回结果类型为 Int64
+```
+
+* 参数说明
+  * ​**x, y**​: 必须是 Int32 或 Int64 数据类型的整数值
+* 调用方式
+  * 两个具体数值：`bitwise_xor(19, 25)`
+  * 列与数值：`bitwise_xor(column1, 25)`
+  * 两列之间：`bitwise_xor(column1, column2)`
+
+#### 6.5.2 使用示例
+
+```SQL
+-- 两个具体数值
+IoTDB:database1> select distinct bitwise_xor(19,25) from bit_table
++-----+
+|_col0|
++-----+
+|   10|
++-----+
+-- 列与数值
+IoTDB:database1> select length,bitwise_xor(length,25) from bit_table
++------+-----+
+|length|_col1|
++------+-----+
+|    14|   23|
+|    15|   22|
+|    13|   20|
++------+-----+
+-- 两列之间
+IoTDB:database1> select length, width, bitwise_xor(length,width) from bit_table
++------+-----+-----+
+|length|width|_col2|
++------+-----+-----+
+|    14|   12|    2|
+|    15|   10|    5|
+|    13|   12|    1|
++------+-----+-----+
+```
+
+### 6.6 bitwise\_left\_shift(value, shift)
+
+`bitwise_left_shift(value, shift)` 函数返回将整数 `value`的二进制表示左移 `shift`位后的结果。左移操作将二进制位向高位方向移动，右侧空出的位用 0 填充，左侧溢出的位直接丢弃。等价于： `value << shift`。
+
+#### 6.6.1 语法定义
+
+```SQL
+bitwise_left_shift(value, shift) -> [same as value] --返回结果类型与value数据类型相同
+```
+
+* 参数说明
+  * ​**value**​: 要左移的整数值，必须是 Int32 或 Int64 数据类型
+  * ​**shift**​: 左移的位数，必须是 Int32 或 Int64 数据类型
+* 调用方式
+  * 两个具体数值：`bitwise_left_shift(1, 2)`
+  * 列与数值：`bitwise_left_shift(column1, 2)`
+  * 两列之间：`bitwise_left_shift(column1, column2)`
+
+#### 6.6.2 使用示例
+
+```SQL
+--两个具体数值
+IoTDB:database1> select distinct bitwise_left_shift(1,2) from bit_table
++-----+
+|_col0|
++-----+
+|    4|
++-----+
+-- 列与数值
+IoTDB:database1> select length, bitwise_left_shift(length,2) from bit_table
++------+-----+
+|length|_col1|
++------+-----+
+|    14|   56|
+|    15|   60|
+|    13|   52|
++------+-----+
+-- 两列之间
+IoTDB:database1> select length, width, bitwise_left_shift(length,width) from bit_table
++------+-----+-----+
+|length|width|_col2|
++------+-----+-----+
+|    14|   12|    0|
+|    15|   10|    0|
+|    13|   12|    0|
++------+-----+-----+
+```
+
+### 6.7 bitwise\_right\_shift(value, shift)
+
+`bitwise_right_shift(value, shift)`函数返回将整数 `value`的二进制表示逻辑右移（无符号右移） `shift`位后的结果。逻辑右移操作将二进制位向低位方向移动，左侧空出的高位用 0 填充，右侧溢出的低位直接丢弃。
+
+#### 6.7.1 语法定义
+
+```SQL
+bitwise_right_shift(value, shift) -> [same as value] --返回结果类型与value数据类型相同
+```
+
+* 参数说明
+  * ​**value**​: 要右移的整数值，必须是 Int32 或 Int64 数据类型
+  * ​**shift**​: 右移的位数，必须是 Int32 或 Int64 数据类型
+* 调用方式
+  * 两个具体数值：`bitwise_right_shift(8, 3)`
+  * 列与数值：`bitwise_right_shift(column1, 3)`
+  * 两列之间：`bitwise_right_shift(column1, column2)`
+
+#### 6.7.2 使用示例
+
+```SQL
+--两个具体数值
+IoTDB:database1> select distinct bitwise_right_shift(8,3) from bit_table
++-----+
+|_col0|
++-----+
+|    1|
++-----+
+--列与数值
+IoTDB:database1> select length, bitwise_right_shift(length,3) from bit_table
++------+-----+
+|length|_col1|
++------+-----+
+|    14|    1|
+|    15|    1|
+|    13|    1|
++------+-----+
+--两列之间
+IoTDB:database1> select length, width, bitwise_right_shift(length,width) from bit_table
++------+-----+-----+
+|length|width|_col2|
++------+-----+-----+
+|    14|   12|    0|
+|    15|   10|    0|
+|    13|   12|    0|
+```
+
+### 6.8 bitwise\_right\_shift\_arithmetic(value, shift)
+
+`bitwise_right_shift_arithmetic(value, shift)`函数返回将整数 `value`的二进制表示算术右移 `shift`位后的结果。算术右移操作将二进制位向低位方向移动，右侧溢出的低位直接丢弃，左侧空出的高位用符号位填充（正数补0，负数补1），以保持数值的符号不变。
+
+#### 6.8.1 语法定义
+
+```SQL
+bitwise_right_shift_arithmetic(value, shift) -> [same as value]--返回结果类型与value数据类型相同
+```
+
+* 参数说明
+  * ​**value**​: 要右移的整数值，必须是 Int32 或 Int64 数据类型
+  * ​**shift**​: 右移的位数，必须是 Int32 或 Int64 数据类型
+* 调用方式：
+  * 两个具体数值：`bitwise_right_shift_arithmetic(12, 2)`
+  * 列与数值：`bitwise_right_shift_arithmetic(column1, 64)`
+  * 两列之间：`bitwise_right_shift_arithmetic(column1, column2)`
+
+#### 6.8.2 使用示例
+
+```SQL
+--两个具体数值
+IoTDB:database1> select distinct bitwise_right_shift_arithmetic(12,2) from bit_table
++-----+
+|_col0|
++-----+
+|    3|
++-----+
+-- 列与数值
+IoTDB:database1> select length, bitwise_right_shift_arithmetic(length,3) from bit_table
++------+-----+
+|length|_col1|
++------+-----+
+|    14|    1|
+|    15|    1|
+|    13|    1|
++------+-----+
+--两列之间
+IoTDB:database1> select length, width, bitwise_right_shift_arithmetic(length,width) from bit_table
++------+-----+-----+
+|length|width|_col2|
++------+-----+-----+
+|    14|   12|    0|
+|    15|   10|    0|
+|    13|   12|    0|
++------+-----+-----+
+```
+
+## 7. 条件表达式
+
+### 7.1 CASE 表达式
 
 CASE 表达式有两种形式：简单形式、搜索形式
 
-#### 6.1.1 简单形式
+#### 7.1.1 简单形式
 
 简单形式从左到右搜索每个值表达式，直到找到一个与表达式相等的值：
 
@@ -837,7 +1234,7 @@ SELECT a,
        END
 ```
 
-#### 6.1.2 搜索形式
+#### 7.1.2 搜索形式
 
 搜索形式从左到右评估每个布尔条件，直到找到一个为真的条件，并返回相应的结果：
 
@@ -860,7 +1257,7 @@ SELECT a, b,
        END
 ```
 
-### 6.2. COALESCE 函数
+### 7.2 COALESCE 函数
 
 返回参数列表中的第一个非空值。
 
@@ -868,11 +1265,11 @@ SELECT a, b,
 coalesce(value1, value2[, ...])
 ```
 
-## 7. 转换函数
+## 8. 转换函数
 
-### 7.1 转换函数
+### 8.1 转换函数
 
-#### 7.1.1 cast(value AS type) → type
+#### 8.1.1 cast(value AS type) → type
 
 1. 显式地将一个值转换为指定类型。
 2. 可以用于将字符串（varchar）转换为数值类型，或数值转换为字符串类型。
@@ -887,7 +1284,7 @@ SELECT *
   IN (CAST('2024-11-27' AS DATE), CAST('2024-11-28' AS DATE));
 ```
 
-#### 7.1.2 try_cast(value AS type) → type
+#### 8.1.2 try_cast(value AS type) → type
 
 1. 与 `cast()` 类似。
 2. 如果转换失败，则返回 `null`。
@@ -901,10 +1298,10 @@ SELECT *
   IN (try_cast('2024-11-27' AS DATE), try_cast('2024-11-28' AS DATE));
 ```
 
-### 7.2 Format 函数
+### 8.2 Format 函数
 该函数基于指定的格式字符串与输入参数，生成并返回格式化后的字符串输出。其功能与 Java 语言中的`String.format` 方法及 C 语言中的`printf`函数相类似，支持开发者通过占位符语法构建动态字符串模板，其中预设的格式标识符将被传入的对应参数值精准替换，最终形成符合特定格式要求的完整字符串。
 
-#### 7.2.1 语法介绍
+#### 8.2.1 语法介绍
 
 ```SQL
 format(pattern,...args) -> String
@@ -922,7 +1319,7 @@ format(pattern,...args) -> String
 
 * 类型为 `STRING` 的格式化结果字符串
 
-#### 7.2.2 使用示例
+#### 8.2.2 使用示例
 
 1. 格式化浮点数
 
@@ -1038,7 +1435,7 @@ IoTDB:database1> SELECT format('%s%%', 99.9) from table1 limit 1
 +-----+
 ```
 
-#### 7.2.3 **格式转换失败场景说明**
+#### 8.2.3 **格式转换失败场景说明**
 
 1. 类型不匹配错误
 
@@ -1091,19 +1488,19 @@ Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Scalar function format must h
 
 
 
-## 8. 字符串函数和操作符
+## 9. 字符串函数和操作符
 
-### 8.1 字符串操作符
+### 9.1 字符串操作符
 
-#### 8.1.1 || 操作符
+#### 9.1.1 || 操作符
 
 `||` 操作符用于字符串连接，功能与 `concat` 函数相同。
 
-#### 8.1.2 LIKE 语句
+#### 9.1.2 LIKE 语句
 
 `LIKE` 语句用于模式匹配，具体用法在[模式匹配：LIKE](#1-like-运算符) 中有详细文档。
 
-### 8.2 字符串函数
+### 9.2 字符串函数
 
 | 函数名      | 描述                                                                                                | 输入                                                                                                                                                              | 输出                                                         | 用法                                                         |
 | ----------- |---------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -1121,33 +1518,33 @@ Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Scalar function format must h
 | substring   | 从指定位置提取字符到字符串末尾。需要注意的是，起始位置是基于字符而不是字节数组确定的。`start_index` 从 1 开始计数，长度从 `start_index` 位置计算。         | 支持两个参数**string**：要提取子字符串的源字符串，可以是字符串或文本类型。**start_index**：从哪个索引开始提取子字符串，索引从 1 开始计数。                                                                             | String：返回一个字符串，从 `start_index` 位置开始到字符串末尾的所有字符。**注意事项**：`start_index` 从 1 开始，即数组的第 0 个位置是 1参数为 null时，返回 `null`start_index 大于字符串长度时，结果报错。 | substring(string from start_index)或 substring(string, start_index) |
 | substring   | 从一个字符串中提取从指定位置开始、指定长度的子字符串注意：起始位置和长度是基于字符而不是字节数组确定的。`start_index` 从 1 开始计数，长度从 `start_index` 位置计算。 | 支持三个参数**string**：要提取子字符串的源字符串，可以是字符串或文本类型。**start_index**：从哪个索引开始提取子字符串，索引从 1 开始计数。**length**：要提取的子字符串的长度。                                                      | String：返回一个字符串，从 `start_index` 位置开始，提取 `length` 个字符。**注意事项**：参数为 null时，返回 `null`如果 `start_index` 大于字符串的长度，结果报错。如果 `length` 小于 0，结果报错。极端情况，`start_index + length` 超过 `int.MAX` 并变成负数，将导致异常结果。 | substring(string from start_index for length)  或 substring(string, start_index, length) |
 
-## 9. 模式匹配函数
+## 10. 模式匹配函数
 
-### 9.1 LIKE 运算符
+### 10.1 LIKE 运算符
 
-#### 9.1.1 用途
+#### 10.1.1 用途
 
 `LIKE` 运算符用于将值与模式进行比较。它通常用于 `WHERE` 子句中，用于匹配字符串中的特定模式。
 
-#### 9.1.2 语法
+#### 10.1.2 语法
 
 ```SQL
 ... column [NOT] LIKE 'pattern' ESCAPE 'character';
 ```
 
-#### 9.1.3 匹配规则
+#### 10.1.3 匹配规则
 
 - 匹配字符是区分大小写的。
 - 模式支持两个匹配符号：
   - `_`：匹配任意单个字符。
   - `%`：匹配0个或多个字符。
 
-#### 9.1.4 注意事项
+#### 10.1.4 注意事项
 
 - `LIKE` 模式匹配总是覆盖整个字符串。如果需要匹配字符串中的任意位置，模式必须以 `%` 开头和结尾。
 - 如果需要匹配 `%` 或 `_` 作为普通字符，必须使用转义字符。
 
-#### 9.1.5 示例
+#### 10.1.5 示例
 
 示例 1：匹配以特定字符开头的字符串
 
@@ -1189,19 +1586,19 @@ SELECT * FROM table1 WHERE continent LIKE 'South\_%' ESCAPE '\';
 SELECT * FROM table1 WHERE continent LIKE 'South\\%' ESCAPE '\';
 ```
 
-### 9.2 regexp_like 函数
+### 10.2 regexp_like 函数
 
-#### 9.2.1 用途
+#### 10.2.1 用途
 
 `regexp_like` 函数用于评估正则表达式模式，并确定该模式是否包含在字符串中。
 
-#### 9.2.2 语法
+#### 10.2.2 语法
 
 ```SQL
 regexp_like(string, pattern);
 ```
 
-#### 9.2.3 注意事项
+#### 10.2.3 注意事项
 
 - `regexp_like` 的模式只需包含在字符串中，而不需要匹配整个字符串。
 - 如果需要匹配整个字符串，可以使用正则表达式的锚点 `^` 和 `$`。
@@ -1224,7 +1621,7 @@ regexp_like(string, pattern);
     4. **类别（Categories）**：直接指定，无需`Is`、`general_category=`或`gc=`前缀（如`\p{L}`）。
     5. **二元属性（Binary Properties）**：直接指定，无需`Is`（如`\p{NoncharacterCodePoint}`）。
 
-#### 9.2.4 示例
+#### 10.2.4 示例
 
 示例 1：匹配包含特定模式的字符串
 
@@ -1248,7 +1645,7 @@ SELECT regexp_like('1a 2b 14m', '^\\d+b$'); -- false
   - `b` 表示字母 `b`。
   - `'1a 2b 14m'` 并不符合这个模式，因为它不是从数字开始，也不是以 `b` 结束，所以返回 `false`。
 
-## 10. 时序分窗函数
+## 11. 时序分窗函数
 
 原始示例数据如下：
 
@@ -1271,19 +1668,19 @@ CREATE TABLE bid(time TIMESTAMP TIME, stock_id STRING TAG, price FLOAT FIELD);
 INSERT INTO bid(time, stock_id, price) VALUES('2021-01-01T09:05:00','AAPL',100.0),('2021-01-01T09:06:00','TESL',200.0),('2021-01-01T09:07:00','AAPL',103.0),('2021-01-01T09:07:00','TESL',202.0),('2021-01-01T09:09:00','AAPL',102.0),('2021-01-01T09:15:00','TESL',195.0);
 ```
 
-### 10.1 HOP
+### 11.1 HOP
 
-#### 10.1.1 功能描述
+#### 11.1.1 功能描述
 
 HOP 函数用于按时间分段分窗分析，识别每一行数据所属的时间窗口。该函数通过指定固定窗口大小（size）和窗口滑动步长（SLIDE），将数据按时间戳分配到所有与其时间戳重叠的窗口中。若窗口之间存在重叠（步长 < 窗口大小），数据会自动复制到多个窗口。
 
-#### 10.1.2 函数定义
+#### 11.1.2 函数定义
 
 ```SQL
 HOP(data, timecol, size, slide[, origin])
 ```
 
-#### 10.1.3 参数说明
+#### 11.1.3 参数说明
 
 | 参数名  | 参数类型 | 参数属性                        | 描述               |
 | --------- | ---------- | --------------------------------- | -------------------- |
@@ -1293,7 +1690,7 @@ HOP(data, timecol, size, slide[, origin])
 | SLIDE   | 标量参数 | 长整数类型                      | 窗口滑动步长       |
 | ORIGIN  | 标量参数 | 时间戳类型默认值：Unix 纪元时间 | 第一个窗口起始时间 |
 
-#### 10.1.4 返回结果
+#### 11.1.4 返回结果
 
 HOP 函数的返回结果列包含：
 
@@ -1301,7 +1698,7 @@ HOP 函数的返回结果列包含：
 * window\_end: 窗口结束时间（开区间）
 * 映射列：DATA 参数的所有输入列
 
-#### 10.1.5 使用示例
+#### 11.1.5 使用示例
 
 ```SQL
 IoTDB> SELECT * FROM HOP(DATA => bid,TIMECOL => 'time',SLIDE => 5m,SIZE => 10m);
@@ -1336,18 +1733,18 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM HOP(DAT
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 10.2 SESSION
+### 11.2 SESSION
 
-#### 10.2.1 功能描述
+#### 11.2.1 功能描述
 
 SESSION 函数用于按会话间隔对数据进行分窗。系统逐行检查与前一行的时间间隔，小于阈值（GAP）则归入当前窗口，超过则归入下一个窗口。
 
-#### 10.2.2 函数定义
+#### 11.2.2 函数定义
 
 ```SQL
 SESSION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], timecol, gap)
 ```
-#### 10.2.3 参数说明
+#### 11.2.3 参数说明
 
 | 参数名  | 参数类型 | 参数属性                 | 描述                                   |
 | --------- | ---------- | -------------------------- | ---------------------------------------- |
@@ -1356,7 +1753,7 @@ SESSION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], timecol, gap)
 |
 | GAP     | 标量参数 | 长整数类型               | 会话间隔阈值                           |
 
-#### 10.2.4 返回结果
+#### 11.2.4 返回结果
 
 SESSION 函数的返回结果列包含：
 
@@ -1364,7 +1761,7 @@ SESSION 函数的返回结果列包含：
 * window\_end: 会话窗口内的最后一条数据的时间
 * 映射列：DATA 参数的所有输入列
 
-#### 10.2.5 使用示例
+#### 11.2.5 使用示例
 
 ```SQL
 IoTDB> SELECT * FROM SESSION(DATA => bid PARTITION BY stock_id ORDER BY time,TIMECOL => 'time',GAP => 2m);
@@ -1390,19 +1787,19 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM SESSION
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 10.3 VARIATION
+### 11.3 VARIATION
 
-#### 10.3.1 功能描述
+#### 11.3.1 功能描述
 
 VARIATION 函数用于按数据差值分窗，将第一条数据作为首个窗口的基准值，每个数据点会与基准值进行差值运算，如果差值小于给定的阈值（delta）则加入当前窗口；如果超过阈值，则分为下一个窗口，将该值作为下一个窗口的基准值。
 
-#### 10.3.2 函数定义
+#### 11.3.2 函数定义
 
 ```sql
 VARIATION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], col, delta)
 ```
 
-#### 10.3.3 参数说明
+#### 11.3.3 参数说明
 
 | 参数名 | 参数类型 | 参数属性                 | 描述                                   |
 | -------- | ---------- | -------------------------- | ---------------------------------------- |
@@ -1410,14 +1807,14 @@ VARIATION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], col, delta)
 | COL    | 标量参数 | 字符串类型               | 标识对哪一列计算差值                   |
 | DELTA  | 标量参数 | 浮点数类型               | 差值阈值                               |
 
-#### 10.3.4 返回结果
+#### 11.3.4 返回结果
 
 VARIATION 函数的返回结果列包含：
 
 * window\_index: 窗口编号
 * 映射列：DATA 参数的所有输入列
 
-#### 10.3.5 使用示例
+#### 11.3.5 使用示例
 
 ```sql
 IoTDB> SELECT * FROM VARIATION(DATA => bid PARTITION BY stock_id ORDER BY time,COL => 'price',DELTA => 2.0);
@@ -1444,33 +1841,33 @@ IoTDB> SELECT first(time) as window_start, last(time) as window_end, stock_id, a
 +-----------------------------+-----------------------------+--------+-----+
 ```
 
-### 10.4 CAPACITY
+### 11.4 CAPACITY
 
-#### 10.4.1 功能描述
+#### 11.4.1 功能描述
 
 CAPACITY 函数用于按数据点数（行数）分窗，每个窗口最多有 SIZE 行数据。
 
-#### 10.4.2 函数定义
+#### 11.4.2 函数定义
 
 ```sql
 CAPACITY(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], size)
 ```
 
-#### 10.4.3 参数说明
+#### 11.4.3 参数说明
 
 | 参数名 | 参数类型 | 参数属性                 | 描述                                   |
 | -------- | ---------- | -------------------------- | ---------------------------------------- |
 | DATA   | 表参数   | SET SEMANTICPASS THROUGH | 输入表通过 pkeys、okeys 指定分区和排序 |
 | SIZE   | 标量参数 | 长整数类型               | 窗口大小                               |
 
-#### 10.4.4 返回结果
+#### 11.4.4 返回结果
 
 CAPACITY 函数的返回结果列包含：
 
 * window\_index: 窗口编号
 * 映射列：DATA 参数的所有输入列
 
-#### 10.4.5 使用示例
+#### 11.4.5 使用示例
 
 ```sql
 IoTDB> SELECT * FROM CAPACITY(DATA => bid PARTITION BY stock_id ORDER BY time, SIZE => 2);
@@ -1497,18 +1894,18 @@ IoTDB> SELECT first(time) as start_time, last(time) as end_time, stock_id, avg(p
 +-----------------------------+-----------------------------+--------+-----+
 ```
 
-### 10.5 TUMBLE
+### 11.5 TUMBLE
 
-#### 10.5.1 功能描述
+#### 11.5.1 功能描述
 
 TUMBLE 函数用于通过时间属性字段为每行数据分配一个窗口，滚动窗口的大小固定且不重复。
 
-#### 10.5.2 函数定义
+#### 11.5.2 函数定义
 
 ```sql
 TUMBLE(data, timecol, size[, origin])
 ```
-#### 10.5.3 参数说明
+#### 11.5.3 参数说明
 
 | 参数名  | 参数类型 | 参数属性                        | 描述               |
 | --------- | ---------- | --------------------------------- | -------------------- |
@@ -1517,7 +1914,7 @@ TUMBLE(data, timecol, size[, origin])
 | SIZE    | 标量参数 | 长整数类型                      | 窗口大小，需为正数 |
 | ORIGIN  | 标量参数 | 时间戳类型默认值：Unix 纪元时间 | 第一个窗口起始时间 |
 
-#### 10.5.4 返回结果
+#### 11.5.4 返回结果
 
 TUBMLE 函数的返回结果列包含：
 
@@ -1525,7 +1922,7 @@ TUBMLE 函数的返回结果列包含：
 * window\_end: 窗口结束时间（开区间）
 * 映射列：DATA 参数的所有输入列
 
-#### 10.5.5 使用示例
+#### 11.5.5 使用示例
 
 ```SQL
 IoTDB> SELECT * FROM TUMBLE( DATA => bid, TIMECOL => 'time', SIZE => 10m);
@@ -1551,19 +1948,19 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM TUMBLE(
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 10.6 CUMULATE
+### 11.6 CUMULATE
 
-#### 10.6.1 功能描述
+#### 11.6.1 功能描述
 
 Cumulate 函数用于从初始的窗口开始，创建相同窗口开始但窗口结束步长不同的窗口，直到达到最大的窗口大小。每个窗口包含其区间内的元素。例如：1小时步长，24小时大小的累计窗口，每天可以获得如下这些窗口：`[00:00, 01:00)`，`[00:00, 02:00)`，`[00:00, 03:00)`， …， `[00:00, 24:00)`
 
-#### 10.6.2 函数定义
+#### 11.6.2 函数定义
 
 ```sql
 CUMULATE(data, timecol, size, step[, origin])
 ```
 
-#### 10.6.3 参数说明
+#### 11.6.3 参数说明
 
 | 参数名  | 参数类型 | 参数属性                        | 描述                                       |
 | --------- | ---------- | --------------------------------- | -------------------------------------------- |
@@ -1575,7 +1972,7 @@ CUMULATE(data, timecol, size, step[, origin])
 
 > 注意：size 如果不是 step 的整数倍，则会报错`Cumulative table function requires size must be an integral multiple of step`
 
-#### 10.6.4 返回结果
+#### 11.6.4 返回结果
 
 CUMULATE函数的返回结果列包含：
 
@@ -1583,7 +1980,7 @@ CUMULATE函数的返回结果列包含：
 * window\_end: 窗口结束时间（开区间）
 * 映射列：DATA 参数的所有输入列
 
-#### 10.6.5 使用示例
+#### 11.6.5 使用示例
 
 ```sql
 IoTDB> SELECT * FROM CUMULATE(DATA => bid,TIMECOL => 'time',STEP => 2m,SIZE => 10m);
