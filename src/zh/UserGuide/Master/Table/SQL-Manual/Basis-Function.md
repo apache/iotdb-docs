@@ -159,8 +159,8 @@ SELECT LEAST(temperature,humidity) FROM table2;
 |-----------------------|------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------|
 | COUNT                 | 计算数据点数。                                                                                                                                  | 所有类型                                                                                    | INT64            |
 | COUNT_IF              | COUNT_IF(exp) 用于统计满足指定布尔表达式的记录行数                                                                                                         | exp 必须是一个布尔类型的表达式，例如 count_if(temperature>20)                                           | INT64            |
-| APPROX_COUNT_DISTINCT | APPROX_COUNT_DISTINCT(x[,maxStandardError]) 函数提供 COUNT(DISTINCT x) 的近似值，返回不同输入值的近似个数。                                                    | `x`：待计算列，支持所有类型；<br> `maxStandardError`：指定该函数应产生的最大标准误差，取值范围[0.0040625, 0.26]，未指定值时默认0.023。 | INT64            |
-| APPROX_MOST_FREQUENT | APPROX_MOST_FREQUENT(x, k, capacity) 函数用于近似计算数据集中出现频率最高的前 k 个元素。它返回一个JSON 格式的字符串，其中键是该元素的值，值是该元素对应的近似频率。（V 2.0.5.1 及以后版本支持）              | `x`：待计算列，支持 IoTDB 现有所有的数据类型；<br> `k`：返回出现频率最高的 k 个值；<br> `capacity`: 用于计算的桶的数量，跟内存占用相关：其值越大误差越小，但占用内存更大，反之capacity值越小误差越大，但占用内存更小。 | STRING   |
+| APPROX_COUNT_DISTINCT | APPROX_COUNT_DISTINCT(x[,maxStandardError]) 函数提供 COUNT(DISTINCT x) 的近似值，返回不同输入值的近似个数。                                 | `x`：待计算列，支持所有类型；<br> `maxStandardError`：指定该函数应产生的最大标准误差，取值范围[0.0040625, 0.26]，未指定值时默认0.023。 | INT64            |
+| APPROX_MOST_FREQUENT | APPROX_MOST_FREQUENT(x, k, capacity) 函数用于近似计算数据集中出现频率最高的前 k 个元素。它返回一个JSON 格式的字符串，其中键是该元素的值，值是该元素对应的近似频率。（V 2.0.5.1 及以后版本支持）  | `x`：待计算列，支持 IoTDB 现有所有的数据类型；<br> `k`：返回出现频率最高的 k 个值；<br> `capacity`: 用于计算的桶的数量，跟内存占用相关：其值越大误差越小，但占用内存更大，反之capacity值越小误差越大，但占用内存更小。 | STRING   |
 | SUM                   | 求和。                                                                                                                                      | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
 | AVG                   | 求平均值。                                                                                                                                    | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
 | MAX                   | 求最大值。                                                                                                                                    | 所有类型                                                                                    | 与输入类型一致          |
@@ -250,7 +250,6 @@ IoTDB> SELECT COUNT(DISTINCT temperature) as origin, APPROX_COUNT_DISTINCT(tempe
 Total line number = 1
 It costs 0.022s
 ```
-
 
 #### 2.3.5 Approx_most_frequent
 
@@ -715,6 +714,58 @@ FROM
 Total line number = 18
 It costs 0.319s
 ```
+
+### 4.3 Extract 函数
+
+该函数用于提取日期对应部分的值。（V2.0.6 版本起支持）
+
+#### 4.3.1 语法定义
+
+```SQL
+EXTRACT (identifier FROM expression)
+```
+* 参数说明
+  * **expression**： `TIMESTAMP` 类型或时间常量
+  * **identifier** ：取值范围及对应的返回值见下表
+  
+    | 取值范围                 | 返回值类型  | 返回值范围  |
+    | -------------------------- | ------------- | ------------- |
+    | `YEAR`               | `INT64` | `/`     |
+    | `QUARTER`            | `INT64` | `1-4`   |
+    | `MONTH`              | `INT64` | `1-12`  |
+    | `WEEK`               | `INT64` | `1-53`  |
+    | `DAY_OF_MONTH (DAY)` | `INT64` | `1-31`  |
+    | `DAY_OF_WEEK (DOW)`  | `INT64` | `1-7`   |
+    | `DAY_OF_YEAR (DOY)`  | `INT64` | `1-366` |
+    | `HOUR`               | `INT64` | `0-23`  |
+    | `MINUTE`             | `INT64` | `0-59`  |
+    | `SECOND`             | `INT64` | `0-59`  |
+    | `MS`                 | `INT64` | `0-999` |
+    | `US`                 | `INT64` | `0-999` |
+    | `NS`                 | `INT64` | `0-999` |
+
+
+#### 4.3.2 使用示例
+
+以[示例数据](../Reference/Sample-Data.md)中的 table1 为源数据，查询某段时间每天前12个小时的温度平均值
+
+```SQL
+IoTDB:database1> select format('%1$tY-%1$tm-%1$td',date_bin(1d,time)) as fmtdate,avg(temperature) as avgtp from table1 where time >= 2024-11-26T00:00:00 and time <= 2024-11-30T23:59:59 and extract(hour from time) <= 12 group by date_bin(1d,time) order by date_bin(1d,time)
++----------+-----+
+|   fmtdate|avgtp|
++----------+-----+
+|2024-11-28| 86.0|
+|2024-11-29| 85.0|
+|2024-11-30| 90.0|
++----------+-----+
+Total line number = 3
+It costs 0.041s
+```
+
+`Format` 函数介绍：[Format 函数](../SQL-Manual/Basis-Function.md#_7-2-format-函数)
+
+`Date_bin` 函数介绍：[Date_bin 函数](../SQL-Manual/Basis-Function.md#_4-2-date-bin-interval-timestamp-timestamp-timestamp)
+
 
 ## 5. 数学函数和运算符
 
