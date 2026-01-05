@@ -125,6 +125,7 @@ export const zhSidebar = {
         },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
         { text: '树转表视图', link: 'Tree-to-Table' },
+        { text: '时序特色分析', link: 'Timeseries-Featured-Analysis_timecho' },
         {
           text: '系统运维',
           collapsible: true,
@@ -238,7 +239,7 @@ export const zhSidebar = {
             { text: 'ORDER BY子句', link: 'OrderBy-Clause' },
             { text: 'LIMIT&OFFSET子句', link: 'Limit-Offset-Clause' },
             { text: '嵌套查询', link: 'Nested-Queries' },
-            { text: '行模式识别', link: 'Row-Pattern-Recognition' },
+            { text: '模式查询', link: 'Row-Pattern-Recognition_timecho' },
           ],
         },
         { text: '运维语句', link: 'SQL-Maintenance-Statements' },

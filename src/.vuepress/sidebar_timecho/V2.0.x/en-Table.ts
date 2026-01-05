@@ -134,6 +134,7 @@ export const enSidebar = {
         },
         { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
         { text: 'Tree-to-Table Mapping', link: 'Tree-to-Table' },
+        { text: 'Timeseries Featured Analysis', link: 'Timeseries-Featured-Analysis_timecho' },
         {
           text: 'System Maintenance',
           collapsible: true,
@@ -247,7 +248,7 @@ export const enSidebar = {
             { text: 'ORDER BY Clause', link: 'OrderBy-Clause' },
             { text: 'LIMIT&OFFSET Clause', link: 'Limit-Offset-Clause' },
             { text: 'Nested Queries', link: 'Nested-Queries' },
-            { text: 'Row Pattern Recognition', link: 'Row-Pattern-Recognition' },
+            { text: 'Pattern Query', link: 'Row-Pattern-Recognition_timecho' },
           ],
         },
         { text: 'Maintenance Statements', link: 'SQL-Maintenance-Statements' },

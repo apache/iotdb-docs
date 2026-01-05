@@ -62,7 +62,7 @@
 
 2. 数据写入&更新：在数据写入&更新方面，IoTDB 提供了多种方式来插入实时数据，支持追加查询写回，基本介绍请查看 [数据写入&更新](../Basic-Concept/Write-Updata-Data_timecho.md)
 
-3. 数据查询：IoTDB 提供了丰富的数据查询功能，数据查询的基本介绍请查看 [数据查询](../Basic-Concept/Query-Data_timecho.md)，其中包含了适用于识别时序数据中的特定模式、检测特定事件等业务场景的[行模式识别](../SQL-Manual/Row-Pattern-Recognition.md)，以及常用于数据分析场景的[窗口函数](../SQL-Manual/Featured-Functions_timecho.md#_4-窗口函数)等特色函数
+3. 数据查询：IoTDB 提供了丰富的数据查询功能，数据查询的基本介绍请查看 [数据查询](../Basic-Concept/Query-Data.md)，其中包含了适用于时序特色分析的模式查询和窗口函数，详细介绍请查看[时序特色分析](../User-Manual/Timeseries-Featured-Analysis_timecho.md)
 
 4. 数据删除：IoTDB 提供了两种删除方式，分别为SQL语句删除与过期自动删除(TTL)
 
