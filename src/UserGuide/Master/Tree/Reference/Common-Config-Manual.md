@@ -458,20 +458,20 @@ Different configuration parameters take effect in the following three ways:
 * boolean\_string\_infer\_type
 
 |    Name     | boolean\_string\_infer\_type                                  |
-| :---------: | :------------------------------------------------------------ |
+| :---------: |:--------------------------------------------------------------|
 | Description | To which type the values "true" and "false" should be reslved |
 |    Type     | BOOLEAN or TEXT                                               |
 |   Default   | BOOLEAN                                                       |
-|  Effective  | After restarting system                                       |
+|  Effective  | Hot_reload                                                    |
 
 * integer\_string\_infer\_type
 
 |    Name     | integer\_string\_infer\_type                                            |
-| :---------: | :---------------------------------------------------------------------- |
+| :---------: |:------------------------------------------------------------------------|
 | Description | To which type an integer string like "67" in a query should be resolved |
 |    Type     | INT32, INT64, DOUBLE, FLOAT or TEXT                                     |
 |   Default   | DOUBLE                                                                  |
-|  Effective  | After restarting system                                                 |
+|  Effective  | Hot_reload                                                              |
 
 * floating\_string\_infer\_type
 
@@ -480,16 +480,126 @@ Different configuration parameters take effect in the following three ways:
 | Description | To which type a floating number string like "6.7" in a query should be resolved |
 |    Type     | DOUBLE, FLOAT or TEXT                                                           |
 |   Default   | DOUBLE                                                                          |
-|  Effective  | After restarting system                                                         |
+|  Effective  | Hot_reload                                                                      |
 
 * nan\_string\_infer\_type
 
 |    Name     | nan\_string\_infer\_type                                  |
-| :---------: | :-------------------------------------------------------- |
+| :---------: |:----------------------------------------------------------|
 | Description | To which type the value NaN in a query should be resolved |
 |    Type     | DOUBLE, FLOAT or TEXT                                     |
 |   Default   | FLOAT                                                     |
-|  Effective  | After restarting system                                   |
+|  Effective  | Hot_reload                                                |
+
+* default\_boolean\_encoding
+
+|      Name       | default\_boolean\_encoding                                     |
+|:---------------:|:---------------------------------------------------------------|
+| Description     | BOOLEAN encoding when creating schema automatically is enabled |
+|      Type       | PLAIN, RLE                                                     |
+|     Default     | RLE                                                            |
+|    Effective    | Hot_reload                                                     |
+
+* default\_int32\_encoding
+
+|     Name     | default\_int32\_encoding                                     |
+|:------------:|:-------------------------------------------------------------|
+| Description  | INT32 encoding when creating schema automatically is enabled |
+|     Type     | PLAIN, RLE, TS\_2DIFF, REGULAR, GORILLA                      |
+|   Default    | RLE                                                          |
+|  Effective   | Hot_reload                                                   |
+
+* default\_int64\_encoding
+
+|      Name       | default\_int64\_encoding                                      |
+|:---------------:|:--------------------------------------------------------------|
+| Description     | INT64 encoding when creating schema automatically is enabled  |
+|      Type       | PLAIN, RLE, TS\_2DIFF, REGULAR, GORILLA                       |
+|     Default     | RLE                                                           |
+|    Effective    | Hot_reload                                                    |
+
+* default\_float\_encoding
+
+|       Name       | default\_float\_encoding                                      |
+|:----------------:|:--------------------------------------------------------------|
+| Description      | FLOAT encoding when creating schema automatically is enabled  |
+|       Type       | PLAIN, RLE, TS\_2DIFF, GORILLA                                |
+|     Default      | GORILLA                                                       |
+|    Effective     | Hot_reload                                                    |
+
+* default\_double\_encoding
+
+|      Name      | default\_double\_encoding                                      |
+|:--------------:|:---------------------------------------------------------------|
+| Description    | DOUBLE encoding when creating schema automatically is enabled  |
+|      Type      | PLAIN, RLE, TS\_2DIFF, GORILLA                                 |
+|    Default     | GORILLA                                                        |
+|   Effective    | Hot_reload                                                     |
+
+* default\_text\_encoding
+
+|      Name       | default\_text\_encoding                                      |
+|:---------------:|:-------------------------------------------------------------|
+| Description     | TEXT encoding when creating schema automatically is enabled  |
+|      Type       | PLAIN                                                        |
+|     Default     | PLAIN                                                        |
+|    Effective    | Hot_reload                                                   |
+
+
+* boolean\_compressor
+
+| Name             | boolean\_compressor                                                                      |
+|------------------|------------------------------------------------------------------------------------------|
+| Description      | BOOLEAN compression when creating schema automatically is enabled (Supports from V2.0.6) |
+| Type             | String                                                                                   |
+| Default          | LZ4                                                                                      |
+| Effective        | Hot_reload                                                                               |
+
+* int32\_compressor
+
+| Name                 | int32\_compressor                                                                           |
+|----------------------|---------------------------------------------------------------------------------------------|
+| Description          | INT32/DATE compression when creating schema automatically is enabled(Supports from V2.0.6)  |
+| Type                 | String                                                                                      |
+| Default              | LZ4                                                                                         |
+| Effective            | Hot_reload                                                                                  |
+
+* int64\_compressor
+
+| Name               | int64\_compressor                                                                                |
+|--------------------|--------------------------------------------------------------------------------------------------|
+| Description        | INT64/TIMESTAMP compression when creating schema automatically is enabled (Supports from V2.0.6) |
+| Type               | String                                                                                           |
+| Default            | LZ4                                                                                              |
+| Effective          | Hot_reload                                                                                       |
+
+* float\_compressor
+
+| Name                  | float\_compressor                                                                      |
+|-----------------------|----------------------------------------------------------------------------------------|
+| Description           | FLOAT compression when creating schema automatically is enabled (Supports from V2.0.6) |
+| Type                  | String                                                                                 |
+| Default               | LZ4                                                                                    |
+| Effective             | Hot_reload                                                                             |
+
+* double\_compressor
+
+| Name              | double\_compressor                                                                      |
+|-------------------|-----------------------------------------------------------------------------------------|
+| Description       | DOUBLE compression when creating schema automatically is enabled (Supports from V2.0.6) |
+| Type              | String                                                                                  |
+| Default           | LZ4                                                                                     |
+| Effective         | Hot_reload                                                                              |
+
+* text\_compressor
+
+| Name               | text\_compressor                                                                                  |
+|--------------------|---------------------------------------------------------------------------------------------------|
+| Description        | TEXT/BINARY/BLOB compression when creating schema automatically is enabled (Supports from V2.0.6) |
+| Type               | String                                                                                            |
+| Default            | LZ4                                                                                               |
+| Effective          | Hot_reload                                                                                        |
+
 
 ### 2.7 Query Configurations
 
@@ -635,6 +745,16 @@ Different configuration parameters take effect in the following three ways:
 |Type| Int32 |
 |Default| 100000 |
 |Effective|After restarting system|
+
+* sort\_buffer\_size\_in\_bytes
+
+| Name           | sort\_buffer\_size\_in\_bytes                                                                                                                                                                                                                                                  |
+|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description    | The memory for external sort in sort operator, when the data size is smaller than sort_buffer_size_in_bytes, the sort operator will use in-memory sort.                                                                                                                        |
+| Type           | long                                                                                                                                                                                                                                                                           |
+| Default        | 1048576(Before V2.0.6) <br> 0(Supports from V2.0.6), if `sort_buffer_size_in_bytes <= 0`, default value will be used, `default value = min(32MB, memory for query operators / query_thread_count / 2)`, if `sort_buffer_size_in_bytes > 0`, the specified value will be used.  |
+| Effective      | Hot_reload                                                                                                                                                                                                                                                                     |
+
 
 ### 2.8 TTL Configuration
 * ttl\_check\_interval
@@ -1310,7 +1430,7 @@ Different configuration parameters take effect in the following three ways:
 |:-----------:|:-----------------------------------------------------------------------|
 | Description | Data compression method; Time compression method in aligned timeseries |
 |    Type     | Enum String : "UNCOMPRESSED", "SNAPPY", "LZ4", "ZSTD", "LZMA2"         |
-|   Default   | SNAPPY                                                                 |
+|   Default   | LZ4                                                                 |
 |  Effective  | hot-load                                                               |
 
 * bloomFilterErrorRate

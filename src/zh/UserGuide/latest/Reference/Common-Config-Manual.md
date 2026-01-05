@@ -446,7 +446,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     描述     | "true" 或者 "false" 字符串被推断的数据类型 |
 |     取值     | BOOLEAN 或者 TEXT                          |
 |    默认值    | BOOLEAN                                    |
-| 改后生效方式 | 重启生效                               |
+| 改后生效方式 | 热加载                               |
 
 * integer\_string\_infer\_type
 
@@ -455,7 +455,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     描述     | 整型字符串推断的数据类型                      |
 |     取值     | INT32, INT64, FLOAT, DOUBLE, TEXT |
 |    默认值    | DOUBLE                            |
-| 改后生效方式 | 重启生效                            |
+| 改后生效方式 | 热加载                            |
 
 * floating\_string\_infer\_type
 
@@ -464,7 +464,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     描述     | "6.7"等字符串被推断的数据类型             |
 |     取值     | DOUBLE, FLOAT or TEXT         |
 |    默认值    | DOUBLE                        |
-| 改后生效方式 | 重启生效                        |
+| 改后生效方式 | 热加载                       |
 
 * nan\_string\_infer\_type
 
@@ -473,7 +473,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     描述     | "NaN" 字符串被推断的数据类型 |
 |     取值     | DOUBLE, FLOAT or TEXT        |
 |    默认值    | DOUBLE                       |
-| 改后生效方式 | 重启生效                 |
+| 改后生效方式 | 热加载                |
 
 * default\_boolean\_encoding
 
@@ -482,7 +482,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     描述     | BOOLEAN 类型编码格式       |
 |     取值     | PLAIN, RLE                 |
 |    默认值    | RLE                        |
-| 改后生效方式 | 重启生效               |
+| 改后生效方式 | 热加载               |
 
 * default\_int32\_encoding
 
@@ -500,7 +500,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     描述     | int64 类型编码格式                            |
 |     取值     | PLAIN, RLE, TS\_2DIFF, REGULAR, GORILLA |
 |    默认值    | RLE                                     |
-| 改后生效方式 | 重启生效                                  |
+| 改后生效方式 | 热加载                                  |
 
 * default\_float\_encoding
 
@@ -509,7 +509,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     描述     | float 类型编码格式                   |
 |     取值     | PLAIN, RLE, TS\_2DIFF, GORILLA |
 |    默认值    | GORILLA                        |
-| 改后生效方式 | 重启生效                         |
+| 改后生效方式 | 热加载                         |
 
 * default\_double\_encoding
 
@@ -518,7 +518,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     描述     | double 类型编码格式                  |
 |     取值     | PLAIN, RLE, TS\_2DIFF, GORILLA |
 |    默认值    | GORILLA                        |
-| 改后生效方式 | 重启生效                         |
+| 改后生效方式 | 热加载                         |
 
 * default\_text\_encoding
 
@@ -527,7 +527,62 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     描述     | text 类型编码格式       |
 |     取值     | PLAIN                   |
 |    默认值    | PLAIN                   |
-| 改后生效方式 | 重启生效            |
+| 改后生效方式 | 热加载            |
+
+
+* boolean\_compressor
+
+| 名字         | boolean\_compressor                                                    |
+| -------------- | ------------------------------------------------------------------------ |
+| 描述         | 启用自动创建模式时，BOOLEAN 数据类型的压缩方式 （V2.0.6 版本开始支持） |
+| 类型         | String                                                                 |
+| 默认值       | LZ4                                                                    |
+| 改后生效方式 | 热加载                                                                 |
+
+* int32\_compressor
+
+| 名字         | int32\_compressor                                                        |
+| -------------- | -------------------------------------------------------------------------- |
+| 描述         | 启用自动创建模式时，INT32/DATE 数据类型的压缩方式（V2.0.6 版本开始支持） |
+| 类型         | String                                                                   |
+| 默认值       | LZ4                                                                      |
+| 改后生效方式 | 热加载                                                                   |
+
+* int64\_compressor
+
+| 名字         | int64\_compressor                                                             |
+| -------------- | ------------------------------------------------------------------------------- |
+| 描述         | 启用自动创建模式时，INT64/TIMESTAMP 数据类型的压缩方式（V2.0.6 版本开始支持） |
+| 类型         | String                                                                        |
+| 默认值       | LZ4                                                                           |
+| 改后生效方式 | 热加载                                                                        |
+
+* float\_compressor
+
+| 名字         | float\_compressor                                                   |
+| -------------- | --------------------------------------------------------------------- |
+| 描述         | 启用自动创建模式时，FLOAT 数据类型的压缩方式（V2.0.6 版本开始支持） |
+| 类型         | String                                                              |
+| 默认值       | LZ4                                                                 |
+| 改后生效方式 | 热加载                                                              |
+
+* double\_compressor
+
+| 名字         | double\_compressor                                                   |
+| -------------- | ---------------------------------------------------------------------- |
+| 描述         | 启用自动创建模式时，DOUBLE 数据类型的压缩方式（V2.0.6 版本开始支持） |
+| 类型         | String                                                               |
+| 默认值       | LZ4                                                                  |
+| 改后生效方式 | 热加载                                                               |
+
+* text\_compressor
+
+| 名字         | text\_compressor                                                                |
+| -------------- | --------------------------------------------------------------------------------- |
+| 描述         | 启用自动创建模式时，TEXT/BINARY/BLOB 数据类型的压缩方式（V2.0.6 版本开始支持 ） |
+| 类型         | String                                                                          |
+| 默认值       | LZ4                                                                             |
+| 改后生效方式 | 热加载                                                                          |
 
 #### 查询配置
 
@@ -665,6 +720,16 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |类型| Int32 |
 |默认值| 100000 |
 |改后生效方式|重启生效|
+
+* sort\_buffer\_size\_in\_bytes
+
+| 名字         | sort\_buffer\_size\_in\_bytes                                                                                                                                        |
+| -------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| 描述         | 设置外部排序操作中使用的内存缓冲区大小                                                                                                                                                  |
+| 类型         | long                                                                                                                                                                 |
+| 默认值       | 1048576（V2.0.6 之前版本）<br> 0（V2.0.6 及之后版本），当值小于等于 0 时，由系统自动进行计算，计算公式为：`sort_buffer_size_in_bytes = Math.min(32 * 1024 * 1024, 堆内内存 * 查询引擎内存比例 * 查询执行内存比例 / 查询线程数 / 2)` |
+| 改后生效方式 | 热加载                                                                                                                                                                  |
+
 
 #### TTL 配置
 * ttl\_check\_interval
@@ -1366,7 +1431,7 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |:------:|:-------------------------------------------------------------|
 |   描述   | 数据压缩方法; 对齐序列中时间列的压缩方法                                        |
 |   类型   | 枚举 String : "UNCOMPRESSED", "SNAPPY", "LZ4", "ZSTD", "LZMA2" |
-|  默认值   | SNAPPY                                                       |
+|  默认值   | LZ4                                                       |
 | 改后生效方式 | 热加载                                                          |
 
 * max\_degree\_of\_index\_node
