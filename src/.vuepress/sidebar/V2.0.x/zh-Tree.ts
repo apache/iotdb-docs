@@ -118,7 +118,7 @@ export const zhSidebar = {
         },
         { text: 'UDF', link: 'User-defined-function_apache' },
         {
-          text: '安全权限',
+          text: '安全管理',
           collapsible: true,
           children: [{ text: '权限管理', link: 'Authority-Management_apache' }],
         },

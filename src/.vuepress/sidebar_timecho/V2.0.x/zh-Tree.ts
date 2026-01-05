@@ -129,11 +129,11 @@ export const zhSidebar = {
         { text: 'UDF', link: 'User-defined-function_timecho' },
         { text: '视图', link: 'IoTDB-View_timecho' },
         {
-          text: '安全权限',
+          text: '安全管理',
           collapsible: true,
           children: [
             { text: '权限管理', link: 'Authority-Management_timecho' },
-            { text: '白名单', link: 'White-List_timecho' },
+            { text: '黑白名单', link: 'Black-White-List_timecho' },
             { text: '安全审计', link: 'Audit-Log_timecho' },
           ],
         },

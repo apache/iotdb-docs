@@ -116,9 +116,12 @@ export const zhSidebar = {
         { text: '数据同步', link: 'Data-Sync_timecho' },
         { text: 'UDF', link: 'User-defined-function' },
         {
-          text: '安全权限',
+          text: '安全管理',
           collapsible: true,
-          children: [{ text: '权限管理', link: 'Authority-Management_timecho' }],
+          children: [
+              { text: '权限管理', link: 'Authority-Management_timecho' },
+              { text: '黑白名单', link: 'Black-White-List_timecho' },
+          ],
         },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
         { text: '树转表视图', link: 'Tree-to-Table' },

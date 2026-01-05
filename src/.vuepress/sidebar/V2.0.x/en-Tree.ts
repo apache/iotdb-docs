@@ -127,7 +127,7 @@ export const enSidebar = {
         },
         { text: 'UDF', link: 'User-defined-function_apache' },
         {
-          text: 'Security Permissions',
+          text: 'Security Management',
           collapsible: true,
           children: [{ text: 'Permission Management', link: 'Authority-Management_apache' }],
         },
