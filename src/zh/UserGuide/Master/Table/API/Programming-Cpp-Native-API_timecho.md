@@ -181,6 +181,7 @@ C++ 客户端的操作均通过 TableSession 类进行，下面将给出 TableSe
 1. `insert(Tablet& tablet, bool sorted = false)`，将一个包含时间序列数据的Tablet对象插入到数据库中，sorted参数指明tablet中的行是否已按时间排序。
 2. `executeNonQueryStatement(string& sql)`，执行非查询SQL语句，如DDL(数据定义语言)或DML(数据操作语言)命令。
 3. `executeQueryStatement(string& sql)`，执行查询SQL语句，并返回包含查询结果的SessionDataSet对象，可选timeoutInMs参数指示超时返回时间。
+    * 注意：调用 `SessionDataSet::next()` 获取查询结果行时，必须将返回的 `std::shared_ptr<RowRecord>` 对象存储在局部作用域变量中（例如：`auto row = dataSet->next();`），以确保数据生命周期有效。若直接通过 `.get()` 或裸指针访问（如 `dataSet->next().get()`），将导致智能指针引用计数归零，数据被立即释放，后续访问将引发未定义行为。
 4. `open(bool enableRPCCompression = false)`，开启连接，并决定是否启用RPC压缩(客户端状态须与服务端一致，默认不开启)。
 5. `close()`，关闭连接。
 

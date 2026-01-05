@@ -168,6 +168,7 @@ All operations in the C++ client are performed through the TableSession class. B
 1. `insert(Tablet& tablet, bool sorted = false)`: Inserts a Tablet object containing time series data into the database. The sorted parameter indicates whether the rows in the tablet are already sorted by time.
 2. `executeNonQueryStatement(string& sql)`: Executes non-query SQL statements, such as DDL (Data Definition Language) or DML (Data Manipulation Language) commands.
 3. `executeQueryStatement(string& sql)`: Executes query SQL statements and returns a SessionDataSet object containing the query results. The optional timeoutInMs parameter indicates the timeout return time.
+   * Note: When retrieving rows of query results by calling `SessionDataSet::next()`, you must store the returned `std::shared_ptr<RowRecord>` object in a local scope variable (e.g.: `auto row = dataSet->next();`) to ensure the validity of the data lifecycle. If you access it directly via `.get()` or a raw pointer (e.g., `dataSet->next().get()`), the reference count of the smart pointer will drop to zero, the data will be released immediately, and subsequent access will lead to undefined behavior.
 4. `open(bool enableRPCCompression = false)`: Opens the connection and determines whether to enable RPC compression (client state must match server state, disabled by default).
 5. `close()`: Closes the connection.
 
