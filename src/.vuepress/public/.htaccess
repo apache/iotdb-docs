@@ -6,4 +6,4 @@ RewriteRule . /404.html [L]
 
 ErrorDocument 404 /404.html
 
-Header set Content-Security-Policy "default-src data: blob: 'self' *.apache.org *.githubusercontent.com *.github.com *.algolia.net *.algolianet.com *.kapa.ai *.apachecon.com *.communityovercode.org 'unsafe-inline' 'unsafe-eval'; frame-src 'self' data: blob:; frame-ancestors 'self'; worker-src 'self' data: blob:; img-src 'self' blob: data: https: *.apache.org www.apachecon.com; style-src 'self' 'unsafe-inline' data:;"
+Header set Content-Security-Policy "default-src data: blob: 'self' *.apache.org *.githubusercontent.com *.github.com *.algolia.net *.algolianet.com *.kapa.ai www.google.com *.apachecon.com *.communityovercode.org 'unsafe-inline' 'unsafe-eval'; frame-src 'self' data: blob:; frame-ancestors 'self'; worker-src 'self' data: blob:; img-src 'self' blob: data: https: *.apache.org www.apachecon.com; style-src 'self' 'unsafe-inline' data:;"
