@@ -1,9 +1,10 @@
 # Data Import
 
 ## 1. Overview
-IoTDB supports two methods for data import:
+IoTDB supports three methods for data import:
 * Data Import Tool: Use the import-data.sh (Unix/OS X) or import-data.bat (Windows) script in the tools directory to manually import CSV, SQL, or TsFile (open-source time-series file format) data into IoTDB.
 * TsFile Auto-Loading Feature
+* Load `TsFile` SQL
 
 <table style="text-align: left;">
   <tbody>
@@ -21,12 +22,16 @@ IoTDB supports two methods for data import:
             <td>Can be used for single or batch import of SQL files into IoTDB</td> 
       </tr>
        <tr>
-            <td rowspan="2">TsFile</td> 
+            <td rowspan="3">TsFile</td> 
             <td>Can be used for single or batch import of TsFile files into IoTDB</td>
       </tr>
       <tr>
             <td>TsFile Auto-Loading Feature</td>
             <td>Can automatically monitor a specified directory for newly generated TsFiles and load them into IoTDB.</td>       
+      </tr>
+      <tr>
+            <td>Load SQL</td>  
+            <td>Can be used for single or batch import of TsFile files into IoTDB</td> 
       </tr>
 </tbody>
 </table>
@@ -242,3 +247,43 @@ Add the following parameters to `iotdb-system.properties` (template: `iotdb-syst
 2. ​​**Restricted Directories**​: Do NOT set Pipe receiver directories, data directories, or other system paths as monitored directories.
 3. ​​**Directory Conflicts**​: Ensure `load_active_listening_fail_dir` does not overlap with `load_active_listening_dirs` or its subdirectories.
 4. ​​**Permissions**​: The monitored directory must have write permissions. Files are deleted after successful loading; insufficient permissions may cause duplicate loading.
+
+## 4. Load SQL
+
+IoTDB supports importing one or multiple TsFile files containing time series into another running IoTDB instance directly via SQL execution through the CLI.
+
+### 4.1 Command
+
+```SQL
+load '<path/dir>' with (
+    'attribute-key1'='attribute-value1',
+    'attribute-key2'='attribute-value2',
+)
+```
+
+* `<path/dir>` : The path to a TsFile or a folder containing multiple TsFiles.
+* `<attributes>`: Optional parameters, as described below.
+
+| Key                            | Key Description                                                                                                                                                                                                                                                                                                                          | Value Type  | Value Range                    | Value is Required | Default Value              |
+|--------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|--------------------------------|-------------------|----------------------------|
+| `database-level`               | When the database corresponding to the TsFile does not exist, the database hierarchy level can be specified via the ` database-level` parameter. The default is the level set in `iotdb-common.properties`. For example, setting level=1 means the prefix path of level 1 in all time series in the TsFile will be used as the database. | Integer     | `[1: Integer.MAX_VALUE]`       | No                | 1                          |
+| `on-success`                   | Action for successfully loaded TsFiles: `delete` (delete the TsFile after successful import) or `none` (retain the TsFile in the source folder).                                                                                                                                                                                         | String      | `delete / none`                | No                 | delete                     |
+| `convert-on-type-mismatch`     | Whether to perform type conversion during loading if data types in the TsFile mismatch the target schema.                                                                                                                                                                                                                                | Boolean     | `true / false`                 | No                  | true                       |
+| `verify`                       | Whether to validate the schema before loading the TsFile.                                                                                                                                                                                                                                                                                | Boolean     | `true / false`                 | No                  | true                       |
+| `tablet-conversion-threshold`  | Size threshold (in bytes) for converting TsFiles into tablet format during loading. Default: `-1` (no conversion for any TsFile).(Available since v1.3.6)                                                                                                                                                                                | Integer     | `[-1,0 :`​`Integer.MAX_VALUE]` | No                 | -1                         |
+
+### 4.2 Example
+
+```SQL
+-- Import tsfile by excuting load sql 
+IoTDB> load '/home/dump1.tsfile' with ( 'on-success'='none')
+Msg: The statement is executed successfully.
+
+-- Verify whether the import was successful
+IoTDB> select * from root.testdb.**
++-----------------------------+------------------------------------+---------------------------------+-------------------------------+
+|                         Time|root.testdb.device.model.temperature|root.testdb.device.model.humidity|root.testdb.device.model.status|
++-----------------------------+------------------------------------+---------------------------------+-------------------------------+
+|2025-04-17T10:35:47.218+08:00|                                22.3|                             19.4|                           true|
++-----------------------------+------------------------------------+---------------------------------+-------------------------------+
+```
