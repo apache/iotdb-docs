@@ -26,12 +26,14 @@ import {
 } from 'vuepress/client';
 import useLegacyRoute from './composables/useLegacyRoute.js';
 import DocSearch from './components/DocSearch.vue';
+import AIButton from './components/AIButton.vue';
 import Layout from './components/SidebarLayout.vue';
 import { getDocVersion } from './utils/index.js';
 
 export default defineClientConfig({
   enhance: ({ app }) => {
     app.component('DocSearch', DocSearch);
+    app.component('AIButton', AIButton);
   },
   setup() {
     useLegacyRoute();
