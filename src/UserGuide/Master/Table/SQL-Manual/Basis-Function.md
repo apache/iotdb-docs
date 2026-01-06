@@ -809,14 +809,426 @@ Introduction to the `Date_bin` function: [Date_bin Funtion](../SQL-Manual/Basis-
 | e             | Returns Euler’s number `e`.                                                                                                                                                                                                                      |                             | double             | e()        |
 | pi            | Pi (π)                                                                                                                                                                                                                                           |                             | double             | pi()       |
 
+## 6. Bitwise Functions
 
-## 6. Conditional Expressions
+> Supported from version V2.0.6
 
-### 6.1 CASE
+Example raw data is as follows:
+
+```
+IoTDB:database1> select * from bit_table
++-----------------------------+---------+------+-----+
+|                         time|device_id|length|width|
++-----------------------------+---------+------+-----+
+|2025-10-29T15:59:42.957+08:00|       d1|    14|   12|
+|2025-10-29T15:58:59.399+08:00|       d3|    15|   10|
+|2025-10-29T15:59:32.769+08:00|       d2|    13|   12|
++-----------------------------+---------+------+-----+
+
+-- Table creation statement
+CREATE TABLE bit_table(time TIMESTAMP TIME, device_id STRING TAG, length INT32 FIELD, width INT32 FIELD);
+
+-- Write data
+INSERT INTO bit_table values(2025-10-29 15:59:42.957, 'd1', 14, 12),(2025-10-29 15:58:59.399, 'd3', 15, 10),(2025-10-29 15:59:32.769, 'd2', 13, 12);
+```
+
+### 6.1 bit\_count(num, bits)
+
+The `bit_count(num, bits)`function is used to count the number of 1s in the binary representation of the integer `num`under the specified bit width `bits`.
+
+#### 6.1.1 Syntax Definition
+
+```
+bit_count(num, bits) -> INT64 -- The return type is Int64
+```
+
+* Parameter Description
+
+    * **​num:​**​ Any integer value (int32 or int64)
+    * **​bits:​**​ Integer value, with a valid range of 2\~64
+
+Note: An error will be raised if the number of `bits`is insufficient to represent `num`(using ​**two's complement signed representation**​): `Argument exception, the scalar function num must be representable with the bits specified. [num] cannot be represented with [bits] bits.`
+
+* Usage Methods
+
+    * Two specific numbers: `bit_count(9, 64)`
+    * Column and a number: `bit_count(column1, 64)`
+    * Between two columns: `bit_count(column1, column2)`
+
+#### 6.1.2 Usage Examples
+
+```
+-- Two specific numbers
+IoTDB:database1> select distinct bit_count(2,8) from bit_table
++-----+
+|_col0|
++-----+
+|    1|
++-----+
+-- Two specific numbers
+IoTDB:database1> select distinct bit_count(-5,8) from bit_table
++-----+
+|_col0|
++-----+
+|    7|
++-----+
+-- Column and a number
+IoTDB:database1> select length,bit_count(length,8) from bit_table
++------+-----+
+|length|_col1|
++------+-----+
+|    14|    3|
+|    15|    4|
+|    13|    3|
++------+-----+
+-- Insufficient bits
+IoTDB:database1> select length,bit_count(length,2) from bit_table
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Argument exception, the scalar function num must be representable with the bits specified. 13 cannot be represented with 2 bits.
+```
+
+### 6.2 bitwise\_and(x, y)
+
+The `bitwise_and(x, y)`function performs a logical AND operation on each bit of two integers x and y based on their two's complement representation, and returns the bitwise AND operation result.
+
+#### 6.2.1 Syntax Definition
+
+```
+bitwise_and(x, y) -> INT64 -- The return type is Int64
+```
+
+* Parameter Description
+
+    * ​**x, y**​: Must be integer values of data type Int32 or Int64
+* Usage Methods
+
+    * Two specific numbers: `bitwise_and(19, 25)`
+    * Column and a number: `bitwise_and(column1, 25)`
+    * Between two columns: `bitwise_and(column1, column2)`
+
+#### 6.2.2 Usage Examples
+
+```
+--Two specific numbers
+IoTDB:database1> select distinct bitwise_and(19,25) from bit_table
++-----+
+|_col0|
++-----+
+|   17|
++-----+
+--Column and a number
+IoTDB:database1> select length, bitwise_and(length,25) from bit_table
++------+-----+
+|length|_col1|
++------+-----+
+|    14|    8|
+|    15|    9|
+|    13|    9|
++------+-----+
+--Between two columns
+IoTDB:database1> select length, width, bitwise_and(length, width) from bit_table
++------+-----+-----+
+|length|width|_col2|
++------+-----+-----+
+|    14|   12|   12|
+|    15|   10|   10|
+|    13|   12|   12|
++------+-----+-----+
+```
+
+### 6.3 bitwise\_not(x)
+
+The `bitwise_not(x)`function performs a logical NOT operation on each bit of the integer x based on its two's complement representation, and returns the bitwise NOT operation result.
+
+#### 6.3.1 Syntax Definition
+
+```
+bitwise_not(x) -> INT64 -- The return type is Int64
+```
+
+* Parameter Description
+
+    * ​**x**​: Must be an integer value of data type Int32 or Int64
+* Usage Methods
+
+    * Specific number: `bitwise_not(5)`
+    * Single column operation: `bitwise_not(column1)`
+
+#### 6.3.2 Usage Examples
+
+```
+-- Specific number
+IoTDB:database1> select distinct bitwise_not(5) from bit_table
++-----+
+|_col0|
++-----+
+|   -6|
++-----+
+-- Single column
+IoTDB:database1> select length, bitwise_not(length) from bit_table
++------+-----+
+|length|_col1|
++------+-----+
+|    14|  -15|
+|    15|  -16|
+|    13|  -14|
++------+-----+
+```
+
+### 6.4 bitwise\_or(x, y)
+
+The `bitwise_or(x,y)`function performs a logical OR operation on each bit of two integers x and y based on their two's complement representation, and returns the bitwise OR operation result.
+
+#### 6.4.1 Syntax Definition
+
+```
+bitwise_or(x, y) -> INT64 -- The return type is Int64
+```
+
+* Parameter Description
+
+    * ​**x, y**​: Must be integer values of data type Int32 or Int64
+* Usage Methods
+
+    * Two specific numbers: `bitwise_or(19, 25)`
+    * Column and a number: `bitwise_or(column1, 25)`
+    * Between two columns: `bitwise_or(column1, column2)`
+
+#### 6.4.2 Usage Examples
+
+```
+-- Two specific numbers
+IoTDB:database1> select distinct bitwise_or(19,25) from bit_table
++-----+
+|_col0|
++-----+
+|   27|
++-----+
+-- Column and a number
+IoTDB:database1> select length,bitwise_or(length,25) from bit_table
++------+-----+
+|length|_col1|
++------+-----+
+|    14|   31|
+|    15|   31|
+|    13|   29|
++------+-----+
+-- Between two columns
+IoTDB:database1> select length, width, bitwise_or(length,width) from bit_table
++------+-----+-----+
+|length|width|_col2|
++------+-----+-----+
+|    14|   12|   14|
+|    15|   10|   15|
+|    13|   12|   13|
++------+-----+-----+
+```
+
+### 6.5 bitwise\_xor(x, y)
+
+The `bitwise_xor(x,y)`function performs a logical XOR (exclusive OR) operation on each bit of two integers x and y based on their two's complement representation, and returns the bitwise XOR operation result. XOR rule: same bits result in 0, different bits result in 1.
+
+#### 6.5.1 Syntax Definition
+
+```
+bitwise_xor(x, y) -> INT64 -- The return type is Int64
+```
+
+* Parameter Description
+
+    * ​**x, y**​: Must be integer values of data type Int32 or Int64
+* Usage Methods
+
+    * Two specific numbers: `bitwise_xor(19, 25)`
+    * Column and a number: `bitwise_xor(column1, 25)`
+    * Between two columns: `bitwise_xor(column1, column2)`
+
+#### 6.5.2 Usage Examples
+
+```
+-- Two specific numbers
+IoTDB:database1> select distinct bitwise_xor(19,25) from bit_table
++-----+
+|_col0|
++-----+
+|   10|
++-----+
+-- Column and a number
+IoTDB:database1> select length,bitwise_xor(length,25) from bit_table
++------+-----+
+|length|_col1|
++------+-----+
+|    14|   23|
+|    15|   22|
+|    13|   20|
++------+-----+
+-- Between two columns
+IoTDB:database1> select length, width, bitwise_xor(length,width) from bit_table
++------+-----+-----+
+|length|width|_col2|
++------+-----+-----+
+|    14|   12|    2|
+|    15|   10|    5|
+|    13|   12|    1|
++------+-----+-----+
+```
+
+### 6.6 bitwise\_left\_shift(value, shift)
+
+The `bitwise_left_shift(value, shift)`function returns the result of shifting the binary representation of integer `value`left by `shift`bits. The left shift operation moves bits towards the higher-order direction, filling the vacated lower-order bits with 0s, and discarding the higher-order bits that overflow. Equivalent to: `value << shift`.
+
+#### 6.6.1 Syntax Definition
+
+```
+bitwise_left_shift(value, shift) -> [same as value] -- The return type is the same as the data type of value
+```
+
+* Parameter Description
+
+    * ​**value**​: The integer value to shift left. Must be of data type Int32 or Int64.
+    * ​**shift**​: The number of bits to shift. Must be of data type Int32 or Int64.
+* Usage Methods
+
+    * Two specific numbers: `bitwise_left_shift(1, 2)`
+    * Column and a number: `bitwise_left_shift(column1, 2)`
+    * Between two columns: `bitwise_left_shift(column1, column2)`
+
+#### 6.6.2 Usage Examples
+
+```
+--Two specific numbers
+IoTDB:database1> select distinct bitwise_left_shift(1,2) from bit_table
++-----+
+|_col0|
++-----+
+|    4|
++-----+
+-- Column and a number
+IoTDB:database1> select length, bitwise_left_shift(length,2) from bit_table
++------+-----+
+|length|_col1|
++------+-----+
+|    14|   56|
+|    15|   60|
+|    13|   52|
++------+-----+
+-- Between two columns
+IoTDB:database1> select length, width, bitwise_left_shift(length,width) from bit_table
++------+-----+-----+
+|length|width|_col2|
++------+-----+-----+
+|    14|   12|    0|
+|    15|   10|    0|
+|    13|   12|    0|
++------+-----+-----+
+```
+
+### 6.7 bitwise\_right\_shift(value, shift)
+
+The `bitwise_right_shift(value, shift)`function returns the result of logically (unsigned) right shifting the binary representation of integer `value`by `shift`bits. The logical right shift operation moves bits towards the lower-order direction, filling the vacated higher-order bits with 0s, and discarding the lower-order bits that overflow.
+
+#### 6.7.1 Syntax Definition
+
+```
+bitwise_right_shift(value, shift) -> [same as value] -- The return type is the same as the data type of value
+```
+
+* Parameter Description
+
+    * ​**value**​: The integer value to shift right. Must be of data type Int32 or Int64.
+    * ​**shift**​: The number of bits to shift. Must be of data type Int32 or Int64.
+* Usage Methods
+
+    * Two specific numbers: `bitwise_right_shift(8, 3)`
+    * Column and a number: `bitwise_right_shift(column1, 3)`
+    * Between two columns: `bitwise_right_shift(column1, column2)`
+
+#### 6.7.2 Usage Examples
+
+```
+--Two specific numbers
+IoTDB:database1> select distinct bitwise_right_shift(8,3) from bit_table
++-----+
+|_col0|
++-----+
+|    1|
++-----+
+--Column and a number
+IoTDB:database1> select length, bitwise_right_shift(length,3) from bit_table
++------+-----+
+|length|_col1|
++------+-----+
+|    14|    1|
+|    15|    1|
+|    13|    1|
++------+-----+
+--Between two columns
+IoTDB:database1> select length, width, bitwise_right_shift(length,width) from bit_table
++------+-----+-----+
+|length|width|_col2|
++------+-----+-----+
+|    14|   12|    0|
+|    15|   10|    0|
+|    13|   12|    0|
+```
+
+### 6.8 bitwise\_right\_shift\_arithmetic(value, shift)
+
+The `bitwise_right_shift_arithmetic(value, shift)`function returns the result of arithmetically right shifting the binary representation of integer `value`by `shift`bits. The arithmetic right shift operation moves bits towards the lower-order direction, discarding the lower-order bits that overflow, and filling the vacated higher-order bits with the sign bit (0 for positive numbers, 1 for negative numbers) to preserve the sign of the number.
+
+#### 6.8.1 Syntax Definition
+
+```
+bitwise_right_shift_arithmetic(value, shift) -> [same as value]-- The return type is the same as the data type of value
+```
+
+* Parameter Description
+
+    * ​**value**​: The integer value to shift right. Must be of data type Int32 or Int64.
+    * ​**shift**​: The number of bits to shift. Must be of data type Int32 or Int64.
+* Usage Methods:
+
+    * Two specific numbers: `bitwise_right_shift_arithmetic(12, 2)`
+    * Column and a number: `bitwise_right_shift_arithmetic(column1, 64)`
+    * Between two columns: `bitwise_right_shift_arithmetic(column1, column2)`
+
+#### 6.8.2 Usage Examples
+
+```
+--Two specific numbers
+IoTDB:database1> select distinct bitwise_right_shift_arithmetic(12,2) from bit_table
++-----+
+|_col0|
++-----+
+|    3|
++-----+
+-- Column and a number
+IoTDB:database1> select length, bitwise_right_shift_arithmetic(length,3) from bit_table
++------+-----+
+|length|_col1|
++------+-----+
+|    14|    1|
+|    15|    1|
+|    13|    1|
++------+-----+
+--Between two columns
+IoTDB:database1> select length, width, bitwise_right_shift_arithmetic(length,width) from bit_table
++------+-----+-----+
+|length|width|_col2|
++------+-----+-----+
+|    14|   12|    0|
+|    15|   10|    0|
+|    13|   12|    0|
++------+-----+-----+
+```
+
+
+## 7. Conditional Expressions
+
+### 7.1 CASE
 
 CASE expressions come in two forms: **Simple CASE** and **Searched CASE**.
 
-#### 6.1.1 Simple CASE
+#### 7.1.1 Simple CASE
 
 The simple form evaluates each value expression from left to right until it finds a match with the given expression:
 
@@ -841,7 +1253,7 @@ SELECT a,
        END
 ```
 
-#### 6.1.2 Searched CASE
+#### 7.1.2 Searched CASE
 
 The searched form evaluates each Boolean condition from left to right until a `TRUE` condition is found, then returns the corresponding result:
 
@@ -866,7 +1278,7 @@ SELECT a, b,
        END
 ```
 
-### 6.2 COALESCE
+### 7.2 COALESCE
 
 Returns the first non-null value from the given list of parameters.
 
@@ -874,11 +1286,11 @@ Returns the first non-null value from the given list of parameters.
 coalesce(value1, value2[, ...])
 ```
 
-## 7. Conversion Functions
+## 8. Conversion Functions
 
-### 7.1 Conversion Functions
+### 8.1 Conversion Functions
 
-#### 7.1.1 cast(value AS type) → type
+#### 8.1.1 cast(value AS type) → type
 
 Explicitly converts a value to the specified type. This can be used to convert strings (`VARCHAR`) to numeric types or numeric values to string types.
 
@@ -893,7 +1305,7 @@ SELECT *
   IN (CAST('2024-11-27' AS DATE), CAST('2024-11-28' AS DATE));
 ```
 
-#### 7.1.2 try_cast(value AS type) → type
+#### 8.1.2 try_cast(value AS type) → type
 
 Similar to `CAST()`. If the conversion fails, returns `NULL` instead of throwing an error.
 
@@ -906,11 +1318,11 @@ SELECT *
   IN (try_cast('2024-11-27' AS DATE), try_cast('2024-11-28' AS DATE));
 ```
 
-### 7.2 Format Function
+### 8.2 Format Function
 
 This function generates and returns a formatted string based on a specified format string and input arguments. Similar to Java’s `String.format` or C’s `printf`, it allows developers to construct dynamic string templates using placeholder syntax. Predefined format specifiers in the template are replaced precisely with corresponding argument values, producing a complete string that adheres to specific formatting requirements.
 
-#### 7.2.1 Syntax
+#### 8.2.1 Syntax
 
 ```SQL
 format(pattern, ...args) -> STRING
@@ -928,7 +1340,7 @@ format(pattern, ...args) -> STRING
 
 * Formatted result string of type `STRING`.
 
-#### 7.2.2 Usage Examples
+#### 8.2.2 Usage Examples
 
 1. Format Floating-Point Numbers
    ```SQL
@@ -1037,7 +1449,7 @@ IoTDB:database1> SELECT format('%1$tF %1$tT', 2024-01-01T00:00:00.000+08:00) FRO
    +-----+
    ```
 
-#### 7.2.3 Format Conversion Failure Scenarios
+#### 8.2.3 Format Conversion Failure Scenarios
 
 1. Type Mismatch Errors
 
@@ -1092,19 +1504,19 @@ Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Scalar function format must h
 ```
 
 
-## 8. String Functions and Operators
+## 9. String Functions and Operators
 
-### 8.1 String operators
+### 9.1 String operators
 
-#### 8.1.1 || Operator
+#### 9.1.1 || Operator
 
 The `||` operator is used for string concatenation and functions the same as the `concat` function.
 
-#### 8.1.2 LIKE Statement
+#### 9.1.2 LIKE Statement
 
  The `LIKE` statement is used for pattern matching. For detailed usage, refer to Pattern Matching:[LIKE](#1-like-运算符).
 
-### 8.2 String Functions
+### 9.2 String Functions
 
 | Function Name | Description                                                                                                                                                                                                                                                                                                                                                                                                                              | Input                                                             | Output  | Usage                                                        |
 | :------------ |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------| :------ | :----------------------------------------------------------- |
@@ -1122,33 +1534,33 @@ The `||` operator is used for string concatenation and functions the same as the
 | `substring`   | Extracts a substring from `start_index` to the end of the string. **Notes:**  - `start_index` starts at `1`.  - Returns `NULL` if input is `NULL`.  - Throws an error if `start_index` is greater than string length.                                                                                                                                                                                                                    | `string`, `start_index`                                           | String  | substring(string from start_index)or substring(string, start_index) |
 | `substring`   | Extracts a substring of `length` characters starting from `start_index`. **Notes:**  - `start_index` starts at `1`.  - Returns `NULL` if input is `NULL`.  - Throws an error if `start_index` is greater than string length.  - Throws an error if `length` is negative.  - If `start_index + length` exceeds `int.MAX`, an overflow error may occur.                                                                                    | `string`, `start_index`, `length`                                 | String  | substring(string from start_index for length)  or substring(string, start_index, length) |
 
-## 9. Pattern Matching Functions
+## 10. Pattern Matching Functions
 
-### 9.1 LIKE
+### 10.1 LIKE
 
-#### 9.1.1 Usage
+#### 10.1.1 Usage
 
 The `LIKE `operator is used to compare a value with a pattern. It is commonly used in the `WHERE `clause to match specific patterns within strings.
 
-#### 9.1.2 Syntax
+#### 10.1.2 Syntax
 
 ```SQL
 ... column [NOT] LIKE 'pattern' ESCAPE 'character';
 ```
 
-#### 9.1.3 Match rules
+#### 10.1.3 Match rules
 
 - Matching characters is case-sensitive
 - The pattern supports two wildcard characters:
   - `_` matches any single character
   - `%` matches zero or more characters
 
-#### 9.1.4 Notes
+#### 10.1.4 Notes
 
 - `LIKE` pattern matching applies to the entire string by default. Therefore, if it's desired to match a sequence anywhere within a string, the pattern must start and end with a percent sign.
 - To match the escape character itself, double it (e.g., `\\` to match `\`). For example, you can use `\\` to match for `\`.
 
-#### 9.1.5 Examples
+#### 10.1.5 Examples
 
 #### **Example 1: Match Strings Starting with a Specific Character**
 
@@ -1190,19 +1602,19 @@ SELECT * FROM table1 WHERE continent LIKE 'South\_%' ESCAPE '\';
 SELECT * FROM table1 WHERE continent LIKE 'South\\%' ESCAPE '\';
 ```
 
-### 9.2 regexp_like
+### 10.2 regexp_like
 
-#### 9.2.1 Usage
+#### 10.2.1 Usage
 
 Evaluates whether the regular expression pattern is present within the given string.
 
-#### 9.2.2 Syntax
+#### 10.2.2 Syntax
 
 ```SQL
 regexp_like(string, pattern);
 ```
 
-#### 9.2.3 Notes
+#### 10.2.3 Notes
 
 - The pattern for `regexp_like` only needs to be contained within the string, and does not need to match the entire string.
 - To match the entire string, use the `^` and `$` anchors.
@@ -1225,7 +1637,7 @@ regexp_like(string, pattern);
     4. Categories: Specify directly, without the need for `Is`, `general_category=`, or `gc=` prefixes (e.g., `\p{L}`).
     5. Binary properties: Specify directly, without `Is` (e.g., `\p{NoncharacterCodePoint}`).
 
-#### 9.2.4 Examples
+#### 10.2.4 Examples
 
 #### Example 1: **Matching strings containing a specific pattern**
 
@@ -1250,7 +1662,7 @@ SELECT regexp_like('1a 2b 14m', '^\\d+b$'); -- false
   - `b` represents the letter b.
   - `'1a 2b 14m'` does not match this pattern because it does not start with digits and does not end with `b`, so it returns `false`.
 
-## 10. Timeseries Windowing Functions
+## 11. Timeseries Windowing Functions
 
 The sample data is as follows:
 
@@ -1273,19 +1685,19 @@ CREATE TABLE bid(time TIMESTAMP TIME, stock_id STRING TAG, price FLOAT FIELD);
 INSERT INTO bid(time, stock_id, price) VALUES('2021-01-01T09:05:00','AAPL',100.0),('2021-01-01T09:06:00','TESL',200.0),('2021-01-01T09:07:00','AAPL',103.0),('2021-01-01T09:07:00','TESL',202.0),('2021-01-01T09:09:00','AAPL',102.0),('2021-01-01T09:15:00','TESL',195.0);
 ```
 
-### 10.1 HOP
+### 11.1 HOP
 
-#### 10.1.1 Function Description
+#### 11.1.1 Function Description
 
 The HOP function segments data into overlapping time windows for analysis, assigning each row to all windows that overlap with its timestamp. If windows overlap (when SLIDE < SIZE), data will be duplicated across multiple windows.
 
-#### 10.1.2 Function Definition
+#### 11.1.2 Function Definition
 
 ```SQL
 HOP(data, timecol, size, slide[, origin])
 ```
 
-#### 10.1.3 Parameter Description
+#### 11.1.3 Parameter Description
 
 | Parameter | Type   | Attributes                      | Description             |
 | ----------- | -------- | --------------------------------- | ------------------------- |
@@ -1296,7 +1708,7 @@ HOP(data, timecol, size, slide[, origin])
 | ORIGIN    | Scalar | Timestamp (default: Unix epoch) | First window start time |
 
 
-#### 10.1.4 Returned Results
+#### 11.1.4 Returned Results
 
 The HOP function returns:
 
@@ -1304,7 +1716,7 @@ The HOP function returns:
 * `window_end`: Window end time (exclusive)
 * Pass-through columns: All input columns from DATA
 
-#### 10.1.5 Usage Example
+#### 11.1.5 Usage Example
 
 ```SQL
 IoTDB> SELECT * FROM HOP(DATA => bid,TIMECOL => 'time',SLIDE => 5m,SIZE => 10m);
@@ -1339,18 +1751,18 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM HOP(DAT
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 10.2 SESSION
+### 11.2 SESSION
 
-#### 10.2.1 Function Description
+#### 11.2.1 Function Description
 
 The SESSION function groups data into sessions based on time intervals. It checks the time gap between consecutive rows—rows with gaps smaller than the threshold (GAP) are grouped into the current window, while larger gaps trigger a new window.
 
-#### 10.2.2 Function Definition
+#### 11.2.2 Function Definition
 
 ```SQL
 SESSION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], timecol, gap)
 ```
-#### 10.2.3 Parameter Description
+#### 11.2.3 Parameter Description
 
 | Parameter | Type   | Attributes                 | Description                          |
 | ----------- | -------- | ---------------------------- | -------------------------------------- |
@@ -1358,7 +1770,7 @@ SESSION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], timecol, gap)
 | TIMECOL   | Scalar | String (default: 'time')   | Time column name                     |
 | GAP       | Scalar | Long integer               | Session gap threshold                |
 
-#### 10.2.4 Returned Results
+#### 11.2.4 Returned Results
 
 The SESSION function returns:
 
@@ -1366,7 +1778,7 @@ The SESSION function returns:
 * `window_end`: Time of the last row in the session
 * Pass-through columns: All input columns from DATA
 
-#### 10.2.5 Usage Example
+#### 11.2.5 Usage Example
 
 ```SQL
 IoTDB> SELECT * FROM SESSION(DATA => bid PARTITION BY stock_id ORDER BY time,TIMECOL => 'time',GAP => 2m);
@@ -1392,19 +1804,19 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM SESSION
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 10.3 VARIATION
+### 11.3 VARIATION
 
-#### 10.3.1 Function Description
+#### 11.3.1 Function Description
 
 The VARIATION function groups data based on value differences. The first row becomes the baseline for the first window. Subsequent rows are compared to the baseline—if the difference is within the threshold (DELTA), they join the current window; otherwise, a new window starts with that row as the new baseline.
 
-#### 10.3.2 Function Definition
+#### 11.3.2 Function Definition
 
 ```sql
 VARIATION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], col, delta)
 ```
 
-#### 10.3.3 Parameter Description
+#### 11.3.3 Parameter Description
 
 | Parameter | Type   | Attributes                 | Description                          |
 | ----------- | -------- | ---------------------------- | -------------------------------------- |
@@ -1412,14 +1824,14 @@ VARIATION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], col, delta)
 | COL       | Scalar | String                     | Column for difference calculation    |
 | DELTA     | Scalar | Float                      | Difference threshold                 |
 
-#### 10.3.4 Returned Results
+#### 11.3.4 Returned Results
 
 The VARIATION function returns:
 
 * `window_index`: Window identifier
 * Pass-through columns: All input columns from DATA
 
-#### 10.3.5 Usage Example
+#### 11.3.5 Usage Example
 
 ```sql
 IoTDB> SELECT * FROM VARIATION(DATA => bid PARTITION BY stock_id ORDER BY time,COL => 'price',DELTA => 2.0);
@@ -1446,33 +1858,33 @@ IoTDB> SELECT first(time) as window_start, last(time) as window_end, stock_id, a
 +-----------------------------+-----------------------------+--------+-----+
 ```
 
-### 10.4 CAPACITY
+### 11.4 CAPACITY
 
-#### 10.4.1 Function Description
+#### 11.4.1 Function Description
 
 The CAPACITY function groups data into fixed-size windows, where each window contains up to SIZE rows.
 
-#### 10.4.2 Function Definition
+#### 11.4.2 Function Definition
 
 ```sql
 CAPACITY(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], size)
 ```
 
-#### 10.4.3 Parameter Description
+#### 11.4.3 Parameter Description
 
 | Parameter | Type   | Attributes                 | Description                          |
 | ----------- | -------- | ---------------------------- | -------------------------------------- |
 | DATA      | Table  | SET SEMANTIC, PASS THROUGH | Input table with partition/sort keys |
 | SIZE      | Scalar | Long integer               | Window size (row count)              |
 
-#### 10.4.4 Returned Results
+#### 11.4.4 Returned Results
 
 The CAPACITY function returns:
 
 * `window_index`: Window identifier
 * Pass-through columns: All input columns from DATA
 
-#### 10.4.5 Usage Example
+#### 11.4.5 Usage Example
 
 ```sql
 IoTDB> SELECT * FROM CAPACITY(DATA => bid PARTITION BY stock_id ORDER BY time, SIZE => 2);
@@ -1499,18 +1911,18 @@ IoTDB> SELECT first(time) as start_time, last(time) as end_time, stock_id, avg(p
 +-----------------------------+-----------------------------+--------+-----+
 ```
 
-### 10.5 TUMBLE
+### 11.5 TUMBLE
 
-#### 10.5.1 Function Description
+#### 11.5.1 Function Description
 
 The TUMBLE function assigns each row to a non-overlapping, fixed-size time window based on a timestamp attribute.
 
-#### 10.5.2 Function Definition
+#### 11.5.2 Function Definition
 
 ```sql
 TUMBLE(data, timecol, size[, origin])
 ```
-#### 10.5.3 Parameter Description
+#### 11.5.3 Parameter Description
 
 | Parameter | Type   | Attributes                      | Description             |
 | ----------- | -------- | --------------------------------- | ------------------------- |
@@ -1519,7 +1931,7 @@ TUMBLE(data, timecol, size[, origin])
 | SIZE      | Scalar | Long integer (positive)         | Window size             |
 | ORIGIN    | Scalar | Timestamp (default: Unix epoch) | First window start time |
 
-#### 10.5.4 Returned Results
+#### 11.5.4 Returned Results
 
 The TUMBLE function returns:
 
@@ -1527,7 +1939,7 @@ The TUMBLE function returns:
 * `window_end`: Window end time (exclusive)
 * Pass-through columns: All input columns from DATA
 
-#### 10.5.5 Usage Example
+#### 11.5.5 Usage Example
 
 ```SQL
 IoTDB> SELECT * FROM TUMBLE( DATA => bid, TIMECOL => 'time', SIZE => 10m);
@@ -1553,19 +1965,19 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM TUMBLE(
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 10.6 CUMULATE
+### 11.6 CUMULATE
 
-#### 10.6.1 Function Description
+#### 11.6.1 Function Description
 
 The CUMULATE function creates expanding windows from an initial window, maintaining the same start time while incrementally extending the end time by STEP until reaching SIZE. Each window contains all elements within its range. For example, with a 1-hour STEP and 24-hour SIZE, daily windows would be: `[00:00, 01:00)`, `[00:00, 02:00)`, ..., `[00:00, 24:00)`.
 
-#### 10.6.2 Function Definition
+#### 11.6.2 Function Definition
 
 ```sql
 CUMULATE(data, timecol, size, step[, origin])
 ```
 
-#### 10.6.3 Parameter Description
+#### 11.6.3 Parameter Description
 
 | Parameter | Type   | Attributes                      | Description                                       |
 | ----------- | -------- | --------------------------------- | --------------------------------------------------- |
@@ -1577,7 +1989,7 @@ CUMULATE(data, timecol, size, step[, origin])
 
 > Note: An error `Cumulative table function requires size must be an integral multiple of step` occurs if SIZE is not divisible by STEP.
 
-#### 10.6.4 Returned Results
+#### 11.6.4 Returned Results
 
 The CUMULATE function returns:
 
@@ -1585,7 +1997,7 @@ The CUMULATE function returns:
 * `window_end`: Window end time (exclusive)
 * Pass-through columns: All input columns from DATA
 
-#### 10.6.5 Usage Example
+#### 11.6.5 Usage Example
 
 ```sql
 IoTDB> SELECT * FROM CUMULATE(DATA => bid,TIMECOL => 'time',STEP => 2m,SIZE => 10m);
