@@ -37,7 +37,16 @@ jobs:
         env:
           NODE_OPTIONS: --max_old_space_size=8192
         run: pnpm build
-  
+
+      - name: Deploy staging website
+        env:
+          IOTDB_WEBSITE_BUILD: ${{ secrets.IOTDB_WEBSITE_BUILD }}
+        run: |
+          git config --global url."https://asf-ci-deploy:$IOTDB_WEBSITE_BUILD@github.com/apache/".insteadOf "https://github.com/apache/"
+          git config --global user.name github-actions
+          git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
+          npm run deploy:staging
+
   linksCheck:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
@@ -59,7 +68,7 @@ jobs:
       - name: Test build website
         env:
           NODE_OPTIONS: --max_old_space_size=8192
-        run: pnpm run check-links 
+        run: pnpm run check-links
 
   deploy:
     runs-on: ubuntu-latest

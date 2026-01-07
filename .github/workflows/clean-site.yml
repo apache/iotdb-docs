@@ -1,0 +1,121 @@
+name: Cleanup iotdb-website Repository
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: 'Branch to cleanup (asf-site or asf-staging)'
+        required: true
+        type: choice
+        options:
+          - asf-site
+          - asf-staging
+          - both
+      confirm:
+        description: 'Type "CONFIRM" to proceed with cleanup'
+        required: true
+        type: string
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    if: github.event.inputs.confirm == 'CONFIRM'
+
+    steps:
+      - name: Validate confirmation
+        if: github.event.inputs.confirm != 'CONFIRM'
+        run: |
+          echo "❌ Cleanup cancelled:  confirmation not provided"
+          exit 1
+
+      - name: Checkout iotdb-website repository
+        uses: actions/checkout@v4
+        with:
+          repository: apache/iotdb-website
+          token: ${{ secrets.IOTDB_WEBSITE_BUILD }}
+          fetch-depth: 0
+          ref: ${{ github.event.inputs.target_branch == 'both' && 'asf-site' || github.event.inputs.target_branch }}
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply. github.com"
+
+      - name: Cleanup asf-site branch
+        if: github.event. inputs.target_branch == 'asf-site' || github.event.inputs.target_branch == 'both'
+        run: |
+          echo "🧹 Cleaning up asf-site branch..."
+
+          # Checkout the branch
+          git checkout asf-site
+
+          # Create a new orphan branch (no history)
+          git checkout --orphan asf-site-new
+
+          # Add all current files
+          git add -A
+
+          # Create initial commit
+          git commit -m "chore: reset repository history to reduce size
+
+          Previous repository size: ~5.9GB
+          This commit resets the Git history to start fresh. 
+
+          Ref: Repository cleanup initiative"
+
+          # Delete old branch and rename new one
+          git branch -D asf-site || true
+          git branch -m asf-site
+
+          # Force push (this removes all history)
+          git push -f origin asf-site
+
+          echo "✅ asf-site branch cleaned successfully"
+
+      - name: Cleanup asf-staging branch
+        if: github.event.inputs.target_branch == 'asf-staging' || github.event.inputs.target_branch == 'both'
+        run: |
+          echo "🧹 Cleaning up asf-staging branch..."
+
+          # Fetch and checkout the staging branch
+          git fetch origin asf-staging: asf-staging
+          git checkout asf-staging
+
+          # Create a new orphan branch (no history)
+          git checkout --orphan asf-staging-new
+
+          # Add all current files
+          git add -A
+
+          # Create initial commit
+          git commit -m "chore: reset repository history to reduce size
+
+          Previous repository size: ~5.9GB
+          This commit resets the Git history to start fresh. 
+
+          Ref: Repository cleanup initiative"
+
+          # Delete old branch and rename new one
+          git branch -D asf-staging || true
+          git branch -m asf-staging
+
+          # Force push (this removes all history)
+          git push -f origin asf-staging
+
+          echo "✅ asf-staging branch cleaned successfully"
+
+      - name: Summary
+        run: |
+          echo "## Cleanup Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Successfully cleaned branch(es): **${{ github.event.inputs.target_branch }}**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Next Steps" >> $GITHUB_STEP_SUMMARY
+          echo "1. Wait for GitHub to run garbage collection (may take hours)" >> $GITHUB_STEP_SUMMARY
+          echo "2. Check repository size at:  https://github.com/apache/iotdb-website" >> $GITHUB_STEP_SUMMARY
+          echo "3. All users should re-clone the repository to get the cleaned version" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ⚠️ Important Notes" >> $GITHUB_STEP_SUMMARY
+          echo "- All commit history in the cleaned branch(es) has been removed" >> $GITHUB_STEP_SUMMARY
+          echo "- The repository size reduction may take some time to reflect on GitHub" >> $GITHUB_STEP_SUMMARY
+          echo "- Current deployments are not affected and will continue to work" >> $GITHUB_STEP_SUMMARY
