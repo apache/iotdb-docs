@@ -25,6 +25,7 @@ ghpages.publish(
     repo: 'https://github.com/apache/iotdb-website.git',
     message: 'Site checkin for project iotdb-website',
     dotfiles: true,
+    history: false,
   },
   (err) => {
     if (err instanceof Error) {
