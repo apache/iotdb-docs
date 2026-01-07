@@ -104,6 +104,7 @@ _paq.push(['enableLinkTracking']);
         'data-button-height': '50px',
         'data-button-width': '50px',
         'data-button-text': 'Ask',
+        // 'data-button-hide': 'true',
         'data-modal-override-open-selector': '#custom-ask-ai-button',
         'data-modal-image-width': '150px',
         'data-modal-title': 'AI Docs',
@@ -116,7 +117,7 @@ _paq.push(['enableLinkTracking']);
         'data-user-analytics-fingerprint-enabled': 'true',
         'data-consent-required': 'true',
         'data-consent-screen-disclaimer':
-          "By clicking \"I agree, let's chat\", you consent to the use of the AI assistant in accordance with kapa.ai's [Privacy Policy](https://www.kapa.ai/content/privacy-policy). This service uses reCAPTCHA, which requires your consent to Google's [Privacy Policy](https://policies.google.com/privacy) and [Terms of Service](https://policies.google.com/terms). By proceeding, you explicitly agree to both kapa.ai's and Google's privacy policies.",
+          "By clicking <I agree, let's chat>, you consent to the use of the AI assistant in accordance with kapa.ai's [Privacy Policy](https://www.kapa.ai/content/privacy-policy). This service uses reCAPTCHA, which requires your consent to Google's [Privacy Policy](https://policies.google.com/privacy) and [Terms of Service](https://policies.google.com/terms). By proceeding, you explicitly agree to both kapa.ai's and Google's privacy policies.",
       },
     ],
   ],
