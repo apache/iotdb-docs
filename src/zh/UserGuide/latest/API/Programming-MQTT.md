@@ -71,7 +71,7 @@ MQTT 主题与 IoTDB 时间序列相对应。
 | `mqtt_max_message_size`     | mqtt 消息最大长度（字节）                                                                                                                                                             | 1048576        |
 
 
-## 4. 示例代码
+## 4. 示例代码
 以下是 mqtt 客户端将消息发送到 IoTDB 服务器的示例。
 
  ```java
