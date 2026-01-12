@@ -262,7 +262,7 @@ IoTDB> SHOW CURRENT_TIMESTAMP
 
 **含义**：用于显示所有正在执行的查询信息。
 
-> 更多系统表使用方法请参考[系统表](../Reference/System-Tables.md)
+> 更多系统表使用方法请参考[系统表](../Reference/System-Tables_apache.md)
 
 #### 语法：
 

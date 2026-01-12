@@ -31,7 +31,7 @@
 CREATE DATABASE (IF NOT EXISTS)? <DATABASE_NAME> (WITH properties)?
 ```
 
-[Detailed syntax reference](../Basic-Concept/Database-Management.md#_1-1-create-a-database)
+[Detailed syntax reference](../Basic-Concept/Database-Management_apache.md#_1-1-create-a-database)
 
 **Examples:**
 
@@ -93,7 +93,7 @@ IoTDB> SHOW CURRENT_DATABASE;
 SHOW DATABASES (DETAILS)?
 ```
 
-[Detailed syntax reference](../Basic-Concept/Database-Management.md#_1-4-view-all-databases)
+[Detailed syntax reference](../Basic-Concept/Database-Management_apache.md#_1-4-view-all-databases)
 
 **Examples:**
 
@@ -177,7 +177,7 @@ comment
     ;
 ```
 
-[Detailed syntax reference](../Basic-Concept/Table-Management.md#_1-1-create-a-table)
+[Detailed syntax reference](../Basic-Concept/Table-Management_apache.md#_1-1-create-a-table)
 
 **Examples:**
 

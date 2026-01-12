@@ -109,7 +109,7 @@ IoTDB> select * from information_schema.databases
 | `status`     | STRING    | ATTRIBUTE   | Status              |
 | `comment`    | STRING    | ATTRIBUTE   | Description/comment |
 
-* Note:  Possible values for `status`: `USING`, `PRE_CREATE`, `PRE_DELETE`.  For details, refer to the [View Tables](../Basic-Concept/Table-Management.md#12-view-tables) in Table Management documentation
+* Note:  Possible values for `status`: `USING`, `PRE_CREATE`, `PRE_DELETE`.  For details, refer to the [View Tables](../Basic-Concept/Table-Management_apache.md#12-view-tables) in Table Management documentation
 * The query results only display the collection of tables for which you have any permission.
 * Query Example:
 
@@ -216,7 +216,7 @@ IoTDB> select * from information_schema.queries
 | `comment`     | STRING    | ATTRIBUTE   | Column description |
 
 Notes: 
-* Possible values for `status`: `USING`, `PRE_DELETE`. For details, refer to [Viewing Table Columns](../Basic-Concept/Table-Management.html#13-view-table-columns) in Table Management documentation.
+* Possible values for `status`: `USING`, `PRE_DELETE`. For details, refer to [Viewing Table Columns](../Basic-Concept/Table-Management_apache.html#13-view-table-columns) in Table Management documentation.
 * The query results only display the column information of tables for which you have any permission.
 
 * Query Example:

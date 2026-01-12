@@ -109,7 +109,7 @@ IoTDB> select * from information_schema.databases
 | status      | STRING   | ATTRIBUTE | 状态         |
 | comment     | STRING   | ATTRIBUTE | 注释         |
 
-* 说明：status 可能为`USING`/`PRE_CREATE`/`PRE_DELETE`，具体见表管理中[查看表](../Basic-Concept/Table-Management.md#12-查看表)的相关描述
+* 说明：status 可能为`USING`/`PRE_CREATE`/`PRE_DELETE`，具体见表管理中[查看表](../Basic-Concept/Table-Management_apache.md#12-查看表)的相关描述
 * 查询结果只展示自身有任意权限的表集合
 * 查询示例：
 
@@ -216,7 +216,7 @@ IoTDB> select * from information_schema.queries
 | comment      | STRING   | ATTRIBUTE | 列注释       |
 
 说明：
-* status 可能为`USING`/`PRE_DELETE`，具体见表管理中[查看表的列](../Basic-Concept/Table-Management.html#13-查看表的列)的相关描述
+* status 可能为`USING`/`PRE_DELETE`，具体见表管理中[查看表的列](../Basic-Concept/Table-Management_apache.md#13-查看表的列)的相关描述
 * 查询结果只展示自身有任意权限的表的列信息
 * 查询示例：
 

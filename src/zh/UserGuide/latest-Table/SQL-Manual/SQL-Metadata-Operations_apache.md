@@ -31,7 +31,7 @@
 CREATE DATABASE (IF NOT EXISTS)? <DATABASE_NAME> (WITH properties)?
 ```
 
-更多详细语法说明请参考：[创建数据库](../Basic-Concept/Database-Management.md#_1-1-创建数据库)
+更多详细语法说明请参考：[创建数据库](../Basic-Concept/Database-Management_apache.md#_1-1-创建数据库)
 
 **示例：**
 
@@ -93,7 +93,7 @@ IoTDB> SHOW CURRENT_DATABASE;
 SHOW DATABASES (DETAILS)?
 ```
 
-更多返回结果详细说明请参考：[查看所有数据库](../Basic-Concept/Database-Management.md#_1-4-查看所有数据库)
+更多返回结果详细说明请参考：[查看所有数据库](../Basic-Concept/Database-Management_apache.md#_1-4-查看所有数据库)
 
 **示例:**
 
@@ -177,7 +177,7 @@ comment
     ;
 ```
 
-更多详细语法说明请参考：[创建表](../Basic-Concept/Table-Management.md#_1-1-创建表)
+更多详细语法说明请参考：[创建表](../Basic-Concept/Table-Management_apache.md#_1-1-创建表)
 
 **示例:**
 

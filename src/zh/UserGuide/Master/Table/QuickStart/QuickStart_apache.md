@@ -49,9 +49,9 @@
 
    - 建模设计介绍：[建模方案设计](../Background-knowledge/Data-Model-and-Terminology_apache.md)
 
-   - 数据库介绍：[数据库管理](../Basic-Concept/Database-Management.md)
+   - 数据库介绍：[数据库管理](../Basic-Concept/Database-Management_apache.md)
    
-   - 表介绍：[表管理](../Basic-Concept/Table-Management.md)
+   - 表介绍：[表管理](../Basic-Concept/Table-Management_apache.md)
 
 2. 数据写入&更新：在数据写入&更新方面，IoTDB 提供了多种方式来插入实时数据，支持追加查询写回，基本介绍请查看 [数据写入&更新](../Basic-Concept/Write-Updata-Data_apache.md)
 
@@ -60,7 +60,7 @@
 4. 数据删除：IoTDB 提供了两种删除方式，分别为SQL语句删除与过期自动删除(TTL)
 
    - SQL语句删除：基本介绍请查看 [数据删除](../Basic-Concept/Delete-Data.md)
-   - 过期自动删除(TTL)：基本介绍请查看 [过期自动删除](../Basic-Concept/TTL-Delete-Data.md)
+   - 过期自动删除(TTL)：基本介绍请查看 [过期自动删除](../Basic-Concept/TTL-Delete-Data_apache.md)
 
 5. 其他进阶功能：除了数据库常见的写入、查询等功能外，IoTDB 还支持“数据同步”等功能，具体使用方法可参见具体文档：
 

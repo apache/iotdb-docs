@@ -67,7 +67,7 @@ Corresponds to the path in the tree model. The last level of the path must be `*
 
 2. **`view_name`**
 
-The name of the view, which follows the same rules as a table name (for specific constraints, refer to [Create Table](../Basic-Concept/Table-Management.md#\_1-1-create-a-table)), e.g., `db.view`.
+The name of the view, which follows the same rules as a table name (for specific constraints, refer to [Create Table](../Basic-Concept/Table-Management_apache.md#\_1-1-create-a-table)), e.g., `db.view`.
 
 3. **`viewColumnDefinition`**
 

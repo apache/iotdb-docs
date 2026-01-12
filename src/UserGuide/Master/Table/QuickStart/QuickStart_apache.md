@@ -49,9 +49,9 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
    - Introduction to Modeling Design:[Data Model and Terminology](../Background-knowledge/Data-Model-and-Terminology_apache.md)
 
-   - Introduction to Database:[Database Management](../Basic-Concept/Database-Management.md)
+   - Introduction to Database:[Database Management](../Basic-Concept/Database-Management_apache.md)
    
-   - Introduction to Tables: [Table Management](../Basic-Concept/Table-Management.md)
+   - Introduction to Tables: [Table Management](../Basic-Concept/Table-Management_apache.md)
 
 2. Data Insertion & Updates: IoTDB provides multiple methods for inserting real-time data, and supports data write-back. For basic data insertion and updating operations, please see [Write&Updata Data](../Basic-Concept/Write-Updata-Data_apache.md)
 
@@ -61,7 +61,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
    - SQL-Based Deletion: For a basic introduction, please refer to [Delete Data](../Basic-Concept/Delete-Data.md)
    
-   - Automatic Expiration Deletion (TTL): For a basic introduction, please see  [TTL Delete Data](../Basic-Concept/TTL-Delete-Data.md)
+   - Automatic Expiration Deletion (TTL): For a basic introduction, please see  [TTL Delete Data](../Basic-Concept/TTL-Delete-Data_apache.md)
 
 5. Advanced Features: In addition to common database functions such as insertion and querying, IoTDB also supports features like "data synchronization." For specific usage methods, please refer to the respective documents:
 

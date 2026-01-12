@@ -85,8 +85,8 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Basic-Concept/',
       children: [
-        { text: 'Database Management', link: 'Database-Management' },
-        { text: 'Table Management', link: 'Table-Management' },
+        { text: 'Database Management', link: 'Database-Management_apache' },
+        { text: 'Table Management', link: 'Table-Management_apache' },
         { text: 'Write&Updata Data', link: 'Write-Updata-Data_apache' },
         { text: 'Query Data', link: 'Query-Data_apache' },
         {
@@ -94,7 +94,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'Delete Data', link: 'Delete-Data' },
-            { text: 'TTL Delete Data', link: 'TTL-Delete-Data' },
+            { text: 'TTL Delete Data', link: 'TTL-Delete-Data_apache' },
             { text: 'SpaceTL Delete Data', link: 'SpaceTL-Delete' },
           ],
         },
@@ -114,14 +114,14 @@ export const enSidebar = {
             { text: 'Authority Management', link: 'Authority-Management_apache' },
           ],
         },
-        { text: 'Tree-to-Table Mapping', link: 'Tree-to-Table' },
+        { text: 'Tree-to-Table Mapping', link: 'Tree-to-Table_apache' },
         {
           text: 'System Maintenance',
           collapsible: true,
           children: [
             { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis' },
             { text: 'Cluster Maintenance', link: 'Load-Balance' },
-            { text: 'Maintenance statement', link: 'Maintenance-commands' },
+            { text: 'Maintenance statement', link: 'Maintenance-commands_apache' },
           ],
         },
       ],
@@ -212,7 +212,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
-        { text: 'Metadata Operations', link: 'SQL-Metadata-Operations' },
+        { text: 'Metadata Operations', link: 'SQL-Metadata-Operations_apache' },
         { text: 'Data Addition&Deletion', link: 'SQL-Data-Addition-Deletion_apache' },
         {
           text: 'Data Query',
@@ -261,7 +261,7 @@ export const enSidebar = {
         { text: 'Sample Data', link: 'Sample-Data' },
         { text: 'Config Manual', link: 'System-Config-Manual' },
         { text: 'Status Codes', link: 'Status-Codes' },
-        { text: 'System Tables', link: 'System-Tables' },
+        { text: 'System Tables', link: 'System-Tables_apache' },
       ],
     },
     {

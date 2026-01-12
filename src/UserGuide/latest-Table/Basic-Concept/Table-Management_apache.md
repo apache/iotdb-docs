@@ -22,8 +22,8 @@
 # Table Management
 
 Before starting to use the table management functionality, we recommend familiarizing yourself with the following related background knowledge for a better understanding and application of the table management features:
-* [Time Series Data Model](../Background-knowledge/Navigating_Time_Series_Data.md): Understand the basic concepts and characteristics of time series data to establish a foundation for data modeling.
-* [Modeling Design Plan](../Background-knowledge/Data-Model-and-Terminology_timecho.md): Master the IoTDB time series model and its applicable scenarios to provide a design basis for table management.
+* [Timeseries Data Model](../Background-knowledge/Navigating_Time_Series_Data.md): Understand the basic concepts and characteristics of time series data to establish a foundation for data modeling.
+* [Modeling Scheme Design](../Background-knowledge/Data-Model-and-Terminology_apache.md): Master the IoTDB time series model and its applicable scenarios to provide a design basis for table management.
 
 ## 1. Table Management
 

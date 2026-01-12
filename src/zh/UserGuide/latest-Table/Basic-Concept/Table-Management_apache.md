@@ -23,7 +23,7 @@
 
 在开始使用表管理功能前，推荐您先了解以下相关预备知识，以便更好地理解和应用表管理功能：
 * [时序数据模型](../Background-knowledge/Navigating_Time_Series_Data.md)：了解时序数据的基本概念与特点，帮助建立建模基础。
-* [建模方案设计](../Background-knowledge/Data-Model-and-Terminology_timecho.md)：掌握 IoTDB 时序模型及适用场景，为表管理提供设计基础。
+* [建模方案设计](../Background-knowledge/Data-Model-and-Terminology_apache.md)：掌握 IoTDB 时序模型及适用场景，为表管理提供设计基础。
 
 ## 1. 表管理
 

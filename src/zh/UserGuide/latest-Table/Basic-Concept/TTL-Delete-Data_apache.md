@@ -40,7 +40,7 @@ IoTDB支持对表（table）级别设置数据保留时间（TTL），允许系�
 
 ### 2.1 为表设置 TTL
 
-如果在建表时通过sql语句设置了表的 TTL，则会以表的ttl为准。建表语句详情可见：[表管理](../Basic-Concept/Table-Management.md)
+如果在建表时通过sql语句设置了表的 TTL，则会以表的ttl为准。建表语句详情可见：[表管理](../Basic-Concept/Table-Management_apache.md)
 
 示例1：创建表时设置 TTL
 
@@ -64,7 +64,7 @@ ALTER TABLE tableB set properties TTL=DEFAULT
 
 ### 2.2 为数据库设置 TTL
 
-没有设置表的TTL，则会继承database的ttl。建数据库语句详情可见：[数据库管理](../Basic-Concept/Database-Management.md)
+没有设置表的TTL，则会继承database的ttl。建数据库语句详情可见：[数据库管理](../Basic-Concept/Database-Management_apache.md)
 
 示例4：数据库设置为 ttl =3600000，将生成一个ttl=3600000的表：
 
@@ -100,7 +100,7 @@ ALTER TABLE tableB set properties TTL='INF'
 
 ## 4. 查看 TTL 信息
 
-使用 "SHOW DATABASES" 和 "SHOW TABLES" 命令可以直接显示数据库和表的 TTL 详情。数据库和表管理语句详情可见：[数据库管理](../Basic-Concept/Database-Management.md)、[表管理](../Basic-Concept/Table-Management.md)
+使用 "SHOW DATABASES" 和 "SHOW TABLES" 命令可以直接显示数据库和表的 TTL 详情。数据库和表管理语句详情可见：[数据库管理](../Basic-Concept/Database-Management_apache.md)、[表管理](../Basic-Concept/Table-Management_apache.md)
 
 > 注意，树模型数据库的TTL也将显示。
 

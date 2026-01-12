@@ -119,14 +119,14 @@ SHOW DATABASES (DETAILS)?
 **Columns Explained:**
 
 
-| Column Name             | Description                                                  |
-| ----------------------- | ------------------------------------------------------------ |
-| database                | Name of the database.                                        |
-| TTL                     | Data retention period. If TTL is specified when creating a database, it applies to all tables within the database. You can also set or update the TTL of individual tables using [create table](../Basic-Concept/Table-Management.md#11-create-a-table) 、[alter table](../Basic-Concept/Table-Management.md#14-update-tables) . |
-| SchemaReplicationFactor | Number of metadata replicas, ensuring metadata high availability. This can be configured in the `iotdb-system.properties` file under the `schema_replication_factor` property. |
-| DataReplicationFactor   | Number of data replicas, ensuring data high availability. This can be configured in the `iotdb-system.properties` file under the `data_replication_factor` property. |
-| TimePartitionInterval   | Time partition interval, determining how often data is grouped into directories on disk. The default is typically one week. |
-| Model                   | Returned when using the `DETAILS` option, showing the data model corresponding to each database (e.g., timeseries tree model or device table model). |
+| Column Name             | Description                                                                                                                                                                                                                                                                                                                                   |
+| ----------------------- |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| database                | Name of the database.                                                                                                                                                                                                                                                                                                                         |
+| TTL                     | Data retention period. If TTL is specified when creating a database, it applies to all tables within the database. You can also set or update the TTL of individual tables using [create table](../Basic-Concept/Table-Management_apache.md#11-create-a-table) 、[alter table](../Basic-Concept/Table-Management_apache.md#14-update-tables) . |
+| SchemaReplicationFactor | Number of metadata replicas, ensuring metadata high availability. This can be configured in the `iotdb-system.properties` file under the `schema_replication_factor` property.                                                                                                                                                                |
+| DataReplicationFactor   | Number of data replicas, ensuring data high availability. This can be configured in the `iotdb-system.properties` file under the `data_replication_factor` property.                                                                                                                                                                          |
+| TimePartitionInterval   | Time partition interval, determining how often data is grouped into directories on disk. The default is typically one week.                                                                                                                                                                                                                   |
+| Model                   | Returned when using the `DETAILS` option, showing the data model corresponding to each database (e.g., timeseries tree model or device table model).                                                                                                                                                                                          |
 
 **Examples:** 
 

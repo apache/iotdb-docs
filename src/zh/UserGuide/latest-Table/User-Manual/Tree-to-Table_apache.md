@@ -66,7 +66,7 @@ comment
 
 2. **`view_name`**
 
-视图名称，与表名相同（具体约束可参考[创建表](../Basic-Concept/Table-Management.md#\_1-1-创建表)），如 db.view。
+视图名称，与表名相同（具体约束可参考[创建表](../Basic-Concept/Table-Management_apache.md#\_1-1-创建表)），如 db.view。
 
 3. **`viewColumnDefinition`**
 

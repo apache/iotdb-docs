@@ -42,7 +42,7 @@ In the table model, IoTDB’s TTL operates at the granularity of individual tabl
 
 ### 2.1 Set TTL for Tables
 
-If TTL is specified when creating a table using SQL, the table’s TTL takes precedence. Refer to [Table-Management](../Basic-Concept/Table-Management.md)for details.
+If TTL is specified when creating a table using SQL, the table’s TTL takes precedence. Refer to [Table-Management](../Basic-Concept/Table-Management_apache.md)for details.
 
 Example 1: Setting TTL during table creation:
 
@@ -66,7 +66,7 @@ ALTER TABLE tableB set properties TTL=DEFAULT
 
 ### 2.2 Set TTL for Databases
 
-Tables without explicit TTL settings inherit the TTL of their database. Refer to [Database-Management](../Basic-Concept/Database-Management.md)for details.
+Tables without explicit TTL settings inherit the TTL of their database. Refer to [Database-Management](../Basic-Concept/Database-Management_apache.md)for details.
 
 Example 4: A database with TTL=3600000 creates tables inheriting this TTL:
 
@@ -102,7 +102,7 @@ ALTER TABLE tableB set properties TTL='INF'
 
 ## 4. View TTL Information
 
-Use the SHOW DATABASES and SHOW TABLES commands to view TTL details for databases and tables. Refer to [Database-Management](../Basic-Concept/Database-Management.md)、 [Table-Management](../Basic-Concept/Table-Management.md)for details.
+Use the SHOW DATABASES and SHOW TABLES commands to view TTL details for databases and tables. Refer to [Database-Management](../Basic-Concept/Database-Management_apache.md)、 [Table-Management](../Basic-Concept/Table-Management_apache.md)for details.
 
 > Note: TTL settings in tree-model will also be shown.
 
