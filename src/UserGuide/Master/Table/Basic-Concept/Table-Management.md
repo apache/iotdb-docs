@@ -21,6 +21,10 @@
 
 # Table Management
 
+Before starting to use the table management functionality, we recommend familiarizing yourself with the following related background knowledge for a better understanding and application of the table management features:
+* [Time Series Data Model](../Background-knowledge/Navigating_Time_Series_Data.md): Understand the basic concepts and characteristics of time series data to establish a foundation for data modeling.
+* [Modeling Design Plan](../Background-knowledge/Data-Model-and-Terminology_timecho.md): Master the IoTDB time series model and its applicable scenarios to provide a design basis for table management.
+
 ## 1. Table Management
 
 ### 1.1 Create a Table
@@ -89,6 +93,7 @@ CREATE TABLE table1 (
   status Boolean FIELD COMMENT 'status',
   arrival_time TIMESTAMP FIELD COMMENT 'arrival_time'
 ) COMMENT 'table1' WITH (TTL=31536000000);
+
 
 CREATE TABLE if not exists table2 ();
 
