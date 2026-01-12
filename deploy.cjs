@@ -22,7 +22,7 @@ ghpages.publish(
   'src/.vuepress/dist',
   {
     branch: 'asf-site',
-    repo: 'https://github.com/apache/iotdb-website.git',
+    repo: 'git@github.com:apache/iotdb-website.git',
     message: 'Site checkin for project iotdb-website',
     dotfiles: true,
     history: false,
