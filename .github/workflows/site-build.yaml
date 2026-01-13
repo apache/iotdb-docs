@@ -39,6 +39,7 @@ jobs:
         run: pnpm build
 
       - name: Deploy staging website
+        if: contains(github.event.pull_request.labels.*.name, 'deploy-staging')
         env:
           SSH_KEY: ${{ secrets.IOTDB_WEBSITE_BUILD_SSH }}
         run: |
