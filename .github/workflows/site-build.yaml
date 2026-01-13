@@ -39,12 +39,13 @@ jobs:
         run: pnpm build
 
       - name: Deploy staging website
+        if: contains(github.event.pull_request.labels.*.name, 'deploy-staging')
         env:
           SSH_KEY: ${{ secrets.IOTDB_WEBSITE_BUILD_SSH }}
         run: |
           mkdir -p ~/.ssh
-          echo "$SSH_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          echo "$SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H github.com >> ~/.ssh/known_hosts
           git config --global user.name github-actions
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
@@ -103,8 +104,8 @@ jobs:
           SSH_KEY: ${{ secrets.IOTDB_WEBSITE_BUILD_SSH }}
         run: |
           mkdir -p ~/.ssh
-          echo "$SSH_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          echo "$SSH_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H github.com >> ~/.ssh/known_hosts
           git config --global user.name github-actions
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com

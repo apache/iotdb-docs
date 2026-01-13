@@ -85,8 +85,8 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Basic-Concept/',
       children: [
-        { text: '数据库管理', link: 'Database-Management' },
-        { text: '表管理', link: 'Table-Management' },
+         { text: '数据库管理', link: 'Database-Management_apache' },
+        { text: '表管理', link: 'Table-Management_apache' },
         { text: '写入&更新', link: 'Write-Updata-Data_apache' },
         { text: '数据查询', link: 'Query-Data_apache' },
         {
@@ -94,7 +94,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '数据删除', link: 'Delete-Data' },
-            { text: '数据保留时间', link: 'TTL-Delete-Data' },
+            { text: '数据保留时间', link: 'TTL-Delete-Data_apache' },
             { text: 'SpaceTL 删除', link: 'SpaceTL-Delete' },
           ],
         },
@@ -112,14 +112,14 @@ export const zhSidebar = {
           collapsible: true,
           children: [{ text: '权限管理', link: 'Authority-Management_apache' }],
         },
-        { text: '树转表视图', link: 'Tree-to-Table' },
+        { text: '树转表视图', link: 'Tree-to-Table_apache' },
         {
           text: '系统运维',
           collapsible: true,
           children: [
             { text: '查询性能分析', link: 'Query-Performance-Analysis' },
             { text: '集群维护', link: 'Load-Balance' },
-            { text: '运维语句', link: 'Maintenance-statement' },
+            { text: '运维语句', link: 'Maintenance-statement_apache' },
           ],
         },
       ],
@@ -209,7 +209,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
-        { text: '元数据操作', link: 'SQL-Metadata-Operations' },
+        { text: '元数据操作', link: 'SQL-Metadata-Operations_apache' },
         { text: '数据增删', link: 'SQL-Data-Addition-Deletion_apache' },
         {
           text: '数据查询',
@@ -258,7 +258,7 @@ export const zhSidebar = {
         { text: '示例数据', link: 'Sample-Data' },
         { text: '配置参数', link: 'System-Config-Manual' },
         { text: '状态码', link: 'Status-Codes' },
-        { text: '系统表', link: 'System-Tables' },
+        { text: '系统表', link: 'System-Tables_apache' },
       ],
     },
     {

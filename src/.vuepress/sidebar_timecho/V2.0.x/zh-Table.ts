@@ -93,8 +93,8 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Basic-Concept/',
       children: [
-        { text: '数据库管理', link: 'Database-Management' },
-        { text: '表管理', link: 'Table-Management' },
+        { text: '数据库管理', link: 'Database-Management_timecho' },
+        { text: '表管理', link: 'Table-Management_timecho' },
         { text: '写入&更新', link: 'Write-Updata-Data_timecho' },
         { text: '数据查询', link: 'Query-Data_timecho' },
         {
@@ -102,7 +102,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '数据删除', link: 'Delete-Data' },
-            { text: '数据保留时间', link: 'TTL-Delete-Data' },
+            { text: '数据保留时间', link: 'TTL-Delete-Data_timecho' },
             { text: 'SpaceTL 删除', link: 'SpaceTL-Delete' },
           ],
         },
@@ -124,7 +124,7 @@ export const zhSidebar = {
           ],
         },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
-        { text: '树转表视图', link: 'Tree-to-Table' },
+        { text: '树转表视图', link: 'Tree-to-Table_timecho' },
         { text: '时序特色分析', link: 'Timeseries-Featured-Analysis_timecho' },
         {
           text: '系统运维',
@@ -132,7 +132,7 @@ export const zhSidebar = {
           children: [
             { text: '查询性能分析', link: 'Query-Performance-Analysis' },
             { text: '集群维护', link: 'Load-Balance' },
-            { text: '运维语句', link: 'Maintenance-statement' },
+            { text: '运维语句', link: 'Maintenance-statement_timecho' },
           ],
         },
       ],
@@ -223,7 +223,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
-        { text: '元数据操作', link: 'SQL-Metadata-Operations' },
+        { text: '元数据操作', link: 'SQL-Metadata-Operations_timecho' },
         { text: '数据增删', link: 'SQL-Data-Addition-Deletion_timecho' },
         {
           text: '数据查询',
@@ -273,7 +273,7 @@ export const zhSidebar = {
         { text: '示例数据', link: 'Sample-Data' },
         { text: '配置参数', link: 'System-Config-Manual' },
         { text: '状态码', link: 'Status-Codes' },
-        { text: '系统表', link: 'System-Tables' },
+        { text: '系统表', link: 'System-Tables_timecho' },
       ],
     },
     {
