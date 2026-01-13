@@ -22,8 +22,8 @@ ghpages.publish(
   'src/.vuepress/dist',
   {
     branch: 'asf-staging',
-    repo: 'https://github.com/apache/iotdb-website.git',
-    message: 'Site checkin for project iotdb-website',
+    repo: 'git@github.com:apache/iotdb-website.git',
+    message: 'Site staging checkin for project iotdb-website',
     dotfiles: true,
     history: false,
   },
