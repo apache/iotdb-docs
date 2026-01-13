@@ -20,7 +20,6 @@
 staging:
   profile: ~
   whoami: asf-staging
-  autostage: "*"
 
 publish:
   whoami: asf-site
