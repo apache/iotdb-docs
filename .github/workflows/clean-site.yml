@@ -28,13 +28,25 @@ jobs:
           echo "❌ Cleanup cancelled:  confirmation not provided"
           exit 1
 
+      - name: Setup SSH
+        env:
+          SSH_KEY: ${{ secrets.IOTDB_WEBSITE_BUILD_SSH }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+
       - name: Checkout iotdb-website repository
-        uses: actions/checkout@v4
-        with:
-          repository: apache/iotdb-website
-          token: ${{ secrets.IOTDB_WEBSITE_BUILD }}
-          fetch-depth: 0
-          ref: ${{ github.event.inputs.target_branch == 'both' && 'asf-site' || github.event.inputs.target_branch }}
+        run: |
+          git clone --bare git@github.com:apache/iotdb-website.git
+          cd iotdb-website.git
+          for branch in asf-site asf-staging; do
+            git branch -r | grep $branch > /dev/null && echo "Branch $branch exists"
+          done
+          cd ..
+          git clone git@github.com:apache/iotdb-website.git
+          cd iotdb-website
 
       - name: Configure Git
         run: |

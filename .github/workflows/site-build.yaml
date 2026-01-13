@@ -40,9 +40,12 @@ jobs:
 
       - name: Deploy staging website
         env:
-          IOTDB_WEBSITE_BUILD: ${{ secrets.IOTDB_WEBSITE_BUILD }}
+          SSH_KEY: ${{ secrets.IOTDB_WEBSITE_BUILD_SSH }}
         run: |
-          git config --global url."https://asf-ci-deploy:$IOTDB_WEBSITE_BUILD@github.com/apache/".insteadOf "https://github.com/apache/"
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
           git config --global user.name github-actions
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
           npm run deploy:staging
@@ -97,9 +100,12 @@ jobs:
 
       - name: Deploy website
         env:
-          IOTDB_WEBSITE_BUILD: ${{ secrets.IOTDB_WEBSITE_BUILD }}
+          SSH_KEY: ${{ secrets.IOTDB_WEBSITE_BUILD_SSH }}
         run: |
-          git config --global url."https://asf-ci-deploy:$IOTDB_WEBSITE_BUILD@github.com/apache/".insteadOf "https://github.com/apache/"
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H github.com >> ~/.ssh/known_hosts
           git config --global user.name github-actions
           git config --global user.email 41898282+github-actions[bot]@users.noreply.github.com
           npm run deploy
