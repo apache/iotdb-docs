@@ -47,7 +47,7 @@ MATCH_RECOGNIZE (
 * SUBSET ：可选，用于将多个基本模式变量所匹配的行合并为一个逻辑集合。
 * DEFINE ：用于定义行模式的基本模式变量。
 
-更多详细功能介绍请参考：[模式查询](../User-Manual/Timeseries-Featured-Analysis_timecho.md#_1-模式查询)
+更多详细功能介绍请参考：[模式查询](../User-Manual/Pattern-Query_timecho.md)
 
 ## 2. 使用示例
 

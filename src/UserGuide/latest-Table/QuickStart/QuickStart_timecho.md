@@ -62,7 +62,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
 2. Data Insertion & Updates: IoTDB provides multiple methods for inserting real-time data, and supports data write-back. For basic data insertion and updating operations, please see [Write&Updata Data](../Basic-Concept/Write-Updata-Data_timecho.md)
 
-3. Data Querying: IoTDB offers a rich set of data querying capabilities. For a basic introduction to data querying, please see [Query Data](../Basic-Concept/Query-Data.md). It includes pattern queries and window functions applicable to time-series featured analysis. For detailed introductions, please refer to [Timeseries Featured Analysis](../User-Manual/Timeseries-Featured-Analysis_timecho.md).
+3. Data Querying: IoTDB offers a rich set of data querying capabilities. For a basic introduction to data querying, please see [Query Data](../Basic-Concept/Query-Data.md). It includes pattern queries and window functions applicable to time-series featured analysis. For detailed introductions, please refer to [Pattern Query](../User-Manual/Pattern-Query_timecho.md) and [Window Function](../User-Manual/Window-Function_timecho.md).
 
 4. Data Deletion: IoTDB supports two deletion methods: SQL-based deletion and automatic expiration deletion (TTL).
 

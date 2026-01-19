@@ -732,7 +732,7 @@ frameBound
     ;
 ```
 
-更多详细功能介绍请参考：[窗口函数](../User-Manual/Timeseries-Featured-Analysis_timecho.md#_2-窗口函数)
+更多详细功能介绍请参考：[窗口函数](../User-Manual/Window-Function_timecho.md)
 
 ### 4.2 使用示例
 
