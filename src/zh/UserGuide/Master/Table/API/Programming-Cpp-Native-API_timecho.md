@@ -36,27 +36,27 @@
 ### 2.1 安装相关依赖
 
 - **MAC**
-1. 安装 Bison ：
+ 1. 安装 Bison ：
+  
+     使用下面 brew 命令安装 bison 版本：
+     ```shell
+     brew install bison
+     ```
+     
+  2. 安装 Boost ：确保安装最新的 Boost 版本。
+  
+     ```shell
+     brew install boost
+     ```
+     
+  3. 检查 OpenSSL ：确保 openssl 库已安装，默认的 openssl 头文件路径为"/usr/local/opt/openssl/include"
 
-   使用下面 brew 命令安装 bison 版本：
-    ```shell
-    brew install bison
-    ```
-
-2. 安装 Boost ：确保安装最新的 Boost 版本。
-
-   ```shell
-   brew install boost
-   ```
-
-3. 检查 OpenSSL ：确保 openssl 库已安装，默认的 openssl 头文件路径为"/usr/local/opt/openssl/include"
-
-   如果在编译过程中出现找不到 openssl 的错误，尝试添加`-Dopenssl.include.dir=""`
+     如果在编译过程中出现找不到 openssl 的错误，尝试添加`-Dopenssl.include.dir=""`
 
 
 - **Ubuntu 16.04+ 或其他 Debian 系列**
 
-  使用以下命令安装所赖：
+    使用以下命令安装所赖：
 
     ```shell
     sudo apt-get update
@@ -66,7 +66,7 @@
 
 - **CentOS 7.7+/Fedora/Rocky Linux 或其他 Red-hat 系列**
 
-  使用 yum 命令安装依赖：
+    使用 yum 命令安装依赖：
 
     ```shell
     sudo yum update
@@ -77,21 +77,21 @@
 - **Windows**
 
 1. 构建编译环境
-    - 安装 MS Visual Studio（推荐安装 2019+ 版本）：安装时需要勾选 Visual Studio C/C++ IDE and compiler(supporting CMake, Clang, MinGW)
-    - 下载安装 [CMake](https://cmake.org/download/) 。
+   - 安装 MS Visual Studio（推荐安装 2019+ 版本）：安装时需要勾选 Visual Studio C/C++ IDE and compiler(supporting CMake, Clang, MinGW)
+   - 下载安装 [CMake](https://cmake.org/download/) 。
 
 2. 下载安装 Flex、Bison
-    - 下载 [Win_Flex_Bison](https://sourceforge.net/projects/winflexbison/)
-    - 下载后需要将可执行文件重命名为 flex.exe 和 bison.exe 以保证编译时能够被找到，添加可执行文件的目录到 PATH 环境变量中
+   - 下载 [Win_Flex_Bison](https://sourceforge.net/projects/winflexbison/) 
+   - 下载后需要将可执行文件重命名为 flex.exe 和 bison.exe 以保证编译时能够被找到，添加可执行文件的目录到 PATH 环境变量中
 
 3. 安装 Boost 库
-    - 下载 [Boost](https://www.boost.org/users/download/)
-    - 本地编译 Boost ：依次执行 bootstrap.bat 和 b2.exe
-    - 添加 Boost 安装目录到 PATH 环境变量中，例如 `C:\Program Files (x86)\boost_1_78_0`
-
+   - 下载 [Boost](https://www.boost.org/users/download/) 
+   - 本地编译 Boost ：依次执行 bootstrap.bat 和 b2.exe
+   - 添加 Boost 安装目录到 PATH 环境变量中，例如 `C:\Program Files (x86)\boost_1_78_0`
+       
 4. 安装 OpenSSL
-    - 下载安装 [OpenSSL](http://slproweb.com/products/Win32OpenSSL.html)
-    - 添加 OpenSSL 下的 include 目录到 PATH 环境变量中
+   - 下载安装 [OpenSSL](http://slproweb.com/products/Win32OpenSSL.html) 
+   - 添加 OpenSSL 下的 include 目录到 PATH 环境变量中
 
 
 ### 2.2 执行编译
@@ -108,7 +108,7 @@ git checkout rc/1.3.2
 
 在 IoTDB 根目录下执行 maven 编译:
 
-- Mac 或 glibc 版本 >= 2.32 的 Linux
+- Mac 或 glibc 版本 >= 2.32 的 Linux 
     ```shell
     ./mvnw clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp
     ``` 
@@ -181,7 +181,7 @@ C++ 客户端的操作均通过 TableSession 类进行，下面将给出 TableSe
 1. `insert(Tablet& tablet, bool sorted = false)`，将一个包含时间序列数据的Tablet对象插入到数据库中，sorted参数指明tablet中的行是否已按时间排序。
 2. `executeNonQueryStatement(string& sql)`，执行非查询SQL语句，如DDL(数据定义语言)或DML(数据操作语言)命令。
 3. `executeQueryStatement(string& sql)`，执行查询SQL语句，并返回包含查询结果的SessionDataSet对象，可选timeoutInMs参数指示超时返回时间。
-    * 注意：调用 `SessionDataSet::next()` 获取查询结果行时，必须将返回的 `std::shared_ptr<RowRecord>` 对象存储在局部作用域变量中（例如：`auto row = dataSet->next();`），以确保数据生命周期有效。若直接通过 `.get()` 或裸指针访问（如 `dataSet->next().get()`），将导致智能指针引用计数归零，数据被立即释放，后续访问将引发未定义行为。
+   * 注意：调用 `SessionDataSet::next()` 获取查询结果行时，必须将返回的 `std::shared_ptr<RowRecord>` 对象存储在局部作用域变量中（例如：`auto row = dataSet->next();`），以确保数据生命周期有效。若直接通过 `.get()` 或裸指针访问（如 `dataSet->next().get()`），将导致智能指针引用计数归零，数据被立即释放，后续访问将引发未定义行为。
 4. `open(bool enableRPCCompression = false)`，开启连接，并决定是否启用RPC压缩(客户端状态须与服务端一致，默认不开启)。
 5. `close()`，关闭连接。
 
@@ -239,7 +239,7 @@ session = (new TableSessionBuilder())
 
 示例工程源代码：
 
-- `example/client-cpp-example/src/TableModelSessionExample.cpp` : [TableModelSessionExample](https://github.com/apache/iotdb/tree/rc/2.0.1/example/client-cpp-example/src/TableModelSessionExample.cpp)
+- `example/client-cpp-example/src/TableModelSessionExample.cpp` : [TableModelSessionExample](https://github.com/apache/iotdb/blob/master/example/client-cpp-example/src/TableModelSessionExample.cpp)
 
 编译成功后，示例代码工程位于 `example/client-cpp-example/target`
 
@@ -249,7 +249,7 @@ session = (new TableSessionBuilder())
 
 using namespace std;
 
-TableSession *session;
+shared_ptr<TableSession> session;
 
 void insertRelationalTablet() {
 
@@ -261,7 +261,7 @@ void insertRelationalTablet() {
         make_pair("temperature", TSDataType::FLOAT),
         make_pair("humidity", TSDataType::DOUBLE)
     };
-
+    
     vector<ColumnCategory> columnTypes = {
         ColumnCategory::TAG,
         ColumnCategory::TAG,
@@ -270,24 +270,27 @@ void insertRelationalTablet() {
         ColumnCategory::FIELD,
         ColumnCategory::FIELD
     };
-
+    
     Tablet tablet("table1", schemaList, columnTypes, 100);
-
+    
     for (int row = 0; row < 100; row++) {
         int rowIndex = tablet.rowSize++;
         tablet.timestamps[rowIndex] = row;
-        tablet.addValue("region_id", rowIndex, "1");
-        tablet.addValue("plant_id", rowIndex, "5");
-        tablet.addValue("device_id", rowIndex, "3");
-        tablet.addValue("model", rowIndex, "A");
-        tablet.addValue("temperature", rowIndex, 37.6F);
-        tablet.addValue("humidity", rowIndex, 111.1);
+        // 使用基于索引的 API 比通过列名查找更高效
+        // 推荐写法：tablet.addValue(0, rowIndex, "1");
+        // 避免写法：tablet.addValue("region_id", rowIndex, "1");
+        tablet.addValue(0, rowIndex, "1");    // region_id
+        tablet.addValue(1, rowIndex, "5");    // plant_id
+        tablet.addValue(2, rowIndex, "3");    // device_id
+        tablet.addValue(3, rowIndex, "A");    // model
+        tablet.addValue(4, rowIndex, 37.6F);  // temperature
+        tablet.addValue(5, rowIndex, 111.1);  // humidity
         if (tablet.rowSize == tablet.maxRowNumber) {
             session->insert(tablet);
             tablet.reset();
         }
     }
-
+    
     if (tablet.rowSize != 0) {
         session->insert(tablet);
         tablet.reset();
@@ -301,8 +304,6 @@ void Output(unique_ptr<SessionDataSet> &dataSet) {
     cout << endl;
     while (dataSet->hasNext()) {
         cout << dataSet->next()->toString();
-        // 可通过 RowRecord* row = dataSet->next(); 
-        // for(auto field: row.fields) field.intV/longV/stringV 来获取值
     }
     cout << endl;
 }
@@ -328,10 +329,9 @@ int main() {
             ->host("127.0.0.1")
             ->rpcPort(6667)
             ->username("root")
-            ->password("TimechoDB@2021") //V2.0.6.x 之前默认密码是root
+            ->password("root")
             ->build();
-
-        
+            
         cout << "[Create Database db1,db2]\n" << endl;
         try {
             session->executeNonQueryStatement("CREATE DATABASE IF NOT EXISTS db1");
@@ -339,14 +339,14 @@ int main() {
         } catch (IoTDBException &e) {
             cout << e.what() << endl;
         }
-
+        
         cout << "[Use db1 as database]\n" << endl;
         try {
             session->executeNonQueryStatement("USE db1");
         } catch (IoTDBException &e) {
             cout << e.what() << endl;
         }
-
+        
         cout << "[Create Table table1,table2]\n" << endl;
         try {
             session->executeNonQueryStatement("create table db1.table1(region_id STRING TAG, plant_id STRING TAG, device_id STRING TAG, model STRING ATTRIBUTE, temperature FLOAT FIELD, humidity DOUBLE FIELD) with (TTL=3600000)");
@@ -354,7 +354,7 @@ int main() {
         } catch (IoTDBException &e) {
             cout << e.what() << endl;
         }
-
+        
         cout << "[Show Tables]\n" << endl;
         try {
             unique_ptr<SessionDataSet> dataSet = session->executeQueryStatement("SHOW TABLES");
@@ -362,7 +362,7 @@ int main() {
         } catch (IoTDBException &e) {
             cout << e.what() << endl;
         }
-
+        
         cout << "[Show tables from specific database]\n" << endl;
         try {
             unique_ptr<SessionDataSet> dataSet = session->executeQueryStatement("SHOW TABLES FROM db1");
@@ -370,14 +370,14 @@ int main() {
         } catch (IoTDBException &e) {
             cout << e.what() << endl;
         }
-
+        
         cout << "[InsertTablet]\n" << endl;
         try {
             insertRelationalTablet();
         } catch (IoTDBException &e) {
             cout << e.what() << endl;
         }
-
+        
         cout << "[Query Table Data]\n" << endl;
         try {
             unique_ptr<SessionDataSet> dataSet = session->executeQueryStatement("SELECT * FROM table1"
@@ -386,18 +386,18 @@ int main() {
         } catch (IoTDBException &e) {
             cout << e.what() << endl;
         }
-
+        
         session->close();
-
+        
         // specify database in constructor
         session = (new TableSessionBuilder())
             ->host("127.0.0.1")
             ->rpcPort(6667)
             ->username("root")
-            ->password("TimechoDB@2021") //V2.0.6.x 之前默认密码是root
+            ->password("root")
             ->database("db1")
             ->build();
-
+            
         cout << "[Show tables from current database(db1)]\n" << endl;
         try {
             unique_ptr<SessionDataSet> dataSet = session->executeQueryStatement("SHOW TABLES");
@@ -405,14 +405,14 @@ int main() {
         } catch (IoTDBException &e) {
             cout << e.what() << endl;
         }
-
+        
         cout << "[Change database to db2]\n" << endl;
         try {
             session->executeNonQueryStatement("USE db2");
         } catch (IoTDBException &e) {
             cout << e.what() << endl;
         }
-
+        
         cout << "[Show tables from current database(db2)]\n" << endl;
         try {
             unique_ptr<SessionDataSet> dataSet = session->executeQueryStatement("SHOW TABLES");
@@ -420,7 +420,7 @@ int main() {
         } catch (IoTDBException &e) {
             cout << e.what() << endl;
         }
-
+        
         cout << "[Drop Database db1,db2]\n" << endl;
         try {
             session->executeNonQueryStatement("DROP DATABASE db1");
@@ -428,12 +428,10 @@ int main() {
         } catch (IoTDBException &e) {
             cout << e.what() << endl;
         }
-
+        
         cout << "session close\n" << endl;
         session->close();
-
-        delete session;
-
+        
         cout << "finished!\n" << endl;
     } catch (IoTDBConnectionException &e) {
         cout << e.what() << endl;
@@ -456,7 +454,7 @@ int main() {
    ```
    Failed to delete cached file C:\Users\Administrator\.m2\repository\.cache\download-maven-plugin\index.ser
    ```
-
-   解决方法：
-    - 尝试删除 ".m2\repository\\.cache\" 目录并重试。
-    - 在添加 pom 文件对应的 download-maven-plugin 中添加 "\<skipCache>true\</skipCache>"
+   
+    解决方法：
+   - 尝试删除 ".m2\repository\\.cache\" 目录并重试。
+   - 在添加 pom 文件对应的 download-maven-plugin 中添加 "\<skipCache>true\</skipCache>"

@@ -168,7 +168,7 @@ All operations in the C++ client are performed through the TableSession class. B
 1. `insert(Tablet& tablet, bool sorted = false)`: Inserts a Tablet object containing time series data into the database. The sorted parameter indicates whether the rows in the tablet are already sorted by time.
 2. `executeNonQueryStatement(string& sql)`: Executes non-query SQL statements, such as DDL (Data Definition Language) or DML (Data Manipulation Language) commands.
 3. `executeQueryStatement(string& sql)`: Executes query SQL statements and returns a SessionDataSet object containing the query results. The optional timeoutInMs parameter indicates the timeout return time.
-    * Note: When retrieving rows of query results by calling `SessionDataSet::next()`, you must store the returned `std::shared_ptr<RowRecord>` object in a local scope variable (e.g.: `auto row = dataSet->next();`) to ensure the validity of the data lifecycle. If you access it directly via `.get()` or a raw pointer (e.g., `dataSet->next().get()`), the reference count of the smart pointer will drop to zero, the data will be released immediately, and subsequent access will lead to undefined behavior.
+   * Note: When retrieving rows of query results by calling `SessionDataSet::next()`, you must store the returned `std::shared_ptr<RowRecord>` object in a local scope variable (e.g.: `auto row = dataSet->next();`) to ensure the validity of the data lifecycle. If you access it directly via `.get()` or a raw pointer (e.g., `dataSet->next().get()`), the reference count of the smart pointer will drop to zero, the data will be released immediately, and subsequent access will lead to undefined behavior.
 4. `open(bool enableRPCCompression = false)`: Opens the connection and determines whether to enable RPC compression (client state must match server state, disabled by default).
 5. `close()`: Closes the connection.
 
@@ -225,9 +225,211 @@ session = (new TableSessionBuilder())
 
 The sample code of using these interfaces is in:
 
-- `example/client-cpp-example/src/TableSessionExample.cpp`: [TableSessionExample](https://github.com/apache/iotdb/tree/rc/2.0.1/example/client-cpp-example/src/TableSessionExample.cpp)
+- `example/client-cpp-example/src/TableModelSessionExample.cpp`: [TableModelSessionExample](https://github.com/apache/iotdb/blob/master/example/client-cpp-example/src/TableModelSessionExample.cpp)
 
 If the compilation finishes successfully, the example project will be placed under `example/client-cpp-example/target`
+
+
+```cpp
+#include "TableSession.h"
+#include "TableSessionBuilder.h"
+
+using namespace std;
+
+shared_ptr<TableSession> session;
+
+void insertRelationalTablet() {
+
+    vector<pair<string, TSDataType::TSDataType>> schemaList {
+        make_pair("region_id", TSDataType::TEXT),
+        make_pair("plant_id", TSDataType::TEXT),
+        make_pair("device_id", TSDataType::TEXT),
+        make_pair("model", TSDataType::TEXT),
+        make_pair("temperature", TSDataType::FLOAT),
+        make_pair("humidity", TSDataType::DOUBLE)
+    };
+    
+    vector<ColumnCategory> columnTypes = {
+        ColumnCategory::TAG,
+        ColumnCategory::TAG,
+        ColumnCategory::TAG,
+        ColumnCategory::ATTRIBUTE,
+        ColumnCategory::FIELD,
+        ColumnCategory::FIELD
+    };
+    
+    Tablet tablet("table1", schemaList, columnTypes, 100);
+    
+    for (int row = 0; row < 100; row++) {
+        int rowIndex = tablet.rowSize++;
+        tablet.timestamps[rowIndex] = row;
+        
+        // Using index-based API is more efficient than column name lookup
+        // Prefer: tablet.addValue(0, rowIndex, "1");
+        // Avoid:  tablet.addValue("region_id", rowIndex, "1");
+        tablet.addValue(0, rowIndex, "1");    // region_id
+        tablet.addValue(1, rowIndex, "5");    // plant_id
+        tablet.addValue(2, rowIndex, "3");    // device_id
+        tablet.addValue(3, rowIndex, "A");    // model
+        tablet.addValue(4, rowIndex, 37.6F);  // temperature
+        tablet.addValue(5, rowIndex, 111.1);  // humidity
+        if (tablet.rowSize == tablet.maxRowNumber) {
+            session->insert(tablet);
+            tablet.reset();
+        }
+    }
+    
+    if (tablet.rowSize != 0) {
+        session->insert(tablet);
+        tablet.reset();
+    }
+}
+
+void Output(unique_ptr<SessionDataSet> &dataSet) {
+    for (const string &name: dataSet->getColumnNames()) {
+        cout << name << "  ";
+    }
+    cout << endl;
+    while (dataSet->hasNext()) {
+        cout << dataSet->next()->toString();
+    }
+    cout << endl;
+}
+
+void OutputWithType(unique_ptr<SessionDataSet> &dataSet) {
+    for (const string &name: dataSet->getColumnNames()) {
+        cout << name << "  ";
+    }
+    cout << endl;
+    for (const string &type: dataSet->getColumnTypeList()) {
+        cout << type << "  ";
+    }
+    cout << endl;
+    while (dataSet->hasNext()) {
+        cout << dataSet->next()->toString();
+    }
+    cout << endl;
+}
+
+int main() {
+    try {
+        session = (new TableSessionBuilder())
+            ->host("127.0.0.1")
+            ->rpcPort(6667)
+            ->username("root")
+            ->password("root")
+            ->build();
+            
+        cout << "[Create Database db1,db2]\n" << endl;
+        try {
+            session->executeNonQueryStatement("CREATE DATABASE IF NOT EXISTS db1");
+            session->executeNonQueryStatement("CREATE DATABASE IF NOT EXISTS db2");
+        } catch (IoTDBException &e) {
+            cout << e.what() << endl;
+        }
+        
+        cout << "[Use db1 as database]\n" << endl;
+        try {
+            session->executeNonQueryStatement("USE db1");
+        } catch (IoTDBException &e) {
+            cout << e.what() << endl;
+        }
+        
+        cout << "[Create Table table1,table2]\n" << endl;
+        try {
+            session->executeNonQueryStatement("create table db1.table1(region_id STRING TAG, plant_id STRING TAG, device_id STRING TAG, model STRING ATTRIBUTE, temperature FLOAT FIELD, humidity DOUBLE FIELD) with (TTL=3600000)");
+            session->executeNonQueryStatement("create table db2.table2(region_id STRING TAG, plant_id STRING TAG, color STRING ATTRIBUTE, temperature FLOAT FIELD, speed DOUBLE FIELD) with (TTL=6600000)");
+        } catch (IoTDBException &e) {
+            cout << e.what() << endl;
+        }
+        
+        cout << "[Show Tables]\n" << endl;
+        try {
+            unique_ptr<SessionDataSet> dataSet = session->executeQueryStatement("SHOW TABLES");
+            Output(dataSet);
+        } catch (IoTDBException &e) {
+            cout << e.what() << endl;
+        }
+        
+        cout << "[Show tables from specific database]\n" << endl;
+        try {
+            unique_ptr<SessionDataSet> dataSet = session->executeQueryStatement("SHOW TABLES FROM db1");
+            Output(dataSet);
+        } catch (IoTDBException &e) {
+            cout << e.what() << endl;
+        }
+        
+        cout << "[InsertTablet]\n" << endl;
+        try {
+            insertRelationalTablet();
+        } catch (IoTDBException &e) {
+            cout << e.what() << endl;
+        }
+        
+        cout << "[Query Table Data]\n" << endl;
+        try {
+            unique_ptr<SessionDataSet> dataSet = session->executeQueryStatement("SELECT * FROM table1"
+                " where region_id = '1' and plant_id in ('3', '5') and device_id = '3'");
+            OutputWithType(dataSet);
+        } catch (IoTDBException &e) {
+            cout << e.what() << endl;
+        }
+        
+        session->close();
+        
+        // specify database in constructor
+        session = (new TableSessionBuilder())
+            ->host("127.0.0.1")
+            ->rpcPort(6667)
+            ->username("root")
+            ->password("root")
+            ->database("db1")
+            ->build();
+            
+        cout << "[Show tables from current database(db1)]\n" << endl;
+        try {
+            unique_ptr<SessionDataSet> dataSet = session->executeQueryStatement("SHOW TABLES");
+            Output(dataSet);
+        } catch (IoTDBException &e) {
+            cout << e.what() << endl;
+        }
+        
+        cout << "[Change database to db2]\n" << endl;
+        try {
+            session->executeNonQueryStatement("USE db2");
+        } catch (IoTDBException &e) {
+            cout << e.what() << endl;
+        }
+        
+        cout << "[Show tables from current database(db2)]\n" << endl;
+        try {
+            unique_ptr<SessionDataSet> dataSet = session->executeQueryStatement("SHOW TABLES");
+            Output(dataSet);
+        } catch (IoTDBException &e) {
+            cout << e.what() << endl;
+        }
+        
+        cout << "[Drop Database db1,db2]\n" << endl;
+        try {
+            session->executeNonQueryStatement("DROP DATABASE db1");
+            session->executeNonQueryStatement("DROP DATABASE db2");
+        } catch (IoTDBException &e) {
+            cout << e.what() << endl;
+        }
+        
+        cout << "session close\n" << endl;
+        session->close();
+        
+        cout << "finished!\n" << endl;
+    } catch (IoTDBConnectionException &e) {
+        cout << e.what() << endl;
+    } catch (IoTDBException &e) {
+        cout << e.what() << endl;
+    }
+    return 0;
+}
+```
+
 
 ## 5. FAQ
 
