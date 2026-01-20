@@ -260,7 +260,37 @@ IoTDB> desc tableB details
 +----------+---------+-----------+----------+-------+
 ```
 
-### 1.4 Update Tables
+
+### 1.4 View Table Creation Statement
+
+Retrieves the complete definition statement of a table or view under the table model. This feature automatically fills in all default values that were omitted during creation, so the displayed statement may differ from the original CREATE statement.
+
+> This feature is supported starting from v2.0.5.
+
+**Syntax:**
+
+```SQL
+SHOW CREATE TABLE <TABLE_NAME>
+```
+
+**Note:：**
+
+1. This statement does not support queries on system tables.
+
+**Example:**
+
+```SQL
+IoTDB:database1> show create table table1
++------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table|                                                                                                                                                                                                                                                                     Create Table|
++------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|table1|CREATE TABLE "table1" ("region" STRING TAG,"plant_id" STRING TAG,"device_id" STRING TAG,"model_id" STRING ATTRIBUTE,"maintenance" STRING ATTRIBUTE,"temperature" FLOAT FIELD,"humidity" FLOAT FIELD,"status" BOOLEAN FIELD,"arrival_time" TIMESTAMP FIELD) WITH (ttl=31536000000)|
++------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+Total line number = 1
+```
+
+
+### 1.5 Update Tables
 
 Used to update a table, including adding or deleting columns and configuring table properties.
 
@@ -291,7 +321,7 @@ COMMENT ON TABLE table1 IS 'table1'
 COMMENT ON COLUMN table1.a IS null
 ```
 
-### 1.5 Delete Tables
+### 1.6 Delete Tables
 
 Used to delete a table.
 
