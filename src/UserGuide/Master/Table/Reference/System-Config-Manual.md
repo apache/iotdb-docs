@@ -1538,6 +1538,15 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 10000                                  |
 | Effective   | Hot reload                             |
 
+- query_cost_stat_window
+
+| Name        | query_cost_stat_window |
+|-------------|--------------------|
+| Description | Time window threshold(min) for record of history queries.   |
+| Type        | Int32              |
+| Default     | 0                  |
+| Effective   | Hot reload                 |
+
 - query_timeout_threshold
 
 | Name        | query_timeout_threshold                   |
