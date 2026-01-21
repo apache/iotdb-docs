@@ -20,6 +20,21 @@
 -->
 # Release History
 
+## V1.3.6
+
+> Release Date: 2026.01.20
+
+V1.3.6 is a maintenance update within the 1.X series, delivering deep optimizations across three core areas: query performance, data synchronization stability, and memory management mechanisms—resulting in comprehensive enhancements to database monitoring, performance, and overall system stability. The specific release contents are as follows:
+
+* **Query Module**: Optimized query performance in multiple scenarios, including multi-series Last queries.
+* **Query Module**: Added a new FastLastQuery interface in the Java SDK to support more efficient Last query operations.
+* **Query Module**: Adjusted the tree model’s fetchSchema to return results in segmented streaming mode, improving response speed in large-data-volume scenarios.
+* **Storage Module**: Enhanced memory management to prevent memory leaks and ensure long-term system stability.
+* **Storage Module**: Optimized the file compaction mechanism to improve compaction efficiency and reduce storage resource consumption.
+* **Data Synchronization**: Improved Pipe SQL parameter configuration to support specifying asynchronous loading methods.
+* **Data Synchronization**: Introduced syntactic sugar to automatically split full-data Pipe creation SQL into real-time and historical synchronization components.
+* **System Module**: Added a global configuration option for data-type-specific compression strategies, enabling on-demand tuning of storage compression policies.
+* **Others**: Fixed security vulnerabilities CVE-2025-12183, CVE-2025-66566, and CVE-2025-11226.
 
 ## V1.3.5
 

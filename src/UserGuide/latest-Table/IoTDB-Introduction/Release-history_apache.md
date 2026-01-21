@@ -20,6 +20,18 @@
 -->
 # Release History
 
+## V2.0.6
+
+> Release Date: 2026.01.20
+
+V2.0.6 is the official release of the dual-model (tree and table) architecture. It introduces **query-writeback capability for the table model**, new **bitwise operation functions** (built-in scalar functions), and **push-down-capable time functions**, while delivering comprehensive improvements in database monitoring, performance, and stability. Specific release contents are as follows:
+
+* **Query Module**: Added support for query-writeback functionality in the table model.
+* **Query Module**: Enhanced row-pattern recognition in the table model to support aggregate functions, enabling analysis and computation over consecutive data sequences.
+* **Query Module**: Introduced built-in scalar bitwise operation functions for the table model.
+* **Query Module**: Added a push-down-capable `EXTRACT` time function for the table model.
+* **Others**: Fixed security vulnerabilities CVE-2025-12183, CVE-2025-66566, and CVE-2025-11226.
+
 
 ## V2.0.5
 
@@ -121,6 +133,23 @@ V2.0.1-beta introduces dual tree-table model configuration, supporting standard 
     * Unified import/export support for TsFile, CSV and SQL formats
 * ​**​Ecosystem Integration​**​:
     * Kubernetes Operator support
+
+## V1.3.6
+
+> Release Date: 2026.01.20
+
+V1.3.6 is a maintenance update within the 1.X series, delivering deep optimizations across three core areas: query performance, data synchronization stability, and memory management mechanisms—resulting in comprehensive enhancements to database monitoring, performance, and overall system stability. The specific release contents are as follows:
+
+* **Query Module**: Optimized query performance in multiple scenarios, including multi-series Last queries.
+* **Query Module**: Added a new FastLastQuery interface in the Java SDK to support more efficient Last query operations.
+* **Query Module**: Adjusted the tree model’s fetchSchema to return results in segmented streaming mode, improving response speed in large-data-volume scenarios.
+* **Storage Module**: Enhanced memory management to prevent memory leaks and ensure long-term system stability.
+* **Storage Module**: Optimized the file compaction mechanism to improve compaction efficiency and reduce storage resource consumption.
+* **Data Synchronization**: Improved Pipe SQL parameter configuration to support specifying asynchronous loading methods.
+* **Data Synchronization**: Introduced syntactic sugar to automatically split full-data Pipe creation SQL into real-time and historical synchronization components.
+* **System Module**: Added a global configuration option for data-type-specific compression strategies, enabling on-demand tuning of storage compression policies.
+* **Others**: Fixed security vulnerabilities CVE-2025-12183, CVE-2025-66566, and CVE-2025-11226.
+
 
 ## V1.3.5
 
