@@ -22,6 +22,33 @@
 
 ## 1. TimechoDB (Database Core)
 
+
+### V2.0.6.6
+
+> Release Date: 2026.01.20</br>
+> Download Link: Please contact Timecho Team to obtain the download link</br>
+> Package Name: timechodb-2.0.6.6-bin.zip</br>
+> SHA512 Checksum: d12e60b8119690d63c501d0c2afcd527e39df8a8786198e35b53338e21939e1a9244805e710d81cbb62d02c2739909d7e8227c029660a0cd9ea7ca718cf9bdf6
+
+V2.0.6.6 primarily optimizes query performance for time series in the tree model, while delivering comprehensive improvements in database monitoring, performance, and stability. Specific release contents are as follows:
+
+* **Query Module**: Improved query performance for `SHOW/COUNT TIMESERIES/DEVICES` statements.
+* **Others**: Fixed security vulnerabilities CVE-2025-12183, CVE-2025-66566, and CVE-2025-11226.
+
+
+### V2.0.6.4
+
+> Release Date: 2025.11.17</br>
+> Download Link: Please contact Timecho Team to obtain the download link</br>
+> Package Name: timechodb-2.0.6.4-bin.zip</br>
+> SHA512 Checksum: 57b9998cc14632862c32b6781c70db1c52caf8172b5d45d27cc214cab50d3afd4230ed0754e1c1a4ed825666bf971dc81fbb7d3b93261e57e9dabc20e794a2b8
+
+V2.0.6.4 focuses on enhancements to the storage and AINode modules, resolves several product defects, and provides comprehensive improvements in database monitoring, performance, and stability. Specific release contents are as follows:
+
+* **Storage Module**: Added support for modifying the encoding and compression methods of time series in the tree model.
+* **AINode**: Introduced one-click deployment and optimized model inference capabilities.
+
+
 ### V2.0.6.1
 
 > Release Date: 2025.09.19</br>
@@ -201,6 +228,46 @@ V2.0.1.2 officially implements ​**​dual-model configuration (tree + table)�
   * import-data/export-data: Universal support for TsFile/CSV/SQL
 * ​**​Ecosystem Integration:​**​
   * Kubernetes Operator support
+
+
+### V1.3.6.6
+
+> Release Date: 2026.01.20</br>
+> Download Link: Please contact Timecho Team to obtain the download link</br>
+> Package Name: iotdb-enterprise-1.3.6.6-bin.zip</br>
+> SHA512 Checksum: 590d3ead053298c6df0ede637572ba598b9b684f8b35ab874bd4452f765e1421938f4cca2cf0423af2e806592aa8b15bdd25b41df7de809435a4d0239fc04790
+
+V1.3.6.6 enhances data read/write capabilities, resolves several product defects, and delivers comprehensive improvements in database monitoring, performance, and stability.
+
+
+### V1.3.6.3
+
+> Release Date: 2026.01.04</br>
+> Download Link: Please contact Timecho Team to obtain the download link</br>
+> Package Name: iotdb-enterprise-1.3.6.3-bin.zip</br>
+> SHA512 Checksum: 43719a1384f59f63cb0029cdda0aba433383cd1a0f5ebc142e54f8aa6623cc30a7efb3e3aef7f3d485d5e07bec91be215c92ed21b5201613d5cc44044251c978
+
+V1.3.6.3 focuses on deep optimizations in two core areas—query performance and memory management—while comprehensively enhancing database monitoring, performance, and stability. Specific release contents are as follows:
+
+* **Query Module**: Optimized query performance across multiple scenarios, including multi-series `Last` queries.
+* **Query Module**: Added a new `FastLastQuery` interface in the Java SDK for more efficient `Last` query operations.
+* **Query Module**: Modified the tree model’s `fetchSchema` to return results in segmented streaming mode, improving response speed under large-data-volume conditions.
+* **Storage Module**: Enhanced memory management to mitigate memory leak risks and ensure long-term system stability.
+* **Storage Module**: Optimized the file compaction mechanism to improve compaction efficiency and reduce storage resource consumption.
+* **Others**: Fixed security vulnerabilities CVE-2025-12183, CVE-2025-66566, and CVE-2025-11226.
+
+### V1.3.6.1
+
+> Release Date: 2025.12.09</br>
+> Download Link: Please contact Timecho Team to obtain the download link</br>
+> Package Name: iotdb-enterprise-1.3.6.1-bin.zip</br>
+> SHA512 Checksum: 9fb6a6870aa2133bfc40508324a7d97ee078d0d44895beef7b0a331edd203419119fb02b933f585b6c4a6fe9b59708a053d7cf65206b22b1a4f01a5fe518424c
+
+V1.3.6.1 focuses on deep optimization of data synchronization stability, while delivering comprehensive improvements in database monitoring, performance, and stability. Specific release contents are as follows:
+
+* **Data Synchronization**: Enhanced Pipe SQL parameter configuration to support specifying asynchronous loading methods.
+* **Data Synchronization**: Introduced syntactic sugar that automatically splits full-data Pipe creation SQL into real-time and historical synchronization components.
+* **System Module**: Added a global configuration option for data-type-specific compression strategies, enabling on-demand adjustment of storage compression policies.
 
 
 ### V1.3.5.11
