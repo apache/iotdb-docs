@@ -75,13 +75,13 @@ IoTDB> SHOW CURRENT_DATABASE;
 |           null|
 +---------------+
 
-IoTDB> USE test;
+IoTDB> USE database1;
 
 IoTDB> SHOW CURRENT_DATABASE;
 +---------------+
 |CurrentDatabase|
 +---------------+
-|   iot_database|
+|      database1|
 +---------------+
 ```
 
@@ -99,19 +99,20 @@ SHOW DATABASES (DETAILS)?
 
 ```SQL
 IoTDB> show databases
-+---------+-------+-----------------------+---------------------+---------------------+
-| Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|
-+---------+-------+-----------------------+---------------------+---------------------+
-|test_prop|    300|                      3|                    2|               100000|
-|    test2|    300|                      3|                    2|            604800000|
-+---------+-------+-----------------------+---------------------+---------------------+
++------------------+-------+-----------------------+---------------------+---------------------+
+|          Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|
++------------------+-------+-----------------------+---------------------+---------------------+
+|         database1|    INF|                      1|                    1|            604800000|
+|information_schema|    INF|                   null|                 null|                 null|
++------------------+-------+-----------------------+---------------------+---------------------+
+
 IoTDB> show databases details
-+---------+-------+-----------------------+---------------------+---------------------+-----------------------+-----------------------+
-| Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|SchemaRegionGroupNum|  DataRegionGroupNum|
-+---------+-------+-----------------------+---------------------+---------------------+-----------------------+-----------------------+
-|test_prop|    300|                      3|                    2|               100000|                      1|                      2|
-|    test2|    300|                      3|                    2|            604800000|                      1|                      2|
-+---------+-------+-----------------------+---------------------+---------------------+-----------------------+-----------------------+
++------------------+-------+-----------------------+---------------------+---------------------+--------------------+------------------+
+|          Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|SchemaRegionGroupNum|DataRegionGroupNum|
++------------------+-------+-----------------------+---------------------+---------------------+--------------------+------------------+
+|         database1|    INF|                      1|                    1|            604800000|                   1|                 2|
+|information_schema|    INF|                   null|                 null|                 null|                null|              null|
++------------------+-------+-----------------------+---------------------+---------------------+--------------------+------------------+
 ```
 
 ### 1.5 Modify Database
@@ -195,13 +196,16 @@ CREATE TABLE table1 (
   arrival_time TIMESTAMP FIELD COMMENT 'arrival_time'
 ) COMMENT 'table1' WITH (TTL=31536000000);
 
-CREATE TABLE IF NOT EXISTS table2 ();
+CREATE TABLE if not exists tableB ();
 
 CREATE TABLE tableC (
-  "plant" STRING TAG,
-  "temperature" INT32 FIELD COMMENT 'temperature'
-) WITH (TTL=DEFAULT);
+  "Site" STRING TAG,
+  "Temperature" int32 FIELD COMMENT 'temperature'
+ ) with (TTL=DEFAULT);
 ```
+
+Note: If your terminal does not support multi-line paste (e.g., Windows CMD), please reformat the SQL statement into a single line before execution.
+
 
 ### 2.2 List Tables
 
@@ -214,21 +218,19 @@ SHOW TABLES (DETAILS)? ((FROM | IN) database_name)?
 **Examples:**
 
 ```SQL
-IoTDB> show tables from test_db
-+---------+-------+-------+
-|TableName|TTL(ms)|Comment|
-+---------+-------+-------+
-|     test|    INF|   TEST|
-+---------+-------+-------+
+IoTDB> show tables from database1
++---------+---------------+
+|TableName|        TTL(ms)|
++---------+---------------+
+|   table1|    31536000000|
++---------+---------------+
 
-IoTDB> show tables details from test_db
-+---------+-------+----------+-------+
-|TableName|TTL(ms)|    Status|Comment|
-+---------+-------+----------+-------+
-|     test|    INF|     USING|   TEST|
-|  turbine|    INF|PRE_CREATE|   null|
-|      car|   1000|PRE_DELETE|   null|
-+---------+-------+----------+-------+
+IoTDB> show tables details from database1
++---------------+-----------+------+-------+
+|      TableName|    TTL(ms)|Status|Comment|
++---------------+-----------+------+-------+
+|         table1|31536000000| USING| table1|
++---------------+-----------+------+-------+
 ```
 
 ### 2.3 Describe Table Columns
@@ -242,26 +244,37 @@ IoTDB> show tables details from test_db
 **Examples:**
 
 ```SQL
-IoTDB> desc tableB
-+----------+---------+-----------+-------+
-|ColumnName| DataType|   Category|Comment|
-+----------+---------+-----------+-------+
-|      time|TIMESTAMP|       TIME|   null|
-|         a|   STRING|        TAG|      a|
-|         b|   STRING|  ATTRIBUTE|      b|
-|         c|    INT32|      FIELD|      c|
-+----------+---------+-----------+-------+
+IoTDB> desc table1
++------------+---------+---------+
+|  ColumnName| DataType| Category|
++------------+---------+---------+
+|        time|TIMESTAMP|     TIME|
+|      region|   STRING|      TAG|
+|    plant_id|   STRING|      TAG|
+|   device_id|   STRING|      TAG|
+|    model_id|   STRING|ATTRIBUTE|
+| maintenance|   STRING|ATTRIBUTE|
+| temperature|    FLOAT|    FIELD|
+|    humidity|    FLOAT|    FIELD|
+|      status|  BOOLEAN|    FIELD|
+|arrival_time|TIMESTAMP|    FIELD|
++------------+---------+---------+
 
-IoTDB> desc tableB details
-+----------+---------+-----------+----------+-------+
-|ColumnName| DataType|   Category|    Status|Comment|
-+----------+---------+-----------+----------+-------+
-|      time|TIMESTAMP|       TIME|     USING|   null|
-|         a|   STRING|        TAG|     USING|      a|
-|         b|   STRING|  ATTRIBUTE|     USING|      b|
-|         c|    INT32|      FIELD|     USING|      c|
-|         d|    INT32|      FIELD|PRE_DELETE|      d|
-+----------+---------+-----------+----------+-------+
+IoTDB> desc table1 details
++------------+---------+---------+------+------------+
+|  ColumnName| DataType| Category|Status|     Comment|
++------------+---------+---------+------+------------+
+|        time|TIMESTAMP|     TIME| USING|        null|
+|      region|   STRING|      TAG| USING|        null|
+|    plant_id|   STRING|      TAG| USING|        null|
+|   device_id|   STRING|      TAG| USING|        null|
+|    model_id|   STRING|ATTRIBUTE| USING|        null|
+| maintenance|   STRING|ATTRIBUTE| USING| maintenance|
+| temperature|    FLOAT|    FIELD| USING| temperature|
+|    humidity|    FLOAT|    FIELD| USING|    humidity|
+|      status|  BOOLEAN|    FIELD| USING|      status|
+|arrival_time|TIMESTAMP|    FIELD| USING|arrival_time|
++------------+---------+---------+------+------------+
 ```
 
 ### 2.4 Modify Table
@@ -280,8 +293,9 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? col
 **Examples:**
 
 ```SQL
-ALTER TABLE tableB ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a'
-ALTER TABLE tableB set properties TTL=3600
+ALTER TABLE table1 ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a'
+ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b'
+ALTER TABLE table1 set properties TTL=3600
 COMMENT ON TABLE table1 IS 'table1'
 COMMENT ON COLUMN table1.a IS null
 ```
@@ -297,8 +311,8 @@ DROP TABLE (IF EXISTS)? <TABLE_NAME>
 **Examples:**
 
 ```SQL
-DROP TABLE tableA
-DROP TABLE test.tableB
+DROP TABLE table1
+DROP TABLE database1.table1
 ```
 
 

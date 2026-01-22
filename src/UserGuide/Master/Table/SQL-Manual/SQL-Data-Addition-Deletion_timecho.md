@@ -34,35 +34,33 @@ INSERT INTO <TABLE_NAME> [(COLUMN_NAME[, COLUMN_NAME]*)]? VALUES (COLUMN_VALUE[,
 **Example 1: Specified Columns Insertion**
 
 ```SQL
-INSERT INTO table1("Region", "PlantID", "DeviceID", Time, "Temperature", "Displacement") 
-VALUES ('Hunan', '3001', '3', 4, 90.0, 1200.0);
+INSERT INTO table1(region, plant_id, device_id, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', '2025-11-26 13:37:00', 90.0, 35.1)
 
-INSERT INTO table1("Region", "PlantID", "DeviceID", Time, "Temperature") 
-VALUES ('Hunan', '3001', '3', 5, 90.0);
+INSERT INTO table1(region, plant_id, device_id, time, temperature) VALUES ('Hamburg', '1001', '100', '2025-11-26 13:38:00', 91.0)
 ```
 
 **Example 2: NULL Value Insertion**
 
 ```SQL
--- Equivalent to partial insertion with NULL values
-INSERT INTO table1("Region", "PlantID", "DeviceID", "Model", "MaintenanceCycle", Time, "Temperature", "Displacement") 
-VALUES ('Hunan', '3001', '3', NULL, NULL, 4, 90.0, 1200.0);
+# Equivalent to the example above
+INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', null, null, '2025-11-26 13:37:00', 90.0, 35.1)
 
-INSERT INTO table1("Region", "PlantID", "DeviceID", "Model", "MaintenanceCycle", Time, "Temperature", "Displacement") 
-VALUES ('Hunan', '3001', '3', NULL, NULL, 5, 90.0, NULL);
+INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', null, null, '2025-11-26 13:38:00', 91.0, null)
 ```
 
 **Example 3: Multi-row Insertion**
 
 ```SQL
-INSERT INTO table1 VALUES
-(4, 'Beijing', '3001', '3', '1', '10', 90.0, 1200.0),
-(5, 'Beijing', '3001', '3', '1', '10', 90.0, 1200.0);
-
-INSERT INTO table1("Region", "PlantID", "DeviceID", Time, "Temperature", "Displacement") 
+INSERT INTO table1
 VALUES 
-('Beijing', '3001', '3', 4, 90.0, 1200.0),
-('Beijing', '3001', '3', 5, 90.0, 1200.0);
+('2025-11-26 13:37:00', 'Frankfurt', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:37:34'),
+('2025-11-26 13:38:00', 'Frankfurt', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:38:25')
+
+INSERT INTO table1
+(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity, status, arrival_time) 
+VALUES 
+('Frankfurt', '1001', '100', 'A', '180', '2025-11-26 13:37:00', 90.0, 35.1, true, '2025-11-26 13:37:34'),
+('Frankfurt', '1001', '100', 'A', '180', '2025-11-26 13:38:00', 90.0, 35.1, true, '2025-11-26 13:38:25')
 ```
 
 **Example 4: Query Write-back**
