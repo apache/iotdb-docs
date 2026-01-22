@@ -136,3 +136,5 @@ INSERT INTO table5(device_id, time, humidity) VALUES
   ('d1', '2025-05-13 00:00:04.187', null),
   ('d1', '2025-05-13 00:00:06.156', 35.1);
 ```
+
+注意：若您使用的终端不支持多行粘贴（例如 Windows CMD），请将 SQL 语句调整为单行格式后再执行。
