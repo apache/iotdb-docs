@@ -78,7 +78,7 @@
 
 ### 1.2 功能限制及说明
 
-元数据（schema）、权限（auth）同步功能存在如下限制：
+1. 元数据（schema）、权限（auth）同步功能存在如下限制：
 
 - 使用元数据同步时，要求`Schema region`、`ConfigNode` 的共识协议必须为默认的 ratis 协议，即`iotdb-system.properties`配置文件中是否包含`config_node_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus`、`schema_region_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus`，不包含即为默认值ratis 协议。
 
@@ -89,6 +89,24 @@
 - 双活集群中元数据同步需避免两端同时操作。
 
 - 在进行数据同步任务时，请避免执行任何删除操作，防止两端状态不一致。
+
+2. Pipe 权限控制规范如下：
+
+- 创建 pipe 时，可以对抽取/写回插件指定用户名和密码。密码错误则禁止创建，未指定时默认使用当前用户进行同步。
+
+- 数据/元数据同步时，先根据 Pipe 配置的路径模式(pattern/path)筛选，再基于用户读取权限进行鉴权
+
+  - 权限范围≥写入路径：完整同步
+
+  - 权限范围与写入路径无交集：不同步
+
+  - 权限范围<写入路径或存在交集：同步交集部分
+
+- 遇到无权限数据时，若发送端 skipIf=no-privileges，则跳过无权限数据；若 skipIf 配置为空，任务报错（803错误）
+
+  - 注意：此 skipIf 配置与接收端的 skipIf（默认为空）相互独立
+
+- 对于 root.__system, root.__audit 均不会同步
 
 ## 2. 使用说明
 
@@ -594,14 +612,13 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | password                    | 连接接收端使用的用户名对应的密码，同步要求该用户具备相应的操作权限                                                                                                                                                            | String                                                                     | 选填     | TimechoDB@2021, V2.0.6.x 之前为root |
 | batch.enable                | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS        | Boolean: true, false                                         | 选填     | true                             |
 | batch.max-delay-seconds     | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                      | 选填     | 1                                |
-| batch.max-delay-ms       | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：ms）(V2.0.5及以后版本支持）    | Integer                                                                    | 选填     | 1            |
+| batch.max-delay-ms        | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：ms）(V2.0.5及以后版本支持）             | Integer                                                                    | 选填     | 1            |
 | batch.size-bytes            | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte） | Long                                                         | 选填     | 16*1024*1024                     |
 | compressor                  | 所选取的 rpc 压缩算法，可配置多个，对每个请求顺序采用                                                                                                                                                                | String: snappy / gzip / lz4 / zstd / lzma2                                 | 选填     | ""                               |
 | compressor.zstd.level       | 所选取的 rpc 压缩算法为 zstd 时，可使用该参数额外配置 zstd 算法的压缩等级                                                                                                                                                | Int: [-131072, 22]                                                         | 选填     | 3                                |
 | rate-limit-bytes-per-second | 每秒最大允许传输的 byte 数，计算压缩后的 byte（如压缩），若小于 0 则不限制                                                                                                                                                 | Double:  [Double.MIN_VALUE, Double.MAX_VALUE]                              | 选填     | -1                               |
 | load-tsfile-strategy        | 文件同步数据时，接收端请求返回发送端前，是否等待接收端本地的 load tsfile 执行结果返回。<br>sync：等待本地的 load tsfile 执行结果返回；<br>async：不等待本地的 load tsfile 执行结果返回。                                                                     | String: sync / async                        | 选填      | sync                             |
 | format                      | 数据传输的payload格式， 可选项包括：<br>  - hybrid： 取决于 processor 传递过来的格式（tsfile或tablet），sink不做任何转换。<br> - tsfile：强制转换成tsfile发送，可用于数据文件备份等场景。<br> - tablet：强制转换成tsfile发送，可用于发送端/接收端数据类型不完全兼容时的数据同步（以减少报错）。 | String: hybrid / tsfile / tablet    | 选填    | hybrid                           |
-
 
 #### iotdb-air-gap-sink
 
@@ -627,7 +644,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | password                    | 连接接收端使用的用户名对应的密码，同步要求该用户具备相应的操作权限                                                                                                                                                            | String                                                                           | 选填     | TimechoDB@2021, V2.0.6.x 之前为root  |
 | batch.enable            | 是否开启日志攒批发送模式，用于提高传输吞吐，降低 IOPS        | Boolean: true, false                                         | 选填     | true                              |
 | batch.max-delay-seconds | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：s） | Integer                                                      | 选填     | 1                                 |
-| batch.max-delay-ms      | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：ms）(V2.0.5及以后版本支持）      | Integer                                                                    | 选填     | 1            |
+| batch.max-delay-ms       | 在开启日志攒批发送模式时生效，表示一批数据在发送前的最长等待时间（单位：ms）(V2.0.5及以后版本支持）      | Integer                                                                    | 选填     | 1            |
 | batch.size-bytes        | 在开启日志攒批发送模式时生效，表示一批数据最大的攒批大小（单位：byte） | Long                                                         | 选填     | 16*1024*1024                      |
 | compressor                  | 所选取的 rpc 压缩算法，可配置多个，对每个请求顺序采用                                                                                                                                                                | String: snappy / gzip / lz4 / zstd / lzma2                                       | 选填     | ""                                |
 | compressor.zstd.level       | 所选取的 rpc 压缩算法为 zstd 时，可使用该参数额外配置 zstd 算法的压缩等级                                                                                                                                                | Int: [-131072, 22]                                                               | 选填     | 3                                 |

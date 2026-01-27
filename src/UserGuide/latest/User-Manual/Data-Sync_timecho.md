@@ -79,7 +79,7 @@ By declaratively configuring the specific content of the three parts through SQL
 
 ### 1.2 Functional limitations and instructions
 
-The schema and auth synchronization functions have the following limitations:
+1. The schema and auth synchronization functions have the following limitations:
 
 - When using schema synchronization, it is required that the consensus protocol for `Schema region` and `ConfigNode`  must be the default ratis protocol. This means that the `iotdb-system.properties` configuration file should contain the settings `config_node_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus` and `schema_region_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus`. If these are not specified, the default ratis protocol is used.
 
@@ -90,6 +90,22 @@ The schema and auth synchronization functions have the following limitations:
 - In a dual-active cluster, schema synchronization should avoid simultaneous operations on both ends.
 
 - During data synchronization tasks, please avoid performing any deletion operations to prevent inconsistent states between the two ends.
+
+2. Pipe Permission Control Specifications
+
+- When creating a pipe, a username and password can be specified for the extraction/write‑back plugins. If the password is incorrect, creation is prohibited. If not specified, the current user is used for synchronization by default.
+
+- During data/metadata synchronization, filtering is first performed according to the path pattern (pattern/path) configured in the Pipe, followed by authentication based on the user’s read permissions:
+    - If the permission scope is greater than or equal to the write path: full synchronization.
+    - If the permission scope has no intersection with the write path: no synchronization.
+    - If the permission scope is smaller than the write path or overlaps partially: synchronize only the intersecting part.
+
+- When encountering data for which the user lacks permission:
+    - If the sender’s skipIf=no‑privileges, the unauthorized data is skipped.
+    - If skipIf is left empty (unconfigured), the task reports an error (Error 803).
+    - Note: This skipIf configuration is independent of the receiver’s skipIf setting (which defaults to empty).
+
+- Data under root.__system and root.__audit will not be synchronized.
 
 ## 2. Usage Instructions
 
