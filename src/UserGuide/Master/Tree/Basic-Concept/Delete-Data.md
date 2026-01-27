@@ -24,6 +24,11 @@ Users can delete data that meet the deletion condition in the specified timeseri
 
 In a JAVA programming environment, you can use the Java JDBC to execute single or batch UPDATE statements.
 
+Note:  
+When executing a conventional data deletion command (the DELETE FROM statement), disk space is not immediately released. Instead, the data is marked first, and disk space is gradually freed by background tasks.  
+You can speed up this process by adjusting the parameters `inner_compaction_task_selection_disk_redundancy` and `inner_compaction_task_selection_mods_file_threshold` to smaller values.  
+The database deletion command (the DROP DATABASE statement) can immediately release disk space.
+
 ## 1. Delete Single Timeseries
 
 Taking ln Group as an example, there exists such a usage scenario:
