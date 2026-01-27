@@ -52,6 +52,7 @@
 
 6. 在安装部署数据库前，可以使用健康检查工具检测 IoTDB 节点运行环境，并获取详细的检查结果。 IoTDB 健康检查工具使用方法可以参考：[健康检查工具](../Tools-System/Health-Check-Tool.md)。
 
+
 ## 2. 准备步骤
 
 1. 准备IoTDB数据库安装包 ：apache-iotdb-{version}-all-bin.zip（安装包获取见：[链接](../Deployment-and-Maintenance/IoTDB-Package_apache.md)）
@@ -153,7 +154,7 @@ cd  apache-iotdb-{version}-all-bin
 
 | 配置项                          | 说明                                                         | 默认            | 推荐值                                                  | 11.101.17.224 | 11.101.17.225 | 11.101.17.226 | 备注               |
 | ------------------------------- | ------------------------------------------------------------ | --------------- | ------------------------------------------------------- | ------------- | ------------- | ------------- | ------------------ |
-| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 0.0.0.0         |  所在服务器的IPV4地址或hostname，推荐使用所在服务器的IPV4地址     |  iotdb-1       |iotdb-2       | iotdb-3         | 重启服务生效       |
+| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 127.0.0.1         |  默认本机可直接访问。非本机访问，请修改此配置项为所在服务器的IPV4地址或hostname，推荐使用所在服务器的IPV4地址。      |  iotdb-1       |iotdb-2       | iotdb-3         | 重启服务生效       |
 | dn_rpc_port                     | 客户端 RPC 服务的端口                                        | 6667            | 6667                                                    | 6667          | 6667          | 6667          | 重启服务生效       |
 | dn_internal_address             | DataNode在集群内部通讯使用的地址                             | 127.0.0.1       | 所在服务器的IPV4地址或hostname，推荐使用hostname        | iotdb-1       | iotdb-2       | iotdb-3       | 首次启动后不能修改 |
 | dn_internal_port                | DataNode在集群内部通信使用的端口                             | 10730           | 10730                                                   | 10730         | 10730         | 10730         | 首次启动后不能修改 |
@@ -195,7 +196,6 @@ cd sbin
 # windows系统
 ./start-cli.bat -sql_dialect table
 ```
-
 
 ### 3.6 一键启停集群
 
