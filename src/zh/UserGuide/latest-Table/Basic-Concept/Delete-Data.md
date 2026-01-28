@@ -25,6 +25,11 @@
 
 数据删除可以通过 delete 语句来完成，其中可以通过指定标签和时间的过滤条件来删除部分数据。
 
+注意：
+常规的数据删除命令 （DELETE FROM 语句）执行后不会立即释放磁盘空间，而是先对数据进行标记，依靠后台任务逐步地去释放空间。
+调小参数 `inner_compaction_task_selection_disk_redundancy` 和 `inner_compaction_task_selection_mods_file_threshold` 可以加快该过程。
+删除数据库命令（DROP DATABASE 语句）可以立即释放磁盘空间。
+
 ### 1.1 语法概览
 
 ```SQL

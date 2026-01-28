@@ -25,6 +25,11 @@
 
 Data deletion in IoTDB can be achieved using the DELETE statement. You can specify filters based on tags and time to delete specific subsets of data.
 
+Note:  
+When executing a conventional data deletion command (the DELETE FROM statement), disk space is not immediately released. Instead, the data is marked first, and disk space is gradually freed by background tasks.  
+You can speed up this process by adjusting the parameters `inner_compaction_task_selection_disk_redundancy` and `inner_compaction_task_selection_mods_file_threshold` to smaller values.  
+The database deletion command (the DROP DATABASE statement) can immediately release disk space.
+
 ### 1.1 Syntax Overview
 
 ```SQL
