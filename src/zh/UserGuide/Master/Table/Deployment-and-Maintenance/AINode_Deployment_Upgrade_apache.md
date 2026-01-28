@@ -111,7 +111,6 @@ AINode 支持修改一些必要的参数。可以在 `/IOTDB_AINODE_HOME/conf/io
 | ain\_cluster\_ingress\_port       | AINode 拉取数据的 DataNode 的 rpc 端口               | Integer        | 6667               |
 | ain\_cluster\_ingress\_username   | AINode 拉取数据的 DataNode 的客户端用户名                | String         | root               |
 | ain\_cluster\_ingress\_password   | AINode 拉取数据的 DataNode 的客户端密码                 | String         | root               |
-| ain\_cluster\_ingress\_time\_zone | AINode 拉取数据的 DataNode 的客户端时区                 | String         | UTC+8              |
 | ain\_rpc\_address                 | AINode 提供服务与通信的地址 ，内部服务通讯接口                  | String         | 127.0.0.1          |
 | ain\_rpc\_port                    | AINode 提供服务与通信的端口                            | String         | 10810              |
 | ain\_system\_dir                  | AINode 元数据存储路径，相对路径的起始目录与操作系统相关，建议使用绝对路径     | String| data/AINode/system |

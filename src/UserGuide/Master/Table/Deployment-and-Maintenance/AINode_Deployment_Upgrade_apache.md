@@ -109,7 +109,6 @@ AINode supports modifying some necessary parameters. You can find the following 
 | `ain_cluster_ingress_port` | The rpc port of the DataNode from which AINode pulls data | Integer | `6667` |
 | `ain_cluster_ingress_username` | The client username for the DataNode from which AINode pulls data | String | `root` |
 | `ain_cluster_ingress_password` | The client password for the DataNode from which AINode pulls data | String | `root` |
-| `ain_cluster_ingress_time_zone` | The client timezone for the DataNode from which AINode pulls data | String | `UTC+8` |
 | `ain_rpc_address` | The address for AINode service provision and communication (internal service communication interface) | String | `127.0.0.1` |
 | `ain_rpc_port` | The port for AINode service provision and communication | String | `10810` |
 | `ain_system_dir` | AINode metadata storage path. The starting directory for relative paths is OS-dependent; using an absolute path is recommended. | String | `data/AINode/system` |
