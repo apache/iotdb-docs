@@ -34,33 +34,33 @@ INSERT INTO <TABLE_NAME> [(COLUMN_NAME[, COLUMN_NAME]*)]? VALUES (COLUMN_VALUE[,
 **示例一：指定列写入**
 
 ```SQL
-insert into table1("地区", "厂号", "设备号", Time, "温度", "排量") values ('湖南', '3001', '3', 4, 90.0, 1200.0)
+INSERT INTO table1(region, plant_id, device_id, time, temperature, humidity) VALUES ('北京', '1001', '100', '2025-11-26 13:37:00', 90.0, 35.1)
 
-insert into table1("地区", "厂号", "设备号", Time, "温度") values ('湖南, '3001', '3', 5, 90.0)
+INSERT INTO table1(region, plant_id, device_id, time, temperature) VALUES ('北京', '1001', '100', '2025-11-26 13:38:00', 91.0)
 ```
 
 **示例二：空值写入**
 
 ```SQL
--- 上述部分列写入等价于如下的带空值写入
-insert into table1("地区", "厂号", "设备号", "型号", "维修周期", Time, "温度", "排量") values ('湖南', '3001', '3', null, null, 4, 90.0, 1200.0)
+# 上述部分列写入等价于如下的带空值写入
+INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('北京', '1001', '100', null, null, '2025-11-26 13:37:00', 90.0, 35.1)
 
-insert into table1("地区", "厂号", "设备号", "型号", "维修周期", Time, "温度", "排量") values ('湖南', '3001', '3', null, null, 5, 90.0, null)
+INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('北京', '1001', '100', null, null, '2025-11-26 13:38:00', 91.0, null)
 ```
 
 **示例三：多行写入**
 
 ```SQL
-insert into table1
-values
-(4, '北京', '3001', '3', '1', '10', 90.0, 1200.0),
-(5, '北京', '3001', '3', '1', '10', 90.0, 1200.0);
+INSERT INTO table1
+VALUES 
+('2025-11-26 13:37:00', '北京', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:37:34'),
+('2025-11-26 13:38:00', '北京', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:38:25')
 
-insert into table1
-("地区", "厂号", "设备号", Time, "温度", "排量")
-values
-('北京', '3001', '3', 4, 90.0, 1200.0),
-('北京', '3001', '3', 5, 90.0, 1200.0);
+INSERT INTO table1
+(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity, status, arrival_time) 
+VALUES 
+('北京', '1001', '100', 'A', '180', '2025-11-26 13:37:00', 90.0, 35.1, true, '2025-11-26 13:37:34'),
+('北京', '1001', '100', 'A', '180', '2025-11-26 13:38:00', 90.0, 35.1, true, '2025-11-26 13:38:25')
 ```
 
 **示例四：查询写回**

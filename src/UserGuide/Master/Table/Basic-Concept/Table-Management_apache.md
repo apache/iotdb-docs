@@ -95,13 +95,15 @@ CREATE TABLE table1 (
 ) COMMENT 'table1' WITH (TTL=31536000000);
 
 
-CREATE TABLE if not exists table2 ();
+CREATE TABLE if not exists tableB ();
 
 CREATE TABLE tableC (
   "Site" STRING TAG,
   "Temperature" int32 FIELD COMMENT 'temperature'
  ) with (TTL=DEFAULT);
 ```
+
+Note: If your terminal does not support multi-line paste (e.g., Windows CMD), please reformat the SQL statement into a single line before execution.
 
 #### 1.1.2 Automatically Create Tables via SESSION
 
@@ -201,21 +203,19 @@ SHOW TABLES (DETAILS)? ((FROM | IN) database_name)?
 **Examples:**
 
 ```SQL
-IoTDB> show tables from test_db
-+---------+-------+-------+
-|TableName|TTL(ms)|Comment|
-+---------+-------+-------+
-|     test|    INF|   TEST|
-+---------+-------+-------+
+IoTDB> show tables from database1
++---------+---------------+
+|TableName|        TTL(ms)|
++---------+---------------+
+|   table1|    31536000000|
++---------+---------------+
 
-IoTDB> show tables details from test_db
-+---------+-------+----------+-------+
-|TableName|TTL(ms)|    Status|Comment|
-+---------+-------+----------+-------+
-|     test|    INF|     USING|   TEST|
-|  turbine|    INF|PRE_CREATE|   null|
-|      car|   1000|PRE_DELETE|   null|
-+---------+-------+----------+-------+
+IoTDB> show tables details from database1
++---------------+-----------+------+-------+
+|      TableName|    TTL(ms)|Status|Comment|
++---------------+-----------+------+-------+
+|         table1|31536000000| USING| table1|
++---------------+-----------+------+-------+
 ```
 
 ### 1.3 View Table Columns
@@ -238,26 +238,37 @@ Used to view column names, data types, categories, and states of a table.
 **Examples:** 
 
 ```SQL
-IoTDB> desc tableB
-+----------+---------+-----------+-------+
-|ColumnName| DataType|   Category|Comment|
-+----------+---------+-----------+-------+
-|      time|TIMESTAMP|       TIME|   null|
-|         a|   STRING|        TAG|      a|
-|         b|   STRING|  ATTRIBUTE|      b|
-|         c|    INT32|      FIELD|      c|
-+----------+---------+-----------+-------+
+IoTDB> desc table1
++------------+---------+---------+
+|  ColumnName| DataType| Category|
++------------+---------+---------+
+|        time|TIMESTAMP|     TIME|
+|      region|   STRING|      TAG|
+|    plant_id|   STRING|      TAG|
+|   device_id|   STRING|      TAG|
+|    model_id|   STRING|ATTRIBUTE|
+| maintenance|   STRING|ATTRIBUTE|
+| temperature|    FLOAT|    FIELD|
+|    humidity|    FLOAT|    FIELD|
+|      status|  BOOLEAN|    FIELD|
+|arrival_time|TIMESTAMP|    FIELD|
++------------+---------+---------+
 
-IoTDB> desc tableB details
-+----------+---------+-----------+----------+-------+
-|ColumnName| DataType|   Category|    Status|Comment|
-+----------+---------+-----------+----------+-------+
-|      time|TIMESTAMP|       TIME|     USING|   null|
-|         a|   STRING|        TAG|     USING|      a|
-|         b|   STRING|  ATTRIBUTE|     USING|      b|
-|         c|    INT32|      FIELD|     USING|      c|
-|         d|    INT32|      FIELD|PRE_DELETE|      d|
-+----------+---------+-----------+----------+-------+
+IoTDB> desc table1 details
++------------+---------+---------+------+------------+
+|  ColumnName| DataType| Category|Status|     Comment|
++------------+---------+---------+------+------------+
+|        time|TIMESTAMP|     TIME| USING|        null|
+|      region|   STRING|      TAG| USING|        null|
+|    plant_id|   STRING|      TAG| USING|        null|
+|   device_id|   STRING|      TAG| USING|        null|
+|    model_id|   STRING|ATTRIBUTE| USING|        null|
+| maintenance|   STRING|ATTRIBUTE| USING| maintenance|
+| temperature|    FLOAT|    FIELD| USING| temperature|
+|    humidity|    FLOAT|    FIELD| USING|    humidity|
+|      status|  BOOLEAN|    FIELD| USING|      status|
+|arrival_time|TIMESTAMP|    FIELD| USING|arrival_time|
++------------+---------+---------+------+------------+
 ```
 
 ### 1.4 Update Tables
@@ -284,9 +295,9 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? col
 **Example:** 
 
 ```SQL
-ALTER TABLE tableB ADD COLUMN IF NOT EXISTS a TAG
-ALTER TABLE tableB ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b'
-ALTER TABLE tableB set properties TTL=3600
+ALTER TABLE table1 ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a'
+ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b'
+ALTER TABLE table1 set properties TTL=3600
 COMMENT ON TABLE table1 IS 'table1'
 COMMENT ON COLUMN table1.a IS null
 ```
@@ -304,6 +315,6 @@ DROP TABLE (IF EXISTS)? <TABLE_NAME>
 **Examples:**
 
 ```SQL
-DROP TABLE tableA
-DROP TABLE test.tableB
+DROP TABLE table1
+DROP TABLE database1.table1
 ```

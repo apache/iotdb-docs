@@ -131,10 +131,9 @@ It is possible to insert data for specific columns. Columns not specified will r
 **Example:**
 
 ```SQL
-insert into table1("region", "plant_id", "device_id", Time, "temperature", "displacement") values ('Hamburg', '3001', '3', 4, 90.0, 1200.0)
+INSERT INTO table1(region, plant_id, device_id, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', '2025-11-26 13:37:00', 90.0, 35.1)
 
-
-insert into table1("region", "plant_id", "device_id", Time, "temperature") values ('Hamburg, '3001', '3', 5, 90.0)
+INSERT INTO table1(region, plant_id, device_id, time, temperature) VALUES ('Hamburg', '1001', '100', '2025-11-26 13:38:00', 91.0)
 ```
 
 ### 1.4 Null Value Insertion
@@ -147,9 +146,9 @@ Equivalent to the above partial column insertion.
 
 ```SQL
 # Equivalent to the example above
-insert into table1("region", "plant_id", "device_id", "model", "maintenance_cycle", Time, "temperature", "displacement") values ('Hamburg', '3001', '3', null, null, 4, 90.0, 1200.0)
+INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', null, null, '2025-11-26 13:37:00', 90.0, 35.1)
 
-insert into table1("region", "plant_id", "device_id", "model", "maintenance_cycle", Time, "temperature", "displacement") values ('Hamburg', '3001', '3', null, null, 5, 90.0, null)
+INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', null, null, '2025-11-26 13:38:00', 91.0, null)
 ```
 
 If no tag columns are included, the system will automatically create a device with all tag column values set to `null`.
@@ -163,17 +162,16 @@ IoTDB supports inserting multiple rows of data in a single statement to improve 
 **Example**:
 
 ```SQL
-insert into table1
-values
-(4, 'Frankfurt', '3001', '3', '1', '10', 90.0, 1200.0)
-(5, 'Frankfurt', '3001', '3', '1', '10', 90.0, 1200.0)
+INSERT INTO table1
+VALUES 
+('2025-11-26 13:37:00', 'Frankfurt', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:37:34'),
+('2025-11-26 13:38:00', 'Frankfurt', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:38:25')
 
-
-insert into table1
-("region", "plant_id", "device_id", Time, "temperature", "displacement")
-values
-('Frankfurt', '3001', '3', 4, 90.0, 1200.0)
-('Frankfurt', '3001', '3', 5, 90.0, 1200.0)
+INSERT INTO table1
+(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity, status, arrival_time) 
+VALUES 
+('Frankfurt', '1001', '100', 'A', '180', '2025-11-26 13:37:00', 90.0, 35.1, true, '2025-11-26 13:37:34'),
+('Frankfurt', '1001', '100', 'A', '180', '2025-11-26 13:38:00', 90.0, 35.1, true, '2025-11-26 13:38:25')
 ```
 
 #### Notes
