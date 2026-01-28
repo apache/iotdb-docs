@@ -149,6 +149,8 @@ Recommended disk partitioning is as follows:
         lsof -i:10720   or  netstat -tunp | grep 10720
         # If the command outputs anything, the port is occupied.
         ```
+     If you encounter lsof-related errors (e.g., command not found or version incompatibility) after running the command, refer to [lsof Troubleshooting Guide](../FAQ/Frequently-asked-questions.md#_1-8-resolving-lsof-issues-in-iotdb-deployment).     
+
    - Cluster Deployment Tool Ports: When using the cluster management tool `opskit` for installation and deployment, ensure the SSH remote connection service is configured and port 22 is open.
         ```Bash
         yum install openssh-server            # Install SSH service

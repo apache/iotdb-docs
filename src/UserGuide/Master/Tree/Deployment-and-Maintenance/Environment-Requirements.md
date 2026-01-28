@@ -141,6 +141,7 @@ lsof -i:10710 or netstat -tunp | grep 10710
 lsof -i:10720 or netstat -tunp | grep 10720
 # If the command outputs, the port is occupied.
 ```
+If you encounter lsof-related errors (e.g., command not found or version incompatibility) after running the command, refer to [lsof Troubleshooting Guide](../FAQ/Frequently-asked-questions.md#_1-11-resolving-lsof-issues-in-iotdb-deployment).
 
 (2) Checking the port occupied by the cluster deployment tool: When using the cluster management tool opskit to install and deploy the cluster, enable the SSH remote connection service configuration and open port 22.
 
