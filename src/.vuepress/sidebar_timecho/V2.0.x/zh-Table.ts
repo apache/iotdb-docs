@@ -114,6 +114,14 @@ export const zhSidebar = {
       prefix: 'User-Manual/',
       children: [
         { text: '数据同步', link: 'Data-Sync_timecho' },
+        {
+          text: '时序特色分析',
+          collapsible: true,
+          children: [
+              { text: '模式查询', link: 'Pattern-Query_timecho' },
+              { text: '窗口函数', link: 'Window-Function_timecho' },
+          ],
+        },
         { text: 'UDF', link: 'User-defined-function' },
         {
           text: '安全管理',
@@ -125,7 +133,6 @@ export const zhSidebar = {
         },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },
         { text: '树转表视图', link: 'Tree-to-Table_timecho' },
-        { text: '时序特色分析', link: 'Timeseries-Featured-Analysis_timecho' },
         {
           text: '系统运维',
           collapsible: true,

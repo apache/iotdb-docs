@@ -732,7 +732,7 @@ frameBound
     ;
 ```
 
-For more detailed introductions to the features, please refer to: [Window Functions](../User-Manual/Timeseries-Featured-Analysis_timecho.md#_2-window-functions)
+For more detailed introductions to the features, please refer to: [Window Function](../User-Manual/Window-Function_timecho.md)
 
 ### 4.2 Usage Examples
 

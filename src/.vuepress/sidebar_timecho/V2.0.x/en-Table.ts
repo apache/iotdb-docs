@@ -123,6 +123,14 @@ export const enSidebar = {
       prefix: 'User-Manual/',
       children: [
         { text: 'Data Sync', link: 'Data-Sync_timecho' },
+        {
+            text: 'Timeseries Featured Analysis',
+            collapsible: true,
+            children: [
+                { text: 'Pattern Query', link: 'Pattern-Query_timecho' },
+                { text: 'Window Function', link: 'Window-Function_timecho' },
+            ],
+        },
         { text: 'UDF', link: 'User-defined-function' },
         {
           text: 'Security Management',
@@ -134,7 +142,6 @@ export const enSidebar = {
         },
         { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
         { text: 'Tree-to-Table Mapping', link: 'Tree-to-Table_timecho' },
-        { text: 'Timeseries Featured Analysis', link: 'Timeseries-Featured-Analysis_timecho' },
         {
           text: 'System Maintenance',
           collapsible: true,
