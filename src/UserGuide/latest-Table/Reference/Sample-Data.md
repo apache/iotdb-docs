@@ -93,3 +93,5 @@ INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, tem
   ('上海', '3002', '100', 'E', '180', '2024-11-29 11:00:00', NULL, 45.1, true, NULL),
   ('上海', '3002', '101', 'F', '360', '2024-11-30 00:00:00', 90.0, 35.2, true, NULL);
 ```
+
+Note: If your terminal does not support multi-line paste (e.g., Windows CMD), please reformat the SQL statement into a single line before execution.
