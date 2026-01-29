@@ -243,6 +243,36 @@ IoTDB> SHOW REGIONS
 +--------+------------+-------+-------------+-------------+-----------+----------+----------+-------+---------------+------+-----------------------+----------+
 ```
 
+### 1.7 Viewing Available Nodes
+
+**Description**: Returns the RPC addresses and ports of all available DataNodes in the current cluster. Note: A DataNode is considered "available" if it is not in the REMOVING state.
+
+> This feature is supported starting from v2.0.8.
+
+**Syntax**:
+
+```SQL
+showAvailableUrlsStatement
+    : SHOW AVAILABLE URLS
+    ;
+```
+
+**Example**:
+
+```SQL
+IoTDB> SHOW AVAILABLE URLS
+```
+
+**Result**:
+
+```SQL
++----------+-------+
+|RpcAddress|RpcPort|
++----------+-------+
+|   0.0.0.0|   6667|
++----------+-------+
+```
+
 
 ## 2. Status Setting
 

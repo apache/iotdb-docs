@@ -195,7 +195,7 @@ IoTDB> SHOW CURRENT_TIMESTAMP
 ```
 
 
-### 1.8 Viewing Region Information
+### 1.8 View Region Information
 
 **Description**: Displays regions' information of the current cluster.
 
@@ -223,6 +223,36 @@ IoTDB> SHOW REGIONS
 |       7|  DataRegion|Running|tcollector|          335|        335|         1|   0.0.0.0|   6667|      127.0.0.1|Leader|2025-08-01T17:37:01.196| 169.85 KB|
 |       8|  DataRegion|Running|tcollector|          335|        335|         1|   0.0.0.0|   6667|      127.0.0.1|Leader|2025-08-01T17:37:01.198| 161.63 KB|
 +--------+------------+-------+----------+-------------+-----------+----------+----------+-------+---------------+------+-----------------------+----------+
+```
+
+### 1.9 View Available Nodes
+
+**Description**: Returns the RPC addresses and ports of all available DataNodes in the current cluster. Note: A DataNode is considered "available" if it is not in the REMOVING state.
+
+> This feature is supported starting from v2.0.8.
+
+**Syntax**:
+
+```SQL
+showAvailableUrlsStatement
+    : SHOW AVAILABLE URLS
+    ;
+```
+
+**Example**:
+
+```SQL
+IoTDB> SHOW AVAILABLE URLS
+```
+
+**Result**:
+
+```SQL
++----------+-------+
+|RpcAddress|RpcPort|
++----------+-------+
+|   0.0.0.0|   6667|
++----------+-------+
 ```
 
 
