@@ -31,23 +31,23 @@
 
 ### 2.1 公共参数
 
-| 参数缩写   | 参数全称             | 参数含义                                                             | 是否为必填项 | 默认值                                      |
-| ------------ | ---------------------- | ---------------------------------------------------------------------- | -------------- |------------------------------------------|
-| -ft       | --file\_type         | 导出文件的类型，可以选择：csv、sql、tsfile                           | √           |                                          |
-| -h        | -- host              | 主机名                                                               | 否           | 127.0.0.1                                |
-| -p        | --port               | 端口号                                                               | 否           | 6667                                     |
-| -u        | --username           | 用户名                                                               | 否           | root                                     |
-| -pw       | --password           | 密码                                                                 | 否           | TimechoDB@2021 (V2.0.6 版本之前为 root)       |
-| -sql_dialect | --sql_dialect     | 选择 server 是树模型还是表模型，当前支持 tree 和 table 类型  | 否                      | tree                                     |
-| -db        | --database  | ​将要导出的目标数据库，只在`-sql_dialect`为 table 类型下生效。| `-sql_dialect`为 table 时必填| -                                        |
-| -table|--table      | 将要导出的目标表，只在`-sql_dialect`为 table 类型下生效。如果指定了`-q`参数则此参数不生效，如果导出类型为 tsfile/sql 则此参数必填。| ​ 否        | -                                        |
-| -start_time  | --start_time  |将要导出的数据起始时间，只有`-sql_dialect`为 table 类型时生效。如果填写了`-q`，则此参数不生效。支持的时间类型同`-tf`参数。|否           | -                                        |
-|-end_time   |--end_time   | 将要导出的数据的终止时间，只有`-sql_dialect`为 table 类型时生效。如果填写了`-q`，则此参数不生效。| 否                                                    | -                                        |
-| -t       | --target             | 指定输出文件的目标文件夹，如果路径不存在新建文件夹                   | √           |                                          |
-| -pfn     | --prefix\_file\_name | 指定导出文件的名称。例如：abc,生成的文件是abc\_0.tsfile、abc\_1.tsfile | 否           | dump\_0.tsfile                           |
-| -q       | --query              | 要执行的查询命令                                                     | 否           | 无                                        |
-| -timeout | --query\_timeout     | 会话查询的超时时间(ms)                                               | 否           | -1<br>范围：-1～Long max=9223372036854775807 |
-| -help    | --help               | 显示帮助信息                                                         | 否           |                                          |
+| 参数缩写   | 参数全称             | 参数含义                                                             | 是否为必填项 | 默认值                                                                         |
+| ------------ | ---------------------- | ---------------------------------------------------------------------- | -------------- |-----------------------------------------------------------------------------|
+| -ft       | --file\_type         | 导出文件的类型，可以选择：csv、sql、tsfile                           | √           |                                                                             |
+| -h        | -- host              | 主机名                                                               | 否           | 127.0.0.1                                                                   |
+| -p        | --port               | 端口号                                                               | 否           | 6667                                                                        |
+| -u        | --username           | 用户名                                                               | 否           | root                                                                        |
+| -pw       | --password           | 密码                                                                 | 否           | TimechoDB@2021 (V2.0.6 版本之前为 root)                                          |
+| -sql_dialect | --sql_dialect     | 选择 server 是树模型还是表模型，当前支持 tree 和 table 类型  | 否                      | tree                                                                        |
+| -db        | --database  | ​将要导出的目标数据库，只在`-sql_dialect`为 table 类型下生效。| `-sql_dialect`为 table 时必填| -                                                                           |
+| -table|--table      | 将要导出的目标表，只在`-sql_dialect`为 table 类型下生效。如果指定了`-q`参数则此参数不生效，如果导出类型为 tsfile/sql 则此参数必填。| ​ 否        | -                                                                           |
+| -start_time  | --start_time  |将要导出的数据起始时间，只有`-sql_dialect`为 table 类型时生效。如果填写了`-q`，则此参数不生效。支持的时间类型同`-tf`参数。|否           | -                                                                           |
+|-end_time   |--end_time   | 将要导出的数据的终止时间，只有`-sql_dialect`为 table 类型时生效。如果填写了`-q`，则此参数不生效。| 否                                                    | -                                                                           |
+| -t       | --target             | 指定输出文件的目标文件夹，如果路径不存在新建文件夹                   | √           |                                                                             |
+| -pfn     | --prefix\_file\_name | 指定导出文件的名称。例如：abc,生成的文件是abc\_0.tsfile、abc\_1.tsfile | 否           | dump\_0.tsfile                                                              |
+| -q       | --query              | 要执行的查询语句。自 V2.0.8 起，SQL 语句中的分号将被自动移除，查询执行保持正常。    | 否           | 无                                                                           |
+| -timeout | --query\_timeout     | 会话查询的超时时间(ms)                                      | 否           | `-1`(V2.0.8 之前)<br>`Long.MAX_VALUE`(V2.0.8 及之后)<br>范围：`-1~Long.MAX_VALUE` |
+| -help    | --help               | 显示帮助信息                                                         | 否           |                                                                             |
 
 ### 2.2 CSV 格式
 
