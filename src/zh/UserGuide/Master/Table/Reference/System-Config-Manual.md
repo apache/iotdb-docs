@@ -1515,6 +1515,15 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 10000                          |
 | 改后生效方式 | 热加载                         |
 
+- query_cost_stat_window
+
+| 名字         | query_cost_stat_window |
+| ------------ |--------------------|
+| 描述         | 查询耗时统计的窗口，单位为分钟。   |
+| 类型         | Int32              |
+| 默认值       | 0                  |
+| 改后生效方式 | 热加载                |
+
 - query_timeout_threshold
 
 | 名字         | query_timeout_threshold          |
