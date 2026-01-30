@@ -202,6 +202,7 @@ const doubleSpaceStorage = computed(() => {
 
 const configItems = ref([{
   measurementCount: null,
+  measurementUnit: 'ONE',
   dataType: null,
   frequency: null,
   frequencyUnit: 'HZ',
@@ -217,6 +218,7 @@ const storeInfo = ref({
 const addConfigItem = () => {
   configItems.value.push({
     measurementCount: null,
+    measurementUnit: 'ONE',
     dataType: null,
     frequency: null,
     frequencyUnit: 'HZ',
@@ -259,6 +261,14 @@ const samplingPeriodInSec: Record<string, number> = {
   'DAY': 86400,
 }
 
+const measurementUnitMultiplier: Record<string, number> = {
+  'ONE': 1,
+  'THOUSAND': 1000,
+  'TEN_THOUSAND': 10000,
+  'HUNDRED_THOUSAND': 100000,
+  'MILLION': 1000000,
+}
+
 
 
 const calculateSpacePrecise = () => {
@@ -266,7 +276,7 @@ const calculateSpacePrecise = () => {
   configItems.value.forEach((item, index) => {
     if (item.measurementCount && item.frequency && item.dataType && item.frequencyUnit) {
       if (storeInfo.value.storePeriod && storeInfo.value.compressionRatio) {
-        let measurementCount = item.measurementCount;
+        let measurementCount = item.measurementCount * measurementUnitMultiplier[item.measurementUnit];
         let dataTypeSize = dataTypeBytes[item.dataType];
         if (item.dataType === 'STRING' || item.dataType === 'TEXT' || item.dataType === 'BLOB') {
           if (item.averageStringLength === null) {
