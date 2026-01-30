@@ -153,7 +153,7 @@ lsof -i:10710  或  netstat -tunp | grep 10710
 lsof -i:10720  或  netstat -tunp | grep 10720
 #如果命令有输出，则表示该端口已被占用。
 ```
-若执行命令后提示 lsof 相关错误（如命令缺失、版本不兼容等），可参考[lsof 异常处理方式](../FAQ/Frequently-asked-questions.md#_1-8-部署-IoTDB-时提示-lsof-相关错误-如命令缺失-版本不兼容等-如何正确安装-验证或卸载-lsof)
+若执行命令后提示 lsof 相关错误（如命令缺失、版本不兼容等），可参考[lsof 异常处理方式](../FAQ/Frequently-asked-questions.md#_1-8-部署-iotdb-时提示-lsof-相关错误-如命令缺失、版本不兼容等-如何正确安装、验证或卸载-lsof)
 
 （2）集群部署工具占用端口的检查：使用集群管理工具opskit安装部署集群时，需打开SSH远程连接服务配置，并开放22号端口。
 
