@@ -179,6 +179,55 @@ Some possible improvement items:
 It is an internal error introduced by Ratis 2.4.1 dependency, and we can safely ignore this exception as it will
 not affect normal operations. We will fix this message in the incoming releases.
 
+### 1.11 Resolving lsof Issues in IoTDB Deployment
+
+Encountering lsof-related errors when deploying IoTDB (e.g., missing command, version incompatibility)? How to properly install, verify, or uninstall lsof?
+
+Follow the steps below (requires root privileges, recommended to use `sudo`):
+
+1. Back up problematic version (if already exists)
+```bash
+sudo mv /bin/lsof /bin/lsof.bak 2>/dev/null || true
+```
+
+2. Install specified lsof version
+
+- Download the RPM package matching your OS version (example for CentOS 7/RHEL 7):
+    ```bash
+    sudo rpm -ivh lsof-4.87-6.el7.x86_64.rpm
+    ```
+
+  > **Tips**:
+  > - Select the correct RPM package based on your system version (e.g., `el8` for CentOS 8).
+  > - If `lsof` was previously installed via `yum/dnf`, uninstall first: `sudo yum remove lsof`.
+
+3. Verify installation
+```bash
+lsof -v  # Expected output: version number (e.g., revision 4.87)
+```
+
+4. Fix command path issues (if encountering `-bash: /bin/lsof: No such file or directory`)
+```bash
+which lsof          # Check actual installation path (example output: /usr/sbin/lsof)
+sudo ln -sf $(which lsof) /bin/lsof  # Create symbolic link to standard path
+```
+
+5. Uninstall lsof (if needed)
+- For RPM-installed versions:
+  ```bash
+  sudo rpm -e lsof
+  ```
+- For YUM/DNF-installed versions:
+  ```bash
+  sudo yum remove lsof    # CentOS/RHEL 7
+  sudo dnf remove lsof    # CentOS/RHEL 8+
+  ```
+
+Notes:
+- **Ensure the RPM package is from a reliable source** before proceeding to avoid security risks.
+- **Adjust paths based on `which lsof` output** – do not copy example paths directly.
+- **Back up critical configurations** before performing operations in a production environment.
+
 ## 2. FAQ for Cluster Setup
 
 ### 2.1 Cluster StartUp and Stop

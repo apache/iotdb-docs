@@ -178,6 +178,57 @@ datanode_memory_proportion参数控制分给查询的内存，chunk_timeseriesme
 - 给查询语句添加 slimit 限制，也是减少查询时间序列的一种方案。
 - 添加 align by device，会按照device顺序进行输出，内存占用会降低至单device级别。
 
+### 1.11 部署 IoTDB 时提示 lsof 相关错误（如命令缺失、版本不兼容等），如何正确安装、验证或卸载 lsof？
+
+请按以下步骤操作（需 root 权限，建议使用 `sudo`）：
+
+1. 备份异常版本（如已存在）
+
+```bash
+sudo mv /bin/lsof /bin/lsof.bak 2>/dev/null || true
+```
+
+2. 安装指定版本 lsof
+
+- 下载与操作系统匹配的 RPM 包（示例为 CentOS 7/RHEL 7）：
+
+    ```bash
+    sudo rpm -ivh lsof-4.87-6.el7.x86_64.rpm
+    ```
+    
+    > 提示：
+    > 请根据实际系统版本选择对应 RPM 包（如 el8 用于 CentOS 8）。
+    > 若系统已通过 `yum/dnf` 安装过 lsof，建议先卸载：`sudo yum remove lsof`。
+
+3. 验证安装
+
+```bash
+lsof -v  # 正常应输出版本号（如 revision 4.87）
+```
+
+4. 修复命令路径问题（如遇 `-bash: /bin/lsof: 没有那个文件或目录`）
+
+```bash
+which lsof          # 查看实际安装路径（示例输出：/usr/sbin/lsof）
+sudo ln -sf $(which lsof) /bin/lsof  # 自动创建软链接至标准路径
+```
+
+5. 卸载 lsof（如需）
+
+- RPM 方式安装：
+  ```bash
+  sudo rpm -e lsof
+  ```
+- YUM/DNF 方式安装：
+  ```bash
+  sudo yum remove lsof    # CentOS/RHEL 7
+  sudo dnf remove lsof    # CentOS/RHEL 8+
+  ```
+
+注意：
+* 操作前请确认 RPM 包来源可靠，避免安全风险。
+* 路径处理请以 `which lsof` 实际输出为准，勿直接复制示例路径。
+* 生产环境操作前建议备份关键配置。
 
 ## 2. 分布式部署 FAQ
 
