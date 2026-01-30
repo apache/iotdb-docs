@@ -200,10 +200,17 @@ IoTDB> show models
 +---------------------+--------------------+--------------+---------+
 |              ModelId|           ModelType|      Category|    State|
 +---------------------+--------------------+--------------+---------+
-|                arima|               arima|      BUILT-IN|   ACTIVE|
+|                arima|               Arima|      BUILT-IN|   ACTIVE|
+|          holtwinters|         HoltWinters|      BUILT-IN|   ACTIVE|
+|exponential_smoothing|ExponentialSmoothing|      BUILT-IN|   ACTIVE|
+|     naive_forecaster|     NaiveForecaster|      BUILT-IN|   ACTIVE|
+|       stl_forecaster|       StlForecaster|      BUILT-IN|   ACTIVE|
+|         gaussian_hmm|         GaussianHmm|      BUILT-IN|   ACTIVE|
+|              gmm_hmm|              GmmHmm|      BUILT-IN|   ACTIVE|
+|                stray|               Stray|      BUILT-IN|   ACTIVE|
 |               custom|                    |  USER-DEFINED|   ACTIVE|
-|              timerxl|            timer-xl|      BUILT-IN|  LOADING|
-|              sundial|       timer-sundial|      BUILT-IN|   ACTIVE| 
+|             timer_xl|            Timer-XL|      BUILT-IN|  LOADING|
+|              sundial|       Timer-Sundial|      BUILT-IN|   ACTIVE|
 +---------------------+--------------------+--------------+---------+
 ```
 

@@ -173,7 +173,7 @@ show models <model_id>
 1. 启动 AINode，show models 只能看到 BUILT-IN 模型
 2. 用户可导入自己的模型，来源为 USER-DEFINED，可尝试从配置文件解析 ModelType，解析不到则为空
 3. 时序大模型权重不随 AINode 打包，AINode 启动时自动下载，下载过程中为 LOADING
-4. 下载成功转变为 ACTIVE，失败则变成 INACTIVE 
+4. 下载成功转变为 ACTIVE，失败则变成 INACTIVE
 
 **示例**
 
@@ -182,10 +182,17 @@ IoTDB> show models
 +---------------------+--------------------+--------------+---------+
 |              ModelId|           ModelType|      Category|    State|
 +---------------------+--------------------+--------------+---------+
-|                arima|               arima|      BUILT-IN|   ACTIVE|
+|                arima|               Arima|      BUILT-IN|   ACTIVE|
+|          holtwinters|         HoltWinters|      BUILT-IN|   ACTIVE|
+|exponential_smoothing|ExponentialSmoothing|      BUILT-IN|   ACTIVE|
+|     naive_forecaster|     NaiveForecaster|      BUILT-IN|   ACTIVE|
+|       stl_forecaster|       StlForecaster|      BUILT-IN|   ACTIVE|
+|         gaussian_hmm|         GaussianHmm|      BUILT-IN|   ACTIVE|
+|              gmm_hmm|              GmmHmm|      BUILT-IN|   ACTIVE|
+|                stray|               Stray|      BUILT-IN|   ACTIVE|
 |               custom|                    |  USER-DEFINED|   ACTIVE|
-|              timerxl|            timer-xl|      BUILT-IN|  LOADING|
-|              sundial|       timer-sundial|      BUILT-IN|   ACTIVE|
+|             timer_xl|            Timer-XL|      BUILT-IN|  LOADING|
+|              sundial|       Timer-Sundial|      BUILT-IN|   ACTIVE|
 +---------------------+--------------------+--------------+---------+
 ```
 
@@ -545,7 +552,7 @@ Airline Passengers一个时间序列数据集，该数据集记录了1949年至1
 用户可以使用tools文件夹中的`import-data.sh` 导入数据集
 
 ```Bash
-bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/data.csv
+bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/data.csv  
 ```
 
 #### 步骤二：模型推理

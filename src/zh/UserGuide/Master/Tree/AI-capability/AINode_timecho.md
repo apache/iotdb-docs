@@ -183,15 +183,22 @@ IoTDB> show models
 +---------------------+--------------------+--------------+---------+
 |              ModelId|           ModelType|      Category|    State|
 +---------------------+--------------------+--------------+---------+
-|                arima|               arima|      BUILT-IN|   ACTIVE|
+|                arima|               Arima|      BUILT-IN|   ACTIVE|
+|          holtwinters|         HoltWinters|      BUILT-IN|   ACTIVE|
+|exponential_smoothing|ExponentialSmoothing|      BUILT-IN|   ACTIVE|
+|     naive_forecaster|     NaiveForecaster|      BUILT-IN|   ACTIVE|
+|       stl_forecaster|       StlForecaster|      BUILT-IN|   ACTIVE|
+|         gaussian_hmm|         GaussianHmm|      BUILT-IN|   ACTIVE|
+|              gmm_hmm|              GmmHmm|      BUILT-IN|   ACTIVE|
+|                stray|               Stray|      BUILT-IN|   ACTIVE| 
 |               custom|                    |  USER-DEFINED|   ACTIVE|
-|              timerxl|            timer-xl|      BUILT-IN|  LOADING|
-|              sundial|       timer-sundial|      BUILT-IN|   ACTIVE|
-|           sundialx_1|       timer-sundial|    FINE-TUNED|   ACTIVE|
-|           sundialx_2|       timer-sundial|    FINE-TUNED|   ACTIVE|
-|             sundialx|       timer-sundial|    FINE-TUNED|   ACTIVE|
-|           sundialx_4|       timer-sundial|    FINE-TUNED| TRAINING|
-|           sundialx_5|       timer-sundial|    FINE-TUNED|   FAILED|
+|              timerxl|            Timer-XL|      BUILT-IN|  LOADING|
+|              sundial|       Timer-Sundial|      BUILT-IN|   ACTIVE|
+|           sundialx_1|       Timer-Sundial|    FINE-TUNED|   ACTIVE|
+|           sundialx_2|       Timer-Sundial|    FINE-TUNED|   ACTIVE|
+|             sundialx|       Timer-Sundial|    FINE-TUNED|   ACTIVE|
+|           sundialx_4|       Timer-Sundial|    FINE-TUNED| TRAINING|
+|           sundialx_5|       Timer-Sundial|    FINE-TUNED|   FAILED|
 +---------------------+--------------------+--------------+---------+
 ```
 
@@ -479,7 +486,7 @@ AINode 目前支持多种时序大模型，部署使用请参考[时序大模型
 用户可以使用tools文件夹中的`import-data.sh` 向 IoTDB 中导入 ETT 数据集
 
 ```Bash
-bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/data.csv
+bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/ETTh1.csv
 ```
 
 #### 步骤二：模型导入
