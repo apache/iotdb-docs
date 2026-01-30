@@ -77,8 +77,9 @@ export const zhSidebar = {
             text: 'AI 部署',
             collapsible: true,
             children: [
-              { text: 'AINode 部署(V2.0.5/6)', link: 'AINode_Deployment_timecho' },
-              { text: 'AINode 部署(V2.0.8)', link: 'AINode_Deployment_Upgrade_timecho' },
+              { text: 'AINode 部署', link: 'AINode_Deployment_timecho' },
+             /*  { text: 'AINode 部署(V2.0.5/6)', link: 'AINode_Deployment_timecho' },
+              { text: 'AINode 部署(V2.0.8)', link: 'AINode_Deployment_Upgrade_timecho' }, */
             ],
           },
           {

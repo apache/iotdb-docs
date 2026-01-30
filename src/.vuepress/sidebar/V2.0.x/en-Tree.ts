@@ -82,8 +82,9 @@ export const enSidebar = {
             text: 'AI Deployment',
             collapsible: true,
             children: [
+                { text: 'AINode Deployment', link: 'AINode_Deployment_apache' },/*
                { text: 'AINode Deployment(V2.0.5/6)', link: 'AINode_Deployment_apache' },
-               { text: 'AINode Deployment(V2.0.8)', link: 'AINode_Deployment_Upgrade_apache' },
+               { text: 'AINode Deployment(V2.0.8)', link: 'AINode_Deployment_Upgrade_apache' }, */
             ],
           },
       ],
