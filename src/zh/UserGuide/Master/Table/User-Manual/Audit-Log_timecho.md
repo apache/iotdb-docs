@@ -24,7 +24,7 @@
 
 ## 1. 引言
 
-审计日志是数据库的记录凭证，通过审计日志功能可以查询到数据库中增删改查等各项操作，以保证信息安全。IoTDB 审计日志功能支持以下特性：
+审计日志是数据库的记录凭证，通过审计日志功能可以查询数据库中增删改查等各项操作，以保证信息安全。IoTDB 审计日志功能支持以下特性：
 
 * 可通过配置决定是否开启审计日志功能
 * 可通过参数设置审计日志记录的操作类型和权限级别
@@ -58,7 +58,9 @@
 SELECT (<audit_log_field>, )* log FROM <AUDIT_LOG_PATH> WHERE whereclause ORDER BY order_expression
 ```
 
-* `AUDIT_LOG_PATH` ：审计日志存储位置`root.__audit.log.<node_id>.<user_id>`；
+其中：
+
+* `AUDIT_LOG_PATH` ：审计日志存储位置`__audit.audit_log`；
 * `audit_log_field`：查询字段请参考下一小节元数据结构。
 * 支持 Where 条件搜索和 Order By 排序。
 
@@ -80,46 +82,42 @@ SELECT (<audit_log_field>, )* log FROM <AUDIT_LOG_PATH> WHERE whereclause ORDER 
 
 ### 3.3 使用示例
 
-* 查询成功执行了 QUERY 操作的时间、用户名及主机信息
+* 查询成功执行了DML操作的时间、用户名及主机信息
 
 ```SQL
-IoTDB> select username,cli_hostname from root.__audit.log.** where operation_type='QUERY' and result=true align by device
-+-----------------------------+---------------------------+--------+------------+
-|                         Time|                     Device|username|cli_hostname|
-+-----------------------------+---------------------------+--------+------------+
-|2026-01-23T10:39:21.563+08:00|root.__audit.log.node_1.u_0|    root|   127.0.0.1|
-|2026-01-23T10:39:33.746+08:00|root.__audit.log.node_1.u_0|    root|   127.0.0.1|
-|2026-01-23T10:42:15.032+08:00|root.__audit.log.node_1.u_0|    root|   127.0.0.1|
-+-----------------------------+---------------------------+--------+------------+
-Total line number = 3
-It costs 0.036s
+IoTDB:__audit> select time,username,cli_hostname  from audit_log where result = true and operation_type='DML'
++-----------------------------+--------+------------+
+|                         time|username|cli_hostname|
++-----------------------------+--------+------------+
+|2026-01-23T11:43:46.697+08:00|    root|   127.0.0.1|
+|2026-01-23T11:45:39.950+08:00|    root|   127.0.0.1|
++-----------------------------+--------+------------+
+Total line number = 2
+It costs 0.284s
 ```
 
 * 查询最近一次操作的时间、用户名、主机信息、操作类型以及原始 SQL
 
 ```SQL
-IoTDB> select username,cli_hostname,operation_type,sql_string  from root.__audit.log.** order by time desc limit 1 align by device
-+-----------------------------+---------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------------------+
-|                         Time|                     Device|username|cli_hostname|operation_type|                                                                                                        sql_string|
-+-----------------------------+---------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------------------+
-|2026-01-23T10:42:32.795+08:00|root.__audit.log.node_1.u_0|    root|   127.0.0.1|         QUERY|select username,cli_hostname from root.__audit.log.** where operation_type='QUERY' and result=true align by device|
-+-----------------------------+---------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------------------+
+IoTDB:__audit> select time,username,cli_hostname,operation_type,sql_string  from audit_log order by time desc limit 1
++-----------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------+
+|                         time|username|cli_hostname|operation_type|                                                                                            sql_string|
++-----------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------+
+|2026-01-23T11:46:31.026+08:00|    root|   127.0.0.1|         QUERY|select time,username,cli_hostname,operation_type,sql_string  from audit_log order by time desc limit 1|
++-----------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------+
 Total line number = 1
-It costs 0.033s
+It costs 0.053s
 ```
 
 * 查询所有事件结果为false的操作数据库、操作类型及日志信息
 
 ```SQL
-IoTDB> select database,operation_type,log  from root.__audit.log.** where result=false align by device
-+-----------------------------+-------------------------------+-----------+--------------+---------------------------------------------------------------------------------+
-|                         Time|                         Device|   database|operation_type|                                                                              log|
-+-----------------------------+-------------------------------+-----------+--------------+---------------------------------------------------------------------------------+
-|2026-01-23T10:49:55.159+08:00|root.__audit.log.node_1.u_10000|           |       CONTROL|        User user1 (ID=10000) login failed with code: 801, Authentication failed.|
-|2026-01-23T10:52:04.579+08:00|root.__audit.log.node_1.u_10000|  [root.**]|         QUERY|   User user1 (ID=10000) requests authority on object [root.**] with result false|
-|2026-01-23T10:52:43.412+08:00|root.__audit.log.node_1.u_10000|root.userdb|           DDL| User user1 (ID=10000) requests authority on object root.userdb with result false|
-|2026-01-23T10:52:48.075+08:00|root.__audit.log.node_1.u_10000|       null|         QUERY|User user1 (ID=10000) requests authority on object root.__audit with result false|
-+-----------------------------+-------------------------------+-----------+--------------+---------------------------------------------------------------------------------+
-Total line number = 4
-It costs 0.024s
+IoTDB:__audit> select time,database,operation_type,log  from audit_log where result=false
++-----------------------------+--------+--------------+----------------------------------------------------------------------+
+|                         time|database|operation_type|                                                                   log|
++-----------------------------+--------+--------------+----------------------------------------------------------------------+
+|2026-01-23T11:47:42.136+08:00|        |       CONTROL|User user1 (ID=-1) login failed with code: 804, Authentication failed.|
++-----------------------------+--------+--------------+----------------------------------------------------------------------+
+Total line number = 1
+It costs 0.011s
 ```

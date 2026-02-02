@@ -140,6 +140,7 @@ export const enSidebar = {
           children: [
             { text: 'Authority Management', link: 'Authority-Management_timecho' },
             { text: 'Black White List', link: 'Black-White-List_timecho' },
+            { text: 'Security Audit', link: 'Audit-Log_timecho' },
           ],
         },
         { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },

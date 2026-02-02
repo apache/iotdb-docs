@@ -145,7 +145,6 @@ export const enSidebar = {
             { text: 'Trigger', link: 'Trigger' },
           ],
         },
-        { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
         { text: 'UDF', link: 'User-defined-function_timecho' },
         { text: 'View', link: 'IoTDB-View_timecho' },
         {
@@ -157,6 +156,7 @@ export const enSidebar = {
             { text: 'Security Audit', link: 'Audit-Log_timecho' },
           ],
         },
+        { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
         {
           text: 'System Maintenance',
           collapsible: true,
