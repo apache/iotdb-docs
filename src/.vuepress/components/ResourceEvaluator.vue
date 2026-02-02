@@ -202,7 +202,7 @@ const doubleSpaceStorage = computed(() => {
 
 const configItems = ref([{
   measurementCount: null,
-  measurementUnit: 'ONE',
+  measurementUnit: 'TEN_THOUSAND',
   dataType: null,
   frequency: null,
   frequencyUnit: 'HZ',
@@ -218,7 +218,7 @@ const storeInfo = ref({
 const addConfigItem = () => {
   configItems.value.push({
     measurementCount: null,
-    measurementUnit: 'ONE',
+    measurementUnit: 'TEN_THOUSAND',
     dataType: null,
     frequency: null,
     frequencyUnit: 'HZ',
