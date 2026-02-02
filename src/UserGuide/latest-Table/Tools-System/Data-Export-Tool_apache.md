@@ -25,6 +25,7 @@ The data export tool `export-data.sh/bat` is located in the `tools` directory an
 </tbody>
 </table>
 
+- Does not support the Object data type.
 
 ## 2. Detailed Features
 ### 2.1 Common Parameters
