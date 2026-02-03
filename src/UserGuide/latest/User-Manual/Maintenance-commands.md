@@ -24,7 +24,7 @@
 
 ### 1.1 Viewing the Connected Model
 
-**Description**: Returns the current SQL dialect model (`Tree` or `Table`).
+**Description**: Returns the current SQL dialect mode (`Tree` or `Table`).
 
 **Syntax**:
 
@@ -248,7 +248,7 @@ IoTDB> SHOW REGIONS
 
 ### 2.1 Setting the Connected Model
 
-**Description**: Sets the current SQL dialect model to `Tree` or `Table` which can be used in both tree and table models.
+**Description**: Sets the current SQL dialect mode to `Tree` or `Table` which can be used in both tree and table modes.
 
 **Syntax**:
 

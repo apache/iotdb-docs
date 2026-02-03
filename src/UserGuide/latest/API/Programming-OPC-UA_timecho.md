@@ -84,7 +84,7 @@ start pipe p1;
 In this mode, IoTDB's stream processing engine establishes a connection with the OPC UA Server via an OPC UA Sink. The OPC UA Server maintains data within its Address Space, from which IoTDB can request and retrieve data. Additionally, other OPC UA Clients can access the data on the server.
 
 * Features:
-  * OPC UA organizes device information received from the Sink into folders under the Objects folder according to a tree model.
+  * OPC UA organizes device information received from the Sink into folders under the Objects folder according to a tree mode.
   * Each measurement point is recorded as a variable node, storing the latest value from the current database.
   * OPC UA cannot delete data or change data type settings.
 

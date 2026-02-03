@@ -21,35 +21,35 @@
 
 # Modeling Scheme Design
 
-This section introduces how to transform time series data application scenarios into IoTDB time series modeling.   
+This section introduces how to transform time series data application scenarios into IoTDB time series mode.   
 
-## 1. Time Series Data Model
+## 1. Time Series Data Mode
 
-Before designing an IoTDB data model, it's essential to understand time series data and its underlying structure. For more details, refer to: [Time Series Data Model](../Background-knowledge/Navigating_Time_Series_Data.md)
+Before designing an IoTDB data mode, it's essential to understand time series data and its underlying structure. For more details, refer to: [Time Series Data Mode](../Background-knowledge/Navigating_Time_Series_Data.md)
 
-## 2. Two Time Series Model in IoTDB
+## 2. Two Time Series Mode in IoTDB
 
-IoTDB offers two data modeling syntaxes—tree model and table model, each with its distinct characteristics as follows:
+IoTDB offers two data mode syntaxes—tree mode and table mode, each with its distinct characteristics as follows:
 
-**Tree Model**: It manages data points as objects, with each data point corresponding to a time series. The data point names, segmented by dots, form a tree-like directory structure that corresponds one-to-one with the physical world, making the read and write operations on data points straightforward and intuitive.
+**Tree Mode**: It manages data points as objects, with each data point corresponding to a time series. The data point names, segmented by dots, form a tree-like directory structure that corresponds one-to-one with the physical world, making the read and write operations on data points straightforward and intuitive.
 
-> 1. When performing data modeling, to meet sufficient performance requirements, it is recommended that the penultimate layer node (corresponding to the number of devices) in the data path (Path) contains no fewer than 1,000 entries. The number of devices is linked to concurrent processing capability—a higher number of devices ensures more efficient concurrent read and write operations.  
+> 1. When performing data mode, to meet sufficient performance requirements, it is recommended that the penultimate layer node (corresponding to the number of devices) in the data path (Path) contains no fewer than 1,000 entries. The number of devices is linked to concurrent processing capability—a higher number of devices ensures more efficient concurrent read and write operations.  
      In scenarios where "the number of devices is small but each device contains a large number of data points" (e.g., only 3 devices, each with 10,000 data points), it is advisable to add a .value level at the end of the path. This increases the total number of nodes in the penultimate layer. Example: root.db.device01.metric.value.
-> 2. When constructing tree model [paths](../Basic-Concept/Operate-Metadata_timecho.md#4-path-query), if node naming may include non-standard characters or special symbols, it is recommended to implement a backtick encapsulation strategy for all hierarchical nodes. This approach effectively mitigates issues such as probe registration failures and data write interruptions caused by character parsing errors, ensuring the accuracy of path identifiers in syntax parsing.
+> 2. When constructing tree mode [paths](../Basic-Concept/Operate-Metadata_timecho.md#4-path-query), if node naming may include non-standard characters or special symbols, it is recommended to implement a backtick encapsulation strategy for all hierarchical nodes. This approach effectively mitigates issues such as probe registration failures and data write interruptions caused by character parsing errors, ensuring the accuracy of path identifiers in syntax parsing.
 
-**Table Model**: It is recommended to create a table for each type of device. The collection of physical quantities from devices of the same type shares certain commonalities (such as the collection of temperature and humidity physical quantities), allowing for flexible and rich data analysis.
+**Table Mode**: It is recommended to create a table for each type of device. The collection of physical quantities from devices of the same type shares certain commonalities (such as the collection of temperature and humidity physical quantities), allowing for flexible and rich data analysis.
 
-### 2.1 Model Characteristics
+### 2.1 Mode Characteristics
 
-Both model syntaxes have their own applicable scenarios.
+Both mode syntaxes have their own applicable scenarios.
 
-The following table compares the tree model and the table model from various dimensions, including applicable scenarios and typical operations. Users can choose the appropriate model based on their specific usage requirements to achieve efficient data storage and management.
+The following table compares the tree mode and the table mode from various dimensions, including applicable scenarios and typical operations. Users can choose the appropriate mode based on their specific usage requirements to achieve efficient data storage and management.
 
 <table style="text-align: center;">
         <tr>
             <td>Dimension</td>
-            <td>Tree Model</td>
-            <td>Table Model</td>
+            <td>Tree Mode</td>
+            <td>Table Mode</td>
         </tr>
         <tr>
             <td>Applicable Scenarios</td>
@@ -79,22 +79,22 @@ The following table compares the tree model and the table model from various dim
 
 **Notes:**  
 
-- Both model spaces can coexist within the same cluster instance. Each model follows distinct syntax and database naming conventions, and they remain isolated by default.
+- Both mode spaces can coexist within the same cluster instance. Each mode follows distinct syntax and database naming conventions, and they remain isolated by default.
 
-- When establishing a database connection via client tools (Cli) or SDKs, specify the model syntax using the `sql_dialect` parameter (Tree syntax is used by default).
+- When establishing a database connection via client tools (Cli) or SDKs, specify the mode syntax using the `sql_dialect` parameter (Tree syntax is used by default).
 
 
 ## 3. Application Scenarios
 
 The application scenarios mainly include three categories:
 
-- Scenario 1: Using the tree model for data reading and writing.
+- Scenario 1: Using the tree mode for data reading and writing.
 
-- Scenario 2: Using the table model for data reading and writing.
+- Scenario 2: Using the table mode for data reading and writing.
 
-- Scenario 3: Sharing the same dataset, using the tree model for data reading and writing, and the table model for data analysis.
+- Scenario 3: Sharing the same dataset, using the tree mode for data reading and writing, and the table mode for data analysis.
 
-### 3.1 Scenario 1: Tree Model
+### 3.1 Scenario 1: Tree Mode
 
 #### 3.1.1 Characteristics
 
@@ -112,10 +112,9 @@ The application scenarios mainly include three categories:
 | **Time Series (Data Point)** | **Definition**:<br>A path prefixed with the database path, segmented by `.`, and can contain any number of levels, such as `root.db.turbine.device1.metric1`.<br>Each time series can have different data types.<br>**Naming Recommendation**:<br>Only include unique identifiers (similar to a composite primary key) in the path, generally not exceeding 10 levels.<br>Typically, place tags with low cardinality (fewer distinct values) at the front to facilitate system compression of common prefixes.<br>**Quantity Recommendation**:<br>The total number of time series manageable by the cluster is related to total memory; refer to the resource recommendation section.<br>There is no limit to the number of child nodes at any level.<br>**Creation Method**: Can be created manually or automatically during data writing. |
 | **Device**                   | **Definition**: The second-to-last level is the device, such as `device1` in `root.db.turbine.device1.metric1`.<br>**Creation Method**: Cannot create a device alone; it exists as time series are created. |
 
+#### 3.1.3 Mode Examples
 
-#### 3.1.3 Modeling Examples
-
-##### 3.1.3.1 How to model when managing multiple types of devices?
+##### 3.1.3.1 How to mode when managing multiple types of devices?
 
 - If different types of devices in the scenario have different hierarchical paths and data point sets, create branches under the database node by device type. Each device type can have a different data point structure.
 
@@ -123,7 +122,7 @@ The application scenarios mainly include three categories:
       <img src="/img/data-model-new-1-en.png" alt="" style="width: 70%;"/>
 </div>
 
-##### 3.1.3.2 How to model when there are no devices, only data points?
+##### 3.1.3.2 How to mode when there are no devices, only data points?
 
 - For example, in a monitoring system for a station, each data point has a unique number but does not correspond to any specific device.
 
@@ -131,20 +130,20 @@ The application scenarios mainly include three categories:
       <img src="/img/Data-model-en02.png" alt="" style="width: 70%;"/>
 </div>
 
-##### 3.1.3.3 How to model when a device has both sub-devices and data points?
+##### 3.1.3.3 How to mode when a device has both sub-devices and data points?
 
-- For example, in an energy storage scenario, each layer of the structure monitors its voltage and current. The following modeling approach can be used.
+- For example, in an energy storage scenario, each layer of the structure monitors its voltage and current. The following mode approach can be used.
 
 <div style="text-align: center;">
       <img src="/img/Data-model-en03.png" alt="" style="width: 70%;"/>
 </div>
 
 
-### 3.2 Scenario 2: Table Model
+### 3.2 Scenario 2: Table Mode
 
 #### 3.2.1 Characteristics
 
-- Models and manages device time series data using time series tables, facilitating analysis with standard SQL.
+- Modes and manages device time series data using time series tables, facilitating analysis with standard SQL.
 
 - Suitable for device data analysis or migrating data from other databases to IoTDB.
 
@@ -163,9 +162,9 @@ The application scenarios mainly include three categories:
 
 **Data Filtering Efficiency**: Time Column = Tag Column > Attribute Column > Data Point Column.
 
-#### 3.2.3 Modeling Examples
+#### 3.2.3 Mode Examples
 
-##### 3.2.3.1 How to model when managing multiple types of devices?
+##### 3.2.3.1 How to mode when managing multiple types of devices?
 
 - Recommended to create a table for each type of device, with each table having different tags and data point sets.
 
@@ -175,7 +174,7 @@ The application scenarios mainly include three categories:
       <img src="/img/data-model-new-2-en.png" alt="" style="width: 70%;"/>
 </div>
 
-##### 3.2.3.2 How to model when there are no device identifier columns or attribute columns?
+##### 3.2.3.2 How to mode when there are no device identifier columns or attribute columns?
 
 - There is no limit to the number of columns; it can reach hundreds of thousands.
 
@@ -183,7 +182,7 @@ The application scenarios mainly include three categories:
       <img src="/img/Data-model-en05.png" alt="" style="width: 70%;"/>
 </div>
 
-##### 3.2.3.3 How to model when a device has both sub-devices and data points?
+##### 3.2.3.3 How to mode when a device has both sub-devices and data points?
 
 - Each device has multiple sub-devices and data point information. It is recommended to create a table for each type of device for management.
 
@@ -191,23 +190,23 @@ The application scenarios mainly include three categories:
       <img src="/img/data-model-new-3-en.png" alt="" style="width: 70%;"/>
 </div>
 
-### 3.3 Scenario 3: Dual-Model Integration
+### 3.3 Scenario 3: Dual-Mode Integration
 
 #### 3.3.1 Characteristics
 
-- Ingeniously combines the advantages of the tree model and table model, sharing the same dataset, with flexible writing and rich querying.
+- Ingeniously combines the advantages of the tree mode and table mode, sharing the same dataset, with flexible writing and rich querying.
 
-- During the data writing phase, the tree model syntax is used, supporting flexible data access and expansion.
+- During the data writing phase, the tree mode syntax is used, supporting flexible data access and expansion.
 
-- During the data analysis phase, the table model syntax is used, allowing users to perform complex data analysis using standard SQL queries.
+- During the data analysis phase, the table mode syntax is used, allowing users to perform complex data analysis using standard SQL queries.
 
-#### 3.3.2 Modeling Examples
+#### 3.3.2 Mode Examples
 
-##### 3.3.2.1 How to model when managing multiple types of devices?
+##### 3.3.2.1 How to mode when managing multiple types of devices?
 
 - Different types of devices in the scenario have different hierarchical paths and data point sets.
 
-- **Tree Model**T: Create branches under the database node by device type, with each device type having a different data point structure.
+- **Tree Mode**T: Create branches under the database node by device type, with each device type having a different data point structure.
 
 - **Table View**T: Create a table view for each type of device, with each table view having different tags and data point sets.
 
@@ -215,18 +214,18 @@ The application scenarios mainly include three categories:
       <img src="/img/data-model-new-4-en.png" alt="" style="width: 70%;"/>
 </div>
 
-##### 3.3.2.2 How to model when there are no device identifier columns or attribute columns?
+##### 3.3.2.2 How to mode when there are no device identifier columns or attribute columns?
 
-- **Tree Model**: Each data point has a unique number but does not correspond to any specific device.
+- **Tree Mode**: Each data point has a unique number but does not correspond to any specific device.
 - **Table View**: Place all data points into a single table. There is no limit to the number of data point columns; it can reach hundreds of thousands. If data points have the same data type, they can be treated as the same type of device.
 
 <div style="text-align: center;">
       <img src="/img/Data-model-en08.png" alt="" style="width: 70%;"/>
 </div>
 
-##### 3.3.2.3 How to model when a device has both sub-devices and data points?
+##### 3.3.2.3 How to mode when a device has both sub-devices and data points?
 
-- **Tree Model**: Model each layer of the structure according to the monitoring points in the physical world.
+- **Tree Mode**: Mode each layer of the structure according to the monitoring points in the physical world.
 - **Table View**: Create multiple tables to manage each layer of structural information according to device classification.
 
 <div style="text-align: center;">
