@@ -276,7 +276,7 @@ const calculateSpacePrecise = () => {
   configItems.value.forEach((item, index) => {
     if (item.measurementCount && item.frequency && item.dataType && item.frequencyUnit) {
       if (storeInfo.value.storePeriod && storeInfo.value.compressionRatio) {
-        let measurementCount = item.measurementCount * measurementUnitMultiplier[item.measurementUnit];
+        let measurementCount = Calculator.multiply(item.measurementCount, measurementUnitMultiplier[item.measurementUnit]);
         let dataTypeSize = dataTypeBytes[item.dataType];
         if (item.dataType === 'STRING' || item.dataType === 'TEXT' || item.dataType === 'BLOB') {
           if (item.averageStringLength === null) {
