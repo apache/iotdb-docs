@@ -28,6 +28,7 @@ const props = defineProps<{
 const formData = defineModel('info', {
   default: () => ({
     measurementCount: null,
+    measurementUnit: null,
     dataType: null,
     frequency: null,
     frequencyUnit: null,
@@ -45,11 +46,18 @@ const need4columns = (dataType: string | null) => {
   <div class="outer-box">
     <div class="config-title">测点类型-{{ props.index }}</div>
     <el-form :inline="true" class="config-row">
-      <el-form-item label="测点数量：" label-width="85px">
+      <el-form-item label="测点数量：" label-width="82px">
         <el-input v-model="formData.measurementCount" placeholder="请输入测点数量" type="number" min="0"
-          :style="{ width: need4columns(formData.dataType) ? '150px' : '205px' }"></el-input>
-      </el-form-item>
-      <el-form-item label-width="100px">
+          :style="{ width: need4columns(formData.dataType) ? '134px' : '185px' }"></el-input>
+        <el-select v-model="formData.measurementUnit" :style="{ width: need4columns(formData.dataType) ? '72px' : '95px' }">
+            <el-option label="个" value="ONE"></el-option>
+            <el-option label="千" value="THOUSAND"></el-option>
+            <el-option label="万" value="TEN_THOUSAND"></el-option>
+            <el-option label="十万" value="HUNDRED_THOUSAND"></el-option>
+            <el-option label="百万" value="MILLION"></el-option>
+        </el-select>
+        </el-form-item>
+      <el-form-item label-width="96px">
         <template #label>
           数据类型：
           <client-only>
@@ -69,7 +77,7 @@ const need4columns = (dataType: string | null) => {
           </client-only>
         </template>
         <el-select v-model="formData.dataType" placeholder="请选择数据类型"
-          :style="{ width: need4columns(formData.dataType) ? '155px' : '205px' }">
+          :style="{ width: need4columns(formData.dataType) ? '163px' : '205px' }">
           <el-option label="BOOLEAN (9字节)" value="BOOLEAN"></el-option>
           <el-option label="INT32 (12字节)" value="INT32"></el-option>
           <el-option label="INT64 (16字节)" value="INT64"></el-option>
@@ -82,11 +90,11 @@ const need4columns = (dataType: string | null) => {
           <el-option label="DATE (12字节)" value="DATE"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="采样频率：" label-width="85px">
+      <el-form-item label="采样频率：" label-width="82px">
         <el-input v-model="formData.frequency" placeholder="请输入采样频率" type="number" min="0"
-          :style="{ width: need4columns(formData.dataType) ? '135px' : '205px' }"></el-input>
+          :style="{ width: need4columns(formData.dataType) ? '134px' : '185px' }"></el-input>
         <el-select v-model="formData.frequencyUnit" placeholder="请选择频率单位"
-          :style="{ width: need4columns(formData.dataType) ? '65px' : '130px' }">
+          :style="{ width: need4columns(formData.dataType) ? '72px' : '95px' }">
           <el-option label="HZ" value="HZ"></el-option>
           <el-option label="秒" value="SECOND"></el-option>
           <el-option label="分钟" value="MINUTE"></el-option>
@@ -94,8 +102,8 @@ const need4columns = (dataType: string | null) => {
           <el-option label="天" value="DAY"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="字符串平均长度(a)：" label-width="160px" v-if="need4columns(formData.dataType)">
-        <el-input v-model="formData.averageStringLength" type="number" style="width: 140px;"></el-input>
+      <el-form-item label="字符串平均长度(a)：" label-width="145px" v-if="need4columns(formData.dataType)">
+        <el-input v-model="formData.averageStringLength" type="number" style="width: 115px;"></el-input>
       </el-form-item>
     </el-form>
   </div>
