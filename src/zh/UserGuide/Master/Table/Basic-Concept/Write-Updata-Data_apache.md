@@ -274,7 +274,7 @@ It costs 0.014s
 
 * 允许 query 中的源表与目标表 table\_name 是同一个表，例如：`INSERT INTO testtb SELECT * FROM testtb`。
 * 目标表必须已存在，否则提示错误信息`550: Table 'xxx.xxx' does not exist`。
-* 查询返回列和目标表列的数量和类型需完全匹配，目前不支持兼容类型的转换，若类型不匹配则提示错误信息 `701: Insert query has mismatched column types`。
+* 查询返回列和目标表列的数量和类型需完全匹配，目前不支持 Object 类型，不支持兼容类型的转换，若类型不匹配则提示错误信息 `701: Insert query has mismatched column types`。
 * 允许指定目标表的部分列，指定目标表列名时需符合以下规则：
     * 必须包含时间戳列，否则提示错误信息`701: time column can not be null`
     * 必须包含至少一个 FIELD 列，否则提示错误信息`701: No Field column present`
@@ -287,6 +287,59 @@ It costs 0.014s
     * 对查询语句中的源表具有 `SELECT` 权限。
     * 对目标表具有`WRITE`权限。
     * 更多用户权限相关的内容，请参考[权限管理](../User-Manual/Authority-Management_apache.md)。
+
+### 1.7 Object 类型写入
+
+自为了避免单个 Object 过大导致写入请求过大，Object 类型的值支持拆分后按顺序分段写入。SQL 中需要使用 `to_object(isEOF, offset, content)` 函数进行值填充。
+
+> V2.0.8-beta 版本起支持
+
+**语法：**
+
+```SQL
+insert into tableName(time, columnName) values(timeValue, to_object(isEOF, offset, content));
+```
+
+**参数：**
+
+| 名称    | 数据类型          | 描述                                   |
+| --------- | ------------------- | ---------------------------------------- |
+| isEOF   | boolean           | 本次写入内容是否为 Object 的最后一部分 |
+| offset  | int64             | 本次写入的内容在 Object 中的起始偏移量 |
+| content | 十六进制(hex)格式 | 本次写入的 Object 内容                 |
+
+**示例：**
+
+向表 table1 中增加 object 类型字段 s1
+
+```SQL
+ALTER TABLE table1 ADD COLUMN IF NOT EXISTS s1 OBJECT FIELD COMMENT 'object类型'
+```
+
+1. 不分段写入
+
+```SQL
+insert into table1(time, device_id, s1) values(now(), 'tag1', to_object(true, 0, X'696F746462'));
+```
+
+2. 分段写入
+
+```SQL
+--分段写入 object 数据
+--第一次写入：to_object(false, 0, X'696F')
+insert into table1(time, device_id, s1) values(1, 'tag1', to_object(false, 0, X'696F'));
+--第二次写入：to_object(false, 2, X'7464')
+insert into table1(time, device_id, s1) values(1, 'tag1', to_object(false, 2, X'7464'));
+--第三次写入：to_object(true, 4, X'62')
+insert into table1(time, device_id, s1) values(1, 'tag1', to_object(true, 4, X'62'));
+```
+
+**注意：**
+
+1. 如果某个 Object 值只写入了部分片段，查询该 Object 值时会显示 null，只有写入完全后才能查询到数据
+2. 分段写入时，如果本次写入的 offset 不等于已写入的 Object 大小，本次写入报错
+3. 如果已写入了部分数据，本次写入的 offset 为 0，本次写入会清除之前已写入的数据部分，重新写入新的数据
+
 
 
 ## 2. 数据更新

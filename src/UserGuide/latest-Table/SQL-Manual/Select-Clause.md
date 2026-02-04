@@ -274,6 +274,37 @@ Total line number = 18
 It costs 0.189s
 ```
 
+#### 3.1.4 Object Type Query
+
+> Supported since V2.0.8-beta
+
+**Example 1: Directly querying Object type data**
+
+```sql  
+IoTDB:database1> SELECT s1 FROM table1 WHERE device_id = 'tag1'  
++------------+  
+|          s1|  
++------------+  
+|(Object) 5 B|  
++------------+  
+Total line number = 1  
+It costs 0.428s  
+```  
+
+**Example 2: Retrieving raw content of Object type data using `read_object` function**
+
+```sql  
+IoTDB:database1> SELECT read_object(s1) FROM table1 WHERE device_id = 'tag1'  
++------------+  
+|       _col0|  
++------------+  
+|0x696f746462|  
++------------+  
+Total line number = 1  
+It costs 0.188s  
+```  
+
+
 ### 3.2 Columns Function
 
 1. Without combining expressions

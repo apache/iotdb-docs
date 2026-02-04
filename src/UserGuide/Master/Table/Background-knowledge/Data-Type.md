@@ -33,6 +33,8 @@ IoTDB supports the following ten data types:
 - **TEXT** (Text data, suitable for long strings)
 - **STRING** (String data with additional statistical information for optimized queries)
 - **BLOB** (Large binary object)
+- **OBJECT** (Large Binary Object)
+  > Supported since V2.0.8-beta
 - **TIMESTAMP** (Timestamp, representing precise moments in time)
 - **DATE** (Date, storing only calendar date information)
 
@@ -40,6 +42,14 @@ The difference between **STRING** and **TEXT**:
 
 - **STRING** stores text data and includes additional statistical information to optimize value-filtering queries.
 - **TEXT** is suitable for storing long text strings without additional query optimization.
+
+The differences between **OBJECT** and **BLOB** types are as follows:
+
+|                      | **OBJECT**                                                                                                              | **BLOB**                             |
+|----------------------|-------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
+| **Write Amplification** (Lower is better)   | Low (Write amplification factor is always 1)                                                                                   | High (Write amplification factor = 2 + number of merges) |
+| **Space Amplification** (Lower is better)  | Low (Merge & release on write)                                                                                               | High (Merge on read and release on compact) |
+| **Query Results** | When querying an OBJECT column by default, returns metadata like: `(Object) XX.XX KB`.  Actual OBJECT data storage path: `${data_dir}/object_data`. Use `READ_OBJECT` function to retrieve raw content | Directly returns raw binary content |
 
 ### 1.1 Floating-Point Precision Configuration
 
@@ -63,7 +73,7 @@ If the written data type does not match the registered data type of a series:
 The compatibility of data types is shown in the table below:  
 
 | Registered Data Type | Compatible Write Data Types            |
-| :------------------- | :------------------------------------- |
+|:---------------------|:---------------------------------------|
 | BOOLEAN              | BOOLEAN                                |
 | INT32                | INT32                                  |
 | INT64                | INT32, INT64, TIMESTAMP                |
@@ -72,6 +82,7 @@ The compatibility of data types is shown in the table below:
 | TEXT                 | TEXT, STRING                           |
 | STRING               | TEXT, STRING                           |
 | BLOB                 | TEXT, STRING, BLOB                     |
+| OBJECT               | OBJECT                                 |
 | TIMESTAMP            | INT32, INT64, TIMESTAMP                |
 | DATE                 | DATE                                   |
 

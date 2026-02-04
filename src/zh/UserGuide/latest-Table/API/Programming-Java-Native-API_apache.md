@@ -66,6 +66,25 @@ ITableSession接口定义了与IoTDB交互的基本操作，可以执行数据�
 | executeQueryStatement(String sql, long timeoutInMs) | 执行查询SQL语句，并设置查询超时时间（以毫秒为单位）          | sql: 要执行的查询SQL语句。timeoutInMs: 查询超时时间（毫秒） | SessionDataSet | StatementExecutionException                         |
 | close()                                             | 关闭会话，释放所持有的资源                                   | 无                                                          | 无             | IoTDBConnectionException                            |
 
+**关于 Object 数据类型的说明：**
+
+自 V2.0.8-beta 起，`iTableSession.insert(Tablet tablet)`接口支持将单个 Object 类文件拆成多段后按顺序分段写入。当 Tablet 数据结构中列数据类型为 **`TSDataType.Object`​ ​**时，需要使用如下方法向 Tablet 填值。
+
+```Java
+/*
+rowIndex：tablet 行位置
+columnIndex：tablet 列位置
+isEOF：本次写入内容是否为 Object 文件的最后一部分
+offset：本次写入的内容在 Object 文件中的起始偏移量
+content：本次写入的文件内容
+写入时需要确保分段的多个 byte[] 总长度与原始 Object 大小相等，否则会导致写入的数据大小不正确
+*/
+void addValue(int rowIndex, int columnIndex, boolean isEOF, long offset, byte[] content)
+```
+
+查询时，支持通过`Field.getStringValue`、`Field.getObjectValue`、`SessionDataSet.DataIterator.getObject`、`SessionDataSet.DataIterator.getString` 四种方法进行获取，其返回内容均为以 (Object) 开头且以对象大小结尾的字符串（String 类型），形如：(Object) XX.XX KB 。
+
+
 #### 3.1.3 接口展示
 
 ``` java
