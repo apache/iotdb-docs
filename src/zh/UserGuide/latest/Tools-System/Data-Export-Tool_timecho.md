@@ -40,8 +40,8 @@
 | -pw      | --password           | 密码                                                                 | 否           | TimechoDB@2021 (V2.0.6.x 版本之前为 root)     |
 | -t       | --target             | 指定输出文件的目标文件夹，如果路径不存在新建文件夹                   | √           |                                          |
 | -pfn     | --prefix\_file\_name | 指定导出文件的名称。例如：abc,生成的文件是abc\_0.tsfile、abc\_1.tsfile | 否           | dump\_0.tsfile                           |
-| -q       | --query              | 要执行的查询命令                                                     | 否           | 无                                        |
-| -timeout | --query\_timeout     | 会话查询的超时时间(ms)                                               | 否           | -1<br>范围：-1～Long max=9223372036854775807 |
+| -q       | --query              | 要执行的查询语句。自 V2.0.8 起，SQL 语句中的分号将被自动移除，查询执行保持正常。    | 否           | 无                                                                           |
+| -timeout | --query\_timeout     | 会话查询的超时时间(ms)                                      | 否           | `-1`(V2.0.8 之前)<br>`Long.MAX_VALUE`(V2.0.8 及之后)<br>范围：`-1~Long.MAX_VALUE` |
 | -help    | --help               | 显示帮助信息                                                         | 否           |                                          |
 
 ### 2.2 Csv 格式
