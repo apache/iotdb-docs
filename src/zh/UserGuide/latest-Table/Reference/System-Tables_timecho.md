@@ -39,32 +39,34 @@ IoTDB> show databases
 +------------------+-------+-----------------------+---------------------+---------------------+
 
 IoTDB> show tables from information_schema
-+--------------+-------+
-|     TableName|TTL(ms)|
-+--------------+-------+
-|       columns|    INF|
-|  config_nodes|    INF|
-|configurations|    INF|
-|    data_nodes|    INF|
-|     databases|    INF|
-|     functions|    INF|
-|      keywords|    INF|
-|        models|    INF|
-|         nodes|    INF|
-|  pipe_plugins|    INF|
-|         pipes|    INF|
-|       queries|    INF|
-|       regions|    INF|
-| subscriptions|    INF|
-|        tables|    INF|
-|        topics|    INF|
-|         views|    INF|
-+--------------+-------+
++-----------------------+-------+
+|              TableName|TTL(ms)|
++-----------------------+-------+
+|                columns|    INF|
+|           config_nodes|    INF|
+|         configurations|    INF|
+|            connections|    INF|
+|        current_queries|    INF|
+|             data_nodes|    INF|
+|              databases|    INF|
+|              functions|    INF|
+|               keywords|    INF|
+|                  nodes|    INF|
+|           pipe_plugins|    INF|
+|                  pipes|    INF|
+|                queries|    INF|
+|queries_costs_histogram|    INF|
+|                regions|    INF|
+|          subscriptions|    INF|
+|                 tables|    INF|
+|                 topics|    INF|
+|                  views|    INF|
++-----------------------+-------+
 ```
 
 ## 2. 系统表
 
-* 名称：`DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS`, `VIEWS`, `MODELS`, `FUNCTIONS`, `CONFIGURATIONS`, `KEYWORDS`, `NODES`, `CONFIG_NODES`, `DATA_NODES`（详细介绍见后面小节）
+* 名称：`DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS`, `VIEWS`, `MODELS`, `FUNCTIONS`, `CONFIGURATIONS`, `KEYWORDS`, `NODES`, `CONFIG_NODES`, `DATA_NODES`, `CONNECTIONS`, `CURRENT_QUERIES`, `QUERIES_COSTS_HISTOGRAM`（详细介绍见后面小节）
 * 操作：只读，只支持`SELECT`, `COUNT/SHOW DEVICES`, `DESC`，不支持对于表结构 / 内容的任意修改，如果修改将会报错：`"The database 'information_schema' can only be queried"`
 * 列名：系统表的列名均默认为小写，且用`_`分隔
 
@@ -367,7 +369,7 @@ IoTDB> select * from information_schema.views
 
 ### 2.11 MODELS 表
 
-> 该系统表从 V 2.0.5 版本开始提供
+> 该系统表从 V 2.0.5 版本开始提供，从V 2.0.8 版本开始不再提供
 
 * 包含数据库内所有的模型信息
 * 表结构如下表所示：
@@ -584,6 +586,99 @@ IoTDB> select * from information_schema.data_nodes
 |      1|              4|                4|    0.0.0.0|    6667|   10740|              10760|                10750|
 +-------+---------------+-----------------+-----------+--------+--------+-------------------+---------------------+
 ```
+
+### 2.18 CONNECTIONS 表
+
+> 该系统表从 V 2.0.8 版本开始提供
+
+* 包含集群中所有连接。
+* 表结构如下表所示：
+
+| **列名**     | **数据类型** | **列类型** | **说明** |
+| -------------------- | -------------------- | ------------------ | ---------------- |
+| datanode\_id       | STRING             | TAG              | DataNode的ID   |
+| user\_id           | STRING             | TAG              | 用户ID         |
+| session\_id        | STRING             | TAG              | Session ID     |
+| user\_name         | STRING             | ATTRIBUTE        | 用户名         |
+| last\_active\_time | TIMESTAMP          | ATTRIBUTE        | 最近活跃时间   |
+| client\_ip         | STRING             | ATTRIBUTE        | 客户端IP       |
+
+* 查询示例：
+
+```SQL
+IoTDB> select * from information_schema.connections;
++-----------+-------+----------+---------+-----------------------------+---------+
+|datanode_id|user_id|session_id|user_name|             last_active_time|client_ip|
++-----------+-------+----------+---------+-----------------------------+---------+
+|          1|      0|         2|     root|2026-01-21T16:28:54.704+08:00|127.0.0.1|
++-----------+-------+----------+---------+-----------------------------+---------+
+```
+
+### 2.19 CURRENT\_QUERIES 表
+
+> 该系统表从 V 2.0.8 版本开始提供
+
+* 包含所有执行结束时间在 `[now() - query_cost_stat_window, now())` 范围内的所有查询，也包括当前正在执行的查询。其中`query_cost_stat_window `代表查询耗时统计的窗口，默认值为 0 ，可通过配置文件`iotdb-system.properties`进行配置。
+* 表结构如下表所示：
+
+| 列名         | 数据类型  | 列类型 | 说明                                                                          |
+| -------------- | ----------- | -------- | ------------------------------------------------------------------------------- |
+| query\_id    | STRING    | TAG    | 查询语句的 ID                                                                 |
+| state        | STRING    | FIELD  | 查询状态，RUNNING 表示正在执行，FINISHED 表示已结束                           |
+| start\_time  | TIMESTAMP | FIELD  | 查询开始的时间戳，时间戳精度与系统精度保持一致                                |
+| end\_time    | TIMESTAMP | FIELD  | 查询结束的时间戳，时间戳精度与系统精度保持一致。若查询尚未结束，该列值为 NULL |
+| datanode\_id | INT32     | FIELD  | 该查询语句是从哪个 DataNode 发起的                                            |
+| cost\_time| FLOAT     | FIELD  | 查询的执行耗时，单位是秒。若查询尚未结束，该列值为查询已执行时间              |
+| statement    | STRING    | FIELD  | 查询的sql / 查询请求拼接后的 sql                                              |
+| user         | STRING    | FIELD  | 发起查询的用户                                                                |
+| client\_ip   | STRING    | FIELD  | 发起查询的客户端 ip                                                           |
+
+* 普通用户查询结果仅显示自身执行的查询；管理员显示全部。
+* 查询示例：
+
+```SQL
+IoTDB> select * from information_schema.current_queries;
++-----------------------+-------+-----------------------------+--------+-----------+---------+------------------------------------------------+----+---------+
+|               query_id|  state|                   start_time|end_time|datanode_id|cost_time|                                       statement|user|client_ip|
++-----------------------+-------+-----------------------------+--------+-----------+---------+------------------------------------------------+----+---------+
+|20260121_085427_00013_1|RUNNING|2026-01-21T16:54:27.019+08:00|    null|          1|      0.0|select * from information_schema.current_queries|root|127.0.0.1|
++-----------------------+-------+-----------------------------+--------+-----------+---------+------------------------------------------------+----+---------+
+```
+
+### 2.20 QUERIES\_COSTS\_HISTOGRAM 表
+
+> 该系统表从 V 2.0.8 版本开始提供
+
+* 包含过去 `query_cost_stat_window` 时间内的查询耗时的直方图（仅统计已经执行结束的 SQL），其中`query_cost_stat_window `代表查询耗时统计的窗口，默认值为 0 ，可通过配置文件`iotdb-system.properties`进行配置。
+* 表结构如下表所示：
+
+| 列名         | 数据类型 | 列类型 | 说明                                                               |
+| -------------- | ---------- | -------- | -------------------------------------------------------------------- |
+| bin| STRING   | TAG| 分桶名：共包含61个分桶，[0, 1), [1, 2), [2, 3),...., [59, 60), 60+ |
+| nums         | INT32    | FIELD  | 分桶内sql的个数                                                    |
+| datanode\_id | INT32    | FIELD  | 该桶属于哪个 DataNode                                              |
+
+* 仅管理员可执行操作
+* 查询示例：
+
+```SQL
+IoTDB> select * from information_schema.queries_costs_histogram limit 10
++------+----+-----------+
+|   bin|nums|datanode_id|
++------+----+-----------+
+| [0,1)|   0|          1|
+| [1,2)|   0|          1|
+| [2,3)|   0|          1|
+| [3,4)|   0|          1|
+| [4,5)|   0|          1|
+| [5,6)|   0|          1|
+| [6,7)|   0|          1|
+| [7,8)|   0|          1|
+| [8,9)|   0|          1|
+|[9,10)|   0|          1|
++------+----+-----------+
+```
+
 
 ## 3. 权限说明
 
