@@ -112,7 +112,7 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |:---:|:-----------------------------------------------|
 |Description| The client rpc service listens on the address. |
 |Type| String                                         |
-|Default| 0.0.0.0                                        |
+|Default| 127.0.0.1                                      |
 |Effective| After restarting system                        |
 
 * dn\_rpc\_port

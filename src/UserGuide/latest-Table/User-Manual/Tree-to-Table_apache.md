@@ -261,29 +261,22 @@ IoTDB> show tables details from information_schema
 +--------------+-------+------+-------+-----------+
 ```
 
-#### 2.4.2 **`Show Create Table/View`**
+#### 2.4.2 **`Show Create View`**
 1. Syntax Definition
 
 ```SQL
-SHOW CREATE TABLE|VIEW viewname;
+SHOW CREATE VIEW viewname;
 ```
 
 2. Syntax Explanation
 
-* The `SHOW CREATE TABLE`statement can be used to display the complete creation information for ordinary tables or views.
-* The `SHOW CREATE VIEW`statement can only be used to display the complete creation information for views.
-* Neither statement can be used to display system tables.
+* This statement retrieves the complete definition of a table or view.
+* It automatically fills in all default values omitted during creation, so the statement shown in the result may differ from the original CREATE statement.
+* This statement does not support system tables.
 
 3. Usage Examples
 
 ```SQL
-IoTDB> show create table tableview
-+---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|     View|                                                                                                                                                  Create View|
-+---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|tableview|CREATE VIEW "tableview" ("device" STRING TAG,"model" STRING TAG,"status" BOOLEAN FIELD,"hardware" STRING FIELD) COMMENT '树转表' WITH (ttl=INF) AS root.ln.**|
-+---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-
 IoTDB> show create view tableview
 +---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |     View|                                                                                                                                                  Create View|
@@ -291,6 +284,9 @@ IoTDB> show create view tableview
 |tableview|CREATE VIEW "tableview" ("device" STRING TAG,"model" STRING TAG,"status" BOOLEAN FIELD,"hardware" STRING FIELD) COMMENT '表视图' WITH (ttl=INF) AS root.ln.**|
 +---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
+
+> Additionally, you can also use the `SHOW CREATE TABLE` statement to view the creation information of table views. For more details, see [show create table](../Basic-Concept/Table-Management_apache.md#_1-4-view-table-creation-statement)
+
 
 ### 2.5 Query Differences Between Non-aligned and Aligned Devices
 

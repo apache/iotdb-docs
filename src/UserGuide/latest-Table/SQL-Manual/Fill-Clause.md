@@ -67,7 +67,7 @@ intervalField
 
 IoTDB supports the following three methods to fill NULL values:
 
-1. **PREVIOUS Fill:** Uses the most recent non-NULL value from the same column to fill NULL values.
+1. **PREVIOUS Fill:** Uses the most recent non-NULL value from the same column to fill NULL values. Starting from V2.0.8-beta, only this method supports the OBJECT type.
 2. **LINEAR Fill:** Applies linear interpolation using the nearest previous and next non-NULL values in the same column.
 3. **CONSTANT Fill:** Fills NULL values with a specified constant.
 

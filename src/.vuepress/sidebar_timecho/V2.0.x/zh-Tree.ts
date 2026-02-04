@@ -127,7 +127,6 @@ export const zhSidebar = {
             { text: '触发器', link: 'Trigger' },
           ],
         },
-        { text: '多级存储', link: 'Tiered-Storage_timecho' },
         { text: 'UDF', link: 'User-defined-function_timecho' },
         { text: '视图', link: 'IoTDB-View_timecho' },
         {
@@ -139,6 +138,7 @@ export const zhSidebar = {
             { text: '安全审计', link: 'Audit-Log_timecho' },
           ],
         },
+        { text: '多级存储', link: 'Tiered-Storage_timecho' },
         {
           text: '系统运维',
           collapsible: true,
@@ -155,8 +155,10 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'AI-capability/',
       children: [
-        { text: 'AINode', link: 'AINode_timecho' },
-        { text: '时序大模型', link: 'TimeSeries-Large-Model' },
+        { text: 'AINode(V2.0.5/6)', link: 'AINode_timecho' },
+        { text: 'AINode(V2.0.8)', link: 'AINode_Upgrade_timecho' },
+        { text: '时序大模型(V2.0.5/6)', link: 'TimeSeries-Large-Model' },
+        { text: '时序大模型(V2.0.8)', link: 'TimeSeries-Large-Model_Upgrade_timecho' },
       ],
     },
     {

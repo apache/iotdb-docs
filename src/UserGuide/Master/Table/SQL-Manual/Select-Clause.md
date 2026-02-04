@@ -21,7 +21,7 @@
 
 # SELECT Clauses
 
-**SELECT Clause** specifies the columns included in the query results. 
+**SELECT Clause** specifies the columns included in the query results.
 
 ## 1. Syntax Overview
 
@@ -63,12 +63,12 @@ Usage scenarios for DISTINCT:
 
 1. **`COLUMNS(*)`**: Matches all columns and supports combining with expressions.
 2. **`COLUMNS(regexStr) ? AS identifier`**: Regular expression matching
-   - Selects columns whose names match the specified regular expression `(regexStr)` and supports combining with expressions.
-   - Allows renaming columns by referencing groups captured by the regular expression. If `AS` is omitted, the original column name is displayed in the format `_coln_original_name` (where `n` is the column’s position in the result table).
-   - Renaming Syntax:
-     - Use parentheses () in regexStr to define capture groups.
-     - Reference captured groups in identifier using `'$index'`.
-     - Note: The identifier must be enclosed in double quotes if it contains special characters like `$`.
+    - Selects columns whose names match the specified regular expression `(regexStr)` and supports combining with expressions.
+    - Allows renaming columns by referencing groups captured by the regular expression. If `AS` is omitted, the original column name is displayed in the format `_coln_original_name` (where `n` is the column’s position in the result table).
+    - Renaming Syntax:
+        - Use parentheses () in regexStr to define capture groups.
+        - Reference captured groups in identifier using `'$index'`.
+        - Note: The identifier must be enclosed in double quotes if it contains special characters like `$`.
 
 ## 3. Example Data
 
@@ -273,6 +273,37 @@ Results:
 Total line number = 18
 It costs 0.189s
 ```
+
+#### 3.1.4 Object Type Query
+
+> Supported since V2.0.8-beta
+
+**Example 1: Directly querying Object type data**
+
+```sql  
+IoTDB:database1> SELECT s1 FROM table1 WHERE device_id = 'tag1'  
++------------+  
+|          s1|  
++------------+  
+|(Object) 5 B|  
++------------+  
+Total line number = 1  
+It costs 0.428s  
+```  
+
+**Example 2: Retrieving raw content of Object type data using `read_object` function**
+
+```sql  
+IoTDB:database1> SELECT read_object(s1) FROM table1 WHERE device_id = 'tag1'  
++------------+  
+|       _col0|  
++------------+  
+|0x696f746462|  
++------------+  
+Total line number = 1  
+It costs 0.188s  
+```  
+
 
 ### 3.2 Columns Function
 
