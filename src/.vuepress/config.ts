@@ -51,7 +51,7 @@ const kapaConfig = {
   'data-deep-thinking-button-active-hover-text-color': '#9E2878',
   'data-modal-disclaimer': `This is a custom LLM for Apache IoTDB with access to all [documentation](iotdb.apache.org/docs/), [GitHub Open Issues, PRs and READMEs](github.com/apache/iotdb).&#10;&#10;
     
-If you encounter "Error in verifying browser for feedback submission. Captcha token could not be obtained." please ensure that you can access Google services.`,
+If you encounter <Error in verifying browser for feedback submission. Captcha token could not be obtained.> please ensure that you can access Google services.`,
   'data-user-analytics-fingerprint-enabled': 'true',
   'data-consent-required': 'true',
   'data-consent-screen-disclaimer':
@@ -80,7 +80,7 @@ export default defineUserConfig({
             'data-language': 'zh',
             'data-modal-disclaimer': `这是一个针对 Apache IoTDB 的定制化大型语言模型，能够访问所有[文档](iotdb.apache.org/docs/)、[GitHub 公开问题、PR 和自述文件](github.com/apache/iotdb)。&#10;&#10;
 
-如果您遇到"Error in verifying browser for feedback submission. Captcha token could not be obtained." 请确保您能够顺畅访问 Google 服务。`,
+如果您遇到 <Error in verifying browser for feedback submission. Captcha token could not be obtained.> 请确保您能够顺畅访问 Google 服务。`,
             'data-consent-screen-disclaimer':
               "点击<I agree, let's chat>即表示您同意按照 kapa.ai 的[隐私政策](https://www.kapa.ai/content/privacy-policy)使用 AI 助手。本服务使用 reCAPTCHA，您需要同意 Google 的[隐私政策](https://policies.google.com/privacy)和[服务条款](https://policies.google.com/terms)。继续操作即表示您明确同意 kapa.ai 和 Google 的隐私政策。",
           },
