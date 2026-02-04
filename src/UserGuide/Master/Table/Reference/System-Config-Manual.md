@@ -194,10 +194,10 @@ The `iotdb-system.properties` file contains various configurations for managing 
 - dn_rpc_address
 
 | Name        | dn_rpc_address                  |
-| ----------- | ------------------------------- |
+| ----------- |---------------------------------|
 | Description | Address for client RPC service. |
 | Type        | String                          |
-| Default     | 0.0.0.0                         |
+| Default     | 127.0.0.1                       |
 | Effective   | Restart required.               |
 
 - dn_rpc_port
