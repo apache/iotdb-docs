@@ -341,7 +341,7 @@ IoTDB> SHOW REGIONS
 
 **Description**: Returns the RPC addresses and ports of all available DataNodes in the current cluster. Note: A DataNode is considered "available" if it is not in the REMOVING state.
 
-> This feature is supported starting from v2.0.8.
+> This feature is supported starting from v2.0.8-beta.
 
 **Syntax**:
 
@@ -365,8 +365,37 @@ IoTDB> SHOW AVAILABLE URLS
 +----------+-------+
 |   0.0.0.0|   6667|
 +----------+-------+
+``` 
+
+### 1.11 View Service Information
+
+**Description**: Returns service information (MQTT service, REST service) on all active DataNodes (in RUNNING or READ-ONLY state) in the current cluster.
+
+> Supported since V2.0.8-beta
+
+#### Syntax:
+```sql
+showServicesStatement
+    : SHOW SERVICES <ON dataNodeId>
+    ;
 ```
 
+#### Examples:
+```sql
+IoTDB> SHOW SERVICES
+IoTDB> SHOW SERVICES ON 1
+```
+
+Execution result:
+```sql
++--------------+-------------+---------+
+| Service Name | DataNode ID | State   |
++--------------+-------------+---------+
+| MQTT         | 1           | STOPPED |
+| REST         | 1           | RUNNING |
++--------------+-------------+---------+
+```
+ 
 
 ## 2. Status Setting
 

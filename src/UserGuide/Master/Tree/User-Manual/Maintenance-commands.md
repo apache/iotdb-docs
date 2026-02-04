@@ -24,7 +24,7 @@
 
 ### 1.1 Viewing the Connected Model
 
-**Description**: Returns the current SQL dialect model (`Tree` or `Table`).
+**Description**: Returns the current SQL dialect mode (`Tree` or `Table`).
 
 **Syntax**:
 
@@ -247,7 +247,7 @@ IoTDB> SHOW REGIONS
 
 **Description**: Returns the RPC addresses and ports of all available DataNodes in the current cluster. Note: A DataNode is considered "available" if it is not in the REMOVING state.
 
-> This feature is supported starting from v2.0.8.
+> This feature is supported starting from v2.0.8-beta.
 
 **Syntax**:
 
@@ -273,12 +273,41 @@ IoTDB> SHOW AVAILABLE URLS
 +----------+-------+
 ```
 
+### 1.8 View Service Information
+
+**Description**: Returns service information (MQTT service, REST service) on all active DataNodes (in RUNNING or READ-ONLY state) in the current cluster.
+
+> This feature is supported starting from v2.0.8-beta.
+
+#### Syntax:
+```sql
+showServicesStatement
+    : SHOW SERVICES <ON dataNodeId>
+    ;
+```
+
+#### Examples:
+```sql
+IoTDB> SHOW SERVICES
+IoTDB> SHOW SERVICES ON 1
+```
+
+Execution result:
+```sql
++--------------+-------------+---------+
+| Service Name | DataNode ID | State   |
++--------------+-------------+---------+
+| MQTT         | 1           | STOPPED |
+| REST         | 1           | RUNNING |
++--------------+-------------+---------+
+```
+
 
 ## 2. Status Setting
 
 ### 2.1 Setting the Connected Model
 
-**Description**: Sets the current SQL dialect model to `Tree` or `Table` which can be used in both tree and table models.
+**Description**: Sets the current SQL dialect mode to `Tree` or `Table` which can be used in both tree and table modes.
 
 **Syntax**:
 

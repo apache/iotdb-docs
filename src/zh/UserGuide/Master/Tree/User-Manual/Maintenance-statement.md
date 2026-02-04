@@ -248,7 +248,7 @@ IoTDB> SHOW REGIONS
 
 **含义**：返回当前集群所有可用的 DataNode 的 RPC 地址和端口。注意：这里对于“可用”的定义为：处于非 REMOVING 状态的 DN 节点。
 
-> V2.0.8 起支持该功能
+> V2.0.8-beta 起支持该功能
 
 #### 语法：
 
@@ -272,6 +272,38 @@ IoTDB> SHOW AVAILABLE URLS
 +----------+-------+
 |   0.0.0.0|   6667|
 +----------+-------+
+```
+
+### 1.8 查看服务信息
+
+**含义**：返回当前集群所有正常工作（RUNNING 或 READ-ONLY） DN 上的服务信息（MQTT 服务、REST 服务）。
+
+> V2.0.8-beta 起支持该功能
+
+#### 语法：
+
+```SQL
+showServicesStatement
+    : SHOW SERVICES <ON dataNodeId>
+    ;
+```
+
+#### 示例：
+
+```SQL
+IoTDB> SHOW SERVICES
+IoTDB> SHOW SERVICES ON 1
+```
+
+执行结果如下：
+
+```SQL
++------------+-----------+-------+
+|service_name|datanode_id|  state|
++------------+-----------+-------+
+|        MQTT|          1|STOPPED|
+|        REST|          1|RUNNING|
++------------+-----------+-------+
 ```
 
 
