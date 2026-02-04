@@ -75,9 +75,8 @@ export const zhSidebar = {
             text: 'AI 部署',
             collapsible: true,
             children: [
-                { text: 'AINode 部署', link: 'AINode_Deployment_apache' },/*
               { text: 'AINode 部署(V2.0.5/6)', link: 'AINode_Deployment_apache' },
-              { text: 'AINode 部署(V2.0.8)', link: 'AINode_Deployment_Upgrade_apache' }, */
+              { text: 'AINode 部署(V2.0.8-beta)', link: 'AINode_Deployment_Upgrade_apache' },
             ],
           },
       ],
@@ -132,9 +131,9 @@ export const zhSidebar = {
       prefix: 'AI-capability/',
       children: [
         { text: 'AINode(V2.0.5/6)', link: 'AINode_apache' },
-        { text: 'AINode(V2.0.8)', link: 'AINode_Upgrade_apache' },
+        { text: 'AINode(V2.0.8-beta)', link: 'AINode_Upgrade_apache' },
         { text: '时序大模型(V2.0.5/6)', link: 'TimeSeries-Large-Model' },
-        { text: '时序大模型(V2.0.8)', link: 'TimeSeries-Large-Model_Upgrade_apache' },
+        { text: '时序大模型(V2.0.8-beta)', link: 'TimeSeries-Large-Model_Upgrade_apache' },
       ],
     },
     {

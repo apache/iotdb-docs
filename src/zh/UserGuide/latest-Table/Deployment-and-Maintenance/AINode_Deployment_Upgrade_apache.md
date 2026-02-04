@@ -87,7 +87,7 @@ b39039a1235a86bc3ce3df0a102efa215e281b5839683ccaf47883b390af4e686f99e6980a24a9d4
 ### 2.3 环境要求
 
 * 建议操作环境: Linux, MacOS；
-* IoTDB 版本：>= V 2.0.8；
+* IoTDB 版本：>= V 2.0.8-beta；
 
 ## 3. 安装部署及使用
 
