@@ -371,7 +371,7 @@ IoTDB> select * from information_schema.views
 
 ### 2.11 MODELS Table
 
-> This system table is available starting from version V 2.0.5 and has been discontinued since version V 2.0.8.
+> This system table is available starting from version V 2.0.5 and has been discontinued since version V 2.0.8-beta.
 
 * Contains information about all models in the database.
 * The table structure is as follows:
@@ -596,7 +596,7 @@ IoTDB> select * from information_schema.data_nodes
 
 ### 2.18 CONNECTIONS Table
 
-> This system table is available starting from version V 2.0.8
+> This system table is available starting from version V 2.0.8-beta
 
 * Contains all connections in the cluster.
 * The table structure is as follows:
@@ -623,7 +623,7 @@ IoTDB> select * from information_schema.connections;
 
 ### 2.19 CURRENT_QUERIES Table
 
-> This system table is available starting from version V 2.0.8
+> This system table is available starting from version V 2.0.8-beta
 
 * Contains all queries whose execution end time falls within the range `[now() - query_cost_stat_window, now())`, including currently executing queries. The `query_cost_stat_window` parameter represents the query cost statistics window. Its default value is 0 and can be configured via the `iotdb-system.properties` configuration file.
 * The table structure is as follows:
@@ -654,7 +654,7 @@ IoTDB> select * from information_schema.current_queries;
 
 ### 2.20 QUERIES_COSTS_HISTOGRAM Table
 
-> This system table is available starting from version V 2.0.8
+> This system table is available starting from version V 2.0.8-beta
 
 * Contains a histogram of query execution times within the past `query_cost_stat_window` period (only statistics for completed SQL queries). The `query_cost_stat_window` parameter represents the query cost statistics window. Its default value is 0 and can be configured via the `iotdb-system.properties` configuration file.
 * The table structure is as follows:

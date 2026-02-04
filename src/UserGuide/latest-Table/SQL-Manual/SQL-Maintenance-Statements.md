@@ -229,7 +229,7 @@ IoTDB> SHOW REGIONS
 
 **Description**: Returns the RPC addresses and ports of all available DataNodes in the current cluster. Note: A DataNode is considered "available" if it is not in the REMOVING state.
 
-> This feature is supported starting from v2.0.8.
+> This feature is supported starting from v2.0.8-beta.
 
 **Syntax**:
 

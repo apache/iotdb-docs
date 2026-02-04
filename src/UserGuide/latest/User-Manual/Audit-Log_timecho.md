@@ -30,7 +30,7 @@ Audit logs provide a documented record of database activities. Through the audit
 * Ability to configure audit log file retention periods using TTL (time-based rolling) and SpaceTL (space-based rolling)
 * Audit logs are encrypted by default
 
-> Note: This feature is available from version V2.0.8 onwards.
+> Note: This feature is available from version V2.0.8-beta onwards.
 
 ## 2. Configuration Parameters
 
