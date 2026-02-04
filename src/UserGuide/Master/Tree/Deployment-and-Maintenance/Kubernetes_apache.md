@@ -93,7 +93,7 @@ spec:
 
 ```Bash
 kubectl apply -f pv01.yaml
-kubectl apply -f pv-02.yaml
+kubectl apply -f pv02.yaml
 ...
 ```
 
