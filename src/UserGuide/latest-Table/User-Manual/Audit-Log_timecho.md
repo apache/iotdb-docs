@@ -19,16 +19,17 @@
 
 -->
 
+
 # Security Audit
 
 ## 1. Introduction
 
 Audit logs provide a documented record of database activities. Through the audit log feature, you can track operations like data creation, deletion, modification, and querying to ensure information security. IoTDB's audit log functionality supports the following features:
 
-* Ability to enable/disable audit logging through configuration
-* Ability to set auditable operation types and privilege levels via parameters
-* Ability to configure audit log file retention periods using TTL (time-based rolling) and SpaceTL (space-based rolling)
-* Audit logs are encrypted by default
+* Configurable enable/disable of audit logging
+* Configurable auditable operation types and privilege levels
+* Configurable audit log retention periods using TTL (time-based rolling) and SpaceTL (space-based rolling)
+* Default encryption storage for audit logs
 
 > Note: This feature is available from version V2.0.8 onwards.
 
@@ -57,7 +58,9 @@ Supports direct reading of audit logs via SQL.
 SELECT (<audit_log_field>, )* log FROM <AUDIT_LOG_PATH> WHERE whereclause ORDER BY order_expression
 ```
 
-* `AUDIT_LOG_PATH`: Audit log storage location `root.__audit.log.<node_id>.<user_id>`
+Where:
+
+* `AUDIT_LOG_PATH`: Audit log storage location `__audit.audit_log`;
 * `audit_log_field`: Query fields refer to the metadata structure below
 * Supports WHERE clause filtering and ORDER BY sorting
 
@@ -79,46 +82,42 @@ SELECT (<audit_log_field>, )* log FROM <AUDIT_LOG_PATH> WHERE whereclause ORDER 
 
 ### 3.3 Usage Examples
 
-* Query times, usernames and host information for successfully executed queries:
+* Query times, usernames and host information for successfully executed DML operations:
 
 ```SQL
-IoTDB> select username,cli_hostname from root.__audit.log.** where operation_type='QUERY' and result=true align by device
-+-----------------------------+---------------------------+--------+------------+
-|                         Time|                     Device|username|cli_hostname|
-+-----------------------------+---------------------------+--------+------------+
-|2026-01-23T10:39:21.563+08:00|root.__audit.log.node_1.u_0|    root|   127.0.0.1|
-|2026-01-23T10:39:33.746+08:00|root.__audit.log.node_1.u_0|    root|   127.0.0.1|
-|2026-01-23T10:42:15.032+08:00|root.__audit.log.node_1.u_0|    root|   127.0.0.1|
-+-----------------------------+---------------------------+--------+------------+
-Total line number = 3
-It costs 0.036s
+IoTDB:__audit> select time,username,cli_hostname  from audit_log where result = true and operation_type='DML'
++-----------------------------+--------+------------+
+|                         time|username|cli_hostname|
++-----------------------------+--------+------------+
+|2026-01-23T11:43:46.697+08:00|    root|   127.0.0.1|
+|2026-01-23T11:45:39.950+08:00|    root|   127.0.0.1|
++-----------------------------+--------+------------+
+Total line number = 2
+It costs 0.284s
 ```
 
 * Query latest operation details:
 
 ```SQL
-IoTDB> select username,cli_hostname,operation_type,sql_string  from root.__audit.log.** order by time desc limit 1 align by device
-+-----------------------------+---------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------------------+
-|                         Time|                     Device|username|cli_hostname|operation_type|                                                                                                        sql_string|
-+-----------------------------+---------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------------------+
-|2026-01-23T10:42:32.795+08:00|root.__audit.log.node_1.u_0|    root|   127.0.0.1|         QUERY|select username,cli_hostname from root.__audit.log.** where operation_type='QUERY' and result=true align by device|
-+-----------------------------+---------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------------------+
+IoTDB:__audit> select time,username,cli_hostname,operation_type,sql_string  from audit_log order by time desc limit 1
++-----------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------+
+|                         time|username|cli_hostname|operation_type|                                                                                            sql_string|
++-----------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------+
+|2026-01-23T11:46:31.026+08:00|    root|   127.0.0.1|         QUERY|select time,username,cli_hostname,operation_type,sql_string  from audit_log order by time desc limit 1|
++-----------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------+
 Total line number = 1
-It costs 0.033s
+It costs 0.053s
 ```
 
 * Query failed operations:
 
 ```SQL
-IoTDB> select database,operation_type,log  from root.__audit.log.** where result=false align by device
-+-----------------------------+-------------------------------+-----------+--------------+---------------------------------------------------------------------------------+
-|                         Time|                         Device|   database|operation_type|                                                                              log|
-+-----------------------------+-------------------------------+-----------+--------------+---------------------------------------------------------------------------------+
-|2026-01-23T10:49:55.159+08:00|root.__audit.log.node_1.u_10000|           |       CONTROL|        User user1 (ID=10000) login failed with code: 801, Authentication failed.|
-|2026-01-23T10:52:04.579+08:00|root.__audit.log.node_1.u_10000|  [root.**]|         QUERY|   User user1 (ID=10000) requests authority on object [root.**] with result false|
-|2026-01-23T10:52:43.412+08:00|root.__audit.log.node_1.u_10000|root.userdb|           DDL| User user1 (ID=10000) requests authority on object root.userdb with result false|
-|2026-01-23T10:52:48.075+08:00|root.__audit.log.node_1.u_10000|       null|         QUERY|User user1 (ID=10000) requests authority on object root.__audit with result false|
-+-----------------------------+-------------------------------+-----------+--------------+---------------------------------------------------------------------------------+
-Total line number = 4
-It costs 0.024s
+IoTDB:__audit> select time,database,operation_type,log  from audit_log where result=false
++-----------------------------+--------+--------------+----------------------------------------------------------------------+
+|                         time|database|operation_type|                                                                   log|
++-----------------------------+--------+--------------+----------------------------------------------------------------------+
+|2026-01-23T11:47:42.136+08:00|        |       CONTROL|User user1 (ID=-1) login failed with code: 804, Authentication failed.|
++-----------------------------+--------+--------------+----------------------------------------------------------------------+
+Total line number = 1
+It costs 0.011s
 ```

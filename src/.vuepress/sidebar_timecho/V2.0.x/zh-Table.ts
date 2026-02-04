@@ -131,6 +131,7 @@ export const zhSidebar = {
           children: [
               { text: '权限管理', link: 'Authority-Management_timecho' },
               { text: '黑白名单', link: 'Black-White-List_timecho' },
+              { text: '安全审计', link: 'Audit-Log_timecho' },
           ],
         },
         { text: '多级存储', link: 'Tiered-Storage_timecho' },

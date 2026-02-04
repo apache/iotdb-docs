@@ -127,7 +127,6 @@ export const zhSidebar = {
             { text: '触发器', link: 'Trigger' },
           ],
         },
-        { text: '多级存储', link: 'Tiered-Storage_timecho' },
         { text: 'UDF', link: 'User-defined-function_timecho' },
         { text: '视图', link: 'IoTDB-View_timecho' },
         {
@@ -139,6 +138,7 @@ export const zhSidebar = {
             { text: '安全审计', link: 'Audit-Log_timecho' },
           ],
         },
+        { text: '多级存储', link: 'Tiered-Storage_timecho' },
         {
           text: '系统运维',
           collapsible: true,
