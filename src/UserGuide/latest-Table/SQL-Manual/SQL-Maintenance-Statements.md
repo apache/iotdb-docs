@@ -23,7 +23,7 @@
 
 ## 1.  Status Inspection
 
-### 1.1 View Current Tree/Table Model
+### 1.1 View Current Tree/Table Mode
 
 **Syntax:**
 
@@ -258,7 +258,7 @@ IoTDB> SHOW AVAILABLE URLS
 
 ## 2. Status Configuration
 
-### 2.1 Set Connection Tree/Table Model
+### 2.1 Set Connection Tree/Table Mode
 
 **Syntax:**
 
