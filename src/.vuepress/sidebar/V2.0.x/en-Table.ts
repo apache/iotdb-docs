@@ -75,9 +75,8 @@ export const enSidebar = {
             text: 'AI Deployment',
             collapsible: true,
             children: [
-                { text: 'AINode Deployment', link: 'AINode_Deployment_apache' },/*
                { text: 'AINode Deployment(V2.0.5/6)', link: 'AINode_Deployment_apache' },
-               { text: 'AINode Deployment(V2.0.8)', link: 'AINode_Deployment_Upgrade_apache' }, */
+               { text: 'AINode Deployment(V2.0.8-beta)', link: 'AINode_Deployment_Upgrade_apache' },
             ],
           },
       ],
@@ -133,8 +132,10 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'AI-capability/',
       children: [
-        { text: 'AINode', link: 'AINode_apache' },
-        { text: 'TimeSeries Large Model', link: 'TimeSeries-Large-Model' },
+        { text: 'AINode(V2.0.5/6)', link: 'AINode_apache' },
+        { text: 'AINode(V2.0.8-beta)', link: 'AINode_Upgrade_apache' },
+        { text: 'TimeSeries Large Model(V2.0.5/6)', link: 'TimeSeries-Large-Model' },
+        { text: 'TimeSeries Large Model(V2.0.8-beta)', link: 'TimeSeries-Large-Model_Upgrade_apache' },
       ],
     },
     {

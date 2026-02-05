@@ -1292,7 +1292,7 @@ coalesce(value1, value2[, ...])
 
 #### 8.1.1 cast(value AS type) → type
 
-Explicitly converts a value to the specified type. This can be used to convert strings (`VARCHAR`) to numeric types or numeric values to string types.
+Explicitly converts a value to the specified type. This can be used to convert strings (`VARCHAR`) to numeric types or numeric values to string types. Starting from V2.0.8-beta, OBJECT type can be explicitly cast to STRING type.
 
 If the conversion fails, a runtime error is thrown.
 

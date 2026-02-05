@@ -21,223 +21,291 @@
 
 # OPC UA Protocol
 
-## 1. OPC UA Subscription Data
+## 1. Overview
 
-This feature allows users to subscribe to data from IoTDB using the OPC UA protocol. The communication modes for subscription data support both Client/Server and Pub/Sub.
+This document describes two independent operational modes for IoTDB's integration with the OPC UA protocol. Choose the mode based on your business scenario:
 
-Note: This feature is not about collecting data from external OPC Servers and writing it into IoTDB.
+* **Mode 1: Data Subscription Service (IoTDB as OPC UA Server)**: IoTDB starts an embedded OPC UA server to passively allow external clients (e.g., UAExpert) to connect and subscribe to its internal data. This is the traditional usage.
+* **Mode 2: Data Push (IoTDB as OPC UA Client)**: IoTDB acts as a client to actively synchronize data and metadata to one or more independently deployed external OPC UA servers.
+  > Note: This mode is supported starting from V2.0.8-beta.
+
+**Note: Modes are mutually exclusive**
+When the Pipe configuration specifies the `node-urls` parameter (Mode 2), IoTDB will **not** start the embedded OPC UA server (Mode 1). These two modes **cannot be used simultaneously** within the same Pipe.
+
+## 2. Data Subscription
+
+This mode supports users subscribing to data from IoTDB using the OPC UA protocol, with communication modes supporting both Client/Server and Pub/Sub.
+
+Note: This feature does **not** involve collecting data from external OPC Servers into IoTDB.
 
 ![](/img/opc-ua-new-1-en.png)
 
-## 2. OPC Service Startup Method
+### 2.1 OPC Service Startup
 
-### 2.1 Syntax
+#### 2.1.1 Syntax
 
-The syntax to start the OPC UA protocol:
-
+Syntax for starting OPC UA protocol:
 
 ```SQL
-create pipe p1 
-    with source (...) 
-    with processor (...) 
-    with sink ('sink' = 'opc-ua-sink', 
+CREATE PIPE p1 
+    WITH SOURCE (...) 
+    WITH PROCESSOR (...) 
+    WITH SINK ('sink' = 'opc-ua-sink', 
                'sink.opcua.tcp.port' = '12686', 
                'sink.opcua.https.port' = '8443', 
                'sink.user' = 'root', 
-               'sink.password' = 'TimechoDB@2021', //Before V2.0.6.x the default password is root 
+               'sink.password' = 'TimechoDB@2021',  // Default password was 'root' before V2.0.6.x
                'sink.opcua.security.dir' = '...'
               )
 ```
 
-### 2.2 Parameters
+#### 2.1.2 Parameters
 
-| key                            | value                                                         | value range                         | required or not	 | default value                                                                                                                                                                                                                                                               |
-| :------------------------------ | :----------------------------------------------------------- | :------------------------------------- | :------- |:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| sink                               | OPC UA SINK                    | String: opc-ua-sink              | Required	         |                                                                                                                                                                                                                                                                             |
-| sink.opcua.model                   | OPC UA model used	              | String: client-server / pub-sub  | Optional         | pub-sub                                                                                                                                                                                                                                                                     |
-| sink.opcua.tcp.port                | OPC UA's TCP port	             | Integer: [0, 65536]              | Optional         | 12686                                                                                                                                                                                                                                                                       |
-| sink.opcua.https.port              | OPC UA's HTTPS port	           | Integer: [0, 65536]              | Optional         | 8443                                                                                                                                                                                                                                                                        |
-| sink.opcua.security.dir            | Directory for OPC UA's keys and certificates	        | String: Path, supports absolute and relative directories | Optional         | Opc_security folder/<httpsPort: tcpPort>in the conf directory of the DataNode related to iotdb <br> If there is no conf directory for iotdb (such as launching DataNode in IDEA), it will be the iotdb_opc_Security folder/<httpsPort: tcpPort>in the user's home directory |
-| sink.opcua.enable-anonymous-access | Whether OPC UA allows anonymous access	        | Boolean                          | Optional         | true                                                                                                                                                                                                                                                                        |
-| sink.user                          | User for OPC UA, specified in the configuration	 | String                           | Optional         | root                                                                                                                                                                                                                                                                        |
-| sink.password                      | Password for OPC UA, specified in the configuration	 | String                           | Optional         | TimechoDB@2021 //Before V2.0.6.x the default password is root                                                                                                                                                                                                               |
+| **Parameter**                     | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | **Value Range**                                                                                                                     | **Required** | **Default Value**                                                                                                                                                                          |
+| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |-------------------------------------------------------------------------------------------------------------------------------------| -------------------- |----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| sink                               | OPC UA SINK                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | String: opc-ua-sink                                                                                                                 | Required             |                                                                                                                                                                                  |
+| sink.opcua.model                   | OPC UA operational mode                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | String: client-server / pub-sub                                                                                                     | Optional             | client-server                                                                                                                                                                    |
+| sink.opcua.tcp.port                | OPC UA TCP port                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Integer: [0, 65536]                                                                                                                 | Optional             | 12686                                                                                                                                                                            |
+| sink.opcua.https.port              | OPC UA HTTPS port                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Integer: [0, 65536]                                                                                                                 | Optional             | 8443                                                                                                                                                                             |
+| sink.opcua.security.dir            | OPC UA key and certificate directory                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | String: Path (supports absolute/relative paths)                                                                                     | Optional             | 1. `opc_security` folder under IoTDB's DataNode conf directory `/`. 2. User home directory's `iotdb_opc_security` folder `/` if no IoTDB conf directory exists (e.g., when starting DataNode in IDEA) |
+| opcua.security-policy              | Security policy used for OPC UA connections (case-insensitive). Multiple policies can be configured and separated by commas. After configuring one policy, clients can only connect using that policy. Default implementation supports `None` and `Basic256Sha256`. Should be set to a non-`None` policy by default. `None` policy is only for debugging (convenient but insecure; not recommended for production). Note: Supported since V2.0.8-beta, only for client-server mode. | String (security level increases):`None`,`Basic128Rsa15`,`Basic256`,`Basic256Sha256`,`Aes128_Sha256_RsaOaep`,`Aes256_Sha256_RsaPss` | Optional | `Basic256Sha256,Aes128_Sha256_RsaOaep,Aes256_Sha256_RsaPss`                                                                                                                 |
+| sink.opcua.enable-anonymous-access | Whether OPC UA allows anonymous access                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Boolean                                                                                                                             | Optional             | true                                                                                                                                                                             |
+| sink.user                          | User (OPC UA allowed user)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | String                                                                                                                              | Optional             | root                                                                                                                                                                             |
+| sink.password                      | Password (OPC UA allowed password)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | String                                                                                                                              | Optional             | TimechoDB@2021 (Default was 'root' before V2.0.6.x)                                                                                                                                             |
+| opcua.with-quality                 | Whether OPC UA publishes data in value + quality mode. When enabled, system processes data as follows:1. Both value and quality present → Push directly to OPC UA Server.2. Only value present → Quality automatically filled as UNCERTAIN (default, configurable).3. Only quality present → Ignore write (no processing).4. Non-value/quality fields present → Ignore data and log warning (configurable log frequency to avoid high-frequency interference).5. Quality type restriction: Only boolean type supported (true = GOOD, false = BAD).**Note**: Supported since V2.0.8-beta, only for client-server mode | Boolean                                                                                                                             | Optional             | false                                                                                                                                                                            |
+| opcua.value-name                   | Effective when `with-quality` = true, specifies the name of the value point. **Note**: Supported since V2.0.8-beta, only for client-server mode                                                                                                                                                                                                                                                                                                                                                                                                                             | String                                                                                                                              | Optional             | value                                                                                                                                                                            |
+| opcua.quality-name                 | Effective when `with-quality` = true, specifies the name of the quality point. **Note**: Supported since V2.0.8-beta, only for client-server mode                                                                                                                                                                                                                                                                                                                                                                                                                           | String                                                                                                                              | Optional             | quality                                                                                                                                                                          |
+| opcua.default-quality              | When no quality is provided, specify `GOOD`/`UNCERTAIN`/`BAD` via SQL parameter. **Note**: Supported since V2.0.8-beta, only for client-server mode                                                                                                                                                                                                                                                                                                                                                                                                     | String: `GOOD`/`UNCERTAIN`/`BAD`                                                                                                    | Optional             | `UNCERTAIN`                                                                                                                                                                      |
+| opcua.timeout-seconds              | Client connection timeout in seconds (effective only when IoTDB acts as client). **Note**: Supported since V2.0.8-beta, only for client-server mode                                                                                                                                                                                                                                                                                                                                                                                                       | Long                                                                                                                                | Optional             | 10L                                                                                                                                                                              |
 
-### 2.3 Example
+#### 2.1.3 Example
 
 ```Bash
-create pipe p1 
-    with sink ('sink' = 'opc-ua-sink'，
+CREATE PIPE p1 
+    WITH SINK ('sink' = 'opc-ua-sink',
                'sink.user' = 'root', 
-               'sink.password' = 'TimechoDB@2021' //Before V2.0.6.x the default password is root 
-start pipe p1;
+               'sink.password' = 'TimechoDB@2021');  // Default password was 'root' before V2.0.6.x
+START PIPE p1;
 ```
 
-### 2.4 Usage Limitations
+#### 2.1.4 Usage Restrictions
 
-1. After starting the protocol, data needs to be written to establish a connection. Only data after the connection is established can be subscribed to.
-2. Recommended for use in standalone mode. In distributed mode, each IoTDB DataNode acts as an independent OPC Server providing data and requires separate subscription.
+1. Data must be written after protocol startup to establish connection. Only data written *after* connection can be subscribed.
+2. Recommended for single-node mode. In distributed mode, each IoTDB DataNode acts as an independent OPC Server; separate subscriptions are required for each.
 
-## 3. Examples of Two Communication Modes
+### 2.2 Example of Two Communication Modes
 
-### 3.1 Client / Server Mode
+#### 2.2.1 Client/Server Mode
 
-In this mode, IoTDB's stream processing engine establishes a connection with the OPC UA Server via an OPC UA Sink. The OPC UA Server maintains data within its Address Space, from which IoTDB can request and retrieve data. Additionally, other OPC UA Clients can access the data on the server.
+In this mode, IoTDB's stream processing engine establishes a connection with the OPC UA Server (Server) via OPC UA Sink. The OPC UA Server maintains data in its address space (Address Space), and IoTDB can request and retrieve this data. Other OPC UA clients (Clients) can also access the server's data.
 
-* Features:
-  * OPC UA organizes device information received from the Sink into folders under the Objects folder according to a tree model.
-  * Each measurement point is recorded as a variable node, storing the latest value from the current database.
-  * OPC UA cannot delete data or change data type settings.
+* **Features**:
+    * OPC UA organizes device information received from Sink into folders under Objects folder in tree structure.
+    * Each point is recorded as a variable node with the latest value in the current database.
+    * OPC UA cannot delete data or change data type settings.
 
-#### 3.1.1 Preparation Work
+##### 2.2.1.1 Preparation
 
-1. Take UAExpert client as an example, download the UAExpert client: https://www.unified-automation.com/downloads/opc-ua-clients.html
+1. Example using UAExpert client: Download UAExpert client from https://www.unified-automation.com/downloads/opc-ua-clients.html
+2. Install UAExpert and configure certificate information.
 
-2. Install UAExpert and fill in your own certificate information.
+##### 2.2.1.2 Quick Start
 
-#### 3.1.2 Quick Start
-
-1. Use the following SQL to create and start the OPC UA Sink in client-server mode. For detailed syntax, please refer to: [IoTDB OPC Server Syntax](./Programming-OPC-UA_timecho.md#_2-1-syntax)
+1. Start OPC UA service using SQL (detailed syntax see [IoTDB OPC Server Syntax](./Programming-OPC-UA_timecho.md#_2-1-语法)):
 
 ```SQL
-create pipe p1 with sink ('sink'='opc-ua-sink');
+CREATE PIPE p1 WITH SINK ('sink'='opc-ua-sink');
 ```
 
-2. Write some data.
+2. Write some data:
 
 ```SQL
-insert into root.test.db(time, s2) values(now(), 2)
+INSERT INTO root.test.db(time, s2) VALUES(NOW(), 2);
 ```
 
-​     The metadata is automatically created and enabled here.
+3. Configure UAExpert to connect to IoTDB (password matches `sink.password` configured above, e.g., root/TimechoDB@2021):
+4. Trust the server certificate, then view written data under Objects folder on the left:
+5. Drag left nodes to the middle to display latest value:
 
-3. Configure the connection to IoTDB in UAExpert, where the password should be set to the one defined in the sink.password parameter (using the default password "root" as an example):
+#### 2.2.2 Pub/Sub Mode
 
-<div align="center">
-    <img src="/img/OPCUA18.png" alt="" style="width: 60%;"/>
-</div>
+In this mode, IoTDB's stream processing engine sends data change events to the OPC UA Server (Server) via OPC UA Sink. These events are published to the server's message queue and managed via Event Nodes. Other OPC UA clients (Clients) can subscribe to these Event Nodes to receive notifications when data changes.
 
-<div align="center">
-    <img src="/img/OPCUA04.png" alt="" style="width: 60%;"/>
-</div>
+* **Features**:
 
-4. After trusting the server's certificate, you can see the written data in the Objects folder on the left.
+    * Each point is packaged as an Event Node (EventNode) by OPC UA.
+    * Related fields and meanings:
 
-<div align="center">
-    <img src="/img/OPCUA05.png" alt="" style="width: 60%;"/>
-</div>
-
-<div align="center">
-    <img src="/img/OPCUA17.png" alt="" style="width: 60%;"/>
-</div>
-
-5. You can drag the node on the left to the center and display the latest value of that node:
-
-<div align="center">
-    <img src="/img/OPCUA07.png" alt="" style="width: 60%;"/>
-</div>
-
-### 3.2 Pub / Sub Mode
-
-In this mode, IoTDB's stream processing engine sends data change events to the OPC UA Server through an OPC UA Sink. These events are published to the server's message queue and managed through Event Nodes. Other OPC UA Clients can subscribe to these Event Nodes to receive notifications upon data changes.
-
-- Features：
-
-    - Each measurement point is wrapped as an Event Node in OPC UA.
-
-    - The relevant fields and their meanings are as follows:
-    
-      | Field       | Meaning             | Type (Milo)	  | Example                  |
-      | :--------- | :--------------- | :------------ | :-------------------- |
+      | Field        | Meaning             | Type (Milo)   | Example                 |
+      | ------------ | ------------------ | -------------- | ----------------------- |
       | Time       | Timestamp           | DateTime      | 1698907326198         |
-      | SourceName | Full path of the measurement point	 | String        | root.test.opc.sensor0 |
-      | SourceNode | Data type of the measurement point	     | NodeId        | Int32                 |
-      | Message    | Data             | LocalizedText | 3.0                   |
-    
-      - Events are only sent to clients that are already listening; if a client is not connected, the Event will be ignored.
-      - If data is deleted, the information cannot be pushed to clients.
+      | SourceName | Full path of point  | String        | root.test.opc.sensor0 |
+      | SourceNode | Data type of point  | NodeId        | Int32                 |
+      | Message    | Data                | LocalizedText | 3.0                   |
 
 
-#### 3.2.1 Preparation Work
 
-The code is located in the [opc-ua-sink package](https://github.com/apache/iotdb/tree/rc/2.0.1/example/pipe-opc-ua-sink/src/main/java/org/apache/iotdb/opcua)under the iotdb-example package.
+- Events are sent only to currently subscribed clients. Unconnected clients ignore events.
+- Deleted data cannot be pushed to clients.
 
-The code includes:
+##### 2.2.2.1 Preparation
 
-- The main class （ClientTest）
-- Client certificate-related logic（IoTDBKeyStoreLoaderClient）
-- Client configuration and startup logic（ClientExampleRunner）
-- The parent class of ClientTest（ClientExample）
+Code located in `example/pipe-opc-ua-sink/src/main/java/org/apache/iotdb/opcua` of iotdb-example package.
 
-#### 3.2.2 Quick Start
+Contains:
 
-The steps are as follows:
+- Main class (`ClientTest`)
+- Client certificate logic (`IoTDBKeyStoreLoaderClient`)
+- Client configuration and startup logic (`ClientExampleRunner`)
+- Parent class for `ClientTest` (`ClientExample`)
 
-1. Start IoTDB and write some data.
+##### 2.2.2.2 Quick Start
 
-```SQL
-insert into root.a.b(time, c, d) values(now(), 1, 2);
-```
-
-​     The metadata is automatically created and enabled here.
-
-2. Use the following SQL to create and start the OPC UA Sink in Pub-Sub mode. For detailed syntax, please refer to: [IoTDB OPC Server Syntax](./Programming-OPC-UA_timecho.md#_2-1-syntax)
+1. Open IoTDB and write some data:
 
 ```SQL
-create pipe p1 with sink ('sink'='opc-ua-sink', 
-                          'sink.opcua.model'='pub-sub');
-start pipe p1;
+INSERT INTO root.a.b(time, c, d) VALUES(NOW(), 1, 2);  // Auto-creates metadata
 ```
 
-​     At this point, you can see that the opc certificate-related directory has been created under the server's conf directory.
+2. Create and start Pub/Sub mode OPC UA Sink:
 
-<div align="center">
-    <img src="/img/OPCUA08.png" alt="" style="width: 60%;"/>
-</div>
+```SQL
+CREATE PIPE p1 WITH SINK ('sink'='opc-ua-sink', 'sink.opcua.model'='pub-sub');
+START PIPE p1;
+```
 
-3. Run the Client connection directly; the Client's certificate will be rejected by the server.
+3. Observe server creates OPC certificate directory under conf:
+4. Run Client to connect, but server rejects Client certificate:
+5. Enter server's `sink.opcua.security.dir` → `pki` → `rejected` directory, find Client's certificate:
+6. Move Client's certificate (not copy) to `trusted/certs` directory:
+7. Reopen Client → server certificate rejected by Client:
+8. Enter client's `<java.io.tmpdir>/client/security` → `pki` → `rejected` → move server's certificate (not copy) to `trusted`:
+9. Open Client → successful bidirectional trust, connection established.
+10. Write data to server → Client prints received data:
 
-<div align="center">
-    <img src="/img/OPCUA09.png" alt="" style="width: 60%;"/>
-</div>
+#### 2.2.3 Notes
 
-4. Go to the server's sink.opcua.security.dir directory, then to the pki's rejected directory, where the Client's certificate should have been generated.
+1. **Single-node vs Cluster**: Recommend single-node (1C1D). In cluster with multiple DataNodes, data may be distributed across nodes, preventing full data subscription.
+2. **No root certificate operations**: No need to handle IoTDB's root security directory `iotdb-server.pfx` or client security directory `example-client.pfx`. During bidirectional connection, root certificates are exchanged. New certificates are placed in `rejected` directory; if in `trusted/certs`, they're trusted.
+3. **Recommended Java 17+**: JDK 8 may have key size restrictions causing "Illegal key size" errors. For specific versions (e.g., jdk.1.8u151+), add `Security.setProperty("crypto.policy", "unlimited");` in `ClientExampleRunner.createClient()`, or replace `JDK/jre/lib/security/local_policy.jar` and `US_export_policy.jar` with unlimited versions from https://www.oracle.com/java/technologies/javase-jce8-downloads.html.
+4. **Connection issues**: If error is "Unknown host", modify `/etc/hosts` on IoTDB DataNode machine to add target machine's URL and hostname.
 
-<div align="center">
-    <img src="/img/OPCUA10.png" alt="" style="width: 60%;"/>
-</div>
+## 3. Data Push
 
-5. Move (not copy) the client's certificate into (not into a subdirectory of) the trusted directory's certs folder in the same directory.
+In this mode, IoTDB acts as an OPC UA client via Pipe to actively push selected data (including quality code) to one or more external OPC UA servers. External servers automatically create directory trees and nodes based on IoTDB's metadata.
 
-<div align="center">
-    <img src="/img/OPCUA11.png" alt="" style="width: 60%;"/>
-</div>
+![](/img/opc-ua-data-push-en.png)
 
-6. Open the Client connection again; the server's certificate should now be rejected by the Client.
+### 3.1 OPC Service Startup
 
-<div align="center">
-    <img src="/img/OPCUA12.png" alt="" style="width: 60%;"/>
-</div>
+#### 3.1.1 Syntax
 
-7. Go to the client's <java.io.tmpdir>/client/security directory, then to the pki's rejected directory, and move the server's certificate into (not into a subdirectory of) the trusted directory.
+Syntax for starting OPC UA protocol:
 
-<div align="center">
-    <img src="/img/OPCUA13.png" alt="" style="width: 60%;"/>
-</div>
+```SQL
+CREATE PIPE p1 
+    WITH SOURCE (...) 
+    WITH PROCESSOR (...) 
+    WITH SINK ('sink' = 'opc-ua-sink', 
+               'opcua.node-url' = '127.0.0.1:12686', 
+               'opcua.historizing' = 'true', 
+               'opcua.with-quality' = 'true' 
+              )
+```
 
-8. Open the Client, and now the two-way trust is successful, and the Client can connect to the server.
+#### 3.1.2 Parameters
 
-9. Write data to the server, and the Client will print out the received data.
+| **Parameter**                | **Description**                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | **Value Range**                                                                                                                     | **Required** | **Default Value**   |
+|-----------------------| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |-------------------------------------------------------------------------------------------------------------------------------------| -------------------- | -------------------- |
+| sink                  | OPC UA SINK                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | String: opc-ua-sink                                                                                                                 | Required             |                    |
+| opcua.node-url        | Comma-separated OPC UA TCP ports. When specified, IoTDB **does not** start local server but sends data to configured OPC UA Server.                                                                                                                                                                                                                                                                                                                                                                 | String                                                                                                                              | Optional             | `''`           |
+| opcua.historizing     | When automatically creating directories and leaf nodes, whether to store historical data in new nodes.                                                                                                                                                                                                                                                                                                                                                                                                                           | Boolean                                                                                                                             | Optional             | false              |
+| opcua.with-quality    | Whether OPC UA publishes data in value + quality mode. When enabled, system processes data as follows:1. Both value and quality present → Push directly to OPC UA Server.2. Only value present → Quality automatically filled as UNCERTAIN (default, configurable).3. Only quality present → Ignore write (no processing).4. Non-value/quality fields present → Ignore data and log warning (configurable log frequency).5. Quality type restriction: Only boolean type supported (true = GOOD, false = BAD). | Boolean                                                                                                                             | Optional             | false                                                                                                                                                                            |
+| opcua.value-name      | Effective when `with-quality` = true, specifies the name of the value point.                                                                                                                                                                                                                                                                                                                                                                                                                              | String                                                                                                                              | Optional             | value                                                                                                                                                                            |
+| opcua.quality-name    | Effective when `with-quality` = true, specifies the name of the quality point.                                                                                                                                                                                                                                                                                                                                                                                                                             | String                                                                                                                              | Optional             | quality                                                                                                                                                                          |
+| opcua.default-quality | When no quality is provided, specify `GOOD`/`UNCERTAIN`/`BAD` via SQL parameter.                                                                                                                                                                                                                                                                                                                                                                                                   | String: `GOOD`/`UNCERTAIN`/`BAD`                                                                                                    | Optional             | `UNCERTAIN`                                                                                                                                                                      |
+| opcua.security-policy | OPC UA client security policy (case-insensitive), URL format: `http://opcfoundation.org/UA/SecurityPolicy#`, e.g., `http://opcfoundation.org/UA/SecurityPolicy#Aes128_Sha256_RsaOaep`                                                                                                                              | String (security level increases):`None`,`Basic128Rsa15`,`Basic256`,`Basic256Sha256`,`Aes128_Sha256_RsaOaep`,`Aes256_Sha256_RsaPss` | Optional | `Basic256Sha256`                                                                                                                 |
+| opcua.timeout-seconds | Client connection timeout in seconds (effective only when IoTDB acts as client)                                                                                                                                                                                                                                                                                                                                                                                                                        | Long                                                                                                                                | Optional             | 10L                                                                                                                                                                              |
 
-<div align="center">
-    <img src="/img/OPCUA14.png" alt="" style="width: 60%;"/>
-</div>
+> **Parameter Naming Note**: All parameters support omitting `opcua.` prefix (e.g., `node-urls` and `opcua.node-urls` are equivalent).
+>
+> **Support Note**: All `opcua.` parameters are supported starting from V2.0.8-beta, and only for `client-server` mode.
 
+#### 3.1.3 Example
 
-### 3.4 Notes
+```Bash
+CREATE PIPE p1 
+    WITH SOURCE (...) 
+    WITH PROCESSOR (...) 
+    WITH SINK ('sink' = 'opc-ua-sink', 
+               'node-urls' = '127.0.0.1:12686', 
+               'historizing' = 'true', 
+               'with-quality' = 'true' 
+              )
+```
 
-1. **stand alone and cluster:** It is recommended to use a 1C1D (one coordinator and one data node) single machine version. If there are multiple DataNodes in the cluster, data may be sent in a scattered manner across various DataNodes, and it may not be possible to listen to all the data.
+#### 3.1.4 Usage Restrictions
 
-2. **No Need to Operate Root Directory Certificates:** During the certificate operation process, there is no need to operate the `iotdb-server.pfx` certificate under the IoTDB security root directory and the `example-client.pfx` directory under the client security directory. When the Client and Server connect bidirectionally, they will send the root directory certificate to each other. If it is the first time the other party sees this certificate, it will be placed in the reject dir. If the certificate is in the trusted/certs, then the other party can trust it.
+1. Current mode **only supports `client-server` mode and tree model data**.
+2. Do not configure multiple DataNodes on one machine to avoid port conflicts.
+3. **Does not support** `OBJECT` type data push.
+4. When a time series is renamed, OPC UA Sink automatically deletes the old path and pushes data to the new path.
+5. **Strongly recommended** to use non-`None` security policy (e.g., `Basic256Sha256`) with proper bidirectional certificate trust in production.
 
-3. **It is Recommended to Use Java 17+:**
-In JVM 8 versions, there may be a key length restriction, resulting in an "Illegal key size" error. For specific versions (such as jdk.1.8u151+), you can add `Security.`*`setProperty`*`("crypto.policy", "unlimited");`; in the create client of ClientExampleRunner to solve this, or you can download the unlimited package `local_policy.jar` and `US_export_policy ` to replace the packages in the `JDK/jre/lib/security `. Download link:https://www.oracle.com/java/technologies/javase-jce8-downloads.html。
+### 3.2 External OPC UA Server Project
+
+IoTDB supports a standalone external Server project. This Server implements the same configuration as IoTDB's embedded Server but requires additional support for dynamically creating directories and leaf nodes based on IoTDB's metadata.
+
+Configuration is injected via command-line args when starting the Server (no YAML/XML support). Parameter keys match IoTDB OPC Server configuration items, with dots (`.`) and hyphens (`-`) replaced by underscores (`_`).
+
+Example:
+
+```SQL
+./start-IoTDB-opc-server.sh -enable_anonymous_access true -u root -pw root -https_port 8443
+```
+
+Where `user` and `password` can be abbreviated as `-u` and `-p`. All other parameter keys match configuration items. Note: `userName` is **not** a valid parameter key; only `user` is supported.
+
+### 3.3 Scenario Example
+
+**Goal**: Aggregate data from multiple sources to 3 external OPC Servers for unified monitoring center access.
+
+![](/img/opc-ua-data-push-example-en.png)
+
+1. **Preparation**: Start external OPC UA Server (port 12686) on three servers (`ip1`, `ip2`, `ip3`).
+2. **Configure Pipes**: Create 3 Pipes in IoTDB, using `processor` or `source` path patterns to filter data by region and push to corresponding Servers.
+   ```SQL
+   -- Start IoTDB
+   ./start-standalone.sh
+   
+   -- Start three OPC UA Servers (on ip1, ip2, ip3)
+   ./start-IoTDB-external-opc-server.sh -enable-anonymous-access true -u root -pw root
+   
+   -- Create three Pipes
+   ./start-cli.sh
+   CREATE PIPE p1 
+       WITH SOURCE (<ip1 credentials>) 
+       WITH PROCESSOR (...) 
+       WITH SINK ('sink' = 'opc-ua-sink', 
+                  'node-urls' = 'ip1:12686', 
+                  'historizing' = 'true',
+                  'with-quality' = 'true' 
+                 );
+   CREATE PIPE p2 
+       WITH SOURCE (<ip2 credentials>) 
+       WITH PROCESSOR (...) 
+       WITH SINK ('sink' = 'opc-ua-sink', 
+                  'node-urls' = 'ip2:12686', 
+                  'historizing' = 'true', 
+                  'with-quality' = 'true' 
+                 );
+   CREATE PIPE p3 
+       WITH SOURCE (<ip3 credentials>) 
+       WITH PROCESSOR (...) 
+       WITH SINK ('sink' = 'opc-ua-sink', 
+                  'node-urls' = 'ip3:12686', 
+                  'historizing' = 'true', 
+                  'with-quality' = 'true' 
+                 );
+   ```
+3. **Result**: The monitoring center only needs to connect to `ip1`, `ip2`, and `ip3` to access the complete data view from all regions, with quality information attached.

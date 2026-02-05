@@ -25,12 +25,12 @@
 
 ### 1.1 sql_dialect
 
-IoTDB supports two time-series data models (SQL dialects), both managing devices and measurement points:  
+IoTDB supports two time-series data mode (SQL dialects), both managing devices and measurement points:  
 
-- **Tree** **Model**: Organizes data in a hierarchical path structure, where each path represents a measurement point of a device.
-- **Table** **Model**: Organizes data in a relational table format, where each table corresponds to a type of device.
+- **Tree** **Mode**: Organizes data in a hierarchical path structure, where each path represents a measurement point of a device.
+- **Table** **Mode**: Organizes data in a relational table format, where each table corresponds to a type of device.
 
-Each dialect comes with its own SQL syntax and query patterns tailored to its data model.
+Each dialect comes with its own SQL syntax and query patterns tailored to its data mode.
 
 ### 1.2 Schema  
 
@@ -74,7 +74,7 @@ An IoTDB cluster consists of three types of nodes, each with distinct responsibi
 
 - **ConfigNode (Management Node)** Manages cluster metadata, configuration, user permissions, schema, and partitioning. It also handles distributed scheduling and load balancing. All ConfigNodes are replicated for high availability.
 - **DataNode (Storage and Computation Node)** Handles client requests, stores data, and executes computations.
-- **AINode (Analytics Node)** Provides machine learning capabilities, allowing users to register pre-trained models and perform inference via SQL. It includes built-in time-series models and common ML algorithms for tasks like prediction and anomaly detection.
+- **AINode (Analytics Node)** Provides machine learning capabilities, allowing users to register pre-trained models and perform inference via SQL. It includes built-in time-series modes and common ML algorithms for tasks like prediction and anomaly detection.
 
 ### 2.3 Data Partitioning  
 

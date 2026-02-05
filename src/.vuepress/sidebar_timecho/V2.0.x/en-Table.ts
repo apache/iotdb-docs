@@ -82,9 +82,8 @@ export const enSidebar = {
             text: 'AI Deployment',
             collapsible: true,
             children: [
-                { text: 'AINode Deployment', link: 'AINode_Deployment_timecho' },/*
               { text: 'AINode Deployment(V2.0.5/6)', link: 'AINode_Deployment_timecho' },
-              { text: 'AINode Deployment(V2.0.8)', link: 'AINode_Deployment_Upgrade_timecho' }, */
+              { text: 'AINode Deployment(V2.0.8-beta)', link: 'AINode_Deployment_Upgrade_timecho' },
             ],
           },
           {
@@ -140,6 +139,7 @@ export const enSidebar = {
           children: [
             { text: 'Authority Management', link: 'Authority-Management_timecho' },
             { text: 'Black White List', link: 'Black-White-List_timecho' },
+            { text: 'Security Audit', link: 'Audit-Log_timecho' },
           ],
         },
         { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
@@ -160,8 +160,10 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'AI-capability/',
       children: [
-        { text: 'AINode', link: 'AINode_timecho' },
-        { text: 'TimeSeries Large Model', link: 'TimeSeries-Large-Model' },
+        { text: 'AINode(V2.0.5/6)', link: 'AINode_timecho' },
+        { text: 'AINode(V2.0.8-beta)', link: 'AINode_Upgrade_timecho' },
+        { text: 'TimeSeries Large Model(V2.0.5/6)', link: 'TimeSeries-Large-Model' },
+        { text: 'TimeSeries Large Model(V2.0.8-beta)', link: 'TimeSeries-Large-Model_Upgrade_timecho' },
       ],
     },
     {

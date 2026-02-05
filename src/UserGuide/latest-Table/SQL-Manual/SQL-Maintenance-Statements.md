@@ -23,7 +23,7 @@
 
 ## 1.  Status Inspection
 
-### 1.1 View Current Tree/Table Model
+### 1.1 View Current Tree/Table Mode
 
 **Syntax:**
 
@@ -195,7 +195,7 @@ IoTDB> SHOW CURRENT_TIMESTAMP
 ```
 
 
-### 1.8 Viewing Region Information
+### 1.8 View Region Information
 
 **Description**: Displays regions' information of the current cluster.
 
@@ -225,10 +225,40 @@ IoTDB> SHOW REGIONS
 +--------+------------+-------+----------+-------------+-----------+----------+----------+-------+---------------+------+-----------------------+----------+
 ```
 
+### 1.9 View Available Nodes
+
+**Description**: Returns the RPC addresses and ports of all available DataNodes in the current cluster. Note: A DataNode is considered "available" if it is not in the REMOVING state.
+
+> This feature is supported starting from v2.0.8-beta.
+
+**Syntax**:
+
+```SQL
+showAvailableUrlsStatement
+    : SHOW AVAILABLE URLS
+    ;
+```
+
+**Example**:
+
+```SQL
+IoTDB> SHOW AVAILABLE URLS
+```
+
+**Result**:
+
+```SQL
++----------+-------+
+|RpcAddress|RpcPort|
++----------+-------+
+|   0.0.0.0|   6667|
++----------+-------+
+```
+
 
 ## 2. Status Configuration
 
-### 2.1 Set Connection Tree/Table Model
+### 2.1 Set Connection Tree/Table Mode
 
 **Syntax:**
 

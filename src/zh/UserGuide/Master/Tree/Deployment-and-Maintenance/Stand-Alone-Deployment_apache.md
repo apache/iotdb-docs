@@ -38,12 +38,11 @@
 - 使用 root 用户（推荐）：使用 root 用户可以避免权限等问题。
 - 使用固定的非 root 用户：
   - 使用同一用户操作：确保在启动、停止等操作均保持使用同一用户，不要切换用户。
-  - 避免使用 sudo：尽量避免使用 sudo 命令，因为它会以 root 用户权限执行命令，可能会引起权限混淆或安全问题。
+  - 避免使用 sudo：尽量避免使用 sudo 命令，因为它会以 root 用户权限执行命令，可能会引起权限混淆或安全问题。 
 
 6. 在安装部署数据库前，可以使用健康检查工具检测 IoTDB 节点运行环境，并获取详细的检查结果。 IoTDB 健康检查工具使用方法可以参考：[健康检查工具](../Tools-System/Health-Check-Tool.md)。
 
 ## 2. 安装步骤
-
 
 ### 2.1 前置检查
 
@@ -122,16 +121,16 @@ cd  apache-iotdb-{version}-all-bin
 
 打开DataNode配置文件 ./conf/iotdb-system.properties，设置以下参数：
 
-|           **配置项**            |                           **说明**                           |    **默认**     |                      推荐值                      | **备注**           |
-| :-----------------------------: | :----------------------------------------------------------: | :-------------: | :----------------------------------------------: | :----------------- |
-|         dn_rpc_address          |                    客户端 RPC 服务的地址                     |     0.0.0.0         |  所在服务器的IPV4地址或hostname，推荐使用所在服务器的IPV4地址 | 重启服务生效       |
-|           dn_rpc_port           |                    客户端 RPC 服务的端口                     |      6667       |                       6667                       | 重启服务生效       |
-|       dn_internal_address       |               DataNode在集群内部通讯使用的地址               |    127.0.0.1    | 所在服务器的IPV4地址或hostname，推荐使用hostname | 首次启动后不能修改 |
-|        dn_internal_port         |               DataNode在集群内部通信使用的端口               |      10730      |                      10730                       | 首次启动后不能修改 |
-|    dn_mpp_data_exchange_port    |               DataNode用于接收数据流使用的端口               |      10740      |                      10740                       | 首次启动后不能修改 |
-|  dn_data_region_consensus_port  |          DataNode用于数据副本共识协议通信使用的端口          |      10750      |                      10750                       | 首次启动后不能修改 |
-| dn_schema_region_consensus_port |         DataNode用于元数据副本共识协议通信使用的端口         |      10760      |                      10760                       | 首次启动后不能修改 |
-|       dn_seed_config_node       | 节点注册加入集群时连接的ConfigNode地址,即cn_internal_address:cn_internal_port | 127.0.0.1:10710 |       cn_internal_address:cn_internal_port       | 首次启动后不能修改 |
+|           **配置项**            |                           **说明**                           |     **默认**      |                                     推荐值                                      | **备注**           |
+| :-----------------------------: | :----------------------------------------------------------: |:---------------:|:----------------------------------------------------------------------------:| :----------------- |
+|         dn_rpc_address          |                    客户端 RPC 服务的地址                     |    127.0.0.1    | 默认本机可直接访问。非本机访问，请修改此配置项为所在服务器的IPV4地址或hostname，推荐使用所在服务器的IPV4地址。 | 重启服务生效       |
+|           dn_rpc_port           |                    客户端 RPC 服务的端口                     |      6667       |                                     6667                                     | 重启服务生效       |
+|       dn_internal_address       |               DataNode在集群内部通讯使用的地址               |    127.0.0.1    |                      所在服务器的IPV4地址或hostname，推荐使用hostname                      | 首次启动后不能修改 |
+|        dn_internal_port         |               DataNode在集群内部通信使用的端口               |      10730      |                                    10730                                     | 首次启动后不能修改 |
+|    dn_mpp_data_exchange_port    |               DataNode用于接收数据流使用的端口               |      10740      |                                    10740                                     | 首次启动后不能修改 |
+|  dn_data_region_consensus_port  |          DataNode用于数据副本共识协议通信使用的端口          |      10750      |                                    10750                                     | 首次启动后不能修改 |
+| dn_schema_region_consensus_port |         DataNode用于元数据副本共识协议通信使用的端口         |      10760      |                                    10760                                     | 首次启动后不能修改 |
+|       dn_seed_config_node       | 节点注册加入集群时连接的ConfigNode地址,即cn_internal_address:cn_internal_port | 127.0.0.1:10710 |                     cn_internal_address:cn_internal_port                     | 首次启动后不能修改 |
 
 > ❗️注意：VSCode Remote等编辑器无自动保存配置功能，请确保修改的文件被持久化保存，否则配置项无法生效
 

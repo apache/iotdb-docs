@@ -22,87 +22,104 @@
 
 # 安全审计
 
-## 1. 功能背景
+## 1. 引言
 
-   审计日志是数据库的记录凭证，通过审计日志功能可以查询到用户在数据库中增删改查等各项操作，以保证信息安全。关于IoTDB的审计日志功能可以实现以下场景的需求：
+审计日志是数据库的记录凭证，通过审计日志功能可以查询到数据库中增删改查等各项操作，以保证信息安全。IoTDB 审计日志功能支持以下特性：
 
-- 可以按链接来源（是否人为操作）决定是否记录审计日志，如：非人为操作如硬件采集器写入的数据不需要记录审计日志，人为操作如普通用户通过cli、workbench等工具操作的数据需要记录审计日志。
-- 过滤掉系统级别的写入操作，如IoTDB监控体系本身记录的写入操作等。
+* 可通过配置决定是否开启审计日志功能
+* 可通过参数设置审计日志记录的操作类型和权限级别
+* 可通过参数设置审计日志文件的存储周期，包括基于 TTL 实现时间滚动和基于 SpaceTL 实现空间滚动。
+* 审计日志文件默认加密存储
 
+> 注意：该功能从 V2.0.8 版本开始提供。
 
+## 2. 配置参数
 
-### 1.1 场景说明
+通过编辑配置文件 `iotdb-system.properties` 中如下参数来启动审计日志功能。
 
+| 参数名称                              | 参数描述                                                                                                                                                                                                                | 数据类型 | 默认值                 | 生效方式 |
+|-----------------------------------| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------------------ | ---------- |
+| `enable_audit_log`                | 是否开启审计日志。 true：启用。false：禁用。                                                                                                                                                                            | Boolean  | false                  | 重启     |
+| `auditable_operation_type`        | 操作类型选择。 DML ：所有 DML 都会记录审计日志； DDL ：所有 DDL 都会记录审计日志； QUERY ：所有 QUERY 都会记录审计日志； CONTROL：所有控制语句都会记录审计日志；                                                        | String   | DML,DDL,QUERY,CONTROL  | 重启     |
+| `auditable_operation_level`       | 权限级别选择。 global ：记录全部的审计日志； object：仅针对数据实例的事件的审计日志会被记录； 包含关系：object  < global。 例如：设置为 global 时，所有审计日志正常记录；设置为 object 时，仅记录对具体数据实例的操作。 | String   | global                 | 重启     |
+| `auditable_operation_result`      | 审计结果选择。 success：只记录成功事件的审计日志； fail：只记录失败事件的审计日志；                                                                                                                                     | String   | success, fail          | 重启     |
+| `audit_log_ttl_in_days`           | 审计日志的 TTL，生成审计日志的时间达到该阈值后过期。                                                                                                                                                                    | Double   | -1.0（永远不会被删除） | 重启     |
+| `audit_log_space_tl_in_GB`        | 审计日志的 SpaceTL，审计日志总空间达到该阈值后开始轮转删除。                                                                                                                                                            | Double   | 1.0| 重启|
+| `audit_log_batch_interval_in_ms`  | 审计日志批量写入的时间间隔                                                                                                                                                                                              | Long     | 1000                   | 重启     |
+| `audit_log_batch_max_queue_bytes` | 用于批量处理审计日志的队列最大字节数。当队列大小超过此值时，后续的写入操作将被阻塞。                                                                                                                                    | Long     | 268435456              | 重启     |
 
+## 3. 查阅方法
 
-#### 对所有用户的所有操作（增、删、改、查）进行记录
+支持通过 SQL 直接阅读、获取审计日志相关信息。
 
-通过审计日志功能追踪到所有用户在数据中的各项操作。其中所记录的信息要包含数据操作（新增、删除、查询）及元数据操作（新增、修改、删除、查询）、客户端登录信息（用户名、ip地址）。
+### 3.1 SQL 语法
 
-
-
-客户端的来源
-
-- Cli、workbench、Zeppelin、Grafana、通过 Session/JDBC/MQTT 等协议传入的请求
-
-![](/img/audit-log.png)
-
-
-#### 可关闭部分用户连接的审计日志
-
-
-
-如非人为操作，硬件采集器通过 Session/JDBC/MQTT 写入的数据不需要记录审计日志
-
-
-
-## 2. 功能定义
-
-
-
-通过配置可以实现：
-
-- 决定是否开启审计功能
-- 决定审计日志的输出位置，支持输出至一项或多项
-    1. 日志文件
-    2. IoTDB存储
-- 决定是否屏蔽原生接口的写入，防止记录审计日志过多影响性能
-- 决定审计日志内容类别，支持记录一项或多项
-    1. 数据的新增、删除操作
-    2. 数据和元数据的查询操作
-    3. 元数据类的新增、修改、删除操作
-
-### 2.1 配置项
-
- 在iotdb-system.properties中修改以下几项配置
-
-```YAML
-####################
-### Audit log Configuration
-####################
-
-# whether to enable the audit log.
-# Datatype: Boolean
-# enable_audit_log=false
-
-# Output location of audit logs
-# Datatype: String
-# IOTDB: the stored time series is: root.__system.audit._{user}
-# LOGGER: log_audit.log in the log directory
-# audit_log_storage=IOTDB,LOGGER
-
-# whether enable audit log for DML operation of data
-# whether enable audit log for DDL operation of schema
-# whether enable audit log for QUERY operation of data and schema
-# Datatype: String
-# audit_log_operation=DML,DDL,QUERY
-
-# whether the local write api records audit logs
-# Datatype: Boolean
-# This contains Session insert api: insertRecord(s), insertTablet(s),insertRecordsOfOneDevice
-# MQTT insert api
-# RestAPI insert api
-# This parameter will cover the DML in audit_log_operation
-# enable_audit_log_for_native_insert_api=true
+```SQL
+SELECT (<audit_log_field>, )* log FROM <AUDIT_LOG_PATH> WHERE whereclause ORDER BY order_expression
 ```
 
+* `AUDIT_LOG_PATH` ：审计日志存储位置`root.__audit.log.<node_id>.<user_id>`；
+* `audit_log_field`：查询字段请参考下一小节元数据结构。
+* 支持 Where 条件搜索和 Order By 排序。
+
+### 3.2 元数据结构
+
+| 字段                   | 含义                                             | 类型      |
+| ------------------------ | -------------------------------------------------- | ----------- |
+| `time`             | 事件开始的的日期和时间                           | timestamp |
+| `username`         | 用户名称                                         | string    |
+| `cli_hostname`     | 用户主机标识                                     | string    |
+| `audit_event_type` | 审计事件类型，WRITE\_DATA, GENERATE\_KEY 等      | string    |
+| `operation_type`   | 审计事件的操作类型，DML, DDL, QUERY, CONTROL     | string    |
+| `privilege_type`   | 审计事件使用的权限，WRITE\_DATA, MANAGE\_USER 等 | string    |
+| `privilege_level`  | 事件的权限级别，global, object                   | string    |
+| `result`           | 事件结果，success=1, fail=0                      | boolean   |
+| `database`         | 数据库名称                                       | string    |
+| `sql_string`       | 用户的原始 SQL                                   | string    |
+| `log`              | 具体的事件描述                                   | string    |
+
+### 3.3 使用示例
+
+* 查询成功执行了 QUERY 操作的时间、用户名及主机信息
+
+```SQL
+IoTDB> select username,cli_hostname from root.__audit.log.** where operation_type='QUERY' and result=true align by device
++-----------------------------+---------------------------+--------+------------+
+|                         Time|                     Device|username|cli_hostname|
++-----------------------------+---------------------------+--------+------------+
+|2026-01-23T10:39:21.563+08:00|root.__audit.log.node_1.u_0|    root|   127.0.0.1|
+|2026-01-23T10:39:33.746+08:00|root.__audit.log.node_1.u_0|    root|   127.0.0.1|
+|2026-01-23T10:42:15.032+08:00|root.__audit.log.node_1.u_0|    root|   127.0.0.1|
++-----------------------------+---------------------------+--------+------------+
+Total line number = 3
+It costs 0.036s
+```
+
+* 查询最近一次操作的时间、用户名、主机信息、操作类型以及原始 SQL
+
+```SQL
+IoTDB> select username,cli_hostname,operation_type,sql_string  from root.__audit.log.** order by time desc limit 1 align by device
++-----------------------------+---------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------------------+
+|                         Time|                     Device|username|cli_hostname|operation_type|                                                                                                        sql_string|
++-----------------------------+---------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------------------+
+|2026-01-23T10:42:32.795+08:00|root.__audit.log.node_1.u_0|    root|   127.0.0.1|         QUERY|select username,cli_hostname from root.__audit.log.** where operation_type='QUERY' and result=true align by device|
++-----------------------------+---------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------------------+
+Total line number = 1
+It costs 0.033s
+```
+
+* 查询所有事件结果为false的操作数据库、操作类型及日志信息
+
+```SQL
+IoTDB> select database,operation_type,log  from root.__audit.log.** where result=false align by device
++-----------------------------+-------------------------------+-----------+--------------+---------------------------------------------------------------------------------+
+|                         Time|                         Device|   database|operation_type|                                                                              log|
++-----------------------------+-------------------------------+-----------+--------------+---------------------------------------------------------------------------------+
+|2026-01-23T10:49:55.159+08:00|root.__audit.log.node_1.u_10000|           |       CONTROL|        User user1 (ID=10000) login failed with code: 801, Authentication failed.|
+|2026-01-23T10:52:04.579+08:00|root.__audit.log.node_1.u_10000|  [root.**]|         QUERY|   User user1 (ID=10000) requests authority on object [root.**] with result false|
+|2026-01-23T10:52:43.412+08:00|root.__audit.log.node_1.u_10000|root.userdb|           DDL| User user1 (ID=10000) requests authority on object root.userdb with result false|
+|2026-01-23T10:52:48.075+08:00|root.__audit.log.node_1.u_10000|       null|         QUERY|User user1 (ID=10000) requests authority on object root.__audit with result false|
++-----------------------------+-------------------------------+-----------+--------------+---------------------------------------------------------------------------------+
+Total line number = 4
+It costs 0.024s
+```

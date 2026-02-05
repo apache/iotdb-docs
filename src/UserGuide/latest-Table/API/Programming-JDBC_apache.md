@@ -66,7 +66,7 @@ Add the following dependency to your Maven `pom.xml` file:
 
 ## 3. Sample Code
 
-**Note:** When using the Table Model, you must specify the `sql_dialect` parameter as `table` in the URL. Example:
+**Note:** When using the Table Mode, you must specify the `sql_dialect` parameter as `table` in the URL. Example:
 
 ```Java
 String url = "jdbc:iotdb://127.0.0.1:6667?sql_dialect=table";

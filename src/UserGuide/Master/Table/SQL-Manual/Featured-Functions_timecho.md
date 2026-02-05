@@ -818,3 +818,44 @@ Result:
 |1970-01-01T08:00:01.000+08:00|    d0|   5|    3|
 +-----------------------------+------+----+-----+
 ```
+
+## 5. Object Type Read Function
+
+**Description**:  
+Reads binary content from an `OBJECT` type column and returns a `BLOB` type (raw binary data of the object).
+> Supported since V2.0.8-beta
+
+**Syntax:**
+```SQL
+READ_OBJECT(object [, offset, length])
+```
+
+**Parameters:**
+- **Required**:  
+  `object` (OBJECT type)
+- **Optional**:
+    - `offset` (long/INT64): Start position for reading. Default: `0`.
+        - Throws error if `offset < 0` or `offset >= full file length`.
+    - `length` (long/INT64): Number of bytes to read. Default: full file length.
+        - Error if `length > 2^31 - 1`.
+        - If `length` exceeds remaining bytes from `offset`, reads until end of file.
+        - If `length < 0`, reads all remaining data from `offset`.
+
+**Examples:**
+```sql
+IoTDB:database1> SELECT READ_OBJECT(s1) FROM table1 WHERE device_id = 'tag1'
++------------+
+|       _col0|
++------------+
+|0x696f746462|
++------------+
+Total line number = 1
+
+IoTDB:database1> SELECT READ_OBJECT(s1, 0, 3) FROM table1 WHERE device_id = 'tag1'
++--------+
+|   _col0|
++--------+
+|0x696f74|
++--------+
+Total line number = 1
+```

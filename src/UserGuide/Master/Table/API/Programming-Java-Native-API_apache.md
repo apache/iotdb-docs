@@ -38,7 +38,7 @@ IoTDB provides a Java native client driver and a session pool management mechani
     <dependency>
       <groupId>org.apache.iotdb</groupId>
       <artifactId>iotdb-session</artifactId>
-        <!-- The version number is the same as the database version number --> 
+        <!-- The version number is the same as the database version number -->
       <version>${project.version}</version>
     </dependency>
 </dependencies>
@@ -62,6 +62,28 @@ The `ITableSession` interface defines basic operations for interacting with IoTD
 | executeQueryStatement(String sql)                   | Executes a query SQL statement and returns a `SessionDataSet` containing the query results. | `sql`: The SQL query statement to execute.                   | `SessionDataSet` | `StatementExecutionException`, `IoTDBConnectionException` |
 | executeQueryStatement(String sql, long timeoutInMs) | Executes a query SQL statement with a specified timeout in milliseconds. | `sql`: The SQL query statement. `timeoutInMs`: Query timeout in milliseconds. | `SessionDataSet` | `StatementExecutionException`                             |
 | close()                                             | Closes the session and releases resources.                   | None                                                         | None             | IoTDBConnectionException                                  |
+
+**Description of Object Data Type:**
+
+Since V2.0.8-beta, the `iTableSession.insert(Tablet tablet)` interface supports splitting a single Object-class file into multiple segments and writing them sequentially in order. When the column data type in the Tablet data structure is **`TSDataType.Object`**, you need to use the following method to populate the Tablet:
+
+```Java
+/*
+rowIndex: row position in the tablet
+columnIndex: column position in the tablet
+isEOF: whether the current write operation contains the last segment of the Object file
+offset: starting offset of the current write content within the Object file
+content: byte array of the current write content
+Note: When writing, ensure the total length of all segmented byte[] arrays equals the original Object size, 
+otherwise it will cause incorrect data size.
+*/
+void addValue(int rowIndex, int columnIndex, boolean isEOF, long offset, byte[] content)
+```
+
+During queries, the following four methods are supported to retrieve values:
+`Field.getStringValue`, `Field.getObjectValue`, `SessionDataSet.DataIterator.getObject`, and `SessionDataSet.DataIterator.getString`.
+All these methods return a String containing metadata in the format:
+`(Object) XX.XX KB` (where XX.XX KB represents the actual object size).
 
 #### 3.1.3 Sample Code
 
@@ -344,6 +366,7 @@ public class TableSessionBuilder {
     public TableSessionBuilder connectionTimeoutInMs(int connectionTimeoutInMs);
 }
 ```
+
 
 > Note: When creating tables using the native API, if table or column names contain special characters or Chinese characters, do not add extra double quotes around them. Otherwise, the quotation marks will become part of the name itself.
 

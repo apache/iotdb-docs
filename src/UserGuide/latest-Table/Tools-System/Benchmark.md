@@ -157,12 +157,12 @@ The `IoTDB_DIALECT_MODE` parameter supports two modes: `tree` and `table`. The d
 
 Key Parameters for IoTDB Service Model
 
-| **Parameter name**      | **Type** | **Example** | **System description**                                       |
-| :---------------------- | :------- | :---------- | :----------------------------------------------------------- |
+| **Parameter name**      | **Type** | **Example** | **System description**                                              |
+| :---------------------- | :------- | :---------- |:--------------------------------------------------------------------|
 | IoTDB_TABLE_NAME_PREFIX | String   | `table_`    | Prefix for table names when `IoTDB_DIALECT_MODE` is set to `table`. |
-| DATA_CLIENT_NUMBER      | Integer  | `10`        | Number of clients, must be an integer multiple of the table count. |
-| SENSOR_NUMBER           | Integer  | `10`        | Controls the number of attribute columns in the table model. |
-| IoTDB_TABLE_NUMBER      | Integer  | `1`         | Specifies the number of tables when using the table model.   |
+| DATA_CLIENT_NUMBER      | Integer  | `10`        | Number of clients, must be an integer multiple of the table count.  |
+| SENSOR_NUMBER           | Integer  | `10`        | Controls the number of attribute columns in the table mode.         |
+| IoTDB_TABLE_NUMBER      | Integer  | `1`         | Specifies the number of tables when using the table mode.           |
 
 ### 3.2 **Working** **Mode**
 
@@ -198,21 +198,21 @@ Once the working mode is specified, the following parameters must be configured 
 
 ### 3.4 **Write Scenario Parameters**
 
-| **Parameter**              | **Type**              | **Example**                 | D**escription**                                              |
-| :------------------------- | :-------------------- | :-------------------------- | :----------------------------------------------------------- |
-| CLIENT_NUMBER              | Integer               | `100`                       | Total number of clients used for writing.                    |
-| GROUP_NUMBER               | Integer               | `20`                        | Number of databases (only applicable for IoTDB).             |
-| DEVICE_NUMBER              | Integer               | `100`                       | Total number of devices.                                     |
-| SENSOR_NUMBER              | Integer               | `300`                       | Total number of sensors per device. (Control the number of attribute columns if you use the IoTDB table model) |
-| INSERT_DATATYPE_PROPORTION | String                | `1:1:1:1:1:1:0:0:0:0`       | Ratio of data types: `BOOLEAN:INT32:INT64:FLOAT:DOUBLE:TEXT:STRING:BLOB:TIMESTAMP:DATE`. |
-| POINT_STEP                 | Integer               | `1000`                      | Time interval (in ms) between generated data points.         |
+| **Parameter**              | **Type**              | **Example**                 | D**escription**                                                                                                                                                                                                                                                                                      |
+| :------------------------- | :-------------------- | :-------------------------- |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| CLIENT_NUMBER              | Integer               | `100`                       | Total number of clients used for writing.                                                                                                                                                                                                                                                            |
+| GROUP_NUMBER               | Integer               | `20`                        | Number of databases (only applicable for IoTDB).                                                                                                                                                                                                                                                     |
+| DEVICE_NUMBER              | Integer               | `100`                       | Total number of devices.                                                                                                                                                                                                                                                                             |
+| SENSOR_NUMBER              | Integer               | `300`                       | Total number of sensors per device. (Control the number of attribute columns if you use the IoTDB table mode)                                                                                                                                                                                        |
+| INSERT_DATATYPE_PROPORTION | String                | `1:1:1:1:1:1:0:0:0:0`       | Ratio of data types: `BOOLEAN:INT32:INT64:FLOAT:DOUBLE:TEXT:STRING:BLOB:TIMESTAMP:DATE`.                                                                                                                                                                                                             |
+| POINT_STEP                 | Integer               | `1000`                      | Time interval (in ms) between generated data points.                                                                                                                                                                                                                                                 |
 | OP_MIN_INTERVAL            | Integer               | `0`                         | Minimum execution interval for operations (ms): if the operation takes more than the value, the next one will be executed immediately, otherwise wait (OP_MIN_INTERVAL - actual execution time) ms; if it is 0, the parameter is not effective; if it is -1, its value is consistent with POINT_STEP |
-| IS_OUT_OF_ORDER            | Boolean               | `false`                     | Specifies whether to write data out of order.                |
-| OUT_OF_ORDER_RATIO         | Floating point number | `0.3`                       | Proportion of out-of-order data.                             |
-| BATCH_SIZE_PER_WRITE       | Integer               | `1`                         | Number of data rows written per batch.                       |
-| START_TIME                 | Time                  | `2022-10-30T00:00:00+08:00` | Start timestamp for data generation.                         |
-| LOOP                       | Integer               | `86400`                     | Total number of write operations: Each type of operation will be divided according to the proportion defined by `OPERATION_PROPORTION` |
-| OPERATION_PROPORTION       | Character             | `1:0:0:0:0:0:0:0:0:0:0`     | Ratio of operation types (write:Q1:Q2:...:Q10).              |
+| IS_OUT_OF_ORDER            | Boolean               | `false`                     | Specifies whether to write data out of order.                                                                                                                                                                                                                                                        |
+| OUT_OF_ORDER_RATIO         | Floating point number | `0.3`                       | Proportion of out-of-order data.                                                                                                                                                                                                                                                                     |
+| BATCH_SIZE_PER_WRITE       | Integer               | `1`                         | Number of data rows written per batch.                                                                                                                                                                                                                                                               |
+| START_TIME                 | Time                  | `2022-10-30T00:00:00+08:00` | Start timestamp for data generation.                                                                                                                                                                                                                                                                 |
+| LOOP                       | Integer               | `86400`                     | Total number of write operations: Each type of operation will be divided according to the proportion defined by `OPERATION_PROPORTION`                                                                                                                                                               |
+| OPERATION_PROPORTION       | Character             | `1:0:0:0:0:0:0:0:0:0:0`     | Ratio of operation types (write:Q1:Q2:...:Q10).                                                                                                                                                                                                                                                      |
 
 ### 3.5 **Query Scenario Parameters**
 
@@ -352,7 +352,7 @@ Test results will be displayed in the terminal.
 
 ## 4. Test Example
 
-This example demonstrates how to configure and run an IoT-benchmark test with IoTDB 2.0 using the table model for writing and querying.
+This example demonstrates how to configure and run an IoT-benchmark test with IoTDB 2.0 using the table mode for writing and querying.
 
 ```Properties
 ----------------------Main Configurations----------------------

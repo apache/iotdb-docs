@@ -25,8 +25,8 @@
 
 | Concept	                    | Meaning                                                         |
 | ----------------------- | ------------------------------------------------------------ |
-| sql_dialect | IoTDB supports two time-series data models (SQL dialects), both managing devices and measurement points. Tree: Manages data in a hierarchical path manner, where one path corresponds to one measurement point of a device. Table: Manages data in a relational table manner, where one table corresponds to a category of devices. |
-| Schema        | Schema is the data model information of the database, i.e., tree structure or table structure. It includes definitions such as the names and data types of measurement points. |
+| sql_dialect | IoTDB supports two time-series data modes (SQL dialects), both managing devices and measurement points. Tree: Manages data in a hierarchical path manner, where one path corresponds to one measurement point of a device. Table: Manages data in a relational table manner, where one table corresponds to a category of devices. |
+| Schema        | Schema is the data mode information of the database, i.e., tree structure or table structure. It includes definitions such as the names and data types of measurement points. |
 | Device          | Corresponds to a physical device in an actual scenario, usually containing multiple measurement points.             |
 | Timeseries      | Also known as: physical quantity, time series, timeline, point location, semaphore, indicator, measurement value, etc. It is a time series formed by arranging multiple data points in ascending order of timestamps. Usually, a Timeseries represents a collection point that can periodically collect physical quantities of the environment it is in. |
 | Encoding        | Encoding is a compression technique that represents data in binary form to improve storage efficiency. IoTDB supports various encoding methods for different types of data. For more detailed information, please refer to:[Encoding-and-Compression](../Technical-Insider/Encoding-and-Compression.md) |

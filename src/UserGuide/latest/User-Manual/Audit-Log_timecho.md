@@ -21,73 +21,104 @@
 
 # Security Audit
 
-## 1. Background of the function
+## 1. Introduction
 
-Audit log is the record credentials of a database, which can be queried by the audit log function to ensure information security by various operations such as user add, delete, change and check in the database. With the audit log function of IoTDB, the following scenarios can be achieved:
+Audit logs provide a documented record of database activities. Through the audit log feature, you can track operations like data creation, deletion, modification, and querying to ensure information security. IoTDB's audit log functionality supports the following features:
 
-- We can decide whether to record audit logs according to the source of the link ( human operation or not), such as: non-human operation such as hardware collector write data no need to record audit logs, human operation such as ordinary users through cli, workbench and other tools to operate the data need to record audit logs.
-- Filter out system-level write operations, such as those recorded by the IoTDB monitoring system itself.
+* Ability to enable/disable audit logging through configuration
+* Ability to set auditable operation types and privilege levels via parameters
+* Ability to configure audit log file retention periods using TTL (time-based rolling) and SpaceTL (space-based rolling)
+* Audit logs are encrypted by default
 
-### 1.1 Scene Description
+> Note: This feature is available from version V2.0.8-beta onwards.
 
-#### Logging all operations (add, delete, change, check) of all users
+## 2. Configuration Parameters
 
-The audit log function traces all user operations in the database. The information recorded should include data operations (add, delete, query) and metadata operations (add, modify, delete, query), client login information (user name, ip address).
+Edit the `iotdb-system.properties` file to enable audit logging using the following parameters:
 
-Client Sources：
-- Cli、workbench、Zeppelin、Grafana、通过 Session/JDBC/MQTT 等协议传入的请求
+| Parameter Name                          | Description                                                                                                                                                                                                                 | Data Type | Default Value              | Application Method |
+|---------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|----------------------------|--------------------|
+| `enable_audit_log`                    | Enable audit logging. true: enabled. false: disabled.                                                                                                                                                                      | Boolean   | false                      | Restart Required   |
+| `auditable_operation_type`            | Operation type selection. DML: All DML operations; DDL: All DDL operations; QUERY: All queries; CONTROL: All control statements;                                                                                          | String    | DML,DDL,QUERY,CONTROL      | Restart Required   |
+| `auditable_operation_level`           | Privilege level selection. global: Record all audit logs; object: Only record audit logs for data instances; Containment relationship: object < global.                                                                    | String    | global                     | Restart Required   |
+| `auditable_operation_result`          | Audit result selection. success: Only record successful events; fail: Only record failed events;                                                                                                                           | String    | success, fail              | Restart Required   |
+| `audit_log_ttl_in_days`               | Audit log TTL (Time To Live) in days. Logs older than this threshold will expire.                                                                                                                                         | Double    | -1.0 (never deleted)       | Restart Required   |
+| `audit_log_space_tl_in_GB`            | Audit log SpaceTL in GB. When total audit log size exceeds this threshold, log rotation starts deleting oldest files.                                                                                                     | Double    | 1.0                        | Restart Required   |
+| `audit_log_batch_interval_in_ms`      | Batch write interval for audit logs in milliseconds                                                                                                                                                                        | Long      | 1000                       | Restart Required   |
+| `audit_log_batch_max_queue_bytes`     | Maximum queue size in bytes for batch processing audit logs. Subsequent writes will be blocked when queue exceeds this value.                                                                                           | Long      | 268435456                  | Restart Required   |
 
-![](/img/audit-log.png)
+## 3. Access Methods
 
-#### Audit logging can be turned off for some user connections
+Supports direct reading of audit logs via SQL.
 
-No audit logs are required for data written by the hardware collector via Session/JDBC/MQTT if it is a non-human action.
+### 3.1 SQL Syntax
 
-## 2. Function Definition
-
-It is available through through configurations:
-
-- Decide whether to enable the audit function or not
-- Decide where to output the audit logs, support output to one or more
-    1. log file
-    2. IoTDB storage
-- Decide whether to block the native interface writes to prevent recording too many audit logs to affect performance.
-- Decide the content category of the audit log, supporting recording one or more
-    1. data addition and deletion operations
-    2. data and metadata query operations
-    3. metadata class adding, modifying, and deleting operations.
-
-### 2.1 configuration item
-
-In iotdb-system.properties, change the following configurations:
-
-```YAML
-####################
-### Audit log Configuration
-####################
-
-# whether to enable the audit log.
-# Datatype: Boolean
-# enable_audit_log=false
-
-# Output location of audit logs
-# Datatype: String
-# IOTDB: the stored time series is: root.__system.audit._{user}
-# LOGGER: log_audit.log in the log directory
-# audit_log_storage=IOTDB,LOGGER
-
-# whether enable audit log for DML operation of data
-# whether enable audit log for DDL operation of schema
-# whether enable audit log for QUERY operation of data and schema
-# Datatype: String
-# audit_log_operation=DML,DDL,QUERY
-
-# whether the local write api records audit logs
-# Datatype: Boolean
-# This contains Session insert api: insertRecord(s), insertTablet(s),insertRecordsOfOneDevice
-# MQTT insert api
-# RestAPI insert api
-# This parameter will cover the DML in audit_log_operation
-# enable_audit_log_for_native_insert_api=true
+```SQL
+SELECT (<audit_log_field>, )* log FROM <AUDIT_LOG_PATH> WHERE whereclause ORDER BY order_expression
 ```
 
+* `AUDIT_LOG_PATH`: Audit log storage location `root.__audit.log.<node_id>.<user_id>`
+* `audit_log_field`: Query fields refer to the metadata structure below
+* Supports WHERE clause filtering and ORDER BY sorting
+
+### 3.2 Metadata Structure
+
+| Field                  | Description                                      | Data Type      |
+|------------------------|--------------------------------------------------|----------------|
+| `time`             | The date and time when the event started       | timestamp      |
+| `username`         | User name                                        | string         |
+| `cli_hostname`     | Client hostname identifier                       | string         |
+| `audit_event_type` | Audit event type, e.g., WRITE_DATA, GENERATE_KEY| string         |
+| `operation_type`   | Operation type, e.g., DML, DDL, QUERY, CONTROL | string         |
+| `privilege_type`   | Privilege used, e.g., WRITE_DATA, MANAGE_USER  | string         |
+| `privilege_level`  | Event privilege level, global or object        | string         |
+| `result`           | Event result, success=1, fail=0                | boolean        |
+| `database`         | Database name                                    | string         |
+| `sql_string`       | User's original SQL statement                  | string         |
+| `log`              | Detailed event description                     | string         |
+
+### 3.3 Usage Examples
+
+* Query times, usernames and host information for successfully executed queries:
+
+```SQL
+IoTDB> select username,cli_hostname from root.__audit.log.** where operation_type='QUERY' and result=true align by device
++-----------------------------+---------------------------+--------+------------+
+|                         Time|                     Device|username|cli_hostname|
++-----------------------------+---------------------------+--------+------------+
+|2026-01-23T10:39:21.563+08:00|root.__audit.log.node_1.u_0|    root|   127.0.0.1|
+|2026-01-23T10:39:33.746+08:00|root.__audit.log.node_1.u_0|    root|   127.0.0.1|
+|2026-01-23T10:42:15.032+08:00|root.__audit.log.node_1.u_0|    root|   127.0.0.1|
++-----------------------------+---------------------------+--------+------------+
+Total line number = 3
+It costs 0.036s
+```
+
+* Query latest operation details:
+
+```SQL
+IoTDB> select username,cli_hostname,operation_type,sql_string  from root.__audit.log.** order by time desc limit 1 align by device
++-----------------------------+---------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------------------+
+|                         Time|                     Device|username|cli_hostname|operation_type|                                                                                                        sql_string|
++-----------------------------+---------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------------------+
+|2026-01-23T10:42:32.795+08:00|root.__audit.log.node_1.u_0|    root|   127.0.0.1|         QUERY|select username,cli_hostname from root.__audit.log.** where operation_type='QUERY' and result=true align by device|
++-----------------------------+---------------------------+--------+------------+--------------+------------------------------------------------------------------------------------------------------------------+
+Total line number = 1
+It costs 0.033s
+```
+
+* Query failed operations:
+
+```SQL
+IoTDB> select database,operation_type,log  from root.__audit.log.** where result=false align by device
++-----------------------------+-------------------------------+-----------+--------------+---------------------------------------------------------------------------------+
+|                         Time|                         Device|   database|operation_type|                                                                              log|
++-----------------------------+-------------------------------+-----------+--------------+---------------------------------------------------------------------------------+
+|2026-01-23T10:49:55.159+08:00|root.__audit.log.node_1.u_10000|           |       CONTROL|        User user1 (ID=10000) login failed with code: 801, Authentication failed.|
+|2026-01-23T10:52:04.579+08:00|root.__audit.log.node_1.u_10000|  [root.**]|         QUERY|   User user1 (ID=10000) requests authority on object [root.**] with result false|
+|2026-01-23T10:52:43.412+08:00|root.__audit.log.node_1.u_10000|root.userdb|           DDL| User user1 (ID=10000) requests authority on object root.userdb with result false|
+|2026-01-23T10:52:48.075+08:00|root.__audit.log.node_1.u_10000|       null|         QUERY|User user1 (ID=10000) requests authority on object root.__audit with result false|
++-----------------------------+-------------------------------+-----------+--------------+---------------------------------------------------------------------------------+
+Total line number = 4
+It costs 0.024s
+```
