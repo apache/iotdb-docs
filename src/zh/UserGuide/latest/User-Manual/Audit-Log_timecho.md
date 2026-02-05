@@ -29,6 +29,7 @@
 * 可通过配置决定是否开启审计日志功能
 * 可通过参数设置审计日志记录的操作类型和权限级别
 * 可通过参数设置审计日志文件的存储周期，包括基于 TTL 实现时间滚动和基于 SpaceTL 实现空间滚动。
+* 可通过参数设置统计任意时间段内写入和查询延时大于阈值（默认3000毫秒）的慢请求个数。
 * 审计日志文件默认加密存储
 
 > 注意：该功能从 V2.0.8-beta 版本开始提供。
@@ -37,16 +38,20 @@
 
 通过编辑配置文件 `iotdb-system.properties` 中如下参数来启动审计日志功能。
 
-| 参数名称                              | 参数描述                                                                                                                                                                                                                | 数据类型 | 默认值                 | 生效方式 |
-|-----------------------------------| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | ------------------------ | ---------- |
-| `enable_audit_log`                | 是否开启审计日志。 true：启用。false：禁用。                                                                                                                                                                            | Boolean  | false                  | 重启     |
-| `auditable_operation_type`        | 操作类型选择。 DML ：所有 DML 都会记录审计日志； DDL ：所有 DDL 都会记录审计日志； QUERY ：所有 QUERY 都会记录审计日志； CONTROL：所有控制语句都会记录审计日志；                                                        | String   | DML,DDL,QUERY,CONTROL  | 重启     |
-| `auditable_operation_level`       | 权限级别选择。 global ：记录全部的审计日志； object：仅针对数据实例的事件的审计日志会被记录； 包含关系：object  < global。 例如：设置为 global 时，所有审计日志正常记录；设置为 object 时，仅记录对具体数据实例的操作。 | String   | global                 | 重启     |
-| `auditable_operation_result`      | 审计结果选择。 success：只记录成功事件的审计日志； fail：只记录失败事件的审计日志；                                                                                                                                     | String   | success, fail          | 重启     |
-| `audit_log_ttl_in_days`           | 审计日志的 TTL，生成审计日志的时间达到该阈值后过期。                                                                                                                                                                    | Double   | -1.0（永远不会被删除） | 重启     |
-| `audit_log_space_tl_in_GB`        | 审计日志的 SpaceTL，审计日志总空间达到该阈值后开始轮转删除。                                                                                                                                                            | Double   | 1.0| 重启|
-| `audit_log_batch_interval_in_ms`  | 审计日志批量写入的时间间隔                                                                                                                                                                                              | Long     | 1000                   | 重启     |
-| `audit_log_batch_max_queue_bytes` | 用于批量处理审计日志的队列最大字节数。当队列大小超过此值时，后续的写入操作将被阻塞。                                                                                                                                    | Long     | 268435456              | 重启     |
+| 参数名称                              | 参数描述                                                                                                 | 数据类型 | 默认值                 | 生效方式 |
+|-----------------------------------|------------------------------------------------------------------------------------------------------| ---------- | ------------------------ | ---------- |
+| `enable_audit_log`                | 是否开启审计日志。 true：启用。false：禁用。                                                                          | Boolean  | false                  | 热加载     |
+| `auditable_operation_type`        | 操作类型选择。 DML ：所有 DML 都会记录审计日志； DDL ：所有 DDL 都会记录审计日志； QUERY ：所有 QUERY 都会记录审计日志； CONTROL：所有控制语句都会记录审计日志； | String   | DML,DDL,QUERY,CONTROL  | 热加载     |
+| `auditable_dml_event_type`        | 审计DML操作时的事件类型。`OBJECT_AUTHENTICATION`：对象鉴权，`SLOW_OPERATION`：慢操作                                         | String   | `OBJECT_AUTHENTICATION`,`SLOW_OPERATION`                                              | 热加载   |
+| `auditable_ddl_event_type`        | 审计DDL操作时的事件类型。`OBJECT_AUTHENTICATION`：对象鉴权，`SLOW_OPERATION`：慢操作                                                                                                                                          | String   | `OBJECT_AUTHENTICATION`,`SLOW_OPERATION`                                              | 热加载   |
+| `auditable_query_event_type`      | 审计查询操作时的事件类型。`OBJECT_AUTHENTICATION`：对象鉴权，`SLOW_OPERATION`：慢操作                                                                                                                                         | String   | `OBJECT_AUTHENTICATION`,`SLOW_OPERATION`                                              | 热加载   |
+| `auditable_control_event_type`    | 审计控制操作时的事件类型。`CHANGE_AUDIT_OPTION`：审计选项变更，`OBJECT_AUTHENTICATION`：对象鉴权，`LOGIN`：登录，`LOGOUT`：退出登录，`DN_SHUTDOWN`：数据节点关机，`SLOW_OPERATION`：慢操作                                                    | String   | `CHANGE_AUDIT_OPTION`,`OBJECT_AUTHENTICATION`,`LOGIN`,`LOGOUT`,`DN_SHUTDOWN`,`SLOW_OPERATION` | 热加载   |
+| `auditable_operation_level`       | 权限级别选择。 global ：记录全部的审计日志； object：仅针对数据实例的事件的审计日志会被记录； 包含关系：object  < global。 例如：设置为 global 时，所有审计日志正常记录；设置为 object 时，仅记录对具体数据实例的操作。 | String   | global                 | 热加载     |
+| `auditable_operation_result`      | 审计结果选择。 success：只记录成功事件的审计日志； fail：只记录失败事件的审计日志；                                                                                                                                     | String   | success, fail          | 热加载     |
+| `audit_log_ttl_in_days`           | 审计日志的 TTL，生成审计日志的时间达到该阈值后过期。                                                                                                                                                                    | Double   | -1.0（永远不会被删除） | 热加载     |
+| `audit_log_space_tl_in_GB`        | 审计日志的 SpaceTL，审计日志总空间达到该阈值后开始轮转删除。                                                                                                                                                            | Double   | 1.0| 热加载|
+| `audit_log_batch_interval_in_ms`  | 审计日志批量写入的时间间隔                                                                                                                                                                                              | Long     | 1000                   | 热加载     |
+| `audit_log_batch_max_queue_bytes` | 用于批量处理审计日志的队列最大字节数。当队列大小超过此值时，后续的写入操作将被阻塞。                                                                                                                                    | Long     | 268435456              | 热加载     |
 
 ## 3. 查阅方法
 
@@ -69,7 +74,7 @@ SELECT (<audit_log_field>, )* log FROM <AUDIT_LOG_PATH> WHERE whereclause ORDER 
 | `time`             | 事件开始的的日期和时间                           | timestamp |
 | `username`         | 用户名称                                         | string    |
 | `cli_hostname`     | 用户主机标识                                     | string    |
-| `audit_event_type` | 审计事件类型，WRITE\_DATA, GENERATE\_KEY 等      | string    |
+| `audit_event_type` | 审计事件类型，WRITE\_DATA, GENERATE\_KEY, SLOW\_OPERATION 等      | string    |
 | `operation_type`   | 审计事件的操作类型，DML, DDL, QUERY, CONTROL     | string    |
 | `privilege_type`   | 审计事件使用的权限，WRITE\_DATA, MANAGE\_USER 等 | string    |
 | `privilege_level`  | 事件的权限级别，global, object                   | string    |
@@ -122,4 +127,17 @@ IoTDB> select database,operation_type,log  from root.__audit.log.** where result
 +-----------------------------+-------------------------------+-----------+--------------+---------------------------------------------------------------------------------+
 Total line number = 4
 It costs 0.024s
+```
+
+* 查询某个用户在某个数据节点上审计事件类型为慢操作和登录的记录
+
+```SQL
+IoTDB> select * from root.__audit.log.node_1.u_0 where audit_event_type='SLOW_OPERATION' or audit_event_type='LOGIN'limit 1 align by device 
++-----------------------------+---------------------------+------+---------------+--------------+--------+--------------+-----------------------------------------------------------------------------------------------+----------+----------------+------------+--------+
+|                         Time|                     Device|result|privilege_level|privilege_type|database|operation_type|                                                                                            log|sql_string|audit_event_type|cli_hostname|username|
++-----------------------------+---------------------------+------+---------------+--------------+--------+--------------+-----------------------------------------------------------------------------------------------+----------+----------------+------------+--------+
+|2026-01-23T11:42:23.636+08:00|root.__audit.log.node_1.u_0|  true|         GLOBAL|          null|        |       CONTROL|IoTDB: Login status: Login successfully. User root (ID=0), opens Session-1-root:127.0.0.1:51308|          |           LOGIN|   127.0.0.1|    root|
++-----------------------------+---------------------------+------+---------------+--------------+--------+--------------+-----------------------------------------------------------------------------------------------+----------+----------------+------------+--------+
+Total line number = 1
+It costs 0.021s
 ```
