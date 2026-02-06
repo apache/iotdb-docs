@@ -367,6 +367,34 @@ IoTDB> SHOW AVAILABLE URLS
 +----------+-------+
 ```
 
+### 1.11 View Service Information
+
+**Description**: Returns service information (MQTT service, REST service) on all active DataNodes (in RUNNING or READ-ONLY state) in the current cluster.
+
+> Supported since V2.0.8
+
+#### Syntax:
+```sql
+showServicesStatement
+    : SHOW SERVICES <ON dataNodeId>
+    ;
+```
+
+#### Examples:
+```sql
+IoTDB> SHOW SERVICES
+IoTDB> SHOW SERVICES ON 1
+```
+
+Execution result:
+```sql
++--------------+-------------+---------+
+| Service Name | DataNode ID | State   |
++--------------+-------------+---------+
+| MQTT         | 1           | STOPPED |
+| REST         | 1           | RUNNING |
++--------------+-------------+---------+
+```
 
 ## 2. Status Setting
 
