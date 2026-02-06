@@ -1292,7 +1292,7 @@ coalesce(value1, value2[, ...])
 
 #### 8.1.1 cast(value AS type) → type
 
-Explicitly converts a value to the specified type. This can be used to convert strings (`VARCHAR`) to numeric types or numeric values to string types.
+Explicitly converts a value to the specified type. This can be used to convert strings (`VARCHAR`) to numeric types or numeric values to string types. Starting from V2.0.8-beta, OBJECT type can be explicitly cast to STRING type.
 
 If the conversion fails, a runtime error is thrown.
 
@@ -1737,7 +1737,7 @@ IoTDB> SELECT * FROM HOP(DATA => bid,TIMECOL => 'time',SLIDE => 5m,SIZE => 10m);
 |2021-01-01T09:15:00.000+08:00|2021-01-01T09:25:00.000+08:00|2021-01-01T09:15:00.000+08:00|    TESL|195.0|
 +-----------------------------+-----------------------------+-----------------------------+--------+-----+
 
--- Equivalent to tree model's GROUP BY TIME when combined with GROUP BY
+-- Equivalent to tree mode's GROUP BY TIME when combined with GROUP BY
 IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM HOP(DATA => bid,TIMECOL => 'time',SLIDE => 5m,SIZE => 10m) GROUP BY window_start, window_end, stock_id;
 +-----------------------------+-----------------------------+--------+------------------+
 |                 window_start|                   window_end|stock_id|               avg|
@@ -1793,7 +1793,7 @@ IoTDB> SELECT * FROM SESSION(DATA => bid PARTITION BY stock_id ORDER BY time,TIM
 |2021-01-01T09:05:00.000+08:00|2021-01-01T09:09:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
 +-----------------------------+-----------------------------+-----------------------------+--------+-----+
 
--- Equivalent to tree model's GROUP BY SESSION when combined with GROUP BY
+-- Equivalent to tree mode's GROUP BY SESSION when combined with GROUP BY
 IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM SESSION(DATA => bid PARTITION BY stock_id ORDER BY time,TIMECOL => 'time',GAP => 2m) GROUP BY window_start, window_end, stock_id;
 +-----------------------------+-----------------------------+--------+------------------+
 |                 window_start|                   window_end|stock_id|               avg|
@@ -1846,7 +1846,7 @@ IoTDB> SELECT * FROM VARIATION(DATA => bid PARTITION BY stock_id ORDER BY time,C
 |           1|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
 +------------+-----------------------------+--------+-----+
 
--- Equivalent to tree model's GROUP BY VARIATION when combined with GROUP BY
+-- Equivalent to tree mode's GROUP BY VARIATION when combined with GROUP BY
 IoTDB> SELECT first(time) as window_start, last(time) as window_end, stock_id, avg(price) as avg FROM VARIATION(DATA => bid PARTITION BY stock_id ORDER BY time,COL => 'price', DELTA => 2.0) GROUP BY window_index, stock_id;
 +-----------------------------+-----------------------------+--------+-----+
 |                 window_start|                   window_end|stock_id|  avg|
@@ -1899,7 +1899,7 @@ IoTDB> SELECT * FROM CAPACITY(DATA => bid PARTITION BY stock_id ORDER BY time, S
 |           1|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
 +------------+-----------------------------+--------+-----+
 
--- Equivalent to tree model's GROUP BY COUNT when combined with GROUP BY
+-- Equivalent to tree mode's GROUP BY COUNT when combined with GROUP BY
 IoTDB> SELECT first(time) as start_time, last(time) as end_time, stock_id, avg(price) as avg FROM CAPACITY(DATA => bid PARTITION BY stock_id ORDER BY time, SIZE => 2) GROUP BY window_index, stock_id;
 +-----------------------------+-----------------------------+--------+-----+
 |                   start_time|                     end_time|stock_id|  avg|
@@ -1954,7 +1954,7 @@ IoTDB> SELECT * FROM TUMBLE( DATA => bid, TIMECOL => 'time', SIZE => 10m);
 |2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
 +-----------------------------+-----------------------------+-----------------------------+--------+-----+
 
--- Equivalent to tree model's GROUP BY TIME when combined with GROUP BY
+-- Equivalent to tree mode's GROUP BY TIME when combined with GROUP BY
 IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM TUMBLE(DATA => bid, TIMECOL => 'time', SIZE => 10m) GROUP BY window_start, window_end, stock_id;
 +-----------------------------+-----------------------------+--------+------------------+
 |                 window_start|                   window_end|stock_id|               avg|
@@ -2019,7 +2019,7 @@ IoTDB> SELECT * FROM CUMULATE(DATA => bid,TIMECOL => 'time',STEP => 2m,SIZE => 1
 |2021-01-01T09:00:00.000+08:00|2021-01-01T09:10:00.000+08:00|2021-01-01T09:09:00.000+08:00|    AAPL|102.0|
 +-----------------------------+-----------------------------+-----------------------------+--------+-----+
 
--- Equivalent to tree model's GROUP BY TIME when combined with GROUP BY
+-- Equivalent to tree mode's GROUP BY TIME when combined with GROUP BY
 IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM CUMULATE(DATA => bid,TIMECOL => 'time',STEP => 2m, SIZE => 10m) GROUP BY window_start, window_end, stock_id;
 +-----------------------------+-----------------------------+--------+------------------+
 |                 window_start|                   window_end|stock_id|               avg|

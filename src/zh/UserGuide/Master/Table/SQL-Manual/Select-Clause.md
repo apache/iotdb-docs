@@ -38,7 +38,7 @@ setQuantifier
 ```
 
 - **SELECT 子句**: 指定了查询结果应包含的列，包含聚合函数（如 SUM、AVG、COUNT 等）以及窗口函数，在逻辑上最后执行。
-- **DISTINCT 关键字**: `SELECT DISTINCT column_name` 确保查询结果中的值是唯一的，去除重复项。
+- **DISTINCT 关键字**: `SELECT DISTINCT column_name` 确保查询结果中的值是唯一的，去除重复项。 
 - **COLUMNS 函数**：SELECT 子句中支持使用 COLUMNS 函数进行列筛选，并支持和表达式结合使用，使表达式的效果对所有筛选出的列生效。
 
 ## 2. 语法详释：
@@ -55,16 +55,16 @@ setQuantifier
 - **聚合函数**：与聚合函数一起使用时，DISTINCT 只处理输入数据集中的非重复行。
 - **GROUP BY 子句**：在 GROUP BY 子句中使用 ALL 和 DISTINCT 量词，决定是否每个重复的分组集产生不同的输出行。
 
-`COLUMNS` 函数：
-- **`COLUMNS(*)`**: 匹配所有列，支持结合表达式进行使用。
+`COLUMNS` 函数： 
+- **`COLUMNS(*)`**: 匹配所有列，支持结合表达式进行使用。 
 - **`COLUMNS(regexStr) ? AS identifier`**：正则匹配
-    - 匹配所有列名满足正则表达式的列，支持结合表达式进行使用。
-    - 支持引用正则表达式捕获到的 groups 对列进行重命名，不写 AS 时展示原始列名（即 _coln_原始列名，其中 n 为列在结果表中的  position）。
-    - 重命名用法简述：
-        - regexStr 中使用圆括号设置要捕获的组；
-        - 在 identifier 中使用 `'$index'` 引用捕获到的组。
-
-      注意：使用该功能时，identifier 中会包含特殊字符 '$'，所以整个 identifier 要用双引号引起来。
+  - 匹配所有列名满足正则表达式的列，支持结合表达式进行使用。
+  - 支持引用正则表达式捕获到的 groups 对列进行重命名，不写 AS 时展示原始列名（即 _coln_原始列名，其中 n 为列在结果表中的  position）。
+  - 重命名用法简述：
+      - regexStr 中使用圆括号设置要捕获的组；
+      - 在 identifier 中使用 `'$index'` 引用捕获到的组。
+      
+    注意：使用该功能时，identifier 中会包含特殊字符 '$'，所以整个 identifier 要用双引号引起来。
 
 ## 3. 示例数据
 
@@ -267,6 +267,37 @@ Total line number = 18
 It costs 0.189s
 ```
 
+#### 3.1.4 Object 类型查询
+
+> V2.0.8-beta 版本起支持
+
+示例一：直接查询 object 类型数据
+
+```SQL
+IoTDB:database1> select s1 from table1 where device_id = 'tag1'
++------------+
+|          s1|
++------------+
+|(Object) 5 B|
++------------+
+Total line number = 1
+It costs 0.428s
+```
+
+示例二：通过 read\_object 函数查询 Object 类型数据的真实内容
+
+```SQL
+IoTDB:database1> select read_object(s1) from table1 where device_id = 'tag1'
++------------+
+|       _col0|
++------------+
+|0x696f746462|
++------------+
+Total line number = 1
+It costs 0.188s
+```
+
+
 ### 3.2 Columns 函数
 
 1. 不结合表达式
@@ -301,7 +332,7 @@ IoTDB:database1> select columns('^m(.*)') AS "series_$0" from table1 limit 5
 |              C|                90|
 +---------------+------------------+
 ```
-
+   
 2. 结合表达式
 
 - 单个 COLUMNS 函数

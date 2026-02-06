@@ -818,3 +818,45 @@ IoTDB> SELECT *,count(flow) OVER(PARTITION BY device ORDER BY flow RANGE BETWEEN
 |1970-01-01T08:00:01.000+08:00|    d0|   5|    3|
 +-----------------------------+------+----+-----+
 ```
+
+## 5. Object 类型读取函数
+
+描述：用于读取 OBJECT 对象的二进制内容。返回 BLOB 类型（对象的二进制内容）。
+> V2.0.8-beta 版本起支持
+
+语法：
+
+```SQL
+READ_OBJECT(object [, offset, length])
+```
+
+参数：
+
+* 必选参数：`object`，类型为 OBJECT
+* 可选参数：
+  * `offset`，类型为 long（int64），为读取的偏移量，缺省值为0。如果 offset 小于 0，或者大于等于全文件长度，则抛异常
+  * `length`，类型为 long（int64），为读取的数据长度，缺省值为全文件长度
+    * 当长度大于 2^31 - 1 时，报错
+    * 当长度大于从 offset 起的剩余文件长度时，会取从 offset 起的文件内容
+    * length 小于 0 时，视为读取 offset 开始 object 剩下的所有数据
+
+示例：
+
+```SQL
+IoTDB:database1> select READ_OBJECT(s1) from table1 where device_id = 'tag1'
++------------+
+|       _col0|
++------------+
+|0x696f746462|
++------------+
+Total line number = 1
+
+
+IoTDB:database1> select READ_OBJECT(s1, 0, 3) from table1 where device_id = 'tag1' 
++--------+
+|   _col0|
++--------+
+|0x696f74|
++--------+
+Total line number = 1
+```

@@ -37,8 +37,8 @@ The data export tool, export-data.sh (Unix/OS X) or export-data.bat (Windows), l
 | `-pw`      | `--password`         | Password for authentication.                                                                                                | No              | `root`                                        |
 | `-t`       | `--target`           | Target directory for the output files. If the path does not exist, it will be created.                                      | ​**Yes** | -                                             |
 | `-pfn`     | `--prefix_file_name` | Prefix for the exported file names. For example, `abc` will generate files like `abc_0.tsfile`, `abc_1.tsfile`. | No              | `dump_0.tsfile`                               |
-| `-q`       | `--query`            | SQL query command to execute.                                                                                               | No              | -                                             |
-| `-timeout` | `--query_timeout`    | Query timeout in milliseconds (ms).                                                                                         | No              | `-1` (Range: -1~Long max=9223372036854775807) |
+| `-q`       | `--query`            | SQL query command to execute. Starting from v2.0.8, semicolons in SQL statements are automatically removed, and query execution proceeds normally.  | No              | -                                                                                                   |
+| `-timeout` | `--query_timeout`    | Query timeout in milliseconds (ms).                                                                                                                 | No              | `-1` (before v2.0.8)<br>`Long.MAX_VALUE` (v2.0.8 and later)<br>(Range: `-1~Long.MAX_VALUE`) |
 | `-help`    | `--help`             | Display help information.                                                                                                   | No              | -                                             |
 
 ### 2.2 CSV Format

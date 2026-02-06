@@ -267,6 +267,37 @@ Total line number = 18
 It costs 0.189s
 ```
 
+#### 3.1.4 Object 类型查询
+
+> V2.0.8-beta 版本起支持
+
+示例一：直接查询 object 类型数据
+
+```SQL
+IoTDB:database1> select s1 from table1 where device_id = 'tag1'
++------------+
+|          s1|
++------------+
+|(Object) 5 B|
++------------+
+Total line number = 1
+It costs 0.428s
+```
+
+示例二：通过 read\_object 函数查询 Object 类型数据的真实内容
+
+```SQL
+IoTDB:database1> select read_object(s1) from table1 where device_id = 'tag1'
++------------+
+|       _col0|
++------------+
+|0x696f746462|
++------------+
+Total line number = 1
+It costs 0.188s
+```
+
+
 ### 3.2 Columns 函数
 
 1. 不结合表达式

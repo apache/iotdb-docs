@@ -30,7 +30,7 @@
 > Package Name: timechodb-2.0.6.6-bin.zip</br>
 > SHA512 Checksum: d12e60b8119690d63c501d0c2afcd527e39df8a8786198e35b53338e21939e1a9244805e710d81cbb62d02c2739909d7e8227c029660a0cd9ea7ca718cf9bdf6
 
-V2.0.6.6 primarily optimizes query performance for time series in the tree model, while delivering comprehensive improvements in database monitoring, performance, and stability. Specific release contents are as follows:
+V2.0.6.6 primarily optimizes query performance for time series in the tree mode, while delivering comprehensive improvements in database monitoring, performance, and stability. Specific release contents are as follows:
 
 * **Query Module**: Improved query performance for `SHOW/COUNT TIMESERIES/DEVICES` statements.
 * **Others**: Fixed security vulnerabilities CVE-2025-12183, CVE-2025-66566, and CVE-2025-11226.
@@ -45,7 +45,7 @@ V2.0.6.6 primarily optimizes query performance for time series in the tree model
 
 V2.0.6.4 focuses on enhancements to the storage and AINode modules, resolves several product defects, and provides comprehensive improvements in database monitoring, performance, and stability. Specific release contents are as follows:
 
-* **Storage Module**: Added support for modifying the encoding and compression methods of time series in the tree model.
+* **Storage Module**: Added support for modifying the encoding and compression methods of time series in the tree mode.
 * **AINode**: Introduced one-click deployment and optimized model inference capabilities.
 
 
@@ -206,7 +206,7 @@ V2.0.2.1 adds ​**​table model permission management​**​, ​**​user ma
 
 V2.0.1.2 officially implements ​**​dual-model configuration (tree + table)​**​. The table model supports ​**​standard SQL queries​**​, diverse functions/operators, stream processing, and Benchmarking. Python client adds four new data types, and script tools support TsFile/CSV/SQL import/export. Key updates:
 
-* ​**​Time-Series Table Model:​**​
+* ​**​Time-Series Table Mode:​**​
   * Standard SQL: SELECT, WHERE, JOIN, GROUP BY, ORDER BY, LIMIT, nested queries
 * ​**​Query Module:​**​
   * Logical operators, math functions, time-series functions (e.g., DIFF)

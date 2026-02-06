@@ -33,14 +33,14 @@ IoTDB provides deep integration with the MQTT protocol, fully compliant with MQT
 
 By default, the IoTDB MQTT service loads configurations from `${IOTDB_HOME}/${IOTDB_CONF}/iotdb-system.properties`.
 
-| **Property**            | **Description**                                                                                                | **Default** |
-| ------------------------ | ---------------------------------------------------------------------------------------------------------------------- | ------------------- |
-| `enable_mqtt_service`     | Enable/ disable the MQTT service.                                                                                    | FALSE             |
-| `mqtt_host`               | Host address bound to the MQTT service.                                                                              | 127.0.0.1         |
-| `mqtt_port`               | Port bound to the MQTT service.                                                                                      | 1883              |
-| `mqtt_handler_pool_size`  | Thread pool size for processing MQTT messages.                                                                       | 1                 |
-| **`mqtt_payload_formatter`** | **Formatting method for MQTT message payloads. ​**​**Options: `json` (tree model), `line` (table model).** | **json**    |
-| `mqtt_max_message_size`   | Maximum allowed MQTT message size (bytes).                                                                           | 1048576           |
+| **Property**            | **Description**                                                                                              | **Default** |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------- | ------------------- |
+| `enable_mqtt_service`     | Enable/ disable the MQTT service.                                                                                  | FALSE             |
+| `mqtt_host`               | Host address bound to the MQTT service.                                                                            | 127.0.0.1         |
+| `mqtt_port`               | Port bound to the MQTT service.                                                                                    | 1883              |
+| `mqtt_handler_pool_size`  | Thread pool size for processing MQTT messages.                                                                     | 1                 |
+| **`mqtt_payload_formatter`** | **Formatting method for MQTT message payloads. ​**​**Options: `json` (tree mode), `line` (table mode).** | **json**    |
+| `mqtt_max_message_size`   | Maximum allowed MQTT message size (bytes).                                                                         | 1048576           |
 
 ## 3. Write Protocol
 

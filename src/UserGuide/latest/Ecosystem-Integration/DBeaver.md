@@ -45,7 +45,7 @@ Ensure DBeaver and IoTDB are installed:
 
 ![](/img/dbeaver-2520-3-en.png)
 
-3. Complete the connection settings, and choose the appropriate sql dialect based on whether the target IoTDB uses a ​​Tree Model​​ or ​​Table Model​​.
+3. Complete the connection settings, and choose the appropriate sql dialect based on whether the target IoTDB uses a ​​Tree Mode​​ or ​​Table Mode​​.
 
 ![](/img/dbeaver-2520-4-en.png)
 
