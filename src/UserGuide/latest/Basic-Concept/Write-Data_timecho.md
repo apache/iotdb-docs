@@ -31,7 +31,7 @@ Writing a repeat timestamp covers the original timestamp data, which can be rega
 
 ### 1.1 Use of INSERT Statements
 
-The [INSERT SQL statement](../SQL-Manual/SQL-Manual_timecho#insert-data) statement is used to insert data into one or more specified timeseries created. For each point of data inserted, it consists of a [timestamp](../Basic-Concept/Operate-Metadata.md) and a sensor acquisition value (see [Data Type](../Background-knowledge/Data-Type_timecho.md)).
+The [INSERT SQL statement](../SQL-Manual/SQL-Manual_timecho#insert-data) statement is used to insert data into one or more specified timeseries created. For each point of data inserted, it consists of a [timestamp](../Basic-Concept/Operate-Metadata.md) and a sensor acquisition value (see [Data Type](../Background-knowledge/Data-Type.md)).
  
 In the scenario of this section, take two timeseries `root.ln.wf02.wt02.status` and `root.ln.wf02.wt02.hardware` as an example, and their data types are BOOLEAN and TEXT, respectively.
 
