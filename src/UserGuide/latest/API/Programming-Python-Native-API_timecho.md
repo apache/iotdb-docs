@@ -557,7 +557,7 @@ df = ...
 ```
 
 
-**Since V2.0.8-beta**, `SessionDataSet` provides methods for batch DataFrame retrieval to efficiently handle large-volume queries:
+**Since V2.0.8**, `SessionDataSet` provides methods for batch DataFrame retrieval to efficiently handle large-volume queries:
 
 ```python
 # Batch DataFrame retrieval

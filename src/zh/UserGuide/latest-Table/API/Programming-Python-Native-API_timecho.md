@@ -46,7 +46,7 @@ TableSession是IoTDB的一个核心类，用于与IoTDB数据库进行交互。�
 | execute_query_statement     | 执行查询 SQL 语句并返回结果集      | sql: str                           | SessionDataSet |
 | close                       | 关闭会话并释放资源                 | None                               | None           |
 
-自 V2.0.8-beta 版本起，SessionDataSet 提供分批获取 DataFrame 的方法，用于高效处理大数据量查询：
+自 V2.0.8 版本起，SessionDataSet 提供分批获取 DataFrame 的方法，用于高效处理大数据量查询：
 
 ```python
 # 分批获取 DataFrame
