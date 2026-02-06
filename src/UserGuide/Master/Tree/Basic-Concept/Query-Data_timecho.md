@@ -454,7 +454,7 @@ The supported operators are as follows:
 
 ### 3.1 Time Filter
 
-Use time filters to filter data for a specific time range. For supported formats of timestamps, please refer to [Timestamp](../Background-knowledge/Data-Type.md) .
+Use time filters to filter data for a specific time range. For supported formats of timestamps, please refer to [Timestamp](../Background-knowledge/Data-Type_timecho.md) .
 
 An example is as follows:
 
@@ -2948,7 +2948,7 @@ This statement specifies that `root.sg_copy.d1` is an unaligned device and `root
 #### Other points to note
 
 - For general aggregation queries, the timestamp is meaningless, and the convention is to use 0 to store.
-- When the target time-series exists, the data type of the source column and the target time-series must be compatible. About data type compatibility, see the document [Data Type](../Background-knowledge/Data-Type.md#Data Type Compatibility).
+- When the target time-series exists, the data type of the source column and the target time-series must be compatible. About data type compatibility, see the document [Data Type](../Background-knowledge/Data-Type_timecho.md).
 - When the target time series does not exist, the system automatically creates it (including the database).
 - When the queried time series does not exist, or the queried sequence does not have data, the target time series will not be created automatically.
 

@@ -40,7 +40,7 @@ export const zhSidebar = {
         { text: '常见概念', link: 'Cluster-Concept_timecho' },
         { text: '时序数据模型', link: 'Navigating_Time_Series_Data' },
         { text: '建模方案设计', link: 'Data-Model-and-Terminology_timecho' },
-        { text: '数据类型', link: 'Data-Type' },
+        { text: '数据类型', link: 'Data-Type_timecho' },
       ],
     },
     {
@@ -77,7 +77,7 @@ export const zhSidebar = {
             collapsible: true,
             children: [
               { text: 'AINode 部署(V2.0.5/6)', link: 'AINode_Deployment_timecho' },
-              { text: 'AINode 部署(V2.0.8-beta)', link: 'AINode_Deployment_Upgrade_timecho' },
+              { text: 'AINode 部署(V2.0.8)', link: 'AINode_Deployment_Upgrade_timecho' },
             ],
           },
           {
@@ -152,9 +152,9 @@ export const zhSidebar = {
       prefix: 'AI-capability/',
       children: [
         { text: 'AINode(V2.0.5/6)', link: 'AINode_timecho' },
-        { text: 'AINode(V2.0.8-beta)', link: 'AINode_Upgrade_timecho' },
+        { text: 'AINode(V2.0.8)', link: 'AINode_Upgrade_timecho' },
         { text: '时序大模型(V2.0.5/6)', link: 'TimeSeries-Large-Model' },
-        { text: '时序大模型(V2.0.8-beta)', link: 'TimeSeries-Large-Model_Upgrade_timecho' },
+        { text: '时序大模型(V2.0.8)', link: 'TimeSeries-Large-Model_Upgrade_timecho' },
       ],
     },
     {
@@ -241,7 +241,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '概览', link: 'overview_timecho' },
-            { text: 'SELECT子句', link: 'Select-Clause' },
+            { text: 'SELECT子句', link: 'Select-Clause_timecho' },
             { text: 'FROM&JOIN子句', link: 'From-Join-Clause' },
             { text: 'WHERE子句', link: 'Where-Clause' },
             { text: 'GROUP BY子句', link: 'GroupBy-Clause' },
@@ -253,14 +253,14 @@ export const zhSidebar = {
             { text: '模式查询', link: 'Row-Pattern-Recognition_timecho' },
           ],
         },
-        { text: '运维语句', link: 'SQL-Maintenance-Statements' },
+        { text: '运维语句', link: 'SQL-Maintenance-Statements_timecho' },
         { text: '标识符', link: 'Identifier' },
         { text: '保留字&关键字', link: 'Keywords' },
         {
           text: '函数与操作符',
           collapsible: true,
           children: [
-            { text: '基础函数', link: 'Basis-Function' },
+            { text: '基础函数', link: 'Basis-Function_timecho' },
             { text: '特色函数', link: 'Featured-Functions_timecho' },
           ],
         },
@@ -282,7 +282,7 @@ export const zhSidebar = {
       prefix: 'Reference/',
       children: [
         { text: '示例数据', link: 'Sample-Data' },
-        { text: '配置参数', link: 'System-Config-Manual' },
+        { text: '配置参数', link: 'System-Config-Manual_timecho' },
         { text: '状态码', link: 'Status-Codes' },
         { text: '系统表', link: 'System-Tables_timecho' },
       ],

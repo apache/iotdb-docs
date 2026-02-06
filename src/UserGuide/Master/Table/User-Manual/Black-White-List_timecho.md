@@ -39,7 +39,7 @@ Administrators can enable/disable the whitelist function and add, modify, or del
 
 * Edit the configuration file `iotdb‑system.properties`.
 * Use the `set configuration` statement.
-    * Table model reference: [set configuration](../SQL-Manual/SQL-Maintenance-Statements.md#_2-2-update-configuration-items)
+    * Table model reference: [set configuration](../SQL-Manual/SQL-Maintenance-Statements_timecho.md#_2-2-update-configuration-items)
 
 Related parameters are as follows:
 
@@ -60,7 +60,7 @@ Administrators can enable/disable the blacklist function and add, modify, or del
 
 * Edit the configuration file `iotdb‑system.properties`.
 * Use the `set configuration`statement.
-    * Table model reference:[set configuration](../SQL-Manual/SQL-Maintenance-Statements.md#_2-2-update-configuration-items)
+    * Table model reference:[set configuration](../SQL-Manual/SQL-Maintenance-Statements_timecho.md#_2-2-update-configuration-items)
 
 Related parameters are as follows:
 

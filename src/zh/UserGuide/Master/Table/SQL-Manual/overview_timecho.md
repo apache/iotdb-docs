@@ -38,7 +38,7 @@ SELECT ⟨select_list⟩
 
 IoTDB 查询语法提供以下子句：
 
-- SELECT 子句：查询结果应包含的列。详细语法见：[SELECT子句](../SQL-Manual/Select-Clause.md)
+- SELECT 子句：查询结果应包含的列。详细语法见：[SELECT子句](../SQL-Manual/Select-Clause_timecho.md)
 - FROM 子句：指出查询的数据源，可以是单个表、多个通过 `JOIN` 子句连接的表，或者是一个子查询。详细语法见：[FROM & JOIN 子句](../SQL-Manual/From-Join-Clause.md)
 - WHERE 子句：用于过滤数据，只选择满足特定条件的数据行。这个子句在逻辑上紧跟在 FROM 子句之后执行。详细语法见：[WHERE 子句](../SQL-Manual/Where-Clause.md)
 - GROUP BY 子句：当需要对数据进行聚合时使用，指定了用于分组的列。详细语法见：[GROUP BY 子句](../SQL-Manual/GroupBy-Clause.md)

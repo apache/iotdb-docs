@@ -306,7 +306,7 @@ It costs 0.014s
 
 To avoid oversized Object write requests, values of **Object** type can be split into segments and written sequentially. In SQL, the `to_object(isEOF, offset, content)` function must be used for value insertion.
 
-> Supported since V2.0.8-beta
+> Supported since V2.0.8
 
 **Syntax:**
 

@@ -40,7 +40,7 @@ export const enSidebar = {
         { text: 'Common Concepts', link: 'Cluster-Concept_apache' },
         { text: 'Timeseries Data Model', link: 'Navigating_Time_Series_Data' },
         { text: 'Modeling Scheme Design', link: 'Data-Model-and-Terminology_apache' },
-        { text: 'Data Type', link: 'Data-Type' },
+        { text: 'Data Type', link: 'Data-Type_apache' },
       ],
     },
     {
@@ -222,7 +222,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'overview', link: 'overview_apache' },
-            { text: 'SELECT Clause', link: 'Select-Clause' },
+            { text: 'SELECT Clause', link: 'Select-Clause_apache' },
             { text: 'FROM&JOIN Clause', link: 'From-Join-Clause' },
             { text: 'WHERE Clause', link: 'Where-Clause' },
             { text: 'GROUP BY Clause', link: 'GroupBy-Clause' },
@@ -233,14 +233,14 @@ export const enSidebar = {
             { text: 'Nested Queries', link: 'Nested-Queries' },
           ],
         },
-        { text: 'Maintenance Statements', link: 'SQL-Maintenance-Statements' },
+        { text: 'Maintenance Statements', link: 'SQL-Maintenance-Statements_apache' },
         { text: 'Identifier', link: 'Identifier' },
         { text: 'Keywords', link: 'Keywords' },
         {
           text: 'Functions and Operators',
           collapsible: true,
           children: [
-            { text: 'Basis Functions', link: 'Basis-Function' },
+            { text: 'Basis Functions', link: 'Basis-Function_apache' },
             { text: 'Featured Functions', link: 'Featured-Functions_apache' },
           ],
         },
@@ -262,7 +262,7 @@ export const enSidebar = {
       prefix: 'Reference/',
       children: [
         { text: 'Sample Data', link: 'Sample-Data' },
-        { text: 'Config Manual', link: 'System-Config-Manual' },
+        { text: 'Config Manual', link: 'System-Config-Manual_apache' },
         { text: 'Status Codes', link: 'Status-Codes' },
         { text: 'System Tables', link: 'System-Tables_apache' },
       ],

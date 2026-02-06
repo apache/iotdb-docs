@@ -293,7 +293,7 @@ It costs 0.014s
 
 自为了避免单个 Object 过大导致写入请求过大，Object 类型的值支持拆分后按顺序分段写入。SQL 中需要使用 `to_object(isEOF, offset, content)` 函数进行值填充。
 
-> V2.0.8-beta 版本起支持
+> V2.0.8 版本起支持
 
 **语法：**
 

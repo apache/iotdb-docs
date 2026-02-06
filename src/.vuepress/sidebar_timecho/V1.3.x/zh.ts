@@ -151,7 +151,7 @@ export const zhSidebar = {
           children: [
             { text: '查询性能分析', link: 'Query-Performance-Analysis' },
             { text: '负载均衡', link: 'Load-Balance' },
-            { text: '运维语句', link: 'Maintenance-statement' },
+            { text: '运维语句', link: 'Maintenance-statement_timecho' },
           ],
         },
       ],

@@ -705,7 +705,7 @@ It costs 0.021s
 
 ### 3.1 时间过滤条件
 
-使用时间过滤条件可以筛选特定时间范围的数据。对于时间戳支持的格式，请参考 [时间戳类型](../Background-knowledge/Data-Type.md) 。
+使用时间过滤条件可以筛选特定时间范围的数据。对于时间戳支持的格式，请参考 [时间戳类型](../Background-knowledge/Data-Type_apache.md) 。
 
 示例如下：
 
