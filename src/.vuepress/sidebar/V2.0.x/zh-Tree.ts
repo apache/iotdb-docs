@@ -40,7 +40,7 @@ export const zhSidebar = {
         { text: '常见概念', link: 'Cluster-Concept_apache' },
         { text: '时序数据模型', link: 'Navigating_Time_Series_Data' },
         { text: '建模方案设计', link: 'Data-Model-and-Terminology_apache' },
-        { text: '数据类型', link: 'Data-Type_apache' },
+        { text: '数据类型', link: 'Data-Type' },
       ],
     },
     {
