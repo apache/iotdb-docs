@@ -553,6 +553,53 @@ session.close()
 df = ...
 ```
 
+自 V2.0.8 版本起，SessionDataSet 提供分批获取 DataFrame 的方法，用于高效处理大数据量查询：
+
+```python
+# 分批获取 DataFrame
+has_next = result.has_next_df()
+if has_next:
+    df = result.next_df()
+    # 处理 DataFrame
+```
+
+**方法说明：**
+- `has_next_df()`: 返回 `True`/`False`，表示是否还有数据可返回
+- `next_df()`: 返回 `DataFrame` 或 `None`，每次返回 `fetchSize` 行（默认5000行，由 Session 的 `fetch_size` 参数控制）
+  - 剩余数据 ≥ `fetchSize` 时，返回 `fetchSize` 行
+  - 剩余数据 < `fetchSize` 时，返回剩余所有行
+  - 数据遍历完毕时，返回 `None`
+- 初始化 Session 时检查 `fetchSize`，若 ≤0 则重置为 5000 并打印警告日志
+
+**注意：** 不要混合使用不同的遍历方式，如（todf函数与 next_df 混用），否则会出现预期外的错误。
+
+**使用示例：**
+```python
+from iotdb.Session import Session
+
+# 初始化 session，设置 fetch_size 为 2
+session = Session(
+    host="127.0.0.1", port="6667", fetch_size=2
+)
+session.open(False)
+session.execute_non_query_statement("CREATE DATABASE root.device0")
+
+# 写入三条数据
+session.insert_str_record("root.device0", 123, "pressure", "15.0")
+session.insert_str_record("root.device0", 124, "pressure", "15.0")
+session.insert_str_record("root.device0", 125, "pressure", "15.0")
+
+# 查询出 DataFrame
+with session.execute_query_statement("SELECT * FROM root.device0") as session_data_set:
+    while session_data_set.has_next_df():
+        df = session_data_set.next_df()
+        # 打印出两个 dataframe，第一个有 2 行，第二个有 1 行
+        print(df)
+
+session.close()
+```
+
+
 ## 9. IoTDB Testcontainer
 
 Python 客户端对测试的支持是基于`testcontainers`库 (https://testcontainers-python.readthedocs.io/en/latest/index.html) 的，如果您想使用该特性，就需要将其安装到您的项目中。

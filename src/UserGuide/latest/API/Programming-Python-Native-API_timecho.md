@@ -557,6 +557,54 @@ df = ...
 ```
 
 
+**Since V2.0.8**, `SessionDataSet` provides methods for batch DataFrame retrieval to efficiently handle large-volume queries:
+
+```python
+# Batch DataFrame retrieval
+has_next = result.has_next_df()
+if has_next:
+    df = result.next_df()
+    # Process DataFrame
+```
+
+**Method Details:**
+- `has_next_df()`: Returns `True`/`False` indicating whether more data exists
+- `next_df()`: Returns a `DataFrame` or `None`. Each call returns `fetchSize` rows (default: 5000 rows, controlled by Session's `fetch_size` parameter):
+    - If remaining data ≥ `fetchSize`: returns `fetchSize` rows
+    - If remaining data < `fetchSize`: returns all remaining rows
+    - If traversal completes: returns `None`
+- Session validates `fetchSize` at initialization: if ≤0, resets to 5000 and logs warning: `fetch_size xxx is illegal, use default fetch_size 5000`
+
+**Note:** Avoid mixing different traversal methods (e.g., combining `todf()` with `next_df()`), which may cause unexpected errors.
+
+**Usage Example:**
+
+```python
+from iotdb.Session import Session
+
+# Initialize session with fetch_size=2
+session = Session(
+    host="127.0.0.1", port="6667", fetch_size=2
+)
+session.open(False)
+session.execute_non_query_statement("CREATE DATABASE root.device0")
+
+# Insert 3 records
+session.insert_str_record("root.device0", 123, "pressure", "15.0")
+session.insert_str_record("root.device0", 124, "pressure", "15.0")
+session.insert_str_record("root.device0", 125, "pressure", "15.0")
+
+# Query and batch retrieve
+with session.execute_query_statement("SELECT * FROM root.device0") as session_data_set:
+    while session_data_set.has_next_df():
+        df = session_data_set.next_df()
+        # Outputs two DataFrames: first with 2 rows, second with 1 row
+        print(df)
+
+session.close()
+```
+
+
 ## 10. IoTDB Testcontainer
 
 The Test Support is based on the lib `testcontainers` (https://testcontainers-python.readthedocs.io/en/latest/index.html) which you need to install in your project if you want to use the feature.
