@@ -65,7 +65,7 @@ The `ITableSession` interface defines basic operations for interacting with IoTD
 
 **Description of Object Data Type:**
 
-Since V2.0.8-beta, the `iTableSession.insert(Tablet tablet)` interface supports splitting a single Object-class file into multiple segments and writing them sequentially in order. When the column data type in the Tablet data structure is **`TSDataType.Object`**, you need to use the following method to populate the Tablet:
+Since V2.0.8, the `iTableSession.insert(Tablet tablet)` interface supports splitting a single Object-class file into multiple segments and writing them sequentially in order. When the column data type in the Tablet data structure is **`TSDataType.Object`**, you need to use the following method to populate the Tablet:
 
 ```Java
 /*

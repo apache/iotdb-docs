@@ -822,7 +822,7 @@ IoTDB> SELECT *,count(flow) OVER(PARTITION BY device ORDER BY flow RANGE BETWEEN
 ## 5. Object 类型读取函数
 
 描述：用于读取 OBJECT 对象的二进制内容。返回 BLOB 类型（对象的二进制内容）。
-> V2.0.8-beta 版本起支持
+> V2.0.8 版本起支持
 
 语法：
 

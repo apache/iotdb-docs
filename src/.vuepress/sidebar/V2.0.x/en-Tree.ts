@@ -46,7 +46,7 @@ export const enSidebar = {
           text: 'Modeling Scheme Design',
           link: 'Data-Model-and-Terminology_apache',
         },
-        { text: 'Data Type', link: 'Data-Type' },
+        { text: 'Data Type', link: 'Data-Type_apache' },
       ],
     },
     {
@@ -138,7 +138,7 @@ export const enSidebar = {
           children: [
             { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis' },
             { text: 'Cluster Maintenance', link: 'Load-Balance' },
-            { text: 'Maintenance statement', link: 'Maintenance-commands' },
+            { text: 'Maintenance statement', link: 'Maintenance-commands_apache' },
           ],
         },
       ],
