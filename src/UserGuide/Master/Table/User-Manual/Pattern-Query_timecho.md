@@ -986,3 +986,153 @@ MATCH_RECOGNIZE (
 +---------+-----+-----------------------------+-----------------------------+------------+
 Total line number = 2
 ```
+
+
+## 4. Practical Cases
+
+### 4.1 Altitude Monitoring
+
+* **Business Background**
+
+During oil product transportation, environmental pressure is directly affected by altitude: higher altitude means lower atmospheric pressure, which increases oil evaporation risks. To accurately assess natural oil loss, BeiDou positioning data must identify altitude anomalies to support loss evaluation.
+
+* **Data Structure**
+
+Monitoring table contains these core fields:
+
+| **ColumnName** | DataType  | Category | Comment                |
+| ---------------------- | ----------- | ---------- | ------------------------ |
+| time                 | TIMESTAMP | TIME     | Data collection timestamp |
+| device\_id           | STRING    | TAG      | Vehicle device ID (partition key) |
+| department           | STRING    | FIELD    | Affiliated department    |
+| altitude             | DOUBLE    | FIELD    | Altitude (unit: meters)  |
+
+* **Business Requirements**
+
+Identify altitude anomaly events: When vehicle altitude exceeds 500m and later drops below 500m, it constitutes a complete anomaly event. Calculate core metrics:
+
+* Event start time (first timestamp exceeding 500m)
+* Event end time (last timestamp above 500m)
+* Maximum altitude during event
+
+![](/img/pattern-query-altitude.png)
+
+* **Implementation Method**
+
+```SQL
+SELECT * 
+FROM beidou
+MATCH_RECOGNIZE ( 
+    PARTITION BY device_id  -- Partition by vehicle device ID
+    ORDER BY time           -- Chronological ordering
+    MEASURES
+        FIRST(A.time) AS ts_s,  -- Event start timestamp
+        LAST(A.time) AS ts_e,   -- Event end timestamp
+        MAX(A.altitude) AS max_a  -- Maximum altitude during event
+    PATTERN (A+)  -- Match consecutive records above 500m
+    DEFINE
+        A AS A.altitude > 500  -- Define A as altitude > 500m
+)
+```
+
+### 4.2 Safety Injection Operation Identification
+
+* **Business Background**
+
+Nuclear power plants require periodic safety tests (e.g., PT1RPA010 "Safety Injection Logic Test with 1 RPA 601KC") to verify equipment integrity. These tests cause characteristic flow pattern changes. The control system must identify these patterns to detect anomalies and ensure equipment safety.
+
+* **Data Structure**
+
+Sensor table contains these core fields:
+
+| **ColumnName** | DataType  | Category | Comment                |
+| ---------------------- | ----------- | ---------- | ------------------------ |
+| time                 | TIMESTAMP | TIME     | Data collection timestamp |
+| pipe\_id             | STRING    | TAG      | Pipe ID (partition key) |
+| pressure             | DOUBLE    | FIELD    | Pipe pressure           |
+| flow\_rate           | DOUBLE    | FIELD    | Pipe flow rate (key metric) |
+
+* **Business Requirements**
+
+Identify PT1RPA010 flow pattern: Normal flow → Continuous decline → Extremely low flow (<0.5) → Continuous recovery → Normal flow. Extract core metrics:
+
+* Pattern start time (initial normal flow timestamp)
+* Pattern end time (recovered normal flow timestamp)
+* Extremely low phase start/end times
+* Minimum flow rate during extremely low phase
+
+![](/img/pattern-query-flow.png)
+
+* **Implementation Method**
+
+```SQL
+SELECT * FROM sensor MATCH_RECOGNIZE(
+    PARTITION BY pipe_id  -- Partition by pipe ID
+    ORDER BY time           -- Chronological ordering
+    MEASURES 
+        A.time AS start_ts,    -- Pattern start timestamp
+        E.time AS end_ts,      -- Pattern end timestamp
+        FIRST(C.time) AS low_start_ts,  -- Extremely low phase start
+        LAST(C.time) AS low_end_ts,    -- Extremely low phase end
+        MIN(C.flow_rate) AS min_low_flow  -- Minimum flow during low phase
+    ONE ROW PER MATCH       -- Output one row per match
+    PATTERN(A B+? C+ D+? E) -- Match normal→decline→extremely low→recovery→normal
+    DEFINE 
+        A AS flow_rate BETWEEN 2 AND 2.5,  -- Initial normal flow
+        B AS flow_rate < PREV(B.flow_rate), -- Continuous decline
+        C AS flow_rate < 0.5,               -- Extremely low threshold
+        D AS flow_rate > PREV(D.flow_rate), -- Continuous recovery
+        E AS flow_rate BETWEEN 2 AND 2.5    -- Normal recovery
+);
+```
+
+### 4.3 Extreme Operational Gust (Sombrero Wind) Identification
+
+* **Business Background**
+
+In wind power generation, "extreme operational gusts (sombrero wind)" are short-duration (≈10s) sinusoidal gusts with prominent peaks that can cause physical turbine damage. Identifying these gusts and calculating their frequency helps assess turbine damage risks and guide maintenance.
+
+* **Data Structure**
+
+Turbine sensor table contains:
+
+| **ColumnName** | DataType  | Category | Comment                |
+| ---------------------- | ----------- | ---------- | ------------------------ |
+| time                 | TIMESTAMP | TIME     | Wind speed timestamp    |
+| speed                | DOUBLE    | FIELD    | Wind speed (key metric) |
+
+* **Business Requirements**
+
+Identify sombrero wind pattern: Gradual speed decline → Sharp increase → Sharp decrease → Gradual recovery to initial value (≈10s total). Primary goal: count gust occurrences for risk assessment.
+
+![](/img/pattern-query-speed.png)
+
+* **Implementation Method**
+
+```SQL
+SELECT COUNT(*)  -- Count extreme gust occurrences
+FROM sensor
+MATCH_RECOGNIZE(
+    ORDER BY time  -- Chronological ordering
+    MEASURES 
+        FIRST(B.time) AS ts_s,  -- Gust start timestamp
+        LAST(D.time) AS ts_e    -- Gust end timestamp
+    PATTERN (B+ R+? F+? D+? E)  -- Match sombrero wind pattern
+    DEFINE 
+        -- Phase B: Gradual decline, initial speed>9, delta<2.5
+        B AS speed <= AVG(B.speed) 
+            AND FIRST(B.speed) > 9
+            AND (FIRST(B.speed) - LAST(B.speed)) < 2.5,
+        -- Phase R: Sharp increase (above phase average)
+        R AS speed >= AVG(R.speed), 
+        -- Phase F: Sharp decrease, peak>16 (crest threshold)
+        F AS speed <= AVG(F.speed) 
+            AND MAX(F.speed) > 16, 
+        -- Phase D: Gradual recovery, delta<2.5
+        D AS speed >= AVG(D.speed) 
+            AND (LAST(D.speed) - FIRST(D.speed)) < 2.5,
+        -- Phase E: Recovery to ±0.2 of initial value, total duration <11s
+        E AS speed - FIRST(B.speed) BETWEEN -0.2 AND 0.2
+            AND time - FIRST(B.time) < 11
+);
+```
