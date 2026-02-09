@@ -27,9 +27,9 @@
 
 在构建IoTDB建模方案前，需要先了解时序数据和时序数据模型，详细内容见此页面：[时序数据模型](../Background-knowledge/Navigating_Time_Series_Data.md)
 
-## 2. IoTDB 的两种时序模型
+## 2. IoTDB 的树表孪生模型
 
-IoTDB 提供了两种数据建模方式——树模型和表模型，其特点分别如下：
+IoTDB 提供了树表孪生模型的方式，其特点分别如下：
 
 **树模型**：以测点为对象进行管理，每个测点对应一条时间序列，测点名按`.`分割可形成一个树形目录结构，与物理世界一一对应，对测点的读写操作简单直观。
 
@@ -37,7 +37,7 @@ IoTDB 提供了两种数据建模方式——树模型和表模型，其特点�
 
 ### 2.1 模型特点
 
-两种模型有各自的适用场景。
+树表孪生模型有各自的适用场景。
 
 以下表格从适用场景、典型操作等多个维度对树模型和表模型进行了对比。用户可以根据具体的使用需求，选择适合的模型，从而实现数据的高效存储和管理。
 
@@ -77,7 +77,167 @@ IoTDB 提供了两种数据建模方式——树模型和表模型，其特点�
 **注意：**
 - 同一个集群实例中可以存在两种模型空间，不同模型的语法、数据库命名方式不同，默认不互相可见。
 
-- 在通过客户端工具 Cli 或 SDK 建立数据库连接时，需要通过 sql_dialect 参数指定使用的模型语法（默认使用树语法进行操作）。
+
+### 2.2 模型选择
+
+IoTDB 支持通过多种客户端工具与数据库建立连接，不同客户端下进行模型选择的方式说明如下：
+
+1. [命令行工具 CLI](../Tools-System/CLI_timecho.md)
+
+通过 CLI 建立连接时，需要通过 `sql_dialect` 参数指定使用的模型（默认使用树模型）。
+
+```Bash
+# 树模型
+start-cli.sh(bat)
+start-cli.sh(bat) -sql_dialect tree
+
+# 表模型
+start-cli.sh(bat) -sql_dialect table
+```
+
+2. [SQL](../User-Manual/Maintenance-statement_timecho.md#_2-1-设置连接的模型)
+
+在使用 SQL 语言进行数据操作时，可通过 set 语句切换使用的模型。
+
+```SQL
+-- 指定为树模型
+IoTDB> SET SQL_DIALECT=TREE
+
+-- 指定为表模型
+IoTDB> SET SQL_DIALECT=TABLE
+```
+
+3. 应用编程接口
+
+通过多语言应用编程接口建立连接时，可通过模型对应的 session/sessionpool 创建连接池实例，简单示例如下：
+
+* [Java 原生接口](../API/Programming-Java-Native-API_timecho.md)
+
+```Java
+// 树模型
+SessionPool sessionPool =
+                new SessionPool.Builder()
+                        .nodeUrls(nodeUrls)
+                        .user(username)
+                        .password(password) 
+                        .maxSize(3)
+                        .build();
+
+//表模型
+ ITableSessionPool tableSessionPool =
+                new TableSessionPoolBuilder()
+                        .nodeUrls(nodeUrls)
+                        .user(username)
+                        .password(password)
+                        .maxSize(1)
+                        .build();
+```
+
+* [Python 原生接口](../API/Programming-Python-Native-API_timecho.md)
+
+```Python
+# 树模型
+session = Session(
+​    ip=ip,
+​    port=port,
+​    user=username,
+​    password=password,
+​    fetch_size=1024,
+​    zone_id="UTC+8",
+​    enable_redirection=True
+)
+
+# 表模型
+config = TableSessionPoolConfig(
+​    node_urls=node_urls,
+​    username=username,
+​    password=password,
+​    database=database,
+​    max_pool_size=max_pool_size,
+​    fetch_size=fetch_size,
+​    wait_timeout_in_ms=wait_timeout_in_ms,
+)
+session_pool = TableSessionPool(config)
+```
+
+* [C++ 原生接口](../API/Programming-Cpp-Native-API_timecho.md)
+
+```C++
+// 树模型
+session = new Session(hostip, port, username, password);
+
+// 表模型
+session = (new TableSessionBuilder())
+            ->host(ip)
+            ->rpcPort(port)
+            ->username(username)
+            ->password(password)
+            ->build();
+```
+
+* [GO 原生接口](../API/Programming-Go-Native-API_timecho.md)
+
+```Go
+//树模型
+config := &client.PoolConfig{
+    Host:     host,
+    Port:     port,
+    UserName: user,
+    Password: password,
+}
+sessionPool = client.NewSessionPool(config, 3, 60000, 60000, false)
+defer sessionPool.Close()
+
+//表模型
+config := &client.PoolConfig{
+      Host:     host,
+      Port:     port,
+      UserName: user,
+      Password: password, 
+      Database: dbname,
+}
+sessionPool := client.NewTableSessionPool(config, 3, 60000, 4000, false)
+defer sessionPool.Close()
+```
+
+* [C# 原生接口](../API/Programming-CSharp-Native-API_timecho.md)
+
+```C#
+//树模型
+var session_pool = new SessionPool(host, port, pool_size);
+
+//表模型
+var tableSessionPool = new TableSessionPool.Builder()
+            .SetNodeUrls(nodeUrls)
+            .SetUsername(username)
+            .SetPassword(password)
+            .SetFetchSize(1024)
+            .Build();
+```
+
+* [JDBC](../API/Programming-JDBC_timecho.md)
+
+使用表模型，必须在 url 中指定 sql\_dialect 参数为 table。
+
+```Java
+// 树模型
+Class.forName("org.apache.iotdb.jdbc.IoTDBDriver");
+Connection connection = DriverManager.getConnection(
+                "jdbc:iotdb://127.0.0.1:6667/", username, password);
+
+// 表模型
+Class.forName("org.apache.iotdb.jdbc.IoTDBDriver");
+Connection connection = DriverManager.getConnection(
+                "jdbc:iotdb://127.0.0.1:6667?sql_dialect=table", username, password);
+```
+
+### 2.3 树转表
+
+IoTDB 提供了树转表功能，如下图所示：
+
+![](/img/tree-to-table-1.png)
+
+该功能支持通过创建表视图的方式，将已存在的树模型数据转化为表视图，进而通过表视图进行查询，实现了对同一份数据的树模型和表模型协同处理。更详细的功能介绍可参考[树转表视图](../User-Manual/Tree-to-Table_timecho.md)，需要注意的是：​**创建树转表视图的 SQL 语句只允许在表模型下执行**​。
 
 
 ## 3. 应用场景
