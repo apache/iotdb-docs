@@ -22,6 +22,24 @@
 
 ## 1. TimechoDB (Database Core)
 
+### V2.0.8.1
+
+> Release Date: 2026.02.04</br>
+> Download Link: Please contact Timecho Team to obtain the download link</br>
+> Package Name:timechodb-2.0.8.1-bin.zip</br>
+> SHA512 Checksum: 49d97cbf488443f8e8e73cc39f6f320b3bc84b194aed90af695ebd5771650b5e5b6a3abb0fb68059bd01827260485b903c035657b337442f4fdd32c877f2aca3
+
+V2.0.8.1 introduces the new **Object data type** to table models, enhances **AINode** with covariate-based forecasting and concurrent inference capabilities, optimizes audit logging and full-data synchronization features, and delivers comprehensive improvements to database monitoring, performance, and stability. Detailed release notes are as follows:
+
+* **Storage Module**: Added support for the [Object data type](../Background-knowledge/Data-Type_timecho.md) in table models.
+* **Query Module**: Introduced several new system tables:
+  - [CONNECTIONS](../Reference/System-Tables_timecho.md#_2-18-connections-table) (real-time connection tracking),
+  - [CURRENT_QUERIES](../Reference/System-Tables_timecho.md#_2-19-current-queries-table) (active query monitoring),
+  - [QUERIES_COSTS_HISTOGRAM](../Reference/System-Tables_timecho.md#_2-20-queries-costs-histogram-table) (query duration distribution).
+* **System Module**: Enhanced the [audit log](../User-Manual/Audit-Log_timecho.md) functionality.
+* **AI Module**: Added support for [covariate-based forecasting and concurrent inference](../AI-capability/AINode_Upgrade_timecho.md).
+* **Other Modules**: Upgraded the [OPC UA protocol](../../latest/API/Programming-OPC-UA_timecho.md) to support data push.
+
 ### V2.0.6.6
 
 > Release Date: 2026.01.20</br>

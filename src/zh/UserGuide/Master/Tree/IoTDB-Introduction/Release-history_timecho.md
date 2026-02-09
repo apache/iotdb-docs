@@ -22,6 +22,21 @@
 
 ## 1. TimechoDB（数据库内核）
 
+### V2.0.8.1
+
+> 发版时间：2026.02.04</br>
+> 下载地址：请联系天谋工作人员进行下载</br>
+> 安装包名称：timechodb-2.0.8.1-bin.zip</br>
+> SHA512 校验码：49d97cbf488443f8e8e73cc39f6f320b3bc84b194aed90af695ebd5771650b5e5b6a3abb0fb68059bd01827260485b903c035657b337442f4fdd32c877f2aca3
+
+V2.0.8.1 版本表模型新增 Object 数据类型，AINode 支持协变量预测以及支持并发推理功能，优化审计日志功能及全量数据同步功能，同时对数据库监控、性能、稳定性进行了全方位提升。具体发布内容如下：
+
+* 存储模块：表模型新增 [Object 数据类型](../../latest-Table/Background-knowledge/Data-Type_timecho.md)
+* 查询模块：表模型新增多个系统表：[CONNECTIONS](../../latest-Table/Reference/System-Tables_timecho.md#_2-18-connections-表)（实时连接追踪）、[CURRENT_QUERIES](../../latest-Table/Reference/System-Tables_timecho.md#_2-19-current-queries-表)（活跃查询监控）、[QUERIES_COSTS_HISTOGRAM](../../latest-Table/Reference/System-Tables_timecho.md#_2-20-queries-costs-histogram-表)（查询耗时分布）
+* 系统模块：优化[审计日志](../User-Manual/Audit-Log_timecho.md)功能
+* AI 模块：支持[协变量预测及并发推理](../../latest-Table/AI-capability/AINode_Upgrade_timecho.md)功能 
+* 其他模块：升级 [OPC UA 协议](../API/Programming-OPC-UA_timecho.md)，支持数据推送
+
 ### V2.0.6.6
 
 > 发版时间：2026.01.20</br>
