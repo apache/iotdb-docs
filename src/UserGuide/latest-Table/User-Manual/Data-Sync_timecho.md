@@ -117,6 +117,15 @@ WITH SINK (
 
 **IF NOT EXISTS Semantics**: Ensures that the creation command is executed only if the specified Pipe does not exist, preventing errors caused by attempting to create an already existing Pipe.
 
+**Note**:
+
+Starting from V2.0.8, when creating a full data synchronization Pipe (e.g. Pipeid: `alldatapipe`), the system will automatically split it into two independent Pipes:
+
+* History Pipe: The PipeId is the original name plus the suffix `_history` (e.g. `alldatapipe_history`). The source parameter carries the default configurations: `'realtime.enable'='false', 'inclusion'='data.insert', 'inclusion.exclusion'=''`
+* Realtime Pipe: The PipeId is the original name plus the suffix `_realtime` (e.g. `alldatapipe_realtime`). The source parameter carries the default configuration: `'history.enable'='false'`. If metadata synchronization is configured, the Realtime Pipe will be responsible for sending the data.
+
+After successful creation, the original PipeId (e.g. `alldatapipe`) will no longer be a valid identifier. When performing task operations such as starting, stopping, deleting, or viewing, you must use the split independent PipeId (i.e. `*_history` or `*_realtime`). For operation examples, see the [View Task](./Data-Sync_timecho.md#_2-5-view-task) section
+
 ### 2.2 Start a Task
 
 After creation, the task directly enters the RUNNING state and does not require manual startup. However, if the task is stopped using the `STOP PIPE` statement, you need to manually start it using the `START PIPE` statement. If the task stops due to an exception, it will automatically restart to resume data processing:
@@ -180,6 +189,29 @@ Example Output of `SHOW PIPES`:
 - **ExceptionMessage**: Displays exception information for the task.
 - **RemainingEventCount** (statistics may have delays): Number of remaining events, including data and metadata synchronization events, as well as system and user-defined events.
 - **EstimatedRemainingSeconds** (statistics may have delays): Estimated remaining time to complete the transmission based on the current event count and pipe processing rate.
+
+Example:
+
+In V2.0.8 and later versions, create a full data synchronization task and view the task details.
+
+```sql
+IoTDB> create pipe alldatapipe with source('inclusion'='all','exclusion'='auth') with sink('node-urls'='127.0.0.1:6668')
+
+IoTDB> show pipe alldatapipe_history
++-------------------+-----------------------+-------+---------------------------------------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+|                 ID|           CreationTime|  State|                                                                                               PipeSource|PipeProcessor|                  PipeSink|ExceptionMessage|RemainingEventCount|EstimatedRemainingSeconds|
++-------------------+-----------------------+-------+---------------------------------------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+|alldatapipe_history|2025-12-18T15:06:16.697|RUNNING|{exclusion=auth, history.enable=true, inclusion=data.insert, inclusion.exclusion=, realtime.enable=false}|           {}|{node-urls=127.0.0.1:6668}|                |                  0|                     0.00|
++-------------------+-----------------------+-------+---------------------------------------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+
+IoTDB> show pipe alldatapipe_realtime
++--------------------+-----------------------+-------+---------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+|                  ID|           CreationTime|  State|                                                                 PipeSource|PipeProcessor|                  PipeSink|ExceptionMessage|RemainingEventCount|EstimatedRemainingSeconds|
++--------------------+-----------------------+-------+---------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+|alldatapipe_realtime|2025-12-18T15:06:16.312|RUNNING|{exclusion=auth, history.enable=false, inclusion=all, realtime.enable=true}|           {}|{node-urls=127.0.0.1:6668}|                |                  0|                     0.00|
++--------------------+-----------------------+-------+---------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+```
+
 
 ### 2.6 Synchronization Plugins
 
