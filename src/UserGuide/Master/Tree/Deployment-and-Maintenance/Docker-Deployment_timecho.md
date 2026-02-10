@@ -73,12 +73,12 @@ This section demonstrates how to deploy a standalone Docker version of 1C1D.
 
 ### 2.1 Load Image File
 
-For example, the container image file name of IoTDB obtained here is: `iotdb-enterprise-1.3.2-3-standalone-docker.tar.gz`
+For example, the container image file name of IoTDB obtained here is: `iotdb-enterprise-2.0.x.x-standalone-docker.tar.gz`
 
 Load image:
 
 ```Bash
-docker load -i iotdb-enterprise-1.3.2.3-standalone-docker.tar.gz
+docker load -i iotdb-enterprise-2.0.x.x-standalone-docker.tar.gz
 ```
 
 View image:
@@ -278,12 +278,12 @@ echo "192.168.1.5  iotdb-3"  >> /etc/hosts
 
 ### 3.2 Load Image File
 
-For example, the container image file name obtained for IoTDB is: `iotdb-enterprise-1.3.23-standalone-docker.tar.gz`
+For example, the container image file name obtained for IoTDB is: `iotdb-enterprise-2.0.x.x-standalone-docker.tar.gz`
 
 Execute the load image command on three servers separately:
 
 ```Bash
-docker load -i iotdb-enterprise-1.3.2.3-standalone-docker.tar.gz
+docker load -i iotdb-enterprise-2.0.x.x-standalone-docker.tar.gz
 ```
 
 View image:
@@ -316,7 +316,7 @@ On each server, two yml files need to be written, namely confignnode. yml and da
 version: "3"
 services:
   iotdb-confignode:
-    image: iotdb-enterprise:1.3.2.3-standalone #The image used
+    image: iotdb-enterprise:2.0.x.x-standalone #The image used
     hostname: iotdb-1|iotdb-2|iotdb-3 #Choose from three options based on the actual situation
     container_name: iotdb-confignode
     command: ["bash", "-c", "entrypoint.sh confignode"]
@@ -352,7 +352,7 @@ services:
 version: "3"
 services:
   iotdb-datanode:
-    image: iotdb-enterprise:1.3.2.3-standalone #The image used
+    image: iotdb-enterprise:2.0.x.x-standalone #The image used
     hostname: iotdb-1|iotdb-2|iotdb-3 #Choose from three options based on the actual situation
     container_name: iotdb-datanode
     command: ["bash", "-c", "entrypoint.sh datanode"]
