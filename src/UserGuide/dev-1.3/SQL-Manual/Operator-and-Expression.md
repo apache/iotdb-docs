@@ -253,13 +253,6 @@ For details and examples, see the document [Sample Functions](../SQL-Manual/Func
 For details and examples, see the document [Time-Series](./Function-and-Expression.md#time-series-processing).
 
 
-## LAMBDA EXPRESSION
-
-| Function Name | Allowed Input Series Data Types                 | Required Attributes                                          | Output Series Data Type                         | Series Data Type  Description                                |
-| ------------- | ----------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------- | ------------------------------------------------------------ |
-| JEXL          | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | `expr` is a lambda expression that supports standard one or multi arguments in the form `x -> {...}` or `(x, y, z) -> {...}`, e.g. `x -> {x * 2}`, `(x, y, z) -> {x + y * z}` | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | Returns the input time series transformed by a lambda expression |
-
-For details and examples, see the document [Lambda](./Function-and-Expression.md#lambda-expression).
 
 ## CONDITIONAL EXPRESSION
 

@@ -915,7 +915,7 @@ For more details, see document [Operator-and-Expression](./Operator-and-Expressi
 
 ### 9.1 Arithmetic Operators
 
-For details and examples, see the document [Arithmetic Operators and Functions](./Operator-and-Expression.md#arithmetic-operators).
+For details and examples, see the document [Arithmetic Operators and Functions](./Operator-and-Expression.md#_1-1-arithmetic-operators).
 
 ```sql
 select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root.sg.d1
@@ -923,7 +923,7 @@ select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root
 
 ### 9.2 Comparison Operators
 
-For details and examples, see the document [Comparison Operators and Functions](./Operator-and-Expression.md#comparison-operators).
+For details and examples, see the document [Comparison Operators and Functions](./Operator-and-Expression.md#_1-2-comparison-operators).
 
 ```sql
 # Basic comparison operators
@@ -954,7 +954,7 @@ select a, a in (1, 2) from root.test;
 
 ### 9.3 Logical Operators
 
-For details and examples, see the document [Logical Operators](./Operator-and-Expression.md#logical-operators).
+For details and examples, see the document [Logical Operators](./Operator-and-Expression.md#_1-3-logical-operators).
 
 ```sql
 select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
@@ -962,11 +962,11 @@ select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
 
 ## 10. BUILT-IN FUNCTIONS
 
-For more details, see document [Operator-and-Expression](./Operator-and-Expression.md#built-in-functions).
+For more details, see document [Operator-and-Expression](./Operator-and-Expression.md#_2-built-in-functions).
 
 ### 10.1 Aggregate Functions
 
-For details and examples, see the document [Aggregate Functions](./Operator-and-Expression.md#aggregate-functions).
+For details and examples, see the document [Aggregate Functions](./Operator-and-Expression.md#_2-1-aggregate-functions).
 
 ```sql
 select count(status) from root.ln.wf01.wt01;
@@ -979,7 +979,7 @@ select time_duration(s1) from root.db.d1;
 
 ### 10.2 Arithmetic Functions
 
-For details and examples, see the document [Arithmetic Operators and Functions](./Operator-and-Expression.md#arithmetic-functions).
+For details and examples, see the document [Arithmetic Operators and Functions](./Operator-and-Expression.md#_2-2-arithmetic-functions).
 
 ```sql
 select s1, sin(s1), cos(s1), tan(s1) from root.sg1.d1 limit 5 offset 1000;
@@ -988,7 +988,7 @@ select s4,round(s4),round(s4,2),round(s4,-1) from root.sg1.d1;
 
 ### 10.3 Comparison Functions
 
-For details and examples, see the document [Comparison Operators and Functions](./Operator-and-Expression.md#comparison-functions).
+For details and examples, see the document [Comparison Operators and Functions](./Operator-and-Expression.md#_2-3-comparison-functions).
 
 ```sql
 select ts, on_off(ts, 'threshold'='2') from root.test;
@@ -997,7 +997,7 @@ select ts, in_range(ts, 'lower'='2', 'upper'='3.1') from root.test;
 
 ### 10.4 String Processing Functions
 
-For details and examples, see the document [String Processing](./Operator-and-Expression.md#string-processing-functions).
+For details and examples, see the document [String Processing](./Operator-and-Expression.md#_2-4-string-processing-functions).
 
 ```sql
 select s1, string_contains(s1, 's'='warn') from root.sg1.d4;
@@ -1025,7 +1025,7 @@ select regexsplit(s1, "regex"=",", "index"="3") from root.test.d1
 
 ### 10.5 Data Type Conversion Function
 
-For details and examples, see the document [Data Type Conversion Function](./Operator-and-Expression.md#data-type-conversion-function).
+For details and examples, see the document [Data Type Conversion Function](./Operator-and-Expression.md#_2-5-data-type-conversion-function).
 
 ```sql
 SELECT cast(s1 as INT32) from root.sg
@@ -1033,7 +1033,7 @@ SELECT cast(s1 as INT32) from root.sg
 
 ### 10.6 Constant Timeseries Generating Functions
 
-For details and examples, see the document [Constant Timeseries Generating Functions](./Operator-and-Expression.md#constant-timeseries-generating-functions).
+For details and examples, see the document [Constant Timeseries Generating Functions](./Operator-and-Expression.md#_2-6-constant-timeseries-generating-functions).
 
 ```sql
 select s1, s2, const(s1, 'value'='1024', 'type'='INT64'), pi(s2), e(s1, s2) from root.sg1.d1; 
@@ -1041,7 +1041,7 @@ select s1, s2, const(s1, 'value'='1024', 'type'='INT64'), pi(s2), e(s1, s2) from
 
 ### 10.7 Selector Functions
 
-For details and examples, see the document [Selector Functions](./Operator-and-Expression.md#selector-functions).
+For details and examples, see the document [Selector Functions](./Operator-and-Expression.md#_2-7-selector-functions).
 
 ```sql
 select s1, top_k(s1, 'k'='2'), bottom_k(s1, 'k'='2') from root.sg1.d2 where time > 2020-12-10T20:36:15.530+08:00;
@@ -1049,7 +1049,7 @@ select s1, top_k(s1, 'k'='2'), bottom_k(s1, 'k'='2') from root.sg1.d2 where time
 
 ### 10.8 Continuous Interval Functions
 
-For details and examples, see the document [Continuous Interval Functions](./Operator-and-Expression.md#continuous-interval-functions).
+For details and examples, see the document [Continuous Interval Functions](./Operator-and-Expression.md#_2-8-continuous-interval-functions).
 
 ```sql
 select s1, zero_count(s1), non_zero_count(s2), zero_duration(s3), non_zero_duration(s4) from root.sg.d2;
@@ -1057,7 +1057,7 @@ select s1, zero_count(s1), non_zero_count(s2), zero_duration(s3), non_zero_durat
 
 ### 10.9 Variation Trend Calculation Functions
 
-For details and examples, see the document [Variation Trend Calculation Functions](./Operator-and-Expression.md#variation-trend-calculation-functions).
+For details and examples, see the document [Variation Trend Calculation Functions](./Operator-and-Expression.md#_2-9-variation-trend-calculation-functions).
 
 ```sql
 select s1, time_difference(s1), difference(s1), non_negative_difference(s1), derivative(s1), non_negative_derivative(s1) from root.sg1.d1 limit 5 offset 1000; 
@@ -1068,7 +1068,7 @@ SELECT DIFF(s1, 'ignoreNull'='false'), DIFF(s2, 'ignoreNull'='false') from root.
 
 ### 10.10 Sample Functions
 
-For details and examples, see the document [Sample Functions](./Operator-and-Expression.md#sample-functions).
+For details and examples, see the document [Sample Functions](./Operator-and-Expression.md#_2-10-sample-functions).
 
 ```sql
 select equal_size_bucket_random_sample(temperature,'proportion'='0.1') as random_sample from root.ln.wf01.wt01;
@@ -1082,7 +1082,7 @@ select M4(s1,'windowSize'='10') from root.vehicle.d1
 
 ### 10.11 Change Points Function
 
-For details and examples, see the document [Time-Series](./Operator-and-Expression.md#change-points-function).
+For details and examples, see the document [Time-Series](./Operator-and-Expression.md#_2-11-change-points-function).
 
 ```sql
 select change_points(s1), change_points(s2), change_points(s3), change_points(s4), change_points(s5), change_points(s6) from root.testChangePoints.d1
@@ -1338,15 +1338,7 @@ select representation(s0,"tb"="3","vb"="2") from root.test.d0
 select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0
 ```
 
-## 12. LAMBDA EXPRESSION
-
-For details and examples, see the document [Lambda](../SQL-Manual/UDF-Libraries.md#lambda-expression).
-
-```sql
-select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'expr'='x -> {x * 3}') as jexl2, jexl(temperature, 'expr'='x -> {x * x}') as jexl3, jexl(temperature, 'expr'='x -> {multiply(x, 100)}') as jexl4, jexl(temperature, st, 'expr'='(x, y) -> {x + y}') as jexl5, jexl(temperature, st, str, 'expr'='(x, y, z) -> {x + y + z}') as jexl6 from root.ln.wf01.wt01;```
-```
-
-## 13. CONDITIONAL EXPRESSION
+## 12. CONDITIONAL EXPRESSION
 
 For details and examples, see the document [Conditional Expressions](../SQL-Manual/UDF-Libraries.md#conditional-expressions).
 
@@ -1384,11 +1376,11 @@ end as `result`
 from root.test4
 ```
 
-## 14. TRIGGER
+## 13. TRIGGER
 
-For more details, see document [Database-Programming](../User-Manual/Database-Programming.md).
+For more details, see document [TRIGGER](../User-Manual/Trigger.md).
 
-### 14.1 Create Trigger
+### 13.1 Create Trigger
 
 ```sql
 // Create Trigger
@@ -1421,7 +1413,7 @@ triggerAttribute
     ;
 ```
 
-### 14.2 Drop Trigger
+### 13.2 Drop Trigger
 
 ```sql
 // Drop Trigger
@@ -1430,15 +1422,15 @@ dropTrigger
 ;
 ```
 
-### 14.3 Show Trigger
+### 13.3 Show Trigger
 
 ```sql
 SHOW TRIGGERS
 ```
 
-## 15. CONTINUOUS QUERY (CQ)
+## 14. CONTINUOUS QUERY (CQ)
 
-For more details, see document [Operator-and-Expression](./Operator-and-Expression.md).
+For more details, see document [CONTINUOUS QUERY](../User-Manual/Database-Programming.md).
 
 ```sql
 CREATE (CONTINUOUS QUERY | CQ) <cq_id> 
@@ -1461,7 +1453,7 @@ BEGIN
 END
 ```
 
-### 15.1 Configuring execution intervals
+### 14.1 Configuring execution intervals
 
 ```sql
 CREATE CONTINUOUS QUERY cq1
@@ -1474,7 +1466,7 @@ SELECT max_value(temperature)
 END
 ```
 
-### 15.2 Configuring time range for resampling
+### 14.2 Configuring time range for resampling
 
 ```sql
 CREATE CONTINUOUS QUERY cq2
@@ -1487,7 +1479,7 @@ BEGIN
 END
 ```
 
-### 15.3 Configuring execution intervals and CQ time ranges
+### 14.3 Configuring execution intervals and CQ time ranges
 
 ```sql
 CREATE CONTINUOUS QUERY cq3
@@ -1501,7 +1493,7 @@ BEGIN
 END
 ```
 
-### 15.4 Configuring end_time_offset for CQ time range
+### 14.4 Configuring end_time_offset for CQ time range
 
 ```sql
 CREATE CONTINUOUS QUERY cq4
@@ -1515,7 +1507,7 @@ BEGIN
 END
 ```
 
-### 15.5 CQ without group by clause
+### 14.5 CQ without group by clause
 
 ```sql
 CREATE CONTINUOUS QUERY cq5
@@ -1528,7 +1520,7 @@ BEGIN
 END
 ```
 
-### 15.6 CQ Management
+### 14.6 CQ Management
 
 #### Listing continuous queries
 
@@ -1546,23 +1538,23 @@ DROP (CONTINUOUS QUERY | CQ) <cq_id>
 
 CQs can't be altered once they're created. To change a CQ, you must `DROP` and re`CREATE` it with the updated settings.
 
-## 16. USER-DEFINED FUNCTION (UDF)
+## 15. USER-DEFINED FUNCTION (UDF)
 
-For more details, see document [Operator-and-Expression](../SQL-Manual/UDF-Libraries.md).
+For more details, see document [UDF Libraries](../SQL-Manual/UDF-Libraries.md).
 
-### 16.1 UDF Registration
+### 15.1 UDF Registration
 
 ```sql
 CREATE FUNCTION <UDF-NAME> AS <UDF-CLASS-FULL-PATHNAME> (USING URI URI-STRING)?
 ```
 
-### 16.2 UDF Deregistration
+### 15.2 UDF Deregistration
 
 ```sql
 DROP FUNCTION <UDF-NAME>
 ```
 
-### 16.3 UDF Queries
+### 15.3 UDF Queries
 
 ```sql
 SELECT example(*) from root.sg.d1
@@ -1578,17 +1570,17 @@ SELECT s1 * example(* / s1 + s2) FROM root.sg.d1;
 SELECT s1, s2, s1 + example(s1, s2), s1 - example(s1 + example(s1, s2) / s2) FROM root.sg.d1;
 ```
 
-### 16.4 Show All Registered UDFs
+### 15.4 Show All Registered UDFs
 
 ```sql
 SHOW FUNCTIONS
 ```
 
-## 17. ADMINISTRATION MANAGEMENT
+## 16. ADMINISTRATION MANAGEMENT
 
-For more details, see document [Operator-and-Expression](./Operator-and-Expression.md).
+For more details, see document [Authority Management](../User-Manual/Authority-Management_apache.md).
 
-### 17.1 SQL Statements
+### 16.1 SQL Statements
 
 - Create user (Requires MANAGE_USER permission)
 
@@ -1679,7 +1671,7 @@ ALTER USER <username> SET PASSWORD <password>;
 eg: ALTER USER tempuser SET PASSWORD 'newpwd';
 ```
 
-### 17.2 Authorization and Deauthorization
+### 16.2 Authorization and Deauthorization
 
 
 ```sql

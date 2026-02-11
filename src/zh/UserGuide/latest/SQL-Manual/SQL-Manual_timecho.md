@@ -961,7 +961,7 @@ explain analyze select s1,s2 from root.sg.d1 order by s1
 
 ### 6.1 算数运算符
 
-更多见文档 [Arithmetic Operators and Functions](./Operator-and-Expression.md#算数运算符)
+更多见文档 [Arithmetic Operators and Functions](./Operator-and-Expression.md#_1-1-算数运算符)
 
 ```sql
 select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root.sg.d1
@@ -969,7 +969,7 @@ select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root
 
 ### 6.2 比较运算符
 
-更多见文档[Comparison Operators and Functions](./Operator-and-Expression.md#比较运算符)
+更多见文档[Comparison Operators and Functions](./Operator-and-Expression.md#_1-2-比较运算符)
 
 ```sql
 # Basic comparison operators
@@ -1000,7 +1000,7 @@ select a, a in (1, 2) from root.test;
 
 ### 6.3 逻辑运算符
 
-更多见文档[Logical Operators](./Operator-and-Expression.md#逻辑运算符)
+更多见文档[Logical Operators](./Operator-and-Expression.md#_1-3-逻辑运算符)
 
 ```sql
 select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
@@ -1008,11 +1008,11 @@ select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
 
 ## 7. 内置函数
 
-更多见文档[Operator-and-Expression](./Operator-and-Expression.md#聚合函数)
+更多见文档[Operator-and-Expression](./Operator-and-Expression.md#_2-内置函数)
 
 ### 7.1 Aggregate Functions
 
-更多见文档[Aggregate Functions](./Operator-and-Expression.md#聚合函数)
+更多见文档[Aggregate Functions](./Operator-and-Expression.md#_2-1-聚合函数)
 
 ```sql
 select count(status) from root.ln.wf01.wt01;
@@ -1025,7 +1025,7 @@ select time_duration(s1) from root.db.d1;
 
 ### 7.2 算数函数
 
-更多见文档[Arithmetic Operators and Functions](./Operator-and-Expression.md#数学函数)
+更多见文档[Arithmetic Operators and Functions](./Operator-and-Expression.md#_2-2-数学函数)
 
 ```sql
 select s1, sin(s1), cos(s1), tan(s1) from root.sg1.d1 limit 5 offset 1000;
@@ -1034,7 +1034,7 @@ select s4,round(s4),round(s4,2),round(s4,-1) from root.sg1.d1;
 
 ### 7.3 比较函数
 
-更多见文档[Comparison Operators and Functions](./Operator-and-Expression.md#比较函数)
+更多见文档[Comparison Operators and Functions](./Operator-and-Expression.md#_2-3-比较函数)
 
 ```sql
 select ts, on_off(ts, 'threshold'='2') from root.test;
@@ -1043,7 +1043,7 @@ select ts, in_range(ts, 'lower'='2', 'upper'='3.1') from root.test;
 
 ### 7.4 字符串处理函数
 
-更多见文档[String Processing](./Operator-and-Expression.md#字符串函数)
+更多见文档[String Processing](./Operator-and-Expression.md#_2-4-字符串函数)
 
 ```sql
 select s1, string_contains(s1, 's'='warn') from root.sg1.d4;
@@ -1071,7 +1071,7 @@ select regexsplit(s1, "regex"=",", "index"="3") from root.test.d1
 
 ### 7.5 数据类型转换函数
 
-更多见文档[Data Type Conversion Function](./Operator-and-Expression.md#数据类型转换函数)
+更多见文档[Data Type Conversion Function](./Operator-and-Expression.md#_2-5-数据类型转换函数)
 
 ```sql
 SELECT cast(s1 as INT32) from root.sg
@@ -1079,7 +1079,7 @@ SELECT cast(s1 as INT32) from root.sg
 
 ### 7.6 常序列生成函数
 
-更多见文档[Constant Timeseries Generating Functions](./Operator-and-Expression.md#常序列生成函数)
+更多见文档[Constant Timeseries Generating Functions](./Operator-and-Expression.md#_2-6-常序列生成函数)
 
 ```sql
 select s1, s2, const(s1, 'value'='1024', 'type'='INT64'), pi(s2), e(s1, s2) from root.sg1.d1; 
@@ -1087,7 +1087,7 @@ select s1, s2, const(s1, 'value'='1024', 'type'='INT64'), pi(s2), e(s1, s2) from
 
 ### 7.7 选择函数
 
-更多见文档[Selector Functions](./Operator-and-Expression.md#选择函数)
+更多见文档[Selector Functions](./Operator-and-Expression.md#_2-7-选择函数)
 
 ```sql
 select s1, top_k(s1, 'k'='2'), bottom_k(s1, 'k'='2') from root.sg1.d2 where time > 2020-12-10T20:36:15.530+08:00;
@@ -1095,7 +1095,7 @@ select s1, top_k(s1, 'k'='2'), bottom_k(s1, 'k'='2') from root.sg1.d2 where time
 
 ### 7.8 区间查询函数
 
-更多见文档[Continuous Interval Functions](./Operator-and-Expression.md#区间查询函数)
+更多见文档[Continuous Interval Functions](./Operator-and-Expression.md#_2-8-区间查询函数)
 
 ```sql
 select s1, zero_count(s1), non_zero_count(s2), zero_duration(s3), non_zero_duration(s4) from root.sg.d2;
@@ -1103,7 +1103,7 @@ select s1, zero_count(s1), non_zero_count(s2), zero_duration(s3), non_zero_durat
 
 ### 7.9 趋势计算函数
 
-更多见文档[Variation Trend Calculation Functions](./Operator-and-Expression.md#趋势计算函数)
+更多见文档[Variation Trend Calculation Functions](./Operator-and-Expression.md#_2-9-趋势计算函数)
 
 ```sql
 select s1, time_difference(s1), difference(s1), non_negative_difference(s1), derivative(s1), non_negative_derivative(s1) from root.sg1.d1 limit 5 offset 1000; 
@@ -1114,10 +1114,7 @@ SELECT DIFF(s1, 'ignoreNull'='false'), DIFF(s2, 'ignoreNull'='false') from root.
 
 ### 7.10 采样函数
 
-更多见文档[Sample Functions](./Operator-and-Expression.md#采样函数)。
-### 7.11 时间序列处理函数
-
-更多见文档[Sample Functions](./Operator-and-Expression.md#时间序列处理函数)。
+更多见文档[Sample Functions](./Operator-and-Expression.md#_2-10-采样函数)。 
 
 ```sql
 select equal_size_bucket_random_sample(temperature,'proportion'='0.1') as random_sample from root.ln.wf01.wt01;
@@ -1131,7 +1128,7 @@ select M4(s1,'windowSize'='10') from root.vehicle.d1
 
 ### 7.12 时间序列处理函数
 
-更多见文档[Time-Series](./Operator-and-Expression.md#时间序列处理函数)
+更多见文档[Time-Series](./Operator-and-Expression.md#_2-11-时间序列处理函数)
 
 ```sql
 select change_points(s1), change_points(s2), change_points(s3), change_points(s4), change_points(s5), change_points(s6) from root.testChangePoints.d1
@@ -1387,17 +1384,9 @@ select representation(s0,"tb"="3","vb"="2") from root.test.d0
 select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0
 ```
 
-## 9. Lambda 表达式
+## 9. 条件表达式
 
-更多见文档[Lambda](./Operator-and-Expression.md#lambda-表达式)
-
-```sql
-select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'expr'='x -> {x * 3}') as jexl2, jexl(temperature, 'expr'='x -> {x * x}') as jexl3, jexl(temperature, 'expr'='x -> {multiply(x, 100)}') as jexl4, jexl(temperature, st, 'expr'='(x, y) -> {x + y}') as jexl5, jexl(temperature, st, str, 'expr'='(x, y, z) -> {x + y + z}') as jexl6 from root.ln.wf01.wt01;```
-```
-
-## 10. 条件表达式
-
-更多见文档[Conditional Expressions](./Operator-and-Expression.md#条件表达式)
+更多见文档[Conditional Expressions](./Operator-and-Expression.md#_3-条件表达式)
 
 ```sql
 select T, P, case
@@ -1433,9 +1422,9 @@ end as `result`
 from root.test4
 ```
 
-## 11. 触发器
+## 10. 触发器
 
-### 11.1 使用 SQL 语句注册该触发器
+### 10.1 使用 SQL 语句注册该触发器
 ```sql
 // Create Trigger
 
@@ -1513,7 +1502,7 @@ WITH (
 
 )
 ```
-### 11.2 卸载触发器
+### 10.2 卸载触发器
 
 #### 卸载触发器的 SQL 语法如下：
 ```sql
@@ -1529,13 +1518,13 @@ dropTrigger
 ```sql
 DROP TRIGGER triggerTest1
 ```
-### 11.3 查询触发器
+### 10.3 查询触发器
 ```sql
 SHOW TRIGGERS
 ```
-## 12. 连续查询（Continuous Query, CQ）
+## 11. 连续查询（Continuous Query, CQ）
 
-### 12.1 语法
+### 11.1 语法
 
 ```Go
 CREATE (CONTINUOUS QUERY | CQ) <cq_id> 
