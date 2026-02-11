@@ -22,6 +22,27 @@
 
 ## 1. TimechoDB（数据库内核）
 
+### V2.0.8.1
+
+> 发版时间：2026.02.04</br>
+> 下载地址：请联系天谋工作人员进行下载</br>
+> 安装包名称：timechodb-2.0.8.1-bin.zip</br>
+> SHA512 校验码：49d97cbf488443f8e8e73cc39f6f320b3bc84b194aed90af695ebd5771650b5e5b6a3abb0fb68059bd01827260485b903c035657b337442f4fdd32c877f2aca3
+
+V2.0.8.1 版本表模型新增Object数据类型，强化升级审计日志功，优化树模型 OPC UA 协议，AINode 支持协变量预测，以及 AINode 支持并发推理等功能，同时对数据库监控、性能、稳定性进行了全方位提升。具体发布内容如下：
+
+- 查询模块：新增 DataNode 可用节点的列表展示，可[查看节点的 RPC 地址和端口](../User-Manual/Maintenance-statement_timecho.md#_1-7-查看可用节点)
+- 查询模块：表模型新增[统计查询耗时的系统表](../Reference/System-Tables_timecho.md#_2-20-queries-costs-histogram-表)
+- 存储模块：支持通过 SQL 查看[创建表](../Basic-Concept/Table-Management_timecho.md#_1-4-查看表的创建信息)/[视图](../User-Manual/Tree-to-Table_timecho.md#_2-4-查看表视图)的完整定义语句
+- 存储模块：优化树模型 [OPC UA 协议](../../latest/API/Programming-OPC-UA_timecho.md)
+- 系统模块：表模型新增 [Object 数据类型](../Background-knowledge/Data-Type_timecho.md)
+- 系统模块：强化升级[审计日志](../User-Manual/Audit-Log_timecho.md)功能
+- 系统模块：表模型新增 DataNode [节点连接情况](../Reference/System-Tables_timecho.md#_2-18-connections-表)的系统表
+- AINode：内置 chronos-2 模型，支持[协变量预测](../AI-capability/AINode_Upgrade_timecho.md)功能
+- AINode：Timer-XL、Sundial 内置模型支持[并发推理](../AI-capability/AINode_Upgrade_timecho.md)功能
+- 流处理模块：创建全量同步 pipe 会[自动拆分](../User-Manual/Data-Sync_timecho.md#_2-1-创建任务)为实时、历史两个独立 pipe，可通过 show pipes 语句分别查看剩余事件数
+- 其他：修复安全漏洞 CVE-2025-12183、CVE-2025-66566、CVE-2025-11226
+
 ### V2.0.6.6
 
 > 发版时间：2026.01.20</br>
@@ -31,8 +52,7 @@
 
 V2.0.6.6 版本主要优化了树模型时间序列的查询性能，同时对数据库监控、性能、稳定性进行了全方位提升。具体发布内容如下：
 
-* 查询模块：优化了 show/count timeseries/devices 的查询性能
-* 其他：修复安全漏洞 CVE-2025-12183，CVE-2025-66566 and CVE-2025-11226
+* 查询模块：优化了 show/count timeseries/devices 的查询性能 
 
 ### V2.0.6.4
 
