@@ -397,7 +397,43 @@ IoTDB> CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT, longitude FLOA
 
 对齐的时间序列也支持设置别名、标签、属性。
 
-### 2.3 删除时间序列
+
+### 2.3 修改时间序列数据类型
+
+自 V2.0.8 版本起，支持通过 SQL 语句修改时间序列的数据类型。
+
+语法定义：
+
+```SQL
+ALTER TIMESERIES fullPath SET DATA TYPE newType=type
+```
+
+说明：
+
+* 变更过程中若该时间序列被并发删除，会报错提示。
+* 变更后的时间序列类型需要与原类型兼容，具体兼容性如下表所示：
+
+| 原始类型  | 可变更为类型                                  |
+| ----------- | ----------------------------------------------- |
+| INT32     | INT64, FLOAT, DOUBLE, TIMESTAMP, STRING, TEXT |
+| INT64     | TIMESTAMP, DOUBLE, STRING, TEXT               |
+| FLOAT     | DOUBLE, STRING, TEXT                          |
+| DOUBLE    | STRING, TEXT                                  |
+| BOOLEAN   | STRING, TEXT                                  |
+| TEXT      | BLOB, STRING                                  |
+| STRING    | TEXT, BLOB                                    |
+| BLOB      | STRING, TEXT                                  |
+| DATE      | STRING, TEXT                                  |
+| TIMESTAMP | INT64, DOUBLE, STRING, TEXT                   |
+
+使用示例：
+
+```SQL
+ALTER TIMESERIES root.ln.wf01.wt01.temperature set data type DOUBLE
+```
+
+
+### 2.4 删除时间序列
 
 我们可以使用`(DELETE | DROP) TimeSeries <PathPattern>`语句来删除我们之前创建的时间序列。SQL 语句如下所示：
 
@@ -408,7 +444,7 @@ IoTDB> delete timeseries root.ln.wf02.*
 IoTDB> drop timeseries root.ln.wf02.*
 ```
 
-### 2.4 查看时间序列
+### 2.5 查看时间序列
 
 * SHOW LATEST? TIMESERIES pathPattern? timeseriesWhereClause? limitClause?
 
@@ -552,7 +588,7 @@ It costs 0.004s
 
 需要注意的是，当查询路径不存在时，系统会返回 0 条时间序列。
 
-### 2.5 统计时间序列总数
+### 2.6 统计时间序列总数
 
 IoTDB 支持使用`COUNT TIMESERIES<Path>`来统计一条路径中的时间序列个数。SQL 语句如下所示：
 
@@ -639,7 +675,7 @@ It costs 0.002s
 
 > 注意：时间序列的路径只是过滤条件，与 level 的定义无关。
 
-### 2.6 活跃时间序列查询
+### 2.7 活跃时间序列查询
 我们在原有的时间序列查询和统计上添加新的WHERE时间过滤条件，可以得到在指定时间范围中存在数据的时间序列。
 
 需要注意的是， 在带有时间过滤的元数据查询中并不考虑视图的存在，只考虑TsFile中实际存储的时间序列。
@@ -680,7 +716,7 @@ IoTDB> count timeseries where time >= 15000 and time < 16000;
 ```
 关于活跃时间序列的定义，能通过正常查询查出来的数据就是活跃数据，也就是说插入但被删除的时间序列不在考虑范围内。
 
-### 2.7 标签点管理
+### 2.8 标签点管理
 
 我们可以在创建时间序列的时候，为它添加别名和额外的标签和属性信息。
 

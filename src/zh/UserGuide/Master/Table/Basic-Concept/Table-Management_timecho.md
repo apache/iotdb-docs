@@ -309,7 +309,7 @@ Total line number = 1
 
 ### 1.5 修改表
 
-用于修改表，包括添加列、删除列以及设置表的属性。
+用于修改表，包括添加列、删除列、修改列类型（V2.0.8）以及设置表的属性。
 
 **语法：**
 
@@ -320,6 +320,7 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? col
 | ALTER TABLE (IF EXISTS)? tableName=qualifiedName SET PROPERTIES propertyAssignments                #setTableProperties
 | COMMENT ON TABLE tableName=qualifiedName IS 'table_comment'
 | COMMENT ON COLUMN tableName.column IS 'column_comment'
+| ALTER TABLE (IF EXISTS)? tableName=qualifiedName ALTER COLUMN (IF EXISTS)? column=identifier SET DATA TYPE new_type=type   #changeColumndatatype
 ```
 
 **说明：**
@@ -327,6 +328,23 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? col
 1. `SET PROPERTIES`操作目前仅支持对表的 TTL 属性进行配置。
 2. 删除列功能，仅支持删除属性列(ATTRIBUTE)和物理量列(FIELD)，标识列(TAG)不支持删除。
 3. 修改后的 comment 会覆盖原有注释，如果指定为 null，则会擦除之前的 comment。
+4. 自 V2.0.8 版本起支持修改字段数据类型，目前只支持修改Category类型为FIELD的字段。
+   - 变更过程中若该时间序列被并发删除，会报错提示。
+   - 变更后的字段类型需要与原类型兼容，具体兼容性如下表所示：
+
+| 原始类型  | 可变更为类型                                  |
+| ----------- | ----------------------------------------------- |
+| INT32     | INT64, FLOAT, DOUBLE, TIMESTAMP, STRING, TEXT |
+| INT64     | TIMESTAMP, DOUBLE, STRING, TEXT               |
+| FLOAT     | DOUBLE, STRING, TEXT                          |
+| DOUBLE    | STRING, TEXT                                  |
+| BOOLEAN   | STRING, TEXT                                  |
+| TEXT      | BLOB, STRING                                  |
+| STRING    | TEXT, BLOB                                    |
+| BLOB      | STRING, TEXT                                  |
+| DATE      | STRING, TEXT                                  |
+| TIMESTAMP | INT64, DOUBLE, STRING, TEXT                   |
+
 
 **示例:** 
 
@@ -336,6 +354,7 @@ ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b'
 ALTER TABLE table1 set properties TTL=3600
 COMMENT ON TABLE table1 IS 'table1'
 COMMENT ON COLUMN table1.a IS null
+ALTER TABLE table1 ALTER COLUMN IF EXISTS b SET DATA TYPE DOUBLE
 ```
 
 ### 1.6 删除表
