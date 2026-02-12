@@ -141,7 +141,7 @@ AS root.db.**
 ### 2.2 Modifying a Table View
 #### 2.2.1 Syntax Definition
 
-The ALTER VIEW function supports modifying the view name, adding columns, renaming columns, deleting columns, setting the view's TTL property, and adding comments via COMMENT.
+The ALTER VIEW function supports modifying the view name, adding columns, renaming columns, modifying FIELD column data type (supported since V2.0.8), deleting columns, setting the view's TTL property, and adding comments via COMMENT.
 
 ```SQL
 -- Rename view
@@ -155,6 +155,9 @@ viewColumnDefinition
 
 -- Rename a column in the view
 ALTER VIEW [IF EXISTS] viewName RENAME COLUMN [IF EXISTS] oldName TO newName
+
+-- Modify the data type of a FIELD column
+ALTER VIEW [IF EXISTS] viewName ALTER COLUMN [IF EXISTS] columnName SET DATA TYPE new_type
 
 -- Delete a column from the view
 ALTER VIEW [IF EXISTS] viewName DROP COLUMN [IF EXISTS] columnName
@@ -171,6 +174,21 @@ COMMENT ON COLUMN qualifiedName '.' column=identifier IS (string | NULL) #commen
 1. The `SET PROPERTIES`operation currently only supports configuring the TTL property for the table view.
 2. The `DROP COLUMN`function only supports deleting FIELD columns; TAG columns cannot be deleted.
 3. Modifying the comment will overwrite the original comment. If set to `null`, the previous comment will be erased.
+4. When modifying the data type of a FIELD column, the new data type must be compatible with the original type. The specific compatibility is shown in the following table:
+
+| Original Type | Convertible To Type                          |
+|---------------|----------------------------------------------|
+| INT32         | INT64, FLOAT, DOUBLE, TIMESTAMP, STRING, TEXT |
+| INT64         | TIMESTAMP, DOUBLE, STRING, TEXT             |
+| FLOAT         | DOUBLE, STRING, TEXT                        |
+| DOUBLE        | STRING, TEXT                                |
+| BOOLEAN       | STRING, TEXT                                |
+| TEXT          | BLOB, STRING                                |
+| STRING        | TEXT, BLOB                                  |
+| BLOB          | STRING, TEXT                                |
+| DATE          | STRING, TEXT                                |
+| TIMESTAMP     | INT64, DOUBLE, STRING, TEXT                 |
+
 #### 2.2.3 Usage Examples
 
 ```SQL
@@ -182,6 +200,9 @@ ALTER VIEW IF EXISTS tableview ADD COLUMN IF NOT EXISTS temperature float field
 
 -- Rename a column in the view
 ALTER VIEW IF EXISTS tableview RENAME COLUMN IF EXISTS temperature TO temp
+
+-- Modify the data type of a FIELD column
+ALTER VIEW IF EXISTS tableview ALTER COLUMN IF EXISTS temperature SET DATA TYPE double
 
 -- Delete a column from the view
 ALTER VIEW IF EXISTS tableview DROP COLUMN IF EXISTS temp

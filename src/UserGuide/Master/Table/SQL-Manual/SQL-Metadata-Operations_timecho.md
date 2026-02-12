@@ -310,6 +310,7 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? col
 | ALTER TABLE (IF EXISTS)? tableName=qualifiedName SET PROPERTIES propertyAssignments                #setTableProperties
 | COMMENT ON TABLE tableName=qualifiedName IS 'table_comment'
 | COMMENT ON COLUMN tableName.column IS 'column_comment'
+| ALTER TABLE (IF EXISTS)? tableName=qualifiedName ALTER COLUMN (IF EXISTS)? column=identifier SET DATA TYPE new_type=type   #changeColumndatatype
 ```
 
 **Examples:**
@@ -320,6 +321,7 @@ ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b'
 ALTER TABLE table1 set properties TTL=3600
 COMMENT ON TABLE table1 IS 'table1'
 COMMENT ON COLUMN table1.a IS null
+ALTER TABLE table1 ALTER COLUMN IF EXISTS b SET DATA TYPE DOUBLE
 ```
 
 ### 2.6 Drop Table
