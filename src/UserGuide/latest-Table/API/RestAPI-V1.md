@@ -228,7 +228,7 @@ The `/ping` endpoint can be used for online service health checks.
           | `database`          | string | Yes      | Database name                                                |
           | `table`             | string | Yes      | Table name                                                   |
           | `column_names`      | array  | Yes      | Column names                                                 |
-          | `column_catogories` | array  | Yes      | Column categories (`TAG`, `FIELD`, `ATTRIBUTE`)              |
+          | `column_categories` | array  | Yes      | Column categories (`TAG`, `FIELD`, `ATTRIBUTE`)              |
           | `data_types`        | array  | Yes      | Data types                                                   |
           | `timestamps`        | array  | Yes      | Timestamp column                                             |
           | `values`            | array  | Yes      | Value columns. Each column's values can be `null`. A 2D array where the first dimension corresponds to timestamps, and the second dimension corresponds to columns. |
@@ -243,7 +243,7 @@ The `/ping` endpoint can be used for online service health checks.
 - Example Request:
 
   ```Bash
-    curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"database":"test","column_catogories":["TAG","FIELD","FIELD"],"timestamps":[1739702535000,1739789055000],"column_names":["s1","s2","s3"],"data_types":["STRING","BOOLEAN","INT32"],"values":[["a11",true,2024],["a11",false,2025]],"table":"test_table"}' http://127.0.0.1:18080/rest/table/v1/insertTablet
+    curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"database":"test","column_categories":["TAG","FIELD","FIELD"],"timestamps":[1739702535000,1739789055000],"column_names":["s1","s2","s3"],"data_types":["STRING","BOOLEAN","INT32"],"values":[["a11",true,2024],["a11",false,2025]],"table":"test_table"}' http://127.0.0.1:18080/rest/table/v1/insertTablet
   ```
 
 - Example Response:

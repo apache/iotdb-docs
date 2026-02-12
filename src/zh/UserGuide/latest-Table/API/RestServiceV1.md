@@ -221,7 +221,7 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 | database          | string   | 是       | 数据库名称                                                   |
 | table             | string   | 是       | 表名                                                         |
 | column_names      | array    | 是       | 列名                                                         |
-| column_catogories | array    | 是       | 列类别(TAG,FIELD,*ATTRIBUTE*)                                |
+| column_categories | array    | 是       | 列类别(TAG,FIELD,*ATTRIBUTE*)                                |
 | data_types        | array    | 是       | 数据类型                                                     |
 | timestamps        | array    | 是       | 时间列                                                       |
 | values            | array    | 是       | 值列，每一列中的值可以为 `null`二维数组第一层长度跟timestamps长度相同。第二层长度跟column_names长度相同 |
@@ -238,7 +238,7 @@ curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X
 - 请求示例
 
 ```JSON
-curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"database":"test","column_catogories":["TAG","FIELD","FIELD"],"timestamps":[1739702535000,1739789055000],"column_names":["s1","s2","s3"],"data_types":["STRING","BOOLEAN","INT32"],"values":[["a11",true,2024],["a11",false,2025]],"table":"test_table"}' http://127.0.0.1:18080/rest/table/v1/insertTablet
+curl -H "Content-Type:application/json" -H "Authorization:Basic cm9vdDpyb290" -X POST --data '{"database":"test","column_categories":["TAG","FIELD","FIELD"],"timestamps":[1739702535000,1739789055000],"column_names":["s1","s2","s3"],"data_types":["STRING","BOOLEAN","INT32"],"values":[["a11",true,2024],["a11",false,2025]],"table":"test_table"}' http://127.0.0.1:18080/rest/table/v1/insertTablet
 ```
 
 - 响应示例
