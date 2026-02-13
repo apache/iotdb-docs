@@ -21,6 +21,9 @@
         </div>
       </div>
     </template>
+    <template #contentAfter v-if="firstPublishedDate">
+      <div style="text-align: right; font-size: 14px; color: #3c3c43; margin-bottom: -45px; margin-top: 32px;">{{ firstPublishedDatePlaceholder }}<span style="color: #3c3c43c7;">{{ firstPublishedDate }}</span></div>
+    </template>
   </Layout>
 </template>
 
@@ -30,12 +33,24 @@ import { Layout } from 'vuepress-theme-hope/client';
 import { ref, watch, computed } from 'vue';
 import { useRoute, withBase, useRouter } from 'vuepress/client';
 import { getDialect, getDocVersion, URL_SUFFIX } from '../utils/index.js';
+import { usePageData } from "vuepress/client";
+import dayjs from "dayjs";
 
 const route = useRoute();
 const router = useRouter();
 const currentLang = ref('zh');
 const currentVersion = ref('');
 const currentDialect = ref('');
+const page = usePageData();
+
+const firstPublishedDate = computed(() => {
+  const raw = page.value.frontmatter.publishedDate;
+  return raw ? (currentLang.value === 'zh' ? dayjs(raw).format("YYYY/M/D HH:mm") : dayjs(raw).format("D/M/YY, h:mm A")) : null
+})
+
+const firstPublishedDatePlaceholder = computed(() => {
+  return currentLang.value === 'zh' ? '首次发布: ' : 'First Published: ';
+})
 
 const ModelName = computed(() => {
   return currentLang.value === 'zh' ? {
