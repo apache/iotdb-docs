@@ -23,15 +23,24 @@
 
 AINode is a native IoTDB node that supports the registration, management, and invocation of time-series-related models. It comes with built-in industry-leading self-developed time-series large models, such as the Timer series developed by Tsinghua University. These models can be invoked through standard SQL statements, enabling real-time inference of time series data at the millisecond level, and supporting application scenarios such as trend forecasting, missing value imputation, and anomaly detection for time series data.
 
+> Available since V2.0.5.1
+
 The system architecture is shown below:
 ::: center
-<img src="/img/AInode.png" style="zoom:50 percent" />
+<img src="/img/AINode-0-en.png" style="zoom:50 percent" />
 ::: 
+
 The responsibilities of the three nodes are as follows:
 
-- **ConfigNode**: responsible for storing and managing the meta-information of the model; responsible for distributed node management.
-- **DataNode**: responsible for receiving and parsing SQL requests from users; responsible for storing time-series data; responsible for preprocessing computation of data.
-- **AINode**: responsible for model file import creation and model inference.
+- **ConfigNode:**
+    - Manages distributed nodes and handles load balancing across the system.
+- **DataNode:**
+    - Receives and parses user SQL queries.
+    - Stores time-series data.
+    - Performs preprocessing computations on raw data.
+- **AINode:**
+    - Manages and utilizes time-series models (including training/inference).
+    - Supports deep learning and machine learning workflows.
 
 ## 1. Advantageous features
 
@@ -55,11 +64,11 @@ Compared with building a machine learning service alone, it has the following ad
 - **Create**: Load externally designed or trained model files/algorithms into AINode for unified management and usage by IoTDB.
 - **Inference**: Use the created model to complete time series analysis tasks applicable to the model on specified time series data.
 - **Built-in Capabilities**: AINode comes with machine learning algorithms or self-developed models for common time series analysis scenarios (e.g., forecasting and anomaly detection).
-![](/img/h3.png)
+![](/img/AINode-en.png)
 
 ## 3. Installation and Deployment
 
-The deployment of AINode can be found in the document [Deployment Guidelines](../Deployment-and-Maintenance/AINode_Deployment_timecho.md#ainode-deployment) .
+The deployment of AINode can be found in the document [AINode Deployment](../Deployment-and-Maintenance/AINode_Deployment_timecho.md) .
 
 
 ## 4. Usage Guide
@@ -80,13 +89,13 @@ Models that meet the following criteria can be registered with AINode:
 The SQL syntax for model registration is defined as follows:
 
 ```SQL
-create model <model_name> using uri <uri>
+create model <model_id> using uri <uri>
 ```
 
 Detailed meanings of SQL parameters:
 
-- **model_name**: The global unique identifier for the model, non-repeating. Model names have the following constraints:
-  - Allowed characters: [0-9 a-z A-Z _] (letters, numbers, underscores)
+- **model_id**: The global unique identifier for the model, non-repeating. Model names have the following constraints:
+  - Allowed characters: [0-9 a-z A-Z _] (letters, digits (not at the beginning), underscores (not at the beginning))
   - Length: 2-64 characters
   - Case-sensitive
 - **uri**: The resource path of the model registration files, which should include the **model structure and weight file `model.pt` and the model configuration file `config.yaml`**
@@ -117,7 +126,7 @@ In addition to registering local model files, remote resource paths can be speci
 
 #### Example
 
-The current example folder contains model.pt (trained model) and config.yaml with the following content:
+The [example folder](https://github.com/apache/iotdb/tree/master/integration-test/src/test/resources/ainode-example) contains model.pt (trained model) and config.yaml with the following content:
 
 ```YAML
 configs:                
@@ -157,44 +166,65 @@ Registered models can be queried using the `show models` command. The SQL defini
 ```SQL
 show models
 
-show models <model_name>
+show models <model_id>
 ```
 
 In addition to displaying all models, specifying a `model_id` shows details of a specific model. The display includes:
 
-| **ModelId** | **State**                                                 | **Configs**                                      | **Attributes** |
-| ----------- | --------------------------------------------------------- | ------------------------------------------------ | -------------- |
-| Unique ID   | Registration status (INACTIVE, LOADING, ACTIVE,TRAINING,FAILED, DROPPING) | InputShape, outputShape, inputTypes, outputTypes | User notes     |
+| **ModelId** | **ModelType** | **Category**   | **State**   |
+|-------------|---------------|----------------|-------------|
+| Model ID    | Model Type    | Model Category | Model State |
 
-**State descriptions:**
+- Model State Transition Diagram
 
-- **INACTIVE**: The model is in an unavailable state.
-- **LOADING**: The model is being loaded.
-- **ACTIVE**: The model is in an available state.
-- **TRAINING**: The model is in the fine-tuning state.
-- **FAILED**: The model fine-tuning failed.
-- **DROPPING**: The model is being deleted.
+![](/img/AINode-State-en.png)
 
-#### Example
+**Instructions:**
+
+1. Initialization:
+    - When AINode starts, show models only displays BUILT-IN models.
+2. Custom Model Import:
+    - Users can import custom models (marked as USER-DEFINED).
+    - The system attempts to parse the ModelTypefrom the config file.
+    - If parsing fails, the field remains empty.
+3. Foundation Model Weights:
+    - Time-series foundation model weights are not bundled with AINode.
+    - AINode automatically downloads them during startup.
+    - Download state: LOADING.
+4. Download Outcomes:
+    - Success → State changes to ACTIVE.
+    - Failure → State changes to INACTIVE.
+5. Fine-Tuning Process:
+    - When fine-tuning starts: State becomes TRAINING.
+    - Successful training → State transitions to ACTIVE.
+    - Training failure → State changes to FAILED.
+
+**Example**
 
 ```SQL
 IoTDB> show models
-
-+---------------------+--------------------+--------+--------+
-|              ModelId|           ModelType|Category|   State|
-+---------------------+--------------------+--------+--------+
-|                arima|               Arima|BUILT-IN|  ACTIVE|
-|          holtwinters|         HoltWinters|BUILT-IN|  ACTIVE|
-|exponential_smoothing|ExponentialSmoothing|BUILT-IN|  ACTIVE|
-|     naive_forecaster|     NaiveForecaster|BUILT-IN|  ACTIVE|
-|       stl_forecaster|       StlForecaster|BUILT-IN|  ACTIVE|
-|         gaussian_hmm|         GaussianHmm|BUILT-IN|  ACTIVE|
-|              gmm_hmm|              GmmHmm|BUILT-IN|  ACTIVE|
-|                stray|               Stray|BUILT-IN|  ACTIVE|
-|             timer_xl|            Timer-XL|BUILT-IN|  ACTIVE|
-|              sundial|       Timer-Sundial|BUILT-IN|  ACTIVE|
-+---------------------+--------------------+--------+--------+
++---------------------+--------------------+--------------+---------+
+|              ModelId|           ModelType|      Category|    State|
++---------------------+--------------------+--------------+---------+
+|                arima|               Arima|      BUILT-IN|   ACTIVE|
+|          holtwinters|         HoltWinters|      BUILT-IN|   ACTIVE|
+|exponential_smoothing|ExponentialSmoothing|      BUILT-IN|   ACTIVE|
+|     naive_forecaster|     NaiveForecaster|      BUILT-IN|   ACTIVE|
+|       stl_forecaster|       StlForecaster|      BUILT-IN|   ACTIVE|
+|         gaussian_hmm|         GaussianHmm|      BUILT-IN|   ACTIVE|
+|              gmm_hmm|              GmmHmm|      BUILT-IN|   ACTIVE|
+|                stray|               Stray|      BUILT-IN|   ACTIVE| 
+|               custom|                    |  USER-DEFINED|   ACTIVE|
+|              timerxl|            Timer-XL|      BUILT-IN|  LOADING|
+|              sundial|       Timer-Sundial|      BUILT-IN|   ACTIVE|
+|           sundialx_1|       Timer-Sundial|    FINE-TUNED|   ACTIVE|
+|           sundialx_2|       Timer-Sundial|    FINE-TUNED|   ACTIVE|
+|             sundialx|       Timer-Sundial|    FINE-TUNED|   ACTIVE|
+|           sundialx_4|       Timer-Sundial|    FINE-TUNED| TRAINING|
+|           sundialx_5|       Timer-Sundial|    FINE-TUNED|   FAILED|
++---------------------+--------------------+--------------+---------+
 ```
+
 
 ### 4.3 Deleting Models
 
@@ -246,10 +276,10 @@ Parameter descriptions:
 
 1. The `forecast` function predicts all columns in the input table by default (excluding the time column and columns specified in `partition by`).
 2. The `forecast` function does not require the input data to be in any specific order. It sorts the input data in ascending order by the timestamp (specified by the `TIMECOL` parameter) before invoking the model for prediction.
-3. Different models have different requirements for the number of input data rows:
-   - If the input data has fewer rows than the minimum requirement, an error will be thrown.
-   - If the input data exceeds the maximum row limit, the last rows that meet the requirement will be automatically truncated for processing.
-   - Among the currently built-in models in AINode, only `sundial` has a row limit. It supports a maximum of 2880 input rows. If exceeded, the last 2880 rows will be automatically used.
+3. Different models have varying requirements for the number of input data rows. If the input data has fewer rows than the minimum requirement, an error will be reported.
+    - Among the current built-in models in AINode:
+        - Timer-XL requires at least 96 rows of input data.
+        - Timer-Sundial requires at least 16 rows of input data.
 4. The result columns of the `forecast` function include all input columns from the input table, with their original data types preserved. If `preserve_input = true`, an additional `is_input` column will be included to indicate whether a row is from the input data.
    - Currently, only columns of type INT32, INT64, FLOAT, or DOUBLE are supported for prediction. Otherwise, an error will occur: "The type of the column [%s] is [%s], only INT32, INT64, FLOAT, DOUBLE is allowed."
 5. `output_start_time` and `output_interval` only affect the generation of the timestamp column in the output results. Both are optional parameters:
@@ -257,7 +287,12 @@ Parameter descriptions:
    - `output_interval` defaults to the sampling interval of the input data, calculated as: (last timestamp - first timestamp) / (number of rows - 1).
    - The timestamp of the Nth output row is calculated as: `output_start_time + (N - 1) * output_interval`.
 
-#### Example
+**Example: Database and table must be pre-created**
+
+```sql
+create database etth
+create table eg (hufl FLOAT FIELD, hull FLOAT FIELD, mufl FLOAT FIELD, mull FLOAT FIELD, lufl FLOAT FIELD, lull FLOAT FIELD, ot FLOAT FIELD)
+```
 
 Using the ETTh1-tab dataset:[ETTh1-tab](/img/ETTh1-tab.csv)。
 
@@ -380,7 +415,7 @@ IoTDB> show models
 
 ### 4.6 Time Series Large Model Import Steps
 
-AINode supports multiple time series large models. For deployment, refer to [Time Series Large Model](https://timecho.com/docs/zh/UserGuide/latest/AI-capability/TimeSeries-Large-Model.html)
+AINode supports multiple time series large models. For deployment, refer to [Time Series Large Model](../AI-capability/TimeSeries-Large-Model.md)
 
 
 ## 5 Permission Management
