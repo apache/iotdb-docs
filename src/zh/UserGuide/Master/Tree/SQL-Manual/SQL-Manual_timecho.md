@@ -1537,7 +1537,7 @@ SHOW TRIGGERS
 
 ### 12.1 语法
 
-```sql
+```Go
 CREATE (CONTINUOUS QUERY | CQ) <cq_id> 
 [RESAMPLE 
   [EVERY <every_interval>] 
@@ -1893,6 +1893,6 @@ eg: REVOKE READ ON root.** FROM ROLE role1;
 eg: REVOKE READ_DATA, WRITE_DATA ON root.t1.** FROM USER user1;
 eg: REVOKE READ_DATA, WRITE_DATA ON root.t1.**, root.t2.** FROM USER user1;
 eg: REVOKE MANAGE_ROLE ON root.** FROM USER user1;
-eg: REVOKE ALL ON ROOT.** FROM USER user1;
+eg: REVOKE ALL ON root.** FROM USER user1;
 ```
 
