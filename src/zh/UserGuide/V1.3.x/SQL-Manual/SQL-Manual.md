@@ -1462,13 +1462,6 @@ select representation(s0,"tb"="3","vb"="2") from root.test.d0
 select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0
 ```
 
-## Lambda 表达式
-
-更多见文档[Lambda](./Operator-and-Expression.md#lambda-表达式)
-
-```sql
-select jexl(temperature, 'expr'='x -> {x + x}') as jexl1, jexl(temperature, 'expr'='x -> {x * 3}') as jexl2, jexl(temperature, 'expr'='x -> {x * x}') as jexl3, jexl(temperature, 'expr'='x -> {multiply(x, 100)}') as jexl4, jexl(temperature, st, 'expr'='(x, y) -> {x + y}') as jexl5, jexl(temperature, st, str, 'expr'='(x, y, z) -> {x + y + z}') as jexl6 from root.ln.wf01.wt01;```
-```
 
 ## 条件表达式
 

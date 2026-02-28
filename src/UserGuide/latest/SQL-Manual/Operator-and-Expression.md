@@ -25,7 +25,7 @@ This chapter describes the operators and functions supported by IoTDB. IoTDB pro
 
 A list of all available functions, both built-in and custom, can be displayed with `SHOW FUNCTIONS` command.
 
-See the documentation [Select-Expression](../SQL-Manual/Function-and-Expression.md#selector-functions) for the behavior of operators and functions in SQL.
+See the documentation [Select-Expression](../SQL-Manual/Function-and-Expression.md#_8-selector-functions) for the behavior of operators and functions in SQL.
 
 ## 1. OPERATORS
 
@@ -41,7 +41,7 @@ See the documentation [Select-Expression](../SQL-Manual/Function-and-Expression.
 | `+`      | addition                  |
 | `-`      | subtraction               |
 
-For details and examples, see the document [Arithmetic Operators and Functions](../SQL-Manual/Function-and-Expression.md#arithmetic-functions).
+For details and examples, see the document [Arithmetic Operators and Functions](../SQL-Manual/Function-and-Expression.md#_1-1-arithmetic-operators).
 
 ### 1.2 Comparison Operators
 
@@ -64,7 +64,7 @@ For details and examples, see the document [Arithmetic Operators and Functions](
 | `IN` / `CONTAINS`         | is a value in the specified list     |
 | `NOT IN` / `NOT CONTAINS` | is not a value in the specified list |
 
-For details and examples, see the document [Comparison Operators and Functions](../SQL-Manual/Function-and-Expression.md#comparison-operators-and-functions).
+For details and examples, see the document [Comparison Operators and Functions](../SQL-Manual/Function-and-Expression.md#_2-comparison-operators-and-functions).
 
 ### 1.3 Logical Operators
 
@@ -74,7 +74,7 @@ For details and examples, see the document [Comparison Operators and Functions](
 | `AND` / `&` / `&&`          | logical AND                       |
 | `OR`/ &#124; / &#124;&#124; | logical OR                        |
 
-For details and examples, see the document [Logical Operators](../SQL-Manual/Function-and-Expression.md#logical-operators).
+For details and examples, see the document [Logical Operators](../SQL-Manual/Function-and-Expression.md#_3-logical-operators).
 
 ### 1.4 Operator Precedence
 
@@ -123,7 +123,7 @@ The built-in functions can be used in IoTDB without registration, and the functi
 | MAX_BY        | MAX_BY(x, y) returns the value of x corresponding to the maximum value of the input y. MAX_BY(time, x) returns the timestamp when x is at its maximum value.                                                                                                                             | The first input x can be of any type, while the second input y must be of type INT32, INT64, FLOAT, DOUBLE, STRING, TIMESTAMP or DATE. | /                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Consistent with the data type of the first input x. |
 | MIN_BY        | MIN_BY(x, y) returns the value of x corresponding to the minimum value of the input y. MIN_BY(time, x) returns the timestamp when x is at its minimum value.                                                                                                                             | The first input x can be of any type, while the second input y must be of type INT32, INT64, FLOAT, DOUBLE, STRING, TIMESTAMP or DATE. | / | Consistent with the data type of the first input x. |
 
-For details and examples, see the document [Aggregate Functions](../SQL-Manual/Function-and-Expression.md#aggregate-functions).
+For details and examples, see the document [Aggregate Functions](../SQL-Manual/Function-and-Expression.md#_4-aggregate-functions).
 
 ### 2.2 Arithmetic Functions
 
@@ -150,7 +150,7 @@ For details and examples, see the document [Aggregate Functions](../SQL-Manual/F
 | LOG10         | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#log10(double)                                           |
 | SQRT          | INT32 / INT64 / FLOAT / DOUBLE  | DOUBLE                        | /                                                            | Math#sqrt(double)                                            |
 
-For details and examples, see the document [Arithmetic Operators and Functions](../SQL-Manual/Function-and-Expression.md#arithmetic-operators-and-functions).
+For details and examples, see the document [Arithmetic Operators and Functions](../SQL-Manual/Function-and-Expression.md#_1-arithmetic-operators-and-functionss).
 
 ### 2.3 Comparison Functions
 
@@ -159,7 +159,7 @@ For details and examples, see the document [Arithmetic Operators and Functions](
 | ON_OFF        | INT32 / INT64 / FLOAT / DOUBLE  | `threshold`: a double type variate        | BOOLEAN                 | Return `ts_value >= threshold`.               |
 | IN_RANGR      | INT32 / INT64 / FLOAT / DOUBLE  | `lower`: DOUBLE type `upper`: DOUBLE type | BOOLEAN                 | Return `ts_value >= lower && value <= upper`. |
 
-For details and examples, see the document [Comparison Operators and Functions](../SQL-Manual/Function-and-Expression.md#comparison-operators-and-functions).
+For details and examples, see the document [Comparison Operators and Functions](../SQL-Manual/Function-and-Expression.md#_2-comparison-operators-and-functions).
 
 ### 2.4 String Processing Functions
 
@@ -179,7 +179,7 @@ For details and examples, see the document [Comparison Operators and Functions](
 | TRIM            | TEXT STRING                     | /                                                            | TEXT                    | Get the string whose value is same to input series, with all leading and trailing space removed. |
 | STRCMP          | TEXT STRING                           | /                                                            | TEXT                    | Get the compare result of two input series. Returns `0` if series value are the same, a `negative integer` if value of series1 is smaller than series2, <br/>a `positive integer` if value of series1  is more than series2. |
 
-For details and examples, see the document [String Processing](../SQL-Manual/Function-and-Expression.md#string-processing).
+For details and examples, see the document [String Processing](../SQL-Manual/Function-and-Expression.md#_5-string-processing).
 
 ### 2.5 Data Type Conversion Function
 
@@ -187,7 +187,7 @@ For details and examples, see the document [String Processing](../SQL-Manual/Fun
 | ------------- | ------------------------------------------------------------ | ----------------------- | ------------------------------------------------------------ |
 | CAST          | `type`: Output data type, INT32 / INT64 / FLOAT / DOUBLE / BOOLEAN / TEXT | determined by `type`    | Convert the data to the type specified by the `type` parameter. |
 
-For details and examples, see the document [Data Type Conversion Function](../SQL-Manual/Function-and-Expression.md#data-type-conversion-function).
+For details and examples, see the document [Data Type Conversion Function](../SQL-Manual/Function-and-Expression.md#_6-data-type-conversion-function).
 
 ### 2.6 Constant Timeseries Generating Functions
 
@@ -197,7 +197,7 @@ For details and examples, see the document [Data Type Conversion Function](../SQ
 | PI            | None                                                         | DOUBLE                                       | Data point value: a `double` value of  `π`, the ratio of the circumference of a circle to its diameter, which is equals to `Math.PI` in the *Java Standard Library*. |
 | E             | None                                                         | DOUBLE                                       | Data point value: a `double` value of  `e`, the base of the natural logarithms, which is equals to `Math.E` in the *Java Standard Library*. |
 
-For details and examples, see the document [Constant Timeseries Generating Functions](../SQL-Manual/Function-and-Expression.md#constant-timeseries-generating-functions).
+For details and examples, see the document [Constant Timeseries Generating Functions](../SQL-Manual/Function-and-Expression.md#_7-constant-timeseries-generating-functions).
 
 ### 2.7 Selector Functions
 
@@ -206,7 +206,7 @@ For details and examples, see the document [Constant Timeseries Generating Funct
 | TOP_K         | INT32 / INT64 / FLOAT / DOUBLE / TEXT / STRING / DATE / TIEMSTAMP | `k`: the maximum number of selected data points, must be greater than 0 and less than or equal to 1000 | Same type as the input series | Returns `k` data points with the largest values in a time series. |
 | BOTTOM_K      | INT32 / INT64 / FLOAT / DOUBLE / TEXT / STRING / DATE / TIEMSTAMP | `k`: the maximum number of selected data points, must be greater than 0 and less than or equal to 1000 | Same type as the input series | Returns `k` data points with the smallest values in a time series. |
 
-For details and examples, see the document [Selector Functions](../SQL-Manual/Function-and-Expression.md#selector-functions).
+For details and examples, see the document [Selector Functions](../SQL-Manual/Function-and-Expression.md#_8-selector-functions).
 
 ### 2.8 Continuous Interval Functions
 
@@ -217,7 +217,7 @@ For details and examples, see the document [Selector Functions](../SQL-Manual/Fu
 | ZERO_COUNT        | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:Optional with default value `1L` `max`:Optional with default value `Long.MAX_VALUE` | Long                    | Return intervals' start times and the number of data points in the interval in which the value is always 0(false). Data points number `n` satisfy `n >= min && n <= max` |
 | NON_ZERO_COUNT    | INT32/ INT64/ FLOAT/ DOUBLE/ BOOLEAN | `min`:Optional with default value `1L` `max`:Optional with default value `Long.MAX_VALUE` | Long                    | Return intervals' start times and the number of data points in the interval in which the value is always not 0(false). Data points number `n` satisfy `n >= min && n <= max` |
 
-For details and examples, see the document [Continuous Interval Functions](../SQL-Manual/Function-and-Expression.md#continuous-interval-functions).
+For details and examples, see the document [Continuous Interval Functions](../SQL-Manual/Function-and-Expression.md#_9-continuous-interval-functions).
 
 ### 2.9 Variation Trend Calculation Functions
 
@@ -230,7 +230,7 @@ For details and examples, see the document [Continuous Interval Functions](../SQ
 | NON_NEGATIVE_DERIVATIVE | INT32 / INT64 / FLOAT / DOUBLE                  | /                                                            | DOUBLE                        | Calculates the absolute value of the rate of change of a data point compared to the previous data point, the result is equals to NON_NEGATIVE_DIFFERENCE / TIME_DIFFERENCE. There is no corresponding output for the first data point. |
 | DIFF                    | INT32 / INT64 / FLOAT / DOUBLE                  | `ignoreNull`：optional，default is true. If is true, the previous data point is ignored when it is null and continues to find the first non-null value forwardly. If the value is false, previous data point is not ignored when it is null, the result is also null because null is used for subtraction | DOUBLE                        | Calculates the difference between the value of a data point and the value of the previous data point. There is no corresponding output for the first data point, so output is null |
 
-For details and examples, see the document [Variation Trend Calculation Functions](../SQL-Manual/Function-and-Expression.md#variation-trend-calculation-functions).
+For details and examples, see the document [Variation Trend Calculation Functions](../SQL-Manual/Function-and-Expression.md#_10-variation-trend-calculation-functions).
 
 ### 2.10 Sample Functions
 
@@ -242,7 +242,7 @@ For details and examples, see the document [Variation Trend Calculation Function
 | EQUAL_SIZE_BUCKET_OUTLIER_SAMPLE | INT32 / INT64 / FLOAT / DOUBLE  | The value range of `proportion` is `(0, 1]`, the default is `0.1`<br> The value of `type` is `avg` or `stendis` or `cos` or `prenextdis`, the default is `avg` <br>The value of `number` should be greater than 0, the default is `3` | INT32 / INT64 / FLOAT / DOUBLE | Returns outlier samples in equal buckets that match the sampling ratio and the number of samples in the bucket |
 | M4                               | INT32 / INT64 / FLOAT / DOUBLE  | Different attributes used by the size window and the time window. The size window uses attributes `windowSize` and `slidingStep`. The time window uses attributes `timeInterval`, `slidingStep`, `displayWindowBegin`, and `displayWindowEnd`. More details see below. | INT32 / INT64 / FLOAT / DOUBLE | Returns the `first, last, bottom, top` points in each sliding window. M4 sorts and deduplicates the aggregated points within the window before outputting them. |
 
-For details and examples, see the document [Sample Functions](../SQL-Manual/Function-and-Expression.md#sample-functions).
+For details and examples, see the document [Sample Functions](../SQL-Manual/Function-and-Expression.md#_11-sample-functions).
 
 ### 2.11 Change Points Function
 
@@ -250,26 +250,18 @@ For details and examples, see the document [Sample Functions](../SQL-Manual/Func
 | ------------- | ------------------------------- | ------------------- | ----------------------------- | ----------------------------------------------------------- |
 | CHANGE_POINTS | INT32 / INT64 / FLOAT / DOUBLE  | /                   | Same type as the input series | Remove consecutive identical values from an input sequence. |
 
-For details and examples, see the document [Time-Series](../SQL-Manual/Function-and-Expression.md#time-series-processing).
+For details and examples, see the document [Time-Series](../SQL-Manual/Function-and-Expression.md#_12-time-series-processing).
 
 
-## 3. LAMBDA EXPRESSION
-
-| Function Name | Allowed Input Series Data Types                 | Required Attributes                                          | Output Series Data Type                         | Series Data Type  Description                                |
-| ------------- | ----------------------------------------------- | ------------------------------------------------------------ | ----------------------------------------------- | ------------------------------------------------------------ |
-| JEXL          | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | `expr` is a lambda expression that supports standard one or multi arguments in the form `x -> {...}` or `(x, y, z) -> {...}`, e.g. `x -> {x * 2}`, `(x, y, z) -> {x + y * z}` | INT32 / INT64 / FLOAT / DOUBLE / TEXT / BOOLEAN | Returns the input time series transformed by a lambda expression |
-
-For details and examples, see the document [Lambda](../SQL-Manual/Function-and-Expression.md#lambda-expression).
-
-## 4. CONDITIONAL EXPRESSION
+## 3. CONDITIONAL EXPRESSION
 
 | Expression Name | Description          |
 | --------------- | -------------------- |
 | `CASE`          | similar to "if else" |
 
-For details and examples, see the document [Conditional Expressions](../SQL-Manual/Function-and-Expression.md#conditional-expressions).
+For details and examples, see the document [Conditional Expressions](../SQL-Manual/Function-and-Expression.md#_13-conditional-expressions).
 
-## 5. SELECT EXPRESSION
+## 4. SELECT EXPRESSION
 
 The `SELECT` clause specifies the output of the query, consisting of several `selectExpr`. Each `selectExpr` defines one or more columns in the query result.
 
@@ -285,7 +277,7 @@ The `SELECT` clause specifies the output of the query, consisting of several `se
     - Time series generation functions (including built-in functions and user-defined functions)
 - constant
 
-### 5.1 Use Alias
+### 4.1 Use Alias
 
 Since the unique data model of IoTDB, lots of additional information like device will be carried before each sensor. Sometimes, we want to query just one specific device, then these prefix information show frequently will be redundant in this situation, influencing the analysis of result set. At this time, we can use `AS` function provided by IoTDB, assign an alias to time series selected in query.  
 
@@ -302,11 +294,11 @@ The result set is：
 | ...  | ...         | ...   |
 
 
-### 5.2 Operator
+### 4.2 Operator
 
 See this documentation for a list of operators supported in IoTDB.
 
-### 5.3 Function
+### 4.3 Function
 
 #### Aggregate Functions
 
@@ -322,7 +314,7 @@ Aggregate functions are many-to-one functions. They perform aggregate calculatio
 > select a, count(a) from root.sg group by ([10,100),10ms)
 > ```
 
-For the aggregation functions supported by IoTDB, see the document [Aggregate Functions](../SQL-Manual/Function-and-Expression.md#aggregate-functions).
+For the aggregation functions supported by IoTDB, see the document [Aggregate Functions](../SQL-Manual/Function-and-Expression.md#_4-aggregate-functions).
 
 
 #### Time Series Generation Function
@@ -339,7 +331,7 @@ See this documentation for a list of built-in functions supported in IoTDB.
 
 IoTDB supports function extension through User Defined Function (click for [User-Defined Function](../User-Manual/Database-Programming.md#udtfuser-defined-timeseries-generating-function)) capability.
 
-### 5.4 Nested Expressions
+### 4.4 Nested Expressions
 
 IoTDB supports the calculation of arbitrary nested expressions. Since time series query and aggregation query can not be used in a query statement at the same time, we divide nested expressions into two types, which are nested expressions with time series query and nested expressions with aggregation query. 
 
