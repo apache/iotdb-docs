@@ -45,6 +45,26 @@ pip3 install apache-iotdb>=2.0
 | execute_query_statement     | Executes a query SQL statement and retrieves results. | sql: `str`                           | `SessionDataSet` |
 | close                       | Closes the session and releases resources.            | None                                 | None             |
 
+**Since V2.0.8**, `SessionDataSet` provides methods for batch DataFrame retrieval to efficiently handle large-volume queries:
+
+```python
+# Batch DataFrame retrieval
+has_next = result.has_next_df()
+if has_next:
+    df = result.next_df()
+    # Process DataFrame
+```
+
+**Method Details:**
+- `has_next_df()`: Returns `True`/`False` indicating whether more data exists
+- `next_df()`: Returns a `DataFrame` or `None`. Each call returns `fetchSize` rows (default: 5000 rows, controlled by Session's `fetch_size` parameter):
+    - If remaining data ≥ `fetchSize`: returns `fetchSize` rows
+    - If remaining data < `fetchSize`: returns all remaining rows
+    - If traversal completes: returns `None`
+- Session validates `fetchSize` at initialization: if ≤0, resets to 5000 and logs warning: `fetch_size xxx is illegal, use default fetch_size 5000`
+
+**Note:** Avoid mixing different traversal methods (e.g., combining `todf()` with `next_df()`), which may cause unexpected errors.
+
 #### Sample Code
 
 ```Python
@@ -488,10 +508,16 @@ def query_data():
         print(res.next())
 
     print("get data from table1")
-    res = session.execute_query_statement("select * from table0")
+    res = session.execute_query_statement("select * from table1")
     while res.has_next():
         print(res.next())
-
+        
+    # Querying Table Data Using Batch DataFrame (Recommended for Large Datasets)
+    print("get data from table0 using batch DataFrame")
+    res = session.execute_query_statement("select * from table0") 
+    while res.has_next_df(): 
+        print(res.next_df()) 
+        
     session.close()
 
 

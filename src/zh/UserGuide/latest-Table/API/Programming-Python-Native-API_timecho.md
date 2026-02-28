@@ -46,6 +46,26 @@ TableSession是IoTDB的一个核心类，用于与IoTDB数据库进行交互。�
 | execute_query_statement     | 执行查询 SQL 语句并返回结果集      | sql: str                           | SessionDataSet |
 | close                       | 关闭会话并释放资源                 | None                               | None           |
 
+自 V2.0.8 版本起，SessionDataSet 提供分批获取 DataFrame 的方法，用于高效处理大数据量查询：
+
+```python
+# 分批获取 DataFrame
+has_next = result.has_next_df()
+if has_next:
+    df = result.next_df()
+    # 处理 DataFrame
+```
+
+**方法说明：**
+- `has_next_df()`: 返回 `True`/`False`，表示是否还有数据可返回
+- `next_df()`: 返回 `DataFrame` 或 `None`，每次返回 `fetchSize` 行（默认5000行，由 Session 的 `fetch_size` 参数控制）
+    - 剩余数据 ≥ `fetchSize` 时，返回 `fetchSize` 行
+    - 剩余数据 < `fetchSize` 时，返回剩余所有行
+    - 数据遍历完毕时，返回 `None`
+- 初始化 Session 时检查 `fetchSize`，若 ≤0 则重置为 5000 并打印警告日志
+
+**注意：** 不要混合使用不同的遍历方式，如（todf函数与 next_df 混用），否则会出现预期外的错误。
+
 #### 2.1.3 接口展示
 
 **TableSession:**
@@ -495,9 +515,15 @@ def query_data():
         print(res.next())
 
     print("get data from table1")
-    res = session.execute_query_statement("select * from table0")
+    res = session.execute_query_statement("select * from table1")
     while res.has_next():
         print(res.next())
+        
+    # 使用分批DataFrame方式查询表数据（推荐大数据量场景）
+    print("get data from table0 using batch DataFrame")
+    res = session.execute_query_statement("select * from table0") 
+    while res.has_next_df(): 
+        print(res.next_df()) 
 
     session.close()
 
