@@ -72,6 +72,13 @@ create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN
 CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT, longitude FLOAT) 
 ```
 
+#### 修改时间序列数据类型
+> V2.0.8 起支持该语句
+
+```sql
+ALTER TIMESERIES root.ln.wf01.wt01.temperature set data type DOUBLE
+```
+
 #### 删除时间序列
 
 ```sql

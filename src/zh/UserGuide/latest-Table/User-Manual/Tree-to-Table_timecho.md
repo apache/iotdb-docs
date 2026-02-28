@@ -138,7 +138,7 @@ AS root.db.**
 ### 2.2 修改表视图
 #### 2.2.1 语法定义
 
-修改表视图功能支持修改视图名称、添加列、列重命名、删除列、设置视图的 TTL 属性，以及通过 COMMENT 添加注释。
+修改表视图功能支持修改视图名称、添加列、列重命名、修改 FIELD 列数据类型（V2.0.8 起支持）、删除列、设置视图的 TTL 属性，以及通过 COMMENT 添加注释。
 
 ```SQL
 -- 修改视图名
@@ -152,6 +152,9 @@ viewColumnDefinition
   
 -- 为视图中的某一列重命名
 ALTER VIEW [IF EXISTS] viewName RENAME COLUMN [IF EXISTS] oldName TO newName   
+
+--修改 FIELD 列的数据类型
+ALTER VIEW [IF EXISTS] viewName ALTER COLUMN [IF EXISTS] columnName SET DATA TYPE new_type
 
 -- 删除视图中的某一列
 ALTER VIEW [IF EXISTS] viewName DROP COLUMN [IF EXISTS] columnName    
@@ -168,6 +171,21 @@ COMMENT ON COLUMN qualifiedName '.' column=identifier IS (string | NULL) #commen
 1. `SET PROPERTIES`操作目前仅支持对表视图的 TTL 属性进行配置。
 2. 删除列功能，仅支持删除物理量列(FIELD)，标识列(TAG)不支持删除。
 3. 修改后的 comment 会覆盖原有注释，如果指定为 null，则会擦除之前的 comment。
+4. 修改 FIELD 列数据类型时，变更后的字段类型需要与原类型兼容，具体兼容性如下表所示：
+
+| 原始类型  | 可变更为类型                                  |
+| ----------- | ----------------------------------------------- |
+| INT32     | INT64, FLOAT, DOUBLE, TIMESTAMP, STRING, TEXT |
+| INT64     | TIMESTAMP, DOUBLE, STRING, TEXT               |
+| FLOAT     | DOUBLE, STRING, TEXT                          |
+| DOUBLE    | STRING, TEXT                                  |
+| BOOLEAN   | STRING, TEXT                                  |
+| TEXT      | BLOB, STRING                                  |
+| STRING    | TEXT, BLOB                                    |
+| BLOB      | STRING, TEXT                                  |
+| DATE      | STRING, TEXT                                  |
+| TIMESTAMP | INT64, DOUBLE, STRING, TEXT                   |
+
 #### 2.2.3 使用示例
 
 ```SQL
@@ -179,6 +197,9 @@ ALTER VIEW IF EXISTS tableview ADD COLUMN IF NOT EXISTS temperature float field
   
 -- 为视图中的某一列重命名
 ALTER VIEW IF EXISTS tableview RENAME COLUMN IF EXISTS temperature TO temp
+
+-- 修改 FIELD 列的数据类型
+ALTER VIEW IF EXISTS tableview ALTER COLUMN IF EXISTS temperature SET DATA TYPE double
 
 -- 删除视图中的某一列
 ALTER VIEW IF EXISTS tableview DROP COLUMN IF EXISTS temp
