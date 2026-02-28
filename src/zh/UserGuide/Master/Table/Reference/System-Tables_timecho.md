@@ -23,6 +23,9 @@
 
 IoTDB 内置系统数据库 `INFORMATION_SCHEMA`，其中包含一系列系统表，用于存储 IoTDB 运行时信息（如当前正在执行的 SQL 语句等）。目前`INFORMATION_SCHEMA`数据库只支持读操作。
 
+> 💡 **【V2.0.8 版本更新】**<br>
+> 👉 新增四张系统表：**[CONNECTIONS](../Reference/System-Tables_timecho.md#_2-18-connections-表)**（实时连接追踪）、**[CURRENT\_QUERIES](#_2-19-current-queries-表)**（活跃查询监控）、**[QUERIES\_COSTS\_HISTOGRAM](#_2-20-queries-costs-histogram-表)**（查询耗时分布）、**[SERVICES](#_2-21-services-表)**（服务状态管理），助力集群运维与性能分析。
+
 ## 1. 系统库
 
 * 名称：`INFORMATION_SCHEMA`
@@ -57,6 +60,7 @@ IoTDB> show tables from information_schema
 |                queries|    INF|
 |queries_costs_histogram|    INF|
 |                regions|    INF|
+|               services|    INF|
 |          subscriptions|    INF|
 |                 tables|    INF|
 |                 topics|    INF|
@@ -66,7 +70,7 @@ IoTDB> show tables from information_schema
 
 ## 2. 系统表
 
-* 名称：`DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS`, `VIEWS`, `MODELS`, `FUNCTIONS`, `CONFIGURATIONS`, `KEYWORDS`, `NODES`, `CONFIG_NODES`, `DATA_NODES`, `CONNECTIONS`, `CURRENT_QUERIES`, `QUERIES_COSTS_HISTOGRAM`（详细介绍见后面小节）
+* 名称：`DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS`, `VIEWS`, `MODELS`, `FUNCTIONS`, `CONFIGURATIONS`, `KEYWORDS`, `NODES`, `CONFIG_NODES`, `DATA_NODES`, `CONNECTIONS`, `CURRENT_QUERIES`, `QUERIES_COSTS_HISTOGRAM`、`SERVICES`（详细介绍见后面小节）
 * 操作：只读，只支持`SELECT`, `COUNT/SHOW DEVICES`, `DESC`，不支持对于表结构 / 内容的任意修改，如果修改将会报错：`"The database 'information_schema' can only be queried"`
 * 列名：系统表的列名均默认为小写，且用`_`分隔
 
@@ -679,6 +683,30 @@ IoTDB> select * from information_schema.queries_costs_histogram limit 10
 +------+----+-----------+
 ```
 
+### 2.21 SERVICES 表
+
+> 该系统表从 V 2.0.8 版本开始提供
+
+* 可展示所有正常工作（RUNNING 或 READ-ONLY） DN 上的服务（MQTT 服务、REST 服务）。
+* 表结构如下表所示：
+
+| 列名          | 数据类型 | 列类型    | 说明                         |
+| --------------- | ---------- | ----------- | ------------------------------ |
+| service\_name | STRING   | TAG       | 服务名称                     |
+| datanode\_id  | INT32    | ATTRIBUTE | 所在 DataNode 的 ID          |
+| state         | STRING   | ATTRIBUTE | 服务状态： RUNNING / STOPPED |
+
+* 查询示例：
+
+```SQL
+IoTDB> select * from information_schema.services
++------------+-----------+-------+
+|service_name|datanode_id|  state|
++------------+-----------+-------+
+|        MQTT|          1|STOPPED|
+|        REST|          1|RUNNING|
++------------+-----------+-------+
+```
 
 ## 3. 权限说明
 

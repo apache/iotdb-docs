@@ -1533,10 +1533,10 @@ The `iotdb-system.properties` file contains various configurations for managing 
 - slow_query_threshold
 
 | Name        | slow_query_threshold                   |
-| ----------- | -------------------------------------- |
+| ----------- |----------------------------------------|
 | Description | Time cost(ms) threshold for slow query |
 | Type        | long                                   |
-| Default     | 10000                                  |
+| Default     | 3000                                   |
 | Effective   | Hot reload                             |
 
 - query_cost_stat_window
