@@ -19,33 +19,39 @@
 
 -->
 
+
 # Security Audit
 
 ## 1. Introduction
 
-Audit logs provide a documented record of database activities. Through the audit log feature, you can track operations like data creation, deletion, modification, and querying to ensure information security. IoTDB's audit log functionality supports the following features:
+Audit logs serve as the record credentials of a database, enabling tracking of various operations (e.g., create, read, update, delete) to ensure information security. The audit log feature in IoTDB supports the following capabilities:
 
-* Ability to enable/disable audit logging through configuration
-* Ability to set auditable operation types and privilege levels via parameters
-* Ability to configure audit log file retention periods using TTL (time-based rolling) and SpaceTL (space-based rolling)
-* Audit logs are encrypted by default
+* Supports enabling/disabling the audit log functionality through configuration
+* Supports configuring operation types and privilege levels to be recorded via parameters
+* Supports setting the storage duration of audit log files, including time-based rolling (via TTL) and space-based rolling (via SpaceTL)
+* Supports configuring parameters to count slow requests (with write/query latency exceeding a threshold, default 3000 milliseconds) within any specified time period
+* Audit log files are stored in encrypted format by default
 
-> Note: This feature is available from version V2.0.8 onwards.
+> Note: This feature is available from version V2.0.8-beta onwards.
 
 ## 2. Configuration Parameters
 
 Edit the `iotdb-system.properties` file to enable audit logging using the following parameters:
 
-| Parameter Name                          | Description                                                                                                                                                                                                                 | Data Type | Default Value              | Application Method |
-|---------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------|----------------------------|--------------------|
-| `enable_audit_log`                    | Enable audit logging. true: enabled. false: disabled.                                                                                                                                                                      | Boolean   | false                      | Restart Required   |
-| `auditable_operation_type`            | Operation type selection. DML: All DML operations; DDL: All DDL operations; QUERY: All queries; CONTROL: All control statements;                                                                                          | String    | DML,DDL,QUERY,CONTROL      | Restart Required   |
-| `auditable_operation_level`           | Privilege level selection. global: Record all audit logs; object: Only record audit logs for data instances; Containment relationship: object < global.                                                                    | String    | global                     | Restart Required   |
-| `auditable_operation_result`          | Audit result selection. success: Only record successful events; fail: Only record failed events;                                                                                                                           | String    | success, fail              | Restart Required   |
-| `audit_log_ttl_in_days`               | Audit log TTL (Time To Live) in days. Logs older than this threshold will expire.                                                                                                                                         | Double    | -1.0 (never deleted)       | Restart Required   |
-| `audit_log_space_tl_in_GB`            | Audit log SpaceTL in GB. When total audit log size exceeds this threshold, log rotation starts deleting oldest files.                                                                                                     | Double    | 1.0                        | Restart Required   |
-| `audit_log_batch_interval_in_ms`      | Batch write interval for audit logs in milliseconds                                                                                                                                                                        | Long      | 1000                       | Restart Required   |
-| `audit_log_batch_max_queue_bytes`     | Maximum queue size in bytes for batch processing audit logs. Subsequent writes will be blocked when queue exceeds this value.                                                                                           | Long      | 268435456                  | Restart Required   |
+| Parameter Name                              | Description                                                                                                 | Data Type | Default Value                 | Activation Method |
+|-------------------------------------------|------------------------------------------------------------------------------------------------------------|-----------|-------------------------------|-------------------|
+| `enable_audit_log`                        | Whether to enable audit logging. true: enabled. false: disabled.                                          | Boolean   | false                         | Hot Reload        |
+| `auditable_operation_type`                | Operation type selection. DML: all DML operations are logged; DDL: all DDL operations are logged; QUERY: all query operations are logged; CONTROL: all control statements are logged. | String    | DML,DDL,QUERY,CONTROL         | Hot Reload        |
+| `auditable_dml_event_type`                | Event types for auditing DML operations. `OBJECT_AUTHENTICATION`: object authentication, `SLOW_OPERATION`: slow operation | String    | `OBJECT_AUTHENTICATION`,`SLOW_OPERATION` | Hot Reload        |
+| `auditable_ddl_event_type`                | Event types for auditing DDL operations. `OBJECT_AUTHENTICATION`: object authentication, `SLOW_OPERATION`: slow operation | String    | `OBJECT_AUTHENTICATION`,`SLOW_OPERATION` | Hot Reload        |
+| `auditable_query_event_type`              | Event types for auditing query operations. `OBJECT_AUTHENTICATION`: object authentication, `SLOW_OPERATION`: slow operation | String    | `OBJECT_AUTHENTICATION`,`SLOW_OPERATION` | Hot Reload        |
+| `auditable_control_event_type`            | Event types for auditing control operations. `CHANGE_AUDIT_OPTION`: audit option change, `OBJECT_AUTHENTICATION`: object authentication, `LOGIN`: login, `LOGOUT`: logout, `DN_SHUTDOWN`: data node shutdown, `SLOW_OPERATION`: slow operation | String    | `CHANGE_AUDIT_OPTION`,`OBJECT_AUTHENTICATION`,`LOGIN`,`LOGOUT`,`DN_SHUTDOWN`,`SLOW_OPERATION` | Hot Reload        |
+| `auditable_operation_level`               | Permission level selection. global: log all audit events; object: only log events related to data instances. Containment relationship: object < global. For example: when set to global, all audit logs are recorded normally; when set to object, only operations on specific data instances are recorded. | String    | global                        | Hot Reload        |
+| `auditable_operation_result`              | Audit result selection. success: log only successful events; fail: log only failed events                  | String    | success,fail                  | Hot Reload        |
+| `audit_log_ttl_in_days`                   | Audit log TTL (Time To Live). Logs older than this threshold will expire.                                   | Double    | -1.0 (never deleted)          | Hot Reload        |
+| `audit_log_space_tl_in_GB`                | Audit log SpaceTL. Logs will start rotating when total space reaches this threshold.                       | Double    | 1.0                             | Hot Reload        |
+| `audit_log_batch_interval_in_ms`          | Batch write interval for audit logs                                                                          | Long      | 1000                            | Hot Reload        |
+| `audit_log_batch_max_queue_bytes`         | Maximum byte size of the queue for batch processing audit logs. Subsequent write operations will be blocked when this threshold is exceeded. | Long      | 268435456                       | Hot Reload        |
 
 ## 3. Access Methods
 
@@ -121,4 +127,17 @@ IoTDB> select database,operation_type,log  from root.__audit.log.** where result
 +-----------------------------+-------------------------------+-----------+--------------+---------------------------------------------------------------------------------+
 Total line number = 4
 It costs 0.024s
+```
+
+* Query audit records for user 'u_0' on node 'node_1' with event types 'SLOW_OPERATION' and 'LOGIN'
+
+```SQL
+IoTDB> select * from root.__audit.log.node_1.u_0 where audit_event_type='SLOW_OPERATION' or audit_event_type='LOGIN' limit 1 align by device 
++-----------------------------+---------------------------+------+---------------+--------------+--------+--------------+-----------------------------------------------------------------------------------------------+----------+----------------+------------+--------+
+|                         Time|                     Device|result|privilege_level|privilege_type|database|operation_type|                                                                                            log|sql_string|audit_event_type|cli_hostname|username|
++-----------------------------+---------------------------+------+---------------+--------------+--------+--------------+-----------------------------------------------------------------------------------------------+----------+----------------+------------+--------+
+|2026-01-23T11:42:23.636+08:00|root.__audit.log.node_1.u_0|  true|         GLOBAL|          null|        |       CONTROL|IoTDB: Login status: Login successfully. User root (ID=0), opens Session-1-root:127.0.0.1:51308|          |           LOGIN|   127.0.0.1|    root|
++-----------------------------+---------------------------+------+---------------+--------------+--------+--------------+-----------------------------------------------------------------------------------------------+----------+----------------+------------+--------+
+Total line number = 1
+It costs 0.021s
 ```
