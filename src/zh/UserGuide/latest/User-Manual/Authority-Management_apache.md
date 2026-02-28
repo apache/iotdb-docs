@@ -291,7 +291,7 @@ eg: REVOKE READ ON root.** FROM ROLE role1;
 eg: REVOKE READ_DATA, WRITE_DATA ON root.t1.** FROM USER user1;
 eg: REVOKE READ_DATA, WRITE_DATA ON root.t1.**, root.t2.** FROM USER user1;
 eg: REVOKE MANAGE_ROLE ON root.** FROM USER user1;
-eg: REVOKE ALL ON ROOT.** FROM USER user1;
+eg: REVOKE ALL ON root.** FROM USER user1;
 ```
 
 - **非管理员用户执行授权/取消授权语句时，需要对\<PATHS\> 有\<PRIVILEGES\> 权限，并且该权限是被标记带有 WITH GRANT OPTION 的。**

@@ -294,7 +294,7 @@ eg: REVOKE READ ON root.** FROM ROLE role1;
 eg: REVOKE READ_DATA, WRITE_DATA ON root.t1.** FROM USER user1;
 eg: REVOKE READ_DATA, WRITE_DATA ON root.t1.**, root.t2.** FROM USER user1;
 eg: REVOKE MANAGE_ROLE ON root.** FROM USER user1;
-eg: REVOKE ALL ON ROOT.** FROM USER user1;
+eg: REVOKE ALL ON root.** FROM USER user1;
 ```
 
 - **When non-administrator users execute authorization/deauthorization statements, they need to have \<PRIVILEGES\> permissions on \<PATHS\>, and these permissions must be marked with WITH GRANT OPTION.**
