@@ -61,10 +61,10 @@ docker-compose --version  #显示版本信息即安装成功
 
 Apache IoTDB的Docker镜像已经上传至 https://hub.docker.com/r/apache/iotdb 。
 
-以获取1.3.2版本为例，拉取镜像命令：
+以获取2.0.x版本为例，拉取镜像命令：
 
 ```bash
-docker pull apache/iotdb:1.3.2-standalone
+docker pull apache/iotdb:2.0.x-standalone
 ```
 
 查看镜像：
@@ -99,7 +99,7 @@ docker-iotdb：
 version: "3"
 services:
   iotdb-service:
-    image: apache/iotdb:latest #使用的镜像
+    image: apache/iotdb:2.0.x-standalone #使用的镜像
     hostname: iotdb
     container_name: iotdb
     restart: always       
@@ -238,10 +238,10 @@ echo "192.168.1.5  iotdb-3"  >> /etc/hosts
 
 Apache IoTDB的Docker镜像已经上传至https://hub.docker.com/r/apache/iotdb。
 
-在3台服务器上分别拉取IoTDB镜像，以获取1.3.2版本为例，拉取镜像命令：
+在3台服务器上分别拉取IoTDB镜像，以获取2.0.x版本为例，拉取镜像命令：
 
 ```SQL
-docker pull apache/iotdb:1.3.2-standalone
+docker pull apache/iotdb:2.0.x-standalone
 ```
 
 查看镜像：
@@ -274,7 +274,7 @@ docker-iotdb：
 version: "3"
 services:
   iotdb-confignode:
-    image: apache/iotdb:1.3.2-standalone #使用的镜像
+    image: apache/iotdb:latest #使用的镜像
     hostname: iotdb-1|iotdb-2|iotdb-3    #根据实际情况选择，三选一
     container_name: iotdb-confignode
     command: ["bash", "-c", "entrypoint.sh confignode"]
@@ -307,7 +307,7 @@ services:
 version: "3"
 services:
   iotdb-datanode:
-    image: iotdb-enterprise:1.3.2.3-standalone #使用的镜像
+    image: iotdb-enterprise:2.0.x-standalone #使用的镜像
     hostname: iotdb-1|iotdb-2|iotdb-3 #根据实际情况选择，三选一
     container_name: iotdb-datanode
     command: ["bash", "-c", "entrypoint.sh datanode"]
