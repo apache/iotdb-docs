@@ -188,7 +188,7 @@ export const zhSidebar = {
         { text: 'Node.js原生接口', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust原生接口', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC_apache' },
-        { text: 'MQTT协议', link: 'Programming-MQTT' },
+        { text: 'MQTT协议', link: 'Programming-MQTT_apache' },
         {
           text: 'REST API',
           collapsible: true,

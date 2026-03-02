@@ -22,6 +22,8 @@
 # REST API V2
 IoTDB 的 RESTful 服务可用于查询、写入和管理操作，它使用 OpenAPI 标准来定义接口并生成框架。
 
+注意：自 V2.0.8 版本起，TimechoDB 安装包中默认不包含 REST 服务的 JAR 包，请使用该服务前联系天谋团队获取相应的 JAR 包，并放置于 timechodb_home/lib 或者 timechodb_home/ext/external_service 路径下。
+
 ## 1. 开启RESTful 服务
 RESTful 服务默认情况是关闭的
 

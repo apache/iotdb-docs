@@ -197,7 +197,7 @@ export const enSidebar = {
         { text: 'Node.js Native API', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust Native API', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC_apache' },
-        { text: 'MQTT Protocol', link: 'Programming-MQTT' },
+        { text: 'MQTT Protocol', link: 'Programming-MQTT_apache' },
         {
           text: 'REST API',
           collapsible: true,

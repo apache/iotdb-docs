@@ -171,7 +171,7 @@ export const zhSidebar = {
         { text: 'GO原生接口', link: 'Programming-Go-Native-API_apache' },
         { text: 'C#原生接口', link: 'Programming-CSharp-Native-API_apache' },
         { text: 'JDBC', link: 'Programming-JDBC_apache' },
-        { text: 'MQTT协议', link: 'Programming-MQTT' },
+        { text: 'MQTT协议', link: 'Programming-MQTT_apache' },
         { text: 'RESTAPI V1 ', link: 'RestServiceV1' },
       ],
     },
