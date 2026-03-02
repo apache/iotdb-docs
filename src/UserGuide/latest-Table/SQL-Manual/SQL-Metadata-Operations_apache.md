@@ -202,6 +202,13 @@ CREATE TABLE tableC (
   "Site" STRING TAG,
   "Temperature" int32 FIELD COMMENT 'temperature'
  ) with (TTL=DEFAULT);
+ 
+ -- Custom time column: named time_test, located in the second column of the table. (Support from V2.0.8-beta)
+ CREATE TABLE table1 (
+     region STRING TAG, 
+     time_user_defined TIMESTAMP TIME, 
+     temperature FLOAT FIELD
+ );
 ```
 
 Note: If your terminal does not support multi-line paste (e.g., Windows CMD), please reformat the SQL statement into a single line before execution.

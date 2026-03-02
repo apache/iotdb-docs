@@ -80,6 +80,11 @@ The name of the view, which follows the same rules as a table name (for specific
         * If a device in the tree model does not contain certain declared FIELD columns, or if their data types are inconsistent with the declared FIELD columns, the value for that FIELD column will always be `NULL`when querying that device.
     * If no FIELD columns are specified, the system automatically scans for all measurements under the `prefixPath`subtree (including all ordinary sequence measurements and measurements defined in any templates whose mounted paths overlap with the `prefixPath`) during creation. The column names will use the measurement names from the tree model.
         * The tree model cannot have measurements with the same name (case-insensitive) but different data types.
+* `TIME`: When creating a view, you do not need to specify a time column. IoTDB automatically adds a column named "time" and places it as the first column. Since version V2.0.8-beta, views support **custom naming of the time column** during creation. The order of the custom time column in the view is determined by the order in the creation SQL. The related constraints are as follows:
+    * When the column category is set to `TIME`, the data type must be `TIMESTAMP`.
+    * Each view allows at most one time column (columnCategory = TIME).
+    * If no time column is explicitly defined, no other column can use `time` as its name to avoid conflicts with the system's default time column naming.
+
 
 4. **`WITH properties`**
 
@@ -137,6 +142,21 @@ CREATE OR REPLACE VIEW viewdb."wind_turbine"
 with (ttl=604800000)
 AS root.db.**
 ```
+
+When customizing the time column (supported since V2.0.8-beta), the SQL changes are as follows:
+
+```SQL
+CREATE OR REPLACE VIEW viewdb."wind_turbine"
+  (wind_turbine_group String TAG, 
+   wind_turbine_number String TAG, 
+   voltage DOUBLE FIELD, 
+   current DOUBLE FIELD,
+   time_user_defined TIMESTAMP TIME
+   ) 
+with (ttl=604800000)
+AS root.db.**
+```
+
 
 ### 2.2 Modifying a Table View
 #### 2.2.1 Syntax Definition
