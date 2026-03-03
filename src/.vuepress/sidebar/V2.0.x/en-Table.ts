@@ -189,6 +189,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'Apache Spark', link: 'Spark-IoTDB' },
+            { text: 'Apache SeaTunnel', link: 'SeaTunnel_apache' },
           ],
         },
         {

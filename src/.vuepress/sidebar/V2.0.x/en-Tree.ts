@@ -235,6 +235,7 @@ export const enSidebar = {
           children: [
             { text: 'Apache Flink', link: 'Flink-IoTDB' },
             { text: 'Apache Spark', link: 'Spark-IoTDB' },
+            { text: 'Apache SeaTunnel', link: 'SeaTunnel_apache' },
           ],
         },
         {

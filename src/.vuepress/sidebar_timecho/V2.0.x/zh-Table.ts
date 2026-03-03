@@ -208,6 +208,7 @@ export const zhSidebar = {
              collapsible: true,
              children: [
                { text: 'Apache Spark', link: 'Spark-IoTDB' },
+               { text: 'Apache SeaTunnel', link: 'SeaTunnel_timecho' },
              ],
            },
            {
