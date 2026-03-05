@@ -72,6 +72,14 @@ create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN
 CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT, longitude FLOAT) 
 ```
 
+#### 修改时间序列名称
+
+> V2.0.8 起支持该语句
+
+```SQL
+ALTER TIMESERIES root.ln.wf01.wt01.temperature RENAME TO root.newln.newwf.newwt.temperature 
+```
+
 #### 删除时间序列
 
 ```sql
@@ -93,6 +101,7 @@ SHOW TIMESERIES root.ln.** where timeseries contains 'wf01.wt'
 SHOW TIMESERIES root.ln.** where dataType=FLOAT
 SHOW TIMESERIES root.ln.** where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
 SHOW LATEST TIMESERIES
+SHOW INVALID TIMESERIES --V2.0.8 起支持该语句
 ```
 
 #### 统计时间序列数量
