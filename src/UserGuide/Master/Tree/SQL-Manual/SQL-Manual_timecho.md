@@ -142,7 +142,15 @@ error: encoding TS_2DIFF does not support BOOLEAN
 IoTDB> CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT , longitude FLOAT)
 ```
 
-### 2.3 Delete Timeseries
+### 2.3 Modify Timeseries Name
+
+> This statement is supported from V2.0.8 onwards
+
+```sql
+ALTER TIMESERIES root.ln.wf01.wt01.temperature RENAME TO root.newln.newwf.newwt.temperature
+```
+
+### 2.4 Delete Timeseries
 
 ```sql
 IoTDB> delete timeseries root.ln.wf01.wt01.status
@@ -151,7 +159,7 @@ IoTDB> delete timeseries root.ln.wf02.*
 IoTDB> drop timeseries root.ln.wf02.*
 ```
 
-### 2.4 Show Timeseries
+### 2.5 Show Timeseries
 
 ```sql
 IoTDB> show timeseries root.**
@@ -159,9 +167,12 @@ IoTDB> show timeseries root.ln.**
 IoTDB> show timeseries root.ln.** limit 10 offset 10
 IoTDB> show timeseries root.ln.** where timeseries contains 'wf01.wt'
 IoTDB> show timeseries root.ln.** where dataType=FLOAT
+IoTDB> show timeseries root.ln.** where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00
+IoTDB> show latest timeseries
+IoTDB> show invalid timeseries -- This statement is supported from V2.0.8 onwards
 ```
 
-### 2.5 Count Timeseries
+### 2.6 Count Timeseries
 
 ```sql
 IoTDB > COUNT TIMESERIES root.**
@@ -178,7 +189,7 @@ IoTDB > COUNT TIMESERIES root.ln.** GROUP BY LEVEL=2
 IoTDB > COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2
 ```
 
-### 2.6 Tag and Attribute Management
+### 2.7 Tag and Attribute Management
 
 ```sql
 create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2)

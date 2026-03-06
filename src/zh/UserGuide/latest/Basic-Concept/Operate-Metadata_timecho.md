@@ -397,7 +397,32 @@ IoTDB> CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT, longitude FLOA
 
 对齐的时间序列也支持设置别名、标签、属性。
 
-### 2.3 删除时间序列
+### 2.3 修改时间序列名称
+
+自 V2.0.8 版本起，支持通过 SQL 语句修改时间序列的全路径名称。修改成功后，原有名称作废，但仍在元数据的存储中。
+
+语法定义：
+
+```SQL
+-- 支持将某个序列的全路径修改为另一全路径
+ALTER TIMESERIES <oldPath> RENAME TO <newPath>
+```
+
+使用说明：
+
+* 该语句执行成功后将立即生效，原序列的 tag/attribute/alias 将迁移到新序列。
+* 作废序列（原序列）不再支持写入、查询、删除等操作。作废后的序列名称会被系统保留，不允许创建同名新序列，以此确保原序列名称唯一可追溯：支持通过 SHOW INVALID TIMESERIES 语句查看原序列，避免因频繁修改导致原序列信息丢失，大幅提升数据溯源与问题定位效率。
+* 新序列不支持创建视图。修改新序列的编码压缩、序列类型、标签、属性、别名时，不会连带修改原序列；删除新序列时，会连带修改原序列。
+* 新序列路径或目标设备下原序列别名已存在时（包括真实序列、view、作废序列及其别名），系统会报错提示。
+
+使用示例：
+
+```SQL
+ALTER TIMESERIES root.ln.wf01.wt01.temperature RENAME TO root.newln.newwf.newwt.temperature 
+```
+
+
+### 2.4 删除时间序列
 
 我们可以使用`(DELETE | DROP) TimeSeries <PathPattern>`语句来删除我们之前创建的时间序列。SQL 语句如下所示：
 
@@ -408,7 +433,7 @@ IoTDB> delete timeseries root.ln.wf02.*
 IoTDB> drop timeseries root.ln.wf02.*
 ```
 
-### 2.4 查看时间序列
+### 2.5 查看时间序列
 
 * SHOW LATEST? TIMESERIES pathPattern? timeseriesWhereClause? limitClause?
 
@@ -548,11 +573,24 @@ It costs 0.004s
 
   表示查询出的时间序列需要按照最近插入时间戳降序排列
 
-
-
 需要注意的是，当查询路径不存在时，系统会返回 0 条时间序列。
 
-### 2.5 统计时间序列总数
+* SHOW INVALID TIMESERIES
+
+自 V2.0.8 版本起，支持该 SQL 语句，用于展示**修改全路径名称**成功后的作废时间序列。
+
+```SQL
+IoTDB> show invalid timeSeries
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
+|                   Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|                           NewPath|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
+|root.ln.wf01.wt01.temperature| null| root.ln|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|root.newln.newwf.newwt.temperature|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
+```
+
+说明：返回结果中的最后一列 `NewPath`，展示作废序列对应的新序列，以服务于视图构建、集群迁移（Load+改名）等场景。
+
+### 2.6 统计时间序列总数
 
 IoTDB 支持使用`COUNT TIMESERIES<Path>`来统计一条路径中的时间序列个数。SQL 语句如下所示：
 
@@ -639,7 +677,7 @@ It costs 0.002s
 
 > 注意：时间序列的路径只是过滤条件，与 level 的定义无关。
 
-### 2.6 活跃时间序列查询
+### 2.7 活跃时间序列查询
 我们在原有的时间序列查询和统计上添加新的WHERE时间过滤条件，可以得到在指定时间范围中存在数据的时间序列。
 
 需要注意的是， 在带有时间过滤的元数据查询中并不考虑视图的存在，只考虑TsFile中实际存储的时间序列。
@@ -680,7 +718,7 @@ IoTDB> count timeseries where time >= 15000 and time < 16000;
 ```
 关于活跃时间序列的定义，能通过正常查询查出来的数据就是活跃数据，也就是说插入但被删除的时间序列不在考虑范围内。
 
-### 2.7 标签点管理
+### 2.8 标签点管理
 
 我们可以在创建时间序列的时候，为它添加别名和额外的标签和属性信息。
 
