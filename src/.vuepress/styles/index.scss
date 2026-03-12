@@ -16,6 +16,56 @@
  * limitations under the License.
  */
 
+.copy-one-line-tooltip {
+  position: absolute;
+  right: 95px;
+  top: 8px;
+  padding: 10px 10px 7px;
+  background-color: rgb(47, 53, 66);
+  border-radius: 8px;
+  opacity: 0;
+  font-family: var(--vp-font);
+  font-size: 13px;
+}
+
+.copy-one-line-btn {
+  position: absolute;
+  right: 50px;
+  top: 8px;
+  padding: 10px 10px 7px;
+  background-color: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+} 
+
+ .copy-one-line-btn:hover::before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 12px;
+    border-radius: 4px;
+    white-space: nowrap;
+    margin-bottom: 6px;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+.language-sql pre:hover .copy-one-line-btn {
+  opacity: 0.8;
+}
+
+.copy-one-line-btn:hover {
+  background-color: rgb(47, 53, 66);
+}
+
 #main-description {
   max-width: 55rem;
 }
