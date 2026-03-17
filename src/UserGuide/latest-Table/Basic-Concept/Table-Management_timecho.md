@@ -127,14 +127,19 @@ SHOW TABLES (DETAILS)? ((FROM | IN) database_name)?
 **Examples:**
 
 ```SQL
-IoTDB> show tables from database1
+show tables from database1;
+```
+```shell
 +---------+---------------+
 |TableName|        TTL(ms)|
 +---------+---------------+
 |   table1|    31536000000|
 +---------+---------------+
-
-IoTDB> show tables details from database1
+```
+```sql
+show tables details from database1;
+```
+```shell
 +---------------+-----------+------+-------+
 |      TableName|    TTL(ms)|Status|Comment|
 +---------------+-----------+------+-------+
@@ -162,7 +167,9 @@ Used to view column names, data types, categories, and states of a table.
 **Examples:** 
 
 ```SQL
-IoTDB> desc table1
+desc table1;
+```
+```shell
 +------------+---------+---------+
 |  ColumnName| DataType| Category|
 +------------+---------+---------+
@@ -177,8 +184,11 @@ IoTDB> desc table1
 |      status|  BOOLEAN|    FIELD|
 |arrival_time|TIMESTAMP|    FIELD|
 +------------+---------+---------+
-
-IoTDB> desc table1 details
+```
+```sql
+desc table1 details;
+```
+```shell
 +------------+---------+---------+------+------------+
 |  ColumnName| DataType| Category|Status|     Comment|
 +------------+---------+---------+------+------------+
@@ -214,7 +224,9 @@ SHOW CREATE TABLE <TABLE_NAME>
 **Example:**
 
 ```SQL
-IoTDB:database1> show create table table1
+show create table table1;
+```
+```shell
 +------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Table|                                                                                                                                                                                                                                                                     Create Table|
 +------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -231,12 +243,15 @@ Used to update a table, including adding or deleting columns and configuring tab
 **Syntax:**
 
 ```SQL
-ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? column=columnDefinition                #addColumn
-| ALTER TABLE (IF EXISTS)? tableName=qualifiedName DROP COLUMN (IF EXISTS)? column=identifier                     #dropColumn
-// set TTL can use this
-| ALTER TABLE (IF EXISTS)? tableName=qualifiedName SET PROPERTIES propertyAssignments                #setTableProperties
-| COMMENT ON TABLE tableName=qualifiedName IS 'table_comment'
-| COMMENT ON COLUMN tableName.column IS 'column_comment'
+#addColumn;
+ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? column=columnDefinition;  
+#dropColumn;              
+| ALTER TABLE (IF EXISTS)? tableName=qualifiedName DROP COLUMN (IF EXISTS)? column=identifier;   
+#setTableProperties;                  
+// set TTL can use this;
+| ALTER TABLE (IF EXISTS)? tableName=qualifiedName SET PROPERTIES propertyAssignments;                
+| COMMENT ON TABLE tableName=qualifiedName IS 'table_comment';
+| COMMENT ON COLUMN tableName.column IS 'column_comment';
 ```
 
 **Note:：**
@@ -248,11 +263,11 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? col
 **Example:** 
 
 ```SQL
-ALTER TABLE table1 ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a'
-ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b'
-ALTER TABLE table1 set properties TTL=3600
-COMMENT ON TABLE table1 IS 'table1'
-COMMENT ON COLUMN table1.a IS null
+ALTER TABLE table1 ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a';
+ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b';
+ALTER TABLE table1 set properties TTL=3600;
+COMMENT ON TABLE table1 IS 'table1';
+COMMENT ON COLUMN table1.a IS null;
 ```
 
 ### 1.6 Delete Tables
@@ -268,6 +283,6 @@ DROP TABLE (IF EXISTS)? <TABLE_NAME>
 **Examples:**
 
 ```SQL
-DROP TABLE table1
-DROP TABLE database1.table1
+DROP TABLE table1;
+DROP TABLE database1.table1;
 ```
