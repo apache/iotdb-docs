@@ -51,19 +51,8 @@ The differences between **OBJECT** and **BLOB** types are as follows:
 | **Space Amplification** (Lower is better)  | Low (Merge & release on write)                                                                                               | High (Merge on read and release on compact) |
 | **Query Results** | When querying an OBJECT column by default, returns metadata like: `(Object) XX.XX KB`.  Actual OBJECT data storage path: `${data_dir}/object_data`. Use `READ_OBJECT` function to retrieve raw content | Directly returns raw binary content |
 
-### 1.1 Floating-Point Precision Configuration
 
-For **FLOAT** and **DOUBLE** series using **RLE** or **TS_2DIFF** encoding, the number of decimal places can be set via the **MAX_POINT_NUMBER** attribute during series creation.
-
-For example:  
-
-```SQL
-CREATE TIMESERIES root.vehicle.d0.s0 WITH DATATYPE=FLOAT, ENCODING=RLE, 'MAX_POINT_NUMBER'='2';
-```
-
-If not specified, the system will use the configuration in the `iotdb-system.properties` file under the `float_precision` item (default is 2 decimal places).  
-
-### 1.2 Data Type Compatibility
+### 1.1 Data Type Compatibility
 
 If the written data type does not match the registered data type of a series:  
 
