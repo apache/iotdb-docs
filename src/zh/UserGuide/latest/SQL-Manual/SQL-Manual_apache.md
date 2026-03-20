@@ -7,32 +7,32 @@
 #### 创建数据库
 
 ```sql
-CREATE DATABASE root.ln
+CREATE DATABASE root.ln;
 ```
 
 #### 查看数据库
 
 ```sql
-show databases
-show databases root.*
-show databases root.**
+show databases;
+show databases root.*;
+show databases root.**;
 ```
 
 #### 删除数据库
 
 ```sql
-DELETE DATABASE root.ln
-DELETE DATABASE root.sgcc
-DELETE DATABASE root.**
+DELETE DATABASE root.ln;
+DELETE DATABASE root.sgcc;
+DELETE DATABASE root.**;
 ```
 
 #### 统计数据库数量
 
 ```sql
-count databases
-count databases root.*
-count databases root.sgcc.*
-count databases root.sgcc
+count databases;
+count databases root.*;
+count databases root.sgcc.*;
+count databases root.sgcc;
 ```
 
 ### 1.2 时间序列管理
@@ -40,161 +40,161 @@ count databases root.sgcc
 #### 创建时间序列
 
 ```sql
-create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN
-create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT
-create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT
-create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN
-create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN
-create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT
+create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN;
+create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT;
+create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT;
+create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN;
+create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN;
+create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT;
 ```
 
 - 简化版
 
 ```sql
-create timeseries root.ln.wf01.wt01.status BOOLEAN
-create timeseries root.ln.wf01.wt01.temperature FLOAT
-create timeseries root.ln.wf02.wt02.hardware TEXT
-create timeseries root.ln.wf02.wt02.status BOOLEAN
-create timeseries root.sgcc.wf03.wt01.status BOOLEAN
-create timeseries root.sgcc.wf03.wt01.temperature FLOAT
+create timeseries root.ln.wf01.wt01.status BOOLEAN;
+create timeseries root.ln.wf01.wt01.temperature FLOAT;
+create timeseries root.ln.wf02.wt02.hardware TEXT;
+create timeseries root.ln.wf02.wt02.status BOOLEAN;
+create timeseries root.sgcc.wf03.wt01.status BOOLEAN;
+create timeseries root.sgcc.wf03.wt01.temperature FLOAT;
 ```
 
 - 错误提示
 
 ```sql
-create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN
-> error: encoding TS_2DIFF does not support BOOLEAN
+create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN;
+> error: encoding TS_2DIFF does not support BOOLEAN;
 ```
 
 #### 创建对齐时间序列
 
 ```sql
-CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT, longitude FLOAT) 
+CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT, longitude FLOAT);
 ```
 
 #### 删除时间序列
 
 ```sql
-delete timeseries root.ln.wf01.wt01.status
-delete timeseries root.ln.wf01.wt01.temperature, root.ln.wf02.wt02.hardware
-delete timeseries root.ln.wf02.*
-drop timeseries root.ln.wf02.*
+delete timeseries root.ln.wf01.wt01.status;
+delete timeseries root.ln.wf01.wt01.temperature, root.ln.wf02.wt02.hardware;
+delete timeseries root.ln.wf02.*;
+drop timeseries root.ln.wf02.*;
 ```
 
 #### 查看时间序列
 
 ```sql
-SHOW TIMESERIES
-SHOW TIMESERIES <Path>
-SHOW TIMESERIES root.**
-SHOW TIMESERIES root.ln.**
-SHOW TIMESERIES root.ln.** limit 10 offset 10
-SHOW TIMESERIES root.ln.** where timeseries contains 'wf01.wt'
-SHOW TIMESERIES root.ln.** where dataType=FLOAT
+SHOW TIMESERIES;
+SHOW TIMESERIES <Path>;
+SHOW TIMESERIES root.**;
+SHOW TIMESERIES root.ln.**;
+SHOW TIMESERIES root.ln.** limit 10 offset 10;
+SHOW TIMESERIES root.ln.** where timeseries contains 'wf01.wt';
+SHOW TIMESERIES root.ln.** where dataType=FLOAT;
 SHOW TIMESERIES root.ln.** where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
-SHOW LATEST TIMESERIES
+SHOW LATEST TIMESERIES;
 ```
 
 #### 统计时间序列数量
 
 ```sql
-COUNT TIMESERIES root.**
-COUNT TIMESERIES root.ln.**
-COUNT TIMESERIES root.ln.*.*.status
-COUNT TIMESERIES root.ln.wf01.wt01.status
-COUNT TIMESERIES root.** WHERE TIMESERIES contains 'sgcc' 
-COUNT TIMESERIES root.** WHERE DATATYPE = INT64
-COUNT TIMESERIES root.** WHERE TAGS(unit) contains 'c' 
-COUNT TIMESERIES root.** WHERE TAGS(unit) = 'c' 
-COUNT TIMESERIES root.** WHERE TIMESERIES contains 'sgcc' group by level = 1
+COUNT TIMESERIES root.**;
+COUNT TIMESERIES root.ln.**;
+COUNT TIMESERIES root.ln.*.*.status;
+COUNT TIMESERIES root.ln.wf01.wt01.status;
+COUNT TIMESERIES root.** WHERE TIMESERIES contains 'sgcc';
+COUNT TIMESERIES root.** WHERE DATATYPE = INT64;
+COUNT TIMESERIES root.** WHERE TAGS(unit) contains 'c'; 
+COUNT TIMESERIES root.** WHERE TAGS(unit) = 'c'; 
+COUNT TIMESERIES root.** WHERE TIMESERIES contains 'sgcc' group by level = 1;
 COUNT TIMESERIES root.** WHERE time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
-COUNT TIMESERIES root.** GROUP BY LEVEL=1
-COUNT TIMESERIES root.ln.** GROUP BY LEVEL=2
-COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2
+COUNT TIMESERIES root.** GROUP BY LEVEL=1;
+COUNT TIMESERIES root.ln.** GROUP BY LEVEL=2;
+COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2;
 ```
 
 #### 标签点管理
 
 ```sql
-create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2)
+create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2);
 ```
 
 - 重命名标签或属性
 
 ```sql
-ALTER timeseries root.turbine.d1.s1 RENAME tag1 TO newTag1
+ALTER timeseries root.turbine.d1.s1 RENAME tag1 TO newTag1;
 ```
 
 - 重新设置标签或属性的值
 
 ```sql
-ALTER timeseries root.turbine.d1.s1 SET newTag1=newV1, attr1=newV1
+ALTER timeseries root.turbine.d1.s1 SET newTag1=newV1, attr1=newV1;
 ```
 
 - 删除已经存在的标签或属性
 
 ```sql
-ALTER timeseries root.turbine.d1.s1 DROP tag1, tag2
+ALTER timeseries root.turbine.d1.s1 DROP tag1, tag2;
 ```
 
 - 添加新的标签
 
 ```sql
-ALTER timeseries root.turbine.d1.s1 ADD TAGS tag3=v3, tag4=v4
+ALTER timeseries root.turbine.d1.s1 ADD TAGS tag3=v3, tag4=v4;
 ```
 
 - 添加新的属性
 
 ```sql
-ALTER timeseries root.turbine.d1.s1 ADD ATTRIBUTES attr3=v3, attr4=v4
+ALTER timeseries root.turbine.d1.s1 ADD ATTRIBUTES attr3=v3, attr4=v4;
 ```
 
 - 更新插入别名，标签和属性
 
 ```sql
-ALTER timeseries root.turbine.d1.s1 UPSERT ALIAS=newAlias TAGS(tag2=newV2, tag3=v3) ATTRIBUTES(attr3=v3, attr4=v4)
+ALTER timeseries root.turbine.d1.s1 UPSERT ALIAS=newAlias TAGS(tag2=newV2, tag3=v3) ATTRIBUTES(attr3=v3, attr4=v4);
 ```
 
 - 使用标签作为过滤条件查询时间序列
 
 ```sql
-SHOW TIMESERIES (<`PathPattern`>)? timeseriesWhereClause
+SHOW TIMESERIES (<`PathPattern`>)? timeseriesWhereClause;
 ```
 
 返回给定路径的下的所有满足条件的时间序列信息：
 
 ```sql
-ALTER timeseries root.ln.wf02.wt02.hardware ADD TAGS unit=c
-ALTER timeseries root.ln.wf02.wt02.status ADD TAGS description=test1
-show timeseries root.ln.** where TAGS(unit)='c'
-show timeseries root.ln.** where TAGS(description) contains 'test1'
+ALTER timeseries root.ln.wf02.wt02.hardware ADD TAGS unit=c;
+ALTER timeseries root.ln.wf02.wt02.status ADD TAGS description=test1;
+show timeseries root.ln.** where TAGS(unit)='c';
+show timeseries root.ln.** where TAGS(description) contains 'test1';
 ```
 
 - 使用标签作为过滤条件统计时间序列数量
 
 ```sql
-COUNT TIMESERIES (<`PathPattern`>)? timeseriesWhereClause
-COUNT TIMESERIES (<`PathPattern`>)? timeseriesWhereClause GROUP BY LEVEL=<INTEGER>
+COUNT TIMESERIES (<`PathPattern`>)? timeseriesWhereClause;
+COUNT TIMESERIES (<`PathPattern`>)? timeseriesWhereClause GROUP BY LEVEL=<INTEGER>;
 ```
 
 返回给定路径的下的所有满足条件的时间序列的数量：
 
 ```sql
-count timeseries
-count timeseries root.** where TAGS(unit)='c'
-count timeseries root.** where TAGS(unit)='c' group by level = 2
+count timeseries;
+count timeseries root.** where TAGS(unit)='c';
+count timeseries root.** where TAGS(unit)='c' group by level = 2;
 ```
 
 创建对齐时间序列：
 
 ```sql
-create aligned timeseries root.sg1.d1(s1 INT32 tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2), s2 DOUBLE tags(tag3=v3, tag4=v4) attributes(attr3=v3, attr4=v4))
+create aligned timeseries root.sg1.d1(s1 INT32 tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2), s2 DOUBLE tags(tag3=v3, tag4=v4) attributes(attr3=v3, attr4=v4));
 ```
 
 支持查询：
 
 ```sql
-show timeseries where TAGS(tag1)='v1'
+show timeseries where TAGS(tag1)='v1';
 ```
 
 ### 1.3 时间序列路径管理
@@ -202,54 +202,48 @@ show timeseries where TAGS(tag1)='v1'
 #### 查看路径的所有子路径
 
 ```sql
-SHOW CHILD PATHS pathPattern
-- 查询 root.ln 的下一层：show child paths root.ln
-- 查询形如 root.xx.xx.xx 的路径：show child paths root.*.*
+SHOW CHILD PATHS pathPattern;
+- 查询 root.ln 的下一层;
+show child paths root.ln;
+- 查询形如 root.xx.xx.xx 的路径;
+show child paths root.*.*;
 ```
 #### 查看路径的所有子节点
 
 ```sql
-SHOW CHILD NODES pathPattern
-
-- 查询 root 的下一层：show child nodes root
-- 查询 root.ln 的下一层 ：show child nodes root.ln
+SHOW CHILD NODES pathPattern;
+- 查询 root 的下一层;
+show child nodes root;
+- 查询 root.ln 的下一层;
+show child nodes root.ln;
 ```
 #### 查看设备
 
 ```sql
-IoTDB> show devices
-
-IoTDB> show devices root.ln.**
-
-IoTDB> show devices where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
+show devices;
+show devices root.ln.**;
+show devices where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
 ```
 ##### 查看设备及其 database 信息
 
 ```sql
-IoTDB> show devices with database
-
-IoTDB> show devices root.ln.** with database
+show devices with database;
+show devices root.ln.** with database;
 ```
 #### 统计节点数
 
 ```sql
-IoTDB > COUNT NODES root.** LEVEL=2
-
-IoTDB > COUNT NODES root.ln.** LEVEL=2
-
-IoTDB > COUNT NODES root.ln.wf01.* LEVEL=3
-
-IoTDB > COUNT NODES root.**.temperature LEVEL=3
+COUNT NODES root.** LEVEL=2;
+COUNT NODES root.ln.** LEVEL=2;
+COUNT NODES root.ln.wf01.* LEVEL=3;
+COUNT NODES root.**.temperature LEVEL=3;
 ```
 #### 统计设备数量
 
 ```sql
-
-IoTDB> count devices
-
-IoTDB> count devices root.ln.**
-
-IoTDB> count devices where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
+count devices;
+count devices root.ln.**;
+count devices where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
 ```
 ### 1.4 设备模板管理
 
@@ -262,136 +256,106 @@ IoTDB> count devices where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:
 #### 创建设备模板
 
 ```sql
-CREATE DEVICE TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')'
+CREATE DEVICE TEMPLATE <templateName> ALIGNED? '(' <measurementId> <attributeClauses> [',' <measurementId> <attributeClauses>]+ ')';
 ```
 
 创建包含两个非对齐序列的设备模板
 ```sql
-IoTDB> create device template t1 (temperature FLOAT, status BOOLEAN)
+create device template t1 (temperature FLOAT, status BOOLEAN);
 ```
 创建包含一组对齐序列的设备模板
 ```sql
-IoTDB> create device template t2 aligned (lat FLOAT, lon FLOAT)
+create device template t2 aligned (lat FLOAT, lon FLOAT);
 ```
 #### 挂载设备模板
 ```sql
-IoTDB> set DEVICE TEMPLATE t1 to root.sg1
+set DEVICE TEMPLATE t1 to root.sg1;
 ```
 #### 激活设备模板
 ```sql
-IoTDB> create timeseries using DEVICE TEMPLATE on root.sg1.d1
-
-IoTDB> set DEVICE TEMPLATE t1 to root.sg1.d1
-
-IoTDB> set DEVICE TEMPLATE t2 to root.sg1.d2
-
-IoTDB> create timeseries using device template on root.sg1.d1
-
-IoTDB> create timeseries using device template on root.sg1.d2
+create timeseries using DEVICE TEMPLATE on root.sg1.d1;
+set DEVICE TEMPLATE t1 to root.sg1.d1;
+set DEVICE TEMPLATE t2 to root.sg1.d2;
+create timeseries using device template on root.sg1.d1;
+create timeseries using device template on root.sg1.d2;
 ```
 #### 查看设备模板
 ```sql
-IoTDB> show device templates
+show device templates;
 ```
 - 查看某个设备模板下的物理量
 ```sql
-IoTDB> show nodes in device template t1
+show nodes in device template t1;
 ```
 - 查看挂载了某个设备模板的路径
 ```sql
-IoTDB> show paths set device template t1
+show paths set device template t1;
 ```
 - 查看使用了某个设备模板的路径（即模板在该路径上已激活，序列已创建）
 ```sql
-IoTDB> show paths using device template t1
+show paths using device template t1;
 ```
 #### 解除设备模板
 ```sql
-IoTDB> delete timeseries of device template t1 from root.sg1.d1
-```
-```sql
-IoTDB> deactivate device template t1 from root.sg1.d1
+delete timeseries of device template t1 from root.sg1.d1;
+deactivate device template t1 from root.sg1.d1;
 ```
 批量处理
 ```sql
-IoTDB> delete timeseries of device template t1 from root.sg1.*, root.sg2.*
-```
-```sql
-IoTDB> deactivate device template t1 from root.sg1.*, root.sg2.*
+delete timeseries of device template t1 from root.sg1.*, root.sg2.*;
+deactivate device template t1 from root.sg1.*, root.sg2.*;
 ```
 #### 卸载设备模板
 ```sql
-IoTDB> unset device template t1 from root.sg1.d1
+unset device template t1 from root.sg1.d1;
 ```
 #### 删除设备模板
 ```sql
-IoTDB> drop device template t1
+drop device template t1;
 ```
 ### 1.5 数据存活时间管理
 
 #### 设置 TTL
 ```sql
-IoTDB> set ttl to root.ln 3600000
-```
-```sql
-IoTDB> set ttl to root.sgcc.** 3600000
-```
-```sql
-IoTDB> set ttl to root.** 3600000
+set ttl to root.ln 3600000;
+set ttl to root.sgcc.** 3600000;
+set ttl to root.** 3600000;
 ```
 #### 取消 TTL
 ```sql
-IoTDB> unset ttl from root.ln
-```
-```sql
-IoTDB> unset ttl from root.sgcc.**
-```
-```sql
-IoTDB> unset ttl from root.**
+unset ttl from root.ln;
+unset ttl from root.sgcc.**;
+unset ttl from root.**;
 ```
 
 #### 显示 TTL
 ```sql
-IoTDB> SHOW ALL TTL
-```
-```sql
-IoTDB> SHOW TTL ON pathPattern
-```
-```sql
-IoTDB> show DEVICES
+SHOW ALL TTL;
+SHOW TTL ON pathPattern;
+show DEVICES;
 ```
 ## 2. 写入数据
 
 ### 2.1 写入单列数据
 ```sql
-IoTDB > insert into root.ln.wf02.wt02(timestamp,status) values(1,true)
-```
-```sql
-IoTDB > insert into root.ln.wf02.wt02(timestamp,hardware) values(1, 'v1'),(2, 'v1')
+insert into root.ln.wf02.wt02(timestamp,status) values(1,true);
+insert into root.ln.wf02.wt02(timestamp,hardware) values(1, 'v1'),(2, 'v1');
 ```
 ### 2.2 写入多列数据
 ```sql
-IoTDB > insert into root.ln.wf02.wt02(timestamp, status, hardware) values (2, false, 'v2')
-```
-```sql
-IoTDB > insert into root.ln.wf02.wt02(timestamp, status, hardware) VALUES (3, false, 'v3'),(4, true, 'v4')
+insert into root.ln.wf02.wt02(timestamp, status, hardware) values (2, false, 'v2');
+insert into root.ln.wf02.wt02(timestamp, status, hardware) VALUES (3, false, 'v3'),(4, true, 'v4');
 ```
 ### 2.3 使用服务器时间戳
 ```sql
-IoTDB > insert into root.ln.wf02.wt02(status, hardware) values (false, 'v2')
+insert into root.ln.wf02.wt02(status, hardware) values (false, 'v2');
 ```
 ### 2.4 写入对齐时间序列数据
 ```sql
-IoTDB > create aligned timeseries root.sg1.d1(s1 INT32, s2 DOUBLE)
-```
-```sql
-IoTDB > insert into root.sg1.d1(timestamp, s1, s2) aligned values(1, 1, 1)
-```
-```sql
-IoTDB > insert into root.sg1.d1(timestamp, s1, s2) aligned values(2, 2, 2), (3, 3, 3)
-```
-```sql
-IoTDB > select * from root.sg1.d1
+create aligned timeseries root.sg1.d1(s1 INT32, s2 DOUBLE);
+insert into root.sg1.d1(timestamp, s1, s2) aligned values(1, 1, 1);
+insert into root.sg1.d1(timestamp, s1, s2) aligned values(2, 2, 2), (3, 3, 3);
+select * from root.sg1.d1;
 ```
 ### 2.5 加载 TsFile 文件数据
 
@@ -417,43 +381,24 @@ load '<path/dir>' [sglevel=int][onSuccess=delete/none]
 ### 3.1 删除单列数据
 ```sql
 delete from root.ln.wf02.wt02.status where time<=2017-11-01T16:26:00;
-```
-```sql
 delete from root.ln.wf02.wt02.status where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
-```
-```sql
-delete from root.ln.wf02.wt02.status where time < 10
-```
-```sql
-delete from root.ln.wf02.wt02.status where time <= 10
-```
-```sql
-delete from root.ln.wf02.wt02.status where time < 20 and time > 10
-```
-```sql
-delete from root.ln.wf02.wt02.status where time <= 20 and time >= 10
-```
-```sql
-delete from root.ln.wf02.wt02.status where time > 20
-```
-```sql
-delete from root.ln.wf02.wt02.status where time >= 20
-```
-```sql
-delete from root.ln.wf02.wt02.status where time = 20
+delete from root.ln.wf02.wt02.status where time < 10;
+delete from root.ln.wf02.wt02.status where time <= 10;
+delete from root.ln.wf02.wt02.status where time < 20 and time > 10;
+delete from root.ln.wf02.wt02.status where time <= 20 and time >= 10;
+delete from root.ln.wf02.wt02.status where time > 20;
+delete from root.ln.wf02.wt02.status where time >= 20;
+delete from root.ln.wf02.wt02.status where time = 20;
 ```
 出错：
 ```sql
-delete from root.ln.wf02.wt02.status where time > 4 or time < 0
-
-Msg: 303: Check metadata error: For delete statement, where clause can only contain atomic
-
-expressions like : time > XXX, time <= XXX, or two atomic expressions connected by 'AND'
+delete from root.ln.wf02.wt02.status where time > 4 or time < 0;
+Msg: 303: Check metadata error: For delete statement, where clause can only contain atomic expressions like : time > XXX, time <= XXX, or two atomic expressions connected by 'AND'
 ```
 
 删除时间序列中的所有数据：
 ```sql
-delete from root.ln.wf02.wt02.status
+delete from root.ln.wf02.wt02.status;
 ```
 ### 3.2 删除多列数据
 ```sql
@@ -461,8 +406,7 @@ delete from root.ln.wf02.wt02.* where time <= 2017-11-01T16:26:00;
 ```
 声明式的编程方式：
 ```sql
-IoTDB> delete from root.ln.wf03.wt02.status where time < now()
-
+delete from root.ln.wf03.wt02.status where time < now();
 Msg: The statement is executed successfully.
 ```
 ## 4. 数据查询
@@ -471,7 +415,7 @@ Msg: The statement is executed successfully.
 
 #### 时间过滤查询
 ```sql
-select temperature from root.ln.wf01.wt01 where time < 2017-11-01T00:08:00.000
+select temperature from root.ln.wf01.wt01 where time < 2017-11-01T00:08:00.000;
 ```
 #### 根据一个时间区间选择多列数据
 ```sql
@@ -502,9 +446,7 @@ select s1 as temperature, s2 as speed from root.ln.wf01.wt01;
 不支持：
 ```sql
 select s1, count(s1) from root.sg.d1;
-
 select sin(s1), count(s1) from root.sg.d1;
-
 select s1, count(s1) from root.sg.d1 group by ([10,100),10ms);
 ```
 ##### 时间序列查询嵌套表达式
@@ -512,67 +454,50 @@ select s1, count(s1) from root.sg.d1 group by ([10,100),10ms);
 示例 1：
 ```sql
 select a,
-
-​       b,
-
-​       ((a + 1) * 2 - 1) % 2 + 1.5,
-
-​       sin(a + sin(a + sin(b))),
-
-​       -(a + b) * (sin(a + b) * sin(a + b) + cos(a + b) * cos(a + b)) + 1
-
+       b,
+       ((a + 1) * 2 - 1) % 2 + 1.5,
+       sin(a + sin(a + sin(b))),
+       -(a + b) * (sin(a + b) * sin(a + b) + cos(a + b) * cos(a + b)) + 1
 from root.sg1;
 ```
 示例 2：
 ```sql
-select (a + b) * 2 + sin(a) from root.sg
+select (a + b) * 2 + sin(a) from root.sg;
+```
 
 示例 3：
-
-select (a + *) / 2  from root.sg1
-
+```sql
+select (a + *) / 2  from root.sg1;
+```
 示例 4：
-
-select (a + b) * 3 from root.sg, root.ln
+```sql
+select (a + b) * 3 from root.sg, root.ln;
 ```
 ##### 聚合查询嵌套表达式
 
 示例 1：
 ```sql
 select avg(temperature),
-
-​       sin(avg(temperature)),
-
-​       avg(temperature) + 1,
-
-​       -sum(hardware),
-
-​       avg(temperature) + sum(hardware)
-
+       sin(avg(temperature)),
+       avg(temperature) + 1,
+       -sum(hardware),
+       avg(temperature) + sum(hardware)
 from root.ln.wf01.wt01;
 ```
 示例 2：
 ```sql
 select avg(*), 
-
-​           (avg(*) + 1) * 3 / 2 -1 
-
-from root.sg1
+      (avg(*) + 1) * 3 / 2 -1 
+from root.sg1;
 ```
 示例 3：
 ```sql
 select avg(temperature),
-
-​       sin(avg(temperature)),
-
-​       avg(temperature) + 1,
-
-​       -sum(hardware),
-
-​       avg(temperature) + sum(hardware) as custom_sum
-
+       sin(avg(temperature)),
+       avg(temperature) + 1,
+       -sum(hardware),
+       avg(temperature) + sum(hardware) as custom_sum
 from root.ln.wf01.wt01
-
 GROUP BY([10, 90), 10ms);
 ```
 #### 最新点查询
@@ -585,15 +510,15 @@ select last <Path> [COMMA <Path>]* from < PrefixPath > [COMMA < PrefixPath >]* <
 
 查询 root.ln.wf01.wt01.status 的最新数据点
 ```sql
-IoTDB> select last status from root.ln.wf01.wt01
+select last status from root.ln.wf01.wt01;
 ```
 查询 root.ln.wf01.wt01 下 status，temperature 时间戳大于等于 2017-11-07T23:50:00 的最新数据点
 ```sql
-IoTDB> select last status, temperature from root.ln.wf01.wt01 where time >= 2017-11-07T23:50:00
+select last status, temperature from root.ln.wf01.wt01 where time >= 2017-11-07T23:50:00;
 ```
  查询 root.ln.wf01.wt01 下所有序列的最新数据点，并按照序列名降序排列
 ```sql
-IoTDB> select last * from root.ln.wf01.wt01 order by timeseries desc;
+select last * from root.ln.wf01.wt01 order by timeseries desc;
 ```
 ### 4.3 查询过滤条件
 
@@ -648,20 +573,20 @@ select code from root.sg1.d1 where temperature is not null;
 
 查询 `root.sg.d1` 下 `value` 含有`'cc'`的数据
 ```sql
-IoTDB> select * from root.sg.d1 where value like '%cc%'
+select * from root.sg.d1 where value like '%cc%';
 ```
 查询 `root.sg.d1` 下 `value` 中间为 `'b'`、前后为任意单个字符的数据
 ```sql
-IoTDB> select * from root.sg.device where value like '_b_'
+select * from root.sg.device where value like '_b_';
 ```
 查询 root.sg.d1 下 value 值为26个英文字符组成的字符串
 ```sql
-IoTDB> select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
+select * from root.sg.d1 where value regexp '^[A-Za-z]+$';
 ```
 
 查询 root.sg.d1 下 value 值为26个小写英文字符组成的字符串且时间大于100的
 ```sql
-IoTDB> select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
+select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100;
 ```
 
 ### 4.4 分段分组聚合
@@ -704,23 +629,23 @@ select count(status) from root.ln.wf01.wt01 group by ([2017-11-01 00:00:00, 2017
 
 统计不同 database 下 status 序列的数据点个数
 ```sql
-select count(status) from root.** group by level = 1
+select count(status) from root.** group by level = 1;
 ```
  统计不同设备下 status 序列的数据点个数
 ```sql
-select count(status) from root.** group by level = 3
+select count(status) from root.** group by level = 3;
 ```
 统计不同 database 下的不同设备中 status 序列的数据点个数
 ```sql
-select count(status) from root.** group by level = 1, 3
+select count(status) from root.** group by level = 1, 3;
 ```
 查询所有序列下温度传感器 temperature 的最大值
 ```sql
-select max_value(temperature) from root.** group by level = 0
+select max_value(temperature) from root.** group by level = 0;
 ```
 查询某一层级下所有传感器拥有的总数据点数
 ```sql
-select count(*) from root.ln.** group by level = 2
+select count(*) from root.ln.** group by level = 2;
 ```
 #### 标签分组聚合
 
@@ -738,19 +663,19 @@ SELECT AVG(temperature) FROM root.factory1.** GROUP BY ([1000, 10000), 5s), TAGS
 ```
 #### 差值分段聚合
 ```sql
-group by variation(controlExpression[,delta][,ignoreNull=true/false])
+group by variation(controlExpression[,delta][,ignoreNull=true/false]);
 ```
 ##### delta=0时的等值事件分段
 ```sql
-select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6)
+select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6);
 ```
 指定ignoreNull为false
 ```sql
-select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6, ignoreNull=false)
+select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6, ignoreNull=false);
 ```
 ##### delta!=0时的差值事件分段
 ```sql
-select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6, 4)
+select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6, 4);
 ```
 #### 条件分段聚合
 ```sql
@@ -758,11 +683,11 @@ group by condition(predict,[keep>/>=/=/<=/<]threshold,[,ignoreNull=true/false])
 ```
 查询至少连续两行以上的charging_status=1的数据
 ```sql
-select max_time(charging_status),count(vehicle_status),last_value(soc) from root.** group by condition(charging_status=1,KEEP>=2,ignoreNull=true)
+select max_time(charging_status),count(vehicle_status),last_value(soc) from root.** group by condition(charging_status=1,KEEP>=2,ignoreNull=true);
 ```
 当设置`ignoreNull`为false时，遇到null值为将其视为一个不满足条件的行，得到结果原先的分组被含null的行拆分
 ```sql
-select max_time(charging_status),count(vehicle_status),last_value(soc) from root.** group by condition(charging_status=1,KEEP>=2,ignoreNull=false)
+select max_time(charging_status),count(vehicle_status),last_value(soc) from root.** group by condition(charging_status=1,KEEP>=2,ignoreNull=false);
 ```
 #### 会话分段聚合
 ```sql
@@ -770,38 +695,35 @@ group by session(timeInterval)
 ```
 按照不同的时间单位设定时间间隔
 ```sql
-select __endTime,count(*) from root.** group by session(1d)
+select __endTime,count(*) from root.** group by session(1d);
 ```
 和`HAVING`、`ALIGN BY DEVICE`共同使用
 ```sql
-select __endTime,sum(hardware) from root.ln.wf02.wt01 group by session(50s) having sum(hardware)>0 align by device
+select __endTime,sum(hardware) from root.ln.wf02.wt01 group by session(50s) having sum(hardware)>0 align by device;
 ```
 #### 点数分段聚合
 ```sql
 group by count(controlExpression, size[,ignoreNull=true/false])
 ```
-select count(charging_stauts), first_value(soc) from root.sg group by count(charging_status,5) 
-
+```sql
+select count(charging_stauts), first_value(soc) from root.sg group by count(charging_status,5);
+```
 当使用ignoreNull将null值也考虑进来
 ```sql
-select count(charging_stauts), first_value(soc) from root.sg group by count(charging_status,5,ignoreNull=false) 
+select count(charging_stauts), first_value(soc) from root.sg group by count(charging_status,5,ignoreNull=false);
 ```
 ### 4.5 聚合结果过滤
 
 不正确的：
 ```sql
-select count(s1) from root.** group by ([1,3),1ms) having sum(s1) > s1
-
-select count(s1) from root.** group by ([1,3),1ms) having s1 > 1
-
-select count(s1) from root.** group by ([1,3),1ms), level=1 having sum(d1.s1) > 1
-
-select count(d1.s1) from root.** group by ([1,3),1ms), level=1 having sum(s1) > 1
+select count(s1) from root.** group by ([1,3),1ms) having sum(s1) > s1;
+select count(s1) from root.** group by ([1,3),1ms) having s1 > 1;
+select count(s1) from root.** group by ([1,3),1ms), level=1 having sum(d1.s1) > 1;
+select count(d1.s1) from root.** group by ([1,3),1ms), level=1 having sum(s1) > 1;
 ```
 SQL 示例：
 ```sql
  select count(s1) from root.** group by ([1,11),2ms), level=1 having count(s2) > 2;
-
  select count(s1), count(s2) from root.** group by ([1,11),2ms) having count(s2) > 1 align by device;
 ```
 ### 4.6 结果集补空值
@@ -834,37 +756,37 @@ select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:
 
  基本的 `LIMIT` 子句
 ```sql
-select status, temperature from root.ln.wf01.wt01 limit 10
+select status, temperature from root.ln.wf01.wt01 limit 10;
 ```
 带 `OFFSET` 的 `LIMIT` 子句
 ```sql
-select status, temperature from root.ln.wf01.wt01 limit 5 offset 3
+select status, temperature from root.ln.wf01.wt01 limit 5 offset 3;
 ```
 `LIMIT` 子句与 `WHERE` 子句结合
 ```sql
-select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time< 2017-11-01T00:12:00.000 limit 5 offset 3
+select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time< 2017-11-01T00:12:00.000 limit 5 offset 3;
 ```
  `LIMIT` 子句与 `GROUP BY` 子句组合
 ```sql
-select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d) limit 4 offset 3
+select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d) limit 4 offset 3;
 ```
 #### 按列分页
 
  基本的 `SLIMIT` 子句
 ```sql
-select * from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 slimit 1
+select * from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 slimit 1;
 ```
 带 `SOFFSET` 的 `SLIMIT` 子句
 ```sql
-select * from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 slimit 1 soffset 1
+select * from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 slimit 1 soffset 1;
 ```
 `SLIMIT` 子句与 `GROUP BY` 子句结合
 ```sql
-select max_value(*) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d) slimit 1 soffset 1
+select max_value(*) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d) slimit 1 soffset 1;
 ```
 `SLIMIT` 子句与 `LIMIT` 子句结合
 ```sql
-select * from root.ln.wf01.wt01 limit 10 offset 100 slimit 2 soffset 0
+select * from root.ln.wf01.wt01 limit 10 offset 100 slimit 2 soffset 0;
 ```
 ### 4.8 排序
 
@@ -886,7 +808,7 @@ select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
 ```
 对聚合后的结果进行排序
 ```sql
-select count(*) from root.ln.** group by ((2017-11-01T00:00:00.000+08:00,2017-11-01T00:03:00.000+08:00],1m) order by device asc,time asc align by device
+select count(*) from root.ln.** group by ((2017-11-01T00:00:00.000+08:00,2017-11-01T00:03:00.000+08:00],1m) order by device asc,time asc align by device;
 ```
 ### 4.9 查询对齐模式
 
@@ -899,50 +821,36 @@ select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
 #### 整体描述
 ```sql
 selectIntoStatement
-
-​    : SELECT
-
-​        resultColumn [, resultColumn] ...
-
-​        INTO intoItem [, intoItem] ...
-
-​        FROM prefixPath [, prefixPath] ...
-
-​        [WHERE whereCondition]
-
-​        [GROUP BY groupByTimeClause, groupByLevelClause]
-
-​        [FILL ({PREVIOUS | LINEAR | constant} (, interval=DURATION_LITERAL)?)]
-
-​        [LIMIT rowLimit OFFSET rowOffset]
-
-​        [ALIGN BY DEVICE]
-
-​    ;
-
-
+    : SELECT
+        resultColumn [, resultColumn] ...
+        INTO intoItem [, intoItem] ...
+        FROM prefixPath [, prefixPath] ...
+        [WHERE whereCondition]
+        [GROUP BY groupByTimeClause, groupByLevelClause]
+        [FILL ({PREVIOUS | LINEAR | constant} (, interval=DURATION_LITERAL)?)]
+        [LIMIT rowLimit OFFSET rowOffset]
+        [ALIGN BY DEVICE]
+    ;
 
 intoItem
-
-​    : [ALIGNED] intoDevicePath '(' intoMeasurementName [',' intoMeasurementName]* ')'
-
-​    ;
+    : [ALIGNED] intoDevicePath '(' intoMeasurementName [',' intoMeasurementName]* ')'
+    ;
 ```
 按时间对齐，将 `root.sg` database 下四条序列的查询结果写入到 `root.sg_copy` database 下指定的四条序列中
 ```sql
-IoTDB> select s1, s2 into root.sg_copy.d1(t1), root.sg_copy.d2(t1, t2), root.sg_copy.d1(t2) from root.sg.d1, root.sg.d2;
+select s1, s2 into root.sg_copy.d1(t1), root.sg_copy.d2(t1, t2), root.sg_copy.d1(t2) from root.sg.d1, root.sg.d2;
 ```
 按时间对齐，将聚合查询的结果存储到指定序列中
 ```sql
-IoTDB> select count(s1 + s2), last_value(s2) into root.agg.count(s1_add_s2), root.agg.last_value(s2) from root.sg.d1 group by ([0, 100), 10ms);
+select count(s1 + s2), last_value(s2) into root.agg.count(s1_add_s2), root.agg.last_value(s2) from root.sg.d1 group by ([0, 100), 10ms);
 ```
 按设备对齐
 ```sql
-IoTDB> select s1, s2 into root.sg_copy.d1(t1, t2), root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
+select s1, s2 into root.sg_copy.d1(t1, t2), root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
 ```
 按设备对齐，将表达式计算的结果存储到指定序列中
 ```sql
-IoTDB> select s1 + s2 into root.expr.add(d1s1_d1s2), root.expr.add(d2s1_d2s2) from root.sg.d1, root.sg.d2 align by device;
+select s1 + s2 into root.expr.add(d1s1_d1s2), root.expr.add(d2s1_d2s2) from root.sg.d1, root.sg.d2 align by device;
 ```
 #### 使用变量占位符
 
@@ -950,21 +858,15 @@ IoTDB> select s1 + s2 into root.expr.add(d1s1_d1s2), root.expr.add(d2s1_d2s2) fr
 
 ###### 目标设备不使用变量占位符 & 目标物理量列表使用变量占位符
 ```sql
-
 select s1, s2
-
 into root.sg_copy.d1(::), root.sg_copy.d2(s1), root.sg_copy.d1(${3}), root.sg_copy.d2(::)
-
 from root.sg.d1, root.sg.d2;
 ```
 
 该语句等价于：
 ```sql
-
 select s1, s2
-
 into root.sg_copy.d1(s1), root.sg_copy.d2(s1), root.sg_copy.d1(s2), root.sg_copy.d2(s2)
-
 from root.sg.d1, root.sg.d2;
 ```
 
@@ -972,9 +874,7 @@ from root.sg.d1, root.sg.d2;
 
 ```sql
 select d1.s1, d1.s2, d2.s3, d3.s4 
-
 into ::(s1_1, s2_2), root.sg.d2_2(s3_3), root.${2}_copy.::(s4)
-
 from root.sg;
 ```
 
@@ -988,47 +888,37 @@ select * into root.sg_bk.::(::) from root.sg.**;
 
 ###### 目标设备不使用变量占位符 & 目标物理量列表使用变量占位符
 ```sql
-
 select s1, s2, s3, s4
-
 into root.backup_sg.d1(s1, s2, s3, s4), root.backup_sg.d2(::), root.sg.d3(backup_${4})
-
 from root.sg.d1, root.sg.d2, root.sg.d3
-
 align by device;
 ```
 
 ###### 目标设备使用变量占位符 & 目标物理量列表不使用变量占位符
 ```sql
-
 select avg(s1), sum(s2) + sum(s3), count(s4)
-
 into root.agg_${2}.::(avg_s1, sum_s2_add_s3, count_s4)
-
 from root.**
-
 align by device;
 ```
 
 ###### 目标设备使用变量占位符 & 目标物理量列表使用变量占位符
 ```sql
-
 select * into ::(backup_${4}) from root.sg.** align by device;
 ```
 
 #### 指定目标序列为对齐序列
 ```sql
-
 select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
 ```
 ## 5. 运维语句
 生成对应的查询计划
 ```sql
-explain select s1,s2 from root.sg.d1
+explain select s1,s2 from root.sg.d1;
 ```
 执行对应的查询语句，并获取分析结果
 ```sql
-explain analyze select s1,s2 from root.sg.d1 order by s1
+explain analyze select s1,s2 from root.sg.d1 order by s1;
 ```
 ## 6. 运算符
 
@@ -1039,7 +929,7 @@ explain analyze select s1,s2 from root.sg.d1 order by s1
 更多见文档 [Arithmetic Operators and Functions](./Operator-and-Expression.md#_1-1-算数运算符)
 
 ```sql
-select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root.sg.d1
+select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root.sg.d1;
 ```
 
 ### 6.2 比较运算符
@@ -1047,27 +937,27 @@ select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root
 更多见文档[Comparison Operators and Functions](./Operator-and-Expression.md#_1-2-比较运算符)
 
 ```sql
-# Basic comparison operators
+-- Basic comparison operators;
 select a, b, a > 10, a <= b, !(a <= b), a > 10 && a > b from root.test;
 
-# `BETWEEN ... AND ...` operator
+-- `BETWEEN ... AND ...` operator;
 select temperature from root.sg1.d1 where temperature between 36.5 and 40;
 select temperature from root.sg1.d1 where temperature not between 36.5 and 40;
 
-# Fuzzy matching operator: Use `Like` for fuzzy matching
-select * from root.sg.d1 where value like '%cc%'
-select * from root.sg.device where value like '_b_'
+-- Fuzzy matching operator: Use `Like` for fuzzy matching;
+select * from root.sg.d1 where value like '%cc%';
+select * from root.sg.device where value like '_b_';
 
-# Fuzzy matching operator: Use `Regexp` for fuzzy matching
-select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
-select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
+-- Fuzzy matching operator: Use `Regexp` for fuzzy matching;
+select * from root.sg.d1 where value regexp '^[A-Za-z]+$';
+select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100;
 select b, b like '1%', b regexp '[0-2]' from root.test;
 
-# `IS NULL` operator
+-- `IS NULL` operator;
 select code from root.sg1.d1 where temperature is null;
 select code from root.sg1.d1 where temperature is not null;
 
-# `IN` operator
+-- `IN` operator;
 select code from root.sg1.d1 where code in ('200', '300', '400', '500');
 select code from root.sg1.d1 where code not in ('200', '300', '400', '500');
 select a, a in (1, 2) from root.test;
@@ -1123,25 +1013,25 @@ select ts, in_range(ts, 'lower'='2', 'upper'='3.1') from root.test;
 ```sql
 select s1, string_contains(s1, 's'='warn') from root.sg1.d4;
 select s1, string_matches(s1, 'regex'='[^\\s]+37229') from root.sg1.d4;
-select s1, length(s1) from root.sg1.d1
-select s1, locate(s1, "target"="1") from root.sg1.d1
-select s1, locate(s1, "target"="1", "reverse"="true") from root.sg1.d1
-select s1, startswith(s1, "target"="1") from root.sg1.d1
-select s1, endswith(s1, "target"="1") from root.sg1.d1
-select s1, s2, concat(s1, s2, "target1"="IoT", "target2"="DB") from root.sg1.d1
-select s1, s2, concat(s1, s2, "target1"="IoT", "target2"="DB", "series_behind"="true") from root.sg1.d1
-select s1, substring(s1 from 1 for 2) from root.sg1.d1
-select s1, replace(s1, 'es', 'tt') from root.sg1.d1
-select s1, upper(s1) from root.sg1.d1
-select s1, lower(s1) from root.sg1.d1
-select s3, trim(s3) from root.sg1.d1
-select s1, s2, strcmp(s1, s2) from root.sg1.d1
-select strreplace(s1, "target"=",", "replace"="/", "limit"="2") from root.test.d1
-select strreplace(s1, "target"=",", "replace"="/", "limit"="1", "offset"="1", "reverse"="true") from root.test.d1
-select regexmatch(s1, "regex"="\d+\.\d+\.\d+\.\d+", "group"="0") from root.test.d1
-select regexreplace(s1, "regex"="192\.168\.0\.(\d+)", "replace"="cluster-$1", "limit"="1") from root.test.d1
-select regexsplit(s1, "regex"=",", "index"="-1") from root.test.d1
-select regexsplit(s1, "regex"=",", "index"="3") from root.test.d1
+select s1, length(s1) from root.sg1.d1;
+select s1, locate(s1, "target"="1") from root.sg1.d1;
+select s1, locate(s1, "target"="1", "reverse"="true") from root.sg1.d1;
+select s1, startswith(s1, "target"="1") from root.sg1.d1;
+select s1, endswith(s1, "target"="1") from root.sg1.d1;
+select s1, s2, concat(s1, s2, "target1"="IoT", "target2"="DB") from root.sg1.d1;
+select s1, s2, concat(s1, s2, "target1"="IoT", "target2"="DB", "series_behind"="true") from root.sg1.d1;
+select s1, substring(s1 from 1 for 2) from root.sg1.d1;
+select s1, replace(s1, 'es', 'tt') from root.sg1.d1;
+select s1, upper(s1) from root.sg1.d1;
+select s1, lower(s1) from root.sg1.d1;
+select s3, trim(s3) from root.sg1.d1;
+select s1, s2, strcmp(s1, s2) from root.sg1.d1;
+select strreplace(s1, "target"=",", "replace"="/", "limit"="2") from root.test.d1;
+select strreplace(s1, "target"=",", "replace"="/", "limit"="1", "offset"="1", "reverse"="true") from root.test.d1;
+select regexmatch(s1, "regex"="\d+\.\d+\.\d+\.\d+", "group"="0") from root.test.d1;
+select regexreplace(s1, "regex"="192\.168\.0\.(\d+)", "replace"="cluster-$1", "limit"="1") from root.test.d1;
+select regexsplit(s1, "regex"=",", "index"="-1") from root.test.d1;
+select regexsplit(s1, "regex"=",", "index"="3") from root.test.d1;
 ```
 
 ### 7.5 数据类型转换函数
@@ -1149,7 +1039,7 @@ select regexsplit(s1, "regex"=",", "index"="3") from root.test.d1
 更多见文档[Data Type Conversion Function](./Operator-and-Expression.md#_2-5-数据类型转换函数)
 
 ```sql
-SELECT cast(s1 as INT32) from root.sg
+SELECT cast(s1 as INT32) from root.sg;
 ```
 
 ### 7.6 常序列生成函数
@@ -1197,8 +1087,8 @@ select equal_size_bucket_agg_sample(temperature, 'type'='avg','proportion'='0.1'
 select equal_size_bucket_m4_sample(temperature, 'proportion'='0.1') as M4_sample from root.ln.wf01.wt01;
 select equal_size_bucket_outlier_sample(temperature, 'proportion'='0.1', 'type'='avg', 'number'='2') as outlier_avg_sample, equal_size_bucket_outlier_sample(temperature, 'proportion'='0.1', 'type'='stendis', 'number'='2') as outlier_stendis_sample, equal_size_bucket_outlier_sample(temperature, 'proportion'='0.1', 'type'='cos', 'number'='2') as outlier_cos_sample, equal_size_bucket_outlier_sample(temperature, 'proportion'='0.1', 'type'='prenextdis', 'number'='2') as outlier_prenextdis_sample from root.ln.wf01.wt01;
 
-select M4(s1,'timeInterval'='25','displayWindowBegin'='0','displayWindowEnd'='100') from root.vehicle.d1
-select M4(s1,'windowSize'='10') from root.vehicle.d1
+select M4(s1,'timeInterval'='25','displayWindowBegin'='0','displayWindowEnd'='100') from root.vehicle.d1;
+select M4(s1,'windowSize'='10') from root.vehicle.d1;
 ```
 
 ### 7.11 时间序列处理函数
@@ -1206,7 +1096,7 @@ select M4(s1,'windowSize'='10') from root.vehicle.d1
 更多见文档[Time-Series](./Operator-and-Expression.md#_2-11-时间序列处理函数)
 
 ```sql
-select change_points(s1), change_points(s2), change_points(s3), change_points(s4), change_points(s5), change_points(s6) from root.testChangePoints.d1
+select change_points(s1), change_points(s2), change_points(s3), change_points(s4), change_points(s5), change_points(s6) from root.testChangePoints.d1;
 ```
 
 ## 8. 数据质量函数库
@@ -1218,24 +1108,24 @@ select change_points(s1), change_points(s2), change_points(s3), change_points(s4
 更多见文档[Data-Quality](../SQL-Manual/UDF-Libraries.md#数据质量)
 
 ```sql
-# Completeness
-select completeness(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
-select completeness(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00
+# Completeness;
+select completeness(s1) from root.test.d1 where time <= 2020-01-01 00:00:30;
+select completeness(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00;
 
-# Consistency
-select consistency(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
-select consistency(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00
+# Consistency;
+select consistency(s1) from root.test.d1 where time <= 2020-01-01 00:00:30;
+select consistency(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00;
 
-# Timeliness
-select timeliness(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
-select timeliness(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00
+# Timeliness;
+select timeliness(s1) from root.test.d1 where time <= 2020-01-01 00:00:30;
+select timeliness(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00;
 
-# Validity
-select Validity(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
-select Validity(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00
+# Validity;
+select Validity(s1) from root.test.d1 where time <= 2020-01-01 00:00:30;
+select Validity(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00;
 
-# Accuracy
-select Accuracy(t1,t2,t3,m1,m2,m3) from root.test
+# Accuracy;
+select Accuracy(t1,t2,t3,m1,m2,m3) from root.test;
 ```
 
 ### 8.2 数据画像
@@ -1243,79 +1133,79 @@ select Accuracy(t1,t2,t3,m1,m2,m3) from root.test
 更多见文档[Data-Profiling](../SQL-Manual/UDF-Libraries.md#数据画像)
 
 ```sql
-# ACF
-select acf(s1) from root.test.d1 where time <= 2020-01-01 00:00:05
+# ACF;
+select acf(s1) from root.test.d1 where time <= 2020-01-01 00:00:05;
 
-# Distinct
-select distinct(s2) from root.test.d2
+# Distinct;
+select distinct(s2) from root.test.d2;
 
-# Histogram
-select histogram(s1,"min"="1","max"="20","count"="10") from root.test.d1
+# Histogram;
+select histogram(s1,"min"="1","max"="20","count"="10") from root.test.d1;
 
-# Integral
-select integral(s1) from root.test.d1 where time <= 2020-01-01 00:00:10
-select integral(s1, "unit"="1m") from root.test.d1 where time <= 2020-01-01 00:00:10
+# Integral;
+select integral(s1) from root.test.d1 where time <= 2020-01-01 00:00:10;
+select integral(s1, "unit"="1m") from root.test.d1 where time <= 2020-01-01 00:00:10;
 
-# IntegralAvg
-select integralavg(s1) from root.test.d1 where time <= 2020-01-01 00:00:10
+# IntegralAvg;
+select integralavg(s1) from root.test.d1 where time <= 2020-01-01 00:00:10;
 
-# Mad
-select mad(s0) from root.test
-select mad(s0, "error"="0.01") from root.test
+# Mad;
+select mad(s0) from root.test;
+select mad(s0, "error"="0.01") from root.test;
 
-# Median
-select median(s0, "error"="0.01") from root.test
+# Median;
+select median(s0, "error"="0.01") from root.test;
 
-# MinMax
-select minmax(s1) from root.test
+# MinMax;
+select minmax(s1) from root.test;
 
-# Mode
-select mode(s2) from root.test.d2
+# Mode;
+select mode(s2) from root.test.d2;
 
-# MvAvg
-select mvavg(s1, "window"="3") from root.test
+# MvAvg;
+select mvavg(s1, "window"="3") from root.test;
 
-# PACF
-select pacf(s1, "lag"="5") from root.test
+# PACF;
+select pacf(s1, "lag"="5") from root.test;
 
-# Percentile
-select percentile(s0, "rank"="0.2", "error"="0.01") from root.test
+# Percentile;
+select percentile(s0, "rank"="0.2", "error"="0.01") from root.test;
 
-# Quantile
-select quantile(s0, "rank"="0.2", "K"="800") from root.test
+# Quantile;
+select quantile(s0, "rank"="0.2", "K"="800") from root.test;
 
-# Period
-select period(s1) from root.test.d3
+# Period;
+select period(s1) from root.test.d3;
 
-# QLB
-select QLB(s1) from root.test.d1
+# QLB;
+select QLB(s1) from root.test.d1;
 
-# Resample
-select resample(s1,'every'='5m','interp'='linear') from root.test.d1
-select resample(s1,'every'='30m','aggr'='first') from root.test.d1
-select resample(s1,'every'='30m','start'='2021-03-06 15:00:00') from root.test.d1
+# Resample;
+select resample(s1,'every'='5m','interp'='linear') from root.test.d1;
+select resample(s1,'every'='30m','aggr'='first') from root.test.d1;
+select resample(s1,'every'='30m','start'='2021-03-06 15:00:00') from root.test.d1;
 
-# Sample
-select sample(s1,'method'='reservoir','k'='5') from root.test.d1
-select sample(s1,'method'='isometric','k'='5') from root.test.d1
+# Sample;
+select sample(s1,'method'='reservoir','k'='5') from root.test.d1;
+select sample(s1,'method'='isometric','k'='5') from root.test.d1;
 
-# Segment
-select segment(s1, "error"="0.1") from root.test
+# Segment;
+select segment(s1, "error"="0.1") from root.test;
 
-# Skew
-select skew(s1) from root.test.d1
+# Skew;
+select skew(s1) from root.test.d1;
 
-# Spline
-select spline(s1, "points"="151") from root.test
+# Spline;
+select spline(s1, "points"="151") from root.test;
 
-# Spread
-select spread(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
+# Spread;
+select spread(s1) from root.test.d1 where time <= 2020-01-01 00:00:30;
 
-# Stddev
-select stddev(s1) from root.test.d1
+# Stddev;
+select stddev(s1) from root.test.d1;
 
-# ZScore
-select zscore(s1) from root.test
+# ZScore;
+select zscore(s1) from root.test;
 ```
 
 ### 8.3 异常检测
@@ -1323,34 +1213,34 @@ select zscore(s1) from root.test
 更多见文档[Anomaly-Detection](../SQL-Manual/UDF-Libraries.md#异常检测)
 
 ```sql
-# IQR
-select iqr(s1) from root.test
+# IQR;
+select iqr(s1) from root.test;
 
-# KSigma
-select ksigma(s1,"k"="1.0") from root.test.d1 where time <= 2020-01-01 00:00:30
+# KSigma;
+select ksigma(s1,"k"="1.0") from root.test.d1 where time <= 2020-01-01 00:00:30;
 
-# LOF
-select lof(s1,s2) from root.test.d1 where time<1000
-select lof(s1, "method"="series") from root.test.d1 where time<1000
+# LOF;
+select lof(s1,s2) from root.test.d1 where time<1000;
+select lof(s1, "method"="series") from root.test.d1 where time<1000;
 
-# MissDetect
-select missdetect(s2,'minlen'='10') from root.test.d2
+# MissDetect;
+select missdetect(s2,'minlen'='10') from root.test.d2;
 
-# Range
-select range(s1,"lower_bound"="101.0","upper_bound"="125.0") from root.test.d1 where time <= 2020-01-01 00:00:30
+# Range;
+select range(s1,"lower_bound"="101.0","upper_bound"="125.0") from root.test.d1 where time <= 2020-01-01 00:00:30;
 
-# TwoSidedFilter
-select TwoSidedFilter(s0, 'len'='5', 'threshold'='0.3') from root.test
+# TwoSidedFilter;
+select TwoSidedFilter(s0, 'len'='5', 'threshold'='0.3') from root.test;
 
-# Outlier
-select outlier(s1,"r"="5.0","k"="4","w"="10","s"="5") from root.test
+# Outlier;
+select outlier(s1,"r"="5.0","k"="4","w"="10","s"="5") from root.test;
 
-# MasterTrain
-select MasterTrain(lo,la,m_lo,m_la,'p'='3','eta'='1.0') from root.test
+# MasterTrain;
+select MasterTrain(lo,la,m_lo,m_la,'p'='3','eta'='1.0') from root.test;
 
-# MasterDetect
-select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='repair','p'='3','k'='3','eta'='1.0') from root.test
-select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='anomaly','p'='3','k'='3','eta'='1.0') from root.test
+# MasterDetect;
+select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='repair','p'='3','k'='3','eta'='1.0') from root.test;
+select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='anomaly','p'='3','k'='3','eta'='1.0') from root.test;
 ```
 
 ### 8.4 频域分析
@@ -1358,31 +1248,31 @@ select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='anomaly','p'='3','k'='3
 更多见文档[Frequency-Domain](../SQL-Manual/UDF-Libraries.md#频域分析)
 
 ```sql
-# Conv
-select conv(s1,s2) from root.test.d2
+# Conv;
+select conv(s1,s2) from root.test.d2;
 
-# Deconv
-select deconv(s3,s2) from root.test.d2
-select deconv(s3,s2,'result'='remainder') from root.test.d2
+# Deconv;
+select deconv(s3,s2) from root.test.d2;
+select deconv(s3,s2,'result'='remainder') from root.test.d2;
 
-# DWT
-select dwt(s1,"method"="haar") from root.test.d1
+# DWT;
+select dwt(s1,"method"="haar") from root.test.d1;
 
-# FFT
-select fft(s1) from root.test.d1
-select fft(s1, 'result'='real', 'compress'='0.99'), fft(s1, 'result'='imag','compress'='0.99') from root.test.d1
+# FFT;
+select fft(s1) from root.test.d1;
+select fft(s1, 'result'='real', 'compress'='0.99'), fft(s1, 'result'='imag','compress'='0.99') from root.test.d1;
 
-# HighPass
-select highpass(s1,'wpass'='0.45') from root.test.d1
+# HighPass;
+select highpass(s1,'wpass'='0.45') from root.test.d1;
 
-# IFFT
-select ifft(re, im, 'interval'='1m', 'start'='2021-01-01 00:00:00') from root.test.d1
+# IFFT;
+select ifft(re, im, 'interval'='1m', 'start'='2021-01-01 00:00:00') from root.test.d1;
 
-# LowPass
-select lowpass(s1,'wpass'='0.45') from root.test.d1
+# LowPass;
+select lowpass(s1,'wpass'='0.45') from root.test.d1;
 
-# Envelope
-select envelope(s1) from root.test.d1
+# Envelope;
+select envelope(s1) from root.test.d1;
 ```
 
 ### 8.5 数据匹配
@@ -1390,20 +1280,20 @@ select envelope(s1) from root.test.d1
 更多见文档[Data-Matching](../SQL-Manual/UDF-Libraries.md#数据匹配)
 
 ```sql
-# Cov
-select cov(s1,s2) from root.test.d2
+# Cov;
+select cov(s1,s2) from root.test.d2;
 
-# DTW
-select dtw(s1,s2) from root.test.d2
+# DTW;
+select dtw(s1,s2) from root.test.d2;
 
-# Pearson
-select pearson(s1,s2) from root.test.d2
+# Pearson;
+select pearson(s1,s2) from root.test.d2;
 
-# PtnSym
-select ptnsym(s4, 'window'='5', 'threshold'='0') from root.test.d1
+# PtnSym;
+select ptnsym(s4, 'window'='5', 'threshold'='0') from root.test.d1;
 
-# XCorr
-select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
+# XCorr;
+select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05;
 ```
 
 ### 8.6 数据修复
@@ -1411,24 +1301,24 @@ select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
 更多见文档[Data-Repairing](../SQL-Manual/UDF-Libraries.md#数据修复)
 
 ```sql
-# TimestampRepair
-select timestamprepair(s1,'interval'='10000') from root.test.d2
-select timestamprepair(s1) from root.test.d2
+# TimestampRepair;
+select timestamprepair(s1,'interval'='10000') from root.test.d2;
+select timestamprepair(s1) from root.test.d2;
 
-# ValueFill
-select valuefill(s1) from root.test.d2
-select valuefill(s1,"method"="previous") from root.test.d2
+# ValueFill;
+select valuefill(s1) from root.test.d2;
+select valuefill(s1,"method"="previous") from root.test.d2;
 
-# ValueRepair
-select valuerepair(s1) from root.test.d2
-select valuerepair(s1,'method'='LsGreedy') from root.test.d2
+# ValueRepair;
+select valuerepair(s1) from root.test.d2;
+select valuerepair(s1,'method'='LsGreedy') from root.test.d2;
 
-# MasterRepair
-select MasterRepair(t1,t2,t3,m1,m2,m3) from root.test
+# MasterRepair;
+select MasterRepair(t1,t2,t3,m1,m2,m3) from root.test;
 
-# SeasonalRepair
-select seasonalrepair(s1,'period'=3,'k'=2) from root.test.d2
-select seasonalrepair(s1,'method'='improved','period'=3) from root.test.d2
+# SeasonalRepair;
+select seasonalrepair(s1,'period'=3,'k'=2) from root.test.d2;
+select seasonalrepair(s1,'method'='improved','period'=3) from root.test.d2;
 ```
 
 ### 8.7 序列发现
@@ -1436,12 +1326,12 @@ select seasonalrepair(s1,'method'='improved','period'=3) from root.test.d2
 更多见文档[Series-Discovery](../SQL-Manual/UDF-Libraries.md#序列发现)
 
 ```sql
-# ConsecutiveSequences
-select consecutivesequences(s1,s2,'gap'='5m') from root.test.d1
-select consecutivesequences(s1,s2) from root.test.d1
+# ConsecutiveSequences;
+select consecutivesequences(s1,s2,'gap'='5m') from root.test.d1;
+select consecutivesequences(s1,s2) from root.test.d1;
 
-# ConsecutiveWindows
-select consecutivewindows(s1,s2,'length'='10m') from root.test.d1
+# ConsecutiveWindows;
+select consecutivewindows(s1,s2,'length'='10m') from root.test.d1;
 ```
 
 ### 8.8 机器学习
@@ -1449,14 +1339,14 @@ select consecutivewindows(s1,s2,'length'='10m') from root.test.d1
 更多见文档[Machine-Learning](../SQL-Manual/UDF-Libraries.md#机器学习)
 
 ```sql
-# AR
-select ar(s0,"p"="2") from root.test.d0
+# AR;
+select ar(s0,"p"="2") from root.test.d0;
 
-# Representation
-select representation(s0,"tb"="3","vb"="2") from root.test.d0
+# Representation;
+select representation(s0,"tb"="3","vb"="2") from root.test.d0;
 
-# RM
-select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0
+# RM;
+select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0;
 ```
 
 ## 9. 条件表达式
@@ -1469,24 +1359,24 @@ when 1000<T and T<1050 and 1000000<P and P<1100000 then "good!"
 when T<=1000 or T>=1050 then "bad temperature"
 when P<=1000000 or P>=1100000 then "bad pressure"
 end as `result`
-from root.test1
+from root.test1;
 
 select str, case
 when str like "%cc%" then "has cc"
 when str like "%dd%" then "has dd"
 else "no cc and dd" end as `result`
-from root.test2
+from root.test2;
 
 select
 count(case when x<=1 then 1 end) as `(-∞,1]`,
 count(case when 1<x and x<=3 then 1 end) as `(1,3]`,
 count(case when 3<x and x<=7 then 1 end) as `(3,7]`,
 count(case when 7<x then 1 end) as `(7,+∞)`
-from root.test3
+from root.test3;
 
-select x, case x when 1 then "one" when 2 then "two" else "other" end from root.test4
+select x, case x when 1 then "one" when 2 then "two" else "other" end from root.test4;
 
-select x, case x when 1 then true when 2 then false end as `result` from root.test4
+select x, case x when 1 then true when 2 then false end as `result` from root.test4;
 
 select x, case x
 when 1 then 1
@@ -1494,7 +1384,7 @@ when 2 then 222222222222222
 when 3 then 3.3
 when 4 then 4.4444444444444
 end as `result`
-from root.test4
+from root.test4;
 ```
 
 ## 10. 触发器
@@ -1502,100 +1392,62 @@ from root.test4
 ### 10.1 使用 SQL 语句注册该触发器
 ```sql
 // Create Trigger
-
 createTrigger
-
-​    : CREATE triggerType TRIGGER triggerName=identifier triggerEventClause ON pathPattern AS className=STRING_LITERAL uriClause? triggerAttributeClause?
-
-​    ;
-
-
+    : CREATE triggerType TRIGGER triggerName=identifier triggerEventClause ON pathPattern AS className=STRING_LITERAL uriClause? triggerAttributeClause?
+    ;
 
 triggerType
-
-​    : STATELESS | STATEFUL
-
-​    ;
-
-
+    : STATELESS | STATEFUL
+    ;
 
 triggerEventClause
-
-​    : (BEFORE | AFTER) INSERT
-
-​    ;
-
-
+    : (BEFORE | AFTER) INSERT
+    ;
 
 uriClause
-
-​    : USING URI uri
-
-​    ;
-
-
+    : USING URI uri
+    ;
 
 uri
-
-​    : STRING_LITERAL
-
-​    ;
-
-
+    : STRING_LITERAL
+    ;
 
 triggerAttributeClause
-
-​    : WITH LR_BRACKET triggerAttribute (COMMA triggerAttribute)* RR_BRACKET
-
-​    ;
-
-
+    : WITH LR_BRACKET triggerAttribute (COMMA triggerAttribute)* RR_BRACKET
+    ;
 
 triggerAttribute
-
-​    : key=attributeKey operator_eq value=attributeValue
-
-​    ;
+    : key=attributeKey operator_eq value=attributeValue
+    ;
 ```
 #### SQL 语句示例
 ```sql
 CREATE STATELESS TRIGGER triggerTest
-
 BEFORE INSERT
-
 ON root.sg.**
-
 AS 'org.apache.iotdb.trigger.ClusterAlertingExample'
-
 USING URI 'http://jar/ClusterAlertingExample.jar'
-
 WITH (
-
-​    "name" = "trigger",
-
-​    "limit" = "100"
-
-)
+    "name" = "trigger",
+    "limit" = "100"
+);
 ```
 ### 10.2 卸载触发器
 
 #### 卸载触发器的 SQL 语法如下：
 ```sql
 // Drop Trigger
-
 dropTrigger
-
   : DROP TRIGGER triggerName=identifier
-
 ;
 ```
 #### 示例语句
 ```sql
-DROP TRIGGER triggerTest1
+DROP TRIGGER triggerTest1;
 ```
 ### 10.3 查询触发器
 ```sql
-SHOW TRIGGERS
+SHOW TRIGGERS;
 ```
 ## 11. 连续查询（Continuous Query, CQ）
 
@@ -1625,115 +1477,69 @@ END
 #### 配置连续查询执行的周期性间隔
 ```sql
 CREATE CONTINUOUS QUERY cq1
-
 RESAMPLE EVERY 20s
-
 BEGIN
-
   SELECT max_value(temperature)
-
   INTO root.ln.wf02.wt02(temperature_max), root.ln.wf02.wt01(temperature_max), root.ln.wf01.wt02(temperature_max), root.ln.wf01.wt01(temperature_max)
-
   FROM root.ln.*.*
-
   GROUP BY(10s)
+END;
 
-END
-
-
-
-\> SELECT temperature_max from root.ln.*.*;
+SELECT temperature_max from root.ln.*.*;
 ```
 #### 配置连续查询的时间窗口大小
 ```sql
 CREATE CONTINUOUS QUERY cq2
-
 RESAMPLE RANGE 40s
-
 BEGIN
-
   SELECT max_value(temperature)
-
   INTO root.ln.wf02.wt02(temperature_max), root.ln.wf02.wt01(temperature_max), root.ln.wf01.wt02(temperature_max), root.ln.wf01.wt01(temperature_max)
-
   FROM root.ln.*.*
-
   GROUP BY(10s)
+END;
 
-END
-
-
-\> SELECT temperature_max from root.ln.*.*;
+SELECT temperature_max from root.ln.*.*;
 ```
 #### 同时配置连续查询执行的周期性间隔和时间窗口大小
 ```sql
 CREATE CONTINUOUS QUERY cq3
-
 RESAMPLE EVERY 20s RANGE 40s
-
 BEGIN
-
   SELECT max_value(temperature)
-
   INTO root.ln.wf02.wt02(temperature_max), root.ln.wf02.wt01(temperature_max), root.ln.wf01.wt02(temperature_max), root.ln.wf01.wt01(temperature_max)
-
   FROM root.ln.*.*
-
   GROUP BY(10s)
-
   FILL(100.0)
+END;
 
-END
-
-
-
-\> SELECT temperature_max from root.ln.*.*;
+SELECT temperature_max from root.ln.*.*;
 ```
 #### 配置连续查询每次查询执行时间窗口的结束时间
 ```sql
 CREATE CONTINUOUS QUERY cq4
-
 RESAMPLE EVERY 20s RANGE 40s, 20s
-
 BEGIN
-
   SELECT max_value(temperature)
-
   INTO root.ln.wf02.wt02(temperature_max), root.ln.wf02.wt01(temperature_max), root.ln.wf01.wt02(temperature_max), root.ln.wf01.wt01(temperature_max)
-
   FROM root.ln.*.*
-
   GROUP BY(10s)
-
   FILL(100.0)
+END;
 
-END
-
-
-
-\> SELECT temperature_max from root.ln.*.*;
+SELECT temperature_max from root.ln.*.*;
 ```
 #### 没有GROUP BY TIME子句的连续查询
 ```sql
 CREATE CONTINUOUS QUERY cq5
-
 RESAMPLE EVERY 20s
-
 BEGIN
-
   SELECT temperature + 1
-
   INTO root.precalculated_sg.::(temperature)
-
   FROM root.ln.*.*
-
   align by device
+END;
 
-END
-
-
-
-\> SELECT temperature from root.precalculated_sg.*.* align by device;
+SELECT temperature from root.precalculated_sg.*.* align by device;
 ```
 ### 11.2 连续查询的管理
 
@@ -1761,18 +1567,12 @@ DROP CONTINUOUS QUERY s1_count_cq;
 1. 创建一个连续查询
 ```sql
 CREATE CQ s1_count_cq 
-
 BEGIN 
-
-​    SELECT count(s1)  
-
-​        INTO root.sg_count.d.count_s1
-
-​        FROM root.sg.d
-
-​        GROUP BY(30m)
-
-END
+    SELECT count(s1)  
+        INTO root.sg_count.d.count_s1
+        FROM root.sg.d
+        GROUP BY(30m)
+END;
 ```
 1. 查询连续查询的结果
 ```sql
@@ -1792,11 +1592,11 @@ CREATE FUNCTION <UDF-NAME> AS <UDF-CLASS-FULL-PATHNAME> (USING URI URI-STRING)?
 
 #### 不指定URI
 ```sql
-CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample'
+CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample';
 ```
 #### 指定URI
 ```sql
-CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample' USING URI 'http://jar/example.jar'
+CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample' USING URI 'http://jar/example.jar';
 ```
 ### 12.3 UDF 卸载
 
@@ -1804,7 +1604,7 @@ CREATE FUNCTION example AS 'org.apache.iotdb.udf.UDTFExample' USING URI 'http://
 DROP FUNCTION <UDF-NAME>
 ```
 ```sql
-DROP FUNCTION example
+DROP FUNCTION example;
 ```
 ### 12.4 UDF 查询
 
@@ -1818,16 +1618,13 @@ SELECT example(s1, s2, 'key1'='value1', 'key2'='value2') FROM root.sg.d1;
 #### 与其他查询的嵌套查询
 ```sql
 SELECT s1, s2, example(s1, s2) FROM root.sg.d1;
-
 SELECT *, example(*) FROM root.sg.d1 DISABLE ALIGN;
-
 SELECT s1 * example(* / s1 + s2) FROM root.sg.d1;
-
 SELECT s1, s2, s1 + example(s1, s2), s1 - example(s1 + example(s1, s2) / s2) FROM root.sg.d1;
 ```
 ### 12.5 查看所有注册的 UDF
 ```sql
-SHOW FUNCTIONS
+SHOW FUNCTIONS;
 ```
 ## 13. 权限管理
 
@@ -1835,68 +1632,63 @@ SHOW FUNCTIONS
 
 - 创建用户（需 MANAGE_USER 权限)
 
-
 ```SQL
-CREATE USER <userName> <password>
-eg: CREATE USER user1 'passwd'
+CREATE USER <userName> <password>;
+eg: CREATE USER user1 'passwd';
 ```
 
 - 删除用户 (需 MANEGE_USER 权限)
 
-
 ```SQL
-DROP USER <userName>
-eg: DROP USER user1
+DROP USER <userName>;
+eg: DROP USER user1;
 ```
 
 - 创建角色 (需 MANAGE_ROLE 权限)
 
 ```SQL
-CREATE ROLE <roleName>
-eg: CREATE ROLE role1
+CREATE ROLE <roleName>;
+eg: CREATE ROLE role1;
 ```
 
 - 删除角色 (需 MANAGE_ROLE 权限)
 
-
 ```SQL
-DROP ROLE <roleName>
-eg: DROP ROLE role1   
+DROP ROLE <roleName>;
+eg: DROP ROLE role1;   
 ```
 
 - 赋予用户角色 (需 MANAGE_ROLE 权限)
 
-
 ```SQL
-GRANT ROLE <ROLENAME> TO <USERNAME>
-eg: GRANT ROLE admin TO user1
+GRANT ROLE <ROLENAME> TO <USERNAME>;
+eg: GRANT ROLE admin TO user1;
 ```
 
 - 移除用户角色 (需 MANAGE_ROLE 权限)
 
-
 ```SQL
-REVOKE ROLE <ROLENAME> FROM <USER>
-eg: REVOKE ROLE admin FROM user1
+REVOKE ROLE <ROLENAME> FROM <USER>;
+eg: REVOKE ROLE admin FROM user1;
 ```
 
 - 列出所有用户  (需 MANEGE_USER 权限)
 
 ```SQL
-LIST USER
+LIST USER;
 ```
 
 - 列出所有角色 (需 MANAGE_ROLE 权限)
 
 ```SQL
-LIST ROLE
+LIST ROLE;
 ```
 
 - 列出指定角色下所有用户 (需 MANEGE_USER 权限)
 
 ```SQL
-LIST USER OF ROLE <roleName>
-eg: LIST USER OF ROLE roleuser
+LIST USER OF ROLE <roleName>;
+eg: LIST USER OF ROLE roleuser;
 ```
 
 - 列出指定用户下所有角色
@@ -1904,8 +1696,8 @@ eg: LIST USER OF ROLE roleuser
 用户可以列出自己的角色，但列出其他用户的角色需要拥有 MANAGE_ROLE 权限。
 
 ```SQL
-LIST ROLE OF USER <username> 
-eg: LIST ROLE OF USER tempuser
+LIST ROLE OF USER <username>; 
+eg: LIST ROLE OF USER tempuser;
 ```
 
 - 列出用户所有权限
@@ -1915,7 +1707,6 @@ eg: LIST ROLE OF USER tempuser
 ```SQL
 LIST PRIVILEGES OF USER <username>;
 eg: LIST PRIVILEGES OF USER tempuser;
-    
 ```
 
 - 列出角色所有权限

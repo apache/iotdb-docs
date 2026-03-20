@@ -76,7 +76,7 @@ comment
        - 注意：SQL中特殊字符或中文表名需加双引号。原生API中无需额外添加，否则表名会包含引号字符。
    - 当为表命名时，最外层的双引号（`""`）不会在实际创建的表名中出现。
 
-   - ```SQL
+   - ```shell
       -- SQL 中
       "a""b" --> a"b
       """""" --> ""
@@ -133,15 +133,20 @@ SHOW TABLES (DETAILS)? ((FROM | IN) database_name)?
 
 **示例:**
 
-```SQL
-IoTDB> show tables from database1
+```sql
+show tables from database1;
+```
+```shell
 +---------+---------------+
 |TableName|        TTL(ms)|
 +---------+---------------+
 |   table1|    31536000000|
 +---------+---------------+
-
-IoTDB> show tables details from database1
+```
+```sql
+show tables details from database1;
+```
+```shell
 +---------------+-----------+------+-------+
 |      TableName|    TTL(ms)|Status|Comment|
 +---------------+-----------+------+-------+
@@ -168,7 +173,9 @@ IoTDB> show tables details from database1
 **示例:** 
 
 ```SQL
-IoTDB> desc table1
+desc table1;
+```
+```shell
 +------------+---------+---------+
 |  ColumnName| DataType| Category|
 +------------+---------+---------+
@@ -183,8 +190,11 @@ IoTDB> desc table1
 |      status|  BOOLEAN|    FIELD|
 |arrival_time|TIMESTAMP|    FIELD|
 +------------+---------+---------+
-
-IoTDB> desc table1 details
+```
+```sql
+desc table1 details;
+```
+```shell
 +------------+---------+---------+------+------------+
 |  ColumnName| DataType| Category|Status|     Comment|
 +------------+---------+---------+------+------------+
@@ -220,7 +230,9 @@ SHOW CREATE TABLE <TABLE_NAME>
 **示例:**
 
 ```SQL
-IoTDB:database1> show create table table1
+show create table table1;
+```
+```shell
 +------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Table|                                                                                                                                                                                                                                                                     Create Table|
 +------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -237,12 +249,16 @@ Total line number = 1
 **语法：**
 
 ```SQL
-ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? column=columnDefinition COMMENT 'column_comment'               #addColumn
-| ALTER TABLE (IF EXISTS)? tableName=qualifiedName DROP COLUMN (IF EXISTS)? column=identifier                    #dropColumn
-// set TTL can use this
-| ALTER TABLE (IF EXISTS)? tableName=qualifiedName SET PROPERTIES propertyAssignments                #setTableProperties
-| COMMENT ON TABLE tableName=qualifiedName IS 'table_comment'
-| COMMENT ON COLUMN tableName.column IS 'column_comment'
+#addColumn;
+ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? column=columnDefinition COMMENT 'column_comment';
+#dropColumn;
+ALTER TABLE (IF EXISTS)? tableName=qualifiedName DROP COLUMN (IF EXISTS)? column=identifier; 
+#setTableProperties;                  
+// set TTL can use this;
+ALTER TABLE (IF EXISTS)? tableName=qualifiedName SET PROPERTIES propertyAssignments;  
+              
+COMMENT ON TABLE tableName=qualifiedName IS 'table_comment';
+COMMENT ON COLUMN tableName.column IS 'column_comment';
 ```
 
 **说明：**
@@ -254,11 +270,11 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? col
 **示例:** 
 
 ```SQL
-ALTER TABLE table1 ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a'
-ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b'
-ALTER TABLE table1 set properties TTL=3600
-COMMENT ON TABLE table1 IS 'table1'
-COMMENT ON COLUMN table1.a IS null
+ALTER TABLE table1 ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a';
+ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b';
+ALTER TABLE table1 set properties TTL=3600;
+COMMENT ON TABLE table1 IS 'table1';
+COMMENT ON COLUMN table1.a IS null;
 ```
 
 ### 1.6 删除表
@@ -268,12 +284,12 @@ COMMENT ON COLUMN table1.a IS null
 **语法：**
 
 ```SQL
-DROP TABLE (IF EXISTS)? <TABLE_NAME>
+DROP TABLE (IF EXISTS)? <TABLE_NAME>;
 ```
 
 **示例:**
 
 ```SQL
-DROP TABLE table1
-DROP TABLE database1.table1
+DROP TABLE table1;
+DROP TABLE database1.table1;
 ```
