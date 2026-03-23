@@ -24,6 +24,8 @@
 ## 1. Feature Introduction
 The IoTDB ODBC driver provides the ability to interact with the database via the standard ODBC interface, supporting data management in time-series databases through ODBC connections. It currently supports database connection, data query, data insertion, data modification, and data deletion operations, and is compatible with various applications and toolchains that support the ODBC protocol.
 
+> Note: This feature is supported starting from V2.0.8.2.
+
 ## 2. Usage Method
 It is recommended to install using the pre-compiled binary package. There is no need to compile it yourself; simply use the script to complete the driver installation and system registration. Currently, only Windows systems are supported.
 
