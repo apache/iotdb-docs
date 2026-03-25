@@ -62,6 +62,7 @@ cd $GOPATH/src/iotdb-client-go-example/session_example
 curl -o session_example.go -L https://github.com/apache/iotdb-client-go/raw/main/example/session_example.go
 go run session_example.go
 ```
+* Note: Do not use a newer client to connect to an older server, as this may cause connection failures or unexpected errors.
 
 ## 2. ITableSession Interface
 ### 2.1 Description

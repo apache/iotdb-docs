@@ -31,6 +31,8 @@ You have to install thrift (>=0.13) before using the package.
 
 First, download the package: `pip3 install apache-iotdb>=2.0`
 
+Note: Do not use a newer client to connect to an older server, as this may cause connection failures or unexpected errors.
+
 You can get an example of using the package to read and write data at here:[Session Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/session_example.py)
 
 An example of aligned timeseries: [Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/session_aligned_timeseries_example.py)

@@ -48,6 +48,7 @@ Create a Maven project and add the following dependencies to the pom.xml file (J
     </dependency>
 </dependencies>
 ```
+Note: Do not use a newer client to connect to an older server, as this may cause connection failures or unexpected errors.
 
 ### 2.2 Creating a Connection Pool Instance
 

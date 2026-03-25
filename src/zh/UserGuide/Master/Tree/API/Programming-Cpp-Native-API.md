@@ -101,10 +101,11 @@
 git clone https://github.com/apache/iotdb.git
 ```
 
-默认的主分支是 master 分支，如果你想使用某个发布版本，请切换分支 (如 1.3.2 版本):
+默认的主分支是 master 分支，如果你想使用某个发布版本，请切换分支 (如 2.0.6 版本):
 ```shell
-git checkout rc/1.3.2
+git checkout rc/2.0.6
 ```
+注意：请勿使用高版本客户端连接低版本服务。
 
 在 IoTDB 根目录下执行 maven 编译:
 
@@ -177,7 +178,7 @@ A:
 - 开启 Session
 ```cpp
 void open(); 
-```
+``` 
 
 - 开启 Session，并决定是否开启 RPC 压缩
 ```cpp

@@ -28,6 +28,7 @@
 ```shell
 pip3 install apache-iotdb>=2.0
 ```
+注意：请勿使用高版本客户端连接低版本服务。
 
 ## 2. 读写操作
 
@@ -174,7 +175,7 @@ class TableSessionConfig(object):
 
 #### 3.1.1 功能描述
 
-TableSessionPool 是一个会话池管理类，用于管理 TableSession 实例的创建和销毁。它提供了从池中获取会话和关闭会话池的功能。
+TableSessionPool 是一个会话池管理类，用于管理 TableSession 实例的创建和销毁。它提供了从池中获取会话和关闭会话池的功能。 
 
 #### 3.1.2 方法列表
 

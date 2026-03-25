@@ -48,6 +48,7 @@ To install an older version, specify the version explicitly
 # Install v0.12.1.2
 dotnet add package Apache.IoTDB --version 0.12.1.2
 ```
+Note: Do not use a newer client to connect to an older server, as this may cause connection failures or unexpected errors.
 
 ## 3. Quick Start
 

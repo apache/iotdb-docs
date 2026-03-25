@@ -82,6 +82,7 @@ go mod tidy
 # 编译并运行程序
 go run session_example.go
 ```
+* 注意：请勿使用高版本客户端连接低版本服务。
 
 ## 2. ITableSession 接口
 ### 2.1 功能描述

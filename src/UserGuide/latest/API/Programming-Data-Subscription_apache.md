@@ -50,6 +50,7 @@ Create a Maven project and import the following dependencies（JDK >= 1.8, Maven
     </dependency>
 </dependencies>
 ```
+Note: Do not use a newer client to connect to an older server, as this may cause connection failures or unexpected errors.
 
 ### 2.2 Code Example
 
