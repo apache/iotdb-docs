@@ -86,6 +86,8 @@ This article focuses on the usage of `SessionPool`, covering the complete proces
   # Compile and run the program
   go run session_example.go
   ```
+  
+* Note: Do not use a newer client to connect to an older server, as this may cause connection failures or unexpected errors.
 
 ## 2. Core Steps
 

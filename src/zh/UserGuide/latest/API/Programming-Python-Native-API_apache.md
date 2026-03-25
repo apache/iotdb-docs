@@ -29,6 +29,8 @@
 
 首先下载包：`pip3 install apache-iotdb>=2.0`
 
+注意：请勿使用高版本客户端连接低版本服务。
+
 您可以从这里得到一个使用该包进行数据读写的例子：[Session Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/session_example.py)
 
 关于对齐时间序列读写的例子：[Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/session_aligned_timeseries_example.py)
@@ -49,6 +51,8 @@ session.open(False)
 zone = session.get_time_zone()
 session.close()
 ```
+ 
+
 ## 3. 基本接口说明
 
 下面将给出 Session 对应的接口的简要介绍和对应参数：
