@@ -347,11 +347,12 @@ def get_data():
         ip, port_, username_, password_, use_ssl=use_ssl, ca_certs=ca_certs
     )
     session.open(False)
-    result = session.execute_query_statement("select * from root.eg.etth")
-    df = result.todf()
-    df.rename(columns={"Time": "date"}, inplace=True)
+    with session.execute_query_statement("SHOW DATABASES") as session_data_set:
+        print(session_data_set.get_column_names())
+        while session_data_set.has_next():
+            print(session_data_set.next())
+
     session.close()
-    return df
 
 
 def get_data2():
@@ -370,9 +371,10 @@ def get_data2():
     wait_timeout_in_ms = 3000
     session_pool = SessionPool(pool_config, max_pool_size, wait_timeout_in_ms)
     session = session_pool.get_session()
-    result = session.execute_query_statement("select * from root.eg.etth")
-    df = result.todf()
-    df.rename(columns={"Time": "date"}, inplace=True)
+    with session.execute_query_statement("SHOW DATABASES") as session_data_set:
+        print(session_data_set.get_column_names())
+        while session_data_set.has_next():
+            print(session_data_set.next())
     session_pool.put_back(session)
     session_pool.close()
 
@@ -383,9 +385,9 @@ if __name__ == "__main__":
 
 ## 4. 示例代码
 
-Session示例代码:[Session Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/table_model_session_example.py)
+Session示例代码:[Session Example](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/table_model_session_example.py)
 
-SessionPool示例代码:[SessionPool Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/table_model_session_pool_example.py)
+SessionPool示例代码:[SessionPool Example](https://github.com/apache/iotdb/blob/master/otdb-client/client-py/table_model_session_pool_example.py)
 
 ```Python
 # Licensed to the Apache Software Foundation (ASF) under one
@@ -434,9 +436,9 @@ def prepare_data():
 
     print("now the tables are:")
     # show result
-    res = session.execute_query_statement("SHOW TABLES")
-    while res.has_next():
-        print(res.next())
+    with session.execute_query_statement("SHOW TABLES") as res:
+        while res.has_next():
+            print(res.next())
 
     session.close()
 
@@ -491,14 +493,14 @@ def query_data():
     session = session_pool.get_session()
 
     print("get data from table0")
-    res = session.execute_query_statement("select * from table0")
-    while res.has_next():
-        print(res.next())
+    with session.execute_query_statement("select * from table0") as res:
+        while res.has_next():
+            print(res.next())
 
     print("get data from table1")
-    res = session.execute_query_statement("select * from table0")
-    while res.has_next():
-        print(res.next())
+    with session.execute_query_statement("select * from table0") as res:
+        while res.has_next():
+            print(res.next())
 
     session.close()
 
@@ -507,9 +509,9 @@ def delete_data():
     session = session_pool.get_session()
     session.execute_non_query_statement("drop database db1")
     print("data has been deleted. now the databases are:")
-    res = session.execute_query_statement("show databases")
-    while res.has_next():
-        print(res.next())
+    with session.execute_query_statement("show databases") as res:
+        while res.has_next():
+            print(res.next())
     session.close()
 
 

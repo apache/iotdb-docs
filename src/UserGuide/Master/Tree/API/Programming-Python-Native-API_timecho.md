@@ -33,9 +33,9 @@ First, download the package: `pip3 install apache-iotdb>=2.0`
 
 Note: Do not use a newer client to connect to an older server, as this may cause connection failures or unexpected errors.
 
-You can get an example of using the package to read and write data at here:[Session Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/session_example.py)
+You can get an example of using the package to read and write data at here:[Session Example](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/session_example.py)
 
-An example of aligned timeseries: [Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/session_aligned_timeseries_example.py)
+An example of aligned timeseries: [Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/session_aligned_timeseries_example.py)
 
 (you need to add `import iotdb` in the head of the file)
 
@@ -194,9 +194,9 @@ def get_data():
         ip, port_, username_, password_, use_ssl=use_ssl, ca_certs=ca_certs
     )
     session.open(False)
-    result = session.execute_query_statement("select * from root.eg.etth")
-    df = result.todf()
-    df.rename(columns={"Time": "date"}, inplace=True)
+    with session.execute_query_statement("select * from root.eg.etth") as result:
+        df = result.todf()
+        df.rename(columns={"Time": "date"}, inplace=True)
     session.close()
     return df
 
@@ -217,9 +217,9 @@ def get_data2():
     wait_timeout_in_ms = 3000
     session_pool = SessionPool(pool_config, max_pool_size, wait_timeout_in_ms)
     session = session_pool.get_session()
-    result = session.execute_query_statement("select * from root.eg.etth")
-    df = result.todf()
-    df.rename(columns={"Time": "date"}, inplace=True)
+    with session.execute_query_statement("select * from root.eg.etth") as result:
+        df = result.todf()
+        df.rename(columns={"Time": "date"}, inplace=True)
     session_pool.put_back(session)
     session_pool.close()
 
@@ -547,11 +547,10 @@ username_ = "root"
 password_ = "TimechoDB@2021" //Before V2.0.6.x the default password is root 
 session = Session(ip, port_, username_, password_)
 session.open(False)
-result = session.execute_query_statement("SELECT * FROM root.*")
-
-# Transform to Pandas Dataset
-df = result.todf()
-
+with session.execute_query_statement("SELECT ** FROM root") as result:
+  # Transform to Pandas Dataset
+  df = result.todf()
+  
 session.close()
 
 # Now you can work with the dataframe
@@ -571,8 +570,8 @@ class MyTestCase(unittest.TestCase):
         with IoTDBContainer() as c:
             session = Session("localhost", c.get_exposed_port(6667), "root", "TimechoDB@2021") //Before V2.0.6.x the default password is root 
             session.open(False)
-            result = session.execute_query_statement("SHOW TIMESERIES")
-            print(result)
+            with session.execute_query_statement("SHOW TIMESERIES") result:
+              print(result)
             session.close()
 ```
 
