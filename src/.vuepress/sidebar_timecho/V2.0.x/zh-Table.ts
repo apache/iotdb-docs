@@ -235,6 +235,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
+        { text: '快速 SQL 体验', link: 'QuickStart-Only-Sql_timecho' },
         { text: '元数据操作', link: 'SQL-Metadata-Operations_timecho' },
         { text: '数据增删', link: 'SQL-Data-Addition-Deletion_timecho' },
         {
