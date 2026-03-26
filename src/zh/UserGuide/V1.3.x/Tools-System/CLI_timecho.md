@@ -82,17 +82,21 @@ Shell > sbin\start-cli.bat -h 10.129.187.21 -p 6667 -u root -pw root -disableISO
 ## CLI 特殊命令
 下面列举了一些CLI的特殊命令。
 
-| 命令 | 描述 / 例子 |
-|:---|:---|
-| `set time_display_type=xxx` | 例如： long, default, ISO8601, yyyy-MM-dd HH:mm:ss |
-| `show time_display_type` | 显示时间显示方式 |
-| `set time_zone=xxx` | 例如： +08:00, Asia/Shanghai |
-| `show time_zone` | 显示CLI的时区 |
-| `set fetch_size=xxx` | 设置从服务器查询数据时的读取条数 |
-| `show fetch_size` |  显示读取条数的大小 |
-| `set max_display_num=xxx` | 设置 CLI 一次展示的最大数据条数， 设置为-1表示无限制 |
-| `help` | 获取CLI特殊命令的提示 |
-| `exit/quit` | 退出CLI |
+| **参数名**                      | **参数类型**   | **是否为必需参数** | **说明**                                                     | **示例**               |
+|:-----------------------------|:-----------|:------------|:-----------------------------------------------------------|:---------------------|
+| -h `<host>`                  | string 类型  | 否           | IoTDB 客户端连接 IoTDB 服务器的 IP 地址， 默认使用：127.0.0.1。              | -h  127.0.0.1        |
+| -p `<rpcPort>`               | int 类型     | 否           | IoTDB 客户端连接服务器的端口号，IoTDB 默认使用 6667。                        | -p 6667              |
+| -u `<username>`              | string 类型  | 否           | IoTDB 客户端连接服务器所使用的用户名，默认使用 root。                           | -u root              |
+| -pw `<password>`             | string 类型  | 否           | IoTDB 客户端连接服务器所使用的密码，默认使用 TimechoDB@2021（V2.0.6版本之前为root）。 | -pw root             |
+| -e `<execute>`               | string 类型  | 否           | 在不进入客户端输入模式的情况下，批量操作 IoTDB。                                | -e "show databases"  |
+| -c                           | 空          | 否           | 如果服务器设置了 rpc_thrift_compression_enable=true， 则 CLI 必须使用 -c | -c                   |
+| -disableISO8601              | 空          | 否           | 如果设置了这个参数，IoTDB 将以数字的形式打印时间戳 （timestamp）。                  | -disableISO8601      |
+| -usessl `<use_ssl>`          | Boolean 类型 | 否           | 否开启 ssl 连接                                                 | -usessl true         |
+| -ts `<trust_store>`          | string 类型  | 否           | ssl 证书存储路径                                                 | -ts /path/to/truststore  |
+| -tpw `<trust_store_pwd>`      | string 类型  | 否           | ssl 证书存储密码                                                 | -tpw myTrustPassword |
+| -timeout `<queryTimeout>`    | int 类型     | 否           | 查询超时时间（秒）。如果未设置，则使用服务器的配置。                                 | -timeout 30          |
+| -help                        | 空          | 否           | 打印 IoTDB 的帮助信息。                                            | -help                |
+
 
 
 ## Cli 的批量操作
