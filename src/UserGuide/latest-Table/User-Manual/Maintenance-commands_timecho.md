@@ -371,7 +371,7 @@ IoTDB> SHOW AVAILABLE URLS
 
 **Description**: Returns service information (MQTT service, REST service) on all active DataNodes (in RUNNING or READ-ONLY state) in the current cluster.
 
-> Supported since V2.0.8
+> Supported since V2.0.8.2
 
 #### Syntax:
 ```sql

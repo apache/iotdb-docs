@@ -370,7 +370,7 @@ IoTDB> SHOW AVAILABLE URLS
 
 **含义**：返回当前集群所有正常工作（RUNNING 或 READ-ONLY） DN 上的服务信息（MQTT 服务、REST 服务）。
 
-> V2.0.8 起支持该功能
+> V2.0.8.2 起支持该功能
 
 #### 语法：
 

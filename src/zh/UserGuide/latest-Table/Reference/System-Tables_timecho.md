@@ -23,8 +23,8 @@
 
 IoTDB 内置系统数据库 `INFORMATION_SCHEMA`，其中包含一系列系统表，用于存储 IoTDB 运行时信息（如当前正在执行的 SQL 语句等）。目前`INFORMATION_SCHEMA`数据库只支持读操作。
 
-> 💡 **【V2.0.8 版本更新】**<br>
-> 👉 新增四张系统表：**[CONNECTIONS](#_2-18-connections-表)**（实时连接追踪）、**[CURRENT\_QUERIES](#_2-19-current-queries-表)**（活跃查询监控）、**[QUERIES\_COSTS\_HISTOGRAM](#_2-20-queries-costs-histogram-表)**（查询耗时分布）、**[SERVICES](#_2-21-services-表)**（服务状态管理），助力集群运维与性能分析。
+> 💡 **【V2.0.8.2 版本更新】**<br>
+> 👉 新增一张系统表：**[SERVICES](#_2-21-services-表)**（服务状态管理），助力集群运维与性能分析。
 
 ## 1. 系统库
 
@@ -685,7 +685,7 @@ IoTDB> select * from information_schema.queries_costs_histogram limit 10
 
 ### 2.21 SERVICES 表
 
-> 该系统表从 V 2.0.8 版本开始提供
+> 该系统表从 V 2.0.8.2 版本开始提供
 
 * 可展示所有正常工作（RUNNING 或 READ-ONLY） DN 上的服务（MQTT 服务、REST 服务）。
 * 表结构如下表所示：

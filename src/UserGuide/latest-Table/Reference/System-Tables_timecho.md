@@ -23,8 +23,8 @@
 
 IoTDB has a built-in system database called `INFORMATION_SCHEMA`, which contains a series of system tables for storing IoTDB runtime information (such as currently executing SQL statements, etc.). Currently, the `INFORMATION_SCHEMA` database only supports read operations.
 
-> 💡 **[V2.0.8 Version Update]**<br>
-> 👉 Added four system tables: **[CONNECTIONS](#_2-18-connections)** (real-time connection tracking), **[CURRENT_QUERIES](#_2-19-current-queries)** (active query monitoring), **[QUERIES_COSTS_HISTOGRAM](#_2-20-queries-costs-histogram)** (query latency distribution), **[SERVICES](#_2-21-services)** (service status management), enhancing cluster maintenance and performance analysis.
+> 💡 **[V2.0.8.2 Version Update]**<br>
+> 👉 Added onw system tables: **[SERVICES](#_2-21-services)** (service status management), enhancing cluster maintenance and performance analysis.
 
 
 ## 1. System Database
@@ -693,7 +693,7 @@ IoTDB> select * from information_schema.queries_costs_histogram limit 10
 
 ### 2.21 SERVICES
 
-> This system table is available starting from version V 2.0.8
+> This system table is available starting from version V 2.0.8.2
 
 * Displays services (MQTT service, REST service) on all active DataNodes (with RUNNING or READ-ONLY status).
 * Table structure:
