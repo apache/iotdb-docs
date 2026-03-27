@@ -41,6 +41,7 @@ If using .NET 5.0 or a later version of the SDK, enter the following command to 
 ```Plain
 dotnet add package Apache.IoTDB
 ```
+Note: Do not use a newer client to connect to an older server, as this may cause connection failures or unexpected errors.
 
 ## 3. Read/Write Operations
 

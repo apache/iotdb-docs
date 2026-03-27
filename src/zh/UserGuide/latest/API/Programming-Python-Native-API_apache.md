@@ -29,9 +29,11 @@
 
 首先下载包：`pip3 install apache-iotdb>=2.0`
 
-您可以从这里得到一个使用该包进行数据读写的例子：[Session Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/session_example.py)
+注意：请勿使用高版本客户端连接低版本服务。
 
-关于对齐时间序列读写的例子：[Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/session_aligned_timeseries_example.py)
+您可以从这里得到一个使用该包进行数据读写的例子：[Session Example](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/session_example.py)
+
+关于对齐时间序列读写的例子：[Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/session_aligned_timeseries_example.py)
 
 （您需要在文件的头部添加`import iotdb`）
 
@@ -49,6 +51,8 @@ session.open(False)
 zone = session.get_time_zone()
 session.close()
 ```
+ 
+
 ## 3. 基本接口说明
 
 下面将给出 Session 对应的接口的简要介绍和对应参数：
@@ -194,9 +198,9 @@ def get_data():
         ip, port_, username_, password_, use_ssl=use_ssl, ca_certs=ca_certs
     )
     session.open(False)
-    result = session.execute_query_statement("select * from root.eg.etth")
-    df = result.todf()
-    df.rename(columns={"Time": "date"}, inplace=True)
+    with session.execute_query_statement("select * from root.eg.etth") as result:
+        df = result.todf()
+        df.rename(columns={"Time": "date"}, inplace=True)
     session.close()
     return df
 
@@ -217,9 +221,9 @@ def get_data2():
     wait_timeout_in_ms = 3000
     session_pool = SessionPool(pool_config, max_pool_size, wait_timeout_in_ms)
     session = session_pool.get_session()
-    result = session.execute_query_statement("select * from root.eg.etth")
-    df = result.todf()
-    df.rename(columns={"Time": "date"}, inplace=True)
+    with session.execute_query_statement("select * from root.eg.etth") as result:
+        df = result.todf()
+        df.rename(columns={"Time": "date"}, inplace=True)
     session_pool.put_back(session)
     session_pool.close()
 
@@ -542,13 +546,11 @@ username_ = "root"
 password_ = "root"
 session = Session(ip, port_, username_, password_)
 session.open(False)
-result = session.execute_query_statement("SELECT ** FROM root")
-
-# Transform to Pandas Dataset
-df = result.todf()
-
+with session.execute_query_statement("SELECT ** FROM root") as result:
+  # Transform to Pandas Dataset
+  df = result.todf()
+  
 session.close()
-
 # Now you can work with the dataframe
 df = ...
 ```
@@ -566,8 +568,8 @@ class MyTestCase(unittest.TestCase):
         with IoTDBContainer() as c:
             session = Session("localhost", c.get_exposed_port(6667), "root", "root")
             session.open(False)
-            result = session.execute_query_statement("SHOW TIMESERIES")
-            print(result)
+            with session.execute_query_statement("SHOW TIMESERIES") result:
+              print(result)
             session.close()
 ```
 

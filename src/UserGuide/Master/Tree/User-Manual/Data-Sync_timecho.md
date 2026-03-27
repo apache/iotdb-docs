@@ -477,19 +477,20 @@ with sink (
   'sink'='iotdb-air-gap-sink',
   'node-urls' = '10.53.53.53:9780', -- The URL of the data service port of the DataNode node on the target IoTDB
 ```
-**Notes: Currently supported gateway models**
+**Note:**
+* When creating a pipe for synchronization across a network gap (data diode), you must ensure that the target user on the receiving end already exists. If the receiving-end user is missing at the time of pipe creation, data prior to the subsequent creation of that user will not be synchronized.
+* Currently supported network gap device models are listed in the table below.
 > For other models of network gateway devices, Please contact timechodb staff to confirm compatibility.
 
-| Gateway Type           | Model                                                        | Return Packet Limit | Send Limit             |
-| ---------------------- | ------------------------------------------------------------ | ------------------- | ---------------------- |
-| Forward Gate         | NARI Syskeeper-2000 Forward Gate                         | All 0 / All 1 bytes | No Limit               |
-| Forward Gate         | XJ Self-developed Diaphragm                                  | All 0 / All 1 bytes | No Limit               |
-| Unknown     | WISGAP         | No Limit            | No Limit               |
-| Forward Gate         | KEDONG StoneWall-2000 Network Security Isolation Device | No Limit            | No Limit               |
-| Reverse Gate      | NARI Syskeeper-2000 Reverse Direction                      | All 0 / All 1 bytes | Meet E Language Format |
-| Unknown     | DPtech ISG5000                                      | No Limit            | No Limit               |
-| Unknown     | GAP‌‌
- XL—GAP    | No Limit            | No Limit               |
+| Gateway Type | Model                                               | Return Packet Limit | Send Limit             |
+|--------------|-----------------------------------------------------|---------------------| ---------------------- |
+| Forward Gate | NARI Syskeeper-2000 Forward Gate                    | All 0 / All 1 bytes | No Limit               |
+| Forward Gate | XJ Self-developed Diaphragm                         | All 0 / All 1 bytes | No Limit               |
+| Unknown      | WISGAP                                              | No Limit            | No Limit               |
+| Forward Gate | KEDONG StoneWall-2000 Network Security Isolation Device | No Limit            | No Limit               |
+| Reverse Gate | NARI Syskeeper-2000 Reverse Direction               | All 0 / All 1 bytes | Meet E Language Format |
+| Unknown      | DPtech ISG5000                                      | No Limit            | No Limit               |
+| Unknown      | GAP XL—GAP                                       | No Limit            | No Limit               |
 
 
 ### 3.7 Compression Synchronization (V1.3.3+)

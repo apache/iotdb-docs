@@ -262,6 +262,7 @@ export const enSidebar = {
           children: [
             { text: 'Apache Flink', link: 'Flink-IoTDB' },
             { text: 'Apache Spark', link: 'Spark-IoTDB' },
+            { text: 'Apache SeaTunnel', link: 'SeaTunnel_timecho' },
           ],
         },
         {
@@ -296,6 +297,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
+        { text: 'QuickStart Only SQL', link: 'QuickStart-Only-Sql_timecho' },
         { text: 'Identifiers', link: 'Syntax-Rule' },
         { text: 'Keywords', link: 'Keywords' },
         { text: 'SQL Manual', link: 'SQL-Manual_timecho' },

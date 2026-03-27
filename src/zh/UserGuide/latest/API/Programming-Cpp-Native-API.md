@@ -28,7 +28,7 @@
 - Bison 2.7+
 - Boost 1.56+
 - OpenSSL 1.0+
-- GCC 5.5.0+
+- GCC 4.8.5+
 
 
 ## 2. 安装
@@ -101,10 +101,11 @@
 git clone https://github.com/apache/iotdb.git
 ```
 
-默认的主分支是 master 分支，如果你想使用某个发布版本，请切换分支 (如 1.3.2 版本):
+默认的主分支是 master 分支，如果你想使用某个发布版本，请切换分支 (如 2.0.6 版本):
 ```shell
-git checkout rc/1.3.2
+git checkout rc/2.0.6
 ```
+注意：请勿使用高版本客户端连接低版本服务。
 
 在 IoTDB 根目录下执行 maven 编译:
 
@@ -118,9 +119,14 @@ git checkout rc/1.3.2
     ./mvnw clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp -Diotdb-tools-thrift.version=0.14.1.1-old-glibc-SNAPSHOT
     ```
 
-- glibc 版本 >= 2.17 的 Linux
+- glibc 版本 >= 2.23 的 Linux
     ```shell
     ./mvnw clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp -Diotdb-tools-thrift.version=0.14.1.1-glibc223-SNAPSHOT
+    ```
+
+- glibc 版本 >= 2.17 的 Linux
+    ```shell
+    ./mvnw clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp -Diotdb-tools-thrift.version=0.14.1.1-gcc4-SNAPSHOT
     ```
 
 - 使用 Visual Studio 2022 的 Windows
@@ -172,7 +178,7 @@ A:
 - 开启 Session
 ```cpp
 void open(); 
-```
+``` 
 
 - 开启 Session，并决定是否开启 RPC 压缩
 ```cpp
@@ -397,6 +403,20 @@ void deleteData(const std::vector<std::string> &paths, int64_t startTime, int64_
 ```cpp
 unique_ptr<SessionDataSet> executeQueryStatement(const std::string &sql);
 ```
+
+返回值 `SessionDataSet` 类主要提供如下方法：
+
+| 方法名 | 描述 | 参数                                | 返回值 |
+| :--- | :--- |:----------------------------------| :--- |
+| **hasNext()** | 判断结果集中是否还有更多数据行。 | -                                 | `bool` |
+| **next()** | 获取结果集中的下一行数据，封装为一个 `RowRecord` 对象。 | -                                 | `std::shared_ptr` |
+| **getIterator()** | 获取一个 `DataIterator` 迭代器，用于以更灵活的方式（按列）遍历数据。 | -                                 | `SessionDataSet::DataIterator` |
+| **getColumnNames()** | 获取结果集中所有列的名称列表。 | -                                 | `const std::vector&` |
+| **getColumnTypeList()** | 获取结果集中所有列的数据类型列表。 | -                                 | `const std::vector&` |
+| **getFetchSize()** | 获取当前每次从服务器批量抓取数据的行数。 | -                                 | `int` |
+| **setFetchSize(int fetchSize)** | 设置每次从服务器批量抓取数据的行数。 | `fetchSize`: 批量抓取数据的行数                 | `void` |
+| **closeOperationHandle(bool forceClose)** | 关闭服务器端的查询句柄，释放资源。建议在数据集使用完毕后调用。 | `forceClose`: 是否强制关闭（默认为 `false`） | `void` |
+
 
 - 执行非查询语句
 ```cpp

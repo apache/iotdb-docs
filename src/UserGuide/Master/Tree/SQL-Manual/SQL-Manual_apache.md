@@ -28,33 +28,33 @@ For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metad
 ### 1.1 Create Database
 
 ```sql
-IoTDB > create database root.ln
-IoTDB > create database root.sgcc
+create database root.ln;
+create database root.sgcc;
 ```
 
 ### 1.2 Show Databases
 
 ```sql
-IoTDB> SHOW DATABASES
-IoTDB> SHOW DATABASES root.**
+SHOW DATABASES;
+SHOW DATABASES root.**;
 ```
 
 ### 1.3 Delete Database
 
 ```sql
-IoTDB > DELETE DATABASE root.ln
-IoTDB > DELETE DATABASE root.sgcc
-// delete all data, all timeseries and all databases
-IoTDB > DELETE DATABASE root.**
+DELETE DATABASE root.ln;
+DELETE DATABASE root.sgcc;
+// delete all data, all timeseries and all databases;
+DELETE DATABASE root.**;
 ```
 
 ### 1.4 Count Databases
 
 ```sql
-IoTDB> count databases
-IoTDB> count databases root.*
-IoTDB> count databases root.sgcc.*
-IoTDB> count databases root.sgcc
+count databases;
+count databases root.*;
+count databases root.sgcc.*;
+count databases root.sgcc;
 ```
 
 ### 1.5 Setting up heterogeneous databases (Advanced operations)
@@ -74,7 +74,7 @@ ALTER DATABASE root.db WITH SCHEMA_REGION_GROUP_NUM=1, DATA_REGION_GROUP_NUM=2;
 #### Show heterogeneous databases
 
 ```sql
-SHOW DATABASES DETAILS
+SHOW DATABASES DETAILS;
 ```
 
 ### 1.6 TTL
@@ -82,25 +82,25 @@ SHOW DATABASES DETAILS
 #### Set TTL
 
 ```sql
-IoTDB> set ttl to root.ln 3600000
-IoTDB> set ttl to root.sgcc.** 3600000
-IoTDB> set ttl to root.** 3600000
+set ttl to root.ln 3600000;
+set ttl to root.sgcc.** 3600000;
+set ttl to root.** 3600000;
 ```
 
 #### Unset TTL
 
 ```sql
-IoTDB> unset ttl from root.ln
-IoTDB> unset ttl from root.sgcc.**
-IoTDB> unset ttl from root.**
+unset ttl from root.ln;
+unset ttl from root.sgcc.**;
+unset ttl from root.**;
 ```
 
 #### Show TTL
 
 ```sql
-IoTDB> SHOW ALL TTL
-IoTDB> SHOW TTL ON StorageGroupNames
-IoTDB> SHOW DEVICES
+SHOW ALL TTL;
+SHOW TTL ON StorageGroupNames;
+SHOW DEVICES;
 ```
 
 ## 2. DEVICE TEMPLATE
@@ -120,13 +120,13 @@ For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metad
 **Example 1:** Create a template containing two non-aligned timeseires
 
 ```sql
-IoTDB> create device template t1 (temperature FLOAT, status BOOLEAN)
+create device template t1 (temperature FLOAT, status BOOLEAN);
 ```
 
 **Example 2:** Create a template containing a group of aligned timeseires
 
 ```sql
-IoTDB> create device template t2 aligned (lat FLOAT, lon FLOAT)
+create device template t2 aligned (lat FLOAT, lon FLOAT);
 ```
 
 The` lat` and `lon` measurements are aligned.
@@ -134,52 +134,52 @@ The` lat` and `lon` measurements are aligned.
 ### 2.2 Set Device Template
 
 ```sql
-IoTDB> set device template t1 to root.sg1.d1
+set device template t1 to root.sg1.d1;
 ```
 
 ### 2.3 Activate Device Template
 
 ```sql
-IoTDB> set device template t1 to root.sg1.d1
-IoTDB> set device template t2 to root.sg1.d2
-IoTDB> create timeseries using device template on root.sg1.d1
-IoTDB> create timeseries using device template on root.sg1.d2
+set device template t1 to root.sg1.d1;
+set device template t2 to root.sg1.d2;
+create timeseries using device template on root.sg1.d1;
+create timeseries using device template on root.sg1.d2;
 ```
 
 ### 2.4 Show Device Template
 
 ```sql
-IoTDB> show device templates
-IoTDB> show nodes in device template t1
-IoTDB> show paths set device template t1
-IoTDB> show paths using device template t1
+show device templates;
+show nodes in device template t1;
+show paths set device template t1;
+show paths using device template t1;
 ```
 
 ### 2.5 Deactivate Device Template
 
 ```sql
-IoTDB> delete timeseries of device template t1 from root.sg1.d1
-IoTDB> deactivate device template t1 from root.sg1.d1
-IoTDB> delete timeseries of device template t1 from root.sg1.*, root.sg2.*
-IoTDB> deactivate device template t1 from root.sg1.*, root.sg2.*
+delete timeseries of device template t1 from root.sg1.d1;
+deactivate device template t1 from root.sg1.d1;
+delete timeseries of device template t1 from root.sg1.*, root.sg2.*;
+deactivate device template t1 from root.sg1.*, root.sg2.*;
 ```
 
 ### 2.6 Unset Device Template
 
 ```sql
-IoTDB> unset device template t1 from root.sg1.d1
+unset device template t1 from root.sg1.d1;
 ```
 
 ### 2.7 Drop Device Template
 
 ```sql
-IoTDB> drop device template t1
+drop device template t1;
 ```
 
 ### 2.8 Alter Device Template
 
 ```sql
-IoTDB> alter device template t1 add (speed FLOAT)
+alter device template t1 add (speed FLOAT);
 ```
 
 ## 3. TIMESERIES MANAGEMENT
@@ -189,108 +189,108 @@ For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metad
 ### 3.1 Create Timeseries
 
 ```sql
-IoTDB > create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN
-IoTDB > create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT
-IoTDB > create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT
-IoTDB > create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN
-IoTDB > create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN
-IoTDB > create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT
+create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN;
+create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT;
+create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT;
+create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN;
+create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN;
+create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT;
 ```
 
 - From v0.13, you can use a simplified version of the SQL statements to create timeseries:
 
 ```sql
-IoTDB > create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN
-IoTDB > create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT
-IoTDB > create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT
-IoTDB > create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN
-IoTDB > create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN
-IoTDB > create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT
+create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN;
+create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT;
+create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT;
+create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN;
+create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN;
+create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT;
 ```
 
 - Notice that when in the CREATE TIMESERIES statement the encoding method conflicts with the data type, the system gives the corresponding error prompt as shown below:
 
 ```sql
-IoTDB > create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN
-error: encoding TS_2DIFF does not support BOOLEAN
+create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN;
+error: encoding TS_2DIFF does not support BOOLEAN;
 ```
 
 ### 3.2 Create Aligned Timeseries
 
 ```sql
-IoTDB> CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT , longitude FLOAT)
+CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT , longitude FLOAT);
 ```
 
 ### 3.3 Delete Timeseries
 
 ```sql
-IoTDB> delete timeseries root.ln.wf01.wt01.status
-IoTDB> delete timeseries root.ln.wf01.wt01.temperature, root.ln.wf02.wt02.hardware
-IoTDB> delete timeseries root.ln.wf02.*
-IoTDB> drop timeseries root.ln.wf02.*
+delete timeseries root.ln.wf01.wt01.status;
+delete timeseries root.ln.wf01.wt01.temperature, root.ln.wf02.wt02.hardware;
+delete timeseries root.ln.wf02.*;
+drop timeseries root.ln.wf02.*;
 ```
 
 ### 3.4 Show Timeseries
 
 ```sql
-IoTDB> show timeseries root.**
-IoTDB> show timeseries root.ln.**
-IoTDB> show timeseries root.ln.** limit 10 offset 10
-IoTDB> show timeseries root.ln.** where timeseries contains 'wf01.wt'
-IoTDB> show timeseries root.ln.** where dataType=FLOAT
+show timeseries root.**;
+show timeseries root.ln.**;
+show timeseries root.ln.** limit 10 offset 10;
+show timeseries root.ln.** where timeseries contains 'wf01.wt';
+show timeseries root.ln.** where dataType=FLOAT;
 ```
 
 ### 3.5 Count Timeseries
 
 ```sql
-IoTDB > COUNT TIMESERIES root.**
-IoTDB > COUNT TIMESERIES root.ln.**
-IoTDB > COUNT TIMESERIES root.ln.*.*.status
-IoTDB > COUNT TIMESERIES root.ln.wf01.wt01.status
-IoTDB > COUNT TIMESERIES root.** WHERE TIMESERIES contains 'sgcc' 
-IoTDB > COUNT TIMESERIES root.** WHERE DATATYPE = INT64
-IoTDB > COUNT TIMESERIES root.** WHERE TAGS(unit) contains 'c' 
-IoTDB > COUNT TIMESERIES root.** WHERE TAGS(unit) = 'c' 
-IoTDB > COUNT TIMESERIES root.** WHERE TIMESERIES contains 'sgcc' group by level = 1
-IoTDB > COUNT TIMESERIES root.** GROUP BY LEVEL=1
-IoTDB > COUNT TIMESERIES root.ln.** GROUP BY LEVEL=2
-IoTDB > COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2
+COUNT TIMESERIES root.**;
+COUNT TIMESERIES root.ln.**;
+COUNT TIMESERIES root.ln.*.*.status;
+COUNT TIMESERIES root.ln.wf01.wt01.status;
+COUNT TIMESERIES root.** WHERE TIMESERIES contains 'sgcc' ;
+COUNT TIMESERIES root.** WHERE DATATYPE = INT64;
+COUNT TIMESERIES root.** WHERE TAGS(unit) contains 'c' ;
+COUNT TIMESERIES root.** WHERE TAGS(unit) = 'c' ;
+COUNT TIMESERIES root.** WHERE TIMESERIES contains 'sgcc' group by level = 1;
+COUNT TIMESERIES root.** GROUP BY LEVEL=1;
+COUNT TIMESERIES root.ln.** GROUP BY LEVEL=2;
+COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2;
 ```
 
 ### 3.6 Tag and Attribute Management
 
 ```sql
-create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2)
+create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2);
 ```
 
 * Rename the tag/attribute key
 
 ```SQL
-ALTER timeseries root.turbine.d1.s1 RENAME tag1 TO newTag1
+ALTER timeseries root.turbine.d1.s1 RENAME tag1 TO newTag1;
 ```
 
 * Reset the tag/attribute value
 
 ```SQL
-ALTER timeseries root.turbine.d1.s1 SET newTag1=newV1, attr1=newV1
+ALTER timeseries root.turbine.d1.s1 SET newTag1=newV1, attr1=newV1;
 ```
 
 * Delete the existing tag/attribute
 
 ```SQL
-ALTER timeseries root.turbine.d1.s1 DROP tag1, tag2
+ALTER timeseries root.turbine.d1.s1 DROP tag1, tag2;
 ```
 
 * Add new tags
 
 ```SQL
-ALTER timeseries root.turbine.d1.s1 ADD TAGS tag3=v3, tag4=v4
+ALTER timeseries root.turbine.d1.s1 ADD TAGS tag3=v3, tag4=v4;
 ```
 
 * Add new attributes
 
 ```SQL
-ALTER timeseries root.turbine.d1.s1 ADD ATTRIBUTES attr3=v3, attr4=v4
+ALTER timeseries root.turbine.d1.s1 ADD ATTRIBUTES attr3=v3, attr4=v4;
 ```
 
 * Upsert alias, tags and attributes
@@ -298,49 +298,51 @@ ALTER timeseries root.turbine.d1.s1 ADD ATTRIBUTES attr3=v3, attr4=v4
 > add alias or a new key-value if the alias or key doesn't exist, otherwise, update the old one with new value.
 
 ```SQL
-ALTER timeseries root.turbine.d1.s1 UPSERT ALIAS=newAlias TAGS(tag3=v3, tag4=v4) ATTRIBUTES(attr3=v3, attr4=v4)
+ALTER timeseries root.turbine.d1.s1 UPSERT ALIAS=newAlias TAGS(tag3=v3, tag4=v4) ATTRIBUTES(attr3=v3, attr4=v4);
 ```
 
 * Show timeseries using tags. Use TAGS(tagKey) to identify the tags used as filter key
 
 ```SQL
-SHOW TIMESERIES (<`PathPattern`>)? timeseriesWhereClause
+SHOW TIMESERIES (<`PathPattern`>)? timeseriesWhereClause;
 ```
 
 returns all the timeseries information that satisfy the where condition and match the pathPattern. SQL statements are as follows:
 
 ```SQL
-ALTER timeseries root.ln.wf02.wt02.hardware ADD TAGS unit=c
-ALTER timeseries root.ln.wf02.wt02.status ADD TAGS description=test1
-show timeseries root.ln.** where TAGS(unit)='c'
-show timeseries root.ln.** where TAGS(description) contains 'test1'
+ALTER timeseries root.ln.wf02.wt02.hardware ADD TAGS unit=c;
+ALTER timeseries root.ln.wf02.wt02.status ADD TAGS description=test1;
+show timeseries root.ln.** where TAGS(unit)='c';
+show timeseries root.ln.** where TAGS(description) contains 'test1';
 ```
 
 - count timeseries using tags
 
 ```SQL
-COUNT TIMESERIES (<`PathPattern`>)? timeseriesWhereClause
-COUNT TIMESERIES (<`PathPattern`>)? timeseriesWhereClause GROUP BY LEVEL=<INTEGER>
+COUNT TIMESERIES (<`PathPattern`>)? timeseriesWhereClause;
+COUNT TIMESERIES (<`PathPattern`>)? timeseriesWhereClause GROUP BY LEVEL=<INTEGER>;
 ```
 
 returns all the number of timeseries that satisfy the where condition and match the pathPattern. SQL statements are as follows:
 
 ```SQL
-count timeseries
-count timeseries root.** where TAGS(unit)='c'
-count timeseries root.** where TAGS(unit)='c' group by level = 2
+count timeseries;
+count timeseries root.** where TAGS(unit)='c';
+count timeseries root.** where TAGS(unit)='c' group by level = 2;
 ```
 
 create aligned timeseries
 
 ```SQL
-create aligned timeseries root.sg1.d1(s1 INT32 tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2), s2 DOUBLE tags(tag3=v3, tag4=v4) attributes(attr3=v3, attr4=v4))
+create aligned timeseries root.sg1.d1(s1 INT32 tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2), s2 DOUBLE tags(tag3=v3, tag4=v4) attributes(attr3=v3, attr4=v4));
 ```
 
 The execution result is as follows:
 
 ```SQL
-IoTDB> show timeseries
+show timeseries;
+```
+```shell
 +--------------+-----+-------------+--------+--------+-----------+-------------------------+---------------------------+--------+-------------------+
 |    timeseries|alias|     database|dataType|encoding|compression|                     tags|                 attributes|deadband|deadband parameters|
 +--------------+-----+-------------+--------+--------+-----------+-------------------------+---------------------------+--------+-------------------+
@@ -352,7 +354,9 @@ IoTDB> show timeseries
 Support query：
 
 ```SQL
-IoTDB> show timeseries where TAGS(tag1)='v1'
+show timeseries where TAGS(tag1)='v1';
+```
+```shell
 +--------------+-----+-------------+--------+--------+-----------+-------------------------+---------------------------+--------+-------------------+
 |    timeseries|alias|     database|dataType|encoding|compression|                     tags|                 attributes|deadband|deadband parameters|
 +--------------+-----+-------------+--------+--------+-----------+-------------------------+---------------------------+--------+-------------------+
@@ -369,40 +373,40 @@ For more details, see document [Operate-Metadata](../Basic-Concept/Operate-Metad
 ### 4.1 Show Child Paths
 
 ```SQL
-SHOW CHILD PATHS pathPattern
+SHOW CHILD PATHS pathPattern;
 ```
 
 ### 4.2 Show Child Nodes
 
 ```SQL
-SHOW CHILD NODES pathPattern
+SHOW CHILD NODES pathPattern;
 ```
 
 ### 4.3 Count Nodes
 
 ```SQL
-IoTDB > COUNT NODES root.** LEVEL=2
-IoTDB > COUNT NODES root.ln.** LEVEL=2
-IoTDB > COUNT NODES root.ln.wf01.** LEVEL=3
-IoTDB > COUNT NODES root.**.temperature LEVEL=3
+COUNT NODES root.** LEVEL=2;
+COUNT NODES root.ln.** LEVEL=2;
+COUNT NODES root.ln.wf01.** LEVEL=3;
+COUNT NODES root.**.temperature LEVEL=3;
 ```
 
 ### 4.4 Show Devices
 
 ```SQL
-IoTDB> show devices
-IoTDB> show devices root.ln.**
-IoTDB> show devices root.ln.** where device contains 't'
-IoTDB> show devices with database
-IoTDB> show devices root.ln.** with database
+show devices;
+show devices root.ln.**;
+show devices root.ln.** where device contains 't';
+show devices with database;
+show devices root.ln.** with database;
 ```
 
 ### 4.5 Count Devices
 
 ```SQL
-IoTDB> show devices
-IoTDB> count devices
-IoTDB> count devices root.ln.**
+show devices;
+count devices;
+count devices root.ln.**;
 ```
 
 ## 5. INSERT & LOAD DATA
@@ -416,30 +420,30 @@ For more details, see document [Write-Data](../Basic-Concept/Write-Data_apache).
 -   Insert Single Timeseries
 
 ```sql
-IoTDB > insert into root.ln.wf02.wt02(timestamp,status) values(1,true)
-IoTDB > insert into root.ln.wf02.wt02(timestamp,hardware) values(1, 'v1')
+insert into root.ln.wf02.wt02(timestamp,status) values(1,true);
+insert into root.ln.wf02.wt02(timestamp,hardware) values(1, 'v1');
 ```
 
 -   Insert Multiple Timeseries
 
 ```sql
-IoTDB > insert into root.ln.wf02.wt02(timestamp, status, hardware) VALUES (2, false, 'v2')
-IoTDB > insert into root.ln.wf02.wt02(timestamp, status, hardware) VALUES (3, false, 'v3'),(4, true, 'v4')
+insert into root.ln.wf02.wt02(timestamp, status, hardware) VALUES (2, false, 'v2');
+insert into root.ln.wf02.wt02(timestamp, status, hardware) VALUES (3, false, 'v3'),(4, true, 'v4');
 ```
 
 -   Use the Current System Timestamp as the Timestamp of the Data Point
 
 ```SQL
-IoTDB > insert into root.ln.wf02.wt02(status, hardware) values (false, 'v2')
+insert into root.ln.wf02.wt02(status, hardware) values (false, 'v2');
 ```
 
 #### Insert Data Into Aligned Timeseries
 
 ```SQL
-IoTDB > create aligned timeseries root.sg1.d1(s1 INT32, s2 DOUBLE)
-IoTDB > insert into root.sg1.d1(time, s1, s2) aligned values(1, 1, 1)
-IoTDB > insert into root.sg1.d1(time, s1, s2) aligned values(2, 2, 2), (3, 3, 3)
-IoTDB > select * from root.sg1.d1
+create aligned timeseries root.sg1.d1(s1 INT32, s2 DOUBLE);
+insert into root.sg1.d1(time, s1, s2) aligned values(1, 1, 1);
+insert into root.sg1.d1(time, s1, s2) aligned values(2, 2, 2), (3, 3, 3);
+select * from root.sg1.d1;
 ```
 
 ### 5.2 Load External TsFile Tool
@@ -476,34 +480,34 @@ For more details, see document [Write-Delete-Data](../Basic-Concept/Write-Data_a
 ### 6.1 Delete Single Timeseries
 
 ```sql
-IoTDB > delete from root.ln.wf02.wt02.status where time<=2017-11-01T16:26:00;
-IoTDB > delete from root.ln.wf02.wt02.status where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
-IoTDB > delete from root.ln.wf02.wt02.status where time < 10
-IoTDB > delete from root.ln.wf02.wt02.status where time <= 10
-IoTDB > delete from root.ln.wf02.wt02.status where time < 20 and time > 10
-IoTDB > delete from root.ln.wf02.wt02.status where time <= 20 and time >= 10
-IoTDB > delete from root.ln.wf02.wt02.status where time > 20
-IoTDB > delete from root.ln.wf02.wt02.status where time >= 20
-IoTDB > delete from root.ln.wf02.wt02.status where time = 20
-IoTDB > delete from root.ln.wf02.wt02.status where time > 4 or time < 0
-Msg: 303: Check metadata error: For delete statement, where clause can only contain atomic
-expressions like : time > XXX, time <= XXX, or two atomic expressions connected by 'AND'
-IoTDB > delete from root.ln.wf02.wt02.status
+delete from root.ln.wf02.wt02.status where time<=2017-11-01T16:26:00;
+delete from root.ln.wf02.wt02.status where time>=2017-01-01T00:00:00 and time<=2017-11-01T16:26:00;
+delete from root.ln.wf02.wt02.status where time < 10;
+delete from root.ln.wf02.wt02.status where time <= 10;
+delete from root.ln.wf02.wt02.status where time < 20 and time > 10;
+delete from root.ln.wf02.wt02.status where time <= 20 and time >= 10;
+delete from root.ln.wf02.wt02.status where time > 20;
+delete from root.ln.wf02.wt02.status where time >= 20;
+delete from root.ln.wf02.wt02.status where time = 20;
+delete from root.ln.wf02.wt02.status where time > 4 or time < 0;
+Msg: 303: Check metadata error: For delete statement, where clause can only contain atomic;
+expressions like : time > XXX, time <= XXX, or two atomic expressions connected by 'AND';
+delete from root.ln.wf02.wt02.status;
 ```
 
 ### 6.2 Delete Multiple Timeseries
 
 ```sql
-IoTDB > delete from root.ln.wf02.wt02 where time <= 2017-11-01T16:26:00;
-IoTDB > delete from root.ln.wf02.wt02.* where time <= 2017-11-01T16:26:00;
-IoTDB> delete from root.ln.wf03.wt02.status where time < now()
+delete from root.ln.wf02.wt02 where time <= 2017-11-01T16:26:00;
+delete from root.ln.wf02.wt02.* where time <= 2017-11-01T16:26:00;
+delete from root.ln.wf03.wt02.status where time < now();
 Msg: The statement is executed successfully.
 ```
 
 ### 6.3 Delete Time Partition (experimental)
 
 ```sql
-IoTDB > DELETE PARTITION root.ln 0,1,2
+DELETE PARTITION root.ln 0,1,2;
 ```
 
 ## 7. QUERY DATA
@@ -537,31 +541,31 @@ SELECT [LAST] selectExpr [, selectExpr] ...
 #### Select a Column of Data Based on a Time Interval
 
 ```sql
-IoTDB > select temperature from root.ln.wf01.wt01 where time < 2017-11-01T00:08:00.000
+select temperature from root.ln.wf01.wt01 where time < 2017-11-01T00:08:00.000;
 ```
 
 #### Select Multiple Columns of Data Based on a Time Interval
 
 ```sql
-IoTDB > select status, temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000;
+select status, temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000;
 ```
 
 #### Select Multiple Columns of Data for the Same Device According to Multiple Time Intervals
 
 ```sql
-IoTDB > select status,temperature from root.ln.wf01.wt01 where (time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000) or (time >= 2017-11-01T16:35:00.000 and time <= 2017-11-01T16:37:00.000);
+select status,temperature from root.ln.wf01.wt01 where (time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000) or (time >= 2017-11-01T16:35:00.000 and time <= 2017-11-01T16:37:00.000);
 ```
 
 #### Choose Multiple Columns of Data for Different Devices According to Multiple Time Intervals
 
 ```sql
-IoTDB > select wf01.wt01.status,wf02.wt02.hardware from root.ln where (time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000) or (time >= 2017-11-01T16:35:00.000 and time <= 2017-11-01T16:37:00.000);
+select wf01.wt01.status,wf02.wt02.hardware from root.ln where (time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000) or (time >= 2017-11-01T16:35:00.000 and time <= 2017-11-01T16:37:00.000);
 ```
 
 #### Order By Time Query
 
 ```sql
-IoTDB > select * from root.ln.** where time > 1 order by time desc limit 10;
+select * from root.ln.** where time > 1 order by time desc limit 10;
 ```
 
 ### 7.2 `SELECT` CLAUSE
@@ -569,7 +573,7 @@ IoTDB > select * from root.ln.** where time > 1 order by time desc limit 10;
 #### Use Alias
 
 ```sql
-IoTDB > select s1 as temperature, s2 as speed from root.ln.wf01.wt01;
+select s1 as temperature, s2 as speed from root.ln.wf01.wt01;
 ```
 
 #### Nested Expressions
@@ -577,35 +581,35 @@ IoTDB > select s1 as temperature, s2 as speed from root.ln.wf01.wt01;
 ##### Nested Expressions with Time Series Query
 
 ```sql
-IoTDB > select a,
+select a,
        b,
        ((a + 1) * 2 - 1) % 2 + 1.5,
        sin(a + sin(a + sin(b))),
        -(a + b) * (sin(a + b) * sin(a + b) + cos(a + b) * cos(a + b)) + 1
 from root.sg1;
 
-IoTDB > select (a + b) * 2 + sin(a) from root.sg
+select (a + b) * 2 + sin(a) from root.sg;
 
-IoTDB > select (a + *) / 2  from root.sg1
+select (a + *) / 2  from root.sg1;
 
-IoTDB > select (a + b) * 3 from root.sg, root.ln
+select (a + b) * 3 from root.sg, root.ln;
 ```
 
 ##### Nested Expressions query with aggregations
 
 ```sql
-IoTDB > select avg(temperature),
+select avg(temperature),
        sin(avg(temperature)),
        avg(temperature) + 1,
        -sum(hardware),
        avg(temperature) + sum(hardware)
 from root.ln.wf01.wt01;
 
-IoTDB > select avg(*), 
+select avg(*), 
 	   (avg(*) + 1) * 3 / 2 -1 
-from root.sg1
+from root.sg1;
 
-IoTDB > select avg(temperature),
+select avg(temperature),
        sin(avg(temperature)),
        avg(temperature) + 1,
        -sum(hardware),
@@ -617,10 +621,10 @@ GROUP BY([10, 90), 10ms);
 #### Last Query
 
 ```sql
-IoTDB > select last status from root.ln.wf01.wt01
-IoTDB > select last status, temperature from root.ln.wf01.wt01 where time >= 2017-11-07T23:50:00
-IoTDB > select last * from root.ln.wf01.wt01 order by timeseries desc;
-IoTDB > select last * from root.ln.wf01.wt01 order by dataType desc;
+select last status from root.ln.wf01.wt01;
+select last status, temperature from root.ln.wf01.wt01 where time >= 2017-11-07T23:50:00;
+select last * from root.ln.wf01.wt01 order by timeseries desc;
+select last * from root.ln.wf01.wt01 order by dataType desc;
 ```
 
 ### 7.3 `WHERE` CLAUSE
@@ -628,22 +632,22 @@ IoTDB > select last * from root.ln.wf01.wt01 order by dataType desc;
 #### Time Filter
 
 ```sql
-IoTDB > select s1 from root.sg1.d1 where time > 2022-01-01T00:05:00.000;
-IoTDB > select s1 from root.sg1.d1 where time = 2022-01-01T00:05:00.000;
-IoTDB > select s1 from root.sg1.d1 where time >= 2022-01-01T00:05:00.000 and time < 2017-11-01T00:12:00.000;
+select s1 from root.sg1.d1 where time > 2022-01-01T00:05:00.000;
+select s1 from root.sg1.d1 where time = 2022-01-01T00:05:00.000;
+select s1 from root.sg1.d1 where time >= 2022-01-01T00:05:00.000 and time < 2017-11-01T00:12:00.000;
 ```
 
 #### Value Filter
 
 ```sql
-IoTDB > select temperature from root.sg1.d1 where temperature > 36.5;
-IoTDB > select status from root.sg1.d1 where status = true;
-IoTDB > select temperature from root.sg1.d1 where temperature between 36.5 and 40;
-IoTDB > select temperature from root.sg1.d1 where temperature not between 36.5 and 40;
-IoTDB > select code from root.sg1.d1 where code in ('200', '300', '400', '500');
-IoTDB > select code from root.sg1.d1 where code not in ('200', '300', '400', '500');
-IoTDB > select code from root.sg1.d1 where temperature is null;
-IoTDB > select code from root.sg1.d1 where temperature is not null;
+select temperature from root.sg1.d1 where temperature > 36.5;
+select status from root.sg1.d1 where status = true;
+select temperature from root.sg1.d1 where temperature between 36.5 and 40;
+select temperature from root.sg1.d1 where temperature not between 36.5 and 40;
+select code from root.sg1.d1 where code in ('200', '300', '400', '500');
+select code from root.sg1.d1 where code not in ('200', '300', '400', '500');
+select code from root.sg1.d1 where temperature is null;
+select code from root.sg1.d1 where temperature is not null;
 ```
 
 #### Fuzzy Query
@@ -651,15 +655,15 @@ IoTDB > select code from root.sg1.d1 where temperature is not null;
 -   Fuzzy matching using `Like`
 
 ```sql
-IoTDB > select * from root.sg.d1 where value like '%cc%'
-IoTDB > select * from root.sg.device where value like '_b_'
+select * from root.sg.d1 where value like '%cc%';
+select * from root.sg.device where value like '_b_';
 ```
 
 -   Fuzzy matching using `Regexp`
 
 ```sql
-IoTDB > select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
-IoTDB > select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
+select * from root.sg.d1 where value regexp '^[A-Za-z]+$';
+select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100;
 ```
 
 ### 7.4 `GROUP BY` CLAUSE
@@ -667,91 +671,91 @@ IoTDB > select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
 -   Aggregate By Time without Specifying the Sliding Step Length
 
 ```sql
-IoTDB > select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d);
+select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d);
 ```
 
 -   Aggregate By Time Specifying the Sliding Step Length
 
 ```sql
-IoTDB > select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01 00:00:00, 2017-11-07 23:00:00), 3h, 1d);
+select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01 00:00:00, 2017-11-07 23:00:00), 3h, 1d);
 ```
 
 -   Aggregate by Natural Month
 
 ```sql
-IoTDB > select count(status) from root.ln.wf01.wt01 group by([2017-11-01T00:00:00, 2019-11-07T23:00:00), 1mo, 2mo);
-IoTDB > select count(status) from root.ln.wf01.wt01 group by([2017-10-31T00:00:00, 2019-11-07T23:00:00), 1mo, 2mo);                                                    
+select count(status) from root.ln.wf01.wt01 group by([2017-11-01T00:00:00, 2019-11-07T23:00:00), 1mo, 2mo);
+select count(status) from root.ln.wf01.wt01 group by([2017-10-31T00:00:00, 2019-11-07T23:00:00), 1mo, 2mo);                                                    
 ```
 
 -   Left Open And Right Close Range
 
 ```sql
-IoTDB > select count(status) from root.ln.wf01.wt01 group by ((2017-11-01T00:00:00, 2017-11-07T23:00:00],1d);
+select count(status) from root.ln.wf01.wt01 group by ((2017-11-01T00:00:00, 2017-11-07T23:00:00],1d);
 ```
 
 -   Aggregation By Variation
 
 ```sql
-IoTDB > select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6)
-IoTDB > select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6, ignoreNull=false)
-IoTDB > select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6, 4)
-IoTDB > select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6+s5, 10)
+select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6);
+select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6, ignoreNull=false);
+select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6, 4);
+select __endTime, avg(s1), count(s2), sum(s3) from root.sg.d group by variation(s6+s5, 10);
 ```
 
 -   Aggregation By Condition
 
 ```sql
-IoTDB > select max_time(charging_status),count(vehicle_status),last_value(soc) from root.** group by condition(charging_status=1,KEEP>=2,ignoringNull=true)
-IoTDB > select max_time(charging_status),count(vehicle_status),last_value(soc) from root.** group by condition(charging_status=1,KEEP>=2,ignoringNull=false)
+select max_time(charging_status),count(vehicle_status),last_value(soc) from root.** group by condition(charging_status=1,KEEP>=2,ignoringNull=true);
+select max_time(charging_status),count(vehicle_status),last_value(soc) from root.** group by condition(charging_status=1,KEEP>=2,ignoringNull=false);
 ```
 
 -   Aggregation By Session
 
 ```sql
-IoTDB > select __endTime,count(*) from root.** group by session(1d)
-IoTDB > select __endTime,sum(hardware) from root.ln.wf02.wt01 group by session(50s) having sum(hardware)>0 align by device
+select __endTime,count(*) from root.** group by session(1d);
+select __endTime,sum(hardware) from root.ln.wf02.wt01 group by session(50s) having sum(hardware)>0 align by device;
 ```
 
 -   Aggregation By Count
 
 ```sql
-IoTDB > select count(charging_stauts), first_value(soc) from root.sg group by count(charging_status,5) 
-IoTDB > select count(charging_stauts), first_value(soc) from root.sg group by count(charging_status,5,ignoreNull=false) 
+select count(charging_stauts), first_value(soc) from root.sg group by count(charging_status,5);
+select count(charging_stauts), first_value(soc) from root.sg group by count(charging_status,5,ignoreNull=false);
 ```
 
 -   Aggregation By Level
 
 ```sql
-IoTDB > select count(status) from root.** group by level = 1
-IoTDB > select count(status) from root.** group by level = 3
-IoTDB > select count(status) from root.** group by level = 1, 3
-IoTDB > select max_value(temperature) from root.** group by level = 0
-IoTDB > select count(*) from root.ln.** group by level = 2
+select count(status) from root.** group by level = 1;
+select count(status) from root.** group by level = 3;
+select count(status) from root.** group by level = 1, 3;
+select max_value(temperature) from root.** group by level = 0;
+select count(*) from root.ln.** group by level = 2;
 ```
 
 -   Aggregate By Time with Level Clause
 
 ```sql
-IoTDB > select count(status) from root.ln.wf01.wt01 group by ((2017-11-01T00:00:00, 2017-11-07T23:00:00],1d), level=1;
-IoTDB > select count(status) from root.ln.wf01.wt01 group by ([2017-11-01 00:00:00, 2017-11-07 23:00:00), 3h, 1d), level=1;
+select count(status) from root.ln.wf01.wt01 group by ((2017-11-01T00:00:00, 2017-11-07T23:00:00],1d), level=1;
+select count(status) from root.ln.wf01.wt01 group by ([2017-11-01 00:00:00, 2017-11-07 23:00:00), 3h, 1d), level=1;
 ```
 
 -   Aggregation query by one single tag
 
 ```sql
-IoTDB > SELECT AVG(temperature) FROM root.factory1.** GROUP BY TAGS(city);
+SELECT AVG(temperature) FROM root.factory1.** GROUP BY TAGS(city);
 ```
 
 -   Aggregation query by multiple tags
 
 ```sql
-IoTDB > SELECT avg(temperature) FROM root.factory1.** GROUP BY TAGS(city, workshop);
+SELECT avg(temperature) FROM root.factory1.** GROUP BY TAGS(city, workshop);
 ```
 
 -   Downsampling Aggregation by tags based on Time Window
 
 ```sql
-IoTDB > SELECT avg(temperature) FROM root.factory1.** GROUP BY ([1000, 10000), 5s), TAGS(city, workshop);
+SELECT avg(temperature) FROM root.factory1.** GROUP BY ([1000, 10000), 5s), TAGS(city, workshop);
 ```
 
 ### 7.5 `HAVING` CLAUSE
@@ -759,17 +763,17 @@ IoTDB > SELECT avg(temperature) FROM root.factory1.** GROUP BY ([1000, 10000), 5
 Correct:
 
 ```sql
-IoTDB > select count(s1) from root.** group by ([1,11),2ms), level=1 having count(s2) > 1
-IoTDB > select count(s1), count(s2) from root.** group by ([1,11),2ms) having count(s2) > 1 align by device
+select count(s1) from root.** group by ([1,11),2ms), level=1 having count(s2) > 1;
+select count(s1), count(s2) from root.** group by ([1,11),2ms) having count(s2) > 1 align by device;
 ```
 
 Incorrect: 
 
 ```sql
-IoTDB > select count(s1) from root.** group by ([1,3),1ms) having sum(s1) > s1
-IoTDB > select count(s1) from root.** group by ([1,3),1ms) having s1 > 1
-IoTDB > select count(s1) from root.** group by ([1,3),1ms), level=1 having sum(d1.s1) > 1
-IoTDB > select count(d1.s1) from root.** group by ([1,3),1ms), level=1 having sum(s1) > 1
+select count(s1) from root.** group by ([1,3),1ms) having sum(s1) > s1;
+select count(s1) from root.** group by ([1,3),1ms) having s1 > 1;
+select count(s1) from root.** group by ([1,3),1ms), level=1 having sum(d1.s1) > 1;
+select count(d1.s1) from root.** group by ([1,3),1ms), level=1 having sum(s1) > 1;
 ```
 
 ### 7.6 `FILL` CLAUSE
@@ -777,7 +781,7 @@ IoTDB > select count(d1.s1) from root.** group by ([1,3),1ms), level=1 having su
 #### `PREVIOUS` Fill
 
 ```sql
-IoTDB > select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(previous);
+select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(previous);
 ```
 
 #### `PREVIOUS` FILL and specify the fill timeout threshold
@@ -788,14 +792,14 @@ select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:
 #### `LINEAR` Fill
 
 ```sql
-IoTDB > select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(linear);
+select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(linear);
 ```
 
 #### Constant Fill
 
 ```sql
-IoTDB > select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(2.0);
-IoTDB > select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(true);
+select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(2.0);
+select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-11-01T16:37:00.000 and time <= 2017-11-01T16:40:00.000 fill(true);
 ```
 
 ### 7.7 `LIMIT` and `SLIMIT` CLAUSES (PAGINATION)
@@ -803,24 +807,24 @@ IoTDB > select temperature, status from root.sgcc.wf03.wt01 where time >= 2017-1
 #### Row Control over Query Results
 
 ```sql
-IoTDB > select status, temperature from root.ln.wf01.wt01 limit 10
-IoTDB > select status, temperature from root.ln.wf01.wt01 limit 5 offset 3
-IoTDB > select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time< 2017-11-01T00:12:00.000 limit 2 offset 3
-IoTDB > select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d) limit 5 offset 3
+select status, temperature from root.ln.wf01.wt01 limit 10;
+select status, temperature from root.ln.wf01.wt01 limit 5 offset 3;
+select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time< 2017-11-01T00:12:00.000 limit 2 offset 3;
+select count(status), max_value(temperature) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d) limit 5 offset 3;
 ```
 
 #### Column Control over Query Results
 
 ```sql
-IoTDB > select * from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 slimit 1
-IoTDB > select * from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 slimit 1 soffset 1
-IoTDB > select max_value(*) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d) slimit 1 soffset 1
+select * from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 slimit 1;
+select * from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 slimit 1 soffset 1;
+select max_value(*) from root.ln.wf01.wt01 group by ([2017-11-01T00:00:00, 2017-11-07T23:00:00),1d) slimit 1 soffset 1;
 ```
 
 #### Row and Column Control over Query Results
 
 ```sql
-IoTDB > select * from root.ln.wf01.wt01 limit 10 offset 100 slimit 2 soffset 0
+select * from root.ln.wf01.wt01 limit 10 offset 100 slimit 2 soffset 0;
 ```
 
 ### 7.8 `ORDER BY` CLAUSE
@@ -828,31 +832,31 @@ IoTDB > select * from root.ln.wf01.wt01 limit 10 offset 100 slimit 2 soffset 0
 #### Order by in ALIGN BY TIME mode
 
 ```sql
-IoTDB > select * from root.ln.** where time <= 2017-11-01T00:01:00 order by time desc;
+select * from root.ln.** where time <= 2017-11-01T00:01:00 order by time desc;
 ```
 
 #### Order by in ALIGN BY DEVICE mode
 
 ```sql
-IoTDB > select * from root.ln.** where time <= 2017-11-01T00:01:00 order by device desc,time asc align by device;
-IoTDB > select * from root.ln.** where time <= 2017-11-01T00:01:00 order by time asc,device desc align by device;
-IoTDB > select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
-IoTDB > select count(*) from root.ln.** group by ((2017-11-01T00:00:00.000+08:00,2017-11-01T00:03:00.000+08:00],1m) order by device asc,time asc align by device
+select * from root.ln.** where time <= 2017-11-01T00:01:00 order by device desc,time asc align by device;
+select * from root.ln.** where time <= 2017-11-01T00:01:00 order by time asc,device desc align by device;
+select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
+select count(*) from root.ln.** group by ((2017-11-01T00:00:00.000+08:00,2017-11-01T00:03:00.000+08:00],1m) order by device asc,time asc align by device;
 ```
 
 #### Order by arbitrary expressions
 
 ```sql
-IoTDB > select score from root.** order by score desc align by device
-IoTDB > select score,total from root.one order by base+score+bonus desc
-IoTDB > select score,total from root.one order by total desc
-IoTDB > select base, score, bonus, total from root.** order by total desc NULLS Last,
+select score from root.** order by score desc align by device;
+select score,total from root.one order by base+score+bonus desc;
+select score,total from root.one order by total desc;
+select base, score, bonus, total from root.** order by total desc NULLS Last,
                                   score desc NULLS Last,
                                   bonus desc NULLS Last,
-                                  time desc align by device
-IoTDB > select min_value(total) from root.** order by min_value(total) asc align by device
-IoTDB > select min_value(total),max_value(base) from root.** order by max_value(total) desc align by device
-IoTDB > select score from root.** order by device asc, score desc, time asc align by device
+                                  time desc align by device;
+select min_value(total) from root.** order by min_value(total) asc align by device;
+select min_value(total),max_value(base) from root.** order by max_value(total) desc align by device;
+select score from root.** order by device asc, score desc, time asc align by device;
 ```
 
 ### 7.9 `ALIGN BY` CLAUSE
@@ -860,54 +864,54 @@ IoTDB > select score from root.** order by device asc, score desc, time asc alig
 #### Align by Device
 
 ```sql
-IoTDB > select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
+select * from root.ln.** where time <= 2017-11-01T00:01:00 align by device;
 ```
 
 ### 7.10 `INTO` CLAUSE (QUERY WRITE-BACK)
 
 ```sql
-IoTDB > select s1, s2 into root.sg_copy.d1(t1), root.sg_copy.d2(t1, t2), root.sg_copy.d1(t2) from root.sg.d1, root.sg.d2;
-IoTDB > select count(s1 + s2), last_value(s2) into root.agg.count(s1_add_s2), root.agg.last_value(s2) from root.sg.d1 group by ([0, 100), 10ms);
-IoTDB > select s1, s2 into root.sg_copy.d1(t1, t2), root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
-IoTDB > select s1 + s2 into root.expr.add(d1s1_d1s2), root.expr.add(d2s1_d2s2) from root.sg.d1, root.sg.d2 align by device;
+select s1, s2 into root.sg_copy.d1(t1), root.sg_copy.d2(t1, t2), root.sg_copy.d1(t2) from root.sg.d1, root.sg.d2;
+select count(s1 + s2), last_value(s2) into root.agg.count(s1_add_s2), root.agg.last_value(s2) from root.sg.d1 group by ([0, 100), 10ms);
+select s1, s2 into root.sg_copy.d1(t1, t2), root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
+select s1 + s2 into root.expr.add(d1s1_d1s2), root.expr.add(d2s1_d2s2) from root.sg.d1, root.sg.d2 align by device;
 ```
 
 -   Using variable placeholders:
 
 ```sql
-IoTDB > select s1, s2
+select s1, s2
 into root.sg_copy.d1(::), root.sg_copy.d2(s1), root.sg_copy.d1(${3}), root.sg_copy.d2(::)
 from root.sg.d1, root.sg.d2;
 
-IoTDB > select d1.s1, d1.s2, d2.s3, d3.s4
+select d1.s1, d1.s2, d2.s3, d3.s4
 into ::(s1_1, s2_2), root.sg.d2_2(s3_3), root.${2}_copy.::(s4)
 from root.sg;
 
-IoTDB > select * into root.sg_bk.::(::) from root.sg.**;
+select * into root.sg_bk.::(::) from root.sg.**;
 
-IoTDB > select s1, s2, s3, s4
+select s1, s2, s3, s4
 into root.backup_sg.d1(s1, s2, s3, s4), root.backup_sg.d2(::), root.sg.d3(backup_${4})
 from root.sg.d1, root.sg.d2, root.sg.d3
 align by device;
 
-IoTDB > select avg(s1), sum(s2) + sum(s3), count(s4)
+select avg(s1), sum(s2) + sum(s3), count(s4)
 into root.agg_${2}.::(avg_s1, sum_s2_add_s3, count_s4)
 from root.**
 align by device;
 
-IoTDB > select * into ::(backup_${4}) from root.sg.** align by device;
+select * into ::(backup_${4}) from root.sg.** align by device;
 
-IoTDB > select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
+select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
 ```
 
 ## 8. Maintennance
 Generate the corresponding query plan:
 ```sql
-explain select s1,s2 from root.sg.d1
+explain select s1,s2 from root.sg.d1;
 ```
 Execute the corresponding SQL, analyze the execution and output:
 ```sql
-explain analyze select s1,s2 from root.sg.d1 order by s1
+explain analyze select s1,s2 from root.sg.d1 order by s1;
 ``` 
 ## 9. OPERATOR
 
@@ -918,7 +922,7 @@ For more details, see document [Operator-and-Expression](./Operator-and-Expressi
 For details and examples, see the document [Arithmetic Operators and Functions](./Operator-and-Expression.md#_1-1-arithmetic-operators).
 
 ```sql
-select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root.sg.d1
+select s1, - s1, s2, + s2, s1 + s2, s1 - s2, s1 * s2, s1 / s2, s1 % s2 from root.sg.d1;
 ```
 
 ### 9.2 Comparison Operators
@@ -934,12 +938,12 @@ select temperature from root.sg1.d1 where temperature between 36.5 and 40;
 select temperature from root.sg1.d1 where temperature not between 36.5 and 40;
 
 # Fuzzy matching operator: Use `Like` for fuzzy matching
-select * from root.sg.d1 where value like '%cc%'
-select * from root.sg.device where value like '_b_'
+select * from root.sg.d1 where value like '%cc%';
+select * from root.sg.device where value like '_b_';
 
 # Fuzzy matching operator: Use `Regexp` for fuzzy matching
-select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
-select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
+select * from root.sg.d1 where value regexp '^[A-Za-z]+$';
+select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100;
 select b, b like '1%', b regexp '[0-2]' from root.test;
 
 # `IS NULL` operator
@@ -1002,25 +1006,25 @@ For details and examples, see the document [String Processing](./Operator-and-Ex
 ```sql
 select s1, string_contains(s1, 's'='warn') from root.sg1.d4;
 select s1, string_matches(s1, 'regex'='[^\\s]+37229') from root.sg1.d4;
-select s1, length(s1) from root.sg1.d1
-select s1, locate(s1, "target"="1") from root.sg1.d1
-select s1, locate(s1, "target"="1", "reverse"="true") from root.sg1.d1
-select s1, startswith(s1, "target"="1") from root.sg1.d1
-select s1, endswith(s1, "target"="1") from root.sg1.d1
-select s1, s2, concat(s1, s2, "target1"="IoT", "target2"="DB") from root.sg1.d1
-select s1, s2, concat(s1, s2, "target1"="IoT", "target2"="DB", "series_behind"="true") from root.sg1.d1
-select s1, substring(s1 from 1 for 2) from root.sg1.d1
-select s1, replace(s1, 'es', 'tt') from root.sg1.d1
-select s1, upper(s1) from root.sg1.d1
-select s1, lower(s1) from root.sg1.d1
-select s3, trim(s3) from root.sg1.d1
-select s1, s2, strcmp(s1, s2) from root.sg1.d1
-select strreplace(s1, "target"=",", "replace"="/", "limit"="2") from root.test.d1
-select strreplace(s1, "target"=",", "replace"="/", "limit"="1", "offset"="1", "reverse"="true") from root.test.d1
-select regexmatch(s1, "regex"="\d+\.\d+\.\d+\.\d+", "group"="0") from root.test.d1
-select regexreplace(s1, "regex"="192\.168\.0\.(\d+)", "replace"="cluster-$1", "limit"="1") from root.test.d1
-select regexsplit(s1, "regex"=",", "index"="-1") from root.test.d1
-select regexsplit(s1, "regex"=",", "index"="3") from root.test.d1
+select s1, length(s1) from root.sg1.d1;
+select s1, locate(s1, "target"="1") from root.sg1.d1;
+select s1, locate(s1, "target"="1", "reverse"="true") from root.sg1.d1;
+select s1, startswith(s1, "target"="1") from root.sg1.d1;
+select s1, endswith(s1, "target"="1") from root.sg1.d1;
+select s1, s2, concat(s1, s2, "target1"="IoT", "target2"="DB") from root.sg1.d1;
+select s1, s2, concat(s1, s2, "target1"="IoT", "target2"="DB", "series_behind"="true") from root.sg1.d1;
+select s1, substring(s1 from 1 for 2) from root.sg1.d1;
+select s1, replace(s1, 'es', 'tt') from root.sg1.d1;
+select s1, upper(s1) from root.sg1.d1;
+select s1, lower(s1) from root.sg1.d1;
+select s3, trim(s3) from root.sg1.d1;
+select s1, s2, strcmp(s1, s2) from root.sg1.d1;
+select strreplace(s1, "target"=",", "replace"="/", "limit"="2") from root.test.d1;
+select strreplace(s1, "target"=",", "replace"="/", "limit"="1", "offset"="1", "reverse"="true") from root.test.d1;
+select regexmatch(s1, "regex"="\d+\.\d+\.\d+\.\d+", "group"="0") from root.test.d1;
+select regexreplace(s1, "regex"="192\.168\.0\.(\d+)", "replace"="cluster-$1", "limit"="1") from root.test.d1;
+select regexsplit(s1, "regex"=",", "index"="-1") from root.test.d1;
+select regexsplit(s1, "regex"=",", "index"="3") from root.test.d1;
 ```
 
 ### 10.5 Data Type Conversion Function
@@ -1028,7 +1032,7 @@ select regexsplit(s1, "regex"=",", "index"="3") from root.test.d1
 For details and examples, see the document [Data Type Conversion Function](./Operator-and-Expression.md#_2-5-data-type-conversion-function).
 
 ```sql
-SELECT cast(s1 as INT32) from root.sg
+SELECT cast(s1 as INT32) from root.sg;
 ```
 
 ### 10.6 Constant Timeseries Generating Functions
@@ -1076,8 +1080,8 @@ select equal_size_bucket_agg_sample(temperature, 'type'='avg','proportion'='0.1'
 select equal_size_bucket_m4_sample(temperature, 'proportion'='0.1') as M4_sample from root.ln.wf01.wt01;
 select equal_size_bucket_outlier_sample(temperature, 'proportion'='0.1', 'type'='avg', 'number'='2') as outlier_avg_sample, equal_size_bucket_outlier_sample(temperature, 'proportion'='0.1', 'type'='stendis', 'number'='2') as outlier_stendis_sample, equal_size_bucket_outlier_sample(temperature, 'proportion'='0.1', 'type'='cos', 'number'='2') as outlier_cos_sample, equal_size_bucket_outlier_sample(temperature, 'proportion'='0.1', 'type'='prenextdis', 'number'='2') as outlier_prenextdis_sample from root.ln.wf01.wt01;
 
-select M4(s1,'timeInterval'='25','displayWindowBegin'='0','displayWindowEnd'='100') from root.vehicle.d1
-select M4(s1,'windowSize'='10') from root.vehicle.d1
+select M4(s1,'timeInterval'='25','displayWindowBegin'='0','displayWindowEnd'='100') from root.vehicle.d1;
+select M4(s1,'windowSize'='10') from root.vehicle.d1;
 ```
 
 ### 10.11 Change Points Function
@@ -1085,7 +1089,7 @@ select M4(s1,'windowSize'='10') from root.vehicle.d1
 For details and examples, see the document [Time-Series](./Operator-and-Expression.md#_2-11-change-points-function).
 
 ```sql
-select change_points(s1), change_points(s2), change_points(s3), change_points(s4), change_points(s5), change_points(s6) from root.testChangePoints.d1
+select change_points(s1), change_points(s2), change_points(s3), change_points(s4), change_points(s5), change_points(s6) from root.testChangePoints.d1;
 ```
 
 ## 11. DATA QUALITY FUNCTION LIBRARY
@@ -1098,23 +1102,23 @@ For details and examples, see the document [Data-Quality](../SQL-Manual/UDF-Libr
 
 ```sql
 # Completeness
-select completeness(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
-select completeness(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00
+select completeness(s1) from root.test.d1 where time <= 2020-01-01 00:00:30;
+select completeness(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00;
 
 # Consistency
-select consistency(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
-select consistency(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00
+select consistency(s1) from root.test.d1 where time <= 2020-01-01 00:00:30;
+select consistency(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00;
 
 # Timeliness
-select timeliness(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
-select timeliness(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00
+select timeliness(s1) from root.test.d1 where time <= 2020-01-01 00:00:30;
+select timeliness(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00;
 
 # Validity
-select Validity(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
-select Validity(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00
+select Validity(s1) from root.test.d1 where time <= 2020-01-01 00:00:30;
+select Validity(s1,"window"="15") from root.test.d1 where time <= 2020-01-01 00:01:00;
 
 # Accuracy
-select Accuracy(t1,t2,t3,m1,m2,m3) from root.test
+select Accuracy(t1,t2,t3,m1,m2,m3) from root.test;
 ```
 
 ### 11.2 Data Profiling
@@ -1123,78 +1127,78 @@ For details and examples, see the document [Data-Profiling](../SQL-Manual/UDF-Li
 
 ```sql
 # ACF
-select acf(s1) from root.test.d1 where time <= 2020-01-01 00:00:05
+select acf(s1) from root.test.d1 where time <= 2020-01-01 00:00:05;
 
 # Distinct
-select distinct(s2) from root.test.d2
+select distinct(s2) from root.test.d2;
 
 # Histogram
-select histogram(s1,"min"="1","max"="20","count"="10") from root.test.d1
+select histogram(s1,"min"="1","max"="20","count"="10") from root.test.d1;
 
 # Integral
-select integral(s1) from root.test.d1 where time <= 2020-01-01 00:00:10
-select integral(s1, "unit"="1m") from root.test.d1 where time <= 2020-01-01 00:00:10
+select integral(s1) from root.test.d1 where time <= 2020-01-01 00:00:10;
+select integral(s1, "unit"="1m") from root.test.d1 where time <= 2020-01-01 00:00:10;
 
 # IntegralAvg
-select integralavg(s1) from root.test.d1 where time <= 2020-01-01 00:00:10
+select integralavg(s1) from root.test.d1 where time <= 2020-01-01 00:00:10;
 
 # Mad
-select mad(s0) from root.test
-select mad(s0, "error"="0.01") from root.test
+select mad(s0) from root.test;
+select mad(s0, "error"="0.01") from root.test;
 
 # Median
-select median(s0, "error"="0.01") from root.test
+select median(s0, "error"="0.01") from root.test;
 
 # MinMax
-select minmax(s1) from root.test
+select minmax(s1) from root.test;
 
 # Mode
-select mode(s2) from root.test.d2
+select mode(s2) from root.test.d2;
 
 # MvAvg
-select mvavg(s1, "window"="3") from root.test
+select mvavg(s1, "window"="3") from root.test;
 
 # PACF
-select pacf(s1, "lag"="5") from root.test
+select pacf(s1, "lag"="5") from root.test;
 
 # Percentile
-select percentile(s0, "rank"="0.2", "error"="0.01") from root.test
+select percentile(s0, "rank"="0.2", "error"="0.01") from root.test;
 
 # Quantile
-select quantile(s0, "rank"="0.2", "K"="800") from root.test
+select quantile(s0, "rank"="0.2", "K"="800") from root.test;
 
 # Period
-select period(s1) from root.test.d3
+select period(s1) from root.test.d3;
 
 # QLB
-select QLB(s1) from root.test.d1
+select QLB(s1) from root.test.d1;
 
 # Resample
-select resample(s1,'every'='5m','interp'='linear') from root.test.d1
-select resample(s1,'every'='30m','aggr'='first') from root.test.d1
-select resample(s1,'every'='30m','start'='2021-03-06 15:00:00') from root.test.d1
+select resample(s1,'every'='5m','interp'='linear') from root.test.d1;
+select resample(s1,'every'='30m','aggr'='first') from root.test.d1;
+select resample(s1,'every'='30m','start'='2021-03-06 15:00:00') from root.test.d1;
 
 # Sample
-select sample(s1,'method'='reservoir','k'='5') from root.test.d1
-select sample(s1,'method'='isometric','k'='5') from root.test.d1
+select sample(s1,'method'='reservoir','k'='5') from root.test.d1;
+select sample(s1,'method'='isometric','k'='5') from root.test.d1;
 
 # Segment
-select segment(s1, "error"="0.1") from root.test
+select segment(s1, "error"="0.1") from root.test;
 
 # Skew
-select skew(s1) from root.test.d1
+select skew(s1) from root.test.d1;
 
 # Spline
-select spline(s1, "points"="151") from root.test
+select spline(s1, "points"="151") from root.test;
 
 # Spread
-select spread(s1) from root.test.d1 where time <= 2020-01-01 00:00:30
+select spread(s1) from root.test.d1 where time <= 2020-01-01 00:00:30;
 
 # Stddev
-select stddev(s1) from root.test.d1
+select stddev(s1) from root.test.d1;
 
 # ZScore
-select zscore(s1) from root.test
+select zscore(s1) from root.test;
 ```
 
 ### 11.3 Anomaly Detection
@@ -1203,33 +1207,33 @@ For details and examples, see the document [Anomaly-Detection](../SQL-Manual/UDF
 
 ```sql
 # IQR
-select iqr(s1) from root.test
+select iqr(s1) from root.test;
 
 # KSigma
-select ksigma(s1,"k"="1.0") from root.test.d1 where time <= 2020-01-01 00:00:30
+select ksigma(s1,"k"="1.0") from root.test.d1 where time <= 2020-01-01 00:00:30;
 
 # LOF
-select lof(s1,s2) from root.test.d1 where time<1000
-select lof(s1, "method"="series") from root.test.d1 where time<1000
+select lof(s1,s2) from root.test.d1 where time<1000;
+select lof(s1, "method"="series") from root.test.d1 where time<1000;
 
 # MissDetect
-select missdetect(s2,'minlen'='10') from root.test.d2
+select missdetect(s2,'minlen'='10') from root.test.d2;
 
 # Range
-select range(s1,"lower_bound"="101.0","upper_bound"="125.0") from root.test.d1 where time <= 2020-01-01 00:00:30
+select range(s1,"lower_bound"="101.0","upper_bound"="125.0") from root.test.d1 where time <= 2020-01-01 00:00:30;
 
 # TwoSidedFilter
-select TwoSidedFilter(s0, 'len'='5', 'threshold'='0.3') from root.test
+select TwoSidedFilter(s0, 'len'='5', 'threshold'='0.3') from root.test;
 
 # Outlier
-select outlier(s1,"r"="5.0","k"="4","w"="10","s"="5") from root.test
+select outlier(s1,"r"="5.0","k"="4","w"="10","s"="5") from root.test;
 
 # MasterTrain
-select MasterTrain(lo,la,m_lo,m_la,'p'='3','eta'='1.0') from root.test
+select MasterTrain(lo,la,m_lo,m_la,'p'='3','eta'='1.0') from root.test;
 
 # MasterDetect
-select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='repair','p'='3','k'='3','eta'='1.0') from root.test
-select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='anomaly','p'='3','k'='3','eta'='1.0') from root.test
+select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='repair','p'='3','k'='3','eta'='1.0') from root.test;
+select MasterDetect(lo,la,m_lo,m_la,model,'output_type'='anomaly','p'='3','k'='3','eta'='1.0') from root.test;
 ```
 
 ### 11.4 Frequency Domain
@@ -1238,30 +1242,30 @@ For details and examples, see the document [Frequency-Domain](../SQL-Manual/UDF-
 
 ```sql
 # Conv
-select conv(s1,s2) from root.test.d2
+select conv(s1,s2) from root.test.d2;
 
 # Deconv
-select deconv(s3,s2) from root.test.d2
-select deconv(s3,s2,'result'='remainder') from root.test.d2
+select deconv(s3,s2) from root.test.d2;
+select deconv(s3,s2,'result'='remainder') from root.test.d2;
 
 # DWT
-select dwt(s1,"method"="haar") from root.test.d1
+select dwt(s1,"method"="haar") from root.test.d1;
 
 # FFT
-select fft(s1) from root.test.d1
-select fft(s1, 'result'='real', 'compress'='0.99'), fft(s1, 'result'='imag','compress'='0.99') from root.test.d1
+select fft(s1) from root.test.d1;
+select fft(s1, 'result'='real', 'compress'='0.99'), fft(s1, 'result'='imag','compress'='0.99') from root.test.d1;
 
 # HighPass
-select highpass(s1,'wpass'='0.45') from root.test.d1
+select highpass(s1,'wpass'='0.45') from root.test.d1;
 
 # IFFT
-select ifft(re, im, 'interval'='1m', 'start'='2021-01-01 00:00:00') from root.test.d1
+select ifft(re, im, 'interval'='1m', 'start'='2021-01-01 00:00:00') from root.test.d1;
 
 # LowPass
-select lowpass(s1,'wpass'='0.45') from root.test.d1
+select lowpass(s1,'wpass'='0.45') from root.test.d1;
 
 # Envelope
-select envelope(s1) from root.test.d1
+select envelope(s1) from root.test.d1;
 ```
 
 ### 11.5 Data Matching
@@ -1270,19 +1274,19 @@ For details and examples, see the document [Data-Matching](../SQL-Manual/UDF-Lib
 
 ```sql
 # Cov
-select cov(s1,s2) from root.test.d2
+select cov(s1,s2) from root.test.d2;
 
 # DTW
-select dtw(s1,s2) from root.test.d2
+select dtw(s1,s2) from root.test.d2;
 
 # Pearson
-select pearson(s1,s2) from root.test.d2
+select pearson(s1,s2) from root.test.d2;
 
 # PtnSym
-select ptnsym(s4, 'window'='5', 'threshold'='0') from root.test.d1
+select ptnsym(s4, 'window'='5', 'threshold'='0') from root.test.d1;
 
 # XCorr
-select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05
+select xcorr(s1, s2) from root.test.d1 where time <= 2020-01-01 00:00:05;
 ```
 
 ### 11.6 Data Repairing
@@ -1291,23 +1295,23 @@ For details and examples, see the document [Data-Repairing](../SQL-Manual/UDF-Li
 
 ```sql
 # TimestampRepair
-select timestamprepair(s1,'interval'='10000') from root.test.d2
-select timestamprepair(s1) from root.test.d2
+select timestamprepair(s1,'interval'='10000') from root.test.d2;
+select timestamprepair(s1) from root.test.d2;
 
 # ValueFill
-select valuefill(s1) from root.test.d2
-select valuefill(s1,"method"="previous") from root.test.d2
+select valuefill(s1) from root.test.d2;
+select valuefill(s1,"method"="previous") from root.test.d2;
 
 # ValueRepair
-select valuerepair(s1) from root.test.d2
-select valuerepair(s1,'method'='LsGreedy') from root.test.d2
+select valuerepair(s1) from root.test.d2;
+select valuerepair(s1,'method'='LsGreedy') from root.test.d2;
 
 # MasterRepair
-select MasterRepair(t1,t2,t3,m1,m2,m3) from root.test
+select MasterRepair(t1,t2,t3,m1,m2,m3) from root.test;
 
 # SeasonalRepair
-select seasonalrepair(s1,'period'=3,'k'=2) from root.test.d2
-select seasonalrepair(s1,'method'='improved','period'=3) from root.test.d2
+select seasonalrepair(s1,'period'=3,'k'=2) from root.test.d2;
+select seasonalrepair(s1,'method'='improved','period'=3) from root.test.d2;
 ```
 
 ### 11.7 Series Discovery
@@ -1316,11 +1320,11 @@ For details and examples, see the document [Series-Discovery](../SQL-Manual/UDF-
 
 ```sql
 # ConsecutiveSequences
-select consecutivesequences(s1,s2,'gap'='5m') from root.test.d1
-select consecutivesequences(s1,s2) from root.test.d1
+select consecutivesequences(s1,s2,'gap'='5m') from root.test.d1;
+select consecutivesequences(s1,s2) from root.test.d1;
 
 # ConsecutiveWindows
-select consecutivewindows(s1,s2,'length'='10m') from root.test.d1
+select consecutivewindows(s1,s2,'length'='10m') from root.test.d1;
 ```
 
 ### 11.8 Machine Learning
@@ -1329,13 +1333,13 @@ For details and examples, see the document [Machine-Learning](../SQL-Manual/UDF-
 
 ```sql
 # AR
-select ar(s0,"p"="2") from root.test.d0
+select ar(s0,"p"="2") from root.test.d0;
 
 # Representation
-select representation(s0,"tb"="3","vb"="2") from root.test.d0
+select representation(s0,"tb"="3","vb"="2") from root.test.d0;
 
 # RM
-select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0
+select rm(s0, s1,"tb"="3","vb"="2") from root.test.d0;
 ```
 
 ## 12. CONDITIONAL EXPRESSION
@@ -1348,24 +1352,24 @@ when 1000<T and T<1050 and 1000000<P and P<1100000 then "good!"
 when T<=1000 or T>=1050 then "bad temperature"
 when P<=1000000 or P>=1100000 then "bad pressure"
 end as `result`
-from root.test1
+from root.test1;
 
 select str, case
 when str like "%cc%" then "has cc"
 when str like "%dd%" then "has dd"
 else "no cc and dd" end as `result`
-from root.test2
+from root.test2;
 
 select
 count(case when x<=1 then 1 end) as `(-∞,1]`,
 count(case when 1<x and x<=3 then 1 end) as `(1,3]`,
 count(case when 3<x and x<=7 then 1 end) as `(3,7]`,
 count(case when 7<x then 1 end) as `(7,+∞)`
-from root.test3
+from root.test3;
 
-select x, case x when 1 then "one" when 2 then "two" else "other" end from root.test4
+select x, case x when 1 then "one" when 2 then "two" else "other" end from root.test4;
 
-select x, case x when 1 then true when 2 then false end as `result` from root.test4
+select x, case x when 1 then true when 2 then false end as `result` from root.test4;
 
 select x, case x
 when 1 then 1
@@ -1373,7 +1377,7 @@ when 2 then 222222222222222
 when 3 then 3.3
 when 4 then 4.4444444444444
 end as `result`
-from root.test4
+from root.test4;
 ```
 
 ## 13. TRIGGER
@@ -1463,7 +1467,7 @@ SELECT max_value(temperature)
   INTO root.ln.wf02.wt02(temperature_max), root.ln.wf02.wt01(temperature_max), root.ln.wf01.wt02(temperature_max), root.ln.wf01.wt01(temperature_max)
   FROM root.ln.*.*
   GROUP BY(10s)
-END
+END;
 ```
 
 ### 14.2 Configuring time range for resampling
@@ -1476,7 +1480,7 @@ BEGIN
   INTO root.ln.wf02.wt02(temperature_max), root.ln.wf02.wt01(temperature_max), root.ln.wf01.wt02(temperature_max), root.ln.wf01.wt01(temperature_max)
   FROM root.ln.*.*
   GROUP BY(10s)
-END
+END;
 ```
 
 ### 14.3 Configuring execution intervals and CQ time ranges
@@ -1490,7 +1494,7 @@ BEGIN
   FROM root.ln.*.*
   GROUP BY(10s)
   FILL(100.0)
-END
+END;
 ```
 
 ### 14.4 Configuring end_time_offset for CQ time range
@@ -1504,7 +1508,7 @@ BEGIN
   FROM root.ln.*.*
   GROUP BY(10s)
   FILL(100.0)
-END
+END;
 ```
 
 ### 14.5 CQ without group by clause
@@ -1517,7 +1521,7 @@ BEGIN
   INTO root.precalculated_sg.::(temperature)
   FROM root.ln.*.*
   align by device
-END
+END;
 ```
 
 ### 14.6 CQ Management
@@ -1525,13 +1529,13 @@ END
 #### Listing continuous queries
 
 ```sql
-SHOW (CONTINUOUS QUERIES | CQS) 
+SHOW (CONTINUOUS QUERIES | CQS) ;
 ```
 
 #### Dropping continuous queries
 
 ```sql
-DROP (CONTINUOUS QUERY | CQ) <cq_id>
+DROP (CONTINUOUS QUERY | CQ) <cq_id>;
 ```
 
 #### Altering continuous queries
@@ -1557,9 +1561,9 @@ DROP FUNCTION <UDF-NAME>
 ### 15.3 UDF Queries
 
 ```sql
-SELECT example(*) from root.sg.d1
-SELECT example(s1, *) from root.sg.d1
-SELECT example(*, *) from root.sg.d1
+SELECT example(*) from root.sg.d1;
+SELECT example(s1, *) from root.sg.d1;
+SELECT example(*, *) from root.sg.d1;
 
 SELECT example(s1, 'key1'='value1', 'key2'='value2'), example(*, 'key3'='value3') FROM root.sg.d1;
 SELECT example(s1, s2, 'key1'='value1', 'key2'='value2') FROM root.sg.d1;
@@ -1585,43 +1589,43 @@ For more details, see document [Authority Management](../User-Manual/Authority-M
 - Create user (Requires MANAGE_USER permission)
 
 ```SQL
-CREATE USER <userName> <password>
-eg: CREATE USER user1 'passwd'
+CREATE USER <userName> <password>;
+eg: CREATE USER user1 'passwd';
 ```
 
 - Delete user (Requires MANAGE_USER permission)
 
 ```sql
-DROP USER <userName>
-eg: DROP USER user1
+DROP USER <userName>;
+eg: DROP USER user1;
 ```
 
 - Create role (Requires MANAGE_ROLE permission)
 
 ```sql
-CREATE ROLE <roleName>
-eg: CREATE ROLE role1
+CREATE ROLE <roleName>;
+eg: CREATE ROLE role1;
 ```
 
 - Delete role (Requires MANAGE_ROLE permission)
 
 ```sql
-DROP ROLE <roleName>
-eg: DROP ROLE role1  
+DROP ROLE <roleName>;
+eg: DROP ROLE role1;
 ```
 
 - Grant role to user (Requires MANAGE_ROLE permission)
 
 ```sql
-GRANT ROLE <ROLENAME> TO <USERNAME>
-eg: GRANT ROLE admin TO user1
+GRANT ROLE <ROLENAME> TO <USERNAME>;
+eg: GRANT ROLE admin TO user1;
 ```
 
 - Revoke role from user(Requires MANAGE_ROLE permission)
 
 ```sql
-REVOKE ROLE <ROLENAME> FROM <USER>
-eg: REVOKE ROLE admin FROM user1
+REVOKE ROLE <ROLENAME> FROM <USER>;
+eg: REVOKE ROLE admin FROM user1;
 ```
 
 - List all user (Requires MANAGE_USER permission)
@@ -1639,15 +1643,15 @@ LIST ROLE
 - List all users granted specific role.（Requires MANAGE_USER permission)
 
 ```sql
-LIST USER OF ROLE <roleName>
-eg: LIST USER OF ROLE roleuser
+LIST USER OF ROLE <roleName>;
+eg: LIST USER OF ROLE roleuser;
 ```
 
 - List all role granted to specific user.
 
 ```sql
-LIST ROLE OF USER <username> 
-eg: LIST ROLE OF USER tempuser
+LIST ROLE OF USER <username>;
+eg: LIST ROLE OF USER tempuser;
 ```
 
 - List all privileges of user
@@ -1696,13 +1700,13 @@ eg: REVOKE ALL ON root.** FROM USER user1;
 #### Delete Time Partition (experimental)
 
 ```sql
-Eg: IoTDB > DELETE PARTITION root.ln 0,1,2
+Eg: DELETE PARTITION root.ln 0,1,2;
 ```
 
 #### Continuous Query,CQ
 
 ```sql
-Eg: IoTDB > CREATE CONTINUOUS QUERY cq1 BEGIN SELECT max_value(temperature) INTO temperature_max FROM root.ln.*.* GROUP BY time(10s) END
+Eg: CREATE CONTINUOUS QUERY cq1 BEGIN SELECT max_value(temperature) INTO temperature_max FROM root.ln.*.* GROUP BY time(10s) END;
 ```
 
 #### Maintenance Command
@@ -1710,42 +1714,42 @@ Eg: IoTDB > CREATE CONTINUOUS QUERY cq1 BEGIN SELECT max_value(temperature) INTO
 - FLUSH
 
 ```sql
-Eg: IoTDB > flush
+Eg: flush
 ```
 
 - MERGE
 
 ```sql
-Eg: IoTDB > MERGE
-Eg: IoTDB > FULL MERGE
+Eg: MERGE;
+Eg: FULL MERGE;
 ```
 
 - CLEAR CACHE
 
 ```sql
-Eg: IoTDB > CLEAR CACHE
+Eg: CLEAR CACHE
 ```
 
 - START REPAIR DATA
 
 ```sql
-Eg: IoTDB > START REPAIR DATA
+Eg: START REPAIR DATA
 ```
 
 - STOP REPAIR DATA
 
 ```sql
-Eg: IoTDB > STOP REPAIR DATA
+Eg: STOP REPAIR DATA
 ```
 
 - SET SYSTEM TO READONLY / WRITABLE
 
 ```sql
-Eg: IoTDB > SET SYSTEM TO READONLY / WRITABLE
+Eg: SET SYSTEM TO READONLY / WRITABLE
 ```
 
 - Query abort
 
 ```sql
-Eg: IoTDB > KILL QUERY 1
+Eg: KILL QUERY 1
 ```
