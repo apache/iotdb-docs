@@ -39,7 +39,7 @@ IoTDB 是一款针对物联网场景设计的时间序列数据库，支持高�
 
 * 编辑配置文件 `iotdb-system.properties`进行维护
 * 通过 set configuration 语句进行维护
-  * 表模型请参考：[set configuration](../SQL-Manual/SQL-Maintenance-Statements.md#_2-2-更新配置项)
+  * 表模型请参考：[set configuration](../SQL-Manual/SQL-Maintenance-Statements_timecho.md#_2-2-更新配置项)
 
 相关参数如下：
 
@@ -60,7 +60,7 @@ IoTDB 是一款针对物联网场景设计的时间序列数据库，支持高�
 
 * 编辑配置文件 `iotdb-system.properties`进行维护
 * 通过 set configuration 语句进行维护
-  * 表模型请参考：[set configuration](../SQL-Manual/SQL-Maintenance-Statements.md#_2-2-更新配置项)
+  * 表模型请参考：[set configuration](../SQL-Manual/SQL-Maintenance-Statements_timecho.md#_2-2-更新配置项)
     
 相关参数如下：
 

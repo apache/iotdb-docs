@@ -44,6 +44,7 @@ IoTDB provides a Java native client driver and a session pool management mechani
 </dependencies>
 ```
 * The latest version of `iotdb-session` can be viewed [here](https://repo1.maven.org/maven2/com/timecho/iotdb/iotdb-session/)
+* Note: Do not use a newer client to connect to an older server, as this may cause connection failures or unexpected errors.
 
 ## 3. Read and Write Operations
 
@@ -65,7 +66,7 @@ The `ITableSession` interface defines basic operations for interacting with IoTD
 
 **Description of Object Data Type:**
 
-Since V2.0.8-beta, the `iTableSession.insert(Tablet tablet)` interface supports splitting a single Object-class file into multiple segments and writing them sequentially in order. When the column data type in the Tablet data structure is **`TSDataType.Object`**, you need to use the following method to populate the Tablet:
+Since V2.0.8, the `iTableSession.insert(Tablet tablet)` interface supports splitting a single Object-class file into multiple segments and writing them sequentially in order. When the column data type in the Tablet data structure is **`TSDataType.Object`**, you need to use the following method to populate the Tablet:
 
 ```Java
 /*

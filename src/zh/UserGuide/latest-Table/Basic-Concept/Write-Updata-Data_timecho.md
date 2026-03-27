@@ -110,7 +110,9 @@ try (ITableSession session =
 在代码执行完成后，可以通过下述语句确认表已成功创建，其中包含了时间列、标签列、属性列以及测点列等各类信息。
 
 ```SQL
-IoTDB> desc table1
+desc table1;
+```
+```shell
 +-----------+---------+-----------+
 | ColumnName| DataType|   Category|
 +-----------+---------+-----------+
@@ -131,22 +133,22 @@ IoTDB> desc table1
 **示例：**
 
 ```SQL
-INSERT INTO table1(region, plant_id, device_id, time, temperature, humidity) VALUES ('北京', '1001', '100', '2025-11-26 13:37:00', 90.0, 35.1)
+INSERT INTO table1(region, plant_id, device_id, time, temperature, humidity) VALUES ('北京', '1001', '100', '2025-11-26 13:37:00', 90.0, 35.1);
 
-INSERT INTO table1(region, plant_id, device_id, time, temperature) VALUES ('北京', '1001', '100', '2025-11-26 13:38:00', 91.0)
+INSERT INTO table1(region, plant_id, device_id, time, temperature) VALUES ('北京', '1001', '100', '2025-11-26 13:38:00', 91.0);
 ```
 
 ### 1.4 空值写入
 
 标签列、属性列和测点列可以指定空值（`null`），表示不写入任何内容。
 
-**示例（与上述事例等价）：**
+**示例（与上述示例等价）：**
 
 ```SQL
-# 上述部分列写入等价于如下的带空值写入
-INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('北京', '1001', '100', null, null, '2025-11-26 13:37:00', 90.0, 35.1)
+# 上述部分列写入等价于如下的带空值写入;
+INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('北京', '1001', '100', null, null, '2025-11-26 13:37:00', 90.0, 35.1);
 
-INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('北京', '1001', '100', null, null, '2025-11-26 13:38:00', 91.0, null)
+INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('北京', '1001', '100', null, null, '2025-11-26 13:38:00', 91.0, null);
 ```
 
 当向不包含任何标签列的表中写入数据时，系统将默认创建一个所有标签列值均为 null 的device。
@@ -163,13 +165,13 @@ INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, tem
 INSERT INTO table1
 VALUES 
 ('2025-11-26 13:37:00', '北京', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:37:34'),
-('2025-11-26 13:38:00', '北京', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:38:25')
+('2025-11-26 13:38:00', '北京', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:38:25');
 
 INSERT INTO table1
 (region, plant_id, device_id, model_id, maintenance, time, temperature, humidity, status, arrival_time) 
 VALUES 
 ('北京', '1001', '100', 'A', '180', '2025-11-26 13:37:00', 90.0, 35.1, true, '2025-11-26 13:37:34'),
-('北京', '1001', '100', 'A', '180', '2025-11-26 13:38:00', 90.0, 35.1, true, '2025-11-26 13:38:25')
+('北京', '1001', '100', 'A', '180', '2025-11-26 13:38:00', 90.0, 35.1, true, '2025-11-26 13:38:25');
 ```
 
 #### 注意事项
@@ -205,9 +207,13 @@ Msg: The statement is executed successfully.
 例如：使用标准查询语句，将 table1 中北京地区的 time, region, device\_id, temperature 数据查询写回到 target\_table 中
 
 ```SQL
-IoTDB:database1> insert into target_table select time,region,device_id,temperature from table1 where region = '北京'
+insert into target_table select time,region,device_id,temperature from table1 where region = '北京';
 Msg: The statement is executed successfully.
-IoTDB:database1> select * from target_table where region='北京'
+```
+```sql
+select * from target_table where region='北京';
+```
+```shell 
 +-----------------------------+------+---------+-----------+
 |                         time|region|device_id|temperature|
 +-----------------------------+------+---------+-----------+
@@ -232,9 +238,13 @@ It costs 0.029s
 例如：使用表引用查询，将 table3 中的数据查询写回到 target\_table 中
 
 ```SQL
-IoTDB:database1> insert into target_table(time,device_id,temperature) table table3
+insert into target_table(time,device_id,temperature) table table3;
 Msg: The statement is executed successfully.
-IoTDB:database1> select * from target_table where region is null
+```
+```sql
+select * from target_table where region is null;
+```
+```shell
 +-----------------------------+------+---------+-----------+
 |                         time|region|device_id|temperature|
 +-----------------------------+------+---------+-----------+
@@ -257,9 +267,13 @@ It costs 0.015s
 例如：使用子查询，将 table1 中时间与 table2 上海地区记录匹配的数据的 time, region, device\_id, temperature 查询写回到 target\_table
 
 ```SQL
-IoTDB:database1> insert into target_table (select t1.time, t1.region as region, t1.device_id as device_id, t1.temperature as temperature from table1 t1 where t1.time in (select t2.time from table2 t2 where t2.region = '上海'))
+insert into target_table (select t1.time, t1.region as region, t1.device_id as device_id, t1.temperature as temperature from table1 t1 where t1.time in (select t2.time from table2 t2 where t2.region = '上海'));
 Msg: The statement is executed successfully.
-IoTDB:database1> select * from target_table where region = '上海'
+```
+```sql
+select * from target_table where region = '上海';
+```
+```shell
 +-----------------------------+------+---------+-----------+
 |                         time|region|device_id|temperature|
 +-----------------------------+------+---------+-----------+
@@ -293,7 +307,7 @@ It costs 0.014s
 
 自为了避免单个 Object 过大导致写入请求过大，Object 类型的值支持拆分后按顺序分段写入。SQL 中需要使用 `to_object(isEOF, offset, content)` 函数进行值填充。
 
-> V2.0.8-beta 版本起支持
+> V2.0.8 版本起支持
 
 **语法：**
 
@@ -314,7 +328,7 @@ insert into tableName(time, columnName) values(timeValue, to_object(isEOF, offse
 向表 table1 中增加 object 类型字段 s1
 
 ```SQL
-ALTER TABLE table1 ADD COLUMN IF NOT EXISTS s1 OBJECT FIELD COMMENT 'object类型'
+ALTER TABLE table1 ADD COLUMN IF NOT EXISTS s1 OBJECT FIELD COMMENT 'object类型';
 ```
 
 1. 不分段写入
@@ -326,12 +340,12 @@ insert into table1(time, device_id, s1) values(now(), 'tag1', to_object(true, 0,
 2. 分段写入
 
 ```SQL
---分段写入 object 数据
---第一次写入：to_object(false, 0, X'696F')
+--分段写入 object 数据;
+--第一次写入：to_object(false, 0, X'696F');
 insert into table1(time, device_id, s1) values(1, 'tag1', to_object(false, 0, X'696F'));
---第二次写入：to_object(false, 2, X'7464')
+--第二次写入：to_object(false, 2, X'7464');
 insert into table1(time, device_id, s1) values(1, 'tag1', to_object(false, 2, X'7464'));
---第三次写入：to_object(true, 4, X'62')
+--第三次写入：to_object(true, 4, X'62');
 insert into table1(time, device_id, s1) values(1, 'tag1', to_object(true, 4, X'62'));
 ```
 
@@ -365,30 +379,5 @@ updateAssignment
 **示例：**
 
 ```SQL
-update table1 set b = a where substring(a, 1, 1) like '%'
-```
-
-## 2. 数据更新
-
-### 2.1 语法
-
-```SQL
-UPDATE <TABLE_NAME> SET updateAssignment (',' updateAssignment)* (WHERE where=booleanExpression)?
-
-updateAssignment
-    : identifier EQ expression
-    ;
-```
-
-1. `update`语句仅允许修改属性（ATTRIBUTE）列的值。
-2.  `WHERE` 的规则：
-    - 范围仅限于标签列（TAG）和属性列（ATTRIBUTE），不允许涉及测点列（FIELD）和时间列（TIME）。
-    - 不允许使用聚合函数
-3. 执行 SET 操作后，赋值表达式的结果应当是字符串类型，且其使用的限制应与 WHERE 子句中的表达式相同。
-4. 属性（ATTRIBUTE）列以及测点（FIELD）列的值也可通过`insert`语句来实现指定行的更新。
-
-**示例：**
-
-```SQL
-update table1 set b = a where substring(a, 1, 1) like '%'
+update table1 set b = a where substring(a, 1, 1) like '%';
 ```

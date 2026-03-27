@@ -146,7 +146,7 @@
   </tbody>
 </table>
 
-> 提供灵活的内存配置选项，用户可在datanode-env文件中进行调整，详细信息和配置指南请参见 [datanode-env](../Reference/System-Config-Manual.md#_2-2-datanode-env-sh-bat)
+> 提供灵活的内存配置选项，用户可在datanode-env文件中进行调整，详细信息和配置指南请参见 [datanode-env](../Reference/System-Config-Manual_timecho.md#_2-2-datanode-env-sh-bat)
 
 ## 3. 存储(磁盘)
 ### 3.1 存储空间

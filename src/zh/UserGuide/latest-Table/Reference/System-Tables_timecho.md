@@ -369,7 +369,7 @@ IoTDB> select * from information_schema.views
 
 ### 2.11 MODELS 表
 
-> 该系统表从 V 2.0.5 版本开始提供，从V 2.0.8-beta 版本开始不再提供
+> 该系统表从 V 2.0.5 版本开始提供，从V 2.0.8 版本开始不再提供
 
 * 包含数据库内所有的模型信息
 * 表结构如下表所示：
@@ -589,7 +589,7 @@ IoTDB> select * from information_schema.data_nodes
 
 ### 2.18 CONNECTIONS 表
 
-> 该系统表从 V 2.0.8-beta 版本开始提供
+> 该系统表从 V 2.0.8 版本开始提供
 
 * 包含集群中所有连接。
 * 表结构如下表所示：
@@ -616,7 +616,7 @@ IoTDB> select * from information_schema.connections;
 
 ### 2.19 CURRENT\_QUERIES 表
 
-> 该系统表从 V 2.0.8-beta 版本开始提供
+> 该系统表从 V 2.0.8 版本开始提供
 
 * 包含所有执行结束时间在 `[now() - query_cost_stat_window, now())` 范围内的所有查询，也包括当前正在执行的查询。其中`query_cost_stat_window `代表查询耗时统计的窗口，默认值为 0 ，可通过配置文件`iotdb-system.properties`进行配置。
 * 表结构如下表所示：
@@ -647,7 +647,7 @@ IoTDB> select * from information_schema.current_queries;
 
 ### 2.20 QUERIES\_COSTS\_HISTOGRAM 表
 
-> 该系统表从 V 2.0.8-beta 版本开始提供
+> 该系统表从 V 2.0.8 版本开始提供
 
 * 包含过去 `query_cost_stat_window` 时间内的查询耗时的直方图（仅统计已经执行结束的 SQL），其中`query_cost_stat_window `代表查询耗时统计的窗口，默认值为 0 ，可通过配置文件`iotdb-system.properties`进行配置。
 * 表结构如下表所示：

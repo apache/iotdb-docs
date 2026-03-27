@@ -823,7 +823,7 @@ Result:
 
 **Description**:  
 Reads binary content from an `OBJECT` type column and returns a `BLOB` type (raw binary data of the object).
-> Supported since V2.0.8-beta
+> Supported since V2.0.8
 
 **Syntax:**
 ```SQL

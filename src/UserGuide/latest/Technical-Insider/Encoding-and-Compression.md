@@ -117,9 +117,7 @@ IoTDB allows you to specify the compression method of the column when creating a
 
 * ZSTD
 
-* LZMA2
-
-The specified syntax for compression is detailed in [Create Timeseries Statement](../SQL-Manual/SQL-Manual_timecho).
+* LZMA2 
 
 ### 2.2 Compression Ratio Statistics
 

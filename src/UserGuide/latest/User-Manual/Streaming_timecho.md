@@ -133,8 +133,7 @@ Based on the custom stream processing plugin programming interface, users can ea
 
 #### Data extraction plugin interface
 
-Data extraction is the first stage of the three stages of stream processing data from data extraction to data sending. The data extraction plugin (PipeSource) is the bridge between the stream processing engine and the storage engine. It monitors the behavior of the storage engine,
-Capture various data write events.
+Data extraction is the first stage of the three-stage process of stream processing, which includes data extraction, data processing, and data sending. The data extraction plugin (PipeSource) serves as a bridge between the stream processing engine and the storage engine. It captures various data write events by listening to the behavior of the storage engine.
 
 ```java
 /**
@@ -214,8 +213,7 @@ public interface PipeSource extends PipePlugin {
 
 #### Data processing plugin interface
 
-Data processing is the second stage of the three stages of stream processing data from data extraction to data sending. The data processing plugin (PipeProcessor) is mainly used to filter and transform the data captured by the data extraction plugin (PipeSource).
-various events.
+Data processing is the second stage of the three-stage process of stream processing, which includes data extraction, data processing, and data sending. The data processing plugin (PipeProcessor) is primarily used for filtering and transforming the various events captured by the data extraction plugin (PipeSource).
 
 ```java
 /**
@@ -315,8 +313,7 @@ public interface PipeProcessor extends PipePlugin {
 
 #### Data sending plugin interface
 
-Data sending is the third stage of the three stages of stream processing data from data extraction to data sending. The data sending plugin (PipeSink) is mainly used to send data processed by the data processing plugin (PipeProcessor).
-Various events, it serves as the network implementation layer of the stream processing framework, and the interface should allow access to multiple real-time communication protocols and multiple sinks.
+Data sending is the third stage of the three-stage process of stream processing, which includes data extraction, data processing, and data sending. The data sending plugin (PipeSink) is responsible for sending the various events processed by the data processing plugin (PipeProcessor). It serves as the network implementation layer of the stream processing framework and should support multiple real-time communication protocols and connectors in its interface.
 
 ```java
 /**

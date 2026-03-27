@@ -82,17 +82,20 @@ Enter ```quit``` or `exit` can exit Cli.
 
 ### Cli Parameters
 
-| Parameter name               | Parameter type             | Required | Description                                                  | Example             |
-| :--------------------------- | :------------------------- | :------- | :----------------------------------------------------------- | :------------------ |
-| -disableISO8601              | No parameters              | No       | If this parameter is set, IoTDB will print the timestamp in digital form | -disableISO8601     |
-| -h <`host`>                  | string, no quotation marks | Yes      | The IP address of the IoTDB server                           | -h 10.129.187.21    |
-| -help                        | No parameters              | No       | Print help information for IoTDB                             | -help               |
-| -p <`rpcPort`>               | int                        | Yes      | The rpc port number of the IoTDB server. IoTDB runs on rpc port 6667 by default | -p 6667             |
-| -pw <`password`>             | string, no quotation marks | No       | The password used for IoTDB to connect to the server. If no password is entered, IoTDB will ask for password in Cli command | -pw root            |
-| -u <`username`>              | string, no quotation marks | Yes      | User name used for IoTDB to connect the server               | -u root             |
-| -maxPRC <`maxPrintRowCount`> | int                        | No       | Set the maximum number of rows that IoTDB returns            | -maxPRC 10          |
-| -e <`execute`>               | string                     | No       | manipulate IoTDB in batches without entering cli input mode  | -e "show databases" |
-| -c                           | empty                      | No       | If the server enables `rpc_thrift_compression_enable=true`, then cli must use `-c` | -c                  |
+| **Parameter**              | **Type** | **Required** | **Description**                                                                   | **Example**         |
+| -------------------------- | -------- | ------------ |-----------------------------------------------------------------------------------| ------------------- |
+| -h `<host>`                  | string   | No           | The IP address of the IoTDB server. (Default: 127.0.0.1)                          | -h 127.0.0.1        |
+| -p `<rpcPort>`               | int      | No           | The RPC port of the IoTDB server. (Default: 6667)                                 | -p 6667             |
+| -u `<username>`              | string   | No           | The username to connect to the IoTDB server. (Default: root)                      | -u root             |
+| -pw `<password>`             | string   | No           | The password to connect to the IoTDB server. (Default: root)                     | -pw root            |
+| -e `<execute>`               | string   | No           | Batch operations in non-interactive mode.                                         | -e "show databases" |
+| -c                         | Flag     | No           | Required if rpc_thrift_compression_enable=true on the server.                     | -c                  |
+| -disableISO8601            | Flag     | No           | If set, timestamps will be displayed as numeric values instead of ISO8601 format. | -disableISO8601     |
+| -usessl `<use_ssl>`          | Boolean | No           | Enable SSL connection                                                             | -usessl true         |
+| -ts `<trust_store>`          | string  | No           | SSL certificate store path                                                        | -ts /path/to/truststore  |
+| -tpw `<trust_store_pwd>`      | string  | No           | SSL certificate store password                                                    | -tpw myTrustPassword |
+| -timeout `<queryTimeout>`    | int    | No           | Query timeout (seconds). If not set, the server's configuration will be used.     | -timeout 30          |
+| -help                      | Flag     | No           | Displays help information for the CLI tool.                                       | -help               |
 
 Following is a cli command which connects the host with IP
 10.129.187.21, rpc port 6667, username "root", password "root", and prints the timestamp in digital form. The maximum number of lines displayed on the IoTDB command line is 10.

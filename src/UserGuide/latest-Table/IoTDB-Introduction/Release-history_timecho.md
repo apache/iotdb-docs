@@ -22,6 +22,27 @@
 
 ## 1. TimechoDB (Database Core)
 
+### V2.0.8.1
+
+> Release Date: 2026.02.04</br>
+> Download Link: Please contact Timecho Team to obtain the download link</br>
+> Package Name:timechodb-2.0.8.1-bin.zip</br>
+> SHA512 Checksum: 49d97cbf488443f8e8e73cc39f6f320b3bc84b194aed90af695ebd5771650b5e5b6a3abb0fb68059bd01827260485b903c035657b337442f4fdd32c877f2aca3
+
+V2.0.8.1 introduces the **Object data type** to table models, significantly enhances audit logging capabilities, optimizes the tree model’s **OPC UA protocol**, adds **covariate-based forecasting** support in AINode, and enables **concurrent inference** in AINode. Additionally, comprehensive improvements have been made to database monitoring, performance, and stability. The detailed release notes are as follows:
+
+- **Query Module**: Added a list view of available DataNode instances, allowing users to [view each node's RPC address and port](../User-Manual/Maintenance-commands_timecho.md#_1-7-viewing-available-nodes).
+- **Query Module**: Introduced a new system table for [statistical query latency analysis](../Reference/System-Tables_timecho.md#_2-20-queries-costs-histogram).
+- **Storage Module**: Added SQL support to retrieve the full definition statements for [tables](../Basic-Concept/Table-Management_timecho.md#_1-4-view-table-creation-statement) and [views](../User-Manual/Tree-to-Table_timecho.md#_2-4-viewing-table-views).
+- **Storage Module**: Optimized the tree model’s [OPC UA protocol](../../latest/API/Programming-OPC-UA_timecho.md).
+- **System Module**: Added support for the [Object data type](../Background-knowledge/Data-Type_timecho.md) in table models.
+- **System Module**: Significantly enhanced and upgraded the [audit log](../User-Manual/Audit-Log_timecho.md) functionality.
+- **System Module**: Added a new system table to monitor [DataNode connection status](../Reference/System-Tables_timecho.md#_2-18-connections).
+- **AINode**: Integrated the built-in **Chronos-2** model, supporting [covariate-based forecasting](../AI-capability/AINode_Upgrade_timecho.md).
+- **AINode**: Built-in models **Timer-XL** and **Sundial** now support [concurrent inference](../AI-capability/AINode_Upgrade_timecho.md).
+- **Stream Processing Module**: When creating a full-data synchronization pipe, it will be [automatically split](../User-Manual/Data-Sync_timecho.md#_2-1-create-a-task) into two independent pipes—one for real-time data and one for historical data—whose remaining event counts can be monitored separately via the `SHOW PIPES` statement.
+- **Others**: Fixed security vulnerabilities **CVE-2025-12183**, **CVE-2025-66566**, and **CVE-2025-11226**.
+
 ### V2.0.6.6
 
 > Release Date: 2026.01.20</br>

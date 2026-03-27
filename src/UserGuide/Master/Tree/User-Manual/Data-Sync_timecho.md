@@ -125,6 +125,15 @@ WITH SINK (
 
 **IF NOT EXISTS semantics**: Used in creation operations to ensure that the create command is executed when the specified Pipe does not exist, preventing errors caused by attempting to create an existing Pipe.
 
+**Note**:
+
+Starting from V2.0.8, when creating a full data synchronization Pipe (e.g. Pipeid: `alldatapipe`), the system will automatically split it into two independent Pipes:
+
+* History Pipe: The PipeId is the original name plus the suffix `_history` (e.g. `alldatapipe_history`). The source parameter carries the default configurations: `'realtime.enable'='false', 'inclusion'='data.insert', 'inclusion.exclusion'=''`
+* Realtime Pipe: The PipeId is the original name plus the suffix `_realtime` (e.g. `alldatapipe_realtime`). The source parameter carries the default configuration: `'history.enable'='false'`. If metadata synchronization is configured, the Realtime Pipe will be responsible for sending the data.
+
+After successful creation, the original PipeId (e.g. `alldatapipe`) will no longer be a valid identifier. When performing task operations such as starting, stopping, deleting, or viewing, you must use the split independent PipeId (i.e. `*_history` or `*_realtime`). For operation examples, see the [View Task](./Data-Sync_timecho.md#_2-5-view-task) section
+
 ### 2.2 Start Task
 
 Start processing data:
@@ -187,6 +196,29 @@ The meanings of each column are as follows:
 - **ExceptionMessage**：Displays the exception information of the synchronization task
 - **RemainingEventCount (Statistics with Delay)**: The number of remaining events, which is the total count of all events in the current data synchronization task, including data and schema synchronization events, as well as system and user-defined events.
 - **EstimatedRemainingSeconds (Statistics with Delay)**: The estimated remaining time, based on the current number of events and the rate at the pipe, to complete the transfer.
+
+Example:
+
+In V2.0.8 and later versions, create a full data synchronization task and view the task details.
+
+```sql
+IoTDB> create pipe alldatapipe with source('inclusion'='all','exclusion'='auth') with sink('node-urls'='127.0.0.1:6668')
+
+IoTDB> show pipe alldatapipe_history
++-------------------+-----------------------+-------+---------------------------------------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+|                 ID|           CreationTime|  State|                                                                                               PipeSource|PipeProcessor|                  PipeSink|ExceptionMessage|RemainingEventCount|EstimatedRemainingSeconds|
++-------------------+-----------------------+-------+---------------------------------------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+|alldatapipe_history|2025-12-18T15:06:16.697|RUNNING|{exclusion=auth, history.enable=true, inclusion=data.insert, inclusion.exclusion=, realtime.enable=false}|           {}|{node-urls=127.0.0.1:6668}|                |                  0|                     0.00|
++-------------------+-----------------------+-------+---------------------------------------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+
+IoTDB> show pipe alldatapipe_realtime
++--------------------+-----------------------+-------+---------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+|                  ID|           CreationTime|  State|                                                                 PipeSource|PipeProcessor|                  PipeSink|ExceptionMessage|RemainingEventCount|EstimatedRemainingSeconds|
++--------------------+-----------------------+-------+---------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+|alldatapipe_realtime|2025-12-18T15:06:16.312|RUNNING|{exclusion=auth, history.enable=false, inclusion=all, realtime.enable=true}|           {}|{node-urls=127.0.0.1:6668}|                |                  0|                     0.00|
++--------------------+-----------------------+-------+---------------------------------------------------------------------------+-------------+--------------------------+----------------+-------------------+-------------------------+
+```
+
 
 ### 2.6 Synchronization Plugins
 
@@ -445,19 +477,20 @@ with sink (
   'sink'='iotdb-air-gap-sink',
   'node-urls' = '10.53.53.53:9780', -- The URL of the data service port of the DataNode node on the target IoTDB
 ```
-**Notes: Currently supported gateway models**
+**Note:**
+* When creating a pipe for synchronization across a network gap (data diode), you must ensure that the target user on the receiving end already exists. If the receiving-end user is missing at the time of pipe creation, data prior to the subsequent creation of that user will not be synchronized.
+* Currently supported network gap device models are listed in the table below.
 > For other models of network gateway devices, Please contact timechodb staff to confirm compatibility.
 
-| Gateway Type           | Model                                                        | Return Packet Limit | Send Limit             |
-| ---------------------- | ------------------------------------------------------------ | ------------------- | ---------------------- |
-| Forward Gate         | NARI Syskeeper-2000 Forward Gate                         | All 0 / All 1 bytes | No Limit               |
-| Forward Gate         | XJ Self-developed Diaphragm                                  | All 0 / All 1 bytes | No Limit               |
-| Unknown     | WISGAP         | No Limit            | No Limit               |
-| Forward Gate         | KEDONG StoneWall-2000 Network Security Isolation Device | No Limit            | No Limit               |
-| Reverse Gate      | NARI Syskeeper-2000 Reverse Direction                      | All 0 / All 1 bytes | Meet E Language Format |
-| Unknown     | DPtech ISG5000                                      | No Limit            | No Limit               |
-| Unknown     | GAP‌‌
- XL—GAP    | No Limit            | No Limit               |
+| Gateway Type | Model                                               | Return Packet Limit | Send Limit             |
+|--------------|-----------------------------------------------------|---------------------| ---------------------- |
+| Forward Gate | NARI Syskeeper-2000 Forward Gate                    | All 0 / All 1 bytes | No Limit               |
+| Forward Gate | XJ Self-developed Diaphragm                         | All 0 / All 1 bytes | No Limit               |
+| Unknown      | WISGAP                                              | No Limit            | No Limit               |
+| Forward Gate | KEDONG StoneWall-2000 Network Security Isolation Device | No Limit            | No Limit               |
+| Reverse Gate | NARI Syskeeper-2000 Reverse Direction               | All 0 / All 1 bytes | Meet E Language Format |
+| Unknown      | DPtech ISG5000                                      | No Limit            | No Limit               |
+| Unknown      | GAP XL—GAP                                       | No Limit            | No Limit               |
 
 
 ### 3.7 Compression Synchronization (V1.3.3+)
@@ -577,7 +610,7 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | mode.streaming           | Specifies the capture source for time-series data writes. Applicable when mode.streamingis false, determining the source for capturing data.insertspecified in inclusion. Offers two strategies:- true: ​​Dynamic capture selection.​​ The system adaptively chooses between capturing individual write requests or only TsFile sealing requests based on downstream processing speed. Prioritizes capturing write requests for lower latency when processing is fast; captures only file sealing requests to avoid backlog when slow. Suitable for most scenarios, balancing latency and throughput optimally.- false: ​​Fixed batch capture.​​ Captures only TsFile sealing requests. Suitable for resource-constrained scenarios to reduce system load.  Note: The snapshot data captured upon pipe startup is only provided to downstream processing in file format. | Boolean: true / false                                                  |Optional                | true          |
 | mode.strict              | Determines the strictness when filtering data using time/ path/ database-name/ table-nameparameters:- true: ​​Strict filtering.​​ The system strictly filters captured data according to the given conditions, ensuring only matching data is selected.- false: ​​Non-strict filtering.​​ The system may include some extra data during filtering. Suitable for performance-sensitive scenarios to reduce CPU and I/O consumption.                                                                                                                                                                                                                                                                                                                                                                                                                                       | Boolean: true / false                                                  | Optional         | true          |
 | mode.snapshot            | Determines the capture mode for time-series data, affecting the dataspecified in inclusion. Offers two modes:- true: ​​Static data capture.​​ Upon pipe startup, a one-time data snapshot is captured. ​​The pipe will automatically terminate (DROP PIPE SQL is executed automatically) after the snapshot data is fully consumed.​​- false: ​​Dynamic data capture.​​ In addition to capturing a snapshot upon startup, the pipe continuously captures subsequent data changes. The pipe runs continuously to handle the dynamic data stream.                                                                                                                                                                                                                                                                                                                          | Boolean: true / false                                                  | Optional         | false         |
-| path                     | Can be specified when the user connects with sql_dialectset to tree. For upgraded user pipes, the default sql_dialectis tree. This parameter determines the capture scope for time-series data, affecting the dataspecified in inclusion, as well as some sequence-related metadata. Data is selected into the streaming pipe if its tree model path matches the specified path.  <br> Starting from version V2.0.8, this parameter supports specifying multiple exact paths in a single pipe, e.g., `'path'='root.test.d0.s1,root.test.d0.s2,root.test.d0.s3'`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | String: IoTDB-standard tree path pattern, wildcards allowed            | Optional         | root.**       |
+| path                     | Can be specified when the user connects with sql_dialectset to tree. For upgraded user pipes, the default sql_dialectis tree. This parameter determines the capture scope for time-series data, affecting the dataspecified in inclusion, as well as some sequence-related metadata. Data is selected into the streaming pipe if its tree model path matches the specified path.  <br> Starting from version V2.0.8.2, this parameter supports specifying multiple exact paths in a single pipe, e.g., `'path'='root.test.d0.s1,root.test.d0.s2,root.test.d0.s3'`.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | String: IoTDB-standard tree path pattern, wildcards allowed            | Optional         | root.**       |
 | start-time               | The start event time for synchronizing all data, including start-time	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                                 | Optional         | Long.MIN_VALUE |
 | end-time                 | The end event time for synchronizing all data, including end-time                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                                 | Optional         | Long.MAX_VALUE |
 | forwarding-pipe-requests | Whether to forward data written by other Pipes (usually data synchronization)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Boolean: true / false                                                          | Optional         | true          |

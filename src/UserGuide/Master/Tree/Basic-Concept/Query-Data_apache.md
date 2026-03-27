@@ -374,8 +374,10 @@ which means: Query and return the last data points of timeseries prefixPath.path
 
 **Example 1:** get the last point of root.ln.wf01.wt01.status:
 
+```sql
+select last status from root.ln.wf01.wt01
 ```
-IoTDB> select last status from root.ln.wf01.wt01
+```
 +-----------------------------+------------------------+-----+--------+
 |                         Time|              timeseries|value|dataType|
 +-----------------------------+------------------------+-----+--------+
@@ -387,8 +389,10 @@ It costs 0.000s
 
 **Example 2:** get the last status and temperature points of root.ln.wf01.wt01, whose timestamp larger or equal to 2017-11-07T23:50:00。
 
+```sql
+select last status, temperature from root.ln.wf01.wt01 where time >= 2017-11-07T23:50:00
 ```
-IoTDB> select last status, temperature from root.ln.wf01.wt01 where time >= 2017-11-07T23:50:00
+```
 +-----------------------------+-----------------------------+---------+--------+
 |                         Time|                   timeseries|    value|dataType|
 +-----------------------------+-----------------------------+---------+--------+
@@ -401,8 +405,10 @@ It costs 0.002s
 
 **Example 3:** get the last points of all sensor in root.ln.wf01.wt01, and order the result by the timeseries column in descending order
 
+```sql
+select last * from root.ln.wf01.wt01 order by timeseries desc;
 ```
-IoTDB> select last * from root.ln.wf01.wt01 order by timeseries desc;
+```
 +-----------------------------+-----------------------------+---------+--------+
 |                         Time|                   timeseries|    value|dataType|
 +-----------------------------+-----------------------------+---------+--------+
@@ -415,8 +421,10 @@ It costs 0.002s
 
 **Example 4：** get the last points of all sensor in root.ln.wf01.wt01, and order the result by the dataType column in descending order
 
+```sql
+select last * from root.ln.wf01.wt01 order by dataType desc;
 ```
-IoTDB> select last * from root.ln.wf01.wt01 order by dataType desc;
+```
 +-----------------------------+-----------------------------+---------+--------+
 |                         Time|                   timeseries|    value|dataType|
 +-----------------------------+-----------------------------+---------+--------+
@@ -429,8 +437,10 @@ It costs 0.002s
 
 **Note:** The requirement to query the latest data point with other filtering conditions can be implemented through function composition. For example:
 
+```sql
+select max_time(*), last_value(*) from root.ln.wf01.wt01 where time >= 2017-11-07T23:50:00 and status = false align by device
 ```
-IoTDB> select max_time(*), last_value(*) from root.ln.wf01.wt01 where time >= 2017-11-07T23:50:00 and status = false align by device
+```
 +-----------------+---------------------+----------------+-----------------------+------------------+
 |           Device|max_time(temperature)|max_time(status)|last_value(temperature)|last_value(status)|
 +-----------------+---------------------+----------------+-----------------------+------------------+
@@ -547,8 +557,10 @@ In the value filter condition, for TEXT type data, use `Like` and `Regexp` opera
 
 **Example 1:** Query data containing `'cc'` in `value` under `root.sg.d1`. 
 
+```sql
+select * from root.sg.d1 where value like '%cc%'
 ```
-IoTDB> select * from root.sg.d1 where value like '%cc%'
+```
 +-----------------------------+----------------+
 |                         Time|root.sg.d1.value|
 +-----------------------------+----------------+
@@ -561,8 +573,10 @@ It costs 0.002s
 
 **Example 2:** Query data that consists of 3 characters and the second character is `'b'` in `value` under `root.sg.d1`.
 
+```sql
+select * from root.sg.device where value like '_b_'
 ```
-IoTDB> select * from root.sg.device where value like '_b_'
+```
 +-----------------------------+----------------+
 |                         Time|root.sg.d1.value|
 +-----------------------------+----------------+
@@ -587,8 +601,10 @@ Beginning with a: ^a.*
 
 **Example 1:** Query a string composed of 26 English characters for the value under root.sg.d1
 
+```sql
+select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
 ```
-IoTDB> select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
+```
 +-----------------------------+----------------+
 |                         Time|root.sg.d1.value|
 +-----------------------------+----------------+
@@ -601,8 +617,10 @@ It costs 0.002s
 
 **Example 2:** Query root.sg.d1 where the value value is a string composed of 26 lowercase English characters and the time is greater than 100
 
+```sql
+select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
 ```
-IoTDB> select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
+```
 +-----------------------------+----------------+
 |                         Time|root.sg.d1.value|
 +-----------------------------+----------------+
@@ -1607,16 +1625,16 @@ you can use the `HAVING` clause after the `GROUP BY` clause.
 > The following usages are incorrect: 
 >
 > ```sql
-> select count(s1) from root.** group by ([1,3),1ms) having sum(s1) > s1
-> select count(s1) from root.** group by ([1,3),1ms) having s1 > 1
+> select count(s1) from root.** group by ([1,3),1ms) having sum(s1) > s1;
+> select count(s1) from root.** group by ([1,3),1ms) having s1 > 1;
 > ```
 >
 > 2.When filtering the `GROUP BY LEVEL` result, the PATH in `SELECT` and `HAVING` can only have one node.
 > The following usages are incorrect:
 >
 > ```sql
-> select count(s1) from root.** group by ([1,3),1ms), level=1 having sum(d1.s1) > 1
-> select count(d1.s1) from root.** group by ([1,3),1ms), level=1 having sum(s1) > 1
+> select count(s1) from root.** group by ([1,3),1ms), level=1 having sum(d1.s1) > 1;
+> select count(d1.s1) from root.** group by ([1,3),1ms), level=1 having sum(s1) > 1;
 > ```
 
 Here are a few examples of using the 'HAVING' clause to filter aggregate results.
@@ -2727,8 +2745,10 @@ For examples:
 
 - **Example 1** (aligned by time)
 
-```shell
-IoTDB> select s1, s2 into root.sg_copy.d1(t1), root.sg_copy.d2(t1, t2), root.sg_copy.d1(t2) from root.sg.d1, root.sg.d2;
+```sql
+select s1, s2 into root.sg_copy.d1(t1), root.sg_copy.d2(t1, t2), root.sg_copy.d1(t2) from root.sg.d1, root.sg.d2;
+```
+```
 +--------------+-------------------+--------+
 | source column|  target timeseries| written|
 +--------------+-------------------+--------+
@@ -2757,8 +2777,10 @@ We can see that the writing of the `INTO` clause is very flexible as long as the
 
 - **Example 2** (aligned by time)
 
-```shell
-IoTDB> select count(s1 + s2), last_value(s2) into root.agg.count(s1_add_s2), root.agg.last_value(s2) from root.sg.d1 group by ([0, 100), 10ms);
+```sql
+select count(s1 + s2), last_value(s2) into root.agg.count(s1_add_s2), root.agg.last_value(s2) from root.sg.d1 group by ([0, 100), 10ms);
+```
+```
 +--------------------------------------+-------------------------+--------+
 |                         source column|        target timeseries| written|
 +--------------------------------------+-------------------------+--------+
@@ -2774,8 +2796,10 @@ This statement stores the results of an aggregated query into the specified time
 
 - **Example 3** (aligned by device)
 
-```shell
-IoTDB> select s1, s2 into root.sg_copy.d1(t1, t2), root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
+```sql
+select s1, s2 into root.sg_copy.d1(t1, t2), root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
+```
+```
 +--------------+--------------+-------------------+--------+
 | source device| source column|  target timeseries| written|
 +--------------+--------------+-------------------+--------+
@@ -2797,8 +2821,10 @@ This statement also writes the query results of the four time series under the `
 
 - **Example 4** (aligned by device)
 
-```shell
-IoTDB> select s1 + s2 into root.expr.add(d1s1_d1s2), root.expr.add(d2s1_d2s2) from root.sg.d1, root.sg.d2 align by device;
+```sql
+select s1 + s2 into root.expr.add(d1s1_d1s2), root.expr.add(d2s1_d2s2) from root.sg.d1, root.sg.d2 align by device;
+```
+```
 +--------------+--------------+------------------------+--------+
 | source device| source column|       target timeseries| written|
 +--------------+--------------+------------------------+--------+
@@ -2948,7 +2974,7 @@ This statement specifies that `root.sg_copy.d1` is an unaligned device and `root
 #### Other points to note
 
 - For general aggregation queries, the timestamp is meaningless, and the convention is to use 0 to store.
-- When the target time-series exists, the data type of the source column and the target time-series must be compatible. About data type compatibility, see the document [Data Type](../Background-knowledge/Data-Type.md#Data Type Compatibility).
+- When the target time-series exists, the data type of the source column and the target time-series must be compatible. About data type compatibility, see the document [Data Type](../Background-knowledge/Data-Type.md).
 - When the target time series does not exist, the system automatically creates it (including the database).
 - When the queried time series does not exist, or the queried sequence does not have data, the target time series will not be created automatically.
 
@@ -2958,8 +2984,10 @@ This statement specifies that `root.sg_copy.d1` is an unaligned device and `root
 
 ETL the original data and write a new time series.
 
-```shell
-IOTDB > SELECT preprocess_udf(s1, s2) INTO ::(preprocessed_s1, preprocessed_s2) FROM root.sg.* ALIGN BY DEIVCE;
+```sql
+SELECT preprocess_udf(s1, s2) INTO ::(preprocessed_s1, preprocessed_s2) FROM root.sg.* ALIGN BY DEIVCE;
+```
+```
 +--------------+-------------------+---------------------------+--------+
 | source device|      source column|          target timeseries| written|
 +--------------+-------------------+---------------------------+--------+
@@ -2977,8 +3005,10 @@ IOTDB > SELECT preprocess_udf(s1, s2) INTO ::(preprocessed_s1, preprocessed_s2) 
 
 Persistently store the query results, which acts like a materialized view.
 
-```shell
-IOTDB > SELECT count(s1), last_value(s1) INTO root.sg.agg_${2}(count_s1, last_value_s1) FROM root.sg1.d1 GROUP BY ([0, 10000), 10ms);
+```sql
+SELECT count(s1), last_value(s1) INTO root.sg.agg_${2}(count_s1, last_value_s1) FROM root.sg1.d1 GROUP BY ([0, 10000), 10ms);
+```
+```
 +--------------------------+-----------------------------+--------+
 |             source column|            target timeseries| written|
 +--------------------------+-----------------------------+--------+
@@ -2996,8 +3026,10 @@ Rewrite non-aligned time series into another aligned time series.
 
 **Note:** It is recommended to use the `LIMIT & OFFSET` clause or the `WHERE` clause (time filter) to batch data to prevent excessive data volume in a single operation.
 
-```shell
-IOTDB > SELECT s1, s2 INTO ALIGNED root.sg1.aligned_d(s1, s2) FROM root.sg1.non_aligned_d WHERE time >= 0 and time < 10000;
+```sql
+SELECT s1, s2 INTO ALIGNED root.sg1.aligned_d(s1, s2) FROM root.sg1.non_aligned_d WHERE time >= 0 and time < 10000;
+```
+```
 +--------------------------+----------------------+--------+
 |             source column|     target timeseries| written|
 +--------------------------+----------------------+--------+

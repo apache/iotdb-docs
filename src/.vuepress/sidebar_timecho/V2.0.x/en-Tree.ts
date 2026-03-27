@@ -90,7 +90,7 @@ export const enSidebar = {
             collapsible: true,
             children: [
               { text: 'AINode Deployment(V2.0.5/6)', link: 'AINode_Deployment_timecho' },
-              { text: 'AINode Deployment(V2.0.8-beta)', link: 'AINode_Deployment_Upgrade_timecho' },
+              { text: 'AINode Deployment(V2.0.8)', link: 'AINode_Deployment_Upgrade_timecho' },
             ],
           },
           {
@@ -162,7 +162,7 @@ export const enSidebar = {
           children: [
             { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis' },
             { text: 'Cluster Maintenance', link: 'Load-Balance' },
-            { text: 'Maintenance statement', link: 'Maintenance-commands' },
+            { text: 'Maintenance statement', link: 'Maintenance-commands_timecho' },
           ],
         },
       ],
@@ -173,9 +173,9 @@ export const enSidebar = {
       prefix: 'AI-capability/',
       children: [
         { text: 'AINode(V2.0.5/6)', link: 'AINode_timecho' },
-        { text: 'AINode(V2.0.8-beta)', link: 'AINode_Upgrade_timecho' },
+        { text: 'AINode(V2.0.8)', link: 'AINode_Upgrade_timecho' },
         { text: 'TimeSeries Large Model(V2.0.5/6)', link: 'TimeSeries-Large-Model' },
-        { text: 'TimeSeries Large Model(V2.0.8-beta)', link: 'TimeSeries-Large-Model_Upgrade_timecho' },
+        { text: 'TimeSeries Large Model(V2.0.8)', link: 'TimeSeries-Large-Model_Upgrade_timecho' },
       ],
     },
     {
@@ -262,6 +262,7 @@ export const enSidebar = {
           children: [
             { text: 'Apache Flink', link: 'Flink-IoTDB' },
             { text: 'Apache Spark', link: 'Spark-IoTDB' },
+            { text: 'Apache SeaTunnel', link: 'SeaTunnel_timecho' },
           ],
         },
         {
@@ -296,6 +297,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
+        { text: 'QuickStart Only SQL', link: 'QuickStart-Only-Sql_timecho' },
         { text: 'Identifiers', link: 'Syntax-Rule' },
         { text: 'Keywords', link: 'Keywords' },
         { text: 'SQL Manual', link: 'SQL-Manual_timecho' },

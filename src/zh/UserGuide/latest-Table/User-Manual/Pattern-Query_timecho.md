@@ -984,3 +984,155 @@ MATCH_RECOGNIZE (
 +---------+-----+-----------------------------+-----------------------------+------------+
 Total line number = 2
 ```
+
+## 4. 实际案例
+
+### 4.1海拔高度监测
+
+* **业务背景**
+
+石油运输车辆在油品运输过程中，海拔高度会直接影响环境气压：海拔越高，气压越低，油品挥发风险越高。为精准评估油品自然损耗情况，需通过北斗定位数据识别海拔异常事件，为损耗评估提供数据支撑。
+
+* **数据结构**
+
+监测数据表包含以下核心字段：
+
+| **ColumnName** | DataType  | Category | Comment                |
+| ---------------------- | ----------- | ---------- | ------------------------ |
+| time                 | TIMESTAMP | TIME     | 数据采集时间           |
+| device\_id           | STRING    | TAG      | 车辆设备编号（分区键） |
+| department           | STRING    | FIELD    | 所属部门               |
+| altitude             | DOUBLE    | FIELD    | 海拔高度（单位：米）   |
+
+* **业务需求**
+
+识别运输车辆的海拔异常事件：当车辆海拔高度超过 500 米，后续又降至 500 米以下时，视为一个完整的异常事件。需计算每个事件的核心指标：
+
+* 事件起始时间（海拔首次超过 500 米的时间）；
+* 事件结束时间（海拔最后一次高于 500 米的时间）；
+* 事件期间该车辆的最大海拔值。
+
+![](/img/pattern-query-altitude.png)
+
+* **实现方法**
+
+```SQL
+SELECT * 
+FROM beidou
+MATCH_RECOGNIZE ( 
+    PARTITION BY device_id  -- 按车辆设备分区
+    ORDER BY time           -- 按时间排序
+    MEASURES
+        FIRST(A.time) AS ts_s,  -- 事件起始时间
+        LAST(A.time) AS ts_e,   -- 事件结束时间
+        MAX(A.altitude) AS max_a  -- 事件最大海拔
+    PATTERN (A+)  -- 匹配连续的海拔超500米的记录
+    DEFINE
+        A AS A.altitude > 500  -- 定义A为海拔高于500米的记录
+)
+```
+
+### 4.2 安全注入操作识别
+
+* **业务背景**
+
+核电站需定期执行安全检测试验（如 PT1RPA010《用 1 RPA 601KC 进行安全注入逻辑试验》），以验证发电设备无损伤。该类试验会导致水管流量呈现特征性变化，中控系统需识别该流量模式，及时汇报异常行为，保障设备安全。
+
+* **数据结构**
+
+传感器数据表包含以下核心字段：
+
+| **ColumnName** | DataType  | Category | Comment                |
+| ---------------------- | ----------- | ---------- | ------------------------ |
+| time                 | TIMESTAMP | TIME     | 数据采集时间           |
+| pipe\_id             | STRING    | TAG      | 水管编号（分区键）     |
+| pressure             | DOUBLE    | FIELD    | 水管压力               |
+| flow\_rate           | DOUBLE    | FIELD    | 水管流量（核心监测值） |
+
+* **业务需求**
+
+识别 PT1RPA010 试验对应的流量特征模式：正常流量→持续下降→极低流量（<0.5）→持续回升→恢复正常流量。需提取该模式的核心指标：
+
+* 模式整体起始时间（初始正常流量的时间）；
+* 模式整体终止时间（恢复正常流量的时间）；
+* 极低流量阶段的起始 / 结束时间；
+* 极低流量阶段的最小流量值。
+
+![](/img/pattern-query-flow.png)
+
+* **实现方法**
+
+```SQL
+SELECT * FROM sensor MATCH_RECOGNIZE(
+    PARTITION BY pipe_id  -- 按水管编号分区
+    ORDER BY time           -- 按时间排序
+    MEASURES 
+        A.time AS start_ts,    -- 模式整体起始时间
+        E.time AS end_ts,      -- 模式整体终止时间
+        FIRST(C.time) AS low_start_ts,  -- 极低流量起始时间
+        LAST(C.time) AS low_end_ts,    -- 极低流量结束时间
+        MIN(C.flow_rate) AS min_low_flow  -- 极低流量最小值（补充原代码缺失字段名）
+    ONE ROW PER MATCH       -- 每个匹配模式仅输出1行结果
+    PATTERN(A B+? C+ D+? E) -- 匹配正常→下降→极低→回升→正常的流量模式
+    DEFINE 
+        A AS flow_rate BETWEEN 2 AND 2.5,  -- 初始正常流量
+        B AS flow_rate < PREV(B.flow_rate), -- 流量持续下降
+        C AS flow_rate < 0.5,               -- 极低流量阈值
+        D AS flow_rate > PREV(D.flow_rate), -- 流量持续回升
+        E AS flow_rate BETWEEN 2 AND 2.5    -- 恢复正常流量
+);
+```
+
+### 4.3 极端运行阵风（草帽风）识别
+
+* **业务背景**
+
+风力发电场景中，“极端运行阵风（草帽风）” 是一种短时间（约 10 秒）、波峰显著的正弦形阵风，这类阵风会对风机造成物理损伤。识别该类阵风并统计发生频率，可有效评估风机受损风险，指导设备维护。
+
+* **数据结构**
+
+风机传感器数据表核心字段：
+
+| **ColumnName** | DataType  | Category | Comment                |
+| ---------------------- | ----------- | ---------- | ------------------------ |
+| time                 | TIMESTAMP | TIME     | 风速采集时间           |
+| speed                | DOUBLE    | FIELD    | 风机处风速（核心指标） |
+
+* **业务需求**
+
+识别 “草帽风” 的特征模式：风力缓慢下降→急剧增加→急剧减少→缓慢增加至初始值（全程约 10 秒）。核心目标是统计该类阵风的发生次数，为风机风险评估提供依据。
+
+![](/img/pattern-query-speed.png)
+
+* **实现方法**
+
+```SQL
+SELECT COUNT(*)  -- 统计极端阵风发生次数
+FROM sensor
+MATCH_RECOGNIZE(
+    ORDER BY time  -- 按时间排序
+    MEASURES 
+        FIRST(B.time) AS ts_s,  -- 阵风起始时间
+        LAST(D.time) AS ts_e    -- 阵风结束时间
+    PATTERN (B+ R+? F+? D+? E)  -- 匹配草帽风的风速变化模式
+    DEFINE 
+        -- B阶段：风速缓慢下降，初始风速>9，首尾风速差<2.5
+        B AS speed <= AVG(B.speed) 
+            AND FIRST(B.speed) > 9
+            AND (FIRST(B.speed) - LAST(B.speed)) < 2.5,
+        -- R阶段：风速急剧增加（高于阶段平均风速）
+        R AS speed >= AVG(R.speed), 
+        -- F阶段：风速急剧减少，阶段最大风速>16（波峰阈值）
+        F AS speed <= AVG(F.speed) 
+            AND MAX(F.speed) > 16, 
+        -- D阶段：风速缓慢增加，首尾风速差<2.5
+        D AS speed >= AVG(D.speed) 
+            AND (LAST(D.speed) - FIRST(D.speed)) < 2.5,
+        -- E阶段：风速恢复至初始值±0.2，全程时长<11秒
+        E AS speed - FIRST(B.speed) BETWEEN -0.2 AND 0.2
+            AND time - FIRST(B.time) < 11
+);
+```
+
+
+

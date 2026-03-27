@@ -44,6 +44,7 @@ Add the following dependency to your Maven `pom.xml` file:
     </dependency>
 </dependencies>
 ```
+Note: Do not use a newer client to connect to an older server, as this may cause connection failures or unexpected errors.
 
 ## 2. Read and Write Operations
 
@@ -66,13 +67,13 @@ Add the following dependency to your Maven `pom.xml` file:
 
 ## 3. Sample Code
 
-**Note:** When using the Table Model, you must specify the `sql_dialect` parameter as `table` in the URL. Example:
+**Note:** When using the Table Mode, you must specify the `sql_dialect` parameter as `table` in the URL. Example:
 
 ```Java
 String url = "jdbc:iotdb://127.0.0.1:6667?sql_dialect=table";
 ```
 
-You can find the full example code at [GitHub Repository](https://github.com/apache/iotdb/blob/master/example/jdbc/src/main/java/org/apache/iotdb/TableModelJDBCExample.java).
+You can find the full example code at [GitHub Repository](https://github.com/apache/iotdb/blob/rc/2.0.1/example/jdbc/src/main/java/org/apache/iotdb/TableModelJDBCExample.java).
 
 Here is an excerpt of the sample code:
 
@@ -133,7 +134,7 @@ public class TableModelJDBCExample {
           "create table test1.table1(region_id STRING TAG, plant_id STRING TAG, device_id STRING TAG, model STRING ATTRIBUTE, temperature FLOAT FIELD, humidity DOUBLE FIELD) with (TTL=3600000)");
 
       statement.execute(
-          "create table table2(region_id STRING TAG, plant_id STRING TAG, color STRING ATTRIBUTE, temperature FLOAT FIELD, speed DOUBLE FIELD) with (TTL=6600000)");
+          "create table table2(region_id STRING ID, plant_id STRING ID, color STRING ATTRIBUTE, temperature FLOAT MEASUREMENT, speed DOUBLE MEASUREMENT) with (TTL=6600000)");
 
       // show tables from current database
       try (ResultSet resultSet = statement.executeQuery("SHOW TABLES")) {

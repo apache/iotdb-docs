@@ -47,6 +47,7 @@ SessionPool 是 Session 的连接池，推荐使用SessionPool编程。在多线
     </dependency>
 </dependencies>
 ```
+注意：请勿使用高版本客户端连接低版本服务。
 
 ### 2.2 创建连接池实例
 
@@ -72,7 +73,7 @@ public class IoTDBSessionPoolExample {
                         .build();
     }
 }
-```
+``` 
 
 ### 2.3 执行数据库操作
 

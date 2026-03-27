@@ -82,6 +82,7 @@ go mod tidy
 # 编译并运行程序
 go run session_example.go
 ```
+* 注意：请勿使用高版本客户端连接低版本服务。
 
 ## 2. ITableSession 接口
 ### 2.1 功能描述
@@ -217,143 +218,148 @@ func NewClusterTableSession(clusterConfig *ClusterConfig, enableRPCCompression b
 package main
 
 import (
-   "flag"
-   "github.com/apache/iotdb-client-go/client"
-   "github.com/apache/iotdb-client-go/common"
-   "log"
-   "math/rand"
-   "strconv"
-   "time"
+	"flag"
+	"log"
+	"math/rand"
+	"strconv"
+	"time"
+
+	"github.com/apache/iotdb-client-go/v2/client"
 )
 
 func main() {
-   flag.Parse()
-   config := &client.Config{
-      Host:     "127.0.0.1",
-      Port:     "6667",
-      UserName: "root",
-      Password: "TimechoDB@2021", //V2.0.6.x 之前默认密码是root 
-      Database: "test_session",
-   }
-   session, err := client.NewTableSession(config, false, 0)
-   if err != nil {
-      log.Fatal(err)
-   }
-   defer session.Close()
+	flag.Parse()
+	config := &client.Config{
+		Host:     "127.0.0.1",
+		Port:     "6667",
+		UserName: "root",
+		Password: "root",
+		Database: "test_session",
+	}
+	session, err := client.NewTableSession(config, false, 0)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer session.Close()
 
-   checkError(session.ExecuteNonQueryStatement("create database test_db"))
-   checkError(session.ExecuteNonQueryStatement("use test_db"))
-   checkError(session.ExecuteNonQueryStatement("create table t1 (id1 string tag, id2 string tag, s1 text field, s2 text field)"))
-   insertRelationalTablet(session)
-   showTables(session)
-   query(session)
+	checkError(session.ExecuteNonQueryStatement("create database test_db"))
+	checkError(session.ExecuteNonQueryStatement("use test_db"))
+	checkError(session.ExecuteNonQueryStatement("create table t1 (tag1 string tag, tag2 string tag, s1 text field, s2 text field)"))
+	insertRelationalTablet(session)
+	showTables(session)
+	query(session)
 }
 
 func getTextValueFromDataSet(dataSet *client.SessionDataSet, columnName string) string {
-   if dataSet.IsNull(columnName) {
-      return "null"
-   } else {
-      return dataSet.GetText(columnName)
-   }
+	if isNull, err := dataSet.IsNull(columnName); err != nil {
+		log.Fatal(err)
+	} else if isNull {
+		return "null"
+	}
+	v, err := dataSet.GetString(columnName)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return v
 }
 
 func insertRelationalTablet(session client.ITableSession) {
-   tablet, err := client.NewRelationalTablet("t1", []*client.MeasurementSchema{
-      {
-         Measurement: "id1",
-         DataType:    client.STRING,
-      },
-      {
-         Measurement: "id2",
-         DataType:    client.STRING,
-      },
-      {
-         Measurement: "s1",
-         DataType:    client.TEXT,
-      },
-      {
-         Measurement: "s2",
-         DataType:    client.TEXT,
-      },
-   }, []client.ColumnCategory{client.TAG, client.TAG, client.FIELD, client.FIELD}, 1024)
-   if err != nil {
-      log.Fatal("Failed to create relational tablet {}", err)
-   }
-   ts := time.Now().UTC().UnixNano() / 1000000
-   for row := 0; row < 16; row++ {
-      ts++
-      tablet.SetTimestamp(ts, row)
-      tablet.SetValueAt("id1_field_"+strconv.Itoa(row), 0, row)
-      tablet.SetValueAt("id2_field_"+strconv.Itoa(row), 1, row)
-      tablet.SetValueAt("s1_value_"+strconv.Itoa(row), 2, row)
-      tablet.SetValueAt("s2_value_"+strconv.Itoa(row), 3, row)
-      tablet.RowSize++
-   }
-   checkError(session.Insert(tablet))
+	tablet, err := client.NewRelationalTablet("t1", []*client.MeasurementSchema{
+		{
+			Measurement: "tag1",
+			DataType:    client.STRING,
+		},
+		{
+			Measurement: "tag2",
+			DataType:    client.STRING,
+		},
+		{
+			Measurement: "s1",
+			DataType:    client.TEXT,
+		},
+		{
+			Measurement: "s2",
+			DataType:    client.TEXT,
+		},
+	}, []client.ColumnCategory{client.TAG, client.TAG, client.FIELD, client.FIELD}, 1024)
+	if err != nil {
+		log.Fatal("Failed to create relational tablet {}", err)
+	}
+	ts := time.Now().UTC().UnixNano() / 1000000
+	for row := 0; row < 16; row++ {
+		ts++
+		tablet.SetTimestamp(ts, row)
+		tablet.SetValueAt("tag1_value_"+strconv.Itoa(row), 0, row)
+		tablet.SetValueAt("tag2_value_"+strconv.Itoa(row), 1, row)
+		tablet.SetValueAt("s1_value_"+strconv.Itoa(row), 2, row)
+		tablet.SetValueAt("s2_value_"+strconv.Itoa(row), 3, row)
+		tablet.RowSize++
+	}
+	checkError(session.Insert(tablet))
 
-   tablet.Reset()
+	tablet.Reset()
 
-   for row := 0; row < 16; row++ {
-      ts++
-      tablet.SetTimestamp(ts, row)
-      tablet.SetValueAt("id1_field_1", 0, row)
-      tablet.SetValueAt("id2_field_1", 1, row)
-      tablet.SetValueAt("s1_value_"+strconv.Itoa(row), 2, row)
-      tablet.SetValueAt("s2_value_"+strconv.Itoa(row), 3, row)
+	for row := 0; row < 16; row++ {
+		ts++
+		tablet.SetTimestamp(ts, row)
+		tablet.SetValueAt("tag1_value_1", 0, row)
+		tablet.SetValueAt("tag2_value_1", 1, row)
+		tablet.SetValueAt("s1_value_"+strconv.Itoa(row), 2, row)
+		tablet.SetValueAt("s2_value_"+strconv.Itoa(row), 3, row)
 
-      nullValueColumn := rand.Intn(4)
-      tablet.SetValueAt(nil, nullValueColumn, row)
-      tablet.RowSize++
-   }
-   checkError(session.Insert(tablet))
+		nullValueColumn := rand.Intn(4)
+		tablet.SetValueAt(nil, nullValueColumn, row)
+		tablet.RowSize++
+	}
+	checkError(session.Insert(tablet))
 }
 
 func showTables(session client.ITableSession) {
-   timeout := int64(2000)
-   dataSet, err := session.ExecuteQueryStatement("show tables", &timeout)
-   if err != nil {
-      log.Fatal(err)
-   }
-   for {
-      hasNext, err := dataSet.Next()
-      if err != nil {
-         log.Fatal(err)
-      }
-      if !hasNext {
-         break
-      }
-      log.Printf("tableName is", dataSet.GetText("TableName"))
-   }
+	timeout := int64(2000)
+	dataSet, err := session.ExecuteQueryStatement("show tables", &timeout)
+	defer dataSet.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	for {
+		hasNext, err := dataSet.Next()
+		if err != nil {
+			log.Fatal(err)
+		}
+		if !hasNext {
+			break
+		}
+		value, err := dataSet.GetString("TableName")
+		if err != nil {
+			log.Fatal(err)
+		}
+		log.Printf("tableName is %v", value)
+	}
 }
 
 func query(session client.ITableSession) {
-   timeout := int64(2000)
-   dataSet, err := session.ExecuteQueryStatement("select * from t1", &timeout)
-   if err != nil {
-      log.Fatal(err)
-   }
-   for {
-      hasNext, err := dataSet.Next()
-      if err != nil {
-         log.Fatal(err)
-      }
-      if !hasNext {
-         break
-      }
-      log.Printf("%v %v %v %v", getTextValueFromDataSet(dataSet, "id1"), getTextValueFromDataSet(dataSet, "id2"), getTextValueFromDataSet(dataSet, "s1"), getTextValueFromDataSet(dataSet, "s2"))
-   }
+	timeout := int64(2000)
+	dataSet, err := session.ExecuteQueryStatement("select * from t1", &timeout)
+	defer dataSet.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	for {
+		hasNext, err := dataSet.Next()
+		if err != nil {
+			log.Fatal(err)
+		}
+		if !hasNext {
+			break
+		}
+		log.Printf("%v %v %v %v", getTextValueFromDataSet(dataSet, "tag1"), getTextValueFromDataSet(dataSet, "tag2"), getTextValueFromDataSet(dataSet, "s1"), getTextValueFromDataSet(dataSet, "s2"))
+	}
 }
 
-func checkError(status *common.TSStatus, err error) {
-   if err != nil {
-      log.Fatal(err)
-   }
-
-   if status != nil {
-      if err = client.VerifySuccess(status); err != nil {
-         log.Println(err)
-      }
-   }
+func checkError(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 ```
 
@@ -436,158 +442,157 @@ func NewTableSessionPool(conf *PoolConfig, maxSize, connectionTimeoutInMs, waitT
 package main
 
 import (
-   "github.com/apache/iotdb-client-go/client"
-   "github.com/apache/iotdb-client-go/common"
-   "log"
-   "strconv"
-   "sync"
-   "sync/atomic"
-   "time"
+	"log"
+	"strconv"
+	"sync"
+	"sync/atomic"
+	"time"
+
+	"github.com/apache/iotdb-client-go/v2/client"
 )
 
 func main() {
-   sessionPoolWithSpecificDatabaseExample()
-   sessionPoolWithoutSpecificDatabaseExample()
-   putBackToSessionPoolExample()
+	sessionPoolWithSpecificDatabaseExample()
+	sessionPoolWithoutSpecificDatabaseExample()
+	putBackToSessionPoolExample()
 }
 
 func putBackToSessionPoolExample() {
-   // should create database test_db before executing
-   config := &client.PoolConfig{
-      Host:     "127.0.0.1",
-      Port:     "6667",
-      UserName: "root",
-      Password: "TimechoDB@2021", //V2.0.6.x 之前默认密码是root 
-      Database: "test_db",
-   }
-   sessionPool := client.NewTableSessionPool(config, 3, 60000, 4000, false)
-   defer sessionPool.Close()
+	// should create database test_db before executing
+	config := &client.PoolConfig{
+		Host:     "127.0.0.1",
+		Port:     "6667",
+		UserName: "root",
+		Password: "root",
+		Database: "test_db",
+	}
+	sessionPool := client.NewTableSessionPool(config, 3, 60000, 4000, false)
+	defer sessionPool.Close()
 
-   num := 4
-   successGetSessionNum := int32(0)
-   var wg sync.WaitGroup
-   wg.Add(num)
-   for i := 0; i < num; i++ {
-      dbName := "db" + strconv.Itoa(i)
-      go func() {
-         defer wg.Done()
-         session, err := sessionPool.GetSession()
-         if err != nil {
-            log.Println("Failed to create database "+dbName+"because ", err)
-            return
-         }
-         atomic.AddInt32(&successGetSessionNum, 1)
-         defer func() {
-            time.Sleep(6 * time.Second)
-            // put back to session pool
-            session.Close()
-         }()
-         checkError(session.ExecuteNonQueryStatement("create database " + dbName))
-         checkError(session.ExecuteNonQueryStatement("use " + dbName))
-         checkError(session.ExecuteNonQueryStatement("create table table_of_" + dbName + " (id1 string tag, id2 string tag, s1 text field, s2 text field)"))
-      }()
-   }
-   wg.Wait()
-   log.Println("success num is", successGetSessionNum)
+	num := 4
+	successGetSessionNum := int32(0)
+	var wg sync.WaitGroup
+	wg.Add(num)
+	for i := 0; i < num; i++ {
+		dbName := "db" + strconv.Itoa(i)
+		go func() {
+			defer wg.Done()
+			session, err := sessionPool.GetSession()
+			if err != nil {
+				log.Println("Failed to create database "+dbName+"because ", err)
+				return
+			}
+			atomic.AddInt32(&successGetSessionNum, 1)
+			defer func() {
+				time.Sleep(6 * time.Second)
+				// put back to session pool
+				session.Close()
+			}()
+			checkError(session.ExecuteNonQueryStatement("create database " + dbName))
+			checkError(session.ExecuteNonQueryStatement("use " + dbName))
+			checkError(session.ExecuteNonQueryStatement("create table table_of_" + dbName + " (tag1 string tag, tag2 string tag, s1 text field, s2 text field)"))
+		}()
+	}
+	wg.Wait()
+	log.Println("success num is", successGetSessionNum)
 
-   log.Println("All session's database have been reset.")
-   // the using database will automatically reset to session pool's database after the session closed
-   wg.Add(5)
-   for i := 0; i < 5; i++ {
-      go func() {
-         defer wg.Done()
-         session, err := sessionPool.GetSession()
-         if err != nil {
-            log.Println("Failed to get session because ", err)
-         }
-         defer session.Close()
-         timeout := int64(3000)
-         dataSet, err := session.ExecuteQueryStatement("show tables", &timeout)
-         for {
-            hasNext, err := dataSet.Next()
-            if err != nil {
-               log.Fatal(err)
-            }
-            if !hasNext {
-               break
-            }
-            log.Println("table is", dataSet.GetText("TableName"))
-         }
-      }()
-   }
-   wg.Wait()
+	log.Println("All session's database have been reset.")
+	// the using database will automatically reset to session pool's database after the session closed
+	wg.Add(5)
+	for i := 0; i < 5; i++ {
+		go func() {
+			defer wg.Done()
+			session, err := sessionPool.GetSession()
+			if err != nil {
+				log.Println("Failed to get session because ", err)
+			}
+			defer session.Close()
+			timeout := int64(3000)
+			dataSet, err := session.ExecuteQueryStatement("show tables", &timeout)
+			for {
+				hasNext, err := dataSet.Next()
+				if err != nil {
+					log.Fatal(err)
+				}
+				if !hasNext {
+					break
+				}
+				value, err := dataSet.GetString("TableName")
+				if err != nil {
+					log.Fatal(err)
+				}
+				log.Println("table is", value)
+			}
+			dataSet.Close()
+		}()
+	}
+	wg.Wait()
 }
 
 func sessionPoolWithSpecificDatabaseExample() {
-   // should create database test_db before executing
-   config := &client.PoolConfig{
-      Host:     "127.0.0.1",
-      Port:     "6667",
-      UserName: "root",
-      Password: "TimechoDB@2021", //V2.0.6.x 之前默认密码是root 
-      Database: "test_db",
-   }
-   sessionPool := client.NewTableSessionPool(config, 3, 60000, 8000, false)
-   defer sessionPool.Close()
-   num := 10
-   var wg sync.WaitGroup
-   wg.Add(num)
-   for i := 0; i < num; i++ {
-      tableName := "t" + strconv.Itoa(i)
-      go func() {
-         defer wg.Done()
-         session, err := sessionPool.GetSession()
-         if err != nil {
-            log.Println("Failed to create table "+tableName+"because ", err)
-            return
-         }
-         defer session.Close()
-         checkError(session.ExecuteNonQueryStatement("create table " + tableName + " (id1 string tag, id2 string tag, s1 text field, s2 text field)"))
-      }()
-   }
-   wg.Wait()
+	// should create database test_db before executing
+	config := &client.PoolConfig{
+		Host:     "127.0.0.1",
+		Port:     "6667",
+		UserName: "root",
+		Password: "root",
+		Database: "test_db",
+	}
+	sessionPool := client.NewTableSessionPool(config, 3, 60000, 8000, false)
+	defer sessionPool.Close()
+	num := 10
+	var wg sync.WaitGroup
+	wg.Add(num)
+	for i := 0; i < num; i++ {
+		tableName := "t" + strconv.Itoa(i)
+		go func() {
+			defer wg.Done()
+			session, err := sessionPool.GetSession()
+			if err != nil {
+				log.Println("Failed to create table "+tableName+"because ", err)
+				return
+			}
+			defer session.Close()
+			checkError(session.ExecuteNonQueryStatement("create table " + tableName + " (tag1 string tag, tag2 string tag, s1 text field, s2 text field)"))
+		}()
+	}
+	wg.Wait()
 }
 
 func sessionPoolWithoutSpecificDatabaseExample() {
-   config := &client.PoolConfig{
-      Host:     "127.0.0.1",
-      Port:     "6667",
-      UserName: "root",
-      Password: "TimechoDB@2021", //V2.0.6.x 之前默认密码是root 
-   }
-   sessionPool := client.NewTableSessionPool(config, 3, 60000, 8000, false)
-   defer sessionPool.Close()
-   num := 10
-   var wg sync.WaitGroup
-   wg.Add(num)
-   for i := 0; i < num; i++ {
-      dbName := "db" + strconv.Itoa(i)
-      go func() {
-         defer wg.Done()
-         session, err := sessionPool.GetSession()
-         if err != nil {
-            log.Println("Failed to create database ", dbName, err)
-            return
-         }
-         defer session.Close()
-         checkError(session.ExecuteNonQueryStatement("create database " + dbName))
-         checkError(session.ExecuteNonQueryStatement("use " + dbName))
-         checkError(session.ExecuteNonQueryStatement("create table t1 (id1 string tag, id2 string tag, s1 text field, s2 text field)"))
-      }()
-   }
-   wg.Wait()
+	config := &client.PoolConfig{
+		Host:     "127.0.0.1",
+		Port:     "6667",
+		UserName: "root",
+		Password: "root",
+	}
+	sessionPool := client.NewTableSessionPool(config, 3, 60000, 8000, false)
+	defer sessionPool.Close()
+	num := 10
+	var wg sync.WaitGroup
+	wg.Add(num)
+	for i := 0; i < num; i++ {
+		dbName := "db" + strconv.Itoa(i)
+		go func() {
+			defer wg.Done()
+			session, err := sessionPool.GetSession()
+			if err != nil {
+				log.Println("Failed to create database ", dbName, err)
+				return
+			}
+			defer session.Close()
+			checkError(session.ExecuteNonQueryStatement("create database " + dbName))
+			checkError(session.ExecuteNonQueryStatement("use " + dbName))
+			checkError(session.ExecuteNonQueryStatement("create table t1 (tag1 string tag, tag2 string tag, s1 text field, s2 text field)"))
+		}()
+	}
+	wg.Wait()
 }
 
-func checkError(status *common.TSStatus, err error) {
-   if err != nil {
-      log.Fatal(err)
-   }
-
-   if status != nil {
-      if err = client.VerifySuccess(status); err != nil {
-         log.Println(err)
-      }
-   }
+func checkError(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 ```
 

@@ -73,12 +73,12 @@ dmidecode 安装后，查找安装路径：`whereis dmidecode`，这里假设结
 
 ### 2.1 load 镜像文件
 
-比如这里获取的IoTDB的容器镜像文件名是：`iotdb-enterprise-1.3.2.3-standalone-docker.tar.gz`
+比如这里获取的IoTDB的容器镜像文件名是：`iotdb-enterprise-2.0.x.x-standalone-docker.tar.gz`
 
 load镜像：
 
 ```Bash
-docker load -i iotdb-enterprise-1.3.2.3-standalone-docker.tar.gz
+docker load -i iotdb-enterprise-2.0.x.x-standalone-docker.tar.gz
 ```
 
 查看镜像：
@@ -278,12 +278,12 @@ echo "192.168.1.5  iotdb-3"  >> /etc/hosts
 
 ### 3.2 load镜像文件
 
-比如获取的IoTDB的容器镜像文件名是：`iotdb-enterprise-1.3.2.3-standalone-docker.tar.gz`
+比如获取的IoTDB的容器镜像文件名是：`iotdb-enterprise-2.0.x.x-standalone-docker.tar.gz`
 
 在3台服务器上分别执行load镜像命令：
 
 ```Bash
-docker load -i iotdb-enterprise-1.3.2.3-standalone-docker.tar.gz
+docker load -i iotdb-enterprise-2.0.x.x-standalone-docker.tar.gz
 ```
 
 查看镜像：
@@ -316,7 +316,7 @@ docker-iotdb：
 version: "3"
 services:
   iotdb-confignode:
-    image: iotdb-enterprise:1.3.2.3-standalone #使用的镜像
+    image: iotdb-enterprise:2.0.x.x-standalone #使用的镜像
     hostname: iotdb-1|iotdb-2|iotdb-3 #根据实际情况选择，三选一
     container_name: iotdb-confignode
     command: ["bash", "-c", "entrypoint.sh confignode"]
@@ -352,7 +352,7 @@ services:
 version: "3"
 services:
   iotdb-datanode:
-    image: iotdb-enterprise:1.3.2.3-standalone #使用的镜像
+    image: iotdb-enterprise:2.0.x.x-standalone #使用的镜像
     hostname: iotdb-1|iotdb-2|iotdb-3 #根据实际情况选择，三选一
     container_name: iotdb-datanode
     command: ["bash", "-c", "entrypoint.sh datanode"]
