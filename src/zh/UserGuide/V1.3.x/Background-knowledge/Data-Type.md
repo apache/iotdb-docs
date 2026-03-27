@@ -30,7 +30,7 @@ IoTDB 支持以下十种数据类型：
 * INT64（长整型）
 * FLOAT（单精度浮点数）
 * DOUBLE（双精度浮点数）
-* TEXT（长字符串）
+* TEXT（长字符串，不推荐使用）
 * STRING（字符串）
 * BLOB（大二进制对象）
 * TIMESTAMP（时间戳）

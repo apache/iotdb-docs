@@ -186,6 +186,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: 'Apache Spark', link: 'Spark-IoTDB' },
+            { text: 'Apache SeaTunnel', link: 'SeaTunnel_apache' },
           ],
         },
         {
@@ -212,6 +213,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
+        { text: '快速 SQL 体验', link: 'QuickStart-Only-Sql_apache' },
         { text: '元数据操作', link: 'SQL-Metadata-Operations_apache' },
         { text: '数据增删', link: 'SQL-Data-Addition-Deletion_apache' },
         {

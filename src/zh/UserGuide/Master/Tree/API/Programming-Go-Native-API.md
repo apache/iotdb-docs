@@ -87,6 +87,8 @@ go mod tidy
 go run session_example.go
 ```
 
+* 注意：请勿使用高版本客户端连接低版本服务。
+
 ## 2. 核心步骤
 
 使用 Go 原生接口操作 IoTDB 的三个核心步骤如下：

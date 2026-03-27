@@ -44,10 +44,12 @@ mvn clean install -pl iotdb-client/jdbc -am -DskipTests
     <dependency>
       <groupId>org.apache.iotdb</groupId>
       <artifactId>iotdb-jdbc</artifactId>
-      <version>1.3.1</version>
+        <!-- 版本号与数据库版本号相同 -->
+      <version>${project.version}</version>
     </dependency>
 </dependencies>
 ```
+注意：请勿使用高版本客户端连接低版本服务。
 
 ### 2.2 示例代码
 

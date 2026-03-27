@@ -30,7 +30,7 @@ IoTDB supports the following ten data types:
 - **INT64** (64-bit integer)
 - **FLOAT** (Single-precision floating-point number)
 - **DOUBLE** (Double-precision floating-point number)
-- **TEXT** (Text data, suitable for long strings)
+- **TEXT** (Text data, suitable for long strings, Not recommended)
 - **STRING** (String data with additional statistical information for optimized queries)
 - **BLOB** (Large binary object)
 - **OBJECT** (Large Binary Object)

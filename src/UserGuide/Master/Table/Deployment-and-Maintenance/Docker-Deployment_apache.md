@@ -62,10 +62,10 @@ This section demonstrates how to deploy a standalone Docker version of 1C1D.
 
 The Docker image of Apache IoTDB has been uploaded to https://hub.docker.com/r/apache/iotdb.
 
-Taking obtaining version 1.3.2 as an example, pull the image command:
+Taking obtaining version 2.0.x as an example, pull the image command:
 
 ```bash
-docker pull apache/iotdb:1.3.2-standalone
+docker pull apache/iotdb:2.0.x-standalone
 ```
 
 View image:
@@ -241,10 +241,10 @@ echo "192.168.1.5  iotdb-3"  >> /etc/hosts
 
 The Docker image of Apache IoTDB has been uploaded tohttps://hub.docker.com/r/apache/iotdb。
 
-Pull IoTDB images from three servers separately, taking version 1.3.2 as an example. The pull image command is:
+Pull IoTDB images from three servers separately, taking version 2.0.x as an example. The pull image command is:
 
 ```SQL
-docker pull apache/iotdb:1.3.2-standalone
+docker pull apache/iotdb:2.0.x-standalone
 ```
 
 View image:
@@ -275,7 +275,7 @@ On each server, create two YML files: `confignode.yml` and `datanode.yml`. Examp
 version: "3"
 services:
   iotdb-confignode:
-    image: iotdb-enterprise:1.3.2.3-standalone #The image used
+    image: iotdb-enterprise:2.0.x-standalone #The image used
     hostname: iotdb-1|iotdb-2|iotdb-3 #Choose from three options based on the actual situation
     container_name: iotdb-confignode
     command: ["bash", "-c", "entrypoint.sh confignode"]
@@ -310,7 +310,7 @@ services:
 version: "3"
 services:
   iotdb-datanode:
-    image: iotdb-enterprise:1.3.2.3-standalone #The image used
+    image: iotdb-enterprise:2.0.x-standalone #The image used
     hostname: iotdb-1|iotdb-2|iotdb-3 #Choose from three options based on the actual situation
     container_name: iotdb-datanode
     command: ["bash", "-c", "entrypoint.sh datanode"]
