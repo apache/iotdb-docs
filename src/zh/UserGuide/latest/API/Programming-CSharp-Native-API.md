@@ -43,6 +43,7 @@ dotnet add package Apache.IoTDB
 # 安装0.12.1.2版本的客户端
 dotnet add package Apache.IoTDB --version 0.12.1.2
 ```
+注意：请勿使用高版本客户端连接低版本服务。
 
 ## 3. 快速入门
 

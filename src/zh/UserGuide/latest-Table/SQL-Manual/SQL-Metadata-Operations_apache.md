@@ -39,7 +39,7 @@ CREATE DATABASE (IF NOT EXISTS)? <DATABASE_NAME> (WITH properties)?
 CREATE DATABASE database1;
 CREATE DATABASE IF NOT EXISTS database1;
 
--- 创建一个名为 database1 的数据库，并将数据库的TTL时间设置为1年。
+-- 创建一个名为 database1 的数据库，并将数据库的TTL时间设置为1年;
 CREATE DATABASE IF NOT EXISTS database1 with(TTL=31536000000);
 ```
 
@@ -54,7 +54,7 @@ USE <DATABASE_NAME>
 **示例:**
 
 ```SQL
-USE database1
+USE database1;
 ```
 
 ### 1.3 查看当前数据库
@@ -62,22 +62,26 @@ USE database1
 **语法：**
 
 ```SQL
-SHOW CURRENT_DATABASE
+SHOW CURRENT_DATABASE;
 ```
 
 **示例：**
 
 ```SQL
-IoTDB> SHOW CURRENT_DATABASE;
+SHOW CURRENT_DATABASE;
+```
+```shell
 +---------------+
 |CurrentDatabase|
 +---------------+
 |           null|
 +---------------+
-
-IoTDB> USE database1;
-
-IoTDB> SHOW CURRENT_DATABASE;
+```
+```sql
+USE database1;
+SHOW CURRENT_DATABASE;
+```
+```shell
 +---------------+
 |CurrentDatabase|
 +---------------+
@@ -98,15 +102,20 @@ SHOW DATABASES (DETAILS)?
 **示例:**
 
 ```SQL
-IoTDB> show databases
+show databases;
+```
+```shell
 +------------------+-------+-----------------------+---------------------+---------------------+
 |          Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|
 +------------------+-------+-----------------------+---------------------+---------------------+
 |         database1|    INF|                      1|                    1|            604800000|
 |information_schema|    INF|                   null|                 null|                 null|
 +------------------+-------+-----------------------+---------------------+---------------------+
-
-IoTDB> show databases details
+```
+```sql
+show databases details;
+```
+```shell
 +------------------+-------+-----------------------+---------------------+---------------------+--------------------+------------------+
 |          Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|SchemaRegionGroupNum|DataRegionGroupNum|
 +------------------+-------+-----------------------+---------------------+---------------------+--------------------+------------------+
@@ -120,7 +129,7 @@ IoTDB> show databases details
 **语法：**
 
 ```SQL
-ALTER DATABASE (IF EXISTS)? database=identifier SET PROPERTIES propertyAssignments
+ALTER DATABASE (IF EXISTS)? database=identifier SET PROPERTIES propertyAssignments;
 ```
 
 **示例:**
@@ -134,13 +143,13 @@ ALTER DATABASE database1 SET PROPERTIES TTL=31536000000;
 **语法：**
 
 ```SQL
-DROP DATABASE (IF EXISTS)? <DATABASE_NAME>
+DROP DATABASE (IF EXISTS)? <DATABASE_NAME>;
 ```
 
 **示例:**
 
 ```SQL
-DROP DATABASE IF EXISTS database1
+DROP DATABASE IF EXISTS database1;
 ```
 
 ## 2. 表管理
@@ -223,14 +232,19 @@ SHOW TABLES (DETAILS)? ((FROM | IN) database_name)?
 **示例:**
 
 ```SQL
-IoTDB> show tables from database1
+show tables from database1;
+```
+```shell
 +---------+---------------+
 |TableName|        TTL(ms)|
 +---------+---------------+
 |   table1|    31536000000|
 +---------+---------------+
-
-IoTDB> show tables details from database1
+```
+```sql
+show tables details from database1;
+```
+```shell
 +---------------+-----------+------+-------+
 |      TableName|    TTL(ms)|Status|Comment|
 +---------------+-----------+------+-------+
@@ -249,7 +263,9 @@ IoTDB> show tables details from database1
 **示例:**
 
 ```SQL
-IoTDB> desc table1
+desc table1;
+```
+```shell
 +------------+---------+---------+
 |  ColumnName| DataType| Category|
 +------------+---------+---------+
@@ -264,8 +280,11 @@ IoTDB> desc table1
 |      status|  BOOLEAN|    FIELD|
 |arrival_time|TIMESTAMP|    FIELD|
 +------------+---------+---------+
-
-IoTDB> desc table1 details
+```
+```sql
+desc table1 details;
+```
+```shell
 +------------+---------+---------+------+------------+
 |  ColumnName| DataType| Category|Status|     Comment|
 +------------+---------+---------+------+------------+
@@ -293,7 +312,9 @@ SHOW CREATE TABLE <TABLE_NAME>
 **示例:**
 
 ```SQL
-IoTDB:database1> show create table table1
+show create table table1;
+```
+```shell
 +------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Table|                                                                                                                                                                                                                                                                     Create Table|
 +------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -308,22 +329,25 @@ Total line number = 1
 **语法：**
 
 ```SQL
-ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? column=columnDefinition COMMENT 'column_comment'               #addColumn
-| ALTER TABLE (IF EXISTS)? tableName=qualifiedName DROP COLUMN (IF EXISTS)? column=identifier                    #dropColumn
-// set TTL can use this
-| ALTER TABLE (IF EXISTS)? tableName=qualifiedName SET PROPERTIES propertyAssignments                #setTableProperties
-| COMMENT ON TABLE tableName=qualifiedName IS 'table_comment'
-| COMMENT ON COLUMN tableName.column IS 'column_comment'
+#addColumn;
+ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? column=columnDefinition COMMENT 'column_comment';               
+#dropColumn;
+ALTER TABLE (IF EXISTS)? tableName=qualifiedName DROP COLUMN (IF EXISTS)? column=identifier;     
+#setTableProperties;               
+// set TTL can use this;
+| ALTER TABLE (IF EXISTS)? tableName=qualifiedName SET PROPERTIES propertyAssignments;                
+| COMMENT ON TABLE tableName=qualifiedName IS 'table_comment';
+| COMMENT ON COLUMN tableName.column IS 'column_comment';
 ```
 
 **示例:**
 
 ```SQL
-ALTER TABLE table1 ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a'
-ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b'
-ALTER TABLE table1 set properties TTL=3600
-COMMENT ON TABLE table1 IS 'table1'
-COMMENT ON COLUMN table1.a IS null
+ALTER TABLE table1 ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a';
+ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b';
+ALTER TABLE table1 set properties TTL=3600;
+COMMENT ON TABLE table1 IS 'table1';
+COMMENT ON COLUMN table1.a IS null;
 ```
 
 ### 2.6 删除表
@@ -331,14 +355,14 @@ COMMENT ON COLUMN table1.a IS null
 **语法：**
 
 ```SQL
-DROP TABLE (IF EXISTS)? <TABLE_NAME>
+DROP TABLE (IF EXISTS)? <TABLE_NAME>;
 ```
 
 **示例:**
 
 ```SQL
-DROP TABLE table1
-DROP TABLE database1.table1
+DROP TABLE table1;
+DROP TABLE database1.table1;
 ```
 
 

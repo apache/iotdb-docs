@@ -25,7 +25,7 @@
 - Bison 2.7+
 - Boost 1.56+
 - OpenSSL 1.0+
-- GCC 5.5.0+
+- GCC 4.8.5+
 
 ## Installation
 
@@ -119,11 +119,17 @@ Run Maven to compile in the IoTDB root directory:
   ./mvnw clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp -Diotdb-tools-thrift.version=0.14.1.1-old-glibc-SNAPSHOT
   ```
 
-- Linux with glibc version >= 2.17
+- Linux with glibc version >= 2.23
 
   ```shell
   ./mvnw clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp -Diotdb-tools-thrift.version=0.14.1.1-glibc223-SNAPSHOT
   ```
+
+- Linux with glibc version >= 2.17
+
+    ```shell
+    ./mvnw clean package -pl example/client-cpp-example -am -DskipTests -P with-cpp -Diotdb-tools-thrift.version=0.14.1.1-gcc4-SNAPSHOT
+    ```
 
 - Windows using Visual Studio 2022
 
@@ -423,6 +429,20 @@ void deleteData(const std::vector<std::string> &paths, int64_t startTime, int64_
 ```cpp
 unique_ptr<SessionDataSet> executeQueryStatement(const std::string &sql);
 ```
+
+The `SessionDataSet` class primarily provides the following methods:
+
+| Method Name | Description | Parameters | Return Type |
+| :--- | :--- | :--- | :--- |
+| **hasNext()** | Checks whether there are more rows of data in the result set. | - | `bool` |
+| **next()** | Retrieves the next row of data from the result set, encapsulated as a `RowRecord` object. | - | `std::shared_ptr<RowRecord>` |
+| **getIterator()** | Obtains a `DataIterator` iterator for traversing the data in a more flexible manner (e.g., column-by-column). | - | `SessionDataSet::DataIterator` |
+| **getColumnNames()** | Retrieves a list of names for all columns in the result set. | - | `const std::vector<std::string>&` |
+| **getColumnTypeList()** | Retrieves a list of data types for all columns in the result set. | - | `const std::vector<tsfile::type::TSDataType>&` |
+| **getFetchSize()** | Gets the current number of rows fetched in each batch from the server. | - | `int` |
+| **setFetchSize(int fetchSize)** | Sets the number of rows to be fetched in each batch from the server. | `fetchSize`: The number of rows to fetch per batch | `void` |
+| **closeOperationHandle(bool forceClose)** | Closes the query handle on the server side and releases resources. It is recommended to call this method after finishing using the dataset. | `forceClose`: Whether to force close (defaults to `false`) | `void` |
+
 
 - Execute non query statement
 

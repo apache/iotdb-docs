@@ -96,10 +96,11 @@ Clone the source code from git:
 git clone https://github.com/apache/iotdb.git
 ```
 
-The default main branch is the master branch. If you want to use a specific release version, switch to that branch (e.g., version 1.3.2):
+The default main branch is the master branch. If you want to use a specific release version, switch to that branch (e.g., version 2.0.6):
 ```shell
-git checkout rc/1.3.2
+git checkout rc/2.0.6
 ```
+Note: Do not use a newer client to connect to an older server, as this may cause connection failures or unexpected errors.
 
 Run Maven to compile in the IoTDB root directory:
 
