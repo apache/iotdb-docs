@@ -45,4 +45,4 @@ After unpacking the installation packageï¼ˆ`iotdb-enterprise-{version}-bin.zip`ï
 | README.md        | File     | User manual (English version).                               |
 | RELEASE_NOTES.md | File     | Release notes.                                               |
 
-Note: As of version V2.0.8, the TimechoDB installation package does not include the MQTT service and REST service JAR files by default. If you need to use them, please contact the Timecho team to obtain them.
+Note: As of version V2.0.8.2, the TimechoDB installation package does not include the MQTT service and REST service JAR files by default. If you need to use them, please contact the Timecho team to obtain them.

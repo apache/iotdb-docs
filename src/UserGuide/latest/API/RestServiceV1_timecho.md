@@ -22,7 +22,7 @@
 # REST API V1(Not Recommend)  
 IoTDB's RESTful services can be used for query, write, and management operations, using the OpenAPI standard to define interfaces and generate frameworks.
 
-Note: As of version V2.0.8, the TimechoDB installation package does not include the REST service JAR file by default. Please contact the Timecho team to obtain the corresponding JAR file before using this service, and place it in the `timechodb_home/lib` or `timechodb_home/ext/external_service` directory.
+Note: As of version V2.0.8.2, the TimechoDB installation package does not include the REST service JAR file by default. Please contact the Timecho team to obtain the corresponding JAR file before using this service, and place it in the `timechodb_home/lib` or `timechodb_home/ext/external_service` directory.
 
 ## 1. Enable RESTful Services
 

@@ -28,7 +28,7 @@ IoTDB provides deep integration with the MQTT protocol, fully compliant with MQT
 
 ![](/img/mqtt-table-en-1.png)
 
-Note: As of version V2.0.8, the TimechoDB installation package does not include the MQTT service JAR file by default. Please contact the Timecho team to obtain the JAR file before using this service, and place it in the `timechodb_home/lib` or `timechodb_home/ext/external_service` directory.
+Note: As of version V2.0.8.2, the TimechoDB installation package does not include the MQTT service JAR file by default. Please contact the Timecho team to obtain the JAR file before using this service, and place it in the `timechodb_home/lib` or `timechodb_home/ext/external_service` directory.
 
 
 ## 2. Configuration
