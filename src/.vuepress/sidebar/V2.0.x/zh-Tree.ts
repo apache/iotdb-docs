@@ -76,9 +76,8 @@ export const zhSidebar = {
             text: 'AI 部署',
             collapsible: true,
             children: [
-                { text: 'AINode 部署', link: 'AINode_Deployment_apache' },/*
               { text: 'AINode 部署(V2.0.5/6)', link: 'AINode_Deployment_apache' },
-              { text: 'AINode 部署(V2.0.8)', link: 'AINode_Deployment_Upgrade_apache' }, */
+              { text: 'AINode 部署(V2.0.8-beta)', link: 'AINode_Deployment_Upgrade_apache' },
             ],
           },
       ],
@@ -130,7 +129,7 @@ export const zhSidebar = {
           children: [
             { text: '查询性能分析', link: 'Query-Performance-Analysis' },
             { text: '集群维护', link: 'Load-Balance' },
-            { text: '运维语句', link: 'Maintenance-statement' },
+            { text: '运维语句', link: 'Maintenance-statement_apache' },
           ],
         },
       ],
@@ -140,8 +139,10 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'AI-capability/',
       children: [
-        { text: 'AINode', link: 'AINode_apache' },
-        { text: '时序大模型', link: 'TimeSeries-Large-Model' },
+        { text: 'AINode(V2.0.5/6)', link: 'AINode_apache' },
+        { text: 'AINode(V2.0.8-beta)', link: 'AINode_Upgrade_apache' },
+        { text: '时序大模型(V2.0.5/6)', link: 'TimeSeries-Large-Model' },
+        { text: '时序大模型(V2.0.8-beta)', link: 'TimeSeries-Large-Model_Upgrade_apache' },
       ],
     },
     {
@@ -225,6 +226,7 @@ export const zhSidebar = {
           children: [
             { text: 'Apache Flink', link: 'Flink-IoTDB' },
             { text: 'Apache Spark', link: 'Spark-IoTDB' },
+            { text: 'Apache SeaTunnel', link: 'SeaTunnel_apache' },
           ],
         },
         {
@@ -258,6 +260,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
+        { text: '快速 SQL 体验', link: 'QuickStart-Only-Sql_apache' },
         { text: '标识符', link: 'Syntax-Rule' },
         { text: '关键字', link: 'Keywords' },
         { text: 'SQL手册', link: 'SQL-Manual_apache' },

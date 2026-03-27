@@ -217,7 +217,7 @@ comparisonOperator
 
 A semi join is a special join operation whose purpose is to determine whether rows in one table exist in another table. The result set returned by a semi join contains rows from the first table that meet the join condition, but does not include the actual data from the second table. Corresponding to semi join is anti-semi join, which is used to identify rows that have no matches between two tables. The result set returned by an anti-semi join contains rows from the first table that satisfy the join condition, but excludes rows from the second table that match those rows.
 
-In the IoTDB table model, the `SEMI JOIN` syntax is not provided; instead, IN subqueries or EXISTS subqueries are supported to implement semi joins. Similarly, the `ANTI SEMI JOIN` syntax is not provided, and NOT IN or NOT EXISTS subqueries are supported to implement anti-semi joins. For detailed explanations of subqueries, refer to [Nested Queries](../SQL-Manual/Nested-Queries.md).
+In the IoTDB table mode, the `SEMI JOIN` syntax is not provided; instead, IN subqueries or EXISTS subqueries are supported to implement semi joins. Similarly, the `ANTI SEMI JOIN` syntax is not provided, and NOT IN or NOT EXISTS subqueries are supported to implement anti-semi joins. For detailed explanations of subqueries, refer to [Nested Queries](../SQL-Manual/Nested-Queries.md).
 
 * Examples of semi join syntax are as follows:
 

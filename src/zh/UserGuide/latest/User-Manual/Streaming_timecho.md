@@ -133,8 +133,7 @@ public interface TsFileInsertionEvent extends Event {
 
 #### 数据抽取插件接口
 
-数据抽取是流处理数据从数据抽取到数据发送三阶段的第一阶段。数据抽取插件（PipeSource）是流处理引擎和存储引擎的桥梁，它通过监听存储引擎的行为，
-捕获各种数据写入事件。
+数据抽取是流处理数据从数据抽取到数据发送三阶段的第一阶段。数据抽取插件（PipeSource）是流处理引擎和存储引擎的桥梁，它通过监听存储引擎的行为，捕获各种数据写入事件。
 
 ```java
 /**
@@ -214,8 +213,7 @@ public interface PipeSource extends PipePlugin {
 
 #### 数据处理插件接口
 
-数据处理是流处理数据从数据抽取到数据发送三阶段的第二阶段。数据处理插件（PipeProcessor）主要用于过滤和转换由数据抽取插件（PipeSource）捕获的
-各种事件。
+数据处理是流处理数据从数据抽取到数据发送三阶段的第二阶段。数据处理插件（PipeProcessor）主要用于过滤和转换由数据抽取插件（PipeSource）捕获的各种事件。
 
 ```java
 /**
@@ -315,8 +313,7 @@ public interface PipeProcessor extends PipePlugin {
 
 #### 数据发送插件接口
 
-数据发送是流处理数据从数据抽取到数据发送三阶段的第三阶段。数据发送插件（PipeSink）主要用于发送经由数据处理插件（PipeProcessor）处理过后的
-各种事件，它作为流处理框架的网络实现层，接口上应允许接入多种实时通信协议和多种连接器。
+数据发送是流处理数据从数据抽取到数据发送三阶段的第三阶段。数据发送插件（PipeSink）主要用于发送经由数据处理插件（PipeProcessor）处理过后的各种事件，它作为流处理框架的网络实现层，接口上应允许接入多种实时通信协议和多种连接器。
 
 ```java
 /**
@@ -445,8 +442,7 @@ public interface PipeSink extends PipePlugin {
 
 ### 2.1 加载插件语句
 
-在 IoTDB 中，若要在系统中动态载入一个用户自定义插件，则首先需要基于 PipeSource、 PipeProcessor 或者 PipeSink 实现一个具体的插件类，
-然后需要将插件类编译打包成 jar 可执行文件，最后使用加载插件的管理语句将插件载入 IoTDB。
+在 IoTDB 中，若要在系统中动态载入一个用户自定义插件，则首先需要基于 PipeSource、 PipeProcessor 或者 PipeSink 实现一个具体的插件类，然后需要将插件类编译打包成 jar 可执行文件，最后使用加载插件的管理语句将插件载入 IoTDB。
 
 加载插件的管理语句的语法如图所示。
 

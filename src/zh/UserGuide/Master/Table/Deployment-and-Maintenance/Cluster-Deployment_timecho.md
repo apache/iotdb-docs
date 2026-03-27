@@ -155,7 +155,7 @@ cd  timechodb-{version}-bin
 
 | 配置项                          | 说明                                                         | 默认            | 推荐值                                              | 11.101.17.224 | 11.101.17.225 | 11.101.17.226 | 备注               |
 | ------------------------------- | ------------------------------------------------------------ | --------------- | --------------------------------------------------- | ------------- | ------------- | ------------- | ------------------ |
-| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 0.0.0.0         |  所在服务器的IPV4地址或hostname，推荐使用所在服务器的IPV4地址     |  iotdb-1       |iotdb-2       | iotdb-3        | 重启服务生效       |
+| dn_rpc_address                  | 客户端 RPC 服务的地址                                        | 127.0.0.1         |  默认本机可直接访问。非本机访问，请修改此配置项为所在服务器的IPV4地址或hostname，推荐使用所在服务器的IPV4地址。     |  iotdb-1       |iotdb-2       | iotdb-3        | 重启服务生效       |
 | dn_rpc_port                     | 客户端 RPC 服务的端口                                        | 6667            | 6667                                                | 6667          | 6667          | 6667          | 重启服务生效       |
 | dn_internal_address             | DataNode在集群内部通讯使用的地址                             | 127.0.0.1       | 所在服务器的IPV4地址或hostname，推荐使用hostname    | iotdb-1       | iotdb-2       | iotdb-3       | 首次启动后不能修改 |
 | dn_internal_port                | DataNode在集群内部通信使用的端口                             | 10730           | 10730                                               | 10730         | 10730         | 10730         | 首次启动后不能修改 |
@@ -231,15 +231,14 @@ Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@20
 
 - 将获取的机器码复制给天谋工作人员
 
-- 工作人员会返回激活码，正常是与提供的机器码的顺序对应的，请将整串激活码粘贴到CLI中进行激活
+- 工作人员会返回激活码，正常是与提供的机器码的顺序对应的，请将整串激活码粘贴到CLI中进行激活，此激活操作只需在集群中的任意一台机器上执行一次即可。
 
     - 注：激活码前后需要用`'`符号进行标注，如下所示
 
    ```Bash
     IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
     ```
-
-
+ 
 #### 方式二：激活文件拷贝激活
 
 - 依次启动3个Confignode、Datanode节点后，每台机器各自的activation文件夹, 分别拷贝每台机器的system_info文件给天谋工作人员;

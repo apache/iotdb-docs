@@ -110,7 +110,9 @@ try (ITableSession session =
 After execution, you can verify the table creation using the following command:
 
 ```SQL
-IoTDB> desc table1
+desc table1;
+```
+```shell
 +-----------+---------+-----------+
 | ColumnName| DataType|   Category|
 +-----------+---------+-----------+
@@ -131,9 +133,9 @@ It is possible to insert data for specific columns. Columns not specified will r
 **Example:**
 
 ```SQL
-INSERT INTO table1(region, plant_id, device_id, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', '2025-11-26 13:37:00', 90.0, 35.1)
+INSERT INTO table1(region, plant_id, device_id, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', '2025-11-26 13:37:00', 90.0, 35.1);
 
-INSERT INTO table1(region, plant_id, device_id, time, temperature) VALUES ('Hamburg', '1001', '100', '2025-11-26 13:38:00', 91.0)
+INSERT INTO table1(region, plant_id, device_id, time, temperature) VALUES ('Hamburg', '1001', '100', '2025-11-26 13:38:00', 91.0);
 ```
 
 ### 1.4 Null Value Insertion
@@ -145,10 +147,10 @@ You can explicitly set `null` values for tag columns, attribute columns, and fie
 Equivalent to the above partial column insertion.
 
 ```SQL
-# Equivalent to the example above
-INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', null, null, '2025-11-26 13:37:00', 90.0, 35.1)
+# Equivalent to the example above;
+INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', null, null, '2025-11-26 13:37:00', 90.0, 35.1);
 
-INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', null, null, '2025-11-26 13:38:00', 91.0, null)
+INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', null, null, '2025-11-26 13:38:00', 91.0, null);
 ```
 
 If no tag columns are included, the system will automatically create a device with all tag column values set to `null`.
@@ -165,13 +167,13 @@ IoTDB supports inserting multiple rows of data in a single statement to improve 
 INSERT INTO table1
 VALUES 
 ('2025-11-26 13:37:00', 'Frankfurt', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:37:34'),
-('2025-11-26 13:38:00', 'Frankfurt', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:38:25')
+('2025-11-26 13:38:00', 'Frankfurt', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:38:25');
 
 INSERT INTO table1
 (region, plant_id, device_id, model_id, maintenance, time, temperature, humidity, status, arrival_time) 
 VALUES 
 ('Frankfurt', '1001', '100', 'A', '180', '2025-11-26 13:37:00', 90.0, 35.1, true, '2025-11-26 13:37:34'),
-('Frankfurt', '1001', '100', 'A', '180', '2025-11-26 13:38:00', 90.0, 35.1, true, '2025-11-26 13:38:25')
+('Frankfurt', '1001', '100', 'A', '180', '2025-11-26 13:38:00', 90.0, 35.1, true, '2025-11-26 13:38:25');
 ```
 
 #### Notes
@@ -201,7 +203,7 @@ Using the [sample data](../Reference/Sample-Data.md) as the data source, first c
 sql
 
 ```sql
-IoTDB:database1> CREATE TABLE target_table ( time TIMESTAMP TIME, region STRING TAG, device_id STRING TAG, temperature FLOAT FIELD );
+CREATE TABLE target_table ( time TIMESTAMP TIME, region STRING TAG, device_id STRING TAG, temperature FLOAT FIELD );
 Msg: The statement is executed successfully.
 ```
 
@@ -214,9 +216,13 @@ The `query` part is a direct `select ... from ...` query.
 sql
 
 ```sql
-IoTDB:database1> insert into target_table select time,region,device_id,temperature from table1 where region = 'Beijing'
+insert into target_table select time,region,device_id,temperature from table1 where region = 'Beijing';
 Msg: The statement is executed successfully.
-IoTDB:database1> select * from target_table where region='Beijing'
+```
+```sql
+select * from target_table where region='Beijing';
+```
+```shell
 +-----------------------------+--------+-----------+-------------+
 |                         time|  region|  device_id|  temperature|
 +-----------------------------+--------+-----------+-------------+
@@ -243,9 +249,13 @@ The `query` part uses the table reference syntax `table source_table`.
 sql
 
 ```sql
-IoTDB:database1> insert into target_table(time,device_id,temperature) table table3
+insert into target_table(time,device_id,temperature) table table3;
 Msg: The statement is executed successfully.
-IoTDB:database1> select * from target_table where region is null
+```
+```sql
+select * from target_table where region is null;
+```
+```shell
 +-----------------------------+------+-----------+-------------+
 |                         time|region|  device_id|  temperature|
 +-----------------------------+------+-----------+-------------+
@@ -270,9 +280,13 @@ The `query` part is a parenthesized subquery.
 sql
 
 ```sql
-IoTDB:database1> insert into target_table (select t1.time, t1.region as region, t1.device_id as device_id, t1.temperature as temperature from table1 t1 where t1.time in (select t2.time from table2 t2 where t2.region = 'Shanghai'))
+insert into target_table (select t1.time, t1.region as region, t1.device_id as device_id, t1.temperature as temperature from table1 t1 where t1.time in (select t2.time from table2 t2 where t2.region = 'Shanghai'));
 Msg: The statement is executed successfully.
-IoTDB:database1> select * from target_table where region = 'Shanghai'
+```
+```sql
+select * from target_table where region = 'Shanghai';
+```
+```shell 
 +-----------------------------+---------+-----------+-------------+
 |                         time|   region|  device_id|  temperature|
 +-----------------------------+---------+-----------+-------------+
@@ -287,7 +301,7 @@ It costs 0.014s
 
 * The source table in the `query` and the target table `table_name` are allowed to be the same table, e.g., `INSERT INTO testtb SELECT * FROM testtb`.
 * The target table ​**must already exist**​; otherwise, the error message `550: Table 'xxx.xxx' does not exist` will be thrown.
-* The number and data types of columns returned by the query **must exactly match** those of the target table. Type conversion between compatible types is not supported currently. A type mismatch will trigger the error message `701: Insert query has mismatched column types`.
+* The number and types of query result columns must exactly match those of the target table. Object type is currently not supported, and no implicit type conversion is supported. If types mismatch, the error `701: Insert query has mismatched column types` will be raised.
 * You can specify a subset of columns in the target table, provided the following rules are met:
   * The timestamp column must be included; otherwise, the error message `701: time column can not be null` will be thrown.
   * At least one **FIELD** column must be included; otherwise, the error message `701: No Field column present` will be thrown.
@@ -301,6 +315,59 @@ It costs 0.014s
   * The `WRITE` permission on the target table.
   * For more details about user permissions, refer to [Authority Management](../User-Manual/Authority-Management_apache.md).
 
+
+### 1.7 Writing Object Type
+
+To avoid oversized Object write requests, values of **Object** type can be split into segments and written sequentially. In SQL, the `to_object(isEOF, offset, content)` function must be used for value insertion.
+
+> Supported since V2.0.8-beta
+
+**Syntax:**
+
+```SQL
+INSERT INTO tableName(time, columnName) VALUES(timeValue, TO_OBJECT(isEOF, offset, content));
+```  
+
+**Parameters:**
+
+| Name    | Data Type          | Description                                                                 |
+|---------|--------------------|-----------------------------------------------------------------------------|
+| isEOF   | BOOLEAN            | Whether the current write contains the last segment of the Object          |
+| offset  | INT64              | Starting offset of the current segment within the Object                   |
+| content | Hexadecimal (HEX)  | Content of the current segment                                             |
+
+**Examples:**
+
+Add an Object-type column `s1` to table `table1`:
+
+```SQL
+ALTER TABLE table1 ADD COLUMN IF NOT EXISTS s1 OBJECT FIELD COMMENT 'object type';
+```
+
+1. **Non-segmented write**
+
+```SQL
+INSERT INTO table1(time, device_id, s1) VALUES(NOW(), 'tag1', TO_OBJECT(TRUE, 0, X'696F746462'));
+```
+
+2. **Segmented write**
+
+```SQL
+-- First write: TO_OBJECT(FALSE, 0, X'696F');
+INSERT INTO table1(time, device_id, s1) VALUES(1, 'tag1', TO_OBJECT(FALSE, 0, X'696F'));
+
+-- Second write: TO_OBJECT(FALSE, 2, X'7464');
+INSERT INTO table1(time, device_id, s1) VALUES(1, 'tag1', TO_OBJECT(FALSE, 2, X'7464'));
+
+-- Third write: TO_OBJECT(TRUE, 4, X'62');
+INSERT INTO table1(time, device_id, s1) VALUES(1, 'tag1', TO_OBJECT(TRUE, 4, X'62'));
+```
+
+**Notes:**
+
+1. If only partial segments of an Object are written, querying the column will return `NULL`. Data becomes accessible only after all segments are successfully written.
+2. During segmented writes, if the `offset` of the current write does not match the current size of the Object, the write operation will fail.
+3. If `offset=0` is used after partial writes, the existing content will be overwritten with new data.
 
 
 ## 2. Data Updates
@@ -326,5 +393,5 @@ updateAssignment
 **Example**:
 
 ```SQL
-update table1 set b = a where substring(a, 1, 1) like '%'
+update table1 set b = a where substring(a, 1, 1) like '%';
 ```

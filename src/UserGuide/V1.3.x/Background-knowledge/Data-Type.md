@@ -27,7 +27,7 @@ IoTDB supports the following data types:
 - INT64 (Long Integer)
 - FLOAT (Single Precision Floating Point)
 - DOUBLE (Double Precision Floating Point)
-- TEXT (Long String)
+- TEXT (Long String, Not recommended)
 - STRING（String）
 - BLOB（Large binary Object）
 - TIMESTAMP（Timestamp）

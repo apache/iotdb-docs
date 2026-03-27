@@ -39,32 +39,34 @@ IoTDB> show databases
 +------------------+-------+-----------------------+---------------------+---------------------+
 
 IoTDB> show tables from information_schema
-+--------------+-------+
-|     TableName|TTL(ms)|
-+--------------+-------+
-|       columns|    INF|
-|  config_nodes|    INF|
-|configurations|    INF|
-|    data_nodes|    INF|
-|     databases|    INF|
-|     functions|    INF|
-|      keywords|    INF|
-|        models|    INF|
-|         nodes|    INF|
-|  pipe_plugins|    INF|
-|         pipes|    INF|
-|       queries|    INF|
-|       regions|    INF|
-| subscriptions|    INF|
-|        tables|    INF|
-|        topics|    INF|
-|         views|    INF|
-+--------------+-------+
++-----------------------+-------+
+|              TableName|TTL(ms)|
++-----------------------+-------+
+|                columns|    INF|
+|           config_nodes|    INF|
+|         configurations|    INF|
+|            connections|    INF|
+|        current_queries|    INF|
+|             data_nodes|    INF|
+|              databases|    INF|
+|              functions|    INF|
+|               keywords|    INF|
+|                  nodes|    INF|
+|           pipe_plugins|    INF|
+|                  pipes|    INF|
+|                queries|    INF|
+|queries_costs_histogram|    INF|
+|                regions|    INF|
+|          subscriptions|    INF|
+|                 tables|    INF|
+|                 topics|    INF|
+|                  views|    INF|
++-----------------------+-------+
 ```
 
 ## 2. System Tables
 
-* ​**Names**​: `DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS`, `VIEWS`, `MODELS`, `FUNCTIONS`, `CONFIGURATIONS`, `KEYWORDS`, `NODES`, `CONFIG_NODES`, `DATA_NODES` (detailed descriptions in later sections)
+* ​**Names**​: `DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS`, `VIEWS`, `MODELS`, `FUNCTIONS`, `CONFIGURATIONS`, `KEYWORDS`, `NODES`, `CONFIG_NODES`, `DATA_NODES` , `CONNECTIONS`, `CURRENT_QUERIES`, `QUERIES_COSTS_HISTOGRAM` (detailed descriptions in later sections)
 * ​**Operations**​: Read-only, only supports `SELECT`, `COUNT/SHOW DEVICES`, `DESC`. Any modifications to table structure or content are not allowed and will result in an error: `"The database 'information_schema' can only be queried."  `
 * ​**Column Names**​: System table column names are all lowercase by default and separated by underscores (`_`).
 
@@ -369,7 +371,7 @@ IoTDB> select * from information_schema.views
 
 ### 2.11 MODELS Table
 
-> This system table is available starting from version V2.0.5.
+> This system table is available starting from version V 2.0.5 and has been discontinued since version V 2.0.8-beta.
 
 * Contains information about all models in the database.
 * The table structure is as follows:
@@ -591,6 +593,99 @@ IoTDB> select * from information_schema.data_nodes
 |      1|              4|                4|    0.0.0.0|    6667|   10740|              10760|                10750|
 +-------+---------------+-----------------+-----------+--------+--------+-------------------+---------------------+
 ```
+
+### 2.18 CONNECTIONS Table
+
+> This system table is available starting from version V 2.0.8-beta
+
+* Contains all connections in the cluster.
+* The table structure is as follows:
+
+| **Column Name** | **Data Type** | **Column Type** | **Description**        |
+|-----------------|---------------|-----------------|------------------------|
+| datanode_id     | STRING        | TAG             | DataNode ID           |
+| user_id         | STRING        | TAG             | User ID               |
+| session_id      | STRING        | TAG             | Session ID            |
+| user_name       | STRING        | ATTRIBUTE       | Username              |
+| last_active_time| TIMESTAMP     | ATTRIBUTE       | Last active time      |
+| client_ip       | STRING        | ATTRIBUTE       | Client IP address     |
+
+* Query example:
+
+```SQL
+IoTDB> select * from information_schema.connections;
++-----------+-------+----------+---------+-----------------------------+---------+
+|datanode_id|user_id|session_id|user_name|             last_active_time|client_ip|
++-----------+-------+----------+---------+-----------------------------+---------+
+|          1|      0|         2|     root|2026-01-21T16:28:54.704+08:00|127.0.0.1|
++-----------+-------+----------+---------+-----------------------------+---------+
+```
+
+### 2.19 CURRENT_QUERIES Table
+
+> This system table is available starting from version V 2.0.8-beta
+
+* Contains all queries whose execution end time falls within the range `[now() - query_cost_stat_window, now())`, including currently executing queries. The `query_cost_stat_window` parameter represents the query cost statistics window. Its default value is 0 and can be configured via the `iotdb-system.properties` configuration file.
+* The table structure is as follows:
+
+| Column Name  | Data Type | Column Type | Description                                                                 |
+|--------------|-----------|-------------|-----------------------------------------------------------------------------|
+| query_id     | STRING    | TAG         | Query statement ID                                                         |
+| state        | STRING    | FIELD       | Query state: RUNNING indicates executing, FINISHED indicates completed     |
+| start_time   | TIMESTAMP | FIELD       | Query start timestamp (precision matches system timestamp precision)       |
+| end_time     | TIMESTAMP | FIELD       | Query end timestamp (precision matches system timestamp precision). NULL if query is not yet finished |
+| datanode_id  | INT32     | FIELD       | DataNode from which the query was initiated                                |
+| cost_time    | FLOAT     | FIELD       | Query execution time in seconds. If query is not finished, shows elapsed time |
+| statement    | STRING    | FIELD       | Query SQL / concatenated query request SQL                                |
+| user         | STRING    | FIELD       | User who initiated the query                                               |
+| client_ip    | STRING    | FIELD       | Client IP address that initiated the query                                 |
+
+* Regular users can only view their own queries; administrators can view all queries.
+* Query example:
+
+```SQL
+IoTDB> select * from information_schema.current_queries;
++-----------------------+-------+-----------------------------+--------+-----------+---------+------------------------------------------------+----+---------+
+|               query_id|  state|                   start_time|end_time|datanode_id|cost_time|                                       statement|user|client_ip|
++-----------------------+-------+-----------------------------+--------+-----------+---------+------------------------------------------------+----+---------+
+|20260121_085427_00013_1|RUNNING|2026-01-21T16:54:27.019+08:00|    null|          1|      0.0|select * from information_schema.current_queries|root|127.0.0.1|
++-----------------------+-------+-----------------------------+--------+-----------+---------+------------------------------------------------+----+---------+
+```
+
+### 2.20 QUERIES_COSTS_HISTOGRAM Table
+
+> This system table is available starting from version V 2.0.8-beta
+
+* Contains a histogram of query execution times within the past `query_cost_stat_window` period (only statistics for completed SQL queries). The `query_cost_stat_window` parameter represents the query cost statistics window. Its default value is 0 and can be configured via the `iotdb-system.properties` configuration file.
+* The table structure is as follows:
+
+| Column Name  | Data Type | Column Type | Description                                                                 |
+|--------------|-----------|-------------|-----------------------------------------------------------------------------|
+| bin          | STRING    | TAG         | Bucket name: 61 buckets total - [0, 1), [1, 2), [2, 3), ..., [59, 60), 60+ |
+| nums         | INT32     | FIELD       | Number of SQL queries in the bucket                                        |
+| datanode_id  | INT32     | FIELD       | DataNode to which this bucket belongs                                      |
+
+* Only administrators can execute operations on this table.
+* Query example:
+
+```SQL
+IoTDB> select * from information_schema.queries_costs_histogram limit 10
++------+----+-----------+
+|   bin|nums|datanode_id|
++------+----+-----------+
+| [0,1)|   0|          1|
+| [1,2)|   0|          1|
+| [2,3)|   0|          1|
+| [3,4)|   0|          1|
+| [4,5)|   0|          1|
+| [5,6)|   0|          1|
+| [6,7)|   0|          1|
+| [7,8)|   0|          1|
+| [8,9)|   0|          1|
+|[9,10)|   0|          1|
++------+----+-----------+
+```
+
 
 ## 3. Permission Description
 

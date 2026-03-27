@@ -21,7 +21,7 @@
 
 # Keywords
 
-Reserved keywords must be enclosed in double quotes (" ") to be used as identifiers. Below is a list of all reserved keywords in the IoTDB table model.
+Reserved keywords must be enclosed in double quotes (" ") to be used as identifiers. Below is a list of all reserved keywords in the IoTDB table mode.
 
 - ALTER
 - AND

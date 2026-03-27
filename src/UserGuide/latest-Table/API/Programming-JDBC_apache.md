@@ -44,6 +44,7 @@ Add the following dependency to your Maven `pom.xml` file:
     </dependency>
 </dependencies>
 ```
+Note: Do not use a newer client to connect to an older server, as this may cause connection failures or unexpected errors.
 
 ## 2. Read and Write Operations
 
@@ -66,7 +67,7 @@ Add the following dependency to your Maven `pom.xml` file:
 
 ## 3. Sample Code
 
-**Note:** When using the Table Model, you must specify the `sql_dialect` parameter as `table` in the URL. Example:
+**Note:** When using the Table Mode, you must specify the `sql_dialect` parameter as `table` in the URL. Example:
 
 ```Java
 String url = "jdbc:iotdb://127.0.0.1:6667?sql_dialect=table";

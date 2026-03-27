@@ -85,7 +85,7 @@ sha512sum timechodb-2.0.6.1-ainode-bin.zip
 ### 2.3 环境要求
 
 * 建议操作环境: Linux, MacOS；
-* TimechoDB 版本：>= V 2.0.8；
+* TimechoDB 版本：>= V 2.0.8-beta；
 
 ## 3. 安装部署及使用
 

@@ -24,7 +24,7 @@
 
 > Release Date: 2026.01.20
 
-V2.0.6 is the official release of the dual-model (tree and table) architecture. It introduces **query-writeback capability for the table model**, new **bitwise operation functions** (built-in scalar functions), and **push-down-capable time functions**, while delivering comprehensive improvements in database monitoring, performance, and stability. Specific release contents are as follows:
+V2.0.6 is the official release of the dual-mode (tree and table) architecture. It introduces **query-writeback capability for the table mode**, new **bitwise operation functions** (built-in scalar functions), and **push-down-capable time functions**, while delivering comprehensive improvements in database monitoring, performance, and stability. Specific release contents are as follows:
 
 * **Query Module**: Added support for query-writeback functionality in the table model.
 * **Query Module**: Enhanced row-pattern recognition in the table model to support aggregate functions, enabling analysis and computation over consecutive data sequences.
@@ -37,7 +37,7 @@ V2.0.6 is the official release of the dual-model (tree and table) architecture. 
 
 > Release Date: 2025.08.21
 
-V2.0.5, as the official release of the Dual-Model Tree-Table system, primarily introduces the tree-to-table view, window functions for the table model, the aggregate function approx_most_frequent, and supports LEFT & RIGHT JOIN as well as ASOF LEFT JOIN. The AINode now includes two new built-in models, Timer-XL and Timer-Sundial, and supports inference capabilities for both tree and table models. Additionally, this version brings comprehensive improvements to database monitoring, performance, and stability. The specific updates are as follows:
+V2.0.5, as the official release of the Dual-Mode Tree-Table system, primarily introduces the tree-to-table view, window functions for the table model, the aggregate function approx_most_frequent, and supports LEFT & RIGHT JOIN as well as ASOF LEFT JOIN. The AINode now includes two new built-in models, Timer-XL and Timer-Sundial, and supports inference capabilities for both tree and table models. Additionally, this version brings comprehensive improvements to database monitoring, performance, and stability. The specific updates are as follows:
 
 * **Query Module**: Supports manual creation of tree-to-table views
 * **Query Module**: Adds window functions for the table model

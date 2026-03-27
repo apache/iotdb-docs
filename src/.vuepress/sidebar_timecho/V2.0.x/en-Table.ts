@@ -40,7 +40,7 @@ export const enSidebar = {
         { text: 'Common Concepts', link: 'Cluster-Concept_timecho' },
         { text: 'Timeseries Data Model', link: 'Navigating_Time_Series_Data' },
         { text: 'Modeling Scheme Design', link: 'Data-Model-and-Terminology_timecho' },
-        { text: 'Data Type', link: 'Data-Type' },
+        { text: 'Data Type', link: 'Data-Type_timecho' },
       ],
     },
     {
@@ -82,9 +82,8 @@ export const enSidebar = {
             text: 'AI Deployment',
             collapsible: true,
             children: [
-                { text: 'AINode Deployment', link: 'AINode_Deployment_timecho' },/*
               { text: 'AINode Deployment(V2.0.5/6)', link: 'AINode_Deployment_timecho' },
-              { text: 'AINode Deployment(V2.0.8)', link: 'AINode_Deployment_Upgrade_timecho' }, */
+              { text: 'AINode Deployment(V2.0.8)', link: 'AINode_Deployment_Upgrade_timecho' },
             ],
           },
           {
@@ -140,6 +139,7 @@ export const enSidebar = {
           children: [
             { text: 'Authority Management', link: 'Authority-Management_timecho' },
             { text: 'Black White List', link: 'Black-White-List_timecho' },
+            { text: 'Security Audit', link: 'Audit-Log_timecho' },
           ],
         },
         { text: 'Tiered Storage', link: 'Tiered-Storage_timecho' },
@@ -160,8 +160,10 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'AI-capability/',
       children: [
-        { text: 'AINode', link: 'AINode_timecho' },
-        { text: 'TimeSeries Large Model', link: 'TimeSeries-Large-Model' },
+        { text: 'AINode(V2.0.5/6)', link: 'AINode_timecho' },
+        { text: 'AINode(V2.0.8)', link: 'AINode_Upgrade_timecho' },
+        { text: 'TimeSeries Large Model(V2.0.5/6)', link: 'TimeSeries-Large-Model' },
+        { text: 'TimeSeries Large Model(V2.0.8)', link: 'TimeSeries-Large-Model_Upgrade_timecho' },
       ],
     },
     {
@@ -215,6 +217,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'Apache Spark', link: 'Spark-IoTDB' },
+            { text: 'Apache SeaTunnel', link: 'SeaTunnel_timecho' },
           ],
         },
         {
@@ -241,6 +244,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
+        { text: 'QuickStart Only SQL', link: 'QuickStart-Only-Sql_timecho' },
         { text: 'Metadata Operations', link: 'SQL-Metadata-Operations_timecho' },
         { text: 'Data Addition&Deletion', link: 'SQL-Data-Addition-Deletion_timecho' },
         {
@@ -248,7 +252,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'overview', link: 'overview_timecho' },
-            { text: 'SELECT Clause', link: 'Select-Clause' },
+            { text: 'SELECT Clause', link: 'Select-Clause_timecho' },
             { text: 'FROM&JOIN Clause', link: 'From-Join-Clause' },
             { text: 'WHERE Clause', link: 'Where-Clause' },
             { text: 'GROUP BY Clause', link: 'GroupBy-Clause' },
@@ -260,14 +264,14 @@ export const enSidebar = {
             { text: 'Pattern Query', link: 'Row-Pattern-Recognition_timecho' },
           ],
         },
-        { text: 'Maintenance Statements', link: 'SQL-Maintenance-Statements' },
+        { text: 'Maintenance Statements', link: 'SQL-Maintenance-Statements_timecho' },
         { text: 'Identifier', link: 'Identifier' },
         { text: 'Keywords', link: 'Keywords' },
         {
           text: 'Functions and Operators',
           collapsible: true,
           children: [
-            { text: 'Basis Functions', link: 'Basis-Function' },
+            { text: 'Basis Functions', link: 'Basis-Function_timecho' },
             { text: 'Featured Functions', link: 'Featured-Functions_timecho' },
           ],
         },
@@ -289,7 +293,7 @@ export const enSidebar = {
       prefix: 'Reference/',
       children: [
         { text: 'Sample Data', link: 'Sample-Data' },
-        { text: 'Config Manual', link: 'System-Config-Manual' },
+        { text: 'Config Manual', link: 'System-Config-Manual_timecho' },
         { text: 'Status Codes', link: 'Status-Codes' },
         { text: 'System Tables', link: 'System-Tables_timecho' },
       ],

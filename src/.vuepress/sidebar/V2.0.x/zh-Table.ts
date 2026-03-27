@@ -40,7 +40,7 @@ export const zhSidebar = {
         { text: '常见概念', link: 'Cluster-Concept_apache' },
         { text: '时序数据模型', link: 'Navigating_Time_Series_Data' },
         { text: '建模方案设计', link: 'Data-Model-and-Terminology_apache' },
-        { text: '数据类型', link: 'Data-Type' },
+        { text: '数据类型', link: 'Data-Type_apache' },
       ],
     },
     {
@@ -75,9 +75,8 @@ export const zhSidebar = {
             text: 'AI 部署',
             collapsible: true,
             children: [
-                { text: 'AINode 部署', link: 'AINode_Deployment_apache' },/*
               { text: 'AINode 部署(V2.0.5/6)', link: 'AINode_Deployment_apache' },
-              { text: 'AINode 部署(V2.0.8)', link: 'AINode_Deployment_Upgrade_apache' }, */
+              { text: 'AINode 部署(V2.0.8-beta)', link: 'AINode_Deployment_Upgrade_apache' },
             ],
           },
       ],
@@ -131,8 +130,10 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'AI-capability/',
       children: [
-        { text: 'AINode', link: 'AINode_apache' },
-        { text: '时序大模型', link: 'TimeSeries-Large-Model' },
+        { text: 'AINode(V2.0.5/6)', link: 'AINode_apache' },
+        { text: 'AINode(V2.0.8-beta)', link: 'AINode_Upgrade_apache' },
+        { text: '时序大模型(V2.0.5/6)', link: 'TimeSeries-Large-Model' },
+        { text: '时序大模型(V2.0.8-beta)', link: 'TimeSeries-Large-Model_Upgrade_apache' },
       ],
     },
     {
@@ -185,6 +186,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: 'Apache Spark', link: 'Spark-IoTDB' },
+            { text: 'Apache SeaTunnel', link: 'SeaTunnel_apache' },
           ],
         },
         {
@@ -211,6 +213,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
+        { text: '快速 SQL 体验', link: 'QuickStart-Only-Sql_apache' },
         { text: '元数据操作', link: 'SQL-Metadata-Operations_apache' },
         { text: '数据增删', link: 'SQL-Data-Addition-Deletion_apache' },
         {
@@ -218,7 +221,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '概览', link: 'overview_apache' },
-            { text: 'SELECT子句', link: 'Select-Clause' },
+            { text: 'SELECT子句', link: 'Select-Clause_apache' },
             { text: 'FROM&JOIN子句', link: 'From-Join-Clause' },
             { text: 'WHERE子句', link: 'Where-Clause' },
             { text: 'GROUP BY子句', link: 'GroupBy-Clause' },
@@ -229,14 +232,14 @@ export const zhSidebar = {
             { text: '嵌套查询', link: 'Nested-Queries' },
           ],
         },
-        { text: '运维语句', link: 'SQL-Maintenance-Statements' },
+        { text: '运维语句', link: 'SQL-Maintenance-Statements_apache' },
         { text: '标识符', link: 'Identifier' },
         { text: '保留字&关键字', link: 'Keywords' },
         {
           text: '函数与操作符',
           collapsible: true,
           children: [
-            { text: '基础函数', link: 'Basis-Function' },
+            { text: '基础函数', link: 'Basis-Function_apache' },
             { text: '特色函数', link: 'Featured-Functions_apache' },
           ],
         },
@@ -258,7 +261,7 @@ export const zhSidebar = {
       prefix: 'Reference/',
       children: [
         { text: '示例数据', link: 'Sample-Data' },
-        { text: '配置参数', link: 'System-Config-Manual' },
+        { text: '配置参数', link: 'System-Config-Manual_apache' },
         { text: '状态码', link: 'Status-Codes' },
         { text: '系统表', link: 'System-Tables_apache' },
       ],

@@ -20,7 +20,7 @@
 -->
 # Sample Data
 
-This section introduces a simple time-series data application scenario, along with the modeling and sample data for this scenario. All example SQL statements in the IoTDB Table Model User Guide can be executed using this modeling and sample data.
+This section introduces a simple time-series data application scenario, along with the modeling and sample data for this scenario. All example SQL statements in the IoTDB Table Mode User Guide can be executed using this modeling and sample data.
 
 ## 1. Data Structure
 

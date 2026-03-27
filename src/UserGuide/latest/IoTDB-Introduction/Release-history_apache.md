@@ -24,22 +24,22 @@
 
 > Release Date: 2026.01.20
 
-V2.0.6 is the official release of the dual-model (tree and table) architecture. It introduces **query-writeback capability for the table model**, new **bitwise operation functions** (built-in scalar functions), and **push-down-capable time functions**, while delivering comprehensive improvements in database monitoring, performance, and stability. Specific release contents are as follows:
+V2.0.6 is the official release of the dual-mode (tree and table) architecture. It introduces **query-writeback capability for the table mode**, new **bitwise operation functions** (built-in scalar functions), and **push-down-capable time functions**, while delivering comprehensive improvements in database monitoring, performance, and stability. Specific release contents are as follows:
 
-* **Query Module**: Added support for query-writeback functionality in the table model.
-* **Query Module**: Enhanced row-pattern recognition in the table model to support aggregate functions, enabling analysis and computation over consecutive data sequences.
-* **Query Module**: Introduced built-in scalar bitwise operation functions for the table model.
-* **Query Module**: Added a push-down-capable `EXTRACT` time function for the table model.
+* **Query Module**: Added support for query-writeback functionality in the table mode.
+* **Query Module**: Enhanced row-pattern recognition in the table mode to support aggregate functions, enabling analysis and computation over consecutive data sequences.
+* **Query Module**: Introduced built-in scalar bitwise operation functions for the table mode.
+* **Query Module**: Added a push-down-capable `EXTRACT` time function for the table mode.
 * **Others**: Fixed security vulnerabilities CVE-2025-12183, CVE-2025-66566, and CVE-2025-11226.
 
 ## V2.0.5
 
 > Release Date: 2025.08.21
 
-V2.0.5, as the official release of the Dual-Model Tree-Table system, primarily introduces the tree-to-table view, window functions for the table model, the aggregate function approx_most_frequent, and supports LEFT & RIGHT JOIN as well as ASOF LEFT JOIN. The AINode now includes two new built-in models, Timer-XL and Timer-Sundial, and supports inference capabilities for both tree and table models. Additionally, this version brings comprehensive improvements to database monitoring, performance, and stability. The specific updates are as follows:
+V2.0.5, as the official release of the Dual-Mode Tree-Table system, primarily introduces the tree-to-table view, window functions for the table mode, the aggregate function approx_most_frequent, and supports LEFT & RIGHT JOIN as well as ASOF LEFT JOIN. The AINode now includes two new built-in models, Timer-XL and Timer-Sundial, and supports inference capabilities for both tree and table models. Additionally, this version brings comprehensive improvements to database monitoring, performance, and stability. The specific updates are as follows:
 
 * **Query Module**: Supports manual creation of tree-to-table views
-* **Query Module**: Adds window functions for the table model
+* **Query Module**: Adds window functions for the table mode
 * **Query Module**: Adds the aggregate function approx_most_frequent for the table model
 * **Query Module**: Extends JOIN functionality for the table model, supporting LEFT & RIGHT JOIN and ASOF LEFT JOIN
 * **Query Module**: The table model now supports row pattern recognition, enabling the capture of continuous data for analysis and computation
@@ -114,7 +114,7 @@ As the official release of the dual tree-table model, V2.0.2 introduces table mo
 
 V2.0.1-beta introduces dual tree-table model configuration, supporting standard SQL query syntax, various functions/operators, stream processing, and Benchmark capabilities for the table model. Additional updates include:
 
-* ​**​Table Model​**​:
+* ​**​Table Mode​**​:
     * Supports standard SQL syntax (SELECT/WHERE/JOIN/GROUP BY/ORDER BY/LIMIT/subqueries)
     * Various functions including logical operators, mathematical functions, and time-series functions like DIFF
 * ​**​Storage Module​**​:

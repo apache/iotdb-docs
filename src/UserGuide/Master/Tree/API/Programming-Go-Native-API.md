@@ -86,6 +86,8 @@ This article focuses on the usage of `SessionPool`, covering the complete proces
   # Compile and run the program
   go run session_example.go
   ```
+  
+* Note: Do not use a newer client to connect to an older server, as this may cause connection failures or unexpected errors.
 
 ## 2. Core Steps
 
@@ -409,8 +411,8 @@ func checkError(status *common.TSStatus, err error) {
 | `Host`      | `string`   | Choose one with `NodeUrls`    | Single-node host address.                                                |
 | `Port`      | `string`   | Choose one with `NodeUrls`    | Single-node port.                                                        |
 | `NodeUrls`  | `[]string` | Choose one with `Host`/`Port` | Cluster node address list, format: `"host:port"`.                        |
-| `UserName`  | `string`   | Yes                           | Username.                                                               |
+| `UserName`  | `string`   | Yes                           | Username.                                                                |
 | `Password`  | `string`   | Yes                           | Password.                                                                |
 | `FetchSize` | `int32`    | No                            | Query result set fetch size, default 1024.                               |
 | `TimeZone`  | `string`   | No                            | Session time zone, e.g., "Asia/Shanghai". Default uses server time zone. |
-| `Database`  | `string`   | No                            | For table model; used to set the session's default database.             |
+| `Database`  | `string`   | No                            | For table mode; used to set the session's default database.              |

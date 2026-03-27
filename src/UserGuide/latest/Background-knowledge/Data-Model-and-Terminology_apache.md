@@ -21,35 +21,35 @@
 
 # Modeling Scheme Design
 
-This section introduces how to transform time series data application scenarios into IoTDB time series modeling.   
+This section introduces how to transform time series data application scenarios into IoTDB time series mode.   
 
-## 1. Time Series Data Model
+## 1. Time Series Data Mode
 
-Before designing an IoTDB data model, it's essential to understand time series data and its underlying structure. For more details, refer to: [Time Series Data Model](../Background-knowledge/Navigating_Time_Series_Data.md)
+Before designing an IoTDB data mode, it's essential to understand time series data and its underlying structure. For more details, refer to: [Time Series Data Mode](../Background-knowledge/Navigating_Time_Series_Data.md)
 
-## 2. Two Time Series Model in IoTDB
+## 2. Tree-Table Twin Mode in IoTDB
 
-IoTDB offers two data modeling syntaxes—tree model and table model, each with its distinct characteristics as follows:
+IoTDB offers tree-table twin mode, each with its distinct characteristics as follows:
 
-**Tree Model**: It manages data points as objects, with each data point corresponding to a time series. The data point names, segmented by dots, form a tree-like directory structure that corresponds one-to-one with the physical world, making the read and write operations on data points straightforward and intuitive.
+**Tree Mode**: It manages data points as objects, with each data point corresponding to a time series. The data point names, segmented by dots, form a tree-like directory structure that corresponds one-to-one with the physical world, making the read and write operations on data points straightforward and intuitive.
 
-> 1. When performing data modeling, to meet sufficient performance requirements, it is recommended that the penultimate layer node (corresponding to the number of devices) in the data path (Path) contains no fewer than 1,000 entries. The number of devices is linked to concurrent processing capability—a higher number of devices ensures more efficient concurrent read and write operations.  
+> 1. When performing data mode, to meet sufficient performance requirements, it is recommended that the penultimate layer node (corresponding to the number of devices) in the data path (Path) contains no fewer than 1,000 entries. The number of devices is linked to concurrent processing capability—a higher number of devices ensures more efficient concurrent read and write operations.  
      In scenarios where "the number of devices is small but each device contains a large number of data points" (e.g., only 3 devices, each with 10,000 data points), it is advisable to add a .value level at the end of the path. This increases the total number of nodes in the penultimate layer. Example: root.db.device01.metric.value.
-> 2. When constructing tree model [paths](../Basic-Concept/Operate-Metadata_apache.md#4-path-query), if node naming may include non-standard characters or special symbols, it is recommended to implement a backtick encapsulation strategy for all hierarchical nodes. This approach effectively mitigates issues such as probe registration failures and data write interruptions caused by character parsing errors, ensuring the accuracy of path identifiers in syntax parsing.
+> 2. When constructing tree mode [paths](../Basic-Concept/Operate-Metadata_apache.md#4-path-query), if node naming may include non-standard characters or special symbols, it is recommended to implement a backtick encapsulation strategy for all hierarchical nodes. This approach effectively mitigates issues such as probe registration failures and data write interruptions caused by character parsing errors, ensuring the accuracy of path identifiers in syntax parsing.
 
-**Table Model**: It is recommended to create a table for each type of device. The collection of physical quantities from devices of the same type shares certain commonalities (such as the collection of temperature and humidity physical quantities), allowing for flexible and rich data analysis.
+**Table Mode**: It is recommended to create a table for each type of device. The collection of physical quantities from devices of the same type shares certain commonalities (such as the collection of temperature and humidity physical quantities), allowing for flexible and rich data analysis.
 
-### 2.1 Model Characteristics
+### 2.1 Mode Characteristics
 
-Both model syntaxes have their own applicable scenarios.
+Tree-table twin mode syntaxes have their own applicable scenarios.
 
-The following table compares the tree model and the table model from various dimensions, including applicable scenarios and typical operations. Users can choose the appropriate model based on their specific usage requirements to achieve efficient data storage and management.
+The following table compares the tree mode and the table mode from various dimensions, including applicable scenarios and typical operations. Users can choose the appropriate mode based on their specific usage requirements to achieve efficient data storage and management.
 
 <table style="text-align: center;">
         <tr>
             <td>Dimension</td>
-            <td>Tree Model</td>
-            <td>Table Model</td>
+            <td>Tree Mode</td>
+            <td>Table Mode</td>
         </tr>
         <tr>
             <td>Applicable Scenarios</td>
@@ -79,20 +79,180 @@ The following table compares the tree model and the table model from various dim
 
 **Notes:**  
 
-- Both model spaces can coexist within the same cluster instance. Each model follows distinct syntax and database naming conventions, and they remain isolated by default.
+- Both mode spaces can coexist within the same cluster instance. Each mode follows distinct syntax and database naming conventions, and they remain isolated by default.
 
-- When establishing a database connection via client tools (Cli) or SDKs, specify the model syntax using the `sql_dialect` parameter (Tree syntax is used by default).
+
+## 2.2 Model Selection
+
+IoTDB supports model selection through various client tools. The configuration methods for different clients are as follows:
+
+1. [Command-Line Interface (CLI)](../Tools-System/CLI_apache.md)
+
+When connecting via CLI, specify the model using the `sql_dialect` parameter (default: tree model).
+
+```bash
+# Tree model
+start-cli.sh(bat)
+start-cli.sh(bat) -sql_dialect tree
+
+# Table model
+start-cli.sh(bat) -sql_dialect table
+```
+
+2. [SQL](../User-Manual/Maintenance-commands_apache.md#_2-1-setting-the-connected-model)
+
+Use the `SET` statement to switch models in SQL:
+
+```sql
+-- Tree model
+IoTDB> SET SQL_DIALECT=TREE
+
+-- Table model
+IoTDB> SET SQL_DIALECT=TABLE
+```
+
+3. Application Programming Interfaces (APIs)
+
+For multi-language APIs, create connections via model-specific session/session pool classes. Examples:
+
+* [Java Native API](../API/Programming-Java-Native-API_apache.md)
+
+```java
+// Tree model
+SessionPool sessionPool =
+                new SessionPool.Builder()
+                        .nodeUrls(nodeUrls)
+                        .user(username)
+                        .password(password) 
+                        .maxSize(3)
+                        .build();
+
+// Table model
+ITableSessionPool tableSessionPool =
+                new TableSessionPoolBuilder()
+                        .nodeUrls(nodeUrls)
+                        .user(username)
+                        .password(password)
+                        .maxSize(1)
+                        .build();
+```
+
+* [Python Native API](../API/Programming-Python-Native-API_apache.md)
+
+```python
+# Tree model
+session = Session(
+    ip=ip,
+    port=port,
+    user=username,
+    password=password,
+    fetch_size=1024,
+    zone_id="UTC+8",
+    enable_redirection=True
+)
+
+# Table model
+config = TableSessionPoolConfig(
+    node_urls=node_urls,
+    username=username,
+    password=password,
+    database=database,
+    max_pool_size=max_pool_size,
+    fetch_size=fetch_size,
+    wait_timeout_in_ms=wait_timeout_in_ms,
+)
+session_pool = TableSessionPool(config)
+```
+
+* [C++ Native API](../API/Programming-Cpp-Native-API.md)
+
+```cpp
+// Tree model
+session = new Session(hostip, port, username, password);
+
+// Table model
+session = (new TableSessionBuilder())
+            ->host(ip)
+            ->rpcPort(port)
+            ->username(username)
+            ->password(password)
+            ->build();
+```
+
+* [Go Native API](../API/Programming-Go-Native-API.md)
+
+```go
+// Tree model
+config := &client.PoolConfig{
+    Host:     host,
+    Port:     port,
+    UserName: user,
+    Password: password,
+}
+sessionPool = client.NewSessionPool(config, 3, 60000, 60000, false)
+defer sessionPool.Close()
+
+// Table model
+config := &client.PoolConfig{
+      Host:     host,
+      Port:     port,
+      UserName: user,
+      Password: password, 
+      Database: dbname,
+}
+sessionPool := client.NewTableSessionPool(config, 3, 60000, 4000, false)
+defer sessionPool.Close()
+```
+
+* [C# Native API](../API/Programming-CSharp-Native-API.md)
+
+```csharp
+// Tree model
+var session_pool = new SessionPool(host, port, pool_size);
+
+// Table model
+var tableSessionPool = new TableSessionPool.Builder()
+            .SetNodeUrls(nodeUrls)
+            .SetUsername(username)
+            .SetPassword(password)
+            .SetFetchSize(1024)
+            .Build();
+```
+
+* [JDBC](../API/Programming-JDBC_apache.md)
+
+For the table model, include `sql_dialect=table` in the JDBC URL:
+
+```java
+// Tree model
+Class.forName("org.apache.iotdb.jdbc.IoTDBDriver");
+Connection connection = DriverManager.getConnection(
+                "jdbc:iotdb://127.0.0.1:6667/", username, password);
+
+// Table model
+Class.forName("org.apache.iotdb.jdbc.IoTDBDriver");
+Connection connection = DriverManager.getConnection(
+                "jdbc:iotdb://127.0.0.1:6667?sql_dialect=table", username, password);
+```
+
+## 2.3 Tree-to-Table Conversion
+
+IoTDB supports **tree-to-table conversion**, as shown in the figure below:
+
+![](/img/tree-to-table-en-1.png)
+
+This feature allows existing tree-model data to be transformed into table views. Users can then query the same dataset using either model. Detailed instructions are available in [Tree-to-Table View](../../latest-Table/User-Manual/Tree-to-Table_apache.md). **Note**: SQL statements for creating tree-to-table views **must be executed in table mode**.
 
 
 ## 3. Application Scenarios
 
 The application scenarios mainly include two categories:
 
-- Scenario 1: Using the tree model for data reading and writing.
+- Scenario 1: Using the tree mode for data reading and writing.
 
-- Scenario 2: Using the table model for data reading and writing.
+- Scenario 2: Using the table mode for data reading and writing.
 
-### 3.1 Scenario 1: Tree Model
+### 3.1 Scenario 1: Tree Mode
 
 #### 3.1.1 Characteristics
 
@@ -111,9 +271,9 @@ The application scenarios mainly include two categories:
 | **Device**                   | **Definition**: The second-to-last level is the device, such as `device1` in `root.db.turbine.device1.metric1`.<br>**Creation Method**: Cannot create a device alone; it exists as time series are created. |
 
 
-#### 3.1.3 Modeling Examples
+#### 3.1.3 Mode Examples
 
-##### 3.1.3.1 How to model when managing multiple types of devices?
+##### 3.1.3.1 How to mode when managing multiple types of devices?
 
 - If different types of devices in the scenario have different hierarchical paths and data point sets, create branches under the database node by device type. Each device type can have a different data point structure.
 
@@ -121,7 +281,7 @@ The application scenarios mainly include two categories:
       <img src="/img/data-model-new-1-en.png" alt="" style="width: 70%;"/>
 </div>
 
-##### 3.1.3.2 How to model when there are no devices, only data points?
+##### 3.1.3.2 How to  when there are no devices, only data points?
 
 - For example, in a monitoring system for a station, each data point has a unique number but does not correspond to any specific device.
 
@@ -129,20 +289,20 @@ The application scenarios mainly include two categories:
       <img src="/img/Data-model-en02.png" alt="" style="width: 70%;"/>
 </div>
 
-##### 3.1.3.3 How to model when a device has both sub-devices and data points?
+##### 3.1.3.3 How to mode when a device has both sub-devices and data points?
 
-- For example, in an energy storage scenario, each layer of the structure monitors its voltage and current. The following modeling approach can be used.
+- For example, in an energy storage scenario, each layer of the structure monitors its voltage and current. The following mode approach can be used.
 
 <div style="text-align: center;">
       <img src="/img/Data-model-en03.png" alt="" style="width: 70%;"/>
 </div>
 
 
-### 3.2 Scenario 2: Table Model
+### 3.2 Scenario 2: Table Mode
 
 #### 3.2.1 Characteristics
 
-- Models and manages device time series data using time series tables, facilitating analysis with standard SQL.
+- Modes and manages device time series data using time series tables, facilitating analysis with standard SQL.
 
 - Suitable for device data analysis or migrating data from other databases to IoTDB.
 
@@ -161,9 +321,9 @@ The application scenarios mainly include two categories:
 
 **Data Filtering Efficiency**: Time Column = Tag Column > Attribute Column > Data Point Column.
 
-#### 3.2.3 Modeling Examples
+#### 3.2.3 Mode Examples
 
-##### 3.2.3.1 How to model when managing multiple types of devices?
+##### 3.2.3.1 How to mode when managing multiple types of devices?
 
 - Recommended to create a table for each type of device, with each table having different tags and data point sets.
 
@@ -173,7 +333,7 @@ The application scenarios mainly include two categories:
       <img src="/img/data-model-new-2-en.png" alt="" style="width: 70%;"/>
 </div>
 
-##### 3.2.3.2 How to model when there are no device identifier columns or attribute columns?
+##### 3.2.3.2 How to mode when there are no device identifier columns or attribute columns?
 
 - There is no limit to the number of columns; it can reach hundreds of thousands.
 
@@ -181,7 +341,7 @@ The application scenarios mainly include two categories:
       <img src="/img/Data-model-en05.png" alt="" style="width: 70%;"/>
 </div>
 
-##### 3.2.3.3 How to model when a device has both sub-devices and data points?
+##### 3.2.3.3 How to mode when a device has both sub-devices and data points?
 
 - Each device has multiple sub-devices and data point information. It is recommended to create a table for each type of device for management.
 

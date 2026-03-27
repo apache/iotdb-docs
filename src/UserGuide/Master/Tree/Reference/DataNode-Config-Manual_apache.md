@@ -112,7 +112,7 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |:---:|:-----------------------------------------------|
 |Description| The client rpc service listens on the address. |
 |Type| String                                         |
-|Default| 0.0.0.0                                        |
+|Default| 127.0.0.1                                      |
 |Effective| After restarting system                        |
 
 * dn\_rpc\_port
@@ -276,13 +276,12 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 
 * dn\_thrift\_max\_frame\_size
 
-|Name| dn\_thrift\_max\_frame\_size |
-|:---:|:---|
-|Description| Max size of bytes of each thrift RPC request/response|
-|Type| Long |
-|Unit|Byte|
-|Default| 536870912 |
-|Effective|After restarting system|
+|Name| dn\_thrift\_max\_frame\_size                          |
+|:---:|:------------------------------------------------------|
+|Description| Max size of bytes of each thrift RPC request/response |
+|Type| int                                                   | 
+| Default     | Defaults to 0, which means the value is automatically calculated based on the DN JVM configuration parameters at startup:<br>a. min(64MB, dn_alloc_memory/64)<br>b. If the user manually configures `dn_thrift_max_frame_size`, the user-specified value will be used instead. |
+|Effective| After restarting system                               |
 
 * dn\_thrift\_init\_buffer\_size
 

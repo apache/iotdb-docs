@@ -37,6 +37,8 @@ IoTDB supports three methods for data import:
 </tbody>
 </table>
 
+- Does not support the Object data type.
+
 ## 2. Data Import Tool
 ### 2.1 Common Parameters
 

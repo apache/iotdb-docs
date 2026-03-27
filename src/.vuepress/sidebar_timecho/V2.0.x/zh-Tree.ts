@@ -77,9 +77,8 @@ export const zhSidebar = {
             text: 'AI 部署',
             collapsible: true,
             children: [
-              { text: 'AINode 部署', link: 'AINode_Deployment_timecho' },
-             /*  { text: 'AINode 部署(V2.0.5/6)', link: 'AINode_Deployment_timecho' },
-              { text: 'AINode 部署(V2.0.8)', link: 'AINode_Deployment_Upgrade_timecho' }, */
+              { text: 'AINode 部署(V2.0.5/6)', link: 'AINode_Deployment_timecho' },
+              { text: 'AINode 部署(V2.0.8)', link: 'AINode_Deployment_Upgrade_timecho' },
             ],
           },
           {
@@ -127,7 +126,6 @@ export const zhSidebar = {
             { text: '触发器', link: 'Trigger' },
           ],
         },
-        { text: '多级存储', link: 'Tiered-Storage_timecho' },
         { text: 'UDF', link: 'User-defined-function_timecho' },
         { text: '视图', link: 'IoTDB-View_timecho' },
         {
@@ -139,13 +137,14 @@ export const zhSidebar = {
             { text: '安全审计', link: 'Audit-Log_timecho' },
           ],
         },
+        { text: '多级存储', link: 'Tiered-Storage_timecho' },
         {
           text: '系统运维',
           collapsible: true,
           children: [
             { text: '查询性能分析', link: 'Query-Performance-Analysis' },
             { text: '集群维护', link: 'Load-Balance' },
-            { text: '运维语句', link: 'Maintenance-statement' },
+            { text: '运维语句', link: 'Maintenance-statement_timecho' },
           ],
         },
       ],
@@ -155,8 +154,10 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'AI-capability/',
       children: [
-        { text: 'AINode', link: 'AINode_timecho' },
-        { text: '时序大模型', link: 'TimeSeries-Large-Model' },
+        { text: 'AINode(V2.0.5/6)', link: 'AINode_timecho' },
+        { text: 'AINode(V2.0.8)', link: 'AINode_Upgrade_timecho' },
+        { text: '时序大模型(V2.0.5/6)', link: 'TimeSeries-Large-Model' },
+        { text: '时序大模型(V2.0.8)', link: 'TimeSeries-Large-Model_Upgrade_timecho' },
       ],
     },
     {
@@ -243,6 +244,7 @@ export const zhSidebar = {
           children: [
             { text: 'Apache Flink', link: 'Flink-IoTDB' },
             { text: 'Apache Spark', link: 'Spark-IoTDB' },
+            { text: 'Apache SeaTunnel', link: 'SeaTunnel_timecho' },
           ],
         },
         {
@@ -277,6 +279,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
+        { text: '快速 SQL 体验', link: 'QuickStart-Only-Sql_timecho' },
         { text: '标识符', link: 'Syntax-Rule' },
         { text: '关键字', link: 'Keywords' },
         { text: 'SQL手册', link: 'SQL-Manual_timecho' },

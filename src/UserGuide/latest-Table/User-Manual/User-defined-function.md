@@ -25,7 +25,7 @@
 
 UDF refers to user-defined functions. IoTDB offers a variety of built-in time-series processing functions while supporting custom function extensions to fulfill advanced computational needs.
 
-IoTDB's table model supports three types of UDFs, as detailed below:
+IoTDB's table mode supports three types of UDFs, as detailed below:
 
 | UDF Type                                | Function Type | Description                    |
 |-----------------------------------------|---------------|--------------------------------|
@@ -84,7 +84,7 @@ Key Notes:
 
 * Must not conflict with built-in function names.
 
-3. Model Isolation: UDFs in ​Table Model and ​Tree Model operate in separate namespaces.
+3. Mode Isolation: UDFs in ​Table Mode and ​Tree Mode operate in separate namespaces.
 
 4. Class Collision Warning: Avoid implementing UDF classes with identical full names but different logic across JARs. If present, IoTDB may randomly load one, causing inconsistent behavior.
 

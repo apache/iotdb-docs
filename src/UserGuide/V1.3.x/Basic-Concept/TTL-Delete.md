@@ -22,15 +22,14 @@
 
 ## Overview
 
-IoTDB supports device-level TTL settings, which means it is able to delete old data automatically and periodically. The benefit of using TTL is that hopefully you can control the total disk space usage and prevent the machine from running out of disks. Moreover, the query performance may downgrade as the total number of files goes up and the memory usage also increases as there are more files. Timely removing such files helps to keep at a high query performance level and reduce memory usage.
+IoTDB supports setting data retention time (TTL) at the device level, allowing the system to automatically and periodically delete old data to effectively control disk space and maintain high query performance and low memory usage. TTL is set in milliseconds by default. Once data expires, it cannot be queried or written, but physical deletion is delayed until compaction. Please note that changes to TTL may temporarily affect data queryability, and if TTL is reduced or removed, previously invisible data due to TTL may reappear.
 
-The default unit of TTL is milliseconds. If the time precision in the configuration file changes to another, the TTL is still set to milliseconds.
-
-When setting TTL, the system will look for all devices included in the set path and set TTL for these devices. The system will delete expired data at the device granularity.The expiration check here is based on the data point timestamp, not the write time.
-After the device data expires, it will not be queryable. The data in the disk file cannot be guaranteed to be deleted immediately, but it can be guaranteed to be deleted eventually.
-However, due to operational costs, the expired data will not be physically deleted right after expiring. The physical deletion is delayed until compaction.
-Therefore, before the data is physically deleted, if the TTL is reduced or lifted, it may cause data that was previously invisible due to TTL to reappear.
-The system can only set up to 1000 TTL rules, and when this limit is reached, some TTL rules need to be deleted before new rules can be set.
+Important notes:
+- TTL is set in milliseconds and is not affected by the time precision in the configuration file.
+- Changes to TTL may affect data queryability.
+- The system will eventually remove expired data, but there may be a delay.
+- TTL determines data expiration based on the data point timestamp, not the ingestion time.
+- The system supports setting up to 1000 TTL rules. When the limit is reached, existing rules must be removed before new ones can be added.
 
 ## Set TTL
 ### TTL Path Rule

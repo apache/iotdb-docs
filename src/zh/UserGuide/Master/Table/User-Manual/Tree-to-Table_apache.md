@@ -258,29 +258,22 @@ IoTDB> show tables details from information_schema
 +--------------+-------+------+-------+-----------+
 ```
 
-#### 2.4.2 **`Show Create Table/View`**
+#### 2.4.2 **`Show Create View`**
 1. 语法定义
 
 ```SQL
-SHOW CREATE TABLE|VIEW viewname;
+SHOW CREATE VIEW viewname;
 ```
 
 2. 语法说明
 
-* SHOW CREATE TABLE  语句可用于展示普通表或者视图的完整创建信息；
-* SHOW CREATE VIEW 语句仅可用于展示视图的完整创建信息；
-* 两种语句均不支持用于展示系统表；
+* 该语句用于获取表视图的完整定义语句。
+* 该语句会自动补全创建时省略的所有默认值，因此结果集中所展示的语句可能与原始创建语句不同。
+* 该语句不支持用于展示系统表；
 
 3. 使用示例
 
 ```SQL
-IoTDB> show create table tableview
-+---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|     View|                                                                                                                                                  Create View|
-+---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-|tableview|CREATE VIEW "tableview" ("device" STRING TAG,"model" STRING TAG,"status" BOOLEAN FIELD,"hardware" STRING FIELD) COMMENT '树转表' WITH (ttl=INF) AS root.ln.**|
-+---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-
 IoTDB> show create view tableview
 +---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |     View|                                                                                                                                                  Create View|
@@ -288,6 +281,9 @@ IoTDB> show create view tableview
 |tableview|CREATE VIEW "tableview" ("device" STRING TAG,"model" STRING TAG,"status" BOOLEAN FIELD,"hardware" STRING FIELD) COMMENT '表视图' WITH (ttl=INF) AS root.ln.**|
 +---------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
 ```
+
+> 除此之外，还支持通过 `show create table` 语句查看表视图创建信息，相关详细介绍可查看[show create table](../Basic-Concept/Table-Management_apache.md#_1-4-查看表的创建信息)
+
 
 ### 2.5 非对齐与对齐设备的查询差异
 

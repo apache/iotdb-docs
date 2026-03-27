@@ -105,82 +105,6 @@ CREATE TABLE tableC (
 
 Note: If your terminal does not support multi-line paste (e.g., Windows CMD), please reformat the SQL statement into a single line before execution.
 
-#### 1.1.2 Automatically Create Tables via SESSION
-
-Tables can be created automatically when inserting data via session.
-
-**Examples:**
-
-```Java
-try (ITableSession session =
-    new TableSessionBuilder()
-        .nodeUrls(Collections.singletonList("127.0.0.1:6667"))
-        .username("root")
-        .password("root")
-        .build()) {
-
-  session.executeNonQueryStatement("CREATE DATABASE db1");
-  session.executeNonQueryStatement("use db1");
-
-  // Insert data without manually creating the table
-  List<String> columnNameList =
-      Arrays.asList("region_id", "plant_id", "device_id", "model", "temperature", "humidity");
-  List<TSDataType> dataTypeList =
-      Arrays.asList(
-          TSDataType.STRING,
-          TSDataType.STRING,
-          TSDataType.STRING,
-          TSDataType.STRING,
-          TSDataType.FLOAT,
-          TSDataType.DOUBLE);
-  List<ColumnCategory> columnTypeList =
-      new ArrayList<>(
-          Arrays.asList(
-              ColumnCategory.TAG,
-              ColumnCategory.TAG,
-              ColumnCategory.TAG,
-              ColumnCategory.ATTRIBUTE,
-              ColumnCategory.FIELD,
-              ColumnCategory.FIELD));
-  Tablet tablet = new Tablet("table1", columnNameList, dataTypeList, columnTypeList, 100);
-  for (long timestamp = 0; timestamp < 100; timestamp++) {
-    int rowIndex = tablet.getRowSize();
-    tablet.addTimestamp(rowIndex, timestamp);
-    tablet.addValue("region_id", rowIndex, "1");
-    tablet.addValue("plant_id", rowIndex, "5");
-    tablet.addValue("device_id", rowIndex, "3");
-    tablet.addValue("model", rowIndex, "A");
-    tablet.addValue("temperature", rowIndex, 37.6F);
-    tablet.addValue("humidity", rowIndex, 111.1);
-    if (tablet.getRowSize() == tablet.getMaxRowNumber()) {
-      session.insert(tablet);
-      tablet.reset();
-    }
-  }
-  if (tablet.getRowSize() != 0) {
-    session.insert(tablet);
-    tablet.reset();
-  }
-}
-```
-
-After the code execution is complete, you can use the following statement to verify that the table has been successfully created, including details about the time column, tag columns, attribute columns, and field columns.
-
-```SQL
-IoTDB> desc table1
-+-----------+---------+-----------+-------+
-| ColumnName| DataType|   Category|Comment|
-+-----------+---------+-----------+-------+
-|       time|TIMESTAMP|       TIME|   null|
-|  region_id|   STRING|        TAG|   null|
-|   plant_id|   STRING|        TAG|   null|
-|  device_id|   STRING|        TAG|   null|
-|      model|   STRING|  ATTRIBUTE|   null|
-|temperature|    FLOAT|      FIELD|   null|
-|   humidity|   DOUBLE|      FIELD|   null|
-+-----------+---------+-----------+-------+
-```
-
 ### 1.2 View Tables
 
 Used to view all tables and their properties in the current or a specified database.
@@ -203,14 +127,19 @@ SHOW TABLES (DETAILS)? ((FROM | IN) database_name)?
 **Examples:**
 
 ```SQL
-IoTDB> show tables from database1
+show tables from database1;
+```
+```shell
 +---------+---------------+
 |TableName|        TTL(ms)|
 +---------+---------------+
 |   table1|    31536000000|
 +---------+---------------+
-
-IoTDB> show tables details from database1
+```
+```sql
+show tables details from database1;
+```
+```shell
 +---------------+-----------+------+-------+
 |      TableName|    TTL(ms)|Status|Comment|
 +---------------+-----------+------+-------+
@@ -238,7 +167,9 @@ Used to view column names, data types, categories, and states of a table.
 **Examples:** 
 
 ```SQL
-IoTDB> desc table1
+desc table1;
+```
+```shell
 +------------+---------+---------+
 |  ColumnName| DataType| Category|
 +------------+---------+---------+
@@ -253,8 +184,11 @@ IoTDB> desc table1
 |      status|  BOOLEAN|    FIELD|
 |arrival_time|TIMESTAMP|    FIELD|
 +------------+---------+---------+
-
-IoTDB> desc table1 details
+```
+```sql
+desc table1 details;
+```
+```shell
 +------------+---------+---------+------+------------+
 |  ColumnName| DataType| Category|Status|     Comment|
 +------------+---------+---------+------+------------+
@@ -271,19 +205,53 @@ IoTDB> desc table1 details
 +------------+---------+---------+------+------------+
 ```
 
-### 1.4 Update Tables
+### 1.4 View Table Creation Statement
+
+Retrieves the complete definition statement of a table or view under the table model. This feature automatically fills in all default values that were omitted during creation, so the displayed statement may differ from the original CREATE statement.
+
+> This feature is supported starting from v2.0.5.
+
+**Syntax:**
+
+```SQL
+SHOW CREATE TABLE <TABLE_NAME>
+```
+
+**Note:：**
+
+1. This statement does not support queries on system tables.
+
+**Example:**
+
+```SQL
+show create table table1;
+```
+```shell
++------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Table|                                                                                                                                                                                                                                                                     Create Table|
++------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|table1|CREATE TABLE "table1" ("region" STRING TAG,"plant_id" STRING TAG,"device_id" STRING TAG,"model_id" STRING ATTRIBUTE,"maintenance" STRING ATTRIBUTE,"temperature" FLOAT FIELD,"humidity" FLOAT FIELD,"status" BOOLEAN FIELD,"arrival_time" TIMESTAMP FIELD) WITH (ttl=31536000000)|
++------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+Total line number = 1
+```
+
+
+### 1.5 Update Tables
 
 Used to update a table, including adding or deleting columns and configuring table properties.
 
 **Syntax:**
 
 ```SQL
-ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? column=columnDefinition                #addColumn
-| ALTER TABLE (IF EXISTS)? tableName=qualifiedName DROP COLUMN (IF EXISTS)? column=identifier                     #dropColumn
-// set TTL can use this
-| ALTER TABLE (IF EXISTS)? tableName=qualifiedName SET PROPERTIES propertyAssignments                #setTableProperties
-| COMMENT ON TABLE tableName=qualifiedName IS 'table_comment'
-| COMMENT ON COLUMN tableName.column IS 'column_comment'
+#addColumn;
+ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? column=columnDefinition;  
+#dropColumn;              
+| ALTER TABLE (IF EXISTS)? tableName=qualifiedName DROP COLUMN (IF EXISTS)? column=identifier;   
+#setTableProperties;                  
+// set TTL can use this;
+| ALTER TABLE (IF EXISTS)? tableName=qualifiedName SET PROPERTIES propertyAssignments;                
+| COMMENT ON TABLE tableName=qualifiedName IS 'table_comment';
+| COMMENT ON COLUMN tableName.column IS 'column_comment';
 ```
 
 **Note:：**
@@ -295,14 +263,14 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? col
 **Example:** 
 
 ```SQL
-ALTER TABLE table1 ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a'
-ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b'
-ALTER TABLE table1 set properties TTL=3600
-COMMENT ON TABLE table1 IS 'table1'
-COMMENT ON COLUMN table1.a IS null
+ALTER TABLE table1 ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a';
+ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b';
+ALTER TABLE table1 set properties TTL=3600;
+COMMENT ON TABLE table1 IS 'table1';
+COMMENT ON COLUMN table1.a IS null;
 ```
 
-### 1.5 Delete Tables
+### 1.6 Delete Tables
 
 Used to delete a table.
 
@@ -315,6 +283,6 @@ DROP TABLE (IF EXISTS)? <TABLE_NAME>
 **Examples:**
 
 ```SQL
-DROP TABLE table1
-DROP TABLE database1.table1
+DROP TABLE table1;
+DROP TABLE database1.table1;
 ```
