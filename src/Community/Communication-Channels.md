@@ -48,7 +48,7 @@ To participate, create a JIRA account for task management and a Confluence accou
 
 ## 4. Slack
 
-For real-time communication with the international community: [Join Apache IoTDB Slack Workspace](https://apacheiotdb.slack.com/)
+For real-time communication with the international community: [Join Apache IoTDB Slack Workspace](https://join.slack.com/t/apacheiotdb/shared_invite/zt-3sh0ws7xf-JjVayYQt_RSUUHJ~iJOiSA)
 
 ## 5. X (Twitter)
 
