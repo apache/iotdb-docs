@@ -555,7 +555,7 @@ session.close()
 df = ...
 ```
 
-自 V2.0.8 版本起，SessionDataSet 提供分批获取 DataFrame 的方法，用于高效处理大数据量查询：
+自 V2.0.8.2 版本起，SessionDataSet 提供分批获取 DataFrame 的方法，用于高效处理大数据量查询：
 
 ```python
 # 分批获取 DataFrame

@@ -73,14 +73,14 @@ CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT, longitude FLOAT);
 ```
 
 #### 修改时间序列数据类型
-> V2.0.8 起支持该语句
+> V2.0.8.2 起支持该语句
 
 ```sql
 ALTER TIMESERIES root.ln.wf01.wt01.temperature set data type DOUBLE
 ```
 
 #### 修改时间序列名称
-> V2.0.8 起支持该语句
+> V2.0.8.2 起支持该语句
 
 ```SQL
 ALTER TIMESERIES root.ln.wf01.wt01.temperature RENAME TO root.newln.newwf.newwt.temperature 

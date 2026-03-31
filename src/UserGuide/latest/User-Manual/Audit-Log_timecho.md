@@ -38,6 +38,21 @@ Audit logs serve as the record credentials of a database, enabling tracking of v
 
 Edit the `iotdb-system.properties` file to enable audit logging using the following parameters:
 
+* V2.0.8.1
+
+| Parameter Name                              | Description                                                                                                 | Data Type | Default Value                 | Activation Method |
+|-------------------------------------------|------------------------------------------------------------------------------------------------------------|-----------|-------------------------------|-------------------|
+| `enable_audit_log`                        | Whether to enable audit logging. true: enabled. false: disabled.                                          | Boolean   | false                         | Hot Reload        |
+| `auditable_operation_type`                | Operation type selection. DML: all DML operations are logged; DDL: all DDL operations are logged; QUERY: all query operations are logged; CONTROL: all control statements are logged. | String    | DML,DDL,QUERY,CONTROL         | Hot Reload        |
+| `auditable_operation_level`               | Permission level selection. global: log all audit events; object: only log events related to data instances. Containment relationship: object < global. For example: when set to global, all audit logs are recorded normally; when set to object, only operations on specific data instances are recorded. | String    | global                        | Hot Reload        |
+| `auditable_operation_result`              | Audit result selection. success: log only successful events; fail: log only failed events                  | String    | success,fail                  | Hot Reload        |
+| `audit_log_ttl_in_days`                   | Audit log TTL (Time To Live). Logs older than this threshold will expire.                                   | Double    | -1.0 (never deleted)          | Hot Reload        |
+| `audit_log_space_tl_in_GB`                | Audit log SpaceTL. Logs will start rotating when total space reaches this threshold.                       | Double    | 1.0                             | Hot Reload        |
+| `audit_log_batch_interval_in_ms`          | Batch write interval for audit logs                                                                          | Long      | 1000                            | Hot Reload        |
+| `audit_log_batch_max_queue_bytes`         | Maximum byte size of the queue for batch processing audit logs. Subsequent write operations will be blocked when this threshold is exceeded. | Long      | 268435456                       | Hot Reload        |
+
+* V2.0.8.2
+
 | Parameter Name                              | Description                                                                                                 | Data Type | Default Value                 | Activation Method |
 |-------------------------------------------|------------------------------------------------------------------------------------------------------------|-----------|-------------------------------|-------------------|
 | `enable_audit_log`                        | Whether to enable audit logging. true: enabled. false: disabled.                                          | Boolean   | false                         | Hot Reload        |
