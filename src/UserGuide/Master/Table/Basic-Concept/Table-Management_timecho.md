@@ -66,17 +66,31 @@ comment
 
 **Note:**
 
-1. If the time column (`TIME`) is not specified, IoTDB automatically adds one. Other columns can be added using the `enable_auto_create_schema` configuration or session interface commands.
-2. Column categories default to `FIELD` if not specified. `TAG` and `ATTRIBUTE` columns must be of type `STRING`.
-3. Table `TTL` defaults to the database `TTL`. You can omit this property or set it to `default` if the default value is used.
-4. `<TABLE_NAME>`:
-   1. Case-insensitive. After creation, it will be displayed uniformly in lowercase.
-   2. Can include special characters such as `~!`"`%`, etc.
-   3. Names with special or Chinese characters must be enclosed in double quotes (`""`).
-   4. Outer double quotes are not retained in the final table name. For example: `"a""b"` becomes `a"b`.
-   5. Note: In SQL, table or column names with special characters or Chinese characters must be wrapped in double quotes. However, in the native API, do not add extra quotes—otherwise, the quotation marks will become part of the name itself.
-5. **`columnDefinition`**: Column names share the same characteristics as table names and can include special characters such as `.`.
-6. COMMENT adds comments to the table.
+1. When creating a table, you do not need to specify a time column. IoTDB automatically adds a column named "time" and places it as the first column. All other columns can be added by enabling the `enable_auto_create_schema` option in the database configuration, or through the session interface for automatic creation or by using table modification statements.
+2. Since version V2.0.8, tables support custom naming of the time column during creation. The order of the custom time column in the table is determined by the order in the creation SQL. The related constraints are as follows:
+
+   - When the column category is set to TIME, the data type must be TIMESTAMP.
+   - Each table allows at most one time column (columnCategory = TIME).
+   - If no time column is explicitly defined, no other column can use "time" as its name to avoid conflicts with the system's default time column naming.
+3. The column category can be omitted and defaults to FIELD. When the column category is TAG or ATTRIBUTE, the data type must be STRING (can be omitted).
+4. The TTL of a table defaults to the TTL of its database. If the default value is used, this attribute can be omitted or set to default.
+5. <TABLE_NAME> table name has the following characteristics:
+
+   - It is case-insensitive and, upon successful creation, is uniformly displayed in lowercase.
+   - The name can include special characters, such as `~!`"%`, etc.
+   - Table names containing special characters or Chinese characters must be enclosed in double quotation marks ("") during creation.
+
+      - Note: In SQL, special characters or Chinese table names must be enclosed in double quotes. In the native API, no additional quotes are needed; otherwise, the table name will include the quote characters.
+   - When naming a table, the outermost double quotation marks (`""`) will not appear in the actual table name.
+   - ```sql
+      -- In SQL
+      "a""b" --> a"b
+      """""" --> ""
+      -- In API
+      "a""b" --> "a""b"
+     ```
+6. columnDefinition column names have the same characteristics as table names and can include the special character `.`.
+7. COMMENT adds a comment to the table.
 
 **Examples:** 
 
@@ -101,6 +115,13 @@ CREATE TABLE tableC (
   "Site" STRING TAG,
   "Temperature" int32 FIELD COMMENT 'temperature'
  ) with (TTL=DEFAULT);
+ 
+ -- Custom time column: named time_test, located in the second column of the table.
+ CREATE TABLE table1 (
+     region STRING TAG, 
+     time_user_defined TIMESTAMP TIME, 
+     temperature FLOAT FIELD
+ );
 ```
 
 Note: If your terminal does not support multi-line paste (e.g., Windows CMD), please reformat the SQL statement into a single line before execution.
