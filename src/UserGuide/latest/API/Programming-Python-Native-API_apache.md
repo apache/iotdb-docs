@@ -31,9 +31,11 @@ You have to install thrift (>=0.13) before using the package.
 
 First, download the package: `pip3 install apache-iotdb>=2.0`
 
-You can get an example of using the package to read and write data at here:[Session Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/session_example.py)
+Note: Do not use a newer client to connect to an older server, as this may cause connection failures or unexpected errors.
 
-An example of aligned timeseries: [Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/session_aligned_timeseries_example.py)
+You can get an example of using the package to read and write data at here:[Session Example](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/session_example.py)
+
+An example of aligned timeseries: [Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/session_aligned_timeseries_example.py)
 
 (you need to add `import iotdb` in the head of the file)
 
@@ -192,9 +194,9 @@ def get_data():
         ip, port_, username_, password_, use_ssl=use_ssl, ca_certs=ca_certs
     )
     session.open(False)
-    result = session.execute_query_statement("select * from root.eg.etth")
-    df = result.todf()
-    df.rename(columns={"Time": "date"}, inplace=True)
+    with session.execute_query_statement("select * from root.eg.etth") as result:
+        df = result.todf()
+        df.rename(columns={"Time": "date"}, inplace=True)
     session.close()
     return df
 
@@ -215,9 +217,9 @@ def get_data2():
     wait_timeout_in_ms = 3000
     session_pool = SessionPool(pool_config, max_pool_size, wait_timeout_in_ms)
     session = session_pool.get_session()
-    result = session.execute_query_statement("select * from root.eg.etth")
-    df = result.todf()
-    df.rename(columns={"Time": "date"}, inplace=True)
+    with session.execute_query_statement("select * from root.eg.etth") as result:
+        df = result.todf()
+        df.rename(columns={"Time": "date"}, inplace=True)
     session_pool.put_back(session)
     session_pool.close()
 
@@ -545,17 +547,62 @@ username_ = "root"
 password_ = "root"
 session = Session(ip, port_, username_, password_)
 session.open(False)
-result = session.execute_query_statement("SELECT * FROM root.*")
-
-# Transform to Pandas Dataset
-df = result.todf()
-
+with session.execute_query_statement("SELECT ** FROM root") as result:
+  # Transform to Pandas Dataset
+  df = result.todf()
+  
 session.close()
 
 # Now you can work with the dataframe
 df = ...
 ```
 
+**Since V2.0.8-beta**, `SessionDataSet` provides methods for batch DataFrame retrieval to efficiently handle large-volume queries:
+
+```python
+# Batch DataFrame retrieval
+has_next = result.has_next_df()
+if has_next:
+    df = result.next_df()
+    # Process DataFrame
+```
+
+**Method Details:**
+- `has_next_df()`: Returns `True`/`False` indicating whether more data exists
+- `next_df()`: Returns a `DataFrame` or `None`. Each call returns `fetchSize` rows (default: 5000 rows, controlled by Session's `fetch_size` parameter):
+    - If remaining data ≥ `fetchSize`: returns `fetchSize` rows
+    - If remaining data < `fetchSize`: returns all remaining rows
+    - If traversal completes: returns `None`
+- Session validates `fetchSize` at initialization: if ≤0, resets to 5000 and logs warning: `fetch_size xxx is illegal, use default fetch_size 5000`
+
+**Note:** Avoid mixing different traversal methods (e.g., combining `todf()` with `next_df()`), which may cause unexpected errors.
+
+**Usage Example:**
+
+```python
+from iotdb.Session import Session
+
+# Initialize session with fetch_size=2
+session = Session(
+    host="127.0.0.1", port="6667", fetch_size=2
+)
+session.open(False)
+session.execute_non_query_statement("CREATE DATABASE root.device0")
+
+# Insert 3 records
+session.insert_str_record("root.device0", 123, "pressure", "15.0")
+session.insert_str_record("root.device0", 124, "pressure", "15.0")
+session.insert_str_record("root.device0", 125, "pressure", "15.0")
+
+# Query and batch retrieve
+with session.execute_query_statement("SELECT * FROM root.device0") as session_data_set:
+    while session_data_set.has_next_df():
+        df = session_data_set.next_df()
+        # Outputs two DataFrames: first with 2 rows, second with 1 row
+        print(df)
+
+session.close()
+```
 
 ## 10. IoTDB Testcontainer
 
@@ -569,8 +616,8 @@ class MyTestCase(unittest.TestCase):
         with IoTDBContainer() as c:
             session = Session("localhost", c.get_exposed_port(6667), "root", "root")
             session.open(False)
-            result = session.execute_query_statement("SHOW TIMESERIES")
-            print(result)
+            with session.execute_query_statement("SHOW TIMESERIES") result:
+              print(result)
             session.close()
 ```
 

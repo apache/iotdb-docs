@@ -101,10 +101,11 @@
 git clone https://github.com/apache/iotdb.git
 ```
 
-默认的主分支是 master 分支，如果你想使用某个发布版本，请切换分支 (如 1.3.2 版本):
+默认的主分支是 master 分支，如果你想使用某个发布版本，请切换分支 (如 2.0.6 版本):
 ```shell
-git checkout rc/1.3.2
+git checkout rc/2.0.6
 ```
+注意：请勿使用高版本客户端连接低版本服务。
 
 在 IoTDB 根目录下执行 maven 编译:
 
@@ -174,7 +175,7 @@ A:
 
 ### 3.1 TableSession 类
 
-C++ 客户端的操作均通过 TableSession 类进行，下面将给出 TableSession 接口中定义的方法说明。
+C++ 客户端的操作均通过 TableSession 类进行，下面将给出 TableSession 接口中定义的方法说明。 
 
 #### 3.1.1 方法列表
 
@@ -276,6 +277,7 @@ void insertRelationalTablet() {
     for (int row = 0; row < 100; row++) {
         int rowIndex = tablet.rowSize++;
         tablet.timestamps[rowIndex] = row;
+        
         // 使用基于索引的 API 比通过列名查找更高效
         // 推荐写法：tablet.addValue(0, rowIndex, "1");
         // 避免写法：tablet.addValue("region_id", rowIndex, "1");

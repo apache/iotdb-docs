@@ -662,12 +662,12 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 - dn_thrift_max_frame_size
 
-| Name        | dn_thrift_max_frame_size                       |
-| ----------- |------------------------------------------------|
-| Description | Maximum frame size for RPC requests/responses. |
-| Type        | long                                           |
-| Default     | 536870912 （Default 512MB)                      |
-| Effective   | Restart required.                              |
+| Name        | dn_thrift_max_frame_size                                                                                                                                                                                                                                                       |
+| ----------- |--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description | Maximum frame size for RPC requests/responses.                                                                                                                                                                                                                                 |
+| Type        | int                                                                                                                                                                                                                                                                            |
+| Default     | Defaults to 0, which means the value is automatically calculated based on the DN JVM configuration parameters at startup:<br>a. min(64MB, dn_alloc_memory/64)<br>b. If the user manually configures `dn_thrift_max_frame_size`, the user-specified value will be used instead. |
+| Effective   | Restart required.                                                                                                                                                                                                                                                              |
 
 - dn_thrift_init_buffer_size
 
@@ -1532,10 +1532,10 @@ The `iotdb-system.properties` file contains various configurations for managing 
 - slow_query_threshold
 
 | Name        | slow_query_threshold                   |
-| ----------- | -------------------------------------- |
+| ----------- |----------------------------------------|
 | Description | Time cost(ms) threshold for slow query |
 | Type        | long                                   |
-| Default     | 10000                                  |
+| Default     | 3000                                   |
 | Effective   | Hot reload                             |
 
 - query_cost_stat_window

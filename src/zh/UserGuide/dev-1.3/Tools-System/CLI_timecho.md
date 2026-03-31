@@ -54,17 +54,23 @@ Successfully login at 127.0.0.1:6667
 
 ## Cli 运行参数
 
-|参数名|参数类型|是否为必需参数| 说明| 例子 |
-|:---|:---|:---|:---|:---|
-|-disableISO8601 |没有参数 | 否 |如果设置了这个参数，IoTDB 将以数字的形式打印时间戳 (timestamp)。|-disableISO8601|
-|-h <`host`> |string 类型，不需要引号|是|IoTDB 客户端连接 IoTDB 服务器的 IP 地址。|-h 10.129.187.21|
-|-help|没有参数|否|打印 IoTDB 的帮助信息|-help|
-|-p <`rpcPort`>|int 类型|是|IoTDB 连接服务器的端口号，IoTDB 默认运行在 6667 端口。|-p 6667|
-|-pw <`password`>|string 类型，不需要引号|否|IoTDB 连接服务器所使用的密码。如果没有输入密码 IoTDB 会在 Cli 端提示输入密码。|-pw root|
-|-u <`username`>|string 类型，不需要引号|是|IoTDB 连接服务器锁使用的用户名。|-u root|
-|-maxPRC <`maxPrintRowCount`>|int 类型|否|设置 IoTDB 返回客户端命令行中所显示的最大行数。|-maxPRC 10|
-|-e <`execute`> |string 类型|否|在不进入客户端输入模式的情况下，批量操作 IoTDB|-e "show databases"|
-|-c | 空 | 否 | 如果服务器设置了 `rpc_thrift_compression_enable=true`, 则 CLI 必须使用 `-c` | -c |
+
+| **参数名**                      | **参数类型**   | **是否为必需参数** | **说明**                                                     | **示例**               |
+|:-----------------------------|:-----------|:------------|:-----------------------------------------------------------|:---------------------|
+| -h `<host>`                  | string 类型  | 否           | IoTDB 客户端连接 IoTDB 服务器的 IP 地址， 默认使用：127.0.0.1。              | -h  127.0.0.1        |
+| -p `<rpcPort>`               | int 类型     | 否           | IoTDB 客户端连接服务器的端口号，IoTDB 默认使用 6667。                        | -p 6667              |
+| -u `<username>`              | string 类型  | 否           | IoTDB 客户端连接服务器所使用的用户名，默认使用 root。                           | -u root              |
+| -pw `<password>`             | string 类型  | 否           | IoTDB 客户端连接服务器所使用的密码，默认使用 TimechoDB@2021（V2.0.6版本之前为root）。 | -pw root             |
+| -e `<execute>`               | string 类型  | 否           | 在不进入客户端输入模式的情况下，批量操作 IoTDB。                                | -e "show databases"  |
+| -c                           | 空          | 否           | 如果服务器设置了 rpc_thrift_compression_enable=true， 则 CLI 必须使用 -c | -c                   |
+| -disableISO8601              | 空          | 否           | 如果设置了这个参数，IoTDB 将以数字的形式打印时间戳 （timestamp）。                  | -disableISO8601      |
+| -usessl `<use_ssl>`          | Boolean 类型 | 否           | 否开启 ssl 连接                                                 | -usessl true         |
+| -ts `<trust_store>`          | string 类型  | 否           | ssl 证书存储路径                                                 | -ts /path/to/truststore  |
+| -tpw `<trust_store_pwd>`      | string 类型  | 否           | ssl 证书存储密码                                                 | -tpw myTrustPassword |
+| -timeout `<queryTimeout>`    | int 类型     | 否           | 查询超时时间（秒）。如果未设置，则使用服务器的配置。                                 | -timeout 30          |
+| -help                        | 空          | 否           | 打印 IoTDB 的帮助信息。                                            | -help                |
+
+
 
 下面展示一条客户端命令，功能是连接 IP 为 10.129.187.21 的主机，端口为 6667 ，用户名为 root，密码为 root，以数字的形式打印时间戳，IoTDB 命令行显示的最大行数为 10。
 

@@ -27,9 +27,9 @@
 
 According to the storage model we can set up the corresponding database. Two SQL statements are supported for creating databases, as follows:
 
-```
-IoTDB > create database root.ln
-IoTDB > create database root.sgcc
+```sql
+create database root.ln;
+create database root.sgcc;
 ```
 
 We can thus create two databases using the above two SQL statements.
@@ -38,11 +38,11 @@ It is worth noting that 1 database is recommended.
 
 When the path itself or the parent/child layer of the path is already created as database, the path is then not allowed to be created as database. For example, it is not feasible to create `root.ln.wf01` as database when two databases `root.ln` and `root.sgcc` exist. The system gives the corresponding error prompt as shown below:
 
-```
-IoTDB> CREATE DATABASE root.ln.wf01
-Msg: 300: root.ln has already been created as database.
-IoTDB> create database root.ln.wf01
-Msg: 300: root.ln has already been created as database.
+```sql
+CREATE DATABASE root.ln.wf01;
+Msg: 300: root.ln has already been created as database;
+create database root.ln.wf01;
+Msg: 300: root.ln has already been created as database;
 ```
 
 Database Node Naming Rules:
@@ -59,9 +59,9 @@ Besides, if deploy on Windows system, the LayerName is case-insensitive, which m
 
 After creating the database, we can use the [SHOW DATABASES](../SQL-Manual/SQL-Manual_timecho) statement and [SHOW DATABASES \<PathPattern>](../SQL-Manual/SQL-Manual_timecho) to view the databases. The SQL statements are as follows:
 
-```
-IoTDB> SHOW DATABASES
-IoTDB> SHOW DATABASES root.**
+```sql
+SHOW DATABASES;
+SHOW DATABASES root.**;
 ```
 
 The result is as follows:
@@ -81,11 +81,11 @@ It costs 0.060s
 
 User can use the `DELETE DATABASE <PathPattern>` statement to delete all databases matching the pathPattern. Please note the data in the database will also be deleted. 
 
-```
-IoTDB > DELETE DATABASE root.ln
-IoTDB > DELETE DATABASE root.sgcc
-// delete all data, all timeseries and all databases
-IoTDB > DELETE DATABASE root.**
+```sql
+DELETE DATABASE root.ln;
+DELETE DATABASE root.sgcc;
+// delete all data, all timeseries and all databases;
+DELETE DATABASE root.**;
 ```
 
 ### 1.4 Count Databases
@@ -94,11 +94,11 @@ User can use the `COUNT DATABASE <PathPattern>` statement to count the number of
 
 SQL statement is as follows:
 
-```
-IoTDB> count databases
-IoTDB> count databases root.*
-IoTDB> count databases root.sgcc.*
-IoTDB> count databases root.sgcc
+```sql
+count databases;
+count databases root.*;
+count databases root.sgcc.*;
+count databases root.sgcc;
 ```
 
 The result is as follows:
@@ -176,13 +176,13 @@ Users can set any heterogeneous parameters when creating a Database, or adjust s
 
 The user can set any of the above heterogeneous parameters when creating a Database. The SQL statement is as follows:
 
-```
+```sql
 CREATE DATABASE prefixPath (WITH databaseAttributeClause (COMMA? databaseAttributeClause)*)?
 ```
 
 For example:
 
-```
+```sql
 CREATE DATABASE root.db WITH SCHEMA_REPLICATION_FACTOR=1, DATA_REPLICATION_FACTOR=3, SCHEMA_REGION_GROUP_NUM=1, DATA_REGION_GROUP_NUM=2;
 ```
 
@@ -190,13 +190,13 @@ CREATE DATABASE root.db WITH SCHEMA_REPLICATION_FACTOR=1, DATA_REPLICATION_FACTO
 
 Users can adjust some heterogeneous parameters during the IoTDB runtime, as shown in the following SQL statement:
 
-```
-ALTER DATABASE prefixPath WITH databaseAttributeClause (COMMA? databaseAttributeClause)*
+```sql
+ALTER DATABASE prefixPath WITH databaseAttributeClause (COMMA? databaseAttributeClause)*;
 ```
 
 For example:
 
-```
+```sql
 ALTER DATABASE root.db WITH SCHEMA_REGION_GROUP_NUM=1, DATA_REGION_GROUP_NUM=2;
 ```
 
@@ -209,14 +209,16 @@ Note that only the following heterogeneous parameters can be adjusted at runtime
 
 The user can query the specific heterogeneous configuration of each Database, and the SQL statement is as follows:
 
-```
+```sql
 SHOW DATABASES DETAILS prefixPath?
 ```
 
 For example:
 
+```sql
+SHOW DATABASES DETAILS
 ```
-IoTDB> SHOW DATABASES DETAILS
+```
 +--------+--------+-----------------------+---------------------+---------------------+--------------------+-----------------------+-----------------------+------------------+---------------------+---------------------+
 |Database|     TTL|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|SchemaRegionGroupNum|MinSchemaRegionGroupNum|MaxSchemaRegionGroupNum|DataRegionGroupNum|MinDataRegionGroupNum|MaxDataRegionGroupNum|
 +--------+--------+-----------------------+---------------------+---------------------+--------------------+-----------------------+-----------------------+------------------+---------------------+---------------------+
@@ -278,7 +280,8 @@ The set ttl operation can be understood as setting a TTL rule, for example, sett
 The unset ttl operation indicates unmounting TTL for the corresponding path pattern; if there is no corresponding TTL, nothing will be done.
 If you want to set TTL to be infinitely large, you can use the INF keyword.
 The SQL Statement for setting TTL is as follow:
-```
+
+```sql
 set ttl to pathPattern 360000;
 ```
 Set the Time to Live (TTL) to a pathPattern of 360,000 milliseconds; the pathPattern should not contain a wildcard (\*) in the middle and must end with a double asterisk (\*\*). The pathPattern is used to match corresponding devices.
@@ -289,25 +292,28 @@ It is also permissible to specify a particular device without a wildcard (*).
 
 To unset TTL, we can use follwing SQL statement:
 
-```
-IoTDB> unset ttl from root.ln
+```sql
+unset ttl from root.ln
 ```
 
 After unset TTL, all data will be accepted in `root.ln`.
-```
-IoTDB> unset ttl from root.sgcc.**
+
+```sql
+unset ttl from root.sgcc.**
 ```
 
 Unset the TTL in the `root.sgcc` path.
 
 New syntax
-```
-IoTDB> unset ttl from root.**
+
+```sql
+unset ttl from root.**
 ```
 
 Old syntax
-```
-IoTDB> unset ttl to root.**
+
+```sql
+unset ttl to root.**
 ```
 There is no functional difference between the old and new syntax, and they are compatible with each other.
 The new syntax is just more conventional in terms of wording.
@@ -320,8 +326,10 @@ To Show TTL, we can use following SQL statement:
 
 show all ttl
 
+```sql
+SHOW ALL TTL;
 ```
-IoTDB> SHOW ALL TTL
+```
 +--------------+--------+
 |          path|     TTL|
 |       root.**|55555555|
@@ -330,8 +338,10 @@ IoTDB> SHOW ALL TTL
 ```
 
 show ttl on pathPattern
+```sql
+SHOW TTL ON root.db.**;
 ```
-IoTDB> SHOW TTL ON root.db.**;
+```
 +--------------+--------+
 |          path|     TTL|
 |    root.db.**|55555555|
@@ -343,8 +353,10 @@ The SHOW ALL TTL example gives the TTL for all path patterns.
 The SHOW TTL ON pathPattern shows the TTL for the path pattern specified.
 
 Display devices' ttl
+```sql
+show devices;
 ```
-IoTDB> show devices
+```
 +---------------+---------+---------+
 |         Device|IsAligned|      TTL|
 +---------------+---------+---------+
@@ -361,36 +373,36 @@ All devices will definitely have a TTL, meaning it cannot be null. INF represent
 
 According to the storage model selected before, we can create corresponding timeseries in the two databases respectively. The SQL statements for creating timeseries are as follows:
 
-```
-IoTDB > create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN
-IoTDB > create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT
-IoTDB > create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT
-IoTDB > create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN
-IoTDB > create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN
-IoTDB > create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT
+```sql
+create timeseries root.ln.wf01.wt01.status with datatype=BOOLEAN;
+create timeseries root.ln.wf01.wt01.temperature with datatype=FLOAT;
+create timeseries root.ln.wf02.wt02.hardware with datatype=TEXT;
+create timeseries root.ln.wf02.wt02.status with datatype=BOOLEAN;
+create timeseries root.sgcc.wf03.wt01.status with datatype=BOOLEAN;
+create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT;
 ```
 
 From v0.13, you can use a simplified version of the SQL statements to create timeseries:
 
-```
-IoTDB > create timeseries root.ln.wf01.wt01.status BOOLEAN
-IoTDB > create timeseries root.ln.wf01.wt01.temperature FLOAT
-IoTDB > create timeseries root.ln.wf02.wt02.hardware TEXT
-IoTDB > create timeseries root.ln.wf02.wt02.status BOOLEAN
-IoTDB > create timeseries root.sgcc.wf03.wt01.status BOOLEAN
-IoTDB > create timeseries root.sgcc.wf03.wt01.temperature FLOAT
+```sql
+create timeseries root.ln.wf01.wt01.status BOOLEAN;
+create timeseries root.ln.wf01.wt01.temperature FLOAT;
+create timeseries root.ln.wf02.wt02.hardware TEXT;
+create timeseries root.ln.wf02.wt02.status BOOLEAN;
+create timeseries root.sgcc.wf03.wt01.status BOOLEAN;
+create timeseries root.sgcc.wf03.wt01.temperature FLOAT;
 ```
 
 When creating a timeseries, the system will automatically assign default encoding and compression methods, requiring no manual specification. If your business scenario requires custom adjustments, you may refer to the following example:
 
-```shell
-IoTDB > create timeseries root.sgcc.wf03.wt01.temperature FLOAT encoding=PLAIN compressor=SNAPPY
+```sql
+create timeseries root.sgcc.wf03.wt01.temperature FLOAT encoding=PLAIN compressor=SNAPPY;
 ```
 
 Note that if you manually specify an encoding method that is incompatible with the data type, the system will return an error message, as shown below:
 
-```
-IoTDB > create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODING=TS_2DIFF
+```sql
+create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODING=TS_2DIFF;
 error: encoding TS_2DIFF does not support BOOLEAN
 ```
 
@@ -401,28 +413,53 @@ For a full list of supported data types and corresponding encoding methods, plea
 
 The SQL statement for creating a group of timeseries are as follows:
 
-```
-IoTDB> CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT, longitude FLOAT)
+```sql
+CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT, longitude FLOAT);
 ```
 
 You can set different datatype, encoding, and compression for the timeseries in a group of aligned timeseries
 
 It is also supported to set an alias, tag, and attribute for aligned timeseries.
 
-### 2.3 Delete Timeseries
+### 2.3 Modifying Timeseries Name
+
+Since version V2.0.8, it has been supported to modify the full path name of a timeseries through SQL statements. After a successful modification, the original name becomes invalid but is still retained in the metadata storage.
+
+Syntax definition:
+
+```sql
+-- Supports modifying the full path of a certain sequence to another full path
+ALTER TIMESERIES <oldPath> RENAME TO <newPath>
+```
+
+Usage instructions:
+
+- This statement takes effect immediately upon successful execution, and the tags/attributes/alias of the original sequence will be migrated to the new sequence.
+- The invalidated sequence (original sequence) no longer supports write, query, delete, or other operations. The name of the invalidated sequence will be retained by the system, and creating a new sequence with the same name is not allowed. This ensures the uniqueness and traceability of the original sequence name: it supports viewing the original sequence through the `SHOW INVALID TIMESERIES` statement, preventing the loss of original sequence information due to frequent modifications, significantly improving data traceability and problem localization efficiency.
+- The new sequence does not support creating views. When modifying the encoding, compression, sequence type, tags, attributes, or alias of the new sequence, the original sequence will not be modified; deleting the new sequence will also modify the original sequence.
+- If the new sequence path or the alias of the original sequence under the target device already exists (including real sequences, views, invalid sequences, and their aliases), the system will report an error.
+
+Usage example:
+
+```sql
+ALTER TIMESERIES root.ln.wf01.wt01.temperature RENAME TO root.newln.newwf.newwt.temperature
+```
+
+
+### 2.4 Delete Timeseries
 
 To delete the timeseries we created before, we are able to use `(DELETE | DROP) TimeSeries <PathPattern>` statement.
 
 The usage are as follows:
 
-```
-IoTDB> delete timeseries root.ln.wf01.wt01.status
-IoTDB> delete timeseries root.ln.wf01.wt01.temperature, root.ln.wf02.wt02.hardware
-IoTDB> delete timeseries root.ln.wf02.*
-IoTDB> drop timeseries root.ln.wf02.*
+```sql
+delete timeseries root.ln.wf01.wt01.status;
+delete timeseries root.ln.wf01.wt01.temperature, root.ln.wf02.wt02.hardware;
+delete timeseries root.ln.wf02.*;
+drop timeseries root.ln.wf02.*;
 ```
 
-### 2.4 Show Timeseries
+### 2.5 Show Timeseries
 
 * SHOW LATEST? TIMESERIES pathPattern? whereClause? limitClause?
 
@@ -440,9 +477,9 @@ Examples:
 
     returns all timeseries information matching the given <`PathPattern`>. SQL statements are as follows:
 
-```
-IoTDB> show timeseries root.**
-IoTDB> show timeseries root.ln.**
+```sql
+show timeseries root.**;
+show timeseries root.ln.**;
 ```
 
 The results are shown below respectively:
@@ -478,7 +515,7 @@ It costs 0.004s
 
     returns all the timeseries information start from the offset and limit the number of series returned. For example,
 
-```
+```sql
 show timeseries root.ln.** limit 10 offset 10
 ```
 
@@ -486,7 +523,7 @@ show timeseries root.ln.** limit 10 offset 10
 
     The query result set is filtered by string fuzzy matching based on the names of the timeseries. For example:
 
-```
+```sql
 show timeseries root.ln.** where timeseries contains 'wf01.wt'
 ```
 
@@ -507,7 +544,7 @@ It costs 0.016s
 
     The query result set is filtered by data type. For example:
 
-```
+```sql
 show timeseries root.ln.** where dataType=FLOAT
 ```
 
@@ -532,9 +569,9 @@ It costs 0.016s
 
   The query result set is filtered by tags. For example:
 
-```
-show timeseries root.ln.** where TAGS(unit)='c'
-show timeseries root.ln.** where TAGS(description) contains 'test1'
+```sql
+show timeseries root.ln.** where TAGS(unit)='c';
+show timeseries root.ln.** where TAGS(description) contains 'test1';
 ```
 
 The query results are as follows:
@@ -565,8 +602,23 @@ It costs 0.004s
 
 It is worth noting that when the queried path does not exist, the system will return no timeseries.  
 
+- SHOW INVALID TIMESERIES
 
-### 2.5 Count Timeseries
+  Since version V2.0.8, this SQL statement is supported to display the invalidated timeseries after a successful full path name modification.
+
+```sql
+IoTDB> show invalid timeSeries
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
+|                   Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|                           NewPath|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
+|root.ln.wf01.wt01.temperature| null| root.ln|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|root.newln.newwf.newwt.temperature|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
+```
+
+Explanation: The last column, "NewPath," in the returned result displays the new sequence corresponding to the invalidated sequence. This serves scenarios such as view construction and cluster migration (Load + rename).
+
+
+### 2.6 Count Timeseries
 
 IoTDB is able to use `COUNT TIMESERIES <Path>` to count the number of timeseries matching the path. SQL statements are as follows:
 
@@ -576,16 +628,16 @@ IoTDB is able to use `COUNT TIMESERIES <Path>` to count the number of timeseries
 * `LEVEL` could be defined to show count the number of timeseries of each node at the given level in current Metadata Tree. This could be used to query the number of sensors under each device. The grammar is: `COUNT TIMESERIES <Path> GROUP BY LEVEL=<INTEGER>`.
 
 
-```
-IoTDB > COUNT TIMESERIES root.**
-IoTDB > COUNT TIMESERIES root.ln.**
-IoTDB > COUNT TIMESERIES root.ln.*.*.status
-IoTDB > COUNT TIMESERIES root.ln.wf01.wt01.status
-IoTDB > COUNT TIMESERIES root.** WHERE TIMESERIES contains 'sgcc' 
-IoTDB > COUNT TIMESERIES root.** WHERE DATATYPE = INT64
-IoTDB > COUNT TIMESERIES root.** WHERE TAGS(unit) contains 'c' 
-IoTDB > COUNT TIMESERIES root.** WHERE TAGS(unit) = 'c' 
-IoTDB > COUNT TIMESERIES root.** WHERE TIMESERIES contains 'sgcc' group by level = 1
+```sql
+COUNT TIMESERIES root.**;
+COUNT TIMESERIES root.ln.**;
+COUNT TIMESERIES root.ln.*.*.status;
+COUNT TIMESERIES root.ln.wf01.wt01.status;
+COUNT TIMESERIES root.** WHERE TIMESERIES contains 'sgcc' ;
+COUNT TIMESERIES root.** WHERE DATATYPE = INT64;
+COUNT TIMESERIES root.** WHERE TAGS(unit) contains 'c' ;
+COUNT TIMESERIES root.** WHERE TAGS(unit) = 'c' ;
+COUNT TIMESERIES root.** WHERE TIMESERIES contains 'sgcc' group by level = 1;
 ```
 
 For example, if there are several timeseries (use `show timeseries` to show all timeseries):
@@ -612,10 +664,10 @@ Then the Metadata Tree will be as below:
 
 As can be seen, `root` is considered as `LEVEL=0`. So when you enter statements such as:
 
-```
-IoTDB > COUNT TIMESERIES root.** GROUP BY LEVEL=1
-IoTDB > COUNT TIMESERIES root.ln.** GROUP BY LEVEL=2
-IoTDB > COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2
+```sql
+COUNT TIMESERIES root.** GROUP BY LEVEL=1;
+COUNT TIMESERIES root.ln.** GROUP BY LEVEL=2;
+COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2;
 ```
 
 You will get following results:
@@ -651,17 +703,17 @@ It costs 0.002s
 
 > Note: The path of timeseries is just a filter condition, which has no relationship with the definition of level.
 
-### 2.6 Active Timeseries Query
+### 2.7 Active Timeseries Query
 By adding WHERE time filter conditions to the existing SHOW/COUNT TIMESERIES, we can obtain time series with data within the specified time range.
 
 It is important to note that in metadata queries with time filters, views are not considered; only the time series actually stored in the TsFile are taken into account.
 
 An example usage is as follows:
-```
-IoTDB> insert into root.sg.data(timestamp, s1,s2) values(15000, 1, 2);
-IoTDB> insert into root.sg.data2(timestamp, s1,s2) values(15002, 1, 2);
-IoTDB> insert into root.sg.data3(timestamp, s1,s2) values(16000, 1, 2);
-IoTDB> show timeseries;
+```sql
+insert into root.sg.data(timestamp, s1,s2) values(15000, 1, 2);
+insert into root.sg.data2(timestamp, s1,s2) values(15002, 1, 2);
+insert into root.sg.data3(timestamp, s1,s2) values(16000, 1, 2);
+show timeseries;
 +----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
 |      Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|
 +----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
@@ -673,7 +725,7 @@ IoTDB> show timeseries;
 |root.sg.data2.s2| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
 +----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
 
-IoTDB> show timeseries where time >= 15000 and time < 16000;
+show timeseries where time >= 15000 and time < 16000;
 +----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
 |      Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|
 +----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
@@ -683,7 +735,7 @@ IoTDB> show timeseries where time >= 15000 and time < 16000;
 |root.sg.data2.s2| null| root.sg|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|
 +----------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+
 
-IoTDB> count timeseries where time >= 15000 and time < 16000;
+count timeseries where time >= 15000 and time < 16000;
 +-----------------+
 |count(timeseries)|
 +-----------------+
@@ -691,7 +743,7 @@ IoTDB> count timeseries where time >= 15000 and time < 16000;
 +-----------------+
 ```
 Regarding the definition of active time series, data that can be queried normally is considered active, meaning time series that have been inserted but deleted are not included.
-### 2.7 Tag and Attribute Management
+### 2.8 Tag and Attribute Management
 
 We can also add an alias, extra tag and attribute information while creating one timeseries.
 
@@ -702,8 +754,8 @@ The differences between tag and attribute are:
 
 The SQL statements for creating timeseries with extra tag and attribute information are extended as follows:
 
-```
-create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2)
+```sql
+create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2);
 ```
 
 The `temprature` in the brackets is an alias for the sensor `s1`. So we can use `temprature` to replace `s1` anywhere.
@@ -716,31 +768,31 @@ We can update the tag information after creating it as following:
 
 * Rename the tag/attribute key
 
-```
+```sql
 ALTER timeseries root.turbine.d1.s1 RENAME tag1 TO newTag1
 ```
 
 * Reset the tag/attribute value
 
-```
+```sql
 ALTER timeseries root.turbine.d1.s1 SET newTag1=newV1, attr1=newV1
 ```
 
 * Delete the existing tag/attribute
 
-```
+```sql
 ALTER timeseries root.turbine.d1.s1 DROP tag1, tag2
 ```
 
 * Add new tags
 
-```
+```sql
 ALTER timeseries root.turbine.d1.s1 ADD TAGS tag3=v3, tag4=v4
 ```
 
 * Add new attributes
 
-```
+```sql
 ALTER timeseries root.turbine.d1.s1 ADD ATTRIBUTES attr3=v3, attr4=v4
 ```
 
@@ -748,23 +800,23 @@ ALTER timeseries root.turbine.d1.s1 ADD ATTRIBUTES attr3=v3, attr4=v4
 
 > add alias or a new key-value if the alias or key doesn't exist, otherwise, update the old one with new value.
 
-```
+```sql
 ALTER timeseries root.turbine.d1.s1 UPSERT ALIAS=newAlias TAGS(tag3=v3, tag4=v4) ATTRIBUTES(attr3=v3, attr4=v4)
 ```
 
 * Show timeseries using tags. Use TAGS(tagKey) to identify the tags used as filter key
 
-```
+```sql
 SHOW TIMESERIES (<`PathPattern`>)? timeseriesWhereClause
 ```
 
 returns all the timeseries information that satisfy the where condition and match the pathPattern. SQL statements are as follows:
 
-```
-ALTER timeseries root.ln.wf02.wt02.hardware ADD TAGS unit=c
-ALTER timeseries root.ln.wf02.wt02.status ADD TAGS description=test1
-show timeseries root.ln.** where TAGS(unit)='c'
-show timeseries root.ln.** where TAGS(description) contains 'test1'
+```sql
+ALTER timeseries root.ln.wf02.wt02.hardware ADD TAGS unit=c;
+ALTER timeseries root.ln.wf02.wt02.status ADD TAGS description=test1;
+show timeseries root.ln.** where TAGS(unit)='c';
+show timeseries root.ln.** where TAGS(description) contains 'test1';
 ```
 
 The results are shown below respectly:
@@ -789,23 +841,23 @@ It costs 0.004s
 
 - count timeseries using tags
 
-```
-COUNT TIMESERIES (<`PathPattern`>)? timeseriesWhereClause
-COUNT TIMESERIES (<`PathPattern`>)? timeseriesWhereClause GROUP BY LEVEL=<INTEGER>
+```sql
+COUNT TIMESERIES (<`PathPattern`>)? timeseriesWhereClause;
+COUNT TIMESERIES (<`PathPattern`>)? timeseriesWhereClause GROUP BY LEVEL=<INTEGER>;
 ```
 
 returns all the number of timeseries that satisfy the where condition and match the pathPattern. SQL statements are as follows:
 
-```
-count timeseries
-count timeseries root.** where TAGS(unit)='c'
-count timeseries root.** where TAGS(unit)='c' group by level = 2
+```sql
+count timeseries;
+count timeseries root.** where TAGS(unit)='c';
+count timeseries root.** where TAGS(unit)='c' group by level = 2;
 ```
 
 The results are shown below respectly :
 
-```
-IoTDB> count timeseries
+```sql
+count timeseries;
 +-----------------+
 |count(timeseries)|
 +-----------------+
@@ -813,7 +865,7 @@ IoTDB> count timeseries
 +-----------------+
 Total line number = 1
 It costs 0.019s
-IoTDB> count timeseries root.** where TAGS(unit)='c'
+count timeseries root.** where TAGS(unit)='c';
 +-----------------+
 |count(timeseries)|
 +-----------------+
@@ -821,7 +873,7 @@ IoTDB> count timeseries root.** where TAGS(unit)='c'
 +-----------------+
 Total line number = 1
 It costs 0.020s
-IoTDB> count timeseries root.** where TAGS(unit)='c' group by level = 2
+count timeseries root.** where TAGS(unit)='c' group by level = 2;
 +--------------+-----------------+
 |        column|count(timeseries)|
 +--------------+-----------------+
@@ -837,14 +889,14 @@ It costs 0.011s
 
 create aligned timeseries
 
-```
+```sql
 create aligned timeseries root.sg1.d1(s1 INT32 tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2), s2 DOUBLE tags(tag3=v3, tag4=v4) attributes(attr3=v3, attr4=v4))
 ```
 
 The execution result is as follows:
 
-```
-IoTDB> show timeseries
+```sql
+show timeseries
 +--------------+-----+-------------+--------+--------+-----------+-------------------------+---------------------------+--------+-------------------+
 |    timeseries|alias|     database|dataType|encoding|compression|                     tags|                 attributes|deadband|deadband parameters|
 +--------------+-----+-------------+--------+--------+-----------+-------------------------+---------------------------+--------+-------------------+
@@ -855,8 +907,8 @@ IoTDB> show timeseries
 
 Support query：
 
-```
-IoTDB> show timeseries where TAGS(tag1)='v1'
+```sql
+show timeseries where TAGS(tag1)='v1'
 +--------------+-----+-------------+--------+--------+-----------+-------------------------+---------------------------+--------+-------------------+
 |    timeseries|alias|     database|dataType|encoding|compression|                     tags|                 attributes|deadband|deadband parameters|
 +--------------+-----+-------------+--------+--------+-----------+-------------------------+---------------------------+--------+-------------------+
@@ -922,7 +974,7 @@ To make it more convenient and efficient to express multiple time series, IoTDB 
 
 ### 3.5 Show Child Paths
 
-```
+```sql
 SHOW CHILD PATHS pathPattern
 ```
 
@@ -950,7 +1002,7 @@ It costs 0.002s
 
 ### 3.6 Show Child Nodes
 
-```
+```sql
 SHOW CHILD NODES pathPattern
 ```
 
@@ -987,11 +1039,11 @@ IoTDB is able to use `COUNT NODES <PathPattern> LEVEL=<INTEGER>` to count the nu
   This could be used to query the number of devices with specified measurements. The usage are as
    follows:
 
-```
-IoTDB > COUNT NODES root.** LEVEL=2
-IoTDB > COUNT NODES root.ln.** LEVEL=2
-IoTDB > COUNT NODES root.ln.wf01.** LEVEL=3
-IoTDB > COUNT NODES root.**.temperature LEVEL=3
+```sql
+COUNT NODES root.** LEVEL=2;
+COUNT NODES root.ln.** LEVEL=2;
+COUNT NODES root.ln.wf01.** LEVEL=3;
+COUNT NODES root.**.temperature LEVEL=3;
 ```
 
 As for the above mentioned example and Metadata tree, you can get following results:
@@ -1044,10 +1096,10 @@ Similar to `Show Timeseries`, IoTDB also supports two ways of viewing devices:
 
 SQL statement is as follows:
 
-```
-IoTDB> show devices
-IoTDB> show devices root.ln.**
-IoTDB> show devices root.ln.** where device contains 't'
+```sql
+show devices;
+show devices root.ln.**;
+show devices root.ln.** where device contains 't';
 ```
 
 You can get results below:
@@ -1084,9 +1136,9 @@ To view devices' information with database, we can use `SHOW DEVICES WITH DATABA
 
 SQL statement is as follows:
 
-```
-IoTDB> show devices with database
-IoTDB> show devices root.ln.** with database
+```sql
+show devices with database;
+show devices root.ln.** with database;
 ```
 
 You can get results below:
@@ -1121,10 +1173,10 @@ The above statement is used to count the number of devices. At the same time, it
 
 SQL statement is as follows:
 
-```
-IoTDB> show devices
-IoTDB> count devices
-IoTDB> count devices root.ln.**
+```sql
+show devices;
+count devices;
+count devices root.ln.**;
 ```
 
 You can get results below:
@@ -1160,11 +1212,11 @@ It costs 0.004s
 
 ### 3.10 Active Device Query
 Similar to active timeseries query, we can add time filter conditions to device viewing and statistics to query active devices that have data within a certain time range. The definition of active here is the same as for active time series. An example usage is as follows:
-```
-IoTDB> insert into root.sg.data(timestamp, s1,s2) values(15000, 1, 2);
-IoTDB> insert into root.sg.data2(timestamp, s1,s2) values(15002, 1, 2);
-IoTDB> insert into root.sg.data3(timestamp, s1,s2) values(16000, 1, 2);
-IoTDB> show devices;
+```sql
+insert into root.sg.data(timestamp, s1,s2) values(15000, 1, 2);
+insert into root.sg.data2(timestamp, s1,s2) values(15002, 1, 2);
+insert into root.sg.data3(timestamp, s1,s2) values(16000, 1, 2);
+show devices;
 +-------------------+---------+
 |            devices|isAligned|
 +-------------------+---------+
@@ -1173,7 +1225,7 @@ IoTDB> show devices;
 |      root.sg.data3|    false|
 +-------------------+---------+
 
-IoTDB> show devices where time >= 15000 and time < 16000;
+show devices where time >= 15000 and time < 16000;
 +-------------------+---------+
 |            devices|isAligned|
 +-------------------+---------+
@@ -1181,7 +1233,7 @@ IoTDB> show devices where time >= 15000 and time < 16000;
 |      root.sg.data2|    false|
 +-------------------+---------+
 
-IoTDB> count devices where time >= 15000 and time < 16000;
+count devices where time >= 15000 and time < 16000;
 +--------------+
 |count(devices)|
 +--------------+

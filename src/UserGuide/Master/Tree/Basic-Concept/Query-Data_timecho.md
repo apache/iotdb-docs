@@ -114,7 +114,7 @@ SELECT [LAST] selectExpr [, selectExpr] ...
 The SQL statement is:
 
 ```sql
-select temperature from root.ln.wf01.wt01 where time < 2017-11-01T00:08:00.000
+select temperature from root.ln.wf01.wt01 where time < 2017-11-01T00:08:00.000;
 ```
 
 which means:
@@ -374,8 +374,10 @@ which means: Query and return the last data points of timeseries prefixPath.path
 
 **Example 1:** get the last point of root.ln.wf01.wt01.status:
 
+```sql
+select last status from root.ln.wf01.wt01;
 ```
-IoTDB> select last status from root.ln.wf01.wt01
+```
 +-----------------------------+------------------------+-----+--------+
 |                         Time|              timeseries|value|dataType|
 +-----------------------------+------------------------+-----+--------+
@@ -387,8 +389,10 @@ It costs 0.000s
 
 **Example 2:** get the last status and temperature points of root.ln.wf01.wt01, whose timestamp larger or equal to 2017-11-07T23:50:00。
 
+```sql
+select last status, temperature from root.ln.wf01.wt01 where time >= 2017-11-07T23:50:00;
 ```
-IoTDB> select last status, temperature from root.ln.wf01.wt01 where time >= 2017-11-07T23:50:00
+```
 +-----------------------------+-----------------------------+---------+--------+
 |                         Time|                   timeseries|    value|dataType|
 +-----------------------------+-----------------------------+---------+--------+
@@ -401,8 +405,10 @@ It costs 0.002s
 
 **Example 3:** get the last points of all sensor in root.ln.wf01.wt01, and order the result by the timeseries column in descending order
 
+```sql
+select last * from root.ln.wf01.wt01 order by timeseries desc;
 ```
-IoTDB> select last * from root.ln.wf01.wt01 order by timeseries desc;
+```
 +-----------------------------+-----------------------------+---------+--------+
 |                         Time|                   timeseries|    value|dataType|
 +-----------------------------+-----------------------------+---------+--------+
@@ -415,8 +421,10 @@ It costs 0.002s
 
 **Example 4：** get the last points of all sensor in root.ln.wf01.wt01, and order the result by the dataType column in descending order
 
+```sql
+select last * from root.ln.wf01.wt01 order by dataType desc;
 ```
-IoTDB> select last * from root.ln.wf01.wt01 order by dataType desc;
+```
 +-----------------------------+-----------------------------+---------+--------+
 |                         Time|                   timeseries|    value|dataType|
 +-----------------------------+-----------------------------+---------+--------+
@@ -428,9 +436,10 @@ It costs 0.002s
 ```
 
 **Note:** The requirement to query the latest data point with other filtering conditions can be implemented through function composition. For example:
-
+```sql
+select max_time(*), last_value(*) from root.ln.wf01.wt01 where time >= 2017-11-07T23:50:00 and status = false align by device;
 ```
-IoTDB> select max_time(*), last_value(*) from root.ln.wf01.wt01 where time >= 2017-11-07T23:50:00 and status = false align by device
+```
 +-----------------+---------------------+----------------+-----------------------+------------------+
 |           Device|max_time(temperature)|max_time(status)|last_value(temperature)|last_value(status)|
 +-----------------+---------------------+----------------+-----------------------+------------------+
@@ -454,7 +463,7 @@ The supported operators are as follows:
 
 ### 3.1 Time Filter
 
-Use time filters to filter data for a specific time range. For supported formats of timestamps, please refer to [Timestamp](../Background-knowledge/Data-Type_timecho.md) .
+Use time filters to filter data for a specific time range. For supported formats of timestamps, please refer to [Timestamp](../Background-knowledge/Data-Type.md) .
 
 An example is as follows:
 
@@ -547,8 +556,10 @@ In the value filter condition, for TEXT type data, use `Like` and `Regexp` opera
 
 **Example 1:** Query data containing `'cc'` in `value` under `root.sg.d1`. 
 
+```sql
+select * from root.sg.d1 where value like '%cc%'
 ```
-IoTDB> select * from root.sg.d1 where value like '%cc%'
+```
 +-----------------------------+----------------+
 |                         Time|root.sg.d1.value|
 +-----------------------------+----------------+
@@ -561,8 +572,10 @@ It costs 0.002s
 
 **Example 2:** Query data that consists of 3 characters and the second character is `'b'` in `value` under `root.sg.d1`.
 
+```sql
+select * from root.sg.device where value like '_b_';
 ```
-IoTDB> select * from root.sg.device where value like '_b_'
+```
 +-----------------------------+----------------+
 |                         Time|root.sg.d1.value|
 +-----------------------------+----------------+
@@ -587,8 +600,10 @@ Beginning with a: ^a.*
 
 **Example 1:** Query a string composed of 26 English characters for the value under root.sg.d1
 
+```sql
+select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
 ```
-IoTDB> select * from root.sg.d1 where value regexp '^[A-Za-z]+$'
+```
 +-----------------------------+----------------+
 |                         Time|root.sg.d1.value|
 +-----------------------------+----------------+
@@ -601,8 +616,10 @@ It costs 0.002s
 
 **Example 2:** Query root.sg.d1 where the value value is a string composed of 26 lowercase English characters and the time is greater than 100
 
+```sql
+select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
 ```
-IoTDB> select * from root.sg.d1 where value regexp '^[a-z]+$' and time > 100
+```
 +-----------------------------+----------------+
 |                         Time|root.sg.d1.value|
 +-----------------------------+----------------+
@@ -1607,16 +1624,16 @@ you can use the `HAVING` clause after the `GROUP BY` clause.
 > The following usages are incorrect: 
 >
 > ```sql
-> select count(s1) from root.** group by ([1,3),1ms) having sum(s1) > s1
-> select count(s1) from root.** group by ([1,3),1ms) having s1 > 1
+> select count(s1) from root.** group by ([1,3),1ms) having sum(s1) > s1;
+> select count(s1) from root.** group by ([1,3),1ms) having s1 > 1;
 > ```
 >
 > 2.When filtering the `GROUP BY LEVEL` result, the PATH in `SELECT` and `HAVING` can only have one node.
 > The following usages are incorrect:
 >
 > ```sql
-> select count(s1) from root.** group by ([1,3),1ms), level=1 having sum(d1.s1) > 1
-> select count(d1.s1) from root.** group by ([1,3),1ms), level=1 having sum(s1) > 1
+> select count(s1) from root.** group by ([1,3),1ms), level=1 having sum(d1.s1) > 1;
+> select count(d1.s1) from root.** group by ([1,3),1ms), level=1 having sum(s1) > 1;
 > ```
 
 Here are a few examples of using the 'HAVING' clause to filter aggregate results.
@@ -1638,7 +1655,7 @@ Aggregation result 1：
 Aggregation result filtering query 1：
 
 ```sql
- select count(s1) from root.** group by ([1,11),2ms), level=1 having count(s2) > 1
+ select count(s1) from root.** group by ([1,11),2ms), level=1 having count(s2) > 1;
 ```
 
 Filtering result 1：
@@ -1675,7 +1692,7 @@ Aggregation result 2：
 Aggregation result filtering query 2：
 
 ```sql
- select count(s1), count(s2) from root.** group by ([1,11),2ms) having count(s2) > 1 align by device
+ select count(s1), count(s2) from root.** group by ([1,11),2ms) having count(s2) > 1 align by device;
 ```
 
 Filtering result 2：
@@ -1706,7 +1723,7 @@ In IoTDB, users can use the FILL clause to specify the fill mode when data is mi
 **The following is the syntax definition of the `FILL` clause:**
 
 ```sql
-FILL '(' PREVIOUS | LINEAR | constant ')'
+FILL '(' PREVIOUS | LINEAR | constant ')';
 ```
 
 **Note:** 
@@ -2286,7 +2303,7 @@ It costs 0.005s
 If the parameter N/SN of LIMIT/SLIMIT clause exceeds the allowable maximum value (N/SN is of type int64), the system prompts errors. For example, executing the following SQL statement:
 
 ```sql
-select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 limit 9223372036854775808
+select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 limit 9223372036854775808;
 ```
 
 The SQL statement will not be executed and the corresponding error prompt is given as follows:
@@ -2298,7 +2315,7 @@ Msg: 416: Out of range. LIMIT <N>: N should be Int64.
 If the parameter N/SN of LIMIT/SLIMIT clause is not a positive intege, the system prompts errors. For example, executing the following SQL statement:
 
 ```sql
-select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 limit 13.1
+select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 limit 13.1;
 ```
 
 The SQL statement will not be executed and the corresponding error prompt is given as follows:
@@ -2310,7 +2327,7 @@ Msg: 401: line 1:129 mismatched input '.' expecting {<EOF>, ';'}
 If the parameter OFFSET of LIMIT clause exceeds the size of the result set, IoTDB will return an empty result set. For example, executing the following SQL statement:
 
 ```sql
-select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 limit 2 offset 6
+select status,temperature from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 limit 2 offset 6;
 ```
 
 The result is shown below:
@@ -2327,7 +2344,7 @@ It costs 0.005s
 If the parameter SOFFSET of SLIMIT clause is not smaller than the number of available timeseries, the system prompts errors. For example, executing the following SQL statement:
 
 ```sql
-select * from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 slimit 1 soffset 2
+select * from root.ln.wf01.wt01 where time > 2017-11-01T00:05:00.000 and time < 2017-11-01T00:12:00.000 slimit 1 soffset 2;
 ```
 
 The SQL statement will not be executed and the corresponding error prompt is given as follows:
@@ -2443,7 +2460,7 @@ The result below indicates `ORDER BY DEVICE ASC,TIME ASC` is the clause in defau
 Besides，`ALIGN BY DEVICE` and `ORDER BY` clauses can be used with aggregate query，the SQL statement is：
 
 ```sql
-select count(*) from root.ln.** group by ((2017-11-01T00:00:00.000+08:00,2017-11-01T00:03:00.000+08:00],1m) order by device asc,time asc align by device
+select count(*) from root.ln.** group by ((2017-11-01T00:00:00.000+08:00,2017-11-01T00:03:00.000+08:00],1m) order by device asc,time asc align by device;
 ```
 
 The result shows below:
@@ -2491,7 +2508,7 @@ Here are several examples of queries for sorting arbitrary expressions using the
 When you need to sort the results based on the base score score, you can use the following SQL:
 
 ```Sql
-select score from root.** order by score desc align by device
+select score from root.** order by score desc align by device;
 ```
 
 This will give you the following results:
@@ -2543,7 +2560,7 @@ If you want to sort the results based on the total score and, in case of tied sc
 select base, score, bonus, total from root.** order by total desc NULLS Last,
                                   score desc NULLS Last,
                                   bonus desc NULLS Last,
-                                  time desc align by device
+                                  time desc align by device;
 ```
 
 Here are the results:
@@ -2571,7 +2588,7 @@ Here are the results:
 In the `ORDER BY` clause, you can also use aggregate query expressions. For example:
 
 ```Sql
-select min_value(total) from root.** order by min_value(total) asc align by device
+select min_value(total) from root.** order by min_value(total) asc align by device;
 ```
 
 This will give you the following results:
@@ -2591,7 +2608,7 @@ This will give you the following results:
 When specifying multiple columns in the query, the unsorted columns will change order along with the rows and sorted columns. The order of rows when the sorting columns are the same may vary depending on the specific implementation (no fixed order). For example:
 
 ```Sql
-select min_value(total),max_value(base) from root.** order by max_value(total) desc align by device
+select min_value(total),max_value(base) from root.** order by max_value(total) desc align by device;
 ```
 
 This will give you the following results:
@@ -2612,7 +2629,7 @@ This will give you the following results:
 You can use both `ORDER BY DEVICE,TIME` and `ORDER BY EXPRESSION` together. For example:
 
 ```Sql
-select score from root.** order by device asc, score desc, time asc align by device
+select score from root.** order by device asc, score desc, time asc align by device;
 ```
 
 This will give you the following results:
@@ -2727,8 +2744,10 @@ For examples:
 
 - **Example 1** (aligned by time)
 
-```shell
-IoTDB> select s1, s2 into root.sg_copy.d1(t1), root.sg_copy.d2(t1, t2), root.sg_copy.d1(t2) from root.sg.d1, root.sg.d2;
+```sql
+select s1, s2 into root.sg_copy.d1(t1), root.sg_copy.d2(t1, t2), root.sg_copy.d1(t2) from root.sg.d1, root.sg.d2;
+```
+```
 +--------------+-------------------+--------+
 | source column|  target timeseries| written|
 +--------------+-------------------+--------+
@@ -2757,8 +2776,10 @@ We can see that the writing of the `INTO` clause is very flexible as long as the
 
 - **Example 2** (aligned by time)
 
-```shell
-IoTDB> select count(s1 + s2), last_value(s2) into root.agg.count(s1_add_s2), root.agg.last_value(s2) from root.sg.d1 group by ([0, 100), 10ms);
+```sql
+select count(s1 + s2), last_value(s2) into root.agg.count(s1_add_s2), root.agg.last_value(s2) from root.sg.d1 group by ([0, 100), 10ms);
+```
+```
 +--------------------------------------+-------------------------+--------+
 |                         source column|        target timeseries| written|
 +--------------------------------------+-------------------------+--------+
@@ -2774,8 +2795,10 @@ This statement stores the results of an aggregated query into the specified time
 
 - **Example 3** (aligned by device)
 
-```shell
-IoTDB> select s1, s2 into root.sg_copy.d1(t1, t2), root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
+```sql
+select s1, s2 into root.sg_copy.d1(t1, t2), root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
+```
+```
 +--------------+--------------+-------------------+--------+
 | source device| source column|  target timeseries| written|
 +--------------+--------------+-------------------+--------+
@@ -2797,8 +2820,10 @@ This statement also writes the query results of the four time series under the `
 
 - **Example 4** (aligned by device)
 
-```shell
-IoTDB> select s1 + s2 into root.expr.add(d1s1_d1s2), root.expr.add(d2s1_d2s2) from root.sg.d1, root.sg.d2 align by device;
+```sql
+select s1 + s2 into root.expr.add(d1s1_d1s2), root.expr.add(d2s1_d2s2) from root.sg.d1, root.sg.d2 align by device;
+```
+```
 +--------------+--------------+------------------------+--------+
 | source device| source column|       target timeseries| written|
 +--------------+--------------+------------------------+--------+
@@ -2948,7 +2973,7 @@ This statement specifies that `root.sg_copy.d1` is an unaligned device and `root
 #### Other points to note
 
 - For general aggregation queries, the timestamp is meaningless, and the convention is to use 0 to store.
-- When the target time-series exists, the data type of the source column and the target time-series must be compatible. About data type compatibility, see the document [Data Type](../Background-knowledge/Data-Type_timecho.md).
+- When the target time-series exists, the data type of the source column and the target time-series must be compatible. About data type compatibility, see the document [Data Type](../Background-knowledge/Data-Type.md).
 - When the target time series does not exist, the system automatically creates it (including the database).
 - When the queried time series does not exist, or the queried sequence does not have data, the target time series will not be created automatically.
 
@@ -2958,8 +2983,10 @@ This statement specifies that `root.sg_copy.d1` is an unaligned device and `root
 
 ETL the original data and write a new time series.
 
-```shell
-IOTDB > SELECT preprocess_udf(s1, s2) INTO ::(preprocessed_s1, preprocessed_s2) FROM root.sg.* ALIGN BY DEIVCE;
+```sql
+SELECT preprocess_udf(s1, s2) INTO ::(preprocessed_s1, preprocessed_s2) FROM root.sg.* ALIGN BY DEIVCE;
+```
+```
 +--------------+-------------------+---------------------------+--------+
 | source device|      source column|          target timeseries| written|
 +--------------+-------------------+---------------------------+--------+
@@ -2977,8 +3004,10 @@ IOTDB > SELECT preprocess_udf(s1, s2) INTO ::(preprocessed_s1, preprocessed_s2) 
 
 Persistently store the query results, which acts like a materialized view.
 
-```shell
-IOTDB > SELECT count(s1), last_value(s1) INTO root.sg.agg_${2}(count_s1, last_value_s1) FROM root.sg1.d1 GROUP BY ([0, 10000), 10ms);
+```sql
+SELECT count(s1), last_value(s1) INTO root.sg.agg_${2}(count_s1, last_value_s1) FROM root.sg1.d1 GROUP BY ([0, 10000), 10ms);
+```
+```
 +--------------------------+-----------------------------+--------+
 |             source column|            target timeseries| written|
 +--------------------------+-----------------------------+--------+
@@ -2996,8 +3025,10 @@ Rewrite non-aligned time series into another aligned time series.
 
 **Note:** It is recommended to use the `LIMIT & OFFSET` clause or the `WHERE` clause (time filter) to batch data to prevent excessive data volume in a single operation.
 
-```shell
-IOTDB > SELECT s1, s2 INTO ALIGNED root.sg1.aligned_d(s1, s2) FROM root.sg1.non_aligned_d WHERE time >= 0 and time < 10000;
+```sql
+SELECT s1, s2 INTO ALIGNED root.sg1.aligned_d(s1, s2) FROM root.sg1.non_aligned_d WHERE time >= 0 and time < 10000;
+```
+```
 +--------------------------+----------------------+--------+
 |             source column|     target timeseries| written|
 +--------------------------+----------------------+--------+

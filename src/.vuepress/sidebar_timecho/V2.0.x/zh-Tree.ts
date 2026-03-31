@@ -204,6 +204,7 @@ export const zhSidebar = {
         { text: 'Node.js原生接口', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
+        { text: 'ODBC', link: 'Programming-ODBC_timecho' },
         { text: 'MQTT协议', link: 'Programming-MQTT_timecho' },
         { text: 'OPC UA协议', link: 'Programming-OPC-UA_timecho' },
         { text: 'OPC DA协议', link: 'Programming-OPC-DA_timecho' },
@@ -244,6 +245,7 @@ export const zhSidebar = {
           children: [
             { text: 'Apache Flink', link: 'Flink-IoTDB' },
             { text: 'Apache Spark', link: 'Spark-IoTDB' },
+            { text: 'Apache SeaTunnel', link: 'SeaTunnel_timecho' },
           ],
         },
         {
@@ -278,6 +280,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
+        { text: '快速 SQL 体验', link: 'QuickStart-Only-Sql_timecho' },
         { text: '标识符', link: 'Syntax-Rule' },
         { text: '关键字', link: 'Keywords' },
         { text: 'SQL手册', link: 'SQL-Manual_timecho' },

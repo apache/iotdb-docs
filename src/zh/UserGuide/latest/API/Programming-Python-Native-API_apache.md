@@ -29,9 +29,11 @@
 
 首先下载包：`pip3 install apache-iotdb>=2.0`
 
-您可以从这里得到一个使用该包进行数据读写的例子：[Session Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/session_example.py)
+注意：请勿使用高版本客户端连接低版本服务。
 
-关于对齐时间序列读写的例子：[Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/rc/2.0.1/iotdb-client/client-py/session_aligned_timeseries_example.py)
+您可以从这里得到一个使用该包进行数据读写的例子：[Session Example](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/session_example.py)
+
+关于对齐时间序列读写的例子：[Aligned Timeseries Session Example](https://github.com/apache/iotdb/blob/master/iotdb-client/client-py/session_aligned_timeseries_example.py)
 
 （您需要在文件的头部添加`import iotdb`）
 
@@ -49,6 +51,8 @@ session.open(False)
 zone = session.get_time_zone()
 session.close()
 ```
+ 
+
 ## 3. 基本接口说明
 
 下面将给出 Session 对应的接口的简要介绍和对应参数：
@@ -194,9 +198,9 @@ def get_data():
         ip, port_, username_, password_, use_ssl=use_ssl, ca_certs=ca_certs
     )
     session.open(False)
-    result = session.execute_query_statement("select * from root.eg.etth")
-    df = result.todf()
-    df.rename(columns={"Time": "date"}, inplace=True)
+    with session.execute_query_statement("select * from root.eg.etth") as result:
+        df = result.todf()
+        df.rename(columns={"Time": "date"}, inplace=True)
     session.close()
     return df
 
@@ -217,9 +221,9 @@ def get_data2():
     wait_timeout_in_ms = 3000
     session_pool = SessionPool(pool_config, max_pool_size, wait_timeout_in_ms)
     session = session_pool.get_session()
-    result = session.execute_query_statement("select * from root.eg.etth")
-    df = result.todf()
-    df.rename(columns={"Time": "date"}, inplace=True)
+    with session.execute_query_statement("select * from root.eg.etth") as result:
+        df = result.todf()
+        df.rename(columns={"Time": "date"}, inplace=True)
     session_pool.put_back(session)
     session_pool.close()
 
@@ -542,15 +546,59 @@ username_ = "root"
 password_ = "root"
 session = Session(ip, port_, username_, password_)
 session.open(False)
-result = session.execute_query_statement("SELECT ** FROM root")
-
-# Transform to Pandas Dataset
-df = result.todf()
-
+with session.execute_query_statement("SELECT ** FROM root") as result:
+  # Transform to Pandas Dataset
+  df = result.todf()
+  
 session.close()
-
 # Now you can work with the dataframe
 df = ...
+```
+
+自 V2.0.8-beta 版本起，SessionDataSet 提供分批获取 DataFrame 的方法，用于高效处理大数据量查询：
+
+```python
+# 分批获取 DataFrame
+has_next = result.has_next_df()
+if has_next:
+    df = result.next_df()
+    # 处理 DataFrame
+```
+
+**方法说明：**
+- `has_next_df()`: 返回 `True`/`False`，表示是否还有数据可返回
+- `next_df()`: 返回 `DataFrame` 或 `None`，每次返回 `fetchSize` 行（默认5000行，由 Session 的 `fetch_size` 参数控制）
+  - 剩余数据 ≥ `fetchSize` 时，返回 `fetchSize` 行
+  - 剩余数据 < `fetchSize` 时，返回剩余所有行
+  - 数据遍历完毕时，返回 `None`
+- 初始化 Session 时检查 `fetchSize`，若 ≤0 则重置为 5000 并打印警告日志
+
+**注意：** 不要混合使用不同的遍历方式，如（todf函数与 next_df 混用），否则会出现预期外的错误。
+
+**使用示例：**
+```python
+from iotdb.Session import Session
+
+# 初始化 session，设置 fetch_size 为 2
+session = Session(
+    host="127.0.0.1", port="6667", fetch_size=2
+)
+session.open(False)
+session.execute_non_query_statement("CREATE DATABASE root.device0")
+
+# 写入三条数据
+session.insert_str_record("root.device0", 123, "pressure", "15.0")
+session.insert_str_record("root.device0", 124, "pressure", "15.0")
+session.insert_str_record("root.device0", 125, "pressure", "15.0")
+
+# 查询出 DataFrame
+with session.execute_query_statement("SELECT * FROM root.device0") as session_data_set:
+    while session_data_set.has_next_df():
+        df = session_data_set.next_df()
+        # 打印出两个 dataframe，第一个有 2 行，第二个有 1 行
+        print(df)
+
+session.close()
 ```
 
 ## 9. IoTDB Testcontainer
@@ -566,8 +614,8 @@ class MyTestCase(unittest.TestCase):
         with IoTDBContainer() as c:
             session = Session("localhost", c.get_exposed_port(6667), "root", "root")
             session.open(False)
-            result = session.execute_query_statement("SHOW TIMESERIES")
-            print(result)
+            with session.execute_query_statement("SHOW TIMESERIES") result:
+              print(result)
             session.close()
 ```
 

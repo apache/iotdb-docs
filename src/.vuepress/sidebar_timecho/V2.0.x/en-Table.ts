@@ -202,6 +202,7 @@ export const enSidebar = {
         { text: 'GO Native API', link: 'Programming-Go-Native-API_timecho' },
         { text: 'C# Native API', link: 'Programming-CSharp-Native-API_timecho' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
+        { text: 'ODBC', link: 'Programming-ODBC_timecho' },
         { text: 'MQTT Protocol', link: 'Programming-MQTT_timecho' },
         { text: 'RESTAPI V1 ', link: 'RestAPI-V1_timecho' },
       ],
@@ -217,6 +218,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'Apache Spark', link: 'Spark-IoTDB' },
+            { text: 'Apache SeaTunnel', link: 'SeaTunnel_timecho' },
           ],
         },
         {
@@ -243,6 +245,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
+        { text: 'QuickStart Only SQL', link: 'QuickStart-Only-Sql_timecho' },
         { text: 'Metadata Operations', link: 'SQL-Metadata-Operations_timecho' },
         { text: 'Data Addition&Deletion', link: 'SQL-Data-Addition-Deletion_timecho' },
         {

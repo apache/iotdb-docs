@@ -193,6 +193,7 @@ export const zhSidebar = {
         { text: 'GO原生接口', link: 'Programming-Go-Native-API_timecho' },
         { text: 'C#原生接口', link: 'Programming-CSharp-Native-API_timecho' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
+        { text: 'ODBC', link: 'Programming-ODBC_timecho' },
         { text: 'MQTT协议', link: 'Programming-MQTT_timecho' },
         { text: 'RESTAPI V1 ', link: 'RestServiceV1' },
       ],
@@ -208,6 +209,7 @@ export const zhSidebar = {
              collapsible: true,
              children: [
                { text: 'Apache Spark', link: 'Spark-IoTDB' },
+               { text: 'Apache SeaTunnel', link: 'SeaTunnel_timecho' },
              ],
            },
            {
@@ -234,6 +236,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
+        { text: '快速 SQL 体验', link: 'QuickStart-Only-Sql_timecho' },
         { text: '元数据操作', link: 'SQL-Metadata-Operations_timecho' },
         { text: '数据增删', link: 'SQL-Data-Addition-Deletion_timecho' },
         {

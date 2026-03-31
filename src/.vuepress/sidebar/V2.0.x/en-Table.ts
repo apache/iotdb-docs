@@ -189,6 +189,7 @@ export const enSidebar = {
           collapsible: true,
           children: [
             { text: 'Apache Spark', link: 'Spark-IoTDB' },
+            { text: 'Apache SeaTunnel', link: 'SeaTunnel_apache' },
           ],
         },
         {
@@ -215,6 +216,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'SQL-Manual/',
       children: [
+        { text: 'QuickStart Only SQL', link: 'QuickStart-Only-Sql_apache' },
         { text: 'Metadata Operations', link: 'SQL-Metadata-Operations_apache' },
         { text: 'Data Addition&Deletion', link: 'SQL-Data-Addition-Deletion_apache' },
         {
