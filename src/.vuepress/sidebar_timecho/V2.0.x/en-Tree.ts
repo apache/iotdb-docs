@@ -223,7 +223,7 @@ export const enSidebar = {
         { text: 'Rust Native API', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
         { text: 'ODBC', link: 'Programming-ODBC_timecho' },
-        { text: 'MQTT Protocol', link: 'Programming-MQTT' },
+        { text: 'MQTT Protocol', link: 'Programming-MQTT_timecho' },
         { text: 'OPC UA Protocol', link: 'Programming-OPC-UA_timecho' },
         { text: 'OPC DA Protocol', link: 'Programming-OPC-DA_timecho' },
         {

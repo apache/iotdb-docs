@@ -168,7 +168,7 @@ It costs 0.004s
 
 ## 4. MQTT写入
 
-参考 [内置 MQTT 服务](../API/Programming-MQTT.md#内置-mqtt-服务)
+参考 [内置 MQTT 服务](../API/Programming-MQTT_timecho.md#_2-内置-mqtt-服务)
 
 ## 5. 批量数据导入
 

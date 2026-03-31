@@ -43,3 +43,5 @@
 | README_ZH.md     | 文件     | 使用说明（中文版）                                           |
 | README.md        | 文件     | 使用说明（英文版）                                           |
 | RELEASE_NOTES.md | 文件     | 版本说明                                                     |
+
+注意：自 V2.0.8.2 版本起，TimechoDB 安装包中默认不包含 MQTT 服务 和 REST 服务的 JAR 包。如需使用，请联系天谋团队获取。
