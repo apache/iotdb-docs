@@ -421,6 +421,7 @@ You can set different datatype, encoding, and compression for the timeseries in 
 
 It is also supported to set an alias, tag, and attribute for aligned timeseries.
 
+
 ### 2.3 Modifying Timseries Data Types
 
 Starting from version V2.0.8, modifying the data type of a timeseries via SQL statements is supported.
@@ -456,8 +457,32 @@ Usage example:
 ALTER TIMESERIES root.ln.wf01.wt01.temperature set data type DOUBLE
 ```
 
+### 2.4 Modifying Timeseries Name
 
-### 2.4 Delete Timeseries
+Since version V2.0.8, it has been supported to modify the full path name of a timeseries through SQL statements. After a successful modification, the original name becomes invalid but is still retained in the metadata storage.
+
+Syntax definition:
+
+```sql
+-- Supports modifying the full path of a certain sequence to another full path
+ALTER TIMESERIES <oldPath> RENAME TO <newPath>
+```
+
+Usage instructions:
+
+- This statement takes effect immediately upon successful execution, and the tags/attributes/alias of the original sequence will be migrated to the new sequence.
+- The invalidated sequence (original sequence) no longer supports write, query, delete, or other operations. The name of the invalidated sequence will be retained by the system, and creating a new sequence with the same name is not allowed. This ensures the uniqueness and traceability of the original sequence name: it supports viewing the original sequence through the `SHOW INVALID TIMESERIES` statement, preventing the loss of original sequence information due to frequent modifications, significantly improving data traceability and problem localization efficiency.
+- The new sequence does not support creating views. When modifying the encoding, compression, sequence type, tags, attributes, or alias of the new sequence, the original sequence will not be modified; deleting the new sequence will also modify the original sequence.
+- If the new sequence path or the alias of the original sequence under the target device already exists (including real sequences, views, invalid sequences, and their aliases), the system will report an error.
+
+Usage example:
+
+```sql
+ALTER TIMESERIES root.ln.wf01.wt01.temperature RENAME TO root.newln.newwf.newwt.temperature
+```
+
+
+### 2.5 Delete Timeseries
 
 To delete the timeseries we created before, we are able to use `(DELETE | DROP) TimeSeries <PathPattern>` statement.
 
@@ -470,7 +495,7 @@ delete timeseries root.ln.wf02.*;
 drop timeseries root.ln.wf02.*;
 ```
 
-### 2.5 Show Timeseries
+### 2.6 Show Timeseries
 
 * SHOW LATEST? TIMESERIES pathPattern? whereClause? limitClause?
 
@@ -613,8 +638,23 @@ It costs 0.004s
 
 It is worth noting that when the queried path does not exist, the system will return no timeseries.  
 
+- SHOW INVALID TIMESERIES
 
-### 2.6 Count Timeseries
+  Since version V2.0.8, this SQL statement is supported to display the invalidated timeseries after a successful full path name modification.
+
+```sql
+IoTDB> show invalid timeSeries
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
+|                   Timeseries|Alias|Database|DataType|Encoding|Compression|Tags|Attributes|Deadband|DeadbandParameters|ViewType|                           NewPath|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
+|root.ln.wf01.wt01.temperature| null| root.ln|   FLOAT| GORILLA|        LZ4|null|      null|    null|              null|    BASE|root.newln.newwf.newwt.temperature|
++-----------------------------+-----+--------+--------+--------+-----------+----+----------+--------+------------------+--------+----------------------------------+
+```
+
+Explanation: The last column, "NewPath," in the returned result displays the new sequence corresponding to the invalidated sequence. This serves scenarios such as view construction and cluster migration (Load + rename).
+
+
+### 2.7 Count Timeseries
 
 IoTDB is able to use `COUNT TIMESERIES <Path>` to count the number of timeseries matching the path. SQL statements are as follows:
 
@@ -699,7 +739,7 @@ It costs 0.002s
 
 > Note: The path of timeseries is just a filter condition, which has no relationship with the definition of level.
 
-### 2.7 Active Timeseries Query
+### 2.8 Active Timeseries Query
 By adding WHERE time filter conditions to the existing SHOW/COUNT TIMESERIES, we can obtain time series with data within the specified time range.
 
 It is important to note that in metadata queries with time filters, views are not considered; only the time series actually stored in the TsFile are taken into account.
@@ -739,7 +779,7 @@ count timeseries where time >= 15000 and time < 16000;
 +-----------------+
 ```
 Regarding the definition of active time series, data that can be queried normally is considered active, meaning time series that have been inserted but deleted are not included.
-### 2.8 Tag and Attribute Management
+### 2.9 Tag and Attribute Management
 
 We can also add an alias, extra tag and attribute information while creating one timeseries.
 

@@ -66,15 +66,19 @@ comment
 
 **说明：**
 
-1. 在创建表时，可以不指定时间列（TIME），IoTDB会自动添加该列。其他所有列可以通过在数据库配置时启用`enable_auto_create_schema`选项，或通过 session 接口自动创建或修改表的语句来添加。
-2. 列的类别可以省略，默认为`FIELD`。当列的类别为`TAG`或`ATTRIBUTE`时，数据类型需为`STRING`（可省略）。
-3. 表的TTL默认为其所在数据库的TTL。如果使用默认值，可以省略此属性，或将其设置为`default`。
-4. <TABLE_NAME>表名称，具有以下特性：
-   - 大小写不敏感，创建成功后，统一显示为小写
-   - 名称可包含特殊字符，如  `~!`"%` 等 
-   - 包含特殊字符或中文字符的表名创建时必须用双引号 "" 括起来。
-       - 注意：SQL中特殊字符或中文表名需加双引号。原生API中无需额外添加，否则表名会包含引号字符。
-   - 当为表命名时，最外层的双引号（`""`）不会在实际创建的表名中出现。
+1. 在创建表时，可以不指定时间列（TIME），IoTDB会自动添加该列并命名为"time"， 且顺序上位于第一列。其他所有列可以通过在数据库配置时启用`enable_auto_create_schema`选项，或通过 session 接口自动创建或修改表的语句来添加。
+2. 自 V2.0.8-beta 版本起，支持创建表时自定义命名时间列，自定义时间列在表中的顺序由创建 SQL 中的顺序决定。相关约束如下：
+- 当列分类（columnCategory）设为 TIME 时，数据类型（dataType）必须为 TIMESTAMP。
+- 每张表最多允许定义 1个时间列（columnCategory = TIME）。
+- 当未显式定义时间列时，不允许其他列使用 time 作为名称，否则会与系统默认时间列命名冲突。
+3. 列的类别可以省略，默认为`FIELD`。当列的类别为`TAG`或`ATTRIBUTE`时，数据类型需为`STRING`（可省略）。
+4. 表的TTL默认为其所在数据库的TTL。如果使用默认值，可以省略此属性，或将其设置为`default`。
+5. <TABLE_NAME>表名称，具有以下特性：
+    - 大小写不敏感，创建成功后，统一显示为小写
+    - 名称可包含特殊字符，如  `~!`"%` 等
+    - 包含特殊字符或中文字符的表名创建时必须用双引号 "" 括起来。
+        - 注意：SQL中特殊字符或中文表名需加双引号。原生API中无需额外添加，否则表名会包含引号字符。
+    - 当为表命名时，最外层的双引号（`""`）不会在实际创建的表名中出现。
 
    - ```shell
       -- SQL 中
@@ -83,8 +87,9 @@ comment
       -- API 中
       "a""b" --> "a""b"
       ```
-5. columnDefinition 列名称与表名称具有相同特性，并且可包含特殊字符`.`。
-6. COMMENT 给表添加注释。
+6. columnDefinition 列名称与表名称具有相同特性，并且可包含特殊字符`.`。
+7. COMMENT 给表添加注释。
+
 
 **示例:** 
 
@@ -108,6 +113,13 @@ CREATE TABLE tableC (
   station STRING TAG,
   temperature int32 FIELD COMMENT 'temperature'
  ) with (TTL=DEFAULT);
+ 
+  -- 自定义时间列:命名为time_test, 位于表的第二列
+ CREATE TABLE table1 (
+     region STRING TAG, 
+     time_user_defined TIMESTAMP TIME, 
+     temperature FLOAT FIELD
+ );
 ```
 
 注意：若您使用的终端不支持多行粘贴（例如 Windows CMD），请将 SQL 语句调整为单行格式后再执行。
