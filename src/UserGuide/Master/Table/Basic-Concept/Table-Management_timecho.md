@@ -259,7 +259,7 @@ Total line number = 1
 
 ### 1.5 Update Tables
 
-Used to update a table, including adding or deleting columns and configuring table properties.
+Used to update a table, including adding or deleting columns, modify column type (V2.0.8.2) and configuring table properties.
 
 **Syntax:**
 
@@ -273,6 +273,8 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? col
 | ALTER TABLE (IF EXISTS)? tableName=qualifiedName SET PROPERTIES propertyAssignments;                
 | COMMENT ON TABLE tableName=qualifiedName IS 'table_comment';
 | COMMENT ON COLUMN tableName.column IS 'column_comment';
+#changeColumndatatype;
+| ALTER TABLE (IF EXISTS)? tableName=qualifiedName ALTER COLUMN (IF EXISTS)? column=identifier SET DATA TYPE new_type=type;   
 ```
 
 **Note:：**
@@ -280,6 +282,10 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? col
 1. The `SET PROPERTIES` operation currently only supports configuring the `TTL` property of a table
 2. The delete column function only supports deleting the ATTRIBUTE and FILD columns, and the TAG column does not support deletion.
 3. The modified comment will overwrite the original comment. If null is specified, the previous comment will be erased.
+4. Since version V2.0.8.2, modifying the data type of a column is supported. Currently, only columns with Category type FIELD can be modified.
+
+   * If the time series is concurrently deleted during the modification process, an error will be reported.
+   * The new data type must be compatible with the original type. The specific compatibility is shown in the following table:
 
 **Example:** 
 
@@ -289,6 +295,7 @@ ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b';
 ALTER TABLE table1 set properties TTL=3600;
 COMMENT ON TABLE table1 IS 'table1';
 COMMENT ON COLUMN table1.a IS null;
+ALTER TABLE table1 ALTER COLUMN IF EXISTS b SET DATA TYPE DOUBLE;
 ```
 
 ### 1.6 Delete Tables

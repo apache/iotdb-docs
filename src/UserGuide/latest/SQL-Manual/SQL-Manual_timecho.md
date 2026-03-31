@@ -142,15 +142,21 @@ error: encoding TS_2DIFF does not support BOOLEAN
 CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT , longitude FLOAT);
 ```
 
-### 2.3 Modify Timeseries Name
+### 2.3 Modify Timeseries Data Type
+> Supported since V2.0.8
 
+```SQL
+ALTER TIMESERIES root.ln.wf01.wt01.temperature set data type DOUBLE
+```
+
+### 2.4 Modify Timeseries Name
 > This statement is supported from V2.0.8 onwards
 
 ```sql
 ALTER TIMESERIES root.ln.wf01.wt01.temperature RENAME TO root.newln.newwf.newwt.temperature
 ```
 
-### 2.4 Delete Timeseries
+### 2.5 Delete Timeseries
 
 ```sql
 delete timeseries root.ln.wf01.wt01.status;
@@ -159,7 +165,7 @@ delete timeseries root.ln.wf02.*;
 drop timeseries root.ln.wf02.*;
 ```
 
-### 2.5 Show Timeseries
+### 2.6 Show Timeseries
 
 ```sql
 show timeseries root.**;
@@ -172,7 +178,7 @@ show latest timeseries;
 show invalid timeseries; -- This statement is supported from V2.0.8.2 onwards;
 ```
 
-### 2.6 Count Timeseries
+### 2.7 Count Timeseries
 
 ```sql
 COUNT TIMESERIES root.**;
@@ -189,7 +195,7 @@ COUNT TIMESERIES root.ln.** GROUP BY LEVEL=2;
 COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2;
 ```
 
-### 2.7 Tag and Attribute Management
+### 2.8 Tag and Attribute Management
 
 ```sql
 create timeseries root.turbine.d1.s1(temprature) with datatype=FLOAT tags(tag1=v1, tag2=v2) attributes(attr1=v1, attr2=v2);
