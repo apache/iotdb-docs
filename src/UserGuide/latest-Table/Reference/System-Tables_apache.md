@@ -57,6 +57,7 @@ IoTDB> show tables from information_schema
 |                queries|    INF|
 |queries_costs_histogram|    INF|
 |                regions|    INF|
+|               services|    INF|
 |          subscriptions|    INF|
 |                 tables|    INF|
 |                 topics|    INF|
@@ -66,7 +67,7 @@ IoTDB> show tables from information_schema
 
 ## 2. System Tables
 
-* ​**Names**​: `DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS`, `VIEWS`, `MODELS`, `FUNCTIONS`, `CONFIGURATIONS`, `KEYWORDS`, `NODES`, `CONFIG_NODES`, `DATA_NODES` , `CONNECTIONS`, `CURRENT_QUERIES`, `QUERIES_COSTS_HISTOGRAM` (detailed descriptions in later sections)
+* ​**Names**​: `DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS`, `VIEWS`, `MODELS`, `FUNCTIONS`, `CONFIGURATIONS`, `KEYWORDS`, `NODES`, `CONFIG_NODES`, `DATA_NODES` , `CONNECTIONS`, `CURRENT_QUERIES`, `QUERIES_COSTS_HISTOGRAM`, `SERVICES` (detailed descriptions in later sections)
 * ​**Operations**​: Read-only, only supports `SELECT`, `COUNT/SHOW DEVICES`, `DESC`. Any modifications to table structure or content are not allowed and will result in an error: `"The database 'information_schema' can only be queried."  `
 * ​**Column Names**​: System table column names are all lowercase by default and separated by underscores (`_`).
 
@@ -343,7 +344,7 @@ IoTDB> select * from information_schema.topics
 +----------+----------------------------------------------------------------+
 ```
 
-### 2.10 VIEWS Table
+### 2.10 VIEWS
 
 > This system table is available starting from version V2.0.5.
 
@@ -369,7 +370,7 @@ IoTDB> select * from information_schema.views
 ```
 
 
-### 2.11 MODELS Table
+### 2.11 MODELS
 
 > This system table is available starting from version V 2.0.5 and has been discontinued since version V 2.0.8-beta.
 
@@ -402,7 +403,7 @@ IoTDB> select * from information_schema.models where model_type = 'BUILT_IN_FORE
 ```
 
 
-### 2.12 FUNCTIONS Table
+### 2.12 FUNCTIONS
 
 > This system table is available starting from version V2.0.5.
 
@@ -434,7 +435,7 @@ IoTDB> select * from information_schema.functions where function_type='built-in 
 ```
 
 
-### 2.13 CONFIGURATIONS Table
+### 2.13 CONFIGURATIONS
 
 > This system table is available starting from version V2.0.5.
 
@@ -473,7 +474,7 @@ IoTDB> select * from information_schema.configurations
 ```
 
 
-### 2.14 KEYWORDS Table
+### 2.14 KEYWORDS
 
 > This system table is available starting from version V2.0.5.
 
@@ -506,7 +507,7 @@ IoTDB> select * from information_schema.keywords limit 10
 ```
 
 
-### 2.15 NODES Table
+### 2.15 NODES
 
 > This system table is available starting from version V2.0.5.
 
@@ -538,7 +539,7 @@ IoTDB> select * from information_schema.nodes
 ```
 
 
-### 2.16 CONFIG\_NODES Table
+### 2.16 CONFIG\_NODES
 
 > This system table is available starting from version V2.0.5.
 
@@ -564,7 +565,7 @@ IoTDB> select * from information_schema.config_nodes
 ```
 
 
-### 2.17 DATA\_NODES Table
+### 2.17 DATA\_NODES
 
 > This system table is available starting from version V2.0.5.
 
@@ -594,7 +595,7 @@ IoTDB> select * from information_schema.data_nodes
 +-------+---------------+-----------------+-----------+--------+--------+-------------------+---------------------+
 ```
 
-### 2.18 CONNECTIONS Table
+### 2.18 CONNECTIONS
 
 > This system table is available starting from version V 2.0.8-beta
 
@@ -621,7 +622,7 @@ IoTDB> select * from information_schema.connections;
 +-----------+-------+----------+---------+-----------------------------+---------+
 ```
 
-### 2.19 CURRENT_QUERIES Table
+### 2.19 CURRENT_QUERIES
 
 > This system table is available starting from version V 2.0.8-beta
 
@@ -652,7 +653,7 @@ IoTDB> select * from information_schema.current_queries;
 +-----------------------+-------+-----------------------------+--------+-----------+---------+------------------------------------------------+----+---------+
 ```
 
-### 2.20 QUERIES_COSTS_HISTOGRAM Table
+### 2.20 QUERIES_COSTS_HISTOGRAM
 
 > This system table is available starting from version V 2.0.8-beta
 
@@ -686,6 +687,31 @@ IoTDB> select * from information_schema.queries_costs_histogram limit 10
 +------+----+-----------+
 ```
 
+### 2.21 SERVICES
+
+> This system table is available starting from version V 2.0.8-beta
+
+* Displays services (MQTT service, REST service) on all active DataNodes (with RUNNING or READ-ONLY status).
+* Table structure:
+
+| Column Name   | Data Type | Column Type | Description                     |
+|---------------|-----------|-------------|---------------------------------|
+| service_name  | STRING    | TAG         | Service Name                    |
+| datanode_id   | INT32     | ATTRIBUTE   | DataNode ID where service runs  |
+| state         | STRING    | ATTRIBUTE   | Service status: RUNNING/STOPPED |
+
+
+* Query example:
+
+```sql
+IoTDB> SELECT * FROM information_schema.services
++------------+-----------+---------+
+|service_name|datanode_id|state    |
++------------+-----------+---------+
+|MQTT        |1          |STOPPED  |
+|REST        |1          |RUNNING  |
++------------+-----------+---------+
+```
 
 ## 3. Permission Description
 
