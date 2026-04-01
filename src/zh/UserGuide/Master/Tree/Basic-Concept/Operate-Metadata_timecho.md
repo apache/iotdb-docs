@@ -408,7 +408,7 @@ CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT, longitude FLOAT);
 
 ### 2.3 修改时间序列数据类型
 
-自 V2.0.8 版本起，支持通过 SQL 语句修改时间序列的数据类型。
+自 V2.0.8.2 版本起，支持通过 SQL 语句修改时间序列的数据类型。
 
 语法定义：
 
@@ -442,7 +442,7 @@ ALTER TIMESERIES root.ln.wf01.wt01.temperature set data type DOUBLE;
 
 ### 2.4 修改时间序列名称
 
-自 V2.0.8 版本起，支持通过 SQL 语句修改时间序列的全路径名称。修改成功后，原有名称作废，但仍在元数据的存储中。
+自 V2.0.8.2 版本起，支持通过 SQL 语句修改时间序列的全路径名称。修改成功后，原有名称作废，但仍在元数据的存储中。
 
 语法定义：
 
@@ -619,7 +619,7 @@ It costs 0.004s
 
 * SHOW INVALID TIMESERIES
 
-自 V2.0.8 版本起，支持该 SQL 语句，用于展示**修改全路径名称**成功后的作废时间序列。
+自 V2.0.8.2 版本起，支持该 SQL 语句，用于展示**修改全路径名称**成功后的作废时间序列。
 
 ```SQL
 IoTDB> show invalid timeSeries

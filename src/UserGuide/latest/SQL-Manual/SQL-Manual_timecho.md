@@ -143,14 +143,14 @@ CREATE ALIGNED TIMESERIES root.ln.wf01.GPS(latitude FLOAT , longitude FLOAT);
 ```
 
 ### 2.3 Modify Timeseries Data Type
-> Supported since V2.0.8
+> Supported since V2.0.8.2
 
 ```SQL
 ALTER TIMESERIES root.ln.wf01.wt01.temperature set data type DOUBLE
 ```
 
 ### 2.4 Modify Timeseries Name
-> This statement is supported from V2.0.8 onwards
+> This statement is supported from V2.0.8.2 onwards
 
 ```sql
 ALTER TIMESERIES root.ln.wf01.wt01.temperature RENAME TO root.newln.newwf.newwt.temperature

@@ -195,7 +195,7 @@ export const zhSidebar = {
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
         { text: 'ODBC', link: 'Programming-ODBC_timecho' },
         { text: 'MQTT协议', link: 'Programming-MQTT_timecho' },
-        { text: 'RESTAPI V1 ', link: 'RestServiceV1' },
+        { text: 'RESTAPI V1 ', link: 'RestServiceV1_timecho' },
       ],
     },
      {

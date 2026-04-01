@@ -424,7 +424,7 @@ It is also supported to set an alias, tag, and attribute for aligned timeseries.
 
 ### 2.3 Modifying Timseries Data Types
 
-Starting from version V2.0.8, modifying the data type of a timeseries via SQL statements is supported.
+Starting from version V2.0.8.2, modifying the data type of a timeseries via SQL statements is supported.
 
 Syntax definition:
 
@@ -459,7 +459,7 @@ ALTER TIMESERIES root.ln.wf01.wt01.temperature set data type DOUBLE
 
 ### 2.4 Modifying Timeseries Name
 
-Since version V2.0.8, it has been supported to modify the full path name of a timeseries through SQL statements. After a successful modification, the original name becomes invalid but is still retained in the metadata storage.
+Since version V2.0.8.2, it has been supported to modify the full path name of a timeseries through SQL statements. After a successful modification, the original name becomes invalid but is still retained in the metadata storage.
 
 Syntax definition:
 
@@ -640,7 +640,7 @@ It is worth noting that when the queried path does not exist, the system will re
 
 - SHOW INVALID TIMESERIES
 
-  Since version V2.0.8, this SQL statement is supported to display the invalidated timeseries after a successful full path name modification.
+  Since version V2.0.8.2, this SQL statement is supported to display the invalidated timeseries after a successful full path name modification.
 
 ```sql
 IoTDB> show invalid timeSeries

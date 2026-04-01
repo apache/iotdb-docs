@@ -67,7 +67,7 @@ comment
 **Note:**
 
 1. When creating a table, you do not need to specify a time column. IoTDB automatically adds a column named "time" and places it as the first column. All other columns can be added by enabling the `enable_auto_create_schema` option in the database configuration, or through the session interface for automatic creation or by using table modification statements.
-2. Since version V2.0.8, tables support custom naming of the time column during creation. The order of the custom time column in the table is determined by the order in the creation SQL. The related constraints are as follows:
+2. Since version V2.0.8.2, tables support custom naming of the time column during creation. The order of the custom time column in the table is determined by the order in the creation SQL. The related constraints are as follows:
 
    - When the column category is set to TIME, the data type must be TIMESTAMP.
    - Each table allows at most one time column (columnCategory = TIME).
