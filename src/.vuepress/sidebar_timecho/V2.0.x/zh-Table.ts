@@ -95,7 +95,7 @@ export const zhSidebar = {
       prefix: 'Basic-Concept/',
       children: [
         { text: '数据库管理', link: 'Database-Management_timecho' },
-        { text: '表管理', link: 'Table-Management_timecho' },
+        { text: '表管理', link: 'Table-Management_timecho', badge: "new" },
         { text: '写入&更新', link: 'Write-Updata-Data_timecho' },
         { text: '数据查询', link: 'Query-Data_timecho' },
         {
@@ -122,6 +122,7 @@ export const zhSidebar = {
               { text: '模式查询', link: 'Pattern-Query_timecho' },
               { text: '窗口函数', link: 'Window-Function_timecho' },
           ],
+           badge: "hot"
         },
         { text: 'UDF', link: 'User-defined-function' },
         {
@@ -152,7 +153,7 @@ export const zhSidebar = {
       prefix: 'AI-capability/',
       children: [
         { text: 'AINode(V2.0.5/6)', link: 'AINode_timecho' },
-        { text: 'AINode(V2.0.8)', link: 'AINode_Upgrade_timecho' },
+        { text: 'AINode(V2.0.8)', link: 'AINode_Upgrade_timecho', badge: "hot"},
         { text: '时序大模型(V2.0.5/6)', link: 'TimeSeries-Large-Model' },
         { text: '时序大模型(V2.0.8)', link: 'TimeSeries-Large-Model_Upgrade_timecho' },
       ],
@@ -187,13 +188,13 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'API/',
       children: [
-        { text: 'Java原生接口', link: 'Programming-Java-Native-API_timecho' },
+        { text: 'Java原生接口', link: 'Programming-Java-Native-API_timecho', badge: "hot" },
         { text: 'Python原生接口', link: 'Programming-Python-Native-API_timecho' },
         { text: 'C++原生接口', link: 'Programming-Cpp-Native-API_timecho' },
         { text: 'GO原生接口', link: 'Programming-Go-Native-API_timecho' },
         { text: 'C#原生接口', link: 'Programming-CSharp-Native-API_timecho' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
-        { text: 'ODBC', link: 'Programming-ODBC_timecho' },
+        { text: 'ODBC', link: 'Programming-ODBC_timecho', badge: "new"  },
         { text: 'MQTT协议', link: 'Programming-MQTT_timecho' },
         { text: 'RESTAPI V1 ', link: 'RestServiceV1_timecho' },
       ],
