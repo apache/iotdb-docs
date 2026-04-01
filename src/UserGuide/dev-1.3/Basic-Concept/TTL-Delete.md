@@ -30,6 +30,7 @@ Important notes:
 - The system will eventually remove expired data, but there may be a delay.
 - TTL determines data expiration based on the data point timestamp, not the ingestion time.
 - The system supports setting up to 1000 TTL rules. When the limit is reached, existing rules must be removed before new ones can be added.
+- Supports device-level TTL starting from V1.3.3.
 
 ## Set TTL
 ### TTL Path Rule
