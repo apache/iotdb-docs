@@ -35,12 +35,21 @@ CREATE DATABASE root.ln;
 
 需要注意的是，推荐创建一个 database. 
 
-Database 的父子节点都不能再设置 database。例如在已经有`root.ln`和`root.sgcc`这两个 database 的情况下，创建`root.ln.wf01` database 是不可行的。系统将给出相应的错误提示，如下所示：
+Database 的父子节点都不能再设置 database。
+
+例如在已经有`root.ln`和`root.sgcc`这两个 database 的情况下，创建`root.ln.wf01` database 是不可行的。系统将给出相应的错误提示，如下所示：
 
 ```sql
 CREATE DATABASE root.ln.wf01;
-Msg: 300: root.ln has already been created as database.
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 501: root.ln has already been created as database
 ```
+同样，在已经有 `root.db.test` 这个 database 的情况下，创建 `root.db` database 也是不可行的。系统也会给出相应的错误提示，如下所示：
+
+```sql
+CREATE DATABASE root.db;
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 529: some children of root.db have already been created as database
+```
+
 Database 节点名命名规则:
 1. 节点名可由**中英文字符、数字、下划线（\_）、英文句号（.）、反引号（\`）** 组成
 2. 若节点名为以下情况，则必须用**反引号（\`）** 将整个名称包裹。
@@ -463,6 +472,7 @@ ALTER TIMESERIES <oldPath> RENAME TO <newPath>
 ```SQL
 ALTER TIMESERIES root.ln.wf01.wt01.temperature RENAME TO root.newln.newwf.newwt.temperature; 
 ```
+
 
 ### 2.5 删除时间序列
 
