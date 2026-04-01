@@ -22,6 +22,22 @@
 
 ## 1. TimechoDB（数据库内核）
 
+### V2.0.8.2
+
+> 发版时间：2026.03.31</br>
+> 下载地址：请联系天谋工作人员进行下载</br>
+> 安装包名称：timechodb-2.0.8.2-bin.zip</br>
+> SHA512 校验码：02ab10e3e94786dd5676e0a69609eef192afd90d87f4d8d7bd44e7e9cbc8a18d61ba5668bae56cb8e4416ac71a877f760963b72ca7838d7c39ae10f1ed321d89
+
+V2.0.8.2 版本新增树模型修改序列全名功能，表模型支持自定义 Time 列列名，树、表双模型支持更改数据类型，ODBC Driver等，同时对历史版本进行改进和 bug 修复，对数据库监控、性能、稳定性进行了全方位提升。具体发布内容如下：
+
+- 存储模块：树模型支持[修改序列全名](../Basic-Concept/Operate-Metadata_timecho.md#_2-4-修改时间序列名称)，支持[更改序列数据类型](../Basic-Concept/Operate-Metadata_timecho.md#_2-3-修改时间序列数据类型)
+- 存储模块：表模型支持[更改列数据类型](../../latest-Table/Basic-Concept/Table-Management_timecho.md#_1-5-修改表)，支持[自定义 Time 列列名](../../latest-Table/Basic-Concept/Table-Management_timecho.md#_1-1-创建表)
+- 接口模块：支持 [ODBC Driver](../API/Programming-ODBC_timecho.md), Python SessionDataset 支持分批获取 DataFrame，MQTT 服务外置并新增系统表 Services 提供服务查询
+- 系统模块：[审计日志](../User-Manual/Audit-Log_timecho.md)支持慢请求个数统计
+- AINode：表模型支持自适应[协变量推理](../../latest-Table/AI-capability/AINode_Upgrade_timecho.md#_4-1-模型推理)
+- 流处理模块：树模型数据同步 pipe 语句中支持填写多个精确路径的 path
+
 ### V2.0.8.1
 
 > 发版时间：2026.02.04</br>

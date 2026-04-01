@@ -22,6 +22,23 @@
 
 ## 1. TimechoDB (Database Core)
 
+### V2.0.8.2
+
+> Release Date: 2026.03.31</br>
+> Download Link: Please contact Timecho Team to obtain the download link</br>
+> Package Name:timechodb-2.0.8.2-bin.zip</br>
+> SHA512 Checksum:02ab10e3e94786dd5676e0a69609eef192afd90d87f4d8d7bd44e7e9cbc8a18d61ba5668bae56cb8e4416ac71a877f760963b72ca7838d7c39ae10f1ed321d89
+
+Version 2.0.8.2 adds support for modifying the full path of time series in the tree model, customizing the Time column name in the table model, changing data types in both tree and table models, and includes the ODBC Driver, among other features. It also introduces improvements and bug fixes for earlier versions, with comprehensive enhancements to database monitoring, performance, and stability. The detailed release notes are as follows:
+
+- Storage Module: The tree model supports [modifying the full name of time series](../Basic-Concept/Operate-Metadata_timecho.md#_2-4-修改时间序列名称) and [changing the data type of time series](../Basic-Concept/Operate-Metadata_timecho.md#_2-3-修改时间序列数据类型).
+- Storage Module: The table model supports [modifying column data types](../../latest-Table/Basic-Concept/Table-Management_timecho.md#_1-5-修改表) and [customizing the Time column name](../../latest-Table/Basic-Concept/Table-Management_timecho.md#_1-1-创建表).
+- Interface Module: Adds support for the [ODBC Driver](../API/Programming-ODBC_timecho.md); the Python SessionDataset supports fetching DataFrames in batches; the MQTT service is externalized, and a new system table named Services is added for service queries.
+- System Module: The [audit log](../User-Manual/Audit-Log_timecho.md) now supports statistics on the number of slow requests.
+- AI Node: The table model supports adaptive [covariate inference](../../latest-Table/AI-capability/AINode_Upgrade_timecho.md#_4-1-模型推理).
+- Stream Processing Module: The tree model data synchronization PIPE statement supports specifying multiple precise paths.
+
+
 ### V2.0.8.1
 
 > Release Date: 2026.02.04</br>
