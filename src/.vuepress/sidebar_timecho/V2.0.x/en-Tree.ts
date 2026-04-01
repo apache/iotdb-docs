@@ -74,7 +74,7 @@ export const enSidebar = {
             children: [
               {
                 text: 'Stand-Alone Deployment',
-                link: 'Stand-Alone-Deployment_timecho',
+                link: 'Stand-Alone-Deployment_timecho', badge: "hot"
               },
               { text: 'Cluster Deployment', link: 'Cluster-Deployment_timecho' },
               {
@@ -113,7 +113,7 @@ export const enSidebar = {
       children: [
         {
           text: 'Data Modeling',
-          link: 'Operate-Metadata_timecho',
+          link: 'Operate-Metadata_timecho', badge: "new"
         },
         { text: 'Write Data', link: 'Write-Data_timecho' },
         { text: 'Query Data', link: 'Query-Data_timecho' },
@@ -173,7 +173,7 @@ export const enSidebar = {
       prefix: 'AI-capability/',
       children: [
         { text: 'AINode(V2.0.5/6)', link: 'AINode_timecho' },
-        { text: 'AINode(V2.0.8)', link: 'AINode_Upgrade_timecho' },
+        { text: 'AINode(V2.0.8)', link: 'AINode_Upgrade_timecho', badge: "hot" },
         { text: 'TimeSeries Large Model(V2.0.5/6)', link: 'TimeSeries-Large-Model' },
         { text: 'TimeSeries Large Model(V2.0.8)', link: 'TimeSeries-Large-Model_Upgrade_timecho' },
       ],
@@ -222,7 +222,7 @@ export const enSidebar = {
         { text: 'Node.js Native API', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust Native API', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
-        { text: 'ODBC', link: 'Programming-ODBC_timecho' },
+        { text: 'ODBC', link: 'Programming-ODBC_timecho', badge: "new"  },
         { text: 'MQTT Protocol', link: 'Programming-MQTT_timecho' },
         { text: 'OPC UA Protocol', link: 'Programming-OPC-UA_timecho' },
         { text: 'OPC DA Protocol', link: 'Programming-OPC-DA_timecho' },
@@ -301,7 +301,7 @@ export const enSidebar = {
         { text: 'QuickStart Only SQL', link: 'QuickStart-Only-Sql_timecho' },
         { text: 'Identifiers', link: 'Syntax-Rule' },
         { text: 'Keywords', link: 'Keywords' },
-        { text: 'SQL Manual', link: 'SQL-Manual_timecho' },
+        { text: 'SQL Manual', link: 'SQL-Manual_timecho', badge: "hot" },
         {
           text: 'Functions and Operators',
           collapsible: true,
