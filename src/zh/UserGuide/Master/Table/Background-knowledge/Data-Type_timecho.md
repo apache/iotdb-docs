@@ -49,18 +49,7 @@ IoTDB 支持以下十种数据类型：
  | 查询结果 | 默认查询 OBJECT 列时，返回结果如`(Object) XX.XX KB）`。 <br> 真实 OBJECT 数据存储路径位于：`${data_dir}/object_data`，可通过 `READ_OBJECT` 函数读取其真实内容 | 直接返回真实的二进制内容 |
 
 
-### 1.1 浮点数精度配置
-
-对于 **FLOAT** 与 **DOUBLE** 类型的序列，如果编码方式采用 `RLE`或 `TS_2DIFF`，可以在创建序列时通过 `MAX_POINT_NUMBER` 属性指定浮点数的小数点后位数。
-
-例如，
-```sql
-CREATE TIMESERIES root.vehicle.d0.s0 WITH DATATYPE=FLOAT, ENCODING=RLE, 'MAX_POINT_NUMBER'='2';
-```
-
-若不指定，系统会按照配置文件 `iotdb-system.properties` 中的 [float_precision](../Reference/System-Config-Manual_timecho.md) 项配置（默认为 2 位）。
-
-### 1.2 数据类型兼容性
+### 1.1 数据类型兼容性
 
 当写入数据的类型与序列注册的数据类型不一致时，
 - 如果序列数据类型不兼容写入数据类型，系统会给出错误提示。
