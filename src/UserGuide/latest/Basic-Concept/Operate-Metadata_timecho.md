@@ -472,7 +472,7 @@ Usage instructions:
 
 - This statement takes effect immediately upon successful execution, and the tags/attributes/alias of the original sequence will be migrated to the new sequence.
 - The invalidated sequence (original sequence) no longer supports write, query, delete, or other operations. The name of the invalidated sequence will be retained by the system, and creating a new sequence with the same name is not allowed. This ensures the uniqueness and traceability of the original sequence name: it supports viewing the original sequence through the `SHOW INVALID TIMESERIES` statement, preventing the loss of original sequence information due to frequent modifications, significantly improving data traceability and problem localization efficiency.
-- The new sequence does not support creating views. When modifying the encoding, compression, sequence type, tags, attributes, or alias of the new sequence, the original sequence will not be modified; deleting the new sequence will also modify the original sequence.
+- The new sequence supports creating views, but the original sequence does not support creating views. When modifying the encoding, compression, sequence type, tags, attributes, or alias of the new sequence, the original sequence will not be modified; deleting the new sequence will also modify the original sequence.
 - If the new sequence path or the alias of the original sequence under the target device already exists (including real sequences, views, invalid sequences, and their aliases), the system will report an error.
 
 Usage example:
