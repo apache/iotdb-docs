@@ -104,7 +104,7 @@ export const enSidebar = {
       prefix: 'Basic-Concept/',
       children: [
         { text: 'Database Management', link: 'Database-Management_timecho' },
-        { text: 'Table Management', link: 'Table-Management_timecho', badge: "new" },
+        { text: 'Table Management', link: 'Table-Management_timecho', badge: ['new']  },
         { text: 'Write&Updata Data', link: 'Write-Updata-Data_timecho' },
         { text: 'Query Data', link: 'Query-Data_timecho' },
         {
@@ -131,7 +131,7 @@ export const enSidebar = {
                 { text: 'Pattern Query', link: 'Pattern-Query_timecho' },
                 { text: 'Window Function', link: 'Window-Function_timecho' },
             ],
-            badge: "hot"
+            badge: ['hot']
         },
         { text: 'UDF', link: 'User-defined-function' },
         {
@@ -162,7 +162,7 @@ export const enSidebar = {
       prefix: 'AI-capability/',
       children: [
         { text: 'AINode(V2.0.5/6)', link: 'AINode_timecho' },
-        { text: 'AINode(V2.0.8)', link: 'AINode_Upgrade_timecho' , badge: "hot"},
+        { text: 'AINode(V2.0.8)', link: 'AINode_Upgrade_timecho' , badge: ['hot']},
         { text: 'TimeSeries Large Model(V2.0.5/6)', link: 'TimeSeries-Large-Model' },
         { text: 'TimeSeries Large Model(V2.0.8)', link: 'TimeSeries-Large-Model_Upgrade_timecho' },
       ],
@@ -197,13 +197,13 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'API/',
       children: [
-        { text: 'Java Native API', link: 'Programming-Java-Native-API_timecho', badge: "hot" },
+        { text: 'Java Native API', link: 'Programming-Java-Native-API_timecho', badge: ['hot'] },
         { text: 'Python Native API', link: 'Programming-Python-Native-API_timecho' },
         { text: 'C++ Native API', link: 'Programming-Cpp-Native-API_timecho' },
         { text: 'GO Native API', link: 'Programming-Go-Native-API_timecho' },
         { text: 'C# Native API', link: 'Programming-CSharp-Native-API_timecho' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
-        { text: 'ODBC', link: 'Programming-ODBC_timecho', badge: "new"  },
+        { text: 'ODBC', link: 'Programming-ODBC_timecho', badge: ['new']  },
         { text: 'MQTT Protocol', link: 'Programming-MQTT_timecho' },
         { text: 'RESTAPI V1 ', link: 'RestAPI-V1_timecho' },
       ],

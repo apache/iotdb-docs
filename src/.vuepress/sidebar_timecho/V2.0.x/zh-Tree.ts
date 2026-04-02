@@ -66,7 +66,7 @@ export const zhSidebar = {
             text: '数据库部署',
             collapsible: true,
             children: [
-              { text: '单机版部署', link: 'Stand-Alone-Deployment_timecho', badge: "hot" },
+              { text: '单机版部署', link: 'Stand-Alone-Deployment_timecho', badge: ['hot'] },
               { text: '集群版部署', link: 'Cluster-Deployment_timecho' },
               { text: '双活版部署', link: 'Dual-Active-Deployment_timecho' },
               { text: 'Docker 部署', link: 'Docker-Deployment_timecho' },
@@ -96,7 +96,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Basic-Concept/',
       children: [
-        { text: '测点管理', link: 'Operate-Metadata_timecho', badge: "new"  },
+        { text: '测点管理', link: 'Operate-Metadata_timecho', badge: ['new']   },
         { text: '数据写入', link: 'Write-Data_timecho' },
         { text: '数据查询', link: 'Query-Data_timecho' },
         {
@@ -155,7 +155,7 @@ export const zhSidebar = {
       prefix: 'AI-capability/',
       children: [
         { text: 'AINode(V2.0.5/6)', link: 'AINode_timecho' },
-        { text: 'AINode(V2.0.8)', link: 'AINode_Upgrade_timecho', badge: "hot" },
+        { text: 'AINode(V2.0.8)', link: 'AINode_Upgrade_timecho', badge: ['hot'] },
         { text: '时序大模型(V2.0.5/6)', link: 'TimeSeries-Large-Model' },
         { text: '时序大模型(V2.0.8)', link: 'TimeSeries-Large-Model_Upgrade_timecho' },
       ],
@@ -204,7 +204,7 @@ export const zhSidebar = {
         { text: 'Node.js原生接口', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
-        { text: 'ODBC', link: 'Programming-ODBC_timecho', badge: "new" },
+        { text: 'ODBC', link: 'Programming-ODBC_timecho', badge: ['new']  },
         { text: 'MQTT协议', link: 'Programming-MQTT_timecho' },
         { text: 'OPC UA协议', link: 'Programming-OPC-UA_timecho' },
         { text: 'OPC DA协议', link: 'Programming-OPC-DA_timecho' },
@@ -283,7 +283,7 @@ export const zhSidebar = {
         { text: '快速 SQL 体验', link: 'QuickStart-Only-Sql_timecho' },
         { text: '标识符', link: 'Syntax-Rule' },
         { text: '关键字', link: 'Keywords' },
-        { text: 'SQL手册', link: 'SQL-Manual_timecho', badge: "hot" },
+        { text: 'SQL手册', link: 'SQL-Manual_timecho', badge: ['hot'] },
         {
           text: '函数与运算符',
           collapsible: true,
