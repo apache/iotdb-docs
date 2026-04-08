@@ -69,6 +69,11 @@ Edit the `iotdb-system.properties` file to enable audit logging using the follow
 | `audit_log_batch_interval_in_ms`          | Batch write interval for audit logs                                                                          | Long      | 1000                            | Hot Reload        |
 | `audit_log_batch_max_queue_bytes`         | Maximum byte size of the queue for batch processing audit logs. Subsequent write operations will be blocked when this threshold is exceeded. | Long      | 268435456                       | Hot Reload        |
 
+**Instructions for Object Authentication and Slow Operations:**
+- When the parameters `auditable_dml_event_type`, `auditable_ddl_event_type`, `auditable_query_event_type`, or `auditable_control_event_type` are set to `OBJECT_AUTHENTICATION`, the corresponding event types will be recorded in the audit log.
+- When the parameters `auditable_dml_event_type`, `auditable_ddl_event_type`, `auditable_query_event_type`, or `auditable_control_event_type` are set to `SLOW_OPERATION`, only the corresponding event types whose execution time exceeds the value of the `slow_query_threshold` parameter (default: 3000 ms) will be recorded in the audit log. The value of the `slow_query_threshold` parameter can be configured in the `iotdb-system.properties` file.
+
+
 ## 3. Access Methods
 
 Supports direct reading of audit logs via SQL.

@@ -70,6 +70,10 @@
 | `audit_log_batch_interval_in_ms`  | 审计日志批量写入的时间间隔                                                                                                                                                                                              | Long     | 1000                   | 热加载     |
 | `audit_log_batch_max_queue_bytes` | 用于批量处理审计日志的队列最大字节数。当队列大小超过此值时，后续的写入操作将被阻塞。                                                                                                                                    | Long     | 268435456              | 热加载     |
 
+**关于对象鉴权和慢操作的说明：**
+* 当 `auditable_dml_event_type` 、`auditable_ddl_event_type`、`auditable_query_event_type`、`auditable_control_event_type` 参数值设置为 `OBJECT_AUTHENTICATION`（对象鉴权）时，则对应的事件类型会被记录审计日志。
+* 当 `auditable_dml_event_type` 、`auditable_ddl_event_type`、`auditable_query_event_type`、`auditable_control_event_type` 参数值设置为 `SLOW_OPERATION`（慢操作），则操作时间大于 `slow_query_threshold` 参数值（默认 3000 ms）的对应事件类型才会被记录审计日志。`slow_query_threshold` 参数值可通过 iotdb-system.properties 文件进行配置。
+
 ## 3. 查阅方法
 
 支持通过 SQL 直接阅读、获取审计日志相关信息。
