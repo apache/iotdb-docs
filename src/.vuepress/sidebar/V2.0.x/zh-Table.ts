@@ -96,7 +96,6 @@ export const zhSidebar = {
           children: [
             { text: '数据删除', link: 'Delete-Data' },
             { text: '数据保留时间', link: 'TTL-Delete-Data_apache' },
-            { text: 'SpaceTL 删除', link: 'SpaceTL-Delete' },
           ],
         },
       ],
