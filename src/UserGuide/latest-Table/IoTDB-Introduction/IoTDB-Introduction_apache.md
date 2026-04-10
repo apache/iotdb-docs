@@ -48,7 +48,7 @@ Key components include:
 
 The diagram below illustrates a typical IoTDB cluster deployment (3 ConfigNodes and 3 DataNodes):
 
-<img src="/img/Cluster-Concept03.png" alt="" style="width: 60%;"/>  
+<img src="/img/Cluster-Concept03N.png" alt="" style="width: 60%;"/>  
 
 
 ## 3. Key Features
