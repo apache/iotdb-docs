@@ -573,47 +573,6 @@ localOrClusterMode
 IoTDB> FLUSH test_db TRUE ON LOCAL;
 ```
 
-### 3.2 Clearing Cache on DataNode
-
-**Description**: Clears a specific type of cache on DataNode.
-
-**Syntax**:
-
-```SQL
-clearCacheStatement
-    : CLEAR clearCacheOptions? CACHE localOrClusterMode?
-    ;
-
-clearCacheOptions
-    : ATTRIBUTE
-    | QUERY
-    | ALL
-    ;
-
-localOrClusterMode
-    : (ON (LOCAL | CLUSTER))
-    ;
-```
-
-**Parameters**:
-
-1. **clearCacheOptions（Optional）**:
-    1. Specifies the type of cache to clear.
-    2. **ATTRIBUTE**: Clears device attribute cache.
-    3. **QUERY**: Clears query cache in the storage engine.
-    4. **ALL**: Clears all caches, including device attribute cache, query cache, and schema cache in the tree model.
-    5. **Default**: `QUERY`.
-2. **localOrClusterMode（Optional）**:
-    1. **ON LOCAL**: Clears cache only on the DataNode directly connected to the client.
-    2. **ON CLUSTER**: Clears cache on all DataNodes in the cluster.
-    3. **Default:** `ON CLUSTER`.
-
-**Example**:
-
-```SQL
-IoTDB> CLEAR ALL CACHE ON LOCAL;
-```
-
 ## 4. Data Repair
 
 ### 4.1 Starting Background Scan and Repair of TsFiles
