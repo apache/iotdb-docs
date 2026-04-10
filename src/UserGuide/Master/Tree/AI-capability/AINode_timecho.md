@@ -23,16 +23,24 @@
 
 AINode is a native IoTDB node that supports the registration, management, and invocation of time-series-related models. It comes with built-in industry-leading self-developed time-series large models, such as the Timer series developed by Tsinghua University. These models can be invoked through standard SQL statements, enabling real-time inference of time series data at the millisecond level, and supporting application scenarios such as trend forecasting, missing value imputation, and anomaly detection for time series data.
 
+> Available since V2.0.5.1
 
 The system architecture is shown below:
 ::: center
-<img src="/img/AInode.png" style="zoom:50 percent" />
-::: 
+<img src="/img/AINode-0-en.png" style="zoom:50 percent" />
+:::
+
 The responsibilities of the three nodes are as follows:
 
-- **ConfigNode**: responsible for storing and managing the meta-information of the model; responsible for distributed node management.
-- **DataNode**: responsible for receiving and parsing SQL requests from users; responsible for storing time-series data; responsible for preprocessing computation of data.
-- **AINode**: responsible for model file import creation and model inference.
+- **ConfigNode:**
+  - Manages distributed nodes and handles load balancing across the system.
+- **DataNode:**
+  - Receives and parses user SQL queries.
+  - Stores time-series data.
+  - Performs preprocessing computations on raw data.
+- **AINode:**
+  - Manages and utilizes time-series models (including training/inference).
+  - Supports deep learning and machine learning workflows.
 
 ## 1. Advantageous features
 
@@ -59,12 +67,12 @@ Compared with building a machine learning service alone, it has the following ad
 - **Built-in Capabilities**: AINode comes with machine learning algorithms or self-developed models for common time series analysis scenarios (e.g., forecasting and anomaly detection).
 
 ::: center
-<img src="/img/AInode2.png" style="zoom:50%" />
+<img src="/img/AINode-en.png" style="zoom:50%" />
 ::::
 
 ## 3. Installation and Deployment
 
-The deployment of AINode can be found in the document [Deployment Guidelines](../Deployment-and-Maintenance/AINode_Deployment_timecho.md#ainode-deployment) .
+The deployment of AINode can be found in the document [AINode Deployment](../Deployment-and-Maintenance/AINode_Deployment_apache.md).
 
 ## 4. Usage Guidelines
 
@@ -86,13 +94,13 @@ Models that meet the following criteria can be registered with AINode:
 The SQL syntax for model registration is defined as follows:
 
 ```SQL
-create model <model_name> using uri <uri>
+create model <model_id> using uri <uri>
 ```
 
 Detailed meanings of SQL parameters:
 
-- **model_name**: The global unique identifier for the model, non-repeating. Model names have the following constraints:
-  - Allowed characters: [0-9 a-z A-Z _] (letters, numbers, underscores)
+- **model_id**: The global unique identifier for the model, non-repeating. Model names have the following constraints:
+  - Allowed characters: [0-9 a-z A-Z _] (letters, digits (not at the beginning), underscores (not at the beginning))
   - Length: 2-64 characters
   - Case-sensitive
 - **uri**: The resource path of the model registration files, which should include the **model structure and weight file `model.pt` and the model configuration file `config.yaml`**
@@ -124,7 +132,7 @@ In addition to registering local model files, remote resource paths can be speci
 
 #### Example
 
-The current example folder contains model.pt (trained model) and config.yaml with the following content:
+The [example folder](https://github.com/apache/iotdb/tree/master/integration-test/src/test/resources/ainode-example) contains model.pt (trained model) and config.yaml with the following content:
 
 ```YAML
 configs:                
@@ -147,12 +155,6 @@ Register the model by specifying this folder as the loading path:
 IoTDB> create model dlinear_example using uri "file://./example"
 ```
 
-Models can also be downloaded from HuggingFace for registration:
-
-```SQL
-IoTDB> create model dlinear_example using uri "https://huggingface.co/google/timesfm-2.0-500m-pytorch"
-```
-
 After SQL execution, registration proceeds asynchronously. The registration status can be checked via model display (see Model Display section). The registration success time mainly depends on the model file size.
 
 Once registered, the model can be invoked for inference through normal query syntax.
@@ -164,43 +166,63 @@ Registered models can be queried using the `show models` command. The SQL defini
 ```SQL
 show models
 
-show models <model_name>
+show models <model_id>
 ```
 
 In addition to displaying all models, specifying a `model_id` shows details of a specific model. The display includes:
 
-| **ModelId** | **State**                                                 | **Configs**                                      | **Attributes** |
-| ----------- | --------------------------------------------------------- | ------------------------------------------------ | -------------- |
-| Unique ID   | Registration status (INACTIVE, LOADING, ACTIVE,TRAINING,FAILED, DROPPING) | InputShape, outputShape, inputTypes, outputTypes | User notes     |
+| **ModelId** | **ModelType** | **Category**   | **State**   |
+|-------------|---------------|----------------|-------------|
+| Model ID    | Model Type    | Model Category | Model State |
 
-**State descriptions:**
+- Model State Transition Diagram
 
-- **INACTIVE**: The model is in an unavailable state.
-- **LOADING**: The model is being loaded.
-- **ACTIVE**: The model is in an available state.
-- **TRAINING**: The model is in the fine-tuning state.
-- **FAILED**: The model fine-tuning failed.
-- **DROPPING**: The model is being deleted.
+![](/img/AINode-State-en.png)
 
-#### Example
+**Instructions:**
+
+1. Initialization:
+  - When AINode starts, show models only displays BUILT-IN models.
+2. Custom Model Import:
+  - Users can import custom models (marked as USER-DEFINED).
+  - The system attempts to parse the ModelTypefrom the config file.
+  - If parsing fails, the field remains empty.
+3. Foundation Model Weights:
+  - Time-series foundation model weights are not bundled with AINode.
+  - AINode automatically downloads them during startup.
+  - Download state: LOADING.
+4. Download Outcomes:
+  - Success → State changes to ACTIVE.
+  - Failure → State changes to INACTIVE.
+5. Fine-Tuning Process:
+  - When fine-tuning starts: State becomes TRAINING.
+  - Successful training → State transitions to ACTIVE.
+  - Training failure → State changes to FAILED.
+
+**Example**
 
 ```SQL
 IoTDB> show models
-
-+---------------------+--------------------+--------+--------+
-|              ModelId|           ModelType|Category|   State|
-+---------------------+--------------------+--------+--------+
-|                arima|               Arima|BUILT-IN|  ACTIVE|
-|          holtwinters|         HoltWinters|BUILT-IN|  ACTIVE|
-|exponential_smoothing|ExponentialSmoothing|BUILT-IN|  ACTIVE|
-|     naive_forecaster|     NaiveForecaster|BUILT-IN|  ACTIVE|
-|       stl_forecaster|       StlForecaster|BUILT-IN|  ACTIVE|
-|         gaussian_hmm|         GaussianHmm|BUILT-IN|  ACTIVE|
-|              gmm_hmm|              GmmHmm|BUILT-IN|  ACTIVE|
-|                stray|               Stray|BUILT-IN|  ACTIVE|
-|             timer_xl|            Timer-XL|BUILT-IN|  ACTIVE|
-|              sundial|       Timer-Sundial|BUILT-IN|  ACTIVE|
-+---------------------+--------------------+--------+--------+
++---------------------+--------------------+--------------+---------+
+|              ModelId|           ModelType|      Category|    State|
++---------------------+--------------------+--------------+---------+
+|                arima|               Arima|      BUILT-IN|   ACTIVE|
+|          holtwinters|         HoltWinters|      BUILT-IN|   ACTIVE|
+|exponential_smoothing|ExponentialSmoothing|      BUILT-IN|   ACTIVE|
+|     naive_forecaster|     NaiveForecaster|      BUILT-IN|   ACTIVE|
+|       stl_forecaster|       StlForecaster|      BUILT-IN|   ACTIVE|
+|         gaussian_hmm|         GaussianHmm|      BUILT-IN|   ACTIVE|
+|              gmm_hmm|              GmmHmm|      BUILT-IN|   ACTIVE|
+|                stray|               Stray|      BUILT-IN|   ACTIVE| 
+|               custom|                    |  USER-DEFINED|   ACTIVE|
+|              timerxl|            Timer-XL|      BUILT-IN|  LOADING|
+|              sundial|       Timer-Sundial|      BUILT-IN|   ACTIVE|
+|           sundialx_1|       Timer-Sundial|    FINE-TUNED|   ACTIVE|
+|           sundialx_2|       Timer-Sundial|    FINE-TUNED|   ACTIVE|
+|             sundialx|       Timer-Sundial|    FINE-TUNED|   ACTIVE|
+|           sundialx_4|       Timer-Sundial|    FINE-TUNED| TRAINING|
+|           sundialx_5|       Timer-Sundial|    FINE-TUNED|   FAILED|
++---------------------+--------------------+--------------+---------+
 ```
 
 ### 4.3 Deleting Models
@@ -252,7 +274,7 @@ The following machine learning models are currently built-in, please refer to th
 
 After completing the registration of the model, the inference function can be used by calling the inference function through the call keyword, and its corresponding parameters are described as follows:
 
-- **model_name**: corresponds to a registered model
+- **model_id**: corresponds to a registered model
 - **sql**: sql query statement, the result of the query is used as input to the model for model inference. The dimensions of the rows and columns in the result of the query need to match the size specified in the specific model config. (It is not recommended to use the `SELECT *` clause for the sql here because in IoTDB, `*` does not sort the columns, so the order of the columns is undefined, you can use `SELECT s0,s1` to ensure that the columns order matches the expectations of the model input)
 - **window_function**: Window functions that can be used in the inference process, there are currently three types of window functions provided to assist in model inference:
   - **head(window_size)**: Get the top window_size points in the data for model inference, this window can be used for data cropping.
@@ -458,7 +480,7 @@ IoTDB> show models
 
 ### 4.6 TimeSeries Large Models Import Steps
 
-AINode currently supports a variety of time series large models. For deployment and usage, please refer to [TimeSeries Large Models](../AI-capability/TimeSeries-Large-Model)
+The deployment of AINode can be found in the document [AINode Deployment](../Deployment-and-Maintenance/AINode_Deployment_timecho.md) .
 
 
 ## 5. Privilege Management
@@ -485,10 +507,10 @@ On this dataset, the model inference function of IoTDB-ML can predict the oil te
 
 #### Step 1: Data Import
 
-Users can import the ETT dataset into IoTDB using `import-csv.sh` in the tools folder
+Users can import the ETT dataset into IoTDB using `import-data.sh` in the tools folder
 
 ``Bash
-bash . /import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ... /... /ETTh1.csv
+bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/ETTh1.csv  
 ``
 
 #### Step 2: Model Import
@@ -555,10 +577,10 @@ On this dataset, the model inference function of IoTDB-ML can predict the C-phas
 
 #### Step 1: Data Import
 
-Users can import the dataset using `import-csv.sh` in the tools folder
+Users can import the dataset using `import-data.sh` in the tools folder
 
-```Bash
-bash ./import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ... /... /data.csv
+```Bash 
+bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/data.csv  
 ```
 
 #### Step 2: Model Import
@@ -618,10 +640,10 @@ On this dataset, the model inference function of IoTDB-ML can empower the transp
 
 #### Step 1: Data Import
 
-Users can import the dataset using `import-csv.sh` in the tools folder
+Users can import the dataset using `import-data.sh` in the tools folder
 
-``Bash
-bash . /import-csv.sh -h 127.0.0.1 -p 6667 -u root -pw root -f ... /... /data.csv
+``Bash 
+bash ./import-data.sh -ft csv -h 127.0.0.1 -p 6667 -u root -pw root -s /path/data.csv 
 ``
 
 #### Step 2: Model Inference
