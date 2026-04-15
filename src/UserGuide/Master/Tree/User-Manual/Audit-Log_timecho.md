@@ -32,7 +32,7 @@ Audit logs serve as the record credentials of a database, enabling tracking of v
 * Supports configuring parameters to count slow requests (with write/query latency exceeding a threshold, default 3000 milliseconds) within any specified time period
 * Audit log files are stored in encrypted format by default
 
-> Note: This feature is available from version V2.0.8-beta onwards.
+> Note: This feature is available from version V2.0.8 onwards.
 
 ## 2. Configuration Parameters
 

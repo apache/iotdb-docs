@@ -89,7 +89,7 @@ sha512sum timechodb-2.0.6.1-ainode-bin.zip
 ### 2.3 Environment Requirements
 
 - Recommended operating environment: Linux, macOS.
-- TimechoDB Version: >= V2.0.8-beta.
+- TimechoDB Version: >= V2.0.8.
 
 ## 3. Installation, Deployment, and Usage
 

@@ -212,7 +212,7 @@ CREATE TABLE tableC (
   temperature int32 FIELD COMMENT 'temperature'
  ) with (TTL=DEFAULT);
  
--- 自定义时间列:命名为time_test, 位于表的第二列 (V2.0.8-beta 起支持）
+-- 自定义时间列:命名为time_test, 位于表的第二列 (V2.0.8 起支持）
 CREATE TABLE table1 (
  region STRING TAG, 
  time_user_defined TIMESTAMP TIME, 

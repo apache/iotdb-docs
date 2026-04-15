@@ -85,7 +85,7 @@ To ensure the AINode installation package you obtained is complete and correct, 
 ### 2.3 Environment Requirements
 
 - Recommended operating environment: Linux, macOS.
-- IoTDB Version: >= V2.0.8-beta.
+- IoTDB Version: >= V2.0.8.
 
 ## 3. Installation, Deployment, and Usage
 

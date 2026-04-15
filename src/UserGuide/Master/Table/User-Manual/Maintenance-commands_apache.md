@@ -341,7 +341,7 @@ IoTDB> SHOW REGIONS
 
 **Description**: Returns the RPC addresses and ports of all available DataNodes in the current cluster. Note: A DataNode is considered "available" if it is not in the REMOVING state.
 
-> This feature is supported starting from v2.0.8-beta.
+> This feature is supported starting from v2.0.8.
 
 **Syntax**:
 
@@ -371,7 +371,7 @@ IoTDB> SHOW AVAILABLE URLS
 
 **Description**: Returns service information (MQTT service, REST service) on all active DataNodes (in RUNNING or READ-ONLY state) in the current cluster.
 
-> Supported since V2.0.8-beta
+> Supported since V2.0.8
 
 #### Syntax:
 ```sql

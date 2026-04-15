@@ -33,8 +33,6 @@ IoTDB supports the following ten data types:
 - **TEXT** (Text data, suitable for long strings, Not recommended)
 - **STRING** (String data with additional statistical information for optimized queries)
 - **BLOB** (Large binary object)
-- **OBJECT** (Large Binary Object)
-  > Supported since V2.0.8-beta
 - **TIMESTAMP** (Timestamp, representing precise moments in time)
 - **DATE** (Date, storing only calendar date information)
 

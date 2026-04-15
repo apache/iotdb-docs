@@ -212,7 +212,7 @@ CREATE TABLE tableC (
   "Temperature" int32 FIELD COMMENT 'temperature'
  ) with (TTL=DEFAULT);
  
- -- Custom time column: named time_test, located in the second column of the table. (Support from V2.0.8-beta)
+ -- Custom time column: named time_test, located in the second column of the table. (Support from V2.0.8)
  CREATE TABLE table1 (
      region STRING TAG, 
      time_user_defined TIMESTAMP TIME, 
