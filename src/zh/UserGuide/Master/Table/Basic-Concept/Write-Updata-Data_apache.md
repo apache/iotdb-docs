@@ -288,7 +288,7 @@ It costs 0.014s
 
 * 允许 query 中的源表与目标表 table\_name 是同一个表，例如：`INSERT INTO testtb SELECT * FROM testtb`。
 * 目标表必须已存在，否则提示错误信息`550: Table 'xxx.xxx' does not exist`。
-* 查询返回列和目标表列的数量和类型需完全匹配，目前不支持 Object 类型，不支持兼容类型的转换，若类型不匹配则提示错误信息 `701: Insert query has mismatched column types`。
+* 查询返回列和目标表列的数量和类型需完全匹配，不支持兼容类型的转换，若类型不匹配则提示错误信息 `701: Insert query has mismatched column types`。
 * 允许指定目标表的部分列，指定目标表列名时需符合以下规则：
     * 必须包含时间戳列，否则提示错误信息`701: time column can not be null`
     * 必须包含至少一个 FIELD 列，否则提示错误信息`701: No Field column present`
