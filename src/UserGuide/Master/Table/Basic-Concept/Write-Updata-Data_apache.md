@@ -301,7 +301,7 @@ It costs 0.014s
 
 * The source table in the `query` and the target table `table_name` are allowed to be the same table, e.g., `INSERT INTO testtb SELECT * FROM testtb`.
 * The target table ​**must already exist**​; otherwise, the error message `550: Table 'xxx.xxx' does not exist` will be thrown.
-* The number and types of query result columns must exactly match those of the target table. Object type is currently not supported, and no implicit type conversion is supported. If types mismatch, the error `701: Insert query has mismatched column types` will be raised.
+* The number and types of query result columns must exactly match those of the target table. No implicit type conversion is supported. If types mismatch, the error `701: Insert query has mismatched column types` will be raised.
 * You can specify a subset of columns in the target table, provided the following rules are met:
   * The timestamp column must be included; otherwise, the error message `701: time column can not be null` will be thrown.
   * At least one **FIELD** column must be included; otherwise, the error message `701: No Field column present` will be thrown.
