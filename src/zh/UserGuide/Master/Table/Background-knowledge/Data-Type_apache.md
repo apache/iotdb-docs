@@ -33,8 +33,6 @@ IoTDB 支持以下十种数据类型：
 * TEXT（长字符串，不推荐使用）
 * STRING（字符串）
 * BLOB（大二进制对象）
-* OBJECT（大二进制对象）
-  > V2.0.8-beta 版本起支持
 * TIMESTAMP（时间戳）
 * DATE（日期）
 

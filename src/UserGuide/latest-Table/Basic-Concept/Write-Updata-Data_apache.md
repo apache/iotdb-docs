@@ -316,60 +316,6 @@ It costs 0.014s
   * For more details about user permissions, refer to [Authority Management](../User-Manual/Authority-Management_apache.md).
 
 
-### 1.7 Writing Object Type
-
-To avoid oversized Object write requests, values of **Object** type can be split into segments and written sequentially. In SQL, the `to_object(isEOF, offset, content)` function must be used for value insertion.
-
-> Supported since V2.0.8-beta
-
-**Syntax:**
-
-```SQL
-INSERT INTO tableName(time, columnName) VALUES(timeValue, TO_OBJECT(isEOF, offset, content));
-```  
-
-**Parameters:**
-
-| Name    | Data Type          | Description                                                                 |
-|---------|--------------------|-----------------------------------------------------------------------------|
-| isEOF   | BOOLEAN            | Whether the current write contains the last segment of the Object          |
-| offset  | INT64              | Starting offset of the current segment within the Object                   |
-| content | Hexadecimal (HEX)  | Content of the current segment                                             |
-
-**Examples:**
-
-Add an Object-type column `s1` to table `table1`:
-
-```SQL
-ALTER TABLE table1 ADD COLUMN IF NOT EXISTS s1 OBJECT FIELD COMMENT 'object type';
-```
-
-1. **Non-segmented write**
-
-```SQL
-INSERT INTO table1(time, device_id, s1) VALUES(NOW(), 'tag1', TO_OBJECT(TRUE, 0, X'696F746462'));
-```
-
-2. **Segmented write**
-
-```SQL
--- First write: TO_OBJECT(FALSE, 0, X'696F');
-INSERT INTO table1(time, device_id, s1) VALUES(1, 'tag1', TO_OBJECT(FALSE, 0, X'696F'));
-
--- Second write: TO_OBJECT(FALSE, 2, X'7464');
-INSERT INTO table1(time, device_id, s1) VALUES(1, 'tag1', TO_OBJECT(FALSE, 2, X'7464'));
-
--- Third write: TO_OBJECT(TRUE, 4, X'62');
-INSERT INTO table1(time, device_id, s1) VALUES(1, 'tag1', TO_OBJECT(TRUE, 4, X'62'));
-```
-
-**Notes:**
-
-1. If only partial segments of an Object are written, querying the column will return `NULL`. Data becomes accessible only after all segments are successfully written.
-2. During segmented writes, if the `offset` of the current write does not match the current size of the Object, the write operation will fail.
-3. If `offset=0` is used after partial writes, the existing content will be overwritten with new data.
-
-
 ## 2. Data Updates
 
 ### 2.1 Syntax

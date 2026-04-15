@@ -117,7 +117,7 @@ WITH SINK (
 
 **IF NOT EXISTS 语义**：用于创建操作中，确保当指定 Pipe 不存在时，执行创建命令，防止因尝试创建已存在的 Pipe 而导致报错。
 
-**注意**：V2.0.8-beta 起，创建一个全量数据同步 Pipe （例如 Pipeid : `alldatapipe`）时，系统会自动将其拆分为两个独立的 Pipe：
+**注意**：V2.0.8 起，创建一个全量数据同步 Pipe （例如 Pipeid : `alldatapipe`）时，系统会自动将其拆分为两个独立的 Pipe：
 
 * 历史 Pipe：PipeId 为原名称加 _history后缀（如 `alldatapipe_history`），source 参数默认携带 `'realtime.enable'='false', 'inclusion'='data.insert', 'inclusion.exclusion'=''`
 
@@ -192,7 +192,7 @@ SHOW PIPE <PipeId>
 
 示例：
 
-在 V2.0.8-beta 及之后的版本中，创建一个全量数据同步任务，并查看该任务详情
+在 V2.0.8 及之后的版本中，创建一个全量数据同步任务，并查看该任务详情
 
 ```sql
 IoTDB> create pipe alldatapipe with source('inclusion'='all','exclusion'='auth') with sink('node-urls'='127.0.0.1:6668')
