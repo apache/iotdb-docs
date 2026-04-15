@@ -36,13 +36,20 @@ We can thus create two databases using the above two SQL statements.
 
 It is worth noting that 1 database is recommended.
 
-When the path itself or the parent/child layer of the path is already created as database, the path is then not allowed to be created as database. For example, it is not feasible to create `root.ln.wf01` as database when two databases `root.ln` and `root.sgcc` exist. The system gives the corresponding error prompt as shown below:
+When the path itself or the parent/child layer of the path is already created as database, the path is then not allowed to be created as database. 
+
+For example, when the databases root.ln and root.sgcc already exist, creating the database root.ln.wf01 is not allowed. The system will return the corresponding error message as shown below:
 
 ```sql
 CREATE DATABASE root.ln.wf01;
-Msg: 300: root.ln has already been created as database;
-create database root.ln.wf01;
-Msg: 300: root.ln has already been created as database;
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 501: root.ln has already been created as a database
+```
+
+Similarly, when the database root.db.test already exists, creating the database root.db is not allowed either. The system will return the corresponding error message as shown below:
+
+```sql
+CREATE DATABASE root.db;
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 529: Some children of root.db have already been created as datab
 ```
 
 Database Node Naming Rules:
