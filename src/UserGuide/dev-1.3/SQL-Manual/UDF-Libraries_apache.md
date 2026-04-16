@@ -3283,6 +3283,97 @@ Output series:
 +-----------------------------+-------------------------------------+
 ```
 
+
+### IDWT
+
+#### Registration statement
+
+```sql
+create function dwt as 'org.apache.iotdb.library.frequency.UDTFIDWT'
+```
+
+#### Usage
+
+This function performs one-dimensional inverse discrete wavelet transform on the input series, reconstructing the original data from DWT decomposed wavelet coefficients.
+
+**Name:** IDWT
+
+**Input:** Only support a single input series. The type is INT32 / INT64 / FLOAT / DOUBLE.
+
+**Parameters:**
+
++ `method`: The type of wavelet. May select 'Haar', 'DB4', 'DB6', 'DB8', where DB means Daubechies. User may offer coefficients of wavelet transform and ignore this parameter. Case ignored.
++ `coef`: Coefficients of wavelet transform. When providing this parameter, use comma ',' to split them, and leave no spaces or other punctuations.
++ `layer`: Times to transform. The number of output vectors equals $layer+1$. Default is 1.
+
+**Output:** Output a single series. The type is DOUBLE. The length is the same as the input.
+
+**Note:**
+* The length of input series must be an integer number power of 2.
+* The parameter settings of the IDWT function (method/coef/layer) should be consistent with the corresponding DWT transformation to correctly reconstruct the original data.
+* Typically, the input of IDWT is the output result of the DWT function.
+
+#### Examples
+
+##### Haar wavelet transform
+
+Input series:
+
+```
++-----------------------------+--------------------+
+|                         Time|     root.test.d1.s2|
++-----------------------------+--------------------+
+|1970-01-01T08:00:00.000+08:00|  0.1414213562373095|
+|1970-01-01T08:00:00.100+08:00|   1.909188309203678|
+|1970-01-01T08:00:00.200+08:00|  1.6263455967290592|
+|1970-01-01T08:00:00.300+08:00|   1.979898987322333|
+|1970-01-01T08:00:00.400+08:00|  3.2526911934581184|
+|1970-01-01T08:00:00.500+08:00|   1.414213562373095|
+|1970-01-01T08:00:00.600+08:00|  2.1213203435596424|
+|1970-01-01T08:00:00.700+08:00|  1.8384776310850235|
+|1970-01-01T08:00:00.800+08:00| -0.1414213562373095|
+|1970-01-01T08:00:00.900+08:00| 0.21213203435596428|
+|1970-01-01T08:00:01.000+08:00| -0.7778174593052022|
+|1970-01-01T08:00:01.100+08:00| -0.8485281374238569|
+|1970-01-01T08:00:01.200+08:00|  0.2828427124746189|
+|1970-01-01T08:00:01.300+08:00|  -1.414213562373095|
+|1970-01-01T08:00:01.400+08:00| 0.42426406871192857|
+|1970-01-01T08:00:01.500+08:00|-0.42426406871192857|
++-----------------------------+--------------------+
+```
+
+SQL for query:
+
+```sql
+select idwt(s2,"method"="haar") from root.test.d1
+```
+
+Output series:
+
+```
++-----------------------------+--------------------------------------+
+|                         Time|idwt(root.test.d1.s2, "method"="haar")|
++-----------------------------+--------------------------------------+
+|1970-01-01T08:00:00.000+08:00|                                   0.0|
+|1970-01-01T08:00:00.100+08:00|                   0.19999999999999998|
+|1970-01-01T08:00:00.200+08:00|                    1.4999999999999996|
+|1970-01-01T08:00:00.300+08:00|                    1.1999999999999997|
+|1970-01-01T08:00:00.400+08:00|                                   0.6|
+|1970-01-01T08:00:00.500+08:00|                    1.6999999999999997|
+|1970-01-01T08:00:00.600+08:00|                    0.7999999999999998|
+|1970-01-01T08:00:00.700+08:00|                    1.9999999999999996|
+|1970-01-01T08:00:00.800+08:00|                    2.4999999999999996|
+|1970-01-01T08:00:00.900+08:00|                                   2.1|
+|1970-01-01T08:00:01.000+08:00|                                   0.0|
+|1970-01-01T08:00:01.100+08:00|                    1.9999999999999996|
+|1970-01-01T08:00:01.200+08:00|                    1.7999999999999998|
+|1970-01-01T08:00:01.300+08:00|                    1.1999999999999997|
+|1970-01-01T08:00:01.400+08:00|                    0.9999999999999998|
+|1970-01-01T08:00:01.500+08:00|                    1.5999999999999999|
++-----------------------------+--------------------------------------+
+```
+
+
 ### FFT
 
 #### Registration statement
