@@ -76,7 +76,7 @@ export const enSidebar = {
             collapsible: true,
             children: [
                { text: 'AINode Deployment(V2.0.5/6)', link: 'AINode_Deployment_apache' },
-               { text: 'AINode Deployment(V2.0.8-beta)', link: 'AINode_Deployment_Upgrade_apache' },
+               { text: 'AINode Deployment(V2.0.8)', link: 'AINode_Deployment_Upgrade_apache' },
             ],
           },
       ],
@@ -96,7 +96,6 @@ export const enSidebar = {
           children: [
             { text: 'Delete Data', link: 'Delete-Data' },
             { text: 'TTL Delete Data', link: 'TTL-Delete-Data_apache' },
-            { text: 'SpaceTL Delete Data', link: 'SpaceTL-Delete' },
           ],
         },
       ],
@@ -133,9 +132,9 @@ export const enSidebar = {
       prefix: 'AI-capability/',
       children: [
         { text: 'AINode(V2.0.5/6)', link: 'AINode_apache' },
-        { text: 'AINode(V2.0.8-beta)', link: 'AINode_Upgrade_apache' },
+        { text: 'AINode(V2.0.8)', link: 'AINode_Upgrade_apache' },
         { text: 'TimeSeries Large Model(V2.0.5/6)', link: 'TimeSeries-Large-Model' },
-        { text: 'TimeSeries Large Model(V2.0.8-beta)', link: 'TimeSeries-Large-Model_Upgrade_apache' },
+        { text: 'TimeSeries Large Model(V2.0.8)', link: 'TimeSeries-Large-Model_Upgrade_apache' },
       ],
     },
     {

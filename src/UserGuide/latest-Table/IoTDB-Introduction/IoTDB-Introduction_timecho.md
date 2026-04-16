@@ -53,7 +53,7 @@ Key components include:
 
 The diagram below illustrates a common cluster deployment (3 ConfigNodes, 3 DataNodes) of TimechoDB:
 
-![](/img/Cluster-Concept03.png)
+![](/img/Cluster-Concept03N.png)
 
 ## 3. Key Features
 

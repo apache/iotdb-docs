@@ -541,7 +541,7 @@ An example is as follows:
 
 ### 3.3 Fuzzy Query
 
-Fuzzy query is divided into Like statement and Regexp statement, both of which can support fuzzy matching of TEXT type data.
+Fuzzy query is divided into Like statement and Regexp statement, both of which can support fuzzy matching of TEXT type and STRING type data.
 
 Like statement:
 

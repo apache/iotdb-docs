@@ -792,7 +792,7 @@ It costs 0.021s
 
 ### 3.3 模糊查询
 
-对于 TEXT 类型的数据，支持使用 `Like` 和 `Regexp` 运算符对数据进行模糊匹配
+对于 TEXT 和 STRING 类型的数据，支持使用 `Like` 和 `Regexp` 运算符对数据进行模糊匹配
 
 #### 使用 `Like` 进行模糊匹配 
 

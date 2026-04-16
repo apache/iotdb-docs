@@ -26,11 +26,9 @@
 
 AINode is the third type of endogenous node provided by IoTDB after ConfigNode and DataNode. By interacting with the DataNodes and ConfigNodes of an IoTDB cluster, this node extends the capability for machine learning analysis on time series. AINode integrates model management, training, and inference within the database engine. It supports performing time series analysis tasks on specified time series data using registered models through simple SQL statements and also supports registering and using custom machine learning models. AINode currently integrates machine learning algorithms and self-developed models for common time series analysis scenarios (e.g., forecasting).
 
-### 1.2 Delivery Method
+### 1.2 Deployment Modes
 
-AINode is an additional suite outside the IoTDB cluster, provided as an independent installation package.
-
-### 1.3 Deployment Modes
+AINode is an additional component outside the IoTDB cluster and is deployed using a separate installation package.
 
 <div >
     <img src="/img/ainode-deployment-upgrade-apache-1-en.png" alt="" style="width: 45%;"/>
@@ -85,7 +83,7 @@ To ensure the AINode installation package you obtained is complete and correct, 
 ### 2.3 Environment Requirements
 
 - Recommended operating environment: Linux, macOS.
-- IoTDB Version: >= V2.0.8-beta.
+- IoTDB Version: >= V2.0.8.
 
 ## 3. Installation, Deployment, and Usage
 
@@ -205,6 +203,34 @@ IoTDB> show cluster
 ```
 
 If you need to restart the node, re-execute the startup script.
+
+### 3.7 Upgrading AINode
+If you need to upgrade the version of the current AINode, you can refer to the following steps:
+
+1. Stop the current AINode service
+
+   * Run the stop command and ensure the service has completely exited before performing subsequent operations.
+
+   ```shell
+   # Linux / MacOS
+   bash sbin/stop-ainode.sh
+   bash sbin/stop-ainode.sh -p <port_id> # Specify port
+
+   # Windows
+   sbin\stop-ainode.bat
+   sbin\stop-ainode.bat -p <port_id> # Specify port
+   ```
+
+2. Replace core files
+
+   * Delete the `lib` and `sbin` directories of the current version, then copy the `lib` and `sbin` directories of the new version to the corresponding locations.
+   * Back up the modified configuration files in the `conf` directory, then replace the `conf` folder and synchronize the modified configurations to the corresponding locations.
+
+3. Update built-in model weights (optional)
+
+   * If the new version involves updates to built-in models, relevant information will be updated in the [Release History](../IoTDB-Introduction/Release-history_apache.md). You may contact Timecho staff to obtain the latest weight package and replace it in the `data/ainode/models/builtin` directory.
+
+4. After the upgrade is completed, you can start the AINode service and check the node status. For specific commands, refer to Sections 3.4 and 3.5.
 
 ## 4. AINode Build
 

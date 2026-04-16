@@ -26,11 +26,9 @@
 
 AINode 是 IoTDB 在 ConfigNode、DataNode 后提供的第三种内生节点，该节点通过与 IoTDB 集群的 DataNode、ConfigNode 交互，扩展了对时间序列进行机器学习分析的能力。AINode 将模型的管理、训练及推理融合在数据库引擎中，支持使用注册的模型在指定时序数据上通过简单 SQL 语句完成时序分析任务，还支持注册并使用自定义机器学习模型。AINode 目前已集成常见时序分析场景（例如预测）的机器学习算法和自研模型。
 
-### 1.2 交付方式
+### 1.2 部署模式
 
-AINode 是 IoTDB 集群外的额外套件，独立安装包。
-
-### 1.3 部署模式
+AINode 是 IoTDB  集群外的额外套件，采用独立安装包部署。
 
 <div >
     <img src="/img/ainode-deployment-upgrade-apache-1.png" alt="" style="width: 45%;"/>
@@ -87,7 +85,7 @@ b39039a1235a86bc3ce3df0a102efa215e281b5839683ccaf47883b390af4e686f99e6980a24a9d4
 ### 2.3 环境要求
 
 * 建议操作环境: Linux, MacOS；
-* IoTDB 版本：>= V 2.0.8-beta；
+* IoTDB 版本：>= V 2.0.8；
 
 ## 3. 安装部署及使用
 
@@ -209,6 +207,33 @@ IoTDB> show cluster
 ```
 
 如果需要重新启动该节点，需重新执行启动脚本。
+
+### 3.7升级 AINode
+
+如果需要对当前 AINode 进行版本升级，可参考如下步骤：
+
+1. 停止当前 AINode 服务
+
+   * 执行停止命令，确保服务完全退出后再进行后续操作
+
+   ```Shell
+   # Linux / MacOS 
+    bash sbin/stop-ainode.sh
+    bash sbin/stop-ainode.sh -p <port_id> # 指定端口
+   
+    #Windows
+    sbin\stop-ainode.bat  
+    sbin\stop-ainode.bat -p <port_id> # 指定端口
+   ```
+2. 替换核心文件
+
+   * 删除当前版本的`lib` 和 `sbin`目录，并将新版本的 `lib` 和 `sbin` 复制到对应位置
+   * 备份 conf 目录下已修改的配置文件，然后替换 conf 文件夹，并将修改的配置同步到对应位置
+3. 更新内置模型权重（可选）
+
+   * 若新版本涉及内置模型更新，相关信息将在[发布历史](../IoTDB-Introduction/Release-history\_apache.md)中同步。可联系天谋工作人员获取最新权重包，并将权重包替换至 `data/ainode/models/builtin` 目录
+4. 升级完毕后，可启动 AINode 服务，并查看节点状态，具体命令可参考【3.4】和【3.5】小节。
+
 
 ## 4. AINode 构建
 
