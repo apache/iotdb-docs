@@ -117,7 +117,13 @@ CREATE DATABASE etth;
 CREATE TABLE eg (hufl FLOAT FIELD, hull FLOAT FIELD, mufl FLOAT FIELD, mull FLOAT FIELD, lufl FLOAT FIELD, lull FLOAT FIELD, ot FLOAT FIELD)
 ```
 
-Prepare source data [ETTh1-tab](/img/ETTh1-tab.csv)
+Prepare source data [ETTh1-tab](/img/ETTh1-tab.csv).
+
+You can import the raw data using the [import-data](../Tools-System/Data-Import-Tool_apache.md#_2-2-csv-format) script. For example:
+
+```bash
+./tools/import-data.sh -ft csv -sql_dialect table -db etth -table eg -s ~/Desktop/model-compare-html/ETTh1-tab.csv
+```
 
 Forecast 96 future values of sensor `ot` using its latest 96 historical records:
 
