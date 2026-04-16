@@ -398,6 +398,40 @@ IoTDB> SHOW SERVICES ON 1
 +------------+-----------+-------+
 ```
 
+### 1.12 查看集群激活状态
+
+**含义**：返回当前集群的激活状态。
+
+#### 语法：
+
+```SQL
+showActivationStatement
+    : SHOW ACTIVATION
+    ;
+```
+
+#### 示例：
+
+```SQL
+IoTDB> SHOW ACTIVATION
+```
+
+执行结果如下：
+
+```SQL
++---------------+---------+-----------------------------+
+|    LicenseInfo|    Usage|                        Limit|
++---------------+---------+-----------------------------+
+|         Status|ACTIVATED|                            -|
+|    ExpiredTime|        -|2026-04-30T00:00:00.000+08:00|
+|  DataNodeLimit|        1|                    Unlimited|
+|       CpuLimit|       16|                    Unlimited|
+|    DeviceLimit|       30|                    Unlimited|
+|TimeSeriesLimit|       72|                1,000,000,000|
++---------------+---------+-----------------------------+
+```
+
+
 ## 2. 状态设置
 
 ### 2.1 设置连接的模型
