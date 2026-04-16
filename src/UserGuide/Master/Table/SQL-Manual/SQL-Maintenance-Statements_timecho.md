@@ -255,6 +255,66 @@ IoTDB> SHOW AVAILABLE URLS
 +----------+-------+
 ```
 
+### 1.10 View Service Information
+
+> Supported since V2.0.8.2
+
+**Syntax**:
+
+```sql
+showServicesStatement
+    : SHOW SERVICES <ON dataNodeId>
+    ;
+```
+
+**Example**:
+
+```sql
+IoTDB> SHOW SERVICES
+IoTDB> SHOW SERVICES ON 1
+```
+
+**Result**:
+
+```sql
++--------------+-------------+---------+
+| Service Name | DataNode ID | State   |
++--------------+-------------+---------+
+| MQTT         | 1           | STOPPED |
+| REST         | 1           | RUNNING |
++--------------+-------------+---------+
+```
+
+### 1.11 View Cluster Activation Status
+
+**Syntax**:
+
+```SQL
+showActivationStatement
+    : SHOW ACTIVATION
+    ;
+```
+
+**Example**:
+
+```SQL
+IoTDB> SHOW ACTIVATION
+```
+
+**Result**:
+
+```SQL
++---------------+---------+-----------------------------+
+|    LicenseInfo|    Usage|                        Limit|
++---------------+---------+-----------------------------+
+|         Status|ACTIVATED|                            -|
+|    ExpiredTime|        -|2026-04-30T00:00:00.000+08:00|
+|  DataNodeLimit|        1|                    Unlimited|
+|       CpuLimit|       16|                    Unlimited|
+|    DeviceLimit|       30|                    Unlimited|
+|TimeSeriesLimit|       72|                1,000,000,000|
++---------------+---------+-----------------------------+
+```
 
 ## 2. Status Configuration
 
@@ -371,32 +431,6 @@ localOrClusterMode
 
 ```SQL
 IoTDB> FLUSH test_db TRUE ON LOCAL;
-```
-
-### 3.2 Clear DataNode Cache
-
-**Syntax:**
-
-```SQL
-clearCacheStatement
-    : CLEAR clearCacheOptions? CACHE localOrClusterMode?
-    ;
-
-clearCacheOptions
-    : ATTRIBUTE
-    | QUERY
-    | ALL
-    ;
-
-localOrClusterMode
-    : (ON (LOCAL | CLUSTER))
-    ;
-```
-
-**Example:**
-
-```SQL
-IoTDB> CLEAR ALL CACHE ON LOCAL;
 ```
 
 ## 4. Data Repair

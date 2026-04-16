@@ -302,6 +302,39 @@ Execution result:
 +--------------+-------------+---------+
 ```
 
+### 1.9 View Cluster Activation Status
+
+**Description**：Returns the activation status of the current cluster.
+
+#### Syntax:
+
+```SQL
+showActivationStatement
+    : SHOW ACTIVATION
+    ;
+```
+
+#### Examples:
+
+```SQL
+IoTDB> SHOW ACTIVATION
+```
+
+Execution result:
+
+```SQL
++---------------+---------+-----------------------------+
+|    LicenseInfo|    Usage|                        Limit|
++---------------+---------+-----------------------------+
+|         Status|ACTIVATED|                            -|
+|    ExpiredTime|        -|2026-04-30T00:00:00.000+08:00|
+|  DataNodeLimit|        1|                    Unlimited|
+|       CpuLimit|       16|                    Unlimited|
+|    DeviceLimit|       30|                    Unlimited|
+|TimeSeriesLimit|       72|                1,000,000,000|
++---------------+---------+-----------------------------+
+```
+
 
 ## 2. Status Setting
 
