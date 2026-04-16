@@ -132,7 +132,11 @@ create database etth;
 create table eg (hufl FLOAT FIELD, hull FLOAT FIELD, mufl FLOAT FIELD, mull FLOAT FIELD, lufl FLOAT FIELD, lull FLOAT FIELD, ot FLOAT FIELD)
 ```
 
-准备原始数据 [ETTh1-tab](/img/ETTh1-tab.csv)
+准备原始数据 [ETTh1-tab](/img/ETTh1-tab.csv)，可通过 [import-data](../Tools-System/Data-Import-Tool_timecho.md#_2-2-csv-格式) 脚本导入原始数据，例如
+
+```bash
+./tools/import-data.sh -ft csv -sql_dialect table -db etth -table eg -s ~/Desktop/model-compare-html/ETTh1-tab.csv
+```
 
 使用表 eg 中测点 ot 已知的 96 行数据，预测其未来的 96 行数据.
 

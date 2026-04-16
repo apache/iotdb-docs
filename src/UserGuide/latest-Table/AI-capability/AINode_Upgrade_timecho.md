@@ -130,7 +130,13 @@ create database etth;
 create table eg (hufl FLOAT FIELD, hull FLOAT FIELD, mufl FLOAT FIELD, mull FLOAT FIELD, lufl FLOAT FIELD, lull FLOAT FIELD, ot FLOAT FIELD)
 ```
 
-Prepare original data [ETTh1-tab](/img/ETTh1-tab.csv)
+Prepare original data [ETTh1-tab](/img/ETTh1-tab.csv). 
+
+You can import the raw data using the [import-data](../Tools-System/Data-Import-Tool_timecho.md#_2-2-csv-format) script. For example:
+
+```bash
+./tools/import-data.sh -ft csv -sql_dialect table -db etth -table eg -s ~/Desktop/model-compare-html/ETTh1-tab.csv
+```
 
 Use the first 96 rows of data from column ot in table eg to predict its future 96 rows of data.
 
