@@ -33,21 +33,11 @@ IoTDB 支持以下十种数据类型：
 * TEXT（长字符串，不推荐使用）
 * STRING（字符串）
 * BLOB（大二进制对象）
-* OBJECT（大二进制对象）
-  > V2.0.8-beta 版本起支持
 * TIMESTAMP（时间戳）
 * DATE（日期）
 
 其中:
-1. STRING 和 TEXT 类型的区别在于，STRING 类型具有更多的统计信息，能够用于优化值过滤查询。TEXT 类型适合用于存储长字符串。
-2. OBJECT 和 BLOB 类型的区别如下：
-
- |                      | **OBJECT**                                                                                                              | **BLOB**                             |
- | ---------------------- |-------------------------------------------------------------------------------------------------------------------------| -------------------------------------------- |
- | 写放大（越低越好）   | 低（写放大系数永远为 1）                                                                                                           | 高（写放大系数为 2 + 合并次数）            |
- | 空间放大（越低越好） | 低（merge & release on write）                                                                                             | 高（merge on read and release on compact） |
- | 查询结果 | 默认查询 OBJECT 列时，返回结果如`(Object) XX.XX KB）`。 <br> 真实 OBJECT 数据存储路径位于：`${data_dir}/object_data`，可通过 `READ_OBJECT` 函数读取其真实内容 | 直接返回真实的二进制内容 |
-
+STRING 和 TEXT 类型的区别在于，STRING 类型具有更多的统计信息，能够用于优化值过滤查询。TEXT 类型适合用于存储长字符串。
 
 ### 1.1 数据类型兼容性
 
@@ -67,7 +57,6 @@ IoTDB 支持以下十种数据类型：
 | TEXT      | TEXT STRING                        |
 | STRING    | TEXT STRING                        |
 | BLOB      | TEXT STRING BLOB                   |
-| OBJECT    | OBJECT                             |
 | TIMESTAMP | INT32 INT64 TIMESTAMP              |
 | DATE      | DATE                               |
 

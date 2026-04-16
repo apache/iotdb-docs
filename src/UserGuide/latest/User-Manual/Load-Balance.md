@@ -224,14 +224,146 @@ After the migration is complete, the Region data in the system will be redistrib
 
 ![](/img/cluster-extention-9-en.png)
 
+## 2. Node Management
+Node management is mainly used to remove and add ConfigNodes and DataNodes in a cluster. It is a basic operation to ensure cluster high availability and achieve load balancing.
 
+### 2.1 ConfigNode Maintenance
+ConfigNode maintenance includes two operations: adding and removing ConfigNodes. There are two common usage scenarios:
 
-## 2. Load Balance
+- **Cluster scaling**: When there is only 1 ConfigNode in the cluster and you want to increase the high availability of ConfigNodes, you can add 2 more ConfigNodes so that the cluster has 3 ConfigNodes.
+- **Cluster fault recovery**: When the machine hosting a ConfigNode fails and the ConfigNode cannot run properly, you can remove the faulty ConfigNode and add a new ConfigNode to the cluster.
+
+> ❗️ Note: After completing ConfigNode maintenance, ensure the cluster has **1 or 3 normally running ConfigNodes**.
+> 2 ConfigNodes do not provide high availability, and more than 3 ConfigNodes will cause performance degradation.
+
+#### 2.1.1 Adding a ConfigNode
+
+**Script commands:**
+
+```bash
+# Linux / MacOS
+# First switch to the IoTDB root directory
+sbin/start-confignode.sh
+
+# Windows
+# First switch to the IoTDB root directory
+# Before V2.0.4.x
+sbin\start-confignode.bat
+
+# V2.0.4.x and later
+sbin\windows\start-confignode.bat
+```
+
+**Parameter description:**
+
+| Param | Description | Required |
+|-------|-------------|----------|
+| -v    | Show version information | No |
+| -f    | Run the script in the foreground, not in the background | No |
+| -d    | Start in daemon mode (run in the background) | No |
+| -p    | Specify a file to store the process ID for process management | No |
+| -c    | Specify the path of the configuration folder to load configuration files | No |
+| -g    | Print detailed garbage collection (GC) information | No |
+| -H    | Specify the path for Java heap dump files on JVM out-of-memory | No |
+| -E    | Specify the path for JVM error log files | No |
+| -D    | Define system properties in the format `key=value` | No |
+| -X    | Directly pass `-XX` parameters to the JVM | No |
+| -h    | Show help | No |
+
+#### 2.1.2 Removing a ConfigNode
+First connect to the cluster via CLI and use `show confignodes` to confirm the NodeID of the ConfigNode to be removed:
+
+```sql
+IoTDB> show confignodes
++------+-------+---------------+------------+--------+
+|NodeID| Status|InternalAddress|InternalPort|    Role|
++------+-------+---------------+------------+--------+
+|     0|Running|      127.0.0.1|       10710|  Leader|
+|     1|Running|      127.0.0.1|       10711|Follower|
+|     2|Running|      127.0.0.1|       10712|Follower|
++------+-------+---------------+------------+--------+
+Total line number = 3
+It costs 0.030s
+```
+
+Then remove the ConfigNode using the following SQL command:
+
+```sql
+REMOVE CONFIGNODE [confignode_id];
+```
+
+### 2.2 DataNode Maintenance
+There are two common scenarios for DataNode maintenance:
+
+- **Cluster scaling**: Add new DataNodes to the cluster to expand cluster capacity.
+- **Cluster fault recovery**: When the machine hosting a DataNode fails and the DataNode cannot run properly, remove the faulty DataNode and add a new DataNode to the cluster.
+
+> ❗️ Note: To ensure normal cluster operation, during and after DataNode maintenance, the number of normally running DataNodes must **not be less than the data replication factor (usually 2) or the metadata replication factor (usually 3)**.
+
+#### 2.2.1 Adding a DataNode
+
+**Script commands:**
+
+```bash
+# Linux / MacOS
+# First switch to the IoTDB root directory
+sbin/start-datanode.sh
+
+# Windows
+# First switch to the IoTDB root directory
+# Before V2.0.4.x
+sbin\start-datanode.bat
+
+# V2.0.4.x and later
+tools\windows\start-datanode.bat
+```
+
+**Parameter description:**
+
+| Param | Description | Required |
+|-------|-------------|----------|
+| -v    | Show version information | No |
+| -f    | Run the script in the foreground, not in the background | No |
+| -d    | Start in daemon mode (run in the background) | No |
+| -p    | Specify a file to store the process ID for process management | No |
+| -c    | Specify the path of the configuration folder to load configuration files | No |
+| -g    | Print detailed garbage collection (GC) information | No |
+| -H    | Specify the path for Java heap dump files on JVM out-of-memory | No |
+| -E    | Specify the path for JVM error log files | No |
+| -D    | Define system properties in the format `key=value` | No |
+| -X    | Directly pass `-XX` parameters to the JVM | No |
+| -h    | Show help | No |
+
+**Note:** After adding a DataNode, as new writes arrive (and old data expires if TTL is set), the cluster load will gradually balance toward the new DataNode, eventually achieving balanced storage and computing resources across all nodes.
+
+#### 2.2.2 Removing a DataNode
+First connect to the cluster via CLI and use `show datanodes` to confirm the NodeID of the DataNode to be removed:
+
+```sql
+IoTDB> show datanodes
++------+-------+----------+-------+-------------+---------------+
+|NodeID| Status|RpcAddress|RpcPort|DataRegionNum|SchemaRegionNum|
++------+-------+----------+-------+-------------+---------------+
+|     1|Running|   0.0.0.0|   6667|            0|              0|
+|     2|Running|   0.0.0.0|   6668|            1|              1|
+|     3|Running|   0.0.0.0|   6669|            1|              0|
++------+-------+----------+-------+-------------+---------------+
+Total line number = 3
+It costs 0.110s
+```
+
+Then remove the DataNode using the following SQL command:
+
+```sql
+REMOVE DATANODE [datanode_id];
+```
+
+## 3. Load Balance
 
 Region migration belongs to advanced operations and maintenance functions, which have certain operational costs. It is recommended to read the entire document before using this function. If you have any questions about the solution design, please contact the IoTDB team for technical support.
 
 
-### 2.1 Feature introduction
+### 3.1 Feature introduction
 
 IoTDB is a distributed database, and the balanced distribution of data plays an important role in load balancing the disk space and write pressure of the cluster. Region is the basic unit for distributed storage of data in IoTDB cluster, and the specific concept can be seen in [region](../Background-knowledge/Cluster-Concept.md)。
 
@@ -242,14 +374,14 @@ Here is a schematic diagram of the region migration process :
 
 ![](/img/region%E8%BF%81%E7%A7%BB%E7%A4%BA%E6%84%8F%E5%9B%BE20241210.png)
 
-### 2.2 Notes
+### 3.2 Notes
 
 1. It is recommended to only use the Region Migration feature on IoTDB 1.3.3 and higher versions.
 2. Region migration is only supported when the consensus protocol is IoTConsus or Ratis (in iotdb system. properties, the `schema_region_consensus_protocol_class` and`data_region_consensus_protocol_class`).
 3. Region migration consumes system resources such as disk space and network bandwidth. It is recommended to perform the migration during periods of low business load.
 4. Under ideal circumstances, Region migration does not affect user-side read or write operations. In special cases, Region migration may block writes. For detailed identification and handling of such situations, please refer to the user guide.
 
-### 2.3 Instructions for use
+### 3.3 Instructions for use
 
 - **Grammar definition** :
 

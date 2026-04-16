@@ -340,7 +340,7 @@ IoTDB> SHOW REGIONS
 
 **含义**：返回当前集群所有可用的 DataNode 的 RPC 地址和端口。注意：这里对于“可用”的定义为：处于非 REMOVING 状态的 DN 节点。
 
-> V2.0.8-beta 起支持该功能
+> V2.0.8 起支持该功能
 
 #### 语法：
 
@@ -370,7 +370,7 @@ IoTDB> SHOW AVAILABLE URLS
 
 **含义**：返回当前集群所有正常工作（RUNNING 或 READ-ONLY） DN 上的服务信息（MQTT 服务、REST 服务）。
 
-> V2.0.8-beta 起支持该功能
+> V2.0.8 起支持该功能
 
 #### 语法：
 
@@ -583,50 +583,6 @@ localOrClusterMode
 
 ```SQL
 IoTDB> FLUSH test_db TRUE ON LOCAL;
-```
-
-### 3.2 清除 DataNode 上的缓存
-
-**含义**：用于清除 DataNode 上的某种类型的缓存。
-
-#### 语法：
-
-```SQL
-clearCacheStatement
-    : CLEAR clearCacheOptions? CACHE localOrClusterMode?
-    ;
-
-clearCacheOptions
-    : ATTRIBUTE
-    | QUERY
-    | ALL
-    ;
-
-localOrClusterMode
-    : (ON (LOCAL | CLUSTER))
-    ;
-```
-
-**参数解释**：
-
-1. **clearCacheOptions**
-   - **含义**：指定要清除的缓存类型。
-   - **可选性**：可选。如果不指定，默认清除查询缓存（`QUERY`）。
-   - **取值**：
-      - `ATTRIBUTE`：清除设备属性缓存。
-      - `QUERY`：清除存储引擎中的查询缓存。
-      - `ALL`：清除所有缓存，包括设备属性缓存、查询缓存以及树模型中的模式缓存。
-2. **localOrClusterMode**
-   - **含义**：指定清除缓存的范围。
-   - **可选性**：可选。默认值为 `CLUSTER`。
-   - **取值**：
-      - `ON LOCAL`：只清除客户端直连的 DataNode 上的缓存。
-      - `ON CLUSTER`：清除集群中所有 DataNode 上的缓存。
-
-#### 示例：
-
-```SQL
-IoTDB> CLEAR ALL CACHE ON LOCAL;
 ```
 
 ## 4. 数据修复

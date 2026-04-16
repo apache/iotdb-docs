@@ -57,7 +57,7 @@ Encoding is a compression technique that represents data in binary form, improvi
 
 IoTDB supports distributed deployments, typically in a 3C3D cluster model (3 ConfigNodes, 3 DataNodes), as illustrated below:          
 
-<img src="/img/Cluster-Concept03.png" alt="" style="width: 60%;"/>
+<img src="/img/Cluster-Concept03N.png" alt="" style="width: 60%;"/>
 
 ### 2.1 Key Concepts 
 

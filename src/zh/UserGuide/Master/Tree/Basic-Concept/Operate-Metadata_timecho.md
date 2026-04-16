@@ -35,12 +35,21 @@ CREATE DATABASE root.ln;
 
 需要注意的是，推荐创建一个 database. 
 
-Database 的父子节点都不能再设置 database。例如在已经有`root.ln`和`root.sgcc`这两个 database 的情况下，创建`root.ln.wf01` database 是不可行的。系统将给出相应的错误提示，如下所示：
+Database 的父子节点都不能再设置 database。
+
+例如在已经有`root.ln`和`root.sgcc`这两个 database 的情况下，创建`root.ln.wf01` database 是不可行的。系统将给出相应的错误提示，如下所示：
 
 ```sql
 CREATE DATABASE root.ln.wf01;
-Msg: 300: root.ln has already been created as database.
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 501: root.ln has already been created as database
 ```
+同样，在已经有 `root.db.test` 这个 database 的情况下，创建 `root.db` database 也是不可行的。系统也会给出相应的错误提示，如下所示：
+
+```sql
+CREATE DATABASE root.db;
+Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 529: some children of root.db have already been created as database
+```
+
 Database 节点名命名规则:
 1. 节点名可由**中英文字符、数字、下划线（\_）、英文句号（.）、反引号（\`）** 组成
 2. 若节点名为以下情况，则必须用**反引号（\`）** 将整个名称包裹。
@@ -147,14 +156,14 @@ It costs 0.002s
 
 ### 1.5 数据保留时间（TTL）
 
-IoTDB 支持对 device 级别设置数据保留时间（TTL），这使得 IoTDB 可以定期、自动地删除一定时间之前的数据。合理使用 TTL可以帮助您控制 IoTDB 占用的总磁盘空间以避免出现磁盘写满等异常。并且，随着文件数量的增多，查询性能往往随之下降，内存占用也会有所提高。及时地删除一些较老的文件有助于使查询性能维持在一个较高的水平和减少内存资源的占用。
+IoTDB 支持对设备（device）级别设置数据保留时间（TTL），允许系统自动定期删除旧数据，以有效控制磁盘空间并维护高性能查询和低内存占用。TTL 默认以毫秒为单位，数据过期后不可查询且禁止写入，但物理删除会延迟至压缩时。需注意，TTL 变更可能导致短暂数据可查询性变化，且若调小或解除 TTL，之前因 TTL 不可见的数据可能重新出现。
 
-TTL的默认单位为毫秒，如果配置文件中的时间精度修改为其他单位，设置ttl时仍然使用毫秒单位。
-
-当设置 TTL 时，系统会根据设置的路径寻找所包含的所有 device，并为这些 device 设置 TTL 时间，系统会按设备粒度对过期数据进行删除。请注意，此处是否过期判断依据的是数据点时间，不是写入时间。
-当设备数据过期后，将不能被查询到，但磁盘文件中的数据不能保证立即删除（会在一定时间内删除），但可以保证最终被删除。
-考虑到操作代价，系统不会立即物理删除超过 TTL 的数据，而是通过合并来延迟地物理删除。因此，在数据被物理删除前，如果调小或者解除 TTL，可能会导致之前因 TTL 而不可见的数据重新出现。
-系统中仅能设置至多 1000 条 TTL 规则，达到该上限时，需要先删除部分 TTL 规则才能设置新的规则
+注意事项：
+- TTL 设置为毫秒，不受配置文件时间精度影响。
+- TTL 变更可能影响数据的可查询性。
+- 系统最终会移除过期数据，但存在延迟。
+- TTL 判断数据是否过期依据的是数据点时间，非写入时间。
+- 系统最多支持设置 1000 条 TTL 规则，达到上限需先删除部分规则才能设置新规则。
 
 #### TTL Path 规则
 设置的路径 path 只支持前缀路径（即路径中间不能带 \* ， 且必须以 \*\* 结尾），该路径会匹配到设备，也允许用户指定不带星的 path 为具体的 database 或 device，当 path 不带 \* 时，会检查是否匹配到 database，若匹配到 database，则会同时设置 path 和 path.\*\*。
@@ -463,6 +472,7 @@ ALTER TIMESERIES <oldPath> RENAME TO <newPath>
 ```SQL
 ALTER TIMESERIES root.ln.wf01.wt01.temperature RENAME TO root.newln.newwf.newwt.temperature; 
 ```
+
 
 ### 2.5 删除时间序列
 

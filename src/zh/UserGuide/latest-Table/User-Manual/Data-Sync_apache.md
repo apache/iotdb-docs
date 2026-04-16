@@ -81,7 +81,6 @@
 - 不支持 1.x 系列版本 IoTDB 与 2.x 以及以上系列版本的 IoTDB 之间进行数据同步。
 - 在进行数据同步任务时，请避免执行任何删除操作，防止两端状态不一致。
 - 树模型与表模型的`pipe`及`pipe plugins`在设计上相互隔离，建议在创建`pipe`前先通过`show`命令查询当前`-sql_dialect`参数配置下可用的内置插件，以确保语法兼容性和功能支持。
-- 不支持 Object 数据类型。
 
 ## 2. 使用说明
 
@@ -117,7 +116,7 @@ WITH SINK (
 
 **IF NOT EXISTS 语义**：用于创建操作中，确保当指定 Pipe 不存在时，执行创建命令，防止因尝试创建已存在的 Pipe 而导致报错。
 
-**注意**：V2.0.8-beta 起，创建一个全量数据同步 Pipe （例如 Pipeid : `alldatapipe`）时，系统会自动将其拆分为两个独立的 Pipe：
+**注意**：V2.0.8 起，创建一个全量数据同步 Pipe （例如 Pipeid : `alldatapipe`）时，系统会自动将其拆分为两个独立的 Pipe：
 
 * 历史 Pipe：PipeId 为原名称加 _history后缀（如 `alldatapipe_history`），source 参数默认携带 `'realtime.enable'='false', 'inclusion'='data.insert', 'inclusion.exclusion'=''`
 
@@ -192,7 +191,7 @@ SHOW PIPE <PipeId>
 
 示例：
 
-在 V2.0.8-beta 及之后的版本中，创建一个全量数据同步任务，并查看该任务详情
+在 V2.0.8 及之后的版本中，创建一个全量数据同步任务，并查看该任务详情
 
 ```sql
 IoTDB> create pipe alldatapipe with source('inclusion'='all','exclusion'='auth') with sink('node-urls'='127.0.0.1:6668')

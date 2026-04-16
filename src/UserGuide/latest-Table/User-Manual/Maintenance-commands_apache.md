@@ -341,7 +341,7 @@ IoTDB> SHOW REGIONS
 
 **Description**: Returns the RPC addresses and ports of all available DataNodes in the current cluster. Note: A DataNode is considered "available" if it is not in the REMOVING state.
 
-> This feature is supported starting from v2.0.8-beta.
+> This feature is supported starting from v2.0.8.
 
 **Syntax**:
 
@@ -371,7 +371,7 @@ IoTDB> SHOW AVAILABLE URLS
 
 **Description**: Returns service information (MQTT service, REST service) on all active DataNodes (in RUNNING or READ-ONLY state) in the current cluster.
 
-> Supported since V2.0.8-beta
+> Supported since V2.0.8
 
 #### Syntax:
 ```sql
@@ -571,47 +571,6 @@ localOrClusterMode
 
 ```SQL
 IoTDB> FLUSH test_db TRUE ON LOCAL;
-```
-
-### 3.2 Clearing Cache on DataNode
-
-**Description**: Clears a specific type of cache on DataNode.
-
-**Syntax**:
-
-```SQL
-clearCacheStatement
-    : CLEAR clearCacheOptions? CACHE localOrClusterMode?
-    ;
-
-clearCacheOptions
-    : ATTRIBUTE
-    | QUERY
-    | ALL
-    ;
-
-localOrClusterMode
-    : (ON (LOCAL | CLUSTER))
-    ;
-```
-
-**Parameters**:
-
-1. **clearCacheOptions（Optional）**:
-    1. Specifies the type of cache to clear.
-    2. **ATTRIBUTE**: Clears device attribute cache.
-    3. **QUERY**: Clears query cache in the storage engine.
-    4. **ALL**: Clears all caches, including device attribute cache, query cache, and schema cache in the tree model.
-    5. **Default**: `QUERY`.
-2. **localOrClusterMode（Optional）**:
-    1. **ON LOCAL**: Clears cache only on the DataNode directly connected to the client.
-    2. **ON CLUSTER**: Clears cache on all DataNodes in the cluster.
-    3. **Default:** `ON CLUSTER`.
-
-**Example**:
-
-```SQL
-IoTDB> CLEAR ALL CACHE ON LOCAL;
 ```
 
 ## 4. Data Repair

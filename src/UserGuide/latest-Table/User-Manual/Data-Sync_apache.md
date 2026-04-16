@@ -82,7 +82,6 @@ By declaratively configuring these three parts in an SQL statement, flexible dat
 - Data synchronization between IoTDB of 1. x series version and IoTDB of 2. x and above series versions is not supported.
 - When performing data synchronization tasks, avoid executing any deletion operations to prevent inconsistencies between the two ends.
 - The `pipe` and `pipe plugins` for tree modes and table modes are designed to be isolated from each other. Before creating a `pipe`, it is recommended to first use the `show` command to query the built-in plugins available under the current `-sql_dialect` parameter configuration to ensure syntax compatibility and functional support.
-- Does not support the Object data type.
 
 ## 2. Usage Instructions
 
@@ -120,7 +119,7 @@ WITH SINK (
 
 **Note**:
 
-Starting from V2.0.8-beta, when creating a full data synchronization Pipe (e.g. Pipeid: `alldatapipe`), the system will automatically split it into two independent Pipes:
+Starting from V2.0.8, when creating a full data synchronization Pipe (e.g. Pipeid: `alldatapipe`), the system will automatically split it into two independent Pipes:
 
 * History Pipe: The PipeId is the original name plus the suffix `_history` (e.g. `alldatapipe_history`). The source parameter carries the default configurations: `'realtime.enable'='false', 'inclusion'='data.insert', 'inclusion.exclusion'=''`
 * Realtime Pipe: The PipeId is the original name plus the suffix `_realtime` (e.g. `alldatapipe_realtime`). The source parameter carries the default configuration: `'history.enable'='false'`. If metadata synchronization is configured, the Realtime Pipe will be responsible for sending the data.
@@ -194,7 +193,7 @@ Example Output of `SHOW PIPES`:
 
 Example:
 
-In V2.0.8-beta and later versions, create a full data synchronization task and view the task details.
+In V2.0.8 and later versions, create a full data synchronization task and view the task details.
 
 ```sql
 IoTDB> create pipe alldatapipe with source('inclusion'='all','exclusion'='auth') with sink('node-urls'='127.0.0.1:6668')

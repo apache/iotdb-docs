@@ -46,7 +46,7 @@ Note: Do not use a newer client to connect to an older server, as this may cause
 | execute_query_statement     | Executes a query SQL statement and retrieves results. | sql: `str`                           | `SessionDataSet` |
 | close                       | Closes the session and releases resources.            | None                                 | None             |
 
-**Since V2.0.8-beta**, `SessionDataSet` provides methods for batch DataFrame retrieval to efficiently handle large-volume queries:
+**Since V2.0.8**, `SessionDataSet` provides methods for batch DataFrame retrieval to efficiently handle large-volume queries:
 
 ```python
 # Batch DataFrame retrieval
