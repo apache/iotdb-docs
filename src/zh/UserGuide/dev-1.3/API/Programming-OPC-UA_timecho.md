@@ -93,12 +93,13 @@ start pipe p1;
 2. 安装 UAExpert，填写自身的证书等信息。
 
 #### 快速开始
-
+##### 支持 None 安全策略的场景
 1. 使用如下 sql，创建并启动 client-server 模式的 OPC UA Sink。详细语法参见上文：[IoTDB OPC Server语法](#语法)
 
 ```SQL
-create pipe p1 with sink ('sink'='opc-ua-sink');
+create pipe p1 with sink ('sink'='opc-ua-sink', 'opcua.security-policy'='AES128_SHA256_RSAOAEP, AES256_SHA256_RSAPSS, BASIC256SHA256, NONE');
 ```
+注意：在 V1.3.7.2 及以上版本中，默认不再支持 `None`，如需使用必须通过 `security-policy` 参数手动开启，如上所示。
 
 2. 写入部分数据。
 
@@ -106,7 +107,7 @@ create pipe p1 with sink ('sink'='opc-ua-sink');
 insert into root.test.db(time, s2) values(now(), 2)
 ```
 
-​     此处自动创建元数据开启。
+此处自动创建元数据开启。
 
 3. 在 UAExpert 中配置 iotdb 的连接，其中 password 填写为上述参数配置中 sink.password 中设定的密码（此处以默认密码root为例）：
 
@@ -128,11 +129,36 @@ insert into root.test.db(time, s2) values(now(), 2)
     <img src="/img/OPCUA06.png" alt="" style="width: 60%;"/>
 </div>
 
+注意：由于此处配置的 `SecurityPolicy` 为 `None`，因此不需要相互信任证书。生产环境建议使用非 `None` 的 `SecurityPolicy` 进行连接，此时需要相互信任证书，操作步骤可以见下文 `Pub/Sub` 模式，在 `Client/Server` 的证书目录下（可以在打印的日志中找 keyStore 关键词），将 reject 的内容挪到 `trusted/certs`下即可，采用连接、移动 server 目录、连接、移动 client 目录、连接的顺序。
+
 5. 可以将左侧节点拖动到中间，并展示该节点的最新值：
 
 <div align="center">
     <img src="/img/OPCUA07.png" alt="" style="width: 60%;"/>
 </div>
+
+##### 不支持 None 安全策略的场景
+1. 使用如下 sql，创建并启动 OPC UA 服务。
+    ```SQL
+    create pipe p1 with sink ('sink'='opc-ua-sink');
+    ```
+   注意：从 V1.3.7.2 版本开始，`OpcUaSink` 出于安全考虑，默认不再支持 `None` 模式。
+
+2. 写入部分数据。
+    ```SQL
+    insert into root.test.db(time, s2) values(now(), 2);
+    ```
+
+3. 在 UAExpert 中配置 IoTDB 连接：
+    - 不可直接访问 `URL`，必须通过 `Discover` 方式发现端点
+    - 客户端会先使用 `None` 策略发送 `GetEndpoints` 请求获取端点列表
+    - 再根据配置的 `Basic256Sha256 + SignAndEncrypt` 选择对应加密端点建立加密连接
+
+![](/img/opc-ua-un-none-1.png)
+
+4. 用户名密码配置同上，点击相关的连接模式后（`Sign` / `Sign & Encrypt`），如果出现以下内容，点 `Ignore` 直接连。
+
+![](/img/opc-ua-un-none-2.png)
 
 ### Pub / Sub 模式
 
