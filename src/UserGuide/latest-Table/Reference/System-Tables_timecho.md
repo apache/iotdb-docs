@@ -23,8 +23,8 @@
 
 IoTDB has a built-in system database called `INFORMATION_SCHEMA`, which contains a series of system tables for storing IoTDB runtime information (such as currently executing SQL statements, etc.). Currently, the `INFORMATION_SCHEMA` database only supports read operations.
 
-> 💡 **[V2.0.8.2 Version Update]**<br>
-> 👉 Added onw system tables: **[SERVICES](#_2-21-services)** (service status management), enhancing cluster maintenance and performance analysis.
+> 💡 **[V2.0.9 Version Update]**<br>
+> 👉 Added onw system tables: **[TABLE_DISK_USAGE](#_2-22-table-disk-usage)** (Table-level Storage Space Statistics), enhancing cluster maintenance and performance analysis.
 
 
 ## 1. System Database
@@ -63,6 +63,7 @@ IoTDB> show tables from information_schema
 |                regions|    INF|
 |               services|    INF|
 |          subscriptions|    INF|
+|       table_disk_usage|    INF|
 |                 tables|    INF|
 |                 topics|    INF|
 |                  views|    INF|
@@ -71,7 +72,7 @@ IoTDB> show tables from information_schema
 
 ## 2. System Tables
 
-* ​**Names**​: `DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS`, `VIEWS`, `MODELS`, `FUNCTIONS`, `CONFIGURATIONS`, `KEYWORDS`, `NODES`, `CONFIG_NODES`, `DATA_NODES`, `CONNECTIONS`, `CURRENT_QUERIES`, `QUERIES_COSTS_HISTOGRAM`, `SERVICES` (detailed descriptions in later sections)
+* ​**Names**​: `DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS`, `VIEWS`, `MODELS`, `FUNCTIONS`, `CONFIGURATIONS`, `KEYWORDS`, `NODES`, `CONFIG_NODES`, `DATA_NODES`, `CONNECTIONS`, `CURRENT_QUERIES`, `QUERIES_COSTS_HISTOGRAM`, `SERVICES`, `TABLE_DISK_USAGE` (detailed descriptions in later sections)
 * ​**Operations**​: Read-only, only supports `SELECT`, `COUNT/SHOW DEVICES`, `DESC`. Any modifications to table structure or content are not allowed and will result in an error: `"The database 'information_schema' can only be queried."  `
 * ​**Column Names**​: System table column names are all lowercase by default and separated by underscores (`_`).
 
@@ -715,6 +716,80 @@ IoTDB> SELECT * FROM information_schema.services
 |MQTT        |1          |STOPPED  |
 |REST        |1          |RUNNING  |
 +------------+-----------+---------+
+```
+
+##### 2.22 TABLE_DISK_USAGE
+> This system table is available since version V2.0.9
+
+Used to display the disk space usage of specified tables (excluding views), including the size of ChunkGroups and the size of Metadata.
+
+Note: Statistics are based on the actual size of data in TsFiles; therefore, deletions made via mods are not considered.
+
+The table structure is shown below:
+
+| Column Name     | Data Type | Column Type | Description                      |
+|-----------------|-----------|-------------|----------------------------------|
+| database        | string    | Field       | Database name                    |
+| table_name      | string    | Field       | Table name                       |
+| datanode_id     | int32     | Field       | DataNode node ID                 |
+| region_id       | int32     | Field       | Region ID                        |
+| time_partition  | int64     | Field       | Time partition ID                |
+| size_in_bytes   | int64     | Field       | Disk space occupied (in bytes)    |
+
+**Query Examples**:
+
+```SQL
+-- Query all data;
+select * from information_schema.table_disk_usage;
+```
+
+```Bash
++---------+-------------------+-----------+---------+--------------+-------------+
+| database|         table_name|datanode_id|region_id|time_partition|size_in_bytes|
++---------+-------------------+-----------+---------+--------------+-------------+
+|database1|             table1|          1|        3|          2864|          867|
+|database1|            table11|          1|        3|          2864|            0|
+|database1|             table3|          1|        3|          2864|            0|
+|database1|             table1|          1|        3|          2865|         1411|
+|database1|            table11|          1|        3|          2865|            0|
+|database1|             table3|          1|        3|          2865|            0|
+|database1|             table1|          1|        3|          2925|          590|
+|database1|            table11|          1|        3|          2925|            0|
+|database1|             table3|          1|        3|          2925|            0|
+|database1|             table1|          1|        4|          2864|          883|
+|database1|            table11|          1|        4|          2864|            0|
+|database1|             table3|          1|        4|          2864|            0|
+|database1|             table1|          1|        4|          2865|         1224|
+|database1|            table11|          1|        4|          2865|            0|
+|database1|             table3|          1|        4|          2865|            0|
+|database1|             table1|          1|        4|          2888|            0|
+|database1|            table11|          1|        4|          2888|            0|
+|database1|             table3|          1|        4|          2888|          205|
+|     etth|   tab_cov_forecast|          1|        8|             0|            0|
+|     etth|           tab_real|          1|        8|             0|          963|
+|     etth|tab_target_forecast|          1|        8|             0|            0|
+|     etth|   tab_cov_forecast|          1|        9|             0|          448|
+|     etth|           tab_real|          1|        9|             0|            0|
+|     etth|tab_target_forecast|          1|        9|             0|            0|
++---------+-------------------+-----------+---------+--------------+-------------+
+```
+
+```SQL
+-- Specify query conditions;
+select * from information_schema.table_disk_usage where region_id = 4 and table_name like '%1';
+```
+
+```Bash
++---------+----------+-----------+---------+--------------+-------------+
+| database|table_name|datanode_id|region_id|time_partition|size_in_bytes|
++---------+----------+-----------+---------+--------------+-------------+
+|database1|    table1|          1|        4|          2864|          883|
+|database1|   table11|          1|        4|          2864|            0|
+|database1|    table1|          1|        4|          2865|         1224|
+|database1|   table11|          1|        4|          2865|            0|
+|database1|    table1|          1|        4|          2888|            0|
+|database1|   table11|          1|        4|          2888|            0|
++---------+----------+-----------+---------+--------------+-------------+
 ```
 
 
