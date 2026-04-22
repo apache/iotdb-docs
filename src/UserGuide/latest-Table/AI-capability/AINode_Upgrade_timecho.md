@@ -65,7 +65,11 @@ TimechoDB-AINode supports three major functions: model inference, model fine-tun
 
 ### 4.1 Model Inference
 
-TimechoDB-AINode provides the following time series prediction capabilities:
+The AINode table model supports two major inference capabilities: time series prediction and time series classification.
+
+#### 4.1.1 Time Series Prediction
+
+The time series prediction capability provided by the AINode table model includes:
 
 * **Univariate Prediction**: Supports prediction of a single target variable.
 * **Covariate Prediction**: Can simultaneously predict multiple target variables and supports introducing covariates in prediction to improve accuracy.
@@ -85,6 +89,7 @@ SELECT * FROM FORECAST(
    OUTPUT_INTERVAL,
    TIMECOL, 
    PRESERVE_INPUT,
+   AUTO_ADAPT, -- Boolean type, indicating whether adaptive mode is enabled.
    MODEL_OPTIONS]?
 )
 ```
@@ -320,6 +325,77 @@ IoTDB:etth> INSERT INTO tab_real (time, target1, target2, cov1, cov2, cov3) VALU
       Total line number = 2
       It costs 0.351s
       ```
+
+
+#### 4.1.2 Time Series Classification
+
+Time series classification is a critical capability beyond time series prediction, with extensive applications in industrial scenarios. Its typical paradigm is to input the recent sampling values of multiple measuring points, comprehensively judge the overall operating status of the equipment, and output a classification label for the current status. For example, it can be used for operating status classification of new energy battery pack equipment and other scenarios.
+
+The AINode table model supports executing time series classification tasks by calling covariate classification models.
+
+> Note: This feature is available starting from version V2.0.9.
+
+1. **SQL Syntax**
+```sql
+SELECT * FROM CLASSIFY(
+   MODEL_ID,
+   INPUTS -- SQL to retrieve input variables
+   [TIMECOL, 
+   MODEL_OPTIONS]?
+)
+```
+
+* Parameter Description
+
+| Parameter Name | Parameter Type | Parameter Attribute | Description | Required | Remarks |
+|----------------|----------------|---------------------|-------------|----------|---------|
+| model_id       | Scalar Parameter | String | Unique identifier of the model used for classification | Yes | - |
+| inputs         | Table Parameter | SET SEMANTIC | Input data to be classified. IoTDB will automatically sort the data in ascending chronological order before passing it to AINode. | Yes | Describes the input data to be classified via SQL; corresponding query errors will be thrown if the input SQL is invalid. |
+| timecol        | Scalar Parameter | String, Default: `time` | Name of the time column | No | Must be a column of TIMESTAMP type present in the `inputs` result set; otherwise, an error will be thrown. |
+| model_options  | Scalar Parameter | String, Default: Empty string | Model-related key-value pairs (e.g., whether input normalization is required). Different key-value pairs are separated by `;`. | No | Unsupported parameters for a specific model will be ignored without throwing errors. |
+
+**Specifications**
+
+* **Input Data Requirements**
+    - Type Constraint: Only INT32, INT64, FLOAT, and DOUBLE data types are supported currently.
+    - Row Count Constraint: Varies by model. Errors will be thrown if the row count is below the minimum or above the maximum required by the model.
+    - Column Count Constraint**: Must include a time column. Univariate classification models support only one data column and will throw an error for multiple columns; multivariate classification models generally have no restrictions unless explicitly specified by the model itself.
+    - Order Constraint: Multivariate zero-shot classification models generally have no order restrictions unless explicitly specified by the model itself.
+
+* **Output Result**
+  The returned result is a table composed of time series data classification results, and its schema depends on the specific implementation of the model.
+
+2. **Usage Example**
+
+Suppose a project has 10 time series variables with an input length of 192. The custom `mantis_custom` model is used as an example for time series classification inference.
+
+* Model Registration
+```sql
+CREATE MODEL mantis_custom USING URI 'file:///path/to/mantis'
+```
+For detailed steps to register a custom model, refer to Section 4.3.
+
+* Execute SQL
+```sql
+IoTDB:etth> SELECT * FROM CLASSIFY (
+    MODEL_ID => 'mantis_custom',
+    INPUTS => (
+        SELECT Time, HUFL,HULL,MUFL,MULL,LUFL,LULL,OT,UT,MT,LT
+        FROM eg
+        WHERE TIME < 2016-07-09 00:00:00
+        ORDER BY TIME DESC
+        LIMIT 192) ORDER BY TIME
+)
+```
+
+* Execution Result
+```sql
++--------+
+|category|
++--------+
+|       4|
++--------+
+```
 
 
 ### 4.2 Model Fine-Tuning
