@@ -1286,6 +1286,50 @@ Returns the first non-null value from the given list of parameters.
 coalesce(value1, value2[, ...])
 ```
 
+### 7.3 IF Expression
+The IF expression has two forms: one that specifies only the true value, and another that specifies both the true value and the false value.
+
+| Form                                         | Description                                                                                                                          | Output Type Restrictions |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------ |
+| `IF(condition, true_value)`              | If the condition evaluates to true, `true_value` is computed and returned; otherwise, `null` is returned and `true_value` is not evaluated. | — |
+| `IF(condition, true_value, false_value)` | If the condition evaluates to true, `true_value` is computed and returned; otherwise, `false_value` is computed and returned. | The data types of `true_value` and `false_value` **must be exactly the same**. Implicit type conversion is not supported. |
+
+> Supported since V2.0.9-beta
+
+**Examples:**
+
+1. Equivalent examples of IF and CASE expressions:
+```SQL
+-- IF syntax
+SELECT 
+  device_id,
+  temperature,  
+  IF(temperature > 85, 'High Value', 'Low Value')
+FROM table1;
+
+-- Equivalent CASE syntax
+SELECT
+  device_id,  
+  temperature,  
+  CASE    
+    WHEN temperature > 85 THEN 'High Value'
+    ELSE 'Low Value'  
+  END
+FROM table1;
+```
+
+2. Output type restriction examples:
+```SQL
+-- Succeeds
+-- temperature (float) and humidity (float) have matching types
+SELECT IF(temperature > 85, temperature, humidity) FROM table1;
+
+-- Fails
+-- temperature (float) and status (boolean) have mismatched types
+SELECT IF(temperature > 85, temperature, status) FROM table1;
+```
+
+
 ## 8. Conversion Functions
 
 ### 8.1 Conversion Functions

@@ -1265,6 +1265,53 @@ SELECT a, b,
 coalesce(value1, value2[, ...])
 ```
 
+### 7.3 IF 表达式
+
+IF 表达式有两种形式：一种仅指定真值（true\_value），另一种同时指定真值和假值（false\_value）。
+
+| 形式                                         | 说明                                                                                                      | 输出类型限制                                                                                  |
+| ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `if(condition, true_value)`              | 若条件（condition）为真，则计算并返回`true_value`；否则返回`null`，且`true_value`不会被计算。 |                                                                                               |
+| `if(condition, true_value, false_value)` | 若条件（condition）为真，则计算并返回`true_value`；否则计算并返回`false_value`。                  | `true_value`和`false_value`的数据类型​**必须完全一致**​，不支持隐式类型转换。 |
+
+> V2.0.9-beta 版本起支持
+
+**示例：**
+
+1. IF 表达式和 CASE 表达式等价示例：
+
+```SQL
+-- IF 写法
+SELECT 
+  device_id,
+  temperature,  
+  IF(temperature > 85, 'High Value', 'Low Value')
+FROM table1;
+
+-- CASE 等价写法
+SELECT
+  device_id,  
+  temperature,  
+  CASE    
+    WHEN temperature > 85 THEN 'High Value'
+    ELSE 'Low Value'  
+  END
+FROM table1;
+```
+
+2. 输出类型限制示例：
+
+```SQL
+-- 成功
+-- temperature（float) 和 humidity（float） 类型一致
+select if(temperature > 85, temperature, humidity) from table1 
+
+-- 失败
+-- temperature(float) 和 status(boolean) 类型不一致
+select if(temperature > 85, temperature, status) from table1  
+```
+
+
 ## 8. 转换函数
 
 ### 8.1 转换函数
