@@ -110,12 +110,13 @@ In this mode, IoTDB's stream processing engine establishes a connection with the
 2. Install UAExpert and configure certificate information.
 
 ##### 2.2.1.2 Quick Start
-
+###### 2.2.1.2.1 Scenarios Supporting the None Security Policy
 1. Start OPC UA service using SQL (detailed syntax see [IoTDB OPC Server Syntax](./Programming-OPC-UA_timecho.md#_2-1-语法)):
 
 ```SQL
-CREATE PIPE p1 WITH SINK ('sink'='opc-ua-sink');
+create pipe p1 with sink ('sink'='opc-ua-sink', 'opcua.security-policy'='AES128_SHA256_RSAOAEP, AES256_SHA256_RSAPSS, BASIC256SHA256, NONE');
 ```
+Note: Since version V2.0.8.1, None is no longer supported by default. To use it, you must manually enable it via the security-policy parameter as shown above.
 
 2. Write some data:
 
@@ -124,8 +125,69 @@ INSERT INTO root.test.db(time, s2) VALUES(NOW(), 2);
 ```
 
 3. Configure UAExpert to connect to IoTDB (password matches `sink.password` configured above, e.g., root/TimechoDB@2021):
+
+   ::: center
+
+   <img src="/img/OPCUA18.png" alt="" style="width: 60%;"/>
+
+   :::
+
+   ::: center
+
+   <img src="/img/OPCUA04.png" alt="" style="width: 60%;"/>
+
+   :::
+
 4. Trust the server certificate, then view written data under Objects folder on the left:
+
+   ::: center
+
+   <img src="/img/OPCUA05.png" alt="" style="width: 60%;"/>
+
+   :::
+
+   ::: center
+
+   <img src="/img/OPCUA17.png" alt="" style="width: 60%;"/>
+
+   :::
+
+   Note: Since the SecurityPolicy is set to None, mutual certificate trust is not required. For production environments, it is recommended to use a non-None SecurityPolicy for connection, which requires mutual certificate trust. For operations, refer to the Pub/Sub mode section below. In the Client/Server certificate directory (search for the keyword keyStore in the printed logs), move the contents in reject to trusted/certs. Follow the sequence: connect → move server directory → connect → move client directory → connect.
+
+
 5. Drag left nodes to the middle to display latest value:
+
+   ::: center
+
+   <img src="/img/OPCUA07.png" alt="" style="width: 60%;"/>
+
+   :::
+
+###### 2.2.1.2.2 Scenarios Not Supporting the None Security Policy
+1. Use the following SQL to create and start the OPC UA service.
+   ```SQL
+   create pipe p1 with sink ('sink'='opc-ua-sink');
+   ```
+
+   Note: Since version V2.0.8.1, OpcUaSink no longer supports None mode by default for security considerations.
+
+2. Insert some test data.
+   ```SQL
+   insert into root.test.db(time, s2) values(now(), 2);
+   ```
+
+3. Configure the IoTDB connection in UAExpert:
+
+    - Do not access the URL directly; endpoints must be discovered using the Discover method
+    - The client first sends a GetEndpoints request with the None policy to retrieve the endpoint list
+    - It then selects the corresponding encrypted endpoint based on the configured Basic256Sha256 + SignAndEncrypt to establish an encrypted connection
+
+   ![](/img/opc-ua-un-none-1.png)
+
+4. Use the same username and password configuration as above. After selecting the relevant connection mode (Sign / Sign & Encrypt), if the following prompt appears, click Ignore to connect directly.
+
+   ![](/img/opc-ua-un-none-2.png)
+
 
 #### 2.2.2 Pub/Sub Mode
 
