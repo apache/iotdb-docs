@@ -78,7 +78,7 @@
 
 ### 1.2 功能限制及说明
 
-元数据（schema）、权限（auth）同步功能存在如下限制：
+1. 元数据（schema）、权限（auth）同步功能存在如下限制：
 
 - 使用元数据同步时，要求`Schema region`、`ConfigNode` 的共识协议必须为默认的 ratis 协议，即`iotdb-system.properties`配置文件中是否包含`config_node_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus`、`schema_region_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus`，不包含即为默认值ratis 协议。
 
@@ -89,6 +89,24 @@
 - 双活集群中元数据同步需避免两端同时操作。
 
 - 在进行数据同步任务时，请避免执行任何删除操作，防止两端状态不一致。
+
+2. Pipe 权限控制规范如下：
+
+- 创建 pipe 时，可以对抽取/写回插件指定用户名和密码。密码错误则禁止创建，未指定时默认使用当前用户进行同步。
+
+- 数据/元数据同步时，先根据 Pipe 配置的路径模式(pattern/path)筛选，再基于用户读取权限进行鉴权
+
+  - 权限范围≥写入路径：完整同步
+
+  - 权限范围与写入路径无交集：不同步
+
+  - 权限范围<写入路径或存在交集：同步交集部分
+
+- 遇到无权限数据时，若发送端 skipIf=no-privileges，则跳过无权限数据；若 skipIf 配置为空，任务报错（803错误）
+
+  - 注意：此 skipIf 配置与接收端的 skipIf（默认为空）相互独立
+
+- 对于 root.__system, root.__audit 均不会同步
 
 ## 2. 使用说明
 
