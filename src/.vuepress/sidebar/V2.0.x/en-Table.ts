@@ -233,6 +233,7 @@ export const enSidebar = {
             { text: 'ORDER BY Clause', link: 'OrderBy-Clause' },
             { text: 'LIMIT&OFFSET Clause', link: 'Limit-Offset-Clause' },
             { text: 'Nested Queries', link: 'Nested-Queries' },
+            { text: 'Common Table Expressions (CTE)', link: 'Common-Table-Expression_apache' },
           ],
         },
         { text: 'Maintenance Statements', link: 'SQL-Maintenance-Statements_apache' },
