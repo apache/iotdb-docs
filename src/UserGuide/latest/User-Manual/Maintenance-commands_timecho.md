@@ -302,6 +302,50 @@ Execution result:
 +--------------+-------------+---------+
 ```
 
+### 1.9 View Disk Space Usage
+**Description**: Returns the disk space usage of the specified `pattern`, including the size of ChunkGroups and the size of Metadata.
+
+**Note**: Statistics are based on the actual size of data in TsFiles; therefore, deletions made via `mods` are not considered.
+
+> Supported since version 2.0.9
+
+#### Syntax:
+```sql
+showDiskUsageStatement
+    : SHOW DISK_USAGE FROM pathPattern 
+    whereClause?
+    orderByClause?
+    rowPaginationClause?
+    ;
+pathPattern
+    : ROOT (DOT nodeName)*
+    ;
+```
+
+**Explanation**: The `pattern` is used to match devices, must start with `ROOT`, and intermediate nodes in the path support `*` or `**`.
+
+#### Result Set
+| Column Name   | Column Type | Description                      |
+|---------------|-------------|----------------------------------|
+| Database      | string      | Database name                    |
+| DataNodeId    | int32       | DataNode node ID                 |
+| RegionId      | int32       | Region ID                        |
+| TimePartition | int64       | Time partition ID                |
+| SizeInBytes   | int64       | Disk space occupied (in bytes)   |
+
+#### Example:
+```sql
+SHOW DISK_USAGE FROM root.ln.**;
+```
+
+**Execution Result**:
+```bash
++--------+----------+--------+-------------+-----------+
+|Database|DataNodeId|RegionId|TimePartition|SizeInBytes|
++--------+----------+--------+-------------+-----------+
+| root.ln|         1|      13|         2932|        203|
++--------+----------+--------+-------------+-----------+
+```
 
 ## 2. Status Setting
 

@@ -306,6 +306,57 @@ IoTDB> SHOW SERVICES ON 1
 +------------+-----------+-------+
 ```
 
+### 1.9 查看磁盘空间占用情况
+
+含义：返回指定  pattern 的磁盘空间占用情况，包括 ChunkGroup 的大小和 Metadata 大小。
+
+注意：统计基于 TsFile 中数据的真实大小，因此不会考虑 mods 删除的情况。
+
+> V2.0.9-beta 起支持该功能
+
+#### 语法：
+
+```SQL
+showDiskUsageStatement
+    : SHOW DISK_USAGE FROM pathPattern 
+    whereClause?
+    orderByClause?
+    rowPaginationClause?
+    ;
+pathPattern
+    : ROOT (DOT nodeName)*
+    ;
+```
+
+说明：Pattern 用于匹配设备，需要使用 root 作为开头，路径的中间节点支持 * 或 **。
+
+#### 结果集
+
+| 列名          | 列类型 | 含义               |
+| --------------- | -------- | -------------------- |
+| Database      | string | Database 名        |
+| DataNodeId    | int32  | DataNode 节点 id   |
+| RegionId      | int32  | Region id          |
+| TimePartition | int64  | 时间分区 id        |
+| SizeInBytes   | int64  | 占用磁盘空间(byte) |
+
+#### 示例：
+
+```SQL
+SHOW DISK_USAGE FROM root.ln.**；
+```
+
+执行结果如下：
+
+```Bash
++--------+----------+--------+-------------+-----------+
+|Database|DataNodeId|RegionId|TimePartition|SizeInBytes|
++--------+----------+--------+-------------+-----------+
+| root.ln|         1|      13|         2932|        203|
++--------+----------+--------+-------------+-----------+
+```
+
+
 ## 2. 状态设置
 
 ### 2.1 设置连接的模型

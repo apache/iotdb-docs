@@ -23,8 +23,8 @@
 
 IoTDB 内置系统数据库 `INFORMATION_SCHEMA`，其中包含一系列系统表，用于存储 IoTDB 运行时信息（如当前正在执行的 SQL 语句等）。目前`INFORMATION_SCHEMA`数据库只支持读操作。
 
-> 💡 **【V2.0.8.2 版本更新】**<br>
-> 👉 新增一张系统表：**[SERVICES](#_2-21-services-表)**（服务状态管理），助力集群运维与性能分析。
+> 💡 **【V2.0.9 版本更新】**<br>
+> 👉 新增一张系统表：**[TABLE_DISK_USAGE](#_2-22-table-disk-usage-表)**（表级存储空间统计），助力集群运维与性能分析。
 
 ## 1. 系统库
 
@@ -62,6 +62,7 @@ IoTDB> show tables from information_schema
 |                regions|    INF|
 |               services|    INF|
 |          subscriptions|    INF|
+|       table_disk_usage|    INF|
 |                 tables|    INF|
 |                 topics|    INF|
 |                  views|    INF|
@@ -70,7 +71,7 @@ IoTDB> show tables from information_schema
 
 ## 2. 系统表
 
-* 名称：`DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS`, `VIEWS`, `MODELS`, `FUNCTIONS`, `CONFIGURATIONS`, `KEYWORDS`, `NODES`, `CONFIG_NODES`, `DATA_NODES`, `CONNECTIONS`, `CURRENT_QUERIES`, `QUERIES_COSTS_HISTOGRAM`、`SERVICES`（详细介绍见后面小节）
+* 名称：`DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS`, `VIEWS`, `MODELS`, `FUNCTIONS`, `CONFIGURATIONS`, `KEYWORDS`, `NODES`, `CONFIG_NODES`, `DATA_NODES`, `CONNECTIONS`, `CURRENT_QUERIES`, `QUERIES_COSTS_HISTOGRAM`、`SERVICES`、`TABLE_DISK_USAGE`（详细介绍见后面小节）
 * 操作：只读，只支持`SELECT`, `COUNT/SHOW DEVICES`, `DESC`，不支持对于表结构 / 内容的任意修改，如果修改将会报错：`"The database 'information_schema' can only be queried"`
 * 列名：系统表的列名均默认为小写，且用`_`分隔
 
@@ -707,6 +708,82 @@ IoTDB> select * from information_schema.services
 |        REST|          1|RUNNING|
 +------------+-----------+-------+
 ```
+
+##### 2.22 TABLE_DISK_USAGE 表
+
+> 该系统表从 V 2.0.9 版本开始提供
+
+用于展示指定表（不包含 view）的磁盘空间占用情况，包括 ChunkGroup 的大小和 Metadata 大小。
+
+注意：统计基于 TsFile 中数据的真实大小，因此不会考虑 mods 删除的情况。
+
+表结构如下表所示：
+
+| 列名            | 数据类型 | 列类型 | 说明               |
+| ----------------- | ---------- | -------- | -------------------- |
+| database        | string   | Field  | Database 名        |
+| table\_name     | string   | Field  | 表名               |
+| datanode\_id    | int32    | Field  | DataNode 节点 id   |
+| region\_id      | int32    | Field  | Region id          |
+| time\_partition | int64    | Field  | 时间分区 id        |
+| size\_in\_bytes | int64    | Field  | 占用磁盘空间(byte) |
+
+查询示例：
+
+```SQL
+-- 查询所有数据;
+select * from information_schema.table_disk_usage;
+```
+
+```Bash
++---------+-------------------+-----------+---------+--------------+-------------+
+| database|         table_name|datanode_id|region_id|time_partition|size_in_bytes|
++---------+-------------------+-----------+---------+--------------+-------------+
+|database1|             table1|          1|        3|          2864|          867|
+|database1|            table11|          1|        3|          2864|            0|
+|database1|             table3|          1|        3|          2864|            0|
+|database1|             table1|          1|        3|          2865|         1411|
+|database1|            table11|          1|        3|          2865|            0|
+|database1|             table3|          1|        3|          2865|            0|
+|database1|             table1|          1|        3|          2925|          590|
+|database1|            table11|          1|        3|          2925|            0|
+|database1|             table3|          1|        3|          2925|            0|
+|database1|             table1|          1|        4|          2864|          883|
+|database1|            table11|          1|        4|          2864|            0|
+|database1|             table3|          1|        4|          2864|            0|
+|database1|             table1|          1|        4|          2865|         1224|
+|database1|            table11|          1|        4|          2865|            0|
+|database1|             table3|          1|        4|          2865|            0|
+|database1|             table1|          1|        4|          2888|            0|
+|database1|            table11|          1|        4|          2888|            0|
+|database1|             table3|          1|        4|          2888|          205|
+|     etth|   tab_cov_forecast|          1|        8|             0|            0|
+|     etth|           tab_real|          1|        8|             0|          963|
+|     etth|tab_target_forecast|          1|        8|             0|            0|
+|     etth|   tab_cov_forecast|          1|        9|             0|          448|
+|     etth|           tab_real|          1|        9|             0|            0|
+|     etth|tab_target_forecast|          1|        9|             0|            0|
++---------+-------------------+-----------+---------+--------------+-------------+
+```
+
+```SQL
+-- 指定查询条件;
+select * from information_schema.table_disk_usage where region_id = 4 and table_name like '%1';
+```
+
+```Bash
++---------+----------+-----------+---------+--------------+-------------+
+| database|table_name|datanode_id|region_id|time_partition|size_in_bytes|
++---------+----------+-----------+---------+--------------+-------------+
+|database1|    table1|          1|        4|          2864|          883|
+|database1|   table11|          1|        4|          2864|            0|
+|database1|    table1|          1|        4|          2865|         1224|
+|database1|   table11|          1|        4|          2865|            0|
+|database1|    table1|          1|        4|          2888|            0|
+|database1|   table11|          1|        4|          2888|            0|
++---------+----------+-----------+---------+--------------+-------------+
+```
+
 
 ## 3. 权限说明
 
