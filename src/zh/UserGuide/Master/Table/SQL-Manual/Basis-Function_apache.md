@@ -155,30 +155,31 @@ SELECT LEAST(temperature,humidity) FROM table2;
 
 ### 2.2 支持的聚合函数                          
 
-| 函数名                   | 功能描述                                                                                                                                     | 允许的输入类型                                                                                 | 输出类型             |
-|-----------------------|------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------|
-| COUNT                 | 计算数据点数。                                                                                                                                  | 所有类型                                                                                    | INT64            |
-| COUNT_IF              | COUNT_IF(exp) 用于统计满足指定布尔表达式的记录行数                                                                                                         | exp 必须是一个布尔类型的表达式，例如 count_if(temperature>20)                                           | INT64            |
-| APPROX_COUNT_DISTINCT | APPROX_COUNT_DISTINCT(x[,maxStandardError]) 函数提供 COUNT(DISTINCT x) 的近似值，返回不同输入值的近似个数。                                 | `x`：待计算列，支持所有类型；<br> `maxStandardError`：指定该函数应产生的最大标准误差，取值范围[0.0040625, 0.26]，未指定值时默认0.023。 | INT64            |
-| APPROX_MOST_FREQUENT | APPROX_MOST_FREQUENT(x, k, capacity) 函数用于近似计算数据集中出现频率最高的前 k 个元素。它返回一个JSON 格式的字符串，其中键是该元素的值，值是该元素对应的近似频率。（V 2.0.5.1 及以后版本支持）  | `x`：待计算列，支持 IoTDB 现有所有的数据类型；<br> `k`：返回出现频率最高的 k 个值；<br> `capacity`: 用于计算的桶的数量，跟内存占用相关：其值越大误差越小，但占用内存更大，反之capacity值越小误差越大，但占用内存更小。 | STRING   |
-| SUM                   | 求和。                                                                                                                                      | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
-| AVG                   | 求平均值。                                                                                                                                    | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
-| MAX                   | 求最大值。                                                                                                                                    | 所有类型                                                                                    | 与输入类型一致          |
-| MIN                   | 求最小值。                                                                                                                                    | 所有类型                                                                                    | 与输入类型一致          |
-| FIRST                 | 求时间戳最小且不为 NULL 的值。                                                                                                                       | 所有类型                                                                                    | 与输入类型一致          |
-| LAST                  | 求时间戳最大且不为 NULL 的值。                                                                                                                       | 所有类型                                                                                    | 与输入类型一致          |
-| STDDEV                | STDDEV_SAMP 的别名，求样本标准差。                                                                                                                  | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
-| STDDEV_POP            | 求总体标准差。                                                                                                                                  | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
-| STDDEV_SAMP           | 求样本标准差。                                                                                                                                  | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
-| VARIANCE              | VAR_SAMP 的别名，求样本方差。                                                                                                                      | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
-| VAR_POP               | 求总体方差。                                                                                                                                   | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
-| VAR_SAMP              | 求样本方差。                                                                                                                                   | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
-| EXTREME               | 求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。                                                                                                        | INT32 INT64 FLOAT DOUBLE                                                                | 与输入类型一致          |
-| MODE                  | 求众数。注意： 1.输入序列的不同值个数过多时会有内存异常风险; 2.如果所有元素出现的频次相同，即没有众数，则随机返回一个元素; 3.如果有多个众数，则随机返回一个众数； 4. NULL 值也会被统计频次，所以即使输入序列的值不全为 NULL，最终结果也可能为 NULL。 | 所有类型                                                                                    | 与输入类型一致          |
-| MAX_BY                | MAX_BY(x, y) 求二元输入 x 和 y 在 y 最大时对应的 x 的值。MAX_BY(time, x) 返回 x 取最大值时对应的时间戳。                                                               | x 和 y 可以是任意类型                                                                           | 与第一个输入 x 的数据类型一致 |
-| MIN_BY                | MIN_BY(x, y) 求二元输入 x 和 y 在 y 最小时对应的 x 的值。MIN_BY(time, x) 返回 x 取最小值时对应的时间戳。                                                               | x 和 y 可以是任意类型                                                                           | 与第一个输入 x 的数据类型一致 |
-| FIRST_BY              | FIRST_BY(x, y) 求当 y 为第一个不为 NULL 的值时，同一行里对应的 x 值。                                                                                         | x 和 y 可以是任意类型                                                                           | 与第一个输入 x 的数据类型一致 |
-| LAST_BY               | LAST_BY(x, y) 求当 y 为最后一个不为 NULL 的值时，同一行里对应的 x 值。                                                                                         | x 和 y 可以是任意类型                                                                           | 与第一个输入 x 的数据类型一致 |
+| 函数名                   | 功能描述                                                                                                                                                                                | 允许的输入类型                                                                                 | 输出类型             |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------|
+| COUNT                 | 计算数据点数。                                                                                                                                                                             | 所有类型                                                                                    | INT64            |
+| COUNT_IF              | COUNT_IF(exp) 用于统计满足指定布尔表达式的记录行数                                                                                                                                                    | exp 必须是一个布尔类型的表达式，例如 count_if(temperature>20)                                           | INT64            |
+| APPROX_COUNT_DISTINCT | APPROX_COUNT_DISTINCT(x[,maxStandardError]) 函数提供 COUNT(DISTINCT x) 的近似值，返回不同输入值的近似个数。                                                                                               | `x`：待计算列，支持所有类型；<br> `maxStandardError`：指定该函数应产生的最大标准误差，取值范围[0.0040625, 0.26]，未指定值时默认0.023。 | INT64            |
+| APPROX_MOST_FREQUENT | APPROX_MOST_FREQUENT(x, k, capacity) 函数用于近似计算数据集中出现频率最高的前 k 个元素。它返回一个JSON 格式的字符串，其中键是该元素的值，值是该元素对应的近似频率。（V 2.0.5.1 及以后版本支持）                                                         | `x`：待计算列，支持 IoTDB 现有所有的数据类型；<br> `k`：返回出现频率最高的 k 个值；<br> `capacity`: 用于计算的桶的数量，跟内存占用相关：其值越大误差越小，但占用内存更大，反之capacity值越小误差越大，但占用内存更小。 | STRING   |
+| APPROX_PERCENTILE     | APPROX_PERCENTILE 函数用于计算数据集中指定百分位数的值，帮助快速了解数据分布情况（如中位数、四分位数等），支持基于权重的百分位数计算；若百分位数不指向精确位置，返回相邻数值在该位置的线性插值。内存占用与质心数量相关，可通过 compression 参数限定最大质心数量，误差可通过经验公式预估。注意：该函数自 V2.0.9-beta 起支持 | 单权重版本：APPROX_PERCENTILE (x, percentage) <br> x：待计算列，支持 INT32、INT64、FLOAT、DOUBLE、TIMESTAMP 等所有数字类型；<br> percentage：目标分位数，DOUBLE 类型。<br> 带权重版本：APPROX_PERCENTILE (x, w, percentage) <br>x：待计算列，支持 INT32、INT64、FLOAT、DOUBLE、TIMESTAMP 等所有数字类型；<br> w：权重列，整型（与待计算列长度对齐，Null 或 0 表示该行忽略）；<br> percentage：目标分位数，DOUBLE 类型。 | 与待计算列 x 的类型相同                 |
+| SUM                   | 求和。                                                                                                                                                                                 | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
+| AVG                   | 求平均值。                                                                                                                                                                               | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
+| MAX                   | 求最大值。                                                                                                                                                                               | 所有类型                                                                                    | 与输入类型一致          |
+| MIN                   | 求最小值。                                                                                                                                                                               | 所有类型                                                                                    | 与输入类型一致          |
+| FIRST                 | 求时间戳最小且不为 NULL 的值。                                                                                                                                                                  | 所有类型                                                                                    | 与输入类型一致          |
+| LAST                  | 求时间戳最大且不为 NULL 的值。                                                                                                                                                                  | 所有类型                                                                                    | 与输入类型一致          |
+| STDDEV                | STDDEV_SAMP 的别名，求样本标准差。                                                                                                                                                             | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
+| STDDEV_POP            | 求总体标准差。                                                                                                                                                                             | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
+| STDDEV_SAMP           | 求样本标准差。                                                                                                                                                                             | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
+| VARIANCE              | VAR_SAMP 的别名，求样本方差。                                                                                                                                                                 | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
+| VAR_POP               | 求总体方差。                                                                                                                                                                              | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
+| VAR_SAMP              | 求样本方差。                                                                                                                                                                              | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
+| EXTREME               | 求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。                                                                                                                                                   | INT32 INT64 FLOAT DOUBLE                                                                | 与输入类型一致          |
+| MODE                  | 求众数。注意： 1.输入序列的不同值个数过多时会有内存异常风险; 2.如果所有元素出现的频次相同，即没有众数，则随机返回一个元素; 3.如果有多个众数，则随机返回一个众数； 4. NULL 值也会被统计频次，所以即使输入序列的值不全为 NULL，最终结果也可能为 NULL。                                           | 所有类型                                                                                    | 与输入类型一致          |
+| MAX_BY                | MAX_BY(x, y) 求二元输入 x 和 y 在 y 最大时对应的 x 的值。MAX_BY(time, x) 返回 x 取最大值时对应的时间戳。                                                                                                          | x 和 y 可以是任意类型                                                                           | 与第一个输入 x 的数据类型一致 |
+| MIN_BY                | MIN_BY(x, y) 求二元输入 x 和 y 在 y 最小时对应的 x 的值。MIN_BY(time, x) 返回 x 取最小值时对应的时间戳。                                                                                                          | x 和 y 可以是任意类型                                                                           | 与第一个输入 x 的数据类型一致 |
+| FIRST_BY              | FIRST_BY(x, y) 求当 y 为第一个不为 NULL 的值时，同一行里对应的 x 值。                                                                                                                                    | x 和 y 可以是任意类型                                                                           | 与第一个输入 x 的数据类型一致 |
+| LAST_BY               | LAST_BY(x, y) 求当 y 为最后一个不为 NULL 的值时，同一行里对应的 x 值。                                                                                                                                    | x 和 y 可以是任意类型                                                                           | 与第一个输入 x 的数据类型一致 |
 
 
 ### 2.3 示例
@@ -271,8 +272,28 @@ Total line number = 1
 It costs 0.064s
 ```
 
+#### 2.3.6 Approx_Percentile
 
-#### 2.3.6 First
+从`table1` 中，分别计算列 temperature 的90 分位数和列 humidity 的50 分位数（中位数），返回这两个近似百分位数值。
+
+```SQL
+SELECT APPROX_PERCENTILE(temperature,0.9), APPROX_PERCENTILE(humidity,0.5) FROM table1;
+```
+
+执行结果如下：
+
+```SQL
++-----+-----+
+|_col0|_col1|
++-----+-----+
+| 90.0| 35.2|
++-----+-----+
+Total line number = 1
+It costs 0.206s
+```
+
+
+#### 2.3.7 First
 
 查询`temperature`列、`humidity`列时间戳最小且不为 NULL 的值。
 
@@ -292,7 +313,7 @@ Total line number = 1
 It costs 0.170s
 ```
 
-#### 2.3.7 Last
+#### 2.3.8 Last
 
 查询`temperature`列、`humidity`列时间戳最大且不为 NULL 的值。
 
@@ -312,7 +333,7 @@ Total line number = 1
 It costs 0.211s
 ```
 
-#### 2.3.8 First_by
+#### 2.3.9 First_by
 
 查询 `temperature` 列中非 NULL 且时间戳最小的行的 `time` 值，以及 `temperature` 列中非 NULL 且时间戳最小的行的 `humidity` 值。
 
@@ -332,7 +353,7 @@ Total line number = 1
 It costs 0.269s
 ```
 
-#### 2.3.9 Last_by
+#### 2.3.10 Last_by
 
 查询`temperature` 列中非 NULL 且时间戳最大的行的 `time` 值，以及 `temperature` 列中非 NULL 且时间戳最大的行的 `humidity` 值。
 
@@ -352,7 +373,7 @@ Total line number = 1
 It costs 0.070s
 ```
 
-#### 2.3.10 Max_by
+#### 2.3.11 Max_by
 
 查询`temperature` 列中最大值所在行的 `time` 值，以及`temperature` 列中最大值所在行的 `humidity` 值。
 
@@ -372,7 +393,7 @@ Total line number = 1
 It costs 0.172s
 ```
 
-#### 2.3.11 Min_by
+#### 2.3.12 Min_by
 
 查询`temperature` 列中最小值所在行的 `time` 值，以及`temperature` 列中最小值所在行的 `humidity` 值。
 
@@ -1272,7 +1293,7 @@ coalesce(value1, value2[, ...])
 #### 8.1.1 cast(value AS type) → type
 
 1. 显式地将一个值转换为指定类型。
-2. 可以用于将字符串（varchar）转换为数值类型，或数值转换为字符串类型。
+2. 可以用于将字符串（varchar）转换为数值类型，或数值转换为字符串类型
 3. 如果转换失败，将抛出运行时错误。
 
 示例：
