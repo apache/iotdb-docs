@@ -58,7 +58,7 @@ create function completeness as 'org.apache.iotdb.library.dquality.UDTFCompleten
 
 #### Usage
 
-This function is used to calculate the completeness of time series. The input series are divided into several continuous and non overlapping windows. The timestamp of the first data point and the completeness of each window will be output.
+This function calculates the completeness of a time series, which measures the presence or absence of missing values in the time series data. The function divides the input time series data into consecutive non-overlapping time windows, computes the data completeness for each window individually, and outputs the timestamp of the first data point in the window along with the completeness result.
 
 **Name:** COMPLETENESS
 
@@ -189,7 +189,7 @@ create function consistency as 'org.apache.iotdb.library.dquality.UDTFConsistenc
 
 #### Usage
 
-This function is used to calculate the consistency of time series. The input series are divided into several continuous and non overlapping windows. The timestamp of the first data point and the consistency of each window will be output.
+This function calculates the consistency of a time series, which measures whether the changes in the time series data are stable and follow uniform patterns. The function divides the input time series data into consecutive non-overlapping time windows, computes the data consistency for each window individually, and outputs the timestamp of the first data point in the window along with the consistency result.
 
 **Name:** CONSISTENCY
 
@@ -319,7 +319,7 @@ create function timeliness as 'org.apache.iotdb.library.dquality.UDTFTimeliness'
 
 #### Usage
 
-This function is used to calculate the timeliness of time series. The input series are divided into several continuous and non overlapping windows. The timestamp of the first data point and the timeliness of each window will be output.
+This function calculates the timeliness of a time series, which measures whether the time series data is collected and reported on schedule. The function divides the input time series data into consecutive non-overlapping time windows, computes the data timeliness for each window individually, and outputs the timestamp of the first data point in the window along with the timeliness result.
 
 **Name:** TIMELINESS
 
@@ -449,7 +449,7 @@ create function validity as 'org.apache.iotdb.library.dquality.UDTFValidity'
 
 #### Usage
 
-This function is used to calculate the Validity of time series. The input series are divided into several continuous and non overlapping windows. The timestamp of the first data point and the Validity of each window will be output.
+This function calculates the validity of a time series, which measures whether the time series data is normal, usable, and free of outliers. The function divides the input time series data into consecutive non-overlapping time windows, computes the data validity for each window individually, and outputs the timestamp of the first data point in the window along with the validity result.
 
 **Name:** VALIDITY
 

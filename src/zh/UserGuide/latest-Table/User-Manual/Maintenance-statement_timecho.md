@@ -398,6 +398,7 @@ IoTDB> SHOW SERVICES ON 1
 +------------+-----------+-------+
 ```
 
+
 ### 1.12 查看集群激活状态
 
 **含义**：返回当前集群的激活状态。
@@ -429,6 +430,198 @@ IoTDB> SHOW ACTIVATION
 |    DeviceLimit|       30|                    Unlimited|
 |TimeSeriesLimit|       72|                1,000,000,000|
 +---------------+---------+-----------------------------+
+```
+
+### 1.13 查看节点配置信息
+
+**含义**：默认返回指定节点（通过 `node_id` 指定）的配置文件中已生效的配置项；若未指定 `node_id`，则返回客户端直连的 DataNode 配置。 添加 `all` 参数返回所有配置项（未配置项的 `value` 为 `null`）；添加 `with desc` 参数返回配置项含描述信息。
+
+> V2.0.9.1 起支持该功能
+
+#### 语法：
+
+```SQL
+showConfigurationStatement
+    : SHOW (ALL)? CONFIGURATION (ON nodeId=INTEGER_VALUE)? (WITH DESC)?
+    ;
+```
+
+#### 结果集说明
+
+| 列名           | 列类型 | 含义             |
+| ---------------- | -------- | ------------------ |
+| name           | string | 参数名           |
+| value          | string | 参数值           |
+| default\_value | string | 参数默认值       |
+| description    | string | 参数描述（可选） |
+
+#### 示例：
+
+1. 查看客户端直连 DataNode 的配置信息
+
+```SQL
+show configuration;
+```
+
+```Bash
++--------------------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------+
+|                                  name|                                                            value|                                                    default_value|
++--------------------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------+
+|                          cluster_name|                                                   defaultCluster|                                                   defaultCluster|
+|                   cn_seed_config_node|                                                  127.0.0.1:10710|                                                  127.0.0.1:10710|
+|                   dn_seed_config_node|                                                  127.0.0.1:10710|                                                  127.0.0.1:10710|
+|                   cn_internal_address|                                                        127.0.0.1|                                                        127.0.0.1|
+|                      cn_internal_port|                                                            10710|                                                            10710|
+|                     cn_consensus_port|                                                            10720|                                                            10720|
+|                        dn_rpc_address|                                                          0.0.0.0|                                                          0.0.0.0|
+|                           dn_rpc_port|                                                             6667|                                                             6667|
+|                   dn_internal_address|                                                        127.0.0.1|                                                        127.0.0.1|
+|                      dn_internal_port|                                                            10730|                                                            10730|
+|             dn_mpp_data_exchange_port|                                                            10740|                                                            10740|
+|       dn_schema_region_consensus_port|                                                            10750|                                                            10750|
+|         dn_data_region_consensus_port|                                                            10760|                                                            10760|
+|             schema_replication_factor|                                                                1|                                                                1|
+|schema_region_consensus_protocol_class|                  org.apache.iotdb.consensus.ratis.RatisConsensus|                  org.apache.iotdb.consensus.ratis.RatisConsensus|
+|               data_replication_factor|                                                                1|                                                                1|
+|  data_region_consensus_protocol_class|                      org.apache.iotdb.consensus.iot.IoTConsensus|                      org.apache.iotdb.consensus.iot.IoTConsensus|
+|    cn_metric_prometheus_reporter_port|                                                             9091|                                                             9091|
+|    dn_metric_prometheus_reporter_port|                                                             9092|                                                             9092|
+|                       series_slot_num|                                                             1000|                                                             1000|
+|       series_partition_executor_class|org.apache.iotdb.commons.partition.executor.hash.BKDRHashExecutor|org.apache.iotdb.commons.partition.executor.hash.BKDRHashExecutor|
+|                 time_partition_origin|                                                                0|                                                                0|
+|               time_partition_interval|                                                        604800000|                                                        604800000|
+|          disk_space_warning_threshold|                                                             0.05|                                                             0.05|
+|                    schema_engine_mode|                                                           Memory|                                                           Memory|
+|              tag_attribute_total_size|                                                              700|                                                              700|
+|                read_consistency_level|                                                           strong|                                                           strong|
+|                   timestamp_precision|                                                               ms|                                                               ms|
++--------------------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------+
+Total line number = 28
+It costs 0.013s
+```
+
+2. 查看指定 node id 的节点配置信息
+
+```Bash
+show configuration on 1;
+```
+
+```Bash
++--------------------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------+
+|                                  name|                                                            value|                                                    default_value|
++--------------------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------+
+|                          cluster_name|                                                   defaultCluster|                                                   defaultCluster|
+|                   cn_seed_config_node|                                                  127.0.0.1:10710|                                                  127.0.0.1:10710|
+|                   dn_seed_config_node|                                                  127.0.0.1:10710|                                                  127.0.0.1:10710|
+|                   cn_internal_address|                                                        127.0.0.1|                                                        127.0.0.1|
+|                      cn_internal_port|                                                            10710|                                                            10710|
+|                     cn_consensus_port|                                                            10720|                                                            10720|
+|                        dn_rpc_address|                                                          0.0.0.0|                                                          0.0.0.0|
+|                           dn_rpc_port|                                                             6667|                                                             6667|
+|                   dn_internal_address|                                                        127.0.0.1|                                                        127.0.0.1|
+|                      dn_internal_port|                                                            10730|                                                            10730|
+|             dn_mpp_data_exchange_port|                                                            10740|                                                            10740|
+|       dn_schema_region_consensus_port|                                                            10750|                                                            10750|
+|         dn_data_region_consensus_port|                                                            10760|                                                            10760|
+|             schema_replication_factor|                                                                1|                                                                1|
+|schema_region_consensus_protocol_class|                  org.apache.iotdb.consensus.ratis.RatisConsensus|                  org.apache.iotdb.consensus.ratis.RatisConsensus|
+|               data_replication_factor|                                                                1|                                                                1|
+|  data_region_consensus_protocol_class|                      org.apache.iotdb.consensus.iot.IoTConsensus|                      org.apache.iotdb.consensus.iot.IoTConsensus|
+|    cn_metric_prometheus_reporter_port|                                                             9091|                                                             9091|
+|    dn_metric_prometheus_reporter_port|                                                             9092|                                                             9092|
+|                       series_slot_num|                                                             1000|                                                             1000|
+|       series_partition_executor_class|org.apache.iotdb.commons.partition.executor.hash.BKDRHashExecutor|org.apache.iotdb.commons.partition.executor.hash.BKDRHashExecutor|
+|                 time_partition_origin|                                                                0|                                                                0|
+|               time_partition_interval|                                                        604800000|                                                        604800000|
+|          disk_space_warning_threshold|                                                             0.05|                                                             0.05|
+|                    schema_engine_mode|                                                           Memory|                                                           Memory|
+|              tag_attribute_total_size|                                                              700|                                                              700|
+|                read_consistency_level|                                                           strong|                                                           strong|
+|                   timestamp_precision|                                                               ms|                                                               ms|
++--------------------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------+
+Total line number = 28
+It costs 0.004s
+```
+
+3. 查看所有配置信息
+
+```Bash
+show all configuration;
+```
+
+```Bash
++---------------------------------------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------+
+|                                                     name|                                                            value|                                                    default_value|
++---------------------------------------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------+
+|                                             cluster_name|                                                   defaultCluster|                                                   defaultCluster|
+|                                      cn_seed_config_node|                                                  127.0.0.1:10710|                                                  127.0.0.1:10710|
+|                                      dn_seed_config_node|                                                  127.0.0.1:10710|                                                  127.0.0.1:10710|
+|                                      cn_internal_address|                                                        127.0.0.1|                                                        127.0.0.1|
+|                                         cn_internal_port|                                                            10710|                                                            10710|
+|                                        cn_consensus_port|                                                            10720|                                                            10720|
+|                                           dn_rpc_address|                                                          0.0.0.0|                                                          0.0.0.0|
+|                                              dn_rpc_port|                                                             6667|                                                             6667|
+|                                      dn_internal_address|                                                        127.0.0.1|                                                        127.0.0.1|
+|                                         dn_internal_port|                                                            10730|                                                            10730|
+|                                dn_mpp_data_exchange_port|                                                            10740|                                                            10740|
+|                          dn_schema_region_consensus_port|                                                            10750|                                                            10750|
+|                            dn_data_region_consensus_port|                                                            10760|                                                            10760|
+|                        dn_join_cluster_retry_interval_ms|                                                             null|                                                             5000|
+|                     config_node_consensus_protocol_class|                                                             null|                  org.apache.iotdb.consensus.ratis.RatisConsensus|
+|                                schema_replication_factor|                                                                1|                                                                1|
+|                   schema_region_consensus_protocol_class|                  org.apache.iotdb.consensus.ratis.RatisConsensus|                  org.apache.iotdb.consensus.ratis.RatisConsensus|
+|                                  data_replication_factor|                                                                1|                                                                1|
+|                     data_region_consensus_protocol_class|                      org.apache.iotdb.consensus.iot.IoTConsensus|                      org.apache.iotdb.consensus.iot.IoTConsensus|
+|                                            cn_system_dir|                                                             null|                                           data/confignode/system|
+|                                         cn_consensus_dir|                                                             null|                                        data/confignode/consensus|
+|                                cn_pipe_receiver_file_dir|                                                             null|                             data/confignode/system/pipe/receiver|
+...
++---------------------------------------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------+
+Total line number = 412
+It costs 0.006s
+```
+
+4. 查看配置项描述信息
+
+```Bash
+show configuration on 1 with desc;
+```
+
+```Bash
++--------------------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                                  name|                                                            value|                                                    default_value|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              description|
++--------------------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+|                          cluster_name|                                                   defaultCluster|                                                   defaultCluster|                                                                                                                                                                                                                                                     Used for indicate cluster name and distinguish different cluster. If you need to modify the cluster name, it's recommended to use 'set configuration "cluster_name=xxx"' sql. Manually modifying configuration file is not recommended, which may cause node restart fail.effectiveMode: hot_reload.Datatype: string|
+|                   cn_seed_config_node|                                                  127.0.0.1:10710|                                                  127.0.0.1:10710|For the first ConfigNode to start, cn_seed_config_node points to its own cn_internal_address:cn_internal_port. For other ConfigNodes that to join the cluster, cn_seed_config_node points to any running ConfigNode's cn_internal_address:cn_internal_port. Note: After this ConfigNode successfully joins the cluster for the first time, this parameter is no longer used. Each node automatically maintains the list of ConfigNodes and traverses connections when restarting. Format: address:port   e.g. 127.0.0.1:10710.effectiveMode: first_start.Datatype: String|
+|                   dn_seed_config_node|                                                  127.0.0.1:10710|                                                  127.0.0.1:10710|                                                                                                                                                                 dn_seed_config_node points to any running ConfigNode's cn_internal_address:cn_internal_port. Note: After this DataNode successfully joins the cluster for the first time, this parameter is no longer used. Each node automatically maintains the list of ConfigNodes and traverses connections when restarting. Format: address:port   e.g. 127.0.0.1:10710.effectiveMode: first_start.Datatype: String|
+|                   cn_internal_address|                                                        127.0.0.1|                                                        127.0.0.1|                                                                                                                                                                                                                                                                                                                                                                                                                               Used for RPC communication inside cluster. Could set 127.0.0.1(for local test) or ipv4 address.effectiveMode: first_start.Datatype: String|
+|                      cn_internal_port|                                                            10710|                                                            10710|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       Used for RPC communication inside cluster.effectiveMode: first_start.Datatype: int|
+|                     cn_consensus_port|                                                            10720|                                                            10720|                                                                                                                                                                                                                                                                                                                                                                                                                                                               Used for consensus communication among ConfigNodes inside cluster.effectiveMode: first_start.Datatype: int|
+|                        dn_rpc_address|                                                          0.0.0.0|                                                          0.0.0.0|                                                                                                                                                                                                                                                                                                                                                                                                                         Used for connection of IoTDB native clients(Session) Could set 127.0.0.1(for local test) or ipv4 address.effectiveMode: restart.Datatype: String|
+|                           dn_rpc_port|                                                             6667|                                                             6667|                                                                                                                                                                                                                                                                                                                                                                                                                                                       Used for connection of IoTDB native clients(Session) Bind with dn_rpc_address.effectiveMode: restart.Datatype: int|
+|                   dn_internal_address|                                                        127.0.0.1|                                                        127.0.0.1|                                                                                                                                                                                                                                                                                                                                                                                                                                   Used for communication inside cluster. could set 127.0.0.1(for local test) or ipv4 address.effectiveMode: first_start.Datatype: String|
+|                      dn_internal_port|                                                            10730|                                                            10730|                                                                                                                                                                                                                                                                                                                                                                                                                                                            Used for communication inside cluster. Bind with dn_internal_address.effectiveMode: first_start.Datatype: int|
+|             dn_mpp_data_exchange_port|                                                            10740|                                                            10740|                                                                                                                                                                                                                                                                                                                                                                                                                                             Port for data exchange among DataNodes inside cluster Bind with dn_internal_address.effectiveMode: first_start.Datatype: int|
+|       dn_schema_region_consensus_port|                                                            10750|                                                            10750|                                                                                                                                                                                                                                                                                                                                                                                                                              port for consensus's communication for schema region inside cluster. Bind with dn_internal_address.effectiveMode: first_start.Datatype: int|
+|         dn_data_region_consensus_port|                                                            10760|                                                            10760|                                                                                                                                                                                                                                                                                                                                                                                                                                port for consensus's communication for data region inside cluster. Bind with dn_internal_address.effectiveMode: first_start.Datatype: int|
+|             schema_replication_factor|                                                                1|                                                                1|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               Default number of schema replicas.effectiveMode: first_start.Datatype: int|
+|schema_region_consensus_protocol_class|                  org.apache.iotdb.consensus.ratis.RatisConsensus|                  org.apache.iotdb.consensus.ratis.RatisConsensus|                                                                                                                                                                                           SchemaRegion consensus protocol type. This parameter is unmodifiable after ConfigNode starts for the first time. These consensus protocols are currently supported: 1. org.apache.iotdb.consensus.ratis.RatisConsensus 2. org.apache.iotdb.consensus.simple.SimpleConsensus   (The schema_replication_factor can only be set to 1).effectiveMode: first_start.Datatype: string|
+|               data_replication_factor|                                                                1|                                                                1|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 Default number of data replicas.effectiveMode: first_start.Datatype: int|
+|  data_region_consensus_protocol_class|                      org.apache.iotdb.consensus.iot.IoTConsensus|                      org.apache.iotdb.consensus.iot.IoTConsensus|                                                                                               DataRegion consensus protocol type. This parameter is unmodifiable after ConfigNode starts for the first time. These consensus protocols are currently supported: 1. org.apache.iotdb.consensus.simple.SimpleConsensus   (The data_replication_factor can only be set to 1) 2. org.apache.iotdb.consensus.iot.IoTConsensus 3. org.apache.iotdb.consensus.ratis.RatisConsensus 4. org.apache.iotdb.consensus.iot.IoTConsensusV2.effectiveMode: first_start.Datatype: string|
+|    cn_metric_prometheus_reporter_port|                                                             9091|                                                             9091|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    The port of prometheus reporter of metric module.effectiveMode: restart.Datatype: int|
+|    dn_metric_prometheus_reporter_port|                                                             9092|                                                             9092|                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    The port of prometheus reporter of metric module.effectiveMode: restart.Datatype: int|
+|                       series_slot_num|                                                             1000|                                                             1000|                                                                                                                                                                                                                                                                                                     All parameters in Partition configuration is unmodifiable after ConfigNode starts for the first time. And these parameters should be consistent within the ConfigNodeGroup. Number of SeriesPartitionSlots per Database.effectiveMode: first_start.Datatype: Integer|
+|       series_partition_executor_class|org.apache.iotdb.commons.partition.executor.hash.BKDRHashExecutor|org.apache.iotdb.commons.partition.executor.hash.BKDRHashExecutor|                                                                                                                                                                     SeriesPartitionSlot executor class These hashing algorithms are currently supported: 1. BKDRHashExecutor(Default) 2. APHashExecutor 3. JSHashExecutor 4. SDBMHashExecutor Also, if you want to implement your own SeriesPartition executor, you can inherit the SeriesPartitionExecutor class and modify this parameter to correspond to your Java class.effectiveMode: first_start.Datatype: String|
+|                 time_partition_origin|                                                                0|                                                                0|                                                                                                                                Time partition origin in milliseconds, default is equal to zero. This origin is set by default to the beginning of Unix time, which is January 1, 1970, at 00:00 UTC (Coordinated Universal Time). This point is known as the Unix epoch, and its timestamp is 0. If you want to specify a different time partition origin, you can set this value to a specific Unix timestamp in milliseconds.effectiveMode: first_start.Datatype: long|
+|               time_partition_interval|                                                        604800000|                                                        604800000|                                                                                                                                                                                                                                                                                                                                                                                                           Time partition interval in milliseconds, and partitioning data inside each data region, default is equal to one week.effectiveMode: first_start.Datatype: long|
+|          disk_space_warning_threshold|                                                             0.05|                                                             0.05|                                                                                                                                                                                                                                                                                                                                                                                                                                                 Disk remaining threshold at which DataNode is set to ReadOnly status.effectiveMode: restart.Datatype: double(percentage)|
+|                    schema_engine_mode|                                                           Memory|                                                           Memory|                                                                                                                                                                                                                                                                                                                                                                                The schema management mode of schema engine. Currently, support Memory and PBTree. This config of all DataNodes in one cluster must keep same.effectiveMode: first_start.Datatype: string|
+|              tag_attribute_total_size|                                                              700|                                                              700|                                                                                                                                                                                                                                                                          max size for a storage block for tags and attributes of one time series. If the combined size of tags and attributes exceeds the tag_attribute_total_size, a new storage block will be allocated to continue storing the excess data. the unit is byte.effectiveMode: first_start.Datatype: int|
+|                read_consistency_level|                                                           strong|                                                           strong|                                                                                                                                                                                                                                                                                                                                                                The read consistency level These consistency levels are currently supported: 1. strong(Default, read from the leader replica) 2. weak(Read from a random replica).effectiveMode: restart.Datatype: string|
+|                   timestamp_precision|                                                               ms|                                                               ms|                                                                                                                                                                                                                                                                                                                                                                                                      Use this value to set timestamp precision as "ms", "us" or "ns". Once the precision has been set, it can not be changed.effectiveMode: first_start.Datatype: String|
++--------------------------------------+-----------------------------------------------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+Total line number = 28
+It costs 0.010s
 ```
 
 
@@ -712,4 +905,52 @@ killQueryStatement
 ```SQL
 IoTDB> KILL QUERY 20250108_101015_00000_1; -- 终止指定query
 IoTDB> KILL ALL QUERIES; -- 终止所有query
+```
+
+## 6. 调试查询
+
+### 6.1 DEBUG SQL
+
+
+**​含义：​**在 SQL 查询语句开头添加 debug 关键字，执行时将输出 debug 日志，包括涉及到的底层文件 scan 信息。
+
+> V2.0.9 起支持该功能
+
+#### 语法：
+
+```SQL
+debugSQLStatement
+    : DEBUG ? query
+    ;
+```
+
+**说明：**
+
+* 日志输出目录为： `logs/log_datanode_query_debug.log`
+
+#### 示例：
+
+1. 执行以下 SQL 进行 DEBUG 查询
+
+```SQL
+debug select * from table3;
+```
+
+2. 观察`log_datanode_query_debug.log` 的日志内容，查看查询涉及到的文件 scan 信息。
+
+```Bash
+2026-03-24 10:10:41,515 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.t.TsFileResource:1098 - Path: table3.d1 file /home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2864/1769139940009-1-0-0.tsfile is not satisfied because of no device! 
+2026-03-24 10:10:41,515 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.t.TsFileResource:1098 - Path: table3.d1 file /home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2865/1769139940010-1-0-0.tsfile is not satisfied because of no device! 
+2026-03-24 10:10:41,516 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:159 - Cache miss: table3.d1. in file: /home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile 
+2026-03-24 10:10:41,516 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:160 - Device: table3.d1, all sensors: [, temperature] 
+2026-03-24 10:10:41,517 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.BloomFilterCache:110 - get bloomFilter from cache where filePath is: /home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile 
+2026-03-24 10:10:41,517 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:227 - Get timeseries: table3.d1.  metadata in file: /home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile  from cache: TimeseriesMetadata{timeSeriesMetadataType=-128, chunkMetaDataListDataSize=8, measurementId='', dataType=VECTOR, statistics=startTime: 1747065600001 endTime: 1747065601002 count: 2, modified=false, isSeq=true, chunkMetadataList=[measurementId: , datatype: VECTOR, version: 0, Statistics: startTime: 1747065600001 endTime: 1747065601002 count: 2, deleteIntervalList: null]}. 
+2026-03-24 10:10:41,517 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:227 - Get timeseries: table3.d1.temperature  metadata in file: /home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile  from cache: TimeseriesMetadata{timeSeriesMetadataType=64, chunkMetaDataListDataSize=8, measurementId='temperature', dataType=FLOAT, statistics=startTime: 1747065600001 endTime: 1747065601002 count: 2 [minValue:85.0,maxValue:90.0,firstValue:90.0,lastValue:85.0,sumValue:175.0], modified=false, isSeq=true, chunkMetadataList=[measurementId: temperature, datatype: FLOAT, version: 0, Statistics: startTime: 1747065600001 endTime: 1747065601002 count: 2 [minValue:85.0,maxValue:90.0,firstValue:90.0,lastValue:85.0,sumValue:175.0], deleteIntervalList: null]}. 
+2026-03-24 10:10:41,517 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskAlignedChunkMetadataLoader:110 - Modifications size is 1 for file Path: /home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile  
+2026-03-24 10:10:41,518 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskAlignedChunkMetadataLoader:114 - [] 
+2026-03-24 10:10:41,518 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskAlignedChunkMetadataLoader:125 - After modification Chunk meta data list is:  
+2026-03-24 10:10:41,518 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskAlignedChunkMetadataLoader:126 - org.apache.tsfile.file.metadata.TableDeviceChunkMetadata@2e11291f 
+2026-03-24 10:10:41,518 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.ChunkCache:167 - get chunk from cache whose key is: ChunkCacheKey{filePath='/home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile', regionId=4, timePartitionId=2888, tsFileVersion=1, compactionVersion=0, offsetOfChunkHeader=19} 
+2026-03-24 10:10:41,518 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.ChunkCache:167 - get chunk from cache whose key is: ChunkCacheKey{filePath='/home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile', regionId=4, timePartitionId=2888, tsFileVersion=1, compactionVersion=0, offsetOfChunkHeader=46} 
+2026-03-24 10:10:41,519 [pool-69-IoTDB-ClientRPC-Processor-1$20260324_021041_00068_1] INFO  o.a.i.d.q.p.Coordinator:902 - debug select * from table3 
 ```

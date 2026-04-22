@@ -54,7 +54,7 @@ create function completeness as 'org.apache.iotdb.library.dquality.UDTFCompleten
 
 #### 函数简介
 
-本函数用于计算时间序列的完整性。将输入序列划分为若干个连续且不重叠的窗口，分别计算每一个窗口的完整性，并输出窗口第一个数据点的时间戳和窗口的完整性。
+本函数用于计算时间序列的完整性，用来衡量一段时序数据有没有缺失。函数会把输入的时序数据分成连续不重叠的时间窗口，分别计算每个窗口的数据完整程度，并输出窗口第一个数据点的时间戳和完整性结果。
 
 **函数名：** COMPLETENESS
 
@@ -186,7 +186,7 @@ create function consistency as 'org.apache.iotdb.library.dquality.UDTFConsistenc
 
 #### 函数简介
 
-本函数用于计算时间序列的一致性。将输入序列划分为若干个连续且不重叠的窗口，分别计算每一个窗口的一致性，并输出窗口第一个数据点的时间戳和窗口的时效性。
+本函数用于计算时间序列的一致性，用来衡量时序数据变化是否平稳、规律是否统一。函数会把输入的时序数据分成连续不重叠的时间窗口，分别计算每个窗口的数据一致性，并输出窗口第一个数据点的时间戳和一致性结果。
 
 **函数名：** CONSISTENCY
 
@@ -317,7 +317,7 @@ create function timeliness as 'org.apache.iotdb.library.dquality.UDTFTimeliness'
 
 #### 函数简介
 
-本函数用于计算时间序列的时效性。将输入序列划分为若干个连续且不重叠的窗口，分别计算每一个窗口的时效性，并输出窗口第一个数据点的时间戳和窗口的时效性。
+本函数用于计算时间序列的时效性，用来衡量时序数据是否按时采集、按时上报。函数会把输入的时序数据分成连续不重叠的时间窗口，分别计算每个窗口的数据时效性，并输出窗口第一个数据点的时间戳和时效性结果。
 
 **函数名：** TIMELINESS
 
@@ -448,8 +448,7 @@ create function validity as 'org.apache.iotdb.library.dquality.UDTFValidity'
 
 #### 函数简介
 
-本函数用于计算时间序列的有效性。将输入序列划分为若干个连续且不重叠的窗口，分别计算每一个窗口的有效性，并输出窗口第一个数据点的时间戳和窗口的有效性。
-
+本函数用于计算时间序列的有效性，用来衡量时序数据是否正常、可用、无异常值。函数会把输入的时序数据分成连续不重叠的时间窗口，分别计算每个窗口的数据有效性，并输出窗口第一个数据点的时间戳和有效性结果。
 
 **函数名：** VALIDITY
 
@@ -3335,6 +3334,7 @@ select dwt(s1,"method"="haar") from root.test.d1
 +-----------------------------+-------------------------------------+
 ```
 
+
 ### IDWT
 
 #### 注册语句
@@ -4750,7 +4750,6 @@ select valuerepair(s1,'method'='LsGreedy') from root.test.d2
 +-----------------------------+-------------------------------------------------+
 ```
 
-
 ## 序列发现
 
 ### ConsecutiveSequences
@@ -4914,6 +4913,27 @@ select consecutivewindows(s1,s2,'length'='10m') from root.test.d1
 |2020-01-01T00:20:00.000+08:00|                                                                   4|
 +-----------------------------+--------------------------------------------------------------------+
 ```
+
+<!--
+
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+    
+        http://www.apache.org/licenses/LICENSE-2.0
+    
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+    KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+
+-->
 
 ## 机器学习
 

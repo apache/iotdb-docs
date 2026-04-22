@@ -129,6 +129,7 @@ export const zhSidebar = {
             { text: '查询性能分析', link: 'Query-Performance-Analysis' },
             { text: '集群维护', link: 'Load-Balance' },
             { text: '运维语句', link: 'Maintenance-statement_apache' },
+            { text: '开机自启', link: 'Auto-Start-On-Boot_apache' },
           ],
         },
       ],
