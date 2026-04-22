@@ -575,3 +575,41 @@ Terminate all queries:
 ```SQL
 IoTDB> KILL ALL QUERIES;
 ```
+
+## 6. Query Debugging
+
+### 6.1 DEBUG SQL
+
+**Definition**: Add the `DEBUG` keyword at the beginning of an SQL query statement. During execution, debug logs will be output, including underlying file scan information involved in the query.
+
+> Supported since V2.0.9
+
+#### Syntax:
+```sql
+debugSQLStatement
+    : DEBUG ? query
+    ;
+```
+
+**Description**:
+* Log output directory: `logs/log_datanode_query_debug.log`
+
+#### Example:
+1. Execute the following SQL for a DEBUG query
+```sql
+DEBUG SELECT * FROM root.ln.**;
+```
+
+2. Check the log content in `log_datanode_query_debug.log` to view the file scan information involved in the query.
+
+```bash
+2026-03-24 10:06:18,755 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:159 - Cache miss: root.ln.wf01.wt01.temperature in file: /home/iotdb/timechodb/data/datanode/data/sequence/root.ln/13/2932/1773824951611-1-0-0.tsfile 
+2026-03-24 10:06:18,757 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:160 - Device: root.ln.wf01.wt01, all sensors: [temperature] 
+2026-03-24 10:06:18,758 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.b.BloomFilterCache:110 - get bloomFilter from cache where filePath is: /home/iotdb/timechodb/data/datanode/data/sequence/root.ln/13/2932/1773824951611-1-0-0.tsfile 
+2026-03-24 10:06:18,759 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:227 - Get timeseries: root.ln.wf01.wt01.temperature metadata in file: /home/iotdb/timechodb/data/datanode/data/sequence/root.ln/13/2932/1773824951611-1-0-0.tsfile from cache: TimeseriesMetadata{timeSeriesMetadataType=0, chunkMetaDataListDataSize=8, measurementId='temperature', dataType=DOUBLE, statistics=startTime: 1773824951259 endTime: 1773824951259 count: 1 [minValue:12.9,maxValue:12.9,firstValue:12.9,lastValue:12.9,sumValue:12.9], modified=false, isSeq=true, chunkMetadataList=[measurementId: temperature, datatype: DOUBLE, version: 0, Statistics: startTime: 1773824951259 endTime: 1773824951259 count: 1 [minValue:12.9,maxValue:12.9,firstValue:12.9,lastValue:12.9,sumValue:12.9], deleteIntervalList: null]}. 
+2026-03-24 10:06:18,759 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskChunkMetadataLoader:97 - Modifications size is 0 for file Path: /home/iotdb/timechodb/data/datanode/data/sequence/root.ln/13/2932/1773824951611-1-0-0.tsfile  
+2026-03-24 10:06:18,759 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskChunkMetadataLoader:109 - After modification Chunk meta data list is:  
+2026-03-24 10:06:18,759 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskChunkMetadataLoader:110 - measurementId: temperature, datatype: DOUBLE, version: 0, Statistics: startTime: 1773824951259 endTime: 1773824951259 count: 1 [minValue:12.9,maxValue:12.9,firstValue:12.9,lastValue:12.9,sumValue:12.9], deleteIntervalList: null 
+2026-03-24 10:06:18,760 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.b.ChunkCache:167 - get chunk from cache whose key is: ChunkCacheKey{filePath='/home/iotdb/timechodb/data/datanode/data/sequence/root.ln/13/2932/1773824951611-1-0-0.tsfile', regionId=13, timePartitionId=2932, tsFileVersion=1, compactionVersion=0, offsetOfChunkHeader=27} 
+2026-03-24 10:06:18,761 [pool-69-IoTDB-ClientRPC-Processor-1$20260324_020618_00052_1] INFO  o.a.i.d.q.p.Coordinator:902 - debug select * from root.ln.**
+```
