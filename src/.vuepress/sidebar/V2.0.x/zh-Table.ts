@@ -230,6 +230,7 @@ export const zhSidebar = {
             { text: 'ORDER BY子句', link: 'OrderBy-Clause' },
             { text: 'LIMIT&OFFSET子句', link: 'Limit-Offset-Clause' },
             { text: '嵌套查询', link: 'Nested-Queries' },
+            { text: '公用表表达式（CTE）', link: 'Common-Table-Expression_apache' },
             { text: '集合操作', link: 'Set-Operations_apache' },
           ],
         },
