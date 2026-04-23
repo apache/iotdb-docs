@@ -302,12 +302,46 @@ Execution result:
 +--------------+-------------+---------+
 ```
 
-### 1.9 View Disk Space Usage
+### 1.9 View Cluster Activation Status
+
+**Description**：Returns the activation status of the current cluster.
+
+#### Syntax:
+
+```SQL
+showActivationStatement
+    : SHOW ACTIVATION
+    ;
+```
+
+#### Examples:
+
+```SQL
+IoTDB> SHOW ACTIVATION
+```
+
+Execution result:
+
+```SQL
++---------------+---------+-----------------------------+
+|    LicenseInfo|    Usage|                        Limit|
++---------------+---------+-----------------------------+
+|         Status|ACTIVATED|                            -|
+|    ExpiredTime|        -|2026-04-30T00:00:00.000+08:00|
+|  DataNodeLimit|        1|                    Unlimited|
+|       CpuLimit|       16|                    Unlimited|
+|    DeviceLimit|       30|                    Unlimited|
+|TimeSeriesLimit|       72|                1,000,000,000|
++---------------+---------+-----------------------------+
+```
+
+### 1.10 View Disk Space Usage
+
 **Description**: Returns the disk space usage of the specified `pattern`, including the size of ChunkGroups and the size of Metadata.
 
 **Note**: Statistics are based on the actual size of data in TsFiles; therefore, deletions made via `mods` are not considered.
 
-> Supported since version 2.0.9
+> Supported since version 2.0.9.1
 
 #### Syntax:
 ```sql
@@ -325,6 +359,7 @@ pathPattern
 **Explanation**: The `pattern` is used to match devices, must start with `ROOT`, and intermediate nodes in the path support `*` or `**`.
 
 #### Result Set
+
 | Column Name   | Column Type | Description                      |
 |---------------|-------------|----------------------------------|
 | Database      | string      | Database name                    |

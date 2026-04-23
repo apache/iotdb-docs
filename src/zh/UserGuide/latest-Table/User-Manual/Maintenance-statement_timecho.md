@@ -398,11 +398,45 @@ IoTDB> SHOW SERVICES ON 1
 +------------+-----------+-------+
 ```
 
+
+### 1.12 查看集群激活状态
+
+**含义**：返回当前集群的激活状态。
+
+#### 语法：
+
+```SQL
+showActivationStatement
+    : SHOW ACTIVATION
+    ;
+```
+
+#### 示例：
+
+```SQL
+IoTDB> SHOW ACTIVATION
+```
+
+执行结果如下：
+
+```SQL
++---------------+---------+-----------------------------+
+|    LicenseInfo|    Usage|                        Limit|
++---------------+---------+-----------------------------+
+|         Status|ACTIVATED|                            -|
+|    ExpiredTime|        -|2026-04-30T00:00:00.000+08:00|
+|  DataNodeLimit|        1|                    Unlimited|
+|       CpuLimit|       16|                    Unlimited|
+|    DeviceLimit|       30|                    Unlimited|
+|TimeSeriesLimit|       72|                1,000,000,000|
++---------------+---------+-----------------------------+
+```
+
 ### 1.13 查看节点配置信息
 
 **含义**：默认返回指定节点（通过 `node_id` 指定）的配置文件中已生效的配置项；若未指定 `node_id`，则返回客户端直连的 DataNode 配置。 添加 `all` 参数返回所有配置项（未配置项的 `value` 为 `null`）；添加 `with desc` 参数返回配置项含描述信息。
 
-> V2.0.9 起支持该功能
+> V2.0.9.1 起支持该功能
 
 #### 语法：
 
@@ -589,7 +623,6 @@ show configuration on 1 with desc;
 Total line number = 28
 It costs 0.010s
 ```
-
 
 
 ## 2. 状态设置

@@ -231,6 +231,7 @@ export const zhSidebar = {
             { text: 'LIMIT&OFFSET子句', link: 'Limit-Offset-Clause' },
             { text: '嵌套查询', link: 'Nested-Queries' },
             { text: '公用表表达式（CTE）', link: 'Common-Table-Expression_apache' },
+            { text: '集合操作', link: 'Set-Operations_apache' },
           ],
         },
         { text: '运维语句', link: 'SQL-Maintenance-Statements_apache' },

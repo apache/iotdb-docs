@@ -266,6 +266,7 @@ export const enSidebar = {
             { text: 'Nested Queries', link: 'Nested-Queries' },
             { text: 'Pattern Query', link: 'Row-Pattern-Recognition_timecho' },
             { text: 'Common Table Expressions (CTE)', link: 'Common-Table-Expression_timecho' },
+            { text: 'Set Operations', link: 'Set-Operations_timecho' },
           ],
         },
         { text: 'Maintenance Statements', link: 'SQL-Maintenance-Statements_timecho' },
