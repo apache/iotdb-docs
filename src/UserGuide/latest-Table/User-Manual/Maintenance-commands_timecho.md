@@ -396,12 +396,45 @@ Execution result:
 +--------------+-------------+---------+
 ```
 
+### 1.12 View Cluster Activation Status
+
+**Description**：Returns the activation status of the current cluster.
+
+#### Syntax:
+
+```SQL
+showActivationStatement
+    : SHOW ACTIVATION
+    ;
+```
+
+#### Examples:
+
+```SQL
+IoTDB> SHOW ACTIVATION
+```
+
+Execution result:
+
+```SQL
++---------------+---------+-----------------------------+
+|    LicenseInfo|    Usage|                        Limit|
++---------------+---------+-----------------------------+
+|         Status|ACTIVATED|                            -|
+|    ExpiredTime|        -|2026-04-30T00:00:00.000+08:00|
+|  DataNodeLimit|        1|                    Unlimited|
+|       CpuLimit|       16|                    Unlimited|
+|    DeviceLimit|       30|                    Unlimited|
+|TimeSeriesLimit|       72|                1,000,000,000|
++---------------+---------+-----------------------------+
+```
+
 ### 1.13 View Node Configuration
 **Description**: By default, returns the effective configuration items from the configuration file of the specified node (identified by `node_id`). If `node_id` is not specified, returns the configuration of the directly connected DataNode.
 Adding the `all` parameter returns all configuration items (the `value` of unconfigured items is `null`).
 Adding the `with desc` parameter returns configuration items with descriptions.
 
-> Supported since version 2.0.9
+> Supported since version 2.0.9.1
 
 #### Syntax:
 ```SQL
