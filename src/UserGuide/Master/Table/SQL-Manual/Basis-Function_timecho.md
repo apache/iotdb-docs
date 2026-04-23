@@ -1242,14 +1242,304 @@ IoTDB:database1> select length, width, bitwise_right_shift_arithmetic(length,wid
 +------+-----+-----+
 ```
 
+## 7. Binary Functions
 
-## 7. Conditional Expressions
+> Supported since V2.0.9.1
 
-### 7.1 CASE
+### 7.1 Base64 Encoding Functions
+| Function Name               | Description                                                                 | Input Type          | Output Type |
+| ----------------------------- | ----------------------------------------------------------------------------- | --------------------- | ------------- |
+| `to_base64(input)`        | Encode input data to standard Base64 string for binary data transmission/storage | STRING/TEXT/BLOB    | STRING        |
+| `from_base64(input)`      | Decode standard Base64 string to raw binary data (inverse of to_base64)        | STRING/TEXT         | BLOB          |
+| `to_base64url(input)`     | Encode input to URL-safe Base64URL string (replace +/_, omit padding)         | STRING/TEXT/BLOB    | STRING        |
+| `from_base64url(input)`   | Decode Base64URL string to raw binary data (inverse of to_base64url)          | STRING/TEXT         | BLOB          |
+| `to_base32(input)`        | Encode input to Base32 string (case-insensitive, high readability)            | STRING/TEXT/BLOB    | STRING        |
+| `from_base32(input)`      | Decode Base32 string to raw binary data (inverse of to_base32)                | STRING/TEXT         | BLOB          |
+
+**Examples**
+1. to_base64: Encode string to standard Base64
+```SQL
+SELECT DISTINCT to_base64('IoTDB Binary Test') FROM table1;
+```
+```
++----------------------------+
+|                       _col0|
++----------------------------+
+|SW9URELkuozov5vliLbmtYvor5U=|
++----------------------------+
+```
+
+2. from_base64: Decode Base64 to binary
+```SQL
+SELECT DISTINCT from_base64('SW9URELkuozov5vliLbmtYvor5U=') FROM table1;
+```
+```
++------------------------------------------+
+|                                     _col0|
++------------------------------------------+
+|0x496f544442e4ba8ce8bf9be588b6e6b58be8af95|
++------------------------------------------+
+```
+
+3. to_base64url: Encode to URL-safe Base64URL
+```SQL
+SELECT DISTINCT to_base64url('https://iotdb.apache.org') FROM table1;
+```
+```
++--------------------------------+
+|                           _col0|
++--------------------------------+
+|aHR0cHM6Ly9pb3RkYi5hcGFjaGUub3Jn|
++--------------------------------+
+```
+
+4. from_base64url: Decode Base64URL
+```SQL
+SELECT DISTINCT from_base64url('aHR0cHM6Ly9pb3RkYi5hcGFjaGUub3Jn') FROM table1;
+```
+```
++--------------------------------------------------+
+|                                             _col0|
++--------------------------------------------------+
+|0x68747470733a2f2f696f7464622e6170616368652e6f7267|
++--------------------------------------------------+
+```
+
+5. to_base32: Encode to Base32
+```SQL
+SELECT DISTINCT to_base32('123456') FROM table1;
+```
+```
++----------------+
+|           _col0|
++----------------+
+|GEZDGNBVGY======|
++----------------+
+```
+
+6. from_base32: Decode Base32
+```SQL
+SELECT DISTINCT from_base32('GEZDGNBVGY======') FROM table1;
+```
+```
++--------------+
+|         _col0|
++--------------+
+|0x313233343536|
++--------------+
+```
+
+### 7.2 Hex Encoding Functions
+| Function Name           | Description                                       | Input Type          | Output Type |
+| ------------------------ | -------------------------------------------------- | --------------------- | ------------- |
+| `TO_HEX(input)`    | Convert input to hex string (raw byte view)       | STRING/TEXT/BLOB    | STRING        |
+| `FROM_HEX(input)`  | Decode hex string to raw binary (inverse of TO_HEX) | STRING/TEXT         | BLOB          |
+
+**Examples**
+1. TO_HEX: Convert string/binary to hex
+```SQL
+SELECT DISTINCT TO_HEX('test') FROM table1;
+```
+```
++--------+
+|   _col0|
++--------+
+|74657374|
++--------+
+```
+
+2. FROM_HEX: Decode hex to binary
+```SQL
+SELECT DISTINCT FROM_HEX('74657374') FROM table1;
+```
+```
++----------+
+|     _col0|
++----------+
+|0x74657374|
++----------+
+```
+
+### 7.3 Basic Binary Functions
+| Function Name                      | Description                                                                               | Input Type               | Output Type  |
+| ----------------------------------- | ------------------------------------------------------------------------------------------ | -------------------------- | -------------- |
+| `length(input)`               | Return data length: chars for TEXT, bytes for BLOB/OBJECT                                | STRING/TEXT/BLOB/OBJECT  | INT32         |
+| `REVERSE(input)`              | Reverse input: chars for TEXT, bytes for BLOB                                             | STRING/TEXT/BLOB         | Same as input  |
+| `LPAD(input, length, pad_bytes)` | Left-pad/truncate BLOB to target byte length                                             | BLOB, INT32/INT64, BLOB  | BLOB          |
+| `RPAD(input, length, pad_bytes)` | Right-pad/truncate BLOB to target byte length                                             | BLOB, INT32/INT64, BLOB  | BLOB          |
+
+**Examples**
+1. length: Get data length
+```SQL
+SELECT DISTINCT length('IoTDB') FROM table1;
+```
+```
++-----+
+|_col0|
++-----+
+|    5|
++-----+
+```
+
+2. REVERSE: Reverse data
+```SQL
+SELECT DISTINCT REVERSE('12345') FROM table1;
+```
+```
++-----+
+|_col0|
++-----+
+|54321|
++-----+
+```
+
+3. LPAD: Left-pad BLOB
+```SQL
+SELECT DISTINCT LPAD(FROM_HEX('74657374'),5, FROM_HEX('74657374')) FROM table1;
+```
+```
++------------+
+|       _col0|
++------------+
+|0x7474657374|
++------------+
+```
+
+4. RPAD: Right-pad BLOB
+```SQL
+SELECT DISTINCT RPAD(FROM_HEX('74657374'),5, FROM_HEX('74657374')) FROM table1;
+```
+```
++------------+
+|       _col0|
++------------+
+|0x7465737474|
++------------+
+```
+
+### 7.4 Integer Encoding Functions
+| Function Name                        | Description                                                              | Input Type | Output Type |
+| ------------------------------------- | ------------------------------------------------------------------------- | ------------ | ------------ |
+| `to_big_endian_32(input)`       | Convert INT32 to 4-byte big-endian BLOB (network byte order)            | INT32      | BLOB        |
+| `to_big_endian_64(input)`       | Convert INT64 to 8-byte big-endian BLOB                                  | INT64      | BLOB        |
+| `from_big_endian_32(input)`     | Decode 4-byte big-endian BLOB to INT32                                  | BLOB       | INT32       |
+| `from_big_endian_64(input)`     | Decode 8-byte big-endian BLOB to INT64                                  | BLOB       | INT64       |
+| `to_little_endian_32(input)`    | Convert INT32 to 4-byte little-endian BLOB (x86 architecture)          | INT32      | BLOB        |
+| `to_little_endian_64(input)`    | Convert INT64 to 8-byte little-endian BLOB                              | INT64      | BLOB        |
+| `from_little_endian_32(input)`  | Decode 4-byte little-endian BLOB to INT32                               | BLOB       | INT32       |
+| `from_little_endian_64(input)`  | Decode 8-byte little-endian BLOB to INT64                               | BLOB       | INT64       |
+
+**Examples**
+1. Big-endian encode/decode
+```SQL
+SELECT DISTINCT TO_HEX(to_big_endian_32(12345)) FROM table1;
+```
+```
++--------+
+|   _col0|
++--------+
+|00003039|
++--------+
+```
+
+2. Little-endian encode/decode
+```SQL
+SELECT DISTINCT TO_HEX(to_little_endian_32(12345)) FROM table1;
+```
+```
++--------+
+|   _col0|
++--------+
+|39300000|
++--------+
+```
+
+### 7.5 Floating-Point Encoding Functions
+| Function Name                  | Description                                                              | Input Type | Output Type |
+| ------------------------------- | ------------------------------------------------------------------------- | ------------ | ------------ |
+| `to_ieee754_32(input)`    | Convert FLOAT to 4-byte big-endian IEEE754 BLOB                         | FLOAT      | BLOB        |
+| `to_ieee754_64(input)`    | Convert DOUBLE to 8-byte big-endian IEEE754 BLOB                        | DOUBLE     | BLOB        |
+| `from_ieee754_32(input)`  | Decode 4-byte IEEE754 BLOB to FLOAT                                     | BLOB       | FLOAT       |
+| `from_ieee754_64(input)`  | Decode 8-byte IEEE754 BLOB to DOUBLE                                    | BLOB       | DOUBLE      |
+
+**Examples**
+1. FLOAT encode/decode
+```SQL
+SELECT DISTINCT from_ieee754_32(FROM_HEX('42b40000')) FROM table1;
+```
+```
++-----+
+|_col0|
++-----+
+| 90.0|
++-----+
+```
+
+2. DOUBLE encode/decode
+```SQL
+SELECT DISTINCT from_ieee754_64(FROM_HEX('400921fb54411744')) FROM table1;
+```
+```
++------------+
+|       _col0|
++------------+
+|3.1415926535|
++------------+
+```
+
+### 7.6 Hash Functions
+| Function Name                    | Description                                                              | Input Type       | Output Type  |
+| --------------------------------- | ------------------------------------------------------------------------- | ------------------ | ------------- |
+| `sha256(input)`             | SHA-256 cryptographic hash (collision-resistant)                         | STRING/TEXT/BLOB | BLOB(32B)    |
+| `SHA512(input)`             | SHA-512 cryptographic hash (higher security)                             | STRING/TEXT/BLOB | BLOB(64B)    |
+| `SHA1(input)`               | SHA-1 hash (not secure for cryptography)                                | STRING/TEXT/BLOB | BLOB(20B)    |
+| `MD5(input)`                | MD5 hash (non-cryptographic checksum)                                   | STRING/TEXT/BLOB | BLOB(16B)    |
+| `CRC32(input)`              | CRC32 checksum (fast error detection)                                   | STRING/TEXT/BLOB | INT64        |
+| `spooky_hash_v2_32(input)` | 32-bit SpookyHashV2 (high-performance non-crypto)                        | STRING/TEXT/BLOB | BLOB(4B)     |
+| `spooky_hash_v2_64(input)` | 64-bit SpookyHashV2                                                      | STRING/TEXT/BLOB | BLOB(8B)     |
+| `xxhash64(input)`           | 64-bit xxHash (ultra-fast)                                               | STRING/TEXT/BLOB | BLOB(8B)     |
+| `murmur3(input)`            | 128-bit MurmurHash3 (uniform distribution)                              | STRING/TEXT/BLOB | BLOB(16B)    |
+
+**Examples**
+```SQL
+SELECT DISTINCT TO_HEX(sha256('test')) FROM table1;
+```
+```
++----------------------------------------------------------------+
+|                                                           _col0|
++----------------------------------------------------------------+
+|9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08|
++----------------------------------------------------------------+
+```
+
+### 7.7 HMAC Functions
+| Function Name                  | Description                                                                 | Input Type                          | Output Type  |
+| ------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------- | ------------- |
+| `hmac_md5(data, key)`     | HMAC-MD5 message authentication code                                         | data: STRING/TEXT/BLOB key: STRING/TEXT | BLOB(16B)    |
+| `hmac_sha1(data, key)`    | HMAC-SHA1 authentication code                                                | data: STRING/TEXT/BLOB key: STRING/TEXT | BLOB(20B)    |
+| `hmac_sha256(data, key)`  | HMAC-SHA256 (industry-recommended, high security)                           | data: STRING/TEXT/BLOB key: STRING/TEXT | BLOB(32B)    |
+| `hmac_sha512(data, key)`  | HMAC-SHA512 (maximum security)                                               | data: STRING/TEXT/BLOB key: STRING/TEXT | BLOB(64B)    |
+
+**Examples**
+```SQL
+SELECT DISTINCT TO_HEX(hmac_sha256('user_data_123', 'iotdb_secret_key')) FROM table1;
+```
+```
++----------------------------------------------------------------+
+|                                                           _col0|
++----------------------------------------------------------------+
+|73b6f26bbcb5192dbe2cb83745b0fc48c63418fa674b0bf62fabe7f8747f3afd|
++----------------------------------------------------------------+
+```
+
+
+## 8. Conditional Expressions
+
+### 8.1 CASE
 
 CASE expressions come in two forms: **Simple CASE** and **Searched CASE**.
 
-#### 7.1.1 Simple CASE
+#### 8.1.1 Simple CASE
 
 The simple form evaluates each value expression from left to right until it finds a match with the given expression:
 
@@ -1274,7 +1564,7 @@ SELECT a,
        END
 ```
 
-#### 7.1.2 Searched CASE
+#### 8.1.2 Searched CASE
 
 The searched form evaluates each Boolean condition from left to right until a `TRUE` condition is found, then returns the corresponding result:
 
@@ -1299,7 +1589,7 @@ SELECT a, b,
        END
 ```
 
-### 7.2 COALESCE
+### 8.2 COALESCE
 
 Returns the first non-null value from the given list of parameters.
 
@@ -1307,7 +1597,7 @@ Returns the first non-null value from the given list of parameters.
 coalesce(value1, value2[, ...])
 ```
 
-### 7.3 IF Expression
+### 8.3 IF Expression
 
 The IF expression has two forms: one that specifies only the true value, and another that specifies both the true value and the false value.
 
@@ -1352,11 +1642,11 @@ SELECT IF(temperature > 85, temperature, status) FROM table1;
 ```
 
 
-## 8. Conversion Functions
+## 9. Conversion Functions
 
-### 8.1 Conversion Functions
+### 9.1 Conversion Functions
 
-#### 8.1.1 cast(value AS type) → type
+#### 9.1.1 cast(value AS type) → type
 
 Explicitly converts a value to the specified type. This can be used to convert strings (`VARCHAR`) to numeric types or numeric values to string types. Starting from V2.0.8, OBJECT type can be explicitly cast to STRING type.
 
@@ -1371,7 +1661,7 @@ SELECT *
   IN (CAST('2024-11-27' AS DATE), CAST('2024-11-28' AS DATE));
 ```
 
-#### 8.1.2 try_cast(value AS type) → type
+#### 9.1.2 try_cast(value AS type) → type
 
 Similar to `CAST()`. If the conversion fails, returns `NULL` instead of throwing an error.
 
@@ -1384,11 +1674,11 @@ SELECT *
   IN (try_cast('2024-11-27' AS DATE), try_cast('2024-11-28' AS DATE));
 ```
 
-### 8.2 Format Function
+### 9.2 Format Function
 
 This function generates and returns a formatted string based on a specified format string and input arguments. Similar to Java’s `String.format` or C’s `printf`, it allows developers to construct dynamic string templates using placeholder syntax. Predefined format specifiers in the template are replaced precisely with corresponding argument values, producing a complete string that adheres to specific formatting requirements.
 
-#### 8.2.1 Syntax
+#### 9.2.1 Syntax
 
 ```SQL
 format(pattern, ...args) -> STRING
@@ -1406,7 +1696,7 @@ format(pattern, ...args) -> STRING
 
 * Formatted result string of type `STRING`.
 
-#### 8.2.2 Usage Examples
+#### 9.2.2 Usage Examples
 
 1. Format Floating-Point Numbers
    ```SQL
@@ -1515,7 +1805,7 @@ IoTDB:database1> SELECT format('%1$tF %1$tT', 2024-01-01T00:00:00.000+08:00) FRO
    +-----+
    ```
 
-#### 8.2.3 Format Conversion Failure Scenarios
+#### 9.2.3 Format Conversion Failure Scenarios
 
 1. Type Mismatch Errors
 
@@ -1570,19 +1860,19 @@ Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Scalar function format must h
 ```
 
 
-## 9. String Functions and Operators
+## 10. String Functions and Operators
 
-### 9.1 String operators
+### 10.1 String operators
 
-#### 9.1.1 || Operator
+#### 10.1.1 || Operator
 
 The `||` operator is used for string concatenation and functions the same as the `concat` function.
 
-#### 9.1.2 LIKE Statement
+#### 10.1.2 LIKE Statement
 
  The `LIKE` statement is used for pattern matching. For detailed usage, refer to Pattern Matching:[LIKE](#1-like-运算符).
 
-### 9.2 String Functions
+### 10.2 String Functions
 
 | Function Name | Description                                                                                                                                                                                                                                                                                                                                                                                                                              | Input                                                             | Output  | Usage                                                        |
 | :------------ |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------| :------ | :----------------------------------------------------------- |
@@ -1600,33 +1890,33 @@ The `||` operator is used for string concatenation and functions the same as the
 | `substring`   | Extracts a substring from `start_index` to the end of the string. **Notes:**  - `start_index` starts at `1`.  - Returns `NULL` if input is `NULL`.  - Throws an error if `start_index` is greater than string length.                                                                                                                                                                                                                    | `string`, `start_index`                                           | String  | substring(string from start_index)or substring(string, start_index) |
 | `substring`   | Extracts a substring of `length` characters starting from `start_index`. **Notes:**  - `start_index` starts at `1`.  - Returns `NULL` if input is `NULL`.  - Throws an error if `start_index` is greater than string length.  - Throws an error if `length` is negative.  - If `start_index + length` exceeds `int.MAX`, an overflow error may occur.                                                                                    | `string`, `start_index`, `length`                                 | String  | substring(string from start_index for length)  or substring(string, start_index, length) |
 
-## 10. Pattern Matching Functions
+## 11. Pattern Matching Functions
 
-### 10.1 LIKE
+### 11.1 LIKE
 
-#### 10.1.1 Usage
+#### 11.1.1 Usage
 
 The `LIKE `operator is used to compare a value with a pattern. It is commonly used in the `WHERE `clause to match specific patterns within strings.
 
-#### 10.1.2 Syntax
+#### 11.1.2 Syntax
 
 ```SQL
 ... column [NOT] LIKE 'pattern' ESCAPE 'character';
 ```
 
-#### 10.1.3 Match rules
+#### 11.1.3 Match rules
 
 - Matching characters is case-sensitive
 - The pattern supports two wildcard characters:
   - `_` matches any single character
   - `%` matches zero or more characters
 
-#### 10.1.4 Notes
+#### 11.1.4 Notes
 
 - `LIKE` pattern matching applies to the entire string by default. Therefore, if it's desired to match a sequence anywhere within a string, the pattern must start and end with a percent sign.
 - To match the escape character itself, double it (e.g., `\\` to match `\`). For example, you can use `\\` to match for `\`.
 
-#### 10.1.5 Examples
+#### 11.1.5 Examples
 
 #### **Example 1: Match Strings Starting with a Specific Character**
 
@@ -1668,13 +1958,13 @@ SELECT * FROM table1 WHERE continent LIKE 'South\_%' ESCAPE '\';
 SELECT * FROM table1 WHERE continent LIKE 'South\\%' ESCAPE '\';
 ```
 
-### 10.2 regexp_like
+### 11.2 regexp_like
 
-#### 10.2.1 Usage
+#### 11.2.1 Usage
 
 Evaluates whether the regular expression pattern is present within the given string.
 
-#### 10.2.2 Syntax
+#### 11.2.2 Syntax
 
 ```SQL
 regexp_like(string, pattern);
@@ -1703,7 +1993,7 @@ regexp_like(string, pattern);
     4. Categories: Specify directly, without the need for `Is`, `general_category=`, or `gc=` prefixes (e.g., `\p{L}`).
     5. Binary properties: Specify directly, without `Is` (e.g., `\p{NoncharacterCodePoint}`).
 
-#### 10.2.4 Examples
+#### 11.2.4 Examples
 
 #### Example 1: **Matching strings containing a specific pattern**
 
@@ -1728,7 +2018,7 @@ SELECT regexp_like('1a 2b 14m', '^\\d+b$'); -- false
   - `b` represents the letter b.
   - `'1a 2b 14m'` does not match this pattern because it does not start with digits and does not end with `b`, so it returns `false`.
 
-## 11. Timeseries Windowing Functions
+## 12. Timeseries Windowing Functions
 
 The sample data is as follows:
 
@@ -1751,19 +2041,19 @@ CREATE TABLE bid(time TIMESTAMP TIME, stock_id STRING TAG, price FLOAT FIELD);
 INSERT INTO bid(time, stock_id, price) VALUES('2021-01-01T09:05:00','AAPL',100.0),('2021-01-01T09:06:00','TESL',200.0),('2021-01-01T09:07:00','AAPL',103.0),('2021-01-01T09:07:00','TESL',202.0),('2021-01-01T09:09:00','AAPL',102.0),('2021-01-01T09:15:00','TESL',195.0);
 ```
 
-### 11.1 HOP
+### 12.1 HOP
 
-#### 11.1.1 Function Description
+#### 12.1.1 Function Description
 
 The HOP function segments data into overlapping time windows for analysis, assigning each row to all windows that overlap with its timestamp. If windows overlap (when SLIDE < SIZE), data will be duplicated across multiple windows.
 
-#### 11.1.2 Function Definition
+#### 12.1.2 Function Definition
 
 ```SQL
 HOP(data, timecol, size, slide[, origin])
 ```
 
-#### 11.1.3 Parameter Description
+#### 12.1.3 Parameter Description
 
 | Parameter | Type   | Attributes                      | Description             |
 | ----------- | -------- | --------------------------------- | ------------------------- |
@@ -1774,7 +2064,7 @@ HOP(data, timecol, size, slide[, origin])
 | ORIGIN    | Scalar | Timestamp (default: Unix epoch) | First window start time |
 
 
-#### 11.1.4 Returned Results
+#### 12.1.4 Returned Results
 
 The HOP function returns:
 
@@ -1782,7 +2072,7 @@ The HOP function returns:
 * `window_end`: Window end time (exclusive)
 * Pass-through columns: All input columns from DATA
 
-#### 11.1.5 Usage Example
+#### 12.1.5 Usage Example
 
 ```SQL
 IoTDB> SELECT * FROM HOP(DATA => bid,TIMECOL => 'time',SLIDE => 5m,SIZE => 10m);
@@ -1817,18 +2107,18 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM HOP(DAT
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 11.2 SESSION
+### 12.2 SESSION
 
-#### 11.2.1 Function Description
+#### 12.2.1 Function Description
 
 The SESSION function groups data into sessions based on time intervals. It checks the time gap between consecutive rows—rows with gaps smaller than the threshold (GAP) are grouped into the current window, while larger gaps trigger a new window.
 
-#### 11.2.2 Function Definition
+#### 12.2.2 Function Definition
 
 ```SQL
 SESSION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], timecol, gap)
 ```
-#### 11.2.3 Parameter Description
+#### 12.2.3 Parameter Description
 
 | Parameter | Type   | Attributes                 | Description                          |
 | ----------- | -------- | ---------------------------- | -------------------------------------- |
@@ -1836,7 +2126,7 @@ SESSION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], timecol, gap)
 | TIMECOL   | Scalar | String (default: 'time')   | Time column name                     |
 | GAP       | Scalar | Long integer               | Session gap threshold                |
 
-#### 11.2.4 Returned Results
+#### 12.2.4 Returned Results
 
 The SESSION function returns:
 
@@ -1844,7 +2134,7 @@ The SESSION function returns:
 * `window_end`: Time of the last row in the session
 * Pass-through columns: All input columns from DATA
 
-#### 11.2.5 Usage Example
+#### 12.2.5 Usage Example
 
 ```SQL
 IoTDB> SELECT * FROM SESSION(DATA => bid PARTITION BY stock_id ORDER BY time,TIMECOL => 'time',GAP => 2m);
@@ -1870,19 +2160,19 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM SESSION
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 11.3 VARIATION
+### 12.3 VARIATION
 
-#### 11.3.1 Function Description
+#### 12.3.1 Function Description
 
 The VARIATION function groups data based on value differences. The first row becomes the baseline for the first window. Subsequent rows are compared to the baseline—if the difference is within the threshold (DELTA), they join the current window; otherwise, a new window starts with that row as the new baseline.
 
-#### 11.3.2 Function Definition
+#### 12.3.2 Function Definition
 
 ```sql
 VARIATION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], col, delta)
 ```
 
-#### 11.3.3 Parameter Description
+#### 12.3.3 Parameter Description
 
 | Parameter | Type   | Attributes                 | Description                          |
 | ----------- | -------- | ---------------------------- | -------------------------------------- |
@@ -1890,14 +2180,14 @@ VARIATION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], col, delta)
 | COL       | Scalar | String                     | Column for difference calculation    |
 | DELTA     | Scalar | Float                      | Difference threshold                 |
 
-#### 11.3.4 Returned Results
+#### 12.3.4 Returned Results
 
 The VARIATION function returns:
 
 * `window_index`: Window identifier
 * Pass-through columns: All input columns from DATA
 
-#### 11.3.5 Usage Example
+#### 12.3.5 Usage Example
 
 ```sql
 IoTDB> SELECT * FROM VARIATION(DATA => bid PARTITION BY stock_id ORDER BY time,COL => 'price',DELTA => 2.0);
@@ -1924,33 +2214,33 @@ IoTDB> SELECT first(time) as window_start, last(time) as window_end, stock_id, a
 +-----------------------------+-----------------------------+--------+-----+
 ```
 
-### 11.4 CAPACITY
+### 12.4 CAPACITY
 
-#### 11.4.1 Function Description
+#### 12.4.1 Function Description
 
 The CAPACITY function groups data into fixed-size windows, where each window contains up to SIZE rows.
 
-#### 11.4.2 Function Definition
+#### 12.4.2 Function Definition
 
 ```sql
 CAPACITY(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], size)
 ```
 
-#### 11.4.3 Parameter Description
+#### 12.4.3 Parameter Description
 
 | Parameter | Type   | Attributes                 | Description                          |
 | ----------- | -------- | ---------------------------- | -------------------------------------- |
 | DATA      | Table  | SET SEMANTIC, PASS THROUGH | Input table with partition/sort keys |
 | SIZE      | Scalar | Long integer               | Window size (row count)              |
 
-#### 11.4.4 Returned Results
+#### 12.4.4 Returned Results
 
 The CAPACITY function returns:
 
 * `window_index`: Window identifier
 * Pass-through columns: All input columns from DATA
 
-#### 11.4.5 Usage Example
+#### 12.4.5 Usage Example
 
 ```sql
 IoTDB> SELECT * FROM CAPACITY(DATA => bid PARTITION BY stock_id ORDER BY time, SIZE => 2);
@@ -1977,18 +2267,18 @@ IoTDB> SELECT first(time) as start_time, last(time) as end_time, stock_id, avg(p
 +-----------------------------+-----------------------------+--------+-----+
 ```
 
-### 11.5 TUMBLE
+### 12.5 TUMBLE
 
-#### 11.5.1 Function Description
+#### 12.5.1 Function Description
 
 The TUMBLE function assigns each row to a non-overlapping, fixed-size time window based on a timestamp attribute.
 
-#### 11.5.2 Function Definition
+#### 12.5.2 Function Definition
 
 ```sql
 TUMBLE(data, timecol, size[, origin])
 ```
-#### 11.5.3 Parameter Description
+#### 12.5.3 Parameter Description
 
 | Parameter | Type   | Attributes                      | Description             |
 | ----------- | -------- | --------------------------------- | ------------------------- |
@@ -1997,7 +2287,7 @@ TUMBLE(data, timecol, size[, origin])
 | SIZE      | Scalar | Long integer (positive)         | Window size             |
 | ORIGIN    | Scalar | Timestamp (default: Unix epoch) | First window start time |
 
-#### 11.5.4 Returned Results
+#### 12.5.4 Returned Results
 
 The TUMBLE function returns:
 
@@ -2005,7 +2295,7 @@ The TUMBLE function returns:
 * `window_end`: Window end time (exclusive)
 * Pass-through columns: All input columns from DATA
 
-#### 11.5.5 Usage Example
+#### 12.5.5 Usage Example
 
 ```SQL
 IoTDB> SELECT * FROM TUMBLE( DATA => bid, TIMECOL => 'time', SIZE => 10m);
@@ -2031,19 +2321,19 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM TUMBLE(
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 11.6 CUMULATE
+### 12.6 CUMULATE
 
-#### 11.6.1 Function Description
+#### 12.6.1 Function Description
 
 The CUMULATE function creates expanding windows from an initial window, maintaining the same start time while incrementally extending the end time by STEP until reaching SIZE. Each window contains all elements within its range. For example, with a 1-hour STEP and 24-hour SIZE, daily windows would be: `[00:00, 01:00)`, `[00:00, 02:00)`, ..., `[00:00, 24:00)`.
 
-#### 11.6.2 Function Definition
+#### 12.6.2 Function Definition
 
 ```sql
 CUMULATE(data, timecol, size, step[, origin])
 ```
 
-#### 11.6.3 Parameter Description
+#### 12.6.3 Parameter Description
 
 | Parameter | Type   | Attributes                      | Description                                       |
 | ----------- | -------- | --------------------------------- | --------------------------------------------------- |
@@ -2055,7 +2345,7 @@ CUMULATE(data, timecol, size, step[, origin])
 
 > Note: An error `Cumulative table function requires size must be an integral multiple of step` occurs if SIZE is not divisible by STEP.
 
-#### 11.6.4 Returned Results
+#### 12.6.4 Returned Results
 
 The CUMULATE function returns:
 
@@ -2063,7 +2353,7 @@ The CUMULATE function returns:
 * `window_end`: Window end time (exclusive)
 * Pass-through columns: All input columns from DATA
 
-#### 11.6.5 Usage Example
+#### 12.6.5 Usage Example
 
 ```sql
 IoTDB> SELECT * FROM CUMULATE(DATA => bid,TIMECOL => 'time',STEP => 2m,SIZE => 10m);
