@@ -196,9 +196,7 @@ IoTDB> SHOW CURRENT_TIMESTAMP
 
 ### 1.8 查看分区信息
 
-**含义**：返回当前集群的分区信息。
-
-#### 语法：
+**语法：**
 
 ```SQL
 showRegionsStatement
@@ -206,15 +204,10 @@ showRegionsStatement
     ;
 ```
 
-#### 示例：
+**示例：**
 
 ```SQL
 IoTDB> SHOW REGIONS
-```
-
-执行结果如下：
-
-```SQL
 +--------+------------+-------+----------+-------------+-----------+----------+----------+-------+---------------+------+-----------------------+----------+
 |RegionId|        Type| Status|  Database|SeriesSlotNum|TimeSlotNum|DataNodeId|RpcAddress|RpcPort|InternalAddress|  Role|             CreateTime|TsFileSize|
 +--------+------------+-------+----------+-------------+-----------+----------+----------+-------+---------------+------+-----------------------+----------+
@@ -226,11 +219,9 @@ IoTDB> SHOW REGIONS
 
 ### 1.9 查看可用节点
 
-**含义**：返回当前集群所有可用的 DataNode 的 RPC 地址和端口。注意：这里对于“可用”的定义为：处于非 REMOVING 状态的 DN 节点。
-
 > V2.0.8 起支持该功能
 
-#### 语法：
+**语法：**
 
 ```SQL
 showAvailableUrlsStatement
@@ -238,20 +229,66 @@ showAvailableUrlsStatement
     ;
 ```
 
-#### 示例：
+**示例：**
 
 ```SQL
 IoTDB> SHOW AVAILABLE URLS
-```
-
-执行结果如下：
-
-```SQL
 +----------+-------+
 |RpcAddress|RpcPort|
 +----------+-------+
 |   0.0.0.0|   6667|
 +----------+-------+
+```
+
+### 1.10 查看服务信息
+
+> V2.0.8.2 起支持该功能
+
+**语法：**
+
+```SQL
+showServicesStatement
+    : SHOW SERVICES <ON dataNodeId>
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> SHOW SERVICES
+IoTDB> SHOW SERVICES ON 1
++------------+-----------+-------+
+|service_name|datanode_id|  state|
++------------+-----------+-------+
+|        MQTT|          1|STOPPED|
+|        REST|          1|RUNNING|
++------------+-----------+-------+
+```
+
+### 1.11 查看集群激活状态 
+
+**语法：**
+
+```SQL
+showActivationStatement
+    : SHOW ACTIVATION
+    ;
+```
+
+**示例：**
+
+```SQL
+IoTDB> SHOW ACTIVATION
++---------------+---------+-----------------------------+
+|    LicenseInfo|    Usage|                        Limit|
++---------------+---------+-----------------------------+
+|         Status|ACTIVATED|                            -|
+|    ExpiredTime|        -|2026-04-30T00:00:00.000+08:00|
+|  DataNodeLimit|        1|                    Unlimited|
+|       CpuLimit|       16|                    Unlimited|
+|    DeviceLimit|       30|                    Unlimited|
+|TimeSeriesLimit|       72|                1,000,000,000|
++---------------+---------+-----------------------------+
 ```
 
 
@@ -372,31 +409,6 @@ localOrClusterMode
 IoTDB> FLUSH test_db TRUE ON LOCAL;
 ```
 
-### 3.2 清除 DataNode 上的缓存
-
-**语法：**
-
-```SQL
-clearCacheStatement
-    : CLEAR clearCacheOptions? CACHE localOrClusterMode?
-    ;
-
-clearCacheOptions
-    : ATTRIBUTE
-    | QUERY
-    | ALL
-    ;
-
-localOrClusterMode
-    : (ON (LOCAL | CLUSTER))
-    ;
-```
-
-**示例：**
-
-```SQL
-IoTDB> CLEAR ALL CACHE ON LOCAL;
-```
 
 ## 4. 数据修复
 

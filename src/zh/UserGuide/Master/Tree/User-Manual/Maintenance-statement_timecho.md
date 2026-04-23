@@ -307,7 +307,41 @@ IoTDB> SHOW SERVICES ON 1
 ```
 
 
-### 1.9 查看磁盘空间占用情况
+### 1.9 查看集群激活状态
+
+**含义**：返回当前集群的激活状态。
+
+#### 语法：
+
+```SQL
+showActivationStatement
+    : SHOW ACTIVATION
+    ;
+```
+
+#### 示例：
+
+```SQL
+IoTDB> SHOW ACTIVATION
+```
+
+执行结果如下：
+
+```SQL
++---------------+---------+-----------------------------+
+|    LicenseInfo|    Usage|                        Limit|
++---------------+---------+-----------------------------+
+|         Status|ACTIVATED|                            -|
+|    ExpiredTime|        -|2026-04-30T00:00:00.000+08:00|
+|  DataNodeLimit|        1|                    Unlimited|
+|       CpuLimit|       16|                    Unlimited|
+|    DeviceLimit|       30|                    Unlimited|
+|TimeSeriesLimit|       72|                1,000,000,000|
++---------------+---------+-----------------------------+
+```
+
+
+### 1.10 查看磁盘空间占用情况
 
 含义：返回指定  pattern 的磁盘空间占用情况，包括 ChunkGroup 的大小和 Metadata 大小。
 
@@ -356,7 +390,6 @@ SHOW DISK_USAGE FROM root.ln.**；
 | root.ln|         1|      13|         2932|        203|
 +--------+----------+--------+-------------+-----------+
 ```
-
 
 
 ## 2. 状态设置
