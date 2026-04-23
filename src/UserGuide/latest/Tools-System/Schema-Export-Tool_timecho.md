@@ -29,21 +29,24 @@ The schema export tool `export-schema.sh/bat` is located in the `tools` director
 
 ### 2.1 Parameter
 
-| **Short Param** | **Full Param**     | **Description**                                                  | Required                            | Default                                       |
-| ----------------------- | -------------------------- | ------------------------------------------------------------------------ | ------------------------------------- |-----------------------------------------------|
-| `-h`              | `-- host`            | Hostname                                                               | No                                  | 127.0.0.1                                     |
-| `-p`              | `--port`             | Port number                                                            | No                                  | 6667                                          |
-| `-u`              | `--username`         | Username                                                               | No                                  | root                                          |
-| `-pw`             | `--password`         | Password                                                               | No                                  | TimechoDB@2021(Before V2.0.6 it is root)      |
-| `-sql_dialect`   | `--sql_dialect`      | Specifies whether the server uses`tree `model or`table `model  | No                                 | tree                                          |
-| `-db`             | `--database`         | Target database to export (only applies when`-sql_dialect=table`)  | Required if`-sql_dialect=table` | -                                             |
-| `-table`          | `--table`           | Target table to export (only applies when`-sql_dialect=table`)     | No                                 | -                                             |
-| `-t`              | `--target`           | Output directory (created if it doesn't exist)                         | Yes                                 |                                               |
-| `-path`           | `--path_pattern`     | Path pattern for metadata export                                       | Required if`-sql_dialect=tree`  |                                               |
-| `-pfn`            | `--prefix_file_name` | Output filename prefix                                                 | No                                  | `dump_dbname.sql`                             |
-| `-lpf`            | `--lines_per_file`  | Maximum lines per dump file (only applies when`-sql_dialect=tree`) | No                                 | `10000`                                       |
-| `-timeout`        | `--query_timeout`    | Query timeout in milliseconds (`-1`= no timeout)                   | No                                  | -1Range：`-1 to Long. max=9223372036854775807` |
-| `-help`           | `--help`             | Display help information                                               | No                                  |                                               |
+| **Short Param**  | **Full Param**           | **Description**                                                  | Required                            | Default                                       |
+|------------------|--------------------------| ------------------------------------------------------------------------ | ------------------------------------- |-----------------------------------------------|
+| `-h`             | `-- host`                | Hostname                                                               | No                                  | 127.0.0.1                                     |
+| `-p`             | `--port`                 | Port number                                                            | No                                  | 6667                                          |
+| `-u`             | `--username`             | Username                                                               | No                                  | root                                          |
+| `-pw`            | `--password`             | Password, Supported for hidden input since V2.0.9.1                                                                 | No                                  | TimechoDB@2021(Before V2.0.6 it is root)      |
+| `-sql_dialect`   | `--sql_dialect`          | Specifies whether the server uses`tree `model or`table `model  | No                                 | tree                                          |
+| `-db`            | `--database`             | Target database to export (only applies when`-sql_dialect=table`)  | Required if`-sql_dialect=table` | -                                             |
+| `-table`         | `--table`                | Target table to export (only applies when`-sql_dialect=table`)     | No                                 | -                                             |
+| `-t`             | `--target`               | Output directory (created if it doesn't exist)                         | Yes                                 |                                               |
+| `-path`          | `--path_pattern`         | Path pattern for metadata export                                       | Required if`-sql_dialect=tree`  |                                               |
+| `-pfn`           | `--prefix_file_name`     | Output filename prefix                                                 | No                                  | `dump_dbname.sql`                             |
+| `-lpf`           | `--lines_per_file`       | Maximum lines per dump file (only applies when`-sql_dialect=tree`) | No                                 | `10000`                                       |
+| `-timeout`       | `--query_timeout`        | Query timeout in milliseconds (`-1`= no timeout)                   | No                                  | -1Range：`-1 to Long. max=9223372036854775807` |
+| `-help`          | `--help`                 | Display help information                                               | No                                  |                                               |
+| `-usessl`        | `--use_ssl`              | Use SSL protocol. Supported since V2.0.9.1                            | No      | -                                    |
+| `-ts`            | `--trust_store`          | Trust store. Supports hidden input. Supported since V2.0.9.1          | No      | -                                    |
+| `-tpw`           | `--trust_store_password` | Trust store password. Supports hidden input. Supported since V2.0.9.1 | No        | -                                    |
 
 ### 2.2 Command
 
