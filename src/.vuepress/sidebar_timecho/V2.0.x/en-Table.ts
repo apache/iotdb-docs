@@ -38,7 +38,7 @@ export const enSidebar = {
       prefix: 'Background-knowledge/',
       children: [
         { text: 'Common Concepts', link: 'Cluster-Concept_timecho' },
-        { text: 'Timeseries Data Model', link: 'Navigating_Time_Series_Data' },
+        { text: 'Timeseries Data Model', link: 'Navigating_Time_Series_Data_timecho' },
         { text: 'Modeling Scheme Design', link: 'Data-Model-and-Terminology_timecho' },
         { text: 'Data Type', link: 'Data-Type_timecho' },
       ],
