@@ -22,7 +22,7 @@
 # Table Management
 
 Before starting to use the table management functionality, we recommend familiarizing yourself with the following related background knowledge for a better understanding and application of the table management features:
-* [Timeseries Data Model](../Background-knowledge/Navigating_Time_Series_Data.md): Understand the basic concepts and characteristics of time series data to establish a foundation for data modeling.
+* [Timeseries Data Model](../Background-knowledge/Navigating_Time_Series_Data_timecho.md): Understand the basic concepts and characteristics of time series data to establish a foundation for data modeling.
 * [Modeling Scheme Design](../Background-knowledge/Data-Model-and-Terminology_timecho.md): Master the IoTDB time series model and its applicable scenarios to provide a design basis for table management.
 
 ## 1. Table Management
@@ -314,3 +314,42 @@ DROP TABLE (IF EXISTS)? <TABLE_NAME>
 DROP TABLE table1;
 DROP TABLE database1.table1;
 ```
+
+## 1.7 Metadata Query
+Under the table model, the **total number of measurement points** equals the sum of measurement points of all tables. Currently, the number of measurement points in a single table can be calculated with the formula:
+**Measurement points per single table = Number of devices × Number of field columns**.
+Support for directly querying measurement points under the table model via SQL statements will be available in future updates. Please stay tuned.
+
+Take `table1` in the [sample data](../Reference/Sample-Data.md) as an example.
+
+In the organizational structure of this sample, there are three tag columns (`region`, `plant_id`, `device_id`) and four field columns (`temperature`, `humidity`, `status`, `arrival_time`).
+
+A unique device is identified by the combination of all tag columns. Each unique combination of `region` + `plant_id` + `device_id` represents an independent device.
+
+The sample data defines 2 regions: Beijing and Shanghai. Details are as follows:
+- **Beijing**: 1 factory with ID 1001
+   - 2 devices under this factory: IDs 100 and 101
+- **Shanghai**: 2 factories with IDs 3001 and 3002
+   - Factory 3001: 2 devices (IDs 100, 101)
+   - Factory 3002: 2 devices (IDs 100, 101)
+
+In total, there are 6 unique tag combinations in the table, corresponding to 6 independent devices.
+
+### Complete Calculation Example for Single-Table Measurement Points
+1. Query the number of devices
+```sql
+IoTDB:database1> count devices from table1
++--------------+
+|count(devices)|
++--------------+
+|             6|
++--------------+
+Total line number = 1
+It costs 0.019s
+```
+
+2. Calculate the total measurement points of the single table
+- Number of devices: 6
+- Number of field columns: 4
+- Total measurement points of the table: **6 × 4 = 24**
+
