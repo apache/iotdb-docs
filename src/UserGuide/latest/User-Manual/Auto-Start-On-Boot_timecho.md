@@ -23,7 +23,7 @@
 ## 1. Overview
 TimechoDB supports registering ConfigNode, DataNode, and AINode as Linux system services via the three scripts `daemon-confignode.sh`, `daemon-datanode.sh`, and `daemon-ainode.sh`. Combined with the system-built `systemctl` command, it manages the TimechoDB cluster in daemon mode, enabling more convenient startup, shutdown, restart, and auto-start on boot operations, and improving service stability.
 
-> Note: This feature is available starting from version 2.0.9.
+> Note: This feature is available starting from version 2.0.9.1.
 
 ## 2. Environment Requirements
 | Item         | Specification                                                                 |

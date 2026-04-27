@@ -339,7 +339,7 @@ IoTDB:etth> INSERT INTO tab_real (time, target1, target2, cov1, cov2, cov3) VALU
 
 AINode 表模型支持通过调用协变量分类模型执行时序数据的分类任务。
 
-> 注意：该功能从 V2.0.9 版本开始提供。
+> 注意：该功能从 V2.0.9.1 版本开始提供。
 
 1. **SQL 语法**
 

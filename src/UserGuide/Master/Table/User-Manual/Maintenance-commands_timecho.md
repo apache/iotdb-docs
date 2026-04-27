@@ -896,7 +896,7 @@ IoTDB> KILL ALL QUERIES;
 
 **Definition**: Add the `DEBUG` keyword at the beginning of an SQL query statement. During execution, debug logs will be output, including the underlying file scan information involved in the query.
 
-> Supported since V2.0.9
+> Supported since V2.0.9.1
 
 #### Syntax:
 ```sql
