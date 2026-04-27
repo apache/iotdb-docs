@@ -316,7 +316,7 @@ eg: REVOKE ALL ON root.** FROM USER user1;
   REVOKE ALL ON root.t1.t2 FROM USER user1;
   REVOKE READ, SECURITY  ON root.t1.t2 FROM ROLE ROLE1;
   ```
-* <PATH> 必须为全路径或者以双通配符结尾的匹配路径，以下路径是合法的:
+* `<PATH>` 必须为全路径或者以双通配符结尾的匹配路径，以下路径是合法的:
 
   ```SQL
   root.**
