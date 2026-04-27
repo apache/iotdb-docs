@@ -332,7 +332,7 @@ DROP TABLE database1.table1;
 
 以[示例数据](../Reference/Sample-Data.md) 中的表 table1 为例。
 
-在该示例组织架构中：共包含三个 tag 列（region 为区域，plant_id 为工厂，device_id 为机器）和四个 field 列（temperature 为温度，humidity 为湿度，status 为状态，arrival_time 为到达时间）。
+该示例组织架构共包含三个 tag 列（region 为区域，plant_id 为工厂，device_id 为机器）和四个 field 列（temperature 为温度，humidity 为湿度，status 为状态，arrival_time 为到达时间）。
 
 device 的唯一标识由全部 tag 列组合而成，只要 region（区域）+ plant_id（工厂）+ device_id（机器）的组合不重复，就代表一个独立设备。
 
