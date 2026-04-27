@@ -40,7 +40,7 @@ export const enSidebar = {
         { text: 'Common Concepts', link: 'Cluster-Concept_timecho' },
         {
           text: 'Timeseries Data Model',
-          link: 'Navigating_Time_Series_Data_timehco',
+          link: 'Navigating_Time_Series_Data_timecho',
         },
         {
           text: 'Modeling Scheme Design',
