@@ -339,7 +339,7 @@ Time series classification is a critical capability beyond time series predictio
 
 The AINode table model supports executing time series classification tasks by calling covariate classification models.
 
-> Note: This feature is available starting from version V2.0.9.
+> Note: This feature is available starting from version V2.0.9.1.
 
 1. **SQL Syntax**
 ```sql
