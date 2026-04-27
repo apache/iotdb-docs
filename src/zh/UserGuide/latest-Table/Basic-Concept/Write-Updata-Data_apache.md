@@ -21,7 +21,7 @@
 
 # 写入&更新
 
-## 1. 数据写入
+## 1. SQL 写入
 
 ### 1.1 语法
 
@@ -41,92 +41,14 @@ INSERT INTO <TABLE_NAME> [(COLUMN_NAME[, COLUMN_NAME]*)]? VALUES (COLUMN_VALUE[,
 6. 写入重复时间戳，原时间戳对应列的值会更新。
 7. 若 INSERT 语句未指定列名（如 INSERT INTO table VALUES (...)），则 VALUES中的值必须严格按表中列的物理顺序排列（顺序可通过 DESC table命令查看）。
 
-由于属性一般并不随时间的变化而变化，因此推荐以 update 的方式单独更新属性值，参见下文 [数据更新](#数据更新)。
+由于属性一般并不随时间的变化而变化，因此推荐以 update 的方式单独更新属性值，参见下文 [数据更新](#_3-数据更新)。
 
 <div style="text-align: center;">
   <img src="/img/WriteData01.png" alt="" style="width: 70%;"/>
 </div>
 
 
-### 1.2 通过 Session 写入自动创建表
-
-在通过 Session 进行数据写入时，IoTDB 支持无模式写入：无需事先手动创建表，系统会根据写入请求中的信息自动构建表结构，之后直接执行数据写入操作。
-
-**示例：**
-
-```Java
-try (ITableSession session =
-    new TableSessionBuilder()
-        .nodeUrls(Collections.singletonList("127.0.0.1:6667"))
-        .username("root")
-        .password("root")
-        .build()) {
-
-  session.executeNonQueryStatement("CREATE DATABASE db1");
-  session.executeNonQueryStatement("use db1");
-
-  // 不创建表直接写入数据
-  List<String> columnNameList =
-      Arrays.asList("region_id", "plant_id", "device_id", "model", "temperature", "humidity");
-  List<TSDataType> dataTypeList =
-      Arrays.asList(
-          TSDataType.STRING,
-          TSDataType.STRING,
-          TSDataType.STRING,
-          TSDataType.STRING,
-          TSDataType.FLOAT,
-          TSDataType.DOUBLE);
-  List<ColumnCategory> columnTypeList =
-      new ArrayList<>(
-          Arrays.asList(
-              ColumnCategory.TAG,
-              ColumnCategory.TAG,
-              ColumnCategory.TAG,
-              ColumnCategory.ATTRIBUTE,
-              ColumnCategory.FIELD,
-              ColumnCategory.FIELD));
-  Tablet tablet = new Tablet("table1", columnNameList, dataTypeList, columnTypeList, 100);
-  for (long timestamp = 0; timestamp < 100; timestamp++) {
-    int rowIndex = tablet.getRowSize();
-    tablet.addTimestamp(rowIndex, timestamp);
-    tablet.addValue("region_id", rowIndex, "1");
-    tablet.addValue("plant_id", rowIndex, "5");
-    tablet.addValue("device_id", rowIndex, "3");
-    tablet.addValue("model", rowIndex, "A");
-    tablet.addValue("temperature", rowIndex, 37.6F);
-    tablet.addValue("humidity", rowIndex, 111.1);
-    if (tablet.getRowSize() == tablet.getMaxRowNumber()) {
-      session.insert(tablet);
-      tablet.reset();
-    }
-  }
-  if (tablet.getRowSize() != 0) {
-    session.insert(tablet);
-    tablet.reset();
-  }
-}
-```
-
-在代码执行完成后，可以通过下述语句确认表已成功创建，其中包含了时间列、标签列、属性列以及测点列等各类信息。
-
-```SQL
-desc table1;
-```
-```shell
-+-----------+---------+-----------+
-| ColumnName| DataType|   Category|
-+-----------+---------+-----------+
-|       time|TIMESTAMP|       TIME|
-|  region_id|   STRING|        TAG|
-|   plant_id|   STRING|        TAG|
-|  device_id|   STRING|        TAG|
-|      model|   STRING|  ATTRIBUTE|
-|temperature|    FLOAT|      FIELD|
-|   humidity|   DOUBLE|      FIELD|
-+-----------+---------+-----------+
-```
-
-### 1.3 指定列写入
+### 1.2 指定列写入
 
 在写入操作中，可以指定部分列，未指定的列将不会被写入任何内容（即设置为 `null`）。
 
@@ -138,7 +60,7 @@ INSERT INTO table1(region, plant_id, device_id, time, temperature, humidity) VAL
 INSERT INTO table1(region, plant_id, device_id, time, temperature) VALUES ('北京', '1001', '100', '2025-11-26 13:38:00', 91.0);
 ```
 
-### 1.4 空值写入
+### 1.3 空值写入
 
 标签列、属性列和测点列可以指定空值（`null`），表示不写入任何内容。
 
@@ -155,7 +77,7 @@ INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, tem
 
 > 注意，该操作不仅会自动为表中已有的标签列填充 null 值，而且对于未来新增的标签列，同样会自动填充 null。
 
-### 1.5 多行写入
+### 1.4 多行写入
 
 支持同时写入多行数据，提高数据写入效率。
 
@@ -179,13 +101,13 @@ VALUES
 - 如果在 SQL 语句中引用了表中不存在的列，IoTDB 将返回错误码 `COLUMN_NOT_EXIST(616)`。
 - 如果写入的数据类型与表中列的数据类型不一致，将报错 `DATA_TYPE_MISMATCH(507)`。 
 
-### 1.6 查询写回
+### 1.5 查询写回
 
 IoTDB 表模型支持追加查询写回功能，即`INSERT INTO QUERY` 语句，支持将查询结果写入**已经存在**的表中。
 
 > 注意：该功能从 V 2.0.6 版本开始提供。
 
-#### 1.6.1 语法定义
+#### 1.5.1 语法定义
 
 ```SQL
 INSERT INTO table_name [ ( column [, ... ] ) ] query
@@ -284,7 +206,7 @@ Total line number = 2
 It costs 0.014s
 ```
 
-#### 1.6.2 相关说明
+#### 1.5.2 相关说明
 
 * 允许 query 中的源表与目标表 table\_name 是同一个表，例如：`INSERT INTO testtb SELECT * FROM testtb`。
 * 目标表必须已存在，否则提示错误信息`550: Table 'xxx.xxx' does not exist`。
@@ -303,9 +225,88 @@ It costs 0.014s
     * 更多用户权限相关的内容，请参考[权限管理](../User-Manual/Authority-Management_apache.md)。
 
 
-## 2. 数据更新
+## 2. 无模式写入
 
-### 2.1 语法
+在通过 Session 进行数据写入时，IoTDB 支持无模式写入：无需事先手动创建表，系统会根据写入请求中的信息自动构建表结构，之后直接执行数据写入操作。
+
+**示例：**
+
+```Java
+try (ITableSession session =
+    new TableSessionBuilder()
+        .nodeUrls(Collections.singletonList("127.0.0.1:6667"))
+        .username("root")
+        .password("root")
+        .build()) {
+
+  session.executeNonQueryStatement("CREATE DATABASE db1");
+  session.executeNonQueryStatement("use db1");
+
+  // 不创建表直接写入数据
+  List<String> columnNameList =
+      Arrays.asList("region_id", "plant_id", "device_id", "model", "temperature", "humidity");
+  List<TSDataType> dataTypeList =
+      Arrays.asList(
+          TSDataType.STRING,
+          TSDataType.STRING,
+          TSDataType.STRING,
+          TSDataType.STRING,
+          TSDataType.FLOAT,
+          TSDataType.DOUBLE);
+  List<ColumnCategory> columnTypeList =
+      new ArrayList<>(
+          Arrays.asList(
+              ColumnCategory.TAG,
+              ColumnCategory.TAG,
+              ColumnCategory.TAG,
+              ColumnCategory.ATTRIBUTE,
+              ColumnCategory.FIELD,
+              ColumnCategory.FIELD));
+  Tablet tablet = new Tablet("table1", columnNameList, dataTypeList, columnTypeList, 100);
+  for (long timestamp = 0; timestamp < 100; timestamp++) {
+    int rowIndex = tablet.getRowSize();
+    tablet.addTimestamp(rowIndex, timestamp);
+    tablet.addValue("region_id", rowIndex, "1");
+    tablet.addValue("plant_id", rowIndex, "5");
+    tablet.addValue("device_id", rowIndex, "3");
+    tablet.addValue("model", rowIndex, "A");
+    tablet.addValue("temperature", rowIndex, 37.6F);
+    tablet.addValue("humidity", rowIndex, 111.1);
+    if (tablet.getRowSize() == tablet.getMaxRowNumber()) {
+      session.insert(tablet);
+      tablet.reset();
+    }
+  }
+  if (tablet.getRowSize() != 0) {
+    session.insert(tablet);
+    tablet.reset();
+  }
+}
+```
+
+在代码执行完成后，可以通过下述语句确认表已成功创建，其中包含了时间列、标签列、属性列以及测点列等各类信息。
+
+```SQL
+desc table1;
+```
+```shell
++-----------+---------+-----------+
+| ColumnName| DataType|   Category|
++-----------+---------+-----------+
+|       time|TIMESTAMP|       TIME|
+|  region_id|   STRING|        TAG|
+|   plant_id|   STRING|        TAG|
+|  device_id|   STRING|        TAG|
+|      model|   STRING|  ATTRIBUTE|
+|temperature|    FLOAT|      FIELD|
+|   humidity|   DOUBLE|      FIELD|
++-----------+---------+-----------+
+```
+
+
+## 3. 数据更新
+
+### 3.1 语法
 
 ```SQL
 UPDATE <TABLE_NAME> SET updateAssignment (',' updateAssignment)* (WHERE where=booleanExpression)?
