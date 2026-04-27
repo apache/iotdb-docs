@@ -217,7 +217,7 @@ IoTDB> show models
 
 1. AINode currently uses transformers version v4.56.2, so when building the model, it is necessary to **avoid inheriting low-version (<4.50) interfaces**;
 2. The model needs to inherit a type of AINode inference task pipeline (currently supports the forecasting pipeline):
-    1. iotdb-core/ainode/iotdb/ainode/core/inference/pipeline/basic\_pipeline.py
+   * iotdb-core/ainode/iotdb/ainode/core/inference/pipeline/basic\_pipeline.py
 
    ```Python
    class BasicPipeline(ABC):
@@ -311,13 +311,13 @@ IoTDB> show models
    }
    ```
 
-    1. Must specify the model Config class and model class through auto\_map;
-    2. Must integrate and specify the inference pipeline class;
-    3. For AINode-managed built-in (builtin) and custom (user\_defined) models, the model category (model\_type) also serves as a unique identifier. That is, the model category to be registered must not be duplicated with any existing model type. Models created through fine-tuning will inherit the model category of the original model.
+   * Must specify the model Config class and model class through auto\_map;
+   * Must integrate and specify the inference pipeline class;
+   * For AINode-managed built-in (builtin) and custom (user\_defined) models, the model category (model\_type) also serves as a unique identifier. That is, the model category to be registered must not be duplicated with any existing model type. Models created through fine-tuning will inherit the model category of the original model.
 4. Ensure that the model directory to be registered contains the following files, and the model configuration file name and weight file name are not customizable:
-    1. Model configuration file: config.json;
-    2. Model weight file: model.safetensors;
-    3. Model code: other .py files.
+   * Model configuration file: config.json;
+   * Model weight file: model.safetensors;
+   * Model code: other .py files.
 
 **The SQL syntax for registering a custom model is as follows:**
 

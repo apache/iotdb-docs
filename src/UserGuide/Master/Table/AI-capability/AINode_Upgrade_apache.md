@@ -163,8 +163,9 @@ It costs 1.615s
 
 1. AINode uses Transformers v4.56.2; avoid inheriting interfaces from older versions (<4.50).
 2. The model must inherit an AINode inference pipeline class (currently supports forecasting pipeline):
+    * iotdb-core/ainode/iotdb/ainode/core/inference/pipeline/basic_pipeline.py
+   
     ```python
-    # iotdb-core/ainode/iotdb/ainode/core/inference/pipeline/basic_pipeline.py
     class BasicPipeline(ABC):
         def __init__(self, model_id, **model_kwargs):
             self.model_info = model_info
