@@ -111,7 +111,8 @@ export const enSidebar = {
           text: 'Security Management',
           collapsible: true,
           children: [
-            { text: 'Authority Management', link: 'Authority-Management_apache' },
+            { text: 'Authority Management(Before V2.0.7)', link: 'Authority-Management_apache' },
+            { text: 'Authority Management(From V2.0.7)', link: 'Authority-Management-Upgrade_apache' },
           ],
         },
         { text: 'Tree-to-Table Mapping', link: 'Tree-to-Table_apache' },
