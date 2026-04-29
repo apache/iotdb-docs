@@ -106,20 +106,6 @@ CREATE TABLE table1 (
   status Boolean FIELD COMMENT 'status',
   arrival_time TIMESTAMP FIELD COMMENT 'arrival_time'
 ) COMMENT 'table1' WITH (TTL=31536000000);
-
-CREATE TABLE if not exists tableB ();
-
-CREATE TABLE tableC (
-  station STRING TAG,
-  temperature int32 FIELD COMMENT 'temperature'
- ) with (TTL=DEFAULT);
- 
-  -- 自定义时间列:命名为time_test, 位于表的第二列
- CREATE TABLE table1 (
-     region STRING TAG, 
-     time_user_defined TIMESTAMP TIME, 
-     temperature FLOAT FIELD
- );
 ```
 
 注意：若您使用的终端不支持多行粘贴（例如 Windows CMD），请将 SQL 语句调整为单行格式后再执行。
@@ -144,19 +130,9 @@ SHOW TABLES (DETAILS)? ((FROM | IN) database_name)?
    - `PRE_DELETE`：表示表正在删除中或删除失败，此类表将永久不可用。
 
 **示例:**
-
+ 
 ```sql
-show tables from database1;
-```
-```shell
-+---------+---------------+
-|TableName|        TTL(ms)|
-+---------+---------------+
-|   table1|    31536000000|
-+---------+---------------+
-```
-```sql
-show tables details from database1;
+SHOW TABLES DETAILS FROM database1;
 ```
 ```shell
 +---------------+-----------+------+-------+
@@ -184,27 +160,8 @@ show tables details from database1;
 
 **示例:** 
 
-```SQL
-desc table1;
-```
-```shell
-+------------+---------+---------+
-|  ColumnName| DataType| Category|
-+------------+---------+---------+
-|        time|TIMESTAMP|     TIME|
-|      region|   STRING|      TAG|
-|    plant_id|   STRING|      TAG|
-|   device_id|   STRING|      TAG|
-|    model_id|   STRING|ATTRIBUTE|
-| maintenance|   STRING|ATTRIBUTE|
-| temperature|    FLOAT|    FIELD|
-|    humidity|    FLOAT|    FIELD|
-|      status|  BOOLEAN|    FIELD|
-|arrival_time|TIMESTAMP|    FIELD|
-+------------+---------+---------+
-```
 ```sql
-desc table1 details;
+DESC table1 DETAILS;
 ```
 ```shell
 +------------+---------+---------+------+------------+
@@ -242,7 +199,7 @@ SHOW CREATE TABLE <TABLE_NAME>
 **示例:**
 
 ```SQL
-show create table table1;
+SHOW CREATE TABLE table1;
 ```
 ```shell
 +------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -250,7 +207,6 @@ show create table table1;
 +------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |table1|CREATE TABLE "table1" ("region" STRING TAG,"plant_id" STRING TAG,"device_id" STRING TAG,"model_id" STRING ATTRIBUTE,"maintenance" STRING ATTRIBUTE,"temperature" FLOAT FIELD,"humidity" FLOAT FIELD,"status" BOOLEAN FIELD,"arrival_time" TIMESTAMP FIELD) WITH (ttl=31536000000)|
 +------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-Total line number = 1
 ```
 
 
@@ -281,11 +237,24 @@ COMMENT ON COLUMN tableName.column IS 'column_comment';
 
 **示例:** 
 
+表 table1 增加 tag 列 a
 ```SQL
 ALTER TABLE table1 ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a';
+```
+表 table1 增加 field 列 b
+```SQL
 ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b';
-ALTER TABLE table1 set properties TTL=3600;
+```
+修改表 table1 的 TTL
+```SQL
+ALTER TABLE table1 set properties TTL=3600; 
+```
+表 table1 增加注释
+```SQL
 COMMENT ON TABLE table1 IS 'table1';
+```
+表 table1 的 a 列去掉注释
+```SQL
 COMMENT ON COLUMN table1.a IS null;
 ```
 
@@ -303,5 +272,4 @@ DROP TABLE (IF EXISTS)? <TABLE_NAME>;
 
 ```SQL
 DROP TABLE table1;
-DROP TABLE database1.table1;
 ```

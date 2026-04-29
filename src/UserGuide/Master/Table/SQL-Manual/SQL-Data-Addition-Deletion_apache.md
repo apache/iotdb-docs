@@ -34,18 +34,18 @@ INSERT INTO <TABLE_NAME> [(COLUMN_NAME[, COLUMN_NAME]*)]? VALUES (COLUMN_VALUE[,
 **Example 1: Specified Columns Insertion**
 
 ```SQL
-INSERT INTO table1(region, plant_id, device_id, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', '2025-11-26 13:37:00', 90.0, 35.1)
+INSERT INTO table1(region, plant_id, device_id, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', '2025-11-26 13:37:00', 90.0, 35.1);
 
-INSERT INTO table1(region, plant_id, device_id, time, temperature) VALUES ('Hamburg', '1001', '100', '2025-11-26 13:38:00', 91.0)
+INSERT INTO table1(region, plant_id, device_id, time, temperature) VALUES ('Hamburg', '1001', '100', '2025-11-26 13:38:00', 91.0);
 ```
 
 **Example 2: NULL Value Insertion**
 
+Equivalent to the example above
 ```SQL
-# Equivalent to the example above
-INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', null, null, '2025-11-26 13:37:00', 90.0, 35.1)
+INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', null, null, '2025-11-26 13:37:00', 90.0, 35.1);
 
-INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', null, null, '2025-11-26 13:38:00', 91.0, null)
+INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('Hamburg', '1001', '100', null, null, '2025-11-26 13:38:00', 91.0, null);
 ```
 
 **Example 3: Multi-row Insertion**
@@ -54,13 +54,13 @@ INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, tem
 INSERT INTO table1
 VALUES 
 ('2025-11-26 13:37:00', 'Frankfurt', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:37:34'),
-('2025-11-26 13:38:00', 'Frankfurt', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:38:25')
+('2025-11-26 13:38:00', 'Frankfurt', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:38:25');
 
 INSERT INTO table1
 (region, plant_id, device_id, model_id, maintenance, time, temperature, humidity, status, arrival_time) 
 VALUES 
 ('Frankfurt', '1001', '100', 'A', '180', '2025-11-26 13:37:00', 90.0, 35.1, true, '2025-11-26 13:37:34'),
-('Frankfurt', '1001', '100', 'A', '180', '2025-11-26 13:38:00', 90.0, 35.1, true, '2025-11-26 13:38:25')
+('Frankfurt', '1001', '100', 'A', '180', '2025-11-26 13:38:00', 90.0, 35.1, true, '2025-11-26 13:38:25');
 ```
 
 **Example 4: Query Write-back**
@@ -91,7 +91,7 @@ updateAssignment
 **Example:**
 
 ```SQL
-update table1 set b = a where substring(a, 1, 1) like '%'
+update table1 set b = a where substring(a, 1, 1) like '%';
 ```
 
 ## 3. Data Deletion
@@ -125,32 +125,35 @@ ID_CONDITION:
 **Example 1: Full Table Deletion**
 
 ```SQL
-DELETE FROM table1
+DELETE FROM table1;
 ```
 
 **Example 2: Time-range Deletion**
 
+Single time range
 ```SQL
--- Single time range
-DELETE FROM table1 WHERE time <= 2024-11-29 00:00:00
-
--- Multiple time ranges
-DELETE FROM table1  WHERE time >= 2024-11-27 00:00:00  and time <= 2024-11-29 00:00:00
+DELETE FROM table1 WHERE time <= 2024-11-29 00:00:00;
+```
+Multiple time ranges
+```sql
+DELETE FROM table1  WHERE time >= 2024-11-27 00:00:00  and time <= 2024-11-29 00:00:00;
 ```
 
 **Example 3: Device-Specific Deletion**
 
+Delete data for specific device
 ```SQL
--- Delete data for specific device
 DELETE FROM table1 
 WHERE device_id='101' AND model_id = 'B';
-
--- Delete data for device within time range
+```
+Delete data for device within time range
+```sql
 DELETE FROM table1 
 WHERE time >= '2024-11-27 16:39:00' AND time <= '2024-11-29 16:42:00'
     AND device_id='101' AND model_id = 'B';
-    
--- Delete data for specific device model
+```    
+Delete data for specific device model
+```sql
 DELETE FROM table1 WHERE model_id = 'B';
 ```
 
@@ -165,5 +168,5 @@ DELETE DEVICES FROM tableName=qualifiedName (WHERE booleanExpression)?
 **Example: Delete specified device and all associated data**
 
 ```SQL
-DELETE DEVICES FROM table1 WHERE device_id = '101'
+DELETE DEVICES FROM table1 WHERE device_id = '101';
 ```
