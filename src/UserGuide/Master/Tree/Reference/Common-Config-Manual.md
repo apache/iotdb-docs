@@ -1453,16 +1453,6 @@ Different configuration parameters take effect in the following three ways:
 |          Type          | String                                                  |
 |        Default         | org.apache.iotdb.commons.auth.authorizer.LocalFileAuthorizer |
 |       Effective        | After restarting system                                 |
-| Other available values | org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer    |
-
-* openID\_url
-
-|    Name     | openID\_url                                      |
-| :---------: | :----------------------------------------------- |
-| Description | the openID server if OpenIdAuthorizer is enabled |
-|    Type     | String (a http url)                              |
-|   Default   | no                                               |
-|  Effective  | After restarting system                          |
 
 * iotdb\_server\_encrypt\_decrypt\_provider
 

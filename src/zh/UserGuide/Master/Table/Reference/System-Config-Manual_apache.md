@@ -2377,16 +2377,6 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 类型         | String                                                       |
 | 默认值       | org.apache.iotdb.commons.auth.authorizer.LocalFileAuthorizer |
 | 改后生效方式 | 重启服务生效                                                     |
-| 其他可选值   | org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer    |
-
-- openID_url
-
-| 名字         | openID_url                                                 |
-| ------------ | ---------------------------------------------------------- |
-| 描述         | openID 服务器地址 （当 OpenIdAuthorizer 被启用时必须设定） |
-| 类型         | String（一个 http 地址）                                   |
-| 默认值       | 无                                                         |
-| 改后生效方式 | 重启服务生效                                                   |
 
 - iotdb_server_encrypt_decrypt_provider
 
