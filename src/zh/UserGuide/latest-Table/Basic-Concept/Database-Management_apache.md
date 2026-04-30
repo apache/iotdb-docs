@@ -55,10 +55,6 @@
 **示例：**
 
 ```SQL
-CREATE DATABASE database1;
-CREATE DATABASE IF NOT EXISTS database1;
-
-// 创建一个名为 database1 的数据库，并将数据库的TTL时间设置为1年。
 CREATE DATABASE IF NOT EXISTS database1 with(TTL=31536000000);
 ```
 
@@ -75,7 +71,7 @@ USE <DATABASE_NAME>
 **示例:** 
 
 ```SQL
-USE database1
+USE database1;
 ```
 
 ### 1.3 查看当前数据库
@@ -91,16 +87,10 @@ SHOW CURRENT_DATABASE
 **示例：**
 
 ```SQL
-IoTDB> SHOW CURRENT_DATABASE;
-+---------------+
-|CurrentDatabase|
-+---------------+
-|           null|
-+---------------+
-
-IoTDB> USE database1;
-
-IoTDB> SHOW CURRENT_DATABASE;
+USE database1;
+SHOW CURRENT_DATABASE;
+```
+```shell
 +---------------+
 |CurrentDatabase|
 +---------------+
@@ -133,15 +123,9 @@ SHOW DATABASES (DETAILS)?
 **示例:** 
 
 ```SQL
-IoTDB> show databases
-+------------------+-------+-----------------------+---------------------+---------------------+
-|          Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|
-+------------------+-------+-----------------------+---------------------+---------------------+
-|         database1|    INF|                      1|                    1|            604800000|
-|information_schema|    INF|                   null|                 null|                 null|
-+------------------+-------+-----------------------+---------------------+---------------------+
-
-IoTDB> show databases details
+SHOW DATABASES DETAILS;
+```
+```shell
 +------------------+-------+-----------------------+---------------------+---------------------+--------------------+------------------+
 |          Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|SchemaRegionGroupNum|DataRegionGroupNum|
 +------------------+-------+-----------------------+---------------------+---------------------+--------------------+------------------+
@@ -188,5 +172,5 @@ DROP DATABASE (IF EXISTS)? <DATABASE_NAME>
 **示例:**
 
 ```SQL
-DROP DATABASE IF EXISTS database1
+DROP DATABASE IF EXISTS database1;
 ```

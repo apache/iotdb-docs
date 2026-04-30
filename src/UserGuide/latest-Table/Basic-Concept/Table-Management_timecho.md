@@ -107,21 +107,6 @@ CREATE TABLE table1 (
   status Boolean FIELD COMMENT 'status',
   arrival_time TIMESTAMP FIELD COMMENT 'arrival_time'
 ) COMMENT 'table1' WITH (TTL=31536000000);
-
-
-CREATE TABLE if not exists tableB ();
-
-CREATE TABLE tableC (
-  "Site" STRING TAG,
-  "Temperature" int32 FIELD COMMENT 'temperature'
- ) with (TTL=DEFAULT);
- 
- -- Custom time column: named time_test, located in the second column of the table.
- CREATE TABLE table1 (
-     region STRING TAG, 
-     time_user_defined TIMESTAMP TIME, 
-     temperature FLOAT FIELD
- );
 ```
 
 Note: If your terminal does not support multi-line paste (e.g., Windows CMD), please reformat the SQL statement into a single line before execution.
@@ -147,16 +132,6 @@ SHOW TABLES (DETAILS)? ((FROM | IN) database_name)?
 
 **Examples:**
 
-```SQL
-show tables from database1;
-```
-```shell
-+---------+---------------+
-|TableName|        TTL(ms)|
-+---------+---------------+
-|   table1|    31536000000|
-+---------+---------------+
-```
 ```sql
 show tables details from database1;
 ```
@@ -187,25 +162,6 @@ Used to view column names, data types, categories, and states of a table.
 
 **Examples:** 
 
-```SQL
-desc table1;
-```
-```shell
-+------------+---------+---------+
-|  ColumnName| DataType| Category|
-+------------+---------+---------+
-|        time|TIMESTAMP|     TIME|
-|      region|   STRING|      TAG|
-|    plant_id|   STRING|      TAG|
-|   device_id|   STRING|      TAG|
-|    model_id|   STRING|ATTRIBUTE|
-| maintenance|   STRING|ATTRIBUTE|
-| temperature|    FLOAT|    FIELD|
-|    humidity|    FLOAT|    FIELD|
-|      status|  BOOLEAN|    FIELD|
-|arrival_time|TIMESTAMP|    FIELD|
-+------------+---------+---------+
-```
 ```sql
 desc table1 details;
 ```
@@ -289,12 +245,22 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? col
 
 **Example:** 
 
+add column
 ```SQL
 ALTER TABLE table1 ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a';
 ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b';
-ALTER TABLE table1 set properties TTL=3600;
+```
+set TTL
+```SQL
+ALTER TABLE table1 set properties TTL=3600; 
+```
+set comment
+```SQL
 COMMENT ON TABLE table1 IS 'table1';
 COMMENT ON COLUMN table1.a IS null;
+```
+alter column datatype
+```SQL
 ALTER TABLE table1 ALTER COLUMN IF EXISTS b SET DATA TYPE DOUBLE;
 ```
 
@@ -338,7 +304,7 @@ In total, there are 6 unique tag combinations in the table, corresponding to 6 i
 ### Complete Calculation Example for Single-Table Measurement Points
 1. Query the number of devices
 ```sql
-IoTDB:database1> count devices from table1
+IoTDB:database1> count devices from table1;
 +--------------+
 |count(devices)|
 +--------------+

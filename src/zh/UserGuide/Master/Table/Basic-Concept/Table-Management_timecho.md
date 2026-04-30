@@ -105,20 +105,6 @@ CREATE TABLE table1 (
   status Boolean FIELD COMMENT 'status',
   arrival_time TIMESTAMP FIELD COMMENT 'arrival_time'
 ) COMMENT 'table1' WITH (TTL=31536000000);
-
-CREATE TABLE if not exists tableB ();
-
-CREATE TABLE tableC (
-  station STRING TAG,
-  temperature int32 FIELD COMMENT 'temperature'
- ) with (TTL=DEFAULT);
- 
-  -- 自定义时间列:命名为time_test, 位于表的第二列
- CREATE TABLE table1 (
-     region STRING TAG, 
-     time_user_defined TIMESTAMP TIME, 
-     temperature FLOAT FIELD
- );
 ```
 
 注意：若您使用的终端不支持多行粘贴（例如 Windows CMD），请将 SQL 语句调整为单行格式后再执行。
@@ -144,16 +130,6 @@ SHOW TABLES (DETAILS)? ((FROM | IN) database_name)?
 
 **示例:**
 
-```SQL
-show tables from database1;
-```
-```shell
-+---------+---------------+
-|TableName|        TTL(ms)|
-+---------+---------------+
-|   table1|    31536000000|
-+---------+---------------+
-```
 ```sql
 show tables details from database1;
 ```
@@ -183,25 +159,6 @@ show tables details from database1;
 
 **示例:** 
 
-```SQL
-desc table1;
-```
-```shell
-+------------+---------+---------+
-|  ColumnName| DataType| Category|
-+------------+---------+---------+
-|        time|TIMESTAMP|     TIME|
-|      region|   STRING|      TAG|
-|    plant_id|   STRING|      TAG|
-|   device_id|   STRING|      TAG|
-|    model_id|   STRING|ATTRIBUTE|
-| maintenance|   STRING|ATTRIBUTE|
-| temperature|    FLOAT|    FIELD|
-|    humidity|    FLOAT|    FIELD|
-|      status|  BOOLEAN|    FIELD|
-|arrival_time|TIMESTAMP|    FIELD|
-+------------+---------+---------+
-```
 ```sql
 desc table1 details;
 ```
@@ -250,7 +207,6 @@ show create table table1;
 +------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |table1|CREATE TABLE "table1" ("region" STRING TAG,"plant_id" STRING TAG,"device_id" STRING TAG,"model_id" STRING ATTRIBUTE,"maintenance" STRING ATTRIBUTE,"temperature" FLOAT FIELD,"humidity" FLOAT FIELD,"status" BOOLEAN FIELD,"arrival_time" TIMESTAMP FIELD) WITH (ttl=31536000000)|
 +------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-Total line number = 1
 ```
 
 
@@ -299,12 +255,28 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName DROP COLUMN (IF EXISTS)? column
 
 **示例:** 
 
+表 table1 增加 tag 列 a
 ```SQL
 ALTER TABLE table1 ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a';
+```
+表 table1 增加 field 列 b
+```SQL
 ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b';
-ALTER TABLE table1 set properties TTL=3600;
+```
+修改表 table1 的 TTL
+```SQL
+ALTER TABLE table1 set properties TTL=3600; 
+```
+表 table1 增加注释
+```SQL
 COMMENT ON TABLE table1 IS 'table1';
+```
+表 table1 的 a 列去掉注释
+```SQL
 COMMENT ON COLUMN table1.a IS null;
+```
+修改表 table1 的 b 列的数据类型
+```SQL
 ALTER TABLE table1 ALTER COLUMN IF EXISTS b SET DATA TYPE DOUBLE;
 ```
 
@@ -322,7 +294,6 @@ DROP TABLE (IF EXISTS)? <TABLE_NAME>
 
 ```SQL
 DROP TABLE table1;
-DROP TABLE database1.table1;
 ```
 
 
@@ -351,14 +322,14 @@ device 的唯一标识由全部 tag 列组合而成，只要 region（区域）+
 1. 查询 device 数量
 
 ```sql
-IoTDB:database1> count devices from table1
+count devices from table1;
+```
+```shell
 +--------------+
 |count(devices)|
 +--------------+
 |             6|
 +--------------+
-Total line number = 1
-It costs 0.019s
 ```
 
 2. 计算单表测点数量
