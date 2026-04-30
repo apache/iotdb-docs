@@ -112,7 +112,7 @@ IoTDB allows specifying the compression method of a column when creating a time 
 
 - UNCOMPRESSED
 - SNAPPY
-- LZ4 (Recommended)
+- LZ4 (Default and recommended compression method)
 - GZIP
 - ZSTD
 - LZMA2
