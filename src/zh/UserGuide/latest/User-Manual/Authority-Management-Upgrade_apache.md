@@ -183,61 +183,61 @@ IoTDB 提供了组合权限，方便用户授权：
 
 ```SQL
 CREATE USER <userName> <password>
-eg: CREATE USER user1 'passwd'
+eg: CREATE USER user1 'passwd';
 ```
 
 * 删除用户 (需 SECURITY  权限)
 
 ```SQL
 DROP USER <userName>
-eg: DROP USER user1
+eg: DROP USER user1;
 ```
 
 * 创建角色 (需 SECURITY  权限)
 
 ```SQL
 CREATE ROLE <roleName>
-eg: CREATE ROLE role1
+eg: CREATE ROLE role1;
 ```
 
 * 删除角色 (需 SECURITY  权限)
 
 ```SQL
 DROP ROLE <roleName>
-eg: DROP ROLE role1
+eg: DROP ROLE role1;
 ```
 
 * 赋予用户角色 (需 SECURITY  权限)
 
 ```SQL
 GRANT ROLE <ROLENAME> TO <USERNAME>
-eg: GRANT ROLE admin TO user1
+eg: GRANT ROLE admin TO user1;
 ```
 
 * 移除用户角色 (需 SECURITY  权限)
 
 ```SQL
 REVOKE ROLE <ROLENAME> FROM <USER>
-eg: REVOKE ROLE admin FROM user1
+eg: REVOKE ROLE admin FROM user1;
 ```
 
 * 列出所有用户  (需 SECURITY  权限)
 
 ```SQL
-LIST USER
+LIST USER;
 ```
 
 * 列出所有角色 (需 SECURITY  权限)
 
 ```SQL
-LIST ROLE
+LIST ROLE;
 ```
 
 * 列出指定角色下所有用户 (需 SECURITY  权限)
 
 ```SQL
 LIST USER OF ROLE <roleName>
-eg: LIST USER OF ROLE roleuser
+eg: LIST USER OF ROLE roleuser;
 ```
 
 * 列出指定用户下所有角色
@@ -246,7 +246,7 @@ eg: LIST USER OF ROLE roleuser
 
 ```SQL
 LIST ROLE OF USER <username> 
-eg: LIST ROLE OF USER tempuser
+eg: LIST ROLE OF USER tempuser;
 ```
 
 * 列出用户所有权限
@@ -312,9 +312,7 @@ eg: REVOKE ALL ON root.** FROM USER user1;
   REVOKE ALL ON root.** FROM ROLE role1;
   ```
 
-  ```
   下面的语句是非法的：
-  ```
 
   ```SQL
   GRANT READ, SECURITY  ON root.t1.** TO USER user1;
@@ -330,9 +328,7 @@ eg: REVOKE ALL ON root.** FROM USER user1;
   root.t1.t2.t3
   ```
 
-  ```
   以下的路径是非法的：
-  ```
 
   ```SQL
   root.t1.*
@@ -423,23 +419,23 @@ Msg: The statement is executed successfully.
 授予用户权限后，我们可以使用 `REVOKE <PRIVILEGES> ON <PATHS> FROM USER <USERNAME>`来撤销已经授予用户的权限。例如，用root用户撤销ln\_write\_user和sgcc\_write\_user的权限：
 
 ```SQL
-REVOKE WRITE_DATA ON root.ln.** FROM USER `ln_write_user`
-REVOKE WRITE_DATA ON root.sgcc1.**, root.sgcc2.** FROM USER `sgcc_write_user`
+REVOKE WRITE_DATA ON root.ln.** FROM USER `ln_write_user`;
+REVOKE WRITE_DATA ON root.sgcc1.**, root.sgcc2.** FROM USER `sgcc_write_user`;
 ```
 
 执行状态如下所示：
 
 ```SQL
-IoTDB> REVOKE WRITE_DATA ON root.ln.** FROM USER `ln_write_user`
+IoTDB> REVOKE WRITE_DATA ON root.ln.** FROM USER `ln_write_user`;
 Msg: The statement is executed successfully.
-IoTDB> REVOKE WRITE_DATA ON root.sgcc1.**, root.sgcc2.** FROM USER `sgcc_write_user`
+IoTDB> REVOKE WRITE_DATA ON root.sgcc1.**, root.sgcc2.** FROM USER `sgcc_write_user`;
 Msg: The statement is executed successfully.
 ```
 
 撤销权限后，ln\_write\_user就没有向root.ln.\*\*写入数据的权限了。
 
 ```SQL
-IoTDB> INSERT INTO root.ln.wf01.wt01(timestamp, status) values(1509465600000, true)
+IoTDB> INSERT INTO root.ln.wf01.wt01(timestamp, status) values(1509465600000, true);
 Msg: 803: No permissions for this operation, please add privilege WRITE_DATA on [root.ln.wf01.wt01.status]
 ```
 
