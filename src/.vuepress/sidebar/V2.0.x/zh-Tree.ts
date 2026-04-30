@@ -120,7 +120,10 @@ export const zhSidebar = {
         {
           text: '安全管理',
           collapsible: true,
-          children: [{ text: '权限管理', link: 'Authority-Management_apache' }],
+          children: [
+              { text: '权限管理(V2.0.7 之前)', link: 'Authority-Management_apache' },
+              { text: '权限管理(V2.0.7 起)', link: 'Authority-Management-Upgrade_apache' },
+          ],
         },
         {
           text: '系统运维',

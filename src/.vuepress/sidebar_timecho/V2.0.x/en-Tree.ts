@@ -150,7 +150,8 @@ export const enSidebar = {
           text: 'Security Management',
           collapsible: true,
           children: [
-            { text: 'Permission Management', link: 'Authority-Management_timecho' },
+            { text: 'Authority Management(Before V2.0.7)', link: 'Authority-Management_timecho' },
+            { text: 'Authority Management(From V2.0.7)', link: 'Authority-Management-Upgrade_timecho' },
             { text: 'Black White List', link: 'Black-White-List_timecho' },
             { text: 'Security Audit', link: 'Audit-Log_timecho' },
           ],

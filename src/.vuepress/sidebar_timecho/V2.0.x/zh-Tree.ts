@@ -132,7 +132,8 @@ export const zhSidebar = {
           text: '安全管理',
           collapsible: true,
           children: [
-            { text: '权限管理', link: 'Authority-Management_timecho' },
+            { text: '权限管理(V2.0.7 之前)', link: 'Authority-Management_timecho' },
+            { text: '权限管理(V2.0.7 起)', link: 'Authority-Management-Upgrade_timecho' },
             { text: '黑白名单', link: 'Black-White-List_timecho' },
             { text: '安全审计', link: 'Audit-Log_timecho' },
           ],
