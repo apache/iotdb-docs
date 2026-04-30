@@ -294,7 +294,7 @@ eg: REVOKE SECURITY  ON root.** FROM USER user1;
 eg: REVOKE ALL ON root.** FROM USER user1;
 ```
 
-* **非管理员用户执行授权/取消授权语句时，需要对<PATHS> 有<PRIVILEGES> 权限，并且该权限是被标记带有 WITH GRANT OPTION 的。**
+* **非管理员用户执行授权/取消授权语句时，需要对`<PATHS>` 有`<PRIVILEGES>` 权限，并且该权限是被标记带有 WITH GRANT OPTION 的。**
 * 在授予取消全局权限时，或者语句中包含全局权限时(ALL 展开会包含全局权限），须指定 path 为 root.\*\*。 例如，以下授权/取消授权语句是合法的：
 
   ```SQL
