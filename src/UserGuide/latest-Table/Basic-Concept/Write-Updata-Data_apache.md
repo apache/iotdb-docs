@@ -21,7 +21,7 @@
 
 # Write & Update Data
 
-## 1. Data Insertion
+## 1. SQL Insertion
 
 ### 1.1 Syntax
 
@@ -47,86 +47,7 @@ Since attributes generally do not change over time, it is recommended to update 
   <img src="/img/%E6%95%B0%E6%8D%AE%E5%86%99%E5%85%A5%E8%8B%B1%E6%96%87.png" alt="" style="width: 70%;"/>
 </div>
 
-
-### 1.2 Automatically Create Tables via Session Insertion
-
-When performing data writing through Session, IoTDB supports schema-less writing: there is no need to manually create tables beforehand. The system automatically constructs the table structure based on the information in the write request, and then directly executes the data writing operation.
-
-**Example:**
-
-```Java
-try (ITableSession session =
-    new TableSessionBuilder()
-        .nodeUrls(Collections.singletonList("127.0.0.1:6667"))
-        .username("root")
-        .password("root")
-        .build()) {
-
-  session.executeNonQueryStatement("CREATE DATABASE db1");
-  session.executeNonQueryStatement("use db1");
-
-  // Insert data without manually creating the table
-  List<String> columnNameList =
-      Arrays.asList("region_id", "plant_id", "device_id", "model", "temperature", "humidity");
-  List<TSDataType> dataTypeList =
-      Arrays.asList(
-          TSDataType.STRING,
-          TSDataType.STRING,
-          TSDataType.STRING,
-          TSDataType.STRING,
-          TSDataType.FLOAT,
-          TSDataType.DOUBLE);
-  List<ColumnCategory> columnTypeList =
-      new ArrayList<>(
-          Arrays.asList(
-              ColumnCategory.TAG,
-              ColumnCategory.TAG,
-              ColumnCategory.TAG,
-              ColumnCategory.ATTRIBUTE,
-              ColumnCategory.FIELD,
-              ColumnCategory.FIELD));
-  Tablet tablet = new Tablet("table1", columnNameList, dataTypeList, columnTypeList, 100);
-  for (long timestamp = 0; timestamp < 100; timestamp++) {
-    int rowIndex = tablet.getRowSize();
-    tablet.addTimestamp(rowIndex, timestamp);
-    tablet.addValue("region_id", rowIndex, "1");
-    tablet.addValue("plant_id", rowIndex, "5");
-    tablet.addValue("device_id", rowIndex, "3");
-    tablet.addValue("model", rowIndex, "A");
-    tablet.addValue("temperature", rowIndex, 37.6F);
-    tablet.addValue("humidity", rowIndex, 111.1);
-    if (tablet.getRowSize() == tablet.getMaxRowNumber()) {
-      session.insert(tablet);
-      tablet.reset();
-    }
-  }
-  if (tablet.getRowSize() != 0) {
-    session.insert(tablet);
-    tablet.reset();
-  }
-}
-```
-
-After execution, you can verify the table creation using the following command:
-
-```SQL
-desc table1;
-```
-```shell
-+-----------+---------+-----------+
-| ColumnName| DataType|   Category|
-+-----------+---------+-----------+
-|       time|TIMESTAMP|       TIME|
-|  region_id|   STRING|        TAG|
-|   plant_id|   STRING|        TAG|
-|  device_id|   STRING|        TAG|
-|      model|   STRING|  ATTRIBUTE|
-|temperature|    FLOAT|      FIELD|
-|   humidity|   DOUBLE|      FIELD|
-+-----------+---------+-----------+
-```
-
-### 1.3 Specified Column Insertion
+### 1.2 Specified Column Insertion
 
 It is possible to insert data for specific columns. Columns not specified will remain `null`.
 
@@ -138,7 +59,7 @@ INSERT INTO table1(region, plant_id, device_id, time, temperature, humidity) VAL
 INSERT INTO table1(region, plant_id, device_id, time, temperature) VALUES ('Hamburg', '1001', '100', '2025-11-26 13:38:00', 91.0);
 ```
 
-### 1.4 Null Value Insertion
+### 1.3 Null Value Insertion
 
 You can explicitly set `null` values for tag columns, attribute columns, and field columns.
 
@@ -157,7 +78,7 @@ If no tag columns are included, the system will automatically create a device wi
 
 > **Note:** This operation will not only automatically populate existing tag columns in the table with `null` values but will also populate any newly added tag columns with `null` values in the future.
 
-### 1.5 Multi-Row Insertion
+### 1.4 Multi-Row Insertion
 
 IoTDB supports inserting multiple rows of data in a single statement to improve efficiency.
 
@@ -182,13 +103,13 @@ VALUES
 - Data type mismatches between the insertion data and the column's data type will result in an error code `DATA_TYPE_MISMATCH(614)`.
 
 
-### 1.6 Query Write-back
+### 1.5 Query Write-back
 
 The IoTDB table model supports the **append-only query write-back** feature, implemented via the `INSERT INTO QUERY` statement. This feature allows writing the results of a query into an **existing** table.
 
 > ​**Note**​: This feature is available starting from version V2.0.6.
 
-#### 1.6.1 Syntax Definition
+#### 1.5.1 Syntax Definition
 
 sql
 
@@ -297,11 +218,11 @@ Total line number = 2
 It costs 0.014s
 ```
 
-#### 1.6.2 Notes
+#### 1.5.2 Notes
 
 * The source table in the `query` and the target table `table_name` are allowed to be the same table, e.g., `INSERT INTO testtb SELECT * FROM testtb`.
 * The target table ​**must already exist**​; otherwise, the error message `550: Table 'xxx.xxx' does not exist` will be thrown.
-* The number and types of query result columns must exactly match those of the target table. Object type is currently not supported, and no implicit type conversion is supported. If types mismatch, the error `701: Insert query has mismatched column types` will be raised.
+* The number and types of query result columns must exactly match those of the target table. No implicit type conversion is supported. If types mismatch, the error `701: Insert query has mismatched column types` will be raised.
 * You can specify a subset of columns in the target table, provided the following rules are met:
   * The timestamp column must be included; otherwise, the error message `701: time column can not be null` will be thrown.
   * At least one **FIELD** column must be included; otherwise, the error message `701: No Field column present` will be thrown.
@@ -316,63 +237,87 @@ It costs 0.014s
   * For more details about user permissions, refer to [Authority Management](../User-Manual/Authority-Management_apache.md).
 
 
-### 1.7 Writing Object Type
+## 2. Schema-less Writing
 
-To avoid oversized Object write requests, values of **Object** type can be split into segments and written sequentially. In SQL, the `to_object(isEOF, offset, content)` function must be used for value insertion.
+When performing data writing through Session, IoTDB supports schema-less writing: there is no need to manually create tables beforehand. The system automatically constructs the table structure based on the information in the write request, and then directly executes the data writing operation.
 
-> Supported since V2.0.8-beta
+**Example:**
 
-**Syntax:**
+```Java
+try (ITableSession session =
+    new TableSessionBuilder()
+        .nodeUrls(Collections.singletonList("127.0.0.1:6667"))
+        .username("root")
+        .password("root")
+        .build()) {
 
-```SQL
-INSERT INTO tableName(time, columnName) VALUES(timeValue, TO_OBJECT(isEOF, offset, content));
-```  
+  session.executeNonQueryStatement("CREATE DATABASE db1");
+  session.executeNonQueryStatement("use db1");
 
-**Parameters:**
-
-| Name    | Data Type          | Description                                                                 |
-|---------|--------------------|-----------------------------------------------------------------------------|
-| isEOF   | BOOLEAN            | Whether the current write contains the last segment of the Object          |
-| offset  | INT64              | Starting offset of the current segment within the Object                   |
-| content | Hexadecimal (HEX)  | Content of the current segment                                             |
-
-**Examples:**
-
-Add an Object-type column `s1` to table `table1`:
-
-```SQL
-ALTER TABLE table1 ADD COLUMN IF NOT EXISTS s1 OBJECT FIELD COMMENT 'object type';
+  // Insert data without manually creating the table
+  List<String> columnNameList =
+      Arrays.asList("region_id", "plant_id", "device_id", "model", "temperature", "humidity");
+  List<TSDataType> dataTypeList =
+      Arrays.asList(
+          TSDataType.STRING,
+          TSDataType.STRING,
+          TSDataType.STRING,
+          TSDataType.STRING,
+          TSDataType.FLOAT,
+          TSDataType.DOUBLE);
+  List<ColumnCategory> columnTypeList =
+      new ArrayList<>(
+          Arrays.asList(
+              ColumnCategory.TAG,
+              ColumnCategory.TAG,
+              ColumnCategory.TAG,
+              ColumnCategory.ATTRIBUTE,
+              ColumnCategory.FIELD,
+              ColumnCategory.FIELD));
+  Tablet tablet = new Tablet("table1", columnNameList, dataTypeList, columnTypeList, 100);
+  for (long timestamp = 0; timestamp < 100; timestamp++) {
+    int rowIndex = tablet.getRowSize();
+    tablet.addTimestamp(rowIndex, timestamp);
+    tablet.addValue("region_id", rowIndex, "1");
+    tablet.addValue("plant_id", rowIndex, "5");
+    tablet.addValue("device_id", rowIndex, "3");
+    tablet.addValue("model", rowIndex, "A");
+    tablet.addValue("temperature", rowIndex, 37.6F);
+    tablet.addValue("humidity", rowIndex, 111.1);
+    if (tablet.getRowSize() == tablet.getMaxRowNumber()) {
+      session.insert(tablet);
+      tablet.reset();
+    }
+  }
+  if (tablet.getRowSize() != 0) {
+    session.insert(tablet);
+    tablet.reset();
+  }
+}
 ```
 
-1. **Non-segmented write**
+After execution, you can verify the table creation using the following command:
 
 ```SQL
-INSERT INTO table1(time, device_id, s1) VALUES(NOW(), 'tag1', TO_OBJECT(TRUE, 0, X'696F746462'));
+desc table1;
+```
+```shell
++-----------+---------+-----------+
+| ColumnName| DataType|   Category|
++-----------+---------+-----------+
+|       time|TIMESTAMP|       TIME|
+|  region_id|   STRING|        TAG|
+|   plant_id|   STRING|        TAG|
+|  device_id|   STRING|        TAG|
+|      model|   STRING|  ATTRIBUTE|
+|temperature|    FLOAT|      FIELD|
+|   humidity|   DOUBLE|      FIELD|
++-----------+---------+-----------+
 ```
 
-2. **Segmented write**
+## 3. Data Updates
 
-```SQL
--- First write: TO_OBJECT(FALSE, 0, X'696F');
-INSERT INTO table1(time, device_id, s1) VALUES(1, 'tag1', TO_OBJECT(FALSE, 0, X'696F'));
-
--- Second write: TO_OBJECT(FALSE, 2, X'7464');
-INSERT INTO table1(time, device_id, s1) VALUES(1, 'tag1', TO_OBJECT(FALSE, 2, X'7464'));
-
--- Third write: TO_OBJECT(TRUE, 4, X'62');
-INSERT INTO table1(time, device_id, s1) VALUES(1, 'tag1', TO_OBJECT(TRUE, 4, X'62'));
-```
-
-**Notes:**
-
-1. If only partial segments of an Object are written, querying the column will return `NULL`. Data becomes accessible only after all segments are successfully written.
-2. During segmented writes, if the `offset` of the current write does not match the current size of the Object, the write operation will fail.
-3. If `offset=0` is used after partial writes, the existing content will be overwritten with new data.
-
-
-## 2. Data Updates
-
-### 2.1 Syntax
+### 3.1 Syntax
 
 ```SQL
 UPDATE <TABLE_NAME> SET updateAssignment (',' updateAssignment)* (WHERE where=booleanExpression)?

@@ -92,12 +92,15 @@ In this mode, IoTDB's stream processing engine establishes a connection with the
 2. Install UAExpert and fill in your own certificate information.
 
 #### Quick Start
+##### Scenarios Supporting the None Security Policy
 
 1. Use the following SQL to create and start the OPC UA Sink in client-server mode. For detailed syntax, please refer to: [IoTDB OPC Server Syntax](#syntax)
 
    ```sql
-   create pipe p1 with sink ('sink'='opc-ua-sink');
+   create pipe p1 with sink ('sink'='opc-ua-sink', 'opcua.security-policy'='AES128_SHA256_RSAOAEP, AES256_SHA256_RSAPSS, BASIC256SHA256, NONE');
    ```
+
+   Note: Since version V1.3.7.2, None is no longer supported by default. To use it, you must manually enable it via the security-policy parameter as shown above.
 
 2. Write some data.
 
@@ -135,6 +138,9 @@ In this mode, IoTDB's stream processing engine establishes a connection with the
 
    :::
 
+   Note: Since the SecurityPolicy is set to None, mutual certificate trust is not required. For production environments, it is recommended to use a non-None SecurityPolicy for connection, which requires mutual certificate trust. For operations, refer to the Pub/Sub mode section below. In the Client/Server certificate directory (search for the keyword keyStore in the printed logs), move the contents in reject to trusted/certs. Follow the sequence: connect → move server directory → connect → move client directory → connect.
+
+
 5. You can drag the node on the left to the center and display the latest value of that node:
 
    ::: center
@@ -142,6 +148,32 @@ In this mode, IoTDB's stream processing engine establishes a connection with the
    <img src="/img/OPCUA07.png" alt="" style="width: 60%;"/>
 
    :::
+
+##### Scenarios Not Supporting the None Security Policy
+1. Use the following SQL to create and start the OPC UA service.
+   ```SQL
+   create pipe p1 with sink ('sink'='opc-ua-sink');
+   ```
+   
+   Note: Since version V1.3.7.2, OpcUaSink no longer supports None mode by default for security considerations.
+
+2. Insert some test data.
+   ```SQL
+   insert into root.test.db(time, s2) values(now(), 2);
+   ```
+   
+3. Configure the IoTDB connection in UAExpert:
+
+   - Do not access the URL directly; endpoints must be discovered using the Discover method
+   - The client first sends a GetEndpoints request with the None policy to retrieve the endpoint list
+   - It then selects the corresponding encrypted endpoint based on the configured Basic256Sha256 + SignAndEncrypt to establish an encrypted connection
+
+   ![](/img/opc-ua-un-none-1.png)
+
+4. Use the same username and password configuration as above. After selecting the relevant connection mode (Sign / Sign & Encrypt), if the following prompt appears, click Ignore to connect directly.
+
+   ![](/img/opc-ua-un-none-2.png)
+
 
 ### Pub / Sub Mode 
 

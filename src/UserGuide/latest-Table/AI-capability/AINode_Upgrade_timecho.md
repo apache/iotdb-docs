@@ -65,7 +65,11 @@ TimechoDB-AINode supports three major functions: model inference, model fine-tun
 
 ### 4.1 Model Inference
 
-TimechoDB-AINode provides the following time series prediction capabilities:
+The AINode table model supports two major inference capabilities: time series prediction and time series classification.
+
+#### 4.1.1 Time Series Prediction
+
+The time series prediction capability provided by the AINode table model includes:
 
 * **Univariate Prediction**: Supports prediction of a single target variable.
 * **Covariate Prediction**: Can simultaneously predict multiple target variables and supports introducing covariates in prediction to improve accuracy.
@@ -85,6 +89,7 @@ SELECT * FROM FORECAST(
    OUTPUT_INTERVAL,
    TIMECOL, 
    PRESERVE_INPUT,
+   AUTO_ADAPT, -- Boolean type, indicating whether adaptive mode is enabled.
    MODEL_OPTIONS]?
 )
 ```
@@ -92,19 +97,19 @@ SELECT * FROM FORECAST(
 * Built-in model inference does not require a registration process. By using the forecast function and specifying model_id, you can use the inference function of the model.
 * Parameter description
 
-| Parameter Name | Parameter Type | Parameter Attributes | Description | Required | Notes |
-|----------------|----------------|----------------------|-------------|----------|-------|
-| model_id | Scalar parameter | String type | Unique identifier of the prediction model | Yes | |
-| targets | Table parameter | SET SEMANTIC | Input data for the target variables to be predicted. IoTDB will automatically sort the data in ascending order of time before passing it to AINode. | Yes | Use SQL to describe the input data with target variables. If the input SQL is invalid, corresponding query errors will be reported. |
-| history_covs | Scalar parameter | String type (valid table model query SQL), default: none | Specifies historical data of covariates for this prediction task, which are used to assist in predicting target variables. AINode will not output prediction results for historical covariates. Before passing data to the model, AINode will automatically sort the data in ascending order of time. | No | 1. Query results can only contain FIELD columns; 2. Other: Different models may have specific requirements, and errors will be thrown if not met. |
-| future_covs | Scalar parameter | String type (valid table model query SQL), default: none | Specifies future data of some covariates for this prediction task, which are used to assist in predicting target variables. Before passing data to the model, AINode will automatically sort the data in ascending order of time. | No | 1. Can only be specified when history_covs is set; 2. The covariate names involved must be a subset of history_covs; 3. Query results can only contain FIELD columns; 4. Other: Different models may have specific requirements, and errors will be thrown if not met. |
-| auto_adapt         | Scalar parameter | Boolean type, default value: true              | Whether to enable adaptive processing for covariate inference.(Support from V2.0.8.2) | No       | When adaptive mode is enabled: 1. If the set of future covariates (`future_covs`) is not a subset of the historical covariates (`history_covs`), any future covariates not present in the historical set will be automatically discarded. 2. If the length of any historical covariate does not match the length of the input target variable: a. If shorter, pad zeros at the beginning; b. If longer, discard the earliest data points. 3. If the length of any future covariate does not match the prediction length (`output_length`): a. If shorter, pad zeros at the end; b. If longer, discard the most recent data points. |
-| output_start_time | Scalar parameter | Timestamp type. Default value: last timestamp of target variable + output_interval | Starting timestamp of output prediction points [i.e., forecast start time] | No | Must be greater than the maximum timestamp of target variable timestamps |
-| output_length | Scalar parameter | INT32 type. Default value: 96 | Output window size | No | Must be greater than 0 |
-| output_interval | Scalar parameter | Time interval type. Default value: (last timestamp - first timestamp of input data) / n - 1 | Time interval between output prediction points. Supported units: ns, us, ms, s, m, h, d, w | No | Must be greater than 0 |
-| timecol | Scalar parameter | String type. Default value: time | Name of time column | No | Must be a TIMESTAMP column existing in targets |
-| preserve_input | Scalar parameter | Boolean type. Default value: false | Whether to retain all original rows of target variable input in the output result set | No | |
-| model_options | Scalar parameter | String type. Default value: empty string | Key-value pairs related to the model, such as whether to normalize the input. Different key-value pairs are separated by ';'. | No | |
+| Parameter Name | Parameter Type | Parameter Attributes | Description | Required | Notes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+|----------------|----------------|----------------------|-------------|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| model_id | Scalar parameter | String type | Unique identifier of the prediction model | Yes |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| targets | Table parameter | SET SEMANTIC | Input data for the target variables to be predicted. IoTDB will automatically sort the data in ascending order of time before passing it to AINode. | Yes | Use SQL to describe the input data with target variables. If the input SQL is invalid, corresponding query errors will be reported.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| history_covs | Scalar parameter | String type (valid table model query SQL), default: none | Specifies historical data of covariates for this prediction task, which are used to assist in predicting target variables. AINode will not output prediction results for historical covariates. Before passing data to the model, AINode will automatically sort the data in ascending order of time. | No | 1. Query results can only contain FIELD columns; <br> 2. Other: Different models may have specific requirements, and errors will be thrown if not met.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| future_covs | Scalar parameter | String type (valid table model query SQL), default: none | Specifies future data of some covariates for this prediction task, which are used to assist in predicting target variables. Before passing data to the model, AINode will automatically sort the data in ascending order of time. | No | 1. Can only be specified when history_covs is set; <br> 2. The covariate names involved must be a subset of history_covs; <br> 3. Query results can only contain FIELD columns; <br> 4. Other: Different models may have specific requirements, and errors will be thrown if not met.                                                                                                                                                                                                                                                                                                                                                                 |
+| auto_adapt         | Scalar parameter | Boolean type, default value: true              | Whether to enable adaptive processing for covariate inference.(Support from V2.0.8.2) | No       | When adaptive mode is enabled:<br> 1. If the set of future covariates (`future_covs`) is not a subset of the historical covariates (`history_covs`), any future covariates not present in the historical set will be automatically discarded.<br>  2. If the length of any historical covariate does not match the length of the input target variable: a. If shorter, pad zeros at the beginning; b. If longer, discard the earliest data points. <br> 3. If the length of any future covariate does not match the prediction length (`output_length`): a. If shorter, pad zeros at the end; b. If longer, discard the most recent data points. |
+| output_start_time | Scalar parameter | Timestamp type. Default value: last timestamp of target variable + output_interval | Starting timestamp of output prediction points [i.e., forecast start time] | No | Must be greater than the maximum timestamp of target variable timestamps                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| output_length | Scalar parameter | INT32 type. Default value: 96 | Output window size | No | Must be greater than 0                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| output_interval | Scalar parameter | Time interval type. Default value: (last timestamp - first timestamp of input data) / n - 1 | Time interval between output prediction points. Supported units: ns, us, ms, s, m, h, d, w | No | Must be greater than 0                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| timecol | Scalar parameter | String type. Default value: time | Name of time column | No | Must be a TIMESTAMP column existing in targets                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| preserve_input | Scalar parameter | Boolean type. Default value: false | Whether to retain all original rows of target variable input in the output result set | No |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| model_options | Scalar parameter | String type. Default value: empty string | Key-value pairs related to the model, such as whether to normalize the input. Different key-value pairs are separated by ';'. | No |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 
 Notes:
 * **Default behavior**: Predict all columns of targets. Currently, only supports INT32, INT64, FLOAT, DOUBLE types.
@@ -130,7 +135,13 @@ create database etth;
 create table eg (hufl FLOAT FIELD, hull FLOAT FIELD, mufl FLOAT FIELD, mull FLOAT FIELD, lufl FLOAT FIELD, lull FLOAT FIELD, ot FLOAT FIELD)
 ```
 
-Prepare original data [ETTh1-tab](/img/ETTh1-tab.csv)
+Prepare original data [ETTh1-tab](/img/ETTh1-tab.csv). 
+
+You can import the raw data using the [import-data](../Tools-System/Data-Import-Tool_timecho.md#_2-2-csv-format) script. For example:
+
+```bash
+./tools/import-data.sh -ft csv -sql_dialect table -db etth -table eg -s ~/Desktop/model-compare-html/ETTh1-tab.csv
+```
 
 Use the first 96 rows of data from column ot in table eg to predict its future 96 rows of data.
 
@@ -175,6 +186,17 @@ create table tab_real (target1 DOUBLE FIELD, target2 DOUBLE FIELD, cov1 DOUBLE F
 Prepare original data
 
 ```SQL
+-- Insert statement
+IoTDB:etth> INSERT INTO tab_real (time, target1, target2, cov1, cov2, cov3) VALUES
+(1, 1.0, 1.0, 1.0, 1.0, 1.0),
+(2, 2.0, 2.0, 2.0, 2.0, 2.0),
+(3, 3.0, 3.0, 3.0, 3.0, 3.0),
+(4, 4.0, 4.0, 4.0, 4.0, 4.0),
+(5, 5.0, 5.0, 5.0, 5.0, 5.0),
+(6, 6.0, 6.0, 6.0, 6.0, 6.0),
+(7, NULL, NULL, NULL, NULL, 7.0),
+(8, NULL, NULL, NULL, NULL, 8.0);
+
 IoTDB:etth> SELECT * FROM tab_real
 +-----------------------------+-------+-------+----+----+----+
 |                         time|target1|target2|cov1|cov2|cov3|
@@ -188,18 +210,6 @@ IoTDB:etth> SELECT * FROM tab_real
 |1970-01-01T08:00:00.007+08:00|   null|   null|null|null| 7.0|
 |1970-01-01T08:00:00.008+08:00|   null|   null|null|null| 8.0|
 +-----------------------------+-------+-------+----+----+----+
-
-
--- Insert statement
-IoTDB:etth> INSERT INTO tab_real (time, target1, target2, cov1, cov2, cov3) VALUES
-(1, 1.0, 1.0, 1.0, 1.0, 1.0),
-(2, 2.0, 2.0, 2.0, 2.0, 2.0),
-(3, 3.0, 3.0, 3.0, 3.0, 3.0),
-(4, 4.0, 4.0, 4.0, 4.0, 4.0),
-(5, 5.0, 5.0, 5.0, 5.0, 5.0),
-(6, 6.0, 6.0, 6.0, 6.0, 6.0),
-(7, NULL, NULL, NULL, NULL, 7.0),
-(8, NULL, NULL, NULL, NULL, 8.0);
 ```
 
 * Prediction task 1: Use historical covariates cov1, cov2, and cov3 to assist in predicting target variables target1 and target2.
@@ -322,6 +332,77 @@ IoTDB:etth> INSERT INTO tab_real (time, target1, target2, cov1, cov2, cov3) VALU
       ```
 
 
+#### 4.1.2 Time Series Classification
+
+Time series classification is a critical capability beyond time series prediction, with extensive applications in industrial scenarios. Its typical paradigm is to input the recent sampling values of multiple measuring points, comprehensively judge the overall operating status of the equipment, and output a classification label for the current status. For example, it can be used for operating status classification of new energy battery pack equipment and other scenarios.
+
+The AINode table model supports executing time series classification tasks by calling covariate classification models.
+
+> Note: This feature is available starting from version V2.0.9.1.
+
+1. **SQL Syntax**
+```sql
+SELECT * FROM CLASSIFY(
+   MODEL_ID,
+   INPUTS -- SQL to retrieve input variables
+   [TIMECOL, 
+   MODEL_OPTIONS]?
+)
+```
+
+* Parameter Description
+
+| Parameter Name | Parameter Type | Parameter Attribute | Description | Required | Remarks |
+|----------------|----------------|---------------------|-------------|----------|---------|
+| model_id       | Scalar Parameter | String | Unique identifier of the model used for classification | Yes | - |
+| inputs         | Table Parameter | SET SEMANTIC | Input data to be classified. IoTDB will automatically sort the data in ascending chronological order before passing it to AINode. | Yes | Describes the input data to be classified via SQL; corresponding query errors will be thrown if the input SQL is invalid. |
+| timecol        | Scalar Parameter | String, Default: `time` | Name of the time column | No | Must be a column of TIMESTAMP type present in the `inputs` result set; otherwise, an error will be thrown. |
+| model_options  | Scalar Parameter | String, Default: Empty string | Model-related key-value pairs (e.g., whether input normalization is required). Different key-value pairs are separated by `;`. | No | Unsupported parameters for a specific model will be ignored without throwing errors. |
+
+**Specifications**
+
+* **Input Data Requirements**
+    - Type Constraint: Only INT32, INT64, FLOAT, and DOUBLE data types are supported currently.
+    - Row Count Constraint: Varies by model. Errors will be thrown if the row count is below the minimum or above the maximum required by the model.
+    - Column Count Constraint**: Must include a time column. Univariate classification models support only one data column and will throw an error for multiple columns; multivariate classification models generally have no restrictions unless explicitly specified by the model itself.
+    - Order Constraint: Multivariate zero-shot classification models generally have no order restrictions unless explicitly specified by the model itself.
+
+* **Output Result**
+  The returned result is a table composed of time series data classification results, and its schema depends on the specific implementation of the model.
+
+2. **Usage Example**
+
+Suppose a project has 10 time series variables with an input length of 192. The custom `mantis_custom` model is used as an example for time series classification inference.
+
+* Model Registration
+```sql
+CREATE MODEL mantis_custom USING URI 'file:///path/to/mantis'
+```
+For detailed steps to register a custom model, refer to Section 4.3.
+
+* Execute SQL
+```sql
+IoTDB:etth> SELECT * FROM CLASSIFY (
+    MODEL_ID => 'mantis_custom',
+    INPUTS => (
+        SELECT Time, HUFL,HULL,MUFL,MULL,LUFL,LULL,OT,UT,MT,LT
+        FROM eg
+        WHERE TIME < 2016-07-09 00:00:00
+        ORDER BY TIME DESC
+        LIMIT 192) ORDER BY TIME
+)
+```
+
+* Execution Result
+```sql
++--------+
+|category|
++--------+
+|       4|
++--------+
+```
+
+
 ### 4.2 Model Fine-Tuning
 
 AINode supports model fine-tuning through SQL.
@@ -404,7 +485,7 @@ IoTDB> show models
 
 1. AINode currently uses transformers version 4.56.2, so when building the model, avoid inheriting interfaces from lower versions (<4.50);
 2. The model must inherit a pipeline for inference tasks of AINode (currently supports prediction pipeline):
-    1. iotdb-core/ainode/iotdb/ainode/core/inference/pipeline/basic_pipeline.py
+   * iotdb-core/ainode/iotdb/ainode/core/inference/pipeline/basic_pipeline.py
 
    ```Python
    class BasicPipeline(ABC):
@@ -498,13 +579,13 @@ IoTDB> show models
    }
    ```
 
-    1. Must specify the Config class and model class through auto_map;
-    2. Must integrate and specify the inference pipeline class;
-    3. For built-in (builtin) and custom (user_defined) models managed by AINode, the model category (model_type) also serves as a unique identifier. That is, the model category to be registered must not duplicate any existing model types. Models created through fine-tuning will inherit the model category of the original model.
+   * Must specify the Config class and model class through auto_map;
+   * Must integrate and specify the inference pipeline class;
+   * For built-in (builtin) and custom (user_defined) models managed by AINode, the model category (model_type) also serves as a unique identifier. That is, the model category to be registered must not duplicate any existing model types. Models created through fine-tuning will inherit the model category of the original model.
 4. Ensure the model directory to be registered contains the following files, and the model configuration file name and weight file name are not customizable:
-    1. Model configuration file: config.json;
-    2. Model weight file: model.safetensors;
-    3. Model code: other .py files.
+   * Model configuration file: config.json;
+   * Model weight file: model.safetensors;
+   * Model code: other .py files.
 
 **The SQL syntax for registering custom models is as follows:**
 

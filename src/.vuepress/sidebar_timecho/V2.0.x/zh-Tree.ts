@@ -38,7 +38,7 @@ export const zhSidebar = {
       prefix: 'Background-knowledge/',
       children: [
         { text: '常见概念', link: 'Cluster-Concept_timecho' },
-        { text: '时序数据模型', link: 'Navigating_Time_Series_Data' },
+        { text: '时序数据模型', link: 'Navigating_Time_Series_Data_timecho' },
         { text: '建模方案设计', link: 'Data-Model-and-Terminology_timecho' },
         { text: '数据类型', link: 'Data-Type' },
       ],
@@ -145,6 +145,7 @@ export const zhSidebar = {
             { text: '查询性能分析', link: 'Query-Performance-Analysis' },
             { text: '集群维护', link: 'Load-Balance' },
             { text: '运维语句', link: 'Maintenance-statement_timecho' },
+            { text: '开机自启', link: 'Auto-Start-On-Boot_timecho' },
           ],
         },
       ],

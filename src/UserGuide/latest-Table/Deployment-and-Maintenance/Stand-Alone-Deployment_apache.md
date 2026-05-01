@@ -97,12 +97,19 @@ cd  apache-iotdb-{version}-all-bin
 
 Edit the following files for memory allocation:
 
-- **ConfigNode**: `conf/confignode-env.sh` (or `.bat` for Windows)
-- **DataNode**: `conf/datanode-env.sh` (or `.bat` for Windows)
+- **ConfigNode**: `./conf/confignode-env.sh` (or `.bat` for Windows)
 
-| **Parameter** | **Description**                     | **Default** | **Recommended** | **Notes**               |
-| :------------ | :---------------------------------- | :---------- | :-------------- | :---------------------- |
-| MEMORY_SIZE   | Total memory allocated for the node | Empty       | As needed       | Save changes without immediate execution; modifications take effect after service restart. |
+| **Parameter** | **Description**                    | **Default** | **Recommended** | **Notes**                               |
+| :------------ | :--------------------------------- | :---------- | :-------------- | :-------------------------------------- |
+| MEMORY_SIZE   | Total memory allocated to the node | Automatically calculated based on system memory, defaulting to 30% of the system memory.        | As needed       | Save changes without immediate execution; modifications take effect after service restart. |
+
+
+- **DataNode**: `./conf/datanode-env.sh` (or `.bat` for Windows)
+
+| **Parameter** | **Description**                    | **Default**                                                                              | **Recommended** | **Notes**                               |
+| :------------ | :--------------------------------- |:-----------------------------------------------------------------------------------------| :-------------- | :-------------------------------------- |
+| MEMORY_SIZE   | Total memory allocated to the node | Automatically calculated based on system memory, defaulting to 50% of the system memory. | As needed       | Save changes without immediate execution; modifications take effect after service restart. |
+
 
 #### 2.3.2 General Configuration
 

@@ -84,7 +84,7 @@ SELECT * FROM table1;
 
 执行结果如下：
 
-```sql
+```shell
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
 |                         time|region|plant_id|device_id|model_id|maintenance|temperature|humidity|status|                   modifytime|
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -123,7 +123,7 @@ SELECT count(*) FROM table1;
 
 执行结果如下：
 
-```sql
+```shell
 +-----+
 |_col0|
 +-----+
@@ -143,7 +143,7 @@ SELECT region, count(*)
 
 执行结果如下：
 
-```sql
+```shell
 +------+-----+
 |region|_col1|
 +------+-----+
@@ -166,7 +166,7 @@ IoTDB> SELECT * FROM table1;
 
 执行结果如下：
 
-```sql
+```shell
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
 |                         time|region|plant_id|device_id|model_id|maintenance|temperature|humidity|status|                   modifytime|
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -203,7 +203,7 @@ IoTDB> SELECT device_id
 
 执行结果如下：
 
-```sql
+```shell
 +------+
 |device|
 +------+
@@ -240,7 +240,7 @@ IoTDB> SELECT table1.*
 
 执行结果如下：
 
-```sql
+```shell
 +-----------------------------+----+----+-----+---+---+----+----+-----+-----------------------------+
 |                    TIMESTAMP| REG|  PL|DEVID|MOD|MNT|TEMP| HUM| STAT|                        MTIME|
 +-----------------------------+----+----+-----+---+---+----+----+-----+-----------------------------+
@@ -267,43 +267,17 @@ Total line number = 18
 It costs 0.189s
 ```
 
-#### 3.1.4 Object 类型查询
-
-> V2.0.8-beta 版本起支持
-
-示例一：直接查询 object 类型数据
-
-```SQL
-IoTDB:database1> select s1 from table1 where device_id = 'tag1'
-+------------+
-|          s1|
-+------------+
-|(Object) 5 B|
-+------------+
-Total line number = 1
-It costs 0.428s
-```
-
-示例二：通过 read\_object 函数查询 Object 类型数据的真实内容
-
-```SQL
-IoTDB:database1> select read_object(s1) from table1 where device_id = 'tag1'
-+------------+
-|       _col0|
-+------------+
-|0x696f746462|
-+------------+
-Total line number = 1
-It costs 0.188s
-```
-
-
 ### 3.2 Columns 函数
 
 1. 不结合表达式
+
+查询列名以 'm' 开头的列的数据
 ```sql
--- 查询列名以 'm' 开头的列的数据
-IoTDB:database1> select columns('^m.*') from table1 limit 5
+IoTDB:database1> select columns('^m.*') from table1 limit 5;
+```
+
+执行结果如下：
+```shell
 +--------+-----------+
 |model_id|maintenance|
 +--------+-----------+
@@ -313,15 +287,23 @@ IoTDB:database1> select columns('^m.*') from table1 limit 5
 |       C|         90|
 |       C|         90|
 +--------+-----------+
+```
 
-
--- 查询列名以 'o' 开头的列，未匹配到任何列，抛出异常
-IoTDB:database1> select columns('^o.*') from table1 limit 5
+查询列名以 'o' 开头的列，未匹配到任何列，抛出异常
+```SQL
+IoTDB:database1> select columns('^o.*') from table1 limit 5;
+```
+执行结果如下：
+```shell
 Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: No matching columns found that match regex '^o.*'
+```
 
-
--- 查询列名以 'm' 开头的列的数据，并重命名以 'series_' 开头
-IoTDB:database1> select columns('^m(.*)') AS "series_$0" from table1 limit 5
+查询列名以 'm' 开头的列的数据，并重命名以 'series_' 开头
+```SQL
+IoTDB:database1> select columns('^m(.*)') AS "series_$0" from table1 limit 5;
+```
+执行结果如下：
+```shell
 +---------------+------------------+
 |series_model_id|series_maintenance|
 +---------------+------------------+
@@ -336,9 +318,13 @@ IoTDB:database1> select columns('^m(.*)') AS "series_$0" from table1 limit 5
 2. 结合表达式
 
 - 单个 COLUMNS 函数
+
+查询所有列的最小值
 ```sql
--- 查询所有列的最小值
-IoTDB:database1> select min(columns(*)) from table1
+IoTDB:database1> select min(columns(*)) from table1;
+```
+执行结果如下：
+```shell
 +-----------------------------+------------+--------------+---------------+--------------+-----------------+-----------------+--------------+------------+-----------------------------+
 |                   _col0_time|_col1_region|_col2_plant_id|_col3_device_id|_col4_model_id|_col5_maintenance|_col6_temperature|_col7_humidity|_col8_status|           _col9_arrival_time|
 +-----------------------------+------------+--------------+---------------+--------------+-----------------+-----------------+--------------+------------+-----------------------------+
@@ -350,33 +336,48 @@ IoTDB:database1> select min(columns(*)) from table1
 
 > 使用限制：出现多个 COLUMNS 函数时，多个 COLUMNS 函数的参数要完全相同
 
+查询 'h' 开头列的最小值和最大值之和
 ```sql
--- 查询 'h' 开头列的最小值和最大值之和
-IoTDB:database1> select min(columns('^h.*')) + max(columns('^h.*')) from table1
+IoTDB:database1> select min(columns('^h.*')) + max(columns('^h.*')) from table1;
+```
+执行结果如下：
+```shell
 +--------------+
 |_col0_humidity|
 +--------------+
 |     79.899994|
 +--------------+
+```
 
--- 错误查询，两个 COLUMNS 函数不完全相同
-IoTDB:database1> select min(columns('^h.*')) + max(columns('^t.*')) from table1
+错误查询，两个 COLUMNS 函数不完全相同
+```SQL 
+IoTDB:database1> select min(columns('^h.*')) + max(columns('^t.*')) from table1;
+```
+执行结果如下：
+```shell
 Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Multiple different COLUMNS in the same expression are not supported
 ```
 
 - 多个 COLUMNS 函数，出现在不同表达式
 
+分别查询 'h' 开头列的最小值和最大值
 ```sql
--- 分别查询 'h' 开头列的最小值和最大值
-IoTDB:database1> select min(columns('^h.*')) , max(columns('^h.*')) from table1
+IoTDB:database1> select min(columns('^h.*')) , max(columns('^h.*')) from table1;
+```
+执行结果如下：
+```shell
 +--------------+--------------+
 |_col0_humidity|_col1_humidity|
 +--------------+--------------+
 |          34.8|          45.1|
 +--------------+--------------+
-
--- 分别查询 'h' 开头列的最小值和 'te'开头列的最大值
-IoTDB:database1> select min(columns('^h.*')) , max(columns('^te.*')) from table1
+```
+分别查询 'h' 开头列的最小值和 'te'开头列的最大值
+```SQL 
+IoTDB:database1> select min(columns('^h.*')) , max(columns('^te.*')) from table1;
+```
+执行结果如下：
+```shell
 +--------------+-----------------+
 |_col0_humidity|_col1_temperature|
 +--------------+-----------------+
@@ -386,9 +387,12 @@ IoTDB:database1> select min(columns('^h.*')) , max(columns('^te.*')) from table1
 
 3. 在 WHERE 子句中使用
 
+查询数据，所有 'h' 开头列的数据必须要大于 40
 ```sql
--- 查询数据，所有 'h' 开头列的数据必须要大于 40
-IoTDB:database1> select * from table1 where columns('^h.*') > 40
+IoTDB:database1> select * from table1 where columns('^h.*') > 40;
+```
+执行结果如下：
+```shell
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
 |                         time|region|plant_id|device_id|model_id|maintenance|temperature|humidity|status|                 arrival_time|
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -396,9 +400,13 @@ IoTDB:database1> select * from table1 where columns('^h.*') > 40
 |2024-11-28T09:00:00.000+08:00|  上海|    3001|      100|       C|         90|       null|    40.9|  true|                         null|
 |2024-11-28T11:00:00.000+08:00|  上海|    3001|      100|       C|         90|       88.0|    45.1|  true|2024-11-28T11:00:12.000+08:00|
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
-
---等价于
-IoTDB:database1> select * from table1 where humidity > 40
+```
+等价于
+```SQL
+IoTDB:database1> select * from table1 where humidity > 40;
+```
+执行结果如下：
+```shell
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
 |                         time|region|plant_id|device_id|model_id|maintenance|temperature|humidity|status|                 arrival_time|
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+

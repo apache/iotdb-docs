@@ -35,11 +35,14 @@ CREATE DATABASE (IF NOT EXISTS)? <DATABASE_NAME> (WITH properties)?
 
 **示例：**
 
+创建一个名为 database1 的数据库, 数据库的 TTL 时间默认永久。
 ```SQL
 CREATE DATABASE database1;
 CREATE DATABASE IF NOT EXISTS database1;
+```
 
--- 创建一个名为 database1 的数据库，并将数据库的TTL时间设置为1年;
+创建一个名为 database1 的数据库，并将数据库的 TTL 时间设置为1年。
+```SQL
 CREATE DATABASE IF NOT EXISTS database1 with(TTL=31536000000);
 ```
 
@@ -67,6 +70,7 @@ SHOW CURRENT_DATABASE;
 
 **示例：**
 
+未执行过 `use`语句指定数据库
 ```SQL
 SHOW CURRENT_DATABASE;
 ```
@@ -77,6 +81,7 @@ SHOW CURRENT_DATABASE;
 |           null|
 +---------------+
 ```
+执行 `use`语句指定数据库 database1
 ```sql
 USE database1;
 SHOW CURRENT_DATABASE;
@@ -101,8 +106,9 @@ SHOW DATABASES (DETAILS)?
 
 **示例:**
 
+查看所有数据库
 ```SQL
-show databases;
+SHOW DATABASES;
 ```
 ```shell
 +------------------+-------+-----------------------+---------------------+---------------------+
@@ -112,8 +118,10 @@ show databases;
 |information_schema|    INF|                   null|                 null|                 null|
 +------------------+-------+-----------------------+---------------------+---------------------+
 ```
+
+查看所有数据库详情
 ```sql
-show databases details;
+SHOW DATABASES DETAILS;
 ```
 ```shell
 +------------------+-------+-----------------------+---------------------+---------------------+--------------------+------------------+
@@ -134,6 +142,7 @@ ALTER DATABASE (IF EXISTS)? database=identifier SET PROPERTIES propertyAssignmen
 
 **示例:**
 
+修改数据库 database1 的 TTL 时间为1年
 ```SQL
 ALTER DATABASE database1 SET PROPERTIES TTL=31536000000;
 ```
@@ -148,6 +157,7 @@ DROP DATABASE (IF EXISTS)? <DATABASE_NAME>;
 
 **示例:**
 
+删除数据库 database1
 ```SQL
 DROP DATABASE IF EXISTS database1;
 ```
@@ -191,6 +201,7 @@ comment
 
 **示例:**
 
+创建表 table1 并将表的 TTL 设置为1年
 ```SQL
 CREATE TABLE table1 (
   time TIMESTAMP TIME,
@@ -204,21 +215,30 @@ CREATE TABLE table1 (
   status Boolean FIELD COMMENT 'status',
   arrival_time TIMESTAMP FIELD COMMENT 'arrival_time'
 ) COMMENT 'table1' WITH (TTL=31536000000);
+```
 
+创建空表 tableB
+```SQL
 CREATE TABLE if not exists tableB ();
+```
 
+创建表 tableC 
+```SQL
 CREATE TABLE tableC (
   station STRING TAG,
   temperature int32 FIELD COMMENT 'temperature'
  ) with (TTL=DEFAULT);
- 
--- 自定义时间列:命名为time_test, 位于表的第二列 (V2.0.8-beta 起支持）
+```
+
+创建表 table1 并自定义时间列:命名为time_test, 位于表的第二列 (V2.0.8 起支持）
+```SQL
 CREATE TABLE table1 (
  region STRING TAG, 
  time_user_defined TIMESTAMP TIME, 
  temperature FLOAT FIELD
 );
 ```
+
 注意：若您使用的终端不支持多行粘贴（例如 Windows CMD），请将 SQL 语句调整为单行格式后再执行。
 
 ### 2.2 查看表
@@ -231,6 +251,7 @@ SHOW TABLES (DETAILS)? ((FROM | IN) database_name)?
 
 **示例:**
 
+查看数据库 database1 下的所有表
 ```SQL
 show tables from database1;
 ```
@@ -241,6 +262,8 @@ show tables from database1;
 |   table1|    31536000000|
 +---------+---------------+
 ```
+
+查看数据库 database1 下的所有表及其属性信息
 ```sql
 show tables details from database1;
 ```
@@ -262,6 +285,7 @@ show tables details from database1;
 
 **示例:**
 
+查看表 table1 的列信息
 ```SQL
 desc table1;
 ```
@@ -281,6 +305,7 @@ desc table1;
 |arrival_time|TIMESTAMP|    FIELD|
 +------------+---------+---------+
 ```
+查看表 table1 的列详细信息
 ```sql
 desc table1 details;
 ```
@@ -311,6 +336,7 @@ SHOW CREATE TABLE <TABLE_NAME>
 
 **示例:**
 
+查看表 table1 的创建信息
 ```SQL
 show create table table1;
 ```
@@ -320,7 +346,6 @@ show create table table1;
 +------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |table1|CREATE TABLE "table1" ("region" STRING TAG,"plant_id" STRING TAG,"device_id" STRING TAG,"model_id" STRING ATTRIBUTE,"maintenance" STRING ATTRIBUTE,"temperature" FLOAT FIELD,"humidity" FLOAT FIELD,"status" BOOLEAN FIELD,"arrival_time" TIMESTAMP FIELD) WITH (ttl=31536000000)|
 +------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-Total line number = 1
 ```
 
 
@@ -342,11 +367,24 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName DROP COLUMN (IF EXISTS)? column
 
 **示例:**
 
+表 table1 增加 tag 列 a
 ```SQL
 ALTER TABLE table1 ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a';
+```
+表 table1 增加 field 列 b
+```SQL
 ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b';
-ALTER TABLE table1 set properties TTL=3600;
+```
+修改表 table1 的 TTL
+```SQL
+ALTER TABLE table1 set properties TTL=3600; 
+```
+表 table1 增加注释
+```SQL
 COMMENT ON TABLE table1 IS 'table1';
+```
+表 table1 的 a 列去掉注释
+```SQL
 COMMENT ON COLUMN table1.a IS null;
 ```
 

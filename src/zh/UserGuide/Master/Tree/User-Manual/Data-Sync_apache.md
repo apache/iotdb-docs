@@ -78,7 +78,7 @@
 
 ### 1.2 功能限制及说明
 
-元数据（schema）、权限（auth）同步功能存在如下限制：
+1. 元数据（schema）、权限（auth）同步功能存在如下限制：
 
 - 使用元数据同步时，要求`Schema region`、`ConfigNode` 的共识协议必须为默认的 ratis 协议，即`iotdb-system.properties`配置文件中是否包含`config_node_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus`、`schema_region_consensus_protocol_class=org.apache.iotdb.consensus.ratis.RatisConsensus`，不包含即为默认值ratis 协议。
 
@@ -87,6 +87,24 @@
 - 开启元数据同步时，不支持使用自定义插件。
 
 - 在进行数据同步任务时，请避免执行任何删除操作，防止两端状态不一致。
+
+2. Pipe 权限控制规范如下：
+
+- 创建 pipe 时，可以对抽取/写回插件指定用户名和密码。密码错误则禁止创建，未指定时默认使用当前用户进行同步。
+
+- 数据/元数据同步时，先根据 Pipe 配置的路径模式(pattern/path)筛选，再基于用户读取权限进行鉴权
+
+    - 权限范围≥写入路径：完整同步
+
+    - 权限范围与写入路径无交集：不同步
+
+    - 权限范围<写入路径或存在交集：同步交集部分
+
+- 遇到无权限数据时，若发送端 skipIf=no-privileges，则跳过无权限数据；若 skipIf 配置为空，任务报错（803错误）
+
+    - 注意：此 skipIf 配置与接收端的 skipIf（默认为空）相互独立
+
+- 对于 root.__system, root.__audit 均不会同步
 
 ## 2. 使用说明
 
@@ -122,7 +140,7 @@ WITH SINK (
 
 **IF NOT EXISTS 语义**：用于创建操作中，确保当指定 Pipe 不存在时，执行创建命令，防止因尝试创建已存在的 Pipe 而导致报错。
 
-**注意**：V2.0.8-beta 起，创建一个全量数据同步 Pipe （例如 Pipeid : `alldatapipe`）时，系统会自动将其拆分为两个独立的 Pipe：
+**注意**：V2.0.8 起，创建一个全量数据同步 Pipe （例如 Pipeid : `alldatapipe`）时，系统会自动将其拆分为两个独立的 Pipe：
 
 * 历史 Pipe：PipeId 为原名称加 _history后缀（如 `alldatapipe_history`），source 参数默认携带 `'realtime.enable'='false', 'inclusion'='data.insert', 'inclusion.exclusion'=''`
 
@@ -198,7 +216,7 @@ SHOW PIPE <PipeId>
 
 示例：
 
-在 V2.0.8-beta 及之后的版本中，创建一个全量数据同步任务，并查看该任务详情
+在 V2.0.8 及之后的版本中，创建一个全量数据同步任务，并查看该任务详情
 
 ```sql
 IoTDB> create pipe alldatapipe with source('inclusion'='all','exclusion'='auth') with sink('node-urls'='127.0.0.1:6668')
@@ -511,19 +529,19 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 
 ### 5.1 source  参数
 
-| 参数                       | 描述                                                                                                                                                                                                                                                                                                                                        | value 取值范围                                                             | 是否必填 | 默认取值       |
-|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------| -------- | -------------- |
-| source                   | iotdb-source                                                                                                                                                                                                                                                                                                                              | String: iotdb-source                                                   | 必填     | -              |
-| inclusion                | 用于指定数据同步任务中需要同步范围，分为数据、元数据和权限                                                                                                                                                                                                                                                                                                             | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | 选填     | data.insert    |
-| inclusion.exclusion      | 用于从 inclusion 指定的同步范围内排除特定的操作，减少同步的数据量                                                                                                                                                                                                                                                                                                    | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | 选填     | 空字符串       |
+| 参数                       | 描述                                                                                                                                                                                                                                                                                                                                   | value 取值范围                                                             | 是否必填 | 默认取值       |
+|--------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------| -------- | -------------- |
+| source                   | iotdb-source                                                                                                                                                                                                                                                                                                                         | String: iotdb-source                                                   | 必填     | -              |
+| inclusion                | 用于指定数据同步任务中需要同步范围，分为数据、元数据和权限                                                                                                                                                                                                                                                                                                        | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | 选填     | data.insert    |
+| inclusion.exclusion      | 用于从 inclusion 指定的同步范围内排除特定的操作，减少同步的数据量                                                                                                                                                                                                                                                                                               | String:all, data(insert,delete), schema(database,timeseries,ttl), auth | 选填     | 空字符串       |
 | mode.streaming           | 此参数指定时序数据写入的捕获来源。适用于 `mode.streaming`为 `false` 模式下的场景，决定`inclusion`中`data.insert`数据的捕获来源。提供两种捕获策略：true： 动态选择捕获的类型。系统将根据下游处理速度，自适应地选择是捕获每个写入请求还是仅捕获 TsFile 文件的封口请求。当下游处理速度快时，优先捕获写入请求以减少延迟；当处理速度慢时，仅捕获文件封口请求以避免处理堆积。这种模式适用于大多数场景，能够实现处理延迟和吞吐量的最优平衡。false：固定按批捕获方式。仅捕获 TsFile 文件的封口请求，适用于资源受限的应用场景，以降低系统负载。注意，pipe 启动时捕获的快照数据只会以文件的方式供下游处理。 | Boolean: true / false                                                  | 否           | true                            |
-| mode.strict              | 在使用 time / path / database-name / table-name 参数过滤数据时，是否需要严格按照条件筛选：`true`： 严格筛选。系统将完全按照给定条件过滤筛选被捕获的数据，确保只有符合条件的数据被选中。`false`：非严格筛选。系统在筛选被捕获的数据时可能会包含一些额外的数据，适用于性能敏感的场景，可降低 CPU 和 IO 消耗。                                                                                                                                                    | Boolean: true / false                                                  | 否           | true                            |
-| mode.snapshot            | 此参数决定时序数据的捕获方式，影响`inclusion`中的`data`数据。提供两种模式：`true`：静态数据捕获。启动 pipe 时，会进行一次性的数据快照捕获。当快照数据被完全消费后，**pipe 将自动终止（DROP PIPE SQL 会自动执行）**。`false`：动态数据捕获。除了在 pipe 启动时捕获快照数据外，还会持续捕获后续的数据变更。pipe 将持续运行以处理动态数据流。                                                                                                                                  | Boolean: true / false                                                  | 否           | false                           |
-| path                     | 当用户连接指定的sql_dialect为tree时可以指定。对于升级上来的用户pipe,默认sql_dialect为tree。此参数决定时序数据的捕获范围,影响 inclusion中的data数据,以及部分序列相关的元数据。当数据的树模型路径能够被path匹配时，数据会被筛选出来进入流处理pipe。<br>  自 V2.0.8-beta 版本起，该参数支持在一个pipe中填写多个精确路径的path , 如 `'path'='root.test.d0,s1,root.test.d0.s2,root.test.d0.s3'`                                                                   | String:IoTDB标准的树路径模式,可以带通配符                                            | 选填     | root.**        |
-| start-time               | 同步所有数据的开始 event time，包含 start-time                                                                                                                                                                                                                                                                                                        | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                                 | 选填     | Long.MIN_VALUE |
-| end-time                 | 同步所有数据的结束 event time，包含 end-time                                                                                                                                                                                                                                                                                                          | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                                 | 选填     | Long.MAX_VALUE |
-| forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据                                                                                                                                                                                                                                                                                                               | Boolean: true, false                                                   | 选填      | true           |
-| mods                     | 同 mods.enable，是否发送 tsfile 的 mods 文件                                                                                                                                                                                                                                                                                                       | Boolean: true / false                                        | 选填     | false          |
+| mode.strict              | 在使用 time / path / database-name / table-name 参数过滤数据时，是否需要严格按照条件筛选：`true`： 严格筛选。系统将完全按照给定条件过滤筛选被捕获的数据，确保只有符合条件的数据被选中。`false`：非严格筛选。系统在筛选被捕获的数据时可能会包含一些额外的数据，适用于性能敏感的场景，可降低 CPU 和 IO 消耗。                                                                                                                                               | Boolean: true / false                                                  | 否           | true                            |
+| mode.snapshot            | 此参数决定时序数据的捕获方式，影响`inclusion`中的`data`数据。提供两种模式：`true`：静态数据捕获。启动 pipe 时，会进行一次性的数据快照捕获。当快照数据被完全消费后，**pipe 将自动终止（DROP PIPE SQL 会自动执行）**。`false`：动态数据捕获。除了在 pipe 启动时捕获快照数据外，还会持续捕获后续的数据变更。pipe 将持续运行以处理动态数据流。                                                                                                                             | Boolean: true / false                                                  | 否           | false                           |
+| path                     | 当用户连接指定的sql_dialect为tree时可以指定。对于升级上来的用户pipe,默认sql_dialect为tree。此参数决定时序数据的捕获范围,影响 inclusion中的data数据,以及部分序列相关的元数据。当数据的树模型路径能够被path匹配时，数据会被筛选出来进入流处理pipe。<br>  自 V2.0.8 版本起，该参数支持在一个pipe中填写多个精确路径的path , 如 `'path'='root.test.d0,s1,root.test.d0.s2,root.test.d0.s3'`                                                                   | String:IoTDB标准的树路径模式,可以带通配符                                            | 选填     | root.**        |
+| start-time               | 同步所有数据的开始 event time，包含 start-time                                                                                                                                                                                                                                                                                                   | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                                 | 选填     | Long.MIN_VALUE |
+| end-time                 | 同步所有数据的结束 event time，包含 end-time                                                                                                                                                                                                                                                                                                     | Long: [Long.MIN_VALUE, Long.MAX_VALUE]                                 | 选填     | Long.MAX_VALUE |
+| forwarding-pipe-requests | 是否转发由其他 Pipe （通常是数据同步）写入的数据                                                                                                                                                                                                                                                                                                          | Boolean: true, false                                                   | 选填      | true           |
+| mods                     | 同 mods.enable，是否发送 tsfile 的 mods 文件                                                                                                                                                                                                                                                                                                  | Boolean: true / false                                        | 选填     | false          |
 
 > 💎  **说明：数据抽取模式 mode.streaming 取值 true 和 false 的差异**
 > - **true（推荐）**：该取值下，任务将对数据进行实时处理、发送，其特点是高时效、低吞吐

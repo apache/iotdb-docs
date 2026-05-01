@@ -20,6 +20,38 @@
 -->
 # Release History
 
+## V2.0.8
+
+> Release Date: 2026.04.14
+
+V2.0.8 expands AI model capabilities by adding support for Chronos-2, one of the mainstream time-series foundation models, while enabling concurrent inference for built-in large models. On the database side, TIME columns now support custom naming, data synchronization path configuration flexibility has been optimized, and comprehensive improvements have been made to database monitoring, performance, and stability. The specific release contents are as follows:
+
+* **Query Module**: Added functionality to display the list of available DataNode nodes
+* **Query Module**: Added system table for统计查询延迟信息 in the table model
+* **Query Module**: Python SessionDataset now supports converting TsBlock to DataFrame and returning DataFrames in batches
+* **Storage Module**: TIME column now supports custom column naming
+* **Storage Module**: Added SQL support for viewing the complete definition statements of created tables/views
+* **Stream Processing Module**: Pipe synchronization now supports excluding specified devices/measurement points from synchronization
+* **Stream Processing Module**: Multiple exact paths can now be specified in a single Pipe
+* **Stream Processing Module**: When filtering paths in Pipe, `source.pattern` and `source.path` parameters can now be used together with comma separation
+* **AI Module**: Built-in Chronos-2 model with prediction support
+* **AI Module**: Timer-XL and Sundial built-in models now support concurrent inference
+* **System Module**: Added system table for displaying DataNode node connection status in the table model
+* **Miscellaneous**: Fixed security vulnerabilities CVE-2025-12183, CVE-2025-66566, and CVE-2025-11226
+
+## V2.0.7
+
+> Release Date: 2026.03.04
+
+V2.0.7 focuses on security hardening and stability optimization. It removes high-risk RPC interfaces and JEXL functions, strengthens naming convention validation and service address configuration logic, optimizes the automatic deletion mechanism for partitioned tables, and provides comprehensive improvements to database monitoring, performance, and stability. The specific release contents are as follows:
+
+* **Miscellaneous**: Removed high-risk RPC interfaces
+* **Miscellaneous**: Removed JEXL functions
+* **Miscellaneous**: Added naming合法性校验 when creating Pipe
+* **Miscellaneous**: Changed the default client RPC service address to 127.0.0.1
+* **Miscellaneous**: Adjusted code logic so that internal services bind to the address configured by `dn_internal_address` instead of the default address
+
+
 ## V2.0.6
 
 > Release Date: 2026.01.20
@@ -133,6 +165,19 @@ V2.0.1-beta introduces dual tree-table model configuration, supporting standard 
     * Unified import/export support for TsFile, CSV and SQL formats
 * ​**​Ecosystem Integration​**​:
     * Kubernetes Operator support
+
+## V1.3.7
+
+> Release Date: 2026.03.04
+
+V1.3.7 focuses on security hardening and stability optimization. It removes high-risk RPC interfaces and JEXL functions, strengthens naming convention validation and service address configuration logic, optimizes the automatic deletion mechanism for partitioned tables, and provides comprehensive improvements to database monitoring, performance, and stability. The specific release contents are as follows:
+
+* **Miscellaneous**: Removed high-risk RPC interfaces
+* **Miscellaneous**: Removed JEXL functions
+* **Miscellaneous**: Added naming合法性校验 when creating Pipe
+* **Miscellaneous**: Changed the default client RPC service address to 127.0.0.1
+* **Miscellaneous**: Adjusted code logic so that internal services bind to the address configured by `dn_internal_address` instead of the default address
+
 
 ## V1.3.6
 

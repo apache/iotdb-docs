@@ -38,7 +38,7 @@ export const zhSidebar = {
       prefix: 'Background-knowledge/',
       children: [
         { text: '常见概念', link: 'Cluster-Concept_apache' },
-        { text: '时序数据模型', link: 'Navigating_Time_Series_Data' },
+        { text: '时序数据模型', link: 'Navigating_Time_Series_Data_apache' },
         { text: '建模方案设计', link: 'Data-Model-and-Terminology_apache' },
         { text: '数据类型', link: 'Data-Type_apache' },
       ],
@@ -76,7 +76,7 @@ export const zhSidebar = {
             collapsible: true,
             children: [
               { text: 'AINode 部署(V2.0.5/6)', link: 'AINode_Deployment_apache' },
-              { text: 'AINode 部署(V2.0.8-beta)', link: 'AINode_Deployment_Upgrade_apache' },
+              { text: 'AINode 部署(V2.0.8)', link: 'AINode_Deployment_Upgrade_apache' },
             ],
           },
       ],
@@ -120,6 +120,7 @@ export const zhSidebar = {
             { text: '查询性能分析', link: 'Query-Performance-Analysis' },
             { text: '集群维护', link: 'Load-Balance' },
             { text: '运维语句', link: 'Maintenance-statement_apache' },
+            { text: '开机自启', link: 'Auto-Start-On-Boot_apache' },
           ],
         },
       ],
@@ -130,9 +131,9 @@ export const zhSidebar = {
       prefix: 'AI-capability/',
       children: [
         { text: 'AINode(V2.0.5/6)', link: 'AINode_apache' },
-        { text: 'AINode(V2.0.8-beta)', link: 'AINode_Upgrade_apache' },
+        { text: 'AINode(V2.0.8)', link: 'AINode_Upgrade_apache' },
         { text: '时序大模型(V2.0.5/6)', link: 'TimeSeries-Large-Model' },
-        { text: '时序大模型(V2.0.8-beta)', link: 'TimeSeries-Large-Model_Upgrade_apache' },
+        { text: '时序大模型(V2.0.8)', link: 'TimeSeries-Large-Model_Upgrade_apache' },
       ],
     },
     {
@@ -229,6 +230,8 @@ export const zhSidebar = {
             { text: 'ORDER BY子句', link: 'OrderBy-Clause' },
             { text: 'LIMIT&OFFSET子句', link: 'Limit-Offset-Clause' },
             { text: '嵌套查询', link: 'Nested-Queries' },
+            { text: '公用表表达式（CTE）', link: 'Common-Table-Expression_apache' },
+            { text: '集合操作', link: 'Set-Operations_apache' },
           ],
         },
         { text: '运维语句', link: 'SQL-Maintenance-Statements_apache' },

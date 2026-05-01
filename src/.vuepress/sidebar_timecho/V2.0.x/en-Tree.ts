@@ -40,7 +40,7 @@ export const enSidebar = {
         { text: 'Common Concepts', link: 'Cluster-Concept_timecho' },
         {
           text: 'Timeseries Data Model',
-          link: 'Navigating_Time_Series_Data',
+          link: 'Navigating_Time_Series_Data_timecho',
         },
         {
           text: 'Modeling Scheme Design',
@@ -163,6 +163,7 @@ export const enSidebar = {
             { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis' },
             { text: 'Cluster Maintenance', link: 'Load-Balance' },
             { text: 'Maintenance statement', link: 'Maintenance-commands_timecho' },
+            { text: 'Auto-start On Boot', link: 'Auto-Start-On-Boot_timecho' },
           ],
         },
       ],

@@ -20,6 +20,20 @@
 -->
 # Release History
 
+## V1.3.7
+
+> Release Date: 2026.03.04
+
+V1.3.7 focuses on security hardening and stability optimization. It removes high-risk RPC interfaces and JEXL functions, strengthens naming convention validation and service address configuration logic, optimizes the automatic deletion mechanism for partitioned tables, and provides comprehensive improvements to database monitoring, performance, and stability. The specific release contents are as follows:
+
+* **Miscellaneous**: Removed high-risk RPC interfaces
+* **Miscellaneous**: Removed JEXL functions
+* **Miscellaneous**: Added naming合法性校验 when creating Pipe
+* **Miscellaneous**: Changed the default client RPC service address to 127.0.0.1
+* **Miscellaneous**: Adjusted code logic so that internal services bind to the address configured by `dn_internal_address` instead of the default address
+
+
+
 ## V1.3.6
 
 > Release Date: 2026.01.20

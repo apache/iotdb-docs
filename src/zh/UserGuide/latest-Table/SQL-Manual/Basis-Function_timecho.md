@@ -155,30 +155,31 @@ SELECT LEAST(temperature,humidity) FROM table2;
 
 ### 2.2 支持的聚合函数                          
 
-| 函数名                   | 功能描述                                                                                                                                     | 允许的输入类型                                                                                 | 输出类型             |
-|-----------------------|------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|------------------|
-| COUNT                 | 计算数据点数。                                                                                                                                  | 所有类型                                                                                    | INT64            |
-| COUNT_IF              | COUNT_IF(exp) 用于统计满足指定布尔表达式的记录行数                                                                                                         | exp 必须是一个布尔类型的表达式，例如 count_if(temperature>20)                                           | INT64            |
-| APPROX_COUNT_DISTINCT | APPROX_COUNT_DISTINCT(x[,maxStandardError]) 函数提供 COUNT(DISTINCT x) 的近似值，返回不同输入值的近似个数。                                 | `x`：待计算列，支持所有类型；<br> `maxStandardError`：指定该函数应产生的最大标准误差，取值范围[0.0040625, 0.26]，未指定值时默认0.023。 | INT64            |
-| APPROX_MOST_FREQUENT | APPROX_MOST_FREQUENT(x, k, capacity) 函数用于近似计算数据集中出现频率最高的前 k 个元素。它返回一个JSON 格式的字符串，其中键是该元素的值，值是该元素对应的近似频率。（V 2.0.5.1 及以后版本支持）  | `x`：待计算列，支持 IoTDB 现有所有的数据类型；<br> `k`：返回出现频率最高的 k 个值；<br> `capacity`: 用于计算的桶的数量，跟内存占用相关：其值越大误差越小，但占用内存更大，反之capacity值越小误差越大，但占用内存更小。 | STRING   |
-| SUM                   | 求和。                                                                                                                                      | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
-| AVG                   | 求平均值。                                                                                                                                    | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
-| MAX                   | 求最大值。                                                                                                                                    | 所有类型                                                                                    | 与输入类型一致          |
-| MIN                   | 求最小值。                                                                                                                                    | 所有类型                                                                                    | 与输入类型一致          |
-| FIRST                 | 求时间戳最小且不为 NULL 的值。                                                                                                                       | 所有类型                                                                                    | 与输入类型一致          |
-| LAST                  | 求时间戳最大且不为 NULL 的值。                                                                                                                       | 所有类型                                                                                    | 与输入类型一致          |
-| STDDEV                | STDDEV_SAMP 的别名，求样本标准差。                                                                                                                  | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
-| STDDEV_POP            | 求总体标准差。                                                                                                                                  | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
-| STDDEV_SAMP           | 求样本标准差。                                                                                                                                  | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
-| VARIANCE              | VAR_SAMP 的别名，求样本方差。                                                                                                                      | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
-| VAR_POP               | 求总体方差。                                                                                                                                   | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
-| VAR_SAMP              | 求样本方差。                                                                                                                                   | INT32 INT64 FLOAT DOUBLE                                                                | DOUBLE           |
-| EXTREME               | 求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。                                                                                                        | INT32 INT64 FLOAT DOUBLE                                                                | 与输入类型一致          |
-| MODE                  | 求众数。注意： 1.输入序列的不同值个数过多时会有内存异常风险; 2.如果所有元素出现的频次相同，即没有众数，则随机返回一个元素; 3.如果有多个众数，则随机返回一个众数； 4. NULL 值也会被统计频次，所以即使输入序列的值不全为 NULL，最终结果也可能为 NULL。 | 所有类型                                                                                    | 与输入类型一致          |
-| MAX_BY                | MAX_BY(x, y) 求二元输入 x 和 y 在 y 最大时对应的 x 的值。MAX_BY(time, x) 返回 x 取最大值时对应的时间戳。                                                               | x 和 y 可以是任意类型                                                                           | 与第一个输入 x 的数据类型一致 |
-| MIN_BY                | MIN_BY(x, y) 求二元输入 x 和 y 在 y 最小时对应的 x 的值。MIN_BY(time, x) 返回 x 取最小值时对应的时间戳。                                                               | x 和 y 可以是任意类型                                                                           | 与第一个输入 x 的数据类型一致 |
-| FIRST_BY              | FIRST_BY(x, y) 求当 y 为第一个不为 NULL 的值时，同一行里对应的 x 值。                                                                                         | x 和 y 可以是任意类型                                                                           | 与第一个输入 x 的数据类型一致 |
-| LAST_BY               | LAST_BY(x, y) 求当 y 为最后一个不为 NULL 的值时，同一行里对应的 x 值。                                                                                         | x 和 y 可以是任意类型                                                                           | 与第一个输入 x 的数据类型一致 |
+| 函数名                   | 功能描述                                                                                                                                                                             | 允许的输入类型                                                                                                                                                                                                                                                                                                               | 输出类型             |
+|-----------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------|
+| COUNT                 | 计算数据点数。                                                                                                                                                                          | 所有类型                                                                                                                                                                                                                                                                                                                  | INT64            |
+| COUNT_IF              | COUNT_IF(exp) 用于统计满足指定布尔表达式的记录行数                                                                                                                                                 | exp 必须是一个布尔类型的表达式，例如 count_if(temperature>20)                                                                                                                                                                                                                                                                         | INT64            |
+| APPROX_COUNT_DISTINCT | APPROX_COUNT_DISTINCT(x[,maxStandardError]) 函数提供 COUNT(DISTINCT x) 的近似值，返回不同输入值的近似个数。                                                                                            | `x`：待计算列，支持所有类型；<br> `maxStandardError`：指定该函数应产生的最大标准误差，取值范围[0.0040625, 0.26]，未指定值时默认0.023。                                                                                                                                                                                                                           | INT64            |
+| APPROX_MOST_FREQUENT  | APPROX_MOST_FREQUENT(x, k, capacity) 函数用于近似计算数据集中出现频率最高的前 k 个元素。它返回一个JSON 格式的字符串，其中键是该元素的值，值是该元素对应的近似频率。（V 2.0.5.1 及以后版本支持）                                                      | `x`：待计算列，支持 IoTDB 现有所有的数据类型；<br> `k`：返回出现频率最高的 k 个值；<br> `capacity`: 用于计算的桶的数量，跟内存占用相关：其值越大误差越小，但占用内存更大，反之capacity值越小误差越大，但占用内存更小。                                                                                                                                                                                    | STRING   |
+| APPROX_PERCENTILE     | APPROX_PERCENTILE 函数用于计算数据集中指定百分位数的值，帮助快速了解数据分布情况（如中位数、四分位数等），支持基于权重的百分位数计算；若百分位数不指向精确位置，返回相邻数值在该位置的线性插值。内存占用与质心数量相关，可通过 compression 参数限定最大质心数量，误差可通过经验公式预估。注意：该函数自 V2.0.9.1 起支持 | 单权重版本：APPROX_PERCENTILE (x, percentage) <br> x：待计算列，支持 INT32、INT64、FLOAT、DOUBLE、TIMESTAMP 等所有数字类型；<br> percentage：目标分位数，DOUBLE 类型。<br> 带权重版本：APPROX_PERCENTILE (x, w, percentage) <br>x：待计算列，支持 INT32、INT64、FLOAT、DOUBLE、TIMESTAMP 等所有数字类型；<br> w：权重列，整型（与待计算列长度对齐，Null 或 0 表示该行忽略）；<br> percentage：目标分位数，DOUBLE 类型。 | 与待计算列 x 的类型相同                 |
+| SUM                   | 求和。                                                                                                                                                                              | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                                                                                              | DOUBLE           |
+| AVG                   | 求平均值。                                                                                                                                                                            | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                                                                                              | DOUBLE           |
+| MAX                   | 求最大值。                                                                                                                                                                            | 所有类型                                                                                                                                                                                                                                                                                                                  | 与输入类型一致          |
+| MIN                   | 求最小值。                                                                                                                                                                            | 所有类型                                                                                                                                                                                                                                                                                                                  | 与输入类型一致          |
+| FIRST                 | 求时间戳最小且不为 NULL 的值。                                                                                                                                                               | 所有类型                                                                                                                                                                                                                                                                                                                  | 与输入类型一致          |
+| LAST                  | 求时间戳最大且不为 NULL 的值。                                                                                                                                                               | 所有类型                                                                                                                                                                                                                                                                                                                  | 与输入类型一致          |
+| STDDEV                | STDDEV_SAMP 的别名，求样本标准差。                                                                                                                                                          | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                                                                                              | DOUBLE           |
+| STDDEV_POP            | 求总体标准差。                                                                                                                                                                          | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                                                                                              | DOUBLE           |
+| STDDEV_SAMP           | 求样本标准差。                                                                                                                                                                          | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                                                                                              | DOUBLE           |
+| VARIANCE              | VAR_SAMP 的别名，求样本方差。                                                                                                                                                              | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                                                                                              | DOUBLE           |
+| VAR_POP               | 求总体方差。                                                                                                                                                                           | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                                                                                              | DOUBLE           |
+| VAR_SAMP              | 求样本方差。                                                                                                                                                                           | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                                                                                              | DOUBLE           |
+| EXTREME               | 求具有最大绝对值的值。如果正值和负值的最大绝对值相等，则返回正值。                                                                                                                                                | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                                                                                              | 与输入类型一致          |
+| MODE                  | 求众数。注意： 1.输入序列的不同值个数过多时会有内存异常风险; 2.如果所有元素出现的频次相同，即没有众数，则随机返回一个元素; 3.如果有多个众数，则随机返回一个众数； 4. NULL 值也会被统计频次，所以即使输入序列的值不全为 NULL，最终结果也可能为 NULL。                                        | 所有类型                                                                                                                                                                                                                                                                                                                  | 与输入类型一致          |
+| MAX_BY                | MAX_BY(x, y) 求二元输入 x 和 y 在 y 最大时对应的 x 的值。MAX_BY(time, x) 返回 x 取最大值时对应的时间戳。                                                                                                       | x 和 y 可以是任意类型                                                                                                                                                                                                                                                                                                         | 与第一个输入 x 的数据类型一致 |
+| MIN_BY                | MIN_BY(x, y) 求二元输入 x 和 y 在 y 最小时对应的 x 的值。MIN_BY(time, x) 返回 x 取最小值时对应的时间戳。                                                                                                       | x 和 y 可以是任意类型                                                                                                                                                                                                                                                                                                         | 与第一个输入 x 的数据类型一致 |
+| FIRST_BY              | FIRST_BY(x, y) 求当 y 为第一个不为 NULL 的值时，同一行里对应的 x 值。                                                                                                                                 | x 和 y 可以是任意类型                                                                                                                                                                                                                                                                                                         | 与第一个输入 x 的数据类型一致 |
+| LAST_BY               | LAST_BY(x, y) 求当 y 为最后一个不为 NULL 的值时，同一行里对应的 x 值。                                                                                                                                 | x 和 y 可以是任意类型                                                                                                                                                                                                                                                                                                         | 与第一个输入 x 的数据类型一致 |
 
 
 ### 2.3 示例
@@ -271,8 +272,28 @@ Total line number = 1
 It costs 0.064s
 ```
 
+#### 2.3.6 Approx_Percentile
 
-#### 2.3.6 First
+从`table1` 中，分别计算列 temperature 的90 分位数和列 humidity 的50 分位数（中位数），返回这两个近似百分位数值。
+
+```SQL
+SELECT APPROX_PERCENTILE(temperature,0.9), APPROX_PERCENTILE(humidity,0.5) FROM table1;
+```
+
+执行结果如下：
+
+```SQL
++-----+-----+
+|_col0|_col1|
++-----+-----+
+| 90.0| 35.2|
++-----+-----+
+Total line number = 1
+It costs 0.206s
+```
+
+
+#### 2.3.7 First
 
 查询`temperature`列、`humidity`列时间戳最小且不为 NULL 的值。
 
@@ -292,7 +313,7 @@ Total line number = 1
 It costs 0.170s
 ```
 
-#### 2.3.7 Last
+#### 2.3.8 Last
 
 查询`temperature`列、`humidity`列时间戳最大且不为 NULL 的值。
 
@@ -312,7 +333,7 @@ Total line number = 1
 It costs 0.211s
 ```
 
-#### 2.3.8 First_by
+#### 2.3.9 First_by
 
 查询 `temperature` 列中非 NULL 且时间戳最小的行的 `time` 值，以及 `temperature` 列中非 NULL 且时间戳最小的行的 `humidity` 值。
 
@@ -332,7 +353,7 @@ Total line number = 1
 It costs 0.269s
 ```
 
-#### 2.3.9 Last_by
+#### 2.3.10 Last_by
 
 查询`temperature` 列中非 NULL 且时间戳最大的行的 `time` 值，以及 `temperature` 列中非 NULL 且时间戳最大的行的 `humidity` 值。
 
@@ -352,7 +373,7 @@ Total line number = 1
 It costs 0.070s
 ```
 
-#### 2.3.10 Max_by
+#### 2.3.11 Max_by
 
 查询`temperature` 列中最大值所在行的 `time` 值，以及`temperature` 列中最大值所在行的 `humidity` 值。
 
@@ -372,7 +393,7 @@ Total line number = 1
 It costs 0.172s
 ```
 
-#### 2.3.11 Min_by
+#### 2.3.12 Min_by
 
 查询`temperature` 列中最小值所在行的 `time` 值，以及`temperature` 列中最小值所在行的 `humidity` 值。
 
@@ -1205,13 +1226,596 @@ IoTDB:database1> select length, width, bitwise_right_shift_arithmetic(length,wid
 +------+-----+-----+
 ```
 
-## 7. 条件表达式
+## 7. 二进制函数
 
-### 7.1 CASE 表达式
+> V2.0.9.1 起支持
+
+### 7.1 Base64 编码函数
+
+| 函数名称                    | 功能描述                                                                | 输入参数类型     | 输出参数类型 |
+| ----------------------------- | ------------------------------------------------------------------------- | ------------------ | -------------- |
+| `to_base64(input)`      | 将输入数据编码为标准 Base64 字符串，解决二进制数据传输 / 存储兼容性问题 | STRING/TEXT/BLOB | STRING       |
+| `from_base64(input)`    | 将标准 Base64 字符串解码为原始二进制数据，为 to\_base64 逆操作          | STRING/TEXT      | BLOB         |
+| `to_base64url(input)`   | 将输入数据编码为 URL 安全的 Base64URL 字符串，替换 +/\_、省略填充符     | STRING/TEXT/BLOB | STRING       |
+| `from_base64url(input)` | 将 Base64URL 字符串解码为原始二进制数据，为 to\_base64url 逆操作        | STRING/TEXT      | BLOB         |
+| `to_base32(input)`      | 将输入数据编码为 Base32 字符串，字符无混淆、不区分大小写，可读性高      | STRING/TEXT/BLOB | STRING       |
+| `from_base32(input)`    | 将 Base32 字符串解码为原始二进制数据，为 to\_base32 逆操作              | STRING/TEXT      | BLOB         |
+
+**使用示例**
+
+1. to\_base64：编码字符串为标准Base64
+
+```SQL
+SELECT DISTINCT to_base64('IoTDB二进制测试') FROM table1;
+```
+
+```Bash
++----------------------------+
+|                       _col0|
++----------------------------+
+|SW9URELkuozov5vliLbmtYvor5U=|
++----------------------------+
+```
+
+2. from\_base64：解码Base64字符串为二进制
+
+```SQL
+SELECT DISTINCT from_base64('SW9URELkuozov5vliLbmtYvor5U=') FROM table1;
+```
+
+```Bash
++------------------------------------------+
+|                                     _col0|
++------------------------------------------+
+|0x496f544442e4ba8ce8bf9be588b6e6b58be8af95|
++------------------------------------------+
+```
+
+3. to\_base64url：编码为URL安全的Base64URL（无+/\_、无填充符=）
+
+```SQL
+SELECT DISTINCT to_base64url('https://iotdb.apache.org') FROM table1;
+```
+
+```Bash
++--------------------------------+
+|                           _col0|
++--------------------------------+
+|aHR0cHM6Ly9pb3RkYi5hcGFjaGUub3Jn|
++--------------------------------+
+```
+
+4. from\_base64url：解码Base64URL字符串
+
+```SQL
+SELECT DISTINCT from_base64url('aHR0cHM6Ly9pb3RkYi5hcGFjaGUub3Jn') FROM table1;
+```
+
+```Bash
++--------------------------------------------------+
+|                                             _col0|
++--------------------------------------------------+
+|0x68747470733a2f2f696f7464622e6170616368652e6f7267|
++--------------------------------------------------+
+```
+
+5. to\_base32：编码为Base32字符串
+
+```SQL
+SELECT DISTINCT to_base32('123456') FROM table1;
+```
+
+```Bash
++----------------+
+|           _col0|
++----------------+
+|GEZDGNBVGY======|
++----------------+
+```
+
+6. from\_base32：解码Base32字符串
+
+```SQL
+SELECT DISTINCT from_base32('GEZDGNBVGY======') FROM table1;
+```
+
+```SQL
++--------------+
+|         _col0|
++--------------+
+|0x313233343536|
++--------------+
+```
+
+### 7.2 十六进制编码函数
+
+| 函数名称              | 功能描述                                                     | 输入参数类型     | 输出参数类型 |
+| ----------------------- | -------------------------------------------------------------- | ------------------ | -------------- |
+| `TO_HEX(input)`   | 将输入数据转换为十六进制字符串，直接反映底层字节值，便于调试 | STRING/TEXT/BLOB | STRING       |
+| `FROM_HEX(input)` | 将十六进制字符串解码为原始二进制数据，为TO\_HEX逆操作        | STRING/TEXT      | BLOB         |
+
+**使用示例**
+
+1. TO\_HEX：将字符串/二进制转换为十六进制
+
+```SQL
+SELECT DISTINCT TO_HEX('test') FROM table1;
+```
+
+```Bash
++--------+
+|   _col0|
++--------+
+|74657374|
++--------+
+```
+
+2. FROM\_HEX：将十六进制字符串解码为二进制
+
+```SQL
+SELECT DISTINCT FROM_HEX('74657374') FROM table1;
+```
+
+```Bash
++----------+
+|     _col0|
++----------+
+|0x74657374|
++----------+
+```
+
+### 7.3 二进制基础函数
+
+| 函数名称                             | 功能描述                                                                                  | 输入参数类型            | 输出参数类型   |
+| -------------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------- | ---------------- |
+| `length(input)`                  | 返回输入数据长度，文本类型返字符数，BLOB类型返回字节数，OBJECT 类型返回对象二进制字节大小 | STRING/TEXT/BLOB/OBJECT | INT32          |
+| `REVERSE(input)`| 反转输入数据顺序，文本类型反转字符，BLOB类型反转字节                                      | STRING/TEXT/BLOB        | 与输入类型一致 |
+| `LPAD(input, length, pad_bytes)` | 对BLOB进行字节级左填充/截断，使最终字节长度等于指定值                                     | BLOB、INT32/INT64、BLOB | BLOB           |
+| `RPAD(input, length, pad_bytes)` | 对BLOB进行字节级右填充/截断，使最终字节长度等于指定值                                     | BLOB、INT32/INT64、BLOB | BLOB           |
+
+**使用示例**
+
+1. length：获取数据长度
+
+```SQL
+SELECT DISTINCT length('IoTDB') FROM table1;
+```
+
+```Bash
++-----+
+|_col0|
++-----+
+|    5|
++-----+
+```
+
+2. REVERSE：反转数据
+
+```SQL
+SELECT DISTINCT REVERSE('12345') FROM table1;
+```
+
+```Bash
++-----+
+|_col0|
++-----+
+|54321|
++-----+
+```
+
+3. LPAD：左填充/截断BLOB（参数：原BLOB、目标长度、填充字节）
+
+```SQL
+SELECT DISTINCT LPAD(FROM_HEX('74657374'),5, FROM_HEX('74657374')) FROM table1;
+```
+
+```Bash
++------------+
+|       _col0|
++------------+
+|0x7474657374|
++------------+
+```
+
+4. RPAD：右填充/截断BLOB
+
+```SQL
+SELECT DISTINCT RPAD(FROM_HEX('74657374'),5, FROM_HEX('74657374')) FROM table1;
+```
+
+```Bash
++------------+
+|       _col0|
++------------+
+|0x7465737474|
++------------+
+```
+
+### 7.4 整数编码函数
+
+| 函数名称                           | 功能描述                                                         | 输入参数类型 | 输出参数类型 |
+| ------------------------------------ | ------------------------------------------------------------------ | -------------- | -------------- |
+| `to_big_endian_32(input)`      | 将INT32整数转换为4字节大端序BLOB，符合网络字节序标准             | INT32        | BLOB         |
+| `to_big_endian_64(input)`      | 将INT64整数转换为8字节大端序BLOB，符合网络字节序标准             | INT64        | BLOB         |
+| `from_big_endian_32(input)`    | 将4字节大端序BLOB解码为INT32整数，为to\_big\_endian\_32逆操作    | BLOB         | INT32        |
+| `from_big_endian_64(input)`    | 将8字节大端序BLOB解码为INT64整数，为to\_big\_endian\_64逆操作    | BLOB         | INT64        |
+| `to_little_endian_32(input)`   | 将INT32整数转换为4字节小端序BLOB，适配x86等主流架构              | INT32        | BLOB         |
+| `to_little_endian_64(input)`   | 将INT64整数转换为8字节小端序BLOB，适配x86等主流架构              | INT64        | BLOB         |
+| `from_little_endian_32(input)` | 将4字节小端序BLOB解码为INT32整数，为to\_little\_endian\_32逆操作 | BLOB         | INT32        |
+| `from_little_endian_64(input)` | 将8字节小端序BLOB解码为INT64整数，为to\_little\_endian\_64逆操作 | BLOB         | INT64        |
+
+**使用示例**
+
+1. 大端序编码/解码
+
+```SQL
+SELECT DISTINCT TO_HEX(to_big_endian_32(12345)) FROM table1;
+```
+
+```Bash
++--------+
+|   _col0|
++--------+
+|00003039|
++--------+
+```
+
+```SQL
+SELECT DISTINCT from_big_endian_32(FROM_HEX('00003039')) FROM table1;
+```
+
+```Bash
++-----+
+|_col0|
++-----+
+|12345|
++-----+
+```
+
+```SQL
+SELECT DISTINCT TO_HEX(to_big_endian_64(1234567890123)) FROM table1;
+```
+
+```Bash
++----------------+
+|           _col0|
++----------------+
+|0000011f71fb04cb|
++----------------+
+```
+
+```SQL
+SELECT DISTINCT from_big_endian_64(FROM_HEX('0000011f71fb04cb')) FROM table1;
+```
+
+```Bash
++-------------+
+|        _col0|
++-------------+
+|1234567890123|
++-------------+
+```
+
+2. 小端序编码/解码
+
+```SQL
+SELECT DISTINCT TO_HEX(to_little_endian_32(12345)) FROM table1;
+```
+
+```Bash
++--------+
+|   _col0|
++--------+
+|39300000|
++--------+
+```
+
+```SQL
+SELECT DISTINCT from_little_endian_32(FROM_HEX('39300000')) FROM table1;
+```
+
+```Bash
++-----+
+|_col0|
++-----+
+|12345|
++-----+
+```
+
+```SQL
+SELECT DISTINCT TO_HEX(to_little_endian_64(1234567890123)) FROM table1;
+```
+
+```Bash
++----------------+
+|           _col0|
++----------------+
+|cb04fb711f010000|
++----------------+
+```
+
+```SQL
+SELECT DISTINCT from_little_endian_64(FROM_HEX('cb04fb711f010000')) FROM table1;
+```
+
+```Bash
++-------------+
+|        _col0|
++-------------+
+|1234567890123|
++-------------+
+```
+
+### 7.5 浮点型编码函数
+
+| 函数名称                     | 功能描述                                                          | 输入参数类型 | 输出参数类型 |
+| ------------------------------ | ------------------------------------------------------------------- | -------------- | -------------- |
+| `to_ieee754_32(input)`   | 将FLOAT单精度浮点数转换为4字节大端序IEEE754标准BLOB               | FLOAT        | BLOB         |
+| `to_ieee754_64(input)`   | 将DOUBLE双精度浮点数转换为8字节大端序IEEE754标准BLOB              | DOUBLE       | BLOB         |
+| `from_ieee754_32(input)` | 将4字节IEEE754标准BLOB解码为FLOAT浮点数，为to\_ieee754\_32逆操作  | BLOB         | FLOAT        |
+| `from_ieee754_64(input)` | 将8字节IEEE754标准BLOB解码为DOUBLE浮点数，为to\_ieee754\_64逆操作 | BLOB         | DOUBLE       |
+
+**使用示例**
+
+1. 单精度浮点数（FLOAT）编码/解码
+
+```SQL
+SELECT DISTINCT TO_HEX(to_ieee754_32(temperature)) FROM table1 where time = 2024-11-26 13:37:00;
+```
+
+```Bash
++--------+
+|   _col0|
++--------+
+|42b40000|
++--------+
+```
+
+```SQL
+SELECT DISTINCT from_ieee754_32(FROM_HEX('42b40000')) FROM table1;
+```
+
+```Bash
++-----+
+|_col0|
++-----+
+| 90.0|
++-----+
+```
+
+2. 双精度浮点数（DOUBLE）编码/解码
+
+```SQL
+SELECT DISTINCT TO_HEX(to_ieee754_64(3.1415926535)) FROM table1;
+```
+
+```Bash
++----------------+
+|           _col0|
++----------------+
+|400921fb54411744|
++----------------+
+```
+
+```Bash
+SELECT DISTINCT from_ieee754_64(FROM_HEX('400921fb54411744')) FROM table1;
+```
+
+```Bash
++------------+
+|       _col0|
++------------+
+|3.1415926535|
++------------+
+```
+
+### 7.6 哈希函数
+
+| 函数名称                       | 功能描述                                                       | 输入参数类型       | 输出参数类型 |
+| -------------------------------- | ---------------------------------------------------------------- | -------------------- | -------------- |
+| `sha256(input)`            | 计算输入数据的SHA-256密码学哈希值，不可逆、抗碰撞              | STRING、TEXT、BLOB | BLOB(32字节) |
+| `SHA512(input)`            | 计算输入数据的SHA-512密码学哈希值，安全强度高于SHA256          | STRING、TEXT、BLOB | BLOB(64字节) |
+| `SHA1(input)`              | 计算输入数据的SHA-1哈希值，抗碰撞性弱，不推荐安全场景使用      | STRING、TEXT、BLOB | BLOB(20字节) |
+| `MD5(input)`               | 计算输入数据的MD5哈希值，无密码学安全性，仅用于非加密校验      | STRING、TEXT、BLOB | BLOB(16字节) |
+| `CRC32(input)`             | 计算输入数据的CRC32循环冗余校验码，高效检测非恶意数据错误      | STRING、TEXT、BLOB | INT64        |
+| `spooky_hash_v2_32(input)` | 计算输入数据的32位SpookyHashV2非密码学哈希值，高性能、低冲突   | STRING、TEXT、BLOB | BLOB(4字节)  |
+| `spooky_hash_v2_64(input)` | 计算输入数据的64位SpookyHashV2非密码学哈希值，高性能、低冲突   | STRING、TEXT、BLOB | BLOB(8字节)  |
+| `xxhash64(input)`          | 计算输入数据的64位xxHash非密码学哈希值，计算速度极快           | STRING、TEXT、BLOB | BLOB(8字节)  |
+| `murmur3(input)`           | 计算输入数据的128位MurmurHash3非密码学哈希值，分布均匀、应用广 | STRING、TEXT、BLOB | BLOB(16字节) |
+
+**使用示例**
+
+1. 密码学哈希函数
+
+```SQL
+SELECT DISTINCT TO_HEX(sha256('test')) FROM table1;
+```
+
+```Bash
++----------------------------------------------------------------+
+|                                                           _col0|
++----------------------------------------------------------------+
+|9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08|
++----------------------------------------------------------------+
+```
+
+```SQL
+SELECT DISTINCT TO_HEX(SHA512('test')) FROM table1;
+```
+
+```Bash
++--------------------------------------------------------------------------------------------------------------------------------+
+|                                                                                                                           _col0|
++--------------------------------------------------------------------------------------------------------------------------------+
+|ee26b0dd4af7e749aa1a8ee3c10ae9923f618980772e473f8819a5d4940e0db27ac185f8a0e1d5f84f88bc887fd67b143732c304cc5fa9ad8e6f57f50028a8ff|
++--------------------------------------------------------------------------------------------------------------------------------+
+```
+
+```SQL
+SELECT DISTINCT TO_HEX(SHA1('test')) FROM table1;
+```
+
+```Bash
++----------------------------------------+
+|                                   _col0|
++----------------------------------------+
+|a94a8fe5ccb19ba61c4c0873d391e987982fbbd3|
++----------------------------------------+
+```
+
+```SQL
+SELECT DISTINCT TO_HEX(MD5('test')) FROM table1;
+```
+
+```Bash
++--------------------------------+
+|                           _col0|
++--------------------------------+
+|098f6bcd4621d373cade4e832627b4f6|
++--------------------------------+
+```
+
+2. 校验/非密码学哈希函数
+
+```SQL
+SELECT DISTINCT CRC32('test') FROM table1;
+```
+
+```Bash
++----------+
+|     _col0|
++----------+
+|3632233996|
++----------+
+```
+
+```SQL
+SELECT DISTINCT TO_HEX(spooky_hash_v2_32('test')) FROM table1;
+```
+
+```Bash
++--------+
+|   _col0|
++--------+
+|ec0d8b75|
++--------+
+```
+
+```SQL
+SELECT DISTINCT TO_HEX(spooky_hash_v2_64('test')) FROM table1;
+```
+
+```Bash
++----------------+
+|           _col0|
++----------------+
+|7b01e8bcec0d8b75|
++----------------+
+```
+
+```SQL
+SELECT DISTINCT TO_HEX(xxhash64('test')) FROM table1;
+```
+
+```Bash
++----------------+
+|           _col0|
++----------------+
+|4fdcca5ddb678139|
++----------------+
+```
+
+```SQL
+SELECT DISTINCT TO_HEX(murmur3('test')) FROM table1;
+```
+
+```Bash
++--------------------------------+
+|                           _col0|
++--------------------------------+
+|9de1bd74cc287dac824dbdf93182129a|
++--------------------------------+
+```
+
+### 7.7 HMAC函数
+
+| 函数名称                     | 功能描述                                                          | 输入参数类型                               | 输出参数类型 |
+| ------------------------------ | ------------------------------------------------------------------- | -------------------------------------------- | -------------- |
+| `hmac_md5(data, key)`    | 结合MD5与密钥计算HMAC消息认证码，验证数据完整性和来源，适配旧系统 | data：STRING/TEXT/BLOBkey：STRING/TEXT | BLOB(16字节) |
+| `hmac_sha1(data, key)`   | 结合SHA-1与密钥计算HMAC消息认证码，验证数据完整性和来源           | data：STRING/TEXT/BLOBkey：STRING/TEXT | BLOB(20字节) |
+| `hmac_sha256(data, key)` | 结合SHA256与密钥计算HMAC消息认证码，业界推荐标准，安全强度高      | data：STRING/TEXT/BLOBkey：STRING/TEXT | BLOB(32字节) |
+| `hmac_sha512(data, key)` | 结合SHA512与密钥计算HMAC消息认证码，商用级别最高安全强度          | data：STRING/TEXT/BLOBkey：STRING/TEXT | BLOB(64字节) |
+
+**使用示例**
+
+* 通用密钥：'iotdb\_secret\_key'
+* 待验证数据：'user\_data\_123'
+
+1. hmac\_md5
+
+```SQL
+SELECT DISTINCT TO_HEX(hmac_md5('user_data_123', 'iotdb_secret_key')) FROM table1;
+```
+
+```Bash
++--------------------------------+
+|                           _col0|
++--------------------------------+
+|8ee863080ceb3b43b5ffdc7a937e7f28|
++--------------------------------+
+```
+
+2. hmac\_sha1
+
+```SQL
+SELECT DISTINCT TO_HEX(hmac_sha1('user_data_123', 'iotdb_secret_key')) FROM table1;
+```
+
+```Bash
++----------------------------------------+
+|                                   _col0|
++----------------------------------------+
+|b5b7ae1a495745299ec3bd236c511c13540481ce|
++----------------------------------------+
+```
+
+3. hmac\_sha256（推荐使用）
+
+```SQL
+SELECT DISTINCT TO_HEX(hmac_sha256('user_data_123', 'iotdb_secret_key')) FROM table1;
+```
+
+```Bash
++----------------------------------------------------------------+
+|                                                           _col0|
++----------------------------------------------------------------+
+|73b6f26bbcb5192dbe2cb83745b0fc48c63418fa674b0bf62fabe7f8747f3afd|
++----------------------------------------------------------------+
+```
+
+4. hmac\_sha512
+
+```SQL
+SELECT DISTINCT TO_HEX(hmac_sha512('user_data_123', 'iotdb_secret_key')) FROM table1;
+```
+
+```Bash
++--------------------------------------------------------------------------------------------------------------------------------+
+|                                                                                                                           _col0|
++--------------------------------------------------------------------------------------------------------------------------------+
+|2fed4ec5a0535e3349798b371d6525255ee85d9eae0ddcbdecf89db84f943151f5febf0ffd9c01ae9661278504aba186cf6f732ae5f42d63be58aadee2baccc2|
++--------------------------------------------------------------------------------------------------------------------------------+
+```
+
+
+
+## 8. 条件表达式
+
+### 8.1 CASE 表达式
 
 CASE 表达式有两种形式：简单形式、搜索形式
 
-#### 7.1.1 简单形式
+#### 8.1.1 简单形式
 
 简单形式从左到右搜索每个值表达式，直到找到一个与表达式相等的值：
 
@@ -1234,7 +1838,7 @@ SELECT a,
        END
 ```
 
-#### 7.1.2 搜索形式
+#### 8.1.2 搜索形式
 
 搜索形式从左到右评估每个布尔条件，直到找到一个为真的条件，并返回相应的结果：
 
@@ -1257,7 +1861,7 @@ SELECT a, b,
        END
 ```
 
-### 7.2 COALESCE 函数
+### 8.2 COALESCE 函数
 
 返回参数列表中的第一个非空值。
 
@@ -1265,11 +1869,59 @@ SELECT a, b,
 coalesce(value1, value2[, ...])
 ```
 
-## 8. 转换函数
+### 8.3 IF 表达式
 
-### 8.1 转换函数
+IF 表达式有两种形式：一种仅指定真值（true\_value），另一种同时指定真值和假值（false\_value）。
 
-#### 8.1.1 cast(value AS type) → type
+| 形式                                         | 说明                                                                                                      | 输出类型限制                                                                                  |
+| ---------------------------------------------- | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `if(condition, true_value)`              | 若条件（condition）为真，则计算并返回`true_value`；否则返回`null`，且`true_value`不会被计算。 |                                                                                               |
+| `if(condition, true_value, false_value)` | 若条件（condition）为真，则计算并返回`true_value`；否则计算并返回`false_value`。                  | `true_value`和`false_value`的数据类型​**必须完全一致**​，不支持隐式类型转换。 |
+
+> V 2.0.9.1 版本起支持
+
+**示例：**
+
+1. IF 表达式和 CASE 表达式等价示例：
+
+```SQL
+-- IF 写法
+SELECT 
+  device_id,
+  temperature,  
+  IF(temperature > 85, 'High Value', 'Low Value')
+FROM table1;
+
+-- CASE 等价写法
+SELECT
+  device_id,  
+  temperature,  
+  CASE    
+    WHEN temperature > 85 THEN 'High Value'
+    ELSE 'Low Value'  
+  END
+FROM table1;
+```
+
+2. 输出类型限制示例：
+
+```SQL
+-- 成功
+-- temperature（float) 和 humidity（float） 类型一致
+select if(temperature > 85, temperature, humidity) from table1 
+
+-- 失败
+-- temperature(float) 和 status(boolean) 类型不一致
+select if(temperature > 85, temperature, status) from table1  
+```
+
+
+
+## 9. 转换函数
+
+### 9.1 转换函数
+
+#### 9.1.1 cast(value AS type) → type
 
 1. 显式地将一个值转换为指定类型。
 2. 可以用于将字符串（varchar）转换为数值类型，或数值转换为字符串类型，V2.0.8 版本起支持 OBJECT 类型强转成 STRING 类型。
@@ -1284,7 +1936,7 @@ SELECT *
   IN (CAST('2024-11-27' AS DATE), CAST('2024-11-28' AS DATE));
 ```
 
-#### 8.1.2 try_cast(value AS type) → type
+#### 9.1.2 try_cast(value AS type) → type
 
 1. 与 `cast()` 类似。
 2. 如果转换失败，则返回 `null`。
@@ -1298,10 +1950,10 @@ SELECT *
   IN (try_cast('2024-11-27' AS DATE), try_cast('2024-11-28' AS DATE));
 ```
 
-### 8.2 Format 函数
+### 9.2 Format 函数
 该函数基于指定的格式字符串与输入参数，生成并返回格式化后的字符串输出。其功能与 Java 语言中的`String.format` 方法及 C 语言中的`printf`函数相类似，支持开发者通过占位符语法构建动态字符串模板，其中预设的格式标识符将被传入的对应参数值精准替换，最终形成符合特定格式要求的完整字符串。
 
-#### 8.2.1 语法介绍
+#### 9.2.1 语法介绍
 
 ```SQL
 format(pattern,...args) -> String
@@ -1319,7 +1971,7 @@ format(pattern,...args) -> String
 
 * 类型为 `STRING` 的格式化结果字符串
 
-#### 8.2.2 使用示例
+#### 9.2.2 使用示例
 
 1. 格式化浮点数
 
@@ -1435,7 +2087,7 @@ IoTDB:database1> SELECT format('%s%%', 99.9) from table1 limit 1
 +-----+
 ```
 
-#### 8.2.3 **格式转换失败场景说明**
+#### 9.2.3 **格式转换失败场景说明**
 
 1. 类型不匹配错误
 
@@ -1488,19 +2140,19 @@ Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Scalar function format must h
 
 
 
-## 9. 字符串函数和操作符
+## 10. 字符串函数和操作符
 
-### 9.1 字符串操作符
+### 10.1 字符串操作符
 
-#### 9.1.1 || 操作符
+#### 10.1.1 || 操作符
 
 `||` 操作符用于字符串连接，功能与 `concat` 函数相同。
 
-#### 9.1.2 LIKE 语句
+#### 10.1.2 LIKE 语句
 
 `LIKE` 语句用于模式匹配，具体用法在[模式匹配：LIKE](#1-like-运算符) 中有详细文档。
 
-### 9.2 字符串函数
+### 10.2 字符串函数
 
 | 函数名      | 描述                                                                                                | 输入                                                                                                                                                              | 输出                                                         | 用法                                                         |
 | ----------- |---------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------| ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -1518,33 +2170,33 @@ Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Scalar function format must h
 | substring   | 从指定位置提取字符到字符串末尾。需要注意的是，起始位置是基于字符而不是字节数组确定的。`start_index` 从 1 开始计数，长度从 `start_index` 位置计算。         | 支持两个参数**string**：要提取子字符串的源字符串，可以是字符串或文本类型。**start_index**：从哪个索引开始提取子字符串，索引从 1 开始计数。                                                                             | String：返回一个字符串，从 `start_index` 位置开始到字符串末尾的所有字符。**注意事项**：`start_index` 从 1 开始，即数组的第 0 个位置是 1参数为 null时，返回 `null`start_index 大于字符串长度时，结果报错。 | substring(string from start_index)或 substring(string, start_index) |
 | substring   | 从一个字符串中提取从指定位置开始、指定长度的子字符串注意：起始位置和长度是基于字符而不是字节数组确定的。`start_index` 从 1 开始计数，长度从 `start_index` 位置计算。 | 支持三个参数**string**：要提取子字符串的源字符串，可以是字符串或文本类型。**start_index**：从哪个索引开始提取子字符串，索引从 1 开始计数。**length**：要提取的子字符串的长度。                                                      | String：返回一个字符串，从 `start_index` 位置开始，提取 `length` 个字符。**注意事项**：参数为 null时，返回 `null`如果 `start_index` 大于字符串的长度，结果报错。如果 `length` 小于 0，结果报错。极端情况，`start_index + length` 超过 `int.MAX` 并变成负数，将导致异常结果。 | substring(string from start_index for length)  或 substring(string, start_index, length) |
 
-## 10. 模式匹配函数
+## 11. 模式匹配函数
 
-### 10.1 LIKE 运算符
+### 11.1 LIKE 运算符
 
-#### 10.1.1 用途
+#### 11.1.1 用途
 
 `LIKE` 运算符用于将值与模式进行比较。它通常用于 `WHERE` 子句中，用于匹配字符串中的特定模式。
 
-#### 10.1.2 语法
+#### 11.1.2 语法
 
 ```SQL
 ... column [NOT] LIKE 'pattern' ESCAPE 'character';
 ```
 
-#### 10.1.3 匹配规则
+#### 11.1.3 匹配规则
 
 - 匹配字符是区分大小写的。
 - 模式支持两个匹配符号：
   - `_`：匹配任意单个字符。
   - `%`：匹配0个或多个字符。
 
-#### 10.1.4 注意事项
+#### 11.1.4 注意事项
 
 - `LIKE` 模式匹配总是覆盖整个字符串。如果需要匹配字符串中的任意位置，模式必须以 `%` 开头和结尾。
 - 如果需要匹配 `%` 或 `_` 作为普通字符，必须使用转义字符。
 
-#### 10.1.5 示例
+#### 11.1.5 示例
 
 示例 1：匹配以特定字符开头的字符串
 
@@ -1586,19 +2238,19 @@ SELECT * FROM table1 WHERE continent LIKE 'South\_%' ESCAPE '\';
 SELECT * FROM table1 WHERE continent LIKE 'South\\%' ESCAPE '\';
 ```
 
-### 10.2 regexp_like 函数
+### 11.2 regexp_like 函数
 
-#### 10.2.1 用途
+#### 11.2.1 用途
 
 `regexp_like` 函数用于评估正则表达式模式，并确定该模式是否包含在字符串中。
 
-#### 10.2.2 语法
+#### 11.2.2 语法
 
 ```SQL
 regexp_like(string, pattern);
 ```
 
-#### 10.2.3 注意事项
+#### 11.2.3 注意事项
 
 - `regexp_like` 的模式只需包含在字符串中，而不需要匹配整个字符串。
 - 如果需要匹配整个字符串，可以使用正则表达式的锚点 `^` 和 `$`。
@@ -1621,7 +2273,7 @@ regexp_like(string, pattern);
     4. **类别（Categories）**：直接指定，无需`Is`、`general_category=`或`gc=`前缀（如`\p{L}`）。
     5. **二元属性（Binary Properties）**：直接指定，无需`Is`（如`\p{NoncharacterCodePoint}`）。
 
-#### 10.2.4 示例
+#### 11.2.4 示例
 
 示例 1：匹配包含特定模式的字符串
 
@@ -1645,7 +2297,7 @@ SELECT regexp_like('1a 2b 14m', '^\\d+b$'); -- false
   - `b` 表示字母 `b`。
   - `'1a 2b 14m'` 并不符合这个模式，因为它不是从数字开始，也不是以 `b` 结束，所以返回 `false`。
 
-## 11. 时序分窗函数
+## 12. 时序分窗函数
 
 原始示例数据如下：
 
@@ -1668,19 +2320,19 @@ CREATE TABLE bid(time TIMESTAMP TIME, stock_id STRING TAG, price FLOAT FIELD);
 INSERT INTO bid(time, stock_id, price) VALUES('2021-01-01T09:05:00','AAPL',100.0),('2021-01-01T09:06:00','TESL',200.0),('2021-01-01T09:07:00','AAPL',103.0),('2021-01-01T09:07:00','TESL',202.0),('2021-01-01T09:09:00','AAPL',102.0),('2021-01-01T09:15:00','TESL',195.0);
 ```
 
-### 11.1 HOP
+### 12.1 HOP
 
-#### 11.1.1 功能描述
+#### 12.1.1 功能描述
 
 HOP 函数用于按时间分段分窗分析，识别每一行数据所属的时间窗口。该函数通过指定固定窗口大小（size）和窗口滑动步长（SLIDE），将数据按时间戳分配到所有与其时间戳重叠的窗口中。若窗口之间存在重叠（步长 < 窗口大小），数据会自动复制到多个窗口。
 
-#### 11.1.2 函数定义
+#### 12.1.2 函数定义
 
 ```SQL
 HOP(data, timecol, size, slide[, origin])
 ```
 
-#### 11.1.3 参数说明
+#### 12.1.3 参数说明
 
 | 参数名  | 参数类型 | 参数属性                        | 描述               |
 | --------- | ---------- | --------------------------------- | -------------------- |
@@ -1690,7 +2342,7 @@ HOP(data, timecol, size, slide[, origin])
 | SLIDE   | 标量参数 | 长整数类型                      | 窗口滑动步长       |
 | ORIGIN  | 标量参数 | 时间戳类型默认值：Unix 纪元时间 | 第一个窗口起始时间 |
 
-#### 11.1.4 返回结果
+#### 12.1.4 返回结果
 
 HOP 函数的返回结果列包含：
 
@@ -1698,7 +2350,7 @@ HOP 函数的返回结果列包含：
 * window\_end: 窗口结束时间（开区间）
 * 映射列：DATA 参数的所有输入列
 
-#### 11.1.5 使用示例
+#### 12.1.5 使用示例
 
 ```SQL
 IoTDB> SELECT * FROM HOP(DATA => bid,TIMECOL => 'time',SLIDE => 5m,SIZE => 10m);
@@ -1733,18 +2385,18 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM HOP(DAT
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 11.2 SESSION
+### 12.2 SESSION
 
-#### 11.2.1 功能描述
+#### 12.2.1 功能描述
 
 SESSION 函数用于按会话间隔对数据进行分窗。系统逐行检查与前一行的时间间隔，小于阈值（GAP）则归入当前窗口，超过则归入下一个窗口。
 
-#### 11.2.2 函数定义
+#### 12.2.2 函数定义
 
 ```SQL
 SESSION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], timecol, gap)
 ```
-#### 11.2.3 参数说明
+#### 12.2.3 参数说明
 
 | 参数名  | 参数类型 | 参数属性                 | 描述                                   |
 | --------- | ---------- | -------------------------- | ---------------------------------------- |
@@ -1753,7 +2405,7 @@ SESSION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], timecol, gap)
 |
 | GAP     | 标量参数 | 长整数类型               | 会话间隔阈值                           |
 
-#### 11.2.4 返回结果
+#### 12.2.4 返回结果
 
 SESSION 函数的返回结果列包含：
 
@@ -1761,7 +2413,7 @@ SESSION 函数的返回结果列包含：
 * window\_end: 会话窗口内的最后一条数据的时间
 * 映射列：DATA 参数的所有输入列
 
-#### 11.2.5 使用示例
+#### 12.2.5 使用示例
 
 ```SQL
 IoTDB> SELECT * FROM SESSION(DATA => bid PARTITION BY stock_id ORDER BY time,TIMECOL => 'time',GAP => 2m);
@@ -1787,19 +2439,19 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM SESSION
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 11.3 VARIATION
+### 12.3 VARIATION
 
-#### 11.3.1 功能描述
+#### 12.3.1 功能描述
 
 VARIATION 函数用于按数据差值分窗，将第一条数据作为首个窗口的基准值，每个数据点会与基准值进行差值运算，如果差值小于给定的阈值（delta）则加入当前窗口；如果超过阈值，则分为下一个窗口，将该值作为下一个窗口的基准值。
 
-#### 11.3.2 函数定义
+#### 12.3.2 函数定义
 
 ```sql
 VARIATION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], col, delta)
 ```
 
-#### 11.3.3 参数说明
+#### 12.3.3 参数说明
 
 | 参数名 | 参数类型 | 参数属性                 | 描述                                   |
 | -------- | ---------- | -------------------------- | ---------------------------------------- |
@@ -1807,14 +2459,14 @@ VARIATION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], col, delta)
 | COL    | 标量参数 | 字符串类型               | 标识对哪一列计算差值                   |
 | DELTA  | 标量参数 | 浮点数类型               | 差值阈值                               |
 
-#### 11.3.4 返回结果
+#### 12.3.4 返回结果
 
 VARIATION 函数的返回结果列包含：
 
 * window\_index: 窗口编号
 * 映射列：DATA 参数的所有输入列
 
-#### 11.3.5 使用示例
+#### 12.3.5 使用示例
 
 ```sql
 IoTDB> SELECT * FROM VARIATION(DATA => bid PARTITION BY stock_id ORDER BY time,COL => 'price',DELTA => 2.0);
@@ -1841,33 +2493,33 @@ IoTDB> SELECT first(time) as window_start, last(time) as window_end, stock_id, a
 +-----------------------------+-----------------------------+--------+-----+
 ```
 
-### 11.4 CAPACITY
+### 12.4 CAPACITY
 
-#### 11.4.1 功能描述
+#### 12.4.1 功能描述
 
 CAPACITY 函数用于按数据点数（行数）分窗，每个窗口最多有 SIZE 行数据。
 
-#### 11.4.2 函数定义
+#### 12.4.2 函数定义
 
 ```sql
 CAPACITY(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], size)
 ```
 
-#### 11.4.3 参数说明
+#### 12.4.3 参数说明
 
 | 参数名 | 参数类型 | 参数属性                 | 描述                                   |
 | -------- | ---------- | -------------------------- | ---------------------------------------- |
 | DATA   | 表参数   | SET SEMANTICPASS THROUGH | 输入表通过 pkeys、okeys 指定分区和排序 |
 | SIZE   | 标量参数 | 长整数类型               | 窗口大小                               |
 
-#### 11.4.4 返回结果
+#### 12.4.4 返回结果
 
 CAPACITY 函数的返回结果列包含：
 
 * window\_index: 窗口编号
 * 映射列：DATA 参数的所有输入列
 
-#### 11.4.5 使用示例
+#### 12.4.5 使用示例
 
 ```sql
 IoTDB> SELECT * FROM CAPACITY(DATA => bid PARTITION BY stock_id ORDER BY time, SIZE => 2);
@@ -1894,18 +2546,18 @@ IoTDB> SELECT first(time) as start_time, last(time) as end_time, stock_id, avg(p
 +-----------------------------+-----------------------------+--------+-----+
 ```
 
-### 11.5 TUMBLE
+### 12.5 TUMBLE
 
-#### 11.5.1 功能描述
+#### 12.5.1 功能描述
 
 TUMBLE 函数用于通过时间属性字段为每行数据分配一个窗口，滚动窗口的大小固定且不重复。
 
-#### 11.5.2 函数定义
+#### 12.5.2 函数定义
 
 ```sql
 TUMBLE(data, timecol, size[, origin])
 ```
-#### 11.5.3 参数说明
+#### 12.5.3 参数说明
 
 | 参数名  | 参数类型 | 参数属性                        | 描述               |
 | --------- | ---------- | --------------------------------- | -------------------- |
@@ -1914,7 +2566,7 @@ TUMBLE(data, timecol, size[, origin])
 | SIZE    | 标量参数 | 长整数类型                      | 窗口大小，需为正数 |
 | ORIGIN  | 标量参数 | 时间戳类型默认值：Unix 纪元时间 | 第一个窗口起始时间 |
 
-#### 11.5.4 返回结果
+#### 12.5.4 返回结果
 
 TUBMLE 函数的返回结果列包含：
 
@@ -1922,7 +2574,7 @@ TUBMLE 函数的返回结果列包含：
 * window\_end: 窗口结束时间（开区间）
 * 映射列：DATA 参数的所有输入列
 
-#### 11.5.5 使用示例
+#### 12.5.5 使用示例
 
 ```SQL
 IoTDB> SELECT * FROM TUMBLE( DATA => bid, TIMECOL => 'time', SIZE => 10m);
@@ -1948,19 +2600,19 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM TUMBLE(
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 11.6 CUMULATE
+### 12.6 CUMULATE
 
-#### 11.6.1 功能描述
+#### 12.6.1 功能描述
 
 Cumulate 函数用于从初始的窗口开始，创建相同窗口开始但窗口结束步长不同的窗口，直到达到最大的窗口大小。每个窗口包含其区间内的元素。例如：1小时步长，24小时大小的累计窗口，每天可以获得如下这些窗口：`[00:00, 01:00)`，`[00:00, 02:00)`，`[00:00, 03:00)`， …， `[00:00, 24:00)`
 
-#### 11.6.2 函数定义
+#### 12.6.2 函数定义
 
 ```sql
 CUMULATE(data, timecol, size, step[, origin])
 ```
 
-#### 11.6.3 参数说明
+#### 12.6.3 参数说明
 
 | 参数名  | 参数类型 | 参数属性                        | 描述                                       |
 | --------- | ---------- | --------------------------------- | -------------------------------------------- |
@@ -1972,7 +2624,7 @@ CUMULATE(data, timecol, size, step[, origin])
 
 > 注意：size 如果不是 step 的整数倍，则会报错`Cumulative table function requires size must be an integral multiple of step`
 
-#### 11.6.4 返回结果
+#### 12.6.4 返回结果
 
 CUMULATE函数的返回结果列包含：
 
@@ -1980,7 +2632,7 @@ CUMULATE函数的返回结果列包含：
 * window\_end: 窗口结束时间（开区间）
 * 映射列：DATA 参数的所有输入列
 
-#### 11.6.5 使用示例
+#### 12.6.5 使用示例
 
 ```sql
 IoTDB> SELECT * FROM CUMULATE(DATA => bid,TIMECOL => 'time',STEP => 2m,SIZE => 10m);

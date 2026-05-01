@@ -59,6 +59,7 @@ IoTDB> show tables from information_schema
 |                regions|    INF|
 |               services|    INF|
 |          subscriptions|    INF|
+|       table_disk_usage|    INF|
 |                 tables|    INF|
 |                 topics|    INF|
 |                  views|    INF|
@@ -67,7 +68,7 @@ IoTDB> show tables from information_schema
 
 ## 2. System Tables
 
-* ​**Names**​: `DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS`, `VIEWS`, `MODELS`, `FUNCTIONS`, `CONFIGURATIONS`, `KEYWORDS`, `NODES`, `CONFIG_NODES`, `DATA_NODES` , `CONNECTIONS`, `CURRENT_QUERIES`, `QUERIES_COSTS_HISTOGRAM`, `SERVICES` (detailed descriptions in later sections)
+* ​**Names**​: `DATABASES`, `TABLES`, `REGIONS`, `QUERIES`, `COLUMNS`, `PIPES`, `PIPE_PLUGINS`, `SUBSCRIPTION`, `TOPICS`, `VIEWS`, `MODELS`, `FUNCTIONS`, `CONFIGURATIONS`, `KEYWORDS`, `NODES`, `CONFIG_NODES`, `DATA_NODES` , `CONNECTIONS`, `CURRENT_QUERIES`, `QUERIES_COSTS_HISTOGRAM`, `SERVICES`, `TABLE_DISK_USAGE` (detailed descriptions in later sections)
 * ​**Operations**​: Read-only, only supports `SELECT`, `COUNT/SHOW DEVICES`, `DESC`. Any modifications to table structure or content are not allowed and will result in an error: `"The database 'information_schema' can only be queried."  `
 * ​**Column Names**​: System table column names are all lowercase by default and separated by underscores (`_`).
 
@@ -372,7 +373,7 @@ IoTDB> select * from information_schema.views
 
 ### 2.11 MODELS
 
-> This system table is available starting from version V 2.0.5 and has been discontinued since version V 2.0.8-beta.
+> This system table is available starting from version V 2.0.5 and has been discontinued since version V 2.0.8.
 
 * Contains information about all models in the database.
 * The table structure is as follows:
@@ -597,7 +598,7 @@ IoTDB> select * from information_schema.data_nodes
 
 ### 2.18 CONNECTIONS
 
-> This system table is available starting from version V 2.0.8-beta
+> This system table is available starting from version V 2.0.8
 
 * Contains all connections in the cluster.
 * The table structure is as follows:
@@ -624,7 +625,7 @@ IoTDB> select * from information_schema.connections;
 
 ### 2.19 CURRENT_QUERIES
 
-> This system table is available starting from version V 2.0.8-beta
+> This system table is available starting from version V 2.0.8
 
 * Contains all queries whose execution end time falls within the range `[now() - query_cost_stat_window, now())`, including currently executing queries. The `query_cost_stat_window` parameter represents the query cost statistics window. Its default value is 0 and can be configured via the `iotdb-system.properties` configuration file.
 * The table structure is as follows:
@@ -655,7 +656,7 @@ IoTDB> select * from information_schema.current_queries;
 
 ### 2.20 QUERIES_COSTS_HISTOGRAM
 
-> This system table is available starting from version V 2.0.8-beta
+> This system table is available starting from version V 2.0.8
 
 * Contains a histogram of query execution times within the past `query_cost_stat_window` period (only statistics for completed SQL queries). The `query_cost_stat_window` parameter represents the query cost statistics window. Its default value is 0 and can be configured via the `iotdb-system.properties` configuration file.
 * The table structure is as follows:
@@ -689,7 +690,7 @@ IoTDB> select * from information_schema.queries_costs_histogram limit 10
 
 ### 2.21 SERVICES
 
-> This system table is available starting from version V 2.0.8-beta
+> This system table is available starting from version V 2.0.8
 
 * Displays services (MQTT service, REST service) on all active DataNodes (with RUNNING or READ-ONLY status).
 * Table structure:
@@ -712,6 +713,81 @@ IoTDB> SELECT * FROM information_schema.services
 |REST        |1          |RUNNING  |
 +------------+-----------+---------+
 ```
+
+##### 2.22 TABLE_DISK_USAGE
+> This system table is available since version V2.0.9-beta
+
+Used to display the disk space usage of specified tables (excluding views), including the size of ChunkGroups and the size of Metadata.
+
+Note: Statistics are based on the actual size of data in TsFiles; therefore, deletions made via mods are not considered.
+
+The table structure is shown below:
+
+| Column Name     | Data Type | Column Type | Description                      |
+|-----------------|-----------|-------------|----------------------------------|
+| database        | string    | Field       | Database name                    |
+| table_name      | string    | Field       | Table name                       |
+| datanode_id     | int32     | Field       | DataNode node ID                 |
+| region_id       | int32     | Field       | Region ID                        |
+| time_partition  | int64     | Field       | Time partition ID                |
+| size_in_bytes   | int64     | Field       | Disk space occupied (in bytes)    |
+
+**Query Examples**:
+
+```SQL
+-- Query all data;
+select * from information_schema.table_disk_usage;
+```
+
+```Bash
++---------+-------------------+-----------+---------+--------------+-------------+
+| database|         table_name|datanode_id|region_id|time_partition|size_in_bytes|
++---------+-------------------+-----------+---------+--------------+-------------+
+|database1|             table1|          1|        3|          2864|          867|
+|database1|            table11|          1|        3|          2864|            0|
+|database1|             table3|          1|        3|          2864|            0|
+|database1|             table1|          1|        3|          2865|         1411|
+|database1|            table11|          1|        3|          2865|            0|
+|database1|             table3|          1|        3|          2865|            0|
+|database1|             table1|          1|        3|          2925|          590|
+|database1|            table11|          1|        3|          2925|            0|
+|database1|             table3|          1|        3|          2925|            0|
+|database1|             table1|          1|        4|          2864|          883|
+|database1|            table11|          1|        4|          2864|            0|
+|database1|             table3|          1|        4|          2864|            0|
+|database1|             table1|          1|        4|          2865|         1224|
+|database1|            table11|          1|        4|          2865|            0|
+|database1|             table3|          1|        4|          2865|            0|
+|database1|             table1|          1|        4|          2888|            0|
+|database1|            table11|          1|        4|          2888|            0|
+|database1|             table3|          1|        4|          2888|          205|
+|     etth|   tab_cov_forecast|          1|        8|             0|            0|
+|     etth|           tab_real|          1|        8|             0|          963|
+|     etth|tab_target_forecast|          1|        8|             0|            0|
+|     etth|   tab_cov_forecast|          1|        9|             0|          448|
+|     etth|           tab_real|          1|        9|             0|            0|
+|     etth|tab_target_forecast|          1|        9|             0|            0|
++---------+-------------------+-----------+---------+--------------+-------------+
+```
+
+```SQL
+-- Specify query conditions;
+select * from information_schema.table_disk_usage where region_id = 4 and table_name like '%1';
+```
+
+```Bash
++---------+----------+-----------+---------+--------------+-------------+
+| database|table_name|datanode_id|region_id|time_partition|size_in_bytes|
++---------+----------+-----------+---------+--------------+-------------+
+|database1|    table1|          1|        4|          2864|          883|
+|database1|   table11|          1|        4|          2864|            0|
+|database1|    table1|          1|        4|          2865|         1224|
+|database1|   table11|          1|        4|          2865|            0|
+|database1|    table1|          1|        4|          2888|            0|
+|database1|   table11|          1|        4|          2888|            0|
++---------+----------+-----------+---------+--------------+-------------+
+```
+
 
 ## 3. Permission Description
 

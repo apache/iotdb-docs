@@ -156,30 +156,31 @@ SELECT LEAST(temperature,humidity) FROM table2;
 
 ### 2.2 Supported Aggregate Functions                            
 
-| Function Name          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Allowed Input Types                                                                                                                                                                                                                               | Output Type                                |
-|:-----------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------|
-| COUNT                  | Counts the number of data points.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | All types                                                                                                                                                                                                                                         | INT64                                      |
-| COUNT_IF               | COUNT_IF(exp) counts the number of rows that satisfy a specified boolean expression.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | `exp` must be a boolean expression,(e.g. `count_if(temperature>20)`)                                                                                                                                                                              | INT64                                    |
-| APPROX_COUNT_DISTINCT  | The APPROX_COUNT_DISTINCT(x[, maxStandardError]) function provides an approximation of COUNT(DISTINCT x), returning the estimated number of distinct input values.                                                                                                                                                                                                                                                                                                                                                                                                                                             | `x`: The target column to be calculated, supports all data types.<br>`maxStandardError` (optional): Specifies the maximum standard error allowed for the function's result. Valid range is [0.0040625, 0.26]. Defaults to 0.023 if not specified. | INT64                                           |
-| APPROX_MOST_FREQUENT | The APPROX_MOST_FREQUENT(x, k, capacity) function is used to approximately calculate the top k most frequent elements in a dataset. It returns a JSON-formatted string where the keys are the element values and the values are their corresponding approximate frequencies. （Available since V2.0.5.1) | `x` : The column to be calculated, supporting all existing data types in IoTDB;<br> `k`: The number of top-k most frequent values to return;<br>`capacity`: The number of buckets used for computation, which relates to memory usage—a larger value reduces error but consumes more memory, while a smaller value increases error but uses less memory. | STRING |
-| SUM                    | Calculates the sum.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
-| AVG                    | Calculates the average.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
-| MAX                    | Finds the maximum value.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | All types                                                                                                                                                                                                                                         | Same as input type                         |
-| MIN                    | Finds the minimum value.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | All types                                                                                                                                                                                                                                         | Same as input type                         |
-| FIRST                  | Finds the value with the smallest timestamp that is not NULL.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | All types                                                                                                                                                                                                                                         | Same as input type                         |
-| LAST                   | Finds the value with the largest timestamp that is not NULL.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | All types                                                                                                                                                                                                                                         | Same as input type                         |
-| STDDEV                 | Alias for STDDEV_SAMP,  calculates the sample standard deviation.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
-| STDDEV_POP             | Calculates the population standard deviation.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
-| STDDEV_SAMP            | Calculates the sample standard deviation.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
-| VARIANCE               | Alias for VAR_SAMP,  calculates the sample variance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
-| VAR_POP                | Calculates the population variance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
-| VAR_SAMP               | Calculates the sample variance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
-| EXTREME                | Finds the value with the largest absolute value. If the largest absolute values of positive and negative values are equal, returns the positive value.                                                                                                                                                                                                                                                                                                                                                                                                                                                         | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | Same as input type                         |
-| MODE                   | Finds the mode. Note: 1. There is a risk of memory exception when the number of distinct values in the input sequence is too large; 2. If all elements have the same frequency, i.e., there is no mode, a random element is returned; 3. If there are multiple modes, a random mode is returned; 4. NULL values are also counted in frequency, so even if not all values in the input sequence are NULL, the final result may still be NULL.                                                                                                                                                                   | All types                                                                                                                                                                                                                                         | Same as input type                         |
-| MAX_BY                 | MAX_BY(x, y) finds the value of x corresponding to the maximum y in the binary input x and y. MAX_BY(time, x) returns the timestamp when x is at its maximum.                                                                                                                                                                                                                                                                                                                                                                                                                                                  | x and y can be of any type                                                                                                                                                                                                                        | Same as the data type of the first input x |
-| MIN_BY                 | MIN_BY(x, y) finds the value of x corresponding to the minimum y in the binary input x and y. MIN_BY(time, x) returns the timestamp when x is at its minimum.                                                                                                                                                                                                                                                                                                                                                                                                                                                  | x and y can be of any type                                                                                                                                                                                                                        | Same as the data type of the first input x |
-| FIRST_BY               | FIRST_BY(x, y) finds the value of x in the same row when y is the first non-null value.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | x and y can be of any type                                                                                                                                                                                                                        | Same as the data type of the first input x |
-| LAST_BY                | LAST_BY(x, y) finds the value of x in the same row when y is the last non-null value.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | x and y can be of any type                                                                                                                                                                                                                        | Same as the data type of the first input x |
+| Function Name          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Allowed Input Types                                                                                                                                                                                                                               | Output Type                                |
+|:-----------------------|:---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:-------------------------------------------|
+| COUNT                  | Counts the number of data points.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | All types                                                                                                                                                                                                                                         | INT64                                      |
+| COUNT_IF               | COUNT_IF(exp) counts the number of rows that satisfy a specified boolean expression.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | `exp` must be a boolean expression,(e.g. `count_if(temperature>20)`)                                                                                                                                                                              | INT64                                    |
+| APPROX_COUNT_DISTINCT  | The APPROX_COUNT_DISTINCT(x[, maxStandardError]) function provides an approximation of COUNT(DISTINCT x), returning the estimated number of distinct input values.                                                                                                                                                                                                                                                                                                                                                                                                                     | `x`: The target column to be calculated, supports all data types.<br>`maxStandardError` (optional): Specifies the maximum standard error allowed for the function's result. Valid range is [0.0040625, 0.26]. Defaults to 0.023 if not specified. | INT64                                           |
+| APPROX_MOST_FREQUENT | The APPROX_MOST_FREQUENT(x, k, capacity) function is used to approximately calculate the top k most frequent elements in a dataset. It returns a JSON-formatted string where the keys are the element values and the values are their corresponding approximate frequencies. （Available since V2.0.5.1)                                                                                                                                                                                                                                                                                | `x` : The column to be calculated, supporting all existing data types in IoTDB;<br> `k`: The number of top-k most frequent values to return;<br>`capacity`: The number of buckets used for computation, which relates to memory usage—a larger value reduces error but consumes more memory, while a smaller value increases error but uses less memory. | STRING |
+| APPROX_PERCENTILE     | The APPROX_PERCENTILE function calculates the value at a specified percentile in a dataset, helping quickly understand data distribution (e.g., median, quartiles). It supports weighted percentile calculation. If the percentile does not point to an exact position, it returns a linear interpolation of adjacent values at that position.Memory usage depends on the number of centroids, and the maximum number of centroids can be limited using the compression parameter. Error can be estimated using empirical formulas.Note: This function is supported since V2.0.9-beta. | Unweighted Version: APPROX_PERCENTILE(x, percentage) <br> x: Column to compute. Supports all numeric types: INT32, INT64, FLOAT, DOUBLE, TIMESTAMP. <br> percentage: Target percentile, DOUBLE type. <br>Weighted Version: APPROX_PERCENTILE(x, w, percentage)<br>x: Column to compute. Supports all numeric types: INT32, INT64, FLOAT, DOUBLE, TIMESTAMP.<br>w: Weight column, integer type (must align with the length of x; NULL or 0 means the row is ignored).<br>percentage: Target percentile, DOUBLE type.    | Same as the input column x.                |
+| SUM                    | Calculates the sum.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
+| AVG                    | Calculates the average.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
+| MAX                    | Finds the maximum value.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | All types                                                                                                                                                                                                                                         | Same as input type                         |
+| MIN                    | Finds the minimum value.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | All types                                                                                                                                                                                                                                         | Same as input type                         |
+| FIRST                  | Finds the value with the smallest timestamp that is not NULL.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | All types                                                                                                                                                                                                                                         | Same as input type                         |
+| LAST                   | Finds the value with the largest timestamp that is not NULL.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | All types                                                                                                                                                                                                                                         | Same as input type                         |
+| STDDEV                 | Alias for STDDEV_SAMP,  calculates the sample standard deviation.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
+| STDDEV_POP             | Calculates the population standard deviation.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
+| STDDEV_SAMP            | Calculates the sample standard deviation.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
+| VARIANCE               | Alias for VAR_SAMP,  calculates the sample variance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
+| VAR_POP                | Calculates the population variance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
+| VAR_SAMP               | Calculates the sample variance.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | DOUBLE                                     |
+| EXTREME                | Finds the value with the largest absolute value. If the largest absolute values of positive and negative values are equal, returns the positive value.                                                                                                                                                                                                                                                                                                                                                                                                                                 | INT32 INT64 FLOAT DOUBLE                                                                                                                                                                                                                          | Same as input type                         |
+| MODE                   | Finds the mode. Note: 1. There is a risk of memory exception when the number of distinct values in the input sequence is too large; 2. If all elements have the same frequency, i.e., there is no mode, a random element is returned; 3. If there are multiple modes, a random mode is returned; 4. NULL values are also counted in frequency, so even if not all values in the input sequence are NULL, the final result may still be NULL.                                                                                                                                           | All types                                                                                                                                                                                                                                         | Same as input type                         |
+| MAX_BY                 | MAX_BY(x, y) finds the value of x corresponding to the maximum y in the binary input x and y. MAX_BY(time, x) returns the timestamp when x is at its maximum.                                                                                                                                                                                                                                                                                                                                                                                                                          | x and y can be of any type                                                                                                                                                                                                                        | Same as the data type of the first input x |
+| MIN_BY                 | MIN_BY(x, y) finds the value of x corresponding to the minimum y in the binary input x and y. MIN_BY(time, x) returns the timestamp when x is at its minimum.                                                                                                                                                                                                                                                                                                                                                                                                                          | x and y can be of any type                                                                                                                                                                                                                        | Same as the data type of the first input x |
+| FIRST_BY               | FIRST_BY(x, y) finds the value of x in the same row when y is the first non-null value.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | x and y can be of any type                                                                                                                                                                                                                        | Same as the data type of the first input x |
+| LAST_BY                | LAST_BY(x, y) finds the value of x in the same row when y is the last non-null value.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | x and y can be of any type                                                                                                                                                                                                                        | Same as the data type of the first input x |
 
 
 ### 2.3 Examples
@@ -272,8 +273,27 @@ Total line number = 1
 It costs 0.064s
 ```
 
+#### 2.3.6 Approx_Percentile
 
-#### 2.3.6 First
+Calculate the 90th percentile of the `temperature` column and the 50th percentile (median) of the `humidity` column from `table1` respectively, and return these two approximate percentile values.
+
+```SQL
+SELECT APPROX_PERCENTILE(temperature,0.9), APPROX_PERCENTILE(humidity,0.5) FROM table1;
+```
+
+**Execution Result:**
+
+```SQL
++-----+-----+
+|_col0|_col1|
++-----+-----+
+| 90.0| 35.2|
++-----+-----+
+Total line number = 1
+It costs 0.206s
+```
+
+#### 2.3.7 First
 
 Finds the values with the smallest timestamp that are not NULL in the `temperature` and `humidity` columns.
 
@@ -293,7 +313,7 @@ Total line number = 1
 It costs 0.170s
 ```
 
-#### 2.3.7 Last
+#### 2.3.8 Last
 
 Finds the values with the largest timestamp that are not NULL in the `temperature` and `humidity` columns.
 
@@ -313,7 +333,7 @@ Total line number = 1
 It costs 0.211s
 ```
 
-#### 2.3.8 First_by
+#### 2.3.9 First_by
 
 Finds the `time` value of the row with the smallest timestamp that is not NULL in the `temperature` column, and the `humidity` value of the row with the smallest timestamp that is not NULL in the `temperature` column.
 
@@ -333,7 +353,7 @@ Total line number = 1
 It costs 0.269s
 ```
 
-#### 2.3.9 Last_by
+#### 2.3.10 Last_by
 
 Queries the `time` value of the row with the largest timestamp that is not NULL in the `temperature` column, and the `humidity` value of the row with the largest timestamp that is not NULL in the `temperature` column.
 
@@ -353,7 +373,7 @@ Total line number = 1
 It costs 0.070s
 ```
 
-#### 2.3.10 Max_by
+#### 2.3.11 Max_by
 
 Queries the `time` value of the row where the `temperature` column is at its maximum, and the `humidity` value of the row where the `temperature` column is at its maximum.
 
@@ -373,7 +393,7 @@ Total line number = 1
 It costs 0.172s
 ```
 
-#### 2.3.11 Min_by
+#### 2.3.12 Min_by
 
 Queries the `time` value of the row where the `temperature` column is at its minimum, and the `humidity` value of the row where the `temperature` column is at its minimum.
 
@@ -1222,13 +1242,304 @@ IoTDB:database1> select length, width, bitwise_right_shift_arithmetic(length,wid
 ```
 
 
-## 7. Conditional Expressions
+## 7. Binary Functions
 
-### 7.1 CASE
+> Supported since V2.0.9-beta
+
+### 7.1 Base64 Encoding Functions
+| Function Name               | Description                                                                 | Input Type          | Output Type |
+| ----------------------------- | ----------------------------------------------------------------------------- | --------------------- | ------------- |
+| `to_base64(input)`        | Encode input data to standard Base64 string for binary data transmission/storage | STRING/TEXT/BLOB    | STRING        |
+| `from_base64(input)`      | Decode standard Base64 string to raw binary data (inverse of to_base64)        | STRING/TEXT         | BLOB          |
+| `to_base64url(input)`     | Encode input to URL-safe Base64URL string (replace +/_, omit padding)         | STRING/TEXT/BLOB    | STRING        |
+| `from_base64url(input)`   | Decode Base64URL string to raw binary data (inverse of to_base64url)          | STRING/TEXT         | BLOB          |
+| `to_base32(input)`        | Encode input to Base32 string (case-insensitive, high readability)            | STRING/TEXT/BLOB    | STRING        |
+| `from_base32(input)`      | Decode Base32 string to raw binary data (inverse of to_base32)                | STRING/TEXT         | BLOB          |
+
+**Examples**
+1. to_base64: Encode string to standard Base64
+```SQL
+SELECT DISTINCT to_base64('IoTDB Binary Test') FROM table1;
+```
+```
++----------------------------+
+|                       _col0|
++----------------------------+
+|SW9URELkuozov5vliLbmtYvor5U=|
++----------------------------+
+```
+
+2. from_base64: Decode Base64 to binary
+```SQL
+SELECT DISTINCT from_base64('SW9URELkuozov5vliLbmtYvor5U=') FROM table1;
+```
+```
++------------------------------------------+
+|                                     _col0|
++------------------------------------------+
+|0x496f544442e4ba8ce8bf9be588b6e6b58be8af95|
++------------------------------------------+
+```
+
+3. to_base64url: Encode to URL-safe Base64URL
+```SQL
+SELECT DISTINCT to_base64url('https://iotdb.apache.org') FROM table1;
+```
+```
++--------------------------------+
+|                           _col0|
++--------------------------------+
+|aHR0cHM6Ly9pb3RkYi5hcGFjaGUub3Jn|
++--------------------------------+
+```
+
+4. from_base64url: Decode Base64URL
+```SQL
+SELECT DISTINCT from_base64url('aHR0cHM6Ly9pb3RkYi5hcGFjaGUub3Jn') FROM table1;
+```
+```
++--------------------------------------------------+
+|                                             _col0|
++--------------------------------------------------+
+|0x68747470733a2f2f696f7464622e6170616368652e6f7267|
++--------------------------------------------------+
+```
+
+5. to_base32: Encode to Base32
+```SQL
+SELECT DISTINCT to_base32('123456') FROM table1;
+```
+```
++----------------+
+|           _col0|
++----------------+
+|GEZDGNBVGY======|
++----------------+
+```
+
+6. from_base32: Decode Base32
+```SQL
+SELECT DISTINCT from_base32('GEZDGNBVGY======') FROM table1;
+```
+```
++--------------+
+|         _col0|
++--------------+
+|0x313233343536|
++--------------+
+```
+
+### 7.2 Hex Encoding Functions
+| Function Name           | Description                                       | Input Type          | Output Type |
+| ------------------------ | -------------------------------------------------- | --------------------- | ------------- |
+| `TO_HEX(input)`    | Convert input to hex string (raw byte view)       | STRING/TEXT/BLOB    | STRING        |
+| `FROM_HEX(input)`  | Decode hex string to raw binary (inverse of TO_HEX) | STRING/TEXT         | BLOB          |
+
+**Examples**
+1. TO_HEX: Convert string/binary to hex
+```SQL
+SELECT DISTINCT TO_HEX('test') FROM table1;
+```
+```
++--------+
+|   _col0|
++--------+
+|74657374|
++--------+
+```
+
+2. FROM_HEX: Decode hex to binary
+```SQL
+SELECT DISTINCT FROM_HEX('74657374') FROM table1;
+```
+```
++----------+
+|     _col0|
++----------+
+|0x74657374|
++----------+
+```
+
+### 7.3 Basic Binary Functions
+| Function Name                      | Description                                                                               | Input Type               | Output Type  |
+| ----------------------------------- | ------------------------------------------------------------------------------------------ | -------------------------- | -------------- |
+| `length(input)`               | Return data length: chars for TEXT, bytes for BLOB/OBJECT                                | STRING/TEXT/BLOB/OBJECT  | INT32         |
+| `REVERSE(input)`              | Reverse input: chars for TEXT, bytes for BLOB                                             | STRING/TEXT/BLOB         | Same as input  |
+| `LPAD(input, length, pad_bytes)` | Left-pad/truncate BLOB to target byte length                                             | BLOB, INT32/INT64, BLOB  | BLOB          |
+| `RPAD(input, length, pad_bytes)` | Right-pad/truncate BLOB to target byte length                                             | BLOB, INT32/INT64, BLOB  | BLOB          |
+
+**Examples**
+1. length: Get data length
+```SQL
+SELECT DISTINCT length('IoTDB') FROM table1;
+```
+```
++-----+
+|_col0|
++-----+
+|    5|
++-----+
+```
+
+2. REVERSE: Reverse data
+```SQL
+SELECT DISTINCT REVERSE('12345') FROM table1;
+```
+```
++-----+
+|_col0|
++-----+
+|54321|
++-----+
+```
+
+3. LPAD: Left-pad BLOB
+```SQL
+SELECT DISTINCT LPAD(FROM_HEX('74657374'),5, FROM_HEX('74657374')) FROM table1;
+```
+```
++------------+
+|       _col0|
++------------+
+|0x7474657374|
++------------+
+```
+
+4. RPAD: Right-pad BLOB
+```SQL
+SELECT DISTINCT RPAD(FROM_HEX('74657374'),5, FROM_HEX('74657374')) FROM table1;
+```
+```
++------------+
+|       _col0|
++------------+
+|0x7465737474|
++------------+
+```
+
+### 7.4 Integer Encoding Functions
+| Function Name                        | Description                                                              | Input Type | Output Type |
+| ------------------------------------- | ------------------------------------------------------------------------- | ------------ | ------------ |
+| `to_big_endian_32(input)`       | Convert INT32 to 4-byte big-endian BLOB (network byte order)            | INT32      | BLOB        |
+| `to_big_endian_64(input)`       | Convert INT64 to 8-byte big-endian BLOB                                  | INT64      | BLOB        |
+| `from_big_endian_32(input)`     | Decode 4-byte big-endian BLOB to INT32                                  | BLOB       | INT32       |
+| `from_big_endian_64(input)`     | Decode 8-byte big-endian BLOB to INT64                                  | BLOB       | INT64       |
+| `to_little_endian_32(input)`    | Convert INT32 to 4-byte little-endian BLOB (x86 architecture)          | INT32      | BLOB        |
+| `to_little_endian_64(input)`    | Convert INT64 to 8-byte little-endian BLOB                              | INT64      | BLOB        |
+| `from_little_endian_32(input)`  | Decode 4-byte little-endian BLOB to INT32                               | BLOB       | INT32       |
+| `from_little_endian_64(input)`  | Decode 8-byte little-endian BLOB to INT64                               | BLOB       | INT64       |
+
+**Examples**
+1. Big-endian encode/decode
+```SQL
+SELECT DISTINCT TO_HEX(to_big_endian_32(12345)) FROM table1;
+```
+```
++--------+
+|   _col0|
++--------+
+|00003039|
++--------+
+```
+
+2. Little-endian encode/decode
+```SQL
+SELECT DISTINCT TO_HEX(to_little_endian_32(12345)) FROM table1;
+```
+```
++--------+
+|   _col0|
++--------+
+|39300000|
++--------+
+```
+
+### 7.5 Floating-Point Encoding Functions
+| Function Name                  | Description                                                              | Input Type | Output Type |
+| ------------------------------- | ------------------------------------------------------------------------- | ------------ | ------------ |
+| `to_ieee754_32(input)`    | Convert FLOAT to 4-byte big-endian IEEE754 BLOB                         | FLOAT      | BLOB        |
+| `to_ieee754_64(input)`    | Convert DOUBLE to 8-byte big-endian IEEE754 BLOB                        | DOUBLE     | BLOB        |
+| `from_ieee754_32(input)`  | Decode 4-byte IEEE754 BLOB to FLOAT                                     | BLOB       | FLOAT       |
+| `from_ieee754_64(input)`  | Decode 8-byte IEEE754 BLOB to DOUBLE                                    | BLOB       | DOUBLE      |
+
+**Examples**
+1. FLOAT encode/decode
+```SQL
+SELECT DISTINCT from_ieee754_32(FROM_HEX('42b40000')) FROM table1;
+```
+```
++-----+
+|_col0|
++-----+
+| 90.0|
++-----+
+```
+
+2. DOUBLE encode/decode
+```SQL
+SELECT DISTINCT from_ieee754_64(FROM_HEX('400921fb54411744')) FROM table1;
+```
+```
++------------+
+|       _col0|
++------------+
+|3.1415926535|
++------------+
+```
+
+### 7.6 Hash Functions
+| Function Name                    | Description                                                              | Input Type       | Output Type  |
+| --------------------------------- | ------------------------------------------------------------------------- | ------------------ | ------------- |
+| `sha256(input)`             | SHA-256 cryptographic hash (collision-resistant)                         | STRING/TEXT/BLOB | BLOB(32B)    |
+| `SHA512(input)`             | SHA-512 cryptographic hash (higher security)                             | STRING/TEXT/BLOB | BLOB(64B)    |
+| `SHA1(input)`               | SHA-1 hash (not secure for cryptography)                                | STRING/TEXT/BLOB | BLOB(20B)    |
+| `MD5(input)`                | MD5 hash (non-cryptographic checksum)                                   | STRING/TEXT/BLOB | BLOB(16B)    |
+| `CRC32(input)`              | CRC32 checksum (fast error detection)                                   | STRING/TEXT/BLOB | INT64        |
+| `spooky_hash_v2_32(input)` | 32-bit SpookyHashV2 (high-performance non-crypto)                        | STRING/TEXT/BLOB | BLOB(4B)     |
+| `spooky_hash_v2_64(input)` | 64-bit SpookyHashV2                                                      | STRING/TEXT/BLOB | BLOB(8B)     |
+| `xxhash64(input)`           | 64-bit xxHash (ultra-fast)                                               | STRING/TEXT/BLOB | BLOB(8B)     |
+| `murmur3(input)`            | 128-bit MurmurHash3 (uniform distribution)                              | STRING/TEXT/BLOB | BLOB(16B)    |
+
+**Examples**
+```SQL
+SELECT DISTINCT TO_HEX(sha256('test')) FROM table1;
+```
+```
++----------------------------------------------------------------+
+|                                                           _col0|
++----------------------------------------------------------------+
+|9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08|
++----------------------------------------------------------------+
+```
+
+### 7.7 HMAC Functions
+| Function Name                  | Description                                                                 | Input Type                          | Output Type  |
+| ------------------------------- | ------------------------------------------------------------------------------ | ------------------------------------- | ------------- |
+| `hmac_md5(data, key)`     | HMAC-MD5 message authentication code                                         | data: STRING/TEXT/BLOB key: STRING/TEXT | BLOB(16B)    |
+| `hmac_sha1(data, key)`    | HMAC-SHA1 authentication code                                                | data: STRING/TEXT/BLOB key: STRING/TEXT | BLOB(20B)    |
+| `hmac_sha256(data, key)`  | HMAC-SHA256 (industry-recommended, high security)                           | data: STRING/TEXT/BLOB key: STRING/TEXT | BLOB(32B)    |
+| `hmac_sha512(data, key)`  | HMAC-SHA512 (maximum security)                                               | data: STRING/TEXT/BLOB key: STRING/TEXT | BLOB(64B)    |
+
+**Examples**
+```SQL
+SELECT DISTINCT TO_HEX(hmac_sha256('user_data_123', 'iotdb_secret_key')) FROM table1;
+```
+```
++----------------------------------------------------------------+
+|                                                           _col0|
++----------------------------------------------------------------+
+|73b6f26bbcb5192dbe2cb83745b0fc48c63418fa674b0bf62fabe7f8747f3afd|
++----------------------------------------------------------------+
+```
+
+
+## 8. Conditional Expressions
+
+### 8.1 CASE
 
 CASE expressions come in two forms: **Simple CASE** and **Searched CASE**.
 
-#### 7.1.1 Simple CASE
+#### 8.1.1 Simple CASE
 
 The simple form evaluates each value expression from left to right until it finds a match with the given expression:
 
@@ -1253,7 +1564,7 @@ SELECT a,
        END
 ```
 
-#### 7.1.2 Searched CASE
+#### 8.1.2 Searched CASE
 
 The searched form evaluates each Boolean condition from left to right until a `TRUE` condition is found, then returns the corresponding result:
 
@@ -1278,7 +1589,7 @@ SELECT a, b,
        END
 ```
 
-### 7.2 COALESCE
+### 8.2 COALESCE
 
 Returns the first non-null value from the given list of parameters.
 
@@ -1286,13 +1597,57 @@ Returns the first non-null value from the given list of parameters.
 coalesce(value1, value2[, ...])
 ```
 
-## 8. Conversion Functions
+### 8.3 IF Expression
+The IF expression has two forms: one that specifies only the true value, and another that specifies both the true value and the false value.
 
-### 8.1 Conversion Functions
+| Form                                         | Description                                                                                                                          | Output Type Restrictions |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------ |
+| `IF(condition, true_value)`              | If the condition evaluates to true, `true_value` is computed and returned; otherwise, `null` is returned and `true_value` is not evaluated. | — |
+| `IF(condition, true_value, false_value)` | If the condition evaluates to true, `true_value` is computed and returned; otherwise, `false_value` is computed and returned. | The data types of `true_value` and `false_value` **must be exactly the same**. Implicit type conversion is not supported. |
 
-#### 8.1.1 cast(value AS type) → type
+> Supported since V2.0.9-beta
 
-Explicitly converts a value to the specified type. This can be used to convert strings (`VARCHAR`) to numeric types or numeric values to string types. Starting from V2.0.8-beta, OBJECT type can be explicitly cast to STRING type.
+**Examples:**
+
+1. Equivalent examples of IF and CASE expressions:
+```SQL
+-- IF syntax
+SELECT 
+  device_id,
+  temperature,  
+  IF(temperature > 85, 'High Value', 'Low Value')
+FROM table1;
+
+-- Equivalent CASE syntax
+SELECT
+  device_id,  
+  temperature,  
+  CASE    
+    WHEN temperature > 85 THEN 'High Value'
+    ELSE 'Low Value'  
+  END
+FROM table1;
+```
+
+2. Output type restriction examples:
+```SQL
+-- Succeeds
+-- temperature (float) and humidity (float) have matching types
+SELECT IF(temperature > 85, temperature, humidity) FROM table1;
+
+-- Fails
+-- temperature (float) and status (boolean) have mismatched types
+SELECT IF(temperature > 85, temperature, status) FROM table1;
+```
+
+
+## 9. Conversion Functions
+
+### 9.1 Conversion Functions
+
+#### 9.1.1 cast(value AS type) → type
+
+Explicitly converts a value to the specified type. This can be used to convert strings (`VARCHAR`) to numeric types or numeric values to string types. 
 
 If the conversion fails, a runtime error is thrown.
 
@@ -1305,7 +1660,7 @@ SELECT *
   IN (CAST('2024-11-27' AS DATE), CAST('2024-11-28' AS DATE));
 ```
 
-#### 8.1.2 try_cast(value AS type) → type
+#### 9.1.2 try_cast(value AS type) → type
 
 Similar to `CAST()`. If the conversion fails, returns `NULL` instead of throwing an error.
 
@@ -1318,11 +1673,11 @@ SELECT *
   IN (try_cast('2024-11-27' AS DATE), try_cast('2024-11-28' AS DATE));
 ```
 
-### 8.2 Format Function
+### 9.2 Format Function
 
 This function generates and returns a formatted string based on a specified format string and input arguments. Similar to Java’s `String.format` or C’s `printf`, it allows developers to construct dynamic string templates using placeholder syntax. Predefined format specifiers in the template are replaced precisely with corresponding argument values, producing a complete string that adheres to specific formatting requirements.
 
-#### 8.2.1 Syntax
+#### 9.2.1 Syntax
 
 ```SQL
 format(pattern, ...args) -> STRING
@@ -1332,15 +1687,15 @@ format(pattern, ...args) -> STRING
 
 * `pattern`: A format string containing static text and one or more format specifiers (e.g., `%s`, `%d`), or any expression returning a `STRING`/`TEXT` type.
 * `args`: Input arguments to replace format specifiers. Constraints:
-  * Number of arguments ≥ 1.
-  * Multiple arguments must be comma-separated (e.g., `arg1, arg2`).
-  * Total arguments can exceed the number of specifiers in `pattern` but cannot be fewer, otherwise an exception is triggered.
+    * Number of arguments ≥ 1.
+    * Multiple arguments must be comma-separated (e.g., `arg1, arg2`).
+    * Total arguments can exceed the number of specifiers in `pattern` but cannot be fewer, otherwise an exception is triggered.
 
 **Return Value**
 
 * Formatted result string of type `STRING`.
 
-#### 8.2.2 Usage Examples
+#### 9.2.2 Usage Examples
 
 1. Format Floating-Point Numbers
    ```SQL
@@ -1449,7 +1804,7 @@ IoTDB:database1> SELECT format('%1$tF %1$tT', 2024-01-01T00:00:00.000+08:00) FRO
    +-----+
    ```
 
-#### 8.2.3 Format Conversion Failure Scenarios
+#### 9.2.3 Format Conversion Failure Scenarios
 
 1. Type Mismatch Errors
 
@@ -1457,8 +1812,8 @@ IoTDB:database1> SELECT format('%1$tF %1$tT', 2024-01-01T00:00:00.000+08:00) FRO
 
   If the format specifier includes time-related tokens (e.g., `%Y-%m-%d`) but the argument:
 
-  * Is a non-`DATE`/`TIMESTAMP` type value.  ◦
-  * Requires sub-day precision (e.g., `%H`, `%M`) but the argument is not `TIMESTAMP`.
+    * Is a non-`DATE`/`TIMESTAMP` type value.  ◦
+    * Requires sub-day precision (e.g., `%H`, `%M`) but the argument is not `TIMESTAMP`.
 
 ```SQL
 -- Example 1
@@ -1488,10 +1843,10 @@ Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Invalid format string: %.5f (
    ```
 3. Invalid Invocation Errors
 
-  Triggered if:
+Triggered if:
 
-  * Total arguments < 2 (must include `pattern` and at least one argument).•
-  * `pattern` is not of type `STRING`/`TEXT`.
+* Total arguments < 2 (must include `pattern` and at least one argument).•
+* `pattern` is not of type `STRING`/`TEXT`.
 
 ```SQL
 -- Example 1
@@ -1504,19 +1859,19 @@ Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Scalar function format must h
 ```
 
 
-## 9. String Functions and Operators
+## 10. String Functions and Operators
 
-### 9.1 String operators
+### 10.1 String operators
 
-#### 9.1.1 || Operator
+#### 10.1.1 || Operator
 
 The `||` operator is used for string concatenation and functions the same as the `concat` function.
 
-#### 9.1.2 LIKE Statement
+#### 10.1.2 LIKE Statement
 
- The `LIKE` statement is used for pattern matching. For detailed usage, refer to Pattern Matching:[LIKE](#1-like-运算符).
+The `LIKE` statement is used for pattern matching. For detailed usage, refer to Pattern Matching:[LIKE](#1-like-运算符).
 
-### 9.2 String Functions
+### 10.2 String Functions
 
 | Function Name | Description                                                                                                                                                                                                                                                                                                                                                                                                                              | Input                                                             | Output  | Usage                                                        |
 | :------------ |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------| :------ | :----------------------------------------------------------- |
@@ -1534,33 +1889,33 @@ The `||` operator is used for string concatenation and functions the same as the
 | `substring`   | Extracts a substring from `start_index` to the end of the string. **Notes:**  - `start_index` starts at `1`.  - Returns `NULL` if input is `NULL`.  - Throws an error if `start_index` is greater than string length.                                                                                                                                                                                                                    | `string`, `start_index`                                           | String  | substring(string from start_index)or substring(string, start_index) |
 | `substring`   | Extracts a substring of `length` characters starting from `start_index`. **Notes:**  - `start_index` starts at `1`.  - Returns `NULL` if input is `NULL`.  - Throws an error if `start_index` is greater than string length.  - Throws an error if `length` is negative.  - If `start_index + length` exceeds `int.MAX`, an overflow error may occur.                                                                                    | `string`, `start_index`, `length`                                 | String  | substring(string from start_index for length)  or substring(string, start_index, length) |
 
-## 10. Pattern Matching Functions
+## 11. Pattern Matching Functions
 
-### 10.1 LIKE
+### 11.1 LIKE
 
-#### 10.1.1 Usage
+#### 11.1.1 Usage
 
 The `LIKE `operator is used to compare a value with a pattern. It is commonly used in the `WHERE `clause to match specific patterns within strings.
 
-#### 10.1.2 Syntax
+#### 11.1.2 Syntax
 
 ```SQL
 ... column [NOT] LIKE 'pattern' ESCAPE 'character';
 ```
 
-#### 10.1.3 Match rules
+#### 11.1.3 Match rules
 
 - Matching characters is case-sensitive
 - The pattern supports two wildcard characters:
-  - `_` matches any single character
-  - `%` matches zero or more characters
+    - `_` matches any single character
+    - `%` matches zero or more characters
 
-#### 10.1.4 Notes
+#### 11.1.4 Notes
 
 - `LIKE` pattern matching applies to the entire string by default. Therefore, if it's desired to match a sequence anywhere within a string, the pattern must start and end with a percent sign.
 - To match the escape character itself, double it (e.g., `\\` to match `\`). For example, you can use `\\` to match for `\`.
 
-#### 10.1.5 Examples
+#### 11.1.5 Examples
 
 #### **Example 1: Match Strings Starting with a Specific Character**
 
@@ -1602,13 +1957,13 @@ SELECT * FROM table1 WHERE continent LIKE 'South\_%' ESCAPE '\';
 SELECT * FROM table1 WHERE continent LIKE 'South\\%' ESCAPE '\';
 ```
 
-### 10.2 regexp_like
+### 11.2 regexp_like
 
-#### 10.2.1 Usage
+#### 11.2.1 Usage
 
 Evaluates whether the regular expression pattern is present within the given string.
 
-#### 10.2.2 Syntax
+#### 11.2.2 Syntax
 
 ```SQL
 regexp_like(string, pattern);
@@ -1620,24 +1975,24 @@ regexp_like(string, pattern);
 - To match the entire string, use the `^` and `$` anchors.
 - `^` signifies the "start of the string," and `$` signifies the "end of the string."
 - Regular expressions use the Java-defined regular syntax, but there are the following exceptions to be aware of:
-  - Multiline mode
-    1. Enabled by: `(?m)`.
-    2. Recognizes only `\n` as the line terminator.
-    3. Does not support the `(?d)` flag, and its use is prohibited.
-  - Case-insensitive matching
-    1. Enabled by: `(?i)`.
-    2. Based on Unicode rules, it does not support context-dependent and localized matching.
-    3. Does not support the `(?u)` flag, and its use is prohibited.
-  - Character classes
-    1. Within character classes (e.g., `[A-Z123]`), `\Q` and `\E` are not supported and are treated as literals.
-  - Unicode character classes (`\p{prop}`)
-    1. Underscores in names: All underscores in names must be removed (e.g., `OldItalic `instead of `Old_Italic`).
-    2. Scripts: Specify directly, without the need for `Is`, `script=`, or `sc=` prefixes (e.g., `\p{Hiragana}`).
-    3. Blocks: Must use the `In` prefix, `block=` or `blk=` prefixes are not supported (e.g., `\p{InMongolian}`).
-    4. Categories: Specify directly, without the need for `Is`, `general_category=`, or `gc=` prefixes (e.g., `\p{L}`).
-    5. Binary properties: Specify directly, without `Is` (e.g., `\p{NoncharacterCodePoint}`).
+    - Multiline mode
+        1. Enabled by: `(?m)`.
+        2. Recognizes only `\n` as the line terminator.
+        3. Does not support the `(?d)` flag, and its use is prohibited.
+    - Case-insensitive matching
+        1. Enabled by: `(?i)`.
+        2. Based on Unicode rules, it does not support context-dependent and localized matching.
+        3. Does not support the `(?u)` flag, and its use is prohibited.
+    - Character classes
+        1. Within character classes (e.g., `[A-Z123]`), `\Q` and `\E` are not supported and are treated as literals.
+    - Unicode character classes (`\p{prop}`)
+        1. Underscores in names: All underscores in names must be removed (e.g., `OldItalic `instead of `Old_Italic`).
+        2. Scripts: Specify directly, without the need for `Is`, `script=`, or `sc=` prefixes (e.g., `\p{Hiragana}`).
+        3. Blocks: Must use the `In` prefix, `block=` or `blk=` prefixes are not supported (e.g., `\p{InMongolian}`).
+        4. Categories: Specify directly, without the need for `Is`, `general_category=`, or `gc=` prefixes (e.g., `\p{L}`).
+        5. Binary properties: Specify directly, without `Is` (e.g., `\p{NoncharacterCodePoint}`).
 
-#### 10.2.4 Examples
+#### 11.2.4 Examples
 
 #### Example 1: **Matching strings containing a specific pattern**
 
@@ -1646,9 +2001,9 @@ SELECT regexp_like('1a 2b 14m', '\\d+b'); -- true
 ```
 
 - **Explanation**: Determines whether the string '1a 2b 14m' contains a substring that matches the pattern `\d+b`.
-  - `\d+` means "one or more digits".
-  - `b` represents the letter b.
-  - In `'1a 2b 14m'`, the substring `'2b'` matches this pattern, so it returns `true`.
+    - `\d+` means "one or more digits".
+    - `b` represents the letter b.
+    - In `'1a 2b 14m'`, the substring `'2b'` matches this pattern, so it returns `true`.
 
 
 #### **Example 2: Matching the entire string**
@@ -1658,11 +2013,11 @@ SELECT regexp_like('1a 2b 14m', '^\\d+b$'); -- false
 ```
 
 - **Explanation**: Checks if the string `'1a 2b 14m'` matches the pattern `^\\d+b$` exactly.
-  - `\d+` means "one or more digits".
-  - `b` represents the letter b.
-  - `'1a 2b 14m'` does not match this pattern because it does not start with digits and does not end with `b`, so it returns `false`.
+    - `\d+` means "one or more digits".
+    - `b` represents the letter b.
+    - `'1a 2b 14m'` does not match this pattern because it does not start with digits and does not end with `b`, so it returns `false`.
 
-## 11. Timeseries Windowing Functions
+## 12. Timeseries Windowing Functions
 
 The sample data is as follows:
 
@@ -1685,19 +2040,19 @@ CREATE TABLE bid(time TIMESTAMP TIME, stock_id STRING TAG, price FLOAT FIELD);
 INSERT INTO bid(time, stock_id, price) VALUES('2021-01-01T09:05:00','AAPL',100.0),('2021-01-01T09:06:00','TESL',200.0),('2021-01-01T09:07:00','AAPL',103.0),('2021-01-01T09:07:00','TESL',202.0),('2021-01-01T09:09:00','AAPL',102.0),('2021-01-01T09:15:00','TESL',195.0);
 ```
 
-### 11.1 HOP
+### 12.1 HOP
 
-#### 11.1.1 Function Description
+#### 12.1.1 Function Description
 
 The HOP function segments data into overlapping time windows for analysis, assigning each row to all windows that overlap with its timestamp. If windows overlap (when SLIDE < SIZE), data will be duplicated across multiple windows.
 
-#### 11.1.2 Function Definition
+#### 12.1.2 Function Definition
 
 ```SQL
 HOP(data, timecol, size, slide[, origin])
 ```
 
-#### 11.1.3 Parameter Description
+#### 12.1.3 Parameter Description
 
 | Parameter | Type   | Attributes                      | Description             |
 | ----------- | -------- | --------------------------------- | ------------------------- |
@@ -1708,7 +2063,7 @@ HOP(data, timecol, size, slide[, origin])
 | ORIGIN    | Scalar | Timestamp (default: Unix epoch) | First window start time |
 
 
-#### 11.1.4 Returned Results
+#### 12.1.4 Returned Results
 
 The HOP function returns:
 
@@ -1716,7 +2071,7 @@ The HOP function returns:
 * `window_end`: Window end time (exclusive)
 * Pass-through columns: All input columns from DATA
 
-#### 11.1.5 Usage Example
+#### 12.1.5 Usage Example
 
 ```SQL
 IoTDB> SELECT * FROM HOP(DATA => bid,TIMECOL => 'time',SLIDE => 5m,SIZE => 10m);
@@ -1751,18 +2106,18 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM HOP(DAT
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 11.2 SESSION
+### 12.2 SESSION
 
-#### 11.2.1 Function Description
+#### 12.2.1 Function Description
 
 The SESSION function groups data into sessions based on time intervals. It checks the time gap between consecutive rows—rows with gaps smaller than the threshold (GAP) are grouped into the current window, while larger gaps trigger a new window.
 
-#### 11.2.2 Function Definition
+#### 12.2.2 Function Definition
 
 ```SQL
 SESSION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], timecol, gap)
 ```
-#### 11.2.3 Parameter Description
+#### 12.2.3 Parameter Description
 
 | Parameter | Type   | Attributes                 | Description                          |
 | ----------- | -------- | ---------------------------- | -------------------------------------- |
@@ -1770,7 +2125,7 @@ SESSION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], timecol, gap)
 | TIMECOL   | Scalar | String (default: 'time')   | Time column name                     |
 | GAP       | Scalar | Long integer               | Session gap threshold                |
 
-#### 11.2.4 Returned Results
+#### 12.2.4 Returned Results
 
 The SESSION function returns:
 
@@ -1778,7 +2133,7 @@ The SESSION function returns:
 * `window_end`: Time of the last row in the session
 * Pass-through columns: All input columns from DATA
 
-#### 11.2.5 Usage Example
+#### 12.2.5 Usage Example
 
 ```SQL
 IoTDB> SELECT * FROM SESSION(DATA => bid PARTITION BY stock_id ORDER BY time,TIMECOL => 'time',GAP => 2m);
@@ -1804,19 +2159,19 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM SESSION
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 11.3 VARIATION
+### 12.3 VARIATION
 
-#### 11.3.1 Function Description
+#### 12.3.1 Function Description
 
 The VARIATION function groups data based on value differences. The first row becomes the baseline for the first window. Subsequent rows are compared to the baseline—if the difference is within the threshold (DELTA), they join the current window; otherwise, a new window starts with that row as the new baseline.
 
-#### 11.3.2 Function Definition
+#### 12.3.2 Function Definition
 
 ```sql
 VARIATION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], col, delta)
 ```
 
-#### 11.3.3 Parameter Description
+#### 12.3.3 Parameter Description
 
 | Parameter | Type   | Attributes                 | Description                          |
 | ----------- | -------- | ---------------------------- | -------------------------------------- |
@@ -1824,14 +2179,14 @@ VARIATION(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], col, delta)
 | COL       | Scalar | String                     | Column for difference calculation    |
 | DELTA     | Scalar | Float                      | Difference threshold                 |
 
-#### 11.3.4 Returned Results
+#### 12.3.4 Returned Results
 
 The VARIATION function returns:
 
 * `window_index`: Window identifier
 * Pass-through columns: All input columns from DATA
 
-#### 11.3.5 Usage Example
+#### 12.3.5 Usage Example
 
 ```sql
 IoTDB> SELECT * FROM VARIATION(DATA => bid PARTITION BY stock_id ORDER BY time,COL => 'price',DELTA => 2.0);
@@ -1858,33 +2213,33 @@ IoTDB> SELECT first(time) as window_start, last(time) as window_end, stock_id, a
 +-----------------------------+-----------------------------+--------+-----+
 ```
 
-### 11.4 CAPACITY
+### 12.4 CAPACITY
 
-#### 11.4.1 Function Description
+#### 12.4.1 Function Description
 
 The CAPACITY function groups data into fixed-size windows, where each window contains up to SIZE rows.
 
-#### 11.4.2 Function Definition
+#### 12.4.2 Function Definition
 
 ```sql
 CAPACITY(data [PARTITION BY(pkeys, ...)] [ORDER BY(okeys, ...)], size)
 ```
 
-#### 11.4.3 Parameter Description
+#### 12.4.3 Parameter Description
 
 | Parameter | Type   | Attributes                 | Description                          |
 | ----------- | -------- | ---------------------------- | -------------------------------------- |
 | DATA      | Table  | SET SEMANTIC, PASS THROUGH | Input table with partition/sort keys |
 | SIZE      | Scalar | Long integer               | Window size (row count)              |
 
-#### 11.4.4 Returned Results
+#### 12.4.4 Returned Results
 
 The CAPACITY function returns:
 
 * `window_index`: Window identifier
 * Pass-through columns: All input columns from DATA
 
-#### 11.4.5 Usage Example
+#### 12.4.5 Usage Example
 
 ```sql
 IoTDB> SELECT * FROM CAPACITY(DATA => bid PARTITION BY stock_id ORDER BY time, SIZE => 2);
@@ -1911,18 +2266,18 @@ IoTDB> SELECT first(time) as start_time, last(time) as end_time, stock_id, avg(p
 +-----------------------------+-----------------------------+--------+-----+
 ```
 
-### 11.5 TUMBLE
+### 12.5 TUMBLE
 
-#### 11.5.1 Function Description
+#### 12.5.1 Function Description
 
 The TUMBLE function assigns each row to a non-overlapping, fixed-size time window based on a timestamp attribute.
 
-#### 11.5.2 Function Definition
+#### 12.5.2 Function Definition
 
 ```sql
 TUMBLE(data, timecol, size[, origin])
 ```
-#### 11.5.3 Parameter Description
+#### 12.5.3 Parameter Description
 
 | Parameter | Type   | Attributes                      | Description             |
 | ----------- | -------- | --------------------------------- | ------------------------- |
@@ -1931,7 +2286,7 @@ TUMBLE(data, timecol, size[, origin])
 | SIZE      | Scalar | Long integer (positive)         | Window size             |
 | ORIGIN    | Scalar | Timestamp (default: Unix epoch) | First window start time |
 
-#### 11.5.4 Returned Results
+#### 12.5.4 Returned Results
 
 The TUMBLE function returns:
 
@@ -1939,7 +2294,7 @@ The TUMBLE function returns:
 * `window_end`: Window end time (exclusive)
 * Pass-through columns: All input columns from DATA
 
-#### 11.5.5 Usage Example
+#### 12.5.5 Usage Example
 
 ```SQL
 IoTDB> SELECT * FROM TUMBLE( DATA => bid, TIMECOL => 'time', SIZE => 10m);
@@ -1965,19 +2320,19 @@ IoTDB> SELECT window_start, window_end, stock_id, avg(price) as avg FROM TUMBLE(
 +-----------------------------+-----------------------------+--------+------------------+
 ```
 
-### 11.6 CUMULATE
+### 12.6 CUMULATE
 
-#### 11.6.1 Function Description
+#### 12.6.1 Function Description
 
 The CUMULATE function creates expanding windows from an initial window, maintaining the same start time while incrementally extending the end time by STEP until reaching SIZE. Each window contains all elements within its range. For example, with a 1-hour STEP and 24-hour SIZE, daily windows would be: `[00:00, 01:00)`, `[00:00, 02:00)`, ..., `[00:00, 24:00)`.
 
-#### 11.6.2 Function Definition
+#### 12.6.2 Function Definition
 
 ```sql
 CUMULATE(data, timecol, size, step[, origin])
 ```
 
-#### 11.6.3 Parameter Description
+#### 12.6.3 Parameter Description
 
 | Parameter | Type   | Attributes                      | Description                                       |
 | ----------- | -------- | --------------------------------- | --------------------------------------------------- |
@@ -1989,7 +2344,7 @@ CUMULATE(data, timecol, size, step[, origin])
 
 > Note: An error `Cumulative table function requires size must be an integral multiple of step` occurs if SIZE is not divisible by STEP.
 
-#### 11.6.4 Returned Results
+#### 12.6.4 Returned Results
 
 The CUMULATE function returns:
 
@@ -1997,7 +2352,7 @@ The CUMULATE function returns:
 * `window_end`: Window end time (exclusive)
 * Pass-through columns: All input columns from DATA
 
-#### 11.6.5 Usage Example
+#### 12.6.5 Usage Example
 
 ```sql
 IoTDB> SELECT * FROM CUMULATE(DATA => bid,TIMECOL => 'time',STEP => 2m,SIZE => 10m);

@@ -38,7 +38,7 @@ export const enSidebar = {
       prefix: 'Background-knowledge/',
       children: [
         { text: 'Common Concepts', link: 'Cluster-Concept_apache' },
-        { text: 'Timeseries Data Model', link: 'Navigating_Time_Series_Data' },
+        { text: 'Timeseries Data Model', link: 'Navigating_Time_Series_Data_apache' },
         { text: 'Modeling Scheme Design', link: 'Data-Model-and-Terminology_apache' },
         { text: 'Data Type', link: 'Data-Type_apache' },
       ],
@@ -76,7 +76,7 @@ export const enSidebar = {
             collapsible: true,
             children: [
                { text: 'AINode Deployment(V2.0.5/6)', link: 'AINode_Deployment_apache' },
-               { text: 'AINode Deployment(V2.0.8-beta)', link: 'AINode_Deployment_Upgrade_apache' },
+               { text: 'AINode Deployment(V2.0.8)', link: 'AINode_Deployment_Upgrade_apache' },
             ],
           },
       ],
@@ -122,6 +122,7 @@ export const enSidebar = {
             { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis' },
             { text: 'Cluster Maintenance', link: 'Load-Balance' },
             { text: 'Maintenance statement', link: 'Maintenance-commands_apache' },
+            { text: 'Auto-start On Boot', link: 'Auto-Start-On-Boot_apache' },
           ],
         },
       ],
@@ -132,9 +133,9 @@ export const enSidebar = {
       prefix: 'AI-capability/',
       children: [
         { text: 'AINode(V2.0.5/6)', link: 'AINode_apache' },
-        { text: 'AINode(V2.0.8-beta)', link: 'AINode_Upgrade_apache' },
+        { text: 'AINode(V2.0.8)', link: 'AINode_Upgrade_apache' },
         { text: 'TimeSeries Large Model(V2.0.5/6)', link: 'TimeSeries-Large-Model' },
-        { text: 'TimeSeries Large Model(V2.0.8-beta)', link: 'TimeSeries-Large-Model_Upgrade_apache' },
+        { text: 'TimeSeries Large Model(V2.0.8)', link: 'TimeSeries-Large-Model_Upgrade_apache' },
       ],
     },
     {
@@ -232,6 +233,8 @@ export const enSidebar = {
             { text: 'ORDER BY Clause', link: 'OrderBy-Clause' },
             { text: 'LIMIT&OFFSET Clause', link: 'Limit-Offset-Clause' },
             { text: 'Nested Queries', link: 'Nested-Queries' },
+            { text: 'Common Table Expressions (CTE)', link: 'Common-Table-Expression_apache' },
+            { text: 'Set Operations', link: 'Set-Operations_apache' },
           ],
         },
         { text: 'Maintenance Statements', link: 'SQL-Maintenance-Statements_apache' },

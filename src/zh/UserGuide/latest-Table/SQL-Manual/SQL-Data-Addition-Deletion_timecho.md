@@ -34,18 +34,18 @@ INSERT INTO <TABLE_NAME> [(COLUMN_NAME[, COLUMN_NAME]*)]? VALUES (COLUMN_VALUE[,
 **示例一：指定列写入**
 
 ```SQL
-INSERT INTO table1(region, plant_id, device_id, time, temperature, humidity) VALUES ('北京', '1001', '100', '2025-11-26 13:37:00', 90.0, 35.1)
+INSERT INTO table1(region, plant_id, device_id, time, temperature, humidity) VALUES ('北京', '1001', '100', '2025-11-26 13:37:00', 90.0, 35.1);
 
-INSERT INTO table1(region, plant_id, device_id, time, temperature) VALUES ('北京', '1001', '100', '2025-11-26 13:38:00', 91.0)
+INSERT INTO table1(region, plant_id, device_id, time, temperature) VALUES ('北京', '1001', '100', '2025-11-26 13:38:00', 91.0);
 ```
 
 **示例二：空值写入**
 
+上述部分列写入等价于如下的带空值写入
 ```SQL
-# 上述部分列写入等价于如下的带空值写入
-INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('北京', '1001', '100', null, null, '2025-11-26 13:37:00', 90.0, 35.1)
+INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('北京', '1001', '100', null, null, '2025-11-26 13:37:00', 90.0, 35.1);
 
-INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('北京', '1001', '100', null, null, '2025-11-26 13:38:00', 91.0, null)
+INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, temperature, humidity) VALUES ('北京', '1001', '100', null, null, '2025-11-26 13:38:00', 91.0, null);
 ```
 
 **示例三：多行写入**
@@ -54,13 +54,13 @@ INSERT INTO table1(region, plant_id, device_id, model_id, maintenance, time, tem
 INSERT INTO table1
 VALUES 
 ('2025-11-26 13:37:00', '北京', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:37:34'),
-('2025-11-26 13:38:00', '北京', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:38:25')
+('2025-11-26 13:38:00', '北京', '1001', '100', 'A', '180', 90.0, 35.1, true, '2025-11-26 13:38:25');
 
 INSERT INTO table1
 (region, plant_id, device_id, model_id, maintenance, time, temperature, humidity, status, arrival_time) 
 VALUES 
 ('北京', '1001', '100', 'A', '180', '2025-11-26 13:37:00', 90.0, 35.1, true, '2025-11-26 13:37:34'),
-('北京', '1001', '100', 'A', '180', '2025-11-26 13:38:00', 90.0, 35.1, true, '2025-11-26 13:38:25')
+('北京', '1001', '100', 'A', '180', '2025-11-26 13:38:00', 90.0, 35.1, true, '2025-11-26 13:38:25');
 ```
 
 **示例四：查询写回**
@@ -90,7 +90,7 @@ updateAssignment
 **示例：**
 
 ```SQL
-update table1 set b = a where substring(a, 1, 1) like '%'
+update table1 set b = a where substring(a, 1, 1) like '%';
 ```
 
 ## 3. 数据删除
@@ -123,34 +123,37 @@ ID_CONDITION:
 
 **示例一: 删除全表数据**
 
+全表删除
 ```SQL
--- 全表删除
-DELETE FROM table1
+DELETE FROM table1;
 ```
 
 **示例二：删除一段时间范围内的数据**
 
+单时间段数据删除
 ```SQL
--- 单时间段数据删除
-DELETE FROM table1 WHERE time <= 2024-11-29 00:00:00
-
--- 多时间段数据删除
-DELETE FROM table1  WHERE time >= 2024-11-27 00:00:00  and time <= 2024-11-29 00:00:00
+DELETE FROM table1 WHERE time <= 2024-11-29 00:00:00;
+```
+多时间段数据删除
+```SQL
+DELETE FROM table1  WHERE time >= 2024-11-27 00:00:00  and time <= 2024-11-29 00:00:00;
 ```
 
 **示例三：删除指定设备的数据**
 
+删除指定设备的数据
 ```SQL
--- 删除指定设备的数据
-DELETE FROM table1 WHERE device_id='101' and model_id = 'B'
-
--- 删除指定设备及时间段的数据
+DELETE FROM table1 WHERE device_id='101' and model_id = 'B';
+```
+删除指定设备及时间段的数据
+```SQL
 DELETE FROM table1 
     WHERE time >= 2024-11-27 16:39:00  and time <= 2024-11-29 16:42:00 
-    AND device_id='101' and model_id = 'B'
-
--- 删除指定类型设备的数据
-DELETE FROM table1 WHERE model_id = 'B'
+    AND device_id='101' and model_id = 'B';
+```
+删除指定类型设备的数据
+```SQL
+DELETE FROM table1 WHERE model_id = 'B';
 ```
 
 ## 4. 设备删除
@@ -164,5 +167,5 @@ DELETE DEVICES FROM tableName=qualifiedName (WHERE booleanExpression)?
 **示例：删除指定设备及其相关的所有数据**
 
 ```SQL
-DELETE DEVICES FROM table1 WHERE device_id = '101'
+DELETE DEVICES FROM table1 WHERE device_id = '101';
 ```
