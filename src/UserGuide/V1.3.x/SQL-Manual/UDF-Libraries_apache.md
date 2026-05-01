@@ -4917,3 +4917,89 @@ Output Series:
 +-----------------------------+---------------------------+
 ```
 
+### Cluster
+
+#### Registration statement
+
+```sql
+create function cluster as 'org.apache.iotdb.library.dlearn.UDTFCluster'
+```
+
+#### Usage
+
+This function takes a **single input time series**, splits it into **non-overlapping** contiguous subsequences (windows) of fixed length `l`, and clusters those subsequences into `k` groups.
+
+**Name:** Cluster
+
+**Input Series:** Only support single input numeric series. The type is INT32 / INT64 / FLOAT / DOUBLE. Points are read in time order; trailing samples that do not fill a full window are dropped (only `⌊n/l⌋` windows are used, where `n` is the number of valid points).
+
+**Parameters:**
+
+| Name | Meaning | Default | Notes |
+|------|---------|---------|--------|
+| `l` | Subsequence (window) length | (required) | Positive integer; each window has `l` consecutive samples. |
+| `k` | Number of clusters | (required) | Integer ≥ 2. |
+| `method` | Clustering algorithm | `kmeans` | Optional: `kmeans`, `kshape`, `medoidshape` (case-insensitive). Defaults to k-means if omitted. |
+| `norm` | Z-score normalize each subsequence | `true` | Boolean; if `true`, each subsequence is standardized before clustering. |
+| `maxiter` | Maximum iterations | `200` | Positive integer. |
+| `output` | Output mode | `label` | `label`: one cluster id per window; `centroid`: concatenate the `k` centroid vectors in cluster order. |
+| `sample_rate` | Greedy sampling rate | `0.3` | Used only when **`method` = `medoidshape`**; must be in `(0, 1]`. |
+
+
+**`method` details:**
+
+- **kmeans**: k-means in Euclidean space (optionally after per-window normalization).
+- **kshape**: Assign by shape-based distance (SBD from normalized cross-correlation, NCC); centroids updated via SVD on the cluster matrix.
+- **medoidshape**: Coarsely cluster, then greedy selection of `k` representative subsequences; `sample_rate` controls how many candidates are sampled each round.
+
+**Output Series:** Controlled by `output`:
+
+- **`output` = `label` (default):** One output series, type **INT32**. Number of points = number of full windows, `⌊n/l⌋`. Timestamp of each point = **time of the first sample** in that window; value = cluster id **0 … k−1**.
+- **`output` = `centroid`:** One output series, type **DOUBLE**. Number of points = **`k × l`**: for clusters **0 → k−1**, emit the `l` components of each centroid in order (concatenated). Timestamps are `0, 1, 2, …` (placeholders only, no physical time meaning).
+
+**Note:**
+
+- Require valid point count `n ≥ l` and window count `⌊n/l⌋ ≥ k`.
+
+#### Examples
+
+##### KShape: window length 3, k = 2
+
+Nine samples `{1,2,3,10,20,30,1,5,1}` form three non-overlapping windows `{1,2,3}`, `{10,20,30}`, `{1,5,1}`. With **`method` = `kshape`** (default `norm` = `true`), each output row is the cluster id for one window; timestamps are the window start times. Resulting labels: **0, 0, 1**.
+
+Input Series:
+
+```
++-----------------------------+---------------+
+|                         Time|root.test.d0.s0|
++-----------------------------+---------------+
+|2020-01-01T00:00:01.000+08:00|            1.0|
+|2020-01-01T00:00:02.000+08:00|            2.0|
+|2020-01-01T00:00:03.000+08:00|            3.0|
+|2020-01-01T00:00:04.000+08:00|           10.0|
+|2020-01-01T00:00:05.000+08:00|           20.0|
+|2020-01-01T00:00:06.000+08:00|           30.0|
+|2020-01-01T00:00:07.000+08:00|            1.0|
+|2020-01-01T00:00:08.000+08:00|            5.0|
+|2020-01-01T00:00:09.000+08:00|            1.0|
++-----------------------------+---------------+
+```
+
+SQL for query:
+
+```sql
+select cluster(s0, "l"="3", "k"="2", "method"="kshape", "output"="label")
+from root.test.d0
+```
+
+Output Series:
+
+```
++-----------------------------+----------------------------------------------------------------------------+
+|                         Time|cluster(root.test.d0.s0,"l"="3","k"="2","method"="kshape","output"="label")|
++-----------------------------+----------------------------------------------------------------------------+
+|2020-01-01T00:00:01.000+08:00|                                                                           0|
+|2020-01-01T00:00:04.000+08:00|                                                                           0|
+|2020-01-01T00:00:07.000+08:00|                                                                           1|
++-----------------------------+----------------------------------------------------------------------------+
+```
