@@ -34,7 +34,6 @@ Version 2.0.8.2 adds support for modifying the full path of time series in the t
 - Storage Module: The tree model supports [modifying the full name of time series](../../latest/Basic-Concept/Operate-Metadata_timecho.md#_2-4-修改时间序列名称) and [changing the data type of time series](../../latest/Basic-Concept/Operate-Metadata_timecho.md#_2-3-修改时间序列数据类型).
 - Storage Module: The table model supports [modifying column data types](../Basic-Concept/Table-Management_timecho.md#_1-5-修改表) and [customizing the Time column name](../Basic-Concept/Table-Management_timecho.md#_1-1-创建表).
 - Interface Module: Adds support for the [ODBC Driver](../API/Programming-ODBC_timecho.md); the Python SessionDataset supports fetching DataFrames in batches; the MQTT service is externalized, and a new system table named Services is added for service queries.
-- System Module: The [audit log](../User-Manual/Audit-Log_timecho.md) now supports statistics on the number of slow requests.
 - AI Node: The table model supports adaptive [covariate inference](../AI-capability/AINode_Upgrade_timecho.md#_4-1-模型推理).
 - Stream Processing Module: The tree model data synchronization PIPE statement supports specifying multiple precise paths.
 

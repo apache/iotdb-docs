@@ -51,7 +51,7 @@ Edit the `iotdb-system.properties` file to enable audit logging using the follow
 | `audit_log_batch_interval_in_ms`          | Batch write interval for audit logs                                                                          | Long      | 1000                            | Hot Reload        |
 | `audit_log_batch_max_queue_bytes`         | Maximum byte size of the queue for batch processing audit logs. Subsequent write operations will be blocked when this threshold is exceeded. | Long      | 268435456                       | Hot Reload        |
 
-* V2.0.8.2
+* V2.0.9.2
 
 | Parameter Name                              | Description                                                                                                 | Data Type | Default Value                 | Activation Method |
 |-------------------------------------------|------------------------------------------------------------------------------------------------------------|-----------|-------------------------------|-------------------|
@@ -149,15 +149,17 @@ Total line number = 4
 It costs 0.024s
 ```
 
-* Query audit records for user 'u_0' on node 'node_1' with event types 'SLOW_OPERATION' and 'LOGIN'
+* Query audit records for user 'u_0' on node 'node_1' with event types 'SLOW_OPERATION'
 
 ```SQL
-IoTDB> select * from root.__audit.log.node_1.u_0 where audit_event_type='SLOW_OPERATION' or audit_event_type='LOGIN' limit 1 align by device 
-+-----------------------------+---------------------------+------+---------------+--------------+--------+--------------+-----------------------------------------------------------------------------------------------+----------+----------------+------------+--------+
-|                         Time|                     Device|result|privilege_level|privilege_type|database|operation_type|                                                                                            log|sql_string|audit_event_type|cli_hostname|username|
-+-----------------------------+---------------------------+------+---------------+--------------+--------+--------------+-----------------------------------------------------------------------------------------------+----------+----------------+------------+--------+
-|2026-01-23T11:42:23.636+08:00|root.__audit.log.node_1.u_0|  true|         GLOBAL|          null|        |       CONTROL|IoTDB: Login status: Login successfully. User root (ID=0), opens Session-1-root:127.0.0.1:51308|          |           LOGIN|   127.0.0.1|    root|
-+-----------------------------+---------------------------+------+---------------+--------------+--------+--------------+-----------------------------------------------------------------------------------------------+----------+----------------+------------+--------+
-Total line number = 1
-It costs 0.021s
+IoTDB> select * from root.__audit.log.node_1.u_0 where audit_event_type='SLOW_OPERATION' align by device
++-----------------------------+---------------------------+------+---------------+--------------+--------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------+----------------+------------+--------+
+|                         Time|                     Device|result|privilege_level|privilege_type|database|operation_type|                                                                                                                                                                    log|                                                                                                                          sql_string|audit_event_type|cli_hostname|username|
++-----------------------------+---------------------------+------+---------------+--------------+--------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------+----------------+------------+--------+
+|2026-05-06T14:43:55.088+08:00|root.__audit.log.node_1.u_0|  true|         OBJECT|   [READ_DATA]|        |         QUERY|           SLOW_QUERY: cost 60 ms, select * from root.__audit.log.node_1.u_0 where audit_event_type='SLOW_OPERATION' or audit_event_type='LOGIN'limit 1 align by device|select * from root.__audit.log.node_1.u_0 where audit_event_type='SLOW_OPERATION' or audit_event_type='LOGIN'limit 1 align by device|  SLOW_OPERATION|   127.0.0.1|    root|
+|2026-05-06T14:44:08.715+08:00|root.__audit.log.node_1.u_0|  true|         OBJECT|  [WRITE_DATA]|        |           DML|              Execution: insert into root.ln.wf02.wt02(timestamp, status, hardware) values (2, false, 'v2') cost 290 ms, with status code: TSStatus(code:200, message:)|                                                  insert into root.ln.wf02.wt02(timestamp, status, hardware) values (2, false, 'v2')|  SLOW_OPERATION|   127.0.0.1|    root|
+|2026-05-06T14:44:11.684+08:00|root.__audit.log.node_1.u_0|  true|         OBJECT|  [WRITE_DATA]|        |           DML|Execution: insert into root.ln.wf02.wt02(timestamp, status, hardware) VALUES (3, false, 'v3'),(4, true, 'v4') cost 6 ms, with status code: TSStatus(code:200, message:)|                                  insert into root.ln.wf02.wt02(timestamp, status, hardware) VALUES (3, false, 'v3'),(4, true, 'v4')|  SLOW_OPERATION|   127.0.0.1|    root|
++-----------------------------+---------------------------+------+---------------+--------------+--------+--------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+------------------------------------------------------------------------------------------------------------------------------------+----------------+------------+--------+
+Total line number = 3
+It costs 0.010s
 ```
