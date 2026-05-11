@@ -38,7 +38,7 @@ IoTDB 支持三种方式进行数据导入：
 </table>
 
 - **表模型 TsFile 导入暂时只支持本地导入。**
-- 不支持 Object 数据类型。
+- 自 V2.0.9.2 版本起，import-data.sh/bat 脚本导入 tsfile 文件时支持 Object 数据类型。
 
 ## 2. 数据导入工具
 
@@ -189,7 +189,7 @@ Fail to insert measurements '[column.name]' caused by [data type is not consiste
 # Unix/OS X
 > tools/import-data.sh -ft <format> [-sql_dialect<sql_dialect>] -db<database> -table<table> 
          [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
-        -s <source> -os <on_success> [-sd <success_dir>] -of <on_fail> [-fd <fail_dir>]
+        -s <source> [-o <object_file_paths>] -os <on_success> [-sd <success_dir>] -of <on_fail> [-fd <fail_dir>]
         [-tn <thread_num> ] [-tz <timezone>] [-tp <timestamp precision (ms/us/ns)>]
       
 # Windows
@@ -202,19 +202,20 @@ Fail to insert measurements '[column.name]' caused by [data type is not consiste
 # V2.0.4.x 版本及之后         
 > tools\windows\import-data.bat -ft <format> [-sql_dialect<sql_dialect>] -db<database> -table<table> 
          [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
-        -s <source> -os <on_success> [-sd <success_dir>] -of <on_fail> [-fd <fail_dir>]
+        -s <source> [-o <object_file_paths>] -os <on_success> [-sd <success_dir>] -of <on_fail> [-fd <fail_dir>]
         [-tn <thread_num> ] [-tz <timezone>] [-tp <timestamp precision (ms/us/ns)>]
 ```
 
 #### 2.4.2 私有参数
 
-| 参数缩写 | 参数全称               | 参数含义                                                                                                                             | 是否为必填项                                    | 默认值                |
-| ---------- | ------------------------ |----------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------| -------------------- |
-| -os| --on\_succcess| 1. none：不删除 <br> 2. mv：移动成功的文件到目标文件夹 <br>3. cp：硬连接（拷贝）成功的文件到目标文件夹 <br>4. delete：删除                                               | √                                         ||
-| -sd      | --success\_dir         | 当`--on_succcess`为 mv 或 cp 时，mv 或 cp 的目标文件夹。文件的文件名变为文件夹打平后拼接原有文件名                                                                         | 当`--on_succcess`为mv或cp时需要填写                | `${EXEC_DIR}/success`|
-| -of| --on\_fail| 1. none：跳过 <br>2. mv：移动失败的文件到目标文件夹 <br>3. cp：硬连接（拷贝）失败的文件到目标文件夹 <br>4. delete：删除                                                 | √                                         ||
-| -fd      | --fail\_dir            | 当`--on_fail`指定为 mv 或 cp 时，mv 或 cp 的目标文件夹。文件的文件名变为文件夹打平后拼接原有文件名                                                                           | 当`--on_fail`指定为 mv 或 cp 时需要填写                  | `${EXEC_DIR}/fail`   |
-| -tp      | --timestamp\_precision | 时间戳精度<br>tsfile 非远程导入：-tp 指定 tsfile 文件的时间精度 手动校验和服务器的时间戳是否一致 不一致返回报错信息 <br>远程导入：-tp 指定 tsfile 文件的时间精度 pipe 自动校验时间戳精度是否一致 不一致返回 pipe 报错信息 | 否：<br>1. ms（毫秒）<br>2. us（微秒）<br>3. ns（纳秒） | ms|
+| 参数缩写 | 参数全称                   | 参数含义                                                                                                                                                             | 是否为必填项                                    | 默认值                |
+|------|------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------| -------------------- |
+| -os  | --on\_succcess         | 1. none：不删除 <br> 2. mv：移动成功的文件到目标文件夹 <br>3. cp：硬连接（拷贝）成功的文件到目标文件夹 <br>4. delete：删除                                                                               | √                                         ||
+| -sd  | --success\_dir         | 当`--on_succcess`为 mv 或 cp 时，mv 或 cp 的目标文件夹。文件的文件名变为文件夹打平后拼接原有文件名                                                                                                 | 当`--on_succcess`为mv或cp时需要填写               | `${EXEC_DIR}/success`|
+| -of  | --on\_fail             | 1. none：跳过 <br>2. mv：移动失败的文件到目标文件夹 <br>3. cp：硬连接（拷贝）失败的文件到目标文件夹 <br>4. delete：删除                                                                                 | √                                         ||
+| -fd  | --fail\_dir            | 当`--on_fail`指定为 mv 或 cp 时，mv 或 cp 的目标文件夹。文件的文件名变为文件夹打平后拼接原有文件名                                                                                                   | 当`--on_fail`指定为 mv 或 cp 时需要填写             | `${EXEC_DIR}/fail`   |
+| -tp  | --timestamp\_precision | 时间戳精度<br>tsfile 非远程导入：-tp 指定 tsfile 文件的时间精度 手动校验和服务器的时间戳是否一致 不一致返回报错信息 <br>远程导入：-tp 指定 tsfile 文件的时间精度 pipe 自动校验时间戳精度是否一致 不一致返回 pipe 报错信息                         | 否：<br>1. ms（毫秒）<br>2. us（微秒）<br>3. ns（纳秒） | ms|
+| -o   | --object-file-paths    | Object 文件存储路径。 <br>默认模式：若不指定此参数，脚本将自动识别并导入位于 `<TSFileName>/` 同名子目录下的 Object 文件。<br> 绝对路径模式：显式指定 Object 文件的外部存储根目录，工具将基于此路径建立数据的关联索引。<br> 注意：该参数自 V2.0.9.2 版本起支持  | 否                                         |   |
 
 
 #### 2.4.3 运行示例
@@ -227,6 +228,53 @@ Fail to insert measurements '[column.name]' caused by [data type is not consiste
 > tools/import-data.sh -ft tsfile -sql_dialect table -s ./tsfile -db database1 
 Parse error: Missing required options: os, of
 ```
+
+**Object 类型导入**
+
+1. 导入格式
+
+* 默认
+
+```Bash
+target_dir
+    ├── tsfile.tsfile
+    └── tsfile/ (对应TSFile名字)
+        ├── regionID/tableName/tag1/tag2/field/timestamp1.bin
+        ├── regionID/tableName/tag1/tag2/field/timestamp2.bin
+        └── regionID/tableName1/tag3/tag4/field/timestamp1.bin
+```
+
+* 指定 Object 目录
+
+```Bash
+target_dir
+    ├── tsfile.tsfile
+object_dir
+    ├── regionID/tableName/tag1/tag2/field/timestamp1.bin
+    ├── regionID/tableName/tag1/tag2/field/timestamp2.bin
+    └── regionID/tableName1/tag3/tag4/field/timestamp1.bin
+```
+
+2. 命令行示例
+
+* 基础导入（自动识别 TsFile 同名目录下的 Object 文件）
+
+```Bash
+./import-data.sh -sql_dialect table -ft tsfile -s /data/import/sensor_v1.tsfile -db database1 -os none -of none
+```
+
+* 批量导入目录（指定并发线程数与成功后的处理动作）
+
+```Bash
+./import-data.sh -sql_dialect table -ft tsfile -s /data/raw_data/ -tn 16 -os mv -sd /data/archive/
+```
+
+* 表模型关联导入（指定外部 Object 存储路径与目标数据库）
+
+```Bash
+./import-data.sh -sql_dialect table -ft tsfile -s /data/import/ -db factory_db -o /mnt/object_storage/ -of mv -fd /data/error_log/
+```
+
 
 ## 3. TsFile 自动加载功能
 

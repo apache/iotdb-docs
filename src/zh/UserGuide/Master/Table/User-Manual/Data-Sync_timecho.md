@@ -81,7 +81,7 @@
 - 不支持 1.x 系列版本 IoTDB 与 2.x 以及以上系列版本的 IoTDB 之间进行数据同步。
 - 在进行数据同步任务时，请避免执行任何删除操作，防止两端状态不一致。
 - 树模型与表模型的`pipe`及`pipe plugins`在设计上相互隔离，建议在创建`pipe`前先通过`show`命令查询当前`-sql_dialect`参数配置下可用的内置插件，以确保语法兼容性和功能支持。
-- 不支持 Object 数据类型。
+- 自 V2.0.9.2 版本起支持 Object 类型数据导出。
 
 ## 2. 使用说明
 
@@ -223,17 +223,18 @@ SHOW PIPEPLUGINS
 
 ```SQL
 IoTDB> SHOW PIPEPLUGINS
-+---------------------+----------+-------------------------------------------------------------------------------------------------+---------+
-|           PluginName|PluginType|                                                                                        ClassName|PluginJar|
-+---------------------+----------+-------------------------------------------------------------------------------------------------+---------+
-| DO-NOTHING-PROCESSOR|   Builtin|        org.apache.iotdb.commons.pipe.agent.plugin.builtin.processor.donothing.DoNothingProcessor|         |
-|      DO-NOTHING-SINK|   Builtin|        org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.donothing.DoNothingConnector|         |
-|   IOTDB-AIR-GAP-SINK|   Builtin|   org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.iotdb.airgap.IoTDBAirGapConnector|         |
-|         IOTDB-SOURCE|   Builtin|                org.apache.iotdb.commons.pipe.agent.plugin.builtin.extractor.iotdb.IoTDBExtractor|         |
-|    IOTDB-THRIFT-SINK|   Builtin|   org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.iotdb.thrift.IoTDBThriftConnector|         |
-|IOTDB-THRIFT-SSL-SINK|   Builtin|org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.iotdb.thrift.IoTDBThriftSslConnector|         |
-|      WRITE-BACK-SINK|   Builtin|        org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.writeback.WriteBackConnector|         |
-+---------------------+----------+-------------------------------------------------------------------------------------------------+---------+
++---------------------+----------+-----------------------------------------------------------------------------------------+---------+----------------+
+|           PluginName|PluginType|                                                                                ClassName|PluginJar|ExceptionMessage|
++---------------------+----------+-----------------------------------------------------------------------------------------+---------+----------------+
+| DO-NOTHING-PROCESSOR|   Builtin|org.apache.iotdb.commons.pipe.agent.plugin.builtin.processor.donothing.DoNothingProcessor|         |                |
+|      DO-NOTHING-SINK|   Builtin|          org.apache.iotdb.commons.pipe.agent.plugin.builtin.sink.donothing.DoNothingSink|         |                |
+|   IOTDB-AIR-GAP-SINK|   Builtin|     org.apache.iotdb.commons.pipe.agent.plugin.builtin.sink.iotdb.airgap.IoTDBAirGapSink|         |                |
+|         IOTDB-SOURCE|   Builtin|              org.apache.iotdb.commons.pipe.agent.plugin.builtin.source.iotdb.IoTDBSource|         |                |
+|    IOTDB-THRIFT-SINK|   Builtin|     org.apache.iotdb.commons.pipe.agent.plugin.builtin.sink.iotdb.thrift.IoTDBThriftSink|         |                |
+|IOTDB-THRIFT-SSL-SINK|   Builtin|  org.apache.iotdb.commons.pipe.agent.plugin.builtin.sink.iotdb.thrift.IoTDBThriftSslSink|         |                |
+|    TSFILE-LOCAL-SINK|   Builtin|       org.apache.iotdb.commons.pipe.agent.plugin.builtin.sink.tsfile.PipeTsFileLocalSink|         |                |
+|      WRITE-BACK-SINK|   Builtin|          org.apache.iotdb.commons.pipe.agent.plugin.builtin.sink.writeback.WriteBackSink|         |                |
++---------------------+----------+-----------------------------------------------------------------------------------------+---------+----------------+
 ```
 
 预置插件详细介绍如下(各插件的详细参数可参考本文[参数说明](#参考参数说明))：
@@ -260,8 +261,8 @@ IoTDB> SHOW PIPEPLUGINS
             <td>默认的 processor 插件，不对传入的数据做任何的处理</td>
       </tr>
       <tr>
-            <td rowspan="6">sink 插件</td>
-            <td rowspan="6">支持</td>
+            <td rowspan="8">sink 插件</td>
+            <td rowspan="8">支持</td>
             <td>do-nothing-sink</td>
             <td>不对发送出的数据做任何的处理</td>
       </tr>
@@ -284,6 +285,14 @@ IoTDB> SHOW PIPEPLUGINS
       <tr>
             <td>opc-ua-sink</td>
             <td>用于 IoTDB （V2.0.2 及以上）支持OPC UA协议的数据传输插件，支持Client/Server 和 Pub/Sub 两种通信模式。 </td>
+      </tr>
+      <tr>
+            <td>tsfile-local-sink</td>
+            <td>用于 IoTDB (V2.0.9.2及以上）支持将 Object 数据导出到 IoTDB 服务器所在的本地文件系统。 </td>
+      </tr>
+      <tr>
+            <td>tsfile-remote-sink</td>
+            <td>用于 IoTDB (V2.0.9.2及以上）支持通过 SSH/SCP 协议将 Object 数据发送到远程服务器。 </td>
       </tr>
   </tbody>
 </table>
@@ -507,6 +516,79 @@ with sink (
 )
 ```
 
+### 3.9 Object 类型数据导出
+
+IoTDB 自 V2.0.9.2 版本起支持导出 Object 类型数据，通过配置 sink 参数支持如下两种方式：
+
+* Local 模式（本地导出）：将数据导出到 IoTDB 服务器所在的本地文件系统。
+* SCP 模式（远程传输）：通过 SSH/SCP 协议将数据发送到远程服务器。
+
+**示例一：本地导出**
+
+可直接使用系统内置的 `tsfile-local-sink `插件创建 PIPE 语句导出数据，例如：
+
+```SQL
+CREATE PIPE tsfile_export_local
+WITH SOURCE (                           
+  'source' = 'iotdb-source',
+  'table-name' = 'test_table'
+)
+WITH PROCESSOR (
+  'processor' = 'do-nothing-processor'
+)
+WITH SINK (
+  'sink' = 'tsfile-local-sink',                         -- 必填，指定 Sink 类型 
+  'sink.local.target-path' = '/data/backup/export_2024' -- 导出目标路径
+  'sink.rate-limit-bytes-per-second' = '10485760'       -- 限速 10MB/s
+);
+```
+
+**示例二：远程传输**
+
+1. 联系天谋团队获取 `tsfile-remote-sink` 插件相关的 jar 包，如 `tsfile-remote-sink-<version>-jar-with-dependencies.jar`，并放至 IoTDB 可访问的路径（例如所有数据节点主机）。
+2. 使用如下语句注册插件
+
+```SQL
+CREATE PIPEPLUGIN tsfile_remote_sink
+AS 'org.apache.iotdb.pipe.plugin.sink.tsfile.PipeTsFileRemoteSink'
+USING URI 'file:///path/to/tsfile-remote-sink-<版本号>-jar-with-dependencies.jar';
+```
+
+3. 创建 PIPE 语句
+
+```SQL
+CREATE PIPE tsfile_export_scp
+WITH SOURCE (
+  'source' = 'iotdb-source',
+  'table-name' = 'test_table'                        
+)
+WITH PROCESSOR (
+  'processor' = 'do-nothing-processor'
+)
+WITH SINK (
+  'sink' = 'tsfile_remote_sink',
+  'sink.file-mode' = 'scp',                          -- 指定为 SCP 模式
+  'sink.scp.host' = '192.168.1.100',                 -- 远程主机 IP
+  'sink.scp.port' = '22',                            -- SSH 端口
+  'sink.scp.user' = 'backup_user',                   -- SSH 用户名
+  'sink.scp.password' = 'ComplexPass123!',           -- SSH 密码
+  'sink.scp.remote-path' = '/remote/archive/',       -- 远程存放路径
+  'sink.rate-limit-bytes-per-second' = '10485760'    -- 限速 10MB/s
+);
+```
+
+**Sink 导出 TSFile 与 Object 格式：**
+
+```Bash
+target_dir
+    ├── tsfile.tsfile
+    └── tsfile/ (对应TSFile名字)
+        ├── regionID/tableName/tag1/tag2/field/timestamp1.bin
+        ├── regionID/tableName/tag1/tag2/field/timestamp2.bin
+        └── regionID/tableName1/tag3/tag4/field/timestamp1.bin
+```
+
+
 ## 参考：注意事项
 
 可通过修改 IoTDB 配置文件（`iotdb-system.properties`）以调整数据同步的参数，如同步数据存储目录等。完整配置如下：：
@@ -683,3 +765,22 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | sink.password                      | 密码，这里指 OPC UA 的允许密码              | String                      | 选填         | TimechoDB@2021,V2.0.6.x之前为 root                                                                                                                                                                     |
 | sink.opcua.placeholder             | 当ID列的值出现null时，用于替代null映射路径的占位字符串 | String               | 选填         | "null"                                                                                                                                                                   |
 
+#### tsfile-local-sink
+
+| **参数**                           | **描述**                               | **value 取值范围**            | **是否必填** | **默认值** |
+|-----------------------------------|-----------------------------------------|---------------------------|------|---------|
+| sink                              | 组件名称                                    | String: tsfile-local-sink | 是    | -       |
+| sink.local.target-path            | 本地目标目录                                  | String                    | 是    | -       |
+| sink.rate-limit-bytes-per-second  | 限速阈值。单位：字节/秒。开启限速时生效。rate-limit<=0不限速   | Long                      | 否    | 0       |
+
+#### tsfile-remote-sink
+
+| **参数**                             | **描述**                            | **value 取值范围**           | **是否必填** | **默认值** |
+|------------------------------------|-----------------------------------|--------------------------|----------|---------|
+| sink                               | 组件名称                              | String: tsfile-remote-sink | 是        | -       |
+| sink.scp.host                      | 远程主机 IP                           | String                   | 是        | -       |
+| sink.scp.port                      | 远程 SSH 端口                         | Long                     | 否        | 22      |
+| sink.scp.user                      | 远程 SSH 用户                         | String                   | 是        | -       |
+| sink.scp.password                  | 远程 SSH 密码                         | String                   | 是        | -       |
+| sink.scp.remote-path               | 远程目标目录                            | String                   | 是        | -       |
+| sink.rate-limit-bytes-per-second   | 单位：字节/秒。开启限速时生效。rate-limit<=0不限速  | Long                     | 否        | 0       |

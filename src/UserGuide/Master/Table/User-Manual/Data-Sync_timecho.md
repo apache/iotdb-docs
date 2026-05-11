@@ -81,7 +81,7 @@ By declaratively configuring these three parts in an SQL statement, flexible dat
 - Data synchronization between IoTDB of 1. x series version and IoTDB of 2. x and above series versions is not supported.
 - When performing data synchronization tasks, avoid executing any deletion operations to prevent inconsistencies between the two ends.
 - The `pipe` and `pipe plugins` for tree modes and table modes are designed to be isolated from each other. Before creating a `pipe`, it is recommended to first use the `show` command to query the built-in plugins available under the current `-sql_dialect` parameter configuration to ensure syntax compatibility and functional support.
-- Does not support the Object data type.
+- Object-type data export is supported since version V2.0.9.2.
 
 ## 2. Usage Instructions
 
@@ -227,17 +227,18 @@ Example Output:
 
 ```SQL
 IoTDB> SHOW PIPEPLUGINS
-**+---------------------+----------+-------------------------------------------------------------------------------------------------+---------+
-|           PluginName|PluginType|                                                                                        ClassName|PluginJar|
-+---------------------+----------+-------------------------------------------------------------------------------------------------+---------+
-| DO-NOTHING-PROCESSOR|   Builtin|        org.apache.iotdb.commons.pipe.agent.plugin.builtin.processor.donothing.DoNothingProcessor|         |
-|      DO-NOTHING-SINK|   Builtin|        org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.donothing.DoNothingConnector|         |
-|   IOTDB-AIR-GAP-SINK|   Builtin|   org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.iotdb.airgap.IoTDBAirGapConnector|         |
-|         IOTDB-SOURCE|   Builtin|                org.apache.iotdb.commons.pipe.agent.plugin.builtin.extractor.iotdb.IoTDBExtractor|         |
-|    IOTDB-THRIFT-SINK|   Builtin|   org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.iotdb.thrift.IoTDBThriftConnector|         |
-|IOTDB-THRIFT-SSL-SINK|   Builtin|org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.iotdb.thrift.IoTDBThriftSslConnector|         |
-|      WRITE-BACK-SINK|   Builtin|        org.apache.iotdb.commons.pipe.agent.plugin.builtin.connector.writeback.WriteBackConnector|         |
-+---------------------+----------+-------------------------------------------------------------------------------------------------+---------+
++---------------------+----------+-----------------------------------------------------------------------------------------+---------+----------------+
+|           PluginName|PluginType|                                                                                ClassName|PluginJar|ExceptionMessage|
++---------------------+----------+-----------------------------------------------------------------------------------------+---------+----------------+
+| DO-NOTHING-PROCESSOR|   Builtin|org.apache.iotdb.commons.pipe.agent.plugin.builtin.processor.donothing.DoNothingProcessor|         |                |
+|      DO-NOTHING-SINK|   Builtin|          org.apache.iotdb.commons.pipe.agent.plugin.builtin.sink.donothing.DoNothingSink|         |                |
+|   IOTDB-AIR-GAP-SINK|   Builtin|     org.apache.iotdb.commons.pipe.agent.plugin.builtin.sink.iotdb.airgap.IoTDBAirGapSink|         |                |
+|         IOTDB-SOURCE|   Builtin|              org.apache.iotdb.commons.pipe.agent.plugin.builtin.source.iotdb.IoTDBSource|         |                |
+|    IOTDB-THRIFT-SINK|   Builtin|     org.apache.iotdb.commons.pipe.agent.plugin.builtin.sink.iotdb.thrift.IoTDBThriftSink|         |                |
+|IOTDB-THRIFT-SSL-SINK|   Builtin|  org.apache.iotdb.commons.pipe.agent.plugin.builtin.sink.iotdb.thrift.IoTDBThriftSslSink|         |                |
+|    TSFILE-LOCAL-SINK|   Builtin|       org.apache.iotdb.commons.pipe.agent.plugin.builtin.sink.tsfile.PipeTsFileLocalSink|         |                |
+|      WRITE-BACK-SINK|   Builtin|          org.apache.iotdb.commons.pipe.agent.plugin.builtin.sink.writeback.WriteBackSink|         |                |
++---------------------+----------+-----------------------------------------------------------------------------------------+---------+----------------+
 ```
 
 Detailed introduction of pre-installed plugins is as follows (for detailed parameters of each plugin, please refer to the [Parameter Description](#reference-parameter-description):
@@ -263,8 +264,8 @@ Detailed introduction of pre-installed plugins is as follows (for detailed param
             <td>Default processor plugin that does not process incoming data.</td>
       </tr>
       <tr>
-            <td rowspan="6">sink Plugin</td>
-            <td rowspan="6">Supported</td>
+            <td rowspan="8">sink Plugin</td>
+            <td rowspan="8">Supported</td>
             <td>do-nothing-sink</td>
             <td>Does not process outgoing data.</td>
       </tr>
@@ -287,6 +288,14 @@ Detailed introduction of pre-installed plugins is as follows (for detailed param
      <tr>
             <td>opc-ua-sink</td>
             <td>An OPC UA protocol data transfer plugin for IoTDB (V2.0.2 and above), supporting both Client/Server and Pub/Sub communication modes. </td>
+      </tr>
+      <tr>
+            <td>tsfile-local-sink</td>
+            <td>Used in IoTDB (V2.0.9.2 and later) to support exporting Object data to the local file system where the IoTDB server resides.</td>
+      </tr>
+      <tr>
+            <td>tsfile-remote-sink</td>
+            <td>Used in IoTDB (V2.0.9.2 and later) to support sending Object data to a remote server via the SSH/SCP protocol.</td>
       </tr>
   </tbody>
 </table>
@@ -514,6 +523,77 @@ WITH SINK (
 )
 ```
 
+### 3.9 Object-Type Data Export
+Since version V2.0.9.2, IoTDB supports exporting Object-type data. The following two methods are supported by configuring sink parameters:
+
+* **Local Mode**: Exports data to the local file system where the IoTDB server resides.
+* **SCP Mode**: Sends data to a remote server via the SSH/SCP protocol.
+
+**Example 1: Local Export**
+
+You can directly use the built-in `tsfile-local-sink` plugin to create a PIPE statement for data export. For example:
+
+```SQL
+CREATE PIPE tsfile_export_local
+WITH SOURCE (                           
+  'source' = 'iotdb-source',
+  'table-name' = 'test_table'
+)
+WITH PROCESSOR (
+  'processor' = 'do-nothing-processor'
+)
+WITH SINK (
+  'sink' = 'tsfile-local-sink',                         -- Required, specifies the Sink type
+  'sink.local.target-path' = '/data/backup/export_2024' -- Target export path
+  'sink.rate-limit-bytes-per-second' = '10485760'       -- Rate limit: 10MB/s
+);
+```
+
+**Example 2: Remote Transfer**
+
+1. Contact the Timecho Team to obtain the JAR package related to the `tsfile-remote-sink` plugin, such as `tsfile-remote-sink-<version>-jar-with-dependencies.jar`, and place it in a path accessible to IoTDB (e.g., all Data Node hosts).
+2. Register the plugin using the following statement:
+
+```SQL
+CREATE PIPEPLUGIN tsfile_remote_sink
+AS 'org.apache.iotdb.pipe.plugin.sink.tsfile.PipeTsFileRemoteSink'
+USING URI 'file:///path/to/tsfile-remote-sink-<version>-jar-with-dependencies.jar';
+```
+
+3. Create the PIPE statement:
+
+```SQL
+CREATE PIPE tsfile_export_scp
+WITH SOURCE (
+  'source' = 'iotdb-source',
+  'table-name' = 'test_table'                        
+)
+WITH PROCESSOR (
+  'processor' = 'do-nothing-processor'
+)
+WITH SINK (
+  'sink' = 'tsfile_remote_sink',
+  'sink.file-mode' = 'scp',                          -- Specifies SCP mode
+  'sink.scp.host' = '192.168.1.100',                 -- Remote host IP
+  'sink.scp.port' = '22',                            -- SSH port
+  'sink.scp.user' = 'backup_user',                   -- SSH username
+  'sink.scp.password' = 'ComplexPass123!',           -- SSH password
+  'sink.scp.remote-path' = '/remote/archive/',       -- Remote storage path
+  'sink.rate-limit-bytes-per-second' = '10485760'    -- Rate limit: 10MB/s
+);
+```
+
+**Sink Exported TSFile and Object Format:**
+
+```Bash
+target_dir
+    ├── tsfile.tsfile
+    └── tsfile/ (matches the TSFile name)
+        ├── regionID/tableName/tag1/tag2/field/timestamp1.bin
+        ├── regionID/tableName/tag1/tag2/field/timestamp2.bin
+        └── regionID/tableName1/tag3/tag4/field/timestamp1.bin
+```
+
 ## Reference: Notes
 
 You can adjust the parameters for data synchronization by modifying the IoTDB configuration file (`iotdb-system.properties`), such as the directory for storing synchronized data. The complete configuration is as follows:
@@ -689,3 +769,23 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | sink.user                            | User for OPC UA, specified in the configuration	                                                       | String                           | No           | root                                                                                                                                                                                                                                                                          |
 | sink.password                        | Password for OPC UA, specified in the configuration	                                                   | String                           | No           | TimechoDB@2021 (Before V2.0.6.x it is root)                                                                                                                                                                                                                                   |
 | sink.opcua.placeholder               | A placeholder string used to substitute for null mapping paths when the value of the ID column is null | String               | Optional     | "null"                                                                                                                                                                                                                                                                        |
+
+
+#### tsfile-local-sink
+| Parameter                         | Description                                                                 | Value Range            | Required | Default |
+|-----------------------------------|-----------------------------------------------------------------------------|------------------------|----------|---------|
+| sink                              | Component name                                                              | String: tsfile-local-sink | Yes      | -       |
+| sink.local.target-path            | Local target directory                                                       | String                 | Yes      | -       |
+| sink.rate-limit-bytes-per-second  | Rate limit threshold (unit: bytes/second). Takes effect when enabled. No limit if rate-limit <= 0 | Long                   | No       | 0       |
+
+#### tsfile-remote-sink
+| Parameter                           | Description                                                                 | Value Range             | Required | Default |
+|------------------------------------|-----------------------------------------------------------------------------|-------------------------|----------|---------|
+| sink                               | Component name                                                              | String: tsfile-remote-sink | Yes      | -       |
+| sink.scp.host                      | Remote host IP                                                              | String                  | Yes      | -       |
+| sink.scp.port                      | Remote SSH port                                                             | Long                    | No       | 22      |
+| sink.scp.user                      | Remote SSH user                                                             | String                  | Yes      | -       |
+| sink.scp.password                  | Remote SSH password                                                         | String                  | Yes      | -       |
+| sink.scp.remote-path               | Remote target directory                                                      | String                  | Yes      | -       |
+| sink.rate-limit-bytes-per-second   | Unit: bytes/second. Takes effect when enabled. No limit if rate-limit <= 0  | Long                    | No       | 0       |
+
