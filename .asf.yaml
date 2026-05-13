@@ -36,7 +36,6 @@ github:
     # disable rebase button:
     rebase: true
   collaborators:
-    - krystal-xiao
     - mal117
     - W1y1r
     - leto-b
