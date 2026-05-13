@@ -35,10 +35,7 @@ github:
     merge: false
     # disable rebase button:
     rebase: true
-  collaborators:
-    - mal117
-    - W1y1r
-    - leto-b
+  collaborators: []
 
 staging:
   profile: ~
