@@ -25,7 +25,7 @@
 
 ## 1. 时序数据模型
 
-在构建IoTDB建模方案前，需要先了解时序数据和时序数据模型，详细内容见此页面：[时序数据模型](../Background-knowledge/Navigating_Time_Series_Data.md)
+在构建IoTDB建模方案前，需要先了解时序数据和时序数据模型，详细内容见此页面：[时序数据模型](../Background-knowledge/Navigating_Time_Series_Data_apache.md)
 
 ## 2. IoTDB 的树表孪生模型
 
@@ -238,8 +238,6 @@ IoTDB 提供了树转表功能，如下图所示：
 ![](/img/tree-to-table-1.png)
 
 该功能支持通过创建表视图的方式，将已存在的树模型数据转化为表视图，进而通过表视图进行查询，实现了对同一份数据的树模型和表模型协同处理。更详细的功能介绍可参考[树转表视图](../User-Manual/Tree-to-Table_apache.md)，需要注意的是：​**创建树转表视图的 SQL 语句只允许在表模型下执行**​。
-
-
 
 
 ## 3. 应用场景

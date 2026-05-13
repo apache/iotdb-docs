@@ -193,3 +193,83 @@ It costs 0.267s
 ```
 
 It should be noted that the use of the -e parameter in shell scripts requires attention to the escaping of special characters. 
+
+## 5. Access History Feature
+
+Since IoTDB **V2.0.9.1**, the access history feature is supported. After a client logs in successfully, key historical access information is displayed, and the feature supports distributed scenarios. Both administrators and regular users can only view their own access history. The core displayed information includes:
+
+- Last successful session: displays date, time, access application, IP address, and access method (not shown for first login or when no history exists).
+- Most recent failed attempt: displays the date, time, access application, IP address, and access method of the latest failed login attempt before the current successful login.
+- Cumulative failed attempts: total number of failed session attempts since the last successful session was established.
+
+### 5.1 Enabling Access History
+
+You can enable or disable the access history feature by modifying relevant parameters in the `iotdb-system.properties` file. A restart is required for changes to take effect. For example:
+
+```Plain
+# Controls whether the audit log feature is enabled
+enable_audit_log=false
+```
+
+- When enabled: login information is recorded and expired data is cleaned periodically.
+- When disabled: no data is recorded, displayed, or cleaned.
+- If disabled and then re-enabled, the displayed history will be the last record before disabling, which may not represent the actual latest login.
+
+Usage example:
+
+```Bash
+---------------------
+Starting IoTDB Cli
+---------------------
+ _____       _________  ______   ______
+|_   _|     |  _   _  ||_   _ `.|_   _ \
+  | |   .--.|_/ | | \_|  | | `. \ | |_) |
+  | | / .'`\ \  | |      | |  | | |  __'.
+ _| |_| \__. | _| |_    _| |_.' /_| |__) |
+|_____|'.__.' |_____|  |______.'|_______/  Enterprise version 2.0.9.1 (Build: xxxxxxx)
+
+
+---Last Successful Session------------------
+Time: 2026-03-24T10:25:47.759+08:00
+IP Address: 127.0.0.1
+---Last Failed Session----------------------
+Time: 2026-03-24T10:27:26.314+08:00
+IP Address: 127.0.0.1
+Cumulative Failed Attempts: 1
+Successfully login at 127.0.0.1:6667
+IoTDB>
+```
+
+### 5.2 Viewing Access History
+
+The `root` user and users with the `AUDIT` privilege can view access history records using SQL statements.
+
+Syntax:
+
+```SQL
+SELECT * FROM root.__audit.login.u_{userid}.**
+```
+
+The `userid` can be obtained using the `LIST USER` statement.
+
+Example:
+
+```SQL
+IoTDB> SELECT * FROM root.__audit.login.**
++-----------------------------+------------------------------------+--------------------------------+--------------------------------------+
+|                         Time|root.__audit.login.u_0.node_1.result|root.__audit.login.u_0.node_1.ip|root.__audit.login.u_0.node_1.username|
++-----------------------------+------------------------------------+--------------------------------+--------------------------------------+
+|2026-03-25T10:55:58.240+08:00|                                true|                       127.0.0.1|                                  root|
++-----------------------------+------------------------------------+--------------------------------+--------------------------------------+
+Total line number = 1
+It costs 0.039s
+
+IoTDB> SELECT * FROM root.__audit.login.u_0.**
++-----------------------------+------------------------------------+--------------------------------+--------------------------------------+
+|                         Time|root.__audit.login.u_0.node_1.result|root.__audit.login.u_0.node_1.ip|root.__audit.login.u_0.node_1.username|
++-----------------------------+------------------------------------+--------------------------------+--------------------------------------+
+|2026-03-25T10:55:58.240+08:00|                                true|                       127.0.0.1|                                  root|
++-----------------------------+------------------------------------+--------------------------------+--------------------------------------+
+Total line number = 1
+It costs 0.020s
+```

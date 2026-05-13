@@ -162,7 +162,7 @@ It costs 1.615s
 
 1. AINode 目前使用 v4.56.2 版本的 transformers，构建模型时需**避免继承低版本（<4.50）接口**；
 2. 模型需继承一类 AINode 的推理任务流水线（当前支持预测流水线）：
-    1. iotdb-core/ainode/iotdb/ainode/core/inference/pipeline/basic\_pipeline.py
+   * iotdb-core/ainode/iotdb/ainode/core/inference/pipeline/basic\_pipeline.py
 
    ```Python
    class BasicPipeline(ABC):
@@ -256,13 +256,13 @@ It costs 1.615s
    }
    ```
 
-    1. 必须通过 auto\_map 指定模型的 Config 类和模型类；
-    2. 必须集成并指定推理流水线类；
-    3. 对于 AINode 管理的内置（builtin）和自定义（user\_defined）模型，模型类别（model\_type）也作为不可重复的唯一标识。即，要注册的模型类别不得与任何已存在的模型类型重复。
+   * 必须通过 auto\_map 指定模型的 Config 类和模型类；
+   * 必须集成并指定推理流水线类；
+   * 对于 AINode 管理的内置（builtin）和自定义（user\_defined）模型，模型类别（model\_type）也作为不可重复的唯一标识。即，要注册的模型类别不得与任何已存在的模型类型重复。
 4. 确保要注册的模型目录包含以下文件，且模型配置文件名称和权重文件名称不支持自定义：
-    1. 模型配置文件：config.json；
-    2. 模型权重文件：model.safetensors；
-    3. 模型代码：其它 .py 文件。
+   * 模型配置文件：config.json；
+   * 模型权重文件：model.safetensors；
+   * 模型代码：其它 .py 文件。
 
 **注册自定义模型的 SQL 语法如下所示：**
 

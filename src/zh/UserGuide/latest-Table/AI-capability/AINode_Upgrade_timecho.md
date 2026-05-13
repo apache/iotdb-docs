@@ -97,19 +97,19 @@ SELECT * FROM FORECAST(
 * 内置模型推理无需注册流程，通过 forecast 函数，指定 model\_id 就可以使用模型的推理功能。
 * 参数介绍
 
-| 参数名                 | 参数类型  | 参数属性                                               | 描述                                                                                      | 是否必填 | 备注                                                                                                                       |
-|---------------------|-------|----------------------------------------------------|-----------------------------------------------------------------------------------------| ---------- |--------------------------------------------------------------------------------------------------------------------------|
-| model\_id           | 标量参数  | 字符串类型                                              | 预测所用模型的唯一标识                                                                             | 是|                                                                                                                          |
-| targets             | 表参数   | SET SEMANTIC                                       | 待预测目标变量的输入数据。IoTDB会自动将数据按时间升序排序再交给AINode 。                                              | 是       | 使用 SQL 描述带预测目标变量的输入数据，输入的 SQL 不合法时会有对应的查询报错。                                                                             |
-| history\_covs       | 标量参数  | 字符串类型（合法的表模型查询 SQL）默认：无                            | 指定此次预测任务的协变量的历史数据，这些数据用于辅助目标变量的预测，AINode 不会对历史协变量输出预测结果。在将数据给予模型前，AINode 会自动将数据按时间升序排序。 | 否       | 1. 查询结果只能包含 FIELD 列； 2. 其它：不同模型可能会有独特要求，不符合时会抛出对应的错误。                                                                    |
-| future\_covs        | 标量参数  | 字符串类型（合法的表模型查询 SQL）   默认：无                         | 指定此次预测任务部分协变量的未来数据，这些数据用于辅助目标变量的预测。   在将数据给予模型前，AINode 会自动将数据按时间升序排序。                   | 否       | 1. 当且仅当设置 history\_covs 时可以指定此参数；2. 所涉及协变量名称必须是 history\_covs 的子集； 3. 查询结果只能包含 FIELD 列； 4. 其它：不同模型可能会有独特要求，不符合时会抛出对应的错误。 |
-| auto\_adapt         | 标量参数 | 布尔类型，默认值：true              | 是否为协变量推理开启自适应。(V2.0.8.2起支持)                                                             | 否       | 当开启自适应时：1. 若未来协变量集合future\_covs不是历史协变量集合history\_covs的子集，将自动抛弃那些不属于历史协变量的未来协变量。2. 若某个历史协变量的长度不等于输入目标变量的长度：a. 小于时，在其头部补 0；b. 大于时，自动丢弃其最早的数据。3. 若某个未来协变量的长度不等于预测长度output\_length: a. 小于时，在其尾部补 0；b. 大于时，自动丢弃其最新的数据。 |
-| output\_start\_time | 标量参数  | 时间戳类型。   默认值：目标变量最后一个时间戳 + output\_interval        | 输出的预测点的起始时间戳   【即起报时间】                                                                  | 否       | 必须大于目标变量时间戳的最大值                                                                                                          |
-| output\_length      | 标量参数  | INT32 类型。   默认值：96                                 | 输出窗口大小                                                                                  | 否   | 必须大于 0                                                                                                                   |
-| output\_interval    | 标量参数  | 时间间隔类型。   默认值：(输入数据的最后一个时间戳 - 输入数据的第一个时间戳) / n - 1 | 输出的预测点之间的时间间隔   支持的单位是 ns、us、ms、s、m、h、d、w                                               | 否       | 必须大于 0                                                                                                                   |
-| timecol             | 标量参数  | 字符串类型。   默认值：time                                  | 时间列名                                                                                    | 否       | 必须为存在于 targets 中的且数据类型为 TIMESTAMP 的列                                                                                     |
-| preserve\_input     | 标量参数  | 布尔类型。   默认值：false                                  | 是否在输出结果集中保留目标变量输入的所有原始行                                                                 | 否   |                                                                                                                          |
-| model\_options      | 标量参数  | 字符串类型。   默认值：空字符串                                  | 模型相关的 key-value 对，比如是否需要对输入进行归一化等。不同的 key-value 对以 ';' 间隔                               | 否   |                                                                                                                          |
+| 参数名                 | 参数类型  | 参数属性                                               | 描述                                                                                      | 是否必填 | 备注                                                                                                                                                                                                                |
+|---------------------|-------|----------------------------------------------------|-----------------------------------------------------------------------------------------| ---------- |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| model\_id           | 标量参数  | 字符串类型                                              | 预测所用模型的唯一标识                                                                             | 是|                                                                                                                                                                                                                   |
+| targets             | 表参数   | SET SEMANTIC                                       | 待预测目标变量的输入数据。IoTDB会自动将数据按时间升序排序再交给AINode 。                                              | 是       | 使用 SQL 描述带预测目标变量的输入数据，输入的 SQL 不合法时会有对应的查询报错。                                                                                                                                                                      |
+| history\_covs       | 标量参数  | 字符串类型（合法的表模型查询 SQL）默认：无                            | 指定此次预测任务的协变量的历史数据，这些数据用于辅助目标变量的预测，AINode 不会对历史协变量输出预测结果。在将数据给予模型前，AINode 会自动将数据按时间升序排序。 | 否       | 1. 查询结果只能包含 FIELD 列；<br>2. 其它：不同模型可能会有独特要求，不符合时会抛出对应的错误。                                                                                                                                                             |
+| future\_covs        | 标量参数  | 字符串类型（合法的表模型查询 SQL）   默认：无                         | 指定此次预测任务部分协变量的未来数据，这些数据用于辅助目标变量的预测。   在将数据给予模型前，AINode 会自动将数据按时间升序排序。                   | 否       | 1. 当且仅当设置 history\_covs 时可以指定此参数；<br>2. 所涉及协变量名称必须是 history\_covs 的子集；<br> 3. 查询结果只能包含 FIELD 列；<br> 4. 其它：不同模型可能会有独特要求，不符合时会抛出对应的错误。                                                                                      |
+| auto\_adapt         | 标量参数 | 布尔类型，默认值：true              | 是否为协变量推理开启自适应。(V2.0.8.2起支持)                                                             | 否       | 当开启自适应时：<br>1. 若未来协变量集合future\_covs不是历史协变量集合history\_covs的子集，将自动抛弃那些不属于历史协变量的未来协变量。<br>2. 若某个历史协变量的长度不等于输入目标变量的长度：a. 小于时，在其头部补 0；b. 大于时，自动丢弃其最早的数据。<br>3. 若某个未来协变量的长度不等于预测长度output\_length: a. 小于时，在其尾部补 0；b. 大于时，自动丢弃其最新的数据。 |
+| output\_start\_time | 标量参数  | 时间戳类型。   默认值：目标变量最后一个时间戳 + output\_interval        | 输出的预测点的起始时间戳   【即起报时间】                                                                  | 否       | 必须大于目标变量时间戳的最大值                                                                                                                                                                                                   |
+| output\_length      | 标量参数  | INT32 类型。   默认值：96                                 | 输出窗口大小                                                                                  | 否   | 必须大于 0                                                                                                                                                                                                            |
+| output\_interval    | 标量参数  | 时间间隔类型。   默认值：(输入数据的最后一个时间戳 - 输入数据的第一个时间戳) / n - 1 | 输出的预测点之间的时间间隔   支持的单位是 ns、us、ms、s、m、h、d、w                                               | 否       | 必须大于 0                                                                                                                                                                                                            |
+| timecol             | 标量参数  | 字符串类型。   默认值：time                                  | 时间列名                                                                                    | 否       | 必须为存在于 targets 中的且数据类型为 TIMESTAMP 的列                                                                                                                                                                              |
+| preserve\_input     | 标量参数  | 布尔类型。   默认值：false                                  | 是否在输出结果集中保留目标变量输入的所有原始行                                                                 | 否   |                                                                                                                                                                                                                   |
+| model\_options      | 标量参数  | 字符串类型。   默认值：空字符串                                  | 模型相关的 key-value 对，比如是否需要对输入进行归一化等。不同的 key-value 对以 ';' 间隔                               | 否   |                                                                                                                                                                                                                   |
 
 说明：
 
@@ -186,6 +186,17 @@ create table tab_real (target1 DOUBLE FIELD, target2 DOUBLE FIELD, cov1 DOUBLE F
 准备原始数据
 
 ```SQL
+--写入语句
+IoTDB:etth> INSERT INTO tab_real (time, target1, target2, cov1, cov2, cov3) VALUES
+(1, 1.0, 1.0, 1.0, 1.0, 1.0),
+(2, 2.0, 2.0, 2.0, 2.0, 2.0),
+(3, 3.0, 3.0, 3.0, 3.0, 3.0),
+(4, 4.0, 4.0, 4.0, 4.0, 4.0),
+(5, 5.0, 5.0, 5.0, 5.0, 5.0),
+(6, 6.0, 6.0, 6.0, 6.0, 6.0),
+(7, NULL, NULL, NULL, NULL, 7.0),
+(8, NULL, NULL, NULL, NULL, 8.0);
+
 IoTDB:etth> SELECT * FROM tab_real
 +-----------------------------+-------+-------+----+----+----+
 |                         time|target1|target2|cov1|cov2|cov3|
@@ -199,18 +210,6 @@ IoTDB:etth> SELECT * FROM tab_real
 |1970-01-01T08:00:00.007+08:00|   null|   null|null|null| 7.0|
 |1970-01-01T08:00:00.008+08:00|   null|   null|null|null| 8.0|
 +-----------------------------+-------+-------+----+----+----+
-
-
---写入语句
-IoTDB:etth> INSERT INTO tab_real (time, target1, target2, cov1, cov2, cov3) VALUES
-(1, 1.0, 1.0, 1.0, 1.0, 1.0),
-(2, 2.0, 2.0, 2.0, 2.0, 2.0),
-(3, 3.0, 3.0, 3.0, 3.0, 3.0),
-(4, 4.0, 4.0, 4.0, 4.0, 4.0),
-(5, 5.0, 5.0, 5.0, 5.0, 5.0),
-(6, 6.0, 6.0, 6.0, 6.0, 6.0),
-(7, NULL, NULL, NULL, NULL, 7.0),
-(8, NULL, NULL, NULL, NULL, 8.0);
 ```
 
 * 预测任务一：使用历史协变量 cov1，cov2 和 cov3 辅助预测目标变量 target1 和 target2。
@@ -339,7 +338,7 @@ IoTDB:etth> INSERT INTO tab_real (time, target1, target2, cov1, cov2, cov3) VALU
 
 AINode 表模型支持通过调用协变量分类模型执行时序数据的分类任务。
 
-> 注意：该功能从 V2.0.9 版本开始提供。
+> 注意：该功能从 V2.0.9.1 版本开始提供。
 
 1. **SQL 语法**
 
@@ -492,88 +491,88 @@ IoTDB> show models
 
 1. AINode 目前使用 v4.56.2 版本的 transformers，构建模型时需**避免继承低版本（<4.50）接口**；
 2. 模型需继承一类 AINode 的推理任务流水线（当前支持预测流水线）：
-    1. iotdb-core/ainode/iotdb/ainode/core/inference/pipeline/basic\_pipeline.py
+   * iotdb-core/ainode/iotdb/ainode/core/inference/pipeline/basic\_pipeline.py
 
-   ```Python
-   class BasicPipeline(ABC):
-       def __init__(self, model_id, **model_kwargs):
-           self.model_info = model_info
-           self.device = model_kwargs.get("device", "cpu")
-           self.model = load_model(model_info, device_map=self.device, **model_kwargs)
+      ```Python
+      class BasicPipeline(ABC):
+          def __init__(self, model_id, **model_kwargs):
+              self.model_info = model_info
+              self.device = model_kwargs.get("device", "cpu")
+              self.model = load_model(model_info, device_map=self.device, **model_kwargs)
    
-       @abstractmethod
-       def preprocess(self, inputs, **infer_kwargs):
-           """
-           在推理任务开始前对输入数据进行前处理，包括形状验证和数值转换。
-           """
-           pass
+          @abstractmethod
+          def preprocess(self, inputs, **infer_kwargs):
+              """
+              在推理任务开始前对输入数据进行前处理，包括形状验证和数值转换。
+              """
+              pass
    
-       @abstractmethod
-       def postprocess(self, output, **infer_kwargs):
-           """
-           在推理任务结束后对输出结果进行后处理。
-           """
-           pass
+          @abstractmethod
+          def postprocess(self, output, **infer_kwargs):
+              """
+              在推理任务结束后对输出结果进行后处理。
+              """
+              pass
    
    
-   class ForecastPipeline(BasicPipeline):
-       def __init__(self, model_info, **model_kwargs):
-           super().__init__(model_info, model_kwargs=model_kwargs)
+      class ForecastPipeline(BasicPipeline):
+          def __init__(self, model_info, **model_kwargs):
+              super().__init__(model_info, model_kwargs=model_kwargs)
    
-       def preprocess(self, inputs: list[dict[str, dict[str, torch.Tensor] | torch.Tensor]], **infer_kwargs):
-           """
-           在将输入数据传递给模型进行推理之前进行预处理，验证输入数据的形状和类型。
+          def preprocess(self, inputs: list[dict[str, dict[str, torch.Tensor] | torch.Tensor]], **infer_kwargs):
+              """
+              在将输入数据传递给模型进行推理之前进行预处理，验证输入数据的形状和类型。
    
-           Args:
-               inputs (list[dict]):
-                   输入数据，字典列表，每个字典包含：
-                       - 'targets': 形状为 (input_length,) 或 (target_count, input_length) 的张量。
-                       - 'past_covariates': 可选，张量字典，每个张量形状为 (input_length,)。
-                       - 'future_covariates': 可选，张量字典，每个张量形状为 (input_length,)。
+              Args:
+                  inputs (list[dict]):
+                      输入数据，字典列表，每个字典包含：
+                          - 'targets': 形状为 (input_length,) 或 (target_count, input_length) 的张量。
+                          - 'past_covariates': 可选，张量字典，每个张量形状为 (input_length,)。
+                          - 'future_covariates': 可选，张量字典，每个张量形状为 (input_length,)。
    
-               infer_kwargs (dict, optional): 推理的额外关键字参数，如：
-                   - `output_length`(int): 如果提供'future_covariates'，用于验证其有效性。
+                  infer_kwargs (dict, optional): 推理的额外关键字参数，如：
+                      - `output_length`(int): 如果提供'future_covariates'，用于验证其有效性。
    
-           Raises:
-               ValueError: 如果输入格式不正确（例如，缺少键、张量形状无效）。
+              Raises:
+                  ValueError: 如果输入格式不正确（例如，缺少键、张量形状无效）。
    
-           Returns:
-               经过预处理和验证的输入数据，可直接用于模型推理。
-           """
-           pass
+              Returns:
+                  经过预处理和验证的输入数据，可直接用于模型推理。
+              """
+              pass
    
-       def forecast(self, inputs, **infer_kwargs):
-           """
-           对给定输入执行预测。
+          def forecast(self, inputs, **infer_kwargs):
+              """
+              对给定输入执行预测。
    
-           Parameters:
-               inputs: 用于进行预测的输入数据。类型和结构取决于模型的具体实现。
-               **infer_kwargs: 额外的推理参数，例如：
-                   - `output_length`(int): 模型应该生成的时间点数量。
+              Parameters:
+                  inputs: 用于进行预测的输入数据。类型和结构取决于模型的具体实现。
+                  **infer_kwargs: 额外的推理参数，例如：
+                      - `output_length`(int): 模型应该生成的时间点数量。
    
-           Returns:
-               预测输出，具体形式取决于模型的具体实现。
-           """
-           pass
+              Returns:
+                  预测输出，具体形式取决于模型的具体实现。
+              """
+              pass
    
-       def postprocess(self, outputs: list[torch.Tensor], **infer_kwargs) -> list[torch.Tensor]:
-           """
-           在推理后对模型输出进行后处理，验证输出数据的形状并确保其符合预期维度。
+          def postprocess(self, outputs: list[torch.Tensor], **infer_kwargs) -> list[torch.Tensor]:
+              """
+              在推理后对模型输出进行后处理，验证输出数据的形状并确保其符合预期维度。
    
-           Args:
-               outputs:
-                   模型输出，2D张量列表，每个张量形状为 `[target_count, output_length]`。
+              Args:
+                  outputs:
+                      模型输出，2D张量列表，每个张量形状为 `[target_count, output_length]`。
    
-           Raises:
-               InferenceModelInternalException: 如果输出张量形状无效（例如，维数错误）。
-               ValueError: 如果输出格式不正确。
+              Raises:
+                  InferenceModelInternalException: 如果输出张量形状无效（例如，维数错误）。
+                  ValueError: 如果输出格式不正确。
    
-           Returns:
-               list[torch.Tensor]:
-                   后处理后的输出，将是一个2D张量列表。
-           """
-           pass
-   ```
+              Returns:
+                  list[torch.Tensor]:
+                      后处理后的输出，将是一个2D张量列表。
+              """
+              pass
+      ```
 3. 修改模型配置文件 config.json，确保包含以下字段：
    ```JSON
    {
@@ -586,13 +585,13 @@ IoTDB> show models
    }
    ```
 
-    1. 必须通过 auto\_map 指定模型的 Config 类和模型类；
-    2. 必须集成并指定推理流水线类；
-    3. 对于 AINode 管理的内置（builtin）和自定义（user\_defined）模型，模型类别（model\_type）也作为不可重复的唯一标识。即，要注册的模型类别不得与任何已存在的模型类型重复，通过微调创建的模型将继承原模型的模型类别。
+   * 必须通过 auto\_map 指定模型的 Config 类和模型类；
+   * 必须集成并指定推理流水线类；
+   * 对于 AINode 管理的内置（builtin）和自定义（user\_defined）模型，模型类别（model\_type）也作为不可重复的唯一标识。即，要注册的模型类别不得与任何已存在的模型类型重复，通过微调创建的模型将继承原模型的模型类别。
 4. 确保要注册的模型目录包含以下文件，且模型配置文件名称和权重文件名称不支持自定义：
-    1. 模型配置文件：config.json；
-    2. 模型权重文件：model.safetensors；
-    3. 模型代码：其它 .py 文件。
+   * 模型配置文件：config.json；
+   * 模型权重文件：model.safetensors；
+   * 模型代码：其它 .py 文件。
 
 **注册自定义模型的 SQL 语法如下所示：**
 

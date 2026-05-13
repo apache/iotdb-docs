@@ -25,7 +25,7 @@
 
 TimechoDB 支持通过 `daemon-confignode.sh`、`daemon-datanode.sh`、`daemon-ainode.sh` 三个脚本，将ConfigNode、DataNode、AINode 注册为 Linux 系统服务，结合系统自带的 `systemctl `命令，以守护进程方式管理 TimechoDB 集群，实现更便捷的启动、停止、重启及开机自启等操作，提升服务稳定性。
 
-> 注意：该功能从 V 2.0.9 版本开始提供。
+> 注意：该功能从 V 2.0.9.1 版本开始提供。
 
 ## 2. 环境要求
 

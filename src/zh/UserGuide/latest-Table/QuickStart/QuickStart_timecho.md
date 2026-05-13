@@ -52,7 +52,7 @@
 
 1. 数据库建模设计：数据库建模是创建数据库系统的重要步骤，它涉及到设计数据的结构和关系，以确保数据的组织方式能够满足特定应用的需求，下面的文档将会帮助您快速了解 IoTDB 的建模设计：
    
-   - 时序概念介绍：[时序数据模型](../Background-knowledge/Navigating_Time_Series_Data.md)
+   - 时序概念介绍：[时序数据模型](../Background-knowledge/Navigating_Time_Series_Data_timecho.md)
 
    - 建模设计介绍：[建模方案设计](../Background-knowledge/Data-Model-and-Terminology_timecho.md)
 

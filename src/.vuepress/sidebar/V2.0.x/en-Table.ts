@@ -38,7 +38,7 @@ export const enSidebar = {
       prefix: 'Background-knowledge/',
       children: [
         { text: 'Common Concepts', link: 'Cluster-Concept_apache' },
-        { text: 'Timeseries Data Model', link: 'Navigating_Time_Series_Data' },
+        { text: 'Timeseries Data Model', link: 'Navigating_Time_Series_Data_apache' },
         { text: 'Modeling Scheme Design', link: 'Data-Model-and-Terminology_apache' },
         { text: 'Data Type', link: 'Data-Type_apache' },
       ],
@@ -111,7 +111,8 @@ export const enSidebar = {
           text: 'Security Management',
           collapsible: true,
           children: [
-            { text: 'Authority Management', link: 'Authority-Management_apache' },
+            { text: 'Authority Management(Before V2.0.7)', link: 'Authority-Management_apache' },
+            { text: 'Authority Management(From V2.0.7)', link: 'Authority-Management-Upgrade_apache' },
           ],
         },
         { text: 'Tree-to-Table Mapping', link: 'Tree-to-Table_apache' },
@@ -233,6 +234,8 @@ export const enSidebar = {
             { text: 'ORDER BY Clause', link: 'OrderBy-Clause' },
             { text: 'LIMIT&OFFSET Clause', link: 'Limit-Offset-Clause' },
             { text: 'Nested Queries', link: 'Nested-Queries' },
+            { text: 'Common Table Expressions (CTE)', link: 'Common-Table-Expression_apache' },
+            { text: 'Set Operations', link: 'Set-Operations_apache' },
           ],
         },
         { text: 'Maintenance Statements', link: 'SQL-Maintenance-Statements_apache' },

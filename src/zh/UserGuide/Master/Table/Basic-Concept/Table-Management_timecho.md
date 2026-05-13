@@ -22,7 +22,7 @@
 # 表管理
 
 在开始使用表管理功能前，推荐您先了解以下相关预备知识，以便更好地理解和应用表管理功能：
-* [时序数据模型](../Background-knowledge/Navigating_Time_Series_Data.md)：了解时序数据的基本概念与特点，帮助建立建模基础。
+* [时序数据模型](../Background-knowledge/Navigating_Time_Series_Data_timecho.md)：了解时序数据的基本概念与特点，帮助建立建模基础。
 * [建模方案设计](../Background-knowledge/Data-Model-and-Terminology_timecho.md)：掌握 IoTDB 时序模型及适用场景，为表管理提供设计基础。
 
 ## 1. 表管理
@@ -105,20 +105,6 @@ CREATE TABLE table1 (
   status Boolean FIELD COMMENT 'status',
   arrival_time TIMESTAMP FIELD COMMENT 'arrival_time'
 ) COMMENT 'table1' WITH (TTL=31536000000);
-
-CREATE TABLE if not exists tableB ();
-
-CREATE TABLE tableC (
-  station STRING TAG,
-  temperature int32 FIELD COMMENT 'temperature'
- ) with (TTL=DEFAULT);
- 
-  -- 自定义时间列:命名为time_test, 位于表的第二列
- CREATE TABLE table1 (
-     region STRING TAG, 
-     time_user_defined TIMESTAMP TIME, 
-     temperature FLOAT FIELD
- );
 ```
 
 注意：若您使用的终端不支持多行粘贴（例如 Windows CMD），请将 SQL 语句调整为单行格式后再执行。
@@ -144,16 +130,6 @@ SHOW TABLES (DETAILS)? ((FROM | IN) database_name)?
 
 **示例:**
 
-```SQL
-show tables from database1;
-```
-```shell
-+---------+---------------+
-|TableName|        TTL(ms)|
-+---------+---------------+
-|   table1|    31536000000|
-+---------+---------------+
-```
 ```sql
 show tables details from database1;
 ```
@@ -183,25 +159,6 @@ show tables details from database1;
 
 **示例:** 
 
-```SQL
-desc table1;
-```
-```shell
-+------------+---------+---------+
-|  ColumnName| DataType| Category|
-+------------+---------+---------+
-|        time|TIMESTAMP|     TIME|
-|      region|   STRING|      TAG|
-|    plant_id|   STRING|      TAG|
-|   device_id|   STRING|      TAG|
-|    model_id|   STRING|ATTRIBUTE|
-| maintenance|   STRING|ATTRIBUTE|
-| temperature|    FLOAT|    FIELD|
-|    humidity|    FLOAT|    FIELD|
-|      status|  BOOLEAN|    FIELD|
-|arrival_time|TIMESTAMP|    FIELD|
-+------------+---------+---------+
-```
 ```sql
 desc table1 details;
 ```
@@ -250,7 +207,6 @@ show create table table1;
 +------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |table1|CREATE TABLE "table1" ("region" STRING TAG,"plant_id" STRING TAG,"device_id" STRING TAG,"model_id" STRING ATTRIBUTE,"maintenance" STRING ATTRIBUTE,"temperature" FLOAT FIELD,"humidity" FLOAT FIELD,"status" BOOLEAN FIELD,"arrival_time" TIMESTAMP FIELD) WITH (ttl=31536000000)|
 +------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-Total line number = 1
 ```
 
 
@@ -299,12 +255,28 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName DROP COLUMN (IF EXISTS)? column
 
 **示例:** 
 
+表 table1 增加 tag 列 a
 ```SQL
 ALTER TABLE table1 ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a';
+```
+表 table1 增加 field 列 b
+```SQL
 ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b';
-ALTER TABLE table1 set properties TTL=3600;
+```
+修改表 table1 的 TTL
+```SQL
+ALTER TABLE table1 set properties TTL=3600; 
+```
+表 table1 增加注释
+```SQL
 COMMENT ON TABLE table1 IS 'table1';
+```
+表 table1 的 a 列去掉注释
+```SQL
 COMMENT ON COLUMN table1.a IS null;
+```
+修改表 table1 的 b 列的数据类型
+```SQL
 ALTER TABLE table1 ALTER COLUMN IF EXISTS b SET DATA TYPE DOUBLE;
 ```
 
@@ -322,5 +294,46 @@ DROP TABLE (IF EXISTS)? <TABLE_NAME>
 
 ```SQL
 DROP TABLE table1;
-DROP TABLE database1.table1;
 ```
+
+
+### 1.7 元数据查询
+
+表模型下**测点数量**等于所有表的测点数之和，目前单表测点数可通过公式：**单表测点数 = device 数量 × field 列的数量** 计算得出，后续会支持通过 SQL 语句直接查询表模型下测点数，敬请期待。
+
+以[示例数据](../Reference/Sample-Data.md) 中的表 table1 为例。
+
+该示例组织架构共包含三个 tag 列（region 为区域，plant_id 为工厂，device_id 为机器）和四个 field 列（temperature 为温度，humidity 为湿度，status 为状态，arrival_time 为到达时间）。
+
+device 的唯一标识由全部 tag 列组合而成，只要 region（区域）+ plant_id（工厂）+ device_id（机器）的组合不重复，就代表一个独立设备。
+
+示例数据一共定义了 2 个区域，分别为：北京、上海。其中
+
+* 北京区域：包含 1 个工厂，工厂编号 1001；
+    * 该工厂下共有 2 台设备，设备编号分别为 100、101；
+* 上海区域：包含 2 个工厂，工厂编号分别为 3001、3002；
+    * 工厂 3001 下包含 2 台设备：100、101；
+    * 工厂 3002 下包含 2 台设备：100、101。
+
+综上，整个表一共存在 6 组唯一 tag 组合，对应 6 个独立设备。
+
+**单表测点数完整计算示例：**
+
+1. 查询 device 数量
+
+```sql
+count devices from table1;
+```
+```shell
++--------------+
+|count(devices)|
++--------------+
+|             6|
++--------------+
+```
+
+2. 计算单表测点数量
+- device 数量：6
+- field 列数：4
+- 单表测点总数：6 × 4 = 24
+

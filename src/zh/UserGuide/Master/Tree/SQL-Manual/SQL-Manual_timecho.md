@@ -867,6 +867,9 @@ explain select s1,s2 from root.sg.d1;
 ```sql
 explain analyze select s1,s2 from root.sg.d1 order by s1;
 ```
+
+更多运维语句可查看[运维语句](../User-Manual/Maintenance-statement_timecho.md)
+
 ## 6. 运算符
 
 更多见文档[Operator-and-Expression](./Operator-and-Expression.md)

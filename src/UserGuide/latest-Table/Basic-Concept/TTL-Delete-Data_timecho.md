@@ -47,7 +47,7 @@ If TTL is specified when creating a table using SQL, the table’s TTL takes pre
 Example 1: Setting TTL during table creation:
 
 ```SQL
-CREATE TABLE test3 ("site" string id, "temperature" int32) with (TTL=3600)
+CREATE TABLE test3 ("site" string id, "temperature" int32) with (TTL=3600);
 ```
 
 Example 2: Changing TTL for an existing table:
@@ -59,9 +59,9 @@ ALTER TABLE tableB SET PROPERTIES TTL=3600;
 **Example 3:** If TTL is not specified or set to the default value, it will inherit the database's TTL. By default, the database TTL is `'INF'` (infinite):
 
 ```SQL
-CREATE TABLE test3 ("site" string id, "temperature" int32) with (TTL=DEFAULT)
-CREATE TABLE test3 ("site" string id, "temperature" int32)
-ALTER TABLE tableB set properties TTL=DEFAULT
+CREATE TABLE test3 ("site" string id, "temperature" int32) with (TTL=DEFAULT);
+CREATE TABLE test3 ("site" string id, "temperature" int32);
+ALTER TABLE tableB set properties TTL=DEFAULT;
 ```
 
 ### 2.2 Set TTL for Databases
@@ -71,25 +71,25 @@ Tables without explicit TTL settings inherit the TTL of their database. Refer to
 Example 4: A database with TTL=3600000 creates tables inheriting this TTL:
 
 ```SQL
-CREATE DATABASE db WITH (ttl=3600000)
-use db
-CREATE TABLE test3 ("site" string id, "temperature" int32)
+CREATE DATABASE db WITH (ttl=3600000);
+use db;
+CREATE TABLE test3 ("site" string id, "temperature" int32);
 ```
 
 Example 5: A database without a TTL setting creates tables without TTL:
 
 ```SQL
-CREATE DATABASE db
-use db
-CREATE TABLE test3 ("site" string id, "temperature" int32)
+CREATE DATABASE db;
+use db;
+CREATE TABLE test3 ("site" string id, "temperature" int32);
 ```
 
 Example 6: Setting a table with no TTL explicitly (TTL=INF) in a database with a configured TTL:
 
 ```SQL
-CREATE DATABASE db WITH (ttl=3600000)
-use db
-CREATE TABLE test3 ("site" string id, "temperature" int32) with (ttl='INF')
+CREATE DATABASE db WITH (ttl=3600000);
+use db;
+CREATE TABLE test3 ("site" string id, "temperature" int32) with (ttl='INF');
 ```
 
 ## 3. Remove TTL
@@ -97,7 +97,7 @@ CREATE TABLE test3 ("site" string id, "temperature" int32) with (ttl='INF')
 To cancel a TTL setting, modify the table's TTL to 'INF'. Note that IoTDB does not currently support modifying the TTL of a database.
 
 ```SQL
-ALTER TABLE tableB set properties TTL='INF'
+ALTER TABLE tableB set properties TTL='INF';
 ```
 
 ## 4. View TTL Information
@@ -109,7 +109,7 @@ Use the SHOW DATABASES and SHOW TABLES commands to view TTL details for database
 Example Output:
 
 ```SQL
-IoTDB> show databases
+IoTDB> show databases;
 +---------+-------+-----------------------+---------------------+---------------------+
 | Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|
 +---------+-------+-----------------------+---------------------+---------------------+
@@ -117,14 +117,14 @@ IoTDB> show databases
 |    test2|    300|                      1|                    1|            604800000|
 +---------+-------+-----------------------+---------------------+---------------------+
 
-IoTDB> show databases details
+IoTDB> show databases details;
 +---------+-------+-----------------------+---------------------+---------------------+-----+
 | Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|Model|
 +---------+-------+-----------------------+---------------------+---------------------+-----+
 |test_prop|    300|                      1|                    3|               100000|TABLE|
 |    test2|    300|                      1|                    1|            604800000| TREE|
 +---------+-------+-----------------------+---------------------+---------------------+-----+
-IoTDB> show tables
+IoTDB> show tables;
 +---------+-------+
 |TableName|TTL(ms)|
 +---------+-------+
@@ -133,7 +133,7 @@ IoTDB> show tables
 |   flower|    INF|
 +---------+-------+
 
-IoTDB> show tables details
+IoTDB> show tables details;
 +---------+-------+----------+
 |TableName|TTL(ms)|    Status|
 +---------+-------+----------+

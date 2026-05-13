@@ -53,10 +53,6 @@ This command is used to create a database.
 **Examples:**
 
 ```SQL
-CREATE DATABASE database1;
-CREATE DATABASE IF NOT EXISTS database1;
-
-// Sets TTL to 1 year.
 CREATE DATABASE IF NOT EXISTS database1 with(TTL=31536000000);
 ```
 
@@ -73,7 +69,7 @@ USE <DATABASE_NAME>
 **Example:** 
 
 ```SQL
-USE database1
+USE database1;
 ```
 
 ### 1.3 View the Current Database
@@ -89,22 +85,17 @@ SHOW CURRENT_DATABASE
 **Example:**
 
 ```SQL
-IoTDB> SHOW CURRENT_DATABASE;
-+---------------+
-|CurrentDatabase|
-+---------------+
-|           null|
-+---------------+
-
-IoTDB> USE database1;
-
-IoTDB> SHOW CURRENT_DATABASE;
+USE database1;
+SHOW CURRENT_DATABASE;
+```
+```shell
 +---------------+
 |CurrentDatabase|
 +---------------+
 |      database1|
 +---------------+
 ```
+
 
 ### 1.4 View All Databases
 
@@ -131,15 +122,9 @@ SHOW DATABASES (DETAILS)?
 **Examples:** 
 
 ```SQL
-IoTDB> show databases
-+------------------+-------+-----------------------+---------------------+---------------------+
-|          Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|
-+------------------+-------+-----------------------+---------------------+---------------------+
-|         database1|    INF|                      1|                    1|            604800000|
-|information_schema|    INF|                   null|                 null|                 null|
-+------------------+-------+-----------------------+---------------------+---------------------+
-
-IoTDB> show databases details
+SHOW DATABASES DETAILS;
+```
+```shell
 +------------------+-------+-----------------------+---------------------+---------------------+--------------------+------------------+
 |          Database|TTL(ms)|SchemaReplicationFactor|DataReplicationFactor|TimePartitionInterval|SchemaRegionGroupNum|DataRegionGroupNum|
 +------------------+-------+-----------------------+---------------------+---------------------+--------------------+------------------+
@@ -186,5 +171,5 @@ DROP DATABASE (IF EXISTS)? <DATABASE_NAME>
 **Example:**
 
 ```SQL
-DROP DATABASE IF EXISTS database1
+DROP DATABASE IF EXISTS database1;
 ```

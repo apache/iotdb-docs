@@ -38,7 +38,7 @@ export const zhSidebar = {
       prefix: 'Background-knowledge/',
       children: [
         { text: '常见概念', link: 'Cluster-Concept_apache' },
-        { text: '时序数据模型', link: 'Navigating_Time_Series_Data' },
+        { text: '时序数据模型', link: 'Navigating_Time_Series_Data_apache' },
         { text: '建模方案设计', link: 'Data-Model-and-Terminology_apache' },
         { text: '数据类型', link: 'Data-Type' },
       ],
@@ -120,7 +120,10 @@ export const zhSidebar = {
         {
           text: '安全管理',
           collapsible: true,
-          children: [{ text: '权限管理', link: 'Authority-Management_apache' }],
+          children: [
+              { text: '权限管理(V2.0.7 之前)', link: 'Authority-Management_apache' },
+              { text: '权限管理(V2.0.7 起)', link: 'Authority-Management-Upgrade_apache' },
+          ],
         },
         {
           text: '系统运维',

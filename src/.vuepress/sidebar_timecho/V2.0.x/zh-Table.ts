@@ -38,7 +38,7 @@ export const zhSidebar = {
       prefix: 'Background-knowledge/',
       children: [
         { text: '常见概念', link: 'Cluster-Concept_timecho' },
-        { text: '时序数据模型', link: 'Navigating_Time_Series_Data' },
+        { text: '时序数据模型', link: 'Navigating_Time_Series_Data_timecho' },
         { text: '建模方案设计', link: 'Data-Model-and-Terminology_timecho' },
         { text: '数据类型', link: 'Data-Type_timecho' },
       ],
@@ -129,7 +129,8 @@ export const zhSidebar = {
           text: '安全管理',
           collapsible: true,
           children: [
-              { text: '权限管理', link: 'Authority-Management_timecho' },
+              { text: '权限管理(V2.0.7 之前)', link: 'Authority-Management_timecho' },
+              { text: '权限管理(V2.0.7 起)', link: 'Authority-Management-Upgrade_timecho' },
               { text: '黑白名单', link: 'Black-White-List_timecho' },
               { text: '安全审计', link: 'Audit-Log_timecho' },
           ],
@@ -256,6 +257,8 @@ export const zhSidebar = {
             { text: 'LIMIT&OFFSET子句', link: 'Limit-Offset-Clause' },
             { text: '嵌套查询', link: 'Nested-Queries' },
             { text: '模式查询', link: 'Row-Pattern-Recognition_timecho' },
+            { text: '公用表表达式（CTE）', link: 'Common-Table-Expression_timecho' },
+            { text: '集合操作', link: 'Set-Operations_timecho' },
           ],
         },
         { text: '运维语句', link: 'SQL-Maintenance-Statements_timecho' },

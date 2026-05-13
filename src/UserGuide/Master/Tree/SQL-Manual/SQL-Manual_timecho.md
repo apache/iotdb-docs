@@ -842,7 +842,7 @@ select * into ::(backup_${4}) from root.sg.** align by device;
 select s1, s2 into root.sg_copy.d1(t1, t2), aligned root.sg_copy.d2(t1, t2) from root.sg.d1, root.sg.d2 align by device;
 ```
 
-## 7. Maintennance
+## 7. Maintenance
 Generate the corresponding query plan:
 ```sql
 explain select s1,s2 from root.sg.d1;
@@ -851,6 +851,9 @@ Execute the corresponding SQL, analyze the execution and output:
 ```sql
 explain analyze select s1,s2 from root.sg.d1 order by s1;
 ``` 
+
+For more Maintenance commands, please refer to[Maintenance commands](../User-Manual/Maintenance-commands_timecho.md)
+
 ## 8. OPERATOR
 
 For more details, see document [Operator-and-Expression](./Operator-and-Expression.md).

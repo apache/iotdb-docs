@@ -25,7 +25,7 @@ This section introduces how to transform time series data application scenarios 
 
 ## 1. Time Series Data Mode
 
-Before designing an IoTDB data mode, it's essential to understand time series data and its underlying structure. For more details, refer to: [Time Series Data Mode](../Background-knowledge/Navigating_Time_Series_Data.md)
+Before designing an IoTDB data mode, it's essential to understand time series data and its underlying structure. For more details, refer to: [Time Series Data Mode](../Background-knowledge/Navigating_Time_Series_Data_apache.md)
 
 ## 2. Tree-Table Twin Mode in IoTDB
 

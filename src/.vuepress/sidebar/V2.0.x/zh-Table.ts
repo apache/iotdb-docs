@@ -38,7 +38,7 @@ export const zhSidebar = {
       prefix: 'Background-knowledge/',
       children: [
         { text: '常见概念', link: 'Cluster-Concept_apache' },
-        { text: '时序数据模型', link: 'Navigating_Time_Series_Data' },
+        { text: '时序数据模型', link: 'Navigating_Time_Series_Data_apache' },
         { text: '建模方案设计', link: 'Data-Model-and-Terminology_apache' },
         { text: '数据类型', link: 'Data-Type_apache' },
       ],
@@ -110,7 +110,10 @@ export const zhSidebar = {
         {
           text: '安全管理',
           collapsible: true,
-          children: [{ text: '权限管理', link: 'Authority-Management_apache' }],
+          children: [
+              { text: '权限管理(V2.0.7 之前)', link: 'Authority-Management_apache' },
+              { text: '权限管理(V2.0.7 起)', link: 'Authority-Management-Upgrade_apache' },
+          ],
         },
         { text: '树转表视图', link: 'Tree-to-Table_apache' },
         {
@@ -230,6 +233,8 @@ export const zhSidebar = {
             { text: 'ORDER BY子句', link: 'OrderBy-Clause' },
             { text: 'LIMIT&OFFSET子句', link: 'Limit-Offset-Clause' },
             { text: '嵌套查询', link: 'Nested-Queries' },
+            { text: '公用表表达式（CTE）', link: 'Common-Table-Expression_apache' },
+            { text: '集合操作', link: 'Set-Operations_apache' },
           ],
         },
         { text: '运维语句', link: 'SQL-Maintenance-Statements_apache' },

@@ -1454,16 +1454,6 @@ IoTDB ConfigNode 和 DataNode 的公共配置参数位于 `conf` 目录下。
 |     类型     | String                                                  |
 |    默认值    | org.apache.iotdb.commons.auth.authorizer.LocalFileAuthorizer |
 | 改后生效方式 | 重启生效                                            |
-|  其他可选值  | org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer    |
-
-* openID\_url
-
-|     名字     | openID\_url                                                |
-| :----------: | :--------------------------------------------------------- |
-|     描述     | openID 服务器地址 （当 OpenIdAuthorizer 被启用时必须设定） |
-|     类型     | String（一个 http 地址）                                   |
-|    默认值    | 无                                                         |
-| 改后生效方式 | 重启生效                                               |
 
 * iotdb\_server\_encrypt\_decrypt\_provider
 

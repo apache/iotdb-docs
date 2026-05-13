@@ -211,8 +211,10 @@ CREATE TABLE tableC (
   "Site" STRING TAG,
   "Temperature" int32 FIELD COMMENT 'temperature'
  ) with (TTL=DEFAULT);
- 
- -- Custom time column: named time_test, located in the second column of the table. (Support from V2.0.8)
+ ```
+
+Custom time column: named time_test, located in the second column of the table. (Support from V2.0.8)
+```sql
  CREATE TABLE table1 (
      region STRING TAG, 
      time_user_defined TIMESTAMP TIME, 
@@ -323,7 +325,6 @@ show create table table1;
 +------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
 |table1|CREATE TABLE "table1" ("region" STRING TAG,"plant_id" STRING TAG,"device_id" STRING TAG,"model_id" STRING ATTRIBUTE,"maintenance" STRING ATTRIBUTE,"temperature" FLOAT FIELD,"humidity" FLOAT FIELD,"status" BOOLEAN FIELD,"arrival_time" TIMESTAMP FIELD) WITH (ttl=31536000000)|
 +------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-Total line number = 1
 ```
 
 
@@ -346,13 +347,21 @@ ALTER TABLE (IF EXISTS)? tableName=qualifiedName ADD COLUMN (IF NOT EXISTS)? col
 
 **Examples:**
 
+add column
 ```SQL
 ALTER TABLE table1 ADD COLUMN IF NOT EXISTS a TAG COMMENT 'a';
 ALTER TABLE table1 ADD COLUMN IF NOT EXISTS b FLOAT FIELD COMMENT 'b';
-ALTER TABLE table1 set properties TTL=3600;
+```
+set TTL
+```SQL
+ALTER TABLE table1 set properties TTL=3600; 
+```
+set comment
+```SQL
 COMMENT ON TABLE table1 IS 'table1';
 COMMENT ON COLUMN table1.a IS null;
 ```
+
 
 ### 2.6 Drop Table
 

@@ -2416,16 +2416,6 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Type        | String                                                       |
 | Default     | org.apache.iotdb.commons.auth.authorizer.LocalFileAuthorizer |
 | Effective   | Restart required.                                            |
-| 其他可选值  | org.apache.iotdb.commons.auth.authorizer.OpenIdAuthorizer    |
-
-- openID_url
-
-| Name        | openID_url                                                   |
-| ----------- | ------------------------------------------------------------ |
-| Description | The url of openID server   If OpenIdAuthorizer is enabled, then openID_url must be set. |
-| Type        | String（a http link）                                        |
-| Default     | None                                                         |
-| Effective   | Restart required.                                            |
 
 - iotdb_server_encrypt_decrypt_provider
 

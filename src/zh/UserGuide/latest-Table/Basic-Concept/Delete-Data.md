@@ -67,34 +67,21 @@ ID_CONDITION:
 #### 1.2.1 删除全表数据
 
 ```SQL
-# 全表删除
-DELETE FROM table1
+DELETE FROM table1;
 ```
 
 #### 1.2.2 删除一段时间范围
 
 ```SQL
-# 单时间段删除
-DELETE FROM table1 WHERE time <= 2024-11-29 00:00:00
-
-# 多时间段删除
-DELETE FROM table1  WHERE time >= 2024-11-27 00:00:00  and time <= 2024-11-29 00:00:00
+DELETE FROM table1  WHERE time >= 2024-11-27 00:00:00  and time <= 2024-11-29 00:00:00;
 ```
 
 #### 1.2.3 删除指定设备
 
 ```SQL
-# 删除指定设备
-# 标识条件只支持 = 运算符
-DELETE FROM table1 WHERE device_id='101' and model_id = 'B'
-
-# 删除指定设备的时间段
 DELETE FROM table1 
     WHERE time >= 2024-11-27 16:39:00  and time <= 2024-11-29 16:42:00 
-    AND device_id='101' and model_id = 'B'
-
-# 删除指定类型的设备
-DELETE FROM table1 WHERE model_id = 'B'
+    AND device_id='101' and model_id = 'B';
 ```
 
 ## 2. 设备删除
@@ -112,5 +99,5 @@ DELETE DEVICES FROM tableName=qualifiedName (WHERE booleanExpression)?
 ### 2.2 示例
 
 ```SQL
-DELETE DEVICES FROM table1 WHERE device_id = '101'
+DELETE DEVICES FROM table1 WHERE device_id = '101';
 ```

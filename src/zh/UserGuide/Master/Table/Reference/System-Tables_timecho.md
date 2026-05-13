@@ -23,7 +23,7 @@
 
 IoTDB 内置系统数据库 `INFORMATION_SCHEMA`，其中包含一系列系统表，用于存储 IoTDB 运行时信息（如当前正在执行的 SQL 语句等）。目前`INFORMATION_SCHEMA`数据库只支持读操作。
 
-> 💡 **【V2.0.9 版本更新】**<br>
+> 💡 **【V2.0.9.1 版本更新】**<br>
 > 👉 新增一张系统表：**[TABLE_DISK_USAGE](#_2-22-table-disk-usage-表)**（表级存储空间统计），助力集群运维与性能分析。
 
 ## 1. 系统库
@@ -711,7 +711,7 @@ IoTDB> select * from information_schema.services
 
 ##### 2.22 TABLE_DISK_USAGE 表
 
-> 该系统表从 V 2.0.9 版本开始提供
+> 该系统表从 V 2.0.9.1 版本开始提供
 
 用于展示指定表（不包含 view）的磁盘空间占用情况，包括 ChunkGroup 的大小和 Metadata 大小。
 

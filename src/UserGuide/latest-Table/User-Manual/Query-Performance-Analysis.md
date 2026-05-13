@@ -151,6 +151,17 @@ A `FragmentInstance` is a wrapper for a query shard in IoTDB. Each query shard o
 - Ready Queued Time: Total time the shard's tasks spent in the ready queue (tasks are not blocked but lack query execution thread resources).
 - Blocked Queued Time: Total time the shard's tasks spent in the blocked queue (tasks are blocked due to resources like memory or upstream data not being sent).
 
+Since V2.0.9, the following information will be added to `FragmentInstance`:
+
+- `OutputPlanNodeId`: Indicates the downstream node that receives data corresponding to the sink node. Only present in sink nodes.
+- `sizeInBytes`: Represents the size in bytes of TsBlocks received in exchange nodes (only data size is counted). Only present in exchange nodes.
+- Data filtering‑related fields for `tableScan` nodes. Valid only when filter pushdown is applied to tableScan, and only present in tableScan nodes:
+    - `TimeSeriesIndexFilteredRows`: Number of rows filtered out by TimeseriesMetadata
+    - `ChunkIndexFilteredRows`: Number of rows filtered out by ChunkMetadata
+    - `PageIndexFilteredRows`: Number of rows filtered out by PageHeader internal filtering
+    - `RowScanFilteredRows`: Number of rows filtered out during per-row data inspection. Only displayed when `verbose` is enabled.
+
+
 #### BloomFilter-Related Metrics
 
 Bloom filters help determine if a sequence exists in a TsFile. They are stored at the end of each TsFile.

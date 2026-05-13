@@ -277,9 +277,15 @@ It costs 0.189s
 ### 3.2 Columns Function
 
 1. Without combining expressions
+
+Query data from columns whose names start with 'm'
 ```sql
--- Query data from columns whose names start with 'm'
 IoTDB:database1> select columns('^m.*') from table1 limit 5
+```
+
+Results:
+
+```sql
 +--------+-----------+
 |model_id|maintenance|
 +--------+-----------+
@@ -289,15 +295,27 @@ IoTDB:database1> select columns('^m.*') from table1 limit 5
 |       C|         90|
 |       C|         90|
 +--------+-----------+
+```
 
-
--- Query columns whose names start with 'o' - throw an exception if no columns match
+Query columns whose names start with 'o' - throw an exception if no columns match
+```sql
 IoTDB:database1> select columns('^o.*') from table1 limit 5
+```
+
+Results:
+
+```sql
 Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: No matching columns found that match regex '^o.*'
+```
 
-
--- Query data from columns whose names start with 'm' and rename them with 'series_' prefix
+Query data from columns whose names start with 'm' and rename them with 'series_' prefix
+```sql
 IoTDB:database1> select columns('^m(.*)') AS "series_$0" from table1 limit 5
+```
+
+Results:
+
+```sql
 +---------------+------------------+
 |series_model_id|series_maintenance|
 +---------------+------------------+
@@ -312,9 +330,15 @@ IoTDB:database1> select columns('^m(.*)') AS "series_$0" from table1 limit 5
 2. With Expression Combination
 
 - Single COLUMNS Function
+
+Query the minimum value of all columns
 ```sql
--- Query the minimum value of all columns
 IoTDB:database1> select min(columns(*)) from table1
+```
+
+Results:
+
+```sql
 +-----------------------------+------------+--------------+---------------+--------------+-----------------+-----------------+--------------+------------+-----------------------------+
 |                   _col0_time|_col1_region|_col2_plant_id|_col3_device_id|_col4_model_id|_col5_maintenance|_col6_temperature|_col7_humidity|_col8_status|           _col9_arrival_time|
 +-----------------------------+------------+--------------+---------------+--------------+-----------------+-----------------+--------------+------------+-----------------------------+
@@ -326,33 +350,56 @@ IoTDB:database1> select min(columns(*)) from table1
 
 > Usage Restriction: When multiple COLUMNS functions appear in the same expression, their parameters must be identical.
 
+Query the sum of minimum and maximum values for columns starting with 'h'
 ```sql
--- Query the sum of minimum and maximum values for columns starting with 'h'
 IoTDB:database1> select min(columns('^h.*')) + max(columns('^h.*')) from table1
+```
+
+Results:
+
+```sql
 +--------------+
 |_col0_humidity|
 +--------------+
 |     79.899994|
 +--------------+
+```
 
--- Error Case: Non-Identical COLUMNS Functions
+Error Case: Non-Identical COLUMNS Functions
+```sql
 IoTDB:database1> select min(columns('^h.*')) + max(columns('^t.*')) from table1
+```
+
+Results:
+
+```sql
 Msg: org.apache.iotdb.jdbc.IoTDBSQLException: 701: Multiple different COLUMNS in the same expression are not supported
 ```
 
 - Multiple COLUMNS Functions in Different Expressions
 
+Query minimum of 'h'-columns and maximum of 'h'-columns separately
 ```sql
--- Query minimum of 'h'-columns and maximum of 'h'-columns separately
 IoTDB:database1> select min(columns('^h.*')) , max(columns('^h.*')) from table1
+```
+
+Results:
+
+```sql
 +--------------+--------------+
 |_col0_humidity|_col1_humidity|
 +--------------+--------------+
 |          34.8|          45.1|
 +--------------+--------------+
-
--- Query minimum of 'h'-columns and maximum of 'te'-columns
+```
+Query minimum of 'h'-columns and maximum of 'te'-columns
+```sql
 IoTDB:database1> select min(columns('^h.*')) , max(columns('^te.*')) from table1
+```
+
+Results:
+
+```sql
 +--------------+-----------------+
 |_col0_humidity|_col1_temperature|
 +--------------+-----------------+
@@ -362,9 +409,14 @@ IoTDB:database1> select min(columns('^h.*')) , max(columns('^te.*')) from table1
 
 3. In Where Clause
 
+Query data where all 'h'-columns must be > 40 (equivalent to)
 ```sql
--- Query data where all 'h'-columns must be > 40 (equivalent to)
 IoTDB:database1> select * from table1 where columns('^h.*') > 40
+```
+
+Results:
+
+```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
 |                         time|region|plant_id|device_id|model_id|maintenance|temperature|humidity|status|                 arrival_time|
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
@@ -372,9 +424,16 @@ IoTDB:database1> select * from table1 where columns('^h.*') > 40
 |2024-11-28T09:00:00.000+08:00|  上海|    3001|      100|       C|         90|       null|    40.9|  true|                         null|
 |2024-11-28T11:00:00.000+08:00|  上海|    3001|      100|       C|         90|       88.0|    45.1|  true|2024-11-28T11:00:12.000+08:00|
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
+```
 
---Alternative syntax
+Alternative syntax
+```sql
 IoTDB:database1> select * from table1 where humidity > 40
+```
+
+Results:
+
+```sql
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+
 |                         time|region|plant_id|device_id|model_id|maintenance|temperature|humidity|status|                 arrival_time|
 +-----------------------------+------+--------+---------+--------+-----------+-----------+--------+------+-----------------------------+

@@ -23,7 +23,7 @@
 
 IoTDB has a built-in system database called `INFORMATION_SCHEMA`, which contains a series of system tables for storing IoTDB runtime information (such as currently executing SQL statements, etc.). Currently, the `INFORMATION_SCHEMA` database only supports read operations.
 
-> 💡 **[V2.0.9 Version Update]**<br>
+> 💡 **[V2.0.9.1 Version Update]**<br>
 > 👉 Added onw system tables: **[TABLE_DISK_USAGE](#_2-22-table-disk-usage)** (Table-level Storage Space Statistics), enhancing cluster maintenance and performance analysis.
 
 
@@ -719,7 +719,7 @@ IoTDB> SELECT * FROM information_schema.services
 ```
 
 ##### 2.22 TABLE_DISK_USAGE
-> This system table is available since version V2.0.9
+> This system table is available since version V2.0.9.1
 
 Used to display the disk space usage of specified tables (excluding views), including the size of ChunkGroups and the size of Metadata.
 

@@ -21,7 +21,7 @@
 
 # Write & Update Data
 
-## 1. Data Insertion
+## 1. SQL Insertion
 
 ### 1.1 Syntax
 
@@ -48,85 +48,7 @@ Since attributes generally do not change over time, it is recommended to update 
 </div>
 
 
-### 1.2 Automatically Create Tables via Session Insertion
-
-When performing data writing through Session, IoTDB supports schema-less writing: there is no need to manually create tables beforehand. The system automatically constructs the table structure based on the information in the write request, and then directly executes the data writing operation.
-
-**Example:**
-
-```Java
-try (ITableSession session =
-    new TableSessionBuilder()
-        .nodeUrls(Collections.singletonList("127.0.0.1:6667"))
-        .username("root")
-        .password("root")
-        .build()) {
-
-  session.executeNonQueryStatement("CREATE DATABASE db1");
-  session.executeNonQueryStatement("use db1");
-
-  // Insert data without manually creating the table
-  List<String> columnNameList =
-      Arrays.asList("region_id", "plant_id", "device_id", "model", "temperature", "humidity");
-  List<TSDataType> dataTypeList =
-      Arrays.asList(
-          TSDataType.STRING,
-          TSDataType.STRING,
-          TSDataType.STRING,
-          TSDataType.STRING,
-          TSDataType.FLOAT,
-          TSDataType.DOUBLE);
-  List<ColumnCategory> columnTypeList =
-      new ArrayList<>(
-          Arrays.asList(
-              ColumnCategory.TAG,
-              ColumnCategory.TAG,
-              ColumnCategory.TAG,
-              ColumnCategory.ATTRIBUTE,
-              ColumnCategory.FIELD,
-              ColumnCategory.FIELD));
-  Tablet tablet = new Tablet("table1", columnNameList, dataTypeList, columnTypeList, 100);
-  for (long timestamp = 0; timestamp < 100; timestamp++) {
-    int rowIndex = tablet.getRowSize();
-    tablet.addTimestamp(rowIndex, timestamp);
-    tablet.addValue("region_id", rowIndex, "1");
-    tablet.addValue("plant_id", rowIndex, "5");
-    tablet.addValue("device_id", rowIndex, "3");
-    tablet.addValue("model", rowIndex, "A");
-    tablet.addValue("temperature", rowIndex, 37.6F);
-    tablet.addValue("humidity", rowIndex, 111.1);
-    if (tablet.getRowSize() == tablet.getMaxRowNumber()) {
-      session.insert(tablet);
-      tablet.reset();
-    }
-  }
-  if (tablet.getRowSize() != 0) {
-    session.insert(tablet);
-    tablet.reset();
-  }
-}
-```
-
-After execution, you can verify the table creation using the following command:
-
-```SQL
-desc table1;
-```
-```shell
-+-----------+---------+-----------+
-| ColumnName| DataType|   Category|
-+-----------+---------+-----------+
-|       time|TIMESTAMP|       TIME|
-|  region_id|   STRING|        TAG|
-|   plant_id|   STRING|        TAG|
-|  device_id|   STRING|        TAG|
-|      model|   STRING|  ATTRIBUTE|
-|temperature|    FLOAT|      FIELD|
-|   humidity|   DOUBLE|      FIELD|
-+-----------+---------+-----------+
-```
-
-### 1.3 Specified Column Insertion
+### 1.2 Specified Column Insertion
 
 It is possible to insert data for specific columns. Columns not specified will remain `null`.
 
@@ -138,7 +60,7 @@ INSERT INTO table1(region, plant_id, device_id, time, temperature, humidity) VAL
 INSERT INTO table1(region, plant_id, device_id, time, temperature) VALUES ('Hamburg', '1001', '100', '2025-11-26 13:38:00', 91.0);
 ```
 
-### 1.4 Null Value Insertion
+### 1.3 Null Value Insertion
 
 You can explicitly set `null` values for tag columns, attribute columns, and field columns.
 
@@ -157,7 +79,7 @@ If no tag columns are included, the system will automatically create a device wi
 
 > **Note:** This operation will not only automatically populate existing tag columns in the table with `null` values but will also populate any newly added tag columns with `null` values in the future.
 
-### 1.5 Multi-Row Insertion
+### 1.4 Multi-Row Insertion
 
 IoTDB supports inserting multiple rows of data in a single statement to improve efficiency.
 
@@ -182,13 +104,13 @@ VALUES
 - Data type mismatches between the insertion data and the column's data type will result in an error code `DATA_TYPE_MISMATCH(614)`.
 
 
-### 1.6 Query Write-back
+### 1.5 Query Write-back
 
 The IoTDB table model supports the **append-only query write-back** feature, implemented via the `INSERT INTO QUERY` statement. This feature allows writing the results of a query into an **existing** table.
 
 > ​**Note**​: This feature is available starting from version V2.0.6.
 
-#### 1.6.1 Syntax Definition
+#### 1.5.1 Syntax Definition
 
 sql
 
@@ -297,7 +219,7 @@ Total line number = 2
 It costs 0.014s
 ```
 
-#### 1.6.2 Notes
+#### 1.5.2 Notes
 
 * The source table in the `query` and the target table `table_name` are allowed to be the same table, e.g., `INSERT INTO testtb SELECT * FROM testtb`.
 * The target table ​**must already exist**​; otherwise, the error message `550: Table 'xxx.xxx' does not exist` will be thrown.
@@ -316,7 +238,7 @@ It costs 0.014s
   * For more details about user permissions, refer to [Authority Management](../User-Manual/Authority-Management_timecho.md).
 
   
-### 1.7 Writing Object Type
+### 1.6 Writing Object Type
 
 To avoid oversized Object write requests, values of **Object** type can be split into segments and written sequentially. In SQL, the `to_object(isEOF, offset, content)` function must be used for value insertion.
 
@@ -369,9 +291,89 @@ INSERT INTO table1(time, device_id, s1) VALUES(1, 'tag1', TO_OBJECT(TRUE, 4, X'6
 2. During segmented writes, if the `offset` of the current write does not match the current size of the Object, the write operation will fail.
 3. If `offset=0` is used after partial writes, the existing content will be overwritten with new data.
 
-## 2. Data Updates
 
-### 2.1 Syntax
+## 2. Schema-less Writing
+
+When performing data writing through Session, IoTDB supports schema-less writing: there is no need to manually create tables beforehand. The system automatically constructs the table structure based on the information in the write request, and then directly executes the data writing operation.
+
+**Example:**
+
+```Java
+try (ITableSession session =
+    new TableSessionBuilder()
+        .nodeUrls(Collections.singletonList("127.0.0.1:6667"))
+        .username("root")
+        .password("root")
+        .build()) {
+
+  session.executeNonQueryStatement("CREATE DATABASE db1");
+  session.executeNonQueryStatement("use db1");
+
+  // Insert data without manually creating the table
+  List<String> columnNameList =
+      Arrays.asList("region_id", "plant_id", "device_id", "model", "temperature", "humidity");
+  List<TSDataType> dataTypeList =
+      Arrays.asList(
+          TSDataType.STRING,
+          TSDataType.STRING,
+          TSDataType.STRING,
+          TSDataType.STRING,
+          TSDataType.FLOAT,
+          TSDataType.DOUBLE);
+  List<ColumnCategory> columnTypeList =
+      new ArrayList<>(
+          Arrays.asList(
+              ColumnCategory.TAG,
+              ColumnCategory.TAG,
+              ColumnCategory.TAG,
+              ColumnCategory.ATTRIBUTE,
+              ColumnCategory.FIELD,
+              ColumnCategory.FIELD));
+  Tablet tablet = new Tablet("table1", columnNameList, dataTypeList, columnTypeList, 100);
+  for (long timestamp = 0; timestamp < 100; timestamp++) {
+    int rowIndex = tablet.getRowSize();
+    tablet.addTimestamp(rowIndex, timestamp);
+    tablet.addValue("region_id", rowIndex, "1");
+    tablet.addValue("plant_id", rowIndex, "5");
+    tablet.addValue("device_id", rowIndex, "3");
+    tablet.addValue("model", rowIndex, "A");
+    tablet.addValue("temperature", rowIndex, 37.6F);
+    tablet.addValue("humidity", rowIndex, 111.1);
+    if (tablet.getRowSize() == tablet.getMaxRowNumber()) {
+      session.insert(tablet);
+      tablet.reset();
+    }
+  }
+  if (tablet.getRowSize() != 0) {
+    session.insert(tablet);
+    tablet.reset();
+  }
+}
+```
+
+After execution, you can verify the table creation using the following command:
+
+```SQL
+desc table1;
+```
+```shell
++-----------+---------+-----------+
+| ColumnName| DataType|   Category|
++-----------+---------+-----------+
+|       time|TIMESTAMP|       TIME|
+|  region_id|   STRING|        TAG|
+|   plant_id|   STRING|        TAG|
+|  device_id|   STRING|        TAG|
+|      model|   STRING|  ATTRIBUTE|
+|temperature|    FLOAT|      FIELD|
+|   humidity|   DOUBLE|      FIELD|
++-----------+---------+-----------+
+```
+
+
+## 3. Data Updates
+
+### 3.1 Syntax
 
 ```SQL
 UPDATE <TABLE_NAME> SET updateAssignment (',' updateAssignment)* (WHERE where=booleanExpression)?

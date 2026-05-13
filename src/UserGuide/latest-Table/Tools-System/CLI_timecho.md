@@ -107,3 +107,72 @@ To exit the CLI and terminate the session, type`quit`or`exit`.
 1. **Navigate Command History:** Use the up and down arrow keys.
 2. **Auto-Complete Commands:** Use the right arrow key.
 3. **Interrupt Command Execution:** Press `CTRL+C`.
+
+## 4. Access History Feature
+
+Since IoTDB **V2.0.9.1**, the access history feature is available. After a client logs in successfully, key historical access information is displayed, and the feature supports distributed deployments. Both administrators and regular users can only view their own access history. The core displayed information includes:
+
+- Last successful session: displays date, time, access application, IP address, and access method (not shown for first login or when no history exists).
+- Most recent failed attempt: displays the date, time, access application, IP address, and access method of the latest failed login attempt immediately before the current successful login.
+- Cumulative failed attempts: total number of failed session attempts since the last successful session was established.
+
+### 4.1 Enabling Access History
+
+You can enable or disable the access history feature by modifying the corresponding parameter in the `iotdb-system.properties` file. A restart is required for changes to take effect. For example:
+
+```Plain
+# Controls whether the audit log feature is enabled
+enable_audit_log=false
+```
+
+- When enabled: login information is recorded and expired data is cleaned periodically.
+- When disabled: no data is recorded, displayed, or cleaned up.
+- If disabled and then re-enabled, the displayed history will be the last record before the feature was disabled, which may not reflect the actual latest login.
+
+Usage example:
+
+```Bash
+---------------------
+Starting IoTDB Cli
+---------------------
+ _____       _________  ______   ______
+|_   _|     |  _   _  ||_   _ `.|_   _ \
+  | |   .--.|_/ | | \_|  | | `. \ | |_) |
+  | | / .'`\ \  | |      | |  | | |  __'.
+ _| |_| \__. | _| |_    _| |_.' /_| |__) |
+|_____|'.__.' |_____|  |______.'|_______/  Enterprise version 2.0.9.1 (Build: xxxxxxx)
+
+
+---Last Successful Session------------------
+Time: 2026-03-24T10:25:47.759+08:00
+IP Address: 127.0.0.1
+---Last Failed Session----------------------
+Time: 2026-03-24T10:27:26.314+08:00
+IP Address: 127.0.0.1
+Cumulative Failed Attempts: 1
+Successfully logged in at 127.0.0.1:6667
+IoTDB>
+```
+
+### 4.2 Viewing Access History
+
+The `root` user and users with the `AUDIT` privilege can view login history records using SQL statements.
+
+Syntax:
+
+```SQL
+SELECT * FROM __audit.login_history;
+```
+
+Example:
+
+```SQL
+IoTDB> SELECT * FROM __audit.login_history
++-----------------------------+-------+-------+--------+---------+------+
+|                         time|user_id|node_id|username|       ip|result|
++-----------------------------+-------+-------+--------+---------+------+
+|2026-03-25T10:55:58.240+08:00|    u_0| node_1|    root|127.0.0.1|  true|
++-----------------------------+-------+-------+--------+---------+------+
+Total line number = 1
+It costs 0.213s
+```

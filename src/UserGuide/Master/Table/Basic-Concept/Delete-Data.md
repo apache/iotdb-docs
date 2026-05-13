@@ -69,34 +69,21 @@ The [Example Data page](../Reference/Sample-Data.md)page provides SQL statements
 #### 1.2.1 Delet  All Data from a Table
 
 ```SQL
-# Whole table deletion
-DELETE FROM table1
+DELETE FROM table1;
 ```
 
 #### 1.2.2 Delete Data within a Specific Time Range
 
 ```SQL
-# Single time interval deletion
-DELETE FROM table1 WHERE time <= 2024-11-29 00:00:00
-
-# Multi time interval deletion
-DELETE FROM table1  WHERE time >= 2024-11-27 00:00:00  and time <= 2024-11-29 00:00:00
+DELETE FROM table1  WHERE time >= 2024-11-27 00:00:00  and time <= 2024-11-29 00:00:00;
 ```
 
 #### 1.2.3 Deleting Data for a Specific Device
 
 ```SQL
-# Device-specific deletion
-# Identifier conditions only support the '=' operator
-DELETE FROM table1 WHERE device_id='101' and model_id = 'B'
-
-# Device-specific deletion with time interval
 DELETE FROM table1 
     WHERE time >= 2024-11-27 16:39:00  and time <= 2024-11-29 16:42:00 
-    AND device_id='101' and model_id = 'B'
-
-# Device-type-specific deletion
-DELETE FROM table1 WHERE model_id = 'B'
+    AND device_id='101' and model_id = 'B';
 ```
 
 ## 2. Device Deletion
@@ -117,5 +104,5 @@ DELETE DEVICES FROM tableName=qualifiedName (WHERE booleanExpression)?
 ### 2.2 Example
 
 ```SQL
-DELETE DEVICES FROM table1 WHERE device_id = '101'
+DELETE DEVICES FROM table1 WHERE device_id = '101';
 ```
