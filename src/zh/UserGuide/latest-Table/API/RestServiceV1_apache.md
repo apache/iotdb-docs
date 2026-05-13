@@ -33,27 +33,57 @@ Restful 服务默认情况是关闭的，开启 restful 功能需要找到 IoTDB
 
 ## 2. 鉴权
 
-除了检活接口 `/ping`，restful服务使用了基础（basic）鉴权，每次 URL 请求都需要在 header 中携带 `'Authorization':'Basic' + base64.encode(username + ':' + password)`。
+除了检活接口 `/ping`，RESTful 服务均使用基础（Basic）鉴权，所有请求都需要在 Header 中携带 `Authorization` 信息。
 
-示例中使用的用户名为：`root`，密码为：`root`，对应的 Basic 鉴权 Header 格式为
+1. 鉴权格式
 
-```Plain
-Authorization : Basic cm9vdDpyb290
+```JSON
+Authorization: Basic <base64串>
 ```
 
-- 若用户名密码认证失败，则返回如下信息：
-- HTTP 状态码：801
-- 返回结构体如下
+其中 `<base64串>` 是 `用户名:密码` 直接做 Base64 编码的结果，其快速生成方式如下
+
+* Linux/macOS
+
+```Bash
+echo -n "你的用户名:你的密码" | base64
+eg: echo -n "root:root" | base64
+```
+
+* Windows
+
+```Bash
+# PowerShell
+[Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("用户名:密码"))
+eg: [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("root:root"))
+
+# CMD
+powershell "[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes(\"用户名:密码\"))"
+eg: powershell "[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes(\"root:root\"))"
+```
+
+2. 鉴权示例
+
+默认用户名 `root`，密码 `root`：
+
+* 拼接字符串：`root:root`
+* Base64 编码后为：`cm9vdDpyb290`
+* 最终 Header：
+
+```JSON
+Authorization: Basic cm9vdDpyb290
+```
+
+3. 错误说明
+* 用户名/密码错误：返回 HTTP 状态码 `801`，内容：
 
 ```JSON
 {"code":801,"message":"WRONG_LOGIN_PASSWORD"}
 ```
 
-- 若未设置 `Authorization`，则返回如下信息：
-- HTTP 状态码：800
-- 返回结构体如下
+* 未设置 `Authorization`：返回 HTTP 状态码 `800`，内容：
 
-```Plain
+```JSON
 {"code":800,"message":"INIT_AUTH_ERROR"}
 ```
 
