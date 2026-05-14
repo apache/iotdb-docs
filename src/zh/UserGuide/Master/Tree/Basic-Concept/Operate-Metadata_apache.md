@@ -861,7 +861,6 @@ COUNT TIMESERIES root.ln.wf01.* GROUP BY LEVEL=2;
 |      column|count(timeseries)|
 +------------+-----------------+
 |   root.sgcc|                2|
-|root.turbine|                1|
 |     root.ln|                4|
 +------------+-----------------+
 Total line number = 3

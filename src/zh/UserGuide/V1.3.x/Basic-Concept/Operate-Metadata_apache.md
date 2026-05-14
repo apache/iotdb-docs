@@ -829,7 +829,6 @@ IoTDB> COUNT TIMESERIES root.** GROUP BY LEVEL=1
 |      column|count(timeseries)|
 +------------+-----------------+
 |   root.sgcc|                2|
-|root.turbine|                1|
 |     root.ln|                4|
 +------------+-----------------+
 Total line number = 3

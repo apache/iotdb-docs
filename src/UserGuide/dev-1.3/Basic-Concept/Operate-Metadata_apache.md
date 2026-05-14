@@ -846,7 +846,6 @@ You will get following results:
 |      column|count(timeseries)|
 +------------+-----------------+
 |   root.sgcc|                2|
-|root.turbine|                1|
 |     root.ln|                4|
 +------------+-----------------+
 Total line number = 3
