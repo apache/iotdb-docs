@@ -143,6 +143,7 @@ DROP FUNCTION <UDF-NAME>
 DROP FUNCTION example
 ```
 
+注意：对于使用 using uri 注册的函数，需要移除集群所有节点路径（`安装包/ext/udf/install`）中存在的 UDF 的 jar 文件。
 
 ###  2.3 查看所有注册的 UDF
 

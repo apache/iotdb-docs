@@ -422,6 +422,8 @@ DROP TRIGGER triggerTest1
 
 上述语句将会卸载 ID 为 triggerTest1 的触发器。
 
+注意：对于使用 using uri 注册的触发器，需要移除集群所有节点路径（`安装包/ext/trigger/install`）中存在的触发器的 jar 文件。
+
 ### 查询触发器
 
 可以通过 SQL 语句查询集群中存在的触发器的信息。SQL 语法如下：

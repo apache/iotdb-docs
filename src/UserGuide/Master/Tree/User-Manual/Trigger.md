@@ -421,6 +421,8 @@ DROP TRIGGER triggerTest1
 
 The above statement will drop the trigger with ID triggerTest1.
 
+Note: For triggers registered using USING URI, you need to remove the trigger's JAR files from the cluster-wide node path (`installation_package/ext/trigger/install`).
+
 ### 3.3 Show Trigger
 
 You can query information about triggers that exist in the cluster through an SQL statement.
