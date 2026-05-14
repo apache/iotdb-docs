@@ -164,8 +164,9 @@ It costs 1.615s
 1. AINode uses Transformers v4.56.2; avoid inheriting interfaces from older versions (<4.50).
 2. The model must inherit an AINode inference pipeline class (currently supports forecasting pipeline):
     * iotdb-core/ainode/iotdb/ainode/core/inference/pipeline/basic_pipeline.py
-   
-    ```python
+
+   **Before V2.0.9.3**
+    ```Python
     class BasicPipeline(ABC):
         def __init__(self, model_id, **model_kwargs):
             self.model_info = model_info
@@ -174,12 +175,16 @@ It costs 1.615s
     
         @abstractmethod
         def preprocess(self, inputs, **infer_kwargs):
-            """Preprocess input data before inference, including shape validation and numerical conversion."""
+            """
+            Preprocess the input data before the inference task starts, including shape validation and numerical conversion.
+            """
             pass
     
         @abstractmethod
         def postprocess(self, output, **infer_kwargs):
-            """Postprocess model outputs after inference."""
+            """
+            Postprocess the output results after the inference task is completed.
+            """
             pass
     
     
@@ -189,69 +194,176 @@ It costs 1.615s
     
         def preprocess(self, inputs: list[dict[str, dict[str, torch.Tensor] | torch.Tensor]], **infer_kwargs):
             """
-            Preprocess and validate input data before model inference.
+            Preprocess the input data before passing it to the model for inference, validating the shape and type of the input data.
     
             Args:
                 inputs (list[dict]):
-                    Input data as list of dicts containing:
-                        - 'targets': Tensor of shape (input_length,) or (target_count, input_length).
-                        - 'past_covariates': Optional dict of tensors, each of shape (input_length,).
-                        - 'future_covariates': Optional dict of tensors, each of shape (input_length,).
-                infer_kwargs (dict, optional): Additional inference parameters, e.g.:
-                    - `output_length` (int): Required if 'future_covariates' provided for validation.
+                    Input data, a list of dictionaries, each dictionary contains:
+                        - 'targets': Tensor with shape (input_length,) or (target_count, input_length).
+                        - 'past_covariates': Optional, dictionary of tensors, each tensor with shape (input_length,).
+                        - 'future_covariates': Optional, dictionary of tensors, each tensor with shape (input_length,).
+    
+                infer_kwargs (dict, optional): Additional keyword arguments for inference, such as:
+                    - `output_length`(int): Used to validate the validity of 'future_covariates' if provided.
     
             Raises:
-                ValueError: For invalid input formats (missing keys, invalid tensor shapes).
+                ValueError: If the input format is invalid (e.g., missing keys, invalid tensor shapes).
     
             Returns:
-                Preprocessed and validated input ready for model inference.
+                Preprocessed and validated input data that can be directly used for model inference.
             """
             pass
     
         def forecast(self, inputs, **infer_kwargs):
             """
-            Perform forecasting on given inputs.
+            Perform forecasting on the given inputs.
     
             Parameters:
-                inputs: Input data for forecasting (type/structure model-specific).
-                **infer_kwargs: Additional parameters, e.g.:
-                    - `output_length` (int): Number of future time points to generate.
+                inputs: Input data for forecasting. The type and structure depend on the specific model implementation.
+                **infer_kwargs: Additional inference parameters, e.g.:
+                    - `output_length`(int): The number of time points the model should generate.
     
             Returns:
-                Forecast output (format model-specific).
+                Forecast output, the specific form depends on the specific model implementation.
             """
             pass
     
         def postprocess(self, outputs: list[torch.Tensor], **infer_kwargs) -> list[torch.Tensor]:
             """
-            Postprocess model outputs, validate shapes, and ensure expected dimensions.
+            Postprocess the model outputs after inference, validating the shape of the output data and ensuring it meets the expected dimensions.
     
             Args:
-                outputs: List of 2D tensors, each of shape `[target_count, output_length]`.
+                outputs:
+                    Model outputs, a list of 2D tensors, each tensor with shape `[target_count, output_length]`.
     
             Raises:
-                InferenceModelInternalException: For invalid output tensor shapes.
-                ValueError: For incorrect output format.
+                InferenceModelInternalException: If the output tensor shape is invalid (e.g., incorrect dimensions).
+                ValueError: If the output format is incorrect.
     
             Returns:
-                List of postprocessed 2D tensors.
+                list[torch.Tensor]:
+                    Postprocessed outputs, which will be a list of 2D tensors.
             """
             pass
     ```
-3. Modify `config.json` to include:
-    ```json
+
+   **From V2.0.9.3 onwards**
+    ```Python
+    class BasicPipeline(ABC):
+        def __init__(self, model_id, **model_kwargs):
+            self.model_info = model_info
+            self.device = model_kwargs.get("device", "cpu")
+            self.model = load_model(model_info, device_map=self.device, **model_kwargs)
+    
+        @abstractmethod
+        def preprocess(self, inputs, **infer_kwargs):
+            """
+            Preprocess the input data before the inference task starts, including shape validation and numerical conversion.
+            """
+            pass
+            
+        @abstractmethod
+        def postprocess(self, output, **infer_kwargs):
+            """
+            Postprocess the output results after the inference task is completed.
+            """
+            pass
+            
+            
+    class ForecastPipeline(BasicPipeline):
+        def __init__(self, model_info, **model_kwargs):
+            super().__init__(model_info, model_kwargs=model_kwargs)
+    
+        def _preprocess(
+            self,
+            inputs: list[dict[str, dict[str, torch.Tensor] | torch.Tensor]],
+            **infer_kwargs,
+        ):
+            """
+            Preprocess the input data before passing it to the model for inference, validating the shape and type of the input data.
+    
+            Args:
+                inputs (list[dict[str, dict[str, torch.Tensor] | torch.Tensor]]):
+                    Input data, a list of dictionaries, each dictionary contains:
+                        - 'targets': Tensor with shape (input_length,) or (target_count, input_length).
+                        - 'past_covariates': Optional, dictionary of tensors, each tensor with shape (input_length,).
+                        - 'future_covariates': Optional, dictionary of tensors, each tensor with shape (input_length,).
+                
+                infer_kwargs (dict, optional): Additional keyword arguments for inference, such as:
+                    - `output_length`(int): Used to validate the validity of 'future_covariates' if provided.
+    
+            Raises:
+                ValueError: If the input format is invalid (e.g., missing keys, invalid tensor shapes).
+    
+            Returns:
+                Preprocessed and validated input data that can be directly used for model inference.
+            """
+            pass
+    
+        def forecast(self, inputs, **infer_kwargs):
+            """
+            Perform forecasting on the given inputs.
+    
+            Parameters:
+                inputs: Input data for forecasting. The type and structure depend on the specific model implementation.
+                **infer_kwargs: Additional inference parameters, e.g.:
+                    - `output_length`(int): The number of time points the model should generate.
+    
+            Returns:
+                Forecast output, the specific form depends on the specific model implementation.
+            """
+            pass
+            
+        def _postprocess(self, outputs, **infer_kwargs) -> list[torch.Tensor]:
+            """
+            Postprocess the model outputs after inference, validating the shape of the output data and ensuring it meets the expected dimensions.
+    
+            Args:
+                outputs:
+                    Model outputs, a list of 2D tensors, each tensor with shape `[target_count, output_length]`.
+    
+            Raises:
+                InferenceModelInternalException: If the output tensor shape is invalid (e.g., incorrect dimensions).
+                ValueError: If the output format is incorrect.
+    
+            Returns:
+                list[torch.Tensor]:
+                    Postprocessed outputs, which will be a list of 2D tensors.
+            """
+            pass
+    ```
+
+3. Modify the model configuration file `config.json` to ensure it contains the following fields:
+
+   **Before V2.0.9.3**
+    ```JSON
     {
         "auto_map": {
-            "AutoConfig": "config.Chronos2CoreConfig",
-            "AutoModelForCausalLM": "model.Chronos2Model"
+            "AutoConfig": "config.Chronos2CoreConfig",        // Specify the model Config class
+            "AutoModelForCausalLM": "model.Chronos2Model"     // Specify the model class
         },
-        "pipeline_cls": "pipeline_chronos2.Chronos2Pipeline",
-        "model_type": "custom_t5"
+        "pipeline_cls": "pipeline_chronos2.Chronos2Pipeline", // Specify the inference pipeline for the model
+        "model_type": "custom_t5",                            // Specify the model type
     }
     ```
-    * Must specify model Config and model classes via `auto_map`.
-    * Must implement and specify the inference pipeline class.
-    * `model_type` serves as a unique identifier. Must not conflict with existing model types (for both `builtin` and `user_defined` models).
+    * The model Config class and model class **must** be specified via `auto_map`;
+    * The inference pipeline class **must** be inherited and specified;
+    * For built-in and user-defined models managed by AINode, `model_type` also serves as a unique non-duplicable identifier. That is, the model type to be registered must not duplicate any existing model types; models created via fine-tuning will inherit the model type of the original model.
+
+   **From V2.0.9.3 onwards**
+   > The `model_type` parameter is **not required**
+    ```JSON
+    {
+        "auto_map": {
+            "AutoConfig": "config.Chronos2CoreConfig",        // Specify the model Config class
+            "AutoModelForCausalLM": "model.Chronos2Model"     // Specify the model class
+        },
+        "pipeline_cls": "pipeline_chronos2.Chronos2Pipeline", // Specify the inference pipeline for the model
+    }
+    ```
+    * The model Config class and model class **must** be specified via `auto_map`;
+    * The inference pipeline class **must** be inherited and specified;
+
 4. Ensure the model directory contains:
     * `config.json` (model configuration)
     * `model.safetensors` (model weights)
