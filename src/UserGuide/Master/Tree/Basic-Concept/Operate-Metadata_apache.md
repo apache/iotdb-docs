@@ -60,7 +60,7 @@ Database Node Naming Rules:
 3. Escaping Backticks:
    If the node name itself contains a backtick (\`), use **two consecutive backticks(\`\`)** to represent a single backtick. Example: To name a node as \`db123\`\` (containing one backtick), write it as \`db123\`\`\`.
 
-Besides, if deploy on Windows system, the LayerName is case-insensitive, which means it's not allowed to create databases `root.ln` and `root.LN` at the same time.
+Besides, if deploy on Windows or macOS system, the LayerName is case-insensitive, which means it's not allowed to create databases `root.ln` and `root.LN` at the same time.
 
 ### 1.2 Show Databases
 
