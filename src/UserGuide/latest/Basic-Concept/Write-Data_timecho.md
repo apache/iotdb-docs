@@ -39,7 +39,7 @@ The sample code for single column data insertion is as follows:
 
 ```
 IoTDB > insert into root.ln.wf02.wt02(timestamp,status) values(1,true)
-IoTDB > insert into root.ln.wf02.wt02(timestamp,hardware) values(1, 'v1')
+IoTDB > insert into root.ln.wf02.wt02(timestamp,hardware) values(1, "v1")
 ```
 
 The above example code inserts the long integer timestamp and the value "true" into the timeseries `root.ln.wf02.wt02.status` and inserts the long integer timestamp and the value "v1" into the timeseries `root.ln.wf02.wt02.hardware`. When the execution is successful, cost time is shown to indicate that the data insertion has been completed.
