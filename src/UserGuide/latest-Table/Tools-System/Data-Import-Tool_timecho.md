@@ -37,7 +37,8 @@ IoTDB supports three methods for data import:
 </tbody>
 </table>
 
-- Does not support the Object data type.
+- The table model TsFile import currently only supports local import.
+- Since version V2.0.9.2, the import-data.sh/bat script supports the Object data type when importing TsFile files.
 
 ## 2. Data Import Tool
 ### 2.1 Common Parameters
@@ -185,7 +186,7 @@ Fail to insert measurements '[column.name]' caused by [data type is not consiste
 # Unix/OS X
 > tools/import-data.sh -ft <format> [-sql_dialect<sql_dialect>] -db<database> -table<table> 
          [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
-        -s <source> -os <on_success> [-sd <success_dir>] -of <on_fail> [-fd <fail_dir>]
+        -s <source> [-o <object_file_paths>] -os <on_success> [-sd <success_dir>] -of <on_fail> [-fd <fail_dir>]
         [-tn <thread_num> ] [-tz <timezone>] [-tp <timestamp precision (ms/us/ns)>]
       
 # Windows
@@ -198,18 +199,19 @@ Fail to insert measurements '[column.name]' caused by [data type is not consiste
 # V2.0.4.x and later versions        
 > tools\windows\import-data.bat -ft <format> [-sql_dialect<sql_dialect>] -db<database> -table<table> 
          [-h <host>] [-p <port>] [-u <username>] [-pw <password>] 
-        -s <source> -os <on_success> [-sd <success_dir>] -of <on_fail> [-fd <fail_dir>]
+        -s <source> [-o <object_file_paths>] -os <on_success> [-sd <success_dir>] -of <on_fail> [-fd <fail_dir>]
         [-tn <thread_num> ] [-tz <timezone>] [-tp <timestamp precision (ms/us/ns)>]
 ```
 ####  2.4.2 TsFile-Specific Parameters 
 
-| Short     | Full Parameter              | Description                                                                                                                                                                                                                                                                       | Required        | Default                   |
-| ----------- | ----------------------------- |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| ----------------- | --------------------------- |
-| `-os` | `--on_success`          | Action for successful files:<br> `none`: Do not delete the file.<br> `mv`: Move the successful file to the target directory.<br> `cp`:Create a hard link (copy) of the successful file to the target directory.<br> `delete`:Delete the file.                                     | ​**Yes** | -                         |
-| `-sd` | `--success_dir`         | Target directory for `mv`/`cp` actions on success. Required if `-os` is `mv`/`cp`.    The file name will be flattened and concatenated with the original file name.                                                                                                               | Conditional     | `${EXEC_DIR}/success` |
-| `-of` | `--on_fail`             | Action for failed files:<br> `none`:Skip the file.<br> `mv`:Move the failed file to the target directory.<br> `cp`:Create a hard link (copy) of the failed file to the target directory.<br> `delete`:Delete the file..                                                           | ​**Yes** | -                         |
-| `-fd` | `--fail_dir`            | Target directory for `mv`/`cp` actions on failure. Required if `-of` is `mv`/`cp`.  The file name will be flattened and concatenated with the original file name.                                                                                                                 | Conditional     | `${EXEC_DIR}/fail`    |
-| `-tp` | `--timestamp_precision` | TsFile timestamp precision: `ms`, `us`, `ns`. <br> For non-remote TsFile imports: Use -tp to specify the timestamp precision of the TsFile. The system will manually verify if the timestamp precision matches the server. If it does not match, an error will be returned. <br> ​For remote TsFile imports: Use -tp to specify the timestamp precision of the TsFile. The Pipe system will automatically verify if the timestamp precision matches. If it does not match, a Pipe error will be returned. | No              | `ms`                  |
+| Short   | Full Parameter            | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Required    | Default               |
+|---------|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------|-----------------------|
+| `-os`   | `--on_success`            | Action for successful files:<br> `none`: Do not delete the file.<br> `mv`: Move the successful file to the target directory.<br> `cp`:Create a hard link (copy) of the successful file to the target directory.<br> `delete`:Delete the file.                                                                                                                                                                                                                                                             | ​**Yes**    | -                     |
+| `-sd`   | `--success_dir`           | Target directory for `mv`/`cp` actions on success. Required if `-os` is `mv`/`cp`.    The file name will be flattened and concatenated with the original file name.                                                                                                                                                                                                                                                                                                                                       | Conditional | `${EXEC_DIR}/success` |
+| `-of`   | `--on_fail`               | Action for failed files:<br> `none`:Skip the file.<br> `mv`:Move the failed file to the target directory.<br> `cp`:Create a hard link (copy) of the failed file to the target directory.<br> `delete`:Delete the file..                                                                                                                                                                                                                                                                                   | ​**Yes**    | -                     |
+| `-fd`   | `--fail_dir`              | Target directory for `mv`/`cp` actions on failure. Required if `-of` is `mv`/`cp`.  The file name will be flattened and concatenated with the original file name.                                                                                                                                                                                                                                                                                                                                         | Conditional | `${EXEC_DIR}/fail`    |
+| `-tp`   | `--timestamp_precision`   | TsFile timestamp precision: `ms`, `us`, `ns`. <br> For non-remote TsFile imports: Use -tp to specify the timestamp precision of the TsFile. The system will manually verify if the timestamp precision matches the server. If it does not match, an error will be returned. <br> ​For remote TsFile imports: Use -tp to specify the timestamp precision of the TsFile. The Pipe system will automatically verify if the timestamp precision matches. If it does not match, a Pipe error will be returned. | No          | `ms`                  |
+| `-o`    | `--object-file-paths`     | Storage path for Object files.<br> Default mode: If this parameter is not specified, the script automatically identifies and imports Object files located in the subdirectory with the same name as the TsFile.<br> Absolute path mode: Explicitly specifies the external storage root directory for Object files; the tool creates an associated data index based on this path.<br>  Note: This parameter is supported since V2.0.9.2                                                                    | No          |                       |
 
 #### 2.4.3 Examples 
 
@@ -221,6 +223,54 @@ Fail to insert measurements '[column.name]' caused by [data type is not consiste
 > tools/import-data.sh -ft tsfile -sql_dialect table -s ./tsfile -db database1 
 Parse error: Missing required options: os, of
 ```
+
+
+**Object Type Import**
+
+1. Import Directory Structure
+
+* Default Mode
+
+```Bash
+target_dir
+    ├── tsfile.tsfile
+    └── tsfile/ (matches the TsFile name)
+        ├── regionID/tableName/tag1/tag2/field/timestamp1.bin
+        ├── regionID/tableName/tag1/tag2/field/timestamp2.bin
+        └── regionID/tableName1/tag3/tag4/field/timestamp1.bin
+```
+
+* Specified Object Directory
+
+```Bash
+target_dir
+    ├── tsfile.tsfile
+object_dir
+    ├── regionID/tableName/tag1/tag2/field/timestamp1.bin
+    ├── regionID/tableName/tag1/tag2/field/timestamp2.bin
+    └── regionID/tableName1/tag3/tag4/field/timestamp1.bin
+```
+
+2. Command Line Examples
+
+* Basic Import (automatically identifies Object files in the TsFile-named directory)
+
+```Bash
+./import-data.sh -sql_dialect table -ft tsfile -s /data/import/sensor_v1.tsfile -db database1 -os none -of none
+```
+
+* Batch Directory Import (specify concurrent threads and post-success action)
+
+```Bash
+./import-data.sh -sql_dialect table -ft tsfile -s /data/raw_data/ -tn 16 -os mv -sd /data/archive/
+```
+
+* Table Model Associated Import (specify external Object storage path and target database)
+
+```Bash
+./import-data.sh -sql_dialect table -ft tsfile -s /data/import/ -db factory_db -o /mnt/object_storage/ -of mv -fd /data/error_log/
+```
+
 
 ## 3. TsFile Auto-Loading
 

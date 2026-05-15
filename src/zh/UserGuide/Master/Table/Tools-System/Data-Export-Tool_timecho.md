@@ -2,7 +2,10 @@
 
 ## 1. 功能概述
 
-数据导出工具 `export-data.sh/bat` 位于 `tools` 目录下，能够将指定 SQL 的查询结果导出为 CSV、SQL 及 TsFile（开源时间序列文件格式）格式。具体功能如下：
+IoTDB 支持两种方式进行数据导出：
+
+* 数据导出工具 ：`export-data.sh/bat` 位于 `tools `目录下，能够将指定 SQL 的查询结果导出为 CSV、SQL 及 TsFile （开源时间序列文件格式）格式。
+* 基于 PIPE 框架的 TsFileBackup：`tsfile-backup.sh/bat`位于 `tools `目录下，能够使用 PIPE 将指定的数据文件导出为 TsFile 格式。
 
 <table style="text-align: left;">
   <tbody>
@@ -20,15 +23,18 @@
             <td>包含自定义 SQL 语句的文件</td> 
       </tr>
        <tr>
-            <td >TsFile</td> 
+            <td rowspan="2">TsFile</td>
             <td>开源时序数据文件格式</td>
       </tr> 
+      <tr>
+            <td>tsfile-backup.sh/bat</td> 
+            <td>开源时序数据文件格式，支持 Object 数据类型</td>
+      </tr>
 </tbody>
 </table>
 
-- 不支持 Object 数据类型。
 
-## 2. 功能详解
+## 2. 数据导出工具
 
 ### 2.1 公共参数
 
@@ -177,4 +183,72 @@ Parse error: Missing required option: db
 # 异常示例
 > /tools/export-data.sh -ft tsfile -sql_dialect table -t /path/export/dir -start_time 0
 Parse error: Missing required option: db
+```
+
+## 3. 基于 PIPE 框架的 TsFileBackup
+
+IoTDB 自 **V2.0.9.2** 版本起支持 `tsfile-backup.sh/bat` 脚本，该脚本能够自动生成并向服务端发送 `CREATE PIPE` SQL 指令，将指定的数据文件导出为 TsFile 格式。
+
+**注意：**
+
+1. ​**使用该脚本需联系天谋团队获取定制安装包 ​`timechodb-<version>-extension`**​**。**
+2. **该脚本支持 Object 类型数据导出为 TsFile 文件。**
+
+### 3.1 运行命令
+
+```Shell
+# Unix/OS X
+> tools/tsfile-backup.sh [-sql_dialect <sql_dialect>] [-h <host>] [-p <port>]
+       [-u <username>] [-pw <password>] [-path <path>] [-db <db>] [-table
+       <table>] [-s <start_time>] [-e <end_time>] [-t <target_directory>] 
+       [-th <target_host>] [-tu <target_host_user>] [-tp <target_host_port>]
+       [--rate_limit] [--plugin_jar] [-help]
+# Windows
+> tools\windows>tsfile-backup.bat [-sql_dialect <sql_dialect>] [-h <host>] [-p <port>]
+       [-u <username>] [-pw <password>] [-path <path>]  [-db <db>] [-table
+       <table>] [-s <start_time>] [-e <end_time>] [-t <target_directory>] 
+       [-th <target_host>] [-tu <target_host_user>] [-tp <target_host_port>]
+       [--rate_limit] [--plugin_jar] [-help]
+```
+
+### 3.2 脚本参数
+
+| 参数缩写           | 参数全称                 | 参数含义                                                                                                 | 是否为必填项 | 默认值             |
+| -------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------- | -------------- | -------------------- |
+| `-sql_dialect` | `--sql_dialect`      | 指定数据模型类型，可选值：`tree`(树模型) 或`table`(表模型)。                                     | 是           | -                  |
+| `-h`           | `--host`             | 本地主机地址。指当前数据所在的 IoTDB 实例 IP。                                                           | 否           | `127.0.0.1`    |
+| `-p`           | `--port`             | 端口号，IoTDB RPC 服务端口。                                                                             | 否           | `6667`         |
+| `-u`           | `--user`             | 用户名，用于登录 IoTDB 验证。                                                                            | 否           | `root`         |
+| `-pw`          | `--password`         | 密码，对应用户的IoTDB密码，支持隐藏输入。                                                                | 否           | `root`         |
+| `-t`           | `--target`           | 导出目标目录。在 SCP 模式下，此路径指远程服务器上的绝对物理路径。TsFile 和关联的 Object 目录将导出至此。 | 是           | -                  |
+| `-db`          | `--database`         | 数据库名称 (表模型可选)                                                                                  | 否           | `.*`           |
+| `-table`       | `--table`            | 表名 (表模型可选)                                                                                        | 否           | `.*`           |
+| `-s`           | `--start_time`       | 起始时间。支持 ISO8601 格式（如 2026-01-01T00:00:00）或毫秒时间戳。仅导出该时间点及之后的数据。          | 否           | -                  |
+| `-e`           | `--end_time`         | 截止时间。格式同上。仅导出该时间点之前的数据。                                                           | 否           | -                  |
+| `-th`          | `--target_host`      | 远程目标主机 IP，默认自动识别启动脚本的IP。指定此参数后，脚本将自动配置 Pipe 使用 SCP 模式进行数据传输。 | 否           | -                  |
+| `-tu`          | `--target_host_user` | 远程主机用户名。用于 SSH/SCP 登录目标服务器。                                                            | 否           | -                  |
+| `-tpw`         | `--target_host_pw`   | 远程主机密码。用于远程身份验证，支持隐藏输入。                                                           | 否           | -                  |
+| `-tp`          | `--target_host_port` | 远程 SSH 端口。                                                                                          | 否           | `22`           |
+| `--rate_limit` | `--rate_limit`       | 发送速率限制。单位：字节/秒 (Bytes/s)。防止导出任务占用过多网络带宽。                                    | 否           | -                  |
+| `--plugin_jar` | `--plugin_jar`       | 指定 Pipe 插件的Jar包路径                                                                                | 否           | -                  |
+| `-help`        | `--help`             | 查看帮助                                                                                                 | 否           | -                  |
+
+### 3.3 运行示例
+
+示例一：SCP 远程导出（将数据发送到另一台服务器）
+
+```Bash
+./tsfile-backup.sh -sql_dialect table -db test_db -t /remote/archive/ -th 192.168.1.100 -tu backup_user -tpw ComplexPass123!
+```
+
+示例二：带限速的远程 Object 数据导出
+
+```Bash
+./tsfile-backup.sh -sql_dialect table -t /mnt/backup/ -th 10.0.0.5 -tu iot_admin -tpw Admin@2026 --rate_limit 5242880
+```
+
+示例三：指定 Pipe jar 目录
+
+```Bash
+./tsfile-backup.sh -sql_dialect table -db test  -table .* -tu luoluoyuyu -tpw  -t /tmp/backup --plugin_jar /local/lib/tsfile-remote-sink-2.0.8-SNAPSHOT-jar-with-dependencies.jar
 ```
