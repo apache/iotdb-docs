@@ -164,6 +164,7 @@ It costs 1.615s
 2. 模型需继承一类 AINode 的推理任务流水线（当前支持预测流水线）：
    * iotdb-core/ainode/iotdb/ainode/core/inference/pipeline/basic\_pipeline.py
 
+   **V2.0.9.3 之前**
    ```Python
    class BasicPipeline(ABC):
        def __init__(self, model_id, **model_kwargs):
@@ -244,7 +245,96 @@ It costs 1.615s
            """
            pass
    ```
+
+   **V2.0.9.3 起**
+   ```Python
+    class BasicPipeline(ABC):
+    def __init__(self, model_id, **model_kwargs):
+        self.model_info = model_info
+        self.device = model_kwargs.get("device", "cpu")
+        self.model = load_model(model_info, device_map=self.device, **model_kwargs)
+
+    @abstractmethod
+    def preprocess(self, inputs, **infer_kwargs):
+        """
+        在推理任务开始前对输入数据进行前处理，包括形状验证和数值转换。
+        """
+        pass
+        
+    @abstractmethod
+    def postprocess(self, output, **infer_kwargs):
+        """
+        在推理任务结束后对输出结果进行后处理。
+        """
+        pass
+        
+        
+    class ForecastPipeline(BasicPipeline):
+    def __init__(self, model_info, **model_kwargs):
+    super().__init__(model_info, model_kwargs=model_kwargs)
+
+    def _preprocess(
+        self,
+        inputs: list[dict[str, dict[str, torch.Tensor] | torch.Tensor]],
+        **infer_kwargs,
+    ):
+        """
+        在将输入数据传递给模型进行推理之前进行预处理，验证输入数据的形状和类型。
+
+        Args:
+            inputs (list[dict[str, dict[str, torch.Tensor] | torch.Tensor]]):
+                输入数据，字典列表，每个字典包含：
+                    - 'targets': 形状为 (input_length,) 或 (target_count, input_length) 的张量。
+                    - 'past_covariates': 可选，张量字典，每个张量形状为 (input_length,)。
+                    - 'future_covariates': 可选，张量字典，每个张量形状为 (input_length,)。
+            
+            infer_kwargs (dict, optional): 推理的额外关键字参数，如：
+                - `output_length`(int): 如果提供'future_covariates'，用于验证其有效性。
+
+        Raises:
+            ValueError: 如果输入格式不正确（例如，缺少键、张量形状无效）。
+
+        Returns:
+            经过预处理和验证的输入数据，可直接用于模型推理。
+        """
+        pass
+
+    def forecast(self, inputs, **infer_kwargs):
+        """
+        对给定输入执行预测。
+
+        Parameters:
+            inputs: 用于进行预测的输入数据。类型和结构取决于模型的具体实现。
+            **infer_kwargs: 额外的推理参数，例如：
+                - `output_length`(int): 模型应该生成的时间点数量。
+
+        Returns:
+            预测输出，具体形式取决于模型的具体实现。
+        """
+        pass
+        
+    def _postprocess(self, outputs, **infer_kwargs) -> list[torch.Tensor]:
+        """
+        在推理后对模型输出进行后处理，验证输出数据的形状并确保其符合预期维度。
+
+        Args:
+            outputs:
+                模型输出，2D张量列表，每个张量形状为 `[target_count, output_length]`。
+
+        Raises:
+            InferenceModelInternalException: 如果输出张量形状无效（例如，维数错误）。
+            ValueError: 如果输出格式不正确。
+
+        Returns:
+            list[torch.Tensor]:
+                后处理后的输出，将是一个2D张量列表。
+        """
+        pass
+    ``` 
+
 3. 修改模型配置文件 config.json，确保包含以下字段：
+
+   **V2.0.9.3 之前**
    ```JSON
    {
        "auto_map": {
@@ -256,9 +346,25 @@ It costs 1.615s
    }
    ```
 
-   * 必须通过 auto\_map 指定模型的 Config 类和模型类；
-   * 必须集成并指定推理流水线类；
-   * 对于 AINode 管理的内置（builtin）和自定义（user\_defined）模型，模型类别（model\_type）也作为不可重复的唯一标识。即，要注册的模型类别不得与任何已存在的模型类型重复。
+    * 必须通过 auto\_map 指定模型的 Config 类和模型类；
+    * 必须集成并指定推理流水线类；
+    * 对于 AINode 管理的内置（builtin）和自定义（user\_defined）模型，模型类别（model\_type）也作为不可重复的唯一标识。即，要注册的模型类别不得与任何已存在的模型类型重复，通过微调创建的模型将继承原模型的模型类别。
+
+   **V2.0.9.3 起**
+   > 参数 model_type 非必填
+   ```JSON
+   {
+       "auto_map": {
+           "AutoConfig": "config.Chronos2CoreConfig",        // 指定模型 Config 类
+           "AutoModelForCausalLM": "model.Chronos2Model"     // 指定模型类
+       },
+       "pipeline_cls": "pipeline_chronos2.Chronos2Pipeline", // 指定模型的推理流水线
+   }
+   ```
+    * 必须通过 auto\_map 指定模型的 Config 类和模型类；
+    * 必须集成并指定推理流水线类；
+
+
 4. 确保要注册的模型目录包含以下文件，且模型配置文件名称和权重文件名称不支持自定义：
    * 模型配置文件：config.json；
    * 模型权重文件：model.safetensors；
