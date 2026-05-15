@@ -26,48 +26,53 @@ Note: As of version V2.0.8.2, the TimechoDB installation package does not includ
 
 ## 1. Enable RESTful Services
 
-RESTful services are disabled by default.
+All RESTful services require **Basic authentication** except the health check interface `/ping`. An `Authorization` header must be carried in all requests.
 
-  Find the `conf/conf/iotdb-system.properties` file under the IoTDB installation directory and set `enable_rest_service` to `true` to enable the module.
-
-  ```properties
-  enable_rest_service=true
-  ```
-
-## 2. Authentication
-Except the liveness probe API `/ping`, RESTful services use the basic authentication. Each URL request needs to carry `'Authorization': 'Basic ' + base64.encode(username + ':' + password)`.
-
-The username used in the following examples is: `root`, and password is: `TimechoDB@2021` //Before V2.0.6.x the default password is root.
-
-And the authorization header is
-
+1. Authentication Format
 ```
-Authorization: Basic cm9vdDpyb290
+Authorization: Basic <base64_string>
+```
+Where `<base64_string>` is the Base64 encoding result of the string formatted as `username:password`. Quick generation methods are as follows:
+
+* Linux/macOS
+```bash
+echo -n "your_username:your_password" | base64
+Example: echo -n "root:TimechoDB@2021" | base64
 ```
 
-- If a user authorized with incorrect username or password, the following error is returned:
+* Windows
+```powershell
+# PowerShell
+[Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("username:password"))
+Example: [Convert]::ToBase64String([System.Text.Encoding]::UTF8.GetBytes("root:TimechoDB@2021"))
+```
 
-  HTTP Status Code：`401`
+```cmd
+# CMD
+powershell "[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes(\"username:password\"))"
+Example: powershell "[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes(\"root:TimechoDB@2021\"))"
+```
 
-  HTTP response body:
-    ```json
-    {
-      "code": 600,
-      "message": "WRONG_LOGIN_PASSWORD_ERROR"
-    }
-    ```
+2. Authentication Example
 
-- If the `Authorization` header is missing，the following error is returned:
+Default username: `root`, default password: `TimechoDB@2021`:
+- Concatenated string: `root:TimechoDB@2021`
+- Base64 encoded result: `cm9vdDpUaW1lY2hvREJAMjAyMQ==`
+- Final Request Header:
+```
+Authorization: Basic cm9vdDpUaW1lY2hvREJAMjAyMQ==
+```
 
-  HTTP Status Code：`401`
+3. Error Description
+- Incorrect username or password: Returns HTTP status code `600` with response content:
+```json
+{"code":600,"message":"WRONG_LOGIN_PASSWORD_ERROR"}
+```
 
-  HTTP response body:
-    ```json
-    {
-      "code": 603,
-      "message": "UNINITIALIZED_AUTH_ERROR"
-    }
-    ```
+- Missing `Authorization` header: Returns HTTP status code `603` with response content:
+```json
+{"code":603,"message":"UNINITIALIZED_AUTH_ERROR"}
+```
 
 ## 3. Interface
 
