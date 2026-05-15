@@ -709,7 +709,7 @@ IoTDB> select * from information_schema.services
 +------------+-----------+-------+
 ```
 
-##### 2.22 TABLE_DISK_USAGE 表
+### 2.22 TABLE_DISK_USAGE 表
 
 > 该系统表从 V 2.0.9.1 版本开始提供
 
