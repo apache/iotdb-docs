@@ -139,7 +139,7 @@ Total line number = 48
 2. The model must inherit from a type of AINode inference task pipeline (currently supports forecast pipeline):
    * iotdb-core/ainode/iotdb/ainode/core/inference/pipeline/basic_pipeline.py
 
-   **Before V2.0.9.3**
+   **Before V2.0.9-beta**
     ```Python
     class BasicPipeline(ABC):
         def __init__(self, model_id, **model_kwargs):
@@ -221,7 +221,7 @@ Total line number = 48
             pass
     ```
 
-   **From V2.0.9.3 onwards**
+   **From V2.0.9-beta onwards**
     ```Python
     class BasicPipeline(ABC):
         def __init__(self, model_id, **model_kwargs):
@@ -309,7 +309,7 @@ Total line number = 48
 
 3. Modify the model configuration file `config.json` to ensure it contains the following fields:
 
-   **Before V2.0.9.3**
+   **Before V2.0.9-beta**
     ```JSON
     {
         "auto_map": {
@@ -324,7 +324,7 @@ Total line number = 48
     * The inference pipeline class **must** be inherited and specified;
     * For built-in and user-defined models managed by AINode, `model_type` also serves as a unique non-duplicable identifier. That is, the model type to be registered must not duplicate any existing model types; models created via fine-tuning will inherit the model type of the original model.
 
-   **From V2.0.9.3 onwards**
+   **From V2.0.9-beta onwards**
    > The `model_type` parameter is **not required**
     ```JSON
     {
