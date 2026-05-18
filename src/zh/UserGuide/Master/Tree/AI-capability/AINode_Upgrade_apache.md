@@ -140,7 +140,7 @@ Total line number = 48
 2. 模型需继承一类 AINode 的推理任务流水线（当前支持预测流水线）：
    * iotdb-core/ainode/iotdb/ainode/core/inference/pipeline/basic\_pipeline.py
 
-   **V2.0.9.3 之前**
+   **V2.0.9-beta 之前**
    ```Python
    class BasicPipeline(ABC):
        def __init__(self, model_id, **model_kwargs):
@@ -222,7 +222,7 @@ Total line number = 48
            pass
    ```
 
-   **V2.0.9.3 起**
+   **V2.0.9-beta 起**
    ```Python
     class BasicPipeline(ABC):
     def __init__(self, model_id, **model_kwargs):
@@ -310,7 +310,7 @@ Total line number = 48
 
 3. 修改模型配置文件 config.json，确保包含以下字段：
 
-   **V2.0.9.3 之前**
+   **V2.0.9-beta 之前**
    ```JSON
    {
        "auto_map": {
@@ -326,7 +326,7 @@ Total line number = 48
     * 必须集成并指定推理流水线类；
     * 对于 AINode 管理的内置（builtin）和自定义（user\_defined）模型，模型类别（model\_type）也作为不可重复的唯一标识。即，要注册的模型类别不得与任何已存在的模型类型重复，通过微调创建的模型将继承原模型的模型类别。
 
-   **V2.0.9.3 起**
+   **V2.0.9-beta 起**
    > 参数 model_type 非必填
    ```JSON
    {

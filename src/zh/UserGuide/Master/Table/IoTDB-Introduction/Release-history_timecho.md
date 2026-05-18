@@ -22,6 +22,65 @@
 
 ## 1. TimechoDB（数据库内核）
 
+### V2.0.9.3
+
+> 发版时间：2026.05.14</br>
+> 下载地址：请联系天谋工作人员进行下载</br>
+> 安装包名称：timechodb-2.0.9.3-bin.zip</br>
+> SHA512 校验码：f6c5d50cbf8902503289884f073593c650ffdc8edbebfabf27f6ab4499630749331aa4ed09dd34627a39fa8dee27b4d7e2689d0ed1cf23c76dd9c7270f9fae2a
+
+V2.0.9.3 版本 AINode 新增支持同一套模型代码搭配不同模型权重分别注册为模型的功能，同时对历史版本进行改进和 bug 修复，对数据库监控、性能、稳定性进行了全方位提升。具体发布内容如下：
+
+- AINode：[支持同一套模型代码搭配不同模型权重分别注册为模型](../AI-capability/AINode_Upgrade_timecho.md#_4-3-注册自定义模型)
+
+
+### V2.0.9.2
+
+> 发版时间：2026.05.11</br>
+> 下载地址：请联系天谋工作人员进行下载</br>
+> 安装包名称：timechodb-2.0.9.2-bin.zip</br>
+> SHA512 校验码：10d3f34b6e65ad5c09b1cf3538ee27e181cc38c5fedf6acfd7d7053797ca23c76245683536275b69bd478aa1e43364351eceef1948832ab663a7398665af9eff
+
+V2.0.9.2 版本 新增 Object 类型导入导出功能，新增脚本 tsfile-backup（目前仅支持表模型），同时对历史版本进行改进和 bug 修复，对数据库监控、性能、稳定性进行了全方位提升。具体发布内容如下：
+
+- 脚本与工具：表模型[import-data 脚本 TsFile 格式](../Tools-System/Data-Import-Tool_timecho.md#_2-4-tsfile-格式)支持 object 类型数据导入
+- 脚本与工具：表模型新增 [tsfile-backup 脚本](../Tools-System/Data-Export-Tool_timecho.md#_3-基于-pipe-框架的-tsfilebackup)
+- 流处理模块：表模型 PIPE 支持 [Object 类型数据本地导出和远程传输](../User-Manual/Data-Sync_timecho.md#_3-9-object-类型数据导出)
+- 系统模块：[审计日志](../User-Manual/Audit-Log_timecho.md)支持慢请求个数统计
+
+
+### V2.0.9.1
+
+> 发版时间：2026.05.11</br>
+> 下载地址：请联系天谋工作人员进行下载</br>
+> 安装包名称：timechodb-2.0.9.1-bin.zip</br>
+> SHA512 校验码：18ff3801ba58550e06ef0aa4bf4465e8ce1b31d1aecb9c6899eb843f5d9187d3cc575e930ee38d96b87b17067e2b21f1852ab5127eac7480cf5051c20a68894b
+
+V2.0.9.1 版本新增 AINode 协变量分类推理能力，支持 schema级/表级存储空间统计功能，数据查询新增集合操作、CTE 及多个内置函数，支持通过 DEBUG SQL 调试查询，支持配置开机自启等，同时对历史版本进行改进和 bug 修复，对数据库监控、性能、稳定性进行了全方位提升。具体发布内容如下：
+
+- AINode：表模型支持[时序数据分类推理](../AI-capability/AINode_Upgrade_timecho.md#_4-1-模型推理)
+- 查询模块：表模型支持[集合操作（UNION/INTERSECT/EXCEPT）](../SQL-Manual/Set-Operations_timecho.md)及 [共用表表达式（CTE）](../SQL-Manual/Common-Table-Expression_timecho.md)
+- 查询模块：表模型新增 [IF 标量函数](../SQL-Manual/Basis-Function_timecho.md#_8-3-if-表达式)、[二进制函数](../SQL-Manual/Basis-Function_timecho.md#_7-二进制函数)、[APPROX_PERCENTILE 聚合函数](../SQL-Manual/Basis-Function_timecho.md#_2-聚合函数)
+- 查询模块：支持 [DEBUG SQL](../User-Manual/Maintenance-statement_timecho.md#_6-调试查询)，优化 [Explain Analyze](../User-Manual/Query-Performance-Analysis.md) 结果集
+- 查询模块：支持 [schema级](../../latest/User-Manual/Maintenance-statement_timecho.md#_1-10-查看磁盘空间占用情况)/[表级](../Reference/System-Tables_timecho.md#_2-22-table-disk-usage-表)存储空间统计，支持  [show configuration 语句](../User-Manual/Maintenance-statement_timecho.md#_1-13-查看节点配置信息)查看集群配置信息
+- 脚本与工具：数据/元数据导入导出工具支持 SSL 协议
+- 脚本与工具：命令行工具支持展示[访问历史功能](../Tools-System/CLI_timecho.md#_4-访问历史功能)
+- 系统模块：支持配置[开机自启](../User-Manual/Auto-Start-On-Boot_timecho.md)
+- 其他：修复安全漏洞 CVE-2026-28564
+
+
+### V2.0.8.3
+
+> 发版时间：2026.04.21</br>
+> 下载地址：请联系天谋工作人员进行下载</br>
+> 安装包名称：timechodb-2.0.8.3-bin.zip</br>
+> SHA512 校验码：4b95bea87cc375bc455897dcf4cec80692421fa5c3eee746e1095b94288611d4afdd94aa8dad70340757d041757758924701cbdb2b73b49fb8730c4caac2a126
+
+V2.0.8.3 版本新增 Python 读写 Object 类型数据的能力，同时对历史版本进行改进和 bug 修复，对数据库监控、性能、稳定性进行了全方位提升。具体发布内容如下：
+
+- 接口模块：表模型[Python 原生接口](../API/Programming-Python-Native-API_timecho.md)支持读写 Object 类型数据
+
+
 ### V2.0.8.2
 
 > 发版时间：2026.03.31</br>

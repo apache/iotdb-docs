@@ -22,6 +22,61 @@
 
 ## 1. TimechoDB (Database Core)
 
+
+### V2.0.9.3
+> Release Date: 2026.05.14<br>
+> Download Link: Please contact Timecho Team to obtain the download link</br>
+> Package Name: timechodb-2.0.9.3-bin.zip<br>
+> SHA512 Checksum: f6c5d50cbf8902503289884f073593c650ffdc8edbebfabf27f6ab4499630749331aa4ed09dd34627a39fa8dee27b4d7e2689d0ed1cf23c76dd9c7270f9fae2a
+
+Version 2.0.9.3 of AINode newly supports registering multiple models by using the same model code with different model weights. It also includes enhancements and bug fixes for previous versions, with comprehensive improvements to database monitoring, performance and stability. Details are as follows:
+
+- AINode: [Supports registering custom models with the same model code and different model weights](../AI-capability/AINode_Upgrade_timecho.md#_4-3-register-custom-models)
+
+
+### V2.0.9.2
+> Release Date: 2026.05.11<br>
+> Download Link: Please contact Timecho Team to obtain the download link</br>
+> Package Name: timechodb-2.0.9.2-bin.zip<br>
+> SHA512 Checksum: 10d3f34b6e65ad5c09b1cf3538ee27e181cc38c5fedf6acfd7d7053797ca23c76245683536275b69bd478aa1e43364351eceef1948832ab663a7398665af9eff
+
+Version 2.0.9.2 adds import and export capabilities for the Object data type, and introduces the new `tsfile-backup` script (currently supported only for table model scenarios). It also brings optimizations and bug fixes for legacy versions, with overall upgrades to database monitoring, performance and stability. Details are as follows:
+
+- Scripts & Tools: [The `import-data` script for TsFile format](../Tools-System/Data-Import-Tool_timecho.md#_2-4-tsfile-format) supports Object type data import for table models
+- Scripts & Tools: New[ `tsfile-backup` script ](../Tools-System/Data-Export-Tool_timecho.md#_3-tsfilebackup-based-on-pipe-framework)added for table models
+- Stream Processing Module: PIPE for table models supports [local export and remote transmission of Object type data](../User-Manual/Data-Sync_timecho.md#_3-9-object-type-data-export)
+- System Module: [Audit logs](../User-Manual/Audit-Log_timecho.md) support slow request quantity statistics
+
+### V2.0.9.1
+> Release Date: 2026.05.11<br>
+> Download Link: Please contact Timecho Team to obtain the download link</br>
+> Package Name: timechodb-2.0.9.1-bin.zip<br>
+> SHA512 Checksum: 18ff3801ba58550e06ef0aa4bf4465e8ce1b31d1aecb9c6899eb843f5d9187d3cc575e930ee38d96b87b17067e2b21f1852ab5127eac7480cf5051c20a68894b
+
+Version 2.0.9.1 endows AINode with covariate classification inference capability, supports schema-level and table-level storage space statistics. It adds set operations, CTE and multiple built-in functions for data query, enables SQL debugging via DEBUG statements, and supports configuring auto-start on boot. This version also contains legacy version improvements, bug fixes, and comprehensive enhancements to database monitoring, performance and stability. Details are as follows:
+
+- AINode: Table models support [time series data classification inference](../AI-capability/AINode_Upgrade_timecho.md#_4-1-model-inference)
+- Query Module: Table models support [set operations (UNION/INTERSECT/EXCEPT)](../SQL-Manual/Set-Operations_timecho.md) and [Common Table Expressions (CTE)](../SQL-Manual/Common-Table-Expression_timecho.md)
+- Query Module: Newly added [IF scalar function](../SQL-Manual/Basis-Function_timecho.md#_8-3-if-expression), [binary functions](../SQL-Manual/Basis-Function_timecho.md#_7-binary-functions) and [APPROX_PERCENTILE aggregate function](../SQL-Manual/Basis-Function_timecho.md#_2-aggregate-functions) for table models
+- Query Module: Supports [DEBUG SQL](../User-Manual/Maintenance-commands_timecho.md#_6-query-debugging) for query debugging and optimizes the result set of [Explain Analyze](../User-Manual/Query-Performance-Analysis.md)
+- Query Module: Supports [schema-level](../../latest/User-Manual/Maintenance-commands_timecho.md#_1-10-view-disk-space-usage) and [table-level](../Reference/System-Tables_timecho.md#_2-22-table-disk-usage) storage space occupancy statistics; the[ `SHOW CONFIGURATION` statement](../User-Manual/Maintenance-commands_timecho.md#_1-13-view-node-configuration) is available to view cluster configuration information
+- Scripts & Tools: Data and metadata import/export tools support the SSL protocol
+- Scripts & Tools: Command-line tool adds access [history display](../Tools-System/CLI_timecho.md#_4-access-history-feature) capability
+- System Module: Supports [system auto-start](../User-Manual/Auto-Start-On-Boot_timecho.md) configuration
+- Others: Fixed security vulnerability CVE-2026-28564
+
+
+### V2.0.8.3
+> Release Date: 2026.04.21<br>
+> Download Link: Please contact Timecho Team to obtain the download link</br>
+> Package Name: timechodb-2.0.8.3-bin.zip<br>
+> SHA512 Checksum: 4b95bea87cc375bc455897dcf4cec80692421fa5c3eee746e1095b94288611d4afdd94aa8dad70340757d041757758924701cbdb2b73b49fb8730c4caac2a126
+
+Version 2.0.8.3 enables reading and writing Object type data via Python. It also includes optimizations and bug fixes for previous versions, with comprehensive upgrades to database monitoring, performance and stability. Details are as follows:
+
+- Interface Module: [Python Native API](../API/Programming-Python-Native-API_timecho.md) supports reading and writing Object type data for table models
+
+
 ### V2.0.8.2
 
 > Release Date: 2026.03.31</br>
