@@ -89,6 +89,8 @@ DROP FUNCTION <UDF-NAME>
 DROP FUNCTION contain_null
 ```
 
+注意：对于使用 using uri 注册的函数，需要移除集群所有节点路径（`安装包/ext/udf/install`）中存在的 UDF 的 jar 文件。
+
 ### 2.3 UDF 查看
 
 * 如果 State 为 UNAVAILABLE，可能是在注册或卸载过程中系统发生了错误，请查看系统日志进行排查，重新注册或卸载 UDF 直至成功即可。

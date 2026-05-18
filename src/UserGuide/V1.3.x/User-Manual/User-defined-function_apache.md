@@ -143,7 +143,7 @@ Example: Uninstall the UDF from the above example:
 DROP FUNCTION example
 ```
 
-
+Note: For functions registered using USING URI, you need to remove the UDF's JAR files from the cluster-wide node path (`installation_package/ext/udf/install`).
 
 ###  2.3 Show All Registered UDFs
 
