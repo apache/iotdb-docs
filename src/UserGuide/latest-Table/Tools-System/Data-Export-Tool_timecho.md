@@ -181,7 +181,7 @@ Parse error: Missing required option: db
 Since **V2.0.9.2**, IoTDB supports the `tsfile-backup.sh/bat` script. This script can automatically generate and send the `CREATE PIPE` SQL command to the server, exporting specified data files to TsFile format.
 
 **Notes:**
-1. **To use this script, contact the Timecho Team to obtain the customized installation package `timechodb-<version>-extension`.**
+1. **To use this script, contact the Timecho Team to obtain the JAR package(`tsfile-remote-sink-<version>-jar-with-dependencies.jar`), and place it in a path accessible to IoTDB (e.g., all Data Node hosts).**
 2. **This script supports exporting Object-type data to TsFile files.**
 
 
