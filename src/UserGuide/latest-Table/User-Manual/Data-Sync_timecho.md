@@ -755,6 +755,11 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | **Parameter**                 | **Description**                                                     | **value Range**                                           | **Required** | **Default Value** |
 | ---------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- |--------------|
 | sink                         | write-back-sink                                           | String: write-back-sink                                   | Yes     | -            |
+| user/username                | User used for write-back                                     | String: username                                             | Optional | root         |
+| password                     | Password used for write-back                                 | String: password                                             | Optional | root123      |
+| user-id                      | User ID corresponding to the user                            | String                                                       | Optional | root         |
+| cli-hostname                 | CLI hostname corresponding to the user                       | String                                                       | Optional | root         |
+| use-event-user-name          | Whether to use another user's username if the event contains one (generally not needed now because there is no external source) | Boolean: true / false                                        | Optional | false        |
 
 #### opc-ua-sink
 
