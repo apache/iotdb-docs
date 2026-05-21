@@ -119,7 +119,7 @@ cd  iotdb-enterprise-{version}-bin
 
     | **配置项**  | **说明**                               | **默认值** | **推荐值**                                       | 备注         |
     | :---------- | :------------------------------------- | :--------- | :----------------------------------------------- | :----------- |
-    | MEMORY_SIZE | IoTDB ConfigNode节点可以使用的内存总量 | 根据系统内存自动计算，默认为系统内存的30%          | 可按需填写，填写后系统会根据填写的数值来分配内存 | 修改后保存即可，无需执行；重启服务后生效 |
+    | MEMORY_SIZE | IoTDB ConfigNode节点可以使用的内存总量 | 根据系统内存自动计算，默认为系统内存的30%         | 可按需填写，填写后系统会根据填写的数值来分配内存 | 修改后保存即可，无需执行；重启服务后生效 |
 
 - `./conf/datanode-env.sh`配置
 
@@ -189,7 +189,7 @@ cd sbin
 
 #### 方式一：通过 CLI 激活
 
-- 进入集群任一节点 CLI，执行获取机器码的语句
+- 进入集群任一节点 CLI
 
 ```shell
 # Linux 系统与 MacOS 系统启动命令如下：
@@ -212,31 +212,41 @@ Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@20
 
 - 执行以下内容获取激活所需机器码：
 
-  ```Bash
-  show system info
-  ```
+```SQL
+IoTDB> show system info
+```
+```shell
++--------------------------------------------------------------+
+|                                                    SystemInfo|
++--------------------------------------------------------------+
+|01-TE5NLES4-UDDWCMYE,01-GG5NLES4-XXDWCMYE,01-FF5NLES4-WWWWCMYE|
++--------------------------------------------------------------+
+Total line number = 1
+```
 
-- 系统将自动返回集群所有节点的机器码
+- 执行以下语句获取待激活数据库的版本号：
 
-      ```Bash
-      +--------------------------------------------------------------+
-      |                                                    SystemInfo|
-      +--------------------------------------------------------------+
-      |01-TE5NLES4-UDDWCMYE,01-GG5NLES4-XXDWCMYE,01-FF5NLES4-WWWWCMYE|
-      +--------------------------------------------------------------+
-      Total line number = 1
-      It costs 0.030s
-      ```
+```SQL
+IoTDB> show version
+```
+```shell
++-------+---------+
+|Version|BuildInfo|
++-------+---------+
+|2.0.x.x|  xxxxxxx|
++-------+---------+
+Total line number = 1
+```
 
-- 将获取的机器码复制给天谋工作人员
+- 将获取到的机器码与版本号，一同提供给天谋工作人员。 
 
 - 工作人员会返回激活码，正常是与提供的机器码的顺序对应的，请将整串激活码粘贴到CLI中进行激活，此激活操作只需在集群中的任意一台机器上执行一次即可。
 
     - 注：激活码前后需要用`'`符号进行标注，如下所示
 
-   ```Bash
-    IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
-    ```
+```SQL
+IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA===,01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
+```
 
 
 #### 方式二：激活文件拷贝激活

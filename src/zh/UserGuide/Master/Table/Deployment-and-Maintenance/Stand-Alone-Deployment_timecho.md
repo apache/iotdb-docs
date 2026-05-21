@@ -174,28 +174,39 @@ Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_di
 Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -sql_dialect table
 ```
 
-- 执行以下内容获取激活所需机器码：
+- 执行以下语句获取激活所需机器码：
 
-```Bash
-show system info
+```SQL
+IoTDB> show system info
 ```
-
-- 将返回机器码复制给天谋工作人员：
-
-```Bash
+```shell
 +--------------------------------------------------------------+
 |                                                    SystemInfo|
 +--------------------------------------------------------------+
 |                                          01-TE5NLES4-UDDWCMYE|
 +--------------------------------------------------------------+
 Total line number = 1
-It costs 0.030s
 ```
 
-- 将工作人员返回的激活码输入到CLI中，输入以下内容
-  - 注：激活码前后需要用`'`符号进行标注，如所示
+- 执行以下语句获取待激活数据库的版本号：
 
-```Bash
+```SQL
+IoTDB> show version
+```
+```shell
++-------+---------+
+|Version|BuildInfo|
++-------+---------+
+|2.0.x.x|  xxxxxxx|
++-------+---------+
+Total line number = 1
+```
+
+- 将获取到的机器码与版本号，一同提供给天谋工作人员。
+
+- 将工作人员返回的激活码输入到 CLI 中进行激活操作，请注意激活码前后需要用`'`符号进行标注，如下所示
+
+```SQL
 IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
 ```
 
