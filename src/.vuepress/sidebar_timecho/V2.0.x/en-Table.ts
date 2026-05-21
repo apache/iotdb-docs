@@ -104,7 +104,7 @@ export const enSidebar = {
       prefix: 'Basic-Concept/',
       children: [
         { text: 'Database Management', link: 'Database-Management_timecho' },
-        { text: 'Table Management', link: 'Table-Management_timecho', badge: ['new']  },
+        { text: 'Table Management', link: 'Table-Management_timecho' },
         { text: 'Write&Updata Data', link: 'Write-Updata-Data_timecho' },
         { text: 'Query Data', link: 'Query-Data_timecho' },
         {
@@ -123,7 +123,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'User-Manual/',
       children: [
-        { text: 'Data Sync', link: 'Data-Sync_timecho' },
+        { text: 'Data Sync', link: 'Data-Sync_timecho', badge: ['new']  },
         {
             text: 'Timeseries Featured Analysis',
             collapsible: true,
@@ -153,7 +153,7 @@ export const enSidebar = {
             { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis' },
             { text: 'Cluster Maintenance', link: 'Load-Balance' },
             { text: 'Maintenance statement', link: 'Maintenance-commands_timecho' },
-            { text: 'Auto-start On Boot', link: 'Auto-Start-On-Boot_timecho' },
+            { text: 'Auto-start On Boot', link: 'Auto-Start-On-Boot_timecho', badge: ['new']  },
           ],
         },
       ],
@@ -174,14 +174,14 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Tools-System/',
       children: [
-        { text: 'CLI', link: 'CLI_timecho' },
+        { text: 'CLI', link: 'CLI_timecho', badge: ['new']  },
         { text: 'Monitor Tool', link: 'Monitor-Tool_timecho' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
         { text: 'Cluster Management Tool', link: 'Maintenance-Tool_timecho' },
         { text: 'Data Import & Export', collapsible: true,
           children: [
-            { text: 'Data Import', link: 'Data-Import-Tool_timecho' },
-            { text: 'Data Export', link: 'Data-Export-Tool_timecho' },
+            { text: 'Data Import', link: 'Data-Import-Tool_timecho', badge: ['new']  },
+            { text: 'Data Export', link: 'Data-Export-Tool_timecho', badge: ['new']  },
           ],
         },
         { text: 'Schema Import & Export', collapsible: true,
@@ -205,7 +205,7 @@ export const enSidebar = {
         { text: 'GO Native API', link: 'Programming-Go-Native-API_timecho' },
         { text: 'C# Native API', link: 'Programming-CSharp-Native-API_timecho' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
-        { text: 'ODBC', link: 'Programming-ODBC_timecho', badge: ['new']  },
+        { text: 'ODBC', link: 'Programming-ODBC_timecho' },
         { text: 'MQTT Protocol', link: 'Programming-MQTT_timecho' },
         { text: 'RESTAPI V1 ', link: 'RestAPI-V1_timecho' },
       ],
@@ -266,8 +266,8 @@ export const enSidebar = {
             { text: 'LIMIT&OFFSET Clause', link: 'Limit-Offset-Clause' },
             { text: 'Nested Queries', link: 'Nested-Queries' },
             { text: 'Pattern Query', link: 'Row-Pattern-Recognition_timecho' },
-            { text: 'Common Table Expressions (CTE)', link: 'Common-Table-Expression_timecho' },
-            { text: 'Set Operations', link: 'Set-Operations_timecho' },
+            { text: 'Common Table Expressions (CTE)', link: 'Common-Table-Expression_timecho', badge: ['new']  },
+            { text: 'Set Operations', link: 'Set-Operations_timecho', badge: ['new']  },
           ],
         },
         { text: 'Maintenance Statements', link: 'SQL-Maintenance-Statements_timecho' },
@@ -277,7 +277,7 @@ export const enSidebar = {
           text: 'Functions and Operators',
           collapsible: true,
           children: [
-            { text: 'Basis Functions', link: 'Basis-Function_timecho' },
+            { text: 'Basis Functions', link: 'Basis-Function_timecho', badge: ['new']  },
             { text: 'Featured Functions', link: 'Featured-Functions_timecho' },
           ],
         },

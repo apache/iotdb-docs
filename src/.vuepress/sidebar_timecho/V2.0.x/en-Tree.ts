@@ -113,7 +113,7 @@ export const enSidebar = {
       children: [
         {
           text: 'Data Modeling',
-          link: 'Operate-Metadata_timecho', badge: ['new']
+          link: 'Operate-Metadata_timecho'
         },
         { text: 'Write Data', link: 'Write-Data_timecho' },
         { text: 'Query Data', link: 'Query-Data_timecho' },
@@ -164,7 +164,7 @@ export const enSidebar = {
             { text: 'Query Performance Analysis', link: 'Query-Performance-Analysis' },
             { text: 'Cluster Maintenance', link: 'Load-Balance' },
             { text: 'Maintenance statement', link: 'Maintenance-commands_timecho' },
-            { text: 'Auto-start On Boot', link: 'Auto-Start-On-Boot_timecho' },
+            { text: 'Auto-start On Boot', link: 'Auto-Start-On-Boot_timecho', badge: ['new']  },
           ],
         },
       ],
@@ -185,7 +185,7 @@ export const enSidebar = {
       collapsible: true,
       prefix: 'Tools-System/',
       children: [
-        { text: 'CLI', link: 'CLI_timecho' },
+        { text: 'CLI', link: 'CLI_timecho', badge: ['new']  },
         { text: 'Workbench', link: 'Workbench_timecho' },
         { text: 'Monitor Tool', link: 'Monitor-Tool_timecho' },
         { text: 'Benchmark Tool', link: 'Benchmark' },
@@ -224,7 +224,7 @@ export const enSidebar = {
         { text: 'Node.js Native API', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust Native API', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
-        { text: 'ODBC', link: 'Programming-ODBC_timecho', badge: ['new']  },
+        { text: 'ODBC', link: 'Programming-ODBC_timecho' },
         { text: 'MQTT Protocol', link: 'Programming-MQTT_timecho' },
         { text: 'OPC UA Protocol', link: 'Programming-OPC-UA_timecho' },
         { text: 'OPC DA Protocol', link: 'Programming-OPC-DA_timecho' },
