@@ -191,7 +191,7 @@ IoTDB 自 **V2.0.9.2** 版本起支持 `tsfile-backup.sh/bat` 脚本，该脚本
 
 **注意：**
 
-1. ​**使用该脚本需联系天谋团队获取定制安装包 ​`timechodb-<version>-extension`**​**。**
+1. **使用该脚本需联系天谋团队获取相关的 jar 包（tsfile-remote-sink-<version>-jar-with-dependencies.jar），并放至 IoTDB 可访问的路径（例如所有数据节点主机）。**
 2. **该脚本支持 Object 类型数据导出为 TsFile 文件。**
 
 ### 3.1 运行命令
