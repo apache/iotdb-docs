@@ -504,7 +504,7 @@ The Session class has the following fields, which can be set through the constru
 | `useSSL`                         | `boolean`                           | Whether to enable SSL                                        |
 | `trustStore`                     | `String`                            | Path to the trust store                                      |
 | `trustStorePwd`                  | `String`                            | Password for the trust store                                 |
-| `queryTimeoutInMs`               | `long`                              | Query timeout in milliseconds                                |
+| `queryTimeoutInMs`               | `long`                              | Query timeout in milliseconds. Default value: -1. A negative value means the server default configuration is used, and 0 disables query timeout. |
 | `enableRPCCompression`           | `boolean`                           | Whether to enable RPC compression                            |
 | `connectionTimeoutInMs`          | `int`                               | Connection timeout in milliseconds                           |
 | `zoneId`                         | `ZoneId`                            | Time zone setting for the session                            |
