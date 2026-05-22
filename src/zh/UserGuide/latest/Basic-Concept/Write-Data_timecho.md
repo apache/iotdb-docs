@@ -58,6 +58,8 @@ IoTDB > insert into root.ln.wf02.wt02(timestamp, status, hardware) values (2, fa
 IoTDB > insert into root.ln.wf02.wt02(timestamp, status, hardware) VALUES (3, false, 'v3'),(4, true, 'v4')
 ```
 
+在树模型写入数据时，timestamp 与 time 均可作为时间列标识用于 INSERT 语句，书写时无需刻意区分；但查询结果中，时间列统一展示为 Time（固定名称），保证结果格式统一。
+
 插入数据后我们可以使用 SELECT 语句简单查询已插入的数据。
 
 ```sql

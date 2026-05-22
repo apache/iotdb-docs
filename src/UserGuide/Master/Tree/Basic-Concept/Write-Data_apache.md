@@ -58,6 +58,8 @@ In addition, The INSERT statement support insert multi-rows at once. The sample 
 IoTDB > insert into root.ln.wf02.wt02(timestamp, status, hardware) VALUES (3, false, 'v3'),(4, true, 'v4')
 ```
 
+When writing data to the tree model, both timestamp and time can be used as time column identifiers in INSERT statements, and there is no need to deliberately distinguish between them when writing statements. However, in query results, the time column is uniformly displayed as Time (a fixed name) to ensure a consistent result format.
+
 After inserting the data, we can simply query the inserted data using the SELECT statement:
 
 ```sql
