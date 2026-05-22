@@ -188,36 +188,49 @@ Shell> sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw root -sql_dia
 Shell > sbin\windows\start-cli.bat -h 127.0.0.1 -p 6667 -u root -pw TimechoDB@2021 -sql_dialect table
 ```
 
-2. Run the following command to retrieve the machine code required for activation:
 
-```Bash
+2. Execute the following command to obtain the machine code required for activation:
+
+```SQL
 show system info
-``` 
-
-3. Copy the returned machine code and send it to the Timecho team:
-
+```
 ```Bash
 +--------------------------------------------------------------+
 |                                                    SystemInfo|
 +--------------------------------------------------------------+
 |                                          01-TE5NLES4-UDDWCMYE|
 +--------------------------------------------------------------+
-Total line number = 1
-It costs 0.030s
+Total line number = 1 
 ```
 
-4. Enter the activation code provided by the Timecho team in the CLI using the following format. Wrap the activation code in single quotes ('):
+3. Execute the following statement to obtain the version number of the database to be activated:
 
-```Bash
+```SQL
+IoTDB> show version
+```
+```shell
++-------+---------+
+|Version|BuildInfo|
++-------+---------+
+|2.0.9.2|  5ea21bc|
++-------+---------+
+Total line number = 1
+```
+
+4. Provide the obtained machine code and version number to the Timecho team.
+
+5. Enter the activation codes provided by the Timecho team in the CLI in sequence using the following format. Wrap the activation code in single quotes ('):
+
+```SQL
 IoTDB> activate '01-D4EYQGPZ-EAUJJODW-NUKRDR6F-TUQS3B75-EDZFLK3A-6BOKJFFZ-ALDHOMN7-NB2E4BHI-7ZKGFVK6-GCIFXA4T-UG3XJTTD-SHJV6F2P-Q27B4OMJ-R47ZDIM3-UUASUXG2-OQXGVZCO-MMYKICZU-TWFQYYAO-ZOAGOKJA-NYHQTA5U-EWAR4EP5-MRC6R2CI-PKUTKRCT-7UDGRH3F-7BYV4P5D-6KKIA==='
 ```
 
 #### Option 2: File-Based Activation
 
-- Start both the ConfigNode and DataNode.
-- Navigate to the `activation` folder and copy the `system_info` file.
-- Send the `system_info` file to the Timecho team.
-- Place the license file provided by the Timecho team into the corresponding `activation` folder for each node.
+1. After starting the Confignode and Datanode nodes, enter the `activation` folder and send the `system_info` file to the Timecho team.
+2. Receive the `license` file returned by the staff.
+3. Place the `license` file into the `activation` folder of the corresponding node.
+
 
 ### 2.7 Verify Activation
 
