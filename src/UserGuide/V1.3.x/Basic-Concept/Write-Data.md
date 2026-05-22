@@ -27,7 +27,7 @@ IoTDB provides users with a variety of ways to insert real-time data, such as di
 
 NOTE： This section mainly introduces the use of [INSERT SQL statement](../SQL-Manual/SQL-Manual.md#insert-data) for real-time data import in the scenario.
 
-Writing a repeat timestamp covers the original timestamp data, which can be regarded as updated data.
+When writing data with duplicate timestamps, the existing data with the same timestamp will be overwritten directly, which is equivalent to data update; however, if the written value is NULL, the operation will not take effect and the original field value will not be overwritten.
 
 ### Use of INSERT Statements
 
