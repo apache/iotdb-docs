@@ -386,6 +386,51 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 
 ### 4.6 Metric Configuration
 
+* dn\_metric\_reporter\_list
+
+|    Name     | dn\_metric\_reporter\_list            |
+|:-----------:|:--------------------------------------|
+| Description | Systems for reporting DataNode metrics. |
+|    Type     | String                                |
+|   Default   | None                                  |
+|  Effective  | After restarting system               |
+
+* dn\_metric\_level
+
+|    Name     | dn\_metric\_level                   |
+|:-----------:|:------------------------------------|
+| Description | Level of detail for DataNode metrics. |
+|    Type     | String                              |
+|   Default   | IMPORTANT                           |
+|  Effective  | After restarting system             |
+
+* dn\_metric\_async\_collect\_period
+
+|    Name     | dn\_metric\_async\_collect\_period                         |
+|:-----------:|:------------------------------------------------------------|
+| Description | Period for asynchronous metric collection in DataNode (in seconds). |
+|    Type     | int                                                         |
+|   Default   | 5                                                           |
+|  Effective  | After restarting system                                     |
+
+* dn\_metric\_prometheus\_reporter\_port
+
+|    Name     | dn\_metric\_prometheus\_reporter\_port    |
+|:-----------:|:------------------------------------------|
+| Description | Port for Prometheus metric reporting in DataNode. |
+|    Type     | int                                       |
+|   Default   | 9092                                      |
+|  Effective  | After restarting system                   |
+
+* dn\_metric\_internal\_reporter\_type
+
+|    Name     | dn\_metric\_internal\_reporter\_type                       |
+|:-----------:|:------------------------------------------------------------|
+| Description | Internal reporter types for DataNode metrics. For internal monitoring and checking that the data has been successfully written and refreshed. |
+|    Type     | String                                                      |
+|   Default   | IOTDB                                                       |
+|  Effective  | After restarting system                                     |
+
 ## 5. Enable GC log
 
 GC log is off by default.
