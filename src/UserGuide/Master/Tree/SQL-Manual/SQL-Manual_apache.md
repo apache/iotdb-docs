@@ -211,8 +211,8 @@ create timeseries root.sgcc.wf03.wt01.temperature with datatype=FLOAT;
 - Notice that when in the CREATE TIMESERIES statement the encoding method conflicts with the data type, the system gives the corresponding error prompt as shown below:
 
 ```sql
-create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN;
-error: encoding TS_2DIFF does not support BOOLEAN;
+create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODING=TS_2DIFF;
+error: encoding TS_2DIFF does not support BOOLEAN
 ```
 
 ### 3.2 Create Aligned Timeseries

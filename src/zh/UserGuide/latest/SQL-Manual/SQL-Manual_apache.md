@@ -62,8 +62,8 @@ create timeseries root.sgcc.wf03.wt01.temperature FLOAT;
 - 错误提示
 
 ```sql
-create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN;
-> error: encoding TS_2DIFF does not support BOOLEAN;
+create timeseries root.ln.wf02.wt02.status WITH DATATYPE=BOOLEAN, ENCODING=TS_2DIFF;
+error: encoding TS_2DIFF does not support BOOLEAN
 ```
 
 #### 创建对齐时间序列
