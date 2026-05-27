@@ -96,7 +96,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Basic-Concept/',
       children: [
-        { text: '测点管理', link: 'Operate-Metadata_timecho', badge: ['new']   },
+        { text: '测点管理', link: 'Operate-Metadata_timecho' },
         { text: '数据写入', link: 'Write-Data_timecho' },
         { text: '数据查询', link: 'Query-Data_timecho' },
         {
@@ -146,7 +146,7 @@ export const zhSidebar = {
             { text: '查询性能分析', link: 'Query-Performance-Analysis' },
             { text: '集群维护', link: 'Load-Balance' },
             { text: '运维语句', link: 'Maintenance-statement_timecho' },
-            { text: '开机自启', link: 'Auto-Start-On-Boot_timecho' },
+            { text: '开机自启', link: 'Auto-Start-On-Boot_timecho', badge: ['new'] },
           ],
         },
       ],
@@ -167,7 +167,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Tools-System/',
       children: [
-        { text: '命令行工具', link: 'CLI_timecho' },
+        { text: '命令行工具', link: 'CLI_timecho', badge: ['new'] },
         { text: '可视化控制台', link: 'Workbench_timecho' },
         { text: '监控工具', link: 'Monitor-Tool_timecho' },
         { text: '测试工具', link: 'Benchmark' },
@@ -206,7 +206,7 @@ export const zhSidebar = {
         { text: 'Node.js原生接口', link: 'Programming-NodeJS-Native-API' },
         { text: 'Rust', link: 'Programming-Rust-Native-API' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
-        { text: 'ODBC', link: 'Programming-ODBC_timecho', badge: ['new']  },
+        { text: 'ODBC', link: 'Programming-ODBC_timecho' },
         { text: 'MQTT协议', link: 'Programming-MQTT_timecho' },
         { text: 'OPC UA协议', link: 'Programming-OPC-UA_timecho' },
         { text: 'OPC DA协议', link: 'Programming-OPC-DA_timecho' },

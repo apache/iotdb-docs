@@ -95,7 +95,7 @@ export const zhSidebar = {
       prefix: 'Basic-Concept/',
       children: [
         { text: '数据库管理', link: 'Database-Management_timecho' },
-        { text: '表管理', link: 'Table-Management_timecho', badge: ['new']  },
+        { text: '表管理', link: 'Table-Management_timecho' },
         { text: '写入&更新', link: 'Write-Updata-Data_timecho' },
         { text: '数据查询', link: 'Query-Data_timecho' },
         {
@@ -114,7 +114,7 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'User-Manual/',
       children: [
-        { text: '数据同步', link: 'Data-Sync_timecho' },
+        { text: '数据同步', link: 'Data-Sync_timecho', badge: ['new']  },
         {
           text: '时序特色分析',
           collapsible: true,
@@ -144,7 +144,7 @@ export const zhSidebar = {
             { text: '查询性能分析', link: 'Query-Performance-Analysis' },
             { text: '集群维护', link: 'Load-Balance' },
             { text: '运维语句', link: 'Maintenance-statement_timecho' },
-            { text: '开机自启', link: 'Auto-Start-On-Boot_timecho' },
+            { text: '开机自启', link: 'Auto-Start-On-Boot_timecho', badge: ['new']  },
           ],
         },
       ],
@@ -165,14 +165,14 @@ export const zhSidebar = {
       collapsible: true,
       prefix: 'Tools-System/',
       children: [
-        { text: '命令行工具', link: 'CLI_timecho' },
+        { text: '命令行工具', link: 'CLI_timecho', badge: ['new']  },
         { text: '监控工具', link: 'Monitor-Tool_timecho' },
         { text: '测试工具', link: 'Benchmark' },
         { text: '集群管理工具', link: 'Maintenance-Tool_timecho' },
         { text: '数据导入导出', collapsible: true,
           children: [
-            { text: '数据导入', link: 'Data-Import-Tool_timecho' },
-            { text: '数据导出', link: 'Data-Export-Tool_timecho' },
+            { text: '数据导入', link: 'Data-Import-Tool_timecho', badge: ['new']  },
+            { text: '数据导出', link: 'Data-Export-Tool_timecho', badge: ['new']  },
           ],
         },
         { text: '元数据导入导出', collapsible: true,
@@ -196,7 +196,7 @@ export const zhSidebar = {
         { text: 'GO原生接口', link: 'Programming-Go-Native-API_timecho' },
         { text: 'C#原生接口', link: 'Programming-CSharp-Native-API_timecho' },
         { text: 'JDBC', link: 'Programming-JDBC_timecho' },
-        { text: 'ODBC', link: 'Programming-ODBC_timecho', badge: ['new']   },
+        { text: 'ODBC', link: 'Programming-ODBC_timecho' },
         { text: 'MQTT协议', link: 'Programming-MQTT_timecho' },
         { text: 'RESTAPI V1 ', link: 'RestServiceV1_timecho' },
       ],
@@ -257,8 +257,8 @@ export const zhSidebar = {
             { text: 'LIMIT&OFFSET子句', link: 'Limit-Offset-Clause' },
             { text: '嵌套查询', link: 'Nested-Queries' },
             { text: '模式查询', link: 'Row-Pattern-Recognition_timecho' },
-            { text: '公用表表达式（CTE）', link: 'Common-Table-Expression_timecho' },
-            { text: '集合操作', link: 'Set-Operations_timecho' },
+            { text: '公用表表达式（CTE）', link: 'Common-Table-Expression_timecho', badge: ['new'] },
+            { text: '集合操作', link: 'Set-Operations_timecho', badge: ['new'] },
           ],
         },
         { text: '运维语句', link: 'SQL-Maintenance-Statements_timecho' },
@@ -268,7 +268,7 @@ export const zhSidebar = {
           text: '函数与操作符',
           collapsible: true,
           children: [
-            { text: '基础函数', link: 'Basis-Function_timecho' },
+            { text: '基础函数', link: 'Basis-Function_timecho', badge: ['new'] },
             { text: '特色函数', link: 'Featured-Functions_timecho' },
           ],
         },

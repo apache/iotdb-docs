@@ -143,10 +143,10 @@ You can import the raw data using the [import-data](../Tools-System/Data-Import-
 ./tools/import-data.sh -ft csv -sql_dialect table -db etth -table eg -s ~/Desktop/model-compare-html/ETTh1-tab.csv
 ```
 
-Use the first 96 rows of data from column ot in table eg to predict its future 96 rows of data.
+Use the first 96 rows of data from column ot in table eg to predict its future 1440 rows of data.
 
 ```SQL
-IoTDB:etth> select Time, HUFL,HULL,MUFL,MULL,LUFL,LULL,OT from eg LIMIT 96
+IoTDB:etth> select Time, HUFL,HULL,MUFL,MULL,LUFL,LULL,OT from eg LIMIT 1440
 +-----------------------------+------+-----+-----+-----+-----+-----+------+
 |                         Time|  HUFL| HULL| MUFL| MULL| LUFL| LULL|    OT|
 +-----------------------------+------+-----+-----+-----+-----+-----+------+
@@ -155,7 +155,7 @@ IoTDB:etth> select Time, HUFL,HULL,MUFL,MULL,LUFL,LULL,OT from eg LIMIT 96
 |2016-07-01T02:00:00.000+08:00| 5.157|1.741|1.279|0.355|3.777|1.218|27.787|
 |2016-07-01T03:00:00.000+08:00|  5.09|1.942|1.279|0.391|3.807|1.279|25.044|
 ......
-Total line number = 96
+Total line number = 1440
 It costs 0.119s
 
 IoTDB:etth> select * from forecast( 
@@ -166,10 +166,10 @@ IoTDB:etth> select * from forecast(
 +-----------------------------+---------+
 |                         time|       ot|
 +-----------------------------+---------+
-|2016-10-06T18:00:00.000+08:00|20.781654|
-|2016-10-06T19:00:00.000+08:00|20.252121|
-|2016-10-06T20:00:00.000+08:00|19.960138|
-|2016-10-06T21:00:00.000+08:00|19.662334|
+|2016-10-06T18:00:00.000+08:00|20.733124|
+|2016-10-06T19:00:00.000+08:00|20.258146|
+|2016-10-06T20:00:00.000+08:00|20.022043|
+|2016-10-06T21:00:00.000+08:00|19.789446|
 ......
 Total line number = 96
 It costs 1.615s

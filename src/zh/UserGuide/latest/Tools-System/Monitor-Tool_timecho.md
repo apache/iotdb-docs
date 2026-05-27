@@ -168,3 +168,20 @@ static_configs:
 ![](/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9Fjvm.png)
 
 ![](/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9F%20%E7%BD%91%E7%BB%9C.png)
+
+### 4.6 数据同步
+
+可以监控包括但不限于：
+- Pipe事件提交队列大小、未分配Pipe事件数。
+- Source队列未处理事件数、Source供给事件速率、Processor处理事件速率。
+- 各类Pipesink/source未传输事件数、Pipe connector传输事件速率。
+- Pipesink重试队列和pending handler数量、Pipesink压缩前后累计大小和压缩耗时、Pipesink 批量大小和批处理间隔分布。
+- Pipe内存占用和容量、Pipe phantom reference数量、linked TsFile数量和大小、Pipe发送TsFile读取磁盘字节数。
+
+![](/img/monitor-tool-pipe-1.png)
+
+![](/img/monitor-tool-pipe-2.png)
+
+![](/img/monitor-tool-pipe-3.png)
+
+![](/img/monitor-tool-pipe-4.png)

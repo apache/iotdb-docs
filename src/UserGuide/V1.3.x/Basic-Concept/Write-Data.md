@@ -27,7 +27,7 @@ IoTDB provides users with a variety of ways to insert real-time data, such as di
 
 NOTE： This section mainly introduces the use of [INSERT SQL statement](../SQL-Manual/SQL-Manual.md#insert-data) for real-time data import in the scenario.
 
-Writing a repeat timestamp covers the original timestamp data, which can be regarded as updated data.
+When writing data with duplicate timestamps, the existing data with the same timestamp will be overwritten directly, which is equivalent to data update; however, if the written value is NULL, the operation will not take effect and the original field value will not be overwritten.
 
 ### Use of INSERT Statements
 
@@ -57,6 +57,8 @@ In addition, The INSERT statement support insert multi-rows at once. The sample 
 ```sql
 IoTDB > insert into root.ln.wf02.wt02(timestamp, status, hardware) VALUES (3, false, 'v3'),(4, true, 'v4')
 ```
+
+When writing data to the tree model, both timestamp and time can be used as time column identifiers in INSERT statements, and there is no need to deliberately distinguish between them when writing statements. However, in query results, the time column is uniformly displayed as Time (a fixed name) to ensure a consistent result format.
 
 After inserting the data, we can simply query the inserted data using the SELECT statement:
 

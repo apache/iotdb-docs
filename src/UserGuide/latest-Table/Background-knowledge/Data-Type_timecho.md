@@ -23,7 +23,7 @@
 
 ## 1. Basic Data Types
 
-IoTDB supports the following ten data types:
+IoTDB supports the following data types:
 
 - **BOOLEAN** (Boolean value)
 - **INT32** (32-bit integer)

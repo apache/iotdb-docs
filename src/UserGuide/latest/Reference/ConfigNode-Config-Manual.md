@@ -221,3 +221,39 @@ The global configuration of cluster is in ConfigNode.
 |   Effective    | After restarting system                                      |
 
 ### 2.6 Metric Configuration
+
+* cn\_metric\_reporter\_list
+
+|    Name     | cn\_metric\_reporter\_list            |
+|:-----------:|:--------------------------------------|
+| Description | Systems for reporting ConfigNode metrics. |
+|    Type     | String                                |
+|   Default   | None                                  |
+|  Effective  | After restarting system               |
+
+* cn\_metric\_level
+
+|    Name     | cn\_metric\_level                   |
+|:-----------:|:------------------------------------|
+| Description | Level of detail for ConfigNode metrics. |
+|    Type     | String                              |
+|   Default   | IMPORTANT                           |
+|  Effective  | After restarting system             |
+
+* cn\_metric\_async\_collect\_period
+
+|    Name     | cn\_metric\_async\_collect\_period                         |
+|:-----------:|:------------------------------------------------------------|
+| Description | Period for asynchronous metric collection in ConfigNode (in seconds). |
+|    Type     | int                                                         |
+|   Default   | 5                                                           |
+|  Effective  | After restarting system                                     |
+
+* cn\_metric\_prometheus\_reporter\_port
+
+|    Name     | cn\_metric\_prometheus\_reporter\_port    |
+|:-----------:|:------------------------------------------|
+| Description | Port for Prometheus metric reporting in ConfigNode. |
+|    Type     | int                                       |
+|   Default   | 9091                                      |
+|  Effective  | After restarting system                   |

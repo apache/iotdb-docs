@@ -208,3 +208,39 @@ IoTDB 集群的全局配置通过 ConfigNode 配置。
 | 改后生效方式 | 重启服务生效                                                       |
 
 ### 2.6 Metric 监控配置
+
+* cn\_metric\_reporter\_list
+
+|   名字   | cn\_metric\_reporter\_list                  |
+|:------:|:--------------------------------------------|
+|   描述   | confignode 中用于配置监控模块的数据需要报告的系统。              |
+|   类型   | String                                      |
+|  默认值   | 无                                           |
+| 改后生效方式 | 重启服务生效                                      |
+
+* cn\_metric\_level
+
+|   名字   | cn\_metric\_level                  |
+|:------:|:-----------------------------------|
+|   描述   | confignode 中控制监控模块收集数据的详细程度        |
+|   类型   | String                             |
+|  默认值   | IMPORTANT                          |
+| 改后生效方式 | 重启服务生效                             |
+
+* cn\_metric\_async\_collect\_period
+
+|   名字   | cn\_metric\_async\_collect\_period       |
+|:------:|:-----------------------------------------|
+|   描述   | confignode 中某些监控数据异步收集的周期，单位是秒。     |
+|   类型   | int                                      |
+|  默认值   | 5                                        |
+| 改后生效方式 | 重启服务生效                                    |
+
+* cn\_metric\_prometheus\_reporter\_port
+
+|   名字   | cn\_metric\_prometheus\_reporter\_port       |
+|:------:|:---------------------------------------------|
+|   描述   | confignode 中 Prometheus 报告者用于监控数据报告的端口号。 |
+|   类型   | int                                          |
+|  默认值   | 9091                                         |
+| 改后生效方式 | 重启服务生效                                        |

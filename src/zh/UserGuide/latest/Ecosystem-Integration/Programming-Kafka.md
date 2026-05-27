@@ -32,7 +32,7 @@
 - JDK 8 或以上版本
 - Maven 3.6 或以上版本
 - Apache Kafka，安装与启动方式请参考 [Kafka 官方文档](https://kafka.apache.org/documentation/)
-- Apache IoTDB 服务已启动
+- IoTDB 服务已启动
 
 以下示例中使用的默认地址如下：
 

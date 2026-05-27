@@ -2386,7 +2386,7 @@ M4 is used to sample the `first, last, bottom, top` points for each sliding wind
 
 **(2) Attributes for the time window:**
 
-+ `timeInterval`: The time interval length of a window. Long data type. **Required**.
++ `timeInterval`: The time interval length of a window. Unit: millisecond (ms).Long data type. **Required**.
 + `slidingStep`: Slide a window by the time length. Long data type. Optional. If not set, default to the same as `timeInterval`.
 + `displayWindowBegin`: The starting position of the window (included). Long data type. Optional. If not set, default to Long.MIN_VALUE, meaning using the time of the first data point of the input time series as the starting position of the window.
 + `displayWindowEnd`: End time limit (excluded, essentially playing the same role as `WHERE time < displayWindowEnd`). Long data type. Optional. If not set, default to Long.MAX_VALUE, meaning there is no additional end time limit other than the end of the input time series itself.
