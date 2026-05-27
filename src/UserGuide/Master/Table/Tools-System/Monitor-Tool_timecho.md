@@ -174,3 +174,21 @@ Including but not limited to:
 ![](/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9Fjvm.png)
 
 ![](/img/%E7%9B%91%E6%8E%A7%20%E7%B3%BB%E7%BB%9F%20%E7%BD%91%E7%BB%9C.png)
+
+### 2.6 Data Synchronization
+
+Including but not limited to:
+
+- Pipe event commit queue size, number of unassigned Pipe events
+- Number of unprocessed events in the Source queue, Source event feeding rate, Processor event processing rate
+- Number of untransmitted events for all Pipe Sinks/Sources, transmission event rate of Pipe connectors
+- Retry queue size and pending handler count of Pipe Sinks; total data size before and after compression and compression duration of Pipe Sinks; batch size and batch interval distribution of Pipe Sinks
+- Pipe memory usage and capacity, number of Pipe phantom references, quantity and total size of linked TsFiles, disk bytes read for TsFile transmission via Pipe
+
+![](/img/monitor-tool-pipe-1-en.png)
+
+![](/img/monitor-tool-pipe-2-en.png)
+
+![](/img/monitor-tool-pipe-3-en.png)
+
+![](/img/monitor-tool-pipe-4-en.png)
