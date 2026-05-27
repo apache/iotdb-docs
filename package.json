@@ -22,20 +22,20 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.2",
-    "@vuepress/bundler-vite": "2.0.0-rc.26",
-    "@vuepress/plugin-docsearch": "2.0.0-rc.120",
-    "@vuepress/plugin-links-check": "2.0.0-rc.120",
+    "@vuepress/bundler-vite": "2.0.0-rc.30",
+    "@vuepress/plugin-docsearch": "2.0.0-rc.130",
+    "@vuepress/plugin-links-check": "2.0.0-rc.130",
     "element-plus": "^2.12.0",
-    "sass-embedded": "1.93.3",
+    "sass-embedded": "1.100.0",
     "vue": "^3.5.25",
     "vue3-carousel": "0.17.0",
-    "vuepress": "2.0.0-rc.26",
-    "vuepress-theme-hope": "2.0.0-rc.99"
+    "vuepress": "2.0.0-rc.30",
+    "vuepress-theme-hope": "2.0.0-rc.107"
   },
   "devDependencies": {
     "@eslint/js": "9.39.1",
-    "@vuepress/helper": "2.0.0-rc.120",
-    "@vuepress/plugin-back-to-top": "2.0.0-rc.120",
+    "@vuepress/helper": "2.0.0-rc.130",
+    "@vuepress/plugin-back-to-top": "2.0.0-rc.130",
     "eslint": "9.39.1",
     "eslint-plugin-vue": "10.6.2",
     "gh-pages": "6.3.0",
