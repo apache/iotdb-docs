@@ -750,6 +750,11 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | **参数**                 | **描述**                                                     | **value 取值范围**                                           | **是否必填** | **默认取值** |
 | ---------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | -------- | -------- |
 | sink                         | write-back-sink                                           | String: write-back-sink                                   | 必填     | -        |
+| user/username                | 用于写回的用户                                               | String：用户名                                                | 选填     | root     |
+| password                     | 用于写回的密码                                               | String：密码                                                  | 选填     | root123  |
+| user-id                      | 用户对应的 userId                                            | String                                                       | 选填     | root     |
+| cli-hostname                 | 用户对应的 cli 主机名                                        | String                                                       | 选填     | root     |
+| use-event-user-name          | 如果 event 中含有另一个用户的用户名，是否使用该用户名（现在没有 external source 基本不需要） | Boolean: true / false                                        | 选填     | false    |
 
 #### opc-ua-sink
 
