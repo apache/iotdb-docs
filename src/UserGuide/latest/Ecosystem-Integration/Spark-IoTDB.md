@@ -21,29 +21,25 @@
 
 # Apache Spark
 
-## 1. Supported Versions
+## 1. Overview
+IoTDB provides the `Spark-IoTDB-Connector`, a Spark connector for IoTDB's tree model, which supports reading and writing data from/to IoTDB's tree model in Spark environments.
 
-Supported versions of Spark and Scala are as follows:
+## 2. Compatibility Requirements
+| Software | Version |
+|----------|---------|
+| `Spark` | 2.4.0-latest |
+| `Scala` | 2.11, 2.12 |
 
-| Spark Version  | Scala Version |
-|----------------|---------------|
-| `2.4.0-latest` | `2.11, 2.12`  |
+* The `spark-iotdb-connector` is compatible with Java, Scala-based Spark, and PySpark.
 
-## 2. Precautions
-
-1. The current version of `spark-iotdb-connector` supports Scala `2.11` and `2.12`, but not `2.13`.
-2. `spark-iotdb-connector` supports usage in Spark for both Java, Scala, and PySpark.
-
-## 3. Deployment
-
-`spark-iotdb-connector` has two use cases: IDE development and `spark-shell` debugging.
+## 3. Deployment Methods
+There are two usage scenarios for the `spark-iotdb-connector`: IDE development and `spark-shell` debugging.
 
 ### 3.1 IDE Development
+For IDE development, simply add the following dependency to your `pom.xml` file.
 
-For IDE development, simply add the following dependency to the `pom.xml` file:
-
-``` xml
-    <dependency>
+```XML
+<dependency>
       <groupId>org.apache.iotdb</groupId>
       <!-- spark-iotdb-connector_2.11 or spark-iotdb-connector_2.13 -->
       <artifactId>spark-iotdb-connector_2.12.10</artifactId>
@@ -52,52 +48,49 @@ For IDE development, simply add the following dependency to the `pom.xml` file:
 ```
 
 ### 3.2 `spark-shell` Debugging
+To use the `spark-iotdb-connector` in `spark-shell`, follow these steps:
 
-To use `spark-iotdb-connector` in `spark-shell`, you need to download the `with-dependencies` version of the jar package
-from the official website. After that, copy the jar package to the `${SPARK_HOME}/jars` directory.
-Simply execute the following command:
+* Download the `with-dependencies` JAR package from the official website
+* Copy the JAR package to the `${SPARK_HOME}/jars` directory using the following command:
 
-```shell
+```Bash
 cp spark-iotdb-connector_2.12.10-${iotdb.version}.jar $SPARK_HOME/jars/
 ```
 
-In addition, to ensure that spark can use JDBC and IoTDB connections, you need to do the following:
+To ensure Spark can connect to IoTDB via JDBC, perform the following steps:
 
-Run the following command to compile the IoTDB JDBC connector:
+* Compile the IoTDB-JDBC connector by running:
 
-```shell
+```Bash
 mvn clean package -pl iotdb-client/jdbc -am -DskipTests -P get-jar-with-dependencies
 ```
 
-The compiled jar package is located in the following directory:
+* The compiled JAR package will be located in the following directory:
 
-```shell
+```Bash
 $IoTDB_HOME/iotdb-client/jdbc/target/iotdb-jdbc-{version}-SNAPSHOT-jar-with-dependencies.jar
 ```
 
-At last, copy the jar package to the ${SPARK_HOME}/jars directory. Simply execute the following command:
+* Copy the JAR package to the `${SPARK_HOME}/jars` directory using the following command:
 
-```shell
+```Bash
 cp iotdb-jdbc-{version}-SNAPSHOT-jar-with-dependencies.jar $SPARK_HOME/jars/
 ```
 
 ## 4. Usage
+### 4.1 Parameter Description
+| **Parameter** | **Description** | **Default Value** | **Usage Scope** | **Nullable** |
+|---------------|-----------------|-------------------|-----------------|--------------|
+| url | Specifies the JDBC URL of IoTDB | null | read, write | FALSE |
+| user | IoTDB username | root | read, write | TRUE |
+| password | IoTDB password | root | read, write | TRUE |
+| sql | Specifies the SQL query statement | null | read | TRUE |
+| numPartition | Specifies the number of DataFrame partitions for read operations, and the write concurrency for write operations | 1 | read, write | TRUE |
+| lowerBound | Query start timestamp (inclusive) | 0 | read | TRUE |
+| upperBound | Query end timestamp (inclusive) | 0 | read | TRUE |
 
-### 4.1Parameters
-
-| Parameter    | Description                                                                                                  | Default Value | Scope       | Can be Empty |
-|--------------|--------------------------------------------------------------------------------------------------------------|---------------|-------------|--------------|
-| url          | Specifies the JDBC URL of IoTDB                                                                              | null          | read, write | false        |
-| user         | The username of IoTDB                                                                                        | root          | read, write | true         |
-| password     | The password of IoTDB                                                                                        | root          | read, write | true         |
-| sql          | Specifies the SQL statement for querying                                                                     | null          | read        | true         |
-| numPartition | Specifies the partition number of the DataFrame when in read, and the write concurrency number when in write | 1             | read, write | true         |
-| lowerBound   | The start timestamp of the query (inclusive)                                                                 | 0             | read        | true         |
-| upperBound   | The end timestamp of the query (inclusive)                                                                   | 0             | read        | true         |
-
-### 4.2 Reading Data from IoTDB
-
-Here is an example that demonstrates how to read data from IoTDB into a DataFrame:
+### 4.2 Reading Data
+* Read data from IoTDB into a DataFrame
 
 ```scala
 import org.apache.iotdb.spark.db._
@@ -106,10 +99,10 @@ val df = spark.read.format("org.apache.iotdb.spark.db")
   .option("user", "root")
   .option("password", "root")
   .option("url", "jdbc:iotdb://127.0.0.1:6667/")
-  .option("sql", "select ** from root") // query SQL
-  .option("lowerBound", "0") // lower timestamp bound
-  .option("upperBound", "100000000") // upper timestamp bound
-  .option("numPartition", "5") // number of partitions
+  .option("sql", "select ** from root") // Query SQL
+  .option("lowerBound", "0") // Timestamp lower bound
+  .option("upperBound", "100000000") // Timestamp upper bound
+  .option("numPartition", "5") // Number of partitions
   .load
 
 df.printSchema()
@@ -117,10 +110,7 @@ df.printSchema()
 df.show()
 ```
 
-### 4.3 Writing Data to IoTDB
-
-Here is an example that demonstrates how to write data to IoTDB:
-
+### 4.3 Writing Data
 ```scala
 // Construct narrow table data
 val df = spark.createDataFrame(List(
@@ -163,43 +153,21 @@ dfWithColumn.write.format("org.apache.iotdb.spark.db")
   .save
 ```
 
-### 4.4 Wide and Narrow Table Conversion
+## 5. Wide Table vs Narrow Table
+### 5.1 Data Format Example
+Taking the TsFile structure as an example, assume there are three measurements in the TsFile schema: status, temperature, and hardware.
 
-Here are examples of how to convert between wide and narrow tables:
+* Basic information:
 
-* From wide to narrow
+| Name | Type | Encoding |
+|------|------|----------|
+| status | Boolean | PLAIN |
+| temperature | Float | RLE |
+| hardware | Text | PLAIN |
 
-```scala
-import org.apache.iotdb.spark.db._
-
-val wide_df = spark.read.format("org.apache.iotdb.spark.db").option("url", "jdbc:iotdb://127.0.0.1:6667/").option("sql", "select * from root.** where time < 1100 and time > 1000").load
-val narrow_df = Transformer.toNarrowForm(spark, wide_df)
-```
-
-* From narrow to wide
-
-```scala
-import org.apache.iotdb.spark.db._
-
-val wide_df = Transformer.toWideForm(spark, narrow_df)
-```
-
-## 5. Wide and Narrow Tables
-
-Using the TsFile structure as an example: there are three measurements in the TsFile pattern,
-namely `Status`, `Temperature`, and `Hardware`. The basic information for each of these three measurements is as
-follows:
-
-| Name        | Type    | Encoding |
-|-------------|---------|----------|
-| Status      | Boolean | PLAIN    |
-| Temperature | Float   | RLE      |
-| Hardware    | Text    | PLAIN    |
-
-The existing data in the TsFile is as follows:
-
-* `d1:root.ln.wf01.wt01`
-* `d2:root.ln.wf02.wt02`
+* Data:
+    * `d1:root.ln.wf01.wt01`
+    * `d2:root.ln.wf02.wt02`
 
 | time | d1.status | time | d1.temperature | time | d2.hardware | time | d2.status |
 |------|-----------|------|----------------|------|-------------|------|-----------|
@@ -207,7 +175,7 @@ The existing data in the TsFile is as follows:
 | 3    | True      | 2    | 2.2            | 4    | "bbb"       | 2    | False     |
 | 5    | False     | 3    | 2.1            | 6    | "ccc"       | 4    | True      |
 
-The wide (default) table form is as follows:
+* Wide table (default) format:
 
 | Time | root.ln.wf02.wt02.temperature | root.ln.wf02.wt02.status | root.ln.wf02.wt02.hardware | root.ln.wf01.wt01.temperature | root.ln.wf01.wt01.status | root.ln.wf01.wt01.hardware |
 |------|-------------------------------|--------------------------|----------------------------|-------------------------------|--------------------------|----------------------------|
@@ -218,15 +186,35 @@ The wide (default) table form is as follows:
 | 5    | null                          | null                     | null                       | null                          | false                    | null                       |
 | 6    | null                          | null                     | ccc                        | null                          | null                     | null                       |
 
-You can also use the narrow table format as shown below:
+* Narrow table format:
 
 | Time | Device            | status | hardware | temperature |
 |------|-------------------|--------|----------|-------------|
-| 1    | root.ln.wf02.wt01 | true   | null     | 2.2         |
+| 1    | root.ln.wf01.wt01 | true   | null     | 2.2         |
 | 1    | root.ln.wf02.wt02 | true   | null     | null        |
-| 2    | root.ln.wf02.wt01 | null   | null     | 2.2         |
+| 2    | root.ln.wf01.wt01 | null   | null     | 2.2         |
 | 2    | root.ln.wf02.wt02 | false  | aaa      | null        |
-| 3    | root.ln.wf02.wt01 | true   | null     | 2.1         |
+| 3    | root.ln.wf01.wt01 | true   | null     | 2.1         |
 | 4    | root.ln.wf02.wt02 | true   | bbb      | null        |
-| 5    | root.ln.wf02.wt01 | false  | null     | null        |
+| 5    | root.ln.wf01.wt01 | false  | null     | null        |
 | 6    | root.ln.wf02.wt02 | null   | ccc      | null        |
+
+> Note: Corrected the device path typo in the original narrow table example (from `root.ln.wf02.wt01` to `root.ln.wf01.wt01`) to match the data definition.
+
+### 5.2 Data Conversion Example
+* Convert from wide table to narrow table
+
+```scala
+import org.apache.iotdb.spark.db._
+
+val wide_df = spark.read.format("org.apache.iotdb.spark.db").option("url", "jdbc:iotdb://127.0.0.1:6667/").option("sql", "select * from root.** where time < 1100 and time > 1000").load
+val narrow_df = Transformer.toNarrowForm(spark, wide_df)
+```
+
+* Convert from narrow table to wide table
+
+```scala
+import org.apache.iotdb.spark.db._
+
+val wide_df = Transformer.toWideForm(spark, narrow_df)
+```
