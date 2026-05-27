@@ -16,7 +16,8 @@
 * limitations under the License.
 -->
 
-# Commiters
+
+# Committers
 
 ## Developers
 
@@ -53,40 +54,61 @@
 |     wangchao316 |      wangchao316      |     Chao Wang     |  2022/12/12   |
 |            rong |     SteveYurongSu     |  Steve Yurong Su  |   2023/9/28   |
 |        tanxinyu |   OneSizeFitsQuorum   |     Xinyu Tan     |   2023/9/28   |
+|     fengqingxin |       FLOW4215        |   Qingxin Feng    |   2024/6/29   |
+|         yongzao |      crzbulabula      |    Yongzao Dan    |   2025/8/18   |
+|       spricoder |       SpriCoder       |   Hongyin Zhang   |   2025/11/7   |
 
 ### Project Committers
 
-|    **id**    | **githubUsername** | **public name** |
-| :----------: | :----------------: | :-------------: |
-|  bensonchou  |                    |  Peichen Chou   |
-|    chenyz    |      Cpaulyz       |   Yanze Chen    |
-|     dope     |       myxof        |      Yi Xu      |
-|     east     |       mdf369       |  DongFang Mao   |
-|   eedalong   |      eedalong      |  Xiulong Yuan   |
-|  ejttianyu   |     EJTTianYu      | Wangminhao Gou  |
-|   ericpai    |      ericpai       |    Eric Pai     |
-| fengqingxin  |      FLOW4215      |  Qingxin Feng   |
-|  geniuspig   |     Genius-pig     |    Boris Zhu    |
-|   gongning   |                    |    Gong Ning    |
-|   heiming    |      HeimingZ      |   Haiming Zhu   |
-|     hui      |   liuminghui233    |   Minghui Liu   |
-|  icloudsong  |                    |  Binghua Song   |
-|  jessezhou   |    JesseZhou-1     |   Jesse Zhou    |
-|   jianyun    |    chengjianyun    |  Jianyun Cheng  |
-|   junqing    |     irvine0109     |  Junqing Wang   |
-|   lancelly   |                    |   Lanyu Liao    |
-|  marklau99   |     THUMarkLau     |    Xuxin Liu    |
-|     miao     | CloudWise-Lukemiao |  Hongshan Miao  |
-|    qijun     |      jun0315       |    Qijun Xie    |
-|   renyuhua   |       RYH61        |    Yuhua Ren    |
-|  spricoder   |     SpriCoder      |  Hongyin Zhang  |
-|  sunzesong   |   samperson1997    |   Zesong Sun    |
-|    suyue     |   little-emotion   |     Yue Su      |
-| tsaitsunghan |  tsunghanjacktsai  |    Jack Tsai    |
-| xiangweiwei  |      Alima777      |    Alima777     |
-|   xinwang    |      vesense       |    Xin Wang     |
-|  xuekaifeng  |  SilverNarcissus   |   Kaifeng Xue   |
-|   yongzao    |    crzbulabula     |   Yongzao Dan   |
-|  yschengzi   |                    |   Sicheng Yu    |
-|  yuyuankang  |     yuyuankang     |   Yuyuan Kang   |
-|     zyk      |     MarcosZyk      |   Yukun Zhou    |
+|     **id**     | **githubUsername** |  **public name**  |
+| :------------: | :----------------: | :---------------: |
+|   bensonchou   |                    |   Peichen Chou    |
+|   caozhijia    |                    |    Zhijia Cao     |
+|     chenyz     |      Cpaulyz       |    Yanze Chen     |
+|   chuqingqin   |                    |    Chuqing Qin    |
+|    colinlee    |                    |     Colin Lee     |
+|     critas     |                    |     Xuan Wang     |
+|      dope      |       myxof        |       Yi Xu       |
+|      east      |       mdf369       |   DongFang Mao    |
+|    eedalong    |      eedalong      |   Xiulong Yuan    |
+|   ejttianyu    |     EJTTianYu      |  Wangminhao Gou   |
+|    ericpai     |      ericpai       |     Eric Pai      |
+|   geniuspig    |     Genius-pig     |     Boris Zhu     |
+|    gongning    |                    |     Gong Ning     |
+|    heiming     |      HeimingZ      |    Haiming Zhu    |
+|      hui       |   liuminghui233    |    Minghui Liu    |
+|   hxpserein    |                    |   Xiangpeng Hu    |
+|   icloudsong   |                    |   Binghua Song    |
+|   jessezhou    |    JesseZhou-1     |    Jesse Zhou     |
+|    jianyun     |    chengjianyun    |   Jianyun Cheng   |
+|    junqing     |     irvine0109     |   Junqing Wang    |
+|   justinchen   |                    |    Chen Zhehan    |
+|    lancelly    |                    |    Lanyu Liao     |
+|   linxintao    |      linxt20       |    Xintao Lin     |
+|    liyuheng    |                    |     Yuheng Li     |
+|   marklau99    |     THUMarkLau     |     Xuxin Liu     |
+|      miao      | CloudWise-Lukemiao |   Hongshan Miao   |
+|   pengjunzhi   |      Pengzna       |    Junzhi Peng    |
+|     pzheng     |   iliketakoyaki    |  Pengcheng Zheng  |
+|     qijun      |      jun0315       |     Qijun Xie     |
+|    renyuhua    |       RYH61        |     Yuhua Ren     |
+|    shizy818    |      shizy818      |    Zhenyu Shi     |
+|     shoorz     |                    |     Itami Sho     |
+|   shuwenwei    |                    |    Shu Wenwei     |
+|   sunzesong    |   samperson1997    |    Zesong Sun     |
+|     suyue      |   little-emotion   |      Yue Su       |
+|  tsaitsunghan  |  tsunghanjacktsai  |     Jack Tsai     |
+|   vgalaxies    |     VGalaxies      |    Yuchen Ding    |
+|     weihao     |     Wei-hao-Li     |     Weihao Li     |
+|  williamsong   |     szywilliam     |   William Song    |
+|  xiangweiwei   |      Alima777      |     Alima777      |
+|    xinwang     |      vesense       |     Xin Wang      |
+|   xuekaifeng   |  SilverNarcissus   |    Kaifeng Xue    |
+|     xzhao      |                    |     Zhao Xin      |
+|     ycycse     |                    |    Caiyin Yang    |
+|   yschengzi    |                    |    Sicheng Yu     |
+|   yuyuankang   |     yuyuankang     |    Yuyuan Kang    |
+| zhangzhengming |    xiaoyekanren    |  Zhengming Zhang  |
+|     zhihao     |                    |    Zhihao Shen    |
+|     zikun      |                    |     Zikun Ma      |
+|      zyk       |     MarcosZyk      |    Yukun Zhou     |
