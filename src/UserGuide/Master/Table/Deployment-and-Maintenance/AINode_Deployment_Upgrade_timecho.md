@@ -87,7 +87,30 @@ sha512sum timechodb-2.0.6.1-ainode-bin.zip
 ### 2.3 Environment Requirements
 
 - Recommended operating environment: Linux, macOS.
-- TimechoDB Version: >= V2.0.8-beta.
+- TimechoDB Version: >= V2.0.8.
+
+#### 2.3.1 Resource Configuration Recommendations
+
+> Note: The resource configuration recommendations in this section apply only to **model inference tasks**. Guidelines for model training tasks will be provided in subsequent releases.
+
+The following are baseline resource configurations for model inference running on a single NVIDIA RTX 4090 (24 GB VRAM). For model inference on AINode, overall throughput can be improved by horizontally scaling the number of GPUs. It is generally recommended to deploy servers with 1, 2, 4 or 8 GPUs.
+
+Specifications of inference tasks used in benchmark tests:
+- **Univariate inference**: Historical sequence length: 2880, prediction length: 720
+- **Covariate inference**: Historical sequence length: 2880, prediction length: 720, with 20 known covariates
+
+| Number of GPUs (NVIDIA 4090, 24 GB VRAM) | Recommended CPU Cores | Recommended Memory (GB) | Supported QPS for Univariate Inference | Supported QPS for Covariate Inference |
+|------------------------------------------|-----------------------|-------------------------|-----------------------------------------|---------------------------------------|
+| 1 GPU                                    | 16 cores              | 24 GB                   | 100                                     | 10                                    |
+| 2 GPUs                                   | 32 cores              | 48 GB                   | 200                                     | 20                                    |
+| 4 GPUs                                   | 64 cores              | 96 GB                   | 400                                     | 40                                    |
+| 8 GPUs                                   | 128 cores             | 192 GB                  | 800                                     | 80                                    |
+
+**Notes**:
+- The CPU and memory configurations above follow this general rule: allocate 16 CPU cores per GPU, and set system memory equal to GPU VRAM at a ratio of 1:1.
+- The throughput figures are benchmark references. Actual performance may vary depending on model type, data complexity and deployment environment.
+- The throughput of univariate and covariate inference shall be evaluated separately as required, and the two values cannot be summed directly.
+
 
 ## 3. Installation, Deployment, and Usage
 
