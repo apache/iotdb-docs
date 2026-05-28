@@ -237,7 +237,32 @@ IoTDB> show pipe alldatapipe_realtime
 ```
 
 
-### 2.6 同步插件
+### 2.6 修改任务
+
+`ALTER PIPE` 语句用于动态更新已存在的 PIPE，支持修改或替换 source、processor 及 sink 的配置。
+
+```SQL
+ALTER PIPE [IF EXISTS] <PipeId>
+    MODIFY/REPLACE SOURCE(...)
+    MODIFY/REPLACE PROCESSOR(...)
+    MODIFY/REPLACE SINK(...)
+```
+
+说明：
+
+* 执行操作不会改变 PIPE 的运行状态，等价于保留原 PipeId 的处理进度，在原进度位置创建新 PIPE。
+* source/processor/sink 的 modify/replace 参数均为非必填；若未指定任何修改参数，等价于删除当前 PIPE 后，按原配置和进度重新创建。
+* 对于指定 modify 的插件，保留该插件其他参数，仅替换或新增给定的参数。
+* 对于指定 replace 的插件，直接替换该插件所有参数。
+* 当使用 [IF EXISTS] 关键字时，即使不存在同名的 Pipe 也会返回执行成功，但是实际未执行任何操作。
+
+示例：
+
+```SQL
+ALTER PIPE A2B REPLACE SINK ('sink'='iotdb-thrift-sink', 'node-urls' = '127.0.0.1:6668');
+```
+
+### 2.7 同步插件
 
 为了使得整体架构更加灵活以匹配不同的同步场景需求，我们支持在同步任务框架中进行插件组装。系统为您预置了一些常用插件可直接使用，同时您也可以自定义 processor 插件 和 Sink 插件，并加载至 IoTDB 系统进行使用。查看系统中的插件（含自定义与内置插件）可以用以下语句：
 
