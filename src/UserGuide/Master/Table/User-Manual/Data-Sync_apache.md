@@ -214,7 +214,32 @@ IoTDB> show pipe alldatapipe_realtime
 ```
 
 
-### 2.6 Synchronization Plugins
+### 2.6 Modify a Task
+
+The `ALTER PIPE` statement dynamically updates an existing PIPE and supports modifying or replacing the configuration of source, processor, and sink.
+
+```SQL
+ALTER PIPE [IF EXISTS] <PipeId>
+    MODIFY/REPLACE SOURCE(...)
+    MODIFY/REPLACE PROCESSOR(...)
+    MODIFY/REPLACE SINK(...)
+```
+
+Description:
+
+* Executing this operation does not change the running state of the PIPE. It is equivalent to keeping the processing progress of the original PipeId and creating a new PIPE at the original progress position.
+* The modify/replace parameters for source/processor/sink are all optional. If no modification parameter is specified, it is equivalent to deleting the current PIPE and recreating it with the original configuration and progress.
+* For a plugin specified with modify, the plugin's other parameters are retained, and only the given parameters are replaced or added.
+* For a plugin specified with replace, all parameters of the plugin are replaced directly.
+* When the [IF EXISTS] keyword is used, execution succeeds even if no Pipe with the same name exists, but no operation is actually performed.
+
+Example:
+
+```SQL
+ALTER PIPE A2B REPLACE SINK ('sink'='iotdb-thrift-sink', 'node-urls' = '127.0.0.1:6668');
+```
+
+### 2.7 Synchronization Plugins
 
 To make the architecture more flexible and adaptable to different synchronization scenarios, IoTDB supports plugin assembly in the synchronization task framework. The system provides some common pre-installed plugins, and you can also customize `processor` and `sink` plugins and load them into the IoTDB system.
 
