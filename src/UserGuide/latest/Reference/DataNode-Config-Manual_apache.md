@@ -251,7 +251,7 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 
 |Name| dn\_rpc\_selector\_thread\_count       |
 |:---:|:-----------------------------------|
-|Description| The number of rpc selector thread. |
+|Description| The number of rpc selector thread. This parameter is deprecated starting from V2.0.10-beta.|
 |Type| int                                |
 |Default| false                              |
 |Effective| After restarting system            |
@@ -318,6 +318,17 @@ The permission definitions are in ${IOTDB\_CONF}/conf/jmx.access.
 |      Type      | int                                                          |
 |    Default     | 300                                                          |
 |   Effective    | After restarting system                                      |
+
+
+- dn_max_idle_client_count_for_each_node_in_client_manager
+
+| Name         | dn_max_idle_client_count_for_each_node_in_client_manager                                                                                                                                                                                                                                                                                                                                                      |
+| ------------ |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description    | The maximum number of idle clients that can be retained for a node in a clientManager. When the number of idle clients to a single node exceeds this number, excess idle clients will be evicted. Idle clients are determined by a time threshold (default 1 minute of inactivity). 0 means no idle clients will be retained, connections are destroyed immediately upon return. Supported from V2.0.10-beta. |
+| Type           | int                                                                                                                                                                                                                                                                                                                                                                                                           |
+| Default        | 1000                                                                                                                                                                                                                                                                                                                                                                                                          |
+| Effective      | Restart required.                                                                                                                                                                                                                                                                                                                                                                                             |
+
 
 ### 4.5 Dictionary Configuration
 

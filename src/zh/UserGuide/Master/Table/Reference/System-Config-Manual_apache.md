@@ -567,12 +567,12 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 
 - cn_selector_thread_nums_of_client_manager
 
-| 名字         | cn_selector_thread_nums_of_client_manager |
-| ------------ | ----------------------------------------- |
-| 描述         | 客户端异步线程管理的选择器线程数量        |
-| 类型         | int                                       |
-| 默认值       | 1                                         |
-| 改后生效方式 | 重启服务生效                              |
+| 名字         | cn_selector_thread_nums_of_client_manager                        |
+| ------------ |------------------------------------------------------------------|
+| 描述         | 客户端异步线程管理的选择器线程数量                                                |
+| 类型         | int                                                              |
+| 默认值       | 1 <br> V2.0.10-beta 版本起默认值为 0，当值 <= 0 时自动按 max(1, CPU 核数 / 4) 计算 |
+| 改后生效方式 | 重启服务生效                                                           |
 
 - cn_max_client_count_for_each_node_in_client_manager
 
@@ -582,6 +582,17 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 类型         | int                                                 |
 | 默认值       | 300                                                 |
 | 改后生效方式 | 重启服务生效                                        |
+
+
+- cn_max_idle_client_count_for_each_node_in_client_manager
+
+| 名字         | cn_max_idle_client_count_for_each_node_in_client_manager                                                                       |
+| ------------ |--------------------------------------------------------------------------------------------------------------------------------|
+| 描述         | 客户端管理器中，单个节点可保留的空闲客户端最大数量。当单节点空闲客户端超出该数值时，多余的空闲客户端将被清除。空闲客户端判定依据超时阈值（默认空闲时长1分钟）。设为 0 表示不保留任何空闲客户端，连接归还后会立即销毁。V2.0.10-beta 版本起支持。 |
+| 类型         | int                                                                                                                            |
+| 默认值       | 1000                                                                                                                           |
+| 改后生效方式 | 重启服务生效                                                                                                                         |
+
 
 - dn_session_timeout_threshold
 
@@ -612,12 +623,12 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 
 - dn_rpc_selector_thread_count
 
-| 名字         | rpc_selector_thread_count |
-| ------------ | ------------------------- |
-| 描述         | rpc 选择器线程数量        |
-| 类型         | int                       |
-| 默认值       | 1                         |
-| 改后生效方式 | 重启服务生效              |
+| 名字         | rpc_selector_thread_count          |
+| ------------ |------------------------------------|
+| 描述         | rpc 选择器线程数量，V2.0.10-beta 版本起该参数作废。 |
+| 类型         | int                                |
+| 默认值       | 1                                  |
+| 改后生效方式 | 重启服务生效                             |
 
 - dn_rpc_min_concurrent_client_num
 
@@ -664,14 +675,14 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 默认值       | 60000                    |
 | 改后生效方式 | 重启服务生效             |
 
-- dn_selector_thread_count_of_client_manager
+- dn_selector_thread_nums_of_client_manager
 
-| 名字         | dn_selector_thread_count_of_client_manager                   |
-| ------------ | ------------------------------------------------------------ |
+| 名字         | dn_selector_thread_nums_of_client_manager <br> V2.0.10-beta 版本前参数名成为 dn_selector_thread_count_of_client_manager               |
+| ------------ |-------------------------------------------------------------------------------------------------------------------------------|
 | 描述         | selector thread (TAsyncClientManager) nums for async thread in a clientManagerclientManager中异步线程的选择器线程（TAsyncClientManager）编号 |
-| 类型         | int                                                          |
-| 默认值       | 1                                                            |
-| 改后生效方式 | 重启服务生效                                                 |
+| 类型         | int                                                                                                                           |
+| 默认值       | 1 <br> V2.0.10-beta 版本起默认值为 0，当值 <= 0 时自动按 max(1, CPU 核数 / 4) 计算                                                                                                                            |
+| 改后生效方式 | 重启服务生效                                                                                                                        |
 
 - dn_max_client_count_for_each_node_in_client_manager
 
@@ -681,6 +692,18 @@ IoTDB 配置文件位于 IoTDB 安装目录：`conf`文件夹下。
 | 类型         | int                                                 |
 | 默认值       | 300                                                 |
 | 改后生效方式 | 重启服务生效                                        |
+
+
+- dn_max_idle_client_count_for_each_node_in_client_manager
+
+| 名字         | dn_max_idle_client_count_for_each_node_in_client_manager                                                                         |
+| ------------ |----------------------------------------------------------------------------------------------------------------------------------|
+| 描述         | 客户端管理器中，单个节点可保留的空闲客户端最大数量。当单节点空闲客户端超出该数值时，多余的空闲客户端将被清除。空闲客户端判定依据超时阈值（默认空闲时长1分钟）。设为 0 表示不保留任何空闲客户端，连接归还后会立即销毁。V2.0.10-beta 版本起支持。 |
+| 类型         | int                                                                                                                              |
+| 默认值       | 1000                                                                                                                             |
+| 改后生效方式 | 重启服务生效                                                                                                                           |
+
+
 
 ### 3.9 对象存储管理
 
