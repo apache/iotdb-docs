@@ -35,10 +35,10 @@ export const zhNavbar = navbar([
       { text: 'v0.13.x', link: '/zh/UserGuide/V0.13.x/QuickStart/QuickStart' },
     ],
   },
-  {
+/*   {
     text: '系统设计',
     link: 'https://cwiki.apache.org/confluence/pages/viewpage.action?pageId=177051872',
-  },
+  }, */
   {
     text: '下载',
     link: '/zh/Download/',

@@ -31,10 +31,10 @@ export const enNavbar = navbar([
       { text: 'v0.13.x', link: '/UserGuide/V0.13.x/QuickStart/QuickStart' },
     ],
   },
-  {
+/*   {
     text: 'Design',
     link: 'https://cwiki.apache.org/confluence/display/IOTDB/System+Design',
-  },
+  }, */
   {
     text: 'Download',
     link: '/Download/',
