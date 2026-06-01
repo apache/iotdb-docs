@@ -298,7 +298,7 @@ export const zhSidebar = {
           collapsible: true,
           children: [
             { text: '配置参数', link: 'Common-Config-Manual' },
-            { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual' },
+            { text: 'ConfigNode配置参数', link: 'ConfigNode-Config-Manual_apache' },
             { text: 'DataNode配置参数', link: 'DataNode-Config-Manual_apache' },
           ],
         },

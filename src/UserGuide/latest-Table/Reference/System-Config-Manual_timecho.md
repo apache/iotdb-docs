@@ -591,12 +591,12 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 - cn_selector_thread_nums_of_client_manager
 
-| Name        | cn_selector_thread_nums_of_client_manager                    |
-| ----------- | ------------------------------------------------------------ |
-| Description | Number of selector threads for client management in ConfigNode. |
-| Type        | int                                                          |
-| Default     | 1                                                            |
-| Effective   | Restart required.                                            |
+| Name        | cn_selector_thread_nums_of_client_manager                                                                                                                                           |
+| ----------- |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description | Number of selector threads for client management in ConfigNode.                                                                                                                     |
+| Type        | int                                                                                                                                                                                 |
+| Default     | 1 <br> The default value is changed to 0 starting from V2.0.10.1. If the value is less than or equal to 0, it will be automatically calculated as `max(1, number of CPU cores / 4)`. |
+| Effective   | Restart required.                                                                                                                                                                   |
 
 - cn_max_client_count_for_each_node_in_client_manager
 
@@ -606,6 +606,15 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Type        | int                                                    |
 | Default     | 300                                                    |
 | Effective   | Restart required.                                      |
+
+- cn_max_idle_client_count_for_each_node_in_client_manager
+
+| Name           | cn_max_idle_client_count_for_each_node_in_client_manager                                                                                                                                                                                                                                                                                                                                                   |
+|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description    | The maximum number of idle clients that can be retained for a node in a clientManager. When the number of idle clients to a single node exceeds this number, excess idle clients will be evicted. Idle clients are determined by a time threshold (default 1 minute of inactivity). 0 means no idle clients will be retained, connections are destroyed immediately upon return. Supported from V2.0.10.1. |
+| Type           | int                                                                                                                                                                                                                                                                                                                                                                                                        |
+| Default        | 1000                                                                                                                                                                                                                                                                                                                                                                                                       |
+| Effective      | Restart required.                                                                                                                                                                                                                                                                                                                                                                                          |
 
 - dn_session_timeout_threshold
 
@@ -636,12 +645,12 @@ The `iotdb-system.properties` file contains various configurations for managing 
 
 - dn_rpc_selector_thread_count
 
-| Name        | rpc_selector_thread_count                    |
-| ----------- | -------------------------------------------- |
-| Description | Number of selector threads for DataNode RPC. |
-| Type        | int                                          |
-| Default     | 1                                            |
-| Effective   | Restart required.t required.                 |
+| Name        | rpc_selector_thread_count                                                                          |
+| ----------- |----------------------------------------------------------------------------------------------------|
+| Description | Number of selector threads for DataNode RPC. This parameter is deprecated starting from V2.0.10.1. |
+| Type        | int                                                                                                |
+| Default     | 1                                                                                                  |
+| Effective   | Restart required.t required.                                                                       |
 
 - dn_rpc_min_concurrent_client_num
 
@@ -688,14 +697,14 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Default     | 60000                                              |
 | Effective   | Restart required.                                  |
 
-- dn_selector_thread_count_of_client_manager
+- dn_selector_thread_nums_of_client_manager
 
-| Name        | dn_selector_thread_count_of_client_manager                   |
-| ----------- | ------------------------------------------------------------ |
-| Description | selector thread (TAsyncClientManager) nums for async thread in a clientManager |
-| Type        | int                                                          |
-| Default     | 1                                                            |
-| Effective   | Restart required.t required.                                 |
+| Name        | dn_selector_thread_nums_of_client_manager <br> Prior to V2.0.10.1, the parameter name was dn_selector_thread_count_of_client_manager.                                                 |
+| ----------- |---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description | selector thread (TAsyncClientManager) nums for async thread in a clientManager                                                                                                        |
+| Type        | int                                                                                                                                                                                   |
+| Default     | 1 <br> The default value is changed to 0 starting from V2.0.10.1. If the value is less than or equal to 0, it will be automatically calculated as `max(1, number of CPU cores / 4)`. |
+| Effective   | Restart required.t required.                                                                                                                                                          |
 
 - dn_max_client_count_for_each_node_in_client_manager
 
@@ -705,6 +714,17 @@ The `iotdb-system.properties` file contains various configurations for managing 
 | Type        | int                                                 |
 | Default     | 300                                                 |
 | Effective   | Restart required.                                   |
+
+
+- dn_max_idle_client_count_for_each_node_in_client_manager
+
+| Name         | dn_max_idle_client_count_for_each_node_in_client_manager                                                                                                                                                                                                                                                                                                                                                   |
+| ------------ |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description    | The maximum number of idle clients that can be retained for a node in a clientManager. When the number of idle clients to a single node exceeds this number, excess idle clients will be evicted. Idle clients are determined by a time threshold (default 1 minute of inactivity). 0 means no idle clients will be retained, connections are destroyed immediately upon return. Supported from V2.0.10.1. |
+| Type           | int                                                                                                                                                                                                                                                                                                                                                                                                        |
+| Default        | 1000                                                                                                                                                                                                                                                                                                                                                                                                       |
+| Effective      | Restart required.                                                                                                                                                                                                                                                                                                                                                                                          |
+
 
 ### 4.9 Object storage management
 

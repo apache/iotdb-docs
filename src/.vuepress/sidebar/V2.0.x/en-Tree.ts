@@ -318,7 +318,7 @@ export const enSidebar = {
             { text: 'Common Config Manual', link: 'Common-Config-Manual' },
             {
               text: 'ConfigNode Config Manual',
-              link: 'ConfigNode-Config-Manual',
+              link: 'ConfigNode-Config-Manual_apache',
             },
             { text: 'DataNode Config Manual', link: 'DataNode-Config-Manual_apache' },
           ],
