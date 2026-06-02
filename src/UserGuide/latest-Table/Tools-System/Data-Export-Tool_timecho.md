@@ -204,25 +204,27 @@ Since **V2.0.9.2**, IoTDB supports the `tsfile-backup.sh/bat` script. This scrip
 
 
 ### 3.2 Script Parameters
-| Abbreviation | Full Name          | Description                                                                                                 | Required | Default         |
-| ------------ | ------------------ | ----------------------------------------------------------------------------------------------------------- | -------- | --------------- |
-| `-sql_dialect` | `--sql_dialect`    | Specifies the data model type. Valid values: `tree` (Tree Model) or `table` (Table Model).                  | Yes      | -               |
-| `-h`         | `--host`           | Local host address (IP of the IoTDB instance where the data resides).                                        | No       | `127.0.0.1`     |
-| `-p`         | `--port`           | Port number for the IoTDB RPC service.                                                                      | No       | `6667`          |
-| `-u`         | `--user`           | Username for IoTDB authentication.                                                                         | No       | `root`          |
-| `-pw`        | `--password`       | Password for IoTDB authentication (hidden input supported).                                                 | No       | `root`          |
-| `-t`         | `--target`         | Export target directory. In SCP mode, this is an absolute physical path on the remote server. TsFile and associated Object directories will be exported here. | Yes | - |
-| `-db`        | `--database`       | Database name (optional for Table Model).                                                                   | No       | `.*`            |
-| `-table`     | `--table`          | Table name (optional for Table Model).                                                                      | No       | `.*`            |
-| `-s`         | `--start_time`     | Start time (ISO8601 format e.g. `2026-01-01T00:00:00` or millisecond timestamp). Only data from this time onwards is exported. | No | - |
-| `-e`         | `--end_time`       | End time (same format as above). Only data before this time is exported.                                    | No       | -               |
-| `-th`        | `--target_host`    | Remote target host IP. If specified, the script automatically configures Pipe to use SCP for data transfer. | No       | -               |
-| `-tu`        | `--target_host_user` | Username for SSH/SCP login to the remote server.                                                           | No       | -               |
-| `-tpw`       | `--target_host_pw` | Password for remote authentication (hidden input supported).                                                | No       | -               |
-| `-tp`        | `--target_host_port` | Remote SSH port.                                                                                           | No       | `22`            |
-| `--rate_limit` | `--rate_limit`     | Transfer rate limit (unit: Bytes/s) to prevent excessive bandwidth usage.                                   | No       | -               |
-| `--plugin_jar` | `--plugin_jar`     | Path to the Pipe plugin JAR file.                                                                           | No       | -               |
-| `-help`      | `--help`           | Show help information.                                                                                      | No       | -               |
+| Abbreviation            | Full Name                | Description                                                                                                                                                   | Required | Default         |
+|-------------------------|--------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------| -------- | --------------- |
+| `-sql_dialect`          | `--sql_dialect`          | Specifies the data model type. Valid values: `tree` (Tree Model) or `table` (Table Model).                                                                    | Yes      | -               |
+| `-h`                    | `--host`                 | Local host address (IP of the IoTDB instance where the data resides).                                                                                         | No       | `127.0.0.1`     |
+| `-p`                    | `--port`                 | Port number for the IoTDB RPC service.                                                                                                                        | No       | `6667`          |
+| `-u`                    | `--user`                 | Username for IoTDB authentication.                                                                                                                            | No       | `root`          |
+| `-pw`                   | `--password`             | Password for IoTDB authentication (hidden input supported).                                                                                                   | No       | `root`          |
+| `-t`                    | `--target`               | Export target directory. In SCP mode, this is an absolute physical path on the remote server. TsFile and associated Object directories will be exported here. | Yes | - |
+| `-db`                   | `--database`             | Database name (optional for Table Model).                                                                                                                     | No       | `.*`            |
+| `-table`                | `--table`                | Table name (optional for Table Model).                                                                                                                        | No       | `.*`            |
+| `-s`                    | `--start_time`           | Start time (ISO8601 format e.g. `2026-01-01T00:00:00` or millisecond timestamp). Only data from this time onwards is exported.                                | No | - |
+| `-e`                    | `--end_time`             | End time (same format as above). Only data before this time is exported.                                                                                      | No       | -               |
+| `-th`                   | `--target_host`          | Remote target host IP. If specified, the script automatically configures Pipe to use SCP for data transfer.                                                   | No       | -               |
+| `-tu`                   | `--target_host_user`     | Username for SSH/SCP login to the remote server.                                                                                                              | No       | -               |
+| `-tpw`                  | `--target_host_pw`       | Password for remote authentication (hidden input supported).                                                                                                  | No       | -               |
+| `-tp`                   | `--target_host_port`     | Remote SSH port.                                                                                                                                              | No       | `22`            |
+| `--rate_limit`          | `--rate_limit`           | Transfer rate limit (unit: Bytes/s) to prevent excessive bandwidth usage.                                                                                     | No       | -               |
+| `--plugin_jar`          | `--plugin_jar`           | Path to the Pipe plugin JAR file.                                                                                                                             | No       | -               |
+| `--object-parallelism`  | `--object-parallelism`   | Specifies the maximum parallelism for object file transmission.                                                                                               | No       | -           |
+| `--object-batch-size`   | `--object-batch-size`    | Limits the total byte size of each object file upload batch, used to control memory usage and single SCP transfer size.                                       | No        | -           |
+| `-help`                 | `--help`                 | Show help information.                                                                                                                                        | No       | -               |
 
 
 ### 3.3 Execution Examples
@@ -244,3 +246,7 @@ Example 3: Specify Pipe Plugin JAR Directory
 ```Bash
 ./tsfile-backup.sh -sql_dialect table -db test -table .* -tu luoluoyuyu -tpw -t /tmp/backup --plugin_jar /local/lib/tsfile-remote-sink-2.0.8-SNAPSHOT-jar-with-dependencies.jar
 ```
+
+**Note**: When exporting Object-type data in SCP mode, to avoid handshake exceptions, connection failures, or frequent Pipe restarts, it is recommended to take any of the following measures:
+* Appropriately lower the configuration parameter `object-parallelism`
+* Increase the `MaxStartups` value on the target machine as needed. After modification, execute `sshd reload` or `sshd restart` for the configuration to take effect.
