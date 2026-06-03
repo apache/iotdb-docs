@@ -303,21 +303,21 @@ This following section will introduce the specific configuration items in the `i
 
 * confignode\_address\_list
 
-| **Name** | **confignode\_address\_list**                                                                                                                     |
-| :----------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Description    | A list of IP addresses of the hosts where the ConfigNodes to be started/stopped are located. If there are multiple, they should be separated by commas. |
-| Type           | String                                                                                                                                                  |
-| Default        | None                                                                                                                                                    |
-| Effective      | After restarting the system                                                                                                                             |
+| **Name** | **confignode\_address\_list**                                                                                                                                       |
+| :----------------: |:--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description    | A list of IP addresses or hostname of the hosts where the ConfigNodes to be started/stopped are located. If there are multiple, they should be separated by commas. |
+| Type           | String                                                                                                                                                              |
+| Default        | None                                                                                                                                                                |
+| Effective      | After restarting the system                                                                                                                                         |
 
 * datanode\_address\_list
 
-| **Name** | **datanode\_address\_list**                                                                                                                     |
-| :----------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Description    | A list of IP addresses of the hosts where the DataNodes to be started/stopped are located. If there are multiple, they should be separated by commas. |
-| Type           | String                                                                                                                                                |
-| Default        | None                                                                                                                                                  |
-| Effective      | After restarting the system                                                                                                                           |
+| **Name** | **datanode\_address\_list**                                                                                                                                       |
+| :----------------: |:------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Description    | A list of IP addresses or hostname of the hosts where the DataNodes to be started/stopped are located. If there are multiple, they should be separated by commas. |
+| Type           | String                                                                                                                                                            |
+| Default        | None                                                                                                                                                              |
+| Effective      | After restarting the system                                                                                                                                       |
 
 * ssh\_account
 
@@ -341,7 +341,7 @@ This following section will introduce the specific configuration items in the `i
 
 | **Name** | **confignode\_deploy\_path**                                                                                                                             |
 | :----------------: | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Description    | The path on the target hosts where all ConfigNodes to be started/stopped are located. All ConfigNodes must be in the same directory on their respective hosts. |
+| Description    | The path on the target hosts where all ConfigNodes to be started/stopped are located. All ConfigNodes must be in the same directory on their respective hosts. eg: `/data/demo/apache-iotdb-1.3.1-all-bin`|
 | Type           | String                                                                                                                                                         |
 | Default        | None                                                                                                                                                           |
 | Effective      | After restarting the system                                                                                                                                    |
@@ -350,10 +350,48 @@ This following section will introduce the specific configuration items in the `i
 
 | **Name** | **datanode\_deploy\_path**                                                                                                                           |
 | :----------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Description    | The path on the target hosts where all DataNodes to be started/stopped are located. All DataNodes must be in the same directory on their respective hosts. |
+| Description    | The path on the target hosts where all DataNodes to be started/stopped are located. All DataNodes must be in the same directory on their respective hosts.eg: `/data/demo/apache-iotdb-1.3.1-all-bin` |
 | Type           | String                                                                                                                                                     |
 | Default        | None                                                                                                                                                       |
 | Effective      | After restarting the system                                                                                                                                |
+
+
+#### 3.8.3 Quick Example
+
+1. Configuration File: `iotdb-cluster.properties`
+```properties
+# Configure ConfigNode node addresses, separated by commas
+confignode_address_list=172.xx.xx.16,172.xx.xx.17,172.xx.xx.18
+
+# Configure DataNode node addresses, separated by commas
+datanode_address_list=172.xx.xx.16,172.xx.xx.17,172.xx.xx.18
+  
+# SSH login username for target deployment servers
+ssh_account=root
+
+# SSH service port number
+ssh_port=22
+  
+# IoTDB installation directory (the program will be deployed into this path on remote nodes)
+confignode_deploy_path=/data/demo/apache-iotdb-1.3.1-all-bin
+datanode_deploy_path=/data/demo/apache-iotdb-1.3.1-all-bin
+```
+
+2. Run `./start-all.sh` to launch cluster and verify status
+   Connect to IoTDB CLI and execute `show cluster`. A successful output is shown below:
+```SQL
+IoTDB> show cluster 
++------+----------+-------+---------------+------------+--------------+-----------+----------------+
+|NodeID|  NodeType| Status|InternalAddress|InternalPort|       Version|  BuildInfo|  ActivateStatus|
++------+----------+-------+---------------+------------+--------------+-----------+----------------+
+|     0|ConfigNode|Running|   172.xx.xx.16|       10710|         1.3.1|    0xxxxxx|       ACTIVATED|
+|     1|ConfigNode|Running|   172.xx.xx.18|       10710|         1.3.1|    0xxxxxx|       ACTIVATED|
+|     2|ConfigNode|Running|   172.xx.xx.17|       10710|         1.3.1|    0xxxxxx|       ACTIVATED|
+|     3|  DataNode|Running|   172.xx.xx.18|       10730|         1.3.1|    0xxxxxx|       ACTIVATED|
+|     4|  DataNode|Running|   172.xx.xx.17|       10730|         1.3.1|    0xxxxxx|       ACTIVATED|
+|     5|  DataNode|Running|   172.xx.xx.16|       10730|         1.3.1|    0xxxxxx|       ACTIVATED|
++------+----------+-------+---------------+------------+--------------+-----------+----------------+
+```
 
 
 ## 4. Maintenance
