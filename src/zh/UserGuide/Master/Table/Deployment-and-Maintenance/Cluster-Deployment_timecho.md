@@ -294,7 +294,7 @@ IoTDB> show activation
 
 | 名字         | confignode\_address\_list                                                    |
 | :--------------: | :------------------------------------------------------------------------------ |
-| 描述         | 待启动/停止的 ConfigNode 节点所在主机的 IP 列表，如果有多个需要用“,”分隔。 |
+| 描述         | 待启动/停止的 ConfigNode 节点所在主机的 IP 或主机名列表，如果有多个需要用“,”分隔。 |
 | 类型         | String                                                                       |
 | 默认值       | 无                                                                           |
 | 改后生效方式 | 重启服务生效                                                                 |
@@ -303,7 +303,7 @@ IoTDB> show activation
 
 | 名字 | datanode\_address\_list                                          |
 | :----------------: | :---------------------------------------------------------------------------- |
-| 描述           | 待启动/停止的 DataNode 节点所在主机的 IP 列表，如果有多个需要用“,”分隔。 |
+| 描述           | 待启动/停止的 DataNode 节点所在主机的 IP 或主机名列表，如果有多个需要用“,”分隔。 |
 | 类型           | String                                                                     |
 | 默认值         | 无                                                                         |
 | 改后生效方式   | 重启服务生效                                                               |
@@ -330,7 +330,7 @@ IoTDB> show activation
 
 | 名字 | confignode\_deploy\_path                                                                            |
 | :----------------: | :---------------------------------------------------------------------------------------------------------------- |
-| 描述           | 待启动/停止的所有 ConfigNode 所在目标主机的路径，需要所有待启动/停止的 ConfigNode 节点在目标主机的相同目录下。 |
+| 描述           | 待启动/停止的所有 ConfigNode 所在目标主机的路径，需要所有待启动/停止的 ConfigNode 节点在目标主机的相同目录下。例如：`/data/demo/apache-iotdb-1.3.1-all-bin` |
 | 类型           | String                                                                                                         |
 | 默认值         | 无                                                                                                             |
 | 改后生效方式   | 重启服务生效                                                                                                   |
@@ -339,11 +339,48 @@ IoTDB> show activation
 
 | 名字 | datanode\_deploy\_path                                                                           |
 | :----------------: | :------------------------------------------------------------------------------------------------------------ |
-| 描述           | 待启动/停止的所有 DataNode 所在目标主机的路径，需要所有待启动/停止的 DataNode 节点在目标主机的相同目录下。 |
+| 描述           | 待启动/停止的所有 DataNode 所在目标主机的路径，需要所有待启动/停止的 DataNode 节点在目标主机的相同目录下。例如：`/data/demo/apache-iotdb-1.3.1-all-bin` |
 | 类型           | String                                                                                                     |
 | 默认值         | 无                                                                                                         |
 | 改后生效方式   | 重启服务生效                                                                                               |
 
+
+#### 3.7.3 简单示例
+
+1. 配置文件 `iotdb-cluster.properties`
+
+```properties
+# Configure ConfigNodes machine addresses separated by ,
+confignode_address_list=172.xx.xx.16,172.xx.xx.17,172.xx.xx.18
+
+# Configure DataNodes machine addresses separated by ,
+datanode_address_list=172.xx.xx.16,172.xx.xx.17,172.xx.xx.18
+  
+# User name for logging in to the deployment machine using ssh
+ssh_account=root
+
+# ssh login port
+ssh_port=22
+  
+# iotdb deployment directory (iotdb will be deployed to the target node in this folder)
+confignode_deploy_path=/data/demo/apache-iotdb-1.3.1-all-bin
+datanode_deploy_path=/data/demo/apache-iotdb-1.3.1-all-bin
+```
+
+2. 执行 ./start-all.sh 命令验证启动结果，在 cli 中执行 show cluster，可看到类似如下结果
+```SQL
+IoTDB> show cluster
++------+----------+-------+---------------+------------+--------------+-----------+----------------+
+|NodeID|  NodeType| Status|InternalAddress|InternalPort|       Version|  BuildInfo|  ActivateStatus|
++------+----------+-------+---------------+------------+--------------+-----------+----------------+
+|     0|ConfigNode|Running|   172.xx.xx.16|       10710|         1.3.1|    0xxxxxx|       ACTIVATED|
+|     1|ConfigNode|Running|   172.xx.xx.18|       10710|         1.3.1|    0xxxxxx|       ACTIVATED|
+|     2|ConfigNode|Running|   172.xx.xx.17|       10710|         1.3.1|    0xxxxxx|       ACTIVATED|
+|     3|  DataNode|Running|   172.xx.xx.18|       10730|         1.3.1|    0xxxxxx|       ACTIVATED|
+|     4|  DataNode|Running|   172.xx.xx.17|       10730|         1.3.1|    0xxxxxx|       ACTIVATED|
+|     5|  DataNode|Running|   172.xx.xx.16|       10730|         1.3.1|    0xxxxxx|       ACTIVATED|
++------+----------+-------+---------------+------------+--------------+-----------+----------------+
+```
 
 
 ## 4. 节点维护步骤
