@@ -602,6 +602,10 @@ WITH SINK (
 );
 ```
 
+注意：远程导出 Object 类型数据时，为避免出现握手异常、连接失败或 Pipe 频繁启停问题，建议采取以下任一措施：
+* 适当调低配置参数 sink.scp.object-parallelism
+* 按需调大目标机的 MaxStartups，修改后执行 sshd reload 或 sshd restart 使配置生效
+
 **Sink 导出 TSFile 与 Object 格式：**
 
 ```Bash
@@ -805,12 +809,14 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 
 #### tsfile-remote-sink
 
-| **参数**                             | **描述**                            | **value 取值范围**           | **是否必填** | **默认值** |
-|------------------------------------|-----------------------------------|--------------------------|----------|---------|
-| sink                               | 组件名称                              | String: tsfile-remote-sink | 是        | -       |
-| sink.scp.host                      | 远程主机 IP                           | String                   | 是        | -       |
-| sink.scp.port                      | 远程 SSH 端口                         | Long                     | 否        | 22      |
-| sink.scp.user                      | 远程 SSH 用户                         | String                   | 是        | -       |
-| sink.scp.password                  | 远程 SSH 密码                         | String                   | 是        | -       |
-| sink.scp.remote-path               | 远程目标目录                            | String                   | 是        | -       |
-| sink.rate-limit-bytes-per-second   | 单位：字节/秒。开启限速时生效。rate-limit<=0不限速  | Long                     | 否        | 0       |
+| **参数**                            | **描述**                               | **value 取值范围**             | **是否必填** | **默认值**      |
+|-----------------------------------|--------------------------------------|----------------------------|----------|--------------|
+| sink                              | 组件名称                                 | String: tsfile-remote-sink | 是        | -            |
+| sink.scp.host                     | 远程主机 IP                              | String                     | 是        | -            |
+| sink.scp.port                     | 远程 SSH 端口                            | Long                       | 否        | 22           |
+| sink.scp.user                     | 远程 SSH 用户                            | String                     | 是        | -            |
+| sink.scp.password                 | 远程 SSH 密码                            | String                     | 是        | -            |
+| sink.scp.remote-path              | 远程目标目录                               | String                     | 是        | -            |
+| sink.rate-limit-bytes-per-second  | 单位：字节/秒。开启限速时生效。rate-limit<=0不限速     | Long                       | 否        | 0            |
+| sink.scp.object-parallelism       | object文件发送最大并行度                      | Long                       | 否        | `min（cpu/4，16）` |
+| sink.scp.object-batch-size-bytes  | 单次异步线程发送的最大Object文件大小, 单位 MB         | Long                       | 否        | 200          |

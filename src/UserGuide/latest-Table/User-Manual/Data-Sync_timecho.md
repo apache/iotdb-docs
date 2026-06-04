@@ -608,6 +608,10 @@ WITH SINK (
 );
 ```
 
+**Note**: When exporting Object-type data in SCP mode, to avoid handshake exceptions, connection failures, or frequent Pipe restarts, it is recommended to take any of the following measures:
+* Appropriately lower the configuration parameter `sink.scp.object-parallelism`
+* Increase the `MaxStartups` value on the target machine as needed. After modification, execute `sshd reload` or `sshd restart` for the configuration to take effect.
+
 **Sink Exported TSFile and Object Format:**
 
 ```Bash
@@ -809,13 +813,15 @@ pipe_all_sinks_rate_limit_bytes_per_second=-1
 | sink.rate-limit-bytes-per-second  | Rate limit threshold (unit: bytes/second). Takes effect when enabled. No limit if rate-limit <= 0 | Long                   | No       | 0       |
 
 #### tsfile-remote-sink
-| Parameter                           | Description                                                                 | Value Range             | Required | Default |
-|------------------------------------|-----------------------------------------------------------------------------|-------------------------|----------|---------|
-| sink                               | Component name                                                              | String: tsfile-remote-sink | Yes      | -       |
-| sink.scp.host                      | Remote host IP                                                              | String                  | Yes      | -       |
-| sink.scp.port                      | Remote SSH port                                                             | Long                    | No       | 22      |
-| sink.scp.user                      | Remote SSH user                                                             | String                  | Yes      | -       |
-| sink.scp.password                  | Remote SSH password                                                         | String                  | Yes      | -       |
-| sink.scp.remote-path               | Remote target directory                                                      | String                  | Yes      | -       |
-| sink.rate-limit-bytes-per-second   | Unit: bytes/second. Takes effect when enabled. No limit if rate-limit <= 0  | Long                    | No       | 0       |
+| Parameter                           | Description                                                                | Value Range             | Required | Default |
+|------------------------------------|----------------------------------------------------------------------------|-------------------------|----------|---------|
+| sink                               | Component name                                                             | String: tsfile-remote-sink | Yes      | -       |
+| sink.scp.host                      | Remote host IP                                                             | String                  | Yes      | -       |
+| sink.scp.port                      | Remote SSH port                                                            | Long                    | No       | 22      |
+| sink.scp.user                      | Remote SSH user                                                            | String                  | Yes      | -       |
+| sink.scp.password                  | Remote SSH password                                                        | String                  | Yes      | -       |
+| sink.scp.remote-path               | Remote target directory                                                    | String                  | Yes      | -       |
+| sink.rate-limit-bytes-per-second   | Unit: bytes/second. Takes effect when enabled. No limit if rate-limit <= 0 | Long                    | No       | 0       |
+| sink.scp.object-parallelism       | Maximum parallelism for object file transmission                           | Long                       | No        |` min（cpu/4，16）` |
+| sink.scp.object-batch-size-bytes  | Maximum size of Object files sent per asynchronous thread, unit: MB        | Long                       | No        | 200          |
 
