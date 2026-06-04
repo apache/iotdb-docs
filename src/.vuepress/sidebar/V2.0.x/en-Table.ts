@@ -58,7 +58,7 @@ export const enSidebar = {
             children: [
               { text: 'Deployment form', link: 'Deployment-form_apache' },
               { text: 'Obtain IoTDB', link: 'IoTDB-Package_apache' },
-              { text: 'Database Resources', link: 'Database-Resources' },
+              { text: 'Database Resources', link: 'Database-Resources_apache' },
               { text: 'Environment Requirements', link: 'Environment-Requirements' },
             ],
           },

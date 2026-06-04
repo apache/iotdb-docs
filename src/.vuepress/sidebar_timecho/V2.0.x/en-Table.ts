@@ -58,7 +58,7 @@ export const enSidebar = {
             children: [
               { text: 'Deployment form', link: 'Deployment-form_timecho' },
               { text: 'Obtain TimechoDB', link: 'IoTDB-Package_timecho' },
-              { text: 'Database Resources', link: 'Database-Resources' },
+              { text: 'Database Resources', link: 'Database-Resources_timecho' },
               { text: 'Environment Requirements', link: 'Environment-Requirements' },
             ],
           },

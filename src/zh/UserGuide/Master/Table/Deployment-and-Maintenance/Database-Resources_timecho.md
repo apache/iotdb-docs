@@ -148,6 +148,8 @@
 
 > 提供灵活的内存配置选项，用户可在datanode-env文件中进行调整，详细信息和配置指南请参见 [datanode-env](../Reference/System-Config-Manual_timecho.md#_2-2-datanode-env-sh-bat)
 
+**注意：** 如需查看 AI 模型推理场景的专项硬件配比与吞吐参考，可查看 AINode 部署文档【[2.3.1 资源配置建议](../Deployment-and-Maintenance/AINode_Deployment_Upgrade_timecho.md#_2-3-1-资源配置建议)】章节：
+
 ## 3. 存储(磁盘)
 ### 3.1 存储空间
 
