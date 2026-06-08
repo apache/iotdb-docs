@@ -25,7 +25,7 @@ export const zhNavbar = navbar([
       // { text: 'latest', link: '/zh/UserGuide/Master/QuickStart/QuickStart_apache' },
       {
         text: 'v2.0.x',
-        link: '/zh/UserGuide/latest/QuickStart/QuickStart_apache',
+        link: '/zh/UserGuide/latest-Table/QuickStart/QuickStart_apache',
       },
       {
         text: 'v1.3.x',

@@ -31,13 +31,18 @@ export const enNavbar = navbar([
     text: 'Documentation',
     children: [
       {
-        text: 'latest',
-        link: '/UserGuide/latest/QuickStart/QuickStart_timecho',
+        text: 'v2.0.x',
+        link: '/UserGuide/latest-Table/QuickStart/QuickStart_timecho',
       },
-      { text: 'v1.1.x', link: '/UserGuide/V1.1.x/QuickStart/QuickStart' },
-      { text: 'v1.0.x', link: '/UserGuide/V1.0.x/QuickStart/QuickStart' },
+      {
+        text: 'v1.3.x',
+        link: '/UserGuide/V1.3.x/QuickStart/QuickStart_timecho',
+      },
+      { text: 'v1.2.x', link: '/UserGuide/V1.2.x/QuickStart/QuickStart' },
       { text: 'v0.13.x', link: '/UserGuide/V0.13.x/QuickStart/QuickStart' },
+      { text: 'Release History', link: '/UserGuide/latest-Table/IoTDB-Introduction/Release-history_timecho.html' }
     ],
+
   },
   {
     text: 'News',
