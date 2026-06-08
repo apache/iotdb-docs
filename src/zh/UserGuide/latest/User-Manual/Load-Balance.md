@@ -227,7 +227,7 @@ migrate region 3 from 1 to 6
 
 ### 2.1 ConfigNode 节点维护
 
-ConfigNode 节点维护分为 ConfigNod e添加和移除两种操作，有两个常见使用场景：
+ConfigNode 节点维护分为 ConfigNode 添加和移除两种操作，有两个常见使用场景：
 
 * 集群扩展：如集群中只有1个 ConfigNode 时，希望增加 ConfigNode 以提升 ConfigNode 节点高可用性，则可以添加2个 ConfigNode，使得集群中有3个 ConfigNode。
 * 集群故障恢复：1个 ConfigNode 所在机器发生故障，使得该 ConfigNode 无法正常运行，此时可以移除该 ConfigNode，然后添加一个新的 ConfigNode 进入集群。
