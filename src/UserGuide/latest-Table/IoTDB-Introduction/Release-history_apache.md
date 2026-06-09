@@ -27,7 +27,7 @@
 V2.0.8 expands AI model capabilities by adding support for Chronos-2, one of the mainstream time-series foundation models, while enabling concurrent inference for built-in large models. On the database side, TIME columns now support custom naming, data synchronization path configuration flexibility has been optimized, and comprehensive improvements have been made to database monitoring, performance, and stability. The specific release contents are as follows:
 
 * **Query Module**: Added functionality to display the list of available DataNode nodes
-* **Query Module**: Added system table for统计查询延迟信息 in the table model
+* **Query Module**: Added a system table for query latency statistics in the table model
 * **Query Module**: Python SessionDataset now supports converting TsBlock to DataFrame and returning DataFrames in batches
 * **Storage Module**: TIME column now supports custom column naming
 * **Storage Module**: Added SQL support for viewing the complete definition statements of created tables/views
@@ -47,7 +47,7 @@ V2.0.7 focuses on security hardening and stability optimization. It removes high
 
 * **Miscellaneous**: Removed high-risk RPC interfaces
 * **Miscellaneous**: Removed JEXL functions
-* **Miscellaneous**: Added naming合法性校验 when creating Pipe
+* **Miscellaneous**: Added naming validity check when creating a Pipe
 * **Miscellaneous**: Changed the default client RPC service address to 127.0.0.1
 * **Miscellaneous**: Adjusted code logic so that internal services bind to the address configured by `dn_internal_address` instead of the default address
 
@@ -174,7 +174,7 @@ V1.3.7 focuses on security hardening and stability optimization. It removes high
 
 * **Miscellaneous**: Removed high-risk RPC interfaces
 * **Miscellaneous**: Removed JEXL functions
-* **Miscellaneous**: Added naming合法性校验 when creating Pipe
+* **Miscellaneous**: Added naming validity check when creating a Pipe
 * **Miscellaneous**: Changed the default client RPC service address to 127.0.0.1
 * **Miscellaneous**: Adjusted code logic so that internal services bind to the address configured by `dn_internal_address` instead of the default address
 
