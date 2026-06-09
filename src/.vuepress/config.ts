@@ -154,7 +154,6 @@ _paq.push(['enableLinkTracking']);
   }),
   pagePatterns: [
     '**/*.md',
-    '!**/*_timecho.md',
     '!**/stage/**/*.md',
     '!**/Master/**/*.md',
     '!.vuepress',

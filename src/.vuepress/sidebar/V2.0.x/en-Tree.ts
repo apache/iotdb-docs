@@ -19,15 +19,15 @@
 export const enSidebar = {
   '/UserGuide/latest/': [  
     {
-      text: 'IoTDB User Guide (V2.0.x)',
+      text: 'User Guide (V2.0.x)',
       children: [],
     },
     {
-      text: 'About IoTDB',
+      text: 'About Apache IoTDB',
       collapsible: true,
       prefix: 'IoTDB-Introduction/',
       children: [
-        { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_apache' },
+        { text: 'Introduction', link: 'IoTDB-Introduction_apache' },
         { text: 'Scenario', link: 'Scenario' },
         { text: 'Release History', link: 'Release-history_apache' },
       ],
