@@ -31,14 +31,21 @@ export const zhNavbar = navbar([
   },
   {
     text: '文档',
-    link: 'https://www.timecho.com/docs/zh/latest/QuickStart/QuickStart_timecho.html',
+    link: 'https://www.timecho.com/docs/zh/latest-Table/QuickStart/QuickStart_timecho.html',
     target: '_self',
-    // children: [
-    //   { text: 'latest', link: '/zh/UserGuide/Master/QuickStart/QuickStart' },
-    //   { text: 'v1.1.x', link: '/zh/UserGuide/V1.1.x/QuickStart/QuickStart' },
-    //   { text: 'v1.0.x', link: '/zh/UserGuide/V1.0.x/QuickStart/QuickStart' },
-    //   { text: 'v0.13.x', link: '/zh/UserGuide/V0.13.x/QuickStart/QuickStart' },
-    // ],
+    children: [
+      {
+        text: 'v2.0.x',
+        link: '/zh/UserGuide/latest-Table/QuickStart/QuickStart_timecho',
+      },
+      {
+        text: 'v1.3.x',
+        link: '/zh/UserGuide/V1.3.x/QuickStart/QuickStart_timecho',
+      },
+      { text: 'v1.2.x', link: '/zh/UserGuide/V1.2.x/QuickStart/QuickStart' },
+      { text: 'v0.13.x', link: '/zh/UserGuide/V0.13.x/QuickStart/QuickStart' },
+      { text: '发布历史', link: '/zh/UserGuide/latest-Table/IoTDB-Introduction/Release-history_timecho.html' }
+    ],
   },
   {
     text: '新闻',
