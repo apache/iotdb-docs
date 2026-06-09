@@ -66,12 +66,3 @@ Apache IoTDB has the following advantages and characteristics:
 
 - Rich ecological environment docking: Supports docking with big data ecosystem components such as Hadoop, Spark, and supports equipment management and visualization tools such as Grafana, Thingsboard, DataEase.
 
-## Commercial version
-
-Timecho provides the original commercial product TimechoDB based on the open source version of Apache IoTDB, providing enterprise level products and services for enterprises and commercial customers. It can solve various problems encountered by enterprises when building IoT big data platforms to manage time-series data, such as complex application scenarios, large data volumes, high sampling frequencies, high amount of unaligned data, long data processing time, diverse analysis requirements, and high storage and operation costs.
-
-Timecho provides a more diverse range of product features, stronger performance and stability, and a richer set of utility tools based on TimechoDB. It also offers comprehensive enterprise services to users, thereby providing commercial customers with more powerful product capabilities and a higher quality of development, operations, and usage experience.
-
-- Timecho Official website：https://www.timecho.com/
-
-- TimechoDB installation, deployment and usage documentation：[QuickStart](https://www.timecho.com/docs/UserGuide/latest/QuickStart/QuickStart_timecho.html)

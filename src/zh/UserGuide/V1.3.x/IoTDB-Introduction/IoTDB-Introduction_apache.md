@@ -65,12 +65,3 @@ Apache IoTDB 具备以下优势和特性：
 
 - 丰富的生态环境对接：支持Hadoop、Spark等大数据生态系统组件对接，支持Grafana、Thingsboard、DataEase等设备管理和可视化工具
 
-## 商业版本
-
-天谋科技在 Apache IoTDB 的基础上提供了原厂商业化产品 TimechoDB，为企业、商业客户提供企业级产品和服务，它可以解决企业组建物联网大数据平台管理时序数据时所遇到的应用场景复杂、数据体量大、采样频率高、数据乱序多、数据处理耗时长、分析需求多样、存储与运维成本高等多种问题。
-
-天谋科技基于 TimechoDB 提供更多样的产品功能、更强大的性能和稳定性、更丰富的效能工具，并为用户提供全方位的企业服务，从而为商业化客户提供更强大的产品能力，和更优质的开发、运维、使用体验。
-
-- 天谋科技官网：https://www.timecho.com/
-
-- TimechoDB 安装部署与使用文档：[快速上手](https://www.timecho.com/docs/zh/UserGuide/latest/QuickStart/QuickStart_timecho.html)
