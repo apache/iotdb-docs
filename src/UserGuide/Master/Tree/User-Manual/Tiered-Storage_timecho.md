@@ -40,15 +40,15 @@ The specific parameter definitions and their descriptions are as follows.
 | tier_ttl_in_ms | -1 | Yes | Define the maximum age of data for which each tier is responsible | Each level of storage is separated by a semicolon; the number of levels should match the number of levels defined by dn_data_dirs；"-1" means "unlimited". |
 | dn_default_space_usage_thresholds | 0.85 | Yes | Define the maximum storage usage threshold ratio for each tier of data directories. When the used space exceeds this ratio, the data will be automatically migrated to the next tier. If the storage usage of the last tier surpasses this threshold, the system will be set to ​​READ_ONLY​​ mode. | Each level of storage is separated by a semicolon; the number of levels should match the number of levels defined by dn_data_dirs |
 | object_storage_type | `AWS_S3` | Required when using remote storage | Cloud storage type. | all `AWS_S3` is supported. |
-| object_storage_bucket | iotdb_data | Required when using remote storage | Name of cloud storage bucket | Bucket definition in AWS S3; no need to configure if remote storage is not used |
-| object_storage_endpoint |  | Required when using remote storage | endpoint of cloud storage | endpoint of AWS S3；If remote storage is not used, no configuration required |
-| object_storage_region | (Empty) | Required when using remote storage | Cloud storage Region. | Required only if cloud storage is used. |
-| object_storage_access_key |  | Required when using remote storage | Authentication information stored in the cloud: key | AWS S3 credential key；If remote storage is not used, no configuration required |
-| object_storage_access_secret |  | Required when using remote storage | Authentication information stored in the cloud: secret | AWS S3 credential secret；If remote storage is not used, no configuration required |
-| enable_path_style_access | false | No | Whether to enable path style access for object storage service. | Optional; no need to configure if remote storage is not used. |
-| remote_tsfile_cache_dirs | data/datanode/data/cache | No | Cache directory stored locally in the cloud | Optional; no need to configure if remote storage is not used. |
-| remote_tsfile_cache_page_size_in_kb | 20480 | No | Block size of locally cached files stored in the cloud | Optional; no need to configure if remote storage is not used. |
-| remote_tsfile_cache_max_disk_usage_in_mb | 51200 | No | Maximum Disk Occupancy Size for Cloud Storage Local Cache | Optional; no need to configure if remote storage is not used. |
+| object_storage_bucket | iotdb_data | Required when using remote storage | Name of cloud storage bucket | Bucket definition in AWS S3 |
+| object_storage_endpoint |  | Required when using remote storage | endpoint of cloud storage | endpoint of AWS S3 |
+| object_storage_region | (Empty) | Required when using remote storage | Cloud storage Region. |  |
+| object_storage_access_key |  | Required when using remote storage | Authentication information stored in the cloud: key | AWS S3 credential key |
+| object_storage_access_secret |  | Required when using remote storage | Authentication information stored in the cloud: secret | AWS S3 credential secret |
+| enable_path_style_access | false | No | Whether to enable path style access for object storage service. |  |
+| remote_tsfile_cache_dirs | data/datanode/data/cache | No | Cache directory stored locally in the cloud |  |
+| remote_tsfile_cache_page_size_in_kb | 20480 | No | Block size of locally cached files stored in the cloud |  |
+| remote_tsfile_cache_max_disk_usage_in_mb | 51200 | No | Maximum Disk Occupancy Size for Cloud Storage Local Cache |  |
 
 ## 3. local tiered storag configuration example
 

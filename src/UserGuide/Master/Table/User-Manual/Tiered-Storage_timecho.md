@@ -42,15 +42,15 @@ The specific parameter definitions and their descriptions are as follows.
 | `tier_ttl_in_ms` | `-1` | Yes | Defines the TTL (in milliseconds) for each tier to determine the data range it manages. | Tiers are separated by `;`. <br>The number of tiers must match `dn_data_dirs`. <br>`-1` means "no limit". |
 | `dn_default_space_usage_thresholds` | `0.85` | Yes | Define the maximum storage usage threshold ratio for each tier of data directories. When the used space exceeds this ratio, the data will be automatically migrated to the next tier. If the storage usage of the last tier surpasses this threshold, the system will be set to ​​READ_ONLY​​ mode. | -Tiers are separated by `;`.The number of tiers must match `dn_data_dirs`. |
 | `object_storage_type` | `AWS_S3` | Required when using remote storage | Cloud storage type. | all `AWS_S3` is supported. |
-| `object_storage_bucket` | `iotdb_data` | Required when using remote storage | Cloud storage bucket name. | Required only if cloud storage is used. |
-| `object_storage_endpoint` | (Empty) | Required when using remote storage | Cloud storage endpoint. | Required only if cloud storage is used. |
-| `object_storage_region` | (Empty) | Required when using remote storage | Cloud storage Region. | Required only if cloud storage is used. |
-| `object_storage_access_key` | (Empty) | Required when using remote storage | Cloud storage access key. | Required only if cloud storage is used. |
-| `object_storage_access_secret` | (Empty) | Required when using remote storage | Cloud storage access secret. | Required only if cloud storage is used. |
-| `enable_path_style_access` | false | No | Whether to enable path style access for object storage service. | Optional; no need to configure if remote storage is not used. |
-| `remote_tsfile_cache_dirs` | `data/datanode/data/cache` | No | Local cache directory for cloud storage. | Optional; no need to configure if remote storage is not used. |
-| `remote_tsfile_cache_page_size_in_kb` | `20480` | No | Page size (in KB) for cloud storage local cache. | Optional; no need to configure if remote storage is not used. |
-| `remote_tsfile_cache_max_disk_usage_in_mb` | `51200` | No | Maximum disk space (in MB) allocated for cloud storage local cache. | Optional; no need to configure if remote storage is not used. |
+| `object_storage_bucket` | `iotdb_data` | Required when using remote storage | Cloud storage bucket name. |  |
+| `object_storage_endpoint` | (Empty) | Required when using remote storage | Cloud storage endpoint. |  |
+| `object_storage_region` | (Empty) | Required when using remote storage | Cloud storage Region. |  |
+| `object_storage_access_key` | (Empty) | Required when using remote storage | Cloud storage access key. |  |
+| `object_storage_access_secret` | (Empty) | Required when using remote storage | Cloud storage access secret. |  |
+| `enable_path_style_access` | false | No | Whether to enable path style access for object storage service. |  |
+| `remote_tsfile_cache_dirs` | `data/datanode/data/cache` | No | Local cache directory for cloud storage. |  |
+| `remote_tsfile_cache_page_size_in_kb` | `20480` | No | Page size (in KB) for cloud storage local cache. |  |
+| `remote_tsfile_cache_max_disk_usage_in_mb` | `51200` | No | Maximum disk space (in MB) allocated for cloud storage local cache. |  |
 
 ## 3. Local Tiered Storage Example
 
