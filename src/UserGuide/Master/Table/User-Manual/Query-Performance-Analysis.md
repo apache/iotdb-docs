@@ -30,7 +30,7 @@ Query analysis helps users understand query execution mechanisms and identify pe
 | **Method**               | **Installation Difficulty**                                  | **Business Impact**                                          | **Functional Scope**                                         |
 | :----------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
 | **EXPLAIN ANALYZE**      | **Low.** No additional components required; built-in SQL statement in IoTDB. | **Low.** Impacts only the analyzed query, with no effect on other workloads. | **Supports cluster systems.** Enables tracing for a single SQL query. |
-| **Monitoring Dashboard** | **Medium.** Requires installation of IoTDB monitoring dashboard tool (TimechoDB) and enabling monitoring services. | **Medium.** Metrics collection introduces additional overhead. | **Supports cluster systems.** Analyzes overall database query load and latency. |
+| **Monitoring Dashboard** | **Medium.** Requires installation of IoTDB monitoring dashboard tool (IoTDB) and enabling monitoring services. | **Medium.** Metrics collection introduces additional overhead. | **Supports cluster systems.** Analyzes overall database query load and latency. |
 | **Arthas Sampling**      | **Medium.** Requires Java Arthas installation (may be restricted in internal networks; sometimes requires application restart). | **High.** May degrade response speed of online services due to CPU sampling. | **Does n****ot supports cluster systems.** Analyzes overall database query load and latency. |
 
 

@@ -7,9 +7,9 @@
     to you under the Apache License, Version 2.0 (the
     "License"); you may not use this file except in compliance
     with the License.  You may obtain a copy of the License at
-    
+
         http://www.apache.org/licenses/LICENSE-2.0
-    
+
     Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -194,12 +194,12 @@ showQueriesStatement
    - **datanodeid**：发起查询语句的 DataNode 的ID
    - **elapsedtime**：查询的执行耗时，单位是秒
    - **statement**：查询的 SQL 语句
- 
+
 
 #### 示例：
 
 ```SQL
-IoTDB> SHOW QUERIES WHERE elapsedtime > 0.003 
+IoTDB> SHOW QUERIES WHERE elapsedtime > 0.003
 ```
 
 执行结果如下：
@@ -318,7 +318,7 @@ IoTDB> SHOW SERVICES ON 1
 
 ```SQL
 showDiskUsageStatement
-    : SHOW DISK_USAGE FROM pathPattern 
+    : SHOW DISK_USAGE FROM pathPattern
     whereClause?
     orderByClause?
     rowPaginationClause?
@@ -400,7 +400,7 @@ setConfigurationStatement
 propertyAssignments
     : property (',' property)*
     ;
-    
+
 property
     : identifier EQ propertyValue
     ;
@@ -439,7 +439,7 @@ IoTDB> SET CONFIGURATION 'disk_space_warning_threshold'='0.05','heartbeat_interv
 loadConfigurationStatement
     : LOAD CONFIGURATION localOrClusterMode?
     ;
-    
+
 localOrClusterMode
     : (ON (LOCAL | CLUSTER))
     ;
@@ -469,8 +469,8 @@ IoTDB> LOAD CONFIGURATION ON LOCAL;
 ```SQL
 setSystemStatusStatement
     : SET SYSTEM TO (READONLY | RUNNING) localOrClusterMode?
-    ;    
-    
+    ;
+
 localOrClusterMode
     : (ON (LOCAL | CLUSTER))
     ;
@@ -556,7 +556,7 @@ IoTDB> FLUSH root.ln TRUE ON LOCAL;
 startRepairDataStatement
     : START REPAIR DATA localOrClusterMode?
     ;
-    
+
 localOrClusterMode
     : (ON (LOCAL | CLUSTER))
     ;
@@ -587,7 +587,7 @@ IoTDB> START REPAIR DATA ON CLUSTER;
 stopRepairDataStatement
     : STOP REPAIR DATA localOrClusterMode?
     ;
-    
+
 localOrClusterMode
     : (ON (LOCAL | CLUSTER))
     ;
@@ -672,13 +672,13 @@ debug select * from root.ln.**;
 2. 观察`log_datanode_query_debug.log` 的日志内容，查看查询涉及到的文件 scan 信息。
 
 ```Bash
-2026-03-24 10:06:18,755 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:159 - Cache miss: root.ln.wf01.wt01.temperature in file: /home/iotdb/timechodb/data/datanode/data/sequence/root.ln/13/2932/1773824951611-1-0-0.tsfile 
-2026-03-24 10:06:18,757 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:160 - Device: root.ln.wf01.wt01, all sensors: [temperature] 
-2026-03-24 10:06:18,758 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.b.BloomFilterCache:110 - get bloomFilter from cache where filePath is: /home/iotdb/timechodb/data/datanode/data/sequence/root.ln/13/2932/1773824951611-1-0-0.tsfile 
-2026-03-24 10:06:18,759 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:227 - Get timeseries: root.ln.wf01.wt01.temperature  metadata in file: /home/iotdb/timechodb/data/datanode/data/sequence/root.ln/13/2932/1773824951611-1-0-0.tsfile  from cache: TimeseriesMetadata{timeSeriesMetadataType=0, chunkMetaDataListDataSize=8, measurementId='temperature', dataType=DOUBLE, statistics=startTime: 1773824951259 endTime: 1773824951259 count: 1 [minValue:12.9,maxValue:12.9,firstValue:12.9,lastValue:12.9,sumValue:12.9], modified=false, isSeq=true, chunkMetadataList=[measurementId: temperature, datatype: DOUBLE, version: 0, Statistics: startTime: 1773824951259 endTime: 1773824951259 count: 1 [minValue:12.9,maxValue:12.9,firstValue:12.9,lastValue:12.9,sumValue:12.9], deleteIntervalList: null]}. 
-2026-03-24 10:06:18,759 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskChunkMetadataLoader:97 - Modifications size is 0 for file Path: /home/iotdb/timechodb/data/datanode/data/sequence/root.ln/13/2932/1773824951611-1-0-0.tsfile  
-2026-03-24 10:06:18,759 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskChunkMetadataLoader:109 - After modification Chunk meta data list is:  
-2026-03-24 10:06:18,759 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskChunkMetadataLoader:110 - measurementId: temperature, datatype: DOUBLE, version: 0, Statistics: startTime: 1773824951259 endTime: 1773824951259 count: 1 [minValue:12.9,maxValue:12.9,firstValue:12.9,lastValue:12.9,sumValue:12.9], deleteIntervalList: null 
-2026-03-24 10:06:18,760 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.b.ChunkCache:167 - get chunk from cache whose key is: ChunkCacheKey{filePath='/home/iotdb/timechodb/data/datanode/data/sequence/root.ln/13/2932/1773824951611-1-0-0.tsfile', regionId=13, timePartitionId=2932, tsFileVersion=1, compactionVersion=0, offsetOfChunkHeader=27} 
+2026-03-24 10:06:18,755 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:159 - Cache miss: root.ln.wf01.wt01.temperature in file: /home/iotdb/apache-iotdb/data/datanode/data/sequence/root.ln/13/2932/1773824951611-1-0-0.tsfile
+2026-03-24 10:06:18,757 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:160 - Device: root.ln.wf01.wt01, all sensors: [temperature]
+2026-03-24 10:06:18,758 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.b.BloomFilterCache:110 - get bloomFilter from cache where filePath is: /home/iotdb/apache-iotdb/data/datanode/data/sequence/root.ln/13/2932/1773824951611-1-0-0.tsfile
+2026-03-24 10:06:18,759 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:227 - Get timeseries: root.ln.wf01.wt01.temperature  metadata in file: /home/iotdb/apache-iotdb/data/datanode/data/sequence/root.ln/13/2932/1773824951611-1-0-0.tsfile  from cache: TimeseriesMetadata{timeSeriesMetadataType=0, chunkMetaDataListDataSize=8, measurementId='temperature', dataType=DOUBLE, statistics=startTime: 1773824951259 endTime: 1773824951259 count: 1 [minValue:12.9,maxValue:12.9,firstValue:12.9,lastValue:12.9,sumValue:12.9], modified=false, isSeq=true, chunkMetadataList=[measurementId: temperature, datatype: DOUBLE, version: 0, Statistics: startTime: 1773824951259 endTime: 1773824951259 count: 1 [minValue:12.9,maxValue:12.9,firstValue:12.9,lastValue:12.9,sumValue:12.9], deleteIntervalList: null]}.
+2026-03-24 10:06:18,759 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskChunkMetadataLoader:97 - Modifications size is 0 for file Path: /home/iotdb/apache-iotdb/data/datanode/data/sequence/root.ln/13/2932/1773824951611-1-0-0.tsfile
+2026-03-24 10:06:18,759 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskChunkMetadataLoader:109 - After modification Chunk meta data list is:
+2026-03-24 10:06:18,759 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskChunkMetadataLoader:110 - measurementId: temperature, datatype: DOUBLE, version: 0, Statistics: startTime: 1773824951259 endTime: 1773824951259 count: 1 [minValue:12.9,maxValue:12.9,firstValue:12.9,lastValue:12.9,sumValue:12.9], deleteIntervalList: null
+2026-03-24 10:06:18,760 [Query-Worker-Thread-3$20260324_020618_00052_1.1.0.0] INFO  o.a.i.d.s.b.ChunkCache:167 - get chunk from cache whose key is: ChunkCacheKey{filePath='/home/iotdb/apache-iotdb/data/datanode/data/sequence/root.ln/13/2932/1773824951611-1-0-0.tsfile', regionId=13, timePartitionId=2932, tsFileVersion=1, compactionVersion=0, offsetOfChunkHeader=27}
 2026-03-24 10:06:18,761 [pool-69-IoTDB-ClientRPC-Processor-1$20260324_020618_00052_1] INFO  o.a.i.d.q.p.Coordinator:902 - debug select * from root.ln.**
 ```

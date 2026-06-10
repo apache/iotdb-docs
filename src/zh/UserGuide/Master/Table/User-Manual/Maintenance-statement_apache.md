@@ -7,9 +7,9 @@
     to you under the Apache License, Version 2.0 (the
     "License"); you may not use this file except in compliance
     with the License.  You may obtain a copy of the License at
-    
+
         http://www.apache.org/licenses/LICENSE-2.0
-    
+
     Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -293,7 +293,7 @@ showQueriesStatement
 #### 示例：
 
 ```SQL
-IoTDB> SHOW QUERIES WHERE elapsed_time > 30 
+IoTDB> SHOW QUERIES WHERE elapsed_time > 30
 ```
 
 执行结果如下：
@@ -636,7 +636,7 @@ setConfigurationStatement
 propertyAssignments
     : property (',' property)*
     ;
-    
+
 property
     : identifier EQ propertyValue
     ;
@@ -675,7 +675,7 @@ IoTDB> SET CONFIGURATION disk_space_warning_threshold='0.05',heartbeat_interval_
 loadConfigurationStatement
     : LOAD CONFIGURATION localOrClusterMode?
     ;
-    
+
 localOrClusterMode
     : (ON (LOCAL | CLUSTER))
     ;
@@ -705,8 +705,8 @@ IoTDB> LOAD CONFIGURATION ON LOCAL;
 ```SQL
 setSystemStatusStatement
     : SET SYSTEM TO (READONLY | RUNNING) localOrClusterMode?
-    ;    
-    
+    ;
+
 localOrClusterMode
     : (ON (LOCAL | CLUSTER))
     ;
@@ -792,7 +792,7 @@ IoTDB> FLUSH test_db TRUE ON LOCAL;
 startRepairDataStatement
     : START REPAIR DATA localOrClusterMode?
     ;
-    
+
 localOrClusterMode
     : (ON (LOCAL | CLUSTER))
     ;
@@ -823,7 +823,7 @@ IoTDB> START REPAIR DATA ON CLUSTER;
 stopRepairDataStatement
     : STOP REPAIR DATA localOrClusterMode?
     ;
-    
+
 localOrClusterMode
     : (ON (LOCAL | CLUSTER))
     ;
@@ -907,18 +907,18 @@ debug select * from table3;
 2. 观察`log_datanode_query_debug.log` 的日志内容，查看查询涉及到的文件 scan 信息。
 
 ```Bash
-2026-03-24 10:10:41,515 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.t.TsFileResource:1098 - Path: table3.d1 file /home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2864/1769139940009-1-0-0.tsfile is not satisfied because of no device! 
-2026-03-24 10:10:41,515 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.t.TsFileResource:1098 - Path: table3.d1 file /home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2865/1769139940010-1-0-0.tsfile is not satisfied because of no device! 
-2026-03-24 10:10:41,516 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:159 - Cache miss: table3.d1. in file: /home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile 
-2026-03-24 10:10:41,516 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:160 - Device: table3.d1, all sensors: [, temperature] 
-2026-03-24 10:10:41,517 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.BloomFilterCache:110 - get bloomFilter from cache where filePath is: /home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile 
-2026-03-24 10:10:41,517 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:227 - Get timeseries: table3.d1.  metadata in file: /home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile  from cache: TimeseriesMetadata{timeSeriesMetadataType=-128, chunkMetaDataListDataSize=8, measurementId='', dataType=VECTOR, statistics=startTime: 1747065600001 endTime: 1747065601002 count: 2, modified=false, isSeq=true, chunkMetadataList=[measurementId: , datatype: VECTOR, version: 0, Statistics: startTime: 1747065600001 endTime: 1747065601002 count: 2, deleteIntervalList: null]}. 
-2026-03-24 10:10:41,517 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:227 - Get timeseries: table3.d1.temperature  metadata in file: /home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile  from cache: TimeseriesMetadata{timeSeriesMetadataType=64, chunkMetaDataListDataSize=8, measurementId='temperature', dataType=FLOAT, statistics=startTime: 1747065600001 endTime: 1747065601002 count: 2 [minValue:85.0,maxValue:90.0,firstValue:90.0,lastValue:85.0,sumValue:175.0], modified=false, isSeq=true, chunkMetadataList=[measurementId: temperature, datatype: FLOAT, version: 0, Statistics: startTime: 1747065600001 endTime: 1747065601002 count: 2 [minValue:85.0,maxValue:90.0,firstValue:90.0,lastValue:85.0,sumValue:175.0], deleteIntervalList: null]}. 
-2026-03-24 10:10:41,517 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskAlignedChunkMetadataLoader:110 - Modifications size is 1 for file Path: /home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile  
-2026-03-24 10:10:41,518 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskAlignedChunkMetadataLoader:114 - [] 
-2026-03-24 10:10:41,518 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskAlignedChunkMetadataLoader:125 - After modification Chunk meta data list is:  
-2026-03-24 10:10:41,518 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskAlignedChunkMetadataLoader:126 - org.apache.tsfile.file.metadata.TableDeviceChunkMetadata@2e11291f 
-2026-03-24 10:10:41,518 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.ChunkCache:167 - get chunk from cache whose key is: ChunkCacheKey{filePath='/home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile', regionId=4, timePartitionId=2888, tsFileVersion=1, compactionVersion=0, offsetOfChunkHeader=19} 
-2026-03-24 10:10:41,518 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.ChunkCache:167 - get chunk from cache whose key is: ChunkCacheKey{filePath='/home/iotdb/timechodb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile', regionId=4, timePartitionId=2888, tsFileVersion=1, compactionVersion=0, offsetOfChunkHeader=46} 
-2026-03-24 10:10:41,519 [pool-69-IoTDB-ClientRPC-Processor-1$20260324_021041_00068_1] INFO  o.a.i.d.q.p.Coordinator:902 - debug select * from table3 
+2026-03-24 10:10:41,515 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.t.TsFileResource:1098 - Path: table3.d1 file /home/iotdb/apache-iotdb/data/datanode/data/sequence/database1/4/2864/1769139940009-1-0-0.tsfile is not satisfied because of no device!
+2026-03-24 10:10:41,515 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.t.TsFileResource:1098 - Path: table3.d1 file /home/iotdb/apache-iotdb/data/datanode/data/sequence/database1/4/2865/1769139940010-1-0-0.tsfile is not satisfied because of no device!
+2026-03-24 10:10:41,516 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:159 - Cache miss: table3.d1. in file: /home/iotdb/apache-iotdb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile
+2026-03-24 10:10:41,516 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:160 - Device: table3.d1, all sensors: [, temperature]
+2026-03-24 10:10:41,517 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.BloomFilterCache:110 - get bloomFilter from cache where filePath is: /home/iotdb/apache-iotdb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile
+2026-03-24 10:10:41,517 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:227 - Get timeseries: table3.d1.  metadata in file: /home/iotdb/apache-iotdb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile  from cache: TimeseriesMetadata{timeSeriesMetadataType=-128, chunkMetaDataListDataSize=8, measurementId='', dataType=VECTOR, statistics=startTime: 1747065600001 endTime: 1747065601002 count: 2, modified=false, isSeq=true, chunkMetadataList=[measurementId: , datatype: VECTOR, version: 0, Statistics: startTime: 1747065600001 endTime: 1747065601002 count: 2, deleteIntervalList: null]}.
+2026-03-24 10:10:41,517 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.TimeSeriesMetadataCache:227 - Get timeseries: table3.d1.temperature  metadata in file: /home/iotdb/apache-iotdb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile  from cache: TimeseriesMetadata{timeSeriesMetadataType=64, chunkMetaDataListDataSize=8, measurementId='temperature', dataType=FLOAT, statistics=startTime: 1747065600001 endTime: 1747065601002 count: 2 [minValue:85.0,maxValue:90.0,firstValue:90.0,lastValue:85.0,sumValue:175.0], modified=false, isSeq=true, chunkMetadataList=[measurementId: temperature, datatype: FLOAT, version: 0, Statistics: startTime: 1747065600001 endTime: 1747065601002 count: 2 [minValue:85.0,maxValue:90.0,firstValue:90.0,lastValue:85.0,sumValue:175.0], deleteIntervalList: null]}.
+2026-03-24 10:10:41,517 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskAlignedChunkMetadataLoader:110 - Modifications size is 1 for file Path: /home/iotdb/apache-iotdb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile
+2026-03-24 10:10:41,518 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskAlignedChunkMetadataLoader:114 - []
+2026-03-24 10:10:41,518 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskAlignedChunkMetadataLoader:125 - After modification Chunk meta data list is:
+2026-03-24 10:10:41,518 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.d.r.r.c.m.DiskAlignedChunkMetadataLoader:126 - org.apache.tsfile.file.metadata.TableDeviceChunkMetadata@2e11291f
+2026-03-24 10:10:41,518 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.ChunkCache:167 - get chunk from cache whose key is: ChunkCacheKey{filePath='/home/iotdb/apache-iotdb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile', regionId=4, timePartitionId=2888, tsFileVersion=1, compactionVersion=0, offsetOfChunkHeader=19}
+2026-03-24 10:10:41,518 [Query-Worker-Thread-0$20260324_021041_00068_1.1.0.0] INFO  o.a.i.d.s.b.ChunkCache:167 - get chunk from cache whose key is: ChunkCacheKey{filePath='/home/iotdb/apache-iotdb/data/datanode/data/sequence/database1/4/2888/1774247880109-1-0-0.tsfile', regionId=4, timePartitionId=2888, tsFileVersion=1, compactionVersion=0, offsetOfChunkHeader=46}
+2026-03-24 10:10:41,519 [pool-69-IoTDB-ClientRPC-Processor-1$20260324_021041_00068_1] INFO  o.a.i.d.q.p.Coordinator:902 - debug select * from table3
 ```

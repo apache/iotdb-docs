@@ -970,7 +970,7 @@ IoTDB> SELECT s1 <=
 
 **示例：**
 
-* 多设备降采样对齐查询，详细示例可见：[示例](../Basic-Concept/Query-Data_timecho.md#_3-6-多设备降采样对齐查询)
+* 多设备降采样对齐查询，详细示例可见：[示例](../Basic-Concept/Query-Data_apache.md#_3-6-多设备降采样对齐查询)
 
 ### 4.5 关联标量子查询
 

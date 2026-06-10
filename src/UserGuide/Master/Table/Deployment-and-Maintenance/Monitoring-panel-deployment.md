@@ -20,19 +20,19 @@
 -->
 # Monitoring Panel Deployment
 
-The monitoring panel is one of the supporting tools for TimechoDB. It aims to solve the monitoring problems of TimechoDB and its operating system, mainly including operating system resource monitoring, TimechoDB performance monitoring, and hundreds of kernel monitoring metrics, in order to help users monitor cluster health, optimize performance, and perform maintenance. This guide demonstrates how to enable the system monitoring module in a TimechoDB instance and visualize monitoring metrics using Prometheus + Grafana, using a typical 3C3D cluster (3 ConfigNodes and 3 DataNodes) as an example.
+The monitoring panel is one of the supporting tools for IoTDB. It aims to solve the monitoring problems of IoTDB and its operating system, mainly including operating system resource monitoring, IoTDB performance monitoring, and hundreds of kernel monitoring metrics, in order to help users monitor cluster health, optimize performance, and perform maintenance. This guide demonstrates how to enable the system monitoring module in a IoTDB instance and visualize monitoring metrics using Prometheus + Grafana, using a typical 3C3D cluster (3 ConfigNodes and 3 DataNodes) as an example.
 
 ## 1. Installation Preparation
 
-1. Installing TimechoDB: Install TimechoDB V1.0 or above. Contact sales or technical support to obtain the installation package.
+1. Installing IoTDB: Install IoTDB V1.0 or above. Contact sales or technical support to obtain the installation package.
 
-2. Obtain the monitoring panel installation package: The monitoring panel is exclusive to the enterprise-grade TimechoDB. Contact sales or technical support to obtain it.
+2. Obtain the monitoring panel installation package: The monitoring panel is exclusive to the enterprise-grade IoTDB. Contact sales or technical support to obtain it.
 
 ## 2. Installation Steps
 
-### 2.1 Enable Monitoring Metrics Collection in TimechoDB
+### 2.1 Enable Monitoring Metrics Collection in IoTDB
 
-1. Enable related configuration options. The configuration options related to monitoring in TimechoDB are disabled by default. Before deploying the monitoring panel, you need to enable certain configuration options (note that the service needs to be restarted after enabling monitoring configuration).
+1. Enable related configuration options. The configuration options related to monitoring in IoTDB are disabled by default. Before deploying the monitoring panel, you need to enable certain configuration options (note that the service needs to be restarted after enabling monitoring configuration).
 
 | **Configuration**                  | **Configuration File**           | **Description**                                              |
 | :--------------------------------- | :------------------------------- | :----------------------------------------------------------- |

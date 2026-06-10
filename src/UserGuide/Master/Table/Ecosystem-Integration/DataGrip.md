@@ -43,9 +43,9 @@ Ensure DataGrip and IoTDB are installed:
 
 Select the appropriate version of the JAR package (choose the `jar-with-dependencies.jar` variant):
 
-- Option 1: https://repo1.maven.org/maven2/com/timecho/iotdb/iotdb-jdbc/2.0.3.3/iotdb-jdbc-2.0.3.3-jar-with-dependencies.jar
+- Option 1: https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/2.0.3/iotdb-jdbc-2.0.3-jar-with-dependencies.jar
 
-- Option 2: https://repo1.maven.org/maven2/com/timecho/iotdb/iotdb-jdbc/2.0.3.3/
+- Option 2: https://repo1.maven.org/maven2/org/apache/iotdb/iotdb-jdbc/2.0.3/
 
 ![](/img/datagrip-2.png)
 

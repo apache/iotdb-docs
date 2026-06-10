@@ -137,18 +137,18 @@ echo "192.168.1.3  iotdb-1" >> /etc/hosts
 
 #### 1.3.2 Scaling Operation
 
-1. To ensure the TimechoDB installation package you obtained is complete and correct, it is recommended to perform an SHA512 checksum before installation and deployment.
+1. To ensure the IoTDB installation package you obtained is complete and correct, it is recommended to perform an SHA512 checksum before installation and deployment.
 2. Unzip the installation package and enter the installation directory.
 
 ```
-unzip  timechodb-{version}-bin.zip
-cd  timechodb-{version}-bin
+unzip  apache-iotdb-{version}-bin.zip
+cd  apache-iotdb-{version}-bin
 ```
 
 3. Modify the relevant configuration.
 
 ```
-cd  timechodb-{version}-bin/conf
+cd  apache-iotdb-{version}-bin/conf
 vim iotdb-system.properties
 ```
 
@@ -175,10 +175,10 @@ Navigate to the `sbin`directory under IoTDB and start the datanode:
 
 ```
 # Linux or macOS
-  ./timechodb-{version}-bin/sbin/start-cli.sh
+  ./apache-iotdb-{version}-bin/sbin/start-cli.sh
 
   # Windows
-  .\timechodb-{version}-bin\sbin\start-cli.bat
+  .\apache-iotdb-{version}-bin\sbin\start-cli.bat
 ```
 
 6. Execute commands for verification.

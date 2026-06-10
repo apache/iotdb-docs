@@ -20,7 +20,7 @@
 -->
 # Stand-Alone Deployment
 
-This guide introduces how to set up a standalone TimechoDB instance, which includes one ConfigNode and one DataNode (commonly referred to as 1C1D).
+This guide introduces how to set up a standalone IoTDB instance, which includes one ConfigNode and one DataNode (commonly referred to as 1C1D).
 
 ## 1. Prerequisites
 

@@ -561,7 +561,7 @@ WITH SOURCE (
   -- Default IoTDB Data Extraction Plugin
   'source'                    = 'iotdb-source',
   -- Path prefix, only data that can match the path prefix will be extracted for subsequent processing and delivery
-  'source.pattern'            = 'root.timecho',
+  'source.pattern'            = 'root.iotdb',
   -- Whether to extract historical data
   'source.history.enable'     = 'true',
   -- Describes the time range of the historical data being extracted, indicating the earliest possible time
