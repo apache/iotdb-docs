@@ -87,6 +87,7 @@ export default hopeTheme(
       figure: true,
       gfm: true,
       imgLazyload: true,
+      imgSize: true,
       math: {
         type: 'katex',
       },
