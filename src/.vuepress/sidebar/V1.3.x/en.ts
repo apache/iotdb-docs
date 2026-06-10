@@ -31,6 +31,7 @@ export const enSidebar = {
         { text: 'IoTDB Introduction', link: 'IoTDB-Introduction_apache' },
         { text: 'Scenario', link: 'Scenario' },
         { text: 'Release History', link: 'Release-history_apache' },
+        { text: 'Commercial Support', link: 'Commercial-Support_apache' },
       ],
     },
     {
