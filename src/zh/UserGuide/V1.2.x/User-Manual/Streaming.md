@@ -575,7 +575,7 @@ WITH EXTRACTOR (
   -- 默认的 IoTDB 数据抽取插件
   'extractor'                    = 'iotdb-extractor',
   -- 路径前缀，只有能够匹配该路径前缀的数据才会被抽取，用作后续的处理和发送
-  'extractor.pattern'            = 'root.timecho',
+  'extractor.pattern'            = 'root.iotdb',
   -- 是否抽取历史数据
   'extractor.history.enable'     = 'true',
   -- 描述被抽取的历史数据的时间范围，表示最早时间

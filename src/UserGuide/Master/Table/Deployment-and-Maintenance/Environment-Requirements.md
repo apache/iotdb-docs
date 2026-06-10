@@ -80,7 +80,7 @@ IoTDB does not have strict operational requirements for disk array configuration
 
 ### 2.1 Version Requirements
 
-IoTDB supports operating systems such as Linux, Windows, and MacOS. TimechoDB also supports Chinese CPUs like Loongson, Phytium, and Kunpeng, as well as Chinese operating systems like Kylin, UOS, and NingSi.
+IoTDB supports operating systems such as Linux, Windows, and MacOS. IoTDB also supports Chinese CPUs like Loongson, Phytium, and Kunpeng, as well as Chinese operating systems like Kylin, UOS, and NingSi.
 
 ### 2.2 Hard Disk Partitioning
 

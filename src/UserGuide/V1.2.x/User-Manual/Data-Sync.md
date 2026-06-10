@@ -89,7 +89,7 @@ WITH EXTRACTOR (
   -- Default IoTDB Data Extraction Plugin
   'extractor'                    = 'iotdb-extractor',
   -- Path prefix, only data that can match the path prefix will be extracted for subsequent processing and delivery
-  'extractor.pattern'            = 'root.timecho',
+  'extractor.pattern'            = 'root.iotdb',
   -- Whether to extract historical data
   'extractor.history.enable'     = 'true',
   -- Describes the time range of the historical data being extracted, indicating the earliest possible time

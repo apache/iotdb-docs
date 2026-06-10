@@ -72,11 +72,11 @@
             <td>48core</td>
             <td>1</td>
             <td>2</td>
-            <td>Please contact Timecho Business for consultation</td>
+            <td>Please contact commercial support for consultation</td>
       </tr>
       <tr>
             <td>Over 10000000</td>
-            <td colspan="4">Please contact Timecho Business for consultation</td>
+            <td colspan="4">Please contact commercial support for consultation</td>
       </tr>
 </tbody>
 </table>
@@ -136,11 +136,11 @@
             <td>128G</td>
             <td>1</td>
             <td>2</td>
-            <td>Please contact Timecho Business for consultation</td>
+            <td>Please contact commercial support for consultation</td>
       </tr>
       <tr>
             <td>Over 10000000</td>
-            <td colspan="4">Please contact Timecho Business for consultation</td>
+            <td colspan="4">Please contact commercial support for consultation</td>
       </tr>
 </tbody>
 </table>

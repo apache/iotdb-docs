@@ -69,7 +69,7 @@ To ensure the AINode installation package you obtained is complete and valid, we
       ```
 2. Execute the following command to calculate the hash value:
    ```Bash
-      sha512sum timechodb-{version}-ainode-bin.zip
+      sha512sum apache-iotdb-{version}-ainode-bin.zip
       ```
 3. The terminal will output a result (the left part is the SHA512 checksum, and the right part is the file name):
 

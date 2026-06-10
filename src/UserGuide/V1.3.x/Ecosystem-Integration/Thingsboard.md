@@ -42,13 +42,13 @@
 | :---------------------------------------- | :----------------------------------------------------------- |
 | JDK                                       | JDK17 or above. Please refer to the downloads on [Oracle Official Website](https://www.oracle.com/java/technologies/downloads/) |
 | IoTDB                                     |IoTDB v1.3.0 or above. Please refer to the [Deployment guidance](../Deployment-and-Maintenance/IoTDB-Package.md) |
-| ThingsBoard<br /> (IoTDB adapted version) | Please contact Timecho staff to obtain the installation package. Detailed installation steps are provided below. |
+| ThingsBoard<br /> (IoTDB adapted version) | Please contact commercial support to obtain the installation package. Detailed installation steps are provided below. |
 
 ## Installation Steps
 
 Please refer to the installation steps on [ThingsBoard Official Website](https://thingsboard.io/docs/user-guide/install/ubuntu/),wherein:
 
-- [ThingsBoard Official Website](https://thingsboard.io/docs/user-guide/install/ubuntu/)【 Step 2: ThingsBoard Service Installation 】 Use the installation package provided by your Timecho contact to install the software. Please note that the official ThingsBoard installation package does not support IoTDB.
+- [ThingsBoard Official Website](https://thingsboard.io/docs/user-guide/install/ubuntu/)【 Step 2: ThingsBoard Service Installation 】 Use the installation package provided by your contact to install the software. Please note that the official ThingsBoard installation package does not support IoTDB.
 - [ThingsBoard Official Website](https://thingsboard.io/docs/user-guide/install/ubuntu/) 【Step 3: Configure ThingsBoard Database - ThingsBoard Configuration】 In this step, you need to add environment variables according to the following content
 
 ```Shell

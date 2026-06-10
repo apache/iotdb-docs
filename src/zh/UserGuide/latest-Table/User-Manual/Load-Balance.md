@@ -133,18 +133,18 @@ echo "192.168.1.3  iotdb-1" >> /etc/hosts
 ```
 
 #### 1.3.2 扩容操作
-1. 为确保您获取的 TimechoDB 安装包完整且正确，在执行安装部署前建议您进行 SHA512 校验。
+1. 为确保您获取的 IoTDB 安装包完整且正确，在执行安装部署前建议您进行 SHA512 校验。
 2. 解压安装包并进入安装目录
 
 ```Shell
-unzip  timechodb-{version}-bin.zip
-cd  timechodb-{version}-bin
+unzip  apache-iotdb-{version}-bin.zip
+cd  apache-iotdb-{version}-bin
 ```
 
 3. 修改相应配置
 
 ```Shell
-cd  timechodb-{version}-bin/conf
+cd  apache-iotdb-{version}-bin/conf
 vim iotdb-system.properies
 ```
 
@@ -171,10 +171,10 @@ vim iotdb-system.properies
 
 ```Shell
 # Linux或MACOS系统
-  ./timechodb-{version}-bin/sbin/start-cli.sh
+  ./apache-iotdb-{version}-bin/sbin/start-cli.sh
   
   # windows系统
-  ./timechodb-{version}-bin/sbin/start-cli.bat
+  ./apache-iotdb-{version}-bin/sbin/start-cli.bat
 ```
 
 6. 执行命令进行验证

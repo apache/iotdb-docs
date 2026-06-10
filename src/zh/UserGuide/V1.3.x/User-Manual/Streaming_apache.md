@@ -573,7 +573,7 @@ WITH SOURCE (
   -- 默认的 IoTDB 数据抽取插件
   'source'                    = 'iotdb-source',
   -- 路径前缀，只有能够匹配该路径前缀的数据才会被抽取，用作后续的处理和发送
-  'source.pattern'            = 'root.timecho',
+  'source.pattern'            = 'root.iotdb',
   -- 描述被抽取的历史数据的时间范围，表示最早时间
   'source.history.start-time' = '2011.12.03T10:15:30+01:00',
   -- 描述被抽取的历史数据的时间范围，表示最晚时间

@@ -72,7 +72,7 @@ Successfully login at 127.0.0.1:6667
 | -h `<host>`                  | string 类型  | 否           | IoTDB 客户端连接 IoTDB 服务器的 IP 地址， 默认使用：127.0.0.1。              | -h  127.0.0.1        |
 | -p `<rpcPort>`               | int 类型     | 否           | IoTDB 客户端连接服务器的端口号，IoTDB 默认使用 6667。                        | -p 6667              |
 | -u `<username>`              | string 类型  | 否           | IoTDB 客户端连接服务器所使用的用户名，默认使用 root。                           | -u root              |
-| -pw `<password>`             | string 类型  | 否           | IoTDB 客户端连接服务器所使用的密码，默认使用 TimechoDB@2021（V2.0.6版本之前为root）。 | -pw root             |
+| -pw `<password>`             | string 类型  | 否           | IoTDB 客户端连接服务器所使用的密码，默认使用 IoTDB@2021（V2.0.6版本之前为root）。 | -pw root             |
 | -e `<execute>`               | string 类型  | 否           | 在不进入客户端输入模式的情况下，批量操作 IoTDB。                                | -e "show databases"  |
 | -c                           | 空          | 否           | 如果服务器设置了 rpc_thrift_compression_enable=true， 则 CLI 必须使用 -c | -c                   |
 | -disableISO8601              | 空          | 否           | 如果设置了这个参数，IoTDB 将以数字的形式打印时间戳 （timestamp）。                  | -disableISO8601      |

@@ -69,7 +69,7 @@ To ensure the AINode installation package you obtained is complete and valid, we
       ```
 2. Execute the following command to calculate the hash value:
    ```Bash
-      sha512sum timechodb-{version}-ainode-bin.zip
+      sha512sum apache-iotdb-{version}-ainode-bin.zip
       ```
 3. The terminal will output a result (the left part is the SHA512 checksum, and the right part is the file name):
 
@@ -129,7 +129,7 @@ AINode supports modifying some necessary parameters. You can find the following 
 
 > Offline environment only (Online environments can skip this step)
 >
- Contact Timecho team to obtain the model weight files, then place them in the /IOTDB_AINODE_HOME/data/ainode/models/weights/ directory.
+ Contact commercial support to obtain the model weight files, then place them in the /IOTDB_AINODE_HOME/data/ainode/models/weights/ directory.
 
 ### 3.4 Start AINode
 

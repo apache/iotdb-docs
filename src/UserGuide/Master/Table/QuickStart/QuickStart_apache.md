@@ -31,7 +31,7 @@ This guide will assist you in quickly installing and deploying IoTDB. You can qu
 
 2. Complete system configuration preparations: IoTDB's system configuration involves multiple aspects. For an introduction to key system configurations, please see [System Requirements](../Deployment-and-Maintenance/Environment-Requirements.md)
 
-3. Obtain the installation package: You can obtain the IoTDB installation package on the [Apache IoTDB official website](https://iotdb.apache.org/zh/Download/).For the specific structure of the installation package, please refer to[Obtain TimechoDB](../Deployment-and-Maintenance/IoTDB-Package_apache.md)
+3. Obtain the installation package: You can obtain the IoTDB installation package on the [Apache IoTDB official website](https://iotdb.apache.org/zh/Download/).For the specific structure of the installation package, please refer to[Obtain IoTDB](../Deployment-and-Maintenance/IoTDB-Package_apache.md)
 
 4. Install the database and activate it: Depending on your actual deployment architecture, you can choose from the following tutorials for installation and deployment:
 

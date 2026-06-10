@@ -179,7 +179,7 @@ When the status is all running, it indicates that the service has started succes
 
     Step 1: Please check the startup log to see if any parameters that cannot be changed after the first startup have been modified.
 
-    Step 2: Please check the startup log for any other abnormalities. If there are any abnormal phenomena in the log, please contact Timecho Technical Support personnel for consultation on solutions.
+    Step 2: Please check the startup log for any other abnormalities. If there are any abnormal phenomena in the log, please contact commercial support for consultation on solutions.
 
     Step 3: If it is the first deployment or data can be deleted, you can also clean up the environment according to the following steps, redeploy, and restart.
 
