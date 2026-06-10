@@ -34,3 +34,4 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+.omc
